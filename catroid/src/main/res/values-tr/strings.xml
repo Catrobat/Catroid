@@ -104,6 +104,10 @@
     <string name="marketing_created_with">Kullandığı oyun motoru</string>
     <string name="marketing_app_details">Uygulama ile ilgili ayrıntılar</string>
     <string name="marketing_more_on_google_play">Google Play\'de daha fazla uygulama</string>
+    <string name="error_cannot_open_huawei_app_gallery">Eyvah! Huawei AppGallery açılamadı,
+        lütfen daha sonra tekrar deneyin.</string>
+    <string name="google_play_store_logo">Google Play</string>
+    <string name="huawei_app_gallery">Huawei Uygulama Galerisi</string>
     <!-- NFC activity -->
     <string name="nfc_activity_title">NFC etiketleri</string>
     <!-- Settings activity -->
@@ -564,7 +568,7 @@
     <!--  -->
     <!-- Rating Dialog -->
     <string name="rating_dialog_title">Uygulamayı Değerlendir</string>
-    <string name="rating_google_play_dialog_text">Bu uygulamayı beğendiyseniz, lütfen Google play\'de bizi değerlendirin.</string>
+    <string name="rating_google_play_dialog_text">Bu uygulamayı beğendiyseniz, lütfen Uygulama mağazasın\'da bizi değerlendirin. Desteğine ihtiyacımız var!</string>
     <string name="rating_dialog_rate_now">Şimdi</string>
     <string name="rating_dialog_rate_later">Sonra</string>
     <string name="rating_dialog_rate_never">Asla</string>
@@ -573,14 +577,6 @@
     <string name="dialog_terms_of_use_title">Kullanım Koşulları ve Hizmetleri</string>
     <string name="dialog_terms_of_use_info">Catrobat projesi tarafından sunulan uygulamaları ve diğer hizmetleri kullanmanıza izin verilmesi için Kullanım ve Hizmet Şartlarımızı kabul etmeniz gerekir. Uygulamalarımızı kullanırken bu şartlara kesinlikle uymanız gerekir. \n</string>
     <string name="dialog_terms_of_use_link_text">Kullanım Koşulları ve Hizmetleri</string>
-    <!--  -->
-    <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">Kullanım Koşulları ve Hizmetleri</string>
-    <string name="dialog_terms_of_use_parrot_reminder_text">Bu uygulamayı Parrot\'un AR.Drone 2.0 ile birlikte kullanmak üzeresiniz. Hem Parrot hem de Catrobat\'ın Kullanım ve Hizmet Koşullarına uymanızı şiddetle hatırlatırız.</string>
-    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Bir daha hatırlatma</string>
-    <!--  -->
-    <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">Bu uygulamayı Parrot\'s Jumping Sumo ile birlikte kullanmak üzeresiniz. Hem Parrot hem de Catrobat\'ın Kullanım ve Hizmet Koşullarına uymanızı şiddetle hatırlatırız.</string>
     <!--  -->
     <!-- Privacy Policy -->
     <string name="disclaimer_privacy_police_header_headline">Hoşgeldiniz!</string>
@@ -693,8 +689,6 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="prestage_text_to_speech_engine_not_installed">Metin Okuma motoru yüklü değil!\nYüklemek istiyor musunuz?</string>
     <string name="prestage_resource_not_available_title">Bileşen mevcut değil</string>
     <string name="prestage_resource_not_available_text">Maalesef bu proje cihazınızda çalışmıyor. Aşağıdaki bileşenler kullanılamaz: \n \n</string>
-    <string name="prestage_resource_in_use_text">Başka Bir Cihaz, Jumping Sumo\'ya bağlı. Emin olun, 
-        Drone\'un tek denetleyicisi sizsiniz.</string>
     <string name="prestage_no_vibration_available">\u2022 Titreşim\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Hızlanma sensörü\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Eğim sensörü\n</string>
@@ -704,7 +698,6 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="prestage_no_back_camera_available">\u2022 Arka kamera\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Yüz algılama\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Metin algılama\n</string>
-    <string name="prestage_no_jumping_sumo_available">\u2022 Zıplama Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Ön kamera\n</string>
     <string name="prestage_no_camera_available">\u2022 Kamera\n</string>
     <string name="prestage_no_flash_available">\u2022 Fener\n</string>
@@ -908,6 +901,7 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="brick_write_embroidery" tools:ignore="UnusedResources">Nakış verilerini dosyaya yaz</string>
     <string name="brick_default_embroidery_file">nakıs.dst</string>
     <string name="brick_sew_up" tools:ignore="UnusedResources">Yukarı dik</string>
+    <string name="brick_thread_color">İplik rengini şu değere ayarlayın</string>
     <!--  -->
     <!-- Device bricks -->
     <string name="brick_reset_timer" tools:ignore="UnusedResources">Zamanlayıcıyı sıfırla</string>
@@ -1163,22 +1157,12 @@ bekleyin</string>
     <string name="notification_upload_finished">Yükleme Başarılı</string>
     <string name="notification_upload_rejected">Yüklenen program rededildi</string>
     <string name="notification_upload_retry">Yeniden deneyin</string>
-    <string name="notification_open_play_store">Google play\'de aç</string>
+    <string name="notification_open_play_store">Uygulama mağazasını aç</string>
     <string name="notification_download_title_pending">"İndiriliyor…"</string>
     <string name="notification_download_pending">İndirme devam ediyor…</string>
     <string name="notification_download_finished">İndirme başarılı oldu</string>
     <string name="notification_title_open">"Aç"</string>
-    <string name="notification_low_battery_with_value">Dikkat! Pil zayıf! Mevcut durum %d</string>
     <string name="size_of_project">Boyut:</string>
-    <string name="drone_emergency_battery_low">Düşük pil (otomatik iniş).</string>
-    <string name="drone_emergency_camera">Bir veya daha fazla kamera yanıt vermiyor.</string>
-    <string name="drone_emergency_ultrasound">Ultrason sensörü yanıt vermiyor.</string>
-    <string name="drone_emergency_angle">AR.Drone 2.0 Euler açıları çok yükseldi. Tehlikeli davranışları önlemek için motorlar kapandı.</string>
-    <string name="drone_emergency_cutout">Bir veya daha fazla motor çevre tarafından durduruldu.</string>
-    <string name="drone_alert_battery_low">Pil, işimizi görmeyecek kadar düşük.</string>
-    <string name="drone_alert_ultrasound">Ultrason sensörü AR.Drone 2.0 rakımını belirleyemez.</string>
-    <string name="drone_alert_vision">Alta bakan kameradan hız tahmini yok.</string>
-    <string name="drone_emergency_title">Acil durum</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">Bu uygulamanın düzgün çalışması için istenen izinlere ihtiyacı var. Ör. Kamera tuğlasının cihazın kamerasına erişmesi gerekiyor, \"konum\" formül öğesinin cihazın coğrafi konum sensörü ve projeleri yerel bellekten ve yerel bellekten içe ve dışa aktarmak için uygulama okuma ve yazma erişimine ihtiyacı var. İzinleri her zaman cihazınızın ayarlarından değiştirebilirsiniz.</string>
@@ -1198,18 +1182,6 @@ bekleyin</string>
     <string name="error_upload_default_project">Değiştirilmemiş bir örnek proje yükleyemezsiniz. Lütfen bir şeyi değiştirip tekrar deneyin.</string>
     <string name="error_adding_brick">Bu tuğla eklenirken bir hata oluştu</string>
     <string name="error_copying_brick">Bu tuğla kopyalanırken bir hata oluştu</string>
-    <string name="error_no_drone_connected_title">AR.Drone 2.0 bulunamadı.</string>
-    <string name="error_no_drone_connected">Wifiniz ile AR.Drone 2.0\'ye bağlanmayı tekrar deneyin.</string>
-    <string name="error_drone_low_battery_title">AR.Drone 2.0 düşük pil: %d%%</string>
-    <string name="error_drone_low_battery">Yeni bir pil takın ve yeniden deneyin.</string>
-    <string name="error_jumpingsumo_wrong_platform">Cihazınızda bir Jumping Sumo projesi yürütemiyoruz.</string>
-    <string name="error_no_jumpingsumo_connected_title">Zıplayan Sumo bulunamıyor</string>
-    <string name="error_no_jumpingsumo_connected">Wifi\'nizi Jumping Sumo\'ya bağlayın ve tekrar deneyin.</string>
-    <string name="error_jumpingsumo_battery_title">Sumo bataryası zayıf atlama</string>
-    <string name="error_jumpingsumo_battery">Yeni bir pil takın ve yeniden deneyin.</string>
-    <string name="error_jumpingsumo_wrong_platform_title">Sumo atlama desteği yok</string>
-    <string name="error_drone_wrong_platform_title">AR.Drone 2.0 desteği yok.</string>
-    <string name="error_drone_wrong_platform">Cihazınızda bir AR.Drone 2.0 projesi çalıştıramıyoruz.</string>
     <string name="error_rename_incompatible_project">Uyumsuz bir projenin yeniden adlandırılması mümkün değildir.</string>
     <string name="error_embroidery_file_export">Nakış dosyası paylaşılırken bir sorun oluştu.</string>
     <string name="error_embroidery_file_write">Nakış dosyası yazılırken bir şeyler ters gitti.</string>
@@ -1814,6 +1786,15 @@ bekleyin</string>
     <string name="progress_upload_dialog_failed">Yükleme başarısız. Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin!</string>
     <string name="progress_upload_dialog_show_program">Programı göster</string>
     <!--  -->
+    <!-- unchanged upload dialog -->
+    <string name="unchanged_upload_warning">Yüklemeye çalıştığınız Remix projenizde
+         hiçbir değişiklik yapmadınız. Lütfen projenizi, ideal olarak şu şekilde Remixleyin:
+         Üzerine yeni şeyler ekleyin yada onu geliştirin.</string>
+    <string name="unchanged_upload_info">Lütfen projenin asıl sahibine atıfta bulunmayı unutmayın,
+         topluluk sitesindeki \"Yapanlar\" bölümünde veya proje seçeneklerinde yazın. Lütfen aklınızda bulundurun
+         başarılı yüklemenizden sonra projebin asıl sahibi bir bildirim alacaktır.</string>
+    <string name="unchanged_upload_url">Remixler hakkında bilgi almak için ziyaret edin %1s.</string>
+    <!-- -->
     <!-- Snackbar hints -->
     <string name="got_it">Anladım</string>
     <string name="preference_description_hints">İpuçlarını görmek için etkinleştir</string>
@@ -1824,6 +1805,14 @@ bekleyin</string>
     <string name="hint_looks">Burada Objenizin farklı görünümlerini bulabilirsiniz. Yeni bir görünüm eklemek için \"+\" sembolüne dokunun.</string>
     <string name="hint_sounds">Burada aktörünüze veya nesnenize yeni sesler ekleyebilirsiniz. Ses kategorisinden bir tuğla kullanmayı unutmayın.</string>
     <string name="hint_objects">Programınız birbiriyle etkileşim kurabilen farklı aktörlerden ve nesnelerden oluşur. Yeni bir oyuncu veya nesne eklemek için \"+\" simgesine dokunun.</string>
+    <!--  -->
+    <!-- Dialog Disable hints -->
+    <string name="dialog_disable_hints_title">İpucları göster?</string>
+    <string name="dialog_disable_hints_text">İpuçlar size yararlı bilgiler sağlar
+        ilk projenizi oluştururken.\n\nİpuçlarının görünürlüğü şuradan değiştirilebilir,
+        ayarlar.</string>
+    <string name="dialog_disable_hints_button_hide">GİZLE</string>
+    <string name="dialog_disable_hints_button_show">GÖSTER</string>
     <!--  -->
     <!-- Crash report dialog -->
     <!--  -->
@@ -1837,6 +1826,9 @@ bekleyin</string>
     <string name="edit">Düzenle</string>
     <string name="data_value">Değer</string>
     <string name="category_recently_used">En son kullanılan</string>
+    <string name="new_sprite_dialog_place_visually">Görsel olarak yerleştirin</string>
+    <string name="place_visually_text">Yeni objeyi ekranın herhangi bir yerine yerleştirmeniz
+        istenecek</string>
     <!-- Information -->
     <string name="no_variable_selected">Değişken seçilmedi</string>
 </resources>

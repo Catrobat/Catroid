@@ -52,11 +52,11 @@
     <string name="skip">überspringen</string>
     <string name="warning">Achtung</string>
     <string name="error">Fehler</string>
-    <string name="loading">Lade&#8230;</string>
+    <string name="loading">Laden&#8230;</string>
     <string name="please_wait">Bitte warten</string>
     <string name="search_hint">Suche&#8230;</string>
     <string name="backpack_add">In den Rucksack packen</string>
-    <string name="share_website_text">www.pocketcode.org</string>
+    <string name="share_website_text">share.catrob.at</string>
     <!-- Security warning dialog -->
     <string name="security_warning_dialog_msg">Das Projekt, das du heruntergeladen hast, hört deine Stimme
         im Hintergrund und sendet auch Daten an das Internet. Dies kann harmlos sein und ist notwendig
@@ -84,12 +84,12 @@
     <string name="disconnect">Trennen</string>
     <!--  -->
     <!-- Main Menu -->
-    <string name="main_menu_continue">Fortsetzen</string>
+    <string name="main_menu_continue">Projekt fortsetzen</string>
     <string name="main_menu_new">Neues Projekt</string>
     <string name="main_menu_programs">Projekte am Gerät</string>
     <string name="main_menu_help" tools:ignore="UnusedResources">Hilfe</string>
     <string name="main_menu_web">Catrobat Community</string>
-    <string name="main_menu_upload">Hochladen</string>
+    <string name="main_menu_upload">Projekt hochladen</string>
     <string name="main_menu_rate_app">Bewerte uns!</string>
     <string name="main_menu_terms_of_use">Nutzungsbedingungen und Leistungen</string>
     <string name="main_menu_privacy_policy">Datenschutz-Vereinbarung</string>
@@ -103,13 +103,17 @@
     <string name="marketing_created_with">Erstellt mit</string>
     <string name="marketing_app_details">Details zu dieser App</string>
     <string name="marketing_more_on_google_play">Weitere Apps auf Google Play</string>
+    <string name="error_cannot_open_huawei_app_gallery">Hoppla! Fehler beim Öffnen der Huawei Appgalerie,
+        bitte versuche es später erneut.</string>
+    <string name="google_play_store_logo">Google Play Store</string>
+    <string name="huawei_app_gallery">Huawei App Galerie</string>
     <!-- NFC activity -->
     <string name="nfc_activity_title">NFC-Tags</string>
     <!-- Settings activity -->
     <string name="preference_title">Einstellungen</string>
     <string name="preference_title_language">Sprache</string>
     <string name="preference_description_language">App-Sprache auswählen</string>
-    <string name="preference_title_web_access">Web zugriff</string>
+    <string name="preference_title_web_access">Webzugriff</string>
     <string name="preference_description_web_access">Bearbeiten, um vertrauenswürdige Domänen hinzuzufügen oder zu entfernen</string>
     <string name="preference_screen_web_access_title">Bearbeiten Sie vertrauenswürdige Domänen</string>
     <string name="preference_title_accessibility">Bedienungshilfe</string>
@@ -256,8 +260,8 @@
         konvertieren aber möglicherweise funktioniert es nicht.</string>
     <string name="instructions">Anleitung</string>
     <string name="notes_and_credits">Anmerkungen und Danksagungen</string>
-    <string name="shared_at_x">Veröffentlicht:\n%1$s</string>
-    <string name="modified_at_x">Zuletzt verändert:\n%1$s</string>
+    <string name="shared_at_x">Veröffentlicht: %1$s</string>
+    <string name="modified_at_x">Zuletzt verändert: %1$s</string>
     <string name="remixes">Remixe</string>
     <!--  -->
     <string name="author">Autor:</string>
@@ -267,18 +271,18 @@
     <string name="description_hint">Drücke um eine Beschreibung hinzuzufügen</string>
     <string name="notes_and_credits_hint">Drücken, um Notizen und Credits hinzuzufügen</string>
     <!-- ScratchReconvertDialog Strings -->
-    <string name="reconvert_text">Dieses Projekt wurde bereits vor %1$s konvertiert.</string>
+    <string name="reconvert_text">Du hast dieses Projekt vor %1$s konvertiert.</string>
     <plurals name="minutes">
         <item quantity="one">%d Minute</item>
         <item quantity="other">%d Minuten</item>
     </plurals>
     <plurals name="hours">
         <item quantity="one">%d Stunde</item>
-        <item quantity="other">%d Stunde</item>
+        <item quantity="other">%d Stunden</item>
     </plurals>
     <plurals name="days">
         <item quantity="one">%d Tag</item>
-        <item quantity="other">%d Tag</item>
+        <item quantity="other">%d Tage</item>
     </plurals>
     <string name="reconvert_dialog_download">Projekt erneut herunterladen</string>
     <string name="reconvert_dialog_reconvert">Projekt erneut konvertieren</string>
@@ -554,7 +558,7 @@
     <string name="new_project_dialog_example_project">Beispielprojekt</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
-    <string name="new_merge_project_dialog_title">Projekt zusammengeführt</string>
+    <string name="new_merge_project_dialog_title">Zusammengeführtes Projekt</string>
     <string name="merging_project_text">Diese beiden Projekte können noch nicht zusammengeführt werden</string>
     <!--  -->
     <!-- NewSpriteDialog -->
@@ -570,7 +574,7 @@
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">Klang hinzufügen</string>
     <string name="add_sound_from_recorder">Klang aufnehmen</string>
-    <string name="add_sound_choose_file">Klang auswählen</string>
+    <string name="add_sound_choose_file">Datei auswählen</string>
     <string name="add_sound_music">Komponist</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">Notizauswahl</string>
@@ -589,16 +593,6 @@
     muss den Nutzungsbedingungen zugestimmt  werden. Diese müssen auch während der Benutzung der App
     eingehaltan werden.  Für weitere Informationen zu den Nutzungsbedingungen klicken Sie auf den untenstehenden Link.\n</string>
     <string name="dialog_terms_of_use_link_text">Nutzungsbedingungen und Leistungen</string>
-    <!--  -->
-    <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">Nutzungsbedingungen und Leistungen</string>
-    <string name="dialog_terms_of_use_parrot_reminder_text">Du benutzt diese App gemeinsam mit Parrots
-        AR.Drohne 2.0. Wir möchten dich daran erinnern, die Nutzungsbedingungen und Dienstleistungen von Parrot und Catrobat einzuhalten.</string>
-    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Nicht nochmal erinnern.</string>
-    <!--  -->
-    <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">Du benutzt diese App gemeinsam mit Parrots
-      Jumping Sumo. Wir möchten dich daran erinnern, die Nutzungsbedingungen und Dienstleistungen von Parrot und Catrobat einzuhalten.</string>
     <!--  -->
     <!-- Privacy Policy -->
     <string name="disclaimer_privacy_police_header_headline">Willkommen!</string>
@@ -715,7 +709,6 @@
     <string name="prestage_resource_not_available_title">Komponente nicht verfügbar</string>
     <string name="prestage_resource_not_available_text">Leider funktioniert dieses Projekt nicht auf deinem Gerät.
         die folgenden Komponenten sind nicht verfügbar: \n\n</string>
-    <string name="prestage_resource_in_use_text">Ein anderes Gerät ist mit der Jumping Sumo verbunden. Versichere dich, dass du als einziger/e die Drohne steuerst.</string>
     <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Beschleunigungssensor\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Neigungssensor\n</string>
@@ -725,7 +718,6 @@
     <string name="prestage_no_back_camera_available">\u2022 Hintere Kamera\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Gesichts erkennung\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Texterkennung\n</string>
-    <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Vordere Kamera\n</string>
     <string name="prestage_no_camera_available">\u2022 Kamera\n</string>
     <string name="prestage_no_flash_available">\u2022 Taschenlampe\n</string>
@@ -928,7 +920,8 @@
     <string name="brick_stop_stitch" tools:ignore="UnusedResources">Beende aktuellen Stich</string>
     <string name="brick_write_embroidery" tools:ignore="UnusedResources">Schreiben Sie Stickdaten in die Datei</string>
     <string name="brick_default_embroidery_file">Stickerei.dst</string>
-    <string name="brick_sew_up" tools:ignore="UnusedResources">nähen</string>
+    <string name="brick_sew_up" tools:ignore="UnusedResources">vernähen</string>
+    <string name="brick_thread_color">Setze auf Farbe </string>
     <!--  -->
     <!-- Device bricks -->
     <string name="brick_reset_timer" tools:ignore="UnusedResources">Timer zurücksetzen</string>
@@ -974,7 +967,7 @@
     <string name="brick_when_touched" tools:ignore="UnusedResources">Wenn der Bildschirm berührt wird</string>
     <string name="brick_clone" tools:ignore="UnusedResources">Erzeuge Klon von</string>
     <string name="brick_clone_this">mir</string>
-    <string name="brick_when_cloned" tools:ignore="UnusedResources">Wenn ich als Klon entstehe</string>
+    <string name="brick_when_cloned" tools:ignore="UnusedResources">Wenn ich als Klon starte</string>
     <string name="brick_delete_this_clone" tools:ignore="UnusedResources">Lösche diesen Klon</string>
     <string name="brick_assert_that" tools:ignore="UnusedResources">Behaupten</string>
     <string name="brick_is_equal_to" tools:ignore="UnusedResources">entspricht erwartet</string>
@@ -1187,17 +1180,7 @@
     <string name="notification_download_pending">Download wird ausgeführt</string>
     <string name="notification_download_finished">Download erfolgreich</string>
     <string name="notification_title_open">"Öffne "</string>
-    <string name="notification_low_battery_with_value">Achtung. Akkustand ist niedrig. Derzeitiger Status %d</string>
     <string name="size_of_project">Größe:</string>
-    <string name="drone_emergency_battery_low">Akkustand ist niedrig (automatische Landung).</string>
-    <string name="drone_emergency_camera">Eine oder mehrere Kamera(s) reagieren nicht.</string>
-    <string name="drone_emergency_ultrasound">Ultraschallsensor reagiert nicht.</string>
-    <string name="drone_emergency_angle">AR. Drohnen Euler Winkel überschritten. Motoren wurden heruntergefahren, um ein Fehlverhalten zu verhindern.</string>
-    <string name="drone_emergency_cutout">Ein oder mehrere Motor(en) wurden vom Umfeld gestoppt.</string>
-    <string name="drone_alert_battery_low">Akkustand ist zu niedrig, um wieder abzuheben.</string>
-    <string name="drone_alert_ultrasound">Der Ultraschallsensor kann die AR.Dronen Höhe nicht bestimmen.</string>
-    <string name="drone_alert_vision">Keine Geschwindigkeitsschätzung der Bodenkamera.</string>
-    <string name="drone_emergency_title">Notfall</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">Diese App benötigt die angeforderten Berechtigungen, um ordnungsgemäß zu funktionieren. Beispielsweise benötigt der Kamera Baustein Zugriff auf die Kamera des Geräts, das Formelelement \"Standort\" benötigt Zugriff auf den Geolocation-Sensor des Geräts. Um Projekte aus und in den lokalen Speicher zu importieren und zu exportieren, benötigt die App Lese- und Schreibzugriff auf diesen. Du kannst Berechtigungen jederzeit über die Einstellungen deines Geräts ändern.</string>
@@ -1218,18 +1201,6 @@
         ändere etwas und versuche es dann nochmals.</string>
     <string name="error_adding_brick">Beim Hinzufügen des Bausteins ist ein Fehler aufgetreten</string>
     <string name="error_copying_brick">Beim Kopieren des Blocks ist ein Fehler aufgetreten</string>
-    <string name="error_no_drone_connected_title">AR.Drone 2.0 kann nicht gefunden werden. </string>
-    <string name="error_no_drone_connected">Verbinde dein WiFi-Netzwerk mit der AR.Drone 2.0 und versuche es erneut.</string>
-    <string name="error_drone_low_battery_title">AR.Drone 2.0 Batterie schwach: %d%%</string>
-    <string name="error_drone_low_battery">Lege einen geladenen Akku ein und probiere es noch einmal.</string>
-    <string name="error_jumpingsumo_wrong_platform">Leider können wir kein Jumping Sumo Projekt auf deinem Gerät ausführen.</string>
-    <string name="error_no_jumpingsumo_connected_title">Jumping Sumo kann nicht gefunden werden.</string>
-    <string name="error_no_jumpingsumo_connected">Verbinde dein WiFi-Netzwerk mit der Jumping Sumo und versuche es erneut.</string>
-    <string name="error_jumpingsumo_battery_title">Jumping Sumo Batterie schwach</string>
-    <string name="error_jumpingsumo_battery">Lege einen geladenen Akku ein und probiere es noch einmal.</string>
-    <string name="error_jumpingsumo_wrong_platform_title">Kein Unterstützung für Jumping Sumo</string>
-    <string name="error_drone_wrong_platform_title">Keine Unterstützung für AR.Drone 2.0.</string>
-    <string name="error_drone_wrong_platform">Leider können wir kein AR.Dronen Projekt auf deinem Gerät ausführen.</string>
     <string name="error_rename_incompatible_project">Es ist nicht möglich ein inkompatibles Projekt umzubenennen.</string>
     <string name="error_embroidery_file_export">Während dem Teilen der Stickdatei ist etwas schief gelaufen.</string>
     <string name="error_embroidery_file_write">Beim Schreiben der Stickdatei ist ein Fehler aufgetreten.</string>
@@ -1838,6 +1809,15 @@
     <string name="progress_upload_dialog_failed">Upload fehlgeschlagen. Bitte überprüfe deine Internetverbindung und versuche es erneut!</string>
     <string name="progress_upload_dialog_show_program">Projekt anzeigen</string>
     <!--  -->
+    <!-- unchanged upload dialog -->
+    <string name="unchanged_upload_warning">Das Projekt, das du hochladen möchtest, existiert bereits auf der Gemeinschaftsplattform
+        in genau derselben Form. Bitte ändere das Projekt, indem du es
+        erweiterst, bevor du dein geremixtes Projekt hochladest.</string>
+    <string name="unchanged_upload_info">Bitte denke daran, ein paar freundliche Worte an den ursprünglichen
+        Autor im Abschnitt \"Credits\" auf der Community-Seite oder in den Projektoptionen hinzuzufügen. Bitte beachte
+        dass der Benutzer nach dem erfolgreichen Upload eine Benachrichtigung erhält.</string>
+    <string name="unchanged_upload_url">Um mehr über Remixe zu erfahren, besuche bitte %1s.</string>
+    <!-- -->
     <!-- Snackbar hints -->
     <string name="got_it">Alles klar</string>
     <string name="preference_description_hints">Aktivieren um Hinweise anzuzeigen</string>
@@ -1848,6 +1828,14 @@
     <string name="hint_looks">Hier findest du die verschiedenen Aussehen von deiner Figur oder deinem Objekt. Mit dem \"+\" Symbol kannst du neue Aussehen hinzufügen.</string>
     <string name="hint_sounds">Hier kannst du neue Klänge zu deiner Figur oder deinem Objekt hinzufügen. Denke daran einen Block aus der Klang-Kategorie zu verwenden.</string>
     <string name="hint_objects">Dein Projekt besteht aus verschiedenen Figuren oder Objekten, die miteinander interagieren. Um eine neue Figur oder ein neues Objekt hinzuzufügen, tippe auf das \"+\" Symbol.</string>
+    <!--  -->
+    <!-- Dialog Disable hints -->
+    <string name="dialog_disable_hints_title">Tipps anzeigen?</string>
+    <string name="dialog_disable_hints_text">Tipps geben dir hilfreiche Informationen
+        während du dein erstes Projekt machst.\n\nDie Sichtbarkeit von Hinweisen kann in den
+        Einstellungen geändert werden.</string>
+    <string name="dialog_disable_hints_button_hide">VERSTECKEN</string>
+    <string name="dialog_disable_hints_button_show">ZEIGEN</string>
     <!--  -->
     <!-- Crash report dialog -->
     <!--  -->
@@ -1861,6 +1849,9 @@
     <string name="edit">Bearbeiten</string>
     <string name="data_value">Wert</string>
     <string name="category_recently_used">Zuletzt verwendet</string>
+    <string name="new_sprite_dialog_place_visually">Visuell platzieren</string>
+    <string name="place_visually_text">Du wirst aufgefordert, die neue Figur oder das Objekt auf der
+        Bühne zu platzieren.</string>
     <!-- Information -->
     <string name="no_variable_selected">Keine Variable ausgewählt</string>
 </resources>

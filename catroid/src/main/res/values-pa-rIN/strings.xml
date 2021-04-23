@@ -23,818 +23,895 @@
   -->
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- General terms -->
-    <string name="stage">వేదిక</string>
-    <string name="play">ఆడు</string>
-    <string name="settings">అమరికలు</string>
-    <string name="redo" tools:ignore="UnusedResources">పునరావృత్తం</string>
-    <string name="undo" tools:ignore="UnusedResources">రద్దుచేయు</string>
-    <string name="new_option">new&#8230;</string>
-    <string name="edit_option">edit&#8230;</string>
-    <string name="confirm">నిర్ధారించండి</string>
-    <string name="ignore">Ignore</string>
-    <string name="cancel">రద్దు చేయు</string>
-    <string name="save">Save</string>
-    <string name="discard">Discard</string>
-    <string name="next">తరువాత</string>
-    <string name="ok">సరే</string>
-    <string name="done">పూర్తి</string>
-    <string name="close" tools:ignore="UnusedResources">మూసివేయు</string>
-    <string name="assistant">Assistant</string>
-    <string name="yes">అవును</string>
-    <string name="no">కాదు</string>
-    <string name="once">Once</string>
-    <string name="always">Always</string>
-    <string name="deny">Deny</string>
-    <string name="accept">Accept</string>
-    <string name="decline">Decline</string>
-    <string name="select_all">Select all</string>
-    <string name="deselect_all">Deselect all</string>
-    <string name="skip">skip</string>
-    <string name="warning">Warning</string>
-    <string name="error">తప్పు</string>
-    <string name="loading">లోడ్ అవుతున్నది&#8230;</string>
-    <string name="please_wait">దయచేసి వేచి ఉండుము</string>
-    <string name="search_hint">శోధన&#8230;</string>
-    <string name="backpack_add">తగిలించుకునే బ్యాగులో జోడించండి</string>
+    <string name="stage">ਸਟੇਜ</string>
+    <string name="play">ਖੇਡੋ</string>
+    <string name="settings">ਸੈਟਿੰਗਜ਼</string>
+    <string name="redo" tools:ignore="UnusedResources">ਦੁਬਾਰਾ ਕਰੋ</string>
+    <string name="undo" tools:ignore="UnusedResources">ਵਾਪਿਸ</string>
+    <string name="new_option">ਨਵਾਂ&#8230;</string>
+    <string name="edit_option">ਸੰਪਾਦਿਤ ਕਰੋ ...</string>
+    <string name="confirm">ਪੁਸ਼ਟੀ ਕਰੋ</string>
+    <string name="ignore">ਅਣਡਿੱਠ ਕਰੋ</string>
+    <string name="cancel">ਰੱਦ ਕਰੋ</string>
+    <string name="save">ਸੇਵ</string>
+    <string name="discard">ਬਰਖਾਸਤ ਕਰੋ</string>
+    <string name="next">ਅਗਲਾ</string>
+    <string name="ok">ਠੀਕ ਹੈ</string>
+    <string name="done">ਹੋ ਗਿਆ</string>
+    <string name="close" tools:ignore="UnusedResources">ਬੰਦ ਕਰੋ</string>
+    <string name="assistant">ਸਹਾਇਕ</string>
+    <string name="yes">ਹਾਂ</string>
+    <string name="no">ਨਹੀਂ</string>
+    <string name="once">ਇਕ ਵਾਰ</string>
+    <string name="always">ਹਮੇਸ਼ਾ</string>
+    <string name="deny">ਇਨਕਾਰ ਕਰੋ</string>
+    <string name="accept">ਸਵੀਕਾਰ ਕਰੋ</string>
+    <string name="decline">ਅਸਵੀਕਾਰ</string>
+    <string name="select_all">ਸਾਰਿਆ ਨੂੰ ਚੁਣੋ</string>
+    <string name="deselect_all">ਸਭ ਦੀ ਚੋਣ ਕਰੋ</string>
+    <string name="skip">ਛੱਡੋ</string>
+    <string name="warning">ਚੇਤਾਵਨੀ</string>
+    <string name="error">ਗਲਤੀ</string>
+    <string name="loading">ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ ...</string>
+    <string name="please_wait">ਕ੍ਰਿਪਾ ਕਰਕੇ ਉਡੀਕ ਕਰੋ</string>
+    <string name="search_hint">ਖੋਜ ਕਰੋ ...</string>
+    <string name="backpack_add">ਬੈਕਪੈਕ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰੋ</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Security warning dialog -->
-    <string name="security_warning_dialog_msg">The project you have downloaded listens to your voice
-        in the background and also sends data to the internet. This may be harmless, and necessary
-        for its intended behavior. However, please make sure that what you are saying while the
-        project is running is safe. In case of doubt, please delete the downloaded project.
-        You may also report the project on its page on the Catrobat community platform in case
-        you are sure that it is harmful.</string>
+    <string name="security_warning_dialog_msg">ਤੁਹਾਡੇ ਦੁਆਰਾ ਡਾedਨਲੋਡ ਕੀਤਾ ਪ੍ਰੋਜੈਕਟ ਤੁਹਾਡੀ ਆਵਾਜ਼ ਸੁਣਦਾ ਹੈ
+         ਦੀ ਪਿੱਠਭੂਮੀ ਵਿਚ ਹੈ ਅਤੇ ਇਹ ਵੀ ਇੰਟਰਨੈੱਟ \'ਤੇ ਡਾਟਾ ਭੇਜਦਾ ਹੈ. ਇਹ ਨੁਕਸਾਨਦੇਹ ਅਤੇ ਜ਼ਰੂਰੀ ਹੋ ਸਕਦਾ ਹੈ
+         ਇਸ ਦੇ ਇਰਾਦੇ ਵਾਲੇ ਵਿਵਹਾਰ ਲਈ. ਹਾਲਾਂਕਿ, ਕਿਰਪਾ ਕਰਕੇ ਇਹ ਸੁਨਿਸ਼ਚਿਤ ਕਰੋ ਕਿ ਤੁਸੀਂ ਕੀ ਕਹਿ ਰਹੇ ਹੋ
+         ਪ੍ਰੋਜੈਕਟ ਚੱਲ ਰਿਹਾ ਹੈ ਸੁਰੱਖਿਅਤ ਹੈ. ਸ਼ੱਕ ਦੀ ਸਥਿਤੀ ਵਿੱਚ, ਕਿਰਪਾ ਕਰਕੇ ਡਾedਨਲੋਡ ਕੀਤੇ ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਮਿਟਾਓ.
+         ਤੁਸੀਂ ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਇਸਦੇ ਪੇਜ ਤੇ ਕੈਟ੍ਰੋਬੈਟ ਕਮਿ communityਨਿਟੀ ਪਲੇਟਫਾਰਮ ਤੇ ਵੀ ਰਿਪੋਰਟ ਕਰ ਸਕਦੇ ਹੋ
+         ਤੁਹਾਨੂੰ ਯਕੀਨ ਹੈ ਕਿ ਇਹ ਨੁਕਸਾਨਦੇਹ ਹੈ.</string>
     <!-- Replace Api dialog -->
-    <string name="api_replacement_dialog_neutral">Upload without change</string>
-    <string name="api_replacement_dialog_accept">Upload with keys replaced</string>
-    <string name="api_replacement_dialog_warning">The project contains bricks that access the
-        web, and also seems to contain API keys. Please see %1s why
-        uploading these keys can be dangerous.</string>
-    <string name="api_replacement">insert API key here</string>
+    <string name="api_replacement_dialog_neutral">ਬਿਨਾਂ ਬਦਲੇ ਅਪਲੋਡ ਕਰੋ</string>
+    <string name="api_replacement_dialog_accept">ਕੁੰਜੀਆਂ ਨਾਲ ਅਪਲੋਡ ਕੀਤਾ ਗਿਆ</string>
+    <string name="api_replacement_dialog_warning">ਪ੍ਰੋਜੈਕਟ ਵਿੱਚ ਇੱਟਾਂ ਸ਼ਾਮਲ ਹਨ ਜੋ ਪਹੁੰਚ ਪ੍ਰਾਪਤ ਕਰਦੀਆਂ ਹਨ
+         ਵੈਬ, ਅਤੇ ਇਸ ਵਿੱਚ ਏਪੀਆਈ ਕੁੰਜੀਆਂ ਵੀ ਲਗਦੀਆਂ ਹਨ. ਕਿਰਪਾ ਕਰਕੇ %1s ਵੇਖੋ
+         ਇਨ੍ਹਾਂ ਕੁੰਜੀਆਂ ਨੂੰ ਅਪਲੋਡ ਕਰਨਾ ਖ਼ਤਰਨਾਕ ਹੋ ਸਕਦਾ ਹੈ.</string>
+    <string name="api_replacement">ਏਪੀਆਈ ਕੁੰਜੀ ਇੱਥੇ ਪਾਓ</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_oauth_token">Checking login data&#8230;</string>
-    <string name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
-    <string name="loading_google_login">Google login on our server is complete&#8230;</string>
-    <string name="logout_successful">Logout successful</string>
-    <string name="degrees" tools:ignore="UnusedResources">degrees</string>
-    <string name="background" tools:ignore="UnusedResources">తెర వెనుక</string>
-    <string name="landscape">landscape</string>
-    <string name="portrait">portrait</string>
-    <string name="unknown">unknown</string>
-    <string name="disconnect">Disconnect</string>
+    <string name="loading_check_oauth_token">ਲੌਗਿਨ ਡਾਟਾ ਦੀ ਜਾਂਚ ਕਰ ਰਿਹਾ ਹੈ ...</string>
+    <string name="loading_google_exchange_code">ਗੂਗਲ ਲੌਗਇਨ ਡੇਟਾ ਐਕਸਚੇਂਜ ਕਰ ਰਿਹਾ ਹੈ ...</string>
+    <string name="loading_google_login">ਸਾਡੇ ਸਰਵਰ ਤੇ ਗੂਗਲ ਲੌਗਇਨ ਪੂਰਾ ਹੋ ਗਿਆ ਹੈ ...</string>
+    <string name="logout_successful">ਲੌਗਆਉਟ ਸਫਲ</string>
+    <string name="degrees" tools:ignore="UnusedResources">ਡਿਗਰੀ</string>
+    <string name="background" tools:ignore="UnusedResources">ਪਿਛੋਕੜ</string>
+    <string name="landscape">ਲੈਂਡਸਕੇਪ</string>
+    <string name="portrait">ਪੋਰਟਰੇਟ</string>
+    <string name="unknown">ਅਣਜਾਣ</string>
+    <string name="disconnect">ਡਿਸਕਨੈਕਟ</string>
     <!--  -->
     <!-- Main Menu -->
-    <string name="main_menu_continue">కొనసాగించడానికి</string>
-    <string name="main_menu_new">కొత్త</string>
-    <string name="main_menu_programs">Projects on device</string>
-    <string name="main_menu_help" tools:ignore="UnusedResources">సహాయం</string>
-    <string name="main_menu_web">Catrobat community</string>
-    <string name="main_menu_upload">Upload project</string>
-    <string name="main_menu_rate_app">Rate us!</string>
-    <string name="main_menu_terms_of_use">ఉపయోగ నిబంధనలు మరియు సేవలు</string>
-    <string name="main_menu_privacy_policy">ప్రయివసి పాలిసి</string>
-    <string name="main_menu_about">ఈ అనువర్తనం గురించి</string>
-    <string name="main_menu_login">Login</string>
-    <string name="main_menu_logout">Logout</string>
-    <string name="main_menu_scratch_converter">Scratch converter</string>
-    <string name="main_menu_play_store_not_installed">App store not found</string>
+    <string name="main_menu_continue">ਪ੍ਰੋਜੈਕਟ ਜਾਰੀ ਰੱਖੋ</string>
+    <string name="main_menu_new">ਨਵਾਂ ਪ੍ਰੋਜੈਕਟ</string>
+    <string name="main_menu_programs">ਡਿਵਾਈਸ ਤੇ ਪ੍ਰਾਜੈਕਟ</string>
+    <string name="main_menu_help" tools:ignore="UnusedResources">ਮਦਦ ਕਰੋ</string>
+    <string name="main_menu_web">ਕੈਟ੍ਰੋਬੈਟ ਕਮਿ communityਨਿਟੀ</string>
+    <string name="main_menu_upload">ਪ੍ਰੋਜੈਕਟ ਅਪਲੋਡ ਕਰੋ</string>
+    <string name="main_menu_rate_app">ਸਾਨੂੰ ਦਰਜਾ ਦਿਓ!</string>
+    <string name="main_menu_terms_of_use">ਵਰਤੋਂ ਅਤੇ ਸੇਵਾ ਦੀਆਂ ਸ਼ਰਤਾਂ</string>
+    <string name="main_menu_privacy_policy">ਪਰਾਈਵੇਟ ਨੀਤੀ</string>
+    <string name="main_menu_about">ਇਸ ਐਪ ਬਾਰੇ</string>
+    <string name="main_menu_login">ਲਾਗਿਨ</string>
+    <string name="main_menu_logout">ਬਾਹਰ ਆਉਣਾ</string>
+    <string name="main_menu_scratch_converter">ਸਕ੍ਰੈਚ ਕਨਵਰਟਰ</string>
+    <string name="main_menu_play_store_not_installed">ਐਪ ਸਟੋਰ ਨਹੀਂ ਮਿਲਿਆ</string>
     <!--  -->
     <!-- Marketing activity -->
-    <string name="marketing_created_with">Created with</string>
-    <string name="marketing_app_details">Details about this app</string>
-    <string name="marketing_more_on_google_play">More apps on App store</string>
-    <string name="error_cannot_open_huawei_app_gallery">Whoops! Failed to open Huawei AppGallery,
-        please try again later.</string>
-    <string name="google_play_store_logo">గూగ్లె ప్లే</string>
-    <string name="huawei_app_gallery">Huawei App Gallery</string>
+    <string name="marketing_created_with">ਨਾਲ ਬਣਾਇਆ ਗਿਆ</string>
+    <string name="marketing_app_details">ਇਸ ਐਪ ਬਾਰੇ ਵੇਰਵਾ</string>
+    <string name="marketing_more_on_google_play">ਐਪ ਸਟੋਰ ਤੇ ਹੋਰ ਐਪਸ </string>
+    <string name="error_cannot_open_huawei_app_gallery">ਓਹ! ਹੁਆਵੇਈ ਐਪ ਗੈਲਰੀ ਖੋਲ੍ਹਣ ਵਿੱਚ ਅਸਫਲ,
+         ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ ਜੀ.</string>
+    <string name="google_play_store_logo">ਗੂਗਲ ਪਲੇ ਸਟੋਰ</string>
+    <string name="huawei_app_gallery">ਹੁਆਵੇਈ ਐਪ ਗੈਲਰੀ</string>
     <!-- NFC activity -->
-    <string name="nfc_activity_title">NFC tags</string>
+    <string name="nfc_activity_title">ਐਨਐਫਸੀ ਟੈਗਸ</string>
     <!-- Settings activity -->
-    <string name="preference_title">అమరికలు</string>
-    <string name="preference_title_language">Language</string>
-    <string name="preference_description_language">Set the app\'s language</string>
-    <string name="preference_title_web_access">Web access</string>
-    <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
-    <string name="preference_screen_web_access_title">Edit trusted domains</string>
-    <string name="preference_title_accessibility">Accessibility</string>
-    <string name="preference_description_accessibility">Change the app\'s appearance</string>
-    <string name="preference_title_accessibility_profiles">Accessibility profiles</string>
-    <string name="preference_title_accessibility_profile">Predefined profiles</string>
-    <string name="preference_title_accessibility_profile_headline">Profiles</string>
-    <string name="preference_title_accessibility_predefined_profile_headline">Predefined profiles</string>
-    <string name="preference_description_accessibility_profiles">Pick a predefined accessibility profile</string>
-    <string name="preference_title_accessibility_text_appearance">Text appearance</string>
-    <string name="preference_title_accessibility_handling">Handling</string>
-    <string name="preference_title_accessibility_category_icons_big">Large icons</string>
-    <string name="preference_description_accessibility_category_icons_big">Increase icon size.</string>
-    <string name="preference_title_accessibility_category_icons_high_contrast">High contrast icons</string>
-    <string name="preference_title_accessibility_Brick_icons">Icons</string>
-    <string name="preference_title_accessibility_category_icons">Show icons</string>
-    <string name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
-    <string name="preference_title_accessibility_high_contrast">High contrast</string>
-    <string name="preference_description_accessibility_high_contrast">Increase the text contrast.</string>
-    <string name="preference_description_accessibility_large_text">Increase the text size.</string>
-    <string name="preference_title_accessibility_large_text">Large text</string>
-    <string name="preference_title_accessibility_element_spacing">Large element spacing</string>
-    <string name="preference_description_accessibility_element_spacing">Increase element spacing in lists.</string>
-    <string name="preference_title_accessibility_dragndrop_delay">Drag\'n\'drop delay</string>
-    <string name="preference_description_accessibility_dragndrop_delay">Drag\'n\'drop delay for bricks.</string>
-    <string name="preference_title_accessibility_beginner_bricks">Beginner mode</string>
-    <string name="preference_description_accessibility_beginner_bricks">Show only simple features.</string>
-    <string name="preference_title_accessibility_font_style">Choose a text type</string>
-    <string name="accessibility_font_regular">Regular</string>
-    <string name="accessibility_font_serif">Serif</string>
-    <string name="accessibility_font_dyslexic">Dyslexic</string>
-    <string name="accessibility_settings_applied">Changes applied</string>
-    <string name="preference_access_title_profile_default">Default</string>
-    <string name="preference_access_summary_profile_default">Default settings</string>
-    <string name="preference_access_title_profile_custom">My custom profile</string>
-    <string name="preference_access_summary_profile_custom">My personal settings</string>
-    <string name="preference_access_title_profile_argus">Argus</string>
-    <string name="preference_access_summary_profile_argus">High contrast, additional icons</string>
-    <string name="preference_access_title_profile_odin">Odin</string>
-    <string name="preference_access_summary_profile_odin">Large text, large icons, large element
-       spacing, high contrast</string>
-    <string name="preference_access_title_profile_fenrir">Fenrir</string>
-    <string name="preference_access_summary_profile_fenrir">Large element spacing, drag\'n\'drop
-       delay</string>
-    <string name="preference_access_title_profile_tiro">Tiro</string>
-    <string name="preference_access_summary_profile_tiro">Beginner mode</string>
+    <string name="preference_title">ਸੈਟਿੰਗਜ਼</string>
+    <string name="preference_title_language">ਭਾਸ਼ਾ</string>
+    <string name="preference_description_language">ਐਪ ਦੀ ਭਾਸ਼ਾ ਸੈਟ ਕਰੋ</string>
+    <string name="preference_title_web_access">ਵੈੱਬ ਪਹੁੰਚ</string>
+    <string name="preference_description_web_access">ਭਰੋਸੇਯੋਗ ਡੋਮੇਨ ਜੋੜਨ ਜਾਂ ਹਟਾਉਣ ਲਈ ਸੋਧ ਕਰੋ</string>
+    <string name="preference_screen_web_access_title">ਭਰੋਸੇਯੋਗ ਡੋਮੇਨ ਸੰਪਾਦਿਤ ਕਰੋ</string>
+    <string name="preference_title_accessibility">ਪਹੁੰਚਯੋਗਤਾ</string>
+    <string name="preference_description_accessibility">ਐਪ ਦੀ ਦਿੱਖ ਬਦਲੋ</string>
+    <string name="preference_title_accessibility_profiles">ਪਹੁੰਚਯੋਗਤਾ ਪਰੋਫਾਈਲ</string>
+    <string name="preference_title_accessibility_profile">ਪਰਿਭਾਸ਼ਿਤ ਪ੍ਰੋਫਾਈਲ</string>
+    <string name="preference_title_accessibility_profile_headline">ਪਰੋਫਾਈਲ</string>
+    <string name="preference_title_accessibility_predefined_profile_headline">ਪਰਿਭਾਸ਼ਿਤ ਪ੍ਰੋਫਾਈਲ</string>
+    <string name="preference_description_accessibility_profiles">ਇੱਕ ਪਰਿਭਾਸ਼ਿਤ ਐਕਸੈਸਿਬਿਲਟੀ ਪ੍ਰੋਫਾਈਲ ਚੁਣੋ</string>
+    <string name="preference_title_accessibility_text_appearance">ਟੈਕਸਟ ਦੀ ਦਿੱਖ</string>
+    <string name="preference_title_accessibility_handling">ਹੈਂਡਲਿੰਗ</string>
+    <string name="preference_title_accessibility_category_icons_big">ਵੱਡੇ ਆਈਕਾਨ</string>
+    <string name="preference_description_accessibility_category_icons_big">ਆਈਕਾਨ ਦਾ ਆਕਾਰ ਵਧਾਓ.</string>
+    <string name="preference_title_accessibility_category_icons_high_contrast">ਉੱਚ ਵਿਪਰੀਤ ਆਈਕਾਨ</string>
+    <string name="preference_title_accessibility_Brick_icons">ਆਈਕਾਨ</string>
+    <string name="preference_title_accessibility_category_icons">ਆਈਕਾਨ ਵੇਖਾਓ</string>
+    <string name="preference_description_accessibility_category_icons">ਸ਼੍ਰੇਣੀਆਂ ਅਤੇ ਇੱਟਾਂ ਤੇ ਆਈਕਾਨ ਸ਼ਾਮਲ ਕਰੋ.</string>
+    <string name="preference_title_accessibility_high_contrast">ਉੱਚ ਵਿਪਰੀਤ</string>
+    <string name="preference_description_accessibility_high_contrast">ਟੈਕਸਟ ਦੇ ਵਿਪਰੀਤ ਨੂੰ ਵਧਾਓ.</string>
+    <string name="preference_description_accessibility_large_text">ਟੈਕਸਟ ਦਾ ਆਕਾਰ ਵਧਾਓ.</string>
+    <string name="preference_title_accessibility_large_text">ਵੱਡਾ ਟੈਕਸਟ</string>
+    <string name="preference_title_accessibility_element_spacing">ਵੱਡੀ ਤੱਤ ਦੀ ਦੂਰੀ</string>
+    <string name="preference_description_accessibility_element_spacing">ਸੂਚੀਆਂ ਵਿੱਚ ਐਲੀਮੈਂਟ ਸਪੇਸ ਵਧਾਓ.</string>
+    <string name="preference_title_accessibility_dragndrop_delay">ਖਿੱਚੋ</string>
+    <string name="preference_description_accessibility_dragndrop_delay">ਇੱਟਾਂ ਲਈ ਖਿੱਚੋ.</string>
+    <string name="preference_title_accessibility_beginner_bricks">ਸ਼ੁਰੂਆਤੀ ਮੋਡ</string>
+    <string name="preference_description_accessibility_beginner_bricks">ਸਿਰਫ ਸਧਾਰਣ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਦਿਖਾਓ.</string>
+    <string name="preference_title_accessibility_font_style">ਇੱਕ ਪਾਠ ਕਿਸਮ ਚੁਣੋ</string>
+    <string name="accessibility_font_regular">ਰੋਜਾਨਾ</string>
+    <string name="accessibility_font_serif">ਸੀਰੀਫ</string>
+    <string name="accessibility_font_dyslexic">ਡਿਸਲੈਕਸਿਕ</string>
+    <string name="accessibility_settings_applied">ਤਬਦੀਲੀਆਂ ਲਾਗੂ ਕੀਤੀਆਂ</string>
+    <string name="preference_access_title_profile_default">ਮੂਲ</string>
+    <string name="preference_access_summary_profile_default">ਡਿਫੌਲਟ ਸੈਟਿੰਗਾਂ</string>
+    <string name="preference_access_title_profile_custom">ਮੇਰੀ ਕਸਟਮ ਪ੍ਰੋਫਾਈਲ</string>
+    <string name="preference_access_summary_profile_custom">ਮੇਰੀਆਂ ਨਿੱਜੀ ਸੈਟਿੰਗਾਂ</string>
+    <string name="preference_access_title_profile_argus">ਅਰਗਸ</string>
+    <string name="preference_access_summary_profile_argus">ਉੱਚ ਵਿਪਰੀਤ, ਵਾਧੂ ਆਈਕਾਨ</string>
+    <string name="preference_access_title_profile_odin">ਓਡਿਨ</string>
+    <string name="preference_access_summary_profile_odin">ਵੱਡਾ ਟੈਕਸਟ, ਵੱਡੇ ਆਈਕਾਨ, ਵੱਡਾ ਐਲੀਮੈਂਟ
+        ਖਾਲੀ ਥਾਂ, ਉੱਚ ਵਿਪਰੀਤ</string>
+    <string name="preference_access_title_profile_fenrir">ਫੈਨਰ</string>
+    <string name="preference_access_summary_profile_fenrir">ਵੱਡਾ ਤੱਤ ਸਪੇਸਿੰਗ, ਡਰੈਗ ਇਨਡ੍ਰੌਪ
+        ਦੇਰੀ</string>
+    <string name="preference_access_title_profile_tiro">ਤਿਰੋ</string>
+    <string name="preference_access_summary_profile_tiro">ਸ਼ੁਰੂਆਤੀ ਮੋਡ</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
-    <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 extension</string>
-    <string name="preference_description_quadcopter_bricks">Allow the app to control Parrot AR.Drone 2.0 quadcopters</string>
-    <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo extension</string>
-    <string name="preference_description_jumpingsumo_bricks">Allow the app to control Parrot\'s Jumping Sumo robots</string>
-    <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT extension</string>
-    <string name="preference_title_enable_mindstorms_ev3_bricks">Lego Mindstorms EV3 extension</string>
-    <string name="preference_description_mindstorms_nxt_bricks">Allow the app to control Lego Mindstorms NXT robots</string>
-    <string name="preference_description_mindstorms_ev3_bricks">Allow the app to control Lego Mindstorms EV3 robots</string>
-    <string name="preference_title_mindstorms_nxt_sensors">Lego NXT Sensors</string>
-    <string name="preference_title_mindstorms_ev3_sensors">Lego EV3 Sensors</string>
-    <string name="preference_title_drone_config_properties">Parrot AR.Drone 2.0 configuration</string>
-    <string name="preference_title_enable_phiro_bricks">RobotixEdu\'s Phiro extension</string>
-    <string name="preference_description_phiro_bricks">Allow the app to control RobotixEdu\'s Phiro robots</string>
-    <string name="preference_title_enable_arduino_bricks">Arduino extension</string>
-    <string name="preference_description_arduino_bricks">Allow the app to control Arduino boards</string>
-    <string name="preference_title_enable_embroidery_bricks">Embroidery extension</string>
-    <string name="preference_description_embroidery_bricks">Create patterns for stitching machines</string>
-    <string name="preference_title_cast_feature_globally_enabled">Chromecast extension</string>
-    <string name="preference_description_cast_feature_globally_enabled">Show cast button and enable cast projects</string>
-    <string name="preference_title_enable_nfc_bricks">Near Field Communication extension</string>
-    <string name="preference_description_nfc_bricks">Allow the app to use NFC tags in projects</string>
-    <string name="preference_title_enable_crash_reports">Sending anonymous crash reports</string>
-    <string name="preference_description_crash_reports">Allow the app to send crash reports automatically</string>
+    <string name="preference_title_enable_quadcopter_bricks">ਤੋਤਾ ਏਆਰ ਡ੍ਰੋਨ 2.0 ਐਕਸਟੈਂਸ਼ਨ</string>
+    <string name="preference_description_quadcopter_bricks">ਐਪ ਨੂੰ ਤੋਤਾ ਏਆਰ.ਡ੍ਰੋਨ 2.0 ਕਵਾਡਕਾੱਪਟਰਸ ਨੂੰ ਨਿਯੰਤਰਣ ਕਰਨ ਦੀ ਆਗਿਆ ਦਿਓ</string>
+    <string name="preference_title_enable_jumpingsumo_bricks">ਤੋਤੇ ਜੰਪਿੰਗ ਸੂਮੋ ਐਕਸਟੈਂਸ਼ਨ</string>
+    <string name="preference_description_jumpingsumo_bricks">ਐਪ ਨੂੰ ਤੋਤੇ ਦੇ ਜੰਪਿੰਗ ਸੁਮੋ ਰੋਬੋਟਸ ਨੂੰ ਨਿਯੰਤਰਣ ਕਰਨ ਦੀ ਆਗਿਆ ਦਿਓ</string>
+    <string name="preference_title_enable_mindstorms_nxt_bricks">ਲੇਗੋ ਮਾਈਂਡਸਟੋਰਮਜ਼ ਐਨਐਕਸਟੀ ਐਕਸਟੈਂਸ਼ਨ</string>
+    <string name="preference_title_enable_mindstorms_ev3_bricks">ਲੇਗੋ ਮਾਈਂਡਸਟਾਰਮਜ਼ ਈਵੀ 3 ਐਕਸਟੈਂਸ਼ਨ</string>
+    <string name="preference_description_mindstorms_nxt_bricks">ਐਪ ਨੂੰ ਲੇਗੋ ਮਾਈਂਡਸਟਾਰਮਜ਼ ਐਨਐਕਸਟੀ ਰੋਬੋਟਸ ਨੂੰ ਨਿਯੰਤਰਣ ਕਰਨ ਦੀ ਆਗਿਆ ਦਿਓ</string>
+    <string name="preference_description_mindstorms_ev3_bricks">ਐਪ ਨੂੰ ਲੇਗੋ ਮਾਈਂਡਸਟਾਰਮਜ਼ ਈਵੀ 3 ਰੋਬੋਟਸ ਨੂੰ ਨਿਯੰਤਰਣ ਕਰਨ ਦੀ ਆਗਿਆ ਦਿਓ</string>
+    <string name="preference_title_mindstorms_nxt_sensors">ਲੇਗੋ ਐਨਐਕਸਟੀ ਸੈਂਸਰ</string>
+    <string name="preference_title_mindstorms_ev3_sensors">ਲੇਗੋ ਈਵੀ 3 ਸੈਂਸਰ</string>
+    <string name="preference_title_drone_config_properties">ਤੋਤਾ ਏਆਰ.ਡ੍ਰੋਨ 2.0 ਕੌਂਫਿਗਰੇਸ਼ਨ</string>
+    <string name="preference_title_enable_phiro_bricks">ਰੋਬੋਟਿਕਸਦੂ ਦਾ ਫੀਰੋ ਐਕਸਟੈਂਸ਼ਨ</string>
+    <string name="preference_description_phiro_bricks">ਐਪ ਨੂੰ ਰੋਬੋਟਿਕਸ ਈਡੂ ਦੇ ਫੀਰੋ ਰੋਬੋਟਸ ਨੂੰ ਨਿਯੰਤਰਣ ਕਰਨ ਦੀ ਆਗਿਆ ਦਿਓ</string>
+    <string name="preference_title_enable_arduino_bricks">ਅਰੂਦਿਨੋ ਐਕਸਟੈਂਸ਼ਨ</string>
+    <string name="preference_description_arduino_bricks">ਐਪ ਨੂੰ ਅਰਦਿਨੋ ਬੋਰਡਾਂ ਨੂੰ ਨਿਯੰਤਰਣ ਕਰਨ ਦੀ ਆਗਿਆ ਦਿਓ</string>
+    <string name="preference_title_enable_embroidery_bricks">ਕroਾਈ ਦਾ ਵਿਸਥਾਰ</string>
+    <string name="preference_description_embroidery_bricks">ਸਿਲਾਈ ਮਸ਼ੀਨਾਂ ਲਈ ਪੈਟਰਨ ਤਿਆਰ ਕਰੋ</string>
+    <string name="preference_title_cast_feature_globally_enabled">ਕਰੋਮਕਾਸਟ ਐਕਸਟੈਂਸ਼ਨ</string>
+    <string name="preference_description_cast_feature_globally_enabled">ਕਾਸਟ ਬਟਨ ਦਿਖਾਓ ਅਤੇ ਕਾਸਟ ਪ੍ਰੋਜੈਕਟਸ ਨੂੰ ਸਮਰੱਥ ਕਰੋ</string>
+    <string name="preference_title_enable_nfc_bricks">ਫੀਲਡ ਕਮਿicationਨੀਕੇਸ਼ਨ ਐਕਸਟੈਂਸ਼ਨ ਦੇ ਨੇੜੇ</string>
+    <string name="preference_description_nfc_bricks">ਐਪ ਨੂੰ ਪ੍ਰੋਜੈਕਟਾਂ ਵਿੱਚ NFC ਟੈਗਸ ਦੀ ਵਰਤੋਂ ਕਰਨ ਦੀ ਆਗਿਆ ਦਿਓ</string>
+    <string name="preference_title_enable_crash_reports">ਅਗਿਆਤ ਕਰੈਸ਼ ਰਿਪੋਰਟਾਂ ਭੇਜ ਰਿਹਾ ਹੈ</string>
+    <string name="preference_description_crash_reports">ਐਪ ਨੂੰ ਕਰੈਸ਼ ਰਿਪੋਰਟਾਂ ਆਪਣੇ ਆਪ ਭੇਜਣ ਦੀ ਆਗਿਆ ਦਿਓ</string>
     <!-- -->
-    <string name="preference_title_enable_raspi_bricks">Raspberry Pi extension</string>
-    <string name="preference_description_raspi_bricks">Allow the app to control Raspberry Pi computers</string>
-    <string name="preference_raspi_enable_bricks">Enable bricks and sensors</string>
-    <string name="preference_raspi_help">Help / getting started</string>
-    <string name="preference_raspi_help_summary">Get help on how to configure the connection settings</string>
-    <string name="preference_raspi_host">Raspberry Pi IP-/host-address</string>
-    <string name="preference_raspi_port">Raspberry Pi port</string>
+    <string name="preference_title_enable_raspi_bricks">ਰਸਬੇਰੀ ਪਾਈ ਪਸਾਰ</string>
+    <string name="preference_description_raspi_bricks">ਐਪ ਨੂੰ ਰਸਬੇਰੀ ਪੀ ਕੰਪਿ computersਟਰਾਂ ਨੂੰ ਨਿਯੰਤਰਣ ਕਰਨ ਦੀ ਆਗਿਆ ਦਿਓ</string>
+    <string name="preference_raspi_enable_bricks">ਇੱਟਾਂ ਅਤੇ ਸੈਂਸਰਾਂ ਨੂੰ ਸਮਰੱਥ ਬਣਾਓ</string>
+    <string name="preference_raspi_help">ਮਦਦ / ਸ਼ੁਰੂਆਤ</string>
+    <string name="preference_raspi_help_summary">ਕਨੈਕਸ਼ਨ ਸੈਟਿੰਗਜ਼ ਨੂੰ ਕੌਂਫਿਗਰ ਕਰਨ ਲਈ ਕਿਵੇਂ ਸਹਾਇਤਾ ਲਓ</string>
+    <string name="preference_raspi_host">ਰਸਬੇਰੀ ਪੀ ਆਈ ਪੀ- / ਹੋਸਟ-ਪਤਾ</string>
+    <string name="preference_raspi_port">ਰਸਬੇਰੀ ਪੋਰਟ ਪੋਰਟ</string>
     <!--  -->
-    <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
-    <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
-        multiplayer variables shared via Bluetooth</string>
-    <string name="preference_title_enable_test_bricks">Testing extension</string>
-    <string name="preference_description_test_bricks">Allows to create tests</string>
+    <string name="preference_title_multiplayer_variables_enabled">ਮਲਟੀਪਲੇਅਰ ਐਕਸਟੈਂਸ਼ਨ</string>
+    <string name="preference_description_multiplayer_variables_enabled">ਐਪ ਨੂੰ ਵਰਤਣ ਦੀ ਆਗਿਆ ਦਿਓ
+         ਮਲਟੀਪਲੇਅਰ ਵੇਰੀਏਬਲ ਬਲੂਟੁੱਥ ਦੁਆਰਾ ਸਾਂਝੇ ਕੀਤੇ</string>
+    <string name="preference_title_enable_test_bricks">ਪਰੀਖਿਆ ਦਾ ਵਿਸਥਾਰ</string>
+    <string name="preference_description_test_bricks">ਟੈਸਟ ਬਣਾਉਣ ਦੀ ਆਗਿਆ ਦਿੰਦਾ ਹੈ</string>
     <!-- Scratch Converter activity -->
-    <string name="beta">BETA</string>
-    <string name="error_scratch_program_not_accessible_any_more">Whoops! The project seems to have disappeared
-        or you might have lost access to it.</string>
-    <string name="error_scratch_project_data_not_available">Whoops! Some parts of the project seem to be
-        missing, please try again later.</string>
-    <string name="error_request_timeout">Whoops! Our server did not respond in time, please try again later.</string>
-    <string name="error_scratch_program_conversion_failed">Whoops! Failed to convert the project, please try again
-        later.</string>
-    <string name="error_specific_scratch_program_conversion_failed_x">Whoops! Failed to convert %1$s, please try
-        again later.</string>
-    <string name="error_scratch_converter_outdated_app_version">Your version of this app is outdated. Our Scratch
-        converter only works on the latest version. Please update the app.</string>
-    <string name="error_cannot_open_not_existing_scratch_program">I could not open this Scratch project. It seems that you
-        have canceled the conversion/download of the Scratch project, or you have renamed/deleted the project in the
-        meanwhile.</string>
-    <string name="error_cannot_open_currently_downloading_scratch_program">You cannot yet open the project.
-        Please wait until it is downloaded.</string>
-    <string name="error_cannot_open_not_yet_downloaded_scratch_program">You cannot yet open the project.
-        Please download it first and then open it.</string>
-    <string name="error_cannot_convert_deprecated_scratch_program_x_x">I could not convert %1$s. This seems to be
-        an old Scratch project from before %2$s. Please try another one.</string>
+    <string name="beta">ਬੀਟਾ</string>
+    <string name="error_scratch_program_not_accessible_any_more">ਓਹ! ਲੱਗਦਾ ਹੈ ਕਿ ਪ੍ਰੋਜੈਕਟ ਗਾਇਬ ਹੋ ਗਿਆ ਹੈ
+         ਜਾਂ ਤੁਸੀਂ ਇਸ ਦੀ ਪਹੁੰਚ ਗੁਆ ਸਕਦੇ ਹੋ.</string>
+    <string name="error_scratch_project_data_not_available">ਵੂਪਸ! ਯੋਜਨਾ ਦੇ ਕੁਝ ਹਿੱਸੇ ਲੱਗਦੇ ਹਨ
+          ਲਾਪता, ਕਿਰਪਾ ਕਰਕੇ ਬਾਅਦ ਵਿੱਚ ਮੁੜ ਵਿਚਾਰ ਕਰੋ.</string>
+    <string name="error_request_timeout">ਓਹ! ਸਾਡੇ ਸਰਵਰ ਨੇ ਸਮੇਂ ਤੇ ਜਵਾਬ ਨਹੀਂ ਦਿੱਤਾ, ਕਿਰਪਾ ਕਰਕੇ ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ.</string>
+    <string name="error_scratch_program_conversion_failed">ਓਹ! ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਬਦਲਣ ਵਿੱਚ ਅਸਫਲ, ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ
+         ਬਾਅਦ ਵਿਚ.</string>
+    <string name="error_specific_scratch_program_conversion_failed_x">ਓਹ! %1$s ਨੂੰ ਬਦਲਣ ਵਿੱਚ ਅਸਫਲ, ਕੋਸ਼ਿਸ਼ ਕਰੋ
+         ਦੁਬਾਰਾ ਬਾਅਦ ਵਿਚ.</string>
+    <string name="error_scratch_converter_outdated_app_version">ਇਹ ਐਪਲੀਕੇਸ਼ਨ ਤੁਹਾਡੇ ਸੰਸਕਰਣ ਪੁਰਾਣਾ ਹੈ. ਸਾਡੇ ਖਰਚ
+          ਕਨਵਰਟਰ ਸਿਰਫ ਤਾਜ਼ੇ ਸੰਸਕਰਣਾਂ \'ਤੇ ਕੰਮ ਕਰ ਰਿਹਾ ਹੈ. ਕਿਰਪਾ ਕਰਕੇ ਏਪ ਕੋ ਅਪਡੇਟ ਕਰੋ.</string>
+    <string name="error_cannot_open_not_existing_scratch_program">ਮੈਂ ਇਸ ਸਕ੍ਰੈਚ ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਨਹੀਂ ਖੋਲ੍ਹ ਸਕਿਆ. ਇਹ ਲਗਦਾ ਹੈ ਕਿ ਤੁਸੀਂ
+         ਨੇ ਸਕ੍ਰੈਚ ਪ੍ਰੋਜੈਕਟ ਦੇ ਰੂਪਾਂਤਰਣ / ਡਾ downloadਨਲੋਡ ਨੂੰ ਰੱਦ ਕਰ ਦਿੱਤਾ ਹੈ, ਜਾਂ ਤੁਸੀਂ ਪ੍ਰੋਜੈਕਟ ਦਾ ਨਾਮ ਬਦਲਿਆ / ਮਿਟਾ ਦਿੱਤਾ ਹੈ
+         ਇਸ ਦੌਰਾਨ.</string>
+    <string name="error_cannot_open_currently_downloading_scratch_program">ਤੁਸੀਂ ਅਜੇ ਵੀ ਪ੍ਰੋਜੈਕਟ ਨਹੀਂ ਖੋਲ੍ਹ ਸਕਦੇ.
+         ਕਿਰਪਾ ਕਰਕੇ ਉਡੀਕ ਕਰੋ ਜਦੋਂ ਤੱਕ ਇਹ ਡਾedਨਲੋਡ ਨਹੀਂ ਹੁੰਦਾ.</string>
+    <string name="error_cannot_open_not_yet_downloaded_scratch_program">ਤੁਸੀਂ ਅਜੇ ਵੀ ਪ੍ਰੋਜੈਕਟ ਨਹੀਂ ਖੋਲ੍ਹ ਸਕਦੇ.
+         ਕਿਰਪਾ ਕਰਕੇ ਇਸਨੂੰ ਪਹਿਲਾਂ ਡਾਉਨਲੋਡ ਕਰੋ ਅਤੇ ਫਿਰ ਇਸਨੂੰ ਖੋਲ੍ਹੋ.</string>
+    <string name="error_cannot_convert_deprecated_scratch_program_x_x">ਮੈਂ %1$s ਨੂੰ ਤਬਦੀਲ ਨਹੀਂ ਕਰ ਸਕਿਆ. ਅਜਿਹਾ ਲਗਦਾ ਹੈ
+         %2$s ਤੋਂ ਪਹਿਲਾਂ ਦਾ ਇੱਕ ਪੁਰਾਣਾ ਸਕ੍ਰੈਚ ਪ੍ਰੋਜੈਕਟ. ਕਿਰਪਾ ਕਰਕੇ ਹੋਰ ਕੋਸ਼ਿਸ਼ ਕਰੋ.</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
-        <item quantity="one">You cannot convert more than %d project at the same time. Please wait for the
-            running conversions to finish first.</item>
-        <item quantity="other">You cannot convert more than %d projects at the same time. Please wait for the
-            running conversions to finish first.</item>
+        <item quantity="one">ਤੁਸੀਂ ਇੱਕੋ ਸਮੇਂ %d ਪ੍ਰੋਜੈਕਟ ਤੋਂ ਵੱਧ ਨਹੀਂ ਬਦਲ ਸਕਦੇ. ਲਈ ਉਡੀਕ ਕਰੋ ਜੀ
+             ਪਹਿਲਾਂ ਖਤਮ ਕਰਨ ਲਈ ਚਲ ਰਹੇ ਪਰਿਵਰਤਨ.
+ਤੁਸੀਂ ਇੱਕੋ ਸਮੇਂ %d ਪ੍ਰੋਜੈਕਟਾਂ ਤੋਂ ਵੱਧ ਨਹੀਂ ਬਦਲ ਸਕਦੇ. ਲਈ ਉਡੀਕ ਕਰੋ ਜੀ
+             ਪਹਿਲਾਂ ਖਤਮ ਕਰਨ ਲਈ ਚਲ ਰਹੇ ਪਰਿਵਰਤਨ.</item>
+        <item quantity="other">ਤੁਸੀਂ ਇੱਕੋ ਸਮੇਂ %d ਪ੍ਰੋਜੈਕਟਾਂ ਤੋਂ ਵੱਧ ਨਹੀਂ ਬਦਲ ਸਕਦੇ. ਲਈ ਉਡੀਕ ਕਰੋ ਜੀ
+             ਪਹਿਲਾਂ ਖਤਮ ਕਰਨ ਲਈ ਚਲ ਰਹੇ ਪਰਿਵਰਤਨ.</item>
     </plurals>
-    <string name="error_cannot_open_failed_scratch_program">You cannot open the project because it wasn\'t
-        converted correctly. Please try to convert it again.</string>
-    <string name="search_failed">Nothing found, please retry later.</string>
-    <string name="connection_lost_or_closed_by_server">Server connection lost.</string>
-    <string name="connection_failed">We can\'t connect you to the server right now, please try again later.</string>
-    <string name="authentication_failed">There seems to be a problem with your connection to the service. Please
-        contact the Catrobat team.</string>
+    <string name="error_cannot_open_failed_scratch_program">ਤੁਸੀਂ ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਨਹੀਂ ਖੋਲ੍ਹ ਸਕਦੇ ਕਿਉਂਕਿ ਇਹ ਸਹੀ ਰੂਪ ਵਿੱਚ ਨਹੀਂ ਬਦਲਿਆ ਗਿਆ ਸੀ. ਕਿਰਪਾ ਕਰਕੇ ਇਸਨੂੰ ਦੁਬਾਰਾ ਬਦਲਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ.</string>
+    <string name="search_failed">ਕੁਝ ਨਹੀਂ ਮਿਲਿਆ, ਕਿਰਪਾ ਕਰਕੇ ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ.</string>
+    <string name="connection_lost_or_closed_by_server">ਸਰਵਰ ਕੁਨੈਕਸ਼ਨ ਗੁੰਮ ਗਿਆ.</string>
+    <string name="connection_failed">ਅਸੀਂ ਤੁਹਾਨੂੰ ਹੁਣੇ ਸਰਵਰ ਨਾਲ ਨਹੀਂ ਜੋੜ ਸਕਦੇ, ਕਿਰਪਾ ਕਰਕੇ ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ.</string>
+    <string name="authentication_failed">ਸੇਵਾ ਨਾਲ ਤੁਹਾਡੇ ਕਨੈਕਸ਼ਨ ਵਿਚ ਕੋਈ ਸਮੱਸਿਆ ਹੋ ਰਹੀ ਹੈ. ਕ੍ਰਿਪਾ ਕਰਕੇ
+         ਕੈਟ੍ਰੋਬੈਟ ਟੀਮ ਨਾਲ ਸੰਪਰਕ ਕਰੋ.</string>
     <plurals name="scratch_conversion_scheduled_x">
-        <item quantity="one">Added %d Scratch project to the queue&#8230;</item>
-        <item quantity="other">Added %d Scratch projects to the queue&#8230;</item>
+        <item quantity="one">%D ਸਕ੍ਰੈਚ ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਕਤਾਰ ਵਿੱਚ ਸ਼ਾਮਲ ਕੀਤਾ ਗਿਆ ...
+%D ਸਕ੍ਰੈਚ ਪ੍ਰੋਜੈਕਟਾਂ ਨੂੰ ਕਤਾਰ ਵਿੱਚ ਸ਼ਾਮਲ ਕੀਤਾ ਗਿਆ ...</item>
+        <item quantity="other">%d ਸਕ੍ਰੈਚ ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਕਤਾਰ ਵਿੱਚ ਸ਼ਾਮਲ ਕੀਤਾ ਗਿਆ ...
+%d ਸਕ੍ਰੈਚ ਪ੍ਰੋਜੈਕਟਾਂ ਨੂੰ ਕਤਾਰ ਵਿੱਚ ਸ਼ਾਮਲ ਕੀਤਾ ਗਿਆ ...</item>
     </plurals>
-    <string name="scratch_conversion_started">Started to convert Scratch project&#8230;</string>
-    <string name="convert">Convert</string>
-    <string name="converting">Converting&#8230;</string>
-    <string name="status_scheduled">Scheduled</string>
-    <string name="status_waiting_for_worker">Looking for a free worker&#8230; Please wait&#8230;</string>
-    <string name="status_started">Started&#8230;</string>
-    <string name="status_conversion_finished">Conversion finished</string>
+    <string name="scratch_conversion_started">ਸਕ੍ਰੈਚ ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਕਨਵਰਟ ਕਰਨ ਲਈ ਅਰੰਭ ਕੀਤਾ&#8230;</string>
+    <string name="convert">ਤਬਦੀਲ ਕਰੋ</string>
+    <string name="converting">ਬਦਲ ਰਿਹਾ ਹੈ&#8230;</string>
+    <string name="status_scheduled">ਤਹਿ</string>
+    <string name="status_waiting_for_worker">ਇੱਕ ਮੁਫਤ ਕਰਮਚਾਰੀ ਦੀ ਭਾਲ ਵਿੱਚ ... ਕਿਰਪਾ ਕਰਕੇ ਉਡੀਕ ਕਰੋ ...</string>
+    <string name="status_started">ਅਰੰਭ ਕੀਤਾ&#8230;</string>
+    <string name="status_conversion_finished">ਪਰਿਵਰਤਨ ਸਮਾਪਤ</string>
     <plurals name="status_in_progress_x_jobs">
-        <item quantity="one">In progress: %d job</item>
-        <item quantity="other">In progress: %d jobs</item>
+        <item quantity="one">ਤਰੱਕੀ ਵਿੱਚ: %d ਨੌਕਰੀ
+ਤਰੱਕੀ ਵਿੱਚ: %d ਨੌਕਰੀਆਂ</item>
+        <item quantity="other">ਤਰੱਕੀ ਵਿੱਚ: %d ਨੌਕਰੀ
+ਤਰੱਕੀ ਵਿੱਚ:%d ਨੌਕਰੀਆਂ</item>
     </plurals>
     <plurals name="status_completed_x_jobs">
-        <item quantity="one">Completed: %d job</item>
-        <item quantity="other">Completed: %d jobs</item>
+        <item quantity="one">ਮੁਕੰਮਲ:%d ਨੌਕਰੀ
+ਮੁਕੰਮਲ:%d ਨੌਕਰੀਆਂ</item>
+        <item quantity="other">ਮੁਕੰਮਲ: %d ਨੌਕਰੀ
+ਮੁਕੰਮਲ: %d ਨੌਕਰੀਆਂ</item>
     </plurals>
-    <string name="status_conversion_failed">Conversion failed!</string>
-    <string name="status_downloading">Downloading&#8230;</string>
-    <string name="status_download_finished">Download finished.</string>
-    <string name="status_download_canceled">Download canceled!</string>
-    <string name="scratch_programs_in_progress_title">In progress</string>
-    <string name="scratch_programs_finished_title">Converted projects</string>
-    <string name="by_x">by %1$s</string>
-    <string name="warning_program_visibility">WARNING:\nThis seems to be a private project. You can try to
-        convert it but it might not work.</string>
-    <string name="instructions">Instructions</string>
-    <string name="notes_and_credits">Notes and Credits</string>
-    <string name="shared_at_x">Shared: %1$s</string>
-    <string name="modified_at_x">Modified: %1$s</string>
-    <string name="remixes">Remixes</string>
+    <string name="status_conversion_failed">ਤਬਦੀਲੀ ਫੇਲ੍ਹ ਹੋਈ!</string>
+    <string name="status_downloading">ਡਾingਨਲੋਡ ਕਰ ਰਿਹਾ ਹੈ&#8230;</string>
+    <string name="status_download_finished">ਡਾ Downloadਨਲੋਡ ਮੁਕੰਮਲ.</string>
+    <string name="status_download_canceled">ਡਾ canceledਨਲੋਡ ਰੱਦ!</string>
+    <string name="scratch_programs_in_progress_title">ਤਰੱਕੀ ਹੋ ਰਹੀ ਹੈ</string>
+    <string name="scratch_programs_finished_title">ਪਰਿਵਰਤਿਤ ਪ੍ਰੋਜੈਕਟ</string>
+    <string name="by_x">%1$s ਦੁਆਰਾ</string>
+    <string name="warning_program_visibility">ਚੇਤਾਵਨੀ: \n ਇਹ ਇੱਕ ਨਿਜੀ ਪ੍ਰੋਜੈਕਟ ਜਾਪਦਾ ਹੈ. ਤੁਸੀਂ ਕੋਸ਼ਿਸ਼ ਕਰ ਸਕਦੇ ਹੋ
+         ਇਸ ਨੂੰ ਤਬਦੀਲ ਕਰੋ ਪਰ ਇਹ ਕੰਮ ਨਹੀਂ ਕਰੇਗਾ.</string>
+    <string name="instructions">ਨਿਰਦੇਸ਼</string>
+    <string name="notes_and_credits">ਨੋਟਸ ਅਤੇ ਕ੍ਰੈਡਿਟ</string>
+    <string name="shared_at_x">ਸਾਂਝਾ ਕੀਤਾ: %1$s</string>
+    <string name="modified_at_x">ਸੋਧਿਆ: %1$s</string>
+    <string name="remixes">ਰੀਮਿਕਸ</string>
     <!--  -->
-    <string name="author">Author:</string>
-    <string name="screen_size">Stage size:</string>
-    <string name="mode">Mode:</string>
-    <string name="remix_of">Remix of:</string>
-    <string name="description_hint">Press to add description</string>
-    <string name="notes_and_credits_hint">Press to add notes and credits</string>
+    <string name="author">ਲੇਖਕ:</string>
+    <string name="screen_size">ਪੜਾਅ ਦਾ ਆਕਾਰ:</string>
+    <string name="mode">ਮੋਡ:</string>
+    <string name="remix_of">ਦਾ ਰੀਮਿਕਸ:</string>
+    <string name="description_hint">ਵੇਰਵਾ ਸ਼ਾਮਲ ਕਰਨ ਲਈ ਦਬਾਓ</string>
+    <string name="notes_and_credits_hint">ਨੋਟ ਅਤੇ ਕ੍ਰੈਡਿਟ ਜੋੜਨ ਲਈ ਦਬਾਓ</string>
     <!-- ScratchReconvertDialog Strings -->
-    <string name="reconvert_text">You converted this project %1$s ago.</string>
+    <string name="reconvert_text">ਤੁਸੀਂ ਇਸ ਪ੍ਰੋਜੈਕਟ ਨੂੰ %1$s ਪਹਿਲਾਂ ਬਦਲਿਆ ਹੈ.</string>
     <plurals name="minutes">
-        <item quantity="one">%d minute</item>
-        <item quantity="other">%d minutes</item>
+        <item quantity="one">%d ਮਿੰਟ
+%d ਮਿੰਟ</item>
+        <item quantity="other">%d ਮਿੰਟ
+%d ਮਿੰਟ</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">%d hour</item>
-        <item quantity="other">%d hours</item>
+        <item quantity="one">% dਘੰਟਾ
+% dਘੰਟੇ</item>
+        <item quantity="other">%d ਘੰਟਾ
+%d ਘੰਟੇ</item>
     </plurals>
     <plurals name="days">
-        <item quantity="one">%d day</item>
-        <item quantity="other">%d days</item>
+        <item quantity="one">%d ਦਿਨ
+%d ਦਿਨ</item>
+        <item quantity="other">%d ਦਿਨ
+%d ਦਿਨ</item>
     </plurals>
-    <string name="reconvert_dialog_download">Download the project again</string>
-    <string name="reconvert_dialog_reconvert">Convert this project again</string>
+    <string name="reconvert_dialog_download">ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਦੁਬਾਰਾ ਡਾਉਨਲੋਡ ਕਰੋ</string>
+    <string name="reconvert_dialog_reconvert">ਇਸ ਪ੍ਰਾਜੈਕਟ ਨੂੰ ਦੁਬਾਰਾ ਬਦਲੋ</string>
     <!--  -->
     <!-- ERRORS -->
     <!-- Terms of Use and Service Error -->
-    <string name="declined_terms_of_use_and_service_alert">To use our app, it is necessary to accept our Terms of Use and Service.
-        However, if you don\’t feel comfortable to do so, you can use our free web-services on</string>
-    <string name="wtf_error">An unexpected error occurred: I could not restore the sample project.</string>
+    <string name="declined_terms_of_use_and_service_alert">ਸਾਡੇ ਐਪ ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ, ਸਾਡੀ ਵਰਤੋਂ ਦੀਆਂ ਸ਼ਰਤਾਂ ਅਤੇ ਸੇਵਾ ਨੂੰ ਸਵੀਕਾਰ ਕਰਨਾ ਜ਼ਰੂਰੀ ਹੈ.
+         ਹਾਲਾਂਕਿ, ਜੇ ਤੁਸੀਂ ਅਜਿਹਾ ਕਰਨਾ ਆਰਾਮਦੇਹ ਮਹਿਸੂਸ ਨਹੀਂ ਕਰਦੇ, ਤਾਂ ਤੁਸੀਂ ਸਾਡੀ ਮੁਫਤ ਵੈਬ ਸੇਵਾਵਾਂ ਨੂੰ ਵਰਤ ਸਕਦੇ ਹੋ</string>
+    <string name="wtf_error">ਇੱਕ ਅਚਾਨਕ ਗਲਤੀ ਆਈ: ਮੈਂ ਨਮੂਨਾ ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਮੁੜ ਪ੍ਰਾਪਤ ਨਹੀਂ ਕਰ ਸਕਿਆ.</string>
     <!-- Project Handling Errors -->
-    <string name="error_copy_project">An error occurred while copying project</string>
+    <string name="error_copy_project">ਪ੍ਰੋਜੈਕਟ ਦੀ ਨਕਲ ਕਰਨ ਦੌਰਾਨ ਇੱਕ ਤਰੁੱਟੀ ਉਤਪੰਨ ਹੋਈ</string>
     <!-- Dialog Errors -->
-    <string name="name_already_exists">This name is already in use, please choose another one.</string>
-    <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a text
-        using letters, numbers or other special characters.</string>
-    <string name="name_empty">Please enter a text</string>
+    <string name="name_already_exists">ਇਹ ਨਾਮ ਪਹਿਲਾਂ ਹੀ ਵਰਤੋਂ ਅਧੀਨ ਹੈ, ਕਿਰਪਾ ਕਰਕੇ ਕੋਈ ਹੋਰ ਚੁਣੋ.</string>
+    <string name="name_consists_of_spaces_only">ਤੁਸੀਂ ਸਿਰਫ ਟੈਕਸਟ ਫੀਲਡ ਵਿੱਚ ਖਾਲੀ ਥਾਂਵਾਂ ਰੱਖੀਆਂ, ਕਿਰਪਾ ਕਰਕੇ ਇੱਕ ਟੈਕਸਟ ਭਰੋ
+         ਅੱਖਰ, ਨੰਬਰ ਜਾਂ ਹੋਰ ਵਿਸ਼ੇਸ਼ ਪਾਤਰਾਂ ਦੀ ਵਰਤੋਂ ਕਰਨਾ.</string>
+    <string name="name_empty">ਕਿਰਪਾ ਕਰਕੇ ਇੱਕ ਪਾਠ ਦਾਖਲ ਕਰੋ</string>
     <!-- Recycler View -->
-    <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
-    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
-    <string name="am_backpack">Pack</string>
-    <string name="am_unpack">కట్టువిప్పు</string>
-    <string name="am_copy">నకలు చేయు</string>
-    <string name="am_delete" tools:ignore="UnusedResources">తొలగించు</string>
-    <string name="am_rename">పేరు మార్చు</string>
-    <string name="am_convert">Convert</string>
-    <string name="am_merge">Merge</string>
-    <string name="dialog_confirm_delete">You can\'t undo this!</string>
-    <string name="list_headline_sprites">Actors and objects</string>
+    <string name="am_empty_list">ਇਸ ਸੂਚੀ ਵਿਚ ਅਜੇ ਵੀ ਕੋਈ ਚੀਜ਼ਾਂ ਨਹੀਂ ਹਨ. ਕਿਰਪਾ ਕਰਕੇ ਪਹਿਲਾਂ ਕੁਝ ਸ਼ਾਮਲ ਕਰੋ.</string>
+    <string name="am_merge_error">ਕੋਈ ਮਰਜ ਨਹੀਂ ਕੀਤੀ ਜਾਂਦੀ. ਵਿਲੱਖਣ ਰੂਪ ਵਿੱਚ 2 ਪ੍ਰੋਜੈਕਟਾਂ ਨੂੰ ਚੁਣਨ ਦੀ ਜ਼ਰੂਰਤ ਹੈ.</string>
+    <string name="am_backpack">ਪੈਕ</string>
+    <string name="am_unpack">ਅਨਪੈਕ</string>
+    <string name="am_copy">ਕਾੱਪੀ</string>
+    <string name="am_delete" tools:ignore="UnusedResources">ਮਿਟਾਓ</string>
+    <string name="am_rename">ਨਾਮ ਬਦਲੋ</string>
+    <string name="am_convert">ਤਬਦੀਲ ਕਰੋ</string>
+    <string name="am_merge">ਮਿਲਾਓ</string>
+    <string name="dialog_confirm_delete">ਤੁਸੀਂ ਇਸ ਨੂੰ ਵਾਪਸ ਨਹੀਂ ਕਰ ਸਕਦੇ!</string>
+    <string name="list_headline_sprites">ਅਦਾਕਾਰ ਅਤੇ ਆਬਜੈਕਟ</string>
     <!-- Options Menu Options -->
-    <string name="backpack">బ్యాగు</string>
-    <string name="copy">నకలు చేయు</string>
-    <string name="delete">తొలగించు</string>
-    <string name="rename">పేరు మార్చు</string>
-    <string name="merge">Merge</string>
-    <string name="show_details">Show details</string>
-    <string name="hide_details">Hide details</string>
-    <string name="project_options">Project options</string>
-    <string name="sort_projects">Sort</string>
-    <string name="unsort_projects">Unsort</string>
+    <string name="backpack">ਬੈਕਪੈਕ</string>
+    <string name="copy">ਕਾੱਪੀ</string>
+    <string name="delete">ਮਿਟਾਓ</string>
+    <string name="rename">ਨਾਮ ਬਦਲੋ</string>
+    <string name="merge">ਮਿਲਾਓ</string>
+    <string name="show_details">ਵੇਰਵਾ ਦਿਖਾਓ</string>
+    <string name="hide_details">ਵੇਰਵੇ ਲੁਕਾਓ</string>
+    <string name="project_options">ਪ੍ਰੋਜੈਕਟ ਵਿਕਲਪ</string>
+    <string name="sort_projects">ਲੜੀਬੱਧ</string>
+    <string name="unsort_projects">ਅਣਸੋਰਟ</string>
     <!-- New Dialog Titles -->
-    <string name="new_scene_dialog">New scene</string>
+    <string name="new_scene_dialog">ਨਵਾਂ ਦ੍ਰਿਸ਼</string>
     <!-- Delete Dialog Titles -->
     <plurals name="delete_projects">
-        <item quantity="one">Delete this project?</item>
-        <item quantity="other">Delete these projects?</item>
+        <item quantity="one">ਇਸ ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?
+ਇਹ ਪ੍ਰੋਜੈਕਟ ਹਟਾਓ?</item>
+        <item quantity="other">ਇਸ ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?
+ਇਹ ਪ੍ਰੋਜੈਕਟ ਹਟਾਓ?</item>
     </plurals>
     <plurals name="delete_scenes">
-        <item quantity="one">Delete this scene?</item>
-        <item quantity="other">Delete these scenes?</item>
+        <item quantity="one">ਇਸ ਸੀਨ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?
+ਇਹ ਦ੍ਰਿਸ਼ ਮਿਟਾਉਣੇ ਹਨ?</item>
+        <item quantity="other">ਇਸ ਸੀਨ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?
+ਇਹ ਦ੍ਰਿਸ਼ ਮਿਟਾਉਣੇ ਹਨ?</item>
     </plurals>
     <plurals name="delete_sprites">
-        <item quantity="one">Delete this actor or object?</item>
-        <item quantity="other">Delete these actors or objects?</item>
+        <item quantity="one">ਇਸ ਅਭਿਨੇਤਾ ਜਾਂ ਆਬਜੈਕਟ ਨੂੰ ਮਿਟਾਓ?
+ਇਹ ਅਦਾਕਾਰਾਂ ਜਾਂ ਆਬਜੈਕਟਸ ਨੂੰ ਮਿਟਾਓ?</item>
+        <item quantity="other">ਇਸ ਅਭਿਨੇਤਾ ਜਾਂ ਆਬਜੈਕਟ ਨੂੰ ਮਿਟਾਓ?
+ਇਹ ਅਦਾਕਾਰਾਂ ਜਾਂ ਆਬਜੈਕਟਸ ਨੂੰ ਮਿਟਾਓ?</item>
     </plurals>
     <plurals name="delete_looks">
-        <item quantity="one">Delete this look?</item>
-        <item quantity="other">Delete these looks?</item>
+        <item quantity="one">ਇਸ ਦਿੱਖ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?
+ਕੀ ਇਹ ਦਿੱਖ ਮਿਟਾਉਣੇ ਹਨ?</item>
+        <item quantity="other">ਇਸ ਦਿੱਖ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?
+ਕੀ ਇਹ ਦਿੱਖ ਮਿਟਾਉਣੇ ਹਨ?</item>
     </plurals>
     <plurals name="delete_sounds">
-        <item quantity="one">Delete this sound?</item>
-        <item quantity="other">Delete these sounds?</item>
+        <item quantity="one">ਇਸ ਆਵਾਜ਼ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?
+ਕੀ ਇਹ ਆਵਾਜ਼ਾਂ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?</item>
+        <item quantity="other">ਇਸ ਆਵਾਜ਼ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?
+ਕੀ ਇਹ ਆਵਾਜ਼ਾਂ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?</item>
     </plurals>
     <plurals name="delete_nfc_tags">
-        <item quantity="one">Delete this tag?</item>
-        <item quantity="other">Delete these tags?</item>
+        <item quantity="one">ਇਸ ਟੈਗ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?
+ਕੀ ਇਹ ਟੈਗ ਮਿਟਾਉਣੇ ਹਨ?</item>
+        <item quantity="other">ਇਸ ਟੈਗ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?
+ਕੀ ਇਹ ਟੈਗ ਮਿਟਾਉਣੇ ਹਨ?</item>
     </plurals>
     <plurals name="delete_scripts">
-        <item quantity="one">Delete this script?</item>
-        <item quantity="other">Delete these scripts?</item>
+        <item quantity="one">ਇਸ ਸਕ੍ਰਿਪਟ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?
+ਇਹ ਸਕ੍ਰਿਪਟਾਂ ਮਿਟਾਉਣੀਆਂ ਹਨ?</item>
+        <item quantity="other">ਇਸ ਸਕ੍ਰਿਪਟ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?
+ਇਹ ਸਕ੍ਰਿਪਟਾਂ ਮਿਟਾਉਣੀਆਂ ਹਨ?</item>
     </plurals>
     <!-- Dialog Labels -->
-    <string name="project_name_label">Project name</string>
-    <string name="scene_name_label">Scene name</string>
-    <string name="sprite_name_label">Actor or object name</string>
-    <string name="sprite_group_name_label">Group name</string>
-    <string name="script_group_label">Script group name</string>
-    <string name="look_name_label">Look name</string>
-    <string name="sound_name_label">Sound name</string>
+    <string name="project_name_label">ਪ੍ਰੋਜੈਕਟ ਦਾ ਨਾਮ</string>
+    <string name="scene_name_label">ਸੀਨ ਨਾਮ</string>
+    <string name="sprite_name_label">ਅਦਾਕਾਰ ਜਾਂ ਇਕਾਈ ਦਾ ਨਾਮ</string>
+    <string name="sprite_group_name_label">ਸਮੂਹ ਦਾ ਨਾਮ</string>
+    <string name="script_group_label">ਸਕ੍ਰਿਪਟ ਸਮੂਹ ਦਾ ਨਾਮ</string>
+    <string name="look_name_label">ਨਾਮ ਦੇਖੋ</string>
+    <string name="sound_name_label">ਅਵਾਜ਼ ਦਾ ਨਾਮ</string>
     <string name="nfc_tag_name_label">NFC tag name</string>
-    <string name="string_label">Text</string>
-    <string name="data_label">Name</string>
-    <string name="keyword_label">Insert keyword</string>
-    <string name="html_label">Insert HTML text</string>
-    <string name="Image_format_not_supported">Image format not supported</string>
+    <string name="string_label">ਟੈਕਸਟ</string>
+    <string name="data_label">ਨਾਮ</string>
+    <string name="keyword_label">ਕੀਵਰਡ ਪਾਓ</string>
+    <string name="html_label">HTML ਟੈਕਸਟ ਸੰਮਿਲਿਤ ਕਰੋ</string>
+    <string name="Image_format_not_supported">ਚਿੱਤਰ ਫਾਰਮੈਟ ਸਮਰਥਿਤ ਨਹੀਂ ਹੈ</string>
     <!-- Details -->
-    <string name="project_details">Last access: %s, size: %s</string>
-    <string name="last_access_today">today, %s</string>
-    <string name="scene_details">Actors and objects: %d, looks: %d, sounds: %d</string>
-    <string name="sprite_details">Bricks: %d, looks: %d, sounds: %d</string>
-    <string name="look_details">Resolution: %s, size: %s</string>
-    <string name="sound_duration">Duration: %s</string>
-    <string name="sound_details">Duration: %s, size: %s</string>
+    <string name="project_details">ਆਖਰੀ ਐਕਸੈਸ: %s, ਅਕਾਰ: %s</string>
+    <string name="last_access_today">ਅੱਜ %s</string>
+    <string name="scene_details">ਅਦਾਕਾਰ ਅਤੇ ਆਬਜੈਕਟ: %d, ਦਿੱਸਦਾ ਹੈ: %d, ਆਵਾਜ਼ਾਂ: %d</string>
+    <string name="sprite_details">ਇੱਟਾਂ: %d, ਲੱਗੀਆਂ: %d, ਆਵਾਜ਼ਾਂ: %d</string>
+    <string name="look_details">ਰੈਜ਼ੋਲੇਸ਼ਨ: %s, ਅਕਾਰ: %s</string>
+    <string name="sound_duration">ਅੰਤਰਾਲ: %s</string>
+    <string name="sound_details">ਅੰਤਰਾਲ: %s, ਅਕਾਰ: %s</string>
     <!--  -->
     <!-- Rename Dialog Titles -->
-    <string name="rename_project">Rename project</string>
-    <string name="rename_scene_dialog">Rename scene</string>
-    <string name="rename_sprite_dialog">Rename actor or object</string>
-    <string name="rename_look_dialog">Rename look</string>
-    <string name="rename_sound_dialog">Rename sound</string>
-    <string name="rename_nfctag_dialog">Rename NFC tag</string>
-    <string name="rename_data_dialog">పేరు మార్చు</string>
+    <string name="rename_project">ਪ੍ਰੋਜੈਕਟ ਦਾ ਨਾਮ ਬਦਲੋ</string>
+    <string name="rename_scene_dialog">ਸੀਨ ਦਾ ਨਾਮ ਬਦਲੋ</string>
+    <string name="rename_sprite_dialog">ਅਦਾਕਾਰ ਜਾਂ ਆਬਜੈਕਟ ਦਾ ਨਾਮ ਬਦਲੋ</string>
+    <string name="rename_look_dialog">ਰੂਪ ਬਦਲੋ</string>
+    <string name="rename_sound_dialog">ਆਵਾਜ਼ ਦਾ ਨਾਮ ਬਦਲੋ</string>
+    <string name="rename_nfctag_dialog">ਬਦਲੋ NFC ਟੈਗ</string>
+    <string name="rename_data_dialog">ਨਾਮ ਬਦਲੋ</string>
     <!-- New Script Group Dialog -->
-    <string name="new_group">New group</string>
-    <string name="default_group_name">Group</string>
+    <string name="new_group">ਨਵਾਂ ਸਮੂਹ</string>
+    <string name="default_group_name">ਸਮੂਹ</string>
     <!-- New Scene Menu -->
-    <string name="new_scene">New scene</string>
+    <string name="new_scene">ਨਵਾਂ ਦ੍ਰਿਸ਼</string>
     <!-- Action Toasts -->
     <!-- Backpack -->
     <plurals name="packed_scenes">
-        <item quantity="one">Backpacked %d scene.</item>
-        <item quantity="other">Backpacked %d scenes.</item>
+        <item quantity="one">ਬੈਕਪੈਕਡ %d ਸੀਨ.
+ਬੈਕਪੈਕਡ %d ਦ੍ਰਿਸ਼.</item>
+        <item quantity="other">ਬੈਕਪੈਕਡ %d ਸੀਨ.
+ਬੈਕਪੈਕਡ %d ਦ੍ਰਿਸ਼.</item>
     </plurals>
     <plurals name="packed_sprites">
-        <item quantity="one">Backpacked %d actor or object.</item>
-        <item quantity="other">Backpacked %d actors or objects.</item>
+        <item quantity="one">ਬੈਕਪੈਕਡ %d ਅਦਾਕਾਰ ਜਾਂ ਆਬਜੈਕਟ.
+ਬੈਕਪੈਕਡ %d ਅਦਾਕਾਰ ਜਾਂ ਆਬਜੈਕਟ.</item>
+        <item quantity="other">ਬੈਕਪੈਕਡ %d ਅਦਾਕਾਰ ਜਾਂ ਆਬਜੈਕਟ.
+ਬੈਕਪੈਕਡ %d ਅਦਾਕਾਰ ਜਾਂ ਆਬਜੈਕਟ.</item>
     </plurals>
     <plurals name="packed_looks">
-        <item quantity="one">Backpacked %d look.</item>
-        <item quantity="other">Backpacked %d looks.</item>
+        <item quantity="one">ਬੈਕਪੈਕਡ %d ਲੁੱਕ.
+ਬੈਕਪੈਕਡ %d ਦਿਖਾਈ ਦਿੰਦਾ ਹੈ.</item>
+        <item quantity="other">ਬੈਕਪੈਕਡ %d ਲੁੱਕ.
+ਬੈਕਪੈਕਡ %d ਦਿਖਾਈ ਦਿੰਦਾ ਹੈ.</item>
     </plurals>
     <plurals name="packed_sounds">
-        <item quantity="one">Backpacked %d sound.</item>
-        <item quantity="other">Backpacked %d sounds.</item>
+        <item quantity="one">ਬੈਕਪੈਕਡ %d ਅਵਾਜ਼.
+ਬੈਕਪੈਕਡ %d ਆਵਾਜ਼ਾਂ.</item>
+        <item quantity="other">ਬੈਕਪੈਕਡ %d ਅਵਾਜ਼.
+ਬੈਕਪੈਕਡ %d ਆਵਾਜ਼ਾਂ.</item>
     </plurals>
-    <string name="packed_script_group">Backpacked one script group.</string>
+    <string name="packed_script_group">ਇੱਕ ਸਕ੍ਰਿਪਟ ਸਮੂਹ ਨੂੰ ਬੈਕਪੈਕ ਕੀਤਾ ਗਿਆ.</string>
     <!-- Unpack -->
     <plurals name="unpacked_scenes">
-        <item quantity="one">Unpacked %d scene.</item>
-        <item quantity="other">Unpacked %d scenes.</item>
+        <item quantity="one">ਅਨਪੈਕਡ %d ਸੀਨ.
+ਪੈਕ ਕੀਤੇ %d ਦ੍ਰਿਸ਼.</item>
+        <item quantity="other">ਅਨਪੈਕਡ %d ਸੀਨ.
+ਪੈਕ ਕੀਤੇ %d ਦ੍ਰਿਸ਼.</item>
     </plurals>
     <plurals name="unpacked_sprites">
-        <item quantity="one">Unpacked %d actor or object.</item>
-        <item quantity="other">Unpacked %d actors or objects.</item>
+        <item quantity="one">ਅਨਪੈਕਡ %d ਅਦਾਕਾਰ ਜਾਂ ਆਬਜੈਕਟ.
+ਅਨਪੈਕਡ %d ਅਦਾਕਾਰ ਜਾਂ ਆਬਜੈਕਟ</item>
+        <item quantity="other">ਅਨਪੈਕਡ %d ਅਦਾਕਾਰ ਜਾਂ ਆਬਜੈਕਟ.
+ਅਨਪੈਕਡ %d ਅਦਾਕਾਰ ਜਾਂ ਆਬਜੈਕਟ</item>
     </plurals>
     <plurals name="unpacked_looks">
-        <item quantity="one">Unpacked %d look.</item>
-        <item quantity="other">Unpacked %d looks.</item>
+        <item quantity="one">ਅਨਪੈਕਡ %d ਲੁੱਕ.
+ਅਨਪੈਕਡ %d ਦਿੱਖ.</item>
+        <item quantity="other">ਅਨਪੈਕਡ %d ਲੁੱਕ.
+ਅਨਪੈਕਡ %d ਦਿੱਖ.</item>
     </plurals>
     <plurals name="unpacked_sounds">
-        <item quantity="one">Unpacked %d sound.</item>
-        <item quantity="other">Unpacked %d sounds.</item>
+        <item quantity="one">ਅਨਪੈਕਡ %d ਆਵਾਜ਼.
+ਅਨਪੈਕਡ %d ਆਵਾਜ਼ਾਂ.</item>
+        <item quantity="other">ਅਨਪੈਕਡ %d ਆਵਾਜ਼.
+ਅਨਪੈਕਡ %d ਆਵਾਜ਼ਾਂ.</item>
     </plurals>
     <plurals name="unpacked_scripts">
-        <item quantity="one">Unpacked %d script.</item>
-        <item quantity="other">Unpacked %d scripts.</item>
+        <item quantity="one">ਅਨਪੈਕਡ %d ਸਕ੍ਰਿਪਟ.
+ਅਨਪੈਕਡ %d ਸਕ੍ਰਿਪਟਾਂ.</item>
+        <item quantity="other">ਅਨਪੈਕਡ %d ਸਕ੍ਰਿਪਟ.
+ਅਨਪੈਕਡ %d ਸਕ੍ਰਿਪਟਾਂ.</item>
     </plurals>
     <!-- Copy -->
     <plurals name="copied_scenes">
-        <item quantity="one">Copied %d scene.</item>
-        <item quantity="other">Copied %d scenes.</item>
+        <item quantity="one">%d ਸੀਨ ਦੀ ਨਕਲ ਕੀਤੀ.
+%d ਦ੍ਰਿਸ਼ ਨਕਲ ਕੀਤੇ.</item>
+        <item quantity="other">%d ਸੀਨ ਦੀ ਨਕਲ ਕੀਤੀ.
+%d ਦ੍ਰਿਸ਼ ਨਕਲ ਕੀਤੇ.</item>
     </plurals>
     <plurals name="copied_sprites">
-        <item quantity="one">Copied %d actor or object.</item>
-        <item quantity="other">Copied %d actors or objects.</item>
+        <item quantity="one">%d ਅਦਾਕਾਰ ਜਾਂ ਆਬਜੈਕਟ ਦੀ ਨਕਲ ਕੀਤੀ.
+%d ਅਦਾਕਾਰ ਜਾਂ ਆਬਜੈਕਟ ਕਾਪੀ ਕੀਤੇ ਗਏ.</item>
+        <item quantity="other">%d ਅਦਾਕਾਰ ਜਾਂ ਆਬਜੈਕਟ ਦੀ ਨਕਲ ਕੀਤੀ.
+%d ਅਦਾਕਾਰ ਜਾਂ ਆਬਜੈਕਟ ਕਾਪੀ ਕੀਤੇ ਗਏ.</item>
     </plurals>
     <plurals name="copied_looks">
-        <item quantity="one">Copied %d look.</item>
-        <item quantity="other">Copied %d looks.</item>
+        <item quantity="one">%d ਲੁੱਕ ਨਕਲ ਕੀਤਾ.
+%d ਦਿਖਾਈ ਗਈ ਹੈ.</item>
+        <item quantity="other">%d ਲੁੱਕ ਨਕਲ ਕੀਤਾ.
+%d ਦਿਖਾਈ ਗਈ ਹੈ.</item>
     </plurals>
     <plurals name="copied_sounds">
-        <item quantity="one">Copied %d sound.</item>
-        <item quantity="other">Copied %d sounds.</item>
+        <item quantity="one">%d ਧੁਨੀ ਨਕਲ ਕੀਤੀ.
+%d ਧੁਨੀਆਂ ਦੀ ਨਕਲ ਕੀਤੀ.</item>
+        <item quantity="other">%d ਧੁਨੀ ਨਕਲ ਕੀਤੀ.
+%d ਧੁਨੀਆਂ ਦੀ ਨਕਲ ਕੀਤੀ.</item>
     </plurals>
     <plurals name="copied_nfc_tags">
-        <item quantity="one">Copied %d NFC tag.</item>
-        <item quantity="other">Copied %d NFC tags.</item>
+        <item quantity="one">%d NFC ਟੈਗ ਦੀ ਨਕਲ ਕੀਤੀ.
+%d ਐਨਐਫਸੀ ਟੈਗ ਦੀ ਨਕਲ ਕੀਤੀ.</item>
+        <item quantity="other">%d NFC ਟੈਗ ਦੀ ਨਕਲ ਕੀਤੀ.
+%d ਐਨਐਫਸੀ ਟੈਗ ਦੀ ਨਕਲ ਕੀਤੀ.</item>
     </plurals>
     <!-- Delete -->
     <plurals name="deleted_projects">
-        <item quantity="one">Deleted %d project.</item>
-        <item quantity="other">Deleted %d projects.</item>
+        <item quantity="one">ਪ੍ਰੋਜੈਕਟ %d ਹਟਾਇਆ.
+%d ਪ੍ਰੋਜੈਕਟ ਹਟਾਏ ਗਏ.</item>
+        <item quantity="other">ਪ੍ਰੋਜੈਕਟ %d ਹਟਾਇਆ.
+%d ਪ੍ਰੋਜੈਕਟ ਹਟਾਏ ਗਏ.</item>
     </plurals>
     <plurals name="deleted_scenes">
-        <item quantity="one">Deleted %d scene.</item>
-        <item quantity="other">Deleted %d scenes.</item>
+        <item quantity="one">%d ਸੀਨ ਹਟਾਇਆ ਗਿਆ.
+%d ਸੀਨ ਹਟਾਏ ਗਏ.</item>
+        <item quantity="other">%d ਸੀਨ ਹਟਾਇਆ ਗਿਆ.
+%d ਸੀਨ ਹਟਾਏ ਗਏ.</item>
     </plurals>
     <plurals name="deleted_sprites">
-        <item quantity="one">Deleted %d sprite.</item>
-        <item quantity="other">Deleted %d sprites.</item>
+        <item quantity="one">%d ਸਪ੍ਰਾਈਟ ਮਿਟਾਇਆ ਗਿਆ.
+%d ਸਪ੍ਰਾਈਟਸ ਮਿਟਾਏ ਗਏ.</item>
+        <item quantity="other">%d ਸਪ੍ਰਾਈਟ ਮਿਟਾਇਆ ਗਿਆ.
+%d ਸਪ੍ਰਾਈਟਸ ਮਿਟਾਏ ਗਏ.</item>
     </plurals>
     <plurals name="deleted_looks">
-        <item quantity="one">Deleted %d look.</item>
-        <item quantity="other">Deleted %d looks.</item>
+        <item quantity="one">%d ਲੁੱਕ ਮਿਟਾਈ ਗਈ.
+ਹਟਾਈਆਂ %d ਦਿੱਸੀਆਂ.</item>
+        <item quantity="other">%d ਲੁੱਕ ਮਿਟਾਈ ਗਈ.
+ਹਟਾਈਆਂ %d ਦਿੱਸੀਆਂ.</item>
     </plurals>
     <plurals name="deleted_sounds">
-        <item quantity="one">Deleted %d sound.</item>
-        <item quantity="other">Deleted %d sounds.</item>
+        <item quantity="one">%d ਆਵਾਜ਼ ਮਿਟਾਈ ਗਈ.
+%d ਆਵਾਜ਼ਾਂ ਮਿਟਾ ਦਿੱਤੀਆਂ.</item>
+        <item quantity="other">%d ਆਵਾਜ਼ ਮਿਟਾਈ ਗਈ.
+%d ਆਵਾਜ਼ਾਂ ਮਿਟਾ ਦਿੱਤੀਆਂ.</item>
     </plurals>
     <plurals name="deleted_nfc_tags">
-        <item quantity="one">Deleted %d NFC tag.</item>
-        <item quantity="other">Deleted %d NFC tags.</item>
+        <item quantity="one">%d NFC ਟੈਗ ਮਿਟਾਇਆ ਗਿਆ.
+%d NFC ਟੈਗਸ ਮਿਟਾਏ ਗਏ.</item>
+        <item quantity="other">%d NFC ਟੈਗ ਮਿਟਾਇਆ ਗਿਆ.
+%d NFC ਟੈਗਸ ਮਿਟਾਏ ਗਏ.</item>
     </plurals>
     <plurals name="deleted_scripts">
-        <item quantity="one">Deleted %d script.</item>
-        <item quantity="other">Deleted %d scripts.</item>
+        <item quantity="one">%d ਸਕ੍ਰਿਪਟ ਮਿਟਾਈ ਗਈ.
+%d ਸਕ੍ਰਿਪਟਾਂ ਨੂੰ ਮਿਟਾਇਆ ਗਿਆ.</item>
+        <item quantity="other">%d ਸਕ੍ਰਿਪਟ ਮਿਟਾਈ ਗਈ.
+%d ਸਕ੍ਰਿਪਟਾਂ ਨੂੰ ਮਿਟਾਇਆ ਗਿਆ.</item>
     </plurals>
     <plurals name="deleted_Items">
-        <item quantity="one">Deleted %d item.</item>
-        <item quantity="other">Deleted %d items.</item>
+        <item quantity="one">%d ਆਈਟਮ ਮਿਟਾਈ ਗਈ.
+%d ਆਈਟਮਾਂ ਨੂੰ ਮਿਟਾਇਆ ਗਿਆ.</item>
+        <item quantity="other">%d ਆਈਟਮ ਮਿਟਾਈ ਗਈ.
+%d ਆਈਟਮਾਂ ਨੂੰ ਮਿਟਾਇਆ ਗਿਆ.</item>
     </plurals>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
-    <string name="project_list_title">Projects</string>
-    <string name="last_used">Last access:</string>
-    <string name="size">Size:</string>
-    <string name="description">Description:</string>
-    <string name="set_description">Set description</string>
-    <string name="notes_and_credits_title">Notes and credits:</string>
-    <string name="set_notes_and_credits">Set notes and credits</string>
-    <string name="details_date_today">Today</string>
-    <string name="import_project">Import project</string>
-    <string name="error_import_project">Something went wrong while importing projects.</string>
-    <string name="error_no_files_found">No project files found.</string>
+    <string name="project_list_title">ਪ੍ਰੋਜੈਕਟ</string>
+    <string name="last_used">ਆਖਰੀ ਪਹੁੰਚ:</string>
+    <string name="size">ਆਕਾਰ:</string>
+    <string name="description">ਵੇਰਵਾ:</string>
+    <string name="set_description">ਵੇਰਵਾ ਸੈੱਟ ਕਰੋ</string>
+    <string name="notes_and_credits_title">ਨੋਟਸ ਅਤੇ ਕ੍ਰੈਡਿਟ:</string>
+    <string name="set_notes_and_credits">ਨੋਟ ਅਤੇ ਕ੍ਰੈਡਿਟ ਸੈਟ ਕਰੋ</string>
+    <string name="details_date_today">ਅੱਜ</string>
+    <string name="import_project">ਅਯਾਤ ਪ੍ਰੋਜੈਕਟ</string>
+    <string name="error_import_project">ਪ੍ਰੋਜੈਕਟਸ ਨੂੰ ਆਯਾਤ ਕਰਨ ਵੇਲੇ ਕੁਝ ਗਲਤ ਹੋਇਆ.</string>
+    <string name="error_no_files_found">ਕੋਈ ਪ੍ਰੋਜੈਕਟ ਫਾਈਲਾਂ ਨਹੀਂ ਮਿਲੀਆਂ.</string>
     <!-- ProjectOptionsFragment -->
-    <string name="project_options_description">వివరణ</string>
-    <string name="project_options_notes_and_credits">Credits</string>
-    <string name="project_options_tags">Tags</string>
-    <string name="project_options_aspect_ratio">Keep original aspect ratio</string>
-    <string name="project_options_more_details">More details</string>
-    <string name="project_options_delete_project">Delete project</string>
+    <string name="project_options_description">ਵੇਰਵਾ</string>
+    <string name="project_options_notes_and_credits">ਨੋਟ ਅਤੇ ਕ੍ਰੈਡਿਟ</string>
+    <string name="project_options_tags">ਟੈਗਸ</string>
+    <string name="project_options_aspect_ratio">ਅਸਲ ਪੱਖ ਅਨੁਪਾਤ ਰੱਖੋ</string>
+    <string name="project_options_more_details">ਹੋਰ ਜਾਣਕਾਰੀ</string>
+    <string name="project_options_delete_project">ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਮਿਟਾਓ</string>
     <!-- ScriptListFragment -->
-    <string name="fragment_script_text_description">Tap \"+\" to add scripts</string>
+    <string name="fragment_script_text_description">ਸਕ੍ਰਿਪਟਾਂ ਨੂੰ ਜੋੜਨ ਲਈ \"+\" ਤੇ ਟੈਪ ਕਰੋ</string>
     <!--  -->
     <!-- SpriteListFragment -->
-    <string name="fragment_sprite_text_description">Tap \"+\" to add actors or objects</string>
-    <string name="default_sprite_name">My actor or object</string>
+    <string name="fragment_sprite_text_description">ਅਦਾਕਾਰਾਂ ਜਾਂ ਆਬਜੈਕਟਾਂ ਨੂੰ ਜੋੜਨ ਲਈ \"+\" ਤੇ ਟੈਪ ਕਰੋ</string>
+    <string name="default_sprite_name">ਮੇਰਾ ਅਦਾਕਾਰ ਜਾਂ ਵਸਤੂ</string>
     <!--  -->
     <!-- LookListFragment -->
-    <string name="fragment_look_text_description">Tap \"+\" to add looks</string>
-    <string name="select_look_from_gallery">Select image</string>
-    <string name="select_look_from_camera">Select photo</string>
+    <string name="fragment_look_text_description">ਦਿੱਖ ਸ਼ਾਮਲ ਕਰਨ ਲਈ \"+\" ਤੇ ਟੈਪ ਕਰੋ</string>
+    <string name="select_look_from_gallery">ਚਿੱਤਰ ਚੁਣੋ</string>
+    <string name="select_look_from_camera">ਫੋਟੋ ਦੀ ਚੋਣ ਕਰੋ</string>
     <!--  -->
     <!-- SoundListFragment -->
-    <string name="fragment_sound_text_description">Tap \"+\" to add sounds</string>
-    <string name="sound_select_source">Select a sound</string>
+    <string name="fragment_sound_text_description">ਆਵਾਜ਼ਾਂ ਜੋੜਨ ਲਈ \"+\" ਤੇ ਟੈਪ ਕਰੋ</string>
+    <string name="sound_select_source">ਇੱਕ ਆਵਾਜ਼ ਚੁਣੋ</string>
     <!--  -->
     <!-- NfcTagListFragment -->
-    <string name="fragment_nfctag_text_description">Scan NFC tags to add them</string>
-    <string name="ndef_record_label" tools:ignore="UnusedResources">as record type</string>
-    <string name="brick_set_nfc_tag" tools:ignore="UnusedResources">Wait for next NFC tag to write</string>
+    <string name="fragment_nfctag_text_description">ਐੱਨ ਐੱਫ ਸੀ ਟੈਗਸ ਨੂੰ ਜੋੜਨ ਲਈ ਸਕੈਨ ਕਰੋ</string>
+    <string name="ndef_record_label" tools:ignore="UnusedResources">ਰਿਕਾਰਡ ਦੀ ਕਿਸਮ ਦੇ ਤੌਰ ਤੇ</string>
+    <string name="brick_set_nfc_tag" tools:ignore="UnusedResources">ਲਿਖਣ ਲਈ ਅਗਲੇ ਐਨਐਫਸੀ ਟੈਗ ਦੀ ਉਡੀਕ ਕਰੋ</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
-    <string name="default_tag_name">NFC tag</string>
-    <string name="tnf_empty">Empty</string>
-    <string name="tnf_external_type">External type</string>
-    <string name="tnf_mime_media">Text</string>
+    <string name="default_tag_name">NFC ਟੈਗ</string>
+    <string name="tnf_empty">ਖਾਲੀ</string>
+    <string name="tnf_external_type">ਬਾਹਰੀ ਕਿਸਮ</string>
+    <string name="tnf_mime_media">ਟੈਕਸਟ</string>
     <string name="tnf_well_known_http">HTTP</string>
     <string name="tnf_well_known_https">HTTPS</string>
-    <string name="tnf_well_known_tel">Phone number</string>
+    <string name="tnf_well_known_tel">ਫੋਨ ਨੰਬਰ</string>
     <string name="tnf_well_known_sms">SMS</string>
     <string name="tnf_well_known_mailto">E-Mail</string>
     <!--  -->
     <!-- DataListFragment -->
-    <string name="multiplayer_vars_headline">Variables for connected devices</string>
-    <string name="global_vars_headline">Variables for all actors and objects</string>
-    <string name="local_vars_headline">Variables for this actor or object only</string>
-    <string name="global_lists_headline">Lists for all actors and objects</string>
-    <string name="local_lists_headline">Lists for this actor or object only</string>
-    <string name="fragment_data_text_description">Tap \"+\" to add\nvariables or lists</string>
+    <string name="multiplayer_vars_headline">ਕਨੈਕਟ ਕੀਤੇ ਡਿਵਾਈਸਾਂ ਲਈ ਵੇਰੀਏਬਲ</string>
+    <string name="global_vars_headline">ਸਾਰੇ ਅਦਾਕਾਰਾਂ ਅਤੇ ਆਬਜੈਕਟ ਲਈ ਪਰਿਵਰਤਨ</string>
+    <string name="local_vars_headline">ਸਿਰਫ ਇਸ ਅਦਾਕਾਰ ਜਾਂ ਇਕਾਈ ਲਈ ਪਰਿਵਰਤਨ</string>
+    <string name="global_lists_headline">ਸਾਰੇ ਅਦਾਕਾਰਾਂ ਅਤੇ ਆਬਜੈਕਟ ਲਈ ਸੂਚੀਬੱਧ</string>
+    <string name="local_lists_headline">ਸਿਰਫ ਇਸ ਅਦਾਕਾਰ ਜਾਂ ਇਕਾਈ ਲਈ ਸੂਚੀਬੱਧ</string>
+    <string name="fragment_data_text_description">ਤਬਦੀਲੀਆਂ ਜਾਂ ਸੂਚੀਆਂ ਜੋੜਨ ਲਈ \"+\" ਤੇ ਟੈਪ ਕਰੋ</string>
     <plurals name="user_defined_brick_input_headline">
-        <item quantity="one">Input for this brick</item>
-        <item quantity="other">Inputs for this brick</item>
+        <item quantity="one">ਇਸ ਇੱਟ ਲਈ ਇੰਪੁੱਟ
+ਇਸ ਇੱਟ ਲਈ ਜਾਣਕਾਰੀ</item>
+        <item quantity="other">ਇਸ ਇੱਟ ਲਈ ਇੰਪੁੱਟ
+ਇਸ ਇੱਟ ਲਈ ਜਾਣਕਾਰੀ</item>
     </plurals>
     <!-- NewDataDialog -->
-    <string name="new_data_for_all_sprites">For all actors, objects, and clones in all scenes</string>
-    <string name="new_data_for_this_sprite_only">For this actor, object, or one of its clones only</string>
-    <string name="new_data_for_connected_devices">For all actors, objects, and clones in all scenes of projects
-        on connected multiplayer devices</string>
+    <string name="new_data_for_all_sprites">ਸਾਰੇ ਦ੍ਰਿਸ਼ਾਂ ਵਿਚ ਸਾਰੇ ਅਭਿਨੇਤਾ, ਆਬਜੈਕਟ ਅਤੇ ਕਲੋਨ ਲਈ</string>
+    <string name="new_data_for_this_sprite_only">ਇਸ ਅਦਾਕਾਰ, ਆਬਜੈਕਟ ਜਾਂ ਇਸਦੇ ਕਲੋਨ ਵਿੱਚੋਂ ਸਿਰਫ ਇੱਕ ਲਈ</string>
+    <string name="new_data_for_connected_devices">ਪ੍ਰੋਜੈਕਟ ਦੇ ਸਾਰੇ ਦ੍ਰਿਸ਼ਾਂ ਵਿਚ ਸਾਰੇ ਅਦਾਕਾਰਾਂ, ਆਬਜੈਕਟਸ ਅਤੇ ਕਲੋਨਜ ਲਈ
+         ਜੁੜੇ ਮਲਟੀਪਲੇਅਰ ਡਿਵਾਈਸਾਂ ਤੇ</string>
     <!-- Backpack -->
-    <string name="backpack_title">Your backpack</string>
-    <string name="pack">Pack</string>
-    <string name="unpack">కట్టువిప్పు</string>
+    <string name="backpack_title">ਤੁਹਾਡਾ ਬੈਕਪੈਕ</string>
+    <string name="pack">ਪੈਕ</string>
+    <string name="unpack">ਅਨਪੈਕ</string>
     <!--  -->
     <!-- NewProjectDialog -->
-    <string name="new_project_dialog_example_project">Example project</string>
+    <string name="new_project_dialog_example_project">ਪ੍ਰਾਜੈਕਟ ਦੀ ਉਦਾਹਰਣ</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
-    <string name="new_merge_project_dialog_title">Merged project</string>
-    <string name="merging_project_text">These two projects cannot yet be merged</string>
+    <string name="new_merge_project_dialog_title">ਮਰਜ ਪ੍ਰੋਜੈਕਟ</string>
+    <string name="merging_project_text">ਇਹ ਦੋਵੇਂ ਪ੍ਰੋਜੈਕਟ ਅਜੇ ਤੱਕ ਰਲੇ ਨਹੀਂ ਕੀਤੇ ਜਾ ਸਕਦੇ</string>
     <!--  -->
     <!-- NewSpriteDialog -->
-    <string name="new_sprite_dialog_title">New actor or object</string>
+    <string name="new_sprite_dialog_title">ਨਵਾਂ ਅਦਾਕਾਰ ਜਾਂ ਇਕਾਈ</string>
     <!--  -->
     <!-- NewLookDialog -->
-    <string name="new_look_dialog_title">Add look</string>
-    <string name="add_look_from_camera">Take picture</string>
-    <string name="add_look_draw_new_image">Draw image</string>
-    <string name="add_look_choose_image">Select image</string>
-    <string name="add_look_media_library">Media library</string>
+    <string name="new_look_dialog_title">ਦਿੱਖ ਸ਼ਾਮਲ ਕਰੋ</string>
+    <string name="add_look_from_camera">ਤਸਵੀਰ ਲਓ</string>
+    <string name="add_look_draw_new_image">ਚਿੱਤਰ ਬਣਾਉ</string>
+    <string name="add_look_choose_image">ਚਿੱਤਰ ਚੁਣੋ</string>
+    <string name="add_look_media_library">ਮੀਡੀਆ ਲਾਇਬ੍ਰੇਰੀ</string>
     <!--  -->
     <!-- NewSoundDialog -->
-    <string name="new_sound_dialog_title">Add sound</string>
-    <string name="add_sound_from_recorder">Record sound</string>
-    <string name="add_sound_choose_file">Select file</string>
-    <string name="add_sound_music">Music composer</string>
+    <string name="new_sound_dialog_title">ਆਵਾਜ਼ ਸ਼ਾਮਲ ਕਰੋ</string>
+    <string name="add_sound_from_recorder">ਰਿਕਾਰਡ ਆਵਾਜ਼</string>
+    <string name="add_sound_choose_file">ਫਾਈਲ ਚੁਣੋ</string>
+    <string name="add_sound_music">ਸੰਗੀਤ ਸੰਗੀਤਕਾਰ</string>
     <!-- NotePickerDialog -->
-    <string name="note_picker_title">Note Picker</string>
+    <string name="note_picker_title">ਨੋਟ ਚੋਣਕਾਰ</string>
     <!--  -->
     <!-- Rating Dialog -->
-    <string name="rating_dialog_title">Rate App</string>
-    <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on the App store.</string>
-    <string name="rating_dialog_rate_now">Now</string>
-    <string name="rating_dialog_rate_later">Later</string>
-    <string name="rating_dialog_rate_never">Never</string>
+    <string name="rating_dialog_title">ਰੇਟ ਐਪ</string>
+    <string name="rating_google_play_dialog_text">ਜੇ ਤੁਸੀਂ ਇਸ ਐਪ ਦਾ ਅਨੰਦ ਲੈਂਦੇ ਹੋ, ਤਾਂ ਕਿਰਪਾ ਕਰਕੇ ਸਾਨੂੰ ਐਪ ਸਟੋਰ ਤੇ ਦਰਜਾ ਦਿਓ.</string>
+    <string name="rating_dialog_rate_now">ਹੁਣ</string>
+    <string name="rating_dialog_rate_later">ਬਾਅਦ ਵਿਚ</string>
+    <string name="rating_dialog_rate_never">ਕਦੇ ਨਹੀਂ</string>
     <!--  -->
     <!-- Terms of Use Dialog -->
-    <string name="dialog_terms_of_use_title">ఉపయోగ నిబంధనలు మరియు సేవలు</string>
-    <string name="dialog_terms_of_use_info">In order to
-        be allowed to use the apps and other services offered by the Catrobat project, you
-        must agree to our Terms of Use and Service. You have to follow these terms strictly when using our apps
-        and other services. Please see the link below for their precise formulation.\n</string>
-    <string name="dialog_terms_of_use_link_text">ఉపయోగ నిబంధనలు మరియు సేవలు</string>
+    <string name="dialog_terms_of_use_title">ਵਰਤੋਂ ਅਤੇ ਸੇਵਾ ਦੀਆਂ ਸ਼ਰਤਾਂ</string>
+    <string name="dialog_terms_of_use_info">ਨੂੰ ਕ੍ਰਮ ਵਿੱਚ
+         ਤੁਹਾਨੂੰ, ਕੈਟ੍ਰੋਬੈਟ ਪ੍ਰੋਜੈਕਟ ਦੁਆਰਾ ਪੇਸ਼ ਕੀਤੀਆਂ ਐਪਸ ਅਤੇ ਹੋਰ ਸੇਵਾਵਾਂ ਦੀ ਵਰਤੋਂ ਕਰਨ ਦੀ ਆਗਿਆ ਦਿੱਤੀ ਜਾਵੇ
+         ਸਾਡੀ ਵਰਤੋਂ ਦੀਆਂ ਸ਼ਰਤਾਂ ਅਤੇ ਸੇਵਾ ਨਾਲ ਸਹਿਮਤ ਹੋਣਾ ਲਾਜ਼ਮੀ ਹੈ. ਸਾਡੇ ਐਪਸ ਦੀ ਵਰਤੋਂ ਕਰਦੇ ਸਮੇਂ ਤੁਹਾਨੂੰ ਇਨ੍ਹਾਂ ਸ਼ਰਤਾਂ ਦੀ ਸਖਤੀ ਨਾਲ ਪਾਲਣਾ ਕਰਨੀ ਪੈਂਦੀ ਹੈ
+         ਅਤੇ ਹੋਰ ਸੇਵਾਵਾਂ. ਕਿਰਪਾ ਕਰਕੇ ਉਨ੍ਹਾਂ ਦੇ ਸਹੀ ਫਾਰਮੂਲੇ ਲਈ ਹੇਠਾਂ ਦਿੱਤੇ ਲਿੰਕ ਨੂੰ ਵੇਖੋ.\n</string>
+    <string name="dialog_terms_of_use_link_text">ਵਰਤੋਂ ਅਤੇ ਸੇਵਾ ਦੀਆਂ ਸ਼ਰਤਾਂ</string>
     <!--  -->
     <!-- Privacy Policy -->
-    <string name="disclaimer_privacy_police_header_headline">Welcome!</string>
-    <string name="disclaimer_privacy_policy_header">To use this app, please accept our</string>
+    <string name="disclaimer_privacy_police_header_headline">ਸੁਆਗਤ ਹੈ</string>
+    <string name="disclaimer_privacy_policy_header">ਇਸ ਐਪਲੀਕੇਸ਼ ਨੂੰ ਵਰਤਣ ਲਈ, ਕਿਰਪਾ ਕਰਕੇ ਸਾਡੀ ਸਵੀਕਾਰ ਕਰੋ</string>
     <!-- -->
     <!-- About Dialog -->
-    <string name="dialog_about_title">About this App</string>
-    <string name="dialog_about_license_info">This app offers a coding
-        environment and interpreter for the visual programming language Catrobat.\n
-        The source code of this app is mainly licensed under the GNU AGPL v3 license.
-        For further details on the license see the link below.\n</string>
-    <string name="dialog_about_license_link_text">Source code license</string>
-    <string name="dialog_about_catrobat_link_text">About Catrobat</string>
-    <string name="dialog_about_catrobat_language_version">Catrobat language version</string>
-    <string name="dialog_about_version">version:</string>
+    <string name="dialog_about_title">ਇਸ ਐਪ ਬਾਰੇ</string>
+    <string name="dialog_about_license_info">ਇਹ ਐਪ ਕੋਡਿੰਗ ਦੀ ਪੇਸ਼ਕਸ਼ ਕਰਦਾ ਹੈ
+         ਦਿੱਖ ਪ੍ਰੋਗਰਾਮਿੰਗ ਭਾਸ਼ਾ ਕੈਟ੍ਰੋਬੈਟ ਲਈ ਵਾਤਾਵਰਣ ਅਤੇ ਦੁਭਾਸ਼ੀਏ.\n
+         ਇਸ ਐਪਲੀਕੇਸ਼ ਨੂੰ ਦੇ ਸਰੋਤ ਕੋਡ ਮੁੱਖ ਤੌਰ \'ਤੇ ਗਨੂ ਵਿੱਚ AGPL v3 ਲਾਇਸੰਸ ਅਧੀਨ ਜਾਰੀ ਕੀਤਾ ਗਿਆ ਹੈ.
+         ਲਾਇਸੈਂਸ ਬਾਰੇ ਹੋਰ ਜਾਣਕਾਰੀ ਲਈ ਹੇਠਾਂ ਦਿੱਤਾ ਲਿੰਕ ਵੇਖੋ.\n</string>
+    <string name="dialog_about_license_link_text">ਸਰੋਤ ਕੋਡ ਲਾਇਸੈਂਸ</string>
+    <string name="dialog_about_catrobat_link_text">ਕੈਟਰੋਬੈਟ ਬਾਰੇ</string>
+    <string name="dialog_about_catrobat_language_version">ਕੈਟ੍ਰੋਬੈਟ ਭਾਸ਼ਾ ਦਾ ਸੰਸਕਰਣ</string>
+    <string name="dialog_about_version">ਵਰਜਨ:</string>
     <!--  -->
     <!-- NetworkAlertDialog -->
-    <string name="error_no_network_title">No network</string>
+    <string name="error_no_network_title">ਕੋਈ ਨੈੱਟਵਰਕ ਨਹੀਂ</string>
     <!-- UploadProjectDialog -->
-    <string name="upload_project_dialog_title">Upload project</string>
-    <string name="upload_description">Description:</string>
-    <string name="upload_notes_and_credits">Notes and credits:</string>
-    <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
-    <string name="upload_tag_dialog_title">Please choose up to three categories</string>
-    <string name="upload_tags_maximum_error">Selecting more than 3 tags is not possible.</string>
+    <string name="upload_project_dialog_title">ਅੱਪਲੋਡ ਪ੍ਰਾਜੈਕਟ ਨੂੰ</string>
+    <string name="upload_description">ਵੇਰਵਾ:</string>
+    <string name="upload_notes_and_credits">ਨੋਟਸ ਅਤੇ ਕ੍ਰੈਡਿਟ:</string>
+    <string name="upload_notes_and_credits_explanation">ਤੁਸੀਂ ਇਹ ਪ੍ਰੋਜੈਕਟ ਕਿਵੇਂ ਬਣਾਇਆ? ਕੀ ਤੁਸੀਂ ਦੂਜੇ ਲੋਕਾਂ ਦੇ ਵਿਚਾਰਾਂ, ਸਕ੍ਰਿਪਟਾਂ ਜਾਂ ਕਲਾਕਾਰੀ ਦੀ ਵਰਤੋਂ ਕੀਤੀ ਹੈ? ਇਥੇ ਉਨ੍ਹਾਂ ਦਾ ਧੰਨਵਾਦ ਕਰੋ.</string>
+    <string name="upload_tag_dialog_title">ਕਿਰਪਾ ਕਰਕੇ ਤਿੰਨ ਸ਼੍ਰੇਣੀਆਂ ਦੀ ਚੋਣ ਕਰੋ</string>
+    <string name="upload_tags_maximum_error">3 ਤੋਂ ਵੱਧ ਟੈਗ ਚੁਣਨਾ ਸੰਭਵ ਨਹੀਂ ਹੈ.</string>
     <!-- Save Project to External Storage -->
-    <string name="save_to_external_storage_button">Save project to external storage</string>
+    <string name="save_to_external_storage_button">ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਬਾਹਰੀ ਸਟੋਰੇਜ ਤੇ ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
     <string name="notification_save_project_to_external_storage_title_pending">" "</string>
-    <string name="notification_save_project_to_external_storage_pending">Saving project to external storage.</string>
+    <string name="notification_save_project_to_external_storage_pending">ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਬਾਹਰੀ ਸਟੋਰੇਜ ਵਿੱਚ ਸੁਰੱਖਿਅਤ ਕਰਨਾ</string>
     <string name="notification_save_project_to_external_storage_title_open">" "</string>
-    <string name="notification_save_project_to_external_storage_open">"Saved project to %1$s"</string>
-    <string name="save_project_to_external_storage_io_exception_message">Failed to save project, not enough memory is available!</string>
+    <string name="notification_save_project_to_external_storage_open">"ਪ੍ਰੋਜੈਕਟ ਨੂੰ %1$s ਤੇ ਸੁਰੱਖਿਅਤ ਕੀਤਾ ਗਿਆ"</string>
+    <string name="save_project_to_external_storage_io_exception_message">ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਸੁਰੱਖਿਅਤ ਕਰਨ ਵਿੱਚ ਅਸਫਲ, ਲੋੜੀਦੀ ਮੈਮੋਰੀ ਉਪਲਬਧ ਨਹੀਂ ਹੈ!</string>
     <!--  -->
     <!-- SoundRecorderActivity -->
-    <string name="soundrecorder_name">Sound recorder</string>
-    <string name="soundrecorder_error">Sound recording failed</string>
-    <string name="soundrecorder_recorded_filename">recording</string>
-    <string name="soundrecorder_text_view">Tap the icon above to start and stop recording.</string>
+    <string name="soundrecorder_name">ਆਵਾਜ਼ ਰਿਕਾਰਡਰ</string>
+    <string name="soundrecorder_error">ਧੁਨੀ ਰਿਕਾਰਡਿੰਗ ਅਸਫਲ</string>
+    <string name="soundrecorder_recorded_filename">ਰਿਕਾਰਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ</string>
+    <string name="soundrecorder_text_view">ਰਿਕਾਰਡਿੰਗ ਨੂੰ ਸ਼ੁਰੂ ਕਰਨ ਅਤੇ ਰੋਕਣ ਲਈ ਉਪਰੋਕਤ ਆਈਕਾਨ ਤੇ ਟੈਪ ਕਰੋ.</string>
     <!--  -->
     <!-- Brick context dialog -->
-    <string name="brick_context_dialog_move_brick">Move brick</string>
-    <string name="brick_context_dialog_move_script">Move script</string>
-    <string name="brick_context_dialog_move_definition">Move this definition</string>
-    <string name="brick_context_dialog_delete_brick" tools:ignore="UnusedResources">Delete brick</string>
-    <string name="brick_context_dialog_copy_brick">Copy brick</string>
-    <string name="brick_context_dialog_copy_script">Copy script</string>
-    <string name="brick_context_dialog_formula_edit_brick">Edit formula</string>
-    <string name="brick_context_dialog_delete_script">Delete script</string>
-    <string name="brick_context_dialog_delete_definition">Delete this definition</string>
-    <string name="brick_context_dialog_comment_in">Enable brick</string>
-    <string name="brick_context_dialog_comment_out">Disable brick</string>
-    <string name="brick_context_dialog_highlight_brick_parts">Highlight brick parts</string>
-    <string name="brick_context_dialog_comment_in_script">Enable script</string>
-    <string name="brick_context_dialog_comment_out_script">Disable script</string>
-    <string name="brick_context_dialog_help">Help</string>
-    <string name="comment_in_out">Disable/enable</string>
-    <string name="catblocks">Toggle 2D</string>
-    <string name="catblocks_reorder">Clean up scripts</string>
-    <string name="switch_to_1d" tools:ignore="UnusedResources">1D view</string>
+    <string name="brick_context_dialog_move_brick">ਇੱਟ ਮੂਵ ਕਰੋ</string>
+    <string name="brick_context_dialog_move_script">ਲਿਪੀ ਸਕ੍ਰਿਪਟ</string>
+    <string name="brick_context_dialog_move_definition">ਇਸ ਪਰਿਭਾਸ਼ਾ ਨੂੰ ਹਿਲਾਓ</string>
+    <string name="brick_context_dialog_delete_brick" tools:ignore="UnusedResources">ਇੱਟ ਮਿਟਾਓ</string>
+    <string name="brick_context_dialog_copy_brick">ਇੱਟ ਕਾਪੀ ਕਰੋ</string>
+    <string name="brick_context_dialog_copy_script">ਸਕ੍ਰਿਪਟ ਕਾਪੀ ਕਰੋ</string>
+    <string name="brick_context_dialog_formula_edit_brick">ਫਾਰਮੂਲਾ ਸੋਧੋ</string>
+    <string name="brick_context_dialog_delete_script">ਸਕ੍ਰਿਪਟ ਮਿਟਾਓ</string>
+    <string name="brick_context_dialog_delete_definition">ਇਸ ਪਰਿਭਾਸ਼ਾ ਨੂੰ ਮਿਟਾਓ</string>
+    <string name="brick_context_dialog_comment_in">ਇੱਟ ਨੂੰ ਸਮਰੱਥ ਬਣਾਓ</string>
+    <string name="brick_context_dialog_comment_out">ਇੱਟ ਨੂੰ ਅਯੋਗ ਕਰੋ</string>
+    <string name="brick_context_dialog_highlight_brick_parts">ਇੱਟ ਦੇ ਹਿੱਸੇ ਉਜਾਗਰ ਕਰੋ</string>
+    <string name="brick_context_dialog_comment_in_script">ਸਕ੍ਰਿਪਟ ਨੂੰ ਸਮਰੱਥ ਬਣਾਓ</string>
+    <string name="brick_context_dialog_comment_out_script">ਸਕ੍ਰਿਪਟ ਨੂੰ ਸਮਰੱਥ ਬਣਾਓ</string>
+    <string name="brick_context_dialog_help">ਮਦਦ ਕਰੋ</string>
+    <string name="comment_in_out">ਨੂੰ ਯੋਗ ਆਯੋਗ ਕਰੋ</string>
+    <string name="catblocks">ਟੌਗਲ 2 ਡੀ</string>
+    <string name="catblocks_reorder">ਸਕ੍ਰਿਪਟਾਂ ਸਾਫ਼ ਕਰੋ</string>
+    <string name="switch_to_1d" tools:ignore="UnusedResources">1 ਡੀ ਦ੍ਰਿਸ਼</string>
     <!--  -->
     <!-- Play scene dialog -->
-    <string name="play_scene_dialog_title">Play scene:</string>
-    <string name="play_scene_dialog_default">First scene (%1$s)</string>
-    <string name="play_scene_dialog_current">Current scene (%1$s)</string>
+    <string name="play_scene_dialog_title">ਖੇਡੋ ਦ੍ਰਿਸ਼:</string>
+    <string name="play_scene_dialog_default">ਪਹਿਲਾ ਸੀਨ (%1$s)</string>
+    <string name="play_scene_dialog_current">ਪਹਿਲਾ ਸੀਨ (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string name="sign_in_dialog_title">Sign in</string>
-    <string name="username">వినియోగదారుని పేరు</string>
-    <string name="password">పాస్వర్డ్</string>
-    <string name="reset_password">Reset password</string>
-    <string name="new_user_registered">New account created</string>
-    <string name="user_logged_in">Login successful</string>
-    <string name="register_error">Login invalid</string>
-    <string name="register_terms">By registering you agree to our</string>
-    <string name="register_code_terms_of_use_text">ఉపయోగ నిబంధనలు మరియు సేవలు</string>
-    <string name="login">Login</string>
-    <string name="register">Register</string>
-    <string name="password_confirm">Confirm password</string>
+    <string name="sign_in_dialog_title">ਸਾਇਨ ਇਨ</string>
+    <string name="username">ਯੂਜ਼ਰਨਾਮ</string>
+    <string name="password">ਪਾਸਵਰਡ</string>
+    <string name="reset_password">ਪਾਸਵਰਡ ਰੀਸੈਟ ਕਰੋ</string>
+    <string name="new_user_registered">ਨਵਾਂ ਖਾਤਾ ਬਣਾਇਆ ਗਿਆ</string>
+    <string name="user_logged_in">ਲੌਗਇਨ ਸਫਲ</string>
+    <string name="register_error">ਲਾਗਇਨ ਅਵੈਧ ਹੈ</string>
+    <string name="register_terms">ਰਜਿਸਟਰ ਕਰਕੇ ਤੁਸੀਂ ਸਾਡੇ ਨਾਲ ਸਹਿਮਤ ਹੋ</string>
+    <string name="register_code_terms_of_use_text">ਵਰਤੋਂ ਅਤੇ ਸੇਵਾ ਦੀਆਂ ਸ਼ਰਤਾਂ</string>
+    <string name="login">ਲਾਗਿਨ</string>
+    <string name="register">ਰਜਿਸਟਰ</string>
+    <string name="password_confirm">ਪਾਸਵਰਡ ਪੱਕਾ ਕਰੋ</string>
     <string name="accountName">E-Mail</string>
-    <string name="signin_thanks">Thank you for signing up!</string>
-    <string name="signin_choose_username">Please choose your username:</string>
-    <string name="signin_choose_username_empty">Please enter a username.</string>
-    <string name="signin_choose_username_hint">The username should not be your real name nor should it be an email address.</string>
-    <string name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
-    <string name="show_password">Show password</string>
-    <string name="sign_in_error">Something went wrong during sign in.</string>
-    <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
-    <string name="error_session_expired">Session expired, please log in.</string>
-    <string name="error_register_empty_username">Empty username</string>
-    <string name="error_register_username_as_email">Email address cannot be used as username</string>
-    <string name="error_register_invalid_username">Username should only contain letters (a–z), numbers (0–9),
-        dashes (-), underscores (_), and periods (.).</string>
-    <string name="error_register_username_start_with">Username should not start with dashes (-), underscores (_), or
-        periods (.).</string>
-    <string name="error_register_invalid_email_format">Invalid email format</string>
-    <string name="error_register_empty_password">Password field is empty</string>
-    <string name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
-    <string name="error_register_passwords_mismatch">Passwords do not match</string>
-    <string name="error_register_empty_confirm_password">Confirm password field is empty</string>
-    <string name="error_register_username_already_exists">Username already exists</string>
-    <string name="error_register_email_exists">Email address already exists</string>
+    <string name="signin_thanks">ਸਾਈਨ ਅਪ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!</string>
+    <string name="signin_choose_username">ਕਿਰਪਾ ਕਰਕੇ ਆਪਣਾ ਉਪਯੋਗਕਰਤਾ ਨਾਮ ਚੁਣੋ:</string>
+    <string name="signin_choose_username_empty">ਕ੍ਰਿਪਾ ਕਰਕੇ ਜਾਇਜ ਕਰਤਾ ਨਾਮ ਭਰੋ</string>
+    <string name="signin_choose_username_hint">ਉਪਯੋਗਕਰਤਾ ਨਾਮ ਤੁਹਾਡਾ ਅਸਲ ਨਾਮ ਨਹੀਂ ਹੋਣਾ ਚਾਹੀਦਾ ਅਤੇ ਨਾ ਹੀ ਇਹ ਇੱਕ ਈਮੇਲ ਪਤਾ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ.</string>
+    <string name="oauth_username_taken">ਕੋਈ ਹੋਰ ਪਹਿਲਾਂ ਹੀ ਇਹ ਨਾਮ ਵਰਤਦਾ ਹੈ. ਕਿਰਪਾ ਕਰਕੇ ਕੋਈ ਵੱਖਰਾ ਚੁਣੋ!</string>
+    <string name="show_password">ਪਾਸਵਰਡ ਦਿਖਾਓ</string>
+    <string name="sign_in_error">ਸਾਈਨ ਇਨ ਕਰਨ ਦੌਰਾਨ ਕੁਝ ਗਲਤ ਹੋਇਆ.</string>
+    <string name="error_google_plus_sign_in">ਗੂਗਲ ਸਾਈਨ-ਇਨ ਗਲਤੀ. ਸਥਿਤੀ: %s</string>
+    <string name="error_session_expired">ਸੈਸ਼ਨ ਦੀ ਮਿਆਦ ਖਤਮ, ਕਿਰਪਾ ਕਰਕੇ ਲੌਗਇਨ ਕਰੋ.</string>
+    <string name="error_register_empty_username">ਖਾਲੀ ਨਾਂ</string>
+    <string name="error_register_username_as_email">ਈਮੇਲ ਪਤਾ ਉਪਭੋਗਤਾ ਨਾਮ ਵਜੋਂ ਨਹੀਂ ਵਰਤਿਆ ਜਾ ਸਕਦਾ</string>
+    <string name="error_register_invalid_username">ਉਪਭੋਗਤਾ ਨਾਮ ਵਿੱਚ ਸਿਰਫ ਅੱਖਰ (a – z), ਨੰਬਰ (0-9) ਹੋਣੇ ਚਾਹੀਦੇ ਹਨ,
+         ਡੈਸ਼ (-), ਅੰਡਰਸਕੋਰਸ (_), ਅਤੇ ਪੀਰੀਅਡ (.).</string>
+    <string name="error_register_username_start_with">ਉਪਯੋਗਕਰਤਾ ਨਾਮ ਡੈਸ਼ (-), ਅੰਡਰਸਕੋਰਸ (_), ਜਾਂ ਨਾਲ ਨਹੀਂ ਹੋਣਾ ਚਾਹੀਦਾ
+         ਪੀਰੀਅਡ (.).</string>
+    <string name="error_register_invalid_email_format">ਗਲਤ ਈਮੇਲ ਫਾਰਮੈਟ</string>
+    <string name="error_register_empty_password">ਪਾਸਵਰਡ ਖੇਤਰ ਖਾਲੀ ਹੈ</string>
+    <string name="error_register_password_at_least_6_characters">ਪਾਸਵਰਡ ਘੱਟੋ ਘੱਟ 6 ਅੱਖਰਾਂ ਦਾ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ</string>
+    <string name="error_register_passwords_mismatch">ਪਾਸਵਰਡ ਮੇਲ ਨਹੀਂ ਖਾਂਦਾ</string>
+    <string name="error_register_empty_confirm_password">ਪੁਸ਼ਟੀ ਕਰੋ ਕਿ ਪਾਸਵਰਡ ਖੇਤਰ ਖਾਲੀ ਹੈ</string>
+    <string name="error_register_username_already_exists">ਉਪਯੋਗਕਰਤਾ ਨਾਮ ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ</string>
+    <string name="error_register_email_exists">ਈਮੇਲ ਪਤਾ ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
-    <string name="overwrite_title">Project exists.</string>
-    <string name="overwrite_text">A project with this name already exists.</string>
-    <string name="overwrite_replace">Overwrite project</string>
-    <string name="overwrite_rename">Choose a new name</string>
+    <string name="overwrite_title">ਪ੍ਰੋਜੈਕਟ ਮੌਜੂਦ ਹੈ.</string>
+    <string name="overwrite_text">ਇਸ ਨਾਮ ਨਾਲ ਇੱਕ ਪ੍ਰੋਜੈਕਟ ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ.</string>
+    <string name="overwrite_replace">ਓਵਰਰਾਈਟ ਪ੍ਰੋਜੈਕਟ</string>
+    <string name="overwrite_rename">ਇੱਕ ਨਵਾਂ ਨਾਮ ਚੁਣੋ</string>
     <!--  -->
     <!-- Music activity -->
-    <string name="pocket_music_default_project_name">Untitled song</string>
-    <string name="pocket_music_default_track_name">Track 1</string>
+    <string name="pocket_music_default_project_name">ਬਿਨਾਂ ਸਿਰਲੇਖ ਵਾਲਾ ਗਾਣਾ</string>
+    <string name="pocket_music_default_track_name">ਟਰੈਕ 1</string>
     <!--  -->
     <!-- Resource initialization fka PrestageActivity -->
-    <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to
-        install it?</string>
-    <string name="prestage_resource_not_available_title">Component not available</string>
-    <string name="prestage_resource_not_available_text">Unfortunately this project does not work on your device.
-        The following components are unavailable:\n\n</string>
-    <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
-    <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
-    <string name="prestage_no_inclination_sensor_available">\u2022 Inclination sensor\n</string>
-    <string name="prestage_no_compass_sensor_available">\u2022 Compass\n</string>
-    <string name="prestage_no_gps_sensor_available">\u2022 Geolocation\n</string>
-    <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
-    <string name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
-    <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
-    <string name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
-    <string name="prestage_no_front_camera_available">\u2022 Front camera\n</string>
-    <string name="prestage_no_camera_available">\u2022 Camera\n</string>
-    <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
-    <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
-    <string name="no_nfc_available">NFC not available</string>
-    <string name="nfc_not_activated">Please activate NFC and press Back to return to the app.</string>
-    <string name="nfc_facedetection_support">Using NFC and face detection at the same time might lead to performance
-        issues.</string>
+    <string name="prestage_text_to_speech_engine_not_installed">ਪਾਠ--ਬੋਲੀ ਇੰਜਣ ਇੰਸਟਾਲ ਨਹੀ! \n ਕੀ ਤੁਹਾਨੂੰ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ
+         ਇਸ ਨੂੰ ਇੰਸਟਾਲ?</string>
+    <string name="prestage_resource_not_available_title">ਭਾਗ ਉਪਲਬਧ ਨਹੀਂ ਹੈ</string>
+    <string name="prestage_resource_not_available_text">ਬਦਕਿਸਮਤੀ ਨਾਲ ਇਹ ਪ੍ਰੋਜੈਕਟ ਤੁਹਾਡੀ ਡਿਵਾਈਸ \'ਤੇ ਕੰਮ ਨਹੀਂ ਕਰਦਾ.
+         ਹੇਠ ਦਿੱਤੇ ਭਾਗ ਉਪਲੱਬਧ ਨਹੀਂ ਹਨ: \n \n</string>
+    <string name="prestage_no_vibration_available">\u2022 ਵਾਈਬ੍ਰੇਸ਼ਨ ਹੈ \n</string>
+    <string name="prestage_no_acceleration_sensor_available">\u2022 ਐਕਸਲੇਸ਼ਨ ਸੂਚਕ ਹੈ \n</string>
+    <string name="prestage_no_inclination_sensor_available">\u2022 ਭਾਵਨਾ ਸੂਚਕ ਹੈ \n</string>
+    <string name="prestage_no_compass_sensor_available">\u2022 ਕੰਪਾਸ, \n</string>
+    <string name="prestage_no_gps_sensor_available">\u2022 ਵਾਈਬ੍ਰੇਸ਼ਨ ਹੈ \n</string>
+    <string name="prestage_text_to_speech_error">\u2022 ਪਾਠ-ਟੂ-ਸਪੀਚ ਇੰਜਣ \n</string>
+    <string name="prestage_no_back_camera_available">\u2022 ਰੀਅਰ ਕੈਮਰਾ ਹੈ \n</string>
+    <string name="prestage_no_face_detection_available">\u2022 ਫੇਸ ਖੋਜ \n</string>
+    <string name="prestage_no_text_detection_available">\u2022 ਫੇਸ ਖੋਜ \n</string>
+    <string name="prestage_no_front_camera_available">\u2022 ਰੀਅਰ ਕੈਮਰਾ ਹੈ \n</string>
+    <string name="prestage_no_camera_available">\u2022 ਰੀਅਰ ਕੈਮਰਾ ਹੈ \n</string>
+    <string name="prestage_no_flash_available">\u2022 ਫ਼ਲੈਸ਼ ਹੈ \n</string>
+    <string name="prestage_default_resource_not_available">\u2022 ਅਣਜਾਣ ਸੰਖੇਪ \n</string>
+    <string name="no_nfc_available">NFC ਉਪਲੱਬਧ ਨਹੀ</string>
+    <string name="nfc_not_activated">ਕਿਰਪਾ ਕਰਕੇ ਐਨਐਫਸੀ ਨੂੰ ਸਰਗਰਮ ਕਰੋ ਅਤੇ ਐਪ ਤੇ ਵਾਪਸ ਜਾਣ ਲਈ ਵਾਪਸ ਦਬਾਓ.</string>
+    <string name="nfc_facedetection_support">ਉਸੇ ਵੇਲੇ \'ਤੇ NFC ਅਤੇ ਚਿਹਰੇ ਖੋਜ ਦਾ ਇਸਤੇਮਾਲ ਦੀ ਕਾਰਗੁਜ਼ਾਰੀ ਨੂੰ ਲੈ ਕੇ ਹੋ ਸਕਦਾ ਹੈ,
+         ਮੁੱਦੇ.</string>
     <!--  -->
     <!-- Stage menu dialog -->
-    <string name="stage_dialog_back">Back</string>
-    <string name="stage_dialog_resume">Resume</string>
-    <string name="stage_dialog_restart">Restart</string>
-    <string name="stage_dialog_axes_on">Axes on</string>
-    <string name="stage_dialog_axes_off">Axes off</string>
-    <string name="stage_dialog_maximize">Maximize/\nstretch</string>
-    <string name="stage_dialog_screenshot">Preview</string>
-    <string name="stage_dialog_embroidery">Embroidery</string>
+    <string name="stage_dialog_back">ਵਾਪਸ</string>
+    <string name="stage_dialog_resume">ਦੁਬਾਰਾ ਸ਼ੁਰੂ ਕਰੋ</string>
+    <string name="stage_dialog_restart">ਮੁੜ ਚਾਲੂ ਕਰੋ</string>
+    <string name="stage_dialog_axes_on">ਧੁਰੇ \'ਤੇ</string>
+    <string name="stage_dialog_axes_off">ਧੁਰੇ \'ਤੇ</string>
+    <string name="stage_dialog_maximize">ਵੱਧੋ / \n ਤਣਾਅ</string>
+    <string name="stage_dialog_screenshot">ਝਲਕ</string>
+    <string name="stage_dialog_embroidery">ਕਢਾਈ</string>
     <!--  -->
     <!-- Broadcast spinner -->
-    <string name="dialog_new_broadcast_message_title">New message</string>
-    <string name="dialog_broadcast_message_name">message:</string>
-    <string name="dialog_edit_broadcast_message_title">Edit message</string>
+    <string name="dialog_new_broadcast_message_title">ਨਵਾ ਸੁਨੇਹਾ</string>
+    <string name="dialog_broadcast_message_name">ਸੁਨੇਹਾ</string>
+    <string name="dialog_edit_broadcast_message_title">ਸੁਨੇਹੇ ਸੰਪਾਦਿਤ ਕਰੋ</string>
     <!--  -->
     <!-- NFC spinner -->
-    <string name="brick_when_nfc_edit_list_of_nfc_tags">Edit list of NFC tags</string>
-    <string name="brick_when_nfc_default_all">all</string>
+    <string name="brick_when_nfc_edit_list_of_nfc_tags">NFC ਟੈਗ ਦੀ ਸੂਚੀ ਸੋਧ</string>
+    <string name="brick_when_nfc_default_all">ਸਭ</string>
     <!-- -->
     <!-- Brick categories -->
-    <string name="categories" tools:ignore="UnusedResources">Categories</string>
-    <string name="category_embroidery" tools:ignore="UnusedResources">Embroidery</string>
-    <string name="category_motion" tools:ignore="UnusedResources">Motion</string>
-    <string name="category_looks" tools:ignore="UnusedResources">Looks</string>
-    <string name="category_pen" tools:ignore="UnusedResources">Pen</string>
-    <string name="category_sound" tools:ignore="UnusedResources">Sound</string>
-    <string name="category_control" tools:ignore="UnusedResources">Control</string>
-    <string name="category_event" tools:ignore="UnusedResources">Event</string>
-    <string name="category_user_bricks" tools:ignore="UnusedResources">Your bricks</string>
-    <string name="category_data" tools:ignore="UnusedResources">Data</string>
-    <string name="category_device" tools:ignore="UnusedResources">Device</string>
-    <string name="category_lego_nxt" tools:ignore="UnusedResources">Lego NXT</string>
-    <string name="category_lego_ev3" tools:ignore="UnusedResources">Lego EV3</string>
+    <string name="categories" tools:ignore="UnusedResources">ਵਰਗ</string>
+    <string name="category_embroidery" tools:ignore="UnusedResources">ਕਢਾਈ</string>
+    <string name="category_motion" tools:ignore="UnusedResources">ਗਤੀ</string>
+    <string name="category_looks" tools:ignore="UnusedResources">ਲੁੱਕਸ</string>
+    <string name="category_pen" tools:ignore="UnusedResources">ਕਲਮ</string>
+    <string name="category_sound" tools:ignore="UnusedResources">ਆਵਾਜ਼</string>
+    <string name="category_control" tools:ignore="UnusedResources">ਨਿਯੰਤਰਣ</string>
+    <string name="category_event" tools:ignore="UnusedResources">ਘਟਨਾ</string>
+    <string name="category_user_bricks" tools:ignore="UnusedResources">ਤੁਹਾਡੀਆਂ ਇੱਟਾਂ</string>
+    <string name="category_data" tools:ignore="UnusedResources">ਡਾਟਾ</string>
+    <string name="category_device" tools:ignore="UnusedResources">ਡੀਵਾਈਸ:</string>
+    <string name="category_lego_nxt" tools:ignore="UnusedResources">ਔਲ NXT</string>
+    <string name="category_lego_ev3" tools:ignore="UnusedResources">ਔਲ EV3</string>
     <string name="category_drone" tools:ignore="UnusedResources">AR.Drone 2.0</string>
-    <string name="category_jumping_sumo" tools:ignore="UnusedResources">Jumping Sumo</string>
-    <string name="category_phiro" tools:ignore="UnusedResources">Phiro</string>
-    <string name="category_arduino" tools:ignore="UnusedResources">Arduino</string>
-    <string name="category_cast" tools:ignore="UnusedResources">Chromecast</string>
-    <string name="category_raspi" tools:ignore="UnusedResources">Raspberry Pi</string>
-    <string name="category_assertions" tools:ignore="UnusedResources">Testing</string>
+    <string name="category_jumping_sumo" tools:ignore="UnusedResources">ਜੰਪਿੰਗ ਸੁਮੋ</string>
+    <string name="category_phiro" tools:ignore="UnusedResources">ਫਿਰੋ</string>
+    <string name="category_arduino" tools:ignore="UnusedResources">ਅਰਦਿਨੋ</string>
+    <string name="category_cast" tools:ignore="UnusedResources">ਕਰੋਮਕਾਸਟ</string>
+    <string name="category_raspi" tools:ignore="UnusedResources">ਰਸਬੇਰੀ ਪੋਰਟ ਪੋਰਟ</string>
+    <string name="category_assertions" tools:ignore="UnusedResources">ਟੈਸਟਿੰਗ</string>
     <!--  -->
     <!-- User Defined Bricks -->
-    <string name="brick_user_defined_add_label">Add label</string>
-    <string name="brick_user_defined_add_input">Add input</string>
-    <string name="brick_user_defined_add_input_description">Add input for this brick:</string>
-    <string name="brick_user_defined_add_label_description">Add label for this brick:</string>
-    <string name="brick_user_defined_default_input_name">Name of input</string>
-    <string name="brick_user_defined_default_label">Label text</string>
-    <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
-    <string name="brick_user_defined_script_define" tools:ignore="UnusedResources">Define</string>
-    <string name="brick_user_defined_script_as" tools:ignore="UnusedResources">as</string>
-    <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
-    <string name="brick_report" tools:ignore="UnusedResources">రిపొర్ట్</string>
+    <string name="brick_user_defined_add_label">ਲੇਬਲ ਸ਼ਾਮਲ ਕਰੋ</string>
+    <string name="brick_user_defined_add_input">ਇੰਪੁੱਟ ਸ਼ਾਮਲ ਕਰੋ</string>
+    <string name="brick_user_defined_add_input_description">ਇਸ ਇੱਟ ਲਈ ਇੰਪੁੱਟ ਸ਼ਾਮਲ ਕਰੋ:</string>
+    <string name="brick_user_defined_add_label_description">ਇਸ ਇੱਟ ਲਈ ਲੇਬਲ ਸ਼ਾਮਲ ਕਰੋ:</string>
+    <string name="brick_user_defined_default_input_name">ਇਨਪੁਟ ਦਾ ਨਾਮ</string>
+    <string name="brick_user_defined_default_label">ਵੱਡਾ ਟੈਕਸਟ</string>
+    <string name="brick_user_defined_already_exists">ਇਨ੍ਹਾਂ ਲੇਬਲਾਂ ਵਾਲੀ ਇਕ ਇੱਟ ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ. ਕਿਰਪਾ ਕਰਕੇ ਹੋਰ ਲੇਬਲ ਜਾਂ ਇਨਪੁਟਸ ਸ਼ਾਮਲ ਕਰੋ.</string>
+    <string name="brick_user_defined_script_define" tools:ignore="UnusedResources">ਪ੍ਰਭਾਸ਼ਿਤ</string>
+    <string name="brick_user_defined_script_as" tools:ignore="UnusedResources">ਜਿਵੇਂ</string>
+    <string name="brick_user_defined_list_empty">ਟੈਪ \"+\" ਆਪਣੇ ਹੀ ਨਵ ਇੱਟ ਨੂੰ ਸ਼ਾਮਿਲ ਕਰਨ ਲਈ.</string>
+    <string name="brick_report" tools:ignore="UnusedResources">ਰਿਪੋਰਟ</string>
     <!--  -->
     <!-- Motion bricks -->
-    <string name="brick_place_at" tools:ignore="UnusedResources">"Place at"</string>
-    <string name="brick_option_place_visually">Place visually</string>
+    <string name="brick_place_at" tools:ignore="UnusedResources">"'ਤੇ ਸਥਾਨ"</string>
+    <string name="brick_option_place_visually">ਨਜ਼ਰ ਨਾਲ ਰੱਖੋ</string>
     <string name="x_label" tools:ignore="UnusedResources">"x:"</string>
     <string name="y_label" tools:ignore="UnusedResources">"y:"</string>
-    <string name="brick_set_x" tools:ignore="UnusedResources">"Set x to"</string>
-    <string name="brick_set_y" tools:ignore="UnusedResources">"Set y to"</string>
-    <string name="brick_change_x_by" tools:ignore="UnusedResources">"Change x by"</string>
-    <string name="brick_change_y_by" tools:ignore="UnusedResources">"Change y by"</string>
-    <string name="brick_go_back" tools:ignore="UnusedResources">Go back</string>
-    <string name="brick_set_rotation_style" tools:ignore="UnusedResources">"Set rotation style"</string>
-    <string name="brick_set_rotation_style_lr" tools:ignore="UnusedResources">left-right only</string>
-    <string name="brick_set_rotation_style_normal" tools:ignore="UnusedResources">all-around</string>
-    <string name="brick_set_rotation_style_no" tools:ignore="UnusedResources">don\'t rotate</string>
+    <string name="brick_set_x" tools:ignore="UnusedResources">"ਨੂੰ ਸੈੱਟ X"</string>
+    <string name="brick_set_y" tools:ignore="UnusedResources">"ਨੂੰ ਸੈੱਟ X"</string>
+    <string name="brick_change_x_by" tools:ignore="UnusedResources">"ਬਦਲੋ ਕਰੋ x"</string>
+    <string name="brick_change_y_by" tools:ignore="UnusedResources">"ਕੇ y ਬਦਲੋ"</string>
+    <string name="brick_go_back" tools:ignore="UnusedResources">ਵਾਪਸ ਜਾਓ</string>
+    <string name="brick_set_rotation_style" tools:ignore="UnusedResources">"ਰੋਟੇਸ਼ਨ ਸ਼ੈਲੀ ਸੈੱਟ ਕਰੋ"</string>
+    <string name="brick_set_rotation_style_lr" tools:ignore="UnusedResources">ਸਿਰਫ ਖੱਬੇ-ਸੱਜੇ</string>
+    <string name="brick_set_rotation_style_normal" tools:ignore="UnusedResources">ਚਾਰੇ ਪਾਸੇ</string>
+    <string name="brick_set_rotation_style_no" tools:ignore="UnusedResources">ਘੁੰਮਾਓ ਨਾ</string>
     <plurals name="brick_go_back_layer_plural">
-        <item quantity="one">layer</item>
-        <item quantity="other">layers</item>
+        <item quantity="one">ਪਰਤ
+ਪਰਤਾਂ</item>
+        <item quantity="other">ਪਰਤ
+ਪਰਤਾਂ</item>
     </plurals>
-    <string name="brick_come_to_front" tools:ignore="UnusedResources">Go to front</string>
-    <string name="brick_if_on_edge_bounce" tools:ignore="UnusedResources">If on edge, bounce</string>
-    <string name="brick_move" tools:ignore="UnusedResources">జరుపు</string>
+    <string name="brick_come_to_front" tools:ignore="UnusedResources">ਸਾਹਮਣੇ ਜਾਓ</string>
+    <string name="brick_if_on_edge_bounce" tools:ignore="UnusedResources">ਜੇ ਕਿਨਾਰੇ ਤੇ, ਉਛਾਲ</string>
+    <string name="brick_move" tools:ignore="UnusedResources">ਭੇਜੋ</string>
     <plurals name="brick_move_n_step_plural">
-        <item quantity="one">step</item>
-        <item quantity="other">steps</item>
+        <item quantity="one">ਕਦਮ
+ਕਦਮ</item>
+        <item quantity="other">ਕਦਮ
+ਕਦਮ</item>
     </plurals>
-    <string name="brick_turn_left" tools:ignore="UnusedResources">Turn left</string>
-    <string name="brick_turn_right" tools:ignore="UnusedResources">Turn right</string>
-    <string name="brick_point_in_direction" tools:ignore="UnusedResources">Point in direction</string>
-    <string name="brick_point_to" tools:ignore="UnusedResources">Point towards</string>
-    <string name="brick_glide" tools:ignore="UnusedResources">Glide</string>
-    <string name="brick_glide_to_x" tools:ignore="UnusedResources">to x:</string>
-    <string name="brick_go_to" tools:ignore="UnusedResources">Go to</string>
-    <string name="brick_go_to_touch_position">touch position</string>
-    <string name="brick_go_to_random_position">random position</string>
+    <string name="brick_turn_left" tools:ignore="UnusedResources">ਖੱਬੇ ਪਾਸੇ ਮੁੜੋ</string>
+    <string name="brick_turn_right" tools:ignore="UnusedResources">ਸੱਜੇ ਮੁੜੋ</string>
+    <string name="brick_point_in_direction" tools:ignore="UnusedResources">ਦਿਸ਼ਾ ਵੱਲ ਪੁਆਇੰਟ ਕਰੋ</string>
+    <string name="brick_point_to" tools:ignore="UnusedResources">ਵੱਲ ਇਸ਼ਾਰਾ ਕਰੋ</string>
+    <string name="brick_glide" tools:ignore="UnusedResources">ਗਲਾਈਡ</string>
+    <string name="brick_glide_to_x" tools:ignore="UnusedResources">ਤੋਂ x:</string>
+    <string name="brick_go_to" tools:ignore="UnusedResources">ਜਾਓ</string>
+    <string name="brick_go_to_touch_position">ਅਹਿਸਾਸ ਸਥਿਤੀ</string>
+    <string name="brick_go_to_random_position">ਬੇਤਰਤੀਬੇ ਸਥਿਤੀ</string>
     <!--  -->
     <!-- Physics -->
-    <string name="brick_set_physics_object_type" tools:ignore="UnusedResources">Set your motion type to</string>
-    <string name="brick_set_physics_object_type_dynamic" tools:ignore="UnusedResources">moving and bouncing under gravity</string>
-    <string name="brick_set_physics_object_type_fixed" tools:ignore="UnusedResources">not moving under gravity, but others bounce off you under gravity</string>
-    <string name="brick_set_physics_object_type_no" tools:ignore="UnusedResources">not moving or bouncing under gravity (default)</string>
-    <string name="brick_set_mass" tools:ignore="UnusedResources">"Set mass to"</string>
-    <string name="brick_set_mass_unit" tools:ignore="UnusedResources">kilogram</string>
-    <string name="brick_set_gravity_to" tools:ignore="UnusedResources">"Set gravity for all actors and objects to"</string>
-    <string name="brick_set_gravity_unit" tools:ignore="UnusedResources">steps/second²</string>
-    <string name="brick_set_velocity_to" tools:ignore="UnusedResources">"Set velocity to"</string>
-    <string name="brick_set_velocity_unit" tools:ignore="UnusedResources">steps/second</string>
-    <string name="brick_turn_speed_unit" tools:ignore="UnusedResources">degrees/second</string>
+    <string name="brick_set_physics_object_type" tools:ignore="UnusedResources">ਆਪਣੀ ਮੋਸ਼ਨ ਟਾਈਪ ਸੈੱਟ ਕਰੋ</string>
+    <string name="brick_set_physics_object_type_dynamic" tools:ignore="UnusedResources">ਮੂਵਿੰਗ ਅਤੇ ਗੰਭੀਰਤਾ ਦੇ ਅਧੀਨ ਉਛਾਲ</string>
+    <string name="brick_set_physics_object_type_fixed" tools:ignore="UnusedResources">ਗੰਭੀਰਤਾ ਅਧੀਨ ਨਹੀਂ ਚੱਲ ਰਹੇ, ਪਰ ਦੂਸਰੇ ਤੁਹਾਨੂੰ ਗੁਰੂਤਾ ਦੇ ਹੇਠਾਂ ਉਤਾਰਦੇ ਹਨ</string>
+    <string name="brick_set_physics_object_type_no" tools:ignore="UnusedResources">ਗਰੈਵਿਟੀ ਦੇ ਹੇਠਾਂ ਚਲਣਾ ਜਾਂ ਉਛਾਲਣਾ ਨਹੀਂ (ਡਿਫੌਲਟ)</string>
+    <string name="brick_set_mass" tools:ignore="UnusedResources">"ਨੂੰ ਪੁੰਜ ਸੈੱਟ ਕਰੋ"</string>
+    <string name="brick_set_mass_unit" tools:ignore="UnusedResources">ਕਿਲੋਗ੍ਰਾਮ</string>
+    <string name="brick_set_gravity_to" tools:ignore="UnusedResources">"ਸਾਰੇ ਅਦਾਕਾਰਾਂ ਅਤੇ ਆਬਜੈਕਟਸ ਲਈ ਗੰਭੀਰਤਾ ਨਿਰਧਾਰਤ ਕਰੋ"</string>
+    <string name="brick_set_gravity_unit" tools:ignore="UnusedResources">ਕਦਮ / ਸਕਿੰਟ²</string>
+    <string name="brick_set_velocity_to" tools:ignore="UnusedResources">"ਉੱਤੇ ਵੇਗ ਸੈੱਟ ਕਰੋ"</string>
+    <string name="brick_set_velocity_unit" tools:ignore="UnusedResources">ਕਦਮ / ਸਕਿੰਟ</string>
+    <string name="brick_turn_speed_unit" tools:ignore="UnusedResources">ਡਿਗਰੀ / ਸਕਿੰਟ</string>
     <string name="brick_set_friction" tools:ignore="UnusedResources">"Set friction to"</string>
     <string name="brick_set_bounce_factor" tools:ignore="UnusedResources">"Set bounce factor to"</string>
     <string name="brick_rotate_left" tools:ignore="UnusedResources">"Spin left"</string>
@@ -1119,11 +1196,11 @@
     <!-- Default Values -->
     <string name="default_project_name">My project</string>
     <string name="default_variable_name">Variable</string>
-    <string name="default_scene_name">Scene %1$d</string>
+    <string name="default_scene_name">Scene (%1$d)</string>
     <string name="default_script_group_name">Script group</string>
     <string name="default_broadcast_message_name">Message</string>
     <string name="default_list_name">List</string>
-    <string name="default_project_background_name">తెర వెనుక</string>
+    <string name="default_project_background_name">Background</string>
     <string name="default_project_cloud_name">Clouds</string>
     <string name="default_project_cloud_sprite_name_1">Clouds1</string>
     <string name="default_project_cloud_sprite_name_2">Clouds2</string>
@@ -1139,7 +1216,7 @@
     <!--suppress UnusedResources -->
     <string name="default_project_inner_loop">Inner Loop</string>
     <!-- Default ChromeCast Values -->
-    <string name="default_cast_project_background_name">తెర వెనుక</string>
+    <string name="default_cast_project_background_name">Background</string>
     <string name="default_cast_project_cloud_name">Clouds</string>
     <string name="default_cast_project_cloud_sprite_name1">Clouds1</string>
     <string name="default_cast_project_cloud_sprite_name2">Clouds2</string>
@@ -1193,13 +1270,13 @@
     <string name="notification_upload_pending">Upload in progress</string>
     <string name="notification_upload_finished">Upload successful</string>
     <string name="notification_upload_rejected">Uploaded project rejected</string>
-    <string name="notification_upload_retry">మళ్ళీ ప్రయత్నించండి</string>
+    <string name="notification_upload_retry">Retry</string>
     <string name="notification_open_play_store">Open App store</string>
     <string name="notification_download_title_pending">"Downloading"</string>
     <string name="notification_download_pending">Download in progress</string>
     <string name="notification_download_finished">Download successful</string>
     <string name="notification_title_open">"Open"</string>
-    <string name="size_of_project">Size:</string>
+    <string name="size_of_project">ਆਕਾਰ:</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">This app needs the requested permissions to function properly. E.g., the
@@ -1416,12 +1493,12 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_jump_high" tools:ignore="UnusedResources">Jump Jumping Sumo high</string>
     <string name="brick_jumping_sumo_rotate_left" tools:ignore="UnusedResources">Turn Jumping Sumo left</string>
     <string name="brick_jumping_sumo_rotate_right" tools:ignore="UnusedResources">Turn Jumping Sumo right</string>
-    <string name="brick_jumping_sumo_rotate_text" tools:ignore="UnusedResources">degrees</string>
+    <string name="brick_jumping_sumo_rotate_text" tools:ignore="UnusedResources">ਡਿਗਰੀ</string>
     <string name="brick_jumping_sumo_turn" tools:ignore="UnusedResources">Flip Jumping Sumo</string>
     <string name="brick_jumping_sumo_taking_picture" tools:ignore="UnusedResources">Taking picture Jumping Sumo</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_sprites_sound" tools:ignore="UnusedResources">Sound</string>
+    <string name="default_jumping_sumo_project_sprites_sound" tools:ignore="UnusedResources">ਆਵਾਜ਼</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
     <string name="animation_spin" tools:ignore="UnusedResources">Spin</string>
@@ -1491,7 +1568,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="color_blue">blue</string>
     <!-- -->
     <!-- Formula editor strings -->
-    <string name="formula_editor_data">Data</string>
+    <string name="formula_editor_data">ਡਾਟਾ</string>
     <string name="formula_editor_true">true</string>
     <string name="formula_editor_false">false</string>
     <string name="formula_editor_decimal_mark" tools:ignore="UnusedResources">.</string>
@@ -1700,12 +1777,12 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_device_touch_detection">Touch detection</string>
     <string name="formula_editor_device_lego_nxt">Lego Mindstorms NXT</string>
     <string name="formula_editor_device_lego_ev3">Lego Mindstorms EV3</string>
-    <string name="formula_editor_device_arduino">Arduino</string>
-    <string name="formula_editor_device_phiro">Phiro</string>
-    <string name="formula_editor_device_raspberry">Raspberry Pi</string>
+    <string name="formula_editor_device_arduino">ਅਰਦਿਨੋ</string>
+    <string name="formula_editor_device_phiro">ਫਿਰੋ</string>
+    <string name="formula_editor_device_raspberry">ਰਸਬੇਰੀ ਪੋਰਟ ਪੋਰਟ</string>
     <string name="formula_editor_device_drone">Drone</string>
     <string name="formula_editor_device_nfc">NFC</string>
-    <string name="formula_editor_device_cast">Chromecast</string>
+    <string name="formula_editor_device_cast">ਕਰੋਮਕਾਸਟ</string>
     <string name="formula_editor_string">Abc</string>
     <string name="formula_editor_logic_notequal" tools:ignore="UnusedResources">≠</string>
     <string name="formula_editor_logic_lesserthan" tools:ignore="UnusedResources">&lt;</string>
@@ -1735,10 +1812,10 @@ needs read and write access to it. You can always change permissions through you
         expression</string>
     <string name="formula_editor_fragment_data_current_items">current items</string>
     <string name="formula_editor_data_dialog_is_list">Make it a list</string>
-    <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">face is visible</string>
-    <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">face size</string>
-    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">face x position</string>
-    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">face y position</string>
+    <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">first face is visible</string>
+    <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">first face size</string>
+    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">first face x position</string>
+    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">first face y position</string>
     <string name="formula_editor_sensor_second_face_detected">second face is visible</string>
     <string name="formula_editor_sensor_second_face_size">second face size</string>
     <string name="formula_editor_sensor_second_face_x_position">second face x position</string>
@@ -1752,10 +1829,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_text_block_language_from_camera">text block language from camera</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
     <string name="formula_editor_intro_title_formula_editor">Formula editor</string>
-    <string name="formula_editor_intro_summary_formula_editor">With the  formula editor you can create mathematical and
-        logical formulas that you can use in your bricks.\n\nYou can continue through this little intro by tapping
-        the \"Next\" button in the bottom right corner, and you can skip it by clicking the \"SKIP\" button in the
-        bottom left corner.</string>
+    <string name="formula_editor_intro_summary_formula_editor">With the formula editor you can create mathematical and
+        logical formulas that you can use in your bricks.\n\nContinue by tapping “NEXT” or exit
+        with “SKIP”.
+    </string>
     <string name="formula_editor_intro_title_input_field">Input field</string>
     <string name="formula_editor_intro_summary_input_field">Here you can see and edit your formula.</string>
     <string name="formula_editor_intro_title_keyboard">Keyboard</string>
@@ -1778,7 +1855,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_intro_title_device">Sensors</string>
     <string name="formula_editor_intro_summary_device">In \"Sensors\" you can find information that your
         device records.\nFor example, the tilt of your device, or the loudness of your surroundings.</string>
-    <string name="formula_editor_intro_title_data">Data</string>
+    <string name="formula_editor_intro_title_data">ਡਾਟਾ</string>
     <string name="formula_editor_intro_summary_data">Variables and lists that are used in your project can be found here.
         \nYou can simply insert these in your formula, or add new ones.</string>
     <string name="formula_editor_listening_language_sensor">listening language</string>
@@ -1869,12 +1946,12 @@ needs read and write access to it. You can always change permissions through you
         To add a new actor or object, tap the \"+\" symbol.</string>
     <!--  -->
     <!-- Dialog Disable hints -->
-    <string name="dialog_disable_hints_title">Show hints?</string>
-    <string name="dialog_disable_hints_text">Hints provide you with helpful information
-        while making your first project.\n\nVisibility of hints can be changed in the
-        settings.</string>
-    <string name="dialog_disable_hints_button_hide">HIDE</string>
-    <string name="dialog_disable_hints_button_show">SHOW</string>
+    <string name="dialog_disable_hints_title">ਸੰਕੇਤ ਦਿਖਾਓ?</string>
+    <string name="dialog_disable_hints_text">ਸੰਕੇਤ ਤੁਹਾਨੂੰ ਮਦਦਗਾਰ ਜਾਣਕਾਰੀ ਪ੍ਰਦਾਨ ਕਰਦੇ ਹਨ
+         ਆਪਣਾ ਪਹਿਲਾ ਪ੍ਰੋਜੈਕਟ ਬਣਾਉਣ ਵੇਲੇ. ints n \ n ਸੰਕੇਤ ਦੀ ਵਿਜ਼ਿਬਿਲਟੀ ਨੂੰ. ਵਿੱਚ ਬਦਲਿਆ ਜਾ ਸਕਦਾ ਹੈ
+         ਸੈਟਿੰਗਜ਼.</string>
+    <string name="dialog_disable_hints_button_hide">ਓਹਲੇ</string>
+    <string name="dialog_disable_hints_button_show">ਦਿਖਾਓ</string>
     <!--  -->
     <!-- Crash report dialog -->
     <!--  -->
@@ -1888,9 +1965,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="edit">Edit</string>
     <string name="data_value">Value</string>
     <string name="category_recently_used">Recently used</string>
-    <string name="new_sprite_dialog_place_visually">Place visually</string>
-    <string name="place_visually_text">You will be asked to place the new actor or object on the
-        stage.</string>
+    <string name="new_sprite_dialog_place_visually">ਨਜ਼ਰ ਨਾਲ ਰੱਖੋ</string>
+    <string name="place_visually_text">ਤੁਹਾਨੂੰ ਨਵਾਂ ਅਦਾਕਾਰ ਜਾਂ ਇਤਰਾਜ਼ \'ਤੇ ਰੱਖਣ ਲਈ ਕਿਹਾ ਜਾਵੇਗਾ
+         ਸਟੇਜ</string>
     <!-- Information -->
     <string name="no_variable_selected">No variable selected</string>
 </resources>

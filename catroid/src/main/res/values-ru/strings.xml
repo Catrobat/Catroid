@@ -104,6 +104,10 @@
     <string name="marketing_created_with">Создан с помощью</string>
     <string name="marketing_app_details">Сведения об этом приложении</string>
     <string name="marketing_more_on_google_play">Больше приложений на Google Play</string>
+    <string name="error_cannot_open_huawei_app_gallery">Упс! Не смог открыть Хуавэйскую Прикладную Галерею,
+        пожалуйста, попробуйте позже.</string>
+    <string name="google_play_store_logo">Google Play</string>
+    <string name="huawei_app_gallery">App Gallery Huawei</string>
     <!-- NFC activity -->
     <string name="nfc_activity_title">NFC тег</string>
     <!-- Settings activity -->
@@ -668,17 +672,6 @@
         и другие сервисы. Пожалуйста, перейдите по ссылке ниже для их детального рассмотрения.\n</string>
     <string name="dialog_terms_of_use_link_text">Условия пользования и обслуживания</string>
     <!--  -->
-    <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">Условия использования и обслуживания</string>
-    <string name="dialog_terms_of_use_parrot_reminder_text">Вы собираетесь использовать это приложение вместе с Parrot
-        AR.Drone 2.0. Мы напоминаем вам о соблюдении Условий использования Parrot и Catrobat.</string>
-    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Не напоминать мне снова.</string>
-    <!--  -->
-    <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">Вы собираетесь использовать это приложение вместе с
-        Parrot Jumping Sumo. Мы напоминаем вам о соблюдении
-        Условий использования Parrot и Catrobat.</string>
-    <!--  -->
     <!-- Privacy Policy -->
     <string name="disclaimer_privacy_police_header_headline">Добро пожаловать!</string>
     <string name="disclaimer_privacy_policy_header">Чтобы использовать это приложение, пожалуйста, примите</string>
@@ -796,8 +789,6 @@
     <string name="prestage_resource_not_available_title">Компонент недоступен</string>
     <string name="prestage_resource_not_available_text">К сожалению, этот проект не работает на вашем устройстве.
         Следующие компоненты недоступны:\n\n</string>
-    <string name="prestage_resource_in_use_text">Другое устройство подключено к Jumping Sumo. Убедитесь, что
-        только вы подключены к дрону.</string>
     <string name="prestage_no_vibration_available">Вибрация</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Датчик ускорения\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Датчик угла наклона\n</string>
@@ -807,7 +798,6 @@
     <string name="prestage_no_back_camera_available">\u2022 Задняя камера\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Обнаружение лица\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Определение текста\n</string>
-    <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Фронтальная камера\n</string>
     <string name="prestage_no_camera_available">\u2022 Камера\n</string>
     <string name="prestage_no_flash_available">\u2022 Фонарик\n</string>
@@ -1017,6 +1007,7 @@
     <string name="brick_write_embroidery" tools:ignore="UnusedResources">Записать данные вышивки в файл</string>
     <string name="brick_default_embroidery_file">вышивка.dst</string>
     <string name="brick_sew_up" tools:ignore="UnusedResources">Шить</string>
+    <string name="brick_thread_color">Установите цвет резьбы в</string>
     <!--  -->
     <!-- Device bricks -->
     <string name="brick_reset_timer" tools:ignore="UnusedResources">Сброс таймера</string>
@@ -1295,17 +1286,7 @@
     <string name="notification_download_pending">Загрузка в процессе</string>
     <string name="notification_download_finished">Загрузка завершена успешно</string>
     <string name="notification_title_open">"Открыть "</string>
-    <string name="notification_low_battery_with_value">Внимание. Уровень заряда батареи мал. Текущий уровень заряда %d</string>
     <string name="size_of_project">Размер программы:</string>
-    <string name="drone_emergency_battery_low">Уровень батареи мал (автоматическая посадка).</string>
-    <string name="drone_emergency_camera">Одна или несколько камер не отвечает.</string>
-    <string name="drone_emergency_ultrasound">Ультра-звуковой сенсор не отвечает.</string>
-    <string name="drone_emergency_angle">Углы Эйлера AR.Drone 2.0 слишком велики. Выключение двигателей для предотвращения опасного поведения.</string>
-    <string name="drone_emergency_cutout">Один или более моторов были остановлены окружающей средой.</string>
-    <string name="drone_alert_battery_low">Заряд батареи слишком мал, чтобы взлететь вновь.</string>
-    <string name="drone_alert_ultrasound">Ультразвуковой датчик не может определить высоту AR.Drone 2.0.</string>
-    <string name="drone_alert_vision">Невозможно оценить скорость нижней камерой.</string>
-    <string name="drone_emergency_title">Авария</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">Это приложение нуждается в запрошенных разрешениях для правильного функционирования.
@@ -1329,18 +1310,6 @@
         изменить что-то и повторите попытку.</string>
     <string name="error_adding_brick">При добавлении этого блока произошла ошибка</string>
     <string name="error_copying_brick">При копировании этого блока произошла ошибка</string>
-    <string name="error_no_drone_connected_title">Не удается найти AR.Drone 2.0.</string>
-    <string name="error_no_drone_connected">Подключите свой wifi к AR.Drone 2.0 и попробуйте снова.</string>
-    <string name="error_drone_low_battery_title">Уровень заряда батареи AR.Drone 2.0 мал:%d%%</string>
-    <string name="error_drone_low_battery">Вставте заряженную батарею и повторите снова.</string>
-    <string name="error_jumpingsumo_wrong_platform">Мы не можем запустить проект Jumping Sumo на вашем устройстве.</string>
-    <string name="error_no_jumpingsumo_connected_title">Не удается найти Jumping Sumo</string>
-    <string name="error_no_jumpingsumo_connected">Подключите wifi к Jumping Sumo и попробуйте снова.</string>
-    <string name="error_jumpingsumo_battery_title">Низкий заряд батареи Jumping Sumo</string>
-    <string name="error_jumpingsumo_battery">Вставте заряженную батарею и повторите снова.</string>
-    <string name="error_jumpingsumo_wrong_platform_title">Jumping Sumo не поддерживается</string>
-    <string name="error_drone_wrong_platform_title">AR.Drone 2.0 не поддерживается.</string>
-    <string name="error_drone_wrong_platform">Мы не можем запустить проект AR.Drone 2.0 на вашем устройстве.</string>
     <string name="error_rename_incompatible_project">Переименование несовместимого проекта невозможно.</string>
     <string name="error_embroidery_file_export">При сохранении файла что-то пошло не так.</string>
     <string name="error_embroidery_file_write">При сохранении файла что-то пошло не так.</string>
@@ -1956,6 +1925,15 @@
         снова!</string>
     <string name="progress_upload_dialog_show_program">Показать проект</string>
     <!--  -->
+    <!-- unchanged upload dialog -->
+    <string name="unchanged_upload_warning">Проект, который вы пытаетесь загрузить, уже существует на
+        платформу сообщества в точно такой же форме. Пожалуйста, измените свой проект, в идеале
+        усовершенствовать его, перед загрузкой вашего ремиксованного проекта.</string>
+    <string name="unchanged_upload_info">Пожалуйста, подумайте о том, чтобы добавить несколько добрых слов к оригиналу
+        Автор в разделе \"Кредиты\" на сайте сообщества или в вариантах проекта. Обратите внимание
+        что пользователь получит уведомление после успешной загрузки.</string>
+    <string name="unchanged_upload_url">Чтобы узнать больше о ремиксах, посетите %1s.</string>
+    <!-- -->
     <!-- Snackbar hints -->
     <string name="got_it">Ясно</string>
     <string name="preference_description_hints">Разрешить показывать подсказки</string>
@@ -1971,6 +1949,14 @@
     <string name="hint_objects">Твоя программа состоит из разных актеров или объектов, которые могут взаимодействовать друг с другом.
         Чтобы добавить нового актера или объект нажми на \"+\".</string>
     <!--  -->
+    <!-- Dialog Disable hints -->
+    <string name="dialog_disable_hints_title">Показать подсказки?</string>
+    <string name="dialog_disable_hints_text">Подсказки предоставят Вам полезную информацию
+        во время создания вашего первого проекта.\n\nVisibility подсказки могут быть изменены в разделе
+        настройки.</string>
+    <string name="dialog_disable_hints_button_hide">ШИРИНА</string>
+    <string name="dialog_disable_hints_button_show">ПОКАЗЫВАТЬ</string>
+    <!--  -->
     <!-- Crash report dialog -->
     <!--  -->
     <!-- Multilingual List -->
@@ -1982,6 +1968,9 @@
     <string name="edit">Редактирование</string>
     <string name="data_value">Значение</string>
     <string name="category_recently_used">Недавно использованные</string>
+    <string name="new_sprite_dialog_place_visually">Поместить на глаз</string>
+    <string name="place_visually_text">Вам будет предложено поместить новый агент или объект на
+        Сцена.</string>
     <!-- Information -->
     <string name="no_variable_selected">Переменная не выбрана</string>
 </resources>
