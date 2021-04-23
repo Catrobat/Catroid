@@ -28,7 +28,7 @@
     <string name="settings">Configurações</string>
     <string name="redo" tools:ignore="UnusedResources">Refazer</string>
     <string name="undo" tools:ignore="UnusedResources">Desfazer</string>
-    <string name="new_option">Novo&#8230;</string>
+    <string name="new_option">novo&#8230;</string>
     <string name="edit_option">editar&#8230;</string>
     <string name="confirm">Confirmar</string>
     <string name="ignore">Ignorar</string>
@@ -50,7 +50,7 @@
     <string name="select_all">Selecionar tudo</string>
     <string name="deselect_all">Desmarcar todos</string>
     <string name="skip">pular</string>
-    <string name="warning">Aviso</string>
+    <string name="warning">Atenção</string>
     <string name="error">Erro</string>
     <string name="loading">Carregando&#8230;</string>
     <string name="please_wait">Por favor, aguarde</string>
@@ -104,6 +104,10 @@
     <string name="marketing_created_with">Criado com</string>
     <string name="marketing_app_details">Detalhes sobre este aplicativo</string>
     <string name="marketing_more_on_google_play">Mais aplicativos na App Store</string>
+    <string name="error_cannot_open_huawei_app_gallery">Whoops! Falhou ao abrir a Huawei AppGallery,
+        por favor, tente novamente mais tarde.</string>
+    <string name="google_play_store_logo">Google Play</string>
+    <string name="huawei_app_gallery">Galeria de Aplicações Huawei</string>
     <!-- NFC activity -->
     <string name="nfc_activity_title">Tags NFC</string>
     <!-- Settings activity -->
@@ -114,7 +118,7 @@
     <string name="preference_description_web_access">Adicionar ou remover domínios confiáveis</string>
     <string name="preference_screen_web_access_title">Editar domínios confiáveis</string>
     <string name="preference_title_accessibility">Acessibilidade</string>
-    <string name="preference_description_accessibility">Alterar a aparência do aplicativo</string>
+    <string name="preference_description_accessibility">Alterar aparência do aplicativo</string>
     <string name="preference_title_accessibility_profiles">Perfis de acessibilidade</string>
     <string name="preference_title_accessibility_profile">Perfis predefinidos</string>
     <string name="preference_title_accessibility_profile_headline">Perfis</string>
@@ -137,15 +141,15 @@
     <string name="preference_title_accessibility_dragndrop_delay">Atraso ao arrastar e soltar</string>
     <string name="preference_description_accessibility_dragndrop_delay">Atraso ao arrastar e soltar bricks.</string>
     <string name="preference_title_accessibility_beginner_bricks">Modo iniciante</string>
-    <string name="preference_description_accessibility_beginner_bricks">Mostrar apenas funcionalidades simples.</string>
+    <string name="preference_description_accessibility_beginner_bricks">Mostrar apenas recursos simples.</string>
     <string name="preference_title_accessibility_font_style">Escolha um tipo de texto</string>
-    <string name="accessibility_font_regular">Padrão</string>
+    <string name="accessibility_font_regular">Regular</string>
     <string name="accessibility_font_serif">Serifa</string>
-    <string name="accessibility_font_dyslexic">Fonte Disléxica</string>
+    <string name="accessibility_font_dyslexic">Disléxico</string>
     <string name="accessibility_settings_applied">Mudanças Aplicadas</string>
     <string name="preference_access_title_profile_default">Padrão</string>
-    <string name="preference_access_summary_profile_default">Configurações Padrão</string>
-    <string name="preference_access_title_profile_custom">Meu Perfil</string>
+    <string name="preference_access_summary_profile_default">Configurações padrão</string>
+    <string name="preference_access_title_profile_custom">Meu perfil personalizado</string>
     <string name="preference_access_summary_profile_custom">Minhas configurações pessoais</string>
     <string name="preference_access_title_profile_argus">Argus</string>
     <string name="preference_access_summary_profile_argus">Alto contraste, ícones adicionais</string>
@@ -153,7 +157,7 @@
     <string name="preference_access_summary_profile_odin">Texto grande, ícones grandes, espaço do elemento grande
        espaçamento, alto contraste</string>
     <string name="preference_access_title_profile_fenrir">Fenrir</string>
-    <string name="preference_access_summary_profile_fenrir">Espaçamento grande dos elementos, atraso de arrastamento</string>
+    <string name="preference_access_summary_profile_fenrir">Grande spaçamento entre elementos, atraso de arrastamento</string>
     <string name="preference_access_title_profile_tiro">Tiro</string>
     <string name="preference_access_summary_profile_tiro">Modo iniciante</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
@@ -174,7 +178,7 @@
     <string name="preference_description_arduino_bricks">Permitir que o aplicativo controle as placas da Arduino</string>
     <string name="preference_title_enable_embroidery_bricks">Extensão Embroidery</string>
     <string name="preference_description_embroidery_bricks">Criar padrões para máquinas de costurar</string>
-    <string name="preference_title_cast_feature_globally_enabled">Extensão do Chromecast</string>
+    <string name="preference_title_cast_feature_globally_enabled">Extensão Chromecast</string>
     <string name="preference_description_cast_feature_globally_enabled">Mostrar o botão cast e habilitar o cast de projetos</string>
     <string name="preference_title_enable_nfc_bricks">Extensão de comunicação de campo próximo</string>
     <string name="preference_description_nfc_bricks">Permitir que o aplicativo use tags NFC em projetos</string>
@@ -295,17 +299,17 @@
     <string name="error_copy_project">Ocorreu um erro ao copiar o projeto</string>
     <!-- Dialog Errors -->
     <string name="name_already_exists">Esse nome já está em uso, por favor, escolha outro.</string>
-    <string name="name_consists_of_spaces_only">Você coloca apenas espaços no campo de texto, por favor insira um texto
+    <string name="name_consists_of_spaces_only">Você colocou apenas espaços no campo de texto, por favor insira um texto
         usando letras, números ou outros caracteres especiais.</string>
     <string name="name_empty">Por favor, insira um texto</string>
     <!-- Recycler View -->
     <string name="am_empty_list">Não há itens nesta lista ainda. Por favor, adicione alguns primeiro.</string>
     <string name="am_merge_error">Nenhuma mesclagem é feita. Exatamente 2 projetos precisam ser selecionados para mesclar.</string>
-    <string name="am_backpack">Pacote</string>
+    <string name="am_backpack">Empacotar</string>
     <string name="am_unpack">Desempacotar</string>
     <string name="am_copy">Copiar</string>
     <string name="am_delete" tools:ignore="UnusedResources">Apagar</string>
-    <string name="am_rename">Mudar nome</string>
+    <string name="am_rename">Renomear</string>
     <string name="am_convert">Converter</string>
     <string name="am_merge">Mesclar</string>
     <string name="dialog_confirm_delete">Você não pode desfazer isso!</string>
@@ -591,16 +595,6 @@
     <string name="dialog_terms_of_use_info">Para utilizar o Pocket Code e outros executáveis oferecidos pelo projeto Catrobat, é preciso aceitar nossos Termos de Uso e segui-los estritamente quando usar o Pocket Code e os outros executáveis. Por favor, visite o link abaixo para encontrar as definições precisas dos Termos de Uso.</string>
     <string name="dialog_terms_of_use_link_text">Termos de Uso e Serviço</string>
     <!--  -->
-    <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">Termos de Uso e Serviço</string>
-    <string name="dialog_terms_of_use_parrot_reminder_text">Você está prestes a usar este app junto com o Parrot\'s
-        AR.Drone 2.0. Nós te lembramos fortemente de respeitar os Termos de Uso e Serviços do Parrot\'s e do Catrobat.</string>
-    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Não me lembre de novo.</string>
-    <!--  -->
-    <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">Você está prestes a usar este app junto com o Parrot\'s
-        AR.Drone 2.0. Nós te lembramos fortemente de respeitar os Termos de Uso e Serviços do Parrot\'s e do Catrobat.</string>
-    <!--  -->
     <!-- Privacy Policy -->
     <string name="disclaimer_privacy_police_header_headline">Bem-vindo!</string>
     <string name="disclaimer_privacy_policy_header">Para usar esta aplicação, por favor, aceite nossa</string>
@@ -718,8 +712,6 @@
     <string name="prestage_resource_not_available_title">Componente não disponível</string>
     <string name="prestage_resource_not_available_text">Infelizmente este projeto não funciona no seu dispositivo.
         Os seguintes componentes estão indisponíveis:\n\n</string>
-    <string name="prestage_resource_in_use_text">Outro dispositivo está conectado ao Jumping Sumo. Certifique-se de que você
-        está conectado ao drone.</string>
     <string name="prestage_no_vibration_available">\u2022 Vibração\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Sensor de aceleração\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Sensor de inclinação\n</string>
@@ -729,7 +721,6 @@
     <string name="prestage_no_back_camera_available">\u2022 Câmera traseira\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Detecção de rosto\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Detecção de texto\n</string>
-    <string name="prestage_no_jumping_sumo_available">\u2022 Sumo de Salto\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Câmera frontal\n</string>
     <string name="prestage_no_camera_available">\u2022 Câmera\n</string>
     <string name="prestage_no_flash_available">\u2022 Lanterna\n</string>
@@ -935,6 +926,7 @@
     <string name="brick_write_embroidery" tools:ignore="UnusedResources">Escrever dados da embroidery para um arquivo</string>
     <string name="brick_default_embroidery_file">bordado.dst</string>
     <string name="brick_sew_up" tools:ignore="UnusedResources">Costurar para cima</string>
+    <string name="brick_thread_color">Definir a cor do tópico para</string>
     <!--  -->
     <!-- Device bricks -->
     <string name="brick_reset_timer" tools:ignore="UnusedResources">Resetar cronômetro</string>
@@ -1203,18 +1195,7 @@
     <string name="notification_download_pending">Download em progresso</string>
     <string name="notification_download_finished">Download bem-sucedido</string>
     <string name="notification_title_open">"Abrir "</string>
-    <string name="notification_low_battery_with_value">Atenção. A bateria está fraca. O status atual é %d</string>
     <string name="size_of_project">Tamanho:</string>
-    <string name="drone_emergency_battery_low">Bateria baixa (pouso automático).</string>
-    <string name="drone_emergency_camera">Uma ou mais câmeras não estão a responder.</string>
-    <string name="drone_emergency_ultrasound">O sensor de ultrasound não está respondendo.</string>
-    <string name="drone_emergency_angle">Os ângulos Euler do AR.Drone 2.0 ficaram muito altos. Motores desligados para evitar um comportamento
-        perigoso.</string>
-    <string name="drone_emergency_cutout">Um ou mais motores foram parados pelo ambiente.</string>
-    <string name="drone_alert_battery_low">A bateria está muito baixa para decolar novamente.</string>
-    <string name="drone_alert_ultrasound">O sensor de Ultrasound não pode determinar a altitude AR.Drone 2.0.</string>
-    <string name="drone_alert_vision">Nenhuma estimativa de velocidade da câmera inferior.</string>
-    <string name="drone_emergency_title">Emergência</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">Este app precisa das permissões solicitadas para funcionar corretamente. Ex. o bloco de câmera
@@ -1240,18 +1221,6 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
         altere algo e tente novamente.</string>
     <string name="error_adding_brick">Algo deu errado ao adicionar este bloco.</string>
     <string name="error_copying_brick">Ocorreu um erro ao copiar este bloco</string>
-    <string name="error_no_drone_connected_title">Não foi possível encontrar o AR.Drone 2.0.</string>
-    <string name="error_no_drone_connected">Conecte seu wifi ao AR.Drone 2.0 e tente novamente.</string>
-    <string name="error_drone_low_battery_title">AR.Drone 2.0 bateria baixa: %d%%</string>
-    <string name="error_drone_low_battery">Insira uma bateria carregada e tente novamente.</string>
-    <string name="error_jumpingsumo_wrong_platform">Não é possível executar um projeto Sumo em Jumping no seu dispositivo.</string>
-    <string name="error_no_jumpingsumo_connected_title">Não foi possível encontrar Sumo de Salto</string>
-    <string name="error_no_jumpingsumo_connected">Conecte seu wifi ao Sumo de Salto e tente novamente.</string>
-    <string name="error_jumpingsumo_battery_title">Sumo de bateria fraca saltando</string>
-    <string name="error_jumpingsumo_battery">Insira uma bateria carregada e tente novamente.</string>
-    <string name="error_jumpingsumo_wrong_platform_title">Sem suporte a Saltar Sumo</string>
-    <string name="error_drone_wrong_platform_title">Sem suporte ao AR.Drone 2.0.</string>
-    <string name="error_drone_wrong_platform">Não é possível executar um projeto AR.Drone 2.0 no seu dispositivo.</string>
     <string name="error_rename_incompatible_project">Não é possível renomear um projeto incompatível.</string>
     <string name="error_embroidery_file_export">Algo deu errado ao compartilhar o arquivo embroidery.</string>
     <string name="error_embroidery_file_write">Algo deu errado ao escrever o arquivo embroidery.</string>
@@ -1869,6 +1838,15 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
         novamente!</string>
     <string name="progress_upload_dialog_show_program">Mostrar projeto</string>
     <!--  -->
+    <!-- unchanged upload dialog -->
+    <string name="unchanged_upload_warning">Já existe um projeto exatamente igual a esse enviado
+        para a plataforma. Por favor altere seu projeto, de preferência
+        melhorando-o antes de fazer o upload do seu projeto remixado.</string>
+    <string name="unchanged_upload_info">Por favor, considere adicionar algumas palavras gentis ao autor original
+        na seção de Créditos no site da comunidade ou nas opções do projeto. Por favor, note
+        que o usuário receberá uma notificação após o seu envio bem-sucedido.</string>
+    <string name="unchanged_upload_url">Para saber mais sobre remixes, por favor, visite %1s.</string>
+    <!-- -->
     <!-- Snackbar hints -->
     <string name="got_it">Eu tenho que</string>
     <string name="preference_description_hints">Ativar para mostrar dicas</string>
@@ -1884,6 +1862,14 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="hint_objects">Seu programa consiste de diferentes atores e objetos que podem interagir uns com os outros.
         Para adicionar um novo ator ou objeto, toque no símbolo \"+\".</string>
     <!--  -->
+    <!-- Dialog Disable hints -->
+    <string name="dialog_disable_hints_title">Mostrar dicas?</string>
+    <string name="dialog_disable_hints_text">As dicas lhe fornecem informações úteis
+        enquanto faz seu primeiro projeto.\n\nVisibilidade de dicas pode ser mudada no
+        configurações.</string>
+    <string name="dialog_disable_hints_button_hide">SEJA</string>
+    <string name="dialog_disable_hints_button_show">PROJETE</string>
+    <!--  -->
     <!-- Crash report dialog -->
     <!--  -->
     <!-- Multilingual List -->
@@ -1896,6 +1882,9 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="edit">Editar</string>
     <string name="data_value">Valor</string>
     <string name="category_recently_used">Usados recentemente</string>
+    <string name="new_sprite_dialog_place_visually">Colocar visualmente</string>
+    <string name="place_visually_text">Você será solicitado a colocar o novo ator ou objeto sobre a
+        palco.</string>
     <!-- Information -->
     <string name="no_variable_selected">Nenhuma variável selecionada</string>
 </resources>

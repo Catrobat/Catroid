@@ -104,6 +104,10 @@
     <string name="marketing_created_with">作成</string>
     <string name="marketing_app_details">このアプリの詳細について</string>
     <string name="marketing_more_on_google_play">Google Play でより多くのアプリ</string>
+    <string name="error_cannot_open_huawei_app_gallery">おっと！？Huawei AppGalleryを開くのに失敗しました。
+        後でもう一度お試しください。</string>
+    <string name="google_play_store_logo">Google Play</string>
+    <string name="huawei_app_gallery">Huawei App Gallery</string>
     <!-- NFC activity -->
     <string name="nfc_activity_title">NFC タグ</string>
     <!-- Settings activity -->
@@ -553,17 +557,6 @@
         遵守していただく必要があります。具体的には以下のリンクを参照してください。</string>
     <string name="dialog_terms_of_use_link_text">利用とサービスの規約</string>
     <!--  -->
-    <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">ポケットコード利用とサービスの規約</string>
-    <string name="dialog_terms_of_use_parrot_reminder_text">Parrot の
-        AR.Drone 2.0 と一緒にこのアプリを使用しようとしています。 オウムとCatrobatの利用規約とサービスの両方を遵守することを強くお知らせします。</string>
-    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">今後表示しない。</string>
-    <!--  -->
-    <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">このアプリと一緒に使おうとしているのは
-        Parrot\'s Jumping Sumo」です。オウムのジャンピング相撲」のご利用にあたっては、「オウムのジャンピング相撲」と「Catrobatのジャンピング相撲」の両方の利用規約とサービス内容を遵守していただくようお願いいたします。
-        サービスを提供しています。</string>
-    <!--  -->
     <!-- Privacy Policy -->
     <string name="disclaimer_privacy_police_header_headline">ようこそ！</string>
     <string name="disclaimer_privacy_policy_header">このアプリを使用するには、次のことを承認してください</string>
@@ -680,8 +673,6 @@
     <string name="prestage_resource_not_available_title">コンポーネントは使用できません</string>
     <string name="prestage_resource_not_available_text">申し訳ありませんが、このプロジェクトはお使いのデバイスでは動作しません。
         次のコンポーネントは使用できません:\n\n</string>
-    <string name="prestage_resource_in_use_text">ジャンプ相撲に別のデバイスが接続されています。
-        がドローンに接続されていることを確認してください。</string>
     <string name="prestage_no_vibration_available">\u2022 バイブレーション\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 加速度センサー\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 傾斜センサー\n</string>
@@ -691,7 +682,6 @@
     <string name="prestage_no_back_camera_available">\u2022 背面カメラ\n</string>
     <string name="prestage_no_face_detection_available">\u2022 顔検出\n</string>
     <string name="prestage_no_text_detection_available">\u2022 テキスト検出\n</string>
-    <string name="prestage_no_jumping_sumo_available">\u2022 ジャンプ相撲\n</string>
     <string name="prestage_no_front_camera_available">\u2022 フロントカメラ\n</string>
     <string name="prestage_no_camera_available">\u2022 カメラ\n</string>
     <string name="prestage_no_flash_available">\u2022 懐中電灯\n</string>
@@ -895,6 +885,7 @@
     <string name="brick_write_embroidery" tools:ignore="UnusedResources">刺繍データをファイルに書く</string>
     <string name="brick_default_embroidery_file">刺繍.dst</string>
     <string name="brick_sew_up" tools:ignore="UnusedResources">縫製する</string>
+    <string name="brick_thread_color">糸の色を</string>
     <!--  -->
     <!-- Device bricks -->
     <string name="brick_reset_timer" tools:ignore="UnusedResources">リセットタイマー</string>
@@ -1157,18 +1148,7 @@
     <string name="notification_download_pending">ダウンロードが進行中</string>
     <string name="notification_download_finished">ダウンロードに成功しました</string>
     <string name="notification_title_open">"開く "</string>
-    <string name="notification_low_battery_with_value">注意。バッテリー残量が少なくなっています。現在の状態は %d です</string>
     <string name="size_of_project">プログラムのサイズ：</string>
-    <string name="drone_emergency_battery_low">バッテリー残量が少なくなりました (自動着陸)。</string>
-    <string name="drone_emergency_camera">1 つまたは複数のカメラが応答していません。</string>
-    <string name="drone_emergency_ultrasound">超音波センサーが応答していません。</string>
-    <string name="drone_emergency_angle">AR.Drone 2.0 オイラーの角度が高すぎました。モーターはシャットダウンして危険な
-        動作を防ぎます。</string>
-    <string name="drone_emergency_cutout">1 つまたは複数のモーターが環境によって停止されました。</string>
-    <string name="drone_alert_battery_low">バッテリー残量が少なすぎるため再び離陸できません。</string>
-    <string name="drone_alert_ultrasound">超音波センサーではAR.Drone 2.0の高度がわからない。</string>
-    <string name="drone_alert_vision">下向きのカメラから速度を推定できません。</string>
-    <string name="drone_emergency_title">緊急</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">このアプリは、正常に機能するために要求された許可が必要です。例えば、以下のようなものがあります。
@@ -1194,18 +1174,6 @@
         何かを変更して再度お試し下さい。</string>
     <string name="error_adding_brick">このブロックを追加中にエラーが発生しました</string>
     <string name="error_copying_brick">このブロックをコピー中にエラーが発生しました</string>
-    <string name="error_no_drone_connected_title">AR.Drone 2.0が見つかりません。</string>
-    <string name="error_no_drone_connected">Wi-FiをAR.Drone 2.0に接続し、もう一度やり直してください。</string>
-    <string name="error_drone_low_battery_title">AR.Drone 2.0 バッテリー残量: %d%%</string>
-    <string name="error_drone_low_battery">充電済みのバッテリーを挿入して、もう一度やり直してください。</string>
-    <string name="error_jumpingsumo_wrong_platform">お使いの端末では、ジャンピングスーモのプロジェクトを実行することはできません。</string>
-    <string name="error_no_jumpingsumo_connected_title">ジャンプ相撲が見つかりません</string>
-    <string name="error_no_jumpingsumo_connected">Wi-Fiをジャンプ相撲に接続し、もう一度お試しください。</string>
-    <string name="error_jumpingsumo_battery_title">相撲のバッテリー残量が少なくなります</string>
-    <string name="error_jumpingsumo_battery">充電済みのバッテリーを挿入して、もう一度やり直してください。</string>
-    <string name="error_jumpingsumo_wrong_platform_title">ジャンプ中の相撲はありません</string>
-    <string name="error_drone_wrong_platform_title">AR.Drone 2.0には対応していません。</string>
-    <string name="error_drone_wrong_platform">お使いのデバイスで AR.Drone 2.0 プロジェクトを実行できません。</string>
     <string name="error_rename_incompatible_project">互換性のないプロジェクトの名前を変更することはできません。</string>
     <string name="error_embroidery_file_export">刺繍ファイルの共有中に問題が発生しました。</string>
     <string name="error_embroidery_file_write">刺繍ファイルの作成中に問題が発生しました。</string>
@@ -1807,6 +1775,15 @@
         をもう一度やり直してください。</string>
     <string name="progress_upload_dialog_show_program">プログラムの表示</string>
     <!--  -->
+    <!-- unchanged upload dialog -->
+    <string name="unchanged_upload_warning">アップロードしようとしているプロジェクトは、すでに
+        全く同じ形でコミュニティ・プラットフォームに存在しています。あなたのプロジェクトを変更してください。
+        リミックスされたプロジェクトをアップロードする前に、プロジェクトを変更してください。</string>
+    <string name="unchanged_upload_info">コミュニティサイトの「クレジット」セクションやプロジェクトのオプションで、原作者に対する親切な言葉を加えることをご検討ください。
+        コミュニティサイトの「クレジット」セクション、またはプロジェクトのオプションで、原作者に対する親切な言葉を加えることをご検討ください。ご注意ください
+        アップロードが完了すると、ユーザーに通知が届きます。</string>
+    <string name="unchanged_upload_url">リミックスの詳細については、%1sをご覧ください。</string>
+    <!-- -->
     <!-- Snackbar hints -->
     <string name="got_it">うまくいきました</string>
     <string name="preference_description_hints">有効にするとヒントを表示します</string>
@@ -1822,6 +1799,14 @@
     <string name="hint_objects">あなたのプログラムは、お互いに相互作用することができるさまざまなアクターとオブジェクトで構成されています。
         新しいアクターやオブジェクトを追加するには、「+」記号をタップします。</string>
     <!--  -->
+    <!-- Dialog Disable hints -->
+    <string name="dialog_disable_hints_title">ヒントは？</string>
+    <string name="dialog_disable_hints_text">ヒントは、最初のプロジェクトを作るときに役立つ情報を提供します。
+        ヒントの表示は、設定で変更できます。
+        設定で変更できます。</string>
+    <string name="dialog_disable_hints_button_hide">非表示</string>
+    <string name="dialog_disable_hints_button_show">ショー</string>
+    <!--  -->
     <!-- Crash report dialog -->
     <!--  -->
     <!-- Multilingual List -->
@@ -1834,6 +1819,9 @@
     <string name="edit">編集</string>
     <string name="data_value">値</string>
     <string name="category_recently_used">最近使用したもの</string>
+    <string name="new_sprite_dialog_place_visually">視覚的に配置</string>
+    <string name="place_visually_text">新しいアクターやオブジェクトをステージ上に配置していただきます。
+        ステージに置いていただきます。</string>
     <!-- Information -->
     <string name="no_variable_selected">変数が選択されていません</string>
 </resources>
