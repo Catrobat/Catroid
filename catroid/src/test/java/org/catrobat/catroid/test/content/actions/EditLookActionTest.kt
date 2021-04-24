@@ -25,7 +25,7 @@ package org.catrobat.catroid.test.content.actions
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.utils.GdxNativesLoader
-import junit.framework.Assert
+import junit.framework.Assert.assertEquals
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.LookData
 import org.catrobat.catroid.content.Project
@@ -38,8 +38,10 @@ import org.catrobat.catroid.test.MockUtil
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
+import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
+import org.mockito.Mockito.times
+import org.mockito.Mockito.verify
 import org.powermock.api.mockito.PowerMockito
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
@@ -64,9 +66,9 @@ class EditLookActionTest {
         PowerMockito.mockStatic(XstreamSerializer::class.java)
         PowerMockito.mockStatic(GdxNativesLoader::class.java)
         PowerMockito.mockStatic(StorageOperations::class.java)
-        Mockito.`when`(StorageOperations.duplicateFile(lookDataFile)).thenReturn(lookDataFileEdited)
-        Mockito.`when`(XstreamSerializer.getInstance()).thenReturn(xstreamSerializerMock)
-        Mockito.`when`(xstreamSerializerMock.saveProject(projectMock)).thenReturn(true)
+        `when`(StorageOperations.duplicateFile(lookDataFile)).thenReturn(lookDataFileEdited)
+        `when`(XstreamSerializer.getInstance()).thenReturn(xstreamSerializerMock)
+        `when`(xstreamSerializerMock.saveProject(projectMock)).thenReturn(true)
     }
 
     @Test
@@ -74,10 +76,12 @@ class EditLookActionTest {
         with(Sprite()) {
             val setNewLookAction = actionFactory.createSetNextLookAction(this, testSequence)
             val editLookAction = actionFactory.createEditLookAction(
-                this, testSequence, setNewLookAction as SetNextLookAction) as EditLookAction
+                this, testSequence, setNewLookAction as SetNextLookAction
+            ) as EditLookAction
             editLookAction.setLookData()
             setNewLookAction.act(1f)
-            Assert.assertEquals(0, this.lookList.size)
+            assertEquals(0, this.lookList.size)
+            verify(lookDataFile, times(0)).delete()
         }
     }
 
@@ -88,9 +92,11 @@ class EditLookActionTest {
             this.look.lookData = lookData
             val setNewLookAction = actionFactory.createSetNextLookAction(this, testSequence)
             val editLookAction = actionFactory.createEditLookAction(
-                this, testSequence, setNewLookAction as SetNextLookAction) as EditLookAction
+                this, testSequence, setNewLookAction as SetNextLookAction
+            ) as EditLookAction
             editLookAction.setLookData()
-            Assert.assertEquals(lookDataFileEdited, this.lookList[0].file)
+            assertEquals(lookDataFileEdited, this.lookList[0].file)
+            verify(lookDataFile, times(0)).delete()
         }
     }
 }

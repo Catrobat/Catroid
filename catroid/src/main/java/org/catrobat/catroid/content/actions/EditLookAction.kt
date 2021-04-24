@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.content.actions
 
-import android.app.Activity
 import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
@@ -53,6 +52,7 @@ class EditLookAction : PocketPaintAction() {
         if (scope?.sprite?.look?.lookData?.file?.exists() != true) {
             return null
         }
+        setLookData()
         val lookAbsolutePath = scope?.sprite?.look?.lookData?.file?.absolutePath ?: return null
         return StageActivity.activeStageActivity.get()?.let { stageActivity ->
             val intent = Intent("android.intent.action.MAIN").setComponent(ComponentName(
@@ -68,9 +68,6 @@ class EditLookAction : PocketPaintAction() {
 
     override fun onIntentResult(resultCode: Int, data: Intent?) {
         val stageActivity = StageActivity.activeStageActivity.get()
-        if (resultCode == Activity.RESULT_OK && stageActivity != null) {
-            setLookData()
-        }
         LookRequester.anyAsked = false
         responseReceived = true
         stageActivity?.onResume()
@@ -79,19 +76,17 @@ class EditLookAction : PocketPaintAction() {
     @VisibleForTesting
     fun setLookData() {
         val sprite = scope?.sprite ?: return
-        val lookData = sprite?.look?.lookData ?: return
+        val lookData = sprite.look?.lookData ?: return
         val lookDataName = lookData.name ?: return
         val lookDataOldFile = sprite.look?.lookData?.file ?: return
-
         try {
             val lookDataNewFile = StorageOperations.duplicateFile(lookDataOldFile)
-            val lookData = LookData(lookDataName, lookDataNewFile)
+            val newLookData = LookData(lookDataName, lookDataNewFile)
             val lookDataIndex = sprite.lookList.indexOf(sprite.look.lookData)
             sprite.look.lookListIndexBeforeLookRequest = lookDataIndex
             sprite.lookList.removeAt(lookDataIndex)
-            sprite.lookList.add(lookDataIndex, lookData)
-            lookDataOldFile.delete()
-            lookData.collisionInformation.calculate()
+            sprite.lookList.add(lookDataIndex, newLookData)
+            newLookData.collisionInformation.calculate()
         } catch (e: IOException) {
             Log.e(TAG, Log.getStackTraceString(e))
         }
