@@ -108,14 +108,17 @@ class ColorAtXYDetection(
         val lookList: MutableList<Look> = getLooksOfRelevantSprites()
 
         val batch = SpriteBatch()
-        val projectionMatrix = createProjectionMatrix(scope.project)
-        val stagePixmap = createPicture(lookList, projectionMatrix, batch)
+        val projectionMatrix = scope.project?.let { createProjectionMatrix(it) }
+        val stagePixmap = projectionMatrix?.let { createPicture(lookList, it, batch) }
         try {
-            return rgbaColorToRGBHexString(Color(stagePixmap.getPixel(0, 0)))
+            if (stagePixmap != null) {
+                return rgbaColorToRGBHexString(Color(stagePixmap.getPixel(0, 0)))
+            }
         } finally {
             stagePixmap?.dispose()
             batch.dispose()
         }
+        return "#000000"
     }
 
     private fun getHexColorStringFromBitmapAtPosition(
