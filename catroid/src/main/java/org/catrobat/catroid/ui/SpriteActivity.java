@@ -190,7 +190,7 @@ public class SpriteActivity extends BaseActivity {
 		addTabLayout(this, fragmentPosition);
 	}
 
-	private String createActionBarTitle() {
+	public String createActionBarTitle() {
 		if (currentProject != null && currentProject.getSceneList() != null && currentProject.getSceneList().size() == 1) {
 			return currentSprite.getName();
 		} else {
@@ -264,6 +264,7 @@ public class SpriteActivity extends BaseActivity {
 			}
 			return true;
 		}
+
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -283,6 +284,10 @@ public class SpriteActivity extends BaseActivity {
 		if (currentFragment instanceof ScriptFragment) {
 			if (((ScriptFragment) currentFragment).isCurrentlyMoving()) {
 				((ScriptFragment) currentFragment).cancelMove();
+				return;
+			}
+			if (((ScriptFragment) currentFragment).isFinderOpen()) {
+				((ScriptFragment) currentFragment).closeFinder();
 				return;
 			}
 			if (((ScriptFragment) currentFragment).isCurrentlyHighlighted()) {
@@ -505,6 +510,7 @@ public class SpriteActivity extends BaseActivity {
 	private void addBackgroundFromUri(Uri uri) {
 		addBackgroundFromUri(uri, DEFAULT_IMAGE_EXTENSION);
 	}
+
 	private void addBackgroundFromUri(Uri uri, String imageExtension) {
 		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
 		String lookDataName;
@@ -542,6 +548,7 @@ public class SpriteActivity extends BaseActivity {
 	private void addLookFromUri(Uri uri) {
 		addLookFromUri(uri, DEFAULT_IMAGE_EXTENSION);
 	}
+
 	private void addLookFromUri(Uri uri, String imageExtension) {
 		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
 		String lookDataName;
@@ -868,7 +875,7 @@ public class SpriteActivity extends BaseActivity {
 				if (currentName.equals(generatedVariableName)) {
 					generatedVariableName =
 							uniqueVariableNameProvider.getUniqueName(getString(R.string.default_variable_name),
-							null);
+									null);
 					textInputEditText.setText(generatedVariableName);
 				}
 			}
@@ -943,13 +950,26 @@ public class SpriteActivity extends BaseActivity {
 	@Override
 	public void onActionModeFinished(ActionMode mode) {
 		Fragment fragment = getCurrentFragment();
-		if (isFragmentWithTablayout(fragment)) {
-			addTabLayout(this, getTabPositionInSpriteActivity(getCurrentFragment()));
+		if (isFragmentWithTablayout(fragment) && (!(fragment instanceof ScriptFragment) || !((ScriptFragment) fragment).isFinderOpen())) {
+			addTabLayout(this, getTabPositionInSpriteActivity(fragment));
 		}
 		super.onActionModeFinished(mode);
 	}
 
 	public void setCurrentSprite(Sprite sprite) {
 		currentSprite = sprite;
+	}
+
+	public void setCurrentSceneAndSprite(Scene scene, Sprite sprite) {
+		this.currentScene = scene;
+		this.currentSprite = sprite;
+	}
+
+	public void removeTabs() {
+		removeTabLayout(this);
+	}
+
+	public void addTabs() {
+		addTabLayout(this, getTabPositionInSpriteActivity(getCurrentFragment()));
 	}
 }

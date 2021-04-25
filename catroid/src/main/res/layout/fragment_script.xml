@@ -28,6 +28,12 @@
     android:layout_weight="1"
     android:orientation="vertical" >
 
+    <org.catrobat.catroid.ui.ScriptFinder
+        android:id="@+id/findview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
     <org.catrobat.catroid.ui.dragndrop.BrickListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
