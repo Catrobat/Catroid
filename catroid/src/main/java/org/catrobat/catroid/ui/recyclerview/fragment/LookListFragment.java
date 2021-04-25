@@ -88,6 +88,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 
 		menu.findItem(R.id.catblocks_reorder_scripts).setVisible(false);
 		menu.findItem(R.id.catblocks).setVisible(false);
+		menu.findItem(R.id.find).setVisible(false);
 	}
 
 	@Override
