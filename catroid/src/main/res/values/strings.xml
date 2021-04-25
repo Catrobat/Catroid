@@ -2107,4 +2107,7 @@ needs read and write access to it. You can always change permissions through you
     <!-- Information -->
     <string name="no_variable_selected">No variable selected</string>
 
+    <string name="find">Find</string>
+    <string name="no_results_found">No results found</string>
+
 </resources>

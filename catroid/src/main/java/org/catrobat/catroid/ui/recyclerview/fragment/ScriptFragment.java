@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -57,6 +59,7 @@ import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.ScriptFinder;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.controller.RecentBrickListManager;
@@ -126,6 +129,7 @@ public class ScriptFragment extends ListFragment implements
 	private ActionMode actionMode;
 	private BrickAdapter adapter;
 	private BrickListView listView;
+	private ScriptFinder scriptFinder;
 	private String currentSceneName;
 	private String currentSpriteName;
 	private int undoBrickPosition;
@@ -265,9 +269,71 @@ public class ScriptFragment extends ListFragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = View.inflate(getActivity(), R.layout.fragment_script, null);
 		listView = view.findViewById(android.R.id.list);
+
+		scriptFinder = view.findViewById(R.id.findview);
+
+		scriptFinder.setOnResultFoundListener((sceneIndex, spriteIndex, brickIndex, totalResults,
+				textView
+				) -> {
+			Project currentProject = ProjectManager.getInstance().getCurrentProject();
+			Scene currentScene = currentProject.getSceneList().get(sceneIndex);
+			Sprite currentSprite = currentScene.getSpriteList().get(spriteIndex);
+
+			textView.setText(createActionBarTitle(currentProject,
+					currentScene,
+					currentSprite));
+
+			ProjectManager.getInstance().setCurrentSceneAndSprite(currentScene.getName(),
+					currentSprite.getName());
+
+			adapter.updateItems(currentSprite);
+			adapter.notifyDataSetChanged();
+			listView.smoothScrollToPosition(brickIndex);
+			highlightBrickAtIndex(brickIndex);
+			hideKeyboard();
+		});
+
+		SpriteActivity activity = (SpriteActivity) getActivity();
+
+		scriptFinder.setOnCloseListener(() -> {
+			listView.cancelHighlighting();
+			finishActionMode();
+			if (activity instanceof SpriteActivity && !activity.isFinishing()) {
+				activity.setCurrentSceneAndSprite(ProjectManager.getInstance().getCurrentlyEditedScene(),
+						ProjectManager.getInstance().getCurrentSprite());
+				activity.getSupportActionBar().setTitle(activity.createActionBarTitle());
+				activity.addTabs();
+			}
+			activity.findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
+		});
+
+		scriptFinder.setOnOpenListener(() -> {
+			activity.removeTabs();
+			activity.findViewById(R.id.toolbar).setVisibility(View.GONE);
+		});
+
 		setHasOptionsMenu(true);
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_scripts);
 		return view;
+	}
+
+	public String createActionBarTitle(Project currentProject, Scene currentScene, Sprite currentSprite) {
+		if (currentProject.getSceneList().size() == 1) {
+			return currentSprite.getName();
+		} else {
+			return currentScene.getName() + ": " + currentSprite.getName();
+		}
+	}
+
+	private void highlightBrickAtIndex(int index) {
+		listView.getBrickPositionsToHighlight().clear();
+		listView.getBrickPositionsToHighlight().add(index);
+	}
+
+	private void hideKeyboard() {
+		InputMethodManager imm =
+				(InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
 	}
 
 	@Override
@@ -336,6 +402,7 @@ public class ScriptFragment extends ListFragment implements
 		menu.findItem(R.id.show_details).setVisible(false);
 		menu.findItem(R.id.rename).setVisible(false);
 		menu.findItem(R.id.catblocks_reorder_scripts).setVisible(false);
+		menu.findItem(R.id.find).setVisible(true);
 		if (!BuildConfig.FEATURE_CATBLOCKS_ENABLED) {
 			menu.findItem(R.id.catblocks).setVisible(false);
 		}
@@ -369,6 +436,9 @@ public class ScriptFragment extends ListFragment implements
 				break;
 			case R.id.catblocks:
 				switchToCatblocks();
+				break;
+			case R.id.find:
+				scriptFinder.open();
 				break;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -949,5 +1019,19 @@ public class ScriptFragment extends ListFragment implements
 		}
 		scriptToFocus = null;
 		brickToFocus = null;
+	}
+
+	public int getActionModeType() {
+		return actionModeType;
+	}
+
+	public boolean isFinderOpen() {
+		return scriptFinder.isOpen();
+	}
+
+	public void closeFinder() {
+		if (!scriptFinder.isClosed()) {
+			scriptFinder.close();
+		}
 	}
 }
