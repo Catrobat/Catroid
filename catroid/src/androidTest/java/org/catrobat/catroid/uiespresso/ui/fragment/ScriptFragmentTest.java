@@ -39,6 +39,9 @@ import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickCategoryListMatchers;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickPrototypeListMatchers;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
+
+import androidx.test.espresso.matcher.ViewMatchers;
+import kotlinx.coroutines.ExperimentalCoroutinesApi;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -66,6 +69,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
+import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -256,5 +260,14 @@ public class ScriptFragmentTest {
 
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
+	}
+
+	@Test
+	public void hideFabOnScroll_hideFab_whenLastItemReached() throws InterruptedException {
+		onView(withId(R.id.button_add)).check(matches(not(withEffectiveVisibility(ViewMatchers.Visibility.GONE))));
+		onView(withId(R.id.button_play)).check(matches(not(withEffectiveVisibility(ViewMatchers.Visibility.GONE))));
+		Thread.sleep(2000);
+		onView(withId(R.id.button_add)).check(matches(not(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))));
+		onView(withId(R.id.button_play)).check(matches(not(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))));
 	}
 }

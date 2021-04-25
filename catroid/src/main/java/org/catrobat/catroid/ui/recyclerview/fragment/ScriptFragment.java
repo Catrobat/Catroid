@@ -938,12 +938,14 @@ public class ScriptFragment extends ListFragment implements
 		fab = rootView.findViewById(R.id.bottom_bar);
 		listView.setOnScrollListener(new BrickListView.OnScrollListener() {
 			@Override
-			public void onScrollStateChanged(AbsListView view, int scrollState) { }
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+			}
+
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-				if(firstVisibleItem + visibleItemCount == totalItemCount && fab.getVisibility() == View.VISIBLE){
+				if (firstVisibleItem + visibleItemCount == totalItemCount && fab.getVisibility() == View.VISIBLE) {
 					view.removeCallbacks(showRunnable);
-					view.postDelayed(showRunnable,2000);
+					view.postDelayed(showRunnable, 2000);
 					fab.setVisibility(View.GONE);
 				}
 			}
