@@ -45,10 +45,7 @@ public class NXTReply extends MindstormsReply {
 
 	@Override
 	public boolean hasError() {
-		if (getStatusByte() == NO_ERROR) {
-			return false;
-		}
-		return true;
+		return getStatusByte() != NO_ERROR;
 	}
 
 	@Override

@@ -141,11 +141,7 @@ public class Project implements Serializable {
 			return false;
 		}
 
-		if (tracks.equals(project.tracks)) {
-			return true;
-		}
-
-		return false;
+		return tracks.equals(project.tracks);
 	}
 
 	public File getFile() {
