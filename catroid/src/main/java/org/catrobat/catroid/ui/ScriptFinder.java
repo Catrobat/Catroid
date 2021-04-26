@@ -38,7 +38,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -47,6 +46,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -143,7 +143,7 @@ public class ScriptFinder extends LinearLayout {
 			updateUI();
 		} else {
 			searchPositionIndicator.setText("0/0");
-			Toast.makeText(getContext(), getContext().getString(R.string.no_results_found), Toast.LENGTH_SHORT).show();
+			ToastUtil.showError(getContext(), getContext().getString(R.string.no_results_found));
 		}
 	}
 
@@ -153,7 +153,7 @@ public class ScriptFinder extends LinearLayout {
 			updateUI();
 		} else {
 			searchPositionIndicator.setText("0/0");
-			Toast.makeText(getContext(), getContext().getString(R.string.no_results_found), Toast.LENGTH_SHORT).show();
+			ToastUtil.showError(getContext(), getContext().getString(R.string.no_results_found));
 		}
 	}
 
@@ -272,6 +272,7 @@ public class ScriptFinder extends LinearLayout {
 		searchEt.setText("");
 		searchQuery = "";
 		onCloseListener.onClose();
+		ViewUtils.hideKeyboard(this);
 	}
 
 	public boolean isClosed() {
