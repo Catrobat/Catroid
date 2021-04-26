@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -43,6 +43,7 @@ public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSele
 	private static final long serialVersionUID = 1L;
 
 	private Sprite objectToClone;
+	private transient BrickSpinner<Sprite> spinner;
 
 	public CloneBrick() {
 	}
@@ -62,7 +63,7 @@ public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSele
 		items.remove(ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite());
 		items.remove(ProjectManager.getInstance().getCurrentSprite());
 
-		BrickSpinner<Sprite> spinner = new BrickSpinner<>(R.id.brick_clone_spinner, view, items);
+		spinner = new BrickSpinner<>(R.id.brick_clone_spinner, view, items);
 		spinner.setOnItemSelectedListener(this);
 		spinner.setSelection(objectToClone);
 
@@ -91,5 +92,14 @@ public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSele
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		Sprite s = (objectToClone != null) ? objectToClone : sprite;
 		sequence.addAction(sprite.getActionFactory().createCloneAction(s));
+	}
+
+	public Sprite getSelectedItem() {
+		return objectToClone;
+	}
+
+	public void resetSpinner() {
+		spinner.setSelection(0);
+		objectToClone = null;
 	}
 }
