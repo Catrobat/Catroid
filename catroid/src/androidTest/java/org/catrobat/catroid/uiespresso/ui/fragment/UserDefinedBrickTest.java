@@ -45,6 +45,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static junit.framework.TestCase.assertTrue;
 
 import static org.catrobat.catroid.WaitForConditionAction.waitFor;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
@@ -175,6 +176,64 @@ public class UserDefinedBrickTest {
 		onView(withId(R.id.fragment_script)).perform(waitFor(isDisplayed(), waitThreshold));
 
 		assertTrue(scriptFragment.isCurrentlyMoving());
+	}
+
+	@Test
+	public void testEditFormulaInUserDefinedBrickWithInput() {
+		clickOnAddInputToUserBrick();
+		onView(withId(R.id.next))
+				.perform(click());
+		onView(withId(R.id.confirm))
+				.perform(click());
+
+		onView(withId(R.id.fragment_script)).perform(waitFor(isDisplayed(), waitThreshold));
+
+		onView(withId(R.id.fragment_script)).perform(click());
+
+		selectYourBricks();
+		onData(allOf(is(instanceOf(UserDefinedBrick.class))))
+				.inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
+				.atPosition(0)
+				.perform(click());
+
+		onView(withId(R.id.fragment_script)).perform(waitFor(isDisplayed(), waitThreshold));
+
+		onBrickAtPosition(0)
+				.perform(click());
+		onBrickAtPosition(1)
+				.perform(click());
+
+		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
+				.check(matches(isDisplayed()));
+	}
+
+	@Test
+	public void testEditFormulaInUserDefinedBrickWithoutInput() {
+		clickOnAddLabelToUserBrick();
+		onView(withId(R.id.next))
+				.perform(click());
+		onView(withId(R.id.confirm))
+				.perform(click());
+
+		onView(withId(R.id.fragment_script)).perform(waitFor(isDisplayed(), waitThreshold));
+
+		onView(withId(R.id.fragment_script)).perform(click());
+
+		selectYourBricks();
+		onData(allOf(is(instanceOf(UserDefinedBrick.class))))
+				.inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
+				.atPosition(0)
+				.perform(click());
+
+		onView(withId(R.id.fragment_script)).perform(waitFor(isDisplayed(), waitThreshold));
+
+		onBrickAtPosition(0)
+				.perform(click());
+		onBrickAtPosition(1)
+				.perform(click());
+
+		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
+				.check(doesNotExist());
 	}
 
 	private void selectYourBricks() {
