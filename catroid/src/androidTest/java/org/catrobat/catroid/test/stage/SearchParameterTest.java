@@ -23,8 +23,10 @@
 
 package org.catrobat.catroid.test.stage;
 
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -52,11 +54,14 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.matcher.ViewMatchers;
 
 import static org.catrobat.catroid.test.utils.TestUtils.deleteProjects;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
@@ -135,6 +140,26 @@ public class SearchParameterTest {
 		onView(withId(R.id.search_bar)).perform(typeText("look 1"));
 		onView(withId(R.id.find)).perform(click());
 		onView(withText("look 1")).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+	}
+
+	@Test
+	public void closeKeyboardAfterSearching() {
+		openActionBarOverflowOrOptionsMenu(baseActivityTestRule.getActivity());
+		onView(withText(R.string.find)).perform(click());
+		assertTrue(isKeyboardVisible());
+		onView(withId(R.id.close)).perform(click());
+		assertFalse(isKeyboardVisible());
+	}
+
+	public boolean isKeyboardVisible() {
+		try {
+			final InputMethodManager manager = (InputMethodManager) ApplicationProvider.getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+			final Method windowHeightMethod = InputMethodManager.class.getMethod("getInputMethodWindowVisibleHeight");
+			final int height = (int) windowHeightMethod.invoke(manager);
+			return height > 0;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	public void createProject(String projectName) {
