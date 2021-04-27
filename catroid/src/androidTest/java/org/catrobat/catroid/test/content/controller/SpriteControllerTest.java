@@ -31,6 +31,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.ResourceImporter;
@@ -90,8 +91,10 @@ public class SpriteControllerTest {
 
 		String spriteVarName = "spriteVar";
 		String spriteListName = "spriteList";
+		UserDefinedBrick userDefinedBrick = new UserDefinedBrick();
 		assertTrue(sprite.addUserVariable(new UserVariable(spriteVarName)));
 		assertTrue(sprite.addUserList(new UserList(spriteListName)));
+		sprite.addUserDefinedBrick(userDefinedBrick);
 
 		Sprite copy = controller.copy(sprite, project, scene);
 
@@ -112,8 +115,47 @@ public class SpriteControllerTest {
 		assertNotSame(sprite.getUserList(spriteListName),
 				copy.getUserList(spriteListName));
 
+		assertNotNull(sprite.getUserDefinedBrickWithSameUserData(userDefinedBrick));
+		assertNotNull(copy.getUserDefinedBrickWithSameUserData(userDefinedBrick));
+		assertNotSame(sprite.getUserDefinedBrickWithSameUserData(userDefinedBrick),
+				copy.getUserDefinedBrickWithSameUserData(userDefinedBrick));
+
 		assertFileExists(copy.getLookList().get(0).getFile());
 		assertFileExists(copy.getSoundList().get(0).getFile());
+	}
+
+	@Test
+	public void testConvertSpriteToGroupItemSprite() {
+		SpriteController controller = new SpriteController();
+
+		String spriteVarName = "spriteVar";
+		String spriteListName = "spriteList";
+		UserDefinedBrick userDefinedBrick = new UserDefinedBrick();
+		assertTrue(sprite.addUserVariable(new UserVariable(spriteVarName)));
+		assertTrue(sprite.addUserList(new UserList(spriteListName)));
+		sprite.addUserDefinedBrick(userDefinedBrick);
+
+		sprite.setConvertToGroupItemSprite(true);
+		Sprite groupItemSprite = controller.convert(sprite);
+
+		assertEquals(2, scene.getSpriteList().size());
+
+		assertEquals(sprite.getLookList().size(), groupItemSprite.getLookList().size());
+		assertEquals(sprite.getSoundList().size(), groupItemSprite.getSoundList().size());
+		assertEquals(sprite.getNumberOfScripts(), groupItemSprite.getNumberOfScripts());
+		assertEquals(sprite.getNumberOfBricks(), groupItemSprite.getNumberOfBricks());
+
+		assertNotNull(sprite.getUserVariable(spriteVarName));
+		assertNotNull(groupItemSprite.getUserVariable(spriteVarName));
+
+		assertNotNull(sprite.getUserList(spriteListName));
+		assertNotNull(groupItemSprite.getUserList(spriteListName));
+
+		assertNotNull(sprite.getUserDefinedBrickWithSameUserData(userDefinedBrick));
+		assertNotNull(groupItemSprite.getUserDefinedBrickWithSameUserData(userDefinedBrick));
+
+		assertFileExists(groupItemSprite.getLookList().get(0).getFile());
+		assertFileExists(groupItemSprite.getSoundList().get(0).getFile());
 	}
 
 	@Test
