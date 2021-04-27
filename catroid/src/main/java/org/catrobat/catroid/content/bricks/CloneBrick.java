@@ -90,7 +90,7 @@ public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSele
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		Sprite s = (objectToClone != null) ? objectToClone : sprite;
+		Sprite s = ((objectToClone != null) && (ProjectManager.getInstance().getCurrentlyPlayingScene().getSprite(objectToClone.getName()) != null)) ? objectToClone : sprite;
 		sequence.addAction(sprite.getActionFactory().createCloneAction(s));
 	}
 
