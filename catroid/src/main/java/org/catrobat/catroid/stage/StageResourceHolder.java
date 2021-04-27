@@ -358,65 +358,65 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 	}
 
 	private void showResourceFailedErrorDialog() {
-		String failedResourcesMessage = stageActivity.getString(R.string.prestage_resource_not_available_text);
+		StringBuilder failedResourcesMessage = new StringBuilder(stageActivity.getString(R.string.prestage_resource_not_available_text));
 		Iterator resourceIter = failedResources.iterator();
 		while (resourceIter.hasNext()) {
 			switch ((int) resourceIter.next()) {
 				case Brick.SENSOR_ACCELERATION:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_no_acceleration_sensor_available);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_acceleration_sensor_available));
 					break;
 				case Brick.SENSOR_INCLINATION:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_no_inclination_sensor_available);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_inclination_sensor_available));
 					break;
 				case Brick.SENSOR_COMPASS:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_no_compass_sensor_available);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_compass_sensor_available));
 					break;
 				case Brick.SENSOR_GPS:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_no_gps_sensor_available);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_gps_sensor_available));
 					break;
 				case Brick.TEXT_TO_SPEECH:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_text_to_speech_error);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_text_to_speech_error));
 					break;
 				case Brick.CAMERA_BACK:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_no_back_camera_available);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_back_camera_available));
 					break;
 				case Brick.CAMERA_FRONT:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_no_front_camera_available);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_front_camera_available));
 					break;
 				case Brick.VIDEO:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_no_camera_available);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_camera_available));
 					break;
 				case Brick.CAMERA_FLASH:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_no_flash_available);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_flash_available));
 					break;
 				case Brick.VIBRATION:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_no_vibration_available);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_vibration_available));
 					break;
 				case Brick.FACE_DETECTION:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_no_face_detection_available);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_face_detection_available));
 					break;
 				case Brick.SPEECH_RECOGNITION:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.speech_recognition_not_available);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.speech_recognition_not_available));
 					break;
 				case Brick.TEXT_DETECTION:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_no_text_detection_available);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_text_detection_available));
 					break;
 				default:
-					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_default_resource_not_available);
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_default_resource_not_available));
 					break;
 			}
 		}

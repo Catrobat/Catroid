@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -72,12 +72,14 @@ public class HtmlRegexExtractor {
 	private String findKeywordWithHtmlBetweenWordsInText(String keywords, String html) {
 
 		String[] splittedKeywords = keywords.split("\\s+");
-		String keywordsWithHtmlBetweenWords = Pattern.quote(splittedKeywords[0]);
+		StringBuilder keywordsWithHtmlBetweenWords = new StringBuilder(keywords.length())
+				.append(Pattern.quote(splittedKeywords[0]));
 
 		for (int i = 1; i < splittedKeywords.length; i++) {
-			keywordsWithHtmlBetweenWords += "(\\s|&nbsp;|<[^>]+>)+?" + Pattern.quote(splittedKeywords[i]);
+			keywordsWithHtmlBetweenWords.append("(\\s|&nbsp;|<[^>]+>)+?");
+			keywordsWithHtmlBetweenWords.append(Pattern.quote(splittedKeywords[i]));
 		}
-		Matcher matcher = Pattern.compile(keywordsWithHtmlBetweenWords).matcher(html);
+		Matcher matcher = Pattern.compile(keywordsWithHtmlBetweenWords.toString()).matcher(html);
 		if (matcher.find()) {
 			return matcher.group();
 		} 

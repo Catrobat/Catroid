@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -438,17 +438,17 @@ public class CollisionInformation {
 
 	public static void writeCollisionVerticesToPNGMeta(Polygon[] collisionPolygon,
 			String absolutePath) {
-		String metaToWrite = "";
+		StringBuilder metaToWrite = new StringBuilder();
 		for (Polygon polygon : collisionPolygon) {
 			for (int f = 0; f < polygon.getVertices().length; f++) {
-				metaToWrite += polygon.getVertices()[f] + ";";
+				metaToWrite.append(polygon.getVertices()[f]).append(';');
 			}
-			metaToWrite = metaToWrite.substring(0, metaToWrite.length() - 1);
-			metaToWrite += "|";
+			metaToWrite = new StringBuilder(metaToWrite.substring(0, metaToWrite.length() - 1));
+			metaToWrite.append('|');
 		}
-		if (!metaToWrite.equals("")) {
-			metaToWrite = metaToWrite.substring(0, metaToWrite.length() - 1);
-			ImageEditing.writeMetaDataStringToPNG(absolutePath, Constants.COLLISION_PNG_META_TAG_KEY, metaToWrite);
+		if (metaToWrite.length() > 0) {
+			metaToWrite = new StringBuilder(metaToWrite.substring(0, metaToWrite.length() - 1));
+			ImageEditing.writeMetaDataStringToPNG(absolutePath, Constants.COLLISION_PNG_META_TAG_KEY, metaToWrite.toString());
 		}
 	}
 

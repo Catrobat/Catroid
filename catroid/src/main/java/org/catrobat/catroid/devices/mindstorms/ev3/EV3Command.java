@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -146,17 +146,17 @@ public class EV3Command implements MindstormsCommand {
 
 	public String toHexString(EV3Command command) {
 		byte[] rawBytes = command.getRawCommand();
-		String commandHexString = "0x";
+		StringBuilder commandHexString = new StringBuilder("0x");
 
 		if (rawBytes.length == 0) {
 			return "0";
 		}
 
 		for (int i = 0; i < rawBytes.length; i++) {
-			commandHexString += Integer.toHexString(rawBytes[i] & 0xFF);
-			commandHexString += "_";
+			commandHexString.append(Integer.toHexString(rawBytes[i] & 0xFF));
+			commandHexString.append("_");
 		}
 
-		return commandHexString;
+		return commandHexString.toString();
 	}
 }
