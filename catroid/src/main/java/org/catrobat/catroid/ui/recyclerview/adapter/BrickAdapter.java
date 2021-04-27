@@ -144,6 +144,13 @@ public class BrickAdapter extends BaseAdapter implements
 				}
 				break;
 			case CONNECTED_ONLY:
+				if (item instanceof UserDefinedReceiverBrick) {
+					viewStateManager.setEnabled(false, position);
+					itemView.setAlpha(DISABLED_BRICK_ALPHA);
+				}
+				item.getCheckBox().setVisibility(View.VISIBLE);
+				item.disableSpinners();
+				break;
 			case ALL:
 				item.getCheckBox().setVisibility(View.VISIBLE);
 				item.disableSpinners();
