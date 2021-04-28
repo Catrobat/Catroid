@@ -67,18 +67,20 @@ public abstract class DeviceUserDataAccessor {
 	}
 
 	public boolean readUserData(UserData userData) {
-
 		Map deviceMap = readMapFromJson();
 
 		if (deviceMap == null) {
 			userData.reset();
+			Log.e(TAG, "Device map is null");
 			return false;
 		}
 
 		if (!deviceMap.containsKey(userData.getDeviceKey())) {
 			userData.reset();
+			Log.e(TAG, "Device map doesn't contain key");
 			return false;
 		}
+
 		userData.setValue(deviceMap.get(userData.getDeviceKey()));
 		return true;
 	}
@@ -100,7 +102,7 @@ public abstract class DeviceUserDataAccessor {
 				deviceVariableMap.put(userData.getDeviceKey(), userData.getValue());
 				writeMapToJson(deviceVariableMap);
 			} catch (IOException e) {
-				Log.e(TAG, e.getMessage());
+				Log.e(TAG, "Problem in writing userData to deviceVariableMap", e);
 			}
 		}
 	}
@@ -120,7 +122,7 @@ public abstract class DeviceUserDataAccessor {
 				deviceVariableMap.remove(userData.getDeviceKey());
 				writeMapToJson(deviceVariableMap);
 			} catch (Exception e) {
-				Log.e(TAG, e.getMessage());
+				Log.e(TAG, "Problem in removing UserData from device variable map", e);
 			}
 		}
 	}
@@ -133,8 +135,10 @@ public abstract class DeviceUserDataAccessor {
 			return new Gson().fromJson(new FileReader(deviceFile), mapType);
 		} catch (FileNotFoundException e) {
 			if (deviceFile.exists()) {
-				Log.e(TAG, "Device Variable File corrupted!");
+				Log.e(TAG, "Device Variable File corrupted!", e);
 				deviceFile.delete();
+			} else {
+				Log.e(TAG, "Device Variable File does not exist", e);
 			}
 			return null;
 		}
@@ -150,7 +154,7 @@ public abstract class DeviceUserDataAccessor {
 			bos.write(jsonString.getBytes());
 			bos.flush();
 		} catch (IOException e) {
-			Log.e(TAG, e.getMessage());
+			Log.e(TAG, "Couldn't initialize BufferedOutputStream", e);
 		}
 	}
 
@@ -184,7 +188,7 @@ public abstract class DeviceUserDataAccessor {
 			try {
 				writeMapToJson(deviceVariableMap);
 			} catch (Exception e) {
-				Log.e(TAG, e.getMessage());
+				Log.e(TAG, "Problem in writing device variable map to JSON", e);
 			}
 		}
 	}

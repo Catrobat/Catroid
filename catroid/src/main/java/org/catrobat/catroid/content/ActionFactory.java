@@ -106,8 +106,7 @@ import org.catrobat.catroid.content.actions.PointToAction;
 import org.catrobat.catroid.content.actions.RaspiIfLogicAction;
 import org.catrobat.catroid.content.actions.RaspiPwmAction;
 import org.catrobat.catroid.content.actions.RaspiSendDigitalValueAction;
-import org.catrobat.catroid.content.actions.ReadListFromDeviceAction;
-import org.catrobat.catroid.content.actions.ReadVariableFromDeviceAction;
+import org.catrobat.catroid.content.actions.ReadUserDataFromDeviceAction;
 import org.catrobat.catroid.content.actions.ReadVariableFromFileAction;
 import org.catrobat.catroid.content.actions.RepeatAction;
 import org.catrobat.catroid.content.actions.RepeatParameterizedAction;
@@ -1484,16 +1483,6 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createWriteVariableOnDeviceAction(UserVariable userVariable) {
-		WriteUserDataOnDeviceAction action = Actions.action(WriteUserDataOnDeviceAction.class);
-		File projectDirectory = ProjectManager.getInstance().getCurrentProject().getDirectory();
-		DeviceVariableAccessor accessor = new DeviceVariableAccessor(projectDirectory);
-		action.setUserData(userVariable);
-		action.setAccessor(accessor);
-
-		return action;
-	}
-
 	public Action createWriteVariableToFileAction(Sprite sprite, SequenceAction sequence,
 			Formula variableFormula, UserVariable userVariable) {
 		WriteVariableToFileAction action = Actions.action(WriteVariableToFileAction.class);
@@ -1501,7 +1490,6 @@ public class ActionFactory extends Actions {
 		action.setScope(scope);
 		action.setUserVariable(userVariable);
 		action.setFormula(variableFormula);
-
 		return action;
 	}
 
@@ -1513,7 +1501,15 @@ public class ActionFactory extends Actions {
 		action.setUserVariable(userVariable);
 		action.setFormula(variableFormula);
 		action.setDeleteFile(deleteFile);
+		return action;
+	}
 
+	public Action createWriteVariableOnDeviceAction(UserVariable userVariable) {
+		WriteUserDataOnDeviceAction action = Actions.action(WriteUserDataOnDeviceAction.class);
+		File projectDirectory = ProjectManager.getInstance().getCurrentProject().getDirectory();
+		DeviceUserDataAccessor accessor = new DeviceVariableAccessor(projectDirectory);
+		action.setUserData(userVariable);
+		action.setDeviceUserDataAccessor(accessor);
 		return action;
 	}
 
@@ -1521,29 +1517,31 @@ public class ActionFactory extends Actions {
 		WriteUserDataOnDeviceAction action = Actions.action(WriteUserDataOnDeviceAction.class);
 		File projectDirectory = ProjectManager.getInstance().getCurrentProject().getDirectory();
 		DeviceUserDataAccessor accessor = new DeviceListAccessor(projectDirectory);
-		UserData data = userList;
-		action.setUserData(data);
-		action.setAccessor(accessor);
+		action.setUserData((UserData) userList);
+		action.setDeviceUserDataAccessor(accessor);
+		return action;
+	}
 
+	public Action createReadVariableFromDeviceAction(UserVariable userVariable) {
+		ReadUserDataFromDeviceAction action = Actions.action(ReadUserDataFromDeviceAction.class);
+		File projectDirectory = ProjectManager.getInstance().getCurrentProject().getDirectory();
+		DeviceUserDataAccessor accessor = new DeviceVariableAccessor(projectDirectory);
+		action.setUserData(userVariable);
+		action.setDeviceUserDataAccessor(accessor);
+		return action;
+	}
+
+	public Action createReadListFromDeviceAction(UserList userList) {
+		ReadUserDataFromDeviceAction action = Actions.action(ReadUserDataFromDeviceAction.class);
+		File projectDirectory = ProjectManager.getInstance().getCurrentProject().getDirectory();
+		DeviceUserDataAccessor accessor = new DeviceListAccessor(projectDirectory);
+		action.setUserData((UserData) userList);
+		action.setDeviceUserDataAccessor(accessor);
 		return action;
 	}
 
 	public Action createWaitTillIdleAction() {
 		return action(WaitTillIdleAction.class);
-	}
-
-	public Action createReadVariableFromDeviceAction(UserVariable userVariable) {
-		ReadVariableFromDeviceAction action = Actions.action(ReadVariableFromDeviceAction.class);
-		action.setUserVariable(userVariable);
-
-		return action;
-	}
-
-	public Action createReadListFromDeviceAction(UserList userList) {
-		ReadListFromDeviceAction action = Actions.action(ReadListFromDeviceAction.class);
-		action.setUserList(userList);
-
-		return action;
 	}
 
 	public Action createWebRequestAction(Sprite sprite, SequenceAction sequence, Formula variableFormula,

@@ -20,9 +20,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.catrobat.catroid.content.actions
 
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,25 +30,39 @@ import kotlinx.coroutines.withContext
 import org.catrobat.catroid.formulaeditor.UserData
 import org.catrobat.catroid.io.DeviceUserDataAccessor
 
-class WriteUserDataOnDeviceAction : AsynchronousAction() {
+class ReadUserDataFromDeviceAction : AsynchronousAction() {
     var userData: UserData<Any>? = null
     var deviceUserDataAccessor: DeviceUserDataAccessor? = null
-    private var writeActionFinished = false
-    private val scopeIO = CoroutineScope(Dispatchers.IO)
+    private var readActionFinished = false
 
-    override fun initialize() {
-        writeActionFinished = false
-        userData?.let { executeWriteTask(it) }
+    override fun act(delta: Float): Boolean {
+        return if (userData == null) {
+            true
+        } else {
+            super.act(delta)
+        }
     }
 
-    override fun isFinished(): Boolean = writeActionFinished || userData == null
+    override fun initialize() {
+        readActionFinished = false
+        userData?.let {
+            readUserData(it)
+        }
+    }
 
-    private fun executeWriteTask(userData: UserData<Any>) {
-        scopeIO.launch {
-            deviceUserDataAccessor?.writeUserData(userData)
+    override fun isFinished(): Boolean = readActionFinished
 
-            withContext(Dispatchers.Main) {
-                writeActionFinished = true
+    private fun readUserData(
+        userData: UserData<Any>,
+        onReadComplete: (Boolean) -> Unit = {},
+        scope: CoroutineScope = CoroutineScope(Dispatchers.IO),
+        dispatcherOnFinished: CoroutineDispatcher = Dispatchers.Main
+    ) {
+        scope.launch {
+            val isSuccessful = deviceUserDataAccessor?.readUserData(userData) ?: false
+            withContext(dispatcherOnFinished) {
+                readActionFinished = true
+                onReadComplete(isSuccessful)
             }
         }
     }
