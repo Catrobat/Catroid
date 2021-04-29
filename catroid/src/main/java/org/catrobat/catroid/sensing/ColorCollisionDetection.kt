@@ -62,11 +62,13 @@ class ColorCollisionDetection(
         val lookList: MutableList<Look> = getLooksOfRelevantSprites()
         val batch = SpriteBatch()
         val spriteBatch = SpriteBatch()
-        val projectionMatrix = createProjectionMatrix(scope.project)
-        matcher.stagePixmap = createPicture(lookList, projectionMatrix, batch)
+        val projectionMatrix = scope.project?.let { createProjectionMatrix(it) }
+        matcher.stagePixmap = projectionMatrix?.let { createPicture(lookList, it, batch) }
         val wasLookVisible = look.isLookVisible
         look.isLookVisible = true
-        matcher.spritePixmap = createPicture(listOf(look), projectionMatrix, spriteBatch)
+        matcher.spritePixmap = projectionMatrix?.let {
+            createPicture(listOf(look), it, spriteBatch)
+        }
         look.isLookVisible = wasLookVisible
 
         try {
