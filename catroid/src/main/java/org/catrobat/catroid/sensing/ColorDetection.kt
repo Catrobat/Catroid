@@ -50,7 +50,7 @@ import org.catrobat.catroid.stage.StageListener
 
 abstract class ColorDetection(
     protected open val scope: Scope,
-    protected open val stageListener: StageListener
+    protected open val stageListener: StageListener?
 ) {
     protected open val look = scope.sprite.look
     protected var bufferWidth = 0
@@ -141,6 +141,6 @@ abstract class ColorDetection(
 
     abstract fun setBufferParameters()
     abstract fun isParameterInvalid(parameter: Any?): Boolean
-    abstract fun getLooksOfRelevantSprites(): MutableList<Look>
+    abstract fun getLooksOfRelevantSprites(): MutableList<Look>?
     abstract fun createProjectionMatrix(project: Project): Matrix4
 }
