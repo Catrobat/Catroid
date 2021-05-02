@@ -1,0 +1,3 @@
+[submodule "catroid/src/androidTest/assets/CatrobatLanguage"]
+	path = catroid/src/androidTest/assets/CatrobatLanguage
+	url = https://github.com/Catrobat/CatrobatLanguage.git
