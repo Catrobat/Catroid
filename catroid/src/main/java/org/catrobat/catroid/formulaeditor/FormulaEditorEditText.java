@@ -38,8 +38,10 @@ import android.widget.EditText;
 
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.InternFormula.TokenSelectionType;
+import org.catrobat.catroid.ui.FormulaEditorPopupMenu;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
+import java.util.List;
 import java.util.Map;
 
 @SuppressLint("AppCompatCustomView")
@@ -54,13 +56,27 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	private Context context;
 	private Paint paint = new Paint();
 
+	private FormulaEditorPopupMenu popupMenu;
+	private int[] locationOnScreen = new int[2];
+	private int popupMenuBottom;
+	private boolean popupMenuShown = false;
+
 	final GestureDetector gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
 		@Override
 		public boolean onDoubleTap(MotionEvent event) {
 			internFormula.setCursorAndSelection(absoluteCursorPosition, true);
 			history.updateCurrentSelection(internFormula.getSelection());
+			locationOnScreen[0] = (int) event.getRawX();
+			locationOnScreen[1] = (int) event.getRawY();
 			highlightSelection();
 			return true;
+		}
+
+		@Override
+		public void onLongPress(MotionEvent event) {
+			super.onLongPress(event);
+			popupMenu.show((int) event.getRawX(), (int) event.getRawY(),
+					internFormula.getSelection() != null);
 		}
 
 		@Override
@@ -150,6 +166,49 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		this.setSelectAllOnFocus(false);
 		this.setCursorVisible(false);
 		cursorAnimation.run();
+		initPopupMenu();
+	}
+
+	public List<InternToken> getSelectedTokens() {
+		return internFormula.getSelectedTokenForCopy();
+	}
+
+	private void pushToHistoryAndRefreshPreviewString() {
+		history.push(new UndoState(internFormula.getInternFormulaState(),
+				formulaEditorFragment.getCurrentBrickField()));
+		String resultingText = updateTextAndCursorFromInternFormula();
+		setSelection(absoluteCursorPosition);
+		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
+	}
+
+	public void deleteSelection() {
+		internFormula.deleteSelection(context);
+		pushToHistoryAndRefreshPreviewString();
+	}
+
+	public void addTokens(List<InternToken> tokens) {
+		internFormula.addTokens(context, tokens);
+		pushToHistoryAndRefreshPreviewString();
+	}
+
+	private void initPopupMenu() {
+		popupMenu = new FormulaEditorPopupMenu(context, this);
+		popupMenu.setOnUpdateListener(() -> {
+			pushToHistoryAndRefreshPreviewString();
+			formulaEditorFragment.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
+		});
+	}
+
+	@Override
+	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+		super.onLayout(changed, left, top, right, bottom);
+		if (!popupMenuShown) {
+			getLocationOnScreen(locationOnScreen);
+			this.popupMenuBottom = bottom;
+			popupMenu.show(locationOnScreen[0], locationOnScreen[1] + bottom,
+					internFormula.getSelection() != null);
+			popupMenuShown = true;
+		}
 	}
 
 	public void enterNewFormula(UndoState state) {
@@ -248,6 +307,9 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 			highlightSpan.setSpan(COLOR_ERROR, selectionStartIndex, selectionEndIndex,
 					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		}
+		if (internFormula.getSelection() != null && popupMenu != null) {
+			popupMenu.show(locationOnScreen[0], locationOnScreen[1] + popupMenuBottom, true);
+		}
 	}
 
 	public void setParseErrorCursorAndSelection() {
@@ -258,11 +320,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 	public void handleKeyEvent(int resource, String name) {
 		internFormula.handleKeyInput(resource, context, name);
-		history.push(new UndoState(internFormula.getInternFormulaState(),
-				formulaEditorFragment.getCurrentBrickField()));
-		String resultingText = updateTextAndCursorFromInternFormula();
-		setSelection(absoluteCursorPosition);
-		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
+		pushToHistoryAndRefreshPreviewString();
 	}
 
 	public String getStringFromInternFormula() {
@@ -279,11 +337,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 	public void overrideSelectedText(String string) {
 		internFormula.overrideSelectedText(string, context);
-		history.push(new UndoState(internFormula.getInternFormulaState(),
-				formulaEditorFragment.getCurrentBrickField()));
-		String resultingText = updateTextAndCursorFromInternFormula();
-		setSelection(absoluteCursorPosition);
-		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
+		pushToHistoryAndRefreshPreviewString();
 	}
 
 	public boolean hasChanges() {
@@ -381,6 +435,16 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 	public void setSelectionToFirstParamOfRegularExpressionAtInternalIndex(int indexOfRegularExpression) {
 		internFormula.setSelectionToFirstParamOfRegularExpressionAtInternalIndex(indexOfRegularExpression);
+		highlightSelection();
+	}
+
+	public boolean isPopupMenuVisible() {
+		return popupMenu.isVisible();
+	}
+
+	public void dismissPopupMenu() {
+		popupMenu.dismiss();
+		internFormula.setCursorAndSelection(absoluteCursorPosition, false);
 		highlightSelection();
 	}
 }

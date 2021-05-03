@@ -77,6 +77,7 @@ public class RemoveTabsTest {
 		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
 		assertTabLayoutIsNotShown();
 		Espresso.pressBack();
+		Espresso.pressBack();
 		assertTabLayoutIsShown(FRAGMENT_SCRIPTS);
 	}
 

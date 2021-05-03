@@ -753,6 +753,10 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	}
 
 	public void exitFormulaEditorFragment() {
+		if (formulaEditorEditText.isPopupMenuVisible()) {
+			formulaEditorEditText.dismissPopupMenu();
+			return;
+		}
 		((SpriteActivity) getActivity()).setUndoMenuItemVisibility(false);
 		if (hasFormulaBeenChanged || formulaEditorEditText.hasChanges()) {
 			if (saveFormulaIfPossible()) {

@@ -147,6 +147,7 @@ public class FormulaEditorUndoTest {
 				.perform(click());
 
 		pressBack();
+		pressBack();
 
 		onView(withId(R.id.menu_undo))
 				.check(doesNotExist());

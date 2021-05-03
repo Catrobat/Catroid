@@ -229,6 +229,7 @@ public class VisualPlacementBrickTest {
 		onFormulaEditor()
 				.check(matches(isDisplayed()));
 		pressBack();
+		pressBack();
 		isBackInScriptFragment();
 	}
 
@@ -236,6 +237,7 @@ public class VisualPlacementBrickTest {
 	public void testNoRecursiveOpeningOfFormulaEditors() {
 		openFormulaEditorFragmentFromEditTextX();
 		openFormulaEditorFragmentFromEditTextX();
+		pressBack();
 		pressBack();
 		isBackInScriptFragment();
 	}
