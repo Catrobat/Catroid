@@ -83,20 +83,25 @@ public abstract class DeviceUserDataAccessor {
 		return true;
 	}
 
-	public void writeUserData(UserData userData) throws IOException {
+	public void writeUserData(UserData userData) {
 		synchronized (getLock()) {
-			if (!deviceFile.exists() && !deviceFile.createNewFile()) {
-				throw new IOException("Cannot create " + deviceFile.getAbsolutePath());
+			try {
+				if (!deviceFile.exists() && !deviceFile.createNewFile()) {
+					Log.e(TAG, "Cannot create " + deviceFile.getAbsolutePath());
+					return;
+				}
+
+				Map deviceVariableMap = readMapFromJson();
+
+				if (deviceVariableMap == null) {
+					deviceVariableMap = new HashMap<>();
+				}
+
+				deviceVariableMap.put(userData.getDeviceKey(), userData.getValue());
+				writeMapToJson(deviceVariableMap);
+			} catch (IOException e) {
+				Log.e(TAG, e.getMessage());
 			}
-
-			Map deviceVariableMap = readMapFromJson();
-
-			if (deviceVariableMap == null) {
-				deviceVariableMap = new HashMap<>();
-			}
-
-			deviceVariableMap.put(userData.getDeviceKey(), userData.getValue());
-			writeMapToJson(deviceVariableMap);
 		}
 	}
 

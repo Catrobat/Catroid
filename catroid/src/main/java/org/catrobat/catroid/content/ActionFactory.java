@@ -167,8 +167,7 @@ import org.catrobat.catroid.content.actions.WaitTillIdleAction;
 import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.WebRequestAction;
 import org.catrobat.catroid.content.actions.WriteEmbroideryToFileAction;
-import org.catrobat.catroid.content.actions.WriteListOnDeviceAction;
-import org.catrobat.catroid.content.actions.WriteVariableOnDeviceAction;
+import org.catrobat.catroid.content.actions.WriteUserDataOnDeviceAction;
 import org.catrobat.catroid.content.actions.WriteVariableToFileAction;
 import org.catrobat.catroid.content.actions.ZigZagStitchAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
@@ -188,12 +187,17 @@ import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
 import org.catrobat.catroid.content.bricks.brickspinner.PickableDrum;
 import org.catrobat.catroid.content.bricks.brickspinner.PickableMusicalInstrument;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.DeviceListAccessor;
+import org.catrobat.catroid.io.DeviceUserDataAccessor;
+import org.catrobat.catroid.io.DeviceVariableAccessor;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
 
+import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
@@ -1419,8 +1423,11 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createWriteVariableOnDeviceAction(UserVariable userVariable) {
-		WriteVariableOnDeviceAction action = Actions.action(WriteVariableOnDeviceAction.class);
-		action.setUserVariable(userVariable);
+		WriteUserDataOnDeviceAction action = Actions.action(WriteUserDataOnDeviceAction.class);
+		File projectDirectory = ProjectManager.getInstance().getCurrentProject().getDirectory();
+		DeviceVariableAccessor accessor = new DeviceVariableAccessor(projectDirectory);
+		action.setUserData(userVariable);
+		action.setAccessor(accessor);
 
 		return action;
 	}
@@ -1449,8 +1456,12 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createWriteListOnDeviceAction(UserList userList) {
-		WriteListOnDeviceAction action = Actions.action(WriteListOnDeviceAction.class);
-		action.setUserList(userList);
+		WriteUserDataOnDeviceAction action = Actions.action(WriteUserDataOnDeviceAction.class);
+		File projectDirectory = ProjectManager.getInstance().getCurrentProject().getDirectory();
+		DeviceUserDataAccessor accessor = new DeviceListAccessor(projectDirectory);
+		UserData data = userList;
+		action.setUserData(data);
+		action.setAccessor(accessor);
 
 		return action;
 	}

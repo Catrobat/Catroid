@@ -90,7 +90,7 @@ public class DeviceVariableAccessorParameterizedValueTest<T> {
 	}
 
 	@Test
-	public void saveUserVariable() throws IOException {
+	public void saveUserVariable() {
 		accessor.writeUserData(userVariable);
 		userVariable.setValue(throwAwayValue);
 		Map map = accessor.readMapFromJson();
@@ -119,7 +119,7 @@ public class DeviceVariableAccessorParameterizedValueTest<T> {
 	}
 
 	@Test
-	public void cloneSpriteTest() throws IOException {
+	public void cloneSpriteTest() {
 		Project dummyProject = new Project();
 		Scene dummyScene = new Scene();
 		dummyProject.addScene(dummyScene);
