@@ -20,39 +20,37 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.actions
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import org.catrobat.catroid.content.Scope
+import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.formulaeditor.UserList
 
-import org.catrobat.catroid.content.Scope;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserList;
+class AddItemToUserListAction : TemporalAction() {
+    private var scope: Scope? = null
+    private var formulaItemToAdd: Formula? = null
+    private var userList: UserList? = null
+    override fun update(percent: Float) {
+        if (userList == null) {
+            return
+        }
+        val value =
+            if (formulaItemToAdd == null) java.lang.Double.valueOf(0.0) else formulaItemToAdd!!.interpretObject(
+                scope
+            )
+        userList!!.addListItem(value)
+    }
 
-public class AddItemToUserListAction extends TemporalAction {
+    fun setUserList(userVariable: UserList?) {
+        userList = userVariable
+    }
 
-	private Scope scope;
-	private Formula formulaItemToAdd;
-	private UserList userList;
+    fun setFormulaItemToAdd(changeVariable: Formula?) {
+        formulaItemToAdd = changeVariable
+    }
 
-	@Override
-	protected void update(float percent) {
-		if (userList == null) {
-			return;
-		}
-		Object value = formulaItemToAdd == null ? Double.valueOf(0d)
-				: formulaItemToAdd.interpretObject(scope);
-		userList.addListItem(value);
-	}
-
-	public void setUserList(UserList userVariable) {
-		this.userList = userVariable;
-	}
-
-	public void setFormulaItemToAdd(Formula changeVariable) {
-		this.formulaItemToAdd = changeVariable;
-	}
-
-	public void setScope(Scope scope) {
-		this.scope = scope;
-	}
+    fun setScope(scope: Scope?) {
+        this.scope = scope
+    }
 }
