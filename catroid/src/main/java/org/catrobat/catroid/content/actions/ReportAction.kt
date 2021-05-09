@@ -20,47 +20,26 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.content.actions
 
-package org.catrobat.catroid.content.actions;
+import com.badlogic.gdx.scenes.scene2d.Action
+import org.catrobat.catroid.content.Look
+import org.catrobat.catroid.content.Scope
+import org.catrobat.catroid.content.Script
+import org.catrobat.catroid.formulaeditor.Formula
 
-import com.badlogic.gdx.scenes.scene2d.Action;
+class ReportAction : Action() {
+    private var currentScript: Script? = null
+    var reportFormula: Formula? = null
+    var scope: Scope? = null
+    fun setCurrentScript(currentScript: Script?) {
+        this.currentScript = currentScript
+    }
 
-import org.catrobat.catroid.content.Look;
-import org.catrobat.catroid.content.Scope;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.formulaeditor.Formula;
-
-public class ReportAction extends Action {
-
-	private Script currentScript;
-	private Formula reportFormula;
-	private Scope scope;
-
-	public void setScope(Scope scope) {
-		this.scope = scope;
-	}
-
-	public void setCurrentScript(Script currentScript) {
-		this.currentScript = currentScript;
-	}
-
-	public void setReportFormula(Formula reportFormula) {
-		this.reportFormula = reportFormula;
-	}
-
-	public Formula getReportFormula() {
-		return this.reportFormula;
-	}
-
-	public Scope getScope() {
-		return scope;
-	}
-
-	@Override
-	public boolean act(float delta) {
-		if (actor instanceof Look) {
-			((Look) actor).stopThreadWithScript(currentScript);
-		}
-		return true;
-	}
+    override fun act(delta: Float): Boolean {
+        if (actor is Look) {
+            (actor as Look).stopThreadWithScript(currentScript)
+        }
+        return true
+    }
 }
