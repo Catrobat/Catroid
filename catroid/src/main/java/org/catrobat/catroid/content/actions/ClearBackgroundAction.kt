@@ -20,16 +20,13 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.actions
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import org.catrobat.catroid.stage.StageActivity
 
-import org.catrobat.catroid.stage.StageActivity;
-
-public class ClearBackgroundAction extends TemporalAction {
-
-	@Override
-	protected void update(float delta) {
-		StageActivity.stageListener.clearBackground();
-	}
+class ClearBackgroundAction : TemporalAction() {
+    override fun update(delta: Float) {
+        StageActivity.stageListener.clearBackground()
+    }
 }
