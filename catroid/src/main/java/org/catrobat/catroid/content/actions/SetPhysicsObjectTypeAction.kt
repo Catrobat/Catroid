@@ -20,28 +20,23 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.actions
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import org.catrobat.catroid.physics.PhysicsObject
 
-import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.physics.PhysicsObject.Type;
+class SetPhysicsObjectTypeAction : TemporalAction() {
+    private var physicsObject: PhysicsObject? = null
+    private var type = PhysicsObject.Type.NONE
+    override fun update(percent: Float) {
+        physicsObject!!.type = type
+    }
 
-public class SetPhysicsObjectTypeAction extends TemporalAction {
+    fun setPhysicsObject(physicsObject: PhysicsObject?) {
+        this.physicsObject = physicsObject
+    }
 
-	private PhysicsObject physicsObject;
-	private Type type = PhysicsObject.Type.NONE;
-
-	@Override
-	protected void update(float percent) {
-		physicsObject.setType(type);
-	}
-
-	public void setPhysicsObject(PhysicsObject physicsObject) {
-		this.physicsObject = physicsObject;
-	}
-
-	public void setType(Type type) {
-		this.type = type;
-	}
+    fun setType(type: PhysicsObject.Type) {
+        this.type = type
+    }
 }
