@@ -20,35 +20,30 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.actions
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.stage.StageActivity
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.stage.ShowBubbleActor;
-import org.catrobat.catroid.stage.StageActivity;
+class SetVisibleAction : TemporalAction() {
+    private var sprite: Sprite? = null
+    private var visible = false
+    override fun update(delta: Float) {
+        sprite!!.look.isLookVisible = visible
+        if (StageActivity.stageListener != null) {
+            val actor = StageActivity.stageListener.getBubbleActorForSprite(sprite)
+            if (actor != null) {
+                actor.isVisible = visible
+            }
+        }
+    }
 
-public class SetVisibleAction extends TemporalAction {
+    fun setSprite(sprite: Sprite?) {
+        this.sprite = sprite
+    }
 
-	private Sprite sprite;
-	private boolean visible;
-
-	@Override
-	protected void update(float delta) {
-		sprite.look.setLookVisible(visible);
-		if (StageActivity.stageListener != null) {
-			ShowBubbleActor actor = StageActivity.stageListener.getBubbleActorForSprite(sprite);
-			if (actor != null) {
-				actor.setVisible(visible);
-			}
-		}
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
-
-	public void setVisible(boolean visible) {
-		this.visible = visible;
-	}
+    fun setVisible(visible: Boolean) {
+        this.visible = visible
+    }
 }
