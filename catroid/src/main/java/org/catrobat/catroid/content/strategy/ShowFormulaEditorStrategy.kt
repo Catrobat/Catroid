@@ -20,17 +20,14 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.content.strategy
 
-package org.catrobat.catroid.content.strategy;
+import android.view.View
 
-import android.view.View;
-
-public interface ShowFormulaEditorStrategy {
-	void showFormulaEditorToEditFormula(View view, Callback callback);
-
-	interface Callback {
-		void showFormulaEditor(View view);
-		void setValue(int value);
-		int getValue();
-	}
+interface ShowFormulaEditorStrategy {
+    fun showFormulaEditorToEditFormula(view: View, callback: Callback)
+    interface Callback {
+        fun showFormulaEditor(view: View?)
+        var value: Int
+    }
 }
