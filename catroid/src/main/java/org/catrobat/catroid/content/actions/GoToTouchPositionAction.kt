@@ -20,27 +20,22 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.content.actions
 
-package org.catrobat.catroid.content.actions;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.utils.TouchUtil
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+class GoToTouchPositionAction : TemporalAction() {
+    private var sprite: Sprite? = null
+    override fun update(percent: Float) {
+        val touchIndex = TouchUtil.getLastTouchIndex()
+        val x = TouchUtil.getX(touchIndex)
+        val y = TouchUtil.getY(touchIndex)
+        sprite!!.look.setPositionInUserInterfaceDimensionUnit(x, y)
+    }
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.utils.TouchUtil;
-
-public class GoToTouchPositionAction extends TemporalAction {
-
-	private Sprite sprite;
-
-	@Override
-	protected void update(float percent) {
-		int touchIndex = TouchUtil.getLastTouchIndex();
-		float x = TouchUtil.getX(touchIndex);
-		float y = TouchUtil.getY(touchIndex);
-		sprite.look.setPositionInUserInterfaceDimensionUnit(x, y);
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
+    fun setSprite(sprite: Sprite?) {
+        this.sprite = sprite
+    }
 }
