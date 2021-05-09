@@ -20,27 +20,21 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.content.actions
 
-package org.catrobat.catroid.content.actions;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import org.catrobat.catroid.formulaeditor.UserList
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+class ClearUserListAction : TemporalAction() {
+    private var userList: UserList? = null
+    override fun update(percent: Float) {
+        if (userList == null) {
+            return
+        }
+        userList!!.reset()
+    }
 
-import org.catrobat.catroid.formulaeditor.UserList;
-
-public class ClearUserListAction extends TemporalAction {
-
-	private UserList userList;
-
-	@Override
-	protected void update(float percent) {
-		if (userList == null) {
-			return;
-		}
-
-		userList.reset();
-	}
-
-	public void setUserList(UserList userVariable) {
-		this.userList = userVariable;
-	}
+    fun setUserList(userVariable: UserList?) {
+        userList = userVariable
+    }
 }
