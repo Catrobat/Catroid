@@ -20,36 +20,18 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.actions
 
-import android.util.Log;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import org.catrobat.catroid.content.Sprite
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+class StopRunningStitchAction : TemporalAction() {
+    private var sprite: Sprite? = null
+    override fun update(delta: Float) {
+        sprite!!.runningStitch.deactivate()
+    }
 
-import org.catrobat.catroid.content.Scope;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
-
-public class SetXAction extends TemporalAction {
-
-	private Scope scope;
-	private Formula xPosition;
-
-	@Override
-	protected void update(float delta) {
-		try {
-			Float newX = xPosition == null ? Float.valueOf(0f) : xPosition.interpretFloat(scope);
-			scope.getSprite().look.setXInUserInterfaceDimensionUnit(newX);
-		} catch (InterpretationException interpretationException) {
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-		}
-	}
-
-	public void setScope(Scope scope) {
-		this.scope = scope;
-	}
-
-	public void setX(Formula x) {
-		this.xPosition = x;
-	}
+    fun setSprite(sprite: Sprite?) {
+        this.sprite = sprite
+    }
 }

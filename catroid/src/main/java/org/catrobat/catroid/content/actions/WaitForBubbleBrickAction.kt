@@ -20,22 +20,14 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.actions
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import org.catrobat.catroid.stage.StageActivity
 
-import org.catrobat.catroid.content.Sprite;
-
-public class StopRunningStitchAction extends TemporalAction {
-
-	private Sprite sprite;
-
-	@Override
-	protected void update(float delta) {
-		sprite.runningStitch.deactivate();
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
+class WaitForBubbleBrickAction : WaitAction() {
+    override fun end() {
+        if (StageActivity.stageListener.getBubbleActorForSprite(scope?.sprite) != null) {
+            StageActivity.stageListener.removeBubbleActorForSprite(scope?.sprite)
+        }
+    }
 }

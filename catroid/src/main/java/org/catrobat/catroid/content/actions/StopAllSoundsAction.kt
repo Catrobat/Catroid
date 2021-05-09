@@ -20,27 +20,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.content.actions
 
-package org.catrobat.catroid.content.actions;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import org.catrobat.catroid.io.SoundManager
+import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager
 
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.utils.Array;
-
-import org.catrobat.catroid.content.Look;
-import org.catrobat.catroid.stage.StageActivity;
-
-public class StopAllScriptsAction extends Action {
-
-	@Override
-	public boolean act(float delta) {
-		Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
-		for (Actor actor : stageActors) {
-			if (actor instanceof Look) {
-				Look look = (Look) actor;
-				look.stopThreads(look.getActions());
-			}
-		}
-		return true;
-	}
+class StopAllSoundsAction : TemporalAction() {
+    override fun update(percent: Float) {
+        SoundManager.getInstance().stopAllSounds()
+        MidiSoundManager.getInstance().stopAllSounds()
+    }
 }

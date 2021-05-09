@@ -20,41 +20,22 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.actions
 
-import android.util.Log;
+import com.badlogic.gdx.scenes.scene2d.Action
+import org.catrobat.catroid.content.Look
+import org.catrobat.catroid.content.Script
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+class StopThisScriptAction : Action() {
+    private var currentScript: Script? = null
+    fun setCurrentScript(currentScript: Script?) {
+        this.currentScript = currentScript
+    }
 
-import org.catrobat.catroid.content.Scope;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
-
-public class WaitAction extends TemporalAction {
-
-	protected Scope scope;
-	protected Formula duration;
-
-	@Override
-	protected void begin() {
-		try {
-			Float newDuration = duration == null ? Float.valueOf(0f)
-					: duration.interpretFloat(scope);
-			super.setDuration(newDuration);
-		} catch (InterpretationException interpretationException) {
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-		}
-	}
-
-	public void setDelay(Formula delay) {
-		this.duration = delay;
-	}
-
-	public void setScope(Scope scope) {
-		this.scope = scope;
-	}
-
-	@Override
-	protected void update(float percent) {
-	}
+    override fun act(delta: Float): Boolean {
+        if (actor is Look) {
+            (actor as Look).stopThreadWithScript(currentScript)
+        }
+        return true
+    }
 }

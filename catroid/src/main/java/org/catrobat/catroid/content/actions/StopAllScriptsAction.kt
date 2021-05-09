@@ -20,24 +20,21 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.actions
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import com.badlogic.gdx.scenes.scene2d.Action
+import org.catrobat.catroid.content.Look
+import org.catrobat.catroid.stage.StageActivity
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.stage.StageActivity;
-
-public class StampAction extends TemporalAction {
-
-	private Sprite sprite;
-
-	@Override
-	protected void update(float delta) {
-		this.sprite.penConfiguration.setStamp(true);
-		StageActivity.stageListener.getPenActor().stampToFrameBuffer();
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
+class StopAllScriptsAction : Action() {
+    override fun act(delta: Float): Boolean {
+        val stageActors = StageActivity.stageListener.stage.actors
+        for (actor in stageActors) {
+            if (actor is Look) {
+                val look = actor
+                look.stopThreads(look.actions)
+            }
+        }
+        return true
+    }
 }

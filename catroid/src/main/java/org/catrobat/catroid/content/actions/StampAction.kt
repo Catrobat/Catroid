@@ -20,36 +20,20 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.actions
 
-import android.util.Log;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.stage.StageActivity
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+class StampAction : TemporalAction() {
+    private var sprite: Sprite? = null
+    override fun update(delta: Float) {
+        sprite!!.penConfiguration.setStamp(true)
+        StageActivity.stageListener.penActor.stampToFrameBuffer()
+    }
 
-import org.catrobat.catroid.content.Scope;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
-
-public class SetYAction extends TemporalAction {
-
-	private Scope scope;
-	private Formula yPosition;
-
-	@Override
-	protected void update(float delta) {
-		try {
-			Float newY = yPosition == null ? Float.valueOf(0f) : yPosition.interpretFloat(scope);
-			scope.getSprite().look.setYInUserInterfaceDimensionUnit(newY);
-		} catch (InterpretationException interpretationException) {
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-		}
-	}
-
-	public void setScope(Scope scope) {
-		this.scope = scope;
-	}
-
-	public void setY(Formula y) {
-		this.yPosition = y;
-	}
+    fun setSprite(sprite: Sprite?) {
+        this.sprite = sprite
+    }
 }

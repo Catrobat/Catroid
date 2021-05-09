@@ -20,18 +20,33 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.actions
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.embroidery.DSTStitchCommand
+import org.catrobat.catroid.stage.StageActivity
 
-import org.catrobat.catroid.io.SoundManager;
-import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager;
+class StitchAction : TemporalAction() {
+    private var sprite: Sprite? = null
+    override fun update(delta: Float) {
+        sprite!!.runningStitch.pause()
+        val x = sprite!!.look.xInUserInterfaceDimensionUnit
+        val y = sprite!!.look.yInUserInterfaceDimensionUnit
+        StageActivity.stageListener.embroideryPatternManager.addStitchCommand(
+            DSTStitchCommand(
+                x,
+                y,
+                sprite!!.look.zIndex,
+                sprite,
+                sprite!!.embroideryThreadColor
+            )
+        )
+        sprite!!.runningStitch.setStartCoordinates(x, y)
+        sprite!!.runningStitch.resume()
+    }
 
-public class StopAllSoundsAction extends TemporalAction {
-
-	@Override
-	protected void update(float percent) {
-		SoundManager.getInstance().stopAllSounds();
-		MidiSoundManager.getInstance().stopAllSounds();
-	}
+    fun setSprite(sprite: Sprite?) {
+        this.sprite = sprite
+    }
 }
