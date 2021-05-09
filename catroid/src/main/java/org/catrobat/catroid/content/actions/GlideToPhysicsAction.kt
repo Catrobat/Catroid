@@ -20,28 +20,24 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.actions
 
-import org.catrobat.catroid.content.actions.conditional.GlideToAction;
-import org.catrobat.catroid.physics.PhysicsLook;
+import org.catrobat.catroid.content.actions.conditional.GlideToAction
+import org.catrobat.catroid.physics.PhysicsLook
 
-public class GlideToPhysicsAction extends GlideToAction {
+class GlideToPhysicsAction : GlideToAction() {
+    private var physicsLook: PhysicsLook? = null
+    override fun begin() {
+        physicsLook!!.startGlide()
+        super.begin()
+    }
 
-	private PhysicsLook physicsLook;
+    override fun end() {
+        super.end()
+        physicsLook!!.stopGlide()
+    }
 
-	@Override
-	protected void begin() {
-		physicsLook.startGlide();
-		super.begin();
-	}
-
-	@Override
-	protected void end() {
-		super.end();
-		physicsLook.stopGlide();
-	}
-
-	public void setPhysicsLook(PhysicsLook physicsLook) {
-		this.physicsLook = physicsLook;
-	}
+    fun setPhysicsLook(physicsLook: PhysicsLook?) {
+        this.physicsLook = physicsLook
+    }
 }
