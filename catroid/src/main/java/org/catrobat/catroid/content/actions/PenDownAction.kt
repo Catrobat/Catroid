@@ -20,34 +20,29 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.actions
 
-import android.graphics.PointF;
+import android.graphics.PointF
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import org.catrobat.catroid.content.Sprite
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+class PenDownAction : TemporalAction() {
+    private var sprite: Sprite? = null
+    override fun update(delta: Float) {
+        if (sprite!!.penConfiguration.isPenDown) {
+            return
+        }
+        sprite!!.penConfiguration.addQueue()
+        sprite!!.penConfiguration.addPosition(
+            PointF(
+                sprite!!.look.xInUserInterfaceDimensionUnit,
+                sprite!!.look.yInUserInterfaceDimensionUnit
+            )
+        )
+        sprite!!.penConfiguration.isPenDown = true
+    }
 
-import org.catrobat.catroid.content.Sprite;
-
-public class PenDownAction extends TemporalAction {
-
-	private Sprite sprite;
-
-	@Override
-	protected void update(float delta) {
-
-		if (this.sprite.penConfiguration.isPenDown()) {
-			return;
-		}
-
-		this.sprite.penConfiguration.addQueue();
-		this.sprite.penConfiguration.addPosition(
-				new PointF(this.sprite.look.getXInUserInterfaceDimensionUnit(),
-						this.sprite.look.getYInUserInterfaceDimensionUnit())
-		);
-		this.sprite.penConfiguration.setPenDown(true);
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
+    fun setSprite(sprite: Sprite?) {
+        this.sprite = sprite
+    }
 }
