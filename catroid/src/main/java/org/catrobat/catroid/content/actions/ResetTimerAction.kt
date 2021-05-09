@@ -20,18 +20,14 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.actions
 
-import android.os.SystemClock;
+import android.os.SystemClock
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import org.catrobat.catroid.formulaeditor.SensorHandler
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
-
-import org.catrobat.catroid.formulaeditor.SensorHandler;
-
-public class ResetTimerAction extends TemporalAction {
-
-	@Override
-	protected void update(float percent) {
-		SensorHandler.timerReferenceValue = SystemClock.uptimeMillis();
-	}
+class ResetTimerAction : TemporalAction() {
+    override fun update(percent: Float) {
+        SensorHandler.timerReferenceValue = SystemClock.uptimeMillis().toDouble()
+    }
 }
