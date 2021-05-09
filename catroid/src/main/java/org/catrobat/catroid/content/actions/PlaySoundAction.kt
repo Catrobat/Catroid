@@ -20,36 +20,32 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.actions
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import org.catrobat.catroid.common.SoundInfo
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.io.SoundManager
+import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager
 
-import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.SoundManager;
-import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager;
+class PlaySoundAction : TemporalAction() {
+    private var sprite: Sprite? = null
+    private var sound: SoundInfo? = null
+    override fun update(percent: Float) {
+        if (sound != null && sprite!!.soundList.contains(sound) && sound!!.file != null) {
+            if (sound!!.isMidiFile) {
+                MidiSoundManager.getInstance().playSoundFile(sound!!.file.absolutePath, sprite)
+            } else {
+                SoundManager.getInstance().playSoundFile(sound!!.file.absolutePath, sprite)
+            }
+        }
+    }
 
-public class PlaySoundAction extends TemporalAction {
+    fun setSprite(sprite: Sprite?) {
+        this.sprite = sprite
+    }
 
-	private Sprite sprite;
-	private SoundInfo sound;
-
-	@Override
-	protected void update(float percent) {
-		if (sound != null && sprite.getSoundList().contains(sound) && sound.getFile() != null) {
-			if (sound.isMidiFile()) {
-				MidiSoundManager.getInstance().playSoundFile(sound.getFile().getAbsolutePath(), sprite);
-			} else {
-				SoundManager.getInstance().playSoundFile(sound.getFile().getAbsolutePath(), sprite);
-			}
-		}
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
-
-	public void setSound(SoundInfo sound) {
-		this.sound = sound;
-	}
+    fun setSound(sound: SoundInfo?) {
+        this.sound = sound
+    }
 }
