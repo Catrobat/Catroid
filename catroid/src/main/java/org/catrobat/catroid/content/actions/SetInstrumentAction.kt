@@ -20,25 +20,23 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.actions
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import org.catrobat.catroid.content.bricks.brickspinner.PickableMusicalInstrument
+import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager
+import org.catrobat.catroid.pocketmusic.note.MusicalInstrument
 
-import org.catrobat.catroid.content.bricks.brickspinner.PickableMusicalInstrument;
-import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager;
-import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
+class SetInstrumentAction : TemporalAction() {
+    var selectedInstrument: PickableMusicalInstrument? = null
+    override fun update(percent: Float) {
+        val instrument = MusicalInstrument.getInstrumentFromProgram(
+            selectedInstrument!!.value
+        )
+        MidiSoundManager.getInstance().instrument = instrument
+    }
 
-public class SetInstrumentAction extends TemporalAction {
-
-	PickableMusicalInstrument selectedInstrument;
-
-	@Override
-	protected void update(float percent) {
-		MusicalInstrument instrument = MusicalInstrument.getInstrumentFromProgram(selectedInstrument.getValue());
-		MidiSoundManager.getInstance().setInstrument(instrument);
-	}
-
-	public void setInstrument(PickableMusicalInstrument selectedInstrument) {
-		this.selectedInstrument = selectedInstrument;
-	}
+    fun setInstrument(selectedInstrument: PickableMusicalInstrument?) {
+        this.selectedInstrument = selectedInstrument
+    }
 }
