@@ -20,11 +20,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.commands;
+package org.catrobat.catroid.content.commands
 
-public interface Command {
-
-	void execute();
-
-	void undo();
+interface Command {
+    fun execute()
+    fun undo()
 }

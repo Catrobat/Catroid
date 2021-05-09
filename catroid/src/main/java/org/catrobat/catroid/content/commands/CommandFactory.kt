@@ -20,27 +20,27 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.commands;
+package org.catrobat.catroid.content.commands
 
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.ConcurrentFormulaHashMap;
-import org.catrobat.catroid.content.bricks.FormulaBrick;
-import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.content.bricks.Brick.BrickField
+import org.catrobat.catroid.content.bricks.ConcurrentFormulaHashMap
+import org.catrobat.catroid.content.bricks.FormulaBrick
+import org.catrobat.catroid.formulaeditor.Formula
 
-public final class CommandFactory {
+object CommandFactory {
+    fun makeChangeFormulaCommand(
+        formulaBrick: FormulaBrick?, brickField: BrickField,
+        newFormula: Formula
+    ): ChangeFormulaCommand {
+        val newFormulaMap = ConcurrentFormulaHashMap()
+        newFormulaMap.putIfAbsent(brickField, newFormula)
+        return makeChangeFormulaCommand(formulaBrick, newFormulaMap)
+    }
 
-	private CommandFactory() {
-	}
-
-	public static ChangeFormulaCommand makeChangeFormulaCommand(FormulaBrick formulaBrick, Brick.BrickField brickField,
-			Formula newFormula) {
-		ConcurrentFormulaHashMap newFormulaMap = new ConcurrentFormulaHashMap();
-		newFormulaMap.putIfAbsent(brickField, newFormula);
-		return makeChangeFormulaCommand(formulaBrick, newFormulaMap);
-	}
-
-	public static ChangeFormulaCommand makeChangeFormulaCommand(FormulaBrick formulaBrick,
-			ConcurrentFormulaHashMap newFormulaMap) {
-		return new ChangeFormulaCommand(formulaBrick, newFormulaMap);
-	}
+    fun makeChangeFormulaCommand(
+        formulaBrick: FormulaBrick?,
+        newFormulaMap: ConcurrentFormulaHashMap?
+    ): ChangeFormulaCommand {
+        return ChangeFormulaCommand(formulaBrick!!, newFormulaMap!!)
+    }
 }
