@@ -20,24 +20,20 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.actions
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import org.catrobat.catroid.content.Sprite
 
-import org.catrobat.catroid.content.Sprite;
+class ClearGraphicEffectAction : TemporalAction() {
+    private var sprite: Sprite? = null
+    override fun update(percent: Float) {
+        sprite!!.look.brightnessInUserInterfaceDimensionUnit = 100.0f
+        sprite!!.look.transparencyInUserInterfaceDimensionUnit = 0.0f
+        sprite!!.look.colorInUserInterfaceDimensionUnit = 0.0f
+    }
 
-public class ClearGraphicEffectAction extends TemporalAction {
-
-	private Sprite sprite;
-
-	@Override
-	protected void update(float percent) {
-		sprite.look.setBrightnessInUserInterfaceDimensionUnit(100.0f);
-		sprite.look.setTransparencyInUserInterfaceDimensionUnit(0.0f);
-		sprite.look.setColorInUserInterfaceDimensionUnit(0.0f);
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
+    fun setSprite(sprite: Sprite?) {
+        this.sprite = sprite
+    }
 }
