@@ -20,39 +20,30 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.eventids;
+package org.catrobat.catroid.content.eventids
 
-import com.google.common.base.Objects;
+import org.catrobat.catroid.common.LookData
+import org.catrobat.catroid.content.Sprite
 
-public class RaspiEventId extends EventId {
-	private final String pin;
-	private final String eventValue;
+class SetLookEventId(val sprite: Sprite?, val lookData: LookData?) : EventId() {
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o !is SetLookEventId) {
+            return false
+        }
+        if (!super.equals(o)) {
+            return false
+        }
+        val that = o
+        return sprite == that.sprite && lookData == that.lookData
+    }
 
-	public RaspiEventId(String pin, String eventValue) {
-		this.pin = pin;
-		this.eventValue = eventValue;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (!(o instanceof RaspiEventId)) {
-			return false;
-		}
-		if (!super.equals(o)) {
-			return false;
-		}
-		RaspiEventId that = (RaspiEventId) o;
-		return Objects.equal(pin, that.pin)
-				&& Objects.equal(eventValue, that.eventValue);
-	}
-
-	@Override
-	public int hashCode() {
-		int result = pin != null ? pin.hashCode() : 0;
-		result = 31 * result + (eventValue != null ? eventValue.hashCode() : 0);
-		return result;
-	}
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + sprite.hashCode()
+        result = 31 * result + (lookData?.hashCode() ?: 0)
+        return result
+    }
 }

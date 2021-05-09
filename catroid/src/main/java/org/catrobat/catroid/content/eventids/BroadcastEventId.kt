@@ -20,35 +20,20 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.content.eventids
 
-package org.catrobat.catroid.content.eventids;
+class BroadcastEventId(val message: String?) : EventId() {
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o !is BroadcastEventId) {
+            return false
+        }
+        return message == o.message
+    }
 
-import com.google.common.base.Objects;
-
-public class GamepadEventId extends EventId {
-	final String buttonPressed;
-
-	public GamepadEventId(String buttonPressed) {
-		this.buttonPressed = buttonPressed;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (!(o instanceof GamepadEventId)) {
-			return false;
-		}
-		if (!super.equals(o)) {
-			return false;
-		}
-		GamepadEventId that = (GamepadEventId) o;
-		return Objects.equal(buttonPressed, that.buttonPressed);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hashCode(super.hashCode(), buttonPressed);
-	}
+    override fun hashCode(): Int {
+        return message?.hashCode() ?: 0
+    }
 }

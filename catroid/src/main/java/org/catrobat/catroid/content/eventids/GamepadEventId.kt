@@ -20,39 +20,25 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.content.eventids
 
-package org.catrobat.catroid.content.eventids;
+import com.google.common.base.Objects
 
-import org.catrobat.catroid.formulaeditor.Formula;
+class GamepadEventId(val buttonPressed: String) : EventId() {
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o !is GamepadEventId) {
+            return false
+        }
+        if (!super.equals(o)) {
+            return false
+        }
+        return Objects.equal(buttonPressed, o.buttonPressed)
+    }
 
-public class WhenConditionEventId extends EventId {
-	final Formula formula;
-
-	public WhenConditionEventId(Formula formula) {
-		this.formula = formula;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (!(o instanceof WhenConditionEventId)) {
-			return false;
-		}
-		if (!super.equals(o)) {
-			return false;
-		}
-
-		WhenConditionEventId that = (WhenConditionEventId) o;
-
-		return formula != null ? formula.equals(that.formula) : that.formula == null;
-	}
-
-	@Override
-	public int hashCode() {
-		int result = super.hashCode();
-		result = 31 * result + (formula != null ? formula.hashCode() : 0);
-		return result;
-	}
+    override fun hashCode(): Int {
+        return Objects.hashCode(super.hashCode(), buttonPressed)
+    }
 }

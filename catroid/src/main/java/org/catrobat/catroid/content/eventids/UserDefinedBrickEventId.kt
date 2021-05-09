@@ -20,42 +20,38 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.content.eventids
 
-package org.catrobat.catroid.content.eventids;
+import java.util.UUID
 
-import java.util.List;
-import java.util.UUID;
+class UserDefinedBrickEventId : EventId {
+    val userDefinedBrickID: UUID?
+    var userBrickParameters: List<Any>?
 
-public class UserDefinedBrickEventId extends EventId {
-	public final UUID userDefinedBrickID;
-	public List<Object> userBrickParameters;
+    constructor(
+        userDefinedBrickID: UUID?,
+        userBrickParameters: List<Any>?
+    ) {
+        this.userDefinedBrickID = userDefinedBrickID
+        this.userBrickParameters = userBrickParameters
+    }
 
-	public UserDefinedBrickEventId(UUID userDefinedBrickID,
-			List<Object> userBrickParameters) {
-		this.userDefinedBrickID = userDefinedBrickID;
-		this.userBrickParameters = userBrickParameters;
-	}
+    constructor(userDefinedBrickID: UUID?) {
+        this.userDefinedBrickID = userDefinedBrickID
+        userBrickParameters = null
+    }
 
-	public UserDefinedBrickEventId(UUID userDefinedBrickID) {
-		this.userDefinedBrickID = userDefinedBrickID;
-		this.userBrickParameters = null;
-	}
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o !is UserDefinedBrickEventId) {
+            return false
+        }
+        return userDefinedBrickID == o.userDefinedBrickID
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (!(o instanceof UserDefinedBrickEventId)) {
-			return false;
-		}
-
-		UserDefinedBrickEventId that = (UserDefinedBrickEventId) o;
-
-		return userDefinedBrickID.equals(that.userDefinedBrickID);
-	}
-
-	public int hashCode() {
-		return (userDefinedBrickID != null ? userDefinedBrickID.hashCode() : 0);
-	}
+    override fun hashCode(): Int {
+        return userDefinedBrickID?.hashCode() ?: 0
+    }
 }

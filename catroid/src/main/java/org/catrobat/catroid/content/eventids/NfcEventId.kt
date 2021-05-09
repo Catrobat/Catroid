@@ -20,53 +20,25 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.eventids;
+package org.catrobat.catroid.content.eventids
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import com.google.common.base.Objects
 
-import androidx.annotation.IntDef;
+class NfcEventId(val tag: String) : EventId() {
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o !is NfcEventId) {
+            return false
+        }
+        if (!super.equals(o)) {
+            return false
+        }
+        return Objects.equal(tag, o.tag)
+    }
 
-public class EventId {
-	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({TAP, TAP_BACKGROUND, START, START_AS_CLONE, ANY_NFC, OTHER})
-	public @interface EventType {
-	}
-
-	public static final int OTHER = 0;
-	public static final int TAP = 1;
-	public static final int TAP_BACKGROUND = 2;
-	public static final int START = 3;
-	public static final int START_AS_CLONE = 4;
-	public static final int ANY_NFC = 5;
-
-	@EventType
-	private final int type;
-
-	public EventId(@EventType int type) {
-		this.type = type;
-	}
-
-	protected EventId() {
-		this.type = OTHER;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (!(o instanceof EventId)) {
-			return false;
-		}
-
-		EventId eventId = (EventId) o;
-
-		return type == eventId.type;
-	}
-
-	@Override
-	public int hashCode() {
-		return type;
-	}
+    override fun hashCode(): Int {
+        return Objects.hashCode(super.hashCode(), tag)
+    }
 }

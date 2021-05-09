@@ -20,37 +20,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.content.eventids
 
-package org.catrobat.catroid.content.eventids;
+import org.catrobat.catroid.formulaeditor.Formula
 
-import com.google.common.base.Objects;
+class WhenConditionEventId(val formula: Formula?) : EventId() {
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o !is WhenConditionEventId) {
+            return false
+        }
+        if (!super.equals(o)) {
+            return false
+        }
+        val that = o
+        return if (formula != null) formula == that.formula else that.formula == null
+    }
 
-import androidx.annotation.NonNull;
-
-public class NfcEventId extends EventId {
-	final String tag;
-
-	public NfcEventId(@NonNull String tag) {
-		this.tag = tag;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (!(o instanceof NfcEventId)) {
-			return false;
-		}
-		if (!super.equals(o)) {
-			return false;
-		}
-		NfcEventId that = (NfcEventId) o;
-		return Objects.equal(tag, that.tag);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hashCode(super.hashCode(), tag);
-	}
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + (formula?.hashCode() ?: 0)
+        return result
+    }
 }

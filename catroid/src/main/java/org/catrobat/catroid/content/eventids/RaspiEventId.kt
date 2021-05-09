@@ -20,30 +20,29 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.eventids;
+package org.catrobat.catroid.content.eventids
 
-public class BroadcastEventId extends EventId {
-	public final String message;
+import com.google.common.base.Objects
 
-	public BroadcastEventId(String message) {
-		this.message = message;
-	}
+class RaspiEventId(private val pin: String?, private val eventValue: String?) : EventId() {
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o !is RaspiEventId) {
+            return false
+        }
+        if (!super.equals(o)) {
+            return false
+        }
+        val that = o
+        return (Objects.equal(pin, that.pin)
+            && Objects.equal(eventValue, that.eventValue))
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (!(o instanceof BroadcastEventId)) {
-			return false;
-		}
-
-		BroadcastEventId that = (BroadcastEventId) o;
-
-		return message.equals(that.message);
-	}
-
-	public int hashCode() {
-		return (message != null ? message.hashCode() : 0);
-	}
+    override fun hashCode(): Int {
+        var result = pin?.hashCode() ?: 0
+        result = 31 * result + (eventValue?.hashCode() ?: 0)
+        return result
+    }
 }

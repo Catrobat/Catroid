@@ -20,43 +20,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.content.eventids
 
-package org.catrobat.catroid.content.eventids;
+import com.google.common.base.Objects
+import org.catrobat.catroid.content.Sprite
 
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.content.Sprite;
+class BounceOffEventId(val bouncingSprite: Sprite?, val staticSprite: Sprite?) : EventId() {
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o !is BounceOffEventId) {
+            return false
+        }
+        if (!super.equals(o)) {
+            return false
+        }
+        val that = o
+        return (Objects.equal(bouncingSprite, that.bouncingSprite)
+            && Objects.equal(staticSprite, that.staticSprite))
+    }
 
-public class SetLookEventId extends EventId {
-	public final Sprite sprite;
-	public final LookData lookData;
-
-	public SetLookEventId(Sprite sprite, LookData lookData) {
-		this.sprite = sprite;
-		this.lookData = lookData;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (!(o instanceof SetLookEventId)) {
-			return false;
-		}
-		if (!super.equals(o)) {
-			return false;
-		}
-
-		SetLookEventId that = (SetLookEventId) o;
-
-		return sprite.equals(that.sprite) && lookData.equals(that.lookData);
-	}
-
-	@Override
-	public int hashCode() {
-		int result = super.hashCode();
-		result = 31 * result + sprite.hashCode();
-		result = 31 * result + (lookData != null ? lookData.hashCode() : 0);
-		return result;
-	}
+    override fun hashCode(): Int {
+        return Objects.hashCode(super.hashCode(), bouncingSprite, staticSprite)
+    }
 }

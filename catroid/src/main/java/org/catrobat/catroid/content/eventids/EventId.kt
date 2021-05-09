@@ -20,39 +20,48 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.eventids;
+package org.catrobat.catroid.content.eventids
 
-import com.google.common.base.Objects;
+import androidx.annotation.IntDef
+import java.lang.annotation.Retention
+import java.lang.annotation.RetentionPolicy
 
-import org.catrobat.catroid.content.Sprite;
+open class EventId {
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef(TAP, TAP_BACKGROUND, START, START_AS_CLONE, ANY_NFC, OTHER)
+    annotation class EventType
 
-public class BounceOffEventId extends EventId {
-	public final Sprite bouncingSprite;
-	public final Sprite staticSprite;
+    @EventType
+    private val type: Int
 
-	public BounceOffEventId(Sprite bouncingSprite, Sprite staticSprite) {
-		this.bouncingSprite = bouncingSprite;
-		this.staticSprite = staticSprite;
-	}
+    constructor(@EventType type: Int) {
+        this.type = type
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (!(o instanceof BounceOffEventId)) {
-			return false;
-		}
-		if (!super.equals(o)) {
-			return false;
-		}
-		BounceOffEventId that = (BounceOffEventId) o;
-		return Objects.equal(bouncingSprite, that.bouncingSprite)
-				&& Objects.equal(staticSprite, that.staticSprite);
-	}
+    protected constructor() {
+        type = OTHER
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hashCode(super.hashCode(), bouncingSprite, staticSprite);
-	}
+    override fun equals(o: Any?): Boolean {
+        if (this === o) {
+            return true
+        }
+        if (o !is EventId) {
+            return false
+        }
+        return type == o.type
+    }
+
+    override fun hashCode(): Int {
+        return type
+    }
+
+    companion object {
+        const val OTHER = 0
+        const val TAP = 1
+        const val TAP_BACKGROUND = 2
+        const val START = 3
+        const val START_AS_CLONE = 4
+        const val ANY_NFC = 5
+    }
 }
