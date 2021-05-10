@@ -59,23 +59,23 @@ class StopSoundBrick : BrickBaseType(),
         return view
     }
 
-    override fun onNewOptionSelected(spinnerId: Int) {
+    override fun onNewOptionSelected(spinnerId: Int?) {
         (UiUtils.getActivityFromView(view) as? SpriteActivity)?.apply {
             registerOnNewSoundListener(this@StopSoundBrick)
             handleAddSoundButton()
         }
     }
 
-    override fun onEditOptionSelected(spinnerId: Int) = Unit
+    override fun onEditOptionSelected(spinnerId: Int?) = Unit
 
     override fun addItem(item: SoundInfo) {
         spinner.add(item)
         spinner.setSelection(item)
     }
 
-    override fun onStringOptionSelected(spinnerId: Int, string: String) = Unit
+    override fun onStringOptionSelected(spinnerId: Int?, string: String?) = Unit
 
-    override fun onItemSelected(spinnerId: Int, item: SoundInfo?) {
+    override fun onItemSelected(spinnerId: Int?, item: SoundInfo?) {
         sound = item
     }
 

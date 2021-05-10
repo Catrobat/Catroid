@@ -20,41 +20,26 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.content.bricks.brickspinner
 
-package org.catrobat.catroid.content.bricks.brickspinner;
+import org.catrobat.catroid.common.Nameable
 
-import org.catrobat.catroid.common.Nameable;
+class StringOption(private var name: String) : Nameable {
+    override fun getName(): String {
+        return name
+    }
 
-import androidx.annotation.Nullable;
+    override fun setName(name: String) {
+        this.name = name
+    }
 
-public final class StringOption implements Nameable {
+    override fun equals(other: Any?): Boolean {
+        return if (other is StringOption) {
+            getName() == other.getName()
+        } else false
+    }
 
-	private String name;
-
-	public StringOption(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public boolean equals(@Nullable Object other) {
-		if (other instanceof StringOption) {
-			return this.getName().equals(((StringOption) other).getName());
-		}
-		return false;
-	}
-
-	@Override
-	public int hashCode() {
-		return this.getName().hashCode();
-	}
+    override fun hashCode(): Int {
+        return getName().hashCode()
+    }
 }
