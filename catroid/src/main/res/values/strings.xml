@@ -667,6 +667,9 @@
         Services.</string>
     <!--  -->
 
+    <!-- Variable Complete Values Dialog-->
+    <string name="dialog_complete_values">Values</string>
+    <!-- -->
     <!-- Privacy Policy -->
     <string name="disclaimer_privacy_police_header_headline">Welcome!</string>
     <string name="disclaimer_privacy_policy_header">To use this app, please accept our</string>
@@ -1704,6 +1707,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_choose_object_variable">Properties of this actor or object</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
+    <string name="formula_editor_forward_arrow">When clicked this arrow it will show
+        complete values of variable- variable name and variable value associated with it.</string>
     <string name="formula_editor_function_sin" tools:ignore="UnusedResources">sine</string>
     <string name="formula_editor_function_sin_parameter">(90)</string>
     <string name="formula_editor_function_cos" tools:ignore="UnusedResources">cosine</string>
@@ -2090,5 +2095,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="serif_font" translatable="false">serif</string>
     <string name="edit">Edit</string>
     <string name="data_value">Value</string>
+
 
 </resources>

@@ -36,7 +36,7 @@
 
         <TextView
             android:layout_marginTop="4dp"
-            android:text="Values"
+            android:text="@string/dialog_complete_values"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/vh_item_title"
@@ -76,7 +76,7 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="OK"
+            android:text="@string/ok"
             android:textColor="@color/vh_item_title"
             android:background="@drawable/button_background_selector"/>
 

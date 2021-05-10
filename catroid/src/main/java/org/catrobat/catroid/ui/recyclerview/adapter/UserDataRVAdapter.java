@@ -22,31 +22,19 @@
  */
 
 package org.catrobat.catroid.ui.recyclerview.adapter;
-
-import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.ui.recyclerview.viewholder.VariableVH;
-import org.catrobat.paintroid.MainActivity;
 
 import java.util.List;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 
 import static org.catrobat.catroid.utils.NumberFormats.trimTrailingCharacters;
 
@@ -70,33 +58,20 @@ public class UserDataRVAdapter<T extends UserData> extends RVAdapter<T> {
 		VariableVH variableVH = (VariableVH) holder;
 		variableVH.title.setText(item.getName());
 		variableVH.value.setText(trimTrailingCharacters(item.getValue().toString()));
-		variableVH.arrow_btn.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
+		variableVH.arrowButton.setOnClickListener(v -> {
 
-				View alertView =
-						LayoutInflater.from(v.getContext()).inflate(R.layout.dialog_variable,null);
-				AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext());
-				TextView title= alertView.findViewById(R.id.variable_name);
-				TextView value= alertView.findViewById(R.id.variable_value);
-				Button ok_btn=alertView.findViewById(R.id.ok_btn);
-				title.setText(variableVH.title.getText().toString());
-				value.setText(variableVH.value.getText().toString());
-				alert.setView(alertView);
-				//Show alert
-				final AlertDialog alertDialog = alert.show();
-				alertDialog.setCanceledOnTouchOutside(true);
-				ok_btn.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						alertDialog.dismiss();
-					}
-				});
-
-			}
+			View alertView = LayoutInflater.from(v.getContext()).inflate(R.layout.dialog_variable, null);
+			AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext());
+			TextView title = alertView.findViewById(R.id.variable_name);
+			TextView value = alertView.findViewById(R.id.variable_value);
+			Button okButton = alertView.findViewById(R.id.ok_btn);
+			title.setText(variableVH.title.getText().toString());
+			value.setText(variableVH.value.getText().toString());
+			alert.setView(alertView);
+			//Show alert
+			final AlertDialog alertDialog = alert.show();
+			alertDialog.setCanceledOnTouchOutside(true);
+			okButton.setOnClickListener(v1 -> alertDialog.dismiss());
 		});
-
-
 	}
-
 }

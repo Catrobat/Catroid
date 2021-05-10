@@ -32,11 +32,11 @@ import org.catrobat.catroid.R;
 public class VariableVH extends CheckableVH {
 
 	public TextView value;
-	public ImageButton arrow_btn;
+	public ImageButton arrowButton;
 
 	public VariableVH(View itemView) {
 		super(itemView);
 		value = itemView.findViewById(R.id.value_view);
-		arrow_btn=itemView.findViewById(R.id.arrow_variable);
+		arrowButton = itemView.findViewById(R.id.arrow_variable);
 	}
 }
