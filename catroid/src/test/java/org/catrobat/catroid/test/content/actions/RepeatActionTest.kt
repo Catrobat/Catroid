@@ -27,6 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.test.StaticSingletonInitializer.Companion.initializeStaticSingletonMethods
 import org.catrobat.catroid.test.utils.Reflection
 import org.junit.Assert
 import org.junit.Before
@@ -65,6 +66,7 @@ class RepeatActionTest(
 
     @Before
     fun setUp() {
+        initializeStaticSingletonMethods()
         sprite = Sprite("testSprite")
         innerLoopAction = Mockito.mock(MockAction()::class.java, Mockito.CALLS_REAL_METHODS)
         repeatAction = sprite.actionFactory.createRepeatAction(

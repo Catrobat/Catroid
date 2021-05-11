@@ -43,6 +43,8 @@ import org.junit.runners.Parameterized;
 import java.util.Arrays;
 import java.util.Set;
 
+import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
+
 @RunWith(Parameterized.class)
 public class CompositeBrickWithSecondaryListBroadcastMessageTest {
 
@@ -68,6 +70,7 @@ public class CompositeBrickWithSecondaryListBroadcastMessageTest {
 
 	@Before
 	public void setUp() throws IllegalAccessException, InstantiationException {
+		initializeStaticSingletonMethods();
 		Project project = new Project();
 		scene = new Scene();
 		Sprite sprite = new Sprite();

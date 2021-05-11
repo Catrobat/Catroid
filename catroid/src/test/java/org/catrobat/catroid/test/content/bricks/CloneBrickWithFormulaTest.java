@@ -78,6 +78,7 @@ import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
 
+import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
@@ -154,6 +155,7 @@ public class CloneBrickWithFormulaTest {
 
 	@Before
 	public void setUp() throws CloneNotSupportedException {
+		initializeStaticSingletonMethods();
 		FormulaBrick cloneBrick = (FormulaBrick) brick.clone();
 		brickFormula = brick.getFormulaWithBrickField(brickField);
 		cloneBrickFormula = cloneBrick.getFormulaWithBrickField(brickField);

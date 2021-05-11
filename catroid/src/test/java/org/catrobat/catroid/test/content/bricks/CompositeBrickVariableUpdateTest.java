@@ -50,6 +50,7 @@ import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
 
+import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
@@ -87,6 +88,7 @@ public class CompositeBrickVariableUpdateTest {
 
 	@Before
 	public void setUp() throws IllegalAccessException, InstantiationException {
+		initializeStaticSingletonMethods();
 		Project project = new Project();
 		userVariable = new UserVariable();
 		userList = new UserList();

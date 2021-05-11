@@ -36,6 +36,8 @@ import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
+
 @RunWith(JUnit4.class)
 public class SetTransparencyActionTest {
 
@@ -49,6 +51,7 @@ public class SetTransparencyActionTest {
 
 	@Before
 	public void setUp() throws Exception {
+		initializeStaticSingletonMethods();
 		sprite = new Sprite("testSprite");
 	}
 
