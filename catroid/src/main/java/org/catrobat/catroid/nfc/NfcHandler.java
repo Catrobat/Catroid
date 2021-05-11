@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -91,15 +91,15 @@ public final class NfcHandler {
 					messages[i] = (NdefMessage) rawMsgs[i];
 				}
 				if (messages[0] != null) {
-					String result = "";
+					StringBuilder result = new StringBuilder();
 					byte[] payload = messages[0].getRecords()[0].getPayload();
 					if (payload.length > 0) {
 						int i = payloadStartContainsText(payload[0]) ? 0 : 1;
 						for (; i < payload.length; i++) {
-							result += (char) payload[i];
+							result.append((char) payload[i]);
 						}
 					}
-					return result;
+					return result.toString();
 				}
 			}
 		}

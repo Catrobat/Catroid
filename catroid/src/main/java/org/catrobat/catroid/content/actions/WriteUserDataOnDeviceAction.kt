@@ -21,12 +21,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.content
+package org.catrobat.catroid.content.actions
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.catrobat.catroid.formulaeditor.UserData
+import org.catrobat.catroid.io.DeviceUserDataAccessor
 
-data class Scope(
-    val project: Project?,
-    val sprite: Sprite,
-    val sequence: SequenceAction?
-)
+class WriteUserDataOnDeviceAction : AsynchronousAction() {
+    var userData: UserData<Any>? = null
+    var accessor: DeviceUserDataAccessor? = null
+    private var writeActionFinished = false
+    private val scopeIO = CoroutineScope(Dispatchers.IO)
+
+    override fun initialize() {
+        writeActionFinished = false
+        userData?.let { executeWriteTask(it) }
+    }
+
+    override fun isFinished(): Boolean = writeActionFinished || userData == null
+
+    private fun executeWriteTask(userData: UserData<Any>) {
+        scopeIO.launch {
+            accessor?.writeUserData(userData)
+
+            withContext(Dispatchers.Main) {
+                writeActionFinished = true
+            }
+        }
+    }
+}

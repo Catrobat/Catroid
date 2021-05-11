@@ -50,5 +50,6 @@
     <color name="formula_editor_ok_button">#8D60D6</color>
     <color name="formula_editor_ok_button_pressed">#380F50</color>
     <color name="formula_editor_ok_text">#F9F9F9</color>
+    <color name="color_picker_dialog_button">@color/formula_editor_ok_button</color>
 
 </resources>

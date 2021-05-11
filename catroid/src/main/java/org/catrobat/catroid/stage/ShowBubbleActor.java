@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -307,16 +307,16 @@ public class ShowBubbleActor extends Actor {
 
 	private static ArrayList<String> concatWordsIntoLines(ArrayList<String> words, int maxLineLength) {
 		ArrayList<String> lines = new ArrayList<>();
-		String line = words.get(0);
+		StringBuilder line = new StringBuilder(words.get(0));
 		for (String word : words.subList(1, words.size())) {
 			if (line.length() + word.length() < maxLineLength) {
-				line = line + " " + word;
+				line.append(' ').append(word);
 			} else {
-				lines.add(line);
-				line = word;
+				lines.add(line.toString());
+				line = new StringBuilder(word);
 			}
 		}
-		lines.add(line);
+		lines.add(line.toString());
 		return lines;
 	}
 }

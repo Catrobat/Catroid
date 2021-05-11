@@ -420,6 +420,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 
 		convertedSprite.userVariables = userVariables;
 		convertedSprite.userLists = userLists;
+		convertedSprite.userDefinedBrickList = userDefinedBrickList;
 
 		return convertedSprite;
 	}

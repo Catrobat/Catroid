@@ -31,6 +31,9 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
+import org.catrobat.catroid.content.bricks.AssertUserListsBrick;
+import org.catrobat.catroid.content.bricks.HideTextBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -240,6 +243,9 @@ public class SceneControllerTest {
 		StartScript script = new StartScript();
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(0, 0);
 		script.addBrick(placeAtBrick);
+		script.addBrick(new HideTextBrick());
+		script.addBrick(new AddItemToUserListBrick());
+		script.addBrick(new AssertUserListsBrick());
 		sprite.addScript(script);
 
 		XstreamSerializer.getInstance().saveProject(project);

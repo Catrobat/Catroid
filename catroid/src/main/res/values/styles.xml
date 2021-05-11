@@ -691,7 +691,7 @@
 
     <style name="ColorPickerButtonStyle" tools:ignore="UnusedResources"
         parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">?colorAccent</item>
+        <item name="android:textColor">@color/color_picker_dialog_button</item>
 
     </style>
 

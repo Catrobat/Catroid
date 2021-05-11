@@ -106,6 +106,7 @@
     <!-- override the color of ColorPickerPreviewActivity toolbar -->
     <color name="pocketpaint_color_picker_actionbar_color"
         tools:ignore="UnusedResources">@color/toolbar_background</color>
+    <color name="color_picker_dialog_button">@color/accent</color>
 
     <!-- indicator colors -->
     <color name="indicator_selected_color">#FFFFFF</color>
