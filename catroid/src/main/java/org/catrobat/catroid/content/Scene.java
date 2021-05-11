@@ -163,7 +163,8 @@ public class Scene implements Nameable, Serializable {
 					for (Brick currentBrick : flatList) {
 						if (currentBrick instanceof CloneBrick) {
 							CloneBrick cloneBrick = (CloneBrick) currentBrick;
-							if (cloneBrick.getSelectedItem().equals(spriteToDelete)) {
+							if (cloneBrick.getSelectedItem() != null
+									&& cloneBrick.getSelectedItem().equals(spriteToDelete)) {
 								cloneBrick.resetSpinner();
 							}
 						}
