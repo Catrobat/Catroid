@@ -91,7 +91,7 @@ public class DeviceUserListAccessorParameterizedValueTest<T> {
 	}
 
 	@Test
-	public void saveUserList() throws IOException {
+	public void saveUserList() {
 		accessor.writeUserData(userList);
 		userList.setValue(throwAwayValue);
 		Map map = accessor.readMapFromJson();
@@ -119,7 +119,7 @@ public class DeviceUserListAccessorParameterizedValueTest<T> {
 	}
 
 	@Test
-	public void cloneSpriteTest() throws IOException {
+	public void cloneSpriteTest() {
 		Project dummyProject = new Project();
 		Scene dummyScene = new Scene();
 		dummyProject.addScene(dummyScene);
