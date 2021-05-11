@@ -64,6 +64,7 @@ class ActionPhysicsFactory : ActionFactory() {
         val scope = Scope(ProjectManager.getInstance().currentProject, sprite, sequence)
         action.setScope(scope)
         action.setPhysicsLook(sprite.look as PhysicsLook)
+        action.setPhysicsObject(getPhysicsObject(sprite))
         return action
     }
 
