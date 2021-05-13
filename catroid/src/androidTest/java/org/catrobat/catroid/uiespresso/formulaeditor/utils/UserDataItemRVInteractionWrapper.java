@@ -34,6 +34,7 @@ import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -65,6 +66,19 @@ public abstract class UserDataItemRVInteractionWrapper<T extends UserDataItemRVI
 				.perform(click());
 		onView(withId(R.id.input_edit_text))
 				.perform(clearText(), replaceText(newName), closeSoftKeyboard());
+		onView(withText(R.string.ok))
+				.perform(click());
+	}
+
+	public void performArrowClick(String newName, String newValue)
+	{
+		onChildView(R.id.arrow_variable)
+				.perform(click());
+		onView(withText(R.string.dialog_complete_values)).check(matches(isDisplayed()));
+		onView(withText(R.string.default_variable_name)).check(matches(isDisplayed()));
+		onView(withId(R.id.variable_name)).check(matches(withText(newName)));
+		onView(withText(R.string.data_value)).check(matches(isDisplayed()));
+		onView(withId(R.id.variable_value)).check(matches(withText(newValue)));
 		onView(withText(R.string.ok))
 				.perform(click());
 	}
