@@ -26,7 +26,7 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -36,7 +36,7 @@ import static org.catrobat.catroid.formulaeditor.common.Conversions.convertArgum
 
 public class SetVariableAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Scope scope;
 	private Formula changeVariable;
 	private UserVariable userVariable;
 
@@ -45,7 +45,8 @@ public class SetVariableAction extends TemporalAction {
 		if (userVariable == null) {
 			return;
 		}
-		Object value = changeVariable == null ? Double.valueOf(0d) : changeVariable.interpretObject(sprite);
+		Object value = changeVariable == null ? Double.valueOf(0d)
+				: changeVariable.interpretObject(scope);
 
 		boolean isFirstLevelStringTree = false;
 		if (changeVariable != null && changeVariable.getRoot().getElementType() == FormulaElement.ElementType.STRING) {
@@ -74,7 +75,7 @@ public class SetVariableAction extends TemporalAction {
 		this.changeVariable = changeVariable;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 }

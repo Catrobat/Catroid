@@ -52,6 +52,6 @@ public class SetXBrick extends FormulaBrick {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
-				.createSetXAction(sprite, getFormulaWithBrickField(BrickField.X_POSITION)));
+				.createSetXAction(sprite, sequence, getFormulaWithBrickField(BrickField.X_POSITION)));
 	}
 }

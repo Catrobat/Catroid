@@ -23,35 +23,50 @@
 
 package org.catrobat.catroid.formulaeditor;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Scope;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.UserDefinedScript;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 public final class UserDataWrapper {
 
-	public static UserVariable getUserVariable(String name, Sprite sprite, Project project) {
+	public static UserVariable getUserVariable(String name, Scope scope) {
 		UserVariable userVariable = null;
-		if (sprite != null) {
-			userVariable = sprite.getUserVariable(name);
+		if (scope.getSprite() != null) {
+			userVariable = scope.getSprite().getUserVariable(name);
 		}
-		if (project != null && userVariable == null) {
-			userVariable = project.getUserVariable(name);
+		if (scope.getProject() != null && userVariable == null) {
+			userVariable = scope.getProject().getUserVariable(name);
 			if (userVariable == null) {
-				userVariable = project.getMultiplayerVariable(name);
+				userVariable = scope.getProject().getMultiplayerVariable(name);
 			}
 		}
 		return userVariable;
 	}
 
-	public static UserList getUserList(String name, Sprite sprite, Project project) {
+	public static UserList getUserList(String name, Scope scope) {
 		UserList userList = null;
-		if (sprite != null) {
-			userList = sprite.getUserList(name);
+		if (scope.getSprite() != null) {
+			userList = scope.getSprite().getUserList(name);
 		}
-		if (project != null && userList == null) {
-			return project.getUserList(name);
+		if (scope.getProject() != null && userList == null) {
+			return scope.getProject().getUserList(name);
 		}
 		return userList;
+	}
+
+	public static UserData getUserDefinedBrickInput(String value, SequenceAction sequence) {
+		if (sequence instanceof ScriptSequenceAction
+				&& ((ScriptSequenceAction) sequence).getScript() instanceof UserDefinedScript) {
+			Script userDefinedScript = ((ScriptSequenceAction) sequence).getScript();
+			return ((UserDefinedScript) userDefinedScript).getUserDefinedBrickInput(value);
+		}
+		return null;
 	}
 
 	public static void resetAllUserData(Project project) {

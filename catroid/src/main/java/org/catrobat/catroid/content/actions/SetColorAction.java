@@ -27,7 +27,7 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
@@ -35,13 +35,13 @@ public class SetColorAction extends TemporalAction {
 
 	private static final String TAG = SetColorAction.class.getSimpleName();
 
-	private Sprite sprite;
+	private Scope scope;
 	private Formula color;
 
 	protected void update(float delta) {
 		try {
-			float eightBitColor = color == null ? 0 : color.interpretFloat(sprite);
-			sprite.look.setColorInUserInterfaceDimensionUnit(eightBitColor);
+			float eightBitColor = color == null ? 0 : color.interpretFloat(scope);
+			scope.getSprite().look.setColorInUserInterfaceDimensionUnit(eightBitColor);
 		} catch (InterpretationException interpretationException) {
 			Log.d(TAG, "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
@@ -51,7 +51,7 @@ public class SetColorAction extends TemporalAction {
 		this.color = color;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 }

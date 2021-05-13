@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -50,15 +50,7 @@ public class JumpingSumoRotateRightBrick extends FormulaBrick {
 	}
 
 	@Override
-	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
-		requiredResourcesSet.add(JUMPING_SUMO);
-		super.addRequiredResources(requiredResourcesSet);
-	}
-
-	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory()
-				.createJumpingSumoRotateRightAction(sprite, getFormulaWithBrickField(BrickField.JUMPING_SUMO_ROTATE)));
 	}
 }
 

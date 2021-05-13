@@ -57,6 +57,7 @@ import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.TestResult;
+import org.catrobat.catroid.ui.controller.RecentBrickListManager;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
@@ -70,6 +71,7 @@ import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -83,6 +85,7 @@ import androidx.fragment.app.Fragment;
 import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.DEFAULT_SOUND_EXTENSION;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.JPEG_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIR;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME;
@@ -97,6 +100,7 @@ import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.isFr
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.loadFragment;
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.removeTabLayout;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
+import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.CHANGED_COORDINATES;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
 
@@ -172,6 +176,10 @@ public class SpriteActivity extends BaseActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setTitle(createActionBarTitle());
 
+		if (RecentBrickListManager.getInstance().getRecentBricks(true).size() == 0) {
+			RecentBrickListManager.getInstance().loadRecentBricks();
+		}
+
 		int fragmentPosition = FRAGMENT_SCRIPTS;
 
 		Bundle bundle = getIntent().getExtras();
@@ -182,8 +190,8 @@ public class SpriteActivity extends BaseActivity {
 		addTabLayout(this, fragmentPosition);
 	}
 
-	private String createActionBarTitle() {
-		if (currentProject.getSceneList().size() == 1) {
+	public String createActionBarTitle() {
+		if (currentProject != null && currentProject.getSceneList() != null && currentProject.getSceneList().size() == 1) {
 			return currentSprite.getName();
 		} else {
 			return currentScene.getName() + ": " + currentSprite.getName();
@@ -204,12 +212,19 @@ public class SpriteActivity extends BaseActivity {
 	public void showUndo(boolean visible) {
 		if (currentMenu != null) {
 			currentMenu.findItem(R.id.menu_undo).setVisible(visible);
+			if (visible) {
+				ProjectManager.getInstance().changedProject(currentProject.getName());
+			}
 		}
 	}
 
-	public void showUndoMenuItem(boolean visible) {
+	public void checkForChange() {
 		if (currentMenu != null) {
-			currentMenu.findItem(R.id.menu_undo).setVisible(visible);
+			if (currentMenu.findItem(R.id.menu_undo).isVisible()) {
+				ProjectManager.getInstance().changedProject(currentProject.getName());
+			} else {
+				ProjectManager.getInstance().resetChangedFlag(currentProject);
+			}
 		}
 	}
 
@@ -221,8 +236,9 @@ public class SpriteActivity extends BaseActivity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (getCurrentFragment() instanceof ScriptFragment) {
 			menu.findItem(R.id.comment_in_out).setVisible(true);
+			showUndo(isUndoMenuItemVisible);
 		} else if (getCurrentFragment() instanceof LookListFragment) {
-			showUndoMenuItem(isUndoMenuItemVisible);
+			showUndo(isUndoMenuItemVisible);
 		}
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -239,7 +255,7 @@ public class SpriteActivity extends BaseActivity {
 
 		if (item.getItemId() == R.id.menu_undo && getCurrentFragment() instanceof LookListFragment) {
 			setUndoMenuItemVisibility(false);
-			showUndoMenuItem(isUndoMenuItemVisible);
+			showUndo(isUndoMenuItemVisible);
 			Fragment fragment = getCurrentFragment();
 			if (fragment instanceof LookListFragment && !((LookListFragment) fragment).undo() && currentLookData != null) {
 				((LookListFragment) fragment).deleteItem(currentLookData);
@@ -248,6 +264,7 @@ public class SpriteActivity extends BaseActivity {
 			}
 			return true;
 		}
+
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -255,6 +272,7 @@ public class SpriteActivity extends BaseActivity {
 	protected void onPause() {
 		super.onPause();
 		saveProject();
+		RecentBrickListManager.getInstance().saveRecentBrickList();
 	}
 
 	@Override
@@ -268,12 +286,16 @@ public class SpriteActivity extends BaseActivity {
 				((ScriptFragment) currentFragment).cancelMove();
 				return;
 			}
+			if (((ScriptFragment) currentFragment).isFinderOpen()) {
+				((ScriptFragment) currentFragment).closeFinder();
+				return;
+			}
 			if (((ScriptFragment) currentFragment).isCurrentlyHighlighted()) {
 				((ScriptFragment) currentFragment).cancelHighlighting();
 				return;
 			}
 		} else if (currentFragment instanceof FormulaEditorFragment) {
-			((FormulaEditorFragment) currentFragment).promptSave();
+			((FormulaEditorFragment) currentFragment).exitFormulaEditorFragment();
 			return;
 		} else if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
 			getSupportFragmentManager().popBackStack();
@@ -283,6 +305,7 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	private void saveProject() {
+		currentProject = ProjectManager.getInstance().getCurrentProject();
 		new ProjectSaveTask(currentProject, getApplicationContext())
 				.execute();
 	}
@@ -324,11 +347,11 @@ public class SpriteActivity extends BaseActivity {
 				break;
 			case SPRITE_FILE:
 				uri = data.getData();
-				addSpriteFromUri(uri);
+				addSpriteFromUri(uri, JPEG_IMAGE_EXTENSION);
 				break;
 			case SPRITE_CAMERA:
 				uri = new ImportFromCameraLauncher(this).getCacheCameraUri();
-				addSpriteFromUri(uri);
+				addSpriteFromUri(uri, JPEG_IMAGE_EXTENSION);
 				break;
 			case BACKGROUND_POCKET_PAINT:
 				uri = new ImportFromPocketPaintLauncher(this).getPocketPaintCacheUri();
@@ -340,11 +363,11 @@ public class SpriteActivity extends BaseActivity {
 				break;
 			case BACKGROUND_FILE:
 				uri = data.getData();
-				addBackgroundFromUri(uri);
+				addBackgroundFromUri(uri, JPEG_IMAGE_EXTENSION);
 				break;
 			case BACKGROUND_CAMERA:
 				uri = new ImportFromCameraLauncher(this).getCacheCameraUri();
-				addBackgroundFromUri(uri);
+				addBackgroundFromUri(uri, JPEG_IMAGE_EXTENSION);
 				break;
 			case LOOK_POCKET_PAINT:
 				uri = new ImportFromPocketPaintLauncher(this).getPocketPaintCacheUri();
@@ -358,12 +381,12 @@ public class SpriteActivity extends BaseActivity {
 				break;
 			case LOOK_FILE:
 				uri = data.getData();
-				addLookFromUri(uri);
+				addLookFromUri(uri, JPEG_IMAGE_EXTENSION);
 				setUndoMenuItemVisibility(true);
 				break;
 			case LOOK_CAMERA:
 				uri = new ImportFromCameraLauncher(this).getCacheCameraUri();
-				addLookFromUri(uri);
+				addLookFromUri(uri, JPEG_IMAGE_EXTENSION);
 				setUndoMenuItemVisibility(true);
 				break;
 			case SOUND_RECORD:
@@ -380,6 +403,7 @@ public class SpriteActivity extends BaseActivity {
 				if (extras == null) {
 					return;
 				}
+
 				int xCoordinate = extras.getInt(X_COORDINATE_BUNDLE_ARGUMENT);
 				int yCoordinate = extras.getInt(Y_COORDINATE_BUNDLE_ARGUMENT);
 				int brickHash = extras.getInt(EXTRA_BRICK_HASH);
@@ -399,6 +423,9 @@ public class SpriteActivity extends BaseActivity {
 						((FormulaEditorFragment) fragment).updateFragmentAfterVisualPlacement();
 					}
 				}
+
+				setUndoMenuItemVisibility(extras.getBoolean(CHANGED_COORDINATES));
+
 				break;
 		}
 	}
@@ -416,6 +443,10 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	private void addSpriteFromUri(final Uri uri) {
+		addSpriteFromUri(uri, DEFAULT_IMAGE_EXTENSION);
+	}
+
+	private void addSpriteFromUri(final Uri uri, String imageExtension) {
 		String resolvedName;
 		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
 
@@ -427,7 +458,7 @@ public class SpriteActivity extends BaseActivity {
 
 		if (useDefaultSpriteName) {
 			resolvedName = getString(R.string.default_sprite_name);
-			lookFileName = resolvedName + DEFAULT_IMAGE_EXTENSION;
+			lookFileName = resolvedName + imageExtension;
 		} else {
 			resolvedName = StorageOperations.getSanitizedFileName(resolvedFileName);
 			lookFileName = resolvedFileName;
@@ -447,6 +478,7 @@ public class SpriteActivity extends BaseActivity {
 						File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
 						File file = StorageOperations
 								.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
+						Utils.removeExifData(imageDirectory, lookFileName);
 						LookData lookData = new LookData(textInput, file);
 						sprite.getLookList().add(lookData);
 						lookData.getCollisionInformation().calculate();
@@ -476,6 +508,10 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	private void addBackgroundFromUri(Uri uri) {
+		addBackgroundFromUri(uri, DEFAULT_IMAGE_EXTENSION);
+	}
+
+	private void addBackgroundFromUri(Uri uri, String imageExtension) {
 		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
 		String lookDataName;
 		String lookFileName;
@@ -485,7 +521,7 @@ public class SpriteActivity extends BaseActivity {
 
 		if (useSpriteName) {
 			lookDataName = currentSprite.getName();
-			lookFileName = lookDataName + DEFAULT_IMAGE_EXTENSION;
+			lookFileName = lookDataName + imageExtension;
 		} else {
 			lookDataName = StorageOperations.getSanitizedFileName(resolvedFileName);
 			lookFileName = resolvedFileName;
@@ -495,7 +531,9 @@ public class SpriteActivity extends BaseActivity {
 
 		try {
 			File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
-			File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
+			File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory,
+					lookFileName);
+			Utils.removeExifData(imageDirectory, lookFileName);
 			LookData look = new LookData(lookDataName, file);
 			currentSprite.getLookList().add(look);
 			look.getCollisionInformation().calculate();
@@ -508,6 +546,10 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	private void addLookFromUri(Uri uri) {
+		addLookFromUri(uri, DEFAULT_IMAGE_EXTENSION);
+	}
+
+	private void addLookFromUri(Uri uri, String imageExtension) {
 		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
 		String lookDataName;
 		String lookFileName;
@@ -517,7 +559,7 @@ public class SpriteActivity extends BaseActivity {
 
 		if (useSpriteName) {
 			lookDataName = currentSprite.getName();
-			lookFileName = lookDataName + DEFAULT_IMAGE_EXTENSION;
+			lookFileName = lookDataName + imageExtension;
 		} else {
 			lookDataName = StorageOperations.getSanitizedFileName(resolvedFileName);
 			lookFileName = resolvedFileName;
@@ -528,6 +570,7 @@ public class SpriteActivity extends BaseActivity {
 		try {
 			File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
 			File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
+			Utils.removeExifData(imageDirectory, lookFileName);
 			LookData look = new LookData(lookDataName, file);
 			this.currentLookData = look;
 			currentSprite.getLookList().add(look);
@@ -763,6 +806,11 @@ public class SpriteActivity extends BaseActivity {
 		RadioButton addToProjectUserDataRadioButton = view.findViewById(R.id.global);
 
 		List<UserData> variables = new ArrayList<>();
+
+		ProjectManager projectManager = ProjectManager.getInstance();
+		currentSprite = projectManager.getCurrentSprite();
+		currentProject = projectManager.getCurrentProject();
+
 		variables.addAll(currentProject.getUserVariables());
 		variables.addAll(currentProject.getMultiplayerVariables());
 		variables.addAll(currentSprite.getUserVariables());
@@ -827,7 +875,7 @@ public class SpriteActivity extends BaseActivity {
 				if (currentName.equals(generatedVariableName)) {
 					generatedVariableName =
 							uniqueVariableNameProvider.getUniqueName(getString(R.string.default_variable_name),
-							null);
+									null);
 					textInputEditText.setText(generatedVariableName);
 				}
 			}
@@ -902,13 +950,26 @@ public class SpriteActivity extends BaseActivity {
 	@Override
 	public void onActionModeFinished(ActionMode mode) {
 		Fragment fragment = getCurrentFragment();
-		if (isFragmentWithTablayout(fragment)) {
-			addTabLayout(this, getTabPositionInSpriteActivity(getCurrentFragment()));
+		if (isFragmentWithTablayout(fragment) && (!(fragment instanceof ScriptFragment) || !((ScriptFragment) fragment).isFinderOpen())) {
+			addTabLayout(this, getTabPositionInSpriteActivity(fragment));
 		}
 		super.onActionModeFinished(mode);
 	}
 
 	public void setCurrentSprite(Sprite sprite) {
 		currentSprite = sprite;
+	}
+
+	public void setCurrentSceneAndSprite(Scene scene, Sprite sprite) {
+		this.currentScene = scene;
+		this.currentSprite = sprite;
+	}
+
+	public void removeTabs() {
+		removeTabLayout(this);
+	}
+
+	public void addTabs() {
+		addTabLayout(this, getTabPositionInSpriteActivity(getCurrentFragment()));
 	}
 }

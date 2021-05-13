@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -50,7 +50,6 @@ ext {
     gdxVersion = "1.9.10"
     mockitoVersion = "2.8.47"
     espressoVersion = "3.1.0"
-    paintroidVersion = '2.6.1'
     playServicesVersion = "17.0.0"
     cameraXVersion = "1.0.0-beta07"
 }
@@ -67,22 +66,11 @@ apply from: 'gradle/release_crowdin_tasks.gradle'
 apply from: 'gradle/release_fastlane_tasks.gradle'
 apply from: 'gradle/standalone_apk_tasks.gradle'
 
-if(rootProject.hasProperty('paintroidLocal')) {
-    paintroidVersion = paintroidVersion + "-LOCAL"
-}
-
 if (rootProject.hasProperty('independent')) {
     println "Independent build"
     def today = new Date()
     appId += '.independent_' + today.format('YYYYMMdd_HHmm')
     appName = rootProject.property('independent') ?: 'Code ' + today.format('MMdd HH:mm')
-    manifestAppName = appName
-}
-
-if (rootProject.hasProperty('playground') && rootProject.property('playground').toBoolean()) {
-    println "Playground build"
-    appId = 'org.catrobat.catroid.test'
-    appName = 'Pocket Code beta'
     manifestAppName = appName
 }
 
@@ -117,17 +105,20 @@ jacocoAndroidUnitTestReport {
     xml.enabled true
 }
 
+def defaultVersionCode = 85
+def defaultVersionName = "1.0.3"
+
 android {
     compileSdkVersion 29
 
     defaultConfig {
 
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 29
         applicationId appId
         testInstrumentationRunner 'org.catrobat.catroid.runner.UiTestApplicationRunner'
-        versionCode 80
-        versionName "0.9.75"
+        versionCode defaultVersionCode
+        versionName defaultVersionName
         println "VersionCode is $versionCode"
         println "VersionName is $versionName"
         multiDexEnabled true
@@ -161,8 +152,7 @@ android {
         buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_SCRATCH_CONVERTER_ENABLED", "true"
-        buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "true"
-        buildConfigField "boolean", "FEATURE_WEBREQUEST_BRICK_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_USER_REPORTERS_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_MULTIPLAYER_VARIABLES_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_TESTBRICK_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_CATBLOCKS_ENABLED", "false"
@@ -208,7 +198,6 @@ android {
         exclude 'LICENSE.txt'
         exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
         exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
-        exclude 'META-INF/INDEX.LIST'  //compile problem with parrot arsdk
         exclude 'lib/mips/*'    // Mips devices are deprecated
         exclude 'lib/armeabi/*' // armeabiv5 & v6 are deprecated
     }
@@ -252,18 +241,13 @@ android {
         release {
             buildConfigField "boolean", "FEATURE_MERGE_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_MULTIPLAYER_VARIABLES_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_USER_REPORTERS_ENABLED", "false"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
             signingConfig signingConfigs.debug
         }
 
         signedRelease {
-            initWith buildTypes.release
-            signingConfig signingConfigs.signedRelease
-        }
-
-        beta {
             initWith buildTypes.release
             signingConfig signingConfigs.signedRelease
         }
@@ -292,6 +276,10 @@ android {
         phiro {
             applicationIdSuffix '.phiro'
             resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "true"
+        }
+        pocketCodeBeta {
+            applicationIdSuffix '.test'
+            manifestPlaceholders.appName = "Pocket Code BETA-" + defaultVersionCode
         }
         standalone {
             if (!project.hasProperty('packageName')) {
@@ -335,13 +323,16 @@ android {
 }
 
 configurations {
-    implementation.exclude group: 'org.apache.sanselan' //compile problem with parrot arsdk
     implementation.exclude group: 'xpp3' //compile problem with xstream
     natives
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Paintroid local aar lib files
+    implementation fileTree(dir: 'src/main/libs', include: ['*.aar'])
+    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -368,13 +359,20 @@ dependencies {
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
     implementation "org.koin:koin-androidx-fragment:$koin_version"
 
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    // retrofit moshi converter
+    implementation 'com.squareup.retrofit2:converter-moshi:2.7.1'
+    // Glide (Images downloader)
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+
+    // Shimmer effect
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
     // Lifecycle
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
-
-    // Drone
-    implementation 'com.parrot:arsdk:3.12.6'
 
     // CAST
     implementation "com.google.android.gms:play-services-cast:$playServicesVersion"
@@ -399,14 +397,6 @@ dependencies {
     // Pocket Music
     implementation 'com.github.oliewa92:MidiDroid:v1.1'
     implementation 'com.github.billthefarmer:mididriver:v1.16'
-
-    // Pocket Paint
-    catroidImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
-    createAtSchoolImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
-    embroideryDesignerImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
-    lunaAndCatImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
-    phiroImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
-    implementation "org.catrobat.paintroid:colorpicker:$paintroidVersion"
 
     // CameraX
     implementation "androidx.camera:camera-camera2:$cameraXVersion"
@@ -451,6 +441,12 @@ dependencies {
 
     testImplementation 'org.reflections:reflections:0.9.11'
     testImplementation 'org.json:json:20190722'
+
+    // Retrofit testing
+    androidTestImplementation 'com.squareup.okhttp3:mockwebserver:3.14.9'
+
+    // Koin for Unit tests
+    androidTestImplementation "org.koin:koin-test:$koin_version"
 
     androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
     androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"

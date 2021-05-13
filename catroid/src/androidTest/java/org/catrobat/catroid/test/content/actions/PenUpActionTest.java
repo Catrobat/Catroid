@@ -26,17 +26,24 @@ package org.catrobat.catroid.test.content.actions;
 import android.graphics.PointF;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.Queue;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.test.utils.TestUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
@@ -49,13 +56,19 @@ public class PenUpActionTest {
 	public final ExpectedException exception = ExpectedException.none();
 
 	private static final float X_MOVEMENT = 100.0f;
-	private Formula xMovement = new Formula(X_MOVEMENT);
-
+	private final Formula xMovement = new Formula(X_MOVEMENT);
 	private Sprite sprite;
+	private final String projectName = "testProject";
 
 	@Before
 	public void setUp() throws Exception {
 		sprite = new Sprite("testSprite");
+		createTestProject();
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		TestUtils.deleteProjects(projectName);
 	}
 
 	@Test
@@ -72,13 +85,13 @@ public class PenUpActionTest {
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createPenDownAction(sprite).act(1.0f);
-		sprite.getActionFactory().createChangeXByNAction(sprite, xMovement).act(1.0f);
+		sprite.getActionFactory().createChangeXByNAction(sprite, new SequenceAction(), xMovement).act(1.0f);
 
 		sprite.getActionFactory().createPenUpAction(sprite).act(1.0f);
-		sprite.getActionFactory().createChangeXByNAction(sprite, xMovement).act(1.0f);
+		sprite.getActionFactory().createChangeXByNAction(sprite, new SequenceAction(), xMovement).act(1.0f);
 
 		sprite.getActionFactory().createPenDownAction(sprite).act(1.0f);
-		sprite.getActionFactory().createChangeXByNAction(sprite, xMovement).act(1.0f);
+		sprite.getActionFactory().createChangeXByNAction(sprite, new SequenceAction(), xMovement).act(1.0f);
 
 		Queue<Queue<PointF>> positions = sprite.penConfiguration.getPositions();
 		assertEquals(0f, positions.first().removeFirst().x);
@@ -102,5 +115,11 @@ public class PenUpActionTest {
 		assertEquals(0f, positions.first().removeFirst().x);
 		assertEquals(0f, positions.first().removeFirst().x);
 		assertTrue(positions.first().isEmpty());
+	}
+
+	private void createTestProject() {
+		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
+		XstreamSerializer.getInstance().saveProject(project);
+		ProjectManager.getInstance().setCurrentProject(project);
 	}
 }

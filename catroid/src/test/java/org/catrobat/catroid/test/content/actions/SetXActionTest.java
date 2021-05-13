@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
@@ -35,6 +36,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertEquals;
+
+import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 
 @RunWith(JUnit4.class)
 public class SetXActionTest {
@@ -49,6 +52,7 @@ public class SetXActionTest {
 
 	@Before
 	public void setUp() throws Exception {
+		initializeStaticSingletonMethods();
 		sprite = new Sprite("testSprite");
 	}
 
@@ -57,45 +61,44 @@ public class SetXActionTest {
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
-		sprite.getActionFactory().createSetXAction(sprite, xPosition).act(1.0f);
+		sprite.getActionFactory().createSetXAction(sprite, new SequenceAction(), xPosition).act(1.0f);
 		assertEquals(X_POSITION, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
-	@Test
+	@Test(expected = NullPointerException.class)
 	public void testNullSprite() {
 		ActionFactory factory = new ActionFactory();
-		Action action = factory.createSetXAction(null, xPosition);
-		exception.expect(NullPointerException.class);
+		Action action = factory.createSetXAction(null, new SequenceAction(), xPosition);
 		action.act(1.0f);
 	}
 
 	@Test
 	public void testBoundaryPositions() {
-		sprite.getActionFactory().createSetXAction(sprite, new Formula(Integer.MAX_VALUE)).act(1.0f);
+		sprite.getActionFactory().createSetXAction(sprite, new SequenceAction(), new Formula(Integer.MAX_VALUE)).act(1.0f);
 		assertEquals(Integer.MAX_VALUE, (int) sprite.look.getXInUserInterfaceDimensionUnit());
 
-		sprite.getActionFactory().createSetXAction(sprite, new Formula(Integer.MIN_VALUE)).act(1.0f);
+		sprite.getActionFactory().createSetXAction(sprite, new SequenceAction(), new Formula(Integer.MIN_VALUE)).act(1.0f);
 		assertEquals(Integer.MIN_VALUE, (int) sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testBrickWithStringFormula() {
-		sprite.getActionFactory().createSetXAction(sprite, new Formula(String.valueOf(X_POSITION))).act(1.0f);
+		sprite.getActionFactory().createSetXAction(sprite, new SequenceAction(), new Formula(String.valueOf(X_POSITION))).act(1.0f);
 		assertEquals(X_POSITION, sprite.look.getXInUserInterfaceDimensionUnit());
 
-		sprite.getActionFactory().createSetXAction(sprite, new Formula(String.valueOf(NOT_NUMERICAL_STRING))).act(1.0f);
+		sprite.getActionFactory().createSetXAction(sprite, new SequenceAction(), new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
 		assertEquals(X_POSITION, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testNullFormula() {
-		sprite.getActionFactory().createSetXAction(sprite, null).act(1.0f);
+		sprite.getActionFactory().createSetXAction(sprite, new SequenceAction(), null).act(1.0f);
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testNotANumberFormula() {
-		sprite.getActionFactory().createSetXAction(sprite, new Formula(Double.NaN)).act(1.0f);
+		sprite.getActionFactory().createSetXAction(sprite, new SequenceAction(), new Formula(Double.NaN)).act(1.0f);
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 }

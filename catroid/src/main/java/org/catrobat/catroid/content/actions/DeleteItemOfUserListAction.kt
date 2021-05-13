@@ -24,13 +24,13 @@ package org.catrobat.catroid.content.actions
 
 import android.util.Log
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
-import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
 import org.catrobat.catroid.formulaeditor.UserList
 
 class DeleteItemOfUserListAction : TemporalAction() {
-    var sprite: Sprite? = null
+    var scope: Scope? = null
     var formulaIndexToDelete: Formula? = null
     var userList: UserList? = null
 
@@ -38,7 +38,7 @@ class DeleteItemOfUserListAction : TemporalAction() {
         val listSize = userList?.value?.size.takeUnless { it == 0 } ?: return
 
         val indexToDelete = try {
-            formulaIndexToDelete?.interpretInteger(sprite)?.minus(1) ?: 0
+            formulaIndexToDelete?.interpretInteger(scope)?.minus(1) ?: 0
         } catch (exception: InterpretationException) {
             Log.e(javaClass.simpleName, "Interpreting formula as integer failed", exception)
             -1

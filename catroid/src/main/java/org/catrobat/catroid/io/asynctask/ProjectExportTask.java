@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.ZipArchiver;
 import org.catrobat.catroid.utils.notifications.NotificationData;
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager;
@@ -40,6 +41,7 @@ import androidx.annotation.VisibleForTesting;
 
 import static org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION;
 import static org.catrobat.catroid.common.Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.UNDO_CODE_XML_FILE_NAME;
 
 public class ProjectExportTask extends AsyncTask<Void, Void, Void> {
 
@@ -57,6 +59,8 @@ public class ProjectExportTask extends AsyncTask<Void, Void, Void> {
 
 	@VisibleForTesting
 	public void exportProjectToExternalStorage() {
+		deleteUndoFile();
+
 		File projectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY, projectDir.getName() + CATROBAT_EXTENSION);
 		Context context = contextWeakReference.get();
 		if (context == null) {
@@ -80,6 +84,18 @@ public class ProjectExportTask extends AsyncTask<Void, Void, Void> {
 			new StatusBarNotificationManager(context)
 					.abortProgressNotificationWithMessage(context, notificationData,
 					R.string.save_project_to_external_storage_io_exception_message);
+		}
+	}
+
+	private void deleteUndoFile() {
+		File undoCodeFile = new File(projectDir, UNDO_CODE_XML_FILE_NAME);
+
+		if (undoCodeFile.exists()) {
+			try {
+				StorageOperations.deleteFile(undoCodeFile);
+			} catch (IOException exception) {
+				Log.e(TAG, "Deleting undo file failed.", exception);
+			}
 		}
 	}
 

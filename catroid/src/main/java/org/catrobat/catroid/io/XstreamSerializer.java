@@ -32,7 +32,7 @@ import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
 import org.catrobat.catroid.BuildConfig;
-import org.catrobat.catroid.common.DroneVideoLookData;
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.ProjectData;
@@ -213,6 +213,7 @@ import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetTempoBrick;
 import org.catrobat.catroid.content.bricks.SetTextBrick;
+import org.catrobat.catroid.content.bricks.SetThreadColorBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVelocityBrick;
@@ -279,8 +280,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import androidx.annotation.VisibleForTesting;
 
@@ -375,7 +379,6 @@ public final class XstreamSerializer {
 		xstream.omitField(RaspiInterruptScript.class, "receivedMessage");
 
 		xstream.alias("look", LookData.class);
-		xstream.alias("droneLook", DroneVideoLookData.class);
 		xstream.alias("sound", SoundInfo.class);
 		xstream.alias("nfcTag", NfcTagData.class);
 		xstream.alias("userVariable", UserVariable.class);
@@ -597,6 +600,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", StopRunningStitchBrick.class);
 		xstream.alias("brick", ZigZagStitchBrick.class);
 		xstream.alias("brick", TripleStitchBrick.class);
+		xstream.alias("brick", SetThreadColorBrick.class);
 		xstream.alias("brick", SewUpBrick.class);
 		xstream.alias("brick", WriteEmbroideryToFileBrick.class);
 		xstream.alias("brick", WaitTillIdleBrick.class);
@@ -740,6 +744,20 @@ public final class XstreamSerializer {
 			}
 		}
 	}
+	private boolean unnecessaryChanges(String currentXml, String previousXml) {
+		String formulaYRegex = "<formula category=\".*Y.*\">";
+		String formulaXRegex = "<formula category=\".*X.*\">";
+		Pattern formulaYPattern = Pattern.compile(formulaYRegex, Pattern.CASE_INSENSITIVE);
+		Pattern formulaXPattern = Pattern.compile(formulaXRegex, Pattern.CASE_INSENSITIVE);
+		Matcher currentFormulaYMatcher = formulaYPattern.matcher(currentXml);
+		Matcher previousFormulaXMatcher = formulaXPattern.matcher(previousXml);
+		currentFormulaYMatcher.find();
+		previousFormulaXMatcher.find();
+		if (previousFormulaXMatcher.matches() && currentFormulaYMatcher.matches() && (currentXml.indexOf(previousFormulaXMatcher.group(0)) == previousXml.indexOf(currentFormulaYMatcher.group(0)))) {
+			return true;
+		}
+		return false;
+	}
 
 	public boolean saveProject(Project project) {
 		if (project == null) {
@@ -753,7 +771,7 @@ public final class XstreamSerializer {
 		}
 
 		loadSaveLock.lock();
-		if (BuildConfig.BUILD_TYPE.equals("debug") || BuildConfig.BUILD_TYPE.equals("beta")) {
+		if (BuildConfig.FLAVOR.equals("pocketCodeBeta")) {
 			project.getXmlHeader().setApplicationBuildType("debug");
 		} else {
 			project.getXmlHeader().setApplicationBuildType(BuildConfig.BUILD_TYPE);
@@ -771,6 +789,17 @@ public final class XstreamSerializer {
 					if (previousXml.equals(currentXml)) {
 						Log.d(TAG, "Project version is the same. Do not update " + currentCodeFile.getName());
 						return false;
+					} else {
+						String languageRegex = "<catrobatLanguageVersion>.*</catrobatLanguageVersion>";
+						Pattern languagePattern = Pattern.compile(languageRegex, Pattern.CASE_INSENSITIVE);
+						Matcher currentLanguageMatcher = languagePattern.matcher(currentXml);
+						Matcher previousLanguageMatcher = languagePattern.matcher(previousXml);
+						currentLanguageMatcher.find();
+						previousLanguageMatcher.find();
+						if (Objects.equals(currentLanguageMatcher.group(0),
+								previousLanguageMatcher.group(0)) && (!unnecessaryChanges(currentXml, previousXml))) {
+							ProjectManager.getInstance().changedProject(project.getName());
+						}
 					}
 				} catch (Exception e) {
 					Log.e(TAG, "Opening project at " + currentCodeFile.getAbsolutePath() + " failed.", e);

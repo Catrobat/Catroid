@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.media.MediaMetadataRetriever;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -35,7 +34,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 public class PlaySoundAndWaitBrick extends PlaySoundBrick {
 
 	private static final long serialVersionUID = 1L;
-	private static final String TAG = PlaySoundAndWaitBrick.class.getSimpleName();
 
 	public PlaySoundAndWaitBrick() {
 	}
@@ -48,25 +46,20 @@ public class PlaySoundAndWaitBrick extends PlaySoundBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createPlaySoundAction(sprite, sound));
-
-		float duration = 0;
-
-		if (sound != null) {
-			if (!sprite.getSoundList().contains(sound) || sound.getFile() == null) {
-				Log.e(TAG, "SoundInfo "
-						+ sound.getName() + " was deleted from sprite: "
-						+ sprite.getName());
-			} else {
-				MediaMetadataRetriever metadataRetriever = new MediaMetadataRetriever();
-				metadataRetriever.setDataSource(sound.getFile().getAbsolutePath());
-
-				duration = Integer.parseInt(metadataRetriever
-						.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)) / 1000.0f;
-			}
+		if (sound == null || sound.getFile() == null || !sprite.getSoundList().contains(sound)) {
+			return;
 		}
+		sequence.addAction(sprite.getActionFactory().createPlaySoundAction(sprite, sound));
+		sequence.addAction(sprite.getActionFactory().createWaitForSoundAction(sprite, sequence,
+				new Formula(getDurationOfSound()), sound.getFile().getAbsolutePath()));
+	}
 
-		sequence.addAction(sprite.getActionFactory().createWaitForSoundAction(sprite,
-				new Formula(duration), sound.getFile().getAbsolutePath()));
+	private float getDurationOfSound() {
+		float duration;
+		MediaMetadataRetriever metadataRetriever = new MediaMetadataRetriever();
+		metadataRetriever.setDataSource(sound.getFile().getAbsolutePath());
+		duration = Integer.parseInt(metadataRetriever
+				.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)) / 1000.0f;
+		return duration;
 	}
 }

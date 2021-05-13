@@ -30,7 +30,7 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick.Tone;
 import org.catrobat.catroid.devices.arduino.phiro.Phiro;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -40,7 +40,7 @@ public class PhiroPlayToneAction extends TemporalAction {
 
 	private Tone toneEnum;
 	private Formula durationInSeconds;
-	private Sprite sprite;
+	private Scope scope;
 
 	private BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 
@@ -49,7 +49,7 @@ public class PhiroPlayToneAction extends TemporalAction {
 		int durationInterpretation;
 
 		try {
-			durationInterpretation = durationInSeconds.interpretInteger(sprite);
+			durationInterpretation = durationInSeconds.interpretInteger(scope);
 		} catch (InterpretationException interpretationException) {
 			durationInterpretation = 0;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
@@ -93,7 +93,7 @@ public class PhiroPlayToneAction extends TemporalAction {
 		this.durationInSeconds = durationInSeconds;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 }

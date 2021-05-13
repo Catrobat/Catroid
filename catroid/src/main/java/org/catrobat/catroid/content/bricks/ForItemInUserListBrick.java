@@ -25,8 +25,8 @@ package org.catrobat.catroid.content.bricks;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -145,7 +145,8 @@ public class ForItemInUserListBrick extends UserDataBrick implements CompositeBr
 		boolean isLoopDelay = LoopUtil.checkLoopBrickForLoopDelay(this);
 
 		if (userVariable == null || userVariable.getName() == null) {
-			userVariable = new UserVariable("NoVariableSet", Constants.NO_VARIABLE_SELECTED);
+			userVariable = new UserVariable("NoVariableSet",
+					CatroidApplication.getAppContext().getString(R.string.no_variable_selected));
 			userVariable.setDummy(true);
 		}
 

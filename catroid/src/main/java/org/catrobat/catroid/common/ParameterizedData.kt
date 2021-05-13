@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,15 +26,15 @@ package org.catrobat.catroid.common
 class ParameterizedData(
     var currentPosition: Int = 0,
     var listSize: Int = 1,
-    var failMessages: String = "",
-    var successMessages: String = "",
+    var failMessages: StringBuilder = StringBuilder(),
+    var successMessages: StringBuilder = StringBuilder(),
     var currentParameters: String = ""
 ) {
     fun reset() {
         currentPosition = 0
         listSize = 1
-        failMessages = ""
-        successMessages = ""
+        failMessages.clear()
+        successMessages.clear()
         currentParameters = ""
     }
 }

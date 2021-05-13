@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.uiespresso.ui.activity;
 
+import android.app.Activity;
+import android.app.Instrumentation;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -50,6 +52,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasData;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -62,6 +65,7 @@ public class PrivacyPolicyDisclaimerTest {
 			DontGenerateDefaultProjectActivityTestRule<>(MainMenuActivity.class, false, false);
 
 	private int bufferedPrivacyPolicyPreferenceSetting;
+	private Matcher expectedIntent;
 
 	@Before
 	public void setUp() throws Exception {
@@ -75,26 +79,32 @@ public class PrivacyPolicyDisclaimerTest {
 				.edit()
 				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, Constants.CATROBAT_TERMS_OF_USE_ACCEPTED)
 				.commit();
+
+		baseActivityTestRule.launchActivity(new Intent());
+		Intents.init();
+
+		expectedIntent = allOf(hasAction(Intent.ACTION_VIEW),
+				hasData(PRIVACY_POLICY_URL));
+
+		Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(Activity.RESULT_OK, null);
+		intending(expectedIntent).respondWith(result);
 	}
 
 	@After
 	public void tearDown() {
+		Intents.release();
 		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
 				.edit()
 				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,
 						bufferedPrivacyPolicyPreferenceSetting)
 				.commit();
+		baseActivityTestRule.finishActivity();
 	}
 
 	@Test
 	public void mainMenuActivityTest() {
-		baseActivityTestRule.launchActivity(new Intent());
-		Intents.init();
 		openActionBarOverflowOrOptionsMenu(ApplicationProvider.getApplicationContext());
 		onView(withText(R.string.main_menu_privacy_policy)).perform(click());
-		Matcher expectedIntent = allOf(hasAction(Intent.ACTION_VIEW),
-				hasData(PRIVACY_POLICY_URL));
 		intended(expectedIntent);
-		Intents.release();
 	}
 }

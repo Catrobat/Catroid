@@ -23,13 +23,13 @@
 package org.catrobat.catroid.content.actions
 
 import com.badlogic.gdx.scenes.scene2d.Action
-import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.TestResult
 
 abstract class AssertAction : Action() {
     var position: String? = null
-    var sprite: Sprite? = null
+    var scope: Scope? = null
     var assertTitle = "\nAssertError\n"
 
     protected fun failWith(message: String) {
@@ -73,7 +73,7 @@ abstract class AssertAction : Action() {
     }
 
     private fun formattedPosition(): String {
-        return "on sprite \"${sprite?.name}\"\n" +
+        return "on sprite \"${scope?.sprite?.name}\"\n" +
             "$position\n"
     }
 }

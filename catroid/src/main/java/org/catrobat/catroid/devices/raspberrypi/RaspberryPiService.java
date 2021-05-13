@@ -80,11 +80,7 @@ public final class RaspberryPiService {
 			return false;
 		}
 
-		if (rpi.getConnection().isConnected()) {
-			return true;
-		}
-
-		return false;
+		return rpi.getConnection().isConnected();
 	}
 
 	public void disconnect() {
@@ -172,8 +168,40 @@ public final class RaspberryPiService {
 	}
 
 	private void initGpioVersionMap() {
+		gpioVersionMap.put("900021", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("900032", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("900092", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("900093", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("9000c1", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("9020e0", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("920092", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("920093", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("900061", GpioVersionType.COMPUTE_MODULE);
+		gpioVersionMap.put("a01040", GpioVersionType.BIG_GPIO);
 		gpioVersionMap.put("a01041", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("a02082", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("a020a0", GpioVersionType.COMPUTE_MODULE);
+		gpioVersionMap.put("a020d3", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("a02042", GpioVersionType.BIG_GPIO);
 		gpioVersionMap.put("a21041", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("a22042", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("a22082", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("a220a0", GpioVersionType.COMPUTE_MODULE);
+		gpioVersionMap.put("a32082", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("a52082", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("a22083", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("a02100", GpioVersionType.COMPUTE_MODULE);
+		gpioVersionMap.put("a03111", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("b03111", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("b03112", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("b03114", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("c03111", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("c03112", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("c03114", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("d03114", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("c03130", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("0015", GpioVersionType.BIG_GPIO);
+		gpioVersionMap.put("0014", GpioVersionType.BIG_GPIO);
 		gpioVersionMap.put("0013", GpioVersionType.BIG_GPIO);
 		gpioVersionMap.put("0012", GpioVersionType.BIG_GPIO);
 		gpioVersionMap.put("0011", GpioVersionType.COMPUTE_MODULE);

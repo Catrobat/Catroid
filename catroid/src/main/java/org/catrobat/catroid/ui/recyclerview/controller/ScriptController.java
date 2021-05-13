@@ -29,6 +29,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -93,31 +94,42 @@ public class ScriptController {
 
 			if (brick instanceof UserVariableBrickInterface && ((UserVariableBrickInterface) brick).getUserVariable() != null) {
 				UserVariable previousUserVar = ((UserVariableBrickInterface) brick).getUserVariable();
-				UserVariable updatedUserVar = UserDataWrapper
-						.getUserVariable(previousUserVar.getName(), dstSprite, dstProject);
-				((UserVariableBrickInterface) brick).setUserVariable(updatedUserVar);
+
+				if (previousUserVar != null) {
+					Scope scope = new Scope(dstProject, dstSprite, null);
+					UserVariable updatedUserVar = UserDataWrapper
+							.getUserVariable(previousUserVar.getName(), scope);
+					((UserVariableBrickInterface) brick).setUserVariable(updatedUserVar);
+				}
 			}
 
 			if (brick instanceof UserListBrick && ((UserListBrick) brick).getUserList() != null) {
 				UserList previousUserList = ((UserListBrick) brick).getUserList();
-				UserList updatedUserList = UserDataWrapper
-						.getUserList(previousUserList.getName(), dstSprite, dstProject);
-				((UserListBrick) brick).setUserList(updatedUserList);
+
+				if (previousUserList != null) {
+					Scope scope = new Scope(dstProject, dstSprite, null);
+					UserList updatedUserList = UserDataWrapper
+							.getUserList(previousUserList.getName(), scope);
+					((UserListBrick) brick).setUserList(updatedUserList);
+				}
 			}
 
 			if (brick instanceof UserDataBrick) {
 				for (Map.Entry<Brick.BrickData, UserData> entry
 						: ((UserDataBrick) brick).getUserDataMap().entrySet()) {
 					UserData previousUserData = entry.getValue();
-					UserData updatedUserList;
-					if (Brick.BrickData.isUserList(entry.getKey())) {
-						updatedUserList = UserDataWrapper
-								.getUserList(previousUserData.getName(), dstSprite, dstProject);
-					} else {
-						updatedUserList = UserDataWrapper
-								.getUserVariable(previousUserData.getName(), dstSprite, dstProject);
+					if (previousUserData != null) {
+						UserData updatedUserList;
+						Scope scope = new Scope(dstProject, dstSprite, null);
+						if (Brick.BrickData.isUserList(entry.getKey())) {
+							updatedUserList = UserDataWrapper
+									.getUserList(previousUserData.getName(), scope);
+						} else {
+							updatedUserList = UserDataWrapper
+									.getUserVariable(previousUserData.getName(), scope);
+						}
+						entry.setValue(updatedUserList);
 					}
-					entry.setValue(updatedUserList);
 				}
 			}
 		}
@@ -237,15 +249,17 @@ public class ScriptController {
 
 			if (brick instanceof UserVariableBrickInterface && ((UserVariableBrickInterface) brick).getUserVariable() != null) {
 				UserVariable previousUserVar = ((UserVariableBrickInterface) brick).getUserVariable();
+				Scope scope = new Scope(dstProject, dstSprite, null);
 				UserVariable updatedUserVar = UserDataWrapper
-						.getUserVariable(previousUserVar.getName(), dstSprite, dstProject);
+						.getUserVariable(previousUserVar.getName(), scope);
 				((UserVariableBrickInterface) brick).setUserVariable(updatedUserVar);
 			}
 
 			if (brick instanceof UserListBrick && ((UserListBrick) brick).getUserList() != null) {
 				UserList previousUserList = ((UserListBrick) brick).getUserList();
+				Scope scope = new Scope(dstProject, dstSprite, null);
 				UserList updatedUserList = UserDataWrapper
-						.getUserList(previousUserList.getName(), dstSprite, dstProject);
+						.getUserList(previousUserList.getName(), scope);
 				((UserListBrick) brick).setUserList(updatedUserList);
 			}
 
@@ -254,12 +268,13 @@ public class ScriptController {
 						: ((UserDataBrick) brick).getUserDataMap().entrySet()) {
 					UserData previousUserData = entry.getValue();
 					UserData updatedUserList;
+					Scope scope = new Scope(dstProject, dstSprite, null);
 					if (Brick.BrickData.isUserList(entry.getKey())) {
 						updatedUserList = UserDataWrapper
-								.getUserList(previousUserData.getName(), dstSprite, dstProject);
+								.getUserList(previousUserData.getName(), scope);
 					} else {
 						updatedUserList = UserDataWrapper
-								.getUserVariable(previousUserData.getName(), dstSprite, dstProject);
+								.getUserVariable(previousUserData.getName(), scope);
 					}
 					entry.setValue(updatedUserList);
 				}

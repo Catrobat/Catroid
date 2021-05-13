@@ -27,7 +27,7 @@ import android.content.Intent
 import android.speech.RecognizerIntent
 import android.util.Log
 import com.badlogic.gdx.scenes.scene2d.Action
-import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
 import org.catrobat.catroid.formulaeditor.SensorHandler
@@ -36,7 +36,7 @@ import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.StageActivity.IntentListener
 
 class AskSpeechAction : Action(), IntentListener {
-    var sprite: Sprite? = null
+    var scope: Scope? = null
     var questionFormula: Formula? = null
     var answerVariable: UserVariable? = null
     private var questionAsked = false
@@ -87,7 +87,7 @@ class AskSpeechAction : Action(), IntentListener {
 
     override fun getTargetIntent(): Intent {
         val question = try {
-            questionFormula?.interpretString(sprite) ?: ""
+            questionFormula?.interpretString(scope) ?: ""
         } catch (e: InterpretationException) {
             Log.e(TAG, "Formula interpretation in ask brick failed")
             ""

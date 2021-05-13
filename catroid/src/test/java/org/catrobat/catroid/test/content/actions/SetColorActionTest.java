@@ -24,6 +24,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -35,6 +36,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertEquals;
+
+import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 
 @RunWith(JUnit4.class)
 public class SetColorActionTest {
@@ -49,15 +52,16 @@ public class SetColorActionTest {
 
 	@Before
 	public void setUp() throws Exception {
+		initializeStaticSingletonMethods();
 		sprite = new Sprite("testSprite");
 	}
 
 	@Test
 	public void testColorEffect() {
 		assertEquals((int) 0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());
-		sprite.getActionFactory().createSetColorAction(sprite, color).act(1.0f);
+		sprite.getActionFactory().createSetColorAction(sprite, new SequenceAction(), color).act(1.0f);
 		assertEquals(COLOR, sprite.look.getColorInUserInterfaceDimensionUnit());
-		sprite.getActionFactory().createSetColorAction(sprite, color);
+		sprite.getActionFactory().createSetColorAction(sprite, new SequenceAction(), color);
 	}
 
 	@Test
@@ -65,35 +69,34 @@ public class SetColorActionTest {
 		final float highColor = 1000;
 
 		assertEquals((int) 0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());
-		sprite.getActionFactory().createSetColorAction(sprite, new Formula(highColor)).act(1.0f);
+		sprite.getActionFactory().createSetColorAction(sprite, new SequenceAction(), new Formula(highColor)).act(1.0f);
 		assertEquals((highColor % 200), sprite.look.getColorInUserInterfaceDimensionUnit());
 	}
 
-	@Test
+	@Test(expected = NullPointerException.class)
 	public void testNullSprite() {
-		Action action = sprite.getActionFactory().createSetColorAction(null, color);
-		exception.expect(NullPointerException.class);
+		Action action = sprite.getActionFactory().createSetColorAction(null, new SequenceAction(), color);
 		action.act(1.0f);
 	}
 
 	@Test
 	public void testBrickWithStringFormula() {
-		sprite.getActionFactory().createSetColorAction(sprite, new Formula(String.valueOf(COLOR))).act(1.0f);
+		sprite.getActionFactory().createSetColorAction(sprite, new SequenceAction(), new Formula(String.valueOf(COLOR))).act(1.0f);
 		assertEquals(COLOR, sprite.look.getColorInUserInterfaceDimensionUnit());
 
-		sprite.getActionFactory().createSetColorAction(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
+		sprite.getActionFactory().createSetColorAction(sprite, new SequenceAction(), new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
 		assertEquals(COLOR, sprite.look.getColorInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testNullFormula() {
-		sprite.getActionFactory().createSetColorAction(sprite, null).act(1.0f);
+		sprite.getActionFactory().createSetColorAction(sprite, new SequenceAction(), null).act(1.0f);
 		assertEquals(0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testNotANumberFormula() {
-		sprite.getActionFactory().createSetColorAction(sprite, new Formula(Double.NaN)).act(1.0f);
+		sprite.getActionFactory().createSetColorAction(sprite, new SequenceAction(), new Formula(Double.NaN)).act(1.0f);
 		assertEquals(0, (int) sprite.look.getColorInUserInterfaceDimensionUnit());
 	}
 }

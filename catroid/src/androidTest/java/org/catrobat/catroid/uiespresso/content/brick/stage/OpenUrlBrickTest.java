@@ -29,7 +29,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.OpenUrlBrick;
 import org.catrobat.catroid.io.StorageOperations;
@@ -53,6 +53,7 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils
 import static org.hamcrest.Matchers.allOf;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.Intents.intending;
@@ -64,7 +65,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 public class OpenUrlBrickTest {
 
 	private int openUrlBrickPosition;
-	private final String url = Constants.MAIN_URL_HTTPS;
+	private final String url = BrickValues.OPEN_IN_BROWSER;
 	private Matcher expectedIntent;
 	private final String projectName = "openUrlBrickTest";
 
@@ -89,6 +90,7 @@ public class OpenUrlBrickTest {
 	@Test
 	public void testOpenUrlIntent() {
 		onBrickAtPosition(openUrlBrickPosition).onFormulaTextField(R.id.brick_open_url_edit_text).performEnterString(url);
+		pressBack();
 		onView(withId(R.id.button_play)).perform(click());
 		onView(isRoot()).perform(CustomActions.wait(2000));
 		intended(expectedIntent);

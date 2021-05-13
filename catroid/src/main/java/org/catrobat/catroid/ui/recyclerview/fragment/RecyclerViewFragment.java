@@ -48,6 +48,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTex
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -61,6 +62,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
+import static org.catrobat.catroid.common.SharedPreferenceKeys.SORT_PROJECTS_PREFERENCE_KEY;
 
 public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment implements
 		ActionMode.Callback,
@@ -241,6 +244,9 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 				.getBoolean(sharedPreferenceDetailsKey, false);
 		recyclerView.setAdapter(adapter);
 
+		adapter.projectsSorted = PreferenceManager.getDefaultSharedPreferences(getActivity())
+				.getBoolean(SORT_PROJECTS_PREFERENCE_KEY, false);
+
 		adapter.setSelectionListener(this);
 		adapter.setOnItemClickListener(this);
 
@@ -275,12 +281,12 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	}
 
 	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
+	public void onPrepareOptionsMenu(@NotNull Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 		Context context = getActivity();
 		// necessary because of cast! blows up when activity is restored (CATROID-37)
 		// see BaseCastActivity
-		if (context != null) {
+		if (context != null && adapter != null) {
 			adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(
 					context).getBoolean(sharedPreferenceDetailsKey, false);
 

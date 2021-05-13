@@ -62,7 +62,7 @@ public class DeviceVariableAccessorNullValueTest {
 	}
 
 	@Test
-	public void saveNullUserVariableTest() throws IOException {
+	public void saveNullUserVariableTest() {
 		accessor.writeUserData(userVariable);
 		userVariable.setValue(throwAwayValue);
 		Map map = accessor.readMapFromJson();
@@ -88,7 +88,7 @@ public class DeviceVariableAccessorNullValueTest {
 	}
 
 	@Test
-	public void loadUserVariableJsonFileDoesNotContainKeyTest() throws IOException {
+	public void loadUserVariableJsonFileDoesNotContainKeyTest() {
 		HashMap<UUID, Object> map = new HashMap<>();
 		map.put(UUID.randomUUID(), "value");
 		accessor.writeMapToJson(map);

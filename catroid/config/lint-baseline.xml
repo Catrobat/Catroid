@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2020 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -35,72 +35,6 @@
     </issue>
 
     <issue
-        id="UnusedAttribute"
-        message="Attribute `requestLegacyExternalStorage` is only used in API level 29 and higher (current min is 21)"
-        errorLine1="        android:requestLegacyExternalStorage=&quot;true&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src\main\AndroidManifest.xml"
-            line="94"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedAttribute"
-        message="Attribute `drawableTint` is only used in API level 23 and higher (current min is 21)"
-        errorLine1="            android:drawableTint=&quot;@drawable/stage_dialog_color_selector&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src\main\res\layout\dialog_stage.xml"
-            line="57"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="UnusedAttribute"
-        message="Attribute `drawableTint` is only used in API level 23 and higher (current min is 21)"
-        errorLine1="            android:drawableTint=&quot;@drawable/stage_dialog_color_selector&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src\main\res\layout\dialog_stage.xml"
-            line="65"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="UnusedAttribute"
-        message="Attribute `drawableTint` is only used in API level 23 and higher (current min is 21)"
-        errorLine1="            android:drawableTint=&quot;@drawable/stage_dialog_color_selector&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src\main\res\layout\dialog_stage.xml"
-            line="75"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="UnusedAttribute"
-        message="Attribute `drawableTint` is only used in API level 23 and higher (current min is 21)"
-        errorLine1="            android:drawableTint=&quot;@drawable/stage_dialog_color_selector&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src\main\res\layout\dialog_stage.xml"
-            line="83"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="UnusedAttribute"
-        message="Attribute `drawableTint` is only used in API level 23 and higher (current min is 21)"
-        errorLine1="            android:drawableTint=&quot;@drawable/stage_dialog_color_selector&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src\main\res\layout\dialog_stage.xml"
-            line="91"
-            column="13"/>
-    </issue>
-
-    <issue
         id="WrongConstant"
         message="Must be one of: PixelFormat.RGBA_8888, PixelFormat.RGBX_8888, PixelFormat.RGBA_F16, PixelFormat.RGBA_1010102, PixelFormat.RGB_888, PixelFormat.RGB_565"
         errorLine1="  stageView.surfaceChanged(stageView.getHolder(), 0, project.getXmlHeader().getVirtualScreenWidth(),"
@@ -129,7 +63,7 @@
         errorLine2="         ~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\CatroidApplication.java"
-            line="55"
+            line="46"
             column="10"/>
     </issue>
 
@@ -168,17 +102,6 @@
 
     <issue
         id="StaticFieldLeak"
-        message="This `AsyncTask` class should be static or leaks might occur (anonymous com.parrot.freeflight.tasks.CheckDroneNetworkAvailabilityTask)"
-        errorLine1="  checkDroneConnectionTask = new CheckDroneNetworkAvailabilityTask() {"
-        errorLine2="                             ^">
-        <location
-            file="src\main\java\org\catrobat\catroid\drone\ardrone\DroneInitializer.java"
-            line="101"
-            column="30"/>
-    </issue>
-
-    <issue
-        id="StaticFieldLeak"
         message="This field leaks a context object"
         errorLine1=" private Context context;"
         errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~">
@@ -195,7 +118,7 @@
         errorLine2="         ~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
-            line="104"
+            line="133"
             column="10"/>
     </issue>
 
@@ -206,7 +129,7 @@
         errorLine2="         ~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
-            line="106"
+            line="135"
             column="10"/>
     </issue>
 
@@ -217,7 +140,7 @@
         errorLine2="         ~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
-            line="108"
+            line="137"
             column="10"/>
     </issue>
 
@@ -283,19 +206,8 @@
         errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\ui\dialogs\StageDialog.java"
-            line="237"
+            line="252"
             column="16"/>
-    </issue>
-
-    <issue
-        id="StaticFieldLeak"
-        message="Do not place Android context classes in static fields; this is a memory leak"
-        errorLine1=" private static Context context = null;"
-        errorLine2="         ~~~~~~">
-        <location
-            file="src\main\java\org\catrobat\catroid\utils\VibrationUtil.java"
-            line="37"
-            column="10"/>
     </issue>
 
     <issue
@@ -344,21 +256,6 @@
 
     <issue
         id="UnusedResources"
-        message="The resource `R.drawable.brick_gold_1h` appears to be unused">
-        <location
-            file="src\main\res\drawable-hdpi\brick_gold_1h.9.png"/>
-        <location
-            file="src\main\res\drawable-ldpi\brick_gold_1h.9.png"/>
-        <location
-            file="src\main\res\drawable-mdpi\brick_gold_1h.9.png"/>
-        <location
-            file="src\main\res\drawable-xhdpi\brick_gold_1h.9.png"/>
-        <location
-            file="src\main\res\drawable-xxhdpi\brick_gold_1h.9.png"/>
-    </issue>
-
-    <issue
-        id="UnusedResources"
         message="The resource `R.mipmap.ic_launcher_round` appears to be unused"
         errorLine1="&lt;adaptive-icon xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;>"
         errorLine2="^">
@@ -402,30 +299,41 @@
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-hdpi`: brick_blue_1h.9.png, brick_blue_2h.9.png, brick_blue_2h_when_9.9.png, brick_blue_3h.9.png, brick_brown_1h_when_9.9.png... (41 more)">
+        message="Missing the following drawables in `drawable-hdpi`: brick_blue_1h.9.png, brick_blue_2h.9.png, brick_blue_2h_when_9.9.png, brick_blue_3h.9.png, brick_brown_1h_when_9.9.png... (42 more)">
         <location
             file="src\main\res\drawable-hdpi"/>
     </issue>
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-mdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_selection_background_bluetooth.9.png... (41 more)">
+        message="Missing the following drawables in `drawable-mdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_selection_background_bluetooth.9.png... (44 more)">
         <location
             file="src\main\res\drawable-mdpi"/>
     </issue>
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-xhdpi`: embroidery_neg.png, embroidery_pos.png, favorites_72x72.png, ic_upload_failed.png, ic_upload_success.png... (3 more)">
+        message="Missing the following drawables in `drawable-xhdpi`: embroidery_neg.png, embroidery_pos.png, favorites_72x72.png, google_playstore_logo.png, huawei_app_gallery_logo.png... (5 more)">
         <location
             file="src\main\res\drawable-xhdpi"/>
     </issue>
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-xxhdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_blue_1h.9.png... (85 more)">
+        message="Missing the following drawables in `drawable-xxhdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_blue_1h.9.png... (88 more)">
         <location
             file="src\main\res\drawable-xxhdpi"/>
+    </issue>
+
+    <issue
+        id="Autofill"
+        message="Missing `autofillHints` attribute"
+        errorLine1="        &lt;EditText"
+        errorLine2="         ~~~~~~~~">
+        <location
+            file="src\main\res\layout\view_script_finder.xml"
+            line="42"
+            column="10"/>
     </issue>
 
     <issue
@@ -442,11 +350,11 @@
     <issue
         id="ClickableViewAccessibility"
         message="`onTouch` should call `View#performClick` when a click is detected"
-        errorLine1="    public boolean onTouch(View v, MotionEvent event) {"
+        errorLine1="    public boolean onTouch(View view, MotionEvent event) {"
         errorLine2="                   ~~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\content\bricks\brickspinner\BrickSpinner.java"
-            line="213"
+            line="220"
             column="20"/>
     </issue>
 
@@ -501,7 +409,7 @@
         errorLine2="                  ~~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
-            line="293"
+            line="331"
             column="19"/>
     </issue>
 
@@ -523,7 +431,7 @@
         errorLine2="  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\visualplacement\VisualPlacementActivity.java"
-            line="286"
+            line="243"
             column="3"/>
     </issue>
 
@@ -534,7 +442,7 @@
         errorLine2="                ~~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\visualplacement\VisualPlacementActivity.java"
-            line="290"
+            line="376"
             column="17"/>
     </issue>
 
@@ -673,17 +581,6 @@
     <issue
         id="ContentDescription"
         message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageButton"
-        errorLine2="     ~~~~~~~~~~~">
-        <location
-            file="src\main\res\layout\activity_standalone_advertising.xml"
-            line="50"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
         errorLine1="        &lt;ImageView"
         errorLine2="         ~~~~~~~~~">
         <location
@@ -743,7 +640,7 @@
         errorLine2="         ~~~~~~~~~">
         <location
             file="src\main\res\layout\fragment_project_show_details.xml"
-            line="38"
+            line="39"
             column="10"/>
     </issue>
 
@@ -907,6 +804,17 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
+            file="src\main\res\layout\icon_brick_category_recently_used.xml"
+            line="28"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="    &lt;ImageView"
+        errorLine2="     ~~~~~~~~~">
+        <location
             file="src\main\res\layout\icon_brick_category_sound.xml"
             line="28"
             column="6"/>
@@ -953,17 +861,6 @@
         <location
             file="src\main\res\layout\scratch_social_bar.xml"
             line="66"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src\main\res\layout\vh_button.xml"
-            line="37"
             column="6"/>
     </issue>
 

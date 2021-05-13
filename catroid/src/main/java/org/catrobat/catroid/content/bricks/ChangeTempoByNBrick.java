@@ -59,6 +59,7 @@ public class ChangeTempoByNBrick extends FormulaBrick {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
-				.createChangeTempoAction(sprite, getFormulaWithBrickField(BrickField.TEMPO_CHANGE)));
+				.createChangeTempoAction(sprite, sequence,
+						getFormulaWithBrickField(BrickField.TEMPO_CHANGE)));
 	}
 }

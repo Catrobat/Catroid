@@ -38,7 +38,7 @@ public class StitchAction extends TemporalAction {
 		float x = sprite.look.getXInUserInterfaceDimensionUnit();
 		float y = sprite.look.getYInUserInterfaceDimensionUnit();
 		StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(x, y,
-				sprite.look.getZIndex(), sprite));
+				sprite.look.getZIndex(), sprite, sprite.getEmbroideryThreadColor()));
 		sprite.runningStitch.setStartCoordinates(x, y);
 		sprite.runningStitch.resume();
 	}

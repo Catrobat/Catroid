@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ReadVariableFromFileAction
 import org.catrobat.catroid.formulaeditor.Formula
@@ -93,6 +94,7 @@ class ReadVariableFromFileActionTest(
     fun testReadVariableFromFile() {
         val action = spy(sprite.actionFactory.createReadVariableFromFileAction(
             sprite,
+            SequenceAction(),
             formula,
             userVariable,
             deleteFile

@@ -71,7 +71,7 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createReplaceItemInUserListAction(sprite,
+		sequence.addAction(sprite.getActionFactory().createReplaceItemInUserListAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX),
 				getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE), userList));
 	}

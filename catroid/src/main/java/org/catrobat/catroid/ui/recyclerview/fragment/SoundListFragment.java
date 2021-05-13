@@ -40,6 +40,7 @@ import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.SoundController;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.List;
@@ -54,6 +55,10 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 
 	private SoundController soundController = new SoundController();
 
+	public SoundListFragment() {
+		// required empty constructor
+	}
+
 	@Override
 	protected void initializeAdapter() {
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_sounds);
@@ -65,11 +70,12 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 	}
 
 	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
+	public void onPrepareOptionsMenu(@NotNull Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 
 		menu.findItem(R.id.catblocks_reorder_scripts).setVisible(false);
 		menu.findItem(R.id.catblocks).setVisible(false);
+		menu.findItem(R.id.find).setVisible(false);
 	}
 
 	@Override

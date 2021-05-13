@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.SoundManager;
@@ -31,6 +33,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertEquals;
+
+import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 
 @RunWith(JUnit4.class)
 public class SetVolumeToActionTest {
@@ -42,33 +46,36 @@ public class SetVolumeToActionTest {
 
 	@Before
 	public void setUp() throws Exception {
+		initializeStaticSingletonMethods();
 		sprite = new Sprite("testSprite");
 	}
 
 	@Test
 	public void testVolume() {
-		sprite.getActionFactory().createSetVolumeToAction(sprite, volumeFormula).act(1.0f);
+		sprite.getActionFactory().createSetVolumeToAction(sprite, new SequenceAction(), volumeFormula).act(1.0f);
 		assertEquals(VOLUME, SoundManager.getInstance().getVolume());
 	}
 
 	@Test
 	public void testBrickWithStringFormula() {
-		sprite.getActionFactory().createSetVolumeToAction(sprite, new Formula(String.valueOf(VOLUME))).act(1.0f);
+		sprite.getActionFactory().createSetVolumeToAction(sprite, new SequenceAction(),
+				new Formula(String.valueOf(VOLUME))).act(1.0f);
 		assertEquals(VOLUME, SoundManager.getInstance().getVolume());
 
-		sprite.getActionFactory().createSetVolumeToAction(sprite, new Formula(String.valueOf(NOT_NUMERICAL_STRING))).act(1.0f);
+		sprite.getActionFactory().createSetVolumeToAction(sprite, new SequenceAction(),
+				new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
 		assertEquals(VOLUME, SoundManager.getInstance().getVolume());
 	}
 
 	@Test
 	public void testNullFormula() {
-		sprite.getActionFactory().createSetVolumeToAction(sprite, null).act(1.0f);
+		sprite.getActionFactory().createSetVolumeToAction(sprite, new SequenceAction(), null).act(1.0f);
 		assertEquals(0f, SoundManager.getInstance().getVolume());
 	}
 
 	@Test
 	public void testNotANumberFormula() {
-		sprite.getActionFactory().createSetVolumeToAction(sprite, new Formula(Double.NaN)).act(1.0f);
+		sprite.getActionFactory().createSetVolumeToAction(sprite, new SequenceAction(), new Formula(Double.NaN)).act(1.0f);
 		assertEquals(0f, SoundManager.getInstance().getVolume());
 	}
 }

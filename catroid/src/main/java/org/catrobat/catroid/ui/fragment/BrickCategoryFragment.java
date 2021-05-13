@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,6 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.BottomBar;
@@ -147,6 +146,7 @@ public class BrickCategoryFragment extends ListFragment {
 		menu.findItem(R.id.comment_in_out).setVisible(false);
 		menu.findItem(R.id.catblocks).setVisible(false);
 		menu.findItem(R.id.catblocks_reorder_scripts).setVisible(false);
+		menu.findItem(R.id.find).setVisible(false);
 	}
 
 	private void setUpActionBar() {
@@ -158,6 +158,8 @@ public class BrickCategoryFragment extends ListFragment {
 	private void setupBrickCategories() {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		List<View> categories = new ArrayList<>();
+
+		categories.add(inflater.inflate(R.layout.brick_category_recently_used, null));
 
 		if (SettingsFragment.isEmroiderySharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_embroidery, null));
@@ -206,7 +208,7 @@ public class BrickCategoryFragment extends ListFragment {
 		}
 		categories.add(inflater.inflate(R.layout.brick_category_data, null));
 		categories.add(inflater.inflate(R.layout.brick_category_device, null));
-		if (!onlyBeginnerBricks() && BuildConfig.FEATURE_USERBRICKS_ENABLED) {
+		if (!onlyBeginnerBricks()) {
 			categories.add(inflater.inflate(R.layout.brick_category_userbrick, null));
 		}
 		if (SettingsFragment.isTestSharedPreferenceEnabled(getActivity())) {

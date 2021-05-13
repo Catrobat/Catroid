@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -66,6 +66,7 @@ import static org.catrobat.catroid.common.Constants.CATROBAT_HELP_URL;
 import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
 import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIR;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BASE_URL;
+import static org.catrobat.catroid.ui.MainMenuActivity.surveyCampaign;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class WebViewActivity extends AppCompatActivity {
@@ -73,12 +74,14 @@ public class WebViewActivity extends AppCompatActivity {
 	private static final String TAG = WebViewActivity.class.getSimpleName();
 
 	public static final String INTENT_PARAMETER_URL = "url";
+	public static final String INTENT_FORCE_OPEN_IN_APP = "openInApp";
 	public static final String ANDROID_APPLICATION_EXTENSION = ".apk";
 	public static final String MEDIA_FILE_PATH = "media_file_path";
 	private static final String PACKAGE_NAME_WHATSAPP = "com.whatsapp";
 
 	private WebView webView;
 	private boolean allowGoBack = false;
+	private boolean forceOpenInApp = false;
 	private ProgressDialog progressDialog;
 	private ProgressDialog webViewLoadingDialog;
 	private Intent resultIntent = new Intent();
@@ -93,6 +96,8 @@ public class WebViewActivity extends AppCompatActivity {
 			url = FlavoredConstants.BASE_URL_HTTPS;
 		}
 
+		forceOpenInApp = getIntent().getBooleanExtra(INTENT_FORCE_OPEN_IN_APP, false);
+
 		webView = findViewById(R.id.webView);
 		webView.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.app_background, null));
 		webView.setWebViewClient(new MyWebViewClient());
@@ -101,8 +106,9 @@ public class WebViewActivity extends AppCompatActivity {
 		String flavor = Constants.FLAVOR_DEFAULT;
 		String version = Utils.getVersionName(getApplicationContext());
 		String platform = Constants.PLATFORM_DEFAULT;
+		String buildType = BuildConfig.FLAVOR.equals("pocketCodeBeta") ? "debug" : BuildConfig.BUILD_TYPE;
 		webView.getSettings().setUserAgentString("Catrobat/" + language + " " + flavor + "/"
-				+ version + " Platform/" + platform + " BuildType/" + BuildConfig.BUILD_TYPE);
+				+ version + " Platform/" + platform + " BuildType/" + buildType);
 
 		setLoginCookies(url, PreferenceManager.getDefaultSharedPreferences(getApplicationContext()), CookieManager.getInstance());
 		webView.loadUrl(url);
@@ -188,7 +194,7 @@ public class WebViewActivity extends AppCompatActivity {
 					ToastUtil.showError(getBaseContext(), R.string.error_no_whatsapp);
 				}
 				return true;
-			} else if (checkIfWebViewVisitExternalWebsite(url)) {
+			} else if (!forceOpenInApp && checkIfWebViewVisitExternalWebsite(url)) {
 				Uri uri = Uri.parse(url);
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
@@ -206,11 +212,8 @@ public class WebViewActivity extends AppCompatActivity {
 
 		private boolean checkIfWebViewVisitExternalWebsite(String url) {
 			// help URL has to be opened in an external browser
-			if ((url.contains(MAIN_URL_HTTPS) && !url.contains(CATROBAT_HELP_URL))
-					|| url.contains(LIBRARY_BASE_URL)) {
-				return false;
-			}
-			return true;
+			return (!url.contains(MAIN_URL_HTTPS) || url.contains(CATROBAT_HELP_URL))
+					&& !url.contains(LIBRARY_BASE_URL);
 		}
 	}
 
@@ -302,6 +305,11 @@ public class WebViewActivity extends AppCompatActivity {
 	protected void onDestroy() {
 		webView.setDownloadListener(null);
 		webView.destroy();
+
+		if (surveyCampaign != null) {
+			surveyCampaign.showSurvey(this);
+		}
+
 		super.onDestroy();
 	}
 }

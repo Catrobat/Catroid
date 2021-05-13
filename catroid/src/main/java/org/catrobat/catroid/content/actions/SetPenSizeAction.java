@@ -26,27 +26,27 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class SetPenSizeAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Scope scope;
 	private Formula penSize;
 
 	@Override
 	protected void update(float delta) {
 		try {
-			Float newSize = penSize == null ? Float.valueOf(0f) : penSize.interpretFloat(sprite);
-			sprite.penConfiguration.setPenSize(newSize);
+			Float newSize = penSize == null ? Float.valueOf(0f) : penSize.interpretFloat(scope);
+			scope.getSprite().penConfiguration.setPenSize(newSize);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setPenSize(Formula size) {

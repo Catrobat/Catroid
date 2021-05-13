@@ -62,6 +62,7 @@ public class WaitBrick extends FormulaBrick {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
-				.createWaitAction(sprite, getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS)));
+				.createWaitAction(sprite, sequence,
+						getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS)));
 	}
 }

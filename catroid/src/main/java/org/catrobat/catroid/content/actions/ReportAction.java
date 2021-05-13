@@ -26,18 +26,18 @@ package org.catrobat.catroid.content.actions;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.Look;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 
 public class ReportAction extends Action {
 
 	private Script currentScript;
 	private Formula reportFormula;
-	private Sprite sprite;
+	private Scope scope;
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setCurrentScript(Script currentScript) {
@@ -52,8 +52,8 @@ public class ReportAction extends Action {
 		return this.reportFormula;
 	}
 
-	public Sprite getSprite() {
-		return this.sprite; 
+	public Scope getScope() {
+		return scope;
 	}
 
 	@Override

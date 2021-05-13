@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,6 +35,7 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 
@@ -173,7 +174,9 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 		ScriptFragment scriptFragment = getScriptFragment(view);
 		if (scriptFragment.copyProjectForUndoOption()) {
 			scriptFragment.showUndo(true);
-			scriptFragment.setUndoBrickPosition();
+			if (onItemSelectedListener instanceof Brick) {
+				scriptFragment.setUndoBrickPosition((Brick) onItemSelectedListener);
+			}
 		}
 	}
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,6 +44,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.Survey;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.ZipArchiver;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
@@ -77,6 +78,10 @@ public class MainMenuActivity extends BaseCastActivity implements
 
 	public static final String TAG = MainMenuActivity.class.getSimpleName();
 
+	private int oldPrivacyPolicy = 0;
+
+	public static Survey surveyCampaign;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -86,14 +91,17 @@ public class MainMenuActivity extends BaseCastActivity implements
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
 		ScreenValueHandler.updateScreenWidthAndHeight(this);
 
-		loadContent();
-
-		int oldPrivacyPolicy = PreferenceManager.getDefaultSharedPreferences(this)
+		oldPrivacyPolicy = PreferenceManager.getDefaultSharedPreferences(this)
 				.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
+
+		loadContent();
 
 		if (oldPrivacyPolicy != Constants.CATROBAT_TERMS_OF_USE_ACCEPTED) {
 			showTermsOfUseDialog();
 		}
+
+		surveyCampaign = new Survey(this);
+		surveyCampaign.showSurvey(this);
 	}
 
 	private void showTermsOfUseDialog() {
@@ -136,6 +144,10 @@ public class MainMenuActivity extends BaseCastActivity implements
 				.edit()
 				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, Constants.CATROBAT_TERMS_OF_USE_ACCEPTED)
 				.apply();
+
+		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
+			prepareStandaloneProject();
+		}
 	}
 
 	public void handleDeclinedPrivacyPolicyButton() {
@@ -170,7 +182,9 @@ public class MainMenuActivity extends BaseCastActivity implements
 	private void loadContent() {
 		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
 			setContentView(R.layout.activity_main_menu_splashscreen);
-			prepareStandaloneProject();
+			if (oldPrivacyPolicy == Constants.CATROBAT_TERMS_OF_USE_ACCEPTED) {
+				prepareStandaloneProject();
+			}
 			return;
 		}
 
@@ -190,7 +204,8 @@ public class MainMenuActivity extends BaseCastActivity implements
 
 	private void loadFragment() {
 		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.fragment_container, new MainMenuFragment(), MainMenuFragment.TAG)
+				.replace(R.id.fragment_container, new MainMenuFragment(),
+						MainMenuFragment.Companion.getTAG())
 				.commit();
 		setShowProgressBar(false);
 
@@ -290,6 +305,9 @@ public class MainMenuActivity extends BaseCastActivity implements
 			case R.id.menu_logout:
 				Utils.logoutUser(this);
 				ToastUtil.showSuccess(this, R.string.logout_successful);
+				break;
+			case R.id.menu_help:
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.CATROBAT_HELP_URL)));
 				break;
 			default:
 				return super.onOptionsItemSelected(item);

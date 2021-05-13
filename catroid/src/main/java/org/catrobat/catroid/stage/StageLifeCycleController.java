@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -159,12 +159,6 @@ public final class StageLifeCycleController {
 			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 				CastManager.getInstance().setRemoteLayoutToPauseScreen(stageActivity);
 			}
-			if (stageActivity.stageResourceHolder.droneInitializer != null) {
-				stageActivity.stageResourceHolder.droneInitializer.onPause();
-			}
-			if (stageActivity.stageResourceHolder.droneController != null) {
-				stageActivity.stageResourceHolder.droneController.onPause();
-			}
 		}
 	}
 
@@ -222,19 +216,14 @@ public final class StageLifeCycleController {
 			if (stageActivity.stageResourceHolder.initFinished()) {
 				StageActivity.stageListener.menuResume();
 			}
-			if (stageActivity.stageResourceHolder.droneInitializer != null) {
-				stageActivity.stageResourceHolder.droneInitializer.onResume();
-			}
-			if (stageActivity.stageResourceHolder.droneController != null) {
-				stageActivity.stageResourceHolder.droneController.onResume();
-			}
 		}
 	}
 
 	static void stageDestroy(StageActivity stageActivity) {
 		if (checkPermission(stageActivity, getProjectsRuntimePermissionList())) {
-			stageActivity.brickDialogManager.dismissAllDialogs();
-			stageActivity.jumpingSumoDisconnect();
+			if (stageActivity.brickDialogManager != null) {
+				stageActivity.brickDialogManager.dismissAllDialogs();
+			}
 			BluetoothDeviceService service = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 			if (service != null) {
 				service.destroy();
@@ -250,12 +239,6 @@ public final class StageLifeCycleController {
 			}
 			StageActivity.stageListener.finish();
 			stageActivity.manageLoadAndFinish();
-			if (stageActivity.stageResourceHolder.droneInitializer != null) {
-				stageActivity.stageResourceHolder.droneInitializer.onDestroy();
-			}
-			if (stageActivity.stageResourceHolder.droneController != null) {
-				stageActivity.stageResourceHolder.droneController.onDestroy();
-			}
 		}
 		ProjectManager.getInstance().setCurrentlyPlayingScene(ProjectManager.getInstance().getCurrentlyEditedScene());
 	}

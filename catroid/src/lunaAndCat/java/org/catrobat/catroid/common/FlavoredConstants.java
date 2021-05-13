@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,7 +35,11 @@ public final class FlavoredConstants {
 	// Web:
 	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/luna/";
 
+	public static final String CATEGORY_URL = BASE_URL_HTTPS + "#home-projects__";
+
 	public static final String POCKET_CODE_EXTERNAL_STORAGE_FOLDER_NAME = "Luna&Cat";
+
+	public static final String FLAVOR_NAME = "luna";
 
 	public static final File DEFAULT_ROOT_DIRECTORY = CatroidApplication.getAppContext().getFilesDir();
 

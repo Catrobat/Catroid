@@ -17,11 +17,11 @@
   <link href="main.css?a54aa1ae5714dedd3117" rel="stylesheet"></head>
 
   <body>
-    <div id="catblocks-program-container"></div>
+    <div id="catroid-catblocks-container"></div>
     <script>
       window.onload = function () {
         CatBlocks.init({
-          container: 'catblocks-program-container',
+          container: 'catroid-catblocks-container',
           renderSize: 0.75,
           language: Android.getCurrentLanguage(),
           rtl: Android.isRTL(),
@@ -34,11 +34,9 @@
           readOnly: false
         }).then(() => {
           const programXML = Android.getCurrentProject();
-          console.log(programXML);
           const scene = Android.getSceneNameToDisplay();
           const object = Android.getSpriteNameToDisplay();
-          const script = Android.getScriptIndexToDisplay();
-          CatBlocks.renderForAndroid(programXML, 'share', scene, object, script);
+          CatBlocks.render(programXML, scene, object);
         });
       };
     </script>

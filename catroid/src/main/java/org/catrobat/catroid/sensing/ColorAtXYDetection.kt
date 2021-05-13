@@ -31,6 +31,7 @@ import com.badlogic.gdx.math.Matrix4
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.content.Look
 import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.common.Conversions.convertArgumentToDouble
 import org.catrobat.catroid.stage.StageActivity
@@ -44,10 +45,9 @@ private const val ARGB_START_INDEX = 2
 private const val ARGB_END_INDEX = 8
 
 class ColorAtXYDetection(
-    sprite: Sprite,
-    currentProject: Project,
+    scope: Scope,
     stageListener: StageListener
-) : ColorDetection(sprite, currentProject, stageListener) {
+) : ColorDetection(scope, stageListener) {
     private var xPosition: Int = 0
     private var yPosition: Int = 0
 
@@ -108,14 +108,17 @@ class ColorAtXYDetection(
         val lookList: MutableList<Look> = getLooksOfRelevantSprites()
 
         val batch = SpriteBatch()
-        val projectionMatrix = createProjectionMatrix(currentProject)
-        val stagePixmap = createPicture(lookList, projectionMatrix, batch)
+        val projectionMatrix = scope.project?.let { createProjectionMatrix(it) }
+        val stagePixmap = projectionMatrix?.let { createPicture(lookList, it, batch) }
         try {
-            return rgbaColorToRGBHexString(Color(stagePixmap.getPixel(0, 0)))
+            if (stagePixmap != null) {
+                return rgbaColorToRGBHexString(Color(stagePixmap.getPixel(0, 0)))
+            }
         } finally {
             stagePixmap?.dispose()
             batch.dispose()
         }
+        return "#000000"
     }
 
     private fun getHexColorStringFromBitmapAtPosition(

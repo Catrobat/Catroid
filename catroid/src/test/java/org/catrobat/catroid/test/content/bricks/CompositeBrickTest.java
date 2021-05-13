@@ -45,6 +45,7 @@ import java.util.List;
 
 import static junit.framework.Assert.assertNull;
 
+import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
@@ -83,6 +84,7 @@ public class CompositeBrickTest {
 
 	@Before
 	public void setUp() throws IllegalAccessException, InstantiationException {
+		initializeStaticSingletonMethods();
 		compositeBrick = compositeBrickClass.newInstance();
 		List<Brick> compositeBrickParts = compositeBrick.getAllParts();
 		compositeEndBrick = compositeBrickParts.get(compositeBrickParts.size() - 1);

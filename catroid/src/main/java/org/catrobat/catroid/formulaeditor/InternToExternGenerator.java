@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -78,6 +78,7 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.JOIN.name(), R.string.formula_editor_function_join);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.JOIN3.name(), R.string.formula_editor_function_join3);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.REGEX.name(), R.string.formula_editor_function_regex);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.FLATTEN.name(), R.string.formula_editor_function_flatten);
 
 		//DRONE SENSORS
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.DRONE_BATTERY_STATUS.name(), R.string.formula_editor_sensor_drone_battery_status);
@@ -263,7 +264,7 @@ public class InternToExternGenerator {
 
 		generatedExternInternRepresentationMapping = new ExternInternRepresentationMapping();
 
-		generatedExternFormulaString = "";
+		StringBuilder externalFormulaString = new StringBuilder();
 		InternToken currentToken = null;
 		InternToken nextToken = null;
 		String externTokenString;
@@ -274,9 +275,9 @@ public class InternToExternGenerator {
 
 		while (!internTokenList.isEmpty()) {
 			if (appendWhiteSpace(currentToken, nextToken)) {
-				generatedExternFormulaString += " ";
+				externalFormulaString.append(' ');
 			}
-			externStringStartIndex = generatedExternFormulaString.length();
+			externStringStartIndex = externalFormulaString.length();
 			currentToken = internTokenList.get(0);
 
 			if (internTokenList.size() < 2) {
@@ -286,8 +287,8 @@ public class InternToExternGenerator {
 			}
 
 			externTokenString = generateExternStringFromToken(currentToken, trimNumbers);
-			generatedExternFormulaString += externTokenString;
-			externStringEndIndex = generatedExternFormulaString.length();
+			externalFormulaString.append(externTokenString);
+			externStringEndIndex = externalFormulaString.length();
 
 			generatedExternInternRepresentationMapping.putMapping(externStringStartIndex, externStringEndIndex,
 					internTokenListIndex);
@@ -296,7 +297,8 @@ public class InternToExternGenerator {
 			internTokenListIndex++;
 		}
 
-		generatedExternFormulaString += " ";
+		externalFormulaString.append(' ');
+		generatedExternFormulaString = externalFormulaString.toString();
 	}
 
 	private String generateExternStringFromToken(InternToken internToken, boolean trimNumbers) {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -165,6 +165,10 @@ public class SpriteController {
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
+		}
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		if (currentScene != null) {
+			currentScene.removeSpriteFromCloneBricks(spriteToDelete);
 		}
 	}
 

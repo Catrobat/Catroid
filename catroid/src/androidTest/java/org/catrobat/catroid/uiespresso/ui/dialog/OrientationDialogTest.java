@@ -102,7 +102,7 @@ public class OrientationDialogTest {
 	@Test
 	@Category({Level.Smoke.class, Cat.AppUi.class, Cat.Gadgets.class})
 	public void testCreateNewCastProject() {
-		onView(withId(R.id.floating_action_button))
+		onView(withId(R.id.newProjectFloatingActionButton))
 				.perform(click());
 		onView(withId(R.id.input_edit_text))
 				.check(matches(isDisplayed()));

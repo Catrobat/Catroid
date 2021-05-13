@@ -26,13 +26,10 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 
-import com.parrot.freeflight.drone.DroneProxy.ARDRONE_LED_ANIMATION;
-
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.RaspiInterruptScript;
@@ -183,6 +180,7 @@ import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetTempoBrick;
+import org.catrobat.catroid.content.bricks.SetThreadColorBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVelocityBrick;
@@ -239,6 +237,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.Sensors;
+import org.catrobat.catroid.ui.controller.RecentBrickListManager;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.ArrayList;
@@ -252,7 +251,9 @@ import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.OPER
 public class CategoryBricksFactory {
 
 	public List<Brick> getBricks(String category, boolean isBackgroundSprite, Context context) {
-
+		if (category.equals(context.getString(R.string.category_recently_used))) {
+			return setupRecentBricksCategoryList(isBackgroundSprite);
+		}
 		if (category.equals(context.getString(R.string.category_event))) {
 			return setupEventCategoryList(context, isBackgroundSprite);
 		}
@@ -312,6 +313,10 @@ public class CategoryBricksFactory {
 		}
 
 		return Collections.emptyList();
+	}
+
+	protected List<Brick> setupRecentBricksCategoryList(boolean isBackgroundSprite) {
+		return RecentBrickListManager.getInstance().getRecentBricks(isBackgroundSprite);
 	}
 
 	protected List<Brick> setupEventCategoryList(Context context, boolean isBackgroundSprite) {
@@ -404,7 +409,7 @@ public class CategoryBricksFactory {
 				BrickValues.TOUCH_Y_START, BrickValues.TOUCH_X_GOAL, BrickValues.TOUCH_Y_GOAL,
 				BrickValues.TOUCH_DURATION));
 
-		controlBrickList.add(new OpenUrlBrick(Constants.MAIN_URL_HTTPS));
+		controlBrickList.add(new OpenUrlBrick(BrickValues.OPEN_IN_BROWSER));
 		return controlBrickList;
 	}
 
@@ -415,7 +420,9 @@ public class CategoryBricksFactory {
 			userDefinedBricks = currentSprite.getUserDefinedBrickList();
 		}
 		userDefinedBricks = new ArrayList<>(userDefinedBricks);
-		userDefinedBricks.add(new ReportBrick());
+		if (BuildConfig.FEATURE_USER_REPORTERS_ENABLED) {
+			userDefinedBricks.add(new ReportBrick());
+		}
 		return userDefinedBricks;
 	}
 
@@ -552,14 +559,12 @@ public class CategoryBricksFactory {
 			looksBrickList.add(new FlashBrick());
 		}
 
-		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
-			if (!isBackgroundSprite) {
-				looksBrickList.add(new LookRequestBrick(context.getString(R.string.brick_look_request_default_value)));
-			} else if (ProjectManager.getInstance().getCurrentProject().getXmlHeader().islandscapeMode()) {
-				looksBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_landscape)));
-			} else {
-				looksBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_portrait)));
-			}
+		if (!isBackgroundSprite) {
+			looksBrickList.add(new LookRequestBrick(BrickValues.LOOK_REQUEST));
+		} else if (ProjectManager.getInstance().getCurrentProject().getXmlHeader().islandscapeMode()) {
+			looksBrickList.add(new BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE));
+		} else {
+			looksBrickList.add(new BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST));
 		}
 
 		if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) {
@@ -572,7 +577,7 @@ public class CategoryBricksFactory {
 		looksBrickList.add(new CopyLookBrick(context.getString(R.string.brick_copy_look_name)));
 		looksBrickList.add(new DeleteLookBrick());
 
-		looksBrickList.add(new OpenUrlBrick(Constants.MAIN_URL_HTTPS));
+		looksBrickList.add(new OpenUrlBrick(BrickValues.OPEN_IN_BROWSER));
 		return looksBrickList;
 	}
 
@@ -615,15 +620,13 @@ public class CategoryBricksFactory {
 		dataBrickList.add(new StoreCSVIntoUserListBrick(BrickValues.STORE_CSV_INTO_USERLIST_COLUMN,
 				context.getString(R.string.brick_store_csv_into_userlist_data)));
 
-		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
-			dataBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
-			if (!isBackgroundSprite) {
-				dataBrickList.add(new LookRequestBrick(context.getString(R.string.brick_look_request_default_value)));
-			} else if (ProjectManager.getInstance().getCurrentProject().getXmlHeader().islandscapeMode()) {
-				dataBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_landscape)));
-			} else {
-				dataBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_portrait)));
-			}
+		dataBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
+		if (!isBackgroundSprite) {
+			dataBrickList.add(new LookRequestBrick(BrickValues.LOOK_REQUEST));
+		} else if (ProjectManager.getInstance().getCurrentProject().getXmlHeader().islandscapeMode()) {
+			dataBrickList.add(new BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE));
+		} else {
+			dataBrickList.add(new BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST));
 		}
 
 		dataBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
@@ -653,18 +656,16 @@ public class CategoryBricksFactory {
 			deviceBrickList.add(new SetNfcTagBrick(context.getString(R.string.brick_set_nfc_tag_default_value)));
 		}
 
-		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
-			deviceBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
-			if (!isBackgroundSprite) {
-				deviceBrickList.add(new LookRequestBrick(context.getString(R.string.brick_look_request_default_value)));
-			} else if (ProjectManager.getInstance().getCurrentProject().getXmlHeader().islandscapeMode()) {
-				deviceBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_landscape)));
-			} else {
-				deviceBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_portrait)));
-			}
+		deviceBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
+		if (!isBackgroundSprite) {
+			deviceBrickList.add(new LookRequestBrick(BrickValues.LOOK_REQUEST));
+		} else if (ProjectManager.getInstance().getCurrentProject().getXmlHeader().islandscapeMode()) {
+			deviceBrickList.add(new BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE));
+		} else {
+			deviceBrickList.add(new BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST));
 		}
 
-		deviceBrickList.add(new OpenUrlBrick(Constants.MAIN_URL_HTTPS));
+		deviceBrickList.add(new OpenUrlBrick(BrickValues.OPEN_IN_BROWSER));
 		deviceBrickList.add(new VibrationBrick(BrickValues.VIBRATE_SECONDS));
 		deviceBrickList.add(new SpeakBrick(context.getString(R.string.brick_speak_default_value)));
 		deviceBrickList.add(new SpeakAndWaitBrick(context.getString(R.string.brick_speak_default_value)));
@@ -767,7 +768,7 @@ public class CategoryBricksFactory {
 		droneBrickList.add(new DroneTurnRightBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
 				BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
 		droneBrickList.add(new DroneFlipBrick());
-		droneBrickList.add(new DronePlayLedAnimationBrick(ARDRONE_LED_ANIMATION.ARDRONE_LED_ANIMATION_BLINK_GREEN_RED));
+		droneBrickList.add(new DronePlayLedAnimationBrick());
 		droneBrickList.add(new DroneSwitchCameraBrick());
 
 		return droneBrickList;
@@ -845,6 +846,7 @@ public class CategoryBricksFactory {
 	private List<Brick> setupEmbroideryCategoryList(Context context) {
 		List<Brick> embroideryBrickList = new ArrayList<>();
 		embroideryBrickList.add(new StitchBrick());
+		embroideryBrickList.add(new SetThreadColorBrick(new Formula(BrickValues.THREAD_COLOR)));
 		embroideryBrickList.add(new RunningStitchBrick(new Formula(BrickValues.STITCH_LENGTH)));
 		embroideryBrickList.add(new ZigZagStitchBrick(new Formula(BrickValues.ZIGZAG_STITCH_LENGTH),
 				new Formula(BrickValues.ZIGZAG_STITCH_WIDTH)));
@@ -873,9 +875,7 @@ public class CategoryBricksFactory {
 		assertionsBrickList.add(new StoreCSVIntoUserListBrick(BrickValues.STORE_CSV_INTO_USERLIST_COLUMN,
 				context.getString(R.string.brick_store_csv_into_userlist_data)));
 
-		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
-			assertionsBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
-		}
+		assertionsBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
 
 		return assertionsBrickList;
 	}

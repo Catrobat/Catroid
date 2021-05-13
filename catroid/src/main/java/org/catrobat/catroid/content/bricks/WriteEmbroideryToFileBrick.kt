@@ -47,7 +47,7 @@ class WriteEmbroideryToFileBrick constructor() : FormulaBrick() {
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
         sequence.addAction(
             sprite.actionFactory.createWriteEmbroideryToFileAction(
-                sprite, getFormulaWithBrickField(BrickField.WRITE_FILENAME)
+                sprite, sequence, getFormulaWithBrickField(BrickField.WRITE_FILENAME)
             )
         )
     }

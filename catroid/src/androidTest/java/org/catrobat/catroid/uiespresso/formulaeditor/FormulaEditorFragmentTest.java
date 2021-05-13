@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -83,32 +83,10 @@ public class FormulaEditorFragmentTest {
 		onFormulaEditor()
 				.performEnterNumber(0);
 		pressBack();
-		onView(withText(R.string.formula_editor_discard_changes_dialog_title))
-				.check(matches(isDisplayed()));
-		onView(withId(android.R.id.button1))
-				.perform(click());
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
 				.perform(click());
 		onFormulaEditor()
 				.checkValue("0");
-	}
-
-	@Category({Cat.AppUi.class, Level.Smoke.class})
-	@Test
-	public void testDiscardChanges() {
-		onView(withId(R.id.brick_set_variable_edit_text))
-				.check(matches(withText("1 ")));
-		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
-				.perform(click());
-		onFormulaEditor()
-				.performEnterNumber(3);
-		pressBack();
-		onView(withText(R.string.formula_editor_discard_changes_dialog_title))
-				.check(matches(isDisplayed()));
-		onView(withId(android.R.id.button2))
-				.perform(click());
-		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
-				.check(matches(withText("1 ")));
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -118,11 +96,17 @@ public class FormulaEditorFragmentTest {
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
 				.perform(click());
 		onFormulaEditor()
-				.performEnterFormula("1+");
-		onFormulaEditor()
-				.performCloseAndSave();
+				.performEnterFormula("3+");
+		pressBack();
 		UiTestUtils.onToast(withText(R.string.formula_editor_parse_fail))
 				.check(matches(isDisplayed()));
+		onView(withText(R.string.formula_editor_title))
+				.check(matches(isDisplayed()));
+		onFormulaEditor()
+				.performBackspace();
+		pressBack();
+		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
+				.check(matches(withText("3 ")));
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -134,8 +118,7 @@ public class FormulaEditorFragmentTest {
 				.performEnterFormula("123");
 		onFormulaEditor()
 				.performUndo();
-		onFormulaEditor()
-				.performCloseAndSave();
+		pressBack();
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
 				.check(matches(withText("12 ")));
 	}
@@ -151,8 +134,7 @@ public class FormulaEditorFragmentTest {
 				.performEnterFormula("123");
 		onFormulaEditor()
 				.performBackspace();
-		onFormulaEditor()
-				.performCloseAndSave();
+		pressBack();
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
 				.check(matches(withText("12 ")));
 	}
@@ -168,8 +150,7 @@ public class FormulaEditorFragmentTest {
 				.performUndo();
 		onFormulaEditor()
 				.performRedo();
-		onFormulaEditor()
-				.performCloseAndSave();
+		pressBack();
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
 				.check(matches(withText("12 ")));
 	}

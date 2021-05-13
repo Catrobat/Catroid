@@ -48,6 +48,7 @@ import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -112,7 +113,9 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 	@Override
 	public void onResume() {
+		initializeAdapter();
 		super.onResume();
+		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_objects);
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		String title;
 
@@ -135,7 +138,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	}
 
 	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
+	public void onPrepareOptionsMenu(@NotNull Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 		menu.findItem(R.id.new_group).setVisible(true);
 	}
@@ -177,7 +180,6 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 	@Override
 	protected void initializeAdapter() {
-		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_objects);
 		sharedPreferenceDetailsKey = SHOW_DETAILS_SPRITES_PREFERENCE_KEY;
 		List<Sprite> items = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList();
 		adapter = new MultiViewSpriteAdapter(items);

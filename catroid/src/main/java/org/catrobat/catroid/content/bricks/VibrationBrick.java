@@ -68,6 +68,7 @@ public class VibrationBrick extends FormulaBrick {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
-				.createVibrateAction(sprite, getFormulaWithBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS)));
+				.createVibrateAction(sprite, sequence,
+						getFormulaWithBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS)));
 	}
 }

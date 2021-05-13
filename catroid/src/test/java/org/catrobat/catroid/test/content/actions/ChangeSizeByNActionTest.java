@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
@@ -35,6 +36,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertEquals;
+
+import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 
 @RunWith(JUnit4.class)
 public class ChangeSizeByNActionTest {
@@ -51,6 +54,7 @@ public class ChangeSizeByNActionTest {
 
 	@Before
 	public void setUp() throws Exception {
+		initializeStaticSingletonMethods();
 		sprite = new Sprite("testSprite");
 	}
 
@@ -58,40 +62,42 @@ public class ChangeSizeByNActionTest {
 	public void testSize() {
 		assertEquals(INITIALIZED_VALUE, sprite.look.getSizeInUserInterfaceDimensionUnit());
 
-		sprite.getActionFactory().createChangeSizeByNAction(sprite, new Formula(CHANGE_SIZE)).act(1.0f);
+		sprite.getActionFactory().createChangeSizeByNAction(sprite,
+				new SequenceAction(), new Formula(CHANGE_SIZE)).act(1.0f);
 		assertEquals(INITIALIZED_VALUE + CHANGE_SIZE, sprite.look.getSizeInUserInterfaceDimensionUnit(), DELTA);
 
-		sprite.getActionFactory().createChangeSizeByNAction(sprite, new Formula(-CHANGE_SIZE)).act(1.0f);
+		sprite.getActionFactory().createChangeSizeByNAction(sprite, new SequenceAction(),
+				new Formula(-CHANGE_SIZE)).act(1.0f);
 		assertEquals(INITIALIZED_VALUE, sprite.look.getSizeInUserInterfaceDimensionUnit(), DELTA);
 	}
 
-	@Test
+	@Test(expected = NullPointerException.class)
 	public void testNullSprite() {
 		ActionFactory factory = new ActionFactory();
-		Action action = factory.createChangeSizeByNAction(null, new Formula(CHANGE_SIZE));
-		exception.expect(NullPointerException.class);
+		Action action = factory.createChangeSizeByNAction(null, new SequenceAction(),
+				new Formula(CHANGE_SIZE));
 		action.act(1.0f);
 	}
 
 	@Test
 	public void testBrickWithStringFormula() {
-		sprite.getActionFactory().createChangeSizeByNAction(sprite, new Formula(String.valueOf(CHANGE_VALUE)))
+		sprite.getActionFactory().createChangeSizeByNAction(sprite, new SequenceAction(), new Formula(String.valueOf(CHANGE_VALUE)))
 				.act(1.0f);
 		assertEquals(INITIALIZED_VALUE + CHANGE_VALUE, sprite.look.getSizeInUserInterfaceDimensionUnit());
 
-		sprite.getActionFactory().createChangeSizeByNAction(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
+		sprite.getActionFactory().createChangeSizeByNAction(sprite, new SequenceAction(), new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
 		assertEquals(INITIALIZED_VALUE + CHANGE_VALUE, sprite.look.getSizeInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testNullFormula() {
-		sprite.getActionFactory().createChangeSizeByNAction(sprite, null).act(1.0f);
+		sprite.getActionFactory().createChangeSizeByNAction(sprite, new SequenceAction(), null).act(1.0f);
 		assertEquals(INITIALIZED_VALUE, sprite.look.getSizeInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testNotANumberFormula() {
-		sprite.getActionFactory().createChangeSizeByNAction(sprite, new Formula(Double.NaN)).act(1.0f);
+		sprite.getActionFactory().createChangeSizeByNAction(sprite, new SequenceAction(), new Formula(Double.NaN)).act(1.0f);
 		assertEquals(INITIALIZED_VALUE, sprite.look.getSizeInUserInterfaceDimensionUnit());
 	}
 }

@@ -52,7 +52,7 @@ public class RunningStitchBrick extends FormulaBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createRunningStitchAction(sprite,
+		sequence.addAction(sprite.getActionFactory().createRunningStitchAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.EMBROIDERY_LENGTH)));
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,9 +25,16 @@ package org.catrobat.catroid.uiespresso.ui.fragment.rvutils;
 
 import android.view.View;
 
+import com.google.common.collect.Ordering;
+
+import org.catrobat.catroid.common.ProjectData;
+import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,6 +60,39 @@ public class RecyclerViewMatcher {
 						&& recyclerView.getId() == recyclerViewId
 						&& recyclerView.getAdapter() != null
 						&& recyclerView.getAdapter().getItemCount() == numberOfItems;
+			}
+		};
+	}
+
+	public Matcher<View> listIsSorted() {
+		return new TypeSafeMatcher<View>() {
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("Sorted order of projects does not match");
+			}
+
+			@Override
+			protected boolean matchesSafely(View view) {
+				RecyclerView recyclerView = view.getRootView().findViewById(recyclerViewId);
+
+				if (recyclerView != null) {
+					RVAdapter<ProjectData> rvAdapter = (RVAdapter<ProjectData>) recyclerView.getAdapter();
+
+					if (rvAdapter == null) {
+						return false;
+					}
+					List<ProjectData> items = rvAdapter.getItems();
+					return Ordering.natural().isOrdered(extractProjectNames(items));
+				}
+				return false;
+			}
+
+			private List<String> extractProjectNames(List<ProjectData> items) {
+				List<String> projectNames = new ArrayList<>();
+				for (ProjectData project : items) {
+					projectNames.add(project.getName());
+				}
+				return projectNames;
 			}
 		};
 	}

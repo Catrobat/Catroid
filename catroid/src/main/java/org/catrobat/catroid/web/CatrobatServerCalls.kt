@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,6 +40,7 @@ import org.catrobat.catroid.web.ServerAuthenticationConstants.CHECK_GOOGLE_TOKEN
 import org.catrobat.catroid.web.ServerAuthenticationConstants.CHECK_TOKEN_URL
 import org.catrobat.catroid.web.ServerAuthenticationConstants.CHECK_USERNAME_AVAILABLE_URL
 import org.catrobat.catroid.web.ServerAuthenticationConstants.EMAIL_AVAILABLE
+import org.catrobat.catroid.web.ServerAuthenticationConstants.FILE_SURVEY_URL_HTTP
 import org.catrobat.catroid.web.ServerAuthenticationConstants.FILE_TAG_URL_HTTP
 import org.catrobat.catroid.web.ServerAuthenticationConstants.JSON_ANSWER
 import org.catrobat.catroid.web.ServerAuthenticationConstants.JSON_STATUS_CODE
@@ -97,6 +98,19 @@ class CatrobatServerCalls(private val okHttpClient: OkHttpClient = CatrobatWebCl
             var serverUrl = FILE_TAG_URL_HTTP
             if (language != null) {
                 serverUrl += "?language=$language"
+            }
+            getRequest(serverUrl)
+        } catch (e: WebconnectionException) {
+            Log.e(tag, Log.getStackTraceString(e))
+            ""
+        }
+    }
+
+    fun getSurvey(language: String?): String {
+        return try {
+            var serverUrl = FILE_SURVEY_URL_HTTP
+            if (language != null) {
+                serverUrl += language
             }
             getRequest(serverUrl)
         } catch (e: WebconnectionException) {

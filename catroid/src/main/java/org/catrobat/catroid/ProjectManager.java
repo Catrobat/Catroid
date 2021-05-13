@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,12 @@
 package org.catrobat.catroid;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.LookData;
@@ -41,6 +46,8 @@ import org.catrobat.catroid.content.backwardcompatibility.BrickTreeBuilder;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.SetBackgroundByIndexAndWaitBrick;
+import org.catrobat.catroid.content.bricks.SetBackgroundByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
@@ -56,7 +63,9 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -75,6 +84,8 @@ public final class ProjectManager {
 	private Scene currentlyPlayingScene;
 	private Scene startScene;
 	private Sprite currentSprite;
+	private HashMap<String, Boolean> downloadedProjects;
+	private final String downloadedProjectsName = "downloaded_projects";
 
 	private Context applicationContext;
 
@@ -86,6 +97,7 @@ public final class ProjectManager {
 		this.applicationContext = applicationContext;
 		if (instance == null) {
 			instance = this;
+			loadDownloadedProjects();
 		}
 	}
 
@@ -152,6 +164,9 @@ public final class ProjectManager {
 		if (project.getCatrobatLanguageVersion() <= 0.99992) {
 			removePermissionsFile(project);
 		}
+		if (project.getCatrobatLanguageVersion() <= 0.9999995) {
+			updateBackgroundIndexTo9999995(project);
+		}
 		project.setCatrobatLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION);
 
 		localizeBackgroundSprites(project, context.getString(R.string.background));
@@ -164,10 +179,6 @@ public final class ProjectManager {
 
 		if (resourcesSet.contains(Brick.BLUETOOTH_PHIRO)) {
 			SettingsFragment.setPhiroSharedPreferenceEnabled(context, true);
-		}
-
-		if (resourcesSet.contains(Brick.JUMPING_SUMO)) {
-			SettingsFragment.setJumpingSumoSharedPreferenceEnabled(context, true);
 		}
 
 		if (resourcesSet.contains(Brick.BLUETOOTH_SENSORS_ARDUINO)) {
@@ -235,7 +246,7 @@ public final class ProjectManager {
 		for (Scene scene : project.getSceneList()) {
 			if (!scene.getSpriteList().isEmpty()) {
 				Sprite background = scene.getSpriteList().get(0);
-				background.setName(localizedBackgroundName);
+				background.renameSpriteAndUpdateCollisionFormulas(localizedBackgroundName, scene);
 				background.look.setZIndex(0);
 			}
 		}
@@ -373,6 +384,27 @@ public final class ProjectManager {
 							spriteToCollideWith = spriteNames[1];
 						}
 						bounceOffScript.setSpriteToBounceOffName(spriteToCollideWith);
+					}
+				}
+			}
+		}
+	}
+
+	@VisibleForTesting
+	public static void updateBackgroundIndexTo9999995(Project project) {
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Script script : sprite.getScriptList()) {
+					for (Brick brick : script.getBrickList()) {
+						if (brick instanceof SetBackgroundByIndexBrick) {
+							FormulaBrick formulaBrick = (FormulaBrick) brick;
+							formulaBrick.replaceFormulaBrickField(Brick.BrickField.LOOK_INDEX,
+									Brick.BrickField.BACKGROUND_INDEX);
+						} else if (brick instanceof SetBackgroundByIndexAndWaitBrick) {
+							FormulaBrick formulaBrick = (FormulaBrick) brick;
+							formulaBrick.replaceFormulaBrickField(Brick.BrickField.LOOK_INDEX,
+									Brick.BrickField.BACKGROUND_WAIT_INDEX);
+						}
 					}
 				}
 			}
@@ -533,5 +565,77 @@ public final class ProjectManager {
 	public void setCurrentlyEditedScene(Scene scene) {
 		currentlyEditedScene = scene;
 		currentlyPlayingScene = scene;
+	}
+
+	public void addNewDownloadedProject(String projectName) {
+		Boolean flag = downloadedProjects.get(projectName);
+		if (flag == null || flag) {
+			downloadedProjects.put(projectName, false);
+			saveDownloadedProjects();
+		}
+	}
+
+	public void resetChangedFlag(Project project) {
+		String projectName = project.getName();
+		Boolean isChanged = downloadedProjects.get(projectName);
+		if (isChanged != null && isChanged) {
+			downloadedProjects.put(projectName, false);
+			saveDownloadedProjects();
+		}
+	}
+
+	public boolean isChangedProject(Project project) {
+		String projectName = project.getName();
+		Boolean isChanged = downloadedProjects.get(projectName);
+		if (isChanged == null) {
+			return true;
+		}
+		return isChanged;
+	}
+
+	public void deleteDownloadedProjectInformation(String projectName) {
+		downloadedProjects.remove(projectName);
+	}
+
+	public void changedProject(String projectName) {
+		Boolean isChanged = downloadedProjects.get(projectName);
+		if (isChanged != null && !isChanged) {
+			downloadedProjects.put(projectName, true);
+			saveDownloadedProjects();
+		}
+	}
+
+	public void saveDownloadedProjects() {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		Gson gson = new Gson();
+		String json = gson.toJson(downloadedProjects);
+		editor.putString(downloadedProjectsName, json);
+		editor.apply();
+	}
+
+	public void loadDownloadedProjects() {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+		Gson gson = new Gson();
+		String json = null;
+		if (sharedPreferences != null) {
+			json = sharedPreferences.getString(downloadedProjectsName, null);
+			if (json != null) {
+				Type type = new TypeToken<HashMap<String, Boolean>>() {
+				}.getType();
+				downloadedProjects = gson.fromJson(json, type);
+			} else {
+				downloadedProjects = new HashMap<>();
+			}
+		}
+	}
+
+	public void moveChangedFlag(String source, String destination) {
+		Boolean value = downloadedProjects.get(source);
+		if (null != value) {
+			downloadedProjects.remove(source);
+			downloadedProjects.put(destination, true);
+			saveDownloadedProjects();
+		}
 	}
 }

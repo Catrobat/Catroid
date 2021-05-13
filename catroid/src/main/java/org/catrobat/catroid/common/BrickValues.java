@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -180,6 +180,7 @@ public final class BrickValues {
 	public static final int STITCH_LENGTH = 10;
 	public static final int ZIGZAG_STITCH_LENGTH = 2;
 	public static final int ZIGZAG_STITCH_WIDTH = 10;
+	public static final String THREAD_COLOR = "#ff0000";
 
 	//Constants Device
 	public static final double TOUCH_DURATION = 0.3;
@@ -187,6 +188,13 @@ public final class BrickValues {
 	public static final int TOUCH_Y_START = -200;
 	public static final int TOUCH_X_GOAL = 100;
 	public static final int TOUCH_Y_GOAL = 200;
+
+	//Constants Web
+	public static final String OPEN_IN_BROWSER = "https://catrobat.org/";
+	public static final String LOOK_REQUEST = "https://catrob.at/penguin";
+	public static final String BACKGROUND_REQUEST = "https://catrob.at/HalloweenPortrait";
+	public static final String BACKGROUND_REQUEST_LANDSCAPE = "https://catrob.at/HalloweenLandscape";
+	// Note: No constant default value for the "Send web request" brick, as it is localized in strings.xml
 
 	private BrickValues() {
 		throw new AssertionError("No.");

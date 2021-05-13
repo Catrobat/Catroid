@@ -26,7 +26,7 @@ import android.util.Log
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
-import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
 import org.catrobat.catroid.stage.StageActivity
@@ -39,7 +39,7 @@ class TapAtAction : TemporalAction() {
     private var errorDetected: Boolean = false
     private var pointer: Int = -1
     private var skipUpdate: Boolean = true
-    lateinit var sprite: Sprite
+    lateinit var scope: Scope
     lateinit var startX: Formula
     lateinit var startY: Formula
     var changeX: Formula? = null
@@ -49,23 +49,23 @@ class TapAtAction : TemporalAction() {
     override fun begin() {
         super.begin()
         try {
-            touchCoords = Vector2(startX.interpretFloat(sprite), startY.interpretFloat(sprite))
+            touchCoords = Vector2(startX.interpretFloat(scope), startY.interpretFloat(scope))
             if (changeX != null && changeY != null) {
                 dragCoords = Vector2(
-                    changeX?.interpretFloat(sprite) ?: 0f,
-                    changeY?.interpretFloat(sprite) ?: 0f
+                    changeX?.interpretFloat(scope) ?: 0f,
+                    changeY?.interpretFloat(scope) ?: 0f
                 )
                 skipUpdate = false
             }
 
-            duration = durationFormula?.interpretFloat(sprite) ?: 0f
+            duration = durationFormula?.interpretFloat(scope) ?: 0f
         } catch (e: InterpretationException) {
             Log.d(TAG, "Position not valid", e)
             errorDetected = true
         }
 
         if (!errorDetected) {
-            pointer = sprite.unusedPointer
+            pointer = scope.sprite.unusedPointer
             stage = StageActivity.stageListener.stage
             if (!skipUpdate) {
                 stage.stageToScreenCoordinates(dragCoords)
@@ -97,7 +97,7 @@ class TapAtAction : TemporalAction() {
                     dragCoords?.y?.toInt() ?: touchCoords.y.toInt(), pointer, 0
                 )
             }
-            sprite.releaseUsedPointer(pointer)
+            scope.sprite.releaseUsedPointer(pointer)
             pointer = -1
         }
     }
@@ -105,7 +105,7 @@ class TapAtAction : TemporalAction() {
     override fun restart() {
         if (pointer != -1) {
             stage.touchUp(touchCoords.x.toInt(), touchCoords.y.toInt(), pointer, 0)
-            sprite.releaseUsedPointer(pointer)
+            scope?.sprite?.releaseUsedPointer(pointer)
             pointer = -1
         }
         super.restart()

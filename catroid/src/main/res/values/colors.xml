@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -39,6 +39,7 @@
     <!-- Backgrounds -->
     <color name="app_background">#04222C</color>
     <color name="button_background">#00475E</color>
+    <color name="advertising_button_background">#00ACC1</color>
     <color name="button_bottom_bar">#00475E</color>
     <color name="button_border_top">#4D7F8F</color>
 
@@ -72,6 +73,7 @@
     <color name="solid_white">#FFFFFF</color>
     <color name="transparent">#00000000</color>
     <color name="orange">#E68B00</color>
+    <color name="red">#D50000</color>
     <color name="dark_blue">#32529D</color>
 
     <!-- Misc Text Colors -->
@@ -104,5 +106,11 @@
     <!-- override the color of ColorPickerPreviewActivity toolbar -->
     <color name="pocketpaint_color_picker_actionbar_color"
         tools:ignore="UnusedResources">@color/toolbar_background</color>
+    <color name="color_picker_dialog_button">@color/accent</color>
+
+    <!-- indicator colors -->
+    <color name="indicator_selected_color">#FFFFFF</color>
+    <color name="indicator_unselected_color">#ACA3A3</color>
+    <color name="no_internet_color">#606060</color>
 
 </resources>

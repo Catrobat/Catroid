@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -51,6 +51,7 @@ import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.assertNotNull;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -82,8 +83,8 @@ public class DeleteItemOfUserListBrickTest {
 	@Test
 	@Flaky
 	public void testDeleteItemOfUserListBrickMultipleLists() {
-		String firstUserListName = "test1";
-		String secondUserListName = "test2";
+		String firstUserListName = "Test1";
+		String secondUserListName = "Test2";
 
 		onBrickAtPosition(brickPosition).onVariableSpinner(R.id.delete_item_of_userlist_spinner)
 				.performNewVariable(firstUserListName);
@@ -110,8 +111,7 @@ public class DeleteItemOfUserListBrickTest {
 				.performDelete();
 		onDataList()
 				.performClose();
-		onFormulaEditor()
-				.performCloseAndSave();
+		pressBack();
 
 		onView(allOf(withText(secondUserListName), isDisplayed()))
 				.check(doesNotExist());
@@ -131,7 +131,6 @@ public class DeleteItemOfUserListBrickTest {
 		onDataList()
 				.performAdd(userListName, FormulaEditorDataListWrapper.ItemType.LIST)
 				.performClose();
-		onFormulaEditor()
-				.performCloseAndSave();
+		pressBack();
 	}
 }

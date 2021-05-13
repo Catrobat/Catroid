@@ -27,7 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 
 abstract class LoopAction : RepeatAction() {
     var isLoopDelay = true
-    protected var currentTime = 0f
+    protected open var currentTime = 0f
 
     protected fun isLoopDelayNeeded(): Boolean = currentTime < LOOP_DELAY && isLoopDelay
 

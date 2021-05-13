@@ -58,6 +58,10 @@
         android:title="@string/comment_in_out"
         android:visible="false"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/find"
+        android:title="@string/find"
+        app:showAsAction="never" />
      <item
          android:id="@+id/catblocks"
          android:title="@string/catblocks"

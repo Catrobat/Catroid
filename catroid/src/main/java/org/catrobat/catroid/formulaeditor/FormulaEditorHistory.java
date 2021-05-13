@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -51,9 +51,9 @@ public class FormulaEditorHistory {
 		}
 		if (current != null) {
 			undoStack.push(current);
-		}
-		if (!initialStates.containsKey(current.formulaField)) {
-			initialStates.put(current.formulaField, current.internFormulaState);
+			if (!initialStates.containsKey(current.formulaField)) {
+				initialStates.put(current.formulaField, current.internFormulaState);
+			}
 		}
 		current = state;
 		redoStack.clear();

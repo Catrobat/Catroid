@@ -28,6 +28,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Matrix4
 import org.catrobat.catroid.content.Look
 import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.common.Conversions.isValidHexColor
 import org.catrobat.catroid.stage.StageListener
@@ -35,12 +36,11 @@ import kotlin.math.sqrt
 
 private const val MAX_PIXELS = 10_000f
 
-open class ColorCollisionDetection(
-    sprite: Sprite,
-    currentProject: Project,
-    stageListener: StageListener
-) : ColorDetection(sprite, currentProject, stageListener) {
-    private val polygons = sprite.look.currentCollisionPolygon
+class ColorCollisionDetection(
+    scope: Scope,
+    override val stageListener: StageListener
+) : ColorDetection(scope, stageListener) {
+    private val polygons = scope.sprite.look.currentCollisionPolygon
     private val boundingRectangle = polygons.toBoundingRectangle()
     private val scale = calculateBufferScale()
 
@@ -62,11 +62,13 @@ open class ColorCollisionDetection(
         val lookList: MutableList<Look> = getLooksOfRelevantSprites()
         val batch = SpriteBatch()
         val spriteBatch = SpriteBatch()
-        val projectionMatrix = createProjectionMatrix(currentProject)
-        matcher.stagePixmap = createPicture(lookList, projectionMatrix, batch)
+        val projectionMatrix = scope.project?.let { createProjectionMatrix(it) }
+        matcher.stagePixmap = projectionMatrix?.let { createPicture(lookList, it, batch) }
         val wasLookVisible = look.isLookVisible
         look.isLookVisible = true
-        matcher.spritePixmap = createPicture(listOf(look), projectionMatrix, spriteBatch)
+        matcher.spritePixmap = projectionMatrix?.let {
+            createPicture(listOf(look), it, spriteBatch)
+        }
         look.isLookVisible = wasLookVisible
 
         try {
@@ -93,7 +95,7 @@ open class ColorCollisionDetection(
         }
     }
 
-    private fun calculateBufferScale(): Float {
+    fun calculateBufferScale(): Float {
         val scale = sqrt(MAX_PIXELS / (boundingRectangle.width * boundingRectangle.height))
         return if (scale < 1) {
             scale
@@ -113,7 +115,7 @@ open class ColorCollisionDetection(
 
     override fun getLooksOfRelevantSprites(): MutableList<Look> =
         ArrayList<Sprite>(stageListener.spritesFromStage)
-            .filter { s -> (s != sprite || s.isClone) && s.look.isLookVisible }
+            .filter { s -> (s != scope.sprite || s.isClone) && s.look.isLookVisible }
             .map { s -> s.look }
             .toMutableList()
 

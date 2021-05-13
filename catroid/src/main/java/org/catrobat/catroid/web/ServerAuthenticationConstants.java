@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.web;
 
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FlavoredConstants;
 
 public final class ServerAuthenticationConstants {
@@ -48,6 +49,7 @@ public final class ServerAuthenticationConstants {
 			+ "-r016ige5kb30q9vflqbt1h0i3arng8u1.apps.googleusercontent.com";
 
 	public static final String FILE_TAG_URL_HTTP = FlavoredConstants.BASE_URL_HTTPS + "api/tags/getTags.json";
+	public static final String FILE_SURVEY_URL_HTTP = Constants.MAIN_URL_HTTPS + "/api/survey/";
 	public static final String SIGNIN_GOOGLE_CODE_KEY = "code";
 	public static final String SIGNIN_ID_TOKEN = "id_token";
 	public static final String OAUTH_TOKEN_AVAILABLE = "token_available";

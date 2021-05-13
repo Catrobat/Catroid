@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,10 +35,7 @@ public class EV3Reply extends MindstormsReply {
 
 	@Override
 	public boolean hasError() {
-		if (getStatusByte() == NO_ERROR) {
-			return false;
-		}
-		return true;
+		return getStatusByte() != NO_ERROR;
 	}
 
 	@Override
@@ -52,10 +49,7 @@ public class EV3Reply extends MindstormsReply {
 	}
 
 	public boolean isValid(int commandCounter) {
-		if (data[0] == (byte) (commandCounter & 0x00FF) && data[1] == ((commandCounter & 0xFF00) >> 8) && !hasError()) {
-			return true;
-		}
-		return false;
+		return data[0] == (byte) (commandCounter & 0x00FF) && data[1] == ((commandCounter & 0xFF00) >> 8) && !hasError();
 	}
 
 	public EV3Reply(byte[] data) throws MindstormsException {
@@ -68,17 +62,17 @@ public class EV3Reply extends MindstormsReply {
 
 	public String toHexString(EV3Reply reply) {
 		byte[] rawBytes = reply.getData();
-		String commandHexString = "0x";
+		StringBuilder commandHexString = new StringBuilder("0x");
 
 		if (rawBytes.length == 0) {
 			return "null";
 		}
 
 		for (int i = 0; i < rawBytes.length; i++) {
-			commandHexString += Integer.toHexString(rawBytes[i] & 0xFF);
-			commandHexString += "_";
+			commandHexString.append(Integer.toHexString(rawBytes[i] & 0xFF));
+			commandHexString.append('_');
 		}
 
-		return commandHexString;
+		return commandHexString.toString();
 	}
 }

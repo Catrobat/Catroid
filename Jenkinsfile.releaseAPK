@@ -38,15 +38,15 @@ pipeline {
                                 -PsigningKeyAlias=$signingKeyAlias \
                                 -PsigningKeyPassword=$signingKeyPassword \
                             '''
-                        } else if (env.flavor == 'Playground') {
+                        } else if (env.flavor == 'PocketCodeBeta') {
                             sh '''
                                 set +x
-                                ./gradlew copyAndroidNatives assembleCatroidBeta \
+                                ./gradlew copyAndroidNatives assembleCatroidSignedRelease \
                                 -PsigningKeystore=${SIGNING_KEYSTORE} \
                                 -PsigningKeystorePassword=$signingKeystorePassword \
                                 -PsigningKeyAlias=$signingKeyAlias \
                                 -PsigningKeyPassword=$signingKeyPassword \
-                                -Pplayground=true
+                                -PpocketCodeBeta=true
                             '''
                         } else {
                             sh '''
@@ -90,7 +90,7 @@ pipeline {
                             fastlane android upload_APK_EmbroideryDesigner
                             fastlane android upload_APK_LunaAndCat 
                             fastlane android upload_APK_Phiro
-                            fastlane android upload_APK_Playground 
+                            fastlane android upload_APK_PocketCodeBeta
                         '''
                     } else {
                         sh 'fastlane android upload_APK_${flavor}'

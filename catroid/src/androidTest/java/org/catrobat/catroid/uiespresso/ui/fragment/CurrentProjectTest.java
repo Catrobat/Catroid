@@ -82,22 +82,24 @@ public class CurrentProjectTest {
 	}
 
 	Context applicationContext = ApplicationProvider.getApplicationContext();
-	private String currentProject = "currentProject";
-	String downloadedProject = "downloadedProject";
+	private final String currentProject = "currentProject";
+	private final String downloadedProject = "downloadedProject";
 	int bufferedPreferenceSetting;
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testCurrentProjectAfterDownload() {
-		onView(withId(R.id.current_project)).perform(click());
+		onView(withId(R.id.currentProjectLayout)).perform(click());
 		onActionBar().checkTitleMatches(currentProject);
 		pressBack();
 		onView(withText(R.string.main_menu_programs)).perform(click());
 		Project project2 = new Project(applicationContext, downloadedProject);
 		XstreamSerializer.getInstance().saveProject(project2);
 		pressBack();
-		onView(withId(R.id.current_project)).perform(click());
+		onView(withId(R.id.currentProjectLayout)).perform(click());
 		onActionBar().checkTitleMatches(downloadedProject);
+		pressBack();
+		onView(withText(R.string.main_menu_programs)).perform(click());
 	}
 
 	private void createProject() {

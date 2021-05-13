@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,6 +48,7 @@ import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorD
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
@@ -69,7 +70,7 @@ public class InsertItemToUserListTest {
 		valueToInsert = 1992;
 		valueToInsert1 = 2018;
 		indexToInsert = 1;
-		userListName = "newList";
+		userListName = "NewList";
 		BrickTestUtils.createProjectAndGetStartScript("addItemToUserListTest")
 				.addBrick(new InsertItemIntoUserListBrick(valueToInsert, indexToInsert));
 
@@ -94,8 +95,7 @@ public class InsertItemToUserListTest {
 		onDataList()
 				.performAdd(userListName, FormulaEditorDataListWrapper.ItemType.LIST)
 				.performClose();
-		onFormulaEditor()
-				.performCloseAndSave();
+		pressBack();
 
 		onBrickAtPosition(brickPosition)
 				.onFormulaTextField(R.id.brick_insert_item_into_userlist_value_edit_text)
@@ -111,12 +111,22 @@ public class InsertItemToUserListTest {
 		//insert manually the values
 		onBrickAtPosition(brickPosition)
 				.onFormulaTextField(R.id.brick_insert_item_into_userlist_value_edit_text)
-				.performEnterNumber(valueToInsert1)
+				.performEnterNumber(valueToInsert1);
+		onView(withId(R.id.brick_insert_item_into_userlist_at_index_edit_text))
+				.perform(click());
+		onFormulaEditor()
+				.performEnterNumber(indexToInsert + 1);
+
+		pressBack();
+
+		onBrickAtPosition(brickPosition)
+				.onFormulaTextField(R.id.brick_insert_item_into_userlist_value_edit_text)
 				.checkShowsNumber(valueToInsert1);
+
 		onBrickAtPosition(brickPosition)
 				.onFormulaTextField(R.id.brick_insert_item_into_userlist_at_index_edit_text)
-				.performEnterNumber(indexToInsert + 1)
-				.checkShowsNumber(indexToInsert + 1);
+				.performEnterNumber(indexToInsert + 1);
+
 		UserList userList = ProjectManager.getInstance().getCurrentProject().getUserList(userListName);
 
 		assertEquals(0, userList.getValue().size());

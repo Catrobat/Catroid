@@ -97,7 +97,7 @@ public class MainMenuFragemtnActivityRecreateRegressionTest {
 	@Flaky
 	@Test
 	public void testActivityRecreateOrientation() {
-		onView(withId(R.id.floating_action_button))
+		onView(withId(R.id.newProjectFloatingActionButton))
 				.perform(click());
 		onView(withId(R.id.input_edit_text))
 				.check(matches(isDisplayed()));
@@ -120,7 +120,7 @@ public class MainMenuFragemtnActivityRecreateRegressionTest {
 	@Flaky
 	@Test
 	public void testActivityRecreateNewProgramDialog() {
-		onView(withId(R.id.floating_action_button))
+		onView(withId(R.id.newProjectFloatingActionButton))
 				.perform(click());
 
 		onView(withId(R.id.input_edit_text)).inRoot(isDialog())

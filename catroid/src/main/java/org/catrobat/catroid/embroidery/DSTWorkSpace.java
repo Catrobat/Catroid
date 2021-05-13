@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.embroidery;
 
+import com.badlogic.gdx.graphics.Color;
+
 import org.catrobat.catroid.content.Sprite;
 
 public class DSTWorkSpace implements EmbroideryWorkSpace {
@@ -30,6 +32,7 @@ public class DSTWorkSpace implements EmbroideryWorkSpace {
 	private float currentX;
 	private float currentY;
 	private Sprite lastSprite;
+	private Color threadColor;
 
 	@Override
 	public void set(float currentX, float currentY, Sprite currentSprite) {
@@ -46,6 +49,11 @@ public class DSTWorkSpace implements EmbroideryWorkSpace {
 	@Override
 	public float getCurrentY() {
 		return currentY;
+	}
+
+	@Override
+	public Color getColor() {
+		return threadColor;
 	}
 
 	@Override

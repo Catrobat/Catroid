@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -180,8 +180,8 @@ public class VisualPlacementBrickTest {
 	public void testVisualPlacementAfterNumberEntered() {
 		openFormulaEditorFragmentFromEditTextX();
 		onFormulaEditor()
-				.performEnterNumber(42)
-				.performCloseAndSave();
+				.performEnterNumber(42);
+		pressBack();
 		isPlaceVisuallyEditFormulaChooserShownWithTapOnEditText(brick.getXEditTextId());
 	}
 
@@ -226,8 +226,6 @@ public class VisualPlacementBrickTest {
 		openVisualPlacementActivityFromEditTextX();
 		intended(hasComponent(VisualPlacementActivity.class.getName()));
 		pressBack();
-		onView(withText(R.string.save))
-				.perform(click());
 		onFormulaEditor()
 				.check(matches(isDisplayed()));
 		pressBack();
@@ -256,8 +254,8 @@ public class VisualPlacementBrickTest {
 
 	private void enterFormulaInFormulaEditor(String formula) {
 		onFormulaEditor()
-				.performEnterFormula(formula)
-				.performCloseAndSave();
+				.performEnterFormula(formula);
+		pressBack();
 	}
 
 	private void openVisualPlacementActivityFromEditTextX() {
