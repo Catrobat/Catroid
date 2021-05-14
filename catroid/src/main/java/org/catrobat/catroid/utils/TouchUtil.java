@@ -72,6 +72,15 @@ public final class TouchUtil {
 		currentlyTouchingPointersToTouchIndex.delete(pointer);
 	}
 
+	public static double isTouching() {
+		for (int i = 0; i < isTouching.size(); i++) {
+			if (isTouching.get(i)) {
+				return 1d;
+			}
+		}
+		return 0d;
+	}
+
 	public static boolean isFingerTouching(int index) {
 		if (index < 1 || index > isTouching.size()) {
 			return false;
