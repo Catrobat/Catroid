@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,39 +20,21 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.actions
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
 
-import org.catrobat.catroid.content.Scope;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.content.Scope
+import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.formulaeditor.UserList
 
-public class AddItemToUserListAction extends TemporalAction {
+class AddItemToUserListAction : TemporalAction() {
 
-	private Scope scope;
-	private Formula formulaItemToAdd;
-	private UserList userList;
+    var scope: Scope? = null
+    var formulaItemToAdd: Formula? = null
+    var userList: UserList? = null
 
-	@Override
-	protected void update(float percent) {
-		if (userList == null) {
-			return;
-		}
-		Object value = formulaItemToAdd == null ? Double.valueOf(0d)
-				: formulaItemToAdd.interpretObject(scope);
-		userList.addListItem(value);
-	}
-
-	public void setUserList(UserList userVariable) {
-		this.userList = userVariable;
-	}
-
-	public void setFormulaItemToAdd(Formula changeVariable) {
-		this.formulaItemToAdd = changeVariable;
-	}
-
-	public void setScope(Scope scope) {
-		this.scope = scope;
-	}
+    override fun update(percent: Float) {
+        userList?.addListItem(formulaItemToAdd?.interpretObject(scope) ?: 0.0)
+    }
 }
