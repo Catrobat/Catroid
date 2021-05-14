@@ -1756,7 +1756,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_arduino_read_pin_value_digital" tools:ignore="UnusedResources">arduino digital pin</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog" tools:ignore="UnusedResources">arduino analog pin</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital" tools:ignore="UnusedResources">raspberry pi pin</string>
-    <string name="formula_editor_function_pin_default_parameter">(3)</string>
+    <string name="formula_editor_function_pin_default_parameter">(0)</string>
     <string name="formula_editor_function_finger_x" tools:ignore="UnusedResources">stage touch x</string>
     <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">stage touch y</string>
     <string name="formula_editor_function_is_finger_touching" tools:ignore="UnusedResources">stage is touched</string>
@@ -1788,7 +1788,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">color equals color with %
         tolerance</string>
     <string name="formula_editor_sensor_color_equals_color_parameter" translatable="false">
-        (\'ff0000\',\'fe0000\',1)</string>
+        (\'#ff0000\',\'#fe0000\',1)</string>
     <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">acceleration x</string>
     <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">acceleration y</string>
     <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">acceleration z</string>
@@ -1886,7 +1886,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_logic_comparison">Comparison operators</string>
     <string name="formula_editor_object_look">Look properties</string>
     <string name="formula_editor_object_movement">Motion properties</string>
-    <string name="formula_editor_device_visual_detection">Visual sensors</string>
+    <string name="formula_editor_device_face_detection">Face detection</string>
+    <string name="formula_editor_device_text_recognition">Text recognition</string>
     <string name="formula_editor_device_date_and_time">Date and time</string>
     <string name="formula_editor_device_touch_detection">Touch detection</string>
     <string name="formula_editor_device_lego_nxt">Lego Mindstorms NXT</string>
