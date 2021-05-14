@@ -46,7 +46,7 @@ private const val ARGB_END_INDEX = 8
 
 class ColorAtXYDetection(
     scope: Scope,
-    stageListener: StageListener
+    stageListener: StageListener?
 ) : ColorDetection(scope, stageListener) {
     private var xPosition: Int = 0
     private var yPosition: Int = 0
@@ -58,7 +58,9 @@ class ColorAtXYDetection(
         val xPositionUnchecked = convertArgumentToDouble(x) ?: return "NaN"
         val yPositionUnchecked = convertArgumentToDouble(y) ?: return "NaN"
 
-        if (xPositionUnchecked.isNaN() || yPositionUnchecked.isNaN()) return "NaN"
+        if (xPositionUnchecked.isNaN() || yPositionUnchecked.isNaN() || stageListener == null) {
+            return "NaN"
+        }
 
         xPosition = xPositionUnchecked.roundToInt()
         yPosition = yPositionUnchecked.roundToInt()
@@ -105,7 +107,7 @@ class ColorAtXYDetection(
     }
 
     private fun getHexColorStringFromStagePixmap(): String {
-        val lookList: MutableList<Look> = getLooksOfRelevantSprites()
+        val lookList: MutableList<Look> = getLooksOfRelevantSprites() ?: return "#000000"
 
         val batch = SpriteBatch()
         val projectionMatrix = scope.project?.let { createProjectionMatrix(it) }
@@ -196,11 +198,13 @@ class ColorAtXYDetection(
         bufferWidth = 1
     }
 
-    override fun getLooksOfRelevantSprites(): MutableList<Look> =
-        ArrayList<Sprite>(stageListener.spritesFromStage)
-            .filter { s -> s.look.isLookVisible }
-            .map { s -> s.look }
-            .toMutableList()
+    override fun getLooksOfRelevantSprites(): MutableList<Look>? =
+        stageListener?.let {
+            ArrayList<Sprite>(it.spritesFromStage)
+                .filter { s -> s.look.isLookVisible }
+                .map { s -> s.look }
+                .toMutableList()
+        }
 
     override fun isParameterInvalid(parameter: Any?): Boolean =
         convertArgumentToDouble(parameter) == null

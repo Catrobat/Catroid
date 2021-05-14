@@ -38,7 +38,7 @@ private const val MAX_PIXELS = 10_000f
 
 class ColorCollisionDetection(
     scope: Scope,
-    override val stageListener: StageListener
+    stageListener: StageListener?
 ) : ColorDetection(scope, stageListener) {
     private val polygons = scope.sprite.look.currentCollisionPolygon
     private val boundingRectangle = polygons.toBoundingRectangle()
@@ -47,7 +47,7 @@ class ColorCollisionDetection(
     @Suppress("TooGenericExceptionCaught")
     fun tryInterpretFunctionTouchesColor(color: Any?): Boolean {
         setBufferParameters()
-        if (isParameterInvalid(color) || isLookInvalid()) {
+        if (isParameterInvalid(color) || isLookInvalid() || stageListener == null) {
             return false
         }
         val matcher = TouchesColorMatcher(color as String)
@@ -59,7 +59,7 @@ class ColorCollisionDetection(
     }
 
     private fun interpretMatcherOnStage(matcher: ConditionMatcher): Boolean {
-        val lookList: MutableList<Look> = getLooksOfRelevantSprites()
+        val lookList: MutableList<Look> = getLooksOfRelevantSprites() ?: return false
         val batch = SpriteBatch()
         val spriteBatch = SpriteBatch()
         val projectionMatrix = scope.project?.let { createProjectionMatrix(it) }
@@ -113,11 +113,13 @@ class ColorCollisionDetection(
     override fun isParameterInvalid(parameter: Any?): Boolean =
         parameter !is String || !parameter.isValidHexColor()
 
-    override fun getLooksOfRelevantSprites(): MutableList<Look> =
-        ArrayList<Sprite>(stageListener.spritesFromStage)
-            .filter { s -> (s != scope.sprite || s.isClone) && s.look.isLookVisible }
-            .map { s -> s.look }
-            .toMutableList()
+    override fun getLooksOfRelevantSprites(): MutableList<Look>? =
+        stageListener?.let {
+            ArrayList<Sprite>(it.spritesFromStage)
+                .filter { s -> (s != scope.sprite || s.isClone) && s.look.isLookVisible }
+                .map { s -> s.look }
+                .toMutableList()
+        }
 
     override fun createProjectionMatrix(project: Project): Matrix4 {
         val scaledWidth = boundingRectangle.width * look.scaleX
