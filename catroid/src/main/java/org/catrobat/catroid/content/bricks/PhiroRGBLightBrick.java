@@ -25,12 +25,11 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.strategy.ShowColorPickerFormulaEditorStrategy;
@@ -40,6 +39,7 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.UiUtils;
 
 import androidx.appcompat.app.AppCompatActivity;
+import kotlin.Unit;
 
 public class PhiroRGBLightBrick extends FormulaBrick {
 
@@ -89,17 +89,10 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 
 		Spinner spinner = view.findViewById(R.id.brick_phiro_rgb_light_spinner);
 		spinner.setAdapter(spinnerAdapter);
-		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				eye = Eye.values()[position].name();
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-			}
-		});
+		spinner.setOnItemSelectedListener(new AdapterViewOnItemSelectedListenerImpl(position -> {
+			eye = Eye.values()[position].name();
+			return Unit.INSTANCE;
+		}));
 		spinner.setSelection(Eye.valueOf(eye).ordinal());
 		return view;
 	}

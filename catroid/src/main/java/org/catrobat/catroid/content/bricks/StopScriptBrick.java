@@ -25,14 +25,16 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+
+import kotlin.Unit;
 
 public class StopScriptBrick extends BrickBaseType {
 
@@ -58,16 +60,10 @@ public class StopScriptBrick extends BrickBaseType {
 		Spinner spinner = view.findViewById(R.id.brick_stop_script_spinner);
 		spinner.setAdapter(createArrayAdapter(context));
 		spinner.setSelection(spinnerSelection);
-		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-				spinnerSelection = position;
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-			}
-		});
+		spinner.setOnItemSelectedListener(new AdapterViewOnItemSelectedListenerImpl(position -> {
+			spinnerSelection = position;
+			return Unit.INSTANCE;
+		}));
 		return view;
 	}
 

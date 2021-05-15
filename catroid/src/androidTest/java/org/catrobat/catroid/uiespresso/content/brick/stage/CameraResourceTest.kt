@@ -106,7 +106,7 @@ class CameraResourceTest {
     @Test
     fun cameraOffTest() {
         val script = BrickTestUtils.createProjectAndGetStartScript("cameraOffTest").also {
-            it.addBrick(CameraBrick(OFF))
+            it.addBrick(CameraBrick(!ON))
         }
         val lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script)
 
@@ -138,7 +138,7 @@ class CameraResourceTest {
     @Test
     fun cameraFacingBackTest() {
         val script = BrickTestUtils.createProjectAndGetStartScript("cameraFacingBackTest").also {
-            it.addBrick(ChooseCameraBrick(BACK))
+            it.addBrick(ChooseCameraBrick(!FRONT))
             it.addBrick(CameraBrick(ON))
         }
         val lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script)
@@ -152,9 +152,7 @@ class CameraResourceTest {
     }
 
     companion object {
-        private const val BACK = 0
-        private const val FRONT = 1
-        private const val OFF = 0
-        private const val ON = 1
+        private const val FRONT = true
+        private const val ON = true
     }
 }

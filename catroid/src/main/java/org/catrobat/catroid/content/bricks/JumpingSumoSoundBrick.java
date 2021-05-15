@@ -25,14 +25,16 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+
+import kotlin.Unit;
 
 public class JumpingSumoSoundBrick extends FormulaBrick {
 
@@ -74,17 +76,10 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 
 		Spinner spinner = view.findViewById(R.id.brick_jumping_sumo_sound_spinner);
 		spinner.setAdapter(spinnerAdapter);
-		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				soundName = Sounds.values()[position].name();
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-			}
-		});
+		spinner.setOnItemSelectedListener(new AdapterViewOnItemSelectedListenerImpl(position -> {
+			soundName = Sounds.values()[position].name();
+			return Unit.INSTANCE;
+		}));
 		spinner.setSelection(Sounds.valueOf(soundName).ordinal());
 		return view;
 	}

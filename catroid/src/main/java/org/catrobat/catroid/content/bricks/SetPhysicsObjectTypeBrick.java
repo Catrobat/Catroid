@@ -24,17 +24,17 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.physics.PhysicsObject;
 
 import androidx.annotation.VisibleForTesting;
+import kotlin.Unit;
 
 public class SetPhysicsObjectTypeBrick extends BrickBaseType {
 
@@ -66,21 +66,12 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType {
 		final Spinner spinner = view.findViewById(R.id.brick_set_physics_object_type_spinner);
 		spinner.setAdapter(createAdapter(context));
 		spinner.setSelection(type.ordinal());
-
-		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (position < PhysicsObject.Type.values().length) {
-					type = PhysicsObject.Type.values()[position];
-				}
+		spinner.setOnItemSelectedListener(new AdapterViewOnItemSelectedListenerImpl(position -> {
+			if (position < PhysicsObject.Type.values().length) {
+				type = PhysicsObject.Type.values()[position];
 			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-			}
-		});
-
+			return Unit.INSTANCE;
+		}));
 		return view;
 	}
 

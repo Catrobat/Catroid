@@ -24,15 +24,16 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+
+import kotlin.Unit;
 
 public class PhiroPlayToneBrick extends FormulaBrick {
 
@@ -80,17 +81,10 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 
 		Spinner spinner = view.findViewById(R.id.brick_phiro_select_tone_spinner);
 		spinner.setAdapter(spinnerAdapter);
-		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				tone = Tone.values()[position].name();
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-			}
-		});
+		spinner.setOnItemSelectedListener(new AdapterViewOnItemSelectedListenerImpl(position -> {
+			tone = Tone.values()[position].name();
+			return Unit.INSTANCE;
+		}));
 		spinner.setSelection(Tone.valueOf(tone).ordinal());
 		setSecondsLabel(view, BrickField.PHIRO_DURATION_IN_SECONDS);
 		return view;
