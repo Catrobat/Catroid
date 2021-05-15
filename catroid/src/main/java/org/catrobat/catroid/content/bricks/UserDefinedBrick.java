@@ -168,6 +168,15 @@ public class UserDefinedBrick extends FormulaBrick {
 		return userDefinedBrickInputs;
 	}
 
+	public boolean containsInputs() {
+		for (UserDefinedBrickData userDefinedBrickData : userDefinedBrickDataList) {
+			if (userDefinedBrickData.isInput()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public List<String> getUserDataListAsStrings(UserDefinedBrickDataType dataType) {
 		List<String> userDataList = new ArrayList<>();
 		for (UserDefinedBrickData userDefinedBrickData : userDefinedBrickDataList) {
