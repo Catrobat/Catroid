@@ -29,11 +29,14 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.UserDefinedScript;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
@@ -50,6 +53,7 @@ import androidx.test.espresso.DataInteraction;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -69,6 +73,7 @@ public class CopyBrickTest {
 	int secondScriptEndIndex = 9;
 	int firstIndexComposite = 1;
 	int lastIndexComposite = 5;
+	int userDefinedScriptIndex = 10;
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
@@ -188,8 +193,25 @@ public class CopyBrickTest {
 				.check(matches(not(isChecked())));
 	}
 
+	@Test
+	public void testUserDefinedScriptNotEnabled() {
+		openContextualActionModeOverflowMenu();
+		onView(withText(R.string.copy)).perform(click());
+
+		getCheckbox(userDefinedScriptIndex)
+				.check(matches(not(isEnabled())))
+				.check(matches(not(isChecked())));
+
+		getCheckbox(userDefinedScriptIndex + 1)
+				.perform(click());
+
+		getCheckbox(userDefinedScriptIndex)
+				.check(matches(not(isEnabled())))
+				.check(matches(not(isChecked())));
+	}
+
 	private DataInteraction getCheckbox(int brickIndex) {
-		return onBrickAtPosition(brickIndex).onChildView(withId(R.id.brick_checkbox));
+		return onBrickAtPosition(brickIndex).onChildView(allOf(withId(R.id.brick_checkbox), isDisplayed()));
 	}
 
 	private void createProject() {
@@ -212,8 +234,14 @@ public class CopyBrickTest {
 		secondScript.addBrick(setXBrick);
 		secondScript.setParents();
 
+		UserDefinedBrick userDefinedBrick = new UserDefinedBrick();
+		UserDefinedScript thirdScript = new UserDefinedScript();
+		thirdScript.addBrick(new SetXBrick());
+		thirdScript.setScriptBrick(new UserDefinedReceiverBrick(userDefinedBrick));
+
 		sprite.addScript(startScript);
 		sprite.addScript(secondScript);
+		sprite.addScript(thirdScript);
 
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
