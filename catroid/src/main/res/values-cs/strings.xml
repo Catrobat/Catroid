@@ -1778,7 +1778,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_logic_comparison">Comparison operators</string>
     <string name="formula_editor_object_look">Look properties</string>
     <string name="formula_editor_object_movement">Pohybové vlastnosti</string>
-    <string name="formula_editor_device_visual_detection">Visual sensors</string>
+    <string name="formula_editor_device_face_detection">Face detection</string>
+    <string name="formula_editor_device_text_recognition">Text recognition</string>
     <string name="formula_editor_device_date_and_time">Datum a čas</string>
     <string name="formula_editor_device_touch_detection">Detekce doteku</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>
@@ -1972,4 +1973,6 @@ needs read and write access to it. You can always change permissions through you
         stage.</string>
     <!-- Information -->
     <string name="no_variable_selected">No variable selected</string>
+    <string name="find">Find</string>
+    <string name="no_results_found">No results found</string>
 </resources>

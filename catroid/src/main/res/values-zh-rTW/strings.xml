@@ -1071,7 +1071,7 @@
     <!-- Default Values -->
     <string name="default_project_name">My project</string>
     <string name="default_variable_name">Variable</string>
-    <string name="default_scene_name">Scene %1$d</string>
+    <string name="default_scene_name">Scene (%1$d)</string>
     <string name="default_script_group_name">Script group</string>
     <string name="default_broadcast_message_name">Message</string>
     <string name="default_list_name">List</string>
@@ -1522,7 +1522,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_arduino_read_pin_value_digital" tools:ignore="UnusedResources">arduino digital pin</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog" tools:ignore="UnusedResources">arduino analog pin</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital" tools:ignore="UnusedResources">raspberry pi pin</string>
-    <string name="formula_editor_function_pin_default_parameter">(3)</string>
+    <string name="formula_editor_function_pin_default_parameter">(0)</string>
     <string name="formula_editor_function_finger_x" tools:ignore="UnusedResources">stage touch x</string>
     <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">stage touch y</string>
     <string name="formula_editor_function_is_finger_touching" tools:ignore="UnusedResources">stage is touched</string>
@@ -1647,7 +1647,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_logic_comparison">Comparison operators</string>
     <string name="formula_editor_object_look">Look properties</string>
     <string name="formula_editor_object_movement">Motion properties</string>
-    <string name="formula_editor_device_visual_detection">Visual sensors</string>
+    <string name="formula_editor_device_face_detection">Face detection</string>
+    <string name="formula_editor_device_text_recognition">Text recognition</string>
     <string name="formula_editor_device_date_and_time">Date and time</string>
     <string name="formula_editor_device_touch_detection">Touch detection</string>
     <string name="formula_editor_device_lego_nxt">樂高 NXT</string>
@@ -1844,4 +1845,6 @@ needs read and write access to it. You can always change permissions through you
         stage.</string>
     <!-- Information -->
     <string name="no_variable_selected">No variable selected</string>
+    <string name="find">Find</string>
+    <string name="no_results_found">No results found</string>
 </resources>
