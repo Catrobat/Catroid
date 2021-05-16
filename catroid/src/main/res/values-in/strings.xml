@@ -150,90 +150,90 @@
     <string name="preference_access_title_profile_default">Default</string>
     <string name="preference_access_summary_profile_default">Pengaturan default</string>
     <string name="preference_access_title_profile_custom">Profil kustom saya</string>
-    <string name="preference_access_summary_profile_custom">My personal settings</string>
+    <string name="preference_access_summary_profile_custom">Pengaturan pribadi saya</string>
     <string name="preference_access_title_profile_argus">Argus</string>
-    <string name="preference_access_summary_profile_argus">High contrast, additional icons</string>
+    <string name="preference_access_summary_profile_argus">Kontras tinggi, ikon tambahan</string>
     <string name="preference_access_title_profile_odin">Odin</string>
-    <string name="preference_access_summary_profile_odin">Large text, large icons, large element
-       spacing, high contrast</string>
+    <string name="preference_access_summary_profile_odin">Teks besar, ikon besar, elemen besar
+       jarak, kontras tinggi</string>
     <string name="preference_access_title_profile_fenrir">Fenrir</string>
-    <string name="preference_access_summary_profile_fenrir">Large element spacing, drag\'n\'drop
-       delay</string>
-    <string name="preference_access_title_profile_tiro">Tiro</string>
+    <string name="preference_access_summary_profile_fenrir">Spasi elemen besar, drag\'n\'drop
+       menunda</string>
+    <string name="preference_access_title_profile_tiro">Orang yg belum berpengalaman</string>
     <string name="preference_access_summary_profile_tiro">Mode pemula</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 batu bata</string>
-    <string name="preference_description_quadcopter_bricks">Allow the app to control Parrot AR.Drone 2.0 quadcopters</string>
+    <string name="preference_description_quadcopter_bricks">Izinkan aplikasi untuk mengontrol quadcopters Parrot AR.Drone 2.0</string>
     <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo batu bata</string>
-    <string name="preference_description_jumpingsumo_bricks">Allow the app to control Parrot\'s Jumping Sumo robots</string>
+    <string name="preference_description_jumpingsumo_bricks">Izinkan aplikasi untuk mengontrol robot Parrot\'s Jumping Sumo</string>
     <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms Batu bata NXT</string>
     <string name="preference_title_enable_mindstorms_ev3_bricks">Batu bata Lego Mindstorms EV3</string>
-    <string name="preference_description_mindstorms_nxt_bricks">Allow the app to control Lego Mindstorms NXT robots</string>
-    <string name="preference_description_mindstorms_ev3_bricks">Allow the app to control Lego Mindstorms EV3 robots</string>
+    <string name="preference_description_mindstorms_nxt_bricks">Izinkan aplikasi untuk mengontrol robot Lego Mindstorms NXT</string>
+    <string name="preference_description_mindstorms_ev3_bricks">Izinkan aplikasi untuk mengontrol robot Lego Mindstorms EV3</string>
     <string name="preference_title_mindstorms_nxt_sensors">Sensor Lego NXT</string>
     <string name="preference_title_mindstorms_ev3_sensors">Sensor Lego EV3</string>
-    <string name="preference_title_drone_config_properties">Parrot AR.Drone 2.0 configuration</string>
+    <string name="preference_title_drone_config_properties">Konfigurasi Parrot AR.Drone 2.0</string>
     <string name="preference_title_enable_phiro_bricks">Batu bata phiro</string>
-    <string name="preference_description_phiro_bricks">Allow the app to control RobotixEdu\'s Phiro robots</string>
+    <string name="preference_description_phiro_bricks">Izinkan aplikasi untuk mengontrol robot Phiro RobotixEdu</string>
     <string name="preference_title_enable_arduino_bricks">Batu bata Arduino</string>
-    <string name="preference_description_arduino_bricks">Allow the app to control Arduino boards</string>
-    <string name="preference_title_enable_embroidery_bricks">Embroidery extension</string>
-    <string name="preference_description_embroidery_bricks">Create patterns for stitching machines</string>
+    <string name="preference_description_arduino_bricks">Izinkan aplikasi untuk mengontrol papan Arduino</string>
+    <string name="preference_title_enable_embroidery_bricks">Ekstensi bordir</string>
+    <string name="preference_description_embroidery_bricks">Buat pola untuk mesin jahitan</string>
     <string name="preference_title_cast_feature_globally_enabled">Aktifkan fitur cast</string>
-    <string name="preference_description_cast_feature_globally_enabled">Show cast button and enable cast projects</string>
+    <string name="preference_description_cast_feature_globally_enabled">Tampilkan tombol transmisi dan aktifkan proyek transmisi</string>
     <string name="preference_title_enable_nfc_bricks">Dekat Bidang Komunikasi</string>
-    <string name="preference_description_nfc_bricks">Allow the app to use NFC tags in projects</string>
+    <string name="preference_description_nfc_bricks">Izinkan aplikasi menggunakan tag NFC dalam proyek</string>
     <string name="preference_title_enable_crash_reports">Mengirim laporan kerusakan anonim</string>
-    <string name="preference_description_crash_reports">Allow the app to send crash reports automatically</string>
+    <string name="preference_description_crash_reports">Izinkan aplikasi mengirim laporan kerusakan secara otomatis</string>
     <!-- -->
     <string name="preference_title_enable_raspi_bricks">Batu bata Raspberry Pi</string>
-    <string name="preference_description_raspi_bricks">Allow the app to control Raspberry Pi computers</string>
+    <string name="preference_description_raspi_bricks">Izinkan aplikasi untuk mengontrol komputer Raspberry Pi</string>
     <string name="preference_raspi_enable_bricks">Aktifkan batu bata Raspberry Pi</string>
     <string name="preference_raspi_help">Bantuan / Mulai</string>
     <string name="preference_raspi_help_summary">Dapatkan bantuan tentang cara mengkonfigurasi pengaturan koneksi</string>
     <string name="preference_raspi_host">Raspberry Pi IP-/Alamat-Tuan rumah</string>
     <string name="preference_raspi_port">Pelabuhan Raspberry Pi</string>
     <!--  -->
-    <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
-    <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
-        multiplayer variables shared via Bluetooth</string>
-    <string name="preference_title_enable_test_bricks">Testing extension</string>
-    <string name="preference_description_test_bricks">Allows to create tests</string>
+    <string name="preference_title_multiplayer_variables_enabled">Ekstensi multipemain</string>
+    <string name="preference_description_multiplayer_variables_enabled">Izinkan aplikasi untuk digunakan
+        variabel multipemain dibagikan melalui Bluetooth</string>
+    <string name="preference_title_enable_test_bricks">Menguji ekstensi</string>
+    <string name="preference_description_test_bricks">Memungkinkan untuk membuat tes</string>
     <!-- Scratch Converter activity -->
     <string name="beta">BETA</string>
-    <string name="error_scratch_program_not_accessible_any_more">Whoops! The project seems to have disappeared
-        or you might have lost access to it.</string>
-    <string name="error_scratch_project_data_not_available">Whoops! Some parts of the project seem to be
-        missing, please try again later.</string>
-    <string name="error_request_timeout">Whoops! Our server did not respond in time, please try again later.</string>
+    <string name="error_scratch_program_not_accessible_any_more">Ups! Proyek tersebut sepertinya telah menghilang
+        atau Anda mungkin kehilangan akses ke sana.</string>
+    <string name="error_scratch_project_data_not_available">Ups! Beberapa bagian dari proyek tampaknya akan menjadi
+        hilang, coba lagi nanti.</string>
+    <string name="error_request_timeout">Ups! Server kami tidak merespon tepat waktu, coba lagi nanti.</string>
     <string name="error_scratch_program_conversion_failed">Whoops! Gagal mengonversi program Gores, coba lagi
         kemudian!</string>
     <string name="error_specific_scratch_program_conversion_failed_x">Whoops! Gagal mengonversi %1$s, coba
          lagi nanti!</string>
-    <string name="error_scratch_converter_outdated_app_version">Your version of this app is outdated. Our Scratch
-        converter only works on the latest version. Please update the app.</string>
+    <string name="error_scratch_converter_outdated_app_version">Versi Anda dari aplikasi ini sudah usang. Scratch kami
+        konverter hanya berfungsi pada versi terbaru. Harap perbarui aplikasi.</string>
     <string name="error_cannot_open_not_existing_scratch_program">Tidak bisa membuka program Scratch ini. Sepertinya Anda
          telah membatalkan konversi / unduhan program Scratch, atau Anda telah mengganti nama / menghapus program untuk
          sementara!</string>
-    <string name="error_cannot_open_currently_downloading_scratch_program">You cannot yet open the project.
-        Please wait until it is downloaded.</string>
-    <string name="error_cannot_open_not_yet_downloaded_scratch_program">You cannot yet open the project.
-        Please download it first and then open it.</string>
-    <string name="error_cannot_convert_deprecated_scratch_program_x_x">I could not convert %1$s. This seems to be
-        an old Scratch project from before %2$s. Please try another one.</string>
+    <string name="error_cannot_open_currently_downloading_scratch_program">Anda belum dapat membuka proyek.
+        Harap tunggu sampai diunduh.</string>
+    <string name="error_cannot_open_not_yet_downloaded_scratch_program">Anda belum dapat membuka proyek.
+        Silahkan download dulu baru kemudian buka.</string>
+    <string name="error_cannot_convert_deprecated_scratch_program_x_x">Saya tidak dapat mengonversi %1$s. Sepertinya begitu
+        proyek Scratch lama dari sebelum %2$s. Silakan coba yang lain.</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
-        <item quantity="other">You cannot convert more than %d projects at the same time. Please wait for the
-            running conversions to finish first.</item>
+        <item quantity="other">Anda tidak dapat mengonversi lebih dari %d proyek pada waktu yang sama. Harap tunggu
+            menjalankan konversi untuk menyelesaikannya terlebih dahulu.</item>
     </plurals>
-    <string name="error_cannot_open_failed_scratch_program">You cannot open the project because it wasn\'t
-        converted correctly. Please try to convert it again.</string>
-    <string name="search_failed">Nothing found, please retry later.</string>
-    <string name="connection_lost_or_closed_by_server">Server connection lost.</string>
-    <string name="connection_failed">We can\'t connect you to the server right now, please try again later.</string>
-    <string name="authentication_failed">There seems to be a problem with your connection to the service. Please
-        contact the Catrobat team.</string>
+    <string name="error_cannot_open_failed_scratch_program">Anda tidak dapat membuka proyek karena sebenarnya tidak
+        dikonversi dengan benar. Silakan coba mengubahnya lagi.</string>
+    <string name="search_failed">Tidak ada yang ditemukan, coba lagi nanti.</string>
+    <string name="connection_lost_or_closed_by_server">Koneksi server terputus.</string>
+    <string name="connection_failed">Kami tidak dapat menghubungkan Anda ke server sekarang, coba lagi nanti.</string>
+    <string name="authentication_failed">Sepertinya ada masalah dengan sambungan Anda ke layanan. Silahkan
+        hubungi tim Catrobat.</string>
     <plurals name="scratch_conversion_scheduled_x">
-        <item quantity="other">Added %d Scratch projects to the queue&#8230;</item>
+        <item quantity="other">Menambahkan %d proyek Scratch ke antrean&#8230;</item>
     </plurals>
     <string name="scratch_conversion_started">Mulai mengonversi program Gores&#8230;</string>
     <string name="convert">Konversi</string>
@@ -243,20 +243,20 @@
     <string name="status_started">Dimulai&#8230;</string>
     <string name="status_conversion_finished">Konversi selesai</string>
     <plurals name="status_in_progress_x_jobs">
-        <item quantity="other">In progress: %d jobs</item>
+        <item quantity="other">Sedang diproses: %d pekerjaan</item>
     </plurals>
     <plurals name="status_completed_x_jobs">
-        <item quantity="other">Completed: %d jobs</item>
+        <item quantity="other">Selesai: %d pekerjaan</item>
     </plurals>
     <string name="status_conversion_failed">Konversi gagal!</string>
     <string name="status_downloading">Mengunduh&#8230;</string>
     <string name="status_download_finished">Selesai mengunduh!</string>
     <string name="status_download_canceled">Download dibatalkan!</string>
-    <string name="scratch_programs_in_progress_title">In progress</string>
-    <string name="scratch_programs_finished_title">Converted projects</string>
+    <string name="scratch_programs_in_progress_title">Sedang berlangsung</string>
+    <string name="scratch_programs_finished_title">Proyek yang diubah</string>
     <string name="by_x">dengan %1$s</string>
-    <string name="warning_program_visibility">WARNING:\nThis seems to be a private project. You can try to
-        convert it but it might not work.</string>
+    <string name="warning_program_visibility">PERINGATAN:\nTampaknya ini adalah proyek pribadi. Anda bisa mencoba
+        mengonversinya tetapi mungkin tidak berhasil.</string>
     <string name="instructions">Instruksi</string>
     <string name="notes_and_credits">Catatan dan Kredit</string>
     <string name="shared_at_x">Dibagikan: %1$s</string>
@@ -268,102 +268,102 @@
     <string name="mode">Mode:</string>
     <string name="remix_of">Remix dari:</string>
     <string name="description_hint">Tekan untuk menambahkan deskripsi</string>
-    <string name="notes_and_credits_hint">Press to add notes and credits</string>
+    <string name="notes_and_credits_hint">Tekan untuk menambahkan catatan dan kredit</string>
     <!-- ScratchReconvertDialog Strings -->
-    <string name="reconvert_text">You converted this project %1$s ago.</string>
+    <string name="reconvert_text">Anda mengonversi proyek ini %1$s yang lalu.</string>
     <plurals name="minutes">
-        <item quantity="other">%d minutes</item>
+        <item quantity="other">%d menit</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="other">%d hours</item>
+        <item quantity="other">%d jam</item>
     </plurals>
     <plurals name="days">
-        <item quantity="other">%d days</item>
+        <item quantity="other">%d Hari </item>
     </plurals>
-    <string name="reconvert_dialog_download">Download the project again</string>
-    <string name="reconvert_dialog_reconvert">Convert this project again</string>
+    <string name="reconvert_dialog_download">Unduh proyek lagi</string>
+    <string name="reconvert_dialog_reconvert">Ubah proyek ini lagi</string>
     <!--  -->
     <!-- ERRORS -->
     <!-- Terms of Use and Service Error -->
-    <string name="declined_terms_of_use_and_service_alert">To use our app, it is necessary to accept our Terms of Use and Service.
-        However, if you don\’t feel comfortable to do so, you can use our free web-services on</string>
+    <string name="declined_terms_of_use_and_service_alert">Untuk menggunakan aplikasi kami, Anda perlu menerima Ketentuan Penggunaan dan Layanan kami.
+        Namun, jika Anda merasa tidak nyaman melakukannya, Anda dapat menggunakan layanan web gratis kami di</string>
     <string name="wtf_error">Terjadi Error tak terduga: Tidak dapat mengembalikan default proyek.</string>
     <!-- Project Handling Errors -->
     <string name="error_copy_project">Terjadi kesalahan saat menyalin proyek</string>
     <!-- Dialog Errors -->
-    <string name="name_already_exists">This name is already in use, please choose another one.</string>
-    <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a text
-        using letters, numbers or other special characters.</string>
-    <string name="name_empty">Please enter a text</string>
+    <string name="name_already_exists">Nama ini sudah digunakan, pilih yang lain.</string>
+    <string name="name_consists_of_spaces_only">Anda hanya memasukkan spasi ke dalam bidang teks, harap masukkan teks
+        menggunakan huruf, angka atau karakter khusus lainnya.</string>
+    <string name="name_empty">Harap masukkan teks</string>
     <!-- Recycler View -->
-    <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
-    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
+    <string name="am_empty_list">Belum ada item dalam daftar ini. Tolong tambahkan dulu.</string>
+    <string name="am_merge_error">Tidak ada penggabungan yang dilakukan. Tepat 2 proyek harus dipilih untuk digabungkan.</string>
     <string name="am_backpack">Paket</string>
     <string name="am_unpack">Membuka</string>
     <string name="am_copy">Salin</string>
     <string name="am_delete" tools:ignore="UnusedResources">Hapus</string>
     <string name="am_rename">Menamai ulang</string>
     <string name="am_convert">Konversi</string>
-    <string name="am_merge">Merge</string>
-    <string name="dialog_confirm_delete">You can\'t undo this!</string>
-    <string name="list_headline_sprites">Actors and objects</string>
+    <string name="am_merge">Menggabungkan</string>
+    <string name="dialog_confirm_delete">Anda tidak dapat membatalkan ini!</string>
+    <string name="list_headline_sprites">Aktor dan objek</string>
     <!-- Options Menu Options -->
     <string name="backpack">Ransel</string>
     <string name="copy">Salin</string>
     <string name="delete">Hapus</string>
     <string name="rename">Menamai ulang</string>
-    <string name="merge">Merge</string>
+    <string name="merge">Menggabungkan</string>
     <string name="show_details">Tampilkan rincian</string>
     <string name="hide_details">Sembunyikan rincian</string>
-    <string name="project_options">Project options</string>
-    <string name="sort_projects">Sort</string>
-    <string name="unsort_projects">Unsort</string>
+    <string name="project_options">Opsi proyek</string>
+    <string name="sort_projects">Menyortir</string>
+    <string name="unsort_projects">Batalkan pengurutan</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">Adegan baru</string>
     <!-- Delete Dialog Titles -->
     <plurals name="delete_projects">
-        <item quantity="other">Delete these projects?</item>
+        <item quantity="other">Hapus proyek ini?</item>
     </plurals>
     <plurals name="delete_scenes">
-        <item quantity="other">Delete these scenes?</item>
+        <item quantity="other">Hapus adegan ini?</item>
     </plurals>
     <plurals name="delete_sprites">
-        <item quantity="other">Delete these actors or objects?</item>
+        <item quantity="other">Hapus aktor atau objek ini?</item>
     </plurals>
     <plurals name="delete_looks">
-        <item quantity="other">Delete these looks?</item>
+        <item quantity="other">Hapus tampilan ini?</item>
     </plurals>
     <plurals name="delete_sounds">
-        <item quantity="other">Delete these sounds?</item>
+        <item quantity="other">Hapus suara ini?</item>
     </plurals>
     <plurals name="delete_nfc_tags">
-        <item quantity="other">Delete these tags?</item>
+        <item quantity="other">Hapus tag ini?</item>
     </plurals>
     <plurals name="delete_scripts">
-        <item quantity="other">Delete these scripts?</item>
+        <item quantity="other">Hapus skrip ini?</item>
     </plurals>
     <!-- Dialog Labels -->
-    <string name="project_name_label">Project name</string>
-    <string name="scene_name_label">Scene name</string>
-    <string name="sprite_name_label">Actor or object name</string>
-    <string name="sprite_group_name_label">Group name</string>
-    <string name="script_group_label">Script group name</string>
-    <string name="look_name_label">Look name</string>
+    <string name="project_name_label">Nama Proyek</string>
+    <string name="scene_name_label">Nama adegan</string>
+    <string name="sprite_name_label">Nama aktor atau objek</string>
+    <string name="sprite_group_name_label">Nama grup</string>
+    <string name="script_group_label">Nama grup skrip</string>
+    <string name="look_name_label">Lihat nama</string>
     <string name="sound_name_label">Nama suara</string>
-    <string name="nfc_tag_name_label">NFC tag name</string>
+    <string name="nfc_tag_name_label">Nama tag NFC</string>
     <string name="string_label">Teks</string>
     <string name="data_label">Nama</string>
-    <string name="keyword_label">Insert keyword</string>
-    <string name="html_label">Insert HTML text</string>
-    <string name="Image_format_not_supported">Image format not supported</string>
+    <string name="keyword_label">Sisipkan kata kunci</string>
+    <string name="html_label">Sisipkan teks HTML</string>
+    <string name="Image_format_not_supported">Format gambar tidak didukung</string>
     <!-- Details -->
-    <string name="project_details">Last access: %s, size: %s</string>
-    <string name="last_access_today">today, %s</string>
-    <string name="scene_details">Actors and objects: %d, looks: %d, sounds: %d</string>
-    <string name="sprite_details">Bricks: %d, looks: %d, sounds: %d</string>
-    <string name="look_details">Resolution: %s, size: %s</string>
-    <string name="sound_duration">Duration: %s</string>
-    <string name="sound_details">Duration: %s, size: %s</string>
+    <string name="project_details">Akses terakhir: %s, ukuran: %s</string>
+    <string name="last_access_today">hari ini, %s</string>
+    <string name="scene_details">Aktor dan objek: %d, penampilan: %d, suara: %d</string>
+    <string name="sprite_details">Batu bata: %d, terlihat: %d, suara: %d</string>
+    <string name="look_details">Resolusi: %s, ukuran: %s</string>
+    <string name="sound_duration">Durasi: %s</string>
+    <string name="sound_details">Durasi: %s, ukuran: %s</string>
     <!--  -->
     <!-- Rename Dialog Titles -->
     <string name="rename_project">Ubah nama Program</string>
@@ -375,80 +375,80 @@
     <string name="rename_data_dialog">Menamai ulang</string>
     <!-- New Script Group Dialog -->
     <string name="new_group">Grup baru</string>
-    <string name="default_group_name">Group</string>
+    <string name="default_group_name">Kelompok</string>
     <!-- New Scene Menu -->
     <string name="new_scene">Adegan baru</string>
     <!-- Action Toasts -->
     <!-- Backpack -->
     <plurals name="packed_scenes">
-        <item quantity="other">Backpacked %d scenes.</item>
+        <item quantity="other">Mengembalikan %d adegan.</item>
     </plurals>
     <plurals name="packed_sprites">
-        <item quantity="other">Backpacked %d actors or objects.</item>
+        <item quantity="other">Aktor atau objek %d melakukan backpacking.</item>
     </plurals>
     <plurals name="packed_looks">
-        <item quantity="other">Backpacked %d looks.</item>
+        <item quantity="other">Penampilan %d backpacked.</item>
     </plurals>
     <plurals name="packed_sounds">
-        <item quantity="other">Backpacked %d sounds.</item>
+        <item quantity="other">Suara backpacking %d.</item>
     </plurals>
-    <string name="packed_script_group">Backpacked one script group.</string>
+    <string name="packed_script_group">Mengumpulkan satu grup skrip.</string>
     <!-- Unpack -->
     <plurals name="unpacked_scenes">
-        <item quantity="other">Unpacked %d scenes.</item>
+        <item quantity="other">%d adegan yang belum dibuka.</item>
     </plurals>
     <plurals name="unpacked_sprites">
-        <item quantity="other">Unpacked %d actors or objects.</item>
+        <item quantity="other">%d aktor atau objek belum dibuka.</item>
     </plurals>
     <plurals name="unpacked_looks">
-        <item quantity="other">Unpacked %d looks.</item>
+        <item quantity="other">%d tampilan belum dibuka.</item>
     </plurals>
     <plurals name="unpacked_sounds">
-        <item quantity="other">Unpacked %d sounds.</item>
+        <item quantity="other">Suara %d belum dibuka.</item>
     </plurals>
     <plurals name="unpacked_scripts">
-        <item quantity="other">Unpacked %d scripts.</item>
+        <item quantity="other">%d skrip belum dibuka.</item>
     </plurals>
     <!-- Copy -->
     <plurals name="copied_scenes">
-        <item quantity="other">Copied %d scenes.</item>
+        <item quantity="other">%d adegan disalin.</item>
     </plurals>
     <plurals name="copied_sprites">
-        <item quantity="other">Copied %d actors or objects.</item>
+        <item quantity="other">Menyalin %d aktor atau objek.</item>
     </plurals>
     <plurals name="copied_looks">
-        <item quantity="other">Copied %d looks.</item>
+        <item quantity="other">%d tampilan telah disalin.</item>
     </plurals>
     <plurals name="copied_sounds">
-        <item quantity="other">Copied %d sounds.</item>
+        <item quantity="other">%d suara telah disalin.</item>
     </plurals>
     <plurals name="copied_nfc_tags">
-        <item quantity="other">Copied %d NFC tags.</item>
+        <item quantity="other">%d tag NFC telah disalin.</item>
     </plurals>
     <!-- Delete -->
     <plurals name="deleted_projects">
-        <item quantity="other">Deleted %d projects.</item>
+        <item quantity="other">Menghapus %d proyek.</item>
     </plurals>
     <plurals name="deleted_scenes">
-        <item quantity="other">Deleted %d scenes.</item>
+        <item quantity="other">%d adegan dihapus.</item>
     </plurals>
     <plurals name="deleted_sprites">
-        <item quantity="other">Deleted %d sprites.</item>
+        <item quantity="other">Menghapus %d sprite.</item>
     </plurals>
     <plurals name="deleted_looks">
-        <item quantity="other">Deleted %d looks.</item>
+        <item quantity="other">%d tampilan dihapus.</item>
     </plurals>
     <plurals name="deleted_sounds">
-        <item quantity="other">Deleted %d sounds.</item>
+        <item quantity="other">%d suara dihapus.</item>
     </plurals>
     <plurals name="deleted_nfc_tags">
-        <item quantity="other">Deleted %d NFC tags.</item>
+        <item quantity="other">Menghapus %d tag NFC.</item>
     </plurals>
     <plurals name="deleted_scripts">
-        <item quantity="other">Deleted %d scripts.</item>
+        <item quantity="other">Menghapus %d skrip.</item>
     </plurals>
     <plurals name="deleted_Items">
-        <item quantity="other">Deleted %d items.</item>
+        <item quantity="other">Menghapus %d item.</item>
     </plurals>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
@@ -457,25 +457,25 @@
     <string name="size">Ukuran:</string>
     <string name="description">Keterangan:</string>
     <string name="set_description">Atur keterangan</string>
-    <string name="notes_and_credits_title">Notes and credits:</string>
-    <string name="set_notes_and_credits">Set notes and credits</string>
+    <string name="notes_and_credits_title">Catatan dan kredit:</string>
+    <string name="set_notes_and_credits">Atur catatan dan kredit</string>
     <string name="details_date_today">Hari ini</string>
-    <string name="import_project">Import project</string>
-    <string name="error_import_project">Something went wrong while importing projects.</string>
-    <string name="error_no_files_found">No project files found.</string>
+    <string name="import_project">Proyek impor</string>
+    <string name="error_import_project">Ada yang tidak beres saat mengimpor proyek.</string>
+    <string name="error_no_files_found">Tidak ada file proyek yang ditemukan.</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Keterangan</string>
     <string name="project_options_notes_and_credits">Credits</string>
     <string name="project_options_tags">Label</string>
-    <string name="project_options_aspect_ratio">Keep original aspect ratio</string>
-    <string name="project_options_more_details">More details</string>
-    <string name="project_options_delete_project">Delete project</string>
+    <string name="project_options_aspect_ratio">Pertahankan rasio aspek asli</string>
+    <string name="project_options_more_details">Keterangan lebih lanjut</string>
+    <string name="project_options_delete_project">Hapus proyek</string>
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">Tekan \"+\" untuk menambahkan skrip</string>
     <!--  -->
     <!-- SpriteListFragment -->
-    <string name="fragment_sprite_text_description">Tap \"+\" to add actors or objects</string>
-    <string name="default_sprite_name">My actor or object</string>
+    <string name="fragment_sprite_text_description">Ketuk \"+\" untuk menambahkan aktor atau objek</string>
+    <string name="default_sprite_name">Aktor atau objek saya</string>
     <!--  -->
     <!-- LookListFragment -->
     <string name="fragment_look_text_description">Tekan \"+\" untuk menambah tampilan</string>
@@ -487,8 +487,8 @@
     <string name="sound_select_source">Pilih suara</string>
     <!--  -->
     <!-- NfcTagListFragment -->
-    <string name="fragment_nfctag_text_description">Scan NFC tags to add them</string>
-    <string name="ndef_record_label" tools:ignore="UnusedResources">as record type</string>
+    <string name="fragment_nfctag_text_description">Pindai tag NFC untuk menambahkannya</string>
+    <string name="ndef_record_label" tools:ignore="UnusedResources">sebagai tipe rekaman</string>
     <string name="brick_set_nfc_tag" tools:ignore="UnusedResources">Tetapkan tag NFC berikutnya ke</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
     <string name="default_tag_name">nfc_tag</string>
@@ -502,31 +502,31 @@
     <string name="tnf_well_known_mailto">E-mail</string>
     <!--  -->
     <!-- DataListFragment -->
-    <string name="multiplayer_vars_headline">Variables for connected devices</string>
-    <string name="global_vars_headline">Variables for all actors and objects</string>
-    <string name="local_vars_headline">Variables for this actor or object only</string>
-    <string name="global_lists_headline">Lists for all actors and objects</string>
-    <string name="local_lists_headline">Lists for this actor or object only</string>
-    <string name="fragment_data_text_description">Tap \"+\" to add\nvariables or lists</string>
+    <string name="multiplayer_vars_headline">Variabel untuk perangkat yang terhubung</string>
+    <string name="global_vars_headline">Variabel untuk semua aktor dan objek</string>
+    <string name="local_vars_headline">Variabel untuk aktor atau objek ini saja</string>
+    <string name="global_lists_headline">Daftar untuk semua aktor dan objek</string>
+    <string name="local_lists_headline">Daftar untuk aktor atau objek ini saja</string>
+    <string name="fragment_data_text_description">Ketuk \"+\" untuk menambahkan\nvariabel atau daftar</string>
     <plurals name="user_defined_brick_input_headline">
-        <item quantity="other">Inputs for this brick</item>
+        <item quantity="other">Masukan untuk batu bata ini</item>
     </plurals>
     <!-- NewDataDialog -->
-    <string name="new_data_for_all_sprites">For all actors, objects, and clones in all scenes</string>
-    <string name="new_data_for_this_sprite_only">For this actor, object, or one of its clones only</string>
-    <string name="new_data_for_connected_devices">For all actors, objects, and clones in all scenes of projects
-        on connected multiplayer devices</string>
+    <string name="new_data_for_all_sprites">Untuk semua aktor, objek, dan klon di semua adegan</string>
+    <string name="new_data_for_this_sprite_only">Untuk aktor ini, objek, atau salah satu klonnya saja</string>
+    <string name="new_data_for_connected_devices">Untuk semua aktor, objek, dan klon di semua adegan proyek
+        di perangkat multipemain yang terhubung</string>
     <!-- Backpack -->
     <string name="backpack_title">Ransel anda</string>
-    <string name="pack">Pack</string>
+    <string name="pack">Pak</string>
     <string name="unpack">Membuka</string>
     <!--  -->
     <!-- NewProjectDialog -->
-    <string name="new_project_dialog_example_project">Example project</string>
+    <string name="new_project_dialog_example_project">Proyek contoh</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
-    <string name="new_merge_project_dialog_title">Merged project</string>
-    <string name="merging_project_text">These two projects cannot yet be merged</string>
+    <string name="new_merge_project_dialog_title">Proyek gabungan</string>
+    <string name="merging_project_text">Kedua proyek ini belum dapat digabungkan</string>
     <!--  -->
     <!-- NewSpriteDialog -->
     <string name="new_sprite_dialog_title">Objek baru</string>
@@ -544,54 +544,54 @@
     <string name="add_sound_choose_file">Pilih File</string>
     <string name="add_sound_music">Komposer musik</string>
     <!-- NotePickerDialog -->
-    <string name="note_picker_title">Note Picker</string>
+    <string name="note_picker_title">Alat Pilih Catatan</string>
     <!--  -->
     <!-- Rating Dialog -->
-    <string name="rating_dialog_title">Rate App</string>
-    <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on the App store.</string>
+    <string name="rating_dialog_title">Beri Nilai Aplikasi</string>
+    <string name="rating_google_play_dialog_text">Jika Anda menikmati aplikasi ini, beri nilai kami di App store.</string>
     <string name="rating_dialog_rate_now">Sekarang</string>
     <string name="rating_dialog_rate_later">Lain kali</string>
     <string name="rating_dialog_rate_never">Tidak pernah</string>
     <!--  -->
     <!-- Terms of Use Dialog -->
     <string name="dialog_terms_of_use_title">Syarat Penggunaan dan Layanan</string>
-    <string name="dialog_terms_of_use_info">In order to
-        be allowed to use the apps and other services offered by the Catrobat project, you
-        must agree to our Terms of Use and Service. You have to follow these terms strictly when using our apps
-        and other services. Please see the link below for their precise formulation.\n</string>
+    <string name="dialog_terms_of_use_info">Untuk
+        diizinkan untuk menggunakan aplikasi dan layanan lain yang ditawarkan oleh proyek Catrobat, Anda
+        harus menyetujui Persyaratan Penggunaan dan Layanan kami. Anda harus mengikuti persyaratan ini dengan ketat saat menggunakan aplikasi kami
+        dan layanan lainnya. Silakan lihat link di bawah untuk formulasi yang tepat.\n</string>
     <string name="dialog_terms_of_use_link_text">Syarat Penggunaan dan Layanan</string>
     <!--  -->
     <!-- Privacy Policy -->
-    <string name="disclaimer_privacy_police_header_headline">Welcome!</string>
-    <string name="disclaimer_privacy_policy_header">To use this app, please accept our</string>
+    <string name="disclaimer_privacy_police_header_headline">Selamat datang!</string>
+    <string name="disclaimer_privacy_policy_header">Untuk menggunakan aplikasi ini, terima kami</string>
     <!-- -->
     <!-- About Dialog -->
     <string name="dialog_about_title">Tentang aplikasi ini</string>
-    <string name="dialog_about_license_info">This app offers a coding
-        environment and interpreter for the visual programming language Catrobat.\n
-        The source code of this app is mainly licensed under the GNU AGPL v3 license.
-        For further details on the license see the link below.\n</string>
+    <string name="dialog_about_license_info">Aplikasi ini menawarkan pengkodean
+        lingkungan dan interpreter untuk bahasa pemrograman visual Catrobat.\n
+        Kode sumber aplikasi ini terutama dilisensikan di bawah lisensi GNU AGPL v3.
+        Untuk detail lebih lanjut tentang lisensi, lihat tautan di bawah ini.\n</string>
     <string name="dialog_about_license_link_text">Lisensi kode sumber</string>
     <string name="dialog_about_catrobat_link_text">Tentang Catrobat</string>
-    <string name="dialog_about_catrobat_language_version">Catrobat language version</string>
-    <string name="dialog_about_version">version:</string>
+    <string name="dialog_about_catrobat_language_version">Versi bahasa Catrobat</string>
+    <string name="dialog_about_version">Versi:</string>
     <!--  -->
     <!-- NetworkAlertDialog -->
     <string name="error_no_network_title">Tidak ada jaringan</string>
     <!-- UploadProjectDialog -->
     <string name="upload_project_dialog_title">Mengunggah Program</string>
     <string name="upload_description">Keterangan:</string>
-    <string name="upload_notes_and_credits">Notes and credits:</string>
-    <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
-    <string name="upload_tag_dialog_title">Please choose up to three categories</string>
-    <string name="upload_tags_maximum_error">Selecting more than 3 tags is not possible.</string>
+    <string name="upload_notes_and_credits">Catatan dan kredit:</string>
+    <string name="upload_notes_and_credits_explanation">Bagaimana Anda membuat proyek ini? Apakah Anda menggunakan ide, skrip, atau karya seni dari orang lain? Berterimakasihlah di sini.</string>
+    <string name="upload_tag_dialog_title">Pilih hingga tiga kategori</string>
+    <string name="upload_tags_maximum_error">Memilih lebih dari 3 tag tidak dimungkinkan.</string>
     <!-- Save Project to External Storage -->
-    <string name="save_to_external_storage_button">Save project to external storage</string>
+    <string name="save_to_external_storage_button">Simpan proyek ke penyimpanan eksternal</string>
     <string name="notification_save_project_to_external_storage_title_pending">" "</string>
-    <string name="notification_save_project_to_external_storage_pending">Saving project to external storage.</string>
+    <string name="notification_save_project_to_external_storage_pending">Menyimpan proyek ke penyimpanan eksternal.</string>
     <string name="notification_save_project_to_external_storage_title_open">" "</string>
-    <string name="notification_save_project_to_external_storage_open">"Saved project to %1$s"</string>
-    <string name="save_project_to_external_storage_io_exception_message">Failed to save project, not enough memory is available!</string>
+    <string name="notification_save_project_to_external_storage_open">"Proyek disimpan ke %1$s"</string>
+    <string name="save_project_to_external_storage_io_exception_message">Gagal menyimpan proyek, tidak tersedia cukup memori!</string>
     <!--  -->
     <!-- SoundRecorderActivity -->
     <string name="soundrecorder_name">Perekam Pocket Code</string>
@@ -600,39 +600,39 @@
     <string name="soundrecorder_text_view">Tekan ikon di atas untuk memulai dan menghentikan perekaman.</string>
     <!--  -->
     <!-- Brick context dialog -->
-    <string name="brick_context_dialog_move_brick">Move brick</string>
-    <string name="brick_context_dialog_move_script">Move script</string>
-    <string name="brick_context_dialog_move_definition">Move this definition</string>
-    <string name="brick_context_dialog_delete_brick" tools:ignore="UnusedResources">Delete brick</string>
-    <string name="brick_context_dialog_copy_brick">Copy brick</string>
-    <string name="brick_context_dialog_copy_script">Copy script</string>
-    <string name="brick_context_dialog_formula_edit_brick">Edit formula</string>
-    <string name="brick_context_dialog_delete_script">Delete script</string>
-    <string name="brick_context_dialog_delete_definition">Delete this definition</string>
-    <string name="brick_context_dialog_comment_in">Enable brick</string>
-    <string name="brick_context_dialog_comment_out">Disable brick</string>
-    <string name="brick_context_dialog_highlight_brick_parts">Highlight brick parts</string>
-    <string name="brick_context_dialog_comment_in_script">Enable script</string>
-    <string name="brick_context_dialog_comment_out_script">Disable script</string>
+    <string name="brick_context_dialog_move_brick">Pindahkan bata</string>
+    <string name="brick_context_dialog_move_script">Pindahkan skrip</string>
+    <string name="brick_context_dialog_move_definition">Pindahkan definisi ini</string>
+    <string name="brick_context_dialog_delete_brick" tools:ignore="UnusedResources">Hapus bata</string>
+    <string name="brick_context_dialog_copy_brick">Salin batu bata</string>
+    <string name="brick_context_dialog_copy_script">Salin skrip</string>
+    <string name="brick_context_dialog_formula_edit_brick">Edit rumus</string>
+    <string name="brick_context_dialog_delete_script">Hapus skrip</string>
+    <string name="brick_context_dialog_delete_definition">Hapus definisi ini</string>
+    <string name="brick_context_dialog_comment_in">Aktifkan bata</string>
+    <string name="brick_context_dialog_comment_out">Nonaktifkan bata</string>
+    <string name="brick_context_dialog_highlight_brick_parts">Sorot bagian bata</string>
+    <string name="brick_context_dialog_comment_in_script">Aktifkan skrip</string>
+    <string name="brick_context_dialog_comment_out_script">Nonaktifkan skrip</string>
     <string name="brick_context_dialog_help">Bantuan</string>
     <string name="comment_in_out">Menonaktifkan/Mengaktifkan</string>
-    <string name="catblocks">Toggle 2D</string>
-    <string name="catblocks_reorder">Clean up scripts</string>
-    <string name="switch_to_1d" tools:ignore="UnusedResources">1D view</string>
+    <string name="catblocks">Alihkan 2D</string>
+    <string name="catblocks_reorder">Bersihkan skrip</string>
+    <string name="switch_to_1d" tools:ignore="UnusedResources">Tampilan 1D</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">Bermain adegan:</string>
     <string name="play_scene_dialog_default">Adegan pertama (%1$s)</string>
-    <string name="play_scene_dialog_current">Current scene (%1$s)</string>
+    <string name="play_scene_dialog_current">Adegan saat ini (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
     <string name="sign_in_dialog_title">Masuk</string>
     <string name="username">Nama pengguna</string>
     <string name="password">Kata sandi</string>
-    <string name="reset_password">Reset password</string>
+    <string name="reset_password">Setel ulang kata sandi</string>
     <string name="new_user_registered">Account baru telah dibuat</string>
     <string name="user_logged_in">Berhasil masuk</string>
-    <string name="register_error">Login invalid</string>
+    <string name="register_error">Login tidak valid</string>
     <string name="register_terms">Dengan mendaftar, Anda setuju dengan</string>
     <string name="register_code_terms_of_use_text">Syarat Penggunaan dan Layanan</string>
     <string name="login">Masuk</string>
@@ -641,59 +641,59 @@
     <string name="accountName">E-mail</string>
     <string name="signin_thanks">Terima kasih telah mendaftar!</string>
     <string name="signin_choose_username">Silakan pilih nama pengguna anda:</string>
-    <string name="signin_choose_username_empty">Please enter a username.</string>
-    <string name="signin_choose_username_hint">The username should not be your real name nor should it be an email address.</string>
-    <string name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
+    <string name="signin_choose_username_empty">Silakan masukkan nama pengguna.</string>
+    <string name="signin_choose_username_hint">Nama pengguna tidak boleh nama asli Anda dan juga bukan alamat email.</string>
+    <string name="oauth_username_taken">Orang lain sudah menggunakan nama ini. Pilih yang lain!</string>
     <string name="show_password">Tampilkan kata sandi</string>
-    <string name="sign_in_error">Something went wrong during sign in.</string>
-    <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
-    <string name="error_session_expired">Session expired, please log in.</string>
-    <string name="error_register_empty_username">Empty username</string>
-    <string name="error_register_username_as_email">Email address cannot be used as username</string>
-    <string name="error_register_invalid_username">Username should only contain letters (a–z), numbers (0–9),
-        dashes (-), underscores (_), and periods (.).</string>
-    <string name="error_register_username_start_with">Username should not start with dashes (-), underscores (_), or
-        periods (.).</string>
-    <string name="error_register_invalid_email_format">Invalid email format</string>
-    <string name="error_register_empty_password">Password field is empty</string>
-    <string name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
+    <string name="sign_in_error">Ada yang salah saat masuk.</string>
+    <string name="error_google_plus_sign_in">Kesalahan masuk Google. Status: %s</string>
+    <string name="error_session_expired">Sesi kedaluwarsa, silakan masuk.</string>
+    <string name="error_register_empty_username">Nama pengguna kosong</string>
+    <string name="error_register_username_as_email">Alamat email tidak dapat digunakan sebagai nama pengguna</string>
+    <string name="error_register_invalid_username">Nama pengguna hanya boleh berisi huruf (a – z), angka (0–9),
+        tanda hubung (-), garis bawah (_), dan titik (.).</string>
+    <string name="error_register_username_start_with">Nama pengguna tidak boleh dimulai dengan tanda hubung (-), garis bawah (_), atau
+        periode (.).</string>
+    <string name="error_register_invalid_email_format">format email salah</string>
+    <string name="error_register_empty_password">Bidang kata sandi kosong</string>
+    <string name="error_register_password_at_least_6_characters">Kata sandi harus setidaknya 6 karakter</string>
     <string name="error_register_passwords_mismatch">Sandi tidak cocok</string>
-    <string name="error_register_empty_confirm_password">Confirm password field is empty</string>
-    <string name="error_register_username_already_exists">Username already exists</string>
-    <string name="error_register_email_exists">Email address already exists</string>
+    <string name="error_register_empty_confirm_password">Konfirmasi bidang kata sandi kosong</string>
+    <string name="error_register_username_already_exists">Nama pengguna sudah ada</string>
+    <string name="error_register_email_exists">Alamat email sudah ada</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
-    <string name="overwrite_title">Project exists.</string>
-    <string name="overwrite_text">A project with this name already exists.</string>
-    <string name="overwrite_replace">Overwrite project</string>
+    <string name="overwrite_title">Proyek ada.</string>
+    <string name="overwrite_text">Sebuah proyek dengan nama ini sudah ada.</string>
+    <string name="overwrite_replace">Timpa proyek</string>
     <string name="overwrite_rename">Ganti nama program yang telah diunduh</string>
     <!--  -->
     <!-- Music activity -->
-    <string name="pocket_music_default_project_name">Untitled song</string>
-    <string name="pocket_music_default_track_name">Track 1</string>
+    <string name="pocket_music_default_project_name">Lagu tanpa judul</string>
+    <string name="pocket_music_default_track_name">Trek 1</string>
     <!--  -->
     <!-- Resource initialization fka PrestageActivity -->
     <string name="prestage_text_to_speech_engine_not_installed">Mesin Text-to-Speech tidak terpasang! \n Apakah Anda ingin menginstalnya?</string>
     <string name="prestage_resource_not_available_title">Komponen tidak tersedia</string>
-    <string name="prestage_resource_not_available_text">Unfortunately this project does not work on your device.
-        The following components are unavailable:\n\n</string>
-    <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
+    <string name="prestage_resource_not_available_text">Sayangnya proyek ini tidak berfungsi di perangkat Anda.
+        Komponen berikut tidak tersedia:\n\n</string>
+    <string name="prestage_no_vibration_available">\u2022 Getaran\n</string>
     <string name="prestage_no_acceleration_sensor_available">\\2022 Sensor akselerasi \n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Sensor inklinasi \n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 Kompas \n</string>
     <string name="prestage_no_gps_sensor_available">\u2022 GPS \n</string>
     <string name="prestage_text_to_speech_error">\n2022 Mesin Text-To-Speech \n</string>
-    <string name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
-    <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
-    <string name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
-    <string name="prestage_no_front_camera_available">\u2022 Front camera\n</string>
-    <string name="prestage_no_camera_available">\u2022 Camera\n</string>
-    <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
+    <string name="prestage_no_back_camera_available">\u2022 Kamera belakang\n</string>
+    <string name="prestage_no_face_detection_available">\u2022 Deteksi wajah\n</string>
+    <string name="prestage_no_text_detection_available">\u2022 Deteksi teks\n</string>
+    <string name="prestage_no_front_camera_available">\u2022 Kamera depan\n</string>
+    <string name="prestage_no_camera_available">\u2022 Kamera\n</string>
+    <string name="prestage_no_flash_available">\u2022 Senter\n</string>
     <string name="prestage_default_resource_not_available">\u2022 Komponen tidak diketahui \n</string>
     <string name="no_nfc_available">NFC tidak tersedia</string>
-    <string name="nfc_not_activated">Please activate NFC and press Back to return to the app.</string>
-    <string name="nfc_facedetection_support">Using NFC and face detection at the same time might lead to performance
-        issues.</string>
+    <string name="nfc_not_activated">Harap aktifkan NFC dan tekan Kembali untuk kembali ke aplikasi.</string>
+    <string name="nfc_facedetection_support">Menggunakan NFC dan deteksi wajah secara bersamaan dapat menghasilkan kinerja
+        masalah.</string>
     <!--  -->
     <!-- Stage menu dialog -->
     <string name="stage_dialog_back">Kembali</string>
@@ -703,29 +703,29 @@
     <string name="stage_dialog_axes_off">Axes mati</string>
     <string name="stage_dialog_maximize">Memaksimalkan \nStretch</string>
     <string name="stage_dialog_screenshot">Pratinjau</string>
-    <string name="stage_dialog_embroidery">Embroidery</string>
+    <string name="stage_dialog_embroidery">Sulaman</string>
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">Pesan baru</string>
-    <string name="dialog_broadcast_message_name">message:</string>
-    <string name="dialog_edit_broadcast_message_title">Edit message</string>
+    <string name="dialog_broadcast_message_name">pesan:</string>
+    <string name="dialog_edit_broadcast_message_title">Edit pesan</string>
     <!--  -->
     <!-- NFC spinner -->
-    <string name="brick_when_nfc_edit_list_of_nfc_tags">Edit list of NFC tags</string>
+    <string name="brick_when_nfc_edit_list_of_nfc_tags">Edit daftar tag NFC</string>
     <string name="brick_when_nfc_default_all">semua</string>
     <!-- -->
     <!-- Brick categories -->
     <string name="categories" tools:ignore="UnusedResources">Kategori</string>
-    <string name="category_embroidery" tools:ignore="UnusedResources">Embroidery</string>
+    <string name="category_embroidery" tools:ignore="UnusedResources">Sulaman</string>
     <string name="category_motion" tools:ignore="UnusedResources">Gerak</string>
     <string name="category_looks" tools:ignore="UnusedResources">Tampilan</string>
     <string name="category_pen" tools:ignore="UnusedResources">Pena</string>
     <string name="category_sound" tools:ignore="UnusedResources">Suara</string>
     <string name="category_control" tools:ignore="UnusedResources">Kontrol</string>
     <string name="category_event" tools:ignore="UnusedResources">Peristiwa</string>
-    <string name="category_user_bricks" tools:ignore="UnusedResources">Your bricks</string>
+    <string name="category_user_bricks" tools:ignore="UnusedResources">Batu bata Anda</string>
     <string name="category_data" tools:ignore="UnusedResources">Data</string>
-    <string name="category_device" tools:ignore="UnusedResources">Device</string>
+    <string name="category_device" tools:ignore="UnusedResources">Alat</string>
     <string name="category_lego_nxt" tools:ignore="UnusedResources">Lego NXT</string>
     <string name="category_lego_ev3" tools:ignore="UnusedResources">Lego EV3</string>
     <string name="category_drone" tools:ignore="UnusedResources">AR.Drone 2.0</string>
@@ -734,24 +734,24 @@
     <string name="category_arduino" tools:ignore="UnusedResources">Arduino</string>
     <string name="category_cast" tools:ignore="UnusedResources">Melemparkan</string>
     <string name="category_raspi" tools:ignore="UnusedResources">Raspberry Pi</string>
-    <string name="category_assertions" tools:ignore="UnusedResources">Testing</string>
+    <string name="category_assertions" tools:ignore="UnusedResources">Pengujian</string>
     <!--  -->
     <!-- User Defined Bricks -->
-    <string name="brick_user_defined_add_label">Add label</string>
-    <string name="brick_user_defined_add_input">Add input</string>
-    <string name="brick_user_defined_add_input_description">Add input for this brick:</string>
-    <string name="brick_user_defined_add_label_description">Add label for this brick:</string>
-    <string name="brick_user_defined_default_input_name">Name of input</string>
-    <string name="brick_user_defined_default_label">Label text</string>
-    <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
-    <string name="brick_user_defined_script_define" tools:ignore="UnusedResources">Define</string>
-    <string name="brick_user_defined_script_as" tools:ignore="UnusedResources">as</string>
-    <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
+    <string name="brick_user_defined_add_label">Tambahkan label</string>
+    <string name="brick_user_defined_add_input">Tambahkan masukan</string>
+    <string name="brick_user_defined_add_input_description">Tambahkan masukan untuk bata ini:</string>
+    <string name="brick_user_defined_add_label_description">Tambahkan label untuk bata ini:</string>
+    <string name="brick_user_defined_default_input_name">Nama masukan</string>
+    <string name="brick_user_defined_default_label">Beri label teks</string>
+    <string name="brick_user_defined_already_exists">Batu bata dengan label ini sudah ada. Harap tambahkan lebih banyak label atau masukan.</string>
+    <string name="brick_user_defined_script_define" tools:ignore="UnusedResources">Menetapkan</string>
+    <string name="brick_user_defined_script_as" tools:ignore="UnusedResources">sebagai</string>
+    <string name="brick_user_defined_list_empty">Ketuk \"+\" untuk menambahkan bata baru Anda sendiri.</string>
     <string name="brick_report" tools:ignore="UnusedResources">Laporkan</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at" tools:ignore="UnusedResources">"Tempatkan di "</string>
-    <string name="brick_option_place_visually">Place visually</string>
+    <string name="brick_option_place_visually">Tempatkan secara visual</string>
     <string name="x_label" tools:ignore="UnusedResources">"X: "</string>
     <string name="y_label" tools:ignore="UnusedResources">"Y: "</string>
     <string name="brick_set_x" tools:ignore="UnusedResources">"Set X ke "</string>
@@ -803,7 +803,7 @@
     <string name="brick_set_look_by_index" tools:ignore="UnusedResources">Beralih untuk melihat dengan nomor</string>
     <string name="brick_and_wait">dan tunggu</string>
     <string name="brick_set_background" tools:ignore="UnusedResources">Atur Latarbelakang</string>
-    <string name="brick_set_background_and_wait" tools:ignore="UnusedResources">Set background and wait</string>
+    <string name="brick_set_background_and_wait" tools:ignore="UnusedResources">Atur latar belakang dan tunggu</string>
     <string name="brick_set_background_by_index" tools:ignore="UnusedResources">Tetapkan latar belakang nomor</string>
     <string name="brick_when_background" tools:ignore="UnusedResources">Saat latar belakang berubah</string>
     <string name="brick_set_size_to" tools:ignore="UnusedResources">Atur ukuran ke</string>
@@ -823,28 +823,28 @@
     <string name="brick_next_background">Latar belakang berikutnya</string>
     <string name="brick_previous_look" tools:ignore="UnusedResources">Tampilan sebelumnya</string>
     <string name="brick_previous_background">Latar belakang sebelumnya</string>
-    <string name="brick_edit_look" tools:ignore="UnusedResources">Edit look</string>
-    <string name="brick_edit_background">Edit background</string>
-    <string name="brick_delete_look" tools:ignore="UnusedResources">Delete look</string>
-    <string name="brick_delete_background">Delete background</string>
+    <string name="brick_edit_look" tools:ignore="UnusedResources">Edit tampilan</string>
+    <string name="brick_edit_background">Edit latar belakang</string>
+    <string name="brick_delete_look" tools:ignore="UnusedResources">Hapus tampilan</string>
+    <string name="brick_delete_background">Hapus latar belakang</string>
     <string name="brick_flash" tools:ignore="UnusedResources">Putar senter</string>
     <string name="brick_flash_on" tools:ignore="UnusedResources">aktif</string>
     <string name="brick_flash_off" tools:ignore="UnusedResources">mati</string>
     <string name="brick_vibration" tools:ignore="UnusedResources">Bergetar untuk</string>
     <string name="brick_ask_label" tools:ignore="UnusedResources">Meminta</string>
     <string name="brick_ask_store" tools:ignore="UnusedResources">dan menyimpan jawaban tertulis di</string>
-    <string name="brick_ask_default_question">What\'s your name?</string>
+    <string name="brick_ask_default_question">Siapa namamu?</string>
     <string name="brick_ask_dialog_hint">"Masukkan jawaban Anda:"</string>
     <string name="brick_ask_dialog_submit">Kirim jawaban</string>
     <string name="brick_ask_speech_label" tools:ignore="UnusedResources">Tanya</string>
     <string name="brick_ask_speech_store" tools:ignore="UnusedResources">dan menyimpan jawaban lisan di</string>
-    <string name="brick_ask_speech_default_question">What\'s your name?</string>
-    <string name="brick_paint_new_look" tools:ignore="UnusedResources">Paint new look</string>
-    <string name="brick_paint_new_background">Paint new background</string>
-    <string name="brick_paint_new_look_name">"name of new look"</string>
-    <string name="brick_copy_look" tools:ignore="UnusedResources">Copy look and name it</string>
-    <string name="brick_copy_look_name">name of copied look</string>
-    <string name="brick_copy_background">Copy background and name it</string>
+    <string name="brick_ask_speech_default_question">Siapa namamu?</string>
+    <string name="brick_paint_new_look" tools:ignore="UnusedResources">Cat tampilan baru</string>
+    <string name="brick_paint_new_background">Lukis latar belakang baru</string>
+    <string name="brick_paint_new_look_name">"nama tampilan baru"</string>
+    <string name="brick_copy_look" tools:ignore="UnusedResources">Salin tampilan dan beri nama</string>
+    <string name="brick_copy_look_name">nama tampilan yang disalin</string>
+    <string name="brick_copy_background">Salin latar belakang dan beri nama</string>
     <!--  -->
     <!-- Pen bricks -->
     <string name="brick_pen_down" tools:ignore="UnusedResources">Pen bawah</string>
@@ -857,44 +857,44 @@
     <!-- Sound bricks -->
     <string name="brick_play_sound" tools:ignore="UnusedResources">Mulai suara</string>
     <string name="brick_play_sound_and_wait" tools:ignore="UnusedResources">Mulai suara dan tunggu</string>
-    <string name="brick_stop_sound" tools:ignore="UnusedResources">Stop sound</string>
+    <string name="brick_stop_sound" tools:ignore="UnusedResources">Hentikan suara</string>
     <string name="brick_stop_all_sounds" tools:ignore="UnusedResources">Hentikan semua suara</string>
     <string name="brick_set_volume_to" tools:ignore="UnusedResources">Atur volume</string>
     <string name="brick_change_volume_by" tools:ignore="UnusedResources">Mengubah volume oleh</string>
     <string name="brick_speak" tools:ignore="UnusedResources">Berbicara</string>
     <string name="brick_speak_default_value">Halo!</string>
     <string name="brick_speak_and_wait" tools:ignore="UnusedResources">dan tunggu</string>
-    <string name="brick_start_listening_to_voice" tools:ignore="UnusedResources">Start listening to voice and store spoken words in</string>
-    <string name="speech_recognition_not_available">Speech recognition isn\'t available.</string>
-    <string name="speech_recognition_offline_mode_error_dialog_title">Missing offline data</string>
-    <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">Offline speech recognition
-    for %s is missing or needs to be updated. Would you like to download or update it now?</string>
-    <string name="brick_set_listening_language" tools:ignore="UnusedResources">Set listening language to</string>
-    <string name="set_instrument_to" tools:ignore="UnusedResources">Set instrument to</string>
-    <string name="set_tempo_to" tools:ignore="UnusedResources">Set tempo to</string>
-    <string name="change_tempo_by" tools:ignore="UnusedResources">Change tempo by</string>
-    <string name="pause_for" tools:ignore="UnusedResources">Pause for</string>
-    <string name="play_drum" tools:ignore="UnusedResources">Play drum</string>
-    <string name="beats" tools:ignore="UnusedResources">beats</string>
-    <string name="play_note" tools:ignore="UnusedResources">Play note</string>
+    <string name="brick_start_listening_to_voice" tools:ignore="UnusedResources">Mulailah mendengarkan suara dan simpan kata-kata yang diucapkan di</string>
+    <string name="speech_recognition_not_available">Pengenalan ucapan tidak tersedia.</string>
+    <string name="speech_recognition_offline_mode_error_dialog_title">Data offline hilang</string>
+    <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">Pengenalan ucapan offline
+    karena %s hilang atau perlu diperbarui. Apakah Anda ingin mengunduh atau memperbaruinya sekarang?</string>
+    <string name="brick_set_listening_language" tools:ignore="UnusedResources">Setel bahasa pendengaran ke</string>
+    <string name="set_instrument_to" tools:ignore="UnusedResources">Setel instrumen ke</string>
+    <string name="set_tempo_to" tools:ignore="UnusedResources">Setel tempo ke</string>
+    <string name="change_tempo_by" tools:ignore="UnusedResources">Ubah tempo sebesar</string>
+    <string name="pause_for" tools:ignore="UnusedResources">Jeda untuk</string>
+    <string name="play_drum" tools:ignore="UnusedResources">Mainkan drum</string>
+    <string name="beats" tools:ignore="UnusedResources">ketukan</string>
+    <string name="play_note" tools:ignore="UnusedResources">Mainkan catatan</string>
     <string name="for_string" tools:ignore="UnusedResources">untuk</string>
     <!--  -->
     <!-- Embroidery bricks -->
-    <string name="brick_stitch" tools:ignore="UnusedResources">Stitch</string>
-    <string name="brick_running_stitch" tools:ignore="UnusedResources">Start running stitch with length</string>
-    <string name="brick_zigzag_stitch" tools:ignore="UnusedResources">Start zigzag stitch with length</string>
-    <string name="brick_zigzag_stitch_width" tools:ignore="UnusedResources">and width</string>
-    <string name="brick_triple_stitch" tools:ignore="UnusedResources">Start triple stitch with length</string>
-    <string name="brick_stop_stitch" tools:ignore="UnusedResources">Stop current stitch</string>
-    <string name="brick_write_embroidery" tools:ignore="UnusedResources">Write embroidery data to file</string>
+    <string name="brick_stitch" tools:ignore="UnusedResources">Menjahit</string>
+    <string name="brick_running_stitch" tools:ignore="UnusedResources">Mulailah menjalankan jahitan dengan panjang</string>
+    <string name="brick_zigzag_stitch" tools:ignore="UnusedResources">Mulailah jahitan zigzag dengan panjang</string>
+    <string name="brick_zigzag_stitch_width" tools:ignore="UnusedResources">dan lebar</string>
+    <string name="brick_triple_stitch" tools:ignore="UnusedResources">Mulai tusuk tiga kali dengan panjang</string>
+    <string name="brick_stop_stitch" tools:ignore="UnusedResources">Hentikan tusukan saat ini</string>
+    <string name="brick_write_embroidery" tools:ignore="UnusedResources">Tulis data bordir ke file</string>
     <string name="brick_default_embroidery_file">embroidery.dst</string>
-    <string name="brick_sew_up" tools:ignore="UnusedResources">Sew up</string>
-    <string name="brick_thread_color">Set thread color to</string>
+    <string name="brick_sew_up" tools:ignore="UnusedResources">Menjahit</string>
+    <string name="brick_thread_color">Setel warna utas ke</string>
     <!--  -->
     <!-- Device bricks -->
-    <string name="brick_reset_timer" tools:ignore="UnusedResources">Reset timer</string>
+    <string name="brick_reset_timer" tools:ignore="UnusedResources">Setel ulang pengatur waktu</string>
     <string name="brick_open" tools:ignore="UnusedResources">Buka </string>
-    <string name="brick_in_browser" tools:ignore="UnusedResources">in browser</string>
+    <string name="brick_in_browser" tools:ignore="UnusedResources">di browser</string>
     <!-- Control bricks -->
     <string name="brick_when_started" tools:ignore="UnusedResources">Saat program dimulai</string>
     <string name="brick_when" tools:ignore="UnusedResources">Saat diketuk</string>
@@ -925,9 +925,9 @@
     <string name="brick_say_bubble" tools:ignore="UnusedResources">Mengatakan</string>
     <string name="brick_think_say_for_text" tools:ignore="UnusedResources">untuk</string>
     <string name="brick_forever" tools:ignore="UnusedResources">Selamanya</string>
-    <string name="brick_loop_for_values_from" tools:ignore="UnusedResources">For values from</string>
-    <string name="brick_loop_for_each_value_from" tools:ignore="UnusedResources">For each value from</string>
-    <string name="brick_loop_in" tools:ignore="UnusedResources">in</string>
+    <string name="brick_loop_for_values_from" tools:ignore="UnusedResources">Untuk nilai dari</string>
+    <string name="brick_loop_for_each_value_from" tools:ignore="UnusedResources">Untuk setiap nilai dari</string>
+    <string name="brick_loop_in" tools:ignore="UnusedResources">di</string>
     <string name="brick_loop_to" tools:ignore="UnusedResources">untuk</string>
     <string name="brick_repeat" tools:ignore="UnusedResources">Pengulangan</string>
     <string name="brick_repeat_until" tools:ignore="UnusedResources">Ulangi sampai</string>
@@ -936,29 +936,29 @@
     <string name="brick_clone_this">dirimu sendiri</string>
     <string name="brick_when_cloned" tools:ignore="UnusedResources">Saat Anda mulai sebagai tiruan</string>
     <string name="brick_delete_this_clone" tools:ignore="UnusedResources">Hapus kloning ini</string>
-    <string name="brick_assert_that" tools:ignore="UnusedResources">Assert</string>
-    <string name="brick_is_equal_to" tools:ignore="UnusedResources">equals expected</string>
-    <string name="brick_wait_till_idle" tools:ignore="UnusedResources">Wait until all other scripts have stopped</string>
-    <string name="brick_tap_at" tools:ignore="UnusedResources">"Single tap at"</string>
-    <string name="brick_touch_at" tools:ignore="UnusedResources">"Touch at"</string>
+    <string name="brick_assert_that" tools:ignore="UnusedResources">Menegaskan</string>
+    <string name="brick_is_equal_to" tools:ignore="UnusedResources">sama dengan yang diharapkan</string>
+    <string name="brick_wait_till_idle" tools:ignore="UnusedResources">Tunggu sampai semua skrip lainnya berhenti</string>
+    <string name="brick_tap_at" tools:ignore="UnusedResources">"Ketuk satu kali di"</string>
+    <string name="brick_touch_at" tools:ignore="UnusedResources">"Sentuh di"</string>
     <string name="brick_tap_for" tools:ignore="UnusedResources">"untuk"</string>
-    <string name="brick_touch_slide" tools:ignore="UnusedResources">"Touch and slide"</string>
-    <string name="brick_touch_from_x" tools:ignore="UnusedResources">"from x:"</string>
-    <string name="brick_finish_stage" tools:ignore="UnusedResources">Finish stage</string>
-    <string name="brick_finish_tests" tools:ignore="UnusedResources">Finish tests</string>
-    <string name="brick_assert_lists" tools:ignore="UnusedResources">Assert lists</string>
-    <string name="brick_assert_actual" tools:ignore="UnusedResources">Actual:</string>
-    <string name="brick_assert_expected" tools:ignore="UnusedResources">Expected:</string>
-    <string name="brick_parameterized_assert" tools:ignore="UnusedResources">assert</string>
-    <string name="brick_parameterized_equals" tools:ignore="UnusedResources">equals to expected item of</string>
+    <string name="brick_touch_slide" tools:ignore="UnusedResources">"Sentuh dan geser"</string>
+    <string name="brick_touch_from_x" tools:ignore="UnusedResources">"dari x:"</string>
+    <string name="brick_finish_stage" tools:ignore="UnusedResources">Selesaikan panggung</string>
+    <string name="brick_finish_tests" tools:ignore="UnusedResources">Selesaikan tes</string>
+    <string name="brick_assert_lists" tools:ignore="UnusedResources">Tegaskan daftar</string>
+    <string name="brick_assert_actual" tools:ignore="UnusedResources">Sebenarnya:</string>
+    <string name="brick_assert_expected" tools:ignore="UnusedResources">Diharapkan:</string>
+    <string name="brick_parameterized_assert" tools:ignore="UnusedResources">menegaskan</string>
+    <string name="brick_parameterized_equals" tools:ignore="UnusedResources">sama dengan item yang diharapkan dari</string>
     <plurals name="brick_parameterized_foreach_plural">
-        <item quantity="other">For each tuple of items of</item>
+        <item quantity="other">Untuk setiap item dari</item>
     </plurals>
     <plurals name="brick_parameterized_stored_plural">
-        <item quantity="other">stored in variables with the same names</item>
+        <item quantity="other">disimpan dalam variabel dengan nama yang sama</item>
     </plurals>
     <plurals name="list_selection_plural">
-        <item quantity="other">%d lists selected</item>
+        <item quantity="other">%d daftar dipilih</item>
     </plurals>
     <plurals name="time_plural">
         <item quantity="other">kali</item>
@@ -970,26 +970,26 @@
     <string name="brick_if_end">End If</string>
     <string name="brick_set_variable" tools:ignore="UnusedResources">Set variable</string>
     <string name="brick_change_variable" tools:ignore="UnusedResources">Ubah variabel</string>
-    <string name="brick_write_variable_on_device" tools:ignore="UnusedResources">Write variable on device</string>
-    <string name="brick_read_variable_from_device" tools:ignore="UnusedResources">Read variable from device</string>
-    <string name="brick_write_variable_to_file_top" tools:ignore="UnusedResources">Write variable</string>
-    <string name="brick_write_variable_to_file_bottom" tools:ignore="UnusedResources">to file</string>
+    <string name="brick_write_variable_on_device" tools:ignore="UnusedResources">Tulis variabel di perangkat</string>
+    <string name="brick_read_variable_from_device" tools:ignore="UnusedResources">Baca variabel dari perangkat</string>
+    <string name="brick_write_variable_to_file_top" tools:ignore="UnusedResources">Tulis variabel</string>
+    <string name="brick_write_variable_to_file_bottom" tools:ignore="UnusedResources">untuk mengajukan</string>
     <string name="brick_write_variable_to_file_default_value">variable.txt</string>
-    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
-    <string name="brick_read_variable_from_file_top" tools:ignore="UnusedResources">Read variable</string>
-    <string name="brick_read_variable_from_file_center" tools:ignore="UnusedResources">from file</string>
+    <string name="brick_write_variable_to_file_success">"Data berhasil ditulis ke %1$s"</string>
+    <string name="brick_read_variable_from_file_top" tools:ignore="UnusedResources">Variabel baca</string>
+    <string name="brick_read_variable_from_file_center" tools:ignore="UnusedResources">dari file</string>
     <string name="brick_read_variable_from_file_bottom" tools:ignore="UnusedResources">DAN</string>
-    <string name="brick_read_variable_from_file_keep">keep the file</string>
-    <string name="brick_read_variable_from_file_delete">delete the file</string>
-    <string name="brick_write_list_on_device" tools:ignore="UnusedResources">Write list on device</string>
-    <string name="brick_read_list_from_device" tools:ignore="UnusedResources">Read list from device</string>
+    <string name="brick_read_variable_from_file_keep">simpan file tersebut</string>
+    <string name="brick_read_variable_from_file_delete">hapus file tersebut</string>
+    <string name="brick_write_list_on_device" tools:ignore="UnusedResources">Tulis daftar di perangkat</string>
+    <string name="brick_read_list_from_device" tools:ignore="UnusedResources">Baca daftar dari perangkat</string>
     <string name="brick_note_default_value">tambahkan komentar di sini&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmmmm!</string>
     <string name="brick_say_bubble_default_value">Halo!</string>
     <string name="brick_broadcast_default_value">"pesan 1"</string>
     <string name="brick_add_item_to_userlist_add" tools:ignore="UnusedResources">Tambahkan</string>
     <string name="brick_add_item_to_userlist" tools:ignore="UnusedResources">ke daftar</string>
-    <string name="brick_clear_userlist" tools:ignore="UnusedResources">Delete all items from list</string>
+    <string name="brick_clear_userlist" tools:ignore="UnusedResources">Hapus semua item dari daftar</string>
     <string name="brick_delete_item_from_userlist_delete" tools:ignore="UnusedResources">Menghapus item dari daftar</string>
     <string name="brick_delete_item_from_userlist" tools:ignore="UnusedResources">pada posisi</string>
     <string name="brick_insert_item_into_userlist_insert_into" tools:ignore="UnusedResources">Sisipkan</string>
@@ -998,100 +998,100 @@
     <string name="brick_replace_item_in_userlist_replace_in_list" tools:ignore="UnusedResources">Ganti item dalam daftar</string>
     <string name="brick_replace_item_in_userlist_item_at_index" tools:ignore="UnusedResources">pada posisi</string>
     <string name="brick_replace_item_in_userlist_with_value" tools:ignore="UnusedResources">dengan</string>
-    <string name="brick_web_request" tools:ignore="UnusedResources">Send web request to</string>
+    <string name="brick_web_request" tools:ignore="UnusedResources">Kirim permintaan web ke</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
-    <string name="brick_web_request_result" tools:ignore="UnusedResources">and store answer in</string>
-    <string name="web_request_warning_title">Allow web access?</string>
-    <string name="web_request_warning_message">Be very careful before allowing access, since the
-        link may expose your personal information, such as your precise geographical location or any text
-        you have entered to malicious others or to the public. See our
-        &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
-        be extremely dangerous.
+    <string name="brick_web_request_result" tools:ignore="UnusedResources">dan simpan jawaban di</string>
+    <string name="web_request_warning_title">Izinkan akses web?</string>
+    <string name="web_request_warning_message">Berhati-hatilah sebelum mengizinkan akses, karena
+        Tautan dapat mengungkap informasi pribadi Anda, seperti lokasi geografis Anda yang tepat atau teks apa pun
+        Anda telah memasukkan orang lain yang berniat jahat atau ke publik. Lihat kami
+       &lt;a href=%1s&gt;wiki&lt;/a&gt; untuk informasi lebih lanjut mengapa ini bisa
+        menjadi sangat berbahaya.
     </string>
-    <string name="web_request_trust_domain_warning_title">Always allow web access?</string>
-    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
-        not be asked again to confirm web addresses from this domain.
+    <string name="web_request_trust_domain_warning_title">Selalu izinkan akses web?</string>
+    <string name="web_request_trust_domain_warning_message">Dengan selalu mengizinkan akses, Anda akan melakukannya
+        tidak diminta lagi untuk mengkonfirmasi alamat web dari domain ini.
     </string>
-    <string name="trusted_domains_edit_hint">If you want to revoke this permission
-        later, you can remove the entry from the list of trusted domains in
-        the settings of this app.
+    <string name="trusted_domains_edit_hint">Jika Anda ingin mencabut izin ini
+        nanti, Anda dapat menghapus entri dari daftar domain tepercaya di
+        pengaturan aplikasi ini.
     </string>
-    <string name="brick_look_request" tools:ignore="UnusedResources">Get image from</string>
-    <string name="brick_look_request_result" tools:ignore="UnusedResources">and use as current look</string>
-    <string name="brick_background_request_result" tools:ignore="UnusedResources">and use as current background</string>
-    <string name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
-    <string name="look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
-    <string name="brick_store_csv_into_userlist_store" tools:ignore="UnusedResources">Store column</string>
-    <string name="brick_store_csv_into_userlist_of" tools:ignore="UnusedResources">of the</string>
-    <string name="brick_store_csv_into_userlist_csv" tools:ignore="UnusedResources">comma-separated values</string>
+    <string name="brick_look_request" tools:ignore="UnusedResources">Dapatkan gambar dari</string>
+    <string name="brick_look_request_result" tools:ignore="UnusedResources">dan gunakan sebagai tampilan saat ini</string>
+    <string name="brick_background_request_result" tools:ignore="UnusedResources">dan gunakan sebagai latar belakang saat ini</string>
+    <string name="look_request_http_error_message">"Ambil gambar dari %1$s mengembalikan kesalahan HTTP %2$s"</string>
+    <string name="look_request_type_error_message">"Ambil gambar dari %1$s tidak dapat mengambil format gambar yang dikenali"</string>
+    <string name="brick_store_csv_into_userlist_store" tools:ignore="UnusedResources">Kolom toko</string>
+    <string name="brick_store_csv_into_userlist_of" tools:ignore="UnusedResources">dari</string>
+    <string name="brick_store_csv_into_userlist_csv" tools:ignore="UnusedResources">nilai yang dipisahkan koma</string>
     <string name="brick_store_csv_into_userlist_into" tools:ignore="UnusedResources">ke daftar</string>
-    <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
+    <string name="brick_store_csv_into_userlist_data">kucing,imut\nAnak anjing,nakal\noktopus,cerdas</string>
     <!--  -->
     <!--Instruments-->
     <string name="piano">piano</string>
-    <string name="electric_piano">electric piano</string>
-    <string name="cello">cello</string>
-    <string name="flute">flute</string>
+    <string name="electric_piano">piano listrik</string>
+    <string name="cello">selo</string>
+    <string name="flute">seruling</string>
     <string name="vibraphone">vibraphone</string>
     <string name="organ">organ</string>
-    <string name="guitar">guitar</string>
-    <string name="electric_guitar">electric guitar</string>
-    <string name="bass">bass</string>
-    <string name="pizzicato">pizzicato</string>
+    <string name="guitar">gitar</string>
+    <string name="electric_guitar">gitar elektrik</string>
+    <string name="bass">bas</string>
+    <string name="pizzicato">pizza</string>
     <string name="synth_pad">synth pad</string>
-    <string name="choir">choir</string>
-    <string name="synth_lead">synth lead</string>
-    <string name="wooden_flute">wooden flute</string>
-    <string name="trombone">trombone</string>
-    <string name="saxophone">saxophone</string>
+    <string name="choir">paduan suara</string>
+    <string name="synth_lead">memimpin synth</string>
+    <string name="wooden_flute">seruling kayu</string>
+    <string name="trombone">trombon</string>
+    <string name="saxophone">saksofon</string>
     <string name="bassoon">bassoon</string>
-    <string name="clarinet">clarinet</string>
-    <string name="music_box">music box</string>
-    <string name="steel_drum">steel drum</string>
+    <string name="clarinet">klarinet</string>
+    <string name="music_box">kotak musik</string>
+    <string name="steel_drum">drum besi</string>
     <string name="marimba">marimba</string>
     <!--  -->
     <!--Drums-->
     <string name="snare_drum">snare drum</string>
     <string name="bass_drum">bass drum</string>
-    <string name="side_stick">side stick</string>
+    <string name="side_stick">tongkat samping</string>
     <string name="crash_cymbal">crash cymbal</string>
-    <string name="open_hi_hat">open hi-hat</string>
-    <string name="closed_hi_hat">closed hi-hat</string>
-    <string name="tambourine">tambourine</string>
-    <string name="hand_clap">hand clap</string>
+    <string name="open_hi_hat">buka hi-hat</string>
+    <string name="closed_hi_hat">tutup hi-hat</string>
+    <string name="tambourine">rebana</string>
+    <string name="hand_clap">tepuk tangan</string>
     <string name="claves">claves</string>
-    <string name="wood_block">wood block</string>
-    <string name="cowbell">cowbell</string>
-    <string name="triangle">triangle</string>
+    <string name="wood_block">balok kayu</string>
+    <string name="cowbell">lonceng sapi</string>
+    <string name="triangle">segi tiga</string>
     <string name="bongo">bongo</string>
     <string name="conga">conga</string>
     <string name="cabasa">cabasa</string>
     <string name="guiro">guiro</string>
     <string name="vibraslap">vibraslap</string>
-    <string name="open_cuica">open cuica</string>
+    <string name="open_cuica">buka cuica</string>
     <!--  -->
     <!-- Default Values -->
-    <string name="default_project_name">My project</string>
-    <string name="default_variable_name">Variable</string>
-    <string name="default_scene_name">Adegan %1$d</string>
-    <string name="default_script_group_name">Script group</string>
+    <string name="default_project_name">Proyek saya</string>
+    <string name="default_variable_name">Variabel</string>
+    <string name="default_scene_name">Adegan (%1$d)</string>
+    <string name="default_script_group_name">Grup skrip</string>
     <string name="default_broadcast_message_name">Pesan</string>
-    <string name="default_list_name">List</string>
+    <string name="default_list_name">Daftar</string>
     <string name="default_project_background_name">Latar belakang</string>
     <string name="default_project_cloud_name">Awan</string>
     <string name="default_project_cloud_sprite_name_1">Awan1</string>
     <string name="default_project_cloud_sprite_name_2">Awan2</string>
-    <string name="default_project_sprites_animal_name">Animal</string>
-    <string name="default_project_sprites_animal_wings_up">Wings up</string>
-    <string name="default_project_sprites_animal_wings_down">Wings down</string>
+    <string name="default_project_sprites_animal_name">Satwa</string>
+    <string name="default_project_sprites_animal_wings_up">Sayap di atas</string>
+    <string name="default_project_sprites_animal_wings_down">Sayap di bawah</string>
     <string name="default_project_sprites_tweet_1">Kicau1</string>
     <string name="default_project_sprites_tweet_2">Kicau2</string>
     <!--suppress UnusedResources -->
-    <string name="default_project_needle_name">Needle</string>
+    <string name="default_project_needle_name">Jarum</string>
     <!--suppress UnusedResources -->
-    <string name="default_project_outer_loop">Outer Loop</string>
+    <string name="default_project_outer_loop">Loop Luar</string>
     <!--suppress UnusedResources -->
-    <string name="default_project_inner_loop">Inner Loop</string>
+    <string name="default_project_inner_loop">Lingkaran Dalam</string>
     <!-- Default ChromeCast Values -->
     <string name="default_cast_project_background_name">Latar belakang</string>
     <string name="default_cast_project_cloud_name">Awan</string>
@@ -1136,11 +1136,11 @@
     <string name="drone_set_tilt_outdoor">20 derajat </string>
     <string name="drone_set_tilt_max">30 derajat</string>
     <!-- Notification Channel -->
-    <string name="channel_description">%1$s notification channel</string>
+    <string name="channel_description">%1$s saluran notifikasi</string>
     <!--  -->
     <!-- Notifications -->
     <string name="notification_screenshot_ok">Pratinjau gambar disimpan</string>
-    <string name="notification_download_project_cancel">Cancel project download</string>
+    <string name="notification_download_project_cancel">Batalkan pengunduhan proyek</string>
     <string name="notification_reconvert_download_program_cancel">Membatalkan proses unduhan/mengubah kembali</string>
     <string name="notification_upload_title_pending">"Mengunggah "</string>
     <string name="notification_upload_title_finished">"Melihat kepda "</string>
@@ -1156,44 +1156,44 @@
     <string name="size_of_project">Ukuran:</string>
     <!--  -->
     <!-- Runtime permission messages -->
-    <string name="runtime_permission_general">This app needs the requested permissions to function properly. E.g., the
-Camera brick needs access to the device\'s camera, the \"location\" formula element needs access to the
-device\'s geolocation sensor, and in order to import and export projects from and to the local memory, the app
-needs read and write access to it. You can always change permissions through your device\'s settings.</string>
+    <string name="runtime_permission_general">Aplikasi ini membutuhkan izin yang diminta agar berfungsi dengan baik. Misalnya,
+Batu bata kamera memerlukan akses ke kamera perangkat, elemen rumus \"lokasi\" memerlukan akses ke
+sensor geolokasi perangkat, dan untuk mengimpor dan mengekspor proyek dari dan ke memori lokal, aplikasi
+membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin melalui pengaturan perangkat Anda.</string>
     <!-- Error messages -->
     <string name="error_project_upload">Terjadi kesalahan pada saat memuat program.</string>
     <string name="error_project_download">Terjadi kesalahan saat mengunduh program.</string>
-    <string name="error_project_already_in_queue">"Project %s already in queue."</string>
-    <string name="error_could_not_decode_project_name_from_url">"Your download could not be
-        started, seems there is a problem with our server."</string>
+    <string name="error_project_already_in_queue">"Proyek %s sudah dalam antrian."</string>
+    <string name="error_could_not_decode_project_name_from_url">"Unduhan Anda tidak bisa
+        dimulai, sepertinya ada masalah dengan server kami. "</string>
     <string name="error_new_project">Terjadi kesalahan saat membuat program baru.</string>
     <string name="error_rename_scene">Terjadi kesalahan saat mengganti nama adegan.</string>
     <string name="error_load_project">Terjadi kesalahan saat memuat program.</string>
     <string name="error_screenshot_failed">Terjadi kesalahan saat menyimpan gambar pratinjau.</string>
     <string name="error_internet_connection">Terjadi kesalahan yang tidak diketahui. Periksa koneksi Internet Anda.</string>
-    <string name="error_project_compatibility">The project is not compatible with this version of the app.</string>
+    <string name="error_project_compatibility">Proyek tidak kompatibel dengan versi aplikasi ini.</string>
     <string name="error_outdated_version">Versi aplikasi ini sudah usang. Memperbarui sekarang?</string>
-    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"My first project\".
-        Please rename the project.</string>
-    <string name="error_upload_default_project">You cannot upload an unmodified example project. Please
-        change something and try again.</string>
+    <string name="error_upload_project_with_default_name">Anda tidak dapat mengupload proyek dengan nama \"Proyek pertama saya\".
+        Harap ganti nama proyek.</string>
+    <string name="error_upload_default_project">Anda tidak dapat mengunggah proyek contoh yang tidak dimodifikasi. Silahkan
+        ubah sesuatu dan coba lagi.</string>
     <string name="error_adding_brick">Terjadi kesalahan saat menambahkan bata ini</string>
     <string name="error_copying_brick">Terjadi kesalahan saat menyalin bata ini</string>
     <string name="error_rename_incompatible_project">Mengganti nama sebuah proyek yang tidak kompatibel tidak mungkin dilakukan.</string>
-    <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
-    <string name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
-    <string name="error_embroidery_data_not_found">Embroidery is missing.</string>
+    <string name="error_embroidery_file_export">Ada yang salah saat berbagi file bordir.</string>
+    <string name="error_embroidery_file_write">Ada yang tidak beres saat menulis file bordir.</string>
+    <string name="error_embroidery_data_not_found">Sulaman hilang.</string>
     <string name="error_unknown_error">Terjadi kesalahan yang tidak diketahui.</string>
-    <string name="error_gps_not_available">Geolocation data is not available.</string>
+    <string name="error_gps_not_available">Data geolokasi tidak tersedia.</string>
     <string name="error_set_description">Terjadi kesalahan saat menyimpan deskripsi baru.</string>
-    <string name="error_set_notes_and_credits">Something went wrong while saving the new notes
-        and credits.</string>
+    <string name="error_set_notes_and_credits">Ada yang tidak beres saat menyimpan catatan baru
+        dan kredit.</string>
     <string name="error_no_whatsapp">WhatsApp tidak terpasang</string>
-    <string name="error_unsupported_bricks_chromecast">This script can\'t be added  to a Chromecast
-        project.</string>
+    <string name="error_unsupported_bricks_chromecast">Skrip ini tidak dapat ditambahkan ke Chromecast
+        proyek.</string>
     <!--  -->
     <!-- Bluetooth Connection Strings -->
-    <string name="notification_blueth_err">Can\'t enable Bluetooth, please try turning it off and on again.</string>
+    <string name="notification_blueth_err">Tidak dapat mengaktifkan Bluetooth, coba matikan dan hidupkan lagi.</string>
     <string name="title_paired_devices">Pasangan perangkat</string>
     <string name="title_other_devices">Perangkat baru</string>
     <string name="searching_devices">Mencari perangkat&#8230;</string>
@@ -1224,7 +1224,7 @@ needs read and write access to it. You can always change permissions through you
     <!-- Raspi Settings -->
     <string name="raspi_settings_title_name">Pengaturan Raspberry Pi</string>
     <string name="raspi_settings_gpio_version">Versi GPIO</string>
-    <string name="error_connecting_to">Error: Could not connect to %s : %d</string>
+    <string name="error_connecting_to">Kesalahan: Tidak dapat terhubung ke %s: %d</string>
     <!--  -->
     <!-- Lego Mindstorms Strings -->
     <string name="nxt_brick_motor_move" tools:ignore="UnusedResources">Atur motor NXT</string>
@@ -1262,8 +1262,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="lego_port_2">Port 2</string>
     <string name="lego_port_3">Port 3</string>
     <string name="lego_port_4">Port 4</string>
-    <string name="lego_sensor_config_dont_show_again">Do not show this message again.</string>
-    <string name="lego_sensor_port_config_dialog_title">Choose a port for connecting to %1$s.</string>
+    <string name="lego_sensor_config_dont_show_again">Jangan tampilkan pesan ini lagi.</string>
+    <string name="lego_sensor_port_config_dialog_title">Pilih port untuk menghubungkan ke %1$s.</string>
     <string name="lego_ev3_sensor_config_info_title">Konfigurasi Sensor EV3</string>
     <string name="preference_disable_ev3_info_dialog_description">Pengaturan EV3 program tertentu tidak ditampilkan saat membuka sebuah program.</string>
     <string name="preference_title_mindstorms_ev3_sensors_description">Pemetaan sensor EV3 ke port adalah program yang spesifik dan hanya dapat dikonfigurasi untuk program yang dibuka!</string>
@@ -1278,9 +1278,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="ev3_sensor_color">Sensor warna EV3</string>
     <string name="ev3_sensor_color_ambient">Sensor warna EV3 ambient</string>
     <string name="ev3_sensor_color_reflected">Sensor warna Ev3 tercermin</string>
-    <string name="ev3_sensor_hitechnic_color">HiTechnic color sensor</string>
-    <string name="ev3_sensor_nxt_temperature_c">NXT temperature sensor (°C)</string>
-    <string name="ev3_sensor_nxt_temperature_f">NXT temperature sensor (°F)</string>
+    <string name="ev3_sensor_hitechnic_color">Sensor warna HiTechnic</string>
+    <string name="ev3_sensor_nxt_temperature_c">Sensor suhu NXT (° C)</string>
+    <string name="ev3_sensor_nxt_temperature_f">Sensor suhu NXT (° F)</string>
     <string name="ev3_sensor_nxt_light">NXT light sensor</string>
     <string name="ev3_sensor_nxt_light_active">Sensor cahaya NXT aktif</string>
     <string name="ev3_sensor_nxt_sound">Sensor suara NXT</string>
@@ -1314,7 +1314,7 @@ needs read and write access to it. You can always change permissions through you
     <!-- Drone Bricks -->
     <string name="brick_drone_takeoff_land" tools:ignore="UnusedResources">Lepaskan / Tanah AR.Drone 2.0</string>
     <string name="brick_drone_play_led_animation" tools:ignore="UnusedResources">Mainkan animasi flash AR.Drone 2.0</string>
-    <string name="brick_drone_flip" tools:ignore="UnusedResources">Flip AR.Drone 2.0</string>
+    <string name="brick_drone_flip" tools:ignore="UnusedResources">Balik AR.Drone 2.0</string>
     <string name="brick_drone_move_left" tools:ignore="UnusedResources">Pindahkan AR.Drone 2.0 ke kiri</string>
     <string name="brick_drone_move_right" tools:ignore="UnusedResources">Pindahkan AR.Drone 2.0 dengan benar</string>
     <string name="brick_drone_move_forward" tools:ignore="UnusedResources">Pindahkan AR.Drone 2.0 ke depan</string>
@@ -1334,27 +1334,27 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_drone_power" tools:ignore="UnusedResources">kekuasaan</string>
     <!--  -->
     <!-- Drone play led animation strings -->
-    <string name="drone_animation_blinkgreenred" tools:ignore="UnusedResources">Blink green red</string>
-    <string name="drone_animation_blinkgreen" tools:ignore="UnusedResources">Blink green</string>
-    <string name="drone_animation_blinkred" tools:ignore="UnusedResources">Blink red</string>
-    <string name="drone_animation_blinkorange" tools:ignore="UnusedResources">Blink orange</string>
-    <string name="drone_animation_snakegreenred" tools:ignore="UnusedResources">Snake green red</string>
-    <string name="drone_animation_fire" tools:ignore="UnusedResources">Fire</string>
+    <string name="drone_animation_blinkgreenred" tools:ignore="UnusedResources">Berkedip merah hijau</string>
+    <string name="drone_animation_blinkgreen" tools:ignore="UnusedResources">Berkedip hijau</string>
+    <string name="drone_animation_blinkred" tools:ignore="UnusedResources">Berkedip merah</string>
+    <string name="drone_animation_blinkorange" tools:ignore="UnusedResources">Berkedip oranye</string>
+    <string name="drone_animation_snakegreenred" tools:ignore="UnusedResources">Ular merah hijau</string>
+    <string name="drone_animation_fire" tools:ignore="UnusedResources">Api</string>
     <string name="drone_animation_standard" tools:ignore="UnusedResources">Standar</string>
     <string name="drone_animation_red" tools:ignore="UnusedResources">Merah</string>
     <string name="drone_animation_green" tools:ignore="UnusedResources">Hijau</string>
-    <string name="drone_animation_redsnake" tools:ignore="UnusedResources">Red snake</string>
-    <string name="drone_animation_blank" tools:ignore="UnusedResources">Blank</string>
-    <string name="drone_animation_rightmissile" tools:ignore="UnusedResources">Right missile</string>
-    <string name="drone_animation_leftmissile" tools:ignore="UnusedResources">Left missile</string>
-    <string name="drone_animation_doublemissile" tools:ignore="UnusedResources">Double missile</string>
-    <string name="drone_animation_frontleftgreenothersred" tools:ignore="UnusedResources">Front left green others red</string>
-    <string name="drone_animation_frontrightgreenothersred" tools:ignore="UnusedResources">Front right green others red</string>
-    <string name="drone_animation_rearrightgreenothersred" tools:ignore="UnusedResources">Rear right green others red</string>
-    <string name="drone_animation_rearleftgreenothersred" tools:ignore="UnusedResources">Rear left green others red</string>
-    <string name="drone_animation_leftgreenrightred" tools:ignore="UnusedResources">Left green right red</string>
-    <string name="drone_animation_leftredrightgreen" tools:ignore="UnusedResources">Left red right green</string>
-    <string name="drone_animation_blinkstandard" tools:ignore="UnusedResources">Blink standard</string>
+    <string name="drone_animation_redsnake" tools:ignore="UnusedResources">Ular merah</string>
+    <string name="drone_animation_blank" tools:ignore="UnusedResources">Kosong</string>
+    <string name="drone_animation_rightmissile" tools:ignore="UnusedResources">Rudal kanan</string>
+    <string name="drone_animation_leftmissile" tools:ignore="UnusedResources">Rudal kiri</string>
+    <string name="drone_animation_doublemissile" tools:ignore="UnusedResources">Rudal ganda</string>
+    <string name="drone_animation_frontleftgreenothersred" tools:ignore="UnusedResources">Hijau depan kiri, lainnya merah</string>
+    <string name="drone_animation_frontrightgreenothersred" tools:ignore="UnusedResources">Hijau kanan depan, lainnya merah</string>
+    <string name="drone_animation_rearrightgreenothersred" tools:ignore="UnusedResources">Hijau kanan belakang, lainnya merah</string>
+    <string name="drone_animation_rearleftgreenothersred" tools:ignore="UnusedResources">Belakang kiri hijau lainnya merah</string>
+    <string name="drone_animation_leftgreenrightred" tools:ignore="UnusedResources">Hijau kiri kanan merah</string>
+    <string name="drone_animation_leftredrightgreen" tools:ignore="UnusedResources">Hijau kiri kanan merah</string>
+    <string name="drone_animation_blinkstandard" tools:ignore="UnusedResources">Blink standar</string>
     <!-- Jumping Sumo Bricks -->
     <string name="brick_jumping_sumo_move_forward" tools:ignore="UnusedResources">Pindahkan Jumping Sumo ke depan</string>
     <string name="brick_jumping_sumo_move_backward" tools:ignore="UnusedResources">Pindahkan Jumping Sumo ke belakang</string>
@@ -1434,9 +1434,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="phiro_sensor_bottom_left">Sensor Kiri Bawah</string>
     <string name="phiro_sensor_bottom_right">Sensor Bawah Kanan</string>
     <!--  -->
-    <string name="color_red">red</string>
-    <string name="color_green">green</string>
-    <string name="color_blue">blue</string>
+    <string name="color_red">merah</string>
+    <string name="color_green">hijau</string>
+    <string name="color_blue">biru</string>
     <!-- -->
     <!-- Formula editor strings -->
     <string name="formula_editor_data">Data</string>
@@ -1494,8 +1494,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_max_parameter">(0,1)</string>
     <string name="formula_editor_function_min" tools:ignore="UnusedResources">menit</string>
     <string name="formula_editor_function_min_parameter">(0,1)</string>
-    <string name="formula_editor_function_if_then_else">if then else</string>
-    <string name="formula_editor_function_if_then_else_parameter">(false, 2, 3)</string>
+    <string name="formula_editor_function_if_then_else">jika kemudian</string>
+    <string name="formula_editor_function_if_then_else_parameter">(salah, 2, 3)</string>
     <string name="formula_editor_function_true" tools:ignore="UnusedResources">BENAR</string>
     <string name="formula_editor_function_false" tools:ignore="UnusedResources">SALAH</string>
     <string name="formula_editor_function_length" tools:ignore="UnusedResources">panjang</string>
@@ -1503,18 +1503,18 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_letter" tools:ignore="UnusedResources">surat</string>
     <string name="formula_editor_function_letter_parameter">(1, \'halo dunia!\')</string>
     <string name="formula_editor_function_join" tools:ignore="UnusedResources">bergabung</string>
-    <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
+    <string name="formula_editor_function_join_parameter">(\'Halo\',\' Dunia\')</string>
     <string name="formula_editor_function_join3">bergabung</string>
-    <string name="formula_editor_function_join3_parameter">(\'hello\',\' world\',\'!\')</string>
-    <string name="formula_editor_function_regex" tools:ignore="UnusedResources">regular expression</string>
-    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
-    <string name="formula_editor_function_regex_assistant">Regular expression
-        assistant</string>
-    <string name="formula_editor_dialog_regular_expression_assistant_title">Regular
-        expression assistant</string>
-    <string name="formula_editor_dialog_wiki_button">More information</string>
-    <string name="formula_editor_function_regex_html_extractor_not_found">The keyword could not be found.</string>
-    <string name="formula_editor_function_regex_json_extractor_title">JSON extractor</string>
+    <string name="formula_editor_function_join3_parameter">(\'Halo\',\' Dunia\',\'!\')</string>
+    <string name="formula_editor_function_regex" tools:ignore="UnusedResources">ekspresi reguler</string>
+    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'Saya seekor panda.\')</string>
+    <string name="formula_editor_function_regex_assistant">Ekspresi reguler
+        asisten</string>
+    <string name="formula_editor_dialog_regular_expression_assistant_title">Reguler
+        asisten ekspresi</string>
+    <string name="formula_editor_dialog_wiki_button">Informasi lebih lanjut</string>
+    <string name="formula_editor_function_regex_html_extractor_not_found">Kata kunci tidak dapat ditemukan.</string>
+    <string name="formula_editor_function_regex_json_extractor_title">Ekstraktor JSON</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital" tools:ignore="UnusedResources">arduino_digital_pin</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog" tools:ignore="UnusedResources">arduino_analog_pin</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital" tools:ignore="UnusedResources">raspberry_pi_pin</string>
@@ -1526,26 +1526,26 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_multi_finger_y" tools:ignore="UnusedResources">layar_sentuh_y</string>
     <string name="formula_editor_function_is_multi_finger_touching" tools:ignore="UnusedResources">layar_di_sentuh</string>
     <string name="formula_editor_function_index_of_last_finger" tools:ignore="UnusedResources">index_layar_sentuh_terakhir</string>
-    <string name="formula_editor_function_number_of_current_touches">number of current touches</string>
-    <string name="formula_editor_function_index_of_current_touch">index of current touch</string>
+    <string name="formula_editor_function_number_of_current_touches">jumlah sentuhan saat ini</string>
+    <string name="formula_editor_function_index_of_current_touch">indeks sentuhan saat ini</string>
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(1)</string>
     <string name="formula_editor_function_list_item" tools:ignore="UnusedResources">elemen</string>
     <string name="formula_editor_function_list_item_parameter">(1,*daftar nama*)</string>
     <string name="formula_editor_function_contains" tools:ignore="UnusedResources">berisi</string>
     <string name="formula_editor_function_contains_parameter">(*daftar nama*,1)</string>
-    <string name="formula_editor_function_index_of_item" tools:ignore="UnusedResources">item\'s index</string>
+    <string name="formula_editor_function_index_of_item" tools:ignore="UnusedResources">indeks item</string>
     <string name="formula_editor_function_index_of_item_parameter">(1,*daftar nama*)</string>
     <string name="formula_editor_function_number_of_items" tools:ignore="UnusedResources">jumlah_dari_item</string>
     <string name="formula_editor_function_number_of_items_parameter">(*daftar nama*)</string>
     <string name="formula_editor_function_collision">menyentuh_objek</string>
     <string name="formula_editor_function_collides_with_edge" tools:ignore="UnusedResources">menyentuh_tepi</string>
     <string name="formula_editor_function_touched" tools:ignore="UnusedResources">menyentuh_jari</string>
-    <string name="formula_editor_function_collides_with_color">touches color</string>
-    <string name="formula_editor_function_color_touches_color">color touches color</string>
-    <string name="formula_editor_sensor_color_at_x_y">color at x y</string>
-    <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">color equals color with %
-        tolerance</string>
+    <string name="formula_editor_function_collides_with_color">menyentuh warna</string>
+    <string name="formula_editor_function_color_touches_color">warna menyentuh warna</string>
+    <string name="formula_editor_sensor_color_at_x_y">warna pada x y</string>
+    <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">warna sama dengan warna dengan%
+        toleransi</string>
     <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">percepatan_x</string>
     <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">percepatan_y</string>
     <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">percepatan_z</string>
@@ -1554,7 +1554,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_longitude" tools:ignore="UnusedResources">garis bujur</string>
     <string name="formula_editor_sensor_location_accuracy" tools:ignore="UnusedResources">akurasi_lokasi</string>
     <string name="formula_editor_sensor_altitude" tools:ignore="UnusedResources">ketinggian</string>
-    <string name="formula_editor_sensor_user_language">user language</string>
+    <string name="formula_editor_sensor_user_language">bahasa pengguna</string>
     <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">kecenderungan_x</string>
     <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">kecenderungan_y</string>
     <string name="formula_editor_sensor_loudness" tools:ignore="UnusedResources">kenyaringan</string>
@@ -1594,13 +1594,13 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3_warna</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3_warna_ambien</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3_warna_tercermin</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3 hitechnic color</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">EV3 NXT temperature in °C</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">EV3 NXT temperature in °F</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light">EV3 NXT light</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">EV3 NXT light active</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">EV3 NXT sound</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT ultrasonic</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">Warna hitechnic EV3</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">Suhu EV3 NXT dalam °C</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">Suhu EV3 NXT dalam °F</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light">Lampu EV3 NXT</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">Lampu EV3 NXT aktif</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">Suara EV3 NXT</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT ultrasonik</string>
     <string name="formula_editor_sensor_gamepad_a_pressed" tools:ignore="UnusedResources">gamepad_a_tekan</string>
     <string name="formula_editor_sensor_gamepad_b_pressed" tools:ignore="UnusedResources">gamepad_b_tekan</string>
     <string name="formula_editor_sensor_gamepad_up_pressed" tools:ignore="UnusedResources">gamepad_atas_tekan</string>
@@ -1641,9 +1641,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_functions_lists">Daftar</string>
     <string name="formula_editor_logic_boolean">Operator logika (boolean)</string>
     <string name="formula_editor_logic_comparison">Operator perbandingan</string>
-    <string name="formula_editor_object_look">Look properties</string>
+    <string name="formula_editor_object_look">Lihat properti</string>
     <string name="formula_editor_object_movement">Sifat gerak</string>
-    <string name="formula_editor_device_visual_detection">Visual sensors</string>
+    <string name="formula_editor_device_face_detection">Face detection</string>
+    <string name="formula_editor_device_text_recognition">Text recognition</string>
     <string name="formula_editor_device_date_and_time">Tanggal dan waktu</string>
     <string name="formula_editor_device_touch_detection">Deteksi sentuhan</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>
@@ -1670,34 +1671,34 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_operator_divide" tools:ignore="UnusedResources">÷</string>
     <string name="formula_editor_operator_power" tools:ignore="UnusedResources">^</string>
     <string name="formula_editor_image_button_description_delete">hapus</string>
-    <string name="formula_editor_image_button_description_color_picker">color picker</string>
-    <string name="formula_editor_image_button_description_functions_toggle">toggle functions</string>
+    <string name="formula_editor_image_button_description_color_picker">pemilih warna</string>
+    <string name="formula_editor_image_button_description_functions_toggle">fungsi sakelar</string>
     <string name="formula_editor_variable_dialog_title">Variabel Baru</string>
     <string name="formula_editor_list_dialog_title">Daftar Baru</string>
-    <string name="formula_editor_regex_html_extractor_dialog_title">HTML extractor</string>
+    <string name="formula_editor_regex_html_extractor_dialog_title">Ekstraktor HTML</string>
     <string name="formula_editor_discard_changes_dialog_message">Apakah Anda ingin menyimpan perubahan?</string>
     <string name="formula_editor_discard_changes_dialog_title">Simpan perubahan?</string>
     <string name="formula_editor_new_string_name">Teks baru</string>
     <string name="formula_editor_dialog_change_text">Ganti teks</string>
-    <string name="formula_editor_dialog_change_regular_expression">Change regular
-        expression</string>
+    <string name="formula_editor_dialog_change_regular_expression">Ubah biasa
+        ekspresi</string>
     <string name="formula_editor_fragment_data_current_items">item saat ini</string>
     <string name="formula_editor_data_dialog_is_list">Membuat daftar</string>
     <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">wajah_telah_terdeteksi</string>
     <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">ukuran-wajah</string>
     <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">posisi_wajah_x</string>
     <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">posisi_wajah_y</string>
-    <string name="formula_editor_sensor_second_face_detected">second face is visible</string>
-    <string name="formula_editor_sensor_second_face_size">second face size</string>
-    <string name="formula_editor_sensor_second_face_x_position">second face x position</string>
-    <string name="formula_editor_sensor_second_face_y_position">second face y position</string>
-    <string name="formula_editor_sensor_text_from_camera">text from camera</string>
-    <string name="formula_editor_sensor_text_blocks_number">number of text blocks</string>
-    <string name="formula_editor_function_text_block_x">text block x from camera</string>
-    <string name="formula_editor_function_text_block_y">text block y from camera</string>
-    <string name="formula_editor_function_text_block_size">text block size from camera</string>
-    <string name="formula_editor_function_text_block_from_camera">text block from camera</string>
-    <string name="formula_editor_function_text_block_language_from_camera">text block language from camera</string>
+    <string name="formula_editor_sensor_second_face_detected">wajah kedua terlihat</string>
+    <string name="formula_editor_sensor_second_face_size">ukuran wajah kedua</string>
+    <string name="formula_editor_sensor_second_face_x_position">posisi x wajah kedua</string>
+    <string name="formula_editor_sensor_second_face_y_position">wajah kedua posisi y</string>
+    <string name="formula_editor_sensor_text_from_camera">teks dari kamera</string>
+    <string name="formula_editor_sensor_text_blocks_number">jumlah blok teks</string>
+    <string name="formula_editor_function_text_block_x">blok teks x dari kamera</string>
+    <string name="formula_editor_function_text_block_y">blok teks y dari kamera</string>
+    <string name="formula_editor_function_text_block_size">ukuran blok teks dari kamera</string>
+    <string name="formula_editor_function_text_block_from_camera">blok teks dari kamera</string>
+    <string name="formula_editor_function_text_block_language_from_camera">teks blok bahasa dari kamera</string>
     <string name="formula_editor_function_text_block_parameter">(0)</string>
     <string name="formula_editor_intro_title_formula_editor">Rumus editor</string>
     <string name="formula_editor_intro_summary_formula_editor">Editor rumus memungkinkan Anda membuat matematika dan
@@ -1728,25 +1729,25 @@ needs read and write access to it. You can always change permissions through you
          dicatat smartphone atau tablet Anda.\n Misalnya, kemiringan perangkat Anda, atau kenyaringan di sekitar Anda.</string>
     <string name="formula_editor_intro_title_data">Data</string>
     <string name="formula_editor_intro_summary_data">Variabel dan daftar yang digunakan dalam program Anda dapat ditemukan di sini.\n Anda bisa memasukkannya ke dalam formula Anda, atau menambahkan yang baru.</string>
-    <string name="formula_editor_listening_language_sensor">listening language</string>
-    <string name="formula_editor_speech_recognition">Speech recognition</string>
+    <string name="formula_editor_listening_language_sensor">bahasa mendengarkan</string>
+    <string name="formula_editor_speech_recognition">Pengenalan suara</string>
     <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.</string>
-    <string name="formula_editor_function_flatten">flatten</string>
+    <string name="formula_editor_function_flatten">meratakan</string>
     <string name="formula_editor_function_flatten_parameter">(*daftar nama*)</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
     <string name="brick_show_variable" tools:ignore="UnusedResources">Tampilkan variabel </string>
     <string name="brick_hide_variable" tools:ignore="UnusedResources">Sembunyikan variabel</string>
     <string name="brick_show_variable_position" tools:ignore="UnusedResources">di </string>
-    <string name="brick_show_variable_size" tools:ignore="UnusedResources">size:</string>
-    <string name="brick_show_variable_color" tools:ignore="UnusedResources">color:</string>
-    <string name="brick_show_variable_aligned" tools:ignore="UnusedResources">aligned</string>
-    <string name="brick_show_variable_aligned_centered" tools:ignore="UnusedResources">centered</string>
+    <string name="brick_show_variable_size" tools:ignore="UnusedResources">ukuran:</string>
+    <string name="brick_show_variable_color" tools:ignore="UnusedResources">warna:</string>
+    <string name="brick_show_variable_aligned" tools:ignore="UnusedResources">selaras</string>
+    <string name="brick_show_variable_aligned_centered" tools:ignore="UnusedResources">berpusat</string>
     <string name="brick_show_variable_aligned_left" tools:ignore="UnusedResources">kiri</string>
     <string name="brick_show_variable_aligned_right" tools:ignore="UnusedResources">kanan</string>
-    <string name="brick_context_dialog_pick_color">Pick color</string>
-    <string name="brick_context_dialog_pick_note">Pick note</string>
+    <string name="brick_context_dialog_pick_color">Pilih warna</string>
+    <string name="brick_context_dialog_pick_note">Pilih catatan</string>
     <!-- -->
     <!-- Camera related strings -->
     <string name="brick_video" tools:ignore="UnusedResources">Belokkan kamera</string>
@@ -1754,7 +1755,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="video_brick_camera_off" tools:ignore="UnusedResources">mati</string>
     <string name="brick_choose_camera" tools:ignore="UnusedResources">Gunakan kamera</string>
     <string name="choose_camera_front" tools:ignore="UnusedResources">depan</string>
-    <string name="choose_camera_back" tools:ignore="UnusedResources">rear</string>
+    <string name="choose_camera_back" tools:ignore="UnusedResources">belakang</string>
     <string name="camera_error_generic">        Something went wrong while trying to use the camera.
     </string>
     <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
@@ -1775,30 +1776,30 @@ needs read and write access to it. You can always change permissions through you
     <string name="cast_ready_to_cast">Siap untuk dilemparkan ke</string>
     <string name="cast_enable_cast_feature">Fitur lempar dinonaktifkan. Harap aktifkan fitur lempar pada pengaturan.</string>
     <string name="cast_searching_for_cast_devices">Cari untuk perangkat lempar</string>
-    <string name="cast_trouble_finding_devices_tip">.\nDon\'t see your device? Try turning your device\'s Wifi off
-        and on.</string>
+    <string name="cast_trouble_finding_devices_tip">.\nTidak melihat perangkat Anda? Coba matikan Wifi perangkat Anda
+        dan seterusnya.</string>
     <string name="cast_connection_timout_msg">Sambungan gagal, silahkan ulangi lagi.</string>
     <string name="cast_screen_pause_text">Tunda</string>
     <!-- -->
-    <string name="deletion_alert_title">Delete?</string>
-    <string name="deletion_alert_text">Deleting a variable or list that is still in use can cause
-        errors. You can\'t undo this!</string>
+    <string name="deletion_alert_title">Menghapus?</string>
+    <string name="deletion_alert_text">Menghapus variabel atau daftar yang masih digunakan dapat menyebabkan
+        kesalahan. Anda tidak dapat membatalkan ini!</string>
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">Program Anda akan diunggah ke situs berbagi aplikasi tempat orang lain dapat menggunakannya
          dan download.
          Anda juga dapat mendownload program Anda sebagai aplikasi mandiri.</string>
-    <string name="progress_upload_dialog_failed">Upload failed. Please check your internet connection and try
-        again!</string>
+    <string name="progress_upload_dialog_failed">Gagal mengunggah. Silakan periksa koneksi internet Anda dan coba
+        lagi!</string>
     <string name="progress_upload_dialog_show_program">Tampilkan program</string>
     <!--  -->
     <!-- unchanged upload dialog -->
-    <string name="unchanged_upload_warning">The project you are trying to upload already exists on
-        the community platform in exactly the same form. Please change your project, ideally by
-        enhancing it, before uploading your remixed project.</string>
-    <string name="unchanged_upload_info">Please consider adding some kind words towards the original
-        author in the Credits section on the community site or in the project options. Please note
-        that the user will get a notification after your successful upload.</string>
-    <string name="unchanged_upload_url">To learn more about remixes, please visit %1s.</string>
+    <string name="unchanged_upload_warning">Proyek yang Anda coba unggah sudah ada
+        platform komunitas dalam bentuk yang persis sama. Harap ubah proyek Anda, idealnya dengan
+        menyempurnakannya, sebelum mengupload proyek remix Anda.</string>
+    <string name="unchanged_upload_info">Harap pertimbangkan untuk menambahkan beberapa kata baik ke arah aslinya
+        penulis di bagian Kredit di situs komunitas atau di opsi proyek. Tolong dicatat
+        bahwa pengguna akan mendapatkan notifikasi setelah Anda berhasil mengupload.</string>
+    <string name="unchanged_upload_url">Untuk mempelajari lebih lanjut tentang remix, kunjungi %1s.</string>
     <!-- -->
     <!-- Snackbar hints -->
     <string name="got_it">Mengerti</string>
@@ -1806,22 +1807,22 @@ needs read and write access to it. You can always change permissions through you
     <string name="preference_title_enable_hints">Tampilkan petunjuk </string>
     <string name="hint_category">Semua batu bata diurutkan dalam kategori. Pilih kategori yang anda cari.</string>
     <string name="hint_bricks">Untuk menambahkan batu bata pada naskah Anda, ketuk batu bata yang ingin Anda gunakan.</string>
-    <string name="hint_scripts">The script defines the behavior of your actor or object. To add bricks to the script,
-        tap the \"+\" symbol.</string>
-    <string name="hint_looks">Here you can find the different appearances of your actor or object. To add a new look,
-        tap the \"+\" symbol.</string>
-    <string name="hint_sounds">Here you can add new sounds to your actor or object. Remember using a brick from the
-        sound category.</string>
-    <string name="hint_objects">Your program consists of different actors and objects that can interact with each other.
-        To add a new actor or object, tap the \"+\" symbol.</string>
+    <string name="hint_scripts">Skrip menentukan perilaku aktor atau objek Anda. Untuk menambahkan batu bata ke skrip,
+        tap simbol \"+\".</string>
+    <string name="hint_looks">Di sini Anda dapat menemukan berbagai penampilan aktor atau objek Anda. Untuk menambahkan tampilan baru,
+        tap simbol \"+\".</string>
+    <string name="hint_sounds">Di sini Anda dapat menambahkan suara baru ke aktor atau objek Anda. Ingatlah menggunakan batu bata dari
+        kategori suara.</string>
+    <string name="hint_objects">Program Anda terdiri dari aktor dan objek berbeda yang dapat berinteraksi satu sama lain.
+        Untuk menambahkan aktor atau objek baru, ketuk simbol \"+\".</string>
     <!--  -->
     <!-- Dialog Disable hints -->
-    <string name="dialog_disable_hints_title">Show hints?</string>
-    <string name="dialog_disable_hints_text">Hints provide you with helpful information
-        while making your first project.\n\nVisibility of hints can be changed in the
-        settings.</string>
-    <string name="dialog_disable_hints_button_hide">HIDE</string>
-    <string name="dialog_disable_hints_button_show">SHOW</string>
+    <string name="dialog_disable_hints_title">Tampilkan petunjuk?</string>
+    <string name="dialog_disable_hints_text">Petunjuk memberi Anda informasi yang berguna
+        saat membuat proyek pertama Anda.\n\nVisibilitas petunjuk dapat diubah di
+        pengaturan.</string>
+    <string name="dialog_disable_hints_button_hide">SEMBUNYI</string>
+    <string name="dialog_disable_hints_button_show">MENUNJUKKAN</string>
     <!--  -->
     <!-- Crash report dialog -->
     <!--  -->
@@ -1830,14 +1831,16 @@ needs read and write access to it. You can always change permissions through you
     <!-- Symbols -->
     <string name="percent_symbol">%</string>
     <string name="hertz_symbol" tools:ignore="UnusedResources">㎐</string>
-    <string name="no_internet_connection">No internet connection. Make sure Wi-Fi or mobile
-    data is turned on.</string>
+    <string name="no_internet_connection">Tidak ada koneksi internet. Pastikan Wi-Fi atau seluler
+    data dihidupkan.</string>
     <string name="edit">Edit</string>
-    <string name="data_value">Value</string>
-    <string name="category_recently_used">Recently used</string>
-    <string name="new_sprite_dialog_place_visually">Place visually</string>
-    <string name="place_visually_text">You will be asked to place the new actor or object on the
-        stage.</string>
+    <string name="data_value">Nilai</string>
+    <string name="category_recently_used">Baru - baru ini digunakan</string>
+    <string name="new_sprite_dialog_place_visually">Tempatkan secara visual</string>
+    <string name="place_visually_text">Anda akan diminta untuk menempatkan aktor atau objek baru di
+        tahap.</string>
     <!-- Information -->
-    <string name="no_variable_selected">No variable selected</string>
+    <string name="no_variable_selected">Tidak ada variabel yang dipilih</string>
+    <string name="find">Temukan</string>
+    <string name="no_results_found">Tidak ada hasil yang ditemukan</string>
 </resources>

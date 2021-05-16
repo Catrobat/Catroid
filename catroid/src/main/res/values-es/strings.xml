@@ -1554,11 +1554,11 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string name="formula_editor_function_arduino_read_pin_value_analog" tools:ignore="UnusedResources">arduino_pin_analogico</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital" tools:ignore="UnusedResources">raspberry_pi_pin</string>
     <string name="formula_editor_function_pin_default_parameter">(3)</string>
-    <string name="formula_editor_function_finger_x" tools:ignore="UnusedResources">toque_pantalla_x</string>
-    <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">toque_pantalla_y</string>
+    <string name="formula_editor_function_finger_x" tools:ignore="UnusedResources">toque pantalla x</string>
+    <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">toque pantalla y</string>
     <string name="formula_editor_function_is_finger_touching" tools:ignore="UnusedResources">pantalla_tocada</string>
-    <string name="formula_editor_function_multi_finger_x" tools:ignore="UnusedResources">toque_pantalla_x</string>
-    <string name="formula_editor_function_multi_finger_y" tools:ignore="UnusedResources">toque_pantalla_y</string>
+    <string name="formula_editor_function_multi_finger_x" tools:ignore="UnusedResources">toque pantalla x</string>
+    <string name="formula_editor_function_multi_finger_y" tools:ignore="UnusedResources">toque pantalla y</string>
     <string name="formula_editor_function_is_multi_finger_touching" tools:ignore="UnusedResources">pantalla_tocada</string>
     <string name="formula_editor_function_index_of_last_finger" tools:ignore="UnusedResources">ultimo_indice_de_toque_pantalla</string>
     <string name="formula_editor_function_number_of_current_touches">número de toques actuales</string>
@@ -1581,8 +1581,8 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string name="formula_editor_sensor_color_at_x_y">color a x y</string>
     <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">color es igual a color con %
         tolerancia</string>
-    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">acceleracion_x</string>
-    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">acceleracion_y</string>
+    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">acceleracion x</string>
+    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">acceleracion y</string>
     <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">acceleracion_z</string>
     <string name="formula_editor_sensor_compass_direction" tools:ignore="UnusedResources">dirección_compass</string>
     <string name="formula_editor_sensor_latitude" tools:ignore="UnusedResources">latitud</string>
@@ -1590,8 +1590,8 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string name="formula_editor_sensor_location_accuracy" tools:ignore="UnusedResources">precision_localizacion</string>
     <string name="formula_editor_sensor_altitude" tools:ignore="UnusedResources">altitud</string>
     <string name="formula_editor_sensor_user_language">idioma del usuario</string>
-    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">inclinacion_x</string>
-    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">inclinacion_y</string>
+    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">inclinacion x</string>
+    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">inclinacion y</string>
     <string name="formula_editor_sensor_loudness" tools:ignore="UnusedResources">volumen</string>
     <string name="formula_editor_sensor_timer">cronómetro</string>
     <string name="formula_editor_sensor_date_year" tools:ignore="UnusedResources">año</string>
@@ -1650,8 +1650,8 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string name="formula_editor_phiro_sensor_bottom_right" tools:ignore="UnusedResources">phiro_sensor_abajo_derecho</string>
     <string name="formula_editor_nfc_tag_id" tools:ignore="UnusedResources">nfc_tag_id</string>
     <string name="formula_editor_nfc_tag_message" tools:ignore="UnusedResources">mensaje_etiqueta_nfc</string>
-    <string name="formula_editor_object_x" tools:ignore="UnusedResources">posición_x</string>
-    <string name="formula_editor_object_y" tools:ignore="UnusedResources">posición_y</string>
+    <string name="formula_editor_object_x" tools:ignore="UnusedResources">posición x</string>
+    <string name="formula_editor_object_y" tools:ignore="UnusedResources">posición y</string>
     <string name="formula_editor_object_transparency" tools:ignore="UnusedResources">transparencia</string>
     <string name="formula_editor_object_brightness" tools:ignore="UnusedResources">brillo</string>
     <string name="formula_editor_object_size" tools:ignore="UnusedResources">tamaño</string>
@@ -1678,7 +1678,8 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string name="formula_editor_logic_comparison">operador de comparación</string>
     <string name="formula_editor_object_look">Propiedades de aspecto</string>
     <string name="formula_editor_object_movement">propiedades de movimiento</string>
-    <string name="formula_editor_device_visual_detection">Sensores visuales</string>
+    <string name="formula_editor_device_face_detection">Face detection</string>
+    <string name="formula_editor_device_text_recognition">Text recognition</string>
     <string name="formula_editor_device_date_and_time">Fecha y hora</string>
     <string name="formula_editor_device_touch_detection">Detección del tacto</string>
     <string name="formula_editor_device_lego_nxt">LEGO NXT</string>
@@ -1863,4 +1864,6 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
         escenario.</string>
     <!-- Information -->
     <string name="no_variable_selected">Ninguna variable seleccionada</string>
+    <string name="find">Encuentre</string>
+    <string name="no_results_found">No se han encontrado resultados</string>
 </resources>

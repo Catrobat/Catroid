@@ -1529,8 +1529,8 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="formula_editor_sensor_color_at_x_y">在 x y 处颜色</string>
     <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">颜色等于%的颜色
         容忍</string>
-    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">gia tốc_x</string>
-    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">gia tốc_y</string>
+    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">gia tốc x</string>
+    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">加速度y</string>
     <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">gia tốc_z</string>
     <string name="formula_editor_sensor_compass_direction" tools:ignore="UnusedResources">hướng_la bàn</string>
     <string name="formula_editor_sensor_latitude" tools:ignore="UnusedResources">纬度</string>
@@ -1538,8 +1538,8 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="formula_editor_sensor_location_accuracy" tools:ignore="UnusedResources">定位精度</string>
     <string name="formula_editor_sensor_altitude" tools:ignore="UnusedResources">海拔高度</string>
     <string name="formula_editor_sensor_user_language">用户语言</string>
-    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">nghiêng_x</string>
-    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">nghiêng_y</string>
+    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">nghiêng x</string>
+    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">倾角</string>
     <string name="formula_editor_sensor_loudness" tools:ignore="UnusedResources">âm sắc</string>
     <string name="formula_editor_sensor_timer">定时器</string>
     <string name="formula_editor_sensor_date_year" tools:ignore="UnusedResources">年</string>
@@ -1598,8 +1598,8 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="formula_editor_phiro_sensor_bottom_right" tools:ignore="UnusedResources">phiro右下方传感器</string>
     <string name="formula_editor_nfc_tag_id" tools:ignore="UnusedResources">NFC标签ID</string>
     <string name="formula_editor_nfc_tag_message" tools:ignore="UnusedResources">nfc标签消息</string>
-    <string name="formula_editor_object_x" tools:ignore="UnusedResources">vị trí_x</string>
-    <string name="formula_editor_object_y" tools:ignore="UnusedResources">vị trí_y</string>
+    <string name="formula_editor_object_x" tools:ignore="UnusedResources">vị trí x</string>
+    <string name="formula_editor_object_y" tools:ignore="UnusedResources">阵地</string>
     <string name="formula_editor_object_transparency" tools:ignore="UnusedResources">Độ trong suốt</string>
     <string name="formula_editor_object_brightness" tools:ignore="UnusedResources">Độ sáng</string>
     <string name="formula_editor_object_size" tools:ignore="UnusedResources">kích thước</string>
@@ -1626,7 +1626,8 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="formula_editor_logic_comparison">比较运算符</string>
     <string name="formula_editor_object_look">查看属性</string>
     <string name="formula_editor_object_movement">运动属性</string>
-    <string name="formula_editor_device_visual_detection">视觉传感器</string>
+    <string name="formula_editor_device_face_detection">Face detection</string>
+    <string name="formula_editor_device_text_recognition">Text recognition</string>
     <string name="formula_editor_device_date_and_time">日期与时间</string>
     <string name="formula_editor_device_touch_detection">触碰检测</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>
@@ -1668,8 +1669,8 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="formula_editor_data_dialog_is_list">Tạo một danh sách</string>
     <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">mặt_được_nhận_diện</string>
     <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">kích_cỡ_mặt</string>
-    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">vị_trí_mặt_x</string>
-    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">vị_trí_mặt_y</string>
+    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">第一面X位置</string>
+    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">第一面Y位置</string>
     <string name="formula_editor_sensor_second_face_detected">第二个面可见</string>
     <string name="formula_editor_sensor_second_face_size">第二面大小</string>
     <string name="formula_editor_sensor_second_face_x_position">第二面 x 位置</string>
@@ -1810,4 +1811,6 @@ dash(-), 下划线 (_), 和 句号(.).</string>
         舞台上。</string>
     <!-- Information -->
     <string name="no_variable_selected">未选择变量</string>
+    <string name="find">查找</string>
+    <string name="no_results_found">没有发现结果</string>
 </resources>

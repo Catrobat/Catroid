@@ -29,7 +29,7 @@
     <string name="redo" tools:ignore="UnusedResources">Gör om</string>
     <string name="undo" tools:ignore="UnusedResources">Ångra</string>
     <string name="new_option">Nya&#8230;</string>
-    <string name="edit_option">edit&#8230;</string>
+    <string name="edit_option">redigera&#8230;</string>
     <string name="confirm">Bekräfta</string>
     <string name="ignore">Ignorera</string>
     <string name="cancel">Avbryt</string>
@@ -65,7 +65,7 @@
         You may also report the project on its page on the Catrobat community platform in case
         you are sure that it is harmful.</string>
     <!-- Replace Api dialog -->
-    <string name="api_replacement_dialog_neutral">Upload without change</string>
+    <string name="api_replacement_dialog_neutral">Ladda upp utan förändring</string>
     <string name="api_replacement_dialog_accept">Upload with keys replaced</string>
     <string name="api_replacement_dialog_warning">The project contains bricks that access the
         web, and also seems to contain API keys. Please see %1s why
@@ -230,7 +230,7 @@
     <string name="error_cannot_open_failed_scratch_program">You cannot open the project because it wasn\'t
         converted correctly. Please try to convert it again.</string>
     <string name="search_failed">Ingenting hittades, försök igen senare.</string>
-    <string name="connection_lost_or_closed_by_server">Server connection lost.</string>
+    <string name="connection_lost_or_closed_by_server">Serveranslutning förlorad.</string>
     <string name="connection_failed">We can\'t connect you to the server right now, please try again later.</string>
     <string name="authentication_failed">There seems to be a problem with your connection to the service. Please
         contact the Catrobat team.</string>
@@ -323,7 +323,7 @@
     <string name="merge">Slå ihop</string>
     <string name="show_details">Visa detaljer</string>
     <string name="hide_details">Dölj detaljer</string>
-    <string name="project_options">Project options</string>
+    <string name="project_options">Projektalternativ</string>
     <string name="sort_projects">Sort</string>
     <string name="unsort_projects">Unsort</string>
     <!-- New Dialog Titles -->
@@ -368,7 +368,7 @@
     <string name="nfc_tag_name_label">NFC tag name</string>
     <string name="string_label">Text</string>
     <string name="data_label">Namn</string>
-    <string name="keyword_label">Insert keyword</string>
+    <string name="keyword_label">Infoga nyckelord</string>
     <string name="html_label">Insert HTML text</string>
     <string name="Image_format_not_supported">Bildformat stöds inte</string>
     <!-- Details -->
@@ -390,7 +390,7 @@
     <string name="rename_data_dialog">Byt namn</string>
     <!-- New Script Group Dialog -->
     <string name="new_group">Ny grupp</string>
-    <string name="default_group_name">Group</string>
+    <string name="default_group_name">Grupp</string>
     <!-- New Scene Menu -->
     <string name="new_scene">Ny scen</string>
     <!-- Action Toasts -->
@@ -640,7 +640,7 @@
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Move brick</string>
     <string name="brick_context_dialog_move_script">Flytta skript</string>
-    <string name="brick_context_dialog_move_definition">Move this definition</string>
+    <string name="brick_context_dialog_move_definition">Flytta denna definition</string>
     <string name="brick_context_dialog_delete_brick" tools:ignore="UnusedResources">Delete brick</string>
     <string name="brick_context_dialog_copy_brick">Copy brick</string>
     <string name="brick_context_dialog_copy_script">Kopiera skript</string>
@@ -656,7 +656,7 @@
     <string name="comment_in_out">Inaktivera/aktivera</string>
     <string name="catblocks">Växla 2D</string>
     <string name="catblocks_reorder">Rensa upp skript</string>
-    <string name="switch_to_1d" tools:ignore="UnusedResources">1D view</string>
+    <string name="switch_to_1d" tools:ignore="UnusedResources">1D-vy</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">Spela scen:</string>
@@ -667,7 +667,7 @@
     <string name="sign_in_dialog_title">Logga in</string>
     <string name="username">Användarnamn</string>
     <string name="password">Lösenord</string>
-    <string name="reset_password">Reset password</string>
+    <string name="reset_password">Återställ lösenord</string>
     <string name="new_user_registered">Nytt konto skapat</string>
     <string name="user_logged_in">Inloggad</string>
     <string name="register_error">Inloggning ogiltig</string>
@@ -697,7 +697,7 @@
     <string name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
     <string name="error_register_passwords_mismatch">Lösenorden matchar ej</string>
     <string name="error_register_empty_confirm_password">Confirm password field is empty</string>
-    <string name="error_register_username_already_exists">Username already exists</string>
+    <string name="error_register_username_already_exists">Användarnamnet finns redan</string>
     <string name="error_register_email_exists">E-postadressen finns redan</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
@@ -746,8 +746,8 @@
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">Nytt meddelande</string>
-    <string name="dialog_broadcast_message_name">message:</string>
-    <string name="dialog_edit_broadcast_message_title">Edit message</string>
+    <string name="dialog_broadcast_message_name">meddelande:</string>
+    <string name="dialog_edit_broadcast_message_title">Redigera meddelande</string>
     <!--  -->
     <!-- NFC spinner -->
     <string name="brick_when_nfc_edit_list_of_nfc_tags">Redigera lista över NFC-taggar</string>
@@ -1118,11 +1118,11 @@
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">Mitt projekt</string>
-    <string name="default_variable_name">Variable</string>
+    <string name="default_variable_name">Variabel</string>
     <string name="default_scene_name">Scen %1$d</string>
     <string name="default_script_group_name">Script group</string>
     <string name="default_broadcast_message_name">Meddelande</string>
-    <string name="default_list_name">List</string>
+    <string name="default_list_name">Lista</string>
     <string name="default_project_background_name">Bakgrund</string>
     <string name="default_project_cloud_name">Moln</string>
     <string name="default_project_cloud_sprite_name_1">Clouds1</string>
@@ -1279,7 +1279,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="nxt_brick_motor_turn_angle" tools:ignore="UnusedResources">Turn NXT motor</string>
     <string name="nxt_motor_move_by" tools:ignore="UnusedResources">med</string>
     <string name="nxt_motor_stop" tools:ignore="UnusedResources">Stop NXT motor</string>
-    <string name="nxt_play_tone" tools:ignore="UnusedResources">Play NXT tone</string>
+    <string name="nxt_play_tone" tools:ignore="UnusedResources">Spela NXT-ton</string>
     <string name="nxt_tone_duration" tools:ignore="UnusedResources">Längd</string>
     <string name="nxt_tone_frequency" tools:ignore="UnusedResources">Upprepning</string>
     <string name="nxt_tone_hundred_hz" tools:ignore="UnusedResources">x100Hz</string>
@@ -1343,7 +1343,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="ev3_motor_d">D</string>
     <string name="ev3_motor_b_and_c">B+C</string>
     <string name="ev3_motor_all">Alla</string>
-    <string name="ev3_play_tone" tools:ignore="UnusedResources">Play EV3 tone</string>
+    <string name="ev3_play_tone" tools:ignore="UnusedResources">Spela EV3-ton</string>
     <string name="ev3_tone_duration_for" tools:ignore="UnusedResources">för</string>
     <string name="ev3_tone_volume" tools:ignore="UnusedResources">Volym</string>
     <string name="ev3_tone_percent" tools:ignore="UnusedResources">%</string>
@@ -1695,7 +1695,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_logic_comparison">Jämförelseoperatorer</string>
     <string name="formula_editor_object_look">Look properties</string>
     <string name="formula_editor_object_movement">Motion properties</string>
-    <string name="formula_editor_device_visual_detection">Visual sensors</string>
+    <string name="formula_editor_device_face_detection">Face detection</string>
+    <string name="formula_editor_device_text_recognition">Text recognition</string>
     <string name="formula_editor_device_date_and_time">Datum och tid</string>
     <string name="formula_editor_device_touch_detection">Touch detection</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>
@@ -1722,8 +1723,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_operator_divide" tools:ignore="UnusedResources">÷</string>
     <string name="formula_editor_operator_power" tools:ignore="UnusedResources">^</string>
     <string name="formula_editor_image_button_description_delete">Ta bort</string>
-    <string name="formula_editor_image_button_description_color_picker">color picker</string>
-    <string name="formula_editor_image_button_description_functions_toggle">toggle functions</string>
+    <string name="formula_editor_image_button_description_color_picker">färgväljare</string>
+    <string name="formula_editor_image_button_description_functions_toggle">växla funktioner</string>
     <string name="formula_editor_variable_dialog_title">Ny variabel</string>
     <string name="formula_editor_list_dialog_title">Ny lista</string>
     <string name="formula_editor_regex_html_extractor_dialog_title">HTML extractor</string>
@@ -1873,8 +1874,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="dialog_disable_hints_text">Hints provide you with helpful information
         while making your first project.\n\nVisibility of hints can be changed in the
         settings.</string>
-    <string name="dialog_disable_hints_button_hide">HIDE</string>
-    <string name="dialog_disable_hints_button_show">SHOW</string>
+    <string name="dialog_disable_hints_button_hide">DÖLJ</string>
+    <string name="dialog_disable_hints_button_show">VISA</string>
     <!--  -->
     <!-- Crash report dialog -->
     <!--  -->
@@ -1886,11 +1887,13 @@ needs read and write access to it. You can always change permissions through you
     <string name="no_internet_connection">No internet connection. Make sure Wi-Fi or mobile
     data is turned on.</string>
     <string name="edit">Redigera</string>
-    <string name="data_value">Value</string>
+    <string name="data_value">Värde</string>
     <string name="category_recently_used">Recently used</string>
     <string name="new_sprite_dialog_place_visually">Placera visuellt</string>
     <string name="place_visually_text">You will be asked to place the new actor or object on the
         stage.</string>
     <!-- Information -->
-    <string name="no_variable_selected">No variable selected</string>
+    <string name="no_variable_selected">Ingen variabel vald</string>
+    <string name="find">Hitta</string>
+    <string name="no_results_found">Inga resultat hittades</string>
 </resources>

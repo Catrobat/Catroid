@@ -78,7 +78,7 @@
     <string name="loading_google_login">O login do Google em nosso servidor foi completado&#8230;</string>
     <string name="logout_successful">Logout bem sucedido</string>
     <string name="degrees" tools:ignore="UnusedResources">graus</string>
-    <string name="background" tools:ignore="UnusedResources">Pano de Fundo</string>
+    <string name="background" tools:ignore="UnusedResources">Fundo</string>
     <string name="landscape">paisagem</string>
     <string name="portrait">retrato</string>
     <string name="unknown">desconhecido</string>
@@ -97,17 +97,17 @@
     <string name="main_menu_about">Sobre este aplicativo</string>
     <string name="main_menu_login">Login</string>
     <string name="main_menu_logout">Encerrar Sessão</string>
-    <string name="main_menu_scratch_converter">Conversor scratch</string>
+    <string name="main_menu_scratch_converter">Conversor de Scratch</string>
     <string name="main_menu_play_store_not_installed">Loja de aplicativos não encontrada</string>
     <!--  -->
     <!-- Marketing activity -->
     <string name="marketing_created_with">Criado com</string>
     <string name="marketing_app_details">Detalhes sobre este aplicativo</string>
-    <string name="marketing_more_on_google_play">Mais aplicativos na App Store</string>
-    <string name="error_cannot_open_huawei_app_gallery">Whoops! Falhou ao abrir a Huawei AppGallery,
-        por favor, tente novamente mais tarde.</string>
-    <string name="google_play_store_logo">Google Play</string>
-    <string name="huawei_app_gallery">Galeria de Aplicações Huawei</string>
+    <string name="marketing_more_on_google_play">Mais aplicativos na Play store</string>
+    <string name="error_cannot_open_huawei_app_gallery">Opa! Falha ao abrir Huawei AppGallery,
+        por favor tente novamente mais tarde.</string>
+    <string name="google_play_store_logo">Google Play Store</string>
+    <string name="huawei_app_gallery">Galeria de Aplicativos Huawei</string>
     <!-- NFC activity -->
     <string name="nfc_activity_title">Tags NFC</string>
     <!-- Settings activity -->
@@ -115,7 +115,7 @@
     <string name="preference_title_language">Idioma</string>
     <string name="preference_description_language">Definir o idioma do aplicativo</string>
     <string name="preference_title_web_access">Acesso Web</string>
-    <string name="preference_description_web_access">Adicionar ou remover domínios confiáveis</string>
+    <string name="preference_description_web_access">Adicione ou remova domínios confiáveis</string>
     <string name="preference_screen_web_access_title">Editar domínios confiáveis</string>
     <string name="preference_title_accessibility">Acessibilidade</string>
     <string name="preference_description_accessibility">Alterar aparência do aplicativo</string>
@@ -132,14 +132,14 @@
     <string name="preference_title_accessibility_Brick_icons">Ícones</string>
     <string name="preference_title_accessibility_category_icons">Mostrar Ícones</string>
     <string name="preference_description_accessibility_category_icons">Adicionar ícones ás categorias e os blocos</string>
-    <string name="preference_title_accessibility_high_contrast">Auto contraste</string>
+    <string name="preference_title_accessibility_high_contrast">Alto contraste</string>
     <string name="preference_description_accessibility_high_contrast">Aumentar contraste do texto</string>
     <string name="preference_description_accessibility_large_text">Aumentar tamanho do texto</string>
     <string name="preference_title_accessibility_large_text">Texto largo</string>
     <string name="preference_title_accessibility_element_spacing">Espaçamento largo de elemento</string>
     <string name="preference_description_accessibility_element_spacing">Aumentar espaçamento de elementos nas listas.</string>
     <string name="preference_title_accessibility_dragndrop_delay">Atraso ao arrastar e soltar</string>
-    <string name="preference_description_accessibility_dragndrop_delay">Atraso ao arrastar e soltar bricks.</string>
+    <string name="preference_description_accessibility_dragndrop_delay">Atraso ao arrastar e soltar blocos.</string>
     <string name="preference_title_accessibility_beginner_bricks">Modo iniciante</string>
     <string name="preference_description_accessibility_beginner_bricks">Mostrar apenas recursos simples.</string>
     <string name="preference_title_accessibility_font_style">Escolha um tipo de texto</string>
@@ -196,7 +196,7 @@
     <string name="preference_title_multiplayer_variables_enabled">Extensão do multiplayer</string>
     <string name="preference_description_multiplayer_variables_enabled">Permite que o aplicativo use
         variáveis compartilhadas via Bluetooth</string>
-    <string name="preference_title_enable_test_bricks">Extensão Teste</string>
+    <string name="preference_title_enable_test_bricks">Extensão para Testes</string>
     <string name="preference_description_test_bricks">Permite criar testes</string>
     <!-- Scratch Converter activity -->
     <string name="beta">BETA</string>
@@ -241,7 +241,7 @@
     <string name="convert">Converter</string>
     <string name="converting">Convertendo&#8230;</string>
     <string name="status_scheduled">Agendado</string>
-    <string name="status_waiting_for_worker">Procurando por um trabalhador gratuito&#8230; Por favor, aguarde&#8230;</string>
+    <string name="status_waiting_for_worker">Procurando por um trabalhador livre&#8230; Por favor, aguarde&#8230;</string>
     <string name="status_started">Começou&#8230;</string>
     <string name="status_conversion_finished">Conversão finalizada</string>
     <plurals name="status_in_progress_x_jobs">
@@ -256,7 +256,7 @@
     <string name="status_downloading">Fazendo download&#8230;</string>
     <string name="status_download_finished">Download completo.</string>
     <string name="status_download_canceled">Download cancelado!</string>
-    <string name="scratch_programs_in_progress_title">Em desenvolvimento</string>
+    <string name="scratch_programs_in_progress_title">Em andamento</string>
     <string name="scratch_programs_finished_title">Projetos convertidos</string>
     <string name="by_x">por %1$s</string>
     <string name="warning_program_visibility">AVISO:\nParece ser um projeto privado. Você pode tentar
@@ -268,7 +268,7 @@
     <string name="remixes">Remixes</string>
     <!--  -->
     <string name="author">Autor:</string>
-    <string name="screen_size">Tamanho do estágio:</string>
+    <string name="screen_size">Tamanho da tela:</string>
     <string name="mode">Modo:</string>
     <string name="remix_of">Remixe de:</string>
     <string name="description_hint">Pressione para adicionar descrição</string>
@@ -329,8 +329,8 @@
     <string name="new_scene_dialog">Nova cena</string>
     <!-- Delete Dialog Titles -->
     <plurals name="delete_projects">
-        <item quantity="one">Deseja excluir este projeto?</item>
-        <item quantity="other">Deseja excluir estes projetos?</item>
+        <item quantity="one">Excluir este projeto?</item>
+        <item quantity="other">Excluir estes projetos?</item>
     </plurals>
     <plurals name="delete_scenes">
         <item quantity="one">Excluir esta cena?</item>
@@ -341,12 +341,12 @@
         <item quantity="other">Excluir esses atores ou objetos?</item>
     </plurals>
     <plurals name="delete_looks">
-        <item quantity="one">Apagar essa aparência?</item>
-        <item quantity="other">Apagar essas aparências?</item>
+        <item quantity="one">Excluir essa aparência?</item>
+        <item quantity="other">Excluir essas aparências?</item>
     </plurals>
     <plurals name="delete_sounds">
-        <item quantity="one">Apagar esse som?</item>
-        <item quantity="other">Apagar esses sons?</item>
+        <item quantity="one">Excluir esse som?</item>
+        <item quantity="other">Excluir esses sons?</item>
     </plurals>
     <plurals name="delete_nfc_tags">
         <item quantity="one">Excluir essa tag?</item>
@@ -380,13 +380,13 @@
     <string name="sound_details">Duração: %s, tamanho: %s</string>
     <!--  -->
     <!-- Rename Dialog Titles -->
-    <string name="rename_project">Renomear o programa</string>
+    <string name="rename_project">Renomear projeto</string>
     <string name="rename_scene_dialog">Renomear cena</string>
-    <string name="rename_sprite_dialog">Renomear Objeto</string>
+    <string name="rename_sprite_dialog">Renomear Ator ou Objeto</string>
     <string name="rename_look_dialog">Renomear Aparência</string>
     <string name="rename_sound_dialog">Renomear Som</string>
     <string name="rename_nfctag_dialog">Renomear tag NFC</string>
-    <string name="rename_data_dialog">Mudar nome</string>
+    <string name="rename_data_dialog">Renomear</string>
     <!-- New Script Group Dialog -->
     <string name="new_group">Novo grupo</string>
     <string name="default_group_name">Grupo</string>
@@ -435,18 +435,18 @@
     <!-- Copy -->
     <plurals name="copied_scenes">
         <item quantity="one">%d cena copiada.</item>
-        <item quantity="other">%d cenários copiados.</item>
+        <item quantity="other">%d cenas copiadas.</item>
     </plurals>
     <plurals name="copied_sprites">
         <item quantity="one">%d ator ou objeto copiado.</item>
         <item quantity="other">%d atores ou objetos copiados.</item>
     </plurals>
     <plurals name="copied_looks">
-        <item quantity="one">Aparência %d copiada.</item>
+        <item quantity="one">%d aparência copiada.</item>
         <item quantity="other">%d aparências copiadas.</item>
     </plurals>
     <plurals name="copied_sounds">
-        <item quantity="one">Aparência %d copiada.</item>
+        <item quantity="one">%d som copiado.</item>
         <item quantity="other">%d sons copiados.</item>
     </plurals>
     <plurals name="copied_nfc_tags">
@@ -463,11 +463,11 @@
         <item quantity="other">%d cenários excluídos.</item>
     </plurals>
     <plurals name="deleted_sprites">
-        <item quantity="one">%d sprites excluídos.</item>
+        <item quantity="one">%d sprite excluído.</item>
         <item quantity="other">%d sprites excluídos.</item>
     </plurals>
     <plurals name="deleted_looks">
-        <item quantity="one">%d visual excluído.</item>
+        <item quantity="one">%d aparência excluída.</item>
         <item quantity="other">%d aparências excluídas.</item>
     </plurals>
     <plurals name="deleted_sounds">
@@ -488,7 +488,7 @@
     </plurals>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
-    <string name="project_list_title">Programas</string>
+    <string name="project_list_title">Projetos</string>
     <string name="last_used">Último acesso:</string>
     <string name="size">Tamanho:</string>
     <string name="description">Descrição:</string>
@@ -502,7 +502,7 @@
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Descrição</string>
     <string name="project_options_notes_and_credits">Créditos</string>
-    <string name="project_options_tags">Marcações</string>
+    <string name="project_options_tags">Tags</string>
     <string name="project_options_aspect_ratio">Manter a proporção original</string>
     <string name="project_options_more_details">Mais detalhes</string>
     <string name="project_options_delete_project">Excluir projeto</string>
@@ -586,7 +586,7 @@
     <!-- Rating Dialog -->
     <string name="rating_dialog_title">Avalie o Aplicativo</string>
     <string name="rating_google_play_dialog_text">Se você gosta deste aplicativo, por favor nos avalie na App store.</string>
-    <string name="rating_dialog_rate_now">agora</string>
+    <string name="rating_dialog_rate_now">Agora</string>
     <string name="rating_dialog_rate_later">Mais tarde</string>
     <string name="rating_dialog_rate_never">nunca</string>
     <!--  -->
@@ -772,13 +772,13 @@
     <string name="category_assertions" tools:ignore="UnusedResources">Testando</string>
     <!--  -->
     <!-- User Defined Bricks -->
-    <string name="brick_user_defined_add_label">Adicionar etiqueta</string>
+    <string name="brick_user_defined_add_label">Adicionar texto</string>
     <string name="brick_user_defined_add_input">Add input</string>
     <string name="brick_user_defined_add_input_description">Adicionar entrada para este bloco:</string>
-    <string name="brick_user_defined_add_label_description">Adicione um título para este bloco:</string>
+    <string name="brick_user_defined_add_label_description">Adicionar um texto para este bloco:</string>
     <string name="brick_user_defined_default_input_name">Nome da entrada</string>
-    <string name="brick_user_defined_default_label">Texto do rótulo</string>
-    <string name="brick_user_defined_already_exists">Um bloco com estes rótulos já existe. Por favor, adicione mais rótulos ou entradas.</string>
+    <string name="brick_user_defined_default_label">Texto</string>
+    <string name="brick_user_defined_already_exists">Um bloco com estes rótulos já existe. Por favor, adicione mais textos ou entradas.</string>
     <string name="brick_user_defined_script_define" tools:ignore="UnusedResources">Definir</string>
     <string name="brick_user_defined_script_as" tools:ignore="UnusedResources">como</string>
     <string name="brick_user_defined_list_empty">Toque em \"+\" para adicionar seus próprios novos blocos.</string>
@@ -839,10 +839,10 @@
     <string name="brick_set_look" tools:ignore="UnusedResources">Alternar para aparência</string>
     <string name="brick_set_look_by_index" tools:ignore="UnusedResources">Alternar para aparência de número</string>
     <string name="brick_and_wait">e espere</string>
-    <string name="brick_set_background" tools:ignore="UnusedResources">Definir pano de fundo</string>
-    <string name="brick_set_background_and_wait" tools:ignore="UnusedResources">Definir plano de fundo e esperar</string>
-    <string name="brick_set_background_by_index" tools:ignore="UnusedResources">Definir plano de fundo para número</string>
-    <string name="brick_when_background" tools:ignore="UnusedResources">Quando o plano de fundo mudar para</string>
+    <string name="brick_set_background" tools:ignore="UnusedResources">Definir fundo</string>
+    <string name="brick_set_background_and_wait" tools:ignore="UnusedResources">Definir fundo e esperar</string>
+    <string name="brick_set_background_by_index" tools:ignore="UnusedResources">Definir fundo para número</string>
+    <string name="brick_when_background" tools:ignore="UnusedResources">Quando o fundo mudar para</string>
     <string name="brick_set_size_to" tools:ignore="UnusedResources">Definir tamanho para</string>
     <string name="brick_change_size_by" tools:ignore="UnusedResources">Alterar tamanho em</string>
     <string name="brick_hide" tools:ignore="UnusedResources">Esconder</string>
@@ -857,13 +857,13 @@
     <string name="to_label" tools:ignore="UnusedResources">para</string>
     <string name="brick_clear_graphic_effect" tools:ignore="UnusedResources">Limpar efeitos gráficos</string>
     <string name="brick_next_look" tools:ignore="UnusedResources">Próxima aparência</string>
-    <string name="brick_next_background">Próximo pano de fundo</string>
+    <string name="brick_next_background">Próximo fundo</string>
     <string name="brick_previous_look" tools:ignore="UnusedResources">Aparência anterior</string>
     <string name="brick_previous_background">Fundo anterior</string>
     <string name="brick_edit_look" tools:ignore="UnusedResources">Editar aparência</string>
     <string name="brick_edit_background">Editar fundo</string>
     <string name="brick_delete_look" tools:ignore="UnusedResources">Apagar aparência</string>
-    <string name="brick_delete_background">Excluir plano de fundo</string>
+    <string name="brick_delete_background">Excluir fundo</string>
     <string name="brick_flash" tools:ignore="UnusedResources">Virar lanterna</string>
     <string name="brick_flash_on" tools:ignore="UnusedResources">ligado</string>
     <string name="brick_flash_off" tools:ignore="UnusedResources">desligado</string>
@@ -969,7 +969,7 @@
     <string name="brick_loop_to" tools:ignore="UnusedResources">para</string>
     <string name="brick_repeat" tools:ignore="UnusedResources">Repetir</string>
     <string name="brick_repeat_until" tools:ignore="UnusedResources">Repetir até</string>
-    <string name="brick_when_touched" tools:ignore="UnusedResources">Quando a tela for pressionada</string>
+    <string name="brick_when_touched" tools:ignore="UnusedResources">Quando o estágio for pressionado</string>
     <string name="brick_clone" tools:ignore="UnusedResources">Criar clone de</string>
     <string name="brick_clone_this">você mesmo</string>
     <string name="brick_when_cloned" tools:ignore="UnusedResources">Quando um clone for criado </string>
@@ -1115,11 +1115,11 @@
     <!-- Default Values -->
     <string name="default_project_name">Meu projeto</string>
     <string name="default_variable_name">Variável</string>
-    <string name="default_scene_name">Cenário %1$d</string>
+    <string name="default_scene_name">Cenário (%1$d)</string>
     <string name="default_script_group_name">Grupo de script</string>
     <string name="default_broadcast_message_name">Mensagem</string>
     <string name="default_list_name">Lista</string>
-    <string name="default_project_background_name">Pano de Fundo</string>
+    <string name="default_project_background_name">Fundo</string>
     <string name="default_project_cloud_name">Nuvens</string>
     <string name="default_project_cloud_sprite_name_1">Nuvens1</string>
     <string name="default_project_cloud_sprite_name_2">Nuvens2</string>
@@ -1135,7 +1135,7 @@
     <!--suppress UnusedResources -->
     <string name="default_project_inner_loop">Laço Interior</string>
     <!-- Default ChromeCast Values -->
-    <string name="default_cast_project_background_name">Pano de Fundo</string>
+    <string name="default_cast_project_background_name">Fundo</string>
     <string name="default_cast_project_cloud_name">Nuvens</string>
     <string name="default_cast_project_cloud_sprite_name1">Nuvens1</string>
     <string name="default_cast_project_cloud_sprite_name2">Nuvens2</string>
@@ -1516,9 +1516,9 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="formula_editor_function_sqrt_parameter">(4)</string>
     <string name="formula_editor_function_rand" tools:ignore="UnusedResources">valor aleatório de até</string>
     <string name="formula_editor_function_rand_parameter">(1,6)</string>
-    <string name="formula_editor_function_abs" tools:ignore="UnusedResources">absolute value</string>
+    <string name="formula_editor_function_abs" tools:ignore="UnusedResources">valor absoluto</string>
     <string name="formula_editor_function_abs_parameter">(1)</string>
-    <string name="formula_editor_function_round" tools:ignore="UnusedResources">arredond</string>
+    <string name="formula_editor_function_round" tools:ignore="UnusedResources">arredondar</string>
     <string name="formula_editor_function_round_parameter">(1.6)</string>
     <string name="formula_editor_function_mod" tools:ignore="UnusedResources">modulo</string>
     <string name="formula_editor_function_mod_parameter">(3,2)</string>
@@ -1674,7 +1674,7 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="formula_editor_object_angular_velocity" tools:ignore="UnusedResources">Velocidade angular</string>
     <string name="formula_editor_object_look_number" tools:ignore="UnusedResources">número da aparência</string>
     <string name="formula_editor_object_look_name" tools:ignore="UnusedResources">nome da aparência</string>
-    <string name="formula_editor_object_background_number" tools:ignore="UnusedResources">Número do plano de fundo</string>
+    <string name="formula_editor_object_background_number" tools:ignore="UnusedResources">número do fundo</string>
     <string name="formula_editor_object_background_name" tools:ignore="UnusedResources">nome do fundo</string>
     <string name="formula_editor_object_distance_to" tools:ignore="UnusedResources">distância para posiçao tocada</string>
     <string name="formula_editor_compute">Calcular</string>
@@ -1690,7 +1690,8 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="formula_editor_logic_comparison">Operadores de comparação</string>
     <string name="formula_editor_object_look">Propriedades da aparência</string>
     <string name="formula_editor_object_movement">Propriedades de movimento</string>
-    <string name="formula_editor_device_visual_detection">Sensores visuais</string>
+    <string name="formula_editor_device_face_detection">Detecção de rosto</string>
+    <string name="formula_editor_device_text_recognition">Reconhecimento de texto</string>
     <string name="formula_editor_device_date_and_time">Data e hora</string>
     <string name="formula_editor_device_touch_detection">Detecção de toque</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>
@@ -1864,11 +1865,11 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <!--  -->
     <!-- Dialog Disable hints -->
     <string name="dialog_disable_hints_title">Mostrar dicas?</string>
-    <string name="dialog_disable_hints_text">As dicas lhe fornecem informações úteis
-        enquanto faz seu primeiro projeto.\n\nVisibilidade de dicas pode ser mudada no
+    <string name="dialog_disable_hints_text">As dicas fornecem informações úteis
+        ao fazer seu primeiro projeto.\n\nA visibilidade das dicas pode ser alterada nas
         configurações.</string>
-    <string name="dialog_disable_hints_button_hide">SEJA</string>
-    <string name="dialog_disable_hints_button_show">PROJETE</string>
+    <string name="dialog_disable_hints_button_hide">OCULTAR</string>
+    <string name="dialog_disable_hints_button_show">EXIBIR</string>
     <!--  -->
     <!-- Crash report dialog -->
     <!--  -->
@@ -1883,8 +1884,10 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="data_value">Valor</string>
     <string name="category_recently_used">Usados recentemente</string>
     <string name="new_sprite_dialog_place_visually">Colocar visualmente</string>
-    <string name="place_visually_text">Você será solicitado a colocar o novo ator ou objeto sobre a
-        palco.</string>
+    <string name="place_visually_text">Você será solicitado a colocar o novo ator ou objeto sobre o
+        cenário.</string>
     <!-- Information -->
     <string name="no_variable_selected">Nenhuma variável selecionada</string>
+    <string name="find">Procurar</string>
+    <string name="no_results_found">Nenhum resultado encontrado</string>
 </resources>

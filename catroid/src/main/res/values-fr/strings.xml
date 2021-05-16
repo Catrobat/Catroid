@@ -1590,8 +1590,8 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string name="formula_editor_sensor_color_at_x_y">couleur à x y</string>
     <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">la couleur est égale à la couleur avec %
         de tolérance</string>
-    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">accélération_x</string>
-    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">accélération_y</string>
+    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">accélération x</string>
+    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">accélération y</string>
     <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">accélération_z</string>
     <string name="formula_editor_sensor_compass_direction" tools:ignore="UnusedResources">orientation_de_boussole</string>
     <string name="formula_editor_sensor_latitude" tools:ignore="UnusedResources">latitude</string>
@@ -1599,8 +1599,8 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string name="formula_editor_sensor_location_accuracy" tools:ignore="UnusedResources">exactitude de l\'emplacement</string>
     <string name="formula_editor_sensor_altitude" tools:ignore="UnusedResources">altitude</string>
     <string name="formula_editor_sensor_user_language">langue de l\'utilisateur</string>
-    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">inclinaison_x</string>
-    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">inclinaison_y</string>
+    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">inclinaison x</string>
+    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">inclinaison y</string>
     <string name="formula_editor_sensor_loudness" tools:ignore="UnusedResources">volume</string>
     <string name="formula_editor_sensor_timer">minuteur</string>
     <string name="formula_editor_sensor_date_year" tools:ignore="UnusedResources">année</string>
@@ -1659,8 +1659,8 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string name="formula_editor_phiro_sensor_bottom_right" tools:ignore="UnusedResources">Capteur phiro en bas à droite</string>
     <string name="formula_editor_nfc_tag_id" tools:ignore="UnusedResources">identifiant de balise nfc</string>
     <string name="formula_editor_nfc_tag_message" tools:ignore="UnusedResources">message de l\'étiquette nfc</string>
-    <string name="formula_editor_object_x" tools:ignore="UnusedResources">position_x</string>
-    <string name="formula_editor_object_y" tools:ignore="UnusedResources">position_y</string>
+    <string name="formula_editor_object_x" tools:ignore="UnusedResources">position x</string>
+    <string name="formula_editor_object_y" tools:ignore="UnusedResources">position y</string>
     <string name="formula_editor_object_transparency" tools:ignore="UnusedResources">transparence</string>
     <string name="formula_editor_object_brightness" tools:ignore="UnusedResources">luminosité</string>
     <string name="formula_editor_object_size" tools:ignore="UnusedResources">taille</string>
@@ -1687,7 +1687,8 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string name="formula_editor_logic_comparison">opérateurs de comparaison</string>
     <string name="formula_editor_object_look">Propriétés du look</string>
     <string name="formula_editor_object_movement">propriétés de mouvement</string>
-    <string name="formula_editor_device_visual_detection">Capteurs visuels</string>
+    <string name="formula_editor_device_face_detection">Face detection</string>
+    <string name="formula_editor_device_text_recognition">Text recognition</string>
     <string name="formula_editor_device_date_and_time">Date et Heure</string>
     <string name="formula_editor_device_touch_detection">Détection tactile</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>
@@ -1728,8 +1729,8 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string name="formula_editor_data_dialog_is_list">Créer une liste</string>
     <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">visage_reconnu</string>
     <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">dimensions_visage</string>
-    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">visage_position_x</string>
-    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">visage_position_y</string>
+    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">position x de la première face</string>
+    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">position y de la première face</string>
     <string name="formula_editor_sensor_second_face_detected">la seconde face est visible</string>
     <string name="formula_editor_sensor_second_face_size">taille de la seconde face</string>
     <string name="formula_editor_sensor_second_face_x_position">position x de la seconde face</string>
@@ -1879,4 +1880,6 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string name="place_visually_text">On te demandera de placer le nouvel acteur ou objet sur l\'écran.</string>
     <!-- Information -->
     <string name="no_variable_selected">Aucune variable sélectionnée</string>
+    <string name="find">Trouvez</string>
+    <string name="no_results_found">Aucun résultat trouvé</string>
 </resources>

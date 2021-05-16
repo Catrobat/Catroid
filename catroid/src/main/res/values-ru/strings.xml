@@ -104,10 +104,10 @@
     <string name="marketing_created_with">Создан с помощью</string>
     <string name="marketing_app_details">Сведения об этом приложении</string>
     <string name="marketing_more_on_google_play">Больше приложений на Google Play</string>
-    <string name="error_cannot_open_huawei_app_gallery">Упс! Не смог открыть Хуавэйскую Прикладную Галерею,
-        пожалуйста, попробуйте позже.</string>
+    <string name="error_cannot_open_huawei_app_gallery">Упс! Не удалось открыть Huawei AppGallery,
+        Пожалуйста, повторите попытку позже.</string>
     <string name="google_play_store_logo">Google Play</string>
-    <string name="huawei_app_gallery">App Gallery Huawei</string>
+    <string name="huawei_app_gallery">Huawei App Gallery</string>
     <!-- NFC activity -->
     <string name="nfc_activity_title">NFC тег</string>
     <!-- Settings activity -->
@@ -1206,7 +1206,7 @@
     <!-- Default Values -->
     <string name="default_project_name">Мой проект</string>
     <string name="default_variable_name">Переменная</string>
-    <string name="default_scene_name">Сцена %1$d</string>
+    <string name="default_scene_name">Сцена (%1$d)</string>
     <string name="default_script_group_name">Группа скриптов</string>
     <string name="default_broadcast_message_name">Сообщение</string>
     <string name="default_list_name">Список</string>
@@ -1657,7 +1657,7 @@
     <string name="formula_editor_function_raspi_read_pin_value_digital" tools:ignore="UnusedResources">пин raspberry pi</string>
     <string name="formula_editor_function_pin_default_parameter">(3)</string>
     <string name="formula_editor_function_finger_x" tools:ignore="UnusedResources">прикосновение_к_экрану_x</string>
-    <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">прикосновение_к_экрану_y</string>
+    <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">касание этапа</string>
     <string name="formula_editor_function_is_finger_touching" tools:ignore="UnusedResources">к_экрану_прикоснулись</string>
     <string name="formula_editor_function_multi_finger_x" tools:ignore="UnusedResources">прикосновение_к_экрану_x</string>
     <string name="formula_editor_function_multi_finger_y" tools:ignore="UnusedResources">прикосновение_к_экрану_y</string>
@@ -1683,7 +1683,7 @@
     <string name="formula_editor_sensor_color_at_x_y">цвет на X и Y</string>
     <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">цвет равен цвету с разрешением в %</string>
     <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">ускорение_х</string>
-    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">ускорение_у</string>
+    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">ускорение у</string>
     <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">ускорение_z</string>
     <string name="formula_editor_sensor_compass_direction" tools:ignore="UnusedResources">направление_компаса</string>
     <string name="formula_editor_sensor_latitude" tools:ignore="UnusedResources">широта</string>
@@ -1691,8 +1691,8 @@
     <string name="formula_editor_sensor_location_accuracy" tools:ignore="UnusedResources">точность_расстояния</string>
     <string name="formula_editor_sensor_altitude" tools:ignore="UnusedResources">высота</string>
     <string name="formula_editor_sensor_user_language">Язык пользователя</string>
-    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">наклон_x</string>
-    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">наклон_y</string>
+    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">наклон x</string>
+    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">наклон y</string>
     <string name="formula_editor_sensor_loudness" tools:ignore="UnusedResources">громкость</string>
     <string name="formula_editor_sensor_timer">таймер</string>
     <string name="formula_editor_sensor_date_year" tools:ignore="UnusedResources">год</string>
@@ -1751,15 +1751,15 @@
     <string name="formula_editor_phiro_sensor_bottom_right" tools:ignore="UnusedResources">phiro_нижний_правый_датчик</string>
     <string name="formula_editor_nfc_tag_id" tools:ignore="UnusedResources">id nfc тега</string>
     <string name="formula_editor_nfc_tag_message" tools:ignore="UnusedResources">сообщение nfc тега</string>
-    <string name="formula_editor_object_x" tools:ignore="UnusedResources">координата_x</string>
-    <string name="formula_editor_object_y" tools:ignore="UnusedResources">координата_y</string>
+    <string name="formula_editor_object_x" tools:ignore="UnusedResources">координата x</string>
+    <string name="formula_editor_object_y" tools:ignore="UnusedResources">координата y</string>
     <string name="formula_editor_object_transparency" tools:ignore="UnusedResources">прозрачность</string>
     <string name="formula_editor_object_brightness" tools:ignore="UnusedResources">яркость</string>
     <string name="formula_editor_object_size" tools:ignore="UnusedResources">размер</string>
     <string name="formula_editor_object_rotation" tools:ignore="UnusedResources">направление</string>
     <string name="formula_editor_object_layer" tools:ignore="UnusedResources">слой</string>
-    <string name="formula_editor_object_x_velocity" tools:ignore="UnusedResources">x_скорость</string>
-    <string name="formula_editor_object_y_velocity" tools:ignore="UnusedResources">y_скорость</string>
+    <string name="formula_editor_object_x_velocity" tools:ignore="UnusedResources">x скорость</string>
+    <string name="formula_editor_object_y_velocity" tools:ignore="UnusedResources">y скорость</string>
     <string name="formula_editor_object_angular_velocity" tools:ignore="UnusedResources">угловая скорость</string>
     <string name="formula_editor_object_look_number" tools:ignore="UnusedResources">номер образа</string>
     <string name="formula_editor_object_look_name" tools:ignore="UnusedResources">название образа</string>
@@ -1779,7 +1779,8 @@
     <string name="formula_editor_logic_comparison">операторы сравнения</string>
     <string name="formula_editor_object_look">Свойства отображения</string>
     <string name="formula_editor_object_movement">свойства движения</string>
-    <string name="formula_editor_device_visual_detection">Визуальные датчики</string>
+    <string name="formula_editor_device_face_detection">Face detection</string>
+    <string name="formula_editor_device_text_recognition">Text recognition</string>
     <string name="formula_editor_device_date_and_time">Дата и время</string>
     <string name="formula_editor_device_touch_detection">Обнаружение касаний</string>
     <string name="formula_editor_device_lego_nxt">Лего NXT</string>
@@ -1820,8 +1821,8 @@
     <string name="formula_editor_data_dialog_is_list">сделать списком</string>
     <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">видно лицо</string>
     <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">размер лица</string>
-    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">лицо_x_координата</string>
-    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">лицо_y_координата</string>
+    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">лицо x координата</string>
+    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">лицо y координата</string>
     <string name="formula_editor_sensor_second_face_detected">второе лицо видно</string>
     <string name="formula_editor_sensor_second_face_size">размер второго лица</string>
     <string name="formula_editor_sensor_second_face_x_position">позиция второй по оси x</string>
@@ -1954,7 +1955,7 @@
     <string name="dialog_disable_hints_text">Подсказки предоставят Вам полезную информацию
         во время создания вашего первого проекта.\n\nVisibility подсказки могут быть изменены в разделе
         настройки.</string>
-    <string name="dialog_disable_hints_button_hide">ШИРИНА</string>
+    <string name="dialog_disable_hints_button_hide">СКРЫТЬ</string>
     <string name="dialog_disable_hints_button_show">ПОКАЗЫВАТЬ</string>
     <!--  -->
     <!-- Crash report dialog -->
@@ -1969,8 +1970,10 @@
     <string name="data_value">Значение</string>
     <string name="category_recently_used">Недавно использованные</string>
     <string name="new_sprite_dialog_place_visually">Поместить на глаз</string>
-    <string name="place_visually_text">Вам будет предложено поместить новый агент или объект на
-        Сцена.</string>
+    <string name="place_visually_text">Вам будет предложено поместить нового актера или объект на
+         сцену.</string>
     <!-- Information -->
     <string name="no_variable_selected">Переменная не выбрана</string>
+    <string name="find">Найти</string>
+    <string name="no_results_found">Ничего не найдено</string>
 </resources>

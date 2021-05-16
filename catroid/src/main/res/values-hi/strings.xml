@@ -951,8 +951,7 @@
     <string name="brick_stop_all_scripts" tools:ignore="UnusedResources">सभी स्क्रिप्ट</string>
     <string name="brick_stop_other_scripts" tools:ignore="UnusedResources">इस अभिनेता या वस्तु की अन्य स्क्रिप्ट</string>
     <plurals name="second_plural">
-        <item quantity="one">"\"\"\"\"सेकंड
-सेकंड्स\"\"\"\""</item>
+        <item quantity="one">"दूसरा"</item>
         <item quantity="other">"सेकंड"</item>
     </plurals>
     <string name="brick_collision_receive" tools:ignore="UnusedResources">जब तुम उछलते हो</string>
@@ -1118,7 +1117,7 @@
     <!-- Default Values -->
     <string name="default_project_name">मेरी परियोजना</string>
     <string name="default_variable_name">परिवर्तनशील</string>
-    <string name="default_scene_name">Scene %1$d</string>
+    <string name="default_scene_name">Scene (%1$d)</string>
     <string name="default_script_group_name">लिपि समूह</string>
     <string name="default_broadcast_message_name">संदेश</string>
     <string name="default_list_name">सूची</string>
@@ -1597,8 +1596,8 @@
     <string name="formula_editor_sensor_color_at_x_y">रंग x y पर</string>
     <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">रंग% के साथ रंग बराबर होता है
          सहनशीलता</string>
-    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">त्वरण_एक्स</string>
-    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">त्वरण_वाई</string>
+    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">त्वरण एक्स</string>
+    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">त्वरण वाई</string>
     <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">त्वरण_ज़ेड</string>
     <string name="formula_editor_sensor_compass_direction" tools:ignore="UnusedResources">परकार_दिशा</string>
     <string name="formula_editor_sensor_latitude" tools:ignore="UnusedResources">अक्षांश</string>
@@ -1606,8 +1605,8 @@
     <string name="formula_editor_sensor_location_accuracy" tools:ignore="UnusedResources">स्थान सटीकता</string>
     <string name="formula_editor_sensor_altitude" tools:ignore="UnusedResources">ऊंचाई</string>
     <string name="formula_editor_sensor_user_language">उपयोगकर्ता की भाषा</string>
-    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">झुकाव_एक्स</string>
-    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">झुकाव_वाई</string>
+    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">झुकाव एक्स</string>
+    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">झुकाव वाई</string>
     <string name="formula_editor_sensor_loudness" tools:ignore="UnusedResources">प्रबलता</string>
     <string name="formula_editor_sensor_timer">घड़ी</string>
     <string name="formula_editor_sensor_date_year" tools:ignore="UnusedResources">साल</string>
@@ -1666,8 +1665,8 @@
     <string name="formula_editor_phiro_sensor_bottom_right" tools:ignore="UnusedResources">फेरो बॉटम राइट सेंसर</string>
     <string name="formula_editor_nfc_tag_id" tools:ignore="UnusedResources">nfc टैग आई.डी.</string>
     <string name="formula_editor_nfc_tag_message" tools:ignore="UnusedResources">nfc टैग संदेश</string>
-    <string name="formula_editor_object_x" tools:ignore="UnusedResources">एक्स_स्थिति</string>
-    <string name="formula_editor_object_y" tools:ignore="UnusedResources">वाई_स्थिति</string>
+    <string name="formula_editor_object_x" tools:ignore="UnusedResources">एक्स स्थिति</string>
+    <string name="formula_editor_object_y" tools:ignore="UnusedResources">वाई स्थिति</string>
     <string name="formula_editor_object_transparency" tools:ignore="UnusedResources">पारदर्शिता</string>
     <string name="formula_editor_object_brightness" tools:ignore="UnusedResources">चमक</string>
     <string name="formula_editor_object_size" tools:ignore="UnusedResources">आकार</string>
@@ -1694,7 +1693,8 @@
     <string name="formula_editor_logic_comparison">तुलना ऑपरेटरों</string>
     <string name="formula_editor_object_look">गुण देखें</string>
     <string name="formula_editor_object_movement">मोशन गुण</string>
-    <string name="formula_editor_device_visual_detection">दृश्य सेंसर</string>
+    <string name="formula_editor_device_face_detection">Face detection</string>
+    <string name="formula_editor_device_text_recognition">Text recognition</string>
     <string name="formula_editor_device_date_and_time">तिथि और समय</string>
     <string name="formula_editor_device_touch_detection">स्पर्श पहचान</string>
     <string name="formula_editor_device_lego_nxt">लेगो माइंडस्टॉर्म एनएक्सटी</string>
@@ -1736,8 +1736,8 @@
     <string name="formula_editor_data_dialog_is_list">इसकी सूची बनाइए</string>
     <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">चेहरा_पहचान_लिया_गया</string>
     <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">चेहरे_का_आकार</string>
-    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">चेहरे_की_एक्स_स्थिति</string>
-    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">चेहरे_की_वाई_स्थिति</string>
+    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">चेहरे की एक्स स्थिति</string>
+    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">चेहरे की वाई स्थिति</string>
     <string name="formula_editor_sensor_second_face_detected">दूसरा चेहरा दिखाई दे रहा है</string>
     <string name="formula_editor_sensor_second_face_size">दूसरा चेहरा आकार</string>
     <string name="formula_editor_sensor_second_face_x_position">दूसरा चेहरा एक्स स्थिति</string>
@@ -1892,4 +1892,6 @@
         मंच।</string>
     <!-- Information -->
     <string name="no_variable_selected">कोई चर नहीं चुना गया</string>
+    <string name="find">खोज</string>
+    <string name="no_results_found">कोई परिणाम नहीं मिला</string>
 </resources>

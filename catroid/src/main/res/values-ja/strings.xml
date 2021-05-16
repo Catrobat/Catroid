@@ -1068,7 +1068,7 @@
     <!-- Default Values -->
     <string name="default_project_name">私のプロジェクト</string>
     <string name="default_variable_name">変数</string>
-    <string name="default_scene_name">シーン %1$d</string>
+    <string name="default_scene_name">シーン (%1$d)</string>
     <string name="default_script_group_name">スクリプト グループ</string>
     <string name="default_broadcast_message_name">メッセージ</string>
     <string name="default_list_name">リスト</string>
@@ -1513,11 +1513,11 @@
     <string name="formula_editor_function_arduino_read_pin_value_analog" tools:ignore="UnusedResources">arduino_analog_pin</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital" tools:ignore="UnusedResources">raspberry_pi_pin</string>
     <string name="formula_editor_function_pin_default_parameter">(3)</string>
-    <string name="formula_editor_function_finger_x" tools:ignore="UnusedResources">screen_touch_x</string>
-    <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">screen_touch_y</string>
+    <string name="formula_editor_function_finger_x" tools:ignore="UnusedResources">ステージタッチX</string>
+    <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">ステージタッチY</string>
     <string name="formula_editor_function_is_finger_touching" tools:ignore="UnusedResources">screen_is_touched</string>
-    <string name="formula_editor_function_multi_finger_x" tools:ignore="UnusedResources">screen_touch_x</string>
-    <string name="formula_editor_function_multi_finger_y" tools:ignore="UnusedResources">screen_touch_y</string>
+    <string name="formula_editor_function_multi_finger_x" tools:ignore="UnusedResources">ステージタッチX</string>
+    <string name="formula_editor_function_multi_finger_y" tools:ignore="UnusedResources">ステージタッチY</string>
     <string name="formula_editor_function_is_multi_finger_touching" tools:ignore="UnusedResources">screen_is_touched</string>
     <string name="formula_editor_function_index_of_last_finger" tools:ignore="UnusedResources">last_screen_touch_index</string>
     <string name="formula_editor_function_number_of_current_touches">現在のタッチ数</string>
@@ -1540,8 +1540,8 @@
     <string name="formula_editor_sensor_color_at_x_y">x-yの色</string>
     <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">色が%
         公差のある色に等しいです</string>
-    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">x_加速</string>
-    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">y_加速</string>
+    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">アクセラレーションX</string>
+    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">加速度Y</string>
     <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">z_加速</string>
     <string name="formula_editor_sensor_compass_direction" tools:ignore="UnusedResources">コンパスの方向</string>
     <string name="formula_editor_sensor_latitude" tools:ignore="UnusedResources">緯度</string>
@@ -1549,8 +1549,8 @@
     <string name="formula_editor_sensor_location_accuracy" tools:ignore="UnusedResources">位置の精度</string>
     <string name="formula_editor_sensor_altitude" tools:ignore="UnusedResources">高度</string>
     <string name="formula_editor_sensor_user_language">ユーザーの言語</string>
-    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">x_傾斜</string>
-    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">y_傾斜</string>
+    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">アクセラレーションX</string>
+    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">傾斜Y</string>
     <string name="formula_editor_sensor_loudness" tools:ignore="UnusedResources">ラウドネス</string>
     <string name="formula_editor_sensor_timer">タイマー</string>
     <string name="formula_editor_sensor_date_year" tools:ignore="UnusedResources">年</string>
@@ -1609,15 +1609,15 @@
     <string name="formula_editor_phiro_sensor_bottom_right" tools:ignore="UnusedResources">phiro_bottom_right_sensor</string>
     <string name="formula_editor_nfc_tag_id" tools:ignore="UnusedResources">nfc_tag_id</string>
     <string name="formula_editor_nfc_tag_message" tools:ignore="UnusedResources">nfc_tag_message</string>
-    <string name="formula_editor_object_x" tools:ignore="UnusedResources">x_位置</string>
-    <string name="formula_editor_object_y" tools:ignore="UnusedResources">y_位置</string>
+    <string name="formula_editor_object_x" tools:ignore="UnusedResources">ポジションX</string>
+    <string name="formula_editor_object_y" tools:ignore="UnusedResources">ポジションY</string>
     <string name="formula_editor_object_transparency" tools:ignore="UnusedResources">透明度</string>
     <string name="formula_editor_object_brightness" tools:ignore="UnusedResources">輝度</string>
     <string name="formula_editor_object_size" tools:ignore="UnusedResources">サイズ</string>
     <string name="formula_editor_object_rotation" tools:ignore="UnusedResources">方向</string>
     <string name="formula_editor_object_layer" tools:ignore="UnusedResources">レイヤー</string>
-    <string name="formula_editor_object_x_velocity" tools:ignore="UnusedResources">x_velocity</string>
-    <string name="formula_editor_object_y_velocity" tools:ignore="UnusedResources">y_velocity</string>
+    <string name="formula_editor_object_x_velocity" tools:ignore="UnusedResources">倍速</string>
+    <string name="formula_editor_object_y_velocity" tools:ignore="UnusedResources">Y速度</string>
     <string name="formula_editor_object_angular_velocity" tools:ignore="UnusedResources">angular_velocity</string>
     <string name="formula_editor_object_look_number" tools:ignore="UnusedResources">look_number</string>
     <string name="formula_editor_object_look_name" tools:ignore="UnusedResources">look_name</string>
@@ -1637,7 +1637,8 @@
     <string name="formula_editor_logic_comparison">比較演算子</string>
     <string name="formula_editor_object_look">プロパティを見る</string>
     <string name="formula_editor_object_movement">運動プロパティ</string>
-    <string name="formula_editor_device_visual_detection">ビジュアルセンサー</string>
+    <string name="formula_editor_device_face_detection">Face detection</string>
+    <string name="formula_editor_device_text_recognition">Text recognition</string>
     <string name="formula_editor_device_date_and_time">日付と時刻</string>
     <string name="formula_editor_device_touch_detection">タッチ検出</string>
     <string name="formula_editor_device_lego_nxt">レゴマインドストームNXT</string>
@@ -1679,8 +1680,8 @@
     <string name="formula_editor_data_dialog_is_list">リストにする</string>
     <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">is_face_detected</string>
     <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">face_size</string>
-    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">face_x_position</string>
-    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">face_y_position</string>
+    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">第一面 x 位置</string>
+    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">第一面のY位置</string>
     <string name="formula_editor_sensor_second_face_detected">2番目の顔が見えます</string>
     <string name="formula_editor_sensor_second_face_size">2つ目の面サイズ</string>
     <string name="formula_editor_sensor_second_face_x_position">2つ目の顔 x 位置</string>
@@ -1824,4 +1825,6 @@
         ステージに置いていただきます。</string>
     <!-- Information -->
     <string name="no_variable_selected">変数が選択されていません</string>
+    <string name="find">探す</string>
+    <string name="no_results_found">結果は見つかりませんでした。</string>
 </resources>

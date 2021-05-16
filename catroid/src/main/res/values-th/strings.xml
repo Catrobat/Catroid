@@ -1497,7 +1497,7 @@
     <string name="formula_editor_function_arduino_read_pin_value_digital" tools:ignore="UnusedResources">arduino ขาดิจิตอล</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog" tools:ignore="UnusedResources">arduino ขาอะนาล็อก</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital" tools:ignore="UnusedResources">raspberry pi pin</string>
-    <string name="formula_editor_function_pin_default_parameter">(3)</string>
+    <string name="formula_editor_function_pin_default_parameter">(0)</string>
     <string name="formula_editor_function_finger_x" tools:ignore="UnusedResources">เวทีสัมผัส x</string>
     <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">เวทีสัมผัส y</string>
     <string name="formula_editor_function_is_finger_touching" tools:ignore="UnusedResources">เวทีสัมผัสแล้ว</string>
@@ -1622,7 +1622,8 @@
     <string name="formula_editor_logic_comparison">ผู้ประกอบการเปรียบเทียบ</string>
     <string name="formula_editor_object_look">Look properties</string>
     <string name="formula_editor_object_movement">คุณสมบัติเคลื่อนที่</string>
-    <string name="formula_editor_device_visual_detection">เซ็นเซอร์ภาพ</string>
+    <string name="formula_editor_device_face_detection">Face detection</string>
+    <string name="formula_editor_device_text_recognition">Text recognition</string>
     <string name="formula_editor_device_date_and_time">วันและเวลา</string>
     <string name="formula_editor_device_touch_detection">ตรวจจับการสัมผัส</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>
@@ -1812,4 +1813,6 @@
          เวที.</string>
     <!-- Information -->
     <string name="no_variable_selected">ไม่ได้เลือกตัวแปร</string>
+    <string name="find">ค้นหา</string>
+    <string name="no_results_found">ไม่พบผลลัพธ์</string>
 </resources>
