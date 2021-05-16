@@ -836,7 +836,7 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="brick_next_background">Sonraki arka plan</string>
     <string name="brick_previous_look" tools:ignore="UnusedResources">Önceki görüntü</string>
     <string name="brick_previous_background">Önceki arka plan</string>
-    <string name="brick_edit_look" tools:ignore="UnusedResources">Görünümü düzenle</string>
+    <string name="brick_edit_look" tools:ignore="UnusedResources">Mevcut görünümü düzenle</string>
     <string name="brick_edit_background">Arka planı değiştir</string>
     <string name="brick_delete_look" tools:ignore="UnusedResources">Görüntüyü sil</string>
     <string name="brick_delete_background">Arka planı sil</string>
@@ -1548,17 +1548,17 @@ bekleyin</string>
     <string name="formula_editor_sensor_color_at_x_y">x y\'de renk</string>
     <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">Renk %
         toleransla rengine eşittir</string>
-    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">x_ivmesi</string>
-    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">y_ivmesi</string>
+    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">x ivmesi</string>
+    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">y ivmesi</string>
     <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">z_ivmesi</string>
-    <string name="formula_editor_sensor_compass_direction" tools:ignore="UnusedResources">pusula_yönü </string>
+    <string name="formula_editor_sensor_compass_direction" tools:ignore="UnusedResources">pusula yönü </string>
     <string name="formula_editor_sensor_latitude" tools:ignore="UnusedResources">enlem</string>
     <string name="formula_editor_sensor_longitude" tools:ignore="UnusedResources">boylam</string>
     <string name="formula_editor_sensor_location_accuracy" tools:ignore="UnusedResources">konum doğruluğu</string>
     <string name="formula_editor_sensor_altitude" tools:ignore="UnusedResources">yükseklik</string>
     <string name="formula_editor_sensor_user_language">kullanıcı dili</string>
-    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">x_eğim açısı</string>
-    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">y_eğim açısı</string>
+    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">x eğim açısı</string>
+    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">y eğim açısı</string>
     <string name="formula_editor_sensor_loudness" tools:ignore="UnusedResources">ses gürlüğü</string>
     <string name="formula_editor_sensor_timer">Zamanlayıcı</string>
     <string name="formula_editor_sensor_date_year" tools:ignore="UnusedResources">yıl</string>
@@ -1617,8 +1617,8 @@ bekleyin</string>
     <string name="formula_editor_phiro_sensor_bottom_right" tools:ignore="UnusedResources">phiro sağ alt sensör</string>
     <string name="formula_editor_nfc_tag_id" tools:ignore="UnusedResources">nfc etiket kimliği</string>
     <string name="formula_editor_nfc_tag_message" tools:ignore="UnusedResources">nfc etiket mesajı</string>
-    <string name="formula_editor_object_x" tools:ignore="UnusedResources">konum_x</string>
-    <string name="formula_editor_object_y" tools:ignore="UnusedResources">konum_y</string>
+    <string name="formula_editor_object_x" tools:ignore="UnusedResources">konum x</string>
+    <string name="formula_editor_object_y" tools:ignore="UnusedResources">konum y</string>
     <string name="formula_editor_object_transparency" tools:ignore="UnusedResources">şeffaflık</string>
     <string name="formula_editor_object_brightness" tools:ignore="UnusedResources">parlaklık</string>
     <string name="formula_editor_object_size" tools:ignore="UnusedResources">boyut</string>
@@ -1645,7 +1645,8 @@ bekleyin</string>
     <string name="formula_editor_logic_comparison">Karşılaştırma Operatörleri</string>
     <string name="formula_editor_object_look">Görünüm özellikleri</string>
     <string name="formula_editor_object_movement">Hareket özellikleri</string>
-    <string name="formula_editor_device_visual_detection">Görsel sensörler</string>
+    <string name="formula_editor_device_face_detection">Yüz tanıma</string>
+    <string name="formula_editor_device_text_recognition">Metin tanıma</string>
     <string name="formula_editor_device_date_and_time">Tarih ve zaman</string>
     <string name="formula_editor_device_touch_detection">Dokunmatiği tanıma</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>
@@ -1685,10 +1686,10 @@ bekleyin</string>
         ifade</string>
     <string name="formula_editor_fragment_data_current_items">şuan ki eşyalar</string>
     <string name="formula_editor_data_dialog_is_list">Liste yap</string>
-    <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">bir_yüz_bulundu</string>
+    <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">ilk yüz bulundu</string>
     <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">yüz_boyutlar</string>
-    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">yüzün_x_pozisyonu</string>
-    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">yüzün_y_pozisyonu</string>
+    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">ilk yüzün x pozisyonu</string>
+    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">ilk yüzün y konumu</string>
     <string name="formula_editor_sensor_second_face_detected">ikinci yüz görünür</string>
     <string name="formula_editor_sensor_second_face_size">ikinci yüz boyutu</string>
     <string name="formula_editor_sensor_second_face_x_position">ikinci yüz x konumu</string>
@@ -1831,4 +1832,6 @@ bekleyin</string>
         istenecek</string>
     <!-- Information -->
     <string name="no_variable_selected">Değişken seçilmedi</string>
+    <string name="find">Bul</string>
+    <string name="no_results_found">Sonuç bulunamadı</string>
 </resources>

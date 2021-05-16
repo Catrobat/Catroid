@@ -1591,8 +1591,8 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="formula_editor_sensor_color_at_x_y">colore in x y</string>
     <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">il colore è uguale al colore
 con tolleranza %        </string>
-    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">accelerazione_X</string>
-    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">accelerazione_y</string>
+    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">accelerazione x</string>
+    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">accelerazione y</string>
     <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">accelerazione_z</string>
     <string name="formula_editor_sensor_compass_direction" tools:ignore="UnusedResources">direzione_bussola</string>
     <string name="formula_editor_sensor_latitude" tools:ignore="UnusedResources">latitudine</string>
@@ -1600,8 +1600,8 @@ con tolleranza %        </string>
     <string name="formula_editor_sensor_location_accuracy" tools:ignore="UnusedResources">accuratezza_posizione</string>
     <string name="formula_editor_sensor_altitude" tools:ignore="UnusedResources">altitudine</string>
     <string name="formula_editor_sensor_user_language">lingua utente</string>
-    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">inclinazione_x</string>
-    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">inclinazione_y</string>
+    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">inclinazione x</string>
+    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">inclinazione y</string>
     <string name="formula_editor_sensor_loudness" tools:ignore="UnusedResources">livello_sonoro</string>
     <string name="formula_editor_sensor_timer">timer</string>
     <string name="formula_editor_sensor_date_year" tools:ignore="UnusedResources">anno</string>
@@ -1660,15 +1660,15 @@ con tolleranza %        </string>
     <string name="formula_editor_phiro_sensor_bottom_right" tools:ignore="UnusedResources">phiro_sensore_inferiore_destro</string>
     <string name="formula_editor_nfc_tag_id" tools:ignore="UnusedResources">nfc_tag_id</string>
     <string name="formula_editor_nfc_tag_message" tools:ignore="UnusedResources">nfc_tag_messaggio</string>
-    <string name="formula_editor_object_x" tools:ignore="UnusedResources">posizione_x</string>
-    <string name="formula_editor_object_y" tools:ignore="UnusedResources">posizione_y</string>
+    <string name="formula_editor_object_x" tools:ignore="UnusedResources">posizione x</string>
+    <string name="formula_editor_object_y" tools:ignore="UnusedResources">posizione y</string>
     <string name="formula_editor_object_transparency" tools:ignore="UnusedResources">trasparenza</string>
     <string name="formula_editor_object_brightness" tools:ignore="UnusedResources">luminosita</string>
     <string name="formula_editor_object_size" tools:ignore="UnusedResources">dimensione</string>
     <string name="formula_editor_object_rotation" tools:ignore="UnusedResources">direzione</string>
     <string name="formula_editor_object_layer" tools:ignore="UnusedResources">layer</string>
     <string name="formula_editor_object_x_velocity" tools:ignore="UnusedResources">velocità_x</string>
-    <string name="formula_editor_object_y_velocity" tools:ignore="UnusedResources">velocità_y</string>
+    <string name="formula_editor_object_y_velocity" tools:ignore="UnusedResources">velocità y</string>
     <string name="formula_editor_object_angular_velocity" tools:ignore="UnusedResources">velocità_angolare</string>
     <string name="formula_editor_object_look_number" tools:ignore="UnusedResources">aspetto_numero</string>
     <string name="formula_editor_object_look_name" tools:ignore="UnusedResources">nome_aspetto</string>
@@ -1688,7 +1688,8 @@ con tolleranza %        </string>
     <string name="formula_editor_logic_comparison">operatori di confronto</string>
     <string name="formula_editor_object_look">Proprietà aspetto</string>
     <string name="formula_editor_object_movement">proprietà del movimento</string>
-    <string name="formula_editor_device_visual_detection">Sensori visivi</string>
+    <string name="formula_editor_device_face_detection">Rilevamento volto</string>
+    <string name="formula_editor_device_text_recognition">Riconoscimento testo</string>
     <string name="formula_editor_device_date_and_time">Data e ora</string>
     <string name="formula_editor_device_touch_detection">Rilevamento tocco</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>
@@ -1730,8 +1731,8 @@ con tolleranza %        </string>
     <string name="formula_editor_data_dialog_is_list">Crea un elenco</string>
     <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">volto_riconosciuto</string>
     <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">dimensione_volto</string>
-    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">posizione_x_volto</string>
-    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">posizione_y_volto</string>
+    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">posizione x volto</string>
+    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">posizione y volto</string>
     <string name="formula_editor_sensor_second_face_detected">secondo volto è visibile</string>
     <string name="formula_editor_sensor_second_face_size">dimensione del secondo volto</string>
     <string name="formula_editor_sensor_second_face_x_position">posizione x secondo volto</string>
@@ -1882,4 +1883,6 @@ con tolleranza %        </string>
 .</string>
     <!-- Information -->
     <string name="no_variable_selected">Nessuna variabile selezionata</string>
+    <string name="find">Trova</string>
+    <string name="no_results_found">Nessun risultato trovato</string>
 </resources>

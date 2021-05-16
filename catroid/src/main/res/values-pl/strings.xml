@@ -1540,8 +1540,8 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <!-- -->
     <!-- Formula editor strings -->
     <string name="formula_editor_data">Dane</string>
-    <string name="formula_editor_true">Prawda</string>
-    <string name="formula_editor_false">Fałsz</string>
+    <string name="formula_editor_true">prawda</string>
+    <string name="formula_editor_false">fałsz</string>
     <string name="formula_editor_decimal_mark" tools:ignore="UnusedResources">.</string>
     <string name="formula_editor_title">Edytor formuł</string>
     <string name="formula_editor_changes_discarded">Zmiany odrzucone!</string>
@@ -1596,8 +1596,8 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="formula_editor_function_min_parameter">(7,2)</string>
     <string name="formula_editor_function_if_then_else">jeżeli to w przeciwnym razie</string>
     <string name="formula_editor_function_if_then_else_parameter">(fałsz, 2, 3)</string>
-    <string name="formula_editor_function_true" tools:ignore="UnusedResources">Prawda</string>
-    <string name="formula_editor_function_false" tools:ignore="UnusedResources">Fałsz</string>
+    <string name="formula_editor_function_true" tools:ignore="UnusedResources">prawda</string>
+    <string name="formula_editor_function_false" tools:ignore="UnusedResources">fałsz</string>
     <string name="formula_editor_function_length" tools:ignore="UnusedResources">długość</string>
     <string name="formula_editor_function_length_parameter">(\'hello world\')</string>
     <string name="formula_editor_function_letter" tools:ignore="UnusedResources">litera</string>
@@ -1618,10 +1618,10 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="formula_editor_function_raspi_read_pin_value_digital" tools:ignore="UnusedResources">raspberry_pi_pin</string>
     <string name="formula_editor_function_pin_default_parameter">(3)</string>
     <string name="formula_editor_function_finger_x" tools:ignore="UnusedResources">x_dotknięcia_ekranu</string>
-    <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">y_dotknięcia_ekranu</string>
+    <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">y dotknięcia ekranu</string>
     <string name="formula_editor_function_is_finger_touching" tools:ignore="UnusedResources">dotknięto_ekran</string>
     <string name="formula_editor_function_multi_finger_x" tools:ignore="UnusedResources">x_dotknięcia_ekranu</string>
-    <string name="formula_editor_function_multi_finger_y" tools:ignore="UnusedResources">y_dotknięcia_ekranu</string>
+    <string name="formula_editor_function_multi_finger_y" tools:ignore="UnusedResources">y dotknięcia ekranu</string>
     <string name="formula_editor_function_is_multi_finger_touching" tools:ignore="UnusedResources">dotknięto_ekran</string>
     <string name="formula_editor_function_index_of_last_finger" tools:ignore="UnusedResources">indeks_ostatniego_dotknięcia_ekranu</string>
     <string name="formula_editor_function_number_of_current_touches">liczba aktualnych dotyków</string>
@@ -1644,8 +1644,8 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="formula_editor_sensor_color_at_x_y">kolor w x y</string>
     <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">kolor jest równy kolorowi z %
         tolerancji</string>
-    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">przyspieszenie_x</string>
-    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">przyspieszenie_y</string>
+    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">przyspieszenie x</string>
+    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">przyśpieszenie y</string>
     <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">przyspieszenie_z</string>
     <string name="formula_editor_sensor_compass_direction" tools:ignore="UnusedResources">kierunek_kompasu</string>
     <string name="formula_editor_sensor_latitude" tools:ignore="UnusedResources">szerokość geograficzna</string>
@@ -1653,8 +1653,8 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="formula_editor_sensor_location_accuracy" tools:ignore="UnusedResources">dokładność_lokalizacji</string>
     <string name="formula_editor_sensor_altitude" tools:ignore="UnusedResources">wysokość npm</string>
     <string name="formula_editor_sensor_user_language">język użytkownika</string>
-    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">nachylenie_x</string>
-    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">nachylenie_y</string>
+    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">nachylenie x</string>
+    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">nachylenie y</string>
     <string name="formula_editor_sensor_loudness" tools:ignore="UnusedResources">głośność</string>
     <string name="formula_editor_sensor_timer">stoper</string>
     <string name="formula_editor_sensor_date_year" tools:ignore="UnusedResources">rok</string>
@@ -1713,8 +1713,8 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="formula_editor_phiro_sensor_bottom_right" tools:ignore="UnusedResources">phiro_dolny_prawy_czujnik</string>
     <string name="formula_editor_nfc_tag_id" tools:ignore="UnusedResources">nfc_tag_id</string>
     <string name="formula_editor_nfc_tag_message" tools:ignore="UnusedResources">wiadomość_nfc_tag</string>
-    <string name="formula_editor_object_x" tools:ignore="UnusedResources">pozycja_x</string>
-    <string name="formula_editor_object_y" tools:ignore="UnusedResources">pozycja_y</string>
+    <string name="formula_editor_object_x" tools:ignore="UnusedResources">pozycja x</string>
+    <string name="formula_editor_object_y" tools:ignore="UnusedResources">pozycja y</string>
     <string name="formula_editor_object_transparency" tools:ignore="UnusedResources">przezroczystość</string>
     <string name="formula_editor_object_brightness" tools:ignore="UnusedResources">jasność</string>
     <string name="formula_editor_object_size" tools:ignore="UnusedResources">rozmiar</string>
@@ -1741,7 +1741,8 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="formula_editor_logic_comparison">Operatory porównania</string>
     <string name="formula_editor_object_look">Właściwości wyglądu</string>
     <string name="formula_editor_object_movement">Właściwości ruchu</string>
-    <string name="formula_editor_device_visual_detection">Czujniki widzenia</string>
+    <string name="formula_editor_device_face_detection">Wykrywanie twarzy</string>
+    <string name="formula_editor_device_text_recognition">Rozpoznawanie tekstu</string>
     <string name="formula_editor_device_date_and_time">Data i czas</string>
     <string name="formula_editor_device_touch_detection">Wykrywanie dotyku</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>
@@ -1758,7 +1759,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="formula_editor_logic_greaterthan" tools:ignore="UnusedResources">&gt;</string>
     <string name="formula_editor_logic_and" tools:ignore="UnusedResources">i</string>
     <string name="formula_editor_logic_or" tools:ignore="UnusedResources">lub</string>
-    <string name="formula_editor_logic_not" tools:ignore="UnusedResources">NIE</string>
+    <string name="formula_editor_logic_not" tools:ignore="UnusedResources">nie</string>
     <string name="formula_editor_logic_greaterequal" tools:ignore="UnusedResources">≥</string>
     <string name="formula_editor_logic_leserequal" tools:ignore="UnusedResources">≤</string>
     <string name="formula_editor_logic_equal" tools:ignore="UnusedResources">=</string>
@@ -1821,7 +1822,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="formula_editor_speech_recognition">Rozpoznawanie mowy</string>
     <string name="camera_error_text_detection">        Wystąpił problem z wykrywaniem tekstu. Niektóre komponenty nadal mogą być pobierane w
         tle. Upewnij się, że jesteś połączony z Internetem i sprawdź ponownie później.</string>
-    <string name="formula_editor_function_flatten">Spłaszcz</string>
+    <string name="formula_editor_function_flatten">złącz</string>
     <string name="formula_editor_function_flatten_parameter">(*nazwa listy*)</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
@@ -1922,4 +1923,6 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
         etapie.</string>
     <!-- Information -->
     <string name="no_variable_selected">Nie wybrano zmiennej</string>
+    <string name="find">Znajdź</string>
+    <string name="no_results_found">Nie znaleziono wyników</string>
 </resources>

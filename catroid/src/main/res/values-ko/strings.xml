@@ -985,8 +985,8 @@
     <string name="brick_look_request_result" tools:ignore="UnusedResources">현재 모습으로 사용</string>
     <string name="brick_background_request_result" tools:ignore="UnusedResources">현재 배경으로 사용</string>
     <string name="look_request_http_error_message">"%1$s에서 이미지 가져 오기에서 반환 된 HTTP 오류 %2$s"</string>
-    <string name="look_request_type_error_message">"\"\"\"
-%1$s에서 이미지 가져 오기가 인식 된 이미지 형식을 검색하지 못했습니다.\"\"\""</string>
+    <string name="look_request_type_error_message">"
+%1$s에서 이미지 가져 오기가 인식 된 이미지 형식을 검색하지 못했습니다."</string>
     <string name="brick_store_csv_into_userlist_store" tools:ignore="UnusedResources">상점 열</string>
     <string name="brick_store_csv_into_userlist_of" tools:ignore="UnusedResources">의</string>
     <string name="brick_store_csv_into_userlist_csv" tools:ignore="UnusedResources">쉼표로 구분된 파일입니다.</string>
@@ -1602,7 +1602,8 @@
     <string name="formula_editor_logic_comparison">비교 연산</string>
     <string name="formula_editor_object_look">Look 속성</string>
     <string name="formula_editor_object_movement">운동 속성</string>
-    <string name="formula_editor_device_visual_detection">시각 센서</string>
+    <string name="formula_editor_device_face_detection">얼굴 인식</string>
+    <string name="formula_editor_device_text_recognition">텍스트 인식</string>
     <string name="formula_editor_device_date_and_time">날짜와 시간</string>
     <string name="formula_editor_device_touch_detection">터치 감지</string>
     <string name="formula_editor_device_lego_nxt">레고 NXT</string>
@@ -1779,4 +1780,6 @@
         단계.</string>
     <!-- Information -->
     <string name="no_variable_selected">선택된 변수가 없습니다.</string>
+    <string name="find">찾기</string>
+    <string name="no_results_found">검색 결과가 없습니다</string>
 </resources>

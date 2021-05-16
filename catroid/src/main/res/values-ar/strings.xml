@@ -1841,7 +1841,8 @@
     <string name="formula_editor_logic_comparison">عوامل تشغيل المقارنة</string>
     <string name="formula_editor_object_look">خصائص المشهد</string>
     <string name="formula_editor_object_movement">خصائص الحركة</string>
-    <string name="formula_editor_device_visual_detection">أجهزة الاستشعار البصرية</string>
+    <string name="formula_editor_device_face_detection">الكشف عن الوجه</string>
+    <string name="formula_editor_device_text_recognition">التعرف على النص</string>
     <string name="formula_editor_device_date_and_time">التاريخ والوقت</string>
     <string name="formula_editor_device_touch_detection">الكشف عن التلامس</string>
     <string name="formula_editor_device_lego_nxt">ليغو NXT</string>
@@ -2023,4 +2024,6 @@
         المسرح.</string>
     <!-- Information -->
     <string name="no_variable_selected">لا يوجد متغير محدد</string>
+    <string name="find">تجد</string>
+    <string name="no_results_found">لم يتم العثور على نتائج</string>
 </resources>

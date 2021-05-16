@@ -67,7 +67,7 @@
     <string name="api_replacement_dialog_neutral">Hochladen ohne Änderung</string>
     <string name="api_replacement_dialog_accept">Hochladen mit ersetzten Schlüssel</string>
     <string name="api_replacement_dialog_warning">Das Projekt enthält Bausteine, die auf das
-        Web zugreifen, und scheint auch API-Schlüssel zu enthalten. Bitte sehen Sie %1s warum
+        Web zugreifen, und scheint auch API-Schlüssel zu enthalten. Bitte sieh %1s warum
         das Hochladen dieser Schlüssel gefährlich sein kann.</string>
     <string name="api_replacement">API-Schlüssel hier einfügen</string>
     <!-- -->
@@ -115,7 +115,7 @@
     <string name="preference_description_language">App-Sprache auswählen</string>
     <string name="preference_title_web_access">Webzugriff</string>
     <string name="preference_description_web_access">Bearbeiten, um vertrauenswürdige Domänen hinzuzufügen oder zu entfernen</string>
-    <string name="preference_screen_web_access_title">Bearbeiten Sie vertrauenswürdige Domänen</string>
+    <string name="preference_screen_web_access_title">Bearbeite vertrauenswürdige Domänen</string>
     <string name="preference_title_accessibility">Bedienungshilfe</string>
     <string name="preference_description_accessibility">Aussehen der App ändern</string>
     <string name="preference_title_accessibility_profiles">Bediehnungshilfen</string>
@@ -139,7 +139,7 @@
     <string name="preference_description_accessibility_element_spacing">Diese Einstellung erhöht den Abstand zwischen interaktiven Elementen.</string>
     <string name="preference_title_accessibility_dragndrop_delay">Drag\'n\'Drop Verzögerung</string>
     <string name="preference_description_accessibility_dragndrop_delay">Fügt eine Verzögerung zu den Drag\'n\'Drop Bausteinen hinzu.</string>
-    <string name="preference_title_accessibility_beginner_bricks">Start Bausteine</string>
+    <string name="preference_title_accessibility_beginner_bricks">Beginner modus</string>
     <string name="preference_description_accessibility_beginner_bricks">Zeigt Bausteine zur schnellen und einfachen Programmerstellung.</string>
     <string name="preference_title_accessibility_font_style">Schriftart auswählen</string>
     <string name="accessibility_font_regular">Standard</string>
@@ -194,7 +194,7 @@
     <string name="preference_raspi_port">Raspberry Pi Port</string>
     <!--  -->
     <string name="preference_title_multiplayer_variables_enabled">Mehrspieler-Erweiterung</string>
-    <string name="preference_description_multiplayer_variables_enabled">Ermöglichen Sie der App, über Bluetooth freigegebene Multiplayer-Variablen zu verwenden</string>
+    <string name="preference_description_multiplayer_variables_enabled">Ermögliche der App, über Bluetooth freigegebene Multiplayer-Variablen zu verwenden</string>
     <string name="preference_title_enable_test_bricks">Erweiterung testen</string>
     <string name="preference_description_test_bricks">Ermöglicht das Erstellen von Tests</string>
     <!-- Scratch Converter activity -->
@@ -202,8 +202,8 @@
     <string name="error_scratch_program_not_accessible_any_more">Hoppla! Das Projekt scheint
         verschwunden zu sein oder du hast keinen Zugriff mehr darauf.</string>
     <string name="error_scratch_project_data_not_available">Hoppla! Einige Teile des Projektes scheinen
-        fehlen, bitte versuchen Sie es später erneut.</string>
-    <string name="error_request_timeout">Hoppla! Unser Server hat nicht geantwortet, in der Zeit, bitte versuchen Sie es später erneut.</string>
+        fehlen, bitte versuche es später erneut.</string>
+    <string name="error_request_timeout">Hoppla! Unser Server hat nicht geantwortet, in der Zeit, bitte versuche es später erneut.</string>
     <string name="error_scratch_program_conversion_failed">Hoppla! Konvertierung des Scratch Projektes ist
       fehlgeschlagen. Bitte probiere es etwas später noch einmal.</string>
     <string name="error_specific_scratch_program_conversion_failed_x">Hoppla! Konvertierung von %1$s fehlgeschlagen. Bitte probiere es später noch einmal.</string>
@@ -221,7 +221,7 @@
     <plurals name="error_cannot_convert_more_than_x_programs">
         <item quantity="one">Du kannst nicht mehr als %d Projekte gleichzeitig konvertieren. Bitte warte, bis die
             laufende Projekte fertig konvertiert sind.</item>
-        <item quantity="other">Sie können nicht mehr als %d Programm gleichzeitig konvertieren. Bitte warten Sie, bis die
+        <item quantity="other">Du kannst nicht mehr als %d Programm gleichzeitig konvertieren. Bitte warte, bis die
             laufende Programme, zuerst zu beenden.</item>
     </plurals>
     <string name="error_cannot_open_failed_scratch_program">Das Projekt kann nicht geöffnet werden, weil es nicht
@@ -290,7 +290,7 @@
     <!-- ERRORS -->
     <!-- Terms of Use and Service Error -->
     <string name="declined_terms_of_use_and_service_alert">Um unsere App zu nutzen, ist es notwendig, unsere Nutzungs- und Servicebedingungen zu akzeptieren.
-        Wenn Sie sich damit jedoch nicht wohl fühlen, können Sie unsere kostenlosen Web-Services nutzen unter</string>
+        Wenn du dich damit jedoch nicht wohl fühlen, kannst du unsere kostenlosen Web-Services nutzen unter</string>
     <string name="wtf_error">Unvorhergesehener Fehler aufgetreten: Default Projekt konnte NICHT wiederhergestellt werden.</string>
     <!-- Project Handling Errors -->
     <string name="error_copy_project">Fehler beim Kopieren des Projekts aufgetreten</string>
@@ -459,8 +459,8 @@
         <item quantity="other">%d Szenen gelöscht.</item>
     </plurals>
     <plurals name="deleted_sprites">
-        <item quantity="one">%d Figur und Objekt gelöscht!</item>
-        <item quantity="other">%d Figuren und Objekte gelöscht!</item>
+        <item quantity="one">%d Figur und Objekt gelöscht.</item>
+        <item quantity="other">%d Figuren oder Objekte gelöscht.</item>
     </plurals>
     <plurals name="deleted_looks">
         <item quantity="one">%d Aussehen gelöscht.</item>
@@ -497,7 +497,7 @@
     <string name="error_no_files_found">Keine Projekte gefunden.</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Beschreibung</string>
-    <string name="project_options_notes_and_credits">Anerkennung</string>
+    <string name="project_options_notes_and_credits">Notizen und Credits</string>
     <string name="project_options_tags">Tags</string>
     <string name="project_options_aspect_ratio">Originales Seitenverhältnis beibehalten</string>
     <string name="project_options_more_details">Mehr Details</string>
@@ -596,7 +596,7 @@
     <!--  -->
     <!-- Privacy Policy -->
     <string name="disclaimer_privacy_police_header_headline">Willkommen!</string>
-    <string name="disclaimer_privacy_policy_header">Um diese App zu verwenden, akzeptieren Sie bitte unsere</string>
+    <string name="disclaimer_privacy_policy_header">Um diese App zu verwenden, akzeptiere bitte unsere</string>
     <!-- -->
     <!-- About Dialog -->
     <string name="dialog_about_title">Über die App</string>
@@ -636,13 +636,13 @@
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Baustein verschieben</string>
     <string name="brick_context_dialog_move_script">Skript bewegen</string>
-    <string name="brick_context_dialog_move_definition">Verschieben Sie diese Definition</string>
+    <string name="brick_context_dialog_move_definition">Verschiebe diese Definition</string>
     <string name="brick_context_dialog_delete_brick" tools:ignore="UnusedResources">Baustein löschen</string>
     <string name="brick_context_dialog_copy_brick">Baustein kopieren</string>
     <string name="brick_context_dialog_copy_script">Skript kopieren</string>
     <string name="brick_context_dialog_formula_edit_brick">Formel bearbeiten</string>
     <string name="brick_context_dialog_delete_script">Skript löschen</string>
-    <string name="brick_context_dialog_delete_definition">Löschen sie diese Definition</string>
+    <string name="brick_context_dialog_delete_definition">Lösche diese Definition</string>
     <string name="brick_context_dialog_comment_in">Baustein aktivieren</string>
     <string name="brick_context_dialog_comment_out">Baustein deaktivieren</string>
     <string name="brick_context_dialog_highlight_brick_parts">Zusammengehörende Block-Teile hervorheben</string>
@@ -661,7 +661,7 @@
     <!--  -->
     <!-- Sign In dialogs -->
     <string name="sign_in_dialog_title">Einloggen</string>
-    <string name="username">Username</string>
+    <string name="username">Benutzername</string>
     <string name="password">Passwort</string>
     <string name="reset_password">Passwort zurücksetzen</string>
     <string name="new_user_registered">Neuer Account wurde erstellt</string>
@@ -768,7 +768,7 @@
     <string name="category_assertions" tools:ignore="UnusedResources">Testen</string>
     <!--  -->
     <!-- User Defined Bricks -->
-    <string name="brick_user_defined_add_label">Benutzerdefinierte Bausteine</string>
+    <string name="brick_user_defined_add_label">Beschriftung hinzufügen</string>
     <string name="brick_user_defined_add_input">Eingabe hinzufügen</string>
     <string name="brick_user_defined_add_input_description">Eingabe für diesen Baustein hinzufügen:</string>
     <string name="brick_user_defined_add_label_description">Label für diesen Baustein hinzufügen:</string>
@@ -777,7 +777,7 @@
     <string name="brick_user_defined_already_exists">Ein Baustein mit diesen Labels existiert bereits. Bitte füge mehr Labels oder Eingaben hinzu.</string>
     <string name="brick_user_defined_script_define" tools:ignore="UnusedResources">Definieren</string>
     <string name="brick_user_defined_script_as" tools:ignore="UnusedResources">als wie</string>
-    <string name="brick_user_defined_list_empty">Tippen Sie auf \"+\", um Ihre eigenen neuen Steine ​​hinzuzufügen.</string>
+    <string name="brick_user_defined_list_empty">Tippe auf \"+\", um deine eigenen neuen Steine ​​hinzuzufügen.</string>
     <string name="brick_report" tools:ignore="UnusedResources">Melden</string>
     <!--  -->
     <!-- Motion bricks -->
@@ -897,10 +897,10 @@
     <string name="brick_speak" tools:ignore="UnusedResources">Sprich</string>
     <string name="brick_speak_default_value">Hallo!</string>
     <string name="brick_speak_and_wait" tools:ignore="UnusedResources">und warte</string>
-    <string name="brick_start_listening_to_voice" tools:ignore="UnusedResources">Hören Sie sich die Stimme an und speichern Sie die gesprochenen Wörter in</string>
+    <string name="brick_start_listening_to_voice" tools:ignore="UnusedResources">Höre dir deine Stimme an und speichere dir die gesprochenen Wörter in</string>
     <string name="speech_recognition_not_available">Spracherkennung ist nicht verfügbar.</string>
     <string name="speech_recognition_offline_mode_error_dialog_title">Fehlende Offline-Daten</string>
-    <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">Die Offline-Spracherkennung für %s fehlt oder muss aktualisiert werden. Möchten Sie es jetzt herunterladen oder aktualisieren?</string>
+    <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">Die Offline-Spracherkennung für %s fehlt oder muss aktualisiert werden. Möchtest du es jetzt herunterladen oder aktualisieren?</string>
     <string name="brick_set_listening_language" tools:ignore="UnusedResources">Hörsprache einstellen auf</string>
     <string name="set_instrument_to" tools:ignore="UnusedResources">Setze Instrument auf</string>
     <string name="set_tempo_to" tools:ignore="UnusedResources">Setze Tempo auf</string>
@@ -918,7 +918,7 @@
     <string name="brick_zigzag_stitch_width" tools:ignore="UnusedResources">und Breite</string>
     <string name="brick_triple_stitch" tools:ignore="UnusedResources">Starte Dreifachstich mit Länge</string>
     <string name="brick_stop_stitch" tools:ignore="UnusedResources">Beende aktuellen Stich</string>
-    <string name="brick_write_embroidery" tools:ignore="UnusedResources">Schreiben Sie Stickdaten in die Datei</string>
+    <string name="brick_write_embroidery" tools:ignore="UnusedResources">Schreibe Stickdaten in die Datei</string>
     <string name="brick_default_embroidery_file">Stickerei.dst</string>
     <string name="brick_sew_up" tools:ignore="UnusedResources">vernähen</string>
     <string name="brick_thread_color">Setze auf Farbe </string>
@@ -1015,7 +1015,7 @@
     <string name="brick_write_variable_to_file_success">"Daten erfolgreich in %1$s geschrieben"</string>
     <string name="brick_read_variable_from_file_top" tools:ignore="UnusedResources">Lese Variable</string>
     <string name="brick_read_variable_from_file_center" tools:ignore="UnusedResources">Aus Datei</string>
-    <string name="brick_read_variable_from_file_bottom" tools:ignore="UnusedResources">UND</string>
+    <string name="brick_read_variable_from_file_bottom" tools:ignore="UnusedResources">und</string>
     <string name="brick_read_variable_from_file_keep">Behalte die Datei</string>
     <string name="brick_read_variable_from_file_delete">Lösche die Datei</string>
     <string name="brick_write_list_on_device" tools:ignore="UnusedResources">Liste auf Gerät speichern</string>
@@ -1041,9 +1041,9 @@
     <string name="web_request_warning_title">Erlaube Web Zugriff?</string>
     <string name="web_request_warning_message">Sei sehr vorsichtig, bevor du den Zugriff zulässt, da der Link anderen oder der Öffentlichkeit deine persönlichen Daten offenlegen kann, z.B. deinen genauen geografischen Standort oder Texte, die du eingegeben hast. Siehe unser &lt;a href=%1s&gt;wiki&lt;/a&gt; für weitere Informationen, warum dies äußerst gefährlich sein kann.</string>
     <string name="web_request_trust_domain_warning_title">Webzugriff immer zulassen?</string>
-    <string name="web_request_trust_domain_warning_message">Wenn Sie den Zugriff immer zulassen, werden Sie nicht erneut aufgefordert, die Webadressen dieser Domain zu bestätigen. </string>
-    <string name="trusted_domains_edit_hint">Wenn Sie diese Berechtigung später widerrufen möchten, können Sie den Eintrag in den Einstellungen dieser App aus der Liste der vertrauenswürdigen Domänen entfernen. </string>
-    <string name="brick_look_request" tools:ignore="UnusedResources">Holen Sie sich Bild von</string>
+    <string name="web_request_trust_domain_warning_message">Wenn du den Zugriff immer zulässt, wirst du nicht erneut aufgefordert, die Webadressen dieser Domain zu bestätigen. </string>
+    <string name="trusted_domains_edit_hint">Wenn du diese Berechtigung später widerrufen möchtest, kannst du den Eintrag in den Einstellungen dieser App aus der Liste der vertrauenswürdigen Domänen entfernen. </string>
+    <string name="brick_look_request" tools:ignore="UnusedResources">Bild abrufen von</string>
     <string name="brick_look_request_result" tools:ignore="UnusedResources">und als aktuelles Aussehen verwenden</string>
     <string name="brick_background_request_result" tools:ignore="UnusedResources">und als aktuellen Hintergrund verwenden</string>
     <string name="look_request_http_error_message">"Bild von%1$s abrufen zurückgegebener HTTP-Fehler%2$s"</string>
@@ -1461,8 +1461,8 @@
     <!-- -->
     <!-- Formula editor strings -->
     <string name="formula_editor_data">Daten</string>
-    <string name="formula_editor_true">WAHR</string>
-    <string name="formula_editor_false">FALSCH</string>
+    <string name="formula_editor_true">wahr</string>
+    <string name="formula_editor_false">falsch</string>
     <string name="formula_editor_decimal_mark" tools:ignore="UnusedResources">,</string>
     <string name="formula_editor_title">Formel Editor</string>
     <string name="formula_editor_changes_discarded">Änderungen verworfen!</string>
@@ -1517,8 +1517,8 @@
     <string name="formula_editor_function_min_parameter">(7,2)</string>
     <string name="formula_editor_function_if_then_else">wenn dann</string>
     <string name="formula_editor_function_if_then_else_parameter">(flasch,2,3)</string>
-    <string name="formula_editor_function_true" tools:ignore="UnusedResources">WAHR</string>
-    <string name="formula_editor_function_false" tools:ignore="UnusedResources">FALSCH</string>
+    <string name="formula_editor_function_true" tools:ignore="UnusedResources">wahr</string>
+    <string name="formula_editor_function_false" tools:ignore="UnusedResources">falsch</string>
     <string name="formula_editor_function_length" tools:ignore="UnusedResources">Länge</string>
     <string name="formula_editor_function_length_parameter">(\'Hallo Welt\')</string>
     <string name="formula_editor_function_letter" tools:ignore="UnusedResources">Buchstabe</string>
@@ -1664,7 +1664,8 @@
     <string name="formula_editor_logic_comparison">Vergleichsoperatoren</string>
     <string name="formula_editor_object_look">Eigenschaften fürs Aussehen</string>
     <string name="formula_editor_object_movement">Physikalische Eigenschaften</string>
-    <string name="formula_editor_device_visual_detection">Visuelle Sensoren</string>
+    <string name="formula_editor_device_face_detection">Gesichtserkennung</string>
+    <string name="formula_editor_device_text_recognition">Texterkennung</string>
     <string name="formula_editor_device_date_and_time">Datum und Uhrzeit</string>
     <string name="formula_editor_device_touch_detection">Berührungserkennung</string>
     <string name="formula_editor_device_lego_nxt">Lego Mindstorms NXT</string>
@@ -1680,8 +1681,8 @@
     <string name="formula_editor_logic_lesserthan" tools:ignore="UnusedResources">&lt;</string>
     <string name="formula_editor_logic_greaterthan" tools:ignore="UnusedResources">&gt;</string>
     <string name="formula_editor_logic_and" tools:ignore="UnusedResources">UND</string>
-    <string name="formula_editor_logic_or" tools:ignore="UnusedResources">ODER</string>
-    <string name="formula_editor_logic_not" tools:ignore="UnusedResources">NICHT</string>
+    <string name="formula_editor_logic_or" tools:ignore="UnusedResources">oder</string>
+    <string name="formula_editor_logic_not" tools:ignore="UnusedResources">nicht</string>
     <string name="formula_editor_logic_greaterequal" tools:ignore="UnusedResources">≥</string>
     <string name="formula_editor_logic_leserequal" tools:ignore="UnusedResources">≤</string>
     <string name="formula_editor_logic_equal" tools:ignore="UnusedResources">=</string>
@@ -1751,8 +1752,9 @@
     <string name="formula_editor_intro_summary_data">Hier findest du Variablen und Listen, welche in deinem Projekt verwendet werden. \nDu kannst diese einfach in deine Formel einfügen. </string>
     <string name="formula_editor_listening_language_sensor">Hörsprache</string>
     <string name="formula_editor_speech_recognition">Spracherkennung</string>
-    <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.</string>
+    <string name="camera_error_text_detection">        Es gab ein Problem bei der Gesichtserkennung. Einige Komponenten werden möglicherweise noch im Hintergrund
+        heruntergeladen. Bitte stelle sicher, dass du mit dem Internet verbunden bist und versuchen es später erneut.
+    </string>
     <string name="formula_editor_function_flatten">abflachen</string>
     <string name="formula_editor_function_flatten_parameter">(*Listenname*)</string>
     <!--  -->
@@ -1778,8 +1780,8 @@
     <string name="choose_camera_back" tools:ignore="UnusedResources">Hauptkamera</string>
     <string name="camera_error_generic">        Something went wrong while trying to use the camera.
     </string>
-    <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.
+    <string name="camera_error_face_detection">        Es gab ein Problem bei der Gesichtserkennung. Einige Komponenten werden möglicherweise noch im Hintergrund
+        heruntergeladen. Bitte stelle sicher, dass du mit dem Internet verbunden bist und versuche es später erneut.
     </string>
     <!-- -->
     <!-- Cast strings -->
@@ -1844,7 +1846,7 @@
     <!-- Symbols -->
     <string name="percent_symbol">%</string>
     <string name="hertz_symbol" tools:ignore="UnusedResources">㎐</string>
-    <string name="no_internet_connection">Keine Internetverbindung. Stellen Sie sicher, dass Wi-Fi oder mobile
+    <string name="no_internet_connection">Keine Internetverbindung. Stelle sicher, dass Wi-Fi oder mobile
     Daten eingeschaltet sind.</string>
     <string name="edit">Bearbeiten</string>
     <string name="data_value">Wert</string>
@@ -1854,4 +1856,6 @@
         Bühne zu platzieren.</string>
     <!-- Information -->
     <string name="no_variable_selected">Keine Variable ausgewählt</string>
+    <string name="find">Finden</string>
+    <string name="no_results_found">Keine Ergebnisse gefunden</string>
 </resources>
