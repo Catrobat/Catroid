@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -104,6 +105,9 @@ public class BrickAdapter extends BaseAdapter implements
 
 	private void updateItemsFromCurrentScripts() {
 		items.clear();
+		if (ProjectManager.getInstance() != null && ProjectManager.getInstance().getCurrentSprite() != null) {
+			ProjectManager.getInstance().getCurrentSprite().removeAllEmptyScriptBricks();
+		}
 		for (Script script : scripts) {
 			script.setParents();
 			script.addToFlatList(items);
