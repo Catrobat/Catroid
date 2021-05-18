@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
@@ -30,6 +32,7 @@ import org.catrobat.catroid.content.eventids.EventId;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.mockito.Mockito;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -43,6 +46,9 @@ public class ForeverActionTest {
 	@Test
 	public void testLoopDelay() {
 		initializeStaticSingletonMethods();
+		Project project = Mockito.mock(Project.class);
+		ProjectManager.getInstance().setCurrentProject(project);
+		Mockito.doReturn(null).when(project).getSpriteListWithClones();
 		int deltaY = -10;
 
 		Sprite sprite = new Sprite("testSprite");
