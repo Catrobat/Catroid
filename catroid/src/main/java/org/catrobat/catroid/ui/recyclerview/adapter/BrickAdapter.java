@@ -80,7 +80,10 @@ public class BrickAdapter extends BaseAdapter implements
 	private OnItemClickListener onItemClickListener;
 	private SelectionListener selectionListener;
 
+	private final Sprite sprite;
+
 	public BrickAdapter(Sprite sprite) {
+		this.sprite = sprite;
 		updateItems(sprite);
 	}
 
@@ -104,6 +107,7 @@ public class BrickAdapter extends BaseAdapter implements
 
 	private void updateItemsFromCurrentScripts() {
 		items.clear();
+		sprite.removeAllEmptyScriptBricks();
 		for (Script script : scripts) {
 			script.setParents();
 			script.addToFlatList(items);
