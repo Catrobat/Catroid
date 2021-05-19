@@ -39,6 +39,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -279,7 +280,7 @@ public class StageListener implements ApplicationListener {
 			copy.myOriginal = cloneMe;
 		}
 		copy.look.createBrightnessContrastHueShader();
-		stage.getRoot().addActorBefore(cloneMe.look, copy.look);
+		addCloneActorToStage(stage, stage.getRoot(), cloneMe.look, copy.look);
 		sprites.add(copy);
 		if (!copy.getLookList().isEmpty()) {
 			int currentLookDataIndex = cloneMe.getLookList().indexOf(cloneMe.look.getLookData());
@@ -287,6 +288,13 @@ public class StageListener implements ApplicationListener {
 		}
 		copy.initializeEventThreads(EventId.START_AS_CLONE);
 		copy.initConditionScriptTriggers();
+	}
+
+	public void addCloneActorToStage(Stage stage, Group rootGroup, Look cloneMeLook, Look copyLook) {
+		if (!stage.getActors().contains(cloneMeLook, true)) {
+			rootGroup.addActor(cloneMeLook);
+		}
+		rootGroup.addActorBefore(cloneMeLook, copyLook);
 	}
 
 	public boolean removeClonedSpriteFromStage(Sprite sprite) {
