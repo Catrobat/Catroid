@@ -38,6 +38,10 @@ class DeleteLookAction : SingleSpriteEventAction() {
     override fun getEventId(): EventId? {
         sprite?.apply {
             val lookData = look?.lookData ?: return null
+            if (lookData.isWebRequest) {
+                setNewLookData(0)
+                return SetLookEventId(sprite, sprite?.look?.lookData)
+            }
             if (lookList.isNullOrEmpty()) {
                 return null
             }
@@ -59,7 +63,9 @@ class DeleteLookAction : SingleSpriteEventAction() {
                 return
             }
             look?.lookData ?: return
-            if (lookList.size > 1) {
+            if (look.lookData.isWebRequest) {
+                look.lookData = lookList[indexOfLookData]
+            } else if (lookList.size > 1) {
                 if (lookList.last() == look.lookData) {
                     look.lookData = lookList.first()
                 } else {
