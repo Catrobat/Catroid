@@ -273,7 +273,7 @@ public final class Constants {
 	public static final int COLLISION_VERTEX_LIMIT = 100;
 	public static final float COLLISION_POLYGON_CREATION_EPSILON = 10.0f;
 	public static final String COLLISION_POLYGON_METADATA_PATTERN = "((((\\d+\\.\\d+);(\\d+\\.\\d+);){2,}(\\d+\\.\\d+);(\\d+\\.\\d+))\\|)*((\\d+\\.\\d+);(\\d+\\.\\d+);){2,}(\\d+\\.\\d+);(\\d+\\.\\d+)";
-	public static final float COLLISION_WITH_FINGER_TOUCH_RADIUS = 50;
+	public static final float COLLISION_WITH_FINGER_TOUCH_RADIUS = 40;
 
 	public static final int CAST_IDLE_BACKGROUND_COLOR = 0x66000000;
 
