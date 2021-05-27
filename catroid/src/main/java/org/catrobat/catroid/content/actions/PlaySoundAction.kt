@@ -20,36 +20,27 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.actions
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import org.catrobat.catroid.common.SoundInfo
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.io.SoundManager
+import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager
 
-import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.SoundManager;
-import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager;
+class PlaySoundAction : TemporalAction() {
+    lateinit var sprite: Sprite
+    var sound: SoundInfo? = null
 
-public class PlaySoundAction extends TemporalAction {
-
-	private Sprite sprite;
-	private SoundInfo sound;
-
-	@Override
-	protected void update(float percent) {
-		if (sound != null && sprite.getSoundList().contains(sound) && sound.getFile() != null) {
-			if (sound.isMidiFile()) {
-				MidiSoundManager.getInstance().playSoundFile(sound.getFile().getAbsolutePath(), sprite);
-			} else {
-				SoundManager.getInstance().playSoundFile(sound.getFile().getAbsolutePath(), sprite);
-			}
-		}
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
-
-	public void setSound(SoundInfo sound) {
-		this.sound = sound;
-	}
+    override fun update(percent: Float) {
+        if (sprite.soundList.contains(sound)) {
+            sound?.let {
+                if (it.isMidiFile) {
+                    MidiSoundManager.getInstance().playSoundFile(it.file.absolutePath, sprite)
+                } else {
+                    SoundManager.getInstance().playSoundFile(it.file.absolutePath, sprite)
+                }
+            }
+        }
+    }
 }
