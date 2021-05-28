@@ -197,6 +197,9 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> implements Pr
 		scene.addSprite(backgroundSprite);
 
 		adapter.add(scene);
+		if (!currentProject.hasScene()) {
+			currentProject.addScene(scene);
+		}
 		setShowProgressBar(false);
 	}
 
