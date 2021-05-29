@@ -24,13 +24,15 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+
+import kotlin.Unit;
 
 public class FlashBrick extends BrickBaseType {
 
@@ -55,18 +57,10 @@ public class FlashBrick extends BrickBaseType {
 
 		ArrayAdapter<String> spinnerAdapter = createArrayAdapter(context);
 		flashSpinner.setAdapter(spinnerAdapter);
-		flashSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-				spinnerSelectionID = position;
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> adapterView) {
-			}
-		});
-
+		flashSpinner.setOnItemSelectedListener(new AdapterViewOnItemSelectedListenerImpl(position -> {
+			spinnerSelectionID = position;
+			return Unit.INSTANCE;
+		}));
 		flashSpinner.setSelection(spinnerSelectionID);
 		return view;
 	}

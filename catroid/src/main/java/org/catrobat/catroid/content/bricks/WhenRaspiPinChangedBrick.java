@@ -24,12 +24,12 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -37,6 +37,8 @@ import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.ArrayList;
+
+import kotlin.Unit;
 
 public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType {
 
@@ -86,19 +88,11 @@ public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType {
 			messageAdapter2.add(gpio.toString());
 		}
 		pinSpinner.setAdapter(messageAdapter2);
-
-		pinSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				String selectedMessage = pinSpinner.getSelectedItem().toString();
-				script.setPin(selectedMessage);
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-			}
-		});
+		pinSpinner.setOnItemSelectedListener(new AdapterViewOnItemSelectedListenerImpl(position -> {
+			String selectedMessage = pinSpinner.getSelectedItem().toString();
+			script.setPin(selectedMessage);
+			return Unit.INSTANCE;
+		}));
 		pinSpinner.setSelection(messageAdapter2.getPosition(script.getPin()), true);
 	}
 
@@ -108,18 +102,13 @@ public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType {
 
 		ArrayAdapter<String> valueAdapter = getValueSpinnerArrayAdapter(context);
 		valueSpinner.setAdapter(valueAdapter);
-		valueSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (position < BrickValues.RASPI_EVENTS.length) {
-					script.setEventValue(BrickValues.RASPI_EVENTS[position]);
-				}
+		valueSpinner.setOnItemSelectedListener(new AdapterViewOnItemSelectedListenerImpl(position -> {
+			if (position < BrickValues.RASPI_EVENTS.length) {
+				script.setEventValue(BrickValues.RASPI_EVENTS[position]);
 			}
+			return Unit.INSTANCE;
+		}));
 
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-			}
-		});
 		for (int i = 0; i < BrickValues.RASPI_EVENTS.length; i++) {
 			if (BrickValues.RASPI_EVENTS[i].equals(script.getEventValue())) {
 				valueSpinner.setSelection(i, true);

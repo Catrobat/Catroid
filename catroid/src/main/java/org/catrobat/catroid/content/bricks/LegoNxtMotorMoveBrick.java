@@ -24,14 +24,16 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+
+import kotlin.Unit;
 
 public class LegoNxtMotorMoveBrick extends FormulaBrick {
 
@@ -73,17 +75,10 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 
 		Spinner spinner = view.findViewById(R.id.lego_motor_action_spinner);
 		spinner.setAdapter(spinnerAdapter);
-		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				motor = Motor.values()[position].name();
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-			}
-		});
+		spinner.setOnItemSelectedListener(new AdapterViewOnItemSelectedListenerImpl(position -> {
+			motor = Motor.values()[position].name();
+			return Unit.INSTANCE;
+		}));
 		spinner.setSelection(Motor.valueOf(motor).ordinal());
 		return view;
 	}
