@@ -50,6 +50,7 @@ ext {
     gdxVersion = "1.9.10"
     mockitoVersion = "2.8.47"
     espressoVersion = "3.1.0"
+    paintroidVersion = '2.7.3'
     playServicesVersion = "17.0.0"
     cameraXVersion = "1.0.0-beta07"
 }
@@ -331,7 +332,13 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Paintroid local aar lib files
-    implementation fileTree(dir: 'src/main/libs', include: ['*.aar'])
+    if(rootProject.hasProperty('paintroidLocal')) {
+        paintroidVersion = paintroidVersion + "-LOCAL"
+        catroidImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
+        implementation "org.catrobat.paintroid:colorpicker:$paintroidVersion"
+    } else {
+        implementation fileTree(dir: 'src/main/libs', include: ['*.aar'])
+    }
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 
     // Kotlin
