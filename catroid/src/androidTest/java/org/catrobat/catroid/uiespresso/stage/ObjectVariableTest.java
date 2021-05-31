@@ -98,7 +98,7 @@ public class ObjectVariableTest {
 		assertEquals(SPRITE_TRANSPARENCY, getSensorValue(Sensors.OBJECT_TRANSPARENCY), DELTA);
 		assertEquals(SPRITE_BRIGHTNESS, getSensorValue(Sensors.OBJECT_BRIGHTNESS), DELTA);
 		assertEquals(SPRITE_SIZE, getSensorValue(Sensors.OBJECT_SIZE), DELTA);
-		assertEquals(SPRITE_DIRECTION, getSensorValue(Sensors.OBJECT_ROTATION), DELTA);
+		assertEquals(SPRITE_DIRECTION, getSensorValue(Sensors.MOTION_DIRECTION), DELTA);
 		assertEquals(NUMBER_OF_SPRITES - SPRITE_LAYER_CHANGE, getSensorValue(Sensors.OBJECT_LAYER), DELTA);
 	}
 

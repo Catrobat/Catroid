@@ -92,7 +92,7 @@ public class Formula implements Serializable {
 
 	public void updateCollisionFormulas(String oldName, String newName, Context context) {
 		internFormula.updateCollisionFormula(oldName, newName, context);
-		formulaTree.updateCollisionFormula(oldName, newName);
+		formulaTree.updateElementByName(oldName, newName, ElementType.COLLISION_FORMULA);
 	}
 
 	public void updateCollisionFormulasToVersion() {
@@ -100,14 +100,21 @@ public class Formula implements Serializable {
 		formulaTree.updateCollisionFormulaToVersion(ProjectManager.getInstance().getCurrentProject());
 	}
 
+	public void updateDirectionPropertyToVersion() {
+		String oldName = "OBJECT_ROTATION";
+		String newName = "MOTION_DIRECTION";
+		internFormula.updateSensorTokens(oldName, newName, CatroidApplication.getAppContext());
+		formulaTree.updateElementByName(oldName, newName, ElementType.SENSOR);
+	}
+
 	public void updateVariableName(String oldName, String newName) {
 		internFormula.updateVariableReferences(oldName, newName, CatroidApplication.getAppContext());
-		formulaTree.updateVariableReferences(oldName, newName);
+		formulaTree.updateElementByName(oldName, newName, ElementType.USER_VARIABLE);
 	}
 
 	public void updateUserlistName(String oldName, String newName) {
 		internFormula.updateListReferences(oldName, newName, CatroidApplication.getAppContext());
-		formulaTree.updateListName(oldName, newName);
+		formulaTree.updateElementByName(oldName, newName, ElementType.USER_LIST);
 	}
 
 	public boolean containsSpriteInCollision(String name) {

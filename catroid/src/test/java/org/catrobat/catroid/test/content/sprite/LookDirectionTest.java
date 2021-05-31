@@ -65,8 +65,8 @@ public class LookDirectionTest {
 	@Test
 	public void testDirection() {
 		Look look = new Look(new Sprite("testsprite"));
-		look.setDirectionInUserInterfaceDimensionUnit(degreesInUserInterfaceDimensionUnit);
-		assertEquals(degreesInUserInterfaceDimensionUnit, look.getDirectionInUserInterfaceDimensionUnit());
+		look.setMotionDirectionInUserInterfaceDimensionUnit(degreesInUserInterfaceDimensionUnit);
+		assertEquals(degreesInUserInterfaceDimensionUnit, look.getMotionDirectionInUserInterfaceDimensionUnit());
 		assertEquals(degrees, look.getRotation());
 	}
 }

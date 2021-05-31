@@ -95,7 +95,7 @@ public class SewUpTest {
 
 	@Test
 	public void testAngledSewUp() {
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(137);
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(137);
 		sprite.getActionFactory().createSewUpAction(sprite).act(1f);
 
 		List<StitchPoint> stitches =
@@ -105,7 +105,7 @@ public class SewUpTest {
 		ArrayList<Float> expectedStitchesY = new ArrayList<>();
 		float x = sprite.look.getXInUserInterfaceDimensionUnit();
 		float y = sprite.look.getYInUserInterfaceDimensionUnit();
-		double radians = Math.toRadians(sprite.look.getDirectionInUserInterfaceDimensionUnit());
+		double radians = Math.toRadians(sprite.look.getMotionDirectionInUserInterfaceDimensionUnit());
 
 		expectedStitchesX.add(x);
 		expectedStitchesY.add(y);

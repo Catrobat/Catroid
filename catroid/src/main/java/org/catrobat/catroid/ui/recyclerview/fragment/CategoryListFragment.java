@@ -94,6 +94,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	public static final String TAG = CategoryListFragment.class.getSimpleName();
 
 	private static final List<Integer> OBJECT_GENERAL_PROPERTIES = asList(
+			R.string.formula_editor_object_rotation_look,
 			R.string.formula_editor_object_transparency,
 			R.string.formula_editor_object_brightness,
 			R.string.formula_editor_object_color);
@@ -103,7 +104,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_object_background_name);
 	private static final List<Integer> OBJECT_PHYSICAL_1 = asList(R.string.formula_editor_object_x,
 			R.string.formula_editor_object_y, R.string.formula_editor_object_size,
-			R.string.formula_editor_object_rotation, R.string.formula_editor_object_layer);
+			R.string.formula_editor_object_rotation, R.string.formula_editor_object_rotation_look,
+			R.string.formula_editor_object_layer);
 	private static final List<Integer> OBJECT_PHYSICAL_COLLISION = singletonList(R.string.formula_editor_function_collision);
 	private static final List<Integer> OBJECT_PHYSICAL_2 = asList(R.string.formula_editor_function_collides_with_edge,
 			R.string.formula_editor_function_touched,

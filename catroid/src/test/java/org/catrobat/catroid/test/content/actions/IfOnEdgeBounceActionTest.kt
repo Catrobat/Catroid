@@ -106,7 +106,7 @@ class IfOnEdgeBounceActionTest(
             width = WIDTH
             height = HEIGHT
             setPositionInUserInterfaceDimensionUnit(initialPosX, initialPosY)
-            directionInUserInterfaceDimensionUnit = initialDirection.toFloat()
+            motionDirectionInUserInterfaceDimensionUnit = initialDirection.toFloat()
         }
         Project(MockUtil.mockContextForProject(), "Test", false).apply {
             xmlHeader.virtualScreenWidth = SCREEN_WIDTH
@@ -120,6 +120,6 @@ class IfOnEdgeBounceActionTest(
         Assert.assertTrue(sprite.actionFactory.createIfOnEdgeBounceAction(sprite).act(1.0f))
         Assert.assertEquals(expectedPosX, sprite.look.xInUserInterfaceDimensionUnit)
         Assert.assertEquals(expectedPosY, sprite.look.yInUserInterfaceDimensionUnit)
-        Assert.assertEquals(expectedDirection, sprite.look.directionInUserInterfaceDimensionUnit)
+        Assert.assertEquals(expectedDirection, sprite.look.motionDirectionInUserInterfaceDimensionUnit)
     }
 }

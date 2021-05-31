@@ -40,7 +40,7 @@ public class MoveNStepsAction extends TemporalAction {
 		try {
 			Double stepsValue = steps == null ? Double.valueOf(0d)
 					: steps.interpretDouble(scope);
-			double radians = Math.toRadians(scope.getSprite().look.getDirectionInUserInterfaceDimensionUnit());
+			double radians = Math.toRadians(scope.getSprite().look.getMotionDirectionInUserInterfaceDimensionUnit());
 			scope.getSprite().look.changeXInUserInterfaceDimensionUnit((float) (stepsValue * Math.sin(radians)));
 			scope.getSprite().look.changeYInUserInterfaceDimensionUnit((float) (stepsValue * Math.cos(radians)));
 			scope.getSprite().movedByStepsBrick = true;

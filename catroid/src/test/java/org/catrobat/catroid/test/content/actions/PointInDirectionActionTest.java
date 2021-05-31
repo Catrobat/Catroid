@@ -52,28 +52,28 @@ public class PointInDirectionActionTest {
 		sprite.getActionFactory().createPointInDirectionAction(sprite, new SequenceAction(),
 				new Formula(90))
 				.act(1.0f);
-		assertEquals(90f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
+		assertEquals(90f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
 	@Test
 	public void testPointLeft() {
 		sprite.getActionFactory().createPointInDirectionAction(sprite, new SequenceAction(), new Formula(-90))
 				.act(1.0f);
-		assertEquals(-90f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
+		assertEquals(-90f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
 	@Test
 	public void testPointUp() {
 		sprite.getActionFactory().createPointInDirectionAction(sprite, new SequenceAction(), new Formula(0))
 				.act(1.0f);
-		assertEquals(0f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
+		assertEquals(0f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
 	@Test
 	public void testPointDown() {
 		sprite.getActionFactory().createPointInDirectionAction(sprite, new SequenceAction(), new Formula(180))
 				.act(1.0f);
-		assertEquals(180f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
+		assertEquals(180f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
 	@Test
@@ -82,27 +82,28 @@ public class PointInDirectionActionTest {
 		sprite.look.setRotation(-42);
 		sprite.getActionFactory().createPointInDirectionAction(sprite, new SequenceAction(), new Formula(90))
 				.act(1.0f);
-		assertEquals(90f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
+		assertEquals(90f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
 	@Test
 	public void testBrickWithStringFormula() {
 		sprite.getActionFactory().createPointInDirectionAction(sprite, new SequenceAction(), new Formula(90)).act(1.0f);
-		assertEquals(90f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals(90f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createPointInDirectionAction(sprite, new SequenceAction(), new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
-		assertEquals(90f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals(90f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testNullFormula() {
 		sprite.getActionFactory().createPointInDirectionAction(sprite, new SequenceAction(), null).act(1.0f);
-		assertEquals(0f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testNotANumberFormula() {
+
 		sprite.getActionFactory().createPointInDirectionAction(sprite, new SequenceAction(), new Formula(Double.NaN)).act(1.0f);
-		assertEquals(90f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals(90f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit());
 	}
 }

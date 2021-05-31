@@ -44,7 +44,7 @@ public class PointInDirectionAction extends TemporalAction {
 			if (scope.getSprite().look instanceof PhysicsLook) {
 				((PhysicsLook) scope.getSprite().look).setFlippedByDirection(degreeInterpretation);
 			}
-			scope.getSprite().look.setDirectionInUserInterfaceDimensionUnit(degreeInterpretation);
+			scope.getSprite().look.setMotionDirectionInUserInterfaceDimensionUnit(degreeInterpretation);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}

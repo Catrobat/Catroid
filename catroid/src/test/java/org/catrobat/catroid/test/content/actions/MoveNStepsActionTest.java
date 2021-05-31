@@ -68,7 +68,7 @@ public class MoveNStepsActionTest {
 
 	@Test
 	public void testMoveVerticalUp() {
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(0);
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(0);
 		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new SequenceAction(), new Formula(steps));
 
 		executeTest(moveNStepsAction, 0, steps);
@@ -76,7 +76,7 @@ public class MoveNStepsActionTest {
 
 	@Test
 	public void testMoveVerticalDown() {
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(180);
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(180);
 		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new SequenceAction(), new Formula(steps));
 
 		executeTest(moveNStepsAction, 0, -steps);
@@ -84,7 +84,7 @@ public class MoveNStepsActionTest {
 
 	@Test
 	public void testMoveDiagonalRightUp() {
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(45);
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(45);
 		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new SequenceAction(), new Formula(steps));
 
 		executeTest(moveNStepsAction, diagonalStepLength, diagonalStepLength);
@@ -92,7 +92,7 @@ public class MoveNStepsActionTest {
 
 	@Test
 	public void testMoveDiagonalLeftUp() {
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(-45);
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(-45);
 		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new SequenceAction(), new Formula(steps));
 
 		executeTest(moveNStepsAction, -diagonalStepLength, diagonalStepLength);
@@ -100,7 +100,7 @@ public class MoveNStepsActionTest {
 
 	@Test
 	public void testMoveDiagonalRightDown() {
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(135);
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(135);
 		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new SequenceAction(), new Formula(steps));
 
 		executeTest(moveNStepsAction, diagonalStepLength, -diagonalStepLength);
@@ -108,7 +108,7 @@ public class MoveNStepsActionTest {
 
 	@Test
 	public void testMoveDiagonalLeftDown() {
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(-135);
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(-135);
 		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new SequenceAction(), new Formula(steps));
 
 		executeTest(moveNStepsAction, -diagonalStepLength, -diagonalStepLength);
@@ -116,13 +116,13 @@ public class MoveNStepsActionTest {
 
 	@Test
 	public void testMoveOther() {
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(100);
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(100);
 		Action action = factory.createMoveNStepsAction(sprite, new SequenceAction(), new Formula(10));
 
 		action.act(1.0f);
 		checkPosition(9.848078f, -1.7364818f);
 
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(-30);
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(-30);
 
 		action.restart();
 		action.act(1.0f);

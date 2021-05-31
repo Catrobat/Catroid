@@ -250,7 +250,7 @@ public class IfOnEdgeBouncePhysicsActionTest {
 		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
 		sprite.look.setXInUserInterfaceDimensionUnit(xValue);
 		sprite.look.setYInUserInterfaceDimensionUnit(yValue);
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(direction);
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(direction);
 		Action ifOnEdgeBouncePhysicsAction = sprite.getActionFactory().createIfOnEdgeBounceAction(sprite);
 		sprite.movedByStepsBrick = true;
 		return ifOnEdgeBouncePhysicsAction;
@@ -261,10 +261,10 @@ public class IfOnEdgeBouncePhysicsActionTest {
 		Action ifOnEdgeBouncePhysicsAction = setUpBounceWithSteps(90.0f,
 				ScreenValues.SCREEN_WIDTH / 2.0f, sprite.look.getYInUserInterfaceDimensionUnit());
 		float xValueBeforeAct = sprite.look.getXInUserInterfaceDimensionUnit();
-		float directionBefore = sprite.look.getDirectionInUserInterfaceDimensionUnit();
+		float directionBefore = sprite.look.getMotionDirectionInUserInterfaceDimensionUnit();
 		ifOnEdgeBouncePhysicsAction.act(0.1f);
 		float xValueAfterAct = sprite.look.getXInUserInterfaceDimensionUnit();
-		float directionAfter = sprite.look.getDirectionInUserInterfaceDimensionUnit();
+		float directionAfter = sprite.look.getMotionDirectionInUserInterfaceDimensionUnit();
 		physicsWorld.step(1.0f);
 		assertThat(xValueBeforeAct, is(greaterThan(xValueAfterAct)));
 		assertEquals(-directionBefore, directionAfter);
@@ -275,10 +275,10 @@ public class IfOnEdgeBouncePhysicsActionTest {
 		Action ifOnEdgeBouncePhysicsAction = setUpBounceWithSteps(-90.0f,
 				-ScreenValues.SCREEN_WIDTH / 2.0f, sprite.look.getYInUserInterfaceDimensionUnit());
 		float xValueBeforeAct = sprite.look.getXInUserInterfaceDimensionUnit();
-		float directionBefore = sprite.look.getDirectionInUserInterfaceDimensionUnit();
+		float directionBefore = sprite.look.getMotionDirectionInUserInterfaceDimensionUnit();
 		ifOnEdgeBouncePhysicsAction.act(0.1f);
 		float xValueAfterAct = sprite.look.getXInUserInterfaceDimensionUnit();
-		float directionAfter = sprite.look.getDirectionInUserInterfaceDimensionUnit();
+		float directionAfter = sprite.look.getMotionDirectionInUserInterfaceDimensionUnit();
 		physicsWorld.step(1.0f);
 		assertThat(xValueBeforeAct, is(lessThan(xValueAfterAct)));
 		assertEquals(-directionBefore, directionAfter);
@@ -293,7 +293,7 @@ public class IfOnEdgeBouncePhysicsActionTest {
 		float yValueAfterAct = sprite.look.getYInUserInterfaceDimensionUnit();
 		physicsWorld.step(1.0f);
 		assertThat(yValueBeforeAct, is(greaterThan(yValueAfterAct)));
-		assertEquals(180.0f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals(180.0f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit());
 	}
 
 	@Test
@@ -305,7 +305,7 @@ public class IfOnEdgeBouncePhysicsActionTest {
 		float yValueAfterAct = sprite.look.getYInUserInterfaceDimensionUnit();
 		physicsWorld.step(1.0f);
 		assertThat(yValueBeforeAct, is(lessThan(yValueAfterAct)));
-		assertEquals(0.0f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals(0.0f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit());
 	}
 
 	@Test

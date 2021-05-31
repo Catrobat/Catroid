@@ -114,6 +114,34 @@ public class PhysicsLook extends Look {
 	}
 
 	@Override
+	public float getMotionDirectionInUserInterfaceDimensionUnit() {
+		if (physicsObject == null || physicsObject.getVelocity() == null || !isLookMoving()) {
+			return super.getMotionDirectionInUserInterfaceDimensionUnit();
+		}
+		float motionDirection = DEGREE_UI_OFFSET - (float) Math.toDegrees(
+				Math.atan2(physicsObject.getVelocity().y, physicsObject.getVelocity().x));
+		return breakDownCatroidAngle(motionDirection);
+	}
+
+	private boolean isLookMoving() {
+		return physicsObject.getVelocity().y != 0.0 || physicsObject.getVelocity().x != 0.0;
+	}
+
+	@Override
+	public float getLookDirectionInUserInterfaceDimensionUnit() {
+		float direction = 0f;
+		switch (getRotationMode()) {
+			case ROTATION_STYLE_NONE : direction = DEGREE_UI_OFFSET;
+			break;
+			case ROTATION_STYLE_ALL_AROUND : direction = convertStageAngleToCatroidAngle(getRotation());
+			break;
+			case ROTATION_STYLE_LEFT_RIGHT_ONLY : direction =
+					isFlipped() ? -DEGREE_UI_OFFSET : DEGREE_UI_OFFSET;
+		}
+		return direction;
+	}
+
+	@Override
 	public float getX() {
 		float x = physicsObject.getX() - getWidth() / 2.0f;
 		super.setX(x);
@@ -202,7 +230,7 @@ public class PhysicsLook extends Look {
 	}
 
 	public void setFlippedByDegree(float degree) {
-		float direction = getDirectionInUserInterfaceDimensionUnit();
+		float direction = getMotionDirectionInUserInterfaceDimensionUnit();
 		float newDirection = (degree + direction) % 360;
 		setFlippedByDirection(newDirection);
 	}
@@ -212,7 +240,7 @@ public class PhysicsLook extends Look {
 		if (newDirection < 0) {
 			newDirection += 360;
 		}
-		float direction = getDirectionInUserInterfaceDimensionUnit() - Look.DEGREE_UI_OFFSET;
+		float direction = getMotionDirectionInUserInterfaceDimensionUnit() - Look.DEGREE_UI_OFFSET;
 		if ((direction >= 0 && direction <= 180) != (newDirection >= 0 && newDirection <= 180)) {
 			updateFlippedByAction();
 		}
