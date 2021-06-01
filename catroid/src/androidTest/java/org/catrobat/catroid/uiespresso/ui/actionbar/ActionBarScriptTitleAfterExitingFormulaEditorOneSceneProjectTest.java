@@ -74,6 +74,7 @@ public class ActionBarScriptTitleAfterExitingFormulaEditorOneSceneProjectTest {
 				.checkTitleMatches(R.string.formula_editor_title);
 
 		Espresso.pressBack();
+		Espresso.pressBack();
 		onActionBar()
 				.checkTitleMatches(currentSpriteName);
 	}

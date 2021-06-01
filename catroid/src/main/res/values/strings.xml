@@ -2112,4 +2112,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="find">Find</string>
     <string name="no_results_found">No results found</string>
 
+    <string name="cut">Cut</string>
+    <string name="paste">Paste</string>
+
 </resources>

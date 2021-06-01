@@ -27,6 +27,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.R;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -260,6 +261,13 @@ public class InternFormula {
 
 			return setCursorPositionAndSelectionAfterInput(internTokenSelectionStart);
 		}
+	}
+
+	public void deleteSelection(Context context) {
+		CursorTokenPropertiesAfterModification cursorTokenPropertiesAfterInput = handleDeletion();
+		updateExternCursorPosition(cursorTokenPropertiesAfterInput);
+		generateExternFormulaStringAndInternExternMapping(context);
+		updateInternCursorPosition();
 	}
 
 	private void deleteInternTokens(int deleteIndexStart, int deleteIndexEnd) {
@@ -956,6 +964,47 @@ public class InternFormula {
 		}
 
 		return externSelectionEndIndex;
+	}
+
+	public void addTokens(Context context, List<InternToken> tokens) {
+		CursorTokenPropertiesAfterModification cursorTokenPropertiesAfterInput =
+				CursorTokenPropertiesAfterModification
+						.DO_NOT_MODIFY;
+
+		if (isTokenSelected()) {
+			int startIndex = internFormulaTokenSelection.getStartIndex();
+			replaceInternTokens(tokens, startIndex, internFormulaTokenSelection.getEndIndex());
+			cursorTokenPropertiesAfterInput = setCursorPositionAndSelectionAfterInput(startIndex);
+		} else if (cursorTokenPosition == null) {
+			cursorTokenPropertiesAfterInput = insertRightToCurrentToken(tokens);
+		} else {
+			switch (cursorTokenPosition) {
+				case LEFT:
+					cursorTokenPropertiesAfterInput = insertLeftToCurrentToken(tokens);
+					break;
+				case MIDDLE:
+					cursorTokenPropertiesAfterInput = replaceCursorPositionInternTokenByTokenList(tokens);
+					break;
+				case RIGHT:
+					cursorTokenPropertiesAfterInput = insertRightToCurrentToken(tokens);
+					break;
+			}
+		}
+
+		generateExternFormulaStringAndInternExternMapping(context);
+		updateExternCursorPosition(cursorTokenPropertiesAfterInput);
+		updateInternCursorPosition();
+	}
+
+	public List<InternToken> getSelectedTokenForCopy() {
+		List<InternToken> tokens = new ArrayList<>();
+		if (internTokenFormulaList != null && internFormulaTokenSelection != null) {
+			for (int i = internFormulaTokenSelection.getStartIndex(); i <= internFormulaTokenSelection.getEndIndex(); i++) {
+				tokens.add(internTokenFormulaList.get(i));
+			}
+			return tokens;
+		}
+		return null;
 	}
 
 	private InternToken getSelectedToken() {
