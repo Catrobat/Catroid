@@ -20,37 +20,19 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.content.actions
 
-package org.catrobat.catroid.content.actions;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import org.catrobat.catroid.content.Sprite
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+class GoToOtherSpritePositionAction : TemporalAction() {
+    var sprite: Sprite? = null
+    var destinationSprite: Sprite? = null
 
-import org.catrobat.catroid.content.Sprite;
-
-public class GoToOtherSpritePositionAction extends TemporalAction {
-
-	private Sprite sprite;
-	private Sprite destinationSprite;
-
-	@Override
-	protected void update(float percent) {
-		if (destinationSprite == null) {
-			destinationSprite = this.sprite;
-			return;
-		}
-
-		float destinationSpriteXPosition = destinationSprite.look.getXInUserInterfaceDimensionUnit();
-		float destinationSpriteYPosition = destinationSprite.look.getYInUserInterfaceDimensionUnit();
-
-		sprite.look.setXInUserInterfaceDimensionUnit(destinationSpriteXPosition);
-		sprite.look.setYInUserInterfaceDimensionUnit(destinationSpriteYPosition);
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
-
-	public void setDestinationSprite(Sprite destinationSprite) {
-		this.destinationSprite = destinationSprite;
-	}
+    override fun update(percent: Float) {
+        val look = sprite?.look ?: return
+        val destinationLook = destinationSprite?.look ?: return
+        look.xInUserInterfaceDimensionUnit = destinationLook.xInUserInterfaceDimensionUnit
+        look.yInUserInterfaceDimensionUnit = destinationLook.yInUserInterfaceDimensionUnit
+    }
 }
