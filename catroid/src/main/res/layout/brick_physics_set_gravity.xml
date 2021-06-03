@@ -37,7 +37,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_set_gravity_layout"
-        style="@style/BrickContainer.Motion.Big"
+        style="@style/BrickContainer.Motion.Medium"
         android:orientation="horizontal"
         android:paddingBottom="0dp"
         android:paddingTop="0dp"

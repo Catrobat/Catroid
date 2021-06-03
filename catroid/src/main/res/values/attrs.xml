@@ -88,6 +88,7 @@
         <attr name="debugDraw" format="boolean" />
         <attr name="userDefinedBrick" format="boolean" />
     </declare-styleable>
+
     <declare-styleable name="BrickLayout_Layout">
         <attr name="layout_textField" format="boolean"/>
         <attr name="layout_inputType" format="string"/>

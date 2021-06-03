@@ -37,8 +37,8 @@
             android:id="@+id/formula_editor_brick_space"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/brick_space_padding"
-            android:paddingBottom="@dimen/brick_space_padding"
+            android:paddingTop="@dimen/brick_space_padding_formular_editor"
+            android:paddingBottom="@dimen/brick_space_padding_formular_editor"
             android:background="@color/toolbar_background"
             android:orientation="vertical"/>
 

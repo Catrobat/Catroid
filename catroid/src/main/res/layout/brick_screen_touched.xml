@@ -44,7 +44,6 @@
         <TextView
             android:id="@+id/brick_when_screen_touched_label"
             style="@style/BrickText.SingleLine"
-            android:paddingTop="25dp"
             android:text="@string/brick_when_touched" />
 
     </org.catrobat.catroid.ui.BrickLayout>

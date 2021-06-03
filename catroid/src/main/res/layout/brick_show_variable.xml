@@ -38,7 +38,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_show_variable_layout"
-        style="@style/BrickContainer.UserVariables.Medium">
+        style="@style/BrickContainer.UserVariables.Big">
 
         <include layout="@layout/icon_brick_category_data" />
 

@@ -39,7 +39,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_running_stitch_layout"
-        style="@style/BrickContainer.Embroidery.Medium">
+        style="@style/BrickContainer.Embroidery.Small">
 
         <include layout="@layout/icon_brick_category_embroidery"/>
 

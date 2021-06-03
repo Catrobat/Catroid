@@ -60,7 +60,9 @@
     <dimen name="material_design_spacing_small">8dp</dimen>
     <dimen name="material_design_spacing_large">16dp</dimen>
     <dimen name="material_design_spacing_x_large">32dp</dimen>
-    <dimen name="script_spacing">-5dp</dimen>
+    <dimen name="script_spacing">-6dp</dimen>
+    <dimen name="brick_space_padding_formular_editor">8dp</dimen>
+    <dimen name="brick_top_space_padding_control">35dp</dimen>
     <dimen name="brick_space_padding">8dp</dimen>
 
     <!-- Material Design Dialogs -->

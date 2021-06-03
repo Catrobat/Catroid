@@ -38,7 +38,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_open_url_layout"
-        style="@style/BrickContainer.Device.Medium">
+        style="@style/BrickContainer.Device.Small">
 
         <TextView
             style="@style/BrickText.SingleLine"
