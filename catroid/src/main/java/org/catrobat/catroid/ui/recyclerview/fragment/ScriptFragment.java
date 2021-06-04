@@ -141,6 +141,8 @@ public class ScriptFragment extends ListFragment implements
 	private Brick brickToFocus;
 	private Script scriptToFocus;
 
+	private SpriteActivity activity;
+
 	public static ScriptFragment newInstance(Brick brickToFocus) {
 		ScriptFragment scriptFragment = new ScriptFragment();
 		Bundle bundle = new Bundle();
@@ -270,8 +272,9 @@ public class ScriptFragment extends ListFragment implements
 		View view = View.inflate(getActivity(), R.layout.fragment_script, null);
 		listView = view.findViewById(android.R.id.list);
 
-		scriptFinder = view.findViewById(R.id.findview);
+		activity = (SpriteActivity) getActivity();
 
+		scriptFinder = view.findViewById(R.id.findview);
 		scriptFinder.setOnResultFoundListener((sceneIndex, spriteIndex, brickIndex, totalResults,
 				textView
 				) -> {
@@ -293,12 +296,10 @@ public class ScriptFragment extends ListFragment implements
 			hideKeyboard();
 		});
 
-		SpriteActivity activity = (SpriteActivity) getActivity();
-
 		scriptFinder.setOnCloseListener(() -> {
 			listView.cancelHighlighting();
 			finishActionMode();
-			if (activity instanceof SpriteActivity && !activity.isFinishing()) {
+			if (activity != null && !activity.isFinishing()) {
 				activity.setCurrentSceneAndSprite(ProjectManager.getInstance().getCurrentlyEditedScene(),
 						ProjectManager.getInstance().getCurrentSprite());
 				activity.getSupportActionBar().setTitle(activity.createActionBarTitle());
@@ -334,6 +335,14 @@ public class ScriptFragment extends ListFragment implements
 		InputMethodManager imm =
 				(InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		if (scriptFinder.isOpen() && activity != null) {
+			activity.findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
+		}
 	}
 
 	@Override
