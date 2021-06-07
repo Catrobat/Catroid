@@ -37,7 +37,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
-import kotlinx.android.synthetic.main.fragment_list_view.view.empty_view
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.bricks.ScriptBrick
@@ -150,7 +149,7 @@ class DataListFragment : Fragment(),
         val parent =
             inflater.inflate(R.layout.fragment_list_view, container, false)
         recyclerView = parent.findViewById(R.id.recycler_view)
-        emptyView = parent.empty_view
+        emptyView = parent.findViewById(R.id.empty_view)
         setHasOptionsMenu(true)
         return parent
     }

@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -54,6 +55,7 @@ public class FormulaEditorPopupMenu {
 
 	private List<InternToken> clipboard;
 
+	@SuppressLint("InflateParams")
 	public FormulaEditorPopupMenu(Context context, FormulaEditorEditText formulaEditorEditText) {
 		this.formulaEditorEditText = formulaEditorEditText;
 

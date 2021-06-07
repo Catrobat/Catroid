@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.view.View
 import android.view.ViewGroup
@@ -64,6 +65,7 @@ fun Activity?.removeTabLayout() {
     }
 }
 
+@SuppressLint("InflateParams")
 fun Activity?.addTabLayout(selectedTabPosition: Int) {
     if (this is SpriteActivity) {
         val tabLayoutView = layoutInflater.inflate(R.layout.layout_tabs_sprite_activity, null)

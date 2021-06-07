@@ -32,11 +32,11 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.catrobat.catroid.ProjectManager;
@@ -94,7 +94,7 @@ public class ProjectOptionsFragment extends Fragment implements
 	private TextView projectSaveExternal;
 	private TextView projectMoreDetails;
 
-	private Switch projectAspectRatio;
+	private SwitchMaterial projectAspectRatio;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

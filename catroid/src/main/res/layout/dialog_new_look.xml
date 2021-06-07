@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
   -->
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="@dimen/dialog_content_area_padding_top"
@@ -42,7 +43,7 @@
             <TextView
                 android:id="@+id/dialog_new_look_paintroid"
                 android:background="@drawable/new_object_dialog_selector"
-                android:drawableTop="@drawable/ic_paintroid"
+                app:drawableTopCompat="@drawable/ic_paintroid"
                 android:gravity="center"
                 android:text="@string/add_look_draw_new_image"
                 android:textSize="?attr/medium" />
@@ -50,7 +51,7 @@
             <TextView
                 android:id="@+id/dialog_new_look_media_library"
                 android:background="@drawable/new_object_dialog_selector"
-                android:drawableTop="@drawable/ic_media_library"
+                app:drawableTopCompat="@drawable/ic_media_library"
                 android:gravity="center"
                 android:text="@string/add_look_media_library"
                 android:textSize="?attr/medium" />
@@ -63,7 +64,7 @@
             <TextView
                 android:id="@+id/dialog_new_look_gallery"
                 android:background="@drawable/new_object_dialog_selector"
-                android:drawableTop="@drawable/ic_gallery"
+                app:drawableTopCompat="@drawable/ic_gallery"
                 android:gravity="center"
                 android:text="@string/add_look_choose_image"
                 android:textSize="?attr/medium" />
@@ -71,7 +72,7 @@
             <TextView
                 android:id="@+id/dialog_new_look_camera"
                 android:background="@drawable/new_object_dialog_selector"
-                android:drawableTop="@drawable/ic_camera"
+                app:drawableTopCompat="@drawable/ic_camera"
                 android:gravity="center"
                 android:text="@string/add_look_from_camera"
                 android:textSize="?attr/medium" />

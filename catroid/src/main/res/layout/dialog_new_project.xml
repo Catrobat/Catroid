@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -85,7 +85,7 @@
 
         </RadioGroup>
 
-        <Switch
+        <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/example_project_switch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
