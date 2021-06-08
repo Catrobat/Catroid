@@ -466,7 +466,7 @@ open class ProjectUploadActivity : BaseActivity(),
 
     fun showUploadDialog() {
         if (MainMenuActivity.surveyCampaign != null) {
-            MainMenuActivity.surveyCampaign.uploadFlag = true
+            MainMenuActivity.surveyCampaign?.uploadFlag = true
         }
 
         uploadProgressDialog = AlertDialog.Builder(this)
