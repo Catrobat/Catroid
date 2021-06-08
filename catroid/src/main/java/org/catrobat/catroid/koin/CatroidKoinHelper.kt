@@ -24,10 +24,19 @@
 package org.catrobat.catroid.koin
 
 import android.app.Application
+import androidx.room.Room
+import androidx.work.WorkManager
 import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.db.AppDatabase
 import org.catrobat.catroid.retrofit.CatroidWebServer
+import org.catrobat.catroid.sync.DefaultFeaturedProjectSync
+import org.catrobat.catroid.sync.FeaturedProjectsSync
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoriesAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.FeaturedProjectsAdapter
+import org.catrobat.catroid.ui.recyclerview.repository.LocalHashVersionRepository
+import org.catrobat.catroid.ui.recyclerview.repository.DefaultLocalHashVersionRepository
+import org.catrobat.catroid.ui.recyclerview.repository.DefaultFeaturedProjectsRepository
+import org.catrobat.catroid.ui.recyclerview.repository.FeaturedProjectsRepository
 import org.catrobat.catroid.ui.recyclerview.viewmodel.MainFragmentViewModel
 import org.catrobat.catroid.utils.NetworkConnectionMonitor
 import org.koin.android.ext.koin.androidContext
@@ -39,8 +48,20 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 
 val componentsModules = module(createdAtStart = true, override = false) {
+    single {
+        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "app_database")
+            .build()
+    }
+    single {
+        CatroidWebServer.getWebService("https://share.catrob.at/api/")
+    }
+    factory { WorkManager.getInstance(androidContext()) }
     single { ProjectManager(androidContext()) }
     single { NetworkConnectionMonitor(androidContext()) }
+
+    single {
+        DefaultFeaturedProjectSync(get(), get(), get()) as FeaturedProjectsSync
+    }
 }
 
 /**
@@ -48,12 +69,16 @@ val componentsModules = module(createdAtStart = true, override = false) {
  * https://github.com/InsertKoinIO/koin/blob/master/koin-projects/docs/reference/koin-android/viewmodel.md
  */
 val viewModelModules = module {
-    viewModel { MainFragmentViewModel(get()) }
+    viewModel { MainFragmentViewModel(get(), get(), get()) }
 }
 
 val repositoryModules = module {
     single {
-        CatroidWebServer.getWebService("https://share.catrob.at/api/")
+        DefaultLocalHashVersionRepository(androidContext()) as LocalHashVersionRepository
+    }
+
+    single {
+        DefaultFeaturedProjectsRepository(get()) as FeaturedProjectsRepository
     }
 }
 

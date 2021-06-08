@@ -23,8 +23,13 @@
 
 package org.catrobat.catroid.retrofit.models
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
 @SuppressWarnings("ConstructorParameterNaming")
+@Entity(tableName = "featured_project")
 data class FeaturedProject(
+    @PrimaryKey
     val id: String,
     val project_id: String,
     val project_url: String,

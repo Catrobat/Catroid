@@ -143,8 +143,6 @@ class MainMenuFragment : Fragment(),
         connectionMonitor.observe(viewLifecycleOwner, Observer { connectionActive ->
             viewModel.fetchData()
             binding.noInternetLayout.setVisibleOrGone(connectionActive.not())
-            binding.featuredProjectsRecyclerView.setVisibleOrGone(connectionActive)
-            binding.featuredProjectsTextView.isEnabled = connectionActive
             binding.categoriesRecyclerView.setVisibleOrGone(connectionActive)
 
             if (connectionActive && viewModel.getProjectCategories().value == null) {
@@ -184,10 +182,6 @@ class MainMenuFragment : Fragment(),
         }
 
         viewModel.getFeaturedProjects().observe(viewLifecycleOwner, Observer { items ->
-            if (items.isNullOrEmpty()) {
-                return@Observer
-            }
-
             featuredProjectsAdapter.setItems(items)
             binding.featuredProjectsRecyclerView.itemsCount = items.size
         })
