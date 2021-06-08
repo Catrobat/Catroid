@@ -21,41 +21,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.retrofit.models
+package org.catrobat.catroid.db
 
-@SuppressWarnings("ConstructorParameterNaming")
-data class FeaturedProject(
-    val id: String,
-    val project_id: String,
-    val project_url: String,
-    val name: String,
-    val author: String,
-    val featured_image: String
-)
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
+import org.catrobat.catroid.retrofit.models.FeaturedProject
 
-data class ProjectsCategory(
-    val type: String,
-    val name: String,
-    val projectsList: List<ProjectResponse>
-)
+@Dao
+@SuppressWarnings("UnnecessaryAbstractClass")
+abstract class FeaturedProjectDao {
 
-@SuppressWarnings("ConstructorParameterNaming")
-data class ProjectResponse(
-    val id: String,
-    val name: String,
-    val author: String,
-    val description: String,
-    val version: String,
-    val views: Int,
-    val download: Int,
-    val private: Boolean,
-    val flavor: String,
-    val tags: List<String>,
-    val uploaded: Long,
-    val uploaded_string: String,
-    val screenshot_large: String,
-    val screenshot_small: String,
-    val project_url: String,
-    val download_url: String,
-    val filesize: Double
-)
+    @Query("SELECT * FROM featured_project")
+    abstract fun getFeaturedProjects(): Flow<List<FeaturedProject>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun insertFeaturedProjects(projects: List<FeaturedProject>)
+
+    @Query("DELETE FROM featured_project")
+    abstract fun deleteAll()
+}

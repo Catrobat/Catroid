@@ -21,34 +21,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package org.catrobat.catroid.db
 
-buildscript {
-    ext.kotlin_version = '1.4.32'
-    ext.koin_version = '2.1.5'
-    ext.lifecycle_version = '2.2.0'
-    ext.jacoco_core_version = '0.8.7'
-    repositories {
-        google()
-        jcenter()
-        maven { url "https://developer.huawei.com/repo/" }
-    }
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import org.catrobat.catroid.retrofit.converters.BooleanConverter
+import org.catrobat.catroid.retrofit.converters.StringListConverter
+import org.catrobat.catroid.retrofit.models.FeaturedProject
+import org.catrobat.catroid.retrofit.models.ProjectResponse
+import org.catrobat.catroid.retrofit.models.ProjectsCategory
 
-    dependencies {
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-        classpath 'com.android.tools.build:gradle:4.0.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jacoco:org.jacoco.core:$jacoco_core_version"
-        classpath 'org.catrobat.gradle.androidemulators:android-emulators-gradle:1.6.2'
-        classpath 'com.huawei.agconnect:agcp:1.4.2.300'
-    }
-}
+@Database(
+    entities = [FeaturedProject::class,
+        ProjectsCategory::class,
+        ProjectResponse::class],
+    version = 2,
+    exportSchema = true
+)
+@TypeConverters(StringListConverter::class, BooleanConverter::class)
+abstract class AppDatabase : RoomDatabase() {
 
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        maven { url "https://developer.huawei.com/repo/" }
-    }
+    abstract fun featuredProjectDao(): FeaturedProjectDao
+
+    abstract fun projectCategoryDao(): ProjectsCategoryDao
 }
