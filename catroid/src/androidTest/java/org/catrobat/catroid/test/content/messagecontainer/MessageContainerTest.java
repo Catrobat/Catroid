@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,6 @@ import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,6 +46,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
@@ -113,9 +113,7 @@ public class MessageContainerTest {
 		sprite1.addScript(broadcastScript1);
 
 		project1.getDefaultScene().addSprite(sprite1);
-
-		ProjectSaveTask
-				.task(project1, ApplicationProvider.getApplicationContext());
+		saveProjectSerial(project1, ApplicationProvider.getApplicationContext());
 
 		project2 = new Project(ApplicationProvider.getApplicationContext(), projectName2);
 

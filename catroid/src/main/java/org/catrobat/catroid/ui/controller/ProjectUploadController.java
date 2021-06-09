@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.transfers.project.ProjectUploadService;
 import org.catrobat.catroid.transfers.project.ResultReceiverWrapper;
 
@@ -38,6 +37,7 @@ import static org.catrobat.catroid.common.Constants.EXTRA_RESULT_RECEIVER;
 import static org.catrobat.catroid.common.Constants.EXTRA_SCENE_NAMES;
 import static org.catrobat.catroid.common.Constants.EXTRA_UPLOAD_NAME;
 import static org.catrobat.catroid.common.Constants.NO_OAUTH_PROVIDER;
+import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 
 public class ProjectUploadController {
 
@@ -77,7 +77,7 @@ public class ProjectUploadController {
 		project.setNotesAndCredits(projectNotesAndCredits);
 		project.setDeviceData(context);
 		project.setListeningLanguageTag();
-		ProjectSaveTask.task(project, context);
+		saveProjectSerial(project, context);
 
 		Intent uploadIntent = createUploadIntent(projectName, projectDescription, project);
 		projectUploadInterface.startUploadService(uploadIntent);

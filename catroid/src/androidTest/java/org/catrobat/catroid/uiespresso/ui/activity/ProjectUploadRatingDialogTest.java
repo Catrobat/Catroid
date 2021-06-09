@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.ui.ProjectUploadActivity;
 import org.catrobat.catroid.ui.controller.ProjectUploadController;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
@@ -49,6 +48,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.catrobat.catroid.common.Constants.UPLOAD_RESULT_RECEIVER_RESULT_CODE;
+import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 import static org.catrobat.catroid.ui.ProjectUploadActivity.NUMBER_OF_UPLOADED_PROJECTS;
 import static org.catrobat.catroid.ui.ProjectUploadActivity.PROJECT_DIR;
 import static org.mockito.ArgumentMatchers.any;
@@ -86,7 +86,7 @@ public class ProjectUploadRatingDialogTest {
 
 		Sprite firstSprite = new Sprite("firstSprite");
 		project.getDefaultScene().addSprite(firstSprite);
-		ProjectSaveTask.task(project, context);
+		saveProjectSerial(project, context);
 
 		ProjectManager.getInstance().setCurrentProject(project);
 

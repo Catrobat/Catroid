@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,7 +32,7 @@ import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.ZipArchiver;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
+import org.catrobat.catroid.io.asynctask.ProjectSaver;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.junit.After;
@@ -149,8 +149,8 @@ public class ProjectManagerTest {
 		// simulate multiple saving trigger asynchronous (occurs in black box testing)
 		for (int i = 0; i < 3; i++) {
 			currentProject.setDescription(currentProject.getDescription() + i);
-			new ProjectSaveTask(currentProject, ApplicationProvider.getApplicationContext())
-					.execute();
+			new ProjectSaver(currentProject, ApplicationProvider.getApplicationContext())
+					.saveProjectAsync();
 		}
 
 		// simulate deletion, saveProject asyncTask will be "automatically" cancelled (Please remark: there is still a chance

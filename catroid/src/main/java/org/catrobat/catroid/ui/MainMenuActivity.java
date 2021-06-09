@@ -48,7 +48,7 @@ import org.catrobat.catroid.common.Survey;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.ZipArchiver;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
+import org.catrobat.catroid.io.asynctask.ProjectSaver;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.AboutDialogFragment;
@@ -234,8 +234,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 		Project currentProject = projectManager.getValue().getCurrentProject();
 
 		if (currentProject != null) {
-			new ProjectSaveTask(currentProject, getApplicationContext())
-					.execute();
+			new ProjectSaver(currentProject, getApplicationContext()).saveProjectAsync();
 
 			Utils.setLastUsedProjectName(getApplicationContext(), currentProject.getName());
 		}

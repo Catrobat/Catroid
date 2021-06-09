@@ -37,7 +37,7 @@ import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
+import org.catrobat.catroid.io.asynctask.ProjectSaver;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
@@ -114,9 +114,9 @@ public class ProjectOptionsTest {
 	@Before
 	public void setUp() throws Exception {
 		project = UiTestUtils.createEmptyProject(EXISTING_PROJECT_NAME);
-		new ProjectSaveTask(project, ApplicationProvider.getApplicationContext()).execute();
+		new ProjectSaver(project, ApplicationProvider.getApplicationContext()).saveProjectAsync();
 		project = UiTestUtils.createEmptyProject(PROJECT_NAME);
-		new ProjectSaveTask(project, ApplicationProvider.getApplicationContext()).execute();
+		new ProjectSaver(project, ApplicationProvider.getApplicationContext()).saveProjectAsync();
 		baseActivityTestRule.launchActivity(null);
 
 		openContextualActionModeOverflowMenu();

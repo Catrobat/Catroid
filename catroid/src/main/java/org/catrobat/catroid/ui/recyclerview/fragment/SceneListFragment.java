@@ -33,7 +33,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
+import org.catrobat.catroid.io.asynctask.ProjectSaver;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.SceneAdapter;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
@@ -215,8 +215,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> implements Pr
 		if (!item.getName().equals(name)) {
 			if (sceneController.rename(item, name)) {
 				Project currentProject = ProjectManager.getInstance().getCurrentProject();
-				new ProjectSaveTask(currentProject, getContext())
-						.execute();
+				new ProjectSaver(currentProject, getContext()).saveProjectAsync();
 				new ProjectLoadTask(currentProject.getDirectory(), getContext())
 						.setListener(this)
 						.execute();

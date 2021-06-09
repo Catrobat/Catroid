@@ -59,7 +59,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
+import org.catrobat.catroid.io.asynctask.ProjectSaver;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptFinder;
 import org.catrobat.catroid.ui.SpriteActivity;
@@ -410,8 +410,7 @@ public class ScriptFragment extends ListFragment implements
 	public void onPause() {
 		super.onPause();
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		new ProjectSaveTask(currentProject, getContext())
-				.execute();
+		new ProjectSaver(currentProject, getContext()).saveProjectAsync();
 
 		savedListViewState = listView.onSaveInstanceState();
 

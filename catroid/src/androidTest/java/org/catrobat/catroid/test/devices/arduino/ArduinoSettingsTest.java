@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,6 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageOperations;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.junit.After;
@@ -49,6 +48,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+
+import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 
 @RunWith(AndroidJUnit4.class)
 public class ArduinoSettingsTest {
@@ -97,7 +98,6 @@ public class ArduinoSettingsTest {
 		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectSaveTask
-				.task(project, ApplicationProvider.getApplicationContext());
+		saveProjectSerial(project, ApplicationProvider.getApplicationContext());
 	}
 }

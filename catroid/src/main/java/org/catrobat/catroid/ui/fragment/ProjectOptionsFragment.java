@@ -49,7 +49,7 @@ import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.asynctask.ProjectExportTask;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.io.asynctask.ProjectRenameTask;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
+import org.catrobat.catroid.io.asynctask.ProjectSaver;
 import org.catrobat.catroid.merge.NewProjectNameTextWatcher;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ProjectUploadActivity;
@@ -68,12 +68,14 @@ import java.util.List;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import kotlin.Unit;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
-public class ProjectOptionsFragment extends Fragment implements
-		ProjectSaveTask.ProjectSaveListener {
+import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
+
+public class ProjectOptionsFragment extends Fragment {
 
 	public static final String TAG = ProjectOptionsFragment.class.getSimpleName();
 	private static final int PERMISSIONS_REQUEST_EXPORT_TO_EXTERNAL_STORAGE = 802;
@@ -210,7 +212,7 @@ public class ProjectOptionsFragment extends Fragment implements
 			setProjectName();
 			saveDescription();
 			saveCreditsAndNotes();
-			ProjectSaveTask.task(project, getContext());
+			saveProjectSerial(project, getContext());
 		}
 	}
 
@@ -271,13 +273,14 @@ public class ProjectOptionsFragment extends Fragment implements
 
 	public void projectUpload(View view) {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		ProjectSaveTask projectSaveTask = new ProjectSaveTask(currentProject, getContext());
-		projectSaveTask.setOnProjectSaveListener(this);
-		projectSaveTask.execute();
+		ProjectSaver projectSaver = new ProjectSaver(currentProject, getContext());
+		projectSaver.saveProjectAsync(success -> {
+			onSaveProjectComplete(success);
+			return Unit.INSTANCE;
+		});
 		Utils.setLastUsedProjectName(getContext(), currentProject.getName());
 	}
 
-	@Override
 	public void onSaveProjectComplete(boolean success) {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		Intent intent = new Intent(getContext(), ProjectUploadActivity.class);
