@@ -71,8 +71,16 @@ class ColorCollisionDetection(
         }
         look.isLookVisible = wasLookVisible
 
-        try {
-            return ConditionMatcherRunner(matcher).match(bufferWidth, bufferHeight)
+        return tryConditionMatcherRunnerMatch(matcher, batch, spriteBatch)
+    }
+
+    private fun tryConditionMatcherRunnerMatch(
+        matcher: ConditionMatcher,
+        batch: SpriteBatch,
+        spriteBatch: SpriteBatch
+    ): Boolean {
+        return try {
+            ConditionMatcherRunner(matcher).match(bufferWidth, bufferHeight)
         } finally {
             matcher.stagePixmap?.dispose()
             matcher.spritePixmap?.dispose()

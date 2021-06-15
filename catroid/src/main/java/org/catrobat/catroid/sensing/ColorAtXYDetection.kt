@@ -24,8 +24,10 @@ package org.catrobat.catroid.sensing
 
 import android.graphics.Bitmap
 import android.os.Build
+import android.util.Log
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Matrix4
 import org.catrobat.catroid.ProjectManager
@@ -43,6 +45,8 @@ private const val RGBA_START_INDEX = 0
 private const val RGBA_END_INDEX = 6
 private const val ARGB_START_INDEX = 2
 private const val ARGB_END_INDEX = 8
+private const val HEX_COLOR_BLACK = "#000000"
+private const val TAG = "COLORATXY"
 
 class ColorAtXYDetection(
     scope: Scope,
@@ -90,37 +94,47 @@ class ColorAtXYDetection(
     }
 
     private fun adjustBorderCoordinatesToPreventInvalidBitmapAccessForUsability() {
-        if (xPosition == virtualWidth / 2) {
+        if (isXCoordinateOnRightBorder()) {
             xPosition--
         }
-        if (
-            ProjectManager.getInstance().isCurrentProjectLandscapeMode &&
-            yPosition == virtualHeight / 2
-        ) {
+        if (isYCoordinateOnTopBorderLandscape()) {
             yPosition--
-        } else if (
-            !ProjectManager.getInstance().isCurrentProjectLandscapeMode &&
-            yPosition == -virtualHeight / 2
-        ) {
+        } else if (isYCoordinateOnBottomBorderPortrait()) {
             yPosition++
         }
     }
 
+    private fun isXCoordinateOnRightBorder() = xPosition == virtualWidth / 2
+
+    private fun isYCoordinateOnTopBorderLandscape() =
+        ProjectManager.getInstance().isCurrentProjectLandscapeMode &&
+            yPosition == virtualHeight / 2
+
+    private fun isYCoordinateOnBottomBorderPortrait() =
+        !ProjectManager.getInstance().isCurrentProjectLandscapeMode &&
+            yPosition == -virtualHeight / 2
+
     private fun getHexColorStringFromStagePixmap(): String {
-        val lookList: MutableList<Look> = getLooksOfRelevantSprites() ?: return "#000000"
+        val lookList: MutableList<Look> = getLooksOfRelevantSprites() ?: return HEX_COLOR_BLACK
 
         val batch = SpriteBatch()
         val projectionMatrix = scope.project?.let { createProjectionMatrix(it) }
         val stagePixmap = projectionMatrix?.let { createPicture(lookList, it, batch) }
-        try {
-            if (stagePixmap != null) {
-                return rgbaColorToRGBHexString(Color(stagePixmap.getPixel(0, 0)))
-            }
+        val color = stagePixmap?.let { Color(stagePixmap.getPixel(0, 0)) } ?: return HEX_COLOR_BLACK
+        return tryRgbaColorToRGBHexString(color, batch, stagePixmap)
+    }
+
+    private fun tryRgbaColorToRGBHexString(color: Color, batch: SpriteBatch, stagePixmap: Pixmap):
+        String {
+        return try {
+            rgbaColorToRGBHexString(color)
+        } catch (e: StringIndexOutOfBoundsException) {
+            Log.e(TAG, "String index is out of bounds when converting rgba color to hex string ")
+            return HEX_COLOR_BLACK
         } finally {
-            stagePixmap?.dispose()
+            stagePixmap.dispose()
             batch.dispose()
         }
-        return "#000000"
     }
 
     private fun getHexColorStringFromBitmapAtPosition(
@@ -135,36 +149,38 @@ class ColorAtXYDetection(
         val surfaceViewScaleY = StageActivity.getActiveCameraManager().previewView.surfaceView
             .scaleY
 
+        val bitmapXCoordinateLandscape = convertStageToBitmapCoordinate(
+            yPosition,
+            surfaceViewScaleY,
+            bitmap.width.toFloat() / virtualHeight.toFloat(),
+            bitmap.width / 2
+        )
+
+        val bitmapYCoordinateLandscape = convertStageToBitmapCoordinate(
+            xPosition,
+            surfaceViewScaleX,
+            bitmap.height.toFloat() / virtualWidth.toFloat(),
+            bitmap.height / 2
+        )
+
+        val bitmapXCoordinatePortrait = convertStageToBitmapCoordinate(
+            xPosition,
+            surfaceViewScaleX,
+            bitmap.width.toFloat() / virtualWidth.toFloat(),
+            bitmap.width / 2
+        )
+
+        val bitmapYCoordinatePortrait = convertStageToBitmapCoordinate(
+            -yPosition,
+            surfaceViewScaleY,
+            bitmap.height.toFloat() / virtualHeight.toFloat(),
+            bitmap.height / 2
+        )
+
         val bitmapPixel = if (ProjectManager.getInstance().isCurrentProjectLandscapeMode) {
-            bitmap.getPixel(
-                convertStageToBitmapCoordinate(
-                    yPosition,
-                    surfaceViewScaleY,
-                    bitmap.width.toFloat() / virtualHeight.toFloat(),
-                    bitmap.width / 2
-                ),
-                convertStageToBitmapCoordinate(
-                    xPosition,
-                    surfaceViewScaleX,
-                    bitmap.height.toFloat() / virtualWidth.toFloat(),
-                    bitmap.height / 2
-                )
-            )
+            bitmap.getPixel(bitmapXCoordinateLandscape, bitmapYCoordinateLandscape)
         } else {
-            bitmap.getPixel(
-                convertStageToBitmapCoordinate(
-                    xPosition,
-                    surfaceViewScaleX,
-                    bitmap.width.toFloat() / virtualWidth.toFloat(),
-                    bitmap.width / 2
-                ),
-                convertStageToBitmapCoordinate(
-                    -yPosition,
-                    surfaceViewScaleY,
-                    bitmap.height.toFloat() / virtualHeight.toFloat(),
-                    bitmap.height / 2
-                )
-            )
+            bitmap.getPixel(bitmapXCoordinatePortrait, bitmapYCoordinatePortrait)
         }
         return argbColorToRGBHexString(Color(bitmapPixel))
     }
