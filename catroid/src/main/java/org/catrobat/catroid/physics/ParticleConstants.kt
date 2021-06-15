@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,26 +20,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.physics
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
-
-import org.catrobat.catroid.content.Sprite;
-
-public class ClearGraphicEffectAction extends TemporalAction {
-
-	private Sprite sprite;
-
-	@Override
-	protected void update(float percent) {
-		sprite.look.setBrightnessInUserInterfaceDimensionUnit(100.0f);
-		sprite.look.setTransparencyInUserInterfaceDimensionUnit(0.0f);
-		sprite.look.setColorInUserInterfaceDimensionUnit(0.0f);
-		sprite.look.hasParticleEffect = false;
-		sprite.look.clearParticleEffect();
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
+object ParticleConstants {
+    const val VELOCITY_HIGH_MIN = 120f
+    const val VELOCITY_HIGH_MAX = 300f
+    const val LIFE_HIGH_MAX_ACTIVE = 1000f
+    const val LIFE_HIGH_MAX_DEAD = 5000f
+    const val PARTICLE_SCALE = 32f
 }

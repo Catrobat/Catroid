@@ -61,6 +61,7 @@ import org.catrobat.catroid.content.actions.DeleteLookAction;
 import org.catrobat.catroid.content.actions.DeleteThisCloneAction;
 import org.catrobat.catroid.content.actions.EditLookAction;
 import org.catrobat.catroid.content.actions.EventAction;
+import org.catrobat.catroid.content.actions.FadeParticleEffectAction;
 import org.catrobat.catroid.content.actions.FinishStageAction;
 import org.catrobat.catroid.content.actions.FlashAction;
 import org.catrobat.catroid.content.actions.ForItemInUserListAction;
@@ -1220,6 +1221,14 @@ public class ActionFactory extends Actions {
 	public Action createUpdateCameraPreviewAction(boolean turnOn) {
 		CameraBrickAction action = action(CameraBrickAction.class);
 		action.setActive(turnOn);
+		return action;
+	}
+
+	public Action createFadeParticleEffectsAction(Sprite sprite, boolean turnOn) {
+		FadeParticleEffectAction action = action(FadeParticleEffectAction.class);
+		action.setFadeIn(turnOn);
+		action.setSprite(sprite);
+		action.setBackgroundSprite(ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite());
 		return action;
 	}
 

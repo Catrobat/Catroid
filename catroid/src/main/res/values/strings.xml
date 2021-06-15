@@ -2141,4 +2141,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="cut">Cut</string>
     <string name="paste">Paste</string>
 
+    <!-- Particle Effects -->
+    <string name="fade_particle_effect">Fade particle effect</string>
+    <string name="particle_effects_fade_in">in</string>
+    <string name="particle_effects_fade_out">out</string>
 </resources>
