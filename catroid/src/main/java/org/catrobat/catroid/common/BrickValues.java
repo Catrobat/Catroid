@@ -48,6 +48,7 @@ public final class BrickValues {
 	public static final double PHYSIC_MASS = 1.0;
 	public static final double PHYSIC_BOUNCE_FACTOR = 0.8;
 	public static final double PHYSIC_FRICTION = 0.2;
+	public static final int PHYSIC_MULTIPLIER = 100;
 	public static final Vector2 PHYSIC_GRAVITY = PhysicsWorld.DEFAULT_GRAVITY;
 	public static final Vector2 PHYSIC_VELOCITY = new Vector2();
 	public static final double PHYSIC_TURN_DEGREES = TURN_DEGREES;
@@ -59,7 +60,7 @@ public final class BrickValues {
 	public static final double SET_TRANSPARENCY = 50;
 	public static final double CHANGE_TRANSPARENCY_EFFECT = 25;
 	public static final double SET_BRIGHTNESS_TO = 50;
-	public static final double CHANGE_BRITHNESS_BY = 25;
+	public static final double CHANGE_BRIGHTNESS_BY = 25;
 	public static final double SET_COLOR_TO = 0;
 	public static final double CHANGE_COLOR_BY = 25;
 	public static final double VIBRATE_SECONDS = 1;
@@ -70,6 +71,9 @@ public final class BrickValues {
 
 	//constants Pen
 	public static final double PEN_SIZE = 3.15;
+	public static final int PEN_COLOR_R = 0;
+	public static final int PEN_COLOR_G = 0;
+	public static final int PEN_COLOR_B = 255;
 	public static final PenColor PEN_COLOR = new PenColor(0, 0, 1, 1);
 
 	//constants Sounds
@@ -92,8 +96,8 @@ public final class BrickValues {
 	public static final int LEGO_ANGLE = 180;
 	public static final int LEGO_SPEED = 100;
 	public static final double LEGO_DURATION = 1.0;
-	public static final int LEGO_FREQUENCY = 2;
-	public static final int LEGO_VOLUME = 100;
+	public static final double LEGO_FREQUENCY = 2.0;
+	public static final double LEGO_VOLUME = 100.0;
 
 	//Constants Drone
 	public static final int DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS = 1000;
@@ -124,7 +128,7 @@ public final class BrickValues {
 	public static final int JUMPING_SUMO_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS = 1000;
 	public static final int JUMPING_SUMO_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT = 80;
 	public static final int JUMPING_SUMO_SOUND_BRICK_DEFAULT_VOLUME_PERCENT = 50;
-	public static final int JUMPING_SUMO_ROTATE_DEFAULT_DEGREE = 90;
+	public static final double JUMPING_SUMO_ROTATE_DEFAULT_DEGREE = 90;
 
 	//Constants Variables
 	public static final double SET_VARIABLE = 1d;
@@ -194,6 +198,13 @@ public final class BrickValues {
 	public static final String LOOK_REQUEST = "https://catrob.at/penguin";
 	public static final String BACKGROUND_REQUEST = "https://catrob.at/HalloweenPortrait";
 	public static final String BACKGROUND_REQUEST_LANDSCAPE = "https://catrob.at/HalloweenLandscape";
+
+	//Constant Instruments
+	public static final int DEFAULT_NOTE = 70;
+	public static final int PAUSED_BEATS_INT = 1;
+	public static final float PAUSED_BEATS_FLOAT = 1F;
+	public static final int DEFAULT_TEMPO = 60;
+	public static final int CHANGE_TEMPO = 10;
 	// Note: No constant default value for the "Send web request" brick, as it is localized in strings.xml
 
 	private BrickValues() {

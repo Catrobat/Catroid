@@ -67,7 +67,11 @@ class AddBrickFragment : ListFragment() {
             onlyBeginnerBricks() -> CategoryBeginnerBricksFactory()
             else -> CategoryBricksFactory()
         }
-        val brickList = categoryBricksFactory.getBricks(selectedCategory, backgroundSprite == sprite, context)
+        val brickList = selectedCategory?.let { context?.let { it1 ->
+            categoryBricksFactory.getBricks(it, backgroundSprite == sprite,
+                                            it1
+            )
+        } }
         adapter = PrototypeBrickAdapter(brickList)
         listAdapter = adapter
     }
