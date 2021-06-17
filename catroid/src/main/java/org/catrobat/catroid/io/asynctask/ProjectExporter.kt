@@ -24,71 +24,77 @@ package org.catrobat.catroid.io.asynctask
 
 import android.content.Context
 import android.net.Uri
-import android.os.AsyncTask
 import android.util.Log
-import androidx.annotation.VisibleForTesting
-
-import org.catrobat.catroid.utils.notifications.NotificationData
-import org.catrobat.catroid.io.ZipArchiver
-import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.io.StorageOperations
-
+import org.catrobat.catroid.io.ZipArchiver
+import org.catrobat.catroid.utils.notifications.NotificationData
+import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
 import java.io.File
 import java.io.IOException
 import java.lang.ref.WeakReference
 
-class ProjectExportTask(
+class ProjectExporter(
     private val projectDir: File,
     private val projectDestination: Uri,
     private val notificationData: NotificationData,
     context: Context
-) : AsyncTask<Void?, Void?, Void?>() {
-
+) {
     private val contextWeakReference: WeakReference<Context> = WeakReference(context)
-    private var finishedExportingCallback: ProjectExportCallback? = null
+    private var projectZip: File =
+        File(Constants.CACHE_DIR, projectDir.name + Constants.ZIP_EXTENSION)
+    private var finishedExportingCallback: (() -> Unit)? = null
 
-    @VisibleForTesting
-    fun exportProjectToExternalStorage() {
+    @JvmOverloads
+    fun exportProjectToExternalStorageAsync(
+        scope: CoroutineScope = CoroutineScope(Dispatchers.IO)
+    ) {
+        scope.launch {
+            exportProjectToExternalStorage()
+        }
+    }
+
+    private fun exportProjectToExternalStorage() {
         val context = contextWeakReference.get() ?: return
         deleteUndoFile()
 
-        val projectFileName = projectDir.name + Constants.ZIP_EXTENSION
-        val cacheFile = File(Constants.CACHE_DIR, projectFileName)
-        if (cacheFile.exists()) {
-            cacheFile.delete()
+        if (projectZip.exists()) {
+            projectZip.delete()
         }
         try {
-            ZipArchiver().zip(cacheFile, projectDir.listFiles())
-            val contentResolver = context.contentResolver
-            StorageOperations.copyFileContentToUri(contentResolver, projectDestination, cacheFile)
-            updateNotification(context)
-            finishedExportingCallback?.onProjectExportFinished()
+            ZipArchiver().zip(projectZip, projectDir.listFiles())
+            StorageOperations.copyFileContentToUri(
+                context.contentResolver,
+                projectDestination,
+                projectZip
+            )
+            StatusBarNotificationManager(context).showOrUpdateNotification(
+                context,
+                notificationData,
+                PROGRESS_FINISHED_PERCENT,
+                null
+            )
+            finishedExportingCallback?.invoke()
         } catch (e: IOException) {
             Log.e(TAG, "Cannot create archive.", e)
-            abortNotification(context)
+            StatusBarNotificationManager(context).abortProgressNotificationWithMessage(
+                context,
+                notificationData,
+                R.string.save_project_to_external_storage_io_exception_message
+            )
         } finally {
-            if (cacheFile.exists()) {
-                cacheFile.delete()
+            if (projectZip.exists()) {
+                projectZip.delete()
             }
         }
     }
 
-    fun registerCallback(callback: ProjectExportCallback) {
-        finishedExportingCallback = callback
-    }
-
-    private fun updateNotification(context: Context) {
-        StatusBarNotificationManager(context).showOrUpdateNotification(
-            context, notificationData, NOTIFICATION_PROGRESS_COMPLETE, null)
-    }
-
-    private fun abortNotification(context: Context) {
-        StatusBarNotificationManager(context).abortProgressNotificationWithMessage(
-            context, notificationData,
-            R.string.save_project_to_external_storage_io_exception_message
-        )
+    fun injectExportDirectory(exportDirectory: File) {
+        projectZip = File(exportDirectory, projectDir.name + Constants.ZIP_EXTENSION)
     }
 
     private fun deleteUndoFile() {
@@ -102,17 +108,12 @@ class ProjectExportTask(
         }
     }
 
-    override fun doInBackground(vararg voids: Void?): Void? {
-        exportProjectToExternalStorage()
-        return null
-    }
-
-    interface ProjectExportCallback {
-        fun onProjectExportFinished()
+    fun registerCallback(callback: () -> Unit) {
+        finishedExportingCallback = callback
     }
 
     companion object {
-        private val TAG = ProjectExportTask::class.java.simpleName
-        private const val NOTIFICATION_PROGRESS_COMPLETE = 100
+        private val TAG = ProjectExporter::class.java.simpleName
+        private const val PROGRESS_FINISHED_PERCENT = 100
     }
 }

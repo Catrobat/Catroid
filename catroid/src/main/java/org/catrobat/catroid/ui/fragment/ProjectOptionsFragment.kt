@@ -63,11 +63,11 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
-import org.catrobat.catroid.io.asynctask.ProjectExportTask
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.Nameable
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.io.StorageOperations
+import org.catrobat.catroid.io.asynctask.ProjectExporter
 import org.catrobat.catroid.ui.PROJECT_DIR
 import org.catrobat.catroid.utils.Utils
 import java.io.File
@@ -367,7 +367,8 @@ class ProjectOptionsFragment : Fragment() {
         project?.apply {
             val notificationData = StatusBarNotificationManager(context)
                 .createSaveProjectToExternalMemoryNotification(context, projectDestination, name)
-            ProjectExportTask(directory, projectDestination, notificationData, context).execute()
+            ProjectExporter(directory, projectDestination, notificationData, context
+            ).exportProjectToExternalStorageAsync()
         }
     }
 
