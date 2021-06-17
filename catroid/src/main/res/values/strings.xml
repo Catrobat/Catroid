@@ -669,10 +669,11 @@
 
     <!-- NewLookDialog -->
     <string name="new_look_dialog_title">Add look</string>
-    <string name="add_look_from_camera">Take picture</string>
-    <string name="add_look_draw_new_image">Draw image</string>
-    <string name="add_look_choose_image">Select image</string>
-    <string name="add_look_media_library">Media library</string>
+    <string name="add_look_from_camera">Camera</string>
+    <string name="add_look_object_library">Library</string>
+    <string name="add_look_draw_new_image">Draw</string>
+    <string name="add_look_choose_image">Gallery</string>
+    <string name="add_look_media_library">Looks</string>
     <!--  -->
 
     <!-- NewSoundDialog -->
