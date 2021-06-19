@@ -174,6 +174,7 @@ public class BrickAdapter extends BaseAdapter implements
 		ColorMatrix matrix = new ColorMatrix();
 		matrix.setSaturation(0);
 		ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+		background.mutate();
 		background.setColorFilter(filter);
 	}
 
