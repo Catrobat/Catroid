@@ -232,7 +232,7 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
 
     @UiThread
     private fun bindFaceAndTextDetector() = bindUseCase(analysisUseCase).also {
-        analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), FaceAndTextDetector)
+        analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), FaceTextPoseDetector)
     }
 
     @UiThread
