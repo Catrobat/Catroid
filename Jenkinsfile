@@ -70,6 +70,7 @@ pipeline {
                 'APKs will point to this Catrobat web server, useful for testing web changes. E.g https://web-test.catrob.at'
         booleanParam name: 'BUILD_ALL_FLAVOURS', defaultValue: false, description: 'When selected all flavours are built and archived as artifacts that can be installed alongside other versions of the same APK.'
         booleanParam name: 'UNIT_TEST_DEBUG', defaultValue: false, description: 'When selected the Unit Test suite prints the currently running tests and any output that it might produce'
+        booleanParam name: 'INCLUDE_HUAWEI_FILES', defaultValue: false, description: 'Embed any huawei files that are needed'
         string name: 'DEBUG_LABEL', defaultValue: '', description: 'For debugging when entered will be used as label to decide on which slaves the jobs will run.'
         string name: 'DOCKER_LABEL', defaultValue: '', description: 'When entered will be used as label for docker catrobat/catroid-android image to build'
     }
@@ -115,7 +116,9 @@ pipeline {
                                             currentBuild.description = "<p>Additional APK build parameters: <b>${additionalParameters.join(' ')}</b></p>"
                                         }
                                     }
-                                    sh "cp /home/user/huawei/agconnect-services.json catroid/src/agconnect-services.json"
+                                    if(env.INCLUDE_HUAWEI_FILES?.toBoolean()) {
+                                        sh "cp /home/user/huawei/agconnect-services.json catroid/src/agconnect-services.json"
+                                    }
                                     // Checks that the creation of standalone APKs (APK for a Pocketcode app) works, reducing the risk of breaking gradle changes.
                                     // The resulting APK is not verified itself.
                                     sh """./gradlew copyAndroidNatives assembleStandaloneDebug ${webTestUrlParameter()} -Papk_generator_enabled=true -Psuffix=generated817.catrobat \
