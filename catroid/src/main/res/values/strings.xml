@@ -146,8 +146,7 @@
     <string name="preference_screen_web_access_title">Edit trusted domains</string>
 
     <string name="preference_title_ai">Artificial intelligence (AI) extension</string>
-    <string name="preference_description_ai">Enable to show AI
-        sensors</string>
+    <string name="preference_description_ai">Enable AI bricks and sensors</string>
     <string name="preference_title_ai_speech_recognition">Speech
         recognition</string>
     <string name="preference_description_ai_speech_recognition">Enable
