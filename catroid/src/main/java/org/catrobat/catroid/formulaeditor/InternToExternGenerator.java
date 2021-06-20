@@ -219,6 +219,7 @@ public class InternToExternGenerator {
 				.formula_editor_object_look_number);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_LOOK_NAME.name(), R.string
 				.formula_editor_object_look_name);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_NUMBER_OF_LOOKS.name(), R.string.formula_editor_object_number_of_looks);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_BACKGROUND_NUMBER.name(), R.string
 				.formula_editor_object_background_number);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_BACKGROUND_NAME.name(), R.string
@@ -404,5 +405,9 @@ public class InternToExternGenerator {
 
 	public static int getMappedString(String token) {
 		return INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.get(token);
+	}
+
+	public static void setInternExternLanguageConverterMap(Sensors sensor, Integer output) {
+		InternToExternGenerator.INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(sensor.name(), output);
 	}
 }

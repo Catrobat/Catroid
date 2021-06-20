@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -407,6 +407,9 @@ public class InternFormulaKeyboardAdapter {
 				return buildObject(Sensors.OBJECT_LOOK_NUMBER);
 			case R.string.formula_editor_object_look_name:
 				return buildObject(Sensors.OBJECT_LOOK_NAME);
+			case R.string.formula_editor_object_number_of_looks:
+			case R.string.formula_editor_object_number_of_backgrounds:
+				return buildObject(Sensors.OBJECT_NUMBER_OF_LOOKS);
 			case R.string.formula_editor_object_background_number:
 				return buildObject(Sensors.OBJECT_BACKGROUND_NUMBER);
 			case R.string.formula_editor_object_background_name:

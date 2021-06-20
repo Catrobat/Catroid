@@ -1871,8 +1871,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_object_angular_velocity">angular velocity</string>
     <string name="formula_editor_object_look_number">look number</string>
     <string name="formula_editor_object_look_name">look name</string>
+    <string name="formula_editor_object_number_of_looks">number of looks</string>
     <string name="formula_editor_object_background_number">background number</string>
     <string name="formula_editor_object_background_name">background name</string>
+    <string name="formula_editor_object_number_of_backgrounds">number of backgrounds</string>
     <string name="formula_editor_object_distance_to">distance to touch position</string>
     <string name="formula_editor_compute">Compute</string>
     <string name="formula_editor_object">Properties</string>

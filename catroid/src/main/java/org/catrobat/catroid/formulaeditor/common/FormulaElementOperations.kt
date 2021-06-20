@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -110,6 +110,15 @@ object FormulaElementOperations {
     fun getLookName(lookData: LookData?) = lookData?.name ?: ""
 
     @JvmStatic
+    fun getNumberOfLooks(lookData: LookData?, lookDataList: List<LookData>): Int {
+        return if (lookData?.isWebRequest == true) {
+            lookDataList.count() + 1
+        } else {
+            lookDataList.count()
+        }
+    }
+
+    @JvmStatic
     fun tryCalculateCollidesWithEdge(
         look: Look,
         stageListener: StageListener?,
@@ -159,6 +168,7 @@ object FormulaElementOperations {
             Sensors.OBJECT_DISTANCE_TO -> look.distanceToTouchPositionInUserInterfaceDimensions.toDouble()
             Sensors.OBJECT_LOOK_NUMBER,
             Sensors.OBJECT_BACKGROUND_NUMBER -> tryGetLookNumber(lookData, lookDataList)
+            Sensors.OBJECT_NUMBER_OF_LOOKS -> getNumberOfLooks(lookData, lookDataList).toDouble()
             Sensors.OBJECT_LOOK_NAME,
             Sensors.OBJECT_BACKGROUND_NAME -> getLookName(lookData)
             Sensors.NFC_TAG_MESSAGE -> NfcHandler.getLastNfcTagMessage()
