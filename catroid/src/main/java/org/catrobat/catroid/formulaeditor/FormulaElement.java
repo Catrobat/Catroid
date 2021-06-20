@@ -59,6 +59,7 @@ import java.util.regex.Pattern;
 
 import androidx.annotation.Nullable;
 
+import static org.catrobat.catroid.formulaeditor.Functions.IF_THEN_ELSE;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.BRACKET_CLOSE;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.BRACKET_OPEN;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.COLLISION_FORMULA;
@@ -445,6 +446,12 @@ public class FormulaElement implements Serializable {
 		if (argumentsDouble.size() == 2) {
 			return formulaFunction.execute(argumentsDouble.get(0), argumentsDouble.get(1));
 		}
+		if (argumentsDouble.size() == 3 && argumentsDouble.get(0) != null && function == IF_THEN_ELSE) {
+			Double ifCondition = argumentsDouble.get(0);
+			Object thenPart = (arguments.get(1) instanceof String) ? arguments.get(1) : argumentsDouble.get(1);
+			Object elsePart = (arguments.get(2) instanceof String) ? arguments.get(2) : argumentsDouble.get(2);
+			return interpretFunctionIfThenElseObject(ifCondition, thenPart, elsePart);
+		}
 		return formulaFunction.execute(argumentsDouble.get(0), argumentsDouble.get(1), argumentsDouble.get(2));
 	}
 
@@ -665,6 +672,17 @@ public class FormulaElement implements Serializable {
 		} else {
 			return (Math.random() * (high - low)) + low;
 		}
+	}
+
+	private Object interpretFunctionIfThenElseObject(Double condition, Object thenValue,
+			Object elseValue) {
+		if (Double.isNaN(condition)) {
+			return Double.NaN;
+		}
+		if (condition != 0) {
+			return thenValue;
+		}
+		return elseValue;
 	}
 
 	private double interpretFunctionIfThenElse(double condition, double thenValue, double elseValue) {
