@@ -60,19 +60,18 @@ public class ScriptFinder extends LinearLayout {
 	private OnCloseListener onCloseListener;
 	private OnOpenListener onOpenListener;
 
-	private List<Integer[]> results;
+	private List<Integer[]> searchResults;
 
-	private final EditText searchEt;
-	private final TextView searchPositionIndicator;
-	private final TextView sceneAndObjectName;
+	private final EditText searchBar;
+	private final TextView searchResultIndexTextView;
+	private final TextView sceneAndObjectNameTextView;
 	private final ProgressBar progressBar;
 
-	private final View findBtn;
-	private final View findNextBtn;
-	private final View findPreviousBtn;
-	private final View closeBtn;
+	private final View searchButton;
+	private final View findNextButton;
+	private final View findPreviousButton;
 
-	private int indexPos;
+	private int searchResultIndex;
 	private String searchQuery = "";
 
 	public ScriptFinder(Context context, AttributeSet attrs) {
@@ -82,19 +81,19 @@ public class ScriptFinder extends LinearLayout {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.view_script_finder, this, true);
 
-		searchEt = findViewById(R.id.search_bar);
-		findBtn = findViewById(R.id.find);
-		findNextBtn = findViewById(R.id.find_next);
-		findPreviousBtn = findViewById(R.id.find_previous);
-		closeBtn = findViewById(R.id.close);
+		searchBar = findViewById(R.id.search_bar);
+		searchButton = findViewById(R.id.find);
+		findNextButton = findViewById(R.id.find_next);
+		findPreviousButton = findViewById(R.id.find_previous);
+		View close = findViewById(R.id.close);
 		progressBar = findViewById(R.id.progress_bar);
-		sceneAndObjectName = findViewById(R.id.scene_and_sprite_name);
-		searchPositionIndicator = findViewById(R.id.search_position_indicator);
+		sceneAndObjectNameTextView = findViewById(R.id.scene_and_sprite_name);
+		searchResultIndexTextView = findViewById(R.id.search_position_indicator);
 
-		findBtn.setOnClickListener(v -> find());
-		findNextBtn.setOnClickListener(v -> findNext());
-		findPreviousBtn.setOnClickListener(v -> findPrevious());
-		closeBtn.setOnClickListener(v -> close());
+		searchButton.setOnClickListener(v -> find());
+		findNextButton.setOnClickListener(v -> findNext());
+		findPreviousButton.setOnClickListener(v -> findPrevious());
+		close.setOnClickListener(v -> close());
 
 		TextWatcher textWatcher = new TextWatcher() {
 			@Override
@@ -104,15 +103,15 @@ public class ScriptFinder extends LinearLayout {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				if (searchQuery.equals(s.toString().toLowerCase(Locale.ROOT))) {
-					findNextBtn.setVisibility(View.VISIBLE);
-					findPreviousBtn.setVisibility(View.VISIBLE);
-					searchPositionIndicator.setVisibility(View.VISIBLE);
-					findBtn.setVisibility(View.GONE);
+					findNextButton.setVisibility(View.VISIBLE);
+					findPreviousButton.setVisibility(View.VISIBLE);
+					searchResultIndexTextView.setVisibility(View.VISIBLE);
+					searchButton.setVisibility(View.GONE);
 				} else {
-					findNextBtn.setVisibility(View.GONE);
-					findPreviousBtn.setVisibility(View.GONE);
-					searchPositionIndicator.setVisibility(View.GONE);
-					findBtn.setVisibility(View.VISIBLE);
+					findNextButton.setVisibility(View.GONE);
+					findPreviousButton.setVisibility(View.GONE);
+					searchResultIndexTextView.setVisibility(View.GONE);
+					searchButton.setVisibility(View.VISIBLE);
 				}
 			}
 
@@ -121,68 +120,73 @@ public class ScriptFinder extends LinearLayout {
 			}
 		};
 
-		searchEt.addTextChangedListener(textWatcher);
+		searchBar.addTextChangedListener(textWatcher);
 	}
 
 	private void find() {
-		String query = searchEt.getText().toString().toLowerCase(Locale.ROOT);
-		if (!searchQuery.equals(query)) {
-			searchQuery = query;
-			fillIndices(query);
-			findBtn.setVisibility(View.GONE);
-			findNextBtn.setVisibility(View.VISIBLE);
-			findPreviousBtn.setVisibility(View.VISIBLE);
-		} else if (results != null) {
-			findNext();
+		String query = searchBar.getText().toString().toLowerCase(Locale.ROOT);
+		if (!query.isEmpty()) {
+			if (!searchQuery.equals(query)) {
+				searchQuery = query;
+				fillIndices(query);
+				searchButton.setVisibility(View.GONE);
+				findNextButton.setVisibility(View.VISIBLE);
+				findPreviousButton.setVisibility(View.VISIBLE);
+			} else if (searchResults != null) {
+				findNext();
+			}
+		} else {
+			ToastUtil.showError(getContext(),
+					getContext().getString(R.string.query_field_is_empty));
 		}
 	}
 
 	private void findNext() {
-		if (!results.isEmpty()) {
-			indexPos = (indexPos + 1) % results.size();
+		if (!searchResults.isEmpty()) {
+			searchResultIndex = (searchResultIndex + 1) % searchResults.size();
 			updateUI();
 		} else {
-			searchPositionIndicator.setText("0/0");
+			searchResultIndexTextView.setText("0/0");
 			ToastUtil.showError(getContext(), getContext().getString(R.string.no_results_found));
 		}
 	}
 
 	private void findPrevious() {
-		if (!results.isEmpty()) {
-			indexPos = indexPos == 0 ? results.size() - 1 : indexPos - 1;
+		if (!searchResults.isEmpty()) {
+			searchResultIndex = searchResultIndex == 0 ? searchResults.size() - 1 : searchResultIndex - 1;
 			updateUI();
 		} else {
-			searchPositionIndicator.setText("0/0");
+			searchResultIndexTextView.setText("0/0");
 			ToastUtil.showError(getContext(), getContext().getString(R.string.no_results_found));
 		}
 	}
 
 	private void updateUI() {
-		Integer[] result = results.get(indexPos);
-		searchPositionIndicator.setText(String.format(Locale.ROOT, "%d/%d", indexPos + 1,
-				results.size()));
+		Integer[] result = searchResults.get(searchResultIndex);
+		searchResultIndexTextView.setText(String.format(Locale.ROOT, "%d/%d", searchResultIndex + 1,
+				searchResults.size()));
 		if (onResultFoundListener != null) {
-			onResultFoundListener.onResultFound(result[0], result[1], result[2], results.size(),
-					sceneAndObjectName);
+			onResultFoundListener.onResultFound(result[0], result[1], result[2], searchResults.size(),
+					sceneAndObjectNameTextView);
 		}
 	}
 
 	public void fillIndices(String query) {
-		indexPos = -1;
+		searchResultIndex = -1;
 		Scene activeScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 		Sprite activeSprite = ProjectManager.getInstance().getCurrentSprite();
-		if (results != null) {
-			results.clear();
+		if (searchResults != null) {
+			searchResults.clear();
 		} else {
-			results = new ArrayList<>();
+			searchResults = new ArrayList<>();
 		}
 		new Thread(() -> {
 			Activity activity = (Activity) getContext();
 			if (!activity.isFinishing()) {
 				activity.runOnUiThread(() -> {
-					findBtn.setVisibility(View.GONE);
-					findNextBtn.setVisibility(View.GONE);
-					findPreviousBtn.setVisibility(View.GONE);
+					searchButton.setVisibility(View.GONE);
+					findNextButton.setVisibility(View.GONE);
+					findPreviousButton.setVisibility(View.GONE);
 					progressBar.setVisibility(View.VISIBLE);
 				});
 			}
@@ -206,16 +210,16 @@ public class ScriptFinder extends LinearLayout {
 					for (int k = 0; k < bricks.size(); k++) {
 						Brick brick = bricks.get(k);
 						if (searchBrickViews(brick.getView(getContext()), query)) {
-							results.add(new Integer[] {i, j, k});
+							searchResults.add(new Integer[] {i, j, k});
 						}
 					}
 				}
 			}
 			if (!activity.isFinishing()) {
 				activity.runOnUiThread(() -> {
-					findNextBtn.setVisibility(View.VISIBLE);
-					findPreviousBtn.setVisibility(View.VISIBLE);
-					searchPositionIndicator.setVisibility(View.VISIBLE);
+					findNextButton.setVisibility(View.VISIBLE);
+					findPreviousButton.setVisibility(View.VISIBLE);
+					searchResultIndexTextView.setVisibility(View.VISIBLE);
 					progressBar.setVisibility(View.GONE);
 					ProjectManager.getInstance().setCurrentSceneAndSprite(activeScene.getName(),
 							activeSprite.getName());
@@ -258,18 +262,18 @@ public class ScriptFinder extends LinearLayout {
 		this.setVisibility(View.VISIBLE);
 		InputMethodManager inputMethodManager =
 				(InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-		inputMethodManager.toggleSoftInputFromWindow(searchEt.getApplicationWindowToken(),
+		inputMethodManager.toggleSoftInputFromWindow(searchBar.getApplicationWindowToken(),
 				InputMethodManager.SHOW_FORCED, 0);
 		onOpenListener.onOpen();
-		searchEt.requestFocus();
+		searchBar.requestFocus();
 	}
 
 	public void close() {
 		this.setVisibility(View.GONE);
-		if (results != null) {
-			results.clear();
+		if (searchResults != null) {
+			searchResults.clear();
 		}
-		searchEt.setText("");
+		searchBar.setText("");
 		searchQuery = "";
 		onCloseListener.onClose();
 		ViewUtils.hideKeyboard(this);
