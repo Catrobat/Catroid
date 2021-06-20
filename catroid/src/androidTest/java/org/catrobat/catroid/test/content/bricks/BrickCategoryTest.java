@@ -221,6 +221,7 @@ import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableToFileBrick;
 import org.catrobat.catroid.content.bricks.ZigZagStitchBrick;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -233,10 +234,19 @@ import java.util.List;
 
 import androidx.test.core.app.ApplicationProvider;
 
+import static android.content.SharedPreferences.Editor;
+
 import static junit.framework.Assert.assertEquals;
+
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS;
 
 @RunWith(Parameterized.class)
 public class BrickCategoryTest {
+
+	private final List<String> speechAISettings = new ArrayList<>(Arrays.asList(
+			SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
+			SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS));
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
@@ -490,11 +500,26 @@ public class BrickCategoryTest {
 
 	@Before
 	public void setUp() throws Exception {
-		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit().clear().commit();
+		Editor sharedPreferencesEditor = PreferenceManager
+				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit();
+
+		sharedPreferencesEditor.clear();
+		// The speech AI settings have to be activated here, because these bricks have no own
+		// brick category.
+		for (String setting : speechAISettings) {
+			sharedPreferencesEditor.putBoolean(setting, true);
+		}
+		sharedPreferencesEditor.commit();
 
 		createProject(ApplicationProvider.getApplicationContext());
-
 		categoryBricksFactory = new CategoryBricksFactory();
+	}
+
+	@After
+	public void tearDown() {
+		Editor sharedPreferencesEditor = PreferenceManager
+				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit();
+		sharedPreferencesEditor.clear().commit();
 	}
 
 	public void createProject(Context context) {

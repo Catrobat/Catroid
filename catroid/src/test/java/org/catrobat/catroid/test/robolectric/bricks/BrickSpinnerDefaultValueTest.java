@@ -25,7 +25,9 @@ package org.catrobat.catroid.test.robolectric.bricks;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Spinner;
 
@@ -62,6 +64,7 @@ import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.content.bricks.WhenBounceOffBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -70,12 +73,16 @@ import org.robolectric.Robolectric;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
+
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
@@ -84,6 +91,10 @@ public class BrickSpinnerDefaultValueTest {
 	private CategoryBricksFactory categoryBricksFactory;
 	private Sprite sprite;
 	private Activity activity;
+
+	private final List<String> speechAISettings = new ArrayList<>(Arrays.asList(
+			SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
+			SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS));
 
 	@ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
@@ -138,9 +149,24 @@ public class BrickSpinnerDefaultValueTest {
 	public void setUp() throws Exception {
 		ActivityController<SpriteActivity> activityController = Robolectric.buildActivity(SpriteActivity.class);
 		activity = activityController.get();
+
+		SharedPreferences.Editor sharedPreferencesEditor = PreferenceManager
+				.getDefaultSharedPreferences(activity.getApplicationContext()).edit();
+		for (String setting : speechAISettings) {
+			sharedPreferencesEditor.putBoolean(setting, true);
+		}
+		sharedPreferencesEditor.commit();
+
 		createProject(activity);
 		activityController.create().resume();
 		categoryBricksFactory = new CategoryBricksFactory();
+	}
+
+	@After
+	public void tearDown() {
+		SharedPreferences.Editor sharedPreferencesEditor = PreferenceManager
+				.getDefaultSharedPreferences(activity.getApplicationContext()).edit();
+		sharedPreferencesEditor.clear().commit();
 	}
 
 	public void createProject(Context context) {
@@ -155,7 +181,7 @@ public class BrickSpinnerDefaultValueTest {
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 	}
 
-	private Brick getBrickFromCategroyBricksFactory() {
+	private Brick getBrickFromCategoryBricksFactory() {
 		List<Brick> categoryBricks = categoryBricksFactory.getBricks(category, false, activity);
 
 		Brick brickInAdapter = null;
@@ -171,7 +197,7 @@ public class BrickSpinnerDefaultValueTest {
 
 	@Test
 	public void testDefaultSpinnerSelection() {
-		Brick brick = getBrickFromCategroyBricksFactory();
+		Brick brick = getBrickFromCategoryBricksFactory();
 		View brickView = brick.getView(activity);
 		assertNotNull(brickView);
 

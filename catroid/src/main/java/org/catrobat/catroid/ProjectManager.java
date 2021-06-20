@@ -188,6 +188,22 @@ public final class ProjectManager {
 			SettingsFragment.setArduinoSharedPreferenceEnabled(context, true);
 		}
 
+		if (resourcesSet.contains(Brick.SPEECH_RECOGNITION)) {
+			SettingsFragment.setAISpeechReconitionPreferenceEnabled(context, true);
+		}
+
+		if (resourcesSet.contains(Brick.FACE_DETECTION)) {
+			SettingsFragment.setAIFaceDetectionPreferenceEnabled(context, true);
+		}
+
+		if (resourcesSet.contains(Brick.TEXT_TO_SPEECH)) {
+			SettingsFragment.setAISpeechSynthetizationPreferenceEnabled(context, true);
+		}
+
+		if (resourcesSet.contains(Brick.TEXT_DETECTION)) {
+			SettingsFragment.setAITextRecognitionPreferenceEnabled(context, true);
+		}
+
 		currentlyPlayingScene = project.getDefaultScene();
 		currentSprite = null;
 	}

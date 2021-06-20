@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -69,6 +69,11 @@ import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTING
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MULTIPLAYER_VARIABLES_ENABLED;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_ARDUINO_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_HINTS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_JUMPING_SUMO_BRICKS;
@@ -108,7 +113,10 @@ public class SettingsFragmentTest {
 			SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED,
 			SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, SETTINGS_SHOW_JUMPING_SUMO_BRICKS,
 			SETTINGS_SHOW_RASPI_BRICKS, SETTINGS_MULTIPLAYER_VARIABLES_ENABLED,
-			SETTINGS_CAST_GLOBALLY_ENABLED));
+			SETTINGS_CAST_GLOBALLY_ENABLED, SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
+			SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
+			SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS, SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS,
+			SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS));
 	private Map<String, Boolean> initialSettings = new HashMap<>();
 	private Matcher<Intent> expectedBrowserIntent;
 
@@ -219,6 +227,24 @@ public class SettingsFragmentTest {
 				.perform(click());
 
 		checkPreference(R.string.preference_title_enable_raspi_bricks, SETTINGS_SHOW_RASPI_BRICKS);
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
+	@Test
+	public void aiSettingsTest() {
+		onData(PreferenceMatchers.withTitle(R.string.preference_title_ai))
+				.perform(click());
+
+		checkPreference(R.string.preference_title_ai_speech_recognition,
+				SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS);
+		checkPreference(R.string.preference_title_ai_speech_synthetization,
+				SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS);
+		checkPreference(R.string.preference_title_ai_face_detection,
+				SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS);
+		checkPreference(R.string.preference_title_ai_pose_detection,
+				SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS);
+		checkPreference(R.string.preference_title_ai_text_recognition,
+				SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})

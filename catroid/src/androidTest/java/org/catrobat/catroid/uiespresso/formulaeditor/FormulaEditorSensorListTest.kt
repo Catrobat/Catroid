@@ -201,12 +201,12 @@ class FormulaEditorSensorListTest(
             paramsData.addAll(listOfRaspberry)
             paramsData.addAll(listOfNFC)
             paramsData.addAll(listOfCast)
-            paramsData.addAll(listOfDevice)
-            paramsData.addAll(listOfTouch)
-            paramsData.addAll(listOfDateTime)
             paramsData.addAll(listOfSpeech)
             paramsData.addAll(listOfFaceDetection)
             paramsData.addAll(listOfTextRecognition)
+            paramsData.addAll(listOfDevice)
+            paramsData.addAll(listOfTouch)
+            paramsData.addAll(listOfDateTime)
 
             paramsData.forEachIndexed { index, sensor ->
                 this.add(arrayListOf(index.toString()).run {
@@ -362,6 +362,81 @@ class FormulaEditorSensorListTest(
             listOf(str(R.string.formula_editor_sensor_gamepad_right_pressed), "", "")
         )
 
+        private val listOfSpeech = listOf(
+            listOf(
+                str(R.string.formula_editor_listening_language_sensor),
+                "", str(R.string.formula_editor_speech_recognition)
+            )
+        )
+
+        private val listOfFaceDetection = listOf(
+            listOf(
+                str(R.string.formula_editor_sensor_face_detected),
+                str(R.string.formula_editor_function_no_parameter),
+                str(R.string.formula_editor_device_face_detection)
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_face_size),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_face_x_position),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_face_y_position),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_second_face_detected),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_second_face_size),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_second_face_x_position),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_second_face_y_position),
+                str(R.string.formula_editor_function_no_parameter), ""
+            )
+        )
+
+        private val listOfTextRecognition = listOf(
+            listOf(
+                str(R.string.formula_editor_sensor_text_from_camera),
+                str(R.string.formula_editor_function_no_parameter),
+                str(R.string.formula_editor_device_text_recognition)
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_text_blocks_number),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_function_text_block_x),
+                str(R.string.formula_editor_function_text_block_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_function_text_block_y),
+                str(R.string.formula_editor_function_text_block_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_function_text_block_size),
+                str(R.string.formula_editor_function_text_block_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_function_text_block_from_camera),
+                str(R.string.formula_editor_function_text_block_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_function_text_block_language_from_camera),
+                str(R.string.formula_editor_function_text_block_parameter), ""
+            )
+        )
+
         private val listOfDevice = listOf(
             listOf(
                 str(R.string.formula_editor_sensor_loudness),
@@ -443,77 +518,6 @@ class FormulaEditorSensorListTest(
             listOf(str(R.string.formula_editor_sensor_time_second), "", "")
         )
 
-        private val listOfSpeech = listOf(
-            listOf(
-                str(R.string.formula_editor_listening_language_sensor),
-                "", str(R.string.formula_editor_speech_recognition)
-            )
-        )
-
-        private val listOfFaceDetection = listOf(
-            listOf(
-                str(R.string.formula_editor_sensor_face_detected),
-                str(R.string.formula_editor_function_no_parameter),
-                str(R.string.formula_editor_device_face_detection)
-            ),
-            listOf(
-                str(R.string.formula_editor_sensor_face_size),
-                str(R.string.formula_editor_function_no_parameter), ""
-            ),
-            listOf(
-                str(R.string.formula_editor_sensor_face_x_position),
-                str(R.string.formula_editor_function_no_parameter), ""
-            ),
-            listOf(
-                str(R.string.formula_editor_sensor_face_y_position),
-                str(R.string.formula_editor_function_no_parameter), ""
-            ),
-            listOf(
-                str(R.string.formula_editor_sensor_second_face_detected),
-                str(R.string.formula_editor_function_no_parameter), ""
-            ),
-            listOf(
-                str(R.string.formula_editor_sensor_second_face_size),
-                str(R.string.formula_editor_function_no_parameter), ""
-            ),
-            listOf(
-                str(R.string.formula_editor_sensor_second_face_x_position),
-                str(R.string.formula_editor_function_no_parameter), ""
-            ),
-            listOf(
-                str(R.string.formula_editor_sensor_second_face_y_position),
-                str(R.string.formula_editor_function_no_parameter), ""
-            )
-        )
-
-        private val listOfTextRecognition = listOf(
-            listOf(
-                str(R.string.formula_editor_sensor_text_from_camera),
-                str(R.string.formula_editor_function_no_parameter),
-                str(R.string.formula_editor_device_text_recognition)
-            ),
-            listOf(
-                str(R.string.formula_editor_sensor_text_blocks_number),
-                str(R.string.formula_editor_function_no_parameter), ""
-            ),
-            listOf(
-                str(R.string.formula_editor_function_text_block_x),
-                str(R.string.formula_editor_function_text_block_parameter), ""
-            ),
-            listOf(
-                str(R.string.formula_editor_function_text_block_y),
-                str(R.string.formula_editor_function_text_block_parameter), ""
-            ),
-            listOf(
-                str(R.string.formula_editor_function_text_block_size),
-                str(R.string.formula_editor_function_text_block_parameter), ""
-            ),
-            listOf(
-                str(R.string.formula_editor_function_text_block_from_camera),
-                str(R.string.formula_editor_function_text_block_parameter), ""
-            )
-        )
-
         private val allShowBrickSettings: List<String> = listOf(
             SettingsFragment.SETTINGS_SHOW_ARDUINO_BRICKS,
             SettingsFragment.SETTINGS_SHOW_PHIRO_BRICKS,
@@ -522,7 +526,11 @@ class FormulaEditorSensorListTest(
             SettingsFragment.SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED,
             SettingsFragment.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS,
             SettingsFragment.SETTINGS_SHOW_RASPI_BRICKS,
-            SettingsFragment.SETTINGS_CAST_GLOBALLY_ENABLED
+            SettingsFragment.SETTINGS_CAST_GLOBALLY_ENABLED,
+            SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
+            SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
+            SettingsFragment.SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS,
+            SettingsFragment.SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS
         )
     }
 }

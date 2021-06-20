@@ -145,6 +145,28 @@
     <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
     <string name="preference_screen_web_access_title">Edit trusted domains</string>
 
+    <string name="preference_title_ai">Artificial intelligence (AI) extension</string>
+    <string name="preference_description_ai">Enable AI bricks and sensors</string>
+    <string name="preference_title_ai_speech_recognition">Speech
+        recognition</string>
+    <string name="preference_description_ai_speech_recognition">Enable
+        speech recognition bricks and sensors</string>
+    <string name="preference_title_ai_speech_synthetization">Speech
+        synthetization</string>
+    <string name="preference_description_ai_speech_synthetization">Enable
+        speech synthetization bricks and sensors</string>
+    <string name="preference_title_ai_face_detection">Face
+        detection</string>
+    <string name="preference_description_ai_face_detection">Enable
+        face detection bricks and sensors</string>
+    <string name="preference_title_ai_pose_detection">Pose detection</string>
+    <string name="preference_description_ai_pose_detection">Enable
+        pose detection bricks and sensors</string>
+    <string name="preference_title_ai_text_recognition">Text
+        recognition</string>
+    <string name="preference_description_ai_text_recognition">Enable
+        text recognition bricks and sensors</string>
+
     <string name="preference_title_accessibility">Accessibility</string>
     <string name="preference_description_accessibility">Change the app\'s appearance</string>
     <string name="preference_title_accessibility_profiles">Accessibility profiles</string>

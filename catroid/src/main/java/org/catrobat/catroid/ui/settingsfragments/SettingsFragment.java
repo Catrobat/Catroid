@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -75,6 +75,17 @@ public class SettingsFragment extends PreferenceFragment {
 	public static final String SETTINGS_SHOW_NFC_BRICKS = "setting_nfc_bricks";
 	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
 	public static final String SETTINGS_CAST_GLOBALLY_ENABLED = "setting_cast_globally_enabled";
+	public static final String SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS =
+			"setting_ai_speech_recognition";
+	public static final String SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS =
+			"setting_ai_speech_synthetization";
+	public static final String SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS =
+			"setting_ai_face_detection";
+	public static final String SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS =
+			"setting_ai_pose_detection";
+	public static final String SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS =
+			"setting_ai_text_recognition";
+
 	public static final String SETTINGS_MULTIPLAYER_VARIABLES_ENABLED = "setting_multiplayer_variables_enabled";
 	public static final String SETTINGS_SHOW_HINTS = "setting_enable_hints";
 	public static final String SETTINGS_MULTILINGUAL = "setting_multilingual";
@@ -83,6 +94,7 @@ public class SettingsFragment extends PreferenceFragment {
 	public static final String SETTINGS_TEST_BRICKS = "setting_test_bricks";
 	PreferenceScreen screen = null;
 
+	public static final String AI_SENSORS_SCREEN_KEY = "setting_ai_screen";
 	public static final String ACCESSIBILITY_SCREEN_KEY = "setting_accessibility_screen";
 	public static final String NXT_SCREEN_KEY = "setting_nxt_screen";
 	public static final String EV3_SCREEN_KEY = "setting_ev3_screen";
@@ -193,6 +205,13 @@ public class SettingsFragment extends PreferenceFragment {
 	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
 		String key = preference.getKey();
 		switch (key) {
+			case AI_SENSORS_SCREEN_KEY:
+				getFragmentManager().beginTransaction()
+						.replace(R.id.content_frame, new AISettingsFragment(),
+								AISettingsFragment.Companion.getTAG())
+						.addToBackStack(AISettingsFragment.Companion.getTAG())
+						.commit();
+				break;
 			case ACCESSIBILITY_SCREEN_KEY:
 				getFragmentManager().beginTransaction()
 						.replace(R.id.content_frame, new AccessibilitySettingsFragment(), AccessibilitySettingsFragment.TAG)
@@ -289,6 +308,46 @@ public class SettingsFragment extends PreferenceFragment {
 	public static void setRaspiSharedPreferenceEnabled(Context context, boolean value) {
 		getSharedPreferences(context).edit()
 				.putBoolean(SETTINGS_SHOW_RASPI_BRICKS, value)
+				.apply();
+	}
+
+	public static boolean isAISpeechRecognitionSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS, context);
+	}
+
+	public static void setAISpeechReconitionPreferenceEnabled(Context context, boolean value) {
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS, value)
+				.apply();
+	}
+
+	public static boolean isAIFaceDetectionSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS, context);
+	}
+
+	public static void setAIFaceDetectionPreferenceEnabled(Context context, boolean value) {
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS, value)
+				.apply();
+	}
+
+	public static boolean isAISpeechSynthetizationSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS, context);
+	}
+
+	public static void setAISpeechSynthetizationPreferenceEnabled(Context context, boolean value) {
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS, value)
+				.apply();
+	}
+
+	public static boolean isAITextRecognitionSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS, context);
+	}
+
+	public static void setAITextRecognitionPreferenceEnabled(Context context, boolean value) {
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS, value)
 				.apply();
 	}
 
