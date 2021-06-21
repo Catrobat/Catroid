@@ -14,7 +14,7 @@ class DockerParameters {
     // Also hand in the group id of kvm to allow using /dev/kvm.
     def buildArgs = '--build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) --build-arg KVM_GROUP_ID=$(getent group kvm | cut -d: -f3)'
 
-    def args = '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -m=14G'
+    def args = '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -v /var/local/container_shared/huawei:/home/user/huawei -m=14G'
     def label = 'LimitedEmulator'
 }
  
@@ -70,6 +70,7 @@ pipeline {
                 'APKs will point to this Catrobat web server, useful for testing web changes. E.g https://web-test.catrob.at'
         booleanParam name: 'BUILD_ALL_FLAVOURS', defaultValue: false, description: 'When selected all flavours are built and archived as artifacts that can be installed alongside other versions of the same APK.'
         booleanParam name: 'UNIT_TEST_DEBUG', defaultValue: false, description: 'When selected the Unit Test suite prints the currently running tests and any output that it might produce'
+        booleanParam name: 'INCLUDE_HUAWEI_FILES', defaultValue: false, description: 'Embed any huawei files that are needed'
         string name: 'DEBUG_LABEL', defaultValue: '', description: 'For debugging when entered will be used as label to decide on which slaves the jobs will run.'
         string name: 'DOCKER_LABEL', defaultValue: '', description: 'When entered will be used as label for docker catrobat/catroid-android image to build'
     }
@@ -113,6 +114,9 @@ pipeline {
                                         }.collect()
                                         if (additionalParameters) {
                                             currentBuild.description = "<p>Additional APK build parameters: <b>${additionalParameters.join(' ')}</b></p>"
+                                        }
+                                        if(env.INCLUDE_HUAWEI_FILES?.toBoolean()) {
+                                            sh "cp /home/user/huawei/agconnect-services.json catroid/src/agconnect-services.json"
                                         }
                                     }
 
