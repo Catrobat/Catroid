@@ -29,8 +29,10 @@ import android.view.View
 import androidx.core.widget.NestedScrollView
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ScrollToAction
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.actionWithAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
@@ -167,6 +169,15 @@ class MainMenuFragmentTest : KoinTest {
         onView(withId(R.id.featuredProjectsRecyclerView))
             .check(matches(not(isDisplayed())))
         connectionMonitor.setValueTo(true)
+    }
+
+    @Test
+    fun testBackButtonAfterTappingOnUploadButton() {
+        onView(withId(R.id.uploadProject))
+            .perform(ViewActions.click())
+        pressBack()
+        onView(withId(R.id.projectImageView))
+            .check(matches(isDisplayed()))
     }
 
     private fun createProject() {
