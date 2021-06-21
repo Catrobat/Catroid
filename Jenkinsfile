@@ -62,6 +62,19 @@ def useDockerLabelParameter(dockerImage, defaultLabel) {
     return dockerImage + ':' + label
 }
 
+def archiveApkArtifact(pathToApk, apkName) {
+    sh 'mv ' + pathToApk + '/' + apkName + '.apk ' + pathToApk + '/' + apkName + "-${env.BRANCH_NAME}-${env.BUILD_NUMBER}.apk"
+    archiveArtifacts '' + pathToApk + "/" + apkName + "*.apk"
+}
+
+def archiveAllFlavoursApkArtifact() {
+    archiveApkArtifact('catroid/build/outputs/apk/createAtSchool/debug', 'catroid-createAtSchool-debug')
+    archiveApkArtifact('catroid/build/outputs/apk/embroideryDesigner/debug', 'catroid-embroideryDesigner-debug')
+    archiveApkArtifact('catroid/build/outputs/apk/lunaAndCat/debug', 'catroid-lunaAndCat-debug')
+    archiveApkArtifact('catroid/build/outputs/apk/phiro/debug', 'catroid-phiro-debug')
+    archiveApkArtifact('catroid/build/outputs/apk/pocketCodeBeta/debug', 'catroid-pocketCodeBeta-debug')
+}
+
 pipeline {
     agent none
 
@@ -71,6 +84,7 @@ pipeline {
         booleanParam name: 'BUILD_ALL_FLAVOURS', defaultValue: false, description: 'When selected all flavours are built and archived as artifacts that can be installed alongside other versions of the same APK.'
         booleanParam name: 'UNIT_TEST_DEBUG', defaultValue: false, description: 'When selected the Unit Test suite prints the currently running tests and any output that it might produce'
         booleanParam name: 'INCLUDE_HUAWEI_FILES', defaultValue: false, description: 'Embed any huawei files that are needed'
+        booleanParam name: 'BUILD_WITH_PAINTROID', defaultValue: false, description: 'When set to \'yes\' then the current Catroid build will be build with the current develop branch of Paintroid'
         string name: 'DEBUG_LABEL', defaultValue: '', description: 'For debugging when entered will be used as label to decide on which slaves the jobs will run.'
         string name: 'DOCKER_LABEL', defaultValue: '', description: 'When entered will be used as label for docker catrobat/catroid-android image to build'
     }
@@ -105,6 +119,31 @@ pipeline {
                     }
 
                     stages {
+                        stage('Build with Paintroid') {
+                            when {
+                                expression {
+                                    params.BUILD_WITH_PAINTROID
+                                }
+                            }
+                            steps {
+                                sh 'rm -rf Paintroid; mkdir Paintroid'
+                                dir('Paintroid') {
+                                    git branch: 'develop', url: 'https://github' +
+                                            '.com/Catrobat/Paintroid.git'
+                                    sh "./gradlew -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleDebug"
+                                    archiveArtifacts'app/build/outputs/apk/debug/paintroid-debug*.apk'
+                                    sh './gradlew publishToMavenLocal -Psnapshot'
+                                }
+                                sh "./gradlew -PpaintroidLocal assembleCatroidDebug ${allFlavoursParameters()}"
+                                archiveApkArtifact('catroid/build/outputs/apk/catroid/debug', 'catroid-catroid-debug')
+                                script {
+                                    if (params.BUILD_ALL_FLAVOURS) {
+                                        archiveAllFlavoursApkArtifact()
+                                    }
+                                }
+                            }
+                        }
+
                         stage('APKs') {
                             steps {
                                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
@@ -128,8 +167,15 @@ pipeline {
                                     // Build the flavors so that they can be installed next independently of older versions.
                                     sh "./gradlew ${webTestUrlParameter()} -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleCatroidDebug ${allFlavoursParameters()}"
 
-                                    renameApks("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
-                                    archiveArtifacts '**/*.apk'
+                                    script {
+                                        if (params.BUILD_WITH_PAINTROID) {
+                                            archiveApkArtifact('catroid/build/outputs/apk/catroid/debug', 'catroid-catroid-debug')
+                                            if (params.BUILD_ALL_FLAVOURS) {
+                                                archiveAllFlavoursApkArtifact()
+                                            }
+                                        }
+                                    }
+                                    archiveApkArtifact('catroid/build/outputs/apk/standalone/debug', 'catroid-standalone-debug')
                                 }
                             }
                         }
