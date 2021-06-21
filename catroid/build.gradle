@@ -50,7 +50,6 @@ ext {
     gdxVersion = "1.9.10"
     mockitoVersion = "2.8.47"
     espressoVersion = "3.1.0"
-    paintroidVersion = '2.7.3'
     playServicesVersion = "17.0.0"
     cameraXVersion = "1.0.0-beta07"
 }
@@ -334,9 +333,8 @@ dependencies {
 
     // Paintroid local aar lib files
     if(rootProject.hasProperty('paintroidLocal')) {
-        paintroidVersion = paintroidVersion + "-LOCAL"
-        catroidImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
-        implementation "org.catrobat.paintroid:colorpicker:$paintroidVersion"
+        catroidImplementation "org.catrobat.paintroid:paintroid:-LOCAL"
+        implementation "org.catrobat.paintroid:colorpicker:-LOCAL"
     } else {
         implementation fileTree(dir: 'src/main/libs', include: ['*.aar'])
     }
