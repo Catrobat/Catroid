@@ -27,27 +27,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.PagerSnapHelper
-import kotlinx.android.synthetic.main.landing_page.categoriesRecyclerView
-import kotlinx.android.synthetic.main.landing_page.editProject
-import kotlinx.android.synthetic.main.landing_page.featuredProjectsRecyclerView
-import kotlinx.android.synthetic.main.landing_page.featuredProjectsTextView
-import kotlinx.android.synthetic.main.landing_page.myProjectsRecyclerView
-import kotlinx.android.synthetic.main.landing_page.myProjectsTextView
-import kotlinx.android.synthetic.main.landing_page.newProjectFloatingActionButton
-import kotlinx.android.synthetic.main.landing_page.noInternetLayout
-import kotlinx.android.synthetic.main.landing_page.projectImageView
-import kotlinx.android.synthetic.main.landing_page.shimmerViewContainer
-import kotlinx.android.synthetic.main.landing_page.uploadProject
-import kotlinx.android.synthetic.main.progress_bar.progress_bar
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants.CATEGORY_URL
 import org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY
 import org.catrobat.catroid.common.ProjectData
+import org.catrobat.catroid.databinding.FragmentMainMenuBinding
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask.ProjectLoadListener
@@ -87,31 +77,41 @@ class MainMenuFragment : Fragment(),
     private val connectionMonitor: NetworkConnectionMonitor by inject()
     private val featuredProjectsAdapter: FeaturedProjectsAdapter by inject()
     private val categoriesAdapter: CategoriesAdapter by inject()
+    private var _binding: FragmentMainMenuBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var progressBar: LinearLayout
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         viewModel.setIsLoading(true)
-        return inflater.inflate(R.layout.landing_page, container, false)
+        _binding = FragmentMainMenuBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        progressBar = requireActivity().findViewById(R.id.progress_bar)
         viewModel.isLoading().observe(viewLifecycleOwner, Observer { show ->
-            progress_bar.setVisibleOrGone(show)
+            progressBar.setVisibleOrGone(show)
         })
 
         setupViewVisibility()
 
-        editProject.setOnClickListener(this)
-        uploadProject.setOnClickListener(this)
-        newProjectFloatingActionButton.setOnClickListener(this)
-        myProjectsTextView.setOnClickListener(this)
-        projectImageView.setOnClickListener(this)
-        featuredProjectsTextView.setOnClickListener(this)
+        binding.editProject.setOnClickListener(this)
+        binding.uploadProject.setOnClickListener(this)
+        binding.newProjectFloatingActionButton.setOnClickListener(this)
+        binding.myProjectsTextView.setOnClickListener(this)
+        binding.projectImageView.setOnClickListener(this)
+        binding.featuredProjectsTextView.setOnClickListener(this)
 
         setFragment(this)
 
@@ -122,12 +122,12 @@ class MainMenuFragment : Fragment(),
     }
 
     private fun setupCategoriesRV() {
-        categoriesRecyclerView.setHasFixedSize(true)
+        binding.categoriesRecyclerView.setHasFixedSize(true)
         categoriesAdapter.apply {
             setOnProjectClickCallback(this@MainMenuFragment)
             setOnCategoryTitleClickCallback(this@MainMenuFragment)
         }.let {
-            categoriesRecyclerView.adapter = it
+            binding.categoriesRecyclerView.adapter = it
         }
 
         viewModel.getProjectCategories().observe(viewLifecycleOwner, Observer { items ->
@@ -142,10 +142,10 @@ class MainMenuFragment : Fragment(),
     private fun setupViewVisibility() {
         connectionMonitor.observe(viewLifecycleOwner, Observer { connectionActive ->
             viewModel.fetchData()
-            noInternetLayout.setVisibleOrGone(connectionActive.not())
-            featuredProjectsRecyclerView.setVisibleOrGone(connectionActive)
-            featuredProjectsTextView.isEnabled = connectionActive
-            categoriesRecyclerView.setVisibleOrGone(connectionActive)
+            binding.noInternetLayout.setVisibleOrGone(connectionActive.not())
+            binding.featuredProjectsRecyclerView.setVisibleOrGone(connectionActive)
+            binding.featuredProjectsTextView.isEnabled = connectionActive
+            binding.categoriesRecyclerView.setVisibleOrGone(connectionActive)
 
             if (connectionActive && viewModel.getProjectCategories().value == null) {
                 startShimmer()
@@ -157,7 +157,7 @@ class MainMenuFragment : Fragment(),
 
     private fun setupProjectsRV() {
         projectsAdapter = HorizontalProjectsAdapter(this)
-        myProjectsRecyclerView.apply {
+        binding.myProjectsRecyclerView.apply {
             setHasFixedSize(true)
             LinearSnapHelper().attachToRecyclerView(this)
             adapter = projectsAdapter
@@ -171,7 +171,7 @@ class MainMenuFragment : Fragment(),
 
     private fun setupFeaturedProjectsRV() {
         featuredProjectsAdapter.setCallback(this@MainMenuFragment)
-        featuredProjectsRecyclerView.apply {
+        binding.featuredProjectsRecyclerView.apply {
             setHasFixedSize(true)
             if (itemDecorationCount == 0) {
                 addItemDecoration(IndicatorDecoration(requireContext()))
@@ -179,7 +179,7 @@ class MainMenuFragment : Fragment(),
             adapter = featuredProjectsAdapter
             onFlingListener = null
         }.run {
-            PagerSnapHelper().attachToRecyclerView(featuredProjectsRecyclerView)
+            PagerSnapHelper().attachToRecyclerView(binding.featuredProjectsRecyclerView)
             resumeAutoScroll()
         }
 
@@ -189,7 +189,7 @@ class MainMenuFragment : Fragment(),
             }
 
             featuredProjectsAdapter.setItems(items)
-            featuredProjectsRecyclerView.itemsCount = items.size
+            binding.featuredProjectsRecyclerView.itemsCount = items.size
         })
     }
 
@@ -256,7 +256,7 @@ class MainMenuFragment : Fragment(),
         val loader = ProjectAndSceneScreenshotLoader(CURRENT_THUMBNAIL_SIZE, CURRENT_THUMBNAIL_SIZE)
         loader.loadAndShowScreenshot(
             projectDir.name, loader.getScreenshotSceneName(projectDir), false,
-            projectImageView
+            binding.projectImageView
         )
     }
 
@@ -347,14 +347,14 @@ class MainMenuFragment : Fragment(),
     }
 
     private fun stopShimmer() {
-        shimmerViewContainer.apply {
+        binding.shimmerViewContainer.apply {
             stopShimmer()
             setVisibleOrGone(false)
         }
     }
 
     private fun startShimmer() {
-        shimmerViewContainer.apply {
+        binding.shimmerViewContainer.apply {
             setVisibleOrGone(true)
             startShimmer()
         }

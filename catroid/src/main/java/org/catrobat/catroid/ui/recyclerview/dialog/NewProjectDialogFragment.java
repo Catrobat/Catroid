@@ -27,7 +27,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioGroup;
-import android.widget.Switch;
+
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -57,7 +58,7 @@ public class NewProjectDialogFragment extends DialogFragment {
 		View view = View.inflate(getActivity(), R.layout.dialog_new_project, null);
 
 		final RadioGroup radioGroup = view.findViewById(R.id.radio_group);
-		final Switch exampleProjectSwitch = view.findViewById(R.id.example_project_switch);
+		final SwitchMaterial exampleProjectSwitch = view.findViewById(R.id.example_project_switch);
 
 		if (SettingsFragment.isCastSharedPreferenceEnabled(getActivity())) {
 			view.findViewById(R.id.cast_radio_button).setVisibility(View.VISIBLE);

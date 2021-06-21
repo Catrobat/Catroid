@@ -58,7 +58,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'jacoco-android'
-apply plugin: 'kotlin-android-extensions'
 
 apply from: 'gradle/code_quality_tasks.gradle'
 apply from: 'gradle/emulator_tasks.gradle'
@@ -110,6 +109,10 @@ def defaultVersionName = "1.0.3"
 
 android {
     compileSdkVersion 29
+
+    buildFeatures {
+        viewBinding = true
+    }
 
     defaultConfig {
 

@@ -44,6 +44,7 @@ import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.IntDef;
+import androidx.core.content.res.ResourcesCompat;
 
 import static android.view.View.GONE;
 
@@ -95,8 +96,10 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 
 		if (holder.getItemViewType() == SPRITE_GROUP) {
 			Drawable drawable = ((GroupSprite) item).isCollapsed()
-					? context.getResources().getDrawable(R.drawable.ic_play)
-					: context.getResources().getDrawable(R.drawable.ic_play_down);
+					? ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_play,
+					context.getTheme())
+					: ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_play_down,
+					context.getTheme());
 			holder.image.setImageDrawable(drawable);
 			holder.checkBox.setVisibility(GONE);
 			return;
