@@ -184,6 +184,7 @@ import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.SpriteActivityKt;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.uiespresso.ui.activity.rtl.RtlUiTestUtils;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
@@ -239,8 +240,9 @@ public class RtlBrickTest {
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
-			SpriteActivity.FRAGMENT_SCRIPTS);
+			FragmentActivityTestRule<>(SpriteActivity.class,
+			SpriteActivityKt.EXTRA_FRAGMENT_POSITION,
+			SpriteActivityKt.FRAGMENT_SCRIPTS);
 
 	private Locale arLocale = new Locale("ar");
 	private List<String> allPeripheralCategories = new ArrayList<>(Arrays.asList(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED,

@@ -41,6 +41,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.SpriteActivityKt;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
@@ -75,7 +76,7 @@ public class ActionBarUndoSpinnerTest {
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class,
-			SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
+			SpriteActivityKt.EXTRA_FRAGMENT_POSITION, SpriteActivityKt.FRAGMENT_SCRIPTS);
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {

@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.SpriteActivityKt;
 import org.catrobat.catroid.ui.recyclerview.fragment.CatblocksScriptFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
@@ -52,8 +53,9 @@ import static androidx.test.espresso.web.sugar.Web.onWebView;
 public class AddBrickCatblocksTest {
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
-			SpriteActivity.FRAGMENT_SCRIPTS);
+			FragmentActivityTestRule<>(SpriteActivity.class,
+			SpriteActivityKt.EXTRA_FRAGMENT_POSITION,
+			SpriteActivityKt.FRAGMENT_SCRIPTS);
 	private WhenScript addedScript = new WhenScript();
 	private Runnable addBricksAction = new Runnable() {
 		@Override

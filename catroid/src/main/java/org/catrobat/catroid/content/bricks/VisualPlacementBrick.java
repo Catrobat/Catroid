@@ -42,10 +42,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_BRICK_HASH;
-import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_X_TRANSFORM;
-import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_Y_TRANSFORM;
-import static org.catrobat.catroid.ui.SpriteActivity.REQUEST_CODE_VISUAL_PLACEMENT;
+import static org.catrobat.catroid.ui.SpriteActivityKt.EXTRA_BRICK_HASH;
+import static org.catrobat.catroid.ui.SpriteActivityKt.EXTRA_X_TRANSFORM;
+import static org.catrobat.catroid.ui.SpriteActivityKt.EXTRA_Y_TRANSFORM;
+import static org.catrobat.catroid.ui.SpriteActivityKt.REQUEST_CODE_VISUAL_PLACEMENT;
 
 public abstract class VisualPlacementBrick extends FormulaBrick {
 

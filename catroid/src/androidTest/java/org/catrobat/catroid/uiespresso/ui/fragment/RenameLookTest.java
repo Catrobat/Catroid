@@ -36,6 +36,7 @@ import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.SpriteActivityKt;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -76,8 +77,9 @@ public class RenameLookTest {
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
-			SpriteActivity.FRAGMENT_LOOKS);
+			FragmentActivityTestRule<>(SpriteActivity.class,
+			SpriteActivityKt.EXTRA_FRAGMENT_POSITION,
+			SpriteActivityKt.FRAGMENT_LOOKS);
 
 	private String oldLookName = "oldLookName";
 	private String newLookName = "newLookName";

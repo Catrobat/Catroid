@@ -27,6 +27,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.SpriteActivityKt;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
@@ -53,7 +54,9 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 public class JsonExtractorDialogTest {
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
+			FragmentActivityTestRule<>(SpriteActivity.class,
+			SpriteActivityKt.EXTRA_FRAGMENT_POSITION, SpriteActivityKt.FRAGMENT_SCRIPTS);
+
 	@Before
 	public void setUp() {
 		Script script = BrickTestUtils.createProjectAndGetStartScript("HtmlExtractorDialogTest");

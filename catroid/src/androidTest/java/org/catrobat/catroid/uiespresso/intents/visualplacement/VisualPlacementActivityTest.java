@@ -39,8 +39,8 @@ import androidx.test.espresso.Espresso;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_X_TRANSFORM;
-import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_Y_TRANSFORM;
+import static org.catrobat.catroid.ui.SpriteActivityKt.EXTRA_X_TRANSFORM;
+import static org.catrobat.catroid.ui.SpriteActivityKt.EXTRA_Y_TRANSFORM;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;

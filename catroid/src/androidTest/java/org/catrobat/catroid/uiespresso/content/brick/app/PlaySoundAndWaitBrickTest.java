@@ -41,6 +41,7 @@ import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.SpriteActivityKt;
 import org.catrobat.catroid.uiespresso.annotations.Device;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
@@ -119,7 +120,7 @@ public class PlaySoundAndWaitBrickTest {
 	@Test
 	public void testPlaySoundUpdateDelete() {
 		onView(withId(R.id.tab_layout))
-				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SCRIPTS));
+				.perform(selectTabAtPosition(SpriteActivityKt.FRAGMENT_SCRIPTS));
 
 		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);
@@ -129,7 +130,7 @@ public class PlaySoundAndWaitBrickTest {
 		deleteSound(0);
 
 		onView(withId(R.id.tab_layout))
-				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SCRIPTS));
+				.perform(selectTabAtPosition(SpriteActivityKt.FRAGMENT_SCRIPTS));
 
 		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName2);
@@ -142,7 +143,7 @@ public class PlaySoundAndWaitBrickTest {
 	@Device
 	public void testPlaySoundBrickUpdateAddNew() {
 		onView(withId(R.id.tab_layout))
-				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SCRIPTS));
+				.perform(selectTabAtPosition(SpriteActivityKt.FRAGMENT_SCRIPTS));
 
 		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);
@@ -166,7 +167,7 @@ public class PlaySoundAndWaitBrickTest {
 		String newName = "newName";
 
 		onView(withId(R.id.tab_layout))
-				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SCRIPTS));
+				.perform(selectTabAtPosition(SpriteActivityKt.FRAGMENT_SCRIPTS));
 
 		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);
@@ -176,7 +177,7 @@ public class PlaySoundAndWaitBrickTest {
 		renameSound(0, soundName, newName);
 
 		onView(withId(R.id.tab_layout))
-				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SCRIPTS));
+				.perform(selectTabAtPosition(SpriteActivityKt.FRAGMENT_SCRIPTS));
 
 		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(newName);
@@ -186,7 +187,7 @@ public class PlaySoundAndWaitBrickTest {
 
 	private void deleteSound(int position) {
 		onView(withId(R.id.tab_layout))
-				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SOUNDS));
+				.perform(selectTabAtPosition(SpriteActivityKt.FRAGMENT_SOUNDS));
 		openActionBar();
 		onView(withText(R.string.delete))
 				.perform(click());
@@ -206,7 +207,7 @@ public class PlaySoundAndWaitBrickTest {
 
 	private void renameSound(int position, String oldName, String newName) {
 		onView(withId(R.id.tab_layout))
-				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SOUNDS));
+				.perform(selectTabAtPosition(SpriteActivityKt.FRAGMENT_SOUNDS));
 		openActionBar();
 		onView(withText(R.string.rename))
 				.perform(click());

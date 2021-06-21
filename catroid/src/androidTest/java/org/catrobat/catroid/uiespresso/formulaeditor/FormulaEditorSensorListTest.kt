@@ -35,6 +35,8 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick
 import org.catrobat.catroid.testsuites.annotations.Cat
 import org.catrobat.catroid.testsuites.annotations.Level
+import org.catrobat.catroid.ui.EXTRA_FRAGMENT_POSITION
+import org.catrobat.catroid.ui.FRAGMENT_SCRIPTS
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
@@ -67,8 +69,8 @@ class FormulaEditorSensorListTest(
     @JvmField
     var baseActivityTestRule = FragmentActivityTestRule<SpriteActivity>(
         SpriteActivity::class.java,
-        SpriteActivity.EXTRA_FRAGMENT_POSITION,
-        SpriteActivity.FRAGMENT_SCRIPTS
+        EXTRA_FRAGMENT_POSITION,
+        FRAGMENT_SCRIPTS
     )
 
     private val itemIndex: Int = index.toInt()

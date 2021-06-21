@@ -46,9 +46,9 @@ import org.catrobat.catroid.common.SharedPreferenceKeys.NEW_SPRITE_VISUAL_PLACEM
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.io.StorageOperations
-import org.catrobat.catroid.ui.SpriteActivity.EXTRA_X_TRANSFORM
-import org.catrobat.catroid.ui.SpriteActivity.EXTRA_Y_TRANSFORM
-import org.catrobat.catroid.ui.SpriteActivity.REQUEST_CODE_VISUAL_PLACEMENT
+import org.catrobat.catroid.ui.EXTRA_X_TRANSFORM
+import org.catrobat.catroid.ui.EXTRA_Y_TRANSFORM
+import org.catrobat.catroid.ui.REQUEST_CODE_VISUAL_PLACEMENT
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher
 import org.catrobat.catroid.ui.recyclerview.fragment.SpriteListFragment
 import org.catrobat.catroid.utils.Utils

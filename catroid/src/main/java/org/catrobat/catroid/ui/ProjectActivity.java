@@ -73,7 +73,7 @@ import static org.catrobat.catroid.common.Constants.NXT;
 import static org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
-import static org.catrobat.catroid.ui.SpriteActivity.REQUEST_CODE_VISUAL_PLACEMENT;
+import static org.catrobat.catroid.ui.SpriteActivityKt.REQUEST_CODE_VISUAL_PLACEMENT;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED;

@@ -106,7 +106,7 @@ import androidx.fragment.app.FragmentManager;
 
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.UNDO_CODE_XML_FILE_NAME;
-import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
+import static org.catrobat.catroid.ui.SpriteActivityKt.FRAGMENT_SCRIPTS;
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.addTabLayout;
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.removeTabLayout;
 import static org.catrobat.catroid.utils.SnackbarUtil.wasHintAlreadyShown;

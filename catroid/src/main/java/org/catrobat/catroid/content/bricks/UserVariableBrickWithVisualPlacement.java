@@ -46,10 +46,10 @@ import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_TEXT;
-import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_TEXT_ALIGNMENT;
-import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_TEXT_COLOR;
-import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_TEXT_SIZE;
+import static org.catrobat.catroid.ui.SpriteActivityKt.EXTRA_TEXT;
+import static org.catrobat.catroid.ui.SpriteActivityKt.EXTRA_TEXT_ALIGNMENT;
+import static org.catrobat.catroid.ui.SpriteActivityKt.EXTRA_TEXT_COLOR;
+import static org.catrobat.catroid.ui.SpriteActivityKt.EXTRA_TEXT_SIZE;
 import static org.catrobat.catroid.utils.ShowTextUtils.ALIGNMENT_STYLE_CENTERED;
 import static org.catrobat.catroid.utils.ShowTextUtils.convertColorToString;
 import static org.catrobat.catroid.utils.ShowTextUtils.getStringAsInteger;

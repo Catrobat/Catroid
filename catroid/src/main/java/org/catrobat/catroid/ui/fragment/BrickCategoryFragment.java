@@ -49,7 +49,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.ListFragment;
 
-import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
+import static org.catrobat.catroid.ui.SpriteActivityKt.FRAGMENT_SCRIPTS;
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.addTabLayout;
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.removeTabLayout;
 import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile.BEGINNER_BRICKS;

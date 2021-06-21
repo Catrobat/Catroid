@@ -27,6 +27,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.SpriteActivityKt;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
@@ -54,7 +55,8 @@ public class FormulaEditorRegexDetectionTest {
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
+			FragmentActivityTestRule<>(SpriteActivity.class,
+			SpriteActivityKt.EXTRA_FRAGMENT_POSITION, SpriteActivityKt.FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() {
@@ -74,7 +76,7 @@ public class FormulaEditorRegexDetectionTest {
 		onView(withText(R.string.formula_editor_dialog_change_text)).check(matches(isDisplayed()));
 	}
 
-	@Test (expected = NoMatchingViewException.class)
+	@Test(expected = NoMatchingViewException.class)
 	public void testNonRegexFunctionNoAssistantButton() {
 		String editorFunction = getFunctionEntryName(R.string.formula_editor_function_join,
 				R.string.formula_editor_function_join_parameter);
@@ -91,6 +93,7 @@ public class FormulaEditorRegexDetectionTest {
 
 		onView(withText(R.string.formula_editor_dialog_change_regular_expression)).check(matches(isDisplayed()));
 	}
+
 	@Test
 	public void testRegexFunctionFirstParamAssistantButton() {
 
@@ -100,6 +103,7 @@ public class FormulaEditorRegexDetectionTest {
 
 		onView(withText(R.string.assistant)).check(matches(isDisplayed()));
 	}
+
 	@Test
 	public void testRegexFunctionAssistantButtonOpensAssistantWindowOnClick() {
 		String editorFunction = getFunctionEntryName(R.string.formula_editor_function_regex,

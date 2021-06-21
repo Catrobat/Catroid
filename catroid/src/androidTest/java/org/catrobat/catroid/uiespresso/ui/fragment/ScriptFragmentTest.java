@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.SpriteActivityKt;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickCategoryListMatchers;
@@ -74,8 +75,9 @@ public class ScriptFragmentTest {
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
-			SpriteActivity.FRAGMENT_SCRIPTS);
+			FragmentActivityTestRule<>(SpriteActivity.class,
+			SpriteActivityKt.EXTRA_FRAGMENT_POSITION,
+			SpriteActivityKt.FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() throws Exception {

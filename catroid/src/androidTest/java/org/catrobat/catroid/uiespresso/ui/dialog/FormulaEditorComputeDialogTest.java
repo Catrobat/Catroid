@@ -35,6 +35,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.SpriteActivityKt;
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
@@ -66,8 +67,9 @@ public class FormulaEditorComputeDialogTest {
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
-			SpriteActivity.FRAGMENT_SCRIPTS);
+			FragmentActivityTestRule<>(SpriteActivity.class,
+			SpriteActivityKt.EXTRA_FRAGMENT_POSITION,
+			SpriteActivityKt.FRAGMENT_SCRIPTS);
 	private Integer someIntegerVaule = 911;
 
 	@Before
@@ -148,17 +150,17 @@ public class FormulaEditorComputeDialogTest {
 
 	public static ViewAction clickWithOffset(final int xOffset, final int yOffset) {
 		return new GeneralClickAction(
-			Tap.SINGLE,
-			new CoordinatesProvider() {
-				@Override
-				public float[] calculateCoordinates(View view) {
-					final int[] viewsCoordinates = new int[2];
-					view.getLocationOnScreen(viewsCoordinates);
+				Tap.SINGLE,
+				new CoordinatesProvider() {
+					@Override
+					public float[] calculateCoordinates(View view) {
+						final int[] viewsCoordinates = new int[2];
+						view.getLocationOnScreen(viewsCoordinates);
 
-					float[] clickCoordinates = {viewsCoordinates[0] + xOffset, viewsCoordinates[1] + yOffset};
-					return clickCoordinates;
-				}
-			},
-			Press.FINGER);
+						float[] clickCoordinates = {viewsCoordinates[0] + xOffset, viewsCoordinates[1] + yOffset};
+						return clickCoordinates;
+					}
+				},
+				Press.FINGER);
 	}
 }

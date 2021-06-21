@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.SpriteActivityKt;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -53,9 +54,9 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.catrobat.catroid.R.id.tab_layout;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
-import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_LOOKS;
-import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
-import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SOUNDS;
+import static org.catrobat.catroid.ui.SpriteActivityKt.FRAGMENT_LOOKS;
+import static org.catrobat.catroid.ui.SpriteActivityKt.FRAGMENT_SCRIPTS;
+import static org.catrobat.catroid.ui.SpriteActivityKt.FRAGMENT_SOUNDS;
 import static org.catrobat.catroid.uiespresso.util.actions.TabActionsKt.selectTabAtPosition;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -75,7 +76,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 public class TabLayoutActionModeTest {
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_SCRIPTS);
+			FragmentActivityTestRule<>(SpriteActivity.class,
+			SpriteActivityKt.EXTRA_FRAGMENT_POSITION, SpriteActivityKt.FRAGMENT_SCRIPTS);
 
 	@Parameters
 	public static Iterable<Object[]> data() {

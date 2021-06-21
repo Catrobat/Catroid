@@ -58,7 +58,7 @@ import static android.app.Activity.RESULT_OK;
 import static org.catrobat.catroid.common.Constants.EXTRA_PICTURE_PATH_POCKET_PAINT;
 import static org.catrobat.catroid.common.Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_LOOKS_PREFERENCE_KEY;
-import static org.catrobat.catroid.ui.SpriteActivity.EDIT_LOOK;
+import static org.catrobat.catroid.ui.SpriteActivityKt.EDIT_LOOK;
 
 public class LookListFragment extends RecyclerViewFragment<LookData> {
 

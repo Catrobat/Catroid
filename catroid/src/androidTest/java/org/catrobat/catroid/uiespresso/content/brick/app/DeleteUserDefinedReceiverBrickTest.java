@@ -37,6 +37,7 @@ import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.SpriteActivityKt;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
@@ -62,8 +63,9 @@ public class DeleteUserDefinedReceiverBrickTest {
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
-			SpriteActivity.FRAGMENT_SCRIPTS);
+			FragmentActivityTestRule<>(SpriteActivity.class,
+			SpriteActivityKt.EXTRA_FRAGMENT_POSITION,
+			SpriteActivityKt.FRAGMENT_SCRIPTS);
 
 	private Sprite sprite;
 	private Sprite copiedSprite;
@@ -92,21 +94,25 @@ public class DeleteUserDefinedReceiverBrickTest {
 	public void testRemoveFromYourBrickCategory() {
 		assertFalse(sprite.getUserDefinedBrickList().contains(userDefinedBrickToDelete));
 	}
+
 	@Test
 	public void testDeletionInCurrentSpriteOnly() {
 		assertTrue(copiedSprite.containsUserDefinedBrickWithSameUserData(userDefinedBrickToDelete));
 		UserDefinedBrick userDefinedBrick = (UserDefinedBrick) copiedSprite.getScript(indexStartScript).getBrickList().get(indexBrickToDelete);
 		assertTrue(userDefinedBrick.isUserDefinedBrickDataEqual(userDefinedBrickToDelete));
 	}
+
 	@Test
 	public void testDeletionInNestedBricks() {
 		assertTrue(ifLogicBrick.getNestedBricks().isEmpty());
 		assertTrue(ifLogicBrick.getSecondaryNestedBricks().isEmpty());
 	}
+
 	@Test
 	public void testDeletionOfUserDefinedReceiverBrick() {
 		assertFalse(sprite.getScript(indexStartScript).getBrickList().contains(userDefinedBrickToDelete));
 	}
+
 	@Test
 	public void testDifferentUserDefinedBrickNotDeleted() {
 		assertTrue(sprite.getScript(indexStartScript).getBrickList().contains(differentUserDefinedBrick));

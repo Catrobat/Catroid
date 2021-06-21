@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.SpriteActivityKt;
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment;
@@ -44,9 +45,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.R.id.brick_set_variable_edit_text;
 import static org.catrobat.catroid.R.id.tab_layout;
-import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_LOOKS;
-import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
-import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SOUNDS;
+import static org.catrobat.catroid.ui.SpriteActivityKt.FRAGMENT_LOOKS;
+import static org.catrobat.catroid.ui.SpriteActivityKt.FRAGMENT_SCRIPTS;
+import static org.catrobat.catroid.ui.SpriteActivityKt.FRAGMENT_SOUNDS;
 import static org.catrobat.catroid.uiespresso.util.actions.TabActionsKt.selectTabAtPosition;
 import static org.junit.Assert.assertNull;
 
@@ -62,7 +63,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 public class SpriteActivityTabsTest {
 
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_SCRIPTS);
+			FragmentActivityTestRule<>(SpriteActivity.class,
+			SpriteActivityKt.EXTRA_FRAGMENT_POSITION, SpriteActivityKt.FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() {

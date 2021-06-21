@@ -38,6 +38,7 @@ import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.SpriteActivityKt;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
@@ -71,8 +72,9 @@ public class FormulaEditorVariableScopeTest {
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
-			SpriteActivity.FRAGMENT_SCRIPTS);
+			FragmentActivityTestRule<>(SpriteActivity.class,
+			SpriteActivityKt.EXTRA_FRAGMENT_POSITION,
+			SpriteActivityKt.FRAGMENT_SCRIPTS);
 
 	private static UserDefinedBrickLabel label = new UserDefinedBrickLabel("Label");
 	private static UserDefinedBrickInput input = new UserDefinedBrickInput("Input");

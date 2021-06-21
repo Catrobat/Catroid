@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.SpriteActivityKt;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.catrobat.catroid.visualplacement.VisualPlacementActivity;
 import org.junit.After;
@@ -43,9 +44,9 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.content.bricks.Brick.BrickField.X_POSITION;
-import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_BRICK_HASH;
-import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_X_TRANSFORM;
-import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_Y_TRANSFORM;
+import static org.catrobat.catroid.ui.SpriteActivityKt.EXTRA_BRICK_HASH;
+import static org.catrobat.catroid.ui.SpriteActivityKt.EXTRA_X_TRANSFORM;
+import static org.catrobat.catroid.ui.SpriteActivityKt.EXTRA_Y_TRANSFORM;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.CHANGED_COORDINATES;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
@@ -74,8 +75,9 @@ public class SpriteActivityVisualPlacementTest {
 	private PlaceAtBrick bricktoAdd;
 
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
-			SpriteActivity.FRAGMENT_SCRIPTS);
+			FragmentActivityTestRule<>(SpriteActivity.class,
+			SpriteActivityKt.EXTRA_FRAGMENT_POSITION,
+			SpriteActivityKt.FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() throws Exception {

@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.SpriteActivityKt;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -58,7 +59,8 @@ public class AddUserListToActiveFormulaUITest {
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
+			FragmentActivityTestRule<>(SpriteActivity.class,
+			SpriteActivityKt.EXTRA_FRAGMENT_POSITION, SpriteActivityKt.FRAGMENT_SCRIPTS);
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
@@ -67,7 +69,7 @@ public class AddUserListToActiveFormulaUITest {
 						R.string.formula_editor_function_number_of_items,
 						R.string.formula_editor_function_number_of_items_parameter,
 						asList(new UserList("spriteList1"), new UserList("spriteList2")),
-								asList(new UserList("projectList1"), new UserList("projectList2")),
+						asList(new UserList("projectList1"), new UserList("projectList2")),
 						"spriteList2"},
 				{"MultipleSpriteAndProjectUserListsItem",
 						R.string.formula_editor_function_list_item,
@@ -91,8 +93,8 @@ public class AddUserListToActiveFormulaUITest {
 						R.string.formula_editor_function_number_of_items,
 						R.string.formula_editor_function_number_of_items_parameter,
 						new ArrayList<UserList>(),
-								asList(new UserList("projectList1"),
-										new UserList("projectList2")),
+						asList(new UserList("projectList1"),
+								new UserList("projectList2")),
 						"projectList2"},
 				{"NoProjectUserLists",
 						R.string.formula_editor_function_number_of_items,

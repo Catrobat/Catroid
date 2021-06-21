@@ -44,6 +44,8 @@ import org.catrobat.catroid.formulaeditor.Functions.COLLIDES_WITH_COLOR
 import org.catrobat.catroid.formulaeditor.Functions.COLOR_AT_XY
 import org.catrobat.catroid.formulaeditor.Functions.COLOR_TOUCHES_COLOR
 import org.catrobat.catroid.test.utils.TestUtils
+import org.catrobat.catroid.ui.EXTRA_FRAGMENT_POSITION
+import org.catrobat.catroid.ui.FRAGMENT_SCRIPTS
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.junit.After
@@ -65,8 +67,8 @@ class FormulaEditorColorSensorsComputeTest(
     @JvmField
     var baseActivityTestRule = FragmentActivityTestRule(
         SpriteActivity::class.java,
-        SpriteActivity.EXTRA_FRAGMENT_POSITION,
-        SpriteActivity.FRAGMENT_SCRIPTS
+        EXTRA_FRAGMENT_POSITION,
+        FRAGMENT_SCRIPTS
     )
 
     companion object {

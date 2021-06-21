@@ -37,6 +37,8 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick
 import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
 import org.catrobat.catroid.testsuites.annotations.Level.Smoke
+import org.catrobat.catroid.ui.EXTRA_FRAGMENT_POSITION
+import org.catrobat.catroid.ui.FRAGMENT_SCRIPTS
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper
@@ -57,8 +59,8 @@ class DataListFragmentExplanationTextTest {
     @Rule
     @JvmField
     var baseActivityTestRule = FragmentActivityTestRule(
-        SpriteActivity::class.java, SpriteActivity.EXTRA_FRAGMENT_POSITION,
-        SpriteActivity.FRAGMENT_SCRIPTS
+        SpriteActivity::class.java, EXTRA_FRAGMENT_POSITION,
+        FRAGMENT_SCRIPTS
     )
 
     @Before

@@ -39,6 +39,7 @@ import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.SpriteActivityKt;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.After;
@@ -98,7 +99,7 @@ public class PlaySoundBrickTest {
 
 	private void renameSound(int position, String newSoundName) {
 		onView(withId(R.id.tab_layout))
-				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SOUNDS));
+				.perform(selectTabAtPosition(SpriteActivityKt.FRAGMENT_SOUNDS));
 		openActionBar();
 		onView(withText(R.string.rename))
 				.perform(click());
@@ -113,7 +114,7 @@ public class PlaySoundBrickTest {
 
 	private void deleteSound(int position) {
 		onView(withId(R.id.tab_layout))
-				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SOUNDS));
+				.perform(selectTabAtPosition(SpriteActivityKt.FRAGMENT_SOUNDS));
 		openActionBar();
 		onView(withText(R.string.delete))
 				.perform(click());
@@ -159,7 +160,7 @@ public class PlaySoundBrickTest {
 
 		deleteSound(0);
 		onView(withId(R.id.tab_layout))
-				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SCRIPTS));
+				.perform(selectTabAtPosition(SpriteActivityKt.FRAGMENT_SCRIPTS));
 
 		onBrickAtPosition(1).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName2);
@@ -178,7 +179,7 @@ public class PlaySoundBrickTest {
 		renameSound(0, newSoundName);
 
 		onView(withId(R.id.tab_layout))
-				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SCRIPTS));
+				.perform(selectTabAtPosition(SpriteActivityKt.FRAGMENT_SCRIPTS));
 
 		onBrickAtPosition(1).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(newSoundName);

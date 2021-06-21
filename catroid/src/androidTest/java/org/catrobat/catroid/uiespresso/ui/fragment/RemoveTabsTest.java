@@ -38,8 +38,8 @@ import androidx.test.espresso.Espresso;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.R.id.tab_layout;
-import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_FRAGMENT_POSITION;
-import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
+import static org.catrobat.catroid.ui.SpriteActivityKt.EXTRA_FRAGMENT_POSITION;
+import static org.catrobat.catroid.ui.SpriteActivityKt.FRAGMENT_SCRIPTS;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

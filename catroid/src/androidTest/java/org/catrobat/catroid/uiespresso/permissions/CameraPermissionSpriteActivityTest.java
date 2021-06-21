@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.SpriteActivityKt;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -83,7 +84,8 @@ public class CameraPermissionSpriteActivityTest {
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_LOOKS);
+			FragmentActivityTestRule<>(SpriteActivity.class,
+			SpriteActivityKt.EXTRA_FRAGMENT_POSITION, SpriteActivityKt.FRAGMENT_LOOKS);
 
 	@Before
 	public void setUp() throws Exception {
@@ -93,7 +95,7 @@ public class CameraPermissionSpriteActivityTest {
 
 		Intents.init();
 
-		final String[] requiredPermission = new String[]{CAMERA};
+		final String[] requiredPermission = new String[] {CAMERA};
 
 		permissionIntentMatcher = allOf(
 				hasPackage("com.google.android.packageinstaller"),

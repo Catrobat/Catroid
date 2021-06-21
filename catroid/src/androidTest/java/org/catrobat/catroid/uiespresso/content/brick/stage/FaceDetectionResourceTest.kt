@@ -36,6 +36,8 @@ import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
 import org.catrobat.catroid.testsuites.annotations.Cat.Quarantine
 import org.catrobat.catroid.testsuites.annotations.Level.Functional
+import org.catrobat.catroid.ui.EXTRA_FRAGMENT_POSITION
+import org.catrobat.catroid.ui.FRAGMENT_SCRIPTS
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick
@@ -55,8 +57,8 @@ class FaceDetectionResourceTest {
     @get:Rule
     val baseActivityTestRule = FragmentActivityTestRule(
         SpriteActivity::class.java,
-        SpriteActivity.EXTRA_FRAGMENT_POSITION,
-        SpriteActivity.FRAGMENT_SCRIPTS
+        EXTRA_FRAGMENT_POSITION,
+        FRAGMENT_SCRIPTS
     )
 
     @Category(AppUi::class, Functional::class, Quarantine::class)

@@ -28,6 +28,7 @@ import org.catrobat.catroid.content.bricks.SetBackgroundBrick;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.SpriteActivityKt;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
@@ -59,13 +60,14 @@ public class SetBackgroundBrickTest {
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
+			FragmentActivityTestRule<>(SpriteActivity.class,
+			SpriteActivityKt.EXTRA_FRAGMENT_POSITION, SpriteActivityKt.FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() throws Exception {
 		brickPosition = 1;
 		BrickTestUtils.createProjectAndGetStartScript("SetBackgroundBrickTest")
-			.addBrick(new SetBackgroundBrick());
+				.addBrick(new SetBackgroundBrick());
 		baseActivityTestRule.launchActivity();
 	}
 
@@ -76,16 +78,16 @@ public class SetBackgroundBrickTest {
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_set_background);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_set_background_spinner)
-			.performSelectNameable(R.string.new_option);
+				.performSelectNameable(R.string.new_option);
 
 		Intents.init();
 
 		onView(withId(R.id.dialog_new_look_media_library))
-			.perform(click());
+				.perform(click());
 
 		intended(allOf(hasComponent(WebViewActivity.class.getName()),
 				hasExtras(allOf(hasEntry(equalTo(WebViewActivity.INTENT_PARAMETER_URL),
-				equalTo(LIBRARY_BACKGROUNDS_URL_PORTRAIT))))));
+						equalTo(LIBRARY_BACKGROUNDS_URL_PORTRAIT))))));
 
 		Intents.release();
 	}

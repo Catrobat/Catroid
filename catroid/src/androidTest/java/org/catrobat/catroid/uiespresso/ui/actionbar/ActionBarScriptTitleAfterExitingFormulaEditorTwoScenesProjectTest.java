@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.SpriteActivityKt;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -53,7 +54,7 @@ public class ActionBarScriptTitleAfterExitingFormulaEditorTwoScenesProjectTest {
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class,
-			SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
+			SpriteActivityKt.EXTRA_FRAGMENT_POSITION, SpriteActivityKt.FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() throws Exception {
