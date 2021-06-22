@@ -128,8 +128,8 @@ pipeline {
                             steps {
                                 sh 'rm -rf Paintroid; mkdir Paintroid'
                                 dir('Paintroid') {
-                                    git branch: 'develop', url: 'https://github' +
-                                            '.com/Catrobat/Paintroid.git'
+                                    git branch: 'test615', url: 'https://github' +
+                                            '.com/ldirry/Paintroid.git'
                                     sh "./gradlew -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleDebug"
                                     archiveArtifacts'app/build/outputs/apk/debug/paintroid-debug*.apk'
                                     sh './gradlew publishToMavenLocal -Psnapshot'

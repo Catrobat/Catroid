@@ -333,8 +333,8 @@ dependencies {
 
     // Paintroid local aar lib files
     if(rootProject.hasProperty('paintroidLocal')) {
-        catroidImplementation "org.catrobat.paintroid:paintroid:-LOCAL"
-        implementation "org.catrobat.paintroid:colorpicker:-LOCAL"
+        catroidImplementation "org.catrobat.paintroid:paintroid:2.7.4-LOCAL"
+        implementation "org.catrobat.paintroid:colorpicker:2.7.4-LOCAL"
     } else {
         implementation fileTree(dir: 'src/main/libs', include: ['*.aar'])
     }
