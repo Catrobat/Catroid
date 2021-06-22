@@ -27,10 +27,10 @@ buildscript {
     ext.kotlin_version = '1.4.21'
     ext.koin_version = '2.1.5'
     ext.lifecycle_version = '2.2.0'
+    ext.jacoco_core_version = '0.8.7'
     repositories {
         google()
         jcenter()
-        maven { url 'https://oss.jfrog.org/artifactory/oss-snapshot-local' }
     }
 
     dependencies {
@@ -38,7 +38,7 @@ buildscript {
         // in the individual module build.gradle files
         classpath 'com.android.tools.build:gradle:4.0.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.5-SNAPSHOT'
+        classpath "org.jacoco:org.jacoco.core:$jacoco_core_version"
         classpath 'org.catrobat.gradle.androidemulators:android-emulators-gradle:1.6.2'
     }
 }

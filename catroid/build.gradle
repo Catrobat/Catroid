@@ -57,13 +57,13 @@ ext {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'jacoco-android'
 
 apply from: 'gradle/code_quality_tasks.gradle'
 apply from: 'gradle/emulator_tasks.gradle'
 apply from: 'gradle/release_crowdin_tasks.gradle'
 apply from: 'gradle/release_fastlane_tasks.gradle'
 apply from: 'gradle/standalone_apk_tasks.gradle'
+apply from: 'gradle/setup_jacoco.gradle'
 
 if (rootProject.hasProperty('independent')) {
     println "Independent build"
@@ -94,14 +94,6 @@ ext.copyGoogleServicesFile = { flavorName, flavorId ->
             line.replaceAll('@appId@', flavorId)
         }
     }
-}
-
-jacoco.toolVersion = "0.8.1"
-
-jacocoAndroidUnitTestReport {
-    csv.enabled false
-    html.enabled true
-    xml.enabled true
 }
 
 def defaultVersionCode = 85
