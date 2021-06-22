@@ -233,7 +233,8 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 		for (Sprite item : selectedItems) {
 			try {
-				adapter.add(spriteController.copy(item, currentProject, currentScene));
+				adapter.add(adapter.getItems().indexOf(item) + 1,
+						spriteController.copy(item, currentProject, currentScene));
 				copiedItemCnt++;
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
