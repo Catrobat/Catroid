@@ -306,6 +306,7 @@ public class FormulaEditorUndoTest {
 				.performClose();
 
 		pressBack();
+		pressBack();
 
 		onView(withId(R.id.menu_undo))
 				.check(matches(isDisplayed()));
