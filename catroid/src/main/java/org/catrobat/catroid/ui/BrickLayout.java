@@ -66,6 +66,7 @@ public class BrickLayout extends ViewGroup {
 	private int orientation = 0;
 	protected boolean debugDraw = true;
 	protected boolean userBrick = false;
+	protected boolean usePng = false;
 
 	protected LinkedList<LineData> lines;
 
@@ -113,7 +114,11 @@ public class BrickLayout extends ViewGroup {
 	}
 
 	public int getPaddingLeft(int widthMeasureSpec) {
-		return super.getPaddingLeft() + (int) (MeasureSpec.getSize(widthMeasureSpec) * 0.14);
+		if (!usePng) {
+			return super.getPaddingLeft() + (int) (MeasureSpec.getSize(widthMeasureSpec) * 0.14);
+		} else {
+			return super.getPaddingLeft();
+		}
 	}
 
 	@Override
@@ -482,6 +487,7 @@ public class BrickLayout extends ViewGroup {
 			orientation = styledAttributes.getInteger(R.styleable.BrickLayout_orientation, HORIZONTAL);
 			debugDraw = styledAttributes.getBoolean(R.styleable.BrickLayout_debugDraw, false);
 			userBrick = styledAttributes.getBoolean(R.styleable.BrickLayout_userDefinedBrick, false);
+			usePng = styledAttributes.getBoolean(R.styleable.BrickLayout_usePng, false);
 		} finally {
 			styledAttributes.recycle();
 		}
