@@ -288,4 +288,51 @@ platform :android do
         check_superseded_tracks:    'false',
       )
     end
+
+    desc "upload Mindstorms metadata only"
+        lane :upload_Metadata_Mindstorms do
+          upload_to_play_store(
+            package_name:               'org.catrobat.catroid.mindstorms',
+            track:                      'alpha',
+            json_key_data:              ENV['googlePlayJsonKey'],
+            metadata_path:              './fastlane/metadata/android',
+            skip_upload_apk:            'true',
+            skip_upload_metadata:       'false',
+            skip_upload_images:         'false',
+            skip_upload_screenshots:    'false',
+            validate_only:              'false',
+            check_superseded_tracks:    'false',
+          )
+        end
+
+        desc "upload Mindstorms APK to alpha track"
+        lane :upload_APK_Mindstorms do
+          upload_to_play_store(
+            package_name:               'org.catrobat.catroid.mindstorms',
+            track:                      'alpha',
+            json_key_data:              ENV['googlePlayJsonKey'],
+            apk_paths:                  './catroid/build/outputs/apk/mindstorms/signedRelease/catroid-mindstorms-signedRelease.apk',
+            skip_upload_apk:            'false',
+            skip_upload_metadata:       'true',
+            skip_upload_images:         'true',
+            skip_upload_screenshots:    'true',
+            validate_only:              'false',
+            check_superseded_tracks:    'false',
+          )
+        end
+
+        desc "promote Mindstorms APK on alpha track to production"
+        lane :promote_Mindstorms do
+          upload_to_play_store(
+            package_name:               'org.catrobat.catroid.mindstorms',
+            track:                      'alpha',
+            track_promote_to:           'production',
+            json_key_data:              ENV['googlePlayJsonKey'],
+            metadata_path:              './fastlane/metadata/android',
+            skip_upload_apk:            'true',
+            skip_upload_metadata:       'true',
+            skip_upload_images:         'true',
+            skip_upload_screenshots:    'true',
+          )
+        end
 end

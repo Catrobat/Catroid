@@ -35,6 +35,8 @@ public final class FlavoredConstants {
 	// Web:
 	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/pocketcode/";
 
+	public static final String CATROBAT_HELP_URL = "https://catrob.at/help";
+
 	public static final String CATEGORY_URL = BASE_URL_HTTPS + "#home-projects__";
 
 	public static final String FLAVOR_NAME = "pocketcode";
