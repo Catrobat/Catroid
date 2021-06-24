@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenScript;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.CompositeBrick;
 import org.catrobat.catroid.content.bricks.ConcurrentFormulaHashMap;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
@@ -48,9 +49,11 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class CompositeBrickWithSecondaryListUpdateTest {
@@ -83,6 +86,8 @@ public class CompositeBrickWithSecondaryListUpdateTest {
 	private FormulaBrick primaryListFormulaBrick;
 	private FormulaBrick secondaryListFormulaBrick;
 
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+
 	@Before
 	public void setUp() throws IllegalAccessException, InstantiationException {
 		initializeStaticSingletonMethods();
@@ -108,7 +113,7 @@ public class CompositeBrickWithSecondaryListUpdateTest {
 
 		project.addUserVariable(userVariable);
 		project.addUserList(userList);
-		ProjectManager.getInstance().setCurrentProject(project);
+		projectManager.setCurrentProject(project);
 	}
 
 	@Test
@@ -116,26 +121,18 @@ public class CompositeBrickWithSecondaryListUpdateTest {
 		FormulaElement element = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE,
 				VARIABLE_NAME, null);
 		Formula newFormula = new Formula(element);
-		ConcurrentFormulaHashMap primaryMap = primaryListFormulaBrick.getFormulaMap();
-		ConcurrentFormulaHashMap secondaryMap = secondaryListFormulaBrick.getFormulaMap();
+		ConcurrentFormulaHashMap primaryMap = primaryListFormulaBrick.formulaMap;
+		ConcurrentFormulaHashMap secondaryMap = secondaryListFormulaBrick.formulaMap;
 
-		primaryMap.forEach((k, v) -> {
-			primaryListFormulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
-		secondaryMap.forEach((k, v) -> {
-			secondaryListFormulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
+		primaryMap.forEach((k, v) -> primaryListFormulaBrick.setFormulaWithBrickField(k, newFormula));
+		secondaryMap.forEach((k, v) -> secondaryListFormulaBrick.setFormulaWithBrickField(k, newFormula));
 
 		DataListFragment.updateUserDataReferences(VARIABLE_NAME, NEW_VARIABLE_NAME, userVariable);
 
-		primaryMap.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					NEW_VARIABLE_USERVARIABLE_FORMAT);
-		});
-		secondaryMap.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					NEW_VARIABLE_USERVARIABLE_FORMAT);
-		});
+		primaryMap.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+				NEW_VARIABLE_USERVARIABLE_FORMAT));
+		secondaryMap.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+				NEW_VARIABLE_USERVARIABLE_FORMAT));
 	}
 
 	@Test
@@ -143,26 +140,18 @@ public class CompositeBrickWithSecondaryListUpdateTest {
 		FormulaElement element = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE,
 				VARIABLE_NAME, null);
 		Formula newFormula = new Formula(element);
-		ConcurrentFormulaHashMap primaryMap = primaryListFormulaBrick.getFormulaMap();
-		ConcurrentFormulaHashMap secondaryMap = secondaryListFormulaBrick.getFormulaMap();
+		ConcurrentFormulaHashMap primaryMap = primaryListFormulaBrick.formulaMap;
+		ConcurrentFormulaHashMap secondaryMap = secondaryListFormulaBrick.formulaMap;
 
-		primaryMap.forEach((k, v) -> {
-			primaryListFormulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
-		secondaryMap.forEach((k, v) -> {
-			secondaryListFormulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
+		primaryMap.forEach((k, v) -> primaryListFormulaBrick.setFormulaWithBrickField(k, newFormula));
+		secondaryMap.forEach((k, v) -> secondaryListFormulaBrick.setFormulaWithBrickField(k, newFormula));
 
 		DataListFragment.updateUserDataReferences(INVALID_NAME, NEW_VARIABLE_NAME, userVariable);
 
-		primaryMap.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					VARIABLE_NAME_USERVARIABLE_FORMAT);
-		});
-		secondaryMap.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					VARIABLE_NAME_USERVARIABLE_FORMAT);
-		});
+		primaryMap.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+				VARIABLE_NAME_USERVARIABLE_FORMAT));
+		secondaryMap.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+				VARIABLE_NAME_USERVARIABLE_FORMAT));
 	}
 
 	@Test
@@ -170,26 +159,22 @@ public class CompositeBrickWithSecondaryListUpdateTest {
 		FormulaElement element = new FormulaElement(FormulaElement.ElementType.USER_LIST,
 				VARIABLE_NAME, null);
 		Formula newFormula = new Formula(element);
-		ConcurrentFormulaHashMap primaryMap = primaryListFormulaBrick.getFormulaMap();
-		ConcurrentFormulaHashMap secondaryMap = secondaryListFormulaBrick.getFormulaMap();
+		ConcurrentFormulaHashMap primaryMap = primaryListFormulaBrick.formulaMap;
+		ConcurrentFormulaHashMap secondaryMap = secondaryListFormulaBrick.formulaMap;
 
-		primaryMap.forEach((k, v) -> {
-			primaryListFormulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
-		secondaryMap.forEach((k, v) -> {
-			secondaryListFormulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
+		primaryMap.forEach((k, v) -> primaryListFormulaBrick.setFormulaWithBrickField(k, newFormula));
+		secondaryMap.forEach((k, v) -> secondaryListFormulaBrick.setFormulaWithBrickField(k, newFormula));
 
 		DataListFragment.updateUserDataReferences(VARIABLE_NAME, NEW_VARIABLE_NAME, userList);
 
-		primaryMap.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+		for (Map.Entry<Brick.FormulaField, Formula> entry : primaryMap.entrySet()) {
+			entry.getKey();
+			Formula value = entry.getValue();
+			assertEquals(value.getTrimmedFormulaString(CatroidApplication.getAppContext()),
 					NEW_VARIABLE_USERLIST_FORMAT);
-		});
-		secondaryMap.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					NEW_VARIABLE_USERLIST_FORMAT);
-		});
+		}
+		secondaryMap.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+				NEW_VARIABLE_USERLIST_FORMAT));
 	}
 
 	@Test
@@ -197,25 +182,17 @@ public class CompositeBrickWithSecondaryListUpdateTest {
 		FormulaElement element = new FormulaElement(FormulaElement.ElementType.USER_LIST,
 				VARIABLE_NAME, null);
 		Formula newFormula = new Formula(element);
-		ConcurrentFormulaHashMap primaryMap = primaryListFormulaBrick.getFormulaMap();
-		ConcurrentFormulaHashMap secondaryMap = secondaryListFormulaBrick.getFormulaMap();
+		ConcurrentFormulaHashMap primaryMap = primaryListFormulaBrick.formulaMap;
+		ConcurrentFormulaHashMap secondaryMap = secondaryListFormulaBrick.formulaMap;
 
-		primaryMap.forEach((k, v) -> {
-			primaryListFormulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
-		secondaryMap.forEach((k, v) -> {
-			secondaryListFormulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
+		primaryMap.forEach((k, v) -> primaryListFormulaBrick.setFormulaWithBrickField(k, newFormula));
+		secondaryMap.forEach((k, v) -> secondaryListFormulaBrick.setFormulaWithBrickField(k, newFormula));
 
 		DataListFragment.updateUserDataReferences(INVALID_NAME, NEW_VARIABLE_NAME, userList);
 
-		primaryMap.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					VARIABLE_NAME_USERLIST_FORMAT);
-		});
-		secondaryMap.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					VARIABLE_NAME_USERLIST_FORMAT);
-		});
+		primaryMap.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+				VARIABLE_NAME_USERLIST_FORMAT));
+		secondaryMap.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+				VARIABLE_NAME_USERLIST_FORMAT));
 	}
 }

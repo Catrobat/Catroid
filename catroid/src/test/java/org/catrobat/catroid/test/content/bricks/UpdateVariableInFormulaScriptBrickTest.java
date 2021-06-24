@@ -48,6 +48,7 @@ import static org.catrobat.catroid.test.xmlformat.ClassDiscoverer.getAllSubClass
 import static org.catrobat.catroid.test.xmlformat.ClassDiscoverer.removeAbstractClasses;
 import static org.catrobat.catroid.test.xmlformat.ClassDiscoverer.removeInnerClasses;
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class UpdateVariableInFormulaScriptBrickTest {
@@ -62,6 +63,8 @@ public class UpdateVariableInFormulaScriptBrickTest {
 	private static final String NEW_VARIABLE_NAME = "NewName";
 	private static final String NEW_VARIABLE_USERVARIABLE_FORMAT = "\"NewName\" ";
 	private static final String NEW_VARIABLE_USERLIST_FORMAT = "*NewName* ";
+
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
@@ -100,7 +103,7 @@ public class UpdateVariableInFormulaScriptBrickTest {
 
 		project.addUserVariable(userVariable);
 		project.addUserList(userList);
-		ProjectManager.getInstance().setCurrentProject(project);
+		projectManager.setCurrentProject(project);
 	}
 
 	@Test
@@ -108,18 +111,14 @@ public class UpdateVariableInFormulaScriptBrickTest {
 		FormulaElement element = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE,
 				VARIABLE_NAME, null);
 		Formula newFormula = new Formula(element);
-		ConcurrentFormulaHashMap map = formulaBrick.getFormulaMap();
-		map.forEach((k, v) -> {
-			formulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
+		ConcurrentFormulaHashMap map = formulaBrick.formulaMap;
+		map.forEach((k, v) -> formulaBrick.setFormulaWithBrickField(k, newFormula));
 
-		ProjectManager.getInstance().getCurrentProject()
+		projectManager.getCurrentProject()
 				.updateUserDataReferences(VARIABLE_NAME, NEW_VARIABLE_NAME, userVariable);
 
-		map.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					NEW_VARIABLE_USERVARIABLE_FORMAT);
-		});
+		map.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+				NEW_VARIABLE_USERVARIABLE_FORMAT));
 	}
 
 	@Test
@@ -127,18 +126,14 @@ public class UpdateVariableInFormulaScriptBrickTest {
 		FormulaElement element = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE,
 				VARIABLE_NAME, null);
 		Formula newFormula = new Formula(element);
-		ConcurrentFormulaHashMap map = formulaBrick.getFormulaMap();
-		map.forEach((k, v) -> {
-			formulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
+		ConcurrentFormulaHashMap map = formulaBrick.formulaMap;
+		map.forEach((k, v) -> formulaBrick.setFormulaWithBrickField(k, newFormula));
 
-		ProjectManager.getInstance().getCurrentProject()
+		projectManager.getCurrentProject()
 				.updateUserDataReferences(INVALID_NAME, NEW_VARIABLE_NAME, userVariable);
 
-		map.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					VARIABLE_NAME_USERVARIABLE_FORMAT);
-		});
+		map.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+				VARIABLE_NAME_USERVARIABLE_FORMAT));
 	}
 
 	@Test
@@ -146,18 +141,14 @@ public class UpdateVariableInFormulaScriptBrickTest {
 		FormulaElement element = new FormulaElement(FormulaElement.ElementType.USER_LIST,
 				VARIABLE_NAME, null);
 		Formula newFormula = new Formula(element);
-		ConcurrentFormulaHashMap map = formulaBrick.getFormulaMap();
-		map.forEach((k, v) -> {
-			formulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
+		ConcurrentFormulaHashMap map = formulaBrick.formulaMap;
+		map.forEach((k, v) -> formulaBrick.setFormulaWithBrickField(k, newFormula));
 
-		ProjectManager.getInstance().getCurrentProject()
+		projectManager.getCurrentProject()
 				.updateUserDataReferences(VARIABLE_NAME, NEW_VARIABLE_NAME, userList);
 
-		map.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					NEW_VARIABLE_USERLIST_FORMAT);
-		});
+		map.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+				NEW_VARIABLE_USERLIST_FORMAT));
 	}
 
 	@Test
@@ -165,17 +156,13 @@ public class UpdateVariableInFormulaScriptBrickTest {
 		FormulaElement element = new FormulaElement(FormulaElement.ElementType.USER_LIST,
 				VARIABLE_NAME, null);
 		Formula newFormula = new Formula(element);
-		ConcurrentFormulaHashMap map = formulaBrick.getFormulaMap();
-		map.forEach((k, v) -> {
-			formulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
+		ConcurrentFormulaHashMap map = formulaBrick.formulaMap;
+		map.forEach((k, v) -> formulaBrick.setFormulaWithBrickField(k, newFormula));
 
-		ProjectManager.getInstance().getCurrentProject()
+		projectManager.getCurrentProject()
 				.updateUserDataReferences(INVALID_NAME, NEW_VARIABLE_NAME, userList);
 
-		map.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					VARIABLE_NAME_USERLIST_FORMAT);
-		});
+		map.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+				VARIABLE_NAME_USERLIST_FORMAT));
 	}
 }

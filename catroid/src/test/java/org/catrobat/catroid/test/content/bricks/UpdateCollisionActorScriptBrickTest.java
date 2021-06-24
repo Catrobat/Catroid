@@ -49,6 +49,7 @@ import static org.catrobat.catroid.test.xmlformat.ClassDiscoverer.getAllSubClass
 import static org.catrobat.catroid.test.xmlformat.ClassDiscoverer.removeAbstractClasses;
 import static org.catrobat.catroid.test.xmlformat.ClassDiscoverer.removeInnerClasses;
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(PowerMockRunner.class)
 @PowerMockRunnerDelegate(Parameterized.class)
@@ -62,6 +63,8 @@ public class UpdateCollisionActorScriptBrickTest {
 	private static final String NEW_VARIABLE_NAME = "NewName";
 	private static final String REPLACED_VARIABLE = "null(" + NEW_VARIABLE_NAME + ") ";
 	private static final String NO_CHANGE_VARIABLE = "null(" + DIFFERENT_VARIABLE_NAME + ") ";
+
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
@@ -95,41 +98,33 @@ public class UpdateCollisionActorScriptBrickTest {
 		scene.addSprite(sprite);
 		sprite.addScript(formulaBrick.getScript());
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(scene);
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentlyEditedScene(scene);
 	}
 
 	@Test
 	public void testRenamingChanges() {
 		Formula newFormula = new Formula(new FormulaElement(FormulaElement.ElementType.COLLISION_FORMULA,
 				VARIABLE_NAME, null));
-		ConcurrentFormulaHashMap map = formulaBrick.getFormulaMap();
-		map.forEach((k, v) -> {
-			formulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
+		ConcurrentFormulaHashMap map = formulaBrick.formulaMap;
+		map.forEach((k, v) -> formulaBrick.setFormulaWithBrickField(k, newFormula));
 
 		sprite.rename(NEW_VARIABLE_NAME);
 
-		map.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					REPLACED_VARIABLE);
-		});
+		map.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+				REPLACED_VARIABLE));
 	}
 
 	@Test
 	public void testRenamingNoChanges() {
 		Formula newFormula = new Formula(new FormulaElement(FormulaElement.ElementType.COLLISION_FORMULA,
 				DIFFERENT_VARIABLE_NAME, null));
-		ConcurrentFormulaHashMap map = formulaBrick.getFormulaMap();
-		map.forEach((k, v) -> {
-			formulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
+		ConcurrentFormulaHashMap map = formulaBrick.formulaMap;
+		map.forEach((k, v) -> formulaBrick.setFormulaWithBrickField(k, newFormula));
 
 		sprite.rename(NEW_VARIABLE_NAME);
 
-		map.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					NO_CHANGE_VARIABLE);
-		});
+		map.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+				NO_CHANGE_VARIABLE));
 	}
 }

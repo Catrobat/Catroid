@@ -46,13 +46,13 @@ import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick
 import org.catrobat.catroid.formulaeditor.UserData
 import org.catrobat.catroid.formulaeditor.UserDataWrapper
 import org.catrobat.catroid.ui.controller.BackpackListManager
-import org.koin.java.KoinJavaComponent
+import org.koin.java.KoinJavaComponent.inject
 import java.io.IOException
 
 class ScriptController {
     private val lookController = LookController()
     private val soundController = SoundController()
-    private val projectManager: ProjectManager by KoinJavaComponent.inject(ProjectManager::class.java)
+    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
 
     companion object {
         val TAG = ScriptController::class.java.simpleName

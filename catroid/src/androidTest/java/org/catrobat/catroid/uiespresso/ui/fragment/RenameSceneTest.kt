@@ -58,7 +58,6 @@ import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
 import org.catrobat.catroid.testsuites.annotations.Level.Smoke
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.SpriteActivity
-import org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_LOOKS
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView
 import org.catrobat.catroid.uiespresso.util.UiTestUtils.Companion.getResourcesString
 import org.catrobat.catroid.uiespresso.util.UiTestUtils.Companion.openActionBarMenu
@@ -183,7 +182,7 @@ class RenameSceneTest {
             .perform(click())
 
         onView(withId(R.id.tab_layout))
-            .perform(selectTabAtPosition(FRAGMENT_LOOKS))
+            .perform(selectTabAtPosition(SpriteActivity.FRAGMENT_LOOKS))
 
         val falseDetailsString = String.format(getDefault(), getResourcesString(R.string.look_details), "0 x 0", "0 B")
 

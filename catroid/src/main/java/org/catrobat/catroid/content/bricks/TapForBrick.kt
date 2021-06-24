@@ -37,13 +37,13 @@ class TapForBrick() : VisualPlacementBrick() {
         Formula(durationInSecondsValue)
     )
 
-    constructor(xPosition: Formula?, yPosition: Formula?, durationInSeconds: Formula?) : this() {
+    constructor(xPosition: Formula, yPosition: Formula, durationInSeconds: Formula) : this() {
         setFormulaWithBrickField(BrickField.X_POSITION, xPosition)
         setFormulaWithBrickField(BrickField.Y_POSITION, yPosition)
         setFormulaWithBrickField(BrickField.DURATION_IN_SECONDS, durationInSeconds)
     }
 
-    override fun getDefaultBrickField(): BrickField = BrickField.X_POSITION
+    override val defaultBrickField: BrickField = BrickField.X_POSITION
 
     override fun getViewResource(): Int = R.layout.brick_tap_for
 
@@ -67,9 +67,9 @@ class TapForBrick() : VisualPlacementBrick() {
         )
     }
 
-    override fun getXBrickField(): BrickField? = BrickField.X_POSITION
+    override fun getXBrickField(): BrickField = BrickField.X_POSITION
 
-    override fun getYBrickField(): BrickField? = BrickField.Y_POSITION
+    override fun getYBrickField(): BrickField = BrickField.Y_POSITION
 
     override fun getXEditTextId(): Int = R.id.brick_tap_for_edit_x
 

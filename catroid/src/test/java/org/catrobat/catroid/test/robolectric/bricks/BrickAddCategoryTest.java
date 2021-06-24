@@ -50,6 +50,7 @@ import org.robolectric.annotation.Config;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.fragment.app.Fragment;
 
@@ -65,6 +66,7 @@ import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTING
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PHIRO_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_RASPI_BRICKS;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
@@ -72,6 +74,7 @@ public class BrickAddCategoryTest {
 
 	private SpriteActivity activity;
 	private BrickCategoryFragment brickCategoryFragment;
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	private List<String> allPeripheralCategories = new ArrayList<>(Arrays.asList(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED,
 			SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, SETTINGS_SHOW_PHIRO_BRICKS,
@@ -103,7 +106,7 @@ public class BrickAddCategoryTest {
 		Fragment scriptFragment = activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 		assertNotNull(scriptFragment);
 
-		scriptFragment.getFragmentManager().beginTransaction()
+		scriptFragment.getParentFragmentManager().beginTransaction()
 				.add(R.id.fragment_container, brickCategoryFragment, BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
 				.addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
 				.commit();
@@ -116,9 +119,9 @@ public class BrickAddCategoryTest {
 		script.addBrick(new SetXBrick());
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
 	}
 
 	@After
@@ -156,7 +159,7 @@ public class BrickAddCategoryTest {
 
 		ListAdapter listAdapter = brickCategoryFragment.getListAdapter();
 		List<String> categoryNames = new ArrayList<>();
-		for (int index = 0; index < listAdapter.getCount(); index++) {
+		for (int index = 0; index < Objects.requireNonNull(listAdapter).getCount(); index++) {
 			categoryNames.add((String) listAdapter.getItem(index));
 		}
 		assertEquals(expectedCategories, categoryNames);

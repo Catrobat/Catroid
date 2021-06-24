@@ -38,6 +38,6 @@ public class WhenConditionBrickTest {
 	public void testWhenConditionBrickFormulaMapSameAsWhenConditionScriptFormulaMap() throws CloneNotSupportedException {
 		WhenConditionBrick brickClone =
 				(WhenConditionBrick) new WhenConditionBrick(new WhenConditionScript(new Formula(0))).clone();
-		assertSame(brickClone.getFormulaMap(), ((WhenConditionScript) brickClone.getScript()).getFormulaMap());
+		assertSame(brickClone.formulaMap, ((WhenConditionScript) brickClone.getScript()).getFormulaMap());
 	}
 }

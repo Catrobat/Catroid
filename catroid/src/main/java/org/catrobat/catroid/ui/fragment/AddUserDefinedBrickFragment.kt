@@ -34,18 +34,16 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ScrollView
-
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.bricks.UserDefinedBrick
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
 import org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType
-import org.catrobat.catroid.utils.ToastUtil
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-
 import org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType.INPUT
 import org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType.LABEL
+import org.catrobat.catroid.utils.ToastUtil
 import org.koin.android.ext.android.inject
 
 class AddUserDefinedBrickFragment : Fragment() {
@@ -91,7 +89,7 @@ class AddUserDefinedBrickFragment : Fragment() {
                 arguments.getSerializable(UserDefinedBrick.USER_BRICK_BUNDLE_ARGUMENT)
                     as UserDefinedBrick
             if (userDefinedBrick != null) {
-                userBrickView = userDefinedBrick?.getView(activity)
+                userBrickView = userDefinedBrick?.getView(requireActivity())
                 userBrickSpace?.addView(userBrickView)
             }
         }
@@ -225,7 +223,7 @@ class AddUserDefinedBrickFragment : Fragment() {
 
     private fun updateBrickView() {
         userBrickSpace?.removeView(userBrickView)
-        userBrickView = userDefinedBrick?.getView(activity)
+        userBrickView = userDefinedBrick?.getView(requireActivity())
         userBrickSpace?.addView(userBrickView)
     }
 }

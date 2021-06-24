@@ -36,6 +36,12 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.utils.Utils;
 
+import java.util.Objects;
+
+import androidx.annotation.NonNull;
+
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class GoNStepsBackBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -58,20 +64,21 @@ public class GoNStepsBackBrick extends FormulaBrick {
 		return R.layout.brick_go_back;
 	}
 
+	@NonNull
 	@Override
-	public View getView(Context context) {
+	public View getView(@NonNull Context context) {
 		super.getView(context);
 
 		TextView times = view.findViewById(R.id.brick_go_back_layers_text_view);
 
-		if (getFormulaWithBrickField(BrickField.STEPS).isNumber()) {
+		if (Objects.requireNonNull(getFormulaWithBrickField(BrickField.STEPS)).isNumber()) {
 			try {
-				ProjectManager projectManager = ProjectManager.getInstance();
+				ProjectManager projectManager = inject(ProjectManager.class).getValue();
 				Scope scope = new Scope(projectManager.getCurrentProject(),
 						projectManager.getCurrentSprite(), null);
 				times.setText(view.getResources().getQuantityString(
 						R.plurals.brick_go_back_layer_plural,
-						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS).interpretDouble(
+						Utils.convertDoubleToPluralInteger(Objects.requireNonNull(getFormulaWithBrickField(BrickField.STEPS)).interpretDouble(
 								scope))
 				));
 			} catch (InterpretationException interpretationException) {

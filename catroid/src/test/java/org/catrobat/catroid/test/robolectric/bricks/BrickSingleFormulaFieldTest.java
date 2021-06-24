@@ -141,12 +141,15 @@ import static junit.framework.Assert.assertNotNull;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
 public class BrickSingleFormulaFieldTest {
 
 	private SpriteActivity activity;
+
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
@@ -281,15 +284,12 @@ public class BrickSingleFormulaFieldTest {
 		});
 	}
 
-	@SuppressWarnings("PMD.UnusedPrivateField")
-	private String name;
+	private final FormulaBrick brick;
 
-	private FormulaBrick brick;
-
-	private @IdRes int formulaTextFieldId;
+	private @IdRes
+	final int formulaTextFieldId;
 
 	public BrickSingleFormulaFieldTest(String name, FormulaBrick brick, @IdRes int formulaTextFieldId) {
-		this.name = name;
 		this.brick = brick;
 		this.formulaTextFieldId = formulaTextFieldId;
 	}
@@ -300,17 +300,17 @@ public class BrickSingleFormulaFieldTest {
 		activity = activityController.get();
 		createProject(activity);
 		activityController.create().resume();
-
-		assertCurrentFragmentEquals(ScriptFragment.class);
 	}
 
 	@After
 	public void tearDown() {
-		ProjectManager.getInstance().resetProjectManager();
+		projectManager.resetProjectManager();
 	}
 
 	@Test
 	public void openFormulaEditorTest() {
+		assertCurrentFragmentEquals(ScriptFragment.class);
+
 		clickOnBricksFormulaTextView();
 
 		assertCurrentFragmentEquals(FormulaEditorFragment.class);
@@ -344,6 +344,7 @@ public class BrickSingleFormulaFieldTest {
 	private void enterSomeValueAndSave() {
 		Fragment formulaEditorFragment = activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
+		assert formulaEditorFragment != null;
 		((FormulaEditorFragment) formulaEditorFragment)
 				.getFormulaEditorEditText().handleKeyEvent(R.id.formula_editor_keyboard_5, "");
 
@@ -364,8 +365,8 @@ public class BrickSingleFormulaFieldTest {
 		script.addBrick(brick);
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
 	}
 }

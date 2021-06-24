@@ -45,7 +45,7 @@ class SetCameraFocusPointBrick : FormulaBrick() {
         )
     }
 
-    override fun getDefaultBrickField(): FormulaField = BrickField.HORIZONTAL_FLEXIBILITY
+    override val defaultBrickField: FormulaField = BrickField.HORIZONTAL_FLEXIBILITY
 
     override fun getViewResource(): Int = R.layout.brick_set_camera_focus
 

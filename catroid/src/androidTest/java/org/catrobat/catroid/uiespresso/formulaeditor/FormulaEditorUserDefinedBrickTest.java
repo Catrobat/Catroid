@@ -39,6 +39,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Objects;
+
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -54,9 +56,9 @@ import static androidx.test.espresso.Espresso.pressBack;
 public class FormulaEditorUserDefinedBrickTest {
 
 	private UserDefinedBrick userDefinedBrick;
-	private static UserDefinedBrickLabel label = new UserDefinedBrickLabel("Label");
-	private static UserDefinedBrickInput input = new UserDefinedBrickInput("Input");
-	private static UserDefinedBrickInput secondInput = new UserDefinedBrickInput("SecondInput");
+	private static final UserDefinedBrickLabel label = new UserDefinedBrickLabel("Label");
+	private static final UserDefinedBrickInput input = new UserDefinedBrickInput("Input");
+	private static final UserDefinedBrickInput secondInput = new UserDefinedBrickInput("SecondInput");
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
@@ -87,11 +89,11 @@ public class FormulaEditorUserDefinedBrickTest {
 	public void testSwitchBetweenFormulaFields() throws Throwable {
 		clickOnFormulaField(input.getInputFormulaField());
 		onFormulaEditor()
-				.checkShows(userDefinedBrick.getFormulaWithBrickField(input.getInputFormulaField())
+				.checkShows(Objects.requireNonNull(userDefinedBrick.getFormulaWithBrickField(input.getInputFormulaField()))
 						.getTrimmedFormulaString(ApplicationProvider.getApplicationContext()));
 		clickOnFormulaField(secondInput.getInputFormulaField());
 		onFormulaEditor()
-				.checkShows(userDefinedBrick.getFormulaWithBrickField(secondInput.getInputFormulaField())
+				.checkShows(Objects.requireNonNull(userDefinedBrick.getFormulaWithBrickField(secondInput.getInputFormulaField()))
 						.getTrimmedFormulaString(ApplicationProvider.getApplicationContext()));
 	}
 
@@ -99,8 +101,8 @@ public class FormulaEditorUserDefinedBrickTest {
 		Script script = BrickTestUtils.createProjectAndGetStartScript(FormulaEditorUserDefinedBrickTest.class.getSimpleName());
 		userDefinedBrick = new UserDefinedBrick(asList(input, label, secondInput));
 		userDefinedBrick.setCallingBrick(true);
-		userDefinedBrick.getFormulaMap().putIfAbsent(input.getInputFormulaField(), new Formula(100));
-		userDefinedBrick.getFormulaMap().putIfAbsent(secondInput.getInputFormulaField(), new Formula(200));
+		userDefinedBrick.formulaMap.putIfAbsent(input.getInputFormulaField(), new Formula(100));
+		userDefinedBrick.formulaMap.putIfAbsent(secondInput.getInputFormulaField(), new Formula(200));
 		script.addBrick(userDefinedBrick);
 	}
 
@@ -109,6 +111,6 @@ public class FormulaEditorUserDefinedBrickTest {
 	}
 
 	private String getValueOfFormulaField(Brick.FormulaField formulaField) {
-		return userDefinedBrick.getFormulaWithBrickField(formulaField).getTrimmedFormulaString(baseActivityTestRule.getActivity());
+		return Objects.requireNonNull(userDefinedBrick.getFormulaWithBrickField(formulaField)).getTrimmedFormulaString(baseActivityTestRule.getActivity());
 	}
 }

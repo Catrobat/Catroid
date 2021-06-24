@@ -71,6 +71,8 @@ import java.util.List;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
 public class BrickStringSpinnerDefaultValueTest {
@@ -78,6 +80,8 @@ public class BrickStringSpinnerDefaultValueTest {
 	private CategoryBricksFactory categoryBricksFactory;
 	private Sprite sprite;
 	private Activity activity;
+
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
@@ -131,7 +135,7 @@ public class BrickStringSpinnerDefaultValueTest {
 
 	@After
 	public void tearDown() {
-		ProjectManager.getInstance().resetProjectManager();
+		projectManager.resetProjectManager();
 	}
 
 	public void createProject(Context context) {
@@ -141,12 +145,12 @@ public class BrickStringSpinnerDefaultValueTest {
 		script.addBrick(new SetXBrick());
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
 	}
 
-	private Brick getBrickFromCategroyBricksFactory() {
+	private Brick getBrickFromCategoryBricksFactory() {
 		List<Brick> categoryBricks = categoryBricksFactory.getBricks(category, false, activity);
 
 		Brick brickInAdapter = null;
@@ -162,11 +166,11 @@ public class BrickStringSpinnerDefaultValueTest {
 
 	@Test
 	public void testDefaultSpinnerSelection() {
-		Brick brick = getBrickFromCategroyBricksFactory();
+		Brick brick = getBrickFromCategoryBricksFactory();
 		View brickView = brick.getView(activity);
 		assertNotNull(brickView);
 
-		Spinner brickSpinner = (Spinner) brickView.findViewById(spinnerId);
+		Spinner brickSpinner = brickView.findViewById(spinnerId);
 		assertNotNull(brickSpinner);
 
 		assertEquals(expected, (String) brickSpinner.getSelectedItem());

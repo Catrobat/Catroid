@@ -54,10 +54,10 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	private int absoluteCursorPosition = 0;
 	private InternFormula internFormula;
 	private Context context;
-	private Paint paint = new Paint();
+	private final Paint paint = new Paint();
 
 	private FormulaEditorPopupMenu popupMenu;
-	private int[] locationOnScreen = new int[2];
+	private final int[] locationOnScreen = new int[2];
 	private int popupMenuBottom;
 	private boolean popupMenuShown = false;
 
@@ -175,7 +175,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 	private void pushToHistoryAndRefreshPreviewString() {
 		history.push(new UndoState(internFormula.getInternFormulaState(),
-				formulaEditorFragment.getCurrentBrickField()));
+				formulaEditorFragment.currentBrickField));
 		String resultingText = updateTextAndCursorFromInternFormula();
 		setSelection(absoluteCursorPosition);
 		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
@@ -259,7 +259,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
 	}
 
-	private Runnable cursorAnimation = new Runnable() {
+	private final Runnable cursorAnimation = new Runnable() {
 		@Override
 		public void run() {
 			paint.setColor((paint.getColor() == 0x00000000) ? 0xff000000 : 0x00000000);

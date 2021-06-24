@@ -54,11 +54,11 @@ class TouchAndSlideBrick() : VisualPlacementBrick() {
     )
 
     constructor(
-        xPosition: Formula?,
-        yPosition: Formula?,
-        xChange: Formula?,
-        yChange: Formula?,
-        durationInSeconds: Formula?
+        xPosition: Formula,
+        yPosition: Formula,
+        xChange: Formula,
+        yChange: Formula,
+        durationInSeconds: Formula
     ) : this() {
         setFormulaWithBrickField(BrickField.X_POSITION, xPosition)
         setFormulaWithBrickField(BrickField.Y_POSITION, yPosition)
@@ -69,7 +69,7 @@ class TouchAndSlideBrick() : VisualPlacementBrick() {
 
     private var startCoordinates: Boolean = true
 
-    override fun getDefaultBrickField(): BrickField = BrickField.X_POSITION
+    override val defaultBrickField: BrickField = BrickField.X_POSITION
 
     override fun getViewResource(): Int = R.layout.brick_touch_slide
 
@@ -95,16 +95,16 @@ class TouchAndSlideBrick() : VisualPlacementBrick() {
         )
     }
 
-    override fun showFormulaEditorToEditFormula(view: View?) {
+    override fun showFormulaEditorToEditFormula(view: View) {
         startCoordinates =
-            view?.id == R.id.brick_touch_slide_edit_from_x || view?.id == R.id.brick_touch_slide_edit_from_y
+            view.id == R.id.brick_touch_slide_edit_from_x || view.id == R.id.brick_touch_slide_edit_from_y
         super.showFormulaEditorToEditFormula(view)
     }
 
-    override fun getXBrickField(): BrickField? =
+    override fun getXBrickField(): BrickField =
         if (startCoordinates) BrickField.X_POSITION else BrickField.X_POSITION_CHANGE
 
-    override fun getYBrickField(): BrickField? =
+    override fun getYBrickField(): BrickField =
         if (startCoordinates) BrickField.Y_POSITION else BrickField.Y_POSITION_CHANGE
 
     override fun getXEditTextId(): Int =

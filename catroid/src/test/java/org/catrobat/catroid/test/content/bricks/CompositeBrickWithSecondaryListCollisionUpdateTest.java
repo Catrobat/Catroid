@@ -51,6 +51,7 @@ import org.powermock.modules.junit4.PowerMockRunnerDelegate;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(PowerMockRunner.class)
 @PowerMockRunnerDelegate(Parameterized.class)
@@ -58,13 +59,14 @@ import static org.junit.Assert.assertEquals;
 public class CompositeBrickWithSecondaryListCollisionUpdateTest {
 
 	private FormulaBrick primaryFormulaBrick;
-	private FormulaBrick secondaryFormulaBrick;
 	private Sprite sprite;
 	private static final String VARIABLE_NAME = "Test";
 	private static final String DIFFERENT_VARIABLE_NAME = "Abcd";
 	private static final String NEW_VARIABLE_NAME = "NewName";
 	private static final String REPLACED_VARIABLE = "null(" + NEW_VARIABLE_NAME + ") ";
 	private static final String NO_CHANGE_VARIABLE = "null(" + DIFFERENT_VARIABLE_NAME + ") ";
+
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
@@ -91,7 +93,7 @@ public class CompositeBrickWithSecondaryListCollisionUpdateTest {
 		Script script = new WhenScript();
 		CompositeBrick compositeBrick = compositeBrickClass.newInstance();
 		primaryFormulaBrick = new SetXBrick();
-		secondaryFormulaBrick = new SetXBrick();
+		FormulaBrick secondaryFormulaBrick = new SetXBrick();
 
 		project.addScene(scene);
 		scene.addSprite(sprite);
@@ -100,8 +102,8 @@ public class CompositeBrickWithSecondaryListCollisionUpdateTest {
 		compositeBrick.getNestedBricks().add(primaryFormulaBrick);
 		compositeBrick.getSecondaryNestedBricks().add(secondaryFormulaBrick);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(scene);
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentlyEditedScene(scene);
 	}
 
 	@Test
@@ -109,26 +111,18 @@ public class CompositeBrickWithSecondaryListCollisionUpdateTest {
 		Formula newFormula = new Formula(new FormulaElement(FormulaElement.ElementType.COLLISION_FORMULA,
 				VARIABLE_NAME, null));
 
-		ConcurrentFormulaHashMap primaryMap = primaryFormulaBrick.getFormulaMap();
-		ConcurrentFormulaHashMap secondaryMap = primaryFormulaBrick.getFormulaMap();
+		ConcurrentFormulaHashMap primaryMap = primaryFormulaBrick.formulaMap;
+		ConcurrentFormulaHashMap secondaryMap = primaryFormulaBrick.formulaMap;
 
-		primaryMap.forEach((k, v) -> {
-			primaryFormulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
-		secondaryMap.forEach((k, v) -> {
-			primaryFormulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
+		primaryMap.forEach((k, v) -> primaryFormulaBrick.setFormulaWithBrickField(k, newFormula));
+		secondaryMap.forEach((k, v) -> primaryFormulaBrick.setFormulaWithBrickField(k, newFormula));
 
 		sprite.rename(NEW_VARIABLE_NAME);
 
-		primaryMap.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					REPLACED_VARIABLE);
-		});
-		secondaryMap.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					REPLACED_VARIABLE);
-		});
+		primaryMap.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+				REPLACED_VARIABLE));
+		secondaryMap.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+				REPLACED_VARIABLE));
 	}
 
 	@Test
@@ -136,25 +130,17 @@ public class CompositeBrickWithSecondaryListCollisionUpdateTest {
 		Formula newFormula = new Formula(new FormulaElement(FormulaElement.ElementType.COLLISION_FORMULA,
 				DIFFERENT_VARIABLE_NAME, null));
 
-		ConcurrentFormulaHashMap primaryMap = primaryFormulaBrick.getFormulaMap();
-		ConcurrentFormulaHashMap secondaryMap = primaryFormulaBrick.getFormulaMap();
+		ConcurrentFormulaHashMap primaryMap = primaryFormulaBrick.formulaMap;
+		ConcurrentFormulaHashMap secondaryMap = primaryFormulaBrick.formulaMap;
 
-		primaryMap.forEach((k, v) -> {
-			primaryFormulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
-		secondaryMap.forEach((k, v) -> {
-			primaryFormulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
+		primaryMap.forEach((k, v) -> primaryFormulaBrick.setFormulaWithBrickField(k, newFormula));
+		secondaryMap.forEach((k, v) -> primaryFormulaBrick.setFormulaWithBrickField(k, newFormula));
 
 		sprite.rename(NEW_VARIABLE_NAME);
 
-		primaryMap.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					NO_CHANGE_VARIABLE);
-		});
-		secondaryMap.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					NO_CHANGE_VARIABLE);
-		});
+		primaryMap.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+				NO_CHANGE_VARIABLE));
+		secondaryMap.forEach((k, v) -> assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+				NO_CHANGE_VARIABLE));
 	}
 }

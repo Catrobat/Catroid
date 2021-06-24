@@ -81,12 +81,13 @@ import static junit.framework.Assert.assertNotNull;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
 public class BrickStringSpinnerTest {
 
-	private SpriteActivity activity;
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	Spinner brickSpinner;
 
@@ -126,13 +127,14 @@ public class BrickStringSpinnerTest {
 	@SuppressWarnings("PMD.UnusedPrivateField")
 	private String name;
 
-	private Brick brick;
+	private final Brick brick;
 
-	private @IdRes int spinnerId;
+	private @IdRes
+	final int spinnerId;
 
-	private String expectedSelection;
+	private final String expectedSelection;
 
-	private List<String> expectedContent;
+	private final List<String> expectedContent;
 
 	public BrickStringSpinnerTest(String name, Brick brick, @IdRes int spinnerId, String expectedSelection, List<String> expectedContent) {
 		this.name = name;
@@ -145,7 +147,7 @@ public class BrickStringSpinnerTest {
 	@Before
 	public void setUp() throws Exception {
 		ActivityController<SpriteActivity> activityController = Robolectric.buildActivity(SpriteActivity.class);
-		activity = activityController.get();
+		SpriteActivity activity = activityController.get();
 		createProject(activity);
 		activityController.create().resume();
 
@@ -156,13 +158,13 @@ public class BrickStringSpinnerTest {
 		View brickView = brick.getView(activity);
 		assertNotNull(brickView);
 
-		brickSpinner = (Spinner) brickView.findViewById(spinnerId);
+		brickSpinner = brickView.findViewById(spinnerId);
 		assertNotNull(brickSpinner);
 	}
 
 	@After
 	public void tearDown() {
-		ProjectManager.getInstance().resetProjectManager();
+		projectManager.resetProjectManager();
 	}
 
 	@Test
@@ -186,8 +188,8 @@ public class BrickStringSpinnerTest {
 		script.addBrick(brick);
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
 	}
 }
