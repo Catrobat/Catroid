@@ -52,7 +52,7 @@ import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
+import org.catrobat.catroid.io.asynctask.ProjectSaver;
 import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.stage.StageActivity;
@@ -306,8 +306,7 @@ public class SpriteActivity extends BaseActivity {
 
 	private void saveProject() {
 		currentProject = ProjectManager.getInstance().getCurrentProject();
-		new ProjectSaveTask(currentProject, getApplicationContext())
-				.execute();
+		new ProjectSaver(currentProject, getApplicationContext()).saveProjectAsync();
 	}
 
 	@Override

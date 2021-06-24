@@ -32,7 +32,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.asynctask.ProjectExportTask;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.utils.notifications.NotificationData;
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager;
 import org.junit.After;
@@ -56,6 +55,7 @@ import static org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION;
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.UNDO_CODE_XML_FILE_NAME;
+import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -79,8 +79,7 @@ public class ProjectExportTaskTest {
 				ProjectExportTaskTest.class.getSimpleName());
 
 		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectSaveTask
-				.task(project, ApplicationProvider.getApplicationContext());
+		saveProjectSerial(project, ApplicationProvider.getApplicationContext());
 
 		NotificationManager notificationManagerMock = Mockito.mock(NotificationManager.class);
 		contextMock = Mockito.mock(Context.class);

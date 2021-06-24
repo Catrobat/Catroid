@@ -43,7 +43,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.io.StorageOperations;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
+import org.catrobat.catroid.io.asynctask.ProjectSaver;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.TestResult;
 import org.catrobat.catroid.ui.dialogs.LegoSensorConfigInfoDialog;
@@ -81,7 +81,7 @@ import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isCastS
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
 
-public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask.ProjectSaveListener {
+public class ProjectActivity extends BaseCastActivity {
 
 	public static final String TAG = ProjectActivity.class.getSimpleName();
 
@@ -169,17 +169,6 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 	}
 
 	@Override
-	public void onSaveProjectComplete(boolean success) {
-		setShowProgressBar(false);
-		// deliberately ignoring success value, because XstreamSerializer returns false: when
-		// saving was unnecessary but was successful or when it did not succeed.
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Intent intent = new Intent(this, ProjectUploadActivity.class);
-		intent.putExtra(ProjectUploadActivity.PROJECT_DIR, currentProject.getDirectory());
-		startActivity(intent);
-	}
-
-	@Override
 	protected void onPause() {
 		super.onPause();
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
@@ -222,8 +211,7 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 			Utils.setLastUsedProjectName(getApplicationContext(), null);
 			return;
 		}
-		new ProjectSaveTask(currentProject, getApplicationContext())
-				.execute();
+		new ProjectSaver(currentProject, getApplicationContext()).saveProjectAsync();
 		Utils.setLastUsedProjectName(getApplicationContext(), currentProject.getName());
 	}
 

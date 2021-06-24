@@ -29,7 +29,6 @@ import android.preference.PreferenceManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -57,6 +56,7 @@ import static junit.framework.Assert.assertTrue;
 import static org.catrobat.catroid.R.id.currentProjectLayout;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DISABLE_HINTS_DIALOG_SHOWN_PREFERENCE_KEY;
+import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_HINTS;
 
 import static androidx.test.espresso.Espresso.onData;
@@ -159,7 +159,7 @@ public class DisableHintDialogTest {
 
 	private void createProject(String projectName) {
 		Project project = UiTestUtils.createEmptyProject(projectName);
-		ProjectSaveTask.task(project, ApplicationProvider.getApplicationContext());
+		saveProjectSerial(project, ApplicationProvider.getApplicationContext());
 	}
 
 	private SharedPreferences getDefaultSharedPreferences() {

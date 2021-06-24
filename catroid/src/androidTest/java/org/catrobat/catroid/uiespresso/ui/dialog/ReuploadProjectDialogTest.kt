@@ -37,7 +37,7 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.XstreamSerializer
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask
+import org.catrobat.catroid.io.asynctask.saveProjectSerial
 import org.catrobat.catroid.ui.ProjectUploadActivity
 import org.catrobat.catroid.uiespresso.ui.activity.ProjectUploadRatingDialogTest.ProjectUploadTestActivity
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
@@ -66,7 +66,7 @@ class ReuploadProjectDialogTest {
         dummyScene.addSprite(sprite)
         sprite.addScript(firstScript)
         dummyProject!!.addScene(dummyScene)
-        ProjectSaveTask.task(dummyProject, ApplicationProvider.getApplicationContext())
+        saveProjectSerial(dummyProject, ApplicationProvider.getApplicationContext())
         val intent = Intent()
         intent.putExtra(ProjectUploadActivity.PROJECT_DIR, dummyProject!!.directory)
         activityTestRule.launchActivity(intent)
@@ -101,7 +101,7 @@ class ReuploadProjectDialogTest {
         val newScene = Scene("scene", currentProject)
         currentProject.addScene(newScene)
         XstreamSerializer.getInstance().saveProject(currentProject)
-        ProjectSaveTask.task(currentProject, ApplicationProvider.getApplicationContext())
+        saveProjectSerial(currentProject, ApplicationProvider.getApplicationContext())
         val intent = Intent()
         intent.putExtra(ProjectUploadActivity.PROJECT_DIR, currentProject.directory)
         activityTestRule.launchActivity(intent)
@@ -122,7 +122,7 @@ class ReuploadProjectDialogTest {
         val userVariable = UserVariable("uservariable")
         currentProject.addUserVariable(userVariable)
         XstreamSerializer.getInstance().saveProject(currentProject)
-        ProjectSaveTask.task(currentProject, ApplicationProvider.getApplicationContext())
+        saveProjectSerial(currentProject, ApplicationProvider.getApplicationContext())
         val intent = Intent()
         intent.putExtra(ProjectUploadActivity.PROJECT_DIR, currentProject.directory)
         activityTestRule.launchActivity(intent)

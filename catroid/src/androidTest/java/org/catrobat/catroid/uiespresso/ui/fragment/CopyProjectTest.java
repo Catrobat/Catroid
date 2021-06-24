@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,7 +37,6 @@ import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.ProjectListActivity;
@@ -59,6 +58,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.Z_INDEX_BACKGROUND;
+import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 
 import static androidx.test.InstrumentationRegistry.getInstrumentation;
@@ -185,8 +185,6 @@ public class CopyProjectTest {
 		secondScene.addSprite(backgroundSprite);
 
 		project.addScene(secondScene);
-
-		ProjectSaveTask
-				.task(project, ApplicationProvider.getApplicationContext());
+		saveProjectSerial(project, ApplicationProvider.getApplicationContext());
 	}
 }

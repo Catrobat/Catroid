@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,6 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetXBrick;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
@@ -50,6 +49,7 @@ import org.junit.runner.RunWith;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.assertEquals;
@@ -143,7 +143,6 @@ public class DeleteFirstSceneTest {
 		scene2.addSprite(sprite2);
 		project.addScene(scene2);
 		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectSaveTask
-				.task(project, ApplicationProvider.getApplicationContext());
+		saveProjectSerial(project, ApplicationProvider.getApplicationContext());
 	}
 }

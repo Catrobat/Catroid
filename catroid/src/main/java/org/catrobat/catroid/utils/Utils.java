@@ -49,7 +49,6 @@ import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.transfers.GoogleLoginHandler;
 import org.catrobat.catroid.transfers.LogoutTask;
 import org.catrobat.catroid.ui.WebViewActivity;
@@ -84,6 +83,7 @@ import static org.catrobat.catroid.common.Constants.EXIFTAGS_FOR_EXIFREMOVER;
 import static org.catrobat.catroid.common.Constants.MAX_FILE_NAME_LENGTH;
 import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_CODE_INVALID;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_LENGTH;
 
@@ -424,8 +424,7 @@ public final class Utils {
 
 			String defaultProjectSpriteList = stringFinder.getResult();
 
-			ProjectSaveTask
-					.task(projectToCheck, context);
+			saveProjectSerial(projectToCheck, context);
 
 			String projectToCheckXML = XstreamSerializer.getInstance().getXmlAsStringFromProject(projectToCheck);
 

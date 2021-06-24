@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,7 +36,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
 import org.catrobat.catroid.uiespresso.util.UserVariableAssertions;
@@ -48,6 +47,8 @@ import org.junit.runner.RunWith;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 
 @RunWith(AndroidJUnit4.class)
 public class SceneTransitionBrickStageTest {
@@ -119,7 +120,6 @@ public class SceneTransitionBrickStageTest {
 		secondScene.addSprite(secondBackground);
 
 		project.addScene(secondScene);
-		ProjectSaveTask
-				.task(project, ApplicationProvider.getApplicationContext());
+		saveProjectSerial(project, ApplicationProvider.getApplicationContext());
 	}
 }
