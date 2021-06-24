@@ -114,6 +114,10 @@
     <color name="no_internet_color">#606060</color>
 
     <!-- bricks -->
+    <!-- NOTE: for SDK 23 & SDK 24 (Android 6.0 & Android 7.0) pngs are needed, see values/styles.xml
+        For SDK 25 and up (Android 7.1 and up) no pngs are needed, see values-v25/styles.xml
+        If minSDK is increased to 25 or up, values-25/syles.xml can be moved to values/ and
+        pngs should be removed (revert https://github.com/Catrobat/Catroid/pull/4259) -->
      <color name="brick_color_darkblue">#395cab</color>
      <color name="brick_color_blue">#408ac5</color>
      <color name="brick_color_cyan">#26a6ae</color>
