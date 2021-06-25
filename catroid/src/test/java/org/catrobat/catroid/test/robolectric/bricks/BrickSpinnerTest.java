@@ -93,6 +93,7 @@ import java.util.List;
 
 import androidx.annotation.IdRes;
 import androidx.fragment.app.Fragment;
+import kotlin.Lazy;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -100,6 +101,7 @@ import static junit.framework.Assert.assertNotNull;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static java.util.Arrays.asList;
 
@@ -108,7 +110,7 @@ import static java.util.Arrays.asList;
 public class BrickSpinnerTest {
 
 	private SpriteActivity activity;
-
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
 	Spinner brickSpinner;
 
 	@ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
@@ -211,9 +213,9 @@ public class BrickSpinnerTest {
 		script.addBrick(brick);
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.getValue().setCurrentProject(project);
+		projectManager.getValue().setCurrentSprite(sprite);
+		projectManager.getValue().setCurrentlyEditedScene(project.getDefaultScene());
 
 		Sprite sprite2 = new Sprite("otherTestSprite");
 		project.getDefaultScene().addSprite(sprite2);
@@ -236,10 +238,10 @@ public class BrickSpinnerTest {
 		LookData backgroundLookData = new LookData();
 		backgroundLookData.setFile(Mockito.mock(File.class));
 		backgroundLookData.setName("someBackground");
-		List<LookData> backgroundLookDataList = ProjectManager.getInstance().getCurrentProject().getDefaultScene().getBackgroundSprite().getLookList();
+		List<LookData> backgroundLookDataList = projectManager.getValue().getCurrentProject().getDefaultScene().getBackgroundSprite().getLookList();
 		backgroundLookDataList.add(backgroundLookData);
 
-		ProjectManager.getInstance().getCurrentProject().addUserVariable(new UserVariable("someVariable"));
-		ProjectManager.getInstance().getCurrentProject().addUserList(new UserList("someList"));
+		projectManager.getValue().getCurrentProject().addUserVariable(new UserVariable("someVariable"));
+		projectManager.getValue().getCurrentProject().addUserList(new UserList("someList"));
 	}
 }

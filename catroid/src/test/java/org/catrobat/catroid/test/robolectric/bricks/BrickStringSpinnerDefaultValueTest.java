@@ -68,8 +68,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import kotlin.Lazy;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
@@ -78,6 +82,7 @@ public class BrickStringSpinnerDefaultValueTest {
 	private CategoryBricksFactory categoryBricksFactory;
 	private Sprite sprite;
 	private Activity activity;
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
 
 	@ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
@@ -141,9 +146,9 @@ public class BrickStringSpinnerDefaultValueTest {
 		script.addBrick(new SetXBrick());
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.getValue().setCurrentProject(project);
+		projectManager.getValue().setCurrentSprite(sprite);
+		projectManager.getValue().setCurrentlyEditedScene(project.getDefaultScene());
 	}
 
 	private Brick getBrickFromCategroyBricksFactory() {

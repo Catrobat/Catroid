@@ -74,6 +74,7 @@ import java.util.List;
 
 import androidx.annotation.IdRes;
 import androidx.fragment.app.Fragment;
+import kotlin.Lazy;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -81,18 +82,19 @@ import static junit.framework.Assert.assertNotNull;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
 public class BrickStringSpinnerTest {
 
 	private SpriteActivity activity;
-
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
 	Spinner brickSpinner;
 
 	@ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
-		return Arrays.asList(new Object[][]{
+		return Arrays.asList(new Object[][] {
 				{StopScriptBrick.class.getSimpleName(), new StopScriptBrick(), R.id.brick_stop_script_spinner, "this script", Arrays.asList("this script", "all scripts", "other scripts of this actor or object")},
 				{SetPhysicsObjectTypeBrick.class.getSimpleName(), new SetPhysicsObjectTypeBrick(), R.id.brick_set_physics_object_type_spinner, "not moving or bouncing under gravity (default)", Arrays.asList("moving and bouncing under gravity", "not moving under gravity, but others bounce off you under gravity", "not moving or bouncing under gravity (default)")},
 				{CameraBrick.class.getSimpleName(), new CameraBrick(), R.id.brick_video_spinner, "on", Arrays.asList("off", "on")},
@@ -186,8 +188,8 @@ public class BrickStringSpinnerTest {
 		script.addBrick(brick);
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.getValue().setCurrentProject(project);
+		projectManager.getValue().setCurrentSprite(sprite);
+		projectManager.getValue().setCurrentlyEditedScene(project.getDefaultScene());
 	}
 }

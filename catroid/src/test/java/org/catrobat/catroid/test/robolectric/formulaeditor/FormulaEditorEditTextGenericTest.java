@@ -53,13 +53,16 @@ import org.robolectric.annotation.Config;
 import java.util.Arrays;
 
 import androidx.annotation.IdRes;
+import kotlin.Lazy;
 
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
 public class FormulaEditorEditTextGenericTest {
 
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
 	@ParameterizedRobolectricTestRunner.Parameters(name = "{0}" + "-Test")
 	public static Iterable<Object[]> data() {
 		return Arrays.asList(new Object[][] {
@@ -132,8 +135,8 @@ public class FormulaEditorEditTextGenericTest {
 		script.addBrick(brick);
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.getValue().setCurrentProject(project);
+		projectManager.getValue().setCurrentSprite(sprite);
+		projectManager.getValue().setCurrentlyEditedScene(project.getDefaultScene());
 	}
 }

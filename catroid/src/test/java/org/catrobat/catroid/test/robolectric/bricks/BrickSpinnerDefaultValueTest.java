@@ -78,17 +78,21 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import kotlin.Lazy;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
 public class BrickSpinnerDefaultValueTest {
 
 	private CategoryBricksFactory categoryBricksFactory;
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
 	private Sprite sprite;
 	private Activity activity;
 
@@ -177,9 +181,9 @@ public class BrickSpinnerDefaultValueTest {
 		script.addBrick(new SetXBrick());
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.getValue().setCurrentProject(project);
+		projectManager.getValue().setCurrentSprite(sprite);
+		projectManager.getValue().setCurrentlyEditedScene(project.getDefaultScene());
 	}
 
 	private Brick getBrickFromCategoryBricksFactory() {

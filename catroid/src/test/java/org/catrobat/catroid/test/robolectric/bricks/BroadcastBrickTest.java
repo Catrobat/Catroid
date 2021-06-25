@@ -54,9 +54,12 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import androidx.appcompat.app.AppCompatActivity;
+import kotlin.Lazy;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
@@ -64,6 +67,8 @@ public class BroadcastBrickTest {
 
 	private static final String INITAL_MESSAGE = "initialMessage";
 	private int spinnerId = R.id.brick_broadcast_spinner;
+
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
 
 	private AppCompatActivity activity;
 
@@ -137,9 +142,9 @@ public class BroadcastBrickTest {
 		Project project = new Project(activity, getClass().getSimpleName());
 		Sprite sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.getValue().setCurrentProject(project);
+		projectManager.getValue().setCurrentSprite(sprite);
+		projectManager.getValue().setCurrentlyEditedScene(project.getDefaultScene());
 		project.getBroadcastMessageContainer().addBroadcastMessage("unusedMessage");
 		project.getBroadcastMessageContainer().addBroadcastMessage("initialMessage");
 	}

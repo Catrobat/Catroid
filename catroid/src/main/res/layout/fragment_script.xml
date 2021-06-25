@@ -22,17 +22,19 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_script"
     android:layout_width="match_parent"
     android:layout_height="0dip"
     android:layout_weight="1"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    tools:viewBindingIgnore="true">
 
     <org.catrobat.catroid.ui.ScriptFinder
         android:id="@+id/findview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <org.catrobat.catroid.ui.dragndrop.BrickListView
         android:id="@android:id/list"
@@ -40,13 +42,13 @@
         android:layout_height="match_parent"
         android:clickable="false"
         android:divider="@android:color/transparent"
-        android:dividerHeight="@dimen/script_spacing" >
+        android:dividerHeight="@dimen/script_spacing">
     </org.catrobat.catroid.ui.dragndrop.BrickListView>
 
     <RelativeLayout
         android:id="@android:id/empty"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/fragment_script_text_description"
