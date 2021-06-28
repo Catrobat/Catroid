@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -84,10 +84,14 @@ public class SceneController {
 	}
 
 	public boolean rename(Scene sceneToRename, String name) {
+		boolean renamed = true;
 		String previousName = sceneToRename.getName();
 		String encodedName = FileMetaDataExtractor.encodeSpecialCharsForFileSystem(name);
 		File newDir = new File(sceneToRename.getProject().getDirectory(), encodedName);
-		boolean renamed = sceneToRename.getDirectory().renameTo(newDir);
+		File oldDir = sceneToRename.getDirectory();
+		if (oldDir.exists()) {
+			renamed = oldDir.renameTo(newDir);
+		}
 
 		if (renamed) {
 			sceneToRename.setName(name);
@@ -131,6 +135,7 @@ public class SceneController {
 	}
 
 	public void delete(Scene sceneToDelete) throws IOException {
+		ProjectManager.getInstance().getCurrentProject().removeScene(sceneToDelete);
 		StorageOperations.deleteDir(sceneToDelete.getDirectory());
 	}
 

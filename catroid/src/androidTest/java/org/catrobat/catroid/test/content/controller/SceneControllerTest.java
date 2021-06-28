@@ -69,6 +69,7 @@ public class SceneControllerTest {
 	private Project project;
 	private Scene scene;
 	private BackpackListManager backpackListManager;
+	private String newName = "new Scene Name";
 
 	@Before
 	public void setUp() throws IOException {
@@ -86,7 +87,6 @@ public class SceneControllerTest {
 	@Test
 	public void testRenameScene() {
 		String previousName = scene.getName();
-		String newName = "new Scene Name";
 
 		SceneController controller = new SceneController();
 		controller.rename(scene, newName);
@@ -135,8 +135,22 @@ public class SceneControllerTest {
 
 		controller.delete(scene);
 
-		assertEquals(1, project.getSceneList().size());
+		assertEquals(0, project.getSceneList().size());
+
 		assertFileDoesNotExist(deletedSceneDirectory);
+	}
+
+	@Test
+	public void testDeleteAfterRenameScene() throws IOException {
+		SceneController controller = new SceneController();
+		Scene sceneToRename = new Scene("Scene To Rename", project);
+		project.addScene(sceneToRename);
+		XstreamSerializer.getInstance().saveProject(project);
+		File renamedSceneDirectory = sceneToRename.getDirectory();
+		controller.rename(sceneToRename, newName);
+		controller.delete(sceneToRename);
+		assertEquals(1, project.getSceneList().size());
+		assertFileDoesNotExist(renamedSceneDirectory);
 	}
 
 	@Test
