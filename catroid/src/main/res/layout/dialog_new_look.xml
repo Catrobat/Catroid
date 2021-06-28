@@ -76,7 +76,19 @@
                 android:gravity="center"
                 android:text="@string/add_look_from_camera"
                 android:textSize="?attr/medium" />
+         </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+            <TextView
+                android:id="@+id/dialog_new_object"
+                android:visibility="gone"
+                android:background="@drawable/new_object_dialog_selector"
+                app:drawableTopCompat="@drawable/apps_white"
+                android:gravity="center"
+                android:text="@string/add_look_from_camera"
+                android:textSize="?attr/medium" />
         </TableRow>
     </TableLayout>
 </ScrollView>

@@ -92,6 +92,7 @@ public class ProjectActivity extends BaseCastActivity {
 	public static final int SPRITE_LIBRARY = 1;
 	public static final int SPRITE_FILE = 2;
 	public static final int SPRITE_CAMERA = 3;
+	//public static final int SPRITE_OBJECT = 4;
 
 	public static final String EXTRA_FRAGMENT_POSITION = "fragmentPosition";
 
@@ -348,6 +349,7 @@ public class ProjectActivity extends BaseCastActivity {
 
 	public void handleAddSpriteButton() {
 		View root = View.inflate(this, R.layout.dialog_new_look, null);
+		root.findViewById(R.id.dialog_new_object).setVisibility(View.VISIBLE);
 
 		AlertDialog alertDialog = new AlertDialog.Builder(this)
 				.setTitle(R.string.new_sprite_dialog_title)
@@ -372,6 +374,11 @@ public class ProjectActivity extends BaseCastActivity {
 		root.findViewById(R.id.dialog_new_look_camera).setOnClickListener(view -> {
 			new ImportFromCameraLauncher(this)
 					.startActivityForResult(SPRITE_CAMERA);
+			alertDialog.dismiss();
+		});
+		root.findViewById(R.id.dialog_new_object).setOnClickListener(view -> {
+			new ImportFormMediaLibraryLauncher(this, LIBRARY_LOOKS_URL)
+					.startActivityForResult(SPRITE_LIBRARY);
 			alertDialog.dismiss();
 		});
 
