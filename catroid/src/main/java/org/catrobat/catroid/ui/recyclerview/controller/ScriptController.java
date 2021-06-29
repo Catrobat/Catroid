@@ -62,7 +62,7 @@ public class ScriptController {
 	private LookController lookController = new LookController();
 	private SoundController soundController = new SoundController();
 
-	public Script copy(Script scriptToCopy, Project dstProject, Scene dstScene, Sprite dstSprite)
+	public Script copy(Script scriptToCopy, Project destinationProject, Scene destinationScene, Sprite destinationSprite)
 			throws IOException, CloneNotSupportedException {
 
 		Script script;
@@ -74,29 +74,29 @@ public class ScriptController {
 		for (Brick brick : scriptFlatBrickList) {
 			if (brick instanceof SetLookBrick && ((SetLookBrick) brick).getLook() != null) {
 				((SetLookBrick) brick).setLook(lookController
-						.findOrCopy(((SetLookBrick) brick).getLook(), dstScene, dstSprite));
+						.findOrCopy(((SetLookBrick) brick).getLook(), destinationScene, destinationSprite));
 			}
 
 			if (brick instanceof WhenBackgroundChangesBrick && ((WhenBackgroundChangesBrick) brick).getLook() != null) {
 				((WhenBackgroundChangesBrick) brick).setLook(lookController
-						.findOrCopy(((WhenBackgroundChangesBrick) brick).getLook(), dstScene, dstSprite));
+						.findOrCopy(((WhenBackgroundChangesBrick) brick).getLook(), destinationScene, destinationSprite));
 			}
 
 			if (brick instanceof PlaySoundBrick && ((PlaySoundBrick) brick).getSound() != null) {
 				((PlaySoundBrick) brick).setSound(soundController
-						.findOrCopy(((PlaySoundBrick) brick).getSound(), dstScene, dstSprite));
+						.findOrCopy(((PlaySoundBrick) brick).getSound(), destinationScene, destinationSprite));
 			}
 
 			if (brick instanceof PlaySoundAndWaitBrick && ((PlaySoundAndWaitBrick) brick).getSound() != null) {
 				((PlaySoundAndWaitBrick) brick).setSound(soundController
-						.findOrCopy(((PlaySoundAndWaitBrick) brick).getSound(), dstScene, dstSprite));
+						.findOrCopy(((PlaySoundAndWaitBrick) brick).getSound(), destinationScene, destinationSprite));
 			}
 
 			if (brick instanceof UserVariableBrickInterface && ((UserVariableBrickInterface) brick).getUserVariable() != null) {
 				UserVariable previousUserVar = ((UserVariableBrickInterface) brick).getUserVariable();
 
 				if (previousUserVar != null) {
-					Scope scope = new Scope(dstProject, dstSprite, null);
+					Scope scope = new Scope(destinationProject, destinationSprite, null);
 					UserVariable updatedUserVar = UserDataWrapper
 							.getUserVariable(previousUserVar.getName(), scope);
 					((UserVariableBrickInterface) brick).setUserVariable(updatedUserVar);
@@ -107,7 +107,7 @@ public class ScriptController {
 				UserList previousUserList = ((UserListBrick) brick).getUserList();
 
 				if (previousUserList != null) {
-					Scope scope = new Scope(dstProject, dstSprite, null);
+					Scope scope = new Scope(destinationProject, destinationSprite, null);
 					UserList updatedUserList = UserDataWrapper
 							.getUserList(previousUserList.getName(), scope);
 					((UserListBrick) brick).setUserList(updatedUserList);
@@ -120,7 +120,7 @@ public class ScriptController {
 					UserData previousUserData = entry.getValue();
 					if (previousUserData != null) {
 						UserData updatedUserList;
-						Scope scope = new Scope(dstProject, dstSprite, null);
+						Scope scope = new Scope(destinationProject, destinationSprite, null);
 						if (Brick.BrickData.isUserList(entry.getKey())) {
 							updatedUserList = UserDataWrapper
 									.getUserList(previousUserData.getName(), scope);
@@ -158,7 +158,7 @@ public class ScriptController {
 		BackpackListManager.getInstance().saveBackpack();
 	}
 
-	void packForSprite(Script scriptToPack, Sprite dstSprite) throws IOException, CloneNotSupportedException {
+	void packForSprite(Script scriptToPack, Sprite destinationSprite) throws IOException, CloneNotSupportedException {
 		Script script = scriptToPack.clone();
 		List<Brick> scriptFlatBrickList = new ArrayList<>();
 		script.addToFlatList(scriptFlatBrickList);
@@ -166,29 +166,29 @@ public class ScriptController {
 		for (Brick brick : scriptFlatBrickList) {
 			if (brick instanceof SetLookBrick && ((SetLookBrick) brick).getLook() != null) {
 				((SetLookBrick) brick).setLook(lookController
-						.packForSprite(((SetLookBrick) brick).getLook(), dstSprite));
+						.packForSprite(((SetLookBrick) brick).getLook(), destinationSprite));
 			}
 
 			if (brick instanceof WhenBackgroundChangesBrick && ((WhenBackgroundChangesBrick) brick).getLook() != null) {
 				((WhenBackgroundChangesBrick) brick).setLook(lookController
-						.packForSprite(((WhenBackgroundChangesBrick) brick).getLook(), dstSprite));
+						.packForSprite(((WhenBackgroundChangesBrick) brick).getLook(), destinationSprite));
 			}
 
 			if (brick instanceof PlaySoundBrick && ((PlaySoundBrick) brick).getSound() != null) {
 				((PlaySoundBrick) brick).setSound(soundController
-						.packForSprite(((PlaySoundBrick) brick).getSound(), dstSprite));
+						.packForSprite(((PlaySoundBrick) brick).getSound(), destinationSprite));
 			}
 
 			if (brick instanceof PlaySoundAndWaitBrick && ((PlaySoundAndWaitBrick) brick).getSound() != null) {
 				((PlaySoundAndWaitBrick) brick).setSound(soundController
-						.packForSprite(((PlaySoundAndWaitBrick) brick).getSound(), dstSprite));
+						.packForSprite(((PlaySoundAndWaitBrick) brick).getSound(), destinationSprite));
 			}
 		}
 
-		dstSprite.getScriptList().add(script);
+		destinationSprite.getScriptList().add(script);
 	}
 
-	public void unpack(Script scriptToUnpack, Sprite dstSprite) throws CloneNotSupportedException {
+	public void unpack(Script scriptToUnpack, Sprite destinationSprite) throws CloneNotSupportedException {
 		Script script = scriptToUnpack.clone();
 		copyBroadcastMessages(script.getScriptBrick());
 
@@ -201,7 +201,7 @@ public class ScriptController {
 			copyBroadcastMessages(brick);
 		}
 
-		dstSprite.getScriptList().add(script);
+		destinationSprite.getScriptList().add(script);
 	}
 
 	private boolean copyBroadcastMessages(Brick brick) {
@@ -212,7 +212,7 @@ public class ScriptController {
 		return false;
 	}
 
-	void unpackForSprite(Script scriptToUnpack, Project dstProject, Scene dstScene, Sprite dstSprite)
+	void unpackForSprite(Script scriptToUnpack, Project destinationProject, Scene destinationScene, Sprite destinationSprite)
 			throws IOException, CloneNotSupportedException {
 		Script script = scriptToUnpack.clone();
 
@@ -226,30 +226,30 @@ public class ScriptController {
 			if (brick instanceof SetLookBrick && ((SetLookBrick) brick).getLook() != null) {
 				((SetLookBrick) brick)
 						.setLook(lookController
-								.unpackForSprite(((SetLookBrick) brick).getLook(), dstScene, dstSprite));
+								.unpackForSprite(((SetLookBrick) brick).getLook(), destinationScene, destinationSprite));
 			}
 
 			if (brick instanceof WhenBackgroundChangesBrick && ((WhenBackgroundChangesBrick) brick).getLook() != null) {
 				((WhenBackgroundChangesBrick) brick)
 						.setLook(lookController
-								.unpackForSprite(((WhenBackgroundChangesBrick) brick).getLook(), dstScene, dstSprite));
+								.unpackForSprite(((WhenBackgroundChangesBrick) brick).getLook(), destinationScene, destinationSprite));
 			}
 
 			if (brick instanceof PlaySoundBrick && ((PlaySoundBrick) brick).getSound() != null) {
 				((PlaySoundBrick) brick)
 						.setSound(soundController
-								.unpackForSprite(((PlaySoundBrick) brick).getSound(), dstScene, dstSprite));
+								.unpackForSprite(((PlaySoundBrick) brick).getSound(), destinationScene, destinationSprite));
 			}
 
 			if (brick instanceof PlaySoundAndWaitBrick && ((PlaySoundAndWaitBrick) brick).getSound() != null) {
 				((PlaySoundAndWaitBrick) brick)
 						.setSound(soundController
-								.unpackForSprite(((PlaySoundAndWaitBrick) brick).getSound(), dstScene, dstSprite));
+								.unpackForSprite(((PlaySoundAndWaitBrick) brick).getSound(), destinationScene, destinationSprite));
 			}
 
 			if (brick instanceof UserVariableBrickInterface && ((UserVariableBrickInterface) brick).getUserVariable() != null) {
 				UserVariable previousUserVar = ((UserVariableBrickInterface) brick).getUserVariable();
-				Scope scope = new Scope(dstProject, dstSprite, null);
+				Scope scope = new Scope(destinationProject, destinationSprite, null);
 				UserVariable updatedUserVar = UserDataWrapper
 						.getUserVariable(previousUserVar.getName(), scope);
 				((UserVariableBrickInterface) brick).setUserVariable(updatedUserVar);
@@ -257,7 +257,7 @@ public class ScriptController {
 
 			if (brick instanceof UserListBrick && ((UserListBrick) brick).getUserList() != null) {
 				UserList previousUserList = ((UserListBrick) brick).getUserList();
-				Scope scope = new Scope(dstProject, dstSprite, null);
+				Scope scope = new Scope(destinationProject, destinationSprite, null);
 				UserList updatedUserList = UserDataWrapper
 						.getUserList(previousUserList.getName(), scope);
 				((UserListBrick) brick).setUserList(updatedUserList);
@@ -268,7 +268,7 @@ public class ScriptController {
 						: ((UserDataBrick) brick).getUserDataMap().entrySet()) {
 					UserData previousUserData = entry.getValue();
 					UserData updatedUserList;
-					Scope scope = new Scope(dstProject, dstSprite, null);
+					Scope scope = new Scope(destinationProject, destinationSprite, null);
 					if (Brick.BrickData.isUserList(entry.getKey())) {
 						updatedUserList = UserDataWrapper
 								.getUserList(previousUserData.getName(), scope);
@@ -281,6 +281,6 @@ public class ScriptController {
 			}
 		}
 
-		dstSprite.getScriptList().add(script);
+		destinationSprite.getScriptList().add(script);
 	}
 }

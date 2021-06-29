@@ -59,14 +59,14 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 	@Override
 	protected void unpackItems(List<LookData> selectedItems) {
 		setShowProgressBar(true);
-		Sprite dstSprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite destinationSprite = ProjectManager.getInstance().getCurrentSprite();
 		int unpackedItemCnt = 0;
 
 		for (LookData item : selectedItems) {
 			try {
-				dstSprite.getLookList().add(lookController.unpack(item,
+				destinationSprite.getLookList().add(lookController.unpack(item,
 						ProjectManager.getInstance().getCurrentlyEditedScene(),
-						dstSprite));
+						destinationSprite));
 				unpackedItemCnt++;
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));

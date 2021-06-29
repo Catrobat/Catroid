@@ -154,16 +154,16 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 	}
 
 	@Override
-	public boolean onItemMove(int srcPosition, int targetPosition) {
-		if (Math.abs(srcPosition - targetPosition) <= 1) {
-			Collections.swap(items, srcPosition, targetPosition);
+	public boolean onItemMove(int sourcePosition, int targetPosition) {
+		if (Math.abs(sourcePosition - targetPosition) <= 1) {
+			Collections.swap(items, sourcePosition, targetPosition);
 		} else {
-			T movedItem = items.get(srcPosition);
+			T movedItem = items.get(sourcePosition);
 			items.remove(movedItem);
 			items.add(targetPosition, movedItem);
 		}
-		notifyItemMoved(srcPosition, targetPosition);
-		selectionManager.updateSelection(srcPosition, targetPosition);
+		notifyItemMoved(sourcePosition, targetPosition);
+		selectionManager.updateSelection(sourcePosition, targetPosition);
 		return true;
 	}
 

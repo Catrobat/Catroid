@@ -42,13 +42,13 @@ public class ProjectCopyTask extends AsyncTask<Void, Void, Boolean> {
 	public static final String TAG = ProjectCopyTask.class.getSimpleName();
 
 	private File projectDir;
-	private String dstName;
+	private String destinationName;
 
 	private WeakReference<ProjectCopyListener> weakListenerReference;
 
-	public ProjectCopyTask(File projectDir, String dstName) {
+	public ProjectCopyTask(File projectDir, String destinationName) {
 		this.projectDir = projectDir;
-		this.dstName = dstName;
+		this.destinationName = destinationName;
 	}
 
 	public ProjectCopyTask setListener(ProjectCopyListener listener) {
@@ -56,22 +56,22 @@ public class ProjectCopyTask extends AsyncTask<Void, Void, Boolean> {
 		return this;
 	}
 
-	public static boolean task(File srcDir, String dstName) {
-		File dstDir = new File(srcDir.getParentFile(), FileMetaDataExtractor.encodeSpecialCharsForFileSystem(dstName));
+	public static boolean task(File sourceDir, String destinationName) {
+		File destinationDir = new File(sourceDir.getParentFile(), FileMetaDataExtractor.encodeSpecialCharsForFileSystem(destinationName));
 
 		try {
-			StorageOperations.copyDir(srcDir, dstDir);
-			XstreamSerializer.renameProject(new File(dstDir, CODE_XML_FILE_NAME), dstName);
-			ProjectManager.getInstance().addNewDownloadedProject(dstName);
+			StorageOperations.copyDir(sourceDir, destinationDir);
+			XstreamSerializer.renameProject(new File(destinationDir, CODE_XML_FILE_NAME), destinationName);
+			ProjectManager.getInstance().addNewDownloadedProject(destinationName);
 			return true;
 		} catch (IOException e) {
-			Log.e(TAG, "Something went wrong while copying " + srcDir.getAbsolutePath() + " to " + dstName, e);
-			if (dstDir.isDirectory()) {
+			Log.e(TAG, "Something went wrong while copying " + sourceDir.getAbsolutePath() + " to " + destinationName, e);
+			if (destinationDir.isDirectory()) {
 				Log.e(TAG, "Folder exists, trying to delete folder.");
 				try {
-					StorageOperations.deleteDir(dstDir);
+					StorageOperations.deleteDir(destinationDir);
 				} catch (IOException deleteException) {
-					Log.e(TAG, "Cannot delete folder " + dstName, deleteException);
+					Log.e(TAG, "Cannot delete folder " + destinationName, deleteException);
 				}
 			}
 			return false;
@@ -80,7 +80,7 @@ public class ProjectCopyTask extends AsyncTask<Void, Void, Boolean> {
 
 	@Override
 	protected Boolean doInBackground(Void... voids) {
-		return task(projectDir, dstName);
+		return task(projectDir, destinationName);
 	}
 
 	@Override

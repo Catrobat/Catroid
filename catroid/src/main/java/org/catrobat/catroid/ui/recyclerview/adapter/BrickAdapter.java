@@ -349,17 +349,17 @@ public class BrickAdapter extends BaseAdapter implements
 	}
 
 	@Override
-	public boolean onItemMove(int srcPosition, int targetPosition) {
-		Brick src = items.get(srcPosition);
-		if (!(src instanceof ScriptBrick) && targetPosition == 0) {
+	public boolean onItemMove(int sourcePosition, int targetPosition) {
+		Brick source = items.get(sourcePosition);
+		if (!(source instanceof ScriptBrick) && targetPosition == 0) {
 			return false;
 		}
 
-		if (src.getAllParts().contains(items.get(targetPosition))) {
+		if (source.getAllParts().contains(items.get(targetPosition))) {
 			return false;
 		}
 
-		Collections.swap(items, srcPosition, targetPosition);
+		Collections.swap(items, sourcePosition, targetPosition);
 		return true;
 	}
 
@@ -391,26 +391,26 @@ public class BrickAdapter extends BaseAdapter implements
 
 			scripts.remove(scriptToMove);
 
-			int dstPosition = scripts.indexOf(scriptAtTargetPosition) + 1;
+			int destinationPosition = scripts.indexOf(scriptAtTargetPosition) + 1;
 
-			if (dstPosition == scripts.size()) {
+			if (destinationPosition == scripts.size()) {
 				scripts.add(scriptToMove);
 			} else {
-				scripts.add(dstPosition, scriptToMove);
+				scripts.add(destinationPosition, scriptToMove);
 			}
 		} else {
 			for (Script script : scripts) {
 				script.removeBrick(itemToMove);
 			}
 
-			int dstPosition = brickAboveTargetPosition.getPositionInDragAndDropTargetList() + 1;
+			int destinationPosition = brickAboveTargetPosition.getPositionInDragAndDropTargetList() + 1;
 
-			List<Brick> dstList = brickAboveTargetPosition.getDragAndDropTargetList();
+			List<Brick> destinationList = brickAboveTargetPosition.getDragAndDropTargetList();
 
-			if (dstPosition < dstList.size()) {
-				dstList.add(dstPosition, itemToMove);
+			if (destinationPosition < destinationList.size()) {
+				destinationList.add(destinationPosition, itemToMove);
 			} else {
-				dstList.add(itemToMove);
+				destinationList.add(itemToMove);
 			}
 		}
 		updateItemsFromCurrentScripts();

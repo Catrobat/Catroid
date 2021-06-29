@@ -140,84 +140,84 @@ public final class StorageOperations {
 		}
 	}
 
-	public static File compressBitmapToPng(Bitmap bitmap, File dstFile) throws IOException {
-		try (FileOutputStream os = new FileOutputStream(dstFile)) {
+	public static File compressBitmapToPng(Bitmap bitmap, File destiantionFile) throws IOException {
+		try (FileOutputStream os = new FileOutputStream(destiantionFile)) {
 			bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
 		}
-		return dstFile;
+		return destiantionFile;
 	}
 
-	public static File duplicateFile(File src) throws IOException {
-		return copyFileToDir(src, src.getParentFile());
+	public static File duplicateFile(File source) throws IOException {
+		return copyFileToDir(source, source.getParentFile());
 	}
 
-	public static File copyFile(File srcFile, File dstFile) throws IOException {
-		if (!srcFile.exists()) {
-			throw new FileNotFoundException(srcFile.getAbsolutePath() + " does not exist.");
+	public static File copyFile(File sourceFile, File destiantionFile) throws IOException {
+		if (!sourceFile.exists()) {
+			throw new FileNotFoundException(sourceFile.getAbsolutePath() + " does not exist.");
 		}
-		transferData(srcFile, dstFile);
-		return dstFile;
+		transferData(sourceFile, destiantionFile);
+		return destiantionFile;
 	}
 
-	public static File copyFileToDir(File srcFile, File dstDir) throws IOException {
-		if (!srcFile.exists()) {
-			throw new FileNotFoundException(srcFile.getAbsolutePath() + " does not exist.");
+	public static File copyFileToDir(File sourceFile, File destinationDir) throws IOException {
+		if (!sourceFile.exists()) {
+			throw new FileNotFoundException(sourceFile.getAbsolutePath() + " does not exist.");
 		}
 
-		if (!dstDir.exists()) {
-			throw new FileNotFoundException(dstDir.getAbsolutePath() + " does not exist.");
+		if (!destinationDir.exists()) {
+			throw new FileNotFoundException(destinationDir.getAbsolutePath() + " does not exist.");
 		}
 
-		if (!dstDir.isDirectory()) {
-			throw new IOException(dstDir.getAbsolutePath() + " is not a directory.");
+		if (!destinationDir.isDirectory()) {
+			throw new IOException(destinationDir.getAbsolutePath() + " is not a directory.");
 		}
 
-		File dstFile = getUniqueFile(srcFile.getName(), dstDir);
-		transferData(srcFile, dstFile);
+		File destiantionFile = getUniqueFile(sourceFile.getName(), destinationDir);
+		transferData(sourceFile, destiantionFile);
 
-		return dstFile;
+		return destiantionFile;
 	}
 
-	public static File copyStreamToFile(InputStream inputStream, File dstFile) throws IOException {
-		if (!dstFile.exists() && !dstFile.createNewFile()) {
-			throw new IOException("Cannot create file: " + dstFile.getAbsolutePath() + ".");
+	public static File copyStreamToFile(InputStream inputStream, File destinationFile) throws IOException {
+		if (!destinationFile.exists() && !destinationFile.createNewFile()) {
+			throw new IOException("Cannot create file: " + destinationFile.getAbsolutePath() + ".");
 		}
 
-		return transferData(inputStream, dstFile);
+		return transferData(inputStream, destinationFile);
 	}
 
-	public static File copyStreamToDir(InputStream inputStream, File dstDir, String fileName) throws
+	public static File copyStreamToDir(InputStream inputStream, File destinationDir, String fileName) throws
 			IOException, InvalidPathException {
-		if (!dstDir.exists()) {
-			throw new FileNotFoundException("Destination directory: " + dstDir.getAbsolutePath() + " does not exist.");
+		if (!destinationDir.exists()) {
+			throw new FileNotFoundException("Destination directory: " + destinationDir.getAbsolutePath() + " does not exist.");
 		}
 
-		if (!dstDir.isDirectory()) {
-			throw new IOException(dstDir.getAbsolutePath() + " is not a directory.");
+		if (!destinationDir.isDirectory()) {
+			throw new IOException(destinationDir.getAbsolutePath() + " is not a directory.");
 		}
 
-		File dstFile = getUniqueFile(fileName, dstDir);
+		File destinationFile = getUniqueFile(fileName, destinationDir);
 
-		if (!dstFile.createNewFile()) {
-			throw new IOException("Cannot create file: " + dstFile.getAbsolutePath() + ".");
+		if (!destinationFile.createNewFile()) {
+			throw new IOException("Cannot create file: " + destinationFile.getAbsolutePath() + ".");
 		}
 
-		return transferData(inputStream, dstFile);
+		return transferData(inputStream, destinationFile);
 	}
 
-	public static File copyUriToDir(ContentResolver contentResolver, Uri uri, File dstDir, String fileName) throws IOException {
+	public static File copyUriToDir(ContentResolver contentResolver, Uri uri, File destinationDir, String fileName) throws IOException {
 		InputStream inputStream = contentResolver.openInputStream(uri);
-		return copyStreamToDir(inputStream, dstDir, fileName);
+		return copyStreamToDir(inputStream, destinationDir, fileName);
 	}
 
-	public static void transferData(File srcFile, File dstFile) throws IOException {
-		try (FileChannel ic = new FileInputStream(srcFile).getChannel(); FileChannel oc = new FileOutputStream(dstFile).getChannel()) {
+	public static void transferData(File sourceFile, File destinationFile) throws IOException {
+		try (FileChannel ic = new FileInputStream(sourceFile).getChannel(); FileChannel oc = new FileOutputStream(destinationFile).getChannel()) {
 			ic.transferTo(0, ic.size(), oc);
 		}
 	}
 
-	private static File transferData(InputStream inputStream, File dstFile) throws IOException {
-		FileOutputStream fileOutputStream = new FileOutputStream(dstFile);
+	private static File transferData(InputStream inputStream, File destinationFile) throws IOException {
+		FileOutputStream fileOutputStream = new FileOutputStream(destinationFile);
 
 		byte[] b = new byte[BUFFER_8K];
 		int len;
@@ -226,44 +226,44 @@ public final class StorageOperations {
 			while ((len = inputStream.read(b)) != -1) {
 				fileOutputStream.write(b, 0, len);
 			}
-			return dstFile;
+			return destinationFile;
 		} finally {
 			inputStream.close();
 			fileOutputStream.close();
 		}
 	}
 
-	public static File copyDir(File srcDir, File dstDir) throws IOException {
-		if (!srcDir.exists()) {
-			throw new FileNotFoundException("Directory: " + srcDir.getAbsolutePath() + " does not exist.");
+	public static File copyDir(File sourceDir, File destinationDir) throws IOException {
+		if (!sourceDir.exists()) {
+			throw new FileNotFoundException("Directory: " + sourceDir.getAbsolutePath() + " does not exist.");
 		}
 
-		if (!srcDir.isDirectory()) {
-			throw new IOException(srcDir.getAbsolutePath() + " is not a directory.");
+		if (!sourceDir.isDirectory()) {
+			throw new IOException(sourceDir.getAbsolutePath() + " is not a directory.");
 		}
 
-		dstDir.mkdir();
+		destinationDir.mkdir();
 
-		if (!dstDir.isDirectory()) {
-			throw new IOException("Cannot create directory: " + dstDir.getAbsolutePath());
+		if (!destinationDir.isDirectory()) {
+			throw new IOException("Cannot create directory: " + destinationDir.getAbsolutePath());
 		}
 
-		for (File file : srcDir.listFiles()) {
+		for (File file : sourceDir.listFiles()) {
 			if (file.isDirectory()) {
-				copyDir(file, new File(dstDir, file.getName()));
+				copyDir(file, new File(destinationDir, file.getName()));
 			} else {
-				copyFileToDir(file, dstDir);
+				copyFileToDir(file, destinationDir);
 			}
 		}
 
-		return dstDir;
+		return destinationDir;
 	}
 
-	public static synchronized File getUniqueFile(String originalName, File dstDir) throws IOException {
-		File dstFile = new File(dstDir, originalName);
+	public static synchronized File getUniqueFile(String originalName, File destinationDir) throws IOException {
+		File destinationFile = new File(destinationDir, originalName);
 
-		if (!dstFile.exists()) {
-			return dstFile;
+		if (!destinationFile.exists()) {
+			return destinationFile;
 		}
 
 		int extensionStartIndex = originalName.lastIndexOf('.');
@@ -284,17 +284,17 @@ public final class StorageOperations {
 		int appendix = 0;
 
 		while (appendix < Integer.MAX_VALUE) {
-			String dstFileName = fileName + FILE_NAME_APPENDIX + appendix + extension;
-			dstFile = new File(dstDir, dstFileName);
+			String destinationFileName = fileName + FILE_NAME_APPENDIX + appendix + extension;
+			destinationFile = new File(destinationDir, destinationFileName);
 
-			if (!dstFile.exists()) {
-				return dstFile;
+			if (!destinationFile.exists()) {
+				return destinationFile;
 			}
 
 			appendix++;
 		}
 
-		throw new IOException("Cannot find a unique file name in " + dstDir.getAbsolutePath() + ".");
+		throw new IOException("Cannot find a unique file name in " + destinationDir.getAbsolutePath() + ".");
 	}
 
 	public static void deleteFile(File file) throws IOException {
