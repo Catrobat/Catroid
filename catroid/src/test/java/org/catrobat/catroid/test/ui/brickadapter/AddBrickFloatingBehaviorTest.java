@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.test.ui;
+package org.catrobat.catroid.test.ui.brickadapter;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -39,6 +39,8 @@ import org.junit.runners.Parameterized;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.modules.junit4.PowerMockRunnerDelegate;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -47,7 +49,8 @@ import java.util.Collections;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 
-@RunWith(Parameterized.class)
+@RunWith(PowerMockRunner.class)
+@PowerMockRunnerDelegate(Parameterized.class)
 public class AddBrickFloatingBehaviorTest {
 
 	@Parameterized.Parameters(name = "{0}")

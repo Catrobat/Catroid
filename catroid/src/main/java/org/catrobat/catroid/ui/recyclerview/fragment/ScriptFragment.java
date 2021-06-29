@@ -110,7 +110,7 @@ import static org.catrobat.catroid.common.Constants.UNDO_CODE_XML_FILE_NAME;
 
 public class ScriptFragment extends ListFragment implements
 		ActionMode.Callback,
-		BrickAdapter.OnItemClickListener,
+		BrickAdapter.OnBrickClickListener,
 		BrickAdapter.SelectionListener, OnCategorySelectedListener,
 		AddBrickFragment.OnAddBrickListener,
 		ProjectLoader.ProjectLoadListener {
@@ -642,7 +642,7 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	@Override
-	public void onItemClick(Brick brick, int position) {
+	public void onBrickClick(Brick brick, int position) {
 		if (listView.isCurrentlyHighlighted()) {
 			listView.cancelHighlighting();
 			return;
@@ -779,7 +779,7 @@ public class ScriptFragment extends ListFragment implements
 			case R.string.brick_context_dialog_move_brick:
 			case R.string.brick_context_dialog_move_script:
 			case R.string.brick_context_dialog_move_definition:
-				onItemLongClick(brick, position);
+				onBrickLongClick(brick, position);
 				break;
 			case R.string.brick_context_dialog_help:
 				openWebViewWithHelpPage(brick);
@@ -807,7 +807,7 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	@Override
-	public boolean onItemLongClick(Brick brick, int position) {
+	public boolean onBrickLongClick(Brick brick, int position) {
 		showUndo(false);
 		if (listView.isCurrentlyHighlighted()) {
 			listView.cancelHighlighting();

@@ -20,26 +20,16 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.ui.dragndrop
 
-package org.catrobat.catroid.ui.dragndrop;
+import org.catrobat.catroid.content.bricks.Brick
 
-import org.catrobat.catroid.content.bricks.Brick;
-
-import java.util.List;
-
-public interface BrickAdapterInterface {
-
-	void setItemVisible(int position, boolean visible);
-
-	void setAllPositionsVisible();
-
-	boolean onItemMove(int fromPosition, int toPosition);
-
-	void moveItemTo(int position, Brick brickToMove);
-
-	Brick getItem(int position);
-
-	int getPosition(Brick brick);
-
-	boolean removeItems(List<Brick> items);
+interface BrickAdapterInterface {
+    fun setItemVisible(position: Int, visible: Boolean)
+    fun setAllPositionsVisible()
+    fun onItemMove(fromPosition: Int, toPosition: Int): Boolean
+    fun moveItemTo(position: Int, brickToMove: Brick?)
+    fun getItem(position: Int): Brick?
+    fun getPosition(brick: Brick?): Int
+    fun removeItems(items: List<Brick>): Boolean
 }
