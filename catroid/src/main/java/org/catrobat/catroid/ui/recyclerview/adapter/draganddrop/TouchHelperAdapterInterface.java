@@ -25,5 +25,5 @@ package org.catrobat.catroid.ui.recyclerview.adapter.draganddrop;
 
 public interface TouchHelperAdapterInterface {
 
-	boolean onItemMove(int srcPosition, int targetPosition);
+	boolean onItemMove(int sourcePosition, int targetPosition);
 }

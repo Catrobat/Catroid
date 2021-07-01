@@ -153,12 +153,12 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 	}
 
 	@Override
-	public boolean onItemMove(int srcPosition, int targetPosition) {
-		if (srcPosition == 0 || targetPosition == 0) {
+	public boolean onItemMove(int sourcePosition, int targetPosition) {
+		if (sourcePosition == 0 || targetPosition == 0) {
 			return true;
 		}
 
-		Sprite fromItem = items.get(srcPosition);
+		Sprite fromItem = items.get(sourcePosition);
 		Sprite toItem = items.get(targetPosition);
 
 		if (fromItem instanceof GroupSprite) {
@@ -167,28 +167,28 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 
 		if (toItem instanceof GroupSprite) {
 			GroupSprite groupItem = (GroupSprite) toItem;
-			if (targetPosition > srcPosition) {
+			if (targetPosition > sourcePosition) {
 				targetPosition += groupItem.getNumberOfItems();
 				fromItem.setConvertToGroupItemSprite(true);
 			} else {
 				fromItem.setConvertToSprite(true);
 			}
-			return super.onItemMove(srcPosition, targetPosition);
+			return super.onItemMove(sourcePosition, targetPosition);
 		}
 
 		if (!(fromItem instanceof GroupItemSprite) && toItem instanceof GroupItemSprite) {
 			fromItem.setConvertToGroupItemSprite(true);
-			return super.onItemMove(srcPosition, targetPosition);
+			return super.onItemMove(sourcePosition, targetPosition);
 		}
 
 		if (fromItem instanceof GroupItemSprite && !(toItem instanceof GroupItemSprite)) {
 			fromItem.setConvertToSprite(true);
-			return super.onItemMove(srcPosition, targetPosition);
+			return super.onItemMove(sourcePosition, targetPosition);
 		}
 
 		fromItem.setConvertToGroupItemSprite(false);
 		fromItem.setConvertToSprite(false);
-		return super.onItemMove(srcPosition, targetPosition);
+		return super.onItemMove(sourcePosition, targetPosition);
 	}
 
 	@Override

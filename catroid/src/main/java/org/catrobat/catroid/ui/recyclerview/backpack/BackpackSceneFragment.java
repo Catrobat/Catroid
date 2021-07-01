@@ -59,12 +59,12 @@ public class BackpackSceneFragment extends BackpackRecyclerViewFragment<Scene> {
 	@Override
 	protected void unpackItems(List<Scene> selectedItems) {
 		setShowProgressBar(true);
-		Project dstProject = ProjectManager.getInstance().getCurrentProject();
+		Project destinationProject = ProjectManager.getInstance().getCurrentProject();
 		int unpackedItemCnt = 0;
 
 		for (Scene item : selectedItems) {
 			try {
-				dstProject.addScene(sceneController.unpack(item, dstProject));
+				destinationProject.addScene(sceneController.unpack(item, destinationProject));
 				unpackedItemCnt++;
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));

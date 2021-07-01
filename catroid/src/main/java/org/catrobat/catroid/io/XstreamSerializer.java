@@ -675,7 +675,7 @@ public final class XstreamSerializer {
 		}
 	}
 
-	public static boolean renameProject(File xmlFile, String dstName) throws IOException {
+	public static boolean renameProject(File xmlFile, String destinationName) throws IOException {
 		if (!xmlFile.exists()) {
 			throw new FileNotFoundException(xmlFile + " does not exist.");
 		}
@@ -687,16 +687,16 @@ public final class XstreamSerializer {
 			return false;
 		}
 
-		String srcName = stringFinder.getResult();
-		dstName = getXMLEncodedString(dstName);
+		String sourceName = stringFinder.getResult();
+		destinationName = getXMLEncodedString(destinationName);
 
-		if (srcName.equals(dstName)) {
+		if (sourceName.equals(destinationName)) {
 			return true;
 		}
 
-		String srcProjectNameTag = PROGRAM_NAME_START_TAG + srcName + PROGRAM_NAME_END_TAG;
-		String dstProjectNameTag = PROGRAM_NAME_START_TAG + dstName + PROGRAM_NAME_END_TAG;
-		String newXml = currentXml.replace(srcProjectNameTag, dstProjectNameTag);
+		String sourceProjectNameTag = PROGRAM_NAME_START_TAG + sourceName + PROGRAM_NAME_END_TAG;
+		String destinationProjectNameTag = PROGRAM_NAME_START_TAG + destinationName + PROGRAM_NAME_END_TAG;
+		String newXml = currentXml.replace(sourceProjectNameTag, destinationProjectNameTag);
 
 		if (currentXml.equals(newXml)) {
 			Log.e(TAG, "Cannot find projectNameTag in code.xml");
@@ -707,11 +707,11 @@ public final class XstreamSerializer {
 		return true;
 	}
 
-	private static String getXMLEncodedString(String srcName) {
-		srcName = new XStream().toXML(srcName);
-		srcName = srcName.replace("<string>", "");
-		srcName = srcName.replace("</string>", "");
-		return srcName;
+	private static String getXMLEncodedString(String sourceName) {
+		sourceName = new XStream().toXML(sourceName);
+		sourceName = sourceName.replace("<string>", "");
+		sourceName = sourceName.replace("</string>", "");
+		return sourceName;
 	}
 
 	private static void setFileReferences(Project project) {

@@ -41,13 +41,13 @@ public class ProjectRenameTask extends AsyncTask<Void, Void, Boolean> {
 	public static final String TAG = ProjectRenameTask.class.getSimpleName();
 
 	private File projectDir;
-	private String dstName;
+	private String destinationName;
 
 	private WeakReference<ProjectRenameListener> weakListenerReference;
 
-	public ProjectRenameTask(File projectDir, String dstName) {
+	public ProjectRenameTask(File projectDir, String destinationName) {
 		this.projectDir = projectDir;
-		this.dstName = dstName;
+		this.destinationName = destinationName;
 	}
 
 	public ProjectRenameTask setListener(ProjectRenameListener listener) {
@@ -55,22 +55,22 @@ public class ProjectRenameTask extends AsyncTask<Void, Void, Boolean> {
 		return this;
 	}
 
-	public static File task(File projectDir, String dstName) throws IOException {
-		File dstDir = new File(projectDir.getParent(), FileMetaDataExtractor.encodeSpecialCharsForFileSystem(dstName));
+	public static File task(File projectDir, String destinationName) throws IOException {
+		File destinationDir = new File(projectDir.getParent(), FileMetaDataExtractor.encodeSpecialCharsForFileSystem(destinationName));
 
-		if (projectDir.renameTo(dstDir)
-				&& XstreamSerializer.renameProject(new File(dstDir, CODE_XML_FILE_NAME), dstName)) {
-			ProjectManager.getInstance().moveChangedFlag(projectDir.getName(), dstName);
-			return dstDir;
+		if (projectDir.renameTo(destinationDir)
+				&& XstreamSerializer.renameProject(new File(destinationDir, CODE_XML_FILE_NAME), destinationName)) {
+			ProjectManager.getInstance().moveChangedFlag(projectDir.getName(), destinationName);
+			return destinationDir;
 		} else {
-			throw new IOException("Cannot rename project directory " + projectDir.getAbsolutePath() + " to " + dstName);
+			throw new IOException("Cannot rename project directory " + projectDir.getAbsolutePath() + " to " + destinationName);
 		}
 	}
 
 	@Override
 	protected Boolean doInBackground(Void... voids) {
 		try {
-			task(projectDir, dstName);
+			task(projectDir, destinationName);
 			return true;
 		} catch (IOException e) {
 			Log.e(TAG, "Creating renamed directory failed!", e);
