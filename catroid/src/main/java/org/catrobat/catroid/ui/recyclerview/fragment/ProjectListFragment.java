@@ -44,7 +44,7 @@ import org.catrobat.catroid.io.asynctask.ProjectCopyTask;
 import org.catrobat.catroid.io.asynctask.ProjectImportTask;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.io.asynctask.ProjectRenameTask;
-import org.catrobat.catroid.io.asynctask.ProjectUnzipAndImportTask;
+import org.catrobat.catroid.io.asynctask.ProjectUnZipperAndImporter;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.filepicker.FilePickerActivity;
@@ -65,6 +65,7 @@ import java.util.List;
 import androidx.annotation.PluralsRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import kotlin.Unit;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_OK;
@@ -95,18 +96,14 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 		}
 	}
 
-	private ProjectUnzipAndImportTask.ProjectUnzipAndImportListener projectUnzipAndImportListener =
-			new ProjectUnzipAndImportTask.ProjectUnzipAndImportListener() {
-				@Override
-				public void onImportFinished(boolean success) {
-					setAdapterItems(adapter.projectsSorted);
-
-					if (!success) {
-						ToastUtil.showError(getContext(), R.string.error_import_project);
-					}
-					setShowProgressBar(false);
-				}
-			};
+	private Unit onImportFinished(boolean success) {
+		setAdapterItems(adapter.projectsSorted);
+		if (!success) {
+			ToastUtil.showError(getContext(), R.string.error_import_project);
+		}
+		setShowProgressBar(false);
+		return Unit.INSTANCE;
+	}
 
 	private ProjectImportTask.ProjectImportListener projectImportListener =
 			new ProjectImportTask.ProjectImportListener() {
@@ -227,9 +224,8 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 			} else {
 				File projectFile = StorageOperations
 						.copyUriToDir(getContext().getContentResolver(), data.getData(), CACHE_DIR, CACHED_PROJECT_ZIP_FILE_NAME);
-				new ProjectUnzipAndImportTask()
-						.setListener(projectUnzipAndImportListener)
-						.execute(projectFile);
+				new ProjectUnZipperAndImporter(this::onImportFinished)
+						.unZipAndImportAsync(new File[] {projectFile});
 			}
 			setShowProgressBar(true);
 		} catch (IOException e) {
