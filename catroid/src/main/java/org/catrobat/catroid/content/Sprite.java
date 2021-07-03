@@ -701,4 +701,14 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	public Color getEmbroideryThreadColor() {
 		return this.embroideryThreadColor;
 	}
+
+	public void replaceSpriteWithSprite(Sprite sprite) {
+		this.scriptList = sprite.scriptList;
+		this.lookList = sprite.lookList;
+		this.soundList = sprite.soundList;
+		this.nfcTagList = sprite.nfcTagList;
+		this.userVariables = sprite.userVariables;
+		this.userLists = sprite.userLists;
+		this.userDefinedBrickList = sprite.userDefinedBrickList;
+	}
 }

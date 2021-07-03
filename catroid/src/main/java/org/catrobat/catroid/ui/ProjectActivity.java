@@ -66,6 +66,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import static org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION;
 import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.EV3;
 import static org.catrobat.catroid.common.Constants.JPEG_IMAGE_EXTENSION;
@@ -254,6 +255,7 @@ public class ProjectActivity extends BaseCastActivity {
 				break;
 			case SPRITE_OBJECT:
 				uri = Uri.fromFile(new File(data.getStringExtra(MEDIA_FILE_PATH)));
+				addObjectFromUri(uri);
 				break;
 			case SPRITE_FILE:
 				uri = data.getData();
@@ -281,10 +283,19 @@ public class ProjectActivity extends BaseCastActivity {
 	}
 
 	public void addSpriteFromUri(final Uri uri) {
-		addSpriteFromUri(uri, DEFAULT_IMAGE_EXTENSION);
+		addSpriteObjectFromUri(uri, DEFAULT_IMAGE_EXTENSION, false);
 	}
 
 	public void addSpriteFromUri(final Uri uri, final String imageExtension) {
+		addSpriteObjectFromUri(uri, imageExtension, false);
+	}
+
+	public void addObjectFromUri(final Uri uri) {
+		addSpriteObjectFromUri(uri, CATROBAT_EXTENSION, true);
+	}
+
+	public void addSpriteObjectFromUri(final Uri uri, final String imageExtension,
+			boolean isObject) {
 		final Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 
 		String resolvedName;
@@ -306,7 +317,8 @@ public class ProjectActivity extends BaseCastActivity {
 
 		lookDataName = new UniqueNameProvider().getUniqueNameInNameables(resolvedName, currentScene.getSpriteList());
 
-		new NewSpriteDialogFragment(lookDataName, lookFileName, getContentResolver(), uri, getCurrentFragment())
+		new NewSpriteDialogFragment(lookDataName, lookFileName, getContentResolver(), uri,
+				getCurrentFragment(), isObject)
 				.show(getSupportFragmentManager(), NewSpriteDialogFragment.Companion.getTAG());
 	}
 
