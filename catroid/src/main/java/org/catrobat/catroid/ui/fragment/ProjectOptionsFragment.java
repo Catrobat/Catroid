@@ -48,7 +48,6 @@ import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.asynctask.ProjectExportTask;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
-import org.catrobat.catroid.io.asynctask.ProjectRenameTask;
 import org.catrobat.catroid.io.asynctask.ProjectSaver;
 import org.catrobat.catroid.merge.NewProjectNameTextWatcher;
 import org.catrobat.catroid.ui.BottomBar;
@@ -73,6 +72,7 @@ import kotlin.Unit;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
+import static org.catrobat.catroid.io.asynctask.ProjectRenamerKt.renameProject;
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 
 public class ProjectOptionsFragment extends Fragment {
@@ -236,15 +236,15 @@ public class ProjectOptionsFragment extends Fragment {
 		String name = nameInputLayout.getEditText().getText().toString().trim();
 
 		if (!project.getName().equals(name)) {
-			try {
-				XstreamSerializer.getInstance().saveProject(project);
-				File renamedDirectory = ProjectRenameTask.task(project.getDirectory(), name);
-				ProjectLoadTask.task(renamedDirectory, getActivity().getApplicationContext());
-				project = ProjectManager.getInstance().getCurrentProject();
-				ProjectManager.getInstance().setCurrentlyEditedScene(project.getSceneByName(sceneName));
-			} catch (IOException e) {
-				Log.e(TAG, "Creating renamed directory failed!", e);
+			XstreamSerializer.getInstance().saveProject(project);
+			File renamedDirectory = renameProject(project.getDirectory(), name);
+			if (renamedDirectory == null) {
+				Log.e(TAG, "Creating renamed directory failed!");
+				return;
 			}
+			ProjectLoadTask.task(renamedDirectory, getActivity().getApplicationContext());
+			project = ProjectManager.getInstance().getCurrentProject();
+			ProjectManager.getInstance().setCurrentlyEditedScene(project.getSceneByName(sceneName));
 		}
 	}
 

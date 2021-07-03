@@ -55,7 +55,6 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
-import org.catrobat.catroid.io.asynctask.ProjectRenameTask;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.GetTagsTask;
 import org.catrobat.catroid.transfers.project.ResultReceiverWrapper;
@@ -86,6 +85,7 @@ import static org.catrobat.catroid.common.Constants.PLAY_STORE_PAGE_LINK;
 import static org.catrobat.catroid.common.Constants.SHARE_PROJECT_URL;
 import static org.catrobat.catroid.common.Constants.UPLOAD_RESULT_RECEIVER_RESULT_CODE;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.io.asynctask.ProjectRenamerKt.renameProject;
 import static org.catrobat.catroid.ui.MainMenuActivity.surveyCampaign;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_CODE_INVALID;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_LENGTH;
@@ -451,13 +451,13 @@ public class ProjectUploadActivity extends BaseActivity implements
 		String name = nameInputLayout.getEditText().getText().toString().trim();
 
 		if (!project.getName().equals(name)) {
-			try {
-				File renamedDirectory = ProjectRenameTask.task(project.getDirectory(), name);
-				ProjectLoadTask.task(renamedDirectory, getApplicationContext());
-				project = ProjectManager.getInstance().getCurrentProject();
-			} catch (IOException e) {
-				Log.e(TAG, "Creating renamed directory failed!", e);
+			File renamedDirectory = renameProject(project.getDirectory(), name);
+			if (renamedDirectory == null) {
+				Log.e(TAG, "Creating renamed directory failed!");
+				return name;
 			}
+			ProjectLoadTask.task(renamedDirectory, getApplicationContext());
+			project = ProjectManager.getInstance().getCurrentProject();
 		}
 		return name;
 	}

@@ -33,7 +33,7 @@ import org.catrobat.catroid.io.ZipArchiver
 import java.io.File
 import java.io.IOException
 
-val TAG = ProjectUnZipperAndImporter::class.java.simpleName
+private val TAG = ProjectUnZipperAndImporter::class.java.simpleName
 
 class ProjectUnZipperAndImporter @JvmOverloads constructor(
     val onImportFinished: (Boolean) -> Unit = {},

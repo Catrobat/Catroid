@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
-import org.catrobat.catroid.io.asynctask.ProjectRenameTask;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -41,11 +40,13 @@ import java.util.Arrays;
 
 import androidx.test.core.app.ApplicationProvider;
 
+import static org.catrobat.catroid.io.asynctask.ProjectRenamerKt.renameProject;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(Parameterized.class)
-public class ProjectRenameSpecialCharactersTaskTest {
+public class ProjectRenamerSpecialCharactersTest {
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
@@ -92,7 +93,8 @@ public class ProjectRenameSpecialCharactersTaskTest {
 		Project project = DefaultProjectHandler.createAndSaveDefaultProject(specialCharacterProjectName,
 				ApplicationProvider.getApplicationContext(), false);
 
-		File renamedDirectory = ProjectRenameTask.task(project.getDirectory(), projectNameWithoutSpecialCharacter);
+		File renamedDirectory = renameProject(project.getDirectory(), projectNameWithoutSpecialCharacter);
+		assertNotNull(renamedDirectory);
 
 		assertEquals(projectNameWithoutSpecialCharacter, renamedDirectory.getName());
 
@@ -107,7 +109,9 @@ public class ProjectRenameSpecialCharactersTaskTest {
 		Project project = DefaultProjectHandler.createAndSaveDefaultProject(projectNameWithoutSpecialCharacter,
 				ApplicationProvider.getApplicationContext(), false);
 
-		File renamedDirectory = ProjectRenameTask.task(project.getDirectory(), specialCharacterProjectName);
+		File renamedDirectory = renameProject(project.getDirectory(), specialCharacterProjectName);
+		assertNotNull(renamedDirectory);
+
 		File expectedDirectory = new File(project.getDirectory().getParent(), specialCharacterEncodedProjectName);
 
 		assertEquals(expectedDirectory, renamedDirectory);
