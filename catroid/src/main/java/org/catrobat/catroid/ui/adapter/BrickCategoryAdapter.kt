@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,42 +20,24 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.adapter;
+package org.catrobat.catroid.ui.adapter
 
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.view.View
+import android.view.ViewGroup
+import android.widget.BaseAdapter
+import android.widget.LinearLayout
+import android.widget.TextView
 
-import java.util.List;
+class BrickCategoryAdapter(private val categories: List<View>) : BaseAdapter() {
+    override fun getCount(): Int = categories.size
 
-public class BrickCategoryAdapter extends BaseAdapter {
-	private List<View> categories;
+    override fun getItem(position: Int): String {
+        val layout = categories[position] as LinearLayout
+        val textView = layout.getChildAt(1) as TextView
+        return textView.text.toString()
+    }
 
-	public BrickCategoryAdapter(List<View> categories) {
-		this.categories = categories;
-	}
+    override fun getItemId(position: Int): Long = position.toLong()
 
-	@Override
-	public int getCount() {
-		return categories.size();
-	}
-
-	@Override
-	public String getItem(int position) {
-		LinearLayout layout = (LinearLayout) (categories.get(position));
-		TextView textView = (TextView) layout.getChildAt(1);
-		return textView.getText().toString();
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return position;
-	}
-
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		return categories.get(position);
-	}
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View = categories[position]
 }
