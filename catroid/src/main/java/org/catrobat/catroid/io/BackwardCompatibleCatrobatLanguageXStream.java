@@ -101,6 +101,7 @@ import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.content.bricks.OpenUrlBrick;
+import org.catrobat.catroid.content.bricks.ParticleEffectAdditivityBrick;
 import org.catrobat.catroid.content.bricks.PenDownBrick;
 import org.catrobat.catroid.content.bricks.PenUpBrick;
 import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
@@ -743,6 +744,9 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 
 		brickInfo = new BrickInfo(FadeParticleEffectBrick.class.getSimpleName());
 		brickInfoMap.put("fadeParticleEffectBrick", brickInfo);
+
+		brickInfo = new BrickInfo(ParticleEffectAdditivityBrick.class.getSimpleName());
+		brickInfoMap.put("particleEffectAdditiveBrick", brickInfo);
 	}
 
 	private void initializeScriptInfoMap() {

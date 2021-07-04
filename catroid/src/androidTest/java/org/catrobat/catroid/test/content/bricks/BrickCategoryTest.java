@@ -119,6 +119,7 @@ import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.content.bricks.OpenUrlBrick;
 import org.catrobat.catroid.content.bricks.PaintNewLookBrick;
 import org.catrobat.catroid.content.bricks.ParameterizedBrick;
+import org.catrobat.catroid.content.bricks.ParticleEffectAdditivityBrick;
 import org.catrobat.catroid.content.bricks.PauseForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PenDownBrick;
 import org.catrobat.catroid.content.bricks.PenUpBrick;
@@ -321,6 +322,7 @@ public class BrickCategoryTest {
 						SetColorBrick.class,
 						ChangeColorByNBrick.class,
 						FadeParticleEffectBrick.class,
+						ParticleEffectAdditivityBrick.class,
 						ClearGraphicEffectBrick.class,
 						WhenBackgroundChangesBrick.class,
 						SetBackgroundBrick.class,

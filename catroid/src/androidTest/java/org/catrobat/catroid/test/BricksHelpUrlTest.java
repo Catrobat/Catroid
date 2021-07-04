@@ -460,6 +460,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/EmptyEventBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.FadeParticleEffectBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/FadeParticleEffectBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ParticleEffectAdditivityBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ParticleEffectAdditivityBrick");
 	}
 
 	@Parameterized.Parameters(name = "{0}")
