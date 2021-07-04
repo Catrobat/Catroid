@@ -53,26 +53,26 @@ public class TextBlockFunctionProvider implements FunctionProvider {
 
 	public String interpretFunctionTextBlock(double argument) {
 		checkTextDetectionEnabled();
-		return TextBlockUtil.getTextBlock((int) argument);
+		return TextBlockUtil.INSTANCE.getTextBlock((int) argument);
 	}
 
 	public String interpretFunctionTextBlockLanguage(double argument) {
 		checkTextDetectionEnabled();
-		return TextBlockUtil.getTextBlockLanguage((int) argument);
+		return TextBlockUtil.INSTANCE.getTextBlockLanguage((int) argument);
 	}
 
 	private double interpretFunctionTextBlockX(double argument) {
 		checkTextDetectionEnabled();
-		return TextBlockUtil.getCenterCoordinates((int) argument).x;
+		return TextBlockUtil.INSTANCE.getCenterCoordinates((int) argument).x;
 	}
 
 	private double interpretFunctionTextBlockY(double argument) {
 		checkTextDetectionEnabled();
-		return TextBlockUtil.getCenterCoordinates((int) argument).y;
+		return TextBlockUtil.INSTANCE.getCenterCoordinates((int) argument).y;
 	}
 
 	private double interpretFunctionTextBlockSize(double argument) {
 		checkTextDetectionEnabled();
-		return TextBlockUtil.getSize((int) argument);
+		return TextBlockUtil.INSTANCE.getSize((int) argument);
 	}
 }
