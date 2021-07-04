@@ -28,6 +28,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -73,6 +74,7 @@ import static android.app.Activity.RESULT_OK;
 import static org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION;
 import static org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_OBJECT_URL;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.INDEXING_VARIABLE_PREFERENCE_KEY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SPRITES_PREFERENCE_KEY;
 import static org.catrobat.catroid.ui.WebViewActivity.INTENT_PARAMETER_URL;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
@@ -142,6 +144,9 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 			title = currentProject.getName() + ": " + currentScene.getName();
 		}
 
+		PreferenceManager.getDefaultSharedPreferences(getContext()).edit()
+				.putBoolean(INDEXING_VARIABLE_PREFERENCE_KEY, false).apply();
+
 		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
 	}
 
@@ -175,7 +180,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
 		List<Sprite> groups = adapter.getItems();
 		List<String> groupNames = new ArrayList<>();
-		for (Sprite sprite: groups) {
+		for (Sprite sprite : groups) {
 			groupNames.add(sprite.getName());
 		}
 		UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();

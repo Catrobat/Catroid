@@ -30,6 +30,7 @@ public class UserVariable implements Serializable, UserData<Object> {
 	private static final long serialVersionUID = 1L;
 
 	private String name;
+	private int initialIndex = -1;
 	private UUID deviceValueKey;
 	private transient Object value;
 	private transient boolean visible = true;
@@ -55,6 +56,14 @@ public class UserVariable implements Serializable, UserData<Object> {
 		this.name = variable.name;
 		this.value = variable.value;
 		this.deviceValueKey = UUID.randomUUID();
+	}
+
+	public int getInitialIndex() {
+		return initialIndex;
+	}
+
+	public void setInitialIndex(int initialIndex) {
+		this.initialIndex = initialIndex;
 	}
 
 	@Override

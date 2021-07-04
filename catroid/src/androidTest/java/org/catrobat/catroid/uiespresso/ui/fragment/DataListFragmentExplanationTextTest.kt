@@ -26,9 +26,8 @@ package org.catrobat.catroid.uiespresso.ui.fragment
 import androidx.test.InstrumentationRegistry
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
-import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.RootMatchers.isPlatformPopup
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -38,7 +37,7 @@ import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick
 import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
 import org.catrobat.catroid.testsuites.annotations.Level.Smoke
 import org.catrobat.catroid.ui.SpriteActivity
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils
+import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper.onDataList
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor
@@ -64,11 +63,11 @@ class DataListFragmentExplanationTextTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        val script = BrickTestUtils.createProjectAndGetStartScript("DataListFragmentExplanationTextNoObjectTest")
+        val script = createProjectAndGetStartScript("DataListFragmentExplanationTextNoObjectTest")
         script.addBrick(ChangeSizeByNBrick(0.0))
         baseActivityTestRule.launchActivity()
         onView(withId(R.id.brick_change_size_by_edit_text))
-            .perform(ViewActions.click())
+            .perform(click())
         onFormulaEditor()
             .performOpenDataFragment()
     }
@@ -158,14 +157,14 @@ class DataListFragmentExplanationTextTest {
             .check(matches(not(isDisplayed())))
 
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().targetContext)
-        onView(withId(R.id.title)).inRoot(isPlatformPopup())
-            .perform(ViewActions.click())
+        onView(withText(R.string.delete))
+            .perform(click())
         onDataList().onVariableAtPosition(0)
             .performCheckItem()
         onActionMode()
             .performConfirm()
         onView(withId(android.R.id.button1))
-            .perform(ViewActions.click())
+            .perform(click())
         onRecyclerView().checkHasNumberOfItems(0)
 
         onView(withId(R.id.empty_view))
