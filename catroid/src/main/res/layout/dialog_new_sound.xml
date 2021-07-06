@@ -26,8 +26,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="@dimen/dialog_content_area_padding_top"
-    android:paddingStart="@dimen/dialog_content_area_padding"
-    android:paddingEnd="@dimen/dialog_content_area_padding"
     android:paddingBottom="@dimen/dialog_content_area_padding_top">
 
     <TableLayout
