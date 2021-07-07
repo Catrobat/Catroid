@@ -767,6 +767,7 @@ public final class XstreamSerializer {
 		try {
 			cleanUpTmpCodeFile(project.getDirectory());
 		} catch (LoadingProjectException e) {
+			Log.e(TAG, e.toString());
 			return false;
 		}
 

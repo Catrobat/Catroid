@@ -57,6 +57,7 @@ ext {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 apply from: 'gradle/code_quality_tasks.gradle'
 apply from: 'gradle/emulator_tasks.gradle'
@@ -257,6 +258,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
     productFlavors {
         catroid {
             isDefault.set(true)
@@ -361,6 +366,10 @@ dependencies {
         exclude group: 'org.apache.commons', module: 'commons-text'
         exclude group: 'commons-logging', module: 'commons-logging'
     }
+
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+    androidTestImplementation "androidx.navigation:navigation-testing:$navigationVersion"
 
     // Dependency Injection
     implementation "org.koin:koin-core:$koin_version"

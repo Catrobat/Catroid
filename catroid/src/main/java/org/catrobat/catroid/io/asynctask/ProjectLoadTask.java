@@ -35,6 +35,8 @@ import org.catrobat.catroid.io.DeviceVariableAccessor;
 import java.io.File;
 import java.lang.ref.WeakReference;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class ProjectLoadTask extends AsyncTask<Void, Void, Boolean> {
 
 	public static final String TAG = ProjectLoadTask.class.getSimpleName();
@@ -61,8 +63,9 @@ public class ProjectLoadTask extends AsyncTask<Void, Void, Boolean> {
 
 	public static boolean task(File projectDir, Context context) {
 		try {
-			ProjectManager.getInstance().loadProject(projectDir, context);
-			Project project = ProjectManager.getInstance().getCurrentProject();
+			ProjectManager projectManager = inject(ProjectManager.class).getValue();
+			projectManager.loadProject(projectDir);
+			Project project = projectManager.getCurrentProject();
 			new DeviceVariableAccessor(projectDir).cleanUpDeletedUserData(project);
 			new DeviceListAccessor(projectDir).cleanUpDeletedUserData(project);
 			return true;

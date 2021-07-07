@@ -28,6 +28,7 @@ buildscript {
     ext.koin_version = '2.1.5'
     ext.lifecycle_version = '2.2.0'
     ext.jacoco_core_version = '0.8.7'
+    ext.navigationVersion = "2.3.5"
     repositories {
         google()
         jcenter()
@@ -40,6 +41,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jacoco:org.jacoco.core:$jacoco_core_version"
         classpath 'org.catrobat.gradle.androidemulators:android-emulators-gradle:1.6.2'
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
     }
 }
 

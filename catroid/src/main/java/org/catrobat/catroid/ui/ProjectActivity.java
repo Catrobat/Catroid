@@ -158,8 +158,9 @@ public class ProjectActivity extends BaseCastActivity {
 				break;
 			case R.id.project_options:
 				getSupportFragmentManager().beginTransaction()
-						.replace(R.id.fragment_container, new ProjectOptionsFragment(), ProjectOptionsFragment.TAG)
-						.addToBackStack(ProjectOptionsFragment.TAG)
+						.replace(R.id.fragment_container, new ProjectOptionsFragment(),
+								ProjectOptionsFragment.Companion.getTAG())
+						.addToBackStack(ProjectOptionsFragment.Companion.getTAG())
 						.commit();
 				break;
 			default:
