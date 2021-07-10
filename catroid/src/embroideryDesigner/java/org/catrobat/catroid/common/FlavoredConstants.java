@@ -35,7 +35,7 @@ public final class FlavoredConstants {
 	// Web:
 	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/embroidery/";
 
-	public static final String CATROBAT_HELP_URL = "https://catrob.at/help";
+	public static final String CATROBAT_HELP_URL = "https://catrob.at/CodedEmbroideryDocumentation";
 
 	public static final String CATEGORY_URL = BASE_URL_HTTPS + "#home-projects__";
 
