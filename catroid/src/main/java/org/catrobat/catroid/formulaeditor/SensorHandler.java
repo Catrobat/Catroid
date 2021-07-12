@@ -747,4 +747,12 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				break;
 		}
 	}
+
+	public static void destroy() {
+		if (instance == null) {
+			return;
+		}
+		stopSensorListeners();
+		instance = null;
+	}
 }
