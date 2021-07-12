@@ -233,7 +233,7 @@ public final class StageLifeCycleController {
 				stageActivity.cameraManager.destroy();
 				stageActivity.cameraManager = null;
 			}
-			SensorHandler.stopSensorListeners();
+			SensorHandler.destroy();
 			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 				CastManager.getInstance().onStageDestroyed();
 			}

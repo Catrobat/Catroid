@@ -60,6 +60,7 @@ class SensorHandlerTest {
 
     @Test
     fun testSensorManagerNotInitialized() {
+        SensorHandler.destroy()
         SensorHandler.registerListener(null)
         SensorHandler.unregisterListener(null)
         SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext())
@@ -68,6 +69,7 @@ class SensorHandlerTest {
 
     @Test
     fun testSensorHandlerWithLookSensorValue() {
+        SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext())
         compareToSensor(0, Sensors.OBJECT_BRIGHTNESS)
     }
 
@@ -129,7 +131,7 @@ class SensorHandlerTest {
 
     @After
     fun tearDown() {
-        SensorHandler.stopSensorListeners()
+        SensorHandler.destroy()
     }
 
     private fun compareToSensor(value: Int, sensor: Sensors) {
