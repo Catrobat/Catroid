@@ -447,6 +447,12 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		}
 	}
 
+	public void prependScript(Script script) {
+		if (script != null && !scriptList.contains(script)) {
+			scriptList.add(0, script);
+		}
+	}
+
 	public void addScript(int index, Script script) {
 		if (script != null && !scriptList.contains(script)) {
 			scriptList.add(index, script);

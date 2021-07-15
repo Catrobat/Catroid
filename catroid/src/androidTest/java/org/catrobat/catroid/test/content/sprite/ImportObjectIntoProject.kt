@@ -182,8 +182,6 @@ class ImportObjectIntoProject {
         assertEquals(project!!.defaultScene.spriteList.last().soundList.size, importedSoundList.size)
 
         assertEquals(project!!.defaultScene.spriteList.last().scriptList.size, importedScriptList.size)
-        assertEquals(project!!.defaultScene.spriteList.last().scriptList[0].brickList.size, importedScriptList[0].brickList.size)
-        assertEquals(project!!.defaultScene.spriteList.last().scriptList[1].brickList.size, importedScriptList[1].brickList.size)
     }
 
     @Test
@@ -229,8 +227,6 @@ class ImportObjectIntoProject {
         assertEquals(project!!.defaultScene.spriteList.last().soundList.size, importedSoundList.size)
 
         assertEquals(project!!.defaultScene.spriteList.last().scriptList.size, importedScriptList.size)
-        assertEquals(project!!.defaultScene.spriteList.last().scriptList[0].brickList.size, importedScriptList[0].brickList.size)
-        assertEquals(project!!.defaultScene.spriteList.last().scriptList[1].brickList.size, importedScriptList[1].brickList.size)
     }
 
     @Test
@@ -276,8 +272,6 @@ class ImportObjectIntoProject {
         assertEquals(project!!.defaultScene.spriteList.last().soundList.size, importedSoundList.size)
 
         assertEquals(project!!.defaultScene.spriteList.last().scriptList.size, importedScriptList.size)
-        assertEquals(project!!.defaultScene.spriteList.last().scriptList[0].brickList.size, importedScriptList[0].brickList.size)
-        assertEquals(project!!.defaultScene.spriteList.last().scriptList[1].brickList.size, importedScriptList[1].brickList.size)
     }
 
     @Test
@@ -310,7 +304,6 @@ class ImportObjectIntoProject {
         val originScriptList = originLastSprite.scriptList
 
         baseActivityTestRule.activity.addObjectFromUri(uri)
-        Espresso.onView(withText(R.string.ok)).perform(click())
 
         assertNotEquals(project!!.defaultScene.spriteList.last().userVariables, importedLocalVariableList)
         assertEquals(project!!.defaultScene.spriteList.last().userVariables, originLocalVariableList)
@@ -368,7 +361,6 @@ class ImportObjectIntoProject {
         val originScriptList = originLastSprite.scriptList
 
         baseActivityTestRule.activity.addObjectFromUri(uri)
-        Espresso.onView(withText(R.string.ok)).perform(click())
 
         assertNotEquals(project!!.defaultScene.spriteList.last().userVariables, importedLocalVariableList)
         assertEquals(project!!.defaultScene.spriteList.last().userVariables, originLocalVariableList)

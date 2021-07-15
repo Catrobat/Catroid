@@ -44,6 +44,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.asynctask.ProjectSaver;
+import org.catrobat.catroid.merge.ImportProjectHelper;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.TestResult;
 import org.catrobat.catroid.ui.dialogs.LegoSensorConfigInfoDialog;
@@ -276,7 +277,7 @@ public class ProjectActivity extends BaseCastActivity {
 				PlaceAtBrick placeAtBrick = new PlaceAtBrick(xCoordinate, yCoordinate);
 				Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 				StartScript startScript = new StartScript();
-				currentSprite.addScript(startScript);
+				currentSprite.prependScript(startScript);
 				startScript.addBrick(placeAtBrick);
 				break;
 		}
@@ -294,7 +295,7 @@ public class ProjectActivity extends BaseCastActivity {
 		addSpriteObjectFromUri(uri, CATROBAT_EXTENSION, true);
 	}
 
-	public void addSpriteObjectFromUri(final Uri uri, final String imageExtension,
+	public void addSpriteObjectFromUri(final Uri uri, final String extension,
 			boolean isObject) {
 		final Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 
@@ -309,7 +310,7 @@ public class ProjectActivity extends BaseCastActivity {
 
 		if (useDefaultSpriteName) {
 			resolvedName = getString(R.string.default_sprite_name);
-			lookFileName = resolvedName + imageExtension;
+			lookFileName = resolvedName + extension;
 		} else {
 			resolvedName = StorageOperations.getSanitizedFileName(resolvedFileName);
 			lookFileName = resolvedFileName;
@@ -317,8 +318,18 @@ public class ProjectActivity extends BaseCastActivity {
 
 		lookDataName = new UniqueNameProvider().getUniqueNameInNameables(resolvedName, currentScene.getSpriteList());
 
+		ImportProjectHelper importProjectHelper = null;
+		if (isObject) {
+			importProjectHelper = new ImportProjectHelper(
+					lookFileName, getContentResolver(), uri, currentScene, this);
+
+			if (!importProjectHelper.checkForConflicts()) {
+				return;
+			}
+		}
+
 		new NewSpriteDialogFragment(lookDataName, lookFileName, getContentResolver(), uri,
-				getCurrentFragment(), isObject)
+				getCurrentFragment(), isObject, importProjectHelper)
 				.show(getSupportFragmentManager(), NewSpriteDialogFragment.Companion.getTAG());
 	}
 
