@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -62,13 +62,17 @@
         android:id="@+id/find"
         android:title="@string/find"
         app:showAsAction="never" />
-     <item
+    <item
          android:id="@+id/catblocks"
          android:title="@string/catblocks"
          app:showAsAction="never"
          />
     <item android:id="@+id/catblocks_reorder_scripts"
         android:title="@string/catblocks_reorder"
-        app:showAsAction="never"
-        />
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/ic_search"
+        app:showAsAction="ifRoom"
+        android:visible="false" />
 </menu>
