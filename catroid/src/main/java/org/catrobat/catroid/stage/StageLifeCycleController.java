@@ -239,6 +239,7 @@ public final class StageLifeCycleController {
 			}
 			StageActivity.stageListener.finish();
 			stageActivity.manageLoadAndFinish();
+			StageActivity.stageListener = null;
 		}
 		ProjectManager.getInstance().setCurrentlyPlayingScene(ProjectManager.getInstance().getCurrentlyEditedScene());
 	}
