@@ -20,34 +20,35 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui;
+package org.catrobat.catroid.ui
 
-import android.view.Menu;
-import android.view.MenuItem;
+import android.content.Context
+import android.content.SharedPreferences
+import android.os.Process
+import android.preference.PreferenceManager
+import android.util.Log
+import kotlin.system.exitProcess
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.cast.CastManager;
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+private const val EXIT_CODE = 10
 
-public abstract class BaseCastActivity extends BaseActivity {
+open class BaseExceptionHandler(context: Context) : Thread.UncaughtExceptionHandler {
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		if (SettingsFragment.isCastSharedPreferenceEnabled(this)) {
-			CastManager.getInstance().setCastButton(menu.findItem(R.id.cast_button));
-		}
-		return super.onCreateOptionsMenu(menu);
-	}
+    private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.cast_button:
-				CastManager.getInstance().openDeviceSelectorOrDisconnectDialog();
-				break;
-			default:
-				return super.onOptionsItemSelected(item);
-		}
-		return true;
-	}
+    override fun uncaughtException(thread: Thread, exception: Throwable) {
+        Log.e(TAG, "uncaughtException: ", exception)
+        preferences.edit()
+            .putBoolean(RECOVERED_FROM_CRASH, true)
+            .apply()
+        exit()
+    }
+
+    protected fun exit() {
+        Process.killProcess(Process.myPid())
+        exitProcess(EXIT_CODE)
+    }
+
+    companion object {
+        private val TAG = BaseExceptionHandler::class.java.simpleName
+    }
 }
