@@ -30,6 +30,7 @@ import android.util.Log;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;
 
@@ -240,6 +241,16 @@ public final class StageLifeCycleController {
 			StageActivity.stageListener.finish();
 			stageActivity.manageLoadAndFinish();
 		}
+		cleanupGdxMembers();
 		ProjectManager.getInstance().setCurrentlyPlayingScene(ProjectManager.getInstance().getCurrentlyEditedScene());
+	}
+
+	private static void cleanupGdxMembers() {
+		Gdx.app = null;
+		Gdx.input = null;
+		Gdx.audio = null;
+		Gdx.files = null;
+		Gdx.graphics = null;
+		Gdx.net = null;
 	}
 }
