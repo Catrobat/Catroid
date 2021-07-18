@@ -43,7 +43,7 @@ import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.asynctask.ProjectCopyTask;
 import org.catrobat.catroid.io.asynctask.ProjectImportTask;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
-import org.catrobat.catroid.io.asynctask.ProjectRenameTask;
+import org.catrobat.catroid.io.asynctask.ProjectRenamer;
 import org.catrobat.catroid.io.asynctask.ProjectUnZipperAndImporter;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ProjectActivity;
@@ -79,8 +79,7 @@ import static org.catrobat.catroid.common.SharedPreferenceKeys.SORT_PROJECTS_PRE
 
 public class ProjectListFragment extends RecyclerViewFragment<ProjectData> implements
 		ProjectLoadTask.ProjectLoadListener,
-		ProjectCopyTask.ProjectCopyListener,
-		ProjectRenameTask.ProjectRenameListener {
+		ProjectCopyTask.ProjectCopyListener {
 
 	public static final String TAG = ProjectListFragment.class.getSimpleName();
 
@@ -100,6 +99,16 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 		setAdapterItems(adapter.projectsSorted);
 		if (!success) {
 			ToastUtil.showError(getContext(), R.string.error_import_project);
+		}
+		setShowProgressBar(false);
+		return Unit.INSTANCE;
+	}
+
+	private Unit onRenameFinished(boolean success) {
+		if (success) {
+			setAdapterItems(adapter.projectsSorted);
+		} else {
+			ToastUtil.showError(getContext(), R.string.error_rename_incompatible_project);
 		}
 		setShowProgressBar(false);
 		return Unit.INSTANCE;
@@ -337,9 +346,8 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 		if (!name.equals(item.getName())) {
 			setShowProgressBar(true);
 
-			new ProjectRenameTask(item.getDirectory(), name)
-					.setListener(this)
-					.execute();
+			new ProjectRenamer(item.getDirectory(), name)
+					.renameProjectAsync(this::onRenameFinished);
 		}
 	}
 
@@ -364,16 +372,6 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 			setAdapterItems(adapter.projectsSorted);
 		} else {
 			ToastUtil.showError(getContext(), R.string.error_copy_project);
-		}
-		setShowProgressBar(false);
-	}
-
-	@Override
-	public void onRenameFinished(boolean success) {
-		if (success) {
-			setAdapterItems(adapter.projectsSorted);
-		} else {
-			ToastUtil.showError(getContext(), R.string.error_rename_incompatible_project);
 		}
 		setShowProgressBar(false);
 	}

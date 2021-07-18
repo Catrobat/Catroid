@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,6 @@ package org.catrobat.catroid.test.io.asynctask;
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
-import org.catrobat.catroid.io.asynctask.ProjectRenameTask;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -39,11 +38,13 @@ import java.io.IOException;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import static org.catrobat.catroid.io.asynctask.ProjectRenamerKt.renameProject;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
-public class ProjectRenameTaskTest {
+public class ProjectRenamerTest {
 
 	private final String projectName = "testProject";
 	private final String renamedProjectName = "renamedTestProject";
@@ -64,7 +65,8 @@ public class ProjectRenameTaskTest {
 
 	@Test
 	public void projectRenameTaskTest() throws IOException {
-		File renamedDirectory = ProjectRenameTask.task(defaultProject.getDirectory(), renamedProjectName);
+		File renamedDirectory = renameProject(defaultProject.getDirectory(), renamedProjectName);
+		assertNotNull(renamedDirectory);
 		assertEquals(renamedProjectName, renamedDirectory.getName());
 		assertTrue(ProjectLoadTask.task(renamedDirectory, ApplicationProvider.getApplicationContext()));
 	}
@@ -72,7 +74,8 @@ public class ProjectRenameTaskTest {
 	@Test
 	public void projectDirectoryRenameTest() throws IOException {
 		File expectedDirectory = new File(defaultProject.getDirectory().getParent(), renamedProjectName);
-		File renamedDirectory = ProjectRenameTask.task(defaultProject.getDirectory(), renamedProjectName);
+		File renamedDirectory = renameProject(defaultProject.getDirectory(), renamedProjectName);
+		assertNotNull(renamedDirectory);
 		assertEquals(expectedDirectory, renamedDirectory);
 		assertTrue(ProjectLoadTask.task(renamedDirectory, ApplicationProvider.getApplicationContext()));
 	}
