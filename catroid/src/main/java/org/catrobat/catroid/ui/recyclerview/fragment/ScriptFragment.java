@@ -36,6 +36,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
+import android.widget.RelativeLayout;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -135,6 +137,7 @@ public class ScriptFragment extends ListFragment implements
 	private String currentSceneName;
 	private String currentSpriteName;
 	private int undoBrickPosition;
+	private RelativeLayout fab;
 
 	private ScriptController scriptController = new ScriptController();
 	private BrickController brickController = new BrickController();
@@ -317,6 +320,7 @@ public class ScriptFragment extends ListFragment implements
 
 		setHasOptionsMenu(true);
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_scripts);
+		hideFabOnScroll();
 		return view;
 	}
 
@@ -1060,4 +1064,34 @@ public class ScriptFragment extends ListFragment implements
 			scriptFinder.close();
 		}
 	}
+
+	private void hideFabOnScroll() {
+		LayoutInflater inflater2 =
+				(LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+		View rootView = inflater2.inflate(R.layout.activity_sprite,
+				getActivity().findViewById(R.id.activity_sprite));
+		fab = rootView.findViewById(R.id.bottom_bar);
+		listView.setOnScrollListener(new BrickListView.OnScrollListener() {
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+			}
+
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+				if (firstVisibleItem + visibleItemCount == totalItemCount && fab.getVisibility() == View.VISIBLE) {
+					view.removeCallbacks(showRunnable);
+					view.postDelayed(showRunnable, 2000);
+					fab.setVisibility(View.GONE);
+				}
+			}
+		});
+	}
+
+	Runnable showRunnable = new Runnable() {
+		@Override
+		public void run() {
+			fab.setVisibility(View.VISIBLE);
+		}
+	};
 }
