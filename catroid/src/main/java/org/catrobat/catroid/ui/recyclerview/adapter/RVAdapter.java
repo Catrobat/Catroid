@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -125,6 +125,12 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 				break;
 		}
 		selectionListener.onSelectionChanged(selectionManager.getSelectedPositions().size());
+	}
+
+	public boolean add(int i, T item) {
+		items.add(i, item);
+		notifyItemInserted(items.indexOf(item));
+		return true;
 	}
 
 	public boolean add(T item) {
