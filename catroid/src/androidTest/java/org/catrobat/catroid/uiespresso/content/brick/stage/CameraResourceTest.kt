@@ -26,7 +26,8 @@ import android.Manifest
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.rule.GrantPermissionRule
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.bricks.CameraBrick
@@ -39,6 +40,7 @@ import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
+import org.hamcrest.Matchers.allOf
 import org.junit.Assert
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -64,7 +66,7 @@ class CameraResourceTest {
         val lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script)
 
         baseActivityTestRule.launchActivity()
-        onView(ViewMatchers.withId(R.id.button_play)).perform(ViewActions.click())
+        onView(allOf(withId(R.id.button_play), isDisplayed())).perform(ViewActions.click())
         lastBrickInScript.waitUntilEvaluated(3000)
 
         Assert.assertNull(StageActivity.getActiveCameraManager())
@@ -79,7 +81,7 @@ class CameraResourceTest {
         val lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script)
 
         baseActivityTestRule.launchActivity()
-        onView(ViewMatchers.withId(R.id.button_play)).perform(ViewActions.click())
+        onView(allOf(withId(R.id.button_play), isDisplayed())).perform(ViewActions.click())
         lastBrickInScript.waitUntilEvaluated(3000)
 
         assertTrue(StageActivity.getActiveCameraManager().isCameraActive)
@@ -95,7 +97,7 @@ class CameraResourceTest {
         val lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script)
 
         baseActivityTestRule.launchActivity()
-        onView(ViewMatchers.withId(R.id.button_play)).perform(ViewActions.click())
+        onView(allOf(withId(R.id.button_play), isDisplayed())).perform(ViewActions.click())
         lastBrickInScript.waitUntilEvaluated(3000)
 
         Espresso.pressBack()
@@ -111,7 +113,7 @@ class CameraResourceTest {
         val lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script)
 
         baseActivityTestRule.launchActivity()
-        onView(ViewMatchers.withId(R.id.button_play)).perform(ViewActions.click())
+        onView(allOf(withId(R.id.button_play), isDisplayed())).perform(ViewActions.click())
         lastBrickInScript.waitUntilEvaluated(3000)
 
         assertFalse(StageActivity.getActiveCameraManager().isCameraActive)
@@ -127,7 +129,7 @@ class CameraResourceTest {
         val lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script)
 
         baseActivityTestRule.launchActivity()
-        onView(ViewMatchers.withId(R.id.button_play)).perform(ViewActions.click())
+        onView(allOf(withId(R.id.button_play), isDisplayed())).perform(ViewActions.click())
         lastBrickInScript.waitUntilEvaluated(3000)
 
         assertTrue(StageActivity.getActiveCameraManager().isCameraActive)
@@ -144,7 +146,7 @@ class CameraResourceTest {
         val lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script)
 
         baseActivityTestRule.launchActivity()
-        onView(ViewMatchers.withId(R.id.button_play)).perform(ViewActions.click())
+        onView(allOf(withId(R.id.button_play), isDisplayed())).perform(ViewActions.click())
         lastBrickInScript.waitUntilEvaluated(3000)
 
         assertTrue(StageActivity.getActiveCameraManager().isCameraActive)

@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -36,6 +37,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+
+import com.google.android.gms.common.data.DataBufferObserver;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -82,6 +88,7 @@ import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -89,8 +96,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Observable;
 
 import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.ActionBar;
@@ -99,6 +109,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.ListFragment;
+import androidx.lifecycle.Observer;
 
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.UNDO_CODE_XML_FILE_NAME;
@@ -137,8 +148,8 @@ public class ScriptFragment extends ListFragment implements
 	private String currentSpriteName;
 	private int undoBrickPosition;
 
-	private ScriptController scriptController = new ScriptController();
-	private BrickController brickController = new BrickController();
+	private final ScriptController scriptController = new ScriptController();
+	private final BrickController brickController = new BrickController();
 
 	private Parcelable savedListViewState;
 	private Brick brickToFocus;
@@ -222,12 +233,10 @@ public class ScriptFragment extends ListFragment implements
 
 	@Override
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.confirm:
-				handleContextualAction();
-				break;
-			default:
-				return false;
+		if (item.getItemId() == R.id.confirm) {
+			handleContextualAction();
+		} else {
+			return false;
 		}
 		return true;
 	}
@@ -271,7 +280,7 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = View.inflate(getActivity(), R.layout.fragment_script, null);
 		listView = view.findViewById(android.R.id.list);
 
@@ -285,6 +294,7 @@ public class ScriptFragment extends ListFragment implements
 			Scene currentScene = currentProject.getSceneList().get(sceneIndex);
 			Sprite currentSprite = currentScene.getSpriteList().get(spriteIndex);
 
+			assert textView != null;
 			textView.setText(createActionBarTitle(currentProject,
 					currentScene,
 					currentSprite));
@@ -305,9 +315,10 @@ public class ScriptFragment extends ListFragment implements
 			if (activity != null && !activity.isFinishing()) {
 				activity.setCurrentSceneAndSprite(ProjectManager.getInstance().getCurrentlyEditedScene(),
 						ProjectManager.getInstance().getCurrentSprite());
-				activity.getSupportActionBar().setTitle(activity.createActionBarTitle());
+				Objects.requireNonNull(activity.getSupportActionBar()).setTitle(activity.createActionBarTitle());
 				activity.addTabs();
 			}
+			assert activity != null;
 			activity.findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
 		});
 
@@ -317,7 +328,8 @@ public class ScriptFragment extends ListFragment implements
 		});
 
 		setHasOptionsMenu(true);
-		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_scripts);
+		SnackbarUtil.showHintSnackbar(requireActivity(), R.string.hint_scripts);
+		hideFloatingButtonsOnScroll();
 		return view;
 	}
 
@@ -336,8 +348,8 @@ public class ScriptFragment extends ListFragment implements
 
 	private void hideKeyboard() {
 		InputMethodManager imm =
-				(InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+				(InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(requireView().getWindowToken(), 0);
 	}
 
 	@Override
@@ -382,9 +394,10 @@ public class ScriptFragment extends ListFragment implements
 		Scene scene = ProjectManager.getInstance().getCurrentlyEditedScene();
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 
-		ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+		ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
 
 		if (project.getSceneList().size() > 1) {
+			assert actionBar != null;
 			actionBar.setTitle(scene.getName() + ": " + sprite.getName());
 		} else {
 			actionBar.setTitle(sprite.getName());
@@ -411,11 +424,11 @@ public class ScriptFragment extends ListFragment implements
 	public void onPause() {
 		super.onPause();
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		new ProjectSaver(currentProject, getContext()).saveProjectAsync();
+		new ProjectSaver(currentProject, requireContext()).saveProjectAsync();
 
 		savedListViewState = listView.onSaveInstanceState();
 
-		((SpriteActivity) getActivity()).setUndoMenuItemVisibility(false);
+		((SpriteActivity) requireActivity()).setUndoMenuItemVisibility(false);
 	}
 
 	@Override
@@ -430,8 +443,9 @@ public class ScriptFragment extends ListFragment implements
 		super.onPrepareOptionsMenu(menu);
 	}
 
+	@SuppressLint("NonConstantResourceId")
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(@NotNull MenuItem item) {
 		if (listView.isCurrentlyMoving()) {
 			listView.highlightMovingItem();
 			return true;
@@ -500,17 +514,17 @@ public class ScriptFragment extends ListFragment implements
 		BrickCategoryFragment brickCategoryFragment = new BrickCategoryFragment();
 		brickCategoryFragment.setOnCategorySelectedListener(this);
 
-		getFragmentManager().beginTransaction()
+		getParentFragmentManager().beginTransaction()
 				.add(R.id.fragment_container, brickCategoryFragment, BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
 				.addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
 				.commit();
 
-		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_category);
+		SnackbarUtil.showHintSnackbar(requireActivity(), R.string.hint_category);
 	}
 
 	@Override
 	public void onCategorySelected(String category) {
-		ListFragment fragment = null;
+		ListFragment fragment;
 		String tag = "";
 		Fragment currentFragment = getParentFragmentManager().findFragmentById(R.id.fragment_container);
 		if (category.equals(getContext().getString(R.string.category_user_bricks))) {
@@ -524,7 +538,7 @@ public class ScriptFragment extends ListFragment implements
 			tag = AddBrickFragment.ADD_BRICK_FRAGMENT_TAG;
 		}
 
-		getFragmentManager().beginTransaction()
+		getParentFragmentManager().beginTransaction()
 				.add(R.id.fragment_container, fragment, tag)
 				.addToBackStack(null)
 				.commit();
@@ -736,8 +750,6 @@ public class ScriptFragment extends ListFragment implements
 				break;
 			case R.string.brick_context_dialog_delete_brick:
 			case R.string.brick_context_dialog_delete_script:
-				showDeleteAlert(brick.getAllParts());
-				break;
 			case R.string.brick_context_dialog_delete_definition:
 				showDeleteAlert(brick.getAllParts());
 				break;
@@ -996,8 +1008,8 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	private void refreshFragmentAfterUndo() {
-		Fragment scriptFragment = getActivity().getSupportFragmentManager().findFragmentByTag(TAG);
-		final FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+		Fragment scriptFragment = requireActivity().getSupportFragmentManager().findFragmentByTag(TAG);
+		final FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.detach(scriptFragment);
 		fragmentTransaction.attach(scriptFragment);
 		fragmentTransaction.commit();
@@ -1060,4 +1072,26 @@ public class ScriptFragment extends ListFragment implements
 			scriptFinder.close();
 		}
 	}
+
+	private void hideFloatingButtonsOnScroll() {
+		RelativeLayout bottomBar = activity.findViewById(R.id.bottom_bar);
+		listView.setOnScrollListener(new ListView.OnScrollListener() {
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				if (scrollState == SCROLL_STATE_IDLE) {
+					listView.setCurrentScrollState(false);
+					bottomBar.setVisibility(View.VISIBLE);
+				} else if (scrollState == SCROLL_STATE_TOUCH_SCROLL || scrollState ==
+						SCROLL_STATE_FLING) {
+					bottomBar.setVisibility(View.INVISIBLE);
+				}
+			}
+
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+				listView.setCurrentScrollState(true);
+			}
+		});
+	}
+
 }

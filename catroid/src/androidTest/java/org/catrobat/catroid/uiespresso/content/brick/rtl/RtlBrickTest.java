@@ -209,6 +209,7 @@ import java.util.Locale;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import kotlin.Lazy;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -230,16 +231,18 @@ import static org.catrobat.catroid.uiespresso.util.matchers.rtl.RtlViewDirection
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.Is.is;
+import static org.koin.java.KoinJavaComponent.inject;
 
-import static androidx.test.InstrumentationRegistry.getTargetContext;
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
 public class RtlBrickTest {
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
@@ -258,7 +261,8 @@ public class RtlBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		SettingsFragment.setLanguageSharedPreference(getTargetContext(), "ar");
+		SettingsFragment.setLanguageSharedPreference(ApplicationProvider.getApplicationContext(),
+				"ar");
 		createProject("RtlBricksTest");
 		SharedPreferences sharedPreferences = PreferenceManager
 				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
@@ -282,7 +286,7 @@ public class RtlBrickTest {
 			sharedPreferences.edit().putBoolean(category, false).commit();
 		}
 		enabledByThisTestPeripheralCategories.clear();
-		SettingsFragment.removeLanguageSharedPreference(getTargetContext());
+		SettingsFragment.removeLanguageSharedPreference(ApplicationProvider.getApplicationContext());
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
@@ -759,14 +763,13 @@ public class RtlBrickTest {
 		spriteTwo.addScript(script);
 
 		project.getDefaultScene().addSprite(spriteTwo);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
-		ProjectManager.getInstance().setCurrentSprite(spriteTwo);
+		projectManager.getValue().setCurrentProject(project);
+		projectManager.getValue().setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.getValue().setCurrentSprite(spriteTwo);
 	}
 
 	private void openCategory(int categoryNameStringResourceId) {
-		onView(withId(R.id.button_add))
-				.perform(click());
+		onView(allOf(withId(R.id.button_add), isDisplayed())).perform(click());
 
 		onData(allOf(is(instanceOf(String.class)), is(UiTestUtils.getResourcesString(categoryNameStringResourceId))))
 				.inAdapterView(BrickCategoryListMatchers.isBrickCategoryView())

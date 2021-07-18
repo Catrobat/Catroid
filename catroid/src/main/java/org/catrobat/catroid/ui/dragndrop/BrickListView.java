@@ -60,6 +60,7 @@ public class BrickListView extends ListView {
 
 	private int upperScrollBound;
 	private int lowerScrollBound;
+	private boolean currentScrollState;
 
 	private BitmapDrawable hoveringDrawable;
 	private Rect viewBounds = new Rect();
@@ -340,5 +341,13 @@ public class BrickListView extends ListView {
 		}
 		super.setAdapter(adapter);
 		brickAdapterInterface = (BrickAdapterInterface) adapter;
+	}
+
+	public boolean isCurrentlyScrolledThrough() {
+		return currentScrollState;
+	}
+
+	public void setCurrentScrollState(boolean currentScrollState) {
+		this.currentScrollState = currentScrollState;
 	}
 }

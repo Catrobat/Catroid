@@ -40,6 +40,7 @@ import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
+import org.hamcrest.Matchers
 import org.junit.Assert
 import org.junit.Assert.assertFalse
 import org.junit.Rule
@@ -65,7 +66,11 @@ class FaceDetectionResourceTest {
         createProject(FormulaElement.ElementType.SENSOR, Sensors.FACE_SIZE.name)
         baseActivityTestRule.launchActivity()
 
-        Espresso.onView(ViewMatchers.withId(R.id.button_play)).perform(ViewActions.click())
+        Espresso.onView(Matchers.allOf(
+                ViewMatchers.withId(R.id.button_play),
+                ViewMatchers.isDisplayed()
+            )
+        ).perform(ViewActions.click())
         lastBrickInScript.waitUntilEvaluated(3000)
 
         Assert.assertTrue(faceDetectionOn())
@@ -77,7 +82,13 @@ class FaceDetectionResourceTest {
         createProject(FormulaElement.ElementType.NUMBER, "42")
         baseActivityTestRule.launchActivity()
 
-        Espresso.onView(ViewMatchers.withId(R.id.button_play)).perform(ViewActions.click())
+        Espresso.onView(
+            Matchers.allOf(
+                ViewMatchers.withId(R.id.button_play),
+                ViewMatchers.isDisplayed()
+            )
+        ).perform(ViewActions.click())
+
         lastBrickInScript.waitUntilEvaluated(3000)
 
         assertFalse(faceDetectionOn())
@@ -89,7 +100,12 @@ class FaceDetectionResourceTest {
         createProject(FormulaElement.ElementType.SENSOR, Sensors.FACE_SIZE.name)
         baseActivityTestRule.launchActivity()
 
-        Espresso.onView(ViewMatchers.withId(R.id.button_play)).perform(ViewActions.click())
+        Espresso.onView(
+            Matchers.allOf(
+                ViewMatchers.withId(R.id.button_play),
+                ViewMatchers.isDisplayed()
+            )
+        ).perform(ViewActions.click())
         lastBrickInScript.waitUntilEvaluated(3000)
 
         Assert.assertTrue(faceDetectionOn())
@@ -97,7 +113,13 @@ class FaceDetectionResourceTest {
         Espresso.pressBack()
         Espresso.onView(ViewMatchers.withId(R.id.stage_dialog_button_back)).perform(ViewActions.click())
         formula.root = FormulaElement(FormulaElement.ElementType.NUMBER, "42", null)
-        Espresso.onView(ViewMatchers.withId(R.id.button_play)).perform(ViewActions.click())
+
+        Espresso.onView(
+            Matchers.allOf(
+                ViewMatchers.withId(R.id.button_play),
+                ViewMatchers.isDisplayed()
+            )
+        ).perform(ViewActions.click())
 
         assertFalse(faceDetectionOn())
     }

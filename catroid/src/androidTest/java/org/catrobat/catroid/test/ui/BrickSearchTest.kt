@@ -35,8 +35,8 @@ import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.pressKey
-import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.action.ViewActions.replaceText
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -59,16 +59,19 @@ import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
+import org.hamcrest.Matchers.allOf
 import org.hamcrest.TypeSafeMatcher
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.koin.java.KoinJavaComponent.inject
 import java.io.IOException
 
 class BrickSearchTest {
     var projectName = "searchTestProject"
+    private val projectManager = inject(ProjectManager::class.java)
 
     @Rule
     @JvmField
@@ -93,7 +96,7 @@ class BrickSearchTest {
             BroadcastBrick::class.java
         )
         ensureKeyboardIsClosed()
-        Espresso.onView(withId(R.id.button_add)).perform(click())
+        Espresso.onView(allOf(withId(R.id.button_add), isDisplayed())).perform(click())
         Espresso.onView(withId(R.id.search)).perform(click())
         for (index in arguments.indices) {
             Espresso.onView(withId(R.id.search_src_text)).perform(click())
@@ -103,8 +106,10 @@ class BrickSearchTest {
             InstrumentationRegistry.getInstrumentation().waitForIdleSync()
             viewMatcher.perform(pressKey(KeyEvent.KEYCODE_ENTER))
             InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-            Espresso.onData(Matchers.allOf(Matchers.`is`(Matchers.instanceOf
-            (bricks[index] as Class<*>?))))
+            Espresso.onData(
+                allOf(Matchers.`is`(Matchers.instanceOf
+            (bricks[index] as Class<*>?)))
+            )
                 .inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
                 .atPosition(0)
                 .check(matches(isDisplayed()))
@@ -115,16 +120,16 @@ class BrickSearchTest {
     @Flaky
     fun testSearchIfBrick() {
         ensureKeyboardIsClosed()
-        Espresso.onView(withId(R.id.button_add)).perform(click())
+        Espresso.onView(allOf(withId(R.id.button_add), isDisplayed())).perform(click())
         Espresso.onView(withId(R.id.search)).perform(click())
         Espresso.onView(withId(R.id.search_src_text)).perform(
             replaceText("if")
         ).perform(pressKey(KeyEvent.KEYCODE_ENTER))
         val searchAutoComplete = Espresso.onView(
-            Matchers.allOf(
+            allOf(
                 withId(R.id.search_src_text),
                 ViewMatchers.withText("if"), childAtPosition(
-                    Matchers.allOf(
+                    allOf(
                         withId(R.id.search_plate),
                         childAtPosition(withId(R.id.search_edit_frame), 1)
                     ), 0
@@ -133,7 +138,7 @@ class BrickSearchTest {
         )
         searchAutoComplete.perform(ViewActions.pressImeActionButton())
         val linearLayout = Espresso.onData(Matchers.anything()).inAdapterView(
-            Matchers.allOf(
+            allOf(
                 withId(android.R.id.list),
                 childAtPosition(withId(R.id.fragment_brick_search), 0)
             )
@@ -146,7 +151,7 @@ class BrickSearchTest {
     @Flaky
     fun testCloseKeyboardAfterSearching() {
         ensureKeyboardIsClosed()
-        Espresso.onView(withId(R.id.button_add)).perform(click())
+        Espresso.onView(allOf(withId(R.id.button_add), isDisplayed())).perform(click())
         Espresso.onView(withId(R.id.search)).perform(click())
         Espresso.onView(ViewMatchers.isRoot()).perform(CustomActions.wait(2000))
         Assert.assertTrue(isKeyboardVisible())
@@ -161,7 +166,7 @@ class BrickSearchTest {
     @Flaky
     fun testCategorySearch() {
         ensureKeyboardIsClosed()
-        Espresso.onView(withId(R.id.button_add)).perform(click())
+        Espresso.onView(allOf(withId(R.id.button_add), isDisplayed())).perform(click())
         Espresso.onView(withId(R.id.search)).perform(click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
         Espresso.onView(withId(R.id.search_src_text)).perform(
@@ -170,22 +175,22 @@ class BrickSearchTest {
         InstrumentationRegistry.getInstrumentation().waitForIdleSync() // previous action takes
         // long to execute
         Espresso.onView(
-            Matchers.allOf(
+            allOf(
                 ViewMatchers.withText("When scene starts"),
                 isDisplayed()
             )
         ).check(matches(isDisplayed()))
         Espresso.onView(
-            Matchers.allOf(
+            allOf(
                 ViewMatchers.withText("When background changes to"),
                 isDisplayed()
             )
         ).check(matches(isDisplayed()))
         Espresso.onView(
-            Matchers.allOf(
+            allOf(
                 ViewMatchers.withContentDescription(Matchers.containsString("Navigate up")),
                 childAtPosition(
-                    Matchers.allOf(
+                    allOf(
                         withId(R.id.toolbar),
                         childAtPosition(withId(R.id.activity_sprite), 0)
                     ), 1
@@ -195,7 +200,7 @@ class BrickSearchTest {
         ).perform(click())
         Espresso.onData(Matchers.anything())
             .inAdapterView(
-                Matchers.allOf(
+                allOf(
                     withId(R.id.brick_category_list),
                     childAtPosition(withId(R.id.fragment_container), 1)
                 )
@@ -207,12 +212,12 @@ class BrickSearchTest {
             .perform(pressKey(KeyEvent.KEYCODE_ENTER))
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
         Espresso.onView(
-            Matchers.allOf(
+            allOf(
                 ViewMatchers.withText("When scene starts")
             )
         ).check(doesNotExist())
         Espresso.onView(
-            Matchers.allOf(
+            allOf(
                 ViewMatchers.withText("When background changes to"),
                 isDisplayed()
             )
@@ -251,9 +256,9 @@ class BrickSearchTest {
         val sprite1 = Sprite("testSprite1")
         project.addScene(scene1)
         project.getSceneByName(sceneName1).addSprite(sprite1)
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().setCurrentSceneAndSprite(sceneName1, sprite1.name)
-        ProjectManager.getInstance().currentlyEditedScene = scene1
+        projectManager.value.currentProject = project
+        projectManager.value.setCurrentSceneAndSprite(sceneName1, sprite1.name)
+        projectManager.value.currentlyEditedScene = scene1
     }
 
     @After
