@@ -21,6 +21,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
+
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -28,23 +29,28 @@
     <item
         android:id="@+id/import_project"
         android:title="@string/import_project"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        android:icon="@drawable/ic_import_project"/>
     <item
         android:id="@+id/copy"
         android:title="@string/copy"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        android:icon="@drawable/ic_content_copy"/>
     <item
         android:id="@+id/delete"
         android:title="@string/delete"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        android:icon="@drawable/ic_delete"/>
     <item
         android:id="@+id/rename"
         android:title="@string/rename"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        android:icon="@drawable/ic_edit"/>
     <item
         android:id="@+id/show_details"
         android:title="@string/show_details"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        android:icon="@drawable/ic_placeholder"/>
     <item
         android:id="@+id/cast_button"
         android:title="@string/cast_button_menu_item_title"
@@ -55,10 +61,12 @@
         android:id="@+id/merge"
         android:title="@string/merge"
         android:visible="false"
-        app:showAsAction="never"/>
+        app:showAsAction="never"
+        android:icon="@drawable/ic_merge"/>
     <item
         android:id="@+id/sort_projects"
         android:title="@string/sort_projects"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        android:icon="@drawable/ic_sort"/>
 
 </menu>

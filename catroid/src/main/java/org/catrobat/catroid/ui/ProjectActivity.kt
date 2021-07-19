@@ -149,6 +149,9 @@ class ProjectActivity : BaseCastActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_project_activity, menu)
+        menu.findItem(R.id.from_library).isVisible = false
+        menu.findItem(R.id.from_local).isVisible = false
+        menu.findItem(R.id.edit).isVisible = false
         return super.onCreateOptionsMenu(menu)
     }
 

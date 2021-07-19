@@ -157,7 +157,6 @@ public class SpriteActivity extends BaseActivity {
 	private Project currentProject;
 	private Sprite currentSprite;
 	private Scene currentScene;
-	private Menu currentMenu;
 	private LookData currentLookData;
 	private String generatedVariableName;
 
@@ -210,13 +209,13 @@ public class SpriteActivity extends BaseActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_script_activity, menu);
-		currentMenu = menu;
+		optionsMenu = menu;
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	public void showUndo(boolean visible) {
-		if (currentMenu != null) {
-			currentMenu.findItem(R.id.menu_undo).setVisible(visible);
+		if (optionsMenu != null) {
+			optionsMenu.findItem(R.id.menu_undo).setVisible(visible);
 			if (visible) {
 				ProjectManager.getInstance().changedProject(currentProject.getName());
 			}
@@ -224,8 +223,8 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	public void checkForChange() {
-		if (currentMenu != null) {
-			if (currentMenu.findItem(R.id.menu_undo).isVisible()) {
+		if (optionsMenu != null) {
+			if (optionsMenu.findItem(R.id.menu_undo).isVisible()) {
 				ProjectManager.getInstance().changedProject(currentProject.getName());
 			} else {
 				ProjectManager.getInstance().resetChangedFlag(currentProject);
