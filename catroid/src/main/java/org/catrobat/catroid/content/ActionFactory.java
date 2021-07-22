@@ -166,6 +166,7 @@ import org.catrobat.catroid.content.actions.WaitForSoundAction;
 import org.catrobat.catroid.content.actions.WaitTillIdleAction;
 import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.WebRequestAction;
+import org.catrobat.catroid.content.actions.PostWebRequestAction;
 import org.catrobat.catroid.content.actions.WriteEmbroideryToFileAction;
 import org.catrobat.catroid.content.actions.WriteUserDataOnDeviceAction;
 import org.catrobat.catroid.content.actions.WriteVariableToFileAction;
@@ -1490,6 +1491,18 @@ public class ActionFactory extends Actions {
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setFormula(variableFormula);
+		action.setUserVariable(userVariable);
+		return action;
+	}
+
+	public Action createPostWebRequestAction(Sprite sprite, SequenceAction sequence, Formula url, 
+			Formula header, Formula data, UserVariable userVariable) {
+		PostWebRequestAction action = action(PostWebRequestAction.class);
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		action.setScope(scope);
+		action.setUrl(url);
+		action.setHeader(header);
+		action.setData(data);
 		action.setUserVariable(userVariable);
 		return action;
 	}
