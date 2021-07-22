@@ -1201,7 +1201,7 @@
 
     <string name="brick_post_web_request">Post web request to</string>
     <string name="brick_post_web_request_url_default_value">https://httpbin.org/post</string>
-    <string name="brick_post_web_request_with_header">with header</string>
+    <string name="brick_post_web_request_header">with header</string>
     <string name="brick_post_web_request_header_default_value">accept: application/json</string>
     <string name="brick_post_web_request_data">and data</string>
     <string name="brick_post_web_request_data_default_value">Test.</string>
