@@ -105,7 +105,7 @@ abstract class BaseActivity : AppCompatActivity(), PermissionHandlingActivity {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.home -> onBackPressed()
+            android.R.id.home -> onBackPressed()
             else -> return super.onOptionsItemSelected(item)
         }
         return true
