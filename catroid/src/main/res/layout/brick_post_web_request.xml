@@ -78,7 +78,7 @@
             android:text="@string/brick_post_web_request_response" />
 
         <Spinner
-            android:id="@+id/web_request_spinner"
+            android:id="@+id/post_web_request_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textDirection="locale" />
