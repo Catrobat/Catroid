@@ -33,7 +33,7 @@ class PostWebRequestAction : PostWebAction() {
 
     override fun act(delta: Float): Boolean {
         val scopeInitialized = scope?.sprite != null && scope?.sequence != null
-        return if (userVariable == null || url == null || !scopeInitialized) {
+        return if (userVariable == null || urlFormula == null || !scopeInitialized) {
             true
         } else super.act(delta)
     }
