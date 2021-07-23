@@ -35,10 +35,10 @@ import org.catrobat.catroid.stage.BrickDialogManager
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.StageActivity.stageListener
 import org.catrobat.catroid.web.PostWebConnection
-import org.catrobat.catroid.web.PostWebConnection.WebRequestListener
+import org.catrobat.catroid.web.PostWebConnection.PostWebRequestListener
 
 abstract class PostWebAction : Action(), PostWebRequestListener {
-    private var webConnection: PostWebConnection? = null
+    private var postWebConnection: PostWebConnection? = null
     var urlFormula: Formula? = null
     var headerFormula: Formula? = null
     var dataFormula: Formula? = null
@@ -119,7 +119,7 @@ abstract class PostWebAction : Action(), PostWebRequestListener {
             return false
         }
 
-        stageListener.webConnectionHolder.removeConnection(webConnection)
+        stageListener.webConnectionHolder.removeConnection(postWebConnection)
         handleResponse()
         return true
     }
@@ -133,10 +133,10 @@ abstract class PostWebAction : Action(), PostWebRequestListener {
 
     private fun sendRequest(): Boolean {
         requestStatus = RequestStatus.WAITING
-        webConnection = PostWebConnection(this, url!!)
+        postWebConnection = PostWebConnection(this, url!!)
 
-        return if (stageListener.webConnectionHolder.addConnection(webConnection!!)) {
-            webConnection!!.sendWebRequest()
+        return if (stageListener.webConnectionHolder.addConnection(postWebConnection!!)) {
+            postWebConnection!!.sendPostWebRequest()
             true
         } else false
     }
@@ -156,8 +156,8 @@ abstract class PostWebAction : Action(), PostWebRequestListener {
 
     @CallSuper
     override fun restart() {
-        stageListener.webConnectionHolder.removeConnection(webConnection)
-        webConnection = null
+        stageListener.webConnectionHolder.removeConnection(postWebConnection)
+        postWebConnection = null
         url = null
         requestStatus = RequestStatus.NOT_SENT
         permissionStatus = PermissionStatus.UNKNOWN
@@ -165,7 +165,7 @@ abstract class PostWebAction : Action(), PostWebRequestListener {
 
     @CallSuper
     override fun onCancelledCall() {
-        webConnection = null
+        postWebConnection = null
         url = null
         requestStatus = RequestStatus.NOT_SENT
     }
