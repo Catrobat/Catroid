@@ -174,6 +174,7 @@ import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
+import org.catrobat.catroid.content.bricks.PostWebRequestBrick;
 import org.catrobat.catroid.content.bricks.PreviousLookBrick;
 import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
@@ -527,6 +528,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", ReadListFromDeviceBrick.class);
 		xstream.alias("brick", StopScriptBrick.class);
 		xstream.alias("brick", WebRequestBrick.class);
+		xstream.alias("brick", PostWebRequestBrick.class);
 		xstream.alias("brick", StoreCSVIntoUserListBrick.class);
 		xstream.alias("brick", ResetTimerBrick.class);
 		xstream.alias("brick", EmptyEventBrick.class);
