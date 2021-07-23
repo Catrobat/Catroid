@@ -1495,14 +1495,14 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createPostWebRequestAction(Sprite sprite, SequenceAction sequence, Formula url, 
-			Formula header, Formula data, UserVariable userVariable) {
+	public Action createPostWebRequestAction(Sprite sprite, SequenceAction sequence, Formula urlFormula, 
+			Formula headerFormula, Formula dataFormula, UserVariable userVariable) {
 		PostWebRequestAction action = action(PostWebRequestAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
-		action.setUrl(url);
-		action.setHeader(header);
-		action.setData(data);
+		action.setUrlFormula(urlFormula);
+		action.setHeaderFormula(headerFormula);
+		action.setDataFormula(dataFormula);
 		action.setUserVariable(userVariable);
 		return action;
 	}
