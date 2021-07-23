@@ -195,6 +195,9 @@ public final class BrickValues {
 	public static final String BACKGROUND_REQUEST = "https://catrob.at/HalloweenPortrait";
 	public static final String BACKGROUND_REQUEST_LANDSCAPE = "https://catrob.at/HalloweenLandscape";
 	// Note: No constant default value for the "Send web request" brick, as it is localized in strings.xml
+	public static final String POST_WEB_REQUEST_URL = "https://httpbin.org/post";
+	public static final String POST_WEB_REQUEST_HEADER = "User-Agent: Mozilla/5.0 (compatible; Catrobatbot/1.0; +https://catrob.at/bot)\naccept: application/json";
+	// Note: No constant default value for the data content of the "Post web request" brick, as it is localized in strings.xml
 
 	private BrickValues() {
 		throw new AssertionError("No.");
