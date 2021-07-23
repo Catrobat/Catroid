@@ -31,9 +31,9 @@ import org.catrobat.catroid.formulaeditor.Formula
 
 class PostWebRequestBrick() : UserVariableBrickWithFormula() {
     init {
-        addAllowedBrickField(BrickField.POST_REQUEST_URL, R.id.brick_post_web_request_edit_url_text)
-        addAllowedBrickField(BrickField.POST_REQUEST_HEADER, R.id.brick_post_web_request_edit_header_text)
-        addAllowedBrickField(BrickField.POST_REQUEST_DATA, R.id.brick_post_web_request_edit_data_text)
+        addAllowedBrickField(BrickField.POST_WEB_REQUEST_URL, R.id.brick_post_web_request_edit_url_text)
+        addAllowedBrickField(BrickField.POST_WEB_REQUEST_HEADER, R.id.brick_post_web_request_edit_header_text)
+        addAllowedBrickField(BrickField.POST_WEB_REQUEST_DATA, R.id.brick_post_web_request_edit_data_text)
     }
 
     constructor(
@@ -51,9 +51,9 @@ class PostWebRequestBrick() : UserVariableBrickWithFormula() {
         header: Formula?,
         data: Formula?
     ) : this() {
-        setFormulaWithBrickField(BrickField.POST_REQUEST_URL, url)
-        setFormulaWithBrickField(BrickField.POST_REQUEST_HEADER, header)
-        setFormulaWithBrickField(BrickField.POST_REQUEST_DATA, data)
+        setFormulaWithBrickField(BrickField.POST_WEB_REQUEST_URL, url)
+        setFormulaWithBrickField(BrickField.POST_WEB_REQUEST_HEADER, header)
+        setFormulaWithBrickField(BrickField.POST_WEB_REQUEST_DATA, data)
     }
 
     override fun getViewResource(): Int = R.layout.brick_post_web_request
