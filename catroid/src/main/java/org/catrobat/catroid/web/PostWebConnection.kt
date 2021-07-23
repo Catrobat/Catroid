@@ -40,7 +40,7 @@ class PostWebConnection(private val okHttpClient: OkHttpClient, listener: PostWe
     private var call: Call? = null
 
     constructor(listener: PostWebRequestListener, url: String, header: String, data: String) :
-        this(StageActivity.stageListener.webConnectionHolder.okHttpClient, listener, url, header, data)
+        this(StageActivity.stageListener.postWebConnectionHolder.okHttpClient, listener, url, header, data)
 
     companion object {
         private const val EXCEPTION_MESSAGE_TIMEOUT = "timeout"
