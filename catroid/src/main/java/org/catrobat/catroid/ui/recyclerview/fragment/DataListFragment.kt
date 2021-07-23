@@ -141,6 +141,19 @@ class DataListFragment : Fragment(),
         adapter?.allowMultiSelection = true
     }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity?)?.supportActionBar?.setTitle(R.string.formula_editor_data)
+        adapter?.apply {
+            notifyDataSetChanged()
+            registerAdapterDataObserver(observer)
+        }
+        setShowEmptyView(shouldShowEmptyView())
+
+        BottomBar.showBottomBar(activity)
+        BottomBar.hidePlayButton(activity)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -159,28 +172,9 @@ class DataListFragment : Fragment(),
         initializeAdapter()
     }
 
-    override fun onResume() {
-        super.onResume()
-        (activity as AppCompatActivity?)?.supportActionBar?.setTitle(R.string.formula_editor_data)
-        adapter?.apply {
-            notifyDataSetChanged()
-            registerAdapterDataObserver(observer)
-        }
-        setShowEmptyView(shouldShowEmptyView())
-
-        BottomBar.showBottomBar(activity)
-        BottomBar.hidePlayButton(activity)
-    }
-
     override fun onPause() {
         super.onPause()
         adapter?.unregisterAdapterDataObserver(observer)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        finishActionMode()
-        BottomBar.hideBottomBar(activity)
     }
 
     private fun initializeAdapter() {
@@ -207,6 +201,12 @@ class DataListFragment : Fragment(),
         )
         emptyView?.setText(R.string.fragment_data_text_description)
         onAdapterReady()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        finishActionMode()
+        BottomBar.hideBottomBar(activity)
     }
 
     private fun onAdapterReady() {
@@ -265,21 +265,6 @@ class DataListFragment : Fragment(),
             .show()
     }
 
-    private fun deleteItems(selectedItems: List<UserData<*>>) {
-        finishActionMode()
-        for (item in selectedItems) {
-            adapter?.remove(item)
-        }
-        ProjectManager.getInstance().currentProject.deselectElements(selectedItems)
-        ToastUtil.showSuccess(
-            activity, resources.getQuantityString(
-                R.plurals.deleted_Items,
-                selectedItems.size,
-                selectedItems.size
-            )
-        )
-    }
-
     private fun showRenameDialog(selectedItems: List<UserData<*>>) {
         val item = selectedItems[0]
         val builder = TextInputDialog.Builder(requireContext())
@@ -303,6 +288,21 @@ class DataListFragment : Fragment(),
         builder.setTitle(R.string.rename_data_dialog)
             .setNegativeButton(R.string.cancel, null)
             .show()
+    }
+
+    private fun deleteItems(selectedItems: List<UserData<*>>) {
+        finishActionMode()
+        for (item in selectedItems) {
+            adapter?.remove(item)
+        }
+        ProjectManager.getInstance().currentProject.deselectElements(selectedItems)
+        ToastUtil.showSuccess(
+            activity, resources.getQuantityString(
+                R.plurals.deleted_Items,
+                selectedItems.size,
+                selectedItems.size
+            )
+        )
     }
 
     private fun renameItem(
