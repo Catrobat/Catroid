@@ -133,7 +133,7 @@ abstract class PostWebAction : Action(), PostWebRequestListener {
 
     private fun sendRequest(): Boolean {
         requestStatus = RequestStatus.WAITING
-        postWebConnection = PostWebConnection(this, url!!)
+        postWebConnection = PostWebConnection(this, url!!, header!!, data!!)
 
         return if (stageListener.postWebConnectionHolder.addConnection(postWebConnection!!)) {
             postWebConnection!!.sendPostWebRequest()
