@@ -61,7 +61,7 @@ class PostWebConnection(private val okHttpClient: OkHttpClient, listener: PostWe
                 .add("User-Agent", Constants.USER_AGENT)
             val headerLines = header.lines()
             headerLines.foreach {
-              if it.startsWith("user-agent: ", ignoreCase = true) {
+              if (it.startsWith("user-agent: ", ignoreCase = true)) {
                 headers.set("User-Agent", it.subSequence("user-agent: ".length, it.length))
               } else {
                 headers.add(it)
