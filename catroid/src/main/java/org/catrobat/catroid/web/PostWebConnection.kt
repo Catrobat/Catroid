@@ -28,6 +28,8 @@ import okhttp3.Callback
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Headers
+import okhttp3.MediaType
+import okhttp3.RequestBody
 import okhttp3.Response
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.stage.StageActivity
@@ -62,7 +64,7 @@ class PostWebConnection(private val okHttpClient: OkHttpClient, listener: PostWe
             val headerLines = header.lines()
             headerLines.forEach {
               if (it.startsWith("user-agent: ", ignoreCase = true)) {
-                headers.set("User-Agent", it.subSequence("user-agent: ".length, it.length))
+                headers.set("User-Agent", it.substring("user-agent: ".length))
               } else {
                 headers.add(it)
               }
