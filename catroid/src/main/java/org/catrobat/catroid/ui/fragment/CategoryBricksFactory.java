@@ -142,6 +142,7 @@ import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
+import org.catrobat.catroid.content.bricks.PostWebRequestBrick;
 import org.catrobat.catroid.content.bricks.PreviousLookBrick;
 import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
@@ -635,6 +636,8 @@ public class CategoryBricksFactory {
 		} else {
 			dataBrickList.add(new BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST));
 		}
+		dataBrickList.add(new PostWebRequestBrick(BrickValues.POST_WEB_REQUEST_URL, BrickValues.POST_WEB_REQUEST_HEADER, 
+				context.getString(R.string.brick_post_web_request_data_default_value)));
 
 		dataBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
 
@@ -673,6 +676,8 @@ public class CategoryBricksFactory {
 		} else {
 			deviceBrickList.add(new BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST));
 		}
+		deviceBrickList.add(new PostWebRequestBrick(BrickValues.POST_WEB_REQUEST_URL, BrickValues.POST_WEB_REQUEST_HEADER, 
+				context.getString(R.string.brick_post_web_request_data_default_value)));
 
 		deviceBrickList.add(new OpenUrlBrick(BrickValues.OPEN_IN_BROWSER));
 		deviceBrickList.add(new VibrationBrick(BrickValues.VIBRATE_SECONDS));
@@ -888,6 +893,8 @@ public class CategoryBricksFactory {
 				context.getString(R.string.brick_store_csv_into_userlist_data)));
 
 		assertionsBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
+		assertionsBrickList.add(new PostWebRequestBrick(BrickValues.POST_WEB_REQUEST_URL, BrickValues.POST_WEB_REQUEST_HEADER, 
+				context.getString(R.string.brick_post_web_request_data_default_value)));
 
 		return assertionsBrickList;
 	}
@@ -1021,6 +1028,8 @@ public class CategoryBricksFactory {
 		} else if (brick instanceof SetVariableBrick) {
 			category = res.getString(R.string.category_data);
 		} else if (brick instanceof WebRequestBrick) {
+			category = res.getString(R.string.category_data);
+		} else if (brick instanceof PostWebRequestBrick) {
 			category = res.getString(R.string.category_data);
 		} else if (brick instanceof StoreCSVIntoUserListBrick) {
 			category = res.getString(R.string.category_data);
