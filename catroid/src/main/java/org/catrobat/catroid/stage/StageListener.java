@@ -81,6 +81,7 @@ import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.catrobat.catroid.utils.TouchUtil;
 import org.catrobat.catroid.utils.VibrationUtil;
 import org.catrobat.catroid.web.WebConnectionHolder;
+import org.catrobat.catroid.web.PostWebConnectionHolder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -129,6 +130,7 @@ public class StageListener implements ApplicationListener {
 	private PenActor penActor;
 	public EmbroideryPatternManager embroideryPatternManager;
 	public WebConnectionHolder webConnectionHolder;
+	public PostWebConnectionHolder postWebConnectionHolder;
 
 	private List<Sprite> sprites;
 
@@ -170,6 +172,7 @@ public class StageListener implements ApplicationListener {
 
 	public StageListener() {
 		webConnectionHolder = new WebConnectionHolder();
+		postWebConnectionHolder = new PostWebConnectionHolder();
 	}
 
 	@Override
@@ -381,6 +384,7 @@ public class StageListener implements ApplicationListener {
 
 		paused = true;
 		webConnectionHolder.onPause();
+		postWebConnectionHolder.onPause();
 	}
 
 	public void transitionToScene(String sceneName) {
