@@ -60,18 +60,17 @@ class PostWebConnection(private val okHttpClient: OkHttpClient, listener: PostWe
             val headers = Headers.Builder()
                 .add("User-Agent", Constants.USER_AGENT)
             val headerLines = header.lines()
-            headerLines.foreach {
+            headerLines.forEach {
               if (it.startsWith("user-agent: ", ignoreCase = true)) {
                 headers.set("User-Agent", it.subSequence("user-agent: ".length, it.length))
               } else {
                 headers.add(it)
               }
             }
-            headers.build()
             val request = Request.Builder()
                 .url(url)
-                .headers(headers)
-                .post(data)
+                .headers(headers.build())
+                .post(RequestBody.create(MediaType.parse("text/plain"), data))
                 .build()
             call = okHttpClient.newCall(request)
             call?.enqueue(createCallback())
