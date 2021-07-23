@@ -119,7 +119,7 @@ abstract class PostWebAction : Action(), PostWebRequestListener {
             return false
         }
 
-        stageListener.webConnectionHolder.removeConnection(postWebConnection)
+        stageListener.postWebConnectionHolder.removeConnection(postWebConnection)
         handleResponse()
         return true
     }
@@ -135,7 +135,7 @@ abstract class PostWebAction : Action(), PostWebRequestListener {
         requestStatus = RequestStatus.WAITING
         postWebConnection = PostWebConnection(this, url!!)
 
-        return if (stageListener.webConnectionHolder.addConnection(postWebConnection!!)) {
+        return if (stageListener.postWebConnectionHolder.addConnection(postWebConnection!!)) {
             postWebConnection!!.sendPostWebRequest()
             true
         } else false
@@ -156,7 +156,7 @@ abstract class PostWebAction : Action(), PostWebRequestListener {
 
     @CallSuper
     override fun restart() {
-        stageListener.webConnectionHolder.removeConnection(postWebConnection)
+        stageListener.postWebConnectionHolder.removeConnection(postWebConnection)
         postWebConnection = null
         url = null
         requestStatus = RequestStatus.NOT_SENT
