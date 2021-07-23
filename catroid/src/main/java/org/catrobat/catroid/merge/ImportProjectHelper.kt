@@ -22,10 +22,12 @@
  */
 package org.catrobat.catroid.merge
 
-import android.content.ContentResolver
-import android.content.Context
-import android.net.Uri
+import android.content.DialogInterface
 import android.util.Log
+import android.view.View
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import org.catrobat.catroid.ProjectManager.checkForVariablesConflicts
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
@@ -41,17 +43,19 @@ import org.catrobat.catroid.utils.ToastUtil
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
+import android.text.style.BulletSpan
+
+import android.text.SpannableStringBuilder
+
+private val TAG = ImportProjectHelper::class.simpleName
+private const val DISPLAYED_CONFLICT_VARIABLE: Int = 3
+private const val GAP_WIDTH: Int = 15
 
 class ImportProjectHelper(
     private val lookFileName: String,
-    contentResolver: ContentResolver,
-    uri: Uri,
     private val currentScene: Scene,
-    private val context: Context
+    private val context: AppCompatActivity
 ) {
-    companion object {
-        private val TAG = ImportProjectHelper::class.simpleName
-    }
 
     private var newSprite: Sprite = Sprite("Sprite")
     private var spriteToAdd: Sprite? = null
@@ -100,7 +104,7 @@ class ImportProjectHelper(
         }
 
         if (conflicts.size > 0) {
-            rejectImportDialog()
+            rejectImportDialog(conflicts)
             return false
         }
         return true
@@ -145,29 +149,60 @@ class ImportProjectHelper(
         } catch (e: FileNotFoundException) {
             Log.e(TAG, Log.getStackTraceString(e))
         }
-        rejectImportDialog()
+        rejectImportDialog(null)
         return null
     }
 
-    fun rejectImportDialog() {
-        ToastUtil.showError(context, R.string.reject_import)
+    fun rejectImportDialog(conflicts: ArrayList<String>?) {
+        if (conflicts == null) {
+            ToastUtil.showError(context, R.string.reject_import)
+        } else {
+            val view = View.inflate(context, R.layout.dialog_import_rejected, null)
+
+            context.runOnUiThread(Runnable {
+                val alertDialog: AlertDialog = AlertDialog.Builder(context)
+                    .setTitle(R.string.warning)
+                    .setView(view)
+                    .setPositiveButton(context.getString(R.string.ok)) { dialog: DialogInterface, _: Int ->
+                        dialog.cancel()
+                    }
+                    .setCancelable(false)
+                    .create()
+
+                alertDialog.show()
+
+                val conflictField = alertDialog.findViewById<TextView>(R.id.conflicting_variables)
+                val numberOfIterations = minOf(conflicts.size, DISPLAYED_CONFLICT_VARIABLE)
+                val content = SpannableStringBuilder()
+
+                for (iterator in conflicts.withIndex().take(numberOfIterations)) {
+                    val contentStart = content.length
+
+                    if (iterator.index < numberOfIterations - 1) {
+                        content.append(iterator.value + System.lineSeparator())
+                    } else {
+                        content.append(iterator.value)
+                    }
+
+                    content.setSpan(
+                        BulletSpan(GAP_WIDTH), contentStart, content.length, 0
+                    )
+                }
+                conflictField?.text = content
+            })
+        }
     }
 
     init {
-        val resolvedFileName = StorageOperations.resolveFileName(contentResolver, uri)
-        val resolvedName = StorageOperations.getSanitizedFileName(resolvedFileName)
+        val resolvedName = StorageOperations.getSanitizedFileName(lookFileName)
 
-        if (lookFileName == resolvedName + Constants.CATROBAT_EXTENSION) {
-            val project = getNewProject(resolvedName)
-            val firstScene = project?.defaultScene
-            if (project == null || firstScene!!.spriteList.size < 2) {
-                rejectImportDialog()
-            } else {
-                newProject = project
-                spriteToAdd = firstScene.spriteList[1]
-            }
+        val project = getNewProject(resolvedName)
+        val firstScene = project?.defaultScene
+        if (project == null || firstScene!!.spriteList.size < 2) {
+            rejectImportDialog(null)
         } else {
-            rejectImportDialog()
+            newProject = project
+            spriteToAdd = firstScene.spriteList[1]
         }
     }
 }

@@ -28,7 +28,10 @@ import android.util.Log
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.matcher.RootMatchers.isDialog
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import junit.framework.Assert.assertEquals
@@ -56,7 +59,7 @@ import org.junit.Rule
 import org.junit.Test
 import java.io.File
 
-class ImportObjectIntoProject {
+class ImportObjectIntoProjectTest {
     var project: Project? = null
     var importedProject: Project? = null
     var importName = "IMPORTED"
@@ -64,7 +67,7 @@ class ImportObjectIntoProject {
     var uri: Uri? = null
     var spriteToBeImported: Sprite? = null
     private lateinit var scriptForVisualPlacement: Script
-    val TAG: String = ImportObjectIntoProject::class.java.simpleName
+    val TAG: String = ImportObjectIntoProjectTest::class.java.simpleName
 
     @get:Rule
     var baseActivityTestRule: FragmentActivityTestRule<ProjectActivity> = FragmentActivityTestRule(
@@ -304,6 +307,7 @@ class ImportObjectIntoProject {
         val originScriptList = originLastSprite.scriptList
 
         baseActivityTestRule.activity.addObjectFromUri(uri)
+        Espresso.onView(withText(R.string.ok)).perform(click())
 
         assertNotEquals(project!!.defaultScene.spriteList.last().userVariables, importedLocalVariableList)
         assertEquals(project!!.defaultScene.spriteList.last().userVariables, originLocalVariableList)
@@ -361,6 +365,7 @@ class ImportObjectIntoProject {
         val originScriptList = originLastSprite.scriptList
 
         baseActivityTestRule.activity.addObjectFromUri(uri)
+        Espresso.onView(withText(R.string.ok)).perform(click())
 
         assertNotEquals(project!!.defaultScene.spriteList.last().userVariables, importedLocalVariableList)
         assertEquals(project!!.defaultScene.spriteList.last().userVariables, originLocalVariableList)
@@ -386,5 +391,26 @@ class ImportObjectIntoProject {
         assertEquals(project!!.defaultScene.spriteList.last().scriptList[0].brickList.size, originScriptList[0].brickList.size)
 
         assertEquals(project!!.defaultScene.spriteList.last().scriptList[1].brickList.size, originScriptList[1].brickList.size)
+    }
+
+    @Test
+    fun rejectProjectImportDialogTest() {
+        val anySpriteOfProject = project!!.defaultScene.spriteList[1]
+        anySpriteOfProject.userVariables.add(UserVariable("localVariable3"))
+        anySpriteOfProject.userVariables.add(UserVariable("localVariable4"))
+        anySpriteOfProject.userLists.add(UserList("localList3"))
+        anySpriteOfProject.userLists.add(UserList("localList2"))
+
+        project!!.addUserVariable(UserVariable("globalVariable1", 1))
+        project!!.addUserVariable(UserVariable("localVariable1", 2)) // Conflicting var
+        project!!.addUserList(UserList("globalListe2"))
+        XstreamSerializer.getInstance().saveProject(project)
+
+        baseActivityTestRule.activity.addObjectFromUri(uri)
+        Espresso.onView(withId(R.id.import_conflicting_variables)).check(matches(isDisplayed()))
+        Espresso.onView(withId(R.id.import_conflicting_variables_try_again)).check(matches(isDisplayed()))
+        Espresso.onView(withId(R.id.conflicting_variables)).check(matches(isDisplayed()))
+        Espresso.onView(withId(R.id.import_conflicting_variables_reason)).check(matches(isDisplayed()))
+        Espresso.onView(withText(R.string.ok)).inRoot(isDialog()).check(matches(isDisplayed())).perform(click())
     }
 }

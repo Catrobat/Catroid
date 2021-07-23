@@ -448,6 +448,11 @@
     <string name="keyword_label">Insert keyword</string>
     <string name="html_label">Insert HTML text</string>
     <string name="Image_format_not_supported">Image format not supported</string>
+    <string name="import_conflicting_variables">The actor or object could not be added.</string>
+    <string name="import_conflicting_variables_reason">The reason is that the following variable or
+        list names are in conflict because they are used for
+        all actors and objects and with the same name also for only one of the actors or objects: </string>
+    <string name="import_conflicting_variables_try_again">Please rename one of these variables or lists and try again.</string>
     <!-- Details -->
     <string name="project_details">Last access: %s, size: %s</string>
     <string name="last_access_today">today, %s</string>
