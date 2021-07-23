@@ -1200,13 +1200,9 @@
     <string name="brick_replace_item_in_userlist_with_value">with</string>
 
     <string name="brick_post_web_request">Post web request to</string>
-    <string name="brick_post_web_request_url_default_value">https://httpbin.org/post</string>
     <string name="brick_post_web_request_header">with header</string>
-    <string name="brick_post_web_request_header_default_value">User-Agent: Mozilla/5.0 (compatible; 
-        Catrobatbot/1.0; +https://catrob.at/bot)\naccept: application/json
-    </string>
     <string name="brick_post_web_request_data">and data</string>
-    <string name="brick_post_web_request_data_default_value">Test.</string>
+    <string name="brick_post_web_request_data_default_value">Sample text.</string>
     <string name="brick_post_web_request_response">and store response in</string>
   
     <string name="brick_web_request">Send web request to</string>
