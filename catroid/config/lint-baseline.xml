@@ -21,7 +21,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<issues format="5" by="lint 3.5.2" client="gradle" variant="catroidDebug" version="3.5.2">
+<issues format="5" by="lint 4.0.2" client="gradle" variant="catroidDebug" version="4.0.2">
 
     <issue
         id="MissingSuperCall"
@@ -43,6 +43,13 @@
             file="src/main/java/org/catrobat/catroid/cast/CastManager.java"
             line="287"
             column="51"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="This folder configuration (`v23`) is unnecessary; `minSdkVersion` is 23. Merge all the resources in this folder into `values`.">
+        <location
+            file="src/main/res/values-v23"/>
     </issue>
 
     <issue
@@ -211,25 +218,25 @@
     </issue>
 
     <issue
-        id="StaticFieldLeak"
-        message="This `AsyncTask` class should be static or leaks might occur (org.catrobat.catroid.content.actions.WriteListOnDeviceAction.WriteTask)"
-        errorLine1=" private class WriteTask extends AsyncTask&lt;UserList, Void, Void> {"
-        errorLine2="               ~~~~~~~~~">
+        id="UnusedResources"
+        message="The resource `R.drawable.brick_2h_brown_9` appears to be unused">
         <location
-            file="src/main/java/org/catrobat/catroid/content/actions/WriteListOnDeviceAction.java"
-            line="65"
-            column="16"/>
+            file="src/main/res/drawable-ldpi/brick_2h_brown_9.9.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/brick_2h_brown_9.9.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/brick_2h_brown_9.9.png"/>
     </issue>
 
     <issue
-        id="StaticFieldLeak"
-        message="This `AsyncTask` class should be static or leaks might occur (org.catrobat.catroid.content.actions.WriteVariableOnDeviceAction.WriteTask)"
-        errorLine1=" private class WriteTask extends AsyncTask&lt;UserVariable, Void, Void> {"
-        errorLine2="               ~~~~~~~~~">
+        id="UnusedResources"
+        message="The resource `R.drawable.brick_control_1h` appears to be unused">
         <location
-            file="src/main/java/org/catrobat/catroid/content/actions/WriteVariableOnDeviceAction.java"
-            line="63"
-            column="16"/>
+            file="src/main/res/drawable-ldpi/brick_control_1h.9.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/brick_control_1h.9.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/brick_control_1h.9.png"/>
     </issue>
 
     <issue
@@ -260,7 +267,11 @@
         errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/styles.xml"
-            line="521"
+            line="507"
+            column="12"/>
+        <location
+            file="src/main/res/values-v25/styles.xml"
+            line="514"
             column="12"/>
     </issue>
 
@@ -271,13 +282,17 @@
         errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/styles.xml"
-            line="528"
+            line="514"
+            column="12"/>
+        <location
+            file="src/main/res/values-v25/styles.xml"
+            line="521"
             column="12"/>
     </issue>
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-hdpi`: ic_upload_failed.png, ic_upload_success.png">
+        message="Missing the following drawables in `drawable-hdpi`: brick_1h_blue.9.png, brick_1h_cyan.9.png, brick_1h_green.9.png, brick_1h_olive.9.png, brick_1h_orange.9.png... (27 more)">
         <location
             file="src/main/res/drawable-hdpi"/>
     </issue>
@@ -298,7 +313,7 @@
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-xxhdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, chromecast_neg.png... (43 more)">
+        message="Missing the following drawables in `drawable-xxhdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_1h_blue.9.png... (73 more)">
         <location
             file="src/main/res/drawable-xxhdpi"/>
     </issue>
@@ -376,7 +391,7 @@
         errorLine2="  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/org/catrobat/catroid/formulaeditor/FormulaEditorEditText.java"
-            line="148"
+            line="164"
             column="3"/>
     </issue>
 

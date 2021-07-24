@@ -20,7 +20,6 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Catroid" parent="Theme.MaterialComponents.NoActionBar.Bridge">
@@ -206,12 +205,11 @@
     <style name="BrickContainer">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingTop">@dimen/brick_space_padding</item>
-        <item name="android:paddingBottom">@dimen/brick_space_padding</item>
         <item name="android:gravity">center_horizontal</item>
         <item name="android:descendantFocusability">blocksDescendants</item>
         <item name="android:layout_marginTop">?attr/element_spacing</item>
         <item name="android:layout_marginBottom">?attr/element_spacing</item>
+        <item name="usePng">true</item>
     </style>
 
     <style name="CategoryIconStyle">
@@ -226,325 +224,318 @@
 
     <style name="BrickContainer.Motion.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
-        <item name="android:background">@drawable/brick_blue_1h</item>
+        <item name="android:background" >@drawable/brick_1h_blue</item>
     </style>
 
     <style name="BrickContainer.Motion.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:background">@drawable/brick_blue_2h</item>
+        <item name="android:background">@drawable/brick_2h_blue</item>
     </style>
 
     <style name="BrickContainer.Motion.MediumWhen">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:paddingTop">@dimen/brick_top_space_padding_control</item>
-        <item name="android:background">@drawable/brick_blue_2h_control</item>
+        <item name="android:background">@drawable/brick_blue_2h_when_9</item>
     </style>
 
     <style name="BrickContainer.Motion.Big">
         <item name="android:minHeight">@dimen/brick_height_big</item>
-        <item name="android:background">@drawable/brick_blue_3h</item>
+        <item name="android:background">@drawable/brick_3h_blue</item>
     </style>
 
     <style name="BrickContainer.Sound" />
 
     <style name="BrickContainer.Sound.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
-        <item name="android:background">@drawable/brick_violet_1h</item>
+        <item name="android:background">@drawable/brick_1h_violet</item>
     </style>
 
     <style name="BrickContainer.Sound.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:background">@drawable/brick_violet_2h</item>
+        <item name="android:background">@drawable/brick_2h_violet</item>
     </style>
 
     <style name="BrickContainer.Sound.Big">
         <item name="android:minHeight">@dimen/brick_height_big</item>
-        <item name="android:background">@drawable/brick_violet_3h</item>
+        <item name="android:background">@drawable/brick_3h_violet</item>
     </style>
 
     <style name="BrickContainer.Look" />
 
     <style name="BrickContainer.Look.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
-        <item name="android:background">@drawable/brick_green_1h</item>
+        <item name="android:background">@drawable/brick_1h_green</item>
     </style>
 
     <style name="BrickContainer.Look.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:background">@drawable/brick_green_2h</item>
+        <item name="android:background">@drawable/brick_2h_green</item>
     </style>
 
     <style name="BrickContainer.Look.Big">
         <item name="android:minHeight">@dimen/brick_height_big</item>
-        <item name="android:background">@drawable/brick_green_3h</item>
+        <item name="android:background">@drawable/brick_3h_green</item>
     </style>
 
     <style name="BrickContainer.Device" />
 
     <style name="BrickContainer.Device.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
-        <item name="android:background">@drawable/brick_gold_1h</item>
+        <item name="android:background">@drawable/brick_1h_gold</item>
     </style>
 
     <style name="BrickContainer.Device.SmallWhen" tools:ignore="UnusedResources">
         <item name="android:minHeight">@dimen/brick_height_small</item>
-        <item name="android:paddingTop">@dimen/brick_top_space_padding_control</item>
-        <item name="android:background">@drawable/brick_gold_1h_control</item>
+        <item name="android:background">@drawable/brick_control_gold_1h</item>
     </style>
 
     <style name="BrickContainer.Device.MediumWhen">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:paddingTop">@dimen/brick_top_space_padding_control</item>
-        <item name="android:background">@drawable/brick_gold_2h_control</item>
+        <item name="android:background">@drawable/brick_control_gold_2h</item>
     </style>
 
     <style name="BrickContainer.Device.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:background">@drawable/brick_gold_2h</item>
+        <item name="android:background">@drawable/brick_2h_gold</item>
     </style>
 
     <style name="BrickContainer.Device.Big">
         <item name="android:minHeight">@dimen/brick_height_big</item>
-        <item name="android:background">@drawable/brick_gold_3h</item>
+        <item name="android:background">@drawable/brick_3h_gold</item>
     </style>
 
     <style name="BrickContainer.Embroidery" />
 
     <style name="BrickContainer.Embroidery.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
-        <item name="android:background">@drawable/brick_pink_1h</item>
+        <item name="android:background">@drawable/brick_1h_pink</item>
     </style>
 
     <style name="BrickContainer.Embroidery.Medium" tools:ignore="UnusedResources">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:background">@drawable/brick_pink_2h</item>
+        <item name="android:background">@drawable/brick_2h_pink</item>
     </style>
 
     <style name="BrickContainer.Embroidery.Big" tools:ignore="UnusedResources">
         <item name="android:minHeight">@dimen/brick_height_big</item>
-        <item name="android:background">@drawable/brick_pink_3h</item>
+        <item name="android:background">@drawable/brick_3h_pink</item>
     </style>
 
     <style name="BrickContainer.Pen" />
 
     <style name="BrickContainer.Pen.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
-        <item name="android:background">@drawable/brick_darkgreen_1h</item>
+        <item name="android:background">@drawable/brick_1h_darkgreen</item>
     </style>
 
     <style name="BrickContainer.Pen.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:background">@drawable/brick_darkgreen_2h</item>
+        <item name="android:background">@drawable/brick_2h_darkgreen</item>
     </style>
 
     <style name="BrickContainer.Pen.Big" tools:ignore="UnusedResources">
         <item name="android:minHeight">@dimen/brick_height_big</item>
-        <item name="android:background">@drawable/brick_green_3h</item>
+        <item name="android:background">@drawable/brick_3h_green</item>
     </style>
 
     <style name="BrickContainer.UserVariables" />
 
-    <style name="BrickContainer.UserVariables.Small" tools:ignore="UnusedResources">
+    <style name="BrickContainer.UserVariables.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
-        <item name="android:background">@drawable/brick_red_1h</item>
+        <item name="android:background">@drawable/brick_1h_red</item>
     </style>
 
     <style name="BrickContainer.UserVariables.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:background">@drawable/brick_red_2h</item>
+        <item name="android:background">@drawable/brick_2h_red</item>
     </style>
 
     <style name="BrickContainer.UserVariables.Big" tools:ignore="UnusedResources">
         <item name="android:minHeight">@dimen/brick_height_big</item>
-        <item name="android:background">@drawable/brick_red_3h</item>
+        <item name="android:background">@drawable/brick_3h_red</item>
     </style>
 
     <style name="BrickContainer.UserList" />
 
     <style name="BrickContainer.UserList.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:background">@drawable/brick_red_2h</item>
+        <item name="android:background">@drawable/brick_2h_red</item>
     </style>
 
     <style name="BrickContainer.Drone" tools:ignore="UnusedResources" />
 
     <style name="BrickContainer.Drone.Small" tools:ignore="UnusedResources">
         <item name="android:minHeight">@dimen/brick_height_small</item>
-        <item name="android:background">@drawable/brick_olive_1h</item>
+        <item name="android:background">@drawable/brick_1h_olive</item>
     </style>
 
     <style name="BrickContainer.Drone.Medium" tools:ignore="UnusedResources">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:background">@drawable/brick_olive_2h</item>
+        <item name="android:background">@drawable/brick_2h_olive</item>
     </style>
 
     <style name="BrickContainer.Drone.Big" tools:ignore="UnusedResources">
         <item name="android:minHeight">@dimen/brick_height_big</item>
-        <item name="android:background">@drawable/brick_olive_3h</item>
+        <item name="android:background">@drawable/brick_3h_olive</item>
     </style>
 
     <style name="BrickContainer.Phiro" />
 
-    <style name="BrickContainer.Phiro.Small" tools:ignore="UnusedResources">
+    <style name="BrickContainer.Phiro.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
-        <item name="android:background">@drawable/brick_cyan_1h</item>
+        <item name="android:background">@drawable/brick_1h_cyan</item>
     </style>
 
     <style name="BrickContainer.Phiro.Medium" tools:ignore="UnusedResources">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:background">@drawable/brick_cyan_2h</item>
+        <item name="android:background">@drawable/brick_2h_cyan</item>
     </style>
 
     <style name="BrickContainer.Phiro.Big">
         <item name="android:minHeight">@dimen/brick_height_big</item>
-        <item name="android:background">@drawable/brick_cyan_3h</item>
+        <item name="android:background">@drawable/brick_3h_cyan</item>
     </style>
 
     <style name="BrickContainer.Phiro.Light" tools:ignore="UnusedResources">
         <item name="android:minHeight">@dimen/brick_height_big</item>
-        <item name="android:background">@drawable/brick_brightgreen_3h</item>
+        <item name="android:background">@drawable/brick_3h_phiro_green</item>
     </style>
 
     <style name="BrickContainer.Arduino" />
 
     <style name="BrickContainer.Arduino.Small" tools:ignore="UnusedResources">
         <item name="android:minHeight">@dimen/brick_height_small</item>
-        <item name="android:background">@drawable/brick_cyan_1h</item>
+        <item name="android:background">@drawable/brick_1h_cyan</item>
     </style>
 
     <style name="BrickContainer.Arduino.Medium" tools:ignore="UnusedResources">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:background">@drawable/brick_cyan_2h</item>
+        <item name="android:background">@drawable/brick_2h_cyan</item>
     </style>
 
-    <style name="BrickContainer.Arduino.Big" tools:ignore="UnusedResources">
+    <style name="BrickContainer.Arduino.Big">
         <item name="android:minHeight">@dimen/brick_height_big</item>
-        <item name="android:background">@drawable/brick_cyan_3h</item>
+        <item name="android:background">@drawable/brick_3h_cyan</item>
     </style>
 
     <style name="BrickContainer.Raspi" tools:ignore="UnusedResources" />
 
     <style name="BrickContainer.Raspi.Small" tools:ignore="UnusedResources">
         <item name="android:minHeight">@dimen/brick_height_small</item>
-        <item name="android:background">@drawable/brick_cyan_1h</item>
+        <item name="android:background">@drawable/brick_1h_cyan</item>
     </style>
 
     <style name="BrickContainer.Raspi.Medium" tools:ignore="UnusedResources">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:background">@drawable/brick_cyan_2h</item>
+        <item name="android:background">@drawable/brick_2h_cyan</item>
     </style>
 
     <style name="BrickContainer.Raspi.Big" tools:ignore="UnusedResources">
         <item name="android:minHeight">@dimen/brick_height_big</item>
-        <item name="android:background">@drawable/brick_cyan_3h</item>
+        <item name="android:background">@drawable/brick_3h_cyan</item>
     </style>
 
     <style name="BrickContainer.Test" tools:ignore="UnusedResources" />
 
     <style name="BrickContainer.Test.Small" tools:ignore="UnusedResources">
         <item name="android:minHeight">@dimen/brick_height_small</item>
-        <item name="android:background">@drawable/brick_cyan_1h</item>
+        <item name="android:background">@drawable/brick_1h_cyan</item>
     </style>
 
     <style name="BrickContainer.Test.Medium" tools:ignore="UnusedResources">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:background">@drawable/brick_cyan_2h</item>
+        <item name="android:background">@drawable/brick_2h_cyan</item>
     </style>
 
     <style name="BrickContainer.Test.Big" tools:ignore="UnusedResources">
         <item name="android:minHeight">@dimen/brick_height_big</item>
-        <item name="android:background">@drawable/brick_cyan_3h</item>
+        <item name="android:background">@drawable/brick_3h_cyan</item>
     </style>
 
     <style name="BrickContainer.Lego" />
 
-    <style name="BrickContainer.Lego.Small" tools:ignore="UnusedResources">
+    <style name="BrickContainer.Lego.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
-        <item name="android:background">@drawable/brick_yellow_1h</item>
+        <item name="android:background">@drawable/brick_1h_yellow</item>
     </style>
 
     <style name="BrickContainer.Lego.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:background">@drawable/brick_yellow_2h</item>
+        <item name="android:background">@drawable/brick_2h_yellow</item>
     </style>
 
     <style name="BrickContainer.Lego.Big">
         <item name="android:minHeight">@dimen/brick_height_big</item>
-        <item name="android:background">@drawable/brick_yellow_3h</item>
+        <item name="android:background">@drawable/brick_3h_yellow</item>
     </style>
 
     <style name="BrickContainer.Control" />
 
     <style name="BrickContainer.Control.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
-        <item name="android:background">@drawable/brick_lightorange_1h</item>
+        <item name="android:background">@drawable/brick_1h_orange</item>
     </style>
 
     <style name="BrickContainer.Control.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:background">@drawable/brick_lightorange_2h</item>
+        <item name="android:background">@drawable/brick_2h_orange</item>
     </style>
 
     <style name="BrickContainer.Control.Big">
         <item name="android:minHeight">@dimen/brick_height_big</item>
-        <item name="android:background">@drawable/brick_lightorange_3h</item>
+        <item name="android:background">@drawable/brick_3h_orange</item>
     </style>
 
     <style name ="BrickContainer.UserDefinedBrick" />
 
     <style name="BrickContainer.UserDefinedBrick.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:background">@drawable/brick_darkblue_2h</item>
+        <item name="android:background">@drawable/brick_1h_darkblue</item>
     </style>
 
     <style name="BrickContainer.Event" />
 
     <style name="BrickContainer.Event.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
-        <item name="android:paddingTop">@dimen/brick_top_space_padding_control</item>
-        <item name="android:background">@drawable/brick_orange_1h_control</item>
+        <item name="android:background">@drawable/brick_brown_1h_when_9</item>
     </style>
 
     <style name="BrickContainer.Event.MediumWhen">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:paddingTop">@dimen/brick_top_space_padding_control</item>
-        <item name="android:background">@drawable/brick_orange_2h_control</item>
+        <item name="android:background">@drawable/brick_brown_2h_when_9</item>
     </style>
 
     <style name="BrickContainer.Event.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:background">@drawable/brick_orange_2h</item>
+        <item name="android:background">@drawable/brick_2h_brown_9</item>
     </style>
 
     <style name="BrickContainer.Script" />
 
     <style name="BrickContainer.Script.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
-        <item name="android:paddingTop">@dimen/brick_top_space_padding_control</item>
-        <item name="android:background">@drawable/brick_lightorange_1h_control</item>
+        <item name="android:background">@drawable/brick_control_1h</item>
     </style>
 
     <style name="BrickContainer.Script.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:paddingTop">@dimen/brick_top_space_padding_control</item>
-        <item name="android:background">@drawable/brick_lightorange_2h_control</item>
+        <item name="android:background">@drawable/brick_control_2h</item>
     </style>
 
     <style name ="BrickContainer.Script.Define">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:paddingTop">@dimen/brick_top_space_padding_control</item>
+        <item name="android:background">@drawable/brick_white_define_2h</item>
+        <item name="android:layout_marginTop">@dimen/material_design_spacing_large</item>
         <item name="android:layout_marginBottom">@dimen/script_spacing</item>
-        <item name="android:background">@drawable/brick_white_2h_control</item>
     </style>
 
     <style name ="BrickContainer.Report">
         <item name="android:minHeight">@dimen/brick_height_small</item>
-        <item name="android:background">@drawable/brick_white_1h</item>
+        <item name="android:background">@drawable/brick_1h_white</item>
     </style>
 
     <style name ="BrickContainer.Script.As">
         <item name="android:minHeight">@dimen/brick_height_small</item>
-        <item name="android:background">@drawable/brick_white_1h</item>
+        <item name="android:background">@drawable/brick_1h_white</item>
     </style>
 
     <style name="FormulaEditorButton">
