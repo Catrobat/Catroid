@@ -72,6 +72,7 @@ import static org.catrobat.catroid.common.Constants.JPEG_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.NXT;
 import static org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
+import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_OBJECT_URL;
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
 import static org.catrobat.catroid.ui.SpriteActivity.REQUEST_CODE_VISUAL_PLACEMENT;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
@@ -92,6 +93,7 @@ public class ProjectActivity extends BaseCastActivity {
 	public static final int SPRITE_LIBRARY = 1;
 	public static final int SPRITE_FILE = 2;
 	public static final int SPRITE_CAMERA = 3;
+	public static final int SPRITE_OBJECT = 4;
 
 	public static final String EXTRA_FRAGMENT_POSITION = "fragmentPosition";
 
@@ -250,6 +252,9 @@ public class ProjectActivity extends BaseCastActivity {
 				uri = Uri.fromFile(new File(data.getStringExtra(MEDIA_FILE_PATH)));
 				addSpriteFromUri(uri);
 				break;
+			case SPRITE_OBJECT:
+				uri = Uri.fromFile(new File(data.getStringExtra(MEDIA_FILE_PATH)));
+				break;
 			case SPRITE_FILE:
 				uri = data.getData();
 				addSpriteFromUri(uri, JPEG_IMAGE_EXTENSION);
@@ -347,7 +352,7 @@ public class ProjectActivity extends BaseCastActivity {
 	}
 
 	public void handleAddSpriteButton() {
-		View root = View.inflate(this, R.layout.dialog_new_look, null);
+		View root = View.inflate(this, R.layout.dialog_new_actor, null);
 
 		AlertDialog alertDialog = new AlertDialog.Builder(this)
 				.setTitle(R.string.new_sprite_dialog_title)
@@ -362,6 +367,11 @@ public class ProjectActivity extends BaseCastActivity {
 		root.findViewById(R.id.dialog_new_look_media_library).setOnClickListener(view -> {
 			new ImportFormMediaLibraryLauncher(this, LIBRARY_LOOKS_URL)
 					.startActivityForResult(SPRITE_LIBRARY);
+			alertDialog.dismiss();
+		});
+		root.findViewById(R.id.dialog_new_look_object_library).setOnClickListener(view -> {
+			new ImportFormMediaLibraryLauncher(this, LIBRARY_OBJECT_URL)
+					.startActivityForResult(SPRITE_OBJECT);
 			alertDialog.dismiss();
 		});
 		root.findViewById(R.id.dialog_new_look_gallery).setOnClickListener(view -> {
