@@ -134,6 +134,7 @@ import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
+import org.catrobat.catroid.content.bricks.PostWebRequestBrick;
 import org.catrobat.catroid.content.bricks.PreviousLookBrick;
 import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
@@ -400,6 +401,7 @@ public class BrickCategoryTest {
 						StoreCSVIntoUserListBrick.class,
 						WebRequestBrick.class,
 						LookRequestBrick.class,
+						PostWebRequestBrick.class,
 						AskBrick.class,
 						AskSpeechBrick.class,
 						StartListeningBrick.class)},
@@ -408,6 +410,7 @@ public class BrickCategoryTest {
 						WhenTouchDownBrick.class,
 						WebRequestBrick.class,
 						LookRequestBrick.class,
+						PostWebRequestBrick.class,
 						OpenUrlBrick.class,
 						VibrationBrick.class,
 						SpeakBrick.class,
@@ -486,7 +489,8 @@ public class BrickCategoryTest {
 						TouchAndSlideBrick.class,
 						FinishStageBrick.class,
 						StoreCSVIntoUserListBrick.class,
-						WebRequestBrick.class)},
+						WebRequestBrick.class,
+						PostWebRequestBrick.class)},
 		});
 	}
 
