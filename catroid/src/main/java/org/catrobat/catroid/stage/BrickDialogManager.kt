@@ -150,10 +150,10 @@ class BrickDialogManager(val stageActivity: StageActivity) :
                 postWebAction.grantPermission()
             }
             .setNeutralButton(stageActivity.getString(R.string.always)) { dialog, _ ->
-                openDialog(createTrustDomainDialog(postWebAction, url, dialog as Dialog))
+                openDialog(createPostTrustDomainDialog(postWebAction, url, dialog as Dialog))
             }
             .setNegativeButton(stageActivity.getString(R.string.deny)) { _, _ ->
-                postWbAction.denyPermission()
+                postWebAction.denyPermission()
             }
             .create()
     }
@@ -193,7 +193,7 @@ class BrickDialogManager(val stageActivity: StageActivity) :
             .create()
     }
 
-    private fun createTrustDomainDialog(postWebAction: PostWebAction, url: String, webAccessDialog: Dialog): Dialog {
+    private fun createPostTrustDomainDialog(postWebAction: PostWebAction, url: String, webAccessDialog: Dialog): Dialog {
         val domain = URI(url).host.removePrefix("www.")
         val view = LayoutInflater.from(stageActivity).inflate(R.layout.dialog_web_access, null)
         view.findViewById<TextView>(R.id.request_url).text = domain
@@ -220,7 +220,7 @@ class BrickDialogManager(val stageActivity: StageActivity) :
             .setOnDismissListener(this)
             .setPositiveButton(stageActivity.getString(R.string.always)) { _, _ ->
                 TrustedDomainManager.addToUserTrustList(domain)
-                webAction.grantPermission()
+                postWebAction.grantPermission()
             }
             .setNeutralButton(stageActivity.getString(R.string.cancel)) { _, _ ->
                 openDialog(webAccessDialog)
