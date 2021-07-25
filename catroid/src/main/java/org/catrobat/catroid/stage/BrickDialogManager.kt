@@ -41,6 +41,7 @@ import org.catrobat.catroid.TrustedDomainManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.content.actions.AskAction
 import org.catrobat.catroid.content.actions.WebAction
+import org.catrobat.catroid.content.actions.PostWebAction
 import java.net.URI
 import java.util.ArrayList
 import java.util.Collections
@@ -53,6 +54,7 @@ class BrickDialogManager(val stageActivity: StageActivity) :
     enum class DialogType {
         ASK_DIALOG,
         WEB_ACCESS_DIALOG
+        POST_WEB_ACCESS_DIALOG
     }
 
     fun dialogIsShowing() = openDialogs.isNotEmpty()
@@ -66,6 +68,7 @@ class BrickDialogManager(val stageActivity: StageActivity) :
         val dialog = when (type) {
             DialogType.ASK_DIALOG -> createAskDialog(action as AskAction, content)
             DialogType.WEB_ACCESS_DIALOG -> createWebAccessDialog(action as WebAction, content)
+            DialogType.POST_WEB_ACCESS_DIALOG -> createPostWebAccessDialog(action as PostWebAction, content)
         }
         openDialog(dialog)
     }
@@ -125,7 +128,72 @@ class BrickDialogManager(val stageActivity: StageActivity) :
             .create()
     }
 
+    private fun createPostWebAccessDialog(postWebAction: PostWebAction, url: String): Dialog {
+        val view = LayoutInflater.from(stageActivity).inflate(R.layout.dialog_web_access, null)
+        view.findViewById<TextView>(R.id.request_url).text = url
+
+        view.findViewById<TextView>(R.id.request_warning).apply {
+            text = HtmlCompat.fromHtml(
+                stageActivity.getString(R.string.web_request_warning_message, Constants.WEB_REQUEST_WIKI_URL),
+                HtmlCompat.FROM_HTML_MODE_LEGACY
+            )
+            movementMethod = LinkMovementMethod.getInstance()
+        }
+
+        return AlertDialog.Builder(ContextThemeWrapper(stageActivity, R.style.Theme_AppCompat_Dialog))
+            .setTitle(stageActivity.getString(R.string.web_request_warning_title))
+            .setCancelable(false)
+            .setView(view)
+            .setOnKeyListener(this)
+            .setOnDismissListener(this)
+            .setPositiveButton(stageActivity.getString(R.string.once)) { _, _ ->
+                postWebAction.grantPermission()
+            }
+            .setNeutralButton(stageActivity.getString(R.string.always)) { dialog, _ ->
+                openDialog(createTrustDomainDialog(postWebAction, url, dialog as Dialog))
+            }
+            .setNegativeButton(stageActivity.getString(R.string.deny)) { _, _ ->
+                postWbAction.denyPermission()
+            }
+            .create()
+    }
+
     private fun createTrustDomainDialog(webAction: WebAction, url: String, webAccessDialog: Dialog): Dialog {
+        val domain = URI(url).host.removePrefix("www.")
+        val view = LayoutInflater.from(stageActivity).inflate(R.layout.dialog_web_access, null)
+        view.findViewById<TextView>(R.id.request_url).text = domain
+
+        val warningMessage = StringBuilder()
+            .append(stageActivity.getString(R.string.web_request_warning_message, Constants.WEB_REQUEST_WIKI_URL))
+            .append("<br><br>")
+            .append(stageActivity.getString(R.string.web_request_trust_domain_warning_message))
+
+        if (!BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
+            warningMessage.append(" ").append(stageActivity.getString(R.string.trusted_domains_edit_hint))
+        }
+
+        view.findViewById<TextView>(R.id.request_warning).apply {
+            text = HtmlCompat.fromHtml(warningMessage.toString(), HtmlCompat.FROM_HTML_MODE_LEGACY)
+            movementMethod = LinkMovementMethod.getInstance()
+        }
+
+        return AlertDialog.Builder(ContextThemeWrapper(stageActivity, R.style.Theme_AppCompat_Dialog))
+            .setTitle(stageActivity.getString(R.string.web_request_trust_domain_warning_title))
+            .setCancelable(false)
+            .setView(view)
+            .setOnKeyListener(this)
+            .setOnDismissListener(this)
+            .setPositiveButton(stageActivity.getString(R.string.always)) { _, _ ->
+                TrustedDomainManager.addToUserTrustList(domain)
+                webAction.grantPermission()
+            }
+            .setNeutralButton(stageActivity.getString(R.string.cancel)) { _, _ ->
+                openDialog(webAccessDialog)
+            }
+            .create()
+    }
+
+    private fun createTrustDomainDialog(postWebAction: PostWebAction, url: String, webAccessDialog: Dialog): Dialog {
         val domain = URI(url).host.removePrefix("www.")
         val view = LayoutInflater.from(stageActivity).inflate(R.layout.dialog_web_access, null)
         view.findViewById<TextView>(R.id.request_url).text = domain
