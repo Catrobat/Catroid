@@ -90,7 +90,7 @@ class CreateProjectTest : KoinTest {
 
     @After
     fun tearDown() {
-        TestUtils.deleteProjects(javaClass.simpleName)
+        
         PreferenceManager.getDefaultSharedPreferences(applicationContext)
             .edit()
             .putInt(AGREED_TO_PRIVACY_POLICY_VERSION, privacyPreferenceSetting)
