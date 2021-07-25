@@ -75,6 +75,30 @@ abstract class PostWebAction : Action(), PostWebRequestListener {
         }
     }
 
+    private fun interpretHeader(): Boolean {
+        return try {
+            headerFormula!!.interpretString(scope)!!.let {
+                header = it
+            }
+            true
+        } catch (exception: InterpretationException) {
+            Log.d(javaClass.simpleName, "Couldn't interpret formula", exception)
+            false
+        }
+    }
+
+    private fun interpretData(): Boolean {
+        return try {
+            dataFormula!!.interpretString(scope)!!.let {
+                data = it
+            }
+            true
+        } catch (exception: InterpretationException) {
+            Log.d(javaClass.simpleName, "Couldn't interpret formula", exception)
+            false
+        }
+    }
+
     private fun askForPermission() {
         if (StageActivity.messageHandler == null) {
             denyPermission()
@@ -94,7 +118,7 @@ abstract class PostWebAction : Action(), PostWebRequestListener {
     }
 
     override fun act(delta: Float): Boolean {
-        if (url == null && !interpretUrl()) {
+        if (url == null && !interpretUrl() || header == null && !interpretHeader() || data == null && !interpretData()) {
             return true
         }
 
