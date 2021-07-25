@@ -80,8 +80,8 @@ import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.catrobat.catroid.utils.TouchUtil;
 import org.catrobat.catroid.utils.VibrationUtil;
-import org.catrobat.catroid.web.WebConnectionHolder;
 import org.catrobat.catroid.web.PostWebConnectionHolder;
+import org.catrobat.catroid.web.WebConnectionHolder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
