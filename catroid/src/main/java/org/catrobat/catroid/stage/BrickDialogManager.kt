@@ -40,8 +40,8 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.TrustedDomainManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.content.actions.AskAction
-import org.catrobat.catroid.content.actions.WebAction
 import org.catrobat.catroid.content.actions.PostWebAction
+import org.catrobat.catroid.content.actions.WebAction
 import java.net.URI
 import java.util.ArrayList
 import java.util.Collections
@@ -53,7 +53,7 @@ class BrickDialogManager(val stageActivity: StageActivity) :
 
     enum class DialogType {
         ASK_DIALOG,
-        WEB_ACCESS_DIALOG
+        WEB_ACCESS_DIALOG,
         POST_WEB_ACCESS_DIALOG
     }
 
