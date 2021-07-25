@@ -27,22 +27,27 @@ import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.ProjectActivity
-import org.catrobat.catroid.ui.SpriteActivity
+import org.catrobat.catroid.ui.controller.BackpackListManager
+import org.catrobat.catroid.ui.recyclerview.controller.SpriteController
 import org.catrobat.catroid.uiespresso.formulaeditor.FormulaEditorTest
-import org.catrobat.catroid.uiespresso.util.actions.selectTabAtPosition
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.junit.After
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class AddNewActorOrLookDialogTest {
+class AddSpriteFromBackpackTest {
+
     private var currentProject: Project? = null
+    private var controller = SpriteController()
 
     @get:Rule
     var baseActivityTestRule = FragmentActivityTestRule(
@@ -62,46 +67,57 @@ class AddNewActorOrLookDialogTest {
     @After
     @Throws(Exception::class)
     fun tearDown() {
-        TestUtils.deleteProjects(currentProject!!.name)
+        TestUtils.deleteProjects(currentProject?.name)
     }
 
     @Test
-    fun addActorOrObjectDialogTest() {
+    fun emptyBackpackTest() {
+        val oldSize = currentProject!!.defaultScene.spriteList.size
         Espresso.onView(ViewMatchers.withId(R.id.button_add))
             .perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withText(R.string.new_sprite_dialog_title))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_paintroid))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_camera))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_gallery))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_media_library))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_object_library))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_backpack))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+            .perform(ViewActions.click())
+        Assert.assertEquals(oldSize, currentProject!!.defaultScene.spriteList.size)
+
+        Assert.assertEquals(0, BackpackListManager.getInstance().backpack.backpackedSprites.size)
+        Assert.assertEquals(0, BackpackListManager.getInstance().backpack.backpackedLooks.size)
+        Assert.assertEquals(0, BackpackListManager.getInstance().backpack.backpackedScenes.size)
+        Assert.assertEquals(0, BackpackListManager.getInstance().backpack.backpackedScripts.size)
+        Assert.assertEquals(0, BackpackListManager.getInstance().backpack.backpackedSounds.size)
+        Assert.assertEquals(0, BackpackListManager.getInstance().backpack
+            .backpackedUserDefinedBricks.size)
     }
 
     @Test
-    fun addLookDialogTest() {
-        Espresso.onView(ViewMatchers.withText(currentProject!!.defaultScene.spriteList[0].toString()))
-            .perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.tab_layout))
-            .perform(selectTabAtPosition(SpriteActivity.FRAGMENT_LOOKS))
+    fun noSpritesBackpackTest() {
+        val oldSize = currentProject!!.defaultScene.spriteList.size
+        val scriptGroup = currentProject!!.defaultScene.spriteList[1].scriptList
+        BackpackListManager.getInstance().addScriptToBackPack("Skript1", scriptGroup)
+        BackpackListManager.getInstance().saveBackpack()
+
         Espresso.onView(ViewMatchers.withId(R.id.button_add))
             .perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withText(R.string.new_look_dialog_title))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_paintroid))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_camera))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_gallery))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_media_library))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_backpack))
+            .perform(ViewActions.click())
+
+        Assert.assertEquals(oldSize, currentProject!!.defaultScene.spriteList.size)
+        Assert.assertEquals(0, BackpackListManager.getInstance().backpack.backpackedSprites.size)
+        Assert.assertNotEquals(0, BackpackListManager.getInstance().backpack.backpackedScripts.size)
+    }
+
+    @Test
+    fun navigateToBackpack() {
+        val sprite = currentProject!!.defaultScene.spriteList[1]
+        BackpackListManager.getInstance().sprites.add(controller.pack(sprite))
+        BackpackListManager.getInstance().saveBackpack()
+
+        Assert.assertNotEquals(0, BackpackListManager.getInstance().sprites.size)
+
+        Espresso.onView(ViewMatchers.withId(R.id.button_add))
+            .perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_backpack))
+            .perform(ViewActions.click())
+
+        Espresso.onView(withText(R.string.backpack_title)).check(ViewAssertions.matches(isDisplayed()))
     }
 }

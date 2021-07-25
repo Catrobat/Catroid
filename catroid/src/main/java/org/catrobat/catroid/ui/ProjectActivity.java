@@ -47,8 +47,10 @@ import org.catrobat.catroid.io.asynctask.ProjectSaver;
 import org.catrobat.catroid.merge.ImportProjectHelper;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.TestResult;
+import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.dialogs.LegoSensorConfigInfoDialog;
 import org.catrobat.catroid.ui.fragment.ProjectOptionsFragment;
+import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewSpriteDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
@@ -96,6 +98,7 @@ public class ProjectActivity extends BaseCastActivity {
 	public static final int SPRITE_FILE = 2;
 	public static final int SPRITE_CAMERA = 3;
 	public static final int SPRITE_OBJECT = 4;
+	public static final int SPRITE_BACKPACK = 5;
 
 	public static final String EXTRA_FRAGMENT_POSITION = "fragmentPosition";
 
@@ -407,6 +410,16 @@ public class ProjectActivity extends BaseCastActivity {
 		root.findViewById(R.id.dialog_new_look_camera).setOnClickListener(view -> {
 			new ImportFromCameraLauncher(this)
 					.startActivityForResult(SPRITE_CAMERA);
+			alertDialog.dismiss();
+		});
+		root.findViewById(R.id.dialog_new_look_backpack).setOnClickListener(view -> {
+			if (!BackpackListManager.getInstance().getSprites().isEmpty()) {
+				Intent intent = new Intent(this, BackpackActivity.class);
+				intent.putExtra(BackpackActivity.EXTRA_FRAGMENT_POSITION, BackpackActivity.FRAGMENT_SPRITES);
+				startActivity(intent);
+			} else {
+				ToastUtil.showError(this, R.string.backpack_empty);
+			}
 			alertDialog.dismiss();
 		});
 
