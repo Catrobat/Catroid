@@ -104,10 +104,7 @@ class CreateProjectTest : KoinTest {
             .check(matches(isDisplayed()))
             .perform(ViewActions.click())
         waitFor()
-        val defaultProjectName = ApplicationProvider.getApplicationContext<Context>()
-            .getString(R.string.default_project_name, 1)
-        onView(allOf(withText("$defaultProjectName (1)"), isDisplayed(), instanceOf
-            (EditText::class.java)))
+        onView(allOf(withId(R.id.input_edit_text), isDisplayed(), instanceOf(EditText::class.java)))
             .perform(ViewActions.replaceText(newProjectName))
         onView(withText(R.string.ok))
             .check(matches(isDisplayed()))
@@ -132,4 +129,3 @@ class CreateProjectTest : KoinTest {
         onView(ViewMatchers.isRoot()).perform(CustomActions.wait(time))
     }
 }
-
