@@ -64,20 +64,22 @@ class PostWebConnection(
     @Synchronized
     fun sendPostWebRequest() {
         try {
-            val headers = Headers.Builder()
+            val headerBuilder = Headers.Builder()
                 .add("User-Agent", Constants.USER_AGENT)
             val headerLines = header.lines()
             headerLines.forEach {
                 if (it.startsWith("user-agent: ", ignoreCase = true)) {
-                    headers.set("User-Agent", it.substring("user-agent: ".length))
+                    headerBuilder.set("User-Agent", it.substring("user-agent: ".length))
                 } else {
-                    headers.add(it)
+                    headerBuilder.add(it)
                 }
             }
+            val headers = headerBuilder.build()
+            val mediaType = MediaType.parse(headers.get("Content-Type") ?: "text/plain")
             val request = Request.Builder()
                 .url(url)
-                .headers(headers.build())
-                .post(RequestBody.create(MediaType.parse("text/plain"), data))
+                .headers(headers)
+                .post(RequestBody.create(mediaType, data))
                 .build()
             call = okHttpClient.newCall(request)
             call?.enqueue(createCallback())
