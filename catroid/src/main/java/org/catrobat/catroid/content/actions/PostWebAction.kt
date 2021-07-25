@@ -57,16 +57,18 @@ abstract class PostWebAction : Action(), PostWebRequestListener {
     }
     private var permissionStatus: PermissionStatus = PermissionStatus.UNKNOWN
 
-    private fun interpretUrl(): Boolean {
+    private fun interpretableUrl(): Boolean {
         return try {
-            urlFormula!!.interpretString(scope)!!.let {
-                url = if (it.startsWith("http://") || it.startsWith("https://")) {
-                    it
-                } else "https://$it"
-            }
-            val newlineIndex = url?.indexOf("\n")
-            if (newlineIndex != -1) {
-                url = newlineIndex?.let { url?.subSequence(0, it).toString() }
+            if url == null {
+                urlFormula!!.interpretString(scope)!!.let {
+                    url = if (it.startsWith("http://") || it.startsWith("https://")) {
+                        it
+                    } else "https://$it"
+                }
+                val newlineIndex = url?.indexOf("\n")
+                if (newlineIndex != -1) {
+                    url = newlineIndex?.let { url?.subSequence(0, it).toString() }
+                }
             }
             true
         } catch (exception: InterpretationException) {
@@ -75,10 +77,12 @@ abstract class PostWebAction : Action(), PostWebRequestListener {
         }
     }
 
-    private fun interpretHeader(): Boolean {
+    private fun interpretableHeader(): Boolean {
         return try {
-            headerFormula!!.interpretString(scope)!!.let {
-                header = it
+            if header == null {
+                headerFormula!!.interpretString(scope)!!.let {
+                    header = it
+                }
             }
             true
         } catch (exception: InterpretationException) {
@@ -87,10 +91,12 @@ abstract class PostWebAction : Action(), PostWebRequestListener {
         }
     }
 
-    private fun interpretData(): Boolean {
+    private fun interpretableData(): Boolean {
         return try {
-            dataFormula!!.interpretString(scope)!!.let {
-                data = it
+            if data == null {
+                dataFormula!!.interpretString(scope)!!.let {
+                    data = it
+                }
             }
             true
         } catch (exception: InterpretationException) {
@@ -118,11 +124,7 @@ abstract class PostWebAction : Action(), PostWebRequestListener {
     }
 
     override fun act(delta: Float): Boolean {
-        if (
-            url == null && !interpretUrl() 
-            || header == null && !interpretHeader() 
-            || data == null && !interpretData()
-        ) {
+        if (!interpretableUrl() || !interpretableHeader() || !interpretableData()) {
             return true
         }
 
