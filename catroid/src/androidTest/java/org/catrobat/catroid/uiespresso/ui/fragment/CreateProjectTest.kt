@@ -99,7 +99,7 @@ class CreateProjectTest : KoinTest {
 
     @Test
     fun testCheckIfProjectCreated() {
-        var newProjectName = "newProjectTest"
+        val newProjectName = "newProjectTest"
         onView(withId(R.id.newProjectFloatingActionButton))
             .check(matches(isDisplayed()))
             .perform(ViewActions.click())
@@ -132,5 +132,4 @@ class CreateProjectTest : KoinTest {
         onView(ViewMatchers.isRoot()).perform(CustomActions.wait(time))
     }
 }
-
 
