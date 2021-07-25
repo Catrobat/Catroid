@@ -60,15 +60,7 @@ abstract class PostWebAction : Action(), PostWebRequestListener {
     private fun interpretableUrl(): Boolean {
         return try {
             if (url == null) {
-                urlFormula!!.interpretString(scope)!!.let {
-                    url = if (it.startsWith("http://") || it.startsWith("https://")) {
-                        it
-                    } else "https://$it"
-                }
-                val newlineIndex = url?.indexOf("\n")
-                if (newlineIndex != -1) {
-                    url = newlineIndex?.let { url?.subSequence(0, it).toString() }
-                }
+                url = urlFormula!!.interpretString(scope)
             }
             true
         } catch (exception: InterpretationException) {
@@ -80,9 +72,7 @@ abstract class PostWebAction : Action(), PostWebRequestListener {
     private fun interpretableHeader(): Boolean {
         return try {
             if (header == null) {
-                headerFormula!!.interpretString(scope)!!.let {
-                    header = it
-                }
+                header = headerFormula!!.interpretString(scope)
             }
             true
         } catch (exception: InterpretationException) {
@@ -94,9 +84,7 @@ abstract class PostWebAction : Action(), PostWebRequestListener {
     private fun interpretableData(): Boolean {
         return try {
             if (data == null) {
-                dataFormula!!.interpretString(scope)!!.let {
-                    data = it
-                }
+                data = dataFormula!!.interpretString(scope)
             }
             true
         } catch (exception: InterpretationException) {
