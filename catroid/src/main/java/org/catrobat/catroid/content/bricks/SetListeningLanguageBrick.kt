@@ -56,7 +56,7 @@ class SetListeningLanguageBrick : BrickBaseType(),
         val languageObjectList = mutableListOf<Nameable>()
             .apply {
                 SPEECH_RECOGNITION_SUPPORTED_LANGUAGES
-                    .forEach { languageTag ->
+                    .iterator().forEach { languageTag ->
                         val locale = Locale.forLanguageTag(languageTag)
                         val languageName = locale.getDisplayName(locale)
                         add(LanguageObject(languageName, languageTag))

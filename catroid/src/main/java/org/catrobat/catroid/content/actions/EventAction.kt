@@ -35,7 +35,7 @@ abstract class EventAction : AsynchronousAction() {
     override fun initialize() {
         event = getEventId()?.let { EventWrapper(it, wait) }
         if (event != null) {
-            receivingSprites.forEach { sprite ->
+            receivingSprites.iterator().forEach { sprite ->
                 sprite.look.fire(event)
             }
         }

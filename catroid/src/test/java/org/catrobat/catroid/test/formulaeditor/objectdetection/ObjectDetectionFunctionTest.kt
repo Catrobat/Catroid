@@ -60,12 +60,12 @@ class ObjectDetectionFunctionTest(
     private var successListener: ObjectDetectorOnSuccessListener? = null
     private var detectedObjects: MutableList<DetectedObject> = mutableListOf(
         DetectedObject(
-            Rect(0,0,0,0),
+            Rect(0, 0, 0, 0),
             1,
             listOf(Label("Book", 0.9F, 1))
         ),
         DetectedObject(
-            Rect(0,0,0,0),
+            Rect(0, 0, 0, 0),
             5,
             listOf(Label("Book", 0.9F, 1))
         )

@@ -34,7 +34,7 @@ import java.io.IOException
 class LookFileGarbageCollector {
     fun cleanUpUnusedLookFiles(project: Project) {
         synchronized(LOCK) {
-            project.sceneList.forEach { scene ->
+            project.sceneList.iterator().forEach { scene ->
                 deleteUnusedLookFiles(scene, getAllFileNamesToKeep(scene))
             }
         }

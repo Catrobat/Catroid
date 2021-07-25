@@ -114,7 +114,7 @@ class ScriptController {
     fun pack(groupName: String?, bricksToPack: List<Brick>?) {
         val scriptsToPack: MutableList<Script> = ArrayList()
         val userDefinedBrickListToPack: MutableList<UserDefinedBrick> = ArrayList()
-        bricksToPack?.forEach() {
+        bricksToPack?.iterator()?.forEach {
             if (it is ScriptBrick) {
                 if (it is UserDefinedReceiverBrick) {
                     val userDefinedBrick = it.userDefinedBrick

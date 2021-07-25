@@ -58,7 +58,7 @@ class BrickDialogManager(val stageActivity: StageActivity) :
     fun dialogIsShowing() = openDialogs.isNotEmpty()
 
     fun dismissAllDialogs() {
-        openDialogs.forEach { it.dismiss() }
+        openDialogs.iterator().forEach { it.dismiss() }
         openDialogs.clear()
     }
 

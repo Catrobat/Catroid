@@ -85,7 +85,7 @@ abstract class ColorDetection(
     }
 
     private fun drawSprites(lookList: List<Look>, batch: SpriteBatch) {
-        lookList.forEach { it.draw(batch, 1f) }
+        lookList.iterator().forEach { it.draw(batch, 1f) }
     }
 
     protected fun createViewport(

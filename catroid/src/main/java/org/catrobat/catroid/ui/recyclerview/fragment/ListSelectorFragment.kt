@@ -63,7 +63,7 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
 
     private fun updateSelection(userLists: List<UserList>) {
         adapter?.clearSelection()
-        userLists.forEach { list ->
+        userLists.iterator().forEach { list ->
             adapter?.setSelection(list, true)
         }
 

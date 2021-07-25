@@ -50,6 +50,8 @@ import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.ZipArchiver
 import org.catrobat.catroid.test.utils.TestUtils
+import org.catrobat.catroid.ui.EXTRA_FRAGMENT_POSITION
+import org.catrobat.catroid.ui.FRAGMENT_SPRITES
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.junit.After
@@ -71,7 +73,7 @@ class ImportObjectIntoProjectTest {
 
     @get:Rule
     var baseActivityTestRule: FragmentActivityTestRule<ProjectActivity> = FragmentActivityTestRule(
-        ProjectActivity::class.java, ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES
+        ProjectActivity::class.java, EXTRA_FRAGMENT_POSITION, FRAGMENT_SPRITES
     )
 
     @Throws(Exception::class)

@@ -55,6 +55,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
+import static org.catrobat.catroid.ui.ProjectActivityKt.EXTRA_FRAGMENT_POSITION;
+import static org.catrobat.catroid.ui.ProjectActivityKt.FRAGMENT_SPRITES;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 
 import static androidx.test.InstrumentationRegistry.getTargetContext;
@@ -68,7 +70,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 public class HindiNumberAtShowDetailsAtProjectActivityTest {
 	@Rule
 	public FragmentActivityTestRule<ProjectActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
+			FragmentActivityTestRule<>(ProjectActivity.class, EXTRA_FRAGMENT_POSITION, FRAGMENT_SPRITES);
 	private Locale arLocale = new Locale("ar");
 
 	@Before

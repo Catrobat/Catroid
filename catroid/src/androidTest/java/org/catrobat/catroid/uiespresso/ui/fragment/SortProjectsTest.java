@@ -44,7 +44,6 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -132,8 +131,7 @@ public class SortProjectsTest {
 	}
 
 	private String getLastUsedProject() {
-		List<ProjectData> items = new ArrayList<>();
-		ProjectListFragment.getLocalProjectList(items);
+		List<ProjectData> items = ProjectListFragment.getLocalProjectList();
 
 		Collections.sort(items, (project1, project2) -> Long.compare(project2.getLastUsed(), project1.getLastUsed()));
 

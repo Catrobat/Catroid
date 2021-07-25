@@ -71,9 +71,9 @@ private fun List<Brick>.containsSuspiciousBricks(): Boolean {
  * extension function for Sprite data type.
  * get list of all bricks and its nested bricks if exists
  * */
-public fun Sprite.getListAllBricks(): List<Brick> {
+fun Sprite.getListAllBricks(): List<Brick> {
     val bricks = arrayListOf<Brick>()
-    allBricks.forEach { brick ->
+    allBricks.iterator().forEach { brick ->
         bricks.add(brick)
         when (brick) {
             is ForeverBrick ->
@@ -116,9 +116,9 @@ public fun Sprite.getListAllBricks(): List<Brick> {
  * */
 private fun Project.shouldDisplaySuspiciousBricksWarning(): Boolean {
     val brickList = arrayListOf<Brick>()
-    sceneList.forEach { scene ->
+    sceneList.iterator().forEach { scene ->
         brickList.run {
-            scene.spriteList.forEach { sprite ->
+            scene.spriteList.iterator().forEach { sprite ->
                 addAll(sprite.getListAllBricks())
             }
         }

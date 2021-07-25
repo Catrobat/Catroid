@@ -111,27 +111,27 @@ class ImportProjectHelper(
         checkForVariablesConflicts(
             currentScene?.project?.userLists as List<Any>?,
             spriteToAdd?.userLists as List<Any>?
-        ).forEach { elem ->
+        ).iterator().forEach { elem ->
             conflicts.add((elem as UserList).name)
         }
 
         checkForVariablesConflicts(
             currentScene?.project?.userVariables as List<Any>?,
             spriteToAdd?.userVariables as List<Any>?
-        ).forEach { elem ->
+        ).iterator().forEach { elem ->
             conflicts.add((elem as UserVariable).name)
         }
 
-        currentScene?.project?.sceneList?.forEach { scene ->
+        currentScene?.project?.sceneList?.iterator()?.forEach { scene ->
             scene.spriteList?.forEach { sprite ->
                 checkForVariablesConflicts(
                     newProject?.userLists as List<Any>?,
                     sprite.userLists as List<Any>?
-                ).forEach { elem -> conflicts.add((elem as UserList).name) }
+                ).iterator().forEach { elem -> conflicts.add((elem as UserList).name) }
                 checkForVariablesConflicts(
                     newProject?.userVariables as List<Any>?,
                     sprite.userVariables as List<Any>?
-                ).forEach { elem -> conflicts.add((elem as UserVariable).name) }
+                ).iterator().forEach { elem -> conflicts.add((elem as UserVariable).name) }
             }
         }
 
@@ -152,13 +152,13 @@ class ImportProjectHelper(
             Constants.SOUND_DIRECTORY_NAME
         )
 
-        spriteToAdd?.lookList?.forEach { currentListObject ->
+        spriteToAdd?.lookList?.iterator()?.forEach { currentListObject ->
             StorageOperations.copyFileToDir(
                 currentListObject.file,
                 imageDirectory
             )
         }
-        spriteToAdd?.soundList?.forEach { currentListObject ->
+        spriteToAdd?.soundList?.iterator()?.forEach { currentListObject ->
             StorageOperations.copyFileToDir(
                 currentListObject.file,
                 soundsDirectory

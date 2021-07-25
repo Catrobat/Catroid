@@ -31,6 +31,8 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.test.utils.TestUtils
+import org.catrobat.catroid.ui.EXTRA_FRAGMENT_POSITION
+import org.catrobat.catroid.ui.FRAGMENT_SPRITES
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.uiespresso.formulaeditor.FormulaEditorTest
@@ -46,8 +48,9 @@ class AddNewActorOrLookDialogTest {
 
     @get:Rule
     var baseActivityTestRule = FragmentActivityTestRule(
-        ProjectActivity::class.java, ProjectActivity.EXTRA_FRAGMENT_POSITION,
-        ProjectActivity.FRAGMENT_SPRITES
+        ProjectActivity::class.java,
+        EXTRA_FRAGMENT_POSITION,
+        FRAGMENT_SPRITES
     )
 
     @Before

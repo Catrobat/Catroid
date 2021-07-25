@@ -46,7 +46,7 @@ class SoundController {
 
     @Throws(IOException::class)
     fun findOrCopy(soundToCopy: SoundInfo?, dstScene: Scene?, dstSprite: Sprite?): SoundInfo {
-        dstSprite?.soundList?.forEach {
+        dstSprite?.soundList?.iterator()?.forEach {
             if (compareByChecksum(it.file, soundToCopy?.file)) {
                 return it
             }
@@ -75,7 +75,7 @@ class SoundController {
 
     @Throws(IOException::class)
     fun packForSprite(soundToPack: SoundInfo?, dstSprite: Sprite?): SoundInfo {
-        dstSprite?.soundList?.forEach {
+        dstSprite?.soundList?.iterator()?.forEach {
             if (compareByChecksum(it.file, soundToPack?.file)) {
                 return it
             }
@@ -99,7 +99,7 @@ class SoundController {
 
     @Throws(IOException::class)
     fun unpackForSprite(soundToUnpack: SoundInfo?, dstScene: Scene?, dstSprite: Sprite?): SoundInfo {
-        dstSprite?.soundList?.forEach {
+        dstSprite?.soundList?.iterator()?.forEach {
             if (compareByChecksum(it.file, soundToUnpack?.file)) {
                 return it
             }

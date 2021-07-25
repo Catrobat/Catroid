@@ -32,8 +32,8 @@ import android.view.View;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.BaseCastActivity;
+import org.catrobat.catroid.ui.fragment.ProjectImportFinishedListener;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
-import org.catrobat.catroid.ui.recyclerview.fragment.ProjectListFragment;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
@@ -49,7 +49,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
-public class FilePickerActivity extends BaseCastActivity implements ListProjectFilesTask.OnListProjectFilesListener, SelectActionModeCallback.ActionModeClickListener, ProjectListFragment.ProjectImportFinishedListener {
+public class FilePickerActivity extends BaseCastActivity implements ListProjectFilesTask.OnListProjectFilesListener, SelectActionModeCallback.ActionModeClickListener, ProjectImportFinishedListener {
 
 	public static final String TAG = FilePickerActivity.class.getSimpleName();
 

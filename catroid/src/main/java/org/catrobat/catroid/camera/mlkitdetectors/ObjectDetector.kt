@@ -53,7 +53,7 @@ object ObjectDetector : Detector {
         onCompleteListener: DetectorsCompleteListener
     ) {
         objectDetectionClient.process(inputImage)
-            .addOnSuccessListener (ObjectDetectorOnSuccessListener())
+            .addOnSuccessListener(ObjectDetectorOnSuccessListener())
             .addOnFailureListener { exception ->
                 Log.e(
                     javaClass.simpleName,

@@ -49,6 +49,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.ui.ProjectActivityKt.EXTRA_FRAGMENT_POSITION;
+import static org.catrobat.catroid.ui.ProjectActivityKt.FRAGMENT_SCENES;
 
 public class ScratchProgramsFragment extends Fragment implements
 		ScratchConverterActivity.OnJobListListener,
@@ -161,7 +163,7 @@ public class ScratchProgramsFragment extends Fragment implements
 	public void onLoadFinished(boolean success) {
 		if (success) {
 			Intent intent = new Intent(getActivity(), ProjectActivity.class);
-			intent.putExtra(ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SCENES);
+			intent.putExtra(EXTRA_FRAGMENT_POSITION, FRAGMENT_SCENES);
 			startActivity(intent);
 		} else {
 			setShowProgressBar(false);

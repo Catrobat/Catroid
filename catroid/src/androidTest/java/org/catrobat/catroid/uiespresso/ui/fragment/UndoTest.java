@@ -45,6 +45,8 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import static org.catrobat.catroid.WaitForConditionAction.waitFor;
+import static org.catrobat.catroid.ui.ProjectActivityKt.EXTRA_FRAGMENT_POSITION;
+import static org.catrobat.catroid.ui.ProjectActivityKt.FRAGMENT_SPRITES;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.junit.Assert.assertEquals;
 
@@ -63,7 +65,7 @@ public class UndoTest {
 
 	@Rule
 	public FragmentActivityTestRule<ProjectActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
+			FragmentActivityTestRule<>(ProjectActivity.class, EXTRA_FRAGMENT_POSITION, FRAGMENT_SPRITES);
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {

@@ -54,7 +54,7 @@ class WebConnectionHolder {
 
     @Synchronized
     fun onPause() {
-        connections.forEach { it.cancelCall() }
+        connections.iterator().forEach { it.cancelCall() }
         connections.clear()
     }
 

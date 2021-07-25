@@ -50,6 +50,8 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DISABLE_HINTS_DIALOG_SHOWN_PREFERENCE_KEY;
+import static org.catrobat.catroid.ui.ProjectActivityKt.EXTRA_FRAGMENT_POSITION;
+import static org.catrobat.catroid.ui.ProjectActivityKt.FRAGMENT_SPRITES;
 import static org.hamcrest.core.AllOf.allOf;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -67,8 +69,8 @@ public class Android9SnackbarRegressionTest {
 
 	@Rule
 	public FragmentActivityTestRule<ProjectActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION,
-			ProjectActivity.FRAGMENT_SPRITES);
+			FragmentActivityTestRule<>(ProjectActivity.class, EXTRA_FRAGMENT_POSITION,
+			FRAGMENT_SPRITES);
 
 	@Before
 	public void setUp() {

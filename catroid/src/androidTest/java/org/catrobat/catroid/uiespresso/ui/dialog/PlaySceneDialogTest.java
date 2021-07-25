@@ -43,6 +43,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.catrobat.catroid.ui.ProjectActivityKt.EXTRA_FRAGMENT_POSITION;
+import static org.catrobat.catroid.ui.ProjectActivityKt.FRAGMENT_SPRITES;
+
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -58,8 +61,8 @@ public class PlaySceneDialogTest {
 
 	@Rule
 	public FragmentActivityTestRule<ProjectActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION,
-			ProjectActivity.FRAGMENT_SPRITES);
+			FragmentActivityTestRule<>(ProjectActivity.class, EXTRA_FRAGMENT_POSITION,
+			FRAGMENT_SPRITES);
 
 	@Before
 	public void setUp() throws Exception {

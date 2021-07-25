@@ -49,6 +49,8 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import static org.catrobat.catroid.ui.ProjectActivityKt.EXTRA_FRAGMENT_POSITION;
+import static org.catrobat.catroid.ui.ProjectActivityKt.FRAGMENT_SPRITES;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
@@ -76,7 +78,7 @@ public class PocketPaintNewSpriteDiscardIntentTest {
 
 	@Rule
 	public FragmentActivityTestRule<ProjectActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
+			FragmentActivityTestRule<>(ProjectActivity.class, EXTRA_FRAGMENT_POSITION, FRAGMENT_SPRITES);
 
 	@Before
 	public void setUp() throws Exception {

@@ -53,10 +53,10 @@ object UserDataUtil {
                     data.name = name
                 }
             }
-            ProjectManager.getInstance()?.currentProject?.userLists?.forEach(rename)
-            ProjectManager.getInstance()?.currentSprite?.userLists?.forEach(rename)
-            ProjectManager.getInstance()?.currentProject?.userVariables?.forEach(rename)
-            ProjectManager.getInstance()?.currentSprite?.userVariables?.forEach(rename)
+            ProjectManager.getInstance()?.currentProject?.userLists?.iterator()?.forEach(rename)
+            ProjectManager.getInstance()?.currentSprite?.userLists?.iterator()?.forEach(rename)
+            ProjectManager.getInstance()?.currentProject?.userVariables?.iterator()?.forEach(rename)
+            ProjectManager.getInstance()?.currentSprite?.userVariables?.iterator()?.forEach(rename)
         } else {
             item.name = name
         }

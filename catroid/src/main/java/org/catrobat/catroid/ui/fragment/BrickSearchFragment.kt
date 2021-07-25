@@ -43,10 +43,10 @@ import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.ui.BottomBar.hideBottomBar
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter
+import org.catrobat.catroid.ui.hideKeyboard
 import org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.catrobat.catroid.utils.ToastUtil
-import org.catrobat.catroid.ui.hideKeyboard
 import java.util.Locale
 
 class BrickSearchFragment : ListFragment() {
@@ -144,7 +144,7 @@ class BrickSearchFragment : ListFragment() {
     private fun onlyBeginnerBricks(): Boolean = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(AccessibilityProfile.BEGINNER_BRICKS, false)
 
     private fun searchBrick(query: String) {
-        availableBricks.forEach { brick ->
+        availableBricks.iterator().forEach { brick ->
             val regexQuery = (".*" + query.toLowerCase(Locale.ROOT).replace("\\s".toRegex(), ".*") + ".*").toRegex()
             val brickView = brick.getView(context)
             if (regexQuery.containsMatchIn(findBrickString(brickView)) && !searchResultContains(brick)) {
@@ -219,4 +219,8 @@ class BrickSearchFragment : ListFragment() {
             return fragment
         }
     }
+}
+
+interface ProjectImportFinishedListener {
+    fun notifyActivityFinished(success: Boolean)
 }

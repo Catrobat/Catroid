@@ -36,7 +36,7 @@ class ScriptSequenceActionWithWaiter(
     private val waiter = Waiter(event, sprite)
 
     init {
-        thread.actions.forEach { action ->
+        thread.actions.iterator().forEach { action ->
             addAction(action)
         }
     }

@@ -29,7 +29,7 @@ class ObjectDetectorFunctionProvider : FunctionProvider {
     override fun addFunctionsToMap(formulaFunctions: MutableMap<Functions, FormulaFunction>) {
         formulaFunctions[Functions.ID_OF_DETECTED_OBJECT] = UnaryFunction { argument ->
             argument?.toInt()?.let {
-                ObjectDetectorResults.result.keys.toList().getOrNull(it-1)?.toDouble()
+                ObjectDetectorResults.result.keys.toList().getOrNull(it - 1)?.toDouble()
             }
         }
     }

@@ -268,6 +268,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
     productFlavors {
         catroid {
             isDefault.set(true)
@@ -336,7 +340,6 @@ android {
         copyGoogleServicesFile(flavor.name, defaultConfig.applicationId + (flavor.applicationIdSuffix ?: ""))
     }
 
-
     aaptOptions {
         noCompress "lite"
     }
@@ -362,6 +365,7 @@ dependencies {
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    implementation "androidx.core:core-ktx:1.6.0"
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
     androidTestImplementation ('androidx.arch.core:core-testing:2.1.0') {
         exclude group: 'org.mockito', module: 'mockito-core'

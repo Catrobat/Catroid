@@ -41,6 +41,8 @@ import org.catrobat.catroid.databinding.FragmentMainMenuBinding
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask.ProjectLoadListener
+import org.catrobat.catroid.ui.EXTRA_FRAGMENT_POSITION
+import org.catrobat.catroid.ui.FRAGMENT_SCENES
 import org.catrobat.catroid.ui.PROJECT_DIR
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.ProjectListActivity
@@ -228,8 +230,8 @@ class MainMenuFragment : Fragment(),
         if (success) {
             val intent = Intent(activity, ProjectActivity::class.java)
             intent.putExtra(
-                ProjectActivity.EXTRA_FRAGMENT_POSITION,
-                ProjectActivity.FRAGMENT_SCENES
+                EXTRA_FRAGMENT_POSITION,
+                FRAGMENT_SCENES
             )
             startActivity(intent)
         } else {

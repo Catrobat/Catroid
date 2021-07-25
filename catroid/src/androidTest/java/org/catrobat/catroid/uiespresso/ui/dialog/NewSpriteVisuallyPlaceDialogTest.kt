@@ -51,6 +51,8 @@ import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
 import org.catrobat.catroid.testsuites.annotations.Level.Smoke
+import org.catrobat.catroid.ui.EXTRA_FRAGMENT_POSITION
+import org.catrobat.catroid.ui.FRAGMENT_SPRITES
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView
@@ -71,8 +73,8 @@ import org.junit.runner.RunWith
 class NewSpriteVisuallyPlaceDialogTest {
     @get:Rule
     var baseActivityTestRule = FragmentActivityTestRule(
-        ProjectActivity::class.java, ProjectActivity.EXTRA_FRAGMENT_POSITION,
-        ProjectActivity.FRAGMENT_SPRITES
+        ProjectActivity::class.java, EXTRA_FRAGMENT_POSITION,
+        FRAGMENT_SPRITES
     )
     private val projectName = "newProject"
     private lateinit var expectedIntent: Matcher<Intent>

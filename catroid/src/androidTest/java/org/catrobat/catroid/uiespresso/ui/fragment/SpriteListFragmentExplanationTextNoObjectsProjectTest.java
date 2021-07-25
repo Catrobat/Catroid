@@ -41,6 +41,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.NEW_SPRITE_VISUAL_PLACEMENT_KEY;
+import static org.catrobat.catroid.ui.ProjectActivityKt.EXTRA_FRAGMENT_POSITION;
+import static org.catrobat.catroid.ui.ProjectActivityKt.FRAGMENT_SPRITES;
+import static org.catrobat.catroid.ui.ProjectActivityKt.SPRITE_CAMERA;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.hamcrest.core.IsNot.not;
 
@@ -56,7 +59,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 public class SpriteListFragmentExplanationTextNoObjectsProjectTest {
 	@Rule
 	public FragmentActivityTestRule<ProjectActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
+			FragmentActivityTestRule<>(ProjectActivity.class, EXTRA_FRAGMENT_POSITION, FRAGMENT_SPRITES);
 
 	@Before
 	public void setUp() throws Exception {
@@ -88,7 +91,7 @@ public class SpriteListFragmentExplanationTextNoObjectsProjectTest {
 			@Override
 			public void run() {
 				baseActivityTestRule.getActivity()
-						.onActivityResult(ProjectActivity.SPRITE_CAMERA, Activity.RESULT_OK, null);
+						.onActivityResult(SPRITE_CAMERA, Activity.RESULT_OK, null);
 			}
 		});
 

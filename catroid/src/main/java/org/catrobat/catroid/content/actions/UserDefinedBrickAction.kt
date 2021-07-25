@@ -41,7 +41,7 @@ class UserDefinedBrickAction : SingleSpriteEventAction() {
 
     fun setInputs(userDefinedBrickInputs: MutableList<UserDefinedBrickInput>) {
         this.userDefinedBrickInputs = mutableListOf()
-        userDefinedBrickInputs?.forEach {
+        userDefinedBrickInputs.iterator().forEach {
             this.userDefinedBrickInputs?.add(UserDefinedBrickInput(it))
         }
     }
@@ -49,9 +49,9 @@ class UserDefinedBrickAction : SingleSpriteEventAction() {
     private fun getInterpretedInputs(): MutableList<Any> {
         val interpretedInputs = mutableListOf<Any>()
 
-        userDefinedBrickInputs?.forEach {
+        userDefinedBrickInputs?.iterator()?.forEach {
             val parameter = it.value.interpretObject(scope)
-            interpretedInputs?.add(UserVariable(it.name, parameter))
+            interpretedInputs.add(UserVariable(it.name, parameter))
         }
         return interpretedInputs
     }

@@ -51,6 +51,8 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import static org.catrobat.catroid.ui.ProjectActivityKt.EXTRA_FRAGMENT_POSITION;
+import static org.catrobat.catroid.ui.ProjectActivityKt.FRAGMENT_SPRITES;
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBar;
 import static org.junit.Assert.assertEquals;
 
@@ -71,7 +73,7 @@ public class ProjectActivityTest {
 	@Rule
 	public FragmentActivityTestRule<ProjectActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(ProjectActivity.class,
-			ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
+			EXTRA_FRAGMENT_POSITION, FRAGMENT_SPRITES);
 
 	@Before
 	public void setUp() {
