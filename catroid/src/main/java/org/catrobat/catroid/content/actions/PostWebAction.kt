@@ -70,7 +70,7 @@ abstract class PostWebAction : Action(), PostWebRequestListener {
             }
             true
         } catch (exception: InterpretationException) {
-            Log.d(javaClass.simpleName, "Couldn't interpret formula", exception)
+            Log.d(javaClass.simpleName, "Couldn't interpret url formula", exception)
             false
         }
     }
@@ -82,7 +82,7 @@ abstract class PostWebAction : Action(), PostWebRequestListener {
             }
             true
         } catch (exception: InterpretationException) {
-            Log.d(javaClass.simpleName, "Couldn't interpret formula", exception)
+            Log.d(javaClass.simpleName, "Couldn't interpret header formula", exception)
             false
         }
     }
@@ -94,7 +94,7 @@ abstract class PostWebAction : Action(), PostWebRequestListener {
             }
             true
         } catch (exception: InterpretationException) {
-            Log.d(javaClass.simpleName, "Couldn't interpret formula", exception)
+            Log.d(javaClass.simpleName, "Couldn't interpret data formula", exception)
             false
         }
     }
@@ -118,7 +118,11 @@ abstract class PostWebAction : Action(), PostWebRequestListener {
     }
 
     override fun act(delta: Float): Boolean {
-        if (url == null && !interpretUrl() || header == null && !interpretHeader() || data == null && !interpretData()) {
+        if (
+            url == null && !interpretUrl() 
+            || header == null && !interpretHeader() 
+            || data == null && !interpretData()
+        ) {
             return true
         }
 
