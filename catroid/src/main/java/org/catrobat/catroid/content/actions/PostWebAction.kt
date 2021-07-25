@@ -80,7 +80,7 @@ abstract class PostWebAction : Action(), PostWebRequestListener {
             denyPermission()
         } else {
             permissionStatus = PermissionStatus.PENDING
-            val params = arrayListOf(BrickDialogManager.DialogType.WEB_ACCESS_DIALOG, this, url!!)
+            val params = arrayListOf(BrickDialogManager.DialogType.POST_WEB_ACCESS_DIALOG, this, url!!)
             StageActivity.messageHandler.obtainMessage(StageActivity.SHOW_DIALOG, params).sendToTarget()
         }
     }
