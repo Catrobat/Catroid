@@ -36,8 +36,13 @@ import org.catrobat.catroid.stage.StageActivity
 import java.io.IOException
 import java.lang.ref.WeakReference
 
-class PostWebConnection(private val okHttpClient: OkHttpClient, listener: PostWebRequestListener, 
-                        private val url: String, private val header: String, private val data: String) {
+class PostWebConnection(
+  private val okHttpClient: OkHttpClient,
+  listener: PostWebRequestListener,
+  private val url: String,
+  private val header: String,
+  private val data: String
+  ) {
     private var weakListenerReference: WeakReference<PostWebRequestListener>? = WeakReference(listener)
     private var call: Call? = null
 
@@ -63,11 +68,11 @@ class PostWebConnection(private val okHttpClient: OkHttpClient, listener: PostWe
                 .add("User-Agent", Constants.USER_AGENT)
             val headerLines = header.lines()
             headerLines.forEach {
-              if (it.startsWith("user-agent: ", ignoreCase = true)) {
-                headers.set("User-Agent", it.substring("user-agent: ".length))
-              } else {
-                headers.add(it)
-              }
+                if (it.startsWith("user-agent: ", ignoreCase = true)) {
+                    headers.set("User-Agent", it.substring("user-agent: ".length))
+                } else {
+                    headers.add(it)
+                }
             }
             val request = Request.Builder()
                 .url(url)
