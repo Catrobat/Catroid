@@ -37,12 +37,12 @@ import java.io.IOException
 import java.lang.ref.WeakReference
 
 class PostWebConnection(
-  private val okHttpClient: OkHttpClient,
-  listener: PostWebRequestListener,
-  private val url: String,
-  private val header: String,
-  private val data: String
-  ) {
+    private val okHttpClient: OkHttpClient,
+    listener: PostWebRequestListener,
+    private val url: String,
+    private val header: String,
+    private val data: String
+    ) {
     private var weakListenerReference: WeakReference<PostWebRequestListener>? = WeakReference(listener)
     private var call: Call? = null
 
