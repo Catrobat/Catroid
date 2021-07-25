@@ -59,7 +59,7 @@ abstract class PostWebAction : Action(), PostWebRequestListener {
 
     private fun interpretableUrl(): Boolean {
         return try {
-            if url == null {
+            if (url == null) {
                 urlFormula!!.interpretString(scope)!!.let {
                     url = if (it.startsWith("http://") || it.startsWith("https://")) {
                         it
@@ -79,7 +79,7 @@ abstract class PostWebAction : Action(), PostWebRequestListener {
 
     private fun interpretableHeader(): Boolean {
         return try {
-            if header == null {
+            if (header == null) {
                 headerFormula!!.interpretString(scope)!!.let {
                     header = it
                 }
@@ -93,7 +93,7 @@ abstract class PostWebAction : Action(), PostWebRequestListener {
 
     private fun interpretableData(): Boolean {
         return try {
-            if data == null {
+            if (data == null) {
                 dataFormula!!.interpretString(scope)!!.let {
                     data = it
                 }
