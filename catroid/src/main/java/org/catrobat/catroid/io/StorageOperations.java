@@ -24,6 +24,7 @@
 package org.catrobat.catroid.io;
 
 import android.content.ContentResolver;
+import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -41,6 +42,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.nio.file.InvalidPathException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.BUFFER_8K;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
@@ -339,5 +342,22 @@ public final class StorageOperations {
 		if (!dir.delete()) {
 			throw new IOException("Cannot delete directory: " + dir.getAbsolutePath());
 		}
+	}
+
+	public static List<File> getStorageRoots(Context context) {
+		List<File> rootDirs = new ArrayList<>();
+		for (File externalFilesDir : context.getExternalFilesDirs("")) {
+			try {
+				String path = externalFilesDir.getAbsolutePath();
+				Log.e(TAG, externalFilesDir.canRead() + " Path: " + path);
+				String packageName = context.getApplicationContext().getPackageName();
+				path = path.replaceAll("/Android/data/" + packageName + "/files", "");
+				rootDirs.add(new File(path));
+			} catch (Exception e) {
+				// needed for APIs 21 & 22
+				Log.e(TAG, "externalFilesDir is null" + e.getMessage());
+			}
+		}
+		return rootDirs;
 	}
 }
