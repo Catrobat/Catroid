@@ -26,6 +26,7 @@ package org.catrobat.catroid.ui.recyclerview.adapter;
 import android.content.Context;
 import android.text.format.DateUtils;
 import android.view.View;
+import android.widget.ImageView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ProjectData;
@@ -57,6 +58,11 @@ public class ProjectAdapter extends ExtendedRVAdapter<ProjectData> {
 				loader.getScreenshotSceneName(item.getDirectory()),
 				false,
 				holder.image);
+
+		ImageView ripples = holder.itemView.findViewById(R.id.ic_ripples);
+		if (ripples != null) {
+			ripples.setVisibility(View.GONE);
+		}
 
 		if (showDetails) {
 			Date lastModified = new Date(item.getLastUsed());

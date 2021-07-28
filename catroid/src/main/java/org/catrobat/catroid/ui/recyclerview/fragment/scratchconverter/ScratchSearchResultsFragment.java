@@ -232,11 +232,11 @@ public class ScratchSearchResultsFragment extends Fragment implements
 		adapter = new ScratchProgramAdapter(new ArrayList<ScratchProgramData>());
 		adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(
 				getActivity()).getBoolean(SHOW_DETAILS_SCRATCH_PROJECTS_PREFERENCE_KEY, false);
-
 		recyclerView.setAdapter(adapter);
 
 		adapter.setSelectionListener(this);
 		adapter.setOnItemClickListener(this);
+		adapter.showRipples = false;
 
 		searchView.setOnQueryTextListener(onQueryListener);
 	}

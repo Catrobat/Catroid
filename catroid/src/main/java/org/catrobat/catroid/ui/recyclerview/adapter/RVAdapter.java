@@ -26,6 +26,8 @@ package org.catrobat.catroid.ui.recyclerview.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperAdapterInterface;
@@ -55,6 +57,8 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 
 	protected List<T> items;
 	public boolean showCheckBoxes = false;
+	public boolean showRipples = true;
+	public boolean hideSettings = false;
 
 	@SelectionType
 	public int selectionMode = MULTIPLE;
@@ -99,6 +103,16 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 
 		holder.checkBox.setVisibility(showCheckBoxes ? View.VISIBLE : View.GONE);
 		holder.checkBox.setChecked(selectionManager.isPositionSelected(position));
+
+		ImageView ripples = holder.itemView.findViewById(R.id.ic_ripples);
+		if (ripples != null && showRipples) {
+			ripples.setVisibility(View.VISIBLE);
+		}
+
+		ImageButton settings = holder.itemView.findViewById(R.id.settingsButton);
+		if (settings != null && hideSettings) {
+			settings.setVisibility(View.GONE);
+		}
 	}
 
 	protected void onCheckBoxClick(int position) {
