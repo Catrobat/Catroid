@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,6 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.content.Context;
 
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.CatroidApplication;
@@ -33,11 +32,15 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.Functions;
+import org.catrobat.catroid.stage.SpeechSynthesizer;
 import org.catrobat.catroid.test.MockUtil;
 import org.catrobat.catroid.test.PowerMockUtil;
 import org.catrobat.catroid.test.utils.Reflection;
@@ -52,6 +55,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.io.File;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(PowerMockRunner.class)
@@ -60,9 +64,12 @@ public class SpeakActionTest {
 
 	private Sprite sprite;
 	private static final String SPEAK = "hello world!";
-	private Formula text;
-	private Formula text2;
+	private FormulaElement helloStringFormulaElement;
+	private FormulaElement worldStringFormulaElement;
+	private Formula textNumber;
+	private Formula textFunction;
 	private Formula textString;
+	private Scope scope;
 	private ActionFactory factory = new ActionFactory();
 	private TemporaryFolder temporaryFolder = new TemporaryFolder();
 
@@ -74,29 +81,16 @@ public class SpeakActionTest {
 		Mockito.when(contextMock.getCacheDir()).thenAnswer(invocation -> temporaryCacheFolder);
 
 		sprite = new Sprite("testSprite");
-		text = new Formula(666);
-		text2 = new Formula(888.88);
+		textNumber = new Formula(888.88);
+		helloStringFormulaElement = new FormulaElement(FormulaElement.ElementType.STRING, "hello ", null);
+		worldStringFormulaElement = new FormulaElement(FormulaElement.ElementType.STRING, "world!", null);
+		textFunction = new Formula(new FormulaElement(FormulaElement.ElementType.FUNCTION,
+			Functions.JOIN.name(), null, helloStringFormulaElement, worldStringFormulaElement));
 		textString = new Formula(SPEAK);
+		scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, new SequenceAction());
 
 		Project project = new Project(MockUtil.mockContextForProject(), "Project");
 		ProjectManager.getInstance().setCurrentProject(project);
-	}
-
-	@Test
-	public void testSpeak() throws Exception {
-		SpeakBrick speakBrick = new SpeakBrick(text);
-		Action action = factory.createSpeakAction(sprite, new SequenceAction(), text);
-		Formula textAfterExecution = (Formula) Reflection.getPrivateField(action, "text");
-
-		assertEquals(text, speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK));
-		assertEquals(text, textAfterExecution);
-
-		speakBrick = new SpeakBrick(text2);
-		action = factory.createSpeakAction(sprite, new SequenceAction(), text);
-		textAfterExecution = (Formula) Reflection.getPrivateField(action, "text");
-
-		assertEquals(text2, speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK));
-		assertEquals(text, textAfterExecution);
 	}
 
 	@Test
@@ -110,26 +104,54 @@ public class SpeakActionTest {
 	@Test
 	public void testBrickWithStringFormula() throws Exception {
 		SpeakBrick speakBrick = new SpeakBrick(textString);
-		Action action = factory.createSpeakAction(sprite, new SequenceAction(), textString);
-		Reflection.invokeMethod(action, "begin");
+		SpeakAction action = new SpeakAction();
+		SpeechSynthesizer synthesizer = new SpeechSynthesizer(scope, textString);
+
+		action.setSpeechSynthesizer(synthesizer);
+		action.initialize();
 
 		assertEquals(textString, speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK));
-		assertEquals(SPEAK, String.valueOf(Reflection.getPrivateField(action, "interpretedText")));
+		assertEquals(SPEAK, String.valueOf(Reflection.getPrivateField(synthesizer, "interpretedText")));
+	}
+
+	@Test
+	public void testBrickWithFunctionFormula() throws Exception {
+		SpeakBrick speakBrick = new SpeakBrick(textFunction);
+		SpeakAction action = new SpeakAction();
+		SpeechSynthesizer synthesizer = new SpeechSynthesizer(scope, textString);
+
+		action.setSpeechSynthesizer(synthesizer);
+		action.initialize();
+
+		assertEquals(textFunction, speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK));
+		assertEquals(SPEAK, String.valueOf(Reflection.getPrivateField(synthesizer, "interpretedText")));
 	}
 
 	@Test
 	public void testNullFormula() throws Exception {
-		Action action = factory.createSpeakAction(sprite, new SequenceAction(), null);
-		Reflection.invokeMethod(action, "begin");
+		SpeakAction action = new SpeakAction();
+		SpeechSynthesizer synthesizer = new SpeechSynthesizer(scope, null);
 
-		assertEquals("", String.valueOf(Reflection.getPrivateField(action, "interpretedText")));
+		action.setSpeechSynthesizer(synthesizer);
+		action.initialize();
+
+		assertEquals("", String.valueOf(Reflection.getPrivateField(synthesizer, "interpretedText")));
 	}
 
 	@Test
 	public void testNotANumberFormula() throws Exception {
-		Action action = factory.createSpeakAction(sprite, new SequenceAction(), new Formula(Double.NaN));
-		Reflection.invokeMethod(action, "begin");
+		SpeakAction action = new SpeakAction();
+		SpeechSynthesizer synthesizer = new SpeechSynthesizer(scope, new Formula(Double.NaN));
 
-		assertEquals("", String.valueOf(Reflection.getPrivateField(action, "interpretedText")));
+		action.setSpeechSynthesizer(synthesizer);
+		action.initialize();
+
+		assertEquals("", String.valueOf(Reflection.getPrivateField(synthesizer, "interpretedText")));
+	}
+
+	@Test
+	public void testSynthesizeInitialization() {
+		SpeakAction action = (SpeakAction) factory.createSpeakAction(sprite, new SequenceAction(), textNumber);
+		assertNotNull(action.getSpeechSynthesizer());
 	}
 }
