@@ -86,12 +86,14 @@ public class RegularExpressionAssistantDialogTest {
 	@Test
 	public void testDialogTitle() {
 		clickOnAssistantInFunctionList();
+
 		onView(withText(R.string.formula_editor_dialog_regular_expression_assistant_title)).check(matches(isDisplayed()));
 	}
 
 	@Test
 	public void testCancelButton() {
 		clickOnAssistantInFunctionList();
+
 		onView(withText(R.string.cancel)).check(matches(isDisplayed()));
 	}
 
@@ -111,13 +113,21 @@ public class RegularExpressionAssistantDialogTest {
 	}
 
 	@Test
-	public void testIsWikiButtonInList() {
+	public void testIsJsonExtractorInList() {
 		clickOnAssistantInFunctionList();
-		onView(withText(R.string.formula_editor_dialog_wiki_button)).check(matches(isDisplayed()));
+
+		onView(withText(R.string.formula_editor_function_regex_json_extractor_title)).check(matches(isDisplayed()));
 	}
 
 	@Test
-	public void testOpenWikipageOnWikiButtonClick() {
+	public void testHelpButton() {
+		clickOnAssistantInFunctionList();
+
+		onView(withText(R.string.help)).check(matches(isDisplayed()));
+	}
+
+	@Test
+	public void testOpenWikipageOnHelpButtonClick() {
 
 		clickOnAssistantInFunctionList();
 
@@ -129,7 +139,7 @@ public class RegularExpressionAssistantDialogTest {
 					new Instrumentation.ActivityResult(Activity.RESULT_OK, intent);
 			intending(anyIntent()).respondWith(intentResult);
 
-			onView(withText(R.string.formula_editor_dialog_wiki_button)).perform(click());
+			onView(withText(R.string.help)).perform(click());
 
 			intended(allOf(
 					hasAction(Intent.ACTION_VIEW),
