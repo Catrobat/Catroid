@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.uiespresso.ui.regression.activitydestroy;
 
+import android.content.Intent;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
@@ -41,7 +43,6 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.FORMULA_EDITOR_KEYBOARD_MATCHER;
@@ -82,8 +83,9 @@ public class FormulaEditorFragmentActivityRecreateRegressionTest {
 	@Flaky
 	@Test
 	public void testActivityRecreateFormulaEditorFragment() {
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
-		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+		Intent intent = baseActivityTestRule.getActivity().getIntent();
+		baseActivityTestRule.getActivity().finish();
+		baseActivityTestRule.launchActivity(intent);
 
 		onBrickAtPosition(0)
 				.checkShowsText(R.string.brick_when_started);
@@ -111,8 +113,9 @@ public class FormulaEditorFragmentActivityRecreateRegressionTest {
 	public void testActivityRecreateDataFragment() {
 		onFormulaEditor().performOpenDataFragment();
 
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
-		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+		Intent intent = baseActivityTestRule.getActivity().getIntent();
+		baseActivityTestRule.getActivity().finish();
+		baseActivityTestRule.launchActivity(intent);
 
 		onBrickAtPosition(0)
 				.checkShowsText(R.string.brick_when_started);
@@ -140,7 +143,9 @@ public class FormulaEditorFragmentActivityRecreateRegressionTest {
 	public void testActivityRecreateCategoryFragment() {
 		onFormulaEditor().performOpenFunctions();
 
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
+		Intent intent = baseActivityTestRule.getActivity().getIntent();
+		baseActivityTestRule.getActivity().finish();
+		baseActivityTestRule.launchActivity(intent);
 
 		onBrickAtPosition(0)
 				.checkShowsText(R.string.brick_when_started);
@@ -172,7 +177,9 @@ public class FormulaEditorFragmentActivityRecreateRegressionTest {
 		onView(withText(R.string.formula_editor_new_string_name)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
+		Intent intent = baseActivityTestRule.getActivity().getIntent();
+		baseActivityTestRule.getActivity().finish();
+		baseActivityTestRule.launchActivity(intent);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Quarantine.class})
@@ -182,6 +189,8 @@ public class FormulaEditorFragmentActivityRecreateRegressionTest {
 		onFormulaEditor().performCompute();
 		onView(withId(R.id.formula_editor_compute_dialog_textview)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
+		Intent intent = baseActivityTestRule.getActivity().getIntent();
+		baseActivityTestRule.getActivity().finish();
+		baseActivityTestRule.launchActivity(intent);
 	}
 }
