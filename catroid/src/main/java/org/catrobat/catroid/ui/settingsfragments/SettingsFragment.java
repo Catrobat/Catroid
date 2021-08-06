@@ -60,6 +60,7 @@ import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAGS;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAG_KEY;
 import static org.koin.java.KoinJavaComponent.inject;
+import static org.catrobat.catroid.utils.Utils.getIetfBcp47LanguageTag;
 
 public class SettingsFragment extends PreferenceFragment {
 
@@ -510,7 +511,7 @@ public class SettingsFragment extends PreferenceFragment {
 			if (DEVICE_LANGUAGE.equals(languageTag)) {
 				languagesNames.add(getResources().getString(R.string.device_language));
 			} else {
-				Locale mLocale = Locale.forLanguageTag(languageTag);
+				Locale mLocale = Locale.forLanguageTag(getIetfBcp47LanguageTag(languageTag));
 				languagesNames.add(mLocale.getDisplayName(mLocale));
 			}
 		}
@@ -539,7 +540,7 @@ public class SettingsFragment extends PreferenceFragment {
 			mLocale = Locale.forLanguageTag(defaultSystemLanguage);
 		} else {
 			mLocale = Arrays.asList(LANGUAGE_TAGS).contains(languageTag)
-					? Locale.forLanguageTag(languageTag)
+					? Locale.forLanguageTag(getIetfBcp47LanguageTag(languageTag))
 					: Locale.forLanguageTag(defaultSystemLanguage);
 		}
 

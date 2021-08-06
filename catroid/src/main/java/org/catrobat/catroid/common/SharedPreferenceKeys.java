@@ -34,12 +34,16 @@ public final class SharedPreferenceKeys {
 
 	public static final String DEVICE_LANGUAGE = "deviceLanguage";
 	public static final String LANGUAGE_TAG_KEY = "applicationLanguage";
-	public static final String[] LANGUAGE_TAGS = {DEVICE_LANGUAGE, "af", "az", "ms", "bs", "ca",
-			"da", "de", "en-AU", "en-CA", "en-GB", "en", "es", "fr", "gl", "ha", "hr", "ig", "id",
-			"it", "sw", "lt", "hu", "nl", "no", "pl", "pt-BR", "pt", "ro", "sq", "sk", "sl", "fi",
-			"sv", "vi", "tw", "tr", "cs", "el", "bg", "mk", "ru", "sr-CS", "sr", "sr-SP", "uk",
-			"kk", "he", "ur", "ar", "sd", "fa", "ps", "hi", "bn", "gu", "ta", "te", "kn", "ml",
-			"si", "th", "zh-CN", "zh-TW", "ja", "ko"};
+	public static final String[] LANGUAGE_TAGS = {DEVICE_LANGUAGE, "af-rZA", "ms-rMY", "de-rDE",
+			"en", "en-rAU", "en-rCA", "en-rGB", "ha-rHG", "ig-rNG", "in-rID", "sw-rKE", "nl-rNL",
+			"tl-rPH", "kab-rDZ", "vi-rVN", "tw-rGH", "tr-rTR", "az-rAZ", "bs-rBA", "ca-rES",
+			"da-rDK", "es-rES", "fr-rFR", "gl-rES", "hr-rHR", "it-rIT", "lt-rLT", "hu-rHU",
+			"no-rNO", "uz-rUZ", "pl-rPL", "pt-rBR", "pt-rPT", "ro-rRO", "sq-rAL", "sk-rSK",
+			"sl-rSI", "fi-rFI", "sv-rSE", "cs-rCZ", "el-rGR", "bg-rBG", "mk-rMK", "ru-rRU",
+			"sr-rSP", "sr-rCS", "uk-rUA", "kk-rKZ", "iw-rIL", "ur-rPK", "ar-rSA", "sd-rPK",
+			"fa-rAF", "fa-rIR", "ps-rAF", "hi-rIN", "bn-rBD", "pa-rIN", "gu-rIN", "ta-rIN",
+			"te-rIN", "kn-rIN", "ml-rIN", "si-rLK", "th-rTH", "ka-rGE", "chr-rUS", "zh-rCN",
+			"zh-rTW", "ja-rJP", "ko-rKR"};
 
 	public static final String SHOW_DETAILS_LOOKS_PREFERENCE_KEY = "showDetailsLookList";
 	public static final String SHOW_DETAILS_PROJECTS_PREFERENCE_KEY = "showDetailsProjectList";

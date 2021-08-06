@@ -64,7 +64,7 @@ public class RTLMainMenuTest {
 
 	private int bufferedPrivacyPolicyPreferenceSetting;
 
-	private static final Locale ARABIC_LOCALE = new Locale("ar");
+	private static final Locale ARABIC_LOCALE = Locale.forLanguageTag("ar-SA");
 	private static final Locale GERMAN_LOCALE = Locale.GERMAN;
 
 	private Configuration conf = getResources().getConfiguration();
@@ -97,9 +97,10 @@ public class RTLMainMenuTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void testSetLanguageToArabic() {
-		String arabicLanguageTag = "ar";
+		String arabicLanguageTag = "ar-SA";
 		SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext());
-		SettingsFragment.setLanguageSharedPreference(ApplicationProvider.getApplicationContext(), arabicLanguageTag);
+		SettingsFragment.setLanguageSharedPreference(ApplicationProvider.getApplicationContext(),
+				"ar-rSA");
 		baseActivityTestRule.launchActivity(null);
 
 		assertEquals(Locale.getDefault().getDisplayLanguage(), ARABIC_LOCALE.getDisplayLanguage());
@@ -111,9 +112,10 @@ public class RTLMainMenuTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void testSetLanguageToGerman() {
-		String germanLanguageTag = "de";
+		String germanLanguageTag = "de-DE";
 		SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext());
-		SettingsFragment.setLanguageSharedPreference(ApplicationProvider.getApplicationContext(), germanLanguageTag);
+		SettingsFragment.setLanguageSharedPreference(ApplicationProvider.getApplicationContext(),
+				"de-rDE");
 		baseActivityTestRule.launchActivity(null);
 
 		assertEquals(Locale.getDefault().getDisplayLanguage(), GERMAN_LOCALE.getDisplayLanguage());

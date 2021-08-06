@@ -69,11 +69,11 @@ public class HindiNumberAtShowDetailsAtProjectActivityTest {
 	@Rule
 	public FragmentActivityTestRule<ProjectActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
-	private Locale arLocale = new Locale("ar");
+	private final Locale arLocale = Locale.forLanguageTag("ar-SA");
 
 	@Before
 	public void setUp() {
-		SettingsFragment.setLanguageSharedPreference(getTargetContext(), "ar");
+		SettingsFragment.setLanguageSharedPreference(getTargetContext(), "ar-rSA");
 		createProject();
 		baseActivityTestRule.launchActivity();
 
@@ -90,7 +90,7 @@ public class HindiNumberAtShowDetailsAtProjectActivityTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
-	public void hindiNumbers() throws Exception {
+	public void hindiNumbers() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 

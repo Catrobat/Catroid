@@ -81,6 +81,7 @@ import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAGS;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAG_KEY;
 import static org.koin.java.KoinJavaComponent.get;
+import static org.catrobat.catroid.utils.Utils.getIetfBcp47LanguageTag;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
@@ -611,7 +612,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			mLocale = Locale.forLanguageTag(defaultSystemLanguage);
 		} else {
 			mLocale = Arrays.asList(LANGUAGE_TAGS).contains(languageTag)
-					? Locale.forLanguageTag(languageTag)
+					? Locale.forLanguageTag(getIetfBcp47LanguageTag(languageTag))
 					: Locale.forLanguageTag(defaultSystemLanguage);
 		}
 		language = language + mLocale.getLanguage();

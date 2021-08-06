@@ -246,7 +246,7 @@ public class RtlBrickTest {
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
 			SpriteActivity.FRAGMENT_SCRIPTS);
 
-	private Locale arLocale = new Locale("ar");
+	private Locale arLocale = Locale.forLanguageTag("ar-SA");
 	private List<String> allPeripheralCategories = new ArrayList<>(Arrays.asList(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED,
 			SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, SETTINGS_SHOW_PHIRO_BRICKS,
 			SETTINGS_SHOW_ARDUINO_BRICKS, SETTINGS_SHOW_RASPI_BRICKS, SETTINGS_SHOW_NFC_BRICKS,
@@ -258,7 +258,7 @@ public class RtlBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		SettingsFragment.setLanguageSharedPreference(getTargetContext(), "ar");
+		SettingsFragment.setLanguageSharedPreference(getTargetContext(), "ar-rSA");
 		createProject("RtlBricksTest");
 		SharedPreferences sharedPreferences = PreferenceManager
 				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());

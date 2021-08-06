@@ -40,7 +40,7 @@
     </issue >
 
     <issue id="UnusedQuantity">
-        <ignore regexp=".*/values-(cs|sk|lt)/strings.xml$" />
+        <ignore regexp=".*/values-(cs-rCZ|sk-rSK|lt-rLT)/strings.xml$" />
     </issue>
 
     <issue id="Typos">

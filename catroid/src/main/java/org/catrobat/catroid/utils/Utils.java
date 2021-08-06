@@ -584,4 +584,8 @@ public final class Utils {
 			Log.e(TAG, "removeExifData: Failed to remove exif data");
 		}
 	}
+
+	public static String getIetfBcp47LanguageTag(String languageTag) {
+		return languageTag.replace("-r", "-");
+	}
 }

@@ -59,6 +59,7 @@ import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAGS;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAG_KEY;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
+import static org.catrobat.catroid.utils.Utils.getIetfBcp47LanguageTag;
 import static org.junit.Assert.assertEquals;
 
 import static androidx.test.espresso.action.ViewActions.click;
@@ -159,7 +160,7 @@ public class FormulaEditorFragmentHelpUrlTest {
 			locale = Locale.forLanguageTag(defaultSystemLanguage);
 		} else {
 			locale = Arrays.asList(LANGUAGE_TAGS).contains(languageTag)
-					? Locale.forLanguageTag(languageTag)
+					? Locale.forLanguageTag(getIetfBcp47LanguageTag(languageTag))
 					: Locale.forLanguageTag(defaultSystemLanguage);
 		}
 		return language + locale.getLanguage();
