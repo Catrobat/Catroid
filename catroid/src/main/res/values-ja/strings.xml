@@ -118,7 +118,6 @@
     <string name="preference_description_language">アプリの言語を設定する</string>
     <string name="preference_title_web_access">Webアクセス</string>
     <string name="preference_description_web_access">信頼できるドメインを追加または削除するには編集</string>
-    <string name="preference_screen_web_access_title">信頼できるドメインを編集</string>
     <string name="preference_title_ai">人工知能（AI）の拡張</string>
     <string name="preference_description_ai">AIブリックとセンサーの実現</string>
     <string name="preference_title_ai_speech_recognition">音声
@@ -140,8 +139,6 @@
         認識</string>
     <string name="preference_description_ai_text_recognition">イネーブル
         テキスト認識ブリックとセンサー</string>
-    <string name="preference_title_ai_object_recognition">オブジェクト認識</string>
-    <string name="preference_description_ai_object_recognition">オブジェクト認識とトラッキングセンサーを有効にする</string>
     <string name="preference_title_accessibility">アクセシビリティ</string>
     <string name="preference_description_accessibility">アプリの外観を変更する</string>
     <string name="preference_title_accessibility_profiles">ユーザー補助プロファイル</string>
@@ -331,7 +328,7 @@
     <string name="list_headline_sprites">アクターとオブジェクト</string>
     <!-- Options Menu Options -->
     <string name="backpack">バックパック</string>
-    <string name="copy">コピー</string>
+    <string name="copy_menuname">コピー</string>
     <string name="delete">削除</string>
     <string name="rename">名前の変更</string>
     <string name="merge">結合</string>

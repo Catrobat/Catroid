@@ -97,7 +97,7 @@ class CopySpriteTest {
     @Test
     fun selectFragmentToCopyTest() {
         openCopyAction()
-        Espresso.onView(withText(R.string.copy)).perform(ViewActions.click())
+        Espresso.onView(withText(R.string.copy_menuname)).perform(ViewActions.click())
         RecyclerViewInteractionWrapper.onRecyclerView().atPosition(1).perform(ViewActions.click())
         RecyclerViewInteractionWrapper.onRecyclerView().atPosition(1).performCheckItemCheck()
     }
@@ -143,7 +143,7 @@ class CopySpriteTest {
     private fun openCopyAction() {
         Espresso.onView(ViewMatchers.withText(spriteList[0])).perform(ViewActions.click())
         Espresso.openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().targetContext)
-        Espresso.onView(withText(R.string.copy)).perform(ViewActions.click())
+        Espresso.onView(withText(R.string.copy_menu_item)).perform(ViewActions.click())
     }
 
     private fun createProject(projectName: String) {

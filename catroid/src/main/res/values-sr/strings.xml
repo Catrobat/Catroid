@@ -105,7 +105,6 @@
     <string name="preference_description_language">Подесите језик апикације</string>
     <string name="preference_title_web_access">Web access</string>
     <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
-    <string name="preference_screen_web_access_title">Edit trusted domains</string>
     <string name="preference_title_accessibility">Приступачност</string>
     <string name="preference_description_accessibility">Промени изглед апликације</string>
     <string name="preference_title_accessibility_profiles">Приступачност профили</string>
@@ -304,7 +303,7 @@
     <string name="list_headline_sprites">Actors и objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">Ранац</string>
-    <string name="copy">Копирај</string>
+    <string name="copy_menuname">Копирај</string>
     <string name="delete">Обриши</string>
     <string name="rename">Преименуј</string>
     <string name="merge">Обједини</string>

@@ -95,7 +95,7 @@ public class CopySceneTest {
 	@Test
 	public void copySceneTest() {
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
-		onView(withText(R.string.copy))
+		onView(withText(R.string.copy_menu_item))
 				.perform(click());
 
 		onRecyclerView().atPosition(0)
@@ -125,7 +125,7 @@ public class CopySceneTest {
 	@Test
 	public void selectFragmentToCopyTest() {
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
-		onView(withText(R.string.copy)).perform(click());
+		onView(withText(R.string.copy_menuname)).perform(click());
 
 		onRecyclerView().atPosition(0).perform(click());
 		onRecyclerView().atPosition(0).performCheckItemCheck();

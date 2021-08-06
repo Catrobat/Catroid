@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
@@ -38,6 +37,8 @@ import org.catrobat.catroid.web.CatrobatWebClient;
 import org.catrobat.catroid.web.ServerAuthenticator;
 
 import java.lang.ref.WeakReference;
+
+import androidx.preference.PreferenceManager;
 
 public class LoginTask extends AsyncTask<Void, Void, Void> {
 

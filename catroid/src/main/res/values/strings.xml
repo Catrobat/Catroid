@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources  xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <!-- General terms -->
     <string name="stage">Stage</string>
@@ -145,7 +145,7 @@
 
     <string name="preference_title_web_access">Web access</string>
     <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
-    <string name="preference_screen_web_access_title">Edit trusted domains</string>
+    <string name="preference_screen_web_access_dialog_title">Trusted domain</string>
 
     <string name="preference_title_ai">Artificial intelligence (AI) extension</string>
     <string name="preference_description_ai">Enable AI bricks and sensors</string>
@@ -168,10 +168,9 @@
         recognition</string>
     <string name="preference_description_ai_text_recognition">Enable
         text recognition bricks and sensors</string>
-    <string name="preference_title_ai_object_recognition">Object recognition</string>
-    <string name="preference_description_ai_object_recognition">Enable object recognition and tracking sensors</string>
 
     <string name="preference_title_accessibility">Accessibility</string>
+    <string name="preference_title_manage_extensions">Manage extensions</string>
     <string name="preference_description_accessibility">Change the app\'s appearance</string>
     <string name="preference_title_accessibility_profiles">Accessibility profiles</string>
     <string name="preference_title_accessibility_profile">Predefined profiles</string>
@@ -185,7 +184,7 @@
     <string name="preference_title_accessibility_category_icons_big">Large icons</string>
     <string name="preference_description_accessibility_category_icons_big">Increase icon size.</string>
     <string name="preference_title_accessibility_category_icons_high_contrast">High contrast icons</string>
-    <string name="preference_title_accessibility_Brick_icons">Icons</string>
+    <string name="preference_title_accessibility_brick_icons">Icons</string>
     <string name="preference_title_accessibility_category_icons">Show icons</string>
     <string name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
     <string name="preference_title_accessibility_high_contrast">High contrast</string>
@@ -394,7 +393,7 @@
 
     <!-- Options Menu Options -->
     <string name="backpack">Backpack</string>
-    <string name="copy">Copy</string>
+    <string name="copy_menu_item">Copy</string>
     <string name="delete">Delete</string>
     <string name="rename">Rename</string>
     <string name="merge">Merge</string>

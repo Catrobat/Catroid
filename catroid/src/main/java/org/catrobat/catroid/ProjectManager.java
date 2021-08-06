@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,6 @@ package org.catrobat.catroid;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -70,6 +69,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import androidx.annotation.VisibleForTesting;
+import androidx.preference.PreferenceManager;
 
 import static org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
 import static org.catrobat.catroid.common.Constants.PERMISSIONS_FILE_NAME;
@@ -193,7 +193,7 @@ public final class ProjectManager {
 		}
 
 		if (resourcesSet.contains(Brick.SPEECH_RECOGNITION)) {
-			SettingsFragment.setAISpeechReconitionPreferenceEnabled(context, true);
+			SettingsFragment.setAISpeechRecognitionPreferenceEnabled(context, true);
 		}
 
 		if (resourcesSet.contains(Brick.FACE_DETECTION)) {

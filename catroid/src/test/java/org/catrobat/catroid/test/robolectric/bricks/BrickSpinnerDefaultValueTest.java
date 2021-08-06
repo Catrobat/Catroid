@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Spinner;
 
@@ -78,19 +77,24 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import androidx.preference.PreferenceManager;
+import kotlin.Lazy;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
-@Config(sdk = {Build.VERSION_CODES.P})
+@Config(sdk = {Build.VERSION_CODES.O_MR1})
 public class BrickSpinnerDefaultValueTest {
 
 	private CategoryBricksFactory categoryBricksFactory;
 	private Sprite sprite;
 	private Activity activity;
+	private Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
 
 	private final List<String> speechAISettings = new ArrayList<>(Arrays.asList(
 			SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
@@ -167,7 +171,6 @@ public class BrickSpinnerDefaultValueTest {
 		SharedPreferences.Editor sharedPreferencesEditor = PreferenceManager
 				.getDefaultSharedPreferences(activity.getApplicationContext()).edit();
 		sharedPreferencesEditor.clear().commit();
-		ProjectManager.getInstance().resetProjectManager();
 	}
 
 	public void createProject(Context context) {
@@ -177,9 +180,9 @@ public class BrickSpinnerDefaultValueTest {
 		script.addBrick(new SetXBrick());
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.getValue().setCurrentProject(project);
+		projectManager.getValue().setCurrentSprite(sprite);
+		projectManager.getValue().setCurrentlyEditedScene(project.getDefaultScene());
 	}
 
 	private Brick getBrickFromCategoryBricksFactory() {
@@ -202,7 +205,7 @@ public class BrickSpinnerDefaultValueTest {
 		View brickView = brick.getView(activity);
 		assertNotNull(brickView);
 
-		Spinner brickSpinner = brickView.findViewById(spinnerId);
+		Spinner brickSpinner = (Spinner) brickView.findViewById(spinnerId);
 		assertNotNull(brickSpinner);
 
 		assertEquals(expected, ((Nameable) brickSpinner.getSelectedItem()).getName());

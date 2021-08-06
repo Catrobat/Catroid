@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -22,18 +22,13 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="UnusedResources">
 
-    <include layout="@layout/toolbar" />
-
-    <FrameLayout
-        android:id="@+id/content_frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </FrameLayout>
-
-</LinearLayout>
+   <item
+       android:top="@dimen/settings_item_padding"
+       android:bottom="@dimen/settings_item_padding"
+       android:drawable="@drawable/preference_list_divider_material"
+       tools:ignore="PrivateResource"/>
+</layer-list>

@@ -117,7 +117,6 @@
     <string name="preference_description_language">Establecer idioma de la aplicación</string>
     <string name="preference_title_web_access">Acceso Web</string>
     <string name="preference_description_web_access">Editar para añadir o eliminar dominios de confianza</string>
-    <string name="preference_screen_web_access_title">Editar dominios de confianza</string>
     <string name="preference_title_ai">Ampliación de la inteligencia artificial (AI)</string>
     <string name="preference_description_ai">Habilitar ladrillos y sensores de IA</string>
     <string name="preference_title_ai_speech_recognition">Habla
@@ -139,8 +138,6 @@
         reconocimiento</string>
     <string name="preference_description_ai_text_recognition">Habilitar
         ladrillos y sensores de reconocimiento de texto</string>
-    <string name="preference_title_ai_object_recognition">Reconocimiento de objetos</string>
-    <string name="preference_description_ai_object_recognition">Habilitar el reconocimiento de objetos y sensores de rastreo</string>
     <string name="preference_title_accessibility">Accesibilidad</string>
     <string name="preference_description_accessibility">Cambiar la apariencia de la aplicación</string>
     <string name="preference_title_accessibility_profiles">Perfiles de accesibilidad</string>
@@ -336,7 +333,7 @@
     <string name="list_headline_sprites">Actores y objetos</string>
     <!-- Options Menu Options -->
     <string name="backpack">Mochila</string>
-    <string name="copy">Copiar</string>
+    <string name="copy_menuname">Copiar</string>
     <string name="delete">Borrar</string>
     <string name="rename">Renombrar</string>
     <string name="merge">Fusionar</string>

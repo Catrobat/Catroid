@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,6 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -74,12 +73,15 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static org.catrobat.catroid.CatroidApplication.defaultSystemLanguage;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAGS;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAG_KEY;
+import static org.catrobat.catroid.ui.settingsfragments.LegoSensors.EV3_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.LegoSensors.NXT_SENSORS;
 import static org.catrobat.catroid.ui.fragment.FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG;
 import static org.koin.java.KoinJavaComponent.get;
 
@@ -742,10 +744,12 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 				.setPositiveButton(getString(R.string.ok), (dialog, selectedPort, selectedSensor) -> {
 					if (type == Constants.NXT) {
 						SettingsFragment.setLegoMindstormsNXTSensorMapping(getActivity(),
-								(NXTSensor.Sensor) selectedSensor, SettingsFragment.NXT_SENSORS[selectedPort]);
+								(NXTSensor.Sensor) selectedSensor,
+								NXT_SENSORS[selectedPort]);
 					} else if (type == Constants.EV3) {
 						SettingsFragment.setLegoMindstormsEV3SensorMapping(getActivity(),
-								(EV3Sensor.Sensor) selectedSensor, SettingsFragment.EV3_SENSORS[selectedPort]);
+								(EV3Sensor.Sensor) selectedSensor,
+								EV3_SENSORS[selectedPort]);
 					}
 
 					FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getFragmentManager()

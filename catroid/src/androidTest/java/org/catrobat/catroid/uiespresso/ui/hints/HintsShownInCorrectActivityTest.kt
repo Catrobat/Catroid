@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.ui.hints
 
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
@@ -39,7 +39,7 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.bricks.SetXBrick
 import org.catrobat.catroid.ui.SpriteActivity
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_HINTS
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_SHOW_HINTS
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript
 import org.catrobat.catroid.uiespresso.util.actions.selectTabAtPosition
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule

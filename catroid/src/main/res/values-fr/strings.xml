@@ -118,7 +118,6 @@
     <string name="preference_description_language">Définir la langue de l\'application</string>
     <string name="preference_title_web_access">Accès web</string>
     <string name="preference_description_web_access">Modifier pour ajouter ou supprimer des domaines de confiance</string>
-    <string name="preference_screen_web_access_title">Modifier les domaines de confiance</string>
     <string name="preference_title_ai">Extension de l\'intelligence artificielle (IA)</string>
     <string name="preference_description_ai">Activer les briques et les capteurs d\'IA</string>
     <string name="preference_title_ai_speech_recognition">Discours
@@ -140,8 +139,6 @@
         reconnaissance</string>
     <string name="preference_description_ai_text_recognition">Activez
         briques et capteurs de reconnaissance de texte</string>
-    <string name="preference_title_ai_object_recognition">Reconnaissance d\'objet</string>
-    <string name="preference_description_ai_object_recognition">Activer la reconnaissance d\'objet et le suivi des capteurs</string>
     <string name="preference_title_accessibility">Accessibilité</string>
     <string name="preference_description_accessibility">Changer l\'apparence de l\'application</string>
     <string name="preference_title_accessibility_profiles">Profils d\'accessibilité</string>
@@ -338,7 +335,7 @@
     <string name="list_headline_sprites">Acteurs et objets</string>
     <!-- Options Menu Options -->
     <string name="backpack">Sac à dos</string>
-    <string name="copy">Copier</string>
+    <string name="copy_menuname">Copier</string>
     <string name="delete">supprimer</string>
     <string name="rename">Renommer</string>
     <string name="merge">Fusionner</string>

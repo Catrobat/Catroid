@@ -118,7 +118,6 @@
     <string name="preference_description_language">Imposta la lingua dell\'app</string>
     <string name="preference_title_web_access">Accesso Web</string>
     <string name="preference_description_web_access">Modifica per aggiungere o rimuovere i domini attendibili</string>
-    <string name="preference_screen_web_access_title">Modifica i domini attendibili</string>
     <string name="preference_title_ai">Estensione dell\'Intelligenza Artificiale (IA)</string>
     <string name="preference_description_ai">Abilita mattoni e sensori dell\'IA</string>
     <string name="preference_title_ai_speech_recognition">Riconoscimento
@@ -140,8 +139,6 @@
         testo</string>
     <string name="preference_description_ai_text_recognition">Abilita
         mattoni e sensori del riconoscimento testuale</string>
-    <string name="preference_title_ai_object_recognition">Riconoscimento oggetto</string>
-    <string name="preference_description_ai_object_recognition">Abilita i sensori di riconoscimento e monitoraggio degli oggetti</string>
     <string name="preference_title_accessibility">Accessibilità</string>
     <string name="preference_description_accessibility">Cambia l\'aspetto dell\'app</string>
     <string name="preference_title_accessibility_profiles">Profili d\'accessibilità</string>
@@ -343,7 +340,7 @@
     <string name="list_headline_sprites">Attori e oggetti</string>
     <!-- Options Menu Options -->
     <string name="backpack">Zaino</string>
-    <string name="copy">Copia</string>
+    <string name="copy_menuname">Copia</string>
     <string name="delete">Elimina</string>
     <string name="rename">Rinomina</string>
     <string name="merge">Fondi</string>

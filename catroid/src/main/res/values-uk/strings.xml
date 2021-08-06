@@ -118,7 +118,6 @@
     <string name="preference_description_language">Встановити мову додатку</string>
     <string name="preference_title_web_access">Веб-доступ</string>
     <string name="preference_description_web_access">Редагувати, додати або видалити довірені домени</string>
-    <string name="preference_screen_web_access_title">Редагувати довірені домени</string>
     <string name="preference_title_ai">Розширення штучного інтелекту (AI)</string>
     <string name="preference_description_ai">Увімкнути цеглини та датчики штучного інтелекту</string>
     <string name="preference_title_ai_speech_recognition">Розпізнавання
@@ -140,8 +139,6 @@
         тексту</string>
     <string name="preference_description_ai_text_recognition">Увімкнути
         цеглини та датчики розпізнавання тексту</string>
-    <string name="preference_title_ai_object_recognition">Розпізнавання об\'єктів</string>
-    <string name="preference_description_ai_object_recognition">Увімкнути розпізнавання об\'єктів та датчики відстеження</string>
     <string name="preference_title_accessibility">Спеціальні можливості</string>
     <string name="preference_description_accessibility">Змінити вигляд програми</string>
     <string name="preference_title_accessibility_profiles">Профілі спеціальних можливостей</string>
@@ -359,7 +356,7 @@
     <string name="list_headline_sprites">Актори та об\'єкти</string>
     <!-- Options Menu Options -->
     <string name="backpack">Рюкзак</string>
-    <string name="copy">Скопіювати</string>
+    <string name="copy_menuname">Скопіювати</string>
     <string name="delete">Видалити</string>
     <string name="rename">Перейменувати</string>
     <string name="merge">Об’єднати</string>

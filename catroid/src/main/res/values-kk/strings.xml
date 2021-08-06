@@ -117,7 +117,6 @@
     <string name="preference_description_language">Қолданба тілін таңдаңыз</string>
     <string name="preference_title_web_access">Веб-байланыс</string>
     <string name="preference_description_web_access">Сенімді домендерді қосу немесе жою үшін өңдеу</string>
-    <string name="preference_screen_web_access_title">Сенімді домендерді өңдеу</string>
     <string name="preference_title_ai">Жасанды интеллект (ИИ) қосымшасы</string>
     <string name="preference_description_ai">ЖИ кірпіштерімен сенсорларын қосу</string>
     <string name="preference_title_ai_speech_recognition">Сөйлеу
@@ -139,8 +138,6 @@
         есте сақтау</string>
     <string name="preference_description_ai_text_recognition">Қосу
         мәтін есте сақтау кірпіштерімен сенсорлар</string>
-    <string name="preference_title_ai_object_recognition">Обьектті тану</string>
-    <string name="preference_description_ai_object_recognition">Обьектті тану және бақылау сенсорларын қосу</string>
     <string name="preference_title_accessibility">Қол жеткізу мүмкіндігі</string>
     <string name="preference_description_accessibility">Бағдарламаның көрінісін өзгерту</string>
     <string name="preference_title_accessibility_profiles">Қол жетімділік профильдері</string>
@@ -322,7 +319,7 @@
     <string name="list_headline_sprites">Актерлер мен объектілер</string>
     <!-- Options Menu Options -->
     <string name="backpack">Рюкзак</string>
-    <string name="copy">Көшіру</string>
+    <string name="copy_menuname">Көшіру</string>
     <string name="delete">Жою</string>
     <string name="rename">Атын өзгерту</string>
     <string name="merge">Біріктіру</string>

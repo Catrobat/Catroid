@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:padding="8dp"
-            android:text="@string/copy"
+            android:text="@string/copy_menu_item"
             android:textColor="@color/solid_black" />
 
         <TextView

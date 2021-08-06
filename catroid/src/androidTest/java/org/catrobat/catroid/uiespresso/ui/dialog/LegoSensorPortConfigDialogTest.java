@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,6 @@
 package org.catrobat.catroid.uiespresso.ui.dialog;
 
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -47,8 +46,10 @@ import org.junit.experimental.categories.Category;
 
 import java.io.IOException;
 
+import androidx.preference.PreferenceManager;
 import androidx.test.core.app.ApplicationProvider;
 
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.catrobat.catroid.uiespresso.ui.dialog.utils.LegoSensorPortConfigDialogWrapper.NXT_NO_SENSOR;
@@ -83,10 +84,10 @@ public class LegoSensorPortConfigDialogTest {
 				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 
 		nxtSettingBuffer = sharedPreferences
-				.getBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false);
+				.getBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false);
 
 		sharedPreferences.edit()
-				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true)
+				.putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true)
 				.commit();
 
 		sensorMappingBuffer = SettingsFragment.getLegoNXTSensorMapping(ApplicationProvider.getApplicationContext());
@@ -130,7 +131,7 @@ public class LegoSensorPortConfigDialogTest {
 	@After
 	public void tearDown() throws IOException {
 		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit()
-				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, nxtSettingBuffer)
+				.putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, nxtSettingBuffer)
 				.commit();
 
 		SettingsFragment

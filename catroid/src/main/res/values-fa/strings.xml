@@ -118,7 +118,6 @@
     <string name="preference_description_language">زبان برنامه را تنظیم کنید</string>
     <string name="preference_title_web_access">دسترسی به وب</string>
     <string name="preference_description_web_access">ویرایش برای افزودن یا حذف دامنه های معتمد</string>
-    <string name="preference_screen_web_access_title">دامنه های معتبر را ویرایش کنید</string>
     <string name="preference_title_ai">هوش مصنوعی (AI) گسترش</string>
     <string name="preference_description_ai">فعال کردن آجر های AI و سنسورها</string>
     <string name="preference_title_ai_speech_recognition">         به رسمیت شناختن
@@ -140,8 +139,6 @@
 متن</string>
     <string name="preference_description_ai_text_recognition">فعال کردن
         آجر تشخیص متن و سنسورها</string>
-    <string name="preference_title_ai_object_recognition">تشخیص شی</string>
-    <string name="preference_description_ai_object_recognition">حسگرهای تشخیص و ردیابی شی را فعال کنید</string>
     <string name="preference_title_accessibility">دسترسی</string>
     <string name="preference_description_accessibility">ظاهر برنامه را تغییر دهید</string>
     <string name="preference_title_accessibility_profiles">نمایه های دسترسی</string>
@@ -324,7 +321,7 @@
     <string name="list_headline_sprites">بازیگران و اشیاء</string>
     <!-- Options Menu Options -->
     <string name="backpack">کوله پشتی</string>
-    <string name="copy">نقل</string>
+    <string name="copy_menuname">نقل</string>
     <string name="delete">حذف</string>
     <string name="rename">تغییر نام دهید</string>
     <string name="merge">ادغام</string>

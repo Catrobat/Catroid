@@ -33,7 +33,7 @@
         android:icon="@drawable/ic_import_project"/>
     <item
         android:id="@+id/copy"
-        android:title="@string/copy"
+        android:title="@string/copy_menu_item"
         app:showAsAction="never"
         android:icon="@drawable/ic_content_copy"/>
     <item

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,6 +36,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import androidx.annotation.StringDef;
+import androidx.annotation.VisibleForTesting;
 
 public class AccessibilityProfile {
 	private static final String CUSTOM_ACCESSIBILITY_PROFILE = "custom_accessibility_profile";
@@ -44,26 +45,25 @@ public class AccessibilityProfile {
 	@StringDef({SANS_SERIF, SERIF, DYSLEXIC, LARGE_TEXT, HIGH_CONTRAST, ICONS, LARGE_ICONS, ICON_HIGH_CONTRAST,
 			ELEMENT_SPACING, BEGINNER_BRICKS, DRAGNDROP_DELAY})
 	@interface AccessibilityFlags {}
-	static final String SANS_SERIF = "sans_serif";
-	static final String SERIF = "serif";
-	static final String DYSLEXIC = "dyslexic";
-	static final String LARGE_TEXT = "accessibility_large_text";
-	static final String HIGH_CONTRAST = "accessibility_high_contrast";
-	static final String ICONS = "accessibility_category_icons";
-	static final String LARGE_ICONS = "accessibility_category_icons_big";
-	static final String ICON_HIGH_CONTRAST = "accessibility_category_icons_high_contrast";
-	static final String ELEMENT_SPACING = "accessibility_element_spacing";
+	public static final String SANS_SERIF = "sans_serif";
+	public static final String SERIF = "serif";
+	public static final String DYSLEXIC = "dyslexic";
+	public static final String LARGE_TEXT = "accessibility_large_text";
+	public static final String HIGH_CONTRAST = "accessibility_high_contrast";
+	public static final String ICONS = "accessibility_category_icons";
+	public static final String LARGE_ICONS = "accessibility_category_icons_big";
+	public static final String ICON_HIGH_CONTRAST = "accessibility_category_icons_high_contrast";
+	public static final String ELEMENT_SPACING = "accessibility_element_spacing";
 	public static final String BEGINNER_BRICKS = "accessibility_beginner_bricks";
 	public static final String DRAGNDROP_DELAY = "accessibility_dragndrop_delay";
 
 	private static final Set<String> BOOLEAN_PREFERENCES;
 	static {
 		BOOLEAN_PREFERENCES = new HashSet<>(Arrays.asList(LARGE_TEXT, HIGH_CONTRAST, ICONS,
-				LARGE_ICONS,
-				ICON_HIGH_CONTRAST, ELEMENT_SPACING, BEGINNER_BRICKS, DRAGNDROP_DELAY));
+				LARGE_ICONS, ICON_HIGH_CONTRAST, ELEMENT_SPACING, BEGINNER_BRICKS, DRAGNDROP_DELAY));
 	}
 
-	private static final String FONT_STYLE = "accessibility_font_style";
+	public static final String FONT_STYLE = "accessibility_font_style";
 	private final Set<String> setPreferences = new HashSet<>();
 
 	private AccessibilityProfile(Collection<String> preferences) {
@@ -98,7 +98,8 @@ public class AccessibilityProfile {
 				.apply();
 	}
 
-	private void clearCurrent(SharedPreferences sharedPreferences) {
+	@VisibleForTesting
+	public void clearCurrent(SharedPreferences sharedPreferences) {
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 		for (String preference : BOOLEAN_PREFERENCES) {
 			editor.putBoolean(preference, false);

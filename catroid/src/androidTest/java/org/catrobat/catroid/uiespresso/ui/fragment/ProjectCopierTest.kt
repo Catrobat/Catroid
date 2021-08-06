@@ -80,7 +80,7 @@ class ProjectCopierTest {
     @Test
     fun copyProjectTest() {
         openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
-        onView(ViewMatchers.withText(R.string.copy))
+        onView(ViewMatchers.withText(R.string.copy_menu_item))
             .perform(ViewActions.click())
         RecyclerViewInteractionWrapper.onRecyclerView().atPosition(0)
             .performCheckItemClick()
@@ -96,14 +96,14 @@ class ProjectCopierTest {
     @Test
     fun copyCopiedProjectsTest() {
         openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
-        onView(ViewMatchers.withText(R.string.copy))
+        onView(ViewMatchers.withText(R.string.copy_menu_item))
             .perform(ViewActions.click())
         RecyclerViewInteractionWrapper.onRecyclerView().atPosition(0)
             .performCheckItemClick()
         onView(ViewMatchers.withId(R.id.confirm))
             .perform(ViewActions.click())
         openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
-        onView(ViewMatchers.withText(R.string.copy))
+        onView(ViewMatchers.withText(R.string.copy_menu_item))
             .perform(ViewActions.click())
         RecyclerViewInteractionWrapper.onRecyclerView().atPosition(0)
             .performCheckItemClick()

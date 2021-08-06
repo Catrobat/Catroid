@@ -118,7 +118,6 @@
     <string name="preference_description_language">பயன்பாட்டு மொழியை மாற்றி அமைக்கவும்</string>
     <string name="preference_title_web_access">வலை அணுகல்</string>
     <string name="preference_description_web_access">நம்பகமானச் செயற்களங்களைத் திருத்து அல்லது சேர் அல்லது நீக்கு</string>
-    <string name="preference_screen_web_access_title">நம்பகமானச் செயற்களத்தைத் திருத்து</string>
     <string name="preference_title_ai">செயற்கை நுண்ணறிவு (AI) நீட்டிப்பு</string>
     <string name="preference_description_ai">AI கட்டுமானங்கற்கள் மற்றும் சென்சார்களை இயக்கு</string>
     <string name="preference_title_ai_speech_recognition">Speech
@@ -140,8 +139,6 @@
         recognition</string>
     <string name="preference_description_ai_text_recognition">Enable
         text recognition bricks and sensors</string>
-    <string name="preference_title_ai_object_recognition">Object recognition</string>
-    <string name="preference_description_ai_object_recognition">Enable object recognition and tracking sensors</string>
     <string name="preference_title_accessibility">அணுகல்தன்மை</string>
     <string name="preference_description_accessibility">செயலியின் தோற்றத்தை மாற்றவும்</string>
     <string name="preference_title_accessibility_profiles">அணுகல் சுயவிவரங்கள்</string>
@@ -334,7 +331,7 @@
     <string name="list_headline_sprites">நடிகர்களும் பொருட்களும்</string>
     <!-- Options Menu Options -->
     <string name="backpack">முதுகுப்பை</string>
-    <string name="copy">நகல்</string>
+    <string name="copy_menuname">நகல்</string>
     <string name="delete">அழித்துவிடு</string>
     <string name="rename">மறுபெயர்</string>
     <string name="merge">ஒன்றுசேர்</string>

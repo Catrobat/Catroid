@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,7 +32,6 @@ import android.graphics.Rect;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -108,6 +107,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.preference.PreferenceManager;
 
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.UNDO_CODE_XML_FILE_NAME;

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,8 +22,6 @@
  */
 
 package org.catrobat.catroid.uiespresso.ui.regression.activitydestroy;
-
-import android.preference.PreferenceManager;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -47,9 +45,11 @@ import org.junit.experimental.categories.Category;
 
 import java.io.IOException;
 
+import androidx.preference.PreferenceManager;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 
@@ -75,7 +75,7 @@ public class LegoConfigDialogActivityRecreationRegressionTest {
 		script.addBrick(new ChangeSizeByNBrick(0));
 
 		nxtSettingBuffer = PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
-				.getBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false);
+				.getBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false);
 
 		setNXTBrickSetting(true);
 
@@ -118,7 +118,7 @@ public class LegoConfigDialogActivityRecreationRegressionTest {
 
 	private void setNXTBrickSetting(boolean bricksEnabled) {
 		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit()
-				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, bricksEnabled)
+				.putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, bricksEnabled)
 				.commit();
 	}
 }

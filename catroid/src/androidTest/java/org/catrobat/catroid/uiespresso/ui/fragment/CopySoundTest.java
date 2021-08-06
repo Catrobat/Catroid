@@ -79,7 +79,7 @@ public class CopySoundTest {
 	@Test
 	public void copySoundTest() {
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
-		onView(withText(R.string.copy)).perform(click());
+		onView(withText(R.string.copy_menu_item)).perform(click());
 
 		onRecyclerView().atPosition(0)
 				.performCheckItemClick();
@@ -97,7 +97,7 @@ public class CopySoundTest {
 	@Test
 	public void selectFragmentToCopyTest() {
 		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
-		onView(withText(R.string.copy)).perform(click());
+		onView(withText(R.string.copy_menuname)).perform(click());
 
 		onRecyclerView().atPosition(0).perform(click());
 		onRecyclerView().atPosition(0).performCheckItemCheck();

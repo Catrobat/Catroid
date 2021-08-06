@@ -118,7 +118,6 @@
     <string name="preference_description_language">I-set mo ang lengguahe ng app</string>
     <string name="preference_title_web_access">Web access</string>
     <string name="preference_description_web_access">I-edit para magdagdag o magtanggal ng pinagkakatiwalaang domains</string>
-    <string name="preference_screen_web_access_title">I-edit ang pinagkakatiwalaang domains</string>
     <string name="preference_title_ai">extension para sa Artificial intelligence (AI)</string>
     <string name="preference_description_ai">I-enable ang bricks at sensors para sa AI</string>
     <string name="preference_title_ai_speech_recognition">Speech
@@ -140,8 +139,6 @@
        recognition</string>
     <string name="preference_description_ai_text_recognition">Enable
        bricks at sensors para sa text recognition</string>
-    <string name="preference_title_ai_object_recognition">Pagkilala sa bagay</string>
-    <string name="preference_description_ai_object_recognition">I-enable ang pagkilala sa bagay at sensor sa pag-track</string>
     <string name="preference_title_accessibility">Aksesibilidad</string>
     <string name="preference_description_accessibility">Baguhin ang anyo ng app</string>
     <string name="preference_title_accessibility_profiles">Profile ng Aksesibiliti</string>
@@ -344,7 +341,7 @@ Pakiusap sumubok na lamang ng iba.</string>
     <string name="list_headline_sprites">Aktor at mga bagay</string>
     <!-- Options Menu Options -->
     <string name="backpack">Backpack</string>
-    <string name="copy">Kopyahin</string>
+    <string name="copy_menuname">Kopyahin</string>
     <string name="delete">Burahin</string>
     <string name="rename">Pangalanan muli</string>
     <string name="merge">Pagsamahin</string>

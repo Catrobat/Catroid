@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,7 @@
 package org.catrobat.catroid.uiespresso.content.brick.app
 
 import android.content.Context
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -123,11 +123,11 @@ import org.catrobat.catroid.formulaeditor.Sensors.SECOND_FACE_Y
 import org.catrobat.catroid.formulaeditor.Sensors.SPEECH_RECOGNITION_LANGUAGE
 import org.catrobat.catroid.formulaeditor.Sensors.TEXT_FROM_CAMERA
 import org.catrobat.catroid.ui.MainMenuActivity
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
 import org.junit.After

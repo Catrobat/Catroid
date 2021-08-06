@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.formulaeditor
 
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -37,7 +37,19 @@ import org.catrobat.catroid.testsuites.annotations.Cat
 import org.catrobat.catroid.testsuites.annotations.Level
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.recyclerview.viewholder.ViewHolder
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_CAST_GLOBALLY_ENABLED
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_SHOW_ARDUINO_BRICKS
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_SHOW_NFC_BRICKS
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_SHOW_PHIRO_BRICKS
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_SHOW_RASPI_BRICKS
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorCategoryListWrapper.onCategoryList
@@ -791,19 +803,19 @@ class FormulaEditorSensorListTest(
         )
 
         private val allShowBrickSettings: List<String> = listOf(
-            SettingsFragment.SETTINGS_SHOW_ARDUINO_BRICKS,
-            SettingsFragment.SETTINGS_SHOW_PHIRO_BRICKS,
-            SettingsFragment.SETTINGS_SHOW_NFC_BRICKS,
-            SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED,
-            SettingsFragment.SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED,
-            SettingsFragment.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS,
-            SettingsFragment.SETTINGS_SHOW_RASPI_BRICKS,
-            SettingsFragment.SETTINGS_CAST_GLOBALLY_ENABLED,
-            SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
-            SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
-            SettingsFragment.SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS,
-            SettingsFragment.SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS,
-            SettingsFragment.SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS
+            SETTINGS_SHOW_ARDUINO_BRICKS,
+            SETTINGS_SHOW_PHIRO_BRICKS,
+            SETTINGS_SHOW_NFC_BRICKS,
+            SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED,
+            SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED,
+            SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS,
+            SETTINGS_SHOW_RASPI_BRICKS,
+            SETTINGS_CAST_GLOBALLY_ENABLED,
+            SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
+            SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
+            SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS,
+            SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS,
+            SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS
         )
     }
 }

@@ -118,7 +118,6 @@
     <string name="preference_description_language">Выбрать язык приложения</string>
     <string name="preference_title_web_access">Веб-доступ</string>
     <string name="preference_description_web_access">Изменить, добавить или удалить доверенные домены</string>
-    <string name="preference_screen_web_access_title">Изменить доверенные домены</string>
     <string name="preference_title_ai">Расширение искусственного интеллекта (ИИ)</string>
     <string name="preference_description_ai">Включить блоки и датчики искусственного интеллекта</string>
     <string name="preference_title_ai_speech_recognition">Распознование
@@ -140,8 +139,6 @@
         текста</string>
     <string name="preference_description_ai_text_recognition">Включить
         распознавание текста и датчиков</string>
-    <string name="preference_title_ai_object_recognition">Распознавание объектов</string>
-    <string name="preference_description_ai_object_recognition">Включить датчики распознавания и отслеживания объектов</string>
     <string name="preference_title_accessibility">Доступность</string>
     <string name="preference_description_accessibility">Изменить вид приложения</string>
     <string name="preference_title_accessibility_profiles">Профили доступа</string>
@@ -358,7 +355,7 @@
     <string name="list_headline_sprites">Актеры и объекты</string>
     <!-- Options Menu Options -->
     <string name="backpack">Портфель</string>
-    <string name="copy">Скопировать</string>
+    <string name="copy_menuname">Скопировать</string>
     <string name="delete">Удалить</string>
     <string name="rename">Переименовать</string>
     <string name="merge">Объединить</string>

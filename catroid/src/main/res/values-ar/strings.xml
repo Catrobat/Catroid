@@ -116,7 +116,6 @@
     <string name="preference_description_language">تعيين لغة التطبيق</string>
     <string name="preference_title_web_access">الوصول إلى الويب</string>
     <string name="preference_description_web_access">تعديل لإضافة أو حذف النطاقات الموثوقة</string>
-    <string name="preference_screen_web_access_title">تعديل النطاقات الموثوقة</string>
     <string name="preference_title_ai">امتداد الذكاء الاصطناعي (AI)</string>
     <string name="preference_description_ai">تمكين طوب ومستشعرات الذكاء الاصطناعي</string>
     <string name="preference_title_ai_speech_recognition">خطاب
@@ -138,8 +137,6 @@
         التعرف على</string>
     <string name="preference_description_ai_text_recognition">ممكن
         طوب التعرف على النص وأجهزة الاستشعار</string>
-    <string name="preference_title_ai_object_recognition">التعرف على الكائن</string>
-    <string name="preference_description_ai_object_recognition">تمكين التعرف على الكائن ومستشعرات التتبع</string>
     <string name="preference_title_accessibility">إمكانية الوصول</string>
     <string name="preference_description_accessibility">تغيير مظهر التطبيق</string>
     <string name="preference_title_accessibility_profiles">ملفات تعريف إمكانية الوصول</string>
@@ -364,7 +361,7 @@
     <string name="list_headline_sprites">أشكال و عناصر</string>
     <!-- Options Menu Options -->
     <string name="backpack">حقيبة الظهر</string>
-    <string name="copy">نسخ</string>
+    <string name="copy_menuname">نسخ</string>
     <string name="delete">حذف</string>
     <string name="rename">إعادة تسمية</string>
     <string name="merge">دمج</string>

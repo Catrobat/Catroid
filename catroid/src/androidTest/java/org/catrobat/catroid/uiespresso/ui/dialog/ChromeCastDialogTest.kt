@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,7 @@ package org.catrobat.catroid.uiespresso.ui.dialog
 import android.app.Activity
 import android.app.Instrumentation.ActivityResult
 import android.content.Intent
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
@@ -46,7 +46,7 @@ import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.defaultprojectcreators.ChromeCastProjectCreator
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.WebViewActivity
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_CAST_GLOBALLY_ENABLED
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
@@ -150,9 +150,10 @@ class ChromeCastDialogTest {
     private fun enableChromeCast(enable: Boolean) {
         PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
             .edit()
-            .putBoolean(SettingsFragment.SETTINGS_CAST_GLOBALLY_ENABLED, enable)
+            .putBoolean(SETTINGS_CAST_GLOBALLY_ENABLED, enable)
             .commit()
     }
+
     private fun addEmptySprite() {
         onView(withId(R.id.button_add))
             .perform(click())

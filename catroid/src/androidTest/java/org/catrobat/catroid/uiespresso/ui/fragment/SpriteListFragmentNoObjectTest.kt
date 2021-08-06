@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 package org.catrobat.catroid.uiespresso.ui.fragment
 
 import android.app.Activity.RESULT_OK
-import android.preference.PreferenceManager.getDefaultSharedPreferences
+import androidx.preference.PreferenceManager.getDefaultSharedPreferences
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
@@ -85,7 +85,7 @@ class SpriteListFragmentNoObjectTest {
     @Test
     fun testOverflowItemsWithNoObjects() {
         checkToastMessageAfterPressingOverflowItem(R.string.backpack)
-        checkToastMessageAfterPressingOverflowItem(R.string.copy)
+        checkToastMessageAfterPressingOverflowItem(R.string.copy_menu_item)
         checkToastMessageAfterPressingOverflowItem(R.string.delete)
         checkToastMessageAfterPressingOverflowItem(R.string.rename)
     }

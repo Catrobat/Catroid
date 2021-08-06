@@ -118,7 +118,6 @@
     <string name="preference_description_language">ऐप की भाषा सेट करें</string>
     <string name="preference_title_web_access">वेब का उपयोग</string>
     <string name="preference_description_web_access">विश्वसनीय डोमेन जोड़ने या हटाने के लिए संपादित करें</string>
-    <string name="preference_screen_web_access_title">विश्वसनीय डोमेन संपादित करें</string>
     <string name="preference_title_ai">आर्टिफिशियल इंटेलिजेंस (एआई) एक्सटेंशन</string>
     <string name="preference_description_ai">AI ब्रिक्स और सेंसर सक्षम करें</string>
     <string name="preference_title_ai_speech_recognition">भाषण
@@ -140,8 +139,6 @@
         मान्यता</string>
     <string name="preference_description_ai_text_recognition">सक्षम
         पाठ पहचान ईंटें और सेंसर</string>
-    <string name="preference_title_ai_object_recognition">वस्तु मान्यता</string>
-    <string name="preference_description_ai_object_recognition">ऑब्जेक्ट पहचान और ट्रैकिंग सेंसर सक्षम करें</string>
     <string name="preference_title_accessibility">अभिगम्यता</string>
     <string name="preference_description_accessibility">ऐप की उपस्थिति बदलें</string>
     <string name="preference_title_accessibility_profiles">अभिगम्यता पार्श्वचित्र</string>
@@ -341,7 +338,7 @@
     <string name="list_headline_sprites">अभिनेता और वस्तुएं</string>
     <!-- Options Menu Options -->
     <string name="backpack">बैग</string>
-    <string name="copy">प्रतिलिपि बनाएँ</string>
+    <string name="copy_menuname">प्रतिलिपि बनाएँ</string>
     <string name="delete">मिटायें</string>
     <string name="rename">नाम बदलिए</string>
     <string name="merge">मर्ज</string>

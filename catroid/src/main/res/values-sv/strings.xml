@@ -118,7 +118,6 @@
     <string name="preference_description_language">Välj språk för appen</string>
     <string name="preference_title_web_access">Åtkomst till webben</string>
     <string name="preference_description_web_access">Redigera för att lägga till eller ta bort betrodda domäner</string>
-    <string name="preference_screen_web_access_title">Redigera betrodda domäner</string>
     <string name="preference_title_ai">Artificial intelligence (AI) extension</string>
     <string name="preference_description_ai">Enable AI bricks and sensors</string>
     <string name="preference_title_ai_speech_recognition">Speech
@@ -140,8 +139,6 @@
         recognition</string>
     <string name="preference_description_ai_text_recognition">Enable
         text recognition bricks and sensors</string>
-    <string name="preference_title_ai_object_recognition">Object recognition</string>
-    <string name="preference_description_ai_object_recognition">Enable object recognition and tracking sensors</string>
     <string name="preference_title_accessibility">Tillgänglighet</string>
     <string name="preference_description_accessibility">Ändra appens utseende</string>
     <string name="preference_title_accessibility_profiles">Tillgänglighetsprofiler</string>
@@ -343,7 +340,7 @@
     <string name="list_headline_sprites">Aktörer och objekt</string>
     <!-- Options Menu Options -->
     <string name="backpack">Ryggsäck</string>
-    <string name="copy">Kopiera</string>
+    <string name="copy_menuname">Kopiera</string>
     <string name="delete">Radera</string>
     <string name="rename">Byt namn</string>
     <string name="merge">Slå ihop</string>

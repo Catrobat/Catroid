@@ -117,7 +117,6 @@
     <string name="preference_description_language">App-Sprache auswählen</string>
     <string name="preference_title_web_access">Webzugriff</string>
     <string name="preference_description_web_access">Bearbeiten, um vertrauenswürdige Domänen hinzuzufügen oder zu entfernen</string>
-    <string name="preference_screen_web_access_title">Bearbeite vertrauenswürdige Domänen</string>
     <string name="preference_title_ai">Erweiterung der künstlichen Intelligenz (KI)</string>
     <string name="preference_description_ai">AI Bausteine und Sensoren aktivieren</string>
     <string name="preference_title_ai_speech_recognition">Spracherkennung</string>
@@ -135,8 +134,6 @@
     <string name="preference_title_ai_text_recognition">Text
         Erkennung</string>
     <string name="preference_description_ai_text_recognition">        Texterkennungsbausteine und Sensoren aktivieren</string>
-    <string name="preference_title_ai_object_recognition">Objekterkennung</string>
-    <string name="preference_description_ai_object_recognition">Objekterkennung und Tracking-Sensoren aktivieren</string>
     <string name="preference_title_accessibility">Bedienungshilfe</string>
     <string name="preference_description_accessibility">Aussehen der App ändern</string>
     <string name="preference_title_accessibility_profiles">Bediehnungshilfen</string>
@@ -334,7 +331,7 @@
     <string name="list_headline_sprites">Figuren und Objekte</string>
     <!-- Options Menu Options -->
     <string name="backpack">Rucksack</string>
-    <string name="copy">Kopiert</string>
+    <string name="copy_menuname">Kopiert</string>
     <string name="delete">Löschen</string>
     <string name="rename">Umbenennen</string>
     <string name="merge">Zusammenführen</string>

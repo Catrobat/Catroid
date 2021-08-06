@@ -118,7 +118,6 @@
     <string name="preference_description_language">অ্যাপ্লিকেশনটির ভাষা নির্বাচন করুন</string>
     <string name="preference_title_web_access">ওয়েব অ্যাক্সেস</string>
     <string name="preference_description_web_access">বিশ্বস্ত ডোমেন যুক্ত করতে বা সরাতে সম্পাদনা করুন</string>
-    <string name="preference_screen_web_access_title">বিশ্বস্ত ডোমেনগুলি সম্পাদনা করুন</string>
     <string name="preference_title_ai">কৃত্রিম বুদ্ধিমত্তা (এআই) এক্সটেনশন</string>
     <string name="preference_description_ai">এআই ইট এবং সেন্সর সক্ষম করুন</string>
     <string name="preference_title_ai_speech_recognition">স্পিচ
@@ -140,8 +139,6 @@
         স্বীকৃতি</string>
     <string name="preference_description_ai_text_recognition">সক্ষম করুন
         পাঠ্য স্বীকৃতি ইট এবং সেন্সর</string>
-    <string name="preference_title_ai_object_recognition">বস্তুর স্বীকৃতি</string>
-    <string name="preference_description_ai_object_recognition">অবজেক্ট রিকগনিশন এবং ট্র্যাকিং সেন্সর সক্ষম করুন</string>
     <string name="preference_title_accessibility">প্রবেশযোগ্যতা</string>
     <string name="preference_description_accessibility">অ্যাপ্লিকেশনটির চেহারা পরিবর্তন করুন</string>
     <string name="preference_title_accessibility_profiles">প্রবেশযোগ্য প্রোফাইল</string>
@@ -326,7 +323,7 @@
     <string name="list_headline_sprites">অভিনেতা এবং অবজেক্টস</string>
     <!-- Options Menu Options -->
     <string name="backpack">ব্যাকপ্যাক</string>
-    <string name="copy">অনুলিপি</string>
+    <string name="copy_menuname">অনুলিপি</string>
     <string name="delete">মুছুন</string>
     <string name="rename">নাম পরিবর্তন</string>
     <string name="merge">একত্রীকরণ</string>

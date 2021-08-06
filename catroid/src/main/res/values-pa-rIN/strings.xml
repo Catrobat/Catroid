@@ -118,7 +118,6 @@
     <string name="preference_description_language">ਐਪ ਦੀ ਭਾਸ਼ਾ ਸੈਟ ਕਰੋ</string>
     <string name="preference_title_web_access">ਵੈੱਬ ਪਹੁੰਚ</string>
     <string name="preference_description_web_access">ਭਰੋਸੇਯੋਗ ਡੋਮੇਨ ਜੋੜਨ ਜਾਂ ਹਟਾਉਣ ਲਈ ਸੋਧ ਕਰੋ</string>
-    <string name="preference_screen_web_access_title">ਭਰੋਸੇਯੋਗ ਡੋਮੇਨ ਸੰਪਾਦਿਤ ਕਰੋ</string>
     <string name="preference_title_ai">ਨਕਲੀ ਬੁੱਧੀ (ਏ.ਆਈ.) ਦਾ ਵਿਸਥਾਰ</string>
     <string name="preference_description_ai">ਏਆਈ ਇੱਟਾਂ ਅਤੇ ਸੈਂਸਰਾਂ ਨੂੰ ਸਮਰੱਥ ਬਣਾਓ</string>
     <string name="preference_title_ai_speech_recognition">ਸਪੀਚ
@@ -140,8 +139,6 @@
         ਮਾਨਤਾ</string>
     <string name="preference_description_ai_text_recognition">ਯੋਗ
         ਟੈਕਸਟ ਮਾਨਤਾ ਇੱਟਾਂ ਅਤੇ ਸੈਂਸਰ</string>
-    <string name="preference_title_ai_object_recognition">ਵਸਤੂ ਪਛਾਣ</string>
-    <string name="preference_description_ai_object_recognition">ਵਸਤੂ ਪਛਾਣ ਅਤੇ ਟਰੈਕਿੰਗ ਸੈਂਸਰ ਨੂੰ ਸਮਰੱਥ ਬਣਾਓ</string>
     <string name="preference_title_accessibility">ਪਹੁੰਚਯੋਗਤਾ</string>
     <string name="preference_description_accessibility">ਐਪ ਦੀ ਦਿੱਖ ਬਦਲੋ</string>
     <string name="preference_title_accessibility_profiles">ਪਹੁੰਚਯੋਗਤਾ ਪਰੋਫਾਈਲ</string>
@@ -343,7 +340,7 @@
     <string name="list_headline_sprites">ਅਦਾਕਾਰ ਅਤੇ ਆਬਜੈਕਟ</string>
     <!-- Options Menu Options -->
     <string name="backpack">ਬੈਕਪੈਕ</string>
-    <string name="copy">ਕਾੱਪੀ</string>
+    <string name="copy_menuname">ਕਾੱਪੀ</string>
     <string name="delete">ਮਿਟਾਓ</string>
     <string name="rename">ਨਾਮ ਬਦਲੋ</string>
     <string name="merge">ਮਿਲਾਓ</string>

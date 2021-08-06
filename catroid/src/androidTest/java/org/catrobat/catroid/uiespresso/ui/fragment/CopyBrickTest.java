@@ -95,10 +95,10 @@ public class CopyBrickTest {
 	@Test
 	public void testNoItemSelected() {
 		openContextualActionModeOverflowMenu();
-		onView(withText(R.string.copy))
+		onView(withText(R.string.copy_menu_item))
 				.check(matches(isDisplayed()));
 
-		onView(withText(R.string.copy))
+		onView(withText(R.string.copy_menu_item))
 				.perform(click());
 
 		for (int brickIndex = 0; brickIndex <= secondScriptEndIndex; brickIndex++) {
@@ -111,7 +111,7 @@ public class CopyBrickTest {
 	@Test
 	public void testSelectWholeScript() {
 		openContextualActionModeOverflowMenu();
-		onView(withText(R.string.copy)).perform(click());
+		onView(withText(R.string.copy_menu_item)).perform(click());
 
 		int brickIndex = 0;
 		getCheckbox(brickIndex)
@@ -133,7 +133,7 @@ public class CopyBrickTest {
 	@Test
 	public void testSelectSingleBrick() {
 		openContextualActionModeOverflowMenu();
-		onView(withText(R.string.copy)).perform(click());
+		onView(withText(R.string.copy_menu_item)).perform(click());
 
 		int brickIndex = 6;
 		getCheckbox(brickIndex)
@@ -168,7 +168,7 @@ public class CopyBrickTest {
 	@Test
 	public void testSelectCompositeBrick() {
 		openContextualActionModeOverflowMenu();
-		onView(withText(R.string.copy)).perform(click());
+		onView(withText(R.string.copy_menu_item)).perform(click());
 
 		getCheckbox(lastIndexComposite)
 				.perform(click())
@@ -196,7 +196,7 @@ public class CopyBrickTest {
 	@Test
 	public void testUserDefinedScriptNotEnabled() {
 		openContextualActionModeOverflowMenu();
-		onView(withText(R.string.copy)).perform(click());
+		onView(withText(R.string.copy_menu_item)).perform(click());
 
 		getCheckbox(userDefinedScriptIndex)
 				.check(matches(not(isEnabled())))

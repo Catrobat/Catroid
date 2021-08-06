@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,6 @@
 package org.catrobat.catroid.uiespresso.ui.dialog;
 
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -32,7 +31,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.uiespresso.ui.fragment.settingfragmenttestutils.SettingsFragmentTestUtils;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.catrobat.catroid.utils.SnackbarUtil;
@@ -46,8 +45,8 @@ import org.junit.runner.RunWith;
 import java.util.HashSet;
 import java.util.Set;
 
+import androidx.preference.PreferenceManager;
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.matcher.PreferenceMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertFalse;
@@ -59,7 +58,6 @@ import static org.catrobat.catroid.common.SharedPreferenceKeys.DISABLE_HINTS_DIA
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_HINTS;
 
-import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.Espresso.pressBack;
@@ -85,7 +83,7 @@ public class DisableHintDialogTest {
 		createProject("firstProject");
 
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
-		hintSetting = sharedPreferences.getBoolean(SettingsFragment.SETTINGS_SHOW_HINTS, false);
+		hintSetting = sharedPreferences.getBoolean(SETTINGS_SHOW_HINTS, false);
 		hintList = new HashSet<>(sharedPreferences.getStringSet(SnackbarUtil.SHOWN_HINT_LIST, new HashSet<String>()));
 		bufferedPreferenceSetting = sharedPreferences.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
 
@@ -172,8 +170,7 @@ public class DisableHintDialogTest {
 
 		assertFalse(sharedPreferences.getBoolean(sharedPreferenceTag, false));
 
-		onData(PreferenceMatchers.withTitle(displayedTitleResourceString))
-				.perform(click());
+		SettingsFragmentTestUtils.INSTANCE.clickOnSettingsItem(displayedTitleResourceString);
 
 		assertTrue(sharedPreferences.getBoolean(sharedPreferenceTag, true));
 	}
@@ -184,8 +181,7 @@ public class DisableHintDialogTest {
 
 		assertTrue(sharedPreferences.getBoolean(sharedPreferenceTag, true));
 
-		onData(PreferenceMatchers.withTitle(displayedTitleResourceString))
-				.perform(click());
+		SettingsFragmentTestUtils.INSTANCE.clickOnSettingsItem(displayedTitleResourceString);
 
 		assertFalse(sharedPreferences.getBoolean(sharedPreferenceTag, false));
 	}

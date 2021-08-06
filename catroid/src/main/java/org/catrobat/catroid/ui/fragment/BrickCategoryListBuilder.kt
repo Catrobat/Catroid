@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.ui.fragment
 
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import org.catrobat.catroid.ProjectManager
@@ -46,7 +46,7 @@ class BrickCategoryListBuilder(private val activity: FragmentActivity) {
 
         categories.add(inflater.inflate(R.layout.brick_category_recently_used, null))
 
-        if (SettingsFragment.isEmroiderySharedPreferenceEnabled(activity)) {
+        if (SettingsFragment.isEmbroiderySharedPreferenceEnabled(activity)) {
             categories.add(inflater.inflate(R.layout.brick_category_embroidery, null))
         }
         if (SettingsFragment.isMindstormsNXTSharedPreferenceEnabled(activity)) {

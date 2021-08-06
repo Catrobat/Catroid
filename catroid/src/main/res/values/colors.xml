@@ -34,7 +34,7 @@
     <color name="view_holder_headline">@color/solid_white</color>
     <color name="view_holder_item_title">#aadbf0</color>
     <color name="view_holder_item_details">@color/solid_white</color>
-    <color name="spinner_icon_and_inactive_elements">@color/solid_white</color>
+    <color name="spinner_icon_and_inactive_elements">@color/gray</color>
 
     <!-- Backgrounds -->
     <color name="app_background">#04222C</color>
@@ -75,6 +75,7 @@
     <color name="orange">#E68B00</color>
     <color name="red">#D50000</color>
     <color name="dark_blue">#32529D</color>
+    <color name="gray">#818a8c</color>
 
     <!-- Misc Text Colors -->
     <color name="formula_editor_intro_heading_color">#FF6600</color>

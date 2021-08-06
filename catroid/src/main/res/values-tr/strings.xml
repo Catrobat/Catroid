@@ -118,7 +118,6 @@
     <string name="preference_description_language">Uygulamanın dilini ayarlayın</string>
     <string name="preference_title_web_access">Web erişimi</string>
     <string name="preference_description_web_access">Güvenilir alanlar eklemek veya kaldırmak için düzenleyin</string>
-    <string name="preference_screen_web_access_title">Güvenilir alanları düzenleme</string>
     <string name="preference_title_ai">Yapay zeka (AI) uzantısı</string>
     <string name="preference_description_ai">AI tuğlalarını ve sensörlerini etkinleştirin</string>
     <string name="preference_title_ai_speech_recognition">Konuşma
@@ -140,8 +139,6 @@
         tanıma</string>
     <string name="preference_description_ai_text_recognition">Etkinleştir
         metin tanıma tuğlaları ve sensörler</string>
-    <string name="preference_title_ai_object_recognition">Obje tanıma</string>
-    <string name="preference_description_ai_object_recognition">Obje tanıma ve izleme sensörlerini etkinleştirin</string>
     <string name="preference_title_accessibility">Ulaşılabilirlik</string>
     <string name="preference_description_accessibility">Uygulamanın görünümünü değiştirin</string>
     <string name="preference_title_accessibility_profiles">Erişilebilirlik profilleri</string>
@@ -326,7 +323,7 @@
     <string name="list_headline_sprites">Objeler</string>
     <!-- Options Menu Options -->
     <string name="backpack">Sırt çantası</string>
-    <string name="copy">Kopyala</string>
+    <string name="copy_menuname">Kopyala</string>
     <string name="delete">Sil</string>
     <string name="rename">Yeniden adlandır</string>
     <string name="merge">Birleştir</string>

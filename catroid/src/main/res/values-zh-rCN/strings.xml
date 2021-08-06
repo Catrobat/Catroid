@@ -118,7 +118,6 @@
     <string name="preference_description_language">设置应用的语言</string>
     <string name="preference_title_web_access">Web 访问</string>
     <string name="preference_description_web_access">编辑以添加或删除信任的域</string>
-    <string name="preference_screen_web_access_title">编辑信任的域</string>
     <string name="preference_title_ai">人工智能（AI）扩展</string>
     <string name="preference_description_ai">启用AI砖和传感器</string>
     <string name="preference_title_ai_speech_recognition">语音识别
@@ -140,8 +139,6 @@
         确认</string>
     <string name="preference_description_ai_text_recognition">启用
         文字识别砖和传感器</string>
-    <string name="preference_title_ai_object_recognition">对象识别</string>
-    <string name="preference_description_ai_object_recognition">启用对象识别和追踪传感器</string>
     <string name="preference_title_accessibility">可访问性</string>
     <string name="preference_description_accessibility">更改应用的外观</string>
     <string name="preference_title_accessibility_profiles">辅助功能配置文件</string>
@@ -326,7 +323,7 @@
     <string name="list_headline_sprites">对象和物体</string>
     <!-- Options Menu Options -->
     <string name="backpack">背包</string>
-    <string name="copy">复制</string>
+    <string name="copy_menuname">复制</string>
     <string name="delete">删除</string>
     <string name="rename">重命名</string>
     <string name="merge">合并</string>

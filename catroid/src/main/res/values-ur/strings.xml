@@ -115,7 +115,6 @@
     <string name="preference_description_language">ایپ کی زبان کو سیٹ کریں</string>
     <string name="preference_title_web_access">ویب تک رسائی</string>
     <string name="preference_description_web_access">قابل اعتماد ڈومینز کو شامل یا ہٹانے میں ترمیم کریں</string>
-    <string name="preference_screen_web_access_title">قابل اعتماد ڈومینز میں ترمیم کریں</string>
     <string name="preference_title_ai">مصنوعی انٹیلی جنس (اے آئی) توسیع</string>
     <string name="preference_description_ai">اے آئی اینٹوں اور سینسر کو فعال کریں</string>
     <string name="preference_title_ai_speech_recognition">تقریر
@@ -136,8 +135,6 @@
          شناخت</string>
     <string name="preference_description_ai_text_recognition">متن
         کی شناخت اینٹوں اور سینسر کو فعال کریں</string>
-    <string name="preference_title_ai_object_recognition">چیز کی شناخت</string>
-    <string name="preference_description_ai_object_recognition">چیز کی شناخت اور ٹریکنگ سینسرز کو فعال کریں۔</string>
     <string name="preference_title_accessibility">رسائی</string>
     <string name="preference_description_accessibility">اپلی کیشن کی ظاہری شکل تبدیل کریں</string>
     <string name="preference_title_accessibility_profiles"> پروفائل رسائی</string>
@@ -322,7 +319,7 @@
     <string name="list_headline_sprites">اداکار اور آبجیکٹ</string>
     <!-- Options Menu Options -->
     <string name="backpack">بستہ</string>
-    <string name="copy">نقل بنائین</string>
+    <string name="copy_menuname">نقل بنائین</string>
     <string name="delete">خارج کر دیں</string>
     <string name="rename">نام تبدیل کریں</string>
     <string name="merge">ضم کریں</string>

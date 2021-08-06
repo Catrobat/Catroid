@@ -118,7 +118,6 @@
     <string name="preference_description_language">Set the app\'s language</string>
     <string name="preference_title_web_access">Web access</string>
     <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
-    <string name="preference_screen_web_access_title">Edit trusted domains</string>
     <string name="preference_title_ai">Artificial intelligence (AI) extension</string>
     <string name="preference_description_ai">Enable AI bricks and sensors</string>
     <string name="preference_title_ai_speech_recognition">Speech
@@ -140,8 +139,6 @@
         recognition</string>
     <string name="preference_description_ai_text_recognition">Enable
         text recognition bricks and sensors</string>
-    <string name="preference_title_ai_object_recognition">Object recognition</string>
-    <string name="preference_description_ai_object_recognition">Enable object recognition and tracking sensors</string>
     <string name="preference_title_accessibility">Accessibility</string>
     <string name="preference_description_accessibility">Change the app\'s appearance</string>
     <string name="preference_title_accessibility_profiles">Accessibility profiles</string>
@@ -343,7 +340,7 @@
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">Backpack</string>
-    <string name="copy">Copy</string>
+    <string name="copy_menuname">Copy</string>
     <string name="delete">Избриши</string>
     <string name="rename">Преименувај</string>
     <string name="merge">Merge</string>

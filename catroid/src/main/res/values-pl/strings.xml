@@ -118,7 +118,6 @@
     <string name="preference_description_language">Ustaw język aplikacji</string>
     <string name="preference_title_web_access">Dostęp do sieci</string>
     <string name="preference_description_web_access">Edytuj aby dodać lub usunąć zaufane domeny</string>
-    <string name="preference_screen_web_access_title">Edytuj zaufane domeny</string>
     <string name="preference_title_ai">Rozszerzenie Sztucznej Inteligencji (SI)</string>
     <string name="preference_description_ai">Włączenie bloczków i czujników SI</string>
     <string name="preference_title_ai_speech_recognition">Rozpoznawanie
@@ -140,8 +139,6 @@
         tekstu</string>
     <string name="preference_description_ai_text_recognition">Włącz
         bloczki i czujniki do rozpoznawania tekstu</string>
-    <string name="preference_title_ai_object_recognition">Rozpoznawanie obiektów</string>
-    <string name="preference_description_ai_object_recognition">Włącz czujniki rozpoznawania i śledzenia obiektów</string>
     <string name="preference_title_accessibility">Dostępność</string>
     <string name="preference_description_accessibility">Zmień wygląd aplikacji</string>
     <string name="preference_title_accessibility_profiles">Profile dostępności</string>
@@ -339,7 +336,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="list_headline_sprites">Aktorzy i obiekty</string>
     <!-- Options Menu Options -->
     <string name="backpack">Plecak</string>
-    <string name="copy">Kopiuj</string>
+    <string name="copy_menuname">Kopiuj</string>
     <string name="delete">Usuń</string>
     <string name="rename">Zmień nazwę</string>
     <string name="merge">Scal</string>

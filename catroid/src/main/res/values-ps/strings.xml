@@ -119,7 +119,6 @@
     <string name="preference_description_language">د اپلیکیشن ژبه تنظیم کړئ</string>
     <string name="preference_title_web_access">ویب لاسرسی</string>
     <string name="preference_description_web_access">د باور وړ ډومینونو اضافه کولو یا لرې کولو لپاره ایډیټ کړئ</string>
-    <string name="preference_screen_web_access_title">باوري ډومینونه ایډیټ کړئ</string>
     <string name="preference_title_ai">د مصنوعي استخباراتو (AI) توسیع</string>
     <string name="preference_description_ai">د AI خښتې او سینسرونه فعال کړئ</string>
     <string name="preference_title_ai_speech_recognition">د وینا 
@@ -140,8 +139,6 @@
         پیژندنه</string>
     <string name="preference_description_ai_text_recognition">د متن پیژندنې 
         خښتې او سینسرونه فعال کړئ</string>
-    <string name="preference_title_ai_object_recognition">د څیز پیژندنه</string>
-    <string name="preference_description_ai_object_recognition">د څیز پیژندنې او تعقیب سینسرونه فعال کړئ</string>
     <string name="preference_title_accessibility">لاسرسی</string>
     <string name="preference_description_accessibility">د اپلیکیشن بڼه بدل کړئ</string>
     <string name="preference_title_accessibility_profiles">د لاسرسي پروفایلونه</string>
@@ -340,7 +337,7 @@
     <string name="list_headline_sprites">لوبغاړي او توکي</string>
     <!-- Options Menu Options -->
     <string name="backpack">پسته</string>
-    <string name="copy">کاپي</string>
+    <string name="copy_menuname">کاپي</string>
     <string name="delete">پاک کړی</string>
     <string name="rename">نوم بدل کړئ</string>
     <string name="merge">یوځای کول</string>

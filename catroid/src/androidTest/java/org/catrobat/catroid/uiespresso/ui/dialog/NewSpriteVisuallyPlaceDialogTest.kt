@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,7 @@ package org.catrobat.catroid.uiespresso.ui.dialog
 import android.app.Activity
 import android.app.Instrumentation.ActivityResult
 import android.content.Intent
-import android.preference.PreferenceManager.getDefaultSharedPreferences
+import androidx.preference.PreferenceManager.getDefaultSharedPreferences
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack

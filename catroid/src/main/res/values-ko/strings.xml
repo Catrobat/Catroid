@@ -113,7 +113,6 @@
     <string name="preference_description_language">앱의 언어 선택</string>
     <string name="preference_title_web_access">웹 연결</string>
     <string name="preference_description_web_access">검증된 도메인을 추가하거나 제거하기위해 편집</string>
-    <string name="preference_screen_web_access_title">검증된 도메인 편집</string>
     <string name="preference_title_ai">인공 지능 (AI) 확장</string>
     <string name="preference_description_ai">AI 브릭 및 센서 활성화</string>
     <string name="preference_title_ai_speech_recognition">연설
@@ -135,8 +134,6 @@
         인식</string>
     <string name="preference_description_ai_text_recognition">활성화
         텍스트 인식 브릭 및 센서</string>
-    <string name="preference_title_ai_object_recognition">물체 인식</string>
-    <string name="preference_description_ai_object_recognition">물체 인식 및 추적 센서 활성화</string>
     <string name="preference_title_accessibility">접근성</string>
     <string name="preference_description_accessibility">응용 프로그램의 모양을 변경</string>
     <string name="preference_title_accessibility_profiles">접근성 참고사항</string>
@@ -311,7 +308,7 @@
     <string name="list_headline_sprites">배우와 오브젝트</string>
     <!-- Options Menu Options -->
     <string name="backpack">스크립트 모음</string>
-    <string name="copy">복사하기</string>
+    <string name="copy_menuname">복사하기</string>
     <string name="delete">삭제하기</string>
     <string name="rename">이름 바꾸기</string>
     <string name="merge">병합</string>

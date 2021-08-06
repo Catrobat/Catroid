@@ -40,7 +40,7 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/copy"
-        android:title="@string/copy"
+        android:title="@string/copy_menu_item"
         android:icon="@drawable/ic_content_copy"
         app:showAsAction="never" />
     <item

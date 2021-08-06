@@ -67,6 +67,7 @@
     <dimen name="data_view_space">200dp</dimen>
     <dimen name="data_view_space_spinner_text">400dp</dimen>
     <dimen name="edit_text_baseline_spacing">10dp</dimen>
+    <dimen name="settings_item_padding">5dp</dimen>
 
     <!-- Material Design Dialogs -->
     <dimen name="dialog_content_area_padding_top">18dp</dimen>

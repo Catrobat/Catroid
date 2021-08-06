@@ -118,7 +118,6 @@
     <string name="preference_description_language">Setel bahasa aplikasi</string>
     <string name="preference_title_web_access">akses web</string>
     <string name="preference_description_web_access">Edit untuk menambah atau menghapus domain tepercaya</string>
-    <string name="preference_screen_web_access_title">Edit domain tepercaya</string>
     <string name="preference_title_ai">Ekstensi kecerdasan buatan (AI)</string>
     <string name="preference_description_ai">Aktifkan batu bata dan sensor AI</string>
     <string name="preference_title_ai_speech_recognition">Pidato
@@ -140,8 +139,6 @@
         pengakuan</string>
     <string name="preference_description_ai_text_recognition">Memungkinkan
         batu bata dan sensor pengenalan teks</string>
-    <string name="preference_title_ai_object_recognition">Pengenalan objek</string>
-    <string name="preference_description_ai_object_recognition">Aktifkan pengenalan objek dan sensor pelacakan</string>
     <string name="preference_title_accessibility">Aksesibilitas</string>
     <string name="preference_description_accessibility">Ubah tampilan aplikasi</string>
     <string name="preference_title_accessibility_profiles">Profil aksesibilitas</string>
@@ -335,7 +332,7 @@
     <string name="list_headline_sprites">Aktor dan objek</string>
     <!-- Options Menu Options -->
     <string name="backpack">Ransel</string>
-    <string name="copy">Salinan</string>
+    <string name="copy_menuname">Salinan</string>
     <string name="delete">Menghapus</string>
     <string name="rename">Ganti nama</string>
     <string name="merge">Menggabungkan</string>

@@ -118,7 +118,6 @@
     <string name="preference_description_language">ตั้งค่าภาษาของแอพ</string>
     <string name="preference_title_web_access">การเข้าถึงเว็บ</string>
     <string name="preference_description_web_access">แก้ไขเพื่อเพิ่มหรือลบโดเมนที่เชื่อถือได้</string>
-    <string name="preference_screen_web_access_title">แก้ไขโดเมนที่เชื่อถือได้</string>
     <string name="preference_title_ai">ส่วนขยายปัญญาประดิษฐ์ (AI)</string>
     <string name="preference_description_ai">เปิดใช้งานคำสั่ง AI และเซ็นเซอร์</string>
     <string name="preference_title_ai_speech_recognition">คำพูด
@@ -140,8 +139,6 @@
         การรับรู้</string>
     <string name="preference_description_ai_text_recognition">เปิดใช้งาน
         คำสั่งและเซ็นเซอร์การรู้จำข้อความ</string>
-    <string name="preference_title_ai_object_recognition">การจดจำวัตถุ</string>
-    <string name="preference_description_ai_object_recognition">เปิดใช้งานการจดจำวัตถุและเซ็นเซอร์ติดตาม</string>
     <string name="preference_title_accessibility">การ​เข้า​ใช้​งาน</string>
     <string name="preference_description_accessibility">เปลี่ยนรูปลักษณ์ของแอพ</string>
     <string name="preference_title_accessibility_profiles">โปรไฟล์การเข้าถึง</string>
@@ -324,7 +321,7 @@
     <string name="list_headline_sprites">นักแสดงและวัตถุ</string>
     <!-- Options Menu Options -->
     <string name="backpack">ชุดข้อมูล</string>
-    <string name="copy">คัด​ลอก</string>
+    <string name="copy_menuname">คัด​ลอก</string>
     <string name="delete">ลบ</string>
     <string name="rename">เปลี่ยนชื่อ</string>
     <string name="merge">รวม</string>

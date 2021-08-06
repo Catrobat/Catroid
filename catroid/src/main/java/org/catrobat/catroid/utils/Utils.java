@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,6 @@ import android.content.res.AssetManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -76,6 +75,7 @@ import java.util.regex.Pattern;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.exifinterface.media.ExifInterface;
+import androidx.preference.PreferenceManager;
 import okhttp3.Response;
 
 import static android.speech.RecognizerIntent.ACTION_GET_LANGUAGE_DETAILS;

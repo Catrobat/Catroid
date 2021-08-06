@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -52,15 +52,15 @@ object TrustedDomainManager {
             userTrustListPattern = initializeUserTrustListPattern()
         }
         return trustListPattern?.matcher(url)?.matches() ?: false ||
-            userTrustListPattern?.matcher(url)?.matches() ?: false
+                userTrustListPattern?.matcher(url)?.matches() ?: false
     }
 
     fun addToUserTrustList(domain: String): Boolean {
         try {
             val domains = when {
                 TRUSTED_USER_DOMAINS_FILE.exists() ->
-                    TRUSTED_USER_DOMAINS_FILE.inputStream().use {
-                        val trustList = Utils.getJsonObjectFromInputStream(it)
+                    TRUSTED_USER_DOMAINS_FILE.inputStream().use { fileInputStream ->
+                        val trustList = Utils.getJsonObjectFromInputStream(fileInputStream)
                         trustList.getJSONArray(TRUST_LIST_JSON_ARRAY_NAME).put(cleanUpUserInput(domain))
                 }
                 TRUSTED_USER_DOMAINS_FILE.createNewFile() -> JSONArray(listOf(cleanUpUserInput(domain)))
@@ -79,22 +79,49 @@ object TrustedDomainManager {
         }
     }
 
-    fun getUserTrustList(): String {
-        return try {
-            if (TRUSTED_USER_DOMAINS_FILE.exists()) {
-                TRUSTED_USER_DOMAINS_FILE.inputStream().use {
-                    val trustList = Utils.getJsonObjectFromInputStream(it)
-                    val domains = trustList.getJSONArray(TRUST_LIST_JSON_ARRAY_NAME)
-                    cleanUpUserInput(domains.join("\n"))
+    @SuppressWarnings("NestedBlockDepth")
+    fun removeFromUserTrustList(domainsList: List<String>) {
+        try {
+            val domains: JSONArray? = if (TRUSTED_USER_DOMAINS_FILE.exists()) {
+                TRUSTED_USER_DOMAINS_FILE.inputStream().use { fileInputStream ->
+                    val trustList = Utils.getJsonObjectFromInputStream(fileInputStream)
+                    domainsList.forEach { domain ->
+                        trustList.getJSONArray(TRUST_LIST_JSON_ARRAY_NAME).removeString(domain)
+                    }
+                    trustList.getJSONArray(TRUST_LIST_JSON_ARRAY_NAME)
                 }
-            } else ""
+            } else {
+                null
+            }
+
+            domains?.let {
+                userTrustListPattern = getTrustListPatternFromDomains(domains)
+                val trustList = JSONObject(mapOf(TRUST_LIST_JSON_ARRAY_NAME to domains))
+                TRUSTED_USER_DOMAINS_FILE.writeText(trustList.toString(JSON_INDENTATION))
+            }
         } catch (e: IOException) {
             Log.e(TAG, READ_ERROR_LOG, e)
-            ""
         } catch (e: JSONException) {
             Log.e(TAG, PARSE_ERROR_LOG, e)
-            ""
         }
+    }
+
+    fun getUserTrustList(): List<String> {
+        val list = mutableListOf<String>()
+        try {
+            if (TRUSTED_USER_DOMAINS_FILE.exists()) {
+                TRUSTED_USER_DOMAINS_FILE.inputStream().use { fileInputStream ->
+                    val trustList = Utils.getJsonObjectFromInputStream(fileInputStream)
+                    val domains = trustList.getJSONArray(TRUST_LIST_JSON_ARRAY_NAME)
+                    list.addAll(domains.toList())
+                }
+            }
+        } catch (e: IOException) {
+            Log.e(TAG, READ_ERROR_LOG, e)
+        } catch (e: JSONException) {
+            Log.e(TAG, PARSE_ERROR_LOG, e)
+        }
+        return list
     }
 
     fun setUserTrustList(domains: String): Boolean {
@@ -124,8 +151,8 @@ object TrustedDomainManager {
             Utils.getInputStreamFromAsset(
                 CatroidApplication.getAppContext(),
                 TRUSTED_DOMAINS_FILE_NAME
-            ).use {
-                val trustList = Utils.getJsonObjectFromInputStream(it)
+            ).use { inputStream ->
+                val trustList = Utils.getJsonObjectFromInputStream(inputStream)
                 val domains = trustList.getJSONArray(TRUST_LIST_JSON_ARRAY_NAME)
                 return getTrustListPatternFromDomains(domains)
             }
@@ -143,8 +170,8 @@ object TrustedDomainManager {
             if (!TRUSTED_USER_DOMAINS_FILE.exists()) {
                 return null
             }
-            TRUSTED_USER_DOMAINS_FILE.inputStream().use {
-                val trustList = Utils.getJsonObjectFromInputStream(it)
+            TRUSTED_USER_DOMAINS_FILE.inputStream().use { fileInputStream ->
+                val trustList = Utils.getJsonObjectFromInputStream(fileInputStream)
                 val domains = trustList.getJSONArray(TRUST_LIST_JSON_ARRAY_NAME)
                 return getTrustListPatternFromDomains(domains)
             }
@@ -181,5 +208,27 @@ object TrustedDomainManager {
     fun resetUserTrustList(): Boolean {
         userTrustListPattern = null
         return TRUSTED_USER_DOMAINS_FILE.delete()
+    }
+
+    private fun JSONArray.toList(): List<String> {
+        val list = mutableListOf<String>()
+        for (i in 0 until length()) {
+            list.add(getString(i))
+        }
+        return list
+    }
+
+    private fun JSONArray.removeString(str: String): JSONArray {
+        var index: Int? = null
+        for (i in 0 until length()) {
+            if (getString(i) == str) {
+                index = i
+                break
+            }
+        }
+        index?.let {
+            remove(index)
+        }
+        return this
     }
 }

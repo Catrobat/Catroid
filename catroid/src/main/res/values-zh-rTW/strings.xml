@@ -115,7 +115,6 @@
     <string name="preference_description_language">設定APP的語言</string>
     <string name="preference_title_web_access">網站存取</string>
     <string name="preference_description_web_access">設定新增或移除信任網域</string>
-    <string name="preference_screen_web_access_title">修改信任網域</string>
     <string name="preference_title_ai">人工智能 (AI) 擴展</string>
     <string name="preference_description_ai">啟用 AI 積木和傳感器</string>
     <string name="preference_title_ai_speech_recognition">演講
@@ -137,8 +136,6 @@
         認出</string>
     <string name="preference_description_ai_text_recognition">使能夠
         文字識別磚和傳感器</string>
-    <string name="preference_title_ai_object_recognition">物體識別</string>
-    <string name="preference_description_ai_object_recognition">啟用對象識別和跟踪傳感器</string>
     <string name="preference_title_accessibility">輔助功能</string>
     <string name="preference_description_accessibility">更改APP的外貌</string>
     <string name="preference_title_accessibility_profiles">無障礙配置文件</string>
@@ -332,7 +329,7 @@
     <string name="list_headline_sprites">演員和對象</string>
     <!-- Options Menu Options -->
     <string name="backpack">背包</string>
-    <string name="copy">複製</string>
+    <string name="copy_menuname">複製</string>
     <string name="delete">刪除</string>
     <string name="rename">更名</string>
     <string name="merge">合併</string>
