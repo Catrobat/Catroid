@@ -26,7 +26,6 @@ package org.catrobat.catroid.ui.dialogs;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -38,9 +37,10 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+import androidx.preference.PreferenceManager;
 
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragmentKt.SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragmentKt.SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED;
 
 public class LegoSensorConfigInfoDialog extends DialogFragment {
 

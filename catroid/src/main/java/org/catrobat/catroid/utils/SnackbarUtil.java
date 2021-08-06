@@ -25,7 +25,6 @@ package org.catrobat.catroid.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.TextView;
 
@@ -40,8 +39,10 @@ import java.util.Set;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
+import androidx.preference.PreferenceManager;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DISABLE_HINTS_DIALOG_SHOWN_PREFERENCE_KEY;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragmentKt.SETTINGS_SHOW_HINTS;
 
 public final class SnackbarUtil {
 
@@ -101,7 +102,7 @@ public final class SnackbarUtil {
 	}
 
 	public static boolean areHintsEnabled(Activity activity) {
-		return PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(SettingsFragment.SETTINGS_SHOW_HINTS, false);
+		return PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(SETTINGS_SHOW_HINTS, false);
 	}
 
 	private static Set<String> getStringSetFromSharedPreferences(Context context) {
@@ -138,7 +139,7 @@ public final class SnackbarUtil {
 				PreferenceManager.getDefaultSharedPreferences(activity);
 
 		sharedPreferencesSetFalse.edit()
-				.putBoolean(SettingsFragment.SETTINGS_SHOW_HINTS, false)
+				.putBoolean(SETTINGS_SHOW_HINTS, false)
 				.apply();
 		setHintDialogShown(activity);
 	}

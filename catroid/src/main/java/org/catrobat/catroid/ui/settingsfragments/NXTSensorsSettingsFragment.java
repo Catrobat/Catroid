@@ -38,7 +38,9 @@ import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.NXT_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragmentKt.NXT_SCREEN_KEY;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragmentKt.NXT_SETTINGS_CATEGORY;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragmentKt.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED;
 
 public class NXTSensorsSettingsFragment extends PreferenceFragment {
 	public static final String TAG = NXTSensorsSettingsFragment.class.getSimpleName();
@@ -56,12 +58,12 @@ public class NXTSensorsSettingsFragment extends PreferenceFragment {
 
 		addPreferencesFromResource(R.xml.nxt_preferences);
 		if (!BuildConfig.FEATURE_LEGO_NXT_ENABLED) {
-			PreferenceScreen legoNxtPreference = (PreferenceScreen) findPreference(SettingsFragment.NXT_SCREEN_KEY);
+			PreferenceScreen legoNxtPreference = (PreferenceScreen) findPreference(NXT_SCREEN_KEY);
 			legoNxtPreference.setEnabled(false);
 			getPreferenceScreen().removePreference(legoNxtPreference);
 		} else {
-			CheckBoxPreference nxtCheckBoxPreference = (CheckBoxPreference) findPreference(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED);
-			final PreferenceCategory nxtConnectionSettings = (PreferenceCategory) findPreference(SettingsFragment.NXT_SETTINGS_CATEGORY);
+			CheckBoxPreference nxtCheckBoxPreference = (CheckBoxPreference) findPreference(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED);
+			final PreferenceCategory nxtConnectionSettings = (PreferenceCategory) findPreference(NXT_SETTINGS_CATEGORY);
 			nxtConnectionSettings.setEnabled(nxtCheckBoxPreference.isChecked());
 
 			nxtCheckBoxPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -71,7 +73,7 @@ public class NXTSensorsSettingsFragment extends PreferenceFragment {
 				}
 			});
 
-			final String[] sensorPreferences = NXT_SENSORS;
+			final String[] sensorPreferences = SettingsFragment.getNXT_SENSORS();
 			for (String sensorPreference : sensorPreferences) {
 				ListPreference listPreference = (ListPreference) findPreference(sensorPreference);
 				listPreference.setEntries(R.array.nxt_sensor_chooser);

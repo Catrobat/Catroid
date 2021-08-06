@@ -370,7 +370,7 @@ open class CategoryBricksFactory {
     }
 
     protected open fun setupMotionCategoryList(
-        context: Context?,
+        context: Context,
         isBackgroundSprite: Boolean
     ): List<Brick> {
         val motionBrickList: MutableList<Brick> = ArrayList()
@@ -543,7 +543,7 @@ open class CategoryBricksFactory {
         if (SettingsFragment.isAISpeechRecognitionSharedPreferenceEnabled(context)) {
             dataBrickList.add(AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)))
         }
-        if (SettingsFragment.isEmroiderySharedPreferenceEnabled(context)) {
+        if (SettingsFragment.isEmbroiderySharedPreferenceEnabled(context)) {
             dataBrickList.add(WriteEmbroideryToFileBrick(context.getString(R.string.brick_default_embroidery_file)))
         }
         if (SettingsFragment.isAISpeechRecognitionSharedPreferenceEnabled(context)) {
@@ -603,7 +603,8 @@ open class CategoryBricksFactory {
         if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) deviceBrickList.addAll(setupPhiroProCategoryList())
         if (SettingsFragment.isArduinoSharedPreferenceEnabled(context)) deviceBrickList.addAll(setupArduinoCategoryList())
         if (SettingsFragment.isRaspiSharedPreferenceEnabled(context)) deviceBrickList.addAll(setupRaspiCategoryList())
-        if (SettingsFragment.isEmroiderySharedPreferenceEnabled(context)) deviceBrickList.addAll(setupEmbroideryCategoryList(context))
+        if (SettingsFragment.isEmbroiderySharedPreferenceEnabled(context)) deviceBrickList.addAll(setupEmbroideryCategoryList
+                                                                    (context))
         return deviceBrickList
     }
 

@@ -165,6 +165,8 @@ android {
         lintConfig file('config/lint.xml')
         ignore 'GradleDependency', 'OldTargetApi', 'ExtraTranslation', 'MissingTranslation',
                 'LintBaseline', 'ObsoleteLintCustomCheck'
+        // remove later and fix resource names
+        disable 'PrivateResource'
 
         abortOnError false
 
@@ -353,6 +355,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.browser:browser:1.2.0'
+    implementation 'androidx.preference:preference-ktx:1.1.1'
 
     implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
     implementation 'androidx.multidex:multidex:2.0.1'

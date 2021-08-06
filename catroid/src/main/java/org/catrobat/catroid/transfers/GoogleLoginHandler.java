@@ -26,7 +26,6 @@ package org.catrobat.catroid.transfers;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -41,6 +40,7 @@ import org.catrobat.catroid.utils.DeviceSettingsProvider;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import static com.google.android.gms.auth.api.signin.GoogleSignIn.getClient;
 import static com.google.android.gms.auth.api.signin.GoogleSignIn.getSignedInAccountFromIntent;

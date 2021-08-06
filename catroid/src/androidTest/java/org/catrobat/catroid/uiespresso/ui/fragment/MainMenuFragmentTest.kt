@@ -24,7 +24,7 @@
 package org.catrobat.catroid.uiespresso.ui.fragment
 
 import android.content.Context
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import android.view.View
 import androidx.core.widget.NestedScrollView
 import androidx.test.core.app.ApplicationProvider

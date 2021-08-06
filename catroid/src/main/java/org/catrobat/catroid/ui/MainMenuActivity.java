@@ -26,7 +26,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -64,6 +63,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.preference.PreferenceManager;
 import kotlin.Lazy;
 
 import static org.catrobat.catroid.common.FlavoredConstants.CATROBAT_HELP_URL;

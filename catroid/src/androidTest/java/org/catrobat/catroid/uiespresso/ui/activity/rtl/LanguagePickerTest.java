@@ -24,7 +24,6 @@
 package org.catrobat.catroid.uiespresso.ui.activity.rtl;
 
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -42,6 +41,7 @@ import org.junit.runner.RunWith;
 
 import java.util.Locale;
 
+import androidx.preference.PreferenceManager;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.matcher.PreferenceMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;

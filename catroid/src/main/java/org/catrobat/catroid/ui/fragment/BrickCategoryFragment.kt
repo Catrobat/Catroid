@@ -24,7 +24,7 @@ package org.catrobat.catroid.ui.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -146,28 +146,28 @@ class BrickCategoryFragment : ListFragment() {
 
         categories.add(inflater.inflate(R.layout.brick_category_recently_used, null))
 
-        if (SettingsFragment.isEmroiderySharedPreferenceEnabled(activity)) {
+        if (SettingsFragment.isEmbroiderySharedPreferenceEnabled(requireContext())) {
             categories.add(inflater.inflate(R.layout.brick_category_embroidery, null))
         }
-        if (SettingsFragment.isMindstormsNXTSharedPreferenceEnabled(activity)) {
+        if (SettingsFragment.isMindstormsNXTSharedPreferenceEnabled(requireContext())) {
             categories.add(inflater.inflate(R.layout.brick_category_lego_nxt, null))
         }
-        if (SettingsFragment.isMindstormsEV3SharedPreferenceEnabled(activity)) {
+        if (SettingsFragment.isMindstormsEV3SharedPreferenceEnabled(requireContext())) {
             categories.add(inflater.inflate(R.layout.brick_category_lego_ev3, null))
         }
-        if (SettingsFragment.isDroneSharedPreferenceEnabled(activity)) {
+        if (SettingsFragment.isDroneSharedPreferenceEnabled(requireContext())) {
             categories.add(inflater.inflate(R.layout.brick_category_drone, null))
         }
-        if (SettingsFragment.isJSSharedPreferenceEnabled(activity)) {
+        if (SettingsFragment.isJSSharedPreferenceEnabled(requireContext())) {
             categories.add(inflater.inflate(R.layout.brick_category_drone_js, null))
         }
-        if (SettingsFragment.isArduinoSharedPreferenceEnabled(activity)) {
+        if (SettingsFragment.isArduinoSharedPreferenceEnabled(requireContext())) {
             categories.add(inflater.inflate(R.layout.brick_category_arduino, null))
         }
         if (RaspberryPiSettingsFragment.isRaspiSharedPreferenceEnabled(activity)) {
             categories.add(inflater.inflate(R.layout.brick_category_raspi, null))
         }
-        if (SettingsFragment.isPhiroSharedPreferenceEnabled(activity)) {
+        if (SettingsFragment.isPhiroSharedPreferenceEnabled(requireContext())) {
             categories.add(inflater.inflate(R.layout.brick_category_phiro, null))
         }
         if (ProjectManager.getInstance().currentProject.isCastProject) {
@@ -187,7 +187,7 @@ class BrickCategoryFragment : ListFragment() {
         if (!onlyBeginnerBricks()) {
             categories.add(inflater.inflate(R.layout.brick_category_userbrick, null))
         }
-        if (SettingsFragment.isTestSharedPreferenceEnabled(activity)) {
+        if (SettingsFragment.isTestSharedPreferenceEnabled(requireContext())) {
             categories.add(inflater.inflate(R.layout.brick_category_assert, null))
         }
         adapter = BrickCategoryAdapter(categories)

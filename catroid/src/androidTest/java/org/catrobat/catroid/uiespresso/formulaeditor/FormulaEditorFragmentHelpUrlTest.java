@@ -24,7 +24,6 @@
 package org.catrobat.catroid.uiespresso.formulaeditor;
 
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -50,6 +49,7 @@ import org.junit.runner.RunWith;
 import java.util.Arrays;
 import java.util.Locale;
 
+import androidx.preference.PreferenceManager;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 

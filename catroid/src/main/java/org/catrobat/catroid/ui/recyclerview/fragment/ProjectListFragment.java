@@ -27,7 +27,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -68,6 +67,7 @@ import java.util.List;
 
 import androidx.annotation.PluralsRes;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 import kotlin.Unit;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;

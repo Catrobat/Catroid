@@ -29,6 +29,8 @@ import org.catrobat.catroid.retrofit.CatroidWebServer
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoriesAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.FeaturedProjectsAdapter
 import org.catrobat.catroid.ui.recyclerview.viewmodel.MainFragmentViewModel
+import org.catrobat.catroid.ui.settingsfragments.webaccess.DefaultWebAccessRepository
+import org.catrobat.catroid.ui.settingsfragments.webaccess.WebAccessRepository
 import org.catrobat.catroid.utils.NetworkConnectionMonitor
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -54,6 +56,10 @@ val viewModelModules = module {
 val repositoryModules = module {
     single {
         CatroidWebServer.getWebService("https://share.catrob.at/api/")
+    }
+
+    single {
+        DefaultWebAccessRepository() as WebAccessRepository
     }
 }
 

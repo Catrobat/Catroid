@@ -24,7 +24,6 @@
 package org.catrobat.catroid.devices.mindstorms.ev3;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.catrobat.catroid.bluetooth.base.BluetoothConnection;
@@ -41,6 +40,8 @@ import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandPara
 import org.catrobat.catroid.formulaeditor.Sensors;
 
 import java.util.UUID;
+
+import androidx.preference.PreferenceManager;
 
 public class LegoEV3Impl implements LegoEV3, LegoSensorService.OnSensorChangedListener {
 

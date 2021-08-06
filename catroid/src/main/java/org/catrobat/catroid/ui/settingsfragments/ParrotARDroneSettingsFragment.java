@@ -38,14 +38,14 @@ import org.catrobat.catroid.common.DroneConfigPreference;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.DRONE_ALTITUDE_LIMIT;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.DRONE_CONFIGS;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.DRONE_ROTATION_SPEED;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.DRONE_SCREEN_KEY;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.DRONE_SETTINGS_CATEGORY;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.DRONE_TILT_ANGLE;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.DRONE_VERTICAL_SPEED;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragmentKt.DRONE_ALTITUDE_LIMIT;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragmentKt.DRONE_CONFIGS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragmentKt.DRONE_ROTATION_SPEED;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragmentKt.DRONE_SCREEN_KEY;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragmentKt.DRONE_SETTINGS_CATEGORY;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragmentKt.DRONE_TILT_ANGLE;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragmentKt.DRONE_VERTICAL_SPEED;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragmentKt.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS;
 
 public class ParrotARDroneSettingsFragment extends PreferenceFragment {
 

@@ -25,7 +25,6 @@ package org.catrobat.catroid.common;
 
 import android.content.Context;
 import android.content.Intent;
-import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
 
 import org.catrobat.catroid.transfers.GetSurveyTask;
@@ -35,6 +34,7 @@ import org.catrobat.catroid.utils.Utils;
 import java.util.Date;
 
 import androidx.annotation.VisibleForTesting;
+import androidx.preference.PreferenceManager;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LAST_USED_DATE_KEY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_SURVEY_KEY;

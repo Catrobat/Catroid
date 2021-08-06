@@ -79,6 +79,14 @@ object TrustedDomainManager {
         }
     }
 
+    fun removeFromUserTrustList(domains: List<String>) {
+        var currentDomains = getUserTrustList()
+        domains.forEach {
+            currentDomains = currentDomains.replace(it, "")
+        }
+        setUserTrustList(currentDomains)
+    }
+
     fun getUserTrustList(): String {
         return try {
             if (TRUSTED_USER_DOMAINS_FILE.exists()) {

@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.ui.regression.activitydestroy;
 
-import android.preference.PreferenceManager;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.rules.FlakyTestRule;
 import org.catrobat.catroid.runner.Flaky;
@@ -39,6 +37,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
+import androidx.preference.PreferenceManager;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;

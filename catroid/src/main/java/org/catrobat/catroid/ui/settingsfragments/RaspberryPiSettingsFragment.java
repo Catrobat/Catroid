@@ -30,7 +30,6 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 
 import org.catrobat.catroid.BuildConfig;
@@ -38,12 +37,13 @@ import org.catrobat.catroid.R;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.RASPBERRY_SCREEN_KEY;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.RASPI_CONNECTION_SETTINGS_CATEGORY;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.RASPI_HOST;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.RASPI_PORT;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_RASPI_BRICKS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragmentKt.RASPBERRY_SCREEN_KEY;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragmentKt.RASPI_CONNECTION_SETTINGS_CATEGORY;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragmentKt.RASPI_HOST;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragmentKt.RASPI_PORT;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragmentKt.SETTINGS_SHOW_RASPI_BRICKS;
 
 public class RaspberryPiSettingsFragment extends PreferenceFragment {
 

@@ -26,7 +26,6 @@ package org.catrobat.catroid.test.robolectric.bricks;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.widget.ListAdapter;
 
 import org.catrobat.catroid.ProjectManager;
@@ -52,6 +51,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertNotNull;

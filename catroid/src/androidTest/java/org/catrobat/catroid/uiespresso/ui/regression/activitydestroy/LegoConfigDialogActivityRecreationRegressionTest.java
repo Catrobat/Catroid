@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.ui.regression.activitydestroy;
 
-import android.preference.PreferenceManager;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
@@ -47,6 +45,7 @@ import org.junit.experimental.categories.Category;
 
 import java.io.IOException;
 
+import androidx.preference.PreferenceManager;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.platform.app.InstrumentationRegistry;
 

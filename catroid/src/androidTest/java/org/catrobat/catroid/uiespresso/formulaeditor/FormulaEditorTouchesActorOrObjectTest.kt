@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.formulaeditor
 
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import androidx.test.InstrumentationRegistry.getInstrumentation
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onData

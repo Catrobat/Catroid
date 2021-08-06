@@ -24,7 +24,6 @@
 package org.catrobat.catroid.uiespresso.content.brick.rtl;
 
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -206,6 +205,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.preference.PreferenceManager;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 

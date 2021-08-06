@@ -24,7 +24,6 @@
 package org.catrobat.catroid.test.content.bricks;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -235,6 +234,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import androidx.preference.PreferenceManager;
 import androidx.test.core.app.ApplicationProvider;
 
 import static android.content.SharedPreferences.Editor;

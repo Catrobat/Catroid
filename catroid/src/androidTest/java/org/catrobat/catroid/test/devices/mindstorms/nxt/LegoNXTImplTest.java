@@ -24,7 +24,6 @@ package org.catrobat.catroid.test.devices.mindstorms.nxt;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
@@ -43,6 +42,7 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
+import androidx.preference.PreferenceManager;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 

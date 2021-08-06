@@ -24,7 +24,6 @@
 package org.catrobat.catroid.uiespresso.ui.dialog;
 
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -47,6 +46,7 @@ import org.junit.experimental.categories.Category;
 
 import java.io.IOException;
 
+import androidx.preference.PreferenceManager;
 import androidx.test.core.app.ApplicationProvider;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;

@@ -27,28 +27,29 @@
 
     <ListPreference
         android:defaultValue="false"
+        android:icon="@drawable/ic_language_24"
         android:key="setting_multilingual"
         android:summary="@string/preference_description_language"
         android:title="@string/preference_title_language" />
 
-    <TrustListEditorPreference
+    <Preference
         android:defaultValue=""
         android:key="setting_trusted_domains"
         android:summary="@string/preference_description_web_access"
-        android:title="@string/preference_title_web_access" />
+        android:title="@string/preference_title_web_access"/>
 
     <PreferenceScreen
         android:key="setting_ai_screen"
         android:summary="@string/preference_description_ai"
         android:title="@string/preference_title_ai" />
 
-    <CheckBoxPreference
+    <SwitchPreference
         android:defaultValue="false"
         android:key="setting_multiplayer_variables_enabled"
         android:summary="@string/preference_description_multiplayer_variables_enabled"
         android:title="@string/preference_title_multiplayer_variables_enabled" />
 
-    <CheckBoxPreference
+    <SwitchPreference
         android:defaultValue="@string/FEATURE_EMBROIDERY_PREFERENCES_ENABLED"
         android:key="setting_embroidery_bricks"
         android:summary="@string/preference_description_embroidery_bricks"
@@ -70,19 +71,19 @@
         android:summary="@string/preference_description_quadcopter_bricks"
         android:title="@string/preference_title_enable_quadcopter_bricks" />
 
-    <CheckBoxPreference
+    <SwitchPreference
         android:defaultValue="false"
         android:key="setting_parrot_jumping_sumo_bricks"
         android:summary="@string/preference_description_jumpingsumo_bricks"
         android:title="@string/preference_title_enable_jumpingsumo_bricks" />
 
-     <CheckBoxPreference
+     <SwitchPreference
          android:defaultValue="false"
          android:key="setting_arduino_bricks"
          android:summary="@string/preference_description_arduino_bricks"
          android:title="@string/preference_title_enable_arduino_bricks" />
 
-    <CheckBoxPreference
+    <SwitchPreference
         android:defaultValue="false"
         android:key="setting_nfc_bricks"
         android:summary="@string/preference_description_nfc_bricks"
@@ -93,13 +94,13 @@
         android:summary="@string/preference_description_raspi_bricks"
         android:title="@string/preference_title_enable_raspi_bricks" />
 
-    <CheckBoxPreference
+    <SwitchPreference
         android:defaultValue="@string/FEATURE_PHIRO_PREFERENCES_ENABLED"
         android:key="setting_enable_phiro_bricks"
         android:summary="@string/preference_description_phiro_bricks"
         android:title="@string/preference_title_enable_phiro_bricks" />
 
-    <CheckBoxPreference
+    <SwitchPreference
         android:defaultValue="false"
         android:key="setting_cast_globally_enabled"
         android:summary="@string/preference_description_cast_feature_globally_enabled"
@@ -110,19 +111,19 @@
         android:summary="@string/preference_description_accessibility"
         android:title="@string/preference_title_accessibility" />
 
-    <CheckBoxPreference
+    <SwitchPreference
         android:defaultValue="@string/SNACKBAR_HINTS_ENABLED"
         android:key="setting_enable_hints"
         android:summary="@string/preference_description_hints"
         android:title="@string/preference_title_enable_hints" />
 
-    <CheckBoxPreference
+    <SwitchPreference
         android:defaultValue="@string/DEBUG_MODE"
         android:key="setting_test_bricks"
         android:summary="@string/preference_description_test_bricks"
         android:title="@string/preference_title_enable_test_bricks" />
 
-    <CheckBoxPreference
+    <SwitchPreference
         android:defaultValue="true"
         android:key="setting_enable_crash_reports"
         android:summary="@string/preference_description_crash_reports"

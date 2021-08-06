@@ -24,7 +24,7 @@
 package org.catrobat.catroid.web
 
 import android.content.Context
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import android.util.Log
 import okhttp3.ConnectionSpec
 import okhttp3.Interceptor

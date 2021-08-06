@@ -26,7 +26,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 
@@ -41,6 +40,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DialogInputWatche
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+import androidx.preference.PreferenceManager;
 
 public class OAuthUsernameDialogFragment extends DialogFragment implements
 		CheckUserNameAvailableTask.OnCheckUserNameAvailableCompleteListener,

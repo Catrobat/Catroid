@@ -145,6 +145,7 @@
     <string name="preference_title_web_access">Web access</string>
     <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
     <string name="preference_screen_web_access_title">Edit trusted domains</string>
+    <string name="preference_screen_web_access_dialog_title">Trusted domain</string>
 
     <string name="preference_title_ai">Artificial intelligence (AI) extension</string>
     <string name="preference_description_ai">Enable AI bricks and sensors</string>

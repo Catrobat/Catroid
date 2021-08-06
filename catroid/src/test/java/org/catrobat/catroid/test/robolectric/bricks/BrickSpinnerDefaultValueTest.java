@@ -27,7 +27,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Spinner;
 
@@ -78,6 +77,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import androidx.preference.PreferenceManager;
 import kotlin.Lazy;
 
 import static junit.framework.Assert.assertEquals;

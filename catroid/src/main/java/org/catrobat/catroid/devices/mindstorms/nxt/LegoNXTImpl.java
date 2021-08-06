@@ -23,7 +23,6 @@
 package org.catrobat.catroid.devices.mindstorms.nxt;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.catrobat.catroid.bluetooth.base.BluetoothConnection;
@@ -37,6 +36,8 @@ import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.formulaeditor.Sensors;
 
 import java.util.UUID;
+
+import androidx.preference.PreferenceManager;
 
 public class LegoNXTImpl implements LegoNXT, LegoSensorService.OnSensorChangedListener {
 
