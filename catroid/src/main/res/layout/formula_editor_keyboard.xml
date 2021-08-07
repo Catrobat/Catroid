@@ -170,7 +170,7 @@
             style="@style/FormulaEditorKeyboardButton"
             android:layout_span="1"
             android:contentDescription="@string/formula_editor_image_button_description_color_picker"
-            android:src="@drawable/ic_color_picker_tab_hsv"
+            android:src="@drawable/ic_color_picker_hsv"
             android:layout_marginStart="@dimen/key_margin" />
 
         <Button
