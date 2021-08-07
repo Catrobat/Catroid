@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,19 +37,17 @@ class DeleteLookAction : SingleSpriteEventAction() {
 
     override fun getEventId(): EventId? {
         sprite?.apply {
-            val lookData = look?.lookData
-            if (lookList.isNullOrEmpty() || lookData == null) {
+            val lookData = look?.lookData ?: return null
+            if (lookList.isNullOrEmpty()) {
                 return null
             }
-            val indexOfLookData = lookList.indexOf(look?.lookData)
+            val indexOfLookData = lookList.indexOf(lookData)
             if (indexOfLookData == -1) {
                 return null
             }
-            val lookDataToDelete = look?.lookData
             setNewLookData(indexOfLookData + 1)
-            lookDataToDelete?.invalidate()
-            lookController.delete(lookDataToDelete)
-            lookList?.removeAt(indexOfLookData)
+            lookData.invalidate()
+            lookList.removeAt(indexOfLookData)
             xstreamSerializer.saveProject(ProjectManager.getInstance().currentProject)
         }
         return SetLookEventId(sprite, sprite?.look?.lookData)
@@ -57,14 +55,18 @@ class DeleteLookAction : SingleSpriteEventAction() {
 
     private fun setNewLookData(indexOfLookData: Int) {
         sprite?.apply {
-            if (lookList?.size!! > 1) {
-                if (lookList?.last() == look?.lookData) {
-                    look?.lookData = lookList?.first()
+            if (lookList.isNullOrEmpty()) {
+                return
+            }
+            look?.lookData ?: return
+            if (lookList.size > 1) {
+                if (lookList.last() == look.lookData) {
+                    look.lookData = lookList.first()
                 } else {
-                    look?.lookData = lookList?.get(indexOfLookData)
+                    look.lookData = lookList[indexOfLookData]
                 }
             } else {
-                look?.lookData = null
+                look.lookData = null
             }
         }
     }
