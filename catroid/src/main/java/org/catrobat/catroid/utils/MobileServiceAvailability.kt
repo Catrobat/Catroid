@@ -21,33 +21,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package org.catrobat.catroid.utils
 
-buildscript {
-    ext.kotlin_version = '1.4.21'
-    ext.koin_version = '2.1.5'
-    ext.lifecycle_version = '2.2.0'
-    ext.jacoco_core_version = '0.8.7'
-    repositories {
-        google()
-        jcenter()
-        maven { url "https://developer.huawei.com/repo/" }
-    }
+import android.content.Context
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.huawei.hms.api.HuaweiApiAvailability
 
-    dependencies {
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-        classpath 'com.android.tools.build:gradle:4.0.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jacoco:org.jacoco.core:$jacoco_core_version"
-        classpath 'org.catrobat.gradle.androidemulators:android-emulators-gradle:1.6.2'
-    }
-}
+class MobileServiceAvailability(
+    private val googleApiAvailability: GoogleApiAvailability,
+    private val huaweiApiAvailability: HuaweiApiAvailability
+) {
+    fun isGmsAvailable(context: Context) =
+        (googleApiAvailability.isGooglePlayServicesAvailable(context)
+            == ConnectionResult.SUCCESS)
 
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        maven { url "https://developer.huawei.com/repo/" }
-    }
+    fun isHmsAvailable(context: Context) =
+        (huaweiApiAvailability.isHuaweiMobileServicesAvailable(context)
+            == com.huawei.hms.api.ConnectionResult.SUCCESS)
 }

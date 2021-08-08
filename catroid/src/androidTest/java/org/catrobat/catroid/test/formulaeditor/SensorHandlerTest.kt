@@ -24,12 +24,15 @@ package org.catrobat.catroid.test.formulaeditor
 
 import android.Manifest
 import android.graphics.Point
+import android.graphics.Rect
 import androidx.test.annotation.UiThreadTest
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.rule.GrantPermissionRule
-import com.google.mlkit.vision.face.Face
 import org.catrobat.catroid.ProjectManager
-import org.catrobat.catroid.camera.FaceTextPoseDetector
+import org.catrobat.catroid.camera.VisualDetectionHandler.facesForSensors
+import org.catrobat.catroid.camera.VisualDetectionHandler.updateFaceDetectionStatusSensorValues
+import org.catrobat.catroid.camera.VisualDetectionHandler.updateFaceSensorValues
+import org.catrobat.catroid.camera.VisualDetectionHandlerFace
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.formulaeditor.SensorHandler
 import org.catrobat.catroid.formulaeditor.SensorLoudness
@@ -81,10 +84,10 @@ class SensorHandlerTest {
 
         val firstFaceSize = 50
         val firstFacePosition = Point(15, -15)
-        FaceTextPoseDetector.facesForSensors[0] = Mockito.mock(Face::class.java)
+        facesForSensors[0] = VisualDetectionHandlerFace(0, Rect())
 
-        FaceTextPoseDetector.updateFaceDetectionStatusSensorValues()
-        FaceTextPoseDetector.updateFaceSensorValues(firstFacePosition, firstFaceSize, 0)
+        updateFaceDetectionStatusSensorValues()
+        updateFaceSensorValues(firstFacePosition, firstFaceSize, 0)
 
         compareToSensor(1, Sensors.FACE_DETECTED)
         compareToSensor(firstFaceSize, Sensors.FACE_SIZE)
@@ -100,10 +103,10 @@ class SensorHandlerTest {
 
         val secondFaceSize = 50
         val secondFacePosition = Point(15, -15)
-        FaceTextPoseDetector.facesForSensors[1] = Mockito.mock(Face::class.java)
+        facesForSensors[1] = VisualDetectionHandlerFace(1, Rect())
 
-        FaceTextPoseDetector.updateFaceDetectionStatusSensorValues()
-        FaceTextPoseDetector.updateFaceSensorValues(secondFacePosition, secondFaceSize, 1)
+        updateFaceDetectionStatusSensorValues()
+        updateFaceSensorValues(secondFacePosition, secondFaceSize, 1)
 
         compareToSensor(1, Sensors.SECOND_FACE_DETECTED)
         compareToSensor(secondFaceSize, Sensors.SECOND_FACE_SIZE)
