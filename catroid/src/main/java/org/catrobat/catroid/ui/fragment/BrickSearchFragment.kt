@@ -146,10 +146,18 @@ class BrickSearchFragment : ListFragment() {
         availableBricks.forEach { brick ->
             val regexQuery = (".*" + query.toLowerCase(Locale.ROOT).replace("\\s".toRegex(), ".*") + ".*").toRegex()
             val brickView = brick.getView(context)
-            if (regexQuery.containsMatchIn(findBrickString(brickView))) {
+            if (regexQuery.containsMatchIn(findBrickString(brickView)) && !searchResultContains(brick)) {
                 searchResults.add(brick)
             }
         }
+    }
+    private fun searchResultContains(brick: Brick): Boolean {
+        searchResults.forEach {
+            if (brick.javaClass == it.javaClass) {
+                return true
+            }
+        }
+        return false
     }
 
     private fun findBrickString(view: View): String {
@@ -172,7 +180,7 @@ class BrickSearchFragment : ListFragment() {
         }
         val backgroundSprite = ProjectManager.getInstance().currentlyEditedScene.backgroundSprite
         val sprite = ProjectManager.getInstance().currentSprite
-
+        availableBricks.addAll(categoryBricksFactory.getBricks(requireContext().getString(R.string.category_recently_used), backgroundSprite.equals(sprite), requireContext()))
         availableBricks.addAll(categoryBricksFactory.getBricks(requireContext().getString(R.string.category_event), backgroundSprite.equals(sprite), requireContext()))
         availableBricks.addAll(categoryBricksFactory.getBricks(requireContext().getString(R.string.category_control), backgroundSprite.equals(sprite), requireContext()))
         availableBricks.addAll(categoryBricksFactory.getBricks(requireContext().getString(R.string.category_motion), backgroundSprite.equals(sprite), requireContext()))
