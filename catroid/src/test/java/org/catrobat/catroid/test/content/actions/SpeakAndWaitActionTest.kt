@@ -23,10 +23,10 @@
 
 package org.catrobat.catroid.test.content.actions
 
+import android.content.Context
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import junit.framework.Assert
 import org.catrobat.catroid.ProjectManager
-import org.catrobat.catroid.content.ActionFactory
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.Sprite
@@ -37,6 +37,7 @@ import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.stage.SpeechSynthesizer
 import org.catrobat.catroid.test.MockUtil
+import org.catrobat.catroid.utils.MobileServiceAvailability
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -47,20 +48,21 @@ import java.lang.reflect.Method
 
 class SpeakAndWaitActionTest {
     private lateinit var sprite: Sprite
-    private var textNumber: Formula? = null
     private var scope: Scope? = null
-    private val factory = ActionFactory()
     private val temporaryFolder = TemporaryFolder()
+    lateinit var mobileServiceAvailability: MobileServiceAvailability
+    lateinit var contextMock: Context
 
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        val contextMock = MockUtil.mockContextForProject()
+        contextMock = MockUtil.mockContextForProject()
         temporaryFolder.create()
         val temporaryCacheFolder = temporaryFolder.newFolder("SpeakTest")
         Mockito.`when`(contextMock.cacheDir).thenAnswer { temporaryCacheFolder }
+        mobileServiceAvailability = Mockito.mock(MobileServiceAvailability::class.java)
+        Mockito.`when`(mobileServiceAvailability.isGmsAvailable(contextMock)).thenReturn(true)
         sprite = Sprite("testSprite")
-        textNumber = Formula(888.88)
         scope = Scope(ProjectManager.getInstance().currentProject, sprite, SequenceAction())
         val project = Project(MockUtil.mockContextForProject(), "Project")
         ProjectManager.getInstance().currentProject = project
@@ -72,6 +74,8 @@ class SpeakAndWaitActionTest {
         val action = spy(SpeakAndWaitAction())
         val synthesizer = Mockito.mock(SpeechSynthesizer::class.java)
         action.speechSynthesizer = synthesizer
+        action.mobileServiceAvailability = mobileServiceAvailability
+        action.context = contextMock
 
         action.act(0.1f)
         assert(!action.synthesizingFinished)
@@ -92,11 +96,5 @@ class SpeakAndWaitActionTest {
         val resourcesSet = ResourcesSet()
         speakAndWaitBrick.addRequiredResources(resourcesSet)
         Assert.assertTrue(resourcesSet.contains(Brick.TEXT_TO_SPEECH))
-    }
-
-    @Test
-    fun testSynthesizeInitialization() {
-        val action = factory.createSpeakAndWaitAction(sprite, SequenceAction(), textNumber) as SpeakAndWaitAction
-        Assert.assertNotNull(action.speechSynthesizer)
     }
 }
