@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,21 +23,14 @@
 
 package org.catrobat.catroid.content.bricks;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-
-import java.io.File;
 
 public class SpeakAndWaitBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
-
-	private File speechFile = null;
 
 	public SpeakAndWaitBrick() {
 		addAllowedBrickField(BrickField.SPEAK, R.id.brick_speak_and_wait_edit_text);
@@ -65,24 +58,7 @@ public class SpeakAndWaitBrick extends FormulaBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-
-		Formula text = getFormulaWithBrickField(BrickField.SPEAK);
-		sequence.addAction(sprite.getActionFactory()
-				.createSpeakAction(sprite, sequence, text));
-
-		sequence.addAction(sprite.getActionFactory().createWaitForSoundAction(sprite, sequence,
-				new Formula(getDurationOfSpokenText(sprite, sequence,
-						text)), speechFile.getAbsolutePath()));
-	}
-
-	private float getDurationOfSpokenText(Sprite sprite, SequenceAction sequence, Formula text) {
-
-		SpeakAction action = (SpeakAction) sprite.getActionFactory()
-				.createSpeakAction(sprite, sequence, text);
-		action.setDetermineLength(true);
-
-		action.act(1.0f);
-		speechFile = action.getSpeechFile();
-		return action.getLengthOfText() / 1000;
+		sequence.addAction(sprite.getActionFactory().createSpeakAndWaitAction(
+				sprite, sequence, getFormulaWithBrickField(BrickField.SPEAK)));
 	}
 }

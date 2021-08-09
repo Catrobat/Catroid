@@ -23,28 +23,40 @@
 
 package org.catrobat.catroid.content.actions
 
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
 import org.catrobat.catroid.io.SoundManager
 import org.catrobat.catroid.stage.SpeechSynthesizer
 
-class SpeakAction : AsynchronousAction() {
-    private var isFinished = false
+private const val INIT_TIME = 0.0f
+private const val ERROR_DURATION = 0.0f
+private const val SECOND_IN_MILLISECONDS = 1000
+
+class SpeakAndWaitAction : TemporalAction() {
+    private var lengthOfText = 0f
+    var synthesizingFinished = false
     var speechSynthesizer: SpeechSynthesizer? = null
 
-    override fun initialize() {
+    override fun begin() {
+        duration = Float.MAX_VALUE
         speechSynthesizer?.setUtteranceProgressListener(this::onError, this::onDone)
         speechSynthesizer?.synthesize()
     }
 
+    override fun update(delta: Float) {
+        if (synthesizingFinished) {
+            SoundManager.getInstance().playSoundFile(speechSynthesizer?.speechFile?.absolutePath, speechSynthesizer?.scope?.sprite)
+            duration = lengthOfText / SECOND_IN_MILLISECONDS
+            time = INIT_TIME
+            synthesizingFinished = false
+        }
+    }
+
     private fun onError() {
-        isFinished = true
+        duration = ERROR_DURATION
     }
 
     private fun onDone() {
-        SoundManager.getInstance().playSoundFile(
-            speechSynthesizer?.speechFile?.absolutePath, speechSynthesizer?.scope?.sprite
-        )
-        isFinished = true
+        lengthOfText = SoundManager.getInstance().getDurationOfSoundFile(speechSynthesizer?.speechFile?.absolutePath)
+        synthesizingFinished = true
     }
-
-    override fun isFinished(): Boolean = isFinished
 }
