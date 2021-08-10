@@ -77,6 +77,7 @@ import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.EmptyEventBrick;
+import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
@@ -739,6 +740,9 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 
 		brickInfo = new BrickInfo(SetThreadColorBrick.class.getSimpleName());
 		brickInfoMap.put("setThreadColorBrick", brickInfo);
+
+		brickInfo = new BrickInfo(FadeParticleEffectBrick.class.getSimpleName());
+		brickInfoMap.put("fadeParticleEffectBrick", brickInfo);
 	}
 
 	private void initializeScriptInfoMap() {

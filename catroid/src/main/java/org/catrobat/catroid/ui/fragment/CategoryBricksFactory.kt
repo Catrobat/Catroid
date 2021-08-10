@@ -79,6 +79,7 @@ import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick
 import org.catrobat.catroid.content.bricks.EditLookBrick
 import org.catrobat.catroid.content.bricks.ExitStageBrick
+import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick
 import org.catrobat.catroid.content.bricks.FinishStageBrick
 import org.catrobat.catroid.content.bricks.FlashBrick
 import org.catrobat.catroid.content.bricks.ForItemInUserListBrick
@@ -404,6 +405,7 @@ open class CategoryBricksFactory {
             motionBrickList.add(PhiroMotorMoveBackwardBrick(PhiroMotorMoveBackwardBrick.Motor.MOTOR_LEFT, BrickValues.PHIRO_SPEED))
             motionBrickList.add(PhiroMotorStopBrick(PhiroMotorStopBrick.Motor.MOTOR_BOTH))
         }
+        motionBrickList.add(FadeParticleEffectBrick())
         return motionBrickList
     }
 
@@ -463,6 +465,7 @@ open class CategoryBricksFactory {
         looksBrickList.add(ChangeBrightnessByNBrick(BrickValues.CHANGE_BRIGHTNESS_BY))
         looksBrickList.add(SetColorBrick(BrickValues.SET_COLOR_TO))
         looksBrickList.add(ChangeColorByNBrick(BrickValues.CHANGE_COLOR_BY))
+        looksBrickList.add(FadeParticleEffectBrick())
         looksBrickList.add(ClearGraphicEffectBrick())
         looksBrickList.add(WhenBackgroundChangesBrick())
         looksBrickList.add(SetBackgroundBrick())
