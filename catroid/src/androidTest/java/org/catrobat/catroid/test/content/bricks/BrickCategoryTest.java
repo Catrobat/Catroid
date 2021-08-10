@@ -167,6 +167,7 @@ import org.catrobat.catroid.content.bricks.SetListeningLanguageBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetLookByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetMassBrick;
+import org.catrobat.catroid.content.bricks.SetParticleColorBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick;
@@ -325,6 +326,7 @@ public class BrickCategoryTest {
 						ChangeColorByNBrick.class,
 						FadeParticleEffectBrick.class,
 						ParticleEffectAdditivityBrick.class,
+						SetParticleColorBrick.class,
 						ClearGraphicEffectBrick.class,
 						SetCameraFocusPointBrick.class,
 						WhenBackgroundChangesBrick.class,

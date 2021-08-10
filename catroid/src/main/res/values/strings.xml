@@ -2241,4 +2241,5 @@ needs read and write access to it. You can always change permissions through you
     <string name="turn_particle_effect_additivity">Turn particle effect additivity</string>
     <string name="particle_effects_additive_on">on</string>
     <string name="particle_effects_additive_off">off</string>
+    <string name="set_particle_color_to">Set particle color to</string>
 </resources>
