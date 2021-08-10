@@ -23,43 +23,73 @@
 package org.catrobat.catroid.utils
 
 import android.graphics.Point
+import android.graphics.Rect
 import com.google.mlkit.nl.languageid.LanguageIdentification
 import com.google.mlkit.vision.text.Text
+import com.huawei.hms.mlsdk.langdetect.MLLangDetectorFactory
+import com.huawei.hms.mlsdk.langdetect.local.MLLocalLangDetector
+import com.huawei.hms.mlsdk.langdetect.local.MLLocalLangDetectorSetting
+import com.huawei.hms.mlsdk.text.MLText
 import org.catrobat.catroid.ProjectManager
-import org.catrobat.catroid.common.Constants.COORDINATE_TRANSFORMATION_OFFSET
 import org.catrobat.catroid.common.ScreenValues.SCREEN_HEIGHT
 import org.catrobat.catroid.common.ScreenValues.SCREEN_WIDTH
 import org.catrobat.catroid.stage.StageActivity
 import kotlin.math.roundToInt
 
 object TextBlockUtil {
-    private var textBlocks: List<Text.TextBlock>? = null
-    private var textBlockLanguages = mutableListOf<String>()
+    private const val TRUSTED_THRESHOLD = 0.01f
+    private var textBlocks = mutableListOf<String>()
+    private var textBlockBoundingBoxes = mutableListOf<Rect>()
+    private var textBlockLanguages = mutableMapOf<Int, String>()
     private var imageWidth = 0
     private var imageHeight = 0
     private const val MAX_TEXT_SIZE = 100
-    private var identifier = LanguageIdentification.getClient()
+    private var languageIdentifierGoogle = LanguageIdentification.getClient()
+    private var languageDetectorFactoryHuawei: MLLangDetectorFactory = MLLangDetectorFactory.getInstance()
+    var languageDetectorSettingHuawei: MLLocalLangDetectorSetting = MLLocalLangDetectorSetting.Factory()
+        .setTrustedThreshold(TRUSTED_THRESHOLD)
+        .create()
+    var languageIdentifierHuawei: MLLocalLangDetector = languageDetectorFactoryHuawei.getLocalLangDetector(languageDetectorSettingHuawei)
 
-    fun setTextBlocks(text: List<Text.TextBlock>, width: Int, height: Int) {
-        textBlocks = text
+    fun setTextBlocksGoogle(text: List<Text.TextBlock>, width: Int, height: Int) {
         imageWidth = width
         imageHeight = height
 
         textBlockLanguages.clear()
+        textBlockBoundingBoxes.clear()
 
-        textBlocks?.forEachIndexed { index, textBlock ->
-            identifier.identifyLanguage(textBlock.text).addOnSuccessListener { languageCode ->
-                textBlockLanguages.add(index, languageCode)
+        text.forEachIndexed { index, textBlock ->
+            textBlock.text.let { textBlocks.add(index, it) }
+            textBlock.boundingBox?.let { textBlockBoundingBoxes.add(index, it) }
+            languageIdentifierGoogle.identifyLanguage(textBlock.text).addOnSuccessListener { languageCode ->
+                textBlockLanguages[index] = languageCode
             }
         }
     }
 
-    fun getTextBlock(index: Int): String = textBlocks?.getOrNull(index - 1)?.text ?: "0"
+    fun setTextBlocksHuawei(text: List<MLText.Block>, width: Int, height: Int) {
+        imageWidth = width
+        imageHeight = height
 
-    fun getTextBlockLanguage(index: Int): String = textBlockLanguages.getOrNull(index - 1) ?: "0"
+        textBlockLanguages.clear()
+        textBlockBoundingBoxes.clear()
+
+        text.forEachIndexed { index, textBlock ->
+            textBlock.stringValue?.let { textBlocks.add(index, it) }
+            textBlock.border?.let { textBlockBoundingBoxes.add(index, it) }
+            val firstBestDetectTask = languageIdentifierHuawei.firstBestDetect(textBlock.stringValue)
+            firstBestDetectTask.addOnSuccessListener { languageCode ->
+                textBlockLanguages[index] = languageCode
+            }
+        }
+    }
+
+    fun getTextBlock(index: Int): String = textBlocks.getOrNull(index - 1) ?: "0"
+
+    fun getTextBlockLanguage(index: Int): String = textBlockLanguages[index - 1] ?: "0"
 
     fun getCenterCoordinates(index: Int): Point {
-        val textBlockBounds = textBlocks?.getOrNull(index - 1)?.boundingBox ?: return Point(0, 0)
+        val textBlockBounds = textBlockBoundingBoxes.getOrNull(index - 1) ?: return Point(0, 0)
         val isCameraFacingFront = StageActivity.getActiveCameraManager()?.isCameraFacingFront ?: return Point(0, 0)
         val aspectRatio = imageWidth.toFloat() / imageHeight
 
@@ -84,20 +114,8 @@ object TextBlockUtil {
         }
     }
 
-    private fun coordinatesFromRelativePosition(
-        relativeX: Float,
-        width: Float,
-        relativeY: Float,
-        height: Float
-    ): Point {
-        return Point(
-            (width * (relativeX - COORDINATE_TRANSFORMATION_OFFSET)).roundToInt(),
-            (height * (relativeY - COORDINATE_TRANSFORMATION_OFFSET)).roundToInt()
-        )
-    }
-
     fun getSize(index: Int): Double {
-        val textBlockBounds = textBlocks?.getOrNull(index - 1)?.boundingBox ?: return 0.0
+        val textBlockBounds = textBlockBoundingBoxes.getOrNull(index - 1) ?: return 0.0
         var relativeTextBlockSize = textBlockBounds.width().toFloat() / imageWidth
         if (relativeTextBlockSize > 1f) {
             relativeTextBlockSize = 1f

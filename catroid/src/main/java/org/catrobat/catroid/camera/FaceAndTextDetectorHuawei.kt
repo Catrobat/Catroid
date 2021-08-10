@@ -35,12 +35,18 @@ import org.catrobat.catroid.camera.VisualDetectionHandler.handleAlreadyExistingF
 import org.catrobat.catroid.camera.VisualDetectionHandler.handleNewFaces
 import org.catrobat.catroid.camera.VisualDetectionHandler.translateHuaweiFaceToVisualDetectionFace
 import org.catrobat.catroid.camera.VisualDetectionHandler.updateAllFaceSensorValues
+import org.catrobat.catroid.camera.VisualDetectionHandler.updateTextSensorValues
 import org.catrobat.catroid.stage.StageActivity
+import org.catrobat.catroid.utils.TextBlockUtil.setTextBlocksHuawei
 
-object FaceDetectorHuawei : ImageAnalysis.Analyzer {
-
+object FaceAndTextDetectorHuawei : ImageAnalysis.Analyzer {
+    private const val DETECTION_PROCESS_ERROR_MESSAGE = "Could not analyze image."
     private const val QUADRANT_DEGREES = 90
     private val analyzer = MLAnalyzerFactory.getInstance().faceAnalyzer
+    private val textAnalyzer = MLAnalyzerFactory.getInstance().localTextAnalyzer
+
+    private var textDetected = false
+    private var faceDetected = false
 
     @ExperimentalGetImage
     override fun analyze(imageProxy: ImageProxy) {
@@ -50,20 +56,43 @@ object FaceDetectorHuawei : ImageAnalysis.Analyzer {
                 imageProxy.imageInfo.rotationDegrees / QUADRANT_DEGREES
             )
 
-            val task = analyzer.asyncAnalyseFrame(mlFrame)
-            task.addOnSuccessListener {
+            textDetected = false
+            faceDetected = false
+
+            val textTask = textAnalyzer.asyncAnalyseFrame(mlFrame)
+            textTask.addOnSuccessListener { text ->
+                updateTextSensorValues(text.stringValue, text.blocks.size)
+                setTextBlocksHuawei(text.blocks, mediaImage.width, mediaImage.height)
+                textDetected = true
+                if (faceDetected) {
+                    imageProxy.close()
+                }
+            }.addOnFailureListener { e ->
+                val context = StageActivity.activeStageActivity.get()
+                StageActivity.messageHandler.obtainMessage(
+                    StageActivity.SHOW_TOAST,
+                    arrayListOf(context?.getString(R.string.camera_error_text_detection))
+                ).sendToTarget()
+                Log.e(javaClass.simpleName, DETECTION_PROCESS_ERROR_MESSAGE, e)
+            }
+
+            val faceTask = analyzer.asyncAnalyseFrame(mlFrame)
+            faceTask.addOnSuccessListener {
                 val faces = translateHuaweiFaceToVisualDetectionFace(it)
                 handleAlreadyExistingFaces(faces)
                 handleNewFaces(faces)
                 updateAllFaceSensorValues(mediaImage.width, mediaImage.height)
-                imageProxy.close()
-            }.addOnFailureListener {
+                faceDetected = true
+                if (textDetected) {
+                    imageProxy.close()
+                }
+            }.addOnFailureListener { e ->
                 val context = CatroidApplication.getAppContext()
                 StageActivity.messageHandler.obtainMessage(
                     StageActivity.SHOW_TOAST,
                     arrayListOf(context.getString(R.string.camera_error_face_detection))
                 ).sendToTarget()
-                Log.e(javaClass.simpleName, "Could not analyze image.", it)
+                Log.e(javaClass.simpleName, DETECTION_PROCESS_ERROR_MESSAGE, e)
             }
         }
     }

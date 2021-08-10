@@ -39,6 +39,7 @@ import org.catrobat.catroid.camera.VisualDetectionHandler.updateAllFaceSensorVal
 import org.catrobat.catroid.camera.VisualDetectionHandler.updateFaceDetectionStatusSensorValues
 import org.catrobat.catroid.camera.VisualDetectionHandler.updateTextSensorValues
 import org.catrobat.catroid.stage.StageActivity
+import org.catrobat.catroid.utils.TextBlockUtil.setTextBlocksGoogle
 
 object FaceAndTextDetector : ImageAnalysis.Analyzer {
     private const val DETECTION_PROCESS_ERROR_MESSAGE = "Could not analyze image."
@@ -69,7 +70,8 @@ object FaceAndTextDetector : ImageAnalysis.Analyzer {
 
             textDetectionClient.process(image)
                 .addOnSuccessListener { text ->
-                    updateTextSensorValues(text, mediaImage.width, mediaImage.height)
+                    updateTextSensorValues(text.text, text.textBlocks.size)
+                    setTextBlocksGoogle(text.textBlocks, mediaImage.width, mediaImage.height)
                     textDetected = true
                     if (faceDetected) {
                         imageProxy.close()

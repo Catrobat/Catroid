@@ -25,13 +25,10 @@ package org.catrobat.catroid.camera
 
 import android.graphics.Point
 import android.graphics.Rect
-import androidx.annotation.VisibleForTesting
 import com.google.mlkit.vision.face.Face
-import com.google.mlkit.vision.text.Text
 import com.huawei.hms.mlsdk.face.MLFace
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener
 import org.catrobat.catroid.formulaeditor.Sensors
-import org.catrobat.catroid.utils.TextBlockUtil
 import org.catrobat.catroid.utils.translateToStageCoordinates
 import org.catrobat.catroid.utils.writeFloatToSensor
 import org.catrobat.catroid.utils.writeStringToSensor
@@ -74,14 +71,10 @@ object VisualDetectionHandler {
         return newFacesList
     }
 
-    fun updateTextSensorValues(text: Text, imageWidth: Int, imageHeight: Int) {
-        if (text.textBlocks.isEmpty()) return
-
-        TextBlockUtil.setTextBlocks(text.textBlocks, imageWidth, imageHeight)
-
+    fun updateTextSensorValues(text: String, numberOfBlocks: Int) {
         sensorListeners.forEach {
-            writeStringToSensor(it, Sensors.TEXT_FROM_CAMERA, text.text)
-            writeFloatToSensor(it, Sensors.TEXT_BLOCKS_NUMBER, text.textBlocks.size.toFloat())
+            writeStringToSensor(it, Sensors.TEXT_FROM_CAMERA, text)
+            writeFloatToSensor(it, Sensors.TEXT_BLOCKS_NUMBER, numberOfBlocks.toFloat())
         }
     }
 

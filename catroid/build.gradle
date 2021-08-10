@@ -418,8 +418,11 @@ dependencies {
 
     // HUAWEI Mobile Services
     implementation 'com.huawei.hms:base:4.0.3.300'
+
     // Huawei ML Kit
     implementation 'com.huawei.hms:ml-computer-vision-face:2.0.5.300'
+    implementation 'com.huawei.hms:ml-computer-vision-ocr:2.0.5.301'
+    implementation 'com.huawei.hms:ml-computer-language-detection:2.2.0.300'
 
     // libGDX
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
