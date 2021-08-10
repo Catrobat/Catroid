@@ -321,7 +321,7 @@ public class ProjectActivity extends BaseCastActivity {
 		ImportProjectHelper importProjectHelper = null;
 		if (isObject) {
 			importProjectHelper = new ImportProjectHelper(
-					lookFileName, getContentResolver(), uri, currentScene, this);
+					lookFileName, currentScene, this);
 
 			if (!importProjectHelper.checkForConflicts()) {
 				return;
