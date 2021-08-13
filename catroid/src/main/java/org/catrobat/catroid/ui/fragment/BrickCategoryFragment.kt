@@ -27,6 +27,7 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
@@ -64,10 +65,7 @@ class BrickCategoryFragment : ListFragment() {
         scriptFragment = listener
     }
 
-    private fun onlyBeginnerBricks(): Boolean {
-        return PreferenceManager.getDefaultSharedPreferences(activity)
-            .getBoolean(AccessibilityProfile.BEGINNER_BRICKS, false)
-    }
+    private fun onlyBeginnerBricks(): Boolean = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(AccessibilityProfile.BEGINNER_BRICKS, false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -132,6 +130,7 @@ class BrickCategoryFragment : ListFragment() {
         menu.findItem(R.id.catblocks).isVisible = false
         menu.findItem(R.id.catblocks_reorder_scripts).isVisible = false
         menu.findItem(R.id.find).isVisible = false
+        menu.findItem(R.id.search).isVisible = true
     }
 
     private fun setUpActionBar() {
@@ -207,5 +206,12 @@ class BrickCategoryFragment : ListFragment() {
 
     interface OnCategorySelectedListener {
         fun onCategorySelected(category: String?)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.search) {
+            scriptFragment?.onCategorySelected(context?.getString(R.string.category_search_bricks))
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

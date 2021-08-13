@@ -67,7 +67,7 @@
 
     <string name="loading">Loading…</string>
     <string name="please_wait">Please wait</string>
-    <string name="search_hint">Search…</string>
+    <string name="search_hint">Search</string>
 
     <string name="backpack_add">Add to backpack</string>
 
@@ -445,7 +445,7 @@
     <string name="nfc_tag_name_label">NFC tag name</string>
     <string name="string_label">Text</string>
     <string name="data_label">Name</string>
-    <string name="keyword_label">Insert keyword</string>
+    <string name="keyword_label">Search</string>
     <string name="html_label">Insert HTML text</string>
     <string name="Image_format_not_supported">Image format not supported</string>
     <string name="import_conflicting_variables">The actor or object could not be added.</string>
@@ -904,6 +904,7 @@
     <string name="category_cast">Chromecast</string>
     <string name="category_raspi">Raspberry Pi</string>
     <string name="category_assertions">Testing</string>
+    <string name="category_search_bricks">Search Bricks</string>
     <!--  -->
 
     <!-- User Defined Bricks -->

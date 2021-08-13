@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.ui.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
@@ -33,8 +32,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -44,6 +41,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
+import org.catrobat.catroid.ui.ViewUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.InputWatcher;
 import org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType;
 import org.jetbrains.annotations.NotNull;
@@ -121,7 +119,7 @@ public class AddUserDataToUserDefinedBrickFragment extends Fragment {
 
 		activity = (AppCompatActivity) getActivity();
 		if (activity != null) {
-			showStandardSystemKeyboard();
+			ViewUtils.showKeyboard(addUserDataUserBrickEditText);
 			ActionBar actionBar = activity.getSupportActionBar();
 			if (actionBar != null) {
 				activity.getSupportActionBar().setTitle(R.string.category_user_bricks);
@@ -138,13 +136,13 @@ public class AddUserDataToUserDefinedBrickFragment extends Fragment {
 	@Override
 	public void onAttach(@NonNull Context context) {
 		super.onAttach(context);
-		showStandardSystemKeyboard();
+		ViewUtils.showKeyboard(addUserDataUserBrickEditText);
 	}
 
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		hideStandardSystemKeyboard();
+		ViewUtils.hideKeyboard(addUserDataUserBrickEditText);
 	}
 
 	@Override
@@ -169,6 +167,7 @@ public class AddUserDataToUserDefinedBrickFragment extends Fragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.next) {
 			FragmentManager fragmentManager = getFragmentManager();
+			ViewUtils.hideKeyboard(addUserDataUserBrickEditText);
 			if (fragmentManager != null) {
 				AddUserDefinedBrickFragment addUserDefinedBrickFragment = (AddUserDefinedBrickFragment)
 						getFragmentManager().findFragmentByTag(AddUserDefinedBrickFragment.TAG);
@@ -187,21 +186,5 @@ public class AddUserDataToUserDefinedBrickFragment extends Fragment {
 
 	public UserDefinedBrickDataType getDataTypeToAdd() {
 		return dataTypeToAdd;
-	}
-
-	private void showStandardSystemKeyboard() {
-		if (activity != null) {
-			activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-		}
-	}
-
-	private void hideStandardSystemKeyboard() {
-		if (activity != null) {
-			InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-			View focusedView = activity.getCurrentFocus();
-			if (focusedView != null) {
-				inputMethodManager.hideSoftInputFromWindow(focusedView.getWindowToken(), 0);
-			}
-		}
 	}
 }
