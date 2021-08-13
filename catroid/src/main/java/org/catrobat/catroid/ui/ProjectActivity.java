@@ -61,6 +61,8 @@ import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
@@ -120,6 +122,7 @@ public class ProjectActivity extends BaseCastActivity {
 		loadFragment(fragmentPosition);
 		ProjectUtils.showWarningForSuspiciousBricksOnce(this);
 		showLegoSensorConfigInfo();
+		checkIfSpriteNameEqualBackground();
 	}
 
 	private void loadFragment(int fragmentPosition) {
@@ -431,6 +434,18 @@ public class ProjectActivity extends BaseCastActivity {
 		if (!ev3DialogDisabled && resourcesSet.contains(Brick.BLUETOOTH_LEGO_EV3)) {
 			DialogFragment dialog = LegoSensorConfigInfoDialog.newInstance(EV3);
 			dialog.show(getSupportFragmentManager(), LegoSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
+		}
+	}
+
+	public void checkIfSpriteNameEqualBackground() {
+		List<Sprite> spriteList =
+				new ArrayList<>(ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones());
+		// Starting from 1, because real background sprite has index = 0
+		for(int sprite = 1; sprite < spriteList.size(); ++sprite) {
+			if(spriteList.get(sprite).getName().equals(getString(R.string.background))) {
+				spriteList.get(sprite).setName(getString(R.string.background) + " (" + sprite +
+						")");
+			}
 		}
 	}
 }
