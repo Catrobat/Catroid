@@ -94,6 +94,7 @@
         <attr name="layout_textField" format="boolean"/>
         <attr name="layout_inputType" format="string"/>
         <attr name="layout_newLine" format="boolean"/>
+        <attr name="layout_forceNewLine" format="boolean"/>
         <attr name="layout_customPadding" format="dimension"/>
         <attr name="layout_horizontalSpacing" format="dimension"/>
         <attr name="layout_verticalSpacing" format="dimension"/>
