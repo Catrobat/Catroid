@@ -30,6 +30,7 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.LinearLayout
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
@@ -57,6 +58,7 @@ import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import org.hamcrest.TypeSafeMatcher
+import org.hamcrest.core.IsInstanceOf
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -96,7 +98,7 @@ class BrickSearchTest {
         }
     }
     @Test
-    fun searchIfBrick() {
+    fun testSearchIfBrick() {
         Espresso.onView(withId(R.id.button_add)).perform(click())
         Espresso.onView(withId(R.id.search)).perform(click())
         Espresso.onView(withId(R.id.search_src_text)).perform(clearText(), ViewActions.typeText("if")).perform(pressKey(KeyEvent.KEYCODE_ENTER))
@@ -109,7 +111,7 @@ class BrickSearchTest {
     }
 
     @Test
-    fun closeKeyboardAfterSearching() {
+    fun testCloseKeyboardAfterSearching() {
         Espresso.onView(withId(R.id.button_add)).perform(click())
         Espresso.onView(withId(R.id.search)).perform(click())
         Espresso.onView(ViewMatchers.isRoot()).perform(CustomActions.wait(2000))
@@ -117,6 +119,46 @@ class BrickSearchTest {
         Espresso.onView(withId(R.id.search_src_text)).perform(clearText(), ViewActions.typeText("if")).perform(pressKey(KeyEvent.KEYCODE_ENTER))
         Espresso.onView(ViewMatchers.isRoot()).perform(CustomActions.wait(2000))
         Assert.assertFalse(isKeyboardVisible())
+    }
+
+    @Test
+    fun testCategorySearch() {
+        Espresso.onView(withId(R.id.button_add)).perform(click())
+        Espresso.onView(withId(R.id.search)).perform(click())
+        Espresso.onView(withId(R.id.search_src_text)).perform(clearText(), ViewActions.typeText("When")).perform(pressKey(KeyEvent.KEYCODE_ENTER))
+        Espresso.onView(
+            Matchers.allOf(
+                ViewMatchers.withText("When scene starts"),
+                isDisplayed()
+            )
+        ).check(matches(isDisplayed()))
+        Espresso.onView(
+            Matchers.allOf(
+                ViewMatchers.withContentDescription("Navigate up"),
+                childAtPosition(
+                    Matchers.allOf(withId(R.id.toolbar), childAtPosition(withId(R.id.activity_sprite), 0)), 1
+                ),
+                isDisplayed()
+            )
+        ).perform(click())
+        Espresso.onData(Matchers.anything())
+            .inAdapterView(
+                Matchers.allOf(withId(R.id.brick_category_list), childAtPosition(withId(R.id.fragment_container), 1))
+            ).atPosition(5).perform(click())
+        Espresso.onView(withId(R.id.search)).perform(click())
+        Espresso.onView(withId(R.id.search_src_text)).perform(clearText(), ViewActions.typeText("When")).perform(pressKey(KeyEvent.KEYCODE_ENTER))
+        Espresso.onView(
+            Matchers.allOf(
+                withId(R.id.brick_when_background_text_view),
+                ViewMatchers.withParent(
+                    Matchers.allOf(
+                        withId(R.id.brick_when_background_layout),
+                        ViewMatchers.withParent(IsInstanceOf.instanceOf(LinearLayout::class.java))
+                    )
+                ),
+                isDisplayed()
+            )
+        ).check(matches(isDisplayed()))
     }
 
     fun isKeyboardVisible(): Boolean {

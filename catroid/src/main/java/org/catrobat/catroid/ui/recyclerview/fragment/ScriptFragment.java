@@ -512,12 +512,12 @@ public class ScriptFragment extends ListFragment implements
 	public void onCategorySelected(String category) {
 		ListFragment fragment = null;
 		String tag = "";
-
+		Fragment currentFragment = getParentFragmentManager().findFragmentById(R.id.fragment_container);
 		if (category.equals(getContext().getString(R.string.category_user_bricks))) {
 			fragment = UserDefinedBrickListFragment.newInstance(this);
 			tag = UserDefinedBrickListFragment.USER_DEFINED_BRICK_LIST_FRAGMENT_TAG;
-		} else if (category.equals(getContext().getString(R.string.category_search_bricks))) {
-			fragment = BrickSearchFragment.newInstance(this);
+		} else if (currentFragment instanceof AddBrickFragment || category.equals(getContext().getString(R.string.category_search_bricks))) {
+			fragment = BrickSearchFragment.newInstance(this, category);
 			tag = BrickSearchFragment.BRICK_SEARCH_FRAGMENT_TAG;
 		} else {
 			fragment = AddBrickFragment.newInstance(category, this);

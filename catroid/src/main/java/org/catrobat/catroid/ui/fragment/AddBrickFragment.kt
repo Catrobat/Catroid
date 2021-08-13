@@ -29,6 +29,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
@@ -86,7 +87,6 @@ class AddBrickFragment : ListFragment() {
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, menuInflater)
         menu.findItem(R.id.comment_in_out).isVisible = false
-        menu.findItem(R.id.search).isVisible = false
     }
 
     override fun onDestroy() {
@@ -136,6 +136,13 @@ class AddBrickFragment : ListFragment() {
             fragment.addBrickListener = addBrickListener
             return fragment
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.search) {
+            (addBrickListener as BrickCategoryFragment.OnCategorySelectedListener).onCategorySelected(arguments?.getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY))
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
 fun addBrickToScript(brick: Brick, activity: SpriteActivity, addBrickListener: AddBrickFragment.OnAddBrickListener?, parentFragmentManager: FragmentManager, tag: String) {
