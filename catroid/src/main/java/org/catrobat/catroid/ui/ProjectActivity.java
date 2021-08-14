@@ -29,9 +29,12 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.google.common.base.CharMatcher;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -437,15 +440,37 @@ public class ProjectActivity extends BaseCastActivity {
 		}
 	}
 
-	public void checkIfSpriteNameEqualBackground() {
+	private void checkIfSpriteNameEqualBackground() {
 		List<Sprite> spriteList =
 				new ArrayList<>(ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones());
 		// Starting from 1, because real background sprite has index = 0
-		for(int sprite = 1; sprite < spriteList.size(); ++sprite) {
-			if(spriteList.get(sprite).getName().equals(getString(R.string.background))) {
-				spriteList.get(sprite).setName(getString(R.string.background) + " (" + sprite +
-						")");
+		for (int sprite = 1; sprite < spriteList.size(); ++sprite) {
+			if (spriteList.get(sprite).getName().matches("[\\s]*" + getString(R.string.background) +
+					"[\\s]*")) {
+				setNewSpriteName(sprite);
+				return;
 			}
 		}
+	}
+
+	private void setNewSpriteName(int sprite) {
+		List<Sprite> spriteList =
+				new ArrayList<>(ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones());
+		String backgroundRegex = getString(R.string.background) + " \\([0-9]+\\)";
+		int maxValue = 0;
+
+		for (int spriteItr = 1; spriteItr < spriteList.size(); ++spriteItr) {
+			if (spriteList.get(spriteItr).getName().matches(backgroundRegex)) {
+				String tokens[] = spriteList.get(spriteItr).getName().split(" ");
+				int value = Integer.parseInt(tokens[1].replaceAll("[^0-9]", ""));
+				// Get biggest number in "()", because name must be unique
+				if (maxValue < value) {
+					maxValue = value;
+				}
+			}
+		}
+		int finalValue = maxValue + 1;
+		spriteList.get(sprite).setName(getString(R.string.background) + " (" + finalValue +
+				")");
 	}
 }

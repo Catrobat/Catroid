@@ -53,7 +53,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 	public static final int PAIRS = 1;
 	public static final int MULTIPLE = 2;
 
-	List<T> items;
+	protected List<T> items;
 	public boolean showCheckBoxes = false;
 
 	@SelectionType
@@ -63,7 +63,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 	private SelectionListener selectionListener;
 	private OnItemClickListener<T> onItemClickListener;
 
-	RVAdapter(List<T> items) {
+	protected RVAdapter(List<T> items) {
 		this.items = items;
 	}
 
@@ -194,6 +194,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 			return false;
 		}
 		selectionManager.toggleSelection(items.indexOf(item));
+		notifyItemChanged(items.indexOf(item));
 		return true;
 	}
 
