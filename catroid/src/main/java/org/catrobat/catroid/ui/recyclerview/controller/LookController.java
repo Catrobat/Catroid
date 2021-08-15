@@ -61,7 +61,9 @@ public class LookController {
 	}
 
 	public void delete(LookData lookToDelete) throws IOException {
-		StorageOperations.deleteFile(lookToDelete.getFile());
+		if (lookToDelete.getFile().exists()) {
+			StorageOperations.deleteFile(lookToDelete.getFile());
+		}
 	}
 
 	public LookData pack(LookData lookToPack) throws IOException {
