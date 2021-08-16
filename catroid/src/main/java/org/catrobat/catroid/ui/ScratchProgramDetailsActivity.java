@@ -209,6 +209,10 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 	public void onItemLongClick(ScratchProgramData item, CheckableVH h) {
 	}
 
+	@Override
+	public void onSettingsClick(ScratchProgramData item, View view) {
+	}
+
 	private void onJobNotInProgress() {
 		convertButton.setEnabled(true);
 		convertButton.setText(R.string.convert);

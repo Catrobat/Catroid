@@ -112,6 +112,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	@Override
 	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 		mode.getMenuInflater().inflate(R.menu.context_menu, menu);
+
 		switch (actionModeType) {
 			case BACKPACK:
 				mode.setTitle(getString(R.string.am_backpack));

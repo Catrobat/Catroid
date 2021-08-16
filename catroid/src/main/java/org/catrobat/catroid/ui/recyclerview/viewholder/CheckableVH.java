@@ -25,15 +25,18 @@ package org.catrobat.catroid.ui.recyclerview.viewholder;
 
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 
 import org.catrobat.catroid.R;
 
 public class CheckableVH extends ViewHolder {
 
 	public CheckBox checkBox;
+	public ImageButton settings;
 
 	public CheckableVH(View itemView) {
 		super(itemView);
 		checkBox = itemView.findViewById(R.id.checkbox);
+		settings = itemView.findViewById(R.id.settingsButton);
 	}
 }

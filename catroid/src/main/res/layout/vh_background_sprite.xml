@@ -28,7 +28,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <include layout="@layout/vh_with_checkbox" />
+    <include layout="@layout/vh_background" />
 
     <TextView
         android:layout_width="match_parent"

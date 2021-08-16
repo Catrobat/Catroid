@@ -30,6 +30,9 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.PopupMenu;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -40,6 +43,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.NfcTagAdapter;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.PluralsRes;
@@ -193,5 +197,40 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 		if (actionModeType == RENAME) {
 			super.onItemClick(item);
 		}
+	}
+
+	@Override
+	public void onSettingsClick(NfcTagData item, View view) {
+		PopupMenu popupMenu = new PopupMenu(getContext(), view);
+		List<NfcTagData> itemList = new ArrayList<>();
+		itemList.add(item);
+
+		popupMenu.getMenuInflater().inflate(R.menu.menu_project_activity, popupMenu.getMenu());
+		popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem menuItem) {
+
+				switch (menuItem.getItemId()) {
+					case R.id.copy:
+						copyItems(itemList);
+						break;
+					case R.id.rename:
+						showRenameDialog(item);
+						break;
+					case R.id.delete:
+						deleteItems(itemList);
+						break;
+					default:
+						break;
+				}
+				return true;
+			}
+		});
+		popupMenu.getMenu().findItem(R.id.backpack).setVisible(false);
+		popupMenu.getMenu().findItem(R.id.new_group).setVisible(false);
+		popupMenu.getMenu().findItem(R.id.new_scene).setVisible(false);
+		popupMenu.getMenu().findItem(R.id.show_details).setVisible(false);
+		popupMenu.getMenu().findItem(R.id.project_options).setVisible(false);
+		popupMenu.show();
 	}
 }

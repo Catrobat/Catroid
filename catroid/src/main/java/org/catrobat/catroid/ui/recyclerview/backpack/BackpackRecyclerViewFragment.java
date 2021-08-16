@@ -303,6 +303,11 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		onItemClick(item);
 	}
 
+	@Override
+	public void onSettingsClick(T item, View view) {
+		onItemClick(item);
+	}
+
 	protected abstract void initializeAdapter();
 
 	protected abstract void unpackItems(List<T> selectedItems);

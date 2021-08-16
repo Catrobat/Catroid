@@ -32,6 +32,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -236,16 +237,7 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
     }
 
     override fun onItemLongClick(item: UserData<*>, holder: CheckableVH) {
-        val items = arrayOf<CharSequence>(getString(R.string.delete), getString(R.string.rename))
-        AlertDialog.Builder(requireActivity())
-            .setItems(items) { dialog, which ->
-                when (which) {
-                    0 -> showDeleteAlert(listOf(item))
-                    1 -> showRenameDialog(listOf(item))
-                    else -> dialog.dismiss()
-                }
-            }
-            .show()
+        onItemClick(item)
     }
 
     interface ListSelectorInterface {
@@ -275,5 +267,23 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
 
             listSelectorFragment.preSelection = selectorBrick.userLists
         }
+    }
+
+    override fun onSettingsClick(item: UserData<*>, view: View?) {
+        val elementList = arrayOf<CharSequence>(getString(R.string.delete), getString(R.string.rename))
+        val popupMenu = PopupMenu(context, view)
+        for (element: CharSequence in elementList) popupMenu.menu.add(element)
+        popupMenu.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.title) {
+                getString(R.string.rename) -> showRenameDialog(
+                    listOf(item)
+                )
+                getString(R.string.delete) -> showDeleteAlert(
+                    listOf(item)
+                )
+            }
+            true
+        }
+        popupMenu.show()
     }
 }
