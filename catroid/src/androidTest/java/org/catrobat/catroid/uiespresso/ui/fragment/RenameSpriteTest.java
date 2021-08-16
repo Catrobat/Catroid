@@ -24,7 +24,6 @@
 package org.catrobat.catroid.uiespresso.ui.fragment;
 
 import android.widget.EditText;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
@@ -34,7 +33,10 @@ import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
+import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -46,6 +48,7 @@ import org.junit.runner.RunWith;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.setLanguageSharedPreference;
 import static org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionModeWrapper.onActionMode;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBar;
@@ -62,6 +65,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -213,6 +217,45 @@ public class RenameSpriteTest {
 				.check(doesNotExist());
 	}
 
+	@Test
+	private void spriteEqualBackgroundTest() {
+		setLanguageSharedPreference(ApplicationProvider.getApplicationContext(), "en");
+		String backgroundString = ApplicationProvider.getApplicationContext().getString(R.string.background);
+		openActionBar();
+		onView(withText(R.string.rename)).perform(click());
+		onRecyclerView().atPosition(0)
+				.check(matches(not(isDisplayed())));
+		onRecyclerView().atPosition(2)
+				.perform(click());
+		onView(withText(R.string.rename_sprite_dialog))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()));
+		setLanguageSharedPreference(ApplicationProvider.getApplicationContext(), "de");
+
+		waitFor(1000);
+
+		onView(allOf(withText(secondSpriteName), isDisplayed()))
+				.perform(replaceText(backgroundString));
+		closeSoftKeyboard();
+		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
+				.perform(click());
+
+		waitFor(1000);
+
+		BaseActivityTestRule<MainMenuActivity> mainMenu = new
+				BaseActivityTestRule<>(MainMenuActivity.class, false, false);
+		mainMenu.launchActivity(null);
+
+		onView(withId(R.id.myProjectsTextView))
+				.check(matches(isDisplayed()))
+				.perform(click());
+		onView(withText(RenameSpriteTest.class.getSimpleName()))
+				.check(matches(isDisplayed()))
+				.perform(click());
+		onView(withText(backgroundString + " (1)"))
+				.check(matches(isDisplayed()));
+	}
+
 	private void createProject(String projectName) {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 
@@ -224,5 +267,10 @@ public class RenameSpriteTest {
 
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+	}
+
+	private void waitFor(int time) {
+		onView(isRoot())
+				.perform(CustomActions.wait(time));
 	}
 }

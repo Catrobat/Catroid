@@ -61,6 +61,8 @@ import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
@@ -120,6 +122,7 @@ public class ProjectActivity extends BaseCastActivity {
 		loadFragment(fragmentPosition);
 		ProjectUtils.showWarningForSuspiciousBricksOnce(this);
 		showLegoSensorConfigInfo();
+		checkIfSpriteNameEqualBackground();
 	}
 
 	private void loadFragment(int fragmentPosition) {
@@ -432,5 +435,39 @@ public class ProjectActivity extends BaseCastActivity {
 			DialogFragment dialog = LegoSensorConfigInfoDialog.newInstance(EV3);
 			dialog.show(getSupportFragmentManager(), LegoSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
 		}
+	}
+
+	private void checkIfSpriteNameEqualBackground() {
+		List<Sprite> spriteList =
+				new ArrayList<>(ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones());
+		// Starting from 1, because real background sprite has index = 0
+		for (int sprite = 1; sprite < spriteList.size(); ++sprite) {
+			if (spriteList.get(sprite).getName().matches("[\\s]*" + getString(R.string.background) +
+					"[\\s]*")) {
+				setNewSpriteName(sprite);
+				return;
+			}
+		}
+	}
+
+	private void setNewSpriteName(int sprite) {
+		List<Sprite> spriteList =
+				new ArrayList<>(ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones());
+		String backgroundRegex = getString(R.string.background) + " \\([0-9]+\\)";
+		int maxValue = 0;
+
+		for (int spriteItr = 1; spriteItr < spriteList.size(); ++spriteItr) {
+			if (spriteList.get(spriteItr).getName().matches(backgroundRegex)) {
+				String tokens[] = spriteList.get(spriteItr).getName().split(" ");
+				int value = Integer.parseInt(tokens[1].replaceAll("[^0-9]", ""));
+				// Get biggest number in "()", because name must be unique
+				if (maxValue < value) {
+					maxValue = value;
+				}
+			}
+		}
+		int finalValue = maxValue + 1;
+		spriteList.get(sprite).setName(getString(R.string.background) + " (" + finalValue +
+				")");
 	}
 }
