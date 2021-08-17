@@ -24,6 +24,7 @@
 <lint >
     <issue id="UnusedResources">
         <ignore regexp=".*/values-(?!de).*/strings.xml$" />
+        <ignore path="src/main/res/drawable-nodpi/bak_icon.png"/>
     </issue>
 
      <issue id="UnusedAttribute">

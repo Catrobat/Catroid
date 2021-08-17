@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.ui.recyclerview.dialog
 
 import android.app.Dialog
@@ -41,11 +42,13 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.BrickValues
 import org.catrobat.catroid.common.Constants
+import org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME
 import org.catrobat.catroid.common.LookData
 import org.catrobat.catroid.common.SharedPreferenceKeys.NEW_SPRITE_VISUAL_PLACEMENT_KEY
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.io.StorageOperations
+import org.catrobat.catroid.merge.ImportProjectHelper
 import org.catrobat.catroid.ui.SpriteActivity.EXTRA_X_TRANSFORM
 import org.catrobat.catroid.ui.SpriteActivity.EXTRA_Y_TRANSFORM
 import org.catrobat.catroid.ui.SpriteActivity.REQUEST_CODE_VISUAL_PLACEMENT
@@ -61,7 +64,9 @@ class NewSpriteDialogFragment(
     private val lookFileName: String,
     private val contentResolver: ContentResolver,
     private val uri: Uri,
-    private val currentFragment: Fragment
+    private val currentFragment: Fragment,
+    private val isObject: Boolean,
+    private val importProjectHelper: ImportProjectHelper?
 ) : DialogFragment() {
 
     private var visuallyPlaceSwitch: SwitchCompat? = null
@@ -85,9 +90,16 @@ class NewSpriteDialogFragment(
             ?.setPositiveButton(
                 getString(R.string.ok)
             ) { dialog: DialogInterface?, textInput: String? ->
-                sprite = Sprite(textInput)
-                currentScene.addSprite(sprite)
-                addLookDataToSprite(currentScene, textInput)
+
+                if (isObject) {
+                    sprite = importProjectHelper!!.addObjectDataToSprite()
+                    sprite.rename(textInput)
+                    currentScene.addSprite(sprite)
+                } else {
+                    sprite = Sprite(textInput)
+                    currentScene.addSprite(sprite)
+                    addLookDataToSprite(currentScene, textInput)
+                }
 
                 if (currentFragment is SpriteListFragment) {
                     currentFragment.notifyDataSetChanged()
@@ -120,7 +132,7 @@ class NewSpriteDialogFragment(
         try {
             val imageDirectory = File(
                 currentScene?.directory,
-                Constants.IMAGE_DIRECTORY_NAME
+                IMAGE_DIRECTORY_NAME
             )
             val file = StorageOperations.copyUriToDir(
                 contentResolver, uri,

@@ -35,6 +35,8 @@ public final class FlavoredConstants {
 	// Web:
 	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/pocketcode/";
 
+	public static final String CATROBAT_HELP_URL = "https://catrob.at/help";
+
 	public static final String CATEGORY_URL = BASE_URL_HTTPS + "#home-projects__";
 
 	public static final String FLAVOR_NAME = "pocketcode";
@@ -49,6 +51,7 @@ public final class FlavoredConstants {
 	// Media Library:
 	public static final String LIBRARY_BASE_URL = BASE_URL_HTTPS + "download-media/";
 	public static final String LIBRARY_LOOKS_URL = BASE_URL_HTTPS + "media-library/looks";
+	public static final String LIBRARY_OBJECT_URL = BASE_URL_HTTPS + "media-library/objects";
 	public static final String LIBRARY_BACKGROUNDS_URL_PORTRAIT = BASE_URL_HTTPS + "media-library/backgrounds-portrait";
 	public static final String LIBRARY_BACKGROUNDS_URL_LANDSCAPE = BASE_URL_HTTPS + "media-library/backgrounds-landscape";
 	public static final String LIBRARY_SOUNDS_URL = BASE_URL_HTTPS + "media-library/sounds";

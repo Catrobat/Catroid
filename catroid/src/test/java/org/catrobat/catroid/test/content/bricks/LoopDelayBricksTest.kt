@@ -31,6 +31,7 @@ import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick
 import org.catrobat.catroid.content.bricks.ChangeColorByNBrick
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick
 import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick
+import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick
 import org.catrobat.catroid.content.bricks.GoToBrick
@@ -51,7 +52,9 @@ import org.catrobat.catroid.content.bricks.SetColorBrick
 import org.catrobat.catroid.content.bricks.SetLookBrick
 import org.catrobat.catroid.content.bricks.SetLookByIndexBrick
 import org.catrobat.catroid.content.bricks.SetSizeToBrick
+import org.catrobat.catroid.content.bricks.SetTempoBrick
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick
+import org.catrobat.catroid.content.bricks.SetVolumeToBrick
 import org.catrobat.catroid.content.bricks.SetXBrick
 import org.catrobat.catroid.content.bricks.SetYBrick
 import org.catrobat.catroid.content.bricks.TurnLeftBrick
@@ -106,7 +109,10 @@ internal class LoopDelayBricksTest(private val brick: Brick?) {
                 arrayOf(SetColorBrick(0.0)),
                 arrayOf(ChangeColorByNBrick(0.0)),
                 arrayOf(SetBackgroundBrick()),
-                arrayOf(SetBackgroundByIndexBrick(0))
+                arrayOf(SetBackgroundByIndexBrick(0)),
+                arrayOf(SetVolumeToBrick(0.0)),
+                arrayOf(ChangeVolumeByNBrick(0.0)),
+                arrayOf(SetTempoBrick(0))
             )
         }
     }

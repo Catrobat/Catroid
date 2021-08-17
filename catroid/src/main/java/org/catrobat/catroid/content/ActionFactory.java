@@ -61,6 +61,7 @@ import org.catrobat.catroid.content.actions.DeleteLookAction;
 import org.catrobat.catroid.content.actions.DeleteThisCloneAction;
 import org.catrobat.catroid.content.actions.EditLookAction;
 import org.catrobat.catroid.content.actions.EventAction;
+import org.catrobat.catroid.content.actions.FadeParticleEffectAction;
 import org.catrobat.catroid.content.actions.FinishStageAction;
 import org.catrobat.catroid.content.actions.FlashAction;
 import org.catrobat.catroid.content.actions.ForItemInUserListAction;
@@ -143,6 +144,7 @@ import org.catrobat.catroid.content.actions.SewUpAction;
 import org.catrobat.catroid.content.actions.ShowTextAction;
 import org.catrobat.catroid.content.actions.ShowTextColorSizeAlignmentAction;
 import org.catrobat.catroid.content.actions.SpeakAction;
+import org.catrobat.catroid.content.actions.SpeakAndWaitAction;
 import org.catrobat.catroid.content.actions.StampAction;
 import org.catrobat.catroid.content.actions.StartListeningAction;
 import org.catrobat.catroid.content.actions.StitchAction;
@@ -195,6 +197,7 @@ import org.catrobat.catroid.io.DeviceUserDataAccessor;
 import org.catrobat.catroid.io.DeviceVariableAccessor;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.stage.SpeechSynthesizer;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
 
 import java.io.File;
@@ -762,8 +765,16 @@ public class ActionFactory extends Actions {
 	public Action createSpeakAction(Sprite sprite, SequenceAction sequence, Formula text) {
 		SpeakAction action = action(SpeakAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
-		action.setScope(scope);
-		action.setText(text);
+		SpeechSynthesizer synthesizer = new SpeechSynthesizer(scope, text);
+		action.setSpeechSynthesizer(synthesizer);
+		return action;
+	}
+
+	public Action createSpeakAndWaitAction(Sprite sprite, SequenceAction sequence, Formula text) {
+		SpeakAndWaitAction action = action(SpeakAndWaitAction.class);
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		SpeechSynthesizer synthesizer = new SpeechSynthesizer(scope, text);
+		action.setSpeechSynthesizer(synthesizer);
 		return action;
 	}
 
@@ -1220,6 +1231,14 @@ public class ActionFactory extends Actions {
 	public Action createUpdateCameraPreviewAction(boolean turnOn) {
 		CameraBrickAction action = action(CameraBrickAction.class);
 		action.setActive(turnOn);
+		return action;
+	}
+
+	public Action createFadeParticleEffectsAction(Sprite sprite, boolean turnOn) {
+		FadeParticleEffectAction action = action(FadeParticleEffectAction.class);
+		action.setFadeIn(turnOn);
+		action.setSprite(sprite);
+		action.setBackgroundSprite(ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite());
 		return action;
 	}
 

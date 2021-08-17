@@ -335,6 +335,17 @@ public final class ProjectManager {
 		return conflicts;
 	}
 
+	public static ArrayList<Object> checkForVariablesConflicts(List<Object> globalVariables, List<Object> localVariables) {
+
+		ArrayList<Object> conflicts = new ArrayList<>();
+		for (Object localVar : localVariables) {
+			if (globalVariables.contains(localVar)) {
+				conflicts.add(localVar);
+			}
+		}
+		return conflicts;
+	}
+
 	@VisibleForTesting
 	public static void updateCollisionFormulasTo993(Project project) {
 		for (Scene scene : project.getSceneList()) {

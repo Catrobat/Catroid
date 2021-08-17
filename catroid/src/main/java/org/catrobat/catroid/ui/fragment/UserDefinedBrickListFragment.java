@@ -27,6 +27,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -36,9 +37,11 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -82,7 +85,7 @@ public class UserDefinedBrickListFragment extends ListFragment implements View.O
 
 		addUserDefinedBrickButton = view.findViewById(R.id.button_add_user_brick);
 		addUserDefinedBrickButton.setOnClickListener(this);
-
+		setHasOptionsMenu(true);
 		setupUserDefinedBrickListView();
 
 		AppCompatActivity activity = (AppCompatActivity) getActivity();
@@ -94,6 +97,12 @@ public class UserDefinedBrickListFragment extends ListFragment implements View.O
 		}
 
 		return view;
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(@NonNull @NotNull Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+		menu.findItem(R.id.search).setVisible(false);
 	}
 
 	@Override

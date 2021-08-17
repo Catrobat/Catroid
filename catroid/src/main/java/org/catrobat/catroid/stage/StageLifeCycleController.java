@@ -137,6 +137,15 @@ public final class StageLifeCycleController {
 					Log.e(TAG, "Disabling NFC foreground dispatching went wrong!", illegalStateException);
 				}
 			}
+
+			List<Sprite> sprites = ((StageListener) stageActivity.getApplicationListener()).getSpritesFromStage();
+
+			if (sprites != null) {
+				for (Sprite sprite : sprites) {
+					sprite.look.pauseParticleEffect();
+				}
+			}
+
 			SpeechRecognitionHolder.Companion.getInstance().destroy();
 
 			SensorHandler.timerPauseValue = SystemClock.uptimeMillis();
@@ -177,6 +186,14 @@ public final class StageLifeCycleController {
 				if (sprite.getPlaySoundBricks().size() > 0) {
 					stageActivity.stageAudioFocus.requestAudioFocus();
 					break;
+				}
+			}
+
+			List<Sprite> sprites =
+					((StageListener) stageActivity.getApplicationListener()).getSpritesFromStage();
+			if (sprites != null) {
+				for (Sprite sprite : sprites) {
+					sprite.look.resumeParticleEffect();
 				}
 			}
 
@@ -233,12 +250,13 @@ public final class StageLifeCycleController {
 				stageActivity.cameraManager.destroy();
 				stageActivity.cameraManager = null;
 			}
-			SensorHandler.stopSensorListeners();
+			SensorHandler.destroy();
 			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 				CastManager.getInstance().onStageDestroyed();
 			}
 			StageActivity.stageListener.finish();
 			stageActivity.manageLoadAndFinish();
+			StageActivity.stageListener = null;
 		}
 		ProjectManager.getInstance().setCurrentlyPlayingScene(ProjectManager.getInstance().getCurrentlyEditedScene());
 	}

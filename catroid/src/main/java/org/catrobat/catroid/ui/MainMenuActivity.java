@@ -66,6 +66,7 @@ import java.io.InputStream;
 import androidx.appcompat.app.AlertDialog;
 import kotlin.Lazy;
 
+import static org.catrobat.catroid.common.FlavoredConstants.CATROBAT_HELP_URL;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.FlavoredConstants.PRIVACY_POLICY_URL;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
@@ -89,6 +90,9 @@ public class MainMenuActivity extends BaseCastActivity implements
 		SettingsFragment.setToChosenLanguage(this);
 
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
+		PreferenceManager.setDefaultValues(this, R.xml.nxt_preferences, true);
+		PreferenceManager.setDefaultValues(this, R.xml.ev3_preferences, true);
+
 		ScreenValueHandler.updateScreenWidthAndHeight(this);
 
 		oldPrivacyPolicy = PreferenceManager.getDefaultSharedPreferences(this)
@@ -306,7 +310,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 				ToastUtil.showSuccess(this, R.string.logout_successful);
 				break;
 			case R.id.menu_help:
-				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.CATROBAT_HELP_URL)));
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(CATROBAT_HELP_URL)));
 				break;
 			default:
 				return super.onOptionsItemSelected(item);

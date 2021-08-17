@@ -29,6 +29,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.GroupItemSprite;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
@@ -90,6 +91,10 @@ public class SpriteController {
 			} catch (CloneNotSupportedException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
+		}
+
+		if (spriteToCopy instanceof GroupItemSprite) {
+			((GroupItemSprite) sprite).setCollapsed(((GroupItemSprite) spriteToCopy).isCollapsed());
 		}
 
 		return sprite;

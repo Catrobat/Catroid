@@ -130,11 +130,11 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	public static final String FORMULA_BRICK_BUNDLE_ARGUMENT = "formula_brick";
 	public static final String FORMULA_FIELD_BUNDLE_ARGUMENT = "formula_field";
 
-	private static FormulaEditorEditText formulaEditorEditText;
+	private FormulaEditorEditText formulaEditorEditText;
 	private TableLayout formulaEditorKeyboard;
-	private static LinearLayout formulaEditorBrick;
+	private LinearLayout formulaEditorBrick;
 
-	private static FormulaBrick formulaBrick;
+	private FormulaBrick formulaBrick;
 
 	private static Brick.FormulaField currentFormulaField;
 	private static Formula currentFormula;

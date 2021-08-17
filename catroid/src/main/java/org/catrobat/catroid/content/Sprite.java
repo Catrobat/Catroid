@@ -447,6 +447,12 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		}
 	}
 
+	public void prependScript(Script script) {
+		if (script != null && !scriptList.contains(script)) {
+			scriptList.add(0, script);
+		}
+	}
+
 	public void addScript(int index, Script script) {
 		if (script != null && !scriptList.contains(script)) {
 			scriptList.add(index, script);
@@ -700,5 +706,15 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 
 	public Color getEmbroideryThreadColor() {
 		return this.embroideryThreadColor;
+	}
+
+	public void replaceSpriteWithSprite(Sprite sprite) {
+		this.scriptList = sprite.scriptList;
+		this.lookList = sprite.lookList;
+		this.soundList = sprite.soundList;
+		this.nfcTagList = sprite.nfcTagList;
+		this.userVariables = sprite.userVariables;
+		this.userLists = sprite.userLists;
+		this.userDefinedBrickList = sprite.userDefinedBrickList;
 	}
 }

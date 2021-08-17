@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -66,6 +66,7 @@ public class BrickLayout extends ViewGroup {
 	private int orientation = 0;
 	protected boolean debugDraw = true;
 	protected boolean userBrick = false;
+	protected boolean usePng = false;
 
 	protected LinkedList<LineData> lines;
 
@@ -113,7 +114,11 @@ public class BrickLayout extends ViewGroup {
 	}
 
 	public int getPaddingLeft(int widthMeasureSpec) {
-		return super.getPaddingLeft() + (int) (MeasureSpec.getSize(widthMeasureSpec) * 0.14);
+		if (!usePng) {
+			return super.getPaddingLeft() + (int) (MeasureSpec.getSize(widthMeasureSpec) * 0.14);
+		} else {
+			return super.getPaddingLeft();
+		}
 	}
 
 	@Override
@@ -187,8 +192,10 @@ public class BrickLayout extends ViewGroup {
 			if (userBrick) {
 				newLine = lineLengthWithHorizontalSpacing > sizeWidth;
 			} else {
-				newLine = (layoutParams.newLine && totalLengthOfContent - combinedLengthOfPreviousLines > sizeWidth);
+				newLine = layoutParams.newLine && (totalLengthOfContent - combinedLengthOfPreviousLines) > sizeWidth;
 			}
+
+			newLine = newLine || layoutParams.forceNewLine;
 
 			boolean lastChildWasSpinner = false;
 			if (i > 0) {
@@ -197,11 +204,9 @@ public class BrickLayout extends ViewGroup {
 			newLine = newLine || child instanceof Spinner || lastChildWasSpinner;
 
 			if (newLine) {
-				int childWidthNotCountingField = (layoutParams.textField ? childWidth : 0);
-				int endingWidthOfLineMinusFields = (lineLength - (childWidthNotCountingField + horizontalSpacing + currentLine.totalTextFieldWidth));
-				float allowalbeWidth = (float) (sizeWidth - (endingWidthOfLineMinusFields))
-						/ currentLine.numberOfTextFields;
-				currentLine.allowableTextFieldWidth = (int) Math.floor(allowalbeWidth);
+				int endingWidthOfLineMinusFields = (lineLength - (childWidth + horizontalSpacing + currentLine.totalTextFieldWidth));
+				float allowableWidth = (float) (sizeWidth - (endingWidthOfLineMinusFields)) / currentLine.numberOfTextFields;
+				currentLine.allowableTextFieldWidth = (int) Math.floor(allowableWidth);
 
 				currentLine = getNextLine(currentLine);
 
@@ -222,22 +227,15 @@ public class BrickLayout extends ViewGroup {
 		}
 
 		int endingWidthOfLineMinusFields = (lineLength - currentLine.totalTextFieldWidth);
-		float allowalbeWidth = (float) (sizeWidth - endingWidthOfLineMinusFields) / currentLine.numberOfTextFields;
-		currentLine.allowableTextFieldWidth = (int) Math.floor(allowalbeWidth);
-
-		int minAllowableTextFieldWidth = Integer.MAX_VALUE;
-		for (LineData lineData : lines) {
-			if (lineData.allowableTextFieldWidth > 0 && lineData.allowableTextFieldWidth < minAllowableTextFieldWidth) {
-				minAllowableTextFieldWidth = lineData.allowableTextFieldWidth;
-			}
-		}
+		float allowableWidth = (float) (sizeWidth - endingWidthOfLineMinusFields) / currentLine.numberOfTextFields;
+		currentLine.allowableTextFieldWidth = (int) Math.floor(allowableWidth);
 
 		for (LineData lineData : lines) {
 			for (ElementData elementData : lineData.elements) {
 				if (elementData.view != null) {
 					LayoutParams layoutParams = (LayoutParams) elementData.view.getLayoutParams();
-					if (layoutParams.textField) {
-						((TextView) elementData.view).setMaxWidth(minAllowableTextFieldWidth);
+					if (layoutParams.textField && lineData.allowableTextFieldWidth > 0) {
+						((TextView) elementData.view).setMaxWidth(lineData.allowableTextFieldWidth);
 					}
 				}
 			}
@@ -482,6 +480,7 @@ public class BrickLayout extends ViewGroup {
 			orientation = styledAttributes.getInteger(R.styleable.BrickLayout_orientation, HORIZONTAL);
 			debugDraw = styledAttributes.getBoolean(R.styleable.BrickLayout_debugDraw, false);
 			userBrick = styledAttributes.getBoolean(R.styleable.BrickLayout_userDefinedBrick, false);
+			usePng = styledAttributes.getBoolean(R.styleable.BrickLayout_usePng, false);
 		} finally {
 			styledAttributes.recycle();
 		}
@@ -588,6 +587,7 @@ public class BrickLayout extends ViewGroup {
 		private int horizontalSpacing = NO_SPACING;
 		private int verticalSpacing = NO_SPACING;
 		private boolean newLine = false;
+		private boolean forceNewLine = false;
 		private boolean textField = false;
 		private InputType inputType = InputType.NUMBER;
 
@@ -646,6 +646,7 @@ public class BrickLayout extends ViewGroup {
 				verticalSpacing = styledAttributes.getDimensionPixelSize(
 						R.styleable.BrickLayout_Layout_layout_verticalSpacing, NO_SPACING);
 				newLine = styledAttributes.getBoolean(R.styleable.BrickLayout_Layout_layout_newLine, false);
+				forceNewLine = styledAttributes.getBoolean(R.styleable.BrickLayout_Layout_layout_forceNewLine, false);
 				textField = styledAttributes.getBoolean(R.styleable.BrickLayout_Layout_layout_textField, false);
 				String inputTypeString = styledAttributes
 						.getString(R.styleable.BrickLayout_Layout_layout_inputType);

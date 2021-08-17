@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,88 +23,28 @@
 
 package org.catrobat.catroid.content.actions
 
-import android.speech.tts.TextToSpeech
-import android.speech.tts.UtteranceProgressListener
-import android.util.Log
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
-import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.content.Scope
-import org.catrobat.catroid.formulaeditor.Formula
-import org.catrobat.catroid.formulaeditor.FormulaElement
-import org.catrobat.catroid.formulaeditor.InterpretationException
 import org.catrobat.catroid.io.SoundManager
-import org.catrobat.catroid.stage.TextToSpeechHolder
-import org.catrobat.catroid.utils.Utils
-import java.io.File
-import java.util.HashMap
+import org.catrobat.catroid.stage.SpeechSynthesizer
 
-class SpeakAction : TemporalAction() {
-    var text: Formula? = null
-    private var interpretedText: Any? = null
-    private var hashText: String? = null
-    private var determineLength = false
-    var scope: Scope? = null
-    var lengthOfText = 0f
-        private set
-    lateinit var speechFile: File
-        private set
-    private val listener: UtteranceProgressListener = object : UtteranceProgressListener() {
-            @SuppressWarnings("EmptyFunctionBlock")
-            override fun onStart(utteranceId: String) {}
+class SpeakAction : AsynchronousAction() {
+    private var isFinished = false
+    var speechSynthesizer: SpeechSynthesizer? = null
 
-            @SuppressWarnings("EmptyFunctionBlock")
-            override fun onError(utteranceId: String) {}
-
-            override fun onDone(utteranceId: String) {
-                if (determineLength) {
-                    lengthOfText = SoundManager.getInstance().getDurationOfSoundFile(speechFile.absolutePath)
-                } else {
-                    SoundManager.getInstance().playSoundFile(speechFile.absolutePath, scope?.sprite)
-                }
-            }
-        }
-
-    override fun begin() {
-        interpretFormula()
-        hashText = Utils.md5Checksum(interpretedText.toString())
-        val fileName = hashText
-        val pathToSpeechFile = File(Constants.TEXT_TO_SPEECH_TMP_PATH)
-        pathToSpeechFile.mkdirs()
-        speechFile = File(pathToSpeechFile, fileName + Constants.DEFAULT_SOUND_EXTENSION)
-        super.begin()
+    override fun initialize() {
+        speechSynthesizer?.setUtteranceProgressListener(this::onError, this::onDone)
+        speechSynthesizer?.synthesize()
     }
 
-    override fun update(delta: Float) {
-        val speakParameter = HashMap<String, String?>()
-        speakParameter[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = hashText
-        TextToSpeechHolder.instance.textToSpeech(
-            interpretedText.toString(),
-            speechFile,
-            listener,
-            speakParameter
+    private fun onError() {
+        isFinished = true
+    }
+
+    private fun onDone() {
+        SoundManager.getInstance().playSoundFile(
+            speechSynthesizer?.speechFile?.absolutePath, speechSynthesizer?.scope?.sprite
         )
+        isFinished = true
     }
 
-    fun setDetermineLength(getDurationOfText: Boolean) {
-        determineLength = getDurationOfText
-    }
-
-    fun interpretFormula() {
-        interpretedText = try {
-            text?.interpretString(scope) ?: ""
-        } catch (interpretationException: InterpretationException) {
-            Log.d(javaClass.simpleName, "Formula interpretation for this specific Brick failed.", interpretationException)
-            ""
-        }
-        if (text?.root?.elementType != FormulaElement.ElementType.STRING && interpretedText is String) {
-            try {
-                val doubleValue = java.lang.Double.valueOf(interpretedText as String)
-                if (doubleValue.isNaN()) {
-                    interpretedText = ""
-                }
-            } catch (numberFormatException: NumberFormatException) {
-                Log.d(javaClass.simpleName, "Couldn't parse String", numberFormatException)
-            }
-        }
-    }
+    override fun isFinished(): Boolean = isFinished
 }

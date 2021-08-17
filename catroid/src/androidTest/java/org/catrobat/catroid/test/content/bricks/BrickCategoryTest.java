@@ -77,6 +77,7 @@ import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.EditLookBrick;
 import org.catrobat.catroid.content.bricks.ExitStageBrick;
+import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick;
 import org.catrobat.catroid.content.bricks.FinishStageBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForItemInUserListBrick;
@@ -276,7 +277,8 @@ public class BrickCategoryTest {
 						SetGravityBrick.class,
 						SetMassBrick.class,
 						SetBounceBrick.class,
-						SetFrictionBrick.class)},
+						SetFrictionBrick.class,
+						FadeParticleEffectBrick.class)},
 				{"Embroidery", Arrays.asList(StitchBrick.class,
 						SetThreadColorBrick.class,
 						RunningStitchBrick.class,
@@ -318,6 +320,7 @@ public class BrickCategoryTest {
 						ChangeBrightnessByNBrick.class,
 						SetColorBrick.class,
 						ChangeColorByNBrick.class,
+						FadeParticleEffectBrick.class,
 						ClearGraphicEffectBrick.class,
 						WhenBackgroundChangesBrick.class,
 						SetBackgroundBrick.class,

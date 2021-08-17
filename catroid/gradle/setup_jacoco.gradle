@@ -36,6 +36,7 @@ project.afterEvaluate {
 
     android.applicationVariants.all { variant ->
         def variantName = variant.name.capitalize()
+        def kotlinClassSubdirectory = variant.name
 
         def testTaskName = "test${variantName}UnitTest"
 
@@ -58,7 +59,9 @@ project.afterEvaluate {
                     'android/**/*.*'
             ]
             def javaClasses = fileTree(dir: variant.javaCompiler.destinationDir, excludes: excludes)
-            def kotlinClasses = fileTree(dir: "${buildDir}/tmp/kotlin-classes/${variantName}", excludes: excludes)
+            def kotlinClasses = fileTree(
+                    dir: "${buildDir}/tmp/kotlin-classes/${kotlinClassSubdirectory}",
+                    excludes: excludes)
             getClassDirectories().from(files([javaClasses, kotlinClasses]))
 
             getSourceDirectories().from(files([

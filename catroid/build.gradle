@@ -155,6 +155,8 @@ android {
         buildConfigField "boolean", "FEATURE_CATBLOCKS_DEBUGABLE", "false"
         resValue "string", "FEATURE_EMBROIDERY_PREFERENCES_ENABLED", "false"
         resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
+        resValue "string", "FEATURE_MINDSTORMS_PREFERENCES_ENABLED", "false"
+        resValue "string", "FEATURE_AI_PREFERENCES_ENABLED", "false"
         resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
         resValue "string", "DEBUG_MODE", "false"
     }
@@ -272,10 +274,16 @@ android {
         phiro {
             applicationIdSuffix '.phiro'
             resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "true"
+            resValue "string", "FEATURE_AI_PREFERENCES_ENABLED", "true"
         }
         pocketCodeBeta {
             applicationIdSuffix '.test'
             manifestPlaceholders.appName = "Pocket Code BETA-" + defaultVersionCode
+        }
+        mindstorms {
+            applicationIdSuffix '.mindstorms'
+            resValue "string", "FEATURE_MINDSTORMS_PREFERENCES_ENABLED", "true"
+            resValue "string", "FEATURE_AI_PREFERENCES_ENABLED", "true"
         }
         standalone {
             if (!project.hasProperty('packageName')) {

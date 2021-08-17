@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -53,7 +53,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 	public static final int PAIRS = 1;
 	public static final int MULTIPLE = 2;
 
-	List<T> items;
+	protected List<T> items;
 	public boolean showCheckBoxes = false;
 
 	@SelectionType
@@ -63,7 +63,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 	private SelectionListener selectionListener;
 	private OnItemClickListener<T> onItemClickListener;
 
-	RVAdapter(List<T> items) {
+	protected RVAdapter(List<T> items) {
 		this.items = items;
 	}
 
@@ -127,6 +127,12 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 		selectionListener.onSelectionChanged(selectionManager.getSelectedPositions().size());
 	}
 
+	public boolean add(int i, T item) {
+		items.add(i, item);
+		notifyItemInserted(items.indexOf(item));
+		return true;
+	}
+
 	public boolean add(T item) {
 		if (items.add(item)) {
 			notifyItemInserted(items.indexOf(item));
@@ -188,6 +194,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 			return false;
 		}
 		selectionManager.toggleSelection(items.indexOf(item));
+		notifyItemChanged(items.indexOf(item));
 		return true;
 	}
 

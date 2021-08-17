@@ -46,7 +46,7 @@ def webTestUrlParameter() {
 def allFlavoursParameters() {
     return env.BUILD_ALL_FLAVOURS?.toBoolean() ? 'assembleCreateAtSchoolDebug ' +
             'assembleLunaAndCatDebug assemblePhiroDebug assembleEmbroideryDesignerDebug ' +
-            'assemblePocketCodeBetaDebug' : ''
+            'assemblePocketCodeBetaDebug assembleMindstormsDebug' : ''
 }
 
 def debugUnitTests() {

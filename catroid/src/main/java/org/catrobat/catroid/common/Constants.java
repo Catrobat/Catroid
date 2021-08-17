@@ -42,7 +42,7 @@ import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTO
 
 public final class Constants {
 
-	public static final double CURRENT_CATROBAT_LANGUAGE_VERSION = 1.05;
+	public static final double CURRENT_CATROBAT_LANGUAGE_VERSION = 1.06;
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
 	public static final int CAST_NOT_SEEING_DEVICE_TIMEOUT = 3000; //in milliseconds
@@ -64,6 +64,7 @@ public final class Constants {
 			Environment.getExternalStorageDirectory(), POCKET_CODE_EXTERNAL_EXPORT_STORAGE_FOLDER_NAME);
 
 	public static final String CATROBAT_EXTENSION = ".catrobat";
+	public static final String ZIP_EXTENSION = ".zip";
 	public static final String DEFAULT_IMAGE_EXTENSION = ".png";
 	public static final String JPEG_IMAGE_EXTENSION = ".jpg";
 	public static final String DEFAULT_SOUND_EXTENSION = ".wav";
@@ -135,7 +136,6 @@ public final class Constants {
 	public static final String WEB_REQUEST_WIKI_URL = "https://catrob.at/webbricks";
 
 	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
-	public static final String CATROBAT_HELP_URL = "https://catrob.at/help";
 	public static final String CATROBAT_FUNCTIONS_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Functions/";
 	public static final String CATROBAT_LOGIC_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Logic/";
 	public static final String CATROBAT_SENSORS_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Sensors/";

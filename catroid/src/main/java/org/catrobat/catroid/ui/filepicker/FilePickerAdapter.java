@@ -28,24 +28,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 
 import java.io.File;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
-public class FilePickerAdapter extends RecyclerView.Adapter<FileVH> {
+public class FilePickerAdapter extends RVAdapter<File> {
 
-	private List<File> items;
-	private OnItemClickListener onItemClickListener;
-
-	public FilePickerAdapter(List<File> items) {
-		this.items = items;
-	}
-
-	public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-		this.onItemClickListener = onItemClickListener;
+	protected FilePickerAdapter(List<File> items) {
+		super(items);
 	}
 
 	@NonNull
@@ -56,18 +50,12 @@ public class FilePickerAdapter extends RecyclerView.Adapter<FileVH> {
 	}
 
 	@Override
-	public void onBindViewHolder(@NonNull FileVH holder, int position) {
-		final File item = items.get(position);
+	public void onBindViewHolder(CheckableVH holder, int position) {
+		super.onBindViewHolder(holder, position);
 
-		holder.itemView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				onItemClickListener.onItemClick(item);
-			}
-		});
-
+		File item = items.get(position);
 		holder.title.setText(item.getName());
-		holder.subtitle.setText(item.getAbsolutePath());
+		((FileVH) holder).subtitle.setText(item.getAbsolutePath());
 	}
 
 	@Override
@@ -78,5 +66,6 @@ public class FilePickerAdapter extends RecyclerView.Adapter<FileVH> {
 	public interface OnItemClickListener {
 
 		void onItemClick(File item);
+		boolean onItemLongClick(File item);
 	}
 }

@@ -33,11 +33,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.ListFragment
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.cast.CastManager
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter
 import org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile
 import org.catrobat.catroid.utils.ToastUtil
@@ -67,7 +69,11 @@ class AddBrickFragment : ListFragment() {
             onlyBeginnerBricks() -> CategoryBeginnerBricksFactory()
             else -> CategoryBricksFactory()
         }
-        val brickList = categoryBricksFactory.getBricks(selectedCategory, backgroundSprite == sprite, context)
+        val brickList = selectedCategory?.let { context?.let { it1 ->
+            categoryBricksFactory.getBricks(it, backgroundSprite == sprite,
+                                            it1
+            )
+        } }
         adapter = PrototypeBrickAdapter(brickList)
         listAdapter = adapter
     }
@@ -78,8 +84,9 @@ class AddBrickFragment : ListFragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
-        menu.findItem(R.id.comment_in_out).isVisible = false
         super.onCreateOptionsMenu(menu, menuInflater)
+        menu.findItem(R.id.comment_in_out).isVisible = false
+        menu.findItem(R.id.search).isVisible = false
     }
 
     override fun onDestroy() {
@@ -102,33 +109,12 @@ class AddBrickFragment : ListFragment() {
             listView.setSelection(listIndexToFocus)
             listIndexToFocus = -1
         }
-        listView.onItemClickListener = AdapterView.OnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long -> adapter?.getItem(position)?.let { addBrickToScript(it) } }
-    }
-
-    fun addBrickToScript(brick: Brick) {
-        if (projectManager.currentProject.isCastProject && CastManager.unsupportedBricks.contains(brick.javaClass)
-        ) {
-            ToastUtil.showError(activity, R.string.error_unsupported_bricks_chromecast)
-            return
-        }
-        try {
-            val brickToAdd = brick.clone()
-            addBrickListener?.addBrick(brickToAdd)
-            val fragmentTransaction = parentFragmentManager.beginTransaction()
-            val categoryFragment = parentFragmentManager.findFragmentByTag(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
-            if (categoryFragment != null) {
-                fragmentTransaction.remove(categoryFragment)
-                parentFragmentManager.popBackStack()
-            }
-            val addBrickFragment = parentFragmentManager.findFragmentByTag(ADD_BRICK_FRAGMENT_TAG)
-            if (addBrickFragment != null) {
-                fragmentTransaction.remove(addBrickFragment)
-                parentFragmentManager.popBackStack()
-            }
-            fragmentTransaction.commit()
-        } catch (e: CloneNotSupportedException) {
-            Log.e(tag, e.localizedMessage)
-            ToastUtil.showError(activity, R.string.error_adding_brick)
+        listView.onItemClickListener = AdapterView.OnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long -> adapter?.getItem(position)?.let { addBrickToScript(
+            it,
+            activity as SpriteActivity,
+            addBrickListener,
+            parentFragmentManager,
+            ADD_BRICK_FRAGMENT_TAG) }
         }
     }
 
@@ -150,5 +136,30 @@ class AddBrickFragment : ListFragment() {
             fragment.addBrickListener = addBrickListener
             return fragment
         }
+    }
+}
+fun addBrickToScript(brick: Brick, activity: SpriteActivity, addBrickListener: AddBrickFragment.OnAddBrickListener?, parentFragmentManager: FragmentManager, tag: String) {
+    if (ProjectManager.getInstance().currentProject.isCastProject && CastManager.unsupportedBricks.contains(brick.javaClass)) {
+        ToastUtil.showError(activity, R.string.error_unsupported_bricks_chromecast)
+        return
+    }
+    try {
+        val brickToAdd = brick.clone()
+        addBrickListener?.addBrick(brickToAdd)
+        val fragmentTransaction = parentFragmentManager.beginTransaction()
+        val categoryFragment = parentFragmentManager.findFragmentByTag(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
+        if (categoryFragment != null) {
+            fragmentTransaction.remove(categoryFragment)
+            parentFragmentManager.popBackStack()
+        }
+        val fragment = parentFragmentManager.findFragmentByTag(tag)
+        if (fragment != null) {
+            fragmentTransaction.remove(fragment)
+            parentFragmentManager.popBackStack()
+        }
+        fragmentTransaction.commit()
+    } catch (e: CloneNotSupportedException) {
+        Log.e(tag, e.localizedMessage)
+        ToastUtil.showError(activity, R.string.error_adding_brick)
     }
 }
