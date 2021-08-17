@@ -2158,4 +2158,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="fade_particle_effect">Fade particle effect</string>
     <string name="particle_effects_fade_in">in</string>
     <string name="particle_effects_fade_out">out</string>
+
+    <string name="turn_particle_effect_additivity">Turn particle effect additivity</string>
+    <string name="particle_effects_additive_on">on</string>
+    <string name="particle_effects_additive_off">off</string>
 </resources>

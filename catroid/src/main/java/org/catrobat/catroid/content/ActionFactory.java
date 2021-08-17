@@ -32,6 +32,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ParameterizedData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.actions.AddItemToUserListAction;
+import org.catrobat.catroid.content.actions.AdditiveParticleEffectAction;
 import org.catrobat.catroid.content.actions.ArduinoSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.ArduinoSendPWMValueAction;
 import org.catrobat.catroid.content.actions.AskAction;
@@ -1239,6 +1240,13 @@ public class ActionFactory extends Actions {
 		action.setFadeIn(turnOn);
 		action.setSprite(sprite);
 		action.setBackgroundSprite(ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite());
+		return action;
+	}
+
+	public Action createAdditiveParticleEffectsAction(Sprite sprite, boolean turnOn) {
+		AdditiveParticleEffectAction action = action(AdditiveParticleEffectAction.class);
+		action.setFadeIn(turnOn);
+		action.setSprite(sprite);
 		return action;
 	}
 

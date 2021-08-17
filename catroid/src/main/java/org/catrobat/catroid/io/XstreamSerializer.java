@@ -159,6 +159,7 @@ import org.catrobat.catroid.content.bricks.OpenUrlBrick;
 import org.catrobat.catroid.content.bricks.PaintNewLookBrick;
 import org.catrobat.catroid.content.bricks.ParameterizedBrick;
 import org.catrobat.catroid.content.bricks.ParameterizedEndBrick;
+import org.catrobat.catroid.content.bricks.ParticleEffectAdditivityBrick;
 import org.catrobat.catroid.content.bricks.PauseForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PenDownBrick;
 import org.catrobat.catroid.content.bricks.PenUpBrick;
@@ -380,6 +381,7 @@ public final class XstreamSerializer {
 		xstream.omitField(RaspiInterruptScript.class, "receivedMessage");
 
 		xstream.omitField(FadeParticleEffectBrick.class, "formulaList");
+		xstream.omitField(ParticleEffectAdditivityBrick.class, "formulaList");
 
 		xstream.alias("look", LookData.class);
 		xstream.alias("sound", SoundInfo.class);
@@ -626,6 +628,7 @@ public final class XstreamSerializer {
 		xstream.alias("nxtPort", LegoNXTSetting.NXTPort.class);
 
 		xstream.alias("brick", FadeParticleEffectBrick.class);
+		xstream.alias("brick", ParticleEffectAdditivityBrick.class);
 	}
 
 	public Project loadProject(File projectDir, Context context) throws IOException, LoadingProjectException {
