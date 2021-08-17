@@ -29,6 +29,77 @@ import org.catrobat.catroid.formulaeditor.Sensors
 object FormulaElementResources {
     @JvmStatic
     fun addSensorsResources(resources: MutableSet<Int?>, sensor: Sensors?) {
+        addDeviceSensorsResources(resources, sensor)
+        addExtensionSensorsResources(resources, sensor)
+        addAIExtensionSensorsResources(resources, sensor)
+        addCollisionSensorsResources(resources, sensor)
+    }
+
+    @JvmStatic
+    private fun addAIExtensionSensorsResources(resources: MutableSet<Int?>, sensor: Sensors?) {
+        addPoseDetectionSensorsResources(resources, sensor)
+        when (sensor) {
+            Sensors.FACE_DETECTED,
+            Sensors.FACE_SIZE,
+            Sensors.FACE_X_POSITION,
+            Sensors.FACE_Y_POSITION,
+            Sensors.SECOND_FACE_DETECTED,
+            Sensors.SECOND_FACE_SIZE,
+            Sensors.SECOND_FACE_X_POSITION,
+            Sensors.SECOND_FACE_Y_POSITION -> Brick.FACE_DETECTION
+
+            Sensors.TEXT_FROM_CAMERA,
+            Sensors.TEXT_BLOCKS_NUMBER,
+            Sensors.TEXT_BLOCK_X,
+            Sensors.TEXT_BLOCK_Y,
+            Sensors.TEXT_BLOCK_SIZE,
+            Sensors.TEXT_BLOCK_FROM_CAMERA,
+            Sensors.TEXT_BLOCK_LANGUAGE_FROM_CAMERA -> Brick.TEXT_DETECTION
+
+            Sensors.SPEECH_RECOGNITION_LANGUAGE -> Brick.SPEECH_RECOGNITION
+
+            else -> return
+        }.let { resources.add(it) }
+    }
+
+    @JvmStatic
+    private fun addPoseDetectionSensorsResources(resources: MutableSet<Int?>, sensor: Sensors?) {
+        when (sensor) {
+            Sensors.HEAD_TOP_X,
+            Sensors.HEAD_TOP_Y,
+            Sensors.NECK_X,
+            Sensors.NECK_Y,
+            Sensors.LEFT_SHOULDER_X,
+            Sensors.LEFT_SHOULDER_Y,
+            Sensors.RIGHT_SHOULDER_X,
+            Sensors.RIGHT_SHOULDER_Y,
+            Sensors.LEFT_ELBOW_X,
+            Sensors.LEFT_ELBOW_Y,
+            Sensors.RIGHT_ELBOW_X,
+            Sensors.RIGHT_ELBOW_Y,
+            Sensors.LEFT_WRIST_X,
+            Sensors.LEFT_WRIST_Y,
+            Sensors.RIGHT_WRIST_X,
+            Sensors.RIGHT_WRIST_Y,
+            Sensors.LEFT_HIP_X,
+            Sensors.LEFT_HIP_Y,
+            Sensors.RIGHT_HIP_X,
+            Sensors.RIGHT_HIP_Y,
+            Sensors.LEFT_KNEE_X,
+            Sensors.LEFT_KNEE_Y,
+            Sensors.RIGHT_KNEE_X,
+            Sensors.RIGHT_KNEE_Y,
+            Sensors.LEFT_ANKLE_X,
+            Sensors.LEFT_ANKLE_Y,
+            Sensors.RIGHT_ANKLE_X,
+            Sensors.RIGHT_ANKLE_Y -> Brick.POSE_DETECTION
+
+            else -> return
+        }.let { resources.add(it) }
+    }
+
+    @JvmStatic
+    private fun addDeviceSensorsResources(resources: MutableSet<Int?>, sensor: Sensors?) {
         when (sensor) {
             Sensors.X_ACCELERATION,
             Sensors.Y_ACCELERATION,
@@ -44,15 +115,17 @@ object FormulaElementResources {
             Sensors.LOCATION_ACCURACY,
             Sensors.ALTITUDE -> Brick.SENSOR_GPS
 
-            Sensors.FACE_DETECTED,
-            Sensors.FACE_SIZE,
-            Sensors.FACE_X_POSITION,
-            Sensors.FACE_Y_POSITION,
-            Sensors.SECOND_FACE_DETECTED,
-            Sensors.SECOND_FACE_SIZE,
-            Sensors.SECOND_FACE_X_POSITION,
-            Sensors.SECOND_FACE_Y_POSITION -> Brick.FACE_DETECTION
+            Sensors.NFC_TAG_MESSAGE,
+            Sensors.NFC_TAG_ID -> Brick.NFC_ADAPTER
 
+            Sensors.LOUDNESS -> Brick.MICROPHONE
+            else -> return
+        }.let { resources.add(it) }
+    }
+
+    @JvmStatic
+    private fun addExtensionSensorsResources(resources: MutableSet<Int?>, sensor: Sensors?) {
+        when (sensor) {
             Sensors.NXT_SENSOR_1,
             Sensors.NXT_SENSOR_2,
             Sensors.NXT_SENSOR_3,
@@ -70,30 +143,21 @@ object FormulaElementResources {
             Sensors.PHIRO_BOTTOM_LEFT,
             Sensors.PHIRO_BOTTOM_RIGHT -> Brick.BLUETOOTH_PHIRO
 
-            Sensors.NFC_TAG_MESSAGE,
-            Sensors.NFC_TAG_ID -> Brick.NFC_ADAPTER
-
-            Sensors.COLLIDES_WITH_EDGE,
-            Sensors.COLLIDES_WITH_FINGER -> Brick.COLLISION
-
             Sensors.GAMEPAD_A_PRESSED,
             Sensors.GAMEPAD_B_PRESSED,
             Sensors.GAMEPAD_DOWN_PRESSED,
             Sensors.GAMEPAD_UP_PRESSED,
             Sensors.GAMEPAD_LEFT_PRESSED,
             Sensors.GAMEPAD_RIGHT_PRESSED -> Brick.CAST_REQUIRED
+            else -> return
+        }.let { resources.add(it) }
+    }
 
-            Sensors.LOUDNESS -> Brick.MICROPHONE
-
-            Sensors.TEXT_FROM_CAMERA,
-            Sensors.TEXT_BLOCKS_NUMBER,
-            Sensors.TEXT_BLOCK_X,
-            Sensors.TEXT_BLOCK_Y,
-            Sensors.TEXT_BLOCK_SIZE,
-            Sensors.TEXT_BLOCK_FROM_CAMERA,
-            Sensors.TEXT_BLOCK_LANGUAGE_FROM_CAMERA -> Brick.TEXT_DETECTION
-
-            Sensors.SPEECH_RECOGNITION_LANGUAGE -> Brick.SPEECH_RECOGNITION
+    @JvmStatic
+    private fun addCollisionSensorsResources(resources: MutableSet<Int?>, sensor: Sensors?) {
+        when (sensor) {
+            Sensors.COLLIDES_WITH_EDGE,
+            Sensors.COLLIDES_WITH_FINGER -> Brick.COLLISION
 
             else -> return
         }.let { resources.add(it) }

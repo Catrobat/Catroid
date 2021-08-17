@@ -856,6 +856,7 @@
     <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
     <string name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
+    <string name="prestage_no_pose_detection_available">\u2022 Pose detection\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Front camera\n</string>
     <string name="prestage_no_camera_available">\u2022 Camera\n</string>
@@ -1926,6 +1927,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_object_look">Look properties</string>
     <string name="formula_editor_object_movement">Motion properties</string>
     <string name="formula_editor_device_face_detection">Face detection</string>
+    <string name="formula_editor_device_pose_detection">Pose detection</string>
     <string name="formula_editor_device_text_recognition">Text recognition</string>
     <string name="formula_editor_device_date_and_time">Date and time</string>
     <string name="formula_editor_device_touch_detection">Touch detection</string>
@@ -1974,6 +1976,34 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_second_face_size">second face size</string>
     <string name="formula_editor_sensor_second_face_x_position">second face x position</string>
     <string name="formula_editor_sensor_second_face_y_position">second face y position</string>
+    <string name="formula_editor_sensor_head_top_x">head top x</string>
+    <string name="formula_editor_sensor_head_top_y">head top y</string>
+    <string name="formula_editor_sensor_neck_x">neck x</string>
+    <string name="formula_editor_sensor_neck_y">neck y</string>
+    <string name="formula_editor_sensor_left_shoulder_x">left shoulder x</string>
+    <string name="formula_editor_sensor_left_shoulder_y">left shoulder y</string>
+    <string name="formula_editor_sensor_right_shoulder_x">right shoulder x</string>
+    <string name="formula_editor_sensor_right_shoulder_y">right shoulder y</string>
+    <string name="formula_editor_sensor_left_elbow_x">left elbow x</string>
+    <string name="formula_editor_sensor_left_elbow_y">left elbow y</string>
+    <string name="formula_editor_sensor_right_elbow_x">right elbow x</string>
+    <string name="formula_editor_sensor_right_elbow_y">right elbow y</string>
+    <string name="formula_editor_sensor_left_wrist_x">left wrist x</string>
+    <string name="formula_editor_sensor_left_wrist_y">left wrist y</string>
+    <string name="formula_editor_sensor_right_wrist_x">right wrist x</string>
+    <string name="formula_editor_sensor_right_wrist_y">right wrist y</string>
+    <string name="formula_editor_sensor_left_hip_x">left hip x</string>
+    <string name="formula_editor_sensor_left_hip_y">left hip y</string>
+    <string name="formula_editor_sensor_right_hip_x">right hip x</string>
+    <string name="formula_editor_sensor_right_hip_y">right hip y</string>
+    <string name="formula_editor_sensor_left_knee_x">left knee x</string>
+    <string name="formula_editor_sensor_left_knee_y">left knee y</string>
+    <string name="formula_editor_sensor_right_knee_x">right knee x</string>
+    <string name="formula_editor_sensor_right_knee_y">right knee y</string>
+    <string name="formula_editor_sensor_left_ankle_x">left ankle x</string>
+    <string name="formula_editor_sensor_left_ankle_y">left ankle y</string>
+    <string name="formula_editor_sensor_right_ankle_x">right ankle x</string>
+    <string name="formula_editor_sensor_right_ankle_y">right ankle y</string>
     <string name="formula_editor_sensor_text_from_camera">text from camera</string>
     <string name="formula_editor_sensor_text_blocks_number">number of text blocks</string>
     <string name="formula_editor_function_text_block_x">text block x from camera</string>
@@ -2049,6 +2079,10 @@ needs read and write access to it. You can always change permissions through you
     </string>
     <string name="camera_error_face_detection">
         There was a problem with face detection. Some components may still be downloading in the
+        background. Please make sure you are connected to the internet and check back later.
+    </string>
+    <string name="camera_error_pose_detection">
+        There was a problem with pose detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.
     </string>
     <!-- -->

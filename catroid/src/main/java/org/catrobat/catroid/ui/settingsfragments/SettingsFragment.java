@@ -331,6 +331,16 @@ public class SettingsFragment extends PreferenceFragment {
 				.apply();
 	}
 
+	public static boolean isAIPoseDetectionSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS, context);
+	}
+
+	public static void setAIPoseDetectionPreferenceEnabled(Context context, boolean value) {
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS, value)
+				.apply();
+	}
+
 	public static boolean isAISpeechSynthetizationSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS, context);
 	}
