@@ -196,6 +196,10 @@ public final class ProjectManager {
 			SettingsFragment.setAIFaceDetectionPreferenceEnabled(context, true);
 		}
 
+		if (resourcesSet.contains(Brick.POSE_DETECTION)) {
+			SettingsFragment.setAIPoseDetectionPreferenceEnabled(context, true);
+		}
+
 		if (resourcesSet.contains(Brick.TEXT_TO_SPEECH)) {
 			SettingsFragment.setAISpeechSynthetizationPreferenceEnabled(context, true);
 		}

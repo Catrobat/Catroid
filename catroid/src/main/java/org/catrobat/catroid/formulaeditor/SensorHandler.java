@@ -41,7 +41,7 @@ import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
-import org.catrobat.catroid.camera.FaceAndTextDetector;
+import org.catrobat.catroid.camera.FaceTextPoseDetector;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
@@ -86,6 +86,72 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private float secondFaceSize = 0f;
 	private float secondFacePositionX = 0f;
 	private float secondFacePositionY = 0f;
+	private float noseX = 0f;
+	private float noseY = 0f;
+	private float leftEyeInnerX = 0f;
+	private float leftEyeInnerY = 0f;
+	private float leftEyeCenterX = 0f;
+	private float leftEyeCenterY = 0f;
+	private float leftEyeOuterX = 0f;
+	private float leftEyeOuterY = 0f;
+	private float rightEyeInnerX = 0f;
+	private float rightEyeInnerY = 0f;
+	private float rightEyeCenterX = 0f;
+	private float rightEyeCenterY = 0f;
+	private float rightEyeOuterX = 0f;
+	private float rightEyeOuterY = 0f;
+	private float leftEarX = 0f;
+	private float leftEarY = 0f;
+	private float rightEarX = 0f;
+	private float rightEarY = 0f;
+	private float mouthLeftCornerX = 0f;
+	private float mouthLeftCornerY = 0f;
+	private float mouthRightCornerX = 0f;
+	private float mouthRightCornerY = 0f;
+	private float leftShoulderX = 0f;
+	private float leftShoulderY = 0f;
+	private float rightShoulderX = 0f;
+	private float rightShoulderY = 0f;
+	private float leftElbowX = 0f;
+	private float leftElbowY = 0f;
+	private float rightElbowX = 0f;
+	private float rightElbowY = 0f;
+	private float leftWristX = 0f;
+	private float leftWristY = 0f;
+	private float rightWristX = 0f;
+	private float rightWristY = 0f;
+	private float leftPinkyKnuckleX = 0f;
+	private float leftPinkyKnuckleY = 0f;
+	private float rightPinkyKnuckleX = 0f;
+	private float rightPinkyKnuckleY = 0f;
+	private float leftIndexKnuckleX = 0f;
+	private float leftIndexKnuckleY = 0f;
+	private float rightIndexKnuckleX = 0f;
+	private float rightIndexKnuckleY = 0f;
+	private float leftThumbKnuckleX = 0f;
+	private float leftThumbKnuckleY = 0f;
+	private float rightThumbKnuckleX = 0f;
+	private float rightThumbKnuckleY = 0f;
+	private float leftHipX = 0f;
+	private float leftHipY = 0f;
+	private float rightHipX = 0f;
+	private float rightHipY = 0f;
+	private float leftKneeX = 0f;
+	private float leftKneeY = 0f;
+	private float rightKneeX = 0f;
+	private float rightKneeY = 0f;
+	private float leftAnkleX = 0f;
+	private float leftAnkleY = 0f;
+	private float rightAnkleX = 0f;
+	private float rightAnkleY = 0f;
+	private float leftHeelX = 0f;
+	private float leftHeelY = 0f;
+	private float rightHeelX = 0f;
+	private float rightHeelY = 0f;
+	private float leftFootIndexX = 0f;
+	private float leftFootIndexY = 0f;
+	private float rightFootIndexX = 0f;
+	private float rightFootIndexY = 0f;
 	private float textBlocksNumber = 0f;
 	private String textFromCamera = "0";
 
@@ -206,7 +272,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 		SensorHandler.registerListener(instance);
 
-		FaceAndTextDetector.addListener(instance);
+		FaceTextPoseDetector.addListener(instance);
 
 		if (instance.sensorLoudness != null) {
 			instance.sensorLoudness.registerListener(instance);
@@ -277,7 +343,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			instance.locationManager.removeGpsStatusListener(instance);
 		}
 
-		FaceAndTextDetector.removeListener(instance);
+		FaceTextPoseDetector.removeListener(instance);
 	}
 
 	public static Object getSensorValue(Sensors sensor) {
@@ -290,19 +356,11 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 		switch (sensor) {
 			case X_ACCELERATION:
-				if ((rotate = rotateOrientation()) != 0) {
-					return (double) ((-instance.linearAccelerationY) * rotate);
-				} else {
-					return (double) instance.linearAccelerationX;
-				}
-
+				return getXAccordingToRotation(instance.linearAccelerationX,
+						instance.linearAccelerationY);
 			case Y_ACCELERATION:
-				if ((rotate = rotateOrientation()) != 0) {
-					return (double) (instance.linearAccelerationX * rotate);
-				} else {
-					return (double) instance.linearAccelerationY;
-				}
-
+				return getYAccordingToRotation(instance.linearAccelerationX,
+						instance.linearAccelerationY);
 			case Z_ACCELERATION:
 				return (double) instance.linearAccelerationZ;
 
@@ -447,33 +505,153 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case FACE_SIZE:
 				return (double) instance.firstFaceSize;
 			case FACE_X_POSITION:
-				if ((rotate = rotateOrientation()) != 0) {
-					return (double) ((-instance.firstFacePositionY) * rotate);
-				} else {
-					return (double) instance.firstFacePositionX;
-				}
+				return getXAccordingToRotation(instance.firstFacePositionX,
+						instance.firstFacePositionY);
 			case FACE_Y_POSITION:
-				if ((rotate = rotateOrientation()) != 0) {
-					return (double) instance.firstFacePositionX * rotate;
-				} else {
-					return (double) instance.firstFacePositionY;
-				}
+				return getYAccordingToRotation(instance.firstFacePositionX,
+						instance.firstFacePositionY);
 			case SECOND_FACE_DETECTED:
 				return (double) instance.secondFaceDetected;
 			case SECOND_FACE_SIZE:
 				return (double) instance.secondFaceSize;
 			case SECOND_FACE_X_POSITION:
-				if ((rotate = rotateOrientation()) != 0) {
-					return (double) ((-instance.secondFacePositionY) * rotate);
-				} else {
-					return (double) instance.secondFacePositionX;
-				}
+				return getXAccordingToRotation(instance.secondFacePositionX,
+						instance.secondFacePositionY);
 			case SECOND_FACE_Y_POSITION:
-				if ((rotate = rotateOrientation()) != 0) {
-					return (double) instance.secondFacePositionX * rotate;
-				} else {
-					return (double) instance.secondFacePositionY;
-				}
+				return getYAccordingToRotation(instance.secondFacePositionX,
+						instance.secondFacePositionY);
+			case NOSE_X:
+				return getXAccordingToRotation(instance.noseX, instance.noseY);
+			case NOSE_Y:
+				return getYAccordingToRotation(instance.noseX, instance.noseY);
+			case LEFT_EYE_INNER_X:
+				return getXAccordingToRotation(instance.leftEyeInnerX, instance.leftEyeInnerY);
+			case LEFT_EYE_INNER_Y:
+				return getYAccordingToRotation(instance.leftEyeInnerX, instance.leftEyeInnerY);
+			case LEFT_EYE_CENTER_X:
+				return getXAccordingToRotation(instance.leftEyeCenterX, instance.leftEyeCenterY);
+			case LEFT_EYE_CENTER_Y:
+				return getYAccordingToRotation(instance.leftEyeCenterX, instance.leftEyeCenterY);
+			case LEFT_EYE_OUTER_X:
+				return getXAccordingToRotation(instance.leftEyeOuterX, instance.leftEyeOuterY);
+			case LEFT_EYE_OUTER_Y:
+				return getYAccordingToRotation(instance.leftEyeOuterX, instance.leftEyeOuterY);
+			case RIGHT_EYE_INNER_X:
+				return getXAccordingToRotation(instance.rightEyeInnerX, instance.rightEyeInnerY);
+			case RIGHT_EYE_INNER_Y:
+				return getYAccordingToRotation(instance.rightEyeInnerX, instance.rightEyeInnerY);
+			case RIGHT_EYE_CENTER_X:
+				return getXAccordingToRotation(instance.rightEyeCenterX, instance.rightEyeCenterY);
+			case RIGHT_EYE_CENTER_Y:
+				return getYAccordingToRotation(instance.rightEyeCenterX, instance.rightEyeCenterY);
+			case RIGHT_EYE_OUTER_X:
+				return getXAccordingToRotation(instance.rightEyeOuterX, instance.rightEyeOuterY);
+			case RIGHT_EYE_OUTER_Y:
+				return getYAccordingToRotation(instance.rightEyeOuterX, instance.rightEyeOuterY);
+			case LEFT_EAR_X:
+				return getXAccordingToRotation(instance.leftEarX, instance.leftEarY);
+			case LEFT_EAR_Y:
+				return getYAccordingToRotation(instance.leftEarX, instance.leftEarY);
+			case RIGHT_EAR_X:
+				return getXAccordingToRotation(instance.rightEarX, instance.rightEarY);
+			case RIGHT_EAR_Y:
+				return getYAccordingToRotation(instance.rightEarX, instance.rightEarY);
+			case MOUTH_LEFT_CORNER_X:
+				return getXAccordingToRotation(instance.mouthLeftCornerX, instance.mouthLeftCornerY);
+			case MOUTH_LEFT_CORNER_Y:
+				return getYAccordingToRotation(instance.mouthLeftCornerX, instance.mouthLeftCornerY);
+			case MOUTH_RIGHT_CORNER_X:
+				return getXAccordingToRotation(instance.mouthRightCornerX, instance.mouthRightCornerY);
+			case MOUTH_RIGHT_CORNER_Y:
+				return getYAccordingToRotation(instance.mouthRightCornerX, instance.mouthRightCornerY);
+			case LEFT_SHOULDER_X:
+				return getXAccordingToRotation(instance.leftShoulderX, instance.leftShoulderY);
+			case LEFT_SHOULDER_Y:
+				return getYAccordingToRotation(instance.leftShoulderX, instance.leftShoulderY);
+			case RIGHT_SHOULDER_X:
+				return getXAccordingToRotation(instance.rightShoulderX, instance.rightShoulderY);
+			case RIGHT_SHOULDER_Y:
+				return getYAccordingToRotation(instance.rightShoulderX, instance.rightShoulderY);
+			case LEFT_ELBOW_X:
+				return getXAccordingToRotation(instance.leftElbowX, instance.leftElbowY);
+			case LEFT_ELBOW_Y:
+				return getYAccordingToRotation(instance.leftElbowX, instance.leftElbowY);
+			case RIGHT_ELBOW_X:
+				return getXAccordingToRotation(instance.rightElbowX, instance.rightElbowY);
+			case RIGHT_ELBOW_Y:
+				return getYAccordingToRotation(instance.rightElbowX, instance.rightElbowY);
+			case LEFT_WRIST_X:
+				return getXAccordingToRotation(instance.leftWristX, instance.leftWristY);
+			case LEFT_WRIST_Y:
+				return getYAccordingToRotation(instance.leftWristX, instance.leftWristY);
+			case RIGHT_WRIST_X:
+				return getXAccordingToRotation(instance.rightWristX, instance.rightWristY);
+			case RIGHT_WRIST_Y:
+				return getYAccordingToRotation(instance.rightWristX, instance.rightWristY);
+			case LEFT_PINKY_KNUCKLE_X:
+				return getXAccordingToRotation(instance.leftPinkyKnuckleX, instance.leftPinkyKnuckleY);
+			case LEFT_PINKY_KNUCKLE_Y:
+				return getYAccordingToRotation(instance.leftPinkyKnuckleX, instance.leftPinkyKnuckleY);
+			case RIGHT_PINKY_KNUCKLE_X:
+				return getXAccordingToRotation(instance.rightPinkyKnuckleX, instance.rightPinkyKnuckleY);
+			case RIGHT_PINKY_KNUCKLE_Y:
+				return getYAccordingToRotation(instance.rightPinkyKnuckleX, instance.rightPinkyKnuckleY);
+			case LEFT_INDEX_KNUCKLE_X:
+				return getXAccordingToRotation(instance.leftIndexKnuckleX, instance.leftIndexKnuckleY);
+			case LEFT_INDEX_KNUCKLE_Y:
+				return getYAccordingToRotation(instance.leftIndexKnuckleX, instance.leftIndexKnuckleY);
+			case RIGHT_INDEX_KNUCKLE_X:
+				return getXAccordingToRotation(instance.rightIndexKnuckleX, instance.rightIndexKnuckleY);
+			case RIGHT_INDEX_KNUCKLE_Y:
+				return getYAccordingToRotation(instance.rightIndexKnuckleX, instance.rightIndexKnuckleY);
+			case LEFT_THUMB_KNUCKLE_X:
+				return getXAccordingToRotation(instance.leftThumbKnuckleX, instance.leftThumbKnuckleY);
+			case LEFT_THUMB_KNUCKLE_Y:
+				return getYAccordingToRotation(instance.leftThumbKnuckleX, instance.leftThumbKnuckleY);
+			case RIGHT_THUMB_KNUCKLE_X:
+				return getXAccordingToRotation(instance.rightThumbKnuckleX, instance.rightThumbKnuckleY);
+			case RIGHT_THUMB_KNUCKLE_Y:
+				return getYAccordingToRotation(instance.rightThumbKnuckleX, instance.rightThumbKnuckleY);
+			case LEFT_HIP_X:
+				return getXAccordingToRotation(instance.leftHipX, instance.leftHipY);
+			case LEFT_HIP_Y:
+				return getYAccordingToRotation(instance.leftHipX, instance.leftHipY);
+			case RIGHT_HIP_X:
+				return getXAccordingToRotation(instance.rightHipX, instance.rightHipY);
+			case RIGHT_HIP_Y:
+				return getYAccordingToRotation(instance.rightHipX, instance.rightHipY);
+			case LEFT_KNEE_X:
+				return getXAccordingToRotation(instance.leftKneeX, instance.leftKneeY);
+			case LEFT_KNEE_Y:
+				return getYAccordingToRotation(instance.leftKneeX, instance.leftKneeY);
+			case RIGHT_KNEE_X:
+				return getXAccordingToRotation(instance.rightKneeX, instance.rightKneeY);
+			case RIGHT_KNEE_Y:
+				return getYAccordingToRotation(instance.rightKneeX, instance.rightKneeY);
+			case LEFT_ANKLE_X:
+				return getXAccordingToRotation(instance.leftAnkleX, instance.leftAnkleY);
+			case LEFT_ANKLE_Y:
+				return getYAccordingToRotation(instance.leftAnkleX, instance.leftAnkleY);
+			case RIGHT_ANKLE_X:
+				return getXAccordingToRotation(instance.rightAnkleX, instance.rightAnkleY);
+			case RIGHT_ANKLE_Y:
+				return getYAccordingToRotation(instance.rightAnkleX, instance.rightAnkleY);
+			case LEFT_HEEL_X:
+				return getXAccordingToRotation(instance.leftHeelX, instance.leftHeelY);
+			case LEFT_HEEL_Y:
+				return getYAccordingToRotation(instance.leftHeelX, instance.leftHeelY);
+			case RIGHT_HEEL_X:
+				return getXAccordingToRotation(instance.rightHeelX, instance.rightHeelY);
+			case RIGHT_HEEL_Y:
+				return getYAccordingToRotation(instance.rightHeelX, instance.rightHeelY);
+			case LEFT_FOOT_INDEX_X:
+				return getXAccordingToRotation(instance.leftFootIndexX, instance.leftFootIndexY);
+			case LEFT_FOOT_INDEX_Y:
+				return getYAccordingToRotation(instance.leftFootIndexX, instance.leftFootIndexY);
+			case RIGHT_FOOT_INDEX_X:
+				return getXAccordingToRotation(instance.rightFootIndexX, instance.rightFootIndexY);
+			case RIGHT_FOOT_INDEX_Y:
+				return getYAccordingToRotation(instance.rightFootIndexX, instance.rightFootIndexY);
 			case TEXT_FROM_CAMERA:
 				return instance.textFromCamera;
 			case TEXT_BLOCKS_NUMBER:
@@ -579,21 +757,6 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		Log.d(TAG, "listening language sensor changed to: " + listeningLanguageSensor);
 	}
 
-	public static void clearFaceDetectionValues() {
-		if (instance != null) {
-			instance.firstFaceDetected = 0f;
-			instance.firstFaceSize = 0f;
-			instance.firstFacePositionX = 0f;
-			instance.firstFacePositionY = 0f;
-			instance.secondFaceDetected = 0f;
-			instance.secondFaceSize = 0f;
-			instance.secondFacePositionX = 0f;
-			instance.secondFacePositionY = 0f;
-			instance.textFromCamera = "0";
-			instance.textBlocksNumber = 0f;
-		}
-	}
-
 	@Override
 	public void onAccuracyChanged(Sensor arg0, int arg1) {
 	}
@@ -612,6 +775,30 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			return ProjectManager.getInstance().isCurrentProjectLandscapeMode() ? 1 : -1;
 		}
 		return 0;
+	}
+
+	private static double getXAccordingToRotation(
+			float firstCoordinate,
+			float secondCoordinate
+	) {
+		int rotate;
+		if ((rotate = rotateOrientation()) != 0) {
+			return ((-secondCoordinate) * rotate);
+		} else {
+			return firstCoordinate;
+		}
+	}
+
+	private static double getYAccordingToRotation(
+			float firstCoordinate,
+			float secondCoordinate
+	) {
+		int rotate;
+		if ((rotate = rotateOrientation()) != 0) {
+			return ((firstCoordinate) * rotate);
+		} else {
+			return secondCoordinate;
+		}
 	}
 
 	@Override
@@ -698,6 +885,204 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				break;
 			case TEXT_FROM_CAMERA:
 				instance.textFromCamera = event.valuesString[0];
+				break;
+			case NOSE_X:
+				instance.noseX = event.values[0];
+				break;
+			case NOSE_Y:
+				instance.noseY = event.values[0];
+				break;
+			case LEFT_EYE_INNER_X:
+				instance.leftEyeInnerX = event.values[0];
+				break;
+			case LEFT_EYE_INNER_Y:
+				instance.leftEyeInnerY = event.values[0];
+				break;
+			case LEFT_EYE_CENTER_X:
+				instance.leftEyeCenterX = event.values[0];
+				break;
+			case LEFT_EYE_CENTER_Y:
+				instance.leftEyeCenterY = event.values[0];
+				break;
+			case LEFT_EYE_OUTER_X:
+				instance.leftEyeOuterX = event.values[0];
+				break;
+			case LEFT_EYE_OUTER_Y:
+				instance.leftEyeOuterY = event.values[0];
+				break;
+			case RIGHT_EYE_INNER_X:
+				instance.rightEyeInnerX = event.values[0];
+				break;
+			case RIGHT_EYE_INNER_Y:
+				instance.rightEyeInnerY = event.values[0];
+				break;
+			case RIGHT_EYE_CENTER_X:
+				instance.rightEyeCenterX = event.values[0];
+				break;
+			case RIGHT_EYE_CENTER_Y:
+				instance.rightEyeCenterY = event.values[0];
+				break;
+			case RIGHT_EYE_OUTER_X:
+				instance.rightEyeOuterX = event.values[0];
+				break;
+			case RIGHT_EYE_OUTER_Y:
+				instance.rightEyeOuterY = event.values[0];
+				break;
+			case LEFT_EAR_X:
+				instance.leftEarX = event.values[0];
+				break;
+			case LEFT_EAR_Y:
+				instance.leftEarY = event.values[0];
+				break;
+			case RIGHT_EAR_X:
+				instance.rightEarX = event.values[0];
+				break;
+			case RIGHT_EAR_Y:
+				instance.rightEarY = event.values[0];
+				break;
+			case MOUTH_LEFT_CORNER_X:
+				instance.mouthLeftCornerX = event.values[0];
+				break;
+			case MOUTH_LEFT_CORNER_Y:
+				instance.mouthLeftCornerY = event.values[0];
+				break;
+			case MOUTH_RIGHT_CORNER_X:
+				instance.mouthRightCornerX = event.values[0];
+				break;
+			case MOUTH_RIGHT_CORNER_Y:
+				instance.mouthRightCornerY = event.values[0];
+				break;
+			case LEFT_SHOULDER_X:
+				instance.leftShoulderX = event.values[0];
+				break;
+			case LEFT_SHOULDER_Y:
+				instance.leftShoulderY = event.values[0];
+				break;
+			case RIGHT_SHOULDER_X:
+				instance.rightShoulderX = event.values[0];
+				break;
+			case RIGHT_SHOULDER_Y:
+				instance.rightShoulderY = event.values[0];
+				break;
+			case LEFT_ELBOW_X:
+				instance.leftElbowX = event.values[0];
+				break;
+			case LEFT_ELBOW_Y:
+				instance.leftElbowY = event.values[0];
+				break;
+			case RIGHT_ELBOW_X:
+				instance.rightElbowX = event.values[0];
+				break;
+			case RIGHT_ELBOW_Y:
+				instance.rightElbowY = event.values[0];
+				break;
+			case LEFT_WRIST_X:
+				instance.leftWristX = event.values[0];
+				break;
+			case LEFT_WRIST_Y:
+				instance.leftWristY = event.values[0];
+				break;
+			case RIGHT_WRIST_X:
+				instance.rightWristX = event.values[0];
+				break;
+			case RIGHT_WRIST_Y:
+				instance.rightWristY = event.values[0];
+				break;
+			case LEFT_PINKY_KNUCKLE_X:
+				instance.leftPinkyKnuckleX = event.values[0];
+				break;
+			case LEFT_PINKY_KNUCKLE_Y:
+				instance.leftPinkyKnuckleY = event.values[0];
+				break;
+			case RIGHT_PINKY_KNUCKLE_X:
+				instance.rightPinkyKnuckleX = event.values[0];
+				break;
+			case RIGHT_PINKY_KNUCKLE_Y:
+				instance.rightPinkyKnuckleY = event.values[0];
+				break;
+			case LEFT_INDEX_KNUCKLE_X:
+				instance.leftIndexKnuckleX = event.values[0];
+				break;
+			case LEFT_INDEX_KNUCKLE_Y:
+				instance.leftIndexKnuckleY = event.values[0];
+				break;
+			case RIGHT_INDEX_KNUCKLE_X:
+				instance.rightIndexKnuckleX = event.values[0];
+				break;
+			case RIGHT_INDEX_KNUCKLE_Y:
+				instance.rightIndexKnuckleY = event.values[0];
+				break;
+			case LEFT_THUMB_KNUCKLE_X:
+				instance.leftThumbKnuckleX = event.values[0];
+				break;
+			case LEFT_THUMB_KNUCKLE_Y:
+				instance.leftThumbKnuckleY = event.values[0];
+				break;
+			case RIGHT_THUMB_KNUCKLE_X:
+				instance.rightThumbKnuckleX = event.values[0];
+				break;
+			case RIGHT_THUMB_KNUCKLE_Y:
+				instance.rightThumbKnuckleY = event.values[0];
+				break;
+			case LEFT_HIP_X:
+				instance.leftHipX = event.values[0];
+				break;
+			case LEFT_HIP_Y:
+				instance.leftHipY = event.values[0];
+				break;
+			case RIGHT_HIP_X:
+				instance.rightHipX = event.values[0];
+				break;
+			case RIGHT_HIP_Y:
+				instance.rightHipY = event.values[0];
+				break;
+			case LEFT_KNEE_X:
+				instance.leftKneeX = event.values[0];
+				break;
+			case LEFT_KNEE_Y:
+				instance.leftKneeY = event.values[0];
+				break;
+			case RIGHT_KNEE_X:
+				instance.rightKneeX = event.values[0];
+				break;
+			case RIGHT_KNEE_Y:
+				instance.rightKneeY = event.values[0];
+				break;
+			case LEFT_ANKLE_X:
+				instance.leftAnkleX = event.values[0];
+				break;
+			case LEFT_ANKLE_Y:
+				instance.leftAnkleY = event.values[0];
+				break;
+			case RIGHT_ANKLE_X:
+				instance.rightAnkleX = event.values[0];
+				break;
+			case RIGHT_ANKLE_Y:
+				instance.rightAnkleY = event.values[0];
+				break;
+			case LEFT_HEEL_X:
+				instance.leftHeelX = event.values[0];
+				break;
+			case LEFT_HEEL_Y:
+				instance.leftHeelY = event.values[0];
+				break;
+			case RIGHT_HEEL_X:
+				instance.rightHeelX = event.values[0];
+				break;
+			case RIGHT_HEEL_Y:
+				instance.rightHeelY = event.values[0];
+				break;
+			case LEFT_FOOT_INDEX_X:
+				instance.leftFootIndexX = event.values[0];
+				break;
+			case LEFT_FOOT_INDEX_Y:
+				instance.leftFootIndexY = event.values[0];
+				break;
+			case RIGHT_FOOT_INDEX_X:
+				instance.rightFootIndexX = event.values[0];
+				break;
+			case RIGHT_FOOT_INDEX_Y:
+				instance.rightFootIndexY = event.values[0];
 				break;
 			default:
 				Log.v(TAG, "Unhandled sensor: " + event.sensor);

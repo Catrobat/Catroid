@@ -29,7 +29,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.rule.GrantPermissionRule
 import com.google.mlkit.vision.face.Face
 import org.catrobat.catroid.ProjectManager
-import org.catrobat.catroid.camera.FaceAndTextDetector
+import org.catrobat.catroid.camera.FaceTextPoseDetector
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.formulaeditor.SensorHandler
 import org.catrobat.catroid.formulaeditor.SensorLoudness
@@ -81,10 +81,10 @@ class SensorHandlerTest {
 
         val firstFaceSize = 50
         val firstFacePosition = Point(15, -15)
-        FaceAndTextDetector.facesForSensors[0] = Mockito.mock(Face::class.java)
+        FaceTextPoseDetector.facesForSensors[0] = Mockito.mock(Face::class.java)
 
-        FaceAndTextDetector.updateDetectionStatus()
-        FaceAndTextDetector.onFaceDetected(firstFacePosition, firstFaceSize, 0)
+        FaceTextPoseDetector.updateFaceDetectionStatusSensorValues()
+        FaceTextPoseDetector.updateFaceSensorValues(firstFacePosition, firstFaceSize, 0)
 
         compareToSensor(1, Sensors.FACE_DETECTED)
         compareToSensor(firstFaceSize, Sensors.FACE_SIZE)
@@ -100,10 +100,10 @@ class SensorHandlerTest {
 
         val secondFaceSize = 50
         val secondFacePosition = Point(15, -15)
-        FaceAndTextDetector.facesForSensors[1] = Mockito.mock(Face::class.java)
+        FaceTextPoseDetector.facesForSensors[1] = Mockito.mock(Face::class.java)
 
-        FaceAndTextDetector.updateDetectionStatus()
-        FaceAndTextDetector.onFaceDetected(secondFacePosition, secondFaceSize, 1)
+        FaceTextPoseDetector.updateFaceDetectionStatusSensorValues()
+        FaceTextPoseDetector.updateFaceSensorValues(secondFacePosition, secondFaceSize, 1)
 
         compareToSensor(1, Sensors.SECOND_FACE_DETECTED)
         compareToSensor(secondFaceSize, Sensors.SECOND_FACE_SIZE)

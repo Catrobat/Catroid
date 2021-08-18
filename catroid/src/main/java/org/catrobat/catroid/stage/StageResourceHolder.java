@@ -228,6 +228,14 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			}
 		}
 
+		if (requiredResourcesSet.contains(Brick.POSE_DETECTION)) {
+			if (getCameraManager().startDetection()) {
+				resourceInitialized();
+			} else {
+				resourceFailed(Brick.POSE_DETECTION);
+			}
+		}
+
 		if (requiredResourcesSet.contains(Brick.TEXT_DETECTION)) {
 			if (getCameraManager().startDetection()) {
 				resourceInitialized();
@@ -413,6 +421,10 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 				case Brick.TEXT_DETECTION:
 					failedResourcesMessage.append(stageActivity.getString(R.string
 							.prestage_no_text_detection_available));
+					break;
+				case Brick.POSE_DETECTION:
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_pose_detection_available));
 					break;
 				default:
 					failedResourcesMessage.append(stageActivity.getString(R.string
