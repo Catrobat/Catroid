@@ -172,4 +172,8 @@ public class ScratchProgramsFragment extends Fragment implements
 	@Override
 	public void onItemLongClick(Job item, CheckableVH holder) {
 	}
+
+	@Override
+	public void onSettingsClick(Job item, View view) {
+	}
 }

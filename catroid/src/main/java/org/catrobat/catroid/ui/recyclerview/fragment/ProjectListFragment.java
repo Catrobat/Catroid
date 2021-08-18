@@ -31,6 +31,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.PopupMenu;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -65,7 +67,6 @@ import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.PluralsRes;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import kotlin.Unit;
 
@@ -412,37 +413,57 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 
 	@Override
 	public void onItemLongClick(final ProjectData item, CheckableVH holder) {
-		CharSequence[] items = new CharSequence[] {
-				getString(R.string.copy),
-				getString(R.string.project_options),
-		};
-		new AlertDialog.Builder(getContext())
-				.setTitle(item.getName())
-				.setItems(items, (dialog, which) -> {
-					switch (which) {
-						case 0:
-							copyItems(new ArrayList<>(Collections.singletonList(item)));
-							break;
-						case 1:
-							try {
-								Project project = XstreamSerializer.getInstance().loadProject(item.getDirectory(), getActivity());
-								ProjectManager.getInstance().setCurrentProject(project);
-							} catch (IOException | LoadingProjectException e) {
-								ToastUtil.showError(getActivity(), R.string.error_load_project);
-								Log.e(TAG, Log.getStackTraceString(e));
-								break;
-							}
+		onItemClick(item);
+	}
 
-							getActivity().getSupportFragmentManager().beginTransaction()
-									.replace(R.id.fragment_container, new ProjectOptionsFragment(), ProjectOptionsFragment.TAG)
-									.addToBackStack(ProjectOptionsFragment.TAG)
-									.commit();
+	@Override
+	public void onSettingsClick(ProjectData item, View view) {
+		PopupMenu popupMenu = new PopupMenu(getContext(), view);
+		List<ProjectData> itemList = new ArrayList<>();
+		itemList.add(item);
+
+		popupMenu.getMenuInflater().inflate(R.menu.menu_project_activity, popupMenu.getMenu());
+		popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem menuItem) {
+
+				switch (menuItem.getItemId()) {
+					case R.id.copy:
+						copyItems(itemList);
+						break;
+					case R.id.rename:
+						showRenameDialog(item);
+						break;
+					case R.id.delete:
+						deleteItems(itemList);
+						break;
+					case R.id.project_options:
+						try {
+							Project project = XstreamSerializer.getInstance().loadProject(item.getDirectory(), getActivity());
+							ProjectManager.getInstance().setCurrentProject(project);
+						} catch (IOException | LoadingProjectException e) {
+							ToastUtil.showError(getActivity(), R.string.error_load_project);
+							Log.e(TAG, Log.getStackTraceString(e));
 							break;
-						default:
-							dialog.dismiss();
-					}
-				})
-				.show();
+						}
+
+						getActivity().getSupportFragmentManager().beginTransaction()
+								.replace(R.id.fragment_container, new ProjectOptionsFragment(), ProjectOptionsFragment.TAG)
+								.addToBackStack(ProjectOptionsFragment.TAG)
+								.commit();
+						break;
+					default:
+						break;
+				}
+
+				return true;
+			}
+		});
+		popupMenu.getMenu().findItem(R.id.backpack).setVisible(false);
+		popupMenu.getMenu().findItem(R.id.new_group).setVisible(false);
+		popupMenu.getMenu().findItem(R.id.new_scene).setVisible(false);
+		popupMenu.getMenu().findItem(R.id.show_details).setVisible(false);
+		popupMenu.show();
 	}
 
 	@Override

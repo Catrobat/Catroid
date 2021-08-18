@@ -88,6 +88,9 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 		holder.checkBox.setOnClickListener(v -> onCheckBoxClick(holder.getAdapterPosition()));
 
 		holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(item));
+		if (holder.settings != null) {
+			holder.settings.setOnClickListener(v -> onItemClickListener.onSettingsClick(item, v));
+		}
 
 		holder.itemView.setOnLongClickListener(v -> {
 			onItemClickListener.onItemLongClick(item, holder);
@@ -242,5 +245,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 		void onItemClick(T item);
 
 		void onItemLongClick(T item, CheckableVH holder);
+
+		void onSettingsClick(T item, View view);
 	}
 }

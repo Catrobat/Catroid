@@ -120,39 +120,6 @@
 
     <issue
         id="StaticFieldLeak"
-        message="Do not place Android context classes in static fields (static reference to `FormulaEditorEditText` which has field `context` pointing to `Context`); this is a memory leak"
-        errorLine1=" private static FormulaEditorEditText formulaEditorEditText;"
-        errorLine2="         ~~~~~~">
-        <location
-            file="src/main/java/org/catrobat/catroid/ui/fragment/FormulaEditorFragment.java"
-            line="133"
-            column="10"/>
-    </issue>
-
-    <issue
-        id="StaticFieldLeak"
-        message="Do not place Android context classes in static fields; this is a memory leak"
-        errorLine1=" private static LinearLayout formulaEditorBrick;"
-        errorLine2="         ~~~~~~">
-        <location
-            file="src/main/java/org/catrobat/catroid/ui/fragment/FormulaEditorFragment.java"
-            line="135"
-            column="10"/>
-    </issue>
-
-    <issue
-        id="StaticFieldLeak"
-        message="Do not place Android context classes in static fields (static reference to `FormulaBrick` which has field `view` pointing to `View`); this is a memory leak"
-        errorLine1=" private static FormulaBrick formulaBrick;"
-        errorLine2="         ~~~~~~">
-        <location
-            file="src/main/java/org/catrobat/catroid/ui/fragment/FormulaEditorFragment.java"
-            line="137"
-            column="10"/>
-    </issue>
-
-    <issue
-        id="StaticFieldLeak"
         message="This field leaks a context object"
         errorLine1=" private Context context;"
         errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~">
@@ -215,6 +182,28 @@
             file="src/main/java/org/catrobat/catroid/ui/dialogs/StageDialog.java"
             line="252"
             column="16"/>
+    </issue>
+
+    <issue
+        id="InefficientWeight"
+        message="Use a `layout_width` of `0dp` instead of `wrap_content` for better performance"
+        errorLine1="        android:layout_width=&quot;wrap_content&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/vh_list.xml"
+            line="38"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="InefficientWeight"
+        message="Use a `layout_width` of `0dp` instead of `wrap_content` for better performance"
+        errorLine1="        android:layout_width=&quot;wrap_content&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/vh_variable.xml"
+            line="38"
+            column="9"/>
     </issue>
 
     <issue
@@ -863,6 +852,28 @@
         errorLine1="        &lt;ImageView"
         errorLine2="         ~~~~~~~~~">
         <location
+            file="src/main/res/layout/vh_background.xml"
+            line="51"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="         &lt;ImageButton"
+        errorLine2="          ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/vh_list.xml"
+            line="67"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="        &lt;ImageView"
+        errorLine2="         ~~~~~~~~~">
+        <location
             file="src/main/res/layout/vh_sprite_group.xml"
             line="51"
             column="10"/>
@@ -882,11 +893,44 @@
     <issue
         id="ContentDescription"
         message="Missing `contentDescription` attribute on image"
+        errorLine1="       &lt;ImageButton"
+        errorLine2="        ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/vh_sprite_group_item.xml"
+            line="81"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="           &lt;ImageButton"
+        errorLine2="            ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/vh_variable.xml"
+            line="72"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
         errorLine1="        &lt;ImageView"
         errorLine2="         ~~~~~~~~~">
         <location
             file="src/main/res/layout/vh_with_checkbox.xml"
-            line="51"
+            line="52"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="        &lt;ImageButton"
+        errorLine2="         ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/vh_with_checkbox.xml"
+            line="83"
             column="10"/>
     </issue>
 
@@ -1392,7 +1436,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/layout/vh_list.xml"
-            line="54"
+            line="56"
             column="13"/>
     </issue>
 
@@ -1403,7 +1447,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/layout/vh_variable.xml"
-            line="54"
+            line="56"
             column="13"/>
     </issue>
 

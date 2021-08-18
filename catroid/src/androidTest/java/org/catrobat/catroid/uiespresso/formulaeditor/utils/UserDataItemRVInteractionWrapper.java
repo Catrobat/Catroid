@@ -31,7 +31,6 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -50,8 +49,8 @@ public abstract class UserDataItemRVInteractionWrapper<T extends UserDataItemRVI
 	}
 
 	public void performDelete() {
-		onChildView(R.id.title_view)
-				.perform(longClick());
+		onChildView(R.id.settingsButton)
+				.perform(click());
 		onView(withText(R.string.delete))
 				.perform(click());
 		onView(withText(R.string.delete))
@@ -59,8 +58,8 @@ public abstract class UserDataItemRVInteractionWrapper<T extends UserDataItemRVI
 	}
 
 	public void performRename(String newName) {
-		onChildView(R.id.title_view)
-				.perform(longClick());
+		onChildView(R.id.settingsButton)
+				.perform(click());
 		onView(withText(R.string.rename))
 				.perform(click());
 		onView(withId(R.id.input_edit_text))
@@ -70,8 +69,8 @@ public abstract class UserDataItemRVInteractionWrapper<T extends UserDataItemRVI
 	}
 
 	public void performEdit(String newValue) {
-		onChildView(R.id.title_view)
-				.perform(longClick());
+		onChildView(R.id.settingsButton)
+				.perform(click());
 		onView(withText(R.string.edit))
 				.perform(click());
 		onView(withId(R.id.input_edit_text))

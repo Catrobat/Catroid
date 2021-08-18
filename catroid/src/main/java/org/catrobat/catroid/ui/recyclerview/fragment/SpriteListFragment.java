@@ -28,6 +28,8 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.PopupMenu;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -52,11 +54,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.PluralsRes;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -318,32 +318,45 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 	@Override
 	public void onItemLongClick(final Sprite item, CheckableVH holder) {
-		if (item instanceof GroupSprite) {
-			CharSequence[] items = new CharSequence[] {
-					getString(R.string.delete),
-					getString(R.string.rename),
-			};
-			new AlertDialog.Builder(getContext())
-					.setTitle(item.getName())
-					.setItems(items, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							switch (which) {
-								case 0:
-									showDeleteAlert(new ArrayList<>(Collections.singletonList(item)));
-									break;
-								case 1:
-									showRenameDialog(item);
-									break;
-								default:
-									dialog.dismiss();
-							}
-						}
-					})
-					.show();
-		} else {
-			super.onItemLongClick(item, holder);
-		}
+		super.onItemLongClick(item, holder);
+	}
+
+	@Override
+	public void onSettingsClick(Sprite item, View view) {
+		PopupMenu popupMenu = new PopupMenu(getContext(), view);
+		List<Sprite> itemList = new ArrayList<>();
+		itemList.add(item);
+
+		popupMenu.getMenuInflater().inflate(R.menu.menu_project_activity, popupMenu.getMenu());
+		popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+			@Override
+			public boolean onMenuItemClick(MenuItem menuItem) {
+				switch (menuItem.getItemId()) {
+					case R.id.backpack:
+						packItems(itemList);
+						break;
+					case R.id.copy:
+						copyItems(itemList);
+						break;
+					case R.id.delete:
+						deleteItems(itemList);
+						break;
+					case R.id.rename:
+						showRenameDialog(item);
+						break;
+					default:
+						break;
+				}
+				return true;
+			}
+		});
+		popupMenu.getMenu().findItem(R.id.backpack).setTitle(R.string.pack);
+		popupMenu.getMenu().findItem(R.id.new_group).setVisible(false);
+		popupMenu.getMenu().findItem(R.id.new_scene).setVisible(false);
+		popupMenu.getMenu().findItem(R.id.show_details).setVisible(false);
+		popupMenu.getMenu().findItem(R.id.project_options).setVisible(false);
+		popupMenu.show();
 	}
 
 	public boolean isSingleVisibleSprite() {

@@ -134,6 +134,9 @@ public class FilePickerActivity extends BaseCastActivity implements ListProjectF
 			public void onItemLongClick(File item, CheckableVH holder) {
 				toggleItemSelection(item);
 			}
+			@Override
+			public void onSettingsClick(File item, View view) {
+			}
 		});
 		filePickerAdapter.setSelectionListener(selectedItemCount -> onSelectionChangedAction());
 		recyclerView.setAdapter(filePickerAdapter);

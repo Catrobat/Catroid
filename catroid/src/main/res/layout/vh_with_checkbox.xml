@@ -23,6 +23,7 @@
   -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -52,14 +53,16 @@
             android:id="@+id/image_view"
             android:layout_width="72dp"
             android:layout_height="65dp"
+            android:layout_weight="0"
             android:layout_marginEnd="@dimen/img_margin"
             android:background="@drawable/image_contour"
             android:cropToPadding="true"
             android:scaleType="centerCrop" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
@@ -72,10 +75,19 @@
 
             <TextView
                 android:id="@+id/details_view"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/vh_item_details" />
-
         </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/settingsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:gravity="center_vertical"
+            android:backgroundTint="@color/accent"
+            android:background="@drawable/ic_more_vert" />
+
     </LinearLayout>
 </LinearLayout>
