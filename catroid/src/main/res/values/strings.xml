@@ -552,8 +552,8 @@
         <item quantity="other">Deleted %d scenes.</item>
     </plurals>
     <plurals name="deleted_sprites">
-        <item quantity="one">Deleted %d sprite.</item>
-        <item quantity="other">Deleted %d sprites.</item>
+        <item quantity="one">Deleted %d actor or object.</item>
+        <item quantity="other">Deleted %d actors or objects.</item>
     </plurals>
     <plurals name="deleted_looks">
         <item quantity="one">Deleted %d look.</item>
