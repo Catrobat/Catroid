@@ -115,7 +115,7 @@ public class WebViewActivity extends AppCompatActivity {
 
 		webView.setDownloadListener((downloadUrl, userAgent, contentDisposition, mimetype, contentLength) -> {
 
-			if (getExtensionFromContentDisposition(contentDisposition).contains(Constants.CATROBAT_EXTENSION)) {
+			if (getExtensionFromContentDisposition(contentDisposition).contains(Constants.CATROBAT_EXTENSION) && !downloadUrl.contains(LIBRARY_BASE_URL)) {
 				new ProjectDownloader(GlobalProjectDownloadQueue.INSTANCE.getQueue(), downloadUrl,
 						ProjectDownloadUtil.INSTANCE).download(this);
 			} else if (downloadUrl.contains(LIBRARY_BASE_URL)) {
