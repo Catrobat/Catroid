@@ -28,7 +28,7 @@ import android.text.format.DateUtils
 import android.util.Log
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.SoundInfo
-import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH
+import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedViewHolder
 import org.catrobat.catroid.utils.FileMetaDataExtractor
 import java.io.IOException
 import java.util.Locale
@@ -41,7 +41,7 @@ class SoundAdapter(items: List<SoundInfo?>?) : ExtendedRVAdapter<SoundInfo?>(ite
     private var currentPlaying: SoundInfo? = null
     private var currentPlayingPosition: Int = 0
 
-    override fun onBindViewHolder(holder: ExtendedVH?, position: Int) {
+    override fun onBindViewHolder(holder: ExtendedViewHolder?, position: Int) {
         val item = items[position]
 
         holder?.title?.text = item?.name
@@ -79,7 +79,7 @@ class SoundAdapter(items: List<SoundInfo?>?) : ExtendedRVAdapter<SoundInfo?>(ite
         }
     }
 
-    private fun setAndPlaySound(holder: ExtendedVH?, position: Int, item: SoundInfo?) {
+    private fun setAndPlaySound(holder: ExtendedViewHolder?, position: Int, item: SoundInfo?) {
         holder?.image?.setImageResource(R.drawable.ic_media_pause_dark)
         playSound(item)
         mediaPlayer.setOnCompletionListener { holder?.image?.setImageResource(R.drawable.ic_media_play_dark) }

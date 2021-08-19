@@ -28,11 +28,11 @@ import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
 
-public class ListVH extends CheckableVH {
+public class ListViewHolder extends CheckableViewHolder {
 
 	public Spinner spinner;
 
-	public ListVH(View itemView) {
+	public ListViewHolder(View itemView) {
 		super(itemView);
 		spinner = itemView.findViewById(R.id.spinner);
 	}

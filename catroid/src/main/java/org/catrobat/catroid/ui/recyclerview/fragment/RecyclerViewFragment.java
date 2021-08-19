@@ -46,7 +46,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallb
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
-import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -422,7 +422,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	}
 
 	@Override
-	public void onItemLongClick(T item, CheckableVH holder) {
+	public void onItemLongClick(T item, CheckableViewHolder holder) {
 		touchHelper.startDrag(holder);
 	}
 

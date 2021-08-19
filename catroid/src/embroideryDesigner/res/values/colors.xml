@@ -27,8 +27,8 @@
     <color name="toolbar_background">#20103B</color>
 
     <!-- Text Colors -->
-    <color name="vh_item_title">@color/accent</color>
-    <color name="vh_item_details">@color/accent</color>
+    <color name="view_holder_item_title">@color/accent</color>
+    <color name="view_holder_item_details">@color/accent</color>
 
     <!-- Backgrounds -->
     <color name="app_background">#380F50</color>

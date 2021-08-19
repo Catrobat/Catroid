@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,21 +21,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.filepicker;
+package org.catrobat.catroid.ui.recyclerview.viewholder;
 
 import android.view.View;
-import android.widget.TextView;
+import android.widget.CheckBox;
+import android.widget.ImageButton;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 
-class FileVH extends CheckableVH {
+public class CheckableViewHolder extends ViewHolder {
 
-	public TextView subtitle;
+	public CheckBox checkBox;
+	public ImageButton settings;
 
-	FileVH(View itemView) {
+	public CheckableViewHolder(View itemView) {
 		super(itemView);
-		title = itemView.findViewById(R.id.title_view);
-		subtitle = itemView.findViewById(R.id.subtitle_view);
+		checkBox = itemView.findViewById(R.id.checkbox);
+		settings = itemView.findViewById(R.id.settingsButton);
 	}
 }

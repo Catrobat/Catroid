@@ -64,7 +64,7 @@ import org.catrobat.catroid.ui.filepicker.FilePickerActivity
 import org.catrobat.catroid.ui.fragment.ProjectOptionsFragment
 import org.catrobat.catroid.ui.recyclerview.adapter.ProjectAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
-import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
 import org.catrobat.catroid.utils.ToastUtil
 import org.koin.android.ext.android.inject
@@ -481,7 +481,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         }
     }
 
-    override fun onItemLongClick(item: ProjectData?, holder: CheckableVH?) {
+    override fun onItemLongClick(item: ProjectData?, holder: CheckableViewHolder?) {
         onItemClick(item)
     }
 

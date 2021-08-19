@@ -29,7 +29,7 @@ import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
-import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
 
 import java.io.File;
 import java.util.List;
@@ -44,18 +44,18 @@ public class FilePickerAdapter extends RVAdapter<File> {
 
 	@NonNull
 	@Override
-	public FileVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_file, parent, false);
-		return new FileVH(view);
+	public FileViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_file, parent, false);
+		return new FileViewHolder(view);
 	}
 
 	@Override
-	public void onBindViewHolder(CheckableVH holder, int position) {
+	public void onBindViewHolder(CheckableViewHolder holder, int position) {
 		super.onBindViewHolder(holder, position);
 
 		File item = items.get(position);
 		holder.title.setText(item.getName());
-		((FileVH) holder).subtitle.setText(item.getAbsolutePath());
+		((FileViewHolder) holder).subtitle.setText(item.getAbsolutePath());
 	}
 
 	@Override

@@ -29,8 +29,8 @@
 
     <!-- Text Colors -->
     <color name="toolbar_title">@color/accent</color>
-    <color name="vh_item_title">@color/accent</color>
-    <color name="vh_item_details">@color/accent</color>
+    <color name="view_holder_item_title">@color/accent</color>
+    <color name="view_holder_item_details">@color/accent</color>
 
     <!-- Backgrounds -->
     <color name="app_background">#2A1848</color>

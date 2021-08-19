@@ -37,7 +37,7 @@ import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScratchConverterActivity;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.ScratchJobAdapter;
-import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.ToastUtil;
 
@@ -170,7 +170,7 @@ public class ScratchProgramsFragment extends Fragment implements
 	}
 
 	@Override
-	public void onItemLongClick(Job item, CheckableVH holder) {
+	public void onItemLongClick(Job item, CheckableViewHolder holder) {
 	}
 
 	@Override

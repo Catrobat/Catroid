@@ -47,7 +47,7 @@ import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.recyclerview.adapter.DataListAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
-import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
 import org.catrobat.catroid.utils.ToastUtil
 import java.util.ArrayList
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher
@@ -236,7 +236,7 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
         updateTitle()
     }
 
-    override fun onItemLongClick(item: UserData<*>, holder: CheckableVH) {
+    override fun onItemLongClick(item: UserData<*>, holder: CheckableViewHolder) {
         onItemClick(item)
     }
 

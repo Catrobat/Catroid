@@ -29,12 +29,12 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 
-public class ExtendedVH extends CheckableVH {
+public class ExtendedViewHolder extends CheckableViewHolder {
 
 	public ImageView image;
 	public TextView details;
 
-	public ExtendedVH(View itemView) {
+	public ExtendedViewHolder(View itemView) {
 		super(itemView);
 		image = itemView.findViewById(R.id.image_view);
 		details = itemView.findViewById(R.id.details_view);

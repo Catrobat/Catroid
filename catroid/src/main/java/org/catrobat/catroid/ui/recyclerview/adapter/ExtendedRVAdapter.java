@@ -28,8 +28,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
-import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedViewHolder;
 
 import java.util.List;
 
@@ -43,18 +43,18 @@ public abstract class ExtendedRVAdapter<T> extends RVAdapter<T> {
 	}
 
 	@Override
-	public CheckableVH onCreateViewHolder(final ViewGroup parent, int viewType) {
-		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_with_checkbox, parent, false);
-		return new ExtendedVH(view);
+	public CheckableViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
+		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_with_checkbox, parent, false);
+		return new ExtendedViewHolder(view);
 	}
 
 	@Override
-	public void onBindViewHolder(CheckableVH holder, int position) {
+	public void onBindViewHolder(CheckableViewHolder holder, int position) {
 		super.onBindViewHolder(holder, position);
-		onBindViewHolder((ExtendedVH) holder, position);
+		onBindViewHolder((ExtendedViewHolder) holder, position);
 	}
 
-	public abstract void onBindViewHolder(ExtendedVH holder, int position);
+	public abstract void onBindViewHolder(ExtendedViewHolder holder, int position);
 
 	public void stopSound() {
 	}
