@@ -25,6 +25,7 @@ package org.catrobat.catroid.uiespresso.ui.fragment;
 
 import android.app.Activity;
 import android.app.Instrumentation;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
@@ -40,6 +41,7 @@ import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.asynctask.ProjectSaver;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
+import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.AllOf;
@@ -57,6 +59,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -66,6 +69,7 @@ import static org.catrobat.catroid.R.id.tab_layout;
 import static org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION;
 import static org.catrobat.catroid.common.Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.uiespresso.util.UiTestUtils.onToast;
 import static org.catrobat.catroid.uiespresso.util.actions.TabActionsKt.selectTabAtPosition;
 import static org.catrobat.catroid.uiespresso.util.matchers.BundleMatchers.bundleHasExtraIntent;
 import static org.catrobat.catroid.uiespresso.util.matchers.BundleMatchers.bundleHasMatchingString;
@@ -93,6 +97,7 @@ import static androidx.test.espresso.intent.matcher.IntentMatchers.hasType;
 import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isNotChecked;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -104,7 +109,10 @@ public class ProjectOptionsTest {
 	private static final String EXISTING_PROJECT_NAME = "existingProjectName";
 	private static final String DESCRIPTION = "myDescription";
 	private static final String NOTES_AND_CREDITS = "myNotesAndCredits";
+	private static final Integer DURATION_WAIT_FOR_TOAST_IN_MILLISECONDS = 3000;
+	private static final Integer DURATION_WAIT_FOR_ZIP_FILE_IN_MILLISECONDS = 3000;
 	private static Project project = null;
+	private static Context context = null;
 
 	@Rule
 	public FragmentActivityTestRule<ProjectActivity> baseActivityTestRule =
@@ -113,10 +121,11 @@ public class ProjectOptionsTest {
 
 	@Before
 	public void setUp() throws Exception {
+		context = ApplicationProvider.getApplicationContext();
 		project = UiTestUtils.createEmptyProject(EXISTING_PROJECT_NAME);
-		new ProjectSaver(project, ApplicationProvider.getApplicationContext()).saveProjectAsync();
+		new ProjectSaver(project, context).saveProjectAsync();
 		project = UiTestUtils.createEmptyProject(PROJECT_NAME);
-		new ProjectSaver(project, ApplicationProvider.getApplicationContext()).saveProjectAsync();
+		new ProjectSaver(project, context).saveProjectAsync();
 		baseActivityTestRule.launchActivity(null);
 
 		openContextualActionModeOverflowMenu();
@@ -171,7 +180,9 @@ public class ProjectOptionsTest {
 
 		intended(expectedPaintNewLookIntent);
 
-		onView(withText("Background (1)"))
+		String newBackgroundName =
+				context.getString(R.string.default_project_background_name) + " (1)";
+		onView(withText(newBackgroundName))
 				.check(matches(isDisplayed()));
 	}
 
@@ -300,6 +311,14 @@ public class ProjectOptionsTest {
 
 	@Test
 	public void saveExternal() throws IOException {
+		String pendingToastText =
+				context.getString(R.string.notification_save_project_to_external_storage_pending);
+		String doneToastText =
+				context.getString(
+						R.string.notification_save_project_to_external_storage_open,
+						EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY
+				);
+
 		if (EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY.exists()) {
 			StorageOperations.deleteDir(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY);
 		}
@@ -307,7 +326,15 @@ public class ProjectOptionsTest {
 		onView(withId(R.id.project_options_save_external))
 				.perform(ViewActions.scrollTo())
 				.perform(click());
-
+		try {
+			onToast(withText(pendingToastText))
+					.check(matches(isDisplayed()));
+			onView(isRoot()).perform(CustomActions.wait(DURATION_WAIT_FOR_TOAST_IN_MILLISECONDS));
+		} catch (NoMatchingViewException ignored) {
+		}
+		onToast(withText(doneToastText))
+				.check(matches(isDisplayed()));
+		onView(isRoot()).perform(CustomActions.wait(DURATION_WAIT_FOR_ZIP_FILE_IN_MILLISECONDS));
 		File externalProjectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY,
 				project.getDirectory().getName() + CATROBAT_EXTENSION);
 		Assert.assertTrue(externalProjectZip.exists());

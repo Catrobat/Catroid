@@ -745,7 +745,7 @@
     <string name="upload_tags_maximum_error">Selecting more than 3 tags is not possible.</string>
 
     <!-- Save Project to External Storage -->
-    <string name="save_to_external_storage_button">Save project to external storage</string>
+    <string name="save_to_external_storage_button">Export project</string>
     <string name="notification_save_project_to_external_storage_title_pending">" "</string>
     <string name="notification_save_project_to_external_storage_pending">Saving project to external storage.</string>
     <string name="notification_save_project_to_external_storage_title_open">" "</string>

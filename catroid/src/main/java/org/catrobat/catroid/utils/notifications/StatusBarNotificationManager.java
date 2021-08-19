@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,6 +40,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.project.ProjectUploadService;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.utils.ToastUtil;
 
 import androidx.annotation.StringRes;
 import androidx.core.app.NotificationCompat;
@@ -119,14 +120,15 @@ public final class StatusBarNotificationManager {
 		int notificationID = notificationData.getNotificationID();
 		notificationData.setProgressInPercent(progressInPercent);
 		if (progressInPercent < MAX_PERCENT) {
-			notificationManager.notify(notificationID, notificationData.toNotification(context, CHANNEL_ID, contentIntent));
+			ToastUtil.showSuccess(context, notificationData.getTextWorking());
 		} else {
 			notificationData.setProgressInPercent(0);
 			notificationData.setMaxProgress(0);
 			notificationData.setAutoCancel(true);
 			notificationData.setOngoing(false);
-			notificationManager.notify(notificationID, notificationData.toNotification(context, CHANNEL_ID, contentIntent));
+			ToastUtil.showSuccess(context, notificationData.getTextDone());
 		}
+		notificationManager.notify(notificationID, notificationData.toNotification(context, CHANNEL_ID, contentIntent));
 	}
 
 	public void abortProgressNotificationWithMessage(Context context, NotificationData notificationData, @StringRes int changeDoneText) {
