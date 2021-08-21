@@ -1039,6 +1039,9 @@
     <string name="brick_copy_look">Copy look and name it</string>
     <string name="brick_copy_look_name">name of copied look</string>
     <string name="brick_copy_background">Copy background and name it</string>
+    <string name="brick_focus_point">Become focus point with</string>
+    <string name="brick_horizontal_and">horizontal and</string>
+    <string name="brick_vertical_flex">vertical flexibility</string>
     <!--  -->
 
 

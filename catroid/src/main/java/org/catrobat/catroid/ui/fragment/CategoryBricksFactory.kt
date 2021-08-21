@@ -162,6 +162,7 @@ import org.catrobat.catroid.content.bricks.SetBackgroundByIndexAndWaitBrick
 import org.catrobat.catroid.content.bricks.SetBackgroundByIndexBrick
 import org.catrobat.catroid.content.bricks.SetBounceBrick
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick
+import org.catrobat.catroid.content.bricks.SetCameraFocusPointBrick
 import org.catrobat.catroid.content.bricks.SetColorBrick
 import org.catrobat.catroid.content.bricks.SetFrictionBrick
 import org.catrobat.catroid.content.bricks.SetGravityBrick
@@ -391,6 +392,7 @@ open class CategoryBricksFactory {
             motionBrickList.add(GoNStepsBackBrick(BrickValues.GO_BACK))
             motionBrickList.add(ComeToFrontBrick())
         }
+        motionBrickList.add(SetCameraFocusPointBrick())
         motionBrickList.add(VibrationBrick(BrickValues.VIBRATE_SECONDS))
         motionBrickList.add(SetPhysicsObjectTypeBrick(BrickValues.PHYSIC_TYPE))
         if (!isBackgroundSprite) motionBrickList.add(WhenBounceOffBrick(WhenBounceOffScript(null)))
@@ -469,6 +471,7 @@ open class CategoryBricksFactory {
         looksBrickList.add(FadeParticleEffectBrick())
         looksBrickList.add(ParticleEffectAdditivityBrick())
         looksBrickList.add(ClearGraphicEffectBrick())
+        looksBrickList.add(SetCameraFocusPointBrick())
         looksBrickList.add(WhenBackgroundChangesBrick())
         looksBrickList.add(SetBackgroundBrick())
         looksBrickList.add(SetBackgroundByIndexBrick(BrickValues.SET_LOOK_BY_INDEX))
