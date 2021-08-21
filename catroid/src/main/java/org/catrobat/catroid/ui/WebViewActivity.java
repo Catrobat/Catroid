@@ -208,6 +208,20 @@ public class WebViewActivity extends AppCompatActivity {
 			if (Utils.checkIsNetworkAvailableAndShowErrorMessage(WebViewActivity.this)) {
 				ToastUtil.showError(getBaseContext(), R.string.error_unknown_error);
 			}
+
+			if (errorCode == ERROR_CONNECT
+					|| errorCode == ERROR_FILE_NOT_FOUND
+					|| errorCode == ERROR_HOST_LOOKUP
+					|| errorCode == ERROR_TIMEOUT
+					|| errorCode == ERROR_PROXY_AUTHENTICATION
+					|| errorCode == ERROR_UNKNOWN) {
+				setContentView(R.layout.activity_network_error);
+				setSupportActionBar(findViewById(R.id.toolbar));
+				getSupportActionBar().setIcon(R.drawable.pc_toolbar_icon);
+				getSupportActionBar().setTitle(R.string.app_name);
+			} else {
+				Log.e(TAG, "couldn't connect to the server! info: " + description + " : " + errorCode);
+			}
 		}
 
 		private boolean checkIfWebViewVisitExternalWebsite(String url) {
