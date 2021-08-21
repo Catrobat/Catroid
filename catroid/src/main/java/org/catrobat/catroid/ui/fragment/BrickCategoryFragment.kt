@@ -209,7 +209,8 @@ class BrickCategoryFragment : ListFragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.search) {
+        val fragment = parentFragmentManager.findFragmentById(R.id.fragment_container)
+        if (item.itemId == R.id.search && fragment is BrickCategoryFragment) {
             scriptFragment?.onCategorySelected(context?.getString(R.string.category_search_bricks))
         }
         return super.onOptionsItemSelected(item)
