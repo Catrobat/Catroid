@@ -41,6 +41,7 @@ import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.EmptyScript;
 import org.catrobat.catroid.content.GroupItemSprite;
 import org.catrobat.catroid.content.GroupSprite;
+import org.catrobat.catroid.content.LegoEV3Setting;
 import org.catrobat.catroid.content.LegoNXTSetting;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.RaspiInterruptScript;
@@ -628,6 +629,9 @@ public final class XstreamSerializer {
 
 		xstream.alias("setting", LegoNXTSetting.class);
 		xstream.alias("nxtPort", LegoNXTSetting.NXTPort.class);
+
+		xstream.alias("setting", LegoEV3Setting.class);
+		xstream.alias("ev3Port", LegoEV3Setting.EV3Port.class);
 
 		xstream.alias("brick", FadeParticleEffectBrick.class);
 		xstream.alias("brick", ParticleEffectAdditivityBrick.class);
