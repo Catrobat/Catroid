@@ -692,4 +692,10 @@ public final class ProjectManager {
 			saveDownloadedProjects();
 		}
 	}
+
+	public void resetProjectManager() {
+		currentlyEditedScene = null;
+		currentlyPlayingScene = null;
+		currentSprite = null;
+	}
 }

@@ -197,6 +197,8 @@ public class ProjectActivity extends BaseCastActivity {
 			getSupportFragmentManager().popBackStack();
 			BottomBar.showBottomBar(this);
 			return;
+		} else {
+			ProjectManager.getInstance().resetProjectManager();
 		}
 
 		boolean multiSceneProject = ProjectManager.getInstance().getCurrentProject().getSceneList().size() > 1;
