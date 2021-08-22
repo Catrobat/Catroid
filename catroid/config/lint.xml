@@ -51,4 +51,7 @@
         <ignore path="*/com.thoughtworks.xstream/xstream/*"/>
         <ignore path="*/ar.com.hjg/pngj/*"/>
     </issue>
+
+    <issue id="ContentDescription" severity="ignore" />
+
 </lint >

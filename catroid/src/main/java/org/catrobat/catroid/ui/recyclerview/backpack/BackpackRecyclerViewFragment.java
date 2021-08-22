@@ -169,6 +169,8 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 
 		adapter.setSelectionListener(this);
 		adapter.setOnItemClickListener(this);
+		adapter.showRipples = false;
+		adapter.notifyDataSetChanged();
 
 		ItemTouchHelper.Callback callback = new TouchHelperCallback(adapter);
 		touchHelper = new ItemTouchHelper(callback);
