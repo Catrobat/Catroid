@@ -107,6 +107,7 @@ class ActionPhysicsFactory : ActionFactory() {
     override fun createSetPhysicsObjectTypeAction(sprite: Sprite, type: PhysicsObject.Type): Action {
         val action = Actions.action(SetPhysicsObjectTypeAction::class.java)
         action.setPhysicsObject(getPhysicsObject(sprite))
+        action.setPhysicsLook(sprite.look as PhysicsLook)
         action.setType(type)
         return action
     }

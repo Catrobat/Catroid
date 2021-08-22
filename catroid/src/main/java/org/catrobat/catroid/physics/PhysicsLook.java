@@ -256,6 +256,10 @@ public class PhysicsLook extends Look {
 		return physicsObjectStateHandler.isHangedUp();
 	}
 
+	public void setManuallyTurnedOffCollision(boolean manuallyTurnedOffCollision) {
+		physicsObjectStateHandler.setManuallyTurnedOffCollision(manuallyTurnedOffCollision);
+	}
+
 	public void setNonColliding(boolean nonColliding) {
 		physicsObjectStateHandler.setNonColliding(nonColliding);
 	}
@@ -288,11 +292,13 @@ public class PhysicsLook extends Look {
 		private PhysicsObjectStateCondition visibleCondition;
 		private PhysicsObjectStateCondition transparencyCondition;
 		private PhysicsObjectStateCondition glideToCondition;
+		private PhysicsObjectStateCondition manuallyTurnedOffCollisionCondition;
 
 		private boolean glideToIsActive = false;
 		private boolean hangedUp = false;
 		private boolean fixed = false;
 		private boolean nonColliding = false;
+		private boolean manuallyTurnedOffCollision = true;
 
 		PhysicsObjectStateHandler() {
 
@@ -338,6 +344,13 @@ public class PhysicsLook extends Look {
 				}
 			};
 
+			manuallyTurnedOffCollisionCondition = new PhysicsObjectStateCondition() {
+				@Override
+				public boolean isTrue() {
+					return manuallyTurnedOffCollision;
+				}
+			};
+
 			hangupConditions.add(transparencyCondition);
 			hangupConditions.add(positionCondition);
 			hangupConditions.add(visibleCondition);
@@ -346,6 +359,7 @@ public class PhysicsLook extends Look {
 			nonCollidingConditions.add(transparencyCondition);
 			nonCollidingConditions.add(positionCondition);
 			nonCollidingConditions.add(visibleCondition);
+			nonCollidingConditions.add(manuallyTurnedOffCollisionCondition);
 
 			fixConditions.add(glideToCondition);
 		}
@@ -434,6 +448,10 @@ public class PhysicsLook extends Look {
 				this.nonColliding = nonColliding;
 				update(true);
 			}
+		}
+
+		public void setManuallyTurnedOffCollision(boolean manuallyTurnedOffCollision) {
+			this.manuallyTurnedOffCollision = manuallyTurnedOffCollision;
 		}
 	}
 }

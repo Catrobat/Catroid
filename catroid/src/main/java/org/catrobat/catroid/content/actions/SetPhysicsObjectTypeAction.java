@@ -24,21 +24,32 @@ package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
+import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsObject.Type;
 
 public class SetPhysicsObjectTypeAction extends TemporalAction {
 
 	private PhysicsObject physicsObject;
+	private PhysicsLook physicsLook;
 	private Type type = PhysicsObject.Type.NONE;
 
 	@Override
 	protected void update(float percent) {
+		if (type == Type.NONE) {
+			physicsLook.setManuallyTurnedOffCollision(true);
+		} else {
+			physicsLook.setManuallyTurnedOffCollision(false);
+		}
 		physicsObject.setType(type);
 	}
 
 	public void setPhysicsObject(PhysicsObject physicsObject) {
 		this.physicsObject = physicsObject;
+	}
+
+	public void setPhysicsLook(PhysicsLook physicsLook) {
+		this.physicsLook = physicsLook;
 	}
 
 	public void setType(Type type) {
