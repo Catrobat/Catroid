@@ -44,7 +44,7 @@ import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.io.asynctask.ProjectCopyTask;
+import org.catrobat.catroid.io.asynctask.ProjectCopier;
 import org.catrobat.catroid.io.asynctask.ProjectImportTask;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.io.asynctask.ProjectRenamer;
@@ -80,8 +80,8 @@ import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_PROJ
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SORT_PROJECTS_PREFERENCE_KEY;
 
 public class ProjectListFragment extends RecyclerViewFragment<ProjectData> implements
-		ProjectLoadTask.ProjectLoadListener,
-		ProjectCopyTask.ProjectCopyListener {
+		ProjectLoadTask.ProjectLoadListener {
+
 	public static final String TAG = ProjectListFragment.class.getSimpleName();
 
 	private static final int PERMISSIONS_REQUEST_IMPORT_FROM_EXTERNAL_STORAGE = 801;
@@ -298,9 +298,11 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 		for (ProjectData projectData : selectedItems) {
 			String name = uniqueNameProvider.getUniqueNameInNameables(projectData.getName(), usedProjectNames);
 			usedProjectNames.add(new ProjectData(name, null, 0, false));
-			new ProjectCopyTask(projectData.getDirectory(), name)
-					.setListener(this)
-					.execute();
+			ProjectCopier projectCopier = new ProjectCopier(projectData.getDirectory(), name);
+			projectCopier.copyProjectAsync(success -> {
+				onCopyProjectComplete(success);
+				return Unit.INSTANCE;
+			});
 		}
 	}
 
@@ -387,8 +389,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 		}
 	}
 
-	@Override
-	public void onCopyFinished(boolean success) {
+	public void onCopyProjectComplete(boolean success) {
 		if (success) {
 			setAdapterItems(adapter.projectsSorted);
 		} else {
