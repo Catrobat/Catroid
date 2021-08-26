@@ -28,6 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
 import org.catrobat.catroid.io.SoundManager
 import org.catrobat.catroid.stage.SpeechSynthesizer
 import org.catrobat.catroid.utils.MobileServiceAvailability
+import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider
 
 private const val INIT_TIME = 0.0f
 private const val ERROR_DURATION = 0.0f
@@ -49,12 +50,15 @@ class SpeakAndWaitAction : TemporalAction() {
         } else {
             return
         }
-        speechSynthesizer.synthesize()
+        speechSynthesizer.synthesize(AndroidStringProvider(context))
     }
 
     override fun update(delta: Float) {
         if (synthesizingFinished) {
-            SoundManager.getInstance().playSoundFile(speechSynthesizer.speechFile?.absolutePath, speechSynthesizer.scope?.sprite)
+            SoundManager.getInstance().playSoundFile(
+                speechSynthesizer.speechFile?.absolutePath,
+                speechSynthesizer.scope?.sprite
+            )
             duration = lengthOfText / SECOND_IN_MILLISECONDS
             time = INIT_TIME
             synthesizingFinished = false
@@ -66,7 +70,8 @@ class SpeakAndWaitAction : TemporalAction() {
     }
 
     private fun onDone() {
-        lengthOfText = SoundManager.getInstance().getDurationOfSoundFile(speechSynthesizer.speechFile?.absolutePath)
+        lengthOfText = SoundManager.getInstance()
+            .getDurationOfSoundFile(speechSynthesizer.speechFile?.absolutePath)
         synthesizingFinished = true
     }
 }

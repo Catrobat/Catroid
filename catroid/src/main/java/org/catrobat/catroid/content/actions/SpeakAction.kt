@@ -27,6 +27,7 @@ import android.content.Context
 import org.catrobat.catroid.io.SoundManager
 import org.catrobat.catroid.stage.SpeechSynthesizer
 import org.catrobat.catroid.utils.MobileServiceAvailability
+import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider
 
 class SpeakAction : AsynchronousAction() {
     private var isFinished = false
@@ -42,7 +43,7 @@ class SpeakAction : AsynchronousAction() {
         } else {
             return
         }
-        speechSynthesizer.synthesize()
+        speechSynthesizer.synthesize(AndroidStringProvider(context))
     }
 
     private fun onError() {

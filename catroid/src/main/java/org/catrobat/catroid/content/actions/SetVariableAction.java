@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,6 +47,10 @@ public class SetVariableAction extends TemporalAction {
 		}
 		Object value = changeVariable == null ? Double.valueOf(0d)
 				: changeVariable.interpretObject(scope);
+
+		if (changeVariable != null && changeVariable.getRoot().isBoolean(scope)) {
+			value = (Double) value != 0;
+		}
 
 		boolean isFirstLevelStringTree = false;
 		if (changeVariable != null && changeVariable.getRoot().getElementType() == FormulaElement.ElementType.STRING) {

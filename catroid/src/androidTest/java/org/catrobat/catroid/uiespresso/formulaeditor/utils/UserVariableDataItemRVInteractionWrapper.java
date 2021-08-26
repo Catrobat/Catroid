@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,8 +34,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 public final class UserVariableDataItemRVInteractionWrapper extends
 		UserDataItemRVInteractionWrapper<UserVariableDataItemRVInteractionWrapper> {
 
-	private UserVariableDataItemRVInteractionWrapper(
-			int position) {
+	private UserVariableDataItemRVInteractionWrapper(int position) {
 		super(position);
 		onRecyclerView().atPosition(position).onChildView(R.id.value_view)
 				.check(matches(isDisplayed()));

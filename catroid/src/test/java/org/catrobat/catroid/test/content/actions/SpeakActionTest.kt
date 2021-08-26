@@ -93,7 +93,7 @@ class SpeakActionTest(
         @Parameterized.Parameters(name = "{0}")
         fun parameters() = listOf(
             arrayOf("Null formula", null, ""),
-            arrayOf("Not a number formula", Formula(Double.NaN), ""),
+            arrayOf("Not a number formula", Formula(Double.NaN), "NaN"),
             arrayOf("Number formula", Formula(888.88), "888.88"),
             arrayOf("String formula", Formula(SPEAK), "hello world!"),
             arrayOf("Function formula", textFunction, "hello world!")

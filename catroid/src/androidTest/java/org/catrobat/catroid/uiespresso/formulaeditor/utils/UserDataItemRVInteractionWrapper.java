@@ -79,9 +79,20 @@ public abstract class UserDataItemRVInteractionWrapper<T extends UserDataItemRVI
 				.perform(click());
 	}
 
+	public void performClickDetails() {
+		onChildView(R.id.spinner)
+				.perform(click());
+	}
+
 	public T checkHasName(String name) {
 		onChildView(R.id.title_view)
 				.check(matches(withText(name)));
+		return (T) this;
+	}
+
+	public T checkHasValue(String value) {
+		onChildView(R.id.details_view)
+				.check(matches(withText(value)));
 		return (T) this;
 	}
 }

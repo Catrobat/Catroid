@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,18 +31,20 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.stage.ShowTextActor;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 
 public class HideTextAction extends TemporalAction {
 
 	private UserVariable variableToHide;
-
 	private Sprite sprite;
+	private AndroidStringProvider androidStringProvider;
 
 	@Override
 	protected void begin() {
 		if (StageActivity.stageListener != null) {
 			Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
-			ShowTextActor dummyActor = new ShowTextActor(new UserVariable("dummyActor"), 0, 0, 1.0f, null, sprite);
+			ShowTextActor dummyActor = new ShowTextActor(new UserVariable("dummyActor"),
+					0, 0, 1.0f, null, sprite, androidStringProvider);
 			for (Actor actor : stageActors) {
 				if (actor.getClass().equals(dummyActor.getClass())) {
 					ShowTextActor showTextActor = (ShowTextActor) actor;
@@ -66,5 +68,9 @@ public class HideTextAction extends TemporalAction {
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
+	}
+
+	public void setAndroidStringProvider(AndroidStringProvider androidStringProvider) {
+		this.androidStringProvider = androidStringProvider;
 	}
 }

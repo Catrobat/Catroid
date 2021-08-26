@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,7 @@ import org.catrobat.catroid.ui.recyclerview.viewholder.VariableVH;
 
 import java.util.List;
 
-import static org.catrobat.catroid.utils.NumberFormats.trimTrailingCharacters;
+import static org.catrobat.catroid.utils.ShowTextUtils.convertObjectToString;
 
 public class UserDataRVAdapter<T extends UserData> extends RVAdapter<T> {
 
@@ -54,6 +54,6 @@ public class UserDataRVAdapter<T extends UserData> extends RVAdapter<T> {
 		UserData item = items.get(position);
 		VariableVH variableVH = (VariableVH) holder;
 		variableVH.title.setText(item.getName());
-		variableVH.value.setText(trimTrailingCharacters(item.getValue().toString()));
+		variableVH.value.setText(convertObjectToString(item.getValue()));
 	}
 }
