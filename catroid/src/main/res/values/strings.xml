@@ -1827,7 +1827,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_collides_with_color">touches color</string>
     <string name="formula_editor_function_collides_with_color_parameter" translatable="false">(\'#ff0000\')</string>
     <string name="formula_editor_function_color_touches_color">color touches color</string>
-    <string name="formula_editor_function_color_touches_color_parameter" translatable="false">(\'#ff0000\',\'#00ff00\')</string>
+    <string name="formula_editor_function_color_touches_color_parameter" translatable="false">
+        (\'#ff0000\',\'#ff0000\')</string>
     <string name="formula_editor_sensor_color_at_x_y">color at x y</string>
     <string name="formula_editor_sensor_color_at_x_y_parameter" translatable="false">(100,200)</string>
     <string name="formula_editor_sensor_color_equals_color">color equals color with %
@@ -1923,15 +1924,15 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_object_distance_to">distance to touch position</string>
     <string name="formula_editor_compute">Compute</string>
     <string name="formula_editor_object">Properties</string>
-    <string name="formula_editor_functions">Functions</string>
     <string name="formula_editor_logic">Logic</string>
     <string name="formula_editor_device">Sensors</string>
     <string name="formula_editor_device_sensors">Device sensors</string>
-    <string name="formula_editor_functions_maths">Maths</string>
+    <string name="formula_editor_functions_maths">Mathematics</string>
     <string name="formula_editor_functions_strings">Text</string>
     <string name="formula_editor_functions_lists">Lists</string>
     <string name="formula_editor_logic_boolean">Logical (Boolean) operators and constants</string>
     <string name="formula_editor_logic_comparison">Comparison operators</string>
+    <string name="formula_editor_logic_reporters">Reporters</string>
     <string name="formula_editor_object_look">Look properties</string>
     <string name="formula_editor_object_movement">Motion properties</string>
     <string name="formula_editor_device_face_detection">Face detection</string>

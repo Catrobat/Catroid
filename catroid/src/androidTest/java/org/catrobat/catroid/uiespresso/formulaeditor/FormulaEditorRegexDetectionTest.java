@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -91,6 +91,7 @@ public class FormulaEditorRegexDetectionTest {
 
 		onView(withText(R.string.formula_editor_dialog_change_regular_expression)).check(matches(isDisplayed()));
 	}
+
 	@Test
 	public void testRegexFunctionFirstParamAssistantButton() {
 
@@ -100,6 +101,7 @@ public class FormulaEditorRegexDetectionTest {
 
 		onView(withText(R.string.assistant)).check(matches(isDisplayed()));
 	}
+
 	@Test
 	public void testRegexFunctionAssistantButtonOpensAssistantWindowOnClick() {
 		String editorFunction = getFunctionEntryName(R.string.formula_editor_function_regex,
@@ -138,7 +140,7 @@ public class FormulaEditorRegexDetectionTest {
 
 	private void prepareUntilButton(String nameOfFunction) {
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text)).perform(click());
-		onFormulaEditor().performOpenCategory(FormulaEditorWrapper.Category.FUNCTIONS).performSelect(nameOfFunction);
+		onFormulaEditor().performOpenCategory(FormulaEditorWrapper.Category.TEXT).performSelect(nameOfFunction);
 		onFormulaEditor().performClickOn(FormulaEditorWrapper.Control.TEXT);
 	}
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -33,12 +33,12 @@
         android:layout_weight="1">
 
         <Button
-            android:id="@+id/formula_editor_keyboard_function"
+            android:id="@+id/formula_editor_keyboard_mathematics"
             style="@style/FormulaEditorCategoryButton"
             android:layout_marginStart="@dimen/key_margin"
             android:layout_marginTop="@dimen/key_margin"
             android:layout_span="3"
-            android:text="@string/formula_editor_functions" />
+            android:text="@string/formula_editor_functions_maths" />
 
         <Button
             android:id="@+id/formula_editor_keyboard_object"
@@ -51,6 +51,28 @@
 
     <TableRow
         android:id="@+id/tableRow12"
+        android:layout_width="match_parent"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/formula_editor_keyboard_text"
+            style="@style/FormulaEditorCategoryButton"
+            android:layout_marginStart="@dimen/key_margin"
+            android:layout_marginTop="@dimen/key_margin"
+            android:layout_span="3"
+            android:text="@string/formula_editor_functions_strings" />
+
+        <Button
+            android:id="@+id/formula_editor_keyboard_lists"
+            style="@style/FormulaEditorCategoryButton"
+            android:layout_marginTop="@dimen/key_margin"
+            android:layout_span="3"
+            android:text="@string/formula_editor_functions_lists" />
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow13"
         android:layout_width="match_parent"
         android:layout_weight="1">
 
