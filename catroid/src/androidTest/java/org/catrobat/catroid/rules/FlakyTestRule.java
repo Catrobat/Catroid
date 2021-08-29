@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.rules;
 
-import android.app.Activity;
 import android.util.Log;
 
 import org.catrobat.catroid.runner.Flaky;
@@ -30,7 +29,7 @@ import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
-public class FlakyTestRule<T extends Activity> implements TestRule {
+public class FlakyTestRule implements TestRule {
 
 	private static final String TAG = FlakyTestRule.class.getSimpleName();
 
