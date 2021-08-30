@@ -48,10 +48,9 @@ import static org.hamcrest.Matchers.allOf;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
-import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -137,7 +136,7 @@ public class SetVariableBrickTest {
 		onView(withId(R.id.button_add))
 				.perform(click());
 		onView(withId(R.id.input_edit_text))
-				.perform(clearText(), typeText(userVariableName), closeSoftKeyboard());
+				.perform(replaceText(userVariableName), closeSoftKeyboard());
 		onView(withText(R.string.ok))
 				.perform(click());
 		onView(allOf(withChild(withText(userVariableName)), withChild(withText("0"))))
