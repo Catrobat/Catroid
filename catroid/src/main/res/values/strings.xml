@@ -31,7 +31,6 @@
     <string name="undo">Undo</string>
 
     <string name="new_option">new…</string>
-    <string name="edit_option">edit…</string>
 
     <string name="confirm">Confirm</string>
     <string name="ignore">Ignore</string>
@@ -655,6 +654,12 @@
         <item quantity="other">Inputs for this brick</item>
     </plurals>
 
+    <!-- BroadcastListFragment -->
+    <string name="broadcast_message_headline">Messages for all actors and objects</string>
+    <string name="dialog_new_broadcast_message_title">New message</string>
+    <string name="dialog_broadcast_message_name">message:</string>
+    <string name="dialog_edit_broadcast_message_title">Edit message</string>
+    <!--  -->
 
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">For all actors, objects, and clones in all scenes</string>
@@ -880,12 +885,6 @@
     <string name="stage_dialog_maximize">Maximize/\nstretch</string>
     <string name="stage_dialog_screenshot">Preview</string>
     <string name="stage_dialog_embroidery">Embroidery</string>
-    <!--  -->
-
-    <!-- Broadcast spinner -->
-    <string name="dialog_new_broadcast_message_title">New message</string>
-    <string name="dialog_broadcast_message_name">message:</string>
-    <string name="dialog_edit_broadcast_message_title">Edit message</string>
     <!--  -->
 
     <!-- NFC spinner -->

@@ -81,7 +81,6 @@ public class BrickAddCategoryTest {
 
 	@Before
 	public void setUp() throws Exception {
-
 		ActivityController<SpriteActivity> activityController = Robolectric.buildActivity(SpriteActivity.class);
 		activity = activityController.get();
 		createProject(activity);

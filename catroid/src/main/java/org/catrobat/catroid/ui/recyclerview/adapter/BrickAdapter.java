@@ -34,6 +34,7 @@ import android.widget.BaseAdapter;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BroadcastMessageBrick;
 import org.catrobat.catroid.content.bricks.EmptyEventBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.ListSelectorBrick;
@@ -70,12 +71,12 @@ public class BrickAdapter extends BaseAdapter implements
 	private int checkBoxMode = NONE;
 
 	private List<Script> scripts = new ArrayList<>();
-	private List<Brick> items = new ArrayList<>();
+	private final List<Brick> items = new ArrayList<>();
 	private int firstConnectedItem = -1;
 	private int lastConnectedItem = -1;
 
-	private MultiSelectionManager selectionManager = new MultiSelectionManager();
-	private ViewStateManager viewStateManager = new ViewStateManager();
+	private final MultiSelectionManager selectionManager = new MultiSelectionManager();
+	private final ViewStateManager viewStateManager = new ViewStateManager();
 
 	private OnItemClickListener onItemClickListener;
 	private SelectionListener selectionListener;
@@ -145,6 +146,8 @@ public class BrickAdapter extends BaseAdapter implements
 					((FormulaBrick) item).setClickListeners();
 				} else if (item instanceof ListSelectorBrick) {
 					((ListSelectorBrick) item).setClickListeners();
+				} else if (item instanceof BroadcastMessageBrick) {
+					((BroadcastMessageBrick) item).setClickListener();
 				}
 				break;
 			case CONNECTED_ONLY:

@@ -86,7 +86,8 @@ public class BrickStringSpinnerDefaultValueTest {
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][]{
 				{"StopScriptBrick - R.id.brick_stop_script_spinner", "Control", StopScriptBrick.class, R.id.brick_stop_script_spinner, "this script"},
-				{"CameraBrick - R.id.brick_video_spinner", "Looks", CameraBrick.class, R.id.brick_video_spinner, "on"},
+				{"CameraBrick - R.id.brick_video_spinner", "Looks", CameraBrick.class,
+						R.id.brick_video_spinner, "on"},
 				{"ChooseCameraBrick - R.id.brick_choose_camera_spinner", "Looks", ChooseCameraBrick.class, R.id.brick_choose_camera_spinner, "front"},
 				{"FlashBrick - R.id.brick_flash_spinner", "Looks", FlashBrick.class, R.id.brick_flash_spinner, "on"},
 				{"LegoNxtMotorTurnAngleBrick - R.id.lego_motor_turn_angle_spinner", "Lego NXT", LegoNxtMotorTurnAngleBrick.class, R.id.lego_motor_turn_angle_spinner, "A"},

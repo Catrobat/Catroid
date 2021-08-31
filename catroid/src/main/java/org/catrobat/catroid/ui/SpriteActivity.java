@@ -63,6 +63,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
+import org.catrobat.catroid.ui.recyclerview.fragment.BroadcastListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.CatblocksScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment;
@@ -616,27 +617,21 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	public void handleAddButton(View view) {
-		if (getCurrentFragment() instanceof ScriptFragment) {
-			((ScriptFragment) getCurrentFragment()).handleAddButton();
-			return;
-		}
-		if (getCurrentFragment() instanceof CatblocksScriptFragment) {
-			((CatblocksScriptFragment) getCurrentFragment()).handleAddButton();
-			return;
-		}
-		if (getCurrentFragment() instanceof DataListFragment) {
+		Fragment currentFragment = getCurrentFragment();
+		if (currentFragment instanceof ScriptFragment) {
+			((ScriptFragment) currentFragment).handleAddButton();
+		} else if (currentFragment instanceof CatblocksScriptFragment) {
+			((CatblocksScriptFragment) currentFragment).handleAddButton();
+		} else if (currentFragment instanceof DataListFragment) {
 			handleAddUserDataButton();
-			return;
-		}
-		if (getCurrentFragment() instanceof LookListFragment) {
+		} else if (currentFragment instanceof LookListFragment) {
 			handleAddLookButton();
-			return;
-		}
-		if (getCurrentFragment() instanceof SoundListFragment) {
+		} else if (currentFragment instanceof SoundListFragment) {
 			handleAddSoundButton();
-		}
-		if (getCurrentFragment() instanceof ListSelectorFragment) {
+		} else if (currentFragment instanceof ListSelectorFragment) {
 			handleAddUserListButton();
+		} else if (currentFragment instanceof BroadcastListFragment) {
+			((BroadcastListFragment) currentFragment).handleAddButton();
 		}
 	}
 
