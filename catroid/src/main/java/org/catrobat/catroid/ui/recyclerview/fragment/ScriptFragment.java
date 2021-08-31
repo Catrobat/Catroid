@@ -784,7 +784,8 @@ public class ScriptFragment extends ListFragment implements
 
 	private void openWebViewWithHelpPage(Brick brick) {
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
-		Sprite backgroundSprite = ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite();
+		Sprite backgroundSprite =
+				ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite();
 		String category = new CategoryBricksFactory().getBrickCategory(brick, sprite == backgroundSprite, getContext());
 
 		String brickHelpUrl = brick.getHelpUrl(category);
@@ -914,11 +915,11 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	public boolean copyProjectForUndoOption() {
-		ProjectManager projectManager = ProjectManager.getInstance();
-		Sprite currentSprite = projectManager.getCurrentSprite();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		currentSpriteName = currentSprite.getName();
-		currentSceneName = projectManager.getCurrentlyEditedScene().getName();
-		Project project = projectManager.getCurrentProject();
+		currentSceneName =
+				ProjectManager.getInstance().getCurrentlyEditedScene().getName();
+		Project project = ProjectManager.getInstance().getCurrentProject();
 		XstreamSerializer.getInstance().saveProject(project);
 		File currentCodeFile = new File(project.getDirectory(), CODE_XML_FILE_NAME);
 		File undoCodeFile = new File(project.getDirectory(), UNDO_CODE_XML_FILE_NAME);
@@ -952,7 +953,8 @@ public class ScriptFragment extends ListFragment implements
 
 	@Override
 	public void onLoadFinished(boolean success) {
-		ProjectManager.getInstance().setCurrentSceneAndSprite(currentSceneName, currentSpriteName);
+		ProjectManager.getInstance().setCurrentSceneAndSprite(currentSceneName,
+				currentSpriteName);
 		if (checkVariables()) {
 			loadVariables();
 		}
@@ -960,9 +962,8 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	private void saveVariables() {
-		ProjectManager projectManager = ProjectManager.getInstance();
-		Sprite currentSprite = projectManager.getCurrentSprite();
-		Project project = projectManager.getCurrentProject();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		Project project = ProjectManager.getInstance().getCurrentProject();
 
 		savedUserVariables = project.getUserVariablesCopy();
 		savedMultiplayerVariables = project.getMultiplayerVariablesCopy();
@@ -972,9 +973,8 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	public boolean checkVariables() {
-		ProjectManager projectManager = ProjectManager.getInstance();
-		Sprite currentSprite = projectManager.getCurrentSprite();
-		Project project = projectManager.getCurrentProject();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		Project project = ProjectManager.getInstance().getCurrentProject();
 
 		return (project.hasUserDataChanged(project.getUserVariables(), savedUserVariables)
 				|| project.hasUserDataChanged(project.getMultiplayerVariables(), savedMultiplayerVariables)
@@ -984,9 +984,8 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	private void loadVariables() {
-		ProjectManager projectManager = ProjectManager.getInstance();
-		Sprite currentSprite = projectManager.getCurrentSprite();
-		Project project = projectManager.getCurrentProject();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		Project project = ProjectManager.getInstance().getCurrentProject();
 
 		project.restoreUserDataValues(project.getUserVariables(), savedUserVariables);
 		project.restoreUserDataValues(project.getMultiplayerVariables(), savedMultiplayerVariables);

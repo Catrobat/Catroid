@@ -238,7 +238,6 @@ import org.catrobat.catroid.formulaeditor.Operators
 import org.catrobat.catroid.formulaeditor.Sensors
 import org.catrobat.catroid.ui.controller.RecentBrickListManager
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
-import java.util.ArrayList
 import java.util.Locale
 
 open class CategoryBricksFactory {
@@ -286,8 +285,8 @@ open class CategoryBricksFactory {
         eventBrickList.add(WhenStartedBrick())
         eventBrickList.add(WhenBrick())
         eventBrickList.add(WhenTouchDownBrick())
-        val broadcastMessages =
-            ProjectManager.getInstance().currentProject?.broadcastMessageContainer?.broadcastMessages
+        val broadcastMessages = ProjectManager.getInstance()
+            .currentProject?.broadcastMessageContainer?.broadcastMessages
         var broadcastMessage: String? = context.getString(R.string.brick_broadcast_default_value)
         if (broadcastMessages != null && broadcastMessages.size > 0) {
             broadcastMessage = broadcastMessages[0]
@@ -339,8 +338,8 @@ open class CategoryBricksFactory {
         if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
             controlBrickList.add(SetNfcTagBrick(context.getString(R.string.brick_set_nfc_tag_default_value)))
         }
-        val broadcastMessages =
-            ProjectManager.getInstance().currentProject?.broadcastMessageContainer?.broadcastMessages
+        val broadcastMessages = ProjectManager.getInstance()
+            .currentProject?.broadcastMessageContainer?.broadcastMessages
         var broadcastMessage: String? = context.getString(R.string.brick_broadcast_default_value)
         if (broadcastMessages != null && broadcastMessages.size > 0) {
             broadcastMessage = broadcastMessages[0]
@@ -479,7 +478,8 @@ open class CategoryBricksFactory {
         looksBrickList.add(SetBackgroundByIndexBrick(BrickValues.SET_LOOK_BY_INDEX))
         looksBrickList.add(SetBackgroundAndWaitBrick())
         looksBrickList.add(SetBackgroundByIndexAndWaitBrick(BrickValues.SET_LOOK_BY_INDEX))
-        if (!ProjectManager.getInstance().currentProject.isCastProject) {
+        val currentProject = ProjectManager.getInstance().currentProject
+        if (currentProject != null && !currentProject.isCastProject()) {
             looksBrickList.add(CameraBrick())
             looksBrickList.add(ChooseCameraBrick())
             looksBrickList.add(FlashBrick())

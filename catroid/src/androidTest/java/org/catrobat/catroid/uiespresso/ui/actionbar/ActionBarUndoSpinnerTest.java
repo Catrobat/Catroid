@@ -84,7 +84,6 @@ public class ActionBarUndoSpinnerTest {
 				{SetLookBrick.class.getName(), 2, R.id.brick_set_look_spinner},
 				{WhenNfcBrick.class.getName(), 3, R.id.brick_when_nfc_spinner},
 				{SetVariableBrick.class.getName(), 4, R.id.set_variable_spinner},
-				{BroadcastBrick.class.getName(), 5, R.id.brick_broadcast_spinner},
 		});
 	}
 
