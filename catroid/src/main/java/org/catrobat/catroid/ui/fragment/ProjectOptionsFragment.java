@@ -74,6 +74,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 import static org.catrobat.catroid.io.asynctask.ProjectRenamerKt.renameProject;
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
+import static org.catrobat.catroid.ui.ProjectUploadActivityKt.PROJECT_DIR;
 
 public class ProjectOptionsFragment extends Fragment {
 
@@ -284,7 +285,7 @@ public class ProjectOptionsFragment extends Fragment {
 	public void onSaveProjectComplete(boolean success) {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		Intent intent = new Intent(getContext(), ProjectUploadActivity.class);
-		intent.putExtra(ProjectUploadActivity.PROJECT_DIR, currentProject.getDirectory());
+		intent.putExtra(PROJECT_DIR, currentProject.getDirectory());
 		startActivity(intent);
 	}
 
