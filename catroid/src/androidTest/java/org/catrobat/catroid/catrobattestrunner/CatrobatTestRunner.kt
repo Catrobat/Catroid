@@ -33,7 +33,7 @@ import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.asynctask.loadProject
-import org.catrobat.catroid.io.asynctask.unzipAndImportProjects
+import org.catrobat.catroid.io.asynctask.ProjectUnZipperAndImporter
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.TestResult
 import org.catrobat.catroid.test.utils.TestUtils
@@ -111,7 +111,8 @@ class CatrobatTestRunner {
             .open("$assetPath/$assetName")
         val projectArchive = StorageOperations
             .copyStreamToDir(inputStream, Constants.CACHE_DIR, assetName)
-        Assert.assertTrue(unzipAndImportProjects(arrayOf(projectArchive)))
+        Assert.assertTrue(ProjectUnZipperAndImporter()
+            .unzipAndImportProjects(arrayOf(projectArchive)))
         val projectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName)
         Assert.assertTrue(
             loadProject(projectDir, ApplicationProvider.getApplicationContext())

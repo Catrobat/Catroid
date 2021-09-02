@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.test.io.asynctask
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -28,9 +29,11 @@ import kotlinx.coroutines.runBlocking
 import org.catrobat.catroid.common.Constants.CACHE_DIR
 import org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY
 import org.catrobat.catroid.io.StorageOperations
-import org.catrobat.catroid.io.asynctask.ProjectUnZipperAndImporter
+import org.catrobat.catroid.io.ZipArchiver
+import org.catrobat.catroid.io.asynctask.ProjectImporter
 import org.catrobat.catroid.utils.FileMetaDataExtractor
 import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.contains
 import org.junit.After
 import org.junit.AfterClass
@@ -43,37 +46,28 @@ import org.junit.runner.RunWith
 import java.io.File
 import java.io.IOException
 
-private const val AIR_FIGHT_0_5 = "Air fight 0.5"
-private const val FALLING_BALLS = "Falling balls"
-private const val AIR_FIGHT_0_5_1 = "Air fight 0.5 (1)"
-
 @RunWith(AndroidJUnit4::class)
-class ProjectUnZipperAndImporterTest {
+class ProjectImporterTest {
 
     companion object {
         private lateinit var destinationDirectory: File
-        private lateinit var projectAirFightFile: File
-        private lateinit var projectFallingBallsFile: File
-        private lateinit var noProjectNameFile: File
+        private lateinit var validProject: File
+        private lateinit var noCodeFileProject: File
+        private lateinit var noNameProject: File
+        private lateinit var specialCharactersProject: File
 
         @BeforeClass
         @JvmStatic
         @Throws(IOException::class)
         fun setUpTestClass() {
             destinationDirectory = File(
-                DEFAULT_ROOT_DIRECTORY, ProjectUnZipperAndImporterTest::class.java.simpleName)
+                DEFAULT_ROOT_DIRECTORY, ProjectImporterTest::class.java.simpleName)
             CACHE_DIR.mkdir()
 
-            projectAirFightFile = createFile("Air_fight_0.5.catrobat")
-            projectFallingBallsFile = createFile("Falling_balls.catrobat")
-            noProjectNameFile = createFile("NoProjectName.catrobat")
-        }
-
-        private fun createFile(name: String): File {
-            val inputStream =
-                InstrumentationRegistry.getInstrumentation().context.assets.open(name)
-
-            return StorageOperations.copyStreamToDir(inputStream, CACHE_DIR, name)
+            validProject = unzipProject("ValidProject.catrobat")
+            noCodeFileProject = unzipProject("NoCodeFile.catrobat")
+            noNameProject = unzipProject("NoProjectName.catrobat")
+            specialCharactersProject = unzipProject("Special%25Characters.catrobat")
         }
 
         @AfterClass
@@ -81,6 +75,20 @@ class ProjectUnZipperAndImporterTest {
         @Throws(IOException::class)
         fun tearDownTestClass() {
             StorageOperations.deleteDir(CACHE_DIR)
+        }
+
+        private fun unzipProject(name: String): File {
+            val inputStream =
+                InstrumentationRegistry.getInstrumentation().context.assets.open(name)
+            val destDir = File(CACHE_DIR, StorageOperations.getSanitizedFileName(name))
+
+            if (destDir.exists()) {
+                StorageOperations.deleteDir(destDir)
+            }
+
+            ZipArchiver().unzip(inputStream, destDir)
+
+            return destDir
         }
     }
 
@@ -95,47 +103,73 @@ class ProjectUnZipperAndImporterTest {
     }
 
     @Test
-    @Throws(IOException::class)
-    fun testUnzipAndImportSingleProject() {
-        val importResult = ProjectUnZipperAndImporter(destinationDirectory)
-            .unzipAndImportProjects(arrayOf(projectAirFightFile))
+    fun testImportSingleProject() {
+        val importResult = ProjectImporter(destinationDirectory)
+            .importProjects(listOf(validProject))
         val importedProjects = FileMetaDataExtractor.getProjectNames(destinationDirectory)
 
         assertTrue(importResult)
-        assertThat(importedProjects, contains(AIR_FIGHT_0_5))
+        assertThat(importedProjects, contains("ValidProject"))
     }
 
     @Test
-    @Throws(IOException::class)
-    fun testUnzipAndImportMultipleProjects() {
-        val importResult = ProjectUnZipperAndImporter(destinationDirectory)
-            .unzipAndImportProjects(arrayOf(projectAirFightFile, projectFallingBallsFile))
+    fun testImportProjectTwice() {
+        val importResult = ProjectImporter(destinationDirectory)
+            .importProjects(listOf(validProject, validProject))
         val importedProjects = FileMetaDataExtractor.getProjectNames(destinationDirectory)
 
         assertTrue(importResult)
-        assertThat(importedProjects, contains(AIR_FIGHT_0_5, FALLING_BALLS))
+        assertThat(importedProjects, contains("ValidProject", "ValidProject (1)"))
     }
 
     @Test
-    @Throws(IOException::class)
-    fun testUnzipAndImportSameProjectTwice() {
-        val importResult = ProjectUnZipperAndImporter(destinationDirectory)
-            .unzipAndImportProjects(arrayOf(projectAirFightFile, projectAirFightFile))
+    fun testImportProjectWithSpecialCharacters() {
+        val importResult = ProjectImporter(destinationDirectory)
+            .importProjects(listOf(specialCharactersProject))
         val importedProjects = FileMetaDataExtractor.getProjectNames(destinationDirectory)
 
         assertTrue(importResult)
-        assertThat(importedProjects, contains(AIR_FIGHT_0_5, AIR_FIGHT_0_5_1))
+        assertThat(importedProjects, contains("Special%Characters"))
     }
 
     @Test
-    @Throws(IOException::class)
-    fun testUnzipAndImportMultipleProjectsWithError() {
-        val importResult = ProjectUnZipperAndImporter(destinationDirectory)
-            .unzipAndImportProjects(arrayOf(projectAirFightFile, noProjectNameFile))
+    fun testImportMultipleProjectsWithError() {
+        val importResult = ProjectImporter(destinationDirectory)
+            .importProjects(listOf(validProject, noCodeFileProject))
         val importedProjects = FileMetaDataExtractor.getProjectNames(destinationDirectory)
 
         assertFalse(importResult)
-        assertThat(importedProjects, contains(AIR_FIGHT_0_5))
+        assertThat(importedProjects, contains("ValidProject"))
+    }
+
+    @Test
+    fun testAbortSecondImportIfFirstFails() {
+        val importResult = ProjectImporter(destinationDirectory)
+            .importProjects(listOf(noCodeFileProject, validProject))
+        val importedProjects = FileMetaDataExtractor.getProjectNames(destinationDirectory)
+
+        assertFalse(importResult)
+        assertThat(importedProjects, `is`(emptyList()))
+    }
+
+    @Test
+    fun testImportProjectWithoutCodeFile() {
+        val importResult = ProjectImporter(destinationDirectory)
+            .importProjects(listOf(noCodeFileProject))
+        val importedProjects = FileMetaDataExtractor.getProjectNames(destinationDirectory)
+
+        assertFalse(importResult)
+        assertThat(importedProjects, `is`(emptyList()))
+    }
+
+    @Test
+    fun testImportProjectWithoutProjectName() {
+        val importResult = ProjectImporter(destinationDirectory)
+            .importProjects(listOf(noNameProject))
+        val importedProjects = FileMetaDataExtractor.getProjectNames(destinationDirectory)
+
+        assertFalse(importResult)
+        assertThat(importedProjects, `is`(emptyList()))
     }
 
     @Test
@@ -147,15 +181,15 @@ class ProjectUnZipperAndImporterTest {
         }
 
         runBlocking {
-            ProjectUnZipperAndImporter(destinationDirectory)
+            ProjectImporter(destinationDirectory)
                 .setListener(onFinishedListener)
-                .unZipAndImportAsync(arrayOf(projectAirFightFile))
+                .importProjectsAsync(listOf(validProject))
                 .join()
 
             val importedProjects = FileMetaDataExtractor.getProjectNames(destinationDirectory)
 
             assertTrue(listenerCalled)
-            assertThat(importedProjects, contains(AIR_FIGHT_0_5))
+            assertThat(importedProjects, contains("ValidProject"))
         }
     }
 }

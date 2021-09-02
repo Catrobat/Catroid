@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -51,8 +51,7 @@ import org.catrobat.catroid.exceptions.LoadingProjectException
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.asynctask.ProjectCopier
-import org.catrobat.catroid.io.asynctask.ProjectImportTask
-import org.catrobat.catroid.io.asynctask.ProjectImportTask.ProjectImportListener
+import org.catrobat.catroid.io.asynctask.ProjectImporter
 import org.catrobat.catroid.io.asynctask.ProjectLoader
 import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
 import org.catrobat.catroid.io.asynctask.ProjectRenamer
@@ -96,7 +95,29 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         }
     }
 
-    private fun onImportProjectFinished(success: Boolean) {
+    private val onFileImportFinishedStrongRef: (Boolean) -> Unit = { success ->
+        hasImportTaskFinished = true
+        setAdapterItems(adapter.projectsSorted)
+
+        if (success) {
+            if (hasImportTaskFinished && hasUnzipAndImportTaskFinished) {
+                ToastUtil.showSuccess(
+                    requireContext(),
+                    resources.getQuantityString(
+                        R.plurals.imported_projects,
+                        filesForImportTask?.size ?: 0,
+                        filesForImportTask?.size ?: 0
+                    )
+                )
+                filesForImportTask?.clear()
+            }
+        } else {
+            ToastUtil.showError(requireContext(), R.string.error_import_project)
+        }
+        setShowProgressBar(false)
+    }
+
+    private val onArchiveImportFinishedStrongRef: (Boolean) -> Unit = { success ->
         setAdapterItems(adapter.projectsSorted)
         if (!success) {
             ToastUtil.showError(requireContext(), R.string.error_import_project)
@@ -128,27 +149,6 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
             ToastUtil.showError(requireContext(), R.string.error_rename_incompatible_project)
         }
         setShowProgressBar(false)
-    }
-
-    private val projectImportListener = object : ProjectImportListener {
-        override fun onImportFinished(success: Boolean) {
-            hasImportTaskFinished = true
-            setAdapterItems(adapter.projectsSorted)
-            if (hasImportTaskFinished && hasUnzipAndImportTaskFinished) {
-                ToastUtil.showSuccess(
-                    requireContext(),
-                    resources.getQuantityString(
-                        R.plurals.imported_projects,
-                        filesForImportTask?.size ?: 0,
-                        filesForImportTask?.size ?: 0
-                    )
-                )
-                filesForImportTask?.clear()
-            } else {
-                ToastUtil.showError(requireContext(), R.string.error_import_project)
-            }
-            setShowProgressBar(false)
-        }
     }
 
     override fun onResume() {
@@ -300,15 +300,16 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         prepareFilesForImport(uris)
         filesForImportTask?.apply {
             if (isNotEmpty()) {
-                val filesToImport = filesForImportTask?.toList() ?: listOf()
-                ProjectImportTask(filesToImport).setListener(projectImportListener).execute()
+                ProjectImporter()
+                    .setListener(onFileImportFinishedStrongRef)
+                    .importProjectsAsync(this)
             }
         }
         filesForUnzipAndImportTask?.apply {
             if (isNotEmpty()) {
-                val filesToUnzipAndImport = filesForUnzipAndImportTask?.toTypedArray() ?: arrayOf()
-                ProjectUnZipperAndImporter({ success: Boolean -> onImportProjectFinished(success) })
-                    .unZipAndImportAsync(filesToUnzipAndImport)
+                ProjectUnZipperAndImporter()
+                    .setListener(onArchiveImportFinishedStrongRef)
+                    .unZipAndImportAsync(this.toTypedArray())
             }
         }
     }
