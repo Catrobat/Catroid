@@ -33,7 +33,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -53,6 +52,7 @@ import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.utils.ToastUtil;
 
+import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -147,7 +147,7 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 
 			if (android.bluetooth.BluetoothDevice.ACTION_FOUND.equals(action)) {
 				android.bluetooth.BluetoothDevice device = intent.getParcelableExtra(android.bluetooth.BluetoothDevice.EXTRA_DEVICE);
-				if ((device.getBondState() != android.bluetooth.BluetoothDevice.BOND_BONDED)) {
+				if (device != null && (device.getBondState() != android.bluetooth.BluetoothDevice.BOND_BONDED)) {
 					String deviceInfo = device.getName() + "-" + device.getAddress();
 					if (device.getType() == DEVICE_TYPE_CLASSIC || device.getType() == DEVICE_TYPE_DUAL) {
 						Pair<String, Integer> listElement = new Pair<>(deviceInfo,
@@ -179,52 +179,62 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 		}
 	};
 
-	private class ConnectDeviceTask extends AsyncTask<String, Void, BluetoothConnection.State> {
-
+	private static class ConnectDeviceTask extends AsyncTask<String, Void,
+			BluetoothConnection.State> {
 		BluetoothConnection btConnection;
 		private ProgressDialog connectingProgressDialog;
+		private SoftReference<ConnectBluetoothDeviceActivity> activityReference;
+
+		ConnectDeviceTask(ConnectBluetoothDeviceActivity activity) {
+			activityReference = new SoftReference<>(activity);
+		}
 
 		@Override
 		protected void onPreExecute() {
-			setVisible(false);
-			connectingProgressDialog = ProgressDialog.show(ConnectBluetoothDeviceActivity.this, "",
-					getResources().getString(R.string.connecting_please_wait), true);
+			activityReference.get().setVisible(false);
+			connectingProgressDialog =
+					ProgressDialog.show(activityReference.get(),	"",
+							activityReference.get().getResources().getString(R.string.connecting_please_wait),
+							true);
 		}
 
 		@Override
 		protected BluetoothConnection.State doInBackground(String... addresses) {
-			if (btDevice == null) {
+			if (activityReference.get().btDevice == null) {
 				Log.e(TAG, "Try connect to device which is not implemented!");
 				return BluetoothConnection.State.NOT_CONNECTED;
 			}
-			btConnection = getConnectionFactory().createBTConnectionForDevice(btDevice.getDeviceType(), addresses[0],
-					btDevice.getBluetoothDeviceUUID(), ConnectBluetoothDeviceActivity.this.getApplicationContext());
+			btConnection =
+					getConnectionFactory().createBTConnectionForDevice(activityReference.get().btDevice.getDeviceType(), addresses[0],
+							activityReference.get().btDevice.getBluetoothDeviceUUID(),
+							activityReference.get().getApplicationContext());
 
 			return btConnection.connect();
 		}
 
 		@Override
 		protected void onPostExecute(BluetoothConnection.State connectionState) {
-
 			connectingProgressDialog.dismiss();
 
 			int result = RESULT_CANCELED;
 
 			if (connectionState == BluetoothConnection.State.CONNECTED) {
-				btDevice.setConnection(btConnection);
+				activityReference.get().btDevice.setConnection(btConnection);
 				result = RESULT_OK;
 				BluetoothDeviceService btDeviceService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 				try {
-					btDeviceService.deviceConnected(btDevice);
+					if (btDeviceService != null) {
+						btDeviceService.deviceConnected(activityReference.get().btDevice);
+					}
 				} catch (MindstormsException e) {
-					ToastUtil.showError(ConnectBluetoothDeviceActivity.this, R.string.bt_connection_failed);
+					ToastUtil.showError(activityReference.get(), R.string.bt_connection_failed);
 				}
 			} else {
-				ToastUtil.showError(ConnectBluetoothDeviceActivity.this, R.string.bt_connection_failed);
+				ToastUtil.showError(activityReference.get(), R.string.bt_connection_failed);
 			}
 
-			setResult(result);
-			finish();
+			activityReference.get().setResult(result);
+			activityReference.get().finish();
 		}
 	}
 
@@ -239,18 +249,15 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 
 		setResult(AppCompatActivity.RESULT_CANCELED);
 
-		Button scanButton = (Button) findViewById(R.id.button_scan);
-		scanButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				doDiscovery();
-				view.setVisibility(View.GONE);
-			}
+		Button scanButton = findViewById(R.id.button_scan);
+		scanButton.setOnClickListener(view -> {
+			doDiscovery();
+			view.setVisibility(View.GONE);
 		});
 
-		pairedDevicesArrayAdapter = new ArrayAdapter<String>(this, R.layout.device_name);
+		pairedDevicesArrayAdapter = new ArrayAdapter<>(this, R.layout.device_name);
 		newDevicesArrayAdapter = new ArrayAdapter<Pair>(this, R.layout.device_name,
-				new ArrayList<Pair>()) {
+				new ArrayList<>()) {
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
 				TextView view = (TextView) super.getView(position, convertView, parent);
@@ -259,11 +266,11 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 			}
 		};
 
-		ListView pairedListView = (ListView) findViewById(R.id.paired_devices);
+		ListView pairedListView = findViewById(R.id.paired_devices);
 		pairedListView.setAdapter(pairedDevicesArrayAdapter);
 		pairedListView.setOnItemClickListener(deviceClickListener);
 
-		ListView newDevicesListView = (ListView) findViewById(R.id.new_devices);
+		ListView newDevicesListView = findViewById(R.id.new_devices);
 		newDevicesListView.setAdapter(newDevicesArrayAdapter);
 		newDevicesListView.setOnItemClickListener(deviceClickListener);
 
@@ -277,6 +284,7 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 		if (bluetoothState == BluetoothManager.BLUETOOTH_ALREADY_ON) {
 			listAndSelectDevices();
 		}
+
 	}
 
 	private void listAndSelectDevices() {
@@ -299,6 +307,7 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 	}
 
 	protected void createAndSetDeviceService() {
+		@SuppressWarnings("unchecked")
 		Class<BluetoothDevice> serviceType = (Class<BluetoothDevice>) getIntent().getSerializableExtra(DEVICE_TO_CONNECT);
 
 		btDevice = getDeviceFactory().createDevice(serviceType, this.getApplicationContext());
@@ -306,7 +315,7 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 
 	private void connectDevice(String address) {
 		btManager.getBluetoothAdapter().cancelDiscovery();
-		new ConnectDeviceTask().execute(address);
+		new ConnectDeviceTask(this).execute(address);
 	}
 
 	@Override
@@ -350,6 +359,7 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
 		Log.i(TAG, "Bluetooth activation activity returned");
 
 		switch (resultCode) {
