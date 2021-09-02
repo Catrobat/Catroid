@@ -40,7 +40,6 @@ import org.catrobat.catroid.devices.mindstorms.nxt.CommandType;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensorMode;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensorType;
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.PausableScheduledThreadPoolExecutor;
 
 import java.util.ArrayList;
@@ -48,6 +47,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+
+import static org.catrobat.catroid.ui.settingsfragments.LegoSensors.EV3_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.LegoSensors.NXT_SENSORS;
 
 public class LegoSensorService implements CatroidService, SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -97,11 +99,11 @@ public class LegoSensorService implements CatroidService, SharedPreferences.OnSh
 		String sensorCode;
 		switch (sensorType) {
 			case Constants.NXT:
-				sensorCode = preferences.getString(SettingsFragment.getNXT_SENSORS()[port], null);
+				sensorCode = preferences.getString(NXT_SENSORS[port], null);
 				return NXTSensor.Sensor.getSensorFromSensorCode(sensorCode);
 
 			case Constants.EV3:
-				sensorCode = preferences.getString(SettingsFragment.getEV3_SENSORS()[port], null);
+				sensorCode = preferences.getString(EV3_SENSORS[port], null);
 				return EV3Sensor.Sensor.getSensorFromSensorCode(sensorCode);
 
 			default:
@@ -169,8 +171,8 @@ public class LegoSensorService implements CatroidService, SharedPreferences.OnSh
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String preference) {
 		List<String> sensorSettingKeys = new ArrayList<>();
-		sensorSettingKeys.addAll(Arrays.asList(SettingsFragment.getEV3_SENSORS()));
-		sensorSettingKeys.addAll(Arrays.asList(SettingsFragment.getNXT_SENSORS()));
+		sensorSettingKeys.addAll(Arrays.asList(EV3_SENSORS));
+		sensorSettingKeys.addAll(Arrays.asList(NXT_SENSORS));
 
 		if (sensorSettingKeys.contains(preference)) {
 			for (OnSensorChangedListener listener : sensorChangedListeners) {

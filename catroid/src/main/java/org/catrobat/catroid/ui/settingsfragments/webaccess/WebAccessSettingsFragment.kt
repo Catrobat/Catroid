@@ -78,7 +78,6 @@ class WebAccessSettingsFragment : PreferenceFragmentCompat(),
             .takeIf { it is AppCompatActivity }
             .let { it as AppCompatActivity }
             .apply {
-                setSupportActionBar(findViewById(R.id.toolbar))
                 supportActionBar?.setTitle(R.string.preference_title_web_access)
             }
     }
@@ -86,6 +85,12 @@ class WebAccessSettingsFragment : PreferenceFragmentCompat(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        menu.findItem(R.id.menu_item_help)?.isVisible = true
+        menu.findItem(R.id.menu_item_delete)?.isVisible = true
+        super.onPrepareOptionsMenu(menu)
     }
 
     override fun onCreatePreferences(
@@ -151,8 +156,8 @@ class WebAccessSettingsFragment : PreferenceFragmentCompat(),
     }
 
     private fun showDialog() {
-        val list = listOf<StringOption>()
-        val textWatcher = DuplicateInputTextWatcher<StringOption>(list)
+        val scopeList = domainsList.map { StringOption(it) }
+        val textWatcher = DuplicateInputTextWatcher<StringOption>(scopeList)
         TextInputDialog.Builder(requireContext())
             .setTextWatcher(textWatcher)
             .setPositiveButton(getString(R.string.ok)) { _, textInput: String? ->

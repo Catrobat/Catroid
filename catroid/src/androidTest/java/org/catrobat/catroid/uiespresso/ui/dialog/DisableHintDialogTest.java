@@ -31,7 +31,6 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.catrobat.catroid.utils.SnackbarUtil;
@@ -57,7 +56,7 @@ import static org.catrobat.catroid.R.id.currentProjectLayout;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DISABLE_HINTS_DIALOG_SHOWN_PREFERENCE_KEY;
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_HINTS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragmentKt.SETTINGS_SHOW_HINTS;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
@@ -85,7 +84,7 @@ public class DisableHintDialogTest {
 		createProject("firstProject");
 
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
-		hintSetting = sharedPreferences.getBoolean(SettingsFragment.SETTINGS_SHOW_HINTS, false);
+		hintSetting = sharedPreferences.getBoolean(SETTINGS_SHOW_HINTS, false);
 		hintList = new HashSet<>(sharedPreferences.getStringSet(SnackbarUtil.SHOWN_HINT_LIST, new HashSet<String>()));
 		bufferedPreferenceSetting = sharedPreferences.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
 

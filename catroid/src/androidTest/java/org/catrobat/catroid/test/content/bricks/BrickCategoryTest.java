@@ -241,8 +241,8 @@ import static android.content.SharedPreferences.Editor;
 
 import static junit.framework.Assert.assertEquals;
 
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragmentKt.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragmentKt.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS;
 
 @RunWith(Parameterized.class)
 public class BrickCategoryTest {

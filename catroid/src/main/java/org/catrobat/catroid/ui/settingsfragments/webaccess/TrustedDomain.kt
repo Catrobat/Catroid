@@ -26,9 +26,7 @@ package org.catrobat.catroid.ui.settingsfragments.webaccess
 import org.catrobat.catroid.common.Nameable
 
 class TrustedDomain(private var domain: String) : Nameable {
-    override fun getName(): String {
-        return domain
-    }
+    override fun getName() = domain
 
     override fun setName(name: String) {
         this.domain = name
@@ -40,7 +38,5 @@ class TrustedDomain(private var domain: String) : Nameable {
         } else false
     }
 
-    override fun hashCode(): Int {
-        return domain.hashCode()
-    }
+    override fun hashCode() = domain.hashCode()
 }

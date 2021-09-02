@@ -26,6 +26,7 @@ import android.os.Bundle
 import android.view.Menu
 import org.catrobat.catroid.R
 import org.catrobat.catroid.databinding.PreferenceBinding
+import org.catrobat.catroid.ui.settingsfragments.ACCESSIBILITY_SETTINGS_FRAGMENT_TAG
 import org.catrobat.catroid.ui.settingsfragments.AccessibilityProfilesFragment.SETTINGS_FRAGMENT_INTENT_KEY
 import org.catrobat.catroid.ui.settingsfragments.AccessibilitySettingsFragment
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
@@ -41,12 +42,13 @@ class SettingsActivity : BaseActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.content_frame, SettingsFragment())
             .commit()
+
         if (intent.extras != null &&
-            intent.getBooleanExtra(SETTINGS_FRAGMENT_INTENT_KEY, false)) {
-                // todo same
-            fragmentManager.beginTransaction()
+            intent.getBooleanExtra(SETTINGS_FRAGMENT_INTENT_KEY, false)
+        ) {
+            supportFragmentManager.beginTransaction()
                 .replace(R.id.content_frame, AccessibilitySettingsFragment())
-                .addToBackStack(AccessibilitySettingsFragment.TAG)
+                .addToBackStack(ACCESSIBILITY_SETTINGS_FRAGMENT_TAG)
                 .commit()
         }
 
@@ -58,18 +60,14 @@ class SettingsActivity : BaseActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount > 0) {
-            supportFragmentManager.popBackStack()
-        } else {
-            super.onBackPressed()
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_settings_preference, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) = false
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu?.findItem(R.id.menu_item_help)?.isVisible = false
+        menu?.findItem(R.id.menu_item_delete)?.isVisible = false
+        return super.onPrepareOptionsMenu(menu)
+    }
 }

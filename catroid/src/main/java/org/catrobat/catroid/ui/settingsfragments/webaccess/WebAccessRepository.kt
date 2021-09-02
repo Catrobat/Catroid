@@ -27,7 +27,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import org.catrobat.catroid.TrustedDomainManager
 
-// TODO store in DB
 interface WebAccessRepository {
 
     fun addToUserTrustList(domain: String)
@@ -60,13 +59,5 @@ class DefaultWebAccessRepository : WebAccessRepository {
         domains.postValue(TrustedDomainManager.getUserTrustList().toTrustDomainList())
     }
 
-    private fun String.toTrustDomainList(): List<TrustedDomain> {
-        val domains = mutableListOf<TrustedDomain>()
-        this.takeIf { it.isNotBlank() }?.let {
-            split("\n").forEach {
-                domains.add(TrustedDomain(it))
-            }
-        }
-        return domains
-    }
+    private fun List<String>.toTrustDomainList(): List<TrustedDomain> = map { TrustedDomain(it) }
 }

@@ -164,7 +164,7 @@ class BrickCategoryFragment : ListFragment() {
         if (SettingsFragment.isArduinoSharedPreferenceEnabled(requireContext())) {
             categories.add(inflater.inflate(R.layout.brick_category_arduino, null))
         }
-        if (RaspberryPiSettingsFragment.isRaspiSharedPreferenceEnabled(activity)) {
+        if (RaspberryPiSettingsFragment.isRaspiSharedPreferenceEnabled(requireContext())) {
             categories.add(inflater.inflate(R.layout.brick_category_raspi, null))
         }
         if (SettingsFragment.isPhiroSharedPreferenceEnabled(requireContext())) {

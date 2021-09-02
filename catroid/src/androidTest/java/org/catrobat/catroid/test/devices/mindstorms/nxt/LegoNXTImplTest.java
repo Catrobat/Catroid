@@ -50,7 +50,8 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.NXT_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.LegoSensors.NXT_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragmentKt.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED;
 
 @RunWith(AndroidJUnit4.class)
 public class LegoNXTImplTest {
@@ -80,10 +81,10 @@ public class LegoNXTImplTest {
 				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 
 		nxtSettingBuffer = sharedPreferences
-				.getBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false);
+				.getBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false);
 
 		sharedPreferences.edit()
-				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true)
+				.putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true)
 				.commit();
 
 		sensorMappingBuffer = SettingsFragment.getLegoNXTSensorMapping(ApplicationProvider.getApplicationContext());
@@ -105,7 +106,7 @@ public class LegoNXTImplTest {
 		logger.disconnectAndDestroy();
 
 		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit()
-				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, nxtSettingBuffer)
+				.putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, nxtSettingBuffer)
 				.commit();
 		setSensorMapping(sensorMappingBuffer);
 	}

@@ -31,7 +31,6 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.catrobat.catroid.utils.SnackbarUtil;
@@ -50,6 +49,7 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DISABLE_HINTS_DIALOG_SHOWN_PREFERENCE_KEY;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragmentKt.SETTINGS_SHOW_HINTS;
 import static org.hamcrest.core.AllOf.allOf;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -74,11 +74,11 @@ public class Android9SnackbarRegressionTest {
 	public void setUp() {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 		hintSetting = sharedPreferences
-				.getBoolean(SettingsFragment.SETTINGS_SHOW_HINTS, false);
+				.getBoolean(SETTINGS_SHOW_HINTS, false);
 		hintList = new HashSet<>(sharedPreferences.getStringSet(SnackbarUtil.SHOWN_HINT_LIST, new HashSet<String>()));
 
 		sharedPreferences.edit()
-				.putBoolean(SettingsFragment.SETTINGS_SHOW_HINTS, true)
+				.putBoolean(SETTINGS_SHOW_HINTS, true)
 				.putStringSet(SnackbarUtil.SHOWN_HINT_LIST, new HashSet<String>())
 				.putBoolean(DISABLE_HINTS_DIALOG_SHOWN_PREFERENCE_KEY, true)
 				.commit();
@@ -92,7 +92,7 @@ public class Android9SnackbarRegressionTest {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 
 		sharedPreferences.edit()
-				.putBoolean(SettingsFragment.SETTINGS_SHOW_HINTS, hintSetting)
+				.putBoolean(SETTINGS_SHOW_HINTS, hintSetting)
 				.putStringSet(SnackbarUtil.SHOWN_HINT_LIST, hintList)
 				.commit();
 	}

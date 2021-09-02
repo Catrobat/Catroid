@@ -123,11 +123,11 @@ import org.catrobat.catroid.formulaeditor.Sensors.SECOND_FACE_Y_POSITION
 import org.catrobat.catroid.formulaeditor.Sensors.SPEECH_RECOGNITION_LANGUAGE
 import org.catrobat.catroid.formulaeditor.Sensors.TEXT_FROM_CAMERA
 import org.catrobat.catroid.ui.MainMenuActivity
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS
+import org.catrobat.catroid.ui.settingsfragments.SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS
+import org.catrobat.catroid.ui.settingsfragments.SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS
+import org.catrobat.catroid.ui.settingsfragments.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS
+import org.catrobat.catroid.ui.settingsfragments.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS
+import org.catrobat.catroid.ui.settingsfragments.SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
 import org.junit.After

@@ -49,6 +49,7 @@ import androidx.preference.PreferenceManager;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragmentKt.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 
@@ -74,7 +75,7 @@ public class LegoConfigDialogActivityRecreationRegressionTest {
 		script.addBrick(new ChangeSizeByNBrick(0));
 
 		nxtSettingBuffer = PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
-				.getBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false);
+				.getBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false);
 
 		setNXTBrickSetting(true);
 
@@ -117,7 +118,7 @@ public class LegoConfigDialogActivityRecreationRegressionTest {
 
 	private void setNXTBrickSetting(boolean bricksEnabled) {
 		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit()
-				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, bricksEnabled)
+				.putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, bricksEnabled)
 				.commit();
 	}
 }

@@ -108,9 +108,10 @@ class TrustedUserDomainsTest {
     @Test
     fun testGetUserTrustList() {
         Constants.TRUSTED_USER_DOMAINS_FILE.createNewFile()
+        val list = listOf("tugraz.at", "wikipedia.net")
         given(Utils.getJsonObjectFromInputStream(any()))
-            .willReturn(constructTrustList(listOf("tugraz.at", "wikipedia.net")))
-        assertEquals("tugraz.at\nwikipedia.net", getUserTrustList())
+            .willReturn(constructTrustList(list))
+        assertEquals(list, getUserTrustList())
     }
 
     @After

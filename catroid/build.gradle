@@ -165,7 +165,7 @@ android {
         lintConfig file('config/lint.xml')
         ignore 'GradleDependency', 'OldTargetApi', 'ExtraTranslation', 'MissingTranslation',
                 'LintBaseline', 'ObsoleteLintCustomCheck'
-        // remove later and fix resource names
+        // disable showing errors that some resources name match android private resources name
         disable 'PrivateResource'
 
         abortOnError false

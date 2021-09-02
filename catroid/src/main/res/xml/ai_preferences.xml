@@ -22,34 +22,40 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:summary="@string/preference_description_ai"
     android:title="@string/preference_title_ai">
 
     <SwitchPreference
+        app:iconSpaceReserved="false"
         android:defaultValue="@string/FEATURE_AI_PREFERENCES_ENABLED"
         android:key="setting_ai_speech_recognition"
         android:summary="@string/preference_description_ai_speech_recognition"
         android:title="@string/preference_title_ai_speech_recognition" />
 
     <SwitchPreference
+        app:iconSpaceReserved="false"
         android:defaultValue="@string/FEATURE_AI_PREFERENCES_ENABLED"
         android:key="setting_ai_speech_synthetization"
         android:summary="@string/preference_description_ai_speech_synthetization"
         android:title="@string/preference_title_ai_speech_synthetization" />
 
     <SwitchPreference
+        app:iconSpaceReserved="false"
         android:defaultValue="@string/FEATURE_AI_PREFERENCES_ENABLED"
         android:key="setting_ai_face_detection"
         android:summary="@string/preference_description_ai_face_detection"
         android:title="@string/preference_title_ai_face_detection" />
 
     <SwitchPreference
+        app:iconSpaceReserved="false"
         android:defaultValue="@string/FEATURE_AI_PREFERENCES_ENABLED"
         android:key="setting_ai_pose_detection"
         android:summary="@string/preference_description_ai_pose_detection"
         android:title="@string/preference_title_ai_pose_detection" />
 
     <SwitchPreference
+        app:iconSpaceReserved="false"
         android:defaultValue="@string/FEATURE_AI_PREFERENCES_ENABLED"
         android:key="setting_ai_text_recognition"
         android:summary="@string/preference_description_ai_text_recognition"

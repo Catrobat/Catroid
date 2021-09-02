@@ -42,7 +42,8 @@ import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick
 import org.catrobat.catroid.content.bricks.SpeakBrick
 import org.catrobat.catroid.content.bricks.StartListeningBrick
 import org.catrobat.catroid.ui.SpriteActivity
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
+import org.catrobat.catroid.ui.settingsfragments.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS
+import org.catrobat.catroid.ui.settingsfragments.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils
 import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.matchers.BrickCategoryListMatchers
@@ -83,7 +84,7 @@ class SpeechAIExtensionSettingsBricksTest(
         fun parameters() = listOf(
             arrayOf(
                 "Speech Recognition bricks in category Sound",
-                SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
+                SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
                 R.string.category_sound,
                 arrayListOf(
                     Pair(AskSpeechBrick::class.java, R.id.brick_set_variable_layout),
@@ -96,7 +97,7 @@ class SpeechAIExtensionSettingsBricksTest(
             ),
             arrayOf(
                 "Speech Recognition bricks in category Data",
-                SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
+                SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
                 R.string.category_data,
                 arrayListOf(
                     Pair(AskSpeechBrick::class.java, R.id.brick_set_variable_layout),
@@ -105,7 +106,7 @@ class SpeechAIExtensionSettingsBricksTest(
             ),
             arrayOf(
                 "Speech Recognition bricks in category Device",
-                SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
+                SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
                 R.string.category_device,
                 arrayListOf(
                     Pair(AskSpeechBrick::class.java, R.id.brick_set_variable_layout),
@@ -114,7 +115,7 @@ class SpeechAIExtensionSettingsBricksTest(
             ),
             arrayOf(
                 "Speech Synthetization bricks in category Sound",
-                SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
+                SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
                 R.string.category_sound,
                 arrayListOf(
                     Pair(SpeakBrick::class.java, R.id.brick_speak_layout),
@@ -123,7 +124,7 @@ class SpeechAIExtensionSettingsBricksTest(
             ),
             arrayOf(
                 "Speech Synthetization bricks in category Device",
-                SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
+                SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
                 R.string.category_device,
                 arrayListOf(
                     Pair(SpeakBrick::class.java, R.id.brick_speak_layout),
@@ -225,8 +226,8 @@ class SpeechAIExtensionSettingsBricksTest(
     }
 
     private val allAISpeechBrickSettings: List<String> = listOf(
-        SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
-        SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS
+        SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
+        SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS
     )
 
     private fun setSettingToBoolean(setting: String, value: Boolean) {

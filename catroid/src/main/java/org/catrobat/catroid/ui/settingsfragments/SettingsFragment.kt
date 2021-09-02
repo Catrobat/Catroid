@@ -30,7 +30,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.preference.ListPreference
-import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import androidx.preference.PreferenceScreen
@@ -46,6 +45,8 @@ import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor
 import org.catrobat.catroid.formulaeditor.SensorHandler
 import org.catrobat.catroid.ui.MainMenuActivity
+import org.catrobat.catroid.ui.settingsfragments.LegoSensors.EV3_SENSORS
+import org.catrobat.catroid.ui.settingsfragments.LegoSensors.NXT_SENSORS
 import org.catrobat.catroid.ui.settingsfragments.webaccess.WEB_ACCESS_SETTINGS_FRAGMENT_TAG
 import org.catrobat.catroid.ui.settingsfragments.webaccess.WebAccessSettingsFragment
 import org.catrobat.catroid.utils.SnackbarUtil.SHOWN_HINT_LIST
@@ -77,8 +78,7 @@ const val SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS = "setting_ai_text_recogniti
 
 const val SETTINGS_MULTIPLAYER_VARIABLES_ENABLED = "setting_multiplayer_variables_enabled"
 const val SETTINGS_SHOW_HINTS = "setting_enable_hints"
-const val SETTINGS_PARROT_JUMPING_SUMO_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY =
-    "setting_parrot_jumping_sumo_catrobat_terms_of_service_accepted_permanently"
+
 const val SETTINGS_TEST_BRICKS = "setting_test_bricks"
 const val AI_SENSORS_SCREEN_KEY = "setting_ai_screen"
 const val ACCESSIBILITY_SCREEN_KEY = "setting_accessibility_screen"
@@ -104,7 +104,13 @@ const val RASPI_VERSION_SPINNER = "setting_raspi_version_preference"
 
 const val SETTINGS_CRASH_REPORTS = "setting_enable_crash_reports"
 const val SETTINGS_USE_CATBLOCKS = "settings_use_catblocks"
+private const val SETTINGS_MANAGE_EXTENSIONS = "setting_manage_extensions"
+private const val LEGO_SENSORS_ARRAY_SIZE = 4
+private const val DRONE_SENSOR_ARRAY_SIZE = 5
 
+val SETTINGS_FRAGMENT_TAG = SettingsFragment::class.java.simpleName
+
+@Suppress("MethodOverloading")
 class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -114,30 +120,30 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
-        setHintPreferences()
 
         setupLanguageListPreference()
-        setupAiPreference()
+        setHintPreferences()
         setupTrustedDomainPreference()
-        setupEmbroideryPreference()
-        setUpMultiplayerPreference()
-        setupPhiroPreference()
-        setupJumpingSumoPreference()
-        setupArduinoPreference()
-        setupRaspberryPiPreference()
-        setupNfcPreference()
-        setupGlobalCastPreference()
-        setupTestBricksPreference()
+        setupExtensionsPreference()
+        setupAccessibilityPreference()
     }
 
-    private fun setupAiPreference() {
-        findPreference<PreferenceScreen>(AI_SENSORS_SCREEN_KEY)?.apply {
-            isVisible = BuildConfig.FEATURE_AI_SENSORS_ENABLED
-            setOnPreferenceClickListener {
-                navigatesTo(AISettingsFragment(), AISettingsFragment.TAG)
+    private fun setupAccessibilityPreference() {
+        findPreference<PreferenceScreen>(ACCESSIBILITY_SCREEN_KEY)?.setOnPreferenceClickListener {
+            navigatesTo(AccessibilitySettingsFragment(), ACCESSIBILITY_SETTINGS_FRAGMENT_TAG)
+            true
+        }
+    }
+
+    private fun setupExtensionsPreference() {
+        findPreference<PreferenceScreen>(SETTINGS_MANAGE_EXTENSIONS)
+            ?.setOnPreferenceClickListener {
+                navigatesTo(
+                    ManageExtensionsSettingsFragment(),
+                    MANAGE_EXTENSIONS_SETTINGS_FRAGMENT_TAG
+                )
                 true
             }
-        }
     }
 
     private fun navigatesTo(preference: PreferenceFragmentCompat, tag: String) {
@@ -148,14 +154,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun setHintPreferences() {
-        findPreference<SwitchPreference>(SETTINGS_SHOW_HINTS)?.apply {
-            setOnPreferenceChangeListener { preference, _ ->
+        findPreference<SwitchPreference>(SETTINGS_SHOW_HINTS)
+            ?.setOnPreferenceChangeListener { preference, _ ->
                 preference.preferenceManager.sharedPreferences.edit {
                     remove(SHOWN_HINT_LIST)
                 }
                 true
             }
-        }
     }
 
     private fun setupLanguageListPreference() {
@@ -190,89 +195,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun setupTrustedDomainPreference() {
-        findPreference<Preference>(SETTINGS_EDIT_TRUSTED_DOMAINS)
+        findPreference<PreferenceScreen>(SETTINGS_EDIT_TRUSTED_DOMAINS)
             ?.setOnPreferenceClickListener {
                 navigatesTo(WebAccessSettingsFragment(), WEB_ACCESS_SETTINGS_FRAGMENT_TAG)
                 true
             }
-    }
-
-    private fun setupEmbroideryPreference() {
-        findPreference<SwitchPreference>(SETTINGS_SHOW_EMBROIDERY_BRICKS)?.apply {
-            isVisible = BuildConfig.FEATURE_EMBROIDERY_ENABLED
-        }
-    }
-
-    private fun setUpMultiplayerPreference() {
-        findPreference<SwitchPreference>(SETTINGS_MULTIPLAYER_VARIABLES_ENABLED)?.apply {
-            if (!BuildConfig.FEATURE_MULTIPLAYER_VARIABLES_ENABLED) {
-                isEnabled = false
-                preferenceScreen.removePreference(this)
-            }
-        }
-    }
-
-    private fun setupPhiroPreference() {
-        findPreference<SwitchPreference>(SETTINGS_SHOW_PHIRO_BRICKS)?.apply {
-            if (!BuildConfig.FEATURE_PHIRO_ENABLED) {
-                isEnabled = false
-                preferenceScreen.removePreference(this)
-            }
-        }
-    }
-
-    private fun setupJumpingSumoPreference() {
-        findPreference<SwitchPreference>(SETTINGS_SHOW_JUMPING_SUMO_BRICKS)?.apply {
-            if (!BuildConfig.FEATURE_PARROT_JUMPING_SUMO_ENABLED) {
-                isEnabled = false
-                preferenceScreen.removePreference(this)
-            }
-        }
-    }
-
-    private fun setupArduinoPreference() {
-        findPreference<SwitchPreference>(SETTINGS_SHOW_ARDUINO_BRICKS)?.apply {
-            if (!BuildConfig.FEATURE_ARDUINO_ENABLED) {
-                isEnabled = false
-                preferenceScreen.removePreference(this)
-            }
-        }
-    }
-
-    private fun setupRaspberryPiPreference() {
-        findPreference<SwitchPreference>(SETTINGS_SHOW_RASPI_BRICKS)?.apply {
-            if (!BuildConfig.FEATURE_RASPI_ENABLED) {
-                isEnabled = false
-                preferenceScreen.removePreference(this)
-            }
-        }
-    }
-
-    private fun setupGlobalCastPreference() {
-        findPreference<SwitchPreference>(SETTINGS_CAST_GLOBALLY_ENABLED)?.apply {
-            if (!BuildConfig.FEATURE_CAST_ENABLED) {
-                isEnabled = false
-                preferenceScreen.removePreference(this)
-            }
-        }
-    }
-
-    private fun setupNfcPreference() {
-        findPreference<SwitchPreference>(SETTINGS_SHOW_NFC_BRICKS)?.apply {
-            if (!BuildConfig.FEATURE_NFC_ENABLED) {
-                isEnabled = false
-                preferenceScreen.removePreference(this)
-            }
-        }
-    }
-
-    private fun setupTestBricksPreference() {
-        findPreference<SwitchPreference>(SETTINGS_TEST_BRICKS)?.apply {
-            if (!BuildConfig.FEATURE_TESTBRICK_ENABLED) {
-                isEnabled = BuildConfig.DEBUG
-                preferenceScreen.removePreference(this)
-            }
-        }
     }
 
     override fun onResume() {
@@ -284,78 +211,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
     }
 
-    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
-        when (preference!!.key) {
-            /*ACCESSIBILITY_SCREEN_KEY -> parentFragmentManager
-                .beginTransaction()
-                .replace(
-                    R.id.content_frame,
-                    AccessibilitySettingsFragment(),
-                    AccessibilitySettingsFragment.TAG
-                )
-                .addToBackStack(AccessibilitySettingsFragment.TAG)
-                .commit()
-
-            NXT_SCREEN_KEY -> parentFragmentManager
-                .beginTransaction()
-                .replace(
-                    R.id.content_frame,
-                    NXTSensorsSettingsFragment(),
-                    NXTSensorsSettingsFragment.TAG
-                )
-                .addToBackStack(NXTSensorsSettingsFragment.TAG)
-                .commit()
-
-            EV3_SCREEN_KEY -> parentFragmentManager
-                .beginTransaction()
-                .replace(
-                    R.id.content_frame,
-                    Ev3SensorsSettingsFragment(),
-                    Ev3SensorsSettingsFragment.TAG
-                )
-                .addToBackStack(Ev3SensorsSettingsFragment.TAG)
-                .commit()
-            DRONE_SCREEN_KEY -> parentFragmentManager
-                .beginTransaction()
-                .replace(
-                    R.id.content_frame,
-                    ParrotARDroneSettingsFragment(),
-                    ParrotARDroneSettingsFragment.TAG
-                )
-                .addToBackStack(ParrotARDroneSettingsFragment.TAG)
-                .commit()
-
-            RASPBERRY_SCREEN_KEY -> parentFragmentManager
-                .beginTransaction()
-                .replace(
-                    R.id.content_frame,
-                    RaspberryPiSettingsFragment(),
-                    RaspberryPiSettingsFragment.TAG
-                )
-                .addToBackStack(RaspberryPiSettingsFragment.TAG)
-                .commit()*/
-        }
-        return super.onPreferenceTreeClick(preference)
-    }
-
     companion object {
-        val TAG = SettingsFragment::class.java.simpleName
-
-        @JvmStatic
-        val NXT_SENSORS = arrayOf(
-            "setting_mindstorms_nxt_sensor_1",
-            "setting_mindstorms_nxt_sensor_2",
-            "setting_mindstorms_nxt_sensor_3",
-            "setting_mindstorms_nxt_sensor_4"
-        )
-
-        @JvmStatic
-        val EV3_SENSORS = arrayOf(
-            "setting_mindstorms_ev3_sensor_1",
-            "setting_mindstorms_ev3_sensor_2",
-            "setting_mindstorms_ev3_sensor_3",
-            "setting_mindstorms_ev3_sensor_4"
-        )
 
         @JvmStatic
         fun isEmbroiderySharedPreferenceEnabled(context: Context): Boolean {
@@ -609,9 +465,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
         }
 
+        // TODO move to local Settings Repository
         private fun getSharedPreferences(context: Context) =
             PreferenceManager.getDefaultSharedPreferences(context)
 
+        // TODO move to local Settings Repository
         private fun getBooleanSharedPreference(
             defaultValue: Boolean,
             settingsString: String,
@@ -639,7 +497,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             val mLocale = if (languageTag == DEVICE_LANGUAGE) {
                 Locale.forLanguageTag(CatroidApplication.defaultSystemLanguage)
             } else {
-                if (listOf(*LANGUAGE_TAGS).contains(languageTag)) {
+                if (LANGUAGE_TAGS.contains(languageTag)) {
                     Locale.forLanguageTag(languageTag)
                 } else {
                     Locale.forLanguageTag(CatroidApplication.defaultSystemLanguage)
@@ -653,15 +511,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         @JvmStatic
         fun updateLocale(context: Context, locale: Locale) {
-            val configuration = context.resources.configuration
+            val resources = context.resources
+            val configuration = resources.configuration
+            val displayMetrics = resources.displayMetrics
             configuration.setLocale(locale)
-            context.createConfigurationContext(configuration)
+            configuration.setLayoutDirection(locale)
+            context.resources.updateConfiguration(configuration, displayMetrics)
         }
 
         @JvmStatic
         fun getLegoNXTSensorMapping(context: Context): Array<NXTSensor.Sensor?> {
-            val sensorMapping = arrayOfNulls<NXTSensor.Sensor>(4)
-            for (i in 0..3) {
+            val sensorMapping = arrayOfNulls<NXTSensor.Sensor>(LEGO_SENSORS_ARRAY_SIZE)
+            for (i in 0.until(LEGO_SENSORS_ARRAY_SIZE)) {
                 val sensor = getSharedPreferences(context).getString(NXT_SENSORS[i], null)
                 sensorMapping[i] = NXTSensor.Sensor.getSensorFromSensorCode(sensor)
             }
@@ -670,8 +531,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         @JvmStatic
         fun getLegoEV3SensorMapping(context: Context): Array<EV3Sensor.Sensor?> {
-            val sensorMapping = arrayOfNulls<EV3Sensor.Sensor>(4)
-            for (i in 0..3) {
+            val sensorMapping = arrayOfNulls<EV3Sensor.Sensor>(LEGO_SENSORS_ARRAY_SIZE)
+            for (i in 0.until(LEGO_SENSORS_ARRAY_SIZE)) {
                 val sensor = getSharedPreferences(context).getString(EV3_SENSORS[i], null)
                 sensorMapping[i] = EV3Sensor.Sensor.getSensorFromSensorCode(sensor)
             }
@@ -685,9 +546,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         @JvmStatic
-        fun getRaspiPort(context: Context): Int {
-            return getSharedPreferences(context).getString(RASPI_PORT, null)?.toInt() ?: 0
-        }
+        fun getRaspiPort(context: Context) = getSharedPreferences(context)
+            .getString(RASPI_PORT, null)?.toInt() ?: 0
 
         @JvmStatic
         fun getRaspiRevision(context: Context): String? {
@@ -708,6 +568,17 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         @JvmStatic
+        fun setLegoMindstormsNXTSensorMapping(
+            context: Context,
+            sensor: NXTSensor.Sensor,
+            sensorSetting: String
+        ) {
+            getSharedPreferences(context).edit {
+                putString(sensorSetting, sensor.sensorCode)
+            }
+        }
+
+        @JvmStatic
         fun setLegoMindstormsEV3SensorMapping(
             context: Context,
             sensorMapping: Array<EV3Sensor.Sensor>
@@ -716,17 +587,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 for (i in EV3_SENSORS.indices) {
                     putString(EV3_SENSORS[i], sensorMapping[i].sensorCode)
                 }
-            }
-        }
-
-        @JvmStatic
-        fun setLegoMindstormsNXTSensorMapping(
-            context: Context,
-            sensor: NXTSensor.Sensor,
-            sensorSetting: String
-        ) {
-            getSharedPreferences(context).edit {
-                putString(sensorSetting, sensor.sensorCode)
             }
         }
 
@@ -750,8 +610,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 DRONE_ROTATION_SPEED,
                 DRONE_TILT_ANGLE
             )
-            val preferenceMapping = arrayOfNulls<DroneConfigPreference.Preferences>(5)
-            for (i in 0..4) {
+            val preferenceMapping =
+                arrayOfNulls<DroneConfigPreference.Preferences>(DRONE_SENSOR_ARRAY_SIZE)
+            for (i in 0.until(DRONE_SENSOR_ARRAY_SIZE)) {
                 val preference = getSharedPreferences(context).getString(dronePreferences[i], null)
                 preferenceMapping[i] =
                     DroneConfigPreference.Preferences.getPreferenceFromPreferenceCode(preference)
