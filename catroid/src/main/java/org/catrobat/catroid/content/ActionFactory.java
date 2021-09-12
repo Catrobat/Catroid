@@ -63,6 +63,7 @@ import org.catrobat.catroid.content.actions.DeleteThisCloneAction;
 import org.catrobat.catroid.content.actions.EditLookAction;
 import org.catrobat.catroid.content.actions.EventAction;
 import org.catrobat.catroid.content.actions.FadeParticleEffectAction;
+import org.catrobat.catroid.content.actions.FillTatamiContourAction;
 import org.catrobat.catroid.content.actions.FinishStageAction;
 import org.catrobat.catroid.content.actions.FlashAction;
 import org.catrobat.catroid.content.actions.ForItemInUserListAction;
@@ -149,6 +150,7 @@ import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.actions.SpeakAndWaitAction;
 import org.catrobat.catroid.content.actions.StampAction;
 import org.catrobat.catroid.content.actions.StartListeningAction;
+import org.catrobat.catroid.content.actions.StartTatamiContourAction;
 import org.catrobat.catroid.content.actions.StitchAction;
 import org.catrobat.catroid.content.actions.StopAllScriptsAction;
 import org.catrobat.catroid.content.actions.StopAllSoundsAction;
@@ -176,6 +178,7 @@ import org.catrobat.catroid.content.actions.WriteVariableToFileAction;
 import org.catrobat.catroid.content.actions.ZigZagStitchAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
+import org.catrobat.catroid.content.bricks.FillTatamiContourBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick;
@@ -1587,6 +1590,23 @@ public class ActionFactory extends Actions {
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.nextLookAction(nextLookAction);
+		return action;
+	}
+
+	public Action createStartTatamiContourAction(Sprite sprite) {
+		StartTatamiContourAction action = Actions.action(StartTatamiContourAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createFillTatamiContourAction(Sprite sprite, ScriptSequenceAction sequence,
+			FillTatamiContourBrick.Direction direction, FillTatamiContourBrick.Style style, Formula width) {
+		FillTatamiContourAction action = Actions.action(FillTatamiContourAction.class);
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		action.setScope(scope);
+		action.setDirection(direction);
+		action.setStyle(style);
+		action.setWidth(width);
 		return action;
 	}
 }

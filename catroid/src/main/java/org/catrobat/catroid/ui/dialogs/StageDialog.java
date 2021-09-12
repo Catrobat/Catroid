@@ -138,6 +138,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	public void onBackPressed() {
 		clearBroadcastMaps();
 		resetEmbroideryThreadColor();
+		resetTatamiContour();
 		dismiss();
 		stageActivity.exit();
 		new FinishThreadAndDisposeTexturesTask().execute(null, null, null);
@@ -186,6 +187,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 
 		clearBroadcastMaps();
 		resetEmbroideryThreadColor();
+		resetTatamiContour();
 
 		dismiss();
 		SensorHandler.timerReferenceValue = SystemClock.uptimeMillis();
@@ -245,6 +247,14 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				sprite.setEmbroideryThreadColor(Color.BLACK);
+			}
+		}
+	}
+
+	private void resetTatamiContour() {
+		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				sprite.resetTatamiContour();
 			}
 		}
 	}
