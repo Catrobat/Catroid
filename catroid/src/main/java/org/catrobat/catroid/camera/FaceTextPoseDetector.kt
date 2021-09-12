@@ -439,6 +439,7 @@ object FaceTextPoseDetector : ImageAnalysis.Analyzer {
         imageWidth: Int,
         imageHeight: Int
     ): Point {
+        // TODO: check - use resolution here?
         val frontCamera = StageActivity.getActiveCameraManager().isCameraFacingFront
         val aspectRatio = imageWidth.toFloat() / imageHeight
 

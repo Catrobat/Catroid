@@ -55,6 +55,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.BaseCastActivity;
 import org.catrobat.catroid.utils.ProjectManagerExtensionsKt;
+import org.catrobat.catroid.utils.Resolution;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.Locale;
@@ -188,36 +189,22 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 		frameLayout = findViewById(R.id.frame_container);
 
-		int screenWidth = ScreenValues.SCREEN_WIDTH;
-		int screenHeight = ScreenValues.SCREEN_HEIGHT;
-		int virtualScreenWidth = currentProject.getXmlHeader().virtualScreenWidth;
-		int virtualScreenHeight = currentProject.getXmlHeader().virtualScreenHeight;
-
-		float aspectRatio = (float) virtualScreenWidth / (float) virtualScreenHeight;
-		float screenAspectRatio = ScreenValues.getAspectRatio();
-
-		float scale;
-		float ratioHeight = (float) screenHeight / (float) virtualScreenHeight;
-		float ratioWidth = (float) screenWidth / (float) virtualScreenWidth;
+		Resolution projectResolution = new Resolution(
+				currentProject.getXmlHeader().virtualScreenWidth,
+				currentProject.getXmlHeader().virtualScreenHeight);
 
 		switch (currentProject.getScreenMode()) {
 			case MAXIMIZE:
-				if (aspectRatio < screenAspectRatio) {
-					scale = ratioHeight / ratioWidth;
-					layoutWidth = (int) (screenWidth * scale);
-					layoutHeight = screenHeight;
-				} else if (aspectRatio > screenAspectRatio) {
-					scale = ratioWidth / ratioHeight;
-					layoutHeight = (int) (screenHeight * scale);
-					layoutWidth = screenWidth;
-				} else {
-					layoutHeight = screenHeight;
-					layoutWidth = screenWidth;
-				}
+				Resolution screenResolution = new Resolution(ScreenValues.SCREEN_WIDTH,
+						ScreenValues.SCREEN_HEIGHT);
+				Resolution resizedResolution = projectResolution.resizeToFit(screenResolution);
+
+				layoutWidth = resizedResolution.getWidth();
+				layoutHeight = resizedResolution.getHeight();
 				break;
 			case STRETCH:
-				layoutHeight = screenHeight;
-				layoutWidth = screenWidth;
+				layoutWidth = ScreenValues.SCREEN_WIDTH;
+				layoutHeight = ScreenValues.SCREEN_HEIGHT;
 				break;
 		}
 
@@ -228,10 +215,10 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		layoutParams.height = layoutHeight;
 		frameLayout.setLayoutParams(layoutParams);
 
-		layoutHeightRatio = (float) layoutHeight / (float) virtualScreenHeight;
-		layoutWidthRatio = (float) layoutWidth / (float) virtualScreenWidth;
-		reversedRatioHeight = (float) virtualScreenHeight / (float) layoutHeight;
-		reversedRatioWidth = (float) virtualScreenWidth / (float) layoutWidth;
+		layoutHeightRatio = (float) layoutHeight / (float) projectResolution.getHeight();
+		layoutWidthRatio = (float) layoutWidth / (float) projectResolution.getWidth();
+		reversedRatioHeight = (float) projectResolution.getHeight() / (float) layoutHeight;
+		reversedRatioWidth = (float) projectResolution.getWidth() / (float) layoutWidth;
 
 		bitmapOptions = new BitmapFactory.Options();
 		bitmapOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;

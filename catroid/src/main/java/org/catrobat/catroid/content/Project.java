@@ -95,6 +95,7 @@ public class Project implements Serializable {
 		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
 			ScreenValueHandler.updateScreenWidthAndHeight(context);
 		}
+		//TODO: check - use resolution here?
 		if (landscapeMode && ScreenValues.SCREEN_WIDTH < ScreenValues.SCREEN_HEIGHT) {
 			int tmp = ScreenValues.SCREEN_HEIGHT;
 			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;

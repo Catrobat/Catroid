@@ -50,6 +50,7 @@ class PreviewView(context: Context) : FrameLayout(context) {
         )
     }
 
+    // TODO: check - use resolution here?
     private fun scaleView(imageWidth: Int, imageHeight: Int) {
         val imageAspectRatio = imageHeight.toFloat() / imageWidth
         val screenAspectRatio = this.width.toFloat() / this.height

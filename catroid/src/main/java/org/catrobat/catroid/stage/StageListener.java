@@ -78,6 +78,7 @@ import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
 import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
+import org.catrobat.catroid.utils.Resolution;
 import org.catrobat.catroid.utils.TouchUtil;
 import org.catrobat.catroid.utils.VibrationUtil;
 import org.catrobat.catroid.web.WebConnectionHolder;
@@ -149,10 +150,7 @@ public class StageListener implements ApplicationListener {
 
 	private StageDialog stageDialog;
 
-	int maxViewPortX = 0;
-	int maxViewPortY = 0;
-	int maxViewPortHeight = 0;
-	int maxViewPortWidth = 0;
+	Resolution maxViewPort = new Resolution(0, 0);
 
 	public boolean axesOn = false;
 	private static final Color AXIS_COLOR = new Color(0xff000cff);
@@ -201,7 +199,8 @@ public class StageListener implements ApplicationListener {
 		embroideryPatternManager = new DSTPatternManager();
 		initActors(sprites);
 
-		passepartout = new Passepartout(SCREEN_WIDTH, SCREEN_HEIGHT, maxViewPortWidth, maxViewPortHeight, virtualWidth, virtualHeight);
+		passepartout = new Passepartout(SCREEN_WIDTH, SCREEN_HEIGHT, maxViewPort.getWidth(),
+				maxViewPort.getHeight(), virtualWidth, virtualHeight);
 		stage.addActor(passepartout);
 
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
@@ -729,19 +728,20 @@ public class StageListener implements ApplicationListener {
 				shapeRenderer.identity();
 				break;
 			case MAXIMIZE:
+				//TODO: maybe also do some resizing here...?
 				float yScale = 1.0f;
 				float xScale = 1.0f;
-				if (screenshotWidth != maxViewPortWidth && maxViewPortWidth > 0) {
-					xScale = screenshotWidth / (float) maxViewPortWidth;
+				if (screenshotWidth != maxViewPort.getWidth() && maxViewPort.getWidth() > 0) {
+					xScale = screenshotWidth / (float) maxViewPort.getWidth();
 				}
-				if (screenshotHeight != maxViewPortHeight && maxViewPortHeight > 0) {
-					yScale = screenshotHeight / (float) maxViewPortHeight;
+				if (screenshotHeight != maxViewPort.getHeight() && maxViewPort.getHeight() > 0) {
+					yScale = screenshotHeight / (float) maxViewPort.getHeight();
 				}
 
-				screenshotWidth = maxViewPortWidth;
-				screenshotHeight = maxViewPortHeight;
-				screenshotX = maxViewPortX;
-				screenshotY = maxViewPortY;
+				screenshotWidth = maxViewPort.getWidth();
+				screenshotHeight = maxViewPort.getHeight();
+				screenshotX = maxViewPort.getOffsetX();
+				screenshotY = maxViewPort.getOffsetY();
 
 				viewPort = new ExtendViewport(virtualWidth, virtualHeight, camera);
 				shapeRenderer.scale(xScale, yScale, 1.0f);

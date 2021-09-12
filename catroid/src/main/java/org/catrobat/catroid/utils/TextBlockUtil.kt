@@ -58,6 +58,7 @@ object TextBlockUtil {
 
     fun getTextBlockLanguage(index: Int): String = textBlockLanguages.getOrNull(index - 1) ?: "0"
 
+    // TODO: check - use resolution here?
     fun getCenterCoordinates(index: Int): Point {
         val textBlockBounds = textBlocks?.getOrNull(index - 1)?.boundingBox ?: return Point(0, 0)
         val isCameraFacingFront = StageActivity.getActiveCameraManager()?.isCameraFacingFront ?: return Point(0, 0)
