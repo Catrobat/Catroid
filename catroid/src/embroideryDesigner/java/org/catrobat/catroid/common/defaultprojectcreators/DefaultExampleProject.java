@@ -28,6 +28,7 @@ import android.graphics.BitmapFactory;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
@@ -52,8 +53,6 @@ import java.io.IOException;
 
 import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
-import static org.catrobat.catroid.common.ScreenValues.SCREEN_HEIGHT;
-import static org.catrobat.catroid.common.ScreenValues.SCREEN_WIDTH;
 import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
 
 public class DefaultExampleProject extends DefaultProjectCreator {
@@ -98,8 +97,8 @@ public class DefaultExampleProject extends DefaultProjectCreator {
 		backgroundImageScaleFactor = ImageEditing.calculateScaleFactor(
 				options.outWidth,
 				options.outHeight,
-				SCREEN_WIDTH,
-				SCREEN_HEIGHT);
+				ScreenValues.currentScreenResolution.getWidth(),
+				ScreenValues.currentScreenResolution.getHeight());
 
 		Scene scene = project.getDefaultScene();
 

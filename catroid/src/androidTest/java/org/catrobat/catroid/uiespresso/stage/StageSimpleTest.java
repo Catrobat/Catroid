@@ -36,6 +36,7 @@ import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.StageMatchers;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
+import org.catrobat.catroid.utils.Resolution;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.junit.Before;
 import org.junit.Rule;
@@ -83,8 +84,7 @@ public class StageSimpleTest {
 	}
 
 	public Project createProjectWithBlueSprite(String projectName) throws IOException {
-		ScreenValues.SCREEN_HEIGHT = PROJECT_HEIGHT;
-		ScreenValues.SCREEN_WIDTH = PROJECT_WIDTH;
+		ScreenValues.currentScreenResolution = new Resolution(PROJECT_WIDTH, PROJECT_HEIGHT);
 
 		Project project = UiTestUtils.createDefaultTestProject(projectName);
 

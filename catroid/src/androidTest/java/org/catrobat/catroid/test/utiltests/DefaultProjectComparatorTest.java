@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.utils.Resolution;
 import org.catrobat.catroid.utils.Utils;
 import org.junit.After;
 import org.junit.Before;
@@ -62,11 +63,10 @@ public class DefaultProjectComparatorTest {
 
 	@Before
 	public void setUp() throws IOException {
-		screenWidthBuffer = ScreenValues.SCREEN_WIDTH;
-		screenHeightBuffer = ScreenValues.SCREEN_HEIGHT;
+		screenWidthBuffer = ScreenValues.currentScreenResolution.getWidth();
+		screenHeightBuffer = ScreenValues.currentScreenResolution.getHeight();
 
-		ScreenValues.SCREEN_WIDTH = 480;
-		ScreenValues.SCREEN_HEIGHT = 800;
+		ScreenValues.currentScreenResolution = new Resolution(480, 800);
 
 		if (projectDir.isDirectory()) {
 			StorageOperations.deleteDir(projectDir);
@@ -78,8 +78,8 @@ public class DefaultProjectComparatorTest {
 
 	@After
 	public void tearDown() throws Exception {
-		ScreenValues.SCREEN_WIDTH = screenWidthBuffer;
-		ScreenValues.SCREEN_HEIGHT = screenHeightBuffer;
+		ScreenValues.currentScreenResolution = new Resolution(screenWidthBuffer,
+				screenHeightBuffer);
 
 		if (projectDir.isDirectory()) {
 			StorageOperations.deleteDir(projectDir);
