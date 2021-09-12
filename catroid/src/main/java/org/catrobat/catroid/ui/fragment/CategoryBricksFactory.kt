@@ -80,6 +80,7 @@ import org.catrobat.catroid.content.bricks.DroneTurnRightBrick
 import org.catrobat.catroid.content.bricks.EditLookBrick
 import org.catrobat.catroid.content.bricks.ExitStageBrick
 import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick
+import org.catrobat.catroid.content.bricks.FillTatamiContourBrick
 import org.catrobat.catroid.content.bricks.FinishStageBrick
 import org.catrobat.catroid.content.bricks.FlashBrick
 import org.catrobat.catroid.content.bricks.ForItemInUserListBrick
@@ -193,6 +194,7 @@ import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick
 import org.catrobat.catroid.content.bricks.SpeakBrick
 import org.catrobat.catroid.content.bricks.StampBrick
 import org.catrobat.catroid.content.bricks.StartListeningBrick
+import org.catrobat.catroid.content.bricks.StartTatamiContourBrick
 import org.catrobat.catroid.content.bricks.StitchBrick
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick
 import org.catrobat.catroid.content.bricks.StopRunningStitchBrick
@@ -703,6 +705,8 @@ open class CategoryBricksFactory {
         embroideryBrickList.add(TripleStitchBrick(Formula(BrickValues.STITCH_LENGTH)))
         embroideryBrickList.add(SewUpBrick())
         embroideryBrickList.add(StopRunningStitchBrick())
+        embroideryBrickList.add(StartTatamiContourBrick())
+        embroideryBrickList.add(FillTatamiContourBrick(BrickValues.TATAMI_WIDTH))
         embroideryBrickList.add(WriteEmbroideryToFileBrick(context.getString(R.string.brick_default_embroidery_file)))
         return embroideryBrickList
     }

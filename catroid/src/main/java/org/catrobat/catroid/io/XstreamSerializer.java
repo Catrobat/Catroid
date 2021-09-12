@@ -232,6 +232,7 @@ import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
 import org.catrobat.catroid.content.bricks.StartListeningBrick;
+import org.catrobat.catroid.content.bricks.StartTatamiContourBrick;
 import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopRunningStitchBrick;
@@ -609,6 +610,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", ZigZagStitchBrick.class);
 		xstream.alias("brick", TripleStitchBrick.class);
 		xstream.alias("brick", SetThreadColorBrick.class);
+		xstream.alias("brick", StartTatamiContourBrick.class);
 		xstream.alias("brick", SewUpBrick.class);
 		xstream.alias("brick", WriteEmbroideryToFileBrick.class);
 		xstream.alias("brick", WaitTillIdleBrick.class);

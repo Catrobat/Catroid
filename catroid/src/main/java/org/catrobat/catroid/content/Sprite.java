@@ -47,6 +47,7 @@ import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.embroidery.RunningStitch;
+import org.catrobat.catroid.embroidery.TatamiContour;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -63,6 +64,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+
+import androidx.annotation.VisibleForTesting;
 
 @XStreamFieldKeyOrder({
 		"name",
@@ -90,6 +93,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	private transient Set<ConditionScriptTrigger> conditionScriptTriggers = new HashSet<>();
 	private transient List<Integer> usedTouchPointer = new ArrayList<>();
 	private transient Color embroideryThreadColor = Color.BLACK;
+	private transient TatamiContour tatamiContour = new TatamiContour();
 
 	@XStreamAsAttribute
 	private String name;
@@ -702,6 +706,32 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 
 	public void setEmbroideryThreadColor(Color embroideryThreadColor) {
 		this.embroideryThreadColor = embroideryThreadColor;
+	}
+
+	public void startTatamiContour() {
+		if (tatamiContour.getSprite() == null) {
+			tatamiContour.setSprite(this);
+		}
+		tatamiContour.setRunning(true);
+		float currentX = this.look.getXInUserInterfaceDimensionUnit();
+		float currentY = this.look.getYInUserInterfaceDimensionUnit();
+		tatamiContour.setStartCoordinates(currentX, currentY);
+	}
+
+	public void updateTatamiContour() {
+		if (tatamiContour != null) {
+			tatamiContour.update();
+		}
+	}
+
+	public void resetTatamiContour() {
+		if (tatamiContour != null) {
+			tatamiContour.reset();
+		}
+	}
+
+	public TatamiContour getTatamiContour() {
+		return tatamiContour;
 	}
 
 	public Color getEmbroideryThreadColor() {

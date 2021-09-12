@@ -1092,6 +1092,15 @@
     <string name="brick_default_embroidery_file">embroidery.dst</string>
     <string name="brick_sew_up">Sew up</string>
     <string name="brick_thread_color">Set thread color to</string>
+    <string name="brick_start_tatami_contour">Start tatami contour</string>
+    <string name="brick_fill_tatami_contour_on_the">Fill tatami contour on the</string>
+    <string name="brick_fill_tatami_contour_with_pattern">with pattern</string>
+    <string name="brick_fill_tatami_contour_and_width">and width</string>
+    <string name="brick_tatami_direction_left">left</string>
+    <string name="brick_tatami_direction_right">right</string>
+    <string name="brick_tatami_style_random">Random 6–14</string>
+    <string name="brick_tatami_style_regular8">Regular 8</string>
+
     <!--  -->
 
     <!-- Device bricks -->

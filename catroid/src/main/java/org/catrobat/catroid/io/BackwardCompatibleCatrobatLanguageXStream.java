@@ -160,6 +160,7 @@ import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
 import org.catrobat.catroid.content.bricks.StartListeningBrick;
+import org.catrobat.catroid.content.bricks.StartTatamiContourBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
@@ -741,6 +742,9 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 
 		brickInfo = new BrickInfo(SetThreadColorBrick.class.getSimpleName());
 		brickInfoMap.put("setThreadColorBrick", brickInfo);
+
+		brickInfo = new BrickInfo(StartTatamiContourBrick.class.getSimpleName());
+		brickInfoMap.put("startTatamiContourBrick", brickInfo);
 
 		brickInfo = new BrickInfo(FadeParticleEffectBrick.class.getSimpleName());
 		brickInfoMap.put("fadeParticleEffectBrick", brickInfo);

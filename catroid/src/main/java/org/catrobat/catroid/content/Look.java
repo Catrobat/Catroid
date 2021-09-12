@@ -307,12 +307,14 @@ public class Look extends Image {
 	}
 
 	@Override
-	protected void positionChanged() {
-		if (sprite != null && sprite.penConfiguration != null && sprite.penConfiguration.isPenDown()
-				&& !simultaneousMovementXY) {
-			float x = getXInUserInterfaceDimensionUnit();
-			float y = getYInUserInterfaceDimensionUnit();
-			sprite.penConfiguration.addPosition(new PointF(x, y));
+	public void positionChanged() {
+		if (sprite != null && !simultaneousMovementXY) {
+			if (sprite.penConfiguration != null && sprite.penConfiguration.isPenDown()) {
+				float x = getXInUserInterfaceDimensionUnit();
+				float y = getYInUserInterfaceDimensionUnit();
+				sprite.penConfiguration.addPosition(new PointF(x, y));
+			}
+			sprite.updateTatamiContour();
 		}
 	}
 
