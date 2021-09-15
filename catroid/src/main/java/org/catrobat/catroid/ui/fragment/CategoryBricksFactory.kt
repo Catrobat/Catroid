@@ -238,12 +238,10 @@ import org.catrobat.catroid.formulaeditor.Operators
 import org.catrobat.catroid.formulaeditor.Sensors
 import org.catrobat.catroid.ui.controller.RecentBrickListManager
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
-import org.koin.java.KoinJavaComponent.inject
 import java.util.ArrayList
 import java.util.Locale
 
 open class CategoryBricksFactory {
-    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
 
     fun getBricks(category: String, isBackgroundSprite: Boolean, context: Context): List<Brick> {
         when (category) {
@@ -288,7 +286,8 @@ open class CategoryBricksFactory {
         eventBrickList.add(WhenStartedBrick())
         eventBrickList.add(WhenBrick())
         eventBrickList.add(WhenTouchDownBrick())
-        val broadcastMessages = projectManager.currentProject?.broadcastMessageContainer?.broadcastMessages
+        val broadcastMessages =
+            ProjectManager.getInstance().currentProject?.broadcastMessageContainer?.broadcastMessages
         var broadcastMessage: String? = context.getString(R.string.brick_broadcast_default_value)
         if (broadcastMessages != null && broadcastMessages.size > 0) {
             broadcastMessage = broadcastMessages[0]
@@ -340,7 +339,8 @@ open class CategoryBricksFactory {
         if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
             controlBrickList.add(SetNfcTagBrick(context.getString(R.string.brick_set_nfc_tag_default_value)))
         }
-        val broadcastMessages = projectManager.currentProject?.broadcastMessageContainer?.broadcastMessages
+        val broadcastMessages =
+            ProjectManager.getInstance().currentProject?.broadcastMessageContainer?.broadcastMessages
         var broadcastMessage: String? = context.getString(R.string.brick_broadcast_default_value)
         if (broadcastMessages != null && broadcastMessages.size > 0) {
             broadcastMessage = broadcastMessages[0]
@@ -356,7 +356,7 @@ open class CategoryBricksFactory {
     }
 
     private fun setupUserBricksCategoryList(): List<Brick> {
-        val currentSprite = projectManager.currentSprite
+        val currentSprite = ProjectManager.getInstance().currentSprite
         var userDefinedBricks: MutableList<Brick> = ArrayList()
         if (currentSprite != null) userDefinedBricks = currentSprite.userDefinedBrickList
         userDefinedBricks = ArrayList(userDefinedBricks)
@@ -479,14 +479,14 @@ open class CategoryBricksFactory {
         looksBrickList.add(SetBackgroundByIndexBrick(BrickValues.SET_LOOK_BY_INDEX))
         looksBrickList.add(SetBackgroundAndWaitBrick())
         looksBrickList.add(SetBackgroundByIndexAndWaitBrick(BrickValues.SET_LOOK_BY_INDEX))
-        if (!projectManager.currentProject.isCastProject) {
+        if (!ProjectManager.getInstance().currentProject.isCastProject) {
             looksBrickList.add(CameraBrick())
             looksBrickList.add(ChooseCameraBrick())
             looksBrickList.add(FlashBrick())
         }
         when {
             !isBackgroundSprite -> looksBrickList.add(LookRequestBrick(BrickValues.LOOK_REQUEST))
-            projectManager.currentProject.xmlHeader.islandscapeMode() -> looksBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE))
+            ProjectManager.getInstance().currentProject.xmlHeader.islandscapeMode() -> looksBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE))
             else -> looksBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST))
         }
         if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) looksBrickList.add(
@@ -538,7 +538,7 @@ open class CategoryBricksFactory {
         dataBrickList.add(WebRequestBrick(context.getString(R.string.brick_web_request_default_value)))
         when {
             !isBackgroundSprite -> dataBrickList.add(LookRequestBrick(BrickValues.LOOK_REQUEST))
-            projectManager.currentProject.xmlHeader.islandscapeMode() -> dataBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE))
+            ProjectManager.getInstance().currentProject.xmlHeader.islandscapeMode() -> dataBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE))
             else -> dataBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST))
         }
         dataBrickList.add(AskBrick(context.getString(R.string.brick_ask_default_question)))
@@ -570,7 +570,7 @@ open class CategoryBricksFactory {
         deviceBrickList.add(WebRequestBrick(context.getString(R.string.brick_web_request_default_value)))
         when {
             !isBackgroundSprite -> deviceBrickList.add(LookRequestBrick(BrickValues.LOOK_REQUEST))
-            projectManager.currentProject.xmlHeader.islandscapeMode() -> deviceBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE))
+            ProjectManager.getInstance().currentProject.xmlHeader.islandscapeMode() -> deviceBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE))
             else -> deviceBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST))
         }
         deviceBrickList.add(OpenUrlBrick(BrickValues.OPEN_IN_BROWSER))
@@ -585,7 +585,7 @@ open class CategoryBricksFactory {
             deviceBrickList.add(AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)))
             deviceBrickList.add(StartListeningBrick())
         }
-        if (projectManager.currentProject != null && !projectManager.currentProject.isCastProject) {
+        if (ProjectManager.getInstance().currentProject != null && !ProjectManager.getInstance().currentProject.isCastProject) {
             deviceBrickList.add(CameraBrick())
             deviceBrickList.add(ChooseCameraBrick())
             deviceBrickList.add(FlashBrick())

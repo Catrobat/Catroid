@@ -75,13 +75,17 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
 
         val projectPath = intent.getStringExtra(EXTRA_PROJECT_PATH)
             ?: return logWarning("Called ProjectUploadService without project path!")
+
         val projectDirectory = File(projectPath)
         if (projectDirectory.listFiles().isEmpty()) {
             return logWarning("Called ProjectUploadService with empty project directory!")
         }
+
         val resultReceiver = intent.getParcelableExtra(EXTRA_RESULT_RECEIVER) as? ResultReceiver
             ?: return logWarning("Called ProjectUploadService without resultReceiver!")
+
         val projectName = intent.getStringExtra(EXTRA_UPLOAD_NAME)
+            ?: return logWarning("Called ProjectUploadService with empty project name!")
 
         val notificationID = StatusBarNotificationManager.getNextNotificationID()
         startForeground(
@@ -101,7 +105,7 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
         ProjectUpload(
             projectDirectory = projectDirectory,
             projectName = projectName,
-            projectDescription = intent.getStringExtra(EXTRA_PROJECT_DESCRIPTION),
+            projectDescription = intent.getStringExtra(EXTRA_PROJECT_DESCRIPTION) ?: "",
             userEmail = getUserEmail(intent.getStringExtra(EXTRA_PROVIDER)),
             sceneNames = intent.getStringArrayExtra(EXTRA_SCENE_NAMES),
             archiveDirectory = File(cacheDir, UPLOAD_FILE_NAME),
@@ -186,7 +190,7 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
             .build()
     }
 
-    private fun getUserEmail(provider: String): String {
+    private fun getUserEmail(provider: String?): String {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
 
         val email = when (provider) {

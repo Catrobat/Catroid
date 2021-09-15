@@ -49,6 +49,7 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.bricks.BroadcastBrick
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick
 import org.catrobat.catroid.content.bricks.WhenStartedBrick
+import org.catrobat.catroid.runner.Flaky
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions
@@ -83,6 +84,7 @@ class BrickSearchTest {
     }
 
     @Test
+    @Flaky
     fun testSearchBrickParams() {
         val arguments = arrayOf("When scene starts", "move", "BROADCAST")
         val bricks = arrayOf(WhenStartedBrick::class.java, MoveNStepsBrick::class.java, BroadcastBrick::class.java)
@@ -97,7 +99,9 @@ class BrickSearchTest {
                 .check(matches(isDisplayed()))
         }
     }
+
     @Test
+    @Flaky
     fun testSearchIfBrick() {
         Espresso.onView(withId(R.id.button_add)).perform(click())
         Espresso.onView(withId(R.id.search)).perform(click())
@@ -111,6 +115,7 @@ class BrickSearchTest {
     }
 
     @Test
+    @Flaky
     fun testCloseKeyboardAfterSearching() {
         Espresso.onView(withId(R.id.button_add)).perform(click())
         Espresso.onView(withId(R.id.search)).perform(click())
@@ -122,6 +127,7 @@ class BrickSearchTest {
     }
 
     @Test
+    @Flaky
     fun testCategorySearch() {
         Espresso.onView(withId(R.id.button_add)).perform(click())
         Espresso.onView(withId(R.id.search)).perform(click())

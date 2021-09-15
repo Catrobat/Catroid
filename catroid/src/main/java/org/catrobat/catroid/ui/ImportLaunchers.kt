@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui
 
 import android.Manifest.permission.CAMERA
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Intent
 import android.graphics.Bitmap
@@ -32,6 +33,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.MediaStore.ACTION_IMAGE_CAPTURE
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import org.catrobat.catroid.ProjectManager
@@ -47,7 +49,6 @@ import org.catrobat.catroid.ui.WebViewActivity.INTENT_PARAMETER_URL
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
 import java.io.File
 import java.io.IOException
-import java.util.Arrays
 
 interface ImportLauncher {
 
@@ -139,21 +140,21 @@ class ImportFromCameraLauncher(private val activity: AppCompatActivity) : Import
 
     override fun startActivityForResult(requestCode: Int) {
         object : RequiresPermissionTask(
-            REQUEST_PERMISSIONS_CAMERA_LAUNCHER, Arrays.asList(CAMERA),
+            REQUEST_PERMISSIONS_CAMERA_LAUNCHER, listOf(CAMERA),
             R.string.runtime_permission_general
         ) {
-
             override fun task() {
                 createCameraCacheDir()
-
                 val intent = Intent(ACTION_IMAGE_CAPTURE)
                 intent.flags = Intent.FLAG_GRANT_WRITE_URI_PERMISSION
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, getCacheCameraUri())
 
                 val chooser = Intent.createChooser(intent, activity.getString(R.string.select_look_from_camera))
 
-                if (intent.resolveActivity(activity.packageManager) != null) {
+                try {
                     activity.startActivityForResult(chooser, requestCode)
+                } catch (e: ActivityNotFoundException) {
+                    Log.e(TAG, "Could not find camera.")
                 }
             }
         }.execute(activity)

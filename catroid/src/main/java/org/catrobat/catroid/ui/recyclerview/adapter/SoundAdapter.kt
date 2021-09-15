@@ -60,19 +60,20 @@ class SoundAdapter(items: List<SoundInfo?>?) : ExtendedRVAdapter<SoundInfo?>(ite
             }
         }
 
-        val context = holder?.itemView?.context
+        val context = holder?.itemView?.context ?: return
+        item ?: return
 
         if (showDetails) {
-            holder?.details?.text = String.format(
+            holder.details?.text = String.format(
                 Locale.getDefault(),
-                context?.getString(R.string.sound_details)!!,
+                context.getString(R.string.sound_details),
                 getSoundDuration(item),
-                FileMetaDataExtractor.getSizeAsString(item?.file, context)
+                FileMetaDataExtractor.getSizeAsString(item.file, context)
             )
         } else {
-            holder?.details?.text = String.format(
+            holder.details?.text = String.format(
                 Locale.getDefault(),
-                context?.getString(R.string.sound_duration)!!,
+                context.getString(R.string.sound_duration),
                 getSoundDuration(item)
             )
         }
@@ -86,12 +87,12 @@ class SoundAdapter(items: List<SoundInfo?>?) : ExtendedRVAdapter<SoundInfo?>(ite
         currentPlayingPosition = position
     }
 
-    private fun getSoundDuration(sound: SoundInfo?): String {
+    private fun getSoundDuration(sound: SoundInfo): String {
         val metadataRetriever = MediaMetadataRetriever()
-        metadataRetriever.setDataSource(sound?.file?.absolutePath)
+        metadataRetriever.setDataSource(sound.file?.absolutePath)
 
-        var duration =
-            metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION).toLong()
+        var duration = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
+                ?.toLong() ?: 0
 
         duration =
             if (duration / SOUND_DURATION_DIVISOR == 0L) 1 else duration / SOUND_DURATION_DIVISOR

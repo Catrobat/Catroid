@@ -95,7 +95,9 @@ class ServerAuthenticator(
             val request = postValues.createFormEncodedRequest(serverUrl)
             okHttpClient.performCallWith(request)
         } catch (exception: WebconnectionException) {
-            Log.e(tag, exception.message)
+            exception.message?.let {
+                Log.e(tag, it)
+            }
             taskListener.onError(exception.statusCode, null)
             return
         }
