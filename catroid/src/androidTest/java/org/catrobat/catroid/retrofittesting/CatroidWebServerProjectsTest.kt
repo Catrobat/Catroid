@@ -48,7 +48,7 @@ import java.net.HttpURLConnection
 
 @RunWith(MockitoJUnitRunner::class)
 @Category(OutgoingNetworkTests::class)
-class CatroidWebServerTest : KoinTest {
+class CatroidWebServerProjectsTest : KoinTest {
 
     companion object {
         private const val SUCCESS_RESPONSE_FILE_NAME = "featured_projects_success_response.json"
