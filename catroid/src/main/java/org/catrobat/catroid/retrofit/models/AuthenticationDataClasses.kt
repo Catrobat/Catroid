@@ -29,7 +29,20 @@ data class LoginResponse(
     val refresh_token: String
 )
 
-data class User(
+data class RegisterFailedResponse(
+    val email: String?,
+    val username: String?
+)
+
+data class LoginUser(
+    val username: String,
+    val password: String
+)
+
+@SuppressWarnings("ConstructorParameterNaming")
+data class RegisterUser(
+    val dry_run: Boolean,
+    val email: String,
     val username: String,
     val password: String
 )

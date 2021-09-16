@@ -29,10 +29,10 @@ public class FragmentActivityTestRule<T extends Activity> extends BaseActivityTe
 
 	private Intent launchIntent;
 
-	public FragmentActivityTestRule(Class<T> activityClass, String extraFragementPosition, int fragment) {
+	public FragmentActivityTestRule(Class<T> activityClass, String extraFragmentPosition, int fragment) {
 		super(activityClass, true, false);
 		launchIntent = new Intent();
-		launchIntent.putExtra(extraFragementPosition, fragment);
+		launchIntent.putExtra(extraFragmentPosition, fragment);
 	}
 
 	public void launchActivity() {

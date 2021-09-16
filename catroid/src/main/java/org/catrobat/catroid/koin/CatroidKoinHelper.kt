@@ -29,6 +29,7 @@ import org.catrobat.catroid.common.Constants.BASE_URL_API
 import org.catrobat.catroid.common.Constants.TEST_URL_API
 import org.catrobat.catroid.retrofit.CatroidWebServer
 import org.catrobat.catroid.transfers.LoginViewModel
+import org.catrobat.catroid.transfers.RegistrationViewModel
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoriesAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.FeaturedProjectsAdapter
 import org.catrobat.catroid.ui.recyclerview.viewmodel.MainFragmentViewModel
@@ -53,6 +54,7 @@ val componentsModules = module(createdAtStart = true, override = false) {
 val viewModelModules = module {
     viewModel { MainFragmentViewModel(get()) }
     viewModel { LoginViewModel(get()) }
+    viewModel { RegistrationViewModel(get()) }
 }
 
 val repositoryModules = module {

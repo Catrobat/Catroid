@@ -31,12 +31,14 @@ import org.catrobat.catroid.common.Constants.RETROFIT_WRITE_TIMEOUT
 import org.catrobat.catroid.common.FlavoredConstants.FLAVOR_NAME
 import org.catrobat.catroid.retrofit.models.FeaturedProject
 import org.catrobat.catroid.retrofit.models.LoginResponse
+import org.catrobat.catroid.retrofit.models.LoginUser
 import org.catrobat.catroid.retrofit.models.ProjectsCategory
-import org.catrobat.catroid.retrofit.models.User
+import org.catrobat.catroid.retrofit.models.RegisterUser
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
@@ -63,11 +65,22 @@ interface WebService {
     @POST("authentication")
     fun login(
         @Header("Authorization") bearerToken: String,
-        @Body user: User
+        @Body user: LoginUser
     ): Call<LoginResponse>
 
     @GET("authentication")
     fun checkToken(
+        @Header("Authorization") bearerToken: String
+    ): Call<Void>
+
+    @POST("user")
+    fun register(
+        @Header("Authorization") bearerToken: String,
+        @Body user: RegisterUser
+    ): Call<LoginResponse>
+
+    @DELETE("user")
+    fun deleteUser(
         @Header("Authorization") bearerToken: String
     ): Call<Void>
 }

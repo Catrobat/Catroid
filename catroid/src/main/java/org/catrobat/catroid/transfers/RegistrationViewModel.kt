@@ -26,22 +26,25 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.squareup.moshi.Moshi
 import org.catrobat.catroid.retrofit.WebService
 import org.catrobat.catroid.retrofit.models.LoginResponse
-import org.catrobat.catroid.retrofit.models.LoginUser
-import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_TOKEN_OK
+import org.catrobat.catroid.retrofit.models.RegisterFailedResponse
+import org.catrobat.catroid.retrofit.models.RegisterUser
+import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_REGISTER_OK
+import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_REGISTER_UNPROCESSABLE_ENTITY
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class LoginViewModel(private val webServer: WebService) : ViewModel() {
+class RegistrationViewModel(private val webServer: WebService) : ViewModel() {
     private val loginResponse = MutableLiveData<LoginResponse>()
     fun getLoginResponse(): LiveData<LoginResponse> = loginResponse
 
-    private val isLoggingIn = MutableLiveData<Boolean>(false)
-    fun isLoggingIn(): LiveData<Boolean> = isLoggingIn
-    fun setIsLoggingIn(isLoggingIn: Boolean = true) {
-        this.isLoggingIn.postValue(isLoggingIn)
+    private val isRegistering = MutableLiveData<Boolean>(false)
+    fun isRegistering(): LiveData<Boolean> = isRegistering
+    fun setIsRegistering(isRegistering: Boolean = true) {
+        this.isRegistering.postValue(isRegistering)
     }
 
     private var message: String = String()
@@ -50,16 +53,22 @@ class LoginViewModel(private val webServer: WebService) : ViewModel() {
         this.message = message
     }
 
-    fun login(username: String, password: String, token: String) {
-        val loginCall: Call<LoginResponse> = webServer.login("Bearer $token", LoginUser(username, password))
+    private val emailInUse = MutableLiveData<Boolean>(false)
+    fun isEmailInUse(): LiveData<Boolean> = emailInUse
+    private val usernameInUse = MutableLiveData<Boolean>(false)
+    fun isUserNameInUse(): LiveData<Boolean> = usernameInUse
 
-        loginCall.enqueue(object : Callback<LoginResponse> {
+    fun register(dryRun: Boolean, email: String, username: String, password: String, token: String) {
+        val registerCall: Call<LoginResponse> = webServer.register("Bearer $token", RegisterUser
+            (dryRun, email, username, password))
+
+        registerCall.enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 val statusCode = response.code()
                 val serverAnswer = response.message()
 
                 when (statusCode) {
-                    SERVER_RESPONSE_TOKEN_OK -> {
+                    SERVER_RESPONSE_REGISTER_OK -> {
                         val tokenReceived = response.body()?.token
                         val refreshToken = response.body()?.refresh_token
 
@@ -70,24 +79,40 @@ class LoginViewModel(private val webServer: WebService) : ViewModel() {
                             loginResponse.postValue(null)
                         }
                     }
+                    SERVER_RESPONSE_REGISTER_UNPROCESSABLE_ENTITY ->
+                        parseRegisterErrorMessage(response.errorBody()?.string())
                     else -> {
                         Log.e(TAG, "Not accepted StatusCode: $statusCode; Server Answer: $serverAnswer")
                         loginResponse.postValue(null)
                     }
                 }
-                isLoggingIn.postValue(false)
+                isRegistering.postValue(false)
             }
 
             override fun onFailure(call: Call<LoginResponse>, throwable: Throwable) {
                 Log.e(TAG, "onFailure $throwable.message")
                 message = throwable.message.orEmpty()
                 loginResponse.postValue(null)
-                isLoggingIn.postValue(false)
+                isRegistering.postValue(false)
             }
         })
     }
 
+    private fun parseRegisterErrorMessage(errorBody: String?) {
+        errorBody?.let {
+            val registerFailedResponse = Moshi.Builder().build()
+                .adapter<RegisterFailedResponse>(RegisterFailedResponse::class.java)
+                .fromJson(errorBody)
+            registerFailedResponse?.username?.let {
+                usernameInUse.postValue(true)
+            }
+            registerFailedResponse?.email?.let {
+                emailInUse.postValue(true)
+            }
+        }
+    }
+
     companion object {
-        private val TAG = LoginViewModel::class.java.simpleName
+        private val TAG = RegistrationViewModel::class.java.simpleName
     }
 }
