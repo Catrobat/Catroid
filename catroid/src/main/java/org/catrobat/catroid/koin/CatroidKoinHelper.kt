@@ -35,6 +35,7 @@ import org.catrobat.catroid.common.Constants.BASE_URL_API
 import org.catrobat.catroid.common.Constants.TEST_URL_API
 import org.catrobat.catroid.retrofit.CatroidWebServer
 import org.catrobat.catroid.transfers.LoginViewModel
+import org.catrobat.catroid.transfers.RegistrationViewModel
 import org.catrobat.catroid.stage.HmsSpeechRecognitionHolder
 import org.catrobat.catroid.stage.SpeechRecognitionHolder
 import org.catrobat.catroid.stage.SpeechRecognitionHolderFactory
@@ -93,6 +94,7 @@ val componentsModules = module(createdAtStart = true, override = false) {
 val viewModelModules = module {
     viewModel { MainFragmentViewModel(get(), get(), get(), get()) }
     viewModel { LoginViewModel(get()) }
+    viewModel { RegistrationViewModel(get()) }
 }
 
 val repositoryModules = module {

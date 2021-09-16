@@ -34,7 +34,7 @@ class ErrorInterceptor : Interceptor {
 
         if (response.isSuccessful.not() and response.isRedirect.not()) {
             val contentType = response.body()?.contentType()
-            val body = response.body()?.toString() ?: ""
+            val body = response.body()?.string() ?: ""
 
             return response.newBuilder()
                 .body(ResponseBody.create(contentType, body))

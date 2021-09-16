@@ -40,6 +40,8 @@ public final class ServerAuthenticationConstants {
 	public static final String REGISTRATION_URL_APPENDING = "api/register/Register.json";
 	public static final Integer SERVER_RESPONSE_REGISTER_OK = 201;
 	public static final Integer SERVER_RESPONSE_TOKEN_OK = 200;
+	public static final Integer SERVER_RESPONSE_USER_DELETED = 204;
+	public static final Integer SERVER_RESPONSE_REGISTER_UNPROCESSABLE_ENTITY = 422;
 	public static final String JSON_STATUS_CODE = "statusCode";
 	public static final String JSON_ANSWER = "answer";
 	public static final String JSON_TOKEN = "token";
