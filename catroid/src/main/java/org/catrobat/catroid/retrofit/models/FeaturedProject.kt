@@ -59,3 +59,8 @@ data class ProjectResponse(
     val download_url: String,
     val filesize: Double
 )
+
+data class LoginResponse(
+    val token: String,
+    val refresh_token: String
+)

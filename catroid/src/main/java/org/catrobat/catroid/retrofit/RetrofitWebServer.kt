@@ -29,11 +29,14 @@ import org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION
 import org.catrobat.catroid.common.Constants.RETROFIT_WRITE_TIMEOUT
 import org.catrobat.catroid.common.FlavoredConstants.FLAVOR_NAME
 import org.catrobat.catroid.retrofit.models.FeaturedProject
+import org.catrobat.catroid.retrofit.models.LoginResponse
 import org.catrobat.catroid.retrofit.models.ProjectsCategory
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.http.Field
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Query
 import java.util.Locale
 import java.util.concurrent.TimeUnit
@@ -53,6 +56,12 @@ interface WebService {
         @Query("max_version") maxVersion: String = CURRENT_CATROBAT_LANGUAGE_VERSION.toString(),
         @Query("flavor") flavor: String = FLAVOR_NAME
     ): Call<List<ProjectsCategory>>
+
+    @POST("authentication")
+    fun login(
+        @Field("username") username: String,
+        @Field("password") password: String
+    ): Call<LoginResponse>
 }
 
 class CatroidWebServer private constructor() {
