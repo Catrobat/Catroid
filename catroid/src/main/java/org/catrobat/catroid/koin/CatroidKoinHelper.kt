@@ -31,7 +31,10 @@ import androidx.work.WorkManager
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.db.AppDatabase
 import org.catrobat.catroid.db.DatabaseMigrations
+import org.catrobat.catroid.common.Constants.BASE_URL_API
+import org.catrobat.catroid.common.Constants.TEST_URL_API
 import org.catrobat.catroid.retrofit.CatroidWebServer
+import org.catrobat.catroid.transfers.LoginViewModel
 import org.catrobat.catroid.stage.HmsSpeechRecognitionHolder
 import org.catrobat.catroid.stage.SpeechRecognitionHolder
 import org.catrobat.catroid.stage.SpeechRecognitionHolderFactory
@@ -89,6 +92,7 @@ val componentsModules = module(createdAtStart = true, override = false) {
  */
 val viewModelModules = module {
     viewModel { MainFragmentViewModel(get(), get(), get(), get()) }
+    viewModel { LoginViewModel(get()) }
 }
 
 val repositoryModules = module {
@@ -112,6 +116,12 @@ val adapterModules = module {
 
     single {
         CategoriesAdapter()
+    }
+}
+
+val testModules = module {
+    single {
+        CatroidWebServer.getWebService(TEST_URL_API)
     }
 }
 

@@ -75,7 +75,7 @@ public class SignInActivity extends BaseActivity implements SignInCompleteListen
 			case R.id.sign_in_login:
 				LoginDialogFragment logInDialog = new LoginDialogFragment();
 				logInDialog.setSignInCompleteListener(this);
-				logInDialog.show(getSupportFragmentManager(), LoginDialogFragment.TAG);
+				logInDialog.show(getSupportFragmentManager(), LoginDialogFragment.Companion.getTAG());
 				break;
 			case R.id.sign_in_register:
 				RegistrationDialogFragment registrationDialog = new RegistrationDialogFragment();

@@ -134,7 +134,8 @@ class ServerAuthenticator(
             return true
         }
         if (tokenReceived.length != TOKEN_LENGTH) {
-            Log.e(tag, "Invlaid TokenError: $tokenReceived; StatusCode: $statusCode Server Answer: $serverAnswer")
+            Log.e(tag, "Invalid TokenError: $tokenReceived; StatusCode: $statusCode Server " +
+                "Answer: $serverAnswer")
             return true
         }
         return false
