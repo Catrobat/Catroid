@@ -36,10 +36,8 @@ import org.catrobat.catroid.web.ServerAuthenticationConstants.CATROBAT_USERNAME_
 import org.catrobat.catroid.web.ServerAuthenticationConstants.JSON_ANSWER
 import org.catrobat.catroid.web.ServerAuthenticationConstants.JSON_STATUS_CODE
 import org.catrobat.catroid.web.ServerAuthenticationConstants.JSON_TOKEN
-import org.catrobat.catroid.web.ServerAuthenticationConstants.LOGIN_URL_APPENDING
 import org.catrobat.catroid.web.ServerAuthenticationConstants.REGISTRATION_URL_APPENDING
 import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_REGISTER_OK
-import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_TOKEN_OK
 import org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_LENGTH
 import org.json.JSONObject
 import java.util.HashMap
@@ -76,16 +74,6 @@ class ServerAuthenticator(
         performTask(url, SERVER_RESPONSE_REGISTER_OK)
     }
 
-    fun performCatrobatLogin() {
-        postValues[CATROBAT_USERNAME_KEY] = username
-        postValues[CATROBAT_PASSWORD_KEY] = password
-        if (token != Constants.NO_TOKEN) {
-            postValues[Constants.TOKEN] = token
-        }
-        val url = baseUrl + LOGIN_URL_APPENDING
-        performTask(url, SERVER_RESPONSE_TOKEN_OK)
-    }
-
     @VisibleForTesting
     fun performTask(
         serverUrl: String,
@@ -95,9 +83,7 @@ class ServerAuthenticator(
             val request = postValues.createFormEncodedRequest(serverUrl)
             okHttpClient.performCallWith(request)
         } catch (exception: WebconnectionException) {
-            exception.message?.let {
-                Log.e(tag, it)
-            }
+            Log.e(tag, exception.message.orEmpty())
             taskListener.onError(exception.statusCode, null)
             return
         }
@@ -134,7 +120,8 @@ class ServerAuthenticator(
             return true
         }
         if (tokenReceived.length != TOKEN_LENGTH) {
-            Log.e(tag, "Invlaid TokenError: $tokenReceived; StatusCode: $statusCode Server Answer: $serverAnswer")
+            Log.e(tag, "Invalid TokenError: $tokenReceived; StatusCode: $statusCode Server " +
+                "Answer: $serverAnswer")
             return true
         }
         return false

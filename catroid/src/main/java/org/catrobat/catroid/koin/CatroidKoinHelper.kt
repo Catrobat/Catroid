@@ -29,6 +29,8 @@ import com.huawei.hms.api.HuaweiApiAvailability
 import androidx.room.Room
 import androidx.work.WorkManager
 import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.common.Constants.BASE_URL_API
+import org.catrobat.catroid.common.Constants.TEST_URL_API
 import org.catrobat.catroid.db.AppDatabase
 import org.catrobat.catroid.db.DatabaseMigrations
 import org.catrobat.catroid.retrofit.CatroidWebServer
@@ -65,7 +67,7 @@ val componentsModules = module(createdAtStart = true, override = false) {
             .build()
     }
     single {
-        CatroidWebServer.getWebService("https://share.catrob.at/api/")
+        CatroidWebServer.getWebService(BASE_URL_API)
     }
     factory { WorkManager.getInstance(androidContext()) }
     single { ProjectManager(androidContext()) }
@@ -115,6 +117,12 @@ val adapterModules = module {
     }
 }
 
+val testModules = module {
+    single {
+        CatroidWebServer.getWebService(TEST_URL_API)
+    }
+}
+
 val speechModules = module {
     single { SpeechRecognitionHolder() }
     single { HmsSpeechRecognitionHolder() }
@@ -130,6 +138,7 @@ val speechModules = module {
 val myModules = listOf(
     componentsModules, viewModelModules, repositoryModules, adapterModules, speechModules
 )
+
 
 fun start(application: Application, modules: List<Module>) {
     startKoin {

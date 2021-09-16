@@ -496,8 +496,7 @@ public final class Utils {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 
-		boolean tokenValid = !(token.equals(Constants.NO_TOKEN) || token.length() != TOKEN_LENGTH
-				|| token.equals(TOKEN_CODE_INVALID));
+		boolean tokenValid = !(token.equals(Constants.NO_TOKEN) || token.equals(TOKEN_CODE_INVALID));
 		return tokenValid;
 	}
 
