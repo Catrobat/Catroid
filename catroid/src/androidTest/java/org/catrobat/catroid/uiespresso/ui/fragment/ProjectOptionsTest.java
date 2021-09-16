@@ -44,7 +44,6 @@ import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.AllOf;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -74,6 +73,9 @@ import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
@@ -145,16 +147,16 @@ public class ProjectOptionsTest {
 		closeSoftKeyboard();
 
 		File projectFile = new File(DEFAULT_ROOT_DIRECTORY, PROJECT_NAME);
-		Assert.assertTrue(projectFile.exists());
+		assertTrue(projectFile.exists());
 
 		pressBack();
 
-		Assert.assertFalse(projectFile.exists());
+		assertFalse(projectFile.exists());
 
 		project = ProjectManager.getInstance().getCurrentProject();
 		onView(withText(NEW_PROJECT_NAME))
 				.check(matches(isDisplayed()));
-		Assert.assertEquals(NEW_PROJECT_NAME, project.getName());
+		assertEquals(NEW_PROJECT_NAME, project.getName());
 
 		onView(withText(R.string.default_project_background_name))
 				.perform(click());
@@ -232,7 +234,7 @@ public class ProjectOptionsTest {
 
 		pressBack();
 
-		Assert.assertEquals(DESCRIPTION, project.getDescription());
+		assertEquals(DESCRIPTION, project.getDescription());
 	}
 
 	@Test
@@ -244,7 +246,7 @@ public class ProjectOptionsTest {
 
 		pressBack();
 
-		Assert.assertEquals(NOTES_AND_CREDITS, project.getNotesAndCredits());
+		assertEquals(NOTES_AND_CREDITS, project.getNotesAndCredits());
 	}
 
 	@Test
@@ -275,7 +277,7 @@ public class ProjectOptionsTest {
 
 	@Test
 	public void changeAspectRatio() {
-		Assert.assertEquals(ScreenModes.STRETCH, project.getScreenMode());
+		assertEquals(ScreenModes.STRETCH, project.getScreenMode());
 
 		onView(withId(R.id.project_options_aspect_ratio))
 				.perform(click());
@@ -285,7 +287,7 @@ public class ProjectOptionsTest {
 
 		pressBack();
 
-		Assert.assertEquals(ScreenModes.MAXIMIZE, project.getScreenMode());
+		assertEquals(ScreenModes.MAXIMIZE, project.getScreenMode());
 	}
 
 	@Test
@@ -310,7 +312,7 @@ public class ProjectOptionsTest {
 
 		File externalProjectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY,
 				project.getDirectory().getName() + CATROBAT_EXTENSION);
-		Assert.assertTrue(externalProjectZip.exists());
+		assertTrue(externalProjectZip.exists());
 	}
 
 	@Test
@@ -340,11 +342,11 @@ public class ProjectOptionsTest {
 				.check(matches(isDisplayed()));
 
 		File projectFile = new File(DEFAULT_ROOT_DIRECTORY, PROJECT_NAME);
-		Assert.assertTrue(projectFile.exists());
+		assertTrue(projectFile.exists());
 
 		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))
 				.perform(click());
 
-		Assert.assertFalse(projectFile.exists());
+		assertFalse(projectFile.exists());
 	}
 }

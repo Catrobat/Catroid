@@ -44,10 +44,7 @@ import java.util.Arrays;
 
 import static junit.framework.Assert.assertEquals;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertNotEquals;
 
 @RunWith(Parameterized.class)
 public class PhysicsObjectTypesTest {
@@ -154,7 +151,7 @@ public class PhysicsObjectTypesTest {
 		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, type);
 		physicsObject.setShape(new Shape[] {new PolygonShape(), new PolygonShape()});
 
-		assertThat(PhysicsTestUtils.getBody(physicsObject).getFixtureList().size, is(not(equalTo(0))));
+		assertNotEquals(0, PhysicsTestUtils.getBody(physicsObject).getFixtureList().size);
 
 		assertDensitySet(0.123f, 0.123f, physicsObject);
 	}
@@ -164,7 +161,7 @@ public class PhysicsObjectTypesTest {
 		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, type);
 		physicsObject.setShape(new Shape[] {new PolygonShape(), new PolygonShape()});
 
-		assertThat(PhysicsTestUtils.getBody(physicsObject).getFixtureList().size, is(not(equalTo(0))));
+		assertNotEquals(0, PhysicsTestUtils.getBody(physicsObject).getFixtureList().size);
 
 		assertDensitySet(-0.234f, 0.0f, physicsObject);
 	}
@@ -182,7 +179,7 @@ public class PhysicsObjectTypesTest {
 		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, type);
 		physicsObject.setShape(new Shape[] {new PolygonShape(), new PolygonShape()});
 
-		assertThat(PhysicsTestUtils.getBody(physicsObject).getFixtureList().size, is(not(equalTo(0))));
+		assertNotEquals(0, PhysicsTestUtils.getBody(physicsObject).getFixtureList().size);
 
 		assertFrictionSet(0.123f, 0.123f, physicsObject);
 	}
@@ -192,7 +189,7 @@ public class PhysicsObjectTypesTest {
 		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, type);
 		physicsObject.setShape(new Shape[] {new PolygonShape(), new PolygonShape()});
 
-		assertThat(PhysicsTestUtils.getBody(physicsObject).getFixtureList().size, is(not(equalTo(0))));
+		assertNotEquals(0, PhysicsTestUtils.getBody(physicsObject).getFixtureList().size);
 
 		assertFrictionSet(-0.765f, 0.0f, physicsObject);
 	}
@@ -210,7 +207,7 @@ public class PhysicsObjectTypesTest {
 		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, type);
 		physicsObject.setShape(new Shape[] {new PolygonShape(), new PolygonShape()});
 
-		assertThat(PhysicsTestUtils.getBody(physicsObject).getFixtureList().size, is(not(equalTo(0))));
+		assertNotEquals(0, PhysicsTestUtils.getBody(physicsObject).getFixtureList().size);
 
 		assertBounceFactorSet(0.123f, 0.123f, physicsObject);
 	}
@@ -220,7 +217,7 @@ public class PhysicsObjectTypesTest {
 		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, type);
 		physicsObject.setShape(new Shape[] {new PolygonShape(), new PolygonShape()});
 
-		assertThat(PhysicsTestUtils.getBody(physicsObject).getFixtureList().size, is(not(equalTo(0))));
+		assertNotEquals(0, PhysicsTestUtils.getBody(physicsObject).getFixtureList().size);
 
 		assertBounceFactorSet(-0.765f, 0.0f, physicsObject);
 	}
