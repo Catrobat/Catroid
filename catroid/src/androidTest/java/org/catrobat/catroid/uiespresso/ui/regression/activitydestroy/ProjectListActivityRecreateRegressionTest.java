@@ -90,13 +90,14 @@ public class ProjectListActivityRecreateRegressionTest {
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText(R.string.rename)).perform(click());
 
-		onRecyclerView().atPosition(0)
-				.performCheckItem();
-
-		onView(withId(R.id.confirm)).perform(click());
+		onView(withClassName(is("com.google.android.material.textfield.TextInputEditText")))
+				.perform(typeText("TestProject0815"), closeSoftKeyboard());
 
 		onView(withText(R.string.rename_project)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
+
+		onView(withText(R.string.ok))
+				.perform(click());
 
 		InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
 			@Override
