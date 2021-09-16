@@ -46,7 +46,20 @@ import org.catrobat.catroid.common.ScreenValues.SCREEN_HEIGHT
 import org.catrobat.catroid.common.ScreenValues.SCREEN_WIDTH
 import org.catrobat.catroid.formulaeditor.SensorCustomEvent
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener
+import org.catrobat.catroid.formulaeditor.SensorHandler
 import org.catrobat.catroid.formulaeditor.Sensors
+import org.catrobat.catroid.formulaeditor.Sensors.LEFT_FOOT_INDEX_X
+import org.catrobat.catroid.formulaeditor.Sensors.LEFT_FOOT_INDEX_Y
+import org.catrobat.catroid.formulaeditor.Sensors.MOUTH_LEFT_CORNER_X
+import org.catrobat.catroid.formulaeditor.Sensors.MOUTH_LEFT_CORNER_Y
+import org.catrobat.catroid.formulaeditor.Sensors.MOUTH_RIGHT_CORNER_X
+import org.catrobat.catroid.formulaeditor.Sensors.MOUTH_RIGHT_CORNER_Y
+import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_EYE_INNER_X
+import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_EYE_INNER_Y
+import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_EYE_OUTER_X
+import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_EYE_OUTER_Y
+import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_FOOT_INDEX_X
+import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_FOOT_INDEX_Y
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.utils.TextBlockUtil
 import kotlin.math.roundToInt
@@ -58,8 +71,8 @@ object FaceTextPoseDetector : ImageAnalysis.Analyzer {
     private val sensorListeners = mutableSetOf<SensorCustomEventListener>()
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    var facesForSensors: Array<Face?> = Array(FACE_SENSORS) { _ -> null }
-    private var faceIds: IntArray = IntArray(FACE_SENSORS) { _ -> -1 }
+    var facesForSensors: Array<Face?> = Array(FACE_SENSORS) { null }
+    private var faceIds: IntArray = IntArray(FACE_SENSORS) { -1 }
     private val faceDetectionClient by lazy {
         FaceDetection.getClient(
             FaceDetectorOptions.Builder()
@@ -166,8 +179,8 @@ object FaceTextPoseDetector : ImageAnalysis.Analyzer {
         TextBlockUtil.setTextBlocks(text.textBlocks, imageWidth, imageHeight)
 
         sensorListeners.forEach {
-            writeStringToSensor(it, Sensors.TEXT_FROM_CAMERA, text.text)
-            writeFloatToSensor(it, Sensors.TEXT_BLOCKS_NUMBER, text.textBlocks.size.toFloat())
+            it.writeToSensor(Sensors.TEXT_FROM_CAMERA, text.text)
+            it.writeToSensor(Sensors.TEXT_BLOCKS_NUMBER, text.textBlocks.size.toDouble())
         }
     }
 
@@ -179,11 +192,11 @@ object FaceTextPoseDetector : ImageAnalysis.Analyzer {
                 val faceBounds = face.boundingBox
 
                 val facePosition = translateToStageCoordinates(
-                    faceBounds.exactCenterX(), faceBounds.exactCenterY(),
+                    faceBounds.exactCenterX().toDouble(), faceBounds.exactCenterY().toDouble(),
                     imageWidth, imageHeight
                 )
                 val relativeFaceSize =
-                    (faceBounds.height().toFloat() / imageHeight).coerceAtMost(1f)
+                    (faceBounds.height().toDouble() / imageHeight).coerceAtMost(1.0)
                 val faceSize = (MAX_FACE_SIZE * relativeFaceSize).roundToInt()
 
                 updateFaceSensorValues(facePosition, faceSize, index)
@@ -221,29 +234,27 @@ object FaceTextPoseDetector : ImageAnalysis.Analyzer {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun updateFaceDetectionStatusSensorValues() {
-        val firstSensorValue = if (facesForSensors[0] != null) 1f else 0f
-        val secondSensorValue = if (facesForSensors[1] != null) 1f else 0f
+        val firstSensorValue = if (facesForSensors[0] != null) 1.0 else 0.0
+        val secondSensorValue = if (facesForSensors[1] != null) 1.0 else 0.0
         sensorListeners.forEach {
-            writeFloatToSensor(it, Sensors.FACE_DETECTED, firstSensorValue)
-            writeFloatToSensor(it, Sensors.SECOND_FACE_DETECTED, secondSensorValue)
+            it.writeToSensor(Sensors.FACE_DETECTED, firstSensorValue)
+            it.writeToSensor(Sensors.SECOND_FACE_DETECTED, secondSensorValue)
         }
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun updateFaceSensorValues(facePosition: Point, faceSize: Int, faceNumber: Int) {
-        sensorListeners.forEach {
-            when (faceNumber) {
-                0 -> {
-                    writeFloatToSensor(it, Sensors.FACE_X_POSITION, facePosition.x.toFloat())
-                    writeFloatToSensor(it, Sensors.FACE_Y_POSITION, facePosition.y.toFloat())
-                    writeFloatToSensor(it, Sensors.FACE_SIZE, faceSize.toFloat())
-                }
-                1 -> {
-                    writeFloatToSensor(it, Sensors.SECOND_FACE_X_POSITION, facePosition.x.toFloat())
-                    writeFloatToSensor(it, Sensors.SECOND_FACE_Y_POSITION, facePosition.y.toFloat())
-                    writeFloatToSensor(it, Sensors.SECOND_FACE_SIZE, faceSize.toFloat())
-                }
+        sensorListeners.filter { faceNumber in 0..1 }.forEach {
+            val sensors = when (faceNumber) {
+                1 -> Triple(Sensors.SECOND_FACE_X, Sensors.SECOND_FACE_Y, Sensors.SECOND_FACE_SIZE)
+                else -> Triple(Sensors.FACE_X, Sensors.FACE_Y, Sensors.FACE_SIZE)
             }
+            it.writePositionAccordingToRotationToSensor(
+                sensors.first,
+                sensors.second,
+                facePosition.toPosition()
+            )
+            it.writeToSensor(sensors.third, faceSize.toDouble())
         }
     }
 
@@ -255,8 +266,8 @@ object FaceTextPoseDetector : ImageAnalysis.Analyzer {
         allPoseLandmarks.forEach { poseLandmark ->
             poseLandmark?.let {
                 val poseLandmarkPositionTranslated = translateToStageCoordinates(
-                    poseLandmark.position.x,
-                    poseLandmark.position.y,
+                    poseLandmark.position.x.toDouble(),
+                    poseLandmark.position.y.toDouble(),
                     imageWidth,
                     imageHeight
                 )
@@ -279,51 +290,25 @@ object FaceTextPoseDetector : ImageAnalysis.Analyzer {
         sensorListener: SensorCustomEventListener,
         position: Point
     ) {
-        when (poseLandmarkType) {
-            PoseLandmark.NOSE -> {
-                writeFloatToSensor(sensorListener, Sensors.NOSE_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.NOSE_Y, position.y.toFloat())
-            }
-            PoseLandmark.LEFT_EYE_INNER -> {
-                writeFloatToSensor(sensorListener, Sensors.LEFT_EYE_INNER_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.LEFT_EYE_INNER_Y, position.y.toFloat())
-            }
-            PoseLandmark.LEFT_EYE -> {
-                writeFloatToSensor(sensorListener, Sensors.LEFT_EYE_CENTER_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.LEFT_EYE_CENTER_Y, position.y.toFloat())
-            }
-            PoseLandmark.LEFT_EYE_OUTER -> {
-                writeFloatToSensor(sensorListener, Sensors.LEFT_EYE_OUTER_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.LEFT_EYE_OUTER_Y, position.y.toFloat())
-            }
-            PoseLandmark.RIGHT_EYE_INNER -> {
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_EYE_INNER_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_EYE_INNER_Y, position.y.toFloat())
-            }
-            PoseLandmark.RIGHT_EYE -> {
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_EYE_CENTER_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_EYE_CENTER_Y, position.y.toFloat())
-            }
-            PoseLandmark.RIGHT_EYE_OUTER -> {
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_EYE_OUTER_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_EYE_OUTER_Y, position.y.toFloat())
-            }
-            PoseLandmark.LEFT_EAR -> {
-                writeFloatToSensor(sensorListener, Sensors.LEFT_EAR_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.LEFT_EAR_Y, position.y.toFloat())
-            }
-            PoseLandmark.RIGHT_EAR -> {
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_EAR_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_EAR_Y, position.y.toFloat())
-            }
-            PoseLandmark.LEFT_MOUTH -> {
-                writeFloatToSensor(sensorListener, Sensors.MOUTH_LEFT_CORNER_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.MOUTH_LEFT_CORNER_Y, position.y.toFloat())
-            }
-            PoseLandmark.RIGHT_MOUTH -> {
-                writeFloatToSensor(sensorListener, Sensors.MOUTH_RIGHT_CORNER_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.MOUTH_RIGHT_CORNER_Y, position.y.toFloat())
-            }
+        val positionSensor = when (poseLandmarkType) {
+            PoseLandmark.NOSE -> Pair(Sensors.NOSE_X, Sensors.NOSE_Y)
+            PoseLandmark.LEFT_EYE_INNER -> Pair(Sensors.LEFT_EYE_INNER_X, Sensors.LEFT_EYE_INNER_Y)
+            PoseLandmark.LEFT_EYE -> Pair(Sensors.LEFT_EYE_CENTER_X, Sensors.LEFT_EYE_CENTER_Y)
+            PoseLandmark.LEFT_EYE_OUTER -> Pair(Sensors.LEFT_EYE_OUTER_X, Sensors.LEFT_EYE_OUTER_Y)
+            PoseLandmark.RIGHT_EYE_INNER -> Pair(RIGHT_EYE_INNER_X, RIGHT_EYE_INNER_Y)
+            PoseLandmark.RIGHT_EYE -> Pair(Sensors.RIGHT_EYE_CENTER_X, Sensors.RIGHT_EYE_CENTER_Y)
+            PoseLandmark.RIGHT_EYE_OUTER -> Pair(RIGHT_EYE_OUTER_X, RIGHT_EYE_OUTER_Y)
+            PoseLandmark.LEFT_EAR -> Pair(Sensors.LEFT_EAR_X, Sensors.LEFT_EAR_Y)
+            PoseLandmark.RIGHT_EAR -> Pair(Sensors.RIGHT_EAR_X, Sensors.RIGHT_EAR_Y)
+            PoseLandmark.LEFT_MOUTH -> Pair(MOUTH_LEFT_CORNER_X, MOUTH_LEFT_CORNER_Y)
+            PoseLandmark.RIGHT_MOUTH -> Pair(MOUTH_RIGHT_CORNER_X, MOUTH_RIGHT_CORNER_Y)
+            else -> null
+        }
+        positionSensor?.let {
+            sensorListener.writePositionAccordingToRotationToSensor(
+                it.first, it.second,
+                position.toPosition()
+            )
         }
     }
 
@@ -332,55 +317,26 @@ object FaceTextPoseDetector : ImageAnalysis.Analyzer {
         sensorListener: SensorCustomEventListener,
         position: Point
     ) {
-        when (poseLandmarkType) {
-            PoseLandmark.LEFT_SHOULDER -> {
-                writeFloatToSensor(sensorListener, Sensors.LEFT_SHOULDER_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.LEFT_SHOULDER_Y, position.y.toFloat())
-            }
-            PoseLandmark.RIGHT_SHOULDER -> {
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_SHOULDER_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_SHOULDER_Y, position.y.toFloat())
-            }
-            PoseLandmark.LEFT_ELBOW -> {
-                writeFloatToSensor(sensorListener, Sensors.LEFT_ELBOW_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.LEFT_ELBOW_Y, position.y.toFloat())
-            }
-            PoseLandmark.RIGHT_ELBOW -> {
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_ELBOW_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_ELBOW_Y, position.y.toFloat())
-            }
-            PoseLandmark.LEFT_WRIST -> {
-                writeFloatToSensor(sensorListener, Sensors.LEFT_WRIST_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.LEFT_WRIST_Y, position.y.toFloat())
-            }
-            PoseLandmark.RIGHT_WRIST -> {
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_WRIST_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_WRIST_Y, position.y.toFloat())
-            }
-            PoseLandmark.LEFT_PINKY -> {
-                writeFloatToSensor(sensorListener, Sensors.LEFT_PINKY_KNUCKLE_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.LEFT_PINKY_KNUCKLE_Y, position.y.toFloat())
-            }
-            PoseLandmark.RIGHT_PINKY -> {
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_PINKY_KNUCKLE_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_PINKY_KNUCKLE_Y, position.y.toFloat())
-            }
-            PoseLandmark.LEFT_INDEX -> {
-                writeFloatToSensor(sensorListener, Sensors.LEFT_INDEX_KNUCKLE_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.LEFT_INDEX_KNUCKLE_Y, position.y.toFloat())
-            }
-            PoseLandmark.RIGHT_INDEX -> {
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_INDEX_KNUCKLE_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_INDEX_KNUCKLE_Y, position.y.toFloat())
-            }
-            PoseLandmark.LEFT_THUMB -> {
-                writeFloatToSensor(sensorListener, Sensors.LEFT_THUMB_KNUCKLE_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.LEFT_THUMB_KNUCKLE_Y, position.y.toFloat())
-            }
-            PoseLandmark.RIGHT_THUMB -> {
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_THUMB_KNUCKLE_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_THUMB_KNUCKLE_Y, position.y.toFloat())
-            }
+        val positionSensor = when (poseLandmarkType) {
+            PoseLandmark.LEFT_SHOULDER -> Pair(Sensors.LEFT_SHOULDER_X, Sensors.LEFT_SHOULDER_Y)
+            PoseLandmark.RIGHT_SHOULDER -> Pair(Sensors.RIGHT_SHOULDER_X, Sensors.RIGHT_SHOULDER_Y)
+            PoseLandmark.LEFT_ELBOW -> Pair(Sensors.LEFT_ELBOW_X, Sensors.LEFT_ELBOW_Y)
+            PoseLandmark.RIGHT_ELBOW -> Pair(Sensors.RIGHT_ELBOW_X, Sensors.RIGHT_ELBOW_Y)
+            PoseLandmark.LEFT_WRIST -> Pair(Sensors.LEFT_WRIST_X, Sensors.LEFT_WRIST_Y)
+            PoseLandmark.RIGHT_WRIST -> Pair(Sensors.RIGHT_WRIST_X, Sensors.RIGHT_WRIST_Y)
+            PoseLandmark.LEFT_PINKY -> Pair(Sensors.LEFT_PINKY_X, Sensors.LEFT_PINKY_Y)
+            PoseLandmark.RIGHT_PINKY -> Pair(Sensors.RIGHT_PINKY_X, Sensors.RIGHT_PINKY_Y)
+            PoseLandmark.LEFT_INDEX -> Pair(Sensors.LEFT_INDEX_X, Sensors.LEFT_INDEX_Y)
+            PoseLandmark.RIGHT_INDEX -> Pair(Sensors.RIGHT_INDEX_X, Sensors.RIGHT_INDEX_Y)
+            PoseLandmark.LEFT_THUMB -> Pair(Sensors.LEFT_THUMB_X, Sensors.LEFT_THUMB_Y)
+            PoseLandmark.RIGHT_THUMB -> Pair(Sensors.RIGHT_THUMB_X, Sensors.RIGHT_THUMB_Y)
+            else -> null
+        }
+        positionSensor?.let {
+            sensorListener.writePositionAccordingToRotationToSensor(
+                it.first, it.second,
+                position.toPosition()
+            )
         }
     }
 
@@ -389,58 +345,37 @@ object FaceTextPoseDetector : ImageAnalysis.Analyzer {
         sensorListener: SensorCustomEventListener,
         position: Point
     ) {
-        when (poseLandmarkType) {
-            PoseLandmark.LEFT_HIP -> {
-                writeFloatToSensor(sensorListener, Sensors.LEFT_HIP_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.LEFT_HIP_Y, position.y.toFloat())
-            }
-            PoseLandmark.RIGHT_HIP -> {
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_HIP_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_HIP_Y, position.y.toFloat())
-            }
-            PoseLandmark.LEFT_KNEE -> {
-                writeFloatToSensor(sensorListener, Sensors.LEFT_KNEE_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.LEFT_KNEE_Y, position.y.toFloat())
-            }
-            PoseLandmark.RIGHT_KNEE -> {
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_KNEE_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_KNEE_Y, position.y.toFloat())
-            }
-            PoseLandmark.LEFT_ANKLE -> {
-                writeFloatToSensor(sensorListener, Sensors.LEFT_ANKLE_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.LEFT_ANKLE_Y, position.y.toFloat())
-            }
-            PoseLandmark.RIGHT_ANKLE -> {
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_ANKLE_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_ANKLE_Y, position.y.toFloat())
-            }
-            PoseLandmark.LEFT_HEEL -> {
-                writeFloatToSensor(sensorListener, Sensors.LEFT_HEEL_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.LEFT_HEEL_Y, position.y.toFloat())
-            }
-            PoseLandmark.RIGHT_HEEL -> {
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_HEEL_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_HEEL_Y, position.y.toFloat())
-            }
-            PoseLandmark.LEFT_FOOT_INDEX -> {
-                writeFloatToSensor(sensorListener, Sensors.LEFT_FOOT_INDEX_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.LEFT_FOOT_INDEX_Y, position.y.toFloat())
-            }
-            PoseLandmark.RIGHT_FOOT_INDEX -> {
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_FOOT_INDEX_X, position.x.toFloat())
-                writeFloatToSensor(sensorListener, Sensors.RIGHT_FOOT_INDEX_Y, position.y.toFloat())
-            }
+        val positionSensor = when (poseLandmarkType) {
+            PoseLandmark.LEFT_HIP -> Pair(Sensors.LEFT_HIP_X, Sensors.LEFT_HIP_Y)
+            PoseLandmark.RIGHT_HIP -> Pair(Sensors.RIGHT_HIP_X, Sensors.RIGHT_HIP_Y)
+            PoseLandmark.LEFT_KNEE -> Pair(Sensors.LEFT_KNEE_X, Sensors.LEFT_KNEE_Y)
+            PoseLandmark.RIGHT_KNEE -> Pair(Sensors.RIGHT_KNEE_X, Sensors.RIGHT_KNEE_Y)
+            PoseLandmark.LEFT_ANKLE -> Pair(Sensors.LEFT_ANKLE_X, Sensors.LEFT_ANKLE_Y)
+            PoseLandmark.RIGHT_ANKLE -> Pair(Sensors.RIGHT_ANKLE_X, Sensors.RIGHT_ANKLE_Y)
+            PoseLandmark.LEFT_HEEL -> Pair(Sensors.LEFT_HEEL_X, Sensors.LEFT_HEEL_Y)
+            PoseLandmark.RIGHT_HEEL -> Pair(Sensors.RIGHT_HEEL_X, Sensors.RIGHT_HEEL_Y)
+            PoseLandmark.LEFT_FOOT_INDEX -> Pair(LEFT_FOOT_INDEX_X, LEFT_FOOT_INDEX_Y)
+            PoseLandmark.RIGHT_FOOT_INDEX -> Pair(RIGHT_FOOT_INDEX_X, RIGHT_FOOT_INDEX_Y)
+            else -> null
+        }
+        positionSensor?.let {
+            sensorListener.writePositionAccordingToRotationToSensor(
+                it.first, it.second,
+                position.toPosition()
+            )
         }
     }
 
+    private fun Point.toPosition() = Position(x.toDouble(), y.toDouble())
+
     private fun translateToStageCoordinates(
-        x: Float,
-        y: Float,
+        x: Double,
+        y: Double,
         imageWidth: Int,
         imageHeight: Int
     ): Point {
         val frontCamera = StageActivity.getActiveCameraManager().isCameraFacingFront
-        val aspectRatio = imageWidth.toFloat() / imageHeight
+        val aspectRatio = imageWidth.toDouble() / imageHeight
 
         return if (ProjectManager.getInstance().isCurrentProjectLandscapeMode) {
             val relativeX = y / imageHeight
@@ -449,7 +384,7 @@ object FaceTextPoseDetector : ImageAnalysis.Analyzer {
                 1 - relativeX,
                 SCREEN_WIDTH / aspectRatio,
                 if (frontCamera) relativeY else 1 - relativeY,
-                SCREEN_WIDTH.toFloat()
+                SCREEN_WIDTH.toDouble()
             )
         } else {
             val relativeX = x / imageHeight
@@ -457,44 +392,32 @@ object FaceTextPoseDetector : ImageAnalysis.Analyzer {
                 if (frontCamera) 1 - relativeX else relativeX,
                 SCREEN_HEIGHT / aspectRatio,
                 1 - y / imageWidth,
-                SCREEN_HEIGHT.toFloat()
+                SCREEN_HEIGHT.toDouble()
             )
         }
     }
 
     private fun coordinatesFromRelativePosition(
-        relativeX: Float,
-        width: Float,
-        relativeY: Float,
-        height: Float
+        relativeX: Double,
+        width: Double,
+        relativeY: Double,
+        height: Double
     ) = Point(
         (width * (relativeX - COORDINATE_TRANSFORMATION_OFFSET)).roundToInt(),
         (height * (relativeY - COORDINATE_TRANSFORMATION_OFFSET)).roundToInt()
     )
 
-    private fun writeFloatToSensor(
-        sensorListener: SensorCustomEventListener,
-        sourceSensor: Sensors,
-        value: Float
+    private fun SensorCustomEventListener.writePositionAccordingToRotationToSensor(
+        sensorX: Sensors,
+        sensorY: Sensors,
+        position: Position
     ) {
-        sensorListener.onCustomSensorChanged(
-            SensorCustomEvent(
-                sourceSensor,
-                floatArrayOf(value)
-            )
-        )
+        val stagePosition = SensorHandler.getPositionAccordingToRotation(position)
+        writeToSensor(sensorX, stagePosition.x)
+        writeToSensor(sensorY, stagePosition.y)
     }
 
-    private fun writeStringToSensor(
-        sensorListener: SensorCustomEventListener,
-        sourceSensor: Sensors,
-        value: String
-    ) {
-        sensorListener.onCustomSensorChanged(
-            SensorCustomEvent(
-                sourceSensor,
-                arrayOf(value)
-            )
-        )
+    private fun SensorCustomEventListener.writeToSensor(sourceSensor: Sensors, value: Any) {
+        this.onCustomSensorChanged(SensorCustomEvent(sourceSensor, value))
     }
 }

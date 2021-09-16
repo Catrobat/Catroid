@@ -88,8 +88,8 @@ class SensorHandlerTest {
 
         compareToSensor(1, Sensors.FACE_DETECTED)
         compareToSensor(firstFaceSize, Sensors.FACE_SIZE)
-        compareToSensor(firstFacePosition.x, Sensors.FACE_X_POSITION)
-        compareToSensor(firstFacePosition.y, Sensors.FACE_Y_POSITION)
+        compareToSensor(firstFacePosition.x, Sensors.FACE_X)
+        compareToSensor(firstFacePosition.y, Sensors.FACE_Y)
     }
 
     @Test
@@ -107,8 +107,8 @@ class SensorHandlerTest {
 
         compareToSensor(1, Sensors.SECOND_FACE_DETECTED)
         compareToSensor(secondFaceSize, Sensors.SECOND_FACE_SIZE)
-        compareToSensor(secondFacePosition.x, Sensors.SECOND_FACE_X_POSITION)
-        compareToSensor(secondFacePosition.y, Sensors.SECOND_FACE_Y_POSITION)
+        compareToSensor(secondFacePosition.x, Sensors.SECOND_FACE_X)
+        compareToSensor(secondFacePosition.y, Sensors.SECOND_FACE_Y)
     }
 
     @Test

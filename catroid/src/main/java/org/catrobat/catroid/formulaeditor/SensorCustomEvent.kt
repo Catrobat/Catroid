@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,25 +20,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.formulaeditor;
+package org.catrobat.catroid.formulaeditor
 
-public class SensorCustomEvent {
-	public float[] values;
-	public String[] valuesString;
-	public Sensors sensor;
-	public long timestamp;
-
-	public SensorCustomEvent(Sensors sourceSensor, float[] values) {
-		sensor = sourceSensor;
-		this.values = new float[values.length];
-		System.arraycopy(values, 0, this.values, 0, values.length);
-		timestamp = System.currentTimeMillis();
-	}
-
-	public SensorCustomEvent(Sensors sourceSensor, String[] valuesString) {
-		sensor = sourceSensor;
-		this.valuesString = new String[valuesString.length];
-		System.arraycopy(valuesString, 0, this.valuesString, 0, valuesString.length);
-		timestamp = System.currentTimeMillis();
-	}
+data class SensorCustomEvent(
+    var sensor: Sensors,
+    var value: Any
+) {
+    var timestamp: Long = System.currentTimeMillis()
 }
