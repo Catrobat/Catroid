@@ -59,3 +59,14 @@ data class ProjectResponse(
     val download_url: String,
     val filesize: Double
 )
+
+@SuppressWarnings("ConstructorParameterNaming")
+data class LoginResponse(
+    val token: String,
+    val refresh_token: String
+)
+
+data class User(
+    val username: String,
+    val password: String
+)

@@ -25,7 +25,9 @@ package org.catrobat.catroid.koin
 
 import android.app.Application
 import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.common.FlavoredConstants.BASE_URL_API
 import org.catrobat.catroid.retrofit.CatroidWebServer
+import org.catrobat.catroid.transfers.LoginViewModel
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoriesAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.FeaturedProjectsAdapter
 import org.catrobat.catroid.ui.recyclerview.viewmodel.MainFragmentViewModel
@@ -49,11 +51,12 @@ val componentsModules = module(createdAtStart = true, override = false) {
  */
 val viewModelModules = module {
     viewModel { MainFragmentViewModel(get()) }
+    viewModel { LoginViewModel(get()) }
 }
 
 val repositoryModules = module {
     single {
-        CatroidWebServer.getWebService("https://share.catrob.at/api/")
+        CatroidWebServer.getWebService(BASE_URL_API)
     }
 }
 

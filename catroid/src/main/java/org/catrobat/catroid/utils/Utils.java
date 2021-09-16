@@ -84,8 +84,8 @@ import static org.catrobat.catroid.common.Constants.MAX_FILE_NAME_LENGTH;
 import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
+import static org.catrobat.catroid.web.ServerAuthenticationConstants.NEW_TOKEN_LENGTH;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_CODE_INVALID;
-import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_LENGTH;
 
 public final class Utils {
 
@@ -495,7 +495,7 @@ public final class Utils {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 
-		boolean tokenValid = !(token.equals(Constants.NO_TOKEN) || token.length() != TOKEN_LENGTH
+		boolean tokenValid = !(token.equals(Constants.NO_TOKEN) || token.length() != NEW_TOKEN_LENGTH
 				|| token.equals(TOKEN_CODE_INVALID));
 		return tokenValid;
 	}

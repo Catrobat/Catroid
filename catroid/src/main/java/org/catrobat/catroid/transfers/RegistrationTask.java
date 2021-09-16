@@ -31,6 +31,7 @@ import android.preference.PreferenceManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FlavoredConstants;
+import org.catrobat.catroid.retrofit.CatroidWebServer;
 import org.catrobat.catroid.utils.DeviceSettingsProvider;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -39,6 +40,8 @@ import org.catrobat.catroid.web.ServerAuthenticator;
 
 import java.lang.ref.WeakReference;
 import java.util.Locale;
+
+import static org.catrobat.catroid.common.FlavoredConstants.BASE_URL_API;
 
 public class RegistrationTask extends AsyncTask<Void, Void, Void> {
 	private final WeakReference<Context> contextWeakReference;
@@ -95,6 +98,7 @@ public class RegistrationTask extends AsyncTask<Void, Void, Void> {
 
 		ServerAuthenticator authenticator =
 				new ServerAuthenticator(username, password, token,
+						CatroidWebServer.getWebService(BASE_URL_API),
 						CatrobatWebClient.INSTANCE.getClient(),
 						FlavoredConstants.BASE_URL_HTTPS,
 						sharedPreferences,

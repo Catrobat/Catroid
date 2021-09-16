@@ -29,6 +29,9 @@ import androidx.annotation.VisibleForTesting
 import okhttp3.OkHttpClient
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE
+import org.catrobat.catroid.retrofit.WebService
+import org.catrobat.catroid.retrofit.models.LoginResponse
+import org.catrobat.catroid.retrofit.models.User
 import org.catrobat.catroid.web.ServerAuthenticationConstants.CATROBAT_COUNTRY_KEY
 import org.catrobat.catroid.web.ServerAuthenticationConstants.CATROBAT_EMAIL_KEY
 import org.catrobat.catroid.web.ServerAuthenticationConstants.CATROBAT_PASSWORD_KEY
@@ -36,18 +39,22 @@ import org.catrobat.catroid.web.ServerAuthenticationConstants.CATROBAT_USERNAME_
 import org.catrobat.catroid.web.ServerAuthenticationConstants.JSON_ANSWER
 import org.catrobat.catroid.web.ServerAuthenticationConstants.JSON_STATUS_CODE
 import org.catrobat.catroid.web.ServerAuthenticationConstants.JSON_TOKEN
-import org.catrobat.catroid.web.ServerAuthenticationConstants.LOGIN_URL_APPENDING
+import org.catrobat.catroid.web.ServerAuthenticationConstants.NEW_TOKEN_LENGTH
 import org.catrobat.catroid.web.ServerAuthenticationConstants.REGISTRATION_URL_APPENDING
 import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_REGISTER_OK
 import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_TOKEN_OK
 import org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_LENGTH
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.HashMap
 
 class ServerAuthenticator(
     var username: String,
     var password: String,
     private val token: String,
+    private val webServer: WebService,
     private val okHttpClient: OkHttpClient,
     private val baseUrl: String,
     val sharedPreferences: SharedPreferences,
@@ -77,13 +84,37 @@ class ServerAuthenticator(
     }
 
     fun performCatrobatLogin() {
-        postValues[CATROBAT_USERNAME_KEY] = username
-        postValues[CATROBAT_PASSWORD_KEY] = password
-        if (token != Constants.NO_TOKEN) {
-            postValues[Constants.TOKEN] = token
-        }
-        val url = baseUrl + LOGIN_URL_APPENDING
-        performTask(url, SERVER_RESPONSE_TOKEN_OK)
+        val loginCall: Call <LoginResponse> = webServer.login(User(username, password))
+
+        loginCall.enqueue(object : Callback<LoginResponse> {
+            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                val tokenReceived = response.body()?.token
+                tokenReceived?.let {
+                    if (isInvalidResponseRetrofit(SERVER_RESPONSE_TOKEN_OK, response.code(), response
+                            .message(), tokenReceived)) {
+                        taskListener.onError(response.code(), response.message())
+                        return
+                    }
+                    // TODO (refresh token is null)
+                    val refreshToken = response.body()?.refresh_token
+                    Log.e(javaClass.simpleName, "$tokenReceived  $refreshToken")
+
+                    val sharedPreferencesEditor = sharedPreferences.edit()
+                    sharedPreferencesEditor.putString(Constants.TOKEN, tokenReceived)
+                    sharedPreferencesEditor.putString(Constants.USERNAME, username)
+                    sharedPreferencesEditor.apply()
+                    taskListener.onSuccess()
+                    return
+                }
+                isInvalidResponseRetrofit(SERVER_RESPONSE_TOKEN_OK, response.code(), response.message())
+                taskListener.onError(response.code(), response.message())
+            }
+
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                Log.e(javaClass.simpleName, t.message.orEmpty())
+                taskListener.onError(t.hashCode(), t.message.orEmpty())
+            }
+        })
     }
 
     @VisibleForTesting
@@ -95,7 +126,7 @@ class ServerAuthenticator(
             val request = postValues.createFormEncodedRequest(serverUrl)
             okHttpClient.performCallWith(request)
         } catch (exception: WebconnectionException) {
-            Log.e(tag, exception.message)
+            Log.e(tag, exception.message.orEmpty())
             taskListener.onError(exception.statusCode, null)
             return
         }
@@ -132,7 +163,21 @@ class ServerAuthenticator(
             return true
         }
         if (tokenReceived.length != TOKEN_LENGTH) {
-            Log.e(tag, "Invlaid TokenError: $tokenReceived; StatusCode: $statusCode Server Answer: $serverAnswer")
+            Log.e(tag, "Invalid TokenError: $tokenReceived; StatusCode: $statusCode Server " +
+                "Answer: $serverAnswer")
+            return true
+        }
+        return false
+    }
+
+    fun isInvalidResponseRetrofit(acceptedStatusCode: Int, statusCode: Int, serverAnswer: String, tokenReceived: String = ""):
+        Boolean {
+        if (acceptedStatusCode != statusCode) {
+            Log.i(tag, "Not accepted StatusCode: $statusCode; Server Answer: $serverAnswer")
+            return true
+        }
+        if (tokenReceived.length != NEW_TOKEN_LENGTH) {
+            Log.e(tag, "Invalid TokenError: $tokenReceived; StatusCode: $statusCode Server Answer: $serverAnswer")
             return true
         }
         return false
