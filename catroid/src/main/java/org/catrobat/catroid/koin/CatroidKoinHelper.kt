@@ -42,6 +42,7 @@ import org.catrobat.catroid.sync.DefaultProjectsCategoriesSync
 import org.catrobat.catroid.sync.FeaturedProjectsSync
 import org.catrobat.catroid.sync.ProjectsCategoriesSync
 import org.catrobat.catroid.transfers.LoginViewModel
+import org.catrobat.catroid.transfers.RegistrationViewModel
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoriesAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.FeaturedProjectsAdapter
 import org.catrobat.catroid.ui.recyclerview.repository.DefaultFeaturedProjectsRepository
@@ -93,6 +94,7 @@ val componentsModules = module(createdAtStart = true, override = false) {
 val viewModelModules = module {
     viewModel { MainFragmentViewModel(get(), get(), get(), get()) }
     viewModel { LoginViewModel(get()) }
+    viewModel { RegistrationViewModel(get()) }
 }
 
 val repositoryModules = module {
