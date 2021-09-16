@@ -25,15 +25,21 @@ package org.catrobat.catroid.retrofit
 
 import okhttp3.ConnectionSpec
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION
 import org.catrobat.catroid.common.Constants.RETROFIT_WRITE_TIMEOUT
 import org.catrobat.catroid.common.FlavoredConstants.FLAVOR_NAME
 import org.catrobat.catroid.retrofit.models.FeaturedProject
+import org.catrobat.catroid.retrofit.models.LoginResponse
 import org.catrobat.catroid.retrofit.models.ProjectsCategoryApi
+import org.catrobat.catroid.retrofit.models.User
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.POST
 import retrofit2.http.Query
 import java.util.Locale
 import java.util.concurrent.TimeUnit
@@ -53,12 +59,26 @@ interface WebService {
         @Query("max_version") maxVersion: String = CURRENT_CATROBAT_LANGUAGE_VERSION.toString(),
         @Query("flavor") flavor: String = FLAVOR_NAME
     ): Call<List<ProjectsCategoryApi>>
+
+    @POST("authentication")
+    fun login(
+        @Header("Authorization") bearerToken: String,
+        @Body user: User
+    ): Call<LoginResponse>
+
+    @GET("authentication")
+    fun checkToken(
+        @Header("Authorization") bearerToken: String
+    ): Call<Void>
 }
 
 class CatroidWebServer private constructor() {
     companion object {
         @JvmStatic
         fun getWebService(baseUrl: String): WebService {
+            val loggingInterceptor = HttpLoggingInterceptor()
+            loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+
             val okHttpClient = OkHttpClient.Builder()
                 .writeTimeout(RETROFIT_WRITE_TIMEOUT, TimeUnit.SECONDS)
                 .connectionSpecs(listOf(ConnectionSpec.MODERN_TLS))
@@ -71,6 +91,7 @@ class CatroidWebServer private constructor() {
                     chain.proceed(request)
                 }
                 .addInterceptor(ErrorInterceptor())
+                .addInterceptor(loggingInterceptor)
                 .build()
 
             return Retrofit.Builder()

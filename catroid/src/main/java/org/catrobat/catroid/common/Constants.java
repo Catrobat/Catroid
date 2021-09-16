@@ -125,6 +125,8 @@ public final class Constants {
 	private static final String MAIN_URL_PRODUCTION = "https://share.catrob.at";
 	private static final String WEB_TEST_URL = BuildConfig.WEB_TEST_URL;
 	public static final String MAIN_URL_HTTPS = BuildConfig.WEB_TEST_FLAG ? WEB_TEST_URL : MAIN_URL_PRODUCTION;
+	public static final String BASE_URL_API = MAIN_URL_HTTPS + "/api/";
+	public static final String TEST_URL_API = "https://develop-web.catrobat.ist.tugraz.at/api/";
 
 	// Default "flavor" in the web which equals "pocketcode"
 	public static final String BASE_APP_URL_HTTPS = MAIN_URL_HTTPS + "/app/";
@@ -176,6 +178,7 @@ public final class Constants {
 	public static final String NO_USERNAME = "no_username";
 	public static final String EMAIL = "email";
 	public static final String NO_EMAIL = "no_email";
+	public static final int MIN_PASSWORD_LENGTH = 6;
 	public static final String LOCALE = "locale";
 	public static final String RESTRICTED_USER = "restricted_user";
 	public static final String JSON_ERROR_CODE = "errorCode";
