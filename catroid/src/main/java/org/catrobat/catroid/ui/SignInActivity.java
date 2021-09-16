@@ -80,7 +80,8 @@ public class SignInActivity extends BaseActivity implements SignInCompleteListen
 			case R.id.sign_in_register:
 				RegistrationDialogFragment registrationDialog = new RegistrationDialogFragment();
 				registrationDialog.setSignInCompleteListener(this);
-				registrationDialog.show(getSupportFragmentManager(), RegistrationDialogFragment.TAG);
+				registrationDialog.show(getSupportFragmentManager(),
+						RegistrationDialogFragment.Companion.getTAG());
 				break;
 			case R.id.sign_in_google_login_button:
 				startActivityForResult(googleLoginHandler.getGoogleSignInClient().getSignInIntent(), REQUEST_CODE_GOOGLE_SIGNIN);
