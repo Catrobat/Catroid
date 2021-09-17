@@ -60,6 +60,7 @@ class DeleteLookAction : SingleSpriteEventAction() {
     private fun setNewLookData(indexOfLookData: Int) {
         sprite?.apply {
             if (lookList.isNullOrEmpty()) {
+                look.lookData = null
                 return
             }
             look?.lookData ?: return
