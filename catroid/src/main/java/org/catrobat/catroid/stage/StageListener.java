@@ -423,6 +423,11 @@ public class StageListener implements ApplicationListener {
 		scene = newScene;
 		ProjectManager.getInstance().setCurrentlyPlayingScene(scene);
 
+		CameraManager cameraManager = StageActivity.getActiveCameraManager();
+		if (cameraManager != null) {
+			cameraManager.resume();
+		}
+
 		SoundManager.getInstance().clear();
 		SpeechRecognitionHolder.Companion.getInstance().destroy();
 		stageBackupMap.remove(sceneName);
