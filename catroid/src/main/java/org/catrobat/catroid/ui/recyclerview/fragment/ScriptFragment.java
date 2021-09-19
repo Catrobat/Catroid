@@ -58,7 +58,7 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
+import org.catrobat.catroid.io.asynctask.ProjectLoader;
 import org.catrobat.catroid.io.asynctask.ProjectSaver;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptFinder;
@@ -108,7 +108,7 @@ public class ScriptFragment extends ListFragment implements
 		BrickAdapter.OnItemClickListener,
 		BrickAdapter.SelectionListener, OnCategorySelectedListener,
 		AddBrickFragment.OnAddBrickListener,
-		ProjectLoadTask.ProjectLoadListener {
+		ProjectLoader.ProjectLoadListener {
 
 	public static final String TAG = ScriptFragment.class.getSimpleName();
 	private static final String BRICK_TAG = "brickToFocus";
@@ -942,7 +942,7 @@ public class ScriptFragment extends ListFragment implements
 		if (currentCodeFile.exists()) {
 			try {
 				StorageOperations.transferData(undoCodeFile, currentCodeFile);
-				new ProjectLoadTask(project.getDirectory(), getContext()).setListener(this).execute();
+				new ProjectLoader(project.getDirectory(), getContext()).setListener(this).loadProjectAsync();
 			} catch (IOException exception) {
 				Log.e(TAG, "Replaceing project " + project.getName() + " failed.", exception);
 			}

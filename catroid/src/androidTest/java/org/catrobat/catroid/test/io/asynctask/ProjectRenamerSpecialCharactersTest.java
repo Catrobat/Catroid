@@ -26,7 +26,6 @@ package org.catrobat.catroid.test.io.asynctask;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -40,6 +39,7 @@ import java.util.Arrays;
 
 import androidx.test.core.app.ApplicationProvider;
 
+import static org.catrobat.catroid.io.asynctask.ProjectLoaderKt.loadProject;
 import static org.catrobat.catroid.io.asynctask.ProjectRenamerKt.renameProject;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -98,7 +98,7 @@ public class ProjectRenamerSpecialCharactersTest {
 
 		assertEquals(projectNameWithoutSpecialCharacter, renamedDirectory.getName());
 
-		assertTrue(ProjectLoadTask.task(renamedDirectory, ApplicationProvider.getApplicationContext()));
+		assertTrue(loadProject(renamedDirectory, ApplicationProvider.getApplicationContext()));
 
 		project = ProjectManager.getInstance().getCurrentProject();
 		assertEquals(projectNameWithoutSpecialCharacter, project.getName());
@@ -116,7 +116,7 @@ public class ProjectRenamerSpecialCharactersTest {
 
 		assertEquals(expectedDirectory, renamedDirectory);
 
-		assertTrue(ProjectLoadTask.task(renamedDirectory, ApplicationProvider.getApplicationContext()));
+		assertTrue(loadProject(renamedDirectory, ApplicationProvider.getApplicationContext()));
 
 		project = ProjectManager.getInstance().getCurrentProject();
 		assertEquals(specialCharacterProjectName, project.getName());

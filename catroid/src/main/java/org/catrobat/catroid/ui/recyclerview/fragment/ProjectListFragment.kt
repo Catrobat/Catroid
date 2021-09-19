@@ -53,8 +53,8 @@ import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.asynctask.ProjectCopier
 import org.catrobat.catroid.io.asynctask.ProjectImportTask
 import org.catrobat.catroid.io.asynctask.ProjectImportTask.ProjectImportListener
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask.ProjectLoadListener
+import org.catrobat.catroid.io.asynctask.ProjectLoader
+import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
 import org.catrobat.catroid.io.asynctask.ProjectRenamer
 import org.catrobat.catroid.io.asynctask.ProjectUnZipperAndImporter
 import org.catrobat.catroid.ui.BottomBar
@@ -468,7 +468,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         if (actionModeType == NONE) {
             setShowProgressBar(true)
             val directoryFile = item?.directory ?: return
-            ProjectLoadTask(directoryFile, requireContext()).setListener(this).execute()
+            ProjectLoader(directoryFile, requireContext()).setListener(this).loadProjectAsync()
         }
         if (actionModeType == IMPORT_LOCAL) {
             val intent = Intent()

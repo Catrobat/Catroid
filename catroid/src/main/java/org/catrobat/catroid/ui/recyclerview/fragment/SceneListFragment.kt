@@ -36,7 +36,7 @@ import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.SharedPreferenceKeys
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask.ProjectLoadListener
+import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
 import org.catrobat.catroid.io.asynctask.ProjectSaver
 import org.catrobat.catroid.ui.controller.BackpackListManager
 import org.catrobat.catroid.ui.recyclerview.adapter.SceneAdapter

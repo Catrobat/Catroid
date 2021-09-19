@@ -53,7 +53,7 @@ import org.catrobat.catroid.databinding.FragmentProjectOptionsBinding
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.asynctask.ProjectExportTask
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask
+import org.catrobat.catroid.io.asynctask.loadProject
 import org.catrobat.catroid.io.asynctask.ProjectSaver
 import org.catrobat.catroid.io.asynctask.renameProject
 import org.catrobat.catroid.io.asynctask.saveProjectSerial
@@ -254,7 +254,7 @@ class ProjectOptionsFragment : Fragment() {
                 Log.e(TAG, "Creating renamed directory failed!")
                 return
             }
-            ProjectLoadTask.task(renamedDirectory, requireContext().applicationContext)
+            loadProject(renamedDirectory, requireContext().applicationContext)
             project = projectManager.currentProject
             projectManager.currentlyEditedScene = project!!.getSceneByName(sceneName)
         }
