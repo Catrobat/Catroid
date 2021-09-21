@@ -48,8 +48,8 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.SENSOR
 import org.catrobat.catroid.formulaeditor.Sensors
 import org.catrobat.catroid.formulaeditor.Sensors.FACE_DETECTED
 import org.catrobat.catroid.formulaeditor.Sensors.FACE_SIZE
-import org.catrobat.catroid.formulaeditor.Sensors.FACE_X_POSITION
-import org.catrobat.catroid.formulaeditor.Sensors.FACE_Y_POSITION
+import org.catrobat.catroid.formulaeditor.Sensors.FACE_X
+import org.catrobat.catroid.formulaeditor.Sensors.FACE_Y
 import org.catrobat.catroid.formulaeditor.Sensors.LEFT_ANKLE_X
 import org.catrobat.catroid.formulaeditor.Sensors.LEFT_ANKLE_Y
 import org.catrobat.catroid.formulaeditor.Sensors.LEFT_EAR_X
@@ -68,16 +68,16 @@ import org.catrobat.catroid.formulaeditor.Sensors.LEFT_HEEL_X
 import org.catrobat.catroid.formulaeditor.Sensors.LEFT_HEEL_Y
 import org.catrobat.catroid.formulaeditor.Sensors.LEFT_HIP_X
 import org.catrobat.catroid.formulaeditor.Sensors.LEFT_HIP_Y
-import org.catrobat.catroid.formulaeditor.Sensors.LEFT_INDEX_KNUCKLE_X
-import org.catrobat.catroid.formulaeditor.Sensors.LEFT_INDEX_KNUCKLE_Y
+import org.catrobat.catroid.formulaeditor.Sensors.LEFT_INDEX_X
+import org.catrobat.catroid.formulaeditor.Sensors.LEFT_INDEX_Y
 import org.catrobat.catroid.formulaeditor.Sensors.LEFT_KNEE_X
 import org.catrobat.catroid.formulaeditor.Sensors.LEFT_KNEE_Y
-import org.catrobat.catroid.formulaeditor.Sensors.LEFT_PINKY_KNUCKLE_X
-import org.catrobat.catroid.formulaeditor.Sensors.LEFT_PINKY_KNUCKLE_Y
+import org.catrobat.catroid.formulaeditor.Sensors.LEFT_PINKY_X
+import org.catrobat.catroid.formulaeditor.Sensors.LEFT_PINKY_Y
 import org.catrobat.catroid.formulaeditor.Sensors.LEFT_SHOULDER_X
 import org.catrobat.catroid.formulaeditor.Sensors.LEFT_SHOULDER_Y
-import org.catrobat.catroid.formulaeditor.Sensors.LEFT_THUMB_KNUCKLE_X
-import org.catrobat.catroid.formulaeditor.Sensors.LEFT_THUMB_KNUCKLE_Y
+import org.catrobat.catroid.formulaeditor.Sensors.LEFT_THUMB_X
+import org.catrobat.catroid.formulaeditor.Sensors.LEFT_THUMB_Y
 import org.catrobat.catroid.formulaeditor.Sensors.LEFT_WRIST_X
 import org.catrobat.catroid.formulaeditor.Sensors.LEFT_WRIST_Y
 import org.catrobat.catroid.formulaeditor.Sensors.MOUTH_LEFT_CORNER_X
@@ -104,22 +104,22 @@ import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_HEEL_X
 import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_HEEL_Y
 import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_HIP_X
 import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_HIP_Y
-import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_INDEX_KNUCKLE_X
-import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_INDEX_KNUCKLE_Y
+import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_INDEX_X
+import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_INDEX_Y
 import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_KNEE_X
 import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_KNEE_Y
-import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_PINKY_KNUCKLE_X
-import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_PINKY_KNUCKLE_Y
+import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_PINKY_X
+import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_PINKY_Y
 import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_SHOULDER_X
 import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_SHOULDER_Y
-import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_THUMB_KNUCKLE_X
-import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_THUMB_KNUCKLE_Y
+import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_THUMB_X
+import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_THUMB_Y
 import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_WRIST_X
 import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_WRIST_Y
 import org.catrobat.catroid.formulaeditor.Sensors.SECOND_FACE_DETECTED
 import org.catrobat.catroid.formulaeditor.Sensors.SECOND_FACE_SIZE
-import org.catrobat.catroid.formulaeditor.Sensors.SECOND_FACE_X_POSITION
-import org.catrobat.catroid.formulaeditor.Sensors.SECOND_FACE_Y_POSITION
+import org.catrobat.catroid.formulaeditor.Sensors.SECOND_FACE_X
+import org.catrobat.catroid.formulaeditor.Sensors.SECOND_FACE_Y
 import org.catrobat.catroid.formulaeditor.Sensors.SPEECH_RECOGNITION_LANGUAGE
 import org.catrobat.catroid.formulaeditor.Sensors.TEXT_FROM_CAMERA
 import org.catrobat.catroid.ui.MainMenuActivity
@@ -170,12 +170,12 @@ class LoadProjectAIExtensionSettingsTest(
 
         private var faceDetected = FormulaElement(SENSOR, FACE_DETECTED.name, null)
         private var faceSize = FormulaElement(SENSOR, FACE_SIZE.name, null)
-        private var faceXPosition = FormulaElement(SENSOR, FACE_X_POSITION.name, null)
-        private var faceYPosition = FormulaElement(SENSOR, FACE_Y_POSITION.name, null)
+        private var faceXPosition = FormulaElement(SENSOR, FACE_X.name, null)
+        private var faceYPosition = FormulaElement(SENSOR, FACE_Y.name, null)
         private var secondFaceDetected = FormulaElement(SENSOR, SECOND_FACE_DETECTED.name, null)
         private var secondFaceSize = FormulaElement(SENSOR, SECOND_FACE_SIZE.name, null)
-        private var secondFaceXPosition = FormulaElement(SENSOR, SECOND_FACE_X_POSITION.name, null)
-        private var secondFaceYPosition = FormulaElement(SENSOR, SECOND_FACE_Y_POSITION.name, null)
+        private var secondFaceXPosition = FormulaElement(SENSOR, SECOND_FACE_X.name, null)
+        private var secondFaceYPosition = FormulaElement(SENSOR, SECOND_FACE_Y.name, null)
 
         private var noseX = FormulaElement(SENSOR, NOSE_X.name, null)
         private var noseY = FormulaElement(SENSOR, NOSE_Y.name, null)
@@ -211,18 +211,18 @@ class LoadProjectAIExtensionSettingsTest(
         private var leftWristY = FormulaElement(SENSOR, LEFT_WRIST_Y.name, null)
         private var rightWristX = FormulaElement(SENSOR, RIGHT_WRIST_X.name, null)
         private var rightWristY = FormulaElement(SENSOR, RIGHT_WRIST_Y.name, null)
-        private var leftPinkyKnuckleX = FormulaElement(SENSOR, LEFT_PINKY_KNUCKLE_X.name, null)
-        private var leftPinkyKnuckleY = FormulaElement(SENSOR, LEFT_PINKY_KNUCKLE_Y.name, null)
-        private var rightPinkyKnuckleX = FormulaElement(SENSOR, RIGHT_PINKY_KNUCKLE_X.name, null)
-        private var rightPinkyKnuckleY = FormulaElement(SENSOR, RIGHT_PINKY_KNUCKLE_Y.name, null)
-        private var leftIndexKnuckleX = FormulaElement(SENSOR, LEFT_INDEX_KNUCKLE_X.name, null)
-        private var leftIndexKnuckleY = FormulaElement(SENSOR, LEFT_INDEX_KNUCKLE_Y.name, null)
-        private var rightIndexKnuckleX = FormulaElement(SENSOR, RIGHT_INDEX_KNUCKLE_X.name, null)
-        private var rightIndexKnuckleY = FormulaElement(SENSOR, RIGHT_INDEX_KNUCKLE_Y.name, null)
-        private var leftThumbKnuckleX = FormulaElement(SENSOR, LEFT_THUMB_KNUCKLE_X.name, null)
-        private var leftThumbKnuckleY = FormulaElement(SENSOR, LEFT_THUMB_KNUCKLE_Y.name, null)
-        private var rightThumbKnuckleX = FormulaElement(SENSOR, RIGHT_THUMB_KNUCKLE_X.name, null)
-        private var rightThumbKnuckleY = FormulaElement(SENSOR, RIGHT_THUMB_KNUCKLE_Y.name, null)
+        private var leftPinkyKnuckleX = FormulaElement(SENSOR, LEFT_PINKY_X.name, null)
+        private var leftPinkyKnuckleY = FormulaElement(SENSOR, LEFT_PINKY_Y.name, null)
+        private var rightPinkyKnuckleX = FormulaElement(SENSOR, RIGHT_PINKY_X.name, null)
+        private var rightPinkyKnuckleY = FormulaElement(SENSOR, RIGHT_PINKY_Y.name, null)
+        private var leftIndexKnuckleX = FormulaElement(SENSOR, LEFT_INDEX_X.name, null)
+        private var leftIndexKnuckleY = FormulaElement(SENSOR, LEFT_INDEX_Y.name, null)
+        private var rightIndexKnuckleX = FormulaElement(SENSOR, RIGHT_INDEX_X.name, null)
+        private var rightIndexKnuckleY = FormulaElement(SENSOR, RIGHT_INDEX_Y.name, null)
+        private var leftThumbKnuckleX = FormulaElement(SENSOR, LEFT_THUMB_X.name, null)
+        private var leftThumbKnuckleY = FormulaElement(SENSOR, LEFT_THUMB_Y.name, null)
+        private var rightThumbKnuckleX = FormulaElement(SENSOR, RIGHT_THUMB_X.name, null)
+        private var rightThumbKnuckleY = FormulaElement(SENSOR, RIGHT_THUMB_Y.name, null)
         private var leftHipX = FormulaElement(SENSOR, LEFT_HIP_X.name, null)
         private var leftHipY = FormulaElement(SENSOR, LEFT_HIP_Y.name, null)
         private var rightHipX = FormulaElement(SENSOR, RIGHT_HIP_X.name, null)
