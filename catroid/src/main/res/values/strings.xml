@@ -1817,6 +1817,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_index_of_item_parameter">(1,*list name*)</string>
     <string name="formula_editor_function_number_of_items">number of items</string>
     <string name="formula_editor_function_number_of_items_parameter">(*list name*)</string>
+    <string name="formula_editor_function_flatten">flatten</string>
+    <string name="formula_editor_function_flatten_parameter">(*list name*)</string>
     <string name="formula_editor_function_collision">touches actor or object</string>
     <string name="formula_editor_function_collides_with_edge">touches edge</string>
     <string name="formula_editor_function_touched">touches finger</string>
@@ -2089,8 +2091,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="camera_error_text_detection">
         There was a problem with text detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.</string>
-    <string name="formula_editor_function_flatten">flatten</string>
-    <string name="formula_editor_function_flatten_parameter">(*list name*)</string>
     <string name="warning_formula_recognized">You entered a text that looks like a formula. If you want to use functions,
         sensors, variables and other formula elements, please select them instead using the
         buttons in the formula editor.</string>
