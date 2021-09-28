@@ -241,12 +241,19 @@ public class ProjectActivity extends BaseCastActivity {
 		}
 
 		if (resultCode != RESULT_OK) {
+
+			if (requestCode == SPRITE_POCKET_PAINT) {
+				addEmptySpriteObject();
+				return;
+			}
+
 			if (isCastSharedPreferenceEnabled(this)
 					&& ProjectManager.getInstance().getCurrentProject().isCastProject()
 					&& !CastManager.getInstance().isConnected()) {
 
 				CastManager.getInstance().openDeviceSelectorOrDisconnectDialog(this);
 			}
+
 			return;
 		}
 
@@ -344,9 +351,19 @@ public class ProjectActivity extends BaseCastActivity {
 				currentScene.getSpriteList());
 		}
 
-		new NewSpriteDialogFragment(lookDataName, lookFileName, getContentResolver(), uri,
-			getCurrentFragment(), isObject, importProjectHelper)
-			.show(getSupportFragmentManager(), NewSpriteDialogFragment.Companion.getTAG());
+		new NewSpriteDialogFragment(false, lookDataName, lookFileName, getContentResolver(), uri,
+				getCurrentFragment(), isObject, importProjectHelper)
+				.show(getSupportFragmentManager(), NewSpriteDialogFragment.Companion.getTAG());
+	}
+
+	public void addEmptySpriteObject() {
+		final Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+
+		String lookDataName =
+				new UniqueNameProvider().getUniqueNameInNameables(getString(R.string.default_sprite_name), currentScene.getSpriteList());
+
+		new NewSpriteDialogFragment(true, lookDataName, getCurrentFragment())
+				.show(getSupportFragmentManager(), NewSpriteDialogFragment.Companion.getTAG());
 	}
 
 	public void handleAddButton(View view) {
