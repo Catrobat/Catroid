@@ -53,6 +53,7 @@ public class TatamiContour {
 	}
 
 	public void reset() {
+		isRunning = false;
 		coordinates.clear();
 	}
 
