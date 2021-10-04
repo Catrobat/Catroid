@@ -21,26 +21,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.retrofit
+package org.catrobat.catroid.retrofit.models
 
-import okhttp3.Interceptor
-import okhttp3.Response
-import okhttp3.ResponseBody
+@SuppressWarnings("ConstructorParameterNaming")
+data class LoginResponse(
+    val token: String,
+    val refresh_token: String
+)
 
-class ErrorInterceptor : Interceptor {
+data class RegisterFailedResponse(
+    val email: String?,
+    val username: String?
+)
 
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val response = chain.proceed(chain.request())
+data class LoginUser(
+    val username: String,
+    val password: String
+)
 
-        if (response.isSuccessful.not() and response.isRedirect.not()) {
-            val contentType = response.body()?.contentType()
-            val body = response.body()?.string() ?: ""
-
-            return response.newBuilder()
-                .body(ResponseBody.create(contentType, body))
-                .code(response.code())
-                .build()
-        }
-        return response
-    }
-}
+@SuppressWarnings("ConstructorParameterNaming")
+data class RegisterUser(
+    val dry_run: Boolean,
+    val email: String,
+    val username: String,
+    val password: String
+)
