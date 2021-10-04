@@ -31,13 +31,16 @@ import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.utils.Utils
 import org.catrobat.paintroid.FileIO
 import org.junit.After
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
+
+import org.junit.Assert.assertTrue
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertEquals
 
 class ExifDataTest {
 
@@ -60,30 +63,30 @@ class ExifDataTest {
 
     @After
     fun tearDown() {
-        Assert.assertTrue(cacheFile.delete())
+        assertTrue(cacheFile.delete())
     }
 
     @Test
     fun testRemoveExifData() {
         var exif = ExifInterface(cacheFile.absolutePath)
-        Assert.assertFalse(exif.getAttribute(ExifInterface.TAG_ARTIST)!!.isEmpty())
-        Assert.assertFalse(exif.getAttribute(ExifInterface.TAG_DATETIME)!!.isEmpty())
+        assertFalse(exif.getAttribute(ExifInterface.TAG_ARTIST)!!.isEmpty())
+        assertFalse(exif.getAttribute(ExifInterface.TAG_DATETIME)!!.isEmpty())
 
         Utils.removeExifData(CACHE_FOLDER, IMAGE_NAME)
         exif = ExifInterface(cacheFile.absolutePath)
 
         Constants.EXIFTAGS_FOR_EXIFREMOVER.forEach { exifTag ->
             val tag = exif.getAttribute(exifTag)
-            Assert.assertTrue(tag == null || tag.isEmpty())
+            assertTrue(tag == null || tag.isEmpty())
         }
     }
 
     @Test
     fun testPocketPaintExifInterfaceCall() {
         val exif = ExifInterface(cacheFile.absolutePath)
-        Assert.assertEquals(0f, FileIO.getBitmapOrientation(exif))
+        assertEquals(0f, FileIO.getBitmapOrientation(exif))
         exif.setAttribute(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_ROTATE_180.toString())
         exif.saveAttributes()
-        Assert.assertEquals(180f, FileIO.getBitmapOrientation(exif))
+        assertEquals(180f, FileIO.getBitmapOrientation(exif))
     }
 }

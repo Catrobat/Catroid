@@ -37,11 +37,9 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotSame;
 import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.assertNotNull;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertNotEquals;
 
 @RunWith(JUnit4.class)
 public class TrackTest {
@@ -99,7 +97,7 @@ public class TrackTest {
 		Track track2 = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 		track2.addNoteEvent(tick, new NoteEvent(NoteName.C2, true));
 
-		assertThat(track1, is(not(equalTo(track2))));
+		assertNotEquals(track2, track1);
 	}
 
 	@Test
@@ -108,7 +106,7 @@ public class TrackTest {
 		track1.addNoteEvent(0, new NoteEvent(NoteName.C4, true));
 		Track track2 = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 
-		assertThat(track1, is(not(equalTo(track2))));
+		assertNotEquals(track2, track1);
 	}
 
 	@Test
@@ -116,7 +114,7 @@ public class TrackTest {
 		Track track1 = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACCORDION);
 		Track track2 = new Track(MusicalKey.VIOLIN, MusicalInstrument.ALTO_SAX);
 
-		assertThat(track1, is(not(equalTo(track2))));
+		assertNotEquals(track2, track1);
 	}
 
 	@Test
@@ -124,21 +122,21 @@ public class TrackTest {
 		Track track1 = new Track(MusicalKey.BASS, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 		Track track2 = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 
-		assertThat(track1, is(not(equalTo(track2))));
+		assertNotEquals(track2, track1);
 	}
 
 	@Test
 	public void testEquals6() {
 		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 
-		assertThat(track, is(not(equalTo(null))));
+		assertNotNull(track);
 	}
 
 	@Test
 	public void testEquals7() {
 		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 
-		assertFalse(track.equals(""));
+		assertNotEquals("", track);
 	}
 
 	@Test

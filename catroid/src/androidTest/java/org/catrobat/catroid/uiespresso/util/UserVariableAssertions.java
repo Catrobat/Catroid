@@ -28,12 +28,11 @@ import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
@@ -63,12 +62,12 @@ public final class UserVariableAssertions {
 			int timeoutMillis) {
 		for (int intervalMillis = 10; timeoutMillis > 0; timeoutMillis -= intervalMillis) {
 			if (areEqualWithinEpsilon(expectedValue, (Double) userVariable.getValue())) {
-				assertThat((Double) userVariable.getValue(), not(equalTo(expectedValue)));
+				assertNotEquals(expectedValue, (Double) userVariable.getValue());
 			}
 			onView(isRoot())
 					.perform(CustomActions.wait(intervalMillis));
 		}
-		assertThat((Double) userVariable.getValue(), not(equalTo(expectedValue)));
+		assertNotEquals(expectedValue, (Double) userVariable.getValue());
 	}
 
 	public static void assertUserVariableEqualsWithTimeout(UserVariable userVariable, String expectedValue,

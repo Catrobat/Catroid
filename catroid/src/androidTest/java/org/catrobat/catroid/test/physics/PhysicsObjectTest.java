@@ -55,10 +55,7 @@ import static junit.framework.Assert.assertNotSame;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertNotEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class PhysicsObjectTest {
@@ -153,7 +150,7 @@ public class PhysicsObjectTest {
 
 		Shape[] rectangle = new Shape[] {PhysicsTestUtils.createRectanglePolygonShape(5.0f, 5.0f)};
 		physicsObject.setShape(rectangle);
-		assertThat(body.getFixtureList().size, is(not(equalTo(0))));
+		assertNotEquals(0, body.getFixtureList().size);
 
 		Array<Fixture> fixturesBeforeReset = body.getFixtureList();
 		physicsObject.setShape(rectangle);
@@ -168,7 +165,7 @@ public class PhysicsObjectTest {
 		Body body = PhysicsTestUtils.getBody(physicsObject);
 
 		physicsObject.setShape(new Shape[] {PhysicsTestUtils.createRectanglePolygonShape(5.0f, 5.0f)});
-		assertThat(body.getFixtureList().size, is(not(equalTo(0))));
+		assertNotEquals(0, body.getFixtureList().size);
 
 		physicsObject.setShape(null);
 		assertNull(PhysicsTestUtils.getShapes(physicsObject));
