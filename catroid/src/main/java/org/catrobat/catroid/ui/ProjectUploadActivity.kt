@@ -304,14 +304,12 @@ open class ProjectUploadActivity : BaseActivity(),
             Log.e(TAG, Log.getStackTraceString(exception))
         }
 
-        checkNotNull(
-            xml.findAnyOf(
-                listOf(
-                    WEB_REQUEST_BRICK, BACKGROUND_REQUEST_BRICK,
-                    LOOK_REQUEST_BRICK, OPEN_URL_BRICK
-                )
-            )
-        ).let {
+        val containsWebBrick = xml.contains(WEB_REQUEST_BRICK) ||
+            xml.contains(BACKGROUND_REQUEST_BRICK) ||
+            xml.contains(LOOK_REQUEST_BRICK) ||
+            xml.contains(OPEN_URL_BRICK)
+
+        if (containsWebBrick) {
             checkApiPattern()
         }
     }
