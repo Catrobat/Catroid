@@ -22,16 +22,22 @@
  */
 package org.catrobat.catroid.uiespresso.intents.loginfragment
 
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.Espresso.closeSoftKeyboard
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isClickable
+import androidx.test.espresso.matcher.ViewMatchers.isEnabled
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.catrobat.catroid.R
 import org.catrobat.catroid.ui.SignInActivity
 import org.catrobat.catroid.uiespresso.util.actions.replaceEditText
 import org.catrobat.catroid.uiespresso.util.matchers.showsErrorText
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
-import org.hamcrest.Matchers
+import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -46,82 +52,56 @@ class LoginDialogFragmentTest {
 
     @Before
     fun openLoginDialog() {
-        Espresso.onView(ViewMatchers.withText("Login"))
-            .perform(ViewActions.click())
+        onView(withText("Login"))
+            .perform(click())
     }
 
     @Test
     fun cancelButtonTest() {
-        Espresso.closeSoftKeyboard()
-        Espresso.onView(ViewMatchers.withText("Cancel")).perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_login_username))
-            .check(ViewAssertions.doesNotExist())
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_login_password))
-            .check(ViewAssertions.doesNotExist())
-        Espresso.onView(ViewMatchers.withText("Cancel")).check(ViewAssertions.doesNotExist())
+        closeSoftKeyboard()
+        onView(withText("Cancel"))
+            .perform(click())
+        onView(withId(R.id.dialog_login_username))
+            .check(doesNotExist())
+        onView(withId(R.id.dialog_login_password))
+            .check(doesNotExist())
+        onView(withText("Cancel"))
+            .check(doesNotExist())
     }
 
     @Test
     fun testLoginWithInvalidUsername() {
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_login_username))
+        onView(withId(R.id.dialog_login_username))
             .perform(replaceEditText("!In#valid?"))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_login_username))
-            .check(
-                ViewAssertions.matches(
-                    showsErrorText(
-                        activityRule.activity
-                            .getString(R.string.error_register_invalid_username)
-                    )
-                )
-            )
+        onView(withId(R.id.dialog_login_username))
+            .check(matches(showsErrorText(activityRule.activity
+                            .getString(R.string.error_register_invalid_username))))
     }
 
     @Test
     fun testLoginWithTooShortPassword() {
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_login_password))
+        onView(withId(R.id.dialog_login_password))
             .perform(replaceEditText("short"))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_login_password))
-            .check(
-                ViewAssertions.matches(
-                    showsErrorText(
-                        activityRule.activity
-                            .getString(R.string.error_register_password_at_least_6_characters)
-                    )
-                )
-            )
+        onView(withId(R.id.dialog_login_password))
+            .check(matches(showsErrorText(activityRule.activity
+                            .getString(R.string.error_register_password_at_least_6_characters))))
     }
 
     @Test
     fun testInputsContainOnlyWhitespaces() {
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_login_username))
+        onView(withId(R.id.dialog_login_username))
             .perform(replaceEditText(""))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_login_password))
+        onView(withId(R.id.dialog_login_password))
             .perform(replaceEditText(""))
 
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_login_username))
-            .check(
-                ViewAssertions.matches(
-                    showsErrorText(
-                        activityRule.activity
-                            .getString(R.string.error_register_empty_username)
-                    )
-                )
-            )
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_login_password))
-            .check(
-                ViewAssertions.matches(
-                    showsErrorText(
-                        activityRule.activity
-                            .getString(R.string.error_register_empty_password)
-                    )
-                )
-            )
+        onView(withId(R.id.dialog_login_username))
+            .check(matches(showsErrorText(activityRule.activity
+                            .getString(R.string.error_register_empty_username))))
+        onView(withId(R.id.dialog_login_password))
+            .check(matches(showsErrorText(activityRule.activity
+                            .getString(R.string.error_register_empty_password))))
 
-        Espresso.onView(
-            Matchers.allOf(
-                ViewMatchers.withText(R.string.login),
-                ViewMatchers.isClickable()
-            )
-        ).check(ViewAssertions.matches(Matchers.not(ViewMatchers.isEnabled())))
+        onView(allOf(withText(R.string.login), isClickable()))
+            .check(matches(not(isEnabled())))
     }
 }
