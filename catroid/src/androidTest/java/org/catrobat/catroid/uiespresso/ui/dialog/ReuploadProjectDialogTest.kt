@@ -24,10 +24,11 @@ package org.catrobat.catroid.uiespresso.ui.dialog
 
 import android.content.Intent
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Project
@@ -42,62 +43,69 @@ import org.catrobat.catroid.ui.PROJECT_DIR
 import org.catrobat.catroid.uiespresso.ui.activity.ProjectUploadDialogTest.ProjectUploadTestActivity
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
 import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.koin.test.KoinTest
+import org.koin.test.inject
 
-class ReuploadProjectDialogTest {
+class ReuploadProjectDialogTest : KoinTest {
     @get:Rule
     var activityTestRule = BaseActivityTestRule(
-        ProjectUploadTestActivity::class.java, false, false
-    )
+        ProjectUploadTestActivity::class.java, false, false)
 
-    var dummyProject: Project? = null
+    lateinit var dummyProject: Project
     var projectName = "reUploadedProject"
+    private val projectManager: ProjectManager by inject()
 
     fun createDownloadedProject(name: String?) {
         dummyProject = Project(
             ApplicationProvider.getApplicationContext(),
             name
         )
-        val dummyScene = dummyProject?.let { Scene("scene", it) }
-        ProjectManager.getInstance().currentProject = dummyProject
+        val dummyScene = Scene("scene", dummyProject)
+        projectManager.currentProject = dummyProject
         val sprite = Sprite("sprite")
         val firstScript: Script = StartScript()
-        dummyScene?.addSprite(sprite)
+        dummyScene.addSprite(sprite)
         sprite.addScript(firstScript)
-        dummyProject!!.addScene(dummyScene)
+        dummyProject.addScene(dummyScene)
         saveProjectSerial(dummyProject, ApplicationProvider.getApplicationContext())
         val intent = Intent()
-        intent.putExtra(PROJECT_DIR, dummyProject?.directory)
+        intent.putExtra(PROJECT_DIR, dummyProject.directory)
         activityTestRule.launchActivity(intent)
+    }
+
+    @Before
+    fun setup() {
+        projectManager.loadDownloadedProjects()
+        projectManager.deleteDownloadedProjectInformation(projectName)
+        projectManager.addNewDownloadedProject(projectName)
+        createDownloadedProject(projectName)
     }
 
     @After
     @Throws(Exception::class)
     fun tearDown() {
-        ProjectManager.getInstance().deleteDownloadedProjectInformation(projectName)
+        projectManager.deleteDownloadedProjectInformation(projectName)
     }
 
     @Test
     fun showUploadWarningForUnchangedProjectTest() {
-        ProjectManager.getInstance().deleteDownloadedProjectInformation(projectName)
-        ProjectManager.getInstance().addNewDownloadedProject(projectName)
-        createDownloadedProject(projectName)
-        Espresso.onView(ViewMatchers.withText(R.string.warning))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withText(R.string.ok)).perform(ViewActions.click())
+        onView(withText(R.string.warning))
+            .check(matches(isDisplayed()))
+        onView(withText(R.string.ok))
+            .perform(click())
     }
 
     @Test
     fun notShowUploadWarningForChangedProjectTest() {
-        ProjectManager.getInstance().loadDownloadedProjects()
-        ProjectManager.getInstance().deleteDownloadedProjectInformation(projectName)
-        ProjectManager.getInstance().addNewDownloadedProject(projectName)
-        createDownloadedProject(projectName)
-        Espresso.onView(ViewMatchers.withText(R.string.warning))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withText(R.string.ok)).perform(ViewActions.click())
-        val currentProject = ProjectManager.getInstance().currentProject
+        onView(withText(R.string.warning))
+            .check(matches(isDisplayed()))
+        onView(withText(R.string.ok))
+            .perform(click())
+
+        val currentProject = projectManager.currentProject
         val newScene = Scene("scene", currentProject)
         currentProject.addScene(newScene)
         XstreamSerializer.getInstance().saveProject(currentProject)
@@ -105,20 +113,19 @@ class ReuploadProjectDialogTest {
         val intent = Intent()
         intent.putExtra(PROJECT_DIR, currentProject.directory)
         activityTestRule.launchActivity(intent)
-        Espresso.onView(ViewMatchers.withText(R.string.main_menu_upload))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+
+        onView(withText(R.string.main_menu_upload))
+            .check(matches(isDisplayed()))
     }
 
     @Test
     fun notShowUploadWarningForAddedVariableProjectTest() {
-        ProjectManager.getInstance().loadDownloadedProjects()
-        ProjectManager.getInstance().deleteDownloadedProjectInformation(projectName)
-        ProjectManager.getInstance().addNewDownloadedProject(projectName)
-        createDownloadedProject(projectName)
-        Espresso.onView(ViewMatchers.withText(R.string.warning))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withText(R.string.ok)).perform(ViewActions.click())
-        val currentProject = ProjectManager.getInstance().currentProject
+        onView(withText(R.string.warning))
+            .check(matches(isDisplayed()))
+        onView(withText(R.string.ok))
+            .perform(click())
+
+        val currentProject = projectManager.currentProject
         val userVariable = UserVariable("uservariable")
         currentProject.addUserVariable(userVariable)
         XstreamSerializer.getInstance().saveProject(currentProject)
@@ -126,7 +133,8 @@ class ReuploadProjectDialogTest {
         val intent = Intent()
         intent.putExtra(PROJECT_DIR, currentProject.directory)
         activityTestRule.launchActivity(intent)
-        Espresso.onView(ViewMatchers.withText(R.string.main_menu_upload))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+
+        onView(withText(R.string.main_menu_upload))
+            .check(matches(isDisplayed()))
     }
 }

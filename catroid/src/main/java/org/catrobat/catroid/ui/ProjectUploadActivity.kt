@@ -39,6 +39,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
 import com.google.common.base.Charsets
 import com.google.common.io.Files
 import org.catrobat.catroid.ProjectManager
@@ -55,7 +56,6 @@ import org.catrobat.catroid.io.asynctask.ProjectLoadTask
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask.ProjectLoadListener
 import org.catrobat.catroid.io.asynctask.renameProject
 import org.catrobat.catroid.transfers.CheckTokenTask
-import org.catrobat.catroid.transfers.CheckTokenTask.TokenCheckListener
 import org.catrobat.catroid.transfers.GetTagsTask
 import org.catrobat.catroid.transfers.GetTagsTask.TagResponseListener
 import org.catrobat.catroid.transfers.project.ResultReceiverWrapper
@@ -63,9 +63,9 @@ import org.catrobat.catroid.transfers.project.ResultReceiverWrapperInterface
 import org.catrobat.catroid.ui.controller.ProjectUploadController
 import org.catrobat.catroid.ui.controller.ProjectUploadController.ProjectUploadInterface
 import org.catrobat.catroid.utils.FileMetaDataExtractor
+import org.catrobat.catroid.utils.NetworkConnectionMonitor
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.Utils
-import org.catrobat.catroid.web.ServerAuthenticationConstants
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.io.FileOutputStream
@@ -95,7 +95,6 @@ const val NUMBER_OF_UPLOADED_PROJECTS = "number_of_uploaded_projects"
 
 open class ProjectUploadActivity : BaseActivity(),
     ProjectLoadListener,
-    TokenCheckListener,
     TagResponseListener,
     ResultReceiverWrapperInterface,
     ProjectUploadInterface {
@@ -115,11 +114,14 @@ open class ProjectUploadActivity : BaseActivity(),
     private var notesAndCreditsScreen = false
 
     private val projectManager: ProjectManager by inject()
+    private val connectionMonitor: NetworkConnectionMonitor by inject()
 
     private lateinit var binding: ActivityUploadBinding
     private lateinit var dialogUploadUnchangedProjectBinding: DialogUploadUnchangedProjectBinding
     private lateinit var dialogReplaceApiKeyBinding: DialogReplaceApiKeyBinding
     private var tags: List<String> = ArrayList()
+
+    private val checkTokenTask: CheckTokenTask by inject()
 
     @JvmField
     protected var projectUploadController: ProjectUploadController? = null
@@ -159,7 +161,7 @@ open class ProjectUploadActivity : BaseActivity(),
         verifyUserIdentity()
     }
 
-    private fun onCreateView() {
+    protected fun onCreateView() {
         val thumbnailSize = THUMBNAIL_SIZE
         val screenshotLoader = ProjectAndSceneScreenshotLoader(
             thumbnailSize,
@@ -587,32 +589,28 @@ open class ProjectUploadActivity : BaseActivity(),
     protected open fun verifyUserIdentity() {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         val token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN)
-        val username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME)
-        val isTokenSetInPreferences =
-            token != Constants.NO_TOKEN && token?.length == ServerAuthenticationConstants.TOKEN_LENGTH && token != ServerAuthenticationConstants.TOKEN_CODE_INVALID
-        if (isTokenSetInPreferences) {
-            CheckTokenTask(this)
-                .execute(token, username)
-        } else {
-            startSignInWorkflow()
-        }
-    }
 
-    override fun onTokenCheckComplete(tokenValid: Boolean, connectionFailed: Boolean) {
-        if (connectionFailed) {
-            if (!tokenValid) {
-                ToastUtil.showError(this, R.string.error_session_expired)
-                Utils.logoutUser(this)
-                startSignInWorkflow()
-            } else {
-                ToastUtil.showError(this, R.string.error_internet_connection)
-                return
+        if (connectionMonitor.isNetworkAvailable()) {
+            token?.let {
+                if (token != Constants.NO_TOKEN) {
+                    checkTokenTask.isValidToken().observe(this, Observer { isValid ->
+                        if (isValid) {
+                            onCreateView()
+                        } else {
+                            ToastUtil.showError(this, R.string.error_session_expired)
+                            Utils.logoutUser(this)
+                            startSignInWorkflow()
+                        }
+                    })
+                    checkTokenTask.checkToken(token)
+                    return
+                }
             }
-        } else if (!tokenValid) {
             startSignInWorkflow()
-            return
+        } else {
+            ToastUtil.showError(this, R.string.error_internet_connection)
+            finish()
         }
-        onCreateView()
     }
 
     fun startSignInWorkflow() {

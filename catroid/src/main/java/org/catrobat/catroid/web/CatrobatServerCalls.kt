@@ -34,12 +34,10 @@ import okio.Okio
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.web.ServerAuthenticationConstants.CHECK_EMAIL_AVAILABLE_URL
 import org.catrobat.catroid.web.ServerAuthenticationConstants.CHECK_GOOGLE_TOKEN_URL
-import org.catrobat.catroid.web.ServerAuthenticationConstants.CHECK_TOKEN_URL
 import org.catrobat.catroid.web.ServerAuthenticationConstants.CHECK_USERNAME_AVAILABLE_URL
 import org.catrobat.catroid.web.ServerAuthenticationConstants.EMAIL_AVAILABLE
 import org.catrobat.catroid.web.ServerAuthenticationConstants.FILE_SURVEY_URL_HTTP
 import org.catrobat.catroid.web.ServerAuthenticationConstants.FILE_TAG_URL_HTTP
-import org.catrobat.catroid.web.ServerAuthenticationConstants.JSON_ANSWER
 import org.catrobat.catroid.web.ServerAuthenticationConstants.JSON_STATUS_CODE
 import org.catrobat.catroid.web.ServerAuthenticationConstants.OAUTH_TOKEN_AVAILABLE
 import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_TOKEN_OK
@@ -55,32 +53,6 @@ import java.util.HashMap
 
 class CatrobatServerCalls(private val okHttpClient: OkHttpClient = CatrobatWebClient.client) {
     private val tag = CatrobatServerCalls::class.java.simpleName
-
-    @Throws(WebconnectionException::class)
-    fun checkToken(token: String, username: String, baseUrl: String): Boolean {
-        try {
-            val postValues = HashMap<String, String>()
-            postValues[Constants.TOKEN] = token
-            postValues[SIGNIN_USERNAME_KEY] = username
-
-            val serverUrl = baseUrl + CHECK_TOKEN_URL
-
-            val request = postValues.createFormEncodedRequest(serverUrl)
-            val resultString = okHttpClient.performCallWith(request)
-
-            val jsonObject = JSONObject(resultString)
-            val statusCode = jsonObject.getInt(JSON_STATUS_CODE)
-            val serverAnswer = jsonObject.optString(JSON_ANSWER)
-
-            return if (statusCode == SERVER_RESPONSE_TOKEN_OK) {
-                true
-            } else {
-                throw WebconnectionException(statusCode, "server response token ok, but error: $serverAnswer")
-            }
-        } catch (e: JSONException) {
-            throw WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e))
-        }
-    }
 
     @Throws(WebconnectionException::class)
     private fun getRequest(url: String): String {
