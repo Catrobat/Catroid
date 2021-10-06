@@ -34,6 +34,7 @@ import org.catrobat.catroid.common.Constants.TEST_URL_API
 import org.catrobat.catroid.db.AppDatabase
 import org.catrobat.catroid.db.DatabaseMigrations
 import org.catrobat.catroid.retrofit.CatroidWebServer
+import org.catrobat.catroid.transfers.CheckTokenTask
 import org.catrobat.catroid.transfers.LoginViewModel
 import org.catrobat.catroid.stage.HmsSpeechRecognitionHolder
 import org.catrobat.catroid.stage.SpeechRecognitionHolder
@@ -105,6 +106,9 @@ val repositoryModules = module {
 
     single {
         DefaultProjectCategoriesRepository(get()) as ProjectCategoriesRepository
+    }
+    single {
+        CheckTokenTask(get())
     }
 }
 
