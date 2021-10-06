@@ -28,6 +28,7 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants.BASE_URL_API
 import org.catrobat.catroid.common.Constants.TEST_URL_API
 import org.catrobat.catroid.retrofit.CatroidWebServer
+import org.catrobat.catroid.transfers.CheckTokenTask
 import org.catrobat.catroid.transfers.LoginViewModel
 import org.catrobat.catroid.transfers.RegistrationViewModel
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoriesAdapter
@@ -60,6 +61,9 @@ val viewModelModules = module {
 val repositoryModules = module {
     single {
         CatroidWebServer.getWebService(BASE_URL_API)
+    }
+    single {
+        CheckTokenTask(get())
     }
 }
 
