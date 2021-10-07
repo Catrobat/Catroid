@@ -498,8 +498,7 @@ public final class Utils {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 
-		boolean tokenValid = !(token.equals(Constants.NO_TOKEN) || token.equals(TOKEN_CODE_INVALID));
-		return tokenValid;
+		return !token.equals(Constants.NO_TOKEN);
 	}
 
 	public static int setBit(int number, int index, int value) {
