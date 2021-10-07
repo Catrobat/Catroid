@@ -41,12 +41,12 @@ public final class ServerAuthenticationConstants {
 	public static final Integer SERVER_RESPONSE_REGISTER_OK = 201;
 	public static final Integer SERVER_RESPONSE_TOKEN_OK = 200;
 	public static final Integer SERVER_RESPONSE_USER_DELETED = 204;
+	public static final Integer SERVER_RESPONSE_INVALID_UPLOAD_TOKEN = 401;
 	public static final Integer SERVER_RESPONSE_REGISTER_UNPROCESSABLE_ENTITY = 422;
 	public static final String JSON_STATUS_CODE = "statusCode";
 	public static final String JSON_ANSWER = "answer";
 	public static final String JSON_TOKEN = "token";
-	public static final int TOKEN_LENGTH = 32;
-	public static final String TOKEN_CODE_INVALID = "-1";
+	public static final int DEPRECATED_TOKEN_LENGTH = 32;
 	public static final String GOOGLE_LOGIN_CATROWEB_SERVER_CLIENT_ID = "427226922034"
 			+ "-r016ige5kb30q9vflqbt1h0i3arng8u1.apps.googleusercontent.com";
 

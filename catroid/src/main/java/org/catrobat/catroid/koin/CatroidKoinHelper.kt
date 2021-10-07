@@ -41,9 +41,9 @@ import org.catrobat.catroid.sync.DefaultFeaturedProjectSync
 import org.catrobat.catroid.sync.DefaultProjectsCategoriesSync
 import org.catrobat.catroid.sync.FeaturedProjectsSync
 import org.catrobat.catroid.sync.ProjectsCategoriesSync
-import org.catrobat.catroid.transfers.CheckTokenTask
 import org.catrobat.catroid.transfers.LoginViewModel
 import org.catrobat.catroid.transfers.RegistrationViewModel
+import org.catrobat.catroid.transfers.TokenTask
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoriesAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.FeaturedProjectsAdapter
 import org.catrobat.catroid.ui.recyclerview.repository.DefaultFeaturedProjectsRepository
@@ -71,6 +71,9 @@ val componentsModules = module(createdAtStart = true, override = false) {
     }
     single {
         CatroidWebServer.getWebService(BASE_URL_API)
+    }
+    single {
+        TokenTask(get())
     }
     factory { WorkManager.getInstance(androidContext()) }
     single { ProjectManager(androidContext()) }
@@ -109,9 +112,6 @@ val repositoryModules = module {
 
     single {
         DefaultProjectCategoriesRepository(get()) as ProjectCategoriesRepository
-    }
-    single {
-        CheckTokenTask(get())
     }
 }
 
