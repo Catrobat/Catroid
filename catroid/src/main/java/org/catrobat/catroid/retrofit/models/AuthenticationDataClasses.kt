@@ -46,3 +46,8 @@ data class RegisterUser(
     val username: String,
     val password: String
 )
+
+@SuppressWarnings("ConstructorParameterNaming")
+data class DeprecatedToken(
+    val upload_token: String
+)

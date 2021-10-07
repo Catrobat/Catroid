@@ -33,10 +33,12 @@ import junit.framework.TestCase.assertNotNull
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.koin.testModules
 import org.catrobat.catroid.retrofit.WebService
+import org.catrobat.catroid.retrofit.models.DeprecatedToken
 import org.catrobat.catroid.retrofit.models.LoginUser
 import org.catrobat.catroid.retrofit.models.RegisterFailedResponse
 import org.catrobat.catroid.retrofit.models.RegisterUser
 import org.catrobat.catroid.testsuites.annotations.Cat.OutgoingNetworkTests
+import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_INVALID_UPLOAD_TOKEN
 import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_REGISTER_OK
 import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_REGISTER_UNPROCESSABLE_ENTITY
 import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_TOKEN_OK
@@ -122,7 +124,7 @@ class CatroidWebServerAuthenticationTest : KoinTest {
         val responseBody = response.body()
         assertNotNull(responseBody)
         assertNotNull(responseBody?.token)
-        assert(response.code() == SERVER_RESPONSE_REGISTER_OK)
+        assertEquals(response.code(), SERVER_RESPONSE_REGISTER_OK)
 
         deleteUser(responseBody?.token)
     }
@@ -134,7 +136,7 @@ class CatroidWebServerAuthenticationTest : KoinTest {
                                                                         password)
         ).execute()
 
-        assert(response.code() == SERVER_RESPONSE_REGISTER_UNPROCESSABLE_ENTITY)
+        assertEquals(response.code(), SERVER_RESPONSE_REGISTER_UNPROCESSABLE_ENTITY)
 
         assertNotNull(response.errorBody())
         val errorBody = response.errorBody()?.string()
@@ -147,7 +149,7 @@ class CatroidWebServerAuthenticationTest : KoinTest {
         val response = webServer.register("Bearer $token", RegisterUser(true, newEmail, username,
                                                                         password)).execute()
 
-        assert(response.code() == SERVER_RESPONSE_REGISTER_UNPROCESSABLE_ENTITY)
+        assertEquals(response.code(), SERVER_RESPONSE_REGISTER_UNPROCESSABLE_ENTITY)
 
         assertNotNull(response.errorBody())
         val errorBody = response.errorBody()?.string()
@@ -168,10 +170,17 @@ class CatroidWebServerAuthenticationTest : KoinTest {
         val loginResponse = webServer.login("Bearer $token", LoginUser(newUserName, password))
             .execute()
 
-        assert(registrationResponse.code() == SERVER_RESPONSE_REGISTER_OK)
+        assertEquals(registrationResponse.code(), SERVER_RESPONSE_REGISTER_OK)
         assertEquals(loginResponse.code(), SERVER_RESPONSE_TOKEN_OK)
 
         deleteUser(loginResponse.body()?.token)
+    }
+
+    @Test
+    fun testUpgradeExpiredToken() {
+        val token = "ee447d8d9013f72ba8f170a48efbedbf"
+        val upgradeResponse = webServer.upgradeToken(DeprecatedToken(token)).execute()
+        assertEquals(upgradeResponse.code(), SERVER_RESPONSE_INVALID_UPLOAD_TOKEN)
     }
 
     private fun parseRegisterErrorMessage(errorBody: String?) =

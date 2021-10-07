@@ -26,15 +26,20 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import org.catrobat.catroid.retrofit.WebService
+import org.catrobat.catroid.retrofit.models.DeprecatedToken
+import org.catrobat.catroid.retrofit.models.LoginResponse
+import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_INVALID_UPLOAD_TOKEN
 import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_TOKEN_OK
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class CheckTokenTask(private val webServer: WebService) {
+class TokenTask(private val webServer: WebService) {
     private val isValidToken = MutableLiveData<Boolean>()
-
     fun isValidToken(): LiveData<Boolean> = isValidToken
+
+    private val upgradeTokenResponse = MutableLiveData<LoginResponse>()
+    fun getUpgradeTokenResponse(): LiveData<LoginResponse> = upgradeTokenResponse
 
     fun checkToken(token: String) {
         val checkTokenCall: Call<Void> = webServer.checkToken("Bearer $token")
@@ -60,7 +65,44 @@ class CheckTokenTask(private val webServer: WebService) {
         })
     }
 
+    fun upgradeToken(deprecatedToken: String) {
+        val checkTokenCall: Call<LoginResponse> = webServer.upgradeToken(DeprecatedToken(deprecatedToken))
+
+        checkTokenCall.enqueue(object : Callback<LoginResponse> {
+            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                val statusCode = response.code()
+                val serverAnswer = response.message()
+
+                when (statusCode) {
+                    SERVER_RESPONSE_TOKEN_OK -> {
+                        val tokenReceived = response.body()?.token
+                        val refreshToken = response.body()?.refresh_token
+
+                        tokenReceived?.let {
+                            Log.d(TAG, "$tokenReceived  $refreshToken")
+                            upgradeTokenResponse.postValue(response.body())
+                        } ?: run {
+                            upgradeTokenResponse.postValue(null)
+                        }
+                    }
+                    SERVER_RESPONSE_INVALID_UPLOAD_TOKEN -> {
+                        Log.e(TAG, "The provided deprecated upload token is invalid or has expired")
+                        upgradeTokenResponse.postValue(null)
+                    }
+                    else -> {
+                        Log.e(TAG, "Not accepted StatusCode: $statusCode; Server Answer: $serverAnswer")
+                        upgradeTokenResponse.postValue(null)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<LoginResponse>, throwable: Throwable) {
+                Log.e(TAG, "onFailure $throwable.message")
+                upgradeTokenResponse.postValue(null)
+            }
+        })
+    }
     companion object {
-        private val TAG = CheckTokenTask::class.java.simpleName
+        private val TAG = TokenTask::class.java.simpleName
     }
 }
