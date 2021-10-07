@@ -29,6 +29,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION
 import org.catrobat.catroid.common.Constants.RETROFIT_WRITE_TIMEOUT
 import org.catrobat.catroid.common.FlavoredConstants.FLAVOR_NAME
+import org.catrobat.catroid.retrofit.models.DeprecatedToken
 import org.catrobat.catroid.retrofit.models.FeaturedProject
 import org.catrobat.catroid.retrofit.models.LoginResponse
 import org.catrobat.catroid.retrofit.models.LoginUser
@@ -72,6 +73,11 @@ interface WebService {
     fun checkToken(
         @Header("Authorization") bearerToken: String
     ): Call<Void>
+
+    @POST("authentication/upgrade")
+    fun upgradeToken(
+        @Body uploadToken: DeprecatedToken
+    ): Call<LoginResponse>
 
     @POST("user")
     fun register(

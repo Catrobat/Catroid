@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -70,6 +70,7 @@ import okio.Okio;
 
 import static org.catrobat.catroid.web.CatrobatWebClientKt.createFormEncodedRequest;
 import static org.catrobat.catroid.web.CatrobatWebClientKt.performCallWith;
+import static org.catrobat.catroid.web.ServerAuthenticationConstants.DEPRECATED_TOKEN_LENGTH;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.EXCHANGE_GOOGLE_CODE_URL;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.GOOGLE_LOGIN_URL_APPENDING;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.JSON_STATUS_CODE;
@@ -81,8 +82,6 @@ import static org.catrobat.catroid.web.ServerAuthenticationConstants.SIGNIN_ID_T
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.SIGNIN_LOCALE_KEY;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.SIGNIN_OAUTH_ID_KEY;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.SIGNIN_USERNAME_KEY;
-import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_CODE_INVALID;
-import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_LENGTH;
 
 public final class ServerCalls implements ScratchDataFetcher {
 	public static final String BASE_URL_TEST_HTTPS = "https://catroid-test.catrob.at/pocketcode/";
@@ -307,7 +306,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 					if (uploadResponse.statusCode != SERVER_RESPONSE_TOKEN_OK) {
 						errorCallback.onError(uploadResponse.statusCode, "Upload failed! JSON Response was " + uploadResponse.statusCode);
-					} else if (newToken.equals(TOKEN_CODE_INVALID) || newToken.length() != TOKEN_LENGTH) {
+					} else if (newToken.length() != DEPRECATED_TOKEN_LENGTH) {
 						errorCallback.onError(uploadResponse.statusCode, uploadResponse.answer);
 					} else {
 						successCallback.onSuccess(projectId, uploadData.getUsername(), newToken);
