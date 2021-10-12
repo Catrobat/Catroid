@@ -44,6 +44,7 @@ public final class CollisionDetection {
 	}
 
 	public static boolean checkCollisionBetweenLooks(Look firstLook, Look secondLook) {
+
 		if (!firstLook.isVisible() || !firstLook.isLookVisible() || !secondLook.isVisible() || !secondLook.isLookVisible()) {
 			return false;
 		}
