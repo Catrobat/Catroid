@@ -26,7 +26,6 @@ package org.catrobat.catroid.content.actions;
 import android.util.Log;
 import android.util.Pair;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Scope;
@@ -41,8 +40,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
-import static org.catrobat.catroid.common.ScreenValues.SCREEN_WIDTH;
-
 public class FillTatamiContourAction extends TemporalAction {
 
 	private FillTatamiContourBrick.Direction direction;
@@ -50,6 +47,7 @@ public class FillTatamiContourAction extends TemporalAction {
 	private List<Pair<Float, Float>> listOfAllCoordinates = new ArrayList<Pair<Float, Float>>();
 	private Formula width;
 	private Scope scope;
+	private final int STITCH_GAP = 10;
 
 	@Override
 	protected void update(float percent) {
@@ -70,7 +68,7 @@ public class FillTatamiContourAction extends TemporalAction {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
 
-		sprite.setEmbroideryThreadColor(Color.RED);
+		//sprite.setEmbroideryThreadColor(Color.RED); //TODO only for debug purposes
 
 		for (int i = 0; i < coordinates.size() - 1; i++) {
 			interpolateStitches(coordinates.get(i).first, coordinates.get(i).second,
@@ -79,9 +77,7 @@ public class FillTatamiContourAction extends TemporalAction {
 		interpolateStitches(coordinates.get(coordinates.size() - 1).first,
 				coordinates.get(coordinates.size() - 1).second, coordinates.get(0).first, coordinates.get(0).second);
 
-		sprite.setEmbroideryThreadColor(Color.BLUE);
-
-		sortAllCoordinates();
+		//sprite.setEmbroideryThreadColor(Color.BLUE); //TODO only for debug purposes
 
 		fillContour();
 	}
@@ -101,7 +97,7 @@ public class FillTatamiContourAction extends TemporalAction {
 			float x = interpolate(startX, endX, splitFactor);
 			float y = interpolate(startY, endY, splitFactor);
 			listOfAllCoordinates.add(new Pair<>(x, y));
-			if(count % 10 == 0) {
+			if(count % STITCH_GAP == 0) {
 				StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(x, y,
 						sprite.look.getZIndex(), sprite, sprite.getEmbroideryThreadColor()));
 			}
@@ -124,10 +120,15 @@ public class FillTatamiContourAction extends TemporalAction {
 	removed because it is irrelevant. The same holds true whenever the x value is too low.
 	 */
 	private void fillContour() {
-		Sprite sprite = scope.getSprite();
+		int totalFilledStitchAmount = 0;
+		sortAllCoordinates();
 
-		for (int y = Math.round(listOfAllCoordinates.get(0).second);
-				y > Math.round(listOfAllCoordinates.get(listOfAllCoordinates.size() - 1).second); y--) {
+		List<Pair<Integer, Integer>> tempStitchCoordinates = new ArrayList<>();
+
+		Sprite sprite = scope.getSprite();
+		Pair<Integer, Integer> minValues = getMinValues();
+		Pair<Integer, Integer> maxValues = getMaxValues();
+		for (int y = maxValues.second; y > minValues.second; y--) {
 
 			//Remove irrelevant y values
 			while (y < listOfAllCoordinates.get(0).second) {
@@ -136,7 +137,7 @@ public class FillTatamiContourAction extends TemporalAction {
 
 			boolean insideContour = false;
 			boolean lastContained = false;
-			for (int x = -SCREEN_WIDTH / 2; x < SCREEN_WIDTH / 2; x++) {
+			for (int x = minValues.first - 1; x < maxValues.first + 1; x++) {
 				if (listOfAllCoordinates.size() == 0) {
 					break;
 				}
@@ -169,14 +170,23 @@ public class FillTatamiContourAction extends TemporalAction {
 				}
 
 				if (insideContour) {
-					StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(x, y,
-							sprite.look.getZIndex(), sprite, sprite.getEmbroideryThreadColor()));
+					tempStitchCoordinates.add(new Pair<>(x, y));
 				}
 			}
 			if (listOfAllCoordinates.size() == 0) {
 				break;
 			}
 		}
+
+		for (int i = 0; i < tempStitchCoordinates.size(); i += 10) {
+			totalFilledStitchAmount++;
+			Pair<Integer, Integer> pair = tempStitchCoordinates.get(i);
+			StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(
+					pair.first, pair.second, sprite.look.getZIndex(), sprite, sprite.getEmbroideryThreadColor()));
+		}
+
+
+		System.out.println("Total filled stitch amount is " + totalFilledStitchAmount);
 	}
 
 	private void sortAllCoordinates() {
@@ -187,6 +197,26 @@ public class FillTatamiContourAction extends TemporalAction {
 				}
 			}
 		}
+	}
+
+	private Pair<Integer, Integer> getMinValues() {
+		int minX = Integer.MAX_VALUE;
+		for (int i = 0; i < listOfAllCoordinates.size(); i++) {
+			if (listOfAllCoordinates.get(i).first < minX) {
+				minX = Math.round(listOfAllCoordinates.get(i).first);
+			}
+		}
+		return new Pair<>(minX, Math.round(listOfAllCoordinates.get(listOfAllCoordinates.size() - 1).second));
+	}
+
+	private Pair<Integer, Integer> getMaxValues() {
+		int maxX = Integer.MIN_VALUE;
+		for (int i = 0; i < listOfAllCoordinates.size(); i++) {
+			if (listOfAllCoordinates.get(i).first > maxX) {
+				maxX = Math.round(listOfAllCoordinates.get(i).first);
+			}
+		}
+		return new Pair<>(maxX, Math.round(listOfAllCoordinates.get(0).second));
 	}
 
 	private int comparePairs(Pair<Float, Float> pair1, Pair<Float, Float> pair2) {
