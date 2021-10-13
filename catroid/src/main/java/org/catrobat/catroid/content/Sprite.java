@@ -65,8 +65,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import androidx.annotation.VisibleForTesting;
-
 @XStreamFieldKeyOrder({
 		"name",
 		"lookList",
