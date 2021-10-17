@@ -22,12 +22,14 @@
  */
 package org.catrobat.catroid.content;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BroadcastMessageContainer;
 import org.catrobat.catroid.common.Constants;
@@ -525,5 +527,36 @@ public class Project implements Serializable {
 		for (Scene scene : sceneList) {
 			scene.checkForInvisibleSprites();
 		}
+	}
+
+	public void checkIfSpriteNameEqualBackground(Activity activity) {
+		List<Sprite> spriteList =
+				new ArrayList<>(ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones());
+		for (int sprite = 1; sprite < spriteList.size(); ++sprite) {
+			if (spriteList.get(sprite).getName().matches("[\\s]*" + activity.getString(R.string.background) +
+					"[\\s]*")) {
+				setNewSpriteName(sprite, activity);
+				return;
+			}
+		}
+	}
+
+	public void setNewSpriteName(int sprite, Activity activity) {
+		List<Sprite> spriteList =
+				new ArrayList<>(ProjectManager.getInstance().getCurrentProject().getSpriteListWithClones());
+		String backgroundRegex = activity.getString(R.string.background) + " \\([0-9]+\\)";
+		int maxValue = 0;
+		for (int spriteItr = 1; spriteItr < spriteList.size(); ++spriteItr) {
+			if (spriteList.get(spriteItr).getName().matches(backgroundRegex)) {
+				String tokens[] = spriteList.get(spriteItr).getName().split(" ");
+				int value = Integer.parseInt(tokens[1].replaceAll("[^0-9]", ""));
+				if (maxValue < value) {
+					maxValue = value;
+				}
+			}
+		}
+		int finalValue = maxValue + 1;
+		spriteList.get(sprite).setName(activity.getString(R.string.background) + " (" + finalValue +
+				")");
 	}
 }

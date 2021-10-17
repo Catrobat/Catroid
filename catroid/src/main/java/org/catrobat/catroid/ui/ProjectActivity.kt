@@ -118,6 +118,7 @@ class ProjectActivity : BaseCastActivity() {
                 handlePlayButton()
             }
         }
+        projectManager.currentProject.checkIfSpriteNameEqualBackground(this);
     }
 
     private fun loadFragment(fragmentPosition: Int) {
