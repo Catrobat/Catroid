@@ -721,6 +721,7 @@ public final class ProjectManager {
 	}
 
 	public void resetProjectManager() {
+		startScene = null;
 		currentlyEditedScene = null;
 		currentlyPlayingScene = null;
 		currentSprite = null;

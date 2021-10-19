@@ -45,10 +45,10 @@ import java.util.Locale
 
 class SpeechRecognitionHolder : SpeechRecognitionHolderInterface {
 
-    private lateinit var speechRecognizer: SpeechRecognizer
+    private var speechRecognizer: SpeechRecognizer? = null
     override var callback: OnSpeechRecognitionResultCallback? = null
     private lateinit var speechIntent: Intent
-    private lateinit var listener: RecognitionListener
+    private var listener: RecognitionListener? = null
 
     companion object {
         private val TAG = SpeechRecognitionHolder::class.java.simpleName
@@ -100,7 +100,7 @@ class SpeechRecognitionHolder : SpeechRecognitionHolderInterface {
                 Log.e(TAG, "SpeechRecognizer onError: $error")
                 when (error) {
                     SpeechRecognizer.ERROR_NO_MATCH -> {
-                        speechRecognizer.cancel()
+                        speechRecognizer?.cancel()
                         startListening()
                     }
                     SpeechRecognizer.ERROR_NETWORK -> {
@@ -138,15 +138,17 @@ class SpeechRecognitionHolder : SpeechRecognitionHolderInterface {
         //  Note 8 with ANDROID 9, Xiaomi MI A2 Android 10
         SensorHandler.stopSensorListeners()
         GlobalScope.launch(Dispatchers.Main.immediate) {
-            speechRecognizer.setRecognitionListener(listener)
-            speechRecognizer.startListening(speechIntent)
+            speechRecognizer?.setRecognitionListener(listener)
+            speechRecognizer?.startListening(speechIntent)
         }
     }
 
     override fun destroy() {
         GlobalScope.launch(Dispatchers.Main.immediate) {
-            speechRecognizer.cancel()
-            speechRecognizer.destroy()
+            speechRecognizer?.cancel()
+            speechRecognizer?.destroy()
+            speechRecognizer = null
+            listener = null
         }
     }
 
