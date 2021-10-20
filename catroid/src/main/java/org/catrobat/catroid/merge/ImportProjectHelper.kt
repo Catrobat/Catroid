@@ -33,6 +33,7 @@ import androidx.appcompat.app.AlertDialog
 import org.catrobat.catroid.ProjectManager.checkForVariablesConflicts
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
+import org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
@@ -51,15 +52,16 @@ private const val DISPLAYED_CONFLICT_VARIABLE: Int = 3
 private const val GAP_WIDTH: Int = 15
 
 class ImportProjectHelper(
-    lookFileName: String,
+    private var lookFileName: String,
     currentScene: Scene,
     private var context: Activity
 ) {
-    private var lookFileName: String? = lookFileName
     private var currentScene: Scene? = currentScene
     private var newSprite: Sprite = Sprite("Sprite")
     private var spriteToAdd: Sprite? = null
     private var newProject: Project? = null
+
+    fun getSpriteToAddName(): String? = spriteToAdd?.name
 
     fun addObjectDataToNewSprite(spriteToAddTo: Sprite?): Sprite {
         copyFilesToSoundAndSpriteDir()
@@ -68,9 +70,35 @@ class ImportProjectHelper(
         } else {
             spriteToAddTo.mergeSprites(spriteToAdd)
         }
-        newProject?.let { currentScene?.project?.userLists?.addAll(it.userLists) }
-        newProject?.let { currentScene?.project?.userVariables?.addAll(it.userVariables) }
+        newProject?.let {
+            for (userList in it.userLists) {
+                if (!currentScene?.project?.userLists!!.contains(userList)) {
+                    currentScene?.project?.userLists?.add(userList)
+                }
+            }
+        }
+        newProject?.let {
+            for (userVariable in it.userVariables) {
+                if (!currentScene?.project?.userVariables!!.contains(userVariable)) {
+                    currentScene?.project?.userVariables?.add(userVariable)
+                }
+            }
+        }
+        addGlobalsToProject(newProject!!.userLists, currentScene!!.project.userLists)
+        addGlobalsToProject(newProject!!.userVariables, currentScene!!.project.userVariables)
+        addGlobalsToProject(newProject!!.broadcastMessageContainer.broadcastMessages,
+                            currentScene!!.project.broadcastMessageContainer.broadcastMessages)
+
+        currentScene?.project?.broadcastMessageContainer?.update()
         return newSprite
+    }
+
+    fun addGlobalsToProject(globalList: List<Any>, globalsToAdd: List<Any>) {
+        for (global in globalsToAdd) {
+            if (!globalList!!.contains(global)) {
+                globalList!!.plus(global)
+            }
+        }
     }
 
     fun checkForConflicts(): Boolean {
@@ -138,6 +166,16 @@ class ImportProjectHelper(
         }
     }
 
+    fun getProject(resolvedName: String): Project? {
+        val projectDir = File(DEFAULT_ROOT_DIRECTORY, resolvedName)
+        return if (projectDir.exists() && projectDir.isDirectory) {
+            XstreamSerializer.getInstance()
+                .loadProject(projectDir, context)
+        } else {
+            getNewProject(resolvedName)
+        }
+    }
+
     fun getNewProject(resolvedName: String): Project? {
         try {
             val cachedProjectDir =
@@ -163,7 +201,7 @@ class ImportProjectHelper(
         } else {
             val view = View.inflate(context, R.layout.dialog_import_rejected, null)
 
-            context.runOnUiThread(Runnable {
+            context.runOnUiThread {
                 val alertDialog: AlertDialog = AlertDialog.Builder(context)
                     .setTitle(R.string.warning)
                     .setView(view)
@@ -193,13 +231,13 @@ class ImportProjectHelper(
                     )
                 }
                 conflictField?.text = content
-            })
+            }
         }
     }
 
     init {
         val resolvedName = StorageOperations.getSanitizedFileName(lookFileName)
-        val project = getNewProject(resolvedName)
+        val project = getProject(resolvedName)
         val firstScene = project?.defaultScene
         if (project == null || firstScene!!.spriteList.size < 2) {
             rejectImportDialog(null)

@@ -101,6 +101,16 @@ android:paddingBottom="@dimen/dialog_content_area_padding_top">
                 app:drawableTopCompat="@drawable/ic_content_paste" />
         </TableRow>
 
-
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+             <TextView
+                 android:id="@+id/dialog_new_look_from_local"
+                 android:background="@drawable/new_object_dialog_selector"
+                 android:gravity="center"
+                 android:text="@string/add_look_from_local_project"
+                 android:textSize="?attr/medium"
+                 app:drawableTopCompat="@drawable/ic_library_add" />
+        </TableRow>
     </TableLayout>
 </ScrollView>

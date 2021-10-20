@@ -723,8 +723,18 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		this.lookList.addAll(sprite.lookList);
 		this.soundList.addAll(sprite.soundList);
 		this.nfcTagList.addAll(sprite.nfcTagList);
-		this.userVariables.addAll(sprite.userVariables);
-		this.userLists.addAll(sprite.userLists);
+
+		for (UserVariable userVariable: sprite.userVariables) {
+			if (!this.userVariables.contains(userVariable)) {
+				this.userVariables.add(userVariable);
+			}
+		}
+		for (UserList userlist: sprite.userLists) {
+			if (!this.userLists.contains(userlist)) {
+				this.userLists.add(userlist);
+			}
+		}
+
 		this.userDefinedBrickList.addAll(sprite.userDefinedBrickList);
 	}
 }

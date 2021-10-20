@@ -22,54 +22,54 @@
  */
 package org.catrobat.catroid.ui.recyclerview.fragment
 
-import org.catrobat.catroid.common.ProjectData
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask.ProjectLoadListener
-import android.os.Bundle
-import android.content.Intent
-import org.catrobat.catroid.utils.ToastUtil
-import org.catrobat.catroid.R
-import org.catrobat.catroid.io.asynctask.ProjectImportTask.ProjectImportListener
-import androidx.appcompat.app.AppCompatActivity
-import org.catrobat.catroid.ProjectManager
-import org.catrobat.catroid.ui.BottomBar
-import org.catrobat.catroid.common.SharedPreferenceKeys
-import org.catrobat.catroid.ui.recyclerview.adapter.ProjectAdapter
-import android.preference.PreferenceManager
-import android.provider.DocumentsContract
-import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
 import android.Manifest.permission
-import org.catrobat.catroid.ui.filepicker.FilePickerActivity
 import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.os.Environment
+import android.preference.PreferenceManager
+import android.provider.DocumentsContract
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
-import org.catrobat.catroid.io.asynctask.ProjectImportTask
-import org.catrobat.catroid.io.asynctask.ProjectUnZipperAndImporter
-import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
-import org.catrobat.catroid.common.Nameable
-import org.catrobat.catroid.io.asynctask.ProjectCopier
 import androidx.annotation.PluralsRes
 import androidx.annotation.RequiresApi
+import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.io.StorageOperations
-import org.catrobat.catroid.io.asynctask.ProjectRenamer
-import org.catrobat.catroid.ui.ProjectActivity
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask
-import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH
-import org.catrobat.catroid.io.XstreamSerializer
-import org.catrobat.catroid.exceptions.LoadingProjectException
-import org.catrobat.catroid.ui.fragment.ProjectOptionsFragment
 import org.catrobat.catroid.common.FlavoredConstants
+import org.catrobat.catroid.common.Nameable
+import org.catrobat.catroid.common.ProjectData
+import org.catrobat.catroid.common.SharedPreferenceKeys
 import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser
+import org.catrobat.catroid.exceptions.LoadingProjectException
+import org.catrobat.catroid.io.StorageOperations
+import org.catrobat.catroid.io.XstreamSerializer
+import org.catrobat.catroid.io.asynctask.ProjectCopier
+import org.catrobat.catroid.io.asynctask.ProjectImportTask
+import org.catrobat.catroid.io.asynctask.ProjectImportTask.ProjectImportListener
+import org.catrobat.catroid.io.asynctask.ProjectLoadTask
+import org.catrobat.catroid.io.asynctask.ProjectLoadTask.ProjectLoadListener
+import org.catrobat.catroid.io.asynctask.ProjectRenamer
+import org.catrobat.catroid.io.asynctask.ProjectUnZipperAndImporter
+import org.catrobat.catroid.ui.BottomBar
+import org.catrobat.catroid.ui.ProjectActivity
+import org.catrobat.catroid.ui.ProjectListActivity
+import org.catrobat.catroid.ui.filepicker.FilePickerActivity
+import org.catrobat.catroid.ui.fragment.ProjectOptionsFragment
+import org.catrobat.catroid.ui.recyclerview.adapter.ProjectAdapter
+import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH
+import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
+import org.catrobat.catroid.utils.ToastUtil
 import java.io.File
 import java.io.IOException
-import java.lang.IllegalStateException
 import java.util.ArrayList
 
 class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadListener {
@@ -86,6 +86,10 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         hasImportTaskFinished = true
         if (arguments != null) {
             importProject(requireArguments().getParcelable("intent"))
+        }
+        if (requireActivity().intent!!.hasExtra(ProjectListActivity.IMPORT_LOCAL_INTENT)) {
+            adapter.hideSettings = true
+            actionModeType = IMPORT_LOCAL
         }
     }
 
@@ -142,8 +146,10 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
     }
 
     override fun onResume() {
-        (activity as AppCompatActivity?)?.supportActionBar?.setTitle(R.string.project_list_title)
-        ProjectManager.getInstance().currentProject = null
+        if (actionModeType != IMPORT_LOCAL) {
+            ProjectManager.getInstance().currentProject = null
+        }
+
         setAdapterItems(adapter.projectsSorted)
         checkForEmptyList()
         BottomBar.showBottomBar(activity)
@@ -459,6 +465,15 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
             val directoryFile = item?.directory ?: return
             ProjectLoadTask(directoryFile, context).setListener(this).execute()
         }
+        if (activity != null && actionModeType == IMPORT_LOCAL) {
+            val intent = Intent()
+            intent.putExtra(
+                ProjectListActivity.IMPORT_LOCAL_INTENT,
+                item!!.directory.absoluteFile.absolutePath
+            )
+            requireActivity().setResult(RESULT_OK, intent)
+            requireActivity().finish()
+        }
     }
 
     override fun onItemLongClick(item: ProjectData?, holder: CheckableVH?) {
@@ -512,7 +527,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         if (context != null) {
             adapter.projectsSorted = PreferenceManager.getDefaultSharedPreferences(context)
                 .getBoolean(SharedPreferenceKeys.SORT_PROJECTS_PREFERENCE_KEY, false)
-            menu.findItem(R.id.sort_projects)
+                menu.findItem(R.id.sort_projects)
                 .setTitle(if (adapter.projectsSorted) R.string.unsort_projects else R.string.sort_projects)
         }
     }

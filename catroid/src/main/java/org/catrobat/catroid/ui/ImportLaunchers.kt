@@ -165,3 +165,16 @@ class ImportFromCameraLauncher(private val activity: AppCompatActivity) : Import
         val REQUEST_PERMISSIONS_CAMERA_LAUNCHER = 301
     }
 }
+
+class ImportFromLocalProjectListLauncher(
+    private val activity: AppCompatActivity,
+    private val title: String
+) : ImportLauncher {
+
+    override fun startActivityForResult(requestCode: Int) {
+        val intent = Intent(activity, ProjectListActivity::class.java)
+        intent.putExtra(ProjectListActivity.IMPORT_LOCAL_INTENT, title)
+        intent.setClass(activity, ProjectListActivity::class.java)
+        activity.startActivityForResult(intent, requestCode)
+    }
+}
