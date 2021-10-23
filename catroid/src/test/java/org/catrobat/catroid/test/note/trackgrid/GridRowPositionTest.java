@@ -31,10 +31,7 @@ import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertEquals;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertNotEquals;
 
 @RunWith(JUnit4.class)
 public class GridRowPositionTest {
@@ -52,7 +49,7 @@ public class GridRowPositionTest {
 		GridRowPosition gridRowPosition = new GridRowPosition(0, NoteLength.QUARTER);
 		GridRowPosition secondGridRowPosition = new GridRowPosition(4, NoteLength.QUARTER);
 
-		assertThat(gridRowPosition, is(not(equalTo(secondGridRowPosition))));
+		assertNotEquals(secondGridRowPosition, gridRowPosition);
 	}
 
 	@Test
@@ -60,7 +57,7 @@ public class GridRowPositionTest {
 		GridRowPosition gridRowPosition = new GridRowPosition(4, NoteLength.HALF);
 		GridRowPosition secondGridRowPosition = new GridRowPosition(4, NoteLength.QUARTER);
 
-		assertThat(gridRowPosition, is(not(equalTo(secondGridRowPosition))));
+		assertNotEquals(secondGridRowPosition, gridRowPosition);
 	}
 
 	@Test

@@ -1173,4 +1173,8 @@ public class InternFormula {
 		return !(cursorTokenPosition == null
 				|| (cursorTokenPosition == CursorTokenPosition.LEFT && getFirstLeftInternToken(externCursorPosition - 1) == null));
 	}
+
+	public void setInternTokenFormulaList(List<InternToken> list) {
+		internTokenFormulaList = list;
+	}
 }

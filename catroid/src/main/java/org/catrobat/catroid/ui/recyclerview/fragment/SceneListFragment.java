@@ -223,9 +223,6 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> implements Pr
 			if (sceneController.rename(item, name)) {
 				Project currentProject = ProjectManager.getInstance().getCurrentProject();
 				new ProjectSaver(currentProject, getContext()).saveProjectAsync();
-				new ProjectLoadTask(currentProject.getDirectory(), getContext())
-						.setListener(this)
-						.execute();
 			} else {
 				ToastUtil.showError(getActivity(), R.string.error_rename_scene);
 			}

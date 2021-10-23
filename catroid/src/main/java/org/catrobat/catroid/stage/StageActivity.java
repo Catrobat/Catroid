@@ -86,6 +86,7 @@ import androidx.test.espresso.idling.CountingIdlingResource;
 import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
 import static org.catrobat.catroid.ui.MainMenuActivity.surveyCampaign;
+import static org.koin.java.KoinJavaComponent.get;
 
 public class StageActivity extends AndroidApplication implements PermissionHandlingActivity, PermissionAdaptingActivity {
 
@@ -273,7 +274,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		stageListener.finish();
 
 		TextToSpeechHolder.getInstance().shutDownTextToSpeech();
-		SpeechRecognitionHolder.Companion.getInstance().destroy();
+		get(SpeechRecognitionHolderFactory.class).getInstance().destroy();
 
 		BluetoothDeviceService service = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 		if (service != null) {

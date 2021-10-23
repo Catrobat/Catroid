@@ -41,7 +41,7 @@ public enum Functions {
 	private static final String TAG = Functions.class.getSimpleName();
 	public static final EnumSet<Functions> TEXT = EnumSet.of(LENGTH, LETTER, JOIN, JOIN3, REGEX);
 	public static final EnumSet<Functions> LIST = EnumSet.of(LIST_ITEM, CONTAINS, INDEX_OF_ITEM,
-			NUMBER_OF_ITEMS);
+			NUMBER_OF_ITEMS, FLATTEN);
 
 	public static boolean isFunction(String value) {
 		return EnumUtils.isValidEnum(Functions.class, value);

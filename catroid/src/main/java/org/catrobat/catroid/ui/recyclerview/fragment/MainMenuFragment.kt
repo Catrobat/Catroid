@@ -41,6 +41,7 @@ import org.catrobat.catroid.databinding.FragmentMainMenuBinding
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask.ProjectLoadListener
+import org.catrobat.catroid.ui.PROJECT_DIR
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.ProjectListActivity
 import org.catrobat.catroid.ui.ProjectUploadActivity
@@ -307,7 +308,7 @@ class MainMenuFragment : Fragment(),
                 viewModel.setIsLoading(true)
                 val intent = Intent(activity, ProjectUploadActivity::class.java)
                     .putExtra(
-                        ProjectUploadActivity.PROJECT_DIR,
+                        PROJECT_DIR,
                         File(
                             DEFAULT_ROOT_DIRECTORY,
                             FileMetaDataExtractor.encodeSpecialCharsForFileSystem(

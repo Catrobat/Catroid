@@ -55,7 +55,7 @@ import androidx.test.core.app.ApplicationProvider;
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
-import static org.catrobat.catroid.ui.ProjectUploadActivity.PROJECT_DIR;
+import static org.catrobat.catroid.ui.ProjectUploadActivityKt.PROJECT_DIR;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 

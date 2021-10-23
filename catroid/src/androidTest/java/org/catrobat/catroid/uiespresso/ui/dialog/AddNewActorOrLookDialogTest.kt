@@ -81,6 +81,8 @@ class AddNewActorOrLookDialogTest {
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_object_library))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_backpack))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 
     @Test

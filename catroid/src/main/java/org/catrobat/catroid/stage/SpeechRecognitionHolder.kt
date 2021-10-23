@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -43,10 +43,10 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.formulaeditor.SensorHandler
 import java.util.Locale
 
-class SpeechRecognitionHolder private constructor() {
+class SpeechRecognitionHolder : SpeechRecognitionHolderInterface {
 
     private lateinit var speechRecognizer: SpeechRecognizer
-    lateinit var callback: OnSpeechRecognitionResultCallback
+    override var callback: OnSpeechRecognitionResultCallback? = null
     private lateinit var speechIntent: Intent
     private lateinit var listener: RecognitionListener
 
@@ -55,25 +55,15 @@ class SpeechRecognitionHolder private constructor() {
         private const val QUICK_SEARCH_BOX_PKG = "com.google.android.googlequicksearchbox"
         private const val ONE_SECOND = 1000
         private const val FIVE_SECONDS = 5000
-
-        var instance: SpeechRecognitionHolder? = null
-            get() {
-                if (field == null) {
-                    field = SpeechRecognitionHolder()
-                }
-                return field
-            }
-            private set
     }
 
-    fun forceSetLanguage() {
+    override fun forceSetLanguage() {
         speechIntent.putExtra(
-            RecognizerIntent.EXTRA_LANGUAGE, SensorHandler
-                .getListeningLanguageSensor()
+            RecognizerIntent.EXTRA_LANGUAGE, SensorHandler.getListeningLanguageSensor()
         )
     }
 
-    fun initSpeechRecognition(
+    override fun initSpeechRecognition(
         stageActivity: StageActivity,
         stageResourceHolder: StageResourceHolder
     ) {
@@ -133,7 +123,7 @@ class SpeechRecognitionHolder private constructor() {
                     spokenWords = candidates.first()
                 }
 
-                callback.onResult(spokenWords)
+                callback?.onResult(spokenWords)
                 SensorHandler.startSensorListener(stageActivity)
             }
 
@@ -143,7 +133,7 @@ class SpeechRecognitionHolder private constructor() {
         }
     }
 
-    fun startListening() {
+    override fun startListening() {
         //  needed only for some smart phones like:
         //  Note 8 with ANDROID 9, Xiaomi MI A2 Android 10
         SensorHandler.stopSensorListeners()
@@ -153,7 +143,7 @@ class SpeechRecognitionHolder private constructor() {
         }
     }
 
-    fun destroy() {
+    override fun destroy() {
         GlobalScope.launch(Dispatchers.Main.immediate) {
             speechRecognizer.cancel()
             speechRecognizer.destroy()
@@ -216,9 +206,4 @@ class SpeechRecognitionHolder private constructor() {
             }
         }
     }
-}
-
-interface OnSpeechRecognitionResultCallback {
-
-    fun onResult(spokenWords: String)
 }

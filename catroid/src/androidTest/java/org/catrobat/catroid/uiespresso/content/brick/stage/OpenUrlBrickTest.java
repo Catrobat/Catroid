@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,9 @@ package org.catrobat.catroid.uiespresso.content.brick.stage;
 
 import android.app.Activity;
 import android.app.Instrumentation;
+import android.content.Context;
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
@@ -45,9 +47,11 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.ui.fragment.FormulaEditorFragment.DO_NOT_SHOW_WARNING;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
 import static org.hamcrest.Matchers.allOf;
@@ -68,6 +72,8 @@ public class OpenUrlBrickTest {
 	private final String url = BrickValues.OPEN_IN_BROWSER;
 	private Matcher expectedIntent;
 	private final String projectName = "openUrlBrickTest";
+	private boolean bufferedWarningPreferenceSetting = false;
+	private final Context applicationContext = ApplicationProvider.getApplicationContext();
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
@@ -75,6 +81,18 @@ public class OpenUrlBrickTest {
 
 	@Before
 	public void setUp() {
+		bufferedWarningPreferenceSetting = PreferenceManager
+			.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
+			.getBoolean(DO_NOT_SHOW_WARNING, false);
+
+		PreferenceManager.getDefaultSharedPreferences(applicationContext.getApplicationContext())
+			.edit()
+			.putBoolean(
+				DO_NOT_SHOW_WARNING,
+				true
+			)
+			.commit();
+
 		openUrlBrickPosition = 1;
 		Script script = createProjectAndGetStartScript(projectName);
 		script.addBrick(new OpenUrlBrick());
@@ -98,6 +116,14 @@ public class OpenUrlBrickTest {
 
 	@After
 	public void tearDown() {
+		PreferenceManager.getDefaultSharedPreferences(applicationContext)
+			.edit()
+			.putBoolean(
+				DO_NOT_SHOW_WARNING,
+				bufferedWarningPreferenceSetting
+			)
+			.commit();
+
 		Intents.release();
 		baseActivityTestRule.finishActivity();
 		try {

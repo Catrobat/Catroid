@@ -78,21 +78,29 @@ android:paddingBottom="@dimen/dialog_content_area_padding_top">
                 android:text="@string/add_look_object_library"
                 android:textSize="?attr/medium"
                 app:drawableTopCompat="@drawable/ic_apps_white" />
-
-            </TableRow>
+        </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+             <TextView
+                 android:id="@+id/dialog_new_look_camera"
+                 android:background="@drawable/new_object_dialog_selector"
+                 android:gravity="center"
+                 android:text="@string/add_look_from_camera"
+                 android:textSize="?attr/medium"
+                 app:drawableTopCompat="@drawable/ic_camera" />
+
             <TextView
-                android:id="@+id/dialog_new_look_camera"
+                android:id="@+id/dialog_new_look_backpack"
                 android:background="@drawable/new_object_dialog_selector"
                 android:gravity="center"
-                android:text="@string/add_look_from_camera"
+                android:text="@string/backpack"
                 android:textSize="?attr/medium"
-                app:drawableTopCompat="@drawable/ic_camera" />
-
+                app:drawableTopCompat="@drawable/ic_content_paste" />
         </TableRow>
+
+
     </TableLayout>
 </ScrollView>
