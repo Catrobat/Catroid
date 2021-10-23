@@ -129,7 +129,6 @@ pipeline {
                             }
                         }
 
-                    stages {
                         stage('Standalone') {
                             steps {
                                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
