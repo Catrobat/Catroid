@@ -419,6 +419,12 @@ dependencies {
     implementation 'com.google.mlkit:language-id:16.1.1'
     implementation 'com.google.mlkit:pose-detection:17.0.0'
 
+    // HUAWEI Mobile Services
+    implementation 'com.huawei.hms:base:4.0.3.300'
+
+    // Huawei ML Kit
+    implementation 'com.huawei.hms:ml-computer-vision-face:2.0.5.300'
+
     // libGDX
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
     implementation "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
