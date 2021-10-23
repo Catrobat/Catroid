@@ -21,28 +21,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.content.actions
+package org.catrobat.catroid.stage
 
-import com.badlogic.gdx.scenes.scene2d.Action
-import org.catrobat.catroid.formulaeditor.SensorHandler
-import org.catrobat.catroid.stage.SpeechRecognitionHolderFactory
-import org.koin.java.KoinJavaComponent.get
+interface SpeechRecognitionHolderInterface {
+    fun forceSetLanguage()
+    fun initSpeechRecognition(
+        stageActivity: StageActivity,
+        stageResourceHolder: StageResourceHolder
+    )
+    fun startListening()
+    fun destroy()
 
-class SetListeningLanguageAction : Action() {
+    var callback: OnSpeechRecognitionResultCallback?
+}
 
-    private var languageChanged = false
-    lateinit var listeningLanguageTag: String
-
-    override fun act(delta: Float): Boolean {
-        if (!languageChanged) {
-            changeLanguage()
-        }
-        return languageChanged
-    }
-
-    private fun changeLanguage() {
-        SensorHandler.setListeningLanguageSensor(listeningLanguageTag)
-        get(SpeechRecognitionHolderFactory::class.java).instance.forceSetLanguage()
-        languageChanged = true
-    }
+interface OnSpeechRecognitionResultCallback {
+    fun onResult(spokenWords: String)
 }

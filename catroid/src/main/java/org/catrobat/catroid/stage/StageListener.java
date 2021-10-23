@@ -93,6 +93,7 @@ import kotlinx.coroutines.GlobalScope;
 
 import static org.catrobat.catroid.common.ScreenValues.SCREEN_HEIGHT;
 import static org.catrobat.catroid.common.ScreenValues.SCREEN_WIDTH;
+import static org.koin.java.KoinJavaComponent.get;
 
 public class StageListener implements ApplicationListener {
 
@@ -429,7 +430,8 @@ public class StageListener implements ApplicationListener {
 		}
 
 		SoundManager.getInstance().clear();
-		SpeechRecognitionHolder.Companion.getInstance().destroy();
+		get(SpeechRecognitionHolderFactory.class).getInstance().destroy();
+
 		stageBackupMap.remove(sceneName);
 
 		Gdx.input.setInputProcessor(stage);

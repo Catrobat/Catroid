@@ -21,28 +21,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.content.actions
+package org.catrobat.catroid.utils
 
-import com.badlogic.gdx.scenes.scene2d.Action
-import org.catrobat.catroid.formulaeditor.SensorHandler
-import org.catrobat.catroid.stage.SpeechRecognitionHolderFactory
-import org.koin.java.KoinJavaComponent.get
+import android.content.Context
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.huawei.hms.api.HuaweiApiAvailability
 
-class SetListeningLanguageAction : Action() {
+class MobileServiceAvailability(
+    private val googleApiAvailability: GoogleApiAvailability,
+    private val huaweiApiAvailability: HuaweiApiAvailability
+) {
+    fun isGmsAvailable(context: Context) =
+        (googleApiAvailability.isGooglePlayServicesAvailable(context)
+            == ConnectionResult.SUCCESS)
 
-    private var languageChanged = false
-    lateinit var listeningLanguageTag: String
-
-    override fun act(delta: Float): Boolean {
-        if (!languageChanged) {
-            changeLanguage()
-        }
-        return languageChanged
-    }
-
-    private fun changeLanguage() {
-        SensorHandler.setListeningLanguageSensor(listeningLanguageTag)
-        get(SpeechRecognitionHolderFactory::class.java).instance.forceSetLanguage()
-        languageChanged = true
-    }
+    fun isHmsAvailable(context: Context) =
+        (huaweiApiAvailability.isHuaweiMobileServicesAvailable(context)
+            == com.huawei.hms.api.ConnectionResult.SUCCESS)
 }

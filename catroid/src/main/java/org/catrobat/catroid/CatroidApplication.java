@@ -31,6 +31,9 @@ import android.util.Log;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
+import com.huawei.agconnect.AGConnectInstance;
+import com.huawei.agconnect.config.AGConnectServicesConfig;
+import com.huawei.hms.mlsdk.common.MLApplication;
 
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.utils.Utils;
@@ -63,16 +66,27 @@ public class CatroidApplication extends Application {
 					.build());
 		}
 
-		Utils.fetchSpeechRecognitionSupportedLanguages(this);
-
 		context = getApplicationContext();
 
 		CatroidKoinHelperKt.start(this, CatroidKoinHelperKt.getMyModules());
+
+		Utils.fetchSpeechRecognitionSupportedLanguages(this);
 
 		defaultSystemLanguage = Locale.getDefault().toLanguageTag();
 
 		googleAnalytics = GoogleAnalytics.getInstance(this);
 		googleAnalytics.setDryRun(BuildConfig.DEBUG);
+
+		setupHms();
+	}
+
+	private void setupHms() {
+		if (AGConnectInstance.getInstance() == null) {
+			AGConnectInstance.initialize(this);
+		}
+
+		String apiKey = AGConnectServicesConfig.fromContext(this).getString("client/api_key");
+		MLApplication.getInstance().setApiKey(apiKey);
 	}
 
 	@Override
