@@ -58,7 +58,7 @@
 
     <string name="accept">Accept</string>
     <string name="decline">Decline</string>
-    
+
     <string name="select_all">Select all</string>
     <string name="deselect_all">Deselect all</string>
 
@@ -482,6 +482,7 @@
 
     <!-- Action Toasts -->
     <!-- Backpack -->
+    <string name="backpack_empty">Backpack empty. Nothing to unpack.</string>
     <plurals name="packed_scenes">
         <item quantity="one">Backpacked %d scene.</item>
         <item quantity="other">Backpacked %d scenes.</item>
