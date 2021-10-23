@@ -128,6 +128,7 @@ import org.catrobat.catroid.content.actions.SetLookAction;
 import org.catrobat.catroid.content.actions.SetLookByIndexAction;
 import org.catrobat.catroid.content.actions.SetNextLookAction;
 import org.catrobat.catroid.content.actions.SetNfcTagAction;
+import org.catrobat.catroid.content.actions.SetParticleColorAction;
 import org.catrobat.catroid.content.actions.SetPenColorAction;
 import org.catrobat.catroid.content.actions.SetPenSizeAction;
 import org.catrobat.catroid.content.actions.SetPreviousLookAction;
@@ -1258,6 +1259,14 @@ public class ActionFactory extends Actions {
 		AdditiveParticleEffectAction action = action(AdditiveParticleEffectAction.class);
 		action.setFadeIn(turnOn);
 		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createSetParticleColorAction(Sprite sprite, Formula color, SequenceAction sequence) {
+		SetParticleColorAction action = action(SetParticleColorAction.class);
+		action.setColor(color);
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		action.setScope(scope);
 		return action;
 	}
 
