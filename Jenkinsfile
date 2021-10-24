@@ -139,7 +139,7 @@ pipeline {
                                                 -Pdownload='https://share.catrob.at/pocketcode/download/817.catrobat'"""
 
                                     renameApks("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
-                                    archiveArtifacts '**/*.apk'
+                                    archiveArtifacts '**/catroid-standalone*.apk'
                                 }
                             }
                         }
