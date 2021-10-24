@@ -336,10 +336,6 @@ configurations {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    // Required for Paintroid
-    implementation 'com.esotericsoftware:kryo:5.1.1'
-
-    
     // Paintroid local aar lib files
     if(rootProject.hasProperty('paintroidLocal')) {
         catroidImplementation "org.catrobat.paintroid:paintroid:-LOCAL"
