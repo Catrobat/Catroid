@@ -85,7 +85,7 @@ public class LookUndoTest {
 	private Matcher<Intent> expectedPaintNewLookIntent;
 	private final String lookFileName = "catroid_sunglasses.png";
 	private final String projectName = getClass().getSimpleName();
-	private final String spriteName = "testSprite (1)";
+	private final String spriteName = "testSprite";
 	private File imageFile;
 	private final File tmpDir = new File(
 			Environment.getExternalStorageDirectory().getAbsolutePath(), "Pocket Code Test Temp");
@@ -181,7 +181,7 @@ public class LookUndoTest {
 		intended(expectedChooserIntent);
 
 		onRecyclerView().atPosition(0).onChildView(R.id.title_view)
-				.check(matches(withText(lookFileName.replace(".png", " (1)"))));
+				.check(matches(withText(lookFileName.replace(".png", ""))));
 
 		onView(withId(R.id.menu_undo)).perform(click()); // press undo
 

@@ -67,6 +67,7 @@ import static org.catrobat.catroid.R.id.tab_layout;
 import static org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION;
 import static org.catrobat.catroid.common.Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.onToast;
 import static org.catrobat.catroid.uiespresso.util.actions.TabActionsKt.selectTabAtPosition;
 import static org.catrobat.catroid.uiespresso.util.matchers.BundleMatchers.bundleHasExtraIntent;
@@ -180,10 +181,8 @@ public class ProjectOptionsTest {
 
 		intended(expectedPaintNewLookIntent);
 
-		String newBackgroundName =
-				context.getString(R.string.default_project_background_name) + " (1)";
-		onView(withText(newBackgroundName))
-				.check(matches(isDisplayed()));
+		onRecyclerView().atPosition(0).onChildView(R.id.title_view)
+				.check(matches(withText(R.string.default_project_background_name)));
 	}
 
 	private Matcher<Intent> createLookFromPaintroid() throws IOException {

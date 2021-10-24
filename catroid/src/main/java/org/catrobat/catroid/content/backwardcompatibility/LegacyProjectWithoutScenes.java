@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -75,7 +75,7 @@ public class LegacyProjectWithoutScenes implements Serializable {
 			sprite.getUserLists().addAll(getSpriteUserLists(sprite));
 		}
 
-		Scene scene = new Scene(context.getString(R.string.default_scene_name, 1), project);
+		Scene scene = new Scene(context.getString(R.string.default_scene_name), project);
 		scene.getSpriteList().addAll(getSpriteList());
 		project.addScene(scene);
 

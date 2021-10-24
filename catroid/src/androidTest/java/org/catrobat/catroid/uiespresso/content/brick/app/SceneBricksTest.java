@@ -66,7 +66,8 @@ public class SceneBricksTest {
 
 	@Test
 	public void testAllSceneBricksSpinnersShowTheNewAddedScene() {
-		String newSceneName = ApplicationProvider.getApplicationContext().getString(R.string.default_scene_name, 2);
+		String newSceneName =
+				ApplicationProvider.getApplicationContext().getString(R.string.default_scene_name) + " (1)";
 		onBrickAtPosition(1)
 				.onSpinner(R.id.brick_scene_start_spinner)
 				.performSelectNameable(R.string.new_option);
@@ -79,7 +80,7 @@ public class SceneBricksTest {
 
 		List<String> sceneStartBrickSpinnerValues = new ArrayList<>();
 		sceneStartBrickSpinnerValues.add(ApplicationProvider.getApplicationContext().getString(R.string.new_option));
-		sceneStartBrickSpinnerValues.add(ApplicationProvider.getApplicationContext().getString(R.string.default_scene_name, 1));
+		sceneStartBrickSpinnerValues.add(ApplicationProvider.getApplicationContext().getString(R.string.default_scene_name));
 		sceneStartBrickSpinnerValues.add(newSceneName);
 
 		List<String> sceneTransitionBrickSpinnerValues = new ArrayList<>();

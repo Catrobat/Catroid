@@ -154,7 +154,7 @@ public class SoundFromGalleryIntentTest {
 		intended(expectedChooserIntent);
 
 		onRecyclerView().atPosition(0).onChildView(R.id.title_view)
-				.check(matches(withText(soundFileName.replace(".mp3", " (1)"))));
+				.check(matches(withText(soundFileName.replace(".mp3", ""))));
 	}
 
 	private void createProject(String projectName) {

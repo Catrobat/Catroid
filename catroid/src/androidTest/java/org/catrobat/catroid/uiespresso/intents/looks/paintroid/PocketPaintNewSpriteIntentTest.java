@@ -123,7 +123,7 @@ public class PocketPaintNewSpriteIntentTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testAddNewSprite() {
-		String newSpriteName = UiTestUtils.getResourcesString(R.string.default_sprite_name) + " (1)";
+		String newSpriteName = UiTestUtils.getResourcesString(R.string.default_sprite_name);
 
 		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit()
 				.putBoolean(NEW_SPRITE_VISUAL_PLACEMENT_KEY, false)

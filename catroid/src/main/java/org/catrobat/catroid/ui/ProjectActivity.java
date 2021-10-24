@@ -352,8 +352,7 @@ public class ProjectActivity extends BaseCastActivity {
 	public void handleAddSceneButton() {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 
-		String defaultSceneName = SceneController
-				.getUniqueDefaultSceneName(getResources(), currentProject.getSceneList());
+		String defaultSceneName = new UniqueNameProvider().getUniqueNameInNameables(getResources().getString(R.string.default_scene_name), currentProject.getSceneList());
 
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(this);
 
