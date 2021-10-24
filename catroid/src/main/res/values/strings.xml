@@ -399,6 +399,7 @@
     <string name="show_details">Show details</string>
     <string name="hide_details">Hide details</string>
     <string name="project_options">Project options</string>
+    <string name="from_library">Add from library</string>
     <string name="sort_projects">Sort</string>
     <string name="unsort_projects">Unsort</string>
 
