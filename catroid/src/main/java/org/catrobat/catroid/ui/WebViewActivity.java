@@ -115,7 +115,7 @@ public class WebViewActivity extends AppCompatActivity {
 
 		webView.setDownloadListener((downloadUrl, userAgent, contentDisposition, mimetype, contentLength) -> {
 
-			if (getExtensionFromContentDisposition(contentDisposition).contains(Constants.CATROBAT_EXTENSION)) {
+			if (getExtensionFromContentDisposition(contentDisposition).contains(Constants.CATROBAT_EXTENSION) && !downloadUrl.contains(LIBRARY_BASE_URL)) {
 				new ProjectDownloader(GlobalProjectDownloadQueue.INSTANCE.getQueue(), downloadUrl,
 						ProjectDownloadUtil.INSTANCE).download(this);
 			} else if (downloadUrl.contains(LIBRARY_BASE_URL)) {
@@ -207,6 +207,20 @@ public class WebViewActivity extends AppCompatActivity {
 		public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
 			if (Utils.checkIsNetworkAvailableAndShowErrorMessage(WebViewActivity.this)) {
 				ToastUtil.showError(getBaseContext(), R.string.error_unknown_error);
+			}
+
+			if (errorCode == ERROR_CONNECT
+					|| errorCode == ERROR_FILE_NOT_FOUND
+					|| errorCode == ERROR_HOST_LOOKUP
+					|| errorCode == ERROR_TIMEOUT
+					|| errorCode == ERROR_PROXY_AUTHENTICATION
+					|| errorCode == ERROR_UNKNOWN) {
+				setContentView(R.layout.activity_network_error);
+				setSupportActionBar(findViewById(R.id.toolbar));
+				getSupportActionBar().setIcon(R.drawable.pc_toolbar_icon);
+				getSupportActionBar().setTitle(R.string.app_name);
+			} else {
+				Log.e(TAG, "couldn't connect to the server! info: " + description + " : " + errorCode);
 			}
 		}
 

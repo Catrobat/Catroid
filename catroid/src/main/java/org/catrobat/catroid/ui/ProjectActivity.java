@@ -44,10 +44,13 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.asynctask.ProjectSaver;
+import org.catrobat.catroid.merge.ImportProjectHelper;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.TestResult;
+import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.dialogs.LegoSensorConfigInfoDialog;
 import org.catrobat.catroid.ui.fragment.ProjectOptionsFragment;
+import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewSpriteDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
@@ -66,12 +69,14 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import static org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION;
 import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.EV3;
 import static org.catrobat.catroid.common.Constants.JPEG_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.NXT;
 import static org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
+import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_OBJECT_URL;
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
 import static org.catrobat.catroid.ui.SpriteActivity.REQUEST_CODE_VISUAL_PLACEMENT;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
@@ -92,6 +97,8 @@ public class ProjectActivity extends BaseCastActivity {
 	public static final int SPRITE_LIBRARY = 1;
 	public static final int SPRITE_FILE = 2;
 	public static final int SPRITE_CAMERA = 3;
+	public static final int SPRITE_OBJECT = 4;
+	public static final int SPRITE_BACKPACK = 5;
 
 	public static final String EXTRA_FRAGMENT_POSITION = "fragmentPosition";
 
@@ -193,6 +200,8 @@ public class ProjectActivity extends BaseCastActivity {
 			getSupportFragmentManager().popBackStack();
 			BottomBar.showBottomBar(this);
 			return;
+		} else {
+			ProjectManager.getInstance().resetProjectManager();
 		}
 
 		boolean multiSceneProject = ProjectManager.getInstance().getCurrentProject().getSceneList().size() > 1;
@@ -250,6 +259,10 @@ public class ProjectActivity extends BaseCastActivity {
 				uri = Uri.fromFile(new File(data.getStringExtra(MEDIA_FILE_PATH)));
 				addSpriteFromUri(uri);
 				break;
+			case SPRITE_OBJECT:
+				uri = Uri.fromFile(new File(data.getStringExtra(MEDIA_FILE_PATH)));
+				addObjectFromUri(uri);
+				break;
 			case SPRITE_FILE:
 				uri = data.getData();
 				addSpriteFromUri(uri, JPEG_IMAGE_EXTENSION);
@@ -269,17 +282,26 @@ public class ProjectActivity extends BaseCastActivity {
 				PlaceAtBrick placeAtBrick = new PlaceAtBrick(xCoordinate, yCoordinate);
 				Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 				StartScript startScript = new StartScript();
-				currentSprite.addScript(startScript);
+				currentSprite.prependScript(startScript);
 				startScript.addBrick(placeAtBrick);
 				break;
 		}
 	}
 
 	public void addSpriteFromUri(final Uri uri) {
-		addSpriteFromUri(uri, DEFAULT_IMAGE_EXTENSION);
+		addSpriteObjectFromUri(uri, DEFAULT_IMAGE_EXTENSION, false);
 	}
 
 	public void addSpriteFromUri(final Uri uri, final String imageExtension) {
+		addSpriteObjectFromUri(uri, imageExtension, false);
+	}
+
+	public void addObjectFromUri(final Uri uri) {
+		addSpriteObjectFromUri(uri, CATROBAT_EXTENSION, true);
+	}
+
+	public void addSpriteObjectFromUri(final Uri uri, final String extension,
+			boolean isObject) {
 		final Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 
 		String resolvedName;
@@ -293,7 +315,7 @@ public class ProjectActivity extends BaseCastActivity {
 
 		if (useDefaultSpriteName) {
 			resolvedName = getString(R.string.default_sprite_name);
-			lookFileName = resolvedName + imageExtension;
+			lookFileName = resolvedName + extension;
 		} else {
 			resolvedName = StorageOperations.getSanitizedFileName(resolvedFileName);
 			lookFileName = resolvedFileName;
@@ -301,7 +323,18 @@ public class ProjectActivity extends BaseCastActivity {
 
 		lookDataName = new UniqueNameProvider().getUniqueNameInNameables(resolvedName, currentScene.getSpriteList());
 
-		new NewSpriteDialogFragment(lookDataName, lookFileName, getContentResolver(), uri, getCurrentFragment())
+		ImportProjectHelper importProjectHelper = null;
+		if (isObject) {
+			importProjectHelper = new ImportProjectHelper(
+					lookFileName, currentScene, this);
+
+			if (!importProjectHelper.checkForConflicts()) {
+				return;
+			}
+		}
+
+		new NewSpriteDialogFragment(lookDataName, lookFileName, getContentResolver(), uri,
+				getCurrentFragment(), isObject, importProjectHelper)
 				.show(getSupportFragmentManager(), NewSpriteDialogFragment.Companion.getTAG());
 	}
 
@@ -347,7 +380,7 @@ public class ProjectActivity extends BaseCastActivity {
 	}
 
 	public void handleAddSpriteButton() {
-		View root = View.inflate(this, R.layout.dialog_new_look, null);
+		View root = View.inflate(this, R.layout.dialog_new_actor, null);
 
 		AlertDialog alertDialog = new AlertDialog.Builder(this)
 				.setTitle(R.string.new_sprite_dialog_title)
@@ -364,6 +397,11 @@ public class ProjectActivity extends BaseCastActivity {
 					.startActivityForResult(SPRITE_LIBRARY);
 			alertDialog.dismiss();
 		});
+		root.findViewById(R.id.dialog_new_look_object_library).setOnClickListener(view -> {
+			new ImportFormMediaLibraryLauncher(this, LIBRARY_OBJECT_URL)
+					.startActivityForResult(SPRITE_OBJECT);
+			alertDialog.dismiss();
+		});
 		root.findViewById(R.id.dialog_new_look_gallery).setOnClickListener(view -> {
 			new ImportFromFileLauncher(this, "image/*", getString(R.string.select_look_from_gallery))
 					.startActivityForResult(SPRITE_FILE);
@@ -372,6 +410,16 @@ public class ProjectActivity extends BaseCastActivity {
 		root.findViewById(R.id.dialog_new_look_camera).setOnClickListener(view -> {
 			new ImportFromCameraLauncher(this)
 					.startActivityForResult(SPRITE_CAMERA);
+			alertDialog.dismiss();
+		});
+		root.findViewById(R.id.dialog_new_look_backpack).setOnClickListener(view -> {
+			if (!BackpackListManager.getInstance().getSprites().isEmpty()) {
+				Intent intent = new Intent(this, BackpackActivity.class);
+				intent.putExtra(BackpackActivity.EXTRA_FRAGMENT_POSITION, BackpackActivity.FRAGMENT_SPRITES);
+				startActivity(intent);
+			} else {
+				ToastUtil.showError(this, R.string.backpack_empty);
+			}
 			alertDialog.dismiss();
 		});
 

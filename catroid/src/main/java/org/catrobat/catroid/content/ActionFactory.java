@@ -32,6 +32,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ParameterizedData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.actions.AddItemToUserListAction;
+import org.catrobat.catroid.content.actions.AdditiveParticleEffectAction;
 import org.catrobat.catroid.content.actions.ArduinoSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.ArduinoSendPWMValueAction;
 import org.catrobat.catroid.content.actions.AskAction;
@@ -61,6 +62,7 @@ import org.catrobat.catroid.content.actions.DeleteLookAction;
 import org.catrobat.catroid.content.actions.DeleteThisCloneAction;
 import org.catrobat.catroid.content.actions.EditLookAction;
 import org.catrobat.catroid.content.actions.EventAction;
+import org.catrobat.catroid.content.actions.FadeParticleEffectAction;
 import org.catrobat.catroid.content.actions.FinishStageAction;
 import org.catrobat.catroid.content.actions.FlashAction;
 import org.catrobat.catroid.content.actions.ForItemInUserListAction;
@@ -119,6 +121,7 @@ import org.catrobat.catroid.content.actions.SceneStartAction;
 import org.catrobat.catroid.content.actions.SceneTransitionAction;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.actions.SetBrightnessAction;
+import org.catrobat.catroid.content.actions.SetCameraFocusPointAction;
 import org.catrobat.catroid.content.actions.SetColorAction;
 import org.catrobat.catroid.content.actions.SetInstrumentAction;
 import org.catrobat.catroid.content.actions.SetListeningLanguageAction;
@@ -126,6 +129,7 @@ import org.catrobat.catroid.content.actions.SetLookAction;
 import org.catrobat.catroid.content.actions.SetLookByIndexAction;
 import org.catrobat.catroid.content.actions.SetNextLookAction;
 import org.catrobat.catroid.content.actions.SetNfcTagAction;
+import org.catrobat.catroid.content.actions.SetParticleColorAction;
 import org.catrobat.catroid.content.actions.SetPenColorAction;
 import org.catrobat.catroid.content.actions.SetPenSizeAction;
 import org.catrobat.catroid.content.actions.SetPreviousLookAction;
@@ -144,6 +148,7 @@ import org.catrobat.catroid.content.actions.SewUpAction;
 import org.catrobat.catroid.content.actions.ShowTextAction;
 import org.catrobat.catroid.content.actions.ShowTextColorSizeAlignmentAction;
 import org.catrobat.catroid.content.actions.SpeakAction;
+import org.catrobat.catroid.content.actions.SpeakAndWaitAction;
 import org.catrobat.catroid.content.actions.StampAction;
 import org.catrobat.catroid.content.actions.StartListeningAction;
 import org.catrobat.catroid.content.actions.StitchAction;
@@ -196,6 +201,7 @@ import org.catrobat.catroid.io.DeviceUserDataAccessor;
 import org.catrobat.catroid.io.DeviceVariableAccessor;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.stage.SpeechSynthesizer;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
 
 import java.io.File;
@@ -573,6 +579,15 @@ public class ActionFactory extends Actions {
 		return Actions.action(ClearBackgroundAction.class);
 	}
 
+	public Action createSetCameraFocusPointAction(Sprite sprite, Formula horizontal,
+			Formula vertical) {
+		SetCameraFocusPointAction action = action(SetCameraFocusPointAction.class);
+		action.setSprite(sprite);
+		action.setHorizontal(horizontal);
+		action.setVertical(vertical);
+		return action;
+	}
+
 	public Action createStampAction(Sprite sprite) {
 		StampAction action = Actions.action(StampAction.class);
 		action.setSprite(sprite);
@@ -725,6 +740,7 @@ public class ActionFactory extends Actions {
 		action.setPhysicsLook(physicsLook);
 		action.setPosition(x, y);
 		action.setDuration(duration);
+		action.setPhysicsObject(ProjectManager.getInstance().getCurrentlyPlayingScene().getPhysicsWorld().getPhysicsObject(sprite));
 		action.act(delta);
 		return action;
 	}
@@ -763,8 +779,16 @@ public class ActionFactory extends Actions {
 	public Action createSpeakAction(Sprite sprite, SequenceAction sequence, Formula text) {
 		SpeakAction action = action(SpeakAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
-		action.setScope(scope);
-		action.setText(text);
+		SpeechSynthesizer synthesizer = new SpeechSynthesizer(scope, text);
+		action.setSpeechSynthesizer(synthesizer);
+		return action;
+	}
+
+	public Action createSpeakAndWaitAction(Sprite sprite, SequenceAction sequence, Formula text) {
+		SpeakAndWaitAction action = action(SpeakAndWaitAction.class);
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		SpeechSynthesizer synthesizer = new SpeechSynthesizer(scope, text);
+		action.setSpeechSynthesizer(synthesizer);
 		return action;
 	}
 
@@ -1221,6 +1245,29 @@ public class ActionFactory extends Actions {
 	public Action createUpdateCameraPreviewAction(boolean turnOn) {
 		CameraBrickAction action = action(CameraBrickAction.class);
 		action.setActive(turnOn);
+		return action;
+	}
+
+	public Action createFadeParticleEffectsAction(Sprite sprite, boolean turnOn) {
+		FadeParticleEffectAction action = action(FadeParticleEffectAction.class);
+		action.setFadeIn(turnOn);
+		action.setSprite(sprite);
+		action.setBackgroundSprite(ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite());
+		return action;
+	}
+
+	public Action createAdditiveParticleEffectsAction(Sprite sprite, boolean turnOn) {
+		AdditiveParticleEffectAction action = action(AdditiveParticleEffectAction.class);
+		action.setFadeIn(turnOn);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createSetParticleColorAction(Sprite sprite, Formula color, SequenceAction sequence) {
+		SetParticleColorAction action = action(SetParticleColorAction.class);
+		action.setColor(color);
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		action.setScope(scope);
 		return action;
 	}
 

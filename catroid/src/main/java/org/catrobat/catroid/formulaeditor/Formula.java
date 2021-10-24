@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -93,6 +93,12 @@ public class Formula implements Serializable {
 	public void updateCollisionFormulas(String oldName, String newName, Context context) {
 		internFormula.updateCollisionFormula(oldName, newName, context);
 		formulaTree.updateElementByName(oldName, newName, ElementType.COLLISION_FORMULA);
+	}
+
+	public void flattenAllLists() {
+		formulaTree.insertFlattenForAllUserLists(formulaTree, null);
+		formulaTree = formulaTree.getRoot();
+		internFormula.setInternTokenFormulaList(formulaTree.getInternTokenList());
 	}
 
 	public void updateCollisionFormulasToVersion() {

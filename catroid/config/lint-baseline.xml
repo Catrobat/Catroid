@@ -21,7 +21,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<issues format="5" by="lint 3.5.2" client="gradle" variant="catroidDebug" version="3.5.2">
+<issues format="5" by="lint 4.0.2" client="gradle" variant="catroidDebug" version="4.0.2">
 
     <issue
         id="MissingSuperCall"
@@ -43,6 +43,13 @@
             file="src/main/java/org/catrobat/catroid/cast/CastManager.java"
             line="287"
             column="51"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="This folder configuration (`v23`) is unnecessary; `minSdkVersion` is 23. Merge all the resources in this folder into `values`.">
+        <location
+            file="src/main/res/values-v23"/>
     </issue>
 
     <issue
@@ -113,39 +120,6 @@
 
     <issue
         id="StaticFieldLeak"
-        message="Do not place Android context classes in static fields (static reference to `FormulaEditorEditText` which has field `context` pointing to `Context`); this is a memory leak"
-        errorLine1=" private static FormulaEditorEditText formulaEditorEditText;"
-        errorLine2="         ~~~~~~">
-        <location
-            file="src/main/java/org/catrobat/catroid/ui/fragment/FormulaEditorFragment.java"
-            line="133"
-            column="10"/>
-    </issue>
-
-    <issue
-        id="StaticFieldLeak"
-        message="Do not place Android context classes in static fields; this is a memory leak"
-        errorLine1=" private static LinearLayout formulaEditorBrick;"
-        errorLine2="         ~~~~~~">
-        <location
-            file="src/main/java/org/catrobat/catroid/ui/fragment/FormulaEditorFragment.java"
-            line="135"
-            column="10"/>
-    </issue>
-
-    <issue
-        id="StaticFieldLeak"
-        message="Do not place Android context classes in static fields (static reference to `FormulaBrick` which has field `view` pointing to `View`); this is a memory leak"
-        errorLine1=" private static FormulaBrick formulaBrick;"
-        errorLine2="         ~~~~~~">
-        <location
-            file="src/main/java/org/catrobat/catroid/ui/fragment/FormulaEditorFragment.java"
-            line="137"
-            column="10"/>
-    </issue>
-
-    <issue
-        id="StaticFieldLeak"
         message="This field leaks a context object"
         errorLine1=" private Context context;"
         errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~">
@@ -211,25 +185,47 @@
     </issue>
 
     <issue
-        id="StaticFieldLeak"
-        message="This `AsyncTask` class should be static or leaks might occur (org.catrobat.catroid.content.actions.WriteListOnDeviceAction.WriteTask)"
-        errorLine1=" private class WriteTask extends AsyncTask&lt;UserList, Void, Void> {"
-        errorLine2="               ~~~~~~~~~">
+        id="InefficientWeight"
+        message="Use a `layout_width` of `0dp` instead of `wrap_content` for better performance"
+        errorLine1="        android:layout_width=&quot;wrap_content&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/org/catrobat/catroid/content/actions/WriteListOnDeviceAction.java"
-            line="65"
-            column="16"/>
+            file="src/main/res/layout/vh_list.xml"
+            line="38"
+            column="9"/>
     </issue>
 
     <issue
-        id="StaticFieldLeak"
-        message="This `AsyncTask` class should be static or leaks might occur (org.catrobat.catroid.content.actions.WriteVariableOnDeviceAction.WriteTask)"
-        errorLine1=" private class WriteTask extends AsyncTask&lt;UserVariable, Void, Void> {"
-        errorLine2="               ~~~~~~~~~">
+        id="InefficientWeight"
+        message="Use a `layout_width` of `0dp` instead of `wrap_content` for better performance"
+        errorLine1="        android:layout_width=&quot;wrap_content&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/org/catrobat/catroid/content/actions/WriteVariableOnDeviceAction.java"
-            line="63"
-            column="16"/>
+            file="src/main/res/layout/vh_variable.xml"
+            line="38"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.brick_2h_brown_9` appears to be unused">
+        <location
+            file="src/main/res/drawable-ldpi/brick_2h_brown_9.9.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/brick_2h_brown_9.9.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/brick_2h_brown_9.9.png"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.brick_control_1h` appears to be unused">
+        <location
+            file="src/main/res/drawable-ldpi/brick_control_1h.9.png"/>
+        <location
+            file="src/main/res/drawable-mdpi/brick_control_1h.9.png"/>
+        <location
+            file="src/main/res/drawable-xhdpi/brick_control_1h.9.png"/>
     </issue>
 
     <issue
@@ -260,7 +256,11 @@
         errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/styles.xml"
-            line="521"
+            line="507"
+            column="12"/>
+        <location
+            file="src/main/res/values-v25/styles.xml"
+            line="514"
             column="12"/>
     </issue>
 
@@ -271,13 +271,17 @@
         errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/styles.xml"
-            line="528"
+            line="514"
+            column="12"/>
+        <location
+            file="src/main/res/values-v25/styles.xml"
+            line="521"
             column="12"/>
     </issue>
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-hdpi`: ic_upload_failed.png, ic_upload_success.png">
+        message="Missing the following drawables in `drawable-hdpi`: brick_1h_blue.9.png, brick_1h_cyan.9.png, brick_1h_green.9.png, brick_1h_olive.9.png, brick_1h_orange.9.png... (27 more)">
         <location
             file="src/main/res/drawable-hdpi"/>
     </issue>
@@ -298,7 +302,7 @@
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-xxhdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, chromecast_neg.png... (43 more)">
+        message="Missing the following drawables in `drawable-xxhdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_1h_blue.9.png... (73 more)">
         <location
             file="src/main/res/drawable-xxhdpi"/>
     </issue>
@@ -376,7 +380,7 @@
         errorLine2="  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/org/catrobat/catroid/formulaeditor/FormulaEditorEditText.java"
-            line="148"
+            line="164"
             column="3"/>
     </issue>
 
@@ -848,6 +852,28 @@
         errorLine1="        &lt;ImageView"
         errorLine2="         ~~~~~~~~~">
         <location
+            file="src/main/res/layout/vh_background.xml"
+            line="51"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="         &lt;ImageButton"
+        errorLine2="          ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/vh_list.xml"
+            line="67"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="        &lt;ImageView"
+        errorLine2="         ~~~~~~~~~">
+        <location
             file="src/main/res/layout/vh_sprite_group.xml"
             line="51"
             column="10"/>
@@ -867,11 +893,44 @@
     <issue
         id="ContentDescription"
         message="Missing `contentDescription` attribute on image"
+        errorLine1="       &lt;ImageButton"
+        errorLine2="        ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/vh_sprite_group_item.xml"
+            line="81"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="           &lt;ImageButton"
+        errorLine2="            ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/vh_variable.xml"
+            line="72"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
         errorLine1="        &lt;ImageView"
         errorLine2="         ~~~~~~~~~">
         <location
             file="src/main/res/layout/vh_with_checkbox.xml"
-            line="51"
+            line="52"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="        &lt;ImageButton"
+        errorLine2="         ~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/vh_with_checkbox.xml"
+            line="83"
             column="10"/>
     </issue>
 
@@ -1377,7 +1436,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/layout/vh_list.xml"
-            line="54"
+            line="56"
             column="13"/>
     </issue>
 
@@ -1388,7 +1447,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/layout/vh_variable.xml"
-            line="54"
+            line="56"
             column="13"/>
     </issue>
 

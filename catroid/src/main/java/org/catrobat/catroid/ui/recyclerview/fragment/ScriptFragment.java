@@ -69,6 +69,7 @@ import org.catrobat.catroid.ui.dragndrop.BrickListView;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
+import org.catrobat.catroid.ui.fragment.BrickSearchFragment;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.catrobat.catroid.ui.fragment.UserDefinedBrickListFragment;
 import org.catrobat.catroid.ui.recyclerview.adapter.BrickAdapter;
@@ -509,19 +510,22 @@ public class ScriptFragment extends ListFragment implements
 
 	@Override
 	public void onCategorySelected(String category) {
-		ListFragment addListFragment = null;
+		ListFragment fragment = null;
 		String tag = "";
-
+		Fragment currentFragment = getParentFragmentManager().findFragmentById(R.id.fragment_container);
 		if (category.equals(getContext().getString(R.string.category_user_bricks))) {
-			addListFragment = UserDefinedBrickListFragment.newInstance(this);
+			fragment = UserDefinedBrickListFragment.newInstance(this);
 			tag = UserDefinedBrickListFragment.USER_DEFINED_BRICK_LIST_FRAGMENT_TAG;
+		} else if (currentFragment instanceof AddBrickFragment || category.equals(getContext().getString(R.string.category_search_bricks))) {
+			fragment = BrickSearchFragment.newInstance(this, category);
+			tag = BrickSearchFragment.BRICK_SEARCH_FRAGMENT_TAG;
 		} else {
-			addListFragment = AddBrickFragment.newInstance(category, this);
+			fragment = AddBrickFragment.newInstance(category, this);
 			tag = AddBrickFragment.ADD_BRICK_FRAGMENT_TAG;
 		}
 
 		getFragmentManager().beginTransaction()
-				.add(R.id.fragment_container, addListFragment, tag)
+				.add(R.id.fragment_container, fragment, tag)
 				.addToBackStack(null)
 				.commit();
 	}

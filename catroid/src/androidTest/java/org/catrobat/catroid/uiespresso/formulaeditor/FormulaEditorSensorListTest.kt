@@ -203,6 +203,7 @@ class FormulaEditorSensorListTest(
             paramsData.addAll(listOfCast)
             paramsData.addAll(listOfSpeech)
             paramsData.addAll(listOfFaceDetection)
+            paramsData.addAll(listOfPoseDetection)
             paramsData.addAll(listOfTextRecognition)
             paramsData.addAll(listOfDevice)
             paramsData.addAll(listOfTouch)
@@ -405,6 +406,274 @@ class FormulaEditorSensorListTest(
             )
         )
 
+        private val listOfPoseDetection = listOf(
+            listOf(
+                str(R.string.formula_editor_sensor_nose_x),
+                str(R.string.formula_editor_function_no_parameter),
+                str(R.string.formula_editor_device_pose_detection)
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_nose_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_eye_inner_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_eye_inner_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_eye_center_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_eye_center_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_eye_outer_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_eye_outer_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_eye_inner_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_eye_inner_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_eye_center_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_eye_center_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_eye_outer_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_eye_outer_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_ear_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_ear_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_ear_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_ear_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_mouth_left_corner_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_mouth_left_corner_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_mouth_right_corner_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_mouth_right_corner_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_shoulder_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_shoulder_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_shoulder_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_shoulder_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_elbow_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_elbow_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_elbow_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_elbow_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_wrist_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_wrist_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_wrist_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_wrist_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_pinky_knuckle_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_pinky_knuckle_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_pinky_knuckle_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_pinky_knuckle_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_index_knuckle_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_index_knuckle_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_index_knuckle_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_index_knuckle_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_thumb_knuckle_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_thumb_knuckle_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_thumb_knuckle_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_thumb_knuckle_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_hip_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_hip_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_hip_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_hip_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_knee_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_knee_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_knee_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_knee_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_ankle_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_ankle_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_ankle_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_ankle_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_heel_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_heel_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_heel_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_heel_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_foot_index_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_left_foot_index_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_foot_index_x),
+                str(R.string.formula_editor_function_no_parameter), ""
+            ),
+            listOf(
+                str(R.string.formula_editor_sensor_right_foot_index_y),
+                str(R.string.formula_editor_function_no_parameter), ""
+            )
+        )
+
         private val listOfTextRecognition = listOf(
             listOf(
                 str(R.string.formula_editor_sensor_text_from_camera),
@@ -530,6 +799,7 @@ class FormulaEditorSensorListTest(
             SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
             SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
             SettingsFragment.SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS,
+            SettingsFragment.SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS,
             SettingsFragment.SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS
         )
     }

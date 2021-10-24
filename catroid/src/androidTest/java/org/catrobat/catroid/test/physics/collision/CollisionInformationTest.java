@@ -27,8 +27,6 @@ import android.graphics.Bitmap;
 
 import com.badlogic.gdx.math.Polygon;
 
-import junit.framework.Assert;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.ResourceImporter;
@@ -53,6 +51,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.assertFalse;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -67,23 +66,23 @@ public class CollisionInformationTest {
 	@Test
 	public void testCheckMetaString() {
 		String isNull = null;
-		Assert.assertFalse(CollisionInformation.checkMetaDataString(isNull));
+		assertFalse(CollisionInformation.checkMetaDataString(isNull));
 		String empty = "";
-		Assert.assertFalse(CollisionInformation.checkMetaDataString(empty));
+		assertFalse(CollisionInformation.checkMetaDataString(empty));
 		String faulty1 = "1.0;1.0;1.0";
-		Assert.assertFalse(CollisionInformation.checkMetaDataString(faulty1));
+		assertFalse(CollisionInformation.checkMetaDataString(faulty1));
 		String faulty2 = "1.0;1.0;1.0;1.0;1.0;1.0|";
-		Assert.assertFalse(CollisionInformation.checkMetaDataString(faulty2));
+		assertFalse(CollisionInformation.checkMetaDataString(faulty2));
 		String faulty3 = "1.0;1.0;1.0;1.0;1.0;1.0|1.0;1.0;1.0";
-		Assert.assertFalse(CollisionInformation.checkMetaDataString(faulty3));
+		assertFalse(CollisionInformation.checkMetaDataString(faulty3));
 		String faulty4 = "|1.0;1.0;1.0;1.0;1.0;1.0";
-		Assert.assertFalse(CollisionInformation.checkMetaDataString(faulty4));
+		assertFalse(CollisionInformation.checkMetaDataString(faulty4));
 		String faulty5 = "1.0;1.0;1.0;1.0;1.0,1.0";
-		Assert.assertFalse(CollisionInformation.checkMetaDataString(faulty5));
+		assertFalse(CollisionInformation.checkMetaDataString(faulty5));
 		String faulty6 = "1.0;1.0;1.0;1.0;1.0;1.0||1.0;1.0;1.0;1.0;1.0;1.0";
-		Assert.assertFalse(CollisionInformation.checkMetaDataString(faulty6));
+		assertFalse(CollisionInformation.checkMetaDataString(faulty6));
 		String faulty7 = "1.0;1.0;1.0;1.0;1.0;1.0;1.0;1.0;1.0";
-		Assert.assertFalse(CollisionInformation.checkMetaDataString(faulty7));
+		assertFalse(CollisionInformation.checkMetaDataString(faulty7));
 
 		String correct1 = "1.0;1.0;1.0;1.0;1.0;1.0";
 		assertTrue(CollisionInformation.checkMetaDataString(correct1));
@@ -225,8 +224,8 @@ public class CollisionInformationTest {
 		float[] horizontalTest = getFloatArrayFromCollisionPolygonVertexArrayList(horizontal);
 		float[] verticalTest = getFloatArrayFromCollisionPolygonVertexArrayList(vertical);
 
-		Assert.assertEquals(horizontalCorrect.length, horizontalTest.length);
-		Assert.assertEquals(verticalCorrect.length, verticalTest.length);
+		assertEquals(horizontalCorrect.length, horizontalTest.length);
+		assertEquals(verticalCorrect.length, verticalTest.length);
 		assertArrayEquals(horizontalCorrect, horizontalTest, DELTA);
 		assertArrayEquals(verticalCorrect, verticalTest, DELTA);
 	}

@@ -36,6 +36,7 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
+import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -44,10 +45,11 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertNotNull;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -80,6 +82,7 @@ public class SayForBubbleBrickStageTest {
 		assertNull(StageActivity.stageListener.getBubbleActorForSprite(sprite));
 		onView(isFocusable())
 				.perform(click());
+		onView(ViewMatchers.isRoot()).perform(CustomActions.wait(1000));
 		assertNotNull(StageActivity.stageListener.getBubbleActorForSprite(sprite));
 		lastBrickInScript.waitUntilEvaluated(3000);
 		assertNull(StageActivity.stageListener.getBubbleActorForSprite(sprite));

@@ -41,6 +41,7 @@ import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.EmptyScript;
 import org.catrobat.catroid.content.GroupItemSprite;
 import org.catrobat.catroid.content.GroupSprite;
+import org.catrobat.catroid.content.LegoEV3Setting;
 import org.catrobat.catroid.content.LegoNXTSetting;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.RaspiInterruptScript;
@@ -111,6 +112,7 @@ import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.EditLookBrick;
 import org.catrobat.catroid.content.bricks.EmptyEventBrick;
 import org.catrobat.catroid.content.bricks.ExitStageBrick;
+import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick;
 import org.catrobat.catroid.content.bricks.FinishStageBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForItemInUserListBrick;
@@ -158,6 +160,7 @@ import org.catrobat.catroid.content.bricks.OpenUrlBrick;
 import org.catrobat.catroid.content.bricks.PaintNewLookBrick;
 import org.catrobat.catroid.content.bricks.ParameterizedBrick;
 import org.catrobat.catroid.content.bricks.ParameterizedEndBrick;
+import org.catrobat.catroid.content.bricks.ParticleEffectAdditivityBrick;
 import org.catrobat.catroid.content.bricks.PauseForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PenDownBrick;
 import org.catrobat.catroid.content.bricks.PenUpBrick;
@@ -198,6 +201,7 @@ import org.catrobat.catroid.content.bricks.SetBackgroundByIndexAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SetBackgroundByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
+import org.catrobat.catroid.content.bricks.SetCameraFocusPointBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.content.bricks.SetGravityBrick;
@@ -207,6 +211,7 @@ import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetLookByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetMassBrick;
 import org.catrobat.catroid.content.bricks.SetNfcTagBrick;
+import org.catrobat.catroid.content.bricks.SetParticleColorBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick;
@@ -379,6 +384,10 @@ public final class XstreamSerializer {
 
 		xstream.omitField(RaspiInterruptScript.class, "receivedMessage");
 
+		xstream.omitField(FadeParticleEffectBrick.class, "formulaList");
+		xstream.omitField(ParticleEffectAdditivityBrick.class, "formulaList");
+		xstream.omitField(SetParticleColorBrick.class, "formulaList");
+
 		xstream.alias("look", LookData.class);
 		xstream.alias("sound", SoundInfo.class);
 		xstream.alias("nfcTag", NfcTagData.class);
@@ -478,6 +487,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", SceneTransitionBrick.class);
 		xstream.alias("brick", SceneStartBrick.class);
 		xstream.alias("brick", SetBrightnessBrick.class);
+		xstream.alias("brick", SetCameraFocusPointBrick.class);
 		xstream.alias("brick", SetColorBrick.class);
 		xstream.alias("brick", SetTransparencyBrick.class);
 		xstream.alias("brick", SetLookBrick.class);
@@ -623,6 +633,13 @@ public final class XstreamSerializer {
 
 		xstream.alias("setting", LegoNXTSetting.class);
 		xstream.alias("nxtPort", LegoNXTSetting.NXTPort.class);
+
+		xstream.alias("setting", LegoEV3Setting.class);
+		xstream.alias("ev3Port", LegoEV3Setting.EV3Port.class);
+
+		xstream.alias("brick", FadeParticleEffectBrick.class);
+		xstream.alias("brick", ParticleEffectAdditivityBrick.class);
+		xstream.alias("brick", SetParticleColorBrick.class);
 	}
 
 	public Project loadProject(File projectDir, Context context) throws IOException, LoadingProjectException {

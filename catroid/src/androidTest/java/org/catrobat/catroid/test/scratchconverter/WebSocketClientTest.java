@@ -67,10 +67,7 @@ import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyDouble;
@@ -233,7 +230,7 @@ public class WebSocketClientTest {
 				assertFalse(webSocketClient.isClosed());
 				assertTrue(webSocketClient.isConnected());
 				assertTrue(webSocketClient.isAuthenticated());
-				assertThat(newClientID, is(not(equalTo(unexpectedInvalidClientID))));
+				assertNotEquals(unexpectedInvalidClientID, newClientID);
 				return null;
 			}
 		}).when(connectAuthCallbackMock).onSuccess(anyLong());

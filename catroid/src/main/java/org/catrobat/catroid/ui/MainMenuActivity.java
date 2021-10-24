@@ -90,6 +90,9 @@ public class MainMenuActivity extends BaseCastActivity implements
 		SettingsFragment.setToChosenLanguage(this);
 
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
+		PreferenceManager.setDefaultValues(this, R.xml.nxt_preferences, true);
+		PreferenceManager.setDefaultValues(this, R.xml.ev3_preferences, true);
+
 		ScreenValueHandler.updateScreenWidthAndHeight(this);
 
 		oldPrivacyPolicy = PreferenceManager.getDefaultSharedPreferences(this)

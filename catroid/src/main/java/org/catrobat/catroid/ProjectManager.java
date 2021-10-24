@@ -167,9 +167,13 @@ public final class ProjectManager {
 		if (project.getCatrobatLanguageVersion() <= 0.9999995) {
 			updateBackgroundIndexTo9999995(project);
 		}
+		if (project.getCatrobatLanguageVersion() < 999.9 && !BuildConfig.FEATURE_LIST_AS_BASIC_DATATYPE) {
+			ProjectManager.flattenAllLists(project);
+		}
 		if (project.getCatrobatLanguageVersion() <= 1.03) {
 			ProjectManager.updateDirectionProperty(project);
 		}
+
 		project.setCatrobatLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION);
 
 		localizeBackgroundSprites(project, context.getString(R.string.background));
@@ -194,6 +198,10 @@ public final class ProjectManager {
 
 		if (resourcesSet.contains(Brick.FACE_DETECTION)) {
 			SettingsFragment.setAIFaceDetectionPreferenceEnabled(context, true);
+		}
+
+		if (resourcesSet.contains(Brick.POSE_DETECTION)) {
+			SettingsFragment.setAIPoseDetectionPreferenceEnabled(context, true);
 		}
 
 		if (resourcesSet.contains(Brick.TEXT_TO_SPEECH)) {
@@ -333,6 +341,36 @@ public final class ProjectManager {
 			}
 		}
 		return conflicts;
+	}
+
+	public static ArrayList<Object> checkForVariablesConflicts(List<Object> globalVariables, List<Object> localVariables) {
+
+		ArrayList<Object> conflicts = new ArrayList<>();
+		for (Object localVar : localVariables) {
+			if (globalVariables.contains(localVar)) {
+				conflicts.add(localVar);
+			}
+		}
+		return conflicts;
+	}
+
+	public static void flattenAllLists(Project project) {
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Script script : sprite.getScriptList()) {
+					List<Brick> flatList = new ArrayList();
+					script.addToFlatList(flatList);
+					for (Brick brick : flatList) {
+						if (brick instanceof FormulaBrick) {
+							FormulaBrick formulaBrick = (FormulaBrick) brick;
+							for (Formula formula : formulaBrick.getFormulas()) {
+								formula.flattenAllLists();
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	@VisibleForTesting
@@ -676,5 +714,11 @@ public final class ProjectManager {
 			downloadedProjects.put(destination, true);
 			saveDownloadedProjects();
 		}
+	}
+
+	public void resetProjectManager() {
+		currentlyEditedScene = null;
+		currentlyPlayingScene = null;
+		currentSprite = null;
 	}
 }

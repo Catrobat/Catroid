@@ -55,4 +55,7 @@ public abstract class ExtendedRVAdapter<T> extends RVAdapter<T> {
 	}
 
 	public abstract void onBindViewHolder(ExtendedVH holder, int position);
+
+	public void stopSound() {
+	}
 }

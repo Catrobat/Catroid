@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -38,12 +38,10 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_assert_equals_layout"
-        style="@style/BrickContainer.Test.Medium"
         android:orientation="horizontal"
-        android:paddingBottom="0dp"
-        android:paddingTop="0dp"
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing"
+        style="@style/BrickContainer.Test.Big">
 
         <include layout="@layout/icon_brick_category_look" />
 
@@ -55,28 +53,31 @@
         <TextView
             android:id="@+id/brick_assert_actual"
             style="@style/BrickEditText"
+            android:textDirection="anyRtl"
+            android:textAlignment="textStart"
             app:layout_inputType="string"
-            android:layout_width="match_parent"
-            app:layout_textField="true">
+            app:layout_textField="true"
+            app:layout_forceNewLine="true"
+            android:singleLine="false"
+            android:maxLines="3">
         </TextView>
 
         <TextView
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_is_equal_to"
-            app:layout_newLine="true">
+            app:layout_forceNewLine="true">
         </TextView>
 
         <TextView
             android:id="@+id/brick_assert_expected"
             style="@style/BrickEditText"
-            android:layout_width="match_parent"
+            android:textDirection="anyRtl"
+            android:textAlignment="textStart"
             app:layout_inputType="number"
-            app:layout_textField="true">
-        </TextView>
-
-        <TextView
-            android:id="@+id/brick_seconds_label"
-            style="@style/BrickText.SingleLine">
+            app:layout_textField="true"
+            app:layout_forceNewLine="true"
+            android:singleLine="false"
+            android:maxLines="3">
         </TextView>
     </org.catrobat.catroid.ui.BrickLayout>
 

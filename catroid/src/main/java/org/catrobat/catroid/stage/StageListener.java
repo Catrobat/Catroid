@@ -94,6 +94,7 @@ import kotlinx.coroutines.GlobalScope;
 
 import static org.catrobat.catroid.common.ScreenValues.SCREEN_HEIGHT;
 import static org.catrobat.catroid.common.ScreenValues.SCREEN_WIDTH;
+import static org.koin.java.KoinJavaComponent.get;
 
 public class StageListener implements ApplicationListener {
 
@@ -133,6 +134,7 @@ public class StageListener implements ApplicationListener {
 	public PostWebConnectionHolder postWebConnectionHolder;
 
 	private List<Sprite> sprites;
+	public CameraPositioner cameraPositioner;
 
 	private float virtualWidthHalf;
 	private float virtualHeightHalf;
@@ -243,6 +245,7 @@ public class StageListener implements ApplicationListener {
 		virtualHeightHalf = virtualHeight / 2;
 
 		camera = new OrthographicCamera();
+		cameraPositioner = new CameraPositioner(camera, virtualHeightHalf, virtualWidthHalf);
 		viewPort = new ExtendViewport(virtualWidth, virtualHeight, camera);
 		if (batch == null) {
 			batch = new SpriteBatch();
@@ -425,8 +428,14 @@ public class StageListener implements ApplicationListener {
 		scene = newScene;
 		ProjectManager.getInstance().setCurrentlyPlayingScene(scene);
 
+		CameraManager cameraManager = StageActivity.getActiveCameraManager();
+		if (cameraManager != null) {
+			cameraManager.resume();
+		}
+
 		SoundManager.getInstance().clear();
-		SpeechRecognitionHolder.Companion.getInstance().destroy();
+		get(SpeechRecognitionHolderFactory.class).getInstance().destroy();
+
 		stageBackupMap.remove(sceneName);
 
 		Gdx.input.setInputProcessor(stage);
@@ -516,6 +525,8 @@ public class StageListener implements ApplicationListener {
 			scene.firstStart = true;
 			reloadProject = false;
 
+			cameraPositioner.reset();
+
 			if (stageDialog != null) {
 				synchronized (stageDialog) {
 					stageDialog.notify();
@@ -592,6 +603,8 @@ public class StageListener implements ApplicationListener {
 			testPixels = ScreenUtils.getFrameBufferPixels(testX, testY, testWidth, testHeight, false);
 			makeTestPixels = false;
 		}
+
+		cameraPositioner.updateCameraPositionForFocusedSprite();
 	}
 
 	private void printPhysicsLabelOnScreen() {
@@ -827,6 +840,7 @@ public class StageListener implements ApplicationListener {
 
 		PhysicsWorld physicsWorld;
 		OrthographicCamera camera;
+		Sprite spriteToFocusOn;
 		Batch batch;
 		BitmapFont font;
 		Passepartout passepartout;
@@ -857,6 +871,8 @@ public class StageListener implements ApplicationListener {
 		backup.timeToVibrate = VibrationUtil.getTimeToVibrate();
 		backup.physicsWorld = physicsWorld;
 		backup.camera = camera;
+		backup.spriteToFocusOn = cameraPositioner.getSpriteToFocusOn();
+		cameraPositioner.reset();
 		backup.batch = batch;
 		backup.font = font;
 		backup.passepartout = passepartout;
@@ -904,6 +920,8 @@ public class StageListener implements ApplicationListener {
 		}
 		physicsWorld = backup.physicsWorld;
 		camera = backup.camera;
+		cameraPositioner.setSpriteToFocusOn(backup.spriteToFocusOn);
+		cameraPositioner.updateCameraPositionForFocusedSprite();
 		batch = backup.batch;
 		font = backup.font;
 		passepartout = backup.passepartout;

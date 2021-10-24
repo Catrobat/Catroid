@@ -25,14 +25,18 @@ package org.catrobat.catroid.ui.recyclerview.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.PopupMenu;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.content.Project;
@@ -40,7 +44,7 @@ import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.io.asynctask.ProjectCopyTask;
+import org.catrobat.catroid.io.asynctask.ProjectCopier;
 import org.catrobat.catroid.io.asynctask.ProjectImportTask;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.io.asynctask.ProjectRenamer;
@@ -63,14 +67,12 @@ import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.PluralsRes;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import kotlin.Unit;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_OK;
 
-import static org.catrobat.catroid.common.Constants.CACHED_PROJECT_ZIP_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.CACHE_DIR;
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
@@ -78,8 +80,7 @@ import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_PROJ
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SORT_PROJECTS_PREFERENCE_KEY;
 
 public class ProjectListFragment extends RecyclerViewFragment<ProjectData> implements
-		ProjectLoadTask.ProjectLoadListener,
-		ProjectCopyTask.ProjectCopyListener {
+		ProjectLoadTask.ProjectLoadListener {
 
 	public static final String TAG = ProjectListFragment.class.getSimpleName();
 
@@ -87,25 +88,39 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 
 	private static final int REQUEST_IMPORT_PROJECT = 7;
 
+	private ArrayList<File> filesForUnzipAndImportTask;
+	boolean hasUnzipAndImportTaskFinished;
+	private ArrayList<File> filesForImportTask;
+	boolean hasImportTaskFinished;
+
 	public void onActivityCreated(Bundle savedInstance) {
 		super.onActivityCreated(savedInstance);
-
+		filesForImportTask = new ArrayList<>();
+		filesForUnzipAndImportTask = new ArrayList<>();
+		hasUnzipAndImportTaskFinished = true;
+		hasImportTaskFinished = true;
 		if (getArguments() != null) {
 			importProject(getArguments().getParcelable("intent"));
 		}
 	}
-
 	private Unit onImportFinished(boolean success) {
 		setAdapterItems(adapter.projectsSorted);
 		if (!success) {
 			ToastUtil.showError(getContext(), R.string.error_import_project);
+		} else {
+			ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.imported_projects, filesForUnzipAndImportTask.size(), filesForUnzipAndImportTask.size()));
 		}
+		filesForUnzipAndImportTask.clear();
 		setShowProgressBar(false);
 		return Unit.INSTANCE;
 	}
 
 	private Unit onRenameFinished(boolean success) {
 		if (success) {
+			if (hasImportTaskFinished && hasUnzipAndImportTaskFinished) {
+				ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.imported_projects, filesForUnzipAndImportTask.size(), filesForUnzipAndImportTask.size()));
+				filesForUnzipAndImportTask.clear();
+			}
 			setAdapterItems(adapter.projectsSorted);
 		} else {
 			ToastUtil.showError(getContext(), R.string.error_rename_incompatible_project);
@@ -118,10 +133,13 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 			new ProjectImportTask.ProjectImportListener() {
 				@Override
 				public void onImportFinished(boolean success) {
-
+					hasImportTaskFinished = true;
 					setAdapterItems(adapter.projectsSorted);
 
-					if (!success) {
+					if (hasImportTaskFinished && hasUnzipAndImportTaskFinished) {
+						ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.imported_projects, filesForImportTask.size(), filesForImportTask.size()));
+						filesForImportTask.clear();
+					} else {
 						ToastUtil.showError(getContext(), R.string.error_import_project);
 					}
 					setShowProgressBar(false);
@@ -214,29 +232,32 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	}
 
 	private void importProject(Intent data) {
-		if (data == null || data.getData() == null) {
+		ArrayList<Uri> uris = new ArrayList<>();
+		if (data == null || (data.getData() == null && !data.hasExtra(Intent.EXTRA_STREAM))) {
 			setShowProgressBar(false);
 			ToastUtil.showError(getContext(), R.string.error_import_project);
 			return;
-		}
-
-		try {
-			File cacheFile = new File(CACHE_DIR, CACHED_PROJECT_ZIP_FILE_NAME);
-			if (cacheFile.exists()) {
-				cacheFile.delete();
+		} else {
+			if (data.hasExtra(Intent.EXTRA_STREAM)) {
+				uris = (ArrayList<Uri>) data.getExtras().get(Intent.EXTRA_STREAM);
+			} else {
+				uris.add(data.getData());
 			}
-			File src = new File(data.getData().getPath());
-			if (src.isDirectory()) {
+		}
+		try {
+			prepareFilesForImport(uris);
+			if (!filesForImportTask.isEmpty()) {
+				File[] filesToImport =
+						filesForImportTask.toArray(new File[filesForImportTask.size()]);
 				new ProjectImportTask()
 						.setListener(projectImportListener)
-						.execute(src);
-			} else {
-				File projectFile = StorageOperations
-						.copyUriToDir(getContext().getContentResolver(), data.getData(), CACHE_DIR, CACHED_PROJECT_ZIP_FILE_NAME);
-				new ProjectUnZipperAndImporter(this::onImportFinished)
-						.unZipAndImportAsync(new File[] {projectFile});
+						.execute(filesToImport);
 			}
-			setShowProgressBar(true);
+			if (!filesForUnzipAndImportTask.isEmpty()) {
+				File[] filesToUnzipAndImport = filesForUnzipAndImportTask.toArray(new File[filesForUnzipAndImportTask.size()]);
+				new ProjectUnZipperAndImporter(this::onImportFinished)
+						.unZipAndImportAsync(filesToUnzipAndImport);
+			}
 		} catch (IOException e) {
 			Log.e(TAG, "Cannot resolve project to import.", e);
 		}
@@ -277,9 +298,11 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 		for (ProjectData projectData : selectedItems) {
 			String name = uniqueNameProvider.getUniqueNameInNameables(projectData.getName(), usedProjectNames);
 			usedProjectNames.add(new ProjectData(name, null, 0, false));
-			new ProjectCopyTask(projectData.getDirectory(), name)
-					.setListener(this)
-					.execute();
+			ProjectCopier projectCopier = new ProjectCopier(projectData.getDirectory(), name);
+			projectCopier.copyProjectAsync(success -> {
+				onCopyProjectComplete(success);
+				return Unit.INSTANCE;
+			});
 		}
 	}
 
@@ -366,8 +389,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 		}
 	}
 
-	@Override
-	public void onCopyFinished(boolean success) {
+	public void onCopyProjectComplete(boolean success) {
 		if (success) {
 			setAdapterItems(adapter.projectsSorted);
 		} else {
@@ -392,37 +414,57 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 
 	@Override
 	public void onItemLongClick(final ProjectData item, CheckableVH holder) {
-		CharSequence[] items = new CharSequence[] {
-				getString(R.string.copy),
-				getString(R.string.project_options),
-		};
-		new AlertDialog.Builder(getContext())
-				.setTitle(item.getName())
-				.setItems(items, (dialog, which) -> {
-					switch (which) {
-						case 0:
-							copyItems(new ArrayList<>(Collections.singletonList(item)));
-							break;
-						case 1:
-							try {
-								Project project = XstreamSerializer.getInstance().loadProject(item.getDirectory(), getActivity());
-								ProjectManager.getInstance().setCurrentProject(project);
-							} catch (IOException | LoadingProjectException e) {
-								ToastUtil.showError(getActivity(), R.string.error_load_project);
-								Log.e(TAG, Log.getStackTraceString(e));
-								break;
-							}
+		onItemClick(item);
+	}
 
-							getActivity().getSupportFragmentManager().beginTransaction()
-									.replace(R.id.fragment_container, new ProjectOptionsFragment(), ProjectOptionsFragment.TAG)
-									.addToBackStack(ProjectOptionsFragment.TAG)
-									.commit();
+	@Override
+	public void onSettingsClick(ProjectData item, View view) {
+		PopupMenu popupMenu = new PopupMenu(getContext(), view);
+		List<ProjectData> itemList = new ArrayList<>();
+		itemList.add(item);
+
+		popupMenu.getMenuInflater().inflate(R.menu.menu_project_activity, popupMenu.getMenu());
+		popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem menuItem) {
+
+				switch (menuItem.getItemId()) {
+					case R.id.copy:
+						copyItems(itemList);
+						break;
+					case R.id.rename:
+						showRenameDialog(item);
+						break;
+					case R.id.delete:
+						deleteItems(itemList);
+						break;
+					case R.id.project_options:
+						try {
+							Project project = XstreamSerializer.getInstance().loadProject(item.getDirectory(), getActivity());
+							ProjectManager.getInstance().setCurrentProject(project);
+						} catch (IOException | LoadingProjectException e) {
+							ToastUtil.showError(getActivity(), R.string.error_load_project);
+							Log.e(TAG, Log.getStackTraceString(e));
 							break;
-						default:
-							dialog.dismiss();
-					}
-				})
-				.show();
+						}
+
+						getActivity().getSupportFragmentManager().beginTransaction()
+								.replace(R.id.fragment_container, new ProjectOptionsFragment(), ProjectOptionsFragment.TAG)
+								.addToBackStack(ProjectOptionsFragment.TAG)
+								.commit();
+						break;
+					default:
+						break;
+				}
+
+				return true;
+			}
+		});
+		popupMenu.getMenu().findItem(R.id.backpack).setVisible(false);
+		popupMenu.getMenu().findItem(R.id.new_group).setVisible(false);
+		popupMenu.getMenu().findItem(R.id.new_scene).setVisible(false);
+		popupMenu.getMenu().findItem(R.id.show_details).setVisible(false);
+		popupMenu.show();
 	}
 
 	@Override
@@ -463,5 +505,30 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 				Log.e(TAG, "Well, that's awkward.", e);
 			}
 		}
+	}
+	private void prepareFilesForImport(ArrayList<Uri> urisToImport) throws IOException {
+		for (Uri uri : urisToImport) {
+			if (!uri.getScheme().equals("file")) {
+				throw new IllegalArgumentException("importProject has to be called with a file "
+						+ "uri. (not a content uri");
+			}
+
+			File src = new File(uri.getPath());
+			if (src.isDirectory()) {
+				filesForImportTask.add(src);
+				hasImportTaskFinished = false;
+			} else {
+				String fileName = uri.getLastPathSegment();
+				fileName = fileName.replace(Constants.CATROBAT_EXTENSION, Constants.ZIP_EXTENSION);
+				File projectFile = StorageOperations.copyUriToDir(getActivity().getContentResolver(), uri,
+						CACHE_DIR, fileName);
+				filesForUnzipAndImportTask.add(projectFile);
+				hasUnzipAndImportTaskFinished = false;
+			}
+		}
+	}
+
+	public interface ProjectImportFinishedListener {
+		void notifyActivityFinished(boolean success);
 	}
 }

@@ -49,8 +49,8 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.catrobat.catroid.common.Constants.UPLOAD_RESULT_RECEIVER_RESULT_CODE;
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
-import static org.catrobat.catroid.ui.ProjectUploadActivity.NUMBER_OF_UPLOADED_PROJECTS;
-import static org.catrobat.catroid.ui.ProjectUploadActivity.PROJECT_DIR;
+import static org.catrobat.catroid.ui.ProjectUploadActivityKt.NUMBER_OF_UPLOADED_PROJECTS;
+import static org.catrobat.catroid.ui.ProjectUploadActivityKt.PROJECT_DIR;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;

@@ -56,6 +56,7 @@ import java.util.List;
 
 import static org.catrobat.catroid.stage.StageResourceHolder.getProjectsRuntimePermissionList;
 import static org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask.checkPermission;
+import static org.koin.java.KoinJavaComponent.get;
 
 public final class StageLifeCycleController {
 	public static final String TAG = StageLifeCycleController.class.getSimpleName();
@@ -137,7 +138,16 @@ public final class StageLifeCycleController {
 					Log.e(TAG, "Disabling NFC foreground dispatching went wrong!", illegalStateException);
 				}
 			}
-			SpeechRecognitionHolder.Companion.getInstance().destroy();
+
+			List<Sprite> sprites = ((StageListener) stageActivity.getApplicationListener()).getSpritesFromStage();
+
+			if (sprites != null) {
+				for (Sprite sprite : sprites) {
+					sprite.look.pauseParticleEffect();
+				}
+			}
+
+			get(SpeechRecognitionHolderFactory.class).getInstance().destroy();
 
 			SensorHandler.timerPauseValue = SystemClock.uptimeMillis();
 
@@ -177,6 +187,14 @@ public final class StageLifeCycleController {
 				if (sprite.getPlaySoundBricks().size() > 0) {
 					stageActivity.stageAudioFocus.requestAudioFocus();
 					break;
+				}
+			}
+
+			List<Sprite> sprites =
+					((StageListener) stageActivity.getApplicationListener()).getSpritesFromStage();
+			if (sprites != null) {
+				for (Sprite sprite : sprites) {
+					sprite.look.resumeParticleEffect();
 				}
 			}
 
@@ -233,12 +251,13 @@ public final class StageLifeCycleController {
 				stageActivity.cameraManager.destroy();
 				stageActivity.cameraManager = null;
 			}
-			SensorHandler.stopSensorListeners();
+			SensorHandler.destroy();
 			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 				CastManager.getInstance().onStageDestroyed();
 			}
 			StageActivity.stageListener.finish();
 			stageActivity.manageLoadAndFinish();
+			StageActivity.stageListener = null;
 		}
 		ProjectManager.getInstance().setCurrentlyPlayingScene(ProjectManager.getInstance().getCurrentlyEditedScene());
 	}

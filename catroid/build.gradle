@@ -133,6 +133,8 @@ android {
 
         buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", "false"
 
+        buildConfigField "boolean", "FEATURE_LIST_AS_BASIC_DATATYPE", "false"
+
         buildConfigField "boolean", "FEATURE_AI_SENSORS_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
         buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
@@ -412,9 +414,16 @@ dependencies {
     implementation "androidx.camera:camera-lifecycle:${cameraXVersion}"
 
     // ML Kit
-    implementation 'com.google.android.gms:play-services-mlkit-face-detection:16.0.0'
-    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:16.1.0'
-    implementation 'com.google.mlkit:language-id:16.1.0'
+    implementation 'com.google.android.gms:play-services-mlkit-face-detection:16.1.4'
+    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:16.1.3'
+    implementation 'com.google.mlkit:language-id:16.1.1'
+    implementation 'com.google.mlkit:pose-detection:17.0.0'
+
+    // HUAWEI Mobile Services
+    implementation 'com.huawei.hms:base:4.0.3.300'
+
+    // Huawei ML Kit
+    implementation 'com.huawei.hms:ml-computer-vision-face:2.0.5.300'
 
     // libGDX
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
@@ -430,6 +439,12 @@ dependencies {
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-arm64-v8a"
 
     implementation "com.google.android.gms:play-services-auth:$playServicesVersion"
+
+    // HUAWEI Mobile Services
+    implementation 'com.huawei.hms:base:4.0.2.300'
+    // HUAWEI ML
+    implementation 'com.huawei.hms:ml-computer-voice-asr-plugin:2.2.0.300'
+    implementation 'com.huawei.hms:ml-computer-voice-asr:2.2.0.300'
 
     androidTestImplementation('tools.fastlane:screengrab:1.2.0') {
         // https://issuetracker.google.com/issues/123060356
@@ -510,3 +525,4 @@ tasks.whenTaskAdded { packageTask ->
 }
 
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.huawei.agconnect'

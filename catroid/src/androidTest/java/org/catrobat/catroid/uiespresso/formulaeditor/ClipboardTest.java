@@ -46,6 +46,7 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import static org.catrobat.catroid.WaitForConditionAction.waitFor;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.hamcrest.Matchers.not;
 
@@ -56,6 +57,7 @@ import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.RootMatchers.isPlatformPopup;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -109,6 +111,7 @@ public class ClipboardTest {
 		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
 		onView(withId(R.id.formula_editor_edit_field)).perform(click());
 		onView(withId(R.id.formula_editor_edit_field)).perform(doubleClick());
+		onView(withId(R.id.copy)).inRoot(isPlatformPopup()).perform(waitFor(isDisplayed(), 5000));
 		onView(withId(R.id.copy)).inRoot(isPlatformPopup()).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 		onView(withId(R.id.cut)).inRoot(isPlatformPopup()).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 		onView(withId(R.id.paste)).inRoot(isPlatformPopup()).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));

@@ -29,7 +29,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.visualplacement.VisualPlacementActivity;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -38,6 +37,10 @@ import org.junit.runner.RunWith;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_X_TRANSFORM;
 import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_Y_TRANSFORM;
@@ -79,10 +82,10 @@ public class VisualPlacementActivityTest {
 	public void testResultWhenConfirmClicked() {
 		onView(withId(R.id.confirm)).perform(click());
 
-		Assert.assertTrue(baseActivityTestRule.getActivity().isFinishing());
+		assertTrue(baseActivityTestRule.getActivity().isFinishing());
 		Intent resultIntent = baseActivityTestRule.getActivityResult().getResultData();
-		Assert.assertEquals(XPOS, resultIntent.getExtras().get(X_COORDINATE_BUNDLE_ARGUMENT));
-		Assert.assertEquals(YPOS, resultIntent.getExtras().get(Y_COORDINATE_BUNDLE_ARGUMENT));
+		assertEquals(XPOS, resultIntent.getExtras().get(X_COORDINATE_BUNDLE_ARGUMENT));
+		assertEquals(YPOS, resultIntent.getExtras().get(Y_COORDINATE_BUNDLE_ARGUMENT));
 	}
 
 	@Test
@@ -92,10 +95,10 @@ public class VisualPlacementActivityTest {
 
 		onView(withId(R.id.confirm)).perform(click());
 
-		Assert.assertTrue(baseActivityTestRule.getActivity().isFinishing());
+		assertTrue(baseActivityTestRule.getActivity().isFinishing());
 		Intent resultIntent = baseActivityTestRule.getActivityResult().getResultData();
-		Assert.assertEquals(XRETURNPOS, resultIntent.getExtras().get(X_COORDINATE_BUNDLE_ARGUMENT));
-		Assert.assertEquals(YRETURNPOS, resultIntent.getExtras().get(Y_COORDINATE_BUNDLE_ARGUMENT));
+		assertEquals(XRETURNPOS, resultIntent.getExtras().get(X_COORDINATE_BUNDLE_ARGUMENT));
+		assertEquals(YRETURNPOS, resultIntent.getExtras().get(Y_COORDINATE_BUNDLE_ARGUMENT));
 	}
 
 	@Test
@@ -107,10 +110,10 @@ public class VisualPlacementActivityTest {
 		onView(withText(R.string.save))
 				.perform(click());
 
-		Assert.assertTrue(baseActivityTestRule.getActivity().isFinishing());
+		assertTrue(baseActivityTestRule.getActivity().isFinishing());
 		Intent resultIntent = baseActivityTestRule.getActivityResult().getResultData();
-		Assert.assertEquals(XRETURNPOS, resultIntent.getExtras().get(X_COORDINATE_BUNDLE_ARGUMENT));
-		Assert.assertEquals(YRETURNPOS, resultIntent.getExtras().get(Y_COORDINATE_BUNDLE_ARGUMENT));
+		assertEquals(XRETURNPOS, resultIntent.getExtras().get(X_COORDINATE_BUNDLE_ARGUMENT));
+		assertEquals(YRETURNPOS, resultIntent.getExtras().get(Y_COORDINATE_BUNDLE_ARGUMENT));
 	}
 
 	@Test
@@ -122,8 +125,8 @@ public class VisualPlacementActivityTest {
 		onView(withText(R.string.discard))
 				.perform(click());
 
-		Assert.assertTrue(baseActivityTestRule.getActivity().isFinishing());
+		assertTrue(baseActivityTestRule.getActivity().isFinishing());
 		Intent resultIntent = baseActivityTestRule.getActivityResult().getResultData();
-		Assert.assertEquals(null, resultIntent);
+		assertNull(resultIntent);
 	}
 }

@@ -37,6 +37,7 @@
         android:id="@+id/checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="0"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="@dimen/checkbox_margin"
         android:visibility="gone" />
@@ -51,6 +52,7 @@
             android:id="@+id/title_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:paddingEnd="@dimen/details_spacing"
             android:textColor="@color/vh_item_title"
             android:textSize="?attr/large"/>
@@ -59,8 +61,18 @@
             android:id="@+id/value_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:textColor="@color/solid_white"
             android:textSize="?attr/large" />
+
+           <ImageButton
+               android:id="@+id/settingsButton"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_weight="0"
+               android:gravity="center_vertical"
+               android:backgroundTint="@color/accent"
+               android:background="@drawable/ic_more_vert" />
 
     </LinearLayout>
 </LinearLayout>

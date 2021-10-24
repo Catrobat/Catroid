@@ -64,6 +64,7 @@ public final class Constants {
 			Environment.getExternalStorageDirectory(), POCKET_CODE_EXTERNAL_EXPORT_STORAGE_FOLDER_NAME);
 
 	public static final String CATROBAT_EXTENSION = ".catrobat";
+	public static final String ZIP_EXTENSION = ".zip";
 	public static final String DEFAULT_IMAGE_EXTENSION = ".png";
 	public static final String JPEG_IMAGE_EXTENSION = ".jpg";
 	public static final String DEFAULT_SOUND_EXTENSION = ".wav";

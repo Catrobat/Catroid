@@ -25,12 +25,14 @@ package org.catrobat.catroid.ui.fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -99,6 +101,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -129,12 +132,13 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	public static final String FORMULA_EDITOR_FRAGMENT_TAG = FormulaEditorFragment.class.getSimpleName();
 	public static final String FORMULA_BRICK_BUNDLE_ARGUMENT = "formula_brick";
 	public static final String FORMULA_FIELD_BUNDLE_ARGUMENT = "formula_field";
+	public static final String DO_NOT_SHOW_WARNING = "DO_NOT_SHOW_WARNING";
 
-	private static FormulaEditorEditText formulaEditorEditText;
+	private FormulaEditorEditText formulaEditorEditText;
 	private TableLayout formulaEditorKeyboard;
-	private static LinearLayout formulaEditorBrick;
+	private LinearLayout formulaEditorBrick;
 
-	private static FormulaBrick formulaBrick;
+	private FormulaBrick formulaBrick;
 
 	private static Brick.FormulaField currentFormulaField;
 	private static Formula currentFormula;
@@ -517,12 +521,101 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	public void addString(String string) {
 		String previousString = getSelectedFormulaText();
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		Context context = getContext();
+		if (context != null) {
+			boolean doNotShowWarning = false;
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			if (preferences.contains(DO_NOT_SHOW_WARNING)) {
+				doNotShowWarning = preferences.getBoolean(DO_NOT_SHOW_WARNING, false);
+			}
+			if (!doNotShowWarning && recognizedFormulaInText(string, context, currentProject, currentSprite)) {
+				showFormulaInTextWarning();
+			}
+		}
 		if (previousString != null && !previousString.matches("\\s*")) {
 			overrideSelectedText(string);
 		} else {
 			addStringToActiveFormula(string);
 		}
 		updateButtonsOnKeyboardAndInvalidateOptionsMenu();
+	}
+
+	@VisibleForTesting
+	public boolean recognizedFormulaInText(String string, Context context, Project project, Sprite sprite) {
+		boolean recognizedFormula = false;
+		String[] formulasWithParams = context.getResources().getStringArray(R.array.formulas_with_params);
+		String[] formulasWithoutParams = context.getResources().getStringArray(R.array.formulas_without_params);
+
+		for (String formulaWithParams : formulasWithParams) {
+			if (string.matches(".*" + formulaWithParams + "\\(.+\\)" + ".*")) {
+				recognizedFormula = true;
+				break;
+			}
+		}
+
+		for (String formulaWithoutParams : formulasWithoutParams) {
+			if (string.contains(formulaWithoutParams)) {
+				recognizedFormula = true;
+				break;
+			}
+		}
+
+		recognizedFormula |= stringContainsUserVariable(string, project.getMultiplayerVariables())
+				|| stringContainsUserVariable(string, project.getUserVariables())
+				|| stringContainsUserVariable(string, sprite.getUserVariables())
+				|| stringContainsUserList(string, project.getUserLists())
+				|| stringContainsUserList(string, sprite.getUserLists())
+				|| stringContainsUserDefinedBrickInput(string);
+
+		return recognizedFormula;
+	}
+
+	private boolean stringContainsUserVariable(String string, List<UserVariable> variableList) {
+		for (UserVariable variable : variableList) {
+			if (string.contains(variable.getName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean stringContainsUserList(String string, List<UserList> userList) {
+		for (UserList list : userList) {
+			if (string.contains(list.getName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean stringContainsUserDefinedBrickInput(String string) {
+		if (getFormulaBrick().getScript().getScriptBrick() instanceof UserDefinedReceiverBrick) {
+			List<UserDefinedBrickInput> userDefinedBrickInputs =
+					((UserDefinedReceiverBrick) getFormulaBrick().getScript().getScriptBrick()).getUserDefinedBrick().getUserDefinedBrickInputs();
+			for (UserDefinedBrickInput variable : userDefinedBrickInputs) {
+				if (string.contains(variable.getName())) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	private void showFormulaInTextWarning() {
+		new AlertDialog.Builder(getActivity())
+				.setTitle(R.string.warning)
+				.setMessage(R.string.warning_formula_recognized)
+				.setPositiveButton(R.string.ok, null)
+				.setNegativeButton(R.string.do_not_show_again, (dialogInterface, i) -> {
+					PreferenceManager.getDefaultSharedPreferences(getContext())
+							.edit()
+							.putBoolean(DO_NOT_SHOW_WARNING, true)
+							.apply();
+				})
+				.create()
+				.show();
 	}
 
 	private void showComputeDialog() {

@@ -1,4 +1,5 @@
-/*Catroid: An on-device visual programming system for Android devices
+/*
+ * Catroid: An on-device visual programming system for Android devices
  * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
@@ -30,6 +31,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.annotation.IntDef
 import androidx.appcompat.app.AlertDialog
@@ -366,68 +368,7 @@ class DataListFragment : Fragment(),
         item: UserData<*>,
         holder: CheckableVH
     ) {
-        if (item is UserDefinedBrickInput) {
-            return
-        } else if (item is UserVariable) {
-            val items =
-                arrayOf<CharSequence>(
-                    getString(R.string.delete), getString(R.string.rename),
-                    getString(R.string.edit)
-                )
-            AlertDialog.Builder(requireActivity())
-                .setItems(
-                    items
-                ) { dialog: DialogInterface, which: Int ->
-                    when (which) {
-                        0 -> showDeleteAlert(
-                            ArrayList(
-                                listOf(item)
-                            )
-                        )
-                        1 -> showRenameDialog(
-                            ArrayList(
-                                listOf(item)
-                            )
-                        )
-                        2 -> showEditDialog(
-                            ArrayList(
-                                listOf(item)
-                            )
-                        )
-                        else -> dialog.dismiss()
-                    }
-                }
-                .show()
-        } else {
-            val items =
-                arrayOf<CharSequence>(
-                    getString(R.string.delete), getString(R.string.rename)
-                )
-            AlertDialog.Builder(requireActivity())
-                .setItems(
-                    items
-                ) { dialog: DialogInterface, which: Int ->
-                    when (which) {
-                        0 -> showDeleteAlert(
-                            ArrayList(
-                                listOf(item)
-                            )
-                        )
-                        1 -> showRenameDialog(
-                            ArrayList(
-                                listOf(item)
-                            )
-                        )
-                        2 -> showEditDialog(
-                            ArrayList(
-                                listOf(item)
-                            )
-                        )
-                        else -> dialog.dismiss()
-                    }
-                }
-                .show()
-        }
+        onItemClick(item)
     }
 
     interface FormulaEditorDataInterface {
@@ -456,6 +397,57 @@ class DataListFragment : Fragment(),
         @JvmStatic
         fun updateUserVariableValue(value: String?, item: UserData<*>) {
             item.value = value
+        }
+    }
+
+    override fun onSettingsClick(item: UserData<*>, view: View?) {
+        if (item is UserDefinedBrickInput) {
+            return
+        } else if (item is UserVariable) {
+            val elementList =
+                arrayOf<CharSequence>(
+                    getString(R.string.delete), getString(R.string.rename),
+                    getString(R.string.edit)
+                )
+
+            val popupMenu = PopupMenu(context, view)
+            for (element: CharSequence in elementList) popupMenu.menu.add(element)
+            popupMenu.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.title) {
+                    getString(R.string.rename) -> showRenameDialog(ArrayList(
+                        listOf(item)
+                    ))
+                    getString(R.string.delete) -> showDeleteAlert(ArrayList(
+                        listOf(item)
+                    ))
+                    getString(R.string.edit) -> showEditDialog(
+                        ArrayList(
+                            listOf(item)
+                        )
+                    )
+                }
+                true
+            }
+            popupMenu.show()
+        } else {
+            val elementList =
+                arrayOf<CharSequence>(
+                    getString(R.string.delete), getString(R.string.rename)
+                )
+            val popupMenu = PopupMenu(context, view)
+            for (element: CharSequence in elementList) popupMenu.menu.add(element)
+            popupMenu.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.title) {
+                    getString(R.string.rename) -> showRenameDialog(
+                        listOf(item)
+                    )
+                    getString(R.string.delete) -> showDeleteAlert(ArrayList(
+                        listOf(item)
+                    ))
+                }
+                true
+            }
+            popupMenu.show()
         }
     }
 }

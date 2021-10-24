@@ -41,10 +41,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import static junit.framework.Assert.assertEquals;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertNotEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class TouchesFingerTest {
@@ -74,8 +71,8 @@ public class TouchesFingerTest {
 				sprite1.look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints()));
 		TouchUtil.touchUp(1);
 		TouchUtil.touchDown(0, 0, 1);
-		assertThat(CollisionDetection.collidesWithFinger(
-				sprite1.look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints()), is(not(equalTo(1d))));
+		assertNotEquals(1d, CollisionDetection.collidesWithFinger(
+				sprite1.look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints()));
 	}
 
 	@Test
@@ -93,8 +90,8 @@ public class TouchesFingerTest {
 		TouchUtil.reset();
 		TouchUtil.touchDown(0, 0, 1);
 
-		assertThat(CollisionDetection.collidesWithFinger(
-				sprite1.look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints()), is(not(equalTo(1d))));
+		assertNotEquals(1d, CollisionDetection.collidesWithFinger(
+				sprite1.look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints()));
 
 		float x = sprite1.look.getXInUserInterfaceDimensionUnit();
 		float y = sprite1.look.getYInUserInterfaceDimensionUnit();

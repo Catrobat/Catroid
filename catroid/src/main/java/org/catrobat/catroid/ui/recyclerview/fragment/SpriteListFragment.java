@@ -23,11 +23,16 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.PopupMenu;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -35,7 +40,10 @@ import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.merge.ImportProjectHelper;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.MultiViewSpriteAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperAdapterInterface;
@@ -50,24 +58,32 @@ import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.PluralsRes;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static android.app.Activity.RESULT_OK;
+
+import static org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION;
+import static org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME;
+import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_OBJECT_URL;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SPRITES_PREFERENCE_KEY;
+import static org.catrobat.catroid.ui.WebViewActivity.INTENT_PARAMETER_URL;
+import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
 
 public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 	public static final String TAG = SpriteListFragment.class.getSimpleName();
+	private static final int IMPORT_OBJECT = 0;
 
 	private SpriteController spriteController = new SpriteController();
+	private Sprite currentSprite = null;
 
 	class MultiViewTouchHelperCallback extends TouchHelperCallback {
 
@@ -279,6 +295,49 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 		finishActionMode();
 	}
 
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == IMPORT_OBJECT && resultCode == RESULT_OK) {
+			Activity activity = getActivity();
+			Uri uri = Uri.fromFile(new File(data.getStringExtra(MEDIA_FILE_PATH)));
+
+			final Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+
+			String resolvedName;
+			String resolvedFileName = StorageOperations.resolveFileName(activity.getContentResolver(), uri);
+
+			final String lookFileName;
+
+			boolean useDefaultSpriteName = resolvedFileName == null
+					|| StorageOperations.getSanitizedFileName(resolvedFileName).equals(TMP_IMAGE_FILE_NAME);
+
+			if (useDefaultSpriteName) {
+				resolvedName = getString(R.string.default_sprite_name);
+				lookFileName = resolvedName + CATROBAT_EXTENSION;
+			} else {
+				lookFileName = resolvedFileName;
+			}
+
+			ImportProjectHelper importProjectHelper = new ImportProjectHelper(lookFileName, currentScene, activity);
+
+			if (!importProjectHelper.checkForConflicts()) {
+				return;
+			}
+			if (currentSprite != null) {
+				importProjectHelper.addObjectDataToNewSprite(currentSprite);
+			} else {
+				importProjectHelper.rejectImportDialog(null);
+			}
+		}
+	}
+
+	protected void addFromLibrary(Sprite selectedItem) {
+		currentSprite = selectedItem;
+		Intent intent = new Intent(getActivity(), WebViewActivity.class);
+		intent.putExtra(INTENT_PARAMETER_URL, LIBRARY_OBJECT_URL);
+		startActivityForResult(intent, IMPORT_OBJECT);
+	}
+
 	@Override
 	protected int getRenameDialogTitle() {
 		return R.string.rename_sprite_dialog;
@@ -318,32 +377,50 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 	@Override
 	public void onItemLongClick(final Sprite item, CheckableVH holder) {
-		if (item instanceof GroupSprite) {
-			CharSequence[] items = new CharSequence[] {
-					getString(R.string.delete),
-					getString(R.string.rename),
-			};
-			new AlertDialog.Builder(getContext())
-					.setTitle(item.getName())
-					.setItems(items, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							switch (which) {
-								case 0:
-									showDeleteAlert(new ArrayList<>(Collections.singletonList(item)));
-									break;
-								case 1:
-									showRenameDialog(item);
-									break;
-								default:
-									dialog.dismiss();
-							}
-						}
-					})
-					.show();
-		} else {
-			super.onItemLongClick(item, holder);
-		}
+		super.onItemLongClick(item, holder);
+	}
+
+	@Override
+	public void onSettingsClick(Sprite item, View view) {
+		PopupMenu popupMenu = new PopupMenu(getContext(), view);
+		List<Sprite> itemList = new ArrayList<>();
+		itemList.add(item);
+
+		popupMenu.getMenuInflater().inflate(R.menu.menu_project_activity, popupMenu.getMenu());
+		popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+			@SuppressLint("NonConstantResourceId")
+			@Override
+			public boolean onMenuItemClick(MenuItem menuItem) {
+				switch (menuItem.getItemId()) {
+					case R.id.backpack:
+						packItems(itemList);
+						break;
+					case R.id.copy:
+						copyItems(itemList);
+						break;
+					case R.id.delete:
+						deleteItems(itemList);
+						break;
+					case R.id.rename:
+						showRenameDialog(item);
+						break;
+					case R.id.from_library:
+						addFromLibrary(item);
+						break;
+					default:
+						break;
+				}
+				return true;
+			}
+		});
+		popupMenu.getMenu().findItem(R.id.backpack).setTitle(R.string.pack);
+		popupMenu.getMenu().findItem(R.id.new_group).setVisible(false);
+		popupMenu.getMenu().findItem(R.id.new_scene).setVisible(false);
+		popupMenu.getMenu().findItem(R.id.show_details).setVisible(false);
+		popupMenu.getMenu().findItem(R.id.project_options).setVisible(false);
+		popupMenu.getMenu().findItem(R.id.from_library).setVisible(true);
+		popupMenu.show();
 	}
 
 	public boolean isSingleVisibleSprite() {

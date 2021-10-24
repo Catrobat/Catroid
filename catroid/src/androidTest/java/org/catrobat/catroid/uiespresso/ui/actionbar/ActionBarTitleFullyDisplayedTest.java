@@ -34,13 +34,14 @@ import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import androidx.test.core.app.ApplicationProvider;
+
+import static junit.framework.Assert.assertEquals;
 
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 import static org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionBarWrapper.onActionBar;
@@ -104,6 +105,6 @@ public class ActionBarTitleFullyDisplayedTest {
 
 	public void assertIsTextCompletelyDisplayed(BaseActivityTestRule<ProjectActivity> activity) {
 		TextView text = activity.getActivity().findViewById(R.id.action_bar_title);
-		Assert.assertEquals(text.getLayout().getEllipsisCount(text.getLayout().getLineCount() - 1), 0);
+		assertEquals(text.getLayout().getEllipsisCount(text.getLayout().getLineCount() - 1), 0);
 	}
 }

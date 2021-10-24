@@ -97,4 +97,10 @@ public class GlideToBrick extends VisualPlacementBrick {
 	public int getYEditTextId() {
 		return R.id.brick_glide_to_edit_text_y;
 	}
+
+	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(PHYSICS);
+		super.addRequiredResources(requiredResourcesSet);
+	}
 }

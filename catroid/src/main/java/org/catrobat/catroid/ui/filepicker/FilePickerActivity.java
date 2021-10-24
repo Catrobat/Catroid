@@ -27,12 +27,17 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.View;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.BaseActivity;
+import org.catrobat.catroid.ui.BaseCastActivity;
+import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
+import org.catrobat.catroid.ui.recyclerview.fragment.ProjectListFragment;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -44,13 +49,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
-public class FilePickerActivity extends BaseActivity implements ListProjectFilesTask.OnListProjectFilesListener {
+public class FilePickerActivity extends BaseCastActivity implements ListProjectFilesTask.OnListProjectFilesListener, SelectActionModeCallback.ActionModeClickListener, ProjectListFragment.ProjectImportFinishedListener {
 
 	public static final String TAG = FilePickerActivity.class.getSimpleName();
 
 	private static final int PERMISSIONS_REQUEST_IMPORT_FROM_EXTERNAL_STORAGE = 801;
 
 	private RecyclerView recyclerView;
+	private FilePickerAdapter filePickerAdapter;
+	private ActionMode actionMode;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -117,17 +124,91 @@ public class FilePickerActivity extends BaseActivity implements ListProjectFiles
 	}
 
 	private void initializeAdapter(List<File> files) {
-		FilePickerAdapter adapter = new FilePickerAdapter(files);
-		adapter.setOnItemClickListener(new FilePickerAdapter.OnItemClickListener() {
+		filePickerAdapter = new FilePickerAdapter(files);
+		filePickerAdapter.setOnItemClickListener(new RVAdapter.OnItemClickListener<File>() {
 			@Override
 			public void onItemClick(File item) {
-				Intent data = new Intent();
-				data.setData(Uri.fromFile(item));
-				setResult(RESULT_OK, data);
-				finish();
+				toggleItemSelection(item);
+			}
+			@Override
+			public void onItemLongClick(File item, CheckableVH holder) {
+				toggleItemSelection(item);
+			}
+			@Override
+			public void onSettingsClick(File item, View view) {
 			}
 		});
+		filePickerAdapter.setSelectionListener(selectedItemCount -> onSelectionChangedAction());
+		recyclerView.setAdapter(filePickerAdapter);
+		startMultiSelectionMode();
+	}
 
-		recyclerView.setAdapter(adapter);
+	private void toggleItemSelection(File item) {
+		filePickerAdapter.toggleSelection(item);
+		actionMode.invalidate();
+	}
+
+	@Override
+	public void onToggleSelection() {
+		filePickerAdapter.toggleSelection();
+	}
+
+	private void startMultiSelectionMode() {
+		filePickerAdapter.showCheckBoxes = true;
+		actionMode = startActionMode(new SelectActionModeCallback(this));
+		filePickerAdapter.notifyDataSetChanged();
+	}
+
+	private void onSelectionChangedAction() {
+		actionMode.invalidate();
+	}
+
+	@Override
+	public void endMultiSelectionMode() {
+		finish();
+	}
+
+	@Override
+	public void onConfirm() {
+		List<File> selectedFiles = filePickerAdapter.getSelectedItems();
+		if (selectedFiles.isEmpty()) {
+			ToastUtil.showError(this, R.string.no_projects_selected);
+			return;
+		}
+		setShowProgressBar(true);
+		ArrayList<Uri> uris = new ArrayList<>();
+		for (File file: selectedFiles) {
+			uris.add(Uri.fromFile(file));
+		}
+		Intent data = new Intent(Intent.ACTION_SEND_MULTIPLE);
+		data.setType("*/*");
+		data.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+		setResult(RESULT_OK, data);
+		finish();
+	}
+
+	@Override
+	public boolean hasUnselectedItems() {
+		return filePickerAdapter.getSelectedItems().size() != filePickerAdapter.getSelectableItemCount();
+	}
+
+	@Override
+	public void notifyActivityFinished(boolean success) {
+		setShowProgressBar(false);
+		if (success) {
+			setResult(RESULT_OK);
+		} else {
+			setResult(RESULT_CANCELED);
+		}
+		finish();
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+			getSupportFragmentManager().popBackStack();
+		} else {
+			super.onBackPressed();
+		}
 	}
 }

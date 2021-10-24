@@ -54,10 +54,11 @@
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>
+    <string name="do_not_show_again">DO NOT SHOW AGAIN</string>
 
     <string name="accept">Accept</string>
     <string name="decline">Decline</string>
-    
+
     <string name="select_all">Select all</string>
     <string name="deselect_all">Deselect all</string>
 
@@ -67,7 +68,7 @@
 
     <string name="loading">Loading…</string>
     <string name="please_wait">Please wait</string>
-    <string name="search_hint">Search…</string>
+    <string name="search_hint">Search</string>
 
     <string name="backpack_add">Add to backpack</string>
 
@@ -376,6 +377,7 @@
 
     <!-- Recycler View -->
     <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
+    <string name="reject_import">The actor or object could not be added.</string>
     <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
     <string name="am_backpack">Pack</string>
     <string name="am_unpack">Unpack</string>
@@ -397,6 +399,7 @@
     <string name="show_details">Show details</string>
     <string name="hide_details">Hide details</string>
     <string name="project_options">Project options</string>
+    <string name="from_library">Add from library</string>
     <string name="sort_projects">Sort</string>
     <string name="unsort_projects">Unsort</string>
 
@@ -444,9 +447,14 @@
     <string name="nfc_tag_name_label">NFC tag name</string>
     <string name="string_label">Text</string>
     <string name="data_label">Name</string>
-    <string name="keyword_label">Insert keyword</string>
+    <string name="keyword_label">Search</string>
     <string name="html_label">Insert HTML text</string>
     <string name="Image_format_not_supported">Image format not supported</string>
+    <string name="import_conflicting_variables">The actor or object could not be added.</string>
+    <string name="import_conflicting_variables_reason">The reason is that the following variable or
+        list names are in conflict because they are used for
+        all actors and objects and with the same name also for only one of the actors or objects: </string>
+    <string name="import_conflicting_variables_try_again">Please rename one of these variables or lists and try again.</string>
     <!-- Details -->
     <string name="project_details">Last access: %s, size: %s</string>
     <string name="last_access_today">today, %s</string>
@@ -475,6 +483,7 @@
 
     <!-- Action Toasts -->
     <!-- Backpack -->
+    <string name="backpack_empty">Backpack empty. Nothing to unpack.</string>
     <plurals name="packed_scenes">
         <item quantity="one">Backpacked %d scene.</item>
         <item quantity="other">Backpacked %d scenes.</item>
@@ -545,8 +554,8 @@
         <item quantity="other">Deleted %d scenes.</item>
     </plurals>
     <plurals name="deleted_sprites">
-        <item quantity="one">Deleted %d sprite.</item>
-        <item quantity="other">Deleted %d sprites.</item>
+        <item quantity="one">Deleted %d actor or object.</item>
+        <item quantity="other">Deleted %d actors or objects.</item>
     </plurals>
     <plurals name="deleted_looks">
         <item quantity="one">Deleted %d look.</item>
@@ -568,6 +577,11 @@
         <item quantity="one">Deleted %d item.</item>
         <item quantity="other">Deleted %d items.</item>
     </plurals>
+    <!-- Imported -->
+    <plurals name="imported_projects">
+        <item quantity="one">Imported %d project.</item>
+        <item quantity="other">Imported %d projects.</item>
+    </plurals>
     <!--  -->
 
     <!-- ProjectListActivity and ProjectListFragment -->
@@ -581,6 +595,7 @@
     <string name="details_date_today">Today</string>
     <string name="import_project">Import project</string>
     <string name="error_import_project">Something went wrong while importing projects.</string>
+    <string name="no_projects_selected">No projects selected for import</string>
 
     <string name="error_no_files_found">No project files found.</string>
 
@@ -669,10 +684,11 @@
 
     <!-- NewLookDialog -->
     <string name="new_look_dialog_title">Add look</string>
-    <string name="add_look_from_camera">Take picture</string>
-    <string name="add_look_draw_new_image">Draw image</string>
-    <string name="add_look_choose_image">Select image</string>
-    <string name="add_look_media_library">Media library</string>
+    <string name="add_look_from_camera">Camera</string>
+    <string name="add_look_object_library">Library</string>
+    <string name="add_look_draw_new_image">Draw</string>
+    <string name="add_look_choose_image">Gallery</string>
+    <string name="add_look_media_library">Looks</string>
     <!--  -->
 
     <!-- NewSoundDialog -->
@@ -731,7 +747,7 @@
     <string name="upload_tags_maximum_error">Selecting more than 3 tags is not possible.</string>
 
     <!-- Save Project to External Storage -->
-    <string name="save_to_external_storage_button">Save project to external storage</string>
+    <string name="save_to_external_storage_button">Export project</string>
     <string name="notification_save_project_to_external_storage_title_pending">" "</string>
     <string name="notification_save_project_to_external_storage_pending">Saving project to external storage.</string>
     <string name="notification_save_project_to_external_storage_title_open">" "</string>
@@ -843,6 +859,7 @@
     <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
     <string name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
+    <string name="prestage_no_pose_detection_available">\u2022 Pose detection\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Front camera\n</string>
     <string name="prestage_no_camera_available">\u2022 Camera\n</string>
@@ -897,6 +914,7 @@
     <string name="category_cast">Chromecast</string>
     <string name="category_raspi">Raspberry Pi</string>
     <string name="category_assertions">Testing</string>
+    <string name="category_search_bricks">Search Bricks</string>
     <!--  -->
 
     <!-- User Defined Bricks -->
@@ -1023,6 +1041,9 @@
     <string name="brick_copy_look">Copy look and name it</string>
     <string name="brick_copy_look_name">name of copied look</string>
     <string name="brick_copy_background">Copy background and name it</string>
+    <string name="brick_focus_point">Become focus point with</string>
+    <string name="brick_horizontal_and">horizontal and</string>
+    <string name="brick_vertical_flex">vertical flexibility</string>
     <!--  -->
 
 
@@ -1804,6 +1825,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_index_of_item_parameter">(1,*list name*)</string>
     <string name="formula_editor_function_number_of_items">number of items</string>
     <string name="formula_editor_function_number_of_items_parameter">(*list name*)</string>
+    <string name="formula_editor_function_flatten">flatten</string>
+    <string name="formula_editor_function_flatten_parameter">(*list name*)</string>
     <string name="formula_editor_function_collision">touches actor or object</string>
     <string name="formula_editor_function_collides_with_edge">touches edge</string>
     <string name="formula_editor_function_touched">touches finger</string>
@@ -1918,6 +1941,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_object_look">Look properties</string>
     <string name="formula_editor_object_movement">Motion properties</string>
     <string name="formula_editor_device_face_detection">Face detection</string>
+    <string name="formula_editor_device_pose_detection">Pose detection</string>
     <string name="formula_editor_device_text_recognition">Text recognition</string>
     <string name="formula_editor_device_date_and_time">Date and time</string>
     <string name="formula_editor_device_touch_detection">Touch detection</string>
@@ -1966,6 +1990,72 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_second_face_size">second face size</string>
     <string name="formula_editor_sensor_second_face_x_position">second face x position</string>
     <string name="formula_editor_sensor_second_face_y_position">second face y position</string>
+    <string name="formula_editor_sensor_nose_x">nose x</string>
+    <string name="formula_editor_sensor_nose_y">nose y</string>
+    <string name="formula_editor_sensor_left_eye_inner_x">left eye inner x</string>
+    <string name="formula_editor_sensor_left_eye_inner_y">left eye inner y</string>
+    <string name="formula_editor_sensor_left_eye_center_x">left eye center x</string>
+    <string name="formula_editor_sensor_left_eye_center_y">left eye center y</string>
+    <string name="formula_editor_sensor_left_eye_outer_x">left eye outer x</string>
+    <string name="formula_editor_sensor_left_eye_outer_y">left eye outer y</string>
+    <string name="formula_editor_sensor_right_eye_inner_x">right eye inner x</string>
+    <string name="formula_editor_sensor_right_eye_inner_y">right eye inner y</string>
+    <string name="formula_editor_sensor_right_eye_center_x">right eye center x</string>
+    <string name="formula_editor_sensor_right_eye_center_y">right eye center y</string>
+    <string name="formula_editor_sensor_right_eye_outer_x">right eye outer x</string>
+    <string name="formula_editor_sensor_right_eye_outer_y">right eye outer y</string>
+    <string name="formula_editor_sensor_left_ear_x">left ear x</string>
+    <string name="formula_editor_sensor_left_ear_y">left ear y</string>
+    <string name="formula_editor_sensor_right_ear_x">right ear x</string>
+    <string name="formula_editor_sensor_right_ear_y">right ear y</string>
+    <string name="formula_editor_sensor_mouth_left_corner_x">mouth left corner x</string>
+    <string name="formula_editor_sensor_mouth_left_corner_y">mouth left corner y</string>
+    <string name="formula_editor_sensor_mouth_right_corner_x">mouth right corner x</string>
+    <string name="formula_editor_sensor_mouth_right_corner_y">mouth right corner y</string>
+    <string name="formula_editor_sensor_left_shoulder_x">left shoulder x</string>
+    <string name="formula_editor_sensor_left_shoulder_y">left shoulder y</string>
+    <string name="formula_editor_sensor_right_shoulder_x">right shoulder x</string>
+    <string name="formula_editor_sensor_right_shoulder_y">right shoulder y</string>
+    <string name="formula_editor_sensor_left_elbow_x">left elbow x</string>
+    <string name="formula_editor_sensor_left_elbow_y">left elbow y</string>
+    <string name="formula_editor_sensor_right_elbow_x">right elbow x</string>
+    <string name="formula_editor_sensor_right_elbow_y">right elbow y</string>
+    <string name="formula_editor_sensor_left_wrist_x">left wrist x</string>
+    <string name="formula_editor_sensor_left_wrist_y">left wrist y</string>
+    <string name="formula_editor_sensor_right_wrist_x">right wrist x</string>
+    <string name="formula_editor_sensor_right_wrist_y">right wrist y</string>
+    <string name="formula_editor_sensor_left_pinky_knuckle_x">left pinky knuckle x</string>
+    <string name="formula_editor_sensor_left_pinky_knuckle_y">left pinky knuckle y</string>
+    <string name="formula_editor_sensor_right_pinky_knuckle_x">right pinky knuckle x</string>
+    <string name="formula_editor_sensor_right_pinky_knuckle_y">right pinky knuckle y</string>
+    <string name="formula_editor_sensor_left_index_knuckle_x">left index knuckle x</string>
+    <string name="formula_editor_sensor_left_index_knuckle_y">left index knuckle y</string>
+    <string name="formula_editor_sensor_right_index_knuckle_x">right index knuckle x</string>
+    <string name="formula_editor_sensor_right_index_knuckle_y">right index knuckle y</string>
+    <string name="formula_editor_sensor_left_thumb_knuckle_x">left thumb knuckle x</string>
+    <string name="formula_editor_sensor_left_thumb_knuckle_y">left thumb knuckle y</string>
+    <string name="formula_editor_sensor_right_thumb_knuckle_x">right thumb knuckle x</string>
+    <string name="formula_editor_sensor_right_thumb_knuckle_y">right thumb knuckle y</string>
+    <string name="formula_editor_sensor_left_hip_x">left hip x</string>
+    <string name="formula_editor_sensor_left_hip_y">left hip y</string>
+    <string name="formula_editor_sensor_right_hip_x">right hip x</string>
+    <string name="formula_editor_sensor_right_hip_y">right hip y</string>
+    <string name="formula_editor_sensor_left_knee_x">left knee x</string>
+    <string name="formula_editor_sensor_left_knee_y">left knee y</string>
+    <string name="formula_editor_sensor_right_knee_x">right knee x</string>
+    <string name="formula_editor_sensor_right_knee_y">right knee y</string>
+    <string name="formula_editor_sensor_left_ankle_x">left ankle x</string>
+    <string name="formula_editor_sensor_left_ankle_y">left ankle y</string>
+    <string name="formula_editor_sensor_right_ankle_x">right ankle x</string>
+    <string name="formula_editor_sensor_right_ankle_y">right ankle y</string>
+    <string name="formula_editor_sensor_left_heel_x">left heel x</string>
+    <string name="formula_editor_sensor_left_heel_y">left heel y</string>
+    <string name="formula_editor_sensor_right_heel_x">right heel x</string>
+    <string name="formula_editor_sensor_right_heel_y">right heel y</string>
+    <string name="formula_editor_sensor_left_foot_index_x">left foot index x</string>
+    <string name="formula_editor_sensor_left_foot_index_y">left foot index y</string>
+    <string name="formula_editor_sensor_right_foot_index_x">right foot index x</string>
+    <string name="formula_editor_sensor_right_foot_index_y">right foot index y</string>
     <string name="formula_editor_sensor_text_from_camera">text from camera</string>
     <string name="formula_editor_sensor_text_blocks_number">number of text blocks</string>
     <string name="formula_editor_function_text_block_x">text block x from camera</string>
@@ -2009,8 +2099,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="camera_error_text_detection">
         There was a problem with text detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.</string>
-    <string name="formula_editor_function_flatten">flatten</string>
-    <string name="formula_editor_function_flatten_parameter">(*list name*)</string>
+    <string name="warning_formula_recognized">You entered a text that looks like a formula. If you want to use functions,
+        sensors, variables and other formula elements, please select them instead using the
+        buttons in the formula editor.</string>
     <!--  -->
 
 
@@ -2041,6 +2132,10 @@ needs read and write access to it. You can always change permissions through you
     </string>
     <string name="camera_error_face_detection">
         There was a problem with face detection. Some components may still be downloading in the
+        background. Please make sure you are connected to the internet and check back later.
+    </string>
+    <string name="camera_error_pose_detection">
+        There was a problem with pose detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.
     </string>
     <!-- -->
@@ -2146,4 +2241,13 @@ needs read and write access to it. You can always change permissions through you
     <string name="cut">Cut</string>
     <string name="paste">Paste</string>
 
+    <!-- Particle Effects -->
+    <string name="fade_particle_effect">Fade particle effect</string>
+    <string name="particle_effects_fade_in">in</string>
+    <string name="particle_effects_fade_out">out</string>
+
+    <string name="turn_particle_effect_additivity">Turn particle effect additivity</string>
+    <string name="particle_effects_additive_on">on</string>
+    <string name="particle_effects_additive_off">off</string>
+    <string name="set_particle_color_to">Set particle color to</string>
 </resources>

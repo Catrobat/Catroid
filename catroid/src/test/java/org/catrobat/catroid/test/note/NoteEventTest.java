@@ -29,13 +29,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNotSame;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertNotEquals;
 
 @RunWith(JUnit4.class)
 public class NoteEventTest {
@@ -53,7 +50,7 @@ public class NoteEventTest {
 		NoteEvent noteEvent1 = new NoteEvent(NoteName.C1, true);
 		NoteEvent noteEvent2 = new NoteEvent(NoteName.C2, true);
 
-		assertThat(noteEvent1, is(not(equalTo(noteEvent2))));
+		assertNotEquals(noteEvent2, noteEvent1);
 	}
 
 	@Test
@@ -62,7 +59,7 @@ public class NoteEventTest {
 		NoteEvent noteEvent1 = new NoteEvent(noteName, true);
 		NoteEvent noteEvent2 = new NoteEvent(noteName, false);
 
-		assertThat(noteEvent1, is(not(equalTo(noteEvent2))));
+		assertNotEquals(noteEvent2, noteEvent1);
 	}
 
 	@Test
@@ -70,21 +67,21 @@ public class NoteEventTest {
 		NoteEvent noteEvent1 = new NoteEvent(NoteName.C1, true);
 		NoteEvent noteEvent2 = new NoteEvent(NoteName.C2, false);
 
-		assertThat(noteEvent1, is(not(equalTo(noteEvent2))));
+		assertNotEquals(noteEvent2, noteEvent1);
 	}
 
 	@Test
 	public void testEquals5() {
 		NoteEvent noteEvent = new NoteEvent(NoteName.C4, true);
 
-		assertThat(noteEvent, is(not(equalTo(null))));
+		assertNotNull(noteEvent);
 	}
 
 	@Test
 	public void testEquals6() {
 		NoteEvent noteEvent = new NoteEvent(NoteName.C4, true);
 
-		assertFalse(noteEvent.equals(""));
+		assertNotEquals("", noteEvent);
 	}
 
 	@Test

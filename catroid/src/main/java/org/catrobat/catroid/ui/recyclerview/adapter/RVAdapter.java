@@ -26,6 +26,8 @@ package org.catrobat.catroid.ui.recyclerview.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperAdapterInterface;
@@ -53,8 +55,10 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 	public static final int PAIRS = 1;
 	public static final int MULTIPLE = 2;
 
-	List<T> items;
+	protected List<T> items;
 	public boolean showCheckBoxes = false;
+	public boolean showRipples = true;
+	public boolean hideSettings = false;
 
 	@SelectionType
 	public int selectionMode = MULTIPLE;
@@ -63,7 +67,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 	private SelectionListener selectionListener;
 	private OnItemClickListener<T> onItemClickListener;
 
-	RVAdapter(List<T> items) {
+	protected RVAdapter(List<T> items) {
 		this.items = items;
 	}
 
@@ -88,6 +92,9 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 		holder.checkBox.setOnClickListener(v -> onCheckBoxClick(holder.getAdapterPosition()));
 
 		holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(item));
+		if (holder.settings != null) {
+			holder.settings.setOnClickListener(v -> onItemClickListener.onSettingsClick(item, v));
+		}
 
 		holder.itemView.setOnLongClickListener(v -> {
 			onItemClickListener.onItemLongClick(item, holder);
@@ -96,6 +103,16 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 
 		holder.checkBox.setVisibility(showCheckBoxes ? View.VISIBLE : View.GONE);
 		holder.checkBox.setChecked(selectionManager.isPositionSelected(position));
+
+		ImageView ripples = holder.itemView.findViewById(R.id.ic_ripples);
+		if (ripples != null && showRipples) {
+			ripples.setVisibility(View.VISIBLE);
+		}
+
+		ImageButton settings = holder.itemView.findViewById(R.id.settingsButton);
+		if (settings != null && hideSettings) {
+			settings.setVisibility(View.GONE);
+		}
 	}
 
 	protected void onCheckBoxClick(int position) {
@@ -194,6 +211,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 			return false;
 		}
 		selectionManager.toggleSelection(items.indexOf(item));
+		notifyItemChanged(items.indexOf(item));
 		return true;
 	}
 
@@ -241,5 +259,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 		void onItemClick(T item);
 
 		void onItemLongClick(T item, CheckableVH holder);
+
+		void onSettingsClick(T item, View view);
 	}
 }

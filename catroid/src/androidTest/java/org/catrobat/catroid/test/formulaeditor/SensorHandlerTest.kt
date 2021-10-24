@@ -24,12 +24,15 @@ package org.catrobat.catroid.test.formulaeditor
 
 import android.Manifest
 import android.graphics.Point
+import android.graphics.Rect
 import androidx.test.annotation.UiThreadTest
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.rule.GrantPermissionRule
-import com.google.mlkit.vision.face.Face
 import org.catrobat.catroid.ProjectManager
-import org.catrobat.catroid.camera.FaceAndTextDetector
+import org.catrobat.catroid.camera.VisualDetectionHandler.facesForSensors
+import org.catrobat.catroid.camera.VisualDetectionHandler.updateFaceDetectionStatusSensorValues
+import org.catrobat.catroid.camera.VisualDetectionHandler.updateFaceSensorValues
+import org.catrobat.catroid.camera.VisualDetectionHandlerFace
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.formulaeditor.SensorHandler
 import org.catrobat.catroid.formulaeditor.SensorLoudness
@@ -60,6 +63,7 @@ class SensorHandlerTest {
 
     @Test
     fun testSensorManagerNotInitialized() {
+        SensorHandler.destroy()
         SensorHandler.registerListener(null)
         SensorHandler.unregisterListener(null)
         SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext())
@@ -68,6 +72,7 @@ class SensorHandlerTest {
 
     @Test
     fun testSensorHandlerWithLookSensorValue() {
+        SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext())
         compareToSensor(0, Sensors.OBJECT_BRIGHTNESS)
     }
 
@@ -79,15 +84,15 @@ class SensorHandlerTest {
 
         val firstFaceSize = 50
         val firstFacePosition = Point(15, -15)
-        FaceAndTextDetector.facesForSensors[0] = Mockito.mock(Face::class.java)
+        facesForSensors[0] = VisualDetectionHandlerFace(0, Rect())
 
-        FaceAndTextDetector.updateDetectionStatus()
-        FaceAndTextDetector.onFaceDetected(firstFacePosition, firstFaceSize, 0)
+        updateFaceDetectionStatusSensorValues()
+        updateFaceSensorValues(firstFacePosition, firstFaceSize, 0)
 
         compareToSensor(1, Sensors.FACE_DETECTED)
         compareToSensor(firstFaceSize, Sensors.FACE_SIZE)
-        compareToSensor(firstFacePosition.x, Sensors.FACE_X_POSITION)
-        compareToSensor(firstFacePosition.y, Sensors.FACE_Y_POSITION)
+        compareToSensor(firstFacePosition.x, Sensors.FACE_X)
+        compareToSensor(firstFacePosition.y, Sensors.FACE_Y)
     }
 
     @Test
@@ -98,15 +103,15 @@ class SensorHandlerTest {
 
         val secondFaceSize = 50
         val secondFacePosition = Point(15, -15)
-        FaceAndTextDetector.facesForSensors[1] = Mockito.mock(Face::class.java)
+        facesForSensors[1] = VisualDetectionHandlerFace(1, Rect())
 
-        FaceAndTextDetector.updateDetectionStatus()
-        FaceAndTextDetector.onFaceDetected(secondFacePosition, secondFaceSize, 1)
+        updateFaceDetectionStatusSensorValues()
+        updateFaceSensorValues(secondFacePosition, secondFaceSize, 1)
 
         compareToSensor(1, Sensors.SECOND_FACE_DETECTED)
         compareToSensor(secondFaceSize, Sensors.SECOND_FACE_SIZE)
-        compareToSensor(secondFacePosition.x, Sensors.SECOND_FACE_X_POSITION)
-        compareToSensor(secondFacePosition.y, Sensors.SECOND_FACE_Y_POSITION)
+        compareToSensor(secondFacePosition.x, Sensors.SECOND_FACE_X)
+        compareToSensor(secondFacePosition.y, Sensors.SECOND_FACE_Y)
     }
 
     @Test
@@ -129,7 +134,7 @@ class SensorHandlerTest {
 
     @After
     fun tearDown() {
-        SensorHandler.stopSensorListeners()
+        SensorHandler.destroy()
     }
 
     private fun compareToSensor(value: Int, sensor: Sensors) {

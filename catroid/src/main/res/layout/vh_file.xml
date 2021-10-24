@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -23,29 +23,40 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/view_holder_height"
-    android:paddingEnd="@dimen/view_holder_padding"
-    android:paddingStart="@dimen/view_holder_padding"
-    android:gravity="center_vertical"
-    android:orientation="vertical"
     android:layout_marginTop="?attr/element_spacing"
     android:layout_marginBottom="?attr/element_spacing"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="Overdraw"
-    android:background="@drawable/button_background_selector">
+    android:background="@drawable/button_background_selector"
+    android:minHeight="@dimen/view_holder_height"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/view_holder_padding"
+    android:paddingEnd="@dimen/view_holder_padding"
+    tools:ignore="Overdraw">
 
-    <TextView
-        android:id="@+id/title_view"
+    <CheckBox
+        android:id="@+id/checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/vh_item_title"
-        android:textSize="?attr/x_large" />
-
-    <TextView
-        android:id="@+id/subtitle_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/vh_item_details" />
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="@dimen/checkbox_margin"
+        android:visibility="visible" />
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/title_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/vh_item_title"
+                android:textSize="?attr/x_large" />
+            <TextView
+            android:id="@+id/subtitle_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/vh_item_details" />
+    </LinearLayout>
 </LinearLayout>

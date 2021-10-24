@@ -26,6 +26,9 @@ package org.catrobat.catroid.ui.recyclerview.fragment;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.PopupMenu;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -42,6 +45,7 @@ import org.catrobat.catroid.utils.ToastUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.PluralsRes;
@@ -219,9 +223,6 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> implements Pr
 			if (sceneController.rename(item, name)) {
 				Project currentProject = ProjectManager.getInstance().getCurrentProject();
 				new ProjectSaver(currentProject, getContext()).saveProjectAsync();
-				new ProjectLoadTask(currentProject.getDirectory(), getContext())
-						.setListener(this)
-						.execute();
 			} else {
 				ToastUtil.showError(getActivity(), R.string.error_rename_scene);
 			}
@@ -242,6 +243,44 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> implements Pr
 					.addToBackStack(SpriteListFragment.TAG)
 					.commit();
 		}
+	}
+
+	@Override
+	public void onSettingsClick(Scene item, View view) {
+		PopupMenu popupMenu = new PopupMenu(getContext(), view);
+		List<Scene> itemList = new ArrayList<>();
+		itemList.add(item);
+
+		popupMenu.getMenuInflater().inflate(R.menu.menu_project_activity, popupMenu.getMenu());
+		popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem menuItem) {
+
+				switch (menuItem.getItemId()) {
+					case R.id.backpack:
+						packItems(itemList);
+						break;
+					case R.id.copy:
+						copyItems(itemList);
+						break;
+					case R.id.delete:
+						deleteItems(itemList);
+						break;
+					case R.id.rename:
+						showRenameDialog(item);
+						break;
+					default:
+						break;
+				}
+				return true;
+			}
+		});
+		popupMenu.getMenu().findItem(R.id.backpack).setTitle(R.string.pack);
+		popupMenu.getMenu().findItem(R.id.new_group).setVisible(false);
+		popupMenu.getMenu().findItem(R.id.new_scene).setVisible(false);
+		popupMenu.getMenu().findItem(R.id.show_details).setVisible(false);
+		popupMenu.getMenu().findItem(R.id.project_options).setVisible(false);
+		popupMenu.show();
 	}
 
 	@Override
