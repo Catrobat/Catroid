@@ -42,8 +42,6 @@ buildscript {
         classpath "org.jacoco:org.jacoco.core:$jacoco_core_version"
         classpath 'org.catrobat.gradle.androidemulators:android-emulators-gradle:1.6.2'
         classpath 'com.huawei.agconnect:agcp:1.4.1.300'
-        
-        implementation 'com.esotericsoftware:kryo:5.1.1'
     }
 }
 
