@@ -1,0 +1,39 @@
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<vector android:autoMirrored="true" android:height="24dp"
+    android:viewportHeight="198" android:viewportWidth="198"
+    android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+        android:fillColor="#fff"
+        android:pathData="M62.137,105.771l0,14.547l-29.092,0l0,43.637l130.91,0l0,-43.637l-29.093,0l0,-14.547l43.638,0l0,72.729l-160,0l0,-72.729z"/>
+    <path
+        android:fillColor="#fff"
+        android:pathData="M98.5,120.318l-58.182,-58.181l116.364,0z"/>
+    <path
+        android:fillColor="#fff"
+        android:pathData="M69.409,40.318h58.182v14.545h-58.182z"/>
+    <path
+        android:fillColor="#fff"
+        android:pathData="M69.409,18.5h58.182v14.545h-58.182z"/>
+</vector>

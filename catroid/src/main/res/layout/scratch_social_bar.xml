@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -35,7 +35,7 @@
         android:layout_width="28dp"
         android:layout_height="28dp"
         android:layout_marginEnd="8dp"
-        android:src="@drawable/favorites_72x72" />
+        android:src="@drawable/ic_scratch_favorites" />
 
     <TextView
         android:id="@+id/scratch_project_favorites_text"
@@ -51,7 +51,7 @@
         android:layout_width="28dp"
         android:layout_height="28dp"
         android:layout_marginEnd="8dp"
-        android:src="@drawable/loves_72x72"
+        android:src="@drawable/ic_scratch_loves"
         android:layout_toEndOf="@+id/scratch_project_favorites_text" />
 
     <TextView
@@ -68,7 +68,7 @@
         android:layout_width="28dp"
         android:layout_height="28dp"
         android:layout_marginEnd="8dp"
-        android:src="@drawable/views_72x72"
+        android:src="@drawable/ic_scratch_views"
         android:layout_toEndOf="@+id/scratch_project_loves_text" />
 
     <TextView

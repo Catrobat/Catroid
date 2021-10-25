@@ -1,0 +1,39 @@
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<vector android:autoMirrored="true" android:height="24dp"
+    android:viewportHeight="200" android:viewportWidth="200"
+    android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M179.801,49.104v101.793c0,7.996 -6.535,14.54 -14.508,14.54h-50.785v-14.54h50.785V49.104H34.708V70.92H20.2V49.104c0,-7.996 6.527,-14.54 14.508,-14.54h130.585C173.266,34.563 179.801,41.106 179.801,49.104z"/>
+    <path
+        android:fillColor="#70ffffff"
+        android:pathData="M100.001,165.437H85.493C85.493,129.295 56.254,100 20.2,100v-14.54C64.234,85.46 100.001,121.227 100.001,165.437z"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M70.985,165.437H56.469c0,-20.062 -16.248,-36.356 -36.27,-36.356v-14.539C48.274,114.541 70.985,137.299 70.985,165.437z"/>
+    <path
+        android:fillColor="#70ffffff"
+        android:pathData="M41.962,165.437H20.2v-21.81C32.242,143.627 41.962,153.362 41.962,165.437z"/>
+</vector>

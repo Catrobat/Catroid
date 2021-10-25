@@ -63,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="0.33"
-                android:drawableStart="@drawable/dialog_orientation_portrait"
+                android:drawableStart="@drawable/ic_smartphone_dialog_orientation_portrait"
                 android:paddingStart="@dimen/material_design_spacing_large"/>
 
             <RadioButton
@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="0.33"
-                android:drawableStart="@drawable/dialog_orientation_landscape"
+                android:drawableStart="@drawable/ic_smartphone_dialog_orientation_landscape"
                 android:paddingStart="@dimen/material_design_spacing_large"/>
 
             <RadioButton
@@ -79,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="0.33"
-                android:drawableStart="@drawable/ic_tv_black_24dp"
+                android:drawableStart="@drawable/ic_dialog_tv"
                 android:visibility="gone"
                 android:paddingStart="@dimen/material_design_spacing_large"/>
 
