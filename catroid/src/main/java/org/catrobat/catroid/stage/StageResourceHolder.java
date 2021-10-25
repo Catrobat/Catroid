@@ -53,6 +53,7 @@ import org.catrobat.catroid.formulaeditor.SensorLoudness;
 import org.catrobat.catroid.sensing.GatherCollisionInformationTask;
 import org.catrobat.catroid.ui.runtimepermissions.BrickResourcesToRuntimePermissions;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.utils.MobileServiceAvailability;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TouchUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -143,7 +144,12 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		}
 
 		if (requiredResourcesSet.contains(Brick.TEXT_TO_SPEECH)) {
-			TextToSpeechHolder.Companion.getInstance().initTextToSpeech(stageActivity, this);
+			MobileServiceAvailability mobileServiceAvailability = get(MobileServiceAvailability.class);
+			if (mobileServiceAvailability.isGmsAvailable(stageActivity)) {
+				TextToSpeechHolder.Companion.getInstance().initTextToSpeech(stageActivity, this);
+			} else if (mobileServiceAvailability.isHmsAvailable(stageActivity)) {
+				HuaweiTextToSpeechHolder.Companion.getInstance().initTextToSpeech(stageActivity, this);
+			}
 		}
 
 		if (requiredResourcesSet.contains(Brick.BLUETOOTH_LEGO_NXT)) {

@@ -77,10 +77,10 @@ public class CatroidApplication extends Application {
 		googleAnalytics = GoogleAnalytics.getInstance(this);
 		googleAnalytics.setDryRun(BuildConfig.DEBUG);
 
-		setupHms();
+		setupHuaweiMobileServices();
 	}
 
-	private void setupHms() {
+	private void setupHuaweiMobileServices() {
 		if (AGConnectInstance.getInstance() == null) {
 			AGConnectInstance.initialize(this);
 		}
