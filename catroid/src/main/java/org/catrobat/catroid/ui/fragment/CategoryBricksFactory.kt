@@ -139,6 +139,7 @@ import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick
 import org.catrobat.catroid.content.bricks.PlaySoundBrick
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick
 import org.catrobat.catroid.content.bricks.PointToBrick
+import org.catrobat.catroid.content.bricks.PostWebRequestBrick
 import org.catrobat.catroid.content.bricks.PreviousLookBrick
 import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick
 import org.catrobat.catroid.content.bricks.RaspiPwmBrick
@@ -541,6 +542,8 @@ open class CategoryBricksFactory {
             projectManager.currentProject.xmlHeader.islandscapeMode() -> dataBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE))
             else -> dataBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST))
         }
+        dataBrickList.add(PostWebRequestBrick(BrickValues.POST_WEB_REQUEST_URL, BrickValues.POST_WEB_REQUEST_HEADER, 
+			context.getString(R.string.brick_post_web_request_data_default_value)))
         dataBrickList.add(AskBrick(context.getString(R.string.brick_ask_default_question)))
         if (SettingsFragment.isAISpeechRecognitionSharedPreferenceEnabled(context)) {
             dataBrickList.add(AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)))
@@ -573,6 +576,8 @@ open class CategoryBricksFactory {
             projectManager.currentProject.xmlHeader.islandscapeMode() -> deviceBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE))
             else -> deviceBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST))
         }
+		deviceBrickList.add(PostWebRequestBrick(BrickValues.POST_WEB_REQUEST_URL, BrickValues.POST_WEB_REQUEST_HEADER, 
+				context.getString(R.string.brick_post_web_request_data_default_value)))
         deviceBrickList.add(OpenUrlBrick(BrickValues.OPEN_IN_BROWSER))
         deviceBrickList.add(VibrationBrick(BrickValues.VIBRATE_SECONDS))
 
@@ -721,6 +726,8 @@ open class CategoryBricksFactory {
         assertionsBrickList.add(FinishStageBrick())
         assertionsBrickList.add(StoreCSVIntoUserListBrick(BrickValues.STORE_CSV_INTO_USERLIST_COLUMN, context.getString(R.string.brick_store_csv_into_userlist_data)))
         assertionsBrickList.add(WebRequestBrick(context.getString(R.string.brick_web_request_default_value)))
+        assertionsBrickList.add(PostWebRequestBrick(BrickValues.POST_WEB_REQUEST_URL, BrickValues.POST_WEB_REQUEST_HEADER, 
+				context.getString(R.string.brick_post_web_request_data_default_value)))
         return assertionsBrickList
     }
 
@@ -763,6 +770,7 @@ open class CategoryBricksFactory {
             is WhenBackgroundChangesBrick -> category = res.getString(R.string.category_event)
             is SetVariableBrick -> category = res.getString(R.string.category_data)
             is WebRequestBrick -> category = res.getString(R.string.category_data)
+            is PostWebRequestBrick -> category = res.getString(R.string.category_data)
             is StoreCSVIntoUserListBrick -> category = res.getString(R.string.category_data)
             is UserDefinedBrick -> category = res.getString(R.string.category_user_bricks)
             is UserDefinedReceiverBrick -> category = res.getString(R.string.category_user_bricks)
