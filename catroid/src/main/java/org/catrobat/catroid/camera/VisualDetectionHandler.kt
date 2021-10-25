@@ -28,7 +28,6 @@ import android.graphics.Rect
 import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.pose.Pose
 import com.google.mlkit.vision.pose.PoseLandmark
-import com.google.mlkit.vision.text.Text
 import com.huawei.hms.mlsdk.face.MLFace
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants
@@ -50,7 +49,6 @@ import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_EYE_OUTER_Y
 import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_FOOT_INDEX_X
 import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_FOOT_INDEX_Y
 import org.catrobat.catroid.stage.StageActivity
-import org.catrobat.catroid.utils.TextBlockUtil
 import kotlin.math.roundToInt
 
 data class VisualDetectionHandlerFace(val id: Int, val boundingBox: Rect)
@@ -90,14 +88,10 @@ object VisualDetectionHandler {
         return newFacesList
     }
 
-    fun updateTextSensorValues(text: Text, imageWidth: Int, imageHeight: Int) {
-        if (text.textBlocks.isEmpty()) return
-
-        TextBlockUtil.setTextBlocks(text.textBlocks, imageWidth, imageHeight)
-
+    fun updateTextSensorValues(text: String, numberOfBlocks: Int) {
         sensorListeners.forEach { sensorListener ->
-            sensorListener.writeToSensor(Sensors.TEXT_FROM_CAMERA, text.text)
-            sensorListener.writeToSensor(Sensors.TEXT_BLOCKS_NUMBER, text.textBlocks.size.toDouble())
+            sensorListener.writeToSensor(Sensors.TEXT_FROM_CAMERA, text)
+            sensorListener.writeToSensor(Sensors.TEXT_BLOCKS_NUMBER, numberOfBlocks.toDouble())
         }
     }
 
@@ -313,7 +307,7 @@ object VisualDetectionHandler {
         }
     }
 
-    private fun coordinatesFromRelativePosition(
+    fun coordinatesFromRelativePosition(
         relativeX: Double,
         width: Double,
         relativeY: Double,

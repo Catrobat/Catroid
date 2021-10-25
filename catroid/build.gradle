@@ -427,6 +427,8 @@ dependencies {
     implementation 'com.huawei.hms:ml-computer-voice-asr:2.2.0.300'
     implementation 'com.huawei.hms:ml-computer-vision-face:2.0.5.300'
     implementation 'com.huawei.hms:ml-computer-voice-tts:2.2.0.300'
+    implementation 'com.huawei.hms:ml-computer-vision-ocr:2.0.5.301'
+    implementation 'com.huawei.hms:ml-computer-language-detection:2.2.0.300'
 
     // libGDX
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"

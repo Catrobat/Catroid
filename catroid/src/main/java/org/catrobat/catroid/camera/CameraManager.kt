@@ -238,7 +238,7 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
         if (mobileServiceAvailability.isGmsAvailable(stageActivity)) {
             analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), FaceTextPoseDetector)
         } else if (mobileServiceAvailability.isHmsAvailable(stageActivity)) {
-            analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), FaceDetectorHuawei)
+            analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), FaceAndTextDetectorHuawei)
         }
     }
 
