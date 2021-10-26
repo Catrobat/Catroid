@@ -41,12 +41,8 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertNotEquals;
 
 @RunWith(JUnit4.class)
 public class InternFormulaTokenSelectionTest {
@@ -80,17 +76,17 @@ public class InternFormulaTokenSelectionTest {
 
 		Reflection.setPrivateField(tokenSelectionDeepCopy, "tokenSelectionType",
 				TokenSelectionType.PARSER_ERROR_SELECTION);
-		assertThat(tokenSelectionDeepCopy, is(not(equalTo(tokenSelection))));
+		assertNotEquals(tokenSelection, tokenSelectionDeepCopy);
 
 		tokenSelectionDeepCopy = tokenSelection.deepCopy();
 		Reflection.setPrivateField(tokenSelectionDeepCopy, "internTokenSelectionStart", -1);
-		assertThat(tokenSelectionDeepCopy, is(not(equalTo(tokenSelection))));
+		assertNotEquals(tokenSelection, tokenSelectionDeepCopy);
 
 		tokenSelectionDeepCopy = tokenSelection.deepCopy();
 		Reflection.setPrivateField(tokenSelectionDeepCopy, "internTokenSelectionEnd", -1);
-		assertThat(tokenSelectionDeepCopy, is(not(equalTo(tokenSelection))));
+		assertNotEquals(tokenSelection, tokenSelectionDeepCopy);
 
-		assertFalse(tokenSelectionDeepCopy.equals(1));
+		assertNotEquals(1, tokenSelectionDeepCopy);
 	}
 
 	@Test
@@ -103,16 +99,16 @@ public class InternFormulaTokenSelectionTest {
 		Reflection.setPrivateField(tokenSelectionDeepCopy, "tokenSelectionType",
 				TokenSelectionType.PARSER_ERROR_SELECTION);
 
-		assertThat(tokenSelectionDeepCopy.hashCode(), not(equalTo(tokenSelection.hashCode())));
+		assertNotEquals(tokenSelection.hashCode(), tokenSelectionDeepCopy.hashCode());
 
 		tokenSelectionDeepCopy = tokenSelection.deepCopy();
 		Reflection.setPrivateField(tokenSelectionDeepCopy, "internTokenSelectionStart", -1);
-		assertThat(tokenSelectionDeepCopy.hashCode(), not(equalTo(tokenSelection.hashCode())));
+		assertNotEquals(tokenSelection.hashCode(), tokenSelectionDeepCopy.hashCode());
 
 		tokenSelectionDeepCopy = tokenSelection.deepCopy();
 		Reflection.setPrivateField(tokenSelectionDeepCopy, "internTokenSelectionEnd", -1);
-		assertThat(tokenSelectionDeepCopy.hashCode(), not(equalTo(tokenSelection.hashCode())));
+		assertNotEquals(tokenSelection.hashCode(), tokenSelectionDeepCopy.hashCode());
 
-		assertThat(tokenSelectionDeepCopy.hashCode(), not(equalTo(1)));
+		assertNotEquals(1, tokenSelectionDeepCopy.hashCode());
 	}
 }

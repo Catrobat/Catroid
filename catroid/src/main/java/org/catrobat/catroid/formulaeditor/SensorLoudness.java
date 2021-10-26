@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,20 +29,20 @@ import org.catrobat.catroid.soundrecorder.SoundRecorder;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.VisibleForTesting;
 
 public class SensorLoudness {
-
 	private static final int UPDATE_INTERVAL = 50;
 	private static final double SCALE_RANGE = 100d;
 	private static final double MAX_AMP_VALUE = 32767d;
 	private static final String TAG = SensorLoudness.class.getSimpleName();
-	private ArrayList<SensorCustomEventListener> listenerList = new ArrayList<SensorCustomEventListener>();
+	private List<SensorCustomEventListener> listenerList = new ArrayList<>();
 
-	private SoundRecorder recorder = null;
-	private Handler handler;
-	private float lastValue = 0f;
+	private SoundRecorder recorder;
+	private final Handler handler;
+	private Double lastValue = 0.0;
 
 	public SensorLoudness() {
 		handler = new Handler();
@@ -52,11 +52,11 @@ public class SensorLoudness {
 	Runnable statusChecker = new Runnable() {
 		@Override
 		public void run() {
-			float[] loudness = new float[1];
-			loudness[0] = (float) (SCALE_RANGE / MAX_AMP_VALUE) * recorder.getMaxAmplitude();
-			if (lastValue != loudness[0] && loudness[0] != 0f) {
-				lastValue = loudness[0];
+			Double loudness = ((SCALE_RANGE / MAX_AMP_VALUE) * recorder.getMaxAmplitude());
+			if (!loudness.equals(lastValue) && !loudness.equals(0.0)) {
+				lastValue = loudness;
 				SensorCustomEvent event = new SensorCustomEvent(Sensors.LOUDNESS, loudness);
+
 				for (SensorCustomEventListener listener : listenerList) {
 					listener.onCustomSensorChanged(event);
 				}
@@ -103,7 +103,7 @@ public class SensorLoudness {
 					}
 					recorder = new SoundRecorder("/dev/null");
 				}
-				lastValue = 0f;
+				lastValue = 0.0;
 			}
 		}
 	}

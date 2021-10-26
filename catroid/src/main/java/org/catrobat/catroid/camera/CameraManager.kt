@@ -39,9 +39,11 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import org.catrobat.catroid.R
 import org.catrobat.catroid.stage.StageActivity
+import org.catrobat.catroid.utils.MobileServiceAvailability
 import org.catrobat.catroid.utils.ToastUtil
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
+import org.koin.java.KoinJavaComponent.get
 
 class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
     private val cameraProvider = ProcessCameraProvider.getInstance(stageActivity).get()
@@ -232,7 +234,12 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
 
     @UiThread
     private fun bindFaceAndTextDetector() = bindUseCase(analysisUseCase).also {
-        analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), FaceTextPoseDetector)
+        val mobileServiceAvailability = get(MobileServiceAvailability::class.java)
+        if (mobileServiceAvailability.isGmsAvailable(stageActivity)) {
+            analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), FaceTextPoseDetector)
+        } else if (mobileServiceAvailability.isHmsAvailable(stageActivity)) {
+            analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), FaceAndTextDetectorHuawei)
+        }
     }
 
     @UiThread

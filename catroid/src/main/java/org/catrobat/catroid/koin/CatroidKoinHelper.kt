@@ -24,11 +24,17 @@
 package org.catrobat.catroid.koin
 
 import android.app.Application
+import com.google.android.gms.common.GoogleApiAvailability
+import com.huawei.hms.api.HuaweiApiAvailability
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.retrofit.CatroidWebServer
+import org.catrobat.catroid.stage.HmsSpeechRecognitionHolder
+import org.catrobat.catroid.stage.SpeechRecognitionHolder
+import org.catrobat.catroid.stage.SpeechRecognitionHolderFactory
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoriesAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.FeaturedProjectsAdapter
 import org.catrobat.catroid.ui.recyclerview.viewmodel.MainFragmentViewModel
+import org.catrobat.catroid.utils.MobileServiceAvailability
 import org.catrobat.catroid.utils.NetworkConnectionMonitor
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -41,6 +47,9 @@ import org.koin.dsl.module
 val componentsModules = module(createdAtStart = true, override = false) {
     single { ProjectManager(androidContext()) }
     single { NetworkConnectionMonitor(androidContext()) }
+    factory { HuaweiApiAvailability.getInstance() }
+    factory { GoogleApiAvailability.getInstance() }
+    factory { MobileServiceAvailability(get(), get()) }
 }
 
 /**
@@ -67,7 +76,21 @@ val adapterModules = module {
     }
 }
 
-val myModules = listOf(componentsModules, viewModelModules, repositoryModules, adapterModules)
+val speechModules = module {
+    single { SpeechRecognitionHolder() }
+    single { HmsSpeechRecognitionHolder() }
+    single {
+        SpeechRecognitionHolderFactory(
+            get<SpeechRecognitionHolder>(),
+            get<HmsSpeechRecognitionHolder>(),
+            get()
+        )
+    }
+}
+
+val myModules = listOf(
+    componentsModules, viewModelModules, repositoryModules, adapterModules, speechModules
+)
 
 fun start(application: Application, modules: List<Module>) {
     startKoin {

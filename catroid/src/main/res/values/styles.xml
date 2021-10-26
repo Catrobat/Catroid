@@ -74,23 +74,23 @@
         <!-- Category Icon Visibility -->
         <item name="category_icon_size">40dp</item>
         <!-- Icon Contrast -->
-        <item name="icon_ardrone">@drawable/ardrone_pos</item>
-        <item name="icon_data">@drawable/data_pos</item>
-        <item name="icon_motion">@drawable/motion_pos</item>
-        <item name="icon_sound">@drawable/sound_pos</item>
-        <item name="icon_arduino">@drawable/arduino_pos</item>
-        <item name="icon_event">@drawable/event_pos</item>
-        <item name="icon_pen">@drawable/pen_pos</item>
-        <item name="icon_chromecast">@drawable/chromecast_pos</item>
-        <item name="icon_legonxt">@drawable/legonxt_pos</item>
-        <item name="icon_phiro">@drawable/phiro_pos</item>
-        <item name="icon_control">@drawable/control_pos</item>
-        <item name="icon_look">@drawable/look_pos</item>
-        <item name="icon_raspberrypi">@drawable/raspberrypi_pos</item>
-        <item name="icon_embroidery">@drawable/embroidery_pos</item>
-        <item name="icon_userbrick">@drawable/yourbrick_pos</item>
-        <item name="icon_device">@drawable/device_pos</item>
-        <item name="icon_recently_used">@drawable/recently_used_pos</item>
+        <item name="icon_ardrone">@drawable/ic_ardrone_pos</item>
+        <item name="icon_data">@drawable/ic_data_pos</item>
+        <item name="icon_motion">@drawable/ic_motion_pos</item>
+        <item name="icon_sound">@drawable/ic_sound_pos</item>
+        <item name="icon_arduino">@drawable/ic_arduino_pos</item>
+        <item name="icon_event">@drawable/ic_event_pos</item>
+        <item name="icon_pen">@drawable/ic_pen_pos</item>
+        <item name="icon_chromecast">@drawable/ic_chromecast_pos</item>
+        <item name="icon_legonxt">@drawable/ic_legonxt_pos</item>
+        <item name="icon_phiro">@drawable/ic_phiro_pos</item>
+        <item name="icon_control">@drawable/ic_control_pos</item>
+        <item name="icon_look">@drawable/ic_look_pos</item>
+        <item name="icon_raspberrypi">@drawable/ic_raspberrypi_pos</item>
+        <item name="icon_embroidery">@drawable/ic_embroidery_pos</item>
+        <item name="icon_userbrick">@drawable/ic_your_brick_pos</item>
+        <item name="icon_device">@drawable/ic_device_pos</item>
+        <item name="icon_recently_used">@drawable/ic_recently_used_pos</item>
     </style>
 
     <!-- Toolbar -->

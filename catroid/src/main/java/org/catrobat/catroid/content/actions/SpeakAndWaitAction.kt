@@ -23,9 +23,11 @@
 
 package org.catrobat.catroid.content.actions
 
+import android.content.Context
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
 import org.catrobat.catroid.io.SoundManager
 import org.catrobat.catroid.stage.SpeechSynthesizer
+import org.catrobat.catroid.utils.MobileServiceAvailability
 
 private const val INIT_TIME = 0.0f
 private const val ERROR_DURATION = 0.0f
@@ -34,17 +36,25 @@ private const val SECOND_IN_MILLISECONDS = 1000
 class SpeakAndWaitAction : TemporalAction() {
     private var lengthOfText = 0f
     var synthesizingFinished = false
-    var speechSynthesizer: SpeechSynthesizer? = null
+    lateinit var mobileServiceAvailability: MobileServiceAvailability
+    lateinit var context: Context
+    lateinit var speechSynthesizer: SpeechSynthesizer
 
     override fun begin() {
         duration = Float.MAX_VALUE
-        speechSynthesizer?.setUtteranceProgressListener(this::onError, this::onDone)
-        speechSynthesizer?.synthesize()
+        if (mobileServiceAvailability.isGmsAvailable(context)) {
+            speechSynthesizer.setUtteranceProgressListener(this::onError, this::onDone)
+        } else if (mobileServiceAvailability.isHmsAvailable(context)) {
+            speechSynthesizer.setHuaweiTextToSpeechListener(this::onError, this::onDone)
+        } else {
+            return
+        }
+        speechSynthesizer.synthesize()
     }
 
     override fun update(delta: Float) {
         if (synthesizingFinished) {
-            SoundManager.getInstance().playSoundFile(speechSynthesizer?.speechFile?.absolutePath, speechSynthesizer?.scope?.sprite)
+            SoundManager.getInstance().playSoundFile(speechSynthesizer.speechFile?.absolutePath, speechSynthesizer.scope?.sprite)
             duration = lengthOfText / SECOND_IN_MILLISECONDS
             time = INIT_TIME
             synthesizingFinished = false
@@ -56,7 +66,7 @@ class SpeakAndWaitAction : TemporalAction() {
     }
 
     private fun onDone() {
-        lengthOfText = SoundManager.getInstance().getDurationOfSoundFile(speechSynthesizer?.speechFile?.absolutePath)
+        lengthOfText = SoundManager.getInstance().getDurationOfSoundFile(speechSynthesizer.speechFile?.absolutePath)
         synthesizingFinished = true
     }
 }

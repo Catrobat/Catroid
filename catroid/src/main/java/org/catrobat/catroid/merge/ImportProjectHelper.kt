@@ -22,12 +22,14 @@
  */
 package org.catrobat.catroid.merge
 
+import android.app.Activity
 import android.content.DialogInterface
+import android.text.SpannableStringBuilder
+import android.text.style.BulletSpan
 import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import org.catrobat.catroid.ProjectManager.checkForVariablesConflicts
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
@@ -43,29 +45,31 @@ import org.catrobat.catroid.utils.ToastUtil
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
-import android.text.style.BulletSpan
-
-import android.text.SpannableStringBuilder
 
 private val TAG = ImportProjectHelper::class.simpleName
 private const val DISPLAYED_CONFLICT_VARIABLE: Int = 3
 private const val GAP_WIDTH: Int = 15
 
 class ImportProjectHelper(
-    private val lookFileName: String,
-    private val currentScene: Scene,
-    private val context: AppCompatActivity
+    lookFileName: String,
+    currentScene: Scene,
+    private var context: Activity
 ) {
-
+    private var lookFileName: String? = lookFileName
+    private var currentScene: Scene? = currentScene
     private var newSprite: Sprite = Sprite("Sprite")
     private var spriteToAdd: Sprite? = null
     private var newProject: Project? = null
 
-    fun addObjectDataToSprite(): Sprite {
+    fun addObjectDataToNewSprite(spriteToAddTo: Sprite?): Sprite {
         copyFilesToSoundAndSpriteDir()
-        newSprite.replaceSpriteWithSprite(spriteToAdd)
-        newProject?.let { currentScene.project?.userLists?.addAll(it.userLists) }
-        newProject?.let { currentScene.project?.userVariables?.addAll(it.userVariables) }
+        if (spriteToAddTo == null) {
+            newSprite.replaceSpriteWithSprite(spriteToAdd)
+        } else {
+            spriteToAddTo.mergeSprites(spriteToAdd)
+        }
+        newProject?.let { currentScene?.project?.userLists?.addAll(it.userLists) }
+        newProject?.let { currentScene?.project?.userVariables?.addAll(it.userVariables) }
         return newSprite
     }
 
@@ -77,20 +81,20 @@ class ImportProjectHelper(
         }
 
         checkForVariablesConflicts(
-            currentScene.project?.userLists as List<Any>?,
+            currentScene?.project?.userLists as List<Any>?,
             spriteToAdd?.userLists as List<Any>?
         ).forEach { elem ->
             conflicts.add((elem as UserList).name)
         }
 
         checkForVariablesConflicts(
-            currentScene.project?.userVariables as List<Any>?,
+            currentScene?.project?.userVariables as List<Any>?,
             spriteToAdd?.userVariables as List<Any>?
         ).forEach { elem ->
             conflicts.add((elem as UserVariable).name)
         }
 
-        currentScene.project?.sceneList?.forEach { scene ->
+        currentScene?.project?.sceneList?.forEach { scene ->
             scene.spriteList?.forEach { sprite ->
                 checkForVariablesConflicts(
                     newProject?.userLists as List<Any>?,
@@ -112,11 +116,11 @@ class ImportProjectHelper(
 
     private fun copyFilesToSoundAndSpriteDir() {
         val imageDirectory = File(
-            currentScene.directory,
+            currentScene?.directory,
             Constants.IMAGE_DIRECTORY_NAME
         )
         val soundsDirectory = File(
-            currentScene.directory,
+            currentScene?.directory,
             Constants.SOUND_DIRECTORY_NAME
         )
 
@@ -195,7 +199,6 @@ class ImportProjectHelper(
 
     init {
         val resolvedName = StorageOperations.getSanitizedFileName(lookFileName)
-
         val project = getNewProject(resolvedName)
         val firstScene = project?.defaultScene
         if (project == null || firstScene!!.spriteList.size < 2) {

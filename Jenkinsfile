@@ -120,16 +120,26 @@ pipeline {
                                         }
                                     }
 
-                                    // Checks that the creation of standalone APKs (APK for a Pocketcode app) works, reducing the risk of breaking gradle changes.
-                                    // The resulting APK is not verified itself.
-                                    sh """./gradlew copyAndroidNatives assembleStandaloneDebug ${webTestUrlParameter()} -Papk_generator_enabled=true -Psuffix=generated817.catrobat \
-                                                -Pdownload='https://share.catrob.at/pocketcode/download/817.catrobat'"""
-
                                     // Build the flavors so that they can be installed next independently of older versions.
                                     sh "./gradlew ${webTestUrlParameter()} -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleCatroidDebug ${allFlavoursParameters()}"
 
                                     renameApks("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
                                     archiveArtifacts '**/*.apk'
+                                }
+                            }
+                        }
+
+                        stage('Standalone') {
+                            steps {
+                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+
+                                    // Checks that the creation of standalone APKs (APK for a Pocket Code project) works, reducing the risk of breaking gradle changes.
+                                    // The resulting APK is not verified itself.
+                                    sh """./gradlew copyAndroidNatives assembleStandaloneDebug ${webTestUrlParameter()} -Papk_generator_enabled=true -Psuffix=generated817.catrobat \
+                                                -Pdownload='https://share.catrob.at/pocketcode/download/817.catrobat'"""
+
+                                    renameApks("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
+                                    archiveArtifacts '**/catroid-standalone*.apk'
                                 }
                             }
                         }

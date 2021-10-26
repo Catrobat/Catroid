@@ -172,6 +172,7 @@ import org.catrobat.catroid.content.bricks.SetLookBrick
 import org.catrobat.catroid.content.bricks.SetLookByIndexBrick
 import org.catrobat.catroid.content.bricks.SetMassBrick
 import org.catrobat.catroid.content.bricks.SetNfcTagBrick
+import org.catrobat.catroid.content.bricks.SetParticleColorBrick
 import org.catrobat.catroid.content.bricks.SetPenColorBrick
 import org.catrobat.catroid.content.bricks.SetPenSizeBrick
 import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick
@@ -470,6 +471,7 @@ open class CategoryBricksFactory {
         looksBrickList.add(ChangeColorByNBrick(BrickValues.CHANGE_COLOR_BY))
         looksBrickList.add(FadeParticleEffectBrick())
         looksBrickList.add(ParticleEffectAdditivityBrick())
+        looksBrickList.add(SetParticleColorBrick(BrickValues.PARTICLE_COLOR))
         looksBrickList.add(ClearGraphicEffectBrick())
         looksBrickList.add(SetCameraFocusPointBrick())
         looksBrickList.add(WhenBackgroundChangesBrick())

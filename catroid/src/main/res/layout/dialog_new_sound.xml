@@ -42,18 +42,18 @@
             <TextView
                 android:id="@+id/dialog_new_sound_recorder"
                 android:background="@drawable/new_object_dialog_selector"
-                app:drawableTopCompat="@drawable/pc_toolbar_icon"
                 android:gravity="center"
                 android:text="@string/add_sound_from_recorder"
-                android:textSize="?attr/medium" />
+                android:textSize="?attr/medium"
+                app:drawableTopCompat="@drawable/ic_record_sound" />
 
             <TextView
                 android:id="@+id/dialog_new_sound_media_library"
                 android:background="@drawable/new_object_dialog_selector"
-                app:drawableTopCompat="@drawable/ic_media_library"
                 android:gravity="center"
                 android:text="@string/add_look_media_library"
-                android:textSize="?attr/medium" />
+                android:textSize="?attr/medium"
+                app:drawableTopCompat="@drawable/ic_media_library_sounds" />
         </TableRow>
 
         <TableRow
@@ -63,19 +63,19 @@
             <TextView
                 android:id="@+id/dialog_new_sound_gallery"
                 android:background="@drawable/new_object_dialog_selector"
-                app:drawableTopCompat="@drawable/ic_gallery"
                 android:gravity="center"
                 android:text="@string/add_sound_choose_file"
-                android:textSize="?attr/medium" />
+                android:textSize="?attr/medium"
+                app:drawableTopCompat="@drawable/ic_music_library" />
 
             <TextView
                 android:id="@+id/dialog_new_sound_pocketmusic"
                 android:background="@drawable/new_object_dialog_selector"
-                app:drawableTopCompat="@drawable/ic_pocketmusic"
                 android:gravity="center"
                 android:text="@string/add_sound_music"
                 android:textSize="?attr/medium"
-                android:visibility="gone" />
+                android:visibility="gone"
+                app:drawableTopCompat="@drawable/ic_music_composer" />
 
         </TableRow>
     </TableLayout>

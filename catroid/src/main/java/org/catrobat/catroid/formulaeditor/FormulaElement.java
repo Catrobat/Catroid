@@ -297,6 +297,66 @@ public class FormulaElement implements Serializable {
 		return element != null && element.containsSpriteInCollision(name);
 	}
 
+	public final void insertFlattenForAllUserLists(FormulaElement element, FormulaElement parent) {
+		if (element.leftChild != null) {
+			insertFlattenForAllUserLists(element.leftChild, element);
+		}
+		if (element.rightChild != null) {
+			insertFlattenForAllUserLists(element.rightChild, element);
+		}
+		for (FormulaElement child : element.additionalChildren) {
+			if (child != null) {
+				insertFlattenForAllUserLists(child, element);
+			}
+		}
+		if (element.type == ElementType.USER_LIST && isNotUserListFunction(parent)) {
+			insertFlattenBetweenParentAndElement(parent, element);
+		}
+	}
+
+	public boolean isNotUserListFunction(FormulaElement element) {
+		return element == null
+				|| element.type != ElementType.FUNCTION
+				|| (!element.value.equals(Functions.CONTAINS.name())
+				&& !element.value.equals(Functions.NUMBER_OF_ITEMS.name())
+				&& !element.value.equals(Functions.LIST_ITEM.name())
+				&& !element.value.equals(Functions.INDEX_OF_ITEM.name())
+				&& !element.value.equals(Functions.FLATTEN.name()));
+	}
+
+	public void insertFlattenBetweenParentAndElement(FormulaElement parent,
+			FormulaElement element) {
+		FormulaElement flatten = new FormulaElement(ElementType.FUNCTION,
+				Functions.FLATTEN.name(), parent);
+		insertElementBeforeChildInFormulaTree(parent, element, flatten);
+	}
+
+	private void insertElementBeforeChildInFormulaTree(FormulaElement parent, FormulaElement child,
+			FormulaElement elementToInsert) {
+		if (child == null || elementToInsert == null) {
+			return;
+		}
+
+		child.parent = elementToInsert;
+		elementToInsert.setLeftChild(child);
+
+		if (parent == null) {
+			return;
+		}
+
+		if (parent.leftChild == child) {
+			parent.leftChild = elementToInsert;
+		} else if (parent.rightChild == child) {
+			parent.rightChild = elementToInsert;
+		} else {
+			for (int i = 0; i < parent.additionalChildren.size(); i++) {
+				if (parent.additionalChildren.get(i) == child) {
+					parent.additionalChildren.set(i, elementToInsert);
+				}
+			}
+		}
+	}
+
 	private boolean matchesTypeAndName(ElementType queriedType, String name) {
 		return type == queriedType && value.equals(name);
 	}
@@ -420,7 +480,7 @@ public class FormulaElement implements Serializable {
 				return textBlockFunctionProvider.interpretFunctionTextBlockLanguage(Double.parseDouble(arguments.get(0).toString()));
 			case COLOR_EQUALS_COLOR:
 				return booleanToDouble(new ColorEqualsColor().tryInterpretFunctionColorEqualsColor(arguments.get(0), arguments.get(1),
-								arguments.get(2)));
+						arguments.get(2)));
 			default:
 				return interpretFormulaFunction(function, arguments);
 		}

@@ -56,8 +56,8 @@ import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.UNDO_CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 
 @RunWith(AndroidJUnit4.class)
@@ -127,7 +127,7 @@ public class ProjectExportTaskTest {
 
 			while (zipEntries.hasMoreElements()) {
 				fileName = ((ZipEntry) zipEntries.nextElement()).getName();
-				assertFalse(fileName.equals(UNDO_CODE_XML_FILE_NAME));
+				assertNotEquals(UNDO_CODE_XML_FILE_NAME, fileName);
 			}
 		} catch (IOException exception) {
 			Log.e(TAG, "Creating zip folder failed.", exception);

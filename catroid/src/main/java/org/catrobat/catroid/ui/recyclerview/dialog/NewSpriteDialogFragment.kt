@@ -92,7 +92,7 @@ class NewSpriteDialogFragment(
             ) { dialog: DialogInterface?, textInput: String? ->
 
                 if (isObject) {
-                    sprite = importProjectHelper!!.addObjectDataToSprite()
+                    sprite = importProjectHelper!!.addObjectDataToNewSprite(null)
                     sprite.rename(textInput)
                     currentScene.addSprite(sprite)
                 } else {

@@ -34,7 +34,6 @@ import org.catrobat.catroid.content.bricks.CompositeBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,6 +41,9 @@ import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
 import java.util.Set;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 
@@ -94,8 +96,8 @@ public class CompositeBrickWithSecondaryListBroadcastMessageTest {
 	@Test
 	public void testCorrectBroadcastMessages() {
 		Set<String> usedMessages = scene.getBroadcastMessagesInUse();
-		Assert.assertTrue(usedMessages.contains(FIRST_MESSAGE));
-		Assert.assertTrue(usedMessages.contains(SECOND_MESSAGE));
-		Assert.assertTrue(usedMessages.size() == 2);
+		assertTrue(usedMessages.contains(FIRST_MESSAGE));
+		assertTrue(usedMessages.contains(SECOND_MESSAGE));
+		assertEquals(2, usedMessages.size());
 	}
 }
