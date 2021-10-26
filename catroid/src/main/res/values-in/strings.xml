@@ -26,25 +26,26 @@
     <string name="stage">Tahap</string>
     <string name="play">Mainkan</string>
     <string name="settings">Pengaturan</string>
-    <string name="redo" tools:ignore="UnusedResources">Ulangi</string>
-    <string name="undo" tools:ignore="UnusedResources">Urung</string>
+    <string name="redo">Ulangi</string>
+    <string name="undo">Urung</string>
     <string name="new_option">Baru&#8230;</string>
     <string name="edit_option">edit&#8230;</string>
     <string name="confirm">Konfirmasi</string>
     <string name="ignore">Mengabaikan</string>
-    <string name="cancel">Batalkan</string>
-    <string name="save">Simpan</string>
+    <string name="cancel">Membatalkan</string>
+    <string name="save">Menyimpan</string>
     <string name="discard">Singkirkan</string>
     <string name="next">Lanjut</string>
     <string name="ok">Oke</string>
     <string name="done">Selesai</string>
-    <string name="close" tools:ignore="UnusedResources">Tutup</string>
+    <string name="close">Tutup</string>
     <string name="assistant">Asisten</string>
     <string name="yes">Ya</string>
     <string name="no">Tidak</string>
     <string name="once">Sekali</string>
     <string name="always">Selalu</string>
     <string name="deny">Menyangkal</string>
+    <string name="do_not_show_again">JANGAN TUNJUKKAN LAGI</string>
     <string name="accept">Menerima</string>
     <string name="decline">Menurun</string>
     <string name="select_all">Pilih Semua</string>
@@ -54,7 +55,7 @@
     <string name="error">Kesalahan</string>
     <string name="loading">Memuat&#8230;</string>
     <string name="please_wait">Mohon tungggu</string>
-    <string name="search_hint">Pencarian&#8230;</string>
+    <string name="search_hint">Pencarian…</string>
     <string name="backpack_add">Tambahkan ke ransel</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Security warning dialog -->
@@ -77,8 +78,8 @@
     <string name="loading_google_exchange_code">Bertukar data login Google&#8230;</string>
     <string name="loading_google_login">Login Google di server kami selesai&#8230;</string>
     <string name="logout_successful">Berhasil keluar</string>
-    <string name="degrees" tools:ignore="UnusedResources">derajat</string>
-    <string name="background" tools:ignore="UnusedResources">Latar belakang</string>
+    <string name="degrees">derajat</string>
+    <string name="background">Latar belakang</string>
     <string name="landscape">mendatar</string>
     <string name="portrait">tegak</string>
     <string name="unknown">tidak diketahui</string>
@@ -88,14 +89,14 @@
     <string name="main_menu_continue">Lanjutkan proyek</string>
     <string name="main_menu_new">Proyek baru</string>
     <string name="main_menu_programs">Program</string>
-    <string name="main_menu_help" tools:ignore="UnusedResources">Bantuan</string>
+    <string name="main_menu_help">Membantu</string>
     <string name="main_menu_web">Komunitas Catrobat</string>
-    <string name="main_menu_upload">Mengunggah Program</string>
+    <string name="main_menu_upload">Unggah proyek</string>
     <string name="main_menu_rate_app">Nilai kami!</string>
     <string name="main_menu_terms_of_use">Syarat Penggunaan dan Layanan</string>
     <string name="main_menu_privacy_policy">Kebijakan privasi</string>
     <string name="main_menu_about">Tentang aplikasi ini</string>
-    <string name="main_menu_login">Masuk</string>
+    <string name="main_menu_login">Gabung</string>
     <string name="main_menu_logout">Logout</string>
     <string name="main_menu_scratch_converter">Konverter Scratch</string>
     <string name="main_menu_play_store_not_installed">App store tidak ditemukan</string>
@@ -117,6 +118,27 @@
     <string name="preference_title_web_access">akses web</string>
     <string name="preference_description_web_access">Edit untuk menambah atau menghapus domain tepercaya</string>
     <string name="preference_screen_web_access_title">Edit domain tepercaya</string>
+    <string name="preference_title_ai">Ekstensi kecerdasan buatan (AI)</string>
+    <string name="preference_description_ai">Aktifkan batu bata dan sensor AI</string>
+    <string name="preference_title_ai_speech_recognition">Pidato
+        pengakuan</string>
+    <string name="preference_description_ai_speech_recognition">Memungkinkan
+        batu bata dan sensor pengenalan suara</string>
+    <string name="preference_title_ai_speech_synthetization">Pidato
+        sintesis</string>
+    <string name="preference_description_ai_speech_synthetization">Memungkinkan
+        batu bata dan sensor sintesis ucapan</string>
+    <string name="preference_title_ai_face_detection">Wajah
+        deteksi</string>
+    <string name="preference_description_ai_face_detection">Memungkinkan
+        batu bata dan sensor pendeteksi wajah</string>
+    <string name="preference_title_ai_pose_detection">Deteksi pose</string>
+    <string name="preference_description_ai_pose_detection">Memungkinkan
+        batu bata dan sensor pendeteksi pose</string>
+    <string name="preference_title_ai_text_recognition">Teks
+        pengakuan</string>
+    <string name="preference_description_ai_text_recognition">Memungkinkan
+        batu bata dan sensor pengenalan teks</string>
     <string name="preference_title_accessibility">Aksesibilitas</string>
     <string name="preference_description_accessibility">Ubah tampilan aplikasi</string>
     <string name="preference_title_accessibility_profiles">Profil aksesibilitas</string>
@@ -297,25 +319,27 @@
     <string name="name_empty">Harap masukkan teks</string>
     <!-- Recycler View -->
     <string name="am_empty_list">Belum ada item dalam daftar ini. Tolong tambahkan dulu.</string>
+    <string name="reject_import">Aktor atau objek tidak dapat ditambahkan.</string>
     <string name="am_merge_error">Tidak ada penggabungan yang dilakukan. Tepat 2 proyek harus dipilih untuk digabungkan.</string>
     <string name="am_backpack">Paket</string>
-    <string name="am_unpack">Membuka</string>
-    <string name="am_copy">Salin</string>
-    <string name="am_delete" tools:ignore="UnusedResources">Hapus</string>
-    <string name="am_rename">Menamai ulang</string>
-    <string name="am_convert">Konversi</string>
+    <string name="am_unpack">Membongkar</string>
+    <string name="am_copy">Salinan</string>
+    <string name="am_delete">Menghapus</string>
+    <string name="am_rename">Ganti nama</string>
+    <string name="am_convert">Mengubah</string>
     <string name="am_merge">Menggabungkan</string>
     <string name="dialog_confirm_delete">Anda tidak dapat membatalkan ini!</string>
     <string name="list_headline_sprites">Aktor dan objek</string>
     <!-- Options Menu Options -->
     <string name="backpack">Ransel</string>
-    <string name="copy">Salin</string>
-    <string name="delete">Hapus</string>
-    <string name="rename">Menamai ulang</string>
+    <string name="copy">Salinan</string>
+    <string name="delete">Menghapus</string>
+    <string name="rename">Ganti nama</string>
     <string name="merge">Menggabungkan</string>
     <string name="show_details">Tampilkan rincian</string>
     <string name="hide_details">Sembunyikan rincian</string>
     <string name="project_options">Opsi proyek</string>
+    <string name="from_library">Tambahkan dari perpustakaan</string>
     <string name="sort_projects">Menyortir</string>
     <string name="unsort_projects">Batalkan pengurutan</string>
     <!-- New Dialog Titles -->
@@ -356,6 +380,11 @@
     <string name="keyword_label">Sisipkan kata kunci</string>
     <string name="html_label">Sisipkan teks HTML</string>
     <string name="Image_format_not_supported">Format gambar tidak didukung</string>
+    <string name="import_conflicting_variables">Aktor atau objek tidak dapat ditambahkan.</string>
+    <string name="import_conflicting_variables_reason">Alasannya adalah bahwa variabel berikut atau
+        nama daftar bertentangan karena digunakan untuk
+        semua aktor dan objek dan dengan nama yang sama juga hanya untuk salah satu aktor atau objek: </string>
+    <string name="import_conflicting_variables_try_again">Harap ganti nama salah satu variabel atau daftar ini dan coba lagi.</string>
     <!-- Details -->
     <string name="project_details">Akses terakhir: %s, ukuran: %s</string>
     <string name="last_access_today">hari ini, %s</string>
@@ -372,7 +401,7 @@
     <string name="rename_look_dialog">Mengubah nama tampilan</string>
     <string name="rename_sound_dialog">Ubah nama suara</string>
     <string name="rename_nfctag_dialog">Ganti nama tag NFC</string>
-    <string name="rename_data_dialog">Menamai ulang</string>
+    <string name="rename_data_dialog">Ganti nama</string>
     <!-- New Script Group Dialog -->
     <string name="new_group">Grup baru</string>
     <string name="default_group_name">Kelompok</string>
@@ -380,6 +409,7 @@
     <string name="new_scene">Adegan baru</string>
     <!-- Action Toasts -->
     <!-- Backpack -->
+    <string name="backpack_empty">Ransel kosong. Tidak ada yang perlu dibongkar.</string>
     <plurals name="packed_scenes">
         <item quantity="other">Mengembalikan %d adegan.</item>
     </plurals>
@@ -450,6 +480,10 @@
     <plurals name="deleted_Items">
         <item quantity="other">Menghapus %d item.</item>
     </plurals>
+    <!-- Imported -->
+    <plurals name="imported_projects">
+        <item quantity="other">%d proyek yang diimpor.</item>
+    </plurals>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">Program</string>
@@ -462,10 +496,11 @@
     <string name="details_date_today">Hari ini</string>
     <string name="import_project">Proyek impor</string>
     <string name="error_import_project">Ada yang tidak beres saat mengimpor proyek.</string>
+    <string name="no_projects_selected">Tidak ada proyek yang dipilih untuk diimpor</string>
     <string name="error_no_files_found">Tidak ada file proyek yang ditemukan.</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Keterangan</string>
-    <string name="project_options_notes_and_credits">Credits</string>
+    <string name="project_options_notes_and_credits">Catatan dan kredit</string>
     <string name="project_options_tags">Label</string>
     <string name="project_options_aspect_ratio">Pertahankan rasio aspek asli</string>
     <string name="project_options_more_details">Keterangan lebih lanjut</string>
@@ -488,10 +523,10 @@
     <!--  -->
     <!-- NfcTagListFragment -->
     <string name="fragment_nfctag_text_description">Pindai tag NFC untuk menambahkannya</string>
-    <string name="ndef_record_label" tools:ignore="UnusedResources">sebagai tipe rekaman</string>
-    <string name="brick_set_nfc_tag" tools:ignore="UnusedResources">Tetapkan tag NFC berikutnya ke</string>
+    <string name="ndef_record_label">sebagai tipe rekaman</string>
+    <string name="brick_set_nfc_tag">Tetapkan tag NFC berikutnya ke</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
-    <string name="default_tag_name">nfc_tag</string>
+    <string name="default_tag_name">Tanda NFC</string>
     <string name="tnf_empty">Kosong</string>
     <string name="tnf_external_type">Tipe eksternal</string>
     <string name="tnf_mime_media">Teks</string>
@@ -499,7 +534,7 @@
     <string name="tnf_well_known_https">HTTPS</string>
     <string name="tnf_well_known_tel">Nomor telepon</string>
     <string name="tnf_well_known_sms">SMS</string>
-    <string name="tnf_well_known_mailto">E-mail</string>
+    <string name="tnf_well_known_mailto">Surel</string>
     <!--  -->
     <!-- DataListFragment -->
     <string name="multiplayer_vars_headline">Variabel untuk perangkat yang terhubung</string>
@@ -534,6 +569,7 @@
     <!-- NewLookDialog -->
     <string name="new_look_dialog_title">Tambahkan tampilan</string>
     <string name="add_look_from_camera">Ambil gambar</string>
+    <string name="add_look_object_library">Perpustakaan</string>
     <string name="add_look_draw_new_image">Membuat gambar</string>
     <string name="add_look_choose_image">Pilih gambar</string>
     <string name="add_look_media_library">Perpustakaan media</string>
@@ -603,7 +639,7 @@
     <string name="brick_context_dialog_move_brick">Pindahkan bata</string>
     <string name="brick_context_dialog_move_script">Pindahkan skrip</string>
     <string name="brick_context_dialog_move_definition">Pindahkan definisi ini</string>
-    <string name="brick_context_dialog_delete_brick" tools:ignore="UnusedResources">Hapus bata</string>
+    <string name="brick_context_dialog_delete_brick">Hapus bata</string>
     <string name="brick_context_dialog_copy_brick">Salin batu bata</string>
     <string name="brick_context_dialog_copy_script">Salin skrip</string>
     <string name="brick_context_dialog_formula_edit_brick">Edit rumus</string>
@@ -614,11 +650,11 @@
     <string name="brick_context_dialog_highlight_brick_parts">Sorot bagian bata</string>
     <string name="brick_context_dialog_comment_in_script">Aktifkan skrip</string>
     <string name="brick_context_dialog_comment_out_script">Nonaktifkan skrip</string>
-    <string name="brick_context_dialog_help">Bantuan</string>
+    <string name="brick_context_dialog_help">Membantu</string>
     <string name="comment_in_out">Menonaktifkan/Mengaktifkan</string>
     <string name="catblocks">Alihkan 2D</string>
     <string name="catblocks_reorder">Bersihkan skrip</string>
-    <string name="switch_to_1d" tools:ignore="UnusedResources">Tampilan 1D</string>
+    <string name="switch_to_1d">Tampilan 1D</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">Bermain adegan:</string>
@@ -631,11 +667,11 @@
     <string name="password">Kata sandi</string>
     <string name="reset_password">Setel ulang kata sandi</string>
     <string name="new_user_registered">Account baru telah dibuat</string>
-    <string name="user_logged_in">Berhasil masuk</string>
+    <string name="user_logged_in">Login berhasil</string>
     <string name="register_error">Login tidak valid</string>
-    <string name="register_terms">Dengan mendaftar, Anda setuju dengan</string>
+    <string name="register_terms">Dengan mendaftar Anda setuju dengan kami</string>
     <string name="register_code_terms_of_use_text">Syarat Penggunaan dan Layanan</string>
-    <string name="login">Masuk</string>
+    <string name="login">Gabung</string>
     <string name="register">Daftar</string>
     <string name="password_confirm">Konfirmasi kata sandi</string>
     <string name="accountName">E-mail</string>
@@ -678,13 +714,14 @@
     <string name="prestage_resource_not_available_text">Sayangnya proyek ini tidak berfungsi di perangkat Anda.
         Komponen berikut tidak tersedia:\n\n</string>
     <string name="prestage_no_vibration_available">\u2022 Getaran\n</string>
-    <string name="prestage_no_acceleration_sensor_available">\\2022 Sensor akselerasi \n</string>
+    <string name="prestage_no_acceleration_sensor_available">\u2022 Sensor akselerasi \n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Sensor inklinasi \n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 Kompas \n</string>
     <string name="prestage_no_gps_sensor_available">\u2022 GPS \n</string>
-    <string name="prestage_text_to_speech_error">\n2022 Mesin Text-To-Speech \n</string>
+    <string name="prestage_text_to_speech_error">\u2022 Mesin Text-To-Speech \n</string>
     <string name="prestage_no_back_camera_available">\u2022 Kamera belakang\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Deteksi wajah\n</string>
+    <string name="prestage_no_pose_detection_available">\u2022 Deteksi pose\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Deteksi teks\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Kamera depan\n</string>
     <string name="prestage_no_camera_available">\u2022 Kamera\n</string>
@@ -701,7 +738,7 @@
     <string name="stage_dialog_restart">Restart</string>
     <string name="stage_dialog_axes_on">Sumbu pada</string>
     <string name="stage_dialog_axes_off">Axes mati</string>
-    <string name="stage_dialog_maximize">Memaksimalkan \nStretch</string>
+    <string name="stage_dialog_maximize">Memaksimalkan /\nStretch</string>
     <string name="stage_dialog_screenshot">Pratinjau</string>
     <string name="stage_dialog_embroidery">Sulaman</string>
     <!--  -->
@@ -715,26 +752,27 @@
     <string name="brick_when_nfc_default_all">semua</string>
     <!-- -->
     <!-- Brick categories -->
-    <string name="categories" tools:ignore="UnusedResources">Kategori</string>
-    <string name="category_embroidery" tools:ignore="UnusedResources">Sulaman</string>
-    <string name="category_motion" tools:ignore="UnusedResources">Gerak</string>
-    <string name="category_looks" tools:ignore="UnusedResources">Tampilan</string>
-    <string name="category_pen" tools:ignore="UnusedResources">Pena</string>
-    <string name="category_sound" tools:ignore="UnusedResources">Suara</string>
-    <string name="category_control" tools:ignore="UnusedResources">Kontrol</string>
-    <string name="category_event" tools:ignore="UnusedResources">Peristiwa</string>
-    <string name="category_user_bricks" tools:ignore="UnusedResources">Batu bata Anda</string>
-    <string name="category_data" tools:ignore="UnusedResources">Data</string>
-    <string name="category_device" tools:ignore="UnusedResources">Alat</string>
-    <string name="category_lego_nxt" tools:ignore="UnusedResources">Lego NXT</string>
-    <string name="category_lego_ev3" tools:ignore="UnusedResources">Lego EV3</string>
-    <string name="category_drone" tools:ignore="UnusedResources">AR.Drone 2.0</string>
-    <string name="category_jumping_sumo" tools:ignore="UnusedResources">Lompati semo</string>
-    <string name="category_phiro" tools:ignore="UnusedResources">Phiro</string>
-    <string name="category_arduino" tools:ignore="UnusedResources">Arduino</string>
-    <string name="category_cast" tools:ignore="UnusedResources">Melemparkan</string>
-    <string name="category_raspi" tools:ignore="UnusedResources">Raspberry Pi</string>
-    <string name="category_assertions" tools:ignore="UnusedResources">Pengujian</string>
+    <string name="categories">Kategori</string>
+    <string name="category_embroidery">Sulaman</string>
+    <string name="category_motion">Gerak</string>
+    <string name="category_looks">terlihat</string>
+    <string name="category_pen">Pena</string>
+    <string name="category_sound">Suara</string>
+    <string name="category_control">Kontrol</string>
+    <string name="category_event">Peristiwa</string>
+    <string name="category_user_bricks">Batu bata Anda</string>
+    <string name="category_data">Data</string>
+    <string name="category_device">Alat</string>
+    <string name="category_lego_nxt">Lego NXT</string>
+    <string name="category_lego_ev3">Lego EV3</string>
+    <string name="category_drone">AR.Drone 2.0</string>
+    <string name="category_jumping_sumo">Lompati semo</string>
+    <string name="category_phiro">Phiro</string>
+    <string name="category_arduino">Arduino</string>
+    <string name="category_cast">Melemparkan</string>
+    <string name="category_raspi">Raspberry Pi</string>
+    <string name="category_assertions">Pengujian</string>
+    <string name="category_search_bricks">Cari Batu Bata</string>
     <!--  -->
     <!-- User Defined Bricks -->
     <string name="brick_user_defined_add_label">Tambahkan label</string>
@@ -744,213 +782,216 @@
     <string name="brick_user_defined_default_input_name">Nama masukan</string>
     <string name="brick_user_defined_default_label">Beri label teks</string>
     <string name="brick_user_defined_already_exists">Batu bata dengan label ini sudah ada. Harap tambahkan lebih banyak label atau masukan.</string>
-    <string name="brick_user_defined_script_define" tools:ignore="UnusedResources">Menetapkan</string>
-    <string name="brick_user_defined_script_as" tools:ignore="UnusedResources">sebagai</string>
+    <string name="brick_user_defined_script_define">Menetapkan</string>
+    <string name="brick_user_defined_script_as">sebagai</string>
     <string name="brick_user_defined_list_empty">Ketuk \"+\" untuk menambahkan bata baru Anda sendiri.</string>
-    <string name="brick_report" tools:ignore="UnusedResources">Laporkan</string>
+    <string name="brick_report">Laporkan</string>
     <!--  -->
     <!-- Motion bricks -->
-    <string name="brick_place_at" tools:ignore="UnusedResources">"Tempatkan di "</string>
+    <string name="brick_place_at">"Tempatkan di "</string>
     <string name="brick_option_place_visually">Tempatkan secara visual</string>
-    <string name="x_label" tools:ignore="UnusedResources">"X: "</string>
-    <string name="y_label" tools:ignore="UnusedResources">"Y: "</string>
-    <string name="brick_set_x" tools:ignore="UnusedResources">"Set X ke "</string>
-    <string name="brick_set_y" tools:ignore="UnusedResources">"Set Y ke "</string>
-    <string name="brick_change_x_by" tools:ignore="UnusedResources">"Ubah X dengan "</string>
-    <string name="brick_change_y_by" tools:ignore="UnusedResources">"Ubah Y dengan "</string>
-    <string name="brick_go_back" tools:ignore="UnusedResources">Kembali</string>
-    <string name="brick_set_rotation_style" tools:ignore="UnusedResources">"Atur gaya rotasi "</string>
-    <string name="brick_set_rotation_style_lr" tools:ignore="UnusedResources">kiri kanan saja</string>
-    <string name="brick_set_rotation_style_normal" tools:ignore="UnusedResources">semuanya</string>
-    <string name="brick_set_rotation_style_no" tools:ignore="UnusedResources">jangan memutar</string>
+    <string name="x_label">"X: "</string>
+    <string name="y_label">"Y: "</string>
+    <string name="brick_set_x">"Set X ke "</string>
+    <string name="brick_set_y">"Set Y ke "</string>
+    <string name="brick_change_x_by">"Ubah X dengan "</string>
+    <string name="brick_change_y_by">"Ubah Y dengan "</string>
+    <string name="brick_go_back">Kembali</string>
+    <string name="brick_set_rotation_style">"Atur gaya rotasi "</string>
+    <string name="brick_set_rotation_style_lr">kiri kanan saja</string>
+    <string name="brick_set_rotation_style_normal">semuanya</string>
+    <string name="brick_set_rotation_style_no">jangan memutar</string>
     <plurals name="brick_go_back_layer_plural">
         <item quantity="other">lapisan</item>
     </plurals>
-    <string name="brick_come_to_front" tools:ignore="UnusedResources">Pergi ke depan</string>
-    <string name="brick_if_on_edge_bounce" tools:ignore="UnusedResources">Jika pada tepi, lompat</string>
-    <string name="brick_move" tools:ignore="UnusedResources">Pindah</string>
+    <string name="brick_come_to_front">Pergi ke depan</string>
+    <string name="brick_if_on_edge_bounce">Jika pada tepi, lompat</string>
+    <string name="brick_move">Pindah</string>
     <plurals name="brick_move_n_step_plural">
         <item quantity="other">langkah</item>
     </plurals>
-    <string name="brick_turn_left" tools:ignore="UnusedResources">Belok kiri</string>
-    <string name="brick_turn_right" tools:ignore="UnusedResources">Belok kanan</string>
-    <string name="brick_point_in_direction" tools:ignore="UnusedResources">Menunjukkan arah</string>
-    <string name="brick_point_to" tools:ignore="UnusedResources">Menunjuk ke arah</string>
-    <string name="brick_glide" tools:ignore="UnusedResources">Meluncur</string>
-    <string name="brick_glide_to_x" tools:ignore="UnusedResources">ke X:</string>
-    <string name="brick_go_to" tools:ignore="UnusedResources">Pergi ke</string>
+    <string name="brick_turn_left">Belok kiri</string>
+    <string name="brick_turn_right">Belok kanan</string>
+    <string name="brick_point_in_direction">Menunjukkan arah</string>
+    <string name="brick_point_to">Menunjuk ke arah</string>
+    <string name="brick_glide">Meluncur</string>
+    <string name="brick_glide_to_x">ke X:</string>
+    <string name="brick_go_to">Pergi ke</string>
     <string name="brick_go_to_touch_position">Sentuh posisi</string>
     <string name="brick_go_to_random_position">Posisi acak</string>
     <!--  -->
     <!-- Physics -->
-    <string name="brick_set_physics_object_type" tools:ignore="UnusedResources">Tetapkan jenis gerak ke</string>
-    <string name="brick_set_physics_object_type_dynamic" tools:ignore="UnusedResources">terpental dengan gravitasi</string>
-    <string name="brick_set_physics_object_type_fixed" tools:ignore="UnusedResources">yang lain memantulinya</string>
-    <string name="brick_set_physics_object_type_no" tools:ignore="UnusedResources">tidak terpental</string>
-    <string name="brick_set_mass" tools:ignore="UnusedResources">"Atur massa ke "</string>
-    <string name="brick_set_mass_unit" tools:ignore="UnusedResources">kilogram</string>
-    <string name="brick_set_gravity_to" tools:ignore="UnusedResources">"Atur gravitasi untuk semua objek "</string>
-    <string name="brick_set_gravity_unit" tools:ignore="UnusedResources">langkah/detik²</string>
-    <string name="brick_set_velocity_to" tools:ignore="UnusedResources">"Tetapkan kecepatan ke "</string>
-    <string name="brick_set_velocity_unit" tools:ignore="UnusedResources">langkah/detik</string>
-    <string name="brick_turn_speed_unit" tools:ignore="UnusedResources">derajat/detik</string>
-    <string name="brick_set_friction" tools:ignore="UnusedResources">"Atur gesekan ke "</string>
-    <string name="brick_set_bounce_factor" tools:ignore="UnusedResources">"Tetapkan faktor pentalan ke "</string>
-    <string name="brick_rotate_left" tools:ignore="UnusedResources">"Putar ke kiri "</string>
-    <string name="brick_rotate_right" tools:ignore="UnusedResources">"Putar ke kanan "</string>
+    <string name="brick_set_physics_object_type">Tetapkan jenis gerak ke</string>
+    <string name="brick_set_physics_object_type_dynamic">terpental dengan gravitasi</string>
+    <string name="brick_set_physics_object_type_fixed">yang lain memantulinya</string>
+    <string name="brick_set_physics_object_type_no">tidak terpental</string>
+    <string name="brick_set_mass">"Atur massa ke "</string>
+    <string name="brick_set_mass_unit">kilogram</string>
+    <string name="brick_set_gravity_to">"Atur gravitasi untuk semua objek "</string>
+    <string name="brick_set_gravity_unit">langkah/detik²</string>
+    <string name="brick_set_velocity_to">"Tetapkan kecepatan ke "</string>
+    <string name="brick_set_velocity_unit">langkah/detik</string>
+    <string name="brick_turn_speed_unit">derajat/detik</string>
+    <string name="brick_set_friction">"Atur gesekan ke "</string>
+    <string name="brick_set_bounce_factor">"Tetapkan faktor pentalan ke "</string>
+    <string name="brick_rotate_left">"Putar ke kiri "</string>
+    <string name="brick_rotate_right">"Putar ke kanan "</string>
     <!-- Look bricks -->
-    <string name="brick_set_look" tools:ignore="UnusedResources">Beralih ke tampilan</string>
-    <string name="brick_set_look_by_index" tools:ignore="UnusedResources">Beralih untuk melihat dengan nomor</string>
+    <string name="brick_set_look">Beralih ke tampilan</string>
+    <string name="brick_set_look_by_index">Beralih untuk melihat dengan nomor</string>
     <string name="brick_and_wait">dan tunggu</string>
-    <string name="brick_set_background" tools:ignore="UnusedResources">Atur Latarbelakang</string>
-    <string name="brick_set_background_and_wait" tools:ignore="UnusedResources">Atur latar belakang dan tunggu</string>
-    <string name="brick_set_background_by_index" tools:ignore="UnusedResources">Tetapkan latar belakang nomor</string>
-    <string name="brick_when_background" tools:ignore="UnusedResources">Saat latar belakang berubah</string>
-    <string name="brick_set_size_to" tools:ignore="UnusedResources">Atur ukuran ke</string>
-    <string name="brick_change_size_by" tools:ignore="UnusedResources">Ubah ukuran menjadi</string>
-    <string name="brick_hide" tools:ignore="UnusedResources">Sembunyi</string>
-    <string name="brick_show" tools:ignore="UnusedResources">Tampilkan</string>
-    <string name="brick_set_transparency" tools:ignore="UnusedResources">"Atur transparansi "</string>
-    <string name="brick_change_ghost_effect" tools:ignore="UnusedResources">"Ubah transparasi "</string>
-    <string name="brick_set_brightness" tools:ignore="UnusedResources">"Atur kecerahan "</string>
-    <string name="brick_change_brightness" tools:ignore="UnusedResources">"Ubah kecerahan "</string>
-    <string name="brick_set_color" tools:ignore="UnusedResources">"Atur warna "</string>
-    <string name="brick_change_color" tools:ignore="UnusedResources">"Ganti warna "</string>
-    <string name="by_label" tools:ignore="UnusedResources">oleh</string>
-    <string name="to_label" tools:ignore="UnusedResources">untuk</string>
-    <string name="brick_clear_graphic_effect" tools:ignore="UnusedResources">Hapus efek grafik</string>
-    <string name="brick_next_look" tools:ignore="UnusedResources">Tampilan berikutnya</string>
+    <string name="brick_set_background">Atur Latarbelakang</string>
+    <string name="brick_set_background_and_wait">Atur latar belakang dan tunggu</string>
+    <string name="brick_set_background_by_index">Tetapkan latar belakang nomor</string>
+    <string name="brick_when_background">Saat latar belakang berubah</string>
+    <string name="brick_set_size_to">Atur ukuran ke</string>
+    <string name="brick_change_size_by">Ubah ukuran menjadi</string>
+    <string name="brick_hide">Sembunyi</string>
+    <string name="brick_show">Tampilkan</string>
+    <string name="brick_set_transparency">"Atur transparansi "</string>
+    <string name="brick_change_ghost_effect">"Ubah transparasi "</string>
+    <string name="brick_set_brightness">"Atur kecerahan "</string>
+    <string name="brick_change_brightness">"Ubah kecerahan "</string>
+    <string name="brick_set_color">"Atur warna "</string>
+    <string name="brick_change_color">"Ganti warna "</string>
+    <string name="by_label">oleh</string>
+    <string name="to_label">untuk</string>
+    <string name="brick_clear_graphic_effect">Hapus efek grafik</string>
+    <string name="brick_next_look">Tampilan berikutnya</string>
     <string name="brick_next_background">Latar belakang berikutnya</string>
-    <string name="brick_previous_look" tools:ignore="UnusedResources">Tampilan sebelumnya</string>
+    <string name="brick_previous_look">Tampilan sebelumnya</string>
     <string name="brick_previous_background">Latar belakang sebelumnya</string>
-    <string name="brick_edit_look" tools:ignore="UnusedResources">Edit tampilan</string>
+    <string name="brick_edit_look">Edit tampilan</string>
     <string name="brick_edit_background">Edit latar belakang</string>
-    <string name="brick_delete_look" tools:ignore="UnusedResources">Hapus tampilan</string>
+    <string name="brick_delete_look">Hapus tampilan</string>
     <string name="brick_delete_background">Hapus latar belakang</string>
-    <string name="brick_flash" tools:ignore="UnusedResources">Putar senter</string>
-    <string name="brick_flash_on" tools:ignore="UnusedResources">aktif</string>
-    <string name="brick_flash_off" tools:ignore="UnusedResources">mati</string>
-    <string name="brick_vibration" tools:ignore="UnusedResources">Bergetar untuk</string>
-    <string name="brick_ask_label" tools:ignore="UnusedResources">Meminta</string>
-    <string name="brick_ask_store" tools:ignore="UnusedResources">dan menyimpan jawaban tertulis di</string>
+    <string name="brick_flash">Putar senter</string>
+    <string name="brick_flash_on">aktif</string>
+    <string name="brick_flash_off">mati</string>
+    <string name="brick_vibration">Bergetar untuk</string>
+    <string name="brick_ask_label">Meminta</string>
+    <string name="brick_ask_store">dan menyimpan jawaban tertulis di</string>
     <string name="brick_ask_default_question">Siapa namamu?</string>
     <string name="brick_ask_dialog_hint">"Masukkan jawaban Anda:"</string>
     <string name="brick_ask_dialog_submit">Kirim jawaban</string>
-    <string name="brick_ask_speech_label" tools:ignore="UnusedResources">Tanya</string>
-    <string name="brick_ask_speech_store" tools:ignore="UnusedResources">dan menyimpan jawaban lisan di</string>
+    <string name="brick_ask_speech_label">Tanya</string>
+    <string name="brick_ask_speech_store">dan menyimpan jawaban lisan di</string>
     <string name="brick_ask_speech_default_question">Siapa namamu?</string>
-    <string name="brick_paint_new_look" tools:ignore="UnusedResources">Cat tampilan baru</string>
+    <string name="brick_paint_new_look">Cat tampilan baru</string>
     <string name="brick_paint_new_background">Lukis latar belakang baru</string>
     <string name="brick_paint_new_look_name">"nama tampilan baru"</string>
-    <string name="brick_copy_look" tools:ignore="UnusedResources">Salin tampilan dan beri nama</string>
+    <string name="brick_copy_look">Salin tampilan dan beri nama</string>
     <string name="brick_copy_look_name">nama tampilan yang disalin</string>
     <string name="brick_copy_background">Salin latar belakang dan beri nama</string>
+    <string name="brick_focus_point">Menjadi titik fokus dengan</string>
+    <string name="brick_horizontal_and">horisontal dan</string>
+    <string name="brick_vertical_flex">fleksibilitas vertikal</string>
     <!--  -->
     <!-- Pen bricks -->
-    <string name="brick_pen_down" tools:ignore="UnusedResources">Pen bawah</string>
-    <string name="brick_pen_up" tools:ignore="UnusedResources">Pen atas</string>
-    <string name="brick_pen_size" tools:ignore="UnusedResources">Tetapkan ukuran pena ke</string>
-    <string name="brick_pen_color" tools:ignore="UnusedResources">Tetapkan warna pena</string>
-    <string name="brick_clear_background" tools:ignore="UnusedResources">Bersih</string>
-    <string name="brick_stamp" tools:ignore="UnusedResources">Stempel</string>
+    <string name="brick_pen_down">Pen bawah</string>
+    <string name="brick_pen_up">Pen atas</string>
+    <string name="brick_pen_size">Tetapkan ukuran pena ke</string>
+    <string name="brick_pen_color">Tetapkan warna pena</string>
+    <string name="brick_clear_background">Bersih</string>
+    <string name="brick_stamp">Stempel</string>
     <!--  -->
     <!-- Sound bricks -->
-    <string name="brick_play_sound" tools:ignore="UnusedResources">Mulai suara</string>
-    <string name="brick_play_sound_and_wait" tools:ignore="UnusedResources">Mulai suara dan tunggu</string>
-    <string name="brick_stop_sound" tools:ignore="UnusedResources">Hentikan suara</string>
-    <string name="brick_stop_all_sounds" tools:ignore="UnusedResources">Hentikan semua suara</string>
-    <string name="brick_set_volume_to" tools:ignore="UnusedResources">Atur volume</string>
-    <string name="brick_change_volume_by" tools:ignore="UnusedResources">Mengubah volume oleh</string>
-    <string name="brick_speak" tools:ignore="UnusedResources">Berbicara</string>
+    <string name="brick_play_sound">Mulai suara</string>
+    <string name="brick_play_sound_and_wait">Mulai suara dan tunggu</string>
+    <string name="brick_stop_sound">Hentikan suara</string>
+    <string name="brick_stop_all_sounds">Hentikan semua suara</string>
+    <string name="brick_set_volume_to">Atur volume</string>
+    <string name="brick_change_volume_by">Mengubah volume oleh</string>
+    <string name="brick_speak">Berbicara</string>
     <string name="brick_speak_default_value">Halo!</string>
-    <string name="brick_speak_and_wait" tools:ignore="UnusedResources">dan tunggu</string>
-    <string name="brick_start_listening_to_voice" tools:ignore="UnusedResources">Mulailah mendengarkan suara dan simpan kata-kata yang diucapkan di</string>
+    <string name="brick_speak_and_wait">dan tunggu</string>
+    <string name="brick_start_listening_to_voice">Mulailah mendengarkan suara dan simpan kata-kata yang diucapkan di</string>
     <string name="speech_recognition_not_available">Pengenalan ucapan tidak tersedia.</string>
     <string name="speech_recognition_offline_mode_error_dialog_title">Data offline hilang</string>
     <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">Pengenalan ucapan offline
     karena %s hilang atau perlu diperbarui. Apakah Anda ingin mengunduh atau memperbaruinya sekarang?</string>
-    <string name="brick_set_listening_language" tools:ignore="UnusedResources">Setel bahasa pendengaran ke</string>
-    <string name="set_instrument_to" tools:ignore="UnusedResources">Setel instrumen ke</string>
-    <string name="set_tempo_to" tools:ignore="UnusedResources">Setel tempo ke</string>
-    <string name="change_tempo_by" tools:ignore="UnusedResources">Ubah tempo sebesar</string>
-    <string name="pause_for" tools:ignore="UnusedResources">Jeda untuk</string>
-    <string name="play_drum" tools:ignore="UnusedResources">Mainkan drum</string>
-    <string name="beats" tools:ignore="UnusedResources">ketukan</string>
-    <string name="play_note" tools:ignore="UnusedResources">Mainkan catatan</string>
-    <string name="for_string" tools:ignore="UnusedResources">untuk</string>
+    <string name="brick_set_listening_language">Setel bahasa pendengaran ke</string>
+    <string name="set_instrument_to">Setel instrumen ke</string>
+    <string name="set_tempo_to">Setel tempo ke</string>
+    <string name="change_tempo_by">Ubah tempo sebesar</string>
+    <string name="pause_for">Jeda untuk</string>
+    <string name="play_drum">Mainkan drum</string>
+    <string name="beats">ketukan</string>
+    <string name="play_note">Mainkan catatan</string>
+    <string name="for_string">untuk</string>
     <!--  -->
     <!-- Embroidery bricks -->
-    <string name="brick_stitch" tools:ignore="UnusedResources">Menjahit</string>
-    <string name="brick_running_stitch" tools:ignore="UnusedResources">Mulailah menjalankan jahitan dengan panjang</string>
-    <string name="brick_zigzag_stitch" tools:ignore="UnusedResources">Mulailah jahitan zigzag dengan panjang</string>
-    <string name="brick_zigzag_stitch_width" tools:ignore="UnusedResources">dan lebar</string>
-    <string name="brick_triple_stitch" tools:ignore="UnusedResources">Mulai tusuk tiga kali dengan panjang</string>
-    <string name="brick_stop_stitch" tools:ignore="UnusedResources">Hentikan tusukan saat ini</string>
-    <string name="brick_write_embroidery" tools:ignore="UnusedResources">Tulis data bordir ke file</string>
+    <string name="brick_stitch">Menjahit</string>
+    <string name="brick_running_stitch">Mulailah menjalankan jahitan dengan panjang</string>
+    <string name="brick_zigzag_stitch">Mulailah jahitan zigzag dengan panjang</string>
+    <string name="brick_zigzag_stitch_width">dan lebar</string>
+    <string name="brick_triple_stitch">Mulai tusuk tiga kali dengan panjang</string>
+    <string name="brick_stop_stitch">Hentikan tusukan saat ini</string>
+    <string name="brick_write_embroidery">Tulis data bordir ke file</string>
     <string name="brick_default_embroidery_file">embroidery.dst</string>
-    <string name="brick_sew_up" tools:ignore="UnusedResources">Menjahit</string>
+    <string name="brick_sew_up">Menjahit</string>
     <string name="brick_thread_color">Setel warna utas ke</string>
     <!--  -->
     <!-- Device bricks -->
-    <string name="brick_reset_timer" tools:ignore="UnusedResources">Setel ulang pengatur waktu</string>
-    <string name="brick_open" tools:ignore="UnusedResources">Buka </string>
-    <string name="brick_in_browser" tools:ignore="UnusedResources">di browser</string>
+    <string name="brick_reset_timer">Setel ulang pengatur waktu</string>
+    <string name="brick_open">Membuka</string>
+    <string name="brick_in_browser">di browser</string>
     <!-- Control bricks -->
-    <string name="brick_when_started" tools:ignore="UnusedResources">Saat program dimulai</string>
-    <string name="brick_when" tools:ignore="UnusedResources">Saat diketuk</string>
-    <string name="brick_when_condition_when" tools:ignore="UnusedResources">Kapan</string>
-    <string name="brick_when_becomes_true" tools:ignore="UnusedResources">menjadi kenyataan</string>
-    <string name="brick_wait" tools:ignore="UnusedResources">Tunggu</string>
-    <string name="brick_wait_until" tools:ignore="UnusedResources">Tunggu sampai</string>
-    <string name="brick_wait_until_second_part" tools:ignore="UnusedResources">benar</string>
-    <string name="brick_when_gamepad_button" tools:ignore="UnusedResources">Saat tombol gamepad</string>
-    <string name="brick_when_gamepad_button_tapped" tools:ignore="UnusedResources">disadap</string>
-    <string name="brick_when_nfc" tools:ignore="UnusedResources">Saat NFC</string>
-    <string name="brick_stop_script" tools:ignore="UnusedResources">Berhenti</string>
-    <string name="brick_stop_this_script" tools:ignore="UnusedResources">naskah ini</string>
-    <string name="brick_stop_all_scripts" tools:ignore="UnusedResources">semua naskah</string>
-    <string name="brick_stop_other_scripts" tools:ignore="UnusedResources">naskah lain dari objek ini</string>
+    <string name="brick_when_started">Saat program dimulai</string>
+    <string name="brick_when">Saat diketuk</string>
+    <string name="brick_when_condition_when">Kapan</string>
+    <string name="brick_when_becomes_true">menjadi kenyataan</string>
+    <string name="brick_wait">Tunggu</string>
+    <string name="brick_wait_until">Tunggu sampai</string>
+    <string name="brick_wait_until_second_part">benar</string>
+    <string name="brick_when_gamepad_button">Saat tombol gamepad</string>
+    <string name="brick_when_gamepad_button_tapped">disadap</string>
+    <string name="brick_when_nfc">Saat NFC</string>
+    <string name="brick_stop_script">Berhenti</string>
+    <string name="brick_stop_this_script">naskah ini</string>
+    <string name="brick_stop_all_scripts">semua naskah</string>
+    <string name="brick_stop_other_scripts">naskah lain dari objek ini</string>
     <plurals name="second_plural">
         <item quantity="other">"detik "</item>
     </plurals>
-    <string name="brick_collision_receive" tools:ignore="UnusedResources">Saat tabrakan fisik</string>
+    <string name="brick_collision_receive">Saat tabrakan fisik</string>
     <string name="collision_with_anything">apa pun</string>
-    <string name="brick_broadcast_receive" tools:ignore="UnusedResources">Bila Anda menerima</string>
-    <string name="brick_broadcast" tools:ignore="UnusedResources">Siaran</string>
-    <string name="brick_broadcast_wait" tools:ignore="UnusedResources">Siaran dan tunggu</string>
-    <string name="brick_scene_transition" tools:ignore="UnusedResources">Lanjutkan adegan</string>
-    <string name="brick_scene_start" tools:ignore="UnusedResources">Adegan awal</string>
-    <string name="brick_note" tools:ignore="UnusedResources">Catatan</string>
-    <string name="brick_think_bubble" tools:ignore="UnusedResources">Berpikir</string>
-    <string name="brick_say_bubble" tools:ignore="UnusedResources">Mengatakan</string>
-    <string name="brick_think_say_for_text" tools:ignore="UnusedResources">untuk</string>
-    <string name="brick_forever" tools:ignore="UnusedResources">Selamanya</string>
-    <string name="brick_loop_for_values_from" tools:ignore="UnusedResources">Untuk nilai dari</string>
-    <string name="brick_loop_for_each_value_from" tools:ignore="UnusedResources">Untuk setiap nilai dari</string>
-    <string name="brick_loop_in" tools:ignore="UnusedResources">di</string>
-    <string name="brick_loop_to" tools:ignore="UnusedResources">untuk</string>
-    <string name="brick_repeat" tools:ignore="UnusedResources">Pengulangan</string>
-    <string name="brick_repeat_until" tools:ignore="UnusedResources">Ulangi sampai</string>
-    <string name="brick_when_touched" tools:ignore="UnusedResources">Saat layar tersentuh</string>
-    <string name="brick_clone" tools:ignore="UnusedResources">Buat tiruan dari</string>
+    <string name="brick_broadcast_receive">Bila Anda menerima</string>
+    <string name="brick_broadcast">Siaran</string>
+    <string name="brick_broadcast_wait">Siaran dan tunggu</string>
+    <string name="brick_scene_transition">Lanjutkan adegan</string>
+    <string name="brick_scene_start">Adegan awal</string>
+    <string name="brick_note">Catatan</string>
+    <string name="brick_think_bubble">Berpikir</string>
+    <string name="brick_say_bubble">Mengatakan</string>
+    <string name="brick_think_say_for_text">untuk</string>
+    <string name="brick_forever">Selamanya</string>
+    <string name="brick_loop_for_values_from">Untuk nilai dari</string>
+    <string name="brick_loop_for_each_value_from">Untuk setiap nilai dari</string>
+    <string name="brick_loop_in">di</string>
+    <string name="brick_loop_to">ke</string>
+    <string name="brick_repeat">Pengulangan</string>
+    <string name="brick_repeat_until">Ulangi sampai</string>
+    <string name="brick_when_touched">Saat layar tersentuh</string>
+    <string name="brick_clone">Buat tiruan dari</string>
     <string name="brick_clone_this">dirimu sendiri</string>
-    <string name="brick_when_cloned" tools:ignore="UnusedResources">Saat Anda mulai sebagai tiruan</string>
-    <string name="brick_delete_this_clone" tools:ignore="UnusedResources">Hapus kloning ini</string>
-    <string name="brick_assert_that" tools:ignore="UnusedResources">Menegaskan</string>
-    <string name="brick_is_equal_to" tools:ignore="UnusedResources">sama dengan yang diharapkan</string>
-    <string name="brick_wait_till_idle" tools:ignore="UnusedResources">Tunggu sampai semua skrip lainnya berhenti</string>
-    <string name="brick_tap_at" tools:ignore="UnusedResources">"Ketuk satu kali di"</string>
-    <string name="brick_touch_at" tools:ignore="UnusedResources">"Sentuh di"</string>
-    <string name="brick_tap_for" tools:ignore="UnusedResources">"untuk"</string>
-    <string name="brick_touch_slide" tools:ignore="UnusedResources">"Sentuh dan geser"</string>
-    <string name="brick_touch_from_x" tools:ignore="UnusedResources">"dari x:"</string>
-    <string name="brick_finish_stage" tools:ignore="UnusedResources">Selesaikan panggung</string>
-    <string name="brick_finish_tests" tools:ignore="UnusedResources">Selesaikan tes</string>
-    <string name="brick_assert_lists" tools:ignore="UnusedResources">Tegaskan daftar</string>
-    <string name="brick_assert_actual" tools:ignore="UnusedResources">Sebenarnya:</string>
-    <string name="brick_assert_expected" tools:ignore="UnusedResources">Diharapkan:</string>
-    <string name="brick_parameterized_assert" tools:ignore="UnusedResources">menegaskan</string>
-    <string name="brick_parameterized_equals" tools:ignore="UnusedResources">sama dengan item yang diharapkan dari</string>
+    <string name="brick_when_cloned">Saat Anda mulai sebagai tiruan</string>
+    <string name="brick_delete_this_clone">Hapus kloning ini</string>
+    <string name="brick_assert_that">Menegaskan</string>
+    <string name="brick_is_equal_to">sama dengan yang diharapkan</string>
+    <string name="brick_wait_till_idle">Tunggu sampai semua skrip lainnya berhenti</string>
+    <string name="brick_tap_at">"Ketuk satu kali di"</string>
+    <string name="brick_touch_at">"Sentuh di"</string>
+    <string name="brick_tap_for">"untuk"</string>
+    <string name="brick_touch_slide">"Sentuh dan geser"</string>
+    <string name="brick_touch_from_x">"dari x:"</string>
+    <string name="brick_finish_stage">Selesaikan panggung</string>
+    <string name="brick_finish_tests">Selesaikan tes</string>
+    <string name="brick_assert_lists">Tegaskan daftar</string>
+    <string name="brick_assert_actual">Sebenarnya:</string>
+    <string name="brick_assert_expected">Diharapkan:</string>
+    <string name="brick_parameterized_assert">menegaskan</string>
+    <string name="brick_parameterized_equals">sama dengan item yang diharapkan dari</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="other">Untuk setiap item dari</item>
     </plurals>
@@ -963,44 +1004,44 @@
     <plurals name="time_plural">
         <item quantity="other">kali</item>
     </plurals>
-    <string name="brick_loop_end">End of loop</string>
-    <string name="brick_if_begin" tools:ignore="UnusedResources">If</string>
-    <string name="brick_if_begin_second_part" tools:ignore="UnusedResources">is true then</string>
-    <string name="brick_if_else" tools:ignore="UnusedResources">Else</string>
-    <string name="brick_if_end">End If</string>
-    <string name="brick_set_variable" tools:ignore="UnusedResources">Set variable</string>
-    <string name="brick_change_variable" tools:ignore="UnusedResources">Ubah variabel</string>
-    <string name="brick_write_variable_on_device" tools:ignore="UnusedResources">Tulis variabel di perangkat</string>
-    <string name="brick_read_variable_from_device" tools:ignore="UnusedResources">Baca variabel dari perangkat</string>
-    <string name="brick_write_variable_to_file_top" tools:ignore="UnusedResources">Tulis variabel</string>
-    <string name="brick_write_variable_to_file_bottom" tools:ignore="UnusedResources">untuk mengajukan</string>
+    <string name="brick_loop_end">Akhir dari lingkaran</string>
+    <string name="brick_if_begin">Jika</string>
+    <string name="brick_if_begin_second_part">benar kalau begitu</string>
+    <string name="brick_if_else">Lain</string>
+    <string name="brick_if_end">Berakhir jika</string>
+    <string name="brick_set_variable">Tetapkan variabel</string>
+    <string name="brick_change_variable">Ubah variabel</string>
+    <string name="brick_write_variable_on_device">Tulis variabel di perangkat</string>
+    <string name="brick_read_variable_from_device">Baca variabel dari perangkat</string>
+    <string name="brick_write_variable_to_file_top">Tulis variabel</string>
+    <string name="brick_write_variable_to_file_bottom">untuk mengajukan</string>
     <string name="brick_write_variable_to_file_default_value">variable.txt</string>
     <string name="brick_write_variable_to_file_success">"Data berhasil ditulis ke %1$s"</string>
-    <string name="brick_read_variable_from_file_top" tools:ignore="UnusedResources">Variabel baca</string>
-    <string name="brick_read_variable_from_file_center" tools:ignore="UnusedResources">dari file</string>
-    <string name="brick_read_variable_from_file_bottom" tools:ignore="UnusedResources">DAN</string>
+    <string name="brick_read_variable_from_file_top">Variabel baca</string>
+    <string name="brick_read_variable_from_file_center">dari file</string>
+    <string name="brick_read_variable_from_file_bottom">dan</string>
     <string name="brick_read_variable_from_file_keep">simpan file tersebut</string>
     <string name="brick_read_variable_from_file_delete">hapus file tersebut</string>
-    <string name="brick_write_list_on_device" tools:ignore="UnusedResources">Tulis daftar di perangkat</string>
-    <string name="brick_read_list_from_device" tools:ignore="UnusedResources">Baca daftar dari perangkat</string>
+    <string name="brick_write_list_on_device">Tulis daftar di perangkat</string>
+    <string name="brick_read_list_from_device">Baca daftar dari perangkat</string>
     <string name="brick_note_default_value">tambahkan komentar di sini&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmmmm!</string>
     <string name="brick_say_bubble_default_value">Halo!</string>
-    <string name="brick_broadcast_default_value">"pesan 1"</string>
-    <string name="brick_add_item_to_userlist_add" tools:ignore="UnusedResources">Tambahkan</string>
-    <string name="brick_add_item_to_userlist" tools:ignore="UnusedResources">ke daftar</string>
-    <string name="brick_clear_userlist" tools:ignore="UnusedResources">Hapus semua item dari daftar</string>
-    <string name="brick_delete_item_from_userlist_delete" tools:ignore="UnusedResources">Menghapus item dari daftar</string>
-    <string name="brick_delete_item_from_userlist" tools:ignore="UnusedResources">pada posisi</string>
-    <string name="brick_insert_item_into_userlist_insert_into" tools:ignore="UnusedResources">Sisipkan</string>
-    <string name="brick_insert_item_into_userlist_into_list" tools:ignore="UnusedResources">ke daftar</string>
-    <string name="brick_insert_item_into_userlist_at_position" tools:ignore="UnusedResources">pada posisi</string>
-    <string name="brick_replace_item_in_userlist_replace_in_list" tools:ignore="UnusedResources">Ganti item dalam daftar</string>
-    <string name="brick_replace_item_in_userlist_item_at_index" tools:ignore="UnusedResources">pada posisi</string>
-    <string name="brick_replace_item_in_userlist_with_value" tools:ignore="UnusedResources">dengan</string>
-    <string name="brick_web_request" tools:ignore="UnusedResources">Kirim permintaan web ke</string>
+    <string name="brick_broadcast_default_value">"pesan baru"</string>
+    <string name="brick_add_item_to_userlist_add">Tambahkan</string>
+    <string name="brick_add_item_to_userlist">ke daftar</string>
+    <string name="brick_clear_userlist">Hapus semua item dari daftar</string>
+    <string name="brick_delete_item_from_userlist_delete">Menghapus item dari daftar</string>
+    <string name="brick_delete_item_from_userlist">pada posisi</string>
+    <string name="brick_insert_item_into_userlist_insert_into">Sisipkan</string>
+    <string name="brick_insert_item_into_userlist_into_list">ke daftar</string>
+    <string name="brick_insert_item_into_userlist_at_position">pada posisi</string>
+    <string name="brick_replace_item_in_userlist_replace_in_list">Ganti item dalam daftar</string>
+    <string name="brick_replace_item_in_userlist_item_at_index">pada posisi</string>
+    <string name="brick_replace_item_in_userlist_with_value">dengan</string>
+    <string name="brick_web_request">Kirim permintaan web ke</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
-    <string name="brick_web_request_result" tools:ignore="UnusedResources">dan simpan jawaban di</string>
+    <string name="brick_web_request_result">dan simpan jawaban di</string>
     <string name="web_request_warning_title">Izinkan akses web?</string>
     <string name="web_request_warning_message">Berhati-hatilah sebelum mengizinkan akses, karena
         Tautan dapat mengungkap informasi pribadi Anda, seperti lokasi geografis Anda yang tepat atau teks apa pun
@@ -1016,15 +1057,15 @@
         nanti, Anda dapat menghapus entri dari daftar domain tepercaya di
         pengaturan aplikasi ini.
     </string>
-    <string name="brick_look_request" tools:ignore="UnusedResources">Dapatkan gambar dari</string>
-    <string name="brick_look_request_result" tools:ignore="UnusedResources">dan gunakan sebagai tampilan saat ini</string>
-    <string name="brick_background_request_result" tools:ignore="UnusedResources">dan gunakan sebagai latar belakang saat ini</string>
+    <string name="brick_look_request">Dapatkan gambar dari</string>
+    <string name="brick_look_request_result">dan gunakan sebagai tampilan saat ini</string>
+    <string name="brick_background_request_result">dan gunakan sebagai latar belakang saat ini</string>
     <string name="look_request_http_error_message">"Ambil gambar dari %1$s mengembalikan kesalahan HTTP %2$s"</string>
     <string name="look_request_type_error_message">"Ambil gambar dari %1$s tidak dapat mengambil format gambar yang dikenali"</string>
-    <string name="brick_store_csv_into_userlist_store" tools:ignore="UnusedResources">Kolom toko</string>
-    <string name="brick_store_csv_into_userlist_of" tools:ignore="UnusedResources">dari</string>
-    <string name="brick_store_csv_into_userlist_csv" tools:ignore="UnusedResources">nilai yang dipisahkan koma</string>
-    <string name="brick_store_csv_into_userlist_into" tools:ignore="UnusedResources">ke daftar</string>
+    <string name="brick_store_csv_into_userlist_store">Kolom toko</string>
+    <string name="brick_store_csv_into_userlist_of">dari</string>
+    <string name="brick_store_csv_into_userlist_csv">nilai yang dipisahkan koma</string>
+    <string name="brick_store_csv_into_userlist_into">ke dalam daftar</string>
     <string name="brick_store_csv_into_userlist_data">kucing,imut\nAnak anjing,nakal\noktopus,cerdas</string>
     <!--  -->
     <!--Instruments-->
@@ -1206,20 +1247,20 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="none_paired">Tidak ada perangkat terhubung yang ditemukan</string>
     <!--  -->
     <!-- Arduino Bricks -->
-    <string name="brick_arduino_select_digital_value" tools:ignore="UnusedResources">Tetapkan pin digital Arduino</string>
-    <string name="brick_arduino_select_analog_value" tools:ignore="UnusedResources">Atur Arduino PWM ~ pin</string>
-    <string name="brick_arduino_set_pin_value_to" tools:ignore="UnusedResources">untuk</string>
+    <string name="brick_arduino_select_digital_value">Tetapkan pin digital Arduino</string>
+    <string name="brick_arduino_select_analog_value">Atur Arduino PWM ~ pin</string>
+    <string name="brick_arduino_set_pin_value_to">ke</string>
     <!--  -->
     <!-- Raspi Bricks -->
-    <string name="brick_raspi_select_digital_value" tools:ignore="UnusedResources">Tetapkan pin Raspberry Pi</string>
-    <string name="brick_raspi_set_pin_value_to" tools:ignore="UnusedResources">untuk</string>
-    <string name="brick_raspi_if_begin" tools:ignore="UnusedResources">Jika pin Raspberry Pi</string>
-    <string name="brick_raspi_if_begin_second_part" tools:ignore="UnusedResources">is true then</string>
-    <string name="brick_raspi_when_begin" tools:ignore="UnusedResources">Saat pin Raspberry Pi</string>
-    <string name="brick_raspi_when_equals" tools:ignore="UnusedResources">perubahan</string>
+    <string name="brick_raspi_select_digital_value">Tetapkan pin Raspberry Pi</string>
+    <string name="brick_raspi_set_pin_value_to">ke</string>
+    <string name="brick_raspi_if_begin">Jika pin Raspberry Pi</string>
+    <string name="brick_raspi_if_begin_second_part">benar kalau begitu</string>
+    <string name="brick_raspi_when_begin">Saat pin Raspberry Pi</string>
+    <string name="brick_raspi_when_equals">perubahan</string>
     <string name="brick_raspi_pressed_text">tinggi</string>
     <string name="brick_raspi_released_text">rendah</string>
-    <string name="brick_raspi_set_pwm" tools:ignore="UnusedResources">Set pin PWM Raspberry Pi</string>
+    <string name="brick_raspi_set_pwm">Set pin PWM Raspberry Pi</string>
     <!--  -->
     <!-- Raspi Settings -->
     <string name="raspi_settings_title_name">Pengaturan Raspberry Pi</string>
@@ -1227,16 +1268,16 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="error_connecting_to">Kesalahan: Tidak dapat terhubung ke %s: %d</string>
     <!--  -->
     <!-- Lego Mindstorms Strings -->
-    <string name="nxt_brick_motor_move" tools:ignore="UnusedResources">Atur motor NXT</string>
-    <string name="nxt_motor_speed_to" tools:ignore="UnusedResources">untuk</string>
-    <string name="nxt_motor_speed" tools:ignore="UnusedResources">kecepatan</string>
-    <string name="nxt_brick_motor_turn_angle" tools:ignore="UnusedResources">Putar motor NXT</string>
-    <string name="nxt_motor_move_by" tools:ignore="UnusedResources">oleh</string>
-    <string name="nxt_motor_stop" tools:ignore="UnusedResources">Hentikan motor NXT</string>
-    <string name="nxt_play_tone" tools:ignore="UnusedResources">Mainkan nada NXT</string>
-    <string name="nxt_tone_duration" tools:ignore="UnusedResources">Lamanya</string>
-    <string name="nxt_tone_frequency" tools:ignore="UnusedResources">Frekuensi</string>
-    <string name="nxt_tone_hundred_hz" tools:ignore="UnusedResources">x100Hz</string>
+    <string name="nxt_brick_motor_move">Atur motor NXT</string>
+    <string name="nxt_motor_speed_to">ke</string>
+    <string name="nxt_motor_speed">kecepatan</string>
+    <string name="nxt_brick_motor_turn_angle">Putar motor NXT</string>
+    <string name="nxt_motor_move_by">oleh</string>
+    <string name="nxt_motor_stop">Hentikan motor NXT</string>
+    <string name="nxt_play_tone">Mainkan nada NXT</string>
+    <string name="nxt_tone_duration">Lamanya</string>
+    <string name="nxt_tone_frequency">Frekuensi</string>
+    <string name="nxt_tone_hundred_hz">x100Hz</string>
     <string name="nxt_motor_a">A</string>
     <string name="nxt_motor_b">B</string>
     <string name="nxt_motor_c">C</string>
@@ -1256,8 +1297,10 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="lego_nxt_sensor_config_info_title">Konfigurasi Sensor NXT</string>
     <string name="preference_disable_nxt_info_dialog">Nonaktifkan Info Dialog</string>
     <string name="preference_disable_nxt_info_dialog_description">Pengaturan NXT spesifik program tidak ditampilkan saat membuka sebuah program.</string>
-    <string name="preference_title_mindstorms_nxt_sensors_description">Pemetaan sensor NXT ke port adalah program yang spesifik dan hanya dapat dikonfigurasi untuk program yang dibuka!</string>
-    <string name="lego_nxt_sensor_config_info_text">Program saat ini menggunakan batu bata Lego Mindstorms NXT atau sensor. Untuk fungsi yang tepat silahkan hubungkan sensor ke robot sebagai berikut</string>
+    <string name="preference_title_mindstorms_nxt_sensors_description">Pemetaan sensor NXT ke port adalah program yang spesifik dan 
+        hanya dapat dikonfigurasi untuk program yang dibuka!</string>
+    <string name="lego_nxt_sensor_config_info_text">Program saat ini menggunakan batu bata Lego Mindstorms NXT atau sensor. Untuk 
+        fungsi yang tepat silahkan hubungkan sensor ke robot sebagai berikut</string>
     <string name="lego_port_1">Port 1</string>
     <string name="lego_port_2">Port 2</string>
     <string name="lego_port_3">Port 3</string>
@@ -1291,15 +1334,15 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="ev3_motor_d">D</string>
     <string name="ev3_motor_b_and_c">B+C</string>
     <string name="ev3_motor_all">Semua</string>
-    <string name="ev3_play_tone" tools:ignore="UnusedResources">Mainkan nada EV3</string>
-    <string name="ev3_tone_duration_for" tools:ignore="UnusedResources">untuk</string>
-    <string name="ev3_tone_volume" tools:ignore="UnusedResources">Volume</string>
-    <string name="ev3_tone_percent" tools:ignore="UnusedResources">%</string>
-    <string name="ev3_motor_stop" tools:ignore="UnusedResources">Hentikan motor EV3</string>
-    <string name="ev3_motor_move" tools:ignore="UnusedResources">Atur motor EV3</string>
-    <string name="ev3_brick_motor_turn_angle" tools:ignore="UnusedResources">Putar motor EV3</string>
-    <string name="ev3_motor_move_by" tools:ignore="UnusedResources">oleh</string>
-    <string name="ev3_set_led_status" tools:ignore="UnusedResources">Tetapkan status LED EV3</string>
+    <string name="ev3_play_tone">Mainkan nada EV3</string>
+    <string name="ev3_tone_duration_for">untuk</string>
+    <string name="ev3_tone_volume">Volume</string>
+    <string name="ev3_tone_percent">%</string>
+    <string name="ev3_motor_stop">Hentikan motor EV3</string>
+    <string name="ev3_motor_move">Atur motor EV3</string>
+    <string name="ev3_brick_motor_turn_angle">Putar motor EV3</string>
+    <string name="ev3_motor_move_by">oleh</string>
+    <string name="ev3_set_led_status">Tetapkan status LED EV3</string>
     <string name="ev3_led_status_off">Mati</string>
     <string name="ev3_led_status_green">Hijau</string>
     <string name="ev3_led_status_red">Merah</string>
@@ -1312,76 +1355,76 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="ev3_led_status_orange_pulse">Nadi oranye</string>
     <!--  -->
     <!-- Drone Bricks -->
-    <string name="brick_drone_takeoff_land" tools:ignore="UnusedResources">Lepaskan / Tanah AR.Drone 2.0</string>
-    <string name="brick_drone_play_led_animation" tools:ignore="UnusedResources">Mainkan animasi flash AR.Drone 2.0</string>
-    <string name="brick_drone_flip" tools:ignore="UnusedResources">Balik AR.Drone 2.0</string>
-    <string name="brick_drone_move_left" tools:ignore="UnusedResources">Pindahkan AR.Drone 2.0 ke kiri</string>
-    <string name="brick_drone_move_right" tools:ignore="UnusedResources">Pindahkan AR.Drone 2.0 dengan benar</string>
-    <string name="brick_drone_move_forward" tools:ignore="UnusedResources">Pindahkan AR.Drone 2.0 ke depan</string>
-    <string name="brick_drone_move_backward" tools:ignore="UnusedResources">Pindahkan AR.Drone 2.0 ke belakang</string>
-    <string name="brick_drone_move_up" tools:ignore="UnusedResources">Pindahkan AR.Drone 2.0 ke atas</string>
-    <string name="brick_drone_move_down" tools:ignore="UnusedResources">Pindahkan AR.Drone 2.0 ke bawah</string>
-    <string name="brick_drone_emergency" tools:ignore="UnusedResources">Darurat AR.Drone 2.0</string>
-    <string name="brick_drone_turn_right" tools:ignore="UnusedResources">Hidupkan AR.Drone 2.0 dengan benar</string>
-    <string name="brick_drone_turn_left" tools:ignore="UnusedResources">Arahkan AR.Drone 2.0 ke kiri</string>
+    <string name="brick_drone_takeoff_land">Lepaskan / Tanah AR.Drone 2.0</string>
+    <string name="brick_drone_play_led_animation">Mainkan animasi flash AR.Drone 2.0</string>
+    <string name="brick_drone_flip">Balik AR.Drone 2.0</string>
+    <string name="brick_drone_move_left">Pindahkan AR.Drone 2.0 ke kiri</string>
+    <string name="brick_drone_move_right">Pindahkan AR.Drone 2.0 dengan benar</string>
+    <string name="brick_drone_move_forward">Pindahkan AR.Drone 2.0 ke depan</string>
+    <string name="brick_drone_move_backward">Pindahkan AR.Drone 2.0 ke belakang</string>
+    <string name="brick_drone_move_up">Pindahkan AR.Drone 2.0 ke atas</string>
+    <string name="brick_drone_move_down">Pindahkan AR.Drone 2.0 ke bawah</string>
+    <string name="brick_drone_emergency">Darurat AR.Drone 2.0</string>
+    <string name="brick_drone_turn_right">Hidupkan AR.Drone 2.0 dengan benar</string>
+    <string name="brick_drone_turn_left">Arahkan AR.Drone 2.0 ke kiri</string>
     <string name="brick_drone_set_config">Atur config AR.Drone 2.0</string>
-    <string name="brick_drone_switch_camera" tools:ignore="UnusedResources">Arahkan kamera AR.Drone 2.0</string>
+    <string name="brick_drone_switch_camera">Arahkan kamera AR.Drone 2.0</string>
     <string name="brick_drone_set_altitude">Batas ketinggian </string>
     <string name="brick_drone_set_vertical_speed">Batas kecepatan vertikal</string>
     <string name="brick_drone_set_rotation_speed">Batas kecepatan rotasi</string>
     <string name="brick_drone_set_tilt_limit">Batas kemiringan</string>
-    <string name="brick_drone_with." tools:ignore="UnusedResources">dengan</string>
-    <string name="brick_drone_power" tools:ignore="UnusedResources">kekuasaan</string>
+    <string name="brick_drone_with.">dengan</string>
+    <string name="brick_drone_power">kekuasaan</string>
     <!--  -->
     <!-- Drone play led animation strings -->
-    <string name="drone_animation_blinkgreenred" tools:ignore="UnusedResources">Berkedip merah hijau</string>
-    <string name="drone_animation_blinkgreen" tools:ignore="UnusedResources">Berkedip hijau</string>
-    <string name="drone_animation_blinkred" tools:ignore="UnusedResources">Berkedip merah</string>
-    <string name="drone_animation_blinkorange" tools:ignore="UnusedResources">Berkedip oranye</string>
-    <string name="drone_animation_snakegreenred" tools:ignore="UnusedResources">Ular merah hijau</string>
-    <string name="drone_animation_fire" tools:ignore="UnusedResources">Api</string>
-    <string name="drone_animation_standard" tools:ignore="UnusedResources">Standar</string>
-    <string name="drone_animation_red" tools:ignore="UnusedResources">Merah</string>
-    <string name="drone_animation_green" tools:ignore="UnusedResources">Hijau</string>
-    <string name="drone_animation_redsnake" tools:ignore="UnusedResources">Ular merah</string>
-    <string name="drone_animation_blank" tools:ignore="UnusedResources">Kosong</string>
-    <string name="drone_animation_rightmissile" tools:ignore="UnusedResources">Rudal kanan</string>
-    <string name="drone_animation_leftmissile" tools:ignore="UnusedResources">Rudal kiri</string>
-    <string name="drone_animation_doublemissile" tools:ignore="UnusedResources">Rudal ganda</string>
-    <string name="drone_animation_frontleftgreenothersred" tools:ignore="UnusedResources">Hijau depan kiri, lainnya merah</string>
-    <string name="drone_animation_frontrightgreenothersred" tools:ignore="UnusedResources">Hijau kanan depan, lainnya merah</string>
-    <string name="drone_animation_rearrightgreenothersred" tools:ignore="UnusedResources">Hijau kanan belakang, lainnya merah</string>
-    <string name="drone_animation_rearleftgreenothersred" tools:ignore="UnusedResources">Belakang kiri hijau lainnya merah</string>
-    <string name="drone_animation_leftgreenrightred" tools:ignore="UnusedResources">Hijau kiri kanan merah</string>
-    <string name="drone_animation_leftredrightgreen" tools:ignore="UnusedResources">Hijau kiri kanan merah</string>
-    <string name="drone_animation_blinkstandard" tools:ignore="UnusedResources">Blink standar</string>
+    <string name="drone_animation_blinkgreenred">Berkedip merah hijau</string>
+    <string name="drone_animation_blinkgreen">Berkedip hijau</string>
+    <string name="drone_animation_blinkred">Berkedip merah</string>
+    <string name="drone_animation_blinkorange">Berkedip oranye</string>
+    <string name="drone_animation_snakegreenred">Ular merah hijau</string>
+    <string name="drone_animation_fire">Api</string>
+    <string name="drone_animation_standard">Standar</string>
+    <string name="drone_animation_red">Merah</string>
+    <string name="drone_animation_green">Hijau</string>
+    <string name="drone_animation_redsnake">Ular merah</string>
+    <string name="drone_animation_blank">Kosong</string>
+    <string name="drone_animation_rightmissile">Rudal kanan</string>
+    <string name="drone_animation_leftmissile">Rudal kiri</string>
+    <string name="drone_animation_doublemissile">Rudal ganda</string>
+    <string name="drone_animation_frontleftgreenothersred">Hijau depan kiri, lainnya merah</string>
+    <string name="drone_animation_frontrightgreenothersred">Hijau kanan depan, lainnya merah</string>
+    <string name="drone_animation_rearrightgreenothersred">Hijau kanan belakang, lainnya merah</string>
+    <string name="drone_animation_rearleftgreenothersred">Belakang kiri hijau lainnya merah</string>
+    <string name="drone_animation_leftgreenrightred">Hijau kiri kanan merah</string>
+    <string name="drone_animation_leftredrightgreen">Hijau kiri kanan merah</string>
+    <string name="drone_animation_blinkstandard">Blink standar</string>
     <!-- Jumping Sumo Bricks -->
-    <string name="brick_jumping_sumo_move_forward" tools:ignore="UnusedResources">Pindahkan Jumping Sumo ke depan</string>
-    <string name="brick_jumping_sumo_move_backward" tools:ignore="UnusedResources">Pindahkan Jumping Sumo ke belakang</string>
-    <string name="brick_jumping_sumo_animation" tools:ignore="UnusedResources">Animasi Jumping Sumo</string>
-    <string name="brick_jumping_sumo_no_sound" tools:ignore="UnusedResources">Tidak Jumping Sumo Sound</string>
-    <string name="brick_jumping_sumo_jump_long" tools:ignore="UnusedResources">Lompat Jumping Sumo panjang</string>
-    <string name="brick_jumping_sumo_jump_high" tools:ignore="UnusedResources">Lompat Jumping Sumo tinggi</string>
-    <string name="brick_jumping_sumo_rotate_left" tools:ignore="UnusedResources">Putar Jumping Sumo ke kiri</string>
-    <string name="brick_jumping_sumo_rotate_right" tools:ignore="UnusedResources">Putar Jumping Sumo dengan benar</string>
-    <string name="brick_jumping_sumo_rotate_text" tools:ignore="UnusedResources">°</string>
-    <string name="brick_jumping_sumo_turn" tools:ignore="UnusedResources">Turn Jumping Sumo</string>
-    <string name="brick_jumping_sumo_taking_picture" tools:ignore="UnusedResources">Mengambil Gambar Melompat Sumo</string>
+    <string name="brick_jumping_sumo_move_forward">Pindahkan Jumping Sumo ke depan</string>
+    <string name="brick_jumping_sumo_move_backward">Pindahkan Jumping Sumo ke belakang</string>
+    <string name="brick_jumping_sumo_animation">Animasi Jumping Sumo</string>
+    <string name="brick_jumping_sumo_no_sound">Tidak Jumping Sumo Sound</string>
+    <string name="brick_jumping_sumo_jump_long">Lompat Jumping Sumo panjang</string>
+    <string name="brick_jumping_sumo_jump_high">Lompat Jumping Sumo tinggi</string>
+    <string name="brick_jumping_sumo_rotate_left">Putar Jumping Sumo ke kiri</string>
+    <string name="brick_jumping_sumo_rotate_right">Putar Jumping Sumo dengan benar</string>
+    <string name="brick_jumping_sumo_rotate_text">°</string>
+    <string name="brick_jumping_sumo_turn">Turn Jumping Sumo</string>
+    <string name="brick_jumping_sumo_taking_picture">Mengambil Gambar Melompat Sumo</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_sprites_sound" tools:ignore="UnusedResources">Suara</string>
+    <string name="default_jumping_sumo_project_sprites_sound">Suara</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
-    <string name="animation_spin" tools:ignore="UnusedResources">Berputar</string>
-    <string name="animation_tab" tools:ignore="UnusedResources">Tab</string>
-    <string name="animation_slowshake" tools:ignore="UnusedResources">Slowshake</string>
-    <string name="animation_metronome" tools:ignore="UnusedResources">Metronom</string>
-    <string name="animation_ondulation" tools:ignore="UnusedResources">Ondulasi</string>
-    <string name="animation_spinjump" tools:ignore="UnusedResources">Spinjump</string>
-    <string name="animation_spiral" tools:ignore="UnusedResources">Spiral</string>
-    <string name="animation_slalom" tools:ignore="UnusedResources">Slalom</string>
+    <string name="animation_spin">Berputar</string>
+    <string name="animation_tab">Tab</string>
+    <string name="animation_slowshake">Slowshake</string>
+    <string name="animation_metronome">Metronom</string>
+    <string name="animation_ondulation">Ondulasi</string>
+    <string name="animation_spinjump">Spinjump</string>
+    <string name="animation_spiral">Spiral</string>
+    <string name="animation_slalom">Slalom</string>
     <!-- Jumping Sumo sound strings -->
-    <string name="jumping_sumo_volume" tools:ignore="UnusedResources">Volume</string>
+    <string name="jumping_sumo_volume">Volume</string>
     <string name="sound_default">Normal</string>
     <string name="sound_robot">Robot</string>
     <string name="sound_insect">Serangga</string>
@@ -1389,23 +1432,23 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->
-    <string name="phiro_motor_stop" tools:ignore="UnusedResources">Hentikan motor Phiro</string>
-    <string name="brick_phiro_motor_forward_action" tools:ignore="UnusedResources">Pindahkan motor Phiro ke depan</string>
-    <string name="brick_phiro_motor_backward_action" tools:ignore="UnusedResources">Pindahkan motor Phiro ke belakang</string>
-    <string name="phiro_motor_speed" tools:ignore="UnusedResources">Kecepatan</string>
+    <string name="phiro_motor_stop">Hentikan motor Phiro</string>
+    <string name="brick_phiro_motor_forward_action">Pindahkan motor Phiro ke depan</string>
+    <string name="brick_phiro_motor_backward_action">Pindahkan motor Phiro ke belakang</string>
+    <string name="phiro_motor_speed">Kecepatan</string>
     <!-- sensor -->
-    <string name="brick_phiro_sensor_begin" tools:ignore="UnusedResources">Jika Phiro</string>
-    <string name="brick_phiro_sensor_second_part" tools:ignore="UnusedResources">diaktifkan</string>
+    <string name="brick_phiro_sensor_begin">Jika Phiro</string>
+    <string name="brick_phiro_sensor_second_part">diaktifkan</string>
     <!-- tone -->
-    <string name="phiro_play_tone" tools:ignore="UnusedResources">Mainkan musik Phiro \n</string>
-    <string name="phiro_tone_duration" tools:ignore="UnusedResources">Lamanya</string>
-    <string name="brick_phiro_select_tone" tools:ignore="UnusedResources">nada</string>
-    <string name="phiro_seconds" tools:ignore="UnusedResources">detik</string>
+    <string name="phiro_play_tone">Mainkan musik Phiro \n</string>
+    <string name="phiro_tone_duration">Durasi</string>
+    <string name="brick_phiro_select_tone">nada</string>
+    <string name="phiro_seconds">detik</string>
     <!-- light -->
-    <string name="brick_phiro_rgb_led_action" tools:ignore="UnusedResources">Atur lampu Phiro</string>
-    <string name="phiro_rgb_led_red" tools:ignore="UnusedResources">Merah</string>
-    <string name="phiro_rgb_led_green" tools:ignore="UnusedResources">Hijau</string>
-    <string name="phiro_rgb_led_blue" tools:ignore="UnusedResources">Biru</string>
+    <string name="brick_phiro_rgb_led_action">Atur lampu Phiro</string>
+    <string name="phiro_rgb_led_red">Merah</string>
+    <string name="phiro_rgb_led_green">Hijau</string>
+    <string name="phiro_rgb_led_blue">Biru</string>
     <!--  -->
     <!-- Phiro tone strings -->
     <string name="phiro_tone_do">Melakukan</string>
@@ -1423,7 +1466,7 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <!--  -->
     <!-- Phiro light strings -->
     <string name="phiro_light_left">Kiri</string>
-    <string name="phiro_light_right">Kanan</string>
+    <string name="phiro_light_right">Benar</string>
     <string name="phiro_light_both">Keduanya</string>
     <!--  -->
     <!-- Phiro sensor strings -->
@@ -1442,7 +1485,7 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="formula_editor_data">Data</string>
     <string name="formula_editor_true">Benar</string>
     <string name="formula_editor_false">Salah</string>
-    <string name="formula_editor_decimal_mark" tools:ignore="UnusedResources">.</string>
+    <string name="formula_editor_decimal_mark">.</string>
     <string name="formula_editor_title">Editor Formula</string>
     <string name="formula_editor_changes_discarded">Perubahan dibuang!</string>
     <string name="formula_editor_parse_fail">Formula tidak valid!</string>
@@ -1451,62 +1494,62 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="formula_editor_choose_object_variable">Properti dari objek ini</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
-    <string name="formula_editor_function_sin" tools:ignore="UnusedResources">sine</string>
+    <string name="formula_editor_function_sin">sinus</string>
     <string name="formula_editor_function_sin_parameter">(90)</string>
-    <string name="formula_editor_function_cos" tools:ignore="UnusedResources">cosine</string>
-    <string name="formula_editor_function_cos_parameter">(0)</string>
-    <string name="formula_editor_function_tan" tools:ignore="UnusedResources">tangent</string>
-    <string name="formula_editor_function_tan_parameter">(0)</string>
-    <string name="formula_editor_function_ln" tools:ignore="UnusedResources">natural logarithm</string>
-    <string name="formula_editor_function_ln_parameter">(0)</string>
-    <string name="formula_editor_function_log" tools:ignore="UnusedResources">decimal logarithm</string>
-    <string name="formula_editor_function_log_parameter">(0)</string>
-    <string name="formula_editor_function_pi" tools:ignore="UnusedResources">pi</string>
+    <string name="formula_editor_function_cos">kosinus</string>
+    <string name="formula_editor_function_cos_parameter">(360)</string>
+    <string name="formula_editor_function_tan">garis singgung</string>
+    <string name="formula_editor_function_tan_parameter">(45)</string>
+    <string name="formula_editor_function_ln">logaritma natural</string>
+    <string name="formula_editor_function_ln_parameter">(2.718281828459)</string>
+    <string name="formula_editor_function_log">logaritma desimal</string>
+    <string name="formula_editor_function_log_parameter">(10)</string>
+    <string name="formula_editor_function_pi">pi</string>
     <string name="formula_editor_function_pi_parameter"></string>
-    <string name="formula_editor_object_color" tools:ignore="UnusedResources">warna</string>
-    <string name="formula_editor_function_sqrt" tools:ignore="UnusedResources">sqrt</string>
-    <string name="formula_editor_function_sqrt_parameter">(0)</string>
-    <string name="formula_editor_function_rand" tools:ignore="UnusedResources">acak</string>
+    <string name="formula_editor_object_color">warna</string>
+    <string name="formula_editor_function_sqrt">sqrt</string>
+    <string name="formula_editor_function_sqrt_parameter">(4)</string>
+    <string name="formula_editor_function_rand">nilai acak dari ke</string>
     <string name="formula_editor_function_rand_parameter">(1,6)</string>
-    <string name="formula_editor_function_abs" tools:ignore="UnusedResources">absolute value</string>
-    <string name="formula_editor_function_abs_parameter">(0)</string>
-    <string name="formula_editor_function_round" tools:ignore="UnusedResources">putaran</string>
-    <string name="formula_editor_function_round_parameter">(0)</string>
-    <string name="formula_editor_function_mod" tools:ignore="UnusedResources">modulo</string>
+    <string name="formula_editor_function_abs">nilai mutlak</string>
+    <string name="formula_editor_function_abs_parameter">(1)</string>
+    <string name="formula_editor_function_round">putaran</string>
+    <string name="formula_editor_function_round_parameter">(1.6)</string>
+    <string name="formula_editor_function_mod">modulo</string>
     <string name="formula_editor_function_mod_parameter">(3,2)</string>
-    <string name="formula_editor_function_arcsin" tools:ignore="UnusedResources">arcsine</string>
-    <string name="formula_editor_function_arcsin_parameter">(0)</string>
-    <string name="formula_editor_function_arccos" tools:ignore="UnusedResources">arccosine</string>
+    <string name="formula_editor_function_arcsin">arcsinus</string>
+    <string name="formula_editor_function_arcsin_parameter">(0.5)</string>
+    <string name="formula_editor_function_arccos">arccosinus</string>
     <string name="formula_editor_function_arccos_parameter">(0)</string>
-    <string name="formula_editor_function_arctan" tools:ignore="UnusedResources">arctangent</string>
-    <string name="formula_editor_function_arctan_parameter">(0)</string>
-    <string name="formula_editor_function_arctan2" tools:ignore="UnusedResources">arctangent2</string>
+    <string name="formula_editor_function_arctan">arctangen</string>
+    <string name="formula_editor_function_arctan_parameter">(1)</string>
+    <string name="formula_editor_function_arctan2">arctangent2</string>
     <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
-    <string name="formula_editor_function_exp" tools:ignore="UnusedResources">exponent</string>
-    <string name="formula_editor_function_exp_parameter">(0)</string>
-    <string name="formula_editor_function_power" tools:ignore="UnusedResources">kekuasaan</string>
+    <string name="formula_editor_function_exp">eksponen</string>
+    <string name="formula_editor_function_exp_parameter">(1)</string>
+    <string name="formula_editor_function_power">kekuasaan</string>
     <string name="formula_editor_function_power_parameter">(2,3)</string>
-    <string name="formula_editor_function_floor" tools:ignore="UnusedResources">lantai</string>
+    <string name="formula_editor_function_floor">lantai</string>
     <string name="formula_editor_function_floor_parameter">(0.7)</string>
-    <string name="formula_editor_function_ceil" tools:ignore="UnusedResources">ceil</string>
+    <string name="formula_editor_function_ceil">ceil</string>
     <string name="formula_editor_function_ceil_parameter">(0.3)</string>
-    <string name="formula_editor_function_max" tools:ignore="UnusedResources">max</string>
+    <string name="formula_editor_function_max">max</string>
     <string name="formula_editor_function_max_parameter">(0,1)</string>
-    <string name="formula_editor_function_min" tools:ignore="UnusedResources">menit</string>
-    <string name="formula_editor_function_min_parameter">(0,1)</string>
+    <string name="formula_editor_function_min">menit</string>
+    <string name="formula_editor_function_min_parameter">(7,2)</string>
     <string name="formula_editor_function_if_then_else">jika kemudian</string>
     <string name="formula_editor_function_if_then_else_parameter">(salah, 2, 3)</string>
-    <string name="formula_editor_function_true" tools:ignore="UnusedResources">BENAR</string>
-    <string name="formula_editor_function_false" tools:ignore="UnusedResources">SALAH</string>
-    <string name="formula_editor_function_length" tools:ignore="UnusedResources">panjang</string>
+    <string name="formula_editor_function_true">BENAR</string>
+    <string name="formula_editor_function_false">SALAH</string>
+    <string name="formula_editor_function_length">panjang</string>
     <string name="formula_editor_function_length_parameter">(\'halo dunia!\')</string>
-    <string name="formula_editor_function_letter" tools:ignore="UnusedResources">surat</string>
+    <string name="formula_editor_function_letter">surat</string>
     <string name="formula_editor_function_letter_parameter">(1, \'halo dunia!\')</string>
-    <string name="formula_editor_function_join" tools:ignore="UnusedResources">bergabung</string>
+    <string name="formula_editor_function_join">bergabung</string>
     <string name="formula_editor_function_join_parameter">(\'Halo\',\' Dunia\')</string>
-    <string name="formula_editor_function_join3">bergabung</string>
+    <string name="formula_editor_function_join3">Ikuti</string>
     <string name="formula_editor_function_join3_parameter">(\'Halo\',\' Dunia\',\'!\')</string>
-    <string name="formula_editor_function_regex" tools:ignore="UnusedResources">ekspresi reguler</string>
+    <string name="formula_editor_function_regex">ekspresi reguler</string>
     <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'Saya seekor panda.\')</string>
     <string name="formula_editor_function_regex_assistant">Ekspresi reguler
         asisten</string>
@@ -1515,85 +1558,87 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="formula_editor_dialog_wiki_button">Informasi lebih lanjut</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">Kata kunci tidak dapat ditemukan.</string>
     <string name="formula_editor_function_regex_json_extractor_title">Ekstraktor JSON</string>
-    <string name="formula_editor_function_arduino_read_pin_value_digital" tools:ignore="UnusedResources">arduino_digital_pin</string>
-    <string name="formula_editor_function_arduino_read_pin_value_analog" tools:ignore="UnusedResources">arduino_analog_pin</string>
-    <string name="formula_editor_function_raspi_read_pin_value_digital" tools:ignore="UnusedResources">raspberry_pi_pin</string>
-    <string name="formula_editor_function_pin_default_parameter">(3)</string>
-    <string name="formula_editor_function_finger_x" tools:ignore="UnusedResources">screen_touch_x</string>
-    <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">layar_sentuh_y</string>
-    <string name="formula_editor_function_is_finger_touching" tools:ignore="UnusedResources">layar_di_sentuh</string>
-    <string name="formula_editor_function_multi_finger_x" tools:ignore="UnusedResources">screen_touch_x</string>
-    <string name="formula_editor_function_multi_finger_y" tools:ignore="UnusedResources">layar_sentuh_y</string>
-    <string name="formula_editor_function_is_multi_finger_touching" tools:ignore="UnusedResources">layar_di_sentuh</string>
-    <string name="formula_editor_function_index_of_last_finger" tools:ignore="UnusedResources">index_layar_sentuh_terakhir</string>
+    <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
+    <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
+    <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry pi pin</string>
+    <string name="formula_editor_function_pin_default_parameter">(0)</string>
+    <string name="formula_editor_function_finger_x">sentuhan panggung x</string>
+    <string name="formula_editor_function_finger_y">sentuhan panggung y</string>
+    <string name="formula_editor_function_is_finger_touching">panggung tersentuh</string>
+    <string name="formula_editor_function_multi_finger_x">sentuhan panggung x</string>
+    <string name="formula_editor_function_multi_finger_y">sentuhan panggung y</string>
+    <string name="formula_editor_function_is_multi_finger_touching">panggung tersentuh</string>
+    <string name="formula_editor_function_index_of_last_finger">indeks sentuh tahap terakhir</string>
     <string name="formula_editor_function_number_of_current_touches">jumlah sentuhan saat ini</string>
     <string name="formula_editor_function_index_of_current_touch">indeks sentuhan saat ini</string>
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(1)</string>
-    <string name="formula_editor_function_list_item" tools:ignore="UnusedResources">elemen</string>
+    <string name="formula_editor_function_list_item">elemen</string>
     <string name="formula_editor_function_list_item_parameter">(1,*daftar nama*)</string>
-    <string name="formula_editor_function_contains" tools:ignore="UnusedResources">berisi</string>
+    <string name="formula_editor_function_contains">berisi</string>
     <string name="formula_editor_function_contains_parameter">(*daftar nama*,1)</string>
-    <string name="formula_editor_function_index_of_item" tools:ignore="UnusedResources">indeks item</string>
+    <string name="formula_editor_function_index_of_item">indeks item</string>
     <string name="formula_editor_function_index_of_item_parameter">(1,*daftar nama*)</string>
-    <string name="formula_editor_function_number_of_items" tools:ignore="UnusedResources">jumlah_dari_item</string>
+    <string name="formula_editor_function_number_of_items">jumlah_dari_item</string>
     <string name="formula_editor_function_number_of_items_parameter">(*daftar nama*)</string>
-    <string name="formula_editor_function_collision">menyentuh_objek</string>
-    <string name="formula_editor_function_collides_with_edge" tools:ignore="UnusedResources">menyentuh_tepi</string>
-    <string name="formula_editor_function_touched" tools:ignore="UnusedResources">menyentuh_jari</string>
+    <string name="formula_editor_function_flatten">meratakan</string>
+    <string name="formula_editor_function_flatten_parameter">(*daftar nama*)</string>
+    <string name="formula_editor_function_collision">menyentuh aktor atau objek</string>
+    <string name="formula_editor_function_collides_with_edge">menyentuh tepi</string>
+    <string name="formula_editor_function_touched">menyentuh jari</string>
     <string name="formula_editor_function_collides_with_color">menyentuh warna</string>
     <string name="formula_editor_function_color_touches_color">warna menyentuh warna</string>
     <string name="formula_editor_sensor_color_at_x_y">warna pada x y</string>
-    <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">warna sama dengan warna dengan%
+    <string name="formula_editor_sensor_color_equals_color">warna sama dengan warna dengan%
         toleransi</string>
-    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">percepatan_x</string>
-    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">percepatan_y</string>
-    <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">percepatan_z</string>
-    <string name="formula_editor_sensor_compass_direction" tools:ignore="UnusedResources">arah_kompas</string>
-    <string name="formula_editor_sensor_latitude" tools:ignore="UnusedResources">lintang</string>
-    <string name="formula_editor_sensor_longitude" tools:ignore="UnusedResources">garis bujur</string>
-    <string name="formula_editor_sensor_location_accuracy" tools:ignore="UnusedResources">akurasi_lokasi</string>
-    <string name="formula_editor_sensor_altitude" tools:ignore="UnusedResources">ketinggian</string>
+    <string name="formula_editor_sensor_x_acceleration">percepatan x</string>
+    <string name="formula_editor_sensor_y_acceleration">percepatan y</string>
+    <string name="formula_editor_sensor_z_acceleration">percepatan z</string>
+    <string name="formula_editor_sensor_compass_direction">arah kompas</string>
+    <string name="formula_editor_sensor_latitude">lintang</string>
+    <string name="formula_editor_sensor_longitude">garis bujur</string>
+    <string name="formula_editor_sensor_location_accuracy">akurasi lokasi</string>
+    <string name="formula_editor_sensor_altitude">ketinggian</string>
     <string name="formula_editor_sensor_user_language">bahasa pengguna</string>
-    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">kecenderungan_x</string>
-    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">kecenderungan_y</string>
-    <string name="formula_editor_sensor_loudness" tools:ignore="UnusedResources">kenyaringan</string>
+    <string name="formula_editor_sensor_x_inclination">kecenderungan x</string>
+    <string name="formula_editor_sensor_y_inclination">kecenderungan y</string>
+    <string name="formula_editor_sensor_loudness">kenyaringan</string>
     <string name="formula_editor_sensor_timer">timer</string>
-    <string name="formula_editor_sensor_date_year" tools:ignore="UnusedResources">tahun</string>
-    <string name="formula_editor_sensor_date_month" tools:ignore="UnusedResources">bulan</string>
-    <string name="formula_editor_sensor_date_day" tools:ignore="UnusedResources">hari</string>
-    <string name="formula_editor_sensor_date_weekday" tools:ignore="UnusedResources">hari kerja</string>
-    <string name="formula_editor_sensor_time_hour" tools:ignore="UnusedResources">jam</string>
-    <string name="formula_editor_sensor_time_minute" tools:ignore="UnusedResources">menit</string>
-    <string name="formula_editor_sensor_time_second" tools:ignore="UnusedResources">kedua</string>
-    <string name="formula_editor_sensor_drone_battery_status" tools:ignore="UnusedResources">status_baterai_drone</string>
-    <string name="formula_editor_sensor_drone_emergency_state" tools:ignore="UnusedResources">keadaan_darurat_drone</string>
-    <string name="formula_editor_sensor_drone_flying" tools:ignore="UnusedResources">drone_terbang</string>
-    <string name="formula_editor_sensor_drone_initialized" tools:ignore="UnusedResources">drone_diinisialisasi</string>
-    <string name="formula_editor_sensor_drone_usb_active" tools:ignore="UnusedResources">usb_drone_aktif</string>
-    <string name="formula_editor_sensor_drone_usb_remaining_time" tools:ignore="UnusedResources">waktu_sisa_usb_drone</string>
-    <string name="formula_editor_sensor_drone_camera_ready" tools:ignore="UnusedResources">kamera_drone_siap</string>
-    <string name="formula_editor_sensor_drone_record_ready" tools:ignore="UnusedResources">rekaman_drone_siap</string>
-    <string name="formula_editor_sensor_drone_recording" tools:ignore="UnusedResources">drone_merekam</string>
-    <string name="formula_editor_sensor_drone_num_frames" tools:ignore="UnusedResources">drone_num_bingkai</string>
-    <string name="formula_editor_sensor_lego_nxt_1" tools:ignore="UnusedResources">NXT_sensor_1</string>
-    <string name="formula_editor_sensor_lego_nxt_2" tools:ignore="UnusedResources">NXT_sensor_2</string>
-    <string name="formula_editor_sensor_lego_nxt_3" tools:ignore="UnusedResources">NXT_sensor_3</string>
-    <string name="formula_editor_sensor_lego_nxt_4" tools:ignore="UnusedResources">NXT_sensor_4</string>
-    <string name="formula_editor_sensor_lego_ev3_1" tools:ignore="UnusedResources">EV3_sensor_1</string>
-    <string name="formula_editor_sensor_lego_ev3_2" tools:ignore="UnusedResources">EV3_sensor_2</string>
-    <string name="formula_editor_sensor_lego_ev3_3" tools:ignore="UnusedResources">EV3_sensor_3</string>
-    <string name="formula_editor_sensor_lego_ev3_4" tools:ignore="UnusedResources">EV3_sensor_4</string>
-    <string name="formula_editor_sensor_lego_nxt_touch">NXT_touch</string>
-    <string name="formula_editor_sensor_lego_nxt_sound">NXT_suara</string>
-    <string name="formula_editor_sensor_lego_nxt_light">NXT_cahaya</string>
-    <string name="formula_editor_sensor_lego_nxt_light_active">NXT_cahaya_aktif</string>
-    <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT_ultrasonic</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_touch">EV3_sentuh</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_infrared">EV3_inframerah</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3_warna</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3_warna_ambien</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3_warna_tercermin</string>
+    <string name="formula_editor_sensor_date_year">tahun</string>
+    <string name="formula_editor_sensor_date_month">bulan</string>
+    <string name="formula_editor_sensor_date_day">hari</string>
+    <string name="formula_editor_sensor_date_weekday">hari kerja</string>
+    <string name="formula_editor_sensor_time_hour">jam</string>
+    <string name="formula_editor_sensor_time_minute">menit</string>
+    <string name="formula_editor_sensor_time_second">kedua</string>
+    <string name="formula_editor_sensor_drone_battery_status">status baterai drone</string>
+    <string name="formula_editor_sensor_drone_emergency_state">keadaan darurat drone</string>
+    <string name="formula_editor_sensor_drone_flying">drone terbang</string>
+    <string name="formula_editor_sensor_drone_initialized">drone diinisialisasi</string>
+    <string name="formula_editor_sensor_drone_usb_active">usb drone aktif</string>
+    <string name="formula_editor_sensor_drone_usb_remaining_time">waktu sisa usb drone</string>
+    <string name="formula_editor_sensor_drone_camera_ready">kamera drone siap</string>
+    <string name="formula_editor_sensor_drone_record_ready">rekaman drone siap</string>
+    <string name="formula_editor_sensor_drone_recording">drone merekam</string>
+    <string name="formula_editor_sensor_drone_num_frames">drone num bingkai</string>
+    <string name="formula_editor_sensor_lego_nxt_1">NXT sensor 1</string>
+    <string name="formula_editor_sensor_lego_nxt_2">NXT sensor 2</string>
+    <string name="formula_editor_sensor_lego_nxt_3">NXT sensor 3</string>
+    <string name="formula_editor_sensor_lego_nxt_4">NXT sensor 4</string>
+    <string name="formula_editor_sensor_lego_ev3_1">EV3 sensor 1</string>
+    <string name="formula_editor_sensor_lego_ev3_2">EV3 sensor 2</string>
+    <string name="formula_editor_sensor_lego_ev3_3">EV3 sensor 3</string>
+    <string name="formula_editor_sensor_lego_ev3_4">EV3 sensor 4</string>
+    <string name="formula_editor_sensor_lego_nxt_touch">NXT touch</string>
+    <string name="formula_editor_sensor_lego_nxt_sound">NXT suara</string>
+    <string name="formula_editor_sensor_lego_nxt_light">NXT cahaya</string>
+    <string name="formula_editor_sensor_lego_nxt_light_active">NXT cahaya aktif</string>
+    <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT ultrasonic</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_touch">EV3 sentuh</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_infrared">EV3 inframerah</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3 warna</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3 warna ambien</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3 warna tercermin</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">Warna hitechnic EV3</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">Suhu EV3 NXT dalam °C</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">Suhu EV3 NXT dalam °F</string>
@@ -1601,35 +1646,38 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">Lampu EV3 NXT aktif</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">Suara EV3 NXT</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT ultrasonik</string>
-    <string name="formula_editor_sensor_gamepad_a_pressed" tools:ignore="UnusedResources">gamepad_a_tekan</string>
-    <string name="formula_editor_sensor_gamepad_b_pressed" tools:ignore="UnusedResources">gamepad_b_tekan</string>
-    <string name="formula_editor_sensor_gamepad_up_pressed" tools:ignore="UnusedResources">gamepad_atas_tekan</string>
-    <string name="formula_editor_sensor_gamepad_down_pressed" tools:ignore="UnusedResources">gamepad_bawah_tekan</string>
-    <string name="formula_editor_sensor_gamepad_left_pressed" tools:ignore="UnusedResources">gamepad_kiri_tekan</string>
-    <string name="formula_editor_sensor_gamepad_right_pressed" tools:ignore="UnusedResources">gamepad_kanan_tekan</string>
-    <string name="formula_editor_phiro_sensor_front_left" tools:ignore="UnusedResources">sensor_kiri_depan_phiro</string>
-    <string name="formula_editor_phiro_sensor_front_right" tools:ignore="UnusedResources">sensor_kanan_depan_phiro</string>
-    <string name="formula_editor_phiro_sensor_side_left" tools:ignore="UnusedResources">sensor_samping_kiri_phiro</string>
-    <string name="formula_editor_phiro_sensor_side_right" tools:ignore="UnusedResources">sensor_samping_kanan_phiro</string>
-    <string name="formula_editor_phiro_sensor_bottom_left" tools:ignore="UnusedResources">sensor_kiri_bawah_phiro</string>
-    <string name="formula_editor_phiro_sensor_bottom_right" tools:ignore="UnusedResources">sensor_kanan_bawah_phiro</string>
-    <string name="formula_editor_nfc_tag_id" tools:ignore="UnusedResources">nfc_tag_id</string>
-    <string name="formula_editor_nfc_tag_message" tools:ignore="UnusedResources">nfc_tag_pesan</string>
-    <string name="formula_editor_object_x" tools:ignore="UnusedResources">posisi_x</string>
-    <string name="formula_editor_object_y" tools:ignore="UnusedResources">posisi_y</string>
-    <string name="formula_editor_object_transparency" tools:ignore="UnusedResources">transparansi</string>
-    <string name="formula_editor_object_brightness" tools:ignore="UnusedResources">kecerahan</string>
-    <string name="formula_editor_object_size" tools:ignore="UnusedResources">ukuran</string>
-    <string name="formula_editor_object_rotation" tools:ignore="UnusedResources">arah</string>
-    <string name="formula_editor_object_layer" tools:ignore="UnusedResources">lapisan</string>
-    <string name="formula_editor_object_x_velocity" tools:ignore="UnusedResources">x_percepatan</string>
-    <string name="formula_editor_object_y_velocity" tools:ignore="UnusedResources">y_percepatan</string>
-    <string name="formula_editor_object_angular_velocity" tools:ignore="UnusedResources">sudut_percepatan</string>
-    <string name="formula_editor_object_look_number" tools:ignore="UnusedResources">lihat_nomor</string>
-    <string name="formula_editor_object_look_name" tools:ignore="UnusedResources">lihat_nama</string>
-    <string name="formula_editor_object_background_number" tools:ignore="UnusedResources">layarbelakang_nomor</string>
-    <string name="formula_editor_object_background_name" tools:ignore="UnusedResources">layarbelakang_nama</string>
-    <string name="formula_editor_object_distance_to" tools:ignore="UnusedResources">jarak ke</string>
+    <string name="formula_editor_sensor_gamepad_a_pressed">gamepad a tekan</string>
+    <string name="formula_editor_sensor_gamepad_b_pressed">gamepad b tekan</string>
+    <string name="formula_editor_sensor_gamepad_up_pressed">gamepad atas tekan</string>
+    <string name="formula_editor_sensor_gamepad_down_pressed">gamepad bawah tekan</string>
+    <string name="formula_editor_sensor_gamepad_left_pressed">gamepad kiri tekan</string>
+    <string name="formula_editor_sensor_gamepad_right_pressed">gamepad kanan tekan</string>
+    <string name="formula_editor_phiro_sensor_front_left">sensor kiri depan phiro</string>
+    <string name="formula_editor_phiro_sensor_front_right">sensor kanan depan phiro</string>
+    <string name="formula_editor_phiro_sensor_side_left">sensor samping kiri phiro</string>
+    <string name="formula_editor_phiro_sensor_side_right">sensor samping kanan phiro</string>
+    <string name="formula_editor_phiro_sensor_bottom_left">sensor kiri bawah phiro</string>
+    <string name="formula_editor_phiro_sensor_bottom_right">sensor kanan bawah phiro</string>
+    <string name="formula_editor_nfc_tag_id">nfc tag id</string>
+    <string name="formula_editor_nfc_tag_message">nfc tag pesan</string>
+    <string name="formula_editor_object_x">posisi x</string>
+    <string name="formula_editor_object_y">posisi y</string>
+    <string name="formula_editor_object_transparency">transparansi</string>
+    <string name="formula_editor_object_brightness">kecerahan</string>
+    <string name="formula_editor_object_size">ukuran</string>
+    <string name="formula_editor_object_rotation">arah</string>
+    <string name="formula_editor_object_rotation_look">lihat arah</string>
+    <string name="formula_editor_object_layer">lapisan</string>
+    <string name="formula_editor_object_x_velocity">x percepatan</string>
+    <string name="formula_editor_object_y_velocity">y percepatan</string>
+    <string name="formula_editor_object_angular_velocity">sudut percepatan</string>
+    <string name="formula_editor_object_look_number">lihat nomor</string>
+    <string name="formula_editor_object_look_name">lihat nama</string>
+    <string name="formula_editor_object_number_of_looks">jumlah penampilan</string>
+    <string name="formula_editor_object_background_number">layarbelakang nomor</string>
+    <string name="formula_editor_object_background_name">layarbelakang nama</string>
+    <string name="formula_editor_object_number_of_backgrounds">jumlah latar belakang</string>
+    <string name="formula_editor_object_distance_to">jarak untuk menyentuh posisi</string>
     <string name="formula_editor_compute">Menghitung</string>
     <string name="formula_editor_object">Objek</string>
     <string name="formula_editor_functions">Fungsi</string>
@@ -1644,6 +1692,7 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="formula_editor_object_look">Lihat properti</string>
     <string name="formula_editor_object_movement">Sifat gerak</string>
     <string name="formula_editor_device_face_detection">Deteksi wajah</string>
+    <string name="formula_editor_device_pose_detection">Deteksi pose</string>
     <string name="formula_editor_device_text_recognition">Pengenalan teks</string>
     <string name="formula_editor_device_date_and_time">Tanggal dan waktu</string>
     <string name="formula_editor_device_touch_detection">Deteksi sentuhan</string>
@@ -1654,22 +1703,22 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="formula_editor_device_raspberry">Raspberry Pi</string>
     <string name="formula_editor_device_drone">Drone</string>
     <string name="formula_editor_device_nfc">NFC</string>
-    <string name="formula_editor_device_cast">Melemparkan</string>
+    <string name="formula_editor_device_cast">Chromecast</string>
     <string name="formula_editor_string">Abc</string>
-    <string name="formula_editor_logic_notequal" tools:ignore="UnusedResources">≠</string>
-    <string name="formula_editor_logic_lesserthan" tools:ignore="UnusedResources">&lt;</string>
-    <string name="formula_editor_logic_greaterthan" tools:ignore="UnusedResources">&gt;</string>
-    <string name="formula_editor_logic_and" tools:ignore="UnusedResources">DAN</string>
-    <string name="formula_editor_logic_or" tools:ignore="UnusedResources">ATAU</string>
-    <string name="formula_editor_logic_not" tools:ignore="UnusedResources">TIDAK</string>
-    <string name="formula_editor_logic_greaterequal" tools:ignore="UnusedResources">≥</string>
-    <string name="formula_editor_logic_leserequal" tools:ignore="UnusedResources">≤</string>
-    <string name="formula_editor_logic_equal" tools:ignore="UnusedResources">=</string>
-    <string name="formula_editor_operator_mult" tools:ignore="UnusedResources">×</string>
-    <string name="formula_editor_operator_plus" tools:ignore="UnusedResources">+</string>
-    <string name="formula_editor_operator_minus" tools:ignore="UnusedResources">-</string>
-    <string name="formula_editor_operator_divide" tools:ignore="UnusedResources">÷</string>
-    <string name="formula_editor_operator_power" tools:ignore="UnusedResources">^</string>
+    <string name="formula_editor_logic_notequal">≠</string>
+    <string name="formula_editor_logic_lesserthan">&lt;</string>
+    <string name="formula_editor_logic_greaterthan">&gt;</string>
+    <string name="formula_editor_logic_and">dan</string>
+    <string name="formula_editor_logic_or">atau</string>
+    <string name="formula_editor_logic_not">tidak</string>
+    <string name="formula_editor_logic_greaterequal">≥</string>
+    <string name="formula_editor_logic_leserequal">≤</string>
+    <string name="formula_editor_logic_equal">=</string>
+    <string name="formula_editor_operator_mult">×</string>
+    <string name="formula_editor_operator_plus">+</string>
+    <string name="formula_editor_operator_minus">-</string>
+    <string name="formula_editor_operator_divide">÷</string>
+    <string name="formula_editor_operator_power">^</string>
     <string name="formula_editor_image_button_description_delete">hapus</string>
     <string name="formula_editor_image_button_description_color_picker">pemilih warna</string>
     <string name="formula_editor_image_button_description_functions_toggle">fungsi sakelar</string>
@@ -1684,14 +1733,80 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
         ekspresi</string>
     <string name="formula_editor_fragment_data_current_items">item saat ini</string>
     <string name="formula_editor_data_dialog_is_list">Membuat daftar</string>
-    <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">wajah_telah_terdeteksi</string>
-    <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">ukuran-wajah</string>
-    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">posisi_wajah_x</string>
-    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">posisi_wajah_y</string>
+    <string name="formula_editor_sensor_face_detected">wajah pertama terlihat</string>
+    <string name="formula_editor_sensor_face_size">ukuran wajah pertama</string>
+    <string name="formula_editor_sensor_face_x_position">wajah pertama x posisi</string>
+    <string name="formula_editor_sensor_face_y_position">posisi wajah pertama y</string>
     <string name="formula_editor_sensor_second_face_detected">wajah kedua terlihat</string>
     <string name="formula_editor_sensor_second_face_size">ukuran wajah kedua</string>
     <string name="formula_editor_sensor_second_face_x_position">posisi x wajah kedua</string>
     <string name="formula_editor_sensor_second_face_y_position">wajah kedua posisi y</string>
+    <string name="formula_editor_sensor_nose_x">hidung x</string>
+    <string name="formula_editor_sensor_nose_y">hidung y</string>
+    <string name="formula_editor_sensor_left_eye_inner_x">mata kiri bagian dalam x</string>
+    <string name="formula_editor_sensor_left_eye_inner_y">mata kiri bagian dalam y</string>
+    <string name="formula_editor_sensor_left_eye_center_x">mata kiri tengah x</string>
+    <string name="formula_editor_sensor_left_eye_center_y">mata kiri tengah y</string>
+    <string name="formula_editor_sensor_left_eye_outer_x">mata kiri luar x</string>
+    <string name="formula_editor_sensor_left_eye_outer_y">mata kiri luar y</string>
+    <string name="formula_editor_sensor_right_eye_inner_x">mata kanan bagian dalam x</string>
+    <string name="formula_editor_sensor_right_eye_inner_y">mata kanan batin y</string>
+    <string name="formula_editor_sensor_right_eye_center_x">pusat mata kanan x</string>
+    <string name="formula_editor_sensor_right_eye_center_y">pusat mata kanan y</string>
+    <string name="formula_editor_sensor_right_eye_outer_x">mata kanan luar x</string>
+    <string name="formula_editor_sensor_right_eye_outer_y">mata kanan luar y</string>
+    <string name="formula_editor_sensor_left_ear_x">telinga kiri x</string>
+    <string name="formula_editor_sensor_left_ear_y">berangkat lebih awal</string>
+    <string name="formula_editor_sensor_right_ear_x">telinga kanan x</string>
+    <string name="formula_editor_sensor_right_ear_y">telinga kanan y</string>
+    <string name="formula_editor_sensor_mouth_left_corner_x">sudut kiri mulut x</string>
+    <string name="formula_editor_sensor_mouth_left_corner_y">sudut kiri mulut y</string>
+    <string name="formula_editor_sensor_mouth_right_corner_x">sudut kanan mulut x</string>
+    <string name="formula_editor_sensor_mouth_right_corner_y">sudut kanan mulut y</string>
+    <string name="formula_editor_sensor_left_shoulder_x">bahu kiri x</string>
+    <string name="formula_editor_sensor_left_shoulder_y">bahu kiri y</string>
+    <string name="formula_editor_sensor_right_shoulder_x">bahu kanan x</string>
+    <string name="formula_editor_sensor_right_shoulder_y">bahu kanan y</string>
+    <string name="formula_editor_sensor_left_elbow_x">siku kiri x</string>
+    <string name="formula_editor_sensor_left_elbow_y">siku kiri y</string>
+    <string name="formula_editor_sensor_right_elbow_x">siku kanan x</string>
+    <string name="formula_editor_sensor_right_elbow_y">siku kanan y</string>
+    <string name="formula_editor_sensor_left_wrist_x">pergelangan tangan kiri x</string>
+    <string name="formula_editor_sensor_left_wrist_y">pergelangan tangan kiri y</string>
+    <string name="formula_editor_sensor_right_wrist_x">pergelangan tangan kanan x</string>
+    <string name="formula_editor_sensor_right_wrist_y">pergelangan tangan kanan y</string>
+    <string name="formula_editor_sensor_left_pinky_knuckle_x">buku jari kelingking kiri x</string>
+    <string name="formula_editor_sensor_left_pinky_knuckle_y">buku jari kelingking kiri y</string>
+    <string name="formula_editor_sensor_right_pinky_knuckle_x">buku jari kelingking kanan x</string>
+    <string name="formula_editor_sensor_right_pinky_knuckle_y">buku jari kelingking kanan y</string>
+    <string name="formula_editor_sensor_left_index_knuckle_x">buku jari telunjuk kiri x</string>
+    <string name="formula_editor_sensor_left_index_knuckle_y">buku jari telunjuk kiri y</string>
+    <string name="formula_editor_sensor_right_index_knuckle_x">buku jari telunjuk kanan x</string>
+    <string name="formula_editor_sensor_right_index_knuckle_y">buku jari telunjuk kanan y</string>
+    <string name="formula_editor_sensor_left_thumb_knuckle_x">buku jari jempol kiri x</string>
+    <string name="formula_editor_sensor_left_thumb_knuckle_y">buku jari jempol kiri y</string>
+    <string name="formula_editor_sensor_right_thumb_knuckle_x">buku jari jempol kanan x</string>
+    <string name="formula_editor_sensor_right_thumb_knuckle_y">buku jari jempol kanan y</string>
+    <string name="formula_editor_sensor_left_hip_x">pinggul kiri x</string>
+    <string name="formula_editor_sensor_left_hip_y">pinggul kiri y</string>
+    <string name="formula_editor_sensor_right_hip_x">pinggul kanan x</string>
+    <string name="formula_editor_sensor_right_hip_y">pinggul kanan y</string>
+    <string name="formula_editor_sensor_left_knee_x">lutut kiri x</string>
+    <string name="formula_editor_sensor_left_knee_y">lutut kiri y</string>
+    <string name="formula_editor_sensor_right_knee_x">lutut kanan x</string>
+    <string name="formula_editor_sensor_right_knee_y">lutut kanan y</string>
+    <string name="formula_editor_sensor_left_ankle_x">pergelangan kaki kiri x</string>
+    <string name="formula_editor_sensor_left_ankle_y">pergelangan kaki kiri y</string>
+    <string name="formula_editor_sensor_right_ankle_x">pergelangan kaki kanan x</string>
+    <string name="formula_editor_sensor_right_ankle_y">pergelangan kaki kanan y</string>
+    <string name="formula_editor_sensor_left_heel_x">tumit kiri x</string>
+    <string name="formula_editor_sensor_left_heel_y">tumit kiri y</string>
+    <string name="formula_editor_sensor_right_heel_x">tumit kanan x</string>
+    <string name="formula_editor_sensor_right_heel_y">tumit kanan y</string>
+    <string name="formula_editor_sensor_left_foot_index_x">indeks kaki kiri x</string>
+    <string name="formula_editor_sensor_left_foot_index_y">indeks kaki kiri y</string>
+    <string name="formula_editor_sensor_right_foot_index_x">indeks kaki kanan x</string>
+    <string name="formula_editor_sensor_right_foot_index_y">indeks kaki kanan y</string>
     <string name="formula_editor_sensor_text_from_camera">teks dari kamera</string>
     <string name="formula_editor_sensor_text_blocks_number">jumlah blok teks</string>
     <string name="formula_editor_function_text_block_x">blok teks x dari kamera</string>
@@ -1699,12 +1814,11 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="formula_editor_function_text_block_size">ukuran blok teks dari kamera</string>
     <string name="formula_editor_function_text_block_from_camera">blok teks dari kamera</string>
     <string name="formula_editor_function_text_block_language_from_camera">teks blok bahasa dari kamera</string>
-    <string name="formula_editor_function_text_block_parameter">(0)</string>
+    <string name="formula_editor_function_text_block_parameter">(1)</string>
     <string name="formula_editor_intro_title_formula_editor">Rumus editor</string>
-    <string name="formula_editor_intro_summary_formula_editor">Editor rumus memungkinkan Anda membuat matematika dan
-        Rumus logis yang bisa Anda gunakan di batu bata Anda.\n\nAnda bisa memajukan intro kecil ini dengan menyentuh
-        tombol \"Berikutnya\" di sudut kanan bawah, dan Anda dapat melewatinya dengan menyentuh tombol \"SKIP\" di tombol
-        pojok kiri bawah.</string>
+    <string name="formula_editor_intro_summary_formula_editor">Dengan editor rumus Anda dapat membuat matematika dan
+        rumus logika yang dapat Anda gunakan di batu bata Anda.\n\nLanjutkan dengan mengetuk “BERIKUTNYA” atau keluar
+        dengan “SKIP”.</string>
     <string name="formula_editor_intro_title_input_field">Kolom Input</string>
     <string name="formula_editor_intro_summary_input_field">Di sini Anda bisa melihat rumus Anda, dan juga bisa mengeditnya.</string>
     <string name="formula_editor_intro_title_keyboard">Papan ketik</string>
@@ -1713,7 +1827,7 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="formula_editor_intro_title_compute">Menghitung</string>
     <string name="formula_editor_intro_summary_compute">Untuk menguji rumus dan menampilkan hasilnya saat ini, Anda bisa
          menggunakan \"Compute\".</string>
-    <string name="formula_editor_intro_title_object">Objek</string>
+    <string name="formula_editor_intro_title_object">Properti</string>
     <string name="formula_editor_intro_summary_object">Ini adalah kumpulan nilai yang menggambarkan objek Anda
          saat ini. Beberapa nilai ini misalnya koordinat x dan y, atau kecepatan saat ini.</string>
     <string name="formula_editor_intro_title_functions">Fungsi</string>
@@ -1731,35 +1845,39 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="formula_editor_intro_summary_data">Variabel dan daftar yang digunakan dalam program Anda dapat ditemukan di sini.\n Anda bisa memasukkannya ke dalam formula Anda, atau menambahkan yang baru.</string>
     <string name="formula_editor_listening_language_sensor">bahasa mendengarkan</string>
     <string name="formula_editor_speech_recognition">Pengenalan suara</string>
-    <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.</string>
-    <string name="formula_editor_function_flatten">meratakan</string>
-    <string name="formula_editor_function_flatten_parameter">(*daftar nama*)</string>
+    <string name="camera_error_text_detection">        Ada masalah dengan deteksi teks. Beberapa komponen mungkin masih diunduh di
+        Latar Belakang. Pastikan Anda terhubung ke internet dan periksa kembali nanti.</string>
+    <string name="warning_formula_recognized">Anda memasukkan teks yang terlihat seperti rumus. Jika Anda ingin menggunakan fungsi,
+        sensor, variabel, dan elemen rumus lainnya, harap pilih sebagai gantinya menggunakan
+        tombol di editor rumus.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="brick_show_variable" tools:ignore="UnusedResources">Tampilkan variabel </string>
-    <string name="brick_hide_variable" tools:ignore="UnusedResources">Sembunyikan variabel</string>
-    <string name="brick_show_variable_position" tools:ignore="UnusedResources">di </string>
-    <string name="brick_show_variable_size" tools:ignore="UnusedResources">ukuran:</string>
-    <string name="brick_show_variable_color" tools:ignore="UnusedResources">warna:</string>
-    <string name="brick_show_variable_aligned" tools:ignore="UnusedResources">selaras</string>
-    <string name="brick_show_variable_aligned_centered" tools:ignore="UnusedResources">berpusat</string>
-    <string name="brick_show_variable_aligned_left" tools:ignore="UnusedResources">kiri</string>
-    <string name="brick_show_variable_aligned_right" tools:ignore="UnusedResources">kanan</string>
+    <string name="brick_show_variable">Tampilkan variabel </string>
+    <string name="brick_hide_variable">Sembunyikan variabel</string>
+    <string name="brick_show_variable_position">di </string>
+    <string name="brick_show_variable_size">ukuran:</string>
+    <string name="brick_show_variable_color">warna:</string>
+    <string name="brick_show_variable_aligned">selaras</string>
+    <string name="brick_show_variable_aligned_centered">berpusat</string>
+    <string name="brick_show_variable_aligned_left">kiri</string>
+    <string name="brick_show_variable_aligned_right">kanan</string>
     <string name="brick_context_dialog_pick_color">Pilih warna</string>
     <string name="brick_context_dialog_pick_note">Pilih catatan</string>
     <!-- -->
     <!-- Camera related strings -->
-    <string name="brick_video" tools:ignore="UnusedResources">Belokkan kamera</string>
-    <string name="video_brick_camera_on" tools:ignore="UnusedResources">aktif</string>
-    <string name="video_brick_camera_off" tools:ignore="UnusedResources">mati</string>
-    <string name="brick_choose_camera" tools:ignore="UnusedResources">Gunakan kamera</string>
-    <string name="choose_camera_front" tools:ignore="UnusedResources">depan</string>
-    <string name="choose_camera_back" tools:ignore="UnusedResources">belakang</string>
-    <string name="camera_error_generic">        Something went wrong while trying to use the camera.
+    <string name="brick_video">Belokkan kamera</string>
+    <string name="video_brick_camera_on">aktif</string>
+    <string name="video_brick_camera_off">mati</string>
+    <string name="brick_choose_camera">Gunakan kamera</string>
+    <string name="choose_camera_front">depan</string>
+    <string name="choose_camera_back">belakang</string>
+    <string name="camera_error_generic">        Terjadi masalah saat mencoba menggunakan kamera
     </string>
-    <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.
+    <string name="camera_error_face_detection">        Ada masalah dengan deteksi wajah. Beberapa komponen mungkin masih diunduh di
+        Latar Belakang. Pastikan Anda terhubung ke internet dan periksa kembali nanti.
+    </string>
+    <string name="camera_error_pose_detection">        Ada masalah dengan deteksi pose. Beberapa komponen mungkin masih diunduh di
+        Latar Belakang. Pastikan Anda terhubung ke internet dan periksa kembali nanti.
     </string>
     <!-- -->
     <!-- Cast strings -->
@@ -1830,7 +1948,7 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="device_language">Bahasa perangkat</string>
     <!-- Symbols -->
     <string name="percent_symbol">%</string>
-    <string name="hertz_symbol" tools:ignore="UnusedResources">㎐</string>
+    <string name="hertz_symbol">㎐</string>
     <string name="no_internet_connection">Tidak ada koneksi internet. Pastikan Wi-Fi atau seluler
     data dihidupkan.</string>
     <string name="edit">Edit</string>
@@ -1843,4 +1961,15 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="no_variable_selected">Tidak ada variabel yang dipilih</string>
     <string name="find">Temukan</string>
     <string name="no_results_found">Tidak ada hasil yang ditemukan</string>
+    <string name="query_field_is_empty">Bidang kueri kosong</string>
+    <string name="cut">Memotong</string>
+    <string name="paste">Tempel</string>
+    <!-- Particle Effects -->
+    <string name="fade_particle_effect">Efek partikel pudar</string>
+    <string name="particle_effects_fade_in">di</string>
+    <string name="particle_effects_fade_out">keluar</string>
+    <string name="turn_particle_effect_additivity">Ubah aditif efek partikel</string>
+    <string name="particle_effects_additive_on">aktif</string>
+    <string name="particle_effects_additive_off">mati</string>
+    <string name="set_particle_color_to">Setel warna partikel ke</string>
 </resources>
