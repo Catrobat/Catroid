@@ -39,7 +39,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.asynctask.saveProjectSerial
 import org.catrobat.catroid.ui.PROJECT_DIR
-import org.catrobat.catroid.uiespresso.ui.activity.ProjectUploadRatingDialogTest.ProjectUploadTestActivity
+import org.catrobat.catroid.uiespresso.ui.activity.ProjectUploadDialogTest.ProjectUploadTestActivity
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
 import org.junit.After
 import org.junit.Rule

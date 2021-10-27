@@ -23,16 +23,19 @@
 
 package org.catrobat.catroid.uiespresso.ui.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.ui.ProjectUploadActivity;
 import org.catrobat.catroid.ui.controller.ProjectUploadController;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
@@ -51,10 +54,7 @@ import static org.catrobat.catroid.common.Constants.UPLOAD_RESULT_RECEIVER_RESUL
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 import static org.catrobat.catroid.ui.ProjectUploadActivityKt.NUMBER_OF_UPLOADED_PROJECTS;
 import static org.catrobat.catroid.ui.ProjectUploadActivityKt.PROJECT_DIR;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -66,12 +66,11 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
-public class ProjectUploadRatingDialogTest {
-
-	private ProjectUploadController projectUploadController;
+public class ProjectUploadDialogTest {
 	private Bundle bundle;
+	private Project project;
 	private SharedPreferences sharedPreferences;
-	private static final String PROJECT_NAME = ProjectUploadRatingDialogTest.class.getSimpleName();
+	private static final String PROJECT_NAME = ProjectUploadDialogTest.class.getSimpleName();
 
 	@Rule
 	public BaseActivityTestRule<ProjectUploadTestActivity> activityTestRule =
@@ -79,20 +78,23 @@ public class ProjectUploadRatingDialogTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Context context = ApplicationProvider.getApplicationContext();
-		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		bundle = new Bundle();
-		Project project = new Project(context, PROJECT_NAME, false);
+		this.sharedPreferences =
+				PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
+		this.bundle = new Bundle();
 
-		Sprite firstSprite = new Sprite("firstSprite");
-		project.getDefaultScene().addSprite(firstSprite);
-		saveProjectSerial(project, context);
-
+		this.project = new Project(ApplicationProvider.getApplicationContext(),
+				PROJECT_NAME, false);
+		Scene firstScene = new Scene("scene", project);
 		ProjectManager.getInstance().setCurrentProject(project);
+		Sprite firstSprite = new Sprite("firstSprite");
+		Script firstScript = new StartScript();
+		firstSprite.addScript(firstScript);
+		firstScene.addSprite(firstSprite);
+		project.addScene(firstScene);
+		saveProjectSerial(project, ApplicationProvider.getApplicationContext());
 
 		Intent intent = new Intent();
 		intent.putExtra(PROJECT_DIR, project.getDirectory());
-
 		activityTestRule.launchActivity(intent);
 	}
 
@@ -110,19 +112,24 @@ public class ProjectUploadRatingDialogTest {
 				.putInt(NUMBER_OF_UPLOADED_PROJECTS, 1)
 				.commit();
 
-		onView(withId(R.id.next))
+		onView(withText(R.string.next))
 				.perform(click());
+		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 
-		onView(withId(R.id.next))
+		onView(withText(R.string.next))
 				.perform(click());
+		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 
 		onView(withText(R.string.next))
 				.perform(click());
 
-		projectUploadController = activityTestRule.getActivity().getProjectUploadController();
+		ProjectUploadController projectUploadController =
+				activityTestRule.getActivity().getProjectUploadController();
 
-		verify(projectUploadController, times(1)).startUpload(eq("ProjectUploadRatingDialogTest"),
-				eq(""), eq(""), any());
+		Looper.prepare();
+		verify(projectUploadController)
+				.startUpload(PROJECT_NAME, "", "", this.project);
+		Looper.myLooper().quit();
 	}
 
 	@Test
@@ -225,7 +232,7 @@ public class ProjectUploadRatingDialogTest {
 		@NotNull
 		@Override
 		protected ProjectUploadController createProjectUploadController() {
-			projectUploadController = mock(ProjectUploadController.class);
+			projectUploadController = spy(new ProjectUploadController(this));
 			return projectUploadController;
 		}
 

@@ -186,7 +186,7 @@ open class ProjectUploadActivity : BaseActivity(),
         binding.inputProjectName.editText?.addTextChangedListener(nameInputTextWatcher)
         originalProjectName = project.name
 
-        checkCodeforApiKey()
+        checkCodeForApiKey()
         setShowProgressBar(false)
         setNextButtonEnabled(true)
     }
@@ -294,7 +294,7 @@ open class ProjectUploadActivity : BaseActivity(),
         }
     }
 
-    private fun checkCodeforApiKey() {
+    private fun checkCodeForApiKey() {
         xmlFile = File(project.directory, Constants.CODE_XML_FILE_NAME)
 
         try {
@@ -304,12 +304,12 @@ open class ProjectUploadActivity : BaseActivity(),
             Log.e(TAG, Log.getStackTraceString(exception))
         }
 
-        val containsWebBrick = xml.contains(WEB_REQUEST_BRICK) ||
-            xml.contains(BACKGROUND_REQUEST_BRICK) ||
-            xml.contains(LOOK_REQUEST_BRICK) ||
-            xml.contains(OPEN_URL_BRICK)
-
-        if (containsWebBrick) {
+        xml.findAnyOf(
+            listOf(
+                WEB_REQUEST_BRICK, BACKGROUND_REQUEST_BRICK,
+                LOOK_REQUEST_BRICK, OPEN_URL_BRICK
+            )
+        )?.let {
             checkApiPattern()
         }
     }
