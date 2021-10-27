@@ -44,4 +44,7 @@ public class Backpack implements Serializable {
 
 	public HashMap<String, List<Script>> backpackedScripts = new HashMap<>();
 	public HashMap<String, List<UserDefinedBrick>> backpackedUserDefinedBricks = new HashMap<>();
+
+	public HashMap<String, HashMap<String, Integer>> backpackedUserVariables = new HashMap<>();
+	public HashMap<String, HashMap<String, Integer>> backpackedUserLists = new HashMap<>();
 }

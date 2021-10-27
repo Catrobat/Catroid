@@ -67,10 +67,10 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 			List<Script> scripts = BackpackListManager.getInstance().getBackpackedScripts().get(item);
 			for (Script script : scripts) {
 				try {
-					scriptController.unpack(script, sprite);
+					scriptController.unpack(item, script, sprite);
 					unpackedItemCnt++;
-				} catch (CloneNotSupportedException e) {
-					Log.e(TAG, Log.getStackTraceString(e));
+				} catch (CloneNotSupportedException exception) {
+					Log.e(TAG, Log.getStackTraceString(exception));
 				}
 			}
 		}

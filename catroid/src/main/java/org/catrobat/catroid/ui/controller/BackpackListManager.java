@@ -83,6 +83,9 @@ public final class BackpackListManager {
 
 	public void removeItemFromScriptBackPack(String scriptGroup) {
 		getBackpack().backpackedScripts.remove(scriptGroup);
+		getBackpack().backpackedUserVariables.remove(scriptGroup);
+		getBackpack().backpackedUserLists.remove(scriptGroup);
+		getBackpack().backpackedUserDefinedBricks.remove(scriptGroup);
 	}
 
 	public List<Scene> getScenes() {
