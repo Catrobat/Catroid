@@ -76,8 +76,8 @@ class BackpackUserDefinedBricksTest {
         startScript.addToFlatList(bricksToPack)
         scriptController.pack(backpackGroupName, bricksToPack)
         val scripts = BackpackListManager.getInstance().backpackedScripts[backpackGroupName]
-        scripts?.forEach {
-            scriptController.unpack(it, secondSprite)
+        scripts?.forEach { script ->
+            scriptController.unpack(backpackGroupName, script, secondSprite)
         }
 
         Assert.assertNotNull(secondSprite.getUserDefinedScript(userDefinedBrick.userDefinedBrickID))
@@ -91,8 +91,8 @@ class BackpackUserDefinedBricksTest {
         userDefinedScript.addToFlatList(bricksToPack)
         scriptController.pack(backpackGroupName, bricksToPack)
         val scripts = BackpackListManager.getInstance().backpackedScripts[backpackGroupName]
-        scripts?.forEach {
-            scriptController.unpack(it, secondSprite)
+        scripts?.forEach { script ->
+            scriptController.unpack(backpackGroupName, script, secondSprite)
         }
 
         Assert.assertNotNull(secondSprite.getUserDefinedScript(userDefinedBrick.userDefinedBrickID))

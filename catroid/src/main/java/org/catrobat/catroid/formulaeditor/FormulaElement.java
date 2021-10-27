@@ -1029,4 +1029,26 @@ public class FormulaElement implements Serializable {
 	public void setValue(String value) {
 		this.value = value;
 	}
+
+	public List<String> getUserDataRecursive(ElementType type) {
+		ArrayList<String> userDataNames = new ArrayList<>();
+
+		if (this.type == type) {
+			userDataNames.add(this.value);
+		}
+
+		if (this.leftChild != null) {
+			userDataNames.addAll(leftChild.getUserDataRecursive(type));
+		}
+
+		if (this.rightChild != null) {
+			userDataNames.addAll(rightChild.getUserDataRecursive(type));
+		}
+
+		for (FormulaElement child : additionalChildren) {
+			userDataNames.addAll(child.getUserDataRecursive(type));
+		}
+
+		return userDataNames;
+	}
 }
