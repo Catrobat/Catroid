@@ -26,8 +26,11 @@ package org.catrobat.catroid.stage;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.os.SystemClock;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.WindowManager;
 
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
@@ -41,6 +44,7 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
@@ -50,9 +54,12 @@ import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
+import org.catrobat.catroid.utils.TouchUtil;
 import org.catrobat.catroid.utils.VibrationUtil;
 
 import java.util.List;
+
+import androidx.core.view.MotionEventCompat;
 
 import static org.catrobat.catroid.stage.StageResourceHolder.getProjectsRuntimePermissionList;
 import static org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask.checkPermission;
@@ -105,6 +112,62 @@ public final class StageLifeCycleController {
 					.addStageViewToLayout((GLSurfaceView20) stageActivity.initializeForView(StageActivity.stageListener, stageActivity.configuration));
 		} else {
 			stageActivity.initialize(StageActivity.stageListener, stageActivity.configuration);
+			View view = stageActivity.getGdxGraphics().getView();
+			view.setOnTouchListener(new View.OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					int action = event.getAction();
+					float displayRatio = 2.f;
+					float x = (event.getX() - v.getWidth() / displayRatio) / 2.f;
+					float y = (-event.getY() + v.getHeight() / displayRatio) / 2.f;
+					XmlHeader header = ProjectManager.getInstance().getCurrentProject().getXmlHeader();
+					float virtual_x = header.getVirtualScreenWidth();
+					float virtual_y = header.getVirtualScreenHeight();
+
+					float offset_x = v.getWidth()/displayRatio - virtual_x;
+					float offset_y = v.getHeight()/displayRatio - virtual_y;
+
+					if(x > 0)
+						x = x - offset_x / 2.f;
+					else
+						x = x + offset_x / 2.f;
+					if(y > 0)
+						y = y - offset_y / 2.f;
+					else
+						y = y + offset_y / 2.f;
+
+					switch(action) {
+						case (MotionEvent.ACTION_DOWN) :
+							Log.d("&&&",
+									"Stage Height: " + v.getHeight()/2.f + "Width: " + v.getWidth()/2.f);
+							Log.d("&&&", "Virtual x: " + virtual_x + "virtual y: " + virtual_y);
+							Log.d("&&&", "Offset x: " + offset_x + "Offset y: " + offset_y);
+							Log.d("&&&",
+									"DOWN - Motionevent - x: " + x + " y: " + y + " "
+											+ "pointer: " +
+											event.getPointerId(event.getActionIndex()));
+							TouchUtil.touchDown(x, y,
+									event.getPointerId(event.getActionIndex()));
+							return true;
+						case (MotionEvent.ACTION_MOVE) :
+							Log.d("&&&",
+									"MOVE - Motionevent - x: " + x + " y: " + y + " "
+											+ "pointer: " +
+											event.getPointerId(event.getActionIndex()));
+							TouchUtil.updatePosition(x, y,
+									event.getPointerId(event.getActionIndex()));
+							return true;
+						case (MotionEvent.ACTION_UP) :
+							Log.d("&&&",
+									"UP - Motionevent - pointer: " +
+											event.getPointerId(event.getActionIndex()));
+							TouchUtil.touchUp(event.getPointerId(event.getActionIndex()));
+							return true;
+					}
+					Log.d("&&&", String.valueOf(event.getSize()));
+					return false;
+				}
+			});
 		}
 
 		//CATROID-105 - TODO: does this make any difference? probably necessary for cast:
@@ -127,6 +190,12 @@ public final class StageLifeCycleController {
 				}
 			}.execute(stageActivity);
 		}
+	}
+
+	static int pxToDp(int px, View view) {
+		DisplayMetrics displayMetrics = view.getContext().getResources().getDisplayMetrics();
+		int dp = Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+		return dp;
 	}
 
 	static void stagePause(final StageActivity stageActivity) {

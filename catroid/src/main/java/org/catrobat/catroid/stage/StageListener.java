@@ -352,17 +352,27 @@ public class StageListener implements ApplicationListener {
 			inputListener = new InputListener() {
 				@Override
 				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+					Log.d("&&&",
+							"DOWN - StageInputListener - x: " + event.getStageX() + " y: " + event.getStageY() + " pointer: " +
+									pointer);
 					TouchUtil.touchDown(event.getStageX(), event.getStageY(), pointer);
+					Log.d("&&&",
+							"Stage Height: " + stage.getHeight() + "Width: " + stage.getWidth());
 					return true;
 				}
 
 				@Override
 				public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+					Log.d("&&&",
+							"UP - StageInputListener - pointer: " + pointer);
 					TouchUtil.touchUp(pointer);
 				}
 
 				@Override
 				public void touchDragged(InputEvent event, float x, float y, int pointer) {
+					Log.d("&&&",
+							"MOVE - StageInputListener - x: " + event.getStageX() + " y: " + event.getStageY() + " pointer: " +
+									pointer);
 					TouchUtil.updatePosition(event.getStageX(), event.getStageY(), pointer);
 				}
 			};
