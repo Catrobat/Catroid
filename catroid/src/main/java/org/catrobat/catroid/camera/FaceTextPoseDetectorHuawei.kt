@@ -29,24 +29,28 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import com.huawei.hms.mlsdk.MLAnalyzerFactory
 import com.huawei.hms.mlsdk.common.MLFrame
+import com.huawei.hms.mlsdk.skeleton.MLSkeletonAnalyzerFactory
 import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.R
 import org.catrobat.catroid.camera.VisualDetectionHandler.handleAlreadyExistingFaces
 import org.catrobat.catroid.camera.VisualDetectionHandler.handleNewFaces
 import org.catrobat.catroid.camera.VisualDetectionHandler.translateHuaweiFaceToVisualDetectionFace
 import org.catrobat.catroid.camera.VisualDetectionHandler.updateAllFaceSensorValues
+import org.catrobat.catroid.camera.VisualDetectionHandler.updateAllPoseSensorValuesHuawei
 import org.catrobat.catroid.camera.VisualDetectionHandler.updateTextSensorValues
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.utils.TextBlockUtil.setTextBlocksHuawei
 
-object FaceAndTextDetectorHuawei : ImageAnalysis.Analyzer {
+object FaceTextPoseDetectorHuawei : ImageAnalysis.Analyzer {
     private const val DETECTION_PROCESS_ERROR_MESSAGE = "Could not analyze image."
     private const val QUADRANT_DEGREES = 90
     private val analyzer = MLAnalyzerFactory.getInstance().faceAnalyzer
     private val textAnalyzer = MLAnalyzerFactory.getInstance().localTextAnalyzer
+    private val poseAnalyzer = MLSkeletonAnalyzerFactory.getInstance().skeletonAnalyzer
 
     private var textDetected = false
     private var faceDetected = false
+    private var poseDetected = false
 
     @ExperimentalGetImage
     override fun analyze(imageProxy: ImageProxy) {
@@ -58,13 +62,14 @@ object FaceAndTextDetectorHuawei : ImageAnalysis.Analyzer {
 
             textDetected = false
             faceDetected = false
+            poseDetected = false
 
             val textTask = textAnalyzer.asyncAnalyseFrame(mlFrame)
             textTask.addOnSuccessListener { text ->
                 updateTextSensorValues(text.stringValue, text.blocks.size)
                 setTextBlocksHuawei(text.blocks, mediaImage.width, mediaImage.height)
                 textDetected = true
-                if (faceDetected) {
+                if (faceDetected && poseDetected) {
                     imageProxy.close()
                 }
             }.addOnFailureListener { e ->
@@ -77,13 +82,33 @@ object FaceAndTextDetectorHuawei : ImageAnalysis.Analyzer {
             }
 
             val faceTask = analyzer.asyncAnalyseFrame(mlFrame)
-            faceTask.addOnSuccessListener {
-                val faces = translateHuaweiFaceToVisualDetectionFace(it)
+            faceTask.addOnSuccessListener { huaweiMLFaces ->
+                val faces = translateHuaweiFaceToVisualDetectionFace(huaweiMLFaces)
                 handleAlreadyExistingFaces(faces)
                 handleNewFaces(faces)
                 updateAllFaceSensorValues(mediaImage.width, mediaImage.height)
                 faceDetected = true
-                if (textDetected) {
+                if (textDetected && poseDetected) {
+                    imageProxy.close()
+                }
+            }.addOnFailureListener { e ->
+                val context = CatroidApplication.getAppContext()
+                StageActivity.messageHandler.obtainMessage(
+                    StageActivity.SHOW_TOAST,
+                    arrayListOf(context.getString(R.string.camera_error_face_detection))
+                ).sendToTarget()
+                Log.e(javaClass.simpleName, DETECTION_PROCESS_ERROR_MESSAGE, e)
+            }
+
+            val poseTask = poseAnalyzer.asyncAnalyseFrame(mlFrame)
+            poseTask.addOnSuccessListener { huaweiMLPoseList ->
+                updateAllPoseSensorValuesHuawei(
+                    huaweiMLPoseList,
+                    mediaImage.width,
+                    mediaImage.height
+                )
+                poseDetected = true
+                if (faceDetected && textDetected) {
                     imageProxy.close()
                 }
             }.addOnFailureListener { e ->

@@ -1984,6 +1984,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_second_face_size">second face size</string>
     <string name="formula_editor_sensor_second_face_x_position">second face x position</string>
     <string name="formula_editor_sensor_second_face_y_position">second face y position</string>
+    <string name="formula_editor_sensor_head_top_x">head top x</string>
+    <string name="formula_editor_sensor_head_top_y">head top y</string>
+    <string name="formula_editor_sensor_neck_x">neck x</string>
+    <string name="formula_editor_sensor_neck_y">neck y</string>
     <string name="formula_editor_sensor_nose_x">nose x</string>
     <string name="formula_editor_sensor_nose_y">nose y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">left eye inner x</string>

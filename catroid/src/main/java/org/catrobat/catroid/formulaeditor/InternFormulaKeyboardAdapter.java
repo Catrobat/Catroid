@@ -257,6 +257,14 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.SECOND_FACE_X);
 			case R.string.formula_editor_sensor_second_face_y_position:
 				return buildSensor(Sensors.SECOND_FACE_Y);
+			case R.string.formula_editor_sensor_head_top_x:
+				return buildSensor(Sensors.HEAD_TOP_X);
+			case R.string.formula_editor_sensor_head_top_y:
+				return buildSensor(Sensors.HEAD_TOP_Y);
+			case R.string.formula_editor_sensor_neck_x:
+				return buildSensor(Sensors.NECK_X);
+			case R.string.formula_editor_sensor_neck_y:
+				return buildSensor(Sensors.NECK_Y);
 			case R.string.formula_editor_sensor_nose_x:
 				return buildSensor(Sensors.NOSE_X);
 			case R.string.formula_editor_sensor_nose_y:
