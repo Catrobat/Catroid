@@ -1100,6 +1100,8 @@
     <string name="brick_tatami_direction_right">right</string>
     <string name="brick_tatami_style_random">Random 6–14</string>
     <string name="brick_tatami_style_regular8">Regular 8</string>
+    <string name="brick_tatami_style_regular10">Regular 10</string>
+    <string name="brick_tatami_style_regular12">Regular 12</string>
 
     <!--  -->
 

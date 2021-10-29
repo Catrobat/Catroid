@@ -32,21 +32,21 @@ import java.util.List;
 
 public class TatamiContour {
 	private Sprite sprite = null;
-	List<Pair<Float, Float>> coordinates = new ArrayList<>();
+	List<Pair<Integer, Integer>> coordinates = new ArrayList<>();
 	private boolean isRunning = false;
 
 	public void update() {
 		if (isRunning) {
-			float currentX = sprite.look.getXInUserInterfaceDimensionUnit();
-			float currentY = sprite.look.getYInUserInterfaceDimensionUnit();
-			Pair<Float, Float> pair = coordinates.get(coordinates.size() - 1);
+			int currentX = (int) sprite.look.getXInUserInterfaceDimensionUnit();
+			int currentY = (int) sprite.look.getYInUserInterfaceDimensionUnit();
+			Pair<Integer, Integer> pair = coordinates.get(coordinates.size() - 1);
 			if (pair.first != currentX || pair.second != currentY) {
 				coordinates.add(new Pair<>(currentX, currentY));
 			}
 		}
 	}
 
-	public void setStartCoordinates(float xCoordinate, float yCoordinate) {
+	public void setStartCoordinates(int xCoordinate, int yCoordinate) {
 		if (coordinates.isEmpty()) {
 			coordinates.add(new Pair<>(xCoordinate, yCoordinate));
 		}
@@ -69,7 +69,7 @@ public class TatamiContour {
 		return sprite;
 	}
 
-	public List<Pair<Float, Float>> getCoordinates() {
+	public List<Pair<Integer, Integer>> getCoordinates() {
 		return coordinates;
 	}
 }

@@ -36,39 +36,95 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.stage.StageActivity;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Random;
 
 public class FillTatamiContourAction extends TemporalAction {
 
 	private FillTatamiContourBrick.Direction direction;
 	private FillTatamiContourBrick.Style style;
-	private List<Pair<Float, Float>> listOfAllCoordinates = new ArrayList<Pair<Float, Float>>();
+	private List<Pair<Integer, Integer>> listOfAllContourCoordinates = new ArrayList<Pair<Integer, Integer>>();
 	private Formula width;
 	private Scope scope;
-	private final int STITCH_GAP = 10;
+	private Sprite sprite;
+	private final int contourStitchGap = 15;
+	private final int zigZagSize = 16;
+
+	private interface StyleFunction {
+		int getStyle(boolean randomizeOffsetForFirstInLine);
+	}
+
+	private static class Random6To14 implements StyleFunction {
+		@Override
+		public int getStyle(boolean randomizeOffsetForFirstInLine) {
+			Random random = new Random();
+			if (randomizeOffsetForFirstInLine) {
+				return random.nextInt(10) + 1;
+			}
+			random = new Random();
+			return random.nextInt(5) + 6;
+		}
+	}
+
+	private static class Regular8 implements StyleFunction {
+		@Override
+		public int getStyle(boolean randomizeOffsetForFirstInLine) {
+			if (randomizeOffsetForFirstInLine) {
+				Random random = new Random();
+				return random.nextInt(8) + 1;
+			}
+			return 8;
+		}
+	}
+
+	private static class Regular10 implements StyleFunction {
+		@Override
+		public int getStyle(boolean randomizeOffsetForFirstInLine) {
+			if (randomizeOffsetForFirstInLine) {
+				Random random = new Random();
+				return random.nextInt(10) + 1;
+			}
+			return 10;
+		}
+	}
+
+	private static class Regular12 implements StyleFunction {
+		@Override
+		public int getStyle(boolean randomizeOffsetForFirstInLine) {
+			if (randomizeOffsetForFirstInLine) {
+				Random random = new Random();
+				return random.nextInt(12) + 1;
+			}
+			return 12;
+		}
+	}
 
 	@Override
 	protected void update(float percent) {
 		if (scope == null) {
 			return;
 		}
-		Sprite sprite = scope.getSprite();
+		sprite = scope.getSprite();
 
-		List<Pair<Float, Float>> coordinates = sprite.getTatamiContour().getCoordinates();
-
-		float widthInterpretation = 0;
-		try {
-			if (width != null) {
-				widthInterpretation = width.interpretFloat(scope);
-			}
-		} catch (InterpretationException interpretationException) {
-			widthInterpretation = 0;
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+		List<Pair<Integer, Integer>> coordinates = sprite.getTatamiContour().getCoordinates();
+		if (coordinates.size() < 1) {
+			return;
 		}
 
-		//sprite.setEmbroideryThreadColor(Color.RED); //TODO only for debug purposes
+		int widthInterpretation = 1;
+		try {
+			if (width != null) {
+				widthInterpretation = width.interpretInteger(scope);
+				if (widthInterpretation < 1) {
+					return;
+				}
+			}
+		} catch (InterpretationException interpretationException) {
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+			return;
+		}
 
 		for (int i = 0; i < coordinates.size() - 1; i++) {
 			interpolateStitches(coordinates.get(i).first, coordinates.get(i).second,
@@ -77,12 +133,33 @@ public class FillTatamiContourAction extends TemporalAction {
 		interpolateStitches(coordinates.get(coordinates.size() - 1).first,
 				coordinates.get(coordinates.size() - 1).second, coordinates.get(0).first, coordinates.get(0).second);
 
-		//sprite.setEmbroideryThreadColor(Color.BLUE); //TODO only for debug purposes
+		if (listOfAllContourCoordinates.size() < 1) {
+			return;
+		}
 
-		fillContour();
+		sortAllCoordinates();
+		Pair<Integer, Integer> minValues = getMinValues(listOfAllContourCoordinates);
+		Pair<Integer, Integer> maxValues = getMaxValues(listOfAllContourCoordinates);
+
+		List<Pair<Integer, Integer>> insideContourCoordinates = generateInsideCoordinates(minValues, maxValues);
+		addUnderlayStitch(insideContourCoordinates, minValues, maxValues);
+
+		boolean directionLeftToRight = false;
+		if (direction == FillTatamiContourBrick.Direction.LEFT) {
+			directionLeftToRight = true;
+		}
+		StyleFunction styleFunction = new Random6To14();
+		if (style == FillTatamiContourBrick.Style.REGULAR_8) {
+			styleFunction = new Regular8();
+		} else if (style == FillTatamiContourBrick.Style.REGULAR_10) {
+			styleFunction = new Regular10();
+		} else if (style == FillTatamiContourBrick.Style.REGULAR_12) {
+			styleFunction = new Regular12();
+		}
+		fillContour(insideContourCoordinates, directionLeftToRight, maxValues, widthInterpretation, styleFunction);
 	}
 
-	private void interpolateStitches(float startX, float startY, float endX, float endY) {
+	private void interpolateStitches(int startX, int startY, int endX, int endY) {
 		Sprite sprite = scope.getSprite();
 
 		StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(startX, startY,
@@ -94,135 +171,259 @@ public class FillTatamiContourAction extends TemporalAction {
 
 		for (int count = 0; count < interpolationCount; count++) {
 			float splitFactor = (float) count / interpolationCount;
-			float x = interpolate(startX, endX, splitFactor);
-			float y = interpolate(startY, endY, splitFactor);
-			listOfAllCoordinates.add(new Pair<>(x, y));
-			if(count % STITCH_GAP == 0) {
+			int x = interpolate(startX, endX, splitFactor);
+			int y = interpolate(startY, endY, splitFactor);
+			listOfAllContourCoordinates.add(new Pair<>(x, y));
+			if (count % contourStitchGap == 0) {
 				StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(x, y,
 						sprite.look.getZIndex(), sprite, sprite.getEmbroideryThreadColor()));
 			}
 		}
+
+		List<Pair<Integer, Integer>> originalList = new ArrayList<>(listOfAllContourCoordinates);
+		for (int i = 0; i < originalList.size(); i++) {
+			Pair<Integer, Integer> pairToRemove = new Pair<>(originalList.get(i).first - 1, originalList.get(i).second);
+			if (originalList.contains(pairToRemove)) {
+				listOfAllContourCoordinates.remove(pairToRemove);
+			}
+		}
 	}
 
-	private float interpolate(float endValue, float startValue, float percentage) {
-		return (float) Math.round(startValue + percentage * (endValue - startValue));
+	private int interpolate(int endValue, int startValue, float percentage) {
+		return Math.round(startValue + percentage * (endValue - startValue));
 	}
 
-	//TODO remove comments
-	/*
-	This method needs the list of all coordinates to be sorted by higher to lower y and then from
-	lower to higher x. As done by the sortAllCoordinates method. It iterates over all relevant
-	screen pixels starting from the top of the screen and working down row by row.
-	The insideContour boolean keeps track of the current fill status. If true we are currently
-	inside the shape and need to set stitches to fill it. The lastContained boolean indicates
-	when true if the last processed point was already an edge.
-	Whenever the y value of the first point is greater than the current y value it can safely
-	removed because it is irrelevant. The same holds true whenever the x value is too low.
-	 */
-	private void fillContour() {
-		int totalFilledStitchAmount = 0;
-		sortAllCoordinates();
-
-		List<Pair<Integer, Integer>> tempStitchCoordinates = new ArrayList<>();
-
-		Sprite sprite = scope.getSprite();
-		Pair<Integer, Integer> minValues = getMinValues();
-		Pair<Integer, Integer> maxValues = getMaxValues();
+	private List<Pair<Integer, Integer>> generateInsideCoordinates(Pair<Integer, Integer> minValues, Pair<Integer, Integer> maxValues) {
+		List<Pair<Integer, Integer>> insideContourCoordinates = new ArrayList<>();
 		for (int y = maxValues.second; y > minValues.second; y--) {
 
-			//Remove irrelevant y values
-			while (y < listOfAllCoordinates.get(0).second) {
-				listOfAllCoordinates.remove(0);
+			while (y < listOfAllContourCoordinates.get(0).second) {
+				listOfAllContourCoordinates.remove(0);
 			}
 
 			boolean insideContour = false;
-			boolean lastContained = false;
 			for (int x = minValues.first - 1; x < maxValues.first + 1; x++) {
-				if (listOfAllCoordinates.size() == 0) {
+				if (listOfAllContourCoordinates.size() == 0) {
 					break;
 				}
 
-				if (listOfAllCoordinates.get(0).second < y) {
-					//Whenever this is true the next point is already in the next line so we can
-					// break out of the x for loop
+				if (listOfAllContourCoordinates.get(0).second < y) {
 					break;
 				} else {
-					//Remove irrelevant x values
-					while (listOfAllCoordinates.get(0).second == y &&
-							x > listOfAllCoordinates.get(0).first) {
-						listOfAllCoordinates.remove(0);
+					while (listOfAllContourCoordinates.get(0).second == y && x > listOfAllContourCoordinates.get(0).first) {
+						listOfAllContourCoordinates.remove(0);
 					}
-				}
-
-				if (listOfAllCoordinates.get(0).equals(new Pair<>((float) x, (float) y))) {
-					if (lastContained) {
-						//When the last was already contained we are at an edge and not in contour
-						insideContour = false;
-					} else {
-						//Otherwise we are in the contour
-						insideContour ^= true;
-					}
-					lastContained = true;
-					//Remove the first element of the sorted list because we processed it
-					listOfAllCoordinates.remove(0);
-				} else {
-					lastContained = false;
 				}
 
 				if (insideContour) {
-					tempStitchCoordinates.add(new Pair<>(x, y));
+					insideContourCoordinates.add(new Pair<>(x, y));
+					if (listOfAllContourCoordinates.get(0).equals(new Pair<>(x, y))) {
+						insideContour = false;
+						listOfAllContourCoordinates.remove(0);
+					}
+				} else {
+					if (listOfAllContourCoordinates.size() > 1 && listOfAllContourCoordinates.get(0).equals(new Pair<>(x, y))
+							&& !listOfAllContourCoordinates.get(1).equals(new Pair<>(x + 1, y))) {
+						insideContour = true;
+						listOfAllContourCoordinates.remove(0);
+					}
 				}
 			}
-			if (listOfAllCoordinates.size() == 0) {
+			if (listOfAllContourCoordinates.size() == 0) {
 				break;
 			}
 		}
 
-		for (int i = 0; i < tempStitchCoordinates.size(); i += 10) {
-			totalFilledStitchAmount++;
-			Pair<Integer, Integer> pair = tempStitchCoordinates.get(i);
-			StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(
-					pair.first, pair.second, sprite.look.getZIndex(), sprite, sprite.getEmbroideryThreadColor()));
-		}
-
-
-		System.out.println("Total filled stitch amount is " + totalFilledStitchAmount);
+		return insideContourCoordinates;
 	}
 
-	private void sortAllCoordinates() {
-		for (int i = 0; i < listOfAllCoordinates.size(); i++) {
-			for (int j = 0; j < listOfAllCoordinates.size(); j++) {
-				if (comparePairs(listOfAllCoordinates.get(i), listOfAllCoordinates.get(j)) > 0) {
-					Collections.swap(listOfAllCoordinates, i, j);
+	private void addUnderlayStitch(List<Pair<Integer, Integer>> insideContourCoordinates,
+			Pair<Integer, Integer> minValues, Pair<Integer, Integer> maxValues) {
+		boolean leftToRight = true;
+		for (int y = maxValues.second - 1; y >= minValues.second; y -= zigZagSize) {
+			List<Pair<Integer, Integer>> upperLine = getLine(y, insideContourCoordinates);
+			List<Pair<Integer, Integer>> lowerLine = getLine(y - zigZagSize, insideContourCoordinates);
+
+			if (upperLine != null && lowerLine != null) {
+				if (leftToRight) {
+					int currentX = upperLine.get(0).first;
+
+					int lowerLineIndex = 0;
+					while (currentX < lowerLine.get(lowerLineIndex).first) {
+						currentX++;
+					}
+					while (upperLine.size() > 0 && lowerLine.size() > 0) {
+						while (upperLine.size() > 0 && upperLine.get(0).first < currentX) {
+							upperLine.remove(0);
+						}
+						if (upperLine.size() == 0) {
+							break;
+						}
+						if (insideContourCoordinates.contains(new Pair<>(currentX, y))) {
+							StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(
+									currentX, y, sprite.look.getZIndex(), sprite, sprite.getEmbroideryThreadColor()));
+						}
+						if (currentX + zigZagSize > lowerLine.get(lowerLine.size() - 1).first) {
+							break;
+						}
+						if (insideContourCoordinates.contains(new Pair<>(currentX + zigZagSize, y - zigZagSize))) {
+							StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(
+									currentX + zigZagSize, y - zigZagSize,
+									sprite.look.getZIndex(), sprite, sprite.getEmbroideryThreadColor()));
+						}
+						currentX += zigZagSize * 2;
+					}
+					leftToRight = false;
+				} else {
+					int currentX = upperLine.get(upperLine.size() - 1).first;
+
+					int lowerLineIndex = lowerLine.size() - 1;
+					while (currentX > lowerLine.get(lowerLineIndex).first) {
+						currentX--;
+					}
+					while (upperLine.size() > 0 && lowerLine.size() > 0) {
+						while (upperLine.size() > 0 && upperLine.get(upperLine.size() - 1).first > currentX) {
+							upperLine.remove(upperLine.size() - 1);
+						}
+						if (upperLine.size() == 0) {
+							break;
+						}
+						if (insideContourCoordinates.contains(new Pair<>(currentX, y))) {
+							StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(
+									currentX, y, sprite.look.getZIndex(), sprite, sprite.getEmbroideryThreadColor()));
+						}
+						if (currentX - zigZagSize < lowerLine.get(0).first) {
+							break;
+						}
+						if (insideContourCoordinates.contains(new Pair<>(currentX - zigZagSize, y - zigZagSize))) {
+							StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(
+									currentX - zigZagSize, y - zigZagSize,
+									sprite.look.getZIndex(), sprite, sprite.getEmbroideryThreadColor()));
+						}
+						currentX -= zigZagSize * 2;
+					}
+					leftToRight = true;
 				}
 			}
 		}
 	}
 
-	private Pair<Integer, Integer> getMinValues() {
+	private void fillContour(List<Pair<Integer, Integer>> insideContourCoordinates, boolean leftToRight,
+			Pair<Integer, Integer> maxValues, int integerWidth, StyleFunction styleFunction) {
+		boolean lastLeftToRight = !leftToRight;
+
+		int currentY = maxValues.second;
+		while (!insideContourCoordinates.isEmpty()) {
+			if (currentY < insideContourCoordinates.get(insideContourCoordinates.size() - 1).second) {
+				currentY = insideContourCoordinates.get(0).second;
+			}
+
+			List<Pair<Integer, Integer>> line = getLine(currentY, insideContourCoordinates);
+			if (line != null) {
+				boolean randomizeOffsetForFirstInLine = true;
+				int currentX = line.get(0).first;
+				if (!lastLeftToRight) {
+					while (true) {
+						StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(
+								currentX, currentY, sprite.look.getZIndex(), sprite, sprite.getEmbroideryThreadColor()));
+						currentX += styleFunction.getStyle(randomizeOffsetForFirstInLine);
+						randomizeOffsetForFirstInLine = false;
+						if (!line.contains(new Pair<>(currentX, currentY))) {
+							removeCoordinatesByInterval(insideContourCoordinates, line.get(0).first, currentX, currentY, currentY - integerWidth);
+							break;
+						}
+					}
+					lastLeftToRight = true;
+				} else {
+					while (line.contains(new Pair<>(currentX, currentY))) {
+						currentX++;
+					}
+					int startX = currentX - 1;
+					while (true) {
+						StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(
+								currentX, currentY, sprite.look.getZIndex(), sprite, sprite.getEmbroideryThreadColor()));
+						currentX -= styleFunction.getStyle(randomizeOffsetForFirstInLine);
+						randomizeOffsetForFirstInLine = false;
+						if (!line.contains(new Pair<>(currentX, currentY))) {
+							removeCoordinatesByInterval(insideContourCoordinates, line.get(0).first, startX, currentY, currentY - integerWidth);
+							break;
+						}
+					}
+					lastLeftToRight = false;
+				}
+			}
+			currentY -= integerWidth;
+		}
+	}
+
+	private void removeCoordinatesByInterval(List<Pair<Integer, Integer>> insideContourCoordinates,
+			int startX, int endX, int startY, int endY) {
+		for (int i = 0; i < insideContourCoordinates.size(); i++) {
+			if (insideContourCoordinates.get(i).second > startY) {
+				continue;
+			}
+			if (insideContourCoordinates.get(i).second <= endY) {
+				break;
+			}
+			int currentY = insideContourCoordinates.get(i).second;
+			while (i < insideContourCoordinates.size() && insideContourCoordinates.get(i).second == currentY
+					&& insideContourCoordinates.get(i).first >= startX && insideContourCoordinates.get(i).first <= endX) {
+				insideContourCoordinates.remove(i);
+			}
+			while (i < insideContourCoordinates.size() && insideContourCoordinates.get(i).second == currentY) {
+				i++;
+			}
+		}
+	}
+
+	private List<Pair<Integer, Integer>> getLine(int yCoordinate, List<Pair<Integer, Integer>> allCoordinates) {
+		List<Pair<Integer, Integer>> line = new ArrayList<>();
+		for (int i = 0; i < allCoordinates.size(); i++) {
+			if (allCoordinates.get(i).second == yCoordinate) {
+				while (i < allCoordinates.size() && allCoordinates.get(i).second == yCoordinate) {
+					line.add(allCoordinates.get(i));
+					i++;
+				}
+				return line;
+			}
+		}
+		return null;
+	}
+
+	private void sortAllCoordinates() {
+		for (int i = 0; i < listOfAllContourCoordinates.size(); i++) {
+			for (int j = 0; j < listOfAllContourCoordinates.size(); j++) {
+				if (comparePairs(listOfAllContourCoordinates.get(i), listOfAllContourCoordinates.get(j)) > 0) {
+					Collections.swap(listOfAllContourCoordinates, i, j);
+				}
+			}
+		}
+	}
+
+	private Pair<Integer, Integer> getMinValues(List<Pair<Integer, Integer>> coordinates) {
 		int minX = Integer.MAX_VALUE;
-		for (int i = 0; i < listOfAllCoordinates.size(); i++) {
-			if (listOfAllCoordinates.get(i).first < minX) {
-				minX = Math.round(listOfAllCoordinates.get(i).first);
+		for (int i = 0; i < coordinates.size(); i++) {
+			if (coordinates.get(i).first < minX) {
+				minX = Math.round(coordinates.get(i).first);
 			}
 		}
-		return new Pair<>(minX, Math.round(listOfAllCoordinates.get(listOfAllCoordinates.size() - 1).second));
+		return new Pair<>(minX, Math.round(coordinates.get(coordinates.size() - 1).second));
 	}
 
-	private Pair<Integer, Integer> getMaxValues() {
+	private Pair<Integer, Integer> getMaxValues(List<Pair<Integer, Integer>> coordinates) {
 		int maxX = Integer.MIN_VALUE;
-		for (int i = 0; i < listOfAllCoordinates.size(); i++) {
-			if (listOfAllCoordinates.get(i).first > maxX) {
-				maxX = Math.round(listOfAllCoordinates.get(i).first);
+		for (int i = 0; i < coordinates.size(); i++) {
+			if (coordinates.get(i).first > maxX) {
+				maxX = Math.round(coordinates.get(i).first);
 			}
 		}
-		return new Pair<>(maxX, Math.round(listOfAllCoordinates.get(0).second));
+		return new Pair<>(maxX, Math.round(coordinates.get(0).second));
 	}
 
-	private int comparePairs(Pair<Float, Float> pair1, Pair<Float, Float> pair2) {
-		int result = Float.compare(pair1.second, pair2.second);
+	private int comparePairs(Pair<Integer, Integer> pair1, Pair<Integer, Integer> pair2) {
+		int result = Integer.compare(pair1.second, pair2.second);
 		if (result == 0) {
-			result = -Float.compare(pair1.first, pair2.first);
+			result = -Integer.compare(pair1.first, pair2.first);
 		}
 		return result;
 	}

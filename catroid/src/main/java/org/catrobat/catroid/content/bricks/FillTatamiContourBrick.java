@@ -39,7 +39,9 @@ public class FillTatamiContourBrick extends SpinnerWithFormulaBrickType {
 
 	public enum Style {
 		RANDOM,
-		REGULAR_8
+		REGULAR_8,
+		REGULAR_10,
+		REGULAR_12
 	}
 
 	public FillTatamiContourBrick() {
@@ -60,6 +62,8 @@ public class FillTatamiContourBrick extends SpinnerWithFormulaBrickType {
 		ArrayList<Integer> styles = new ArrayList<>();
 		styles.add(R.string.brick_tatami_style_random);
 		styles.add(R.string.brick_tatami_style_regular8);
+		styles.add(R.string.brick_tatami_style_regular10);
+		styles.add(R.string.brick_tatami_style_regular12);
 		addSpinner(R.id.brick_fill_tatami_contour_style_spinner, styles);
 
 		setFormulaWithBrickField(BrickField.TATAMI_WIDTH, width);
@@ -88,6 +92,10 @@ public class FillTatamiContourBrick extends SpinnerWithFormulaBrickType {
 			style = Style.RANDOM;
 		} else if (styleSelection == R.string.brick_tatami_style_regular8) {
 			style = Style.REGULAR_8;
+		} else if (styleSelection == R.string.brick_tatami_style_regular10) {
+			style = Style.REGULAR_10;
+		} else if (styleSelection == R.string.brick_tatami_style_regular12) {
+			style = Style.REGULAR_12;
 		}
 
 		sequence.addAction(sprite.getActionFactory().createFillTatamiContourAction(sprite, sequence,

@@ -65,8 +65,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import androidx.annotation.VisibleForTesting;
-
 @XStreamFieldKeyOrder({
 		"name",
 		"lookList",
@@ -713,8 +711,8 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 			tatamiContour.setSprite(this);
 		}
 		tatamiContour.setRunning(true);
-		float currentX = this.look.getXInUserInterfaceDimensionUnit();
-		float currentY = this.look.getYInUserInterfaceDimensionUnit();
+		int currentX = (int) this.look.getXInUserInterfaceDimensionUnit();
+		int currentY = (int) this.look.getYInUserInterfaceDimensionUnit();
 		tatamiContour.setStartCoordinates(currentX, currentY);
 	}
 

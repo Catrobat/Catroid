@@ -78,6 +78,7 @@ import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.EmptyEventBrick;
 import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick;
+import org.catrobat.catroid.content.bricks.FillTatamiContourBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
@@ -745,6 +746,9 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 
 		brickInfo = new BrickInfo(StartTatamiContourBrick.class.getSimpleName());
 		brickInfoMap.put("startTatamiContourBrick", brickInfo);
+
+		brickInfo = new BrickInfo(FillTatamiContourBrick.class.getSimpleName());
+		brickInfoMap.put("fillTatamiContourBrick", brickInfo);
 
 		brickInfo = new BrickInfo(FadeParticleEffectBrick.class.getSimpleName());
 		brickInfoMap.put("fadeParticleEffectBrick", brickInfo);

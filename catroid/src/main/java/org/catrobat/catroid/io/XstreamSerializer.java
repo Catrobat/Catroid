@@ -113,6 +113,7 @@ import org.catrobat.catroid.content.bricks.EditLookBrick;
 import org.catrobat.catroid.content.bricks.EmptyEventBrick;
 import org.catrobat.catroid.content.bricks.ExitStageBrick;
 import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick;
+import org.catrobat.catroid.content.bricks.FillTatamiContourBrick;
 import org.catrobat.catroid.content.bricks.FinishStageBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForItemInUserListBrick;
@@ -611,6 +612,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", TripleStitchBrick.class);
 		xstream.alias("brick", SetThreadColorBrick.class);
 		xstream.alias("brick", StartTatamiContourBrick.class);
+		xstream.alias("brick", FillTatamiContourBrick.class);
 		xstream.alias("brick", SewUpBrick.class);
 		xstream.alias("brick", WriteEmbroideryToFileBrick.class);
 		xstream.alias("brick", WaitTillIdleBrick.class);

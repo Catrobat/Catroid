@@ -260,6 +260,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StitchBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StartTatamiContourBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StartTatamiContourBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.FillTatamiContourBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/FillTatamiContourBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetPenSizeBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetPenSizeBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick",
