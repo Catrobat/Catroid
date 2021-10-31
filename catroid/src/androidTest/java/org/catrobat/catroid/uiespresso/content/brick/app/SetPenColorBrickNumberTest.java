@@ -145,11 +145,20 @@ public class SetPenColorBrickNumberTest {
 				.perform(click());
 		onView(withText(R.string.color_picker_cancel))
 				.perform(click());
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_set_pen_color_action_red_edit_text)
-				.checkShowsNumber((Integer) red);
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_set_pen_color_action_green_edit_text)
-				.checkShowsNumber((Integer) green);
-		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_set_pen_color_action_blue_edit_text)
-				.checkShowsNumber((Integer) blue);
+		if ((Integer) red < 0 || (Integer) green < 0 || (Integer) blue < 0) {
+			onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_set_pen_color_action_red_edit_text)
+					.check(matches(withText(containsString("0"))));
+			onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_set_pen_color_action_green_edit_text)
+					.check(matches(withText(containsString("0"))));
+			onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_set_pen_color_action_blue_edit_text)
+					.check(matches(withText(containsString("0"))));
+		} else {
+			onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_set_pen_color_action_red_edit_text)
+					.checkShowsNumber((Integer) red);
+			onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_set_pen_color_action_green_edit_text)
+					.checkShowsNumber((Integer) green);
+			onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_set_pen_color_action_blue_edit_text)
+					.checkShowsNumber((Integer) blue);
+		}
 	}
 }
