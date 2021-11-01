@@ -2020,4 +2020,6 @@
     <string name="particle_effects_additive_on">पर</string>
     <string name="particle_effects_additive_off">बंद</string>
     <string name="set_particle_color_to">कण रंग को पर सेट करें</string>
+    <string name="undo_sort">Undo sort</string>
+    <string name="sort">क्रमबद्ध</string>
 </resources>

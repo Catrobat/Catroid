@@ -1955,4 +1955,6 @@
     <string name="particle_effects_additive_on">オン</string>
     <string name="particle_effects_additive_off">オフ</string>
     <string name="set_particle_color_to">パーティクルの色を設定</string>
+    <string name="undo_sort">Undo sort</string>
+    <string name="sort">並べ替え</string>
 </resources>

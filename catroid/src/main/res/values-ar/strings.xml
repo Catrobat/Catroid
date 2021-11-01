@@ -2187,4 +2187,6 @@
     <string name="particle_effects_additive_on">تشغيل</string>
     <string name="particle_effects_additive_off">إطفاء</string>
     <string name="set_particle_color_to">تعيين لون الجسيم إلى</string>
+    <string name="undo_sort">Undo sort</string>
+    <string name="sort">فرز</string>
 </resources>

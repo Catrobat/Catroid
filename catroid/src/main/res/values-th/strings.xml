@@ -1950,4 +1950,6 @@
     <string name="particle_effects_additive_on">เปิด</string>
     <string name="particle_effects_additive_off">ปิด</string>
     <string name="set_particle_color_to">ตั้งค่าสีอนุภาคเป็น</string>
+    <string name="undo_sort">เลิกทำการเรียงลำดับ</string>
+    <string name="sort">เรียงลำดับ</string>
 </resources>

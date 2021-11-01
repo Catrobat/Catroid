@@ -118,7 +118,7 @@
     <string name="preference_title_web_access">Dostęp do sieci Web</string>
     <string name="preference_description_web_access">Edytuj aby dodać lub usunąć zaufane domeny</string>
     <string name="preference_screen_web_access_title">Edytuj zaufane domeny</string>
-    <string name="preference_title_ai">Rozszerzenie Rozszerzenie Sztucznej Inteligencji (AI)</string>
+    <string name="preference_title_ai">Rozszerzenie Sztucznej Inteligencji (AI)</string>
     <string name="preference_description_ai">Włączenie sztucznej inteligencji i czujników</string>
     <string name="preference_title_ai_speech_recognition">Rozpoznawanie
         mowy</string>
@@ -1063,7 +1063,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="brick_forever">Zawsze</string>
     <string name="brick_loop_for_values_from">Dla wartości z</string>
     <string name="brick_loop_for_each_value_from">Dla każdej wartości od</string>
-    <string name="brick_loop_in">w</string>
+    <string name="brick_loop_in">wejście</string>
     <string name="brick_loop_to">do</string>
     <string name="brick_repeat">Powtórz</string>
     <string name="brick_repeat_until">Powtarzaj aż</string>
@@ -2048,10 +2048,12 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="paste">Wklej</string>
     <!-- Particle Effects -->
     <string name="fade_particle_effect">Efekt zanikania cząstek</string>
-    <string name="particle_effects_fade_in">w</string>
+    <string name="particle_effects_fade_in">wejście</string>
     <string name="particle_effects_fade_out">wyjście</string>
     <string name="turn_particle_effect_additivity">Przełącz dodatni efekt cząsteczek</string>
     <string name="particle_effects_additive_on">włącz</string>
     <string name="particle_effects_additive_off">wyłącz</string>
     <string name="set_particle_color_to">Ustaw kolor cząsteczki na</string>
+    <string name="undo_sort">Cofnij sortowanie</string>
+    <string name="sort">Sortuj</string>
 </resources>
