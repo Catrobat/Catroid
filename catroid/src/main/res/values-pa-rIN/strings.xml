@@ -2023,4 +2023,6 @@
     <string name="particle_effects_additive_on">ਚਾਲੂ</string>
     <string name="particle_effects_additive_off">ਬੰਦ</string>
     <string name="set_particle_color_to">ਕਣ ਦਾ ਰੰਗ ਸੈੱਟ ਕਰੋ</string>
+    <string name="undo_sort">Undo sort</string>
+    <string name="sort">ਲੜੀਬੱਧ</string>
 </resources>

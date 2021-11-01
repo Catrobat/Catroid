@@ -2016,4 +2016,6 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="particle_effects_additive_on">ligado</string>
     <string name="particle_effects_additive_off">desligado</string>
     <string name="set_particle_color_to">Define a cor da partícula para</string>
+    <string name="undo_sort">Undo sort</string>
+    <string name="sort">Ordenar</string>
 </resources>

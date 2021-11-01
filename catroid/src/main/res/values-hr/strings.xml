@@ -2063,4 +2063,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="particle_effects_additive_on">uključeno</string>
     <string name="particle_effects_additive_off">iskljuceno</string>
     <string name="set_particle_color_to">Set particle color to</string>
+    <string name="undo_sort">Undo sort</string>
+    <string name="sort">Sort</string>
 </resources>
