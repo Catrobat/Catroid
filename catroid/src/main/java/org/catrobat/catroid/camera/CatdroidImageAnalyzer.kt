@@ -27,33 +27,20 @@ import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import com.google.mlkit.vision.common.InputImage
-import com.google.mlkit.vision.face.FaceDetection
-import com.google.mlkit.vision.face.FaceDetectorOptions
 import com.google.mlkit.vision.pose.PoseDetection
 import com.google.mlkit.vision.pose.defaults.PoseDetectorOptions
 import com.google.mlkit.vision.text.TextRecognition
 import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.R
-import org.catrobat.catroid.camera.VisualDetectionHandler.handleAlreadyExistingFaces
-import org.catrobat.catroid.camera.VisualDetectionHandler.handleNewFaces
-import org.catrobat.catroid.camera.VisualDetectionHandler.updateAllFaceSensorValues
 import org.catrobat.catroid.camera.VisualDetectionHandler.updateAllPoseSensorValues
-import org.catrobat.catroid.camera.VisualDetectionHandler.updateFaceDetectionStatusSensorValues
 import org.catrobat.catroid.camera.VisualDetectionHandler.updateTextSensorValues
+import org.catrobat.catroid.camera.mlkitdetectors.FaceDetector
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.utils.TextBlockUtil.setTextBlocksGoogle
 
-object FaceTextPoseDetector : ImageAnalysis.Analyzer {
-    private const val DETECTION_PROCESS_ERROR_MESSAGE = "Could not analyze image."
+object CatdroidImageAnalyzer : ImageAnalysis.Analyzer {
+    const val DETECTION_PROCESS_ERROR_MESSAGE = "Could not analyze image." // TODO
 
-    private val faceDetectionClient by lazy {
-        FaceDetection.getClient(
-            FaceDetectorOptions.Builder()
-                .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
-                .enableTracking()
-                .build()
-        )
-    }
     private val poseDetectionClient by lazy {
         PoseDetection.getClient(
             PoseDetectorOptions.Builder()
@@ -63,30 +50,25 @@ object FaceTextPoseDetector : ImageAnalysis.Analyzer {
     }
     private val textDetectionClient = TextRecognition.getClient()
 
-    private var textDetected = false
-    private var faceDetected = false
-    private var poseDetected = false
-
     @ExperimentalGetImage
     override fun analyze(imageProxy: ImageProxy) {
         imageProxy.image?.let { mediaImage ->
+            val completeListener =
+                DetectorsCompleteListener(listOf("Bla1", "Bla2", "Bla3"), imageProxy)
+            // TODO create List of active Detectors
+
             val image = InputImage.fromMediaImage(
                 mediaImage,
                 imageProxy.imageInfo.rotationDegrees
             )
 
-            faceDetected = false
-            textDetected = false
-            poseDetected = false
+            FaceDetector().processImage(mediaImage, image, completeListener)
 
+            // TODO rest of them
             textDetectionClient.process(image)
                 .addOnSuccessListener { text ->
                     updateTextSensorValues(text.text, text.textBlocks.size)
                     setTextBlocksGoogle(text.textBlocks, mediaImage.width, mediaImage.height)
-                    textDetected = true
-                    if (faceDetected && poseDetected) {
-                        imageProxy.close()
-                    }
                 }
                 .addOnFailureListener { e ->
                     val context = StageActivity.activeStageActivity.get()
@@ -95,36 +77,13 @@ object FaceTextPoseDetector : ImageAnalysis.Analyzer {
                         arrayListOf(context?.getString(R.string.camera_error_text_detection))
                     ).sendToTarget()
                     Log.e(javaClass.simpleName, DETECTION_PROCESS_ERROR_MESSAGE, e)
-                }
-
-            faceDetectionClient.process(image)
-                .addOnSuccessListener { faces ->
-                    val translatedFaces = VisualDetectionHandler.translateGoogleFaceToVisualDetectionFace(faces)
-                    handleAlreadyExistingFaces(translatedFaces)
-                    handleNewFaces(translatedFaces)
-                    updateAllFaceSensorValues(mediaImage.width, mediaImage.height)
-                    faceDetected = true
-                    if (textDetected && poseDetected) {
-                        imageProxy.close()
-                    }
-                }
-                .addOnFailureListener { e ->
-                    updateFaceDetectionStatusSensorValues()
-                    val context = CatroidApplication.getAppContext()
-                    StageActivity.messageHandler.obtainMessage(
-                        StageActivity.SHOW_TOAST,
-                        arrayListOf(context.getString(R.string.camera_error_face_detection))
-                    ).sendToTarget()
-                    Log.e(javaClass.simpleName, DETECTION_PROCESS_ERROR_MESSAGE, e)
+                }.addOnCompleteListener {
+                    completeListener.onComplete("Bla1")
                 }
 
             poseDetectionClient.process(image)
                 .addOnSuccessListener { pose ->
                     updateAllPoseSensorValues(pose, mediaImage.width, mediaImage.height)
-                    poseDetected = true
-                    if (textDetected && faceDetected) {
-                        imageProxy.close()
-                    }
                 }
                 .addOnFailureListener { e ->
                     val context = CatroidApplication.getAppContext()
@@ -133,7 +92,20 @@ object FaceTextPoseDetector : ImageAnalysis.Analyzer {
                         arrayListOf(context.getString(R.string.camera_error_pose_detection))
                     ).sendToTarget()
                     Log.e(javaClass.simpleName, DETECTION_PROCESS_ERROR_MESSAGE, e)
+                }.addOnCompleteListener {
+                    completeListener.onComplete("Bla3") // TODO
                 }
+        }
+    }
+}
+
+class DetectorsCompleteListener(val activeDetectors: List<String>, val imageProxy: ImageProxy) {
+    // TODO replace string with enum or something similar
+    private val finishedDetectors = ArrayList<String>()
+    fun onComplete(finishedDetector: String) {
+        finishedDetectors.add(finishedDetector)
+        if (finishedDetectors.containsAll(activeDetectors)) {
+            imageProxy.close()
         }
     }
 }
