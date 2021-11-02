@@ -38,12 +38,16 @@ public class SoundRecorder {
 
 	private String path;
 
+	public SoundRecorder() {
+		this("/dev/null");
+	}
+
 	public SoundRecorder(String path) {
 		this.recorder = new MediaRecorder();
 		this.path = path;
 	}
 
-	public void start() throws IOException, RuntimeException {
+	public void start() throws IOException, IllegalStateException {
 		File soundFile = new File(path);
 		if (soundFile.exists()) {
 			soundFile.delete();
@@ -64,7 +68,7 @@ public class SoundRecorder {
 			isRecording = true;
 		} catch (IllegalStateException e) {
 			throw e;
-		} catch (RuntimeException e) {
+		} catch (IOException e) {
 			throw e;
 		}
 	}

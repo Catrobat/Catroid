@@ -117,9 +117,8 @@ class SensorHandlerTest {
     @Test
     @UiThreadTest
     fun testMicRelease() {
-        val loudnessSensor = SensorLoudness()
         val soundRecorder = Mockito.mock(SoundRecorder::class.java)
-        loudnessSensor.soundRecorder = soundRecorder
+        val loudnessSensor = SensorLoudness(soundRecorder)
 
         Mockito.`when`(soundRecorder.isRecording).thenReturn(false)
         SensorHandler.getInstance(ApplicationProvider.getApplicationContext()).setSensorLoudness(loudnessSensor)
