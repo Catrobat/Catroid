@@ -65,6 +65,10 @@ object FormulaElementResources {
     @JvmStatic
     private fun addPoseDetectionSensorsResources(resources: MutableSet<Int?>, sensor: Sensors?) {
         when (sensor) {
+            Sensors.HEAD_TOP_X,
+            Sensors.HEAD_TOP_Y,
+            Sensors.NECK_X,
+            Sensors.NECK_Y,
             Sensors.NOSE_X,
             Sensors.NOSE_Y,
             Sensors.LEFT_EYE_INNER_X,
