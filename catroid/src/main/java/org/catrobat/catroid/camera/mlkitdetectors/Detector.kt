@@ -21,12 +21,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.camera
-
 import android.media.Image
 import com.google.mlkit.vision.common.InputImage
+import org.catrobat.catroid.camera.DetectorsCompleteListener
 
 interface Detector {
+    fun getName(): String
     fun processImage(
         mediaImage: Image,
         inputImage: InputImage,

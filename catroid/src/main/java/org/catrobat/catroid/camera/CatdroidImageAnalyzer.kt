@@ -22,85 +22,39 @@
  */
 package org.catrobat.catroid.camera
 
-import android.util.Log
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import com.google.mlkit.vision.common.InputImage
-import com.google.mlkit.vision.pose.PoseDetection
-import com.google.mlkit.vision.pose.defaults.PoseDetectorOptions
-import com.google.mlkit.vision.text.TextRecognition
-import org.catrobat.catroid.CatroidApplication
-import org.catrobat.catroid.R
-import org.catrobat.catroid.camera.VisualDetectionHandler.updateAllPoseSensorValues
-import org.catrobat.catroid.camera.VisualDetectionHandler.updateTextSensorValues
 import org.catrobat.catroid.camera.mlkitdetectors.FaceDetector
-import org.catrobat.catroid.stage.StageActivity
-import org.catrobat.catroid.utils.TextBlockUtil.setTextBlocksGoogle
+import org.catrobat.catroid.camera.mlkitdetectors.PoseDetector
+import org.catrobat.catroid.camera.mlkitdetectors.TextDetector
 
 object CatdroidImageAnalyzer : ImageAnalysis.Analyzer {
     const val DETECTION_PROCESS_ERROR_MESSAGE = "Could not analyze image." // TODO
-
-    private val poseDetectionClient by lazy {
-        PoseDetection.getClient(
-            PoseDetectorOptions.Builder()
-                .setDetectorMode(PoseDetectorOptions.STREAM_MODE)
-                .build()
-        )
-    }
-    private val textDetectionClient = TextRecognition.getClient()
+    private val detectors = listOf(FaceDetector(), TextDetector(), PoseDetector())
+    private val activeDetectors = detectors.map { d -> d.getName() }
 
     @ExperimentalGetImage
     override fun analyze(imageProxy: ImageProxy) {
         imageProxy.image?.let { mediaImage ->
-            val completeListener =
-                DetectorsCompleteListener(listOf("Bla1", "Bla2", "Bla3"), imageProxy)
-            // TODO create List of active Detectors
-
-            val image = InputImage.fromMediaImage(
-                mediaImage,
-                imageProxy.imageInfo.rotationDegrees
-            )
-
-            FaceDetector().processImage(mediaImage, image, completeListener)
-
-            // TODO rest of them
-            textDetectionClient.process(image)
-                .addOnSuccessListener { text ->
-                    updateTextSensorValues(text.text, text.textBlocks.size)
-                    setTextBlocksGoogle(text.textBlocks, mediaImage.width, mediaImage.height)
-                }
-                .addOnFailureListener { e ->
-                    val context = StageActivity.activeStageActivity.get()
-                    StageActivity.messageHandler.obtainMessage(
-                        StageActivity.SHOW_TOAST,
-                        arrayListOf(context?.getString(R.string.camera_error_text_detection))
-                    ).sendToTarget()
-                    Log.e(javaClass.simpleName, DETECTION_PROCESS_ERROR_MESSAGE, e)
-                }.addOnCompleteListener {
-                    completeListener.onComplete("Bla1")
-                }
-
-            poseDetectionClient.process(image)
-                .addOnSuccessListener { pose ->
-                    updateAllPoseSensorValues(pose, mediaImage.width, mediaImage.height)
-                }
-                .addOnFailureListener { e ->
-                    val context = CatroidApplication.getAppContext()
-                    StageActivity.messageHandler.obtainMessage(
-                        StageActivity.SHOW_TOAST,
-                        arrayListOf(context.getString(R.string.camera_error_pose_detection))
-                    ).sendToTarget()
-                    Log.e(javaClass.simpleName, DETECTION_PROCESS_ERROR_MESSAGE, e)
-                }.addOnCompleteListener {
-                    completeListener.onComplete("Bla3") // TODO
-                }
+            val completeListener = DetectorsCompleteListener(activeDetectors, imageProxy)
+            val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
+            for (detector in detectors) {
+                detector.processImage(mediaImage, image, completeListener)
+            }
         }
     }
 }
 
-class DetectorsCompleteListener(val activeDetectors: List<String>, val imageProxy: ImageProxy) {
-    // TODO replace string with enum or something similar
+// TODO replace string with enum or something similar
+//  or just use one byte an OR it
+//  Face: 0b1, Text: 0b10, Pose: 0b100
+//  finished if 0b111
+class DetectorsCompleteListener(
+    private val activeDetectors: List<String>,
+    private val imageProxy: ImageProxy
+) {
     private val finishedDetectors = ArrayList<String>()
     fun onComplete(finishedDetector: String) {
         finishedDetectors.add(finishedDetector)

@@ -27,8 +27,8 @@ import Detector
 import android.media.Image
 import android.util.Log
 import com.google.mlkit.vision.common.InputImage
-import com.google.mlkit.vision.face.FaceDetection
-import com.google.mlkit.vision.face.FaceDetectorOptions
+import com.google.mlkit.vision.pose.PoseDetection
+import com.google.mlkit.vision.pose.defaults.PoseDetectorOptions
 import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.R
 import org.catrobat.catroid.camera.CatdroidImageAnalyzer
@@ -37,18 +37,17 @@ import org.catrobat.catroid.camera.VisualDetectionHandler
 import org.catrobat.catroid.stage.StageActivity
 import org.koin.ext.getFullName
 
-private val faceDetectionClient by lazy {
-    FaceDetection.getClient(
-        FaceDetectorOptions.Builder()
-            .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
-            .enableTracking()
+private val poseDetectionClient by lazy {
+    PoseDetection.getClient(
+        PoseDetectorOptions.Builder()
+            .setDetectorMode(PoseDetectorOptions.STREAM_MODE)
             .build()
     )
 }
 
-class FaceDetector : Detector {
+class PoseDetector : Detector {
     override fun getName(): String {
-        return FaceDetector::class.getFullName()
+        return PoseDetector::class.getFullName()
     }
 
     override fun processImage(
@@ -56,25 +55,25 @@ class FaceDetector : Detector {
         inputImage: InputImage,
         onCompleteListener: DetectorsCompleteListener
     ) {
-        faceDetectionClient.process(inputImage)
-            .addOnSuccessListener { faces ->
-                val translatedFaces =
-                    VisualDetectionHandler.translateGoogleFaceToVisualDetectionFace(faces)
-                VisualDetectionHandler.handleAlreadyExistingFaces(translatedFaces)
-                VisualDetectionHandler.handleNewFaces(translatedFaces)
-                VisualDetectionHandler.updateAllFaceSensorValues(
+        poseDetectionClient.process(inputImage)
+            .addOnSuccessListener { pose ->
+                VisualDetectionHandler.updateAllPoseSensorValues(
+                    pose,
                     mediaImage.width,
                     mediaImage.height
                 )
             }
             .addOnFailureListener { e ->
-                VisualDetectionHandler.updateFaceDetectionStatusSensorValues()
                 val context = CatroidApplication.getAppContext()
                 StageActivity.messageHandler.obtainMessage(
                     StageActivity.SHOW_TOAST,
-                    arrayListOf(context.getString(R.string.camera_error_face_detection))
+                    arrayListOf(context.getString(R.string.camera_error_pose_detection))
                 ).sendToTarget()
-                Log.e(javaClass.simpleName, CatdroidImageAnalyzer.DETECTION_PROCESS_ERROR_MESSAGE, e)
+                Log.e(
+                    javaClass.simpleName,
+                    CatdroidImageAnalyzer.DETECTION_PROCESS_ERROR_MESSAGE,
+                    e
+                )
             }.addOnCompleteListener {
                 onCompleteListener.onComplete(getName())
             }
