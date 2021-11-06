@@ -25,6 +25,7 @@ package org.catrobat.catroid.formulaeditor;
 import android.content.Context;
 import android.util.Log;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.utils.FormatNumberUtil;
@@ -122,6 +123,11 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.ALTITUDE.name(), R.string.formula_editor_sensor_altitude);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.USER_LANGUAGE.name(),
 				R.string.formula_editor_sensor_user_language);
+
+		if (BuildConfig.FEATURE_USERNAME_PROPERTY_ENABLED) {
+			INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.USERNAME.name(), R.string.formula_editor_sensor_username);
+		}
+
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.X_INCLINATION.name(),
 				R.string.formula_editor_sensor_x_inclination);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.Y_INCLINATION.name(),

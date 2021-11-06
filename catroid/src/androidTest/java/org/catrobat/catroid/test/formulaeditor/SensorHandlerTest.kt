@@ -23,12 +23,15 @@
 package org.catrobat.catroid.test.formulaeditor
 
 import android.Manifest
+import android.content.Context
 import android.graphics.Point
+import android.preference.PreferenceManager
 import android.graphics.Rect
 import androidx.test.annotation.UiThreadTest
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.rule.GrantPermissionRule
 import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.camera.VisualDetectionHandler.facesForSensors
 import org.catrobat.catroid.camera.VisualDetectionHandler.updateFaceDetectionStatusSensorValues
 import org.catrobat.catroid.camera.VisualDetectionHandler.updateFaceSensorValues
@@ -59,6 +62,7 @@ class SensorHandlerTest {
             ApplicationProvider.getApplicationContext(),
             TestUtils.DEFAULT_TEST_PROJECT_NAME
         )
+        clearUsername()
     }
 
     @Test
@@ -132,13 +136,41 @@ class SensorHandlerTest {
         Mockito.verify(soundRecorder).stop()
     }
 
+    @Test
+    fun testUsernameSensorWithNotLoggedInUser() {
+        SensorHandler.getInstance(ApplicationProvider.getApplicationContext())
+        assertEquals("", SensorHandler.getSensorValue(Sensors.USERNAME))
+    }
+
+    @Test
+    fun testUsernameSensorWithLoggedInUser() {
+        val username = "my_username"
+        val context: Context = ApplicationProvider.getApplicationContext()
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val sharedPreferencesEditor = sharedPreferences.edit()
+        sharedPreferencesEditor.putString(Constants.USERNAME, username)
+        sharedPreferencesEditor.apply()
+
+        SensorHandler.getInstance(context)
+        assertEquals(username, SensorHandler.getSensorValue(Sensors.USERNAME))
+    }
+
     @After
     fun tearDown() {
+        clearUsername()
         SensorHandler.destroy()
     }
 
     private fun compareToSensor(value: Int, sensor: Sensors) {
         assertEquals(value.toDouble(), SensorHandler.getSensorValue(sensor) as Double, DELTA)
+    }
+
+    private fun clearUsername() {
+        val context: Context = ApplicationProvider.getApplicationContext()
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val sharedPreferencesEditor = sharedPreferences.edit()
+        sharedPreferencesEditor.remove(Constants.USERNAME)
+        sharedPreferencesEditor.apply()
     }
 
     companion object {

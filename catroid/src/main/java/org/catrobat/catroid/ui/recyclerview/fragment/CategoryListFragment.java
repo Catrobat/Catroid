@@ -38,6 +38,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -95,7 +96,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	public static final String FRAGMENT_TAG_BUNDLE_ARGUMENT = "fragmentTag";
 	public static final String TAG = CategoryListFragment.class.getSimpleName();
 
-	private static final List<Integer> OBJECT_GENERAL_PROPERTIES = asList(
+	private static final List<Integer> OBJECT_GENERAL_LOOK_PROPERTIES = asList(
 			R.string.formula_editor_object_rotation_look,
 			R.string.formula_editor_object_transparency,
 			R.string.formula_editor_object_brightness,
@@ -187,8 +188,6 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	private static final List<Integer> SENSORS_GPS = asList(R.string.formula_editor_sensor_latitude,
 			R.string.formula_editor_sensor_longitude, R.string.formula_editor_sensor_location_accuracy,
 			R.string.formula_editor_sensor_altitude);
-	private static final List<Integer> SENSOR_USER_LANGUAGE =
-			Collections.singletonList(R.string.formula_editor_sensor_user_language);
 	private static final List<Integer> SENSORS_TOUCH = asList(R.string.formula_editor_function_finger_x,
 			R.string.formula_editor_function_finger_y, R.string.formula_editor_function_is_finger_touching,
 			R.string.formula_editor_function_multi_finger_x, R.string.formula_editor_function_multi_finger_y,
@@ -845,8 +844,10 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 
 	private List<CategoryListItem> getObjectItems() {
 		List<CategoryListItem> result = new ArrayList<>();
+		result.addAll(getObjectLookPropertiesItems());
+		result.addAll(getObjectMotionPropertiesItems());
 		result.addAll(getObjectGeneralPropertiesItems());
-		result.addAll(getObjectPhysicalPropertiesItems());
+		result.addAll(getDateTimeSensorItems());
 
 		return result;
 	}
@@ -887,12 +888,20 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		result.addAll(getTextSensorItems());
 		result.addAll(getDeviceSensorItems());
 		result.addAll(getTouchDetectionSensorItems());
-		result.addAll(getDateTimeSensorItems());
 		return result;
 	}
 
 	private List<CategoryListItem> getObjectGeneralPropertiesItems() {
-		List<Integer> resIds = new ArrayList<>(OBJECT_GENERAL_PROPERTIES);
+		List<Integer> properties = new ArrayList<>(singletonList(R.string.formula_editor_sensor_user_language));
+		if (BuildConfig.FEATURE_USERNAME_PROPERTY_ENABLED) {
+			properties.add(R.string.formula_editor_sensor_username);
+		}
+		List<CategoryListItem> result = toCategoryListItems(properties);
+		return addHeader(result, getString(R.string.formula_editor_object_general));
+	}
+
+	private List<CategoryListItem> getObjectLookPropertiesItems() {
+		List<Integer> resIds = new ArrayList<>(OBJECT_GENERAL_LOOK_PROPERTIES);
 
 		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
@@ -907,7 +916,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		return addHeader(result, getString(R.string.formula_editor_object_look));
 	}
 
-	private List<CategoryListItem> getObjectPhysicalPropertiesItems() {
+	private List<CategoryListItem> getObjectMotionPropertiesItems() {
 		List<CategoryListItem> result = toCategoryListItems(OBJECT_PHYSICAL_1);
 		result.addAll(toCategoryListItems(OBJECT_PHYSICAL_COLLISION, CategoryListRVAdapter.COLLISION));
 		result.addAll(toCategoryListItems(OBJECT_PHYSICAL_2));
@@ -976,7 +985,6 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		deviceSensorItems.addAll(sensorHandler.compassAvailable() ? toCategoryListItems(SENSORS_COMPASS)
 				: Collections.emptyList());
 		deviceSensorItems.addAll(toCategoryListItems(SENSORS_GPS));
-		deviceSensorItems.addAll(toCategoryListItems(SENSOR_USER_LANGUAGE));
 
 		return addHeader(deviceSensorItems, getString(R.string.formula_editor_device_sensors));
 	}

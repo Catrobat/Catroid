@@ -730,7 +730,6 @@ class FormulaEditorSensorListTest(
             listOf(str(R.string.formula_editor_sensor_longitude), "", ""),
             listOf(str(R.string.formula_editor_sensor_location_accuracy), "", ""),
             listOf(str(R.string.formula_editor_sensor_altitude), "", ""),
-            listOf(str(R.string.formula_editor_sensor_user_language), "", "")
         )
 
         private val listOfTouch = listOf(
@@ -771,20 +770,6 @@ class FormulaEditorSensorListTest(
                 str(R.string.formula_editor_function_index_of_current_touch),
                 str(R.string.formula_editor_function_touch_parameter), ""
             )
-        )
-
-        private val listOfDateTime = listOf(
-            listOf(
-                str(R.string.formula_editor_sensor_timer),
-                "", str(R.string.formula_editor_device_date_and_time)
-            ),
-            listOf(str(R.string.formula_editor_sensor_date_year), "", ""),
-            listOf(str(R.string.formula_editor_sensor_date_month), "", ""),
-            listOf(str(R.string.formula_editor_sensor_date_day), "", ""),
-            listOf(str(R.string.formula_editor_sensor_date_weekday), "", ""),
-            listOf(str(R.string.formula_editor_sensor_time_hour), "", ""),
-            listOf(str(R.string.formula_editor_sensor_time_minute), "", ""),
-            listOf(str(R.string.formula_editor_sensor_time_second), "", "")
         )
 
         private val allShowBrickSettings: List<String> = listOf(

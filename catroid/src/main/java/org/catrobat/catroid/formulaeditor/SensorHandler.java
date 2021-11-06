@@ -23,6 +23,7 @@
 package org.catrobat.catroid.formulaeditor;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -33,10 +34,12 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Surface;
 import android.view.WindowManager;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
@@ -45,6 +48,7 @@ import org.catrobat.catroid.camera.Position;
 import org.catrobat.catroid.camera.VisualDetectionHandler;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.devices.arduino.phiro.Phiro;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
@@ -67,6 +71,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private static SensorHandler instance;
 	private static final BluetoothDeviceService BT_SERVICE = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 	private SensorManagerInterface sensorManager;
+	private SharedPreferences sharedPreferences;
 	private Sensor linearAccelerationSensor;
 	private Sensor accelerometerSensor;
 	private Sensor magneticFieldSensor;
@@ -106,6 +111,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	}
 
 	private SensorHandler(Context context) {
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		sensorManager = new SensorManager(
 				(android.hardware.SensorManager) context.getSystemService(Context.SENSOR_SERVICE));
 		linearAccelerationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
@@ -291,6 +297,12 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 			case COMPASS_DIRECTION:
 				return calculateCompassDirection(rotationMatrixOut);
+
+			case USERNAME:
+				if (BuildConfig.FEATURE_USERNAME_PROPERTY_ENABLED) {
+					return instance.sharedPreferences.getString(Constants.USERNAME, "");
+				}
+				break;
 
 			case X_INCLINATION:
 				return calculateXInclination(rotationMatrixOut);

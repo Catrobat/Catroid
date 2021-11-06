@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 
 import java.util.LinkedList;
@@ -233,8 +234,6 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.LOCATION_ACCURACY);
 			case R.string.formula_editor_sensor_altitude:
 				return buildSensor(Sensors.ALTITUDE);
-			case R.string.formula_editor_sensor_user_language:
-				return buildSensor(Sensors.USER_LANGUAGE);
 			case R.string.formula_editor_sensor_x_inclination:
 				return buildSensor(Sensors.X_INCLINATION);
 			case R.string.formula_editor_sensor_y_inclination:
@@ -409,22 +408,6 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.PHIRO_BOTTOM_LEFT);
 			case R.string.formula_editor_phiro_sensor_bottom_right:
 				return buildSensor(Sensors.PHIRO_BOTTOM_RIGHT);
-			case R.string.formula_editor_sensor_timer:
-				return buildSensor(Sensors.TIMER);
-			case R.string.formula_editor_sensor_date_year:
-				return buildSensor(Sensors.DATE_YEAR);
-			case R.string.formula_editor_sensor_date_month:
-				return buildSensor(Sensors.DATE_MONTH);
-			case R.string.formula_editor_sensor_date_day:
-				return buildSensor(Sensors.DATE_DAY);
-			case R.string.formula_editor_sensor_date_weekday:
-				return buildSensor(Sensors.DATE_WEEKDAY);
-			case R.string.formula_editor_sensor_time_hour:
-				return buildSensor(Sensors.TIME_HOUR);
-			case R.string.formula_editor_sensor_time_minute:
-				return buildSensor(Sensors.TIME_MINUTE);
-			case R.string.formula_editor_sensor_time_second:
-				return buildSensor(Sensors.TIME_SECOND);
 			case R.string.formula_editor_nfc_tag_id:
 				return buildSensor(Sensors.NFC_TAG_ID);
 			case R.string.formula_editor_nfc_tag_message:
@@ -560,6 +543,31 @@ public class InternFormulaKeyboardAdapter {
 				return buildObject(Sensors.COLLIDES_WITH_EDGE);
 			case R.string.formula_editor_function_touched:
 				return buildObject(Sensors.COLLIDES_WITH_FINGER);
+
+			case R.string.formula_editor_sensor_user_language:
+				return buildSensor(Sensors.USER_LANGUAGE);
+			case R.string.formula_editor_sensor_username:
+				if (BuildConfig.FEATURE_USERNAME_PROPERTY_ENABLED) {
+					return buildSensor(Sensors.USERNAME);
+				}
+				break;
+
+			case R.string.formula_editor_sensor_timer:
+				return buildSensor(Sensors.TIMER);
+			case R.string.formula_editor_sensor_date_year:
+				return buildSensor(Sensors.DATE_YEAR);
+			case R.string.formula_editor_sensor_date_month:
+				return buildSensor(Sensors.DATE_MONTH);
+			case R.string.formula_editor_sensor_date_day:
+				return buildSensor(Sensors.DATE_DAY);
+			case R.string.formula_editor_sensor_date_weekday:
+				return buildSensor(Sensors.DATE_WEEKDAY);
+			case R.string.formula_editor_sensor_time_hour:
+				return buildSensor(Sensors.TIME_HOUR);
+			case R.string.formula_editor_sensor_time_minute:
+				return buildSensor(Sensors.TIME_MINUTE);
+			case R.string.formula_editor_sensor_time_second:
+				return buildSensor(Sensors.TIME_SECOND);
 
 			case R.string.formula_editor_sensor_text_from_camera:
 				return buildObject(Sensors.TEXT_FROM_CAMERA);
