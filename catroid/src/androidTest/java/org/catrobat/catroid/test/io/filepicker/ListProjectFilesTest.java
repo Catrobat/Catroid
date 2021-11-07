@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.test.io.filepicker;
 
+import android.os.Build;
+
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.ui.filepicker.ListProjectFilesTask;
 import org.junit.After;
@@ -58,10 +60,13 @@ public class ListProjectFilesTest {
 			StorageOperations.deleteDir(tmpFolder);
 		}
 		tmpFolder.mkdirs();
-		if (EXTERNAL_STORAGE_ROOT_DIRECTORY.isDirectory()) {
-			StorageOperations.deleteDir(EXTERNAL_STORAGE_ROOT_DIRECTORY);
+
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+			if (EXTERNAL_STORAGE_ROOT_DIRECTORY.isDirectory()) {
+				StorageOperations.deleteDir(EXTERNAL_STORAGE_ROOT_DIRECTORY);
+			}
+			EXTERNAL_STORAGE_ROOT_DIRECTORY.mkdirs();
 		}
-		EXTERNAL_STORAGE_ROOT_DIRECTORY.mkdirs();
 	}
 
 	@After
@@ -69,7 +74,9 @@ public class ListProjectFilesTest {
 		if (tmpFolder.isDirectory()) {
 			StorageOperations.deleteDir(tmpFolder);
 		}
-		if (EXTERNAL_STORAGE_ROOT_DIRECTORY.isDirectory()) {
+
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q
+				&& EXTERNAL_STORAGE_ROOT_DIRECTORY.isDirectory()) {
 			StorageOperations.deleteDir(EXTERNAL_STORAGE_ROOT_DIRECTORY);
 		}
 	}
@@ -91,8 +98,7 @@ public class ListProjectFilesTest {
 		File file4 = new File(subFolder, ".projectB.catrobat.somethingelse");
 		assertTrue(file4.createNewFile());
 
-		List<File> projectFiles = ListProjectFilesTask
-				.task(tmpFolder);
+		List<File> projectFiles = ListProjectFilesTask.task(tmpFolder);
 
 		assertThat(projectFiles, hasItem(file1));
 		assertThat(projectFiles, hasItem(file3));
@@ -104,32 +110,33 @@ public class ListProjectFilesTest {
 
 	@Test
 	public void testListProjectsOnExternalStorage() throws IOException {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+			File backpackFolder = new File(EXTERNAL_STORAGE_ROOT_DIRECTORY, "backpack");
+			assertTrue(backpackFolder.mkdirs());
 
-		File backpackFolder = new File(EXTERNAL_STORAGE_ROOT_DIRECTORY, "backpack");
-		assertTrue(backpackFolder.mkdirs());
+			File tempFolder = new File(EXTERNAL_STORAGE_ROOT_DIRECTORY, TMP_DIR_NAME);
+			assertTrue(tempFolder.mkdirs());
 
-		File tempFolder = new File(EXTERNAL_STORAGE_ROOT_DIRECTORY, TMP_DIR_NAME);
-		assertTrue(tempFolder.mkdirs());
+			File projectFolder1 = new File(EXTERNAL_STORAGE_ROOT_DIRECTORY, "projectFolder1");
+			assertTrue(projectFolder1.mkdirs());
+			assertTrue(new File(projectFolder1, CODE_XML_FILE_NAME).createNewFile());
 
-		File projectFolder1 = new File(EXTERNAL_STORAGE_ROOT_DIRECTORY, "projectFolder1");
-		assertTrue(projectFolder1.mkdirs());
-		assertTrue(new File(projectFolder1, CODE_XML_FILE_NAME).createNewFile());
+			File projectFolder2 = new File(EXTERNAL_STORAGE_ROOT_DIRECTORY, "projectFolder2");
+			assertTrue(projectFolder2.mkdirs());
+			assertTrue(new File(projectFolder2, CODE_XML_FILE_NAME).createNewFile());
 
-		File projectFolder2 = new File(EXTERNAL_STORAGE_ROOT_DIRECTORY, "projectFolder2");
-		assertTrue(projectFolder2.mkdirs());
-		assertTrue(new File(projectFolder2, CODE_XML_FILE_NAME).createNewFile());
+			File someFolder = new File(EXTERNAL_STORAGE_ROOT_DIRECTORY, "someFolder");
+			assertTrue(someFolder.mkdirs());
 
-		File someFolder = new File(EXTERNAL_STORAGE_ROOT_DIRECTORY, "someFolder");
-		assertTrue(someFolder.mkdirs());
+			List<File> projectFiles = ListProjectFilesTask
+					.task(tmpFolder);
 
-		List<File> projectFiles = ListProjectFilesTask
-				.task(tmpFolder);
+			assertThat(projectFiles, hasItem(projectFolder1));
+			assertThat(projectFiles, hasItem(projectFolder2));
 
-		assertThat(projectFiles, hasItem(projectFolder1));
-		assertThat(projectFiles, hasItem(projectFolder2));
-
-		assertThat(projectFiles, not(hasItem(backpackFolder)));
-		assertThat(projectFiles, not(hasItem(tempFolder)));
-		assertThat(projectFiles, not(hasItem(someFolder)));
+			assertThat(projectFiles, not(hasItem(backpackFolder)));
+			assertThat(projectFiles, not(hasItem(tempFolder)));
+			assertThat(projectFiles, not(hasItem(someFolder)));
+		}
 	}
 }

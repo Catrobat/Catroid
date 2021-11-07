@@ -100,7 +100,7 @@ def defaultVersionCode = 85
 def defaultVersionName = "1.0.3"
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
 
     buildFeatures {
         viewBinding = true
@@ -109,7 +109,7 @@ android {
     defaultConfig {
 
         minSdkVersion 23
-        targetSdkVersion 29
+        targetSdkVersion 30
         applicationId appId
         testInstrumentationRunner 'org.catrobat.catroid.runner.UiTestApplicationRunner'
         versionCode defaultVersionCode

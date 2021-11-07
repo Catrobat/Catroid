@@ -55,6 +55,7 @@ import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -67,17 +68,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import kotlin.Lazy;
-
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
-
-import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
 public class BrickStringSpinnerDefaultValueTest {
-	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
+
 	private CategoryBricksFactory categoryBricksFactory;
 	private Sprite sprite;
 	private Activity activity;
@@ -132,6 +129,11 @@ public class BrickStringSpinnerDefaultValueTest {
 		categoryBricksFactory = new CategoryBricksFactory();
 	}
 
+	@After
+	public void tearDown() {
+		ProjectManager.getInstance().resetProjectManager();
+	}
+
 	public void createProject(Context context) {
 		Project project = new Project(context, getClass().getSimpleName());
 		sprite = new Sprite("testSprite");
@@ -139,9 +141,9 @@ public class BrickStringSpinnerDefaultValueTest {
 		script.addBrick(new SetXBrick());
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		projectManager.getValue().setCurrentProject(project);
-		projectManager.getValue().setCurrentSprite(sprite);
-		projectManager.getValue().setCurrentlyEditedScene(project.getDefaultScene());
+		ProjectManager.getInstance().setCurrentProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 	}
 
 	private Brick getBrickFromCategroyBricksFactory() {

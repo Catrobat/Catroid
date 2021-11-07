@@ -28,7 +28,7 @@ import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
+import android.os.Build;
 import android.widget.EditText;
 
 import org.catrobat.catroid.ProjectManager;
@@ -58,7 +58,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -111,7 +110,6 @@ public class ProjectOptionsTest {
 	private static final String EXISTING_PROJECT_NAME = "existingProjectName";
 	private static final String DESCRIPTION = "myDescription";
 	private static final String NOTES_AND_CREDITS = "myNotesAndCredits";
-	private static final Integer DURATION_WAIT_FOR_TOAST_IN_MILLISECONDS = 3000;
 	private static final Integer DURATION_WAIT_FOR_ZIP_FILE_IN_MILLISECONDS = 3000;
 	private static Project project = null;
 	private static Context context = null;
@@ -189,8 +187,7 @@ public class ProjectOptionsTest {
 	}
 
 	private Matcher<Intent> createLookFromPaintroid() throws IOException {
-		File tmpDir = new File(
-				Environment.getExternalStorageDirectory().getAbsolutePath(), "Pocket Code Test Temp");
+		File tmpDir = new File(Constants.CACHE_DIR.getAbsolutePath(), "Pocket Code Test Temp");
 		String lookFileName = "catroid_sunglasses.png";
 
 		Intents.init();
@@ -245,6 +242,7 @@ public class ProjectOptionsTest {
 
 		pressBack();
 
+		project = ProjectManager.getInstance().getCurrentProject();
 		assertEquals(DESCRIPTION, project.getDescription());
 	}
 
@@ -257,6 +255,7 @@ public class ProjectOptionsTest {
 
 		pressBack();
 
+		project = ProjectManager.getInstance().getCurrentProject();
 		assertEquals(NOTES_AND_CREDITS, project.getNotesAndCredits());
 	}
 
@@ -270,6 +269,7 @@ public class ProjectOptionsTest {
 		List<String> tagsList =
 				new ArrayList<>(Arrays.asList("Game", "Animation", "Tutorial"));
 
+		project = ProjectManager.getInstance().getCurrentProject();
 		project.setTags(tagsList);
 
 		openContextualActionModeOverflowMenu();
@@ -313,33 +313,31 @@ public class ProjectOptionsTest {
 
 	@Test
 	public void saveExternal() throws IOException {
-		String pendingToastText =
-				context.getString(R.string.notification_save_project_to_external_storage_pending);
-		String doneToastText =
-				context.getString(
-						R.string.notification_save_project_to_external_storage_open,
-						EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY
-				);
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
 
-		if (EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY.exists()) {
-			StorageOperations.deleteDir(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY);
-		}
+			String doneToastText =
+					context.getString(
+							R.string.notification_save_project_to_external_storage_open,
+							EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY
+					) + "/" + PROJECT_NAME + CATROBAT_EXTENSION;
 
-		onView(withId(R.id.project_options_save_external))
-				.perform(ViewActions.scrollTo())
-				.perform(click());
-		try {
-			onToast(withText(pendingToastText))
+			if (EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY.exists()) {
+				StorageOperations.deleteDir(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY);
+			}
+
+			onView(withId(R.id.project_options_save_external))
+					.perform(ViewActions.scrollTo())
+					.perform(click());
+
+			onToast(withText(doneToastText))
 					.check(matches(isDisplayed()));
-			onView(isRoot()).perform(CustomActions.wait(DURATION_WAIT_FOR_TOAST_IN_MILLISECONDS));
-		} catch (NoMatchingViewException ignored) {
+			onView(isRoot()).perform(CustomActions
+					.wait(DURATION_WAIT_FOR_ZIP_FILE_IN_MILLISECONDS));
+
+			File externalProjectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY,
+					project.getDirectory().getName() + CATROBAT_EXTENSION);
+			assertTrue(externalProjectZip.exists());
 		}
-		onToast(withText(doneToastText))
-				.check(matches(isDisplayed()));
-		onView(isRoot()).perform(CustomActions.wait(DURATION_WAIT_FOR_ZIP_FILE_IN_MILLISECONDS));
-		File externalProjectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY,
-				project.getDirectory().getName() + CATROBAT_EXTENSION);
-		assertTrue(externalProjectZip.exists());
 	}
 
 	@Test
