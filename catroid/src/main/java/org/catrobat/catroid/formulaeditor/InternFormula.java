@@ -742,14 +742,19 @@ public class InternFormula {
 				List<InternToken> functionFirstParameter = functionParameters.get(0);
 				String functionName = functionInternTokenList.get(0).getTokenStringValue();
 
-				if (userListNotFirstParameter(functionName, functionFirstParameter.get(0))) {
-					functionFirstParameter = functionParameters.get(1);
-					insertedInternTokenIndex += 2;
+				if (functionFirstParameter.isEmpty()) {
+					internFormulaTokenSelection = null;
+					cursorPositionInternTokenIndex = insertedInternTokenIndex + 1;
+				} else {
+					if (userListNotFirstParameter(functionName, functionFirstParameter.get(0))) {
+						functionFirstParameter = functionParameters.get(1);
+						insertedInternTokenIndex += 2;
+					}
+					internFormulaTokenSelection = new InternFormulaTokenSelection(TokenSelectionType.USER_SELECTION,
+							insertedInternTokenIndex + 2,
+							insertedInternTokenIndex + functionFirstParameter.size() + 1);
+					cursorPositionInternTokenIndex = internFormulaTokenSelection.getEndIndex();
 				}
-
-				internFormulaTokenSelection = new InternFormulaTokenSelection(TokenSelectionType.USER_SELECTION,
-						insertedInternTokenIndex + 2, insertedInternTokenIndex + functionFirstParameter.size() + 1);
-				cursorPositionInternTokenIndex = internFormulaTokenSelection.getEndIndex();
 			} else {
 				cursorPositionInternTokenIndex = insertedInternTokenIndex + functionInternTokenList.size() - 1;
 				internFormulaTokenSelection = null;
