@@ -35,7 +35,6 @@ import org.catrobat.catroid.camera.CatdroidImageAnalyzer
 import org.catrobat.catroid.camera.DetectorsCompleteListener
 import org.catrobat.catroid.camera.VisualDetectionHandler
 import org.catrobat.catroid.stage.StageActivity
-import org.koin.ext.getFullName
 
 private val faceDetectionClient by lazy {
     FaceDetection.getClient(
@@ -46,11 +45,7 @@ private val faceDetectionClient by lazy {
     )
 }
 
-class FaceDetector : Detector {
-    override fun getName(): String {
-        return FaceDetector::class.getFullName()
-    }
-
+object FaceDetector : Detector {
     override fun processImage(
         mediaImage: Image,
         inputImage: InputImage,
@@ -74,9 +69,13 @@ class FaceDetector : Detector {
                     StageActivity.SHOW_TOAST,
                     arrayListOf(context.getString(R.string.camera_error_face_detection))
                 ).sendToTarget()
-                Log.e(javaClass.simpleName, CatdroidImageAnalyzer.DETECTION_PROCESS_ERROR_MESSAGE, e)
+                Log.e(
+                    javaClass.simpleName,
+                    CatdroidImageAnalyzer.DETECTION_PROCESS_ERROR_MESSAGE,
+                    e
+                )
             }.addOnCompleteListener {
-                onCompleteListener.onComplete(getName())
+                onCompleteListener.onComplete()
             }
     }
 }

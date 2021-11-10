@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.camera
 
+import Detector
+import android.content.Context
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
@@ -29,36 +31,48 @@ import com.google.mlkit.vision.common.InputImage
 import org.catrobat.catroid.camera.mlkitdetectors.FaceDetector
 import org.catrobat.catroid.camera.mlkitdetectors.PoseDetector
 import org.catrobat.catroid.camera.mlkitdetectors.TextDetector
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isAIFaceDetectionSharedPreferenceEnabled
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isAIPoseDetectionSharedPreferenceEnabled
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isAITextRecognitionSharedPreferenceEnabled
 
 object CatdroidImageAnalyzer : ImageAnalysis.Analyzer {
-    const val DETECTION_PROCESS_ERROR_MESSAGE = "Could not analyze image." // TODO
-    private val detectors = listOf(FaceDetector(), TextDetector(), PoseDetector())
-    private val activeDetectors = detectors.map { d -> d.getName() }
+    const val DETECTION_PROCESS_ERROR_MESSAGE: String = "Could not analyze image."
+    private val activeDetectors = ArrayList<Detector>()
 
     @ExperimentalGetImage
     override fun analyze(imageProxy: ImageProxy) {
         imageProxy.image?.let { mediaImage ->
-            val completeListener = DetectorsCompleteListener(activeDetectors, imageProxy)
+            val completeListener = DetectorsCompleteListener(activeDetectors.size, imageProxy)
             val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
-            for (detector in detectors) {
+            for (detector in activeDetectors) {
                 detector.processImage(mediaImage, image, completeListener)
+            }
+        }
+    }
+
+    fun setActiveDetectorsWithContext(context: Context?) {
+        activeDetectors.clear()
+        context?.let {
+            if (isAIFaceDetectionSharedPreferenceEnabled(it)) {
+                activeDetectors.add(FaceDetector)
+            }
+            if (isAIPoseDetectionSharedPreferenceEnabled(it)) {
+                activeDetectors.add(PoseDetector)
+            }
+            if (isAITextRecognitionSharedPreferenceEnabled(it)) {
+                activeDetectors.add(TextDetector)
             }
         }
     }
 }
 
-// TODO replace string with enum or something similar
-//  or just use one byte an OR it
-//  Face: 0b1, Text: 0b10, Pose: 0b100
-//  finished if 0b111
 class DetectorsCompleteListener(
-    private val activeDetectors: List<String>,
+    private val numActiveDetectors: Int,
     private val imageProxy: ImageProxy
 ) {
-    private val finishedDetectors = ArrayList<String>()
-    fun onComplete(finishedDetector: String) {
-        finishedDetectors.add(finishedDetector)
-        if (finishedDetectors.containsAll(activeDetectors)) {
+    private var finishedDetectors = 0
+    fun onComplete() {
+        if (++finishedDetectors >= numActiveDetectors) {
             imageProxy.close()
         }
     }

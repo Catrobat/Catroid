@@ -34,17 +34,12 @@ import org.catrobat.catroid.camera.DetectorsCompleteListener
 import org.catrobat.catroid.camera.VisualDetectionHandler
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.utils.TextBlockUtil
-import org.koin.ext.getFullName
 
 private val textDetectionClient by lazy {
     TextRecognition.getClient()
 }
 
-class TextDetector : Detector {
-    override fun getName(): String {
-        return TextDetector::class.getFullName()
-    }
-
+object TextDetector : Detector {
     override fun processImage(
         mediaImage: Image,
         inputImage: InputImage,
@@ -71,7 +66,7 @@ class TextDetector : Detector {
                     e
                 )
             }.addOnCompleteListener {
-                onCompleteListener.onComplete(getName())
+                onCompleteListener.onComplete()
             }
     }
 }

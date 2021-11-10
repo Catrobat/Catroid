@@ -35,7 +35,6 @@ import org.catrobat.catroid.camera.CatdroidImageAnalyzer
 import org.catrobat.catroid.camera.DetectorsCompleteListener
 import org.catrobat.catroid.camera.VisualDetectionHandler
 import org.catrobat.catroid.stage.StageActivity
-import org.koin.ext.getFullName
 
 private val poseDetectionClient by lazy {
     PoseDetection.getClient(
@@ -45,10 +44,7 @@ private val poseDetectionClient by lazy {
     )
 }
 
-class PoseDetector : Detector {
-    override fun getName(): String {
-        return PoseDetector::class.getFullName()
-    }
+object PoseDetector : Detector {
 
     override fun processImage(
         mediaImage: Image,
@@ -75,7 +71,7 @@ class PoseDetector : Detector {
                     e
                 )
             }.addOnCompleteListener {
-                onCompleteListener.onComplete(getName())
+                onCompleteListener.onComplete()
             }
     }
 }

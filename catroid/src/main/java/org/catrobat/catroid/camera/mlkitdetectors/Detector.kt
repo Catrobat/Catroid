@@ -25,8 +25,7 @@ import android.media.Image
 import com.google.mlkit.vision.common.InputImage
 import org.catrobat.catroid.camera.DetectorsCompleteListener
 
-interface Detector {
-    fun getName(): String
+fun interface Detector {
     fun processImage(
         mediaImage: Image,
         inputImage: InputImage,
