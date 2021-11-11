@@ -30,13 +30,13 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.LinearLayout
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.clearText
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.pressKey
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -59,7 +59,6 @@ import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import org.hamcrest.TypeSafeMatcher
-import org.hamcrest.core.IsInstanceOf
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -140,6 +139,12 @@ class BrickSearchTest {
         ).check(matches(isDisplayed()))
         Espresso.onView(
             Matchers.allOf(
+                ViewMatchers.withText("When background changes to"),
+                isDisplayed()
+            )
+        ).check(matches(isDisplayed()))
+        Espresso.onView(
+            Matchers.allOf(
                 ViewMatchers.withContentDescription("Navigate up"),
                 childAtPosition(
                     Matchers.allOf(withId(R.id.toolbar), childAtPosition(withId(R.id.activity_sprite), 0)), 1
@@ -153,18 +158,18 @@ class BrickSearchTest {
             ).atPosition(5).perform(click())
         Espresso.onView(withId(R.id.search)).perform(click())
         Espresso.onView(withId(R.id.search_src_text)).perform(clearText(), ViewActions.typeText("When")).perform(pressKey(KeyEvent.KEYCODE_ENTER))
+        Espresso.onView(ViewMatchers.isRoot()).perform(CustomActions.wait(2000))
         Espresso.onView(
             Matchers.allOf(
-                withId(R.id.brick_when_background_text_view),
-                ViewMatchers.withParent(
-                    Matchers.allOf(
-                        withId(R.id.brick_when_background_layout),
-                        ViewMatchers.withParent(IsInstanceOf.instanceOf(LinearLayout::class.java))
-                    )
-                ),
+                ViewMatchers.withText("When scene starts")
+            )
+        ).check(doesNotExist())
+        Espresso.onView(
+            Matchers.allOf(
+                ViewMatchers.withText("When background changes to"),
                 isDisplayed()
             )
-        ).check(matches(isDisplayed()))
+        )
     }
 
     fun isKeyboardVisible(): Boolean {
