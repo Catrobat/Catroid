@@ -32,6 +32,8 @@ import org.catrobat.catroid.io.DeviceUserDataAccessor;
 
 import java.io.File;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class ReadListFromDeviceAction extends AsynchronousAction {
 	private UserList userList;
 	private boolean readActionFinished;
@@ -63,7 +65,7 @@ public class ReadListFromDeviceAction extends AsynchronousAction {
 
 		@Override
 		protected Void doInBackground(UserList[] userList) {
-			File projectDirectory = ProjectManager.getInstance().getCurrentProject().getDirectory();
+			File projectDirectory = inject(ProjectManager.class).getValue().getCurrentProject().getDirectory();
 			DeviceUserDataAccessor accessor = new DeviceListAccessor(projectDirectory);
 
 			for (UserList list: userList) {

@@ -75,7 +75,7 @@ public class SpriteTest {
 		UserVariable globalVariable = new UserVariable(GLOBAL_VARIABLE_NAME, GLOBAL_VARIABLE_VALUE);
 		project.addUserVariable(globalVariable);
 
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 	}
 
 	@Test
@@ -98,7 +98,7 @@ public class SpriteTest {
 		UserVariable userVariable = sprite2.getUserVariable(variableName);
 		userVariable.setValue(LOCAL_VARIABLE_VALUE);
 		userVariable.setVisible(false);
-		ProjectManager.getInstance().setCurrentlyPlayingScene(secondScene);
+		inject(ProjectManager.class).getValue().setCurrentlyPlayingScene(secondScene);
 
 		ScriptSequenceAction thread = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(new StartScript());
 		thread.addAction(sprite2.getActionFactory().createShowVariableAction(sprite2,

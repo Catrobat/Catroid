@@ -43,6 +43,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(JUnit4.class)
 public class WaitActionTest {
@@ -59,7 +60,7 @@ public class WaitActionTest {
 	public void setUp() throws Exception {
 		sprite = new Sprite("testSprite");
 		Project project = new Project(MockUtil.mockContextForProject(), "Project");
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 	}
 
 	@Test

@@ -46,6 +46,7 @@ import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_BRICK_HASH;
 import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_X_TRANSFORM;
 import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_Y_TRANSFORM;
 import static org.catrobat.catroid.ui.SpriteActivity.REQUEST_CODE_VISUAL_PLACEMENT;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public abstract class VisualPlacementBrick extends FormulaBrick {
 
@@ -105,7 +106,7 @@ public abstract class VisualPlacementBrick extends FormulaBrick {
 		int xValue;
 		int yValue;
 		try {
-			ProjectManager projectManager = ProjectManager.getInstance();
+			ProjectManager projectManager = inject(ProjectManager.class).getValue();
 			Scope scope = new Scope(projectManager.getCurrentProject(),
 					projectManager.getCurrentSprite(), null);
 			xValue = formulax.interpretInteger(scope);

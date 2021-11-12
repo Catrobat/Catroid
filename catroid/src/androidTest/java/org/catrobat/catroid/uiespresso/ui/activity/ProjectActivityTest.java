@@ -78,8 +78,8 @@ public class ProjectActivityTest {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), PROJECT_NAME);
 		Sprite firstSprite = new Sprite("firstSprite");
 		project.getDefaultScene().addSprite(firstSprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(firstSprite);
 		Intents.init();
 	}
 
@@ -87,7 +87,7 @@ public class ProjectActivityTest {
 	public void tearDown() throws Exception {
 		Intents.release();
 		TestUtils.deleteProjects(PROJECT_NAME);
-		ProjectManager.getInstance().setCurrentProject(null);
+		inject(ProjectManager.class).getValue().setCurrentProject(null);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})

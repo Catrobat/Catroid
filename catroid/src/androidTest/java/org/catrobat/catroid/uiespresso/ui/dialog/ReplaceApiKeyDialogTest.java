@@ -93,7 +93,7 @@ public class ReplaceApiKeyDialogTest {
 	public void createProject(String secret) {
 		dummyProject = new Project(ApplicationProvider.getApplicationContext(), "ApiProject");
 		Scene dummyScene = new Scene("scene", dummyProject);
-		ProjectManager.getInstance().setCurrentProject(dummyProject);
+		inject(ProjectManager.class).getValue().setCurrentProject(dummyProject);
 		Sprite sprite = new Sprite("sprite");
 		Script firstScript = new StartScript();
 		firstScript.addBrick(new BackgroundRequestBrick(secret));
@@ -111,7 +111,7 @@ public class ReplaceApiKeyDialogTest {
 	public void createProject(String secret1, String secret2) {
 		dummyProject = new Project(ApplicationProvider.getApplicationContext(), "ApiProject");
 		Scene dummyScene = new Scene("scene", dummyProject);
-		ProjectManager.getInstance().setCurrentProject(dummyProject);
+		inject(ProjectManager.class).getValue().setCurrentProject(dummyProject);
 		Sprite sprite = new Sprite("sprite");
 		Script firstScript = new StartScript();
 		firstScript.addBrick(new BackgroundRequestBrick(secret1));

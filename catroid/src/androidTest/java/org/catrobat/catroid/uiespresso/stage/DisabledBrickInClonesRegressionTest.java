@@ -73,9 +73,9 @@ public class DisabledBrickInClonesRegressionTest {
 		Sprite sprite = new Sprite("someSprite");
 
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentlyEditedScene(project.getDefaultScene());
 
 		userVariable = new UserVariable(VARIABLE_NAME);
 		project.addUserVariable(userVariable);

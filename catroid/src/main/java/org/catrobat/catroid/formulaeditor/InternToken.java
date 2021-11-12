@@ -28,6 +28,8 @@ import org.catrobat.catroid.sensing.CollisionDetection;
 
 import java.util.List;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class InternToken {
 
 	private String tokenStringValue = "";
@@ -70,7 +72,7 @@ public class InternToken {
 
 	public void updateCollisionFormulaToVersion() {
 		if (internTokenType == InternTokenType.COLLISION_FORMULA) {
-			Project currentProject = ProjectManager.getInstance().getCurrentProject();
+			Project currentProject = inject(ProjectManager.class).getValue().getCurrentProject();
 			String secondSpriteName = CollisionDetection.getSecondSpriteNameFromCollisionFormulaString(tokenStringValue, currentProject);
 			if (secondSpriteName != null) {
 				tokenStringValue = secondSpriteName;

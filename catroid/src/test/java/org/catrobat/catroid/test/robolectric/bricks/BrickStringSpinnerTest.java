@@ -81,6 +81,7 @@ import static junit.framework.Assert.assertNotNull;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
@@ -162,7 +163,7 @@ public class BrickStringSpinnerTest {
 
 	@After
 	public void tearDown() {
-		ProjectManager.getInstance().resetProjectManager();
+		inject(ProjectManager.class).getValue().resetProjectManager();
 	}
 
 	@Test
@@ -186,8 +187,8 @@ public class BrickStringSpinnerTest {
 		script.addBrick(brick);
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentlyEditedScene(project.getDefaultScene());
 	}
 }

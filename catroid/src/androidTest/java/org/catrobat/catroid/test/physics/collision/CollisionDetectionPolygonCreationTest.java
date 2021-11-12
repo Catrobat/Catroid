@@ -65,7 +65,7 @@ public class CollisionDetectionPolygonCreationTest {
 		project.getDefaultScene().addSprite(sprite);
 
 		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 	}
 
 	protected CollisionInformation generateCollisionInformation(int resourceId, String filename) throws IOException {

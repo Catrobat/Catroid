@@ -32,6 +32,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants
+import org.koin.java.KoinJavaComponent.inject
 import java.io.File
 import java.io.IOException
 
@@ -107,8 +108,8 @@ class ScreenshotSaver(
             fullScreenBitmap.compress(Bitmap.CompressFormat.PNG, IMAGE_QUALITY, streamScene)
             streamScene.close()
 
-            if (ProjectManager.getInstance().currentProject != null) {
-                val projectFolder = ProjectManager.getInstance().currentProject.directory.absolutePath + "/"
+            if (inject(ProjectManager::class.java).value.currentProject != null) {
+                val projectFolder = inject(ProjectManager::class.java).value.currentProject.directory.absolutePath + "/"
                 val imageProject = gdxFileHandler.absolute(projectFolder + fileName)
                 val streamProject = imageProject.write(false)
                 File(projectFolder + Constants.NO_MEDIA_FILE).createNewFile()

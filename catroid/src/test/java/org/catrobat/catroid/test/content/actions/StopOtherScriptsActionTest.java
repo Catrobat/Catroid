@@ -49,6 +49,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(GdxNativesLoader.class)
 public class StopOtherScriptsActionTest {
@@ -71,9 +73,9 @@ public class StopOtherScriptsActionTest {
 	private Project createProjectWithSprite(Sprite sprite) {
 		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentlyEditedScene(project.getDefaultScene());
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
 		StageActivity.stageListener = null;
 		return project;
 	}

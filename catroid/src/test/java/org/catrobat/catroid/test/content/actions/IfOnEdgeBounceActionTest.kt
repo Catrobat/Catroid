@@ -31,6 +31,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.java.KoinJavaComponent.inject
 
 @RunWith(Parameterized::class)
 class IfOnEdgeBounceActionTest(
@@ -111,7 +112,7 @@ class IfOnEdgeBounceActionTest(
         Project(MockUtil.mockContextForProject(), "Test", false).apply {
             xmlHeader.virtualScreenWidth = SCREEN_WIDTH
             xmlHeader.virtualScreenHeight = SCREEN_HEIGHT
-            ProjectManager.getInstance().currentProject = this
+            inject(ProjectManager::class.java).value.currentProject = this
         }
     }
 

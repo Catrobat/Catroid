@@ -105,6 +105,7 @@ import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.CHANGED_COORDINATES;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class SpriteActivity extends BaseActivity {
 
@@ -168,7 +169,7 @@ public class SpriteActivity extends BaseActivity {
 			return;
 		}
 
-		projectManager = ProjectManager.getInstance();
+		projectManager = inject(ProjectManager.class).getValue();
 		currentProject = projectManager.getCurrentProject();
 		currentSprite = projectManager.getCurrentSprite();
 		currentScene = projectManager.getCurrentlyEditedScene();
@@ -215,7 +216,7 @@ public class SpriteActivity extends BaseActivity {
 		if (currentMenu != null) {
 			currentMenu.findItem(R.id.menu_undo).setVisible(visible);
 			if (visible) {
-				ProjectManager.getInstance().changedProject(currentProject.getName());
+				inject(ProjectManager.class).getValue().changedProject(currentProject.getName());
 			}
 		}
 	}
@@ -223,9 +224,9 @@ public class SpriteActivity extends BaseActivity {
 	public void checkForChange() {
 		if (currentMenu != null) {
 			if (currentMenu.findItem(R.id.menu_undo).isVisible()) {
-				ProjectManager.getInstance().changedProject(currentProject.getName());
+				inject(ProjectManager.class).getValue().changedProject(currentProject.getName());
 			} else {
-				ProjectManager.getInstance().resetChangedFlag(currentProject);
+				inject(ProjectManager.class).getValue().resetChangedFlag(currentProject);
 			}
 		}
 	}
@@ -307,7 +308,7 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	private void saveProject() {
-		currentProject = ProjectManager.getInstance().getCurrentProject();
+		currentProject = inject(ProjectManager.class).getValue().getCurrentProject();
 		new ProjectSaver(currentProject, getApplicationContext()).saveProjectAsync();
 	}
 
@@ -321,7 +322,7 @@ public class SpriteActivity extends BaseActivity {
 			ToastUtil.showError(this, message);
 			ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData testResult = ClipData.newPlainText("TestResult",
-					ProjectManager.getInstance().getCurrentProject().getName() + "\n" + message);
+					inject(ProjectManager.class).getValue().getCurrentProject().getName() + "\n" + message);
 			clipboard.setPrimaryClip(testResult);
 		}
 
@@ -808,7 +809,7 @@ public class SpriteActivity extends BaseActivity {
 
 		List<UserData> variables = new ArrayList<>();
 
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
 		currentSprite = projectManager.getCurrentSprite();
 		currentProject = projectManager.getCurrentProject();
 

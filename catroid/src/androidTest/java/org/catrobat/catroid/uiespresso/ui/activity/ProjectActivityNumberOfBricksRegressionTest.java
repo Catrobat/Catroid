@@ -117,7 +117,7 @@ public class ProjectActivityNumberOfBricksRegressionTest {
 
 		project.getDefaultScene().addSprite(firstSprite);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(firstSprite);
 	}
 }

@@ -152,9 +152,9 @@ public class CameraPermissionSpriteActivityTest {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 		Sprite testSprite = new Sprite();
 		project.getDefaultScene().addSprite(testSprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(testSprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(testSprite);
+		inject(ProjectManager.class).getValue().setCurrentlyEditedScene(project.getDefaultScene());
 	}
 
 	public static Matcher<Intent> containsPermissionRequest(final List<String> expectedPermissions) {

@@ -244,7 +244,7 @@ public class SceneControllerTest {
 	private void createProject() throws IOException {
 		project = new Project(ApplicationProvider.getApplicationContext(), "SpriteControllerTest");
 		scene = project.getDefaultScene();
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		Sprite sprite = new Sprite("testSprite");
 		scene.addSprite(sprite);

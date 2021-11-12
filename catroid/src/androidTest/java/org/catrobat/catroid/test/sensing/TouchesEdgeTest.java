@@ -60,7 +60,7 @@ public class TouchesEdgeTest {
 		project.getDefaultScene().addSprite(sprite1);
 
 		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		CollisionTestUtils.initializeSprite(sprite1, org.catrobat.catroid.test.R.raw.collision_donut,
 				"collision_donut.png", InstrumentationRegistry.getInstrumentation().getContext(), project);

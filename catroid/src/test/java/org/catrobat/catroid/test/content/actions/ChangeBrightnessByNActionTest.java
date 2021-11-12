@@ -39,6 +39,8 @@ import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(JUnit4.class)
 public class ChangeBrightnessByNActionTest {
 
@@ -56,7 +58,7 @@ public class ChangeBrightnessByNActionTest {
 		Project project = new Project(MockUtil.mockContextForProject(), "Project");
 		sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 	}
 
 	@Test

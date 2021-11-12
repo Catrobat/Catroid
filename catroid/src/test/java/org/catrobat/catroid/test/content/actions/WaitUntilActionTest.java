@@ -41,6 +41,8 @@ import org.junit.runners.JUnit4;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(JUnit4.class)
 public class WaitUntilActionTest {
 
@@ -53,8 +55,8 @@ public class WaitUntilActionTest {
 		testSprite = new Sprite("testSprite");
 		project = new Project(MockUtil.mockContextForProject(), "testProject");
 		testSprite.removeAllScripts();
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(new Sprite("testSprite1"));
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(new Sprite("testSprite1"));
 		project.removeUserVariable(TEST_USERVARIABLE);
 		UserVariable userVariable = new UserVariable(TEST_USERVARIABLE);
 		project.addUserVariable(userVariable);
@@ -89,7 +91,7 @@ public class WaitUntilActionTest {
 		testScript.addBrick(waitUntilBrick);
 		testSprite.addScript(testScript);
 		project.getDefaultScene().addSprite(testSprite);
-		ProjectManager.getInstance().setCurrentSprite(testSprite);
+		inject(ProjectManager.class).getValue().setCurrentSprite(testSprite);
 		testSprite.initializeEventThreads(EventId.START);
 
 		testSprite.look.act(100f);

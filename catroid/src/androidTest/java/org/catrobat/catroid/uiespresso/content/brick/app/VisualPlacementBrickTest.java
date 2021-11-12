@@ -136,7 +136,7 @@ public class VisualPlacementBrickTest {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), VisualPlacementBrickTest.class.getSimpleName());
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 		userVariable = new UserVariable("userVariable");
 		sprite.addScript(script);

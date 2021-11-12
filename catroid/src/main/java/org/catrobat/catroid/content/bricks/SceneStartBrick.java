@@ -46,6 +46,8 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class SceneStartBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Scene> {
 
 	private static final long serialVersionUID = 1L;
@@ -88,7 +90,7 @@ public class SceneStartBrick extends BrickBaseType implements BrickSpinner.OnIte
 
 		List<Nameable> items = new ArrayList<>();
 		items.add(new NewOption(context.getString(R.string.new_option)));
-		items.addAll(ProjectManager.getInstance().getCurrentProject().getSceneList());
+		items.addAll(inject(ProjectManager.class).getValue().getCurrentProject().getSceneList());
 		spinner = new BrickSpinner<>(R.id.brick_scene_start_spinner, view, items);
 		spinner.setOnItemSelectedListener(this);
 		spinner.setSelection(sceneToStart);
@@ -103,7 +105,7 @@ public class SceneStartBrick extends BrickBaseType implements BrickSpinner.OnIte
 			return;
 		}
 
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Project currentProject = inject(ProjectManager.class).getValue().getCurrentProject();
 		List<Scene> currentSceneList = currentProject.getSceneList();
 
 		String defaultSceneName =

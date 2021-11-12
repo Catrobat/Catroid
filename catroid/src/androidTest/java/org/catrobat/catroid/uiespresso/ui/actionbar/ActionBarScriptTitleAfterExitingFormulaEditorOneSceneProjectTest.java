@@ -64,7 +64,7 @@ public class ActionBarScriptTitleAfterExitingFormulaEditorOneSceneProjectTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void actionBarScriptTitleOneSceneProjectTest() {
-		String currentSpriteName = ProjectManager.getInstance().getCurrentSprite().getName();
+		String currentSpriteName = inject(ProjectManager.class).getValue().getCurrentSprite().getName();
 
 		onActionBar()
 				.checkTitleMatches(currentSpriteName);

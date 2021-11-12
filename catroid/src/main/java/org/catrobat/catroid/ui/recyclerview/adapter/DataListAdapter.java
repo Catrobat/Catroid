@@ -47,6 +47,8 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implements RVAdapter.SelectionListener {
 
 	public boolean allowMultiSelection = true;
@@ -357,13 +359,13 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 			if (!globalVarAdapter.remove((UserVariable) item) && !localVarAdapter.remove((UserVariable) item)) {
 				multiplayerVarAdapter.remove((UserVariable) item);
 			}
-			File projectDir = ProjectManager.getInstance().getCurrentProject().getDirectory();
+			File projectDir = inject(ProjectManager.class).getValue().getCurrentProject().getDirectory();
 			new DeviceVariableAccessor(projectDir).removeDeviceValue(item);
 		} else {
 			if (!globalListAdapter.remove((UserList) item)) {
 				localListAdapter.remove((UserList) item);
 			}
-			File projectDir = ProjectManager.getInstance().getCurrentProject().getDirectory();
+			File projectDir = inject(ProjectManager.class).getValue().getCurrentProject().getDirectory();
 			new DeviceListAccessor(projectDir).removeDeviceValue(item);
 		}
 		notifyDataSetChanged();

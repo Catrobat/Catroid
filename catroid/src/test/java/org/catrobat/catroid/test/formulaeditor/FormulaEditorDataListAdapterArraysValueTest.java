@@ -44,6 +44,7 @@ import org.junit.runners.JUnit4;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(JUnit4.class)
 public class FormulaEditorDataListAdapterArraysValueTest {
@@ -118,7 +119,7 @@ public class FormulaEditorDataListAdapterArraysValueTest {
 
 		project.getDefaultScene().addSprite(firstSprite);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(firstSprite);
 	}
 }

@@ -36,6 +36,8 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.utils.Utils;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class GoNStepsBackBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -66,7 +68,7 @@ public class GoNStepsBackBrick extends FormulaBrick {
 
 		if (getFormulaWithBrickField(BrickField.STEPS).isNumber()) {
 			try {
-				ProjectManager projectManager = ProjectManager.getInstance();
+				ProjectManager projectManager = inject(ProjectManager.class).getValue();
 				Scope scope = new Scope(projectManager.getCurrentProject(),
 						projectManager.getCurrentSprite(), null);
 				times.setText(view.getResources().getQuantityString(

@@ -45,6 +45,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import static junit.framework.Assert.assertTrue;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(GdxNativesLoader.class)
 public class ShowTextActionTest {
@@ -66,8 +68,8 @@ public class ShowTextActionTest {
 		sprite = new Sprite(SPRITE_NAME);
 		Project project = new Project(contextMock, "testProject");
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
 
 		secondSprite = new Sprite(SECOND_SPRITE_NAME);
 		project.getDefaultScene().addSprite(secondSprite);
@@ -92,7 +94,7 @@ public class ShowTextActionTest {
 		Action secondSpriteAction = factory.createShowVariableAction(secondSprite, new SequenceAction(),
 				new Formula(0), new Formula(0), var1, androidStringProviderMock);
 		firstSpriteAction.act(1.0f);
-		ProjectManager.getInstance().setCurrentSprite(secondSprite);
+		inject(ProjectManager.class).getValue().setCurrentSprite(secondSprite);
 		secondSpriteAction.act(1.0f);
 
 		UserVariable variableOfFirstSprite = sprite.getUserVariable(USER_VARIABLE_NAME);

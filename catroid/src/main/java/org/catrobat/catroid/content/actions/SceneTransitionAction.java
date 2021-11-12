@@ -28,6 +28,8 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.StageActivity;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class SceneTransitionAction extends TemporalAction {
 
 	private String sceneName;
@@ -35,7 +37,7 @@ public class SceneTransitionAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		if (sceneName != null && !ProjectManager.getInstance().getCurrentlyPlayingScene().getName().equals(sceneName)) {
+		if (sceneName != null && !inject(ProjectManager.class).getValue().getCurrentlyPlayingScene().getName().equals(sceneName)) {
 			sprite.releaseAllPointers();
 			StageActivity.stageListener.transitionToScene(sceneName);
 		}

@@ -45,6 +45,8 @@ import java.util.Set;
 
 import androidx.annotation.NonNull;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @XStreamAlias("scene")
 @XStreamFieldKeyOrder({
 		"name",
@@ -217,12 +219,12 @@ public class Scene implements Nameable, Serializable {
 	}
 
 	public void updateUserDataReferences(String oldName, String newName, UserData<?> item) {
-		if (ProjectManager.getInstance().getCurrentProject().isGlobalVariable(item)) {
+		if (inject(ProjectManager.class).getValue().getCurrentProject().isGlobalVariable(item)) {
 			for (Sprite sprite : spriteList) {
 				sprite.updateUserDataReferences(oldName, newName, item);
 			}
 		} else {
-			ProjectManager.getInstance().getCurrentSprite().updateUserDataReferences(oldName, newName, item);
+			inject(ProjectManager.class).getValue().getCurrentSprite().updateUserDataReferences(oldName, newName, item);
 		}
 	}
 

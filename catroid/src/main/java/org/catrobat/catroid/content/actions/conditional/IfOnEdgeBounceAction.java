@@ -29,6 +29,8 @@ import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.eventids.BounceOffEventId;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class IfOnEdgeBounceAction extends TemporalAction {
 	private Sprite sprite;
 
@@ -39,8 +41,8 @@ public class IfOnEdgeBounceAction extends TemporalAction {
 		float xPosition = sprite.look.getXInUserInterfaceDimensionUnit();
 		float yPosition = sprite.look.getYInUserInterfaceDimensionUnit();
 
-		int halfVirtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth / 2;
-		int halfVirtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight / 2;
+		int halfVirtualScreenWidth = inject(ProjectManager.class).getValue().getCurrentProject().getXmlHeader().virtualScreenWidth / 2;
+		int halfVirtualScreenHeight = inject(ProjectManager.class).getValue().getCurrentProject().getXmlHeader().virtualScreenHeight / 2;
 		float newDirection = sprite.look.getMotionDirectionInUserInterfaceDimensionUnit();
 
 		if (xPosition < -halfVirtualScreenWidth + width / 2) {

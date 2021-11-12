@@ -49,6 +49,8 @@ import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(JUnit4.class)
 public class ParserTestUserVariables {
 
@@ -73,8 +75,8 @@ public class ParserTestUserVariables {
 		firstSprite.addScript(startScript);
 		startScript.addBrick(changeBrick);
 		project.getDefaultScene().addSprite(firstSprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(firstSprite);
 
 		project.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE, USER_VARIABLE_1_VALUE_TYPE_DOUBLE));
 		firstSprite.addUserVariable(new UserVariable(SPRITE_USER_VARIABLE, USER_VARIABLE_2_VALUE_TYPE_DOUBLE));

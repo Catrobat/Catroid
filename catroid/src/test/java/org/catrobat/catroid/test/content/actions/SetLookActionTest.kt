@@ -32,6 +32,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.java.KoinJavaComponent.inject
 import org.powermock.api.mockito.PowerMockito.mock
 import org.powermock.api.mockito.PowerMockito.mockStatic
 import org.powermock.core.classloader.annotations.PrepareForTest
@@ -59,7 +60,7 @@ class SetLookActionTest {
         }
 
         Project(MockUtil.mockContextForProject(), "testProject").also { project ->
-            ProjectManager.getInstance().currentProject = project
+            inject(ProjectManager::class.java).value.currentProject = project
         }
     }
 

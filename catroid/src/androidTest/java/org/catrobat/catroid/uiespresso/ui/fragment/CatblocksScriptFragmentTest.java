@@ -131,14 +131,14 @@ public class CatblocksScriptFragmentTest {
 			}
 		}
 
-		ProjectManager.getInstance().getCurrentSprite().getScript(0).setPosX(50);
-		ProjectManager.getInstance().getCurrentSprite().getScript(0).setPosY(50);
+		inject(ProjectManager.class).getValue().getCurrentSprite().getScript(0).setPosX(50);
+		inject(ProjectManager.class).getValue().getCurrentSprite().getScript(0).setPosY(50);
 
 		openContextualActionModeOverflowMenu();
 		onView(withText(R.string.catblocks_reorder)).perform(click());
 
-		assertEquals(ProjectManager.getInstance().getCurrentSprite().getScript(0).getPosX(), 0.0f);
-		assertEquals(ProjectManager.getInstance().getCurrentSprite().getScript(0).getPosY(), 0.0f);
+		assertEquals(inject(ProjectManager.class).getValue().getCurrentSprite().getScript(0).getPosX(), 0.0f);
+		assertEquals(inject(ProjectManager.class).getValue().getCurrentSprite().getScript(0).getPosY(), 0.0f);
 	}
 
 	private void createProject() {
@@ -157,7 +157,7 @@ public class CatblocksScriptFragmentTest {
 
 		sprite.addScript(startScript);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
 	}
 }

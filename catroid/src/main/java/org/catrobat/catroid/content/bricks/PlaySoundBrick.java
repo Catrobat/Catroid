@@ -43,6 +43,8 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class PlaySoundBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<SoundInfo>,
 		NewItemInterface<SoundInfo> {
 
@@ -82,7 +84,7 @@ public class PlaySoundBrick extends BrickBaseType implements BrickSpinner.OnItem
 
 		List<Nameable> items = new ArrayList<>();
 		items.add(new NewOption(context.getString(R.string.new_option)));
-		items.addAll(ProjectManager.getInstance().getCurrentSprite().getSoundList());
+		items.addAll(inject(ProjectManager.class).getValue().getCurrentSprite().getSoundList());
 		spinner = new BrickSpinner<>(R.id.brick_play_sound_spinner, view, items);
 		spinner.setOnItemSelectedListener(this);
 		spinner.setSelection(sound);

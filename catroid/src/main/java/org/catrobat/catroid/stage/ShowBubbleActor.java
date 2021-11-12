@@ -51,6 +51,8 @@ import java.util.Arrays;
 import androidx.annotation.VisibleForTesting;
 import androidx.core.util.Pair;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class ShowBubbleActor extends Actor {
 	ArrayList<String> bubbleValue;
 	private Sprite sprite;
@@ -155,12 +157,12 @@ public class ShowBubbleActor extends Actor {
 
 	private boolean drawRight() {
 		return imageRight.getX() + imageRight.getWidth()
-				< (ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth / 2);
+				< (inject(ProjectManager.class).getValue().getCurrentProject().getXmlHeader().virtualScreenWidth / 2);
 	}
 
 	private boolean drawLeft() {
 		return imageLeft.getX()
-				> -(ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth / 2);
+				> -(inject(ProjectManager.class).getValue().getCurrentProject().getXmlHeader().virtualScreenWidth / 2);
 	}
 
 	private Pixmap drawBubbleOnCanvas(ArrayList<String> lines, boolean right) {

@@ -65,7 +65,7 @@ public class WaitForSoundActionTest {
 	@BeforeClass
 	public static void setUpProjectManager() {
 		project = new Project(ApplicationProvider.getApplicationContext(), "projectName");
-		projectManager = ProjectManager.getInstance();
+		projectManager = inject(ProjectManager.class).getValue();
 	}
 
 	@Before

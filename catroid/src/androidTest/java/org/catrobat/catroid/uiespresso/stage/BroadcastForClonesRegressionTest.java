@@ -97,7 +97,7 @@ public class BroadcastForClonesRegressionTest {
 
 	private void createProject() {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), "BroadcastForClonesRegressionTest");
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		userVariable = new UserVariable(VARIABLE_NAME);
 		project.addUserVariable(userVariable);
 
@@ -112,7 +112,7 @@ public class BroadcastForClonesRegressionTest {
 		broadcastReceiveScript.addBrick(new ChangeVariableBrick(new Formula(1), userVariable));
 		sprite.addScript(broadcastReceiveScript);
 
-		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().getCurrentlyEditedScene().addSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
 	}
 }

@@ -48,6 +48,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.java.KoinJavaComponent.inject
 import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito
@@ -97,7 +98,7 @@ class WebRequestActionTest {
         doReturn(RESPONSE_STRING).`when`(responseBody).string()
 
         val project = Project(MockUtil.mockContextForProject(), "Project")
-        ProjectManager.getInstance().currentProject = project
+        inject(ProjectManager::class.java).value.currentProject = project
     }
 
     @Test

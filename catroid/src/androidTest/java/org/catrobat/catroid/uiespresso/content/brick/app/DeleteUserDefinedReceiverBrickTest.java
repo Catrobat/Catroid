@@ -114,7 +114,7 @@ public class DeleteUserDefinedReceiverBrickTest {
 
 	private void createProject(String projectName) throws IOException, CloneNotSupportedException {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 		SpriteController controller = new SpriteController();
 

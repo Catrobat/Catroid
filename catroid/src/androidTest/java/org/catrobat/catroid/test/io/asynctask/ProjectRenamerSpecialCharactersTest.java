@@ -44,6 +44,7 @@ import static org.catrobat.catroid.io.asynctask.ProjectRenamerKt.renameProject;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class ProjectRenamerSpecialCharactersTest {
@@ -100,7 +101,7 @@ public class ProjectRenamerSpecialCharactersTest {
 
 		assertTrue(ProjectLoadTask.task(renamedDirectory, ApplicationProvider.getApplicationContext()));
 
-		project = ProjectManager.getInstance().getCurrentProject();
+		project = inject(ProjectManager.class).getValue().getCurrentProject();
 		assertEquals(projectNameWithoutSpecialCharacter, project.getName());
 	}
 
@@ -118,7 +119,7 @@ public class ProjectRenamerSpecialCharactersTest {
 
 		assertTrue(ProjectLoadTask.task(renamedDirectory, ApplicationProvider.getApplicationContext()));
 
-		project = ProjectManager.getInstance().getCurrentProject();
+		project = inject(ProjectManager.class).getValue().getCurrentProject();
 		assertEquals(specialCharacterProjectName, project.getName());
 	}
 }

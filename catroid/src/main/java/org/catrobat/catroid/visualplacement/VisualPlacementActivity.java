@@ -88,6 +88,7 @@ import static org.catrobat.catroid.utils.ShowTextUtils.calculateAlignmentValuesF
 import static org.catrobat.catroid.utils.ShowTextUtils.calculateColorRGBs;
 import static org.catrobat.catroid.utils.ShowTextUtils.isValidColorString;
 import static org.catrobat.catroid.utils.ShowTextUtils.sanitizeTextSize;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class VisualPlacementActivity extends BaseCastActivity implements View.OnTouchListener,
 		DialogInterface.OnClickListener, CoordinateInterface {
@@ -155,7 +156,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 			return;
 		}
 
-		projectManager = ProjectManager.getInstance();
+		projectManager = inject(ProjectManager.class).getValue();
 		Project currentProject = projectManager.getCurrentProject();
 
 		setContentView(R.layout.visual_placement_layout);

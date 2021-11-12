@@ -36,6 +36,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.java.KoinJavaComponent.inject
 import org.mockito.Mockito
 import org.mockito.Mockito.anyFloat
 import org.mockito.Mockito.times
@@ -72,7 +73,7 @@ class RepeatActionTest(
         initializeStaticSingletonMethods()
         sprite = Sprite("testSprite")
         project = Mockito.mock(Project::class.java)
-        ProjectManager.getInstance().currentProject = project
+        inject(ProjectManager::class.java).value.currentProject = project
         Mockito.doReturn(null).`when`(project).spriteListWithClones
         innerLoopAction = Mockito.mock(MockAction()::class.java, Mockito.CALLS_REAL_METHODS)
         repeatAction = sprite.actionFactory.createRepeatAction(

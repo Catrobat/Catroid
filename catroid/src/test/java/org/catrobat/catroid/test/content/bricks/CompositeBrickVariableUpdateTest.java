@@ -52,6 +52,7 @@ import java.util.Arrays;
 
 import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class CompositeBrickVariableUpdateTest {
@@ -110,7 +111,7 @@ public class CompositeBrickVariableUpdateTest {
 
 		project.addUserVariable(userVariable);
 		project.addUserList(userList);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 	}
 
 	@Test

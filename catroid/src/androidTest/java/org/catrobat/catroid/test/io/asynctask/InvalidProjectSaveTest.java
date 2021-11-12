@@ -33,12 +33,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 import static org.junit.Assert.assertFalse;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class InvalidProjectSaveTest {
 	@Before
 	public void setUp() {
-		ProjectManager.getInstance().setCurrentProject(null);
+		inject(ProjectManager.class).getValue().setCurrentProject(null);
 	}
 
 	@Test

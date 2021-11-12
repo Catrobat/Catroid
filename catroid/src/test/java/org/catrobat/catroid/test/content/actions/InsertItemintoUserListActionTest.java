@@ -41,6 +41,8 @@ import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(JUnit4.class)
 public class InsertItemintoUserListActionTest {
 
@@ -59,7 +61,7 @@ public class InsertItemintoUserListActionTest {
 		actionFactory = new ActionFactory();
 		testSprite = new Sprite("testSprite");
 		project = new Project(MockUtil.mockContextForProject(), "testProject");
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		INITIALIZED_LIST_VALUES.clear();
 		INITIALIZED_LIST_VALUES.add(1.0);

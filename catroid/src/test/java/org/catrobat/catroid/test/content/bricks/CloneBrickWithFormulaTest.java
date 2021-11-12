@@ -81,6 +81,7 @@ import java.util.Arrays;
 import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class CloneBrickWithFormulaTest {
@@ -159,7 +160,7 @@ public class CloneBrickWithFormulaTest {
 		FormulaBrick cloneBrick = (FormulaBrick) brick.clone();
 		brickFormula = brick.getFormulaWithBrickField(brickField);
 		cloneBrickFormula = cloneBrick.getFormulaWithBrickField(brickField);
-		scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, new SequenceAction());
+		scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, new SequenceAction());
 	}
 
 	@Test

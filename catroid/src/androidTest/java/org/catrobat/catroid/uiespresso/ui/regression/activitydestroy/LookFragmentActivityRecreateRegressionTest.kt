@@ -57,6 +57,7 @@ import org.junit.runner.RunWith
 
 import java.io.File
 import java.io.IOException
+import org.koin.java.KoinJavaComponent.inject
 
 @RunWith(AndroidJUnit4::class)
 class LookFragmentActivityRecreateRegressionTest {
@@ -120,8 +121,8 @@ class LookFragmentActivityRecreateRegressionTest {
         val project = Project(ApplicationProvider.getApplicationContext(), projectName)
         val sprite = Sprite("testSprite")
         project.defaultScene.addSprite(sprite)
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().currentSprite = sprite
+        inject(ProjectManager::class.java).getValue().currentProject = project
+        inject(ProjectManager::class.java).getValue().currentSprite = sprite
         XstreamSerializer.getInstance().saveProject(project)
         val imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
             InstrumentationRegistry.getInstrumentation().context.resources,

@@ -101,8 +101,8 @@ public class CopySoundTest {
 		Sprite sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
 		XstreamSerializer.getInstance().saveProject(project);
 
 		File soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
@@ -111,7 +111,7 @@ public class CopySoundTest {
 				new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME),
 				"longsound.mp3");
 
-		List<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		List<SoundInfo> soundInfoList = inject(ProjectManager.class).getValue().getCurrentSprite().getSoundList();
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setFile(soundFile);
 		soundInfo.setName(toBeCopiedSoundName);

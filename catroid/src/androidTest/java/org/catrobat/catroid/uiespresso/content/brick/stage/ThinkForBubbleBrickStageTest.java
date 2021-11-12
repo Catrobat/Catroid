@@ -93,8 +93,8 @@ public class ThinkForBubbleBrickStageTest {
 		Script script = new WhenTouchDownScript();
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
 
 		script.addBrick(new ThinkForBubbleBrick(sayString, duration));
 		lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script);

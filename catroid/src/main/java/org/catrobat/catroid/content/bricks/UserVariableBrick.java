@@ -44,6 +44,8 @@ import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public abstract class UserVariableBrick extends BrickBaseType implements UserVariableBrickInterface {
 
 	protected UserVariable userVariable;
@@ -74,13 +76,13 @@ public abstract class UserVariableBrick extends BrickBaseType implements UserVar
 	public View getView(Context context) {
 		super.getView(context);
 
-		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite sprite = inject(ProjectManager.class).getValue().getCurrentSprite();
 
 		List<Nameable> items = new ArrayList<>();
 		items.add(new NewOption(context.getString(R.string.new_option)));
 		items.addAll(sprite.getUserVariables());
-		items.addAll(ProjectManager.getInstance().getCurrentProject().getUserVariables());
-		items.addAll(ProjectManager.getInstance().getCurrentProject().getMultiplayerVariables());
+		items.addAll(inject(ProjectManager.class).getValue().getCurrentProject().getUserVariables());
+		items.addAll(inject(ProjectManager.class).getValue().getCurrentProject().getMultiplayerVariables());
 
 		spinner = new BrickSpinner<>(getSpinnerId(), view, items);
 		spinner.setOnItemSelectedListener(this);
@@ -95,8 +97,8 @@ public abstract class UserVariableBrick extends BrickBaseType implements UserVar
 			return;
 		}
 
-		final Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		final Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		final Project currentProject = inject(ProjectManager.class).getValue().getCurrentProject();
+		final Sprite currentSprite = inject(ProjectManager.class).getValue().getCurrentSprite();
 
 		UserVariableBrickTextInputDialogBuilder builder =
 				new UserVariableBrickTextInputDialogBuilder(currentProject, currentSprite, userVariable, activity, spinner);

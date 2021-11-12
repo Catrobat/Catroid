@@ -80,7 +80,7 @@ public class WhenScriptTest {
 
 	private Project createProjectWithSprite(Sprite sprite) {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), "testProject");
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		project.getDefaultScene().addSprite(sprite);
 		return project;
 	}

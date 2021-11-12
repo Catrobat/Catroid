@@ -80,7 +80,7 @@ public class SceneTransitionWithSoundBrickStageTest {
 
 	@BeforeClass
 	public static void setUpProjectManager() {
-		projectManager = ProjectManager.getInstance();
+		projectManager = inject(ProjectManager.class).getValue();
 	}
 
 	@Before

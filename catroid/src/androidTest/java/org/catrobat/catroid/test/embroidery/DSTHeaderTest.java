@@ -51,7 +51,7 @@ public class DSTHeaderTest {
 	@Before
 	public void setUp() {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		fileOutputStream = Mockito.mock(FileOutputStream.class);
 	}
 

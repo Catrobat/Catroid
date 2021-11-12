@@ -46,6 +46,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class CompositeBrickWithSecondaryListBroadcastMessageTest {
@@ -90,7 +91,7 @@ public class CompositeBrickWithSecondaryListBroadcastMessageTest {
 		compositeBrick.getNestedBricks().add(primaryListBroadcastBrick);
 		compositeBrick.getSecondaryNestedBricks().add(secondaryListBroadcastBrick);
 
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 	}
 
 	@Test

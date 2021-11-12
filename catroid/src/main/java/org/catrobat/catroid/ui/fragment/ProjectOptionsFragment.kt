@@ -22,54 +22,55 @@
  */
 package org.catrobat.catroid.ui.fragment
 
-import org.catrobat.catroid.ui.BottomBar.hideBottomBar
-import org.catrobat.catroid.io.asynctask.saveProjectSerial
-import org.catrobat.catroid.io.asynctask.renameProject
-import com.google.android.material.textfield.TextInputLayout
-import com.google.android.material.chip.ChipGroup
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import android.os.Bundle
-import org.catrobat.catroid.R
-import androidx.appcompat.app.AppCompatActivity
-import org.catrobat.catroid.ProjectManager
-import org.catrobat.catroid.merge.NewProjectNameTextWatcher
-import android.text.Editable
-import android.widget.LinearLayout
-import com.google.android.material.chip.Chip
-import com.google.android.material.switchmaterial.SwitchMaterial
-import org.catrobat.catroid.common.ScreenModes
-import android.widget.CompoundButton
-import android.widget.TextView
-import org.catrobat.catroid.common.ProjectData
-import android.content.DialogInterface
-import org.catrobat.catroid.io.XstreamSerializer
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask
-import org.catrobat.catroid.utils.ToastUtil
-import org.catrobat.catroid.io.asynctask.ProjectSaver
-import android.content.Intent
-import org.catrobat.catroid.ui.ProjectUploadActivity
-import androidx.annotation.RequiresApi
-import android.provider.DocumentsContract
-import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
 import android.Manifest.permission
 import android.app.Activity
+import android.content.DialogInterface
+import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.os.Environment
+import android.provider.DocumentsContract
+import android.text.Editable
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
+import android.view.ViewGroup
+import android.widget.CompoundButton
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
-import org.catrobat.catroid.io.asynctask.ProjectExportTask
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
+import com.google.android.material.switchmaterial.SwitchMaterial
+import com.google.android.material.textfield.TextInputLayout
+import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.Nameable
+import org.catrobat.catroid.common.ProjectData
+import org.catrobat.catroid.common.ScreenModes
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.io.StorageOperations
+import org.catrobat.catroid.io.XstreamSerializer
+import org.catrobat.catroid.io.asynctask.ProjectExportTask
+import org.catrobat.catroid.io.asynctask.ProjectLoadTask
+import org.catrobat.catroid.io.asynctask.ProjectSaver
+import org.catrobat.catroid.io.asynctask.renameProject
+import org.catrobat.catroid.io.asynctask.saveProjectSerial
+import org.catrobat.catroid.merge.NewProjectNameTextWatcher
+import org.catrobat.catroid.ui.BottomBar.hideBottomBar
 import org.catrobat.catroid.ui.PROJECT_DIR
+import org.catrobat.catroid.ui.ProjectUploadActivity
+import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
+import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.Utils
+import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
+import org.koin.java.KoinJavaComponent.inject
 import java.io.File
 import java.io.IOException
 
@@ -92,8 +93,8 @@ class ProjectOptionsFragment : Fragment() {
         val activity = activity as AppCompatActivity?
         activity?.supportActionBar?.setTitle(R.string.project_options)
 
-        project = ProjectManager.getInstance().currentProject
-        sceneName = ProjectManager.getInstance().currentlyEditedScene.name
+        project = inject(ProjectManager::class.java).value.currentProject
+        sceneName = inject(ProjectManager::class.java).value.currentlyEditedScene.name
         setupNameInputLayout()
         setupDescriptionInputLayout()
         setupNotesAndCreditsInputLayout()
@@ -250,7 +251,7 @@ class ProjectOptionsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        ProjectManager.getInstance().currentProject = project
+        inject(ProjectManager::class.java).value.currentProject = project
         nameInputLayout?.editText?.setText(project?.name)
         descriptionInputLayout?.editText?.setText(project?.description)
         notesAndCreditsInputLayout?.editText?.setText(project?.notesAndCredits)
@@ -269,8 +270,8 @@ class ProjectOptionsFragment : Fragment() {
             return
         }
         ProjectLoadTask.task(renamedDirectory, activity?.applicationContext)
-        project = ProjectManager.getInstance().currentProject
-        ProjectManager.getInstance().currentlyEditedScene = project?.getSceneByName(sceneName)
+        project = inject(ProjectManager::class.java).value.currentProject
+        inject(ProjectManager::class.java).value.currentlyEditedScene = project?.getSceneByName(sceneName)
     }
 
     fun saveDescription() {
@@ -295,7 +296,7 @@ class ProjectOptionsFragment : Fragment() {
     }
 
     fun projectUpload() {
-        val currentProject = ProjectManager.getInstance().currentProject
+        val currentProject = inject(ProjectManager::class.java).value.currentProject
         context?.apply {
             val projectSaver = ProjectSaver(currentProject, this)
             projectSaver.saveProjectAsync({ onSaveProjectComplete() })
@@ -304,7 +305,7 @@ class ProjectOptionsFragment : Fragment() {
     }
 
     private fun onSaveProjectComplete() {
-        val currentProject = ProjectManager.getInstance().currentProject
+        val currentProject = inject(ProjectManager::class.java).value.currentProject
         val intent = Intent(context, ProjectUploadActivity::class.java)
         intent.putExtra(PROJECT_DIR, currentProject.directory)
         startActivity(intent)
@@ -394,7 +395,7 @@ class ProjectOptionsFragment : Fragment() {
             resources.getQuantityString(R.plurals.deleted_projects, 1, 1)
         )
         project = null
-        ProjectManager.getInstance().currentProject = project
+        inject(ProjectManager::class.java).value.currentProject = project
         val activity: Activity? = activity
         activity?.onBackPressed()
     }

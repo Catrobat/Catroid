@@ -122,8 +122,8 @@ public class StagePausedTest {
 		sprite.addScript(startScript);
 
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
 
 		evaluationGateBrick = ScriptEvaluationGateBrick.appendToScript(startScript);
 	}

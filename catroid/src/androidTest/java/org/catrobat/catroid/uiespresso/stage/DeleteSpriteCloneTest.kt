@@ -49,6 +49,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.experimental.categories.Category
 import java.io.IOException
+import org.koin.java.KoinJavaComponent.inject
 
 @Category(AppUi::class, Smoke::class)
 class DeleteSpriteCloneTest {
@@ -108,7 +109,7 @@ class DeleteSpriteCloneTest {
         val scene1 = project!!.defaultScene
         scene1.addSprite(sprite1)
         scene1.addSprite(sprite2)
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().startScene = scene1
+        inject(ProjectManager::class.java).value.currentProject = project
+        inject(ProjectManager::class.java).value.startScene = scene1
     }
 }

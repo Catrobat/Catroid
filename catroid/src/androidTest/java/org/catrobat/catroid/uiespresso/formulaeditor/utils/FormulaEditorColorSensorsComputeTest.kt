@@ -52,6 +52,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.java.KoinJavaComponent.inject
 
 @RunWith(Parameterized::class)
 class FormulaEditorColorSensorsComputeTest(
@@ -130,8 +131,8 @@ class FormulaEditorColorSensorsComputeTest(
         script.addBrick(ifBrick)
         sprite.addScript(script)
         project.defaultScene.addSprite(sprite)
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().currentSprite = sprite
+        inject(ProjectManager::class.java).value.currentProject = project
+        inject(ProjectManager::class.java).value.currentSprite = sprite
         return project
     }
 }

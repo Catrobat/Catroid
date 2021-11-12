@@ -76,6 +76,7 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.number.OrderingComparison.greaterThan;
 import static org.junit.Assert.assertThat;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class XstreamSerializerTest {
@@ -96,12 +97,12 @@ public class XstreamSerializerTest {
 	@Before
 	public void setUp() throws Exception {
 		TestUtils.deleteProjects(projectName);
-		currentProjectBuffer = ProjectManager.getInstance().getCurrentProject();
+		currentProjectBuffer = inject(ProjectManager.class).getValue().getCurrentProject();
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		ProjectManager.getInstance().setCurrentProject(currentProjectBuffer);
+		inject(ProjectManager.class).getValue().setCurrentProject(currentProjectBuffer);
 		TestUtils.deleteProjects(projectName);
 	}
 
@@ -254,7 +255,7 @@ public class XstreamSerializerTest {
 	@Test
 	public void testPermissionFileRemoved() {
 		Project project = generateMultiplePermissionsProject();
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		XstreamSerializer.getInstance().saveProject(project);
 
 		File permissionsFile = new File(project.getDirectory(), PERMISSIONS_FILE_NAME);
@@ -271,7 +272,7 @@ public class XstreamSerializerTest {
 		};
 
 		Project project = generateMultiplePermissionsProject();
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		SettingsFragment.setLegoMindstormsNXTSensorMapping(ApplicationProvider.getApplicationContext(), sensorMapping);
 
@@ -309,7 +310,7 @@ public class XstreamSerializerTest {
 		assertEquals(sensorMapping[2], actualSensorMapping[2]);
 		assertEquals(sensorMapping[3], actualSensorMapping[3]);
 
-		project = ProjectManager.getInstance().getCurrentProject();
+		project = inject(ProjectManager.class).getValue().getCurrentProject();
 
 		setting = project.getSettings().get(0);
 		nxtSetting = (LegoNXTSetting) setting;

@@ -105,7 +105,7 @@ public class CurrentProjectTest {
 	private void createProject() {
 		Project project = new Project(applicationContext, currentProject);
 
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		XstreamSerializer.getInstance().saveProject(project);
 	}
 }

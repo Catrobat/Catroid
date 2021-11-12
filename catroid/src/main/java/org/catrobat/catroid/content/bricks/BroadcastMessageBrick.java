@@ -48,6 +48,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public abstract class BroadcastMessageBrick extends BrickBaseType implements
 		BrickSpinner.OnItemSelectedListener<StringOption> {
 
@@ -68,7 +70,7 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 	public View getView(Context context) {
 		super.getView(context);
 
-		List<String> messages = ProjectManager.getInstance().getCurrentProject()
+		List<String> messages = inject(ProjectManager.class).getValue().getCurrentProject()
 				.getBroadcastMessageContainer().getBroadcastMessages();
 
 		List<Nameable> items = getSortedItemListFromMessages(context, messages);
@@ -89,7 +91,7 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 
 		builder.setHint(activity.getString(R.string.dialog_broadcast_message_name))
 				.setTextWatcher(new DuplicateInputTextWatcher(new ArrayList()))
-				.setText(new UniqueNameProvider().getUniqueName(activity.getString(R.string.default_broadcast_message_name), ProjectManager.getInstance().getCurrentProject().getBroadcastMessageContainer().getBroadcastMessages()))
+				.setText(new UniqueNameProvider().getUniqueName(activity.getString(R.string.default_broadcast_message_name), inject(ProjectManager.class).getValue().getCurrentProject().getBroadcastMessageContainer().getBroadcastMessages()))
 				.setPositiveButton(activity.getString(R.string.ok), getOkButtonListener(activity))
 				.setTitle(R.string.dialog_new_broadcast_message_title)
 				.setNegativeButton(R.string.cancel, getNegativeButtonListener())
@@ -122,14 +124,14 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 	}
 
 	public void addItem(String item) {
-		if (ProjectManager.getInstance().getCurrentProject().getBroadcastMessageContainer().addBroadcastMessage(item)) {
+		if (inject(ProjectManager.class).getValue().getCurrentProject().getBroadcastMessageContainer().addBroadcastMessage(item)) {
 			spinner.add(new StringOption(item));
 		}
 		spinner.setSelection(item);
 	}
 
 	public boolean removeItem(String item) {
-		return ProjectManager.getInstance().getCurrentProject().getBroadcastMessageContainer().removeBroadcastMessage(item);
+		return inject(ProjectManager.class).getValue().getCurrentProject().getBroadcastMessageContainer().removeBroadcastMessage(item);
 	}
 
 	@Override
@@ -154,7 +156,7 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 		return (dialog, textInput) -> {
 			if (removeItem(editMessage)) {
 				addItem(textInput);
-				Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+				Scene currentScene = inject(ProjectManager.class).getValue().getCurrentlyEditedScene();
 				currentScene.editBroadcastMessagesInUse(editMessage, textInput);
 				notifyDataSetChanged(activity);
 			}

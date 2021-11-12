@@ -55,6 +55,7 @@ import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
+import static org.koin.java.KoinJavaComponent.inject;
 import static org.mockito.Mockito.mock;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -68,7 +69,7 @@ public class FormulaTest {
 	@Before
 	public void setUp() {
 		internTokenList = new LinkedList<>();
-		if (ProjectManager.getInstance() == null) {
+		if (inject(ProjectManager.class).getValue() == null) {
 			new ProjectManager(mock(Context.class));
 		}
 	}

@@ -67,7 +67,7 @@ public class PhysicsSpriteCloneTest {
 
 		project = new Project(ApplicationProvider.getApplicationContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		sprite = new Sprite("TestSprite");
 		project.getDefaultScene().addSprite(sprite);

@@ -213,6 +213,7 @@ import java.util.UUID;
 import kotlin.Pair;
 
 import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class ActionFactory extends Actions {
 
@@ -220,7 +221,7 @@ public class ActionFactory extends Actions {
 			List<UserDefinedBrickInput> userDefinedBrickInputs, UUID userDefinedBrickID) {
 		UserDefinedBrickAction action = action(UserDefinedBrickAction.class);
 
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setInputs(userDefinedBrickInputs);
 		action.setUserDefinedBrickID(userDefinedBrickID);
@@ -238,7 +239,7 @@ public class ActionFactory extends Actions {
 
 	public Action createWaitAction(Sprite sprite, SequenceAction sequence, Formula delay) {
 		WaitAction action = action(WaitAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setDelay(delay);
 		return action;
@@ -248,7 +249,7 @@ public class ActionFactory extends Actions {
 			String soundFilePath) {
 		WaitForSoundAction action = action(WaitForSoundAction.class);
 		action.setSoundFilePath(soundFilePath);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setDelay(delay);
 		return action;
@@ -256,7 +257,7 @@ public class ActionFactory extends Actions {
 
 	public Action createWaitForBubbleBrickAction(Sprite sprite, SequenceAction sequence, Formula delay) {
 		WaitForBubbleBrickAction action = Actions.action(WaitForBubbleBrickAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setDelay(delay);
 		return action;
@@ -265,7 +266,7 @@ public class ActionFactory extends Actions {
 	public Action createChangeBrightnessByNAction(Sprite sprite, SequenceAction sequence,
 			Formula changeBrightness) {
 		ChangeBrightnessByNAction action = Actions.action(ChangeBrightnessByNAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setBrightness(changeBrightness);
 		return action;
@@ -274,7 +275,7 @@ public class ActionFactory extends Actions {
 	public Action createChangeColorByNAction(Sprite sprite, SequenceAction sequence,
 			Formula changeColor) {
 		ChangeColorByNAction action = Actions.action(ChangeColorByNAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setColor(changeColor);
 		return action;
@@ -283,7 +284,7 @@ public class ActionFactory extends Actions {
 	public Action createChangeTransparencyByNAction(Sprite sprite, SequenceAction sequence,
 			Formula transparency) {
 		ChangeTransparencyByNAction action = Actions.action(ChangeTransparencyByNAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setTransparency(transparency);
 		return action;
@@ -291,7 +292,7 @@ public class ActionFactory extends Actions {
 
 	public Action createChangeSizeByNAction(Sprite sprite, SequenceAction sequence, Formula size) {
 		ChangeSizeByNAction action = Actions.action(ChangeSizeByNAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setSize(size);
 		return action;
@@ -300,14 +301,14 @@ public class ActionFactory extends Actions {
 	public Action createChangeVolumeByNAction(Sprite sprite, SequenceAction sequence, Formula volume) {
 		ChangeVolumeByNAction action = Actions.action(ChangeVolumeByNAction.class);
 		action.setVolume(volume);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		return action;
 	}
 
 	public Action createChangeXByNAction(Sprite sprite, SequenceAction sequence, Formula xMovement) {
 		ChangeXByNAction action = Actions.action(ChangeXByNAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setxMovement(xMovement);
 		return action;
@@ -315,7 +316,7 @@ public class ActionFactory extends Actions {
 
 	public Action createChangeYByNAction(Sprite sprite, SequenceAction sequence, Formula yMovement) {
 		ChangeYByNAction action = Actions.action(ChangeYByNAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setyMovement(yMovement);
 		return action;
@@ -345,7 +346,7 @@ public class ActionFactory extends Actions {
 		GlideToAction action = Actions.action(GlideToAction.class);
 		action.setPosition(x, y);
 		action.setDuration(duration);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		return action;
 	}
@@ -355,7 +356,7 @@ public class ActionFactory extends Actions {
 		action.setPosition(x, y);
 		action.setDuration(0);
 		action.setInterpolation(null);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		return action;
 	}
@@ -383,7 +384,7 @@ public class ActionFactory extends Actions {
 
 	public Action createGoNStepsBackAction(Sprite sprite, SequenceAction sequence, Formula steps) {
 		GoNStepsBackAction action = Actions.action(GoNStepsBackAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setSteps(steps);
 		return action;
@@ -406,7 +407,7 @@ public class ActionFactory extends Actions {
 			LegoNxtMotorMoveBrick.Motor motorEnum, Formula speed) {
 		LegoNxtMotorMoveAction action = Actions.action(LegoNxtMotorMoveAction.class);
 		action.setMotorEnum(motorEnum);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setSpeed(speed);
 		return action;
@@ -422,7 +423,7 @@ public class ActionFactory extends Actions {
 			LegoNxtMotorTurnAngleBrick.Motor motorEnum, Formula degrees) {
 		LegoNxtMotorTurnAngleAction action = Actions.action(LegoNxtMotorTurnAngleAction.class);
 		action.setMotorEnum(motorEnum);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setDegrees(degrees);
 		return action;
@@ -432,7 +433,7 @@ public class ActionFactory extends Actions {
 			Formula durationInSeconds) {
 		LegoNxtPlayToneAction action = Actions.action(LegoNxtPlayToneAction.class);
 		action.setHertz(hertz);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setDurationInSeconds(durationInSeconds);
 		return action;
@@ -441,7 +442,7 @@ public class ActionFactory extends Actions {
 	public Action createLegoEv3SingleMotorMoveAction(Sprite sprite, SequenceAction sequence,
 			LegoEv3MotorMoveBrick.Motor motorEnum, Formula speed) {
 		LegoEv3MotorMoveAction action = action(LegoEv3MotorMoveAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setMotorEnum(motorEnum);
 		action.setSpeed(speed);
@@ -464,7 +465,7 @@ public class ActionFactory extends Actions {
 			Formula hertz, Formula durationInSeconds, Formula volumeInPercent) {
 		LegoEv3PlayToneAction action = action(LegoEv3PlayToneAction.class);
 		action.setHertz(hertz);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setDurationInSeconds(durationInSeconds);
 		action.setVolumeInPercent(volumeInPercent);
@@ -475,7 +476,7 @@ public class ActionFactory extends Actions {
 			LegoEv3MotorTurnAngleBrick.Motor motorEnum, Formula degrees) {
 		LegoEv3MotorTurnAngleAction action = action(LegoEv3MotorTurnAngleAction.class);
 		action.setMotorEnum(motorEnum);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setDegrees(degrees);
 		return action;
@@ -485,7 +486,7 @@ public class ActionFactory extends Actions {
 			PhiroPlayToneBrick.Tone toneEnum, Formula duration) {
 		PhiroPlayToneAction action = action(PhiroPlayToneAction.class);
 		action.setSelectedTone(toneEnum);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setDurationInSeconds(duration);
 		return action;
@@ -495,7 +496,7 @@ public class ActionFactory extends Actions {
 			PhiroMotorMoveForwardBrick.Motor motorEnum, Formula speed) {
 		PhiroMotorMoveForwardAction action = action(PhiroMotorMoveForwardAction.class);
 		action.setMotorEnum(motorEnum);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setSpeed(speed);
 		return action;
@@ -505,7 +506,7 @@ public class ActionFactory extends Actions {
 			PhiroMotorMoveBackwardBrick.Motor motorEnum, Formula speed) {
 		PhiroMotorMoveBackwardAction action = action(PhiroMotorMoveBackwardAction.class);
 		action.setMotorEnum(motorEnum);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setSpeed(speed);
 		return action;
@@ -514,7 +515,7 @@ public class ActionFactory extends Actions {
 	public Action createPhiroRgbLedEyeActionAction(Sprite sprite, SequenceAction sequence,
 			PhiroRGBLightBrick.Eye eye, Formula red, Formula green, Formula blue) {
 		PhiroRGBLightAction action = action(PhiroRGBLightAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setEyeEnum(eye);
 		action.setRed(red);
@@ -526,7 +527,7 @@ public class ActionFactory extends Actions {
 	public Action createPhiroSendSelectedSensorAction(Sprite sprite, SequenceAction sequence,
 			int sensorNumber, Action ifAction, Action elseAction) {
 		PhiroSensorAction action = action(PhiroSensorAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setSensor(sensorNumber);
 		action.setIfAction(ifAction);
@@ -542,7 +543,7 @@ public class ActionFactory extends Actions {
 
 	public Action createMoveNStepsAction(Sprite sprite, SequenceAction sequence, Formula steps) {
 		MoveNStepsAction action = Actions.action(MoveNStepsAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setSteps(steps);
 		return action;
@@ -562,7 +563,7 @@ public class ActionFactory extends Actions {
 
 	public Action createSetPenSizeAction(Sprite sprite, SequenceAction sequence, Formula penSize) {
 		SetPenSizeAction action = Actions.action(SetPenSizeAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setPenSize(penSize);
 		return action;
@@ -571,7 +572,7 @@ public class ActionFactory extends Actions {
 	public Action createSetPenColorAction(Sprite sprite, SequenceAction sequence, Formula red,
 			Formula green, Formula blue) {
 		SetPenColorAction action = Actions.action(SetPenColorAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setRed(red);
 		action.setGreen(green);
@@ -614,7 +615,7 @@ public class ActionFactory extends Actions {
 
 	public Action createPointInDirectionAction(Sprite sprite, SequenceAction sequence, Formula degrees) {
 		PointInDirectionAction action = Actions.action(PointInDirectionAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setDegreesInUserInterfaceDimensionUnit(degrees);
 		return action;
@@ -641,7 +642,7 @@ public class ActionFactory extends Actions {
 
 	public Action createSetBrightnessAction(Sprite sprite, SequenceAction sequence, Formula brightness) {
 		SetBrightnessAction action = Actions.action(SetBrightnessAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setBrightness(brightness);
 		return action;
@@ -649,7 +650,7 @@ public class ActionFactory extends Actions {
 
 	public Action createSetColorAction(Sprite sprite, SequenceAction sequence, Formula color) {
 		SetColorAction action = Actions.action(SetColorAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setColor(color);
 		return action;
@@ -658,7 +659,7 @@ public class ActionFactory extends Actions {
 	public Action createSetTransparencyAction(Sprite sprite, SequenceAction sequence,
 			Formula transparency) {
 		SetTransparencyAction action = Actions.action(SetTransparencyAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setTransparency(transparency);
 		return action;
@@ -679,7 +680,7 @@ public class ActionFactory extends Actions {
 	public Action createSetLookByIndexAction(Sprite sprite, SequenceAction sequence, Formula formula) {
 		SetLookByIndexAction action = Actions.action(SetLookByIndexAction.class);
 		action.setSprite(sprite);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setFormula(formula);
 		return action;
@@ -687,7 +688,7 @@ public class ActionFactory extends Actions {
 
 	public Action createSetBackgroundAction(LookData lookData, boolean wait) {
 		SetLookAction action = Actions.action(SetLookAction.class);
-		action.setSprite(ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite());
+		action.setSprite(inject(ProjectManager.class).getValue().getCurrentlyPlayingScene().getBackgroundSprite());
 		action.setLookData(lookData);
 		action.setWait(wait);
 		return action;
@@ -696,8 +697,8 @@ public class ActionFactory extends Actions {
 	public Action createSetBackgroundByIndexAction(Sprite sprite, SequenceAction sequence,
 			Formula formula, boolean wait) {
 		SetLookByIndexAction action = Actions.action(SetLookByIndexAction.class);
-		action.setSprite(ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite());
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		action.setSprite(inject(ProjectManager.class).getValue().getCurrentlyPlayingScene().getBackgroundSprite());
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setFormula(formula);
 		action.setWait(wait);
@@ -707,7 +708,7 @@ public class ActionFactory extends Actions {
 	public Action createSetNextLookAction(Sprite sprite, SequenceAction sequence) {
 		SetNextLookAction action = Actions.action(SetNextLookAction.class);
 		action.setSprite(sprite);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		return action;
 	}
@@ -715,7 +716,7 @@ public class ActionFactory extends Actions {
 	public Action createSetPreviousLookAction(Sprite sprite, SequenceAction sequence) {
 		SetPreviousLookAction action = action(SetPreviousLookAction.class);
 		action.setSprite(sprite);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		return action;
 	}
@@ -728,7 +729,7 @@ public class ActionFactory extends Actions {
 
 	public Action createSetSizeToAction(Sprite sprite, SequenceAction sequence, Formula size) {
 		SetSizeToAction action = Actions.action(SetSizeToAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setSize(size);
 		return action;
@@ -739,7 +740,7 @@ public class ActionFactory extends Actions {
 			Formula y, float duration, float delta) {
 
 		GlideToPhysicsAction action = Actions.action(GlideToPhysicsAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setPhysicsLook(physicsLook);
 		action.setPosition(x, y);
@@ -751,14 +752,14 @@ public class ActionFactory extends Actions {
 	public Action createSetVolumeToAction(Sprite sprite, SequenceAction sequence, Formula volume) {
 		SetVolumeToAction action = Actions.action(SetVolumeToAction.class);
 		action.setVolume(volume);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		return action;
 	}
 
 	public Action createSetXAction(Sprite sprite, SequenceAction sequence, Formula x) {
 		SetXAction action = Actions.action(SetXAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setX(x);
 		return action;
@@ -766,7 +767,7 @@ public class ActionFactory extends Actions {
 
 	public Action createSetYAction(Sprite sprite, SequenceAction sequence, Formula y) {
 		SetYAction action = Actions.action(SetYAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setY(y);
 		return action;
@@ -781,7 +782,7 @@ public class ActionFactory extends Actions {
 
 	public Action createSpeakAction(Sprite sprite, SequenceAction sequence, Formula text) {
 		SpeakAction action = action(SpeakAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setSpeechSynthesizer(new SpeechSynthesizer(scope, text));
 		action.setMobileServiceAvailability(get(MobileServiceAvailability.class));
 		action.setContext(StageActivity.activeStageActivity.get());
@@ -791,7 +792,7 @@ public class ActionFactory extends Actions {
 
 	public Action createSpeakAndWaitAction(Sprite sprite, SequenceAction sequence, Formula text) {
 		SpeakAndWaitAction action = action(SpeakAndWaitAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setSpeechSynthesizer(new SpeechSynthesizer(scope, text));
 		action.setMobileServiceAvailability(get(MobileServiceAvailability.class));
 		action.setContext(StageActivity.activeStageActivity.get());
@@ -804,7 +805,7 @@ public class ActionFactory extends Actions {
 
 	public Action createPauseForBeatsAction(Sprite sprite, SequenceAction sequence, Formula beats) {
 		PauseForBeatsAction action = action(PauseForBeatsAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setBeats(beats);
 		return action;
@@ -813,7 +814,7 @@ public class ActionFactory extends Actions {
 	public Action createPlayNoteForBeatsAction(Sprite sprite, SequenceAction sequence, Formula note,
 			Formula beats) {
 		PlayNoteForBeatsAction action = action(PlayNoteForBeatsAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setMidiValue(note);
 		action.setBeats(beats);
@@ -828,7 +829,7 @@ public class ActionFactory extends Actions {
 
 	public Action createSetTempoAction(Sprite sprite, SequenceAction sequence, Formula tempo) {
 		SetTempoAction action = action(SetTempoAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setTempo(tempo);
 		return action;
@@ -836,7 +837,7 @@ public class ActionFactory extends Actions {
 
 	public Action createChangeTempoAction(Sprite sprite, SequenceAction sequence, Formula tempo) {
 		ChangeTempoByAction action = action(ChangeTempoByAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setTempo(tempo);
 		return action;
@@ -845,7 +846,7 @@ public class ActionFactory extends Actions {
 	public Action createPlayDrumForBeatsAction(Sprite sprite, SequenceAction sequence, Formula beats,
 			PickableDrum drum) {
 		PlayDrumForBeatsAction action = action(PlayDrumForBeatsAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setBeats(beats);
 		action.setDrum(drum);
@@ -854,7 +855,7 @@ public class ActionFactory extends Actions {
 
 	public Action createTurnLeftAction(Sprite sprite, SequenceAction sequence, Formula degrees) {
 		TurnLeftAction action = Actions.action(TurnLeftAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setDegrees(degrees);
 		return action;
@@ -862,7 +863,7 @@ public class ActionFactory extends Actions {
 
 	public Action createTurnRightAction(Sprite sprite, SequenceAction sequence, Formula degrees) {
 		TurnRightAction action = Actions.action(TurnRightAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setDegrees(degrees);
 		return action;
@@ -870,7 +871,7 @@ public class ActionFactory extends Actions {
 
 	public Action createChangeVariableAction(Sprite sprite, SequenceAction sequence, Formula variableFormula, UserVariable userVariable) {
 		ChangeVariableAction action = Actions.action(ChangeVariableAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setChangeVariable(variableFormula);
 		action.setUserVariable(userVariable);
@@ -880,7 +881,7 @@ public class ActionFactory extends Actions {
 	public Action createSetVariableAction(Sprite sprite, SequenceAction sequence, Formula variableFormula,
 			UserVariable userVariable) {
 		SetVariableAction action = Actions.action(SetVariableAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setChangeVariable(variableFormula);
 		action.setUserVariable(userVariable);
@@ -890,7 +891,7 @@ public class ActionFactory extends Actions {
 	public Action createAskAction(Sprite sprite, SequenceAction sequence, Formula questionFormula,
 			UserVariable answerVariable) {
 		AskAction action = Actions.action(AskAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setQuestionFormula(questionFormula);
 		action.setAnswerVariable(answerVariable);
@@ -900,7 +901,7 @@ public class ActionFactory extends Actions {
 	public Action createAskSpeechAction(Sprite sprite, SequenceAction sequence, Formula questionFormula,
 			UserVariable answerVariable) {
 		AskSpeechAction action = Actions.action(AskSpeechAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setQuestionFormula(questionFormula);
 		action.setAnswerVariable(answerVariable);
@@ -910,7 +911,7 @@ public class ActionFactory extends Actions {
 	public Action createDeleteItemOfUserListAction(Sprite sprite, SequenceAction sequence,
 			Formula userListFormula, UserList userList) {
 		DeleteItemOfUserListAction action = action(DeleteItemOfUserListAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setFormulaIndexToDelete(userListFormula);
 		action.setUserList(userList);
@@ -926,7 +927,7 @@ public class ActionFactory extends Actions {
 	public Action createAddItemToUserListAction(Sprite sprite, SequenceAction sequence,
 			Formula userListFormula, UserList userList) {
 		AddItemToUserListAction action = action(AddItemToUserListAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setFormulaItemToAdd(userListFormula);
 		action.setUserList(userList);
@@ -937,7 +938,7 @@ public class ActionFactory extends Actions {
 			Formula userListFormulaIndexToInsert,
 			Formula userListFormulaItemToInsert, UserList userList) {
 		InsertItemIntoUserListAction action = action(InsertItemIntoUserListAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setFormulaIndexToInsert(userListFormulaIndexToInsert);
 		action.setFormulaItemToInsert(userListFormulaItemToInsert);
@@ -948,7 +949,7 @@ public class ActionFactory extends Actions {
 	public Action createStoreCSVIntoUserListAction(Sprite sprite, SequenceAction sequence,
 			Formula userListFormulaColumn, Formula userListFormulaCSV, UserList userList) {
 		StoreCSVIntoUserListAction action = action(StoreCSVIntoUserListAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setFormulaColumnToExtract(userListFormulaColumn);
 		action.setFormulaCSVData(userListFormulaCSV);
@@ -960,7 +961,7 @@ public class ActionFactory extends Actions {
 			Formula userListFormulaIndexToReplace,
 			Formula userListFormulaItemToInsert, UserList userList) {
 		ReplaceItemInUserListAction action = action(ReplaceItemInUserListAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setFormulaIndexToReplace(userListFormulaIndexToReplace);
 		action.setFormulaItemToInsert(userListFormulaItemToInsert);
@@ -976,7 +977,7 @@ public class ActionFactory extends Actions {
 			AndroidStringProvider androidStringProvider, Formula text, int type) {
 		ThinkSayBubbleAction action = action(ThinkSayBubbleAction.class);
 		action.setText(text);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setAndroidStringProvider(androidStringProvider);
 		action.setType(type);
@@ -987,7 +988,7 @@ public class ActionFactory extends Actions {
 			AndroidStringProvider androidStringProvider, Formula text, int type) {
 		ThinkSayBubbleAction action = action(ThinkSayBubbleAction.class);
 		action.setText(text);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setAndroidStringProvider(androidStringProvider);
 		action.setType(type);
@@ -1014,7 +1015,7 @@ public class ActionFactory extends Actions {
 		action.setIfAction(ifAction);
 		action.setIfCondition(condition);
 		action.setElseAction(elseAction);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		return action;
 	}
@@ -1024,7 +1025,7 @@ public class ActionFactory extends Actions {
 		RepeatAction action = Actions.action(RepeatAction.class);
 		action.setRepeatCount(count);
 		action.setAction(repeatedAction);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setLoopDelay(isLoopDelay);
 		return action;
@@ -1037,7 +1038,7 @@ public class ActionFactory extends Actions {
 		action.setRange(from, to);
 		action.setControlVariable(controlVariable);
 		action.setAction(repeatedAction);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setLoopDelay(isLoopDelay);
 		return action;
@@ -1055,7 +1056,7 @@ public class ActionFactory extends Actions {
 
 	public Action createWaitUntilAction(Sprite sprite, SequenceAction sequence, Formula condition) {
 		WaitUntilAction action = Actions.action(WaitUntilAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setCondition(condition);
 		return action;
@@ -1066,7 +1067,7 @@ public class ActionFactory extends Actions {
 		RepeatUntilAction action = action(RepeatUntilAction.class);
 		action.setRepeatCondition(condition);
 		action.setAction(repeatedAction);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setLoopDelay(isLoopDelay);
 		return action;
@@ -1074,7 +1075,7 @@ public class ActionFactory extends Actions {
 
 	public Action createDelayAction(Sprite sprite, SequenceAction sequence, Formula delay) {
 		WaitAction action = Actions.action(WaitAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setDelay(delay);
 		return action;
@@ -1085,7 +1086,7 @@ public class ActionFactory extends Actions {
 		RepeatAction action = Actions.action(RepeatAction.class);
 		action.setForeverRepeat(true);
 		action.setAction(foreverSequence);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setLoopDelay(isLoopDelay);
 		return action;
@@ -1099,7 +1100,7 @@ public class ActionFactory extends Actions {
 
 	public Action createRunningStitchAction(Sprite sprite, SequenceAction sequence, Formula length) {
 		RunningStitchAction action = Actions.action(RunningStitchAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setLength(length);
 		return action;
@@ -1107,7 +1108,7 @@ public class ActionFactory extends Actions {
 
 	public Action createTripleStitchAction(Sprite sprite, SequenceAction sequence, Formula steps) {
 		TripleStitchAction action = Actions.action(TripleStitchAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setSteps(steps);
 		return action;
@@ -1116,7 +1117,7 @@ public class ActionFactory extends Actions {
 	public Action createZigZagStitchAction(Sprite sprite, SequenceAction sequence, Formula length,
 			Formula width) {
 		ZigZagStitchAction action = Actions.action(ZigZagStitchAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setLength(length);
 		action.setWidth(width);
@@ -1132,7 +1133,7 @@ public class ActionFactory extends Actions {
 	public Action createWriteEmbroideryToFileAction(Sprite sprite, SequenceAction sequence,
 			Formula fileName) {
 		WriteEmbroideryToFileAction action = Actions.action(WriteEmbroideryToFileAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setFormula(fileName);
 
@@ -1147,7 +1148,7 @@ public class ActionFactory extends Actions {
 
 	public Action createSetThreadColorAction(Sprite sprite, SequenceAction sequence, Formula color) {
 		SetThreadColorAction action = Actions.action(SetThreadColorAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setSprite(sprite);
 		action.setScope(scope);
 		action.setColor(color);
@@ -1202,7 +1203,7 @@ public class ActionFactory extends Actions {
 		action.setPosition(x, y);
 		action.setText(text);
 		action.setDuration(5);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		return action;
 	}
@@ -1212,7 +1213,7 @@ public class ActionFactory extends Actions {
 		ShowTextAction action = action(ShowTextAction.class);
 		action.setPosition(xPosition, yPosition);
 		action.setVariableToShow(userVariable);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setAndroidStringProvider(androidStringProvider);
 		return action;
@@ -1226,7 +1227,7 @@ public class ActionFactory extends Actions {
 		action.setRelativeTextSize(relativeTextSize);
 		action.setColor(color);
 		action.setVariableToShow(userVariable);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setAlignment(alignment);
 		action.setAndroidStringProvider(androidStringProvider);
@@ -1250,7 +1251,7 @@ public class ActionFactory extends Actions {
 
 	public Action createVibrateAction(Sprite sprite, SequenceAction sequence, Formula duration) {
 		VibrateAction action = action(VibrateAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setDuration(duration);
 		return action;
@@ -1266,7 +1267,7 @@ public class ActionFactory extends Actions {
 		FadeParticleEffectAction action = action(FadeParticleEffectAction.class);
 		action.setFadeIn(turnOn);
 		action.setSprite(sprite);
-		action.setBackgroundSprite(ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite());
+		action.setBackgroundSprite(inject(ProjectManager.class).getValue().getCurrentlyPlayingScene().getBackgroundSprite());
 		return action;
 	}
 
@@ -1280,7 +1281,7 @@ public class ActionFactory extends Actions {
 	public Action createSetParticleColorAction(Sprite sprite, Formula color, SequenceAction sequence) {
 		SetParticleColorAction action = action(SetParticleColorAction.class);
 		action.setColor(color);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		return action;
 	}
@@ -1300,7 +1301,7 @@ public class ActionFactory extends Actions {
 	public Action createSendDigitalArduinoValueAction(Sprite sprite, SequenceAction sequence,
 			Formula pinNumber, Formula pinValue) {
 		ArduinoSendDigitalValueAction action = action(ArduinoSendDigitalValueAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setPinNumber(pinNumber);
 		action.setPinValue(pinValue);
@@ -1310,7 +1311,7 @@ public class ActionFactory extends Actions {
 	public Action createSendPWMArduinoValueAction(Sprite sprite, SequenceAction sequence,
 			Formula pinNumber, Formula pinValue) {
 		ArduinoSendPWMValueAction action = action(ArduinoSendPWMValueAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setPinNumber(pinNumber);
 		action.setPinValue(pinValue);
@@ -1320,7 +1321,7 @@ public class ActionFactory extends Actions {
 	public Action createSendDigitalRaspiValueAction(Sprite sprite, SequenceAction sequence,
 			Formula pinNumber, Formula pinValue) {
 		RaspiSendDigitalValueAction action = action(RaspiSendDigitalValueAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setPinNumber(pinNumber);
 		action.setPinValue(pinValue);
@@ -1330,7 +1331,7 @@ public class ActionFactory extends Actions {
 	public Action createSendRaspiPwmValueAction(Sprite sprite, SequenceAction sequence,
 			Formula pinNumber, Formula pwmFrequency, Formula pwmPercentage) {
 		RaspiPwmAction action = action(RaspiPwmAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setPinNumberFormula(pinNumber);
 		action.setPwmFrequencyFormula(pwmFrequency);
@@ -1341,7 +1342,7 @@ public class ActionFactory extends Actions {
 	public Action createRaspiIfLogicActionAction(Sprite sprite, SequenceAction sequence,
 			Formula pinNumber, Action ifAction, Action elseAction) {
 		RaspiIfLogicAction action = action(RaspiIfLogicAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setPinNumber(pinNumber);
 		action.setIfAction(ifAction);
@@ -1368,7 +1369,7 @@ public class ActionFactory extends Actions {
 	public Action createReportAction(Sprite sprite, SequenceAction sequence, Script currentScript, Formula reportFormula) {
 		if (currentScript instanceof UserDefinedScript) {
 			ReportAction reportAction = Actions.action(ReportAction.class);
-			Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+			Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 			reportAction.setScope(scope);
 			reportAction.setCurrentScript(currentScript);
 			reportAction.setReportFormula(reportFormula);
@@ -1382,7 +1383,7 @@ public class ActionFactory extends Actions {
 
 	public Action createSetNfcTagAction(Sprite sprite, SequenceAction sequence, Formula nfcNdefMessage, int nfcNdefSpinnerSelection) {
 		SetNfcTagAction setNfcTagAction = Actions.action(SetNfcTagAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		setNfcTagAction.setScope(scope);
 		setNfcTagAction.setNfcTagNdefSpinnerSelection(nfcNdefSpinnerSelection);
 		setNfcTagAction.setNfcNdefMessage(nfcNdefMessage);
@@ -1396,7 +1397,7 @@ public class ActionFactory extends Actions {
 		action.setActualFormula(actual);
 		action.setExpectedFormula(expected);
 
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setPosition(position);
 
@@ -1409,7 +1410,7 @@ public class ActionFactory extends Actions {
 		action.setActualUserList(actual);
 		action.setExpectedUserList(expected);
 
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setPosition(position);
 
@@ -1438,7 +1439,7 @@ public class ActionFactory extends Actions {
 		action.setExpectedList(expected);
 		action.setParameterizedData(data);
 
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setPosition(position);
 
@@ -1453,7 +1454,7 @@ public class ActionFactory extends Actions {
 
 	public Action createTapAtAction(Sprite sprite, SequenceAction sequence, Formula x, Formula y) {
 		TapAtAction action = Actions.action(TapAtAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setStartX(x);
 		action.setStartY(y);
@@ -1463,7 +1464,7 @@ public class ActionFactory extends Actions {
 	public Action createTapForAction(Sprite sprite, SequenceAction sequence, Formula x, Formula y,
 			Formula duration) {
 		TapAtAction action = Actions.action(TapAtAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setDurationFormula(duration);
 		action.setStartX(x);
@@ -1474,7 +1475,7 @@ public class ActionFactory extends Actions {
 	public Action createTouchAndSlideAction(Sprite sprite, SequenceAction sequence, Formula x, Formula y,
 			Formula xChange, Formula yChange, Formula duration) {
 		TapAtAction action = Actions.action(TapAtAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setDurationFormula(duration);
 		action.setStartX(x);
@@ -1486,7 +1487,7 @@ public class ActionFactory extends Actions {
 
 	public Action createWriteVariableOnDeviceAction(UserVariable userVariable) {
 		WriteUserDataOnDeviceAction action = Actions.action(WriteUserDataOnDeviceAction.class);
-		File projectDirectory = ProjectManager.getInstance().getCurrentProject().getDirectory();
+		File projectDirectory = inject(ProjectManager.class).getValue().getCurrentProject().getDirectory();
 		DeviceVariableAccessor accessor = new DeviceVariableAccessor(projectDirectory);
 		action.setUserData(userVariable);
 		action.setAccessor(accessor);
@@ -1497,7 +1498,7 @@ public class ActionFactory extends Actions {
 	public Action createWriteVariableToFileAction(Sprite sprite, SequenceAction sequence,
 			Formula variableFormula, UserVariable userVariable) {
 		WriteVariableToFileAction action = Actions.action(WriteVariableToFileAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setUserVariable(userVariable);
 		action.setFormula(variableFormula);
@@ -1508,7 +1509,7 @@ public class ActionFactory extends Actions {
 	public Action createReadVariableFromFileAction(Sprite sprite, SequenceAction sequence, Formula variableFormula,
 			UserVariable userVariable, boolean deleteFile) {
 		ReadVariableFromFileAction action = Actions.action(ReadVariableFromFileAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setUserVariable(userVariable);
 		action.setFormula(variableFormula);
@@ -1519,7 +1520,7 @@ public class ActionFactory extends Actions {
 
 	public Action createWriteListOnDeviceAction(UserList userList) {
 		WriteUserDataOnDeviceAction action = Actions.action(WriteUserDataOnDeviceAction.class);
-		File projectDirectory = ProjectManager.getInstance().getCurrentProject().getDirectory();
+		File projectDirectory = inject(ProjectManager.class).getValue().getCurrentProject().getDirectory();
 		DeviceUserDataAccessor accessor = new DeviceListAccessor(projectDirectory);
 		UserData data = userList;
 		action.setUserData(data);
@@ -1549,7 +1550,7 @@ public class ActionFactory extends Actions {
 	public Action createWebRequestAction(Sprite sprite, SequenceAction sequence, Formula variableFormula,
 			UserVariable userVariable) {
 		WebRequestAction action = action(WebRequestAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setFormula(variableFormula);
 		action.setUserVariable(userVariable);
@@ -1559,7 +1560,7 @@ public class ActionFactory extends Actions {
 	public Action createLookRequestAction(Sprite sprite, SequenceAction sequence,
 			Formula variableFormula) {
 		LookRequestAction action = action(LookRequestAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setFormula(variableFormula);
 		return action;
@@ -1567,7 +1568,7 @@ public class ActionFactory extends Actions {
 
 	public Action createOpenUrlAction(Sprite sprite, SequenceAction sequence, Formula variableFormula) {
 		OpenUrlAction action = action(OpenUrlAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setFormula(variableFormula);
 		return action;
@@ -1588,7 +1589,7 @@ public class ActionFactory extends Actions {
 	public Action createPaintNewLookAction(Sprite sprite, SequenceAction sequence,
 			Formula variableFormula, SetNextLookAction nextLookAction) {
 		PaintNewLookAction action = action(PaintNewLookAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setFormula(variableFormula);
 		action.nextLookAction(nextLookAction);
@@ -1598,7 +1599,7 @@ public class ActionFactory extends Actions {
 	public Action createCopyLookAction(Sprite sprite, SequenceAction sequence, Formula variableFormula,
 			SetNextLookAction nextLookAction) {
 		CopyLookAction action = action(CopyLookAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setFormula(variableFormula);
 		action.nextLookAction(nextLookAction);
@@ -1608,7 +1609,7 @@ public class ActionFactory extends Actions {
 	public Action createEditLookAction(Sprite sprite, SequenceAction sequence,
 			SetNextLookAction nextLookAction) {
 		EditLookAction action = action(EditLookAction.class);
-		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.nextLookAction(nextLookAction);
 		return action;

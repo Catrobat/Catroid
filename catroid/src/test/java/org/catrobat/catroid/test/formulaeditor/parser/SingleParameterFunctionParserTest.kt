@@ -54,6 +54,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.java.KoinJavaComponent.inject
 import java.lang.Math.abs
 import java.lang.Math.acos
 import java.lang.Math.asin
@@ -116,7 +117,7 @@ class SingleParameterFunctionParserTest(
         sprite = Sprite("testSprite")
         scope = Scope(project, sprite!!, SequenceAction())
         project.defaultScene.addSprite(sprite)
-        ProjectManager.getInstance().currentProject = project
+        inject(ProjectManager::class.java).value.currentProject = project
     }
 
     @Test

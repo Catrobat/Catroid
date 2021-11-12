@@ -55,6 +55,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.TestCase.assertNotNull;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({GdxNativesLoader.class, ShowBubbleActor.class, ThinkSayBubbleAction.class})
 public class ThinkSayBubbleActionTest {
@@ -70,7 +72,7 @@ public class ThinkSayBubbleActionTest {
 		StageActivity.stageListener = Mockito.mock(StageListener.class);
 
 		Project project = new Project(contextMock, "Project");
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 	}
 
 	@After

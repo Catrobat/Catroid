@@ -69,7 +69,7 @@ public class FormulaEditorLocaleVariableComputeTest {
 				.perform(click());
 		onFormulaEditor()
 				.performCompute();
-		ProjectManager.getInstance().setCurrentlyPlayingScene(firstScene);
+		inject(ProjectManager.class).getValue().setCurrentlyPlayingScene(firstScene);
 		onView(withId(R.id.formula_editor_compute_dialog_textview))
 				.check(matches(withText("0")));
 		pressBack();
@@ -101,9 +101,9 @@ public class FormulaEditorLocaleVariableComputeTest {
 		sprite.addScript(script);
 		project.addScene(secondScene);
 		secondScene.addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(secondScene);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentlyEditedScene(secondScene);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
 
 		return project;
 	}

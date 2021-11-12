@@ -86,6 +86,7 @@ import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTING
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isCastSharedPreferenceEnabled;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class ProjectActivity extends BaseCastActivity {
 
@@ -180,13 +181,13 @@ public class ProjectActivity extends BaseCastActivity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Project currentProject = inject(ProjectManager.class).getValue().getCurrentProject();
 		saveProject(currentProject);
 	}
 
 	@Override
 	public void onBackPressed() {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Project currentProject = inject(ProjectManager.class).getValue().getCurrentProject();
 		if (currentProject == null) {
 			finish();
 			return;
@@ -203,10 +204,10 @@ public class ProjectActivity extends BaseCastActivity {
 			BottomBar.showBottomBar(this);
 			return;
 		} else {
-			ProjectManager.getInstance().resetProjectManager();
+			inject(ProjectManager.class).getValue().resetProjectManager();
 		}
 
-		boolean multiSceneProject = ProjectManager.getInstance().getCurrentProject().getSceneList().size() > 1;
+		boolean multiSceneProject = inject(ProjectManager.class).getValue().getCurrentProject().getSceneList().size() > 1;
 
 		if (getCurrentFragment() instanceof SpriteListFragment && multiSceneProject) {
 			getSupportFragmentManager().beginTransaction()
@@ -236,13 +237,13 @@ public class ProjectActivity extends BaseCastActivity {
 			ToastUtil.showError(this, message);
 			ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData testResult = ClipData.newPlainText("TestResult",
-					ProjectManager.getInstance().getCurrentProject().getName() + "\n" + message);
+					inject(ProjectManager.class).getValue().getCurrentProject().getName() + "\n" + message);
 			clipboard.setPrimaryClip(testResult);
 		}
 
 		if (resultCode != RESULT_OK) {
 			if (isCastSharedPreferenceEnabled(this)
-					&& ProjectManager.getInstance().getCurrentProject().isCastProject()
+					&& inject(ProjectManager.class).getValue().getCurrentProject().isCastProject()
 					&& !CastManager.getInstance().isConnected()) {
 
 				CastManager.getInstance().openDeviceSelectorOrDisconnectDialog(this);
@@ -282,7 +283,7 @@ public class ProjectActivity extends BaseCastActivity {
 				int yCoordinate = extras.getInt(Y_COORDINATE_BUNDLE_ARGUMENT);
 
 				PlaceAtBrick placeAtBrick = new PlaceAtBrick(xCoordinate, yCoordinate);
-				Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+				Sprite currentSprite = inject(ProjectManager.class).getValue().getCurrentSprite();
 				StartScript startScript = new StartScript();
 				currentSprite.prependScript(startScript);
 				startScript.addBrick(placeAtBrick);
@@ -310,7 +311,7 @@ public class ProjectActivity extends BaseCastActivity {
 
 	public void addSpriteObjectFromUri(final Uri uri, final String extension,
 			boolean isObject) {
-		final Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		final Scene currentScene = inject(ProjectManager.class).getValue().getCurrentlyEditedScene();
 
 		String resolvedName;
 		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
@@ -360,7 +361,7 @@ public class ProjectActivity extends BaseCastActivity {
 	}
 
 	public void handleAddSceneButton() {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Project currentProject = inject(ProjectManager.class).getValue().getCurrentProject();
 
 		String defaultSceneName = new UniqueNameProvider().getUniqueNameInNameables(getResources().getString(R.string.default_scene_name), currentProject.getSceneList());
 
@@ -442,7 +443,7 @@ public class ProjectActivity extends BaseCastActivity {
 	}
 
 	public void handlePlayButton(View view) {
-		StageActivity.handlePlayButton(ProjectManager.getInstance(), this);
+		StageActivity.handlePlayButton(inject(ProjectManager.class).getValue(), this);
 	}
 
 	private void showLegoSensorConfigInfo() {
@@ -453,7 +454,7 @@ public class ProjectActivity extends BaseCastActivity {
 		boolean ev3DialogDisabled = preferences
 				.getBoolean(SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED, false);
 
-		Brick.ResourcesSet resourcesSet = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
+		Brick.ResourcesSet resourcesSet = inject(ProjectManager.class).getValue().getCurrentProject().getRequiredResources();
 		if (!nxtDialogDisabled && resourcesSet.contains(Brick.BLUETOOTH_LEGO_NXT)) {
 			DialogFragment dialog = LegoSensorConfigInfoDialog.newInstance(NXT);
 			dialog.show(getSupportFragmentManager(), LegoSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);

@@ -52,6 +52,7 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNotSame;
 
 import static org.junit.Assert.assertSame;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class CloneBrickUpdateVariableTest {
@@ -86,7 +87,7 @@ public class CloneBrickUpdateVariableTest {
 	@Before
 	public void setUp() throws Exception {
 		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
 
@@ -132,4 +133,3 @@ public class CloneBrickUpdateVariableTest {
 		assertNotSame(spriteVariable, clonedVariableFromBrick);
 	}
 }
-

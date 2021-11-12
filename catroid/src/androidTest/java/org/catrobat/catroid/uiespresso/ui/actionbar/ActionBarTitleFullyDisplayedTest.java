@@ -68,7 +68,7 @@ public class ActionBarTitleFullyDisplayedTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void actionBarTitleFullyDisplayedTest() {
-		String currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
+		String currentProjectName = inject(ProjectManager.class).getValue().getCurrentProject().getName();
 
 		onActionBar()
 				.checkTitleMatches(currentProjectName);
@@ -99,7 +99,7 @@ public class ActionBarTitleFullyDisplayedTest {
 		project.addScene(sceneTwo);
 		project.addScene(sceneThree);
 
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		saveProjectSerial(project, ApplicationProvider.getApplicationContext());
 	}
 

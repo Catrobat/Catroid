@@ -34,6 +34,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 import static org.catrobat.catroid.utils.NumberFormats.trimTrailingCharacters;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class Formula implements Serializable {
 
@@ -102,7 +103,7 @@ public class Formula implements Serializable {
 
 	public void updateCollisionFormulasToVersion() {
 		internFormula.updateCollisionFormulaToVersion(CatroidApplication.getAppContext());
-		formulaTree.updateCollisionFormulaToVersion(ProjectManager.getInstance().getCurrentProject());
+		formulaTree.updateCollisionFormulaToVersion(inject(ProjectManager.class).getValue().getCurrentProject());
 	}
 
 	public void updateDirectionPropertyToVersion() {

@@ -36,6 +36,7 @@ import org.catrobat.catroid.common.LookData
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider
+import org.koin.java.KoinJavaComponent.inject
 import java.io.File
 import java.io.IOException
 
@@ -71,7 +72,7 @@ class PaintNewLookAction : PocketPaintAction() {
         if (!Constants.POCKET_PAINT_CACHE_DIR.isDirectory) {
             Log.e(TAG, "Failed to create directory!")
         }
-        val currentProject = ProjectManager.getInstance().currentProject
+        val currentProject = inject(ProjectManager::class.java).value.currentProject
         val bitmap = Bitmap.createBitmap(
             currentProject.xmlHeader.virtualScreenWidth,
             currentProject.xmlHeader.virtualScreenHeight, Bitmap.Config.ARGB_8888
@@ -85,7 +86,7 @@ class PaintNewLookAction : PocketPaintAction() {
             val file = LookRequester.getFile()
             if (file != null) {
                 addLookFromFile(file)
-                xstreamSerializer.saveProject(ProjectManager.getInstance().currentProject)
+                xstreamSerializer.saveProject(inject(ProjectManager::class.java).value.currentProject)
             }
         } else {
             LookRequester.anyAsked = false
@@ -131,7 +132,7 @@ object LookRequester {
         var file: File? = null
         val TAG = "LookRequester"
         try {
-            val currentScene = ProjectManager.getInstance().currentlyPlayingScene
+            val currentScene = inject(ProjectManager::class.java).value.currentlyPlayingScene
             val imageDirectory = File(currentScene.directory, Constants.IMAGE_DIRECTORY_NAME)
             val pocketPaintImageFileName = Constants.TMP_IMAGE_FILE_NAME + Constants.DEFAULT_IMAGE_EXTENSION
             val pocketPaintFile = File(Constants.POCKET_PAINT_CACHE_DIR, pocketPaintImageFileName)

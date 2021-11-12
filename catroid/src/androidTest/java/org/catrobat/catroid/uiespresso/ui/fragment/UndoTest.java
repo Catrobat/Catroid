@@ -137,7 +137,7 @@ public class UndoTest {
 	}
 
 	public String getProjectAsXmlString() {
-		return XstreamSerializer.getInstance().getXmlAsStringFromProject(ProjectManager.getInstance().getCurrentProject());
+		return XstreamSerializer.getInstance().getXmlAsStringFromProject(inject(ProjectManager.class).getValue().getCurrentProject());
 	}
 
 	private void createProject() {
@@ -147,7 +147,7 @@ public class UndoTest {
 		compositeBrick.addBrickToElseBranch(new SetXBrick());
 		script.addBrick(compositeBrick);
 
-		XstreamSerializer.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
+		XstreamSerializer.getInstance().saveProject(inject(ProjectManager.class).getValue().getCurrentProject());
 		initialProject = getProjectAsXmlString();
 	}
 }

@@ -55,6 +55,8 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(Parameterized.class)
 public class HighlightBrickPartsTest {
 
@@ -85,7 +87,7 @@ public class HighlightBrickPartsTest {
 		Context context = Mockito.mock(Context.class).getApplicationContext();
 		createProject();
 
-		brickAdapter = new BrickAdapter(ProjectManager.getInstance().getCurrentSprite());
+		brickAdapter = new BrickAdapter(inject(ProjectManager.class).getValue().getCurrentSprite());
 		brickListView = Mockito.spy(new BrickListView(context));
 		brickListView.setAdapter(brickAdapter);
 		View view = Mockito.mock(View.class);
@@ -114,8 +116,8 @@ public class HighlightBrickPartsTest {
 
 		sprite.addScript(script);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
 	}
 
 	@Test

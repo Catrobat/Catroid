@@ -30,6 +30,7 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
+import org.koin.java.KoinJavaComponent.inject
 
 class DeleteLookBrick : BrickBaseType() {
 
@@ -41,7 +42,7 @@ class DeleteLookBrick : BrickBaseType() {
 
     override fun getView(context: Context): View {
         super.getView(context)
-        if (ProjectManager.getInstance().currentSprite.isBackgroundSprite(context)) {
+        if (inject(ProjectManager::class.java).value.currentSprite.isBackgroundSprite(context)) {
             view.findViewById<TextView>(R.id.brick_delete_look_text_view)
                 .setText(R.string.brick_delete_background)
         }

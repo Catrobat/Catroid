@@ -48,6 +48,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.experimental.categories.Category
 import java.util.Locale
+import org.koin.java.KoinJavaComponent.inject
 
 class StartListeningStageTest {
     private lateinit var project: Project
@@ -106,8 +107,8 @@ class StartListeningStageTest {
         sprite.addScript(startScript)
 
         project.defaultScene.addSprite(sprite)
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().currentSprite = sprite
+        inject(ProjectManager::class.java).value.currentProject = project
+        inject(ProjectManager::class.java).value.currentSprite = sprite
 
         project.addUserVariable(userVariable)
     }

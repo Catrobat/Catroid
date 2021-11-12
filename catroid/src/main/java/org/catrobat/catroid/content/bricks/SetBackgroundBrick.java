@@ -44,6 +44,8 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class SetBackgroundBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<LookData>,
 		NewItemInterface<LookData> {
 
@@ -81,7 +83,7 @@ public class SetBackgroundBrick extends BrickBaseType implements BrickSpinner.On
 		super.getView(context);
 		List<Nameable> items = new ArrayList<>();
 		items.add(new NewOption(context.getString(R.string.new_option)));
-		items.addAll(ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite().getLookList());
+		items.addAll(inject(ProjectManager.class).getValue().getCurrentlyPlayingScene().getBackgroundSprite().getLookList());
 		spinner = new BrickSpinner<>(R.id.brick_set_background_spinner, view, items);
 		spinner.setOnItemSelectedListener(this);
 		spinner.setSelection(look);

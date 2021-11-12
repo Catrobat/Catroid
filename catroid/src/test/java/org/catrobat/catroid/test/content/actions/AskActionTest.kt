@@ -35,6 +35,7 @@ import org.catrobat.catroid.test.MockUtil
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.java.KoinJavaComponent.inject
 import org.powermock.api.mockito.PowerMockito
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
@@ -55,7 +56,7 @@ class AskActionTest {
         PowerMockito.mockStatic(GdxNativesLoader::class.java)
 
         val project = Project(MockUtil.mockContextForProject(), "Project")
-        ProjectManager.getInstance().currentProject = project
+        inject(ProjectManager::class.java).value.currentProject = project
     }
 
     @Test

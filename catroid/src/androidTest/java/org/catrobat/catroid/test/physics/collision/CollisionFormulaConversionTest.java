@@ -59,6 +59,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class CollisionFormulaConversionTest {
@@ -69,7 +70,7 @@ public class CollisionFormulaConversionTest {
 	@Before
 	public void setUp() throws Exception {
 		ScreenValueHandler.updateScreenWidthAndHeight(InstrumentationRegistry.getInstrumentation().getContext());
-		projectManager = ProjectManager.getInstance();
+		projectManager = inject(ProjectManager.class).getValue();
 	}
 
 	@After
@@ -168,7 +169,7 @@ public class CollisionFormulaConversionTest {
 		project.getDefaultScene().addSprite(sprite2);
 		project.getDefaultScene().addSprite(sprite3);
 
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
 		projectManager.setCurrentProject(project);
 		return project;
 	}

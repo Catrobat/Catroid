@@ -120,8 +120,8 @@ public class AskBrickStageTest {
 		sprite1.addScript(sprite1StartScript);
 
 		project.getDefaultScene().addSprite(sprite1);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite1);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite1);
 
 		userVariable = new UserVariable(userVariableName);
 		project.addUserVariable(userVariable);

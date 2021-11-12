@@ -71,7 +71,7 @@ public class BroadcastAndWaitForDeletedClonesRegressionTest {
 
 	private void createProject() {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), "BroadcastForDeletedClonesRegressionTest");
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		Sprite sprite = new Sprite("testSprite");
 
@@ -88,7 +88,7 @@ public class BroadcastAndWaitForDeletedClonesRegressionTest {
 		sprite.addScript(broadcastReceiveScript);
 		broadCastReceived = ScriptEvaluationGateBrick.appendToScript(broadcastReceiveScript);
 
-		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().getCurrentlyEditedScene().addSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
 	}
 }

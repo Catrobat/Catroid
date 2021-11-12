@@ -48,6 +48,8 @@ import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(GdxNativesLoader.class)
 public class SetBackgroundByIndexBrickTest {
@@ -62,8 +64,8 @@ public class SetBackgroundByIndexBrickTest {
 		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
 		sprite = new Sprite("Sprite");
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
 
 		sprite.addUserVariable(new UserVariable(localUserVariableBackgroundIndex, backgroundIndex));
 
@@ -91,8 +93,8 @@ public class SetBackgroundByIndexBrickTest {
 				true
 		).act(1f);
 
-		LookData backgroundLookData = ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite().look.getLookData();
-		List<LookData> backgroundLookDataList = ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite().getLookList();
+		LookData backgroundLookData = inject(ProjectManager.class).getValue().getCurrentlyPlayingScene().getBackgroundSprite().look.getLookData();
+		List<LookData> backgroundLookDataList = inject(ProjectManager.class).getValue().getCurrentlyPlayingScene().getBackgroundSprite().getLookList();
 
 		assertEquals(backgroundLookData, backgroundLookDataList.get((int) backgroundIndex - 1));
 	}

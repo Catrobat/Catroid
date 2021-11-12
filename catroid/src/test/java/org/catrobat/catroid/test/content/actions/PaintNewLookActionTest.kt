@@ -39,6 +39,7 @@ import org.catrobat.catroid.test.MockUtil
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.java.KoinJavaComponent.inject
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.powermock.api.mockito.PowerMockito
@@ -59,7 +60,7 @@ class PaintNewLookActionTest {
     @Before
     fun setUp() {
         projectMock = Project(MockUtil.mockContextForProject(), "testProject").also { project ->
-            ProjectManager.getInstance().currentProject = project
+            inject(ProjectManager::class.java).value.currentProject = project
         }
         testSequence = SequenceAction()
         PowerMockito.mockStatic(XstreamSerializer::class.java)

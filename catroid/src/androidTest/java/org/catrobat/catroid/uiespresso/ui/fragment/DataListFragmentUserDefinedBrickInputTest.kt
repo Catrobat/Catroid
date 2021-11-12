@@ -56,6 +56,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.java.KoinJavaComponent.inject
 
 @RunWith(Parameterized::class)
 class DataListFragmentUserDefinedBrickInputTest(
@@ -89,9 +90,9 @@ class DataListFragmentUserDefinedBrickInputTest(
         )
         userDefinedScript.scriptBrick = UserDefinedReceiverBrick(userDefinedBrick)
         userDefinedScript.addBrick(ChangeSizeByNBrick(0.0))
-        ProjectManager.getInstance().currentSprite.addScript(userDefinedScript)
+        inject(ProjectManager::class.java).getValue().currentSprite.addScript(userDefinedScript)
 
-        project = ProjectManager.getInstance().currentProject
+        project = inject(ProjectManager::class.java).getValue().currentProject
         baseActivityTestRule.launchActivity()
         openDataFragment()
         onView(withId(R.id.empty_view))

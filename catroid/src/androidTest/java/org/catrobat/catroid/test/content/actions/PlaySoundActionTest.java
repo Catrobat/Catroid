@@ -109,7 +109,7 @@ public class PlaySoundActionTest {
 		String projectName = "testProject";
 		project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		soundFile = TestUtils.createSoundFile(project, R.raw.testsound, "soundTest.mp3");
 	}

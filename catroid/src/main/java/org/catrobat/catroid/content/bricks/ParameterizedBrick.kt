@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.utils.LoopUtil.checkLoopBrickForLoopDelay
+import org.koin.java.KoinJavaComponent.inject
 
 class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
     private var loopBricks = mutableListOf<Brick>()
@@ -162,7 +163,7 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
     }
 
     private fun createLinkedVariables() {
-        val projectManager = ProjectManager.getInstance()
+        val projectManager = inject(ProjectManager::class.java).value
         val currentProject = projectManager.currentProject
         val currentSprite = projectManager.currentSprite
         val globalLists = currentProject.userLists ?: emptyList()
@@ -183,7 +184,7 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
 
     private fun createLinkedPair(): List<Pair<UserList, UserVariable>> {
         val result = mutableListOf<Pair<UserList, UserVariable>>()
-        val projectManager = ProjectManager.getInstance()
+        val projectManager = inject(ProjectManager::class.java).value
         val currentProject = projectManager.currentProject
         val currentSprite = projectManager.currentSprite
 

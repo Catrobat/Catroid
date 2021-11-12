@@ -66,6 +66,7 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import static org.catrobat.catroid.test.utils.TestUtils.deleteProjects;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
@@ -232,9 +233,9 @@ public class SearchParameterTest {
 		project.getSceneByName(sceneName2).addSprite(sprite2);
 		project.getSceneByName(sceneName3).addSprite(sprite3);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSceneAndSprite(sceneName1, sprite1.getName());
-		ProjectManager.getInstance().setCurrentlyEditedScene(scene1);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSceneAndSprite(sceneName1, sprite1.getName());
+		inject(ProjectManager.class).getValue().setCurrentlyEditedScene(scene1);
 	}
 
 	@After

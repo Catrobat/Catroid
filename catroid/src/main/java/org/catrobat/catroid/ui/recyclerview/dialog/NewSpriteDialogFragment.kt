@@ -56,6 +56,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTex
 import org.catrobat.catroid.ui.recyclerview.fragment.SpriteListFragment
 import org.catrobat.catroid.utils.Utils
 import org.catrobat.catroid.visualplacement.VisualPlacementActivity
+import org.koin.java.KoinJavaComponent.inject
 import java.io.File
 import java.io.IOException
 
@@ -81,7 +82,7 @@ class NewSpriteDialogFragment(
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         val view = View.inflate(activity, R.layout.dialog_new_sprite, null)
-        val currentScene = ProjectManager.getInstance().currentlyEditedScene
+        val currentScene = inject(ProjectManager::class.java).value.currentlyEditedScene
 
         val builder = context?.let { TextInputDialog.Builder(it) }
         builder?.setHint(getString(R.string.sprite_name_label))
@@ -182,7 +183,7 @@ class NewSpriteDialogFragment(
     }
 
     private fun startVisualPlacementActivity() {
-        ProjectManager.getInstance().currentSprite = sprite
+        inject(ProjectManager::class.java).value.currentSprite = sprite
         val intent = Intent(requireContext(), VisualPlacementActivity()::class.java)
         intent.putExtra(EXTRA_X_TRANSFORM, BrickValues.X_POSITION)
         intent.putExtra(EXTRA_Y_TRANSFORM, BrickValues.Y_POSITION)

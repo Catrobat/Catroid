@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class BroadcastMessageContainer {
 
 	private final List<String> broadcastMessages;
@@ -38,7 +40,7 @@ public class BroadcastMessageContainer {
 	}
 
 	public void update() {
-		Set<String> usedMessages = ProjectManager.getInstance().getCurrentlyEditedScene().getBroadcastMessagesInUse();
+		Set<String> usedMessages = inject(ProjectManager.class).getValue().getCurrentlyEditedScene().getBroadcastMessagesInUse();
 		broadcastMessages.clear();
 		broadcastMessages.addAll(usedMessages);
 	}

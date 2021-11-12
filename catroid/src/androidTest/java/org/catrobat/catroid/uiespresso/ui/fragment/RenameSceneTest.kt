@@ -56,6 +56,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
+import org.koin.java.KoinJavaComponent.inject
 
 @RunWith(AndroidJUnit4::class)
 class RenameSceneTest {
@@ -115,7 +116,7 @@ class RenameSceneTest {
         project = Project(applicationContext, projectName)
         val otherScene = Scene(otherSceneName, project)
         project.addScene(otherScene)
-        ProjectManager.getInstance().currentProject = project
+        inject(ProjectManager::class.java).value.currentProject = project
         saveProjectSerial(project, applicationContext)
     }
 }

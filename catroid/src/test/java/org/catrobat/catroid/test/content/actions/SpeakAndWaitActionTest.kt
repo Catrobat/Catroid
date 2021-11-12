@@ -42,6 +42,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
+import org.koin.java.KoinJavaComponent.inject
 import org.mockito.Mockito
 import org.mockito.Mockito.spy
 import java.lang.reflect.Method
@@ -63,9 +64,9 @@ class SpeakAndWaitActionTest {
         mobileServiceAvailability = Mockito.mock(MobileServiceAvailability::class.java)
         Mockito.`when`(mobileServiceAvailability.isGmsAvailable(contextMock)).thenReturn(true)
         sprite = Sprite("testSprite")
-        scope = Scope(ProjectManager.getInstance().currentProject, sprite, SequenceAction())
+        scope = Scope(inject(ProjectManager::class.java).value.currentProject, sprite, SequenceAction())
         val project = Project(MockUtil.mockContextForProject(), "Project")
-        ProjectManager.getInstance().currentProject = project
+        inject(ProjectManager::class.java).value.currentProject = project
     }
 
     @Test

@@ -68,7 +68,7 @@ public class SpriteActivityTabsTest {
 	@Before
 	public void setUp() {
 		Script script = BrickTestUtils.createProjectAndGetStartScript("SpriteActivityTabsTest");
-		ProjectManager.getInstance().getCurrentProject().addUserVariable(new UserVariable("X"));
+		inject(ProjectManager.class).getValue().getCurrentProject().addUserVariable(new UserVariable("X"));
 		script.addBrick(new SetVariableBrick());
 		baseActivityTestRule.launchActivity();
 	}

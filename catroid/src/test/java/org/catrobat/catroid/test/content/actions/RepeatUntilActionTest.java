@@ -48,6 +48,8 @@ import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(JUnit4.class)
 public class RepeatUntilActionTest {
 
@@ -73,8 +75,8 @@ public class RepeatUntilActionTest {
 		testSprite.removeAllScripts();
 		testSprite.addScript(testScript);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(testSprite);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(testSprite);
 
 		project.removeUserVariable(TEST_USERVARIABLE);
 		userVariable = new UserVariable(TEST_USERVARIABLE);

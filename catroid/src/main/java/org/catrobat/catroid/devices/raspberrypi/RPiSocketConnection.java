@@ -37,6 +37,8 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class RPiSocketConnection {
 
 	private static final String TAG = AsyncRPiTaskRunner.class.getSimpleName();
@@ -131,9 +133,9 @@ public class RPiSocketConnection {
 
 	private void callEvent(String broadcastMessage) {
 		String[] messageSegments = broadcastMessage.split(" ");
-		if (messageSegments.length == 3 && ProjectManager.getInstance().getCurrentProject() != null) {
+		if (messageSegments.length == 3 && inject(ProjectManager.class).getValue().getCurrentProject() != null) {
 			RaspiEventId id = new RaspiEventId(messageSegments[1], messageSegments[2]);
-			ProjectManager.getInstance().getCurrentProject().fireToAllSprites(new EventWrapper(id, false));
+			inject(ProjectManager.class).getValue().getCurrentProject().fireToAllSprites(new EventWrapper(id, false));
 		}
 	}
 

@@ -36,6 +36,8 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import androidx.annotation.VisibleForTesting;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class UserDefinedReceiverBrick extends ScriptBrickBaseType {
 
 	private static final long serialVersionUID = 1L;
@@ -84,7 +86,7 @@ public class UserDefinedReceiverBrick extends ScriptBrickBaseType {
 		super.getView(context);
 		userBrickSpace = view.findViewById(R.id.user_brick_space);
 		if (userDefinedBrick == null) {
-			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+			Sprite currentSprite = inject(ProjectManager.class).getValue().getCurrentSprite();
 			userDefinedBrick = currentSprite.getUserDefinedBrickByID(userDefinedScript.getUserDefinedBrickID());
 		}
 		if (userDefinedBrick != null) {

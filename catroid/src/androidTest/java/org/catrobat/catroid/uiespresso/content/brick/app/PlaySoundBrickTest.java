@@ -194,8 +194,8 @@ public class PlaySoundBrickTest {
 
 		sprite.addScript(startScript);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
 
 		XstreamSerializer.getInstance().saveProject(project);
 
@@ -222,7 +222,7 @@ public class PlaySoundBrickTest {
 		soundInfo2.setFile(soundFile2);
 		soundInfo2.setName(soundName2);
 
-		List<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		List<SoundInfo> soundInfoList = inject(ProjectManager.class).getValue().getCurrentSprite().getSoundList();
 		soundInfoList.add(soundInfo);
 		soundInfoList.add(soundInfo2);
 	}

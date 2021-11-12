@@ -87,7 +87,7 @@ public class CloneTwoPartCompositeBrickUpdateDataTest {
 		compositeBrick = compositeBrickClass.newInstance();
 		script.addBrick(compositeBrick);
 		project.addScene(scene);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 	}
 
 	@Test

@@ -298,6 +298,7 @@ import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.TMP_CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public final class XstreamSerializer {
 
@@ -815,7 +816,7 @@ public final class XstreamSerializer {
 						previousLanguageMatcher.find();
 						if (Objects.equals(currentLanguageMatcher.group(0),
 								previousLanguageMatcher.group(0)) && (!unnecessaryChanges(currentXml, previousXml))) {
-							ProjectManager.getInstance().changedProject(project.getName());
+							inject(ProjectManager.class).getValue().changedProject(project.getName());
 						}
 					}
 				} catch (Exception e) {

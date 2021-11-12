@@ -121,8 +121,8 @@ public class PlaySoundBrickStageTest {
 
 		sprite.addScript(startScript);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
 
 		startScript.addBrick(new PlaySoundBrick());
 
@@ -136,7 +136,7 @@ public class PlaySoundBrickStageTest {
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setFile(soundFile);
 		soundInfo.setName(soundName);
-		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		soundInfoList = inject(ProjectManager.class).getValue().getCurrentSprite().getSoundList();
 		soundInfoList.add(soundInfo);
 	}
 

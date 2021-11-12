@@ -72,6 +72,7 @@ import static android.app.Activity.RESULT_OK;
 import static android.content.Context.VIBRATOR_SERVICE;
 
 import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class StageResourceHolder implements GatherCollisionInformationTask.OnPolygonLoadedListener {
 	private static final String TAG = StageResourceHolder.class.getSimpleName();
@@ -94,12 +95,12 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 	@VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
 	public static List<String> getProjectsRuntimePermissionList() {
 		return BrickResourcesToRuntimePermissions.translate(
-				ProjectManager.getInstance().getCurrentProject().getRequiredResources());
+				inject(ProjectManager.class).getValue().getCurrentProject().getRequiredResources());
 	}
 
 	public void initResources() {
 		failedResources = new HashSet<>();
-		requiredResourcesSet = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
+		requiredResourcesSet = inject(ProjectManager.class).getValue().getCurrentProject().getRequiredResources();
 		requiredResourceCounter = requiredResourcesSet.size();
 
 		SensorHandler sensorHandler = SensorHandler.getInstance(stageActivity);
@@ -257,7 +258,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			} else {
 				if (!SettingsFragment.isCastSharedPreferenceEnabled(stageActivity)) {
 					ToastUtil.showError(stageActivity, stageActivity.getString(R.string.cast_enable_cast_feature));
-				} else if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+				} else if (inject(ProjectManager.class).getValue().getCurrentProject().isCastProject()) {
 					ToastUtil.showError(stageActivity, stageActivity.getString(R.string.cast_error_not_connected_msg));
 				} else {
 					ToastUtil.showError(stageActivity, stageActivity.getString(R.string.cast_error_cast_bricks_in_no_cast_project));
@@ -292,7 +293,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		}
 
 		if (requiredResourcesSet.contains(Brick.SOCKET_RASPI)) {
-			Project currentProject = ProjectManager.getInstance().getCurrentProject();
+			Project currentProject = inject(ProjectManager.class).getValue().getCurrentProject();
 			RaspberryPiService.getInstance().enableRaspberryInterruptPinsForProject(currentProject);
 			connectRaspberrySocket();
 		}

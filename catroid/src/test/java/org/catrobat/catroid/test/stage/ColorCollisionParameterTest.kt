@@ -35,6 +35,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.java.KoinJavaComponent.inject
 import org.mockito.Mockito
 
 @RunWith(Parameterized::class)
@@ -52,7 +53,7 @@ internal class ColorCollisionParameterTest(
         val sequence = SequenceAction()
         val stageListener = Mockito.mock(StageListener::class.java)
         val project = Project(MockUtil.mockContextForProject(), "testProject")
-        ProjectManager.getInstance().currentProject = project
+        inject(ProjectManager::class.java).value.currentProject = project
         colorCollisionDetection = ColorCollisionDetection(
             Scope(project, sprite, sequence),
             stageListener

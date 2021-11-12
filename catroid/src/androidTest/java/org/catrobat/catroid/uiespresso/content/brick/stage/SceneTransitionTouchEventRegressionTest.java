@@ -82,7 +82,7 @@ public class SceneTransitionTouchEventRegressionTest {
 
 	private void createProject() {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), getClass().getSimpleName());
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		Scene firstScene = project.getDefaultScene();
 		Scene secondScene = new Scene("Scene 2", project);

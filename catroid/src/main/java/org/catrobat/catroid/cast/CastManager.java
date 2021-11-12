@@ -67,6 +67,7 @@ import androidx.mediarouter.media.MediaRouteSelector;
 import androidx.mediarouter.media.MediaRouter;
 
 import static org.catrobat.catroid.common.Constants.CAST_IDLE_BACKGROUND_COLOR;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public final class CastManager {
 	private static final CastManager INSTANCE = new CastManager();
@@ -283,7 +284,7 @@ public final class CastManager {
 		remoteLayout.setBackgroundColor(ContextCompat.getColor(initializingActivity, android.R.color.white));
 		remoteLayout.removeAllViews();
 		remoteLayout.addView(stageViewDisplayedOnCast);
-		Project project = ProjectManager.getInstance().getCurrentProject();
+		Project project = inject(ProjectManager.class).getValue().getCurrentProject();
 		stageView.surfaceChanged(stageView.getHolder(), 0, project.getXmlHeader().getVirtualScreenWidth(),
 				project.getXmlHeader().getVirtualScreenHeight());
 	}
@@ -325,7 +326,7 @@ public final class CastManager {
 						.inflate(R.layout.cast_pause_screen, null);
 				remoteLayout.addView(pausedView);
 				RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) pausedView.getLayoutParams();
-				Project p = ProjectManager.getInstance().getCurrentProject();
+				Project p = inject(ProjectManager.class).getValue().getCurrentProject();
 				layoutParams.height = p.getXmlHeader().getVirtualScreenHeight();
 				layoutParams.width = p.getXmlHeader().getVirtualScreenWidth();
 				pausedView.setLayoutParams(layoutParams);

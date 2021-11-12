@@ -37,6 +37,7 @@ import org.catrobat.catroid.utils.UserDataUtil.renameUserData
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.koin.java.KoinJavaComponent.inject
 import java.util.ArrayList
 
 class ParameterizedBrickTest {
@@ -66,7 +67,7 @@ class ParameterizedBrickTest {
         scene.addSprite(sprite)
         sprite.addScript(script)
         script.addBrick(parameterizedBrick)
-        ProjectManager.getInstance().currentProject = project
+        inject(ProjectManager::class.java).value.currentProject = project
     }
 
     @Test
@@ -85,7 +86,7 @@ class ParameterizedBrickTest {
     fun testRemovingLinkedVariable() {
         val elements: MutableList<UserData<*>?> = ArrayList()
         elements.add(userVariable)
-        ProjectManager.getInstance().currentProject.deselectElements(elements)
+        inject(ProjectManager::class.java).value.currentProject.deselectElements(elements)
         Assert.assertFalse(parameterizedBrick?.userLists?.contains(userList) ?: true)
     }
 
@@ -93,7 +94,7 @@ class ParameterizedBrickTest {
     fun testRemovingLinkedList() {
         val elements: MutableList<UserData<*>?> = ArrayList()
         elements.add(userList)
-        ProjectManager.getInstance().currentProject.deselectElements(elements)
+        inject(ProjectManager::class.java).value.currentProject.deselectElements(elements)
         Assert.assertFalse(parameterizedBrick?.userLists?.contains(userList) ?: true)
     }
 

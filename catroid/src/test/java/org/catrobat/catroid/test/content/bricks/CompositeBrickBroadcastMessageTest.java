@@ -45,6 +45,7 @@ import java.util.Arrays;
 import java.util.Set;
 
 import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class CompositeBrickBroadcastMessageTest {
@@ -86,7 +87,7 @@ public class CompositeBrickBroadcastMessageTest {
 		script.addBrick(compositeBrick);
 		compositeBrick.getNestedBricks().add(primaryListBroadcastBrick);
 
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 	}
 
 	@Test

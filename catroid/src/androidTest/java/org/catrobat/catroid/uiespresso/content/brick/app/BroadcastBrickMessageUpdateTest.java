@@ -166,8 +166,8 @@ public class BroadcastBrickMessageUpdateTest {
 	private void switchScene() {
 		baseActivityTestRule.finishActivity();
 
-		ProjectManager.getInstance().setCurrentSprite(secondSprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(secondScene);
+		inject(ProjectManager.class).getValue().setCurrentSprite(secondSprite);
+		inject(ProjectManager.class).getValue().setCurrentlyEditedScene(secondScene);
 		baseActivityTestRule.launchActivity();
 	}
 
@@ -200,8 +200,8 @@ public class BroadcastBrickMessageUpdateTest {
 
 		project.addScene(firstScene);
 		project.addScene(secondScene);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(firstScene);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(firstSprite);
+		inject(ProjectManager.class).getValue().setCurrentlyEditedScene(firstScene);
 	}
 }

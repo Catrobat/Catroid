@@ -111,11 +111,11 @@ public class CopySceneTest {
 		onView(withText(toBeCopiedSceneName + " (2)"))
 				.check(matches(isDisplayed()));
 		int copiedSceneSpritesCount =
-				ProjectManager.getInstance().getCurrentProject().getSceneList().get(2).getSpriteList().size();
+				inject(ProjectManager.class).getValue().getCurrentProject().getSceneList().get(2).getSpriteList().size();
 		int copiedSceneLooksCount =
-				ProjectManager.getInstance().getCurrentProject().getSceneList().get(2).getSpriteList().get(1).getLookList().size();
+				inject(ProjectManager.class).getValue().getCurrentProject().getSceneList().get(2).getSpriteList().get(1).getLookList().size();
 		int copiedSceneSoundFilesCount =
-				ProjectManager.getInstance().getCurrentProject().getSceneList().get(2).getSpriteList().get(1).getSoundList().size();
+				inject(ProjectManager.class).getValue().getCurrentProject().getSceneList().get(2).getSpriteList().get(1).getSoundList().size();
 
 		assertEquals(2, copiedSceneSpritesCount);
 		assertEquals(1, copiedSceneLooksCount);
@@ -130,8 +130,8 @@ public class CopySceneTest {
 		Scene scene2 = new Scene("Scene (1)", project);
 		project.addScene(scene2);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
 		XstreamSerializer.getInstance().saveProject(project);
 
 		Script script = new StartScript();

@@ -94,6 +94,7 @@ import kotlinx.coroutines.GlobalScope;
 import static org.catrobat.catroid.common.ScreenValues.SCREEN_HEIGHT;
 import static org.catrobat.catroid.common.ScreenValues.SCREEN_WIDTH;
 import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class StageListener implements ApplicationListener {
 
@@ -180,8 +181,8 @@ public class StageListener implements ApplicationListener {
 
 		shapeRenderer = new ShapeRenderer();
 
-		project = ProjectManager.getInstance().getCurrentProject();
-		scene = ProjectManager.getInstance().getCurrentlyPlayingScene();
+		project = inject(ProjectManager.class).getValue().getCurrentProject();
+		scene = inject(ProjectManager.class).getValue().getCurrentlyPlayingScene();
 
 		if (stage == null) {
 			createNewStage();
@@ -342,7 +343,7 @@ public class StageListener implements ApplicationListener {
 	}
 
 	private void disposeClonedSprites() {
-		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+		for (Scene scene : inject(ProjectManager.class).getValue().getCurrentProject().getSceneList()) {
 			scene.removeClonedSprites();
 		}
 	}
@@ -387,7 +388,7 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public void transitionToScene(String sceneName) {
-		Scene newScene = ProjectManager.getInstance().getCurrentProject().getSceneByName(sceneName);
+		Scene newScene = inject(ProjectManager.class).getValue().getCurrentProject().getSceneByName(sceneName);
 
 		if (newScene == null) {
 			return;
@@ -397,7 +398,7 @@ public class StageListener implements ApplicationListener {
 		pause();
 
 		scene = newScene;
-		ProjectManager.getInstance().setCurrentlyPlayingScene(scene);
+		inject(ProjectManager.class).getValue().setCurrentlyPlayingScene(scene);
 
 		if (stageBackupMap.containsKey(scene.getName())) {
 			restoreFromBackup(stageBackupMap.get(scene.getName()));
@@ -412,7 +413,7 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public void startScene(String sceneName) {
-		Scene newScene = ProjectManager.getInstance().getCurrentProject().getSceneByName(sceneName);
+		Scene newScene = inject(ProjectManager.class).getValue().getCurrentProject().getSceneByName(sceneName);
 
 		if (newScene == null) {
 			return;
@@ -422,7 +423,7 @@ public class StageListener implements ApplicationListener {
 		pause();
 
 		scene = newScene;
-		ProjectManager.getInstance().setCurrentlyPlayingScene(scene);
+		inject(ProjectManager.class).getValue().setCurrentlyPlayingScene(scene);
 
 		CameraManager cameraManager = StageActivity.getActiveCameraManager();
 		if (cameraManager != null) {
@@ -445,8 +446,8 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		this.stageDialog = stageDialog;
-		if (!ProjectManager.getInstance().getStartScene().getName().equals(scene.getName())) {
-			transitionToScene(ProjectManager.getInstance().getStartScene().getName());
+		if (!inject(ProjectManager.class).getValue().getStartScene().getName().equals(scene.getName())) {
+			transitionToScene(inject(ProjectManager.class).getValue().getStartScene().getName());
 		}
 		stageBackupMap.clear();
 		embroideryPatternManager.clear();
@@ -463,9 +464,9 @@ public class StageListener implements ApplicationListener {
 		MidiSoundManager.getInstance().reset();
 		removeAllClonedSpritesFromStage();
 
-		UserDataWrapper.resetAllUserData(ProjectManager.getInstance().getCurrentProject());
+		UserDataWrapper.resetAllUserData(inject(ProjectManager.class).getValue().getCurrentProject());
 
-		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+		for (Scene scene : inject(ProjectManager.class).getValue().getCurrentProject().getSceneList()) {
 			scene.firstStart = true;
 		}
 		reloadProject = true;
@@ -943,7 +944,7 @@ public class StageListener implements ApplicationListener {
 
 	private float calculateScreenRatio() {
 		DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
-		XmlHeader header = ProjectManager.getInstance().getCurrentProject().getXmlHeader();
+		XmlHeader header = inject(ProjectManager.class).getValue().getCurrentProject().getXmlHeader();
 		float deviceDiagonalPixel = (float) Math.sqrt(Math.pow(metrics.widthPixels, 2) + Math.pow(metrics.heightPixels, 2));
 		float creatorDiagonalPixel = (float) Math.sqrt(Math.pow(header.getVirtualScreenWidth(), 2)
 				+ Math.pow(header.getVirtualScreenHeight(), 2));

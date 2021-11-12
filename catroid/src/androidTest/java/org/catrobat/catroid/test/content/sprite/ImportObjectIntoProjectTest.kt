@@ -58,6 +58,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import java.io.File
+import org.koin.java.KoinJavaComponent.inject
 
 class ImportObjectIntoProjectTest {
     var project: Project? = null
@@ -111,8 +112,8 @@ class ImportObjectIntoProjectTest {
         ZipArchiver().zip(projectZip, importedProject?.directory?.listFiles())
         uri = Uri.fromFile(projectZip)
 
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().currentSprite = project!!.defaultScene.spriteList[1]
+        inject(ProjectManager::class.java).value.currentProject = project
+        inject(ProjectManager::class.java).value.currentSprite = project!!.defaultScene.spriteList[1]
         Intents.init()
         baseActivityTestRule.launchActivity()
     }

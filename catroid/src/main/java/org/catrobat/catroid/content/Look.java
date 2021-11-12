@@ -62,6 +62,7 @@ import androidx.annotation.VisibleForTesting;
 import static org.catrobat.catroid.physics.ParticleConstants.LIFE_HIGH_MAX_ACTIVE;
 import static org.catrobat.catroid.physics.ParticleConstants.LIFE_HIGH_MAX_DEAD;
 import static org.catrobat.catroid.physics.ParticleConstants.PARTICLE_SCALE;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class Look extends Image {
 
@@ -250,7 +251,7 @@ public class Look extends Image {
 		particleEmitter.getXScale().setHigh(spriteSize);
 		particleEmitter.getVelocity().setHighMin(ParticleConstants.VELOCITY_HIGH_MIN * pScale);
 		particleEmitter.getVelocity().setHighMax(ParticleConstants.VELOCITY_HIGH_MAX * pScale);
-		particleEmitter.getGravity().setHigh(ProjectManager.getInstance().getCurrentlyPlayingScene().getPhysicsWorld().getGravity().y);
+		particleEmitter.getGravity().setHigh(inject(ProjectManager.class).getValue().getCurrentlyPlayingScene().getPhysicsWorld().getGravity().y);
 		particleEmitter.setAdditive(isAdditive);
 	}
 

@@ -45,6 +45,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
+import org.koin.java.KoinJavaComponent.inject
 
 class SensorHandlerTest {
     @get:Rule
@@ -55,7 +56,7 @@ class SensorHandlerTest {
 
     @Before
     fun setUp() {
-        ProjectManager.getInstance().currentProject = Project(
+        inject(ProjectManager::class.java).value.currentProject = Project(
             ApplicationProvider.getApplicationContext(),
             TestUtils.DEFAULT_TEST_PROJECT_NAME
         )

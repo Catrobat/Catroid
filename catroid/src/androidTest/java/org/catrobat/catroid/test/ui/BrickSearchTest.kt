@@ -65,6 +65,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import java.io.IOException
+import org.koin.java.KoinJavaComponent.inject
 
 class BrickSearchTest {
     var projectName = "searchTestProject"
@@ -192,9 +193,9 @@ class BrickSearchTest {
         val sprite1 = Sprite("testSprite1")
         project.addScene(scene1)
         project.getSceneByName(sceneName1).addSprite(sprite1)
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().setCurrentSceneAndSprite(sceneName1, sprite1.name)
-        ProjectManager.getInstance().currentlyEditedScene = scene1
+        inject(ProjectManager::class.java).value.currentProject = project
+        inject(ProjectManager::class.java).value.setCurrentSceneAndSprite(sceneName1, sprite1.name)
+        inject(ProjectManager::class.java).value.currentlyEditedScene = scene1
     }
 
     @After

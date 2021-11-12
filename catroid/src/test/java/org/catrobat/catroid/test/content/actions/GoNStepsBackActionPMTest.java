@@ -42,6 +42,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(GdxNativesLoader.class)
 public class GoNStepsBackActionPMTest {
@@ -78,7 +80,7 @@ public class GoNStepsBackActionPMTest {
 		parentGroup.addActor(embroideryActorSprite.look);
 		parentGroup.addActor(realSprite.look);
 
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		PowerMockito.mockStatic(GdxNativesLoader.class);
 	}
 
@@ -97,7 +99,7 @@ public class GoNStepsBackActionPMTest {
 
 		project.getDefaultScene().addSprite(sprite1);
 		project.getDefaultScene().addSprite(sprite2);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		assertEquals(realSpriteMinLayer, sprite1.look.getZIndex());
 		assertEquals(backgroundLayer, background.look.getZIndex());

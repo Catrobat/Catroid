@@ -89,7 +89,7 @@ public class PhysicsShapeBuilderTest {
 
 		project = new Project(ApplicationProvider.getApplicationContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		String simpleSingleConvexPolygonFileName = PhysicsTestUtils
 				.getInternalImageFilenameFromFilename("simple_single_convex_polygon.png");

@@ -121,8 +121,8 @@ public class StartStageTouchTest {
 		scene2.getBackgroundSprite().addScript(background2StartScript);
 		project.addScene(scene2);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setStartScene(scene1);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setStartScene(scene1);
 	}
 
 	private Formula createFormulaWithSensor(Sensors sensor, Scope scope) {

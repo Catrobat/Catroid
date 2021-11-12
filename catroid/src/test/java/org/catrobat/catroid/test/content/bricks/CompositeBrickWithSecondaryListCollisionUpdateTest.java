@@ -51,6 +51,7 @@ import org.powermock.modules.junit4.PowerMockRunnerDelegate;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(PowerMockRunner.class)
 @PowerMockRunnerDelegate(Parameterized.class)
@@ -100,8 +101,8 @@ public class CompositeBrickWithSecondaryListCollisionUpdateTest {
 		compositeBrick.getNestedBricks().add(primaryFormulaBrick);
 		compositeBrick.getSecondaryNestedBricks().add(secondaryFormulaBrick);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(scene);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentlyEditedScene(scene);
 	}
 
 	@Test

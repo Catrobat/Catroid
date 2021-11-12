@@ -76,8 +76,8 @@ public class SayBubbleBrickStageTest {
 		script.addBrick(new SayBubbleBrick(sayString));
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
 		lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script);
 	}
 }

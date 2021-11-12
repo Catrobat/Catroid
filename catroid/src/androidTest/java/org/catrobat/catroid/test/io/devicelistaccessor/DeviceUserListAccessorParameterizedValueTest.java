@@ -123,7 +123,7 @@ public class DeviceUserListAccessorParameterizedValueTest<T> {
 		Project dummyProject = new Project();
 		Scene dummyScene = new Scene();
 		dummyProject.addScene(dummyScene);
-		ProjectManager.getInstance().setCurrentProject(dummyProject);
+		inject(ProjectManager.class).getValue().setCurrentProject(dummyProject);
 
 		Sprite sprite = new Sprite("sprite");
 		sprite.addUserList(userList);

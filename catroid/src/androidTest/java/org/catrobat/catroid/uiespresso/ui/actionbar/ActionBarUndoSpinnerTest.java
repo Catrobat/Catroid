@@ -151,8 +151,8 @@ public class ActionBarUndoSpinnerTest {
 
 	private void createProject() {
 		Script script = BrickTestUtils.createProjectAndGetStartScript(ActionBarUndoSpinnerTest.class.getSimpleName());
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		Project currentProject = inject(ProjectManager.class).getValue().getCurrentProject();
+		Sprite currentSprite = inject(ProjectManager.class).getValue().getCurrentSprite();
 
 		currentProject.addUserVariable(new UserVariable(firstItem));
 		currentProject.addUserVariable(new UserVariable(secondItem));

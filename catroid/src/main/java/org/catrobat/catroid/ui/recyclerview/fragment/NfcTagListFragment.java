@@ -48,6 +48,8 @@ import java.util.List;
 
 import androidx.annotation.PluralsRes;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 
 	public static final String TAG = NfcTagListFragment.class.getSimpleName();
@@ -88,7 +90,7 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 
 	@Override
 	protected void initializeAdapter() {
-		List<NfcTagData> items = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
+		List<NfcTagData> items = inject(ProjectManager.class).getValue().getCurrentSprite().getNfcTagList();
 		sharedPreferenceDetailsKey = "showDetailsNfcTags";
 		adapter = new NfcTagAdapter(items);
 		emptyView.setText(R.string.fragment_nfctag_text_description);

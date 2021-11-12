@@ -88,6 +88,7 @@ import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_CODE_INVALID;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_LENGTH;
 import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public final class Utils {
 
@@ -380,10 +381,10 @@ public final class Utils {
 	}
 
 	public static String getCurrentProjectName(Context context) {
-		if (ProjectManager.getInstance().getCurrentProject() == null) {
+		if (inject(ProjectManager.class).getValue().getCurrentProject() == null) {
 
 			if (FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).size() == 0) {
-				ProjectManager.getInstance().initializeDefaultProject(context);
+				inject(ProjectManager.class).getValue().initializeDefaultProject(context);
 			}
 
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -394,7 +395,7 @@ public final class Utils {
 			}
 			return currentProjectName;
 		}
-		return ProjectManager.getInstance().getCurrentProject().getName();
+		return inject(ProjectManager.class).getValue().getCurrentProject().getName();
 	}
 
 	public static void setLastUsedProjectName(Context context, String projectName) {

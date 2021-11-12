@@ -47,11 +47,12 @@ import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.recyclerview.adapter.DataListAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH
 import org.catrobat.catroid.utils.ToastUtil
-import java.util.ArrayList
-import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher
 import org.catrobat.catroid.utils.UserDataUtil
+import org.koin.java.KoinJavaComponent.inject
+import java.util.ArrayList
 
 class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
     RVAdapter.OnItemClickListener<UserData<*>> {
@@ -136,8 +137,8 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
     }
 
     private fun initializeAdapter() {
-        val globalLists = ProjectManager.getInstance().currentProject.userLists
-        val localLists = ProjectManager.getInstance().currentSprite.userLists
+        val globalLists = inject(ProjectManager::class.java).value.currentProject.userLists
+        val localLists = inject(ProjectManager::class.java).value.currentSprite.userLists
 
         adapter = DataListAdapter(ArrayList(), ArrayList(), ArrayList(), ArrayList(), globalLists, localLists)
         adapter?.showCheckBoxes(true)
@@ -160,7 +161,7 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
         for (item in selectedItems) {
             adapter?.remove(item)
         }
-        ProjectManager.getInstance().currentProject.deselectElements(selectedItems)
+        inject(ProjectManager::class.java).value.currentProject.deselectElements(selectedItems)
         ToastUtil.showSuccess(
             activity, resources.getQuantityString(
                 R.plurals.deleted_Items,
@@ -210,7 +211,7 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
 
     private fun renameItem(item: UserData<*>, name: String?) {
         val previousName = item.name
-        ProjectManager.getInstance().currentProject.updateUserDataReferences(
+        inject(ProjectManager::class.java).value.currentProject.updateUserDataReferences(
             previousName,
             name,
             item

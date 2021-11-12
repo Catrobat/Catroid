@@ -58,7 +58,7 @@ public class DSTFileGeneratorTest {
 	@Before
 	public void setUp() throws IOException {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		dstFile = new File(Constants.CACHE_DIR, projectName + ".dst");
 		if (dstFile.exists()) {

@@ -101,8 +101,8 @@ public class CopyLookTest {
 		Sprite sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
 		XstreamSerializer.getInstance().saveProject(project);
 
 		File imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
@@ -112,7 +112,7 @@ public class CopyLookTest {
 				"catroid_sunglasses.png",
 				1);
 
-		List<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookList();
+		List<LookData> lookDataList = inject(ProjectManager.class).getValue().getCurrentSprite().getLookList();
 		LookData lookData = new LookData();
 		lookData.setFile(imageFile);
 		lookData.setName(toBeCopiedLookName);

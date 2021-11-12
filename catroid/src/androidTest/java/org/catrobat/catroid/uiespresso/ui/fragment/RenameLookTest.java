@@ -199,8 +199,8 @@ public class RenameLookTest {
 		Sprite sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
 		XstreamSerializer.getInstance().saveProject(project);
 
 		File imageFile0 = ResourceImporter.createImageFileFromResourcesInDirectory(
@@ -210,7 +210,7 @@ public class RenameLookTest {
 				"catroid_sunglasses.png",
 				1);
 
-		List<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookList();
+		List<LookData> lookDataList = inject(ProjectManager.class).getValue().getCurrentSprite().getLookList();
 		LookData lookData0 = new LookData();
 		lookData0.setFile(imageFile0);
 		lookData0.setName(oldLookName);

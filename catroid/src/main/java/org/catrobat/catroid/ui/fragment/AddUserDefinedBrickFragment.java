@@ -53,6 +53,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import static org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType.INPUT;
 import static org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType.LABEL;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class AddUserDefinedBrickFragment extends Fragment {
 
@@ -144,7 +145,7 @@ public class AddUserDefinedBrickFragment extends Fragment {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.confirm) {
-			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+			Sprite currentSprite = inject(ProjectManager.class).getValue().getCurrentSprite();
 			boolean brickIsEmpty = userDefinedBrick.isEmpty();
 
 			if (brickIsEmpty) {

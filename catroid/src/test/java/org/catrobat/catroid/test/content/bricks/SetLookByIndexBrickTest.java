@@ -42,6 +42,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.Mockito;
 
+import static org.koin.java.KoinJavaComponent.inject;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.eq;
@@ -60,9 +61,9 @@ public class SetLookByIndexBrickTest {
 
 		currentlyPlayingScene.addSprite(sprite);
 		project.addScene(currentlyPlayingScene);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(new Scene());
-		ProjectManager.getInstance().setCurrentlyPlayingScene(currentlyPlayingScene);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentlyEditedScene(new Scene());
+		inject(ProjectManager.class).getValue().setCurrentlyPlayingScene(currentlyPlayingScene);
 	}
 
 	@Test

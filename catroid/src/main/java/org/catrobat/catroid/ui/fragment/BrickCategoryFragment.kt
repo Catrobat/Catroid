@@ -48,6 +48,7 @@ import org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile
 import org.catrobat.catroid.ui.settingsfragments.RaspberryPiSettingsFragment
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.catrobat.catroid.utils.SnackbarUtil
+import org.koin.java.KoinJavaComponent.inject
 import java.util.ArrayList
 import java.util.concurrent.locks.Lock
 
@@ -170,7 +171,7 @@ class BrickCategoryFragment : ListFragment() {
         if (SettingsFragment.isPhiroSharedPreferenceEnabled(activity)) {
             categories.add(inflater.inflate(R.layout.brick_category_phiro, null))
         }
-        if (ProjectManager.getInstance().currentProject.isCastProject) {
+        if (inject(ProjectManager::class.java).value.currentProject.isCastProject) {
             categories.add(inflater.inflate(R.layout.brick_category_chromecast, null))
         }
 

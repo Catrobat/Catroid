@@ -50,6 +50,7 @@ import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class MessageContainerTest {
@@ -75,7 +76,7 @@ public class MessageContainerTest {
 
 	@Test
 	public void testLoadProject() {
-		List<String> broadcastMessages = ProjectManager.getInstance().getCurrentProject()
+		List<String> broadcastMessages = inject(ProjectManager.class).getValue().getCurrentProject()
 				.getBroadcastMessageContainer().getBroadcastMessages();
 
 		assertThat(broadcastMessages, hasItem(broadcastMessage1));
@@ -85,14 +86,14 @@ public class MessageContainerTest {
 	@Test
 	public void testLoadTwoProjects() throws ProjectException {
 
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Project currentProject = inject(ProjectManager.class).getValue().getCurrentProject();
 		currentProject.getBroadcastMessageContainer().update();
 
-		ProjectManager.getInstance()
-				.loadProject(project2.getDirectory(), ApplicationProvider.getApplicationContext());
+		inject(ProjectManager.class).getValue()
+				.loadProject(project2.getDirectory());
 
-		currentProject = ProjectManager.getInstance().getCurrentProject();
-		ProjectManager.getInstance().setCurrentlyEditedScene(currentProject.getDefaultScene());
+		currentProject = inject(ProjectManager.class).getValue().getCurrentProject();
+		inject(ProjectManager.class).getValue().setCurrentlyEditedScene(currentProject.getDefaultScene());
 		List<String> broadcastMessages = currentProject.getBroadcastMessageContainer().getBroadcastMessages();
 
 		assertThat(broadcastMessages, not(hasItem(broadcastMessage1)));
@@ -129,8 +130,7 @@ public class MessageContainerTest {
 		project2.getDefaultScene().addSprite(sprite2);
 		XstreamSerializer.getInstance().saveProject(project2);
 
-		ProjectManager.getInstance()
-				.loadProject(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName2),
-						ApplicationProvider.getApplicationContext());
+		inject(ProjectManager.class).getValue()
+				.loadProject(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName2));
 	}
 }

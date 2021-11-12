@@ -55,6 +55,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.java.KoinJavaComponent.inject
 
 @RunWith(Parameterized::class)
 class FormulaEditorComputeDialogUserDefinedBrickInputTest(
@@ -91,8 +92,8 @@ class FormulaEditorComputeDialogUserDefinedBrickInputTest(
         userDefinedScript.addBrick(
             ChangeSizeByNBrick(Formula(FormulaElement(USER_DEFINED_BRICK_INPUT, input.name, null)))
         )
-        ProjectManager.getInstance().currentSprite.addScript(userDefinedScript)
-        project = ProjectManager.getInstance().currentProject
+        inject(ProjectManager::class.java).value.currentSprite.addScript(userDefinedScript)
+        project = inject(ProjectManager::class.java).value.currentProject
         baseActivityTestRule.launchActivity()
     }
 

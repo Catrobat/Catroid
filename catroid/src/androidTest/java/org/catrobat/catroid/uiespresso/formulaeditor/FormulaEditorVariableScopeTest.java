@@ -162,7 +162,7 @@ public class FormulaEditorVariableScopeTest {
 
 	private void createProject(String projectName) {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 		Sprite sprite = new Sprite("Sprite1");
 		UserDefinedBrick userDefinedBrick = new UserDefinedBrick(asList(input, label, secondInput));

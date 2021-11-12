@@ -50,6 +50,7 @@ import java.io.File;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.koin.java.KoinJavaComponent.inject;
 import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
@@ -66,7 +67,7 @@ public class WhenBackgroundChangesScriptTest {
 		PowerMockito.mockStatic(GdxNativesLoader.class);
 
 		Project project = new Project(MockUtil.mockContextForProject(), "TestProject");
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
 

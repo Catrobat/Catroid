@@ -105,7 +105,7 @@ public class BrickPermissionTest {
 		scene.addSprite(sprite);
 		script = new StartScript();
 		sprite.addScript(script);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 	}
 
 	@Test

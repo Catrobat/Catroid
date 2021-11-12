@@ -66,6 +66,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
+import org.koin.java.KoinJavaComponent.inject
 
 @RunWith(AndroidJUnit4::class)
 class NewSpriteVisuallyPlaceDialogTest {
@@ -172,8 +173,8 @@ class NewSpriteVisuallyPlaceDialogTest {
 
     private fun createProject(projectName: String) {
         val project = Project(ApplicationProvider.getApplicationContext(), projectName)
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().currentlyEditedScene = project.defaultScene
+        inject(ProjectManager::class.java).value.currentProject = project
+        inject(ProjectManager::class.java).value.currentlyEditedScene = project.defaultScene
         XstreamSerializer.getInstance().saveProject(project)
     }
 }

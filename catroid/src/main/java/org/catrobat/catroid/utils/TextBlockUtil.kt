@@ -35,6 +35,7 @@ import org.catrobat.catroid.camera.VisualDetectionHandler.coordinatesFromRelativ
 import org.catrobat.catroid.common.ScreenValues.SCREEN_HEIGHT
 import org.catrobat.catroid.common.ScreenValues.SCREEN_WIDTH
 import org.catrobat.catroid.stage.StageActivity
+import org.koin.java.KoinJavaComponent.inject
 import kotlin.math.roundToInt
 
 object TextBlockUtil {
@@ -94,7 +95,7 @@ object TextBlockUtil {
         val isCameraFacingFront = StageActivity.getActiveCameraManager()?.isCameraFacingFront ?: return Point(0, 0)
         val aspectRatio = imageWidth.toDouble() / imageHeight
 
-        return if (ProjectManager.getInstance().isCurrentProjectLandscapeMode) {
+        return if (inject(ProjectManager::class.java).value.isCurrentProjectLandscapeMode) {
             var relativeX = textBlockBounds.exactCenterX().toDouble() / imageWidth
             relativeX = if (isCameraFacingFront) 1 - relativeX else relativeX
             coordinatesFromRelativePosition(

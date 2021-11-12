@@ -146,7 +146,7 @@ class AddBrickFragment : ListFragment() {
     }
 }
 fun addBrickToScript(brick: Brick, activity: SpriteActivity, addBrickListener: AddBrickFragment.OnAddBrickListener?, parentFragmentManager: FragmentManager, tag: String) {
-    if (ProjectManager.getInstance().currentProject.isCastProject && CastManager.unsupportedBricks.contains(brick.javaClass)) {
+    if (inject(ProjectManager::class.java).value.currentProject.isCastProject && CastManager.unsupportedBricks.contains(brick.javaClass)) {
         ToastUtil.showError(activity, R.string.error_unsupported_bricks_chromecast)
         return
     }

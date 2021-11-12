@@ -45,6 +45,8 @@ import java.util.Random;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(JUnit4.class)
 public class GoNStepsBackActionTest {
 
@@ -83,7 +85,7 @@ public class GoNStepsBackActionTest {
 		parentGroup.addActor(embroideryActorSprite.look);
 		parentGroup.addActor(realSprite.look);
 
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 	}
 
 	@Test
@@ -156,7 +158,7 @@ public class GoNStepsBackActionTest {
 
 		project.getDefaultScene().addSprite(sprite1);
 		project.getDefaultScene().addSprite(sprite2);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		assertEquals(realSpriteMinLayer, sprite1.look.getZIndex());
 		assertEquals(backgroundLayer, background.look.getZIndex());

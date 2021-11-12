@@ -68,6 +68,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
 import org.catrobat.catroid.utils.ToastUtil
+import org.koin.java.KoinJavaComponent.inject
 import java.io.File
 import java.io.IOException
 import java.util.ArrayList
@@ -147,7 +148,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
 
     override fun onResume() {
         if (actionModeType != IMPORT_LOCAL) {
-            ProjectManager.getInstance().currentProject = null
+            inject(ProjectManager::class.java).value.currentProject = null
         }
 
         setAdapterItems(adapter.projectsSorted)
@@ -383,7 +384,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         for (item in selectedItems) {
             item ?: continue
             try {
-                ProjectManager.getInstance().deleteDownloadedProjectInformation(item.name)
+                inject(ProjectManager::class.java).value.deleteDownloadedProjectInformation(item.name)
                 StorageOperations.deleteDir(item.directory)
             } catch (e: IOException) {
                 Log.e(TAG, Log.getStackTraceString(e))
@@ -404,7 +405,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
     fun checkForEmptyList() {
         if (adapter.items.isEmpty()) {
             setShowProgressBar(true)
-            if (ProjectManager.getInstance().initializeDefaultProject(context)) {
+            if (inject(ProjectManager::class.java).value.initializeDefaultProject(context)) {
                 setAdapterItems(adapter.projectsSorted)
                 setShowProgressBar(false)
             } else {
@@ -505,7 +506,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         item ?: return
         try {
             val project = XstreamSerializer.getInstance().loadProject(item.directory, activity)
-            ProjectManager.getInstance().currentProject = project
+            inject(ProjectManager::class.java).value.currentProject = project
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(
                     R.id.fragment_container, ProjectOptionsFragment(), ProjectOptionsFragment.TAG

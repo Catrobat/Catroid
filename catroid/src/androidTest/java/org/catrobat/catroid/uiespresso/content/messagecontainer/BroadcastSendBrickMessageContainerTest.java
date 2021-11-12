@@ -115,7 +115,7 @@ public class BroadcastSendBrickMessageContainerTest {
 		assertTrue(ProjectLoadTask
 				.task(project.getDirectory(), ApplicationProvider.getApplicationContext()));
 
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
 
 		baseActivityTestRule.launchActivity();
 
@@ -143,7 +143,7 @@ public class BroadcastSendBrickMessageContainerTest {
 
 		project.getDefaultScene().addSprite(sprite);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
 	}
 }

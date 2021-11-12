@@ -25,6 +25,7 @@ package org.catrobat.catroid.test
 
 import android.content.Context
 import org.catrobat.catroid.ProjectManager
+import org.koin.java.KoinJavaComponent.inject
 
 /**
  * Static singleton methods need to be initialized until they are removed entirely.
@@ -45,7 +46,7 @@ class StaticSingletonInitializer private constructor() {
 
         @JvmStatic
         fun initializeStaticSingletonMethodsWith(contextMock: Context) {
-            if (ProjectManager.getInstance() == null) {
+            if (inject(ProjectManager::class.java).value == null) {
                 ProjectManager(contextMock)
             }
         }

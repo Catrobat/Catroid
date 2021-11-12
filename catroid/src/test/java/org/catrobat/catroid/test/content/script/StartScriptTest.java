@@ -43,6 +43,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(GdxNativesLoader.class)
 public class StartScriptTest {
@@ -51,7 +53,7 @@ public class StartScriptTest {
 	public void setUp() {
 		PowerMockito.mockStatic(GdxNativesLoader.class);
 		Project project = new Project(MockUtil.mockContextForProject(), "Project");
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 	}
 
 	@Test

@@ -56,6 +56,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import java.io.IOException
+import org.koin.java.KoinJavaComponent.inject
 
 @RunWith(Parameterized::class)
 class FlattenListTest(
@@ -74,7 +75,7 @@ class FlattenListTest(
     @Throws(Exception::class)
     fun setUp() {
         context = ApplicationProvider.getApplicationContext()
-        projectManager = ProjectManager.getInstance()
+        projectManager = inject(ProjectManager::class.java).value
         createProject()
     }
 
@@ -101,8 +102,8 @@ class FlattenListTest(
         sprite.addScript(script)
         project = Project(context, PROJECT_NAME)
         project.defaultScene.addSprite(sprite)
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().currentSprite = sprite
+        inject(ProjectManager::class.java).value.currentProject = project
+        inject(ProjectManager::class.java).value.currentSprite = sprite
     }
 
     private fun buildFormula(): Formula {

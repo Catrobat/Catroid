@@ -40,6 +40,8 @@ import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(JUnit4.class)
 public class ProjectMergeTest {
 	Project project1;
@@ -82,14 +84,14 @@ public class ProjectMergeTest {
 
 	@Test
 	public void testProjectNoGlobalVariableConflicts() {
-		List<UserVariable> globalConflicts = ProjectManager.getInstance().getGlobalVariableConflicts(project1, project2);
+		List<UserVariable> globalConflicts = inject(ProjectManager.class).getValue().getGlobalVariableConflicts(project1, project2);
 		assertEquals(globalConflicts.size(), 0);
 	}
 
 	@Test
 	public void testProjectGlobalVariableConflict() {
 		project2.getUserVariable("testVariable").setValue(2);
-		List<UserVariable> globalConflicts = ProjectManager.getInstance().getGlobalVariableConflicts(project1, project2);
+		List<UserVariable> globalConflicts = inject(ProjectManager.class).getValue().getGlobalVariableConflicts(project1, project2);
 		assertEquals(globalConflicts.size(), 1);
 
 		assertEquals(globalConflicts.get(0), project1.getUserVariable("testVariable"));
@@ -97,14 +99,14 @@ public class ProjectMergeTest {
 
 	@Test
 	public void testProjectNoGlobalUserListConflicts() {
-		List<UserList> globalConflicts = ProjectManager.getInstance().getGlobalListConflicts(project1, project2);
+		List<UserList> globalConflicts = inject(ProjectManager.class).getValue().getGlobalListConflicts(project1, project2);
 		assertEquals(globalConflicts.size(), 0);
 	}
 
 	@Test
 	public void testProjectGlobalUserListConflicts() {
 		project2.getUserList("TestUserList").addListItem(1.0);
-		List<UserList> globalConflicts = ProjectManager.getInstance().getGlobalListConflicts(project1, project2);
+		List<UserList> globalConflicts = inject(ProjectManager.class).getValue().getGlobalListConflicts(project1, project2);
 		assertEquals(globalConflicts.size(), 1);
 	}
 }

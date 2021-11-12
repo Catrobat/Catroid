@@ -81,7 +81,7 @@ public class PhysicsLookDataTest {
 		String testImageFilename = PhysicsTestUtils.getInternalImageFilenameFromFilename("testImage.png");
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		File testImage = ResourceImporter.createImageFileFromResourcesInDirectory(
 				InstrumentationRegistry.getInstrumentation().getContext().getResources(),

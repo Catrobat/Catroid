@@ -67,7 +67,7 @@ public class PhysicsTestRule extends ExternalResource {
 		project.getDefaultScene().addSprite(sprite);
 
 		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		rectangle125x125File = ResourceImporter.createImageFileFromResourcesInDirectory(
 				InstrumentationRegistry.getInstrumentation().getContext().getResources(),

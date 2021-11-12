@@ -136,6 +136,7 @@ import org.junit.Test
 import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.java.KoinJavaComponent.inject
 
 @SuppressWarnings("LargeClass")
 @Category(AppUi::class, Smoke::class)
@@ -206,8 +207,8 @@ class FormulaEditorComputeDialogComputationResultTest(
             project.addUserList(UserList(userListRightName, userListRightElements))
         }
 
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().currentSprite = sprite
+        inject(ProjectManager::class.java).value.currentProject = project
+        inject(ProjectManager::class.java).value.currentSprite = sprite
     }
 
     companion object {

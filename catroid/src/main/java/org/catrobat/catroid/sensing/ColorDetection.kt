@@ -47,6 +47,7 @@ import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.StageListener
+import org.koin.java.KoinJavaComponent.inject
 
 abstract class ColorDetection(
     protected open val scope: Scope,
@@ -56,9 +57,9 @@ abstract class ColorDetection(
     protected var bufferWidth = 0
     protected var bufferHeight = 0
     protected var cameraBitmap: Bitmap? = null
-    protected val virtualHeight = ProjectManager.getInstance().currentProject.xmlHeader
+    protected val virtualHeight = inject(ProjectManager::class.java).value.currentProject.xmlHeader
         .virtualScreenHeight
-    protected val virtualWidth = ProjectManager.getInstance().currentProject.xmlHeader
+    protected val virtualWidth = inject(ProjectManager::class.java).value.currentProject.xmlHeader
         .virtualScreenWidth
 
     protected fun isLookInvalid(): Boolean =
@@ -108,7 +109,7 @@ abstract class ColorDetection(
     @RequiresApi(Build.VERSION_CODES.N)
     fun callPixelCopyWithSurfaceView(callback: (Bitmap?) -> Unit) {
         val surfaceView = StageActivity.getActiveCameraManager().previewView.surfaceView
-        val bitmap: Bitmap = if (ProjectManager.getInstance().isCurrentProjectLandscapeMode) {
+        val bitmap: Bitmap = if (inject(ProjectManager::class.java).value.isCurrentProjectLandscapeMode) {
             createNewBitmap(surfaceView.height, surfaceView.width)
         } else {
             createNewBitmap(surfaceView.width, surfaceView.height)

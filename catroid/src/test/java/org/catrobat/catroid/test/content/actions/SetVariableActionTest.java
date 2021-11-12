@@ -37,6 +37,8 @@ import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(JUnit4.class)
 public class SetVariableActionTest {
 
@@ -51,7 +53,7 @@ public class SetVariableActionTest {
 	public void setUp() throws Exception {
 		testSprite = new Sprite("testSprite");
 		project = new Project(MockUtil.mockContextForProject(), "testProject");
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		userVariable = new UserVariable(TEST_USERVARIABLE);
 		project.addUserVariable(userVariable);
 	}

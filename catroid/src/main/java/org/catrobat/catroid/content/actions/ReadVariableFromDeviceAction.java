@@ -31,6 +31,8 @@ import org.catrobat.catroid.io.DeviceVariableAccessor;
 
 import java.io.File;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class ReadVariableFromDeviceAction extends AsynchronousAction {
 	private UserVariable userVariable;
 	private boolean readActionFinished;
@@ -62,7 +64,7 @@ public class ReadVariableFromDeviceAction extends AsynchronousAction {
 
 		@Override
 		protected Void doInBackground(UserVariable[] userVariables) {
-			File projectDirectory = ProjectManager.getInstance().getCurrentProject().getDirectory();
+			File projectDirectory = inject(ProjectManager.class).getValue().getCurrentProject().getDirectory();
 			DeviceVariableAccessor accessor = new DeviceVariableAccessor(projectDirectory);
 
 			for (UserVariable variable: userVariables) {

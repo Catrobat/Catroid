@@ -37,6 +37,7 @@ import org.mockito.Mockito;
 import static junit.framework.Assert.assertEquals;
 
 import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(JUnit4.class)
 public class ForeverActionTest {
@@ -47,7 +48,7 @@ public class ForeverActionTest {
 	public void testLoopDelay() {
 		initializeStaticSingletonMethods();
 		Project project = Mockito.mock(Project.class);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		Mockito.doReturn(null).when(project).getSpriteListWithClones();
 		int deltaY = -10;
 

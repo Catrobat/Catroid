@@ -43,6 +43,7 @@ import androidx.test.espresso.Espresso;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionBarWrapper.onActionBar;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -75,15 +76,15 @@ public class ActionBarScriptTitleAfterExitingFormulaEditorTwoScenesProjectTest {
 
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentlyEditedScene(project.getDefaultScene());
 	}
 
 	@Test
 	public void actionBarScriptTitleTwoScenesProjectTest() {
-		String currentSceneName = ProjectManager.getInstance().getCurrentlyEditedScene().getName();
-		String currentSpriteName = ProjectManager.getInstance().getCurrentSprite().getName();
+		String currentSceneName = inject(ProjectManager.class).getValue().getCurrentlyEditedScene().getName();
+		String currentSpriteName = inject(ProjectManager.class).getValue().getCurrentSprite().getName();
 		String scriptsTitle = currentSceneName + ": " + currentSpriteName;
 
 		onActionBar()

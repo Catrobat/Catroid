@@ -36,6 +36,8 @@ import org.catrobat.catroid.io.LookFileGarbageCollector;
 import java.io.File;
 import java.lang.ref.WeakReference;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class ProjectLoadTask extends AsyncTask<Void, Void, Boolean> {
 
 	public static final String TAG = ProjectLoadTask.class.getSimpleName();
@@ -62,8 +64,8 @@ public class ProjectLoadTask extends AsyncTask<Void, Void, Boolean> {
 
 	public static boolean task(File projectDir, Context context) {
 		try {
-			ProjectManager.getInstance().loadProject(projectDir, context);
-			Project project = ProjectManager.getInstance().getCurrentProject();
+			inject(ProjectManager.class).getValue().loadProject(projectDir);
+			Project project = inject(ProjectManager.class).getValue().getCurrentProject();
 			new DeviceVariableAccessor(projectDir).cleanUpDeletedUserData(project);
 			new DeviceListAccessor(projectDir).cleanUpDeletedUserData(project);
 			new LookFileGarbageCollector().cleanUpUnusedLookFiles(project);

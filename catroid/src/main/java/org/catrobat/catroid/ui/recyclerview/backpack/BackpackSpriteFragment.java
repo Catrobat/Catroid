@@ -41,6 +41,7 @@ import java.util.List;
 import androidx.annotation.PluralsRes;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SPRITES_PREFERENCE_KEY;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite> {
 
@@ -60,8 +61,8 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 	@Override
 	protected void unpackItems(List<Sprite> selectedItems) {
 		setShowProgressBar(true);
-		Project dstProject = ProjectManager.getInstance().getCurrentProject();
-		Scene dstScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		Project dstProject = inject(ProjectManager.class).getValue().getCurrentProject();
+		Scene dstScene = inject(ProjectManager.class).getValue().getCurrentlyEditedScene();
 		int unpackedItemCnt = 0;
 
 		for (Sprite item : selectedItems) {

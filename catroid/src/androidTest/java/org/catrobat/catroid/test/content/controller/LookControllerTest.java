@@ -146,7 +146,7 @@ public class LookControllerTest {
 	private void createProject() throws IOException {
 		project = new Project(ApplicationProvider.getApplicationContext(), "LookControllerTest");
 		scene = project.getDefaultScene();
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);

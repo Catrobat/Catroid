@@ -30,6 +30,8 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class GatherCollisionInformationTask extends AsyncTask<Void, Void, Boolean> {
 
 	private static final String TAG = GatherCollisionInformationTask.class.getSimpleName();
@@ -54,7 +56,7 @@ public class GatherCollisionInformationTask extends AsyncTask<Void, Void, Boolea
 
 	private void getCollisionInformation() {
 		Log.i(TAG, "Waiting for all calculation threads to finish...");
-		for (Sprite s : ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList()) {
+		for (Sprite s : inject(ProjectManager.class).getValue().getCurrentlyEditedScene().getSpriteList()) {
 			for (LookData lookData : s.getLookList()) {
 				if (lookData.getCollisionInformation().collisionPolygonCalculationThread == null) {
 					continue;
@@ -67,8 +69,8 @@ public class GatherCollisionInformationTask extends AsyncTask<Void, Void, Boolea
 			}
 		}
 
-		for (Sprite s : ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList()) {
-			if (s.hasCollision(ProjectManager.getInstance().getCurrentlyEditedScene())) {
+		for (Sprite s : inject(ProjectManager.class).getValue().getCurrentlyEditedScene().getSpriteList()) {
+			if (s.hasCollision(inject(ProjectManager.class).getValue().getCurrentlyEditedScene())) {
 				for (LookData l : s.getLookList()) {
 					l.getCollisionInformation().loadCollisionPolygon();
 				}

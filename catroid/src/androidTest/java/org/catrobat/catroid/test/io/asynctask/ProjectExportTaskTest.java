@@ -61,6 +61,7 @@ import static org.catrobat.catroid.common.Constants.UNDO_CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 import static org.mockito.ArgumentMatchers.anyString;
 
 @RunWith(AndroidJUnit4.class)
@@ -82,7 +83,7 @@ public class ProjectExportTaskTest {
 		project = new Project(ApplicationProvider.getApplicationContext(),
 				ProjectExportTaskTest.class.getSimpleName());
 
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		saveProjectSerial(project, ApplicationProvider.getApplicationContext());
 
 		NotificationManager notificationManagerMock = Mockito.mock(NotificationManager.class);

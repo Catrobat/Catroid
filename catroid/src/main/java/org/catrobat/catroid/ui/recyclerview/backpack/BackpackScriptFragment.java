@@ -39,6 +39,8 @@ import java.util.List;
 
 import androidx.annotation.PluralsRes;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String> {
 
 	public static final String TAG = BackpackScriptFragment.class.getSimpleName();
@@ -56,7 +58,7 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 	protected void unpackItems(List<String> selectedItems) {
 		setShowProgressBar(true);
 		int unpackedItemCnt = 0;
-		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite sprite = inject(ProjectManager.class).getValue().getCurrentSprite();
 
 		for (String item : selectedItems) {
 			List<UserDefinedBrick> userDefinedBricks = BackpackListManager.getInstance().getBackpackedUserDefinedBricks().get(item);

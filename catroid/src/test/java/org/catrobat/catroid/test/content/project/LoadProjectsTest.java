@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.content.project;
 
-import android.content.Context;
-
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -44,6 +42,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.io.File;
 
 import static org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
+import static org.koin.java.KoinJavaComponent.inject;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
@@ -60,16 +59,15 @@ public class LoadProjectsTest {
 	private static final String RESTORE_PROJECT_STRING = "restorePreviousProject";
 	private ProjectManager projectManagerSpy;
 	private File fileMock;
-	private Context contextMock;
 	private Project projectMock;
 
 	@Before
 	public void setUp() throws Exception {
 		fileMock = Mockito.mock(File.class);
-		contextMock = Mockito.mock(Context.class);
 		projectMock = Mockito.mock(Project.class);
 		StaticSingletonInitializer.initializeStaticSingletonMethods();
-		projectManagerSpy = PowerMockito.spy(ProjectManager.getInstance());
+		projectManagerSpy =
+				PowerMockito.spy(inject(ProjectManager.class).getValue());
 		XstreamSerializer xstreamSerializerMock = PowerMockito.mock(XstreamSerializer.class);
 
 		PowerMockito.mockStatic(XstreamSerializer.class);
@@ -85,7 +83,7 @@ public class LoadProjectsTest {
 		when(projectMock.getCatrobatLanguageVersion()).thenReturn(INVALID_LANGUAGE_VERSION);
 
 		try {
-			projectManagerSpy.loadProject(fileMock, contextMock);
+			projectManagerSpy.loadProject(fileMock);
 		} finally {
 			PowerMockito.verifyPrivate(projectManagerSpy, times(1)).invoke(RESTORE_PROJECT_STRING,
 					any());
@@ -97,7 +95,7 @@ public class LoadProjectsTest {
 		when(projectMock.getCatrobatLanguageVersion()).thenReturn(TOO_BIG_LANGUAGE_VERSION);
 
 		try {
-			projectManagerSpy.loadProject(fileMock, contextMock);
+			projectManagerSpy.loadProject(fileMock);
 		} finally {
 			PowerMockito.verifyPrivate(projectManagerSpy, times(1)).invoke(RESTORE_PROJECT_STRING,
 					any());
@@ -108,7 +106,7 @@ public class LoadProjectsTest {
 	public void testOldestLanguageVersion() throws Exception {
 		when(projectMock.getCatrobatLanguageVersion()).thenReturn(OLDEST_LANGUAGE_VERSION);
 
-		projectManagerSpy.loadProject(fileMock, contextMock);
+		projectManagerSpy.loadProject(fileMock);
 
 		verify(projectMock, times(1)).setScreenMode(any());
 
@@ -147,7 +145,7 @@ public class LoadProjectsTest {
 	public void testCurrentLanguageVersion() throws Exception {
 		when(projectMock.getCatrobatLanguageVersion()).thenReturn(CURRENT_CATROBAT_LANGUAGE_VERSION);
 
-		projectManagerSpy.loadProject(fileMock, contextMock);
+		projectManagerSpy.loadProject(fileMock);
 
 		verify(projectMock, times(0)).setScreenMode(any());
 

@@ -161,7 +161,7 @@ public class ProjectOptionsTest {
 
 		assertFalse(projectFile.exists());
 
-		project = ProjectManager.getInstance().getCurrentProject();
+		project = inject(ProjectManager.class).getValue().getCurrentProject();
 		onView(withText(NEW_PROJECT_NAME))
 				.check(matches(isDisplayed()));
 		assertEquals(NEW_PROJECT_NAME, project.getName());
@@ -241,7 +241,7 @@ public class ProjectOptionsTest {
 
 		pressBack();
 
-		project = ProjectManager.getInstance().getCurrentProject();
+		project = inject(ProjectManager.class).getValue().getCurrentProject();
 		assertEquals(DESCRIPTION, project.getDescription());
 	}
 
@@ -254,7 +254,7 @@ public class ProjectOptionsTest {
 
 		pressBack();
 
-		project = ProjectManager.getInstance().getCurrentProject();
+		project = inject(ProjectManager.class).getValue().getCurrentProject();
 		assertEquals(NOTES_AND_CREDITS, project.getNotesAndCredits());
 	}
 
@@ -268,7 +268,7 @@ public class ProjectOptionsTest {
 		List<String> tagsList =
 				new ArrayList<>(Arrays.asList("Game", "Animation", "Tutorial"));
 
-		project = ProjectManager.getInstance().getCurrentProject();
+		project = inject(ProjectManager.class).getValue().getCurrentProject();
 		project.setTags(tagsList);
 
 		openContextualActionModeOverflowMenu();

@@ -85,7 +85,7 @@ public class ProjectUploadDialogTest {
 		this.project = new Project(ApplicationProvider.getApplicationContext(),
 				PROJECT_NAME, false);
 		Scene firstScene = new Scene("scene", project);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		Sprite firstSprite = new Sprite("firstSprite");
 		Script firstScript = new StartScript();
 		firstSprite.addScript(firstScript);
@@ -103,7 +103,7 @@ public class ProjectUploadDialogTest {
 		sharedPreferences.edit()
 				.remove(NUMBER_OF_UPLOADED_PROJECTS)
 				.commit();
-		ProjectManager.getInstance().setCurrentProject(null);
+		inject(ProjectManager.class).getValue().setCurrentProject(null);
 	}
 
 	@Test

@@ -109,7 +109,7 @@ public class CollisionInformationTest {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		String filename = PhysicsTestUtils.getInternalImageFilenameFromFilename("polygon_in_file.png");
 
@@ -136,7 +136,7 @@ public class CollisionInformationTest {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		String filename = "collision_donut.png";
 		String hashedFileName = Utils.md5Checksum(filename) + "_" + filename;
@@ -166,7 +166,7 @@ public class CollisionInformationTest {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		String filename = "collision_donut.png";
 		String hashedFileName = Utils.md5Checksum(filename) + "_" + filename;

@@ -45,6 +45,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<NfcTagData> {
 
 	private static final long serialVersionUID = 1L;
@@ -82,7 +84,7 @@ public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.On
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite currentSprite = inject(ProjectManager.class).getValue().getCurrentSprite();
 
 		List<Nameable> items = new ArrayList<>();
 		items.add(new NewOption(context.getString(R.string.brick_when_nfc_edit_list_of_nfc_tags)));

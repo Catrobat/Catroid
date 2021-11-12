@@ -55,6 +55,7 @@ import static org.catrobat.catroid.utils.ShowTextUtils.getStringAsInteger;
 import static org.catrobat.catroid.utils.ShowTextUtils.isNumberAndInteger;
 import static org.catrobat.catroid.utils.ShowTextUtils.isValidColorString;
 import static org.catrobat.catroid.utils.ShowTextUtils.sanitizeTextSize;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class ShowTextActor extends Actor {
 
@@ -97,8 +98,8 @@ public class ShowTextActor extends Actor {
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		drawVariables(ProjectManager.getInstance().getCurrentProject().getUserVariables(), batch);
-		drawVariables(ProjectManager.getInstance().getCurrentProject().getMultiplayerVariables(), batch);
+		drawVariables(inject(ProjectManager.class).getValue().getCurrentProject().getUserVariables(), batch);
+		drawVariables(inject(ProjectManager.class).getValue().getCurrentProject().getMultiplayerVariables(), batch);
 		drawVariables(sprite.getUserVariables(), batch);
 	}
 

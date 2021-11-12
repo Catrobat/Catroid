@@ -60,6 +60,8 @@ import java.util.Map;
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public final class SensorHandler implements SensorEventListener, SensorCustomEventListener, LocationListener,
 		GpsStatus.Listener {
 	private static final float RADIAN_TO_DEGREE_CONST = 180f / (float) Math.PI;
@@ -536,8 +538,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	}
 
 	private static int rotateOrientation() {
-		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode() ^ isDeviceDefaultRotationLandscape()) {
-			return ProjectManager.getInstance().isCurrentProjectLandscapeMode() ? 1 : -1;
+		if (inject(ProjectManager.class).getValue().isCurrentProjectLandscapeMode() ^ isDeviceDefaultRotationLandscape()) {
+			return inject(ProjectManager.class).getValue().isCurrentProjectLandscapeMode() ? 1 : -1;
 		}
 		return 0;
 	}

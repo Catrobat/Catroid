@@ -56,6 +56,7 @@ import org.catrobat.catroid.content.bricks.SetXBrick
 import org.catrobat.catroid.content.bricks.SetYBrick
 import org.catrobat.catroid.content.bricks.TurnLeftBrick
 import org.catrobat.catroid.content.bricks.TurnRightBrick
+import org.koin.java.KoinJavaComponent.inject
 import java.util.ArrayList
 import kotlin.reflect.KClass
 
@@ -86,9 +87,9 @@ object LoopUtil {
 
     @JvmStatic
     fun isAnyStitchRunning(): Boolean {
-        ProjectManager.getInstance() ?: return false
-        ProjectManager.getInstance().currentProject ?: return false
-        ProjectManager.getInstance().currentProject.spriteListWithClones?.forEach {
+        inject(ProjectManager::class.java).value ?: return false
+        inject(ProjectManager::class.java).value.currentProject ?: return false
+        inject(ProjectManager::class.java).value.currentProject.spriteListWithClones?.forEach {
             if (it.runningStitch.isRunning) {
                 return true
             }

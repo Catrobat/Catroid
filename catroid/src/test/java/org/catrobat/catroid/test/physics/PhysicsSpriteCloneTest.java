@@ -59,6 +59,8 @@ import java.io.IOException;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(JUnit4.class)
 public class PhysicsSpriteCloneTest {
 
@@ -76,7 +78,7 @@ public class PhysicsSpriteCloneTest {
 	@Before
 	public void setUp() throws Exception {
 		project = new Project(MockUtil.mockContextForProject(), getClass().getSimpleName());
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		sprite = new Sprite("TestSprite");
 		project.getDefaultScene().addSprite(sprite);

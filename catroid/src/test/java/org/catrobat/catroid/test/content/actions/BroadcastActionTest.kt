@@ -44,6 +44,7 @@ import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.java.KoinJavaComponent.inject
 import org.powermock.api.mockito.PowerMockito
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
@@ -67,7 +68,7 @@ class BroadcastActionTest {
         }
 
         Project(MockUtil.mockContextForProject(), "testProject").also { project ->
-            ProjectManager.getInstance().currentProject = project
+            inject(ProjectManager::class.java).value.currentProject = project
             project.defaultScene.addSprite(sprite)
         }
     }
@@ -165,7 +166,7 @@ class BroadcastActionTest {
     private fun executeAllActions() {
         sprite.initializeEventThreads(EventId.START)
         repeat(20) {
-            ProjectManager.getInstance().currentlyEditedScene.spriteList.forEach { sprite ->
+            inject(ProjectManager::class.java).value.currentlyEditedScene.spriteList.forEach { sprite ->
                 sprite.look.act(1f)
             }
             if (sprite.look.haveAllThreadsFinished()) {

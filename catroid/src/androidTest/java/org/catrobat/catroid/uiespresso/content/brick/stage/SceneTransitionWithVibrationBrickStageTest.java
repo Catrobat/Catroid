@@ -46,6 +46,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(AndroidJUnit4.class)
 public class SceneTransitionWithVibrationBrickStageTest {
 
@@ -84,7 +86,7 @@ public class SceneTransitionWithVibrationBrickStageTest {
 
 	private void createProject() {
 		project = new Project(ApplicationProvider.getApplicationContext(), getClass().getSimpleName());
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		createVibrationScene();
 		createCalmScene();
 	}

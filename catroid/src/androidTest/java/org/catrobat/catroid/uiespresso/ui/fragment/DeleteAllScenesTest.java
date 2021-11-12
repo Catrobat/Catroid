@@ -111,7 +111,7 @@ public class DeleteAllScenesTest {
 				.check(matches(isDisplayed()))
 				.perform(click());
 
-		assertEquals(1, ProjectManager.getInstance().getCurrentProject().getSceneList().size());
+		assertEquals(1, inject(ProjectManager.class).getValue().getCurrentProject().getSceneList().size());
 
 		onView(withText(secondSceneName))
 				.check(doesNotExist());
@@ -131,7 +131,7 @@ public class DeleteAllScenesTest {
 		Scene scene3 = new Scene(thirdSceneName, project);
 		project.addScene(scene2);
 		project.addScene(scene3);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		saveProjectSerial(project, ApplicationProvider.getApplicationContext());
 	}
 }

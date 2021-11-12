@@ -77,6 +77,7 @@ import static org.catrobat.catroid.common.SharedPreferenceKeys.INDEXING_VARIABLE
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SPRITES_PREFERENCE_KEY;
 import static org.catrobat.catroid.ui.WebViewActivity.INTENT_PARAMETER_URL;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
@@ -133,13 +134,13 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 		initializeAdapter();
 		super.onResume();
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_objects);
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Project currentProject = inject(ProjectManager.class).getValue().getCurrentProject();
 		String title;
 
 		if (currentProject.getSceneList().size() < 2) {
 			title = currentProject.getName();
 		} else {
-			Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+			Scene currentScene = inject(ProjectManager.class).getValue().getCurrentlyEditedScene();
 			title = currentProject.getName() + ": " + currentScene.getName();
 		}
 
@@ -191,7 +192,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	@Override
 	protected void initializeAdapter() {
 		sharedPreferenceDetailsKey = SHOW_DETAILS_SPRITES_PREFERENCE_KEY;
-		List<Sprite> items = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList();
+		List<Sprite> items = inject(ProjectManager.class).getValue().getCurrentlyEditedScene().getSpriteList();
 		adapter = new MultiViewSpriteAdapter(items);
 		emptyView.setText(R.string.fragment_sprite_text_description);
 		onAdapterReady();
@@ -237,8 +238,8 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	@Override
 	protected void copyItems(List<Sprite> selectedItems) {
 		setShowProgressBar(true);
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		Project currentProject = inject(ProjectManager.class).getValue().getCurrentProject();
+		Scene currentScene = inject(ProjectManager.class).getValue().getCurrentlyEditedScene();
 		int copiedItemCnt = 0;
 
 		for (Sprite item : selectedItems) {
@@ -295,7 +296,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 			Activity activity = getActivity();
 			Uri uri = Uri.fromFile(new File(data.getStringExtra(MEDIA_FILE_PATH)));
 
-			final Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+			final Scene currentScene = inject(ProjectManager.class).getValue().getCurrentlyEditedScene();
 
 			String resolvedName;
 			String resolvedFileName = StorageOperations.resolveFileName(activity.getContentResolver(), uri);
@@ -361,7 +362,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 				return;
 			}
 			if (actionModeType == NONE) {
-				ProjectManager.getInstance().setCurrentSprite(item);
+				inject(ProjectManager.class).getValue().setCurrentSprite(item);
 				Intent intent = new Intent(getActivity(), SpriteActivity.class);
 				intent.putExtra(SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 				startActivity(intent);

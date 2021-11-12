@@ -44,6 +44,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.ReplaceExistingProjectDialogF
 import org.catrobat.catroid.ui.recyclerview.dialog.ReplaceExistingProjectDialogFragment.projectExistsInDirectory
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
+import org.koin.java.KoinJavaComponent.inject
 import java.io.Serializable
 import java.io.UnsupportedEncodingException
 import java.lang.ref.WeakReference
@@ -142,7 +143,7 @@ class ProjectDownloader(
                 }
                 SUCCESS_CODE -> {
                     callbackWeakReference.get()?.onDownloadFinished(projectName, url)
-                    ProjectManager.getInstance().addNewDownloadedProject(projectName)
+                    inject(ProjectManager::class.java).value.addNewDownloadedProject(projectName)
                     queue.finished(projectName)
                 }
                 ERROR_CODE -> queue.finished(projectName)

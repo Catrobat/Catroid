@@ -89,7 +89,7 @@ public class SceneTransitionBrickStageTest {
 		Sprite firstBackground = firstScene.getBackgroundSprite();
 		Script firstStartScript = new StartScript();
 
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		firstBrickInScript = ScriptEvaluationGateBrick.appendToScript(firstStartScript);
 

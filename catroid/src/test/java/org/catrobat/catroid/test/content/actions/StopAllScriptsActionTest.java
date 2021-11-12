@@ -59,6 +59,8 @@ import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(GdxNativesLoader.class)
 public class StopAllScriptsActionTest {
@@ -80,7 +82,7 @@ public class StopAllScriptsActionTest {
 
 	private Project createProjectWithSprite(Sprite sprite) {
 		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		project.getDefaultScene().addSprite(sprite);
 
 		Array<Actor> actors = new Array<>();

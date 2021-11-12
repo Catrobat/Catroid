@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.common.Conversions.convertArgumentToDouble
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.StageListener
+import org.koin.java.KoinJavaComponent.inject
 import kotlin.math.roundToInt
 
 private const val COLOR_HEX_PREFIX = "#"
@@ -107,11 +108,11 @@ class ColorAtXYDetection(
     private fun isXCoordinateOnRightBorder() = xPosition == virtualWidth / 2
 
     private fun isYCoordinateOnTopBorderLandscape() =
-        ProjectManager.getInstance().isCurrentProjectLandscapeMode &&
+        inject(ProjectManager::class.java).value.isCurrentProjectLandscapeMode &&
             yPosition == virtualHeight / 2
 
     private fun isYCoordinateOnBottomBorderPortrait() =
-        !ProjectManager.getInstance().isCurrentProjectLandscapeMode &&
+        !inject(ProjectManager::class.java).value.isCurrentProjectLandscapeMode &&
             yPosition == -virtualHeight / 2
 
     private fun getHexColorStringFromStagePixmap(): String {
@@ -177,7 +178,7 @@ class ColorAtXYDetection(
             bitmap.height / 2
         )
 
-        val bitmapPixel = if (ProjectManager.getInstance().isCurrentProjectLandscapeMode) {
+        val bitmapPixel = if (inject(ProjectManager::class.java).value.isCurrentProjectLandscapeMode) {
             bitmap.getPixel(bitmapXCoordinateLandscape, bitmapYCoordinateLandscape)
         } else {
             bitmap.getPixel(bitmapXCoordinatePortrait, bitmapYCoordinatePortrait)

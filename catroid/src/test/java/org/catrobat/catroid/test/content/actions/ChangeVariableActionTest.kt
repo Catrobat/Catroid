@@ -23,17 +23,18 @@
 package org.catrobat.catroid.test.content.actions
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-import org.junit.Assert
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.test.MockUtil
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.java.KoinJavaComponent.inject
 
 @RunWith(Parameterized::class)
 class ChangeVariableActionTest(
@@ -69,7 +70,7 @@ class ChangeVariableActionTest(
         testSequence = SequenceAction()
         Project(MockUtil.mockContextForProject(), "testProject").apply {
             addUserVariable(userVariable)
-            ProjectManager.getInstance().currentProject = this
+            inject(ProjectManager::class.java).value.currentProject = this
         }
     }
 

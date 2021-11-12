@@ -108,18 +108,18 @@ public class WhenNfcBrickStageTest {
 
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
 
-		tagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
+		tagDataList = inject(ProjectManager.class).getValue().getCurrentSprite().getNfcTagList();
 		tagDataList.add(firstTagData);
 		tagDataList.add(secondTagData);
 
 		assertEquals("Sprite is not set as current", sprite,
-				ProjectManager.getInstance().getCurrentSprite());
+				inject(ProjectManager.class).getValue().getCurrentSprite());
 
 		assertEquals("Sprite NFC tag list is not set", sprite.getNfcTagList(),
-				ProjectManager.getInstance().getCurrentSprite().getNfcTagList());
+				inject(ProjectManager.class).getValue().getCurrentSprite().getNfcTagList());
 
 		numDetectedTags.setValue(0.0);
 		return script;

@@ -48,6 +48,7 @@ import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 import androidx.appcompat.app.AlertDialog;
 
 import static org.catrobat.catroid.utils.NumberFormats.trimTrailingCharacters;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class FormulaEditorComputeDialog extends AlertDialog implements SensorEventListener {
 
@@ -65,7 +66,7 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		ProjectManager projectManager = ProjectManager.getInstance();
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
 		if (projectManager.isCurrentProjectLandscapeMode()) {
 			setContentView(R.layout.dialog_formulaeditor_compute_landscape);
 			computeTextView = findViewById(R.id.formula_editor_compute_dialog_textview_landscape_mode);

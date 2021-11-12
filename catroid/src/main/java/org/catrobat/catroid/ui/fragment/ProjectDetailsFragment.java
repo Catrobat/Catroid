@@ -54,6 +54,7 @@ import java.util.Date;
 import androidx.fragment.app.Fragment;
 
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class ProjectDetailsFragment extends Fragment {
 
@@ -73,7 +74,7 @@ public class ProjectDetailsFragment extends Fragment {
 		try {
 			projectData = (ProjectData) getArguments().getSerializable(SELECTED_PROJECT_KEY);
 			project = XstreamSerializer.getInstance().loadProject(projectData.getDirectory(), getActivity());
-			ProjectManager.getInstance().setCurrentProject(project);
+			inject(ProjectManager.class).getValue().setCurrentProject(project);
 		} catch (IOException | LoadingProjectException e) {
 			ToastUtil.showError(getActivity(), R.string.error_load_project);
 			Log.e(TAG, Log.getStackTraceString(e));

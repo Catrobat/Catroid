@@ -49,6 +49,7 @@ import static org.catrobat.catroid.test.xmlformat.ClassDiscoverer.getAllSubClass
 import static org.catrobat.catroid.test.xmlformat.ClassDiscoverer.removeAbstractClasses;
 import static org.catrobat.catroid.test.xmlformat.ClassDiscoverer.removeInnerClasses;
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class UpdateVariableInFormulaBrickTest {
@@ -103,7 +104,7 @@ public class UpdateVariableInFormulaBrickTest {
 
 		project.addUserVariable(userVariable);
 		project.addUserList(userList);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 	}
 
 	@Test
@@ -116,7 +117,7 @@ public class UpdateVariableInFormulaBrickTest {
 			formulaBrick.setFormulaWithBrickField(k, newFormula);
 		});
 
-		ProjectManager.getInstance().getCurrentProject().updateUserDataReferences(VARIABLE_NAME,
+		inject(ProjectManager.class).getValue().getCurrentProject().updateUserDataReferences(VARIABLE_NAME,
 				NEW_VARIABLE_NAME,
 				userVariable);
 
@@ -136,7 +137,7 @@ public class UpdateVariableInFormulaBrickTest {
 			formulaBrick.setFormulaWithBrickField(k, newFormula);
 		});
 
-		ProjectManager.getInstance().getCurrentProject()
+		inject(ProjectManager.class).getValue().getCurrentProject()
 				.updateUserDataReferences(INVALID_NAME, NEW_VARIABLE_NAME, userVariable);
 
 		map.forEach((k, v) -> {
@@ -155,7 +156,7 @@ public class UpdateVariableInFormulaBrickTest {
 			formulaBrick.setFormulaWithBrickField(k, newFormula);
 		});
 
-		ProjectManager.getInstance().getCurrentProject()
+		inject(ProjectManager.class).getValue().getCurrentProject()
 				.updateUserDataReferences(VARIABLE_NAME, NEW_VARIABLE_NAME, userList);
 
 		map.forEach((k, v) -> {
@@ -174,7 +175,7 @@ public class UpdateVariableInFormulaBrickTest {
 			formulaBrick.setFormulaWithBrickField(k, newFormula);
 		});
 
-		ProjectManager.getInstance().getCurrentProject()
+		inject(ProjectManager.class).getValue().getCurrentProject()
 				.updateUserDataReferences(INVALID_NAME, NEW_VARIABLE_NAME, userList);
 
 		map.forEach((k, v) -> {

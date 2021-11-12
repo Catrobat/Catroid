@@ -44,6 +44,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.java.KoinJavaComponent.inject
 import java.lang.Math.max
 import java.lang.Math.min
 import java.lang.Math.toDegrees
@@ -85,7 +86,7 @@ class TwoParametersFunctionParserTest(
         sprite = Sprite("sprite")
         scope = Scope(project, sprite!!, SequenceAction())
         project.defaultScene.addSprite(sprite)
-        ProjectManager.getInstance().currentProject = project
+        inject(ProjectManager::class.java).value.currentProject = project
     }
 
     @Test

@@ -45,6 +45,8 @@ import java.util.List;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(GdxNativesLoader.class)
 public class ComeToFrontActionTest {
@@ -79,7 +81,7 @@ public class ComeToFrontActionTest {
 		project.getDefaultScene().addSprite(bottomSprite);
 		project.getDefaultScene().addSprite(middleSprite);
 		project.getDefaultScene().addSprite(topSprite);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(project);
 
@@ -147,7 +149,7 @@ public class ComeToFrontActionTest {
 			project.getDefaultScene().addSprite(sprite);
 		}
 
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		ActionFactory factory = firstSprite.getActionFactory();
 		Action action = factory.createComeToFrontAction(firstSprite);

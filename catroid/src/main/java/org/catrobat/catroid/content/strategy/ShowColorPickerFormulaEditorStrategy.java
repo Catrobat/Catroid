@@ -39,6 +39,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class ShowColorPickerFormulaEditorStrategy implements ShowFormulaEditorStrategy {
 	private static final int OPTION_PICK_COLOR = 0;
 	private static final int OPTION_FORMULA_EDIT_BRICK = 1;
@@ -100,7 +102,7 @@ public class ShowColorPickerFormulaEditorStrategy implements ShowFormulaEditorSt
 		int currentColor = callback.getValue();
 		ColorPickerDialog dialog = ColorPickerDialog.Companion.newInstance(currentColor);
 		Bitmap projectBitmap = ProjectManagerExtensionsKt
-				.getProjectBitmap(ProjectManager.getInstance());
+				.getProjectBitmap(inject(ProjectManager.class).getValue());
 		dialog.setBitmap(projectBitmap);
 		dialog.addOnColorPickedListener(callback::setValue);
 		dialog.show(fragmentManager, null);

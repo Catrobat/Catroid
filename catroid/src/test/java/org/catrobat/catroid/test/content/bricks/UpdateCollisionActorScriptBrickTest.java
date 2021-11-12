@@ -49,6 +49,7 @@ import static org.catrobat.catroid.test.xmlformat.ClassDiscoverer.getAllSubClass
 import static org.catrobat.catroid.test.xmlformat.ClassDiscoverer.removeAbstractClasses;
 import static org.catrobat.catroid.test.xmlformat.ClassDiscoverer.removeInnerClasses;
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(PowerMockRunner.class)
 @PowerMockRunnerDelegate(Parameterized.class)
@@ -95,8 +96,8 @@ public class UpdateCollisionActorScriptBrickTest {
 		scene.addSprite(sprite);
 		sprite.addScript(formulaBrick.getScript());
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(scene);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentlyEditedScene(scene);
 	}
 
 	@Test

@@ -42,6 +42,7 @@ import org.mockito.Mockito;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.koin.java.KoinJavaComponent.inject;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -65,7 +66,7 @@ public class WhenConditionScriptTest {
 
 	private void createProjectWithSprite(Sprite sprite) {
 		Project project = new Project(MockUtil.mockContextForProject(), "TestProject");
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		project.getDefaultScene().addSprite(sprite);
 	}
 

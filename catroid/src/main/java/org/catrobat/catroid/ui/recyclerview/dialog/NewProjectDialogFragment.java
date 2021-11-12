@@ -44,6 +44,7 @@ import androidx.fragment.app.DialogFragment;
 
 import static org.catrobat.catroid.common.DefaultProjectHandler.ProjectCreatorType.PROJECT_CREATOR_CAST;
 import static org.catrobat.catroid.common.DefaultProjectHandler.ProjectCreatorType.PROJECT_CREATOR_DEFAULT;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class NewProjectDialogFragment extends DialogFragment {
 
@@ -104,18 +105,18 @@ public class NewProjectDialogFragment extends DialogFragment {
 		try {
 			if (exampleProject) {
 				if (castProject) {
-					ProjectManager.getInstance()
+					inject(ProjectManager.class).getValue()
 							.createNewExampleProject(projectName, getContext(), PROJECT_CREATOR_CAST, false);
 				} else {
-					ProjectManager.getInstance()
+					inject(ProjectManager.class).getValue()
 							.createNewExampleProject(projectName, getContext(), PROJECT_CREATOR_DEFAULT, landscape);
 				}
 			} else {
 				if (castProject) {
-					ProjectManager.getInstance()
+					inject(ProjectManager.class).getValue()
 							.createNewEmptyProject(projectName, getContext(), false, true);
 				} else {
-					ProjectManager.getInstance()
+					inject(ProjectManager.class).getValue()
 							.createNewEmptyProject(projectName, getContext(), landscape, false);
 				}
 			}

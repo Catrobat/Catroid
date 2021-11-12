@@ -46,6 +46,8 @@ import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public abstract class UserListBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<UserList> {
 
 	protected UserList userList;
@@ -74,12 +76,12 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 	public View getView(Context context) {
 		super.getView(context);
 
-		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite sprite = inject(ProjectManager.class).getValue().getCurrentSprite();
 
 		List<Nameable> items = new ArrayList<>();
 		items.add(new NewOption(context.getString(R.string.new_option)));
 		items.addAll(sprite.getUserLists());
-		items.addAll(ProjectManager.getInstance().getCurrentProject().getUserLists());
+		items.addAll(inject(ProjectManager.class).getValue().getCurrentProject().getUserLists());
 
 		spinner = new BrickSpinner<>(getSpinnerId(), view, items);
 		spinner.setOnItemSelectedListener(this);
@@ -96,9 +98,9 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 		}
 
 		final List<UserList> projectUserList =
-				ProjectManager.getInstance().getCurrentProject().getUserLists();
+				inject(ProjectManager.class).getValue().getCurrentProject().getUserLists();
 		final List<UserList> spriteUserList =
-				ProjectManager.getInstance().getCurrentSprite().getUserLists();
+				inject(ProjectManager.class).getValue().getCurrentSprite().getUserLists();
 
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(activity);
 

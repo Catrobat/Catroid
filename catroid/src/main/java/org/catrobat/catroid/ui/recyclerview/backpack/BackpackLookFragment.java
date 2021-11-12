@@ -40,6 +40,7 @@ import java.util.List;
 import androidx.annotation.PluralsRes;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_LOOKS_PREFERENCE_KEY;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData> {
 
@@ -59,13 +60,13 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 	@Override
 	protected void unpackItems(List<LookData> selectedItems) {
 		setShowProgressBar(true);
-		Sprite destinationSprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite destinationSprite = inject(ProjectManager.class).getValue().getCurrentSprite();
 		int unpackedItemCnt = 0;
 
 		for (LookData item : selectedItems) {
 			try {
 				destinationSprite.getLookList().add(lookController.unpack(item,
-						ProjectManager.getInstance().getCurrentlyEditedScene(),
+						inject(ProjectManager.class).getValue().getCurrentlyEditedScene(),
 						destinationSprite));
 				unpackedItemCnt++;
 			} catch (IOException e) {

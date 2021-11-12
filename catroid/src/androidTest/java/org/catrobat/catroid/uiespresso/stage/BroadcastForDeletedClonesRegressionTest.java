@@ -47,6 +47,8 @@ import org.junit.runner.RunWith;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(AndroidJUnit4.class)
 public class BroadcastForDeletedClonesRegressionTest {
 
@@ -71,7 +73,7 @@ public class BroadcastForDeletedClonesRegressionTest {
 
 	private void createProject() {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), "BroadcastForDeletedClonesRegressionTest");
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		Sprite sprite = new Sprite("testSprite");
 
@@ -88,7 +90,7 @@ public class BroadcastForDeletedClonesRegressionTest {
 		sprite.addScript(broadcastReceiveScript);
 		broadCastReceived = ScriptEvaluationGateBrick.appendToScript(broadcastReceiveScript);
 
-		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().getCurrentlyEditedScene().addSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
 	}
 }

@@ -45,6 +45,8 @@ import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
 import java.io.IOException;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class SpriteController {
 
 	public static final String TAG = SpriteController.class.getSimpleName();
@@ -103,8 +105,8 @@ public class SpriteController {
 	public Sprite copyForCloneBrick(Sprite spriteToCopy) {
 		Sprite sprite = new Sprite(spriteToCopy.getName() + "-c" + StageActivity
 				.getAndIncrementNumberOfClonedSprites());
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		Project currentProject = inject(ProjectManager.class).getValue().getCurrentProject();
+		Scene currentScene = inject(ProjectManager.class).getValue().getCurrentlyEditedScene();
 
 		ScriptController scriptController = new ScriptController();
 
@@ -177,7 +179,7 @@ public class SpriteController {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
 		}
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		Scene currentScene = inject(ProjectManager.class).getValue().getCurrentlyEditedScene();
 		if (currentScene != null) {
 			currentScene.removeSpriteFromCloneBricks(spriteToDelete);
 		}

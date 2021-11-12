@@ -147,8 +147,8 @@ public class StageScreenshotTest {
 		blueLookData.setFile(blueImageFile);
 
 		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(blueSprite);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(blueSprite);
 		ScreenValueHandler.updateScreenWidthAndHeight(InstrumentationRegistry.getContext());
 	}
 }

@@ -43,6 +43,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.NEW_SPRITE_VISUAL_PLACEMENT_KEY;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.hamcrest.core.IsNot.not;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -109,7 +110,7 @@ public class SpriteListFragmentExplanationTextNoObjectsProjectTest {
 
 	private void createNoObjectsProject() {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), "SpriteListFragmentExplanationTextNoObjectsProjectTest");
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentlyEditedScene(project.getDefaultScene());
 	}
 }

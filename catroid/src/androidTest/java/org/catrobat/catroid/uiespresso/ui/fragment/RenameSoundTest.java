@@ -202,9 +202,9 @@ public class RenameSoundTest {
 		Sprite sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentlyEditedScene(project.getDefaultScene());
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
 		XstreamSerializer.getInstance().saveProject(project);
 
 		File soundFile0 = ResourceImporter.createSoundFileFromResourcesInDirectory(
@@ -213,7 +213,7 @@ public class RenameSoundTest {
 				new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME),
 				"longsound.mp3");
 
-		List<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		List<SoundInfo> soundInfoList = inject(ProjectManager.class).getValue().getCurrentSprite().getSoundList();
 		SoundInfo soundInfo0 = new SoundInfo();
 		soundInfo0.setFile(soundFile0);
 		soundInfo0.setName(oldSoundName);

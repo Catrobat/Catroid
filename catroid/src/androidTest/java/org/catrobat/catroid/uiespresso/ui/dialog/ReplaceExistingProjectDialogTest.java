@@ -129,6 +129,6 @@ public class ReplaceExistingProjectDialogTest {
 			saveProjectSerial(project, context);
 		}
 
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 	}
 }

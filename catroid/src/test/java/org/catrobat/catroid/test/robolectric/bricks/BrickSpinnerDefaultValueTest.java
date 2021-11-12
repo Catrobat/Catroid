@@ -83,6 +83,7 @@ import static junit.framework.TestCase.assertNotNull;
 
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
@@ -167,7 +168,7 @@ public class BrickSpinnerDefaultValueTest {
 		SharedPreferences.Editor sharedPreferencesEditor = PreferenceManager
 				.getDefaultSharedPreferences(activity.getApplicationContext()).edit();
 		sharedPreferencesEditor.clear().commit();
-		ProjectManager.getInstance().resetProjectManager();
+		inject(ProjectManager.class).getValue().resetProjectManager();
 	}
 
 	public void createProject(Context context) {
@@ -177,9 +178,9 @@ public class BrickSpinnerDefaultValueTest {
 		script.addBrick(new SetXBrick());
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentSprite(sprite);
+		inject(ProjectManager.class).getValue().setCurrentlyEditedScene(project.getDefaultScene());
 	}
 
 	private Brick getBrickFromCategoryBricksFactory() {

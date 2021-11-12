@@ -42,6 +42,8 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class PointToBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite>,
 		NewItemInterface<Sprite> {
 
@@ -76,9 +78,9 @@ public class PointToBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 
 		List<Nameable> items = new ArrayList<>();
 		items.add(new NewOption(context.getString(R.string.new_option)));
-		items.addAll(ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList());
-		items.remove(ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite());
-		items.remove(ProjectManager.getInstance().getCurrentSprite());
+		items.addAll(inject(ProjectManager.class).getValue().getCurrentlyEditedScene().getSpriteList());
+		items.remove(inject(ProjectManager.class).getValue().getCurrentlyEditedScene().getBackgroundSprite());
+		items.remove(inject(ProjectManager.class).getValue().getCurrentSprite());
 
 		spinner = new BrickSpinner<>(R.id.brick_point_to_spinner, view, items);
 		spinner.setOnItemSelectedListener(this);

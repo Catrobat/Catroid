@@ -59,6 +59,7 @@ import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.UserDataUtil.renameUserData
+import org.koin.java.KoinJavaComponent.inject
 import java.util.ArrayList
 import java.util.Collections
 
@@ -183,8 +184,8 @@ class DataListFragment : Fragment(),
         arguments?.getSerializable(PARENT_SCRIPT_BRICK_BUNDLE_ARGUMENT)
             .let { parentScriptBrick = it as ScriptBrick? }
 
-        val currentProject = ProjectManager.getInstance().currentProject
-        val currentSprite = ProjectManager.getInstance().currentSprite
+        val currentProject = inject(ProjectManager::class.java).value.currentProject
+        val currentSprite = inject(ProjectManager::class.java).value.currentSprite
 
         var userDefinedBrickInputs = listOf<UserDefinedBrickInput>()
         if (parentScriptBrick is UserDefinedReceiverBrick) {
@@ -210,8 +211,8 @@ class DataListFragment : Fragment(),
     }
 
     fun indexAndSort() {
-        val currentProject = ProjectManager.getInstance().currentProject
-        val currentSprite = ProjectManager.getInstance().currentSprite
+        val currentProject = inject(ProjectManager::class.java).value.currentProject
+        val currentSprite = inject(ProjectManager::class.java).value.currentSprite
 
         var userDefinedBrickInputs = listOf<UserDefinedBrickInput>()
         if (parentScriptBrick is UserDefinedReceiverBrick) {
@@ -420,7 +421,7 @@ class DataListFragment : Fragment(),
         for (item in selectedItems) {
             adapter?.remove(item)
         }
-        ProjectManager.getInstance().currentProject.deselectElements(selectedItems)
+        inject(ProjectManager::class.java).value.currentProject.deselectElements(selectedItems)
         ToastUtil.showSuccess(activity, resources.getQuantityString(R.plurals.deleted_Items,
                                                                     selectedItems.size, selectedItems.size))
     }
@@ -507,7 +508,7 @@ class DataListFragment : Fragment(),
 
         @JvmStatic
         fun updateUserDataReferences(oldName: String?, newName: String?, item: UserData<*>?) {
-            ProjectManager.getInstance().currentProject.updateUserDataReferences(oldName, newName, item)
+            inject(ProjectManager::class.java).value.currentProject.updateUserDataReferences(oldName, newName, item)
         }
 
         @JvmStatic

@@ -80,20 +80,20 @@ public class PlaySceneDialogTest {
 		onView(withText(firstSceneRadioButton))
 				.check(matches(isChecked()));
 
-		assertEquals(firstScene, ProjectManager.getInstance().getCurrentlyPlayingScene());
-		assertEquals(firstScene, ProjectManager.getInstance().getStartScene());
+		assertEquals(firstScene, inject(ProjectManager.class).getValue().getCurrentlyPlayingScene());
+		assertEquals(firstScene, inject(ProjectManager.class).getValue().getStartScene());
 
 		onView(withText(secondSceneRadioButton))
 				.perform(click());
 
-		assertEquals(secondScene, ProjectManager.getInstance().getCurrentlyPlayingScene());
-		assertEquals(secondScene, ProjectManager.getInstance().getStartScene());
+		assertEquals(secondScene, inject(ProjectManager.class).getValue().getCurrentlyPlayingScene());
+		assertEquals(secondScene, inject(ProjectManager.class).getValue().getStartScene());
 
 		onView(withText(firstSceneRadioButton))
 				.perform(click());
 
-		assertEquals(firstScene, ProjectManager.getInstance().getCurrentlyPlayingScene());
-		assertEquals(firstScene, ProjectManager.getInstance().getStartScene());
+		assertEquals(firstScene, inject(ProjectManager.class).getValue().getCurrentlyPlayingScene());
+		assertEquals(firstScene, inject(ProjectManager.class).getValue().getStartScene());
 	}
 
 	private void createProject(String projectName) {
@@ -102,7 +102,7 @@ public class PlaySceneDialogTest {
 		secondScene = new Scene("secondScene", project);
 		project.addScene(secondScene);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(secondScene);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentlyEditedScene(secondScene);
 	}
 }

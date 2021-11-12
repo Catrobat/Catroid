@@ -43,10 +43,11 @@ import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.ui.BottomBar.hideBottomBar
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter
+import org.catrobat.catroid.ui.hideKeyboard
 import org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.catrobat.catroid.utils.ToastUtil
-import org.catrobat.catroid.ui.hideKeyboard
+import org.koin.java.KoinJavaComponent.inject
 import java.util.Locale
 
 class BrickSearchFragment : ListFragment() {
@@ -179,8 +180,8 @@ class BrickSearchFragment : ListFragment() {
             onlyBeginnerBricks() -> CategoryBeginnerBricksFactory()
             else -> CategoryBricksFactory()
         }
-        val backgroundSprite = ProjectManager.getInstance().currentlyEditedScene.backgroundSprite
-        val sprite = ProjectManager.getInstance().currentSprite
+        val backgroundSprite = inject(ProjectManager::class.java).value.currentlyEditedScene.backgroundSprite
+        val sprite = inject(ProjectManager::class.java).value.currentSprite
         if (category != context?.getString(R.string.category_search_bricks)) {
             availableBricks.clear()
             availableBricks.addAll(categoryBricksFactory.getBricks(category, backgroundSprite.equals(sprite), requireContext()))

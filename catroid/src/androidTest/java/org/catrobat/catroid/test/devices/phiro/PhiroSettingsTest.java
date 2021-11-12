@@ -50,6 +50,7 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class PhiroSettingsTest {
@@ -76,8 +77,8 @@ public class PhiroSettingsTest {
 	public void testIfPhiroBricksAreEnabledIfItItUsedInAProgram() throws IOException, ProjectException {
 		assertFalse(SettingsFragment.isPhiroSharedPreferenceEnabled(ApplicationProvider.getApplicationContext()));
 
-		ProjectManager.getInstance()
-				.loadProject(project.getDirectory(), ApplicationProvider.getApplicationContext());
+		inject(ProjectManager.class).getValue()
+				.loadProject(project.getDirectory());
 
 		assertTrue(SettingsFragment.isPhiroSharedPreferenceEnabled(ApplicationProvider.getApplicationContext()));
 
@@ -96,7 +97,7 @@ public class PhiroSettingsTest {
 		sprite.addScript(startScript);
 		project.getDefaultScene().addSprite(sprite);
 
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		saveProjectSerial(project, ApplicationProvider.getApplicationContext());
 	}
 }

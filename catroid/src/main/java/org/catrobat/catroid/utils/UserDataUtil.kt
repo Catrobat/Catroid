@@ -27,11 +27,12 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.ListSelectorBrick
 import org.catrobat.catroid.formulaeditor.UserData
+import org.koin.java.KoinJavaComponent.inject
 
 object UserDataUtil {
     @JvmStatic
     fun containedInListSelector(dateName: String): Boolean {
-        return ProjectManager.getInstance().currentProject.sceneList.any { scene ->
+        return inject(ProjectManager::class.java).value.currentProject.sceneList.any { scene ->
             scene.spriteList.any { sprite ->
                 sprite.scriptList.any { script ->
                     val flatList = mutableListOf<Brick>()
@@ -53,10 +54,10 @@ object UserDataUtil {
                     data.name = name
                 }
             }
-            ProjectManager.getInstance()?.currentProject?.userLists?.forEach(rename)
-            ProjectManager.getInstance()?.currentSprite?.userLists?.forEach(rename)
-            ProjectManager.getInstance()?.currentProject?.userVariables?.forEach(rename)
-            ProjectManager.getInstance()?.currentSprite?.userVariables?.forEach(rename)
+            inject(ProjectManager::class.java).value?.currentProject?.userLists?.forEach(rename)
+            inject(ProjectManager::class.java).value?.currentSprite?.userLists?.forEach(rename)
+            inject(ProjectManager::class.java).value?.currentProject?.userVariables?.forEach(rename)
+            inject(ProjectManager::class.java).value?.currentSprite?.userVariables?.forEach(rename)
         } else {
             item.name = name
         }

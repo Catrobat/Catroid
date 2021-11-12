@@ -153,7 +153,7 @@ public class SoundControllerTest {
 	private void createProject() throws IOException {
 		project = new Project(ApplicationProvider.getApplicationContext(), "SoundControllerTest");
 		scene = project.getDefaultScene();
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 
 		sprite = new Sprite("testSprite");
 		scene.addSprite(sprite);

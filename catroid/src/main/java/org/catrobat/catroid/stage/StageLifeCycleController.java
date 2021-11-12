@@ -56,6 +56,7 @@ import java.util.List;
 import static org.catrobat.catroid.stage.StageResourceHolder.getProjectsRuntimePermissionList;
 import static org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask.checkPermission;
 import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public final class StageLifeCycleController {
 	public static final String TAG = StageLifeCycleController.class.getSimpleName();
@@ -67,7 +68,7 @@ public final class StageLifeCycleController {
 	}
 
 	static void stageCreate(final StageActivity stageActivity) {
-		if (ProjectManager.getInstance().getCurrentProject() == null) {
+		if (inject(ProjectManager.class).getValue().getCurrentProject() == null) {
 			stageActivity.finish();
 			Log.d(TAG, "no current project set, cowardly refusing to run");
 			return;
@@ -75,15 +76,15 @@ public final class StageLifeCycleController {
 
 		StageActivity.numberOfSpritesCloned = 0;
 
-		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+		if (inject(ProjectManager.class).getValue().isCurrentProjectLandscapeMode()) {
 			stageActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		} else {
 			stageActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
 
-		UserDataWrapper.resetAllUserData(ProjectManager.getInstance().getCurrentProject());
+		UserDataWrapper.resetAllUserData(inject(ProjectManager.class).getValue().getCurrentProject());
 
-		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+		for (Scene scene : inject(ProjectManager.class).getValue().getCurrentProject().getSceneList()) {
 			scene.firstStart = true;
 		}
 
@@ -96,7 +97,7 @@ public final class StageLifeCycleController {
 
 		stageActivity.configuration = new AndroidApplicationConfiguration();
 		stageActivity.configuration.r = stageActivity.configuration.g = stageActivity.configuration.b = stageActivity.configuration.a = 8;
-		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+		if (inject(ProjectManager.class).getValue().getCurrentProject().isCastProject()) {
 			stageActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 			stageActivity.setContentView(R.layout.activity_stage_gamepad);
 			CastManager.getInstance().initializeGamepadActivity(stageActivity);
@@ -163,10 +164,11 @@ public final class StageLifeCycleController {
 			if (bluetoothDeviceService != null) {
 				bluetoothDeviceService.pause();
 			}
+
 			if (stageActivity.vibrationManager != null) {
 				stageActivity.vibrationManager.pause();
 			}
-			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			if (inject(ProjectManager.class).getValue().getCurrentProject().isCastProject()) {
 				CastManager.getInstance().setRemoteLayoutToPauseScreen(stageActivity);
 			}
 		}
@@ -178,8 +180,8 @@ public final class StageLifeCycleController {
 		}
 
 		if (checkPermission(stageActivity, getProjectsRuntimePermissionList())) {
-			Brick.ResourcesSet resourcesSet = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
-			List<Sprite> spriteList = ProjectManager.getInstance().getCurrentlyPlayingScene().getSpriteList();
+			Brick.ResourcesSet resourcesSet = inject(ProjectManager.class).getValue().getCurrentProject().getRequiredResources();
+			List<Sprite> spriteList = inject(ProjectManager.class).getValue().getCurrentlyPlayingScene().getSpriteList();
 
 			SensorHandler.startSensorListener(stageActivity);
 
@@ -225,7 +227,7 @@ public final class StageLifeCycleController {
 				stageActivity.nfcAdapter.enableForegroundDispatch(stageActivity, stageActivity.pendingIntent, null, null);
 			}
 
-			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			if (inject(ProjectManager.class).getValue().getCurrentProject().isCastProject()) {
 				CastManager.getInstance().resumeRemoteLayoutFromPauseScreen();
 			}
 
@@ -252,13 +254,13 @@ public final class StageLifeCycleController {
 				stageActivity.cameraManager = null;
 			}
 			SensorHandler.destroy();
-			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			if (inject(ProjectManager.class).getValue().getCurrentProject().isCastProject()) {
 				CastManager.getInstance().onStageDestroyed();
 			}
 			StageActivity.stageListener.finish();
 			stageActivity.manageLoadAndFinish();
 			StageActivity.stageListener = null;
 		}
-		ProjectManager.getInstance().setCurrentlyPlayingScene(ProjectManager.getInstance().getCurrentlyEditedScene());
+		inject(ProjectManager.class).getValue().setCurrentlyPlayingScene(inject(ProjectManager.class).getValue().getCurrentlyEditedScene());
 	}
 }

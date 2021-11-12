@@ -53,6 +53,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import static org.catrobat.catroid.common.Constants.Z_INDEX_BACKGROUND;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SCENES_PREFERENCE_KEY;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class SceneListFragment extends RecyclerViewFragment<Scene> implements ProjectLoadTask.ProjectLoadListener {
 
@@ -63,14 +64,14 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> implements Pr
 	@Override
 	public void onResume() {
 		super.onResume();
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Project currentProject = inject(ProjectManager.class).getValue().getCurrentProject();
 
 		if (currentProject.getSceneList().size() < 2) {
-			ProjectManager.getInstance().setCurrentlyEditedScene(currentProject.getDefaultScene());
+			inject(ProjectManager.class).getValue().setCurrentlyEditedScene(currentProject.getDefaultScene());
 			switchToSpriteListFragment();
 		}
 
-		ProjectManager.getInstance().setCurrentlyEditedScene(currentProject.getDefaultScene());
+		inject(ProjectManager.class).getValue().setCurrentlyEditedScene(currentProject.getDefaultScene());
 		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(currentProject.getName());
 	}
 
@@ -90,7 +91,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> implements Pr
 	@Override
 	protected void initializeAdapter() {
 		sharedPreferenceDetailsKey = SHOW_DETAILS_SCENES_PREFERENCE_KEY;
-		List<Scene> items = ProjectManager.getInstance().getCurrentProject().getSceneList();
+		List<Scene> items = inject(ProjectManager.class).getValue().getCurrentProject().getSceneList();
 		adapter = new SceneAdapter(items);
 		onAdapterReady();
 	}
@@ -139,7 +140,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> implements Pr
 
 		for (Scene item : selectedItems) {
 			try {
-				adapter.add(sceneController.copy(item, ProjectManager.getInstance().getCurrentProject()));
+				adapter.add(sceneController.copy(item, inject(ProjectManager.class).getValue().getCurrentProject()));
 				copiedItemCnt++;
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
@@ -183,9 +184,9 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> implements Pr
 			createEmptySceneWithDefaultName();
 		}
 
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Project currentProject = inject(ProjectManager.class).getValue().getCurrentProject();
 		if (currentProject.getSceneList().size() < 2) {
-			ProjectManager.getInstance().setCurrentlyEditedScene(currentProject.getDefaultScene());
+			inject(ProjectManager.class).getValue().setCurrentlyEditedScene(currentProject.getDefaultScene());
 			switchToSpriteListFragment();
 		}
 	}
@@ -193,7 +194,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> implements Pr
 	private void createEmptySceneWithDefaultName() {
 		setShowProgressBar(true);
 
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Project currentProject = inject(ProjectManager.class).getValue().getCurrentProject();
 		Scene scene = new Scene(getString(R.string.default_scene_name), currentProject);
 
 		Sprite backgroundSprite = new Sprite(getString(R.string.background));
@@ -221,7 +222,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> implements Pr
 	public void renameItem(Scene item, String name) {
 		if (!item.getName().equals(name)) {
 			if (sceneController.rename(item, name)) {
-				Project currentProject = ProjectManager.getInstance().getCurrentProject();
+				Project currentProject = inject(ProjectManager.class).getValue().getCurrentProject();
 				new ProjectSaver(currentProject, getContext()).saveProjectAsync();
 			} else {
 				ToastUtil.showError(getActivity(), R.string.error_rename_scene);
@@ -237,7 +238,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> implements Pr
 			return;
 		}
 		if (actionModeType == NONE) {
-			ProjectManager.getInstance().setCurrentlyEditedScene(item);
+			inject(ProjectManager.class).getValue().setCurrentlyEditedScene(item);
 			getFragmentManager().beginTransaction()
 					.replace(R.id.fragment_container, new SpriteListFragment(), SpriteListFragment.TAG)
 					.addToBackStack(SpriteListFragment.TAG)
@@ -289,6 +290,6 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> implements Pr
 			ToastUtil.showError(getActivity(), R.string.error_load_project);
 			return;
 		}
-		adapter.setItems(ProjectManager.getInstance().getCurrentProject().getSceneList());
+		adapter.setItems(inject(ProjectManager.class).getValue().getCurrentProject().getSceneList());
 	}
 }
