@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,10 +31,12 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.stage.ShowBubbleActor;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 
 public class ThinkSayBubbleAction extends TemporalAction {
 	private static final String TAG = ThinkSayBubbleAction.class.getSimpleName();
 
+	private AndroidStringProvider androidStringProvider;
 	private Scope scope;
 	private Formula text;
 	private int type;
@@ -43,7 +45,7 @@ public class ThinkSayBubbleAction extends TemporalAction {
 	protected void update(float delta) {
 		ShowBubbleActor showBubbleActor;
 		try {
-			showBubbleActor = createBubbleActor();
+			showBubbleActor = createBubbleActor(androidStringProvider);
 		} catch (InterpretationException e) {
 			Log.d(TAG, "Failed to create Bubble Actor", e);
 			return;
@@ -57,12 +59,17 @@ public class ThinkSayBubbleAction extends TemporalAction {
 		}
 	}
 
-	public ShowBubbleActor createBubbleActor() throws InterpretationException {
-		String textToDisplay = text == null ? "" : text.interpretString(scope);
+	public ShowBubbleActor createBubbleActor(AndroidStringProvider stringProvider)
+			throws InterpretationException {
+		String textToDisplay = text == null ? "" : text.getUserFriendlyString(stringProvider, scope);
 		if (textToDisplay.isEmpty()) {
 			return null;
 		}
 		return new ShowBubbleActor(textToDisplay, scope.getSprite(), type);
+	}
+
+	public void setAndroidStringProvider(AndroidStringProvider androidStringProvider) {
+		this.androidStringProvider = androidStringProvider;
 	}
 
 	public void setScope(Scope scope) {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,6 +35,7 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.stage.ShowTextActor;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 
 public class ShowTextColorSizeAlignmentAction extends TemporalAction {
 
@@ -48,6 +49,7 @@ public class ShowTextColorSizeAlignmentAction extends TemporalAction {
 	private Scope scope;
 	private int alignment;
 	private ShowTextActor actor;
+	AndroidStringProvider androidStringProvider;
 
 	@Override
 	protected void begin() {
@@ -59,7 +61,7 @@ public class ShowTextColorSizeAlignmentAction extends TemporalAction {
 			if (StageActivity.stageListener != null) {
 				Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
 				ShowTextActor dummyActor = new ShowTextActor(new UserVariable("dummyActor"), 0,
-						0, relativeTextSize, color, scope.getSprite(), alignment);
+						0, relativeTextSize, color, scope.getSprite(), alignment, androidStringProvider);
 				for (Actor actor : stageActors) {
 					if (actor.getClass().equals(dummyActor.getClass())) {
 						ShowTextActor showTextActor = (ShowTextActor) actor;
@@ -69,7 +71,8 @@ public class ShowTextColorSizeAlignmentAction extends TemporalAction {
 						}
 					}
 				}
-				actor = new ShowTextActor(variableToShow, xPosition, yPosition, relativeTextSize, color, scope.getSprite(), alignment);
+				actor = new ShowTextActor(variableToShow, xPosition, yPosition, relativeTextSize,
+						color, scope.getSprite(), alignment, androidStringProvider);
 			}
 			if (relativeTextSize <= 0.f) {
 				variableToShow.setVisible(false);
@@ -120,5 +123,9 @@ public class ShowTextColorSizeAlignmentAction extends TemporalAction {
 
 	public void setAlignment(int alignment) {
 		this.alignment = alignment;
+	}
+
+	public void setAndroidStringProvider(AndroidStringProvider androidStringProvider) {
+		this.androidStringProvider = androidStringProvider;
 	}
 }

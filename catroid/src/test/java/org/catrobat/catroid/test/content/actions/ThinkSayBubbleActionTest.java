@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.test.content.actions;
 
+import android.content.Context;
+
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
@@ -39,6 +41,7 @@ import org.catrobat.catroid.stage.ShowBubbleActor;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.MockUtil;
+import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -56,13 +59,17 @@ import static junit.framework.TestCase.assertNotNull;
 @PrepareForTest({GdxNativesLoader.class, ShowBubbleActor.class, ThinkSayBubbleAction.class})
 public class ThinkSayBubbleActionTest {
 
+	Context contextMock = MockUtil.mockContextForProject();
+	AndroidStringProvider androidStringProviderMock = new AndroidStringProvider(contextMock);
+
 	@Before
 	public void setUp() throws Exception {
 		PowerMockito.mockStatic(GdxNativesLoader.class);
-		PowerMockito.whenNew(ShowBubbleActor.class).withAnyArguments().thenReturn(Mockito.mock(ShowBubbleActor.class));
+		PowerMockito.whenNew(ShowBubbleActor.class).withAnyArguments()
+				.thenReturn(Mockito.mock(ShowBubbleActor.class));
 		StageActivity.stageListener = Mockito.mock(StageListener.class);
 
-		Project project = new Project(MockUtil.mockContextForProject(), "Project");
+		Project project = new Project(contextMock, "Project");
 		ProjectManager.getInstance().setCurrentProject(project);
 	}
 
@@ -73,61 +80,79 @@ public class ThinkSayBubbleActionTest {
 
 	@Test
 	public void testCreateBubbleActor() throws Exception {
-		Formula emptyText = new Formula(new FormulaElement(FormulaElement.ElementType.STRING, "", null));
-		Formula normalText = new Formula(new FormulaElement(FormulaElement.ElementType.STRING, "not empty", null));
+		Formula emptyText = new Formula(
+				new FormulaElement(FormulaElement.ElementType.STRING, "", null));
+		Formula normalText = new Formula(
+				new FormulaElement(FormulaElement.ElementType.STRING, "not empty", null));
 		ActionFactory factory = new ActionFactory();
 
-		ThinkSayBubbleAction thinkActionEmptyText = (ThinkSayBubbleAction) factory.createThinkSayBubbleAction(Mockito
-				.mock(Sprite.class), Mockito.mock(SequenceAction.class), emptyText,
-				Constants.THINK_BRICK);
-		ThinkSayBubbleAction thinkActionNormalText = (ThinkSayBubbleAction) factory.createThinkSayBubbleAction(Mockito
-				.mock(Sprite.class), Mockito.mock(SequenceAction.class), normalText, Constants.THINK_BRICK);
+		ThinkSayBubbleAction thinkActionEmptyText =
+				(ThinkSayBubbleAction) factory.createThinkSayBubbleAction(
+						Mockito.mock(Sprite.class), Mockito.mock(SequenceAction.class),
+						androidStringProviderMock, emptyText, Constants.THINK_BRICK);
+		ThinkSayBubbleAction thinkActionNormalText =
+				(ThinkSayBubbleAction) factory.createThinkSayBubbleAction(
+						Mockito.mock(Sprite.class), Mockito.mock(SequenceAction.class),
+						androidStringProviderMock, normalText, Constants.THINK_BRICK);
 
-		assertNull(thinkActionEmptyText.createBubbleActor());
-		assertNotNull(thinkActionNormalText.createBubbleActor());
+		assertNull(thinkActionEmptyText.createBubbleActor(androidStringProviderMock));
+		assertNotNull(thinkActionNormalText.createBubbleActor(androidStringProviderMock));
 	}
 
 	@Test
 	public void testBasicThinkSayBubble() throws InterpretationException {
-		Mockito.when(StageActivity.stageListener.getBubbleActorForSprite(Mockito.any(Sprite.class))).thenReturn(null);
+		Mockito.when(StageActivity.stageListener.getBubbleActorForSprite(Mockito.any(Sprite.class)))
+				.thenReturn(null);
 
 		Sprite sprite = Mockito.mock(Sprite.class);
 		Formula text = Mockito.mock(Formula.class);
 		ShowBubbleActor actor = Mockito.mock(ShowBubbleActor.class);
 		ActionFactory factory = new ActionFactory();
-		ThinkSayBubbleAction thinkAction = (ThinkSayBubbleAction) factory.createThinkSayBubbleAction(sprite, new SequenceAction(), text, Constants.THINK_BRICK);
+		ThinkSayBubbleAction thinkAction =
+				(ThinkSayBubbleAction) factory.createThinkSayBubbleAction(sprite,
+						new SequenceAction(), androidStringProviderMock, text, Constants.THINK_BRICK);
 		thinkAction = Mockito.spy(thinkAction);
-		Mockito.doReturn(actor).when(thinkAction).createBubbleActor();
+		Mockito.doReturn(actor).when(thinkAction).createBubbleActor(androidStringProviderMock);
 
 		thinkAction.act(1f);
 
-		Mockito.verify(StageActivity.stageListener, Mockito.times(1)).setBubbleActorForSprite(sprite, actor);
-		Mockito.verify(StageActivity.stageListener, Mockito.never()).removeBubbleActorForSprite(sprite);
+		Mockito.verify(StageActivity.stageListener, Mockito.times(1))
+				.setBubbleActorForSprite(sprite, actor);
+		Mockito.verify(StageActivity.stageListener, Mockito.never())
+				.removeBubbleActorForSprite(sprite);
 	}
 
 	@Test
 	public void testRemoveThinkSayBubble() throws InterpretationException {
-		Mockito.when(StageActivity.stageListener.getBubbleActorForSprite(Mockito.any(Sprite.class))).thenReturn(null);
+		Mockito.when(StageActivity.stageListener.getBubbleActorForSprite(Mockito.any(Sprite.class)))
+				.thenReturn(null);
 		Sprite sprite = Mockito.mock(Sprite.class);
 		Formula text = Mockito.mock(Formula.class);
 		ShowBubbleActor actor = Mockito.mock(ShowBubbleActor.class);
 
 		ActionFactory factory = new ActionFactory();
-		ThinkSayBubbleAction thinkAction = (ThinkSayBubbleAction) factory.createThinkSayBubbleAction(sprite, new SequenceAction(), text,
-				Constants.THINK_BRICK);
-		ThinkSayBubbleAction thinkActionWithoutText = (ThinkSayBubbleAction) factory.createThinkSayBubbleAction(sprite,
-				new SequenceAction(), text, Constants.THINK_BRICK);
+		ThinkSayBubbleAction thinkAction =
+				(ThinkSayBubbleAction) factory.createThinkSayBubbleAction(sprite,
+						new SequenceAction(), androidStringProviderMock, text, Constants.THINK_BRICK);
+		ThinkSayBubbleAction thinkActionWithoutText =
+				(ThinkSayBubbleAction) factory.createThinkSayBubbleAction(sprite,
+						new SequenceAction(), androidStringProviderMock, text, Constants.THINK_BRICK);
 		thinkAction = Mockito.spy(thinkAction);
 		thinkActionWithoutText = Mockito.spy(thinkActionWithoutText);
-		Mockito.doReturn(actor).when(thinkAction).createBubbleActor();
-		Mockito.doReturn(null).when(thinkActionWithoutText).createBubbleActor();
+		Mockito.doReturn(actor)
+				.when(thinkAction).createBubbleActor(androidStringProviderMock);
+		Mockito.doReturn(null)
+				.when(thinkActionWithoutText).createBubbleActor(androidStringProviderMock);
 
 		thinkAction.act(1f);
-		Mockito.when(StageActivity.stageListener.getBubbleActorForSprite(Mockito.any(Sprite.class))).thenReturn(actor);
+		Mockito.when(StageActivity.stageListener.getBubbleActorForSprite(Mockito.any(Sprite.class)))
+				.thenReturn(actor);
 		thinkActionWithoutText.act(1f);
 
 		InOrder inOrder = Mockito.inOrder(StageActivity.stageListener);
-		inOrder.verify(StageActivity.stageListener, Mockito.times(1)).setBubbleActorForSprite(sprite, actor);
-		inOrder.verify(StageActivity.stageListener, Mockito.times(1)).removeBubbleActorForSprite(sprite);
+		inOrder.verify(StageActivity.stageListener, Mockito.times(1))
+				.setBubbleActorForSprite(sprite, actor);
+		inOrder.verify(StageActivity.stageListener, Mockito.times(1))
+				.removeBubbleActorForSprite(sprite);
 	}
 }

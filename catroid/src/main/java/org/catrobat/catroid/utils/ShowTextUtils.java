@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,16 @@
 
 package org.catrobat.catroid.utils;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
+
+import org.catrobat.catroid.CatroidApplication;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.formulaeditor.Formula;
+
+import static org.catrobat.catroid.utils.NumberFormats.toMetricUnitRepresentation;
+import static org.catrobat.catroid.utils.NumberFormats.trimTrailingCharacters;
 
 public final class ShowTextUtils {
 	public static final int DEFAULT_TEXT_SIZE = 45;
@@ -114,5 +122,42 @@ public final class ShowTextUtils {
 
 	public static String convertColorToString(int color) {
 		return String.format("#%02X%02X%02X", Color.red(color), Color.green(color), Color.blue(color));
+	}
+
+	public static String convertStringToMetricRepresentation(String value) {
+		String result = value;
+		try {
+			result = toMetricUnitRepresentation(Integer.parseInt(value));
+		} catch (NumberFormatException ignored) {
+		}
+		return result;
+	}
+
+	public static String convertObjectToString(Object object) {
+		if (object instanceof Boolean) {
+			return new AndroidStringProvider(CatroidApplication.getAppContext())
+					.getTrueOrFalse((Boolean) object);
+		} else {
+			return convertStringToMetricRepresentation(trimTrailingCharacters(object.toString()));
+		}
+	}
+
+	public static class AndroidStringProvider implements Formula.StringProvider {
+		private final String trueString;
+		private final String falseString;
+
+		public AndroidStringProvider(Context context) {
+			this.trueString = context.getString(R.string.formula_editor_true);
+			this.falseString = context.getString(R.string.formula_editor_false);
+		}
+
+		@Override
+		public String getTrueOrFalse(Boolean value) {
+			if (value) {
+				return trueString;
+			} else {
+				return falseString;
+			}
+		}
 	}
 }

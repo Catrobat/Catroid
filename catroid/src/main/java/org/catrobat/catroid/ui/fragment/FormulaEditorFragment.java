@@ -88,6 +88,7 @@ import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
 import org.catrobat.catroid.utils.ProjectManagerExtensionsKt;
+import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.paintroid.colorpicker.ColorPickerDialog;
@@ -801,13 +802,23 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 					brick.getUserDefinedBrick().getUserDefinedBrickInputs();
 			List<Object> inputNames = new ArrayList<>();
 			for (UserDefinedBrickInput input : inputs) {
-				inputNames.add(new UserVariable(input.getName()));
+				inputNames.add(convertUserDefinedBrickInputToUserVariable(input));
 			}
 
 			sequence = new ScriptSequenceAction(script);
 			((UserDefinedScript) (sequence.getScript())).setUserDefinedBrickInputs(inputNames);
 		}
 		return new Scope(project, sprite, sequence);
+	}
+
+	private UserVariable convertUserDefinedBrickInputToUserVariable(UserDefinedBrickInput input) {
+		return new UserVariable(
+				input.getName(),
+				input.getValue().getUserFriendlyString(
+						new AndroidStringProvider(getContext()),
+						null
+				)
+		);
 	}
 
 	public boolean saveFormulaIfPossible() {

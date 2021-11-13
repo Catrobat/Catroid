@@ -908,8 +908,48 @@ public class FormulaElement implements Serializable {
 		cloneThis.parent.rightChild = cloneThis;
 	}
 
-	public boolean isLogicalOperator() {
-		return (type == ElementType.OPERATOR) && Operators.getOperatorByValue(value).isLogicalOperator;
+	public boolean isBoolean(Scope scope) {
+		if (type == ElementType.USER_VARIABLE) {
+			return isUserVariableBoolean(scope);
+		} else if (type == ElementType.USER_LIST) {
+			return isUserListBoolean(scope);
+		} else if (type == ElementType.USER_DEFINED_BRICK_INPUT) {
+			return isUserDefinedBrickInputBoolean(scope);
+		} else {
+			return isOtherBooleanFormulaElement();
+		}
+	}
+
+	private boolean isUserVariableBoolean(Scope scope) {
+		UserVariable userVariable = UserDataWrapper.getUserVariable(value, scope);
+		return userVariable != null && userVariable.getValue() instanceof Boolean;
+	}
+
+	private boolean isUserListBoolean(Scope scope) {
+		List<Object> listValues = UserDataWrapper.getUserList(value, scope).getValue();
+		if (listValues.size() != 1) {
+			return false;
+		}
+		return listValues.get(0) instanceof Boolean;
+	}
+
+	private boolean isUserDefinedBrickInputBoolean(Scope scope) {
+		UserData userData = UserDataWrapper.getUserDefinedBrickInput(value, scope.getSequence());
+		if (userData != null && userData.getValue() instanceof Formula) {
+			return ((Formula) userData.getValue()).getRoot().isBoolean(scope);
+		} else {
+			return false;
+		}
+	}
+
+	private boolean isOtherBooleanFormulaElement() {
+		return (type == ElementType.FUNCTION
+				&& Functions.isBoolean(Functions.getFunctionByValue(value)))
+				|| (type == ElementType.SENSOR
+				&& Sensors.isBoolean(Sensors.getSensorByValue(value)))
+				|| (type == ElementType.OPERATOR
+				&& Operators.getOperatorByValue(value).isLogicalOperator)
+				|| type == ElementType.COLLISION_FORMULA;
 	}
 
 	public boolean containsElement(ElementType elementType) {

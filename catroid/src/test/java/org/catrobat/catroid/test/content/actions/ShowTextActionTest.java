@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import android.content.Context;
+
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.GdxNativesLoader;
@@ -33,6 +35,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.MockUtil;
+import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -55,10 +58,13 @@ public class ShowTextActionTest {
 	private UserVariable var1;
 	private Sprite secondSprite;
 
+	Context contextMock = MockUtil.mockContextForProject();
+	AndroidStringProvider androidStringProviderMock = new AndroidStringProvider(contextMock);
+
 	@Before
 	public void setUp() {
 		sprite = new Sprite(SPRITE_NAME);
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Project project = new Project(contextMock, "testProject");
 		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
@@ -81,11 +87,10 @@ public class ShowTextActionTest {
 	public void testShowVariablesVisibilitySameVariableNameAcrossSprites() {
 		ActionFactory factory = sprite.getActionFactory();
 		Action firstSpriteAction = factory.createShowVariableAction(sprite, new SequenceAction(),
-				new Formula(0), new Formula(0),
-				var0);
+				new Formula(0), new Formula(0), var0, androidStringProviderMock);
 		factory = secondSprite.getActionFactory();
-		Action secondSpriteAction = factory.createShowVariableAction(secondSprite, new SequenceAction(), new Formula(0), new Formula(0),
-				var1);
+		Action secondSpriteAction = factory.createShowVariableAction(secondSprite, new SequenceAction(),
+				new Formula(0), new Formula(0), var1, androidStringProviderMock);
 		firstSpriteAction.act(1.0f);
 		ProjectManager.getInstance().setCurrentSprite(secondSprite);
 		secondSpriteAction.act(1.0f);

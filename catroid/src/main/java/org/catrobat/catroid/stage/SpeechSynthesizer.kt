@@ -35,10 +35,9 @@ import com.huawei.hms.mlsdk.tts.MLTtsWarn
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
-import org.catrobat.catroid.formulaeditor.FormulaElement
-import org.catrobat.catroid.formulaeditor.InterpretationException
 import org.catrobat.catroid.utils.PcmToWavConverter.convertPcmToWav
 import org.catrobat.catroid.utils.PcmToWavConverter.writePcmToFile
+import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider
 import org.catrobat.catroid.utils.Utils
 import java.io.File
 
@@ -55,8 +54,14 @@ class SpeechSynthesizer(val scope: Scope?, val text: Formula?) {
 
     private var listener: Any? = null
 
-    fun synthesize() {
-        interpretFormula()
+    fun synthesize(androidStringProvider: AndroidStringProvider) {
+        val listener = listener ?: return
+        interpretedText = if (text != null) {
+            text.getUserFriendlyString(androidStringProvider, scope)
+        } else {
+            ""
+        }
+
         hashText = Utils.md5Checksum(interpretedText.toString())
         val fileName = hashText
         val pathToSpeechFile = File(Constants.TEXT_TO_SPEECH_TMP_PATH)
@@ -78,29 +83,6 @@ class SpeechSynthesizer(val scope: Scope?, val text: Formula?) {
             is MLTtsCallback -> {
                 HuaweiTextToSpeechHolder.mlTtsEngine.setTtsCallback(listener as MLTtsCallback)
                 HuaweiTextToSpeechHolder.instance.textToSpeech(interpretedText.toString())
-            }
-        }
-    }
-
-    private fun interpretFormula() {
-        interpretedText = try {
-            text?.interpretString(scope) ?: ""
-        } catch (interpretationException: InterpretationException) {
-            Log.d(
-                javaClass.simpleName,
-                "Formula interpretation for this specific Brick failed.",
-                interpretationException
-            )
-            ""
-        }
-        if (text?.root?.elementType != FormulaElement.ElementType.STRING && interpretedText is String) {
-            try {
-                val doubleValue = java.lang.Double.valueOf(interpretedText as String)
-                if (doubleValue.isNaN()) {
-                    interpretedText = ""
-                }
-            } catch (numberFormatException: NumberFormatException) {
-                Log.d(javaClass.simpleName, "Couldn't parse String", numberFormatException)
             }
         }
     }

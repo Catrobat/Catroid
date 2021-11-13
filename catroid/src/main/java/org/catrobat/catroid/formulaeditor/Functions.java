@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,9 +42,15 @@ public enum Functions {
 	public static final EnumSet<Functions> TEXT = EnumSet.of(LENGTH, LETTER, JOIN, JOIN3, REGEX);
 	public static final EnumSet<Functions> LIST = EnumSet.of(LIST_ITEM, CONTAINS, INDEX_OF_ITEM,
 			NUMBER_OF_ITEMS, FLATTEN);
+	public static final EnumSet<Functions> BOOLEAN = EnumSet.of(TRUE, FALSE, CONTAINS,
+			MULTI_FINGER_TOUCHED, COLLIDES_WITH_COLOR, COLOR_TOUCHES_COLOR, COLOR_EQUALS_COLOR);
 
 	public static boolean isFunction(String value) {
 		return EnumUtils.isValidEnum(Functions.class, value);
+	}
+
+	public static boolean isBoolean(Functions function) {
+		return BOOLEAN.contains(function);
 	}
 
 	public static Functions getFunctionByValue(String value) {

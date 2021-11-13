@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.utils
 
+import kotlin.math.abs
+
 class NumberFormats private constructor() {
     companion object {
         @JvmStatic
@@ -36,11 +38,21 @@ class NumberFormats private constructor() {
         @Suppress("MagicNumber")
         @JvmStatic
         fun toMetricUnitRepresentation(number: Int): String {
+            var prefix = ""
+            var absoluteNumber = number
+            if (number < 0) {
+                prefix = "-"
+                absoluteNumber = abs(number)
+            }
             return when {
-                number >= 1_000_000 -> "${number / 1_000_000}M"
-                number >= 10_000 && number % 1_000 > 100 -> "${number / 1_000}.${number % 1_000 / 100}k"
-                number >= 1_000 -> "${number / 1_000}k"
-                else -> number.toString()
+                absoluteNumber >= 1_000_000 ->
+                    "$prefix${absoluteNumber / 1_000_000}M"
+                absoluteNumber >= 10_000 && absoluteNumber % 1_000 > 100 ->
+                    "$prefix${absoluteNumber / 1_000}.${absoluteNumber % 1_000 / 100}k"
+                absoluteNumber >= 1_000 ->
+                    "$prefix${absoluteNumber / 1_000}k"
+                else ->
+                    number.toString()
             }
         }
     }
