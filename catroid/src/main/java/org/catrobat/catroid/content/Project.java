@@ -338,6 +338,10 @@ public class Project implements Serializable {
 		return null;
 	}
 
+	public boolean hasMultiplayerVariables() {
+		return multiplayerVariables.size() > 0;
+	}
+
 	public boolean addMultiplayerVariable(UserVariable multiplayerVariable) {
 		return multiplayerVariables.add(multiplayerVariable);
 	}

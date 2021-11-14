@@ -20,31 +20,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.bluetooth.base;
+package org.catrobat.catroid.devices.multiplayer
 
-import org.catrobat.catroid.devices.arduino.Arduino;
-import org.catrobat.catroid.devices.arduino.phiro.Phiro;
-import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
-import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
-import org.catrobat.catroid.devices.multiplayer.MultiplayerInterface;
-import org.catrobat.catroid.stage.StageResourceInterface;
+import org.catrobat.catroid.bluetooth.base.BluetoothDevice
+import org.catrobat.catroid.formulaeditor.UserVariable
+import java.io.InputStream
+import java.io.OutputStream
 
-import java.util.UUID;
-
-public interface BluetoothDevice extends StageResourceInterface {
-
-	Class<LegoNXT> LEGO_NXT = LegoNXT.class;
-	Class<LegoEV3> LEGO_EV3 = LegoEV3.class;
-	Class<Phiro> PHIRO = Phiro.class;
-	Class<Arduino> ARDUINO = Arduino.class;
-	Class<MultiplayerInterface> MULTIPLAYER = MultiplayerInterface.class;
-
-	String getName();
-	Class<? extends BluetoothDevice> getDeviceType();
-	void setConnection(BluetoothConnection connection);
-	void disconnect();
-
-	boolean isAlive();
-
-	UUID getBluetoothDeviceUUID();
+interface MultiplayerInterface : BluetoothDevice {
+    fun sendChangedMultiplayerVariables(multiplayerVariable: UserVariable?)
+    fun getChangedMultiplayerVariables(receivedData: ByteArray?)
+    fun setStreams(inputStream: InputStream?, outputStream: OutputStream?)
 }

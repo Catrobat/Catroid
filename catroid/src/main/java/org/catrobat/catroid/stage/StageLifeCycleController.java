@@ -204,7 +204,8 @@ public final class StageLifeCycleController {
 
 			if (resourcesSet.contains(Brick.BLUETOOTH_LEGO_NXT)
 					|| resourcesSet.contains(Brick.BLUETOOTH_PHIRO)
-					|| resourcesSet.contains(Brick.BLUETOOTH_SENSORS_ARDUINO)) {
+					|| resourcesSet.contains(Brick.BLUETOOTH_SENSORS_ARDUINO)
+					|| ProjectManager.getInstance().getCurrentProject().hasMultiplayerVariables()) {
 				try {
 					ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).start();
 				} catch (MindstormsException e) {

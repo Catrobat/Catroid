@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,16 +24,18 @@ package org.catrobat.catroid.bluetooth;
 
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothServerSocket;
+import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -51,8 +53,12 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
+import org.catrobat.catroid.devices.multiplayer.Multiplayer;
 import org.catrobat.catroid.utils.ToastUtil;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -79,6 +85,8 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 
 	private ArrayAdapter<String> pairedDevicesArrayAdapter;
 	private ArrayAdapter<Pair> newDevicesArrayAdapter;
+
+	private Handler handler;
 
 	private static BluetoothDeviceFactory getDeviceFactory() {
 		if (btDeviceFactory == null) {
@@ -186,7 +194,6 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 
 		@Override
 		protected void onPreExecute() {
-			setVisible(false);
 			connectingProgressDialog = ProgressDialog.show(ConnectBluetoothDeviceActivity.this, "",
 					getResources().getString(R.string.connecting_please_wait), true);
 		}
@@ -213,11 +220,11 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 			if (connectionState == BluetoothConnection.State.CONNECTED) {
 				btDevice.setConnection(btConnection);
 				result = RESULT_OK;
-				BluetoothDeviceService btDeviceService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
+
 				try {
-					btDeviceService.deviceConnected(btDevice);
-				} catch (MindstormsException e) {
-					ToastUtil.showError(ConnectBluetoothDeviceActivity.this, R.string.bt_connection_failed);
+					setDeviceConnected(btConnection.getInputStream(), btConnection.getOutputStream());
+				} catch (IOException exception) {
+					Log.e(TAG, exception.getMessage(), exception);
 				}
 			} else {
 				ToastUtil.showError(ConnectBluetoothDeviceActivity.this, R.string.bt_connection_failed);
@@ -225,6 +232,21 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 
 			setResult(result);
 			finish();
+		}
+	}
+
+	private void setDeviceConnected(InputStream inputStream, OutputStream outputStream) {
+		BluetoothDeviceService btDeviceService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
+		try {
+			if (btDevice instanceof Multiplayer) {
+				((Multiplayer) btDevice).setStreams(inputStream, outputStream);
+			}
+
+			if (btDeviceService != null) {
+				btDeviceService.deviceConnected(btDevice);
+			}
+		} catch (MindstormsException exception) {
+			ToastUtil.showError(this, R.string.bt_connection_failed);
 		}
 	}
 
@@ -239,18 +261,23 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 
 		setResult(AppCompatActivity.RESULT_CANCELED);
 
-		Button scanButton = (Button) findViewById(R.id.button_scan);
-		scanButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				doDiscovery();
-				view.setVisibility(View.GONE);
-			}
+		Button scanButton = findViewById(R.id.button_scan);
+		scanButton.setOnClickListener(view -> {
+			doDiscovery();
+			view.setVisibility(View.GONE);
 		});
 
-		pairedDevicesArrayAdapter = new ArrayAdapter<String>(this, R.layout.device_name);
+		Button skipButton = findViewById(R.id.button_skip);
+		skipButton.setOnClickListener(view -> {
+			setResult(AppCompatActivity.RESULT_OK);
+			finish();
+		});
+
+		handler = new Handler();
+
+		pairedDevicesArrayAdapter = new ArrayAdapter<>(this, R.layout.device_name);
 		newDevicesArrayAdapter = new ArrayAdapter<Pair>(this, R.layout.device_name,
-				new ArrayList<Pair>()) {
+				new ArrayList<>()) {
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
 				TextView view = (TextView) super.getView(position, convertView, parent);
@@ -259,11 +286,11 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 			}
 		};
 
-		ListView pairedListView = (ListView) findViewById(R.id.paired_devices);
+		ListView pairedListView = findViewById(R.id.paired_devices);
 		pairedListView.setAdapter(pairedDevicesArrayAdapter);
 		pairedListView.setOnItemClickListener(deviceClickListener);
 
-		ListView newDevicesListView = (ListView) findViewById(R.id.new_devices);
+		ListView newDevicesListView = findViewById(R.id.new_devices);
 		newDevicesListView.setAdapter(newDevicesArrayAdapter);
 		newDevicesListView.setOnItemClickListener(deviceClickListener);
 
@@ -276,6 +303,22 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 		int bluetoothState = activateBluetooth();
 		if (bluetoothState == BluetoothManager.BLUETOOTH_ALREADY_ON) {
 			listAndSelectDevices();
+			startAcceptThread();
+			activateBluetoothVisibility();
+		}
+	}
+
+	private void activateBluetoothVisibility() {
+		if (btDevice instanceof Multiplayer) {
+			Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+			startActivity(intent);
+		}
+	}
+
+	private void startAcceptThread() {
+		if (btDevice instanceof Multiplayer) {
+			Thread acceptThread = new AcceptThread();
+			acceptThread.start();
 		}
 	}
 
@@ -350,17 +393,75 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
 		Log.i(TAG, "Bluetooth activation activity returned");
 
 		switch (resultCode) {
 			case AppCompatActivity.RESULT_OK:
 				listAndSelectDevices();
+				startAcceptThread();
+				activateBluetoothVisibility();
 				break;
 			case AppCompatActivity.RESULT_CANCELED:
 				ToastUtil.showError(this, R.string.notification_blueth_err);
 				setResult(AppCompatActivity.RESULT_CANCELED);
 				finish();
 				break;
+		}
+	}
+
+	public class AcceptThread extends Thread {
+		private BluetoothServerSocket serverSocket;
+
+		AcceptThread() {
+			try {
+				serverSocket = BluetoothAdapter.getDefaultAdapter()
+						.listenUsingRfcommWithServiceRecord(getString(R.string.app_name), btDevice.getBluetoothDeviceUUID());
+			} catch (IOException exception) {
+				Log.e(TAG, "Creating ServerSocket failed!", exception);
+			}
+
+			((Multiplayer) btDevice).setAcceptThread(this);
+		}
+
+		public void run() {
+			BluetoothSocket socket = null;
+
+			do {
+				if (isInterrupted()) {
+					return;
+				}
+
+				try {
+					socket = serverSocket.accept();
+					if (serverSocket != null) {
+						serverSocket.close();
+					}
+				} catch (IOException exception) {
+					Log.d(TAG, exception.getMessage(), exception);
+				}
+			} while (socket == null);
+
+			handler.post(() -> {
+				setResult(RESULT_OK);
+				finish();
+			});
+
+			try {
+				((Multiplayer) btDevice).setBluetoothSocket(socket);
+				setDeviceConnected(socket.getInputStream(), socket.getOutputStream());
+			} catch (IOException exception) {
+				Log.e(TAG, exception.getMessage(), exception);
+			}
+		}
+
+		public void cancel() {
+			try {
+				serverSocket.close();
+				serverSocket = null;
+			} catch (IOException exception) {
+				Log.d(TAG, exception.getMessage(), exception);
+			}
 		}
 	}
 }

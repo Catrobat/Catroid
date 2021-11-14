@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,7 +39,7 @@ public class BluetoothDeviceServiceImpl implements BluetoothDeviceService {
 	private static final String TAG = BluetoothDeviceServiceImpl.class.getSimpleName();
 
 	private Map<Class<? extends BluetoothDevice>, BluetoothDevice> connectedDevices =
-			new HashMap<Class<? extends BluetoothDevice>, BluetoothDevice>();
+			new HashMap<>();
 
 	@Override
 	public ConnectDeviceResult connectDevice(Class<? extends BluetoothDevice> deviceToConnect,
@@ -82,7 +82,7 @@ public class BluetoothDeviceServiceImpl implements BluetoothDeviceService {
 				Log.e(TAG, e.getMessage());
 			}
 			device.disconnect();
-			connectedDevices.remove(device);
+			connectedDevices.remove(deviceToConnect);
 		}
 		return false;
 	}
