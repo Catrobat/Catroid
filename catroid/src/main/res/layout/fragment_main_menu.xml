@@ -26,7 +26,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:shimmer="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="@color/button_background"
     android:layout_marginTop="?attr/element_spacing"
@@ -171,25 +170,6 @@
                         android:text="@string/no_internet_connection"/>
 
                 </RelativeLayout>
-
-                <com.facebook.shimmer.ShimmerFrameLayout
-                    android:id="@+id/shimmerViewContainer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    shimmer:duration="800">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <include layout="@layout/main_menu_shimmer_dummy_view" />
-                        <include layout="@layout/main_menu_shimmer_dummy_view" />
-                        <include layout="@layout/main_menu_shimmer_dummy_view" />
-                        <include layout="@layout/main_menu_shimmer_dummy_view" />
-                        <include layout="@layout/main_menu_shimmer_dummy_view" />
-                    </LinearLayout>
-
-                </com.facebook.shimmer.ShimmerFrameLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/categoriesRecyclerView"

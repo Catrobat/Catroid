@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,11 +28,21 @@ import android.util.DisplayMetrics
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
+import org.catrobat.catroid.retrofit.models.ProjectCategoryWithResponses
+import org.catrobat.catroid.retrofit.models.ProjectResponse
+import org.catrobat.catroid.retrofit.models.ProjectResponseApi
+import org.catrobat.catroid.retrofit.models.ProjectsCategory
+import org.catrobat.catroid.retrofit.models.ProjectsCategoryApi
 
 fun ImageView.loadImageFromUrl(url: String) {
     Glide.with(context)
         .load(url)
+        .apply {
+            RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
+        }
         .centerInside()
         .transition(DrawableTransitionOptions.withCrossFade())
         .into(this)
@@ -51,3 +61,40 @@ fun View.setVisibleOrGone(show: Boolean) {
         View.GONE
     }
 }
+
+fun List<ProjectResponseApi>.toProjectResponsesList(projectType: String): List<ProjectResponse> {
+    return this.map { src ->
+        ProjectResponse(
+            id = src.id,
+            name = src.name,
+            author = src.author,
+            description = src.description,
+            version = src.version,
+            views = src.views,
+            download = src.download,
+            private = src.private,
+            flavor = src.flavor,
+            tags = src.tags,
+            uploaded = src.uploaded,
+            uploadedString = src.uploaded_string,
+            screenshotSmall = src.screenshot_small,
+            screenshotLarge = src.screenshot_large,
+            projectUrl = src.project_url,
+            downloadUrl = src.download_url,
+            fileSize = src.filesize,
+            categoryType = projectType
+        )
+    }.toMutableList()
+}
+
+fun ProjectsCategoryApi.convertToProjectsCategory() = ProjectsCategory(this.type, this.name)
+
+fun ProjectsCategoryApi.toProjectCategoryWithResponses(): ProjectCategoryWithResponses {
+    return ProjectCategoryWithResponses(
+        this.convertToProjectsCategory(),
+        this.projectsList.toProjectResponsesList(type)
+    )
+}
+
+fun List<ProjectsCategoryApi>.toProjectCategoryWithResponsesList() =
+    this.map { it.toProjectCategoryWithResponses() }.toMutableList()

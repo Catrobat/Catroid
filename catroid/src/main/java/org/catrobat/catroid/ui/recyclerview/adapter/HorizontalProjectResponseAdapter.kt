@@ -67,9 +67,9 @@ class HorizontalProjectResponseAdapter :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
-        holder.imageView.loadImageFromUrl(item.screenshot_small)
+        holder.imageView.loadImageFromUrl(item.screenshotSmall)
         holder.itemView.setOnClickListener {
-            callback.onFeatureProjectClicked(item.project_url)
+            callback.onFeatureProjectClicked(item.projectUrl)
         }
     }
 

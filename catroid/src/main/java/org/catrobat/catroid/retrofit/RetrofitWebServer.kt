@@ -29,7 +29,7 @@ import org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION
 import org.catrobat.catroid.common.Constants.RETROFIT_WRITE_TIMEOUT
 import org.catrobat.catroid.common.FlavoredConstants.FLAVOR_NAME
 import org.catrobat.catroid.retrofit.models.FeaturedProject
-import org.catrobat.catroid.retrofit.models.ProjectsCategory
+import org.catrobat.catroid.retrofit.models.ProjectsCategoryApi
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -52,7 +52,7 @@ interface WebService {
     fun getProjectCategories(
         @Query("max_version") maxVersion: String = CURRENT_CATROBAT_LANGUAGE_VERSION.toString(),
         @Query("flavor") flavor: String = FLAVOR_NAME
-    ): Call<List<ProjectsCategory>>
+    ): Call<List<ProjectsCategoryApi>>
 }
 
 class CatroidWebServer private constructor() {

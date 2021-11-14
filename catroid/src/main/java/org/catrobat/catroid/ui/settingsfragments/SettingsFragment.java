@@ -43,6 +43,7 @@ import org.catrobat.catroid.common.DroneConfigPreference;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.sync.ProjectsCategoriesSync;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.utils.SnackbarUtil;
 
@@ -58,6 +59,7 @@ import static org.catrobat.catroid.CatroidApplication.defaultSystemLanguage;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAGS;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAG_KEY;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class SettingsFragment extends PreferenceFragment {
 
@@ -512,6 +514,7 @@ public class SettingsFragment extends PreferenceFragment {
 			setLanguageSharedPreference(getActivity().getBaseContext(), selectedLanguageTag);
 			startActivity(new Intent(getActivity().getBaseContext(), MainMenuActivity.class));
 			getActivity().finishAffinity();
+			new Thread(() -> inject(ProjectsCategoriesSync.class).getValue().sync(true));
 			return true;
 		});
 	}
