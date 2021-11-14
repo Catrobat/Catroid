@@ -292,6 +292,11 @@ public class UserDefinedBrick extends FormulaBrick {
 	}
 
 	@Override
+	public boolean hasEditableFormulaField() {
+		return containsInputs();
+	}
+
+	@Override
 	public void setClickListeners() {
 		for (BiMap.Entry<FormulaField, TextView> entry : formulaFieldToTextViewMap.entrySet()) {
 			TextView brickFieldView = entry.getValue();

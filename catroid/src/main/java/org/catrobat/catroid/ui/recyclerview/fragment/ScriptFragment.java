@@ -657,7 +657,8 @@ public class ScriptFragment extends ListFragment implements
 				.show();
 	}
 
-	private List<Integer> getContextMenuItems(Brick brick) {
+	@VisibleForTesting
+	public static List<Integer> getContextMenuItems(Brick brick) {
 		List<Integer> items = new ArrayList<>();
 
 		if (brick instanceof UserDefinedReceiverBrick) {
@@ -680,7 +681,7 @@ public class ScriptFragment extends ListFragment implements
 
 			items.add(R.string.brick_context_dialog_delete_script);
 
-			if (brick instanceof FormulaBrick) {
+			if (brick instanceof FormulaBrick && ((FormulaBrick) brick).hasEditableFormulaField()) {
 				items.add(R.string.brick_context_dialog_formula_edit_brick);
 			}
 			items.add(R.string.brick_context_dialog_move_script);
@@ -699,14 +700,8 @@ public class ScriptFragment extends ListFragment implements
 			if (brick instanceof VisualPlacementBrick && ((VisualPlacementBrick) brick).areAllBrickFieldsNumbers()) {
 				items.add(R.string.brick_option_place_visually);
 			}
-			if (brick instanceof FormulaBrick) {
-				if (brick instanceof UserDefinedBrick) {
-					if (((UserDefinedBrick) brick).containsInputs()) {
-						items.add(R.string.brick_context_dialog_formula_edit_brick);
-					}
-				} else {
-					items.add(R.string.brick_context_dialog_formula_edit_brick);
-				}
+			if (brick instanceof FormulaBrick && ((FormulaBrick) brick).hasEditableFormulaField()) {
+				items.add(R.string.brick_context_dialog_formula_edit_brick);
 			}
 			if (brick.equals(brick.getAllParts().get(0))) {
 				items.add(R.string.brick_context_dialog_move_brick);
