@@ -114,7 +114,7 @@ public class BrickSpinnerTest {
 	public static Collection<Object[]> data() {
 		return asList(new Object[][] {
 				{SceneTransitionBrick.class.getSimpleName(), new SceneTransitionBrick(""), R.id.brick_scene_transition_spinner, "Scene 2", asList("new…", "Scene 2")},
-				{SceneStartBrick.class.getSimpleName(), new SceneStartBrick(""), R.id.brick_scene_start_spinner, "Scene (1)", asList("new…", "Scene (1)", "Scene 2")},
+				{SceneStartBrick.class.getSimpleName(), new SceneStartBrick(""), R.id.brick_scene_start_spinner, "Scene", asList("new…", "Scene", "Scene 2")},
 				{CloneBrick.class.getSimpleName(), new CloneBrick(), R.id.brick_clone_spinner, "yourself", asList("yourself", "otherTestSprite")},
 				{SetNfcTagBrick.class.getSimpleName(), new SetNfcTagBrick(), R.id.brick_set_nfc_tag_ndef_record_spinner, "HTTPS", asList("Text", "HTTP", "HTTPS", "SMS", "Phone number", "E-Mail", "External type", "Empty")},
 				{GoToBrick.class.getSimpleName(), new GoToBrick(), R.id.brick_go_to_spinner, "touch position", asList("touch position", "random position", "otherTestSprite")},
@@ -179,7 +179,7 @@ public class BrickSpinnerTest {
 		View brickView = brick.getView(activity);
 		assertNotNull(brickView);
 
-		brickSpinner = (Spinner) brickView.findViewById(spinnerId);
+		brickSpinner = brickView.findViewById(spinnerId);
 		assertNotNull(brickSpinner);
 	}
 

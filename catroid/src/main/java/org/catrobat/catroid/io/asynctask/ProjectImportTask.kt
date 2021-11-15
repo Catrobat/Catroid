@@ -74,7 +74,8 @@ class ProjectImportTask(private val filesToImport: List<File>) :
 
         private fun importProject(projectDir: File): Boolean {
             var projectName = getProjectName(projectDir) ?: return false
-            projectName = getUniqueNameOfImportedProjects(projectName)
+            projectName = UniqueNameProvider().getUniqueName(projectName, FileMetaDataExtractor
+                .getProjectNames(FlavoredConstants.DEFAULT_ROOT_DIRECTORY))
             val destinationDirectory = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY,
                 FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName))
             return try {
@@ -99,18 +100,6 @@ class ProjectImportTask(private val filesToImport: List<File>) :
                 Log.d(TAG, "Cannot extract projectName from xml", e)
                 null
             }
-        }
-
-        private fun getUniqueNameOfImportedProjects(projectName: String): String {
-            val uniqueNameProvider: UniqueNameProvider = object : UniqueNameProvider() {
-                override fun getUniqueName(name: String, scope: List<String>): String {
-                    return if (!scope.contains(name)) {
-                        name
-                    } else super.getUniqueName(name, scope)
-                }
-            }
-            return uniqueNameProvider.getUniqueName(projectName,
-                FileMetaDataExtractor.getProjectNames(FlavoredConstants.DEFAULT_ROOT_DIRECTORY))
         }
 
         private fun copyProject(projectDir: File, destinationDirectory: File, projectName: String) {

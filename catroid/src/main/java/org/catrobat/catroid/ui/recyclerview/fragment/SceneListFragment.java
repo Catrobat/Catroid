@@ -194,7 +194,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> implements Pr
 		setShowProgressBar(true);
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Scene scene = new Scene(getString(R.string.default_scene_name, 1), currentProject);
+		Scene scene = new Scene(getString(R.string.default_scene_name), currentProject);
 
 		Sprite backgroundSprite = new Sprite(getString(R.string.background));
 		backgroundSprite.look.setZIndex(Z_INDEX_BACKGROUND);

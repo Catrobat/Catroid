@@ -169,7 +169,7 @@ public class SpriteFromGalleryIntentTest {
 				.perform(click());
 
 		onRecyclerView().atPosition(1).onChildView(R.id.title_view)
-				.check(matches(withText(lookFileName.replace(".png", " (1)"))));
+				.check(matches(withText(lookFileName.replace(".png", ""))));
 	}
 
 	private void createProject(String projectName) {

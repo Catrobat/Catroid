@@ -84,7 +84,7 @@ class RenameSceneTest {
         val cancelString = applicationContext.getString(R.string.cancel)
         val okString = applicationContext.getString(R.string.ok)
         val renameSceneDialogString = applicationContext.getString(R.string.rename_scene_dialog)
-        val oldSceneName = applicationContext.getString(R.string.default_scene_name, 1)
+        val oldSceneName = applicationContext.getString(R.string.default_scene_name)
 
         openActionBar()
         onView(withText(renameSceneString))

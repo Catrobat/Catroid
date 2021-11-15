@@ -25,7 +25,6 @@ package org.catrobat.catroid.ui.recyclerview.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.preference.PreferenceManager;
@@ -178,21 +177,11 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 	private void showNewGroupDialog() {
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
-		List<Sprite> groups = adapter.getItems();
-		List<String> groupNames = new ArrayList<>();
-		for (Sprite sprite : groups) {
-			groupNames.add(sprite.getName());
-		}
 		UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();
 		builder.setHint(getString(R.string.sprite_group_name_label))
 				.setTextWatcher(new DuplicateInputTextWatcher<>(adapter.getItems()))
-				.setText(uniqueNameProvider.getUniqueName(getString(R.string.default_group_name), groupNames))
-				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
-					@Override
-					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
-						adapter.add(new GroupSprite(textInput));
-					}
-				});
+				.setText(uniqueNameProvider.getUniqueNameInNameables(getString(R.string.default_group_name), adapter.getItems()))
+				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> adapter.add(new GroupSprite(textInput)));
 
 		builder.setTitle(R.string.new_group)
 				.setNegativeButton(R.string.cancel, null)

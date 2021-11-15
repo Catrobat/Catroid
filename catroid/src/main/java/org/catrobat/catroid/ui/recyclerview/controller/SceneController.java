@@ -23,11 +23,9 @@
 
 package org.catrobat.catroid.ui.recyclerview.controller;
 
-import android.content.res.Resources;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
@@ -42,7 +40,6 @@ import org.catrobat.catroid.utils.FileMetaDataExtractor;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
@@ -54,26 +51,6 @@ public class SceneController {
 
 	private UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();
 	private SpriteController spriteController = new SpriteController();
-
-	public static String getUniqueDefaultSceneName(Resources resources, List<Scene> scope) {
-
-		for (int i = 1; i < Integer.MAX_VALUE; i++) {
-			String name = resources.getString(R.string.default_scene_name, i);
-
-			boolean isNameUnique = true;
-			for (Scene scene : scope) {
-				if (scene.getName().equals(name)) {
-					isNameUnique = false;
-				}
-			}
-
-			if (isNameUnique) {
-				return name;
-			}
-		}
-
-		throw new IllegalStateException("Could not find new Scene name.");
-	}
 
 	public static Scene newSceneWithBackgroundSprite(String sceneName, String backgroundName, Project dstProject) {
 		Scene scene = new Scene(sceneName, dstProject);
