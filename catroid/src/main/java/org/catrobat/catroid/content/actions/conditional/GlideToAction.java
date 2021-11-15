@@ -29,7 +29,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.physics.PhysicsObject;
 
 public class GlideToAction extends TemporalAction {
 
@@ -49,8 +48,6 @@ public class GlideToAction extends TemporalAction {
 	private float velocityYValue = 0;
 
 	private boolean restart = false;
-
-	private PhysicsObject physicsObject;
 
 	@Override
 	protected void begin() {
@@ -101,6 +98,10 @@ public class GlideToAction extends TemporalAction {
 			velocityXValue = (endXValue - startXValue) / durationValue;
 			velocityYValue = (endYValue - startYValue) / durationValue;
 		}
+
+		scope.getSprite().setGlidingVelocityX(velocityXValue);
+		scope.getSprite().setGlidingVelocityY(velocityYValue);
+		scope.getSprite().setGliding(true);
 	}
 
 	@Override
@@ -115,10 +116,14 @@ public class GlideToAction extends TemporalAction {
 			currentXValue = startXValue + (endXValue - startXValue) * percent;
 			currentYValue = startYValue + (endYValue - startYValue) * percent;
 			scope.getSprite().look.setPositionInUserInterfaceDimensionUnit(currentXValue, currentYValue);
-			if (physicsObject != null) {
-				physicsObject.setVelocity(velocityXValue, velocityYValue);
-			}
 		}
+	}
+
+	@Override
+	protected void end() {
+		scope.getSprite().setGliding(false);
+		scope.getSprite().setGlidingVelocityX(0);
+		scope.getSprite().setGlidingVelocityY(0);
 	}
 
 	public void setDuration(Formula duration) {
@@ -132,9 +137,5 @@ public class GlideToAction extends TemporalAction {
 
 	public void setScope(Scope scope) {
 		this.scope = scope;
-	}
-
-	public void setPhysicsObject(PhysicsObject physicsObject) {
-		this.physicsObject = physicsObject;
 	}
 }
