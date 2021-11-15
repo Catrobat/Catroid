@@ -57,7 +57,7 @@ import org.catrobat.catroid.utils.MobileServiceAvailability;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TouchUtil;
 import org.catrobat.catroid.utils.Utils;
-import org.catrobat.catroid.utils.VibrationUtil;
+import org.catrobat.catroid.utils.VibrationManager;
 
 import java.io.File;
 import java.util.HashSet;
@@ -203,8 +203,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		if (requiredResourcesSet.contains(Brick.VIBRATION)) {
 			Vibrator vibration = (Vibrator) stageActivity.getSystemService(VIBRATOR_SERVICE);
 			if (vibration != null) {
-				VibrationUtil.setVibration(vibration);
-				VibrationUtil.activateVibrationThread();
+				getVibrationManager().setVibration(vibration);
 				resourceInitialized();
 			} else {
 				resourceFailed(Brick.VIBRATION);
@@ -365,6 +364,13 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			stageActivity.cameraManager = new CameraManager(stageActivity);
 		}
 		return stageActivity.cameraManager;
+	}
+
+	public VibrationManager getVibrationManager() {
+		if (stageActivity.vibrationManager == null) {
+			stageActivity.vibrationManager = new VibrationManager();
+		}
+		return stageActivity.vibrationManager;
 	}
 
 	public void endStageActivity() {
