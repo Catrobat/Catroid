@@ -206,10 +206,6 @@ pipeline {
                         }
 
                         stage('Quarantined Tests') {
-                            when {
-                                expression { isJobStartedByTimer() }
-                            }
-
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                                     sh '''./gradlew -PenableCoverage -PlogcatFile=quarantined_logcat.txt -Pemulator=android28 \

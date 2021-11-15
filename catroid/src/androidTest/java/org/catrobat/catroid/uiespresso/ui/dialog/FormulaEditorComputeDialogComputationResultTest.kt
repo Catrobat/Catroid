@@ -138,6 +138,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @SuppressWarnings("LargeClass")
+@Category(AppUi::class, Smoke::class)
 @RunWith(Parameterized::class)
 class FormulaEditorComputeDialogComputationResultTest(
     private val name: String,
@@ -166,7 +167,6 @@ class FormulaEditorComputeDialogComputationResultTest(
         TestUtils.deleteProjects(projectName)
     }
 
-    @Category(AppUi::class, Smoke::class)
     @Test
     fun testComputeDialogValue() {
         openComputeDialog()
