@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui
 import android.content.ActivityNotFoundException
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -55,7 +56,7 @@ import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask.ProjectLoadListener
 import org.catrobat.catroid.io.asynctask.renameProject
-import org.catrobat.catroid.transfers.CheckTokenTask
+import org.catrobat.catroid.transfers.TokenTask
 import org.catrobat.catroid.transfers.GetTagsTask
 import org.catrobat.catroid.transfers.GetTagsTask.TagResponseListener
 import org.catrobat.catroid.transfers.project.ResultReceiverWrapper
@@ -66,6 +67,7 @@ import org.catrobat.catroid.utils.FileMetaDataExtractor
 import org.catrobat.catroid.utils.NetworkConnectionMonitor
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.Utils
+import org.catrobat.catroid.web.ServerAuthenticationConstants.DEPRECATED_TOKEN_LENGTH
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.io.FileOutputStream
@@ -107,7 +109,7 @@ open class ProjectUploadActivity : BaseActivity(),
     private lateinit var apiMatcher: Matcher
 
     private var uploadProgressDialog: AlertDialog? = null
-    private val uploadResultReceiver = ResultReceiverWrapper(this, Handler())
+    private lateinit var uploadResultReceiver: ResultReceiverWrapper
 
     private val nameInputTextWatcher = NameInputTextWatcher()
     private var enableNextButton = true
@@ -121,7 +123,8 @@ open class ProjectUploadActivity : BaseActivity(),
     private lateinit var dialogReplaceApiKeyBinding: DialogReplaceApiKeyBinding
     private var tags: List<String> = ArrayList()
 
-    private val checkTokenTask: CheckTokenTask by inject()
+    private val tokenTask: TokenTask by inject()
+    private lateinit var sharedPreferences: SharedPreferences
 
     @JvmField
     protected var projectUploadController: ProjectUploadController? = null
@@ -137,6 +140,9 @@ open class ProjectUploadActivity : BaseActivity(),
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         notesAndCreditsScreen = false
         setShowProgressBar(true)
+
+        uploadResultReceiver = ResultReceiverWrapper(this, Handler())
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
         loadProjectActivity()
     }
@@ -544,7 +550,6 @@ open class ProjectUploadActivity : BaseActivity(),
         image?.setImageResource(R.drawable.ic_upload_success)
         image?.visibility = View.VISIBLE
 
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         val numberOfUploadedProjects = sharedPreferences.getInt(NUMBER_OF_UPLOADED_PROJECTS, 0) + 1
         sharedPreferences.edit()
             .putInt(NUMBER_OF_UPLOADED_PROJECTS, numberOfUploadedProjects)
@@ -587,22 +592,18 @@ open class ProjectUploadActivity : BaseActivity(),
     }
 
     protected open fun verifyUserIdentity() {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         val token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN)
-
         if (connectionMonitor.isNetworkAvailable()) {
             token?.let {
                 if (token != Constants.NO_TOKEN) {
-                    checkTokenTask.isValidToken().observe(this, Observer { isValid ->
+                    tokenTask.isValidToken().observe(this, Observer { isValid ->
                         if (isValid) {
                             onCreateView()
                         } else {
-                            ToastUtil.showError(this, R.string.error_session_expired)
-                            Utils.logoutUser(this)
-                            startSignInWorkflow()
+                            checkDeprecatedToken(token)
                         }
                     })
-                    checkTokenTask.checkToken(token)
+                    tokenTask.checkToken(token)
                     return
                 }
             }
@@ -610,6 +611,29 @@ open class ProjectUploadActivity : BaseActivity(),
         } else {
             ToastUtil.showError(this, R.string.error_internet_connection)
             finish()
+        }
+    }
+
+    private fun checkDeprecatedToken(token: String) {
+        tokenTask.getUpgradeTokenResponse().observe(this, Observer { upgradeResponse ->
+            upgradeResponse?.let {
+                sharedPreferences.edit()
+                    .putString(Constants.TOKEN, upgradeResponse.token)
+                    .apply()
+                onCreateView()
+            } ?: run {
+                ToastUtil.showError(this, R.string.error_session_expired)
+                Utils.logoutUser(this)
+                startSignInWorkflow()
+            }
+        })
+
+        if (token.length == DEPRECATED_TOKEN_LENGTH) {
+            tokenTask.upgradeToken(token)
+        } else {
+            ToastUtil.showError(this, R.string.error_session_expired)
+            Utils.logoutUser(this)
+            startSignInWorkflow()
         }
     }
 

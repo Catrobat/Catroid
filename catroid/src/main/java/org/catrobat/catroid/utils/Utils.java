@@ -84,7 +84,6 @@ import static org.catrobat.catroid.common.Constants.MAX_FILE_NAME_LENGTH;
 import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
-import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_CODE_INVALID;
 
 public final class Utils {
 
@@ -494,8 +493,7 @@ public final class Utils {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 
-		boolean tokenValid = !(token.equals(Constants.NO_TOKEN) || token.equals(TOKEN_CODE_INVALID));
-		return tokenValid;
+		return !token.equals(Constants.NO_TOKEN);
 	}
 
 	public static int setBit(int number, int index, int value) {
