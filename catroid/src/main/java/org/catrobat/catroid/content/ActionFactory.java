@@ -744,7 +744,6 @@ public class ActionFactory extends Actions {
 		action.setPhysicsLook(physicsLook);
 		action.setPosition(x, y);
 		action.setDuration(duration);
-		action.setPhysicsObject(ProjectManager.getInstance().getCurrentlyPlayingScene().getPhysicsWorld().getPhysicsObject(sprite));
 		action.act(delta);
 		return action;
 	}

@@ -105,11 +105,17 @@ public class PhysicsLook extends Look {
 
 	@Override
 	public float getXVelocityInUserInterfaceDimensionUnit() {
+		if (sprite.isGliding()) {
+			return sprite.getGlidingVelocityX();
+		}
 		return physicsObject.getVelocity().x;
 	}
 
 	@Override
 	public float getYVelocityInUserInterfaceDimensionUnit() {
+		if (sprite.isGliding()) {
+			return sprite.getGlidingVelocityY();
+		}
 		return physicsObject.getVelocity().y;
 	}
 

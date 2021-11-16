@@ -108,6 +108,10 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 
 	public transient boolean movedByStepsBrick = false;
 
+	private transient boolean isGliding = false;
+	private transient float glidingVelocityX = 0f;
+	private transient float glidingVelocityY = 0f;
+
 	public Sprite() {
 	}
 
@@ -726,5 +730,26 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		this.userVariables.addAll(sprite.userVariables);
 		this.userLists.addAll(sprite.userLists);
 		this.userDefinedBrickList.addAll(sprite.userDefinedBrickList);
+	}
+
+	public void setGliding(boolean gliding) {
+		isGliding = gliding;
+	}
+	public boolean isGliding() {
+		return isGliding;
+	}
+
+	public void setGlidingVelocityX(float velocity) {
+		glidingVelocityX = velocity;
+	}
+	public void setGlidingVelocityY(float velocity) {
+		glidingVelocityY = velocity;
+	}
+
+	public float getGlidingVelocityX() {
+		return glidingVelocityX;
+	}
+	public float getGlidingVelocityY() {
+		return glidingVelocityY;
 	}
 }
