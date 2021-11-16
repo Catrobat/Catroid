@@ -236,7 +236,8 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
     private fun bindFaceAndTextDetector() = bindUseCase(analysisUseCase).also {
         val mobileServiceAvailability = get(MobileServiceAvailability::class.java)
         if (mobileServiceAvailability.isGmsAvailable(stageActivity)) {
-            analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), FaceTextPoseDetector)
+            CatdroidImageAnalyzer.setActiveDetectorsWithContext(this.stageActivity.context)
+            analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), CatdroidImageAnalyzer)
         } else if (mobileServiceAvailability.isHmsAvailable(stageActivity)) {
             analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), FaceTextPoseDetectorHuawei)
         }
