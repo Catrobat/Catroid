@@ -120,15 +120,15 @@ class DataListFragmentUserListsTest(
             arrayOf("listOf(false)", listOf(false), listOf(falseString)),
             arrayOf("listOf(true)", listOf(true), listOf(trueString)),
             arrayOf("listOf(1)", listOf(1), listOf("1")),
-            arrayOf("listOf(1k)", listOf(1_000), listOf("1k")),
-            arrayOf("listOf(1M)", listOf(1_000_000), listOf("1M")),
+            arrayOf("listOf(1300)", listOf(1_300), listOf("1300")),
+            arrayOf("listOf(1000300)", listOf(1_000_300), listOf("1000300")),
             arrayOf("listOf(1.1)", listOf(1.1), listOf("1.1")),
             arrayOf("listOf(NaN)", listOf(Double.NaN), listOf("NaN")),
             arrayOf("listOf(hello)", listOf("hello"), listOf("hello")),
             arrayOf(
-                "listOf(false, true, 1, 1k, 1M, 1.1, NaN, hello)",
-                listOf(false, true, 1, 1_000, 1_000_000, 1.1, Double.NaN, "hello"),
-                listOf(falseString, trueString, "1", "1k", "1M", "1.1", "NaN", "hello")
+                "listOf(false, true, 1, 1300, 1000300, 1.1, NaN, hello)",
+                listOf(false, true, 1, 1_300, 1_000_300, 1.1, Double.NaN, "hello"),
+                listOf(falseString, trueString, "1", "1300", "1000300", "1.1", "NaN", "hello")
             )
         )
     }

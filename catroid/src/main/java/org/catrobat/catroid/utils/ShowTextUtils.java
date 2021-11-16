@@ -138,7 +138,7 @@ public final class ShowTextUtils {
 			return new AndroidStringProvider(CatroidApplication.getAppContext())
 					.getTrueOrFalse((Boolean) object);
 		} else {
-			return convertStringToMetricRepresentation(trimTrailingCharacters(object.toString()));
+			return trimTrailingCharacters(object.toString());
 		}
 	}
 

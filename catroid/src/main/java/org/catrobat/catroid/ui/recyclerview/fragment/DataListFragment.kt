@@ -57,9 +57,9 @@ import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput
+import org.catrobat.catroid.utils.ShowTextUtils
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.UserDataUtil.renameUserData
-import java.util.ArrayList
 import java.util.Collections
 
 class DataListFragment : Fragment(),
@@ -459,7 +459,7 @@ class DataListFragment : Fragment(),
         val builder = TextInputDialog.Builder(requireContext())
 
         builder.setHint(getString(R.string.data_value))
-            .setText(item.value.toString())
+            .setText(ShowTextUtils.convertObjectToString(item.value))
             .setPositiveButton(getString(R.string.save)) { _: DialogInterface?, textInput: String? ->
                 editItem(item, textInput)
             }

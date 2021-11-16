@@ -155,8 +155,8 @@ class DataListFragmentUserDefinedBrickInputTest(
                 trueString
             ),
             arrayOf("Int 1", Formula(1), "1"),
-            arrayOf("Int 1000", Formula(1_000), "1k"),
-            arrayOf("Int 1000000", Formula(1_000_000), "1M"),
+            arrayOf("Int 1300", Formula(1_300), "1300"),
+            arrayOf("Int 1000300", Formula(1_000_300), "1000300"),
             arrayOf("Double 1.1", Formula(1.1), "1.1"),
             arrayOf("String hello", Formula("hello"), "hello")
         )

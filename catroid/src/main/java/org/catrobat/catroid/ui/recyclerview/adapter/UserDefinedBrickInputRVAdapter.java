@@ -33,7 +33,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.ui.recyclerview.viewholder.VariableVH;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
-import org.catrobat.catroid.utils.ShowTextUtils;
 import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 
 import java.util.List;
@@ -65,7 +64,6 @@ public class UserDefinedBrickInputRVAdapter extends RVAdapter<UserDefinedBrickIn
 				CatroidApplication.getAppContext()
 		);
 		String result = item.getValue().getUserFriendlyString(stringProvider, null);
-		result = ShowTextUtils.convertStringToMetricRepresentation(result);
 		variableVH.value.setText(result);
 	}
 }
