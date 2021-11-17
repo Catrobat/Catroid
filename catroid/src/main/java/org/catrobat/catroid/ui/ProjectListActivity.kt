@@ -23,13 +23,13 @@
 package org.catrobat.catroid.ui
 
 import android.os.Bundle
-import org.catrobat.catroid.R
-import org.catrobat.catroid.ui.recyclerview.fragment.ProjectListFragment
 import android.view.Menu
 import android.view.View
 import androidx.fragment.app.Fragment
 import org.catrobat.catroid.BuildConfig
+import org.catrobat.catroid.R
 import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialogFragment
+import org.catrobat.catroid.ui.recyclerview.fragment.ProjectListFragment
 
 class ProjectListActivity : BaseCastActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +45,10 @@ class ProjectListActivity : BaseCastActivity() {
 
         val projectListFragment: Fragment = ProjectListFragment()
         val importProjectFromImplicitIntent = intent
+        if (intent.hasExtra(IMPORT_LOCAL_INTENT)) {
+            BottomBar.hideAddButton(this)
+            supportActionBar!!.setTitle(R.string.import_from_project)
+        }
         importProjectFromImplicitIntent?.apply {
             if (action != null) {
                 val data = Bundle()
@@ -83,6 +87,7 @@ class ProjectListActivity : BaseCastActivity() {
     }
 
     companion object {
+        const val IMPORT_LOCAL_INTENT: String = "merge"
         val TAG: String = ProjectListActivity::class.java.simpleName
     }
 }

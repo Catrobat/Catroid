@@ -71,7 +71,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		RVAdapter.OnItemClickListener<T> {
 
 	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({NONE, BACKPACK, COPY, DELETE, RENAME, MERGE})
+	@IntDef({NONE, BACKPACK, COPY, DELETE, RENAME, MERGE, IMPORT_LOCAL})
 	@interface ActionModeType {}
 
 	protected static final int NONE = 0;
@@ -80,6 +80,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	protected static final int DELETE = 3;
 	protected static final int RENAME = 4;
 	protected static final int MERGE = 5;
+	protected static final int IMPORT_LOCAL = 6;
 
 	protected View parentView;
 	protected RecyclerView recyclerView;
@@ -131,6 +132,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 				adapter.selectionMode = adapter.PAIRS;
 				mode.setTitle(R.string.am_merge);
 				break;
+			case IMPORT_LOCAL:
 			case NONE:
 				return false;
 		}
@@ -209,6 +211,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 			case MERGE:
 				showMergeDialog(adapter.getSelectedItems());
 				break;
+			case IMPORT_LOCAL:
 			case NONE:
 				throw new IllegalStateException("ActionModeType not set correctly");
 		}
@@ -291,9 +294,11 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 			adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(
 					context).getBoolean(sharedPreferenceDetailsKey, false);
 
-			menu.findItem(R.id.show_details).setTitle(adapter.showDetails
-					? R.string.hide_details
-					: R.string.show_details);
+			if (menu.findItem(R.id.show_details) != null) {
+				menu.findItem(R.id.show_details).setTitle(adapter.showDetails
+						? R.string.hide_details
+						: R.string.show_details);
+			}
 		}
 	}
 
@@ -371,6 +376,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 				actionMode.setTitle(getString(R.string.am_merge) + " " + selectedItemCnt);
 				break;
 			case RENAME:
+			case IMPORT_LOCAL:
 				return;
 			case NONE:
 				throw new IllegalStateException("ActionModeType not set Correctly");
@@ -394,7 +400,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	protected void finishActionMode() {
 		adapter.clearSelection();
 		setShowProgressBar(false);
-		if (actionModeType != NONE) {
+		if (actionModeType != NONE && actionModeType != IMPORT_LOCAL) {
 			actionMode.finish();
 		}
 	}

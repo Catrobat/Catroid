@@ -63,6 +63,7 @@ import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
+import java.util.Objects;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
@@ -98,7 +99,7 @@ public class ProjectActivity extends BaseCastActivity {
 	public static final int SPRITE_FILE = 2;
 	public static final int SPRITE_CAMERA = 3;
 	public static final int SPRITE_OBJECT = 4;
-	public static final int SPRITE_BACKPACK = 5;
+	public static final int SPRITE_FROM_LOCAL = 5;
 
 	public static final String EXTRA_FRAGMENT_POSITION = "fragmentPosition";
 
@@ -286,6 +287,12 @@ public class ProjectActivity extends BaseCastActivity {
 				currentSprite.prependScript(startScript);
 				startScript.addBrick(placeAtBrick);
 				break;
+			case SPRITE_FROM_LOCAL:
+				if (data != null && data.hasExtra(ProjectListActivity.IMPORT_LOCAL_INTENT)) {
+					uri = Uri.fromFile(new File(Objects.requireNonNull(
+							data.getStringExtra(ProjectListActivity.IMPORT_LOCAL_INTENT))));
+					addObjectFromUri(uri);
+				}
 		}
 	}
 
@@ -308,7 +315,7 @@ public class ProjectActivity extends BaseCastActivity {
 		String resolvedName;
 		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
 
-		final String lookDataName;
+		String lookDataName;
 		final String lookFileName;
 
 		boolean useDefaultSpriteName = resolvedFileName == null
@@ -327,16 +334,19 @@ public class ProjectActivity extends BaseCastActivity {
 		ImportProjectHelper importProjectHelper = null;
 		if (isObject) {
 			importProjectHelper = new ImportProjectHelper(
-					lookFileName, currentScene, this);
+				lookFileName, currentScene, this);
 
 			if (!importProjectHelper.checkForConflicts()) {
 				return;
 			}
+			lookDataName =
+				new UniqueNameProvider().getUniqueNameInNameables(importProjectHelper.getSpriteToAddName(),
+				currentScene.getSpriteList());
 		}
 
 		new NewSpriteDialogFragment(lookDataName, lookFileName, getContentResolver(), uri,
-				getCurrentFragment(), isObject, importProjectHelper)
-				.show(getSupportFragmentManager(), NewSpriteDialogFragment.Companion.getTAG());
+			getCurrentFragment(), isObject, importProjectHelper)
+			.show(getSupportFragmentManager(), NewSpriteDialogFragment.Companion.getTAG());
 	}
 
 	public void handleAddButton(View view) {
@@ -420,6 +430,11 @@ public class ProjectActivity extends BaseCastActivity {
 			} else {
 				ToastUtil.showError(this, R.string.backpack_empty);
 			}
+			alertDialog.dismiss();
+		});
+		root.findViewById(R.id.dialog_new_look_from_local).setOnClickListener(view -> {
+			new ImportFromLocalProjectListLauncher(this, getString(R.string.import_sprite_from_project_launcher))
+					.startActivityForResult(SPRITE_FROM_LOCAL);
 			alertDialog.dismiss();
 		});
 
