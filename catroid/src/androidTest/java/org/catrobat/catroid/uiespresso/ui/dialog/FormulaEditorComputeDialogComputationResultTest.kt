@@ -777,6 +777,12 @@ class FormulaEditorComputeDialogComputationResultTest(
                     getFormula(Pair(FUNCTION, FLATTEN.name), Pair(USER_LIST, userListLeftName)),
                     null, null, listOf(1, 2, 3, 4, 5), null,
                     "12345"
+                ),
+                arrayOf(
+                    "Function FLATTEN Booleans",
+                    getFormula(Pair(FUNCTION, FLATTEN.name), Pair(USER_LIST, userListLeftName)),
+                    null, null, listOf(true, false, true, false, true), null,
+                    "10101"
                 )
             )
 
@@ -931,7 +937,7 @@ class FormulaEditorComputeDialogComputationResultTest(
                     "UserList Mixed",
                     getFormula(Pair(USER_LIST, userListLeftName)),
                     null, null, listOf("Hello", '!', 123, 3.1415, true), null,
-                    "Hello ! 123 3.1415 $trueString"
+                    "Hello ! 123 3.1415 1"
                 )
             )
 
@@ -965,37 +971,37 @@ class FormulaEditorComputeDialogComputationResultTest(
                     "UserList false false",
                     getFormula(Pair(USER_LIST, userListLeftName)),
                     null, null, listOf(false, false), null,
-                    "$falseString $falseString"
+                    "00"
                 ),
                 arrayOf(
                     "UserList false true",
                     getFormula(Pair(USER_LIST, userListLeftName)),
                     null, null, listOf(false, true), null,
-                    "$falseString $trueString"
+                    "01"
                 ),
                 arrayOf(
                     "UserList true false",
                     getFormula(Pair(USER_LIST, userListLeftName)),
                     null, null, listOf(true, false), null,
-                    "$trueString $falseString"
+                    "10"
                 ),
                 arrayOf(
                     "UserList true true",
                     getFormula(Pair(USER_LIST, userListLeftName)),
                     null, null, listOf(true, true), null,
-                    "$trueString $trueString"
+                    "11"
                 ),
                 arrayOf(
                     "UserList true false false",
                     getFormula(Pair(USER_LIST, userListLeftName)),
                     null, null, listOf(true, false, false), null,
-                    "$trueString $falseString $falseString"
+                    "100"
                 ),
                 arrayOf(
                     "UserList false true true",
                     getFormula(Pair(USER_LIST, userListLeftName)),
                     null, null, listOf(false, true, true), null,
-                    "$falseString $trueString $trueString"
+                    "011"
                 )
             )
 

@@ -24,8 +24,6 @@ package org.catrobat.catroid.formulaeditor.common
 
 import android.content.res.Resources
 import com.badlogic.gdx.math.Rectangle
-import org.catrobat.catroid.CatroidApplication
-import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.LookData
 import org.catrobat.catroid.content.GroupSprite
@@ -205,13 +203,7 @@ object FormulaElementOperations {
         } ?: Conversions.FALSE
     }
 
-    private fun booleanToLocalizedString(value: Boolean): String {
-        return if (value) {
-            CatroidApplication.getAppContext().getString(R.string.formula_editor_true)
-        } else {
-            CatroidApplication.getAppContext().getString(R.string.formula_editor_false)
-        }
-    }
+    private fun booleanToString(value: Boolean) = if (value) "1" else "0"
 
     private fun interpretMultipleItemsUserList(userListValues: List<Any>): Any {
         val userListStringValues = userListValues.map {
@@ -219,7 +211,7 @@ object FormulaElementOperations {
                 when (it) {
                     is Int -> it.toString()
                     is Double -> it.toString()
-                    is Boolean -> booleanToLocalizedString(it)
+                    is Boolean -> booleanToString(it)
                     is Char -> it.toString()
                     else -> it as String
                 }

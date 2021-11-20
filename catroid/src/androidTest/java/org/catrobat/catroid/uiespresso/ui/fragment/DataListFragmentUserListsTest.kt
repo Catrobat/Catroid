@@ -119,6 +119,7 @@ class DataListFragmentUserListsTest(
         fun parameters() = listOf(
             arrayOf("listOf(false)", listOf(false), listOf(falseString)),
             arrayOf("listOf(true)", listOf(true), listOf(trueString)),
+            arrayOf("listOf(true, false)", listOf(true, false), listOf(trueString, falseString)),
             arrayOf("listOf(1)", listOf(1), listOf("1")),
             arrayOf("listOf(1k)", listOf(1_000), listOf("1k")),
             arrayOf("listOf(1M)", listOf(1_000_000), listOf("1M")),

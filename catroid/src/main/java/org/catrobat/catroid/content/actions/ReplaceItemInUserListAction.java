@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,8 +47,11 @@ public class ReplaceItemInUserListAction extends TemporalAction {
 
 		Object value = formulaItemToInsert == null ? Double.valueOf(0d)
 				: formulaItemToInsert.interpretObject(scope);
-		int indexToReplace;
+		if (formulaItemToInsert != null && formulaItemToInsert.getRoot().isBoolean(scope)) {
+			value = (Double)value != 0.0;
+		}
 
+		int indexToReplace;
 		try {
 			indexToReplace = formulaIndexToReplace == null ? 1
 					: formulaIndexToReplace.interpretInteger(scope);
