@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,10 @@
  */
 package org.catrobat.catroid.uiespresso.ui.fragment;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
@@ -40,8 +43,10 @@ import org.junit.runner.RunWith;
 
 import java.io.IOException;
 
+import androidx.test.espresso.DataInteraction;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
 import static org.catrobat.catroid.WaitForConditionAction.waitFor;
@@ -53,10 +58,12 @@ import static org.hamcrest.Matchers.not;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.openContextualActionModeOverflowMenu;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -236,6 +243,46 @@ public class UserDefinedBrickTest {
 				.check(doesNotExist());
 	}
 
+	@Test
+	public void testUnpackUserDefinedBrickDefinitionInSameSprite() throws InterruptedException {
+		clickOnAddLabelToUserBrick();
+		onView(withId(R.id.next)).perform(click());
+
+		onView(withId(R.id.confirm)).perform(waitFor(isDisplayed(), waitThreshold));
+		onView(withId(R.id.confirm)).perform(click());
+
+		onView(withId(R.id.fragment_script)).perform(waitFor(isDisplayed(), waitThreshold));
+		onView(withId(R.id.fragment_script)).perform(click());
+
+		openContextualActionModeOverflowMenu();
+
+		onView(withText(R.string.backpack)).check(matches(isDisplayed()));
+		onView(withText(R.string.backpack)).perform(click());
+
+		getCheckbox(0)
+				.perform(click())
+				.check(matches(isChecked()));
+
+		onView(withId(R.id.confirm)).perform(click());
+
+		Thread.sleep(100);
+
+		onView(withText(R.string.ok)).perform(waitFor(isDisplayed(), waitThreshold));
+		onView(withText(R.string.ok)).perform(click());
+
+		onView(withText(R.string.default_script_group_name)).perform(waitFor(isDisplayed(), waitThreshold));
+		onView(withText(R.string.default_script_group_name)).perform(click());
+
+		onView(withText(R.string.unpack)).perform(waitFor(isDisplayed(), waitThreshold));
+		onView(withText(R.string.unpack)).perform(click());
+
+		onView(withText("(1)")).check(matches(isDisplayed()));
+
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		Sprite sprite = project.getDefaultScene().getSprite("testSprite");
+		assertEquals(3, sprite.getNumberOfScripts());
+	}
+
 	private void selectYourBricks() {
 		onView(withId(R.id.button_add))
 				.perform(click());
@@ -274,5 +321,9 @@ public class UserDefinedBrickTest {
 		onBrickAtPosition(0).onSpinner(R.id.brick_set_screen_refresh_spinner)
 				.checkShowsText(R.string.brick_user_defined_with_screen_refreshing);
 		onBrickAtPosition(1).checkShowsText(R.string.brick_when_started);
+	}
+
+	private DataInteraction getCheckbox(int brickIndex) {
+		return onBrickAtPosition(brickIndex).onChildView(allOf(withId(R.id.brick_checkbox), isDisplayed()));
 	}
 }

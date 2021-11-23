@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.UserDefinedScript
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.Brick.BrickData
 import org.catrobat.catroid.content.bricks.BroadcastMessageBrick
@@ -46,6 +47,7 @@ import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick
 import org.catrobat.catroid.formulaeditor.UserData
 import org.catrobat.catroid.formulaeditor.UserDataWrapper
 import org.catrobat.catroid.ui.controller.BackpackListManager
+import org.catrobat.catroid.userbrick.UserDefinedBrickData
 import org.koin.java.KoinJavaComponent
 import java.io.IOException
 import java.util.ArrayList
@@ -182,9 +184,9 @@ class ScriptController {
 
     @Throws(CloneNotSupportedException::class)
     fun unpack(scriptToUnpack: Script, destinationSprite: Sprite) {
-        val script = scriptToUnpack.clone()
-        copyBroadcastMessages(script.scriptBrick)
-        for (brick in script.brickList) {
+        val processedScriptToUnpack = handleDuplicateUserDefinitions(scriptToUnpack, destinationSprite)
+        copyBroadcastMessages(processedScriptToUnpack.scriptBrick)
+        for (brick in processedScriptToUnpack.brickList) {
             if (projectManager.currentProject.isCastProject &&
                 CastManager.unsupportedBricks.contains(brick.javaClass)
             ) {
@@ -193,7 +195,7 @@ class ScriptController {
             }
             copyBroadcastMessages(brick)
         }
-        destinationSprite.scriptList.add(script)
+        destinationSprite.scriptList.add(processedScriptToUnpack)
     }
 
     private fun copyBroadcastMessages(brick: Brick): Boolean {
@@ -204,6 +206,63 @@ class ScriptController {
             )
         }
         return false
+    }
+
+    private fun handleDuplicateUserDefinitions(scriptToUnpack: Script, destinationSprite: Sprite): Script {
+        var newScript: Script = scriptToUnpack.clone()
+        if (scriptToUnpack is UserDefinedScript) {
+            for (script: Script in destinationSprite.scriptList) {
+                if (script is UserDefinedScript && script.userDefinedBrickID == scriptToUnpack.userDefinedBrickID) {
+                    val labelIndexString = getAvailableUserDefinedLabelIndex(script, destinationSprite)
+
+                    val originalUserDefinedBrick = destinationSprite.getUserDefinedBrickByID(scriptToUnpack.userDefinedBrickID)
+                    val newBrick = UserDefinedBrick()
+                    newBrick.copyUserDefinedDataList(originalUserDefinedBrick)
+                    newBrick.isCallingBrick = originalUserDefinedBrick.isCallingBrick
+
+                    val newUserDefinedReceiverBrick = UserDefinedReceiverBrick(newBrick)
+                    newScript = newUserDefinedReceiverBrick.userDefinedScript
+                    newBrick.addLabelWithoutRemoval(labelIndexString)
+
+                    destinationSprite.addUserDefinedBrick(newBrick)
+                    break
+                }
+            }
+        }
+        return newScript
+    }
+
+    private fun getAvailableUserDefinedLabelIndex(scriptCopy: Script, sprite: Sprite): String {
+        val copyDataList = (scriptCopy.scriptBrick as UserDefinedReceiverBrick).userDefinedBrick.userDefinedBrickDataList
+        var maxValue = 0
+        for (script: Script in sprite.scriptList) {
+            if (script is UserDefinedScript) {
+                val dataList = (script.scriptBrick as UserDefinedReceiverBrick).userDefinedBrick.userDefinedBrickDataList
+                val labelIndex = getUserDefinedLabelIndex(copyDataList, dataList)
+                if (labelIndex > maxValue) {
+                    maxValue = labelIndex
+                }
+            }
+        }
+        maxValue += 1
+        return "($maxValue)"
+    }
+
+    private fun getUserDefinedLabelIndex(copyDataList: List<UserDefinedBrickData>, dataList: List<UserDefinedBrickData>): Int {
+        if (copyDataList.size > dataList.size) {
+            return 0
+        }
+        for (i in dataList.indices) {
+            if (i == dataList.size - 1 && i == copyDataList.size) {
+                val regex = "\\(\\d+\\)".toRegex()
+                if (regex.containsMatchIn(dataList[i].name)) {
+                    return dataList[i].name.replace("[^0-9]".toRegex(), "").toInt()
+                }
+            } else if (dataList[i].name != copyDataList[i].name) {
+                return 0
+            }
+        }
+        return 0
     }
 
     @Throws(IOException::class, CloneNotSupportedException::class)
