@@ -351,6 +351,7 @@
     <string name="from_library">Add from library</string>
     <string name="sort_projects">Sort</string>
     <string name="unsort_projects">Unsort</string>
+    <string name="import_from_project">Select project to import from</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">Novi prizor</string>
     <!-- Delete Dialog Titles -->
@@ -553,6 +554,8 @@
         <item quantity="few">Imported %d projects.</item>
         <item quantity="other">Imported %d projects.</item>
     </plurals>
+    <!-- Renamed -->
+    <string name="renamed_project">Renamed project</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">Programi</string>
@@ -564,9 +567,12 @@
     <string name="set_notes_and_credits">Set notes and credits</string>
     <string name="details_date_today">Danas</string>
     <string name="import_project">Uvezi projekt</string>
+    <string name="export_project">Spremanje projekta na vanjski prostor za pohranu</string>
     <string name="error_import_project">Doslo je do pogreske tijekom prenosenja projekta.</string>
     <string name="no_projects_selected">No projects selected for import</string>
+    <string name="only_select_catrobat_files">Only select project files</string>
     <string name="error_no_files_found">Nema pronađenih projekata.</string>
+    <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Opis</string>
     <string name="project_options_notes_and_credits">Zasluge</string>
@@ -644,6 +650,7 @@
     <string name="add_look_draw_new_image">Nacrtaj sliku</string>
     <string name="add_look_choose_image">Odaberi sliku</string>
     <string name="add_look_media_library">Biblioteka medijskih sadržaja</string>
+    <string name="add_look_from_local_project">Local projects</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">Dodaj zvuk</string>
@@ -1200,7 +1207,7 @@
     <!-- Default Values -->
     <string name="default_project_name">My project</string>
     <string name="default_variable_name">Variable</string>
-    <string name="default_scene_name">Scene (%1$d)</string>
+    <string name="default_scene_name">Scene</string>
     <string name="default_script_group_name">Script group</string>
     <string name="default_broadcast_message_name">Poruka</string>
     <string name="default_list_name">List</string>
@@ -1830,6 +1837,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_second_face_size">second face size</string>
     <string name="formula_editor_sensor_second_face_x_position">second face x position</string>
     <string name="formula_editor_sensor_second_face_y_position">second face y position</string>
+    <string name="formula_editor_sensor_head_top_x">head top x</string>
+    <string name="formula_editor_sensor_head_top_y">head top y</string>
+    <string name="formula_editor_sensor_neck_x">neck x</string>
+    <string name="formula_editor_sensor_neck_y">neck y</string>
     <string name="formula_editor_sensor_nose_x">nose x</string>
     <string name="formula_editor_sensor_nose_y">nose y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">left eye inner x</string>
@@ -2048,6 +2059,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="new_sprite_dialog_place_visually">Place visually</string>
     <string name="place_visually_text">You will be asked to place the new actor or object on the
         stage.</string>
+    <string name="new_empty_sprite_note">Note: The actor or object will be created
+        without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">No variable selected</string>
     <string name="find">Find</string>

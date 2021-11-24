@@ -334,6 +334,7 @@
     <string name="from_library">Add from library</string>
     <string name="sort_projects">مرتب سازی</string>
     <string name="unsort_projects">نامرتب</string>
+    <string name="import_from_project">Select project to import from</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">صحنه جدید</string>
     <!-- Delete Dialog Titles -->
@@ -506,6 +507,8 @@
         <item quantity="one">%d پروژه وارد شد.</item>
         <item quantity="other">%d پروژه وارد شده است.</item>
     </plurals>
+    <!-- Renamed -->
+    <string name="renamed_project">Renamed project</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">برنامه ها</string>
@@ -517,9 +520,12 @@
     <string name="set_notes_and_credits">یادداشت ها و اعتبارات را تنظیم کنید</string>
     <string name="details_date_today">امروز</string>
     <string name="import_project">واردات پروژه</string>
+    <string name="export_project">ذخیره پروژه در حافظه خارجی</string>
     <string name="error_import_project">هنگام وارد کردن پروژه ها مشکلی پیش آمد.</string>
     <string name="no_projects_selected">هیچ پروژه ای برای وارد کردن انتخاب نشده است</string>
+    <string name="only_select_catrobat_files">Only select project files</string>
     <string name="error_no_files_found">هیچ فایل پروژه ای یافت نشد.</string>
+    <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">توضیح</string>
     <string name="project_options_notes_and_credits">Credits</string>
@@ -596,6 +602,7 @@
     <string name="add_look_draw_new_image">کشیدن تصویر</string>
     <string name="add_look_choose_image">انتخاب تصویر</string>
     <string name="add_look_media_library">شکل ها</string>
+    <string name="add_look_from_local_project">Local projects</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">اضافه کردن صدا</string>
@@ -1143,7 +1150,7 @@
     <!-- Default Values -->
     <string name="default_project_name">پروژه من</string>
     <string name="default_variable_name">متغیر</string>
-    <string name="default_scene_name">Scene %1$d</string>
+    <string name="default_scene_name">صحنه‌</string>
     <string name="default_script_group_name">گروه اسکریپت</string>
     <string name="default_broadcast_message_name">پیام</string>
     <string name="default_list_name">لیست</string>
@@ -1771,6 +1778,10 @@
     <string name="formula_editor_sensor_second_face_size">اندازه صورت دوم</string>
     <string name="formula_editor_sensor_second_face_x_position">موقعیت دوم x موقعیت</string>
     <string name="formula_editor_sensor_second_face_y_position">موقعیت دوم y</string>
+    <string name="formula_editor_sensor_head_top_x">head top x</string>
+    <string name="formula_editor_sensor_head_top_y">head top y</string>
+    <string name="formula_editor_sensor_neck_x">neck x</string>
+    <string name="formula_editor_sensor_neck_y">neck y</string>
     <string name="formula_editor_sensor_nose_x">بینی x</string>
     <string name="formula_editor_sensor_nose_y">بینی y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">قسمت داخلی چشم چپ x</string>
@@ -1965,6 +1976,8 @@
     <string name="category_recently_used">اخیرا مورد استفاده قرار گرفته</string>
     <string name="new_sprite_dialog_place_visually">بصری قرار دهید</string>
     <string name="place_visually_text">از شما خواسته می شود که بازیگر یا شی جدید را روی         صحنه قرار دهید.</string>
+    <string name="new_empty_sprite_note">Note: The actor or object will be created
+        without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">هیچ متغیری انتخاب نشده است</string>
     <string name="find">بیاب</string>

@@ -331,6 +331,7 @@
     <string name="from_library">เพิ่มจากคลังภาพ</string>
     <string name="sort_projects">เรียงลำดับ</string>
     <string name="unsort_projects">ไม่เรียงลำดับ</string>
+    <string name="import_from_project">เลือกโครงการที่จะนำเข้าจาก</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">ฉากใหม่</string>
     <!-- Delete Dialog Titles -->
@@ -473,6 +474,8 @@
     <plurals name="imported_projects">
         <item quantity="other">นำเข้า %d โครงการ</item>
     </plurals>
+    <!-- Renamed -->
+    <string name="renamed_project">เปลี่ยนชื่อโครงการ</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">โปรแกรม</string>
@@ -484,9 +487,12 @@
     <string name="set_notes_and_credits">ตั้งค่าบันทึกและเครดิต</string>
     <string name="details_date_today">วันนี้</string>
     <string name="import_project">นำเข้าโครงการ</string>
+    <string name="export_project">บันทึกโครงการไปยังที่จัดเก็บข้อมูลภายนอก</string>
     <string name="error_import_project">เกิดข้อผิดพลาดขณะนำเข้าโครงการ</string>
     <string name="no_projects_selected">ไม่ได้เลือกโครงการสำหรับการนำเข้า</string>
+    <string name="only_select_catrobat_files">เลือกเฉพาะไฟล์โครงการ</string>
     <string name="error_no_files_found">ไม่พบไฟล์โครงการ</string>
+    <string name="import_sprite_from_project_launcher">นำเข้าวัตถุจากโครงการที่มีอยู่</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">คำอธิบาย</string>
     <string name="project_options_notes_and_credits">เครดิต</string>
@@ -562,6 +568,7 @@
     <string name="add_look_draw_new_image">วาดรูป</string>
     <string name="add_look_choose_image">แกลลอรี่</string>
     <string name="add_look_media_library">ไลบรารีสื่อ</string>
+    <string name="add_look_from_local_project">โครงการในความจำเครื่อง</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">เพิ่มเสียง</string>
@@ -1098,7 +1105,7 @@
     <!-- Default Values -->
     <string name="default_project_name">โครงการของฉัน</string>
     <string name="default_variable_name">ตัวแปร</string>
-    <string name="default_scene_name">ฉาก (%1$d)</string>
+    <string name="default_scene_name">ฉาก</string>
     <string name="default_script_group_name">กลุ่มสคริปต์</string>
     <string name="default_broadcast_message_name">ข้อความ</string>
     <string name="default_list_name">รายการ</string>
@@ -1722,6 +1729,10 @@
     <string name="formula_editor_sensor_second_face_size">ขนาดใบหน้าที่สอง</string>
     <string name="formula_editor_sensor_second_face_x_position">ใบหน้าที่สอง x ตำแหน่ง</string>
     <string name="formula_editor_sensor_second_face_y_position">ใบหน้าที่สอง y ตำแหน่ง</string>
+    <string name="formula_editor_sensor_head_top_x">หัวด้านบน x</string>
+    <string name="formula_editor_sensor_head_top_y">หัวด้านบน y</string>
+    <string name="formula_editor_sensor_neck_x">คอ x</string>
+    <string name="formula_editor_sensor_neck_y">คอ y</string>
     <string name="formula_editor_sensor_nose_x">จมูก x</string>
     <string name="formula_editor_sensor_nose_y">จมูก y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">ตาซ้ายด้านใน x</string>
@@ -1935,6 +1946,8 @@
     <string name="new_sprite_dialog_place_visually">วางสายตา</string>
     <string name="place_visually_text">คุณจะถูกขอให้วางนักแสดงใหม่หรือวัตถุในไฟล์
          เวที.</string>
+    <string name="new_empty_sprite_note">Note: The actor or object will be created
+        without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">ไม่ได้เลือกตัวแปร</string>
     <string name="find">ค้นหา</string>

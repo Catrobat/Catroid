@@ -344,6 +344,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="from_library">Dodaj z biblioteki</string>
     <string name="sort_projects">Sortuj</string>
     <string name="unsort_projects">Odsortuj</string>
+    <string name="import_from_project">Wybierz projekt do zaimportowania z</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">Nowa Scena</string>
     <!-- Delete Dialog Titles -->
@@ -576,6 +577,8 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
         <item quantity="many">Zaimportowano %d projekt.</item>
         <item quantity="other">Zaimportowano %d projektów.</item>
     </plurals>
+    <!-- Renamed -->
+    <string name="renamed_project">Zmieniono nazwę projektu</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">Projekty</string>
@@ -587,9 +590,12 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="set_notes_and_credits">Ustaw uwagi i podziękowania</string>
     <string name="details_date_today">Dzisiaj</string>
     <string name="import_project">Importuj projekt</string>
+    <string name="export_project">Eksportuj projekt</string>
     <string name="error_import_project">Coś poszło nie tak podczas pobierania projektów.</string>
     <string name="no_projects_selected">Nie wybrano projektów do importu</string>
+    <string name="only_select_catrobat_files">Wybierz tylko pliki projektu</string>
     <string name="error_no_files_found">Nie znaleziono plików projektu.</string>
+    <string name="import_sprite_from_project_launcher">Importuj obiekt z projektu lokalnego</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Opis</string>
     <string name="project_options_notes_and_credits">Uwagi i podziękowania</string>
@@ -668,6 +674,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="add_look_draw_new_image">Rysju obraz</string>
     <string name="add_look_choose_image">Galeria</string>
     <string name="add_look_media_library">Wygląd</string>
+    <string name="add_look_from_local_project">Projekty lokalne</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">Dodaj dźwięk</string>
@@ -1221,7 +1228,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <!-- Default Values -->
     <string name="default_project_name">Mój projekt</string>
     <string name="default_variable_name">Zmienna</string>
-    <string name="default_scene_name">Scena (%1$d)</string>
+    <string name="default_scene_name">Scena</string>
     <string name="default_script_group_name">Grupa skryptów</string>
     <string name="default_broadcast_message_name">Wiadomość</string>
     <string name="default_list_name">Lista</string>
@@ -1837,6 +1844,10 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="formula_editor_sensor_second_face_size">rozmiar drugiej twarzy</string>
     <string name="formula_editor_sensor_second_face_x_position">pozycja x drugiej twarzy</string>
     <string name="formula_editor_sensor_second_face_y_position">pozycja y drugiej twarzy</string>
+    <string name="formula_editor_sensor_head_top_x">góra głowy x</string>
+    <string name="formula_editor_sensor_head_top_y">góra głowy y</string>
+    <string name="formula_editor_sensor_neck_x">szyja x</string>
+    <string name="formula_editor_sensor_neck_y">szyja y</string>
     <string name="formula_editor_sensor_nose_x">nos x</string>
     <string name="formula_editor_sensor_nose_y">nos y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">lewe oko wewnętrzne x</string>
@@ -1871,18 +1882,18 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="formula_editor_sensor_left_wrist_y">lewy nadgarstek y</string>
     <string name="formula_editor_sensor_right_wrist_x">prawy nadgarstek x</string>
     <string name="formula_editor_sensor_right_wrist_y">prawy nadgarstek y</string>
-    <string name="formula_editor_sensor_left_pinky_knuckle_x">lewy różowy knuckle x</string>
-    <string name="formula_editor_sensor_left_pinky_knuckle_y">lewy różowy knuckle y</string>
-    <string name="formula_editor_sensor_right_pinky_knuckle_x">prawe różowe knuckle x</string>
-    <string name="formula_editor_sensor_right_pinky_knuckle_y">prawej różowej klamry y</string>
-    <string name="formula_editor_sensor_left_index_knuckle_x">lewy indeks knuckle x</string>
-    <string name="formula_editor_sensor_left_index_knuckle_y">lewy indeks knuckle y</string>
-    <string name="formula_editor_sensor_right_index_knuckle_x">prawy indeks knuckle x</string>
-    <string name="formula_editor_sensor_right_index_knuckle_y">indeks prawej knuckle y</string>
-    <string name="formula_editor_sensor_left_thumb_knuckle_x">lewy kciuk x</string>
-    <string name="formula_editor_sensor_left_thumb_knuckle_y">lewy kciuk y</string>
-    <string name="formula_editor_sensor_right_thumb_knuckle_x">knykieć kciuka prawego x</string>
-    <string name="formula_editor_sensor_right_thumb_knuckle_y">kciuk prawy knykieć y</string>
+    <string name="formula_editor_sensor_left_pinky_knuckle_x">lewy mały knykieć x</string>
+    <string name="formula_editor_sensor_left_pinky_knuckle_y">lewy mały knykieć y</string>
+    <string name="formula_editor_sensor_right_pinky_knuckle_x">prawe mały knykieć x</string>
+    <string name="formula_editor_sensor_right_pinky_knuckle_y">prawej mały knykieć y</string>
+    <string name="formula_editor_sensor_left_index_knuckle_x">lewy indeks knykcia y</string>
+    <string name="formula_editor_sensor_left_index_knuckle_y">lewy indeks knykcia y</string>
+    <string name="formula_editor_sensor_right_index_knuckle_x">prawy indeks knykcia x</string>
+    <string name="formula_editor_sensor_right_index_knuckle_y">prawy indeks knykcia y</string>
+    <string name="formula_editor_sensor_left_thumb_knuckle_x">lewa kostka kciuka x</string>
+    <string name="formula_editor_sensor_left_thumb_knuckle_y">lewa kostka kciuka y</string>
+    <string name="formula_editor_sensor_right_thumb_knuckle_x">prawa kostka kciuka x</string>
+    <string name="formula_editor_sensor_right_thumb_knuckle_y">prawa kostka kciuka y</string>
     <string name="formula_editor_sensor_left_hip_x">lewe biodro x</string>
     <string name="formula_editor_sensor_left_hip_y">lewe biodro y</string>
     <string name="formula_editor_sensor_right_hip_x">prawe biodro x</string>
@@ -2039,6 +2050,8 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="new_sprite_dialog_place_visually">Ręczne położenie</string>
     <string name="place_visually_text">Zostaniesz poproszony o umieszczenie nowego aktora lub obiektu na
         etapie.</string>
+    <string name="new_empty_sprite_note">Note: The actor or object will be created
+        without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">Nie wybrano zmiennej</string>
     <string name="find">Znajdź</string>

@@ -363,6 +363,7 @@
     <string name="from_library">Добавить из библиотеки</string>
     <string name="sort_projects">Сортировка</string>
     <string name="unsort_projects">Без сортировки</string>
+    <string name="import_from_project">Выбрать проект для импорта</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">Новая сцена</string>
     <!-- Delete Dialog Titles -->
@@ -595,6 +596,8 @@
         <item quantity="many">Импортировано %d проектов.</item>
         <item quantity="other">Импортировано %d проектов.</item>
     </plurals>
+    <!-- Renamed -->
+    <string name="renamed_project">Переименованный проект</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">Проекты</string>
@@ -606,9 +609,12 @@
     <string name="set_notes_and_credits">Задать заметки и кредиты</string>
     <string name="details_date_today">Сегодня</string>
     <string name="import_project">Импортировать проект</string>
+    <string name="export_project">Сохранить проект на внешнее хранилище</string>
     <string name="error_import_project">Что-то пошло не так при импорте проектов.</string>
     <string name="no_projects_selected">Нет проектов, выбранных для импорта</string>
+    <string name="only_select_catrobat_files">Выберите только файлы проекта</string>
     <string name="error_no_files_found">Файлы проекта не найдены.</string>
+    <string name="import_sprite_from_project_launcher">Импорт объекта из проекта</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Описание</string>
     <string name="project_options_notes_and_credits">Примечания и авторы</string>
@@ -687,6 +693,7 @@
     <string name="add_look_draw_new_image">Нарисовать</string>
     <string name="add_look_choose_image">Из галереи</string>
     <string name="add_look_media_library">Загрузить из библиотеки</string>
+    <string name="add_look_from_local_project">Локальные проекты</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">Добавить звук</string>
@@ -1250,7 +1257,7 @@
     <!-- Default Values -->
     <string name="default_project_name">Мой проект</string>
     <string name="default_variable_name">Переменная</string>
-    <string name="default_scene_name">Сцена (%1$d)</string>
+    <string name="default_scene_name">Сцена</string>
     <string name="default_script_group_name">Группа скриптов</string>
     <string name="default_broadcast_message_name">Сообщение</string>
     <string name="default_list_name">Список</string>
@@ -1877,6 +1884,10 @@
     <string name="formula_editor_sensor_second_face_size">размер второго лица</string>
     <string name="formula_editor_sensor_second_face_x_position">позиция второй по оси x</string>
     <string name="formula_editor_sensor_second_face_y_position">позиция второго лица y</string>
+    <string name="formula_editor_sensor_head_top_x">верхняя часть головы x</string>
+    <string name="formula_editor_sensor_head_top_y">голова сверху y</string>
+    <string name="formula_editor_sensor_neck_x">шея x</string>
+    <string name="formula_editor_sensor_neck_y">шея y</string>
     <string name="formula_editor_sensor_nose_x">нос x</string>
     <string name="formula_editor_sensor_nose_y">нос y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">левый глаз внутренний x</string>
@@ -2094,6 +2105,8 @@
     <string name="new_sprite_dialog_place_visually">Поместить на глаз</string>
     <string name="place_visually_text">Вам будет предложено поместить нового актера или объект на
          сцену.</string>
+    <string name="new_empty_sprite_note">Note: The actor or object will be created
+        without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">Переменная не выбрана</string>
     <string name="find">Найти</string>
@@ -2109,6 +2122,6 @@
     <string name="particle_effects_additive_on">вкл.</string>
     <string name="particle_effects_additive_off">выкл.</string>
     <string name="set_particle_color_to">Установить цвет частиц</string>
-    <string name="undo_sort">Undo sort</string>
+    <string name="undo_sort">Отменить сортировку</string>
     <string name="sort">Сортировка</string>
 </resources>

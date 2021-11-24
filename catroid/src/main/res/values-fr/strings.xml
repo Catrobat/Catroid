@@ -345,6 +345,7 @@
     <string name="from_library">Ajouter depuis la bibliothèque</string>
     <string name="sort_projects">Trier</string>
     <string name="unsort_projects">Ne pas trier</string>
+    <string name="import_from_project">Select project to import from</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">Nouvelle scène</string>
     <!-- Delete Dialog Titles -->
@@ -517,6 +518,8 @@
         <item quantity="one">Importation du projet %d.</item>
         <item quantity="other">Importation de %d projets.</item>
     </plurals>
+    <!-- Renamed -->
+    <string name="renamed_project">Renamed project</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">Programmes</string>
@@ -528,9 +531,12 @@
     <string name="set_notes_and_credits">Définir les notes et les crédits</string>
     <string name="details_date_today">Aujourd\'hui</string>
     <string name="import_project">Importer un projet</string>
+    <string name="export_project">Enregistrer le projet sur le stockage externe</string>
     <string name="error_import_project">Une erreur s\'est produite lors de l\'importation des projets.</string>
     <string name="no_projects_selected">Aucun projet sélectionné pour l\'importation</string>
+    <string name="only_select_catrobat_files">Only select project files</string>
     <string name="error_no_files_found">Aucun fichier de projet trouvé.</string>
+    <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Description</string>
     <string name="project_options_notes_and_credits">Credits</string>
@@ -607,6 +613,7 @@
     <string name="add_look_draw_new_image">Dessiner une image</string>
     <string name="add_look_choose_image">Sélectionner une image</string>
     <string name="add_look_media_library">Bibliothèque multimédia</string>
+    <string name="add_look_from_local_project">Local projects</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">Ajouter un son</string>
@@ -1155,7 +1162,7 @@
     <!-- Default Values -->
     <string name="default_project_name">Mon projet</string>
     <string name="default_variable_name">Variable</string>
-    <string name="default_scene_name">Scène (%1$d)</string>
+    <string name="default_scene_name">Scène</string>
     <string name="default_script_group_name">Groupe de scripts</string>
     <string name="default_broadcast_message_name">Message</string>
     <string name="default_list_name">Liste</string>
@@ -1783,6 +1790,10 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string name="formula_editor_sensor_second_face_size">taille de la seconde face</string>
     <string name="formula_editor_sensor_second_face_x_position">position x de la seconde face</string>
     <string name="formula_editor_sensor_second_face_y_position">position y de la seconde face</string>
+    <string name="formula_editor_sensor_head_top_x">head top x</string>
+    <string name="formula_editor_sensor_head_top_y">head top y</string>
+    <string name="formula_editor_sensor_neck_x">neck x</string>
+    <string name="formula_editor_sensor_neck_y">neck y</string>
     <string name="formula_editor_sensor_nose_x">nez x</string>
     <string name="formula_editor_sensor_nose_y">nez y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">œil gauche intérieur x</string>
@@ -1996,6 +2007,8 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string name="category_recently_used">Récemment utilisé</string>
     <string name="new_sprite_dialog_place_visually">Placer visuellement</string>
     <string name="place_visually_text">On te demandera de placer le nouvel acteur ou objet sur l\'écran.</string>
+    <string name="new_empty_sprite_note">Note: The actor or object will be created
+        without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">Aucune variable sélectionnée</string>
     <string name="find">Trouvez</string>

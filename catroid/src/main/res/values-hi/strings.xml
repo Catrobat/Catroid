@@ -348,6 +348,7 @@
     <string name="from_library">पुस्तकालय से जोड़ें</string>
     <string name="sort_projects">क्रमबद्ध</string>
     <string name="unsort_projects">अवर्गीकृत</string>
+    <string name="import_from_project">Select project to import from</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">नया दृश्य</string>
     <!-- Delete Dialog Titles -->
@@ -520,6 +521,8 @@
         <item quantity="one">आयातित %d प्रोजेक्ट।</item>
         <item quantity="other">आयातित %d प्रोजेक्ट्स।</item>
     </plurals>
+    <!-- Renamed -->
+    <string name="renamed_project">Renamed project</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">प्रोग्राम्स</string>
@@ -531,9 +534,12 @@
     <string name="set_notes_and_credits">नोट्स और क्रेडिट सेट करें</string>
     <string name="details_date_today">आज</string>
     <string name="import_project">आयात परियोजना</string>
+    <string name="export_project">बाहरी संग्रहण के लिए प्रोजेक्ट सहेजें</string>
     <string name="error_import_project">प्रोजेक्ट आयात करते समय कुछ गलत हो गया।</string>
     <string name="no_projects_selected">आयात के लिए कोई प्रोजेक्ट नहीं चुना गया</string>
+    <string name="only_select_catrobat_files">Only select project files</string>
     <string name="error_no_files_found">कोई प्रोजेक्ट फ़ाइल नहीं मिली।</string>
+    <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">वर्णन</string>
     <string name="project_options_notes_and_credits">इसका श्रेय</string>
@@ -610,6 +616,7 @@
     <string name="add_look_draw_new_image">चित्र बनाए</string>
     <string name="add_look_choose_image">चित्र का चयन करें</string>
     <string name="add_look_media_library">मीडिया लाइब्रेरी</string>
+    <string name="add_look_from_local_project">Local projects</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">ध्वनि जोड़ें</string>
@@ -1157,7 +1164,7 @@
     <!-- Default Values -->
     <string name="default_project_name">मेरी परियोजना</string>
     <string name="default_variable_name">परिवर्तनशील</string>
-    <string name="default_scene_name">दृश्य (%1$d)</string>
+    <string name="default_scene_name">दृश्य</string>
     <string name="default_script_group_name">लिपि समूह</string>
     <string name="default_broadcast_message_name">संदेश</string>
     <string name="default_list_name">सूची</string>
@@ -1788,6 +1795,10 @@
     <string name="formula_editor_sensor_second_face_size">दूसरा चेहरा आकार</string>
     <string name="formula_editor_sensor_second_face_x_position">दूसरा चेहरा एक्स स्थिति</string>
     <string name="formula_editor_sensor_second_face_y_position">दूसरा चेहरा y स्थिति</string>
+    <string name="formula_editor_sensor_head_top_x">head top x</string>
+    <string name="formula_editor_sensor_head_top_y">head top y</string>
+    <string name="formula_editor_sensor_neck_x">neck x</string>
+    <string name="formula_editor_sensor_neck_y">neck y</string>
     <string name="formula_editor_sensor_nose_x">नाक x</string>
     <string name="formula_editor_sensor_nose_y">सुगंधित</string>
     <string name="formula_editor_sensor_left_eye_inner_x">बाईं आंख भीतरी x</string>
@@ -2005,6 +2016,8 @@
     <string name="new_sprite_dialog_place_visually">नेत्रहीन जगह</string>
     <string name="place_visually_text">आपको नए अभिनेता या ऑब्जेक्ट को रखने के लिए कहा जाएगा
         मंच।</string>
+    <string name="new_empty_sprite_note">Note: The actor or object will be created
+        without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">कोई चर नहीं चुना गया</string>
     <string name="find">खोज</string>
