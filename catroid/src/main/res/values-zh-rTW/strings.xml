@@ -339,6 +339,7 @@
     <string name="from_library">লাইব্রেরি থেকে যোগ করুন</string>
     <string name="sort_projects">種類</string>
     <string name="unsort_projects">取消排序</string>
+    <string name="import_from_project">Select project to import from</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">新場景</string>
     <!-- Delete Dialog Titles -->
@@ -481,6 +482,8 @@
     <plurals name="imported_projects">
         <item quantity="other">已導入 %d 項目。</item>
     </plurals>
+    <!-- Renamed -->
+    <string name="renamed_project">Renamed project</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">程式檔</string>
@@ -492,9 +495,12 @@
     <string name="set_notes_and_credits">設置筆記和學分</string>
     <string name="details_date_today">今天</string>
     <string name="import_project">導入項目</string>
+    <string name="export_project">將項目保存到外部存儲</string>
     <string name="error_import_project">導入項目時出了點問題。</string>
     <string name="no_projects_selected">沒有選擇要導入的項目</string>
+    <string name="only_select_catrobat_files">Only select project files</string>
     <string name="error_no_files_found">未找到項目文件。</string>
+    <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">描述</string>
     <string name="project_options_notes_and_credits">筆記和信用</string>
@@ -570,6 +576,7 @@
     <string name="add_look_draw_new_image">繪製圖像</string>
     <string name="add_look_choose_image">選擇圖像</string>
     <string name="add_look_media_library">媒體庫</string>
+    <string name="add_look_from_local_project">Local projects</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">添加聲音</string>
@@ -1112,7 +1119,7 @@
     <!-- Default Values -->
     <string name="default_project_name">我的項目</string>
     <string name="default_variable_name">多變的</string>
-    <string name="default_scene_name">場景 (%1$d)</string>
+    <string name="default_scene_name">場景</string>
     <string name="default_script_group_name">腳本組</string>
     <string name="default_broadcast_message_name">信息</string>
     <string name="default_list_name">列表</string>
@@ -1743,6 +1750,10 @@
     <string name="formula_editor_sensor_second_face_size">第二個臉型</string>
     <string name="formula_editor_sensor_second_face_x_position">第二面 x 位置</string>
     <string name="formula_editor_sensor_second_face_y_position">第二面y位置</string>
+    <string name="formula_editor_sensor_head_top_x">head top x</string>
+    <string name="formula_editor_sensor_head_top_y">head top y</string>
+    <string name="formula_editor_sensor_neck_x">neck x</string>
+    <string name="formula_editor_sensor_neck_y">neck y</string>
     <string name="formula_editor_sensor_nose_x">鼻子 x</string>
     <string name="formula_editor_sensor_nose_y">鼻子 y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">左眼內 x</string>
@@ -1960,6 +1971,8 @@
     <string name="new_sprite_dialog_place_visually">視覺放置</string>
     <string name="place_visually_text">您將被要求將新演員或對象放在
         階段。</string>
+    <string name="new_empty_sprite_note">Note: The actor or object will be created
+        without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">未選擇變量</string>
     <string name="find">找</string>

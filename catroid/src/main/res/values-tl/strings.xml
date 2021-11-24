@@ -24,560 +24,567 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- General terms -->
     <string name="stage">Stage</string>
-    <string name="play">Play</string>
+    <string name="play">Laruin</string>
     <string name="settings">Settings</string>
-    <string name="redo">Redo</string>
-    <string name="undo">Undo</string>
-    <string name="new_option">new&#8230;</string>
-    <string name="edit_option">edit&#8230;</string>
-    <string name="confirm">Confirm</string>
-    <string name="ignore">Ignore</string>
-    <string name="cancel">Cancel</string>
-    <string name="save">Save</string>
-    <string name="discard">Discard</string>
-    <string name="next">Next</string>
-    <string name="ok">OK</string>
-    <string name="done">Done</string>
-    <string name="close">Close</string>
+    <string name="redo">Ulitin</string>
+    <string name="undo">Ibalik</string>
+    <string name="new_option">bago&#8230;</string>
+    <string name="edit_option">I-edit&#8230;</string>
+    <string name="confirm">Kumpirmahin</string>
+    <string name="ignore">I-ignore</string>
+    <string name="cancel">Kanselahin</string>
+    <string name="save">I-save</string>
+    <string name="discard">I-discard</string>
+    <string name="next">Sunod</string>
+    <string name="ok">SIGE</string>
+    <string name="done">Tapos</string>
+    <string name="close">Isara</string>
     <string name="assistant">Assistant</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-    <string name="once">Once</string>
-    <string name="always">Always</string>
-    <string name="deny">Deny</string>
-    <string name="do_not_show_again">DO NOT SHOW AGAIN</string>
-    <string name="accept">Accept</string>
-    <string name="decline">Decline</string>
-    <string name="select_all">Select all</string>
-    <string name="deselect_all">Deselect all</string>
-    <string name="skip">skip</string>
-    <string name="warning">Warning</string>
+    <string name="yes">Oo</string>
+    <string name="no">Hindi</string>
+    <string name="once">Isang beses</string>
+    <string name="always">Palagi</string>
+    <string name="deny">Itanggi</string>
+    <string name="do_not_show_again">HUWAG NANG IPAKITA ULI</string>
+    <string name="accept">Tanggapin</string>
+    <string name="decline">Tanggihan</string>
+    <string name="select_all">Piliin lahat</string>
+    <string name="deselect_all">Alisin lahat sa pagkakapili</string>
+    <string name="skip">lagpasan</string>
+    <string name="warning">Babala</string>
     <string name="error">Error</string>
-    <string name="loading">Loading&#8230;</string>
-    <string name="please_wait">Please wait</string>
-    <string name="search_hint">Search</string>
-    <string name="backpack_add">Add to backpack</string>
+    <string name="loading">Nag-lo-loading&#8230;</string>
+    <string name="please_wait">Pakiusap maghintay</string>
+    <string name="search_hint">Maghanap</string>
+    <string name="backpack_add">Idagdag sa backpack</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Security warning dialog -->
-    <string name="security_warning_dialog_msg">The project you have downloaded listens to your voice
-        in the background and also sends data to the internet. This may be harmless, and necessary
-        for its intended behavior. However, please make sure that what you are saying while the
-        project is running is safe. In case of doubt, please delete the downloaded project.
-        You may also report the project on its page on the Catrobat community platform in case
-        you are sure that it is harmful.</string>
+    <string name="security_warning_dialog_msg">Ang na-download mong project ay nakikinig sa boses mo
+        sa background at nagpapadala ng data sa internet. Maaaring hindi naman ito nakakapanakit,at kailangan
+        para sa intensyon nitong layunin. Ngunit, Siguraduhing lahat ng iyong sasabihin habang
+        gumagana ang proyekto ay ligtas dapat. Kung sakaling nag-aalala,maaaring burahin agad ang project.
+        Maaari mo ring i-report ang project sa Catrobat community platform kung sakali na
+        sigurado kang hindi ito ligtas.                            </string>
     <!-- Replace Api dialog -->
-    <string name="api_replacement_dialog_neutral">Upload without change</string>
-    <string name="api_replacement_dialog_accept">Upload with keys replaced</string>
-    <string name="api_replacement_dialog_warning">The project contains bricks that access the
-        web, and also seems to contain API keys. Please see %1s why
-        uploading these keys can be dangerous.</string>
-    <string name="api_replacement">insert API key here</string>
+    <string name="api_replacement_dialog_neutral">I-upload nang walang pagbabago</string>
+    <string name="api_replacement_dialog_accept">I-upload nang may pinalitan</string>
+    <string name="api_replacement_dialog_warning">Ang project ay naglalaman ng bricks na nakaka-access sa
+        web, at naglalaman din ng API keys. Pakiusap tignan %1s bakit
+        ang pag-u-upload ng ganitong keys ay lubhang delikado.</string>
+    <string name="api_replacement">maglagay ng API key dito</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_oauth_token">Checking login data&#8230;</string>
-    <string name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
-    <string name="loading_google_login">Google login on our server is complete&#8230;</string>
-    <string name="logout_successful">Logout successful</string>
+    <string name="loading_check_oauth_token">Sinusuri ang istado ng pag-login&#8230;</string>
+    <string name="loading_google_exchange_code">Pagpapalitan ng datos ng Google login&#8230;</string>
+    <string name="loading_google_login">Ang Google login sa aming server ay tapos na&#8230;</string>
+    <string name="logout_successful">Matagumpay na nakapag-logout</string>
     <string name="degrees">degrees</string>
     <string name="background">Background</string>
     <string name="landscape">landscape</string>
-    <string name="portrait">portrait</string>
-    <string name="unknown">unknown</string>
-    <string name="disconnect">Disconnect</string>
+    <string name="portrait">patayo</string>
+    <string name="unknown">hindi kilala</string>
+    <string name="disconnect">Na-Disconnect</string>
     <!--  -->
     <!-- Main Menu -->
-    <string name="main_menu_continue">Continue project</string>
-    <string name="main_menu_new">New project</string>
-    <string name="main_menu_programs">Projects on device</string>
-    <string name="main_menu_help">Help</string>
+    <string name="main_menu_continue">Ipagpatuloy ang proyekto</string>
+    <string name="main_menu_new">Bagong proyekto</string>
+    <string name="main_menu_programs">Proyekto sa device</string>
+    <string name="main_menu_help">Tulong</string>
     <string name="main_menu_web">Catrobat community</string>
-    <string name="main_menu_upload">Upload project</string>
-    <string name="main_menu_rate_app">Rate us!</string>
-    <string name="main_menu_terms_of_use">Terms of Use and Service</string>
-    <string name="main_menu_privacy_policy">Privacy Policy</string>
-    <string name="main_menu_about">About this app</string>
-    <string name="main_menu_login">Login</string>
-    <string name="main_menu_logout">Logout</string>
+    <string name="main_menu_upload">I-upload ang proyekto</string>
+    <string name="main_menu_rate_app">I-Rate kami!</string>
+    <string name="main_menu_terms_of_use">Terms ng Paggamit at Serbisyo</string>
+    <string name="main_menu_privacy_policy">Patakaran sa Privacy</string>
+    <string name="main_menu_about">Tungkol sa app na ito</string>
+    <string name="main_menu_login">Mag-Login</string>
+    <string name="main_menu_logout">Mag-Logout</string>
     <string name="main_menu_scratch_converter">Scratch converter</string>
-    <string name="main_menu_play_store_not_installed">App store not found</string>
+    <string name="main_menu_play_store_not_installed">Hindi mahanap ang App sa store</string>
     <!--  -->
     <!-- Marketing activity -->
-    <string name="marketing_created_with">Created with</string>
-    <string name="marketing_app_details">Details about this app</string>
-    <string name="marketing_more_on_google_play">More apps on App store</string>
-    <string name="error_cannot_open_huawei_app_gallery">Whoops! Failed to open Huawei AppGallery,
-        please try again later.</string>
+    <string name="marketing_created_with">Ginawa sa pamamagitan ng</string>
+    <string name="marketing_app_details">Detalye tungkol sa app na ito</string>
+    <string name="marketing_more_on_google_play">Marami pang apps sa App store</string>
+    <string name="error_cannot_open_huawei_app_gallery">Whoops! Hindi nagtagumpay na mabuksan ang Huawei AppGallery,
+       Pakiusap ulitin muli sa ibang pagkakataon.</string>
     <string name="google_play_store_logo">Google Play</string>
     <string name="huawei_app_gallery">Huawei App Gallery</string>
     <!-- NFC activity -->
     <string name="nfc_activity_title">NFC tags</string>
     <!-- Settings activity -->
     <string name="preference_title">Settings</string>
-    <string name="preference_title_language">Language</string>
-    <string name="preference_description_language">Set the app\'s language</string>
+    <string name="preference_title_language">Lengguahe</string>
+    <string name="preference_description_language">I-set mo ang lengguahe ng app</string>
     <string name="preference_title_web_access">Web access</string>
-    <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
-    <string name="preference_screen_web_access_title">Edit trusted domains</string>
-    <string name="preference_title_ai">Artificial intelligence (AI) extension</string>
-    <string name="preference_description_ai">Enable AI bricks and sensors</string>
+    <string name="preference_description_web_access">I-edit para magdagdag o magtanggal ng pinagkakatiwalaang domains</string>
+    <string name="preference_screen_web_access_title">I-edit ang pinagkakatiwalaang domains</string>
+    <string name="preference_title_ai">extension para sa Artificial intelligence (AI)</string>
+    <string name="preference_description_ai">I-enable ang bricks at sensors para sa AI</string>
     <string name="preference_title_ai_speech_recognition">Speech
-        recognition</string>
+     recognition</string>
     <string name="preference_description_ai_speech_recognition">Enable
-        speech recognition bricks and sensors</string>
+        bricks at sensors para sa speech recognition</string>
     <string name="preference_title_ai_speech_synthetization">Speech
-        synthetization</string>
+      synthetization</string>
     <string name="preference_description_ai_speech_synthetization">Enable
-        speech synthetization bricks and sensors</string>
+      bricks at sensors para sa speech synthetization</string>
     <string name="preference_title_ai_face_detection">Face
-        detection</string>
+      detection</string>
     <string name="preference_description_ai_face_detection">Enable
-        face detection bricks and sensors</string>
+       bricks at sensors para sa face detection</string>
     <string name="preference_title_ai_pose_detection">Pose detection</string>
     <string name="preference_description_ai_pose_detection">Enable
-        pose detection bricks and sensors</string>
+       bricks at sensors para sa pose detection</string>
     <string name="preference_title_ai_text_recognition">Text
-        recognition</string>
+       recognition</string>
     <string name="preference_description_ai_text_recognition">Enable
-        text recognition bricks and sensors</string>
-    <string name="preference_title_accessibility">Accessibility</string>
-    <string name="preference_description_accessibility">Change the app\'s appearance</string>
-    <string name="preference_title_accessibility_profiles">Accessibility profiles</string>
-    <string name="preference_title_accessibility_profile">Predefined profiles</string>
+       bricks at sensors para sa text recognition</string>
+    <string name="preference_title_accessibility">Aksesibilidad</string>
+    <string name="preference_description_accessibility">Baguhin ang anyo ng app</string>
+    <string name="preference_title_accessibility_profiles">Profile ng Aksesibiliti</string>
+    <string name="preference_title_accessibility_profile">Nakatalaga nang profile</string>
     <string name="preference_title_accessibility_profile_headline">Profiles</string>
-    <string name="preference_title_accessibility_predefined_profile_headline">Predefined profiles</string>
-    <string name="preference_description_accessibility_profiles">Pick a predefined accessibility profile</string>
-    <string name="preference_title_accessibility_text_appearance">Text appearance</string>
-    <string name="preference_title_accessibility_handling">Handling</string>
-    <string name="preference_title_accessibility_category_icons_big">Large icons</string>
-    <string name="preference_description_accessibility_category_icons_big">Increase icon size.</string>
-    <string name="preference_title_accessibility_category_icons_high_contrast">High contrast icons</string>
+    <string name="preference_title_accessibility_predefined_profile_headline">Nakatalaga nang profile</string>
+    <string name="preference_description_accessibility_profiles">Pumili ng nakatalaga nang aksesibiliti profile</string>
+    <string name="preference_title_accessibility_text_appearance">Anyo ng Text</string>
+    <string name="preference_title_accessibility_handling">Paggamit</string>
+    <string name="preference_title_accessibility_category_icons_big">Malaking icons</string>
+    <string name="preference_description_accessibility_category_icons_big">Palakihin ang sukat ng icon.</string>
+    <string name="preference_title_accessibility_category_icons_high_contrast">Mataas na kontras ng icons</string>
     <string name="preference_title_accessibility_Brick_icons">Icons</string>
-    <string name="preference_title_accessibility_category_icons">Show icons</string>
-    <string name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
-    <string name="preference_title_accessibility_high_contrast">High contrast</string>
-    <string name="preference_description_accessibility_high_contrast">Increase the text contrast.</string>
-    <string name="preference_description_accessibility_large_text">Increase the text size.</string>
-    <string name="preference_title_accessibility_large_text">Large text</string>
-    <string name="preference_title_accessibility_element_spacing">Large element spacing</string>
-    <string name="preference_description_accessibility_element_spacing">Increase element spacing in lists.</string>
+    <string name="preference_title_accessibility_category_icons">Ipakita ang icons</string>
+    <string name="preference_description_accessibility_category_icons">Magdagdag ng icons sa mga kategorya at bricks</string>
+    <string name="preference_title_accessibility_high_contrast">Mataas na kontras</string>
+    <string name="preference_description_accessibility_high_contrast">Palakihin ang kontras ng text</string>
+    <string name="preference_description_accessibility_large_text">Palakihin ang sukat ng text.</string>
+    <string name="preference_title_accessibility_large_text">Malaking sulat</string>
+    <string name="preference_title_accessibility_element_spacing">Malaking element spacing</string>
+    <string name="preference_description_accessibility_element_spacing">Palakihin ang element spacing sa listahan.</string>
     <string name="preference_title_accessibility_dragndrop_delay">Drag\'n\'drop delay</string>
-    <string name="preference_description_accessibility_dragndrop_delay">Drag\'n\'drop delay for bricks.</string>
-    <string name="preference_title_accessibility_beginner_bricks">Beginner mode</string>
-    <string name="preference_description_accessibility_beginner_bricks">Show only simple features.</string>
-    <string name="preference_title_accessibility_font_style">Choose a text type</string>
+    <string name="preference_description_accessibility_dragndrop_delay">Drag\'n\'drop delay para sa mga bricks </string>
+    <string name="preference_title_accessibility_beginner_bricks">Mode para sa baguhan</string>
+    <string name="preference_description_accessibility_beginner_bricks">Ipakita lang ang mga simpleng features.</string>
+    <string name="preference_title_accessibility_font_style">Pumili ng uri para sa text</string>
     <string name="accessibility_font_regular">Regular</string>
     <string name="accessibility_font_serif">Serif</string>
     <string name="accessibility_font_dyslexic">Dyslexic</string>
-    <string name="accessibility_settings_applied">Changes applied</string>
-    <string name="preference_access_title_profile_default">Default</string>
-    <string name="preference_access_summary_profile_default">Default settings</string>
-    <string name="preference_access_title_profile_custom">My custom profile</string>
-    <string name="preference_access_summary_profile_custom">My personal settings</string>
+    <string name="accessibility_settings_applied">Nalagay na ang mga pagbabago</string>
+    <string name="preference_access_title_profile_default">Naka-Default</string>
+    <string name="preference_access_summary_profile_default">Default na settings</string>
+    <string name="preference_access_title_profile_custom">Ang aking pasadyang profile</string>
+    <string name="preference_access_summary_profile_custom">Ang aking personal na settings</string>
     <string name="preference_access_title_profile_argus">Argus</string>
-    <string name="preference_access_summary_profile_argus">High contrast, additional icons</string>
+    <string name="preference_access_summary_profile_argus">Mataas na kontras, karagdagang icons</string>
     <string name="preference_access_title_profile_odin">Odin</string>
-    <string name="preference_access_summary_profile_odin">Large text, large icons, large element
-       spacing, high contrast</string>
+    <string name="preference_access_summary_profile_odin">Malaking text, malaking icons, malaking element
+      spacing, mataas na kontras</string>
     <string name="preference_access_title_profile_fenrir">Fenrir</string>
-    <string name="preference_access_summary_profile_fenrir">Large element spacing, drag\'n\'drop
-       delay</string>
+    <string name="preference_access_summary_profile_fenrir">Malaking element spacing, drag\'n\'drop
+              delay</string>
     <string name="preference_access_title_profile_tiro">Tiro</string>
-    <string name="preference_access_summary_profile_tiro">Beginner mode</string>
+    <string name="preference_access_summary_profile_tiro">Mode para sa baguhan</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 extension</string>
-    <string name="preference_description_quadcopter_bricks">Allow the app to control Parrot AR.Drone 2.0 quadcopters</string>
+    <string name="preference_description_quadcopter_bricks">Pinapayagan ang app na kontrolin ang Parrot AR.Drone 2.0 quadcopters</string>
     <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo extension</string>
-    <string name="preference_description_jumpingsumo_bricks">Allow the app to control Parrot\'s Jumping Sumo robots</string>
+    <string name="preference_description_jumpingsumo_bricks">Pinapayagan ang app na kontrolin ang Parrot\'s Jumping Sumo robots</string>
     <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT extension</string>
     <string name="preference_title_enable_mindstorms_ev3_bricks">Lego Mindstorms EV3 extension</string>
-    <string name="preference_description_mindstorms_nxt_bricks">Allow the app to control Lego Mindstorms NXT robots</string>
-    <string name="preference_description_mindstorms_ev3_bricks">Allow the app to control Lego Mindstorms EV3 robots</string>
+    <string name="preference_description_mindstorms_nxt_bricks">Payagan ang app na kontrolin ang Lego Mindstorms NXT robots</string>
+    <string name="preference_description_mindstorms_ev3_bricks">Payagan ang app na kontrolin ang Lego Mindstorms EV3 robots</string>
     <string name="preference_title_mindstorms_nxt_sensors">Lego NXT Sensors</string>
     <string name="preference_title_mindstorms_ev3_sensors">Lego EV3 Sensors</string>
     <string name="preference_title_drone_config_properties">Parrot AR.Drone 2.0 configuration</string>
     <string name="preference_title_enable_phiro_bricks">RobotixEdu\'s Phiro extension</string>
-    <string name="preference_description_phiro_bricks">Allow the app to control RobotixEdu\'s Phiro robots</string>
+    <string name="preference_description_phiro_bricks">Payagan ang app na kontrolin ang RobotixEdu\'s Phiro robots</string>
     <string name="preference_title_enable_arduino_bricks">Arduino extension</string>
-    <string name="preference_description_arduino_bricks">Allow the app to control Arduino boards</string>
+    <string name="preference_description_arduino_bricks">Payagan ang app na kontrolin ang Arduino boards</string>
     <string name="preference_title_enable_embroidery_bricks">Embroidery extension</string>
-    <string name="preference_description_embroidery_bricks">Create patterns for stitching machines</string>
+    <string name="preference_description_embroidery_bricks">Lumikha ng pattern para sa stitching machines</string>
     <string name="preference_title_cast_feature_globally_enabled">Chromecast extension</string>
-    <string name="preference_description_cast_feature_globally_enabled">Show cast button and enable cast projects</string>
-    <string name="preference_title_enable_nfc_bricks">Near Field Communication extension</string>
-    <string name="preference_description_nfc_bricks">Allow the app to use NFC tags in projects</string>
-    <string name="preference_title_enable_crash_reports">Sending anonymous crash reports</string>
-    <string name="preference_description_crash_reports">Allow the app to send crash reports automatically</string>
+    <string name="preference_description_cast_feature_globally_enabled">Ipakita ang mga pindutan para sa cast at i-enable ang mga proyektong cast</string>
+    <string name="preference_title_enable_nfc_bricks">ekstensiyon ng Near Field Communication</string>
+    <string name="preference_description_nfc_bricks">Pinapayagan ang app na gumamit ng NFC tags sa mga projects.</string>
+    <string name="preference_title_enable_crash_reports">Nagpapadala ng di-kilalang mga ulat tungkol sa mga crash</string>
+    <string name="preference_description_crash_reports">Pinapayagan ang app na magpadala ng mga ulat tungkol sa crash ng awtomatiko</string>
     <!-- -->
-    <string name="preference_title_enable_raspi_bricks">Raspberry Pi extension</string>
-    <string name="preference_description_raspi_bricks">Allow the app to control Raspberry Pi computers</string>
-    <string name="preference_raspi_enable_bricks">Enable bricks and sensors</string>
-    <string name="preference_raspi_help">Help / getting started</string>
-    <string name="preference_raspi_help_summary">Get help on how to configure the connection settings</string>
+    <string name="preference_title_enable_raspi_bricks">ekstensiyon ng Raspberry Pi </string>
+    <string name="preference_description_raspi_bricks">Pinapayagan ang app na kontrolin ang Raspberry Pi na kompyuter</string>
+    <string name="preference_raspi_enable_bricks">I-enable ang mga brick at sensors</string>
+    <string name="preference_raspi_help">Tulong / nagsisimula pa lang</string>
+    <string name="preference_raspi_help_summary">Makakuha ng tulong paano isaayos ang settings ng koneksiyon</string>
     <string name="preference_raspi_host">Raspberry Pi IP-/host-address</string>
-    <string name="preference_raspi_port">Raspberry Pi port</string>
+    <string name="preference_raspi_port">port ng Raspberry Pi</string>
     <!--  -->
-    <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
-    <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
-        multiplayer variables shared via Bluetooth</string>
-    <string name="preference_title_enable_test_bricks">Testing extension</string>
-    <string name="preference_description_test_bricks">Allows to create tests</string>
+    <string name="preference_title_multiplayer_variables_enabled">ekstensiyon ng Multiplayer</string>
+    <string name="preference_description_multiplayer_variables_enabled">Pinapayagan ang app na gamitin ang
+            mga variables na multiplayer na ibinabahagi sa pamamagitan ng Bluetooth</string>
+    <string name="preference_title_enable_test_bricks">ekstensiyong Panubok</string>
+    <string name="preference_description_test_bricks">Pinapayagan na makalikha ng panubok</string>
     <!-- Scratch Converter activity -->
     <string name="beta">BETA</string>
-    <string name="error_scratch_program_not_accessible_any_more">Whoops! The project seems to have disappeared
-        or you might have lost access to it.</string>
-    <string name="error_scratch_project_data_not_available">Whoops! Some parts of the project seem to be
-        missing, please try again later.</string>
-    <string name="error_request_timeout">Whoops! Our server did not respond in time, please try again later.</string>
-    <string name="error_scratch_program_conversion_failed">Whoops! Failed to convert the project, please try again
-        later.</string>
-    <string name="error_specific_scratch_program_conversion_failed_x">Whoops! Failed to convert %1$s, please try
-        again later.</string>
-    <string name="error_scratch_converter_outdated_app_version">Your version of this app is outdated. Our Scratch
-        converter only works on the latest version. Please update the app.</string>
-    <string name="error_cannot_open_not_existing_scratch_program">I could not open this Scratch project. It seems that you
-        have canceled the conversion/download of the Scratch project, or you have renamed/deleted the project in the
-        meanwhile.</string>
-    <string name="error_cannot_open_currently_downloading_scratch_program">You cannot yet open the project.
-        Please wait until it is downloaded.</string>
-    <string name="error_cannot_open_not_yet_downloaded_scratch_program">You cannot yet open the project.
-        Please download it first and then open it.</string>
-    <string name="error_cannot_convert_deprecated_scratch_program_x_x">I could not convert %1$s. This seems to be
-        an old Scratch project from before %2$s. Please try another one.</string>
+    <string name="error_scratch_program_not_accessible_any_more">Whoops! Ang proyekto ay tila naglaho
+       o maaring nawalan ka ng access dito.</string>
+    <string name="error_scratch_project_data_not_available">Whoops! Ang ilang bahagi ng proyekto ay tila
+         nawawala, pakiusap subukan muli sa ibang pagkakataon.</string>
+    <string name="error_request_timeout">Whoops! Ang aming server ay hindi makatugon sa oras, pakiusap subukan muli sa ibang pagkakataon.</string>
+    <string name="error_scratch_program_conversion_failed">Whoops! Failed sa pag-convert ng proyekto, pakiusap subukan muli
+        sa ibang pagkakataon.</string>
+    <string name="error_specific_scratch_program_conversion_failed_x">Whoops! Failed sa pag-convert ng %1$s, pakiusap subukan
+       muli sa ibang pagkakataon.</string>
+    <string name="error_scratch_converter_outdated_app_version">Ang iyong bersiyon ng app ay luma na. Ang aming Scratch
+         converter ay gumagana lamang sa mas mataas na bersiyon. Mangyaring i-update ang app.</string>
+    <string name="error_cannot_open_not_existing_scratch_program">Hindi ko mabuksan ang Scratch project na ito. Mukhang 
+       kinansela mo ang pag-convert/pag-download ng Scratch project,o di kaya iniba mo ng pangalan/binura mo ang proyekto
+          sa kasalukuyan.</string>
+    <string name="error_cannot_open_currently_downloading_scratch_program">Hindi mo pa maaaring buksan ang proyekto.
+          Mangyaring pakihintay muna hanggang ito ay lubusang ma-download</string>
+    <string name="error_cannot_open_not_yet_downloaded_scratch_program">Hindi mo maaaring buksan ang proyekto.
+          Mangyaring paki-download muna ito bago mo ito mabuksan.</string>
+    <string name="error_cannot_convert_deprecated_scratch_program_x_x">Hindi ko ma-convert ang %1$s. Mukhang ito
+        ay lumang Scratch project mula noong %2$s.
+Pakiusap sumubok na lamang ng iba.</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
         <item quantity="one">You cannot convert more than %d project at the same time. Please wait for the
             running conversions to finish first.</item>
-        <item quantity="other">You cannot convert more than %d projects at the same time. Please wait for the
-            running conversions to finish first.</item>
+        <item quantity="other">Hindi ka maaaring mag-convert ng hihigit sa %d na mga proyekto ng sabay-sabay. Pakiusap hintayin muna
+                ang mga naunang kino-convert na matapos muna.</item>
     </plurals>
-    <string name="error_cannot_open_failed_scratch_program">You cannot open the project because it wasn\'t
-        converted correctly. Please try to convert it again.</string>
-    <string name="search_failed">Nothing found, please retry later.</string>
-    <string name="connection_lost_or_closed_by_server">Server connection lost.</string>
-    <string name="connection_failed">We can\'t connect you to the server right now, please try again later.</string>
-    <string name="authentication_failed">There seems to be a problem with your connection to the service. Please
-        contact the Catrobat team.</string>
+    <string name="error_cannot_open_failed_scratch_program">Hindi mo maaaring mabuksan ang proyekto dahil ito ay hindi
+      na-convert ng maayos. Pakiusap subukan mo itong i-convert muli.</string>
+    <string name="search_failed">Walang nahanap, subukan muli sa ibang pagkakataon.</string>
+    <string name="connection_lost_or_closed_by_server">Nawala ang koneksiyon sa Server.</string>
+    <string name="connection_failed">Hindi ka namin ma-konek sa server ngayon, pakiusap subukan muli sa ibang pagkakataon.</string>
+    <string name="authentication_failed">Mukhang merong problema sa iyong koneksiyon sa serbisyo. Pakiusap
+        kontakin ang Catrobat team.</string>
     <plurals name="scratch_conversion_scheduled_x">
         <item quantity="one">Added %d Scratch project to the queue&#8230;</item>
-        <item quantity="other">Added %d Scratch projects to the queue&#8230;</item>
+        <item quantity="other">Naidagdag ang mga %d Scratch project sa pila&#8230;</item>
     </plurals>
-    <string name="scratch_conversion_started">Started to convert Scratch project&#8230;</string>
-    <string name="convert">Convert</string>
-    <string name="converting">Converting&#8230;</string>
-    <string name="status_scheduled">Scheduled</string>
-    <string name="status_waiting_for_worker">Looking for a free worker&#8230; Please wait&#8230;</string>
-    <string name="status_started">Started&#8230;</string>
-    <string name="status_conversion_finished">Conversion finished</string>
+    <string name="scratch_conversion_started">Sinisimulang i-convert ang Scratch project&#8230;</string>
+    <string name="convert">I-convert</string>
+    <string name="converting">Kino-convert&#8230;</string>
+    <string name="status_scheduled">Iskedyul</string>
+    <string name="status_waiting_for_worker">Naghahanap ng libreng trabahador&#8230; Pakiusap maghintay&#8230;</string>
+    <string name="status_started">Nagsimula&#8230;</string>
+    <string name="status_conversion_finished">Tapos na ang Pag-convert</string>
     <plurals name="status_in_progress_x_jobs">
         <item quantity="one">In progress: %d job</item>
-        <item quantity="other">In progress: %d jobs</item>
+        <item quantity="other">progreso: %d mga trabaho</item>
     </plurals>
     <plurals name="status_completed_x_jobs">
         <item quantity="one">Completed: %d job</item>
-        <item quantity="other">Completed: %d jobs</item>
+        <item quantity="other">Natapos: %d mga trabaho</item>
     </plurals>
-    <string name="status_conversion_failed">Conversion failed!</string>
-    <string name="status_downloading">Downloading&#8230;</string>
-    <string name="status_download_finished">Download finished.</string>
-    <string name="status_download_canceled">Download canceled!</string>
-    <string name="scratch_programs_in_progress_title">In progress</string>
-    <string name="scratch_programs_finished_title">Converted projects</string>
-    <string name="by_x">by %1$s</string>
-    <string name="warning_program_visibility">WARNING:\nThis seems to be a private project. You can try to
-        convert it but it might not work.</string>
-    <string name="instructions">Instructions</string>
-    <string name="notes_and_credits">Notes and Credits</string>
-    <string name="shared_at_x">Shared: %1$s</string>
-    <string name="modified_at_x">Modified: %1$s</string>
+    <string name="status_conversion_failed">Hindi nagtagumpay sa pag-convert!</string>
+    <string name="status_downloading">Nagda-download&#8230;</string>
+    <string name="status_download_finished">Tapos na ang pag-download.</string>
+    <string name="status_download_canceled">Kinansela ang pag-download!</string>
+    <string name="scratch_programs_in_progress_title">Ginagawa</string>
+    <string name="scratch_programs_finished_title">Mga proyektong na-convert</string>
+    <string name="by_x">mula kay %1$s</string>
+    <string name="warning_program_visibility">BABALA:\nMukhang ito ay pribadong proyekto. Maari mong subukan na ito ay
+          I-convert ngunit maaaring ito ay hindi gumana.</string>
+    <string name="instructions">Tagubilin</string>
+    <string name="notes_and_credits">Mga Notes at Credits</string>
+    <string name="shared_at_x">Ibahagi: %1$s</string>
+    <string name="modified_at_x">Nabago: %1$s</string>
     <string name="remixes">Remixes</string>
     <!--  -->
-    <string name="author">Author:</string>
-    <string name="screen_size">Stage size:</string>
+    <string name="author">May akda:</string>
+    <string name="screen_size">Sukat ng screen:</string>
     <string name="mode">Mode:</string>
-    <string name="remix_of">Remix of:</string>
-    <string name="description_hint">Press to add description</string>
-    <string name="notes_and_credits_hint">Press to add notes and credits</string>
+    <string name="remix_of">Remix ni:</string>
+    <string name="description_hint">Pindutin upang magdagdag ng paglalarawan</string>
+    <string name="notes_and_credits_hint">Pindutin upang magdagdag ng mga notes at credits</string>
     <!-- ScratchReconvertDialog Strings -->
-    <string name="reconvert_text">You converted this project %1$s ago.</string>
+    <string name="reconvert_text">Na-convert mo ang proyektong ito %1$s na ang nakalipas.</string>
     <plurals name="minutes">
         <item quantity="one">%d minute</item>
-        <item quantity="other">%d minutes</item>
+        <item quantity="other">%d minuto</item>
     </plurals>
     <plurals name="hours">
         <item quantity="one">%d hour</item>
-        <item quantity="other">%d hours</item>
+        <item quantity="other">%d oras</item>
     </plurals>
     <plurals name="days">
         <item quantity="one">%d day</item>
-        <item quantity="other">%d days</item>
+        <item quantity="other">%d araw</item>
     </plurals>
-    <string name="reconvert_dialog_download">Download the project again</string>
-    <string name="reconvert_dialog_reconvert">Convert this project again</string>
+    <string name="reconvert_dialog_download">I-download muli ang proyekto.</string>
+    <string name="reconvert_dialog_reconvert">I-convert muli ang proyektong ito</string>
     <!--  -->
     <!-- ERRORS -->
     <!-- Terms of Use and Service Error -->
-    <string name="declined_terms_of_use_and_service_alert">To use our app, it is necessary to accept our Terms of Use and Service.
-        However, if you don\’t feel comfortable to do so, you can use our free web-services on</string>
-    <string name="wtf_error">An unexpected error occurred: I could not restore the sample project.</string>
+    <string name="declined_terms_of_use_and_service_alert">Upang magamit ang aming app, Naaangkop lamang na tanggapin ang aming Terms of Use and Service.
+   Ngunit,kung hindi ka komportable na gawin ito,maaari mong gamiting ang aming libreng web-services.</string>
+    <string name="wtf_error">Isang di-inaasahang error and nangyari; Hindi ko mare-restore ang sample na proyekto.</string>
     <!-- Project Handling Errors -->
-    <string name="error_copy_project">An error occurred while copying project</string>
+    <string name="error_copy_project">Isang error ang nangyari habang kinokopya ang proyekto</string>
     <!-- Dialog Errors -->
-    <string name="name_already_exists">This name is already in use, please choose another one.</string>
-    <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a text
-        using letters, numbers or other special characters.</string>
-    <string name="name_empty">Please enter a text</string>
+    <string name="name_already_exists">Ang pangalang ito ay nagamit na ng iba, pakiusap pumili ng panibago.</string>
+    <string name="name_consists_of_spaces_only">Maaari ka lamang maglagay ng espasyo sa text field, pakiusap maglagay ng text
+          gamit ang letra, numero o iba pang special characters.</string>
+    <string name="name_empty">Pakiusap maglagay ng text</string>
     <!-- Recycler View -->
-    <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
-    <string name="reject_import">The actor or object could not be added.</string>
-    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
+    <string name="am_empty_list">Wala pang mga item na list na itoo. Pakiusap magdagdag muna.</string>
+    <string name="reject_import">Ang Aktor o gamit ay hindi maidagdag</string>
+    <string name="am_merge_error">Walang pagsasamang naganap. Eksaktong 2 proyekto ang kailangang piliin upang pagsamahin.</string>
     <string name="am_backpack">Pack</string>
     <string name="am_unpack">Unpack</string>
-    <string name="am_copy">Copy</string>
-    <string name="am_delete">Delete</string>
-    <string name="am_rename">Rename</string>
-    <string name="am_convert">Convert</string>
-    <string name="am_merge">Merge</string>
-    <string name="dialog_confirm_delete">You can\'t undo this!</string>
-    <string name="list_headline_sprites">Actors and objects</string>
+    <string name="am_copy">Kopyahin</string>
+    <string name="am_delete">Burahin</string>
+    <string name="am_rename">Pangalanan muli</string>
+    <string name="am_convert">I-convert</string>
+    <string name="am_merge">Pagsamahin</string>
+    <string name="dialog_confirm_delete">Hindi mo na ito ma-u-undo!</string>
+    <string name="list_headline_sprites">Aktor at mga bagay</string>
     <!-- Options Menu Options -->
     <string name="backpack">Backpack</string>
-    <string name="copy">Copy</string>
-    <string name="delete">Delete</string>
-    <string name="rename">Rename</string>
-    <string name="merge">Merge</string>
-    <string name="show_details">Show details</string>
-    <string name="hide_details">Hide details</string>
+    <string name="copy">Kopyahin</string>
+    <string name="delete">Burahin</string>
+    <string name="rename">Pangalanan muli</string>
+    <string name="merge">Pagsamahin</string>
+    <string name="show_details">Ipakita ang mga detalye</string>
+    <string name="hide_details">Itago ang mga detalye</string>
     <string name="project_options">Project options</string>
-    <string name="from_library">Add from library</string>
+    <string name="from_library">Idagdag mula sa library</string>
     <string name="sort_projects">Sort</string>
     <string name="unsort_projects">Unsort</string>
+    <string name="import_from_project">Select project to import from</string>
     <!-- New Dialog Titles -->
-    <string name="new_scene_dialog">New scene</string>
+    <string name="new_scene_dialog">Bagong scene</string>
     <!-- Delete Dialog Titles -->
     <plurals name="delete_projects">
         <item quantity="one">Delete this project?</item>
-        <item quantity="other">Delete these projects?</item>
+        <item quantity="other">Burahin ang mga proyektong ito?</item>
     </plurals>
     <plurals name="delete_scenes">
         <item quantity="one">Delete this scene?</item>
-        <item quantity="other">Delete these scenes?</item>
+        <item quantity="other">Burahin ang mga scene na ito?</item>
     </plurals>
     <plurals name="delete_sprites">
         <item quantity="one">Delete this actor or object?</item>
-        <item quantity="other">Delete these actors or objects?</item>
+        <item quantity="other">Burahin ang mga Aktor o bagay?</item>
     </plurals>
     <plurals name="delete_looks">
         <item quantity="one">Delete this look?</item>
-        <item quantity="other">Delete these looks?</item>
+        <item quantity="other">Burahin ang mga larawang ito?</item>
     </plurals>
     <plurals name="delete_sounds">
         <item quantity="one">Delete this sound?</item>
-        <item quantity="other">Delete these sounds?</item>
+        <item quantity="other">Burahin ang mga tunog na ito?</item>
     </plurals>
     <plurals name="delete_nfc_tags">
         <item quantity="one">Delete this tag?</item>
-        <item quantity="other">Delete these tags?</item>
+        <item quantity="other">Burahin ang mga tag na ito?</item>
     </plurals>
     <plurals name="delete_scripts">
         <item quantity="one">Delete this script?</item>
-        <item quantity="other">Delete these scripts?</item>
+        <item quantity="other">Burahin ang mga script na ito?</item>
     </plurals>
     <!-- Dialog Labels -->
-    <string name="project_name_label">Project name</string>
-    <string name="scene_name_label">Scene name</string>
-    <string name="sprite_name_label">Actor or object name</string>
-    <string name="sprite_group_name_label">Group name</string>
-    <string name="script_group_label">Script group name</string>
-    <string name="look_name_label">Look name</string>
-    <string name="sound_name_label">Sound name</string>
-    <string name="nfc_tag_name_label">NFC tag name</string>
+    <string name="project_name_label">Pangalan ng proyekto</string>
+    <string name="scene_name_label">Pangalan ng Scene</string>
+    <string name="sprite_name_label">Pangalan ng Aktor o bagay</string>
+    <string name="sprite_group_name_label">Pangalan ng grupo</string>
+    <string name="script_group_label">pangalan ng grupo ng mga script</string>
+    <string name="look_name_label">Pangalan ng larawan</string>
+    <string name="sound_name_label">Pangalan ng tunog</string>
+    <string name="nfc_tag_name_label">Pangalan ng NFC tag</string>
     <string name="string_label">Text</string>
-    <string name="data_label">Name</string>
-    <string name="keyword_label">Search</string>
-    <string name="html_label">Insert HTML text</string>
-    <string name="Image_format_not_supported">Image format not supported</string>
-    <string name="import_conflicting_variables">The actor or object could not be added.</string>
-    <string name="import_conflicting_variables_reason">The reason is that the following variable or
-        list names are in conflict because they are used for
-        all actors and objects and with the same name also for only one of the actors or objects: </string>
-    <string name="import_conflicting_variables_try_again">Please rename one of these variables or lists and try again.</string>
+    <string name="data_label">Pangalan</string>
+    <string name="keyword_label">Maghanap</string>
+    <string name="html_label">Maglagay ng HTML na text</string>
+    <string name="Image_format_not_supported">Hindi sinusuportahan ang format ng file.</string>
+    <string name="import_conflicting_variables">Ang Aktor o gamit ay hindi maidagdag</string>
+    <string name="import_conflicting_variables_reason">Ang rason ay ang sumusunod na variable o
+        pangalan ng mga list ay hindi tumutugma dahil sila ay nagamit para
+         sa lahat ng aktor o bagay at may kaparehong pangalan na para lang din sa isa sa mga aktor o bagay;</string>
+    <string name="import_conflicting_variables_try_again">Pakiusap paki-palitan ng pangalan ang variable o listahan na ito at subukan uli </string>
     <!-- Details -->
-    <string name="project_details">Last access: %s, size: %s</string>
-    <string name="last_access_today">today, %s</string>
-    <string name="scene_details">Actors and objects: %d, looks: %d, sounds: %d</string>
-    <string name="sprite_details">Bricks: %d, looks: %d, sounds: %d</string>
-    <string name="look_details">Resolution: %s, size: %s</string>
-    <string name="sound_duration">Duration: %s</string>
-    <string name="sound_details">Duration: %s, size: %s</string>
+    <string name="project_details">Huling access: %s,sukat: %s</string>
+    <string name="last_access_today">ngayong araw, %s</string>
+    <string name="scene_details">Aktor at bagay: %d,mga larawan: %d, mga tunog: %d</string>
+    <string name="sprite_details">Bricks: %d,larawan: %d, tunog: %d</string>
+    <string name="look_details">Resolusyon: %s,sukat: %s</string>
+    <string name="sound_duration">Panahong itinagal: %s</string>
+    <string name="sound_details">Panahong itinagal:%s,sukat:%s</string>
     <!--  -->
     <!-- Rename Dialog Titles -->
-    <string name="rename_project">Rename project</string>
-    <string name="rename_scene_dialog">Rename scene</string>
-    <string name="rename_sprite_dialog">Rename actor or object</string>
-    <string name="rename_look_dialog">Rename look</string>
-    <string name="rename_sound_dialog">Rename sound</string>
-    <string name="rename_nfctag_dialog">Rename NFC tag</string>
-    <string name="rename_data_dialog">Rename</string>
+    <string name="rename_project">Pangalanang muli ang proyekto</string>
+    <string name="rename_scene_dialog">Pangalanang muli ang scene</string>
+    <string name="rename_sprite_dialog">Pangalanang muli ang aktor o bagay</string>
+    <string name="rename_look_dialog">Baguhan ng pangalan ang larawan</string>
+    <string name="rename_sound_dialog">Baguhan ng pangalan ang tunog</string>
+    <string name="rename_nfctag_dialog">Baguhan ng pangalan ang NFC tag</string>
+    <string name="rename_data_dialog">Pangalanan muli</string>
     <!-- New Script Group Dialog -->
-    <string name="new_group">New group</string>
-    <string name="default_group_name">Group</string>
+    <string name="new_group">Bagong grupo</string>
+    <string name="default_group_name">Grupo</string>
     <!-- New Scene Menu -->
-    <string name="new_scene">New scene</string>
+    <string name="new_scene">Bagong scene</string>
     <!-- Action Toasts -->
     <!-- Backpack -->
-    <string name="backpack_empty">Backpack empty. Nothing to unpack.</string>
+    <string name="backpack_empty">Walang laman ang backpack. Walang maa-unpack</string>
     <plurals name="packed_scenes">
         <item quantity="one">Backpacked %d scene.</item>
-        <item quantity="other">Backpacked %d scenes.</item>
+        <item quantity="other">Nailagay sa backpack ang %d mga scene</item>
     </plurals>
     <plurals name="packed_sprites">
         <item quantity="one">Backpacked %d actor or object.</item>
-        <item quantity="other">Backpacked %d actors or objects.</item>
+        <item quantity="other">Nailagay sa backpack ang mga %d aktor o bagay</item>
     </plurals>
     <plurals name="packed_looks">
         <item quantity="one">Backpacked %d look.</item>
-        <item quantity="other">Backpacked %d looks.</item>
+        <item quantity="other">Nailagay sa backpack ang %d mga larawan</item>
     </plurals>
     <plurals name="packed_sounds">
         <item quantity="one">Backpacked %d sound.</item>
-        <item quantity="other">Backpacked %d sounds.</item>
+        <item quantity="other">Nailagay sa backpack ang %d mga tunog</item>
     </plurals>
-    <string name="packed_script_group">Backpacked one script group.</string>
+    <string name="packed_script_group">Nailagay sa backpack ang isang grupo ng mga script</string>
     <!-- Unpack -->
     <plurals name="unpacked_scenes">
         <item quantity="one">Unpacked %d scene.</item>
-        <item quantity="other">Unpacked %d scenes.</item>
+        <item quantity="other">Na-unpack ang %d mga scene</item>
     </plurals>
     <plurals name="unpacked_sprites">
         <item quantity="one">Unpacked %d actor or object.</item>
-        <item quantity="other">Unpacked %d actors or objects.</item>
+        <item quantity="other">Na-unpack ang %d mga aktor o bagay</item>
     </plurals>
     <plurals name="unpacked_looks">
         <item quantity="one">Unpacked %d look.</item>
-        <item quantity="other">Unpacked %d looks.</item>
+        <item quantity="other">Na-unpack ang %d mga larawan</item>
     </plurals>
     <plurals name="unpacked_sounds">
         <item quantity="one">Unpacked %d sound.</item>
-        <item quantity="other">Unpacked %d sounds.</item>
+        <item quantity="other">Na-unpack ang %d mga tunog</item>
     </plurals>
     <plurals name="unpacked_scripts">
         <item quantity="one">Unpacked %d script.</item>
-        <item quantity="other">Unpacked %d scripts.</item>
+        <item quantity="other">Na-unpack ang %d mga script</item>
     </plurals>
     <!-- Copy -->
     <plurals name="copied_scenes">
         <item quantity="one">Copied %d scene.</item>
-        <item quantity="other">Copied %d scenes.</item>
+        <item quantity="other">Nakopya ang %d mga scene.</item>
     </plurals>
     <plurals name="copied_sprites">
         <item quantity="one">Copied %d actor or object.</item>
-        <item quantity="other">Copied %d actors or objects.</item>
+        <item quantity="other">Nakopya ang %d mga aktor o bagay.</item>
     </plurals>
     <plurals name="copied_looks">
         <item quantity="one">Copied %d look.</item>
-        <item quantity="other">Copied %d looks.</item>
+        <item quantity="other">Nakopya ang %d mga larawan</item>
     </plurals>
     <plurals name="copied_sounds">
         <item quantity="one">Copied %d sound.</item>
-        <item quantity="other">Copied %d sounds.</item>
+        <item quantity="other">Nakopya ang mga %d tunog.</item>
     </plurals>
     <plurals name="copied_nfc_tags">
         <item quantity="one">Copied %d NFC tag.</item>
-        <item quantity="other">Copied %d NFC tags.</item>
+        <item quantity="other">Nakopya ang mga %d NFC tags</item>
     </plurals>
     <!-- Delete -->
     <plurals name="deleted_projects">
         <item quantity="one">Deleted %d project.</item>
-        <item quantity="other">Deleted %d projects.</item>
+        <item quantity="other">Nabura ang %d mga proyekto.</item>
     </plurals>
     <plurals name="deleted_scenes">
         <item quantity="one">Deleted %d scene.</item>
-        <item quantity="other">Deleted %d scenes.</item>
+        <item quantity="other">Nabura ang %d mga scene.</item>
     </plurals>
     <plurals name="deleted_sprites">
         <item quantity="one">Deleted %d actor or object.</item>
-        <item quantity="other">Deleted %d actors or objects.</item>
+        <item quantity="other">Nabura ang %d mga aktor o bagay.</item>
     </plurals>
     <plurals name="deleted_looks">
         <item quantity="one">Deleted %d look.</item>
-        <item quantity="other">Deleted %d looks.</item>
+        <item quantity="other">Nabura ang %d mga larawan.</item>
     </plurals>
     <plurals name="deleted_sounds">
         <item quantity="one">Deleted %d sound.</item>
-        <item quantity="other">Deleted %d sounds.</item>
+        <item quantity="other">Nabura ang %d mga tunog.</item>
     </plurals>
     <plurals name="deleted_nfc_tags">
         <item quantity="one">Deleted %d NFC tag.</item>
-        <item quantity="other">Deleted %d NFC tags.</item>
+        <item quantity="other">Nabura ang %d mga NFC tags.</item>
     </plurals>
     <plurals name="deleted_scripts">
-        <item quantity="one">Deleted %d script.</item>
+        <item quantity="one">Nabura ang %d script</item>
         <item quantity="other">Deleted %d scripts.</item>
     </plurals>
     <plurals name="deleted_Items">
         <item quantity="one">Deleted %d item.</item>
-        <item quantity="other">Deleted %d items.</item>
+        <item quantity="other">Nabura ang %d mga items.</item>
     </plurals>
     <!-- Imported -->
     <plurals name="imported_projects">
         <item quantity="one">Imported %d project.</item>
-        <item quantity="other">Imported %d projects.</item>
+        <item quantity="other">Na-import ang %d mga proyekto.</item>
     </plurals>
+    <!-- Renamed -->
+    <string name="renamed_project">Pangalanang muli ang proyekto</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
-    <string name="project_list_title">Projects</string>
-    <string name="last_used">Last access:</string>
-    <string name="size">Size:</string>
-    <string name="description">Description:</string>
-    <string name="set_description">Set description</string>
-    <string name="notes_and_credits_title">Notes and credits:</string>
-    <string name="set_notes_and_credits">Set notes and credits</string>
-    <string name="details_date_today">Today</string>
-    <string name="import_project">Import project</string>
-    <string name="error_import_project">Something went wrong while importing projects.</string>
-    <string name="no_projects_selected">No projects selected for import</string>
-    <string name="error_no_files_found">No project files found.</string>
+    <string name="project_list_title">Mga Proyekto</string>
+    <string name="last_used">Huling pag-access:</string>
+    <string name="size">Sukat:</string>
+    <string name="description">Paglalarawan:</string>
+    <string name="set_description">Mag-set ng description</string>
+    <string name="notes_and_credits_title">Mga Notes at Credits:</string>
+    <string name="set_notes_and_credits">Mag-set ng Notes at credits</string>
+    <string name="details_date_today">Ngayong Araw</string>
+    <string name="import_project">I-import ang proyekto</string>
+    <string name="export_project">Mag-export ng proyekto</string>
+    <string name="error_import_project">May nangyaring hindi maganda habang nag-i-import ng proyekto.</string>
+    <string name="no_projects_selected">Walang proyektong napili para i-import.</string>
+    <string name="only_select_catrobat_files">Pillin lang ang file ng proyekto</string>
+    <string name="error_no_files_found">Walang nahanap na proyekto.</string>
+    <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
     <!-- ProjectOptionsFragment -->
-    <string name="project_options_description">Description</string>
-    <string name="project_options_notes_and_credits">Notes and credits</string>
+    <string name="project_options_description">Paglalarawan</string>
+    <string name="project_options_notes_and_credits">Mga Notes at Credits</string>
     <string name="project_options_tags">Tags</string>
-    <string name="project_options_aspect_ratio">Keep original aspect ratio</string>
-    <string name="project_options_more_details">More details</string>
-    <string name="project_options_delete_project">Delete project</string>
+    <string name="project_options_aspect_ratio">Panatilihin ang orihinal na aspect ratio</string>
+    <string name="project_options_more_details">Karagdagang mga detalye</string>
+    <string name="project_options_delete_project">Burahin ang proyekto</string>
     <!-- ScriptListFragment -->
-    <string name="fragment_script_text_description">Tap \"+\" to add scripts</string>
+    <string name="fragment_script_text_description">Pindutin ang \"+\" upang magdagdag ng script </string>
     <!--  -->
     <!-- SpriteListFragment -->
-    <string name="fragment_sprite_text_description">Tap \"+\" to add actors or objects</string>
-    <string name="default_sprite_name">My actor or object</string>
+    <string name="fragment_sprite_text_description">Pindutin ang \"+\" upang magdagdag ng aktor o bagay</string>
+    <string name="default_sprite_name">Ang aking aktor o bagay</string>
     <!--  -->
     <!-- LookListFragment -->
-    <string name="fragment_look_text_description">Tap \"+\" to add looks</string>
-    <string name="select_look_from_gallery">Select image</string>
-    <string name="select_look_from_camera">Select photo</string>
+    <string name="fragment_look_text_description">Pindutin ang \"+\" upang magdagdag ng larawan</string>
+    <string name="select_look_from_gallery">Pumili ng larawan</string>
+    <string name="select_look_from_camera">Pumili ng larawan</string>
     <!--  -->
     <!-- SoundListFragment -->
-    <string name="fragment_sound_text_description">Tap \"+\" to add sounds</string>
-    <string name="sound_select_source">Select a sound</string>
+    <string name="fragment_sound_text_description">Pindutin ang \"+\" upang magdagdag ng tunog</string>
+    <string name="sound_select_source">Pumili ng tunog</string>
     <!--  -->
     <!-- NfcTagListFragment -->
-    <string name="fragment_nfctag_text_description">Scan NFC tags to add them</string>
-    <string name="ndef_record_label">as record type</string>
-    <string name="brick_set_nfc_tag">Wait for next NFC tag to write</string>
+    <string name="fragment_nfctag_text_description">Mag-scan ng NFC tag upang maidagdag sila</string>
+    <string name="ndef_record_label">bilang record type</string>
+    <string name="brick_set_nfc_tag">Maghintay para sa sunod na NFC tag upang sumulat</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
     <string name="default_tag_name">NFC tag</string>
-    <string name="tnf_empty">Empty</string>
-    <string name="tnf_external_type">External type</string>
+    <string name="tnf_empty">Walang nilalaman</string>
+    <string name="tnf_external_type">Panlabas na uri</string>
     <string name="tnf_mime_media">Text</string>
     <string name="tnf_well_known_http">HTTP</string>
     <string name="tnf_well_known_https">HTTPS</string>
-    <string name="tnf_well_known_tel">Phone number</string>
+    <string name="tnf_well_known_tel">Numero ng telepono</string>
     <string name="tnf_well_known_sms">SMS</string>
     <string name="tnf_well_known_mailto">E-Mail</string>
     <!--  -->
     <!-- DataListFragment -->
-    <string name="multiplayer_vars_headline">Variables for connected devices</string>
-    <string name="global_vars_headline">Variables for all actors and objects</string>
-    <string name="local_vars_headline">Variables for this actor or object only</string>
+    <string name="multiplayer_vars_headline">Variables para sa mga devices na konektado</string>
+    <string name="global_vars_headline">Variables para sa lahat ng aktor o mga bagay</string>
+    <string name="local_vars_headline">Variables para sa aktor o bagay lamang na ito</string>
     <string name="global_lists_headline">Lists for all actors and objects</string>
     <string name="local_lists_headline">Lists for this actor or object only</string>
     <string name="fragment_data_text_description">Tap \"+\" to add\nvariables or lists</string>
@@ -612,6 +619,7 @@
     <string name="add_look_draw_new_image">Draw</string>
     <string name="add_look_choose_image">Gallery</string>
     <string name="add_look_media_library">Looks</string>
+    <string name="add_look_from_local_project">Local projects</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">Add sound</string>
@@ -629,12 +637,12 @@
     <string name="rating_dialog_rate_never">Never</string>
     <!--  -->
     <!-- Terms of Use Dialog -->
-    <string name="dialog_terms_of_use_title">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_title">Terms ng Paggamit at Serbisyo</string>
     <string name="dialog_terms_of_use_info">In order to
         be allowed to use the apps and other services offered by the Catrobat project, you
         must agree to our Terms of Use and Service. You have to follow these terms strictly when using our apps
         and other services. Please see the link below for their precise formulation.\n</string>
-    <string name="dialog_terms_of_use_link_text">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_link_text">Terms ng Paggamit at Serbisyo</string>
     <!--  -->
     <!-- Privacy Policy -->
     <string name="disclaimer_privacy_police_header_headline">Welcome!</string>
@@ -654,14 +662,14 @@
     <!-- NetworkAlertDialog -->
     <string name="error_no_network_title">No network</string>
     <!-- UploadProjectDialog -->
-    <string name="upload_project_dialog_title">Upload project</string>
-    <string name="upload_description">Description:</string>
-    <string name="upload_notes_and_credits">Notes and credits:</string>
+    <string name="upload_project_dialog_title">I-upload ang proyekto</string>
+    <string name="upload_description">Paglalarawan:</string>
+    <string name="upload_notes_and_credits">Mga Notes at Credits:</string>
     <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
     <string name="upload_tag_dialog_title">Please choose up to three categories</string>
     <string name="upload_tags_maximum_error">Selecting more than 3 tags is not possible.</string>
     <!-- Save Project to External Storage -->
-    <string name="save_to_external_storage_button">Export project</string>
+    <string name="save_to_external_storage_button">Mag-export ng proyekto</string>
     <string name="notification_save_project_to_external_storage_title_pending">" "</string>
     <string name="notification_save_project_to_external_storage_pending">Saving project to external storage.</string>
     <string name="notification_save_project_to_external_storage_title_open">" "</string>
@@ -689,7 +697,7 @@
     <string name="brick_context_dialog_highlight_brick_parts">Highlight brick parts</string>
     <string name="brick_context_dialog_comment_in_script">Enable script</string>
     <string name="brick_context_dialog_comment_out_script">Disable script</string>
-    <string name="brick_context_dialog_help">Help</string>
+    <string name="brick_context_dialog_help">Tulong</string>
     <string name="comment_in_out">Disable/enable</string>
     <string name="catblocks">Toggle 2D</string>
     <string name="catblocks_reorder">Clean up scripts</string>
@@ -702,7 +710,7 @@
     <!--  -->
     <!-- Sign In dialogs -->
     <string name="sign_in_dialog_title">Sign in</string>
-    <string name="username">Username</string>
+    <string name="username">Pangalan ng gumagamit</string>
     <string name="password">Password</string>
     <string name="reset_password">Reset password</string>
     <string name="new_user_registered">New account created</string>
@@ -710,7 +718,7 @@
     <string name="register_error">Login invalid</string>
     <string name="register_terms">By registering you agree to our</string>
     <string name="register_code_terms_of_use_text">Terms of use and service</string>
-    <string name="login">Login</string>
+    <string name="login">Mag-Login</string>
     <string name="register">Register</string>
     <string name="password_confirm">Confirm password</string>
     <string name="accountName">E-Mail</string>
@@ -1161,7 +1169,7 @@
     <!-- Default Values -->
     <string name="default_project_name">My project</string>
     <string name="default_variable_name">Variable</string>
-    <string name="default_scene_name">Scene (%1$d)</string>
+    <string name="default_scene_name">Scene</string>
     <string name="default_script_group_name">Script group</string>
     <string name="default_broadcast_message_name">Message</string>
     <string name="default_list_name">List</string>
@@ -1241,7 +1249,7 @@
     <string name="notification_download_pending">Download in progress</string>
     <string name="notification_download_finished">Download successful</string>
     <string name="notification_title_open">"Open"</string>
-    <string name="size_of_project">Size:</string>
+    <string name="size_of_project">Sukat:</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">This app needs the requested permissions to function properly. E.g., the
@@ -1271,7 +1279,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
     <string name="error_embroidery_data_not_found">Embroidery is missing.</string>
-    <string name="error_unknown_error">Something went wrong.</string>
+    <string name="error_unknown_error">May maling nangyari.</string>
     <string name="error_gps_not_available">Geolocation data is not available.</string>
     <string name="error_set_description">Something went wrong while saving the new description.</string>
     <string name="error_set_notes_and_credits">Something went wrong while saving the new notes
@@ -1395,8 +1403,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="ev3_motor_move_by">by</string>
     <string name="ev3_set_led_status">Set EV3 LED status</string>
     <string name="ev3_led_status_off">Off</string>
-    <string name="ev3_led_status_green">Green</string>
-    <string name="ev3_led_status_red">Red</string>
+    <string name="ev3_led_status_green">Berde</string>
+    <string name="ev3_led_status_red">Pula</string>
     <string name="ev3_led_status_orange">Orange</string>
     <string name="ev3_led_status_green_flashing">Green flashing</string>
     <string name="ev3_led_status_red_flashing">Red flashing</string>
@@ -1435,8 +1443,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="drone_animation_snakegreenred">Snake green red</string>
     <string name="drone_animation_fire">Fire</string>
     <string name="drone_animation_standard">Standard</string>
-    <string name="drone_animation_red">Red</string>
-    <string name="drone_animation_green">Green</string>
+    <string name="drone_animation_red">Pula</string>
+    <string name="drone_animation_green">Berde</string>
     <string name="drone_animation_redsnake">Red snake</string>
     <string name="drone_animation_blank">Blank</string>
     <string name="drone_animation_rightmissile">Right missile</string>
@@ -1497,9 +1505,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="phiro_seconds">seconds</string>
     <!-- light -->
     <string name="brick_phiro_rgb_led_action">Set Phiro light</string>
-    <string name="phiro_rgb_led_red">Red</string>
-    <string name="phiro_rgb_led_green">Green</string>
-    <string name="phiro_rgb_led_blue">Blue</string>
+    <string name="phiro_rgb_led_red">Pula</string>
+    <string name="phiro_rgb_led_green">Berde</string>
+    <string name="phiro_rgb_led_blue">Bughaw</string>
     <!--  -->
     <!-- Phiro tone strings -->
     <string name="phiro_tone_do">Do</string>
@@ -1776,8 +1784,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_variable_dialog_title">New variable</string>
     <string name="formula_editor_list_dialog_title">New list</string>
     <string name="formula_editor_regex_html_extractor_dialog_title">HTML extractor</string>
-    <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
-    <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
+    <string name="formula_editor_discard_changes_dialog_message">Gusto mo bang i-save ang mga pagbabago?</string>
+    <string name="formula_editor_discard_changes_dialog_title">I-save ang pagbabago?</string>
     <string name="formula_editor_new_string_name">New text</string>
     <string name="formula_editor_dialog_change_text">Change text</string>
     <string name="formula_editor_dialog_change_regular_expression">Change regular
@@ -1792,6 +1800,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_second_face_size">second face size</string>
     <string name="formula_editor_sensor_second_face_x_position">second face x position</string>
     <string name="formula_editor_sensor_second_face_y_position">second face y position</string>
+    <string name="formula_editor_sensor_head_top_x">head top x</string>
+    <string name="formula_editor_sensor_head_top_y">head top y</string>
+    <string name="formula_editor_sensor_neck_x">neck x</string>
+    <string name="formula_editor_sensor_neck_y">neck y</string>
     <string name="formula_editor_sensor_nose_x">nose x</string>
     <string name="formula_editor_sensor_nose_y">nose y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">left eye inner x</string>
@@ -2010,13 +2022,15 @@ needs read and write access to it. You can always change permissions through you
     <string name="new_sprite_dialog_place_visually">Place visually</string>
     <string name="place_visually_text">You will be asked to place the new actor or object on the
         stage.</string>
+    <string name="new_empty_sprite_note">Note: The actor or object will be created
+        without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">No variable selected</string>
     <string name="find">Find</string>
     <string name="no_results_found">No results found</string>
     <string name="query_field_is_empty">Query field is empty</string>
     <string name="cut">Cut</string>
-    <string name="paste">Paste</string>
+    <string name="paste">I-paste</string>
     <!-- Particle Effects -->
     <string name="fade_particle_effect">Fade particle effect</string>
     <string name="particle_effects_fade_in">in</string>

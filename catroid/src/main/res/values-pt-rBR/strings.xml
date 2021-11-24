@@ -45,7 +45,7 @@
     <string name="once">Uma vez</string>
     <string name="always">Sempre</string>
     <string name="deny">Negar</string>
-    <string name="do_not_show_again">NÃO VOLTAR A APARECER</string>
+    <string name="do_not_show_again">NÃO MOSTRE NOVAMENTE</string>
     <string name="accept">Aceitar</string>
     <string name="decline">Recusar</string>
     <string name="select_all">Selecionar tudo</string>
@@ -55,7 +55,7 @@
     <string name="error">Erro</string>
     <string name="loading">Carregando&#8230;</string>
     <string name="please_wait">Por favor, aguarde</string>
-    <string name="search_hint">Procurar…</string>
+    <string name="search_hint">Buscar</string>
     <string name="backpack_add">Adicionar à mochila</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Security warning dialog -->
@@ -346,6 +346,7 @@
     <string name="from_library">Adicionar da biblioteca</string>
     <string name="sort_projects">Ordenar</string>
     <string name="unsort_projects">Desordenar</string>
+    <string name="import_from_project">Select project to import from</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">Nova cena</string>
     <!-- Delete Dialog Titles -->
@@ -518,6 +519,8 @@
         <item quantity="one">Projeto %d importado.</item>
         <item quantity="other">Projetos %d importados.</item>
     </plurals>
+    <!-- Renamed -->
+    <string name="renamed_project">Projeto renomeado</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">Projetos</string>
@@ -529,9 +532,12 @@
     <string name="set_notes_and_credits">Definir notas e créditos</string>
     <string name="details_date_today">Hoje</string>
     <string name="import_project">Importar projeto</string>
+    <string name="export_project">Exportar projeto</string>
     <string name="error_import_project">Ocorreu um erro ao importar os projetos.</string>
     <string name="no_projects_selected">Nenhum projeto selecionado para importação</string>
+    <string name="only_select_catrobat_files">Selecionar apenas arquivos do projeto</string>
     <string name="error_no_files_found">Nenhum arquivo de projeto encontrado.</string>
+    <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Descrição</string>
     <string name="project_options_notes_and_credits">Créditos</string>
@@ -608,6 +614,7 @@
     <string name="add_look_draw_new_image">Desenhar imagem</string>
     <string name="add_look_choose_image">Selecionar Imagem</string>
     <string name="add_look_media_library">Biblioteca de mídia</string>
+    <string name="add_look_from_local_project">Local projects</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">Adicionar som</string>
@@ -1154,7 +1161,7 @@
     <!-- Default Values -->
     <string name="default_project_name">Meu projeto</string>
     <string name="default_variable_name">Variável</string>
-    <string name="default_scene_name">Cenário (%1$d)</string>
+    <string name="default_scene_name">Cenário</string>
     <string name="default_script_group_name">Grupo de script</string>
     <string name="default_broadcast_message_name">Mensagem</string>
     <string name="default_list_name">Lista</string>
@@ -1784,6 +1791,10 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="formula_editor_sensor_second_face_size">tamanho do segundo rosto</string>
     <string name="formula_editor_sensor_second_face_x_position">posição x do segundo rosto</string>
     <string name="formula_editor_sensor_second_face_y_position">posição y do segundo rosto</string>
+    <string name="formula_editor_sensor_head_top_x">tipo da cabeça x</string>
+    <string name="formula_editor_sensor_head_top_y">topo da cabeça y</string>
+    <string name="formula_editor_sensor_neck_x">pescoço x</string>
+    <string name="formula_editor_sensor_neck_y">pescoço y</string>
     <string name="formula_editor_sensor_nose_x">nariz x</string>
     <string name="formula_editor_sensor_nose_y">nariz y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">olho esquerdo dentro x</string>
@@ -2001,6 +2012,8 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="new_sprite_dialog_place_visually">Colocar visualmente</string>
     <string name="place_visually_text">Você será solicitado a colocar o novo ator ou objeto sobre o
         cenário.</string>
+    <string name="new_empty_sprite_note">Note: The actor or object will be created
+        without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">Nenhuma variável selecionada</string>
     <string name="find">Procurar</string>
@@ -2016,6 +2029,6 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="particle_effects_additive_on">ligado</string>
     <string name="particle_effects_additive_off">desligado</string>
     <string name="set_particle_color_to">Define a cor da partícula para</string>
-    <string name="undo_sort">Undo sort</string>
+    <string name="undo_sort">Desfazer ordenação</string>
     <string name="sort">Ordenar</string>
 </resources>

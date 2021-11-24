@@ -333,6 +333,7 @@
     <string name="from_library">লাইব্রেরি থেকে যোগ করুন</string>
     <string name="sort_projects">সাজান</string>
     <string name="unsort_projects">আনসোর্ট করা</string>
+    <string name="import_from_project">Select project to import from</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">নতুন দৃশ্য</string>
     <!-- Delete Dialog Titles -->
@@ -505,6 +506,8 @@
         <item quantity="one">%d প্রকল্প আমদানি করা হয়েছে।</item>
         <item quantity="other">%d প্রকল্প আমদানি করা হয়েছে।</item>
     </plurals>
+    <!-- Renamed -->
+    <string name="renamed_project">Renamed project</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">প্রজেক্টসমূহ</string>
@@ -516,9 +519,12 @@
     <string name="set_notes_and_credits">নোট এবং ক্রেডিট সেট করুন</string>
     <string name="details_date_today">আজ</string>
     <string name="import_project">প্রজেক্ট আমদানি করুন</string>
+    <string name="export_project">বাহ্যিক স্টোরেজে প্রজেক্টটি সংরক্ষণ করুন</string>
     <string name="error_import_project">প্রজেক্টসমূহ আমদানি করার সময় কিছু ভুল হয়েছে।</string>
     <string name="no_projects_selected">আমদানির জন্য কোন প্রকল্প নির্বাচন করা হয়নি</string>
+    <string name="only_select_catrobat_files">Only select project files</string>
     <string name="error_no_files_found">কোনও প্রজেক্ট ফাইল পাওয়া যায়নি।</string>
+    <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">বর্ণনা</string>
     <string name="project_options_notes_and_credits">Credits</string>
@@ -595,6 +601,7 @@
     <string name="add_look_draw_new_image">চিত্র আঁকুন</string>
     <string name="add_look_choose_image">ছবি নির্বাচন করুন</string>
     <string name="add_look_media_library">মিডিয়া লাইব্রেরি</string>
+    <string name="add_look_from_local_project">Local projects</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">শব্দ যোগ করুন</string>
@@ -1132,7 +1139,7 @@
     <!-- Default Values -->
     <string name="default_project_name">আমার প্রকল্প</string>
     <string name="default_variable_name">পরিবর্তনশীল</string>
-    <string name="default_scene_name">দৃশ্য (%1$d)</string>
+    <string name="default_scene_name">দৃশ্য </string>
     <string name="default_script_group_name">স্ক্রিপ্ট গ্রুপ</string>
     <string name="default_broadcast_message_name">বার্তা</string>
     <string name="default_list_name">তালিকা</string>
@@ -1751,6 +1758,10 @@
     <string name="formula_editor_sensor_second_face_size">দ্বিতীয় মুখের আকার</string>
     <string name="formula_editor_sensor_second_face_x_position">দ্বিতীয় মুখ এক্স অবস্থান</string>
     <string name="formula_editor_sensor_second_face_y_position">দ্বিতীয় মুখ y অবস্থান</string>
+    <string name="formula_editor_sensor_head_top_x">head top x</string>
+    <string name="formula_editor_sensor_head_top_y">head top y</string>
+    <string name="formula_editor_sensor_neck_x">neck x</string>
+    <string name="formula_editor_sensor_neck_y">neck y</string>
     <string name="formula_editor_sensor_nose_x">নাক x</string>
     <string name="formula_editor_sensor_nose_y">নাক y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">বাম চোখের ভিতরের x</string>
@@ -1948,6 +1959,8 @@
     <string name="new_sprite_dialog_place_visually">দর্শনীয়ভাবে রাখুন</string>
     <string name="place_visually_text">আপনাকে নতুন অভিনেতা বা আপত্তি রাখতে বলা হবে
         মঞ্চ</string>
+    <string name="new_empty_sprite_note">Note: The actor or object will be created
+        without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">কোনও ভেরিয়েবল নির্বাচন করা হয়নি</string>
     <string name="find">অনুসন্ধান</string>

@@ -333,6 +333,7 @@
     <string name="from_library">从库添加</string>
     <string name="sort_projects">排序</string>
     <string name="unsort_projects">取消排序</string>
+    <string name="import_from_project">选择要导入的项目</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">新场景</string>
     <!-- Delete Dialog Titles -->
@@ -475,6 +476,8 @@
     <plurals name="imported_projects">
         <item quantity="other">导入了 %d 项目。</item>
     </plurals>
+    <!-- Renamed -->
+    <string name="renamed_project">重命名项目</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">程序</string>
@@ -486,9 +489,12 @@
     <string name="set_notes_and_credits">设置笔记和点数</string>
     <string name="details_date_today">今天</string>
     <string name="import_project">导入项目</string>
+    <string name="export_project">保存项目到外部存储</string>
     <string name="error_import_project">获取项目时出错。</string>
     <string name="no_projects_selected">没有选择进口的项目</string>
+    <string name="only_select_catrobat_files">仅选择项目文件</string>
     <string name="error_no_files_found">未找到项目。</string>
+    <string name="import_sprite_from_project_launcher">从本地项目导入对象</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">描述</string>
     <string name="project_options_notes_and_credits">致谢</string>
@@ -564,6 +570,7 @@
     <string name="add_look_draw_new_image">Vẽ hình ảnh</string>
     <string name="add_look_choose_image">选择图片</string>
     <string name="add_look_media_library">媒体库</string>
+    <string name="add_look_from_local_project">本地项目</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">添加声音</string>
@@ -1098,7 +1105,7 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <!-- Default Values -->
     <string name="default_project_name">我的项目</string>
     <string name="default_variable_name">可变</string>
-    <string name="default_scene_name">场景 (%1$d)</string>
+    <string name="default_scene_name">场景</string>
     <string name="default_script_group_name">脚本组</string>
     <string name="default_broadcast_message_name">消息</string>
     <string name="default_list_name">列表</string>
@@ -1722,6 +1729,10 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="formula_editor_sensor_second_face_size">第二面大小</string>
     <string name="formula_editor_sensor_second_face_x_position">第二面 x 位置</string>
     <string name="formula_editor_sensor_second_face_y_position">第二面 y 位置</string>
+    <string name="formula_editor_sensor_head_top_x">头顶 x</string>
+    <string name="formula_editor_sensor_head_top_y">头顶 y</string>
+    <string name="formula_editor_sensor_neck_x">颈部 x</string>
+    <string name="formula_editor_sensor_neck_y">颈部 y</string>
     <string name="formula_editor_sensor_nose_x">鼻子x</string>
     <string name="formula_editor_sensor_nose_y">鼻子y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">左眼内 x</string>
@@ -1925,6 +1936,8 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="new_sprite_dialog_place_visually">视觉设置</string>
     <string name="place_visually_text">你将被要求把新的演员或物体放在舞台上。
         舞台上。</string>
+    <string name="new_empty_sprite_note">Note: The actor or object will be created
+        without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">未选择变量</string>
     <string name="find">查找</string>

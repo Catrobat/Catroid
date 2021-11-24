@@ -318,6 +318,7 @@
     <string name="from_library">라이브러리에서 추가</string>
     <string name="sort_projects">종류</string>
     <string name="unsort_projects">정렬 취소</string>
+    <string name="import_from_project">Select project to import from</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">새로운 장면</string>
     <!-- Delete Dialog Titles -->
@@ -460,6 +461,8 @@
     <plurals name="imported_projects">
         <item quantity="other">%d 개의 프로젝트를 가져왔습니다.</item>
     </plurals>
+    <!-- Renamed -->
+    <string name="renamed_project">Renamed project</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">프로그램</string>
@@ -471,9 +474,12 @@
     <string name="set_notes_and_credits">노트와 크레딧</string>
     <string name="details_date_today">오늘</string>
     <string name="import_project">프로젝트 가져오기</string>
+    <string name="export_project">외부 저장장치에 저장</string>
     <string name="error_import_project">프로젝트를 가져오는 동안 문제가 발생했습니다.</string>
     <string name="no_projects_selected">가져올 프로젝트가 없습니다.</string>
+    <string name="only_select_catrobat_files">Only select project files</string>
     <string name="error_no_files_found">프로젝트를 찾을 수 없습니다</string>
+    <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">설명</string>
     <string name="project_options_notes_and_credits">만든이</string>
@@ -549,6 +555,7 @@
     <string name="add_look_draw_new_image">그림 그리기</string>
     <string name="add_look_choose_image">그림 선택하기</string>
     <string name="add_look_media_library">미디어 라이브러리</string>
+    <string name="add_look_from_local_project">Local projects</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">소리 추가</string>
@@ -1088,7 +1095,7 @@
     <!-- Default Values -->
     <string name="default_project_name">내 프로젝트</string>
     <string name="default_variable_name">변하기 쉬운</string>
-    <string name="default_scene_name">장면 (%1$d)</string>
+    <string name="default_scene_name">장면</string>
     <string name="default_script_group_name">스크립트 그룹</string>
     <string name="default_broadcast_message_name">메시지</string>
     <string name="default_list_name">명부</string>
@@ -1714,6 +1721,10 @@
     <string name="formula_editor_sensor_second_face_size">두 번째 얼굴 크기</string>
     <string name="formula_editor_sensor_second_face_x_position">두 번째면 x 위치</string>
     <string name="formula_editor_sensor_second_face_y_position">두 번째면 y 위치</string>
+    <string name="formula_editor_sensor_head_top_x">head top x</string>
+    <string name="formula_editor_sensor_head_top_y">head top y</string>
+    <string name="formula_editor_sensor_neck_x">neck x</string>
+    <string name="formula_editor_sensor_neck_y">neck y</string>
     <string name="formula_editor_sensor_nose_x">코 엑스</string>
     <string name="formula_editor_sensor_nose_y">코 y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">왼쪽 눈 내부 x</string>
@@ -1922,6 +1933,8 @@
     <string name="new_sprite_dialog_place_visually">보이게 위치</string>
     <string name="place_visually_text">새 액터 또는 오브젝트를
         단계.</string>
+    <string name="new_empty_sprite_note">Note: The actor or object will be created
+        without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">선택된 변수가 없습니다.</string>
     <string name="find">찾기</string>

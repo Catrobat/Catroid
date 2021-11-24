@@ -24,11 +24,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- General terms -->
     <string name="stage">Stage</string>
-    <string name="play">Gioca</string>
+    <string name="play">Riproduci</string>
     <string name="settings">Impostazioni</string>
     <string name="redo">Ripeti</string>
     <string name="undo">Annulla</string>
-    <string name="new_option">Nuovo&#8230;</string>
+    <string name="new_option">nuovo&#8230;</string>
     <string name="edit_option">modifica&#8230;</string>
     <string name="confirm">Conferma</string>
     <string name="ignore">Ignora</string>
@@ -36,13 +36,13 @@
     <string name="save">Salva</string>
     <string name="discard">Scarta</string>
     <string name="next">Avanti</string>
-    <string name="ok">Va bene</string>
+    <string name="ok">OK</string>
     <string name="done">Fatto</string>
-    <string name="close">Chiudere</string>
+    <string name="close">Chiudi</string>
     <string name="assistant">Assistente</string>
-    <string name="yes">Si</string>
+    <string name="yes">Sì</string>
     <string name="no">No</string>
-    <string name="once">Una sola vota</string>
+    <string name="once">Una volta</string>
     <string name="always">Sempre</string>
     <string name="deny">Nega</string>
     <string name="do_not_show_again">NON MOSTRARE PIÙ</string>
@@ -54,8 +54,8 @@
     <string name="warning">Attenzione</string>
     <string name="error">Errore</string>
     <string name="loading">Caricamento in corso&#8230;</string>
-    <string name="please_wait">Attendere prego</string>
-    <string name="search_hint">Ricerca…</string>
+    <string name="please_wait">Sei pregato d\'attendere</string>
+    <string name="search_hint">Cerca</string>
     <string name="backpack_add">Aggiungi allo zaino</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Security warning dialog -->
@@ -89,211 +89,215 @@
     <string name="main_menu_continue">Continua il progetto</string>
     <string name="main_menu_new">Nuovo progetto</string>
     <string name="main_menu_programs">Progetti sul dispositivo</string>
-    <string name="main_menu_help">Guida</string>
-    <string name="main_menu_web">Comunità di Catrobat</string>
+    <string name="main_menu_help">Aiuto</string>
+    <string name="main_menu_web">Community di Catrobat</string>
     <string name="main_menu_upload">Carica il progetto</string>
     <string name="main_menu_rate_app">Valutaci!</string>
-    <string name="main_menu_terms_of_use">Condizioni d\'uso e servizio</string>
-    <string name="main_menu_privacy_policy">Informativa sulla privacy</string>
-    <string name="main_menu_about">Info sull\'app</string>
+    <string name="main_menu_terms_of_use">Condizioni d\'Uso e Servizio</string>
+    <string name="main_menu_privacy_policy">Politica sulla Privacy</string>
+    <string name="main_menu_about">Su quest\'app</string>
     <string name="main_menu_login">Login</string>
-    <string name="main_menu_logout">Logout</string>
-    <string name="main_menu_scratch_converter">Convertitore Scratch</string>
-    <string name="main_menu_play_store_not_installed">Google Play non trovato</string>
+    <string name="main_menu_logout">Disconnettiti</string>
+    <string name="main_menu_scratch_converter">Convertitore di Scratch</string>
+    <string name="main_menu_play_store_not_installed">App Store non trovato</string>
     <!--  -->
     <!-- Marketing activity -->
     <string name="marketing_created_with">Creato con</string>
-    <string name="marketing_app_details">Dettagli sull\'app</string>
-    <string name="marketing_more_on_google_play">Altre app su Google Play</string>
-    <string name="error_cannot_open_huawei_app_gallery">Ops! Errore aprendo Huawei AppGallery,
-        riprova più tardi.</string>
-    <string name="google_play_store_logo">Google Play</string>
-    <string name="huawei_app_gallery">AppGallery di Huawei</string>
+    <string name="marketing_app_details">Dettagli su quest\'app</string>
+    <string name="marketing_more_on_google_play">Altre app sull\'App Store</string>
+    <string name="error_cannot_open_huawei_app_gallery">Ops! Impossibile aprire Huawei AppGallery,
+        sei pregato di riprovare più tardi.</string>
+    <string name="google_play_store_logo">Google Play Store</string>
+    <string name="huawei_app_gallery">App Gallery di Huawei</string>
     <!-- NFC activity -->
     <string name="nfc_activity_title">Tag NFC</string>
     <!-- Settings activity -->
     <string name="preference_title">Impostazioni</string>
     <string name="preference_title_language">Lingua</string>
-    <string name="preference_description_language">Imposta la lingua dell\'applicazione</string>
+    <string name="preference_description_language">Imposta la lingua dell\'app</string>
     <string name="preference_title_web_access">Accesso Web</string>
-    <string name="preference_description_web_access">Modifica per aggiungere o rimuovere domini attendibili</string>
-    <string name="preference_screen_web_access_title">Modifica domini attendibili</string>
-    <string name="preference_title_ai">Estensione Intelligenza Artificiale (IA)</string>
-    <string name="preference_description_ai">Abilita mattoncini e sensori AI</string>
-    <string name="preference_title_ai_speech_recognition">Riconoscimento vocale</string>
+    <string name="preference_description_web_access">Modifica per aggiungere o rimuovere i domini attendibili</string>
+    <string name="preference_screen_web_access_title">Modifica i domini attendibili</string>
+    <string name="preference_title_ai">Estensione dell\'Intelligenza Artificiale (IA)</string>
+    <string name="preference_description_ai">Abilita mattoni e sensori dell\'IA</string>
+    <string name="preference_title_ai_speech_recognition">Riconoscimento
+        vocale</string>
     <string name="preference_description_ai_speech_recognition">Abilita
-        mattoncini e sensori di riconoscimento vocale</string>
-    <string name="preference_title_ai_speech_synthetization">Sintetizzazione vocale</string>
+        mattoni e sensori di riconoscimento vocale</string>
+    <string name="preference_title_ai_speech_synthetization">Sintesi
+        vocale</string>
     <string name="preference_description_ai_speech_synthetization">Abilita
-        mattoncini e sensori di sintesi vocale</string>
-    <string name="preference_title_ai_face_detection">Rilevamento volto</string>
+        mattoni e sensori di sintesi vocale</string>
+    <string name="preference_title_ai_face_detection">Rilevamento
+        volto</string>
     <string name="preference_description_ai_face_detection">Abilita
-        mattoncini e sensori di rilevamento facciale</string>
-    <string name="preference_title_ai_pose_detection">Rilevamento pose</string>
+        mattoni e sensori del rilevamento volto</string>
+    <string name="preference_title_ai_pose_detection">Rilevamento posa</string>
     <string name="preference_description_ai_pose_detection">Abilita
-        mattoncini e sensori di rilevamento delle pose</string>
-    <string name="preference_title_ai_text_recognition">Riconoscimento testo</string>
+        mattoni e sensori del rilevamento posa</string>
+    <string name="preference_title_ai_text_recognition">Riconoscimento
+        testo</string>
     <string name="preference_description_ai_text_recognition">Abilita
-        mattoncini e sensori di riconoscimento testuale</string>
+        mattoni e sensori del riconoscimento testuale</string>
     <string name="preference_title_accessibility">Accessibilità</string>
-    <string name="preference_description_accessibility">Modifica l\'aspetto dell\'app</string>
-    <string name="preference_title_accessibility_profiles">Profili di accessibilità</string>
+    <string name="preference_description_accessibility">Cambia l\'aspetto dell\'app</string>
+    <string name="preference_title_accessibility_profiles">Profili d\'accessibilità</string>
     <string name="preference_title_accessibility_profile">Profili predefiniti</string>
     <string name="preference_title_accessibility_profile_headline">Profili</string>
     <string name="preference_title_accessibility_predefined_profile_headline">Profili predefiniti</string>
-    <string name="preference_description_accessibility_profiles">Scegli un profilo di accessibilità predefinito</string>
+    <string name="preference_description_accessibility_profiles">Seleziona un profilo d\'accessibilità predefinito</string>
     <string name="preference_title_accessibility_text_appearance">Aspetto del testo</string>
-    <string name="preference_title_accessibility_handling">Amministrazione</string>
+    <string name="preference_title_accessibility_handling">Gestione</string>
     <string name="preference_title_accessibility_category_icons_big">Icone grandi</string>
-    <string name="preference_description_accessibility_category_icons_big">Aumenta la dimensione delle icone.</string>
+    <string name="preference_description_accessibility_category_icons_big">Aumenta la dimensione dell\'icona.</string>
     <string name="preference_title_accessibility_category_icons_high_contrast">Icone ad alto contrasto</string>
-    <string name="preference_title_accessibility_Brick_icons">Icone dei mattoncini</string>
+    <string name="preference_title_accessibility_Brick_icons">Icone</string>
     <string name="preference_title_accessibility_category_icons">Mostra icone</string>
-    <string name="preference_description_accessibility_category_icons">Aggiungi icone alle categorie e mattoncini.</string>
+    <string name="preference_description_accessibility_category_icons">Aggiungi icone alle categorie e mattoni.</string>
     <string name="preference_title_accessibility_high_contrast">Alto contrasto</string>
-    <string name="preference_description_accessibility_high_contrast">Aumenta il contrasto del testo nei mattoncini.</string>
-    <string name="preference_description_accessibility_large_text">Aumenta la dimensione del font.</string>
+    <string name="preference_description_accessibility_high_contrast">Aumenta il contrasto del testo.</string>
+    <string name="preference_description_accessibility_large_text">Aumenta la dimensione del testo.</string>
     <string name="preference_title_accessibility_large_text">Testo grande</string>
-    <string name="preference_title_accessibility_element_spacing">Aumenta spaziatura tra elementi</string>
-    <string name="preference_description_accessibility_element_spacing">Aumenta spaziatura tra elementi negli elenchi.</string>
-    <string name="preference_title_accessibility_dragndrop_delay">Ritardo nel Drag \'n \'drop</string>
-    <string name="preference_description_accessibility_dragndrop_delay">Ritardo nel Drag\'n\'drop dei mattoncini.</string>
-    <string name="preference_title_accessibility_beginner_bricks">Mattoncini principiante</string>
-    <string name="preference_description_accessibility_beginner_bricks">Mostra solo mattoncini di base.</string>
-    <string name="preference_title_accessibility_font_style">Scegli il tipo di carattere</string>
+    <string name="preference_title_accessibility_element_spacing">Grande spaziatura tra elementi</string>
+    <string name="preference_description_accessibility_element_spacing">Aumenta la spaziatura tra elementi negli elenchi.</string>
+    <string name="preference_title_accessibility_dragndrop_delay">Ritardo nel Drag e Drop</string>
+    <string name="preference_description_accessibility_dragndrop_delay">Ritardo del Drag e Drop per i mattoni.</string>
+    <string name="preference_title_accessibility_beginner_bricks">Modalità principiante</string>
+    <string name="preference_description_accessibility_beginner_bricks">Mostra solo i mattoni semplici.</string>
+    <string name="preference_title_accessibility_font_style">Scegli il tipo di testo</string>
     <string name="accessibility_font_regular">Regolare</string>
     <string name="accessibility_font_serif">Serif</string>
-    <string name="accessibility_font_dyslexic">Dislessico</string>
+    <string name="accessibility_font_dyslexic">Dyslexic</string>
     <string name="accessibility_settings_applied">Modifiche applicate</string>
     <string name="preference_access_title_profile_default">Predefinito</string>
     <string name="preference_access_summary_profile_default">Impostazioni predefinite</string>
-    <string name="preference_access_title_profile_custom">Profilo personalizzato</string>
-    <string name="preference_access_summary_profile_custom">Impostazioni personali</string>
+    <string name="preference_access_title_profile_custom">Il mio profilo personalizzato</string>
+    <string name="preference_access_summary_profile_custom">Le mie impostazioni personali</string>
     <string name="preference_access_title_profile_argus">Argus</string>
-    <string name="preference_access_summary_profile_argus">Contrasto elevato, icone aggiuntive</string>
-    <string name="preference_access_title_profile_odin">Odino</string>
-    <string name="preference_access_summary_profile_odin">Testo di grandi dimensioni, icone grandi, elementi
-      con ampia spaziatura e alto contrasto</string>
+    <string name="preference_access_summary_profile_argus">Alto contrasto, icone aggiuntive</string>
+    <string name="preference_access_title_profile_odin">Odin</string>
+    <string name="preference_access_summary_profile_odin">Testo grande, icone grandi, grande
+      spaziatura tra elementi, alto contrasto</string>
     <string name="preference_access_title_profile_fenrir">Fenrir</string>
-    <string name="preference_access_summary_profile_fenrir">Elementi molto distanziati, drag\'n\'drop
-       con ritardo</string>
-    <string name="preference_access_title_profile_tiro">Shoot</string>
-    <string name="preference_access_summary_profile_tiro">Mattoncini principiante</string>
+    <string name="preference_access_summary_profile_fenrir">Grande spaziatura tra elementi, ritardo del Drag
+       e Drop</string>
+    <string name="preference_access_title_profile_tiro">Tiro</string>
+    <string name="preference_access_summary_profile_tiro">Modalità principiante</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
-    <string name="preference_title_enable_quadcopter_bricks">Mattoncini per Parrot AR. Drone 2.0</string>
-    <string name="preference_description_quadcopter_bricks">Permette all\'app di controllare i droni AR.Drone 2.0</string>
-    <string name="preference_title_enable_jumpingsumo_bricks">Mattoncini per Parrot Jumping Sumo</string>
-    <string name="preference_description_jumpingsumo_bricks">Permette all\'app di controllare i Jumping Sumo della Parrot</string>
-    <string name="preference_title_enable_mindstorms_nxt_bricks">Mattoncini Lego Mindstorms NXT</string>
-    <string name="preference_title_enable_mindstorms_ev3_bricks">Mattoncini Lego Mindstorms EV3</string>
-    <string name="preference_description_mindstorms_nxt_bricks">Permette all\'app di controllare i robot Lego Mindstorms NXT</string>
-    <string name="preference_description_mindstorms_ev3_bricks">Permette all\'app di controllare i robot Lego Mindstorms EV3</string>
-    <string name="preference_title_mindstorms_nxt_sensors">Sensori Lego NXT</string>
-    <string name="preference_title_mindstorms_ev3_sensors">Sensori Lego EV3</string>
-    <string name="preference_title_drone_config_properties">Configura AR. Drone 2.0</string>
-    <string name="preference_title_enable_phiro_bricks">Mattoncini Phiro</string>
-    <string name="preference_description_phiro_bricks">Permette all\'app di controllare robot Phiro</string>
-    <string name="preference_title_enable_arduino_bricks">Mattoncini Arduino</string>
-    <string name="preference_description_arduino_bricks">Permette all\'app di controllare le schede Arduino</string>
-    <string name="preference_title_enable_embroidery_bricks">Ricamo</string>
-    <string name="preference_description_embroidery_bricks">Creare modelli per macchine da cucire</string>
+    <string name="preference_title_enable_quadcopter_bricks">Estensione di Parrot AR. Drone 2.0</string>
+    <string name="preference_description_quadcopter_bricks">Consenti all\'app di controllare i quadricotteri Parrot AR.Drone 2.0</string>
+    <string name="preference_title_enable_jumpingsumo_bricks">Estensione di Parrot Jumping Sumo</string>
+    <string name="preference_description_jumpingsumo_bricks">Consenti all\'app di controllare i robot Jumping Sumo di Parrot</string>
+    <string name="preference_title_enable_mindstorms_nxt_bricks">Estensione di Lego Mindstorms NXT</string>
+    <string name="preference_title_enable_mindstorms_ev3_bricks">Estensione di Lego Mindstorms EV3</string>
+    <string name="preference_description_mindstorms_nxt_bricks">Consenti all\'app di controllare i robot di Lego Mindstorms NXT</string>
+    <string name="preference_description_mindstorms_ev3_bricks">Consenti all\'app di controllare i robot di Lego Mindstorms EV3</string>
+    <string name="preference_title_mindstorms_nxt_sensors">Sensori di Lego NXT</string>
+    <string name="preference_title_mindstorms_ev3_sensors">Sensori di Lego EV3</string>
+    <string name="preference_title_drone_config_properties">Configurazione del AR. Drone 2.0 di Parrot</string>
+    <string name="preference_title_enable_phiro_bricks">Estensione Phiro di RobotixEdu</string>
+    <string name="preference_description_phiro_bricks">Consenti all\'app di controllare i robot Phiro di RobotixEdu</string>
+    <string name="preference_title_enable_arduino_bricks">Estensione di Arduino</string>
+    <string name="preference_description_arduino_bricks">Consenti all\'app di controllare i circuiti di Arduino</string>
+    <string name="preference_title_enable_embroidery_bricks">Estensione di Embroidery</string>
+    <string name="preference_description_embroidery_bricks">Creare schemi per le macchine da cucire</string>
     <string name="preference_title_cast_feature_globally_enabled">Abilitare le funzionalità di trasmissione</string>
-    <string name="preference_description_cast_feature_globally_enabled">Mostra pulsante di cast e attiva progetti cast</string>
-    <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
-    <string name="preference_description_nfc_bricks">Abilita l\'app all\'uso dei tag NFC</string>
-    <string name="preference_title_enable_crash_reports">Invia report anonimi sui crash</string>
-    <string name="preference_description_crash_reports">Permetti all\'app di inviare automaticamente segnalazioni sugli arresti anomali</string>
+    <string name="preference_description_cast_feature_globally_enabled">Mostra il pulsante di trasmissione e abilita i progetti di trasmissione</string>
+    <string name="preference_title_enable_nfc_bricks">Estensione di Near Field Communication</string>
+    <string name="preference_description_nfc_bricks">Consenti all\'app di usare i tag NFC nei progetti</string>
+    <string name="preference_title_enable_crash_reports">Inviando rapporti anonimi di crash</string>
+    <string name="preference_description_crash_reports">Consenti all\'app di inviare automaticamente le segnalazioni sui crash</string>
     <!-- -->
-    <string name="preference_title_enable_raspi_bricks">Mattoncini Raspberry Pi</string>
-    <string name="preference_description_raspi_bricks">Consente all\'app di controllare computer Raspberry Pi</string>
-    <string name="preference_raspi_enable_bricks">Abilita mattoncini Raspberry Pi</string>
-    <string name="preference_raspi_help">Aiuto / Guida introduttiva</string>
-    <string name="preference_raspi_help_summary">Ottieni informazioni su come configurare le impostazioni di connessione</string>
-    <string name="preference_raspi_host">Raspberry Pi IP-/Host-Address</string>
-    <string name="preference_raspi_port">Porta Raspberry Pi</string>
+    <string name="preference_title_enable_raspi_bricks">Estensione di Raspberry Pi</string>
+    <string name="preference_description_raspi_bricks">Consenti all\'app di controllare i computer Raspberry Pi</string>
+    <string name="preference_raspi_enable_bricks">Abilita mattoni e sensori</string>
+    <string name="preference_raspi_help">Aiuto / Per Iniziare</string>
+    <string name="preference_raspi_help_summary">Ricevi aiuto su come configurare le impostazioni di connessione</string>
+    <string name="preference_raspi_host">IP/indirizzo dell\'host di Raspberry Pi</string>
+    <string name="preference_raspi_port">Porta di Raspberry Pi</string>
     <!--  -->
-    <string name="preference_title_multiplayer_variables_enabled">Estensione multigiocatore</string>
-    <string name="preference_description_multiplayer_variables_enabled">Consenti all\'applicazione di utilizzare
-        variabili multigiocatore condivise via Bluetooth</string>
+    <string name="preference_title_multiplayer_variables_enabled">Estensione del multigiocatore</string>
+    <string name="preference_description_multiplayer_variables_enabled">Consenti all\'app di usare
+        variabili del multigiocatore condivise tramite Bluetooth</string>
     <string name="preference_title_enable_test_bricks">Estensione di prova</string>
     <string name="preference_description_test_bricks">Consente di creare test</string>
     <!-- Scratch Converter activity -->
     <string name="beta">BETA</string>
-    <string name="error_scratch_program_not_accessible_any_more">Oops! Il progetto pare essere scomparso
-        o si è perso l\'accesso ad esso.</string>
-    <string name="error_scratch_project_data_not_available">Oops! Sembrano mancare alcune parti del progetto,
-        per favore riprova dopo.</string>
-    <string name="error_request_timeout">Oops! Il nostro server non ha risposto in un tempo ragionevole, si prega di riprovare più tardi.</string>
-    <string name="error_scratch_program_conversion_failed">Oops! E\' fallita la conversione il progetto Scratch, 
-        riprova più tardi!</string>
-    <string name="error_specific_scratch_program_conversion_failed_x">Oops! La conversione di \"%1$s\" è fallita, riprova
-        più tardi!</string>
-    <string name="error_scratch_converter_outdated_app_version">La versione di Pocket Code che utilizzi è obsoleta.
-       Il convertitore Scratch funziona solo sulla versione più recente. Aggiorna il programma su Google Play</string>
-    <string name="error_cannot_open_not_existing_scratch_program">Non posso aprire il progretto Scratch. Può darsi che
-        tu abbia fermato la conversione/download o che tu abbia rinominato/cancellato il
-        programma!</string>
-    <string name="error_cannot_open_currently_downloading_scratch_program">Al momento non è possibile aprire il progretto.
-        Attendi fino a quando non viene scaricato completamente.</string>
-    <string name="error_cannot_open_not_yet_downloaded_scratch_program">Non è ancora possibile aprire il progetto.
-        Prima scaricalo, poi potrai aprirlo.</string>
-    <string name="error_cannot_convert_deprecated_scratch_program_x_x">Non è possibile convertire %1$s. Saembra che sia
-        un vecchio progetto Scratch prima di %2$s; provare un altro.</string>
+    <string name="error_scratch_program_not_accessible_any_more">Oops! Il progetto sembra essere scomparso
+        o potresti aver perso l\'accesso a esso.</string>
+    <string name="error_scratch_project_data_not_available">Oops! Alcune parti del progetto sembrano esser
+        mancanti, sei pregato di riprova più tardi.</string>
+    <string name="error_request_timeout">Oops! Il nostro server non ha risposto in tempo, sei pregato di riprovare più tardi.</string>
+    <string name="error_scratch_program_conversion_failed">Oops! Impossibile convertire il progetto, sei pregato di riprovare 
+        più tardi.</string>
+    <string name="error_specific_scratch_program_conversion_failed_x">Oops! Impossibile convertire \"%1$s\", sei pregato di riprovare
+        più tardi.</string>
+    <string name="error_scratch_converter_outdated_app_version">La tua versione di quest\'app è obsoleta. Il nostro convertitore
+       di Scratch funziona solo sull\'ultima versione. Sei pregato di aggiornare l\'app.</string>
+    <string name="error_cannot_open_not_existing_scratch_program">Impossibile aprire questo progetto di Scratch. Sembra che tu
+        abbia annullato la conversione/il download del progetto di Scratch, o tu abbia rinominato/eliminato il progetto nel
+        mentre.</string>
+    <string name="error_cannot_open_currently_downloading_scratch_program">Non puoi ancora aprire il progetto.
+        Sei pregato d\'attendere finché non è scaricato.</string>
+    <string name="error_cannot_open_not_yet_downloaded_scratch_program">Non puoi ancora aprire il progetto.
+        Sei pregato di scaricarlo prima e poi aprirlo.</string>
+    <string name="error_cannot_convert_deprecated_scratch_program_x_x">Impossibile convertire %1$s. Sembra essere
+        un vecchio progetto di Scratch prima della %2$s. Sei pregato di provarne un altro.</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
-        <item quantity="one">Non puoi convertire più di %d progetto allo stesso tempo. Per favore attendi che le
-            conversioni in esecuzione finiscano prima.</item>
-        <item quantity="other">Non puoi convertire più di %d progetti allo stesso tempo. Per favore attendi che le
-            conversioni in esecuzione finiscano prima.</item>
+        <item quantity="one">Non puoi convertire più di %d progetto allo stesso tempo. Sei prima pregato d\'attendere
+            che terminino le conversioni in corso.</item>
+        <item quantity="other">Non puoi convertire più di %d progetti allo stesso tempo. Sei prima pregato d\'attendere
+            che terminino le conversioni in corso.</item>
     </plurals>
-    <string name="error_cannot_open_failed_scratch_program">Impossibile aprire il progetto perché non è stato
-        convertito correttamente. Prova a convertirlo nuovamente.</string>
-    <string name="search_failed">Non è stato trovato nulla; riprovare più tardi.</string>
-    <string name="connection_lost_or_closed_by_server">Connessione al server interrotta.</string>
-    <string name="connection_failed">In questo momento non possiamo connetterti al server; riprova più tardi.</string>
-    <string name="authentication_failed">Sembra esserci un problema con la connessione al servizio, 
-     contatta il team di Catrobat!</string>
+    <string name="error_cannot_open_failed_scratch_program">Non puoi aprire il progetto perché non è stato
+        convertito correttamente. Sei pregato di provare a riconvertirlo.</string>
+    <string name="search_failed">Nulla è stato trovato, sei pregato di riprovare più tardi.</string>
+    <string name="connection_lost_or_closed_by_server">Connessione al server persa.</string>
+    <string name="connection_failed">Al momento, non possiamo connetterti al server, sei pregato di riprovare più tardi.</string>
+    <string name="authentication_failed">Sembra esserci un problema con la tua connessione al servizio. Sei pregato di
+     contattare il team di Catrobat!</string>
     <plurals name="scratch_conversion_scheduled_x">
-        <item quantity="one">Aggiunto %d progetto Scratch alla coda&#8230;</item>
-        <item quantity="other">Aggiunti %d progetti Scratch alla coda&#8230;</item>
+        <item quantity="one">Aggiunto %d progetto di Scratch alla coda&#8230;</item>
+        <item quantity="other">Aggiunto %d progetti di Scratch alla coda&#8230;</item>
     </plurals>
-    <string name="scratch_conversion_started">Iniziata la conversione il progetto Scratch&#8230;</string>
+    <string name="scratch_conversion_started">Avviata la conversione del progetto di Scratch&#8230;</string>
     <string name="convert">Converti</string>
-    <string name="converting">Convesione in corso&#8230;</string>
+    <string name="converting">Conversione&#8230;</string>
     <string name="status_scheduled">Programmato</string>
-    <string name="status_waiting_for_worker">In attesa di un esecutore libero&#8230; Attendere&#8230;</string>
-    <string name="status_started">Iniziato&#8230;</string>
+    <string name="status_waiting_for_worker">Attendendo un esecutore libero&#8230; Sei pregato d\'attendere&#8230;</string>
+    <string name="status_started">Avviato&#8230;</string>
     <string name="status_conversion_finished">Conversione terminata</string>
     <plurals name="status_in_progress_x_jobs">
-        <item quantity="one">In lavorazione: %d processo</item>
-        <item quantity="other">In lavorazione: %d processi</item>
+        <item quantity="one">In corso: %d processo</item>
+        <item quantity="other">In corso: %d processi</item>
     </plurals>
     <plurals name="status_completed_x_jobs">
         <item quantity="one">Completati: %d processo</item>
         <item quantity="other">Completati: %d processi</item>
     </plurals>
-    <string name="status_conversion_failed">Conversione non riuscita!</string>
-    <string name="status_downloading">Download in corso&#8230;</string>
-    <string name="status_download_finished">Download terminato!</string>
+    <string name="status_conversion_failed">Conversione fallita!</string>
+    <string name="status_downloading">Scaricando&#8230;</string>
+    <string name="status_download_finished">Download terminato.</string>
     <string name="status_download_canceled">Download annullato!</string>
     <string name="scratch_programs_in_progress_title">In corso</string>
     <string name="scratch_programs_finished_title">Progetti convertiti</string>
-    <string name="by_x">per %1$s</string>
-    <string name="warning_program_visibility">ATTENZIONE:\nQuesto progetto pare essere privato. Puoi provare
-        a convertirlo ma potrebbe non funzionare.</string>
+    <string name="by_x">di %1$s</string>
+    <string name="warning_program_visibility">ATTENZIONE:\nQuesto sembra essere un progetto privato. Puoi provare a
+        convertirlo, ma potrebbe non funzionare.</string>
     <string name="instructions">Istruzioni</string>
-    <string name="notes_and_credits">Note e crediti</string>
+    <string name="notes_and_credits">Note e Crediti</string>
     <string name="shared_at_x">Condiviso: %1$s</string>
     <string name="modified_at_x">Modificato: %1$s</string>
     <string name="remixes">Remix</string>
     <!--  -->
     <string name="author">Autore:</string>
-    <string name="screen_size">Dimensioni schermo:</string>
+    <string name="screen_size">Dimensioni dello stage:</string>
     <string name="mode">Modalità:</string>
     <string name="remix_of">Remix di:</string>
     <string name="description_hint">Premi per aggiungere una descrizione</string>
     <string name="notes_and_credits_hint">Premi per aggiungere note e crediti</string>
     <!-- ScratchReconvertDialog Strings -->
-    <string name="reconvert_text">Hai convertito questo programma %1$s giorni fa.</string>
+    <string name="reconvert_text">Hai convertito questo programma %1$s fa.</string>
     <plurals name="minutes">
         <item quantity="one">%d minuto</item>
         <item quantity="other">%d minuti</item>
@@ -306,81 +310,82 @@
         <item quantity="one">%d giorno</item>
         <item quantity="other">%d giorni</item>
     </plurals>
-    <string name="reconvert_dialog_download">Scarica nuovamente il progetto</string>
-    <string name="reconvert_dialog_reconvert">Converti nuovamente il progetto</string>
+    <string name="reconvert_dialog_download">Scarica di nuovo il progetto</string>
+    <string name="reconvert_dialog_reconvert">Converti di nuovo questo progetto</string>
     <!--  -->
     <!-- ERRORS -->
     <!-- Terms of Use and Service Error -->
-    <string name="declined_terms_of_use_and_service_alert">Per utilizzare la nostra app, è necessario accettare i nostri Termini di Utilizzo e Servizio.
-        Tuttavia, se non ti senti a tuo agio nel farlo, puoi utilizzare i nostri servizi web gratuiti su</string>
-    <string name="wtf_error">Errore imprevisto: non è possibile ripristinare il progetto di default.</string>
+    <string name="declined_terms_of_use_and_service_alert">Per usare la nostra app, è necessario accettare i nostri Termini d\'Uso e di Servizio.
+        Tuttavia, se non ti senti a tuo agio nel farlo, puoi usare i nostri servizi web gratuiti su</string>
+    <string name="wtf_error">Si è verificato un errore imprevisto: Impossibile ripristinare il progetto campione.</string>
     <!-- Project Handling Errors -->
-    <string name="error_copy_project">Si è verificato un errore durante la copia del progetto</string>
+    <string name="error_copy_project">Si è verificato un errore copiando il progetto</string>
     <!-- Dialog Errors -->
-    <string name="name_already_exists">Questo nome è già in uso. Prego sceglierne un altro.</string>
-    <string name="name_consists_of_spaces_only">Hai inserito solo spazi nel campo di testo; inserisci un nome
-        utilizzando lettere, numeri o altri caratteri speciali.</string>
-    <string name="name_empty">Inserire un testo</string>
+    <string name="name_already_exists">Questo nome è già in uso, sei pregato di sceglierne un altro.</string>
+    <string name="name_consists_of_spaces_only">Hai inserito solo spazi nel campo di testo; sei pregato di inserire un testo
+        usando lettere, numeri o altri caratteri speciali.</string>
+    <string name="name_empty">Sei pregato di inserire un testo</string>
     <!-- Recycler View -->
-    <string name="am_empty_list">In questa lista non ci sono ancora elementi. Aggiungine qualcuno per prima cosa.</string>
+    <string name="am_empty_list">Ancora nessun elemento in questa lista. Sei prima pregato di aggiungerne qualcuno.</string>
     <string name="reject_import">Impossibile aggiungere l\'attore o l\'oggetto.</string>
-    <string name="am_merge_error">Unione non effettuata. Per unire i progetti devono essere selezionati esattamente 2 progetti.</string>
-    <string name="am_backpack">Impacchetta</string>
+    <string name="am_merge_error">Nessuna fusione effettuata. Esattamente 2 progetti devono esser selezionati per la fusione.</string>
+    <string name="am_backpack">Compatta</string>
     <string name="am_unpack">Scompatta</string>
-    <string name="am_copy">Copiare</string>
-    <string name="am_delete">Eliminare</string>
+    <string name="am_copy">Copia</string>
+    <string name="am_delete">Elimina</string>
     <string name="am_rename">Rinomina</string>
     <string name="am_convert">Converti</string>
-    <string name="am_merge">Unisci</string>
-    <string name="dialog_confirm_delete">Non è possibile annullarlo!</string>
-    <string name="list_headline_sprites">Attori ed oggetti</string>
+    <string name="am_merge">Fondi</string>
+    <string name="dialog_confirm_delete">Non puoi annullarlo!</string>
+    <string name="list_headline_sprites">Attori e oggetti</string>
     <!-- Options Menu Options -->
     <string name="backpack">Zaino</string>
-    <string name="copy">Copiare</string>
-    <string name="delete">Eliminare</string>
+    <string name="copy">Copia</string>
+    <string name="delete">Elimina</string>
     <string name="rename">Rinomina</string>
-    <string name="merge">Unisci</string>
-    <string name="show_details">Visualizza i dettagli</string>
+    <string name="merge">Fondi</string>
+    <string name="show_details">Mostra i dettagli</string>
     <string name="hide_details">Nascondi i dettagli</string>
     <string name="project_options">Opzioni del progetto</string>
     <string name="from_library">Aggiungi dalla libreria</string>
     <string name="sort_projects">Ordina</string>
     <string name="unsort_projects">Disordina</string>
+    <string name="import_from_project">Seleziona il progetto da cui importare</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">Nuova scena</string>
     <!-- Delete Dialog Titles -->
     <plurals name="delete_projects">
-        <item quantity="one">Elimina questo progetto?</item>
-        <item quantity="other">Elimina questi progetti?</item>
+        <item quantity="one">Eliminare questo progetto?</item>
+        <item quantity="other">Eliminare questi progetti?</item>
     </plurals>
     <plurals name="delete_scenes">
-        <item quantity="one">Elimina questa scena?</item>
-        <item quantity="other">Elimina queste scene?</item>
+        <item quantity="one">Eliminare questa scena?</item>
+        <item quantity="other">Eliminare queste scene?</item>
     </plurals>
     <plurals name="delete_sprites">
-        <item quantity="one">Elimina questo oggetto?</item>
-        <item quantity="other">Elimina questi oggetti?</item>
+        <item quantity="one">Eliminare questo attore od oggetto?</item>
+        <item quantity="other">Eliminare questi attori od oggetti?</item>
     </plurals>
     <plurals name="delete_looks">
-        <item quantity="one">Elimina questo aspetto?</item>
-        <item quantity="other">Elimina questi aspetti?</item>
+        <item quantity="one">Eliminare questo aspetto?</item>
+        <item quantity="other">Eliminare questi aspetti?</item>
     </plurals>
     <plurals name="delete_sounds">
-        <item quantity="one">Elimina questo suono?</item>
-        <item quantity="other">Elimina questi suoni?</item>
+        <item quantity="one">Eliminare questo suono?</item>
+        <item quantity="other">Eliminare questi suoni?</item>
     </plurals>
     <plurals name="delete_nfc_tags">
-        <item quantity="one">Elimina questo tag?</item>
-        <item quantity="other">Elimina questi tag?</item>
+        <item quantity="one">Eliminare questo tag?</item>
+        <item quantity="other">Eliminare questi tag?</item>
     </plurals>
     <plurals name="delete_scripts">
-        <item quantity="one">Elimina questo script?</item>
-        <item quantity="other">Elimina questi script?</item>
+        <item quantity="one">Eliminare questo script?</item>
+        <item quantity="other">Eliminare questi script?</item>
     </plurals>
     <!-- Dialog Labels -->
     <string name="project_name_label">Nome del progetto</string>
     <string name="scene_name_label">Nome della scena</string>
-    <string name="sprite_name_label">Nome dell\'oggetto</string>
+    <string name="sprite_name_label">Nome dell\'attore od oggetto</string>
     <string name="sprite_group_name_label">Nome del gruppo</string>
     <string name="script_group_label">Nome del gruppo di script</string>
     <string name="look_name_label">Nome dell\'aspetto</string>
@@ -388,33 +393,33 @@
     <string name="nfc_tag_name_label">Nome del Tag NFC</string>
     <string name="string_label">Testo</string>
     <string name="data_label">Nome</string>
-    <string name="keyword_label">Inserisci la parola chiave</string>
-    <string name="html_label">Inserisci testo HTML</string>
-    <string name="Image_format_not_supported">Formato immagine non supportato</string>
-    <string name="import_conflicting_variables">Impossibile aggiungere l\'attore o l\'oggetto.</string>
-    <string name="import_conflicting_variables_reason">La ragione è che i seguenti nomi di variabili o
-        sono in conflitto perché sono usati per
-        tutti gli attori e gli oggetti e con lo stesso nome anche per uno solo degli attori o degli oggetti: </string>
-    <string name="import_conflicting_variables_try_again">Rinomina una di queste variabili o liste e riprova.</string>
+    <string name="keyword_label">Cerca</string>
+    <string name="html_label">Inserisci il testo HTML</string>
+    <string name="Image_format_not_supported">Formato dell\'immagine non supportato</string>
+    <string name="import_conflicting_variables">Impossibile aggiungere l\'attore od oggetto.</string>
+    <string name="import_conflicting_variables_reason">Il motivo è che la seguente variabile o
+        nomi dell\'elenco sono in conflitto perché usati per
+        tutti gli attori e oggetti e con lo stesso nome, anche per solo uno degli attori od oggetti: </string>
+    <string name="import_conflicting_variables_try_again">Sei pregato di rinominare una di queste variabili o liste e riprovare.</string>
     <!-- Details -->
     <string name="project_details">Ultimo accesso: %s, dimensione: %s</string>
     <string name="last_access_today">oggi, %s</string>
-    <string name="scene_details">Oggetti: %d, aspetti: %d, suoni: %d</string>
-    <string name="sprite_details">Mattoncini: %d, aspetti: %d, suoni: %d</string>
-    <string name="look_details">Misura: %s, dimensione: %s</string>
+    <string name="scene_details">Attori e oggetti: %d, aspetti: %d, suoni: %d</string>
+    <string name="sprite_details">Mattoni: %d, aspetti: %d, suoni: %d</string>
+    <string name="look_details">Risoluzione: %s, dimensione: %s</string>
     <string name="sound_duration">Durata: %s</string>
     <string name="sound_details">Durata: %s, dimensione: %s</string>
     <!--  -->
     <!-- Rename Dialog Titles -->
     <string name="rename_project">Rinomina il progetto</string>
     <string name="rename_scene_dialog">Rinomina la scena</string>
-    <string name="rename_sprite_dialog">Rinomina oggetto</string>
-    <string name="rename_look_dialog">Rinomina aspetto</string>
-    <string name="rename_sound_dialog">Rinomina suono</string>
-    <string name="rename_nfctag_dialog">Rinomina nfctag</string>
+    <string name="rename_sprite_dialog">Rinomina l\'attore od oggetto</string>
+    <string name="rename_look_dialog">Rinomina l\'aspetto</string>
+    <string name="rename_sound_dialog">Rinomina il suono</string>
+    <string name="rename_nfctag_dialog">Rinomina il tag NFC</string>
     <string name="rename_data_dialog">Rinomina</string>
     <!-- New Script Group Dialog -->
-    <string name="new_group">Nuovo Gruppo</string>
+    <string name="new_group">Nuovo gruppo</string>
     <string name="default_group_name">Gruppo</string>
     <!-- New Scene Menu -->
     <string name="new_scene">Nuova scena</string>
@@ -422,102 +427,104 @@
     <!-- Backpack -->
     <string name="backpack_empty">Zaino vuoto. Niente da scompattare.</string>
     <plurals name="packed_scenes">
-        <item quantity="one">Messo nello zaino %d scena!</item>
-        <item quantity="other">Messo nello zaino %d scene!</item>
+        <item quantity="one">%d scena messa nello zaino!</item>
+        <item quantity="other">%d scene messe nello zaino.</item>
     </plurals>
     <plurals name="packed_sprites">
-        <item quantity="one">Messo nello zaino %d oggetto!</item>
-        <item quantity="other">Messo nello zaino %d oggetti!</item>
+        <item quantity="one">%d attore od oggetto messo nello zaino!</item>
+        <item quantity="other">%d attori od oggetti messi nello zaino.</item>
     </plurals>
     <plurals name="packed_looks">
-        <item quantity="one">Messo nello zaino %d aspetto!</item>
-        <item quantity="other">Messo nello zaino %d aspetti!</item>
+        <item quantity="one">%d aspetto messo nello zaino.</item>
+        <item quantity="other">%d aspetti messi nello zaino.</item>
     </plurals>
     <plurals name="packed_sounds">
-        <item quantity="one">Messo nello zaino %d suono!</item>
-        <item quantity="other">Messo nello zaino %d suoni!</item>
+        <item quantity="one">%d suono messo nello zaino.</item>
+        <item quantity="other">%d suoni messi nello zaino.</item>
     </plurals>
-    <string name="packed_script_group">Messo nello zaino 1 gruppo di script!</string>
+    <string name="packed_script_group">Un gruppo di script messo nello zaino.</string>
     <!-- Unpack -->
     <plurals name="unpacked_scenes">
-        <item quantity="one">Presa dallo zaino %d scena!</item>
-        <item quantity="other">Prese dallo zaino %d scene!</item>
+        <item quantity="one">%d scena scompattata.</item>
+        <item quantity="other">%d scene scompattate.</item>
     </plurals>
     <plurals name="unpacked_sprites">
-        <item quantity="one">Preso dallo zaino %d oggetto!</item>
-        <item quantity="other">Presi dallo zaino %d oggetti!</item>
+        <item quantity="one">%d attore od oggetto scompattato!</item>
+        <item quantity="other">%d attori od oggetti scompattati.</item>
     </plurals>
     <plurals name="unpacked_looks">
-        <item quantity="one">Prese dallo zaino %d aspetto!</item>
-        <item quantity="other">Presi dallo zaino %d aspetti!</item>
+        <item quantity="one">%d aspetto scompattato.</item>
+        <item quantity="other">%d aspetti scompattati.</item>
     </plurals>
     <plurals name="unpacked_sounds">
-        <item quantity="one">Preso dallo zaino %d suono!</item>
-        <item quantity="other">Presi dallo zaino %d suoni!</item>
+        <item quantity="one">%d suono scompattato.</item>
+        <item quantity="other">%d suoni scompattati.</item>
     </plurals>
     <plurals name="unpacked_scripts">
-        <item quantity="one">Preso dallo zaino %d script!</item>
-        <item quantity="other">Presi dallo zaino %d script!</item>
+        <item quantity="one">%d script scompattato.</item>
+        <item quantity="other">%d script scompattati.</item>
     </plurals>
     <!-- Copy -->
     <plurals name="copied_scenes">
-        <item quantity="one">Copiata %d scena!</item>
-        <item quantity="other">Copiate %d scene!</item>
+        <item quantity="one">%d scena copiata.</item>
+        <item quantity="other">%d scene copiate.</item>
     </plurals>
     <plurals name="copied_sprites">
-        <item quantity="one">Copiato %d oggetto!</item>
-        <item quantity="other">Copiati %d oggetti!</item>
+        <item quantity="one">%d attore od oggetto copiato.</item>
+        <item quantity="other">%d attori od oggetti copiati.</item>
     </plurals>
     <plurals name="copied_looks">
-        <item quantity="one">Copiato %d aspetto!</item>
-        <item quantity="other">Copiati %d aspetti!</item>
+        <item quantity="one">%d aspetto copiati.</item>
+        <item quantity="other">%d aspetti copiati.</item>
     </plurals>
     <plurals name="copied_sounds">
-        <item quantity="one">Copiato %d suono!</item>
-        <item quantity="other">Copiati %d suoni!</item>
+        <item quantity="one">%d suono copiato.</item>
+        <item quantity="other">%d suoni copiati.</item>
     </plurals>
     <plurals name="copied_nfc_tags">
-        <item quantity="one">Copiato %d tag NFC!</item>
-        <item quantity="other">Copiati %d tag NFC!</item>
+        <item quantity="one">%d tag NFC copiato.</item>
+        <item quantity="other">%d tag NFC copiati.</item>
     </plurals>
     <!-- Delete -->
     <plurals name="deleted_projects">
-        <item quantity="one">Eliminato %d progetto!</item>
-        <item quantity="other">Eliminati %d progetti!</item>
+        <item quantity="one">%d progetto eliminato.</item>
+        <item quantity="other">%d progetti eliminati.</item>
     </plurals>
     <plurals name="deleted_scenes">
-        <item quantity="one">Eliminata %d scena!</item>
-        <item quantity="other">Eliminate %d scene!</item>
+        <item quantity="one">%d scena eliminata.</item>
+        <item quantity="other">%d scene eliminate.</item>
     </plurals>
     <plurals name="deleted_sprites">
-        <item quantity="one">Eliminato %d sprite!</item>
-        <item quantity="other">Eliminati %d sprite!</item>
+        <item quantity="one">%d attore od oggetto eliminato.</item>
+        <item quantity="other">%d attori od oggetti eliminati.</item>
     </plurals>
     <plurals name="deleted_looks">
-        <item quantity="one">Eliminato %d aspetto!</item>
-        <item quantity="other">Eliminati %d aspetti!</item>
+        <item quantity="one">%d aspetto eliminato.</item>
+        <item quantity="other">%d aspetti eliminati.</item>
     </plurals>
     <plurals name="deleted_sounds">
-        <item quantity="one">Eliminato %d suono!</item>
-        <item quantity="other">Eliminati %d suoni!</item>
+        <item quantity="one">%d suono eliminato.</item>
+        <item quantity="other">%d suoni eliminati.</item>
     </plurals>
     <plurals name="deleted_nfc_tags">
-        <item quantity="one">Eliminato %d tag NFC!</item>
-        <item quantity="other">Eliminati %d tag NFC!</item>
+        <item quantity="one">%d tag NFC eliminato.</item>
+        <item quantity="other">%d tag NFC eliminati.</item>
     </plurals>
     <plurals name="deleted_scripts">
-        <item quantity="one">Eliminato %d script!</item>
-        <item quantity="other">Eliminati %d script!</item>
+        <item quantity="one">%d script eliminato.</item>
+        <item quantity="other">%d script eliminati.</item>
     </plurals>
     <plurals name="deleted_Items">
-        <item quantity="one">Eliminato %d elemento!</item>
-        <item quantity="other">Eliminati %d elementi!</item>
+        <item quantity="one">%d elemento eliminato.</item>
+        <item quantity="other">%d elementi eliminati.</item>
     </plurals>
     <!-- Imported -->
     <plurals name="imported_projects">
-        <item quantity="one">Progetto importato %d.</item>
-        <item quantity="other">Importati %d progetti.</item>
+        <item quantity="one">%d progetto importato.</item>
+        <item quantity="other">%d progetti importati.</item>
     </plurals>
+    <!-- Renamed -->
+    <string name="renamed_project">Progetto rinominato</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">Progetti</string>
@@ -528,39 +535,42 @@
     <string name="notes_and_credits_title">Note e crediti:</string>
     <string name="set_notes_and_credits">Imposta note e crediti</string>
     <string name="details_date_today">Oggi</string>
-    <string name="import_project">Importa progetto</string>
-    <string name="error_import_project">Qualcosa è andato storto durante l\'importazione dei progetti.</string>
+    <string name="import_project">Importa il progetto</string>
+    <string name="export_project">Esporta il progetto</string>
+    <string name="error_import_project">Qualcosa è andato storto importando i progetti.</string>
     <string name="no_projects_selected">Nessun progetto selezionato per l\'importazione</string>
-    <string name="error_no_files_found">Nessun file di progetto trovato.</string>
+    <string name="only_select_catrobat_files">Seleziona solo i file del progetto</string>
+    <string name="error_no_files_found">Nessun file del progetto trovato.</string>
+    <string name="import_sprite_from_project_launcher">Importa Oggetto dal Progetto Locale</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Descrizione</string>
-    <string name="project_options_notes_and_credits">Riconoscimenti</string>
+    <string name="project_options_notes_and_credits">Note e crediti</string>
     <string name="project_options_tags">Tag</string>
     <string name="project_options_aspect_ratio">Mantieni le proporzioni originali</string>
-    <string name="project_options_more_details">Mostra dettagli</string>
-    <string name="project_options_delete_project">Elimina progetto</string>
+    <string name="project_options_more_details">Altri dettagli</string>
+    <string name="project_options_delete_project">Elimina il progetto</string>
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">Clic su \"+\" per aggiungere script</string>
     <!--  -->
     <!-- SpriteListFragment -->
-    <string name="fragment_sprite_text_description">Tocca \"+\" per aggiungere oggetti</string>
+    <string name="fragment_sprite_text_description">Tocca \"+\" per aggiungere attori od oggetti</string>
     <string name="default_sprite_name">Il mio attore od oggetto</string>
     <!--  -->
     <!-- LookListFragment -->
     <string name="fragment_look_text_description">Fare clic su \"+\" per creare un nuovo aspetto</string>
     <string name="select_look_from_gallery">Seleziona un\'immagine</string>
-    <string name="select_look_from_camera">Seleziona foto</string>
+    <string name="select_look_from_camera">Seleziona una foto</string>
     <!--  -->
     <!-- SoundListFragment -->
     <string name="fragment_sound_text_description">Fare clic su \"+\" per aggiungere suoni</string>
-    <string name="sound_select_source">Scegli un suono</string>
+    <string name="sound_select_source">Seleziona un suono</string>
     <!--  -->
     <!-- NfcTagListFragment -->
-    <string name="fragment_nfctag_text_description">Scansiona tag NFC per aggiungili</string>
-    <string name="ndef_record_label">come tipo di record</string>
-    <string name="brick_set_nfc_tag">Imposta il prossimo tag NFC a</string>
+    <string name="fragment_nfctag_text_description">Scansiona i tag NFC per aggiungerli</string>
+    <string name="ndef_record_label">come tipo di registro</string>
+    <string name="brick_set_nfc_tag">Attendi il prossimo tag NFC da scrivere</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
-    <string name="default_tag_name">nfc_tag</string>
+    <string name="default_tag_name">Tag NFC</string>
     <string name="tnf_empty">Vuoto</string>
     <string name="tnf_external_type">Tipo esterno</string>
     <string name="tnf_mime_media">Testo</string>
@@ -568,234 +578,237 @@
     <string name="tnf_well_known_https">HTTPS</string>
     <string name="tnf_well_known_tel">Numero telefonico</string>
     <string name="tnf_well_known_sms">SMS</string>
-    <string name="tnf_well_known_mailto">E-Mail</string>
+    <string name="tnf_well_known_mailto">Email</string>
     <!--  -->
     <!-- DataListFragment -->
-    <string name="multiplayer_vars_headline">Variabili per dispositivi connessi</string>
-    <string name="global_vars_headline">Variabili per tutti gli oggetti</string>
-    <string name="local_vars_headline">Variabili per solo questo oggetto</string>
-    <string name="global_lists_headline">Liste per tutti gli oggetti</string>
-    <string name="local_lists_headline">Lista per solo questo oggetto</string>
-    <string name="fragment_data_text_description">Tocca \"+\" per aggiungere\nvariabili o liste</string>
+    <string name="multiplayer_vars_headline">Variabili per i dispositivi connessi</string>
+    <string name="global_vars_headline">Variabili per tutti gli attori e oggetti</string>
+    <string name="local_vars_headline">Variabili solo per questo attore od oggetto</string>
+    <string name="global_lists_headline">Elenchi per tutti gli attori e oggetti</string>
+    <string name="local_lists_headline">Elenchi solo per questo attore od oggetto</string>
+    <string name="fragment_data_text_description">Tocca \"+\" per aggiungere\nvariabili o elenchi</string>
     <plurals name="user_defined_brick_input_headline">
-        <item quantity="one">Input per questo mattoncino</item>
-        <item quantity="other">Input per questi mattoncini</item>
+        <item quantity="one">Input per questo mattone</item>
+        <item quantity="other">Input per questo mattone</item>
     </plurals>
     <!-- NewDataDialog -->
-    <string name="new_data_for_all_sprites">Per tutti gli oggetti</string>
-    <string name="new_data_for_this_sprite_only">Solo per questo oggetto</string>
-    <string name="new_data_for_connected_devices">Per tutti gli attori, oggetti e cloni delle scene dei progetti
-        su dispositivi multiplayer connessi</string>
+    <string name="new_data_for_all_sprites">Per tutti gli attori, oggetti e cloni in tutte le scene</string>
+    <string name="new_data_for_this_sprite_only">Solo per questo attore, oggetto o uno dei suoi cloni</string>
+    <string name="new_data_for_connected_devices">Per tutti gli attori, oggetti e cloni in tutte le scene dei progetti
+        sui dispositivi multi-giocatore connessi</string>
     <!-- Backpack -->
-    <string name="backpack_title">Tuo zaino</string>
-    <string name="pack">Impacchetta</string>
+    <string name="backpack_title">Il tuo zaino</string>
+    <string name="pack">Compatta</string>
     <string name="unpack">Scompatta</string>
     <!--  -->
     <!-- NewProjectDialog -->
-    <string name="new_project_dialog_example_project">Progetto di esempio</string>
+    <string name="new_project_dialog_example_project">Progetto campione</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
-    <string name="new_merge_project_dialog_title">Progetto unito</string>
-    <string name="merging_project_text">Questi due progetti non possono essere ancora uniti</string>
+    <string name="new_merge_project_dialog_title">Progetto fuso</string>
+    <string name="merging_project_text">Questi due progetti non possono ancora esser fusi</string>
     <!--  -->
     <!-- NewSpriteDialog -->
-    <string name="new_sprite_dialog_title">Nuovo oggetto</string>
+    <string name="new_sprite_dialog_title">Nuovo attore od oggetto</string>
     <!--  -->
     <!-- NewLookDialog -->
-    <string name="new_look_dialog_title">Aggiungi Aspetto</string>
-    <string name="add_look_from_camera">Scatta foto</string>
+    <string name="new_look_dialog_title">Aggiungi aspetto</string>
+    <string name="add_look_from_camera">Fotocamera</string>
     <string name="add_look_object_library">Libreria</string>
-    <string name="add_look_draw_new_image">Disegna immagine</string>
-    <string name="add_look_choose_image">Scegli immagine</string>
-    <string name="add_look_media_library">Libreria multimediale</string>
+    <string name="add_look_draw_new_image">Disegna</string>
+    <string name="add_look_choose_image">Galleria</string>
+    <string name="add_look_media_library">Aspetti</string>
+    <string name="add_look_from_local_project">Progetti locali</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">Aggiungi suono</string>
     <string name="add_sound_from_recorder">Registra suono</string>
-    <string name="add_sound_choose_file">Seleziona file</string>
-    <string name="add_sound_music">Compositore di musica</string>
+    <string name="add_sound_choose_file">Seleziona un file</string>
+    <string name="add_sound_music">Compositore musicale</string>
     <!-- NotePickerDialog -->
-    <string name="note_picker_title">Selettore Note</string>
+    <string name="note_picker_title">Selettore di Note</string>
     <!--  -->
     <!-- Rating Dialog -->
-    <string name="rating_dialog_title">Valuta Pocket Code</string>
-    <string name="rating_google_play_dialog_text">Se l\'app ti piace, valutaci su Google Play.</string>
+    <string name="rating_dialog_title">Valuta l\'App</string>
+    <string name="rating_google_play_dialog_text">Se quest\'app ti piace, sei pregato di valutarci sull\'App Store.</string>
     <string name="rating_dialog_rate_now">Ora</string>
     <string name="rating_dialog_rate_later">Più tardi</string>
     <string name="rating_dialog_rate_never">Mai</string>
     <!--  -->
     <!-- Terms of Use Dialog -->
-    <string name="dialog_terms_of_use_title">Condizioni d\'uso e servizio</string>
-    <string name="dialog_terms_of_use_info">Al fine di
-    poter usare le app e gli altri programmi eseguibili offerti dal progetto Catrobat, devi accettare i nostri Termini d\'uso e quelli di Utilizzo dei servizi. Sei tenuto a rispettarli mentre utilizzi le app
-    e gli altri programmi eseguibili. Segui il link sottostante per conoscerne i dettagli.\n</string>
-    <string name="dialog_terms_of_use_link_text">Condizioni d\'uso e servizio</string>
+    <string name="dialog_terms_of_use_title">Termini d\'Uso e Servizio</string>
+    <string name="dialog_terms_of_use_info">Per
+        poter usare le app e altri servizi offerti dal progetto di Catrobat,
+        devi acconsentire ai nostri Termini d\'Uso e Servizio. Devi seguirli rigorosamente usando le nostre
+app
+        e gli altri servizi. Sei pregato di visitare il seguente link per la loro formulazione precisa.\n</string>
+    <string name="dialog_terms_of_use_link_text">Termini d\'Uso e Servizio</string>
     <!--  -->
     <!-- Privacy Policy -->
     <string name="disclaimer_privacy_police_header_headline">Benvenuto!</string>
-    <string name="disclaimer_privacy_policy_header">Per utilizzare questa app, si prega di accettare</string>
+    <string name="disclaimer_privacy_policy_header">Per usare questa app, sei pregato d\'accettare i nostri</string>
     <!-- -->
     <!-- About Dialog -->
-    <string name="dialog_about_title">Info sull\'app</string>
-    <string name="dialog_about_license_info">Questa applicazione offre un ambiente di programmazione
-        e un interprete per il linguaggio di
-        programmazione visuale chiamato Catrobat.\n
-        la licenza d\'uso del codice sorgente di questa app è principalmente GNU AGPL v3.
-        Per maggiori dettagli sulla licenza consultare il link qui sotto. \n</string>
+    <string name="dialog_about_title">Su quest\'App</string>
+    <string name="dialog_about_license_info">Quest\'app offre un ambiente di
+        programmazione e un interprete per il linguaggio di programmazione visivo Catrobat.\n
+        Il codice sorgente di quest\'app è principalmente sotto licenza GNU AGPL v3.
+        Per ulteriori dettagli sulla licenza, visita il seguente link.\n</string>
     <string name="dialog_about_license_link_text">Licenza del codice sorgente</string>
     <string name="dialog_about_catrobat_link_text">Su Catrobat</string>
-    <string name="dialog_about_catrobat_language_version">Versione di Catrobat:</string>
+    <string name="dialog_about_catrobat_language_version">Versione del linguaggio Catrobat</string>
     <string name="dialog_about_version">versione:</string>
     <!--  -->
     <!-- NetworkAlertDialog -->
-    <string name="error_no_network_title">Nessuna Rete</string>
+    <string name="error_no_network_title">Nessuna rete</string>
     <!-- UploadProjectDialog -->
-    <string name="upload_project_dialog_title">Carica progetto</string>
+    <string name="upload_project_dialog_title">Carica il progetto</string>
     <string name="upload_description">Descrizione:</string>
     <string name="upload_notes_and_credits">Note e crediti:</string>
-    <string name="upload_notes_and_credits_explanation">Come hai creato questo progetto? Hai usato idee, script o lavori altrui? Ringraziali qui.</string>
-    <string name="upload_tag_dialog_title">Scegli fino a tre categorie</string>
-    <string name="upload_tags_maximum_error">Non è possibile selezionare più di 3 tag.</string>
+    <string name="upload_notes_and_credits_explanation">Come hai creato questo progetto? Hai usato idee, script o opere altrui? Ringraziali qui.</string>
+    <string name="upload_tag_dialog_title">Sei pregato di scegliere fino a tre categorie</string>
+    <string name="upload_tags_maximum_error">È impossibile selezionare oltre 3 tag.</string>
     <!-- Save Project to External Storage -->
-    <string name="save_to_external_storage_button">Salva il progetto sulla memoria esterna</string>
+    <string name="save_to_external_storage_button">Esporta il progetto</string>
     <string name="notification_save_project_to_external_storage_title_pending">" "</string>
-    <string name="notification_save_project_to_external_storage_pending">Salvataggio del progetto sulla memoria esterna.</string>
+    <string name="notification_save_project_to_external_storage_pending">Salvando il progetto in archiviazione esterna.</string>
     <string name="notification_save_project_to_external_storage_title_open">" "</string>
     <string name="notification_save_project_to_external_storage_open">"Progetto salvato su %1$s"</string>
     <string name="save_project_to_external_storage_io_exception_message">Impossibile salvare il progetto, memoria disponibile insufficiente!</string>
     <!--  -->
     <!-- SoundRecorderActivity -->
-    <string name="soundrecorder_name">Registratore di Pocket Code</string>
+    <string name="soundrecorder_name">Registratore</string>
     <string name="soundrecorder_error">Registrazione del suono non riuscita</string>
-    <string name="soundrecorder_recorded_filename">registra</string>
+    <string name="soundrecorder_recorded_filename">registrazione</string>
     <string name="soundrecorder_text_view">Premere l\'icona qui sopra per avviare e interrompere la registrazione.</string>
     <!--  -->
     <!-- Brick context dialog -->
-    <string name="brick_context_dialog_move_brick">Sposta mattoncino</string>
+    <string name="brick_context_dialog_move_brick">Sposta il mattone</string>
     <string name="brick_context_dialog_move_script">Sposta script</string>
     <string name="brick_context_dialog_move_definition">Sposta questa definizione</string>
-    <string name="brick_context_dialog_delete_brick">Elimina mattoncino</string>
-    <string name="brick_context_dialog_copy_brick">Copia mattoncino</string>
-    <string name="brick_context_dialog_copy_script">Copia script</string>
-    <string name="brick_context_dialog_formula_edit_brick">Modifica Formula</string>
-    <string name="brick_context_dialog_delete_script">Cancella script</string>
+    <string name="brick_context_dialog_delete_brick">Elimina il mattone</string>
+    <string name="brick_context_dialog_copy_brick">Copia il mattone</string>
+    <string name="brick_context_dialog_copy_script">Copia lo script</string>
+    <string name="brick_context_dialog_formula_edit_brick">Modifica la formula</string>
+    <string name="brick_context_dialog_delete_script">Elimina lo script</string>
     <string name="brick_context_dialog_delete_definition">Elimina questa definizione</string>
-    <string name="brick_context_dialog_comment_in">Abilita mattoncino</string>
-    <string name="brick_context_dialog_comment_out">Disabilita mattoncino</string>
-    <string name="brick_context_dialog_highlight_brick_parts">Evidenzia parti mattoncino</string>
-    <string name="brick_context_dialog_comment_in_script">Abilita script</string>
-    <string name="brick_context_dialog_comment_out_script">Disabilita script</string>
-    <string name="brick_context_dialog_help">Guida</string>
-    <string name="comment_in_out">Attiva/disattiva</string>
+    <string name="brick_context_dialog_comment_in">Abilita il mattone</string>
+    <string name="brick_context_dialog_comment_out">Disabilita il mattone</string>
+    <string name="brick_context_dialog_highlight_brick_parts">Evidenzia parti del mattone</string>
+    <string name="brick_context_dialog_comment_in_script">Abilita lo script</string>
+    <string name="brick_context_dialog_comment_out_script">Disabilita lo script</string>
+    <string name="brick_context_dialog_help">Aiuto</string>
+    <string name="comment_in_out">Disabilita/Abilita</string>
     <string name="catblocks">Attiva/disattiva 2D</string>
-    <string name="catblocks_reorder">Pulisci script</string>
+    <string name="catblocks_reorder">Pulisci gli script</string>
     <string name="switch_to_1d">Vista 1D</string>
     <!--  -->
     <!-- Play scene dialog -->
-    <string name="play_scene_dialog_title">Scena da eseguire:</string>
-    <string name="play_scene_dialog_default">Prima scena (\"%1$s\")</string>
-    <string name="play_scene_dialog_current">Scena attuale (%1$s)</string>
+    <string name="play_scene_dialog_title">Riproduci la scena:</string>
+    <string name="play_scene_dialog_default">Prima scena (%1$s)</string>
+    <string name="play_scene_dialog_current">Scena corrente (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
     <string name="sign_in_dialog_title">Accedi</string>
     <string name="username">Nome utente</string>
     <string name="password">Password</string>
-    <string name="reset_password">Reimposta password</string>
+    <string name="reset_password">Ripristina la password</string>
     <string name="new_user_registered">Nuovo account creato</string>
-    <string name="user_logged_in">Login avvenuto con successo</string>
-    <string name="register_error">Login non valido</string>
-    <string name="register_terms">Registrandoti, accetti i nostri</string>
-    <string name="register_code_terms_of_use_text">Condizioni d\'uso e servizio</string>
+    <string name="user_logged_in">Accesso riuscito</string>
+    <string name="register_error">Accesso non valido</string>
+    <string name="register_terms">Registrandoti, acconsenti ai nostri</string>
+    <string name="register_code_terms_of_use_text">Termini d\'uso e servizio</string>
     <string name="login">Login</string>
     <string name="register">Registrati</string>
-    <string name="password_confirm">Conferma password</string>
-    <string name="accountName">E-Mail</string>
-    <string name="signin_thanks">Grazie per la creazione dell\'account!</string>
-    <string name="signin_choose_username">Scegli il tuo nome utente:</string>
-    <string name="signin_choose_username_empty">Inserisci un nome utente!</string>
-    <string name="signin_choose_username_hint">Il nome utente non dovrebbe essere il tuo vero nome né un indirizzo email.</string>
-    <string name="oauth_username_taken">Nome già usato. Scegli uno diverso!</string>
-    <string name="show_password">Mostra Password</string>
+    <string name="password_confirm">Conferma la password</string>
+    <string name="accountName">Email</string>
+    <string name="signin_thanks">Grazie per esserti registrato!</string>
+    <string name="signin_choose_username">Sei pregato di scegliere il tuo nome utente:</string>
+    <string name="signin_choose_username_empty">Sei pregato di inserire un nome utente.</string>
+    <string name="signin_choose_username_hint">Il nome utente non dovrebbe essere il tuo nome reale né un indirizzo email.</string>
+    <string name="oauth_username_taken">Qualcun altro usa già questo nome. Sei pregato di sceglierne uno differente!</string>
+    <string name="show_password">Mostra la password</string>
     <string name="sign_in_error">Qualcosa è andato storto durante l\'accesso.</string>
-    <string name="error_google_plus_sign_in">Errore di login su Google. Stato: %s</string>
-    <string name="error_session_expired">Sessione scaduta, effettua nuovamente il login.</string>
+    <string name="error_google_plus_sign_in">Errore d\'accesso di Google. Stato: %s</string>
+    <string name="error_session_expired">Sessione scaduta, sei pregato di accedere nuovamente.</string>
     <string name="error_register_empty_username">Nome utente vuoto</string>
-    <string name="error_register_username_as_email">Non si può usare l\'Indirizzo di e-mail come nome utente</string>
-    <string name="error_register_invalid_username">Il nome utente deve contenere solo lettere (a-z), numeri (0-9), trattini (-),
+    <string name="error_register_username_as_email">L\'indirizzo email non è utilizzabile come nome utente</string>
+    <string name="error_register_invalid_username">Il nome utente dovrebbe contenere solo lettere (a-z), numeri (0-9), trattini (-),
         trattini bassi (_) e punti (.).</string>
-    <string name="error_register_username_start_with">Il nome utente non deve iniziare con trattini (-), trattini bassi (_) o
+    <string name="error_register_username_start_with">Il nome utente non dovrebbe iniziare con trattini (-), trattini bassi (_) o
         punti (.).</string>
-    <string name="error_register_invalid_email_format">Formato e-mail non valido</string>
-    <string name="error_register_empty_password">Campo password vuoto</string>
-    <string name="error_register_password_at_least_6_characters">La password deve contenere almeno 6 caratteri</string>
+    <string name="error_register_invalid_email_format">Formato email non valido</string>
+    <string name="error_register_empty_password">Il campo della password è vuoto</string>
+    <string name="error_register_password_at_least_6_characters">La password dovrebbe contenere almeno 6 caratteri</string>
     <string name="error_register_passwords_mismatch">Le password non corrispondono</string>
-    <string name="error_register_empty_confirm_password">Conferma che il campo password è vuoto</string>
-    <string name="error_register_username_already_exists">Il nome utente è già esistente</string>
-    <string name="error_register_email_exists">Indirizzo e-mail già esistente</string>
+    <string name="error_register_empty_confirm_password">Il campo di conferma della password è vuoto</string>
+    <string name="error_register_username_already_exists">Il nome utente esiste già</string>
+    <string name="error_register_email_exists">L\'indirizzo email esiste già</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
-    <string name="overwrite_title">Il progetto esiste già.</string>
-    <string name="overwrite_text">Esiste già un progetto con questo nome. Scegli un nome diverso!</string>
-    <string name="overwrite_replace">Sostituisci il progetto</string>
-    <string name="overwrite_rename">Scegliere un nuovo nome</string>
+    <string name="overwrite_title">Il progetto esiste.</string>
+    <string name="overwrite_text">Un progetto con questo nome esiste già.</string>
+    <string name="overwrite_replace">Sovrascrivi il progetto</string>
+    <string name="overwrite_rename">Scegli un nuovo nome</string>
     <!--  -->
     <!-- Music activity -->
     <string name="pocket_music_default_project_name">Canzone senza titolo</string>
     <string name="pocket_music_default_track_name">Traccia 1</string>
     <!--  -->
     <!-- Resource initialization fka PrestageActivity -->
-    <string name="prestage_text_to_speech_engine_not_installed">Motore di sintesi vocale non installato! \nVuoi installarlo?</string>
+    <string name="prestage_text_to_speech_engine_not_installed">Il motore di Sintesi Vocale non è installato!\nDesideri
+        installarlo?</string>
     <string name="prestage_resource_not_available_title">Componente non disponibile</string>
-    <string name="prestage_resource_not_available_text">Questo progetto non funziona sul tuo dispositivo.
-        Non sono disponibili i seguenti componenti:\n\n</string>
+    <string name="prestage_resource_not_available_text">Sfortunatamente questo progetto non funziona sul tuo dispositivo.
+        I seguenti componenti non sono disponibili:\n\n</string>
     <string name="prestage_no_vibration_available">\u2022 Vibrazione\n</string>
-    <string name="prestage_no_acceleration_sensor_available">\u2022 Sensore di Accelerazione\n</string>
-    <string name="prestage_no_inclination_sensor_available">\u2022 Sensore di Inclinazione\n</string>
+    <string name="prestage_no_acceleration_sensor_available">\u2022 Sensore d\'accelerazione\n</string>
+    <string name="prestage_no_inclination_sensor_available">\u2022 Sensore d\'inclinazione\n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 Bussola\n</string>
-    <string name="prestage_no_gps_sensor_available">\u2022 GPS\n</string>
-    <string name="prestage_text_to_speech_error">\u2022 Motore di sintesi vocale\n</string>
+    <string name="prestage_no_gps_sensor_available">\u2022 Geolocalizzazione\n</string>
+    <string name="prestage_text_to_speech_error">\u2022 Motore di Sintesi Vocale\n</string>
     <string name="prestage_no_back_camera_available">\u2022 Videocamera posteriore\n</string>
-    <string name="prestage_no_face_detection_available">\u2022 Rileva volto\n</string>
+    <string name="prestage_no_face_detection_available">\u2022 Rilevamento volto\n</string>
     <string name="prestage_no_pose_detection_available">\u2022 Rilevamento della posa\n</string>
-    <string name="prestage_no_text_detection_available">\u2022 Rileva testo\n</string>
+    <string name="prestage_no_text_detection_available">\u2022 Rilevamento testuale\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Videocamera anteriore\n</string>
     <string name="prestage_no_camera_available">\u2022 Fotocamera\n</string>
     <string name="prestage_no_flash_available">\u2022 Torcia\n</string>
     <string name="prestage_default_resource_not_available">\u2022 Componente sconosciuto\n</string>
     <string name="no_nfc_available">NFC non disponibile</string>
-    <string name="nfc_not_activated">Attiva NFC, poi premi indietro per tornare all\'app!</string>
-    <string name="nfc_facedetection_support">Utilizzando contemporaneamente NFC e il riconoscimento facciale potrebbe
-     causare problemi di prestazioni!</string>
+    <string name="nfc_not_activated">Sei pregato di attivare NFC e premere Indietro per tornare all\'app.</string>
+    <string name="nfc_facedetection_support">Usare NFC e rilevamento facciale al contempo potrebbe condurre a problemi di
+        prestazioni.</string>
     <!--  -->
     <!-- Stage menu dialog -->
     <string name="stage_dialog_back">Indietro</string>
     <string name="stage_dialog_resume">Riprendi</string>
     <string name="stage_dialog_restart">Riavvia</string>
-    <string name="stage_dialog_axes_on">Attiva assi</string>
-    <string name="stage_dialog_axes_off">Disattiva assi</string>
-    <string name="stage_dialog_maximize">Massimizzare/\nStirare</string>
+    <string name="stage_dialog_axes_on">Attiva gli assi</string>
+    <string name="stage_dialog_axes_off">Disattiva gli assi</string>
+    <string name="stage_dialog_maximize">Massimizza/\nestendi</string>
     <string name="stage_dialog_screenshot">Anteprima</string>
     <string name="stage_dialog_embroidery">Ricamo</string>
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">Nuovo messaggio</string>
     <string name="dialog_broadcast_message_name">messaggio:</string>
-    <string name="dialog_edit_broadcast_message_title">Modifica messaggio</string>
+    <string name="dialog_edit_broadcast_message_title">Modifica il messaggio</string>
     <!--  -->
     <!-- NFC spinner -->
-    <string name="brick_when_nfc_edit_list_of_nfc_tags">Modifica elenco dei tag NFC</string>
+    <string name="brick_when_nfc_edit_list_of_nfc_tags">Modifica l\'elenco dei tag NFC</string>
     <string name="brick_when_nfc_default_all">tutto</string>
     <!-- -->
     <!-- Brick categories -->
     <string name="categories">Categorie</string>
     <string name="category_embroidery">Ricamo</string>
     <string name="category_motion">Movimento</string>
-    <string name="category_looks">Costumi</string>
+    <string name="category_looks">Aspetti</string>
     <string name="category_pen">Penna</string>
     <string name="category_sound">Suono</string>
     <string name="category_control">Controllo</string>
     <string name="category_event">Evento</string>
-    <string name="category_user_bricks">I tuoi mattoncini</string>
+    <string name="category_user_bricks">I tuoi mattoni</string>
     <string name="category_data">Dati</string>
     <string name="category_device">Dispositivo</string>
     <string name="category_lego_nxt">Lego NXT</string>
@@ -806,35 +819,35 @@
     <string name="category_arduino">Arduino</string>
     <string name="category_cast">Trasmetti</string>
     <string name="category_raspi">Raspberry Pi</string>
-    <string name="category_assertions">Verifica</string>
-    <string name="category_search_bricks">Cerca mattoni</string>
+    <string name="category_assertions">Test</string>
+    <string name="category_search_bricks">Cerca Mattoni</string>
     <!--  -->
     <!-- User Defined Bricks -->
-    <string name="brick_user_defined_add_label">Aggiungi etichetta</string>
-    <string name="brick_user_defined_add_input">Aggiungi input</string>
-    <string name="brick_user_defined_add_input_description">Aggiungi input per questo mattoncino:</string>
-    <string name="brick_user_defined_add_label_description">Aggiungi etichetta per questo mattoncino:</string>
-    <string name="brick_user_defined_default_input_name">Nome input</string>
-    <string name="brick_user_defined_default_label">Testo etichetta</string>
-    <string name="brick_user_defined_already_exists">Un mattoncino con queste etichette esiste già. Aggiungere più etichette o input.</string>
+    <string name="brick_user_defined_add_label">Aggiungi un\'etichetta</string>
+    <string name="brick_user_defined_add_input">Aggiungi un input</string>
+    <string name="brick_user_defined_add_input_description">Aggiungi un input per questo mattone:</string>
+    <string name="brick_user_defined_add_label_description">Aggiungi un\'etichetta per questo mattone:</string>
+    <string name="brick_user_defined_default_input_name">Nome dell\'input</string>
+    <string name="brick_user_defined_default_label">Testo dell\'etichetta</string>
+    <string name="brick_user_defined_already_exists">Un mattone con queste etichette esiste già. Sei pregato di aggiungere altre etichette o input.</string>
     <string name="brick_user_defined_script_define">Definisci</string>
     <string name="brick_user_defined_script_as">come</string>
-    <string name="brick_user_defined_list_empty">Tocca \"+\" per aggiungere nuovi mattoncini.</string>
-    <string name="brick_report">Report</string>
+    <string name="brick_user_defined_list_empty">Tocca \"+\" per aggiungere i tuoi nuovi mattoni.</string>
+    <string name="brick_report">Rapporto</string>
     <!--  -->
     <!-- Motion bricks -->
-    <string name="brick_place_at">"Posiziona a "</string>
+    <string name="brick_place_at">"Posiziona a"</string>
     <string name="brick_option_place_visually">Posiziona visivamente</string>
-    <string name="x_label">"X: "</string>
-    <string name="y_label">"Y: "</string>
-    <string name="brick_set_x">"Imposta X a "</string>
-    <string name="brick_set_y">"Imposta Y a "</string>
-    <string name="brick_change_x_by">"Cambia X di "</string>
-    <string name="brick_change_y_by">"Cambia Y di "</string>
+    <string name="x_label">"x:"</string>
+    <string name="y_label">"y:"</string>
+    <string name="brick_set_x">"Imposta x a"</string>
+    <string name="brick_set_y">"Imposta y a"</string>
+    <string name="brick_change_x_by">"Cambia x di"</string>
+    <string name="brick_change_y_by">"Cambia y di"</string>
     <string name="brick_go_back">Indietro</string>
-    <string name="brick_set_rotation_style">"Imposta stile di rotazione "</string>
-    <string name="brick_set_rotation_style_lr">solo sinistra/destra</string>
-    <string name="brick_set_rotation_style_normal">tutto intorno</string>
+    <string name="brick_set_rotation_style">"Imposta lo stile di rotazione"</string>
+    <string name="brick_set_rotation_style_lr">solo sinistra-destra</string>
+    <string name="brick_set_rotation_style_normal">tutt\'intorno</string>
     <string name="brick_set_rotation_style_no">non ruotare</string>
     <plurals name="brick_go_back_layer_plural">
         <item quantity="one">layer</item>
@@ -852,13 +865,13 @@
     <string name="brick_point_in_direction">Punta nella direzione</string>
     <string name="brick_point_to">Punta verso</string>
     <string name="brick_glide">Scivola</string>
-    <string name="brick_glide_to_x">Verso X:</string>
+    <string name="brick_glide_to_x">verso X:</string>
     <string name="brick_go_to">Vai a</string>
-    <string name="brick_go_to_touch_position">Posizione del tocco</string>
-    <string name="brick_go_to_random_position">Posizione casuale</string>
+    <string name="brick_go_to_touch_position">posizione del tocco</string>
+    <string name="brick_go_to_random_position">posizione casuale</string>
     <!--  -->
     <!-- Physics -->
-    <string name="brick_set_physics_object_type">Imposta tipo di movimento a</string>
+    <string name="brick_set_physics_object_type">Imposta il tuo tipo di movimento a</string>
     <string name="brick_set_physics_object_type_dynamic">rimbalza con gravità</string>
     <string name="brick_set_physics_object_type_fixed">gli altri vi rimbalzano contro</string>
     <string name="brick_set_physics_object_type_no">nessun rimbalzo</string>
@@ -1156,7 +1169,7 @@
     <!-- Default Values -->
     <string name="default_project_name">Il mio progetto</string>
     <string name="default_variable_name">Variabile</string>
-    <string name="default_scene_name">Scena (%1$d)</string>
+    <string name="default_scene_name">Scena</string>
     <string name="default_script_group_name">Gruppo di script</string>
     <string name="default_broadcast_message_name">Messaggio</string>
     <string name="default_list_name">Lista</string>
@@ -1732,7 +1745,7 @@ con tolleranza %        </string>
     <string name="formula_editor_object_look">Proprietà aspetto</string>
     <string name="formula_editor_object_movement">proprietà del movimento</string>
     <string name="formula_editor_device_face_detection">Rilevamento volto</string>
-    <string name="formula_editor_device_pose_detection">Rilevamento pose</string>
+    <string name="formula_editor_device_pose_detection">Rilevamento posa</string>
     <string name="formula_editor_device_text_recognition">Riconoscimento testo</string>
     <string name="formula_editor_device_date_and_time">Data e ora</string>
     <string name="formula_editor_device_touch_detection">Rilevamento tocco</string>
@@ -1781,6 +1794,10 @@ con tolleranza %        </string>
     <string name="formula_editor_sensor_second_face_size">dimensione del secondo volto</string>
     <string name="formula_editor_sensor_second_face_x_position">posizione x secondo volto</string>
     <string name="formula_editor_sensor_second_face_y_position">posizione y secondo volto</string>
+    <string name="formula_editor_sensor_head_top_x">testa superiore x</string>
+    <string name="formula_editor_sensor_head_top_y">testa superiore y</string>
+    <string name="formula_editor_sensor_neck_x">collo x</string>
+    <string name="formula_editor_sensor_neck_y">collo y</string>
     <string name="formula_editor_sensor_nose_x">naso x</string>
     <string name="formula_editor_sensor_nose_y">naso y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">occhio sinistro interno x</string>
@@ -1995,6 +2012,8 @@ con tolleranza %        </string>
     <string name="new_sprite_dialog_place_visually">Posiziona visivamente</string>
     <string name="place_visually_text">Ti verrà chiesto di posizionare il nuovo personaggio o oggetto sulla scena
 .</string>
+    <string name="new_empty_sprite_note">Note: The actor or object will be created
+        without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">Nessuna variabile selezionata</string>
     <string name="find">Trova</string>
@@ -2010,6 +2029,6 @@ con tolleranza %        </string>
     <string name="particle_effects_additive_on">acceso</string>
     <string name="particle_effects_additive_off">spento</string>
     <string name="set_particle_color_to">Imposta il colore delle particelle a</string>
-    <string name="undo_sort">Undo sort</string>
+    <string name="undo_sort">Annulla ordinamento</string>
     <string name="sort">Ordina</string>
 </resources>

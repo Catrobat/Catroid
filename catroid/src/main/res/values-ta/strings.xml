@@ -341,6 +341,7 @@
     <string name="from_library">Add from library</string>
     <string name="sort_projects">வரிசைப்படுத்து</string>
     <string name="unsort_projects">Unsort</string>
+    <string name="import_from_project">Select project to import from</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">புதிய காட்சி</string>
     <!-- Delete Dialog Titles -->
@@ -513,6 +514,8 @@
         <item quantity="one">Imported %d project.</item>
         <item quantity="other">Imported %d projects.</item>
     </plurals>
+    <!-- Renamed -->
+    <string name="renamed_project">Renamed project</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">திட்டங்கள்</string>
@@ -524,9 +527,12 @@
     <string name="set_notes_and_credits">Set notes and credits</string>
     <string name="details_date_today">இன்று</string>
     <string name="import_project">செயற்திட்டத்தை இறக்குமதி செய்</string>
+    <string name="export_project">திட்டத்தை வெளிப்புற சேமிப்பகத்தில் சேமிக்கவும்</string>
     <string name="error_import_project">திட்டங்களை இறக்குமதி செய்யும் போது ஏதோ தவறு ஏற்பட்டது.</string>
     <string name="no_projects_selected">No projects selected for import</string>
+    <string name="only_select_catrobat_files">Only select project files</string>
     <string name="error_no_files_found">திட்ட கோப்புகள் எதுவும் கிடைக்கவில்லை.</string>
+    <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">விளக்கம்</string>
     <string name="project_options_notes_and_credits">குறிப்புகளும் பொதுவொப்புதல்களும்</string>
@@ -603,6 +609,7 @@
     <string name="add_look_draw_new_image">படத்தை வரையவும்</string>
     <string name="add_look_choose_image">படம் தேர்ந்தெடு</string>
     <string name="add_look_media_library">ஊடக நூலகம்</string>
+    <string name="add_look_from_local_project">Local projects</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">ஒலி சேர்க்கவும்</string>
@@ -1152,7 +1159,7 @@
     <!-- Default Values -->
     <string name="default_project_name">My project</string>
     <string name="default_variable_name">Variable</string>
-    <string name="default_scene_name">Scene (%1$d)</string>
+    <string name="default_scene_name">Scene</string>
     <string name="default_script_group_name">Script group</string>
     <string name="default_broadcast_message_name">செய்தி</string>
     <string name="default_list_name">List</string>
@@ -1770,6 +1777,10 @@
     <string name="formula_editor_sensor_second_face_size">second face size</string>
     <string name="formula_editor_sensor_second_face_x_position">second face x position</string>
     <string name="formula_editor_sensor_second_face_y_position">second face y position</string>
+    <string name="formula_editor_sensor_head_top_x">head top x</string>
+    <string name="formula_editor_sensor_head_top_y">head top y</string>
+    <string name="formula_editor_sensor_neck_x">neck x</string>
+    <string name="formula_editor_sensor_neck_y">neck y</string>
     <string name="formula_editor_sensor_nose_x">nose x</string>
     <string name="formula_editor_sensor_nose_y">nose y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">left eye inner x</string>
@@ -1973,6 +1984,8 @@
     <string name="new_sprite_dialog_place_visually">Place visually</string>
     <string name="place_visually_text">You will be asked to place the new actor or object on the
         stage.</string>
+    <string name="new_empty_sprite_note">Note: The actor or object will be created
+        without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">No variable selected</string>
     <string name="find">Find</string>

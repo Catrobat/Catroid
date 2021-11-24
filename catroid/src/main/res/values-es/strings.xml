@@ -343,6 +343,7 @@
     <string name="from_library">Añadir desde la biblioteca</string>
     <string name="sort_projects">Ordenar</string>
     <string name="unsort_projects">Desordenar</string>
+    <string name="import_from_project">Select project to import from</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">Nueva escena</string>
     <!-- Delete Dialog Titles -->
@@ -515,6 +516,8 @@
         <item quantity="one">Proyecto importado %d.</item>
         <item quantity="other">Proyectos importados %d.</item>
     </plurals>
+    <!-- Renamed -->
+    <string name="renamed_project">Renamed project</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">Programas</string>
@@ -526,9 +529,12 @@
     <string name="set_notes_and_credits">Notas y créditos del plató</string>
     <string name="details_date_today">Hoy</string>
     <string name="import_project">Importar proyecto</string>
+    <string name="export_project">Guardar proyecto en almacenamiento externo</string>
     <string name="error_import_project">Algo salió mal al importar los proyectos.</string>
     <string name="no_projects_selected">No hay proyectos seleccionados para la importación</string>
+    <string name="only_select_catrobat_files">Only select project files</string>
     <string name="error_no_files_found">No se han encontrado archivos de proyecto.</string>
+    <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Descripción</string>
     <string name="project_options_notes_and_credits">Credits</string>
@@ -605,6 +611,7 @@
     <string name="add_look_draw_new_image">Dibujar una imagen</string>
     <string name="add_look_choose_image">Seleccione una imagen</string>
     <string name="add_look_media_library">Libreria de medios</string>
+    <string name="add_look_from_local_project">Local projects</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">Añadir sonido</string>
@@ -1153,7 +1160,7 @@
     <!-- Default Values -->
     <string name="default_project_name">Mi proyecto</string>
     <string name="default_variable_name">Variable</string>
-    <string name="default_scene_name">Escena (%1$d)</string>
+    <string name="default_scene_name">Escena</string>
     <string name="default_script_group_name">Grupo de guiones</string>
     <string name="default_broadcast_message_name">Mensaje</string>
     <string name="default_list_name">Lista</string>
@@ -1774,6 +1781,10 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string name="formula_editor_sensor_second_face_size">segundo tamaño de la cara</string>
     <string name="formula_editor_sensor_second_face_x_position">segunda cara x posición</string>
     <string name="formula_editor_sensor_second_face_y_position">posición de la segunda cara y</string>
+    <string name="formula_editor_sensor_head_top_x">head top x</string>
+    <string name="formula_editor_sensor_head_top_y">head top y</string>
+    <string name="formula_editor_sensor_neck_x">neck x</string>
+    <string name="formula_editor_sensor_neck_y">neck y</string>
     <string name="formula_editor_sensor_nose_x">nariz x</string>
     <string name="formula_editor_sensor_nose_y">nariz y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">ojo izquierdo interno x</string>
@@ -1980,6 +1991,8 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string name="new_sprite_dialog_place_visually">Colocar visualmente</string>
     <string name="place_visually_text">Se le pedirá que coloque el nuevo actor u objeto en el
         escenario.</string>
+    <string name="new_empty_sprite_note">Note: The actor or object will be created
+        without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">Ninguna variable seleccionada</string>
     <string name="find">Encuentre</string>

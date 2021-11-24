@@ -350,6 +350,7 @@
     <string name="from_library">ਲਾਇਬ੍ਰੇਰੀ ਤੋਂ ਸ਼ਾਮਲ ਕਰੋ</string>
     <string name="sort_projects">ਲੜੀਬੱਧ</string>
     <string name="unsort_projects">ਅਣਸੋਰਟ</string>
+    <string name="import_from_project">Select project to import from</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">ਨਵਾਂ ਦ੍ਰਿਸ਼</string>
     <!-- Delete Dialog Titles -->
@@ -522,6 +523,8 @@
         <item quantity="one">%d ਪ੍ਰੋਜੈਕਟ ਆਯਾਤ ਕੀਤਾ ਗਿਆ.</item>
         <item quantity="other">%d ਪ੍ਰੋਜੈਕਟ ਆਯਾਤ ਕੀਤੇ ਗਏ।</item>
     </plurals>
+    <!-- Renamed -->
+    <string name="renamed_project">Renamed project</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">ਪ੍ਰੋਜੈਕਟ</string>
@@ -533,9 +536,12 @@
     <string name="set_notes_and_credits">ਨੋਟ ਅਤੇ ਕ੍ਰੈਡਿਟ ਸੈਟ ਕਰੋ</string>
     <string name="details_date_today">ਅੱਜ</string>
     <string name="import_project">ਅਯਾਤ ਪ੍ਰੋਜੈਕਟ</string>
+    <string name="export_project">ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਬਾਹਰੀ ਸਟੋਰੇਜ ਤੇ ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
     <string name="error_import_project">ਪ੍ਰੋਜੈਕਟਸ ਨੂੰ ਆਯਾਤ ਕਰਨ ਵੇਲੇ ਕੁਝ ਗਲਤ ਹੋਇਆ.</string>
     <string name="no_projects_selected">ਆਯਾਤ ਲਈ ਕੋਈ ਪ੍ਰੋਜੈਕਟ ਨਹੀਂ ਚੁਣਿਆ ਗਿਆ</string>
+    <string name="only_select_catrobat_files">Only select project files</string>
     <string name="error_no_files_found">ਕੋਈ ਪ੍ਰੋਜੈਕਟ ਫਾਈਲਾਂ ਨਹੀਂ ਮਿਲੀਆਂ.</string>
+    <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">ਵੇਰਵਾ</string>
     <string name="project_options_notes_and_credits">ਨੋਟ ਅਤੇ ਕ੍ਰੈਡਿਟ</string>
@@ -612,6 +618,7 @@
     <string name="add_look_draw_new_image">ਚਿੱਤਰ ਬਣਾਉ</string>
     <string name="add_look_choose_image">ਚਿੱਤਰ ਚੁਣੋ</string>
     <string name="add_look_media_library">ਮੀਡੀਆ ਲਾਇਬ੍ਰੇਰੀ</string>
+    <string name="add_look_from_local_project">Local projects</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">ਆਵਾਜ਼ ਸ਼ਾਮਲ ਕਰੋ</string>
@@ -1159,7 +1166,7 @@
     <!-- Default Values -->
     <string name="default_project_name">ਨਵਾਂ ਪ੍ਰੋਜੈਕਟ</string>
     <string name="default_variable_name">ਅਸਥਿਰ</string>
-    <string name="default_scene_name">ਦ੍ਰਿਸ਼ ( %1$d)</string>
+    <string name="default_scene_name">ਦ੍ਰਿਸ਼</string>
     <string name="default_script_group_name">ਸਕ੍ਰਿਪਟ ਸਮੂਹ ਦਾ ਨਾਮ</string>
     <string name="default_broadcast_message_name">ਸੁਨੇਹਾ</string>
     <string name="default_list_name">ਸੂਚੀ</string>
@@ -1790,6 +1797,10 @@
     <string name="formula_editor_sensor_second_face_size">ਦੂਜਾ ਚਿਹਰਾ ਅਕਾਰ</string>
     <string name="formula_editor_sensor_second_face_x_position">ਦੂਜਾ ਚਿਹਰਾ x ਸਥਿਤੀ</string>
     <string name="formula_editor_sensor_second_face_y_position">ਦੂਜਾ ਚਿਹਰਾ y ਸਥਿਤੀ</string>
+    <string name="formula_editor_sensor_head_top_x">head top x</string>
+    <string name="formula_editor_sensor_head_top_y">head top y</string>
+    <string name="formula_editor_sensor_neck_x">neck x</string>
+    <string name="formula_editor_sensor_neck_y">neck y</string>
     <string name="formula_editor_sensor_nose_x">ਨੱਕ ਐਕਸ</string>
     <string name="formula_editor_sensor_nose_y">ਨੱਕ y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">ਖੱਬੀ ਅੱਖ ਦਾ ਅੰਦਰੂਨੀ ਐਕਸ</string>
@@ -2008,6 +2019,8 @@
     <string name="new_sprite_dialog_place_visually">ਨਜ਼ਰ ਨਾਲ ਰੱਖੋ</string>
     <string name="place_visually_text">ਤੁਹਾਨੂੰ ਨਵਾਂ ਅਦਾਕਾਰ ਜਾਂ ਇਤਰਾਜ਼ \'ਤੇ ਰੱਖਣ ਲਈ ਕਿਹਾ ਜਾਵੇਗਾ
          ਸਟੇਜ</string>
+    <string name="new_empty_sprite_note">Note: The actor or object will be created
+        without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">ਕੋਈ ਵੇਰੀਏਬਲ ਨਹੀਂ ਚੁਣਿਆ</string>
     <string name="find">ਲੱਭੋ</string>
