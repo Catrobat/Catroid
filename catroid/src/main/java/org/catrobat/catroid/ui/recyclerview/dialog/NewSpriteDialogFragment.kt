@@ -140,7 +140,7 @@ class NewSpriteDialogFragment(
             startVisualPlacementActivity()
         }
 
-        if (emptySprite && showCastDialog()) {
+        if (showCastDialog()) {
             CastManager.getInstance().openDeviceSelectorOrDisconnectDialog(activity as? AppCompatActivity)
         }
     }
@@ -155,16 +155,9 @@ class NewSpriteDialogFragment(
         }
     }
 
-    private fun showCastDialog(): Boolean {
-        if (SettingsFragment.isCastSharedPreferenceEnabled(activity) &&
-            ProjectManager.getInstance().currentProject.isCastProject &&
-            !CastManager.getInstance().isConnected) {
-
-            return true
-        }
-
-        return false
-    }
+    private fun showCastDialog(): Boolean = SettingsFragment.isCastSharedPreferenceEnabled(activity) &&
+        ProjectManager.getInstance().currentProject.isCastProject &&
+        !CastManager.getInstance().isConnected
 
     private fun addLookDataToSprite(currentScene: Scene?, textInput: String?) {
         try {
