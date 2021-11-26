@@ -24,6 +24,7 @@
 package org.catrobat.catroid.koin
 
 import android.app.Application
+import android.content.Context
 import com.google.android.gms.common.GoogleApiAvailability
 import com.huawei.hms.api.HuaweiApiAvailability
 import androidx.room.Room
@@ -68,7 +69,6 @@ val componentsModules = module(createdAtStart = true, override = false) {
         CatroidWebServer.getWebService("https://share.catrob.at/api/")
     }
     factory { WorkManager.getInstance(androidContext()) }
-    single { ProjectManager(androidContext()) }
     single { NetworkConnectionMonitor(androidContext()) }
     factory { HuaweiApiAvailability.getInstance() }
     factory { GoogleApiAvailability.getInstance() }
@@ -127,13 +127,30 @@ val speechModules = module {
     }
 }
 
+val projectManagerModule = module {
+    single { ProjectManager(androidContext()) }
+}
+
 val myModules = listOf(
-    componentsModules, viewModelModules, repositoryModules, adapterModules, speechModules
+    componentsModules,
+    viewModelModules,
+    repositoryModules,
+    adapterModules,
+    speechModules,
+    projectManagerModule
 )
 
 fun start(application: Application, modules: List<Module>) {
     startKoin {
         androidContext(application.applicationContext)
+        androidLogger(Level.ERROR)
+        modules(modules)
+    }
+}
+
+fun start(context: Context, modules: List<Module>) {
+    startKoin {
+        androidContext(context)
         androidLogger(Level.ERROR)
         modules(modules)
     }

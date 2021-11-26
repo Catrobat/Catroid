@@ -45,6 +45,7 @@ import org.catrobat.catroid.content.bricks.TurnRightSpeedBrick;
 import org.catrobat.catroid.content.bricks.WhenBounceOffBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.test.MockUtil;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
@@ -55,6 +56,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.io.IOException;
+
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -77,6 +80,8 @@ public class PhysicsSpriteCloneTest {
 
 	@Before
 	public void setUp() throws Exception {
+		CatroidKoinHelperKt.start(InstrumentationRegistry.getInstrumentation().getContext(),
+				CatroidKoinHelperKt.getMyModules());
 		project = new Project(MockUtil.mockContextForProject(), getClass().getSimpleName());
 		inject(ProjectManager.class).getValue().setCurrentProject(project);
 

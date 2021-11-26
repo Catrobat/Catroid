@@ -36,14 +36,20 @@ import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.test.MockUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.koin.android.java.KoinAndroidApplication;
+import org.koin.core.KoinApplication;
+import org.koin.test.AutoCloseKoinTest;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -54,12 +60,15 @@ import static org.catrobat.catroid.test.formulaeditor.FormulaEditorTestUtil.asse
 import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(JUnit4.class)
-public class FormulaElementTest {
+public class FormulaElementTest extends AutoCloseKoinTest {
 
 	Scope scope;
 
 	@Before
 	public void setUp() throws Exception {
+		KoinApplication koin =
+				KoinAndroidApplication.create(InstrumentationRegistry.getInstrumentation().getTargetContext());
+		koin.modules(CatroidKoinHelperKt.getProjectManagerModule());
 		Project project = new Project(MockUtil.mockContextForProject(), "Project");
 		Sprite background = project.getDefaultScene().getBackgroundSprite();
 		Sprite sprite = new Sprite("testSprite");
