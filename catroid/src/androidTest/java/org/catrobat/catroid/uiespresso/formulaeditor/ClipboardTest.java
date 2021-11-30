@@ -110,7 +110,6 @@ public class ClipboardTest {
 	@Test
 	public void hidePasteWhenClipboardIsEmptyTest() {
 		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
-		onView(withId(R.id.formula_editor_edit_field)).perform(click());
 		onView(withId(R.id.formula_editor_edit_field)).perform(doubleClick());
 		onView(withId(R.id.copy)).inRoot(isPlatformPopup()).perform(waitFor(isDisplayed(), 5000));
 		onView(withId(R.id.copy)).inRoot(isPlatformPopup()).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));

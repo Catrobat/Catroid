@@ -79,12 +79,15 @@
         <TextView
             android:id="@+id/brick_show_variable_color_size_y_textview"
             style="@style/BrickText.SingleLine"
-            android:text="@string/y_label">
+            android:paddingStart="@dimen/material_design_spacing_small"
+            android:text="@string/y_label"
+            android:paddingEnd="@dimen/material_design_spacing_small">
         </TextView>
 
         <TextView
             android:id="@+id/brick_show_variable_color_size_edit_text_y"
-            style="@style/BrickEditText" >
+            style="@style/BrickEditText"
+            app:layout_textField="true">
         </TextView>
 
         <TextView
@@ -96,7 +99,8 @@
 
         <TextView
             android:id="@+id/brick_show_variable_color_size_edit_relative_size"
-            style="@style/BrickEditText" >
+            style="@style/BrickEditText"
+            app:layout_textField="true">
         </TextView>
 
         <TextView
@@ -108,12 +112,15 @@
         <TextView
             android:id="@+id/brick_show_variable_color_size_and_textview"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_show_variable_color">
+            android:paddingStart="@dimen/material_design_spacing_small"
+            android:text="@string/brick_show_variable_color"
+            android:paddingEnd="@dimen/material_design_spacing_small">
         </TextView>
 
         <TextView
             android:id="@+id/brick_show_variable_color_size_edit_color"
-            style="@style/BrickEditText"/>
+            style="@style/BrickEditText"
+            app:layout_textField="true"/>
 
         <TextView
             android:id="@+id/brick_show_variable_color_size_spinner"
