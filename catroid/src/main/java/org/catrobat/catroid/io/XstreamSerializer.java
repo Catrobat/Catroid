@@ -343,6 +343,7 @@ public final class XstreamSerializer {
 		xstream.registerConverter(new XStreamUserDataHashMapConverter());
 		xstream.registerConverter(new XStreamUserVariableConverter(xstream.getMapper(), xstream.getReflectionProvider(),
 				xstream.getClassLoaderReference()));
+		xstream.registerConverter(new XStreamFormulaElementConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 
 		xstream.registerConverter(new XStreamBrickConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 		xstream.registerConverter(new XStreamScriptConverter(xstream.getMapper(), xstream.getReflectionProvider()));

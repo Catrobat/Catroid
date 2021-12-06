@@ -1018,4 +1018,8 @@ public class FormulaElement implements Serializable {
 			element.addRequiredResources(resourceSet);
 		}
 	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
 }
