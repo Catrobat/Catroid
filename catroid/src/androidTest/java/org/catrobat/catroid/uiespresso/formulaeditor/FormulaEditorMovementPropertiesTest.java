@@ -72,7 +72,7 @@ public class FormulaEditorMovementPropertiesTest {
 		onFormulaEditor()
 				.performCompute();
 		onView(withId(R.id.formula_editor_compute_dialog_textview))
-				.check(matches(withText("0")));
+				.check(matches(withText("false")));
 		pressBack();
 		pressBack();
 	}
