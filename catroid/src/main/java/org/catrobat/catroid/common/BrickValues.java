@@ -91,6 +91,8 @@ public final class BrickValues {
 	public static final int STOP_OTHER_SCRIPTS = 2;
 	public static final int FOR_LOOP_FROM = 1;
 	public static final int FOR_LOOP_TO = 10;
+	public static final int USER_DEFINED_BRICK_WITHOUT_SCREEN_REFRESH = 1;
+	public static final int USER_DEFINED_BRICK_WITH_SCREEN_REFRESH = 0;
 
 	//Constants Lego
 	public static final String LEGO_MOTOR = "A";

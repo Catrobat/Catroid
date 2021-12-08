@@ -39,6 +39,7 @@ public class UserDefinedScript extends Script {
 	private static final long serialVersionUID = 1L;
 	private UUID userDefinedBrickID;
 	private List<Object> userDefinedBrickInputs;
+	private Boolean screenRefresh = true;
 
 	public UserDefinedScript(UUID userDefinedBrickID) {
 		this.userDefinedBrickID = userDefinedBrickID;
@@ -76,5 +77,13 @@ public class UserDefinedScript extends Script {
 
 	public UUID getUserDefinedBrickID() {
 		return userDefinedBrickID;
+	}
+
+	public void setScreenRefresh(Boolean screenRefresh) {
+		this.screenRefresh = screenRefresh;
+	}
+
+	public Boolean getScreenRefresh() {
+		return screenRefresh;
 	}
 }

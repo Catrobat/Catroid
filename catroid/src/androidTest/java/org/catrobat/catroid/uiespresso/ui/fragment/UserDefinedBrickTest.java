@@ -260,4 +260,19 @@ public class UserDefinedBrickTest {
 		onView(withId(R.id.button_add_label))
 				.perform(click());
 	}
+
+	@Test
+	public void clickOnWithoutScreen() {
+		clickOnAddInputToUserBrick();
+		onView(withId(R.id.next)).perform(click());
+		onView(withId(R.id.confirm)).perform(click());
+
+		onView(withId(R.id.fragment_script)).perform(waitFor(isDisplayed(), waitThreshold));
+		onView(withId(R.id.fragment_script)).perform(click());
+
+		onBrickAtPosition(0).checkShowsText(R.string.brick_user_defined_script_screen_refresh_as);
+		onBrickAtPosition(0).onSpinner(R.id.brick_set_screen_refresh_spinner)
+				.checkShowsText(R.string.brick_user_defined_with_screen_refreshing);
+		onBrickAtPosition(1).checkShowsText(R.string.brick_when_started);
+	}
 }
