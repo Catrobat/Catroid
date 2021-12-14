@@ -235,6 +235,14 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			}
 		}
 
+		if (requiredResourcesSet.contains(Brick.OBJECT_DETECTION)) {
+			if (getCameraManager().startDetection()) {
+				resourceInitialized();
+			} else {
+				resourceFailed(Brick.OBJECT_DETECTION);
+			}
+		}
+
 		if (requiredResourcesSet.contains(Brick.POSE_DETECTION)) {
 			if (getCameraManager().startDetection()) {
 				resourceInitialized();
@@ -427,6 +435,10 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 				case Brick.FACE_DETECTION:
 					failedResourcesMessage.append(stageActivity.getString(R.string
 							.prestage_no_face_detection_available));
+					break;
+				case Brick.OBJECT_DETECTION:
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_object_detection_available));
 					break;
 				case Brick.SPEECH_RECOGNITION:
 					failedResourcesMessage.append(stageActivity.getString(R.string

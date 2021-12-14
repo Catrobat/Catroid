@@ -87,6 +87,8 @@ public class SettingsFragment extends PreferenceFragment {
 			"setting_ai_pose_detection";
 	public static final String SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS =
 			"setting_ai_text_recognition";
+	public static final String SETTINGS_SHOW_AI_OBJECT_DETECTION_SENSORS =
+			"setting_ai_object_detection";
 
 	public static final String SETTINGS_MULTIPLAYER_VARIABLES_ENABLED = "setting_multiplayer_variables_enabled";
 	public static final String SETTINGS_SHOW_HINTS = "setting_enable_hints";
@@ -360,6 +362,16 @@ public class SettingsFragment extends PreferenceFragment {
 	public static void setAITextRecognitionPreferenceEnabled(Context context, boolean value) {
 		getSharedPreferences(context).edit()
 				.putBoolean(SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS, value)
+				.apply();
+	}
+
+	public static boolean isAIObjectDetectionSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_AI_OBJECT_DETECTION_SENSORS, context);
+	}
+
+	public static void setAIObjectDetectionPreferenceEnabled(Context context, boolean value) {
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_SHOW_AI_OBJECT_DETECTION_SENSORS, value)
 				.apply();
 	}
 
