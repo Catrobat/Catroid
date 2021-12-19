@@ -35,7 +35,7 @@ public class UnaryFunction implements FormulaFunction, UnaryFunctionAction {
 		if (argument == null) {
 			return 0d;
 		} else {
-			return action.execute(argument);
+			return (Double) action.execute(argument);
 		}
 	}
 
@@ -48,3 +48,4 @@ public class UnaryFunction implements FormulaFunction, UnaryFunctionAction {
 		}
 	}
 }
+

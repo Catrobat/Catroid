@@ -24,5 +24,5 @@
 package org.catrobat.catroid.formulaeditor.function;
 
 public interface FormulaFunction {
-	Double execute(Double... args);
+	Object execute(Double... args);
 }

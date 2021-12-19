@@ -24,5 +24,5 @@
 package org.catrobat.catroid.formulaeditor.function;
 
 public interface UnaryFunctionAction {
-	Double execute(Double argument);
+	Object execute(Double argument);
 }

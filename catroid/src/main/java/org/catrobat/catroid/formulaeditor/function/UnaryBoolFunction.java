@@ -20,22 +20,31 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.formulaeditor.function
 
-import org.catrobat.catroid.camera.mlkitdetectors.ObjectDetectorResults
-import org.catrobat.catroid.formulaeditor.Functions
+package org.catrobat.catroid.formulaeditor.function;
 
-class ObjectDetectorFunctionProvider : FunctionProvider {
-    override fun addFunctionsToMap(formulaFunctions: MutableMap<Functions, FormulaFunction>) {
-        formulaFunctions[Functions.ID_OF_DETECTED_OBJECT] = UnaryFunction { argument ->
-            argument?.toInt()?.let {
-                ObjectDetectorResults.result.keys.toList().getOrNull(it-1)?.toDouble()
-            }
-        }
-        formulaFunctions[Functions.OBJECT_WITH_ID_VISIBLE] = UnaryFunction { argument ->
-            argument?.toInt()?.let {
-                if (ObjectDetectorResults.result[it] != null) 1.0 else 0.0
-            }
-        }
-    }
+public class UnaryBoolFunction implements FormulaFunction, UnaryFunctionAction {
+	private final UnaryFunctionAction action;
+
+	public UnaryBoolFunction(UnaryFunctionAction action) {
+		this.action = action;
+	}
+
+	@Override
+	public Boolean execute(Double argument) {
+		if (argument == null) {
+			return false;
+		} else {
+			return (Boolean) action.execute(argument);
+		}
+	}
+
+	@Override
+	public Boolean execute(Double... args) {
+		if (args == null || args.length < 1) {
+			return false;
+		} else {
+			return execute(args[0]);
+		}
+	}
 }
