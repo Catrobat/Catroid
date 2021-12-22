@@ -28,9 +28,14 @@
         android:title="@string/preference_title_enable_mindstorms_nxt_bricks"
         xmlns:android="http://schemas.android.com/apk/res/android">
 
+        <Preference
+            android:key="settings_mindstorms_nxt_bricks_preference"
+            android:summary="@string/preference_description_mindstorms_nxt_bricks"
+            android:title="@string/preference_title_enable_mindstorms_nxt_bricks" />
+
         <CheckBoxPreference
             android:defaultValue="@string/FEATURE_MINDSTORMS_PREFERENCES_ENABLED"
-            android:key="settings_mindstorms_nxt_bricks_enabled"
+            android:key="settings_mindstorms_nxt_bricks_checkbox_preference"
             android:summary="@string/preference_description_mindstorms_nxt_bricks"
             android:title="@string/preference_title_enable_mindstorms_nxt_bricks" />
 

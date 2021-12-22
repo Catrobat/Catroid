@@ -33,10 +33,14 @@ import android.preference.PreferenceScreen;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
+import org.catrobat.catroid.ui.recyclerview.dialog.AppStoreDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.AppStoreDialogFragment.Companion.Extension;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.NXT_SENSORS;
 
@@ -55,21 +59,34 @@ public class NXTSensorsSettingsFragment extends PreferenceFragment {
 		SettingsFragment.setToChosenLanguage(getActivity());
 
 		addPreferencesFromResource(R.xml.nxt_preferences);
+
+		CheckBoxPreference nxtCheckBoxPreference = (CheckBoxPreference) findPreference(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_CHECKBOX_PREFERENCE);
+		Preference simplePreferenceField = findPreference(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_PREFERENCE);
+		PreferenceScreen preferenceScreen = getPreferenceScreen();
+
 		if (!BuildConfig.FEATURE_LEGO_NXT_ENABLED) {
 			PreferenceScreen legoNxtPreference = (PreferenceScreen) findPreference(SettingsFragment.NXT_SCREEN_KEY);
 			legoNxtPreference.setEnabled(false);
-			getPreferenceScreen().removePreference(legoNxtPreference);
+			preferenceScreen.removePreference(legoNxtPreference);
 		} else {
-			CheckBoxPreference nxtCheckBoxPreference = (CheckBoxPreference) findPreference(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED);
-			final PreferenceCategory nxtConnectionSettings = (PreferenceCategory) findPreference(SettingsFragment.NXT_SETTINGS_CATEGORY);
-			nxtConnectionSettings.setEnabled(nxtCheckBoxPreference.isChecked());
+			if (BuildConfig.FLAVOR != Constants.FLAVOR_LEGO_NXT_EV3) {
+				preferenceScreen.removePreference(nxtCheckBoxPreference);
 
-			nxtCheckBoxPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-				public boolean onPreferenceChange(Preference preference, Object isChecked) {
+				simplePreferenceField.setOnPreferenceClickListener(preference -> {
+					AppStoreDialogFragment.newInstance(Extension.LEGO_NXT_EV3).show(((FragmentActivity) getActivity()).getSupportFragmentManager(),
+							AppStoreDialogFragment.Companion.getTAG());
+					return true;
+				});
+			} else {
+				preferenceScreen.removePreference(simplePreferenceField);
+				final PreferenceCategory nxtConnectionSettings = (PreferenceCategory) findPreference(SettingsFragment.NXT_SETTINGS_CATEGORY);
+				nxtConnectionSettings.setEnabled(nxtCheckBoxPreference.isChecked());
+
+				nxtCheckBoxPreference.setOnPreferenceChangeListener((preference, isChecked) -> {
 					nxtConnectionSettings.setEnabled((Boolean) isChecked);
 					return true;
-				}
-			});
+				});
+			}
 
 			final String[] sensorPreferences = NXT_SENSORS;
 			for (String sensorPreference : sensorPreferences) {

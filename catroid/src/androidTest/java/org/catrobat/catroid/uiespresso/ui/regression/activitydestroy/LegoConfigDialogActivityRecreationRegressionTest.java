@@ -75,7 +75,7 @@ public class LegoConfigDialogActivityRecreationRegressionTest {
 		script.addBrick(new ChangeSizeByNBrick(0));
 
 		nxtSettingBuffer = PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
-				.getBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false);
+				.getBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_CHECKBOX_PREFERENCE, false);
 
 		setNXTBrickSetting(true);
 
@@ -118,7 +118,7 @@ public class LegoConfigDialogActivityRecreationRegressionTest {
 
 	private void setNXTBrickSetting(boolean bricksEnabled) {
 		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit()
-				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, bricksEnabled)
+				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_CHECKBOX_PREFERENCE, bricksEnabled)
 				.commit();
 	}
 }
