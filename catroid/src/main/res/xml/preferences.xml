@@ -48,9 +48,14 @@
         android:summary="@string/preference_description_multiplayer_variables_enabled"
         android:title="@string/preference_title_multiplayer_variables_enabled" />
 
+    <Preference
+        android:key="setting_embroidery_bricks_preference"
+        android:summary="@string/preference_description_embroidery_bricks"
+        android:title="@string/preference_title_enable_embroidery_bricks" />
+
     <CheckBoxPreference
         android:defaultValue="@string/FEATURE_EMBROIDERY_PREFERENCES_ENABLED"
-        android:key="setting_embroidery_bricks"
+        android:key="setting_embroidery_bricks_checkbox_preference"
         android:summary="@string/preference_description_embroidery_bricks"
         android:title="@string/preference_title_enable_embroidery_bricks" />
 
@@ -93,9 +98,14 @@
         android:summary="@string/preference_description_raspi_bricks"
         android:title="@string/preference_title_enable_raspi_bricks" />
 
+    <Preference
+        android:key="setting_enable_phiro_bricks_preference"
+        android:summary="@string/preference_description_phiro_bricks"
+        android:title="@string/preference_title_enable_phiro_bricks" />
+
     <CheckBoxPreference
         android:defaultValue="@string/FEATURE_PHIRO_PREFERENCES_ENABLED"
-        android:key="setting_enable_phiro_bricks"
+        android:key="setting_enable_phiro_bricks_checkbox_preference"
         android:summary="@string/preference_description_phiro_bricks"
         android:title="@string/preference_title_enable_phiro_bricks" />
 
