@@ -25,36 +25,35 @@ package org.catrobat.catroid.camera.mlkitdetectors
 
 import android.media.Image
 import android.util.Log
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.mlkit.vision.common.InputImage
-import com.google.mlkit.vision.pose.PoseDetection
-import com.google.mlkit.vision.pose.defaults.PoseDetectorOptions
+import com.google.mlkit.vision.objects.DetectedObject
+import com.google.mlkit.vision.objects.ObjectDetection
+import com.google.mlkit.vision.objects.defaults.ObjectDetectorOptions
 import org.catrobat.catroid.camera.CatdroidImageAnalyzer
 import org.catrobat.catroid.camera.DetectorsCompleteListener
-import org.catrobat.catroid.camera.VisualDetectionHandler
 
-private val poseDetectionClient by lazy {
-    PoseDetection.getClient(
-        PoseDetectorOptions.Builder()
-            .setDetectorMode(PoseDetectorOptions.STREAM_MODE)
-            .build()
+private val objectDetectionClient by lazy {
+    ObjectDetection.getClient(
+        ObjectDetectorOptions.Builder().enableMultipleObjects()
+            .enableClassification().build()
     )
 }
 
-object PoseDetector : Detector {
+class ObjectDetectorOnSuccessListener : OnSuccessListener<MutableList<DetectedObject>> {
+    override fun onSuccess(detectedObjects: MutableList<DetectedObject>) {
+        ObjectDetectorResults.result = detectedObjects.map { it.trackingId to it }.toMap()
+    }
+}
 
+object ObjectDetector : Detector {
     override fun processImage(
         mediaImage: Image,
         inputImage: InputImage,
         onCompleteListener: DetectorsCompleteListener
     ) {
-        poseDetectionClient.process(inputImage)
-            .addOnSuccessListener { pose ->
-                VisualDetectionHandler.updateAllPoseSensorValues(
-                    pose,
-                    mediaImage.width,
-                    mediaImage.height
-                )
-            }
+        objectDetectionClient.process(inputImage)
+            .addOnSuccessListener (ObjectDetectorOnSuccessListener())
             .addOnFailureListener { exception ->
                 Log.e(
                     javaClass.simpleName,
@@ -65,4 +64,9 @@ object PoseDetector : Detector {
                 onCompleteListener.onComplete()
             }
     }
+}
+
+object ObjectDetectorResults {
+    @get:Synchronized @set:Synchronized
+    var result: Map<Int?, DetectedObject> = HashMap()
 }

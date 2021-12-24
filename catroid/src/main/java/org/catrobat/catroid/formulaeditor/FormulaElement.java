@@ -32,6 +32,7 @@ import org.catrobat.catroid.formulaeditor.function.BinaryFunction;
 import org.catrobat.catroid.formulaeditor.function.FormulaFunction;
 import org.catrobat.catroid.formulaeditor.function.FunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.MathFunctionProvider;
+import org.catrobat.catroid.formulaeditor.function.ObjectDetectorFunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.RaspiFunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.TernaryFunction;
 import org.catrobat.catroid.formulaeditor.function.TextBlockFunctionProvider;
@@ -112,8 +113,14 @@ public class FormulaElement implements Serializable {
 
 	protected FormulaElement() {
 		textBlockFunctionProvider = new TextBlockFunctionProvider();
-		List<FunctionProvider> functionProviders = Arrays.asList(new ArduinoFunctionProvider(), new RaspiFunctionProvider(),
-				new MathFunctionProvider(), new TouchFunctionProvider(), textBlockFunctionProvider);
+		List<FunctionProvider> functionProviders = Arrays.asList(
+				new ArduinoFunctionProvider(),
+				new RaspiFunctionProvider(),
+				new MathFunctionProvider(),
+				new TouchFunctionProvider(),
+				textBlockFunctionProvider,
+				new ObjectDetectorFunctionProvider()
+		);
 
 		formulaFunctions = new EnumMap<>(Functions.class);
 		initFunctionMap(functionProviders, formulaFunctions);

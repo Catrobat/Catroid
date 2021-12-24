@@ -63,6 +63,14 @@ object FormulaElementResources {
     }
 
     @JvmStatic
+    private fun addAIExtensionFunctionsResources(resources: MutableSet<Int?>, function: Functions?) {
+        when (function) {
+            Functions.ID_OF_DETECTED_OBJECT -> Brick.OBJECT_DETECTION
+            else -> return
+        }.let { resources.add(it) }
+    }
+
+    @JvmStatic
     private fun addPoseDetectionSensorsResources(resources: MutableSet<Int?>, sensor: Sensors?) {
         when (sensor) {
             Sensors.HEAD_TOP_X,
@@ -207,6 +215,7 @@ object FormulaElementResources {
 
     @JvmStatic
     fun addFunctionResources(resources: MutableSet<Int?>, functions: Functions?) {
+        addAIExtensionFunctionsResources(resources, functions)
         when (functions) {
             Functions.ARDUINOANALOG, Functions.ARDUINODIGITAL -> Brick.BLUETOOTH_SENSORS_ARDUINO
             Functions.RASPIDIGITAL -> Brick.SOCKET_RASPI
