@@ -1446,6 +1446,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="title_other_devices">New devices</string>
     <string name="searching_devices">Looking for devices…</string>
     <string name="button_scan">Search Bluetooth devices</string>
+    <string name="button_skip">Skip Bluetooth connection</string>
     <string name="select_device">Select device:</string>
     <string name="connecting_please_wait">Connecting to your device.\nPlease wait…</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->

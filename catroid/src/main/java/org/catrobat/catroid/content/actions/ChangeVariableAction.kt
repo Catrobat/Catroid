@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,12 @@
 package org.catrobat.catroid.content.actions
 
 import com.badlogic.gdx.scenes.scene2d.Action
+import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.bluetooth.base.BluetoothDevice
+import org.catrobat.catroid.common.CatroidService
+import org.catrobat.catroid.common.ServiceProvider
 import org.catrobat.catroid.content.Scope
+import org.catrobat.catroid.devices.multiplayer.MultiplayerInterface
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.UserVariable
 
@@ -42,8 +47,16 @@ class ChangeVariableAction : Action() {
     }
 
     private fun updateUserVariable(originalValue: Double, value: Double) {
-            val original = originalValue.takeUnless { it.isNaN() } ?: 0.0
-            val valueToAdd = value.takeUnless { it.isNaN() } ?: 0.0
-            userVariable?.value = original + valueToAdd
+        val original = originalValue.takeUnless { it.isNaN() } ?: 0.0
+        val valueToAdd = value.takeUnless { it.isNaN() } ?: 0.0
+        userVariable?.value = original + valueToAdd
+
+        val multiplayerVariable = ProjectManager.getInstance().currentProject.getMultiplayerVariable(userVariable?.name)
+        multiplayerVariable?.let {
+            val multiplayerDevice = getMultiplayerDevice()
+            multiplayerDevice?.sendChangedMultiplayerVariables(userVariable)
+        }
     }
+
+    fun getMultiplayerDevice(): MultiplayerInterface? = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).getDevice(BluetoothDevice.MULTIPLAYER)
 }

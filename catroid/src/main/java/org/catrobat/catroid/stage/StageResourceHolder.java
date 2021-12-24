@@ -168,6 +168,11 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			connectBTDevice(BluetoothDevice.ARDUINO);
 		}
 
+		if (ProjectManager.getInstance().getCurrentProject().hasMultiplayerVariables()) {
+			requiredResourceCounter++;
+			connectBTDevice(BluetoothDevice.MULTIPLAYER);
+		}
+
 		if (requiredResourcesSet.contains(Brick.CAMERA_BACK)) {
 			if (getCameraManager().getHasBackCamera()) {
 				resourceInitialized();

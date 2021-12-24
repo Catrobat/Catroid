@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
+    <Button
+        android:id="@+id/button_skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingTop="@dimen/device_button_padding"
+        android:paddingBottom="@dimen/device_button_padding"
+        style="@android:style/Widget.Holo.Button"
+        android:text="@string/button_skip" />
 
     <TextView
         android:id="@+id/title_paired_devices"
@@ -71,10 +81,10 @@
             android:layout_height="match_parent" />
 
         <TextView
-        android:id="@+id/device_list_loading_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/searching_devices"/>
+            android:id="@+id/device_list_loading_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/searching_devices"/>
 
     </LinearLayout >
 
