@@ -28,14 +28,18 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import org.catrobat.catroid.BuildConfig
 import org.catrobat.catroid.R
+import org.catrobat.catroid.databinding.ActivityRecyclerBinding
 import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialogFragment
 import org.catrobat.catroid.ui.recyclerview.fragment.ProjectListFragment
 
 class ProjectListActivity : BaseCastActivity() {
+    private lateinit var binding: ActivityRecyclerBinding
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_recycler)
-        setSupportActionBar(findViewById(R.id.toolbar))
+        binding = ActivityRecyclerBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar.toolbar)
         supportActionBar?.apply {
             setTitle(R.string.project_list_title)
             setDisplayHomeAsUpEnabled(true)
@@ -43,16 +47,15 @@ class ProjectListActivity : BaseCastActivity() {
 
         BottomBar.hidePlayButton(this)
 
-        val projectListFragment: Fragment = ProjectListFragment()
-        val importProjectFromImplicitIntent = intent
+        val projectListFragment = ProjectListFragment()
         if (intent.hasExtra(IMPORT_LOCAL_INTENT)) {
             BottomBar.hideAddButton(this)
-            supportActionBar!!.setTitle(R.string.import_from_project)
+            supportActionBar?.setTitle(R.string.import_from_project)
         }
-        importProjectFromImplicitIntent?.apply {
+        intent?.apply {
             if (action != null) {
                 val data = Bundle()
-                data.putParcelable("intent", importProjectFromImplicitIntent)
+                data.putParcelable("intent", intent)
                 projectListFragment.arguments = data
             }
         }
