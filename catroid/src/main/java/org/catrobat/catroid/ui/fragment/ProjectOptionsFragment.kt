@@ -22,208 +22,193 @@
  */
 package org.catrobat.catroid.ui.fragment
 
-import org.catrobat.catroid.ui.BottomBar.hideBottomBar
-import org.catrobat.catroid.io.asynctask.saveProjectSerial
-import org.catrobat.catroid.io.asynctask.renameProject
-import com.google.android.material.textfield.TextInputLayout
-import com.google.android.material.chip.ChipGroup
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import android.os.Bundle
-import org.catrobat.catroid.R
-import androidx.appcompat.app.AppCompatActivity
-import org.catrobat.catroid.ProjectManager
-import org.catrobat.catroid.merge.NewProjectNameTextWatcher
-import android.text.Editable
-import android.widget.LinearLayout
-import com.google.android.material.chip.Chip
-import com.google.android.material.switchmaterial.SwitchMaterial
-import org.catrobat.catroid.common.ScreenModes
-import android.widget.CompoundButton
-import android.widget.TextView
-import org.catrobat.catroid.common.ProjectData
-import android.content.DialogInterface
-import org.catrobat.catroid.io.XstreamSerializer
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask
-import org.catrobat.catroid.utils.ToastUtil
-import org.catrobat.catroid.io.asynctask.ProjectSaver
-import android.content.Intent
-import org.catrobat.catroid.ui.ProjectUploadActivity
-import androidx.annotation.RequiresApi
-import android.provider.DocumentsContract
-import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
 import android.Manifest.permission
 import android.app.Activity
+import android.content.DialogInterface
+import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.os.Environment
+import android.provider.DocumentsContract
+import android.text.Editable
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
+import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
-import org.catrobat.catroid.io.asynctask.ProjectExportTask
+import com.google.android.material.chip.Chip
+import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.Nameable
+import org.catrobat.catroid.common.ProjectData
+import org.catrobat.catroid.common.ScreenModes
 import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.databinding.FragmentProjectOptionsBinding
 import org.catrobat.catroid.io.StorageOperations
+import org.catrobat.catroid.io.XstreamSerializer
+import org.catrobat.catroid.io.asynctask.ProjectExportTask
+import org.catrobat.catroid.io.asynctask.ProjectLoadTask
+import org.catrobat.catroid.io.asynctask.ProjectSaver
+import org.catrobat.catroid.io.asynctask.renameProject
+import org.catrobat.catroid.io.asynctask.saveProjectSerial
+import org.catrobat.catroid.merge.NewProjectNameTextWatcher
+import org.catrobat.catroid.ui.BottomBar.hideBottomBar
 import org.catrobat.catroid.ui.PROJECT_DIR
+import org.catrobat.catroid.ui.ProjectUploadActivity
+import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
+import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.Utils
+import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
+import org.koin.android.ext.android.inject
 import java.io.File
 import java.io.IOException
 
 class ProjectOptionsFragment : Fragment() {
-    private var optionsView: View? = null
+
+    private val projectManager: ProjectManager by inject()
+    private var _binding: FragmentProjectOptionsBinding? = null
+    private val binding get() = _binding!!
     private var project: Project? = null
     private var sceneName: String? = null
-    private var nameInputLayout: TextInputLayout? = null
-    private var descriptionInputLayout: TextInputLayout? = null
-    private var notesAndCreditsInputLayout: TextInputLayout? = null
-    private var tagsChipGroup: ChipGroup? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        optionsView = inflater.inflate(R.layout.fragment_project_options, container, false)
-        setHasOptionsMenu(true)
-        val activity = activity as AppCompatActivity?
-        activity?.supportActionBar?.setTitle(R.string.project_options)
+    ): View {
+        _binding = FragmentProjectOptionsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        project = ProjectManager.getInstance().currentProject
-        sceneName = ProjectManager.getInstance().currentlyEditedScene.name
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
+        (requireActivity() as AppCompatActivity).supportActionBar?.setTitle(R.string.project_options)
+
+        project = projectManager.currentProject
+        sceneName = projectManager.currentlyEditedScene.name
+
         setupNameInputLayout()
         setupDescriptionInputLayout()
         setupNotesAndCreditsInputLayout()
-        tagsChipGroup = optionsView?.findViewById(R.id.chip_group_tags)
         addTags()
         setupProjectAspectRatio()
         setupProjectUpload()
         setupProjectSaveExternal()
         setupProjectMoreDetails()
         setupProjectOptionDelete()
-        hideBottomBar(getActivity())
-        return optionsView
+
+        hideBottomBar(requireActivity())
     }
 
     private fun setupNameInputLayout() {
-        nameInputLayout = optionsView?.findViewById(R.id.project_options_name_layout)
-        nameInputLayout?.editText?.let {
-            it.setText(project?.name)
-            it.addTextChangedListener(object : NewProjectNameTextWatcher<Nameable>() {
-                override fun afterTextChanged(editable: Editable) {
-                    nameInputLayout?.error = if (editable.toString() != project?.name) {
-                        val error = validateInput(editable.toString(), getContext())
-                        error
+        binding.projectOptionsNameLayout.editText?.apply {
+            setText(project?.name)
+            addTextChangedListener(object : NewProjectNameTextWatcher<Nameable>() {
+                override fun afterTextChanged(s: Editable?) {
+                    val error = if (s.toString() != project!!.name) {
+                        validateInput(s.toString(), getContext())
                     } else {
                         null
                     }
+                    binding.projectOptionsNameLayout.error = error
                 }
             })
         }
     }
 
     private fun setupDescriptionInputLayout() {
-        descriptionInputLayout = optionsView?.findViewById(R.id.project_options_description_layout)
-        if (descriptionInputLayout != null) {
-            val editText = descriptionInputLayout?.editText
-            editText?.setText(project?.description)
-        }
+        binding.projectOptionsDescriptionLayout.editText?.setText(project?.description)
     }
 
     private fun setupNotesAndCreditsInputLayout() {
-        notesAndCreditsInputLayout =
-            optionsView?.findViewById(R.id.project_options_notes_and_credits_layout)
-        notesAndCreditsInputLayout?.apply {
-            val editText = editText
-            editText?.setText(project?.notesAndCredits)
-        }
+        binding.projectOptionsNotesAndCreditsLayout.editText?.setText(project?.notesAndCredits)
     }
 
     private fun addTags() {
-        tagsChipGroup?.removeAllViews()
-        val tags = project?.tags
-        val tagsLayout = optionsView?.findViewById<LinearLayout>(R.id.tags)
-        if (tags?.size == 1 && tags[0].isEmpty()) {
-            tagsLayout?.visibility = View.GONE
+        binding.chipGroupTags.removeAllViews()
+        val tags = project!!.tags
+
+        if (tags.size == 1 && tags[0].isEmpty()) {
+            binding.tags.visibility = View.GONE
             return
         }
-        tagsLayout?.visibility = View.VISIBLE
-        if (tags != null) {
-            for (tag in tags) {
-                context?.let {
-                    val chip = Chip(it)
-                    chip.text = tag
-                    chip.isClickable = false
-                    tagsChipGroup?.addView(chip)
-                }
-            }
+        binding.tags.visibility = View.VISIBLE
+        for (tag in tags) {
+            val chip = Chip(context)
+            chip.text = tag
+            chip.isClickable = false
+            binding.chipGroupTags.addView(chip)
         }
     }
 
     private fun setupProjectAspectRatio() {
-        val projectAspectRatio: SwitchMaterial =
-            optionsView?.findViewById(R.id.project_options_aspect_ratio) ?: return
-        projectAspectRatio.isChecked = project?.screenMode == ScreenModes.STRETCH
-        projectAspectRatio.setOnCheckedChangeListener { _: CompoundButton?, checked: Boolean ->
-            handleAspectRatioChecked(checked)
+        binding.projectOptionsAspectRatio.apply {
+            isChecked = project?.screenMode == ScreenModes.STRETCH
+            setOnCheckedChangeListener { _, isChecked ->
+                handleAspectRatioChecked(isChecked)
+            }
         }
     }
 
     private fun setupProjectUpload() {
-        val projectUpload = optionsView?.findViewById<TextView>(R.id.project_options_upload)
-        projectUpload?.setOnClickListener { projectUpload() }
+        binding.projectOptionsUpload.setOnClickListener {
+            projectUpload()
+        }
     }
 
     private fun setupProjectSaveExternal() {
-        val projectSaveExternal =
-            optionsView?.findViewById<TextView>(R.id.project_options_save_external)
-        projectSaveExternal?.setOnClickListener { exportProject() }
+        binding.projectOptionsSaveExternal.setOnClickListener {
+            exportProject()
+        }
     }
 
     private fun setupProjectMoreDetails() {
-        val projectMoreDetails =
-            optionsView?.findViewById<TextView>(R.id.project_options_more_details)
-        projectMoreDetails?.setOnClickListener { moreDetails() }
+        binding.projectOptionsMoreDetails.setOnClickListener {
+            moreDetails()
+        }
     }
 
     private fun setupProjectOptionDelete() {
-        val projectOptionsDelete = optionsView?.findViewById<View>(R.id.project_options_delete)
-        projectOptionsDelete?.setOnClickListener { handleDeleteButtonPressed() }
+        binding.projectOptionsDelete.setOnClickListener {
+            handleDeleteButtonPressed()
+        }
     }
 
     private fun handleAspectRatioChecked(checked: Boolean) {
-        if (checked) {
-            project?.screenMode = ScreenModes.STRETCH
+        project?.screenMode = if (checked) {
+            ScreenModes.STRETCH
         } else {
-            project?.screenMode = ScreenModes.MAXIMIZE
+            ScreenModes.MAXIMIZE
         }
     }
 
     private fun handleDeleteButtonPressed() {
-        project?.let { thisProject ->
-            context?.let {
-                val projectData = ProjectData(
-                    thisProject.name,
-                    thisProject.directory,
-                    thisProject.catrobatLanguageVersion,
-                    thisProject.hasScene()
+        project ?: return
+
+        val projectData = ProjectData(
+            project!!.name,
+            project!!.directory,
+            project!!.catrobatLanguageVersion,
+            project!!.hasScene()
+        )
+        AlertDialog.Builder(requireContext())
+            .setTitle(resources.getQuantityString(R.plurals.delete_projects, 1))
+            .setMessage(R.string.dialog_confirm_delete)
+            .setPositiveButton(R.string.yes) { _: DialogInterface?, _: Int ->
+                deleteProject(
+                    projectData
                 )
-                AlertDialog.Builder(it)
-                    .setTitle(resources.getQuantityString(R.plurals.delete_projects, 1))
-                    .setMessage(R.string.dialog_confirm_delete)
-                    .setPositiveButton(R.string.yes) { _: DialogInterface?, _: Int ->
-                        deleteProject(
-                            projectData
-                        )
-                    }
-                    .setNegativeButton(R.string.no, null)
-                    .setCancelable(false)
-                    .show()
             }
-        }
+            .setNegativeButton(R.string.no, null)
+            .setCancelable(false)
+            .show()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -243,38 +228,40 @@ class ProjectOptionsFragment : Fragment() {
         setProjectName()
         saveDescription()
         saveCreditsAndNotes()
-        context?.let {
-            saveProjectSerial(project, it)
-        }
+        saveProjectSerial(project, requireContext())
     }
 
     override fun onResume() {
         super.onResume()
-        ProjectManager.getInstance().currentProject = project
-        nameInputLayout?.editText?.setText(project?.name)
-        descriptionInputLayout?.editText?.setText(project?.description)
-        notesAndCreditsInputLayout?.editText?.setText(project?.notesAndCredits)
+
+        projectManager.currentProject = project
+        binding.projectOptionsNameLayout.editText?.setText(project?.name)
+        setupDescriptionInputLayout()
+        setupNotesAndCreditsInputLayout()
+
         addTags()
-        hideBottomBar(activity)
+        hideBottomBar(requireActivity())
     }
 
     private fun setProjectName() {
-        val name = nameInputLayout?.editText?.text.toString().trim { it <= ' ' }
+        val name = binding.projectOptionsNameLayout.editText?.text.toString().trim()
         project ?: return
-        XstreamSerializer.getInstance().saveProject(project)
-        val projectDirectory = project?.directory ?: return
-        val renamedDirectory = renameProject(projectDirectory, name)
-        if (renamedDirectory == null) {
-            Log.e(TAG, "Creating renamed directory failed!")
-            return
+
+        if (project!!.name != name) {
+            XstreamSerializer.getInstance().saveProject(project)
+            val renamedDirectory = renameProject(project!!.directory, name)
+            if (renamedDirectory == null) {
+                Log.e(TAG, "Creating renamed directory failed!")
+                return
+            }
+            ProjectLoadTask.task(renamedDirectory, requireContext().applicationContext)
+            project = projectManager.currentProject
+            projectManager.currentlyEditedScene = project!!.getSceneByName(sceneName)
         }
-        ProjectLoadTask.task(renamedDirectory, activity?.applicationContext)
-        project = ProjectManager.getInstance().currentProject
-        ProjectManager.getInstance().currentlyEditedScene = project?.getSceneByName(sceneName)
     }
 
     fun saveDescription() {
-        val description = descriptionInputLayout?.editText?.text.toString().trim { it <= ' ' }
+        val description = binding.projectOptionsDescriptionLayout.editText?.text.toString().trim()
         if (project?.description == null || project?.description != description) {
             project?.description = description
             if (!XstreamSerializer.getInstance().saveProject(project)) {
@@ -284,28 +271,26 @@ class ProjectOptionsFragment : Fragment() {
     }
 
     fun saveCreditsAndNotes() {
-        val notesAndCredits =
-            notesAndCreditsInputLayout?.editText?.text.toString().trim { it <= ' ' }
+        val notesAndCredits = binding.projectOptionsNotesAndCreditsLayout.editText
+            ?.text.toString().trim()
         if (project?.notesAndCredits == null || project?.notesAndCredits != notesAndCredits) {
             project?.notesAndCredits = notesAndCredits
             if (!XstreamSerializer.getInstance().saveProject(project)) {
-                ToastUtil.showError(activity, R.string.error_set_notes_and_credits)
+                ToastUtil.showError(requireContext(), R.string.error_set_notes_and_credits)
             }
         }
     }
 
     fun projectUpload() {
-        val currentProject = ProjectManager.getInstance().currentProject
-        context?.apply {
-            val projectSaver = ProjectSaver(currentProject, this)
-            projectSaver.saveProjectAsync({ onSaveProjectComplete() })
-            Utils.setLastUsedProjectName(this, currentProject.name)
-        }
+        val currentProject = projectManager.currentProject
+        ProjectSaver(currentProject, requireContext())
+            .saveProjectAsync({ onSaveProjectComplete() })
+        Utils.setLastUsedProjectName(requireContext(), currentProject.name)
     }
 
     private fun onSaveProjectComplete() {
-        val currentProject = ProjectManager.getInstance().currentProject
-        val intent = Intent(context, ProjectUploadActivity::class.java)
+        val currentProject = projectManager.currentProject
+        val intent = Intent(requireContext(), ProjectUploadActivity::class.java)
         intent.putExtra(PROJECT_DIR, currentProject.directory)
         startActivity(intent)
     }
@@ -327,7 +312,7 @@ class ProjectOptionsFragment : Fragment() {
         intent.putExtra(Intent.EXTRA_TITLE, fileName)
         intent.type = "*/*"
         intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, Environment.DIRECTORY_DOWNLOADS)
-        val title = context?.getString(R.string.export_project) ?: ""
+        val title = requireContext().getString(R.string.export_project)
         startActivityForResult(Intent.createChooser(intent, title), REQUEST_EXPORT_PROJECT)
     }
 
@@ -350,7 +335,7 @@ class ProjectOptionsFragment : Fragment() {
                 val projectDestination = Uri.fromFile(projectZip)
                 startAsyncProjectExport(projectDestination)
             }
-        }.execute(activity)
+        }.execute(requireActivity())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -363,25 +348,34 @@ class ProjectOptionsFragment : Fragment() {
     }
 
     private fun startAsyncProjectExport(projectDestination: Uri) {
-        val context = context ?: return
-        project?.apply {
-            val notificationData = StatusBarNotificationManager(context)
-                .createSaveProjectToExternalMemoryNotification(context, projectDestination, name)
-            ProjectExportTask(directory, projectDestination, notificationData, context).execute()
+        project?.let {
+            val notificationData = StatusBarNotificationManager(requireContext())
+                .createSaveProjectToExternalMemoryNotification(
+                    requireContext(),
+                    projectDestination,
+                    it.name
+                )
+            ProjectExportTask(it.directory, projectDestination, notificationData, requireContext())
+                .execute()
         }
     }
 
     private fun moreDetails() {
         val fragment = ProjectDetailsFragment()
         val args = Bundle()
-        project?.apply {
-            val projectData = ProjectData(name, directory, catrobatLanguageVersion, hasScene())
+        project?.let {
+            val projectData = ProjectData(
+                it.name,
+                it.directory,
+                it.catrobatLanguageVersion,
+                it.hasScene()
+            )
             args.putSerializable(ProjectDetailsFragment.SELECTED_PROJECT_KEY, projectData)
         }
         fragment.arguments = args
-        activity?.supportFragmentManager?.beginTransaction()
-            ?.replace(R.id.fragment_container, fragment, ProjectDetailsFragment.TAG)
-            ?.addToBackStack(ProjectDetailsFragment.TAG)?.commit()
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment, ProjectDetailsFragment.TAG)
+            .addToBackStack(ProjectDetailsFragment.TAG).commit()
     }
 
     private fun deleteProject(selectedProject: ProjectData) {
@@ -390,17 +384,16 @@ class ProjectOptionsFragment : Fragment() {
         } catch (exception: IOException) {
             Log.e(TAG, Log.getStackTraceString(exception))
         }
-        ToastUtil.showSuccess(activity,
+        ToastUtil.showSuccess(
+            requireContext(),
             resources.getQuantityString(R.plurals.deleted_projects, 1, 1)
         )
         project = null
-        ProjectManager.getInstance().currentProject = project
-        val activity: Activity? = activity
-        activity?.onBackPressed()
+        projectManager.currentProject = project
+        requireActivity().onBackPressed()
     }
 
     companion object {
-        @JvmStatic
         val TAG: String = ProjectOptionsFragment::class.java.simpleName
 
         private const val PERMISSIONS_REQUEST_EXPORT_TO_EXTERNAL_STORAGE = 802

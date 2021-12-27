@@ -90,11 +90,6 @@ public class ProjectListActivityRecreateRegressionTest {
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText(R.string.rename)).perform(click());
 
-		onRecyclerView().atPosition(0)
-				.performCheckItem();
-
-		onView(withId(R.id.confirm)).perform(click());
-
 		onView(withText(R.string.rename_project)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 

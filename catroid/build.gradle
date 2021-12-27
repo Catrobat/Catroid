@@ -106,7 +106,7 @@ android {
     compileSdkVersion 30
 
     buildFeatures {
-        viewBinding = true
+        viewBinding true
     }
 
     defaultConfig {
@@ -335,7 +335,6 @@ android {
     productFlavors.all { flavor ->
         copyGoogleServicesFile(flavor.name, defaultConfig.applicationId + (flavor.applicationIdSuffix ?: ""))
     }
-
 
     aaptOptions {
         noCompress "lite"

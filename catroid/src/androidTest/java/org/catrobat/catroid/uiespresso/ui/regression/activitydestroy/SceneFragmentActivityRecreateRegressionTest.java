@@ -82,9 +82,7 @@ public class SceneFragmentActivityRecreateRegressionTest {
 		onView(withText(R.string.rename)).perform(click());
 
 		onRecyclerView().atPosition(0)
-				.performCheckItem();
-
-		onView(withId(R.id.confirm)).perform(click());
+				.perform(click());
 
 		onView(withText(R.string.rename_scene_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));

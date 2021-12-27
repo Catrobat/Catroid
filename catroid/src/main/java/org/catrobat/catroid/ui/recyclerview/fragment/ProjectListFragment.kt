@@ -23,9 +23,8 @@
 package org.catrobat.catroid.ui.recyclerview.fragment
 
 import android.Manifest.permission
-import android.app.Activity
+import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -68,15 +67,19 @@ import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
 import org.catrobat.catroid.utils.ToastUtil
+import org.koin.android.ext.android.inject
 import java.io.File
 import java.io.IOException
 import java.util.ArrayList
 
+@SuppressLint("NotifyDataSetChanged")
 class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadListener {
     private var filesForUnzipAndImportTask: ArrayList<File>? = null
     private var hasUnzipAndImportTaskFinished = false
     private var filesForImportTask: ArrayList<File>? = null
     private var hasImportTaskFinished = false
+
+    private val projectManager: ProjectManager by inject()
 
     override fun onActivityCreated(savedInstance: Bundle?) {
         super.onActivityCreated(savedInstance)
@@ -87,7 +90,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         if (arguments != null) {
             importProject(requireArguments().getParcelable("intent"))
         }
-        if (requireActivity().intent!!.hasExtra(ProjectListActivity.IMPORT_LOCAL_INTENT)) {
+        if (requireActivity().intent?.hasExtra(ProjectListActivity.IMPORT_LOCAL_INTENT) == true) {
             adapter.hideSettings = true
             actionModeType = IMPORT_LOCAL
         }
@@ -96,10 +99,10 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
     private fun onImportProjectFinished(success: Boolean) {
         setAdapterItems(adapter.projectsSorted)
         if (!success) {
-            ToastUtil.showError(context, R.string.error_import_project)
+            ToastUtil.showError(requireContext(), R.string.error_import_project)
         } else {
             ToastUtil.showSuccess(
-                activity,
+                requireContext(),
                 resources.getQuantityString(
                     R.plurals.imported_projects,
                     filesForUnzipAndImportTask?.size ?: 0,
@@ -114,12 +117,15 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
     private fun onRenameFinished(success: Boolean) {
         if (success) {
             if (hasImportTaskFinished && hasUnzipAndImportTaskFinished) {
-                ToastUtil.showSuccess(activity, context?.getString(R.string.renamed_project))
+                ToastUtil.showSuccess(
+                    requireContext(),
+                    getString(R.string.renamed_project)
+                )
                 filesForUnzipAndImportTask?.clear()
             }
             setAdapterItems(adapter.projectsSorted)
         } else {
-            ToastUtil.showError(context, R.string.error_rename_incompatible_project)
+            ToastUtil.showError(requireContext(), R.string.error_rename_incompatible_project)
         }
         setShowProgressBar(false)
     }
@@ -130,7 +136,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
             setAdapterItems(adapter.projectsSorted)
             if (hasImportTaskFinished && hasUnzipAndImportTaskFinished) {
                 ToastUtil.showSuccess(
-                    activity,
+                    requireContext(),
                     resources.getQuantityString(
                         R.plurals.imported_projects,
                         filesForImportTask?.size ?: 0,
@@ -139,7 +145,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
                 )
                 filesForImportTask?.clear()
             } else {
-                ToastUtil.showError(context, R.string.error_import_project)
+                ToastUtil.showError(requireContext(), R.string.error_import_project)
             }
             setShowProgressBar(false)
         }
@@ -147,12 +153,12 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
 
     override fun onResume() {
         if (actionModeType != IMPORT_LOCAL) {
-            ProjectManager.getInstance().currentProject = null
+            projectManager.currentProject = null
         }
 
         setAdapterItems(adapter.projectsSorted)
         checkForEmptyList()
-        BottomBar.showBottomBar(activity)
+        BottomBar.showBottomBar(requireActivity())
         super.onResume()
     }
 
@@ -195,7 +201,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
 
     private fun sortProjects() {
         adapter.projectsSorted = !adapter.projectsSorted
-        PreferenceManager.getDefaultSharedPreferences(activity)
+        PreferenceManager.getDefaultSharedPreferences(requireContext())
             .edit()
             .putBoolean(
                 SharedPreferenceKeys.SORT_PROJECTS_PREFERENCE_KEY,
@@ -234,15 +240,16 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         ) {
             override fun task() {
                 startActivityForResult(
-                    Intent(context, FilePickerActivity::class.java), REQUEST_IMPORT_PROJECT
+                    Intent(requireContext(), FilePickerActivity::class.java),
+                    REQUEST_IMPORT_PROJECT
                 )
             }
-        }.execute(activity)
+        }.execute(requireActivity())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_IMPORT_PROJECT && resultCode == Activity.RESULT_OK) {
+        if (requestCode == REQUEST_IMPORT_PROJECT && resultCode == RESULT_OK) {
             importProject(data)
         }
     }
@@ -271,7 +278,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
 
     private fun onImportError() {
         setShowProgressBar(false)
-        ToastUtil.showError(context, R.string.error_import_project)
+        ToastUtil.showError(requireContext(), R.string.error_import_project)
     }
 
     private fun extractAllUris(data: Intent, uris: ArrayList<Uri>) {
@@ -311,7 +318,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
             val contentResolver = requireActivity().contentResolver
             var fileName = StorageOperations.resolveFileName(contentResolver, uri)
             if (!fileName.contains(Constants.CATROBAT_EXTENSION)) {
-                ToastUtil.showError(context, R.string.only_select_catrobat_files)
+                ToastUtil.showError(requireContext(), R.string.only_select_catrobat_files)
                 continue
             }
             fileName = fileName.replace(Constants.CATROBAT_EXTENSION, Constants.ZIP_EXTENSION)
@@ -383,14 +390,15 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         for (item in selectedItems) {
             item ?: continue
             try {
-                ProjectManager.getInstance().deleteDownloadedProjectInformation(item.name)
+                projectManager.deleteDownloadedProjectInformation(item.name)
                 StorageOperations.deleteDir(item.directory)
             } catch (e: IOException) {
                 Log.e(TAG, Log.getStackTraceString(e))
             }
             adapter.remove(item)
         }
-        ToastUtil.showSuccess(activity, resources.getQuantityString(
+        ToastUtil.showSuccess(
+            requireContext(), resources.getQuantityString(
                 R.plurals.deleted_projects,
                 selectedItems.size,
                 selectedItems.size
@@ -404,11 +412,11 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
     fun checkForEmptyList() {
         if (adapter.items.isEmpty()) {
             setShowProgressBar(true)
-            if (ProjectManager.getInstance().initializeDefaultProject(context)) {
+            if (projectManager.initializeDefaultProject()) {
                 setAdapterItems(adapter.projectsSorted)
                 setShowProgressBar(false)
             } else {
-                ToastUtil.showError(activity, R.string.wtf_error)
+                ToastUtil.showError(requireContext(), R.string.wtf_error)
                 requireActivity().finish()
             }
         }
@@ -430,11 +438,8 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
     }
 
     override fun onLoadFinished(success: Boolean) {
-        if (activity == null) {
-            return
-        }
         if (success) {
-            val intent = Intent(activity, ProjectActivity::class.java)
+            val intent = Intent(requireContext(), ProjectActivity::class.java)
             intent.putExtra(
                 ProjectActivity.EXTRA_FRAGMENT_POSITION,
                 ProjectActivity.FRAGMENT_SCENES
@@ -442,7 +447,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
             startActivity(intent)
         } else {
             setShowProgressBar(false)
-            ToastUtil.showError(activity, R.string.error_load_project)
+            ToastUtil.showError(requireContext(), R.string.error_load_project)
         }
     }
 
@@ -450,7 +455,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         if (success) {
             setAdapterItems(adapter.projectsSorted)
         } else {
-            ToastUtil.showError(context, R.string.error_copy_project)
+            ToastUtil.showError(requireContext(), R.string.error_copy_project)
         }
         setShowProgressBar(false)
     }
@@ -463,9 +468,9 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         if (actionModeType == NONE) {
             setShowProgressBar(true)
             val directoryFile = item?.directory ?: return
-            ProjectLoadTask(directoryFile, context).setListener(this).execute()
+            ProjectLoadTask(directoryFile, requireContext()).setListener(this).execute()
         }
-        if (activity != null && actionModeType == IMPORT_LOCAL) {
+        if (actionModeType == IMPORT_LOCAL) {
             val intent = Intent()
             intent.putExtra(
                 ProjectListActivity.IMPORT_LOCAL_INTENT,
@@ -481,7 +486,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
     }
 
     override fun onSettingsClick(item: ProjectData?, view: View?) {
-        val popupMenu = PopupMenu(context, view)
+        val popupMenu = PopupMenu(requireContext(), view)
         val itemList: MutableList<ProjectData?> = ArrayList()
         itemList.add(item)
         popupMenu.menuInflater.inflate(R.menu.menu_project_activity, popupMenu.menu)
@@ -504,8 +509,11 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
     private fun showProjectOptionsFragment(item: ProjectData?) {
         item ?: return
         try {
-            val project = XstreamSerializer.getInstance().loadProject(item.directory, activity)
-            ProjectManager.getInstance().currentProject = project
+            val project = XstreamSerializer.getInstance().loadProject(
+                item.directory,
+                requireContext()
+            )
+            projectManager.currentProject = project
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(
                     R.id.fragment_container, ProjectOptionsFragment(), ProjectOptionsFragment.TAG
@@ -513,23 +521,26 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
                 .addToBackStack(ProjectOptionsFragment.TAG)
                 .commit()
         } catch (exception: IOException) {
-            ToastUtil.showError(activity, R.string.error_load_project)
+            ToastUtil.showError(requireContext(), R.string.error_load_project)
             Log.e(TAG, Log.getStackTraceString(exception))
         } catch (exception: LoadingProjectException) {
-            ToastUtil.showError(activity, R.string.error_load_project)
+            ToastUtil.showError(requireContext(), R.string.error_load_project)
             Log.e(TAG, Log.getStackTraceString(exception))
         }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        val context: Context? = activity
-        if (context != null) {
-            adapter.projectsSorted = PreferenceManager.getDefaultSharedPreferences(context)
-                .getBoolean(SharedPreferenceKeys.SORT_PROJECTS_PREFERENCE_KEY, false)
-                menu.findItem(R.id.sort_projects)
-                .setTitle(if (adapter.projectsSorted) R.string.unsort_projects else R.string.sort_projects)
-        }
+        adapter.projectsSorted = PreferenceManager.getDefaultSharedPreferences(requireContext())
+            .getBoolean(SharedPreferenceKeys.SORT_PROJECTS_PREFERENCE_KEY, false)
+        menu.findItem(R.id.sort_projects)
+            .setTitle(
+                if (adapter.projectsSorted) {
+                    R.string.unsort_projects
+                } else {
+                    R.string.sort_projects
+                }
+            )
     }
 
     private fun setAdapterItems(sortProjects: Boolean) {
