@@ -395,7 +395,7 @@ class ProjectActivity : BaseCastActivity() {
             .setView(dialogNewActorBinding.root)
             .create()
 
-        dialogNewActorBinding.dialogNewLookBackpack.setOnClickListener {
+        dialogNewActorBinding.dialogNewLookPaintroid.setOnClickListener {
             ImportFromPocketPaintLauncher(this)
                 .startActivityForResult(SPRITE_POCKET_PAINT)
             alertDialog.dismiss()
