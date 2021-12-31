@@ -56,7 +56,6 @@
         <TextView
             android:id="@+id/phiro_sensor_label_second_part"
             style="@style/BrickText.SingleLine"
-            android:paddingStart="5dip"
             android:text="@string/brick_phiro_sensor_second_part" />
 
     </org.catrobat.catroid.ui.BrickLayout>

@@ -40,15 +40,13 @@
         android:id="@+id/brick_raspi_when_layout"
         style="@style/BrickContainer.Script.Medium"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
+        android:layout_height="wrap_content">
 
         <include layout="@layout/icon_brick_category_raspberrypi" />
 
                     <TextView
                         android:id="@+id/raspi_when_label"
-                        style="@style/BrickText.Multiple"
+                        style="@style/BrickText.SingleLine"
                         android:text="@string/brick_raspi_when_begin">
                     </TextView>
 
@@ -62,7 +60,7 @@
 
                     <TextView
                         android:id="@+id/brick_raspi_when_label_second_part"
-                        style="@style/BrickText.Multiple"
+                        style="@style/BrickText.SingleLine"
                         app:layout_newLine="true"
                         android:text="@string/brick_raspi_when_equals">
                     </TextView>

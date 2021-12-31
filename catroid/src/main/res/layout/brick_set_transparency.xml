@@ -55,10 +55,7 @@
 
         <TextView
             android:id="@+id/brick_set_transparency_to_edit_text"
-            style="@style/BrickEditText"
-            android:maxEms="10"
-            app:layout_inputType="number"
-            app:layout_textField="true">
+            style="@style/BrickEditText">
         </TextView>
 
         <TextView

@@ -60,9 +60,7 @@
 
         <TextView
            android:id="@+id/brick_phiro_rgb_led_action_red_edit_text"
-           style="@style/BrickEditText"
-           app:layout_inputType="number"
-           app:layout_textField="true" />
+           style="@style/BrickEditText" />
 
         <TextView
            android:id="@+id/brick_phiro_rgb_led_green_text_view"
@@ -71,9 +69,7 @@
 
         <TextView
            android:id="@+id/brick_phiro_rgb_led_action_green_edit_text"
-           style="@style/BrickEditText"
-           app:layout_inputType="number"
-           app:layout_textField="true" />
+           style="@style/BrickEditText" />
 
         <TextView
            android:id="@+id/brick_phiro_rgb_led_blue_text_view"
@@ -82,9 +78,7 @@
 
         <TextView
            android:id="@+id/brick_phiro_rgb_led_action_blue_edit_text"
-           style="@style/BrickEditText"
-           app:layout_inputType="number"
-           app:layout_textField="true" />
+           style="@style/BrickEditText" />
 
     </org.catrobat.catroid.ui.BrickLayout>
 

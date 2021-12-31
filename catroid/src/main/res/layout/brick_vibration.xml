@@ -49,14 +49,12 @@
 
         <TextView
             android:id="@+id/brick_vibration_edit_text"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true">
+            style="@style/BrickEditText">
         </TextView>
 
         <TextView
             android:id="@+id/brick_seconds_label"
-            style="@style/BrickText.Multiple">
+            style="@style/BrickText.SingleLine">
         </TextView>
     </org.catrobat.catroid.ui.BrickLayout>
 

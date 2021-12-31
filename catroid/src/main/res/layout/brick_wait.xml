@@ -43,20 +43,18 @@
         <include layout="@layout/icon_brick_category_control" />
 
         <TextView
-            style="@style/BrickText.Multiple"
+            style="@style/BrickText.SingleLine"
             android:text="@string/brick_wait">
         </TextView>
 
         <TextView
             android:id="@+id/brick_wait_edit_text"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true">
+            style="@style/BrickEditText">
         </TextView>
 
         <TextView
             android:id="@+id/brick_seconds_label"
-            style="@style/BrickText.Multiple">
+            style="@style/BrickText.SingleLine">
         </TextView>
     </org.catrobat.catroid.ui.BrickLayout>
 

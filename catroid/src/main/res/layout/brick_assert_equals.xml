@@ -39,8 +39,6 @@
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_assert_equals_layout"
         android:orientation="horizontal"
-        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing"
         style="@style/BrickContainer.Test.Big">
 
         <include layout="@layout/icon_brick_category_look" />
@@ -53,10 +51,8 @@
         <TextView
             android:id="@+id/brick_assert_actual"
             style="@style/BrickEditText"
-            android:textDirection="anyRtl"
+            android:textDirection="locale"
             android:textAlignment="textStart"
-            app:layout_inputType="string"
-            app:layout_textField="true"
             app:layout_forceNewLine="true"
             android:singleLine="false"
             android:maxLines="3">
@@ -71,10 +67,8 @@
         <TextView
             android:id="@+id/brick_assert_expected"
             style="@style/BrickEditText"
-            android:textDirection="anyRtl"
+            android:textDirection="locale"
             android:textAlignment="textStart"
-            app:layout_inputType="number"
-            app:layout_textField="true"
             app:layout_forceNewLine="true"
             android:singleLine="false"
             android:maxLines="3">

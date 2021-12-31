@@ -64,6 +64,7 @@
     <dimen name="brick_space_padding_formular_editor">8dp</dimen>
     <dimen name="brick_top_space_padding_control">35dp</dimen>
     <dimen name="brick_space_padding">8dp</dimen>
+    <dimen name="edit_text_baseline_spacing">10dp</dimen>
 
     <!-- Material Design Dialogs -->
     <dimen name="dialog_content_area_padding_top">18dp</dimen>
@@ -78,11 +79,6 @@
     <dimen name="view_holder_padding_small">10dp</dimen>
     <dimen name="sprite_group_item_vh_padding">40dp</dimen>
     <dimen name="checkbox_margin">16dp</dimen>
-
-    <!-- Flow Layout -->
-    <dimen name="brick_flow_layout_vertical_spacing">0dp</dimen>
-    <dimen name="brick_flow_layout_horizontal_spacing">3dp</dimen>
-    <!--  -->
 
     <!-- Activity -->
     <dimen name="activity_text_view_margin_large" >35dp</dimen >

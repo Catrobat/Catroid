@@ -49,9 +49,7 @@
 
         <TextView
             android:id="@+id/brick_triple_stitch_edit_text_steps"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true">
+            style="@style/BrickEditText">
         </TextView>
 
 

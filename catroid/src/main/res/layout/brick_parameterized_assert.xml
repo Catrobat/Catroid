@@ -49,15 +49,12 @@
 
         <TextView
             android:id="@+id/brick_param_assert_text"
-            style="@style/BrickEditText"
-            app:layout_inputType="text"
-            app:layout_textField="true">
+            style="@style/BrickEditText">
         </TextView>
 
         <TextView
             android:text="@string/brick_parameterized_equals"
-            style="@style/BrickText.SingleLine"
-            app:layout_newLine="true">
+            style="@style/BrickText.SingleLine">
         </TextView>
 
         <Spinner

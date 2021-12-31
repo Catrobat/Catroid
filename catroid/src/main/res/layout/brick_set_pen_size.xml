@@ -50,9 +50,7 @@
 
         <TextView
             android:id="@+id/brick_set_pen_size_edit_text"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true">
+            style="@style/BrickEditText">
         </TextView>
     </org.catrobat.catroid.ui.BrickLayout>
 

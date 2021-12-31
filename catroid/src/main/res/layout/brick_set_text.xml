@@ -39,11 +39,7 @@
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_set_text_layout"
         style="@style/BrickContainer.Motion.Big"
-        android:orientation="horizontal"
-        android:paddingBottom="0dp"
-        android:paddingTop="0dp"
-        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
+        android:orientation="horizontal">
 
         <include layout="@layout/icon_brick_category_ardrone" />
 
@@ -55,9 +51,7 @@
         <TextView
             android:id="@+id/brick_set_text_edit_text"
             style="@style/BrickEditText"
-            android:layout_width="match_parent"
-            app:layout_inputType="text"
-            app:layout_textField="true">
+            android:layout_width="match_parent">
         </TextView>
 
         <TextView
@@ -73,9 +67,7 @@
 
         <TextView
             android:id="@+id/brick_set_text_edit_text_x"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true">
+            style="@style/BrickEditText">
         </TextView>
 
         <TextView
@@ -85,9 +77,7 @@
 
         <TextView
             android:id="@+id/brick_set_text_edit_text_y"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true">
+            style="@style/BrickEditText">
         </TextView>
     </org.catrobat.catroid.ui.BrickLayout>
 

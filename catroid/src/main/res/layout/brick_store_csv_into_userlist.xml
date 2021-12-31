@@ -49,9 +49,7 @@
 
         <TextView
             android:id="@+id/brick_store_csv_into_userlist_column_edit_text"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true" />
+            style="@style/BrickEditText" />
 
 
         <TextView
@@ -66,9 +64,7 @@
         <TextView
             android:id="@+id/brick_store_csv_into_userlist_csv_edit_text"
             style="@style/BrickEditText"
-            app:layout_inputType="string"
-            app:layout_newLine="true"
-            app:layout_textField="true" />
+            app:layout_newLine="true" />
 
         <TextView
             style="@style/BrickText.SingleLine"

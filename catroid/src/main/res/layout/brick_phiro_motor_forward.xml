@@ -59,9 +59,7 @@
         <TextView
             android:id="@+id/brick_phiro_motor_forward_action_speed_edit_text"
             style="@style/BrickEditText"
-            android:clickable="false"
-            app:layout_inputType="number"
-            app:layout_textField="true" />
+            android:clickable="false" />
 
         <TextView
             style="@style/BrickText"
