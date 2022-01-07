@@ -139,6 +139,8 @@
         मान्यता</string>
     <string name="preference_description_ai_text_recognition">सक्षम
         पाठ पहचान ईंटें और सेंसर</string>
+    <string name="preference_title_ai_object_recognition">वस्तु मान्यता</string>
+    <string name="preference_description_ai_object_recognition">ऑब्जेक्ट पहचान और ट्रैकिंग सेंसर सक्षम करें</string>
     <string name="preference_title_accessibility">अभिगम्यता</string>
     <string name="preference_description_accessibility">ऐप की उपस्थिति बदलें</string>
     <string name="preference_title_accessibility_profiles">अभिगम्यता पार्श्वचित्र</string>
@@ -348,7 +350,7 @@
     <string name="from_library">पुस्तकालय से जोड़ें</string>
     <string name="sort_projects">क्रमबद्ध</string>
     <string name="unsort_projects">अवर्गीकृत</string>
-    <string name="import_from_project">Select project to import from</string>
+    <string name="import_from_project">से आयात करने के लिए परियोजना का चयन करें</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">नया दृश्य</string>
     <!-- Delete Dialog Titles -->
@@ -522,7 +524,7 @@
         <item quantity="other">आयातित %d प्रोजेक्ट्स।</item>
     </plurals>
     <!-- Renamed -->
-    <string name="renamed_project">Renamed project</string>
+    <string name="renamed_project">नामित परियोजना</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">प्रोग्राम्स</string>
@@ -537,9 +539,9 @@
     <string name="export_project">बाहरी संग्रहण के लिए प्रोजेक्ट सहेजें</string>
     <string name="error_import_project">प्रोजेक्ट आयात करते समय कुछ गलत हो गया।</string>
     <string name="no_projects_selected">आयात के लिए कोई प्रोजेक्ट नहीं चुना गया</string>
-    <string name="only_select_catrobat_files">Only select project files</string>
+    <string name="only_select_catrobat_files">केवल प्रोजेक्ट फ़ाइलें चुनें</string>
     <string name="error_no_files_found">कोई प्रोजेक्ट फ़ाइल नहीं मिली।</string>
-    <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
+    <string name="import_sprite_from_project_launcher">स्थानीय परियोजना से आयात वस्तु</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">वर्णन</string>
     <string name="project_options_notes_and_credits">इसका श्रेय</string>
@@ -616,7 +618,7 @@
     <string name="add_look_draw_new_image">चित्र बनाए</string>
     <string name="add_look_choose_image">चित्र का चयन करें</string>
     <string name="add_look_media_library">मीडिया लाइब्रेरी</string>
-    <string name="add_look_from_local_project">Local projects</string>
+    <string name="add_look_from_local_project">स्थानीय परियोजनाएं</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">ध्वनि जोड़ें</string>
@@ -765,6 +767,7 @@
     <string name="prestage_text_to_speech_error">\u2022 पाठ-से-वाक् engine\n</string>
     <string name="prestage_no_back_camera_available">\u2022 रियर कैमरा\n</string>
     <string name="prestage_no_face_detection_available">\u2022 चेहरा पहचान \n</string>
+    <string name="prestage_no_object_detection_available">\u2022 वस्तु मान्यता\n</string>
     <string name="prestage_no_pose_detection_available">\u2022 पोज डिटेक्शन\n</string>
     <string name="prestage_no_text_detection_available">\u2022 पाठ पहचान\n</string>
     <string name="prestage_no_front_camera_available">\u2022 फ्रंट कैमरा\n</string>
@@ -827,7 +830,9 @@
     <string name="brick_user_defined_default_label">लेबल पाठ</string>
     <string name="brick_user_defined_already_exists">इन लेबल वाली एक ईंट पहले से मौजूद है। कृपया अधिक लेबल या इनपुट जोड़ें।</string>
     <string name="brick_user_defined_script_define">परिभाषित</string>
-    <string name="brick_user_defined_script_as">जैसा</string>
+    <string name="brick_user_defined_script_screen_refresh_as">स्क्रीन रीफ्रेश के रूप में</string>
+    <string name="brick_user_defined_with_screen_refreshing">साथ से</string>
+    <string name="brick_user_defined_without_screen_refreshing">बिना</string>
     <string name="brick_user_defined_list_empty">अपनी खुद की नई ईंटों को जोड़ने के लिए \"+\" पर टैप करें।</string>
     <string name="brick_report">विवरण</string>
     <!--  -->
@@ -1289,6 +1294,7 @@
     <string name="title_other_devices">नए उपकरण</string>
     <string name="searching_devices">उपकरणों की तलाश&#8230;</string>
     <string name="button_scan">ब्लूटूथ उपकरण ढूंढें</string>
+    <string name="button_skip">ब्लूटूथ कनेक्शन छोड़ें</string>
     <string name="select_device">डिवाइस का चयन करें:</string>
     <string name="connecting_please_wait">उपकरण को संपर्क कर रहें हैं।\nप्रतीक्षा करे&#8230;</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
@@ -1748,6 +1754,7 @@
     <string name="formula_editor_device_face_detection">चेहरे का पता लगाना</string>
     <string name="formula_editor_device_pose_detection">पोज़ डिटेक्शन</string>
     <string name="formula_editor_device_text_recognition">पाठ पहचान</string>
+    <string name="formula_editor_device_object_recognition">वस्तु मान्यता</string>
     <string name="formula_editor_device_date_and_time">तिथि और समय</string>
     <string name="formula_editor_device_touch_detection">स्पर्श पहचान</string>
     <string name="formula_editor_device_lego_nxt">लेगो माइंडस्टॉर्म एनएक्सटी</string>
@@ -1795,10 +1802,10 @@
     <string name="formula_editor_sensor_second_face_size">दूसरा चेहरा आकार</string>
     <string name="formula_editor_sensor_second_face_x_position">दूसरा चेहरा एक्स स्थिति</string>
     <string name="formula_editor_sensor_second_face_y_position">दूसरा चेहरा y स्थिति</string>
-    <string name="formula_editor_sensor_head_top_x">head top x</string>
-    <string name="formula_editor_sensor_head_top_y">head top y</string>
-    <string name="formula_editor_sensor_neck_x">neck x</string>
-    <string name="formula_editor_sensor_neck_y">neck y</string>
+    <string name="formula_editor_sensor_head_top_x">सिर के ऊपर x</string>
+    <string name="formula_editor_sensor_head_top_y">सिर के ऊपर y</string>
+    <string name="formula_editor_sensor_neck_x">गर्दन x</string>
+    <string name="formula_editor_sensor_neck_y">गर्दन तुम</string>
     <string name="formula_editor_sensor_nose_x">नाक x</string>
     <string name="formula_editor_sensor_nose_y">सुगंधित</string>
     <string name="formula_editor_sensor_left_eye_inner_x">बाईं आंख भीतरी x</string>
@@ -1873,6 +1880,7 @@
     <string name="formula_editor_function_text_block_from_camera">कैमरा से पाठ ब्लॉक</string>
     <string name="formula_editor_function_text_block_language_from_camera">कैमरे से पाठ ब्लॉक भाषा</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
+    <string name="formula_editor_function_get_id_of_detected_object">खोजी गई वस्तु की आईडी</string>
     <string name="formula_editor_intro_title_formula_editor">सूत्र संपादक</string>
     <string name="formula_editor_intro_summary_formula_editor">सूत्र संपादक के साथ आप गणितीय बना सकते हैं और
          तार्किक सूत्र जो आप अपनी ईंटों में उपयोग कर सकते हैं। \ n \ n \"\" अगला \"टैप करके या बाहर निकलें
@@ -1933,9 +1941,6 @@
     <string name="camera_error_generic">        कैमरे का उपयोग करने का प्रयास करते समय कुछ गलत हुआ।
     </string>
     <string name="camera_error_face_detection">        चेहरा पहचानने में समस्या हुई. कुछ घटक अभी भी डाउनलोड हो रहे हैं
-        पृष्ठभूमि। कृपया सुनिश्चित करें कि आप इंटरनेट से कनेक्ट हैं और बाद में वापस देखें।
-    </string>
-    <string name="camera_error_pose_detection">        मुद्रा का पता लगाने में एक समस्या थी. कुछ घटक अभी भी डाउनलोड हो रहे हैं
         पृष्ठभूमि। कृपया सुनिश्चित करें कि आप इंटरनेट से कनेक्ट हैं और बाद में वापस देखें।
     </string>
     <!-- -->
@@ -2016,8 +2021,8 @@
     <string name="new_sprite_dialog_place_visually">नेत्रहीन जगह</string>
     <string name="place_visually_text">आपको नए अभिनेता या ऑब्जेक्ट को रखने के लिए कहा जाएगा
         मंच।</string>
-    <string name="new_empty_sprite_note">Note: The actor or object will be created
-        without a look.</string>
+    <string name="new_empty_sprite_note">नोट: अभिनेता या वस्तु बनाई जाएगी
+        एक नज़र के बिना।</string>
     <!-- Information -->
     <string name="no_variable_selected">कोई चर नहीं चुना गया</string>
     <string name="find">खोज</string>
@@ -2033,6 +2038,6 @@
     <string name="particle_effects_additive_on">पर</string>
     <string name="particle_effects_additive_off">बंद</string>
     <string name="set_particle_color_to">कण रंग को पर सेट करें</string>
-    <string name="undo_sort">Undo sort</string>
+    <string name="undo_sort">पूर्ववत क्रमबद्ध करें</string>
     <string name="sort">क्रमबद्ध</string>
 </resources>

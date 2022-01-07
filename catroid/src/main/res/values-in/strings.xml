@@ -139,6 +139,8 @@
         pengakuan</string>
     <string name="preference_description_ai_text_recognition">Memungkinkan
         batu bata dan sensor pengenalan teks</string>
+    <string name="preference_title_ai_object_recognition">Pengenalan objek</string>
+    <string name="preference_description_ai_object_recognition">Aktifkan pengenalan objek dan sensor pelacakan</string>
     <string name="preference_title_accessibility">Aksesibilitas</string>
     <string name="preference_description_accessibility">Ubah tampilan aplikasi</string>
     <string name="preference_title_accessibility_profiles">Profil aksesibilitas</string>
@@ -342,7 +344,7 @@
     <string name="from_library">Tambahkan dari perpustakaan</string>
     <string name="sort_projects">Menyortir</string>
     <string name="unsort_projects">Batalkan pengurutan</string>
-    <string name="import_from_project">Select project to import from</string>
+    <string name="import_from_project">Pilih proyek yang akan diimpor</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">Adegan baru</string>
     <!-- Delete Dialog Titles -->
@@ -486,7 +488,7 @@
         <item quantity="other">%d proyek yang diimpor.</item>
     </plurals>
     <!-- Renamed -->
-    <string name="renamed_project">Renamed project</string>
+    <string name="renamed_project">Proyek berganti nama</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">Program</string>
@@ -501,9 +503,9 @@
     <string name="export_project">Simpan proyek ke penyimpanan eksternal</string>
     <string name="error_import_project">Ada yang tidak beres saat mengimpor proyek.</string>
     <string name="no_projects_selected">Tidak ada proyek yang dipilih untuk diimpor</string>
-    <string name="only_select_catrobat_files">Only select project files</string>
+    <string name="only_select_catrobat_files">Hanya pilih file proyek</string>
     <string name="error_no_files_found">Tidak ada file proyek yang ditemukan.</string>
-    <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
+    <string name="import_sprite_from_project_launcher">Impor Objek dari Proyek Lokal</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Keterangan</string>
     <string name="project_options_notes_and_credits">Catatan dan kredit</string>
@@ -579,7 +581,7 @@
     <string name="add_look_draw_new_image">Membuat gambar</string>
     <string name="add_look_choose_image">Pilih gambar</string>
     <string name="add_look_media_library">Perpustakaan media</string>
-    <string name="add_look_from_local_project">Local projects</string>
+    <string name="add_look_from_local_project">Proyek lokal</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">Tambahkan Suara</string>
@@ -728,6 +730,7 @@
     <string name="prestage_text_to_speech_error">\u2022 Mesin Text-To-Speech \n</string>
     <string name="prestage_no_back_camera_available">\u2022 Kamera belakang\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Deteksi wajah\n</string>
+    <string name="prestage_no_object_detection_available">\u2022 pengenalan objek\n</string>
     <string name="prestage_no_pose_detection_available">\u2022 Deteksi pose\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Deteksi teks\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Kamera depan\n</string>
@@ -790,7 +793,9 @@
     <string name="brick_user_defined_default_label">Beri label teks</string>
     <string name="brick_user_defined_already_exists">Batu bata dengan label ini sudah ada. Harap tambahkan lebih banyak label atau masukan.</string>
     <string name="brick_user_defined_script_define">Menetapkan</string>
-    <string name="brick_user_defined_script_as">sebagai</string>
+    <string name="brick_user_defined_script_screen_refresh_as">penyegaran layar sebagai</string>
+    <string name="brick_user_defined_with_screen_refreshing">dengan</string>
+    <string name="brick_user_defined_without_screen_refreshing">tanpa</string>
     <string name="brick_user_defined_list_empty">Ketuk \"+\" untuk menambahkan bata baru Anda sendiri.</string>
     <string name="brick_report">Laporkan</string>
     <!--  -->
@@ -1246,6 +1251,7 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="title_other_devices">Perangkat baru</string>
     <string name="searching_devices">Mencari perangkat&#8230;</string>
     <string name="button_scan">Mencari perangkat Bluetooth</string>
+    <string name="button_skip">Lewati koneksi Bluetooth</string>
     <string name="select_device">Pilih alat:</string>
     <string name="connecting_please_wait">Menghubungkan ke perangkat Anda.\nSilahkan tunggu&#8230;</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
@@ -1701,6 +1707,7 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="formula_editor_device_face_detection">Deteksi wajah</string>
     <string name="formula_editor_device_pose_detection">Deteksi pose</string>
     <string name="formula_editor_device_text_recognition">Pengenalan teks</string>
+    <string name="formula_editor_device_object_recognition">Pengenalan objek</string>
     <string name="formula_editor_device_date_and_time">Tanggal dan waktu</string>
     <string name="formula_editor_device_touch_detection">Deteksi sentuhan</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>
@@ -1748,10 +1755,10 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="formula_editor_sensor_second_face_size">ukuran wajah kedua</string>
     <string name="formula_editor_sensor_second_face_x_position">posisi x wajah kedua</string>
     <string name="formula_editor_sensor_second_face_y_position">wajah kedua posisi y</string>
-    <string name="formula_editor_sensor_head_top_x">head top x</string>
-    <string name="formula_editor_sensor_head_top_y">head top y</string>
-    <string name="formula_editor_sensor_neck_x">neck x</string>
-    <string name="formula_editor_sensor_neck_y">neck y</string>
+    <string name="formula_editor_sensor_head_top_x">kepala atas x</string>
+    <string name="formula_editor_sensor_head_top_y">kepala atas y</string>
+    <string name="formula_editor_sensor_neck_x">leher x</string>
+    <string name="formula_editor_sensor_neck_y">leher y</string>
     <string name="formula_editor_sensor_nose_x">hidung x</string>
     <string name="formula_editor_sensor_nose_y">hidung y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">mata kiri bagian dalam x</string>
@@ -1826,6 +1833,7 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="formula_editor_function_text_block_from_camera">blok teks dari kamera</string>
     <string name="formula_editor_function_text_block_language_from_camera">teks blok bahasa dari kamera</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
+    <string name="formula_editor_function_get_id_of_detected_object">ID objek yang terdeteksi</string>
     <string name="formula_editor_intro_title_formula_editor">Rumus editor</string>
     <string name="formula_editor_intro_summary_formula_editor">Dengan editor rumus Anda dapat membuat matematika dan
         rumus logika yang dapat Anda gunakan di batu bata Anda.\n\nLanjutkan dengan mengetuk “BERIKUTNYA” atau keluar
@@ -1885,9 +1893,6 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="camera_error_generic">        Terjadi masalah saat mencoba menggunakan kamera
     </string>
     <string name="camera_error_face_detection">        Ada masalah dengan deteksi wajah. Beberapa komponen mungkin masih diunduh di
-        Latar Belakang. Pastikan Anda terhubung ke internet dan periksa kembali nanti.
-    </string>
-    <string name="camera_error_pose_detection">        Ada masalah dengan deteksi pose. Beberapa komponen mungkin masih diunduh di
         Latar Belakang. Pastikan Anda terhubung ke internet dan periksa kembali nanti.
     </string>
     <!-- -->
@@ -1968,8 +1973,8 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="new_sprite_dialog_place_visually">Tempatkan secara visual</string>
     <string name="place_visually_text">Anda akan diminta untuk menempatkan aktor atau objek baru di
         tahap.</string>
-    <string name="new_empty_sprite_note">Note: The actor or object will be created
-        without a look.</string>
+    <string name="new_empty_sprite_note">Catatan: Aktor atau objek akan dibuat
+        tanpa melihat.</string>
     <!-- Information -->
     <string name="no_variable_selected">Tidak ada variabel yang dipilih</string>
     <string name="find">Temukan</string>
@@ -1985,6 +1990,6 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="particle_effects_additive_on">aktif</string>
     <string name="particle_effects_additive_off">mati</string>
     <string name="set_particle_color_to">Setel warna partikel ke</string>
-    <string name="undo_sort">Undo sort</string>
+    <string name="undo_sort">Urungkan pengurutan</string>
     <string name="sort">Menyortir</string>
 </resources>

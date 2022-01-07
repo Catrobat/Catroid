@@ -136,6 +136,8 @@
         認出</string>
     <string name="preference_description_ai_text_recognition">使能夠
         文字識別磚和傳感器</string>
+    <string name="preference_title_ai_object_recognition">物體識別</string>
+    <string name="preference_description_ai_object_recognition">啟用對象識別和跟踪傳感器</string>
     <string name="preference_title_accessibility">輔助功能</string>
     <string name="preference_description_accessibility">更改APP的外貌</string>
     <string name="preference_title_accessibility_profiles">無障礙配置文件</string>
@@ -339,7 +341,7 @@
     <string name="from_library">লাইব্রেরি থেকে যোগ করুন</string>
     <string name="sort_projects">種類</string>
     <string name="unsort_projects">取消排序</string>
-    <string name="import_from_project">Select project to import from</string>
+    <string name="import_from_project">選擇要從中導入的項目</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">新場景</string>
     <!-- Delete Dialog Titles -->
@@ -483,7 +485,7 @@
         <item quantity="other">已導入 %d 項目。</item>
     </plurals>
     <!-- Renamed -->
-    <string name="renamed_project">Renamed project</string>
+    <string name="renamed_project">重命名項目</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">程式檔</string>
@@ -498,9 +500,9 @@
     <string name="export_project">將項目保存到外部存儲</string>
     <string name="error_import_project">導入項目時出了點問題。</string>
     <string name="no_projects_selected">沒有選擇要導入的項目</string>
-    <string name="only_select_catrobat_files">Only select project files</string>
+    <string name="only_select_catrobat_files">只選擇項目文件</string>
     <string name="error_no_files_found">未找到項目文件。</string>
-    <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
+    <string name="import_sprite_from_project_launcher">從本地項目導入對象</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">描述</string>
     <string name="project_options_notes_and_credits">筆記和信用</string>
@@ -576,7 +578,7 @@
     <string name="add_look_draw_new_image">繪製圖像</string>
     <string name="add_look_choose_image">選擇圖像</string>
     <string name="add_look_media_library">媒體庫</string>
-    <string name="add_look_from_local_project">Local projects</string>
+    <string name="add_look_from_local_project">本地項目</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">添加聲音</string>
@@ -726,6 +728,7 @@
     <string name="prestage_text_to_speech_error">\u2022 文字轉語音引擎\n</string>
     <string name="prestage_no_back_camera_available">\u2022 後置攝像頭\n</string>
     <string name="prestage_no_face_detection_available">\u2022 人臉檢測\n</string>
+    <string name="prestage_no_object_detection_available">\u2022 物體識別\n</string>
     <string name="prestage_no_pose_detection_available">\u2022 姿勢檢測\n</string>
     <string name="prestage_no_text_detection_available">\u2022 文本檢測\n</string>
     <string name="prestage_no_front_camera_available">\u2022 前置攝像頭\n</string>
@@ -788,7 +791,9 @@
     <string name="brick_user_defined_default_label">標籤文字</string>
     <string name="brick_user_defined_already_exists">帶有這些標籤的磚塊已經存在。請添加更多標籤或輸入。</string>
     <string name="brick_user_defined_script_define">定義</string>
-    <string name="brick_user_defined_script_as">作為</string>
+    <string name="brick_user_defined_script_screen_refresh_as">屏幕刷新為</string>
+    <string name="brick_user_defined_with_screen_refreshing">替換為</string>
+    <string name="brick_user_defined_without_screen_refreshing">沒有</string>
     <string name="brick_user_defined_list_empty">點擊“+”添加您自己的新積木。</string>
     <string name="brick_report">報告</string>
     <!--  -->
@@ -1244,6 +1249,7 @@
     <string name="title_other_devices">新裝置</string>
     <string name="searching_devices">正在尋找設備&#8230;</string>
     <string name="button_scan">搜尋藍牙設備</string>
+    <string name="button_skip">跳過藍牙連接</string>
     <string name="select_device">選擇設備：</string>
     <string name="connecting_please_wait">連接到你的設備,\n請等待&#8230;</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
@@ -1703,6 +1709,7 @@
     <string name="formula_editor_device_face_detection">人臉檢測</string>
     <string name="formula_editor_device_pose_detection">姿勢檢測</string>
     <string name="formula_editor_device_text_recognition">文字識別</string>
+    <string name="formula_editor_device_object_recognition">物體識別</string>
     <string name="formula_editor_device_date_and_time">日期和時間</string>
     <string name="formula_editor_device_touch_detection">觸摸檢測</string>
     <string name="formula_editor_device_lego_nxt">樂高 NXT</string>
@@ -1750,10 +1757,10 @@
     <string name="formula_editor_sensor_second_face_size">第二個臉型</string>
     <string name="formula_editor_sensor_second_face_x_position">第二面 x 位置</string>
     <string name="formula_editor_sensor_second_face_y_position">第二面y位置</string>
-    <string name="formula_editor_sensor_head_top_x">head top x</string>
-    <string name="formula_editor_sensor_head_top_y">head top y</string>
-    <string name="formula_editor_sensor_neck_x">neck x</string>
-    <string name="formula_editor_sensor_neck_y">neck y</string>
+    <string name="formula_editor_sensor_head_top_x">頭頂 x</string>
+    <string name="formula_editor_sensor_head_top_y">頭頂 y</string>
+    <string name="formula_editor_sensor_neck_x">脖子 x</string>
+    <string name="formula_editor_sensor_neck_y">脖子 y</string>
     <string name="formula_editor_sensor_nose_x">鼻子 x</string>
     <string name="formula_editor_sensor_nose_y">鼻子 y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">左眼內 x</string>
@@ -1828,6 +1835,7 @@
     <string name="formula_editor_function_text_block_from_camera">來自相機的文本塊</string>
     <string name="formula_editor_function_text_block_language_from_camera">來自相機的文本塊語言</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
+    <string name="formula_editor_function_get_id_of_detected_object">檢測對象ID</string>
     <string name="formula_editor_intro_title_formula_editor">修改公式</string>
     <string name="formula_editor_intro_summary_formula_editor">使用公式編輯器，您可以創建數學和
         您可以在積木中使用的邏輯公式。\n\n點擊“下一步”繼續或退出
@@ -1888,9 +1896,6 @@
     <string name="camera_error_generic">        嘗試使用相機時出現問題。
     </string>
     <string name="camera_error_face_detection">人臉檢測出現問題。某些組件可能仍在下載
-        背景。請確保您已連接到 Internet，稍後再回來查看。
-    </string>
-    <string name="camera_error_pose_detection">        姿勢檢測有問題。某些組件可能仍在下載
         背景。請確保您已連接到 Internet，稍後再回來查看。
     </string>
     <!-- -->
@@ -1971,8 +1976,8 @@
     <string name="new_sprite_dialog_place_visually">視覺放置</string>
     <string name="place_visually_text">您將被要求將新演員或對象放在
         階段。</string>
-    <string name="new_empty_sprite_note">Note: The actor or object will be created
-        without a look.</string>
+    <string name="new_empty_sprite_note">注意：actor 或 object 將被創建
+        不看。</string>
     <!-- Information -->
     <string name="no_variable_selected">未選擇變量</string>
     <string name="find">找</string>
@@ -1988,6 +1993,6 @@
     <string name="particle_effects_additive_on">上</string>
     <string name="particle_effects_additive_off">離開</string>
     <string name="set_particle_color_to">কণার রঙ সেট করুন</string>
-    <string name="undo_sort">Undo sort</string>
+    <string name="undo_sort">撤銷排序</string>
     <string name="sort">種類</string>
 </resources>

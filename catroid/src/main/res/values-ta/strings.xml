@@ -139,6 +139,8 @@
         recognition</string>
     <string name="preference_description_ai_text_recognition">Enable
         text recognition bricks and sensors</string>
+    <string name="preference_title_ai_object_recognition">Object recognition</string>
+    <string name="preference_description_ai_object_recognition">Enable object recognition and tracking sensors</string>
     <string name="preference_title_accessibility">அணுகல்தன்மை</string>
     <string name="preference_description_accessibility">செயலியின் தோற்றத்தை மாற்றவும்</string>
     <string name="preference_title_accessibility_profiles">அணுகல் சுயவிவரங்கள்</string>
@@ -759,6 +761,7 @@
     <string name="prestage_text_to_speech_error">உரை-க்கு-பேச்சு இயந்திரம்</string>
     <string name="prestage_no_back_camera_available">பின் கேமரா</string>
     <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
+    <string name="prestage_no_object_detection_available">\u2022 Object recognition\n</string>
     <string name="prestage_no_pose_detection_available">\u2022 Pose detection\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
     <string name="prestage_no_front_camera_available">முன் கேமரா</string>
@@ -821,7 +824,9 @@
     <string name="brick_user_defined_default_label">Label text</string>
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
     <string name="brick_user_defined_script_define">Define</string>
-    <string name="brick_user_defined_script_as">as</string>
+    <string name="brick_user_defined_script_screen_refresh_as">screen refresh as</string>
+    <string name="brick_user_defined_with_screen_refreshing">உடன்</string>
+    <string name="brick_user_defined_without_screen_refreshing">without</string>
     <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
     <string name="brick_report">அறிக்கையிடு</string>
     <!--  -->
@@ -1277,6 +1282,7 @@
     <string name="title_other_devices">புதிய சாதனம்</string>
     <string name="searching_devices">சாதனங்களைத் தேடுகிறது&#8230;</string>
     <string name="button_scan">புளூடூத் சாதனங்களைத் தேடுங்கள்</string>
+    <string name="button_skip">Skip Bluetooth connection</string>
     <string name="select_device">சாதனத்தை தேர்ந்தெடு:</string>
     <string name="connecting_please_wait">உங்கள் சாதனத்துடன் இணைக்கிறது. \n காத்திருங்கள்&#8230;</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
@@ -1730,6 +1736,7 @@
     <string name="formula_editor_device_face_detection">Face detection</string>
     <string name="formula_editor_device_pose_detection">போஸ் கண்டறிதல்</string>
     <string name="formula_editor_device_text_recognition">Text recognition</string>
+    <string name="formula_editor_device_object_recognition">Object recognition</string>
     <string name="formula_editor_device_date_and_time">தேதி மற்றும் நேரம்</string>
     <string name="formula_editor_device_touch_detection">தொடு கண்டறிதல்</string>
     <string name="formula_editor_device_lego_nxt">லெகோ மைண்ட்ஸ்டார்ம்ஸ் என்.எக்ஸ்.டி.</string>
@@ -1855,6 +1862,7 @@
     <string name="formula_editor_function_text_block_from_camera">text block from camera</string>
     <string name="formula_editor_function_text_block_language_from_camera">text block language from camera</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
+    <string name="formula_editor_function_get_id_of_detected_object">ID of detected object</string>
     <string name="formula_editor_intro_title_formula_editor">சூத்திரத் தொகுப்பி</string>
     <string name="formula_editor_intro_summary_formula_editor">ஃபார்முலா எடிட்டர் மூலம் நீங்கள் கணிதத்தை உருவாக்கலாம் மற்றும்
         உங்கள் செங்கற்களில் நீங்கள் பயன்படுத்தக்கூடிய தருக்க சூத்திரங்கள்.\n\nதட்டுவதன் மூலம் இந்த சிறிய அறிமுகத்தை நீங்கள் தொடரலாம்       கீழ் வலது மூலையில் உள்ள \"அடுத்து\" பொத்தானை, மேலும் \"ஸ்கிப்\" பொத்தானைக் கிளிக் செய்வதன் மூலம் அதைத் தவிர்க்கலாம்        கீழ் இடது மூலையில்.</string>
@@ -1907,9 +1915,6 @@
     <string name="camera_error_generic">        Something went wrong while trying to use the camera.
     </string>
     <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.
-    </string>
-    <string name="camera_error_pose_detection">        There was a problem with pose detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.
     </string>
     <!-- -->

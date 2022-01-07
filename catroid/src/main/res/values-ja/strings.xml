@@ -139,6 +139,8 @@
         認識</string>
     <string name="preference_description_ai_text_recognition">イネーブル
         テキスト認識ブリックとセンサー</string>
+    <string name="preference_title_ai_object_recognition">オブジェクト認識</string>
+    <string name="preference_description_ai_object_recognition">オブジェクト認識とトラッキングセンサーを有効にする</string>
     <string name="preference_title_accessibility">アクセシビリティ</string>
     <string name="preference_description_accessibility">アプリの外観を変更する</string>
     <string name="preference_title_accessibility_profiles">ユーザー補助プロファイル</string>
@@ -338,7 +340,7 @@
     <string name="from_library">ライブラリから追加</string>
     <string name="sort_projects">並べ替え</string>
     <string name="unsort_projects">並べ替えを解除</string>
-    <string name="import_from_project">Select project to import from</string>
+    <string name="import_from_project">インポートするプロジェクトを選択</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">新しいシーン</string>
     <!-- Delete Dialog Titles -->
@@ -482,7 +484,7 @@
         <item quantity="other">インポートされた %d プロジェクト。</item>
     </plurals>
     <!-- Renamed -->
-    <string name="renamed_project">Renamed project</string>
+    <string name="renamed_project">プロジェクト名を変更</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">プログラム</string>
@@ -497,9 +499,9 @@
     <string name="export_project">プロジェクトを外部ストレージに保存</string>
     <string name="error_import_project">プロジェクトのインポート中に問題が発生しました。</string>
     <string name="no_projects_selected">インポート用に選択されたプロジェクトはありません</string>
-    <string name="only_select_catrobat_files">Only select project files</string>
+    <string name="only_select_catrobat_files">プロジェクトファイルのみを選択</string>
     <string name="error_no_files_found">プロジェクトファイルが見つかりません。</string>
-    <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
+    <string name="import_sprite_from_project_launcher">ローカルプロジェクトからオブジェクトをインポート</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">説明</string>
     <string name="project_options_notes_and_credits">ノートとクレジット</string>
@@ -575,7 +577,7 @@
     <string name="add_look_draw_new_image">新しい画像を描画します。</string>
     <string name="add_look_choose_image">画像を選択</string>
     <string name="add_look_media_library">メディア ライブラリー</string>
-    <string name="add_look_from_local_project">Local projects</string>
+    <string name="add_look_from_local_project">ローカルプロジェクト</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">サウンドを追加</string>
@@ -724,6 +726,7 @@
     <string name="prestage_text_to_speech_error">\u2022 音声合成エンジン\n</string>
     <string name="prestage_no_back_camera_available">\u2022 背面カメラ\n</string>
     <string name="prestage_no_face_detection_available">\u2022 顔検出\n</string>
+    <string name="prestage_no_object_detection_available">\u2022 オブジェクト認識\n</string>
     <string name="prestage_no_pose_detection_available">\u2022  ポーズ検出\n</string>
     <string name="prestage_no_text_detection_available">\u2022 テキスト検出\n</string>
     <string name="prestage_no_front_camera_available">\u2022 フロントカメラ\n</string>
@@ -786,7 +789,9 @@
     <string name="brick_user_defined_default_label">ラベルテキスト</string>
     <string name="brick_user_defined_already_exists">これらのラベルを持つブロックは既に存在します。ラベルまたは入力を追加してください。</string>
     <string name="brick_user_defined_script_define">定義</string>
-    <string name="brick_user_defined_script_as">として</string>
+    <string name="brick_user_defined_script_screen_refresh_as">画面の更新</string>
+    <string name="brick_user_defined_with_screen_refreshing">で</string>
+    <string name="brick_user_defined_without_screen_refreshing">なし</string>
     <string name="brick_user_defined_list_empty">\"+\" をタップすると、新しいブロックを追加できます。</string>
     <string name="brick_report">不適切として報告する</string>
     <!--  -->
@@ -1241,6 +1246,7 @@
     <string name="title_other_devices">新しいデバイス</string>
     <string name="searching_devices">デバイスを検索しています&#8230;</string>
     <string name="button_scan">Bluetoothデバイスを検索</string>
+    <string name="button_skip">Bluetooth接続をスキップ</string>
     <string name="select_device">デバイスの選択:</string>
     <string name="connecting_please_wait">お使いのデバイスに接続しています\nしばらく待つ&#8230;</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
@@ -1693,6 +1699,7 @@
     <string name="formula_editor_device_face_detection">顔検出</string>
     <string name="formula_editor_device_pose_detection">ポーズ検出</string>
     <string name="formula_editor_device_text_recognition">テキスト認識</string>
+    <string name="formula_editor_device_object_recognition">オブジェクト認識</string>
     <string name="formula_editor_device_date_and_time">日付と時刻</string>
     <string name="formula_editor_device_touch_detection">タッチ検出</string>
     <string name="formula_editor_device_lego_nxt">レゴマインドストームNXT</string>
@@ -1740,10 +1747,10 @@
     <string name="formula_editor_sensor_second_face_size">2つ目の面サイズ</string>
     <string name="formula_editor_sensor_second_face_x_position">2つ目の顔 x 位置</string>
     <string name="formula_editor_sensor_second_face_y_position">2番目の顔 y位置</string>
-    <string name="formula_editor_sensor_head_top_x">head top x</string>
-    <string name="formula_editor_sensor_head_top_y">head top y</string>
-    <string name="formula_editor_sensor_neck_x">neck x</string>
-    <string name="formula_editor_sensor_neck_y">neck y</string>
+    <string name="formula_editor_sensor_head_top_x">ヘッドトップ x</string>
+    <string name="formula_editor_sensor_head_top_y">ヘッドトップ y</string>
+    <string name="formula_editor_sensor_neck_x">ネックx</string>
+    <string name="formula_editor_sensor_neck_y">ネックy</string>
     <string name="formula_editor_sensor_nose_x">鼻x</string>
     <string name="formula_editor_sensor_nose_y">鼻Y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">左目インナーX</string>
@@ -1818,6 +1825,7 @@
     <string name="formula_editor_function_text_block_from_camera">カメラからのテキストブロック</string>
     <string name="formula_editor_function_text_block_language_from_camera">カメラからのテキストブロック言語</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
+    <string name="formula_editor_function_get_id_of_detected_object">検出されたオブジェクトのID</string>
     <string name="formula_editor_intro_title_formula_editor">数式エディター</string>
     <string name="formula_editor_intro_summary_formula_editor">数式エディタでは、レンガに使える数学的、論理的な数式を作成できます。
         数式エディタでは、レンガに使える数式や論理式を作成できます。
@@ -1871,9 +1879,6 @@
     </string>
     <string name="camera_error_face_detection">        顔検出に問題がありました。一部のコンポーネントがバックグラウンドでダウンロードされている可能性があります。
         バックグラウンドでダウンロードしている可能性があります。インターネットに接続されていることを確認して、後で確認してください。</string>
-    <string name="camera_error_pose_detection">        ポーズ検出に問題がありました。一部のコンポーネントがバックグラウンドでダウンロード中である可能性があります。
-        バックグラウンドでダウンロードしている可能性があります。インターネットに接続されていることを確認して、後で確認してください。
-    </string>
     <!-- -->
     <!-- Cast strings -->
     <string name="cast_gamepad_A">A</string>
@@ -1951,8 +1956,8 @@
     <string name="new_sprite_dialog_place_visually">視覚的に配置</string>
     <string name="place_visually_text">新しいアクターやオブジェクトをステージ上に配置していただきます。
         ステージに置いていただきます。</string>
-    <string name="new_empty_sprite_note">Note: The actor or object will be created
-        without a look.</string>
+    <string name="new_empty_sprite_note">注: アクターまたはオブジェクトは外見なしで
+        作成されます。</string>
     <!-- Information -->
     <string name="no_variable_selected">変数が選択されていません</string>
     <string name="find">探す</string>
@@ -1968,6 +1973,6 @@
     <string name="particle_effects_additive_on">オン</string>
     <string name="particle_effects_additive_off">オフ</string>
     <string name="set_particle_color_to">パーティクルの色を設定</string>
-    <string name="undo_sort">Undo sort</string>
+    <string name="undo_sort">並べ替えを取り消す</string>
     <string name="sort">並べ替え</string>
 </resources>
