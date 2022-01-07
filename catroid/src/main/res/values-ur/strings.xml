@@ -135,6 +135,8 @@
          شناخت</string>
     <string name="preference_description_ai_text_recognition">متن
         کی شناخت اینٹوں اور سینسر کو فعال کریں</string>
+    <string name="preference_title_ai_object_recognition">چیز کی شناخت</string>
+    <string name="preference_description_ai_object_recognition">چیز کی شناخت اور ٹریکنگ سینسرز کو فعال کریں۔</string>
     <string name="preference_title_accessibility">رسائی</string>
     <string name="preference_description_accessibility">اپلی کیشن کی ظاہری شکل تبدیل کریں</string>
     <string name="preference_title_accessibility_profiles"> پروفائل رسائی</string>
@@ -750,6 +752,7 @@
     <string name="prestage_text_to_speech_error">\ u2022 متن سے بات کرنے والے انجن \ n</string>
     <string name="prestage_no_back_camera_available">\ u2022 ریئر کیمرے \ n</string>
     <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
+    <string name="prestage_no_object_detection_available">چیز کی شناخت</string>
     <string name="prestage_no_pose_detection_available">\u2022 Pose detection\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
     <string name="prestage_no_front_camera_available">\ u2022 فرنٹ کیمرے \ n</string>
@@ -812,7 +815,9 @@
     <string name="brick_user_defined_default_label">Label text</string>
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
     <string name="brick_user_defined_script_define">Define</string>
-    <string name="brick_user_defined_script_as">as</string>
+    <string name="brick_user_defined_script_screen_refresh_as">screen refresh as</string>
+    <string name="brick_user_defined_with_screen_refreshing">کے ساتھ</string>
+    <string name="brick_user_defined_without_screen_refreshing">without</string>
     <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
     <string name="brick_report">رپورٹ</string>
     <!--  -->
@@ -1275,6 +1280,7 @@
     <string name="title_other_devices">جوڑی آلات</string>
     <string name="searching_devices">آلات تلاش کر رہے ہیں &#8230;</string>
     <string name="button_scan">بلوٹوت آلات تلاش کریں</string>
+    <string name="button_skip">بلوٹوتھ کنکشن کو چھوڑیں۔</string>
     <string name="select_device">آلہ منتخب کریں:</string>
     <string name="connecting_please_wait">آپ کے آلہ سے جڑ رہا ہے ۔\n&#8230; براۓ مہربانی انتظار کريں</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
@@ -1729,6 +1735,7 @@
     <string name="formula_editor_device_face_detection">Face detection</string>
     <string name="formula_editor_device_pose_detection">پوز کا تشخیص</string>
     <string name="formula_editor_device_text_recognition">Text recognition</string>
+    <string name="formula_editor_device_object_recognition">چیز کی شناخت</string>
     <string name="formula_editor_device_date_and_time">تاریخ اور وقت</string>
     <string name="formula_editor_device_touch_detection"> چھونا کھوج</string>
     <string name="formula_editor_device_lego_nxt">Lego Mindstorms NXT</string>
@@ -1854,6 +1861,7 @@
     <string name="formula_editor_function_text_block_from_camera">text block from camera</string>
     <string name="formula_editor_function_text_block_language_from_camera">text block language from camera</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
+    <string name="formula_editor_function_get_id_of_detected_object">شناخت شدہ چیز کی ID</string>
     <string name="formula_editor_intro_title_formula_editor">فارمولہ ایڈیٹر
  </string>
     <string name="formula_editor_intro_summary_formula_editor">فارمولا ایڈیٹر کے ساتھ آپ ریاضی اور تخلیق کرسکتے ہیں
@@ -1912,9 +1920,6 @@
     <string name="camera_error_generic">        Something went wrong while trying to use the camera.
     </string>
     <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.
-    </string>
-    <string name="camera_error_pose_detection">        There was a problem with pose detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.
     </string>
     <!-- -->

@@ -107,7 +107,7 @@
     <string name="marketing_more_on_google_play">Больше приложений на Google Play</string>
     <string name="error_cannot_open_huawei_app_gallery">Упс! Не удалось открыть Huawei AppGallery,
         Пожалуйста, повторите попытку позже.</string>
-    <string name="google_play_store_logo">Google Play</string>
+    <string name="google_play_store_logo">Google Play Маркет</string>
     <string name="huawei_app_gallery">Huawei App Gallery</string>
     <!-- NFC activity -->
     <string name="nfc_activity_title">NFC тег</string>
@@ -139,6 +139,8 @@
         распознавание</string>
     <string name="preference_description_ai_text_recognition">Включить
         распознавания текста и датчики</string>
+    <string name="preference_title_ai_object_recognition">Распознавание объектов</string>
+    <string name="preference_description_ai_object_recognition">Включить датчики распознавания и отслеживания объектов</string>
     <string name="preference_title_accessibility">Доступность</string>
     <string name="preference_description_accessibility">Изменить вид приложения</string>
     <string name="preference_title_accessibility_profiles">Профили доступности</string>
@@ -843,6 +845,7 @@
     <string name="prestage_text_to_speech_error">\u2022 Программа воспроизведения текста\n</string>
     <string name="prestage_no_back_camera_available">\u2022 Задняя камера\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Обнаружение лица\n</string>
+    <string name="prestage_no_object_detection_available">\u2022 Распознавание объектов\n</string>
     <string name="prestage_no_pose_detection_available">\u2022 обнаружение позы\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Определение текста\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Фронтальная камера\n</string>
@@ -905,7 +908,9 @@
     <string name="brick_user_defined_default_label">Текст метки</string>
     <string name="brick_user_defined_already_exists">Кирпич с этими ярлыками уже существует. Пожалуйста, добавьте больше меток или входов.</string>
     <string name="brick_user_defined_script_define">Задать</string>
-    <string name="brick_user_defined_script_as">как</string>
+    <string name="brick_user_defined_script_screen_refresh_as">экран обновляется как</string>
+    <string name="brick_user_defined_with_screen_refreshing">на</string>
+    <string name="brick_user_defined_without_screen_refreshing">без</string>
     <string name="brick_user_defined_list_empty">Нажмите «+», чтобы добавить свои собственные блоки.</string>
     <string name="brick_report">Сообщить о проблеме</string>
     <!--  -->
@@ -1380,6 +1385,7 @@
     <string name="title_other_devices">Новые устройства</string>
     <string name="searching_devices">Поиск устройств&#8230;</string>
     <string name="button_scan">Поиск bluetooth устрйств</string>
+    <string name="button_skip">Пропустить Bluetooth-соединение</string>
     <string name="select_device">Выберите устройство:</string>
     <string name="connecting_please_wait">Подключение к вашему устройству.\nПодождите, пожалуйста&#8230;</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
@@ -1838,6 +1844,7 @@
     <string name="formula_editor_device_face_detection">Обнаружение лиц</string>
     <string name="formula_editor_device_pose_detection">Определение позы</string>
     <string name="formula_editor_device_text_recognition">Распознавание текста</string>
+    <string name="formula_editor_device_object_recognition">Распознавание объектов</string>
     <string name="formula_editor_device_date_and_time">Дата и время</string>
     <string name="formula_editor_device_touch_detection">Обнаружение касаний</string>
     <string name="formula_editor_device_lego_nxt">Лего NXT</string>
@@ -1962,6 +1969,7 @@
     <string name="formula_editor_function_text_block_from_camera">текстовый блок из камеры</string>
     <string name="formula_editor_function_text_block_language_from_camera">текст блокирует язык с камеры</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
+    <string name="formula_editor_function_get_id_of_detected_object">ID обнаруженного объекта</string>
     <string name="formula_editor_intro_title_formula_editor">Редактор формул</string>
     <string name="formula_editor_intro_summary_formula_editor">С помощью редактора формул вы можете создавать математические и
         логические формулы, которые вы можете использовать в своих кирпичах.\n\nПродолжайте, нажав \"NEXT\" или выйдите из
@@ -2023,9 +2031,6 @@
     </string>
     <string name="camera_error_face_detection">        Возникла проблема с обнаружением лица. Некоторые компоненты все еще могут загружаться в фоновом режиме
         . Пожалуйста, убедитесь, что вы подключены к Интернету или повторите попытку позже.
-    </string>
-    <string name="camera_error_pose_detection">        Возникла проблема с определением позы. Некоторые компоненты могут все еще загружаться в
-        фоновом режиме. Убедитесь, что вы подключены к Интернету, и вернитесь позже.
     </string>
     <!-- -->
     <!-- Cast strings -->
@@ -2105,8 +2110,8 @@
     <string name="new_sprite_dialog_place_visually">Поместить на глаз</string>
     <string name="place_visually_text">Вам будет предложено поместить нового актера или объект на
          сцену.</string>
-    <string name="new_empty_sprite_note">Note: The actor or object will be created
-        without a look.</string>
+    <string name="new_empty_sprite_note">Примечание: Персонаж или объект будут созданы
+        без внешнего вида.        </string>
     <!-- Information -->
     <string name="no_variable_selected">Переменная не выбрана</string>
     <string name="find">Найти</string>

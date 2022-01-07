@@ -137,6 +137,8 @@
     <string name="preference_title_ai_text_recognition">Rozpoznawanie tekstu</string>
     <string name="preference_description_ai_text_recognition">Włącz
         cegły i czujniki do rozpoznawania tekstu</string>
+    <string name="preference_title_ai_object_recognition">Rozpoznawanie obiektów</string>
+    <string name="preference_description_ai_object_recognition">Włącz czujniki rozpoznawania i śledzenia obiektów</string>
     <string name="preference_title_accessibility">Dostępność</string>
     <string name="preference_description_accessibility">Zmień wygląd aplikacji</string>
     <string name="preference_title_accessibility_profiles">Profile dostępności</string>
@@ -815,6 +817,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="prestage_text_to_speech_error">\u2022 Zamiana tekstu na mowę\n</string>
     <string name="prestage_no_back_camera_available">\u2022 Aparat z tyłu\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Wykrywanie twarzy\n</string>
+    <string name="prestage_no_object_detection_available">\u2022 Rozpoznawanie obiektów\n</string>
     <string name="prestage_no_pose_detection_available">\u2022 Wykrywanie pozycji\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Wykrywanie tekstu\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Aparat z przodu\n</string>
@@ -876,7 +879,9 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="brick_user_defined_default_label">Tekst etykiety</string>
     <string name="brick_user_defined_already_exists">Blok z tymi etykietami już istnieje. Dodaj więcej etykiet lub danych wejściowych.</string>
     <string name="brick_user_defined_script_define">Zdefiniuj</string>
-    <string name="brick_user_defined_script_as">jako</string>
+    <string name="brick_user_defined_script_screen_refresh_as">odśwież ekran jako</string>
+    <string name="brick_user_defined_with_screen_refreshing">na</string>
+    <string name="brick_user_defined_without_screen_refreshing">bez</string>
     <string name="brick_user_defined_list_empty">Naciśnij \"+\", aby dodać własne nowe bloki.</string>
     <string name="brick_report">Zgłoś</string>
     <!--  -->
@@ -1347,6 +1352,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="title_other_devices">Nowe urządzenia</string>
     <string name="searching_devices">Szukam urządzeń&#8230;</string>
     <string name="button_scan">Wyszukiwanie urządzeń Bluetooth</string>
+    <string name="button_skip">Pomiń połączenie Bluetooth</string>
     <string name="select_device">Wybierz urządzenie:</string>
     <string name="connecting_please_wait">Łączenie z Twoim urządzeniem. \nProszę, czekaj&#8230;</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
@@ -1798,6 +1804,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="formula_editor_device_face_detection">Wykrywanie twarzy</string>
     <string name="formula_editor_device_pose_detection">Wykrywanie pozycji</string>
     <string name="formula_editor_device_text_recognition">Rozpoznawanie tekstu</string>
+    <string name="formula_editor_device_object_recognition">Rozpoznawanie obiektów</string>
     <string name="formula_editor_device_date_and_time">Data i czas</string>
     <string name="formula_editor_device_touch_detection">Wykrywanie dotyku</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>
@@ -1922,6 +1929,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="formula_editor_function_text_block_from_camera">blok tekstowy z kamery</string>
     <string name="formula_editor_function_text_block_language_from_camera">język bloku tekstowego z kamery</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
+    <string name="formula_editor_function_get_id_of_detected_object">ID wykrytego obiektu</string>
     <string name="formula_editor_intro_title_formula_editor">Edytor formuł</string>
     <string name="formula_editor_intro_summary_formula_editor">Dzięki edytorowi formuł możesz tworzyć wzory matematyczne i
         logiczne, z których możesz korzystać w klockach.\n\nKontynuuj naciskając „DALEJ” lub wyjdź
@@ -1975,9 +1983,6 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     </string>
     <string name="camera_error_face_detection">        Wystąpił problem z wykrywaniem twarzy. Niektóre komponenty nadal mogą być pobierane w
         tle. Upewnij się, że jesteś połączony z Internetem i sprawdź ponownie później.</string>
-    <string name="camera_error_pose_detection">        Wystąpił problem z wykrywaniem pozycji. Niektóre komponenty nadal mogą być pobierane w
-        tle. Upewnij się, że jesteś połączony z Internetem i sprawdź ponownie później.
-    </string>
     <!-- -->
     <!-- Cast strings -->
     <string name="cast_gamepad_A">A</string>
@@ -2050,8 +2055,8 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="new_sprite_dialog_place_visually">Ręczne położenie</string>
     <string name="place_visually_text">Zostaniesz poproszony o umieszczenie nowego aktora lub obiektu na
         etapie.</string>
-    <string name="new_empty_sprite_note">Note: The actor or object will be created
-        without a look.</string>
+    <string name="new_empty_sprite_note">Uwaga: Aktor lub obiekt zostaną utworzone
+        bez wyglądu.</string>
     <!-- Information -->
     <string name="no_variable_selected">Nie wybrano zmiennej</string>
     <string name="find">Znajdź</string>

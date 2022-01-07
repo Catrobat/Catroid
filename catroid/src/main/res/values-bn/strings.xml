@@ -139,6 +139,8 @@
         স্বীকৃতি</string>
     <string name="preference_description_ai_text_recognition">সক্ষম করুন
         পাঠ্য স্বীকৃতি ইট এবং সেন্সর</string>
+    <string name="preference_title_ai_object_recognition">বস্তুর স্বীকৃতি</string>
+    <string name="preference_description_ai_object_recognition">অবজেক্ট রিকগনিশন এবং ট্র্যাকিং সেন্সর সক্ষম করুন</string>
     <string name="preference_title_accessibility">প্রবেশযোগ্যতা</string>
     <string name="preference_description_accessibility">অ্যাপ্লিকেশনটির চেহারা পরিবর্তন করুন</string>
     <string name="preference_title_accessibility_profiles">প্রবেশযোগ্য প্রোফাইল</string>
@@ -333,7 +335,7 @@
     <string name="from_library">লাইব্রেরি থেকে যোগ করুন</string>
     <string name="sort_projects">সাজান</string>
     <string name="unsort_projects">আনসোর্ট করা</string>
-    <string name="import_from_project">Select project to import from</string>
+    <string name="import_from_project">আমদানি করতে প্রকল্প নির্বাচন করুন</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">নতুন দৃশ্য</string>
     <!-- Delete Dialog Titles -->
@@ -507,7 +509,7 @@
         <item quantity="other">%d প্রকল্প আমদানি করা হয়েছে।</item>
     </plurals>
     <!-- Renamed -->
-    <string name="renamed_project">Renamed project</string>
+    <string name="renamed_project">নতুন নামকরণ করা প্রকল্প</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">প্রজেক্টসমূহ</string>
@@ -522,9 +524,9 @@
     <string name="export_project">বাহ্যিক স্টোরেজে প্রজেক্টটি সংরক্ষণ করুন</string>
     <string name="error_import_project">প্রজেক্টসমূহ আমদানি করার সময় কিছু ভুল হয়েছে।</string>
     <string name="no_projects_selected">আমদানির জন্য কোন প্রকল্প নির্বাচন করা হয়নি</string>
-    <string name="only_select_catrobat_files">Only select project files</string>
+    <string name="only_select_catrobat_files">শুধুমাত্র প্রকল্প ফাইল নির্বাচন করুন</string>
     <string name="error_no_files_found">কোনও প্রজেক্ট ফাইল পাওয়া যায়নি।</string>
-    <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
+    <string name="import_sprite_from_project_launcher">স্থানীয় প্রকল্প থেকে বস্তু আমদানি করুন</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">বর্ণনা</string>
     <string name="project_options_notes_and_credits">Credits</string>
@@ -601,7 +603,7 @@
     <string name="add_look_draw_new_image">চিত্র আঁকুন</string>
     <string name="add_look_choose_image">ছবি নির্বাচন করুন</string>
     <string name="add_look_media_library">মিডিয়া লাইব্রেরি</string>
-    <string name="add_look_from_local_project">Local projects</string>
+    <string name="add_look_from_local_project">স্থানীয় প্রকল্প</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">শব্দ যোগ করুন</string>
@@ -741,6 +743,7 @@
     <string name="prestage_text_to_speech_error">\u2022 পাঠ্য থেকে স্পিচ ইঞ্জিন \n</string>
     <string name="prestage_no_back_camera_available">\u2022 পেছনের ক্যামেরা \n</string>
     <string name="prestage_no_face_detection_available">\u2022 মুখ সনাক্তকরণ\n</string>
+    <string name="prestage_no_object_detection_available">\u2022 বস্তুর স্বীকৃতি\n</string>
     <string name="prestage_no_pose_detection_available">\u2022 পোজ সনাক্তকরণ \n</string>
     <string name="prestage_no_text_detection_available">\u2022 পাঠ্য সনাক্তকরণ\n</string>
     <string name="prestage_no_front_camera_available">\u2022 সামনের ক্যামেরা \n</string>
@@ -802,7 +805,9 @@
     <string name="brick_user_defined_default_label">লেবেল পাঠ্য</string>
     <string name="brick_user_defined_already_exists">এই লেবেলযুক্ত একটি ইট ইতিমধ্যে বিদ্যমান। দয়া করে আরও লেবেল বা ইনপুট যুক্ত করুন।</string>
     <string name="brick_user_defined_script_define">সংজ্ঞা দিন</string>
-    <string name="brick_user_defined_script_as">যেমন</string>
+    <string name="brick_user_defined_script_screen_refresh_as">পর্দা রিফ্রেশ</string>
+    <string name="brick_user_defined_with_screen_refreshing">সাথে</string>
+    <string name="brick_user_defined_without_screen_refreshing">ছাড়া</string>
     <string name="brick_user_defined_list_empty">আপনার নিজস্ব নতুন ইট যুক্ত করতে \"+\" আলতো চাপুন।</string>
     <string name="brick_report">প্রতিবেদন করুন</string>
     <!--  -->
@@ -1258,6 +1263,7 @@
     <string name="title_other_devices">নতুন ডিভাইস</string>
     <string name="searching_devices">ডিভাইসগুলি খুঁজছেন</string>
     <string name="button_scan">ব্লুটুথ ডিভাইসগুলি অনুসন্ধান করুন</string>
+    <string name="button_skip">ব্লুটুথ সংযোগ এড়িয়ে যান</string>
     <string name="select_device">ডিভাইস নির্বাচন করুন</string>
     <string name="connecting_please_wait">আপনার ডিভাইসে সংযুক্ত হচ্ছে. অনুগ্রহ করে অপেক্ষা করুন &#8230;</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
@@ -1711,6 +1717,7 @@
     <string name="formula_editor_device_face_detection">মুখ সনাক্তকরণ</string>
     <string name="formula_editor_device_pose_detection">সনাক্তকরণ ভঙ্গ করুন</string>
     <string name="formula_editor_device_text_recognition">পাঠ্য স্বীকৃতি</string>
+    <string name="formula_editor_device_object_recognition">বস্তুর স্বীকৃতি</string>
     <string name="formula_editor_device_date_and_time">তারিখ এবং সময়</string>
     <string name="formula_editor_device_touch_detection">স্পর্শ সনাক্তকরণ</string>
     <string name="formula_editor_device_lego_nxt">লেগো মাইন্ডস্টর্ম এনএক্সটি</string>
@@ -1758,10 +1765,10 @@
     <string name="formula_editor_sensor_second_face_size">দ্বিতীয় মুখের আকার</string>
     <string name="formula_editor_sensor_second_face_x_position">দ্বিতীয় মুখ এক্স অবস্থান</string>
     <string name="formula_editor_sensor_second_face_y_position">দ্বিতীয় মুখ y অবস্থান</string>
-    <string name="formula_editor_sensor_head_top_x">head top x</string>
-    <string name="formula_editor_sensor_head_top_y">head top y</string>
-    <string name="formula_editor_sensor_neck_x">neck x</string>
-    <string name="formula_editor_sensor_neck_y">neck y</string>
+    <string name="formula_editor_sensor_head_top_x">মাথার উপরে x</string>
+    <string name="formula_editor_sensor_head_top_y">মাথার উপরে y</string>
+    <string name="formula_editor_sensor_neck_x">ঘাড় x</string>
+    <string name="formula_editor_sensor_neck_y">ঘাড় y</string>
     <string name="formula_editor_sensor_nose_x">নাক x</string>
     <string name="formula_editor_sensor_nose_y">নাক y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">বাম চোখের ভিতরের x</string>
@@ -1836,6 +1843,7 @@
     <string name="formula_editor_function_text_block_from_camera">ক্যামেরা থেকে পাঠ্য ব্লক</string>
     <string name="formula_editor_function_text_block_language_from_camera">ক্যামেরা থেকে পাঠ্য ব্লক ভাষা</string>
     <string name="formula_editor_function_text_block_parameter">(১)</string>
+    <string name="formula_editor_function_get_id_of_detected_object">সনাক্ত করা বস্তুর আইডি</string>
     <string name="formula_editor_intro_title_formula_editor">সূত্র সম্পাদক</string>
     <string name="formula_editor_intro_summary_formula_editor">সূত্র সম্পাদক সহ আপনি গাণিতিক এবং যৌক্তিক সূত্রগুলি তৈরি করতে পারেন যা আপনি নিজের ব্রিকগুলিতে ব্যবহার করতে পারেন। নীচের ডান কোণে \"Next\" বোতামটি আলতো চাপ দিয়ে আপনি এই সামান্য পরিচিতিটি চালিয়ে যেতে পারেন এবং নীচে বাম কোণে \"SKIP\" বোতামটি ক্লিক করে আপনি এড়িয়ে যেতে পারেন।</string>
     <string name="formula_editor_intro_title_input_field">ইনপুট ক্ষেত্র</string>
@@ -1887,8 +1895,6 @@
     <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.
     </string>
-    <string name="camera_error_pose_detection">        পোজ সনাক্তকরণে একটি সমস্যা ছিল। কিছু উপাদান এখনও ডাউনলোড করা হতে পারে
-        পটভূমি অনুগ্রহ করে নিশ্চিত করুন যে আপনি ইন্টারনেটে সংযুক্ত এবং পরে আবার চেক করুন।    </string>
     <!-- -->
     <!-- Cast strings -->
     <string name="cast_gamepad_A">A</string>
@@ -1959,8 +1965,8 @@
     <string name="new_sprite_dialog_place_visually">দর্শনীয়ভাবে রাখুন</string>
     <string name="place_visually_text">আপনাকে নতুন অভিনেতা বা আপত্তি রাখতে বলা হবে
         মঞ্চ</string>
-    <string name="new_empty_sprite_note">Note: The actor or object will be created
-        without a look.</string>
+    <string name="new_empty_sprite_note">দ্রষ্টব্য: অভিনেতা বা বস্তু তৈরি হবে
+         একটি চেহারা ছাড়া</string>
     <!-- Information -->
     <string name="no_variable_selected">কোনও ভেরিয়েবল নির্বাচন করা হয়নি</string>
     <string name="find">অনুসন্ধান</string>
@@ -1976,6 +1982,6 @@
     <string name="particle_effects_additive_on">চালু</string>
     <string name="particle_effects_additive_off">বন্ধ</string>
     <string name="set_particle_color_to">কণার রঙ সেট করুন</string>
-    <string name="undo_sort">Undo sort</string>
+    <string name="undo_sort">সাজানোর পূর্বাবস্থায় ফেরান</string>
     <string name="sort">সাজান</string>
 </resources>

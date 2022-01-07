@@ -134,6 +134,8 @@
     <string name="preference_title_ai_text_recognition">Text
         Erkennung</string>
     <string name="preference_description_ai_text_recognition">        Texterkennungsbausteine und Sensoren aktivieren</string>
+    <string name="preference_title_ai_object_recognition">Objekterkennung</string>
+    <string name="preference_description_ai_object_recognition">Objekterkennung und Tracking-Sensoren aktivieren</string>
     <string name="preference_title_accessibility">Bedienungshilfe</string>
     <string name="preference_description_accessibility">Aussehen der App ändern</string>
     <string name="preference_title_accessibility_profiles">Bediehnungshilfen</string>
@@ -341,7 +343,7 @@
     <string name="from_library">Aus Bibliothek hinzufügen</string>
     <string name="sort_projects">Sortieren</string>
     <string name="unsort_projects">Unsortiert</string>
-    <string name="import_from_project">Select project to import from</string>
+    <string name="import_from_project">Projekt zum Importieren auswählen</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">Neue Szene</string>
     <!-- Delete Dialog Titles -->
@@ -515,7 +517,7 @@
         <item quantity="other">%d Projekte importiert.</item>
     </plurals>
     <!-- Renamed -->
-    <string name="renamed_project">Renamed project</string>
+    <string name="renamed_project">Projekt umbenannt</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">Projekte</string>
@@ -530,9 +532,9 @@
     <string name="export_project">Projekt im externen Speicher speichern</string>
     <string name="error_import_project">Beim Importieren von Projekten ist etwas schief gelaufen.</string>
     <string name="no_projects_selected">Keine Projekte für den Import ausgewählt</string>
-    <string name="only_select_catrobat_files">Only select project files</string>
+    <string name="only_select_catrobat_files">Nur Projektdateien auswählen</string>
     <string name="error_no_files_found">Keine Projekte gefunden.</string>
-    <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
+    <string name="import_sprite_from_project_launcher">Objekt aus lokalem Projekt importieren</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Beschreibung</string>
     <string name="project_options_notes_and_credits">Notizen und Credits</string>
@@ -609,7 +611,7 @@
     <string name="add_look_draw_new_image">Neues Bild erstellen</string>
     <string name="add_look_choose_image">Bild auswählen</string>
     <string name="add_look_media_library">Medienbibliothek</string>
-    <string name="add_look_from_local_project">Local projects</string>
+    <string name="add_look_from_local_project">Lokale Projekte</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">Klang hinzufügen</string>
@@ -757,6 +759,7 @@
     <string name="prestage_text_to_speech_error">\u2022 Text-to-Speech Modul\n</string>
     <string name="prestage_no_back_camera_available">\u2022 Hintere Kamera\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Gesichts erkennung\n</string>
+    <string name="prestage_no_object_detection_available">\u2022 Objekterkennung\n</string>
     <string name="prestage_no_pose_detection_available">\u2022 Pose-Erkennung\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Texterkennung\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Vordere Kamera\n</string>
@@ -818,7 +821,9 @@
     <string name="brick_user_defined_default_label">Beschriftung</string>
     <string name="brick_user_defined_already_exists">Ein Baustein mit diesen Labels existiert bereits. Bitte füge mehr Labels oder Eingaben hinzu.</string>
     <string name="brick_user_defined_script_define">Definieren</string>
-    <string name="brick_user_defined_script_as">als wie</string>
+    <string name="brick_user_defined_script_screen_refresh_as">bildschirm aktualisieren als</string>
+    <string name="brick_user_defined_with_screen_refreshing">mit</string>
+    <string name="brick_user_defined_without_screen_refreshing">ohne</string>
     <string name="brick_user_defined_list_empty">Tippe auf \"+\", um deine eigenen neuen Steine ​​hinzuzufügen.</string>
     <string name="brick_report">Melden</string>
     <!--  -->
@@ -1264,6 +1269,7 @@
     <string name="title_other_devices">Neue Geräte</string>
     <string name="searching_devices">Suche Geräte&#8230;</string>
     <string name="button_scan">Bluetooth Geräte suchen</string>
+    <string name="button_skip">Bluetooth-Verbindung überspringen</string>
     <string name="select_device">Wähle Gerät:</string>
     <string name="connecting_please_wait">Verbinde zum Gerät.\nBitte warten&#8230;</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
@@ -1717,6 +1723,7 @@
     <string name="formula_editor_device_face_detection">Gesichtserkennung</string>
     <string name="formula_editor_device_pose_detection">Pose-Erkennung</string>
     <string name="formula_editor_device_text_recognition">Texterkennung</string>
+    <string name="formula_editor_device_object_recognition">Objekterkennung</string>
     <string name="formula_editor_device_date_and_time">Datum und Uhrzeit</string>
     <string name="formula_editor_device_touch_detection">Berührungserkennung</string>
     <string name="formula_editor_device_lego_nxt">Lego Mindstorms NXT</string>
@@ -1764,10 +1771,10 @@
     <string name="formula_editor_sensor_second_face_size">zweite Gesichtsgröße</string>
     <string name="formula_editor_sensor_second_face_x_position">zweite Gesichtsposition x</string>
     <string name="formula_editor_sensor_second_face_y_position">zweite Gesichtsposition y</string>
-    <string name="formula_editor_sensor_head_top_x">head top x</string>
-    <string name="formula_editor_sensor_head_top_y">head top y</string>
-    <string name="formula_editor_sensor_neck_x">neck x</string>
-    <string name="formula_editor_sensor_neck_y">neck y</string>
+    <string name="formula_editor_sensor_head_top_x">kopf oben x</string>
+    <string name="formula_editor_sensor_head_top_y">kopf oben y</string>
+    <string name="formula_editor_sensor_neck_x">hals x</string>
+    <string name="formula_editor_sensor_neck_y">hals y</string>
     <string name="formula_editor_sensor_nose_x">Nase x</string>
     <string name="formula_editor_sensor_nose_y">Nase y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">linkes Auge innen x</string>
@@ -1842,6 +1849,7 @@
     <string name="formula_editor_function_text_block_from_camera">Textblock von der Kamera</string>
     <string name="formula_editor_function_text_block_language_from_camera">Textblocksprache von der Kamera</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
+    <string name="formula_editor_function_get_id_of_detected_object">ID des erkannten Objekts</string>
     <string name="formula_editor_intro_title_formula_editor">Formel Editor</string>
     <string name="formula_editor_intro_summary_formula_editor">Mit dem Formel Editor kannst du mathematische und 
         logische Formeln erstellen, um diese dann in deinem Baustein einzutragen.\n\nDu kannst dieses kleine Tutorial 
@@ -1904,9 +1912,6 @@
     </string>
     <string name="camera_error_face_detection">        Es gab ein Problem bei der Gesichtserkennung. Einige Komponenten werden möglicherweise noch im Hintergrund
         heruntergeladen. Bitte stelle sicher, dass du mit dem Internet verbunden bist und versuche es später erneut.
-    </string>
-    <string name="camera_error_pose_detection">        Es gab ein Problem mit der Posenerkennung. Einige Komponenten werden möglicherweise noch im
-        Hintergrund heruntergeladen. Bitte stelle sicher, dass du mit dem Internet verbunden bist und schaue später noch einmal nach.
     </string>
     <!-- -->
     <!-- Cast strings -->
@@ -1979,8 +1984,8 @@
     <string name="new_sprite_dialog_place_visually">Visuell platzieren</string>
     <string name="place_visually_text">Du wirst aufgefordert, die neue Figur oder das Objekt auf der
         Bühne zu platzieren.</string>
-    <string name="new_empty_sprite_note">Note: The actor or object will be created
-        without a look.</string>
+    <string name="new_empty_sprite_note">Hinweis: Der Akteur oder das Objekt wird ohne einen Blick
+        erstellt.</string>
     <!-- Information -->
     <string name="no_variable_selected">Keine Variable ausgewählt</string>
     <string name="find">Finden</string>
@@ -1996,6 +2001,6 @@
     <string name="particle_effects_additive_on">ein</string>
     <string name="particle_effects_additive_off">aus</string>
     <string name="set_particle_color_to">Setze Partikelfarbe auf</string>
-    <string name="undo_sort">Undo sort</string>
+    <string name="undo_sort">sortieren rückgängig machen </string>
     <string name="sort">Sortieren</string>
 </resources>

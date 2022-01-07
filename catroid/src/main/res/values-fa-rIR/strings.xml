@@ -130,6 +130,8 @@
  متن</string>
     <string name="preference_description_ai_text_recognition">فعال کردن 
         آجر تشخیص متن و سنسورها</string>
+    <string name="preference_title_ai_object_recognition">Object recognition</string>
+    <string name="preference_description_ai_object_recognition">Enable object recognition and tracking sensors</string>
     <string name="preference_title_accessibility">دسترسی</string>
     <string name="preference_description_accessibility">ظاهر برنامه را تغییر دهید</string>
     <string name="preference_title_accessibility_profiles">پروفایل های دسترسی</string>
@@ -751,6 +753,7 @@
     <string name="prestage_text_to_speech_error">\u2022موتور تبدیل متن به گفتار\n</string>
     <string name="prestage_no_back_camera_available">\u2022دوربین عقب\n</string>
     <string name="prestage_no_face_detection_available">\u2022شناسایی چهره\n</string>
+    <string name="prestage_no_object_detection_available">\u2022 Object recognition\n</string>
     <string name="prestage_no_pose_detection_available">\u2022تشخیص ژست\n</string>
     <string name="prestage_no_text_detection_available">\u2022تشخیص متن\n</string>
     <string name="prestage_no_front_camera_available">\u2022دوربین جلو\n</string>
@@ -813,7 +816,9 @@
     <string name="brick_user_defined_default_label">متن برچسب</string>
     <string name="brick_user_defined_already_exists">آجری با این برچسب ها در حال حاضر وجود دارد. لطفاً برچسب ها یا ورودی های بیشتری اضافه کنید.</string>
     <string name="brick_user_defined_script_define">تعریف</string>
-    <string name="brick_user_defined_script_as">مانند</string>
+    <string name="brick_user_defined_script_screen_refresh_as">screen refresh as</string>
+    <string name="brick_user_defined_with_screen_refreshing">با</string>
+    <string name="brick_user_defined_without_screen_refreshing">without</string>
     <string name="brick_user_defined_list_empty">روی \"+\" ضربه بزنید تا آجرهای جدید خود را اضافه کنید.</string>
     <string name="brick_report">گزارش</string>
     <!--  -->
@@ -1274,6 +1279,7 @@
     <string name="title_other_devices">دستگاه های جدید</string>
     <string name="searching_devices">در جستجوی دستگاه&#8230;</string>
     <string name="button_scan">جستجوی دستگاه های بلوتوث</string>
+    <string name="button_skip">Skip Bluetooth connection</string>
     <string name="select_device">وسیله را انتخاب کن:</string>
     <string name="connecting_please_wait">در حال اتصال به دستگاه.\nلطفا صبر کن</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
@@ -1732,6 +1738,7 @@
     <string name="formula_editor_device_face_detection">شناسایی چهره</string>
     <string name="formula_editor_device_pose_detection">تشخیص ظاهری</string>
     <string name="formula_editor_device_text_recognition">تشخیص متن</string>
+    <string name="formula_editor_device_object_recognition">Object recognition</string>
     <string name="formula_editor_device_date_and_time">تاریخ و زمان</string>
     <string name="formula_editor_device_touch_detection">تشخیص لمسی</string>
     <string name="formula_editor_device_lego_nxt">لگوی NXT</string>
@@ -1856,6 +1863,7 @@
     <string name="formula_editor_function_text_block_from_camera">بلوک متن از دوربین</string>
     <string name="formula_editor_function_text_block_language_from_camera">زبان بلوک متن از دوربین</string>
     <string name="formula_editor_function_text_block_parameter">(۰)</string>
+    <string name="formula_editor_function_get_id_of_detected_object">ID of detected object</string>
     <string name="formula_editor_intro_title_formula_editor">ویرایشگر فرمول</string>
     <string name="formula_editor_intro_summary_formula_editor">With the  formula editor you can create mathematical and
         logical formulas that you can use in your bricks.\n\nYou can continue through this little intro by tapping
@@ -1912,8 +1920,6 @@
     </string>
     <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.
-    </string>
-    <string name="camera_error_pose_detection">        مشکلی در تشخیص پوس وجود داشت. ممکن است برخی از مؤلفه‌ها همچنان در پس‌زمینه بارگیری شوند. لطفاً مطمئن شوید که به اینترنت متصل هستید و بعداً دوباره بررسی کنید.
     </string>
     <!-- -->
     <!-- Cast strings -->

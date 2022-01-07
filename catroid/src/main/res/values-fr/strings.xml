@@ -139,6 +139,8 @@
         reconnaissance</string>
     <string name="preference_description_ai_text_recognition">Activez
         briques et capteurs de reconnaissance de texte</string>
+    <string name="preference_title_ai_object_recognition">Reconnaissance d\'objet</string>
+    <string name="preference_description_ai_object_recognition">Activer la reconnaissance d\'objet et le suivi des capteurs</string>
     <string name="preference_title_accessibility">Accessibilité</string>
     <string name="preference_description_accessibility">Changer l\'apparence de l\'application</string>
     <string name="preference_title_accessibility_profiles">Profils d\'accessibilité</string>
@@ -345,7 +347,7 @@
     <string name="from_library">Ajouter depuis la bibliothèque</string>
     <string name="sort_projects">Trier</string>
     <string name="unsort_projects">Ne pas trier</string>
-    <string name="import_from_project">Select project to import from</string>
+    <string name="import_from_project">Sélectionnez le projet à importer à partir de</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">Nouvelle scène</string>
     <!-- Delete Dialog Titles -->
@@ -519,7 +521,7 @@
         <item quantity="other">Importation de %d projets.</item>
     </plurals>
     <!-- Renamed -->
-    <string name="renamed_project">Renamed project</string>
+    <string name="renamed_project">Projet renommé</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">Programmes</string>
@@ -534,9 +536,9 @@
     <string name="export_project">Enregistrer le projet sur le stockage externe</string>
     <string name="error_import_project">Une erreur s\'est produite lors de l\'importation des projets.</string>
     <string name="no_projects_selected">Aucun projet sélectionné pour l\'importation</string>
-    <string name="only_select_catrobat_files">Only select project files</string>
+    <string name="only_select_catrobat_files">Sélectionner uniquement les fichiers du projet</string>
     <string name="error_no_files_found">Aucun fichier de projet trouvé.</string>
-    <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
+    <string name="import_sprite_from_project_launcher">Importer un objet depuis un projet local</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Description</string>
     <string name="project_options_notes_and_credits">Credits</string>
@@ -613,7 +615,7 @@
     <string name="add_look_draw_new_image">Dessiner une image</string>
     <string name="add_look_choose_image">Sélectionner une image</string>
     <string name="add_look_media_library">Bibliothèque multimédia</string>
-    <string name="add_look_from_local_project">Local projects</string>
+    <string name="add_look_from_local_project">Projets locaux</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">Ajouter un son</string>
@@ -763,6 +765,7 @@
     <string name="prestage_text_to_speech_error">\u2022 Moteur de synthèse vocale\n</string>
     <string name="prestage_no_back_camera_available">\u2022 Caméra arrière\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Détection de visage\n</string>
+    <string name="prestage_no_object_detection_available">\u2022 Reconnaissance d\'objet\n</string>
     <string name="prestage_no_pose_detection_available">\u2022 Détection des poses\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Détection de texte\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Caméra frontale\n</string>
@@ -825,7 +828,9 @@
     <string name="brick_user_defined_default_label">Texte du libellé</string>
     <string name="brick_user_defined_already_exists">Une brique avec ces étiquettes existe déjà. Veuillez ajouter plus d\'étiquettes ou d\'entrées.</string>
     <string name="brick_user_defined_script_define">Définir</string>
-    <string name="brick_user_defined_script_as">comme</string>
+    <string name="brick_user_defined_script_screen_refresh_as">Actualiser l\'écran en tant que</string>
+    <string name="brick_user_defined_with_screen_refreshing">avec</string>
+    <string name="brick_user_defined_without_screen_refreshing">sans</string>
     <string name="brick_user_defined_list_empty">Appuyez sur \"+\" pour ajouter vos propres éléments.</string>
     <string name="brick_report">Signaler</string>
     <!--  -->
@@ -1287,6 +1292,7 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string name="title_other_devices">Nouveau périphériques</string>
     <string name="searching_devices">Recherche de périphériques&#8230;</string>
     <string name="button_scan">Rechercher les périphériques Bluetooth</string>
+    <string name="button_skip">Ignorer la connexion Bluetooth</string>
     <string name="select_device">Sélectionner un périphérique:</string>
     <string name="connecting_please_wait">Connexion à votre périphérique.\nPatientez&#8230;</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
@@ -1744,6 +1750,7 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string name="formula_editor_device_face_detection">Détection des visages</string>
     <string name="formula_editor_device_pose_detection">Détection de la pose</string>
     <string name="formula_editor_device_text_recognition">Reconnaissance du texte</string>
+    <string name="formula_editor_device_object_recognition">Reconnaissance d\'objet</string>
     <string name="formula_editor_device_date_and_time">Date et Heure</string>
     <string name="formula_editor_device_touch_detection">Détection tactile</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>
@@ -1790,10 +1797,10 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string name="formula_editor_sensor_second_face_size">taille de la seconde face</string>
     <string name="formula_editor_sensor_second_face_x_position">position x de la seconde face</string>
     <string name="formula_editor_sensor_second_face_y_position">position y de la seconde face</string>
-    <string name="formula_editor_sensor_head_top_x">head top x</string>
-    <string name="formula_editor_sensor_head_top_y">head top y</string>
-    <string name="formula_editor_sensor_neck_x">neck x</string>
-    <string name="formula_editor_sensor_neck_y">neck y</string>
+    <string name="formula_editor_sensor_head_top_x">tête haut x</string>
+    <string name="formula_editor_sensor_head_top_y">tête haut y</string>
+    <string name="formula_editor_sensor_neck_x">cou x</string>
+    <string name="formula_editor_sensor_neck_y">cou y</string>
     <string name="formula_editor_sensor_nose_x">nez x</string>
     <string name="formula_editor_sensor_nose_y">nez y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">œil gauche intérieur x</string>
@@ -1868,6 +1875,7 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string name="formula_editor_function_text_block_from_camera">bloc de texte depuis l\'appareil photo</string>
     <string name="formula_editor_function_text_block_language_from_camera">bloc de texte de la langue de l\'appareil photo</string>
     <string name="formula_editor_function_text_block_parameter">(0)</string>
+    <string name="formula_editor_function_get_id_of_detected_object">ID de l\'objet détecté</string>
     <string name="formula_editor_intro_title_formula_editor">Editeur de formule</string>
     <string name="formula_editor_intro_summary_formula_editor">With the  formula editor you can create mathematical and
         logical formulas that you can use in your bricks.\n\nYou can continue through this little intro by tapping
@@ -1928,9 +1936,6 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     </string>
     <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.
-    </string>
-    <string name="camera_error_pose_detection">        Il y a eu un problème avec la détection de la pose. Certains composants peuvent encore être téléchargés en
-        téléchargement en arrière-plan. Veuillez vous assurer que vous êtes connecté à l\'Internet et revenez plus tard.
     </string>
     <!-- -->
     <!-- Cast strings -->
@@ -2007,8 +2012,8 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string name="category_recently_used">Récemment utilisé</string>
     <string name="new_sprite_dialog_place_visually">Placer visuellement</string>
     <string name="place_visually_text">On te demandera de placer le nouvel acteur ou objet sur l\'écran.</string>
-    <string name="new_empty_sprite_note">Note: The actor or object will be created
-        without a look.</string>
+    <string name="new_empty_sprite_note">Remarque : l\'acteur ou l\'objet sera créé
+        sans apparence.</string>
     <!-- Information -->
     <string name="no_variable_selected">Aucune variable sélectionnée</string>
     <string name="find">Trouvez</string>
@@ -2024,6 +2029,6 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string name="particle_effects_additive_on">activé</string>
     <string name="particle_effects_additive_off">désactivé</string>
     <string name="set_particle_color_to">Définir la couleur des particules à</string>
-    <string name="undo_sort">Undo sort</string>
+    <string name="undo_sort">Annuler le tri</string>
     <string name="sort">Trier</string>
 </resources>

@@ -139,6 +139,8 @@
         tanıma</string>
     <string name="preference_description_ai_text_recognition">Etkinleştir
         metin tanıma tuğlaları ve sensörler</string>
+    <string name="preference_title_ai_object_recognition">Obje tanıma</string>
+    <string name="preference_description_ai_object_recognition">Obje tanıma ve izleme sensörlerini etkinleştirin</string>
     <string name="preference_title_accessibility">Ulaşılabilirlik</string>
     <string name="preference_description_accessibility">Uygulamanın görünümünü değiştirin</string>
     <string name="preference_title_accessibility_profiles">Erişilebilirlik profilleri</string>
@@ -333,7 +335,7 @@
     <string name="from_library">Kitaplıktan ekle</string>
     <string name="sort_projects">Sırala</string>
     <string name="unsort_projects">Sıralamayı Kaldır</string>
-    <string name="import_from_project">Select project to import from</string>
+    <string name="import_from_project">İçe aktarılacak projeyi seçin</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">Yeni sahne</string>
     <!-- Delete Dialog Titles -->
@@ -507,7 +509,7 @@
         <item quantity="other">%d projeleri içe aktarıldı.</item>
     </plurals>
     <!-- Renamed -->
-    <string name="renamed_project">Renamed project</string>
+    <string name="renamed_project">Yeniden adlandırılan proje</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">Projeler</string>
@@ -522,9 +524,9 @@
     <string name="export_project">Projeyi harici depolamaya kaydedin</string>
     <string name="error_import_project">Projeler içe aktarılırken bir şeyler ters gitti.</string>
     <string name="no_projects_selected">İçe aktarmak için hiçbir proje seçilmedi</string>
-    <string name="only_select_catrobat_files">Only select project files</string>
+    <string name="only_select_catrobat_files">Yalnızca proje dosyalarını seçin</string>
     <string name="error_no_files_found">Proje dosyası bulunamadı.</string>
-    <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
+    <string name="import_sprite_from_project_launcher">Objeyi Yerel Projeden İçe Aktar</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Açıklama</string>
     <string name="project_options_notes_and_credits">Yapanlar</string>
@@ -600,7 +602,7 @@
     <string name="add_look_draw_new_image">Resim Çiz</string>
     <string name="add_look_choose_image">Telefondan seç</string>
     <string name="add_look_media_library">Medya kütüphanesi</string>
-    <string name="add_look_from_local_project">Local projects</string>
+    <string name="add_look_from_local_project">Yerel projeler</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">Ses ekle</string>
@@ -741,6 +743,7 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="prestage_text_to_speech_error">\u2022 Metin Okuma motoru\n</string>
     <string name="prestage_no_back_camera_available">\u2022 Arka kamera\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Yüz algılama\n</string>
+    <string name="prestage_no_object_detection_available">\u2022 Obje tanıma\n</string>
     <string name="prestage_no_pose_detection_available">\u2022 Poz algılama\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Metin algılama\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Ön kamera\n</string>
@@ -801,8 +804,10 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="brick_user_defined_default_input_name">Girişin adı</string>
     <string name="brick_user_defined_default_label">Metni etiketle</string>
     <string name="brick_user_defined_already_exists">Bu etiketlere sahip bir tuğla zaten var. Lütfen daha fazla etiket veya girdi ekleyin.</string>
-    <string name="brick_user_defined_script_define">Tanımlamak</string>
-    <string name="brick_user_defined_script_as">gibi</string>
+    <string name="brick_user_defined_script_define">Tanımla</string>
+    <string name="brick_user_defined_script_screen_refresh_as">ekran yenileme</string>
+    <string name="brick_user_defined_with_screen_refreshing">ile</string>
+    <string name="brick_user_defined_without_screen_refreshing">olmadan</string>
     <string name="brick_user_defined_list_empty">Kendi tuğlalarınızı eklemek için \"+\" ya dokunun.</string>
     <string name="brick_report">Bildir</string>
     <!--  -->
@@ -1249,6 +1254,7 @@ bekleyin</string>
     <string name="title_other_devices">Yeni aygıtlar</string>
     <string name="searching_devices">Cihazlar aranıyor&#8230;</string>
     <string name="button_scan">Bluetooth aygıtlarını arayın</string>
+    <string name="button_skip">Bluetooth bağlantısını atla</string>
     <string name="select_device">Bir cihaz seçin</string>
     <string name="connecting_please_wait">Cihazınıza bağlanıyor.\nLütfen bekleyin&#8230;</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
@@ -1702,6 +1708,7 @@ bekleyin</string>
     <string name="formula_editor_device_face_detection">Yüz tanıma</string>
     <string name="formula_editor_device_pose_detection">Poz algılama</string>
     <string name="formula_editor_device_text_recognition">Metin tanıma</string>
+    <string name="formula_editor_device_object_recognition">Obje tanıma</string>
     <string name="formula_editor_device_date_and_time">Tarih ve zaman</string>
     <string name="formula_editor_device_touch_detection">Dokunmatiği tanıma</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>
@@ -1749,10 +1756,10 @@ bekleyin</string>
     <string name="formula_editor_sensor_second_face_size">ikinci yüz boyutu</string>
     <string name="formula_editor_sensor_second_face_x_position">ikinci yüz x konumu</string>
     <string name="formula_editor_sensor_second_face_y_position">ikinci yüz y konumu</string>
-    <string name="formula_editor_sensor_head_top_x">head top x</string>
-    <string name="formula_editor_sensor_head_top_y">head top y</string>
-    <string name="formula_editor_sensor_neck_x">neck x</string>
-    <string name="formula_editor_sensor_neck_y">neck y</string>
+    <string name="formula_editor_sensor_head_top_x">baş üstü x</string>
+    <string name="formula_editor_sensor_head_top_y">baş üstü y</string>
+    <string name="formula_editor_sensor_neck_x">boynu x</string>
+    <string name="formula_editor_sensor_neck_y">boynu y</string>
     <string name="formula_editor_sensor_nose_x">burun x</string>
     <string name="formula_editor_sensor_nose_y">burun y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">sol göz iç x</string>
@@ -1827,6 +1834,7 @@ bekleyin</string>
     <string name="formula_editor_function_text_block_from_camera">kameradan gelen metin bloğu</string>
     <string name="formula_editor_function_text_block_language_from_camera">kameradan gelen metin bloğu dili</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
+    <string name="formula_editor_function_get_id_of_detected_object">Algılanan nesnenin ID\'si</string>
     <string name="formula_editor_intro_title_formula_editor">Formül düzenleyicisi</string>
     <string name="formula_editor_intro_summary_formula_editor">Formül düzenleyici ile bileşenlerinizde kullanmak için
         matematiksel ve mantıksal formüller oluşturabilirsiniz. \n\nDevam etmek için \"İLERİ\" ye dokunun veya öğretici den çıkımak için
@@ -1884,9 +1892,6 @@ bekleyin</string>
     <string name="choose_camera_back">Arka</string>
     <string name="camera_error_generic">Kamerayı kullanmaya çalışırken bir şeyler ters gitti.</string>
     <string name="camera_error_face_detection">Yüz tanıma ile ilgili bir sorun vardı. Bazı bileşenler hala arka planda indiriliyor olabilir. Lütfen İnternet\'e bağlı olduğunuzdan emin olun ve daha sonra tekrar kontrol edin.</string>
-    <string name="camera_error_pose_detection">        Poz algılamayla ilgili bir sorun oluştu. Bazı bileşenler hala arka planda
-        indiriliyor olabilir. Lütfen internete bağlı olduğunuzdan emin olun ve daha sonra tekrar kontrol edin.
-    </string>
     <!-- -->
     <!-- Cast strings -->
     <string name="cast_gamepad_A">A</string>
@@ -1959,8 +1964,8 @@ bekleyin</string>
     <string name="new_sprite_dialog_place_visually">Görsel olarak yerleştirin</string>
     <string name="place_visually_text">Yeni objeyi ekranın herhangi bir yerine yerleştirmeniz
         istenecek</string>
-    <string name="new_empty_sprite_note">Note: The actor or object will be created
-        without a look.</string>
+    <string name="new_empty_sprite_note">Not: Görüntü olmadan bir
+        Obje oluşturuluçaktır.</string>
     <!-- Information -->
     <string name="no_variable_selected">Değişken seçilmedi</string>
     <string name="find">Bul</string>
@@ -1976,6 +1981,6 @@ bekleyin</string>
     <string name="particle_effects_additive_on">aç</string>
     <string name="particle_effects_additive_off">kapa</string>
     <string name="set_particle_color_to">Parçacık rengini şuna ayarla</string>
-    <string name="undo_sort">Undo sort</string>
+    <string name="undo_sort">Sıralamayı geri al</string>
     <string name="sort">Sırala</string>
 </resources>

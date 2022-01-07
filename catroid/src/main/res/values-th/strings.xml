@@ -23,7 +23,7 @@
   -->
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- General terms -->
-    <string name="stage">เลเยอร์</string>
+    <string name="stage">หน้าจอ</string>
     <string name="play">เล่น</string>
     <string name="settings">การตั้งค่า</string>
     <string name="redo">ทำซ้ำ</string>
@@ -31,7 +31,7 @@
     <string name="new_option">สร้างใหม่&#8230;</string>
     <string name="edit_option">แก้ไข&#8230;</string>
     <string name="confirm">ยืนยัน</string>
-    <string name="ignore">เพิกเฉย</string>
+    <string name="ignore">ไม่สนใจ</string>
     <string name="cancel">ยกเลิก</string>
     <string name="save">บันทึก</string>
     <string name="discard">ละทิ้ง</string>
@@ -56,7 +56,7 @@
     <string name="loading">กำลังโหลด&#8230;</string>
     <string name="please_wait">โปรดรอสักครู่</string>
     <string name="search_hint">ค้นหา…</string>
-    <string name="backpack_add">เพิ่มไปยังชุดข้อมูล</string>
+    <string name="backpack_add">จัดเก็บชุดคำสั่ง</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Security warning dialog -->
     <string name="security_warning_dialog_msg">โครงการที่คุณดาวน์โหลดไว้ฟังเสียงของคุณ
@@ -119,26 +119,28 @@
     <string name="preference_description_web_access">แก้ไขเพื่อเพิ่มหรือลบโดเมนที่เชื่อถือได้</string>
     <string name="preference_screen_web_access_title">แก้ไขโดเมนที่เชื่อถือได้</string>
     <string name="preference_title_ai">ส่วนขยายปัญญาประดิษฐ์ (AI)</string>
-    <string name="preference_description_ai">เปิดใช้งานอิฐ AI และเซ็นเซอร์</string>
+    <string name="preference_description_ai">เปิดใช้งานคำสั่ง AI และเซ็นเซอร์</string>
     <string name="preference_title_ai_speech_recognition">คำพูด
         การรับรู้</string>
     <string name="preference_description_ai_speech_recognition">เปิดใช้งาน
-        อิฐและเซ็นเซอร์การรู้จำเสียง</string>
+        คำสั่งและเซ็นเซอร์การรู้จำเสียง</string>
     <string name="preference_title_ai_speech_synthetization">คำพูด
         การสังเคราะห์</string>
     <string name="preference_description_ai_speech_synthetization">เปิดใช้งาน
-        อิฐสังเคราะห์เสียงพูดและเซ็นเซอร์</string>
+        คำสั่งสังเคราะห์เสียงพูดและเซ็นเซอร์</string>
     <string name="preference_title_ai_face_detection">ใบหน้า
         การตรวจจับ</string>
     <string name="preference_description_ai_face_detection">เปิดใช้งาน
         อิฐและเซ็นเซอร์ตรวจจับใบหน้า</string>
     <string name="preference_title_ai_pose_detection">การตรวจจับท่าทาง</string>
     <string name="preference_description_ai_pose_detection">เปิดใช้งาน
-        ก่อให้เกิดการตรวจจับอิฐและเซ็นเซอร์</string>
+        ก่อให้เกิดการตรวจจับคำสั่งและเซ็นเซอร์</string>
     <string name="preference_title_ai_text_recognition">ข้อความ
         การรับรู้</string>
     <string name="preference_description_ai_text_recognition">เปิดใช้งาน
-        อิฐและเซ็นเซอร์การรู้จำข้อความ</string>
+        คำสั่งและเซ็นเซอร์การรู้จำข้อความ</string>
+    <string name="preference_title_ai_object_recognition">การจดจำวัตถุ</string>
+    <string name="preference_description_ai_object_recognition">เปิดใช้งานการจดจำวัตถุและเซ็นเซอร์ติดตาม</string>
     <string name="preference_title_accessibility">การ​เข้า​ใช้​งาน</string>
     <string name="preference_description_accessibility">เปลี่ยนรูปลักษณ์ของแอพ</string>
     <string name="preference_title_accessibility_profiles">โปรไฟล์การเข้าถึง</string>
@@ -165,7 +167,7 @@
     <string name="preference_title_accessibility_beginner_bricks">โหมดเริ่มต้น</string>
     <string name="preference_description_accessibility_beginner_bricks">แสดงคุณสมบัติที่เรียบง่ายเท่านั้น</string>
     <string name="preference_title_accessibility_font_style">เลือกประเภทข้อความ</string>
-    <string name="accessibility_font_regular">ประจำ</string>
+    <string name="accessibility_font_regular">ปกติ</string>
     <string name="accessibility_font_serif">Serif</string>
     <string name="accessibility_font_dyslexic">Dyslexic</string>
     <string name="accessibility_settings_applied">นำการเปลี่ยนแปลงมาใช้</string>
@@ -277,7 +279,7 @@
     <string name="remixes">ผสม</string>
     <!--  -->
     <string name="author">ผู้แต่ง:</string>
-    <string name="screen_size">ขนาดเวที:</string>
+    <string name="screen_size">ขนาดหน้าจอ:</string>
     <string name="mode">โหมด:</string>
     <string name="remix_of">เรียบเรียงจาก:</string>
     <string name="description_hint">กดเพื่อเพิ่มคำอธิบาย</string>
@@ -310,8 +312,8 @@
     <string name="am_empty_list">ยังไม่มีรายการในรายการนี้ กรุณาเพิ่มก่อน</string>
     <string name="reject_import">ไม่สามารถเพิ่มนักแสดงหรือวัตถุได้</string>
     <string name="am_merge_error">ไม่ทำการผสาน ต้องเลือกโครงการ 2 รายการเพื่อรวมเข้าด้วยกัน</string>
-    <string name="am_backpack">เก็บ</string>
-    <string name="am_unpack">แตกออก</string>
+    <string name="am_backpack">จัดเก็บชุดข้อมูล</string>
+    <string name="am_unpack">นำชุดข้อมูลออกมาใช้</string>
     <string name="am_copy">คัด​ลอก</string>
     <string name="am_delete">ลบ</string>
     <string name="am_rename">เปลี่ยนชื่อ</string>
@@ -367,7 +369,7 @@
     <string name="nfc_tag_name_label">ชื่อแท็ก NFC</string>
     <string name="string_label">ข้อความ</string>
     <string name="data_label">ชื่อ</string>
-    <string name="keyword_label">แทรกคำหลัก</string>
+    <string name="keyword_label">ค้นหา</string>
     <string name="html_label">แทรกข้อความ HTML</string>
     <string name="Image_format_not_supported">รูปแบบไฟล์ที่ไม่สนับสนุน</string>
     <string name="import_conflicting_variables">ไม่สามารถเพิ่มนักแสดงหรือวัตถุได้</string>
@@ -415,19 +417,19 @@
     <string name="packed_script_group">ชุดข้อมูลสคริปต์หนึ่งกลุ่ม</string>
     <!-- Unpack -->
     <plurals name="unpacked_scenes">
-        <item quantity="other">แยกฉาก %d ออก</item>
+        <item quantity="other">นำฉาก %d ไปใช้</item>
     </plurals>
     <plurals name="unpacked_sprites">
-        <item quantity="other">แยก %d นักแสดงหรือวัตถุ</item>
+        <item quantity="other">นำ %d นักแสดงหรือวัตถุ ไปใช้</item>
     </plurals>
     <plurals name="unpacked_looks">
-        <item quantity="other">แยก %d รูป</item>
+        <item quantity="other">นำ %d รูป ไปใช้</item>
     </plurals>
     <plurals name="unpacked_sounds">
-        <item quantity="other">แยก %d เสียง</item>
+        <item quantity="other">นำ %d เสียง ไปใช้</item>
     </plurals>
     <plurals name="unpacked_scripts">
-        <item quantity="other">แยก %d สคริปต์</item>
+        <item quantity="other">นำ %d สคริปต์ ไปใช้</item>
     </plurals>
     <!-- Copy -->
     <plurals name="copied_scenes">
@@ -478,7 +480,7 @@
     <string name="renamed_project">เปลี่ยนชื่อโครงการ</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
-    <string name="project_list_title">โปรแกรม</string>
+    <string name="project_list_title">โครงการ</string>
     <string name="last_used">เข้าถึงครั้งสุดท้าย:</string>
     <string name="size">ขนาด:</string>
     <string name="description">คำอธิบาย:</string>
@@ -548,8 +550,8 @@
          บนอุปกรณ์มัลติเพลเยอร์ที่เชื่อมต่อ</string>
     <!-- Backpack -->
     <string name="backpack_title">ชุดข้อมูลของคุณ</string>
-    <string name="pack">เก็บ</string>
-    <string name="unpack">แตกออก</string>
+    <string name="pack">จัดเก็บ</string>
+    <string name="unpack">นำไปใช้</string>
     <!--  -->
     <!-- NewProjectDialog -->
     <string name="new_project_dialog_example_project">ตัวอย่างโครงการ</string>
@@ -636,7 +638,7 @@
     <string name="brick_context_dialog_move_script">ย้ายสคริปต์</string>
     <string name="brick_context_dialog_move_definition">ย้ายคำจำกัดความนี้</string>
     <string name="brick_context_dialog_delete_brick">ลบคำสั่ง</string>
-    <string name="brick_context_dialog_copy_brick">คัดลอกอิฐ</string>
+    <string name="brick_context_dialog_copy_brick">คัดลอกคำสั่ง</string>
     <string name="brick_context_dialog_copy_script">คัดลอกสคริปต์</string>
     <string name="brick_context_dialog_formula_edit_brick">แก้ไขสูตร</string>
     <string name="brick_context_dialog_delete_script">ลบสคริปต์</string>
@@ -716,6 +718,7 @@
     <string name="prestage_text_to_speech_error">\u2022 เครื่องมือแปลงข้อความเป็นคำพูด \n</string>
     <string name="prestage_no_back_camera_available">\u2022 กล้องด้านหลัง \n</string>
     <string name="prestage_no_face_detection_available">\u2022 การตรวจจับใบหน้า \n</string>
+    <string name="prestage_no_object_detection_available">\u2022 จดจำวัตถุ \n </string>
     <string name="prestage_no_pose_detection_available">\u2022 การตรวจจับท่าทาง \n</string>
     <string name="prestage_no_text_detection_available">\u2022 การตรวจจับข้อความ \n</string>
     <string name="prestage_no_front_camera_available">\u2022 กล้องด้านหน้า \n</string>
@@ -771,14 +774,16 @@
     <!-- User Defined Bricks -->
     <string name="brick_user_defined_add_label">เพิ่มป้ายชื่อ</string>
     <string name="brick_user_defined_add_input">เพิ่มข้อมูลนำเข้า</string>
-    <string name="brick_user_defined_add_input_description">เพิ่มอินพุตสำหรับอิฐนี้:</string>
-    <string name="brick_user_defined_add_label_description">เพิ่มป้ายกำกับสำหรับอิฐนี้:</string>
+    <string name="brick_user_defined_add_input_description">เพิ่มอินพุตสำหรับคำสั่งนี้:</string>
+    <string name="brick_user_defined_add_label_description">เพิ่มป้ายกำกับสำหรับคำสั่งนี้:</string>
     <string name="brick_user_defined_default_input_name">ชื่ออินพุต</string>
     <string name="brick_user_defined_default_label">ข้อความป้ายกำกับ</string>
-    <string name="brick_user_defined_already_exists">อิฐที่มีป้ายกำกับเหล่านี้มีอยู่แล้ว โปรดเพิ่มป้ายกำกับหรืออินพุตเพิ่มเติม</string>
+    <string name="brick_user_defined_already_exists">คำสั่งที่มีป้ายกำกับเหล่านี้มีอยู่แล้ว โปรดเพิ่มป้ายกำกับหรืออินพุตเพิ่มเติม</string>
     <string name="brick_user_defined_script_define">กำหนด</string>
-    <string name="brick_user_defined_script_as">เช่นเดียวกับ</string>
-    <string name="brick_user_defined_list_empty">แตะ \"+\" เพื่อเพิ่มอิฐใหม่ของคุณเอง</string>
+    <string name="brick_user_defined_script_screen_refresh_as">อัตราการรีเฟรชของหน้าจอ</string>
+    <string name="brick_user_defined_with_screen_refreshing">แทนด้วย</string>
+    <string name="brick_user_defined_without_screen_refreshing">ไม่ต้อง</string>
+    <string name="brick_user_defined_list_empty">แตะ \"+\" เพื่อเพิ่มคำสั่งใหม่ของคุณเอง</string>
     <string name="brick_report">รายงาน</string>
     <!--  -->
     <!-- Motion bricks -->
@@ -966,7 +971,7 @@
     <string name="brick_loop_to">ถึง</string>
     <string name="brick_repeat">ทำซ้ำ</string>
     <string name="brick_repeat_until">ทำซ้ำจนกระทั่ง</string>
-    <string name="brick_when_touched">เมื่อเวทีถูกทาบทาม</string>
+    <string name="brick_when_touched">เมื่อแตะหน้าจอ</string>
     <string name="brick_clone">สร้างโคลนของ</string>
     <string name="brick_clone_this">ตัวเอง</string>
     <string name="brick_when_cloned">เมื่อเริ่มต้นเป็นโคลน</string>
@@ -1171,7 +1176,7 @@
     <string name="channel_description">%1$s ช่องการแจ้งเตือน</string>
     <!--  -->
     <!-- Notifications -->
-    <string name="notification_screenshot_ok">บันทึกภาพตัวอย่างแล้ว</string>
+    <string name="notification_screenshot_ok">ภาพตัวอย่างที่บันทึกไว้</string>
     <string name="notification_download_project_cancel">ยกเลิกการดาวน์โหลดโครงการ</string>
     <string name="notification_reconvert_download_program_cancel">ยกเลิกโครงการดาวน์โหลด / กู้คืน</string>
     <string name="notification_upload_title_pending">"กำลังอัปโหลด "</string>
@@ -1188,7 +1193,7 @@
     <string name="size_of_project">ขนาด:</string>
     <!--  -->
     <!-- Runtime permission messages -->
-    <string name="runtime_permission_general">แอปนี้ต้องการสิทธิ์ที่ร้องขอเพื่อให้สามารถทำงานได้ ตัวอย่างเช่นอิฐของกล้องต้องการการเข้าถึงกล้องของอุปกรณ์องค์ประกอบของสูตร \"ตำแหน่ง\" ต้องการการเข้าถึงเซ็นเซอร์ตำแหน่งทางภูมิศาสตร์ของอุปกรณ์และเพื่อนำเข้าและส่งออกโครงการจากและไปยังหน่วยความจำท้องถิ่นแอปนี้จำเป็นต้องมีสิทธิ์อ่านและเขียน. คุณสามารถเปลี่ยนการอนุญาตผ่านการตั้งค่าอุปกรณ์ของคุณ</string>
+    <string name="runtime_permission_general">แอปนี้ต้องการสิทธิ์ที่ร้องขอเพื่อให้สามารถทำงานได้ ตัวอย่างเช่นคำสั่งของกล้องต้องการการเข้าถึงกล้องของอุปกรณ์องค์ประกอบของสูตร \"ตำแหน่ง\" ต้องการการเข้าถึงเซ็นเซอร์ตำแหน่งทางภูมิศาสตร์ของอุปกรณ์และเพื่อนำเข้าและส่งออกโครงการจากและไปยังหน่วยความจำท้องถิ่นแอปนี้จำเป็นต้องมีสิทธิ์อ่านและเขียน. คุณสามารถเปลี่ยนการอนุญาตผ่านการตั้งค่าอุปกรณ์ของคุณ</string>
     <!-- Error messages -->
     <string name="error_project_upload">ข้อผิดพลาดเกิดขึ้นขณะอัปโหลดโปรแกรม</string>
     <string name="error_project_download">เกิดข้อผิดพลาดในขณะดาวน์โหลดโปรแกรม</string>
@@ -1223,6 +1228,7 @@
     <string name="title_other_devices">อุปกรณ์ใหม่</string>
     <string name="searching_devices">กำลังมองหาอุปกรณ&#8230;</string>
     <string name="button_scan">ค้นหาอุปกรณ์ Bluetooth</string>
+    <string name="button_skip">ข้ามการเชื่อมต่อบลูทูธ</string>
     <string name="select_device">เลือกอุปกรณ์:</string>
     <string name="connecting_please_wait">กำลังเชื่อมต่อกับอุปกรณ์ \nกรุณารอ&#8230;</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
@@ -1284,7 +1290,7 @@
         เปิดโครงการ</string>
     <string name="preference_title_mindstorms_nxt_sensors_description">การแมปเซ็นเซอร์ NXT กับพอร์ตเป็นโปรเจ็กต์
         เฉพาะและสามารถกำหนดค่าได้สำหรับโครงการที่เปิดเท่านั้น</string>
-    <string name="lego_nxt_sensor_config_info_text">โครงการปัจจุบันใช้อิฐ Lego Mindstorms NXT หรือเซ็นเซอร์ สำหรับ
+    <string name="lego_nxt_sensor_config_info_text">โครงการปัจจุบันใช้คำสั่ง Lego Mindstorms NXT หรือเซ็นเซอร์ สำหรับ
         การทำงานที่เหมาะสมโปรดเชื่อมต่อเซ็นเซอร์กับหุ่นยนต์ดังต่อไปนี้</string>
     <string name="lego_port_1">พอร์ต 1</string>
     <string name="lego_port_2">พอร์ต 2</string>
@@ -1297,7 +1303,7 @@
         เปิดโครงการ</string>
     <string name="preference_title_mindstorms_ev3_sensors_description">การจับคู่เซ็นเซอร์ EV3 กับพอร์ตเป็นโครงการ
         เฉพาะและสามารถกำหนดค่าได้สำหรับโครงการที่เปิดเท่านั้น</string>
-    <string name="lego_ev3_sensor_config_info_text">โครงการปัจจุบันใช้อิฐ Lego Mindstorms EV3 หรือเซ็นเซอร์ สำหรับ
+    <string name="lego_ev3_sensor_config_info_text">โครงการปัจจุบันใช้คำสั่ง Lego Mindstorms EV3 หรือเซ็นเซอร์ สำหรับ
         การทำงานที่เหมาะสมโปรดเชื่อมต่อเซ็นเซอร์กับหุ่นยนต์ดังต่อไปนี้</string>
     <string name="ev3_choose_sensor_1">เซ็นเซอร์เชื่อมต่อที่พอร์ต 1</string>
     <string name="ev3_choose_sensor_2">เซ็นเซอร์เชื่อมต่อที่พอร์ต 2</string>
@@ -1550,12 +1556,12 @@
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino ขาอะนาล็อก</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">ราสเบอร์รี่พิพิน</string>
     <string name="formula_editor_function_pin_default_parameter">(0)</string>
-    <string name="formula_editor_function_finger_x">เวทีสัมผัส x</string>
-    <string name="formula_editor_function_finger_y">เวทีสัมผัส y</string>
-    <string name="formula_editor_function_is_finger_touching">เวทีสัมผัสแล้ว</string>
-    <string name="formula_editor_function_multi_finger_x">สัมผัสเวที x</string>
-    <string name="formula_editor_function_multi_finger_y">สัมผัสเวที y</string>
-    <string name="formula_editor_function_is_multi_finger_touching">เวทีสัมผัส</string>
+    <string name="formula_editor_function_finger_x">สัมผัสหน้าจอ x</string>
+    <string name="formula_editor_function_finger_y">สัมผัสหน้าจอ y</string>
+    <string name="formula_editor_function_is_finger_touching">สัมผัสหน้าจอแล้ว</string>
+    <string name="formula_editor_function_multi_finger_x">สัมผัสหน้าจอ x</string>
+    <string name="formula_editor_function_multi_finger_y">สัมผัสหน้าจอ y</string>
+    <string name="formula_editor_function_is_multi_finger_touching">สัมผัสหน้าจอ</string>
     <string name="formula_editor_function_index_of_last_finger">ดัชนีสัมผัสขั้นสุดท้าย</string>
     <string name="formula_editor_function_number_of_current_touches">จำนวนการสัมผัสในปัจจุบัน</string>
     <string name="formula_editor_function_index_of_current_touch">จำนวนการสัมผัสในปัจจุบัน</string>
@@ -1682,6 +1688,7 @@
     <string name="formula_editor_device_face_detection">ตรวจจับใบหน้า</string>
     <string name="formula_editor_device_pose_detection">การตรวจจับท่าทาง</string>
     <string name="formula_editor_device_text_recognition">การจดจำข้อความ</string>
+    <string name="formula_editor_device_object_recognition">การจดจำวัตถุ</string>
     <string name="formula_editor_device_date_and_time">วันและเวลา</string>
     <string name="formula_editor_device_touch_detection">ตรวจจับการสัมผัส</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>
@@ -1807,6 +1814,7 @@
     <string name="formula_editor_function_text_block_from_camera">บล็อกข้อความจากกล้อง</string>
     <string name="formula_editor_function_text_block_language_from_camera">ภาษาบล็อกข้อความจากกล้อง</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
+    <string name="formula_editor_function_get_id_of_detected_object">ID ของวัตถุที่ตรวจพบ</string>
     <string name="formula_editor_intro_title_formula_editor">ตัวแก้ไขสูตร</string>
     <string name="formula_editor_intro_summary_formula_editor">ด้วยตัวแก้ไขทางคณิตศาสตร์คุณสามารถสร้างสูตรและ
          สูตรตรรกะที่คุณสามารถใช้ในชุดคำสั่งของคุณ \n\n ดำเนินการต่อโดยแตะ \"NEXT\" หรือออก
@@ -1869,9 +1877,6 @@
     <string name="camera_error_face_detection">        มีปัญหากับการตรวจจับใบหน้า ส่วนประกอบบางอย่างอาจยังคงดาวน์โหลดอยู่ในไฟล์
         พื้นหลัง. โปรดตรวจสอบว่าคุณเชื่อมต่อกับอินเทอร์เน็ตและกลับมาตรวจสอบในภายหลัง
     </string>
-    <string name="camera_error_pose_detection">        มีปัญหากับการตรวจจับท่าทาง ส่วนประกอบบางอย่างอาจยังคงดาวน์โหลดอยู่ในไฟล์
-        พื้นหลัง. โปรดตรวจสอบว่าคุณเชื่อมต่อกับอินเทอร์เน็ตและกลับมาตรวจสอบในภายหลัง
-    </string>
     <!-- -->
     <!-- Cast strings -->
     <string name="cast_gamepad_A">A</string>
@@ -1881,7 +1886,7 @@
     <string name="cast_gamepad_left">ซ้าย</string>
     <string name="cast_gamepad_right">ขวา</string>
     <string name="cast_error_not_connected_msg">โปรดเชื่อมต่อกับ Chromecast ของคุณก่อน</string>
-    <string name="cast_error_cast_bricks_in_no_cast_project">โครงการของคุณใช้อิฐ Chromecast และไม่สามารถเริ่มต้นได้
+    <string name="cast_error_cast_bricks_in_no_cast_project">โครงการของคุณใช้คำสั่ง Chromecast และไม่สามารถเริ่มต้นได้
         ในประเทศ</string>
     <string name="cast_device_selector_dialog_title">ส่งไปที่</string>
     <string name="cast_button_menu_item_title">ปุ่มแคสต์</string>
@@ -1920,7 +1925,7 @@
     <string name="hint_bricks">หากต้องการเพิ่มคำสั่งลงในสคริปต์ของคุณให้แตะคำสั่งที่คุณต้องการใช้</string>
     <string name="hint_scripts">สคริปต์จะกำหนดพฤติกรรมของนักแสดงหรือวัตถุของคุณ  ในการเพิ่มบล็อกลงในสคริปต์ให้แตะสัญลักษณ์ \"+\"</string>
     <string name="hint_looks">ที่นี่คุณสามารถค้นหาลักษณะที่แตกต่างของนักแสดงหรือวัตถุของคุณ  หากต้องการเพิ่มรูปลักษณ์ใหม่ให้แตะสัญลักษณ์ \"+\"</string>
-    <string name="hint_sounds">ที่นี่คุณสามารถเพิ่มเสียงใหม่ให้กับนักแสดงหรือวัตถุของคุณ  จำไว้ว่าใช้อิฐจากหมวดเสียง</string>
+    <string name="hint_sounds">ที่นี่คุณสามารถเพิ่มเสียงใหม่ให้กับนักแสดงหรือวัตถุของคุณ  จำไว้ว่าใช้คำสั่งจากหมวดเสียง</string>
     <string name="hint_objects">โปรแกรมของคุณประกอบด้วยนักแสดงและวัตถุต่าง ๆ ที่สามารถโต้ตอบซึ่งกันและกันได้  
         หากต้องการเพิ่มนักแสดงหรือวัตถุใหม่ให้แตะสัญลักษณ์ \"+\"</string>
     <!--  -->
@@ -1945,9 +1950,9 @@
     <string name="category_recently_used">ใช้ล่าสุด</string>
     <string name="new_sprite_dialog_place_visually">วางสายตา</string>
     <string name="place_visually_text">คุณจะถูกขอให้วางนักแสดงใหม่หรือวัตถุในไฟล์
-         เวที.</string>
-    <string name="new_empty_sprite_note">Note: The actor or object will be created
-        without a look.</string>
+         หน้าจอ.</string>
+    <string name="new_empty_sprite_note">หมายเหตุ: นักแสดงหรือวัตถุจะถูกสร้างขึ้น
+        โดยไม่มีวัตถุหรือรูปลักษณ์</string>
     <!-- Information -->
     <string name="no_variable_selected">ไม่ได้เลือกตัวแปร</string>
     <string name="find">ค้นหา</string>

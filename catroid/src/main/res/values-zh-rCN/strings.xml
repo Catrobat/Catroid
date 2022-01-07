@@ -139,6 +139,8 @@
         确认</string>
     <string name="preference_description_ai_text_recognition">启用
         文字识别砖和传感器</string>
+    <string name="preference_title_ai_object_recognition">对象识别</string>
+    <string name="preference_description_ai_object_recognition">启用对象识别和追踪传感器</string>
     <string name="preference_title_accessibility">可访问性</string>
     <string name="preference_description_accessibility">更改应用的外观</string>
     <string name="preference_title_accessibility_profiles">辅助功能配置文件</string>
@@ -713,6 +715,7 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="prestage_text_to_speech_error">\u2022 文字转语音引擎\n</string>
     <string name="prestage_no_back_camera_available">\u2022 后置摄像头\n</string>
     <string name="prestage_no_face_detection_available">\u2022 人脸检测\n</string>
+    <string name="prestage_no_object_detection_available">\u2022 对象识别\n</string>
     <string name="prestage_no_pose_detection_available">\u2022 鼻子检测\n</string>
     <string name="prestage_no_text_detection_available">\u2022 文本检测\n</string>
     <string name="prestage_no_front_camera_available">\u2022 前置摄像头\n</string>
@@ -774,7 +777,9 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="brick_user_defined_default_label">标签文本</string>
     <string name="brick_user_defined_already_exists">带有这些标签的积木已经存在。请添加更多标签或输入。</string>
     <string name="brick_user_defined_script_define">定义</string>
-    <string name="brick_user_defined_script_as">为</string>
+    <string name="brick_user_defined_script_screen_refresh_as">屏幕刷新为</string>
+    <string name="brick_user_defined_with_screen_refreshing">以</string>
+    <string name="brick_user_defined_without_screen_refreshing">没有</string>
     <string name="brick_user_defined_list_empty">点击 \"+\" 添加您自己的积木。</string>
     <string name="brick_report">报告</string>
     <!--  -->
@@ -1229,6 +1234,7 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="title_other_devices">新的设备</string>
     <string name="searching_devices">搜索设备&#8230;</string>
     <string name="button_scan">搜索蓝牙设备</string>
+    <string name="button_skip">跳过蓝牙连接</string>
     <string name="select_device">选中的设备：</string>
     <string name="connecting_please_wait">连接到您的设备 \n请等待&#8230;</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
@@ -1573,7 +1579,7 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="formula_editor_function_flatten_parameter">(*列表名称*)</string>
     <string name="formula_editor_function_collision">碰到对象</string>
     <string name="formula_editor_function_collides_with_edge">碰到边缘</string>
-    <string name="formula_editor_function_touched">碰到手指</string>
+    <string name="formula_editor_function_touched">触摸手指</string>
     <string name="formula_editor_function_collides_with_color">触摸颜色</string>
     <string name="formula_editor_function_color_touches_color">颜色触摸颜色</string>
     <string name="formula_editor_sensor_color_at_x_y">在 x y 处颜色</string>
@@ -1682,6 +1688,7 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="formula_editor_device_face_detection">面部检测</string>
     <string name="formula_editor_device_pose_detection">姿势检测</string>
     <string name="formula_editor_device_text_recognition">文本识别</string>
+    <string name="formula_editor_device_object_recognition">对象识别</string>
     <string name="formula_editor_device_date_and_time">日期与时间</string>
     <string name="formula_editor_device_touch_detection">触碰检测</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>
@@ -1807,6 +1814,7 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="formula_editor_function_text_block_from_camera">来自相机的文本块 </string>
     <string name="formula_editor_function_text_block_language_from_camera">来自相机的文本方块语言</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
+    <string name="formula_editor_function_get_id_of_detected_object">检测到的对象的ID</string>
     <string name="formula_editor_intro_title_formula_editor">公式编辑器</string>
     <string name="formula_editor_intro_summary_formula_editor">通过公式编辑器，您可以创建您可以在积木中使用的数学和
         逻辑公式。\n\n继续点击“NEXT”或退出
@@ -1862,9 +1870,6 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     </string>
     <string name="camera_error_face_detection">        文本检测出现问题。 有些组件可能仍然在
         后台下载。 请确保您已连接到互联网，稍后再试。</string>
-    <string name="camera_error_pose_detection">        姿势检测有问题。一些组件可能仍在后台下载
-        后台。请确保你已连接到互联网，并在稍后检查。
-    </string>
     <!-- -->
     <!-- Cast strings -->
     <string name="cast_gamepad_A">一种</string>
@@ -1936,8 +1941,8 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="new_sprite_dialog_place_visually">视觉设置</string>
     <string name="place_visually_text">你将被要求把新的演员或物体放在舞台上。
         舞台上。</string>
-    <string name="new_empty_sprite_note">Note: The actor or object will be created
-        without a look.</string>
+    <string name="new_empty_sprite_note">注意: 对象或物体创建时
+        没有设置外观。</string>
     <!-- Information -->
     <string name="no_variable_selected">未选择变量</string>
     <string name="find">查找</string>

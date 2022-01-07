@@ -139,6 +139,8 @@
         testo</string>
     <string name="preference_description_ai_text_recognition">Abilita
         mattoni e sensori del riconoscimento testuale</string>
+    <string name="preference_title_ai_object_recognition">Riconoscimento oggetto</string>
+    <string name="preference_description_ai_object_recognition">Abilita i sensori di riconoscimento e monitoraggio degli oggetti</string>
     <string name="preference_title_accessibility">Accessibilità</string>
     <string name="preference_description_accessibility">Cambia l\'aspetto dell\'app</string>
     <string name="preference_title_accessibility_profiles">Profili d\'accessibilità</string>
@@ -769,6 +771,7 @@ app
     <string name="prestage_text_to_speech_error">\u2022 Motore di Sintesi Vocale\n</string>
     <string name="prestage_no_back_camera_available">\u2022 Videocamera posteriore\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Rilevamento volto\n</string>
+    <string name="prestage_no_object_detection_available">\u2022 Riconoscimento oggetto\n</string>
     <string name="prestage_no_pose_detection_available">\u2022 Rilevamento della posa\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Rilevamento testuale\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Videocamera anteriore\n</string>
@@ -831,7 +834,9 @@ app
     <string name="brick_user_defined_default_label">Testo dell\'etichetta</string>
     <string name="brick_user_defined_already_exists">Un mattone con queste etichette esiste già. Sei pregato di aggiungere altre etichette o input.</string>
     <string name="brick_user_defined_script_define">Definisci</string>
-    <string name="brick_user_defined_script_as">come</string>
+    <string name="brick_user_defined_script_screen_refresh_as">aggiornamento dello schermo</string>
+    <string name="brick_user_defined_with_screen_refreshing">con</string>
+    <string name="brick_user_defined_without_screen_refreshing">senza</string>
     <string name="brick_user_defined_list_empty">Tocca \"+\" per aggiungere i tuoi nuovi mattoni.</string>
     <string name="brick_report">Rapporto</string>
     <!--  -->
@@ -1294,6 +1299,7 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="title_other_devices">Nuovi dispositivi</string>
     <string name="searching_devices">Ricerca di dispositivi&#8230;</string>
     <string name="button_scan">Ricerca dispositivi Bluetooth</string>
+    <string name="button_skip">Salta connessione Bluetooth</string>
     <string name="select_device">Seleziona dispositivo:</string>
     <string name="connecting_please_wait">Connessione al tuo dispositivo. \nAttendere&#8230;</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
@@ -1747,6 +1753,7 @@ con tolleranza %        </string>
     <string name="formula_editor_device_face_detection">Rilevamento volto</string>
     <string name="formula_editor_device_pose_detection">Rilevamento posa</string>
     <string name="formula_editor_device_text_recognition">Riconoscimento testo</string>
+    <string name="formula_editor_device_object_recognition">Riconoscimento oggetto</string>
     <string name="formula_editor_device_date_and_time">Data e ora</string>
     <string name="formula_editor_device_touch_detection">Rilevamento tocco</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>
@@ -1872,6 +1879,7 @@ con tolleranza %        </string>
     <string name="formula_editor_function_text_block_from_camera">blocco di testo dalla fotocamera</string>
     <string name="formula_editor_function_text_block_language_from_camera">lingua del blocco di testo dalla fotocamera</string>
     <string name="formula_editor_function_text_block_parameter">(0)</string>
+    <string name="formula_editor_function_get_id_of_detected_object">ID dell\'oggetto rilevato</string>
     <string name="formula_editor_intro_title_formula_editor">Editor di formule</string>
     <string name="formula_editor_intro_summary_formula_editor">L\'editor di formule ti permette di creare formule matematiche e
     logiche che puoi usare all\'interno dei mattoncini.\n\nPuoi continuare questa piccola introduzione
@@ -1933,9 +1941,6 @@ con tolleranza %        </string>
     </string>
     <string name="camera_error_face_detection">        Si è verificato un problema con il rilevamento del volto. Alcuni componenti potrebbero essere ancora in fase di download
         . Assicurati di essere connesso a internet e controlla più tardi.</string>
-    <string name="camera_error_pose_detection">        Si è verificato un problema con il rilevamento della posa. Alcuni componenti potrebbero ancora essere in caricamento in
-        background. Sei pregato di assicurarti di esser connesso a Internet e di ricontrollare dopo.
-    </string>
     <!-- -->
     <!-- Cast strings -->
     <string name="cast_gamepad_A">A</string>
@@ -2012,8 +2017,8 @@ con tolleranza %        </string>
     <string name="new_sprite_dialog_place_visually">Posiziona visivamente</string>
     <string name="place_visually_text">Ti verrà chiesto di posizionare il nuovo personaggio o oggetto sulla scena
 .</string>
-    <string name="new_empty_sprite_note">Note: The actor or object will be created
-        without a look.</string>
+    <string name="new_empty_sprite_note">Nota: L\'attore o l\'oggetto verranno creati
+        senza un costume.</string>
     <!-- Information -->
     <string name="no_variable_selected">Nessuna variabile selezionata</string>
     <string name="find">Trova</string>

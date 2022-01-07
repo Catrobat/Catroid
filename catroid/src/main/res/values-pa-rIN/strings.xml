@@ -139,6 +139,8 @@
         ਮਾਨਤਾ</string>
     <string name="preference_description_ai_text_recognition">ਯੋਗ
         ਟੈਕਸਟ ਮਾਨਤਾ ਇੱਟਾਂ ਅਤੇ ਸੈਂਸਰ</string>
+    <string name="preference_title_ai_object_recognition">ਵਸਤੂ ਪਛਾਣ</string>
+    <string name="preference_description_ai_object_recognition">ਵਸਤੂ ਪਛਾਣ ਅਤੇ ਟਰੈਕਿੰਗ ਸੈਂਸਰ ਨੂੰ ਸਮਰੱਥ ਬਣਾਓ</string>
     <string name="preference_title_accessibility">ਪਹੁੰਚਯੋਗਤਾ</string>
     <string name="preference_description_accessibility">ਐਪ ਦੀ ਦਿੱਖ ਬਦਲੋ</string>
     <string name="preference_title_accessibility_profiles">ਪਹੁੰਚਯੋਗਤਾ ਪਰੋਫਾਈਲ</string>
@@ -350,7 +352,7 @@
     <string name="from_library">ਲਾਇਬ੍ਰੇਰੀ ਤੋਂ ਸ਼ਾਮਲ ਕਰੋ</string>
     <string name="sort_projects">ਲੜੀਬੱਧ</string>
     <string name="unsort_projects">ਅਣਸੋਰਟ</string>
-    <string name="import_from_project">Select project to import from</string>
+    <string name="import_from_project">ਤੋਂ ਆਯਾਤ ਕਰਨ ਲਈ ਪ੍ਰੋਜੈਕਟ ਚੁਣੋ</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">ਨਵਾਂ ਦ੍ਰਿਸ਼</string>
     <!-- Delete Dialog Titles -->
@@ -524,7 +526,7 @@
         <item quantity="other">%d ਪ੍ਰੋਜੈਕਟ ਆਯਾਤ ਕੀਤੇ ਗਏ।</item>
     </plurals>
     <!-- Renamed -->
-    <string name="renamed_project">Renamed project</string>
+    <string name="renamed_project">ਪ੍ਰੋਜੈਕਟ ਦਾ ਨਾਮ ਬਦਲਿਆ</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">ਪ੍ਰੋਜੈਕਟ</string>
@@ -539,9 +541,9 @@
     <string name="export_project">ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਬਾਹਰੀ ਸਟੋਰੇਜ ਤੇ ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
     <string name="error_import_project">ਪ੍ਰੋਜੈਕਟਸ ਨੂੰ ਆਯਾਤ ਕਰਨ ਵੇਲੇ ਕੁਝ ਗਲਤ ਹੋਇਆ.</string>
     <string name="no_projects_selected">ਆਯਾਤ ਲਈ ਕੋਈ ਪ੍ਰੋਜੈਕਟ ਨਹੀਂ ਚੁਣਿਆ ਗਿਆ</string>
-    <string name="only_select_catrobat_files">Only select project files</string>
+    <string name="only_select_catrobat_files">ਸਿਰਫ਼ ਪ੍ਰੋਜੈਕਟ ਫਾਈਲਾਂ ਦੀ ਚੋਣ ਕਰੋ</string>
     <string name="error_no_files_found">ਕੋਈ ਪ੍ਰੋਜੈਕਟ ਫਾਈਲਾਂ ਨਹੀਂ ਮਿਲੀਆਂ.</string>
-    <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
+    <string name="import_sprite_from_project_launcher">ਸਥਾਨਕ ਪ੍ਰੋਜੈਕਟ ਤੋਂ ਆਬਜੈਕਟ ਆਯਾਤ ਕਰੋ</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">ਵੇਰਵਾ</string>
     <string name="project_options_notes_and_credits">ਨੋਟ ਅਤੇ ਕ੍ਰੈਡਿਟ</string>
@@ -618,7 +620,7 @@
     <string name="add_look_draw_new_image">ਚਿੱਤਰ ਬਣਾਉ</string>
     <string name="add_look_choose_image">ਚਿੱਤਰ ਚੁਣੋ</string>
     <string name="add_look_media_library">ਮੀਡੀਆ ਲਾਇਬ੍ਰੇਰੀ</string>
-    <string name="add_look_from_local_project">Local projects</string>
+    <string name="add_look_from_local_project">ਸਥਾਨਕ ਪ੍ਰਾਜੈਕਟ</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">ਆਵਾਜ਼ ਸ਼ਾਮਲ ਕਰੋ</string>
@@ -768,6 +770,7 @@
     <string name="prestage_text_to_speech_error">\u2022 ਪਾਠ-ਟੂ-ਸਪੀਚ ਇੰਜਣ\n</string>
     <string name="prestage_no_back_camera_available">\u2022 ਰੀਅਰ ਕੈਮਰਾ ਹੈ\n</string>
     <string name="prestage_no_face_detection_available">\u2022 ਫੇਸ ਖੋਜ\n</string>
+    <string name="prestage_no_object_detection_available">\u2022 ਵਸਤੂ ਪਛਾਣ\n</string>
     <string name="prestage_no_pose_detection_available">\u2022 ਪੋਜ਼ ਖੋਜ\n</string>
     <string name="prestage_no_text_detection_available">\u2022 ਫੇਸ ਖੋਜ\n</string>
     <string name="prestage_no_front_camera_available">\u2022 ਰੀਅਰ ਕੈਮਰਾ ਹੈ\n</string>
@@ -830,7 +833,9 @@
     <string name="brick_user_defined_default_label">ਵੱਡਾ ਟੈਕਸਟ</string>
     <string name="brick_user_defined_already_exists">ਇਨ੍ਹਾਂ ਲੇਬਲਾਂ ਵਾਲੀ ਇਕ ਇੱਟ ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ. ਕਿਰਪਾ ਕਰਕੇ ਹੋਰ ਲੇਬਲ ਜਾਂ ਇਨਪੁਟਸ ਸ਼ਾਮਲ ਕਰੋ.</string>
     <string name="brick_user_defined_script_define">ਪ੍ਰਭਾਸ਼ਿਤ</string>
-    <string name="brick_user_defined_script_as">ਜਿਵੇਂ</string>
+    <string name="brick_user_defined_script_screen_refresh_as">ਦੇ ਤੌਰ ਤੇ ਸਕਰੀਨ ਨੂੰ ਤਾਜ਼ਾ ਕਰੋ</string>
+    <string name="brick_user_defined_with_screen_refreshing">ਦੇ ਨਾਲ</string>
+    <string name="brick_user_defined_without_screen_refreshing">ਬਿਨਾ</string>
     <string name="brick_user_defined_list_empty">ਟੈਪ \"+\" ਆਪਣੇ ਹੀ ਨਵ ਇੱਟ ਨੂੰ ਸ਼ਾਮਿਲ ਕਰਨ ਲਈ.</string>
     <string name="brick_report">ਰਿਪੋਰਟ</string>
     <!--  -->
@@ -1291,6 +1296,7 @@
     <string name="title_other_devices">ਨਵੀਆਂ ਡਿਵਾਈਸਾਂ</string>
     <string name="searching_devices">ਡਿਵਾਈਸਾਂ ਦੀ ਭਾਲ ਕਰ ਰਿਹਾ ਹੈ&#8230;</string>
     <string name="button_scan">ਬਲੂਟੁੱਥ ਉਪਕਰਣ ਖੋਜੋ</string>
+    <string name="button_skip">ਬਲੂਟੁੱਥ ਕਨੈਕਸ਼ਨ ਛੱਡੋ</string>
     <string name="select_device">ਜੰਤਰ ਚੁਣੋ:</string>
     <string name="connecting_please_wait">ਆਪਣੇ ਜੰਤਰ ਨੂੰ ਨਾਲ ਕੁਨੈਕਟ ਕੀਤਾ. \n ਕਿਰਪਾ ਕਰਕੇ ਉਡੀਕ ਕਰੋ&#8230;</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
@@ -1750,6 +1756,7 @@
     <string name="formula_editor_device_face_detection">ਚਿਹਰੇ ਦੀ ਪਛਾਣ</string>
     <string name="formula_editor_device_pose_detection">ਪੋਜ਼</string>
     <string name="formula_editor_device_text_recognition">ਟੈਕਸਟ ਪਛਾਣ</string>
+    <string name="formula_editor_device_object_recognition">ਵਸਤੂ ਪਛਾਣ</string>
     <string name="formula_editor_device_date_and_time">ਤਾਰੀਖ ਅਤੇ ਸਮਾਂ</string>
     <string name="formula_editor_device_touch_detection">ਟਚ ਖੋਜ</string>
     <string name="formula_editor_device_lego_nxt">ਔਲ Mindstorms NXT</string>
@@ -1797,10 +1804,10 @@
     <string name="formula_editor_sensor_second_face_size">ਦੂਜਾ ਚਿਹਰਾ ਅਕਾਰ</string>
     <string name="formula_editor_sensor_second_face_x_position">ਦੂਜਾ ਚਿਹਰਾ x ਸਥਿਤੀ</string>
     <string name="formula_editor_sensor_second_face_y_position">ਦੂਜਾ ਚਿਹਰਾ y ਸਥਿਤੀ</string>
-    <string name="formula_editor_sensor_head_top_x">head top x</string>
-    <string name="formula_editor_sensor_head_top_y">head top y</string>
-    <string name="formula_editor_sensor_neck_x">neck x</string>
-    <string name="formula_editor_sensor_neck_y">neck y</string>
+    <string name="formula_editor_sensor_head_top_x">ਸਿਰ ਦਾ ਸਿਖਰ x</string>
+    <string name="formula_editor_sensor_head_top_y">ਸਿਰ ਦਾ ਸਿਖਰ y</string>
+    <string name="formula_editor_sensor_neck_x">ਗਰਦਨ x</string>
+    <string name="formula_editor_sensor_neck_y">ਗਰਦਨ y</string>
     <string name="formula_editor_sensor_nose_x">ਨੱਕ ਐਕਸ</string>
     <string name="formula_editor_sensor_nose_y">ਨੱਕ y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">ਖੱਬੀ ਅੱਖ ਦਾ ਅੰਦਰੂਨੀ ਐਕਸ</string>
@@ -1875,6 +1882,7 @@
     <string name="formula_editor_function_text_block_from_camera">ਕੈਮਰੇ ਤੋਂ ਟੈਕਸਟ ਬਲਾਕ</string>
     <string name="formula_editor_function_text_block_language_from_camera">ਕੈਮਰੇ ਤੋਂ ਟੈਕਸਟ ਬਲਾਕ ਭਾਸ਼ਾ</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
+    <string name="formula_editor_function_get_id_of_detected_object">ਖੋਜੀ ਵਸਤੂ ਦੀ ID</string>
     <string name="formula_editor_intro_title_formula_editor">ਫਾਰਮੂਲਾ ਸੰਪਾਦਕ</string>
     <string name="formula_editor_intro_summary_formula_editor">ਫਾਰਮੂਲੇ ਸੰਪਾਦਕ ਨਾਲ ਤੁਸੀਂ ਗਣਿਤ ਬਣਾ ਸਕਦੇ ਹੋ ਅਤੇ
          ਲਾਜ਼ੀਕਲ ਫਾਰਮੂਲੇ ਜੋ ਤੁਸੀਂ ਆਪਣੀਆਂ ਇੱਟਾਂ ਵਿੱਚ ਵਰਤ ਸਕਦੇ ਹੋ. \n \n \"ਅੱਗੇ\" ਟੈਪ ਕਰਕੇ ਜਾਰੀ ਰੱਖੋ ਜਾਂ ਬੰਦ ਕਰੋ
@@ -1937,9 +1945,6 @@
     </string>
     <string name="camera_error_face_detection">        ਚਿਹਰੇ ਦੀ ਪਛਾਣ ਵਿੱਚ ਇੱਕ ਸਮੱਸਿਆ ਸੀ. ਕੁਝ ਭਾਗ ਅਜੇ ਵੀ ਡਾ inਨਲੋਡ ਕੀਤੇ ਜਾ ਸਕਦੇ ਹਨ
          ਪਿਛੋਕੜ ਕਿਰਪਾ ਕਰਕੇ ਇਹ ਸੁਨਿਸ਼ਚਿਤ ਕਰੋ ਕਿ ਤੁਸੀਂ ਇੰਟਰਨੈਟ ਨਾਲ ਜੁੜੇ ਹੋ ਅਤੇ ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਜਾਂਚ ਕਰੋ.
-    </string>
-    <string name="camera_error_pose_detection">        ਪੋਜ਼ ਖੋਜ ਵਿੱਚ ਇੱਕ ਸਮੱਸਿਆ ਆਈ ਸੀ. ਕੁਝ ਹਿੱਸੇ ਅਜੇ ਵੀ ਡਾਉਨਲੋਡ ਕੀਤੇ ਜਾ ਸਕਦੇ ਹਨ
-        ਪਿਛੋਕੜ. ਕਿਰਪਾ ਕਰਕੇ ਯਕੀਨੀ ਬਣਾਉ ਕਿ ਤੁਸੀਂ ਇੰਟਰਨੈਟ ਨਾਲ ਜੁੜੇ ਹੋਏ ਹੋ ਅਤੇ ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਜਾਂਚ ਕਰੋ.
     </string>
     <!-- -->
     <!-- Cast strings -->
@@ -2019,8 +2024,8 @@
     <string name="new_sprite_dialog_place_visually">ਨਜ਼ਰ ਨਾਲ ਰੱਖੋ</string>
     <string name="place_visually_text">ਤੁਹਾਨੂੰ ਨਵਾਂ ਅਦਾਕਾਰ ਜਾਂ ਇਤਰਾਜ਼ \'ਤੇ ਰੱਖਣ ਲਈ ਕਿਹਾ ਜਾਵੇਗਾ
          ਸਟੇਜ</string>
-    <string name="new_empty_sprite_note">Note: The actor or object will be created
-        without a look.</string>
+    <string name="new_empty_sprite_note">ਨੋਟ: ਅਦਾਕਾਰ ਜਾਂ ਵਸਤੂ ਬਣਾਈ ਜਾਵੇਗੀ
+        ਇੱਕ ਨਜ਼ਰ ਦੇ ਬਗੈਰ.</string>
     <!-- Information -->
     <string name="no_variable_selected">ਕੋਈ ਵੇਰੀਏਬਲ ਨਹੀਂ ਚੁਣਿਆ</string>
     <string name="find">ਲੱਭੋ</string>
@@ -2036,6 +2041,6 @@
     <string name="particle_effects_additive_on">ਚਾਲੂ</string>
     <string name="particle_effects_additive_off">ਬੰਦ</string>
     <string name="set_particle_color_to">ਕਣ ਦਾ ਰੰਗ ਸੈੱਟ ਕਰੋ</string>
-    <string name="undo_sort">Undo sort</string>
+    <string name="undo_sort">ਕ੍ਰਮਬੱਧ ਨੂੰ ਅਣਕੀਤਾ ਕਰੋ</string>
     <string name="sort">ਲੜੀਬੱਧ</string>
 </resources>
