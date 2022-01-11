@@ -742,6 +742,15 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		this.userDefinedBrickList.addAll(sprite.userDefinedBrickList);
 	}
 
+	public UserDefinedScript getUserDefinedScript(UUID userDefinedBrickId) {
+		for (Script script : scriptList) {
+			if (script instanceof UserDefinedScript && ((UserDefinedScript) script).getUserDefinedBrickID().equals(userDefinedBrickId)) {
+				return (UserDefinedScript) script;
+			}
+		}
+		return null;
+	}
+
 	public void setGliding(boolean gliding) {
 		isGliding = gliding;
 	}
