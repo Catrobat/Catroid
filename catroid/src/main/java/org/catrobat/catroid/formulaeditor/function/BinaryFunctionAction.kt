@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2019 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,31 +20,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.formulaeditor.function
 
-package org.catrobat.catroid.formulaeditor.function;
-
-public class UnaryFunction implements FormulaFunction, UnaryFunctionAction {
-	private final UnaryFunctionAction action;
-
-	public UnaryFunction(UnaryFunctionAction action) {
-		this.action = action;
-	}
-
-	@Override
-	public Double execute(Double argument) {
-		if (argument == null) {
-			return 0d;
-		} else {
-			return action.execute(argument);
-		}
-	}
-
-	@Override
-	public Double execute(Double... args) {
-		if (args == null || args.length < 1) {
-			return 0d;
-		} else {
-			return execute(args[0]);
-		}
-	}
+fun interface BinaryFunctionAction {
+    fun execute(firstArgument: Double, secondArgument: Double): Any
 }

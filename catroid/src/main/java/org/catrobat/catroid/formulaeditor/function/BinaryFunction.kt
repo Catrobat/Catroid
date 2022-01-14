@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2019 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.formulaeditor.function
 
-package org.catrobat.catroid.formulaeditor.function;
-
-public interface BinaryFunctionAction {
-	Double execute(Double firstArgument, Double secondArgument);
+class BinaryFunction(private val action: BinaryFunctionAction) : FormulaFunction {
+    override fun execute(vararg args: Double?): Any {
+        val arg1 = args.getOrNull(0) ?: return 0.0
+        val arg2 = args.getOrNull(1) ?: return 0.0
+        return action.execute(arg1, arg2)
+    }
 }

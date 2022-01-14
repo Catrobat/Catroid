@@ -27,10 +27,8 @@ import org.catrobat.catroid.formulaeditor.Functions
 
 class ObjectDetectorFunctionProvider : FunctionProvider {
     override fun addFunctionsToMap(formulaFunctions: MutableMap<Functions, FormulaFunction>) {
-        formulaFunctions[Functions.ID_OF_DETECTED_OBJECT] = UnaryFunction { argument ->
-            argument?.toInt()?.let {
-                ObjectDetectorResults.result.keys.toList().getOrNull(it - 1)?.toDouble()
-            }
-        }
+        formulaFunctions[Functions.ID_OF_DETECTED_OBJECT] = UnaryFunction(UnaryFunctionAction { argument ->
+            ObjectDetectorResults.result.keys.toList().getOrNull(argument.toInt() - 1)?.toDouble() ?: 0.0
+        })
     }
 }
