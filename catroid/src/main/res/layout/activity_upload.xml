@@ -22,7 +22,6 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -33,6 +32,9 @@
 
     <include layout="@layout/progress_bar" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <LinearLayout
         android:id="@+id/upload_layout"
         android:layout_width="match_parent"
@@ -40,6 +42,7 @@
         android:paddingTop="@dimen/dialog_content_area_padding_top"
         android:paddingStart="@dimen/dialog_content_area_padding"
         android:paddingEnd="@dimen/dialog_content_area_padding"
+        android:paddingBottom="@dimen/padding_for_scrolling"
         android:orientation="vertical">
 
         <ImageView
@@ -103,7 +106,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minLines="1"
-                android:selectAllOnFocus="true" />
+                android:selectAllOnFocus="true"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -136,4 +139,5 @@
     </LinearLayout>
 
     </LinearLayout>
+    </ScrollView>
 </LinearLayout>
