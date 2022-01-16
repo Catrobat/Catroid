@@ -29,6 +29,7 @@ import com.google.mlkit.vision.objects.DetectedObject.Label
 import org.catrobat.catroid.camera.mlkitdetectors.ObjectDetectorOnSuccessListener
 import org.catrobat.catroid.formulaeditor.Functions
 import org.catrobat.catroid.formulaeditor.Functions.ID_OF_DETECTED_OBJECT
+import org.catrobat.catroid.formulaeditor.Functions.OBJECT_WITH_ID_VISIBLE
 import org.catrobat.catroid.formulaeditor.InternToken
 import org.catrobat.catroid.formulaeditor.InternTokenType.NUMBER
 import org.catrobat.catroid.test.formulaeditor.FormulaEditorTestUtil.testSingleParameterFunction
@@ -52,7 +53,11 @@ class ObjectDetectionFunctionTest(
             return listOf(
                 arrayOf("Get first ID", ID_OF_DETECTED_OBJECT, 1, 1),
                 arrayOf("Get second ID", ID_OF_DETECTED_OBJECT, 2, 5),
-                arrayOf("Get invalid ID", ID_OF_DETECTED_OBJECT, 100, 0)
+                arrayOf("Get invalid ID", ID_OF_DETECTED_OBJECT, 100, 0),
+                arrayOf("Get invalid ID", ID_OF_DETECTED_OBJECT, 0, 0),
+                arrayOf("Get invalid ID", ID_OF_DETECTED_OBJECT, -1, 0),
+                arrayOf("Object is visible", OBJECT_WITH_ID_VISIBLE, 5, 1),
+                arrayOf("Object is not visible", OBJECT_WITH_ID_VISIBLE, 100, 0)
             )
         }
     }

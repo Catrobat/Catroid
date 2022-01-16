@@ -65,7 +65,8 @@ object FormulaElementResources {
     @JvmStatic
     private fun addAIExtensionFunctionsResources(resources: MutableSet<Int?>, function: Functions?) {
         when (function) {
-            Functions.ID_OF_DETECTED_OBJECT -> Brick.OBJECT_DETECTION
+            Functions.ID_OF_DETECTED_OBJECT,
+            Functions.OBJECT_WITH_ID_VISIBLE -> Brick.OBJECT_DETECTION
             else -> return
         }.let { resources.add(it) }
     }
