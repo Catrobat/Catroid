@@ -28,7 +28,6 @@ import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewItemInter
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewItemMatcher;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
@@ -63,7 +62,7 @@ public abstract class UserDataItemRVInteractionWrapper<T extends UserDataItemRVI
 		onView(withText(R.string.rename))
 				.perform(click());
 		onView(withId(R.id.input_edit_text))
-				.perform(clearText(), replaceText(newName), closeSoftKeyboard());
+				.perform(replaceText(newName), closeSoftKeyboard());
 		onView(withText(R.string.ok))
 				.perform(click());
 	}

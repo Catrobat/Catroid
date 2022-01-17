@@ -37,11 +37,10 @@ import static org.hamcrest.core.AllOf.allOf;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.pressBack;
-import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -88,7 +87,7 @@ public class BrickVariableSpinnerDataInteractionWrapper extends BrickSpinnerData
 
 	private static void enterTextOnDialogue(int editTextId, String textToEnter) {
 		onView(withId(editTextId))
-				.perform(clearText(), typeText(textToEnter), closeSoftKeyboard());
+				.perform(replaceText(textToEnter), closeSoftKeyboard());
 		onView(withId(android.R.id.button1))
 				.perform(click());
 	}
