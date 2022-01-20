@@ -32,8 +32,10 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.pocketmusic.note.NoteName;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import androidx.annotation.VisibleForTesting;
 import androidx.core.content.ContextCompat;
 
 public class PianoView extends ViewGroup {
@@ -190,30 +192,32 @@ public class PianoView extends ViewGroup {
 		}
 	}
 
-	public void setButtonColor(NoteName note, boolean active) {
+	public void setKeyColor(NoteName note, boolean active) {
 		int i = 0;
-		for (int counter = TrackView.HIGHEST_MIDI / TrackView.ROW_COUNT; counter <= TrackRowView.getMidiValueForRow(TrackView.ROW_COUNT);
-				counter += TrackView.HIGHEST_MIDI / TrackView.ROW_COUNT) {
-			NoteName tempNote = NoteName.getNoteNameFromMidiValue(counter);
+		for (; i <= TrackView.ROW_COUNT; i++) {
+			NoteName tempNote = NoteName.getNoteNameFromMidiValue(TrackRowView.getMidiValueForRow(i));
 			if (note.equals(tempNote)) {
 				break;
 			}
-			if (note.isSigned() == tempNote.isSigned()) {
-				i++;
-			}
 		}
-
 		View noteView;
-		if (note.isSigned()) {
-			noteView = blackPianoKeys.get(i);
+		Boolean isBlackKey = false;
+		int index = Arrays.binarySearch(TrackView.BLACK_KEY_INDICES, i);
+		if (index < 0) {
+			index = Arrays.binarySearch(TrackView.WHITE_KEY_INDICES, i);
+			if (index < 0) {
+				return;
+			}
+			noteView = whitePianoKeys.get(index);
 		} else {
-			noteView = whitePianoKeys.get(i);
+			noteView = blackPianoKeys.get(index);
+			isBlackKey = true;
 		}
 		if (active) {
 			noteView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.orange));
 		} else {
-			noteView.setBackgroundColor(ContextCompat.getColor(getContext(), note.isSigned() ? R.color.solid_black : R
-					.color.solid_white));
+			noteView.setBackgroundColor(ContextCompat.getColor(getContext(),
+					isBlackKey ? R.color.solid_black : R.color.solid_white));
 		}
 	}
 
@@ -223,6 +227,16 @@ public class PianoView extends ViewGroup {
 
 	private int round(float floatValue) {
 		return (int) (floatValue + 0.5f);
+	}
+
+	@VisibleForTesting
+	public List<TextView> getWhitePianoKeys() {
+		return whitePianoKeys;
+	}
+
+	@VisibleForTesting
+	public List<TextView> getBlackPianoKeys() {
+		return blackPianoKeys;
 	}
 
 	enum ButtonHeight {
