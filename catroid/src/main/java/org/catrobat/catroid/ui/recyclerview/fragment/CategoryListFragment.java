@@ -166,7 +166,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_logic_leserequal, R.string.formula_editor_logic_greaterthan,
 			R.string.formula_editor_logic_greaterequal);
 	private static final List<Integer> SENSORS_DEFAULT = asList(R.string.formula_editor_sensor_loudness,
-			R.string.formula_editor_function_touched);
+			R.string.formula_editor_function_touched, R.string.formula_editor_sensor_stage_width,
+			R.string.formula_editor_sensor_stage_height);
 	private static final List<Integer> OBJECT_COLOR_COLLISION =
 			asList(R.string.formula_editor_function_collides_with_color, R.string.formula_editor_function_color_touches_color);
 	private static final List<Integer> OBJECT_COLOR_PARAMS =
