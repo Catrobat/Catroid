@@ -1911,6 +1911,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_gamepad_down_pressed">gamepad down pressed</string>
     <string name="formula_editor_sensor_gamepad_left_pressed">gamepad left pressed</string>
     <string name="formula_editor_sensor_gamepad_right_pressed">gamepad right pressed</string>
+    <string name="formula_editor_sensor_stage_width">stage width</string>
+    <string name="formula_editor_sensor_stage_height">stage height</string>
     <string name="formula_editor_phiro_sensor_front_left">phiro front left sensor</string>
     <string name="formula_editor_phiro_sensor_front_right">phiro front right sensor</string>
     <string name="formula_editor_phiro_sensor_side_left">phiro side left sensor</string>
