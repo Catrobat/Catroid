@@ -373,6 +373,10 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				return listeningLanguageSensor;
 			case USER_LANGUAGE:
 				return userLocaleTag;
+			case STAGE_WIDTH:
+				return (double) ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
+			case STAGE_HEIGHT:
+				return (double) ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
 			default:
 				return instance.sensorValueMap.containsKey(sensor) ? instance.sensorValueMap.get(sensor) : 0.0d;
 		}
