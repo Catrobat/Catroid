@@ -17,7 +17,7 @@ class DockerParameters {
     def args = '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -v /var/local/container_shared/huawei:/home/user/huawei -m=14G'
     def label = 'LimitedEmulator'
 }
- 
+
 def d = new DockerParameters()
 
 def junitAndCoverage(String jacocoReportDir, String jacocoReportXml, String coverageName) {
@@ -74,8 +74,8 @@ pipeline {
         string name: 'DEBUG_LABEL', defaultValue: '', description: 'For debugging when entered will be used as label to decide on which slaves the jobs will run.'
         string name: 'DOCKER_LABEL', defaultValue: '', description: 'When entered will be used as label for docker catrobat/catroid-android image to build'
         separator(name: "TEST_STAGES", sectionHeader: "Test Stages - CAUTION: The PR needs to be rebuild again with all test stages enabled before Code Review!!",
-        			separatorStyle: "border-width: 0",
-			sectionHeaderStyle: """
+                separatorStyle: "border-width: 0",
+                sectionHeaderStyle: """
 				background-color: #ffff00;
 				text-align: center;
 				padding: 4px;
@@ -86,22 +86,27 @@ pipeline {
 				letter-spacing: 1px;
 				font-style: italic;
 			""")
-        booleanParam name: 'PULL_REQUEST_SUITE', defaultValue: true, description:'Disables Pull request suite'
-        booleanParam name: 'STANDALONE', defaultValue: true, description:'When selected, no standalone APK will be built'
-        booleanParam name: 'UNT_TESTS', defaultValue: true, description:'Disables Unit Tests'
-        booleanParam name: 'INSTRUMENTED_UNIT_TESTS', defaultValue: true, description:'Disables Instrumented Unit Tests'
-        booleanParam name: 'TESTRUNNER_TESTS', defaultValue: true, description:'Disables Testrunner Tests'
-        booleanParam name: 'QUARANTINED_TESTS', defaultValue: true, description:'Disables Quarantined Tests'
-        booleanParam name: 'RTL_TESTS', defaultValue: true, description:'Disables RTL Tests'
+        booleanParam name: 'PULL_REQUEST_SUITE', defaultValue: true, description: 'Enables Pull ' +
+                'request suite'
+        booleanParam name: 'STANDALONE', defaultValue: true, description: 'When selected, ' +
+                'standalone APK will be built'
+        booleanParam name: 'UNIT_TESTS', defaultValue: true, description: 'Enables Unit Tests'
+        booleanParam name: 'INSTRUMENTED_UNIT_TESTS', defaultValue: true, description: 'Enables ' +
+                'Instrumented Unit Tests'
+        booleanParam name: 'TESTRUNNER_TESTS', defaultValue: true, description: 'Enables ' +
+                'Testrunner Tests'
+        booleanParam name: 'QUARANTINED_TESTS', defaultValue: true, description: 'Enables ' +
+                'Quarantined Tests'
+        booleanParam name: 'RTL_TESTS', defaultValue: true, description: 'Enables RTL Tests'
     }
 
     options {
         timeout(time: 2, unit: 'HOURS')
         timestamps()
         buildDiscarder(logRotator(numToKeepStr: env.BRANCH_NAME == 'master' ? '10' :
-                                                env.BRANCH_NAME == 'develop' ? '5' : '2',
-                                  artifactNumToKeepStr: env.BRANCH_NAME == 'master' ? '2' :
-                                                        env.BRANCH_NAME == 'develop' ? '2' : '1'
+                env.BRANCH_NAME == 'develop' ? '5' : '2',
+                artifactNumToKeepStr: env.BRANCH_NAME == 'master' ? '2' :
+                        env.BRANCH_NAME == 'develop' ? '2' : '1'
         ))
     }
 
@@ -135,7 +140,7 @@ pipeline {
                                         if (additionalParameters) {
                                             currentBuild.description = "<p>Additional APK build parameters: <b>${additionalParameters.join(' ')}</b></p>"
                                         }
-                                        if(env.INCLUDE_HUAWEI_FILES?.toBoolean()) {
+                                        if (env.INCLUDE_HUAWEI_FILES?.toBoolean()) {
                                             sh "cp /home/user/huawei/agconnect-services.json catroid/src/agconnect-services.json"
                                         }
                                     }
@@ -150,8 +155,8 @@ pipeline {
                         }
 
                         stage('Standalone') {
-                            when{
-                                expression{params.STANDALONE == true}
+                            when {
+                                expression { params.STANDALONE == true }
                             }
                             steps {
                                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
@@ -186,11 +191,11 @@ pipeline {
                         }
 
                         stage('Unit Tests') {
-                            when{
-                                expression{params.UNT_TESTS == true}
+                            when {
+                                expression { params.UNIT_TESTS == true }
                             }
                             steps {
-                                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {                                   
+                                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                                     sh """./gradlew ${debugUnitTests()} -PenableCoverage jacocoTestCatroidDebugUnitTestReport --full-stacktrace"""
                                     sh 'mkdir -p catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport/'
                                     sh 'touch catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport/jacocoTestCatroidDebugUnitTestReport.xml'
@@ -200,8 +205,8 @@ pipeline {
                         }
 
                         stage('Instrumented Unit Tests') {
-                            when{
-                                expression{params.INSTRUMENTED_UNIT_TESTS == true}
+                            when {
+                                expression { params.INSTRUMENTED_UNIT_TESTS == true }
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
@@ -219,8 +224,8 @@ pipeline {
                         }
 
                         stage('Testrunner Tests') {
-                            when{
-                                expression{params.TESTRUNNER_TESTS == true}
+                            when {
+                                expression { params.TESTRUNNER_TESTS == true }
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
@@ -238,8 +243,8 @@ pipeline {
                         }
 
                         stage('Quarantined Tests') {
-                            when{
-                                expression {params.QUARANTINED_TESTS == true}
+                            when {
+                                expression { params.QUARANTINED_TESTS == true }
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
@@ -256,9 +261,9 @@ pipeline {
                             }
                         }
 
-                        stage('RTL Tests') {                       
+                        stage('RTL Tests') {
                             when {
-                                expression {params.RTL_TESTS == true}
+                                expression { params.RTL_TESTS == true }
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
@@ -297,10 +302,10 @@ pipeline {
                     stages {
                         stage('Pull Request Suite') {
                             when {
-                                expression {params.PULL_REQUEST_SUITE == true}
+                                expression { params.PULL_REQUEST_SUITE == true }
                             }
                             steps {
-                                catchError(buildResult: 'FAILURE' ,stageResult: 'FAILURE') {
+                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                                     sh '''./gradlew copyAndroidNatives -PenableCoverage -PlogcatFile=pull_request_suite_logcat.txt -Pemulator=android28 \
                                             startEmulator createCatroidDebugAndroidTestCoverageReport \
                                             -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite'''
