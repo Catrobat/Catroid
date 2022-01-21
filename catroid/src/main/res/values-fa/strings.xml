@@ -587,10 +587,10 @@
     <!--  -->
     <!-- Terms of Use Dialog -->
     <string name="dialog_terms_of_use_title">شرایط استفاده و خدمات</string>
-    <string name="dialog_terms_of_use_info">In order to
-        be allowed to use the apps and other services offered by the Catrobat project, you
-        must agree to our Terms of Use and Service. You have to follow these terms strictly when using our apps
-        and other services. Please see the link below for their precise formulation.\n</string>
+    <string name="dialog_terms_of_use_info">برای اینکه بتوانید 
+        از برنامه ها و سایر خدمات ارائه شده توسط پروژه کاتروبات استفاده کنید، 
+        باید با شرایط استفاده و خدمات ما موافقت کنید. هنگام استفاده از برنامه ها 
+        و سایر خدمات ما باید این شرایط را به شدت رعایت کنید. لطفا لینک زیر را برای فرمول دقیق آنها ببینید.\n</string>
     <string name="dialog_terms_of_use_link_text">شرایط استفاده و خدمات</string>
     <!--  -->
     <!-- Privacy Policy -->
@@ -599,10 +599,10 @@
     <!-- -->
     <!-- About Dialog -->
     <string name="dialog_about_title">درباره این برنامه</string>
-    <string name="dialog_about_license_info">This app offers a coding
-        environment and interpreter for the visual programming language Catrobat.\n
-        The source code of this app is mainly licensed under the GNU AGPL v3 license.
-        For further details on the license see the link below.\n</string>
+    <string name="dialog_about_license_info">این برنامه یک 
+        محیط برنامه نویسی و مفسر برای زبان برنامه نویسی بصری Catrobat ارائه می دهد.\n
+        کد منبع این برنامه عمدتاً تحت مجوز GNU AGPL v3 است.
+        برای جزئیات بیشتر در مورد مجوز به پیوند زیر مراجعه کنید.\n</string>
     <string name="dialog_about_license_link_text">مجوز کد منبع</string>
     <string name="dialog_about_catrobat_link_text">درباره کاتروبات Catrobat</string>
     <string name="dialog_about_catrobat_language_version">نسخه زبان کاتروبات</string>
@@ -684,8 +684,7 @@
     <string name="error_register_username_as_email">آدرس ایمیل را نمی توان به عنوان نام کاربری استفاده کرد</string>
     <string name="error_register_invalid_username">Username should only contain letters (a–z), numbers (0–9),
         dashes (-), underscores (_), and periods (.).</string>
-    <string name="error_register_username_start_with">Username should not start with dashes (-), underscores (_), or
-        periods (.).</string>
+    <string name="error_register_username_start_with">نام کاربری نباید با خط تیره (-)، زیرخط (_)، یا نقطه         (.) شروع شود.</string>
     <string name="error_register_invalid_email_format">قالب ایمیل نامعتبر است</string>
     <string name="error_register_empty_password">قسمت رمز عبور خالی است</string>
     <string name="error_register_password_at_least_6_characters">رمز عبور باید حداقل 6 کاراکتر باشد</string>
@@ -705,30 +704,29 @@
     <string name="pocket_music_default_track_name">آهنگ ۱</string>
     <!--  -->
     <!-- Resource initialization fka PrestageActivity -->
-    <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to
-        install it?</string>
+    <string name="prestage_text_to_speech_engine_not_installed">موتور تبدیل متن به گفتار نصب نشده است!\n آیا می
+         خواهید آن را نصب کنید؟</string>
     <string name="prestage_resource_not_available_title">جزء موجود نیست</string>
-    <string name="prestage_resource_not_available_text">Unfortunately this project does not work on your device.
-        The following components are unavailable:\n\n</string>
+    <string name="prestage_resource_not_available_text">متأسفانه این پروژه روی دستگاه شما کار نمی کند.
+        اجزای زیر در دسترس نیستند:\n\n</string>
     <string name="prestage_no_vibration_available">\u2022 لرزش\n</string>
-    <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
-    <string name="prestage_no_inclination_sensor_available">\u2022 Inclination sensor\n</string>
-    <string name="prestage_no_compass_sensor_available">\u2022 Compass\n</string>
-    <string name="prestage_no_gps_sensor_available">\u2022 Geolocation\n</string>
-    <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
-    <string name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
-    <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
-    <string name="prestage_no_object_detection_available">\u2022 Object recognition\n</string>
-    <string name="prestage_no_pose_detection_available">\u2022 Pose detection\n</string>
-    <string name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
-    <string name="prestage_no_front_camera_available">\u2022 Front camera\n</string>
-    <string name="prestage_no_camera_available">\u2022 Camera\n</string>
-    <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
-    <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
+    <string name="prestage_no_acceleration_sensor_available">\u2022 سنسور شتاب \n</string>
+    <string name="prestage_no_inclination_sensor_available">\u2022 سنسور شیب\n</string>
+    <string name="prestage_no_compass_sensor_available">\u2022 قطب نما\n</string>
+    <string name="prestage_no_gps_sensor_available">\u2022 موقعیت جغرافیایی\n</string>
+    <string name="prestage_text_to_speech_error">\u2022 موتور تبدیل متن به گفتار\n</string>
+    <string name="prestage_no_back_camera_available">\u2022 دوربین عقب\n</string>
+    <string name="prestage_no_face_detection_available">\u2022 شناسایی چهره\n</string>
+    <string name="prestage_no_object_detection_available">\u2022 تشخیص شی\n</string>
+    <string name="prestage_no_pose_detection_available">\u2022 تشخیص پوس\n</string>
+    <string name="prestage_no_text_detection_available">\u2022 تشخیص متن\n</string>
+    <string name="prestage_no_front_camera_available">\u2022 دوربین جلو\n</string>
+    <string name="prestage_no_camera_available">\u2022 دوربین\n</string>
+    <string name="prestage_no_flash_available">\u2022 چراغ قوه\n</string>
+    <string name="prestage_default_resource_not_available">\u2022 جزء ناشناخته\n</string>
     <string name="no_nfc_available">NFC در دسترس نیست</string>
     <string name="nfc_not_activated">لطفاً NFC را فعال کنید و بازگشت را فشار دهید تا به برنامه بازگردید.</string>
-    <string name="nfc_facedetection_support">Using NFC and face detection at the same time might lead to performance
-        issues.</string>
+    <string name="nfc_facedetection_support">استفاده از NFC و تشخیص چهره به طور همزمان ممکن است منجر به         مشکلات عملکرد شود.</string>
     <!--  -->
     <!-- Stage menu dialog -->
     <string name="stage_dialog_back">بازگشت</string>
@@ -908,8 +906,7 @@
     <string name="brick_start_listening_to_voice">شروع به گوش دادن به صدا کنید و کلمات گفتاری را در آن ذخیره کنید</string>
     <string name="speech_recognition_not_available">تشخیص گفتار در دسترس نیست.</string>
     <string name="speech_recognition_offline_mode_error_dialog_title">داده های آفلاین وجود ندارد</string>
-    <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">Offline speech recognition
-    for %s is missing or needs to be updated. Would you like to download or update it now?</string>
+    <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">تشخیص     گفتار آفلاین برای %s وجود ندارد یا باید به‌روزرسانی شود. آیا می خواهید اکنون آن را دانلود یا به روز کنید؟</string>
     <string name="brick_set_listening_language">زبان گوش دادن را تنظیم کنید</string>
     <string name="set_instrument_to">تنظیم ابزار به</string>
     <string name="set_tempo_to">تنظیم سرعت به</string>
@@ -999,7 +996,7 @@
         <item quantity="other">در متغیری با همین نام ذخیره می شود</item>
     </plurals>
     <plurals name="list_selection_plural">
-        <item quantity="other">%d lists selected</item>
+        <item quantity="other">%d لیست انتخاب شده است</item>
     </plurals>
     <plurals name="time_plural">
         <item quantity="other">زمان</item>
@@ -1016,7 +1013,7 @@
     <string name="brick_write_variable_to_file_top">متغیر بنویس</string>
     <string name="brick_write_variable_to_file_bottom">برای تشکیل پرونده</string>
     <string name="brick_write_variable_to_file_default_value">variable.txt</string>
-    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
+    <string name="brick_write_variable_to_file_success">"داده ها با موفقیت در %1$s نوشته شد"</string>
     <string name="brick_read_variable_from_file_top">متغیر را بخوانید</string>
     <string name="brick_read_variable_from_file_center">از فایل</string>
     <string name="brick_read_variable_from_file_bottom">و</string>
@@ -1050,18 +1047,13 @@
         be extremely dangerous.
     </string>
     <string name="web_request_trust_domain_warning_title">همیشه دسترسی به وب مجاز باشد؟</string>
-    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
-        not be asked again to confirm web addresses from this domain.
-    </string>
-    <string name="trusted_domains_edit_hint">If you want to revoke this permission
-        later, you can remove the entry from the list of trusted domains in
-        the settings of this app.
-    </string>
+    <string name="web_request_trust_domain_warning_message">با اجازه دادن همیشه به دسترسی، دیگر از شما         خواسته نمی شود آدرس های وب را از این دامنه تأیید کنید.    </string>
+    <string name="trusted_domains_edit_hint">اگر می خواهید بعداً         این مجوز را لغو کنید، می توانید ورودی         را از لیست دامنه های مورد اعتماد در تنظیمات این برنامه حذف کنید.    </string>
     <string name="brick_look_request">دریافت تصویر از</string>
     <string name="brick_look_request_result">و به عنوان ظاهر فعلی استفاده کنید</string>
     <string name="brick_background_request_result">و به عنوان پس زمینه فعلی استفاده کنید</string>
-    <string name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
-    <string name="look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
+    <string name="look_request_http_error_message">"دریافت تصویر از %1$s خطای HTTP %2$s را برگرداند"</string>
+    <string name="look_request_type_error_message">"دریافت تصویر از %1$s نتوانست قالب تصویر شناسایی شده را بازیابی کند"</string>
     <string name="brick_store_csv_into_userlist_store">ستون فروشگاه</string>
     <string name="brick_store_csv_into_userlist_of">از</string>
     <string name="brick_store_csv_into_userlist_csv">مقادیر جدا شده با کاما</string>
@@ -1126,41 +1118,41 @@
     <string name="default_project_sprites_animal_wings_up">بال بالا</string>
     <string name="default_project_sprites_animal_wings_down">بالها پایین</string>
     <string name="default_project_sprites_tweet_1">توییت 1</string>
-    <string name="default_project_sprites_tweet_2">Tweet2</string>
+    <string name="default_project_sprites_tweet_2">توییت 2</string>
     <!--suppress UnusedResources -->
-    <string name="default_project_needle_name">Needle</string>
+    <string name="default_project_needle_name">سوزن</string>
     <!--suppress UnusedResources -->
-    <string name="default_project_outer_loop">Outer Loop</string>
+    <string name="default_project_outer_loop">حلقه بیرونی</string>
     <!--suppress UnusedResources -->
-    <string name="default_project_inner_loop">Inner Loop</string>
+    <string name="default_project_inner_loop">حلقه داخلی</string>
     <!-- Default ChromeCast Values -->
     <string name="default_cast_project_background_name">پس زمینه</string>
     <string name="default_cast_project_cloud_name">ابرها</string>
     <string name="default_cast_project_cloud_sprite_name1">ابرها 1</string>
     <string name="default_cast_project_cloud_sprite_name2">ابرها 2</string>
-    <string name="default_cast_project_sprites_bird_name">Bird</string>
-    <string name="default_cast_project_sprites_bird_name_wing_up">Bird Wings up</string>
-    <string name="default_cast_project_sprites_bird_name_wing_down">Bird Wings down</string>
-    <string name="default_cast_project_sprites_bird_name_wing_up_left">Bird Wings up left</string>
-    <string name="default_cast_project_sprites_bird_name_wing_down_left">Bird Wings down left</string>
+    <string name="default_cast_project_sprites_bird_name">پرنده</string>
+    <string name="default_cast_project_sprites_bird_name_wing_up">بال پرنده بالاست</string>
+    <string name="default_cast_project_sprites_bird_name_wing_down">بال پرنده پایین</string>
+    <string name="default_cast_project_sprites_bird_name_wing_up_left">بال پرنده به سمت چپ</string>
+    <string name="default_cast_project_sprites_bird_name_wing_down_left">بال پرنده پایین سمت چپ</string>
     <string name="default_cast_project_sprites_tweet_1">توییت 1</string>
-    <string name="default_cast_project_sprites_tweet_2">Tweet2</string>
+    <string name="default_cast_project_sprites_tweet_2">توییت 2</string>
     <string name="default_cast_project_var_direction">جهت</string>
-    <string name="default_cast_project_name">My first Chromecast project</string>
+    <string name="default_cast_project_name">اولین پروژه Chromecast من</string>
     <!-- Default Drone Values -->
     <string name="drone_brick_set_text">متن</string>
     <string name="drone_brick_set_x">X:</string>
     <!--  -->
     <!-- Drone config spinner values  -->
-    <string name="drone_config_indoor_with_hull">indoor with hull</string>
-    <string name="drone_config_indoor_without_hull">indoor without hull</string>
-    <string name="drone_config_outdoor_with_hull">outdoor with hull</string>
-    <string name="drone_config_outdoor_without_hull">outdoor without hull</string>
+    <string name="drone_config_indoor_with_hull">داخل ساختمان با بدنه</string>
+    <string name="drone_config_indoor_without_hull">سرپوشیده بدون بدنه</string>
+    <string name="drone_config_outdoor_with_hull">فضای باز با بدنه</string>
+    <string name="drone_config_outdoor_without_hull">فضای باز بدون بدنه</string>
     <!-- Drone altitude limit values  -->
-    <string name="drone_set_altitude_max_3m">3 meters</string>
-    <string name="drone_set_altitude_max_5m">5 meters</string>
-    <string name="drone_set_altitude_max_10m">10 meters</string>
-    <string name="drone_set_altitude_max_100m">100 meters</string>
+    <string name="drone_set_altitude_max_3m">3 متر</string>
+    <string name="drone_set_altitude_max_5m">5 متر</string>
+    <string name="drone_set_altitude_max_10m">10 متر</string>
+    <string name="drone_set_altitude_max_100m">100 متر</string>
     <!-- Drone max vertical speed limit values  -->
     <string name="drone_set_vertical_min">200 میلی متر بر ثانیه</string>
     <string name="drone_set_vertical_indoor">700 میلی متر بر ثانیه</string>
@@ -1230,50 +1222,50 @@
     <!--  -->
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">بلوتوث فعال نمی‌شود، لطفاً آن را خاموش و دوباره روشن کنید.</string>
-    <string name="title_paired_devices">Paired devices</string>
-    <string name="title_other_devices">New devices</string>
-    <string name="searching_devices">Looking for devices&#8230;</string>
-    <string name="button_scan">Search Bluetooth devices</string>
-    <string name="button_skip">Skip Bluetooth connection</string>
-    <string name="select_device">Select device:</string>
-    <string name="connecting_please_wait">Connecting to your device.\nPlease wait&#8230;</string>
+    <string name="title_paired_devices">دستگاه های جفت شده</string>
+    <string name="title_other_devices">دستگاه های جدید</string>
+    <string name="searching_devices">در حال جستجو برای دستگاه‌ها&#8230;</string>
+    <string name="button_scan">جستجوی دستگاه های بلوتوث</string>
+    <string name="button_skip">رد شدن از اتصال بلوتوث</string>
+    <string name="select_device">وسیله را انتخاب کن:</string>
+    <string name="connecting_please_wait">در حال اتصال به دستگاه شما.\لطفاً صبر کنید&#8230;</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
-    <string name="bt_connection_failed">Connection to device failed!</string>
-    <string name="none_found">No unpaired devices found</string>
-    <string name="none_paired">No paired devices found</string>
+    <string name="bt_connection_failed">اتصال به دستگاه انجام نشد!</string>
+    <string name="none_found">دستگاه جفت نشده ای پیدا نشد</string>
+    <string name="none_paired">دستگاه جفت شده ای پیدا نشد</string>
     <!--  -->
     <!-- Arduino Bricks -->
-    <string name="brick_arduino_select_digital_value">Set Arduino digital pin</string>
-    <string name="brick_arduino_select_analog_value">Set Arduino PWM~ pin</string>
+    <string name="brick_arduino_select_digital_value">پین دیجیتال آردوینو را تنظیم کنید</string>
+    <string name="brick_arduino_select_analog_value">پین Arduino PWM~ را تنظیم کنید</string>
     <string name="brick_arduino_set_pin_value_to">به</string>
     <!--  -->
     <!-- Raspi Bricks -->
-    <string name="brick_raspi_select_digital_value">Set Raspberry Pi pin</string>
+    <string name="brick_raspi_select_digital_value">پین Raspberry Pi را تنظیم کنید</string>
     <string name="brick_raspi_set_pin_value_to">به</string>
-    <string name="brick_raspi_if_begin">If Raspberry Pi pin</string>
+    <string name="brick_raspi_if_begin">اگر رزبری پای پین</string>
     <string name="brick_raspi_if_begin_second_part">اگر درست است پس بعد</string>
-    <string name="brick_raspi_when_begin">When Raspberry Pi pin</string>
-    <string name="brick_raspi_when_equals">changes to</string>
-    <string name="brick_raspi_pressed_text">high</string>
-    <string name="brick_raspi_released_text">low</string>
-    <string name="brick_raspi_set_pwm">Set Raspberry Pi PWM pin</string>
+    <string name="brick_raspi_when_begin">وقتی Raspberry Pi پین می شود</string>
+    <string name="brick_raspi_when_equals">تغییرات</string>
+    <string name="brick_raspi_pressed_text">بالا</string>
+    <string name="brick_raspi_released_text">کم</string>
+    <string name="brick_raspi_set_pwm">پین PWM Raspberry Pi را تنظیم کنید</string>
     <!--  -->
     <!-- Raspi Settings -->
-    <string name="raspi_settings_title_name">Raspberry Pi settings</string>
-    <string name="raspi_settings_gpio_version">GPIO Version</string>
-    <string name="error_connecting_to">Error: Could not connect to %s : %d</string>
+    <string name="raspi_settings_title_name">تنظیمات Raspberry Pi</string>
+    <string name="raspi_settings_gpio_version">نسخه GPIO</string>
+    <string name="error_connecting_to">خطا: اتصال به %s امکان‌پذیر نیست: %d</string>
     <!--  -->
     <!-- Lego Mindstorms Strings -->
-    <string name="nxt_brick_motor_move">Set NXT motor</string>
+    <string name="nxt_brick_motor_move">موتور NXT را تنظیم کنید</string>
     <string name="nxt_motor_speed_to">به</string>
-    <string name="nxt_motor_speed">speed</string>
-    <string name="nxt_brick_motor_turn_angle">Turn NXT motor</string>
+    <string name="nxt_motor_speed">سرعت</string>
+    <string name="nxt_brick_motor_turn_angle">موتور NXT را بچرخانید</string>
     <string name="nxt_motor_move_by">توسط</string>
-    <string name="nxt_motor_stop">Stop NXT motor</string>
-    <string name="nxt_play_tone">Play NXT tone</string>
+    <string name="nxt_motor_stop">موتور NXT را متوقف کنید</string>
+    <string name="nxt_play_tone">صدای NXT را پخش کنید</string>
     <string name="nxt_tone_duration">مدت زمان</string>
-    <string name="nxt_tone_frequency">Frequency</string>
-    <string name="nxt_tone_hundred_hz">×100Hz</string>
+    <string name="nxt_tone_frequency">فرکانس</string>
+    <string name="nxt_tone_hundred_hz">× 100 هرتز</string>
     <string name="nxt_motor_a">A</string>
     <string name="nxt_motor_b">B</string>
     <string name="nxt_motor_c">C</string>
@@ -1284,20 +1276,17 @@
     <string name="nxt_choose_sensor_3">سنسور روی پورت 3 وصل شده است</string>
     <string name="nxt_choose_sensor_4">سنسور روی پورت 4 متصل است</string>
     <string name="nxt_no_sensor">هیچ یک</string>
-    <string name="nxt_sensor_touch">NXT touch sensor</string>
+    <string name="nxt_sensor_touch">حسگر لمسی NXT</string>
     <string name="nxt_sensor_sound">سنسور صدای NXT</string>
     <string name="nxt_sensor_light">سنسور نور NXT</string>
     <string name="nxt_sensor_light_active">سنسور نور NXT فعال است</string>
     <string name="nxt_sensor_ultrasonic">سنسور اولتراسونیک NXT</string>
-    <string name="nxt_sensor_not_found">Sensor not found!</string>
-    <string name="lego_nxt_sensor_config_info_title">NXT sensor configuration</string>
-    <string name="preference_disable_nxt_info_dialog">Disable info dialog</string>
-    <string name="preference_disable_nxt_info_dialog_description">Project specific NXT settings are not shown when
-        opening a project.</string>
-    <string name="preference_title_mindstorms_nxt_sensors_description">The mapping of NXT sensors to ports is project
-        specific and can only be configured for opened projects.</string>
-    <string name="lego_nxt_sensor_config_info_text">The current project uses Lego Mindstorms NXT bricks or sensors. For
-        proper functionality please connect the sensors to the robot as follows</string>
+    <string name="nxt_sensor_not_found">سنسور پیدا نشد!</string>
+    <string name="lego_nxt_sensor_config_info_title">پیکربندی حسگر NXT</string>
+    <string name="preference_disable_nxt_info_dialog">غیرفعال کردن گفتگوی اطلاعات</string>
+    <string name="preference_disable_nxt_info_dialog_description">تنظیمات NXT خاص پروژه هنگام باز کردن یک         پروژه نشان داده نمی شود.</string>
+    <string name="preference_title_mindstorms_nxt_sensors_description">نگاشت حسگرهای NXT به پورت ها مختص پروژه است و فقط برای پروژه های         باز شده قابل پیکربندی است.</string>
+    <string name="lego_nxt_sensor_config_info_text">پروژه فعلی از آجرها یا حسگرهای Lego Mindstorms NXT استفاده می کند. برای         عملکرد مناسب لطفا حسگرها را به صورت زیر به ربات متصل کنید</string>
     <string name="lego_port_1">پورت 1</string>
     <string name="lego_port_2">پورت 2</string>
     <string name="lego_port_3">پورت 3</string>
@@ -1355,68 +1344,68 @@
     <string name="brick_drone_takeoff_land">برخاستن / فرود AR.Drone 2.0</string>
     <string name="brick_drone_play_led_animation">انیمیشن فلش AR.Drone 2.0 را پخش کنید</string>
     <string name="brick_drone_flip">Flip AR.Drone 2.0</string>
-    <string name="brick_drone_move_left">Move AR.Drone 2.0 left</string>
-    <string name="brick_drone_move_right">Move AR.Drone 2.0 right</string>
-    <string name="brick_drone_move_forward">Move AR.Drone 2.0 forward</string>
-    <string name="brick_drone_move_backward">Move AR.Drone 2.0 backward</string>
-    <string name="brick_drone_move_up">Move AR.Drone 2.0 up</string>
-    <string name="brick_drone_move_down">Move AR.Drone 2.0 down</string>
-    <string name="brick_drone_emergency">Emergency AR.Drone 2.0</string>
-    <string name="brick_drone_turn_right">Turn AR.Drone 2.0 right</string>
-    <string name="brick_drone_turn_left">Turn AR.Drone 2.0 left</string>
-    <string name="brick_drone_set_config">Set config AR.Drone 2.0</string>
-    <string name="brick_drone_switch_camera">Switch AR.Drone 2.0 camera</string>
-    <string name="brick_drone_set_altitude">Altitude limit </string>
-    <string name="brick_drone_set_vertical_speed">Vertical speed limit</string>
-    <string name="brick_drone_set_rotation_speed">Rotation speed limit</string>
-    <string name="brick_drone_set_tilt_limit">Tilt limit</string>
+    <string name="brick_drone_move_left">AR.Drone 2.0 را به چپ منتقل کنید</string>
+    <string name="brick_drone_move_right">AR.Drone 2.0 را به سمت راست حرکت دهید</string>
+    <string name="brick_drone_move_forward">AR.Drone 2.0 را به جلو حرکت دهید</string>
+    <string name="brick_drone_move_backward">AR.Drone 2.0 را به عقب ببرید</string>
+    <string name="brick_drone_move_up">AR.Drone 2.0 را به بالا ببرید</string>
+    <string name="brick_drone_move_down">AR.Drone 2.0 را به بالا ببرید</string>
+    <string name="brick_drone_emergency">اضطراری AR.Drone 2.0</string>
+    <string name="brick_drone_turn_right">AR.Drone 2.0 را به راست بپیچید</string>
+    <string name="brick_drone_turn_left">AR.Drone 2.0 را به چپ بپیچید</string>
+    <string name="brick_drone_set_config">تنظیم پیکربندی AR.Drone 2.0</string>
+    <string name="brick_drone_switch_camera">دوربین AR.Drone 2.0 را تغییر دهید</string>
+    <string name="brick_drone_set_altitude">محدودیت ارتفاع </string>
+    <string name="brick_drone_set_vertical_speed">محدودیت سرعت عمودی</string>
+    <string name="brick_drone_set_rotation_speed">محدودیت سرعت چرخش</string>
+    <string name="brick_drone_set_tilt_limit">محدودیت شیب</string>
     <string name="brick_drone_with.">با</string>
     <string name="brick_drone_power">قدرت</string>
     <!--  -->
     <!-- Drone play led animation strings -->
-    <string name="drone_animation_blinkgreenred">Blink green red</string>
-    <string name="drone_animation_blinkgreen">Blink green</string>
-    <string name="drone_animation_blinkred">Blink red</string>
-    <string name="drone_animation_blinkorange">Blink orange</string>
-    <string name="drone_animation_snakegreenred">Snake green red</string>
-    <string name="drone_animation_fire">Fire</string>
-    <string name="drone_animation_standard">Standard</string>
+    <string name="drone_animation_blinkgreenred">سبز چشمک زدن قرمز</string>
+    <string name="drone_animation_blinkgreen">سبز چشمک بزن</string>
+    <string name="drone_animation_blinkred">قرمز چشمک بزن</string>
+    <string name="drone_animation_blinkorange">نارنجی چشمک بزن</string>
+    <string name="drone_animation_snakegreenred">قرمز سبز مار</string>
+    <string name="drone_animation_fire">آتش</string>
+    <string name="drone_animation_standard">استاندارد</string>
     <string name="drone_animation_red">سرخ</string>
     <string name="drone_animation_green">سبز</string>
-    <string name="drone_animation_redsnake">Red snake</string>
-    <string name="drone_animation_blank">Blank</string>
-    <string name="drone_animation_rightmissile">Right missile</string>
-    <string name="drone_animation_leftmissile">Left missile</string>
-    <string name="drone_animation_doublemissile">Double missile</string>
-    <string name="drone_animation_frontleftgreenothersred">Front left green others red</string>
-    <string name="drone_animation_frontrightgreenothersred">Front right green others red</string>
-    <string name="drone_animation_rearrightgreenothersred">Rear right green others red</string>
-    <string name="drone_animation_rearleftgreenothersred">Rear left green others red</string>
-    <string name="drone_animation_leftgreenrightred">Left green right red</string>
-    <string name="drone_animation_leftredrightgreen">Left red right green</string>
-    <string name="drone_animation_blinkstandard">Blink standard</string>
+    <string name="drone_animation_redsnake">مار قرمز</string>
+    <string name="drone_animation_blank">جای خالی</string>
+    <string name="drone_animation_rightmissile">موشک سمت راست</string>
+    <string name="drone_animation_leftmissile">موشک سمت چپ</string>
+    <string name="drone_animation_doublemissile">موشک دوبل</string>
+    <string name="drone_animation_frontleftgreenothersred">جلو چپ سبز بقیه قرمز</string>
+    <string name="drone_animation_frontrightgreenothersred">جلوی سمت راست سبز بقیه قرمز</string>
+    <string name="drone_animation_rearrightgreenothersred">سمت راست سبز بقیه قرمز</string>
+    <string name="drone_animation_rearleftgreenothersred">پشت چپ سبز بقیه قرمز</string>
+    <string name="drone_animation_leftgreenrightred">چپ سبز سمت راست قرمز</string>
+    <string name="drone_animation_leftredrightgreen">سمت چپ قرمز راست سبز</string>
+    <string name="drone_animation_blinkstandard">استاندارد چشمک زدن</string>
     <!-- Jumping Sumo Bricks -->
-    <string name="brick_jumping_sumo_move_forward">Move Jumping Sumo forward</string>
-    <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
-    <string name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
-    <string name="brick_jumping_sumo_no_sound">No Jumping Sumo sound</string>
-    <string name="brick_jumping_sumo_jump_long">Jump Jumping Sumo long</string>
-    <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
-    <string name="brick_jumping_sumo_rotate_left">Turn Jumping Sumo left</string>
-    <string name="brick_jumping_sumo_rotate_right">Turn Jumping Sumo right</string>
+    <string name="brick_jumping_sumo_move_forward">Jumping Sumo را به جلو حرکت دهید</string>
+    <string name="brick_jumping_sumo_move_backward">Jumping Sumo را به عقب حرکت دهید</string>
+    <string name="brick_jumping_sumo_animation">انیمیشن های پرش سومو</string>
+    <string name="brick_jumping_sumo_no_sound">بدون صدای پرش سومو</string>
+    <string name="brick_jumping_sumo_jump_long">پرش طولانی سومو</string>
+    <string name="brick_jumping_sumo_jump_high">پرش سومو به بالا</string>
+    <string name="brick_jumping_sumo_rotate_left">جامپینگ سومو را به چپ بپیچید</string>
+    <string name="brick_jumping_sumo_rotate_right">جامپینگ سومو را به راست بپیچید</string>
     <string name="brick_jumping_sumo_rotate_text">درجه</string>
-    <string name="brick_jumping_sumo_turn">Flip Jumping Sumo</string>
-    <string name="brick_jumping_sumo_taking_picture">Taking picture Jumping Sumo</string>
+    <string name="brick_jumping_sumo_turn">سومو پرش تلنگر</string>
+    <string name="brick_jumping_sumo_taking_picture">گرفتن عکس در حال پریدن سومو</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
     <string name="default_jumping_sumo_project_sprites_sound">صدا</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
-    <string name="animation_spin">Spin</string>
-    <string name="animation_tab">Tab</string>
-    <string name="animation_slowshake">Slowshake</string>
-    <string name="animation_metronome">Metronome</string>
-    <string name="animation_ondulation">Ondulation</string>
+    <string name="animation_spin">چرخش</string>
+    <string name="animation_tab">برگه</string>
+    <string name="animation_slowshake">آهسته شیک</string>
+    <string name="animation_metronome">مترونوم</string>
+    <string name="animation_ondulation">غده سازی</string>
     <string name="animation_spinjump">اسپین جامپ</string>
     <string name="animation_spiral">مارپیچ</string>
     <string name="animation_slalom">اسلالوم</string>
@@ -1534,27 +1523,27 @@
     <string name="formula_editor_function_max_parameter">(5،4)</string>
     <string name="formula_editor_function_min">حداقل از</string>
     <string name="formula_editor_function_min_parameter">(7،2)</string>
-    <string name="formula_editor_function_if_then_else">if then else</string>
-    <string name="formula_editor_function_if_then_else_parameter">(false, 2, 3)</string>
+    <string name="formula_editor_function_if_then_else">اگر پس دیگر</string>
+    <string name="formula_editor_function_if_then_else_parameter">(نادرست، 2، 3)</string>
     <string name="formula_editor_function_true">واقعی</string>
     <string name="formula_editor_function_false">اشتباه</string>
     <string name="formula_editor_function_length">طول</string>
-    <string name="formula_editor_function_length_parameter">(\'hello world\')</string>
+    <string name="formula_editor_function_length_parameter">(\'سلام دنیا\')</string>
     <string name="formula_editor_function_letter">حرف</string>
-    <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
+    <string name="formula_editor_function_letter_parameter">(1، \"سلام دنیا\")</string>
     <string name="formula_editor_function_join">پیوست</string>
-    <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
+    <string name="formula_editor_function_join_parameter">(\'سلام\'، \'دنیا\')</string>
     <string name="formula_editor_function_join3">پیوست</string>
     <string name="formula_editor_function_join3_parameter">(\'hello\',\' world\',\'!\')</string>
     <string name="formula_editor_function_regex">عبارت منظم</string>
     <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
-    <string name="formula_editor_function_regex_assistant">Regular expression
-        assistant</string>
-    <string name="formula_editor_dialog_regular_expression_assistant_title">Regular
-        expression assistant</string>
+    <string name="formula_editor_function_regex_assistant">دستیار 
+        بیان منظم</string>
+    <string name="formula_editor_dialog_regular_expression_assistant_title">دستیار 
+        بیان منظم</string>
     <string name="formula_editor_dialog_wiki_button">اطلاعات بیشتر</string>
-    <string name="formula_editor_function_regex_html_extractor_not_found">The keyword could not be found.</string>
-    <string name="formula_editor_function_regex_json_extractor_title">JSON extractor</string>
+    <string name="formula_editor_function_regex_html_extractor_not_found">کلمه کلیدی پیدا نشد</string>
+    <string name="formula_editor_function_regex_json_extractor_title">استخراج کننده JSON</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino digital pin</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino analog pin</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry pi pin</string>
@@ -1566,8 +1555,8 @@
     <string name="formula_editor_function_multi_finger_y">لمس مرحله y</string>
     <string name="formula_editor_function_is_multi_finger_touching">مرحله لمس شد</string>
     <string name="formula_editor_function_index_of_last_finger">آخرین شاخص لمسی مرحله</string>
-    <string name="formula_editor_function_number_of_current_touches">number of current touches</string>
-    <string name="formula_editor_function_index_of_current_touch">index of current touch</string>
+    <string name="formula_editor_function_number_of_current_touches">تعداد لمس های فعلی</string>
+    <string name="formula_editor_function_index_of_current_touch">شاخص لمس فعلی</string>
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(1)</string>
     <string name="formula_editor_function_list_item">اقلام</string>
@@ -1578,50 +1567,50 @@
     <string name="formula_editor_function_index_of_item_parameter">(1,*list name*)</string>
     <string name="formula_editor_function_number_of_items">تعداد اقلام</string>
     <string name="formula_editor_function_number_of_items_parameter">(*list name*)</string>
-    <string name="formula_editor_function_flatten">flatten</string>
+    <string name="formula_editor_function_flatten">صاف کردن</string>
     <string name="formula_editor_function_flatten_parameter">(*list name*)</string>
-    <string name="formula_editor_function_collision">touches actor or object</string>
-    <string name="formula_editor_function_collides_with_edge">touches edge</string>
-    <string name="formula_editor_function_touched">touches finger</string>
-    <string name="formula_editor_function_collides_with_color">touches color</string>
-    <string name="formula_editor_function_color_touches_color">color touches color</string>
-    <string name="formula_editor_sensor_color_at_x_y">color at x y</string>
-    <string name="formula_editor_sensor_color_equals_color">color equals color with %
-        tolerance</string>
+    <string name="formula_editor_function_collision">بازیگر یا شی را لمس می کند</string>
+    <string name="formula_editor_function_collides_with_edge">لبه را لمس می کند</string>
+    <string name="formula_editor_function_touched">انگشت را لمس می کند</string>
+    <string name="formula_editor_function_collides_with_color">رنگ را لمس می کند</string>
+    <string name="formula_editor_function_color_touches_color">رنگ رنگ را لمس می کند</string>
+    <string name="formula_editor_sensor_color_at_x_y">رنگ در x y</string>
+    <string name="formula_editor_sensor_color_equals_color">رنگ برابر با رنگ با 
+        تحمل % است</string>
     <string name="formula_editor_sensor_x_acceleration">شتاب X</string>
     <string name="formula_editor_sensor_y_acceleration">شتاب Y</string>
     <string name="formula_editor_sensor_z_acceleration">شتاب z</string>
-    <string name="formula_editor_sensor_compass_direction">compass direction</string>
+    <string name="formula_editor_sensor_compass_direction">جهت قطب نما</string>
     <string name="formula_editor_sensor_latitude">عرض جغرافیایی</string>
     <string name="formula_editor_sensor_longitude">عرض جغرافیایی</string>
     <string name="formula_editor_sensor_location_accuracy">دقت محل سکونت</string>
     <string name="formula_editor_sensor_altitude">ارتفاع</string>
-    <string name="formula_editor_sensor_user_language">user language</string>
+    <string name="formula_editor_sensor_user_language">زبان کاربر</string>
     <string name="formula_editor_sensor_x_inclination">تمایل x</string>
     <string name="formula_editor_sensor_y_inclination">تمایل y</string>
     <string name="formula_editor_sensor_loudness">بلندی صدا</string>
-    <string name="formula_editor_sensor_timer">timer</string>
-    <string name="formula_editor_sensor_date_year">year</string>
+    <string name="formula_editor_sensor_timer">تایمر</string>
+    <string name="formula_editor_sensor_date_year">سال</string>
     <string name="formula_editor_sensor_date_month">ماه</string>
     <string name="formula_editor_sensor_date_day">روز</string>
-    <string name="formula_editor_sensor_date_weekday">weekday</string>
+    <string name="formula_editor_sensor_date_weekday">روز هفته</string>
     <string name="formula_editor_sensor_time_hour">ساعت</string>
     <string name="formula_editor_sensor_time_minute">دقیقه</string>
-    <string name="formula_editor_sensor_time_second">second</string>
-    <string name="formula_editor_sensor_drone_battery_status">drone battery status</string>
-    <string name="formula_editor_sensor_drone_emergency_state">drone emergency state</string>
-    <string name="formula_editor_sensor_drone_flying">drone flying</string>
-    <string name="formula_editor_sensor_drone_initialized">drone initialized</string>
-    <string name="formula_editor_sensor_drone_usb_active">drone usb active</string>
-    <string name="formula_editor_sensor_drone_usb_remaining_time">drone usb remaining time</string>
-    <string name="formula_editor_sensor_drone_camera_ready">drone camera ready</string>
-    <string name="formula_editor_sensor_drone_record_ready">drone record ready</string>
-    <string name="formula_editor_sensor_drone_recording">drone camera recording</string>
-    <string name="formula_editor_sensor_drone_num_frames">drone camera number of frames</string>
-    <string name="formula_editor_sensor_lego_nxt_1">NXT sensor 1</string>
-    <string name="formula_editor_sensor_lego_nxt_2">NXT sensor 2</string>
-    <string name="formula_editor_sensor_lego_nxt_3">NXT sensor 3</string>
-    <string name="formula_editor_sensor_lego_nxt_4">NXT sensor 4</string>
+    <string name="formula_editor_sensor_time_second">دومین</string>
+    <string name="formula_editor_sensor_drone_battery_status">وضعیت باتری پهپاد</string>
+    <string name="formula_editor_sensor_drone_emergency_state">وضعیت اضطراری پهپاد</string>
+    <string name="formula_editor_sensor_drone_flying">پهپاد در حال پرواز</string>
+    <string name="formula_editor_sensor_drone_initialized">پهپاد اولیه شد</string>
+    <string name="formula_editor_sensor_drone_usb_active">یو اس بی پهپاد فعال</string>
+    <string name="formula_editor_sensor_drone_usb_remaining_time">زمان باقی مانده یو اس بی پهپاد</string>
+    <string name="formula_editor_sensor_drone_camera_ready">دوربین پهپاد آماده است</string>
+    <string name="formula_editor_sensor_drone_record_ready">رکورد پهپاد آماده است</string>
+    <string name="formula_editor_sensor_drone_recording">ضبط دوربین پهپاد</string>
+    <string name="formula_editor_sensor_drone_num_frames">تعداد فریم های دوربین پهپاد</string>
+    <string name="formula_editor_sensor_lego_nxt_1">سنسور NXT 1</string>
+    <string name="formula_editor_sensor_lego_nxt_2">سنسور NXT 2</string>
+    <string name="formula_editor_sensor_lego_nxt_3">سنسور NXT 3</string>
+    <string name="formula_editor_sensor_lego_nxt_4">سنسور NXT 4</string>
     <string name="formula_editor_sensor_lego_ev3_1">سنسور EV3 1</string>
     <string name="formula_editor_sensor_lego_ev3_2">سنسور EV3 2</string>
     <string name="formula_editor_sensor_lego_ev3_3">سنسور EV3 3</string>
@@ -1647,59 +1636,59 @@
     <string name="formula_editor_sensor_gamepad_b_pressed">گیم پد B فشرده شده است</string>
     <string name="formula_editor_sensor_gamepad_up_pressed">گیم پد بالا فشرده شده است</string>
     <string name="formula_editor_sensor_gamepad_down_pressed">گیم پد پایین فشار داده شده است</string>
-    <string name="formula_editor_sensor_gamepad_left_pressed">gamepad left pressed</string>
-    <string name="formula_editor_sensor_gamepad_right_pressed">gamepad right pressed</string>
-    <string name="formula_editor_phiro_sensor_front_left">phiro front left sensor</string>
-    <string name="formula_editor_phiro_sensor_front_right">phiro front right sensor</string>
-    <string name="formula_editor_phiro_sensor_side_left">phiro side left sensor</string>
-    <string name="formula_editor_phiro_sensor_side_right">phiro side right sensor</string>
-    <string name="formula_editor_phiro_sensor_bottom_left">phiro bottom left sensor</string>
-    <string name="formula_editor_phiro_sensor_bottom_right">phiro bottom right sensor</string>
-    <string name="formula_editor_nfc_tag_id">nfc tag id</string>
-    <string name="formula_editor_nfc_tag_message">nfc tag message</string>
+    <string name="formula_editor_sensor_gamepad_left_pressed">دسته بازی فشار داده شده است</string>
+    <string name="formula_editor_sensor_gamepad_right_pressed">گیم پد سمت راست فشار داده شده است</string>
+    <string name="formula_editor_phiro_sensor_front_left">سنسور فیرو جلو چپ</string>
+    <string name="formula_editor_phiro_sensor_front_right">سنسور جلو سمت راست فیرو</string>
+    <string name="formula_editor_phiro_sensor_side_left">سنسور سمت چپ فیرو</string>
+    <string name="formula_editor_phiro_sensor_side_right">سنسور سمت راست فیرو</string>
+    <string name="formula_editor_phiro_sensor_bottom_left">سنسور فیرو پایین سمت چپ</string>
+    <string name="formula_editor_phiro_sensor_bottom_right">سنسور فیرو پایین سمت راست</string>
+    <string name="formula_editor_nfc_tag_id">شناسه تگ nfc</string>
+    <string name="formula_editor_nfc_tag_message">پیام تگ nfc</string>
     <string name="formula_editor_object_x">موقعیت x</string>
     <string name="formula_editor_object_y">موقعیت y</string>
-    <string name="formula_editor_object_transparency">transparency</string>
+    <string name="formula_editor_object_transparency">شفافیت</string>
     <string name="formula_editor_object_brightness">روشنایی</string>
-    <string name="formula_editor_object_size">size</string>
-    <string name="formula_editor_object_rotation">motion direction</string>
-    <string name="formula_editor_object_rotation_look">look direction</string>
+    <string name="formula_editor_object_size">اندازه</string>
+    <string name="formula_editor_object_rotation">جهت حرکت</string>
+    <string name="formula_editor_object_rotation_look">جهت را نگاه کن</string>
     <string name="formula_editor_object_layer">لایه</string>
-    <string name="formula_editor_object_x_velocity">x velocity</string>
-    <string name="formula_editor_object_y_velocity">y velocity</string>
-    <string name="formula_editor_object_angular_velocity">angular velocity</string>
+    <string name="formula_editor_object_x_velocity">سرعت x</string>
+    <string name="formula_editor_object_y_velocity">سرعت y</string>
+    <string name="formula_editor_object_angular_velocity">سرعت زاویهای</string>
     <string name="formula_editor_object_look_number">شماره نگاه</string>
     <string name="formula_editor_object_look_name">نام نگاه کن</string>
-    <string name="formula_editor_object_number_of_looks">number of looks</string>
+    <string name="formula_editor_object_number_of_looks">تعداد نگاه ها</string>
     <string name="formula_editor_object_background_number">شماره پیشین زمینه</string>
     <string name="formula_editor_object_background_name">نام پس زمینه</string>
-    <string name="formula_editor_object_number_of_backgrounds">number of backgrounds</string>
-    <string name="formula_editor_object_distance_to">distance to touch position</string>
+    <string name="formula_editor_object_number_of_backgrounds">تعداد پس زمینه ها</string>
+    <string name="formula_editor_object_distance_to">فاصله تا موقعیت لمس</string>
     <string name="formula_editor_compute">محاسبه کن</string>
     <string name="formula_editor_object">خواص</string>
     <string name="formula_editor_functions">توابع </string>
     <string name="formula_editor_logic">منطق</string>
-    <string name="formula_editor_device">Sensors</string>
+    <string name="formula_editor_device">حسگرها</string>
     <string name="formula_editor_device_sensors">سنسورهای دستگاه</string>
     <string name="formula_editor_functions_maths">ریاضی</string>
     <string name="formula_editor_functions_strings">متن</string>
     <string name="formula_editor_functions_lists">لیست ها</string>
     <string name="formula_editor_logic_boolean">اپراتورهای منطقی (بولین) و ثابت ها</string>
     <string name="formula_editor_logic_comparison">اپراتورهای مقایسه</string>
-    <string name="formula_editor_object_look">Look properties</string>
+    <string name="formula_editor_object_look">به خواص نگاه کنید</string>
     <string name="formula_editor_object_movement">خواص حرکت</string>
-    <string name="formula_editor_device_face_detection">Face detection</string>
+    <string name="formula_editor_device_face_detection">شناسایی چهره</string>
     <string name="formula_editor_device_pose_detection">تشخیص ظاهری</string>
-    <string name="formula_editor_device_text_recognition">Text recognition</string>
+    <string name="formula_editor_device_text_recognition">تشخیص متن</string>
     <string name="formula_editor_device_object_recognition">تشخیص شی</string>
     <string name="formula_editor_device_date_and_time">تاریخ و ساعت</string>
-    <string name="formula_editor_device_touch_detection">Touch detection</string>
+    <string name="formula_editor_device_touch_detection">تشخیص لمسی</string>
     <string name="formula_editor_device_lego_nxt">Lego Mindstorms NXT</string>
     <string name="formula_editor_device_lego_ev3">Lego Mindstorms EV3</string>
     <string name="formula_editor_device_arduino">Arduino</string>
     <string name="formula_editor_device_phiro">فیرو</string>
     <string name="formula_editor_device_raspberry">رزبری پای</string>
-    <string name="formula_editor_device_drone">Drone</string>
+    <string name="formula_editor_device_drone">پهپاد</string>
     <string name="formula_editor_device_nfc">NFC</string>
     <string name="formula_editor_device_cast">Chromecast</string>
     <string name="formula_editor_string">Abc</string>
@@ -1717,265 +1706,236 @@
     <string name="formula_editor_operator_minus">-</string>
     <string name="formula_editor_operator_divide">÷</string>
     <string name="formula_editor_operator_power">^</string>
-    <string name="formula_editor_image_button_description_delete">delete</string>
-    <string name="formula_editor_image_button_description_color_picker">color picker</string>
-    <string name="formula_editor_image_button_description_functions_toggle">toggle functions</string>
+    <string name="formula_editor_image_button_description_delete">حذف</string>
+    <string name="formula_editor_image_button_description_color_picker">انتخاب کننده رنگ</string>
+    <string name="formula_editor_image_button_description_functions_toggle">توابع را تغییر دهید</string>
     <string name="formula_editor_variable_dialog_title">متغیر جدید</string>
     <string name="formula_editor_list_dialog_title">لیست جدید</string>
-    <string name="formula_editor_regex_html_extractor_dialog_title">HTML extractor</string>
+    <string name="formula_editor_regex_html_extractor_dialog_title">استخراج کننده HTML</string>
     <string name="formula_editor_discard_changes_dialog_message">آیا می خواهید تغییرات خود را ذخیره کنید؟</string>
     <string name="formula_editor_discard_changes_dialog_title">ذخیره تغییرات؟</string>
     <string name="formula_editor_new_string_name">متن جدید</string>
-    <string name="formula_editor_dialog_change_text">Change text</string>
-    <string name="formula_editor_dialog_change_regular_expression">Change regular
-        expression</string>
-    <string name="formula_editor_fragment_data_current_items">current items</string>
-    <string name="formula_editor_data_dialog_is_list">Make it a list</string>
-    <string name="formula_editor_sensor_face_detected">first face is visible</string>
-    <string name="formula_editor_sensor_face_size">first face size</string>
-    <string name="formula_editor_sensor_face_x_position">first face x position</string>
-    <string name="formula_editor_sensor_face_y_position">first face y position</string>
-    <string name="formula_editor_sensor_second_face_detected">second face is visible</string>
-    <string name="formula_editor_sensor_second_face_size">second face size</string>
-    <string name="formula_editor_sensor_second_face_x_position">second face x position</string>
-    <string name="formula_editor_sensor_second_face_y_position">second face y position</string>
-    <string name="formula_editor_sensor_head_top_x">head top x</string>
-    <string name="formula_editor_sensor_head_top_y">head top y</string>
-    <string name="formula_editor_sensor_neck_x">neck x</string>
-    <string name="formula_editor_sensor_neck_y">neck y</string>
-    <string name="formula_editor_sensor_nose_x">nose x</string>
-    <string name="formula_editor_sensor_nose_y">nose y</string>
-    <string name="formula_editor_sensor_left_eye_inner_x">left eye inner x</string>
-    <string name="formula_editor_sensor_left_eye_inner_y">left eye inner y</string>
-    <string name="formula_editor_sensor_left_eye_center_x">left eye center x</string>
-    <string name="formula_editor_sensor_left_eye_center_y">left eye center y</string>
-    <string name="formula_editor_sensor_left_eye_outer_x">left eye outer x</string>
-    <string name="formula_editor_sensor_left_eye_outer_y">left eye outer y</string>
-    <string name="formula_editor_sensor_right_eye_inner_x">right eye inner x</string>
-    <string name="formula_editor_sensor_right_eye_inner_y">right eye inner y</string>
-    <string name="formula_editor_sensor_right_eye_center_x">right eye center x</string>
-    <string name="formula_editor_sensor_right_eye_center_y">right eye center y</string>
-    <string name="formula_editor_sensor_right_eye_outer_x">right eye outer x</string>
-    <string name="formula_editor_sensor_right_eye_outer_y">right eye outer y</string>
-    <string name="formula_editor_sensor_left_ear_x">left ear x</string>
-    <string name="formula_editor_sensor_left_ear_y">left ear y</string>
-    <string name="formula_editor_sensor_right_ear_x">right ear x</string>
-    <string name="formula_editor_sensor_right_ear_y">right ear y</string>
-    <string name="formula_editor_sensor_mouth_left_corner_x">mouth left corner x</string>
-    <string name="formula_editor_sensor_mouth_left_corner_y">mouth left corner y</string>
-    <string name="formula_editor_sensor_mouth_right_corner_x">mouth right corner x</string>
-    <string name="formula_editor_sensor_mouth_right_corner_y">mouth right corner y</string>
-    <string name="formula_editor_sensor_left_shoulder_x">left shoulder x</string>
-    <string name="formula_editor_sensor_left_shoulder_y">left shoulder y</string>
-    <string name="formula_editor_sensor_right_shoulder_x">right shoulder x</string>
-    <string name="formula_editor_sensor_right_shoulder_y">right shoulder y</string>
-    <string name="formula_editor_sensor_left_elbow_x">left elbow x</string>
-    <string name="formula_editor_sensor_left_elbow_y">left elbow y</string>
-    <string name="formula_editor_sensor_right_elbow_x">right elbow x</string>
-    <string name="formula_editor_sensor_right_elbow_y">right elbow y</string>
-    <string name="formula_editor_sensor_left_wrist_x">left wrist x</string>
-    <string name="formula_editor_sensor_left_wrist_y">left wrist y</string>
-    <string name="formula_editor_sensor_right_wrist_x">right wrist x</string>
-    <string name="formula_editor_sensor_right_wrist_y">right wrist y</string>
-    <string name="formula_editor_sensor_left_pinky_knuckle_x">left pinky knuckle x</string>
-    <string name="formula_editor_sensor_left_pinky_knuckle_y">left pinky knuckle y</string>
-    <string name="formula_editor_sensor_right_pinky_knuckle_x">right pinky knuckle x</string>
-    <string name="formula_editor_sensor_right_pinky_knuckle_y">right pinky knuckle y</string>
-    <string name="formula_editor_sensor_left_index_knuckle_x">left index knuckle x</string>
-    <string name="formula_editor_sensor_left_index_knuckle_y">left index knuckle y</string>
-    <string name="formula_editor_sensor_right_index_knuckle_x">right index knuckle x</string>
-    <string name="formula_editor_sensor_right_index_knuckle_y">right index knuckle y</string>
-    <string name="formula_editor_sensor_left_thumb_knuckle_x">left thumb knuckle x</string>
-    <string name="formula_editor_sensor_left_thumb_knuckle_y">left thumb knuckle y</string>
-    <string name="formula_editor_sensor_right_thumb_knuckle_x">right thumb knuckle x</string>
-    <string name="formula_editor_sensor_right_thumb_knuckle_y">right thumb knuckle y</string>
-    <string name="formula_editor_sensor_left_hip_x">left hip x</string>
-    <string name="formula_editor_sensor_left_hip_y">left hip y</string>
-    <string name="formula_editor_sensor_right_hip_x">right hip x</string>
-    <string name="formula_editor_sensor_right_hip_y">right hip y</string>
-    <string name="formula_editor_sensor_left_knee_x">left knee x</string>
-    <string name="formula_editor_sensor_left_knee_y">left knee y</string>
-    <string name="formula_editor_sensor_right_knee_x">right knee x</string>
-    <string name="formula_editor_sensor_right_knee_y">right knee y</string>
-    <string name="formula_editor_sensor_left_ankle_x">left ankle x</string>
-    <string name="formula_editor_sensor_left_ankle_y">left ankle y</string>
-    <string name="formula_editor_sensor_right_ankle_x">right ankle x</string>
-    <string name="formula_editor_sensor_right_ankle_y">right ankle y</string>
-    <string name="formula_editor_sensor_left_heel_x">left heel x</string>
-    <string name="formula_editor_sensor_left_heel_y">left heel y</string>
-    <string name="formula_editor_sensor_right_heel_x">right heel x</string>
-    <string name="formula_editor_sensor_right_heel_y">right heel y</string>
-    <string name="formula_editor_sensor_left_foot_index_x">left foot index x</string>
-    <string name="formula_editor_sensor_left_foot_index_y">left foot index y</string>
-    <string name="formula_editor_sensor_right_foot_index_x">right foot index x</string>
-    <string name="formula_editor_sensor_right_foot_index_y">right foot index y</string>
-    <string name="formula_editor_sensor_text_from_camera">text from camera</string>
-    <string name="formula_editor_sensor_text_blocks_number">number of text blocks</string>
-    <string name="formula_editor_function_text_block_x">text block x from camera</string>
-    <string name="formula_editor_function_text_block_y">text block y from camera</string>
-    <string name="formula_editor_function_text_block_size">text block size from camera</string>
-    <string name="formula_editor_function_text_block_from_camera">text block from camera</string>
-    <string name="formula_editor_function_text_block_language_from_camera">text block language from camera</string>
+    <string name="formula_editor_dialog_change_text">تغییر متن</string>
+    <string name="formula_editor_dialog_change_regular_expression">تغییر         عبارت منظم</string>
+    <string name="formula_editor_fragment_data_current_items">موارد فعلی</string>
+    <string name="formula_editor_data_dialog_is_list">آن را یک لیست بسازید</string>
+    <string name="formula_editor_sensor_face_detected">صورت اول قابل مشاهده است</string>
+    <string name="formula_editor_sensor_face_size">اندازه اول صورت</string>
+    <string name="formula_editor_sensor_face_x_position">اولین صورت x موقعیت</string>
+    <string name="formula_editor_sensor_face_y_position">موقعیت چهره اول y</string>
+    <string name="formula_editor_sensor_second_face_detected">صورت دوم قابل مشاهده است</string>
+    <string name="formula_editor_sensor_second_face_size">اندازه صورت دوم</string>
+    <string name="formula_editor_sensor_second_face_x_position">صورت دوم x موقعیت</string>
+    <string name="formula_editor_sensor_second_face_y_position">موقعیت y چهره دوم</string>
+    <string name="formula_editor_sensor_head_top_x">بالای سر x</string>
+    <string name="formula_editor_sensor_head_top_y">بالای سر y</string>
+    <string name="formula_editor_sensor_neck_x">گردن x</string>
+    <string name="formula_editor_sensor_neck_y">گردن y</string>
+    <string name="formula_editor_sensor_nose_x">بینی x</string>
+    <string name="formula_editor_sensor_nose_y">بینی y</string>
+    <string name="formula_editor_sensor_left_eye_inner_x">x داخلی چشم چپ</string>
+    <string name="formula_editor_sensor_left_eye_inner_y">چشم چپ داخلی y</string>
+    <string name="formula_editor_sensor_left_eye_center_x">مرکز چشم چپ x</string>
+    <string name="formula_editor_sensor_left_eye_center_y">مرکز چشم چپ y</string>
+    <string name="formula_editor_sensor_left_eye_outer_x">چشم چپ خارجی x</string>
+    <string name="formula_editor_sensor_left_eye_outer_y">چشم چپ خارجی y</string>
+    <string name="formula_editor_sensor_right_eye_inner_x">x داخلی چشم راست</string>
+    <string name="formula_editor_sensor_right_eye_inner_y">y داخلی چشم راست</string>
+    <string name="formula_editor_sensor_right_eye_center_x">مرکز چشم راست x</string>
+    <string name="formula_editor_sensor_right_eye_center_y">مرکز چشم راست y</string>
+    <string name="formula_editor_sensor_right_eye_outer_x">x خارجی چشم راست</string>
+    <string name="formula_editor_sensor_right_eye_outer_y">چشم راست بیرونی y</string>
+    <string name="formula_editor_sensor_left_ear_x">گوش چپ x</string>
+    <string name="formula_editor_sensor_left_ear_y">گوش چپ y</string>
+    <string name="formula_editor_sensor_right_ear_x">گوش راست x</string>
+    <string name="formula_editor_sensor_right_ear_y">گوش راست y</string>
+    <string name="formula_editor_sensor_mouth_left_corner_x">دهان گوشه چپ x</string>
+    <string name="formula_editor_sensor_mouth_left_corner_y">دهان گوشه چپ y</string>
+    <string name="formula_editor_sensor_mouth_right_corner_x">دهان گوشه راست x</string>
+    <string name="formula_editor_sensor_mouth_right_corner_y">دهان گوشه سمت راست y</string>
+    <string name="formula_editor_sensor_left_shoulder_x">شانه چپ x</string>
+    <string name="formula_editor_sensor_left_shoulder_y">شانه چپ y</string>
+    <string name="formula_editor_sensor_right_shoulder_x">شانه راست x</string>
+    <string name="formula_editor_sensor_right_shoulder_y">شانه راست y</string>
+    <string name="formula_editor_sensor_left_elbow_x">آرنج چپ x</string>
+    <string name="formula_editor_sensor_left_elbow_y">آرنج چپ y</string>
+    <string name="formula_editor_sensor_right_elbow_x">آرنج راست x</string>
+    <string name="formula_editor_sensor_right_elbow_y">آرنج راست y</string>
+    <string name="formula_editor_sensor_left_wrist_x">مچ دست چپ x</string>
+    <string name="formula_editor_sensor_left_wrist_y">مچ دست چپ y</string>
+    <string name="formula_editor_sensor_right_wrist_x">مچ دست راست x</string>
+    <string name="formula_editor_sensor_right_wrist_y">مچ دست راست y</string>
+    <string name="formula_editor_sensor_left_pinky_knuckle_x">بند انگشت صورتی سمت چپ x</string>
+    <string name="formula_editor_sensor_left_pinky_knuckle_y">بند انگشت صورتی سمت چپ y</string>
+    <string name="formula_editor_sensor_right_pinky_knuckle_x">بند انگشت صورتی راست x</string>
+    <string name="formula_editor_sensor_right_pinky_knuckle_y">بند انگشت صورتی راست y</string>
+    <string name="formula_editor_sensor_left_index_knuckle_x">بند انگشت شاخص چپ x</string>
+    <string name="formula_editor_sensor_left_index_knuckle_y">بند انگشت شاخص چپ y</string>
+    <string name="formula_editor_sensor_right_index_knuckle_x">بند انگشت شاخص سمت راست x</string>
+    <string name="formula_editor_sensor_right_index_knuckle_y">بند انگشت شاخص سمت راست y</string>
+    <string name="formula_editor_sensor_left_thumb_knuckle_x">بند انگشت شست چپ x</string>
+    <string name="formula_editor_sensor_left_thumb_knuckle_y">بند انگشت شست چپ y</string>
+    <string name="formula_editor_sensor_right_thumb_knuckle_x">بند انگشت شست راست x</string>
+    <string name="formula_editor_sensor_right_thumb_knuckle_y">بند انگشت شست راست y</string>
+    <string name="formula_editor_sensor_left_hip_x">ران چپ x</string>
+    <string name="formula_editor_sensor_left_hip_y">ران چپ y</string>
+    <string name="formula_editor_sensor_right_hip_x">باسن راست x</string>
+    <string name="formula_editor_sensor_right_hip_y">لگن راست y</string>
+    <string name="formula_editor_sensor_left_knee_x">زانوی چپ x</string>
+    <string name="formula_editor_sensor_left_knee_y">زانوی چپ y</string>
+    <string name="formula_editor_sensor_right_knee_x">زانوی راست x</string>
+    <string name="formula_editor_sensor_right_knee_y">زانوی راست y</string>
+    <string name="formula_editor_sensor_left_ankle_x">مچ پای چپ x</string>
+    <string name="formula_editor_sensor_left_ankle_y">مچ پای چپ y</string>
+    <string name="formula_editor_sensor_right_ankle_x">مچ پای راست x</string>
+    <string name="formula_editor_sensor_right_ankle_y">مچ پای راست y</string>
+    <string name="formula_editor_sensor_left_heel_x">پاشنه چپ x</string>
+    <string name="formula_editor_sensor_left_heel_y">پاشنه چپ y</string>
+    <string name="formula_editor_sensor_right_heel_x">پاشنه راست x</string>
+    <string name="formula_editor_sensor_right_heel_y">پاشنه راست y</string>
+    <string name="formula_editor_sensor_left_foot_index_x">شاخص پای چپ x</string>
+    <string name="formula_editor_sensor_left_foot_index_y">شاخص پای چپ y</string>
+    <string name="formula_editor_sensor_right_foot_index_x">شاخص پای راست x</string>
+    <string name="formula_editor_sensor_right_foot_index_y">شاخص پای راست y</string>
+    <string name="formula_editor_sensor_text_from_camera">متن از دوربین</string>
+    <string name="formula_editor_sensor_text_blocks_number">تعداد بلوک های متنی</string>
+    <string name="formula_editor_function_text_block_x">بلوک متنی x از دوربین</string>
+    <string name="formula_editor_function_text_block_y">بلوک متنی y از دوربین</string>
+    <string name="formula_editor_function_text_block_size">اندازه بلوک متن از دوربین</string>
+    <string name="formula_editor_function_text_block_from_camera">بلوک متن از دوربین</string>
+    <string name="formula_editor_function_text_block_language_from_camera">زبان بلوک متن از دوربین</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
-    <string name="formula_editor_function_get_id_of_detected_object">ID of detected object</string>
+    <string name="formula_editor_function_get_id_of_detected_object">شناسه شی شناسایی شده</string>
     <string name="formula_editor_intro_title_formula_editor">ویرایشگر فرمول</string>
-    <string name="formula_editor_intro_summary_formula_editor">With the formula editor you can create mathematical and
-        logical formulas that you can use in your bricks.\n\nContinue by tapping “NEXT” or exit
-        with “SKIP”.
+    <string name="formula_editor_intro_summary_formula_editor">با ویرایشگر فرمول می‌توانید فرمول‌های ریاضی         و منطقی ایجاد کنید که می‌توانید در آجرهای خود استفاده کنید.\n\nبا ضربه زدن روی «NEXT» یا خروج         با «SKIP» ادامه دهید.
     </string>
-    <string name="formula_editor_intro_title_input_field">Input field</string>
-    <string name="formula_editor_intro_summary_input_field">Here you can see and edit your formula.</string>
-    <string name="formula_editor_intro_title_keyboard">Keyboard</string>
-    <string name="formula_editor_intro_summary_keyboard">This is where you can create
-        your formula, just like on a calculator.</string>
+    <string name="formula_editor_intro_title_input_field">فیلد ورودی</string>
+    <string name="formula_editor_intro_summary_input_field">در اینجا می توانید فرمول خود را ببینید و ویرایش کنید.</string>
+    <string name="formula_editor_intro_title_keyboard">صفحه کلید</string>
+    <string name="formula_editor_intro_summary_keyboard">اینجاست که می توانید فرمول خود را درست         مانند ماشین حساب ایجاد کنید.</string>
     <string name="formula_editor_intro_title_compute">محاسبه کن</string>
-    <string name="formula_editor_intro_summary_compute">To show your formula\'s current result, you can
-        use \"Compute\".</string>
+    <string name="formula_editor_intro_summary_compute">برای نشان دادن نتیجه فعلی فرمول خود، می توانید از         \"محاسبه\" استفاده کنید.</string>
     <string name="formula_editor_intro_title_object">خواص</string>
-    <string name="formula_editor_intro_summary_object">This is a collection of values that describe the properties of your
-        current actor or object. Examples are the x- and y-coordinates, or the current speed.</string>
+    <string name="formula_editor_intro_summary_object">این مجموعه ای از مقادیر است که ویژگی های         بازیگر یا شی فعلی شما را توصیف می کند. به عنوان مثال مختصات x و y یا سرعت فعلی هستند.</string>
     <string name="formula_editor_intro_title_functions">توابع </string>
-    <string name="formula_editor_intro_summary_functions">Like a calculator, the formula editor offers
-        many mathematical functions.\nYou can find trigonometric functions such as \"sin\" and \"cos\",
-        a random number generator, and text and list functions.</string>
+    <string name="formula_editor_intro_summary_functions">مانند یک ماشین حساب، ویرایشگر فرمول         بسیاری از توابع ریاضی را ارائه می دهد.\nشما می توانید توابع مثلثاتی مانند \"sin\" و \"cos\"،         یک مولد اعداد تصادفی، و توابع متن و لیست را پیدا کنید.</string>
     <string name="formula_editor_intro_title_logic">منطق</string>
-    <string name="formula_editor_intro_summary_logic">Logic is used to compare values and combine logical formulas.\nTo
-        compare values you can use logical operations such as \"&gt;\" (greater than) or \"=\" (equals).\nTo combine
-        logical formulas you can use logical operations such as \"AND\", \"OR\" and \"NOT\".</string>
-    <string name="formula_editor_intro_title_device">Sensors</string>
-    <string name="formula_editor_intro_summary_device">In \"Sensors\" you can find information that your
-        device records.\nFor example, the tilt of your device, or the loudness of your surroundings.</string>
+    <string name="formula_editor_intro_summary_logic">منطق برای مقایسه مقادیر و ترکیب فرمول های منطقی استفاده می شود.\n برای         مقایسه مقادیر می توانید از عملیات منطقی مانند \"&gt;\" استفاده کنید. (بیشتر از) یا \"=\" (برابر است).\nبرای ترکیب فرمول         های منطقی می توانید از عملیات منطقی مانند \"AND\"، \"OR\" و \"NOT\" استفاده کنید.</string>
+    <string name="formula_editor_intro_title_device">حسگرها</string>
+    <string name="formula_editor_intro_summary_device">در «حسگرها» می‌توانید اطلاعاتی را که دستگاهتان ضبط می‌کند بیابید.\nبه عنوان مثال، شیب دستگاه یا صدای بلندی محیط اطرافتان.</string>
     <string name="formula_editor_intro_title_data">داده ها</string>
-    <string name="formula_editor_intro_summary_data">Variables and lists that are used in your project can be found here.
-        \nYou can simply insert these in your formula, or add new ones.</string>
-    <string name="formula_editor_listening_language_sensor">listening language</string>
-    <string name="formula_editor_speech_recognition">Speech recognition</string>
-    <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.</string>
-    <string name="warning_formula_recognized">You entered a text that looks like a formula. If you want to use functions,
-        sensors, variables and other formula elements, please select them instead using the
-        buttons in the formula editor.</string>
+    <string name="formula_editor_intro_summary_data">متغیرها و لیست هایی که در پروژه شما استفاده می شوند را می توانید در اینجا بیابید.         \n شما به سادگی می توانید اینها را در فرمول خود وارد کنید یا موارد جدید اضافه کنید.</string>
+    <string name="formula_editor_listening_language_sensor">زبان گوش دادن</string>
+    <string name="formula_editor_speech_recognition">تشخیص گفتار</string>
+    <string name="camera_error_text_detection">        مشکلی در تشخیص متن وجود داشت. ممکن است برخی از مؤلفه‌ها همچنان در         پس‌زمینه بارگیری شوند. لطفاً مطمئن شوید که به اینترنت متصل هستید و بعداً دوباره بررسی کنید.</string>
+    <string name="warning_formula_recognized">شما متنی را وارد کرده اید که شبیه فرمول است. اگر می‌خواهید از توابع، حسگرها، متغیرها و سایر عناصر فرمول استفاده کنید، لطفاً آنها را با استفاده از         دکمه‌های موجود در ویرایشگر فرمول انتخاب کنید.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="brick_show_variable">Show variable</string>
+    <string name="brick_show_variable">نمایش متغیر</string>
     <string name="brick_hide_variable">پنهان کردن متغیر</string>
-    <string name="brick_show_variable_position">at</string>
-    <string name="brick_show_variable_size">size:</string>
-    <string name="brick_show_variable_color">color:</string>
-    <string name="brick_show_variable_aligned">aligned</string>
-    <string name="brick_show_variable_aligned_centered">centered</string>
-    <string name="brick_show_variable_aligned_left">left</string>
-    <string name="brick_show_variable_aligned_right">right</string>
-    <string name="brick_context_dialog_pick_color">Pick color</string>
-    <string name="brick_context_dialog_pick_note">Pick note</string>
+    <string name="brick_show_variable_position">در</string>
+    <string name="brick_show_variable_size">اندازه:</string>
+    <string name="brick_show_variable_color">رنگ:</string>
+    <string name="brick_show_variable_aligned">هم راستا</string>
+    <string name="brick_show_variable_aligned_centered">متمرکز شده است</string>
+    <string name="brick_show_variable_aligned_left">چپ</string>
+    <string name="brick_show_variable_aligned_right">راست</string>
+    <string name="brick_context_dialog_pick_color">رنگ را انتخاب کنید</string>
+    <string name="brick_context_dialog_pick_note">یادداشت را انتخاب کنید</string>
     <!-- -->
     <!-- Camera related strings -->
-    <string name="brick_video">Turn camera</string>
+    <string name="brick_video">دوربین را بچرخانید</string>
     <string name="video_brick_camera_on">روشن</string>
     <string name="video_brick_camera_off">خاموش</string>
-    <string name="brick_choose_camera">Use camera</string>
+    <string name="brick_choose_camera">از دوربین استفاده کنید</string>
     <string name="choose_camera_front">جلو</string>
-    <string name="choose_camera_back">rear</string>
-    <string name="camera_error_generic">        Something went wrong while trying to use the camera.
+    <string name="choose_camera_back">عقب</string>
+    <string name="camera_error_generic">        هنگام تلاش برای استفاده از دوربین، مشکلی پیش آمد.
     </string>
-    <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.
+    <string name="camera_error_face_detection">        مشکلی در تشخیص چهره وجود داشت. ممکن است برخی از مؤلفه‌ها همچنان در پس‌زمینه ب        ارگیری شوند. لطفاً مطمئن شوید که به اینترنت متصل هستید و بعداً دوباره بررسی کنید.
     </string>
     <!-- -->
     <!-- Cast strings -->
     <string name="cast_gamepad_A">A</string>
     <string name="cast_gamepad_B">B</string>
-    <string name="cast_gamepad_up">up</string>
-    <string name="cast_gamepad_down">down</string>
-    <string name="cast_gamepad_left">left</string>
-    <string name="cast_gamepad_right">right</string>
-    <string name="cast_error_not_connected_msg">Please connect to your Chromecast first</string>
-    <string name="cast_error_cast_bricks_in_no_cast_project">Your project uses Chromecast bricks and can\'t be started
-        locally</string>
-    <string name="cast_device_selector_dialog_title">Cast to</string>
-    <string name="cast_button_menu_item_title">Cast button</string>
-    <string name="cast_ready_to_cast">Ready to cast to</string>
-    <string name="cast_enable_cast_feature">Chromecast features disabled. Please enable cast features in the settings.</string>
-    <string name="cast_searching_for_cast_devices">Searching for Chromecast devices</string>
+    <string name="cast_gamepad_up">بالا</string>
+    <string name="cast_gamepad_down">پایین</string>
+    <string name="cast_gamepad_left">چپ</string>
+    <string name="cast_gamepad_right">راست</string>
+    <string name="cast_error_not_connected_msg">لطفاً ابتدا به Chromecast خود متصل شوید</string>
+    <string name="cast_error_cast_bricks_in_no_cast_project">پروژه شما از آجرهای Chromecast استفاده می‌کند و نمی‌توان آن را شروع کرد
+        به صورت محلی</string>
+    <string name="cast_device_selector_dialog_title">بفرست به</string>
+    <string name="cast_button_menu_item_title">دکمه Cast</string>
+    <string name="cast_ready_to_cast">آماده پخش به</string>
+    <string name="cast_enable_cast_feature">ویژگی‌های Chromecast غیرفعال است. لطفاً ویژگی‌های پخش را در تنظیمات فعال کنید.</string>
+    <string name="cast_searching_for_cast_devices">جستجو برای دستگاه‌های Chromecast</string>
     <string name="cast_trouble_finding_devices_tip">.\nDon\'t see your device? Try turning your device\'s Wifi off
         and on.</string>
-    <string name="cast_connection_timout_msg">Connection timeout. Please try again.</string>
-    <string name="cast_screen_pause_text">Paused</string>
+    <string name="cast_connection_timout_msg">پایان زمان اتصال. لطفا دوباره تلاش کنید.</string>
+    <string name="cast_screen_pause_text">مکث شد</string>
     <!-- -->
-    <string name="deletion_alert_title">Delete?</string>
-    <string name="deletion_alert_text">Deleting a variable or list that is still in use can cause
-        errors. You can\'t undo this!</string>
+    <string name="deletion_alert_title">حذف؟</string>
+    <string name="deletion_alert_text">حذف یک متغیر یا لیستی که هنوز در حال استفاده است می تواند باعث ایجاد خطا شود. شما نمی توانید این را لغو کنید!</string>
     <!-- Upload progress dialog -->
-    <string name="progress_upload_dialog_message">Your project gets uploaded to the app\’s sharing site where others
-        can use and download it. You can also download your project as a standalone app.</string>
-    <string name="progress_upload_dialog_failed">Upload failed. Please check your internet connection and try
-        again!</string>
-    <string name="progress_upload_dialog_show_program">Show project</string>
+    <string name="progress_upload_dialog_message">پروژه شما در سایت اشتراک‌گذاری برنامه آپلود می‌شود، جایی که دیگران          می‌توانند از آن استفاده و دانلود کنند. همچنین می توانید پروژه خود را به عنوان یک برنامه مستقل دانلود کنید.</string>
+    <string name="progress_upload_dialog_failed">آپلود انجام نشد. لطفاً اتصال اینترنت خود را بررسی کنید و دوباره امتحان کنید!</string>
+    <string name="progress_upload_dialog_show_program">نمایش پروژه</string>
     <!--  -->
     <!-- unchanged upload dialog -->
-    <string name="unchanged_upload_warning">The project you are trying to upload already exists on
-        the community platform in exactly the same form. Please change your project, ideally by
-        enhancing it, before uploading your remixed project.</string>
-    <string name="unchanged_upload_info">Please consider adding some kind words towards the original
-        author in the Credits section on the community site or in the project options. Please note
-        that the user will get a notification after your successful upload.</string>
-    <string name="unchanged_upload_url">To learn more about remixes, please visit %1s.</string>
+    <string name="unchanged_upload_warning">پروژه ای که می خواهید آپلود کنید در حال حاضر دقیقاً به همان شکل در         پلتفرم انجمن وجود دارد. لطفاً قبل از آپلود پروژه ریمیکس شده،         پروژه خود را تغییر دهید، در حالت ایده آل با تقویت آن.</string>
+    <string name="unchanged_upload_info">لطفاً در بخش اعتبارات در سایت انجمن یا در گزینه های پروژه، کلمات محبت آمیز را به نویسنده اصلی اضافه کنید. لطفا توجه داشته باشید که کاربر پس         از آپلود موفقیت آمیز شما یک اعلان دریافت می کند.</string>
+    <string name="unchanged_upload_url">برای کسب اطلاعات بیشتر در مورد ریمیکس، لطفاً از %1s دیدن کنید.</string>
     <!-- -->
     <!-- Snackbar hints -->
-    <string name="got_it">Got it</string>
-    <string name="preference_description_hints">Enable to show hints</string>
-    <string name="preference_title_enable_hints">Show hints </string>
-    <string name="hint_category">All bricks are sorted in categories. Choose the category you are looking for.</string>
-    <string name="hint_bricks">To add a brick to your script, tap on the brick you want to use.</string>
-    <string name="hint_scripts">The script defines the behavior of your actor or object. To add bricks to the script,
-        tap the \"+\" symbol.</string>
-    <string name="hint_looks">Here you can find the different appearances of your actor or object. To add a new look,
-        tap the \"+\" symbol.</string>
-    <string name="hint_sounds">Here you can add new sounds to your actor or object. Remember using a brick from the
-        sound category.</string>
-    <string name="hint_objects">Your program consists of different actors and objects that can interact with each other.
-        To add a new actor or object, tap the \"+\" symbol.</string>
+    <string name="got_it">فهمیدم</string>
+    <string name="preference_description_hints">فعال کردن نمایش نکات</string>
+    <string name="preference_title_enable_hints">نمایش نکات </string>
+    <string name="hint_category">همه آجرها در دسته بندی ها مرتب شده اند. دسته بندی مورد نظر خود را انتخاب کنید.</string>
+    <string name="hint_bricks">برای افزودن یک آجر به اسکریپت خود، روی آجری که می خواهید استفاده کنید ضربه بزنید.</string>
+    <string name="hint_scripts">فیلمنامه رفتار بازیگر یا شیء شما را مشخص می کند. برای افزودن آجر به فیلمنامه،
+         روی نماد \"+\" ضربه بزنید.</string>
+    <string name="hint_looks">در اینجا می توانید ظواهر مختلف بازیگر یا شیء خود را بیابید. برای افزودن ظاهری جدید،
+         روی نماد \"+\" ضربه بزنید.</string>
+    <string name="hint_sounds">در اینجا می توانید صداهای جدیدی را به بازیگر یا شیء خود اضافه کنید. به یاد داشته باشید که از یک آجر از دسته         صدا استفاده کنید.</string>
+    <string name="hint_objects">برنامه شما متشکل از بازیگران و اشیاء مختلفی است که می توانند با یکدیگر تعامل داشته باشند.
+         برای افزودن یک بازیگر یا شی جدید، روی نماد \"+\" ضربه بزنید.</string>
     <!--  -->
     <!-- Dialog Disable hints -->
-    <string name="dialog_disable_hints_title">Show hints?</string>
-    <string name="dialog_disable_hints_text">Hints provide you with helpful information
-        while making your first project.\n\nVisibility of hints can be changed in the
-        settings.</string>
-    <string name="dialog_disable_hints_button_hide">HIDE</string>
-    <string name="dialog_disable_hints_button_show">SHOW</string>
+    <string name="dialog_disable_hints_title">نکات نمایش داده شود؟</string>
+    <string name="dialog_disable_hints_text">نکات هنگام ساخت اولین پروژه شما اطلاعات مفیدی را در اختیار شما قرار می دهد.\n\nقابلیت مشاهده نکات را می توان در تنظیمات تغییر داد.</string>
+    <string name="dialog_disable_hints_button_hide">پنهان </string>
+    <string name="dialog_disable_hints_button_show">نشان </string>
     <!--  -->
     <!-- Crash report dialog -->
     <!--  -->
     <!-- Multilingual List -->
-    <string name="device_language">Your device\'s language</string>
+    <string name="device_language">زبان دستگاه شما</string>
     <!-- Symbols -->
     <string name="percent_symbol">%</string>
-    <string name="hertz_symbol">㎐</string>
-    <string name="no_internet_connection">No internet connection. Make sure Wi-Fi or mobile
-    data is turned on.</string>
+    <string name="hertz_symbol">هرتز</string>
+    <string name="no_internet_connection">بدون اتصال به اینترنت مطمئن شوید که Wi-Fi یا داده تلفن     همراه روشن است.</string>
     <string name="edit">ویرایش کردن</string>
-    <string name="data_value">Value</string>
-    <string name="category_recently_used">Recently used</string>
+    <string name="data_value">مقدار</string>
+    <string name="category_recently_used">اخیرا مورد استفاده قرار گرفته</string>
     <string name="new_sprite_dialog_place_visually">به صورت بصری قرار دهید</string>
-    <string name="place_visually_text">You will be asked to place the new actor or object on the
-        stage.</string>
-    <string name="new_empty_sprite_note">Note: The actor or object will be created
-        without a look.</string>
+    <string name="place_visually_text">از شما خواسته می شود که بازیگر یا شی جدید را روی صحنه قرار دهید.</string>
+    <string name="new_empty_sprite_note">توجه: بازیگر یا شیء         بدون نگاه ساخته می شود.</string>
     <!-- Information -->
-    <string name="no_variable_selected">No variable selected</string>
-    <string name="find">Find</string>
-    <string name="no_results_found">No results found</string>
-    <string name="query_field_is_empty">Query field is empty</string>
+    <string name="no_variable_selected">هیچ متغیری انتخاب نشده است</string>
+    <string name="find">پیدا کردن</string>
+    <string name="no_results_found">نتیجه ای پیدا نشد</string>
+    <string name="query_field_is_empty">فیلد پرس و جو خالی است</string>
     <string name="cut">قطع کن</string>
     <string name="paste">علاوه کن</string>
     <!-- Particle Effects -->
-    <string name="fade_particle_effect">Fade particle effect</string>
+    <string name="fade_particle_effect">اثر ذرات محو</string>
     <string name="particle_effects_fade_in">در</string>
-    <string name="particle_effects_fade_out">out</string>
-    <string name="turn_particle_effect_additivity">Turn particle effect additivity</string>
+    <string name="particle_effects_fade_out">بیرون</string>
+    <string name="turn_particle_effect_additivity">تبدیل اثر ذرات افزودنی</string>
     <string name="particle_effects_additive_on">روشن</string>
     <string name="particle_effects_additive_off">خاموش</string>
-    <string name="set_particle_color_to">Set particle color to</string>
-    <string name="undo_sort">Undo sort</string>
+    <string name="set_particle_color_to">رنگ ذرات را روی</string>
+    <string name="undo_sort">لغو مرتب‌سازی</string>
     <string name="sort">مرتب سازی</string>
 </resources>
