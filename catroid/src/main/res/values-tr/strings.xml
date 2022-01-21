@@ -963,7 +963,7 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="brick_in_browser">tarayıcıda</string>
     <!-- Control bricks -->
     <string name="brick_when_started">Sahne başladığında</string>
-    <string name="brick_when">Objeye dokunduğunda</string>
+    <string name="brick_when">Objeye bastığın zaman</string>
     <string name="brick_when_condition_when">Ne zaman</string>
     <string name="brick_when_becomes_true">Olurşa</string>
     <string name="brick_wait">Bekleyin</string>
@@ -1523,11 +1523,11 @@ bekleyin</string>
     <string name="formula_editor_object_color">renk</string>
     <string name="formula_editor_function_sqrt">karekök</string>
     <string name="formula_editor_function_sqrt_parameter">(4)</string>
-    <string name="formula_editor_function_rand">rastgele</string>
+    <string name="formula_editor_function_rand">rasgele değer</string>
     <string name="formula_editor_function_rand_parameter">(0,1)</string>
     <string name="formula_editor_function_abs">abs</string>
     <string name="formula_editor_function_abs_parameter">(1)</string>
-    <string name="formula_editor_function_round">yuvarlak</string>
+    <string name="formula_editor_function_round">yuvarla</string>
     <string name="formula_editor_function_round_parameter">(1.6)</string>
     <string name="formula_editor_function_mod">mod</string>
     <string name="formula_editor_function_mod_parameter">(1,1)</string>
@@ -1558,7 +1558,7 @@ bekleyin</string>
     <string name="formula_editor_function_length">Uzunluk</string>
     <string name="formula_editor_function_length_parameter">(\'Merhaba Dünya\')</string>
     <string name="formula_editor_function_letter">mektup</string>
-    <string name="formula_editor_function_letter_parameter">(1, \'Merhaba Dünya\')</string>
+    <string name="formula_editor_function_letter_parameter">(1,\'merhaba dünya\')</string>
     <string name="formula_editor_function_join">katıl</string>
     <string name="formula_editor_function_join_parameter">(\'Selam\',\' Dünya\')</string>
     <string name="formula_editor_function_join3">katıl</string>
@@ -1580,7 +1580,7 @@ bekleyin</string>
     <string name="formula_editor_function_finger_y">sahne dokunuşu</string>
     <string name="formula_editor_function_is_finger_touching">sahne\'ye dokundu</string>
     <string name="formula_editor_function_multi_finger_x">sahne dokunuşu x</string>
-    <string name="formula_editor_function_multi_finger_y">sahne dokunuşu</string>
+    <string name="formula_editor_function_multi_finger_y">sahne dokunuşu y</string>
     <string name="formula_editor_function_is_multi_finger_touching">sahne\'ye dokundu</string>
     <string name="formula_editor_function_index_of_last_finger">son aşama dokunmatik endeksi</string>
     <string name="formula_editor_function_number_of_current_touches">mevcut dokunuşların sayısı</string>
@@ -1597,7 +1597,7 @@ bekleyin</string>
     <string name="formula_editor_function_number_of_items_parameter">(*liste adı*)</string>
     <string name="formula_editor_function_flatten">düzleştir</string>
     <string name="formula_editor_function_flatten_parameter">(*liste adı*)</string>
-    <string name="formula_editor_function_collision">Objeye dokunursa</string>
+    <string name="formula_editor_function_collision">Diğer objeye dokunursa</string>
     <string name="formula_editor_function_collides_with_edge">kenara dokunursa</string>
     <string name="formula_editor_function_touched">Objeye eli ile dokunursa</string>
     <string name="formula_editor_function_collides_with_color">renge dokunur</string>
@@ -1734,7 +1734,7 @@ bekleyin</string>
     <string name="formula_editor_operator_minus">-</string>
     <string name="formula_editor_operator_divide">÷</string>
     <string name="formula_editor_operator_power">^</string>
-    <string name="formula_editor_image_button_description_delete">Sil</string>
+    <string name="formula_editor_image_button_description_delete">sil</string>
     <string name="formula_editor_image_button_description_color_picker">renk seçici</string>
     <string name="formula_editor_image_button_description_functions_toggle">geçiş işlevleri</string>
     <string name="formula_editor_variable_dialog_title">Yeni değişken</string>
