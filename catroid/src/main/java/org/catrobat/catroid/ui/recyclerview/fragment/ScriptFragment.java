@@ -719,7 +719,7 @@ public class ScriptFragment extends ListFragment implements
 		switch (itemId) {
 			case R.string.backpack_add:
 				List<Brick> bricksToPack = new ArrayList<>();
-				bricksToPack.add(brick);
+				brick.addToFlatList(bricksToPack);
 				showNewScriptGroupAlert(bricksToPack);
 				break;
 			case R.string.brick_context_dialog_copy_brick:
