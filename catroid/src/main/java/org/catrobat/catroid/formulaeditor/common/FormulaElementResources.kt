@@ -66,7 +66,8 @@ object FormulaElementResources {
     private fun addAIExtensionFunctionsResources(resources: MutableSet<Int?>, function: Functions?) {
         when (function) {
             Functions.ID_OF_DETECTED_OBJECT,
-            Functions.OBJECT_WITH_ID_VISIBLE -> Brick.OBJECT_DETECTION
+            Functions.OBJECT_WITH_ID_VISIBLE,
+            Functions.LABEL_OF_OBJECT_WITH_ID-> Brick.OBJECT_DETECTION
             else -> return
         }.let { resources.add(it) }
     }

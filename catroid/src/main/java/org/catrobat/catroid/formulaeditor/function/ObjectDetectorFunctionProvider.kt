@@ -33,5 +33,8 @@ class ObjectDetectorFunctionProvider : FunctionProvider {
         formulaFunctions[Functions.OBJECT_WITH_ID_VISIBLE] = UnaryFunction(UnaryFunctionAction { argument ->
             ObjectDetectorResults.result[argument.toInt()] != null
         })
+        formulaFunctions[Functions.LABEL_OF_OBJECT_WITH_ID] = UnaryFunction(UnaryFunctionAction { argument ->
+            ObjectDetectorResults.result[argument.toInt()]?.labels?.toList()?.maxBy { it.confidence }?.text ?: ""
+        })
     }
 }

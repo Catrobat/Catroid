@@ -424,7 +424,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_function_text_block_parameter);
 	private static final List<Integer> SENSORS_OBJECT_DETECTION = asList(
 			R.string.formula_editor_function_get_id_of_detected_object,
-			R.string.formula_editor_function_object_with_id_visible
+			R.string.formula_editor_function_object_with_id_visible,
+			R.string.formula_editor_function_label_of_object_with_id
 	);
 	private static final List<Integer> SENSORS_DATE_TIME = asList(R.string.formula_editor_sensor_timer,
 			R.string.formula_editor_sensor_date_year, R.string.formula_editor_sensor_date_month,

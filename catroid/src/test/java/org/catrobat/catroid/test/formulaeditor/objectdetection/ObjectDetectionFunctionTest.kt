@@ -30,6 +30,7 @@ import org.catrobat.catroid.camera.mlkitdetectors.ObjectDetectorOnSuccessListene
 import org.catrobat.catroid.formulaeditor.Functions
 import org.catrobat.catroid.formulaeditor.Functions.ID_OF_DETECTED_OBJECT
 import org.catrobat.catroid.formulaeditor.Functions.OBJECT_WITH_ID_VISIBLE
+import org.catrobat.catroid.formulaeditor.Functions.LABEL_OF_OBJECT_WITH_ID
 import org.catrobat.catroid.formulaeditor.InternToken
 import org.catrobat.catroid.formulaeditor.InternTokenType.NUMBER
 import org.catrobat.catroid.test.formulaeditor.FormulaEditorTestUtil.testSingleParameterFunction
@@ -43,7 +44,7 @@ class ObjectDetectionFunctionTest(
     val name: String,
     private val function: Functions,
     private val parameterValue: Double,
-    private val expectedReturnValue: Double
+    private val expectedReturnValue: Any
 ) {
 
     companion object {
@@ -51,13 +52,16 @@ class ObjectDetectionFunctionTest(
         @Parameterized.Parameters(name = "{0}")
         fun data(): Iterable<Array<Any>> {
             return listOf(
-                arrayOf("Get first ID", ID_OF_DETECTED_OBJECT, 1, 1),
-                arrayOf("Get second ID", ID_OF_DETECTED_OBJECT, 2, 5),
-                arrayOf("Get invalid ID", ID_OF_DETECTED_OBJECT, 100, 0),
-                arrayOf("Get invalid ID", ID_OF_DETECTED_OBJECT, 0, 0),
-                arrayOf("Get invalid ID", ID_OF_DETECTED_OBJECT, -1, 0),
-                arrayOf("Object is visible", OBJECT_WITH_ID_VISIBLE, 5, 1),
-                arrayOf("Object is not visible", OBJECT_WITH_ID_VISIBLE, 100, 0)
+                arrayOf("Get first ID", ID_OF_DETECTED_OBJECT, 1.0, 1.0),
+                arrayOf("Get second ID", ID_OF_DETECTED_OBJECT, 2.0, 5.0),
+                arrayOf("Get invalid ID", ID_OF_DETECTED_OBJECT, 100.0, 0.0),
+                arrayOf("Get invalid ID", ID_OF_DETECTED_OBJECT, 0.0, 0.0),
+                arrayOf("Get invalid ID", ID_OF_DETECTED_OBJECT, -1.0, 0.0),
+                arrayOf("Object is visible", OBJECT_WITH_ID_VISIBLE, 5.0, 1.0),
+                arrayOf("Object is not visible", OBJECT_WITH_ID_VISIBLE, 100.0, 0.0),
+                arrayOf("Get label", LABEL_OF_OBJECT_WITH_ID, 1.0, "Glass"),
+                arrayOf("Get invalid label", LABEL_OF_OBJECT_WITH_ID, 100.0, ""),
+                arrayOf("Get label of object with no labels", LABEL_OF_OBJECT_WITH_ID, 5.0, "")
             )
         }
     }
@@ -67,12 +71,16 @@ class ObjectDetectionFunctionTest(
         DetectedObject(
             Rect(0, 0, 0, 0),
             1,
-            listOf(Label("Book", 0.9F, 1))
+            listOf(
+                Label("Book", 0.2F, 1),
+                Label("Glass", 0.9F, 2),
+                Label("Pen", 0.3F, 3)
+            )
         ),
         DetectedObject(
             Rect(0, 0, 0, 0),
             5,
-            listOf(Label("Book", 0.9F, 1))
+            listOf()
         )
     )
 

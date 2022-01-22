@@ -591,6 +591,8 @@ public class InternFormulaKeyboardAdapter {
 				return buildSingleParameterFunction(Functions.ID_OF_DETECTED_OBJECT, NUMBER, "1");
 			case R.string.formula_editor_function_object_with_id_visible:
 				return buildSingleParameterFunction(Functions.OBJECT_WITH_ID_VISIBLE, NUMBER, "1");
+			case R.string.formula_editor_function_label_of_object_with_id:
+				return buildSingleParameterFunction(Functions.LABEL_OF_OBJECT_WITH_ID, NUMBER, "1");
 		}
 		return null;
 	}
