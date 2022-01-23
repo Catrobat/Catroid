@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.graphics.PointF;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.Queue;
@@ -35,6 +36,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.stage.CameraPositioner;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -42,6 +44,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -60,11 +63,14 @@ public class PenDownActionTest {
 	private Formula xMovement = new Formula(X_MOVEMENT);
 	private Formula yMovement = new Formula(Y_MOVEMENT);
 	private Sprite sprite;
+	private OrthographicCamera camera = Mockito.spy(new OrthographicCamera());
+	private CameraPositioner cameraPositioner = new CameraPositioner(camera, 960.0f, 540.0f);
 	private String projectName = "testProject";
 
 	@Before
 	public void setUp() throws Exception {
 		sprite = new Sprite("testSprite");
+		Mockito.doNothing().when(camera).update();
 		createTestProject();
 	}
 
@@ -107,6 +113,27 @@ public class PenDownActionTest {
 		assertEquals(0f, positions.first().removeFirst().x);
 		assertEquals(X_MOVEMENT, positions.first().first().x);
 		assertEquals(Y_MOVEMENT, positions.first().removeFirst().y);
+	}
+
+	@Test
+	public void testAfterBecomeFocusPoint() {
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
+
+		cameraPositioner.setHorizontalFlex(0f);
+		cameraPositioner.setVerticalFlex(0f);
+		cameraPositioner.setSpriteToFocusOn(sprite);
+
+		sprite.getActionFactory().createPenDownAction(sprite).act(1.0f);
+		sprite.getActionFactory().createPlaceAtAction(sprite, new SequenceAction(), xMovement,
+				yMovement).act(1.0f);
+		cameraPositioner.updateCameraPositionForFocusedSprite();
+
+		Queue<Queue<PointF>> positions = sprite.penConfiguration.getPositions();
+		assertEquals(0f, positions.first().removeFirst().x);
+		assertEquals(X_MOVEMENT, positions.first().first().x);
+		assertEquals(Y_MOVEMENT, positions.first().removeFirst().y);
+		cameraPositioner.reset();
 	}
 
 	@Test

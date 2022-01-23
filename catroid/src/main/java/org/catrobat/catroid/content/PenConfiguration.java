@@ -25,6 +25,7 @@ package org.catrobat.catroid.content;
 
 import android.graphics.PointF;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Queue;
@@ -44,14 +45,14 @@ public class PenConfiguration {
 	public PenConfiguration() {
 	}
 
-	public void drawLinesForSprite(Float screenRatio) {
+	public void drawLinesForSprite(Float screenRatio, Camera camera) {
 
 		ShapeRenderer renderer = StageActivity.stageListener.shapeRenderer;
 		renderer.setColor(new Color(penColor.r, penColor.g, penColor.b, penColor.a));
 		renderer.begin(ShapeRenderer.ShapeType.Filled);
 
 		while (currentQueueHasJobToHandle()) {
-			drawLine(screenRatio, renderer);
+			drawLine(screenRatio, renderer, camera);
 			updateQueues();
 		}
 
@@ -62,11 +63,14 @@ public class PenConfiguration {
 		return !positions.isEmpty() && (positions.first().size > 1 || queuesToFinish > 0);
 	}
 
-	private void drawLine(Float screenRatio, ShapeRenderer renderer) {
+	private void drawLine(Float screenRatio, ShapeRenderer renderer, Camera camera) {
 
 		PointF currentPosition = positions.first().removeFirst();
 		PointF nextPosition = positions.first().first();
-
+		currentPosition.x += camera.position.x;
+		currentPosition.y += camera.position.y;
+		nextPosition.x += camera.position.x;
+		nextPosition.y += camera.position.y;
 		if (currentPosition.x != nextPosition.x || currentPosition.y != nextPosition.y) {
 			Float penSize = (float) this.penSize * screenRatio;
 			renderer.circle(currentPosition.x, currentPosition.y, penSize / 2);
@@ -74,6 +78,8 @@ public class PenConfiguration {
 					penSize);
 			renderer.circle(nextPosition.x, nextPosition.y, penSize / 2);
 		}
+		nextPosition.x -= camera.position.x;
+		nextPosition.y -= camera.position.y;
 	}
 
 	private void updateQueues() {
