@@ -139,8 +139,8 @@
         پیژندنه</string>
     <string name="preference_description_ai_text_recognition">د متن پیژندنې 
         خښتې او سینسرونه فعال کړئ</string>
-    <string name="preference_title_ai_object_recognition">Object recognition</string>
-    <string name="preference_description_ai_object_recognition">Enable object recognition and tracking sensors</string>
+    <string name="preference_title_ai_object_recognition">د څیز پیژندنه</string>
+    <string name="preference_description_ai_object_recognition">د څیز پیژندنې او تعقیب سینسرونه فعال کړئ</string>
     <string name="preference_title_accessibility">لاسرسی</string>
     <string name="preference_description_accessibility">د اپلیکیشن بڼه بدل کړئ</string>
     <string name="preference_title_accessibility_profiles">د لاسرسي پروفایلونه</string>
@@ -473,54 +473,54 @@
         <item quantity="other">کاپي شوي %dلوبغاړي یا توکي.</item>
     </plurals>
     <plurals name="copied_looks">
-        <item quantity="one">Copied %d look.</item>
+        <item quantity="one">کاپي شوی %d لید.</item>
         <item quantity="other">کاپي شوي %d ښکاري.</item>
     </plurals>
     <plurals name="copied_sounds">
-        <item quantity="one">Copied %d sound.</item>
+        <item quantity="one">کاپي شوی%d غږ</item>
         <item quantity="other">کاپي شوي %d غږونه</item>
     </plurals>
     <plurals name="copied_nfc_tags">
-        <item quantity="one">Copied %d NFC tag.</item>
-        <item quantity="other">کاپي شوي  %d NFC ټګونه.</item>
+        <item quantity="one">کاپي شوی %d NFC ټګ.</item>
+        <item quantity="other">کاپي شوی %d NFC ټګ.</item>
     </plurals>
     <!-- Delete -->
     <plurals name="deleted_projects">
-        <item quantity="one">Deleted %d project.</item>
+        <item quantity="one">%d پروژه ړنګه شوه.</item>
         <item quantity="other">%d پروژې ړنګې شوې.</item>
     </plurals>
     <plurals name="deleted_scenes">
-        <item quantity="one">Deleted %d scene.</item>
-        <item quantity="other">%d صحنې حذف شوې.</item>
+        <item quantity="one">%d صحنه ړنګه شوه.</item>
+        <item quantity="other">%d صحنه ړنګه شوه.</item>
     </plurals>
     <plurals name="deleted_sprites">
-        <item quantity="one">Deleted %d actor or object.</item>
-        <item quantity="other">حذف شوي %d لوبغاړي یا توکي.</item>
+        <item quantity="one">%d لوبغاړی یا څیز حذف شوی.</item>
+        <item quantity="other">%d لوبغاړی یا څیز حذف شوی.</item>
     </plurals>
     <plurals name="deleted_looks">
-        <item quantity="one">Deleted %d look.</item>
+        <item quantity="one">%d لید ړنګ شوی.</item>
         <item quantity="other">%d ړنګول.</item>
     </plurals>
     <plurals name="deleted_sounds">
-        <item quantity="one">Deleted %d sound.</item>
+        <item quantity="one">%d غږ ړنګ شو.</item>
         <item quantity="other">%d غږونه حذف شوي.</item>
     </plurals>
     <plurals name="deleted_nfc_tags">
-        <item quantity="one">Deleted %d NFC tag.</item>
-        <item quantity="other">Deleted %d NFC tags.</item>
+        <item quantity="one">%d NFC ټاګ حذف شوی.</item>
+        <item quantity="other">%d NFC ټاګونه ړنګ کړل.</item>
     </plurals>
     <plurals name="deleted_scripts">
-        <item quantity="one">Deleted %d script.</item>
-        <item quantity="other">%d سکریپټونه ړنګ کړل.</item>
+        <item quantity="one">%d سکریپټ ړنګ شو.</item>
+        <item quantity="other">%d سکریپټ ړنګ شو.</item>
     </plurals>
     <plurals name="deleted_Items">
-        <item quantity="one">Deleted %d item.</item>
-        <item quantity="other">Deleted %d items.</item>
+        <item quantity="one">%d توکي ړنګ کړل.</item>
+        <item quantity="other">%d توکي ړنګ کړل.</item>
     </plurals>
     <!-- Imported -->
     <plurals name="imported_projects">
-        <item quantity="one">Imported %d project.</item>
-        <item quantity="other">وارد شوي %d پروژې.</item>
+        <item quantity="one">وارد شوی %d پروژه.</item>
+        <item quantity="other">وارد شوی %d پروژه.</item>
     </plurals>
     <!-- Renamed -->
     <string name="renamed_project">د پروژې نوم بدل کړ</string>
@@ -587,8 +587,8 @@
     <string name="local_lists_headline">یوازې د دې اداکار یا اعتراض لپاره لیست</string>
     <string name="fragment_data_text_description">د تغیراتو یا لیستونو اضافه\n کولو لپاره \"+\" ټایپ کړئ</string>
     <plurals name="user_defined_brick_input_headline">
-        <item quantity="one">Input for this brick</item>
-        <item quantity="other">د دې خښتې لپاره معلومات</item>
+        <item quantity="one">د دې خښتې لپاره داخل کړئ</item>
+        <item quantity="other">د دې خښتې لپاره داخل کړئ</item>
     </plurals>
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">په ټولو صحنو کې د ټولو لوبغاړو، شیانو او کلونونو لپاره</string>
@@ -767,7 +767,7 @@
     <string name="prestage_text_to_speech_error">\u2022د متن څخه وینا ماشین\n</string>
     <string name="prestage_no_back_camera_available">\u2022شاته کیمره\n</string>
     <string name="prestage_no_face_detection_available">\u2022د مخ کشف\n</string>
-    <string name="prestage_no_object_detection_available">\u2022 Object recognition\n</string>
+    <string name="prestage_no_object_detection_available">\u2022 د څیز پیژندنه\n</string>
     <string name="prestage_no_pose_detection_available">\u2022د حالت کشف\n</string>
     <string name="prestage_no_text_detection_available">\u2022د متن کشف\n</string>
     <string name="prestage_no_front_camera_available">\u2022مخکینۍ کیمره\n</string>
@@ -1044,15 +1044,15 @@
     <string name="brick_parameterized_assert">ادعا</string>
     <string name="brick_parameterized_equals">د تمه شوي توکي سره مساوي</string>
     <plurals name="brick_parameterized_foreach_plural">
-        <item quantity="one">For each item of</item>
+        <item quantity="one">د هر توکي لپاره</item>
         <item quantity="other">د هرې برخې لپاره</item>
     </plurals>
     <plurals name="brick_parameterized_stored_plural">
-        <item quantity="one">stored in variable with the same name</item>
+        <item quantity="one">په متغیر کې د ورته نوم سره زیرمه شوی</item>
         <item quantity="other">په متغیرونو کې د ورته نومونو سره زیرمه شوي</item>
     </plurals>
     <plurals name="list_selection_plural">
-        <item quantity="one">%d list selected</item>
+        <item quantity="one">%d لیست غوره شوی</item>
         <item quantity="other">%d لیستونه غوره شوي</item>
     </plurals>
     <plurals name="time_plural">
@@ -1293,7 +1293,7 @@
     <string name="title_other_devices">نوي وسایل</string>
     <string name="searching_devices">د وسایلو په لټه کې&#8230;</string>
     <string name="button_scan">د بلوتوټ وسیلو لټون وکړئ</string>
-    <string name="button_skip">Skip Bluetooth connection</string>
+    <string name="button_skip">د بلوتوټ اتصال پریږدئ</string>
     <string name="select_device">وسیله غوره کړئ:</string>
     <string name="connecting_please_wait">ستاسو وسیله سره نښلول کیږي. مهرباني وکړئ انتظار وکړئ&#8230;</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
@@ -1698,44 +1698,44 @@
     <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3 محیطي رنګ</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3 منعکس شوی رنګ</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">د EV3 هایټریک رنګ</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">EV3 NXT temperature in °C</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">EV3 NXT temperature in °F</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light">EV3 NXT light</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">EV3 NXT light active</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">EV3 NXT sound</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT ultrasonic</string>
-    <string name="formula_editor_sensor_gamepad_a_pressed">gamepad A pressed</string>
-    <string name="formula_editor_sensor_gamepad_b_pressed">gamepad B pressed</string>
-    <string name="formula_editor_sensor_gamepad_up_pressed">gamepad up pressed</string>
-    <string name="formula_editor_sensor_gamepad_down_pressed">gamepad down pressed</string>
-    <string name="formula_editor_sensor_gamepad_left_pressed">gamepad left pressed</string>
-    <string name="formula_editor_sensor_gamepad_right_pressed">gamepad right pressed</string>
-    <string name="formula_editor_phiro_sensor_front_left">phiro front left sensor</string>
-    <string name="formula_editor_phiro_sensor_front_right">phiro front right sensor</string>
-    <string name="formula_editor_phiro_sensor_side_left">phiro side left sensor</string>
-    <string name="formula_editor_phiro_sensor_side_right">phiro side right sensor</string>
-    <string name="formula_editor_phiro_sensor_bottom_left">phiro bottom left sensor</string>
-    <string name="formula_editor_phiro_sensor_bottom_right">phiro bottom right sensor</string>
-    <string name="formula_editor_nfc_tag_id">nfc tag id</string>
-    <string name="formula_editor_nfc_tag_message">nfc tag message</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">EV3 NXT تودوخه په °C کې</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">EV3 NXT تودوخه په °F کې</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light">EV3 NXT رڼا</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">EV3 NXT رڼا فعاله ده</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">EV3 NXT غږ</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT الټراسونک</string>
+    <string name="formula_editor_sensor_gamepad_a_pressed">د لوبې پیډ A فشار شوی</string>
+    <string name="formula_editor_sensor_gamepad_b_pressed">د لوبې پیډ B فشار شوی</string>
+    <string name="formula_editor_sensor_gamepad_up_pressed">د لوبې پیډ فشار شوی</string>
+    <string name="formula_editor_sensor_gamepad_down_pressed">د لوبې پیډ لاندې فشار شوی</string>
+    <string name="formula_editor_sensor_gamepad_left_pressed">د لوبې پیډ کیڼ فشار شوی</string>
+    <string name="formula_editor_sensor_gamepad_right_pressed">د لوبې پیډ ښی فشار شوی</string>
+    <string name="formula_editor_phiro_sensor_front_left">phiro مخکی کیڼ سینسر</string>
+    <string name="formula_editor_phiro_sensor_front_right">د فیرو مخکی ښی سینسر</string>
+    <string name="formula_editor_phiro_sensor_side_left">د فیرو اړخ کیڼ سینسر</string>
+    <string name="formula_editor_phiro_sensor_side_right">د فیرو اړخ ښیې سینسر</string>
+    <string name="formula_editor_phiro_sensor_bottom_left">phiro لاندې کیڼ سینسر</string>
+    <string name="formula_editor_phiro_sensor_bottom_right">د فیرو لاندې ښیې سینسر</string>
+    <string name="formula_editor_nfc_tag_id">د nfc ټګ ID</string>
+    <string name="formula_editor_nfc_tag_message">د nfc ټګ پیغام</string>
     <string name="formula_editor_object_x">موقعیت x</string>
     <string name="formula_editor_object_y">موقف y</string>
     <string name="formula_editor_object_transparency">شفافیت</string>
     <string name="formula_editor_object_brightness">روښانتیا</string>
     <string name="formula_editor_object_size">اندازه</string>
-    <string name="formula_editor_object_rotation">motion direction</string>
-    <string name="formula_editor_object_rotation_look">look direction</string>
+    <string name="formula_editor_object_rotation">د حرکت لوري</string>
+    <string name="formula_editor_object_rotation_look">لوري ته وګوره</string>
     <string name="formula_editor_object_layer">طبقه</string>
-    <string name="formula_editor_object_x_velocity">x velocity</string>
-    <string name="formula_editor_object_y_velocity">y velocity</string>
-    <string name="formula_editor_object_angular_velocity">angular velocity</string>
+    <string name="formula_editor_object_x_velocity">x سرعت</string>
+    <string name="formula_editor_object_y_velocity">y سرعت</string>
+    <string name="formula_editor_object_angular_velocity">زاویه سرعت</string>
     <string name="formula_editor_object_look_number">شمیره وګورئ</string>
     <string name="formula_editor_object_look_name">نوم وګوره</string>
-    <string name="formula_editor_object_number_of_looks">number of looks</string>
+    <string name="formula_editor_object_number_of_looks">د لیدلو شمیر</string>
     <string name="formula_editor_object_background_number">د شاليد شمېره</string>
     <string name="formula_editor_object_background_name">د شاليد نوم</string>
-    <string name="formula_editor_object_number_of_backgrounds">number of backgrounds</string>
-    <string name="formula_editor_object_distance_to">distance to touch position</string>
+    <string name="formula_editor_object_number_of_backgrounds">د شالید شمیر</string>
+    <string name="formula_editor_object_distance_to">د تماس موقعیت ته واټن</string>
     <string name="formula_editor_compute">محاسبه</string>
     <string name="formula_editor_object">ملکیتونه</string>
     <string name="formula_editor_functions">افعال</string>
@@ -1747,12 +1747,12 @@
     <string name="formula_editor_functions_lists">لیستونه</string>
     <string name="formula_editor_logic_boolean">منطقي (بولین) چلونکي او ثابتونکي</string>
     <string name="formula_editor_logic_comparison">د پرتله کولو چلونکي</string>
-    <string name="formula_editor_object_look">Look properties</string>
+    <string name="formula_editor_object_look">ملکیتونه وګورئ</string>
     <string name="formula_editor_object_movement">د حرکت ځانګړتیاوې</string>
-    <string name="formula_editor_device_face_detection">Face detection</string>
+    <string name="formula_editor_device_face_detection">د مخ کشف</string>
     <string name="formula_editor_device_pose_detection">د حالت کشف</string>
-    <string name="formula_editor_device_text_recognition">Text recognition</string>
-    <string name="formula_editor_device_object_recognition">Object recognition</string>
+    <string name="formula_editor_device_text_recognition">د متن پیژندنه</string>
+    <string name="formula_editor_device_object_recognition">د څیز پیژندنه</string>
     <string name="formula_editor_device_date_and_time">نیټه او وخت</string>
     <string name="formula_editor_device_touch_detection">د لمس کشف</string>
     <string name="formula_editor_device_lego_nxt">Lego Mindstorms NXT</string>
@@ -1778,25 +1778,24 @@
     <string name="formula_editor_operator_minus">-</string>
     <string name="formula_editor_operator_divide">÷</string>
     <string name="formula_editor_operator_power">^</string>
-    <string name="formula_editor_image_button_description_delete">delete</string>
-    <string name="formula_editor_image_button_description_color_picker">color picker</string>
-    <string name="formula_editor_image_button_description_functions_toggle">toggle functions</string>
+    <string name="formula_editor_image_button_description_delete">ړنګول</string>
+    <string name="formula_editor_image_button_description_color_picker">رنګ غوره کونکی</string>
+    <string name="formula_editor_image_button_description_functions_toggle">د دندو بدلول</string>
     <string name="formula_editor_variable_dialog_title">نوی متغیر</string>
     <string name="formula_editor_list_dialog_title">نوی لیست</string>
-    <string name="formula_editor_regex_html_extractor_dialog_title">HTML extractor</string>
+    <string name="formula_editor_regex_html_extractor_dialog_title">د HTML استخراج</string>
     <string name="formula_editor_discard_changes_dialog_message">ایا تاسو غواړئ خپل بدلونونه خوندي کړئ؟</string>
     <string name="formula_editor_discard_changes_dialog_title">بدلونونه خوندي کړئ؟</string>
     <string name="formula_editor_new_string_name">نوی متن</string>
-    <string name="formula_editor_dialog_change_text">Change text</string>
-    <string name="formula_editor_dialog_change_regular_expression">Change regular
-        expression</string>
-    <string name="formula_editor_fragment_data_current_items">current items</string>
-    <string name="formula_editor_data_dialog_is_list">Make it a list</string>
+    <string name="formula_editor_dialog_change_text">متن بدل کړئ</string>
+    <string name="formula_editor_dialog_change_regular_expression">منظم بیان بدل کړئ</string>
+    <string name="formula_editor_fragment_data_current_items">اوسني توکي</string>
+    <string name="formula_editor_data_dialog_is_list">دا یو لیست جوړ کړئ</string>
     <string name="formula_editor_sensor_face_detected">face is visible</string>
     <string name="formula_editor_sensor_face_size">face size</string>
     <string name="formula_editor_sensor_face_x_position">face x position</string>
     <string name="formula_editor_sensor_face_y_position">face y position</string>
-    <string name="formula_editor_sensor_second_face_detected">second face is visible</string>
+    <string name="formula_editor_sensor_second_face_detected">دوهم مخ ښکاره دی</string>
     <string name="formula_editor_sensor_second_face_size">د دوهم مخ اندازه</string>
     <string name="formula_editor_sensor_second_face_x_position">دوهم مخ x موقعیت</string>
     <string name="formula_editor_sensor_second_face_y_position">دوهم مخ او موقعیت</string>
@@ -1847,86 +1846,80 @@
     <string name="formula_editor_sensor_right_index_knuckle_x">د ښي شاخص knuckle x</string>
     <string name="formula_editor_sensor_right_index_knuckle_y">د حق شاخص knuckle y</string>
     <string name="formula_editor_sensor_left_thumb_knuckle_x">د چپه ګوتې ګوتې x</string>
-    <string name="formula_editor_sensor_left_thumb_knuckle_y">left thumb knuckle y</string>
-    <string name="formula_editor_sensor_right_thumb_knuckle_x">right thumb knuckle x</string>
-    <string name="formula_editor_sensor_right_thumb_knuckle_y">right thumb knuckle y</string>
-    <string name="formula_editor_sensor_left_hip_x">left hip x</string>
-    <string name="formula_editor_sensor_left_hip_y">left hip y</string>
-    <string name="formula_editor_sensor_right_hip_x">right hip x</string>
-    <string name="formula_editor_sensor_right_hip_y">right hip y</string>
-    <string name="formula_editor_sensor_left_knee_x">left knee x</string>
-    <string name="formula_editor_sensor_left_knee_y">left knee y</string>
-    <string name="formula_editor_sensor_right_knee_x">right knee x</string>
-    <string name="formula_editor_sensor_right_knee_y">right knee y</string>
-    <string name="formula_editor_sensor_left_ankle_x">left ankle x</string>
-    <string name="formula_editor_sensor_left_ankle_y">left ankle y</string>
-    <string name="formula_editor_sensor_right_ankle_x">right ankle x</string>
-    <string name="formula_editor_sensor_right_ankle_y">right ankle y</string>
-    <string name="formula_editor_sensor_left_heel_x">left heel x</string>
-    <string name="formula_editor_sensor_left_heel_y">left heel y</string>
-    <string name="formula_editor_sensor_right_heel_x">right heel x</string>
-    <string name="formula_editor_sensor_right_heel_y">right heel y</string>
-    <string name="formula_editor_sensor_left_foot_index_x">left foot index x</string>
-    <string name="formula_editor_sensor_left_foot_index_y">left foot index y</string>
-    <string name="formula_editor_sensor_right_foot_index_x">right foot index x</string>
-    <string name="formula_editor_sensor_right_foot_index_y">right foot index y</string>
-    <string name="formula_editor_sensor_text_from_camera">text from camera</string>
-    <string name="formula_editor_sensor_text_blocks_number">number of text blocks</string>
-    <string name="formula_editor_function_text_block_x">text block x from camera</string>
-    <string name="formula_editor_function_text_block_y">text block y from camera</string>
-    <string name="formula_editor_function_text_block_size">text block size from camera</string>
-    <string name="formula_editor_function_text_block_from_camera">text block from camera</string>
-    <string name="formula_editor_function_text_block_language_from_camera">text block language from camera</string>
+    <string name="formula_editor_sensor_left_thumb_knuckle_y">چپه ګوتې ګوتې y</string>
+    <string name="formula_editor_sensor_right_thumb_knuckle_x">د ښي ګوتې ګوتې x</string>
+    <string name="formula_editor_sensor_right_thumb_knuckle_y">د ښي ګوتې ګوتې y</string>
+    <string name="formula_editor_sensor_left_hip_x">کیڼ هپ x</string>
+    <string name="formula_editor_sensor_left_hip_y">کیڼ هپ y</string>
+    <string name="formula_editor_sensor_right_hip_x">ښي هپ x</string>
+    <string name="formula_editor_sensor_right_hip_y">ښي هپ y</string>
+    <string name="formula_editor_sensor_left_knee_x">کیڼ زنګون x</string>
+    <string name="formula_editor_sensor_left_knee_y">کیڼ زنګون y</string>
+    <string name="formula_editor_sensor_right_knee_x">ښي زنګون x</string>
+    <string name="formula_editor_sensor_right_knee_y">ښي زنګون y</string>
+    <string name="formula_editor_sensor_left_ankle_x">چپه پښه x</string>
+    <string name="formula_editor_sensor_left_ankle_y">چپه پښه y</string>
+    <string name="formula_editor_sensor_right_ankle_x">ښي پښه x</string>
+    <string name="formula_editor_sensor_right_ankle_y">ښي پښه y</string>
+    <string name="formula_editor_sensor_left_heel_x">کیڼ پښه x</string>
+    <string name="formula_editor_sensor_left_heel_y">کیڼ پښه y</string>
+    <string name="formula_editor_sensor_right_heel_x">ښي پښه x</string>
+    <string name="formula_editor_sensor_right_heel_y">ښي پښه y</string>
+    <string name="formula_editor_sensor_left_foot_index_x">د کیڼ پښو شاخص x</string>
+    <string name="formula_editor_sensor_left_foot_index_y">د چپې پښې شاخص y</string>
+    <string name="formula_editor_sensor_right_foot_index_x">د ښي پښې شاخص x</string>
+    <string name="formula_editor_sensor_right_foot_index_y">د ښي پښې شاخص y</string>
+    <string name="formula_editor_sensor_text_from_camera">د کیمرې څخه متن</string>
+    <string name="formula_editor_sensor_text_blocks_number">د متن بلاکونو شمیر</string>
+    <string name="formula_editor_function_text_block_x">د کیمرې څخه متن بلاک x</string>
+    <string name="formula_editor_function_text_block_y">د کیمرې څخه متن بلاک y</string>
+    <string name="formula_editor_function_text_block_size">د کیمرې څخه د متن بلاک اندازه</string>
+    <string name="formula_editor_function_text_block_from_camera">د کیمرې څخه د متن بلاک</string>
+    <string name="formula_editor_function_text_block_language_from_camera">د کیمرې څخه د متن بلاک ژبه</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
-    <string name="formula_editor_function_get_id_of_detected_object">ID of detected object</string>
+    <string name="formula_editor_function_get_id_of_detected_object">د کشف شوي څیز ID</string>
+    <string name="formula_editor_function_object_with_id_visible">object with ID visible</string>
     <string name="formula_editor_intro_title_formula_editor">د فورمول مدیر</string>
     <string name="formula_editor_intro_summary_formula_editor">With the  formula editor you can create mathematical and
         logical formulas that you can use in your bricks.\n\nYou can continue through this little intro by tapping
         the \"Next\" button in the bottom right corner, and you can skip it by clicking the \"SKIP\" button in the
         bottom left corner.</string>
-    <string name="formula_editor_intro_title_input_field">Input field</string>
-    <string name="formula_editor_intro_summary_input_field">Here you can see and edit your formula.</string>
-    <string name="formula_editor_intro_title_keyboard">Keyboard</string>
-    <string name="formula_editor_intro_summary_keyboard">This is where you can create
-        your formula, just like on a calculator.</string>
+    <string name="formula_editor_intro_title_input_field">د ننوتلو ساحه</string>
+    <string name="formula_editor_intro_summary_input_field">دلته تاسو کولی شئ خپل فارمول وګورئ او سم کړئ.</string>
+    <string name="formula_editor_intro_title_keyboard">کیبورډ</string>
+    <string name="formula_editor_intro_summary_keyboard">دا هغه ځای دی چې تاسو کولی شئ 
+        خپل فارمول جوړ کړئ، لکه څنګه چې په کیلکولیټر کې.</string>
     <string name="formula_editor_intro_title_compute">محاسبه</string>
-    <string name="formula_editor_intro_summary_compute">To show your formula\'s current result, you can
-        use \"Compute\".</string>
+    <string name="formula_editor_intro_summary_compute">د خپل فارمول اوسنۍ پایلې ښودلو لپاره، تاسو کولی شئ \"کمپیوټ\" وکاروئ.</string>
     <string name="formula_editor_intro_title_object">ملکیتونه</string>
-    <string name="formula_editor_intro_summary_object">This is a collection of values that describe the properties of your
-        current actor or object. Examples are the x- and y-coordinates, or the current speed.</string>
+    <string name="formula_editor_intro_summary_object">دا د ارزښتونو ټولګه ده چې ستاسو د اوسني اداکار یا اعتراض ملکیتونه بیانوي. مثالونه x- او y- همغږي، یا اوسنی سرعت دی.</string>
     <string name="formula_editor_intro_title_functions">افعال</string>
-    <string name="formula_editor_intro_summary_functions">Like a calculator, the formula editor offers
-        many mathematical functions.\nYou can find trigonometric functions such as \"sin\" and \"cos\",
-        a random number generator, and text and list functions.</string>
+    <string name="formula_editor_intro_summary_functions">د یو کیلکولیټر په څیر، د فارمول ایډیټر 
+        ډیری ریاضیاتي دندې وړاندې کوي.\n تاسو کولی شئ د مثلثاتو فنکشنونه ومومئ لکه \"sin\" او \"cos\"، 
+        یو تصادفي شمیره جنریټر، او د متن او لیست دندې.</string>
     <string name="formula_editor_intro_title_logic">منطق</string>
-    <string name="formula_editor_intro_summary_logic">Logic is used to compare values and combine logical formulas.\nTo
-        compare values you can use logical operations such as \"&gt;\" (greater than) or \"=\" (equals).\nTo combine
-        logical formulas you can use logical operations such as \"AND\", \"OR\" and \"NOT\".</string>
+    <string name="formula_editor_intro_summary_logic">منطق د ارزښتونو پرتله کولو او منطقي فورمولونو سره یوځای کولو لپاره کارول کیږي.\n د ارزښتونو         پرتله کولو لپاره تاسو کولی شئ منطقي عملیات وکاروئ لکه \"&gt;\" (له دې څخه لوی) یا \"=\" (مساوي).\n د                 منطقي فورمولونو د یوځای کولو لپاره تاسو کولی شئ منطقي عملیات وکاروئ لکه \"AND\"، \"OR\" او \"NOT\".</string>
     <string name="formula_editor_intro_title_device">سینسرونه</string>
-    <string name="formula_editor_intro_summary_device">In \"Sensors\" you can find information that your
-        device records.\nFor example, the tilt of your device, or the loudness of your surroundings.</string>
+    <string name="formula_editor_intro_summary_device">په \"سینسر\" کې تاسو هغه معلومات موندلی شئ چې ستاسو وسیله ثبتوي.\n د مثال په توګه، ستاسو د وسیلې خپګان، یا ستاسو د شاوخوا شاوخوا غږ.</string>
     <string name="formula_editor_intro_title_data">ډاټا</string>
-    <string name="formula_editor_intro_summary_data">Variables and lists that are used in your project can be found here.
-        \nYou can simply insert these in your formula, or add new ones.</string>
-    <string name="formula_editor_listening_language_sensor">listening language</string>
-    <string name="formula_editor_speech_recognition">Speech recognition</string>
+    <string name="formula_editor_intro_summary_data">متغیرات او لیستونه چې ستاسو په پروژه کې کارول کیږي دلته موندل کیدی شي.\n تاسو کولی شئ دا په ساده ډول په خپل فارمول کې داخل کړئ، یا نوي اضافه کړئ.</string>
+    <string name="formula_editor_listening_language_sensor">د اوریدلو ژبه</string>
+    <string name="formula_editor_speech_recognition">د وینا پیژندنه</string>
     <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.</string>
-    <string name="warning_formula_recognized">You entered a text that looks like a formula. If you want to use functions,
-        sensors, variables and other formula elements, please select them instead using the
-        buttons in the formula editor.</string>
+    <string name="warning_formula_recognized">تاسو یو متن داخل کړی چې د فورمول په څیر ښکاري. که تاسو غواړئ فنکشنونه، 
+        سینسرونه، متغیرات او نور د فورمول عناصر وکاروئ، نو مهرباني وکړئ د فورمول مدیر کې د         بټونو کارولو پرځای یې غوره کړئ.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
     <string name="brick_show_variable">متغیر ښکاره کړئ</string>
     <string name="brick_hide_variable">متغیر پټ کړئ</string>
-    <string name="brick_show_variable_position">at</string>
-    <string name="brick_show_variable_size">size:</string>
-    <string name="brick_show_variable_color">color:</string>
-    <string name="brick_show_variable_aligned">aligned</string>
-    <string name="brick_show_variable_aligned_centered">centered</string>
-    <string name="brick_show_variable_aligned_left">left</string>
-    <string name="brick_show_variable_aligned_right">right</string>
+    <string name="brick_show_variable_position">په</string>
+    <string name="brick_show_variable_size">اندازه:</string>
+    <string name="brick_show_variable_color">رنګ:</string>
+    <string name="brick_show_variable_aligned">ترتیب شوی</string>
+    <string name="brick_show_variable_aligned_centered">متمرکز</string>
+    <string name="brick_show_variable_aligned_left">پاتې</string>
+    <string name="brick_show_variable_aligned_right">حق</string>
     <string name="brick_context_dialog_pick_color">رنګ غوره کړئ</string>
     <string name="brick_context_dialog_pick_note">یادښت غوره کړئ</string>
     <!-- -->
@@ -1936,7 +1929,7 @@
     <string name="video_brick_camera_off">بند</string>
     <string name="brick_choose_camera">کیمره وکاروئ</string>
     <string name="choose_camera_front">مخ</string>
-    <string name="choose_camera_back">rear</string>
+    <string name="choose_camera_back">شاته</string>
     <string name="camera_error_generic">        Something went wrong while trying to use the camera.
     </string>
     <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
@@ -1946,54 +1939,42 @@
     <!-- Cast strings -->
     <string name="cast_gamepad_A">A</string>
     <string name="cast_gamepad_B">B</string>
-    <string name="cast_gamepad_up">up</string>
-    <string name="cast_gamepad_down">down</string>
-    <string name="cast_gamepad_left">left</string>
-    <string name="cast_gamepad_right">right</string>
-    <string name="cast_error_not_connected_msg">Please connect to your Chromecast first</string>
-    <string name="cast_error_cast_bricks_in_no_cast_project">Your project uses Chromecast bricks and can\'t be started
-        locally</string>
-    <string name="cast_device_selector_dialog_title">Cast to</string>
-    <string name="cast_button_menu_item_title">Cast button</string>
-    <string name="cast_ready_to_cast">Ready to cast to</string>
-    <string name="cast_enable_cast_feature">Chromecast features disabled. Please enable cast features in the settings.</string>
-    <string name="cast_searching_for_cast_devices">Searching for Chromecast devices</string>
-    <string name="cast_trouble_finding_devices_tip">.\nDon\'t see your device? Try turning your device\'s Wifi off
-        and on.</string>
-    <string name="cast_connection_timout_msg">Connection timeout. Please try again.</string>
-    <string name="cast_screen_pause_text">Paused</string>
+    <string name="cast_gamepad_up">پورته</string>
+    <string name="cast_gamepad_down">ښکته</string>
+    <string name="cast_gamepad_left">پاتې</string>
+    <string name="cast_gamepad_right">حق</string>
+    <string name="cast_error_not_connected_msg">مهرباني وکړئ لومړی خپل Chromecast سره وصل کړئ</string>
+    <string name="cast_error_cast_bricks_in_no_cast_project">ستاسو پروژه د Chromecast خښتې کاروي او په ځایی توګه نشي پیل کیدی</string>
+    <string name="cast_device_selector_dialog_title">ته کاسټ</string>
+    <string name="cast_button_menu_item_title">د کاسټ تڼۍ</string>
+    <string name="cast_ready_to_cast">د اچولو لپاره چمتو دی</string>
+    <string name="cast_enable_cast_feature">د Chromecast ځانګړتیاوې غیر فعال شوي. مهرباني وکړئ په ترتیباتو کې د کاسټ ځانګړتیاوې فعال کړئ.</string>
+    <string name="cast_searching_for_cast_devices">د Chromecast وسیلو لټون کول</string>
+    <string name="cast_trouble_finding_devices_tip">\nخپل وسیله نه ګورئ؟ هڅه وکړئ د خپل وسیله وائی فای بند         او فعال کړئ.</string>
+    <string name="cast_connection_timout_msg">د پیوستون وخت پای ته ورسید. مهرباني وکړئ بیا هڅه وکړئ.</string>
+    <string name="cast_screen_pause_text">ودریدل</string>
     <!-- -->
-    <string name="deletion_alert_title">Delete?</string>
-    <string name="deletion_alert_text">Deleting a variable or list that is still in use can cause
-        errors. You can\'t undo this!</string>
+    <string name="deletion_alert_title">ړنګول؟</string>
+    <string name="deletion_alert_text">د یو متغیر یا لیست حذف کول چې لاهم کارول کیږي د         غلطیو لامل کیدی شي. تاسو نشئ کولی دا رد کړئ!</string>
     <!-- Upload progress dialog -->
-    <string name="progress_upload_dialog_message">Your project gets uploaded to the app\’s sharing site where others
-        can use and download it. You can also download your project as a standalone app.</string>
-    <string name="progress_upload_dialog_failed">Upload failed. Please check your internet connection and try
-        again!</string>
-    <string name="progress_upload_dialog_show_program">Show project</string>
+    <string name="progress_upload_dialog_message">ستاسو پروژه د اپلیکیشن شریکولو سایټ ته اپلوډ کیږي چیرې چې نور کولی شي دا وکاروي         او ډاونلوډ کړي. تاسو کولی شئ خپله پروژه د سټنډرډ اپلیکیشن په توګه ډاونلوډ کړئ.</string>
+    <string name="progress_upload_dialog_failed">اپلوډ ناکام شو. مهرباني وکړئ خپل انټرنیټ پیوستون وګورئ او         بیا هڅه وکړئ!</string>
+    <string name="progress_upload_dialog_show_program">پروژه ښکاره کړئ</string>
     <!--  -->
     <!-- unchanged upload dialog -->
-    <string name="unchanged_upload_warning">The project you are trying to upload already exists on
-        the community platform in exactly the same form. Please change your project, ideally by
-        enhancing it, before uploading your remixed project.</string>
-    <string name="unchanged_upload_info">Please consider adding some kind words towards the original
-        author in the Credits section on the community site or in the project options. Please note
-        that the user will get a notification after your successful upload.</string>
-    <string name="unchanged_upload_url">To learn more about remixes, please visit %1s.</string>
+    <string name="unchanged_upload_warning">هغه پروژه چې تاسو یې د اپلوډ کولو هڅه کوئ دمخه د ټولنې په پلیټ فارم کې په ورته شکل کې شتون لري. مهرباني وکړئ د خپلې ریمکس شوې پروژې اپلوډ کولو دمخه ، په مثالي توګه د دې په لوړولو سره خپل پروژه بدل کړئ.</string>
+    <string name="unchanged_upload_info">مهرباني وکړئ د ټولنې سایټ یا د پروژې په اختیارونو کې د کریډیټ برخه کې د اصلي لیکوال لپاره ځینې مهربانې کلمې اضافه کولو ته پام وکړئ. مهرباني وکړئ په یاد ولرئ چې کارونکي به ستاسو د بریالي اپلوډ وروسته خبرتیا ترلاسه کړي.</string>
+    <string name="unchanged_upload_url">د ریمکس په اړه د نورو معلوماتو لپاره، مهرباني وکړئ %1s ته لاړ شئ.</string>
     <!-- -->
     <!-- Snackbar hints -->
-    <string name="got_it">Got it</string>
-    <string name="preference_description_hints">Enable to show hints</string>
-    <string name="preference_title_enable_hints">Show hints </string>
-    <string name="hint_category">All bricks are sorted in categories. Choose the category you are looking for.</string>
-    <string name="hint_bricks">To add a brick to your script, tap on the brick you want to use.</string>
-    <string name="hint_scripts">The script defines the behavior of your actor or object. To add bricks to the script,
-        tap the \"+\" symbol.</string>
-    <string name="hint_looks">Here you can find the different appearances of your actor or object. To add a new look,
-        tap the \"+\" symbol.</string>
-    <string name="hint_sounds">Here you can add new sounds to your actor or object. Remember using a brick from the
-        sound category.</string>
+    <string name="got_it">وامیخیست</string>
+    <string name="preference_description_hints">د اشارو ښودلو وړ کړئ</string>
+    <string name="preference_title_enable_hints">نښې ښکاره کړئ </string>
+    <string name="hint_category">ټول خښتې په کټګوریو کې ترتیب شوي دي. هغه کټګورۍ غوره کړئ چې تاسو یې په لټه کې یاست.</string>
+    <string name="hint_bricks">ستاسو په سکریپټ کې د خښتو اضافه کولو لپاره، په هغه خښته باندې ټایپ کړئ چې تاسو یې کارول غواړئ.</string>
+    <string name="hint_scripts">سکریپټ ستاسو د اداکار یا اعتراض چلند تعریفوي. سکریپټ ته د خښتو اضافه کولو لپاره،         د \"+\" سمبول ټایپ کړئ.</string>
+    <string name="hint_looks">دلته تاسو کولی شئ د خپل اداکار یا څیز مختلف ډولونه ومومئ. د نوي لید اضافه کولو لپاره ، د \"+\" سمبول ټایپ کړئ.</string>
+    <string name="hint_sounds">دلته تاسو کولی شئ خپل اداکار یا اعتراض ته نوي غږونه اضافه کړئ. د غږ کټګورۍ څخه د خښتو کارول په یاد ولرئ.</string>
     <string name="hint_objects">Your program consists of different actors and objects that can interact with each other.
         To add a new actor or object, tap the \"+\" symbol.</string>
     <!--  -->

@@ -1835,6 +1835,7 @@ bekleyin</string>
     <string name="formula_editor_function_text_block_language_from_camera">kameradan gelen metin bloğu dili</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
     <string name="formula_editor_function_get_id_of_detected_object">Algılanan nesnenin ID\'si</string>
+    <string name="formula_editor_function_object_with_id_visible">ID\'si görünür olan obje</string>
     <string name="formula_editor_intro_title_formula_editor">Formül düzenleyicisi</string>
     <string name="formula_editor_intro_summary_formula_editor">Formül düzenleyici ile bileşenlerinizde kullanmak için
         matematiksel ve mantıksal formüller oluşturabilirsiniz. \n\nDevam etmek için \"İLERİ\" ye dokunun veya öğretici den çıkımak için

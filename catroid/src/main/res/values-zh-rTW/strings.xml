@@ -1836,6 +1836,7 @@
     <string name="formula_editor_function_text_block_language_from_camera">來自相機的文本塊語言</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
     <string name="formula_editor_function_get_id_of_detected_object">檢測對象ID</string>
+    <string name="formula_editor_function_object_with_id_visible">object with ID visible</string>
     <string name="formula_editor_intro_title_formula_editor">修改公式</string>
     <string name="formula_editor_intro_summary_formula_editor">使用公式編輯器，您可以創建數學和
         您可以在積木中使用的邏輯公式。\n\n點擊“下一步”繼續或退出

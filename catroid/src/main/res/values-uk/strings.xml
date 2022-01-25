@@ -74,7 +74,7 @@
     <string name="loading_google_login">Google login on our server is complete&#8230;</string>
     <string name="logout_successful">Logout successful</string>
     <string name="degrees">degrees</string>
-    <string name="background">Background</string>
+    <string name="background">Фон</string>
     <string name="landscape">альбомна орієнтація</string>
     <string name="portrait">портретна орієнтація</string>
     <string name="unknown">невідомо</string>
@@ -1972,6 +1972,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_text_block_language_from_camera">text block language from camera</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
     <string name="formula_editor_function_get_id_of_detected_object">ID of detected object</string>
+    <string name="formula_editor_function_object_with_id_visible">object with ID visible</string>
     <string name="formula_editor_intro_title_formula_editor">Formula editor</string>
     <string name="formula_editor_intro_summary_formula_editor">With the  formula editor you can create mathematical and
         logical formulas that you can use in your bricks.\n\nYou can continue through this little intro by tapping

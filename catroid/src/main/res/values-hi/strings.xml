@@ -1881,6 +1881,7 @@
     <string name="formula_editor_function_text_block_language_from_camera">कैमरे से पाठ ब्लॉक भाषा</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
     <string name="formula_editor_function_get_id_of_detected_object">खोजी गई वस्तु की आईडी</string>
+    <string name="formula_editor_function_object_with_id_visible">object with ID visible</string>
     <string name="formula_editor_intro_title_formula_editor">सूत्र संपादक</string>
     <string name="formula_editor_intro_summary_formula_editor">सूत्र संपादक के साथ आप गणितीय बना सकते हैं और
          तार्किक सूत्र जो आप अपनी ईंटों में उपयोग कर सकते हैं। \ n \ n \"\" अगला \"टैप करके या बाहर निकलें

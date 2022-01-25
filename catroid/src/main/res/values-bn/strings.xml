@@ -1844,6 +1844,7 @@
     <string name="formula_editor_function_text_block_language_from_camera">ক্যামেরা থেকে পাঠ্য ব্লক ভাষা</string>
     <string name="formula_editor_function_text_block_parameter">(১)</string>
     <string name="formula_editor_function_get_id_of_detected_object">সনাক্ত করা বস্তুর আইডি</string>
+    <string name="formula_editor_function_object_with_id_visible">object with ID visible</string>
     <string name="formula_editor_intro_title_formula_editor">সূত্র সম্পাদক</string>
     <string name="formula_editor_intro_summary_formula_editor">সূত্র সম্পাদক সহ আপনি গাণিতিক এবং যৌক্তিক সূত্রগুলি তৈরি করতে পারেন যা আপনি নিজের ব্রিকগুলিতে ব্যবহার করতে পারেন। নীচের ডান কোণে \"Next\" বোতামটি আলতো চাপ দিয়ে আপনি এই সামান্য পরিচিতিটি চালিয়ে যেতে পারেন এবং নীচে বাম কোণে \"SKIP\" বোতামটি ক্লিক করে আপনি এড়িয়ে যেতে পারেন।</string>
     <string name="formula_editor_intro_title_input_field">ইনপুট ক্ষেত্র</string>

@@ -2050,6 +2050,7 @@
     <string name="formula_editor_function_text_block_language_from_camera">لغة كتلة النص من الكاميرا</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
     <string name="formula_editor_function_get_id_of_detected_object">معرف الكائن المكتشف</string>
+    <string name="formula_editor_function_object_with_id_visible">object with ID visible</string>
     <string name="formula_editor_intro_title_formula_editor">محرر الصيغة</string>
     <string name="formula_editor_intro_summary_formula_editor">محرر الصيغة يسمح لك بإنشاء صيغ رياضية و        صيغ منطقية والتي يمكنك استخدامها ضمن لّبناتك البرمجية.\n\nيمكنك التقدم بهذه المقدمة الصغيرة من خلال لمس         زر \"التالي\" في الزاوية السفلى اليمنى, ويمكنك تخطي ذلك  من خلال لمس زر \"تخطي\" في        الزاوية السفلى اليسرى.</string>
     <string name="formula_editor_intro_title_input_field">حقل إدخال</string>

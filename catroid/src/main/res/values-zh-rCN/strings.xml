@@ -274,7 +274,7 @@
     <string name="by_x">作者 %1$s</string>
     <string name="warning_program_visibility">警告：\n这似乎是一个私有项目。您可以尝试转换它，但它可能无法运作。</string>
     <string name="instructions">说明</string>
-    <string name="notes_and_credits">评论与得分</string>
+    <string name="notes_and_credits">备注和积分</string>
     <string name="shared_at_x">分享时间：%1$s</string>
     <string name="modified_at_x">修改时间：%1$s</string>
     <string name="remixes">调制</string>
@@ -284,7 +284,7 @@
     <string name="mode">模式：</string>
     <string name="remix_of">调制来源：</string>
     <string name="description_hint">按下并添加说明</string>
-    <string name="notes_and_credits_hint">点击添加便笺和点数</string>
+    <string name="notes_and_credits_hint">点击添加备注和积分</string>
     <!-- ScratchReconvertDialog Strings -->
     <string name="reconvert_text">你在 %1$s 之前转换了这个项目。</string>
     <plurals name="minutes">
@@ -1815,6 +1815,7 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="formula_editor_function_text_block_language_from_camera">来自相机的文本方块语言</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
     <string name="formula_editor_function_get_id_of_detected_object">检测到的对象的ID</string>
+    <string name="formula_editor_function_object_with_id_visible">ID可见的对象</string>
     <string name="formula_editor_intro_title_formula_editor">公式编辑器</string>
     <string name="formula_editor_intro_summary_formula_editor">通过公式编辑器，您可以创建您可以在积木中使用的数学和
         逻辑公式。\n\n继续点击“NEXT”或退出

@@ -1806,6 +1806,7 @@
     <string name="formula_editor_function_text_block_language_from_camera">زبان بلوک متن از دوربین</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
     <string name="formula_editor_function_get_id_of_detected_object">شناسه شی شناسایی شده</string>
+    <string name="formula_editor_function_object_with_id_visible">object with ID visible</string>
     <string name="formula_editor_intro_title_formula_editor">ویرایشگر فرمول</string>
     <string name="formula_editor_intro_summary_formula_editor">با ویرایشگر فرمول می‌توانید فرمول‌های ریاضی         و منطقی ایجاد کنید که می‌توانید در آجرهای خود استفاده کنید.\n\nبا ضربه زدن روی «NEXT» یا خروج         با «SKIP» ادامه دهید.
     </string>
