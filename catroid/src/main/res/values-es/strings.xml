@@ -1867,6 +1867,7 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string name="formula_editor_function_text_block_language_from_camera">texto bloque idioma de la cámara</string>
     <string name="formula_editor_function_text_block_parameter">(0)</string>
     <string name="formula_editor_function_get_id_of_detected_object">ID del objeto detectado</string>
+    <string name="formula_editor_function_object_with_id_visible">object with ID visible</string>
     <string name="formula_editor_intro_title_formula_editor">Editor de fórmulas</string>
     <string name="formula_editor_intro_summary_formula_editor">Con el editor de fórmulas puedes crear fórmulas matemáticas y
         lógicas que puedes usar en tus bloques.\n\nContinue pulsando “SIGUIENTE” o saliendo de

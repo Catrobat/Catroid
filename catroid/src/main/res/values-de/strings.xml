@@ -1803,20 +1803,20 @@
     <string name="formula_editor_sensor_right_shoulder_y">rechte Schulter y</string>
     <string name="formula_editor_sensor_left_elbow_x">linker Ellbogen x</string>
     <string name="formula_editor_sensor_left_elbow_y">linker Ellbogen y</string>
-    <string name="formula_editor_sensor_right_elbow_x">rechter ellenbogen x</string>
-    <string name="formula_editor_sensor_right_elbow_y">rechter Ellbogen y</string>
+    <string name="formula_editor_sensor_right_elbow_x">rechter Ellenbogen x</string>
+    <string name="formula_editor_sensor_right_elbow_y">rechter Ellenbogen y</string>
     <string name="formula_editor_sensor_left_wrist_x">linkes Handgelenk x</string>
     <string name="formula_editor_sensor_left_wrist_y">linkes Handgelenk y</string>
     <string name="formula_editor_sensor_right_wrist_x">rechtes Handgelenk x</string>
     <string name="formula_editor_sensor_right_wrist_y">rechtes Handgelenk y</string>
     <string name="formula_editor_sensor_left_pinky_knuckle_x">Knöchel des linken Fingers x</string>
     <string name="formula_editor_sensor_left_pinky_knuckle_y">linker kleiner Fingerknöchel y</string>
-    <string name="formula_editor_sensor_right_pinky_knuckle_x">rechter Fingerknöchel x</string>
+    <string name="formula_editor_sensor_right_pinky_knuckle_x">rechter kleiner Fingerknöchel x</string>
     <string name="formula_editor_sensor_right_pinky_knuckle_y">rechter kleiner Fingerknöchel y</string>
     <string name="formula_editor_sensor_left_index_knuckle_x">linker Fingerknöchel x</string>
     <string name="formula_editor_sensor_left_index_knuckle_y">linker Fingerknöchel y</string>
-    <string name="formula_editor_sensor_right_index_knuckle_x">rechter Fingerknöchel x</string>
-    <string name="formula_editor_sensor_right_index_knuckle_y">rechter Fingerknöchel y</string>
+    <string name="formula_editor_sensor_right_index_knuckle_x">rechter Zeigefinger x</string>
+    <string name="formula_editor_sensor_right_index_knuckle_y">rechter Zeigefinger y</string>
     <string name="formula_editor_sensor_left_thumb_knuckle_x">linker Daumenknöchel x</string>
     <string name="formula_editor_sensor_left_thumb_knuckle_y">linker Daumenknöchel y</string>
     <string name="formula_editor_sensor_right_thumb_knuckle_x">rechter Daumenknöchel x</string>
@@ -1850,6 +1850,7 @@
     <string name="formula_editor_function_text_block_language_from_camera">Textblocksprache von der Kamera</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
     <string name="formula_editor_function_get_id_of_detected_object">ID des erkannten Objekts</string>
+    <string name="formula_editor_function_object_with_id_visible">Objekt mit sichtbarer ID</string>
     <string name="formula_editor_intro_title_formula_editor">Formel Editor</string>
     <string name="formula_editor_intro_summary_formula_editor">Mit dem Formel Editor kannst du mathematische und 
         logische Formeln erstellen, um diese dann in deinem Baustein einzutragen.\n\nDu kannst dieses kleine Tutorial 

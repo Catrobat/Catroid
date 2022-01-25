@@ -1970,6 +1970,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_text_block_language_from_camera">text block language from camera</string>
     <string name="formula_editor_function_text_block_parameter">(0)</string>
     <string name="formula_editor_function_get_id_of_detected_object">ID of detected object</string>
+    <string name="formula_editor_function_object_with_id_visible">object with ID visible</string>
     <string name="formula_editor_intro_title_formula_editor">Editor vzorců</string>
     <string name="formula_editor_intro_summary_formula_editor">S editorem vzorců můžeš vytvořit matematické a logické funkce, které můžeš použít ve svých blocích.\n\nMůžeš pokračovat v tomto malém úvodu kliknutím na tlačítko \"Další\" v pravém dolním rohu nebo můžeš úvod přeskočit kliknutím na tlačítko \"Přeskočit\" v levém dolním rohu.</string>
     <string name="formula_editor_intro_title_input_field">Input field</string>

@@ -1834,6 +1834,7 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="formula_editor_function_text_block_language_from_camera">teks blok bahasa dari kamera</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
     <string name="formula_editor_function_get_id_of_detected_object">ID objek yang terdeteksi</string>
+    <string name="formula_editor_function_object_with_id_visible">object with ID visible</string>
     <string name="formula_editor_intro_title_formula_editor">Rumus editor</string>
     <string name="formula_editor_intro_summary_formula_editor">Dengan editor rumus Anda dapat membuat matematika dan
         rumus logika yang dapat Anda gunakan di batu bata Anda.\n\nLanjutkan dengan mengetuk “BERIKUTNYA” atau keluar
