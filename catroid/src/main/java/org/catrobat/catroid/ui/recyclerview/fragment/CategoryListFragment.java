@@ -110,6 +110,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_object_rotation, R.string.formula_editor_object_rotation_look,
 			R.string.formula_editor_object_layer);
 	private static final List<Integer> OBJECT_PHYSICAL_COLLISION = singletonList(R.string.formula_editor_function_collision);
+	private static final List<Integer> OBJECT_PHYSICAL_DISTANCE =
+			singletonList(R.string.formula_editor_function_distance_to);
 	private static final List<Integer> OBJECT_PHYSICAL_2 = asList(R.string.formula_editor_function_collides_with_edge,
 			R.string.formula_editor_function_touched,
 			R.string.formula_editor_object_x_velocity, R.string.formula_editor_object_y_velocity,
@@ -545,6 +547,9 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			case CategoryListRVAdapter.COLLISION:
 				showSelectSpriteDialog();
 				break;
+			case CategoryListRVAdapter.DISTANCE:
+				showDistanceSelectSpriteDialog();
+				break;
 			case CategoryListRVAdapter.DEFAULT:
 				if (LIST_FUNCTIONS.contains(item.nameResId)) {
 					onUserListFunctionSelected(item);
@@ -799,6 +804,29 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 				.show();
 	}
 
+	private void showDistanceSelectSpriteDialog() {
+		List<Sprite> sprites = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList();
+
+		final List<Sprite> selectableSprites = new ArrayList<>(sprites);
+
+		String[] selectableSpriteNames = new String[selectableSprites.size()];
+		for (int i = 0; i < selectableSprites.size(); i++) {
+			selectableSpriteNames[i] = selectableSprites.get(i).getName();
+		}
+
+		new AlertDialog.Builder(getContext())
+				.setTitle(R.string.formula_editor_function_distance_to)
+				.setItems(selectableSpriteNames, (dialog, which) -> {
+					Sprite selectedSprite = selectableSprites.get(which);
+
+					((FormulaEditorFragment) getParentFragmentManager()
+							.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG))
+							.addDistanceFormulaToActiveFormula(selectedSprite.getName());
+					getActivity().onBackPressed();
+				})
+				.show();
+	}
+
 	private void initializeAdapter() {
 		String argument = getArguments().getString(FRAGMENT_TAG_BUNDLE_ARGUMENT);
 
@@ -923,6 +951,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	private List<CategoryListItem> getObjectPhysicalPropertiesItems() {
 		List<CategoryListItem> result = toCategoryListItems(OBJECT_PHYSICAL_1);
 		result.addAll(toCategoryListItems(OBJECT_PHYSICAL_COLLISION, CategoryListRVAdapter.COLLISION));
+		result.addAll(toCategoryListItems(OBJECT_PHYSICAL_DISTANCE, CategoryListRVAdapter.DISTANCE));
 		result.addAll(toCategoryListItems(OBJECT_PHYSICAL_2));
 		result.addAll(toCategoryListItems(OBJECT_COLOR_COLLISION, OBJECT_COLOR_PARAMS));
 		return addHeader(result, getString(R.string.formula_editor_object_movement));

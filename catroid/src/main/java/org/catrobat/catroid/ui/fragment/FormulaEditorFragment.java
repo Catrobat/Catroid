@@ -1018,6 +1018,11 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				spriteName);
 	}
 
+	public void addDistanceFormulaToActiveFormula(String spriteName) {
+		formulaEditorEditText.handleKeyEvent(InternFormulaKeyboardAdapter.FORMULA_EDITOR_DISTANCE_RESOURCE_ID,
+				spriteName);
+	}
+
 	public void addStringToActiveFormula(String string) {
 		formulaEditorEditText.handleKeyEvent(R.id.formula_editor_keyboard_string, string);
 	}

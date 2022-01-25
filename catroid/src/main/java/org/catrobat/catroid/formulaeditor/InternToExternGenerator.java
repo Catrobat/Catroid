@@ -287,6 +287,8 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.COLLIDES_WITH_COLOR.name(), R.string
 				.formula_editor_function_collides_with_color);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.COLOR_TOUCHES_COLOR.name(), R.string.formula_editor_function_color_touches_color);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.DISTANCE_TO_OBJECT.name(),
+				R.string.formula_editor_function_distance_to);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_X_VELOCITY.name(), R.string.formula_editor_object_x_velocity);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_Y_VELOCITY.name(), R.string.formula_editor_object_y_velocity);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_ANGULAR_VELOCITY.name(), R.string.formula_editor_object_angular_velocity);

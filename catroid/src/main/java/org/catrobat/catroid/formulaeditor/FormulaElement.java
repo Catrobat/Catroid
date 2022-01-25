@@ -26,6 +26,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Scope;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.function.ArduinoFunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.BinaryFunction;
@@ -488,6 +489,8 @@ public class FormulaElement implements Serializable {
 			case COLOR_EQUALS_COLOR:
 				return booleanToDouble(new ColorEqualsColor().tryInterpretFunctionColorEqualsColor(arguments.get(0), arguments.get(1),
 						arguments.get(2)));
+			case DISTANCE_TO_OBJECT:
+				return tryInterpretFunctionDistanceToObject(arguments.get(0), scope);
 			default:
 				return interpretFormulaFunction(function, arguments);
 		}
@@ -673,6 +676,17 @@ public class FormulaElement implements Serializable {
 					return 0d;
 				}
 				return (double) (String.valueOf(left)).length();
+		}
+	}
+
+	private Object tryInterpretFunctionDistanceToObject(Object object, Scope scope) {
+		try {
+			String objectName = (String) object;
+			Sprite sprite = ProjectManager.getInstance().getCurrentlyPlayingScene().getSprite(objectName);
+			return sprite != null
+					? scope.getSprite().look.getDistanceToLookPositionInUserInterfaceDimensions(sprite.look) : 0d;
+		} catch (Exception e) {
+			return e.getLocalizedMessage();
 		}
 	}
 

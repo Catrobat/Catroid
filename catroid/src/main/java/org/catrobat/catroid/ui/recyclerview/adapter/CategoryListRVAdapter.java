@@ -44,12 +44,13 @@ import androidx.recyclerview.widget.RecyclerView;
 public class CategoryListRVAdapter extends RecyclerView.Adapter<ViewHolder> {
 
 	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({DEFAULT, COLLISION, NXT, EV3})
+	@IntDef({DEFAULT, COLLISION, NXT, EV3, DISTANCE})
 	public @interface CategoryListItemType{}
 	public static final int DEFAULT = 0;
 	public static final int COLLISION = 1;
 	public static final int NXT = 2;
 	public static final int EV3 = 3;
+	public static final int DISTANCE = 4;
 
 	public static class CategoryListItem {
 		@Nullable

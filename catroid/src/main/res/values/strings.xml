@@ -1838,6 +1838,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_flatten">flatten</string>
     <string name="formula_editor_function_flatten_parameter">(*list name*)</string>
     <string name="formula_editor_function_collision">touches actor or object</string>
+    <string name="formula_editor_function_distance_to">distance to object</string>
     <string name="formula_editor_function_collides_with_edge">touches edge</string>
     <string name="formula_editor_function_touched">touches finger</string>
     <string name="formula_editor_function_collides_with_color">touches color</string>
