@@ -232,10 +232,15 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 
 	public void showCheckBoxes(boolean visible) {
 		multiplayerVarAdapter.showCheckBoxes = visible;
+		multiplayerVarAdapter.showSettings = !visible;
 		globalVarAdapter.showCheckBoxes = visible;
+		globalVarAdapter.showSettings = !visible;
 		localVarAdapter.showCheckBoxes = visible;
+		localVarAdapter.showSettings = !visible;
 		globalListAdapter.showCheckBoxes = visible;
+		globalListAdapter.showSettings = !visible;
 		localListAdapter.showCheckBoxes = visible;
+		localListAdapter.showSettings = !visible;
 	}
 
 	public void setSelectionListener(RVAdapter.SelectionListener selectionListener) {

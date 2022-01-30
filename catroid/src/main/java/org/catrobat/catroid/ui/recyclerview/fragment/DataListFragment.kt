@@ -140,6 +140,7 @@ class DataListFragment : Fragment(),
         actionMode = null
         adapter?.showCheckBoxes(false)
         adapter?.allowMultiSelection = true
+        BottomBar.showAddButton(activity)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -388,6 +389,7 @@ class DataListFragment : Fragment(),
     }
 
     private fun startActionMode(@ActionModeType type: Int) {
+        BottomBar.hideAddButton(activity)
         if (adapter?.items?.isEmpty() != false) {
             ToastUtil.showError(requireActivity(), R.string.am_empty_list)
         } else {
