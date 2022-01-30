@@ -51,7 +51,6 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.transfers.GoogleLoginHandler;
-import org.catrobat.catroid.transfers.LogoutTask;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.web.WebconnectionException;
 import org.json.JSONException;
@@ -475,11 +474,8 @@ public final class Utils {
 
 	public static void logoutUser(Context context) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		String userName = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 		GoogleLoginHandler googleLoginHandler = new GoogleLoginHandler((AppCompatActivity) context);
 		googleLoginHandler.getGoogleSignInClient().signOut();
-		LogoutTask logoutTask = new LogoutTask(context, userName);
-		logoutTask.execute();
 		sharedPreferences.edit()
 				.putString(Constants.TOKEN, Constants.NO_TOKEN)
 				.putString(Constants.USERNAME, Constants.NO_USERNAME)

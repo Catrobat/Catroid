@@ -50,7 +50,7 @@ import androidx.fragment.app.DialogFragment;
 public class LoginDialogFragment extends DialogFragment implements LoginTask.OnLoginListener {
 
 	public static final String TAG = LoginDialogFragment.class.getSimpleName();
-	public static final String PASSWORD_FORGOTTEN_PATH = "resetting/request";
+	public static final String PASSWORD_FORGOTTEN_PATH = "reset-password";
 
 	private TextInputLayout usernameInputLayout;
 	private TextInputLayout passwordInputLayout;
