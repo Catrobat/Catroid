@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.uiespresso.ui.fragment;
 
+import android.app.Application;
+import android.util.Log;
 import android.widget.EditText;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -35,6 +37,7 @@ import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
@@ -47,9 +50,9 @@ import org.junit.runner.RunWith;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
-
-
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.TAG;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.setLanguageSharedPreference;
 import static org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionModeWrapper.onActionMode;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
