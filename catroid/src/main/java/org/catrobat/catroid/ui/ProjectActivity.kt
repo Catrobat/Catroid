@@ -36,7 +36,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
-import org.catrobat.catroid.cast.CastManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION
 import org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME
@@ -226,13 +225,6 @@ class ProjectActivity : BaseCastActivity() {
         if (resultCode != RESULT_OK) {
             if (requestCode == SPRITE_POCKET_PAINT) {
                 addEmptySpriteObject()
-                return
-            }
-            if (SettingsFragment.isCastSharedPreferenceEnabled(this) &&
-                projectManager.currentProject.isCastProject &&
-                !CastManager.getInstance().isConnected
-            ) {
-                CastManager.getInstance().openDeviceSelectorOrDisconnectDialog(this)
             }
             return
         }
