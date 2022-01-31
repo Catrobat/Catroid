@@ -139,8 +139,8 @@
        recognition</string>
     <string name="preference_description_ai_text_recognition">Enable
        bricks at sensors para sa text recognition</string>
-    <string name="preference_title_ai_object_recognition">Object recognition</string>
-    <string name="preference_description_ai_object_recognition">Enable object recognition and tracking sensors</string>
+    <string name="preference_title_ai_object_recognition">Pagkilala sa bagay</string>
+    <string name="preference_description_ai_object_recognition">I-enable ang pagkilala sa bagay at sensor sa pag-track</string>
     <string name="preference_title_accessibility">Aksesibilidad</string>
     <string name="preference_description_accessibility">Baguhin ang anyo ng app</string>
     <string name="preference_title_accessibility_profiles">Profile ng Aksesibiliti</string>
@@ -625,71 +625,71 @@ Pakiusap sumubok na lamang ng iba.</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">Magdagdag ng tunog</string>
-    <string name="add_sound_from_recorder">Record sound</string>
-    <string name="add_sound_choose_file">Select file</string>
-    <string name="add_sound_music">Music composer</string>
+    <string name="add_sound_from_recorder">I-record ang tunog</string>
+    <string name="add_sound_choose_file">Pumili ng mga file</string>
+    <string name="add_sound_music">Taga-compose ng musika</string>
     <!-- NotePickerDialog -->
-    <string name="note_picker_title">Note Picker</string>
+    <string name="note_picker_title">Taga-pili ng Note</string>
     <!--  -->
     <!-- Rating Dialog -->
-    <string name="rating_dialog_title">Rate App</string>
-    <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on the App store.</string>
-    <string name="rating_dialog_rate_now">Now</string>
-    <string name="rating_dialog_rate_later">Later</string>
-    <string name="rating_dialog_rate_never">Never</string>
+    <string name="rating_dialog_title">I-rate ang app</string>
+    <string name="rating_google_play_dialog_text">Kung nagustuhan mo ang app, pakiusap i-rate kami sa App store.</string>
+    <string name="rating_dialog_rate_now">Ngayon</string>
+    <string name="rating_dialog_rate_later">Mamaya</string>
+    <string name="rating_dialog_rate_never">Hindi kailanman</string>
     <!--  -->
     <!-- Terms of Use Dialog -->
     <string name="dialog_terms_of_use_title">Terms ng Paggamit at Serbisyo</string>
-    <string name="dialog_terms_of_use_info">In order to
-        be allowed to use the apps and other services offered by the Catrobat project, you
-        must agree to our Terms of Use and Service. You have to follow these terms strictly when using our apps
-        and other services. Please see the link below for their precise formulation.\n</string>
+    <string name="dialog_terms_of_use_info">Upang
+        mapayagan ang paggamit ng app at iba pang serbisyo ng Catrobat project, ikaw
+        ay marapat na sumang-ayon sa aming Terms of Use and Service. Kailangan mo itong sundin ng maiigi habang ginagamit ang aming app
+        at iba pang serbisyo. Pakiusap tignan ang link na nasa ibaba para sa mas eksaktong paliwanang.\n</string>
     <string name="dialog_terms_of_use_link_text">Terms ng Paggamit at Serbisyo</string>
     <!--  -->
     <!-- Privacy Policy -->
-    <string name="disclaimer_privacy_police_header_headline">Welcome!</string>
-    <string name="disclaimer_privacy_policy_header">To use this app, please accept our</string>
+    <string name="disclaimer_privacy_police_header_headline">Maligayang pagdating!</string>
+    <string name="disclaimer_privacy_policy_header">Upang magamit ang app, pakiusap tanggapin ang aming</string>
     <!-- -->
     <!-- About Dialog -->
-    <string name="dialog_about_title">About this App</string>
-    <string name="dialog_about_license_info">This app offers a coding
-        environment and interpreter for the visual programming language Catrobat.\n
-        The source code of this app is mainly licensed under the GNU AGPL v3 license.
-        For further details on the license see the link below.\n</string>
-    <string name="dialog_about_license_link_text">Source code license</string>
-    <string name="dialog_about_catrobat_link_text">About Catrobat</string>
+    <string name="dialog_about_title">Tungkol sa App</string>
+    <string name="dialog_about_license_info">Ang app na ito ay nag-o-offer ng coding
+        environment at interpreter para sa visual programming language na Catrobat.\n
+        Ang source code ng app na ito ay lisensiyado sa ilalim ng GNU AGPL v3 license.
+        Para sa marami pang detalye tungkol sa lisensya, tignan ang link na nasa ibaba.\n</string>
+    <string name="dialog_about_license_link_text">Lisensya ng source code</string>
+    <string name="dialog_about_catrobat_link_text">Tungkol sa Catrobat</string>
     <string name="dialog_about_catrobat_language_version">Catrobat language version</string>
-    <string name="dialog_about_version">version:</string>
+    <string name="dialog_about_version">bersiyon:</string>
     <!--  -->
     <!-- NetworkAlertDialog -->
-    <string name="error_no_network_title">No network</string>
+    <string name="error_no_network_title">Walang network</string>
     <!-- UploadProjectDialog -->
     <string name="upload_project_dialog_title">I-upload ang proyekto</string>
     <string name="upload_description">Paglalarawan:</string>
     <string name="upload_notes_and_credits">Mga Notes at Credits:</string>
-    <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
-    <string name="upload_tag_dialog_title">Please choose up to three categories</string>
-    <string name="upload_tags_maximum_error">Selecting more than 3 tags is not possible.</string>
+    <string name="upload_notes_and_credits_explanation">Paano mo nabuo ang iyong proyekto? Gumamit ka ba ng mga ideya,mga script o artwork mula sa ibang tao? Pasalamatan mo sila rito.</string>
+    <string name="upload_tag_dialog_title">Pakiusap pumili ng hanggang sa tatlong kategorya</string>
+    <string name="upload_tags_maximum_error">Ang pagpili ng mas higit sa 3 tag ay hindi possible.</string>
     <!-- Save Project to External Storage -->
     <string name="save_to_external_storage_button">Mag-export ng proyekto</string>
     <string name="notification_save_project_to_external_storage_title_pending">" "</string>
-    <string name="notification_save_project_to_external_storage_pending">Saving project to external storage.</string>
+    <string name="notification_save_project_to_external_storage_pending">Sine-save ang proyekto sa external storage.</string>
     <string name="notification_save_project_to_external_storage_title_open">" "</string>
-    <string name="notification_save_project_to_external_storage_open">"Saved project to %1$s"</string>
-    <string name="save_project_to_external_storage_io_exception_message">Failed to save project, not enough memory is available!</string>
+    <string name="notification_save_project_to_external_storage_open">"Na-save ang proyekto sa %1$s"</string>
+    <string name="save_project_to_external_storage_io_exception_message">Hindi na i-save ang proyekto, hindi sapat ang available na memory!</string>
     <!--  -->
     <!-- SoundRecorderActivity -->
-    <string name="soundrecorder_name">Sound recorder</string>
-    <string name="soundrecorder_error">Sound recording failed</string>
-    <string name="soundrecorder_recorded_filename">recording</string>
-    <string name="soundrecorder_text_view">Tap the icon above to start and stop recording.</string>
+    <string name="soundrecorder_name">Recorder ng Tunog</string>
+    <string name="soundrecorder_error">Na-failed na pagrekord ng tunog</string>
+    <string name="soundrecorder_recorded_filename">nagre-record</string>
+    <string name="soundrecorder_text_view">Pindutin ang icon na nasa itaaa upang magsimula at ihinto ang pagre-record.</string>
     <!--  -->
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Move brick</string>
     <string name="brick_context_dialog_move_script">Move script</string>
-    <string name="brick_context_dialog_move_definition">Move this definition</string>
-    <string name="brick_context_dialog_delete_brick">Delete brick</string>
-    <string name="brick_context_dialog_copy_brick">Copy brick</string>
+    <string name="brick_context_dialog_move_definition">Ilipat itong definition</string>
+    <string name="brick_context_dialog_delete_brick">Burahin ang brick</string>
+    <string name="brick_context_dialog_copy_brick">Kopyahin ang brick</string>
     <string name="brick_context_dialog_copy_script">Copy script</string>
     <string name="brick_context_dialog_formula_edit_brick">Edit formula</string>
     <string name="brick_context_dialog_delete_script">Delete script</string>
@@ -1759,7 +1759,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_device_face_detection">Face detection</string>
     <string name="formula_editor_device_pose_detection">Pose detection</string>
     <string name="formula_editor_device_text_recognition">Text recognition</string>
-    <string name="formula_editor_device_object_recognition">Object recognition</string>
+    <string name="formula_editor_device_object_recognition">Pagkilala sa bagay</string>
     <string name="formula_editor_device_date_and_time">Date and time</string>
     <string name="formula_editor_device_touch_detection">Touch detection</string>
     <string name="formula_editor_device_lego_nxt">Lego Mindstorms NXT</string>
