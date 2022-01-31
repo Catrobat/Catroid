@@ -806,21 +806,21 @@
     <!-- User Defined Bricks -->
     <string name="brick_user_defined_add_label">لیبل شامل کریں۔</string>
     <string name="brick_user_defined_add_input">ان پٹ شامل کریں۔</string>
-    <string name="brick_user_defined_add_input_description">Add input for this brick:</string>
-    <string name="brick_user_defined_add_label_description">Add label for this brick:</string>
-    <string name="brick_user_defined_default_input_name">Name of input</string>
-    <string name="brick_user_defined_default_label">Label text</string>
-    <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
-    <string name="brick_user_defined_script_define">Define</string>
-    <string name="brick_user_defined_script_screen_refresh_as">screen refresh as</string>
+    <string name="brick_user_defined_add_input_description">اس اینٹ کے لیے ان پٹ شامل کریں:</string>
+    <string name="brick_user_defined_add_label_description">اس اینٹ کے لیے لیبل شامل کریں:</string>
+    <string name="brick_user_defined_default_input_name">ان پٹ کا نام</string>
+    <string name="brick_user_defined_default_label">لیبل متن</string>
+    <string name="brick_user_defined_already_exists">ان لیبلز کے ساتھ ایک اینٹ پہلے سے موجود ہے۔ براہ کرم مزید لیبلز یا ان پٹ شامل کریں۔</string>
+    <string name="brick_user_defined_script_define">تعریف کریں۔</string>
+    <string name="brick_user_defined_script_screen_refresh_as">اسکرین ریفریش کے طور پر</string>
     <string name="brick_user_defined_with_screen_refreshing">کے ساتھ</string>
-    <string name="brick_user_defined_without_screen_refreshing">without</string>
-    <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
+    <string name="brick_user_defined_without_screen_refreshing">بغیر</string>
+    <string name="brick_user_defined_list_empty">اپنی نئی اینٹیں شامل کرنے کے لیے \"+\" کو تھپتھپائیں۔</string>
     <string name="brick_report">رپورٹ</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"جگہ رکھیں"</string>
-    <string name="brick_option_place_visually">Place visually</string>
+    <string name="brick_option_place_visually">بصری طور پر رکھیں</string>
     <string name="x_label">"ایکس:"</string>
     <string name="y_label">"وائے: "</string>
     <string name="brick_set_x">"ایکس سیٹ کریں"</string>
@@ -894,10 +894,10 @@
     <string name="brick_next_background">اگلے پس منظر</string>
     <string name="brick_previous_look">پچھلے نظر</string>
     <string name="brick_previous_background">پچھلے پس منظر</string>
-    <string name="brick_edit_look">Edit look</string>
-    <string name="brick_edit_background">Edit background</string>
-    <string name="brick_delete_look">Delete look</string>
-    <string name="brick_delete_background">Delete background</string>
+    <string name="brick_edit_look">نظر میں ترمیم کریں۔</string>
+    <string name="brick_edit_background">پس منظر میں ترمیم کریں۔</string>
+    <string name="brick_delete_look">نظر کو حذف کریں۔</string>
+    <string name="brick_delete_background">پس منظر کو حذف کریں۔</string>
     <string name="brick_flash">ٹارچ کو چالو کریں</string>
     <string name="brick_flash_on">پر</string>
     <string name="brick_flash_off">بند</string>
@@ -910,15 +910,15 @@
     <string name="brick_ask_speech_label">پوچھیں</string>
     <string name="brick_ask_speech_store">اور بولۓ الفاظ کو ذخیرہ کرو</string>
     <string name="brick_ask_speech_default_question">آپ کا نام کيا ہے?</string>
-    <string name="brick_paint_new_look">Paint new look</string>
-    <string name="brick_paint_new_background">Paint new background</string>
-    <string name="brick_paint_new_look_name">"name of new look"</string>
-    <string name="brick_copy_look">Copy look and name it</string>
-    <string name="brick_copy_look_name">name of copied look</string>
-    <string name="brick_copy_background">Copy background and name it</string>
-    <string name="brick_focus_point">Become focus point with</string>
-    <string name="brick_horizontal_and">horizontal and</string>
-    <string name="brick_vertical_flex">vertical flexibility</string>
+    <string name="brick_paint_new_look">نئی شکل پینٹ کریں۔</string>
+    <string name="brick_paint_new_background">نیا پس منظر پینٹ کریں۔</string>
+    <string name="brick_paint_new_look_name">"نئی شکل کا نام"</string>
+    <string name="brick_copy_look">نظر کو کاپی کریں اور اسے نام دیں۔</string>
+    <string name="brick_copy_look_name">کاپی شدہ شکل کا نام</string>
+    <string name="brick_copy_background">پس منظر کو کاپی کریں اور اسے نام دیں۔</string>
+    <string name="brick_focus_point">کے ساتھ فوکس پوائنٹ بنیں۔</string>
+    <string name="brick_horizontal_and">افقی اور</string>
+    <string name="brick_vertical_flex">عمودی لچک</string>
     <!--  -->
     <!-- Pen bricks -->
     <string name="brick_pen_down">قلم نیچے</string>
@@ -931,44 +931,44 @@
     <!-- Sound bricks -->
     <string name="brick_play_sound">آواز کا آغاز</string>
     <string name="brick_play_sound_and_wait">آواز کا آغاز اور انتظار کریں</string>
-    <string name="brick_stop_sound">Stop sound</string>
+    <string name="brick_stop_sound">آواز بند کرو</string>
     <string name="brick_stop_all_sounds">تمام آوازیں بند کریں</string>
     <string name="brick_set_volume_to">حجم سیٹ کریں</string>
     <string name="brick_change_volume_by">حجم تبدیل کریں</string>
     <string name="brick_speak">بولیے</string>
     <string name="brick_speak_default_value">ہیلو!</string>
     <string name="brick_speak_and_wait">اور انتظار کریں</string>
-    <string name="brick_start_listening_to_voice">Start listening to voice and store spoken words in</string>
-    <string name="speech_recognition_not_available">Speech recognition isn\'t available.</string>
-    <string name="speech_recognition_offline_mode_error_dialog_title">Missing offline data</string>
-    <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">Offline speech recognition
-    for %s is missing or needs to be updated. Would you like to download or update it now?</string>
-    <string name="brick_set_listening_language">Set listening language to</string>
-    <string name="set_instrument_to">Set instrument to</string>
-    <string name="set_tempo_to">Set tempo to</string>
-    <string name="change_tempo_by">Change tempo by</string>
-    <string name="pause_for">Pause for</string>
-    <string name="play_drum">Play drum</string>
-    <string name="beats">beats</string>
-    <string name="play_note">Play note</string>
+    <string name="brick_start_listening_to_voice">آواز سننا شروع کریں اور بولے گئے الفاظ کو اندر رکھیں</string>
+    <string name="speech_recognition_not_available">تقریر کی شناخت دستیاب نہیں ہے۔</string>
+    <string name="speech_recognition_offline_mode_error_dialog_title">آف لائن ڈیٹا غائب ہے۔</string>
+    <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">آف لائن تقریر کی شناخت
+    کیونکہ %s غائب ہے یا اسے اپ ڈیٹ کرنے کی ضرورت ہے۔ کیا آپ اسے ابھی ڈاؤن لوڈ یا اپ ڈیٹ کرنا چاہیں گے؟</string>
+    <string name="brick_set_listening_language">سننے کی زبان سیٹ کریں۔</string>
+    <string name="set_instrument_to">آلہ مقرر کریں</string>
+    <string name="set_tempo_to">ٹیمپو کو پر سیٹ کریں۔</string>
+    <string name="change_tempo_by">کی طرف سے ٹیمپو تبدیل کریں</string>
+    <string name="pause_for">کے لیے توقف کریں۔</string>
+    <string name="play_drum">ڈھول بجانا</string>
+    <string name="beats">دھڑکن</string>
+    <string name="play_note">نوٹ چلائیں۔</string>
     <string name="for_string">کےلیے</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">سلائی</string>
-    <string name="brick_running_stitch">Start running stitch with length</string>
-    <string name="brick_zigzag_stitch">Start zigzag stitch with length</string>
-    <string name="brick_zigzag_stitch_width">and width</string>
-    <string name="brick_triple_stitch">Start triple stitch with length</string>
-    <string name="brick_stop_stitch">Stop current stitch</string>
-    <string name="brick_write_embroidery">Write embroidery data to file</string>
+    <string name="brick_running_stitch">لمبائی کے ساتھ سلائی چلانا شروع کریں۔</string>
+    <string name="brick_zigzag_stitch">لمبائی کے ساتھ زگ زیگ سلائی شروع کریں۔</string>
+    <string name="brick_zigzag_stitch_width">اور چوڑائی</string>
+    <string name="brick_triple_stitch">لمبائی کے ساتھ ٹرپل سلائی شروع کریں۔</string>
+    <string name="brick_stop_stitch">موجودہ سلائی بند کرو</string>
+    <string name="brick_write_embroidery">فائل میں کڑھائی کا ڈیٹا لکھیں۔</string>
     <string name="brick_default_embroidery_file">embroidery.dst</string>
-    <string name="brick_sew_up">Sew up</string>
-    <string name="brick_thread_color">Set thread color to</string>
+    <string name="brick_sew_up">سلائی</string>
+    <string name="brick_thread_color">دھاگے کا رنگ اس پر سیٹ کریں۔</string>
     <!--  -->
     <!-- Device bricks -->
-    <string name="brick_reset_timer">Reset timer</string>
+    <string name="brick_reset_timer">ٹائمر ری سیٹ کریں۔</string>
     <string name="brick_open">کھولیں</string>
-    <string name="brick_in_browser">in browser</string>
+    <string name="brick_in_browser">براؤزر میں</string>
     <!-- Control bricks -->
     <string name="brick_when_started">جب منظر شروع ہوتا ہے</string>
     <string name="brick_when">جب ٹیپ کیا</string>
@@ -1000,9 +1000,9 @@
     <string name="brick_say_bubble">کہہ دو</string>
     <string name="brick_think_say_for_text">کےلیے</string>
     <string name="brick_forever">ہمیشہ کے لئے</string>
-    <string name="brick_loop_for_values_from">For values from</string>
-    <string name="brick_loop_for_each_value_from">For each value from</string>
-    <string name="brick_loop_in">in</string>
+    <string name="brick_loop_for_values_from">سے اقدار کے لیے</string>
+    <string name="brick_loop_for_each_value_from">سے ہر ایک قدر کے لیے</string>
+    <string name="brick_loop_in">میں</string>
     <string name="brick_loop_to">کرنا</string>
     <string name="brick_repeat">دہرائیں</string>
     <string name="brick_repeat_until">تک دہرائیں</string>
@@ -1081,22 +1081,21 @@
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string name="brick_web_request_result">اور جواب میں اسٹور</string>
     <string name="web_request_warning_title">ویب تک رسائی کی اجازت دیں؟</string>
-    <string name="web_request_warning_message">Be very careful before allowing access, since the
-        link may expose your personal information, such as your precise geographical location or any text
-        you have entered to malicious others or to the public. See our
-        &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
-        be extremely dangerous.
+    <string name="web_request_warning_message">رسائی کی اجازت دینے سے پہلے بہت محتاط رہیں، کیونکہ 
+        لنک آپ کی ذاتی معلومات کو ظاہر کر سکتا ہے، جیسے کہ 
+        آپ کا درست جغرافیائی محل وقوع یا کوئی بھی متن جو آپ نے بدنیتی پر مبنی دوسروں یا عوام کے لیے درج کیا ہے۔ ہمارا         &lt;a href=%1s&gt;wiki&lt;/a&gt;&lt;/a&gt;  دیکھیں مزید معلومات کے لیے یہ 
+        انتہائی خطرناک کیوں ہو سکتا ہے۔
     </string>
     <string name="web_request_trust_domain_warning_title">ہمیشہ ویب تک رسائی کی اجازت دیں؟</string>
     <string name="web_request_trust_domain_warning_message">ہمیشہ رسائی کی اجازت دینے سے، آپ سے اس ڈومین سے ویب پتوں         کی تصدیق کرنے کے لیے دوبارہ نہیں کہا جائے گا۔</string>
-    <string name="trusted_domains_edit_hint">If you want to revoke this permission
-        later, you can remove the entry from the list of trusted domains in
-        the settings of this app.
+    <string name="trusted_domains_edit_hint">اگر آپ بعد میں اجازت 
+        منسوخ کرنا چاہتے ہیں، تو آپ اس ایپ کی سیٹنگز میں قابل اعتماد ڈومینز کی 
+        فہرست سے اندراج کو ہٹا سکتے ہیں۔
     </string>
     <string name="brick_look_request">سے تصویر حاصل کریں۔</string>
     <string name="brick_look_request_result">اور موجودہ شکل کے طور پر استعمال کریں۔</string>
     <string name="brick_background_request_result">اور موجودہ پس منظر کے طور پر استعمال کریں۔</string>
-    <string name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
+    <string name="look_request_http_error_message">"%1$s سے تصویر حاصل کریں واپسی ہوئی HTTP خرابی %2$s"</string>
     <string name="look_request_type_error_message">"%1$s سے تصویر حاصل کریں شناخت شدہ تصویری فارمیٹ کو بازیافت نہیں کر سکے۔"</string>
     <string name="brick_store_csv_into_userlist_store">اسٹور کالم</string>
     <string name="brick_store_csv_into_userlist_of">کے</string>
@@ -1109,51 +1108,51 @@
     <string name="electric_piano">الیکٹرک پیانو</string>
     <string name="cello">سیلو</string>
     <string name="flute">بانسری</string>
-    <string name="vibraphone">vibraphone</string>
-    <string name="organ">organ</string>
-    <string name="guitar">guitar</string>
-    <string name="electric_guitar">electric guitar</string>
-    <string name="bass">bass</string>
+    <string name="vibraphone">وائبرافون</string>
+    <string name="organ">عضو</string>
+    <string name="guitar">گٹار</string>
+    <string name="electric_guitar">الیکٹرک گٹار</string>
+    <string name="bass">باس</string>
     <string name="pizzicato">pizzicato</string>
-    <string name="synth_pad">synth pad</string>
-    <string name="choir">choir</string>
-    <string name="synth_lead">synth lead</string>
-    <string name="wooden_flute">wooden flute</string>
-    <string name="trombone">trombone</string>
-    <string name="saxophone">saxophone</string>
-    <string name="bassoon">bassoon</string>
+    <string name="synth_pad">سنتھ پیڈ</string>
+    <string name="choir">کوئر</string>
+    <string name="synth_lead">synth لیڈ</string>
+    <string name="wooden_flute">لکڑی کی بانسری</string>
+    <string name="trombone">ٹرومبون</string>
+    <string name="saxophone">سیکسوفون</string>
+    <string name="bassoon">باسون</string>
     <string name="clarinet">clarinet</string>
-    <string name="music_box">music box</string>
-    <string name="steel_drum">steel drum</string>
-    <string name="marimba">marimba</string>
+    <string name="music_box">ذخیرہ موسیقی</string>
+    <string name="steel_drum">سٹیل کا ڈرم</string>
+    <string name="marimba">مارمبا</string>
     <!--  -->
     <!--Drums-->
-    <string name="snare_drum">snare drum</string>
-    <string name="bass_drum">bass drum</string>
-    <string name="side_stick">side stick</string>
-    <string name="crash_cymbal">crash cymbal</string>
-    <string name="open_hi_hat">open hi-hat</string>
-    <string name="closed_hi_hat">closed hi-hat</string>
-    <string name="tambourine">tambourine</string>
-    <string name="hand_clap">hand clap</string>
+    <string name="snare_drum">پھندے کا ڈرم</string>
+    <string name="bass_drum">باس ڈرم</string>
+    <string name="side_stick">سائیڈ اسٹک</string>
+    <string name="crash_cymbal">کریش سنبل</string>
+    <string name="open_hi_hat">کھلی ہیٹ</string>
+    <string name="closed_hi_hat">بند ہیٹ</string>
+    <string name="tambourine">دف</string>
+    <string name="hand_clap">ہاتھ کی تالی</string>
     <string name="claves">claves</string>
-    <string name="wood_block">wood block</string>
-    <string name="cowbell">cowbell</string>
-    <string name="triangle">triangle</string>
-    <string name="bongo">bongo</string>
-    <string name="conga">conga</string>
+    <string name="wood_block">لکڑی کا ٹکڑا</string>
+    <string name="cowbell">کاؤ بیل</string>
+    <string name="triangle">مثلث</string>
+    <string name="bongo">بونگو</string>
+    <string name="conga">کانگا</string>
     <string name="cabasa">cabasa</string>
-    <string name="guiro">guiro</string>
+    <string name="guiro">گیرو</string>
     <string name="vibraslap">vibraslap</string>
-    <string name="open_cuica">open cuica</string>
+    <string name="open_cuica">کھولیں cuica</string>
     <!--  -->
     <!-- Default Values -->
-    <string name="default_project_name">My project</string>
-    <string name="default_variable_name">Variable</string>
+    <string name="default_project_name">میرا منصوبہ</string>
+    <string name="default_variable_name">متغیر</string>
     <string name="default_scene_name">منظر</string>
-    <string name="default_script_group_name">Script group</string>
+    <string name="default_script_group_name">اسکرپٹ گروپ</string>
     <string name="default_broadcast_message_name">پیغام</string>
-    <string name="default_list_name">List</string>
+    <string name="default_list_name">فہرست</string>
     <string name="default_project_background_name">پس پشت</string>
     <string name="default_project_cloud_name">کلا وڈ</string>
     <string name="default_project_cloud_sprite_name_1">کلا وڈ 1</string>
@@ -1164,11 +1163,11 @@
     <string name="default_project_sprites_tweet_1">ٹویٹ1</string>
     <string name="default_project_sprites_tweet_2">ٹویٹ2</string>
     <!--suppress UnusedResources -->
-    <string name="default_project_needle_name">Needle</string>
+    <string name="default_project_needle_name">سوئی</string>
     <!--suppress UnusedResources -->
-    <string name="default_project_outer_loop">Outer Loop</string>
+    <string name="default_project_outer_loop">بیرونی لوپ</string>
     <!--suppress UnusedResources -->
-    <string name="default_project_inner_loop">Inner Loop</string>
+    <string name="default_project_inner_loop">اندرونی لوپ</string>
     <!-- Default ChromeCast Values -->
     <string name="default_cast_project_background_name">پس پشت</string>
     <string name="default_cast_project_cloud_name">کلا وڈ</string>
@@ -1190,8 +1189,8 @@
     <!-- Drone config spinner values  -->
     <string name="drone_config_indoor_with_hull">ہول کے ساتھ انڈور</string>
     <string name="drone_config_indoor_without_hull">بغیر انڈور ڈور</string>
-    <string name="drone_config_outdoor_with_hull">outdoor with hull</string>
-    <string name="drone_config_outdoor_without_hull">outdoor without hull</string>
+    <string name="drone_config_outdoor_with_hull">ہل کے ساتھ بیرونی</string>
+    <string name="drone_config_outdoor_without_hull">ہل کے بغیر بیرونی</string>
     <!-- Drone altitude limit values  -->
     <string name="drone_set_altitude_max_3m">3 میٹر</string>
     <string name="drone_set_altitude_max_5m">5 میٹر</string>
@@ -1240,9 +1239,9 @@
     <!-- Error messages -->
     <string name="error_project_upload">اس منصوبے کو اپ لوڈ کرتے وقت کچھ غلط ہوگیا.</string>
     <string name="error_project_download">منصوبے کو ڈاؤن لوڈ کرتے ہوئے کچھ غلط ہوگیا.</string>
-    <string name="error_project_already_in_queue">"Project %s already in queue."</string>
-    <string name="error_could_not_decode_project_name_from_url">"Your download could not be
-        started, seems there is a problem with our server."</string>
+    <string name="error_project_already_in_queue">"پروجیکٹ %s پہلے ہی قطار میں ہے۔"</string>
+    <string name="error_could_not_decode_project_name_from_url">"آپ کا ڈاؤن لوڈ 
+        شروع نہیں ہو سکا، لگتا ہے ہمارے سرور میں کوئی مسئلہ ہے۔"</string>
     <string name="error_new_project">نئی منصوبہ بنانے کے دوران کچھ غلط ہو گیا.</string>
     <string name="error_rename_scene">منظر تبدیل کرنے کے دوران کچھ غلط ہوا.</string>
     <string name="error_load_project">اس منصوبے کو لوڈ کرتے ہوئے کچھ غلط ہوگیا.</string>
@@ -1583,9 +1582,9 @@
     <string name="formula_editor_function_join">شامل ہوں</string>
     <string name="formula_editor_function_join_parameter">(\'ہیلو دنیا\')</string>
     <string name="formula_editor_function_join3">شامل ہوں</string>
-    <string name="formula_editor_function_join3_parameter">(\'hello\',\' world\',\'!\')</string>
-    <string name="formula_editor_function_regex">regular expression</string>
-    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
+    <string name="formula_editor_function_join3_parameter">(\'ہیلو\'،\' دنیا\'،\'!\')</string>
+    <string name="formula_editor_function_regex">باقاعدہ اظہار</string>
+    <string name="formula_editor_function_regex_parameter">(\' an؟ ([^ .]+)\'، \'میں ایک پانڈا ہوں۔\')</string>
     <string name="formula_editor_function_regex_assistant">ریگولر ایکسپریشن اسسٹنٹ</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">ریگولر ایکسپریشن اسسٹنٹ</string>
     <string name="formula_editor_dialog_wiki_button">مزید معلومات</string>
@@ -1753,64 +1752,63 @@
     <string name="formula_editor_operator_divide">÷</string>
     <string name="formula_editor_operator_power">^</string>
     <string name="formula_editor_image_button_description_delete">ختم کریں</string>
-    <string name="formula_editor_image_button_description_color_picker">color picker</string>
-    <string name="formula_editor_image_button_description_functions_toggle">toggle functions</string>
+    <string name="formula_editor_image_button_description_color_picker">رنگ چننا</string>
+    <string name="formula_editor_image_button_description_functions_toggle">افعال کو ٹوگل کریں۔</string>
     <string name="formula_editor_variable_dialog_title">نئی متغیر</string>
     <string name="formula_editor_list_dialog_title">نئی فہرست</string>
-    <string name="formula_editor_regex_html_extractor_dialog_title">HTML extractor</string>
+    <string name="formula_editor_regex_html_extractor_dialog_title">ایچ ٹی ایم ایل ایکسٹریکٹر</string>
     <string name="formula_editor_discard_changes_dialog_message">کیا آپ تبدیلیاں محفوظ کرنا چاہتے ہیں?</string>
     <string name="formula_editor_discard_changes_dialog_title">تبدیلیاں محفوظ کریں؟</string>
     <string name="formula_editor_new_string_name">نیا متن</string>
     <string name="formula_editor_dialog_change_text">متن تبدیل کریں</string>
-    <string name="formula_editor_dialog_change_regular_expression">Change regular
-        expression</string>
+    <string name="formula_editor_dialog_change_regular_expression">ریگولر         ایکسپریشن کو تبدیل کریں۔</string>
     <string name="formula_editor_fragment_data_current_items">حالیہ اشیا</string>
     <string name="formula_editor_data_dialog_is_list">اس کی ایک فہرست بنائیں</string>
     <string name="formula_editor_sensor_face_detected">چہرہ دکھائی دیتا ہے</string>
     <string name="formula_editor_sensor_face_size">چہرے کا سائز</string>
     <string name="formula_editor_sensor_face_x_position">چہرہ  x پوزیشن</string>
     <string name="formula_editor_sensor_face_y_position">چہرہ y پوزیشن</string>
-    <string name="formula_editor_sensor_second_face_detected">second face is visible</string>
-    <string name="formula_editor_sensor_second_face_size">second face size</string>
-    <string name="formula_editor_sensor_second_face_x_position">second face x position</string>
-    <string name="formula_editor_sensor_second_face_y_position">second face y position</string>
-    <string name="formula_editor_sensor_head_top_x">head top x</string>
-    <string name="formula_editor_sensor_head_top_y">head top y</string>
-    <string name="formula_editor_sensor_neck_x">neck x</string>
-    <string name="formula_editor_sensor_neck_y">neck y</string>
-    <string name="formula_editor_sensor_nose_x">nose x</string>
-    <string name="formula_editor_sensor_nose_y">nose y</string>
-    <string name="formula_editor_sensor_left_eye_inner_x">left eye inner x</string>
-    <string name="formula_editor_sensor_left_eye_inner_y">left eye inner y</string>
-    <string name="formula_editor_sensor_left_eye_center_x">left eye center x</string>
-    <string name="formula_editor_sensor_left_eye_center_y">left eye center y</string>
-    <string name="formula_editor_sensor_left_eye_outer_x">left eye outer x</string>
-    <string name="formula_editor_sensor_left_eye_outer_y">left eye outer y</string>
-    <string name="formula_editor_sensor_right_eye_inner_x">right eye inner x</string>
-    <string name="formula_editor_sensor_right_eye_inner_y">right eye inner y</string>
-    <string name="formula_editor_sensor_right_eye_center_x">right eye center x</string>
-    <string name="formula_editor_sensor_right_eye_center_y">right eye center y</string>
-    <string name="formula_editor_sensor_right_eye_outer_x">right eye outer x</string>
-    <string name="formula_editor_sensor_right_eye_outer_y">right eye outer y</string>
-    <string name="formula_editor_sensor_left_ear_x">left ear x</string>
-    <string name="formula_editor_sensor_left_ear_y">left ear y</string>
-    <string name="formula_editor_sensor_right_ear_x">right ear x</string>
-    <string name="formula_editor_sensor_right_ear_y">right ear y</string>
-    <string name="formula_editor_sensor_mouth_left_corner_x">mouth left corner x</string>
-    <string name="formula_editor_sensor_mouth_left_corner_y">mouth left corner y</string>
-    <string name="formula_editor_sensor_mouth_right_corner_x">mouth right corner x</string>
-    <string name="formula_editor_sensor_mouth_right_corner_y">mouth right corner y</string>
-    <string name="formula_editor_sensor_left_shoulder_x">left shoulder x</string>
-    <string name="formula_editor_sensor_left_shoulder_y">left shoulder y</string>
-    <string name="formula_editor_sensor_right_shoulder_x">right shoulder x</string>
-    <string name="formula_editor_sensor_right_shoulder_y">right shoulder y</string>
-    <string name="formula_editor_sensor_left_elbow_x">left elbow x</string>
-    <string name="formula_editor_sensor_left_elbow_y">left elbow y</string>
-    <string name="formula_editor_sensor_right_elbow_x">right elbow x</string>
-    <string name="formula_editor_sensor_right_elbow_y">right elbow y</string>
-    <string name="formula_editor_sensor_left_wrist_x">left wrist x</string>
-    <string name="formula_editor_sensor_left_wrist_y">left wrist y</string>
-    <string name="formula_editor_sensor_right_wrist_x">right wrist x</string>
+    <string name="formula_editor_sensor_second_face_detected">دوسرا چہرہ نظر آتا ہے۔</string>
+    <string name="formula_editor_sensor_second_face_size">دوسرا چہرہ سائز</string>
+    <string name="formula_editor_sensor_second_face_x_position">دوسرا چہرہ x پوزیشن</string>
+    <string name="formula_editor_sensor_second_face_y_position">دوسرا چہرہ y پوزیشن</string>
+    <string name="formula_editor_sensor_head_top_x">ہیڈ ٹاپ ایکس</string>
+    <string name="formula_editor_sensor_head_top_y">سر کے اوپر y</string>
+    <string name="formula_editor_sensor_neck_x">گردن ایکس</string>
+    <string name="formula_editor_sensor_neck_y">گردن y</string>
+    <string name="formula_editor_sensor_nose_x">ناک x</string>
+    <string name="formula_editor_sensor_nose_y">ناک y</string>
+    <string name="formula_editor_sensor_left_eye_inner_x">بائیں آنکھ اندرونی x</string>
+    <string name="formula_editor_sensor_left_eye_inner_y">بائیں آنکھ کا اندرونی حصہ</string>
+    <string name="formula_editor_sensor_left_eye_center_x">بائیں آنکھ کا مرکز x</string>
+    <string name="formula_editor_sensor_left_eye_center_y">بائیں آنکھ کا مرکز y</string>
+    <string name="formula_editor_sensor_left_eye_outer_x">بائیں آنکھ بیرونی x</string>
+    <string name="formula_editor_sensor_left_eye_outer_y">بائیں آنکھ بیرونی y</string>
+    <string name="formula_editor_sensor_right_eye_inner_x">دائیں آنکھ اندرونی x</string>
+    <string name="formula_editor_sensor_right_eye_inner_y">دائیں آنکھ کا اندرونی حصہ</string>
+    <string name="formula_editor_sensor_right_eye_center_x">دائیں آنکھ کا مرکز ایکس</string>
+    <string name="formula_editor_sensor_right_eye_center_y">دائیں آنکھ کا مرکز y</string>
+    <string name="formula_editor_sensor_right_eye_outer_x">دائیں آنکھ بیرونی ایکس</string>
+    <string name="formula_editor_sensor_right_eye_outer_y">دائیں آنکھ بیرونی y</string>
+    <string name="formula_editor_sensor_left_ear_x">بایاں کان x</string>
+    <string name="formula_editor_sensor_left_ear_y">جلدی چھوڑ دیا</string>
+    <string name="formula_editor_sensor_right_ear_x">دائیں کان x</string>
+    <string name="formula_editor_sensor_right_ear_y">دایاں کان y</string>
+    <string name="formula_editor_sensor_mouth_left_corner_x">منہ کا بائیں کونے ایکس</string>
+    <string name="formula_editor_sensor_mouth_left_corner_y">منہ کے بائیں کونے y</string>
+    <string name="formula_editor_sensor_mouth_right_corner_x">منہ کا دائیں کونے ایکس</string>
+    <string name="formula_editor_sensor_mouth_right_corner_y">منہ کا دائیں کونے y</string>
+    <string name="formula_editor_sensor_left_shoulder_x">بائیں کندھے x</string>
+    <string name="formula_editor_sensor_left_shoulder_y">بائیں کندھے y</string>
+    <string name="formula_editor_sensor_right_shoulder_x">دائیں کندھے x</string>
+    <string name="formula_editor_sensor_right_shoulder_y">دائیں کندھے y</string>
+    <string name="formula_editor_sensor_left_elbow_x">بائیں کہنی x</string>
+    <string name="formula_editor_sensor_left_elbow_y">بائیں کہنی y</string>
+    <string name="formula_editor_sensor_right_elbow_x">دائیں کہنی x</string>
+    <string name="formula_editor_sensor_right_elbow_y">دائیں کہنی y</string>
+    <string name="formula_editor_sensor_left_wrist_x">بائیں کلائی x</string>
+    <string name="formula_editor_sensor_left_wrist_y">بائیں کلائی y</string>
+    <string name="formula_editor_sensor_right_wrist_x">دائیں کلائی x</string>
     <string name="formula_editor_sensor_right_wrist_y">دائیں کلائی y</string>
     <string name="formula_editor_sensor_left_pinky_knuckle_x">بائیں پنکی نوکل ایکس</string>
     <string name="formula_editor_sensor_left_pinky_knuckle_y">بائیں پنکی نوکل y</string>
@@ -1836,21 +1834,21 @@
     <string name="formula_editor_sensor_left_ankle_y">بائیں ٹخنے y</string>
     <string name="formula_editor_sensor_right_ankle_x">دائیں ٹخنے ایکس</string>
     <string name="formula_editor_sensor_right_ankle_y">دائیں ٹخنے y</string>
-    <string name="formula_editor_sensor_left_heel_x">left heel x</string>
-    <string name="formula_editor_sensor_left_heel_y">left heel y</string>
-    <string name="formula_editor_sensor_right_heel_x">right heel x</string>
-    <string name="formula_editor_sensor_right_heel_y">right heel y</string>
-    <string name="formula_editor_sensor_left_foot_index_x">left foot index x</string>
-    <string name="formula_editor_sensor_left_foot_index_y">left foot index y</string>
-    <string name="formula_editor_sensor_right_foot_index_x">right foot index x</string>
-    <string name="formula_editor_sensor_right_foot_index_y">right foot index y</string>
-    <string name="formula_editor_sensor_text_from_camera">text from camera</string>
-    <string name="formula_editor_sensor_text_blocks_number">number of text blocks</string>
-    <string name="formula_editor_function_text_block_x">text block x from camera</string>
-    <string name="formula_editor_function_text_block_y">text block y from camera</string>
-    <string name="formula_editor_function_text_block_size">text block size from camera</string>
-    <string name="formula_editor_function_text_block_from_camera">text block from camera</string>
-    <string name="formula_editor_function_text_block_language_from_camera">text block language from camera</string>
+    <string name="formula_editor_sensor_left_heel_x">بائیں ہیل x</string>
+    <string name="formula_editor_sensor_left_heel_y">بائیں ہیل y</string>
+    <string name="formula_editor_sensor_right_heel_x">دائیں ہیل x</string>
+    <string name="formula_editor_sensor_right_heel_y">دائیں ہیل y</string>
+    <string name="formula_editor_sensor_left_foot_index_x">بائیں پاؤں کا انڈیکس x</string>
+    <string name="formula_editor_sensor_left_foot_index_y">بائیں پاؤں کا انڈیکس y</string>
+    <string name="formula_editor_sensor_right_foot_index_x">دائیں پاؤں کا انڈیکس x</string>
+    <string name="formula_editor_sensor_right_foot_index_y">دائیں پاؤں کا انڈیکس y</string>
+    <string name="formula_editor_sensor_text_from_camera">کیمرے سے متن</string>
+    <string name="formula_editor_sensor_text_blocks_number">ٹیکسٹ بلاکس کی تعداد</string>
+    <string name="formula_editor_function_text_block_x">کیمرے سے ٹیکسٹ بلاک ایکس</string>
+    <string name="formula_editor_function_text_block_y">کیمرے سے ٹیکسٹ بلاک y</string>
+    <string name="formula_editor_function_text_block_size">کیمرے سے ٹیکسٹ بلاک سائز</string>
+    <string name="formula_editor_function_text_block_from_camera">کیمرے سے ٹیکسٹ بلاک</string>
+    <string name="formula_editor_function_text_block_language_from_camera">کیمرے سے ٹیکسٹ بلاک کی زبان</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
     <string name="formula_editor_function_get_id_of_detected_object">شناخت شدہ چیز کی ID</string>
     <string name="formula_editor_function_object_with_id_visible">ID کے ساتھ آبجیکٹ نظر آتا ہے۔</string>
@@ -1881,13 +1879,13 @@
     <string name="formula_editor_intro_summary_device">\"سینسر\" میں آپ معلومات حاصل کرسکتے ہیں کہ آپ کے آلے کا ریکارڈ. \ n مثال کے طور پر، آپ کے آلے کا جھگڑا، یا آپ کے ارد گرد کی بلند آواز.</string>
     <string name="formula_editor_intro_title_data">ڈیٹا</string>
     <string name="formula_editor_intro_summary_data">متغیرات اور فہرستیں جو آپ کے منصوبے میں استعمال ہوتے ہیں یہاں پایا جا سکتا ہے. \ آپ ان کو اپنی فارمولہ میں داخل کر سکتے ہیں، یا نئے شامل کریں.</string>
-    <string name="formula_editor_listening_language_sensor">listening language</string>
-    <string name="formula_editor_speech_recognition">Speech recognition</string>
+    <string name="formula_editor_listening_language_sensor">سننے کی زبان</string>
+    <string name="formula_editor_speech_recognition">تقریر کی پہچان</string>
     <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.</string>
-    <string name="warning_formula_recognized">You entered a text that looks like a formula. If you want to use functions,
-        sensors, variables and other formula elements, please select them instead using the
-        buttons in the formula editor.</string>
+    <string name="warning_formula_recognized">آپ نے ایک ایسا متن درج کیا ہے جو فارمولے کی طرح لگتا ہے۔ اگر آپ فنکشنز، 
+        سینسرز، متغیرات اور دیگر فارمولہ عناصر استعمال کرنا چاہتے ہیں، تو براہ کرم فارمولا ایڈیٹر میں 
+        بٹن استعمال کرنے کے بجائے انہیں منتخب کریں۔</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
     <string name="brick_show_variable">ویریئبل دکھائیں</string>
@@ -1899,8 +1897,8 @@
     <string name="brick_show_variable_aligned_centered">مرکوز</string>
     <string name="brick_show_variable_aligned_left">بائیں</string>
     <string name="brick_show_variable_aligned_right">دائیں</string>
-    <string name="brick_context_dialog_pick_color">Pick color</string>
-    <string name="brick_context_dialog_pick_note">Pick note</string>
+    <string name="brick_context_dialog_pick_color">رنگ چنیں۔</string>
+    <string name="brick_context_dialog_pick_note">نوٹ چنیں۔</string>
     <!-- -->
     <!-- Camera related strings -->
     <string name="brick_video">کیمرے کو چالو کریں</string>
@@ -1933,23 +1931,17 @@
     <string name="cast_connection_timout_msg">رابطے کا وقت ختم. دوبارہ کوشش کریں.</string>
     <string name="cast_screen_pause_text">روک دیا</string>
     <!-- -->
-    <string name="deletion_alert_title">Delete?</string>
-    <string name="deletion_alert_text">Deleting a variable or list that is still in use can cause
-        errors. You can\'t undo this!</string>
+    <string name="deletion_alert_title">حذف کریں؟</string>
+    <string name="deletion_alert_text">کسی متغیر یا فہرست کو حذف کرنا جو اب بھی استعمال میں ہے         غلطیوں کا سبب بن سکتا ہے۔ آپ اسے کالعدم نہیں کر سکتے!</string>
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">آپ کا پروجیکٹ ایپ  شراکت دار سائٹ پر اپ لوڈ ہو جاتا ہے جہاں دوسروں کو اس کا استعمال اور اسے ڈاؤن لوڈ کرسکتا ہے. آپ اپنے منصوبے کو ایک اسٹائل ایپ کے طور پر بھی ڈاؤن لوڈ کرسکتے ہیں.</string>
-    <string name="progress_upload_dialog_failed">Upload failed. Please check your internet connection and try
-        again!</string>
+    <string name="progress_upload_dialog_failed">اپ لوڈناکام. براہ کرم اپنا انٹرنیٹ کنکشن چیک کریں اور         دوبارہ کوشش کریں!</string>
     <string name="progress_upload_dialog_show_program">منصوبے دکھائیں</string>
     <!--  -->
     <!-- unchanged upload dialog -->
-    <string name="unchanged_upload_warning">The project you are trying to upload already exists on
-        the community platform in exactly the same form. Please change your project, ideally by
-        enhancing it, before uploading your remixed project.</string>
-    <string name="unchanged_upload_info">Please consider adding some kind words towards the original
-        author in the Credits section on the community site or in the project options. Please note
-        that the user will get a notification after your successful upload.</string>
-    <string name="unchanged_upload_url">To learn more about remixes, please visit %1s.</string>
+    <string name="unchanged_upload_warning">آپ جس پروجیکٹ کو اپ لوڈ کرنے کی کوشش کر رہے ہیں وہ         کمیونٹی پلیٹ فارم پر بالکل اسی شکل میں پہلے سے موجود ہے۔ براہ کرم اپنا ریمکس شدہ پروجیکٹ اپ لوڈ کرنے سے پہلے اپنے پروجیکٹ کو مثالی طور پر         بہتر بنا کر تبدیل کریں۔</string>
+    <string name="unchanged_upload_info">براہ کرم کمیونٹی         سائٹ پر کریڈٹ سیکشن میں یا پروجیکٹ کے اختیارات میں اصل مصنف کے لیے کچھ مہربان الفاظ شامل کرنے پر غور کریں۔ براہ کرم نوٹ کریں         کہ آپ کے کامیاب اپ لوڈ کے بعد صارف کو ایک اطلاع ملے گی۔</string>
+    <string name="unchanged_upload_url">ریمکس کے بارے میں مزید جاننے کے لیے، براہ کرم %1s ملاحظہ کریں۔</string>
     <!-- -->
     <!-- Snackbar hints -->
     <string name="got_it">سمجھ گیا</string>
@@ -1966,12 +1958,12 @@
          نیا اداکار یا اعتراض شامل کرنے کے لئے، \"+\" علامت کو ٹیپ کریں.</string>
     <!--  -->
     <!-- Dialog Disable hints -->
-    <string name="dialog_disable_hints_title">Show hints?</string>
+    <string name="dialog_disable_hints_title">اشارے دکھائیں؟</string>
     <string name="dialog_disable_hints_text">Hints provide you with helpful information
         while making your first project.\n\nVisibility of hints can be changed in the
         settings.</string>
-    <string name="dialog_disable_hints_button_hide">HIDE</string>
-    <string name="dialog_disable_hints_button_show">SHOW</string>
+    <string name="dialog_disable_hints_button_hide">چھپائیں</string>
+    <string name="dialog_disable_hints_button_show">دکھائیں</string>
     <!--  -->
     <!-- Crash report dialog -->
     <!--  -->
@@ -1980,31 +1972,29 @@
     <!-- Symbols -->
     <string name="percent_symbol">%</string>
     <string name="hertz_symbol">㎐</string>
-    <string name="no_internet_connection">No internet connection. Make sure Wi-Fi or mobile
-    data is turned on.</string>
+    <string name="no_internet_connection">انٹرنیٹ کنکشن نہیں ہے۔ یقینی بنائیں کہ وائی فائی یا موبائل     ڈیٹا آن ہے۔</string>
     <string name="edit">تدوین کریں</string>
-    <string name="data_value">Value</string>
-    <string name="category_recently_used">Recently used</string>
-    <string name="new_sprite_dialog_place_visually">Place visually</string>
-    <string name="place_visually_text">You will be asked to place the new actor or object on the
-        stage.</string>
-    <string name="new_empty_sprite_note">Note: The actor or object will be created
-        without a look.</string>
+    <string name="data_value">قدر</string>
+    <string name="category_recently_used">حال ہی میں استعمال کیا گیا۔</string>
+    <string name="new_sprite_dialog_place_visually">بصری طور پر رکھیں</string>
+    <string name="place_visually_text">آپ سے نئے اداکار یا 
+        چیز کو اسٹیج پر رکھنے کے لیے کہا جائے گا۔</string>
+    <string name="new_empty_sprite_note">نوٹ: اداکار یا شے بغیر         نظر کے بنائی جائے گی۔</string>
     <!-- Information -->
-    <string name="no_variable_selected">No variable selected</string>
-    <string name="find">Find</string>
-    <string name="no_results_found">No results found</string>
-    <string name="query_field_is_empty">Query field is empty</string>
+    <string name="no_variable_selected">کوئی متغیر منتخب نہیں ہے۔</string>
+    <string name="find">پیدا کر</string>
+    <string name="no_results_found">کوئی نتیجہ نہیں</string>
+    <string name="query_field_is_empty">سوال کا میدان خالی ہے۔</string>
     <string name="cut">کٹ</string>
     <string name="paste">پیسٹ</string>
     <!-- Particle Effects -->
-    <string name="fade_particle_effect">Fade particle effect</string>
-    <string name="particle_effects_fade_in">in</string>
-    <string name="particle_effects_fade_out">out</string>
-    <string name="turn_particle_effect_additivity">Turn particle effect additivity</string>
+    <string name="fade_particle_effect">دھندلا ذرہ اثر</string>
+    <string name="particle_effects_fade_in">میں</string>
+    <string name="particle_effects_fade_out">باہر</string>
+    <string name="turn_particle_effect_additivity">باری ذرہ اثر additivity</string>
     <string name="particle_effects_additive_on">پر</string>
     <string name="particle_effects_additive_off">بند</string>
-    <string name="set_particle_color_to">Set particle color to</string>
+    <string name="set_particle_color_to">پارٹیکل کلر کو سیٹ کریں۔</string>
     <string name="undo_sort"> بلا ترتیب</string>
     <string name="sort">با ترتیب </string>
 </resources>
