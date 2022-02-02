@@ -24,7 +24,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/user_data_vh_height"
+    android:minHeight="@dimen/user_data_view_holder_height"
     android:paddingStart="@dimen/view_holder_padding"
     android:paddingEnd="@dimen/view_holder_padding"
     android:layout_marginTop="?attr/element_spacing"
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingEnd="@dimen/details_spacing"
-            android:textColor="@color/vh_item_title"
+            android:textColor="@color/view_holder_item_title"
             android:textSize="?attr/large"/>
 
         <Spinner

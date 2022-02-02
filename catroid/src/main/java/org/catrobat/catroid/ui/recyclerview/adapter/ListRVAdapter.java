@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,8 +29,8 @@ import android.view.ViewGroup;
 
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.adapter.UserListValuesAdapter;
-import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
-import org.catrobat.catroid.ui.recyclerview.viewholder.ListVH;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ListViewHolder;
 import org.catrobat.catroid.utils.ShowTextUtils;
 
 import java.util.ArrayList;
@@ -43,23 +43,23 @@ public class ListRVAdapter extends RVAdapter<UserList> {
 	}
 
 	@Override
-	public CheckableVH onCreateViewHolder(ViewGroup parent, int viewType) {
+	public CheckableViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-		return new ListVH(view);
+		return new ListViewHolder(view);
 	}
 
 	@Override
-	public void onBindViewHolder(CheckableVH holder, int position) {
+	public void onBindViewHolder(CheckableViewHolder holder, int position) {
 		super.onBindViewHolder(holder, position);
 
 		UserList item = items.get(position);
-		ListVH listVH = (ListVH) holder;
-		listVH.title.setText(item.getName());
+		ListViewHolder listViewHolder = (ListViewHolder) holder;
+		listViewHolder.title.setText(item.getName());
 
 		List<String> userList = new ArrayList<>();
 		for (Object userListItem : item.getValue()) {
 			userList.add(ShowTextUtils.convertObjectToString(userListItem));
 		}
-		listVH.spinner.setAdapter(new UserListValuesAdapter(holder.itemView.getContext(), userList));
+		listViewHolder.spinner.setAdapter(new UserListValuesAdapter(holder.itemView.getContext(), userList));
 	}
 }

@@ -58,7 +58,7 @@ import org.catrobat.catroid.ui.recyclerview.controller.SpriteController
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider
-import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
 import org.catrobat.catroid.utils.SnackbarUtil
 import org.catrobat.catroid.utils.ToastUtil
 import org.koin.android.ext.android.inject
@@ -323,7 +323,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         }
     }
 
-    override fun onItemLongClick(item: Sprite?, holder: CheckableVH) {
+    override fun onItemLongClick(item: Sprite?, holder: CheckableViewHolder) {
         super.onItemLongClick(item, holder)
     }
 

@@ -37,7 +37,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallback;
-import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.lang.annotation.Retention;
@@ -301,7 +301,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	}
 
 	@Override
-	public void onItemLongClick(T item, CheckableVH holder) {
+	public void onItemLongClick(T item, CheckableViewHolder holder) {
 		onItemClick(item);
 	}
 

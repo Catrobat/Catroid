@@ -35,8 +35,8 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.GroupItemSprite;
 import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
-import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedViewHolder;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -66,29 +66,29 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 	}
 
 	@Override
-	public CheckableVH onCreateViewHolder(ViewGroup parent, @ViewType int viewType) {
+	public CheckableViewHolder onCreateViewHolder(ViewGroup parent, @ViewType int viewType) {
 
 		LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 		switch (viewType) {
 			case BACKGROUND:
-				backgroundView = inflater.inflate(R.layout.vh_background_sprite, parent, false);
-				return new ExtendedVH(backgroundView);
+				backgroundView = inflater.inflate(R.layout.view_holder_background_sprite, parent, false);
+				return new ExtendedViewHolder(backgroundView);
 			case SPRITE_SINGLE:
-				View view = inflater.inflate(R.layout.vh_with_checkbox, parent, false);
-				return new ExtendedVH(view);
+				View view = inflater.inflate(R.layout.view_holder_with_checkbox, parent, false);
+				return new ExtendedViewHolder(view);
 			case SPRITE_GROUP:
-				view = inflater.inflate(R.layout.vh_sprite_group, parent, false);
-				return new ExtendedVH(view);
+				view = inflater.inflate(R.layout.view_holder_sprite_group, parent, false);
+				return new ExtendedViewHolder(view);
 			case SPRITE_GROUP_ITEM:
-				view = inflater.inflate(R.layout.vh_sprite_group_item, parent, false);
-				return new ExtendedVH(view);
+				view = inflater.inflate(R.layout.view_holder_sprite_group_item, parent, false);
+				return new ExtendedViewHolder(view);
 			default:
 				throw new IllegalArgumentException(TAG + ": viewType was not defined correctly.");
 		}
 	}
 
 	@Override
-	public void onBindViewHolder(ExtendedVH holder, int position) {
+	public void onBindViewHolder(ExtendedViewHolder holder, int position) {
 		Context context = holder.itemView.getContext();
 
 		Sprite item = items.get(position);
