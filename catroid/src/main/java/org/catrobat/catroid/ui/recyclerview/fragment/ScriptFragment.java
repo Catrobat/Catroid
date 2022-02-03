@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -662,6 +662,7 @@ public class ScriptFragment extends ListFragment implements
 		List<Integer> items = new ArrayList<>();
 
 		if (brick instanceof UserDefinedReceiverBrick) {
+			items.add(R.string.backpack_add);
 			items.add(R.string.brick_context_dialog_delete_definition);
 			items.add(R.string.brick_context_dialog_move_definition);
 			items.add(R.string.brick_context_dialog_help);
