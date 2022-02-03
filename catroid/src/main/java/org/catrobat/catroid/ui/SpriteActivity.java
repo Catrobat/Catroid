@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -59,6 +59,8 @@ import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.TestResult;
 import org.catrobat.catroid.ui.controller.RecentBrickListManager;
+import org.catrobat.catroid.ui.fragment.AddBrickFragment;
+import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
@@ -71,6 +73,7 @@ import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -300,6 +303,13 @@ public class SpriteActivity extends BaseActivity {
 			((FormulaEditorFragment) currentFragment).exitFormulaEditorFragment();
 			return;
 		} else if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+
+			if (currentFragment instanceof BrickCategoryFragment) {
+				SnackbarUtil.showHintSnackbar(this, R.string.hint_scripts);
+			} else if (currentFragment instanceof AddBrickFragment) {
+				SnackbarUtil.showHintSnackbar(this, R.string.hint_category);
+			}
+
 			getSupportFragmentManager().popBackStack();
 			return;
 		}

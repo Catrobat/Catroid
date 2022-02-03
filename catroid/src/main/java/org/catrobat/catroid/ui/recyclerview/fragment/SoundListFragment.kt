@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -55,12 +55,16 @@ class SoundListFragment : RecyclerViewFragment<SoundInfo?>() {
     }
 
     override fun initializeAdapter() {
-        SnackbarUtil.showHintSnackbar(requireActivity(), R.string.hint_sounds)
         sharedPreferenceDetailsKey = SharedPreferenceKeys.SHOW_DETAILS_SOUNDS_PREFERENCE_KEY
         val items = projectManager.currentSprite.soundList
         adapter = SoundAdapter(items)
         emptyView.setText(R.string.fragment_sound_text_description)
         onAdapterReady()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        SnackbarUtil.showHintSnackbar(requireActivity(), R.string.hint_sounds)
     }
 
     override fun onPause() {

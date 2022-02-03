@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -211,10 +211,12 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	@Override
 	public void onResume() {
 		super.onResume();
-		if (SnackbarUtil.areHintsEnabled(this.getActivity())
-				&& !wasHintAlreadyShown(getActivity(), getActivity().getResources()
-				.getResourceName(R.string.formula_editor_intro_title_formula_editor))) {
-			new FormulaEditorIntroDialog(this, R.style.StageDialog).show();
+		if (SnackbarUtil.areHintsEnabled(this.getActivity())) {
+			SnackbarUtil.dismissAllHints();
+			if (!wasHintAlreadyShown(getActivity(), getActivity().getResources()
+					.getResourceName(R.string.formula_editor_intro_title_formula_editor))) {
+				new FormulaEditorIntroDialog(this, R.style.StageDialog).show();
+			}
 		}
 	}
 
