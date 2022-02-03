@@ -66,55 +66,54 @@ public class ActionBarFormulaEditorTitleTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void actionBarDataFragmentTitleTest() {
-		onFormulaEditor()
-				.performOpenDataFragment();
-		onDataList()
-				.performAdd("test");
+		onFormulaEditor().performOpenDataFragment();
+		onDataList().performAdd("test");
 		openContextualActionModeOverflowMenu();
-		onView(withText(R.string.delete))
-				.perform(click());
-		onDataList().onVariableAtPosition(0)
-				.performCheckItem();
-		onActionMode()
-				.performGoBack();
-
-		onActionBar()
-				.checkTitleMatches(R.string.formula_editor_data);
+		onView(withText(R.string.delete)).perform(click());
+		onDataList().onVariableAtPosition(0).performCheckItem();
+		onActionMode().performGoBack();
+		onActionBar().checkTitleMatches(R.string.formula_editor_data);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void actionBarObjectTitleTest() {
-		onFormulaEditor()
-				.performOpenCategory(FormulaEditorWrapper.Category.OBJECT);
-		onActionBar()
-				.checkTitleMatches(R.string.formula_editor_choose_object_variable);
+		onFormulaEditor().performOpenCategory(FormulaEditorWrapper.Category.OBJECT);
+		onActionBar().checkTitleMatches(R.string.formula_editor_choose_object_variable);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void actionBarFunctionsTitleTest() {
-		onFormulaEditor()
-				.performOpenCategory(FormulaEditorWrapper.Category.FUNCTIONS);
-		onActionBar()
-				.checkTitleMatches(R.string.formula_editor_functions);
+	public void actionBarMathematicsTitleTest() {
+		onFormulaEditor().performOpenCategory(FormulaEditorWrapper.Category.MATHEMATICS);
+		onActionBar().checkTitleMatches(R.string.formula_editor_functions_maths);
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void actionBarTextTitleTest() {
+		onFormulaEditor().performOpenCategory(FormulaEditorWrapper.Category.TEXT);
+		onActionBar().checkTitleMatches(R.string.formula_editor_functions_strings);
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void actionBarListsTitleTest() {
+		onFormulaEditor().performOpenCategory(FormulaEditorWrapper.Category.LISTS);
+		onActionBar().checkTitleMatches(R.string.formula_editor_functions_lists);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void actionBarLogicTitleTest() {
-		onFormulaEditor()
-				.performOpenCategory(FormulaEditorWrapper.Category.LOGIC);
-		onActionBar()
-				.checkTitleMatches(R.string.formula_editor_logic);
+		onFormulaEditor().performOpenCategory(FormulaEditorWrapper.Category.LOGIC);
+		onActionBar().checkTitleMatches(R.string.formula_editor_logic);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void actionBarDeviceTitleTest() {
-		onFormulaEditor()
-				.performOpenCategory(FormulaEditorWrapper.Category.DEVICE);
-		onActionBar()
-				.checkTitleMatches(R.string.formula_editor_device);
+		onFormulaEditor().performOpenCategory(FormulaEditorWrapper.Category.DEVICE);
+		onActionBar().checkTitleMatches(R.string.formula_editor_device);
 	}
 }

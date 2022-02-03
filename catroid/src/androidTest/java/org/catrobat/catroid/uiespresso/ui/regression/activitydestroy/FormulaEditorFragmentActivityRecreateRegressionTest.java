@@ -95,7 +95,7 @@ public class FormulaEditorFragmentActivityRecreateRegressionTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Quarantine.class})
 	@Test
 	public void testActivityRecreateCategoryFragment() {
-		onFormulaEditor().performOpenFunctions();
+		onFormulaEditor().performOpenMathematics();
 		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 		recreateActivity();
 		checkInitialListeners();
@@ -141,8 +141,7 @@ public class FormulaEditorFragmentActivityRecreateRegressionTest {
 				.check(doesNotExist());
 		onView(FORMULA_EDITOR_TEXT_FIELD_MATCHER)
 				.check(doesNotExist());
-		onBrickAtPosition(1).perform(click());
-		onView(withText(R.string.brick_context_dialog_formula_edit_brick)).perform(click());
+		onBrickAtPosition(1).performEditFormula();
 		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 		onView(FORMULA_EDITOR_KEYBOARD_MATCHER)
 				.check(matches(isDisplayed()));

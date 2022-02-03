@@ -72,15 +72,15 @@ public class FormulaEditorFragmentHelpUrlTest {
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
+	static String wikiFormulaEditorHelpUrl = "https://wiki.catrobat.org/bin/view/Documentation/FormulaEditor";
+
 	static String language = getLanguage();
-	static String functionsHelpUrl = "https://wiki.catrobat"
-			+ ".org/bin/view/Documentation/FormulaEditor/Functions/" + language;
-	static String logicHelpUrl = "https://wiki.catrobat.org/bin/view/Documentation/FormulaEditor"
-			+ "/Logic/" + language;
-	static String sensorsHelpUrl = "https://wiki.catrobat"
-			+ ".org/bin/view/Documentation/FormulaEditor/Sensors/" + language;
-	static String objectHelpUrl = "https://wiki.catrobat.org/bin/view/Documentation/FormulaEditor"
-			+ "/Properties/" + language;
+	static String mathematicsHelpUrl = wikiFormulaEditorHelpUrl + "/Functions/" + language;
+	static String textHelpUrl = wikiFormulaEditorHelpUrl + "/TextFunctions/" + language;
+	static String listsHelpUrl = wikiFormulaEditorHelpUrl + "/Lists/" + language;
+	static String logicHelpUrl = wikiFormulaEditorHelpUrl + "/Logic/" + language;
+	static String sensorsHelpUrl = wikiFormulaEditorHelpUrl + "/Sensors/" + language;
+	static String objectHelpUrl = wikiFormulaEditorHelpUrl + "/Properties/" + language;
 
 	@Before
 	public void setUp() throws Exception {
@@ -89,33 +89,33 @@ public class FormulaEditorFragmentHelpUrlTest {
 	}
 
 	@Test
-	public void testFunctionsHelpUrl() {
+	public void testMathematicsHelpUrl() {
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
 				.perform(click());
 		String helpUrl = onFormulaEditor()
-				.performOpenCategory(FormulaEditorWrapper.Category.FUNCTIONS)
-				.getHelpUrl(CategoryListFragment.FUNCTION_TAG, baseActivityTestRule.getActivity());
-		assertEquals(functionsHelpUrl, helpUrl);
+				.performOpenCategory(FormulaEditorWrapper.Category.MATHEMATICS)
+				.getHelpUrl(CategoryListFragment.MATHEMATICS_TAG, baseActivityTestRule.getActivity());
+		assertEquals(mathematicsHelpUrl, helpUrl);
 	}
 
 	@Test
-	public void testLogicHelpUrl() {
+	public void testTextHelpUrl() {
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
 				.perform(click());
 		String helpUrl = onFormulaEditor()
-				.performOpenCategory(FormulaEditorWrapper.Category.LOGIC)
-				.getHelpUrl(CategoryListFragment.LOGIC_TAG, baseActivityTestRule.getActivity());
-		assertEquals(logicHelpUrl, helpUrl);
+				.performOpenCategory(FormulaEditorWrapper.Category.TEXT)
+				.getHelpUrl(CategoryListFragment.TEXT_TAG, baseActivityTestRule.getActivity());
+		assertEquals(textHelpUrl, helpUrl);
 	}
 
 	@Test
-	public void testSensorsHelpUrl() {
+	public void testListsHelpUrl() {
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
 				.perform(click());
 		String helpUrl = onFormulaEditor()
-				.performOpenCategory(FormulaEditorWrapper.Category.DEVICE)
-				.getHelpUrl(CategoryListFragment.SENSOR_TAG, baseActivityTestRule.getActivity());
-		assertEquals(sensorsHelpUrl, helpUrl);
+				.performOpenCategory(FormulaEditorWrapper.Category.LISTS)
+				.getHelpUrl(CategoryListFragment.LISTS_TAG, baseActivityTestRule.getActivity());
+		assertEquals(listsHelpUrl, helpUrl);
 	}
 
 	@Test

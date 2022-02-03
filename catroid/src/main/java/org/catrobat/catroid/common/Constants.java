@@ -141,7 +141,9 @@ public final class Constants {
 	public static final String WEB_REQUEST_WIKI_URL = "https://catrob.at/webbricks";
 
 	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
-	public static final String CATROBAT_FUNCTIONS_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Functions/";
+	public static final String CATROBAT_MATHEMATICS_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Functions/";
+	public static final String CATROBAT_TEXT_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/TextFunctions/";
+	public static final String CATROBAT_LISTS_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Lists/";
 	public static final String CATROBAT_LOGIC_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Logic/";
 	public static final String CATROBAT_SENSORS_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Sensors/";
 	public static final String CATROBAT_OBJECT_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Properties/";

@@ -166,7 +166,7 @@ public class ClipboardTest {
 	public void cutWithoutFirstParameterTest() {
 		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
 		onFormulaEditor()
-				.performOpenCategory(FormulaEditorWrapper.Category.FUNCTIONS)
+				.performOpenCategory(FormulaEditorWrapper.Category.MATHEMATICS)
 				.performSelect("power(2,3)");
 		onFormulaEditor().performBackspace();
 		onView(withId(R.id.formula_editor_edit_field)).perform(doubleClick());

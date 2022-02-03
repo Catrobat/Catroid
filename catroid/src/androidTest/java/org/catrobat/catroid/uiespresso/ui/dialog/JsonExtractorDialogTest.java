@@ -68,7 +68,7 @@ public class JsonExtractorDialogTest {
 	private void openJsonExtractor() {
 		String regularExpressionAssistant =
 				"\t\t\t\t\t" + UiTestUtils.getResourcesString(R.string.formula_editor_function_regex_assistant);
-		onFormulaEditor().performOpenCategory(FormulaEditorWrapper.Category.FUNCTIONS).performSelect(regularExpressionAssistant);
+		onFormulaEditor().performOpenCategory(FormulaEditorWrapper.Category.TEXT).performSelect(regularExpressionAssistant);
 		onView(withText(R.string.formula_editor_function_regex_json_extractor_title)).perform(click());
 	}
 

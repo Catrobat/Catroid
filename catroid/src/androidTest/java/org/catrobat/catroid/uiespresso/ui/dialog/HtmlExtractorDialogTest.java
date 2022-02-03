@@ -106,7 +106,7 @@ public class HtmlExtractorDialogTest {
 	private void openHtmlExtractor() {
 		String regularExpressionAssistant =
 				"\t\t\t\t\t" + UiTestUtils.getResourcesString(R.string.formula_editor_function_regex_assistant);
-		onFormulaEditor().performOpenCategory(FormulaEditorWrapper.Category.FUNCTIONS).performSelect(regularExpressionAssistant);
+		onFormulaEditor().performOpenCategory(FormulaEditorWrapper.Category.TEXT).performSelect(regularExpressionAssistant);
 		onView(withText(R.string.formula_editor_regex_html_extractor_dialog_title)).perform(click());
 	}
 

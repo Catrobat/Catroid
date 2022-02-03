@@ -89,7 +89,9 @@ import static java.util.Collections.singletonList;
 public class CategoryListFragment extends Fragment implements CategoryListRVAdapter.OnItemClickListener {
 
 	public static final String OBJECT_TAG = "objectFragment";
-	public static final String FUNCTION_TAG = "functionFragment";
+	public static final String MATHEMATICS_TAG = "mathematicsFragment";
+	public static final String TEXT_TAG = "textFragment";
+	public static final String LISTS_TAG = "listsFragment";
 	public static final String LOGIC_TAG = "logicFragment";
 	public static final String SENSOR_TAG = "sensorFragment";
 	public static final String ACTION_BAR_TITLE_BUNDLE_ARGUMENT = "actionBarTitle";
@@ -150,6 +152,14 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_function_regex_parameter,
 			R.string.formula_editor_function_no_parameter,
 			R.string.formula_editor_function_flatten_parameter);
+	private static final List<Integer> TEXT_PROPERTIES_FUNCTIONS = asList(
+			R.string.formula_editor_object_look_name,
+			R.string.formula_editor_object_background_number,
+			R.string.formula_editor_object_background_name);
+	private static final List<Integer> TEXT_PROPERTIES_FUNCTIONS_PARAMS = asList(
+			R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_no_parameter);
 	private static final List<Integer> LIST_FUNCTIONS = asList(R.string.formula_editor_function_number_of_items,
 			R.string.formula_editor_function_list_item, R.string.formula_editor_function_contains,
 			R.string.formula_editor_function_index_of_item, R.string.formula_editor_function_flatten);
@@ -161,10 +171,31 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	private static final List<Integer> LOGIC_BOOL = asList(R.string.formula_editor_logic_and,
 			R.string.formula_editor_logic_or, R.string.formula_editor_logic_not,
 			R.string.formula_editor_function_true, R.string.formula_editor_function_false);
-	private static final List<Integer> LOGIC_COMPARISION = asList(R.string.formula_editor_logic_equal,
+	private static final List<Integer> LOGIC_COMPARISON = asList(R.string.formula_editor_logic_equal,
 			R.string.formula_editor_logic_notequal, R.string.formula_editor_logic_lesserthan,
 			R.string.formula_editor_logic_leserequal, R.string.formula_editor_logic_greaterthan,
 			R.string.formula_editor_logic_greaterequal);
+	private static final List<Integer> LOGIC_REPORTERS = asList(
+			R.string.formula_editor_function_if_then_else,
+			R.string.formula_editor_function_collides_with_edge,
+			R.string.formula_editor_function_touched,
+			R.string.formula_editor_function_collides_with_color,
+			R.string.formula_editor_function_color_touches_color,
+			R.string.formula_editor_function_is_finger_touching,
+			R.string.formula_editor_function_is_multi_finger_touching);
+	private static final List<Integer> LOGIC_REPORTERS_PARAMS = asList(
+			R.string.formula_editor_function_if_then_else_parameter,
+			R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_collides_with_color_parameter,
+			R.string.formula_editor_function_color_touches_color_parameter,
+			R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_touch_parameter);
+	private static final List<Integer> LOGIC_FACE_DETECTION = asList(
+			R.string.formula_editor_sensor_face_detected,
+			R.string.formula_editor_sensor_second_face_detected);
+	private static final List<Integer> LOGIC_OBJECT_DETECTION = asList(
+			R.string.formula_editor_function_object_with_id_visible);
 	private static final List<Integer> SENSORS_DEFAULT = asList(R.string.formula_editor_sensor_loudness,
 			R.string.formula_editor_function_touched);
 	private static final List<Integer> OBJECT_COLOR_COLLISION =
@@ -572,9 +603,17 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	public void onOptionsMenuClick(String tag) {
 		String language = getLanguage(getActivity());
 		switch (tag) {
-			case FUNCTION_TAG:
+			case MATHEMATICS_TAG:
 				startActivity(new Intent(Intent.ACTION_VIEW,
-						Uri.parse(Constants.CATROBAT_FUNCTIONS_WIKI_URL + language)));
+						Uri.parse(Constants.CATROBAT_MATHEMATICS_WIKI_URL + language)));
+				break;
+			case TEXT_TAG:
+				startActivity(new Intent(Intent.ACTION_VIEW,
+						Uri.parse(Constants.CATROBAT_TEXT_WIKI_URL + language)));
+				break;
+			case LISTS_TAG:
+				startActivity(new Intent(Intent.ACTION_VIEW,
+						Uri.parse(Constants.CATROBAT_LISTS_WIKI_URL + language)));
 				break;
 			case LOGIC_TAG:
 				startActivity(new Intent(Intent.ACTION_VIEW,
@@ -594,8 +633,12 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	public String getHelpUrl(String tag, SpriteActivity activity) {
 		String language = getLanguage(activity);
 		switch (tag) {
-			case FUNCTION_TAG:
-				return Constants.CATROBAT_FUNCTIONS_WIKI_URL + language;
+			case MATHEMATICS_TAG:
+				return Constants.CATROBAT_MATHEMATICS_WIKI_URL + language;
+			case TEXT_TAG:
+				return Constants.CATROBAT_TEXT_WIKI_URL + language;
+			case LISTS_TAG:
+				return Constants.CATROBAT_LISTS_WIKI_URL + language;
 			case LOGIC_TAG:
 				return Constants.CATROBAT_LOGIC_WIKI_URL + language;
 			case OBJECT_TAG:
@@ -804,14 +847,18 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		List<CategoryListItem> items;
 		if (OBJECT_TAG.equals(argument)) {
 			items = getObjectItems();
-		} else if (FUNCTION_TAG.equals(argument)) {
-			items = getFunctionItems();
+		} else if (MATHEMATICS_TAG.equals(argument)) {
+			items = getMathematicsItems();
+		} else if (TEXT_TAG.equals(argument)) {
+			items = getTextItems();
+		} else if (LISTS_TAG.equals(argument)) {
+			items = getListsItems();
 		} else if (LOGIC_TAG.equals(argument)) {
 			items = getLogicItems();
 		} else if (SENSOR_TAG.equals(argument)) {
 			items = getSensorItems();
 		} else {
-			throw new IllegalArgumentException("Argument for CategoryListFragent null or unknown: " + argument);
+			throw new IllegalArgumentException("Argument for CategoryListFragment null or unknown: " + argument);
 		}
 
 		CategoryListRVAdapter adapter = new CategoryListRVAdapter(items);
@@ -864,21 +911,48 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 
 	private List<CategoryListItem> getFunctionItems() {
 		List<CategoryListItem> result = new ArrayList<>();
-		result.addAll(addHeader(toCategoryListItems(MATH_FUNCTIONS, MATH_PARAMS),
-				getString(R.string.formula_editor_functions_maths)));
-		result.addAll(addHeader(toCategoryListItems(STRING_FUNCTIONS, STRING_PARAMS),
-				getString(R.string.formula_editor_functions_strings)));
-		result.addAll(addHeader(toCategoryListItems(LIST_FUNCTIONS, LIST_PARAMS),
-				getString(R.string.formula_editor_functions_lists)));
+		result.addAll(getMathematicsItems());
+		result.addAll(getTextItems());
+		result.addAll(getListsItems());
+		return result;
+	}
 
+	private List<CategoryListItem> getMathematicsItems() {
+		List<CategoryListItem> result = new ArrayList<>();
+		result.addAll(toCategoryListItems(MATH_FUNCTIONS, MATH_PARAMS));
+		return result;
+	}
+
+	private List<CategoryListItem> getTextItems() {
+		List<CategoryListItem> result = new ArrayList<>();
+		result.addAll(getSpeechRecognitionItems());
+		result.addAll(getTextSensorItems());
+		if (result.isEmpty()) {
+			result.addAll(toCategoryListItems(STRING_FUNCTIONS, STRING_PARAMS));
+		} else {
+			result.addAll(addHeader(toCategoryListItems(STRING_FUNCTIONS, STRING_PARAMS),
+					getString(R.string.formula_editor_other_text_reporters)));
+		}
+		result.addAll(toCategoryListItems(TEXT_PROPERTIES_FUNCTIONS, TEXT_PROPERTIES_FUNCTIONS_PARAMS));
+		result.addAll(toCategoryListItems(SENSORS_COLOR_AT_XY, SENSORS_COLOR_AT_XY_PARAMS));
+		result.addAll(toCategoryListItems(SENSOR_USER_LANGUAGE));
+		return result;
+	}
+
+	private List<CategoryListItem> getListsItems() {
+		List<CategoryListItem> result = new ArrayList<>();
+		result.addAll(toCategoryListItems(LIST_FUNCTIONS, LIST_PARAMS));
 		return result;
 	}
 
 	private List<CategoryListItem> getLogicItems() {
 		List<CategoryListItem> result = new ArrayList<>();
+		result.addAll(getFaceLogicItems());
+		result.addAll(getObjectDetectionLogicItems());
 		result.addAll(addHeader(toCategoryListItems(LOGIC_BOOL), getString(R.string.formula_editor_logic_boolean)));
-		result.addAll(addHeader(toCategoryListItems(LOGIC_COMPARISION),
-				getString(R.string.formula_editor_logic_comparison)));
+		result.addAll(addHeader(toCategoryListItems(LOGIC_COMPARISON), getString(R.string.formula_editor_logic_comparison)));
+		result.addAll(addHeader(toCategoryListItems(LOGIC_REPORTERS, LOGIC_REPORTERS_PARAMS), getString(R.string.formula_editor_logic_reporters)));
+		result.addAll(toCategoryListItems(OBJECT_PHYSICAL_COLLISION, CategoryListRVAdapter.COLLISION));
 		return result;
 	}
 
@@ -1007,6 +1081,12 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 				: Collections.emptyList();
 	}
 
+	private List<CategoryListItem> getFaceLogicItems() {
+		return SettingsFragment.isAIFaceDetectionSharedPreferenceEnabled(getActivity().getApplicationContext())
+				? addHeader(toCategoryListItems(LOGIC_FACE_DETECTION), getString(R.string.formula_editor_device_face_detection))
+				: Collections.emptyList();
+	}
+
 	private List<CategoryListItem> getFaceSensorItems() {
 		return SettingsFragment.isAIFaceDetectionSharedPreferenceEnabled(getActivity().getApplicationContext())
 				? addHeader(toCategoryListItems(SENSORS_FACE_DETECTION, SENSORS_FACE_DETECTION_PARAMS),
@@ -1037,6 +1117,12 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		return SettingsFragment.isAITextRecognitionSharedPreferenceEnabled(getActivity().getApplicationContext())
 				? addHeader(toCategoryListItems(SENSORS_TEXT_RECOGNITION, SENSORS_TEXT_RECOGNITION_PARAMS),
 				getString(R.string.formula_editor_device_text_recognition))
+				: Collections.emptyList();
+	}
+
+	private List<CategoryListItem> getObjectDetectionLogicItems() {
+		return SettingsFragment.isAIObjectDetectionSharedPreferenceEnabled(getActivity().getApplicationContext())
+				? addHeader(toCategoryListItems(LOGIC_OBJECT_DETECTION), getString(R.string.formula_editor_device_object_recognition))
 				: Collections.emptyList();
 	}
 

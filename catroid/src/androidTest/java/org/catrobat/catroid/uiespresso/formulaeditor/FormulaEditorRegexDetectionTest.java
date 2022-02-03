@@ -42,6 +42,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -91,6 +92,7 @@ public class FormulaEditorRegexDetectionTest {
 
 		onView(withText(R.string.formula_editor_dialog_change_regular_expression)).check(matches(isDisplayed()));
 	}
+
 	@Test
 	public void testRegexFunctionFirstParamAssistantButton() {
 
@@ -100,12 +102,14 @@ public class FormulaEditorRegexDetectionTest {
 
 		onView(withText(R.string.assistant)).check(matches(isDisplayed()));
 	}
+
 	@Test
 	public void testRegexFunctionAssistantButtonOpensAssistantWindowOnClick() {
 		String editorFunction = getFunctionEntryName(R.string.formula_editor_function_regex,
 				R.string.formula_editor_function_regex_parameter);
 		prepareUntilButton(editorFunction);
 
+		closeSoftKeyboard();
 		onView(withText(R.string.assistant)).perform(click());
 		onView(withText(R.string.formula_editor_dialog_regular_expression_assistant_title)).check(matches(isDisplayed()));
 	}
@@ -138,7 +142,7 @@ public class FormulaEditorRegexDetectionTest {
 
 	private void prepareUntilButton(String nameOfFunction) {
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text)).perform(click());
-		onFormulaEditor().performOpenCategory(FormulaEditorWrapper.Category.FUNCTIONS).performSelect(nameOfFunction);
+		onFormulaEditor().performOpenCategory(FormulaEditorWrapper.Category.TEXT).performSelect(nameOfFunction);
 		onFormulaEditor().performClickOn(FormulaEditorWrapper.Control.TEXT);
 	}
 
