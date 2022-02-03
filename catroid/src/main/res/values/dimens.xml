@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -64,6 +64,8 @@
     <dimen name="brick_space_padding_formular_editor">8dp</dimen>
     <dimen name="brick_top_space_padding_control">35dp</dimen>
     <dimen name="brick_space_padding">8dp</dimen>
+    <dimen name="data_view_space">100dp</dimen>
+    <dimen name="data_view_space_spinner_text">400dp</dimen>
 
     <!-- Material Design Dialogs -->
     <dimen name="dialog_content_area_padding_top">18dp</dimen>
