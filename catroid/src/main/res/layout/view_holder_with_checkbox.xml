@@ -23,9 +23,8 @@
   -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:contentDescription="checkbox"
+    android:id="@+id/view_holder_with_checkbox"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="@dimen/view_holder_height"
@@ -91,7 +90,7 @@
         </LinearLayout>
 
         <ImageButton
-            android:id="@+id/settingsButton"
+            android:id="@+id/settings_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"

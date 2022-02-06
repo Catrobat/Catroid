@@ -37,6 +37,6 @@ public class CheckableViewHolder extends ViewHolder {
 	public CheckableViewHolder(View itemView) {
 		super(itemView);
 		checkBox = itemView.findViewById(R.id.checkbox);
-		settings = itemView.findViewById(R.id.settingsButton);
+		settings = itemView.findViewById(R.id.settings_button);
 	}
 }

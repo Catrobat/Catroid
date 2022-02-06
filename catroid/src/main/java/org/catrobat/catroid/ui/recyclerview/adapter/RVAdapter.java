@@ -111,7 +111,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 			holder.itemView.setOnLongClickListener(v -> true);
 		}
 
-		ImageButton settings = holder.itemView.findViewById(R.id.settingsButton);
+		ImageButton settings = holder.itemView.findViewById(R.id.settings_button);
 		if (settings != null && showSettings) {
 			settings.setVisibility(View.VISIBLE);
 		} else if (settings != null && !showSettings) {

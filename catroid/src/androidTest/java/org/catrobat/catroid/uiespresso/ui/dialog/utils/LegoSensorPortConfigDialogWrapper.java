@@ -67,7 +67,7 @@ public final class LegoSensorPortConfigDialogWrapper extends ViewInteractionWrap
 	public static LegoSensorPortConfigDialogWrapper onLegoSensorPortConfigDialog(@FormulaEditorNXTLegoSensors int sensorStringResource) {
 		String sensorString = UiTestUtils.getResourcesString(sensorStringResource);
 		String legoSensorConfigDialogTitle = UiTestUtils
-				.getResourcesString(R.string.lego_sensor_port_config_dialog_title, sensorString);
+				.getResourcesStringWithArgs(R.string.lego_sensor_port_config_dialog_title, sensorString);
 		return new LegoSensorPortConfigDialogWrapper(onView(withText(legoSensorConfigDialogTitle)));
 	}
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -286,7 +286,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         }
     }
 
-    fun addFromLibrary(selectedItem: Sprite?) {
+    private fun addFromLibrary(selectedItem: Sprite?) {
         currentSprite = selectedItem
         val intent = Intent(requireContext(), WebViewActivity::class.java)
         intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, FlavoredConstants.LIBRARY_OBJECT_URL)
@@ -343,12 +343,18 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
             }
             true
         }
-        popupMenu.menu.findItem(R.id.backpack).setTitle(R.string.pack)
         popupMenu.menu.findItem(R.id.new_group).isVisible = false
         popupMenu.menu.findItem(R.id.new_scene).isVisible = false
         popupMenu.menu.findItem(R.id.show_details).isVisible = false
         popupMenu.menu.findItem(R.id.project_options).isVisible = false
-        popupMenu.menu.findItem(R.id.from_library).isVisible = true
+        if (item is GroupSprite) {
+            popupMenu.menu.findItem(R.id.backpack).isVisible = false
+            popupMenu.menu.findItem(R.id.copy).isVisible = false
+            popupMenu.menu.findItem(R.id.from_library).isVisible = false
+        } else {
+            popupMenu.menu.findItem(R.id.backpack).setTitle(R.string.pack)
+            popupMenu.menu.findItem(R.id.from_library).isVisible = true
+        }
         popupMenu.show()
     }
 
