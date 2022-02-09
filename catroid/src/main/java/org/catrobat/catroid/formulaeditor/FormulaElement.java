@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -469,7 +469,13 @@ public class FormulaElement implements Serializable {
 			case NUMBER_OF_ITEMS:
 				return interpretFunctionNumberOfItems(arguments.get(0), scope);
 			case INDEX_OF_ITEM:
-				return interpretFunctionIndexOfItem(arguments.get(0), scope);
+				if (leftChild.value.equals("TRUE")) {
+					return interpretFunctionIndexOfItem(Boolean.TRUE, scope);
+				} else if (leftChild.value.equals("FALSE")) {
+					return interpretFunctionIndexOfItem(Boolean.FALSE, scope);
+				} else {
+					return interpretFunctionIndexOfItem(arguments.get(0), scope);
+				}
 			case FLATTEN:
 				return interpretFunctionFlatten(scope, leftChild);
 			case COLLIDES_WITH_COLOR:
