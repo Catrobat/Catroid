@@ -53,8 +53,6 @@
             android:importantForAutofill="no"
             android:layout_width="match_parent"
             android:layout_gravity="center_vertical"
-            app:layout_inputType="text"
-            app:layout_textField="true"
             android:gravity="start"
             android:maxLines="3"
             android:minLines="1" />

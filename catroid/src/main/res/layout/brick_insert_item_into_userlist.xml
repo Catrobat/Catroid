@@ -48,9 +48,7 @@
 
         <TextView
             android:id="@+id/brick_insert_item_into_userlist_value_edit_text"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true" />
+            style="@style/BrickEditText" />
 
         <TextView
             style="@style/BrickText.SingleLine"
@@ -68,9 +66,7 @@
 
         <TextView
             android:id="@+id/brick_insert_item_into_userlist_at_index_edit_text"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true" />
+            style="@style/BrickEditText" />
 
     </org.catrobat.catroid.ui.BrickLayout>
 

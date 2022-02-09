@@ -167,24 +167,19 @@
         <item name="android:textColor">@color/solid_white</item>
         <item name="android:textStyle">bold</item>
         <item name="android:singleLine">true</item>
+        <item name="layout_horizontalSpacing">@dimen/material_design_spacing_small</item>
     </style>
 
     <style name="BrickText.SingleLine">
         <item name="android:maxLines">1</item>
-        <item name="android:paddingEnd">@dimen/material_design_spacing_small</item>
     </style>
 
     <style name="BrickText.MultipleLines">
         <item name="android:singleLine">false</item>
-        <item name="android:paddingEnd">@dimen/material_design_spacing_small</item>
     </style>
 
     <style name="BrickText.SingleLine.UserDefinedScript">
         <item name="android:textColor">@color/dark_blue</item>
-    </style>
-
-    <style name="BrickText.Multiple">
-        <item name="android:maxLines">1</item>
     </style>
 
     <style name="BrickEditText" parent="Widget.AppCompat.EditText">
@@ -200,6 +195,10 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">end</item>
+        <item name="layout_editText">true</item>
+        <item name="layout_horizontalSpacing">@dimen/material_design_spacing_small</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">@dimen/edit_text_baseline_spacing</item>
     </style>
 
     <style name="BrickContainer">

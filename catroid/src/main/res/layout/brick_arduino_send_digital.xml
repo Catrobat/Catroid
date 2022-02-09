@@ -45,14 +45,12 @@
 
         <TextView
             android:id="@+id/brick_arduino_set_digital_pin_text_view"
-            style="@style/BrickText.Multiple"
+            style="@style/BrickText.SingleLine"
             android:text="@string/brick_arduino_select_digital_value" />
 
         <TextView
             android:id="@+id/brick_arduino_set_digital_pin_edit_text"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true" />
+            style="@style/BrickEditText" />
 
         <TextView
             android:id="@+id/brick_arduino_set_digital_value_text_view"
@@ -62,9 +60,7 @@
 
         <TextView
             android:id="@+id/brick_arduino_set_digital_value_edit_text"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true" />
+            style="@style/BrickEditText" />
 
     </org.catrobat.catroid.ui.BrickLayout>
 </LinearLayout>

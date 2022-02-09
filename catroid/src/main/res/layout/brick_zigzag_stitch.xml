@@ -41,9 +41,7 @@
         style="@style/BrickContainer.Embroidery.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
+        android:orientation="horizontal">
 
         <include layout="@layout/icon_brick_category_embroidery" />
 
@@ -53,9 +51,7 @@
 
         <TextView
             android:id="@+id/brick_zigzag_stitch_edit_text_length"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true">
+            style="@style/BrickEditText">
         </TextView>
 
         <TextView
@@ -65,9 +61,7 @@
 
         <TextView
             android:id="@+id/brick_zigzag_stitch_edit_text_width"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true">
+            style="@style/BrickEditText">
         </TextView>
     </org.catrobat.catroid.ui.BrickLayout>
 

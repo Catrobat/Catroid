@@ -66,22 +66,16 @@
 
         <TextView
             android:id="@+id/brick_show_variable_edit_text_x"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true" />
+            style="@style/BrickEditText" />
 
         <TextView
             android:id="@+id/brick_show_variable_y_textview"
             style="@style/BrickText.SingleLine"
-            android:paddingStart="@dimen/material_design_spacing_small"
-            android:text="@string/y_label"
-            android:paddingEnd="@dimen/material_design_spacing_small"/>
+            android:text="@string/y_label"/>
 
         <TextView
             android:id="@+id/brick_show_variable_edit_text_y"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true" />
+            style="@style/BrickEditText" />
 
     </org.catrobat.catroid.ui.BrickLayout>
 
