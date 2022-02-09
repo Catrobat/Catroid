@@ -60,7 +60,9 @@ import java.util.regex.Pattern;
 
 import androidx.annotation.Nullable;
 
+import static org.catrobat.catroid.formulaeditor.Functions.BOOLEAN;
 import static org.catrobat.catroid.formulaeditor.Functions.IF_THEN_ELSE;
+import static org.catrobat.catroid.formulaeditor.Functions.INDEX_OF_ITEM;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.BRACKET_CLOSE;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.BRACKET_OPEN;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.COLLISION_FORMULA;
@@ -469,7 +471,13 @@ public class FormulaElement implements Serializable {
 			case NUMBER_OF_ITEMS:
 				return interpretFunctionNumberOfItems(arguments.get(0), scope);
 			case INDEX_OF_ITEM:
-				return interpretFunctionIndexOfItem(arguments.get(0), scope);
+				if (leftChild.value.equals("TRUE")) {
+					return interpretFunctionIndexOfItem(Boolean.TRUE, scope);
+				} else if (leftChild.value.equals("FALSE")) {
+					return interpretFunctionIndexOfItem(Boolean.FALSE, scope);
+				} else {
+					return interpretFunctionIndexOfItem(arguments.get(0), scope);
+				}
 			case FLATTEN:
 				return interpretFunctionFlatten(scope, leftChild);
 			case COLLIDES_WITH_COLOR:
