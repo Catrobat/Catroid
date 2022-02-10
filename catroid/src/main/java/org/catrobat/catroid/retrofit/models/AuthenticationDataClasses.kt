@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,20 +23,25 @@
 
 package org.catrobat.catroid.retrofit.models
 
+data class LoginUser(
+    val username: String,
+    val password: String
+)
+
 @SuppressWarnings("ConstructorParameterNaming")
 data class LoginResponse(
     val token: String,
     val refresh_token: String
 )
 
-data class RegisterFailedResponse(
-    val email: String?,
-    val username: String?
+@SuppressWarnings("ConstructorParameterNaming")
+data class RefreshToken(
+    val refresh_token: String
 )
 
-data class LoginUser(
-    val username: String,
-    val password: String
+@SuppressWarnings("ConstructorParameterNaming")
+data class DeprecatedToken(
+    val upload_token: String
 )
 
 @SuppressWarnings("ConstructorParameterNaming")
@@ -47,7 +52,7 @@ data class RegisterUser(
     val password: String
 )
 
-@SuppressWarnings("ConstructorParameterNaming")
-data class DeprecatedToken(
-    val upload_token: String
+data class RegisterFailedResponse(
+    val email: String?,
+    val username: String?
 )
