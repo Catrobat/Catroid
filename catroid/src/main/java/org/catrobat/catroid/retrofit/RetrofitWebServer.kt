@@ -36,6 +36,7 @@ import org.catrobat.catroid.retrofit.models.LoginUser
 import org.catrobat.catroid.retrofit.models.ProjectsCategory
 import org.catrobat.catroid.retrofit.models.User
 import org.catrobat.catroid.retrofit.models.ProjectsCategoryApi
+import org.catrobat.catroid.retrofit.models.RefreshToken
 import org.catrobat.catroid.retrofit.models.RegisterUser
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -50,20 +51,10 @@ import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 interface WebService {
-    @GET("projects/featured")
-    fun getFeaturedProjects(
-        @Query("max_version") maxVersion: String = CURRENT_CATROBAT_LANGUAGE_VERSION.toString(),
-        @Query("flavor") flavor: String = FLAVOR_NAME,
-        @Query("platform") platform: String = "android",
-        @Query("limit") limit: Int = 20,
-        @Query("offset") offset: Int = 0
-    ): Call<List<FeaturedProject>>
-
-    @GET("projects/categories")
-    fun getProjectCategories(
-        @Query("max_version") maxVersion: String = CURRENT_CATROBAT_LANGUAGE_VERSION.toString(),
-        @Query("flavor") flavor: String = FLAVOR_NAME
-    ): Call<List<ProjectsCategoryApi>>
+    @GET("authentication")
+    fun checkToken(
+        @Header("Authorization") bearerToken: String
+    ): Call<Void>
 
     @POST("authentication")
     fun login(
@@ -71,10 +62,11 @@ interface WebService {
         @Body user: LoginUser
     ): Call<LoginResponse>
 
-    @GET("authentication")
-    fun checkToken(
-        @Header("Authorization") bearerToken: String
-    ): Call<Void>
+    @POST("authentication/refresh")
+    fun refreshToken(
+        @Header("Authorization") bearerToken: String,
+        @Body refreshToken: RefreshToken
+    ): Call<LoginResponse>
 
     @POST("authentication/upgrade")
     fun upgradeToken(
@@ -91,6 +83,21 @@ interface WebService {
     fun deleteUser(
         @Header("Authorization") bearerToken: String
     ): Call<Void>
+
+    @GET("projects/featured")
+    fun getFeaturedProjects(
+        @Query("max_version") maxVersion: String = CURRENT_CATROBAT_LANGUAGE_VERSION.toString(),
+        @Query("flavor") flavor: String = FLAVOR_NAME,
+        @Query("platform") platform: String = "android",
+        @Query("limit") limit: Int = 20,
+        @Query("offset") offset: Int = 0
+    ): Call<List<FeaturedProject>>
+
+    @GET("projects/categories")
+    fun getProjectCategories(
+        @Query("max_version") maxVersion: String = CURRENT_CATROBAT_LANGUAGE_VERSION.toString(),
+        @Query("flavor") flavor: String = FLAVOR_NAME
+    ): Call<List<ProjectsCategoryApi>>
 }
 
 class CatroidWebServer private constructor() {

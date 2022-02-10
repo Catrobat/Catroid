@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,8 +25,8 @@ package org.catrobat.catroid.retrofittesting
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
-import androidx.test.platform.app.InstrumentationRegistry
+import android.preference.PreferenceManager.getDefaultSharedPreferences
+import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import com.squareup.moshi.Moshi
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
@@ -35,6 +35,7 @@ import org.catrobat.catroid.koin.testModules
 import org.catrobat.catroid.retrofit.WebService
 import org.catrobat.catroid.retrofit.models.DeprecatedToken
 import org.catrobat.catroid.retrofit.models.LoginUser
+import org.catrobat.catroid.retrofit.models.RefreshToken
 import org.catrobat.catroid.retrofit.models.RegisterFailedResponse
 import org.catrobat.catroid.retrofit.models.RegisterUser
 import org.catrobat.catroid.testsuites.annotations.Cat.OutgoingNetworkTests
@@ -42,6 +43,7 @@ import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_IN
 import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_REGISTER_OK
 import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_REGISTER_UNPROCESSABLE_ENTITY
 import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_TOKEN_OK
+import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_USER_DELETED
 import org.junit.Before
 import org.junit.Test
 import org.junit.experimental.categories.Category
@@ -50,8 +52,9 @@ import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
 import org.koin.test.inject
-import org.mockito.MockitoAnnotations
+import org.mockito.MockitoAnnotations.initMocks
 import org.mockito.junit.MockitoJUnitRunner
+import java.lang.System.currentTimeMillis
 
 @RunWith(MockitoJUnitRunner::class)
 @Category(OutgoingNetworkTests::class)
@@ -78,12 +81,12 @@ class CatroidWebServerAuthenticationTest : KoinTest {
         stopKoin()
         startKoin { modules(testModules) }
 
-        newUserName = "APIUser" + System.currentTimeMillis()
+        newUserName = "APIUser" + currentTimeMillis()
         newEmail = "$newUserName@api.at"
 
-        context = InstrumentationRegistry.getInstrumentation().context
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-        MockitoAnnotations.initMocks(this)
+        context = getInstrumentation().context
+        sharedPreferences = getDefaultSharedPreferences(context)
+        initMocks(this)
     }
 
     @Test
@@ -110,6 +113,7 @@ class CatroidWebServerAuthenticationTest : KoinTest {
         val responseBody = response.body()
         assertNotNull(responseBody)
         assertNotNull(responseBody?.token)
+        assertNotNull(responseBody?.refresh_token)
 
         token = responseBody?.token
         val responseCheckToken = webServer.checkToken("Bearer $token").execute()
@@ -117,13 +121,44 @@ class CatroidWebServerAuthenticationTest : KoinTest {
     }
 
     @Test
+    fun testRefreshTokenOk() {
+        var token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN)
+        val response = webServer.login("Bearer $token", LoginUser(username, password)).execute()
+
+        token = response.body()?.token
+        val refreshToken = response.body()?.refresh_token.orEmpty()
+
+        val responseRefreshToken = webServer.refreshToken("Bearer $token", RefreshToken(refreshToken)).execute()
+        assertEquals(responseRefreshToken.code(), SERVER_RESPONSE_TOKEN_OK)
+
+        val responseBody = responseRefreshToken.body()
+        assertNotNull(responseBody)
+        assertNotNull(responseBody?.token)
+        assertNotNull(responseBody?.refresh_token)
+
+        token = responseBody?.token
+        val responseCheckToken = webServer.checkToken("Bearer $token").execute()
+        assertEquals(responseCheckToken.code(), SERVER_RESPONSE_TOKEN_OK)
+    }
+
+    @Test
+    fun testRefreshTokenExpired() {
+        val token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN)
+        val refreshToken = "7edb0420a64bfc901caffb0a34de7bbd6fe11b316d3bde2796d16db42ce939abcccca65091a9f914ec031d278852e8f62b0b3374c988147b5db4d1e9ae71fe4a"
+
+        val responseRefreshToken = webServer.refreshToken("Bearer $token", RefreshToken(refreshToken)).execute()
+        assertEquals(responseRefreshToken.code(), SERVER_RESPONSE_INVALID_UPLOAD_TOKEN)
+    }
+
+    @Test
     fun testRegistrationOk() {
         val token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN)
-        val response = webServer.register("Bearer $token", RegisterUser(true, newEmail, newUserName,
-                                                                        password)).execute()
+        val response = webServer.register("Bearer $token", RegisterUser(true, newEmail, newUserName, password)).execute()
+
         val responseBody = response.body()
         assertNotNull(responseBody)
         assertNotNull(responseBody?.token)
+        assertNotNull(responseBody?.refresh_token)
         assertEquals(response.code(), SERVER_RESPONSE_REGISTER_OK)
 
         deleteUser(responseBody?.token)
@@ -132,9 +167,7 @@ class CatroidWebServerAuthenticationTest : KoinTest {
     @Test
     fun testRegisterWithNewUserButExistingEmail() {
         val token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN)
-        val response = webServer.register("Bearer $token", RegisterUser(true, email, newUserName,
-                                                                        password)
-        ).execute()
+        val response = webServer.register("Bearer $token", RegisterUser(true, email, newUserName, password)).execute()
 
         assertEquals(response.code(), SERVER_RESPONSE_REGISTER_UNPROCESSABLE_ENTITY)
 
@@ -146,8 +179,7 @@ class CatroidWebServerAuthenticationTest : KoinTest {
     @Test
     fun testRegisterWithExistingUserButNewEmail() {
         val token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN)
-        val response = webServer.register("Bearer $token", RegisterUser(true, newEmail, username,
-                                                                        password)).execute()
+        val response = webServer.register("Bearer $token", RegisterUser(true, newEmail, username, password)).execute()
 
         assertEquals(response.code(), SERVER_RESPONSE_REGISTER_UNPROCESSABLE_ENTITY)
 
@@ -159,16 +191,9 @@ class CatroidWebServerAuthenticationTest : KoinTest {
     @Test
     fun testRegisterAndLogin() {
         val token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN)
-        val registrationResponse = webServer.register(
-            "Bearer $token", RegisterUser(
-                true, newEmail,
-                newUserName,
-                password
-            )
-        ).execute()
+        val registrationResponse = webServer.register("Bearer $token", RegisterUser(true, newEmail, newUserName, password)).execute()
 
-        val loginResponse = webServer.login("Bearer $token", LoginUser(newUserName, password))
-            .execute()
+        val loginResponse = webServer.login("Bearer $token", LoginUser(newUserName, password)).execute()
 
         assertEquals(registrationResponse.code(), SERVER_RESPONSE_REGISTER_OK)
         assertEquals(loginResponse.code(), SERVER_RESPONSE_TOKEN_OK)
@@ -184,13 +209,10 @@ class CatroidWebServerAuthenticationTest : KoinTest {
     }
 
     private fun parseRegisterErrorMessage(errorBody: String?) =
-        Moshi.Builder().build().adapter<RegisterFailedResponse>(
-            RegisterFailedResponse::class
-                .java
-        ).fromJson(errorBody)
+        Moshi.Builder().build().adapter<RegisterFailedResponse>(RegisterFailedResponse::class.java).fromJson(errorBody)
 
     private fun deleteUser(token: String?) {
         val response = webServer.deleteUser("Bearer $token").execute()
-        assertEquals(response.code(), 204)
+        assertEquals(response.code(), SERVER_RESPONSE_USER_DELETED)
     }
 }
