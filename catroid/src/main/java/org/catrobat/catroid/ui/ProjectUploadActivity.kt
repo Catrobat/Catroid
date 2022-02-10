@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -600,7 +600,13 @@ open class ProjectUploadActivity : BaseActivity(),
                         if (isValid) {
                             onCreateView()
                         } else {
-                            checkDeprecatedToken(token)
+                            val refreshToken = sharedPreferences.getString(Constants.REFRESH_TOKEN, Constants.NO_TOKEN).orEmpty()
+
+                            when {
+                                token.length == DEPRECATED_TOKEN_LENGTH -> checkDeprecatedToken(token)
+                                refreshToken != Constants.NO_TOKEN -> checkRefreshToken(token, refreshToken)
+                                else -> verifyUserIdentityFailed()
+                            }
                         }
                     })
                     tokenTask.checkToken(token)
@@ -614,27 +620,42 @@ open class ProjectUploadActivity : BaseActivity(),
         }
     }
 
+    private fun checkRefreshToken(token: String, refreshToken: String) {
+        tokenTask.getRefreshTokenResponse().observe(this, Observer { refreshResponse ->
+            refreshResponse?.let {
+                sharedPreferences.edit()
+                    .putString(Constants.TOKEN, refreshResponse.token)
+                    .putString(Constants.REFRESH_TOKEN, refreshResponse.refresh_token)
+                    .apply()
+                onCreateView()
+            } ?: run {
+                verifyUserIdentityFailed()
+            }
+        })
+
+        tokenTask.refreshToken(token, refreshToken)
+    }
+
     private fun checkDeprecatedToken(token: String) {
         tokenTask.getUpgradeTokenResponse().observe(this, Observer { upgradeResponse ->
             upgradeResponse?.let {
                 sharedPreferences.edit()
                     .putString(Constants.TOKEN, upgradeResponse.token)
+                    .putString(Constants.REFRESH_TOKEN, upgradeResponse.refresh_token)
                     .apply()
                 onCreateView()
             } ?: run {
-                ToastUtil.showError(this, R.string.error_session_expired)
-                Utils.logoutUser(this)
-                startSignInWorkflow()
+                verifyUserIdentityFailed()
             }
         })
 
-        if (token.length == DEPRECATED_TOKEN_LENGTH) {
-            tokenTask.upgradeToken(token)
-        } else {
-            ToastUtil.showError(this, R.string.error_session_expired)
-            Utils.logoutUser(this)
-            startSignInWorkflow()
-        }
+        tokenTask.upgradeToken(token)
+    }
+
+    private fun verifyUserIdentityFailed() {
+        ToastUtil.showError(this, R.string.error_session_expired)
+        Utils.logoutUser(this)
+        startSignInWorkflow()
     }
 
     fun startSignInWorkflow() {
