@@ -24,12 +24,15 @@ package org.catrobat.catroid.formulaeditor;
 
 import org.catrobat.catroid.utils.EnumUtils;
 
+import java.util.EnumSet;
+
 public enum Sensors {
 	X_ACCELERATION, Y_ACCELERATION, Z_ACCELERATION, COMPASS_DIRECTION, X_INCLINATION, Y_INCLINATION, LOUDNESS,
 	LATITUDE, LONGITUDE, LOCATION_ACCURACY, ALTITUDE, USER_LANGUAGE,
 	TIMER, DATE_YEAR, DATE_MONTH, DATE_DAY, DATE_WEEKDAY, TIME_HOUR, TIME_MINUTE, TIME_SECOND,
 	FACE_DETECTED, FACE_SIZE, FACE_X, FACE_Y,
 	SECOND_FACE_DETECTED, SECOND_FACE_SIZE, SECOND_FACE_X, SECOND_FACE_Y,
+	HEAD_TOP_X, HEAD_TOP_Y, NECK_X, NECK_Y,
 	NOSE_X, NOSE_Y, LEFT_EYE_INNER_X, LEFT_EYE_INNER_Y, LEFT_EYE_CENTER_X, LEFT_EYE_CENTER_Y,
 	LEFT_EYE_OUTER_X, LEFT_EYE_OUTER_Y, RIGHT_EYE_INNER_X, RIGHT_EYE_INNER_Y, RIGHT_EYE_CENTER_X,
 	RIGHT_EYE_CENTER_Y, RIGHT_EYE_OUTER_X, RIGHT_EYE_OUTER_Y, LEFT_EAR_X, LEFT_EAR_Y,
@@ -64,6 +67,12 @@ public enum Sensors {
 	public final boolean isObjectSensor;
 	public static final String TAG = Sensors.class.getSimpleName();
 
+	public static final EnumSet<Sensors> BOOLEAN = EnumSet.of(
+			FACE_DETECTED, SECOND_FACE_DETECTED, DRONE_FLYING, DRONE_INITIALIZED, DRONE_USB_ACTIVE,
+			DRONE_CAMERA_READY, GAMEPAD_RIGHT_PRESSED, GAMEPAD_LEFT_PRESSED, GAMEPAD_DOWN_PRESSED,
+			GAMEPAD_UP_PRESSED, GAMEPAD_B_PRESSED, GAMEPAD_A_PRESSED, FINGER_TOUCHED,
+			COLLIDES_WITH_FINGER, COLLIDES_WITH_EDGE, DRONE_RECORDING, DRONE_RECORD_READY);
+
 	Sensors(boolean isObjectSensor) {
 		this.isObjectSensor = isObjectSensor;
 	}
@@ -74,6 +83,10 @@ public enum Sensors {
 
 	public static boolean isSensor(String value) {
 		return EnumUtils.isValidEnum(Sensors.class, value);
+	}
+
+	public static boolean isBoolean(Sensors sensor) {
+		return BOOLEAN.contains(sensor);
 	}
 
 	public static Sensors getSensorByValue(String value) {

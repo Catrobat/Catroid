@@ -26,8 +26,8 @@
     <string name="stage">ਸਟੇਜ</string>
     <string name="play">ਖੇਡੋ</string>
     <string name="settings">ਸੈਟਿੰਗਜ਼</string>
-    <string name="redo" tools:ignore="UnusedResources">ਦੁਬਾਰਾ ਕਰੋ</string>
-    <string name="undo" tools:ignore="UnusedResources">ਵਾਪਿਸ</string>
+    <string name="redo">ਦੁਬਾਰਾ ਕਰੋ</string>
+    <string name="undo">ਵਾਪਿਸ</string>
     <string name="new_option">ਨਵਾਂ&#8230;</string>
     <string name="edit_option">ਸੰਪਾਦਿਤ ਕਰੋ&#8230;</string>
     <string name="confirm">ਪੁਸ਼ਟੀ ਕਰੋ</string>
@@ -38,13 +38,14 @@
     <string name="next">ਅਗਲਾ</string>
     <string name="ok">ਠੀਕ ਹੈ</string>
     <string name="done">ਹੋ ਗਿਆ</string>
-    <string name="close" tools:ignore="UnusedResources">ਬੰਦ ਕਰੋ</string>
+    <string name="close">ਬੰਦ ਕਰੋ</string>
     <string name="assistant">ਸਹਾਇਕ</string>
     <string name="yes">ਹਾਂ</string>
     <string name="no">ਨਹੀਂ</string>
     <string name="once">ਇਕ ਵਾਰ</string>
     <string name="always">ਹਮੇਸ਼ਾ</string>
     <string name="deny">ਇਨਕਾਰ ਕਰੋ</string>
+    <string name="do_not_show_again">ਦੁਬਾਰਾ ਨਾ ਦਿਖਾਓ</string>
     <string name="accept">ਸਵੀਕਾਰ ਕਰੋ</string>
     <string name="decline">ਅਸਵੀਕਾਰ</string>
     <string name="select_all">ਸਾਰਿਆ ਨੂੰ ਚੁਣੋ</string>
@@ -54,7 +55,7 @@
     <string name="error">ਗਲਤੀ</string>
     <string name="loading">ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ&#8230;</string>
     <string name="please_wait">ਕ੍ਰਿਪਾ ਕਰਕੇ ਉਡੀਕ ਕਰੋ</string>
-    <string name="search_hint">ਖੋਜ ਕਰੋ&#8230;</string>
+    <string name="search_hint">ਖੋਜ ਕਰੋ…</string>
     <string name="backpack_add">ਬੈਕਪੈਕ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰੋ</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Security warning dialog -->
@@ -77,8 +78,8 @@
     <string name="loading_google_exchange_code">ਗੂਗਲ ਲੌਗਇਨ ਡੇਟਾ ਐਕਸਚੇਂਜ ਕਰ ਰਿਹਾ ਹੈ&#8230;</string>
     <string name="loading_google_login">ਸਾਡੇ ਸਰਵਰ ਤੇ ਗੂਗਲ ਲੌਗਇਨ ਪੂਰਾ ਹੋ ਗਿਆ ਹੈ&#8230;</string>
     <string name="logout_successful">ਲੌਗਆਉਟ ਸਫਲ</string>
-    <string name="degrees" tools:ignore="UnusedResources">ਡਿਗਰੀ</string>
-    <string name="background" tools:ignore="UnusedResources">ਪਿਛੋਕੜ</string>
+    <string name="degrees">ਡਿਗਰੀ</string>
+    <string name="background">ਪਿਛੋਕੜ</string>
     <string name="landscape">ਲੈਂਡਸਕੇਪ</string>
     <string name="portrait">ਪੋਰਟਰੇਟ</string>
     <string name="unknown">ਅਣਜਾਣ</string>
@@ -88,7 +89,7 @@
     <string name="main_menu_continue">ਪ੍ਰੋਜੈਕਟ ਜਾਰੀ ਰੱਖੋ</string>
     <string name="main_menu_new">ਨਵਾਂ ਪ੍ਰੋਜੈਕਟ</string>
     <string name="main_menu_programs">ਡਿਵਾਈਸ ਤੇ ਪ੍ਰਾਜੈਕਟ</string>
-    <string name="main_menu_help" tools:ignore="UnusedResources">ਮਦਦ ਕਰੋ</string>
+    <string name="main_menu_help">ਮਦਦ ਕਰੋ</string>
     <string name="main_menu_web">ਕੈਟ੍ਰੋਬੈਟ ਕਮਿ communityਨਿਟੀ</string>
     <string name="main_menu_upload">ਪ੍ਰੋਜੈਕਟ ਅਪਲੋਡ ਕਰੋ</string>
     <string name="main_menu_rate_app">ਸਾਨੂੰ ਦਰਜਾ ਦਿਓ!</string>
@@ -117,6 +118,29 @@
     <string name="preference_title_web_access">ਵੈੱਬ ਪਹੁੰਚ</string>
     <string name="preference_description_web_access">ਭਰੋਸੇਯੋਗ ਡੋਮੇਨ ਜੋੜਨ ਜਾਂ ਹਟਾਉਣ ਲਈ ਸੋਧ ਕਰੋ</string>
     <string name="preference_screen_web_access_title">ਭਰੋਸੇਯੋਗ ਡੋਮੇਨ ਸੰਪਾਦਿਤ ਕਰੋ</string>
+    <string name="preference_title_ai">ਨਕਲੀ ਬੁੱਧੀ (ਏ.ਆਈ.) ਦਾ ਵਿਸਥਾਰ</string>
+    <string name="preference_description_ai">ਏਆਈ ਇੱਟਾਂ ਅਤੇ ਸੈਂਸਰਾਂ ਨੂੰ ਸਮਰੱਥ ਬਣਾਓ</string>
+    <string name="preference_title_ai_speech_recognition">ਸਪੀਚ
+        ਮਾਨਤਾ</string>
+    <string name="preference_description_ai_speech_recognition">ਯੋਗ
+        ਬੋਲੀ ਮਾਨਤਾ ਇੱਟਾਂ ਅਤੇ ਸੈਂਸਰ</string>
+    <string name="preference_title_ai_speech_synthetization">ਸਪੀਚ
+        ਸਿੰਥੇਟਾਈਜ਼ੇਸ਼ਨ</string>
+    <string name="preference_description_ai_speech_synthetization">ਯੋਗ
+        ਸਪੀਚ ਸਿੰਥੇਟਾਈਜ਼ੇਸ਼ਨ ਇੱਟਾਂ ਅਤੇ ਸੈਂਸਰ</string>
+    <string name="preference_title_ai_face_detection">ਚਿਹਰਾ
+        ਖੋਜ</string>
+    <string name="preference_description_ai_face_detection">ਯੋਗ
+        ਚਿਹਰੇ ਦੀ ਪਛਾਣ ਦੀਆਂ ਇੱਟਾਂ ਅਤੇ ਸੈਂਸਰ</string>
+    <string name="preference_title_ai_pose_detection">ਪੋਜ਼</string>
+    <string name="preference_description_ai_pose_detection">ਯੋਗ
+        ਖੋਜ ਇੱਟਾਂ ਅਤੇ ਸੈਂਸਰ ਲਗਾਓ</string>
+    <string name="preference_title_ai_text_recognition">ਟੈਕਸਟ
+        ਮਾਨਤਾ</string>
+    <string name="preference_description_ai_text_recognition">ਯੋਗ
+        ਟੈਕਸਟ ਮਾਨਤਾ ਇੱਟਾਂ ਅਤੇ ਸੈਂਸਰ</string>
+    <string name="preference_title_ai_object_recognition">ਵਸਤੂ ਪਛਾਣ</string>
+    <string name="preference_description_ai_object_recognition">ਵਸਤੂ ਪਛਾਣ ਅਤੇ ਟਰੈਕਿੰਗ ਸੈਂਸਰ ਨੂੰ ਸਮਰੱਥ ਬਣਾਓ</string>
     <string name="preference_title_accessibility">ਪਹੁੰਚਯੋਗਤਾ</string>
     <string name="preference_description_accessibility">ਐਪ ਦੀ ਦਿੱਖ ਬਦਲੋ</string>
     <string name="preference_title_accessibility_profiles">ਪਹੁੰਚਯੋਗਤਾ ਪਰੋਫਾਈਲ</string>
@@ -227,7 +251,8 @@
         <item quantity="other">ਤੁਸੀਂ ਇੱਕੋ ਸਮੇਂ %d ਪ੍ਰੋਜੈਕਟਾਂ ਤੋਂ ਵੱਧ ਨਹੀਂ ਬਦਲ ਸਕਦੇ. ਲਈ ਉਡੀਕ ਕਰੋ ਜੀ
              ਪਹਿਲਾਂ ਖਤਮ ਕਰਨ ਲਈ ਚਲ ਰਹੇ ਪਰਿਵਰਤਨ.</item>
     </plurals>
-    <string name="error_cannot_open_failed_scratch_program">ਤੁਸੀਂ ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਨਹੀਂ ਖੋਲ੍ਹ ਸਕਦੇ ਕਿਉਂਕਿ ਇਹ ਸਹੀ ਰੂਪ ਵਿੱਚ ਨਹੀਂ ਬਦਲਿਆ ਗਿਆ ਸੀ. ਕਿਰਪਾ ਕਰਕੇ ਇਸਨੂੰ ਦੁਬਾਰਾ ਬਦਲਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ.</string>
+    <string name="error_cannot_open_failed_scratch_program">ਤੁਸੀਂ ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਨਹੀਂ ਖੋਲ੍ਹ ਸਕਦੇ ਕਿਉਂਕਿ ਇਹ ਸਹੀ ਰੂਪ ਵਿੱਚ ਨਹੀਂ
+        ਬਦਲਿਆ ਗਿਆ ਸੀ. ਕਿਰਪਾ ਕਰਕੇ ਇਸਨੂੰ ਦੁਬਾਰਾ ਬਦਲਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ.</string>
     <string name="search_failed">ਕੁਝ ਨਹੀਂ ਮਿਲਿਆ, ਕਿਰਪਾ ਕਰਕੇ ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ.</string>
     <string name="connection_lost_or_closed_by_server">ਸਰਵਰ ਕੁਨੈਕਸ਼ਨ ਗੁੰਮ ਗਿਆ.</string>
     <string name="connection_failed">ਅਸੀਂ ਤੁਹਾਨੂੰ ਹੁਣੇ ਸਰਵਰ ਨਾਲ ਨਹੀਂ ਜੋੜ ਸਕਦੇ, ਕਿਰਪਾ ਕਰਕੇ ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ.</string>
@@ -304,11 +329,12 @@
     <string name="name_empty">ਕਿਰਪਾ ਕਰਕੇ ਇੱਕ ਪਾਠ ਦਾਖਲ ਕਰੋ</string>
     <!-- Recycler View -->
     <string name="am_empty_list">ਇਸ ਸੂਚੀ ਵਿਚ ਅਜੇ ਵੀ ਕੋਈ ਚੀਜ਼ਾਂ ਨਹੀਂ ਹਨ. ਕਿਰਪਾ ਕਰਕੇ ਪਹਿਲਾਂ ਕੁਝ ਸ਼ਾਮਲ ਕਰੋ.</string>
+    <string name="reject_import">ਅਭਿਨੇਤਾ ਜਾਂ ਵਸਤੂ ਸ਼ਾਮਲ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕਦੀ.</string>
     <string name="am_merge_error">ਕੋਈ ਮਰਜ ਨਹੀਂ ਕੀਤੀ ਜਾਂਦੀ. ਵਿਲੱਖਣ ਰੂਪ ਵਿੱਚ 2 ਪ੍ਰੋਜੈਕਟਾਂ ਨੂੰ ਚੁਣਨ ਦੀ ਜ਼ਰੂਰਤ ਹੈ.</string>
     <string name="am_backpack">ਪੈਕ</string>
     <string name="am_unpack">ਅਨਪੈਕ</string>
     <string name="am_copy">ਕਾੱਪੀ</string>
-    <string name="am_delete" tools:ignore="UnusedResources">ਮਿਟਾਓ</string>
+    <string name="am_delete">ਮਿਟਾਓ</string>
     <string name="am_rename">ਨਾਮ ਬਦਲੋ</string>
     <string name="am_convert">ਤਬਦੀਲ ਕਰੋ</string>
     <string name="am_merge">ਮਿਲਾਓ</string>
@@ -323,52 +349,40 @@
     <string name="show_details">ਵੇਰਵਾ ਦਿਖਾਓ</string>
     <string name="hide_details">ਵੇਰਵੇ ਲੁਕਾਓ</string>
     <string name="project_options">ਪ੍ਰੋਜੈਕਟ ਵਿਕਲਪ</string>
+    <string name="from_library">ਲਾਇਬ੍ਰੇਰੀ ਤੋਂ ਸ਼ਾਮਲ ਕਰੋ</string>
     <string name="sort_projects">ਲੜੀਬੱਧ</string>
     <string name="unsort_projects">ਅਣਸੋਰਟ</string>
+    <string name="import_from_project">ਤੋਂ ਆਯਾਤ ਕਰਨ ਲਈ ਪ੍ਰੋਜੈਕਟ ਚੁਣੋ</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">ਨਵਾਂ ਦ੍ਰਿਸ਼</string>
     <!-- Delete Dialog Titles -->
     <plurals name="delete_projects">
-        <item quantity="one">ਇਸ ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?
-ਇਹ ਪ੍ਰੋਜੈਕਟ ਹਟਾਓ?</item>
-        <item quantity="other">ਇਸ ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?
-ਇਹ ਪ੍ਰੋਜੈਕਟ ਹਟਾਓ?</item>
+        <item quantity="one">ਇਸ ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?</item>
+        <item quantity="other">ਇਹ ਪ੍ਰੋਜੈਕਟ ਹਟਾਓ?</item>
     </plurals>
     <plurals name="delete_scenes">
-        <item quantity="one">ਇਸ ਸੀਨ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?
-ਇਹ ਦ੍ਰਿਸ਼ ਮਿਟਾਉਣੇ ਹਨ?</item>
-        <item quantity="other">ਇਸ ਸੀਨ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?
-ਇਹ ਦ੍ਰਿਸ਼ ਮਿਟਾਉਣੇ ਹਨ?</item>
+        <item quantity="one">ਇਸ ਸੀਨ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?</item>
+        <item quantity="other">ਇਹ ਦ੍ਰਿਸ਼ ਮਿਟਾਉਣੇ ਹਨ?</item>
     </plurals>
     <plurals name="delete_sprites">
-        <item quantity="one">ਇਸ ਅਭਿਨੇਤਾ ਜਾਂ ਆਬਜੈਕਟ ਨੂੰ ਮਿਟਾਓ?
-ਇਹ ਅਦਾਕਾਰਾਂ ਜਾਂ ਆਬਜੈਕਟਸ ਨੂੰ ਮਿਟਾਓ?</item>
-        <item quantity="other">ਇਸ ਅਭਿਨੇਤਾ ਜਾਂ ਆਬਜੈਕਟ ਨੂੰ ਮਿਟਾਓ?
-ਇਹ ਅਦਾਕਾਰਾਂ ਜਾਂ ਆਬਜੈਕਟਸ ਨੂੰ ਮਿਟਾਓ?</item>
+        <item quantity="one">ਇਸ ਅਭਿਨੇਤਾ ਜਾਂ ਆਬਜੈਕਟ ਨੂੰ ਮਿਟਾਓ?</item>
+        <item quantity="other">ਇਹ ਅਦਾਕਾਰਾਂ ਜਾਂ ਆਬਜੈਕਟਸ ਨੂੰ ਮਿਟਾਓ?</item>
     </plurals>
     <plurals name="delete_looks">
-        <item quantity="one">ਇਸ ਦਿੱਖ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?
-ਕੀ ਇਹ ਦਿੱਖ ਮਿਟਾਉਣੇ ਹਨ?</item>
-        <item quantity="other">ਇਸ ਦਿੱਖ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?
-ਕੀ ਇਹ ਦਿੱਖ ਮਿਟਾਉਣੇ ਹਨ?</item>
+        <item quantity="one">ਇਸ ਦਿੱਖ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?</item>
+        <item quantity="other">ਕੀ ਇਹ ਦਿੱਖ ਮਿਟਾਉਣੇ ਹਨ?</item>
     </plurals>
     <plurals name="delete_sounds">
-        <item quantity="one">ਇਸ ਆਵਾਜ਼ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?
-ਕੀ ਇਹ ਆਵਾਜ਼ਾਂ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?</item>
-        <item quantity="other">ਇਸ ਆਵਾਜ਼ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?
-ਕੀ ਇਹ ਆਵਾਜ਼ਾਂ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?</item>
+        <item quantity="one">ਇਸ ਆਵਾਜ਼ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?</item>
+        <item quantity="other">ਕੀ ਇਹ ਆਵਾਜ਼ਾਂ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?</item>
     </plurals>
     <plurals name="delete_nfc_tags">
-        <item quantity="one">ਇਸ ਟੈਗ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?
-ਕੀ ਇਹ ਟੈਗ ਮਿਟਾਉਣੇ ਹਨ?</item>
-        <item quantity="other">ਇਸ ਟੈਗ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?
-ਕੀ ਇਹ ਟੈਗ ਮਿਟਾਉਣੇ ਹਨ?</item>
+        <item quantity="one">ਇਸ ਟੈਗ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?</item>
+        <item quantity="other">ਕੀ ਇਹ ਟੈਗ ਮਿਟਾਉਣੇ ਹਨ?</item>
     </plurals>
     <plurals name="delete_scripts">
-        <item quantity="one">ਇਸ ਸਕ੍ਰਿਪਟ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?
-ਇਹ ਸਕ੍ਰਿਪਟਾਂ ਮਿਟਾਉਣੀਆਂ ਹਨ?</item>
-        <item quantity="other">ਇਸ ਸਕ੍ਰਿਪਟ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?
-ਇਹ ਸਕ੍ਰਿਪਟਾਂ ਮਿਟਾਉਣੀਆਂ ਹਨ?</item>
+        <item quantity="one">ਇਸ ਸਕ੍ਰਿਪਟ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?</item>
+        <item quantity="other">ਇਹ ਸਕ੍ਰਿਪਟਾਂ ਮਿਟਾਉਣੀਆਂ ਹਨ?</item>
     </plurals>
     <!-- Dialog Labels -->
     <string name="project_name_label">ਪ੍ਰੋਜੈਕਟ ਦਾ ਨਾਮ</string>
@@ -384,6 +398,11 @@
     <string name="keyword_label">ਕੀਵਰਡ ਪਾਓ</string>
     <string name="html_label">HTML ਟੈਕਸਟ ਸੰਮਿਲਿਤ ਕਰੋ</string>
     <string name="Image_format_not_supported">ਚਿੱਤਰ ਫਾਰਮੈਟ ਸਮਰਥਿਤ ਨਹੀਂ ਹੈ</string>
+    <string name="import_conflicting_variables">ਅਭਿਨੇਤਾ ਜਾਂ ਵਸਤੂ ਸ਼ਾਮਲ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕਦੀ.</string>
+    <string name="import_conflicting_variables_reason">ਕਾਰਨ ਇਹ ਹੈ ਕਿ ਹੇਠਾਂ ਦਿੱਤਾ ਵੇਰੀਏਬਲ ਜਾਂ
+        ਸੂਚੀ ਦੇ ਨਾਮ ਵਿਵਾਦ ਵਿੱਚ ਹਨ ਕਿਉਂਕਿ ਉਹਨਾਂ ਦੀ ਵਰਤੋਂ ਕੀਤੀ ਜਾਂਦੀ ਹੈ
+        ਸਾਰੇ ਅਭਿਨੇਤਾ ਅਤੇ ਵਸਤੂਆਂ ਅਤੇ ਉਸੇ ਨਾਮ ਦੇ ਨਾਲ ਸਿਰਫ ਇੱਕ ਅਭਿਨੇਤਾ ਜਾਂ ਵਸਤੂਆਂ ਲਈ: </string>
+    <string name="import_conflicting_variables_try_again">ਕਿਰਪਾ ਕਰਕੇ ਇਹਨਾਂ ਵਿੱਚੋਂ ਕਿਸੇ ਇੱਕ ਵੇਰੀਏਬਲ ਜਾਂ ਸੂਚੀਆਂ ਦਾ ਨਾਮ ਬਦਲੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ.</string>
     <!-- Details -->
     <string name="project_details">ਆਖਰੀ ਐਕਸੈਸ: %s, ਅਕਾਰ: %s</string>
     <string name="last_access_today">ਅੱਜ %s</string>
@@ -408,6 +427,7 @@
     <string name="new_scene">ਨਵਾਂ ਦ੍ਰਿਸ਼</string>
     <!-- Action Toasts -->
     <!-- Backpack -->
+    <string name="backpack_empty">ਬੈਕਪੈਕ ਖਾਲੀ. ਅਨਪੈਕ ਕਰਨ ਲਈ ਕੁਝ ਨਹੀਂ.</string>
     <plurals name="packed_scenes">
         <item quantity="one">ਬੈਕਪੈਕਡ %d ਸੀਨ.</item>
         <item quantity="other">ਬੈਕਪੈਕਡ %d ਦ੍ਰਿਸ਼.</item>
@@ -500,6 +520,13 @@
         <item quantity="one">%d ਆਈਟਮ ਮਿਟਾਈ ਗਈ.</item>
         <item quantity="other">%d ਆਈਟਮਾਂ ਨੂੰ ਮਿਟਾਇਆ ਗਿਆ.</item>
     </plurals>
+    <!-- Imported -->
+    <plurals name="imported_projects">
+        <item quantity="one">%d ਪ੍ਰੋਜੈਕਟ ਆਯਾਤ ਕੀਤਾ ਗਿਆ.</item>
+        <item quantity="other">%d ਪ੍ਰੋਜੈਕਟ ਆਯਾਤ ਕੀਤੇ ਗਏ।</item>
+    </plurals>
+    <!-- Renamed -->
+    <string name="renamed_project">ਪ੍ਰੋਜੈਕਟ ਦਾ ਨਾਮ ਬਦਲਿਆ</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">ਪ੍ਰੋਜੈਕਟ</string>
@@ -511,8 +538,12 @@
     <string name="set_notes_and_credits">ਨੋਟ ਅਤੇ ਕ੍ਰੈਡਿਟ ਸੈਟ ਕਰੋ</string>
     <string name="details_date_today">ਅੱਜ</string>
     <string name="import_project">ਅਯਾਤ ਪ੍ਰੋਜੈਕਟ</string>
+    <string name="export_project">ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਬਾਹਰੀ ਸਟੋਰੇਜ ਤੇ ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
     <string name="error_import_project">ਪ੍ਰੋਜੈਕਟਸ ਨੂੰ ਆਯਾਤ ਕਰਨ ਵੇਲੇ ਕੁਝ ਗਲਤ ਹੋਇਆ.</string>
+    <string name="no_projects_selected">ਆਯਾਤ ਲਈ ਕੋਈ ਪ੍ਰੋਜੈਕਟ ਨਹੀਂ ਚੁਣਿਆ ਗਿਆ</string>
+    <string name="only_select_catrobat_files">ਸਿਰਫ਼ ਪ੍ਰੋਜੈਕਟ ਫਾਈਲਾਂ ਦੀ ਚੋਣ ਕਰੋ</string>
     <string name="error_no_files_found">ਕੋਈ ਪ੍ਰੋਜੈਕਟ ਫਾਈਲਾਂ ਨਹੀਂ ਮਿਲੀਆਂ.</string>
+    <string name="import_sprite_from_project_launcher">ਸਥਾਨਕ ਪ੍ਰੋਜੈਕਟ ਤੋਂ ਆਬਜੈਕਟ ਆਯਾਤ ਕਰੋ</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">ਵੇਰਵਾ</string>
     <string name="project_options_notes_and_credits">ਨੋਟ ਅਤੇ ਕ੍ਰੈਡਿਟ</string>
@@ -538,8 +569,8 @@
     <!--  -->
     <!-- NfcTagListFragment -->
     <string name="fragment_nfctag_text_description">ਐੱਨ ਐੱਫ ਸੀ ਟੈਗਸ ਨੂੰ ਜੋੜਨ ਲਈ ਸਕੈਨ ਕਰੋ</string>
-    <string name="ndef_record_label" tools:ignore="UnusedResources">ਰਿਕਾਰਡ ਦੀ ਕਿਸਮ ਦੇ ਤੌਰ ਤੇ</string>
-    <string name="brick_set_nfc_tag" tools:ignore="UnusedResources">ਲਿਖਣ ਲਈ ਅਗਲੇ ਐਨਐਫਸੀ ਟੈਗ ਦੀ ਉਡੀਕ ਕਰੋ</string>
+    <string name="ndef_record_label">ਰਿਕਾਰਡ ਦੀ ਕਿਸਮ ਦੇ ਤੌਰ ਤੇ</string>
+    <string name="brick_set_nfc_tag">ਲਿਖਣ ਲਈ ਅਗਲੇ ਐਨਐਫਸੀ ਟੈਗ ਦੀ ਉਡੀਕ ਕਰੋ</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
     <string name="default_tag_name">NFC ਟੈਗ</string>
     <string name="tnf_empty">ਖਾਲੀ</string>
@@ -557,12 +588,10 @@
     <string name="local_vars_headline">ਸਿਰਫ ਇਸ ਅਦਾਕਾਰ ਜਾਂ ਇਕਾਈ ਲਈ ਪਰਿਵਰਤਨ</string>
     <string name="global_lists_headline">ਸਾਰੇ ਅਦਾਕਾਰਾਂ ਅਤੇ ਆਬਜੈਕਟ ਲਈ ਸੂਚੀਬੱਧ</string>
     <string name="local_lists_headline">ਸਿਰਫ ਇਸ ਅਦਾਕਾਰ ਜਾਂ ਇਕਾਈ ਲਈ ਸੂਚੀਬੱਧ</string>
-    <string name="fragment_data_text_description">ਤਬਦੀਲੀਆਂ ਜਾਂ ਸੂਚੀਆਂ ਜੋੜਨ ਲਈ \"+\" ਤੇ ਟੈਪ ਕਰੋ</string>
+    <string name="fragment_data_text_description">ਤਬਦੀਲੀਆਂ ਜਾਂ \nਸੂਚੀਆਂ ਜੋੜਨ ਲਈ \"+\" ਤੇ ਟੈਪ ਕਰੋ</string>
     <plurals name="user_defined_brick_input_headline">
-        <item quantity="one">ਇਸ ਇੱਟ ਲਈ ਇੰਪੁੱਟ
-ਇਸ ਇੱਟ ਲਈ ਜਾਣਕਾਰੀ</item>
-        <item quantity="other">ਇਸ ਇੱਟ ਲਈ ਇੰਪੁੱਟ
-ਇਸ ਇੱਟ ਲਈ ਜਾਣਕਾਰੀ</item>
+        <item quantity="one">ਇਸ ਇੱਟ ਲਈ ਇੰਪੁੱਟ</item>
+        <item quantity="other">ਇਸ ਇੱਟ ਲਈ ਜਾਣਕਾਰੀ</item>
     </plurals>
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">ਸਾਰੇ ਦ੍ਰਿਸ਼ਾਂ ਵਿਚ ਸਾਰੇ ਅਭਿਨੇਤਾ, ਆਬਜੈਕਟ ਅਤੇ ਕਲੋਨ ਲਈ</string>
@@ -587,9 +616,11 @@
     <!-- NewLookDialog -->
     <string name="new_look_dialog_title">ਦਿੱਖ ਸ਼ਾਮਲ ਕਰੋ</string>
     <string name="add_look_from_camera">ਤਸਵੀਰ ਲਓ</string>
+    <string name="add_look_object_library">ਲਾਇਬ੍ਰੇਰੀ</string>
     <string name="add_look_draw_new_image">ਚਿੱਤਰ ਬਣਾਉ</string>
     <string name="add_look_choose_image">ਚਿੱਤਰ ਚੁਣੋ</string>
     <string name="add_look_media_library">ਮੀਡੀਆ ਲਾਇਬ੍ਰੇਰੀ</string>
+    <string name="add_look_from_local_project">ਸਥਾਨਕ ਪ੍ਰਾਜੈਕਟ</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">ਆਵਾਜ਼ ਸ਼ਾਮਲ ਕਰੋ</string>
@@ -656,7 +687,7 @@
     <string name="brick_context_dialog_move_brick">ਇੱਟ ਮੂਵ ਕਰੋ</string>
     <string name="brick_context_dialog_move_script">ਲਿਪੀ ਸਕ੍ਰਿਪਟ</string>
     <string name="brick_context_dialog_move_definition">ਇਸ ਪਰਿਭਾਸ਼ਾ ਨੂੰ ਹਿਲਾਓ</string>
-    <string name="brick_context_dialog_delete_brick" tools:ignore="UnusedResources">ਇੱਟ ਮਿਟਾਓ</string>
+    <string name="brick_context_dialog_delete_brick">ਇੱਟ ਮਿਟਾਓ</string>
     <string name="brick_context_dialog_copy_brick">ਇੱਟ ਕਾਪੀ ਕਰੋ</string>
     <string name="brick_context_dialog_copy_script">ਸਕ੍ਰਿਪਟ ਕਾਪੀ ਕਰੋ</string>
     <string name="brick_context_dialog_formula_edit_brick">ਫਾਰਮੂਲਾ ਸੋਧੋ</string>
@@ -671,7 +702,7 @@
     <string name="comment_in_out">ਨੂੰ ਯੋਗ ਆਯੋਗ ਕਰੋ</string>
     <string name="catblocks">ਟੌਗਲ 2 ਡੀ</string>
     <string name="catblocks_reorder">ਸਕ੍ਰਿਪਟਾਂ ਸਾਫ਼ ਕਰੋ</string>
-    <string name="switch_to_1d" tools:ignore="UnusedResources">1 ਡੀ ਦ੍ਰਿਸ਼</string>
+    <string name="switch_to_1d">1 ਡੀ ਦ੍ਰਿਸ਼</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">ਖੇਡੋ ਦ੍ਰਿਸ਼:</string>
@@ -730,20 +761,22 @@
          ਇਸ ਨੂੰ ਇੰਸਟਾਲ?</string>
     <string name="prestage_resource_not_available_title">ਭਾਗ ਉਪਲਬਧ ਨਹੀਂ ਹੈ</string>
     <string name="prestage_resource_not_available_text">ਬਦਕਿਸਮਤੀ ਨਾਲ ਇਹ ਪ੍ਰੋਜੈਕਟ ਤੁਹਾਡੀ ਡਿਵਾਈਸ \'ਤੇ ਕੰਮ ਨਹੀਂ ਕਰਦਾ.
-         ਹੇਠ ਦਿੱਤੇ ਭਾਗ ਉਪਲੱਬਧ ਨਹੀਂ ਹਨ: \n \n</string>
-    <string name="prestage_no_vibration_available">\u2022 ਵਾਈਬ੍ਰੇਸ਼ਨ ਹੈ \n</string>
-    <string name="prestage_no_acceleration_sensor_available">\u2022 ਐਕਸਲੇਸ਼ਨ ਸੂਚਕ ਹੈ \n</string>
-    <string name="prestage_no_inclination_sensor_available">\u2022 ਭਾਵਨਾ ਸੂਚਕ ਹੈ \n</string>
-    <string name="prestage_no_compass_sensor_available">\u2022 ਕੰਪਾਸ, \n</string>
-    <string name="prestage_no_gps_sensor_available">\u2022 ਵਾਈਬ੍ਰੇਸ਼ਨ ਹੈ \n</string>
-    <string name="prestage_text_to_speech_error">\u2022 ਪਾਠ-ਟੂ-ਸਪੀਚ ਇੰਜਣ \n</string>
-    <string name="prestage_no_back_camera_available">\u2022 ਰੀਅਰ ਕੈਮਰਾ ਹੈ \n</string>
-    <string name="prestage_no_face_detection_available">\u2022 ਫੇਸ ਖੋਜ \n</string>
-    <string name="prestage_no_text_detection_available">\u2022 ਫੇਸ ਖੋਜ \n</string>
-    <string name="prestage_no_front_camera_available">\u2022 ਰੀਅਰ ਕੈਮਰਾ ਹੈ \n</string>
-    <string name="prestage_no_camera_available">\u2022 ਰੀਅਰ ਕੈਮਰਾ ਹੈ \n</string>
-    <string name="prestage_no_flash_available">\u2022 ਫ਼ਲੈਸ਼ ਹੈ \n</string>
-    <string name="prestage_default_resource_not_available">\u2022 ਅਣਜਾਣ ਸੰਖੇਪ \n</string>
+         ਹੇਠ ਦਿੱਤੇ ਭਾਗ ਉਪਲੱਬਧ ਨਹੀਂ ਹਨ: \n\n</string>
+    <string name="prestage_no_vibration_available">\u2022 ਵਾਈਬ੍ਰੇਸ਼ਨ ਹੈ\n</string>
+    <string name="prestage_no_acceleration_sensor_available">\u2022 ਐਕਸਲੇਸ਼ਨ ਸੂਚਕ ਹੈ\n</string>
+    <string name="prestage_no_inclination_sensor_available">\u2022 ਭਾਵਨਾ ਸੂਚਕ ਹੈ\n</string>
+    <string name="prestage_no_compass_sensor_available">\u2022 ਕੰਪਾਸ,\n</string>
+    <string name="prestage_no_gps_sensor_available">\u2022 ਵਾਈਬ੍ਰੇਸ਼ਨ ਹੈ\n</string>
+    <string name="prestage_text_to_speech_error">\u2022 ਪਾਠ-ਟੂ-ਸਪੀਚ ਇੰਜਣ\n</string>
+    <string name="prestage_no_back_camera_available">\u2022 ਰੀਅਰ ਕੈਮਰਾ ਹੈ\n</string>
+    <string name="prestage_no_face_detection_available">\u2022 ਫੇਸ ਖੋਜ\n</string>
+    <string name="prestage_no_object_detection_available">\u2022 ਵਸਤੂ ਪਛਾਣ\n</string>
+    <string name="prestage_no_pose_detection_available">\u2022 ਪੋਜ਼ ਖੋਜ\n</string>
+    <string name="prestage_no_text_detection_available">\u2022 ਫੇਸ ਖੋਜ\n</string>
+    <string name="prestage_no_front_camera_available">\u2022 ਰੀਅਰ ਕੈਮਰਾ ਹੈ\n</string>
+    <string name="prestage_no_camera_available">\u2022 ਰੀਅਰ ਕੈਮਰਾ ਹੈ\n</string>
+    <string name="prestage_no_flash_available">\u2022 ਫ਼ਲੈਸ਼ ਹੈ\n</string>
+    <string name="prestage_default_resource_not_available">\u2022 ਅਣਜਾਣ ਸੰਖੇਪ\n</string>
     <string name="no_nfc_available">NFC ਉਪਲੱਬਧ ਨਹੀ</string>
     <string name="nfc_not_activated">ਕਿਰਪਾ ਕਰਕੇ ਐਨਐਫਸੀ ਨੂੰ ਸਰਗਰਮ ਕਰੋ ਅਤੇ ਐਪ ਤੇ ਵਾਪਸ ਜਾਣ ਲਈ ਵਾਪਸ ਦਬਾਓ.</string>
     <string name="nfc_facedetection_support">ਉਸੇ ਵੇਲੇ \'ਤੇ NFC ਅਤੇ ਚਿਹਰੇ ਖੋਜ ਦਾ ਇਸਤੇਮਾਲ ਦੀ ਕਾਰਗੁਜ਼ਾਰੀ ਨੂੰ ਲੈ ਕੇ ਹੋ ਸਕਦਾ ਹੈ,
@@ -755,7 +788,7 @@
     <string name="stage_dialog_restart">ਮੁੜ ਚਾਲੂ ਕਰੋ</string>
     <string name="stage_dialog_axes_on">ਧੁਰੇ \'ਤੇ</string>
     <string name="stage_dialog_axes_off">ਧੁਰੇ \'ਤੇ</string>
-    <string name="stage_dialog_maximize">ਵੱਧੋ / \n ਤਣਾਅ</string>
+    <string name="stage_dialog_maximize">ਵੱਧੋ /\n ਤਣਾਅ</string>
     <string name="stage_dialog_screenshot">ਝਲਕ</string>
     <string name="stage_dialog_embroidery">ਕਢਾਈ</string>
     <!--  -->
@@ -769,26 +802,27 @@
     <string name="brick_when_nfc_default_all">ਸਭ</string>
     <!-- -->
     <!-- Brick categories -->
-    <string name="categories" tools:ignore="UnusedResources">ਵਰਗ</string>
-    <string name="category_embroidery" tools:ignore="UnusedResources">ਕਢਾਈ</string>
-    <string name="category_motion" tools:ignore="UnusedResources">ਗਤੀ</string>
-    <string name="category_looks" tools:ignore="UnusedResources">ਲੁੱਕਸ</string>
-    <string name="category_pen" tools:ignore="UnusedResources">ਕਲਮ</string>
-    <string name="category_sound" tools:ignore="UnusedResources">ਆਵਾਜ਼</string>
-    <string name="category_control" tools:ignore="UnusedResources">ਨਿਯੰਤਰਣ</string>
-    <string name="category_event" tools:ignore="UnusedResources">ਘਟਨਾ</string>
-    <string name="category_user_bricks" tools:ignore="UnusedResources">ਤੁਹਾਡੀਆਂ ਇੱਟਾਂ</string>
-    <string name="category_data" tools:ignore="UnusedResources">ਡਾਟਾ</string>
-    <string name="category_device" tools:ignore="UnusedResources">ਡੀਵਾਈਸ:</string>
-    <string name="category_lego_nxt" tools:ignore="UnusedResources">ਔਲ NXT</string>
-    <string name="category_lego_ev3" tools:ignore="UnusedResources">ਔਲ EV3</string>
-    <string name="category_drone" tools:ignore="UnusedResources">AR.Drone 2.0</string>
-    <string name="category_jumping_sumo" tools:ignore="UnusedResources">ਜੰਪਿੰਗ ਸੁਮੋ</string>
-    <string name="category_phiro" tools:ignore="UnusedResources">ਫਿਰੋ</string>
-    <string name="category_arduino" tools:ignore="UnusedResources">ਅਰਦਿਨੋ</string>
-    <string name="category_cast" tools:ignore="UnusedResources">ਕਰੋਮਕਾਸਟ</string>
-    <string name="category_raspi" tools:ignore="UnusedResources">ਰਸਬੇਰੀ ਪੋਰਟ ਪੋਰਟ</string>
-    <string name="category_assertions" tools:ignore="UnusedResources">ਟੈਸਟਿੰਗ</string>
+    <string name="categories">ਵਰਗ</string>
+    <string name="category_embroidery">ਕਢਾਈ</string>
+    <string name="category_motion">ਗਤੀ</string>
+    <string name="category_looks">ਲੁੱਕਸ</string>
+    <string name="category_pen">ਕਲਮ</string>
+    <string name="category_sound">ਆਵਾਜ਼</string>
+    <string name="category_control">ਨਿਯੰਤਰਣ</string>
+    <string name="category_event">ਘਟਨਾ</string>
+    <string name="category_user_bricks">ਤੁਹਾਡੀਆਂ ਇੱਟਾਂ</string>
+    <string name="category_data">ਡਾਟਾ</string>
+    <string name="category_device">ਡੀਵਾਈਸ:</string>
+    <string name="category_lego_nxt">ਔਲ NXT</string>
+    <string name="category_lego_ev3">ਔਲ EV3</string>
+    <string name="category_drone">AR.Drone 2.0</string>
+    <string name="category_jumping_sumo">ਜੰਪਿੰਗ ਸੁਮੋ</string>
+    <string name="category_phiro">ਫਿਰੋ</string>
+    <string name="category_arduino">ਅਰਦਿਨੋ</string>
+    <string name="category_cast">ਕਰੋਮਕਾਸਟ</string>
+    <string name="category_raspi">ਰਸਬੇਰੀ ਪੋਰਟ ਪੋਰਟ</string>
+    <string name="category_assertions">ਟੈਸਟਿੰਗ</string>
+    <string name="category_search_bricks">ਇੱਟਾਂ ਦੀ ਖੋਜ ਕਰੋ</string>
     <!--  -->
     <!-- User Defined Bricks -->
     <string name="brick_user_defined_add_label">ਲੇਬਲ ਸ਼ਾਮਲ ਕਰੋ</string>
@@ -798,282 +832,275 @@
     <string name="brick_user_defined_default_input_name">ਇਨਪੁਟ ਦਾ ਨਾਮ</string>
     <string name="brick_user_defined_default_label">ਵੱਡਾ ਟੈਕਸਟ</string>
     <string name="brick_user_defined_already_exists">ਇਨ੍ਹਾਂ ਲੇਬਲਾਂ ਵਾਲੀ ਇਕ ਇੱਟ ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ. ਕਿਰਪਾ ਕਰਕੇ ਹੋਰ ਲੇਬਲ ਜਾਂ ਇਨਪੁਟਸ ਸ਼ਾਮਲ ਕਰੋ.</string>
-    <string name="brick_user_defined_script_define" tools:ignore="UnusedResources">ਪ੍ਰਭਾਸ਼ਿਤ</string>
-    <string name="brick_user_defined_script_as" tools:ignore="UnusedResources">ਜਿਵੇਂ</string>
+    <string name="brick_user_defined_script_define">ਪ੍ਰਭਾਸ਼ਿਤ</string>
+    <string name="brick_user_defined_script_screen_refresh_as">ਦੇ ਤੌਰ ਤੇ ਸਕਰੀਨ ਨੂੰ ਤਾਜ਼ਾ ਕਰੋ</string>
+    <string name="brick_user_defined_with_screen_refreshing">ਦੇ ਨਾਲ</string>
+    <string name="brick_user_defined_without_screen_refreshing">ਬਿਨਾ</string>
     <string name="brick_user_defined_list_empty">ਟੈਪ \"+\" ਆਪਣੇ ਹੀ ਨਵ ਇੱਟ ਨੂੰ ਸ਼ਾਮਿਲ ਕਰਨ ਲਈ.</string>
-    <string name="brick_report" tools:ignore="UnusedResources">ਰਿਪੋਰਟ</string>
+    <string name="brick_report">ਰਿਪੋਰਟ</string>
     <!--  -->
     <!-- Motion bricks -->
-    <string name="brick_place_at" tools:ignore="UnusedResources">"'ਤੇ ਸਥਾਨ"</string>
+    <string name="brick_place_at">"'ਤੇ ਸਥਾਨ"</string>
     <string name="brick_option_place_visually">ਨਜ਼ਰ ਨਾਲ ਰੱਖੋ</string>
-    <string name="x_label" tools:ignore="UnusedResources">"x:"</string>
-    <string name="y_label" tools:ignore="UnusedResources">"y:"</string>
-    <string name="brick_set_x" tools:ignore="UnusedResources">"ਨੂੰ ਸੈੱਟ X"</string>
-    <string name="brick_set_y" tools:ignore="UnusedResources">"ਨੂੰ ਸੈੱਟ X"</string>
-    <string name="brick_change_x_by" tools:ignore="UnusedResources">"ਬਦਲੋ ਕਰੋ x"</string>
-    <string name="brick_change_y_by" tools:ignore="UnusedResources">"ਕੇ y ਬਦਲੋ"</string>
-    <string name="brick_go_back" tools:ignore="UnusedResources">ਵਾਪਸ ਜਾਓ</string>
-    <string name="brick_set_rotation_style" tools:ignore="UnusedResources">"ਰੋਟੇਸ਼ਨ ਸ਼ੈਲੀ ਸੈੱਟ ਕਰੋ"</string>
-    <string name="brick_set_rotation_style_lr" tools:ignore="UnusedResources">ਸਿਰਫ ਖੱਬੇ-ਸੱਜੇ</string>
-    <string name="brick_set_rotation_style_normal" tools:ignore="UnusedResources">ਚਾਰੇ ਪਾਸੇ</string>
-    <string name="brick_set_rotation_style_no" tools:ignore="UnusedResources">ਘੁੰਮਾਓ ਨਾ</string>
+    <string name="x_label">"x:"</string>
+    <string name="y_label">"y:"</string>
+    <string name="brick_set_x">"ਨੂੰ ਸੈੱਟ X"</string>
+    <string name="brick_set_y">"ਨੂੰ ਸੈੱਟ X"</string>
+    <string name="brick_change_x_by">"ਬਦਲੋ ਕਰੋ x"</string>
+    <string name="brick_change_y_by">"ਕੇ y ਬਦਲੋ"</string>
+    <string name="brick_go_back">ਵਾਪਸ ਜਾਓ</string>
+    <string name="brick_set_rotation_style">"ਰੋਟੇਸ਼ਨ ਸ਼ੈਲੀ ਸੈੱਟ ਕਰੋ"</string>
+    <string name="brick_set_rotation_style_lr">ਸਿਰਫ ਖੱਬੇ-ਸੱਜੇ</string>
+    <string name="brick_set_rotation_style_normal">ਚਾਰੇ ਪਾਸੇ</string>
+    <string name="brick_set_rotation_style_no">ਘੁੰਮਾਓ ਨਾ</string>
     <plurals name="brick_go_back_layer_plural">
-        <item quantity="one">ਪਰਤ
-ਪਰਤਾਂ</item>
-        <item quantity="other">ਪਰਤ
-ਪਰਤਾਂ</item>
+        <item quantity="one">ਪਰਤ</item>
+        <item quantity="other">ਪਰਤਾਂ</item>
     </plurals>
-    <string name="brick_come_to_front" tools:ignore="UnusedResources">ਸਾਹਮਣੇ ਜਾਓ</string>
-    <string name="brick_if_on_edge_bounce" tools:ignore="UnusedResources">ਜੇ ਕਿਨਾਰੇ ਤੇ, ਉਛਾਲ</string>
-    <string name="brick_move" tools:ignore="UnusedResources">ਭੇਜੋ</string>
+    <string name="brick_come_to_front">ਸਾਹਮਣੇ ਜਾਓ</string>
+    <string name="brick_if_on_edge_bounce">ਜੇ ਕਿਨਾਰੇ ਤੇ, ਉਛਾਲ</string>
+    <string name="brick_move">ਭੇਜੋ</string>
     <plurals name="brick_move_n_step_plural">
-        <item quantity="one">ਕਦਮ
-ਕਦਮ</item>
-        <item quantity="other">ਕਦਮ
-ਕਦਮ</item>
+        <item quantity="one">ਕਦਮ</item>
+        <item quantity="other">ਕਦਮ</item>
     </plurals>
-    <string name="brick_turn_left" tools:ignore="UnusedResources">ਖੱਬੇ ਪਾਸੇ ਮੁੜੋ</string>
-    <string name="brick_turn_right" tools:ignore="UnusedResources">ਸੱਜੇ ਮੁੜੋ</string>
-    <string name="brick_point_in_direction" tools:ignore="UnusedResources">ਦਿਸ਼ਾ ਵੱਲ ਪੁਆਇੰਟ ਕਰੋ</string>
-    <string name="brick_point_to" tools:ignore="UnusedResources">ਵੱਲ ਇਸ਼ਾਰਾ ਕਰੋ</string>
-    <string name="brick_glide" tools:ignore="UnusedResources">ਗਲਾਈਡ</string>
-    <string name="brick_glide_to_x" tools:ignore="UnusedResources">ਤੋਂ x:</string>
-    <string name="brick_go_to" tools:ignore="UnusedResources">ਜਾਓ</string>
+    <string name="brick_turn_left">ਖੱਬੇ ਪਾਸੇ ਮੁੜੋ</string>
+    <string name="brick_turn_right">ਸੱਜੇ ਮੁੜੋ</string>
+    <string name="brick_point_in_direction">ਦਿਸ਼ਾ ਵੱਲ ਪੁਆਇੰਟ ਕਰੋ</string>
+    <string name="brick_point_to">ਵੱਲ ਇਸ਼ਾਰਾ ਕਰੋ</string>
+    <string name="brick_glide">ਗਲਾਈਡ</string>
+    <string name="brick_glide_to_x">ਤੋਂ x:</string>
+    <string name="brick_go_to">ਜਾਓ</string>
     <string name="brick_go_to_touch_position">ਅਹਿਸਾਸ ਸਥਿਤੀ</string>
     <string name="brick_go_to_random_position">ਬੇਤਰਤੀਬੇ ਸਥਿਤੀ</string>
     <!--  -->
     <!-- Physics -->
-    <string name="brick_set_physics_object_type" tools:ignore="UnusedResources">ਆਪਣੀ ਮੋਸ਼ਨ ਟਾਈਪ ਸੈੱਟ ਕਰੋ</string>
-    <string name="brick_set_physics_object_type_dynamic" tools:ignore="UnusedResources">ਮੂਵਿੰਗ ਅਤੇ ਗੰਭੀਰਤਾ ਦੇ ਅਧੀਨ ਉਛਾਲ</string>
-    <string name="brick_set_physics_object_type_fixed" tools:ignore="UnusedResources">ਗੰਭੀਰਤਾ ਅਧੀਨ ਨਹੀਂ ਚੱਲ ਰਹੇ, ਪਰ ਦੂਸਰੇ ਤੁਹਾਨੂੰ ਗੁਰੂਤਾ ਦੇ ਹੇਠਾਂ ਉਤਾਰਦੇ ਹਨ</string>
-    <string name="brick_set_physics_object_type_no" tools:ignore="UnusedResources">ਗਰੈਵਿਟੀ ਦੇ ਹੇਠਾਂ ਚਲਣਾ ਜਾਂ ਉਛਾਲਣਾ ਨਹੀਂ (ਡਿਫੌਲਟ)</string>
-    <string name="brick_set_mass" tools:ignore="UnusedResources">"ਨੂੰ ਪੁੰਜ ਸੈੱਟ ਕਰੋ"</string>
-    <string name="brick_set_mass_unit" tools:ignore="UnusedResources">ਕਿਲੋਗ੍ਰਾਮ</string>
-    <string name="brick_set_gravity_to" tools:ignore="UnusedResources">"ਸਾਰੇ ਅਦਾਕਾਰਾਂ ਅਤੇ ਆਬਜੈਕਟਸ ਲਈ ਗੰਭੀਰਤਾ ਨਿਰਧਾਰਤ ਕਰੋ"</string>
-    <string name="brick_set_gravity_unit" tools:ignore="UnusedResources">ਕਦਮ / ਸਕਿੰਟ²</string>
-    <string name="brick_set_velocity_to" tools:ignore="UnusedResources">"ਉੱਤੇ ਵੇਗ ਸੈੱਟ ਕਰੋ"</string>
-    <string name="brick_set_velocity_unit" tools:ignore="UnusedResources">ਕਦਮ / ਸਕਿੰਟ</string>
-    <string name="brick_turn_speed_unit" tools:ignore="UnusedResources">ਡਿਗਰੀ / ਸਕਿੰਟ</string>
-    <string name="brick_set_friction" tools:ignore="UnusedResources">"ਨੂੰ ਰਗੜ ਸੈੱਟ ਕਰੋ"</string>
-    <string name="brick_set_bounce_factor" tools:ignore="UnusedResources">"ਬਾ bਂਸ ਫੈਕਟਰ ਸੈੱਟ ਕਰੋ"</string>
-    <string name="brick_rotate_left" tools:ignore="UnusedResources">"ਸਪਿਨ ਖੱਬੇ"</string>
-    <string name="brick_rotate_right" tools:ignore="UnusedResources">"ਸੱਜੇ ਮੁੜੋ"</string>
+    <string name="brick_set_physics_object_type">ਆਪਣੀ ਮੋਸ਼ਨ ਟਾਈਪ ਸੈੱਟ ਕਰੋ</string>
+    <string name="brick_set_physics_object_type_dynamic">ਮੂਵਿੰਗ ਅਤੇ ਗੰਭੀਰਤਾ ਦੇ ਅਧੀਨ ਉਛਾਲ</string>
+    <string name="brick_set_physics_object_type_fixed">ਗੰਭੀਰਤਾ ਅਧੀਨ ਨਹੀਂ ਚੱਲ ਰਹੇ, ਪਰ ਦੂਸਰੇ ਤੁਹਾਨੂੰ ਗੁਰੂਤਾ ਦੇ ਹੇਠਾਂ ਉਤਾਰਦੇ ਹਨ</string>
+    <string name="brick_set_physics_object_type_no">ਗਰੈਵਿਟੀ ਦੇ ਹੇਠਾਂ ਚਲਣਾ ਜਾਂ ਉਛਾਲਣਾ ਨਹੀਂ (ਡਿਫੌਲਟ)</string>
+    <string name="brick_set_mass">"ਨੂੰ ਪੁੰਜ ਸੈੱਟ ਕਰੋ"</string>
+    <string name="brick_set_mass_unit">ਕਿਲੋਗ੍ਰਾਮ</string>
+    <string name="brick_set_gravity_to">"ਸਾਰੇ ਅਦਾਕਾਰਾਂ ਅਤੇ ਆਬਜੈਕਟਸ ਲਈ ਗੰਭੀਰਤਾ ਨਿਰਧਾਰਤ ਕਰੋ"</string>
+    <string name="brick_set_gravity_unit">ਕਦਮ / ਸਕਿੰਟ²</string>
+    <string name="brick_set_velocity_to">"ਉੱਤੇ ਵੇਗ ਸੈੱਟ ਕਰੋ"</string>
+    <string name="brick_set_velocity_unit">ਕਦਮ / ਸਕਿੰਟ</string>
+    <string name="brick_turn_speed_unit">ਡਿਗਰੀ / ਸਕਿੰਟ</string>
+    <string name="brick_set_friction">"ਨੂੰ ਰਗੜ ਸੈੱਟ ਕਰੋ"</string>
+    <string name="brick_set_bounce_factor">"ਬਾ bਂਸ ਫੈਕਟਰ ਸੈੱਟ ਕਰੋ"</string>
+    <string name="brick_rotate_left">"ਸਪਿਨ ਖੱਬੇ"</string>
+    <string name="brick_rotate_right">"ਸੱਜੇ ਮੁੜੋ"</string>
     <!-- Look bricks -->
-    <string name="brick_set_look" tools:ignore="UnusedResources">ਵੇਖਣ ਲਈ ਬਦਲੋ</string>
-    <string name="brick_set_look_by_index" tools:ignore="UnusedResources">ਨੰਬਰ ਨਾਲ ਵੇਖਣ ਲਈ ਬਦਲੋ</string>
+    <string name="brick_set_look">ਵੇਖਣ ਲਈ ਬਦਲੋ</string>
+    <string name="brick_set_look_by_index">ਨੰਬਰ ਨਾਲ ਵੇਖਣ ਲਈ ਬਦਲੋ</string>
     <string name="brick_and_wait">ਅਤੇ ਇੰਤਜ਼ਾਰ ਕਰੋ</string>
-    <string name="brick_set_background" tools:ignore="UnusedResources">ਪਿਛੋਕੜ ਸੈੱਟ ਕਰੋ</string>
-    <string name="brick_set_background_and_wait" tools:ignore="UnusedResources">ਪਿਛੋਕੜ ਸੈਟ ਕਰੋ ਅਤੇ ਉਡੀਕ ਕਰੋ</string>
-    <string name="brick_set_background_by_index" tools:ignore="UnusedResources">ਨੰਬਰ ਤੇ ਬੈਕਗ੍ਰਾਉਂਡ ਸੈਟ ਕਰੋ</string>
-    <string name="brick_when_background" tools:ignore="UnusedResources">ਜਦੋਂ ਪਿਛੋਕੜ ਬਦਲਿਆ ਜਾਵੇ</string>
-    <string name="brick_set_size_to" tools:ignore="UnusedResources">ਅਕਾਰ ਸੈੱਟ ਕਰੋ</string>
-    <string name="brick_change_size_by" tools:ignore="UnusedResources">ਆਕਾਰ ਬਦਲੋ</string>
-    <string name="brick_hide" tools:ignore="UnusedResources">ਲੁਕਾਓ</string>
-    <string name="brick_show" tools:ignore="UnusedResources">ਵਿਖਾਓ</string>
-    <string name="brick_set_transparency" tools:ignore="UnusedResources">"ਪਾਰਦਰਸ਼ਤਾ ਸੈੱਟ ਕਰੋ"</string>
-    <string name="brick_change_ghost_effect" tools:ignore="UnusedResources">"ਪਾਰਦਰਸ਼ਤਾ ਬਦਲੋ"</string>
-    <string name="brick_set_brightness" tools:ignore="UnusedResources">"ਲਾਇਟ ਦੀ ਚਮਕ ਸੈਟ ਕਰੋ"</string>
-    <string name="brick_change_brightness" tools:ignore="UnusedResources">"ਬ੍ਰਾਇਟਨੇਸ ਬਦਲੋ"</string>
-    <string name="brick_set_color" tools:ignore="UnusedResources">"ਰੰਗ ਸੈੱਟ ਕਰੋ"</string>
-    <string name="brick_change_color" tools:ignore="UnusedResources">"ਰੰਗ ਬਦਲੋ"</string>
-    <string name="by_label" tools:ignore="UnusedResources">ਨਾਲ</string>
-    <string name="to_label" tools:ignore="UnusedResources">ਨੂੰ</string>
-    <string name="brick_clear_graphic_effect" tools:ignore="UnusedResources">ਗ੍ਰਾਫਿਕ ਪ੍ਰਭਾਵ ਸਾਫ਼ ਕਰੋ</string>
-    <string name="brick_next_look" tools:ignore="UnusedResources">ਅਗਲੀ ਨਜ਼ਰ</string>
+    <string name="brick_set_background">ਪਿਛੋਕੜ ਸੈੱਟ ਕਰੋ</string>
+    <string name="brick_set_background_and_wait">ਪਿਛੋਕੜ ਸੈਟ ਕਰੋ ਅਤੇ ਉਡੀਕ ਕਰੋ</string>
+    <string name="brick_set_background_by_index">ਨੰਬਰ ਤੇ ਬੈਕਗ੍ਰਾਉਂਡ ਸੈਟ ਕਰੋ</string>
+    <string name="brick_when_background">ਜਦੋਂ ਪਿਛੋਕੜ ਬਦਲਿਆ ਜਾਵੇ</string>
+    <string name="brick_set_size_to">ਅਕਾਰ ਸੈੱਟ ਕਰੋ</string>
+    <string name="brick_change_size_by">ਆਕਾਰ ਬਦਲੋ</string>
+    <string name="brick_hide">ਲੁਕਾਓ</string>
+    <string name="brick_show">ਵਿਖਾਓ</string>
+    <string name="brick_set_transparency">"ਪਾਰਦਰਸ਼ਤਾ ਸੈੱਟ ਕਰੋ"</string>
+    <string name="brick_change_ghost_effect">"ਪਾਰਦਰਸ਼ਤਾ ਬਦਲੋ"</string>
+    <string name="brick_set_brightness">"ਲਾਇਟ ਦੀ ਚਮਕ ਸੈਟ ਕਰੋ"</string>
+    <string name="brick_change_brightness">"ਬ੍ਰਾਇਟਨੇਸ ਬਦਲੋ"</string>
+    <string name="brick_set_color">"ਰੰਗ ਸੈੱਟ ਕਰੋ"</string>
+    <string name="brick_change_color">"ਰੰਗ ਬਦਲੋ"</string>
+    <string name="by_label">ਨਾਲ</string>
+    <string name="to_label">ਨੂੰ</string>
+    <string name="brick_clear_graphic_effect">ਗ੍ਰਾਫਿਕ ਪ੍ਰਭਾਵ ਸਾਫ਼ ਕਰੋ</string>
+    <string name="brick_next_look">ਅਗਲੀ ਨਜ਼ਰ</string>
     <string name="brick_next_background">ਪਿਛੋਕੜ ਸੈੱਟ ਕਰੋ</string>
-    <string name="brick_previous_look" tools:ignore="UnusedResources">ਪਿਛਲਾ ਟ੍ਰੈਕ</string>
+    <string name="brick_previous_look">ਪਿਛਲਾ ਟ੍ਰੈਕ</string>
     <string name="brick_previous_background">ਪਿਛਲਾ ਪਿਛੋਕੜ</string>
-    <string name="brick_edit_look" tools:ignore="UnusedResources">ਸੋਧ ਵੇਖਣ</string>
+    <string name="brick_edit_look">ਸੋਧ ਵੇਖਣ</string>
     <string name="brick_edit_background">ਪਿਛੋਕੜ ਸੈੱਟ ਕਰੋ</string>
-    <string name="brick_delete_look" tools:ignore="UnusedResources">ਦਿੱਖ ਮਿਟਾਓ</string>
+    <string name="brick_delete_look">ਦਿੱਖ ਮਿਟਾਓ</string>
     <string name="brick_delete_background">ਪਿਛੋਕੜ ਸੈੱਟ ਕਰੋ</string>
-    <string name="brick_flash" tools:ignore="UnusedResources">ਬੰਦ ਪਾਪਾ</string>
-    <string name="brick_flash_on" tools:ignore="UnusedResources">ਚਾਲੂ</string>
-    <string name="brick_flash_off" tools:ignore="UnusedResources">ਬੰਦ</string>
-    <string name="brick_vibration" tools:ignore="UnusedResources">ਲਈ ਵਾਈਬ੍ਰੇਟ</string>
-    <string name="brick_ask_label" tools:ignore="UnusedResources">ਪੁੱਛੋ</string>
-    <string name="brick_ask_store" tools:ignore="UnusedResources">ਅਤੇ ਲਿਖਤੀ ਜਵਾਬ ਅੰਦਰ ਸਟੋਰ ਕਰੋ</string>
+    <string name="brick_flash">ਬੰਦ ਪਾਪਾ</string>
+    <string name="brick_flash_on">ਚਾਲੂ</string>
+    <string name="brick_flash_off">ਬੰਦ</string>
+    <string name="brick_vibration">ਲਈ ਵਾਈਬ੍ਰੇਟ</string>
+    <string name="brick_ask_label">ਪੁੱਛੋ</string>
+    <string name="brick_ask_store">ਅਤੇ ਲਿਖਤੀ ਜਵਾਬ ਅੰਦਰ ਸਟੋਰ ਕਰੋ</string>
     <string name="brick_ask_default_question">ਤੁਹਾਡਾ ਨਾਮ ਕੀ ਹੈ?</string>
     <string name="brick_ask_dialog_hint">"ਆਪਣਾ ਜਵਾਬ ਦਰਜ ਕਰੋ:"</string>
     <string name="brick_ask_dialog_submit">ਜਵਾਬ ਜਮ੍ਹਾ ਕਰੋ</string>
-    <string name="brick_ask_speech_label" tools:ignore="UnusedResources">ਪੁੱਛੋ</string>
-    <string name="brick_ask_speech_store" tools:ignore="UnusedResources">ਅਤੇ ਲਿਖਤੀ ਜਵਾਬ ਅੰਦਰ ਸਟੋਰ ਕਰੋ</string>
+    <string name="brick_ask_speech_label">ਪੁੱਛੋ</string>
+    <string name="brick_ask_speech_store">ਅਤੇ ਲਿਖਤੀ ਜਵਾਬ ਅੰਦਰ ਸਟੋਰ ਕਰੋ</string>
     <string name="brick_ask_speech_default_question">ਤੁਹਾਡਾ ਨਾਮ ਕੀ ਹੈ?</string>
-    <string name="brick_paint_new_look" tools:ignore="UnusedResources">ਨਵੀਂ ਦਿੱਖ ਪੇਂਟ ਕਰੋ</string>
+    <string name="brick_paint_new_look">ਨਵੀਂ ਦਿੱਖ ਪੇਂਟ ਕਰੋ</string>
     <string name="brick_paint_new_background">ਨਵ ਦੀ ਪਿੱਠਭੂਮੀ ਚਿੱਤਰਕਾਰੀ</string>
     <string name="brick_paint_new_look_name">"ਨਵੀਂ ਦਿੱਖ ਦਾ ਨਾਮ"</string>
-    <string name="brick_copy_look" tools:ignore="UnusedResources">ਨਵਾਂ ਵੇਖਣ ਦਾ ਨਾਮ</string>
+    <string name="brick_copy_look">ਨਵਾਂ ਵੇਖਣ ਦਾ ਨਾਮ</string>
     <string name="brick_copy_look_name">ਨਵੀਂ ਦਿੱਖ ਦਾ ਨਾਮ</string>
     <string name="brick_copy_background">ਪਿਛੋਕੜ ਸੈਟ ਕਰੋ ਅਤੇ ਉਡੀਕ ਕਰੋ</string>
+    <string name="brick_focus_point">ਨਾਲ ਫੋਕਸ ਪੁਆਇੰਟ ਬਣੋ</string>
+    <string name="brick_horizontal_and">ਖਿਤਿਜੀ ਅਤੇ</string>
+    <string name="brick_vertical_flex">ਲੰਬਕਾਰੀ ਲਚਕਤਾ</string>
     <!--  -->
     <!-- Pen bricks -->
-    <string name="brick_pen_down" tools:ignore="UnusedResources">ਕਲਮ ਡਾ .ਨ</string>
-    <string name="brick_pen_up" tools:ignore="UnusedResources">ਕਲਮ</string>
-    <string name="brick_pen_size" tools:ignore="UnusedResources">ਅਕਾਰ ਸੈੱਟ ਕਰੋ</string>
-    <string name="brick_pen_color" tools:ignore="UnusedResources">ਨੂੰ ਸੈੱਟ ਕਲਮ ਦਾ ਰੰਗ</string>
-    <string name="brick_clear_background" tools:ignore="UnusedResources">ਸਾਫ਼</string>
-    <string name="brick_stamp" tools:ignore="UnusedResources">ਮੋਹਰਾਂ</string>
+    <string name="brick_pen_down">ਕਲਮ ਡਾ .ਨ</string>
+    <string name="brick_pen_up">ਕਲਮ</string>
+    <string name="brick_pen_size">ਅਕਾਰ ਸੈੱਟ ਕਰੋ</string>
+    <string name="brick_pen_color">ਨੂੰ ਸੈੱਟ ਕਲਮ ਦਾ ਰੰਗ</string>
+    <string name="brick_clear_background">ਸਾਫ਼</string>
+    <string name="brick_stamp">ਮੋਹਰਾਂ</string>
     <!--  -->
     <!-- Sound bricks -->
-    <string name="brick_play_sound" tools:ignore="UnusedResources">ਆਵਾਜ਼ ਸ਼ੁਰੂ ਕਰੋ</string>
-    <string name="brick_play_sound_and_wait" tools:ignore="UnusedResources">ਆਵਾਜ਼ ਸ਼ੁਰੂ ਕਰੋ ਅਤੇ ਉਡੀਕ ਕਰੋ</string>
-    <string name="brick_stop_sound" tools:ignore="UnusedResources">ਆਵਾਜ਼ ਸ਼ੁਰੂ ਕਰੋ</string>
-    <string name="brick_stop_all_sounds" tools:ignore="UnusedResources">ਸਾਰੀਆਂ ਆਵਾਜ਼ਾਂ ਰੋਕੋ</string>
-    <string name="brick_set_volume_to" tools:ignore="UnusedResources">ਵਾਲੀਅਮ ਨੂੰ ਸੈੱਟ ਕਰੋ</string>
-    <string name="brick_change_volume_by" tools:ignore="UnusedResources">ਦੁਆਰਾ ਵਾਲੀਅਮ ਬਦਲੋ</string>
-    <string name="brick_speak" tools:ignore="UnusedResources">ਬੋਲੋ</string>
+    <string name="brick_play_sound">ਆਵਾਜ਼ ਸ਼ੁਰੂ ਕਰੋ</string>
+    <string name="brick_play_sound_and_wait">ਆਵਾਜ਼ ਸ਼ੁਰੂ ਕਰੋ ਅਤੇ ਉਡੀਕ ਕਰੋ</string>
+    <string name="brick_stop_sound">ਆਵਾਜ਼ ਸ਼ੁਰੂ ਕਰੋ</string>
+    <string name="brick_stop_all_sounds">ਸਾਰੀਆਂ ਆਵਾਜ਼ਾਂ ਰੋਕੋ</string>
+    <string name="brick_set_volume_to">ਵਾਲੀਅਮ ਨੂੰ ਸੈੱਟ ਕਰੋ</string>
+    <string name="brick_change_volume_by">ਦੁਆਰਾ ਵਾਲੀਅਮ ਬਦਲੋ</string>
+    <string name="brick_speak">ਬੋਲੋ</string>
     <string name="brick_speak_default_value">ਹੈਲੋ!</string>
-    <string name="brick_speak_and_wait" tools:ignore="UnusedResources">ਅਤੇ ਇੰਤਜ਼ਾਰ ਕਰੋ</string>
-    <string name="brick_start_listening_to_voice" tools:ignore="UnusedResources">ਵਿਚ ਆਵਾਜ਼ ਸੁਣਨਾ ਅਤੇ ਬੋਲਣ ਵਾਲੇ ਸ਼ਬਦਾਂ ਨੂੰ ਸਟੋਰ ਕਰਨਾ ਸ਼ੁਰੂ ਕਰੋ</string>
+    <string name="brick_speak_and_wait">ਅਤੇ ਇੰਤਜ਼ਾਰ ਕਰੋ</string>
+    <string name="brick_start_listening_to_voice">ਵਿਚ ਆਵਾਜ਼ ਸੁਣਨਾ ਅਤੇ ਬੋਲਣ ਵਾਲੇ ਸ਼ਬਦਾਂ ਨੂੰ ਸਟੋਰ ਕਰਨਾ ਸ਼ੁਰੂ ਕਰੋ</string>
     <string name="speech_recognition_not_available">ਸਪੀਚ ਪਛਾਣ ਉਪਲਬਧ ਨਹੀਂ ਹੈ.</string>
     <string name="speech_recognition_offline_mode_error_dialog_title">ਗੁੰਮ ਹੋਇਆ offlineਫਲਾਈਨ ਡੇਟਾ</string>
     <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">ਔਫਲਾਈਨ ਸਪੀਚ ਪਛਾਣ
      %s ਲਈ ਗੁੰਮ ਹੈ ਜਾਂ ਇਸ ਨੂੰ ਅਪਡੇਟ ਕਰਨ ਦੀ ਲੋੜ ਹੈ. ਕੀ ਤੁਸੀਂ ਹੁਣੇ ਇਸਨੂੰ ਡਾ downloadਨਲੋਡ ਕਰਨਾ ਜਾਂ ਅਪਡੇਟ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?</string>
-    <string name="brick_set_listening_language" tools:ignore="UnusedResources">ਸੁਣਨ ਦੀ ਭਾਸ਼ਾ ਨੂੰ ਸੈੱਟ ਕਰੋ</string>
-    <string name="set_instrument_to" tools:ignore="UnusedResources">ਲਈ ਇੰਸਟੂਮੈਂਟ ਸੈੱਟ ਕਰੋ</string>
-    <string name="set_tempo_to" tools:ignore="UnusedResources">ਟੈਂਪੂ ਸੈੱਟ ਕਰੋ</string>
-    <string name="change_tempo_by" tools:ignore="UnusedResources">ਦੁਆਰਾ ਟੈਂਪੋ ਬਦਲੋ</string>
-    <string name="pause_for" tools:ignore="UnusedResources">ਲਈ ਰੋਕੋ</string>
-    <string name="play_drum" tools:ignore="UnusedResources">Drੋਲ ਵਜਾਓ</string>
-    <string name="beats" tools:ignore="UnusedResources">ਬੀਟਸ</string>
-    <string name="play_note" tools:ignore="UnusedResources">ਖੇਡੋ ਨੋਟ</string>
-    <string name="for_string" tools:ignore="UnusedResources">ਲਈ</string>
+    <string name="brick_set_listening_language">ਸੁਣਨ ਦੀ ਭਾਸ਼ਾ ਨੂੰ ਸੈੱਟ ਕਰੋ</string>
+    <string name="set_instrument_to">ਲਈ ਇੰਸਟੂਮੈਂਟ ਸੈੱਟ ਕਰੋ</string>
+    <string name="set_tempo_to">ਟੈਂਪੂ ਸੈੱਟ ਕਰੋ</string>
+    <string name="change_tempo_by">ਦੁਆਰਾ ਟੈਂਪੋ ਬਦਲੋ</string>
+    <string name="pause_for">ਲਈ ਰੋਕੋ</string>
+    <string name="play_drum">Drੋਲ ਵਜਾਓ</string>
+    <string name="beats">ਬੀਟਸ</string>
+    <string name="play_note">ਖੇਡੋ ਨੋਟ</string>
+    <string name="for_string">ਲਈ</string>
     <!--  -->
     <!-- Embroidery bricks -->
-    <string name="brick_stitch" tools:ignore="UnusedResources">ਸਿਲਾਈ</string>
-    <string name="brick_running_stitch" tools:ignore="UnusedResources">ਲੰਬਾਈ ਦੇ ਨਾਲ ਸਿਲਾਈ ਚਲਾਉਣੀ ਸ਼ੁਰੂ ਕਰੋ</string>
-    <string name="brick_zigzag_stitch" tools:ignore="UnusedResources">ਲੰਬਾਈ ਦੇ ਨਾਲ ਸਿਲਾਈ ਚਲਾਉਣੀ ਸ਼ੁਰੂ ਕਰੋ</string>
-    <string name="brick_zigzag_stitch_width" tools:ignore="UnusedResources">ਅਤੇ ਚੌੜਾਈ</string>
-    <string name="brick_triple_stitch" tools:ignore="UnusedResources">ਲੰਬਾਈ ਦੇ ਨਾਲ ਸਿਲਾਈ ਚਲਾਉਣੀ ਸ਼ੁਰੂ ਕਰੋ</string>
-    <string name="brick_stop_stitch" tools:ignore="UnusedResources">ਮੌਜੂਦਾ ਟਾਂਕੇ ਨੂੰ ਰੋਕੋ</string>
-    <string name="brick_write_embroidery" tools:ignore="UnusedResources">ਫਾਈਲ ਕਰਨ ਲਈ ਕ embਾਈ ਦਾ ਡਾਟਾ ਲਿਖੋ</string>
+    <string name="brick_stitch">ਸਿਲਾਈ</string>
+    <string name="brick_running_stitch">ਲੰਬਾਈ ਦੇ ਨਾਲ ਸਿਲਾਈ ਚਲਾਉਣੀ ਸ਼ੁਰੂ ਕਰੋ</string>
+    <string name="brick_zigzag_stitch">ਲੰਬਾਈ ਦੇ ਨਾਲ ਸਿਲਾਈ ਚਲਾਉਣੀ ਸ਼ੁਰੂ ਕਰੋ</string>
+    <string name="brick_zigzag_stitch_width">ਅਤੇ ਚੌੜਾਈ</string>
+    <string name="brick_triple_stitch">ਲੰਬਾਈ ਦੇ ਨਾਲ ਸਿਲਾਈ ਚਲਾਉਣੀ ਸ਼ੁਰੂ ਕਰੋ</string>
+    <string name="brick_stop_stitch">ਮੌਜੂਦਾ ਟਾਂਕੇ ਨੂੰ ਰੋਕੋ</string>
+    <string name="brick_write_embroidery">ਫਾਈਲ ਕਰਨ ਲਈ ਕ embਾਈ ਦਾ ਡਾਟਾ ਲਿਖੋ</string>
     <string name="brick_default_embroidery_file">embroidery.dst</string>
-    <string name="brick_sew_up" tools:ignore="UnusedResources">ਸਿਲਾਈ</string>
+    <string name="brick_sew_up">ਸਿਲਾਈ</string>
     <string name="brick_thread_color">ਨੂੰ ਸੈੱਟ ਕਲਮ ਦਾ ਰੰਗ</string>
     <!--  -->
     <!-- Device bricks -->
-    <string name="brick_reset_timer" tools:ignore="UnusedResources">ਟਾਈਮਰ ਰੀਸੈਟ ਕਰੋ</string>
-    <string name="brick_open" tools:ignore="UnusedResources">ਖੋਲ੍ਹੋ</string>
-    <string name="brick_in_browser" tools:ignore="UnusedResources">ਬਰਾ .ਜ਼ਰ ਵਿੱਚ</string>
+    <string name="brick_reset_timer">ਟਾਈਮਰ ਰੀਸੈਟ ਕਰੋ</string>
+    <string name="brick_open">ਖੋਲ੍ਹੋ</string>
+    <string name="brick_in_browser">ਬਰਾ .ਜ਼ਰ ਵਿੱਚ</string>
     <!-- Control bricks -->
-    <string name="brick_when_started" tools:ignore="UnusedResources">ਜਦੋਂ ਸੀਨ ਸ਼ੁਰੂ ਹੁੰਦਾ ਹੈ</string>
-    <string name="brick_when" tools:ignore="UnusedResources">ਜਦੋਂ ਟੇਪ ਕੀਤਾ ਜਾਂਦਾ ਹੈ</string>
-    <string name="brick_when_condition_when" tools:ignore="UnusedResources">ਕਦੋਂ</string>
-    <string name="brick_when_becomes_true" tools:ignore="UnusedResources">ਸੱਚ ਬਣ ਜਾਂਦਾ ਹੈ</string>
-    <string name="brick_wait" tools:ignore="UnusedResources">ਉਡੀਕ ਕਰੋ</string>
-    <string name="brick_wait_until" tools:ignore="UnusedResources">ਇੰਤਜ਼ਾਰ ਕਰੋ</string>
-    <string name="brick_wait_until_second_part" tools:ignore="UnusedResources">is true</string>
-    <string name="brick_when_gamepad_button" tools:ignore="UnusedResources">ਜਦੋਂ ਗੇਮਪੈਡ ਬਟਨ</string>
-    <string name="brick_when_gamepad_button_tapped" tools:ignore="UnusedResources">ਟੇਪ ਕੀਤਾ</string>
-    <string name="brick_when_nfc" tools:ignore="UnusedResources">ਜਦ NFC</string>
-    <string name="brick_stop_script" tools:ignore="UnusedResources">ਰੂਕੋ</string>
-    <string name="brick_stop_this_script" tools:ignore="UnusedResources">ਇਹ ਸਕ੍ਰਿਪਟ</string>
-    <string name="brick_stop_all_scripts" tools:ignore="UnusedResources">ਸਾਰੇ ਸਕ੍ਰਿਪਟਾਂ</string>
-    <string name="brick_stop_other_scripts" tools:ignore="UnusedResources">ਇਸ ਅਦਾਕਾਰ ਜਾਂ ਆਬਜੈਕਟ ਦੀਆਂ ਹੋਰ ਸਕ੍ਰਿਪਟਾਂ</string>
+    <string name="brick_when_started">ਜਦੋਂ ਸੀਨ ਸ਼ੁਰੂ ਹੁੰਦਾ ਹੈ</string>
+    <string name="brick_when">ਜਦੋਂ ਟੇਪ ਕੀਤਾ ਜਾਂਦਾ ਹੈ</string>
+    <string name="brick_when_condition_when">ਕਦੋਂ</string>
+    <string name="brick_when_becomes_true">ਸੱਚ ਬਣ ਜਾਂਦਾ ਹੈ</string>
+    <string name="brick_wait">ਉਡੀਕ ਕਰੋ</string>
+    <string name="brick_wait_until">ਇੰਤਜ਼ਾਰ ਕਰੋ</string>
+    <string name="brick_wait_until_second_part">is true</string>
+    <string name="brick_when_gamepad_button">ਜਦੋਂ ਗੇਮਪੈਡ ਬਟਨ</string>
+    <string name="brick_when_gamepad_button_tapped">ਟੇਪ ਕੀਤਾ</string>
+    <string name="brick_when_nfc">ਜਦ NFC</string>
+    <string name="brick_stop_script">ਰੂਕੋ</string>
+    <string name="brick_stop_this_script">ਇਹ ਸਕ੍ਰਿਪਟ</string>
+    <string name="brick_stop_all_scripts">ਸਾਰੇ ਸਕ੍ਰਿਪਟਾਂ</string>
+    <string name="brick_stop_other_scripts">ਇਸ ਅਦਾਕਾਰ ਜਾਂ ਆਬਜੈਕਟ ਦੀਆਂ ਹੋਰ ਸਕ੍ਰਿਪਟਾਂ</string>
     <plurals name="second_plural">
-        <item quantity="one">"ਦੂਜਾ
-ਸਕਿੰਟ"</item>
-        <item quantity="other">"ਦੂਜਾ
-ਸਕਿੰਟ"</item>
+        <item quantity="one">"ਦੂਜਾ"</item>
+        <item quantity="other">"ਸਕਿੰਟ"</item>
     </plurals>
-    <string name="brick_collision_receive" tools:ignore="UnusedResources">ਜਦੋਂ ਤੁਸੀਂ ਉਛਾਲ ਮਾਰਦੇ ਹੋ</string>
+    <string name="brick_collision_receive">ਜਦੋਂ ਤੁਸੀਂ ਉਛਾਲ ਮਾਰਦੇ ਹੋ</string>
     <string name="collision_with_anything">ਕੋਈ ਵੀ ਕਿਨਾਰਾ, ਅਦਾਕਾਰ, ਜਾਂ ਇਕਾਈ</string>
-    <string name="brick_broadcast_receive" tools:ignore="UnusedResources">ਜਦੋਂ ਤੁਸੀਂ ਪ੍ਰਾਪਤ ਕਰਦੇ ਹੋ</string>
-    <string name="brick_broadcast" tools:ignore="UnusedResources">ਪ੍ਰਸਾਰਨ</string>
-    <string name="brick_broadcast_wait" tools:ignore="UnusedResources">ਪ੍ਰਸਾਰਣ ਅਤੇ ਉਡੀਕ ਕਰੋ</string>
-    <string name="brick_scene_transition" tools:ignore="UnusedResources">ਦ੍ਰਿਸ਼ ਜਾਰੀ ਰੱਖੋ</string>
-    <string name="brick_scene_start" tools:ignore="UnusedResources">ਆਵਾਜ਼ ਸ਼ੁਰੂ ਕਰੋ</string>
-    <string name="brick_note" tools:ignore="UnusedResources">ਨੋਟ</string>
-    <string name="brick_think_bubble" tools:ignore="UnusedResources">ਸੋਚੋ</string>
-    <string name="brick_say_bubble" tools:ignore="UnusedResources">ਕਹੋ</string>
-    <string name="brick_think_say_for_text" tools:ignore="UnusedResources">ਲਈ</string>
-    <string name="brick_forever" tools:ignore="UnusedResources">ਹਮੇਸ਼ਾ ਲਈ</string>
-    <string name="brick_loop_for_values_from" tools:ignore="UnusedResources">ਤੋਂ ਮੁੱਲਾਂ ਲਈ</string>
-    <string name="brick_loop_for_each_value_from" tools:ignore="UnusedResources">ਤੋਂ ਹਰੇਕ ਮੁੱਲ ਲਈ</string>
-    <string name="brick_loop_in" tools:ignore="UnusedResources">ਵਿੱਚ</string>
-    <string name="brick_loop_to" tools:ignore="UnusedResources">ਨੂੰ</string>
-    <string name="brick_repeat" tools:ignore="UnusedResources">ਦੁਹਰਾਓ</string>
-    <string name="brick_repeat_until" tools:ignore="UnusedResources">ਜਦ ਤੱਕ ਦੁਹਰਾਓ</string>
-    <string name="brick_when_touched" tools:ignore="UnusedResources">ਜਦੋਂ ਸਟੇਜ ਟੇਪ ਕੀਤਾ ਜਾਂਦਾ ਹੈ</string>
-    <string name="brick_clone" tools:ignore="UnusedResources">ਦਾ ਕਲੋਨ ਬਣਾਓ</string>
+    <string name="brick_broadcast_receive">ਜਦੋਂ ਤੁਸੀਂ ਪ੍ਰਾਪਤ ਕਰਦੇ ਹੋ</string>
+    <string name="brick_broadcast">ਪ੍ਰਸਾਰਨ</string>
+    <string name="brick_broadcast_wait">ਪ੍ਰਸਾਰਣ ਅਤੇ ਉਡੀਕ ਕਰੋ</string>
+    <string name="brick_scene_transition">ਦ੍ਰਿਸ਼ ਜਾਰੀ ਰੱਖੋ</string>
+    <string name="brick_scene_start">ਆਵਾਜ਼ ਸ਼ੁਰੂ ਕਰੋ</string>
+    <string name="brick_note">ਨੋਟ</string>
+    <string name="brick_think_bubble">ਸੋਚੋ</string>
+    <string name="brick_say_bubble">ਕਹੋ</string>
+    <string name="brick_think_say_for_text">ਲਈ</string>
+    <string name="brick_forever">ਹਮੇਸ਼ਾ ਲਈ</string>
+    <string name="brick_loop_for_values_from">ਤੋਂ ਮੁੱਲਾਂ ਲਈ</string>
+    <string name="brick_loop_for_each_value_from">ਤੋਂ ਹਰੇਕ ਮੁੱਲ ਲਈ</string>
+    <string name="brick_loop_in">ਵਿੱਚ</string>
+    <string name="brick_loop_to">ਨੂੰ</string>
+    <string name="brick_repeat">ਦੁਹਰਾਓ</string>
+    <string name="brick_repeat_until">ਜਦ ਤੱਕ ਦੁਹਰਾਓ</string>
+    <string name="brick_when_touched">ਜਦੋਂ ਸਟੇਜ ਟੇਪ ਕੀਤਾ ਜਾਂਦਾ ਹੈ</string>
+    <string name="brick_clone">ਦਾ ਕਲੋਨ ਬਣਾਓ</string>
     <string name="brick_clone_this">ਆਪਣੇ ਆਪ ਨੂੰ</string>
-    <string name="brick_when_cloned" tools:ignore="UnusedResources">ਜਦੋਂ ਤੁਸੀਂ ਇੱਕ ਕਲੋਨ ਵਜੋਂ ਅਰੰਭ ਕਰਦੇ ਹੋ</string>
-    <string name="brick_delete_this_clone" tools:ignore="UnusedResources">ਇਸ ਕਲੋਨ ਨੂੰ ਮਿਟਾਓ</string>
-    <string name="brick_assert_that" tools:ignore="UnusedResources">ਜ਼ੋਰ</string>
-    <string name="brick_is_equal_to" tools:ignore="UnusedResources">ਬਰਾਬਰ ਦੀ ਉਮੀਦ</string>
-    <string name="brick_wait_till_idle" tools:ignore="UnusedResources">ਉਡੀਕ ਕਰੋ ਜਦੋਂ ਤਕ ਹੋਰ ਸਾਰੀਆਂ ਸਕ੍ਰਿਪਟਾਂ ਰੁਕ ਜਾਂਦੀਆਂ ਹਨ</string>
-    <string name="brick_tap_at" tools:ignore="UnusedResources">"ਤੇ ਇਕੋ ਟੈਪ"</string>
-    <string name="brick_touch_at" tools:ignore="UnusedResources">"'ਤੇ ਛੋਹਵੋ"</string>
-    <string name="brick_tap_for" tools:ignore="UnusedResources">"ਲਈ"</string>
-    <string name="brick_touch_slide" tools:ignore="UnusedResources">"ਛੋਹਵੋ ਅਤੇ ਸਲਾਈਡ ਕਰੋ"</string>
-    <string name="brick_touch_from_x" tools:ignore="UnusedResources">"X ਤੱਕ:"</string>
-    <string name="brick_finish_stage" tools:ignore="UnusedResources">ਮੁਕੰਮਲ ਪੜਾਅ</string>
-    <string name="brick_finish_tests" tools:ignore="UnusedResources">ਮੁਕੰਮਲ ਟੈਸਟ</string>
-    <string name="brick_assert_lists" tools:ignore="UnusedResources">ਸੂਚੀਆਂ ਸ਼ਾਮਲ ਕਰੋ</string>
-    <string name="brick_assert_actual" tools:ignore="UnusedResources">ਅਸਲ:</string>
-    <string name="brick_assert_expected" tools:ignore="UnusedResources">ਉਮੀਦ ਹੈ:</string>
-    <string name="brick_parameterized_assert" tools:ignore="UnusedResources">ਜ਼ੋਰ</string>
-    <string name="brick_parameterized_equals" tools:ignore="UnusedResources">ਦੀ ਉਮੀਦ ਕੀਤੀ ਇਕਾਈ ਦੇ ਬਰਾਬਰ ਹੈ</string>
+    <string name="brick_when_cloned">ਜਦੋਂ ਤੁਸੀਂ ਇੱਕ ਕਲੋਨ ਵਜੋਂ ਅਰੰਭ ਕਰਦੇ ਹੋ</string>
+    <string name="brick_delete_this_clone">ਇਸ ਕਲੋਨ ਨੂੰ ਮਿਟਾਓ</string>
+    <string name="brick_assert_that">ਜ਼ੋਰ</string>
+    <string name="brick_is_equal_to">ਬਰਾਬਰ ਦੀ ਉਮੀਦ</string>
+    <string name="brick_wait_till_idle">ਉਡੀਕ ਕਰੋ ਜਦੋਂ ਤਕ ਹੋਰ ਸਾਰੀਆਂ ਸਕ੍ਰਿਪਟਾਂ ਰੁਕ ਜਾਂਦੀਆਂ ਹਨ</string>
+    <string name="brick_tap_at">"ਤੇ ਇਕੋ ਟੈਪ"</string>
+    <string name="brick_touch_at">"'ਤੇ ਛੋਹਵੋ"</string>
+    <string name="brick_tap_for">"ਲਈ"</string>
+    <string name="brick_touch_slide">"ਛੋਹਵੋ ਅਤੇ ਸਲਾਈਡ ਕਰੋ"</string>
+    <string name="brick_touch_from_x">"X ਤੱਕ:"</string>
+    <string name="brick_finish_stage">ਮੁਕੰਮਲ ਪੜਾਅ</string>
+    <string name="brick_finish_tests">ਮੁਕੰਮਲ ਟੈਸਟ</string>
+    <string name="brick_assert_lists">ਸੂਚੀਆਂ ਸ਼ਾਮਲ ਕਰੋ</string>
+    <string name="brick_assert_actual">ਅਸਲ:</string>
+    <string name="brick_assert_expected">ਉਮੀਦ ਹੈ:</string>
+    <string name="brick_parameterized_assert">ਜ਼ੋਰ</string>
+    <string name="brick_parameterized_equals">ਦੀ ਉਮੀਦ ਕੀਤੀ ਇਕਾਈ ਦੇ ਬਰਾਬਰ ਹੈ</string>
     <plurals name="brick_parameterized_foreach_plural">
-        <item quantity="one">ਦੀ ਹਰ ਇਕਾਈ ਲਈ
-ਦੀਆਂ ਚੀਜ਼ਾਂ ਦੇ ਹਰੇਕ ਕੰਮ ਲਈ</item>
-        <item quantity="other">ਦੀ ਹਰ ਇਕਾਈ ਲਈ
-ਦੀਆਂ ਚੀਜ਼ਾਂ ਦੇ ਹਰੇਕ ਕੰਮ ਲਈ</item>
+        <item quantity="one">ਦੀ ਹਰ ਇਕਾਈ ਲਈ</item>
+        <item quantity="other">ਦੀਆਂ ਚੀਜ਼ਾਂ ਦੇ ਹਰੇਕ ਕੰਮ ਲਈ</item>
     </plurals>
     <plurals name="brick_parameterized_stored_plural">
-        <item quantity="one">ਉਸੇ ਨਾਮ ਨਾਲ ਵੇਰੀਏਬਲ ਵਿੱਚ ਸਟੋਰ
-ਉਸੀ ਨਾਮ ਨਾਲ ਵੇਰੀਏਬਲ ਵਿੱਚ ਸਟੋਰ</item>
-        <item quantity="other">ਉਸੇ ਨਾਮ ਨਾਲ ਵੇਰੀਏਬਲ ਵਿੱਚ ਸਟੋਰ
-ਉਸੀ ਨਾਮ ਨਾਲ ਵੇਰੀਏਬਲ ਵਿੱਚ ਸਟੋਰ</item>
+        <item quantity="one">ਉਸੇ ਨਾਮ ਨਾਲ ਵੇਰੀਏਬਲ ਵਿੱਚ ਸਟੋਰ</item>
+        <item quantity="other">ਉਸੀ ਨਾਮ ਨਾਲ ਵੇਰੀਏਬਲ ਵਿੱਚ ਸਟੋਰ</item>
     </plurals>
     <plurals name="list_selection_plural">
         <item quantity="one">%d ਸੂਚੀ ਚੁਣੀ ਗਈ</item>
         <item quantity="other">%d ਸੂਚੀਆਂ ਚੁਣੀਆਂ ਗਈਆਂ</item>
     </plurals>
     <plurals name="time_plural">
-        <item quantity="one">ਸਮਾਂ
-ਵਾਰ</item>
-        <item quantity="other">ਸਮਾਂ
-ਵਾਰ</item>
+        <item quantity="one">ਸਮਾਂ</item>
+        <item quantity="other">ਵਾਰ</item>
     </plurals>
     <string name="brick_loop_end">ਲੂਪ ਦਾ ਅੰਤ</string>
-    <string name="brick_if_begin" tools:ignore="UnusedResources">ਜੇ</string>
-    <string name="brick_if_begin_second_part" tools:ignore="UnusedResources">ਫਿਰ ਸੱਚ ਹੈ</string>
-    <string name="brick_if_else" tools:ignore="UnusedResources">ਹੋਰ</string>
+    <string name="brick_if_begin">ਜੇ</string>
+    <string name="brick_if_begin_second_part">ਫਿਰ ਸੱਚ ਹੈ</string>
+    <string name="brick_if_else">ਹੋਰ</string>
     <string name="brick_if_end">ਖਤਮ ਕਰੋ ਜੇ</string>
-    <string name="brick_set_variable" tools:ignore="UnusedResources">ਵੇਰੀਏਬਲ ਸੈੱਟ ਕਰੋ</string>
-    <string name="brick_change_variable" tools:ignore="UnusedResources">ਪਰਿਵਰਤਨ ਬਦਲੋ</string>
-    <string name="brick_write_variable_on_device" tools:ignore="UnusedResources">ਡਿਵਾਈਸ ਤੇ ਵੇਰੀਏਬਲ ਲਿਖੋ</string>
-    <string name="brick_read_variable_from_device" tools:ignore="UnusedResources">ਡਿਵਾਈਸ ਤੋਂ ਵੇਰੀਏਬਲ ਪੜ੍ਹੋ</string>
-    <string name="brick_write_variable_to_file_top" tools:ignore="UnusedResources">ਵੇਰੀਏਬਲ ਸੈੱਟ ਕਰੋ</string>
-    <string name="brick_write_variable_to_file_bottom" tools:ignore="UnusedResources">ਫਾਈਲ ਕਰਨ ਲਈ</string>
+    <string name="brick_set_variable">ਵੇਰੀਏਬਲ ਸੈੱਟ ਕਰੋ</string>
+    <string name="brick_change_variable">ਪਰਿਵਰਤਨ ਬਦਲੋ</string>
+    <string name="brick_write_variable_on_device">ਡਿਵਾਈਸ ਤੇ ਵੇਰੀਏਬਲ ਲਿਖੋ</string>
+    <string name="brick_read_variable_from_device">ਡਿਵਾਈਸ ਤੋਂ ਵੇਰੀਏਬਲ ਪੜ੍ਹੋ</string>
+    <string name="brick_write_variable_to_file_top">ਵੇਰੀਏਬਲ ਸੈੱਟ ਕਰੋ</string>
+    <string name="brick_write_variable_to_file_bottom">ਫਾਈਲ ਕਰਨ ਲਈ</string>
     <string name="brick_write_variable_to_file_default_value">variable.txt</string>
     <string name="brick_write_variable_to_file_success">"ਡਾਟਾ ਨੂੰ ਸਫਲਤਾਪੂਰਕ %1$s ਤੇ ਲਿਖਿਆ"</string>
-    <string name="brick_read_variable_from_file_top" tools:ignore="UnusedResources">ਵੇਰੀਏਬਲ ਸੈੱਟ ਕਰੋ</string>
-    <string name="brick_read_variable_from_file_center" tools:ignore="UnusedResources">ਫਾਈਲ ਤੋਂ</string>
-    <string name="brick_read_variable_from_file_bottom" tools:ignore="UnusedResources">ਅਤੇ</string>
+    <string name="brick_read_variable_from_file_top">ਵੇਰੀਏਬਲ ਸੈੱਟ ਕਰੋ</string>
+    <string name="brick_read_variable_from_file_center">ਫਾਈਲ ਤੋਂ</string>
+    <string name="brick_read_variable_from_file_bottom">ਅਤੇ</string>
     <string name="brick_read_variable_from_file_keep">ਫਾਈਲ ਰੱਖੋ</string>
     <string name="brick_read_variable_from_file_delete">ਫਾਈਲ ਰੱਖੋ</string>
-    <string name="brick_write_list_on_device" tools:ignore="UnusedResources">ਡਿਵਾਈਸ ਤੇ ਵੇਰੀਏਬਲ ਲਿਖੋ</string>
-    <string name="brick_read_list_from_device" tools:ignore="UnusedResources">ਡਿਵਾਈਸ ਤੋਂ ਵੇਰੀਏਬਲ ਪੜ੍ਹੋ</string>
+    <string name="brick_write_list_on_device">ਡਿਵਾਈਸ ਤੇ ਵੇਰੀਏਬਲ ਲਿਖੋ</string>
+    <string name="brick_read_list_from_device">ਡਿਵਾਈਸ ਤੋਂ ਵੇਰੀਏਬਲ ਪੜ੍ਹੋ</string>
     <string name="brick_note_default_value">ਇੱਥੇ ਟਿੱਪਣੀ ਸ਼ਾਮਲ ਕਰੋ&#8230;</string>
     <string name="brick_think_bubble_default_value">ਹਾਂ!</string>
     <string name="brick_say_bubble_default_value">ਹੈਲੋ!</string>
     <string name="brick_broadcast_default_value">"ਨਵਾ ਸੁਨੇਹਾ"</string>
-    <string name="brick_add_item_to_userlist_add" tools:ignore="UnusedResources">ਸ਼ਾਮਲ ਕਰੋ</string>
-    <string name="brick_add_item_to_userlist" tools:ignore="UnusedResources">ਸੂਚੀ ਵਿੱਚ ਕਰਨ ਲਈ</string>
-    <string name="brick_clear_userlist" tools:ignore="UnusedResources">ਸੂਚੀ ਵਿੱਚੋਂ ਸਾਰੀਆਂ ਚੀਜ਼ਾਂ ਮਿਟਾਓ</string>
-    <string name="brick_delete_item_from_userlist_delete" tools:ignore="UnusedResources">ਸੂਚੀ ਵਿੱਚੋਂ ਸਾਰੀਆਂ ਚੀਜ਼ਾਂ ਮਿਟਾਓ</string>
-    <string name="brick_delete_item_from_userlist" tools:ignore="UnusedResources">ਸਥਿਤੀ \'ਤੇ</string>
-    <string name="brick_insert_item_into_userlist_insert_into" tools:ignore="UnusedResources">ਇਨਸਰਟ</string>
-    <string name="brick_insert_item_into_userlist_into_list" tools:ignore="UnusedResources">ਸੂਚੀ ਵਿੱਚ ਕਰਨ ਲਈ</string>
-    <string name="brick_insert_item_into_userlist_at_position" tools:ignore="UnusedResources">ਸਥਿਤੀ \'ਤੇ</string>
-    <string name="brick_replace_item_in_userlist_replace_in_list" tools:ignore="UnusedResources">ਸੂਚੀ ਵਿਚ ਇਕਾਈ ਨੂੰ ਤਬਦੀਲ</string>
-    <string name="brick_replace_item_in_userlist_item_at_index" tools:ignore="UnusedResources">ਸਥਿਤੀ \'ਤੇ</string>
-    <string name="brick_replace_item_in_userlist_with_value" tools:ignore="UnusedResources">ਦੇ ਨਾਲ</string>
-    <string name="brick_web_request" tools:ignore="UnusedResources">ਨੂੰ ਵੈੱਬ ਬੇਨਤੀ ਭੇਜੋ</string>
+    <string name="brick_add_item_to_userlist_add">ਸ਼ਾਮਲ ਕਰੋ</string>
+    <string name="brick_add_item_to_userlist">ਸੂਚੀ ਵਿੱਚ ਕਰਨ ਲਈ</string>
+    <string name="brick_clear_userlist">ਸੂਚੀ ਵਿੱਚੋਂ ਸਾਰੀਆਂ ਚੀਜ਼ਾਂ ਮਿਟਾਓ</string>
+    <string name="brick_delete_item_from_userlist_delete">ਸੂਚੀ ਵਿੱਚੋਂ ਸਾਰੀਆਂ ਚੀਜ਼ਾਂ ਮਿਟਾਓ</string>
+    <string name="brick_delete_item_from_userlist">ਸਥਿਤੀ \'ਤੇ</string>
+    <string name="brick_insert_item_into_userlist_insert_into">ਇਨਸਰਟ</string>
+    <string name="brick_insert_item_into_userlist_into_list">ਸੂਚੀ ਵਿੱਚ ਕਰਨ ਲਈ</string>
+    <string name="brick_insert_item_into_userlist_at_position">ਸਥਿਤੀ \'ਤੇ</string>
+    <string name="brick_replace_item_in_userlist_replace_in_list">ਸੂਚੀ ਵਿਚ ਇਕਾਈ ਨੂੰ ਤਬਦੀਲ</string>
+    <string name="brick_replace_item_in_userlist_item_at_index">ਸਥਿਤੀ \'ਤੇ</string>
+    <string name="brick_replace_item_in_userlist_with_value">ਦੇ ਨਾਲ</string>
+    <string name="brick_web_request">ਨੂੰ ਵੈੱਬ ਬੇਨਤੀ ਭੇਜੋ</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
-    <string name="brick_web_request_result" tools:ignore="UnusedResources">ਅਤੇ ਲਿਖਤੀ ਜਵਾਬ ਅੰਦਰ ਸਟੋਰ ਕਰੋ</string>
+    <string name="brick_web_request_result">ਅਤੇ ਲਿਖਤੀ ਜਵਾਬ ਅੰਦਰ ਸਟੋਰ ਕਰੋ</string>
     <string name="web_request_warning_title">ਪਹੁੰਚ ਦੀ ਇਜਾਜ਼ਤ ਦਿਓ</string>
     <string name="web_request_warning_message">ਪਹੁੰਚ ਤੋਂ ਪਹਿਲਾਂ ਬਹੁਤ ਸਾਵਧਾਨ ਰਹੋ, ਕਿਉਂਕਿ
          ਲਿੰਕ ਨੂੰ ਅਜਿਹੇ ਆਪਣੇ ਸਹੀ ਭੂਗੋਲਿਕ ਸਥਿਤੀ ਜ ਕੋਈ ਵੀ ਪਾਠ ਦੇ ਰੂਪ ਵਿੱਚ ਤੁਹਾਡੀ ਨਿੱਜੀ ਜਾਣਕਾਰੀ, ਬੇਨਕਾਬ ਹੋ ਸਕਦਾ ਹੈ
@@ -1085,16 +1112,17 @@
          ਇਸ ਡੋਮੇਨ ਤੋਂ ਵੈਬ ਪਤਿਆਂ ਦੀ ਪੁਸ਼ਟੀ ਕਰਨ ਲਈ ਦੁਬਾਰਾ ਨਾ ਪੁੱਛਿਆ ਜਾਵੇ.</string>
     <string name="trusted_domains_edit_hint">ਜੇ ਤੁਸੀਂ ਇਸ ਆਗਿਆ ਨੂੰ ਰੱਦ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ
          ਬਾਅਦ ਵਿਚ, ਤੁਸੀਂ ਭਰੋਸੇਯੋਗ ਡੋਮੇਨਾਂ ਦੀ ਸੂਚੀ ਵਿਚੋਂ ਐਂਟਰੀ ਨੂੰ ਹਟਾ ਸਕਦੇ ਹੋ
-         ਇਸ ਐਪ ਦੀ ਸੈਟਿੰਗਜ਼.</string>
-    <string name="brick_look_request" tools:ignore="UnusedResources">ਤੋਂ ਚਿੱਤਰ ਪ੍ਰਾਪਤ ਕਰੋ</string>
-    <string name="brick_look_request_result" tools:ignore="UnusedResources">ਅਤੇ ਮੌਜੂਦਾ ਦਿੱਖ ਦੇ ਤੌਰ ਤੇ ਇਸਤੇਮਾਲ ਕਰੋ</string>
-    <string name="brick_background_request_result" tools:ignore="UnusedResources">ਅਤੇ ਮੌਜੂਦਾ ਬੈਕਗ੍ਰਾਉਂਡ ਦੇ ਤੌਰ ਤੇ ਵਰਤੋਂ</string>
+         ਇਸ ਐਪ ਦੀ ਸੈਟਿੰਗਜ਼.
+    </string>
+    <string name="brick_look_request">ਤੋਂ ਚਿੱਤਰ ਪ੍ਰਾਪਤ ਕਰੋ</string>
+    <string name="brick_look_request_result">ਅਤੇ ਮੌਜੂਦਾ ਦਿੱਖ ਦੇ ਤੌਰ ਤੇ ਇਸਤੇਮਾਲ ਕਰੋ</string>
+    <string name="brick_background_request_result">ਅਤੇ ਮੌਜੂਦਾ ਬੈਕਗ੍ਰਾਉਂਡ ਦੇ ਤੌਰ ਤੇ ਵਰਤੋਂ</string>
     <string name="look_request_http_error_message">"%1$s ਵਾਪਸ ਆ ਕਿ HTTP ਗਲਤੀ %2$s ਤੱਕ ਦੇ ਚਿੱਤਰ ਨੂੰ ਪ੍ਰਾਪਤ"</string>
     <string name="look_request_type_error_message">"%1$s ਤੋਂ ਚਿੱਤਰ ਪ੍ਰਾਪਤ ਕਰੋ ਮਾਨਤਾ ਪ੍ਰਾਪਤ ਚਿੱਤਰ ਫਾਰਮੈਟ ਪ੍ਰਾਪਤ ਨਹੀਂ ਕਰ ਸਕਿਆ"</string>
-    <string name="brick_store_csv_into_userlist_store" tools:ignore="UnusedResources">ਸਟੋਰ ਕਾਲਮ</string>
-    <string name="brick_store_csv_into_userlist_of" tools:ignore="UnusedResources">ਦੀ</string>
-    <string name="brick_store_csv_into_userlist_csv" tools:ignore="UnusedResources">ਕਾਮੇ ਨਾਲ ਵੱਖ ਵੱਖ ਮੁੱਲ</string>
-    <string name="brick_store_csv_into_userlist_into" tools:ignore="UnusedResources">ਸੂਚੀ ਵਿੱਚ ਕਰਨ ਲਈ</string>
+    <string name="brick_store_csv_into_userlist_store">ਸਟੋਰ ਕਾਲਮ</string>
+    <string name="brick_store_csv_into_userlist_of">ਦੀ</string>
+    <string name="brick_store_csv_into_userlist_csv">ਕਾਮੇ ਨਾਲ ਵੱਖ ਵੱਖ ਮੁੱਲ</string>
+    <string name="brick_store_csv_into_userlist_into">ਸੂਚੀ ਵਿੱਚ ਕਰਨ ਲਈ</string>
     <string name="brick_store_csv_into_userlist_data">ਕਿੱਟੀ, ਪਿਆਰਾ\nਕਤੂਰਾ, ਸ਼ਰਾਰਤੀ\nਅਕਤੂਪਸ, ਬੁੱਧੀਮਾਨ</string>
     <!--  -->
     <!--Instruments-->
@@ -1143,7 +1171,7 @@
     <!-- Default Values -->
     <string name="default_project_name">ਨਵਾਂ ਪ੍ਰੋਜੈਕਟ</string>
     <string name="default_variable_name">ਅਸਥਿਰ</string>
-    <string name="default_scene_name">ਦ੍ਰਿਸ਼ ( %1$d)</string>
+    <string name="default_scene_name">ਦ੍ਰਿਸ਼</string>
     <string name="default_script_group_name">ਸਕ੍ਰਿਪਟ ਸਮੂਹ ਦਾ ਨਾਮ</string>
     <string name="default_broadcast_message_name">ਸੁਨੇਹਾ</string>
     <string name="default_list_name">ਸੂਚੀ</string>
@@ -1268,6 +1296,7 @@
     <string name="title_other_devices">ਨਵੀਆਂ ਡਿਵਾਈਸਾਂ</string>
     <string name="searching_devices">ਡਿਵਾਈਸਾਂ ਦੀ ਭਾਲ ਕਰ ਰਿਹਾ ਹੈ&#8230;</string>
     <string name="button_scan">ਬਲੂਟੁੱਥ ਉਪਕਰਣ ਖੋਜੋ</string>
+    <string name="button_skip">ਬਲੂਟੁੱਥ ਕਨੈਕਸ਼ਨ ਛੱਡੋ</string>
     <string name="select_device">ਜੰਤਰ ਚੁਣੋ:</string>
     <string name="connecting_please_wait">ਆਪਣੇ ਜੰਤਰ ਨੂੰ ਨਾਲ ਕੁਨੈਕਟ ਕੀਤਾ. \n ਕਿਰਪਾ ਕਰਕੇ ਉਡੀਕ ਕਰੋ&#8230;</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
@@ -1276,20 +1305,20 @@
     <string name="none_paired">ਕੋਈ ਜੋੜੀ ਵਾਲੀਆਂ ਡਿਵਾਈਸਾਂ ਨਹੀਂ ਮਿਲੀਆਂ</string>
     <!--  -->
     <!-- Arduino Bricks -->
-    <string name="brick_arduino_select_digital_value" tools:ignore="UnusedResources">ਅਰੂਦਿਨੋ ਡਿਜੀਟਲ ਪਿੰਨ ਸੈਟ ਕਰੋ</string>
-    <string name="brick_arduino_select_analog_value" tools:ignore="UnusedResources">ਸੈੱਟ Arduino PWM ~ ਪਿੰਨ</string>
-    <string name="brick_arduino_set_pin_value_to" tools:ignore="UnusedResources">ਨੂੰ</string>
+    <string name="brick_arduino_select_digital_value">ਅਰੂਦਿਨੋ ਡਿਜੀਟਲ ਪਿੰਨ ਸੈਟ ਕਰੋ</string>
+    <string name="brick_arduino_select_analog_value">ਸੈੱਟ Arduino PWM ~ ਪਿੰਨ</string>
+    <string name="brick_arduino_set_pin_value_to">ਨੂੰ</string>
     <!--  -->
     <!-- Raspi Bricks -->
-    <string name="brick_raspi_select_digital_value" tools:ignore="UnusedResources">ਸੈੱਟ Raspberry Pi ਪਿੰਨ</string>
-    <string name="brick_raspi_set_pin_value_to" tools:ignore="UnusedResources">ਨੂੰ</string>
-    <string name="brick_raspi_if_begin" tools:ignore="UnusedResources">ਸੈੱਟ Raspberry Pi ਪਿੰਨ</string>
-    <string name="brick_raspi_if_begin_second_part" tools:ignore="UnusedResources">ਫਿਰ ਸੱਚ ਹੈ</string>
-    <string name="brick_raspi_when_begin" tools:ignore="UnusedResources">ਜਦ Raspberry Pi ਪਿੰਨ</string>
-    <string name="brick_raspi_when_equals" tools:ignore="UnusedResources">ਨੂੰ ਤਬਦੀਲ</string>
+    <string name="brick_raspi_select_digital_value">ਸੈੱਟ Raspberry Pi ਪਿੰਨ</string>
+    <string name="brick_raspi_set_pin_value_to">ਨੂੰ</string>
+    <string name="brick_raspi_if_begin">ਸੈੱਟ Raspberry Pi ਪਿੰਨ</string>
+    <string name="brick_raspi_if_begin_second_part">ਫਿਰ ਸੱਚ ਹੈ</string>
+    <string name="brick_raspi_when_begin">ਜਦ Raspberry Pi ਪਿੰਨ</string>
+    <string name="brick_raspi_when_equals">ਨੂੰ ਤਬਦੀਲ</string>
     <string name="brick_raspi_pressed_text">ਉੱਚ</string>
     <string name="brick_raspi_released_text">ਉੱਚਾ</string>
-    <string name="brick_raspi_set_pwm" tools:ignore="UnusedResources">ਸੈੱਟ Raspberry Pi PWM ਪਿੰਨ</string>
+    <string name="brick_raspi_set_pwm">ਸੈੱਟ Raspberry Pi PWM ਪਿੰਨ</string>
     <!--  -->
     <!-- Raspi Settings -->
     <string name="raspi_settings_title_name">Raspberry Pi ਸੈਟਿੰਗ</string>
@@ -1297,16 +1326,16 @@
     <string name="error_connecting_to">ਗਲਤੀ:%s ਨਾਲ ਨਾ ਕੀਤਾ ਜਾ ਸਕਿਆ ਹੈ:%d</string>
     <!--  -->
     <!-- Lego Mindstorms Strings -->
-    <string name="nxt_brick_motor_move" tools:ignore="UnusedResources">ਸੈੱਟ NXT ਮੋਟਰ</string>
-    <string name="nxt_motor_speed_to" tools:ignore="UnusedResources">ਨੂੰ</string>
-    <string name="nxt_motor_speed" tools:ignore="UnusedResources">ਗਤੀ</string>
-    <string name="nxt_brick_motor_turn_angle" tools:ignore="UnusedResources">NXT ਮੋਟਰ ਚਾਲੂ ਕਰੋ</string>
-    <string name="nxt_motor_move_by" tools:ignore="UnusedResources">ਨਾਲ</string>
-    <string name="nxt_motor_stop" tools:ignore="UnusedResources">ਰੋਕੋ NXT ਮੋਟਰ</string>
-    <string name="nxt_play_tone" tools:ignore="UnusedResources">NXT ਟੋਨ ਚਲਾਓ</string>
-    <string name="nxt_tone_duration" tools:ignore="UnusedResources">ਅਵਧੀ</string>
-    <string name="nxt_tone_frequency" tools:ignore="UnusedResources">ਬਾਰੰਬਾਰਤਾ</string>
-    <string name="nxt_tone_hundred_hz" tools:ignore="UnusedResources">×100Hz</string>
+    <string name="nxt_brick_motor_move">ਸੈੱਟ NXT ਮੋਟਰ</string>
+    <string name="nxt_motor_speed_to">ਨੂੰ</string>
+    <string name="nxt_motor_speed">ਗਤੀ</string>
+    <string name="nxt_brick_motor_turn_angle">NXT ਮੋਟਰ ਚਾਲੂ ਕਰੋ</string>
+    <string name="nxt_motor_move_by">ਨਾਲ</string>
+    <string name="nxt_motor_stop">ਰੋਕੋ NXT ਮੋਟਰ</string>
+    <string name="nxt_play_tone">NXT ਟੋਨ ਚਲਾਓ</string>
+    <string name="nxt_tone_duration">ਅਵਧੀ</string>
+    <string name="nxt_tone_frequency">ਬਾਰੰਬਾਰਤਾ</string>
+    <string name="nxt_tone_hundred_hz">×100Hz</string>
     <string name="nxt_motor_a">A</string>
     <string name="nxt_motor_b">B</string>
     <string name="nxt_motor_c">C</string>
@@ -1367,15 +1396,15 @@
     <string name="ev3_motor_d">D</string>
     <string name="ev3_motor_b_and_c">B+C</string>
     <string name="ev3_motor_all">ਸਾਰੇ</string>
-    <string name="ev3_play_tone" tools:ignore="UnusedResources">EV3 ਟੋਨ ਖੇਡੋ</string>
-    <string name="ev3_tone_duration_for" tools:ignore="UnusedResources">ਲਈ</string>
-    <string name="ev3_tone_volume" tools:ignore="UnusedResources">ਵੌਲਿਉਮ</string>
-    <string name="ev3_tone_percent" tools:ignore="UnusedResources">%</string>
-    <string name="ev3_motor_stop" tools:ignore="UnusedResources">ਰੋਕੋ EV3 ਮੋਟਰ</string>
-    <string name="ev3_motor_move" tools:ignore="UnusedResources">ਸੈੱਟ EV3 ਮੋਟਰ</string>
-    <string name="ev3_brick_motor_turn_angle" tools:ignore="UnusedResources">EV3 ਮੋਟਰ ਚਾਲੂ ਕਰੋ</string>
-    <string name="ev3_motor_move_by" tools:ignore="UnusedResources">ਨਾਲ</string>
-    <string name="ev3_set_led_status" tools:ignore="UnusedResources">ਸੈੱਟ EV3 LED ਹਾਲਤ</string>
+    <string name="ev3_play_tone">EV3 ਟੋਨ ਖੇਡੋ</string>
+    <string name="ev3_tone_duration_for">ਲਈ</string>
+    <string name="ev3_tone_volume">ਵੌਲਿਉਮ</string>
+    <string name="ev3_tone_percent">%</string>
+    <string name="ev3_motor_stop">ਰੋਕੋ EV3 ਮੋਟਰ</string>
+    <string name="ev3_motor_move">ਸੈੱਟ EV3 ਮੋਟਰ</string>
+    <string name="ev3_brick_motor_turn_angle">EV3 ਮੋਟਰ ਚਾਲੂ ਕਰੋ</string>
+    <string name="ev3_motor_move_by">ਨਾਲ</string>
+    <string name="ev3_set_led_status">ਸੈੱਟ EV3 LED ਹਾਲਤ</string>
     <string name="ev3_led_status_off">ਬੰਦ</string>
     <string name="ev3_led_status_green">ਹਰਾ</string>
     <string name="ev3_led_status_red">ਲਾਲ</string>
@@ -1388,76 +1417,76 @@
     <string name="ev3_led_status_orange_pulse">ਸੰਤਰੇ ਦੀ ਨਬਜ਼</string>
     <!--  -->
     <!-- Drone Bricks -->
-    <string name="brick_drone_takeoff_land" tools:ignore="UnusedResources">ਬੰਦ ਲਵੋ / ਜ਼ਮੀਨ AR.Drone 2.0</string>
-    <string name="brick_drone_play_led_animation" tools:ignore="UnusedResources">ਪਲੇ AR.Drone 2.0 ਫਲੈਸ਼ ਐਨੀਮੇਸ਼ਨ</string>
-    <string name="brick_drone_flip" tools:ignore="UnusedResources">ਫਲਿਪ AR.Drone 2.0</string>
-    <string name="brick_drone_move_left" tools:ignore="UnusedResources">AR.Drone 2.0 ਖੱਬੇ ਭੇਜੋ</string>
-    <string name="brick_drone_move_right" tools:ignore="UnusedResources">AR.Drone 2.0 ਸੱਜੇ ਮੂਵ ਕਰੋ</string>
-    <string name="brick_drone_move_forward" tools:ignore="UnusedResources">AR.Drone 2.0 ਅੱਗੇ ਜਾਣ</string>
-    <string name="brick_drone_move_backward" tools:ignore="UnusedResources">AR.Drone 2.0 ਪਿੱਛੇ ਭੇਜੋ</string>
-    <string name="brick_drone_move_up" tools:ignore="UnusedResources">AR.Drone 2.0 ਉੱਤੇ ਭੇਜੋ</string>
-    <string name="brick_drone_move_down" tools:ignore="UnusedResources">AR.Drone 2.0 ਥੱਲੇ ਨੂੰ ਹਿਲਾਓ</string>
-    <string name="brick_drone_emergency" tools:ignore="UnusedResources">ਸੰਕਟਕਾਲੀਨ AR.Drone 2.0</string>
-    <string name="brick_drone_turn_right" tools:ignore="UnusedResources">ਚਾਲੂ ਕਰੋ AR.Drone 2.0 ਦਾ ਹੱਕ</string>
-    <string name="brick_drone_turn_left" tools:ignore="UnusedResources">ਚਾਲੂ ਕਰੋ AR.Drone 2.0 ਖੱਬੇ</string>
+    <string name="brick_drone_takeoff_land">ਬੰਦ ਲਵੋ / ਜ਼ਮੀਨ AR.Drone 2.0</string>
+    <string name="brick_drone_play_led_animation">ਪਲੇ AR.Drone 2.0 ਫਲੈਸ਼ ਐਨੀਮੇਸ਼ਨ</string>
+    <string name="brick_drone_flip">ਫਲਿਪ AR.Drone 2.0</string>
+    <string name="brick_drone_move_left">AR.Drone 2.0 ਖੱਬੇ ਭੇਜੋ</string>
+    <string name="brick_drone_move_right">AR.Drone 2.0 ਸੱਜੇ ਮੂਵ ਕਰੋ</string>
+    <string name="brick_drone_move_forward">AR.Drone 2.0 ਅੱਗੇ ਜਾਣ</string>
+    <string name="brick_drone_move_backward">AR.Drone 2.0 ਪਿੱਛੇ ਭੇਜੋ</string>
+    <string name="brick_drone_move_up">AR.Drone 2.0 ਉੱਤੇ ਭੇਜੋ</string>
+    <string name="brick_drone_move_down">AR.Drone 2.0 ਥੱਲੇ ਨੂੰ ਹਿਲਾਓ</string>
+    <string name="brick_drone_emergency">ਸੰਕਟਕਾਲੀਨ AR.Drone 2.0</string>
+    <string name="brick_drone_turn_right">ਚਾਲੂ ਕਰੋ AR.Drone 2.0 ਦਾ ਹੱਕ</string>
+    <string name="brick_drone_turn_left">ਚਾਲੂ ਕਰੋ AR.Drone 2.0 ਖੱਬੇ</string>
     <string name="brick_drone_set_config">ਸੈੱਟ ਸੰਰਚਨਾ AR.Drone 2.0</string>
-    <string name="brick_drone_switch_camera" tools:ignore="UnusedResources">ਸਵਿਚ AR.Drone 2.0 ਕੈਮਰਾ</string>
+    <string name="brick_drone_switch_camera">ਸਵਿਚ AR.Drone 2.0 ਕੈਮਰਾ</string>
     <string name="brick_drone_set_altitude">ਉਚਾਈ ਸੀਮਾ</string>
     <string name="brick_drone_set_vertical_speed">ਵਰਟੀਕਲ ਗਤੀ ਸੀਮਾ</string>
     <string name="brick_drone_set_rotation_speed">ਘੁੰਮਣ ਦੀ ਗਤੀ ਸੀਮਾ</string>
     <string name="brick_drone_set_tilt_limit">ਝੁਕਣ ਦੀ ਸੀਮਾ</string>
-    <string name="brick_drone_with." tools:ignore="UnusedResources">ਦੇ ਨਾਲ</string>
-    <string name="brick_drone_power" tools:ignore="UnusedResources">ਤਾਕਤ</string>
+    <string name="brick_drone_with.">ਦੇ ਨਾਲ</string>
+    <string name="brick_drone_power">ਤਾਕਤ</string>
     <!--  -->
     <!-- Drone play led animation strings -->
-    <string name="drone_animation_blinkgreenred" tools:ignore="UnusedResources">ਝਪਕਿਆ ਹਰੇ ਲਾਲ</string>
-    <string name="drone_animation_blinkgreen" tools:ignore="UnusedResources">ਹਰੀ ਝਪਕਣੀ</string>
-    <string name="drone_animation_blinkred" tools:ignore="UnusedResources">ਝਪਕਦਾ ਲਾਲ</string>
-    <string name="drone_animation_blinkorange" tools:ignore="UnusedResources">ਬਲਿੰਕ ਸੰਤਰੀ</string>
-    <string name="drone_animation_snakegreenred" tools:ignore="UnusedResources">ਸੱਪ ਹਰੇ ਲਾਲ</string>
-    <string name="drone_animation_fire" tools:ignore="UnusedResources">ਅੱਗ</string>
-    <string name="drone_animation_standard" tools:ignore="UnusedResources">ਸਟੈਂਡਰਡ</string>
-    <string name="drone_animation_red" tools:ignore="UnusedResources">ਲਾਲ</string>
-    <string name="drone_animation_green" tools:ignore="UnusedResources">ਹਰਾ</string>
-    <string name="drone_animation_redsnake" tools:ignore="UnusedResources">ਲਾਲ ਸੱਪ</string>
-    <string name="drone_animation_blank" tools:ignore="UnusedResources">ਖਾਲੀ</string>
-    <string name="drone_animation_rightmissile" tools:ignore="UnusedResources">ਸੱਜੀ ਮਿਜ਼ਾਈਲ</string>
-    <string name="drone_animation_leftmissile" tools:ignore="UnusedResources">ਖੱਬੀ ਮਿਜ਼ਾਈਲ</string>
-    <string name="drone_animation_doublemissile" tools:ignore="UnusedResources">ਡਬਲ ਮਿਜ਼ਾਈਲ</string>
-    <string name="drone_animation_frontleftgreenothersred" tools:ignore="UnusedResources">ਫਰੰਟ ਨੇ ਹਰੇ ਨੂੰ ਛੱਡ ਦਿੱਤਾ ਹੋਰ</string>
-    <string name="drone_animation_frontrightgreenothersred" tools:ignore="UnusedResources">ਸਾਹਮਣੇ ਦਾ ਹੱਕ ਹਰਾ ਹੋਰ ਲਾਲ</string>
-    <string name="drone_animation_rearrightgreenothersred" tools:ignore="UnusedResources">ਰੀਅਰ ਸੱਜੇ ਹਰੇ ਹਰੇ ਹੋਰ</string>
-    <string name="drone_animation_rearleftgreenothersred" tools:ignore="UnusedResources">ਰੀਅਰ ਛੱਡ ਹਰੀ ਹੋਰ ਲਾਲ</string>
-    <string name="drone_animation_leftgreenrightred" tools:ignore="UnusedResources">ਖੱਬਾ ਹਰਾ ਸੱਜਾ ਲਾਲ</string>
-    <string name="drone_animation_leftredrightgreen" tools:ignore="UnusedResources">ਖੱਬੇ ਪਾਸੇ ਲਾਲ ਸੱਜਾ</string>
-    <string name="drone_animation_blinkstandard" tools:ignore="UnusedResources">ਬਲਿੰਕ ਮਿਆਰੀ</string>
+    <string name="drone_animation_blinkgreenred">ਝਪਕਿਆ ਹਰੇ ਲਾਲ</string>
+    <string name="drone_animation_blinkgreen">ਹਰੀ ਝਪਕਣੀ</string>
+    <string name="drone_animation_blinkred">ਝਪਕਦਾ ਲਾਲ</string>
+    <string name="drone_animation_blinkorange">ਬਲਿੰਕ ਸੰਤਰੀ</string>
+    <string name="drone_animation_snakegreenred">ਸੱਪ ਹਰੇ ਲਾਲ</string>
+    <string name="drone_animation_fire">ਅੱਗ</string>
+    <string name="drone_animation_standard">ਸਟੈਂਡਰਡ</string>
+    <string name="drone_animation_red">ਲਾਲ</string>
+    <string name="drone_animation_green">ਹਰਾ</string>
+    <string name="drone_animation_redsnake">ਲਾਲ ਸੱਪ</string>
+    <string name="drone_animation_blank">ਖਾਲੀ</string>
+    <string name="drone_animation_rightmissile">ਸੱਜੀ ਮਿਜ਼ਾਈਲ</string>
+    <string name="drone_animation_leftmissile">ਖੱਬੀ ਮਿਜ਼ਾਈਲ</string>
+    <string name="drone_animation_doublemissile">ਡਬਲ ਮਿਜ਼ਾਈਲ</string>
+    <string name="drone_animation_frontleftgreenothersred">ਫਰੰਟ ਨੇ ਹਰੇ ਨੂੰ ਛੱਡ ਦਿੱਤਾ ਹੋਰ</string>
+    <string name="drone_animation_frontrightgreenothersred">ਸਾਹਮਣੇ ਦਾ ਹੱਕ ਹਰਾ ਹੋਰ ਲਾਲ</string>
+    <string name="drone_animation_rearrightgreenothersred">ਰੀਅਰ ਸੱਜੇ ਹਰੇ ਹਰੇ ਹੋਰ</string>
+    <string name="drone_animation_rearleftgreenothersred">ਰੀਅਰ ਛੱਡ ਹਰੀ ਹੋਰ ਲਾਲ</string>
+    <string name="drone_animation_leftgreenrightred">ਖੱਬਾ ਹਰਾ ਸੱਜਾ ਲਾਲ</string>
+    <string name="drone_animation_leftredrightgreen">ਖੱਬੇ ਪਾਸੇ ਲਾਲ ਸੱਜਾ</string>
+    <string name="drone_animation_blinkstandard">ਬਲਿੰਕ ਮਿਆਰੀ</string>
     <!-- Jumping Sumo Bricks -->
-    <string name="brick_jumping_sumo_move_forward" tools:ignore="UnusedResources">ਜੰਪਿੰਗ ਸੂਮੋ ਨੂੰ ਅੱਗੇ ਭੇਜੋ</string>
-    <string name="brick_jumping_sumo_move_backward" tools:ignore="UnusedResources">ਜੰਪਿੰਗ ਸੂਮੋ ਨੂੰ ਪਿੱਛੇ ਭੇਜੋ</string>
-    <string name="brick_jumping_sumo_animation" tools:ignore="UnusedResources">ਐਨੀਮੇਸ਼ਨਜ਼ ਜੰਪਿੰਗ ਸੁਮੋ</string>
-    <string name="brick_jumping_sumo_no_sound" tools:ignore="UnusedResources">ਕੋਈ ਜੰਪਿੰਗ ਸੂਮੋ ਆਵਾਜ਼ ਨਹੀਂ</string>
-    <string name="brick_jumping_sumo_jump_long" tools:ignore="UnusedResources">ਜੰਪ ਜੰਪਿੰਗ ਸੁਮੋ ਲੰਬਾ</string>
-    <string name="brick_jumping_sumo_jump_high" tools:ignore="UnusedResources">ਜੰਪ ਜੰਪਿੰਗ ਸੂਮੋ ਉੱਚਾ</string>
-    <string name="brick_jumping_sumo_rotate_left" tools:ignore="UnusedResources">ਜੰਪਿੰਗ ਸੁਮੋ ਖੱਬੇ ਵੱਲ ਮੁੜੋ</string>
-    <string name="brick_jumping_sumo_rotate_right" tools:ignore="UnusedResources">ਜੰਪਿੰਗ ਸੂਮੋ ਨੂੰ ਸੱਜੇ ਮੁੜੋ</string>
-    <string name="brick_jumping_sumo_rotate_text" tools:ignore="UnusedResources">ਡਿਗਰੀ</string>
-    <string name="brick_jumping_sumo_turn" tools:ignore="UnusedResources">ਫਲਿੱਪ ਜੰਪਿੰਗ ਸੁਮੋ</string>
-    <string name="brick_jumping_sumo_taking_picture" tools:ignore="UnusedResources">ਜੰਪਿੰਗ ਸੂਮੋ ਦੀ ਤਸਵੀਰ ਲੈਂਦੇ ਹੋਏ</string>
+    <string name="brick_jumping_sumo_move_forward">ਜੰਪਿੰਗ ਸੂਮੋ ਨੂੰ ਅੱਗੇ ਭੇਜੋ</string>
+    <string name="brick_jumping_sumo_move_backward">ਜੰਪਿੰਗ ਸੂਮੋ ਨੂੰ ਪਿੱਛੇ ਭੇਜੋ</string>
+    <string name="brick_jumping_sumo_animation">ਐਨੀਮੇਸ਼ਨਜ਼ ਜੰਪਿੰਗ ਸੁਮੋ</string>
+    <string name="brick_jumping_sumo_no_sound">ਕੋਈ ਜੰਪਿੰਗ ਸੂਮੋ ਆਵਾਜ਼ ਨਹੀਂ</string>
+    <string name="brick_jumping_sumo_jump_long">ਜੰਪ ਜੰਪਿੰਗ ਸੁਮੋ ਲੰਬਾ</string>
+    <string name="brick_jumping_sumo_jump_high">ਜੰਪ ਜੰਪਿੰਗ ਸੂਮੋ ਉੱਚਾ</string>
+    <string name="brick_jumping_sumo_rotate_left">ਜੰਪਿੰਗ ਸੁਮੋ ਖੱਬੇ ਵੱਲ ਮੁੜੋ</string>
+    <string name="brick_jumping_sumo_rotate_right">ਜੰਪਿੰਗ ਸੂਮੋ ਨੂੰ ਸੱਜੇ ਮੁੜੋ</string>
+    <string name="brick_jumping_sumo_rotate_text">ਡਿਗਰੀ</string>
+    <string name="brick_jumping_sumo_turn">ਫਲਿੱਪ ਜੰਪਿੰਗ ਸੁਮੋ</string>
+    <string name="brick_jumping_sumo_taking_picture">ਜੰਪਿੰਗ ਸੂਮੋ ਦੀ ਤਸਵੀਰ ਲੈਂਦੇ ਹੋਏ</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_sprites_sound" tools:ignore="UnusedResources">ਆਵਾਜ਼</string>
+    <string name="default_jumping_sumo_project_sprites_sound">ਆਵਾਜ਼</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
-    <string name="animation_spin" tools:ignore="UnusedResources">ਸਪਿਨ</string>
-    <string name="animation_tab" tools:ignore="UnusedResources">ਟੈਬ</string>
-    <string name="animation_slowshake" tools:ignore="UnusedResources">ਸਲੋਸ਼ੇਕ</string>
-    <string name="animation_metronome" tools:ignore="UnusedResources">ਮੈਟ੍ਰੋਨੋਮ</string>
-    <string name="animation_ondulation" tools:ignore="UnusedResources">ਪਾਬੰਦੀ</string>
-    <string name="animation_spinjump" tools:ignore="UnusedResources">ਸਪਿਨਜੈਂਪ</string>
-    <string name="animation_spiral" tools:ignore="UnusedResources">ਸਪਿਰਲ</string>
-    <string name="animation_slalom" tools:ignore="UnusedResources">ਸਲੈਲੋਮ</string>
+    <string name="animation_spin">ਸਪਿਨ</string>
+    <string name="animation_tab">ਟੈਬ</string>
+    <string name="animation_slowshake">ਸਲੋਸ਼ੇਕ</string>
+    <string name="animation_metronome">ਮੈਟ੍ਰੋਨੋਮ</string>
+    <string name="animation_ondulation">ਪਾਬੰਦੀ</string>
+    <string name="animation_spinjump">ਸਪਿਨਜੈਂਪ</string>
+    <string name="animation_spiral">ਸਪਿਰਲ</string>
+    <string name="animation_slalom">ਸਲੈਲੋਮ</string>
     <!-- Jumping Sumo sound strings -->
-    <string name="jumping_sumo_volume" tools:ignore="UnusedResources">ਵੌਲਿਉਮ</string>
+    <string name="jumping_sumo_volume">ਵੌਲਿਉਮ</string>
     <string name="sound_default">ਸਧਾਰਣ</string>
     <string name="sound_robot">ਰੋਬੋਟ</string>
     <string name="sound_insect">ਕੀੜੇ</string>
@@ -1465,23 +1494,23 @@
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->
-    <string name="phiro_motor_stop" tools:ignore="UnusedResources">ਫਿਰੋ ਮੋਟਰ ਰੋਕੋ</string>
-    <string name="brick_phiro_motor_forward_action" tools:ignore="UnusedResources">ਫਿਰੋ ਮੋਟਰ ਨੂੰ ਅੱਗੇ ਵਧਾਓ</string>
-    <string name="brick_phiro_motor_backward_action" tools:ignore="UnusedResources">ਫਿਰੋ ਮੋਟਰ ਨੂੰ ਪਿੱਛੇ ਭੇਜੋ</string>
-    <string name="phiro_motor_speed" tools:ignore="UnusedResources">ਗਤੀ</string>
+    <string name="phiro_motor_stop">ਫਿਰੋ ਮੋਟਰ ਰੋਕੋ</string>
+    <string name="brick_phiro_motor_forward_action">ਫਿਰੋ ਮੋਟਰ ਨੂੰ ਅੱਗੇ ਵਧਾਓ</string>
+    <string name="brick_phiro_motor_backward_action">ਫਿਰੋ ਮੋਟਰ ਨੂੰ ਪਿੱਛੇ ਭੇਜੋ</string>
+    <string name="phiro_motor_speed">ਗਤੀ</string>
     <!-- sensor -->
-    <string name="brick_phiro_sensor_begin" tools:ignore="UnusedResources">ਜੇ ਫਿਰੋ</string>
-    <string name="brick_phiro_sensor_second_part" tools:ignore="UnusedResources">ਸਰਗਰਮ ਹੈ</string>
+    <string name="brick_phiro_sensor_begin">ਜੇ ਫਿਰੋ</string>
+    <string name="brick_phiro_sensor_second_part">ਸਰਗਰਮ ਹੈ</string>
     <!-- tone -->
-    <string name="phiro_play_tone" tools:ignore="UnusedResources">ਫੋਟੋ ਸੰਗੀਤ ਚਲਾਓ \n</string>
-    <string name="phiro_tone_duration" tools:ignore="UnusedResources">ਅਵਧੀ</string>
-    <string name="brick_phiro_select_tone" tools:ignore="UnusedResources">ਟੋਨ</string>
-    <string name="phiro_seconds" tools:ignore="UnusedResources">ਸਕਿੰਟ</string>
+    <string name="phiro_play_tone">ਫੋਟੋ ਸੰਗੀਤ ਚਲਾਓ \n</string>
+    <string name="phiro_tone_duration">ਅਵਧੀ</string>
+    <string name="brick_phiro_select_tone">ਟੋਨ</string>
+    <string name="phiro_seconds">ਸਕਿੰਟ</string>
     <!-- light -->
-    <string name="brick_phiro_rgb_led_action" tools:ignore="UnusedResources">ਫੀਰੋ ਲਾਈਟ ਸੈਟ ਕਰੋ</string>
-    <string name="phiro_rgb_led_red" tools:ignore="UnusedResources">ਲਾਲ</string>
-    <string name="phiro_rgb_led_green" tools:ignore="UnusedResources">ਹਰਾ</string>
-    <string name="phiro_rgb_led_blue" tools:ignore="UnusedResources">ਨੀਲਾ</string>
+    <string name="brick_phiro_rgb_led_action">ਫੀਰੋ ਲਾਈਟ ਸੈਟ ਕਰੋ</string>
+    <string name="phiro_rgb_led_red">ਲਾਲ</string>
+    <string name="phiro_rgb_led_green">ਹਰਾ</string>
+    <string name="phiro_rgb_led_blue">ਨੀਲਾ</string>
     <!--  -->
     <!-- Phiro tone strings -->
     <string name="phiro_tone_do">ਕਰੋ</string>
@@ -1518,7 +1547,7 @@
     <string name="formula_editor_data">ਡਾਟਾ</string>
     <string name="formula_editor_true">ਸੱਚ ਹੈ</string>
     <string name="formula_editor_false">ਗਲਤ</string>
-    <string name="formula_editor_decimal_mark" tools:ignore="UnusedResources">.</string>
+    <string name="formula_editor_decimal_mark">.</string>
     <string name="formula_editor_title">ਫਾਰਮੂਲਾ ਸੰਪਾਦਕ</string>
     <string name="formula_editor_changes_discarded">ਤਬਦੀਲੀਆਂ ਰੱਦ!</string>
     <string name="formula_editor_parse_fail">ਫਾਰਮੂਲਾ ਵੈਧ ਨਹੀ ਹੈ!</string>
@@ -1527,62 +1556,62 @@
     <string name="formula_editor_choose_object_variable">ਇਸ ਅਦਾਕਾਰ ਜਾਂ ਆਬਜੈਕਟ ਦੀਆਂ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
-    <string name="formula_editor_function_sin" tools:ignore="UnusedResources">sine</string>
+    <string name="formula_editor_function_sin">ਸਾਈਨ</string>
     <string name="formula_editor_function_sin_parameter">(90)</string>
-    <string name="formula_editor_function_cos" tools:ignore="UnusedResources">cosine</string>
+    <string name="formula_editor_function_cos">ਕੋਸਿਨ</string>
     <string name="formula_editor_function_cos_parameter">(360)</string>
-    <string name="formula_editor_function_tan" tools:ignore="UnusedResources">tangent</string>
+    <string name="formula_editor_function_tan">ਸਪਰਸ਼</string>
     <string name="formula_editor_function_tan_parameter">(45)</string>
-    <string name="formula_editor_function_ln" tools:ignore="UnusedResources">natural logarithm</string>
+    <string name="formula_editor_function_ln">ਕੁਦਰਤੀ ਲਘੂਗਣਕ</string>
     <string name="formula_editor_function_ln_parameter">(2.718281828459)</string>
-    <string name="formula_editor_function_log" tools:ignore="UnusedResources">decimal logarithm</string>
+    <string name="formula_editor_function_log">ਦਸ਼ਮਲਵ ਲਘੂਗਣਕ</string>
     <string name="formula_editor_function_log_parameter">(10)</string>
-    <string name="formula_editor_function_pi" tools:ignore="UnusedResources">pi</string>
+    <string name="formula_editor_function_pi">pi</string>
     <string name="formula_editor_function_pi_parameter"></string>
-    <string name="formula_editor_object_color" tools:ignore="UnusedResources">ਰੰਗ</string>
-    <string name="formula_editor_function_sqrt" tools:ignore="UnusedResources">ਵਰਗਮੂਲ</string>
+    <string name="formula_editor_object_color">ਰੰਗ</string>
+    <string name="formula_editor_function_sqrt">ਵਰਗਮੂਲ</string>
     <string name="formula_editor_function_sqrt_parameter">(4)</string>
-    <string name="formula_editor_function_rand" tools:ignore="UnusedResources">ਤੋਂ ਬੇਤਰਤੀਬੇ ਮੁੱਲ</string>
+    <string name="formula_editor_function_rand">ਤੋਂ ਬੇਤਰਤੀਬੇ ਮੁੱਲ</string>
     <string name="formula_editor_function_rand_parameter">(1,6)</string>
-    <string name="formula_editor_function_abs" tools:ignore="UnusedResources">absolute value</string>
+    <string name="formula_editor_function_abs">ਸਹੀ ਮੁੱਲ</string>
     <string name="formula_editor_function_abs_parameter">(1)</string>
-    <string name="formula_editor_function_round" tools:ignore="UnusedResources">ਗੋਲ</string>
+    <string name="formula_editor_function_round">ਗੋਲ</string>
     <string name="formula_editor_function_round_parameter">(1.6)</string>
-    <string name="formula_editor_function_mod" tools:ignore="UnusedResources">modulo</string>
+    <string name="formula_editor_function_mod">ਮੋਡੂਲੋ</string>
     <string name="formula_editor_function_mod_parameter">(3,2)</string>
-    <string name="formula_editor_function_arcsin" tools:ignore="UnusedResources">arcsine</string>
+    <string name="formula_editor_function_arcsin">ਆਰਕਸੀਨ</string>
     <string name="formula_editor_function_arcsin_parameter">(0.5)</string>
-    <string name="formula_editor_function_arccos" tools:ignore="UnusedResources">arccosine</string>
+    <string name="formula_editor_function_arccos">ਆਰਕੋਸੀਨ</string>
     <string name="formula_editor_function_arccos_parameter">(0)</string>
-    <string name="formula_editor_function_arctan" tools:ignore="UnusedResources">arctangent</string>
+    <string name="formula_editor_function_arctan">ਚਤੁਰਭੁਜ</string>
     <string name="formula_editor_function_arctan_parameter">(1)</string>
-    <string name="formula_editor_function_arctan2" tools:ignore="UnusedResources">arctangent2</string>
+    <string name="formula_editor_function_arctan2">arctangent2</string>
     <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
-    <string name="formula_editor_function_exp" tools:ignore="UnusedResources">exponent</string>
+    <string name="formula_editor_function_exp">ਵਿਆਖਿਆਕਾਰ</string>
     <string name="formula_editor_function_exp_parameter">(1)</string>
-    <string name="formula_editor_function_power" tools:ignore="UnusedResources">ਤਾਕਤ</string>
+    <string name="formula_editor_function_power">ਤਾਕਤ</string>
     <string name="formula_editor_function_power_parameter">(2,3)</string>
-    <string name="formula_editor_function_floor" tools:ignore="UnusedResources">ਫਲੋਰ</string>
+    <string name="formula_editor_function_floor">ਫਲੋਰ</string>
     <string name="formula_editor_function_floor_parameter">(0.7)</string>
-    <string name="formula_editor_function_ceil" tools:ignore="UnusedResources">ਛੱਤ</string>
+    <string name="formula_editor_function_ceil">ਛੱਤ</string>
     <string name="formula_editor_function_ceil_parameter">(0.3)</string>
-    <string name="formula_editor_function_max" tools:ignore="UnusedResources">ਵੱਧ ਤੋਂ ਵੱਧ</string>
+    <string name="formula_editor_function_max">ਵੱਧ ਤੋਂ ਵੱਧ</string>
     <string name="formula_editor_function_max_parameter">(5,4)</string>
-    <string name="formula_editor_function_min" tools:ignore="UnusedResources">ਘੱਟੋ ਘੱਟ</string>
+    <string name="formula_editor_function_min">ਘੱਟੋ ਘੱਟ</string>
     <string name="formula_editor_function_min_parameter">(7,2)</string>
     <string name="formula_editor_function_if_then_else">ਜੇ ਫਿਰ ਹੋਰ</string>
     <string name="formula_editor_function_if_then_else_parameter">(ਗਲਤ, 2, 3)</string>
-    <string name="formula_editor_function_true" tools:ignore="UnusedResources">ਸੱਚ ਹੈ</string>
-    <string name="formula_editor_function_false" tools:ignore="UnusedResources">ਗਲਤ</string>
-    <string name="formula_editor_function_length" tools:ignore="UnusedResources">ਲੰਬਾਈ</string>
+    <string name="formula_editor_function_true">ਸੱਚ ਹੈ</string>
+    <string name="formula_editor_function_false">ਗਲਤ</string>
+    <string name="formula_editor_function_length">ਲੰਬਾਈ</string>
     <string name="formula_editor_function_length_parameter">(\'ਹੈਲੋ ਵਰਲਡ\')</string>
-    <string name="formula_editor_function_letter" tools:ignore="UnusedResources">ਪੱਤਰ</string>
+    <string name="formula_editor_function_letter">ਪੱਤਰ</string>
     <string name="formula_editor_function_letter_parameter">(1, \'ਹੈਲੋ ਵਰਲਡ\')</string>
-    <string name="formula_editor_function_join" tools:ignore="UnusedResources">ਜੁੜੋ</string>
+    <string name="formula_editor_function_join">ਜੁੜੋ</string>
     <string name="formula_editor_function_join_parameter">(\'ਹੈਲੋ\', \'ਵਰਲਡ\')</string>
     <string name="formula_editor_function_join3">ਜੁੜੋ</string>
     <string name="formula_editor_function_join3_parameter">(\'ਹੈਲੋ\', \'ਵਰਲਡ\', \'!\')</string>
-    <string name="formula_editor_function_regex" tools:ignore="UnusedResources">ਨਿਯਮਤ ਸਮੀਕਰਨ</string>
+    <string name="formula_editor_function_regex">ਨਿਯਮਤ ਸਮੀਕਰਨ</string>
     <string name="formula_editor_function_regex_parameter">(\'ਏ? ([^.]] +)\', \'ਮੈਂ ਪਾਂਡਾ ਹਾਂ।\')</string>
     <string name="formula_editor_function_regex_assistant">ਨਿਯਮਤ ਸਮੀਕਰਨ
          ਸਹਾਇਕ</string>
@@ -1591,75 +1620,77 @@
     <string name="formula_editor_dialog_wiki_button">ਹੋਰ ਜਾਣਕਾਰੀ</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">ਕੀਵਰਡ ਨਹੀਂ ਮਿਲਿਆ.</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON ਐਬਸਟਰੈਕਟਰ</string>
-    <string name="formula_editor_function_arduino_read_pin_value_digital" tools:ignore="UnusedResources">ਆਰਡਿਨੋ ਡਿਜੀਟਲ ਪਿੰਨ</string>
-    <string name="formula_editor_function_arduino_read_pin_value_analog" tools:ignore="UnusedResources">ਆਰਡਿਨੋ ਐਨਾਲਾਗ ਪਿੰਨ</string>
-    <string name="formula_editor_function_raspi_read_pin_value_digital" tools:ignore="UnusedResources">ਰਸਬੇਰੀ ਪਿੰਨ ਪਿੰਨ</string>
-    <string name="formula_editor_function_pin_default_parameter">(3)</string>
-    <string name="formula_editor_function_finger_x" tools:ignore="UnusedResources">ਸਟੇਜ ਟੱਚ x</string>
-    <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">ਸਟੇਜ ਟੱਚ y</string>
-    <string name="formula_editor_function_is_finger_touching" tools:ignore="UnusedResources">ਅਵਸਥਾ ਨੂੰ ਛੂਹਿਆ ਜਾਂਦਾ ਹੈ</string>
-    <string name="formula_editor_function_multi_finger_x" tools:ignore="UnusedResources">ਸਟੇਜ ਟੱਚ x</string>
-    <string name="formula_editor_function_multi_finger_y" tools:ignore="UnusedResources">ਸਟੇਜ ਟੱਚ y</string>
-    <string name="formula_editor_function_is_multi_finger_touching" tools:ignore="UnusedResources">ਅਵਸਥਾ ਨੂੰ ਛੂਹਿਆ ਜਾਂਦਾ ਹੈ</string>
-    <string name="formula_editor_function_index_of_last_finger" tools:ignore="UnusedResources">ਆਖਰੀ ਪੜਾਅ ਟੱਚ ਇੰਡੈਕਸ</string>
+    <string name="formula_editor_function_arduino_read_pin_value_digital">ਆਰਡਿਨੋ ਡਿਜੀਟਲ ਪਿੰਨ</string>
+    <string name="formula_editor_function_arduino_read_pin_value_analog">ਆਰਡਿਨੋ ਐਨਾਲਾਗ ਪਿੰਨ</string>
+    <string name="formula_editor_function_raspi_read_pin_value_digital">ਰਸਬੇਰੀ ਪਿੰਨ ਪਿੰਨ</string>
+    <string name="formula_editor_function_pin_default_parameter">(0)</string>
+    <string name="formula_editor_function_finger_x">ਸਟੇਜ ਟੱਚ x</string>
+    <string name="formula_editor_function_finger_y">ਸਟੇਜ ਟੱਚ y</string>
+    <string name="formula_editor_function_is_finger_touching">ਅਵਸਥਾ ਨੂੰ ਛੂਹਿਆ ਜਾਂਦਾ ਹੈ</string>
+    <string name="formula_editor_function_multi_finger_x">ਸਟੇਜ ਟੱਚ x</string>
+    <string name="formula_editor_function_multi_finger_y">ਸਟੇਜ ਟੱਚ y</string>
+    <string name="formula_editor_function_is_multi_finger_touching">ਅਵਸਥਾ ਨੂੰ ਛੂਹਿਆ ਜਾਂਦਾ ਹੈ</string>
+    <string name="formula_editor_function_index_of_last_finger">ਆਖਰੀ ਪੜਾਅ ਟੱਚ ਇੰਡੈਕਸ</string>
     <string name="formula_editor_function_number_of_current_touches">ਮੌਜੂਦਾ ਛੋਹਾਂ ਦੀ ਗਿਣਤੀ</string>
     <string name="formula_editor_function_index_of_current_touch">ਮੌਜੂਦਾ ਟੱਚ ਦਾ ਇੰਡੈਕਸ</string>
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(1)</string>
-    <string name="formula_editor_function_list_item" tools:ignore="UnusedResources">ਇਕਾਈ</string>
+    <string name="formula_editor_function_list_item">ਇਕਾਈ</string>
     <string name="formula_editor_function_list_item_parameter">(1, * ਸੂਚੀ ਦਾ ਨਾਮ *)</string>
-    <string name="formula_editor_function_contains" tools:ignore="UnusedResources">ਸ਼ਾਮਿਲ ਹੈ</string>
+    <string name="formula_editor_function_contains">ਸ਼ਾਮਿਲ ਹੈ</string>
     <string name="formula_editor_function_contains_parameter">(* ਸੂਚੀ ਦਾ ਨਾਮ *, 1)</string>
-    <string name="formula_editor_function_index_of_item" tools:ignore="UnusedResources">ਆਈਟਮ ਦਾ ਇੰਡੈਕਸ</string>
+    <string name="formula_editor_function_index_of_item">ਆਈਟਮ ਦਾ ਇੰਡੈਕਸ</string>
     <string name="formula_editor_function_index_of_item_parameter">(1, * ਸੂਚੀ ਦਾ ਨਾਮ *)</string>
-    <string name="formula_editor_function_number_of_items" tools:ignore="UnusedResources">ਵਸਤੂਆਂ ਦੀ ਗਿਣਤੀ</string>
+    <string name="formula_editor_function_number_of_items">ਵਸਤੂਆਂ ਦੀ ਗਿਣਤੀ</string>
     <string name="formula_editor_function_number_of_items_parameter">(* ਸੂਚੀ ਦਾ ਨਾਮ *)</string>
+    <string name="formula_editor_function_flatten">ਸਮਤਲ</string>
+    <string name="formula_editor_function_flatten_parameter">(* ਸੂਚੀ ਦਾ ਨਾਮ *)</string>
     <string name="formula_editor_function_collision">ਅਦਾਕਾਰ ਜਾਂ ਵਸਤੂ ਨੂੰ ਛੂੰਹਦਾ ਹੈ</string>
-    <string name="formula_editor_function_collides_with_edge" tools:ignore="UnusedResources">ਕਿਨਾਰੇ ਨੂੰ ਛੂਹਦਾ ਹੈ</string>
-    <string name="formula_editor_function_touched" tools:ignore="UnusedResources">ਉਂਗਲ ਨੂੰ ਛੂਹਦਾ ਹੈ</string>
+    <string name="formula_editor_function_collides_with_edge">ਕਿਨਾਰੇ ਨੂੰ ਛੂਹਦਾ ਹੈ</string>
+    <string name="formula_editor_function_touched">ਉਂਗਲ ਨੂੰ ਛੂਹਦਾ ਹੈ</string>
     <string name="formula_editor_function_collides_with_color">ਰੰਗ ਨੂੰ ਛੂੰਹਦਾ ਹੈ</string>
     <string name="formula_editor_function_color_touches_color">ਰੰਗ ਰੰਗ ਨੂੰ ਛੂਹਦਾ ਹੈ</string>
     <string name="formula_editor_sensor_color_at_x_y">x y \'ਤੇ ਰੰਗ</string>
-    <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">ਰੰਗ% ਦੇ ਨਾਲ ਰੰਗ ਬਰਾਬਰ ਹੈ
+    <string name="formula_editor_sensor_color_equals_color">ਰੰਗ% ਦੇ ਨਾਲ ਰੰਗ ਬਰਾਬਰ ਹੈ
          ਸਹਿਣਸ਼ੀਲਤਾ</string>
-    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">ਪ੍ਰਵੇਗ x</string>
-    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">ਪ੍ਰਵੇਗ y</string>
-    <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">ਪ੍ਰਵੇਗ z</string>
-    <string name="formula_editor_sensor_compass_direction" tools:ignore="UnusedResources">ਕੰਪਾਸ ਦਿਸ਼ਾ</string>
-    <string name="formula_editor_sensor_latitude" tools:ignore="UnusedResources">ਵਿਥਕਾਰ</string>
-    <string name="formula_editor_sensor_longitude" tools:ignore="UnusedResources">ਲੰਬਕਾਰ</string>
-    <string name="formula_editor_sensor_location_accuracy" tools:ignore="UnusedResources">ਸਥਾਨ ਦੀ ਸ਼ੁੱਧਤਾ</string>
-    <string name="formula_editor_sensor_altitude" tools:ignore="UnusedResources">ਉਚਾਈ</string>
+    <string name="formula_editor_sensor_x_acceleration">ਪ੍ਰਵੇਗ x</string>
+    <string name="formula_editor_sensor_y_acceleration">ਪ੍ਰਵੇਗ y</string>
+    <string name="formula_editor_sensor_z_acceleration">ਪ੍ਰਵੇਗ z</string>
+    <string name="formula_editor_sensor_compass_direction">ਕੰਪਾਸ ਦਿਸ਼ਾ</string>
+    <string name="formula_editor_sensor_latitude">ਵਿਥਕਾਰ</string>
+    <string name="formula_editor_sensor_longitude">ਲੰਬਕਾਰ</string>
+    <string name="formula_editor_sensor_location_accuracy">ਸਥਾਨ ਦੀ ਸ਼ੁੱਧਤਾ</string>
+    <string name="formula_editor_sensor_altitude">ਉਚਾਈ</string>
     <string name="formula_editor_sensor_user_language">ਉਪਭੋਗਤਾ ਭਾਸ਼ਾ</string>
-    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">ਝੁਕਾਅ x</string>
-    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">ਝੁਕਾਅ y</string>
-    <string name="formula_editor_sensor_loudness" tools:ignore="UnusedResources">ਉੱਚੀ</string>
+    <string name="formula_editor_sensor_x_inclination">ਝੁਕਾਅ x</string>
+    <string name="formula_editor_sensor_y_inclination">ਝੁਕਾਅ y</string>
+    <string name="formula_editor_sensor_loudness">ਉੱਚੀ</string>
     <string name="formula_editor_sensor_timer">ਟਾਈਮਰ</string>
-    <string name="formula_editor_sensor_date_year" tools:ignore="UnusedResources">ਸਾਲ</string>
-    <string name="formula_editor_sensor_date_month" tools:ignore="UnusedResources">ਮਹੀਨਾ</string>
-    <string name="formula_editor_sensor_date_day" tools:ignore="UnusedResources">ਦਿਨ</string>
-    <string name="formula_editor_sensor_date_weekday" tools:ignore="UnusedResources">ਹਫਤੇ ਦਾ ਦਿਨ</string>
-    <string name="formula_editor_sensor_time_hour" tools:ignore="UnusedResources">ਘੰਟਾ</string>
-    <string name="formula_editor_sensor_time_minute" tools:ignore="UnusedResources">ਮਿੰਟ</string>
-    <string name="formula_editor_sensor_time_second" tools:ignore="UnusedResources">ਦੂਜਾ</string>
-    <string name="formula_editor_sensor_drone_battery_status" tools:ignore="UnusedResources">ਡਰੋਨ ਬੈਟਰੀ ਸਥਿਤੀ</string>
-    <string name="formula_editor_sensor_drone_emergency_state" tools:ignore="UnusedResources">ਡਰੋਨ ਐਮਰਜੈਂਸੀ ਸਥਿਤੀ</string>
-    <string name="formula_editor_sensor_drone_flying" tools:ignore="UnusedResources">ਡਰੋਨ ਉਡਾਣ</string>
-    <string name="formula_editor_sensor_drone_initialized" tools:ignore="UnusedResources">ਡਰੋਨ ਅਰੰਭ ਕੀਤਾ ਗਿਆ</string>
-    <string name="formula_editor_sensor_drone_usb_active" tools:ignore="UnusedResources">ਡਰੋਨ ਯੂਐਸਬੀ ਸਰਗਰਮ</string>
-    <string name="formula_editor_sensor_drone_usb_remaining_time" tools:ignore="UnusedResources">ਡਰੋਨ ਯੂਐਸਬੀ ਬਾਕੀ ਸਮਾਂ</string>
-    <string name="formula_editor_sensor_drone_camera_ready" tools:ignore="UnusedResources">ਡਰੋਨ ਕੈਮਰਾ ਤਿਆਰ ਹੈ</string>
-    <string name="formula_editor_sensor_drone_record_ready" tools:ignore="UnusedResources">ਡਰੋਨ ਰਿਕਾਰਡ ਤਿਆਰ ਹੈ</string>
-    <string name="formula_editor_sensor_drone_recording" tools:ignore="UnusedResources">ਡਰੋਨ ਕੈਮਰਾ ਰਿਕਾਰਡਿੰਗ</string>
-    <string name="formula_editor_sensor_drone_num_frames" tools:ignore="UnusedResources">ਡ੍ਰੋਨ ਕੈਮਰਾ ਫਰੇਮਾਂ ਦੀ ਗਿਣਤੀ</string>
-    <string name="formula_editor_sensor_lego_nxt_1" tools:ignore="UnusedResources">NXT ਸੂਚਕ 1</string>
-    <string name="formula_editor_sensor_lego_nxt_2" tools:ignore="UnusedResources">NXT ਸੂਚਕ 2</string>
-    <string name="formula_editor_sensor_lego_nxt_3" tools:ignore="UnusedResources">NXT ਸੂਚਕ 3</string>
-    <string name="formula_editor_sensor_lego_nxt_4" tools:ignore="UnusedResources">NXT ਸੂਚਕ 4</string>
-    <string name="formula_editor_sensor_lego_ev3_1" tools:ignore="UnusedResources">EV3 ਸੂਚਕ 1</string>
-    <string name="formula_editor_sensor_lego_ev3_2" tools:ignore="UnusedResources">EV3 ਸੂਚਕ 2</string>
-    <string name="formula_editor_sensor_lego_ev3_3" tools:ignore="UnusedResources">EV3 ਸੂਚਕ 3</string>
-    <string name="formula_editor_sensor_lego_ev3_4" tools:ignore="UnusedResources">EV3 ਸੂਚਕ 4</string>
+    <string name="formula_editor_sensor_date_year">ਸਾਲ</string>
+    <string name="formula_editor_sensor_date_month">ਮਹੀਨਾ</string>
+    <string name="formula_editor_sensor_date_day">ਦਿਨ</string>
+    <string name="formula_editor_sensor_date_weekday">ਹਫਤੇ ਦਾ ਦਿਨ</string>
+    <string name="formula_editor_sensor_time_hour">ਘੰਟਾ</string>
+    <string name="formula_editor_sensor_time_minute">ਮਿੰਟ</string>
+    <string name="formula_editor_sensor_time_second">ਦੂਜਾ</string>
+    <string name="formula_editor_sensor_drone_battery_status">ਡਰੋਨ ਬੈਟਰੀ ਸਥਿਤੀ</string>
+    <string name="formula_editor_sensor_drone_emergency_state">ਡਰੋਨ ਐਮਰਜੈਂਸੀ ਸਥਿਤੀ</string>
+    <string name="formula_editor_sensor_drone_flying">ਡਰੋਨ ਉਡਾਣ</string>
+    <string name="formula_editor_sensor_drone_initialized">ਡਰੋਨ ਅਰੰਭ ਕੀਤਾ ਗਿਆ</string>
+    <string name="formula_editor_sensor_drone_usb_active">ਡਰੋਨ ਯੂਐਸਬੀ ਸਰਗਰਮ</string>
+    <string name="formula_editor_sensor_drone_usb_remaining_time">ਡਰੋਨ ਯੂਐਸਬੀ ਬਾਕੀ ਸਮਾਂ</string>
+    <string name="formula_editor_sensor_drone_camera_ready">ਡਰੋਨ ਕੈਮਰਾ ਤਿਆਰ ਹੈ</string>
+    <string name="formula_editor_sensor_drone_record_ready">ਡਰੋਨ ਰਿਕਾਰਡ ਤਿਆਰ ਹੈ</string>
+    <string name="formula_editor_sensor_drone_recording">ਡਰੋਨ ਕੈਮਰਾ ਰਿਕਾਰਡਿੰਗ</string>
+    <string name="formula_editor_sensor_drone_num_frames">ਡ੍ਰੋਨ ਕੈਮਰਾ ਫਰੇਮਾਂ ਦੀ ਗਿਣਤੀ</string>
+    <string name="formula_editor_sensor_lego_nxt_1">NXT ਸੂਚਕ 1</string>
+    <string name="formula_editor_sensor_lego_nxt_2">NXT ਸੂਚਕ 2</string>
+    <string name="formula_editor_sensor_lego_nxt_3">NXT ਸੂਚਕ 3</string>
+    <string name="formula_editor_sensor_lego_nxt_4">NXT ਸੂਚਕ 4</string>
+    <string name="formula_editor_sensor_lego_ev3_1">EV3 ਸੂਚਕ 1</string>
+    <string name="formula_editor_sensor_lego_ev3_2">EV3 ਸੂਚਕ 2</string>
+    <string name="formula_editor_sensor_lego_ev3_3">EV3 ਸੂਚਕ 3</string>
+    <string name="formula_editor_sensor_lego_ev3_4">EV3 ਸੂਚਕ 4</string>
     <string name="formula_editor_sensor_lego_nxt_touch">NXT ਅਹਿਸਾਸ</string>
     <string name="formula_editor_sensor_lego_nxt_sound">NXT ਆਵਾਜ਼</string>
     <string name="formula_editor_sensor_lego_nxt_light">NXT ਦਾ ਚਾਨਣ</string>
@@ -1677,35 +1708,38 @@
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">EV3 NXT ਰੋਸ਼ਨੀ ਸਰਗਰਮ</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">EV3 NXT ਆਵਾਜ਼</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT ultrasonic</string>
-    <string name="formula_editor_sensor_gamepad_a_pressed" tools:ignore="UnusedResources">ਗੇਮਪੈਡ ਇੱਕ ਦਬਾਇਆ</string>
-    <string name="formula_editor_sensor_gamepad_b_pressed" tools:ignore="UnusedResources">ਗੇਮਪੈਡ B ਨੂੰ ਦਬਾਇਆ</string>
-    <string name="formula_editor_sensor_gamepad_up_pressed" tools:ignore="UnusedResources">ਅਪ ਗੇਮਪੈਡ ਦਬਾਇਆ</string>
-    <string name="formula_editor_sensor_gamepad_down_pressed" tools:ignore="UnusedResources">ਗੇਮਪੈਡ ਥੱਲੇ ਦੱਬਿਆ</string>
-    <string name="formula_editor_sensor_gamepad_left_pressed" tools:ignore="UnusedResources">ਗੇਮਪੈਡ ਦਬਾਇਆ ਖੱਬੇ</string>
-    <string name="formula_editor_sensor_gamepad_right_pressed" tools:ignore="UnusedResources">ਗੇਮਪੈਡ ਸੱਜੇ ਦਬਾਇਆ</string>
-    <string name="formula_editor_phiro_sensor_front_left" tools:ignore="UnusedResources">phiro ਸਾਹਮਣੇ ਛੱਡ ਦਿੱਤਾ ਸੂਚਕ</string>
-    <string name="formula_editor_phiro_sensor_front_right" tools:ignore="UnusedResources">phiro ਸਾਹਮਣੇ ਸੱਜੇ ਸੂਚਕ</string>
-    <string name="formula_editor_phiro_sensor_side_left" tools:ignore="UnusedResources">phiro ਪਾਸੇ ਸੂਚਕ ਛੱਡ ਦਿੱਤਾ</string>
-    <string name="formula_editor_phiro_sensor_side_right" tools:ignore="UnusedResources">phiro ਪਾਸੇ ਸੱਜੇ ਸੂਚਕ</string>
-    <string name="formula_editor_phiro_sensor_bottom_left" tools:ignore="UnusedResources">phiro ਤਲ ਖੱਬੇ ਸੂਚਕ</string>
-    <string name="formula_editor_phiro_sensor_bottom_right" tools:ignore="UnusedResources">ਫੀਰੋ ਤਲ ਸੱਜਾ ਸੂਚਕ</string>
-    <string name="formula_editor_nfc_tag_id" tools:ignore="UnusedResources">nfc ਟੈਗ id</string>
-    <string name="formula_editor_nfc_tag_message" tools:ignore="UnusedResources">nfc ਟੈਗ ਦਾ ਸੁਨੇਹਾ</string>
-    <string name="formula_editor_object_x" tools:ignore="UnusedResources">ਸਥਿਤੀ x</string>
-    <string name="formula_editor_object_y" tools:ignore="UnusedResources">ਸਥਿਤੀ y</string>
-    <string name="formula_editor_object_transparency" tools:ignore="UnusedResources">ਪਾਰਦਰਸ਼ਤਾ</string>
-    <string name="formula_editor_object_brightness" tools:ignore="UnusedResources">ਚਮਕ</string>
-    <string name="formula_editor_object_size" tools:ignore="UnusedResources">ਅਕਾਰ</string>
-    <string name="formula_editor_object_rotation" tools:ignore="UnusedResources">ਦਿਸ਼ਾ</string>
-    <string name="formula_editor_object_layer" tools:ignore="UnusedResources">ਪਰਤ</string>
-    <string name="formula_editor_object_x_velocity" tools:ignore="UnusedResources">x ਵੇਗ</string>
-    <string name="formula_editor_object_y_velocity" tools:ignore="UnusedResources">y ਵੇਗ</string>
-    <string name="formula_editor_object_angular_velocity" tools:ignore="UnusedResources">ਕੋਣੀ ਵੇਗ</string>
-    <string name="formula_editor_object_look_number" tools:ignore="UnusedResources">ਨੰਬਰ ਵੇਖੋ</string>
-    <string name="formula_editor_object_look_name" tools:ignore="UnusedResources">ਨਾਮ ਵੇਖੋ</string>
-    <string name="formula_editor_object_background_number" tools:ignore="UnusedResources">ਪਿਛੋਕੜ ਨੰਬਰ</string>
-    <string name="formula_editor_object_background_name" tools:ignore="UnusedResources">ਪਿਛੋਕੜ ਦਾ ਨਾਮ</string>
-    <string name="formula_editor_object_distance_to" tools:ignore="UnusedResources">ਸਥਿਤੀ ਨੂੰ ਛੂਹਣ ਲਈ ਦੂਰੀ</string>
+    <string name="formula_editor_sensor_gamepad_a_pressed">ਗੇਮਪੈਡ ਇੱਕ ਦਬਾਇਆ</string>
+    <string name="formula_editor_sensor_gamepad_b_pressed">ਗੇਮਪੈਡ B ਨੂੰ ਦਬਾਇਆ</string>
+    <string name="formula_editor_sensor_gamepad_up_pressed">ਅਪ ਗੇਮਪੈਡ ਦਬਾਇਆ</string>
+    <string name="formula_editor_sensor_gamepad_down_pressed">ਗੇਮਪੈਡ ਥੱਲੇ ਦੱਬਿਆ</string>
+    <string name="formula_editor_sensor_gamepad_left_pressed">ਗੇਮਪੈਡ ਦਬਾਇਆ ਖੱਬੇ</string>
+    <string name="formula_editor_sensor_gamepad_right_pressed">ਗੇਮਪੈਡ ਸੱਜੇ ਦਬਾਇਆ</string>
+    <string name="formula_editor_phiro_sensor_front_left">phiro ਸਾਹਮਣੇ ਛੱਡ ਦਿੱਤਾ ਸੂਚਕ</string>
+    <string name="formula_editor_phiro_sensor_front_right">phiro ਸਾਹਮਣੇ ਸੱਜੇ ਸੂਚਕ</string>
+    <string name="formula_editor_phiro_sensor_side_left">phiro ਪਾਸੇ ਸੂਚਕ ਛੱਡ ਦਿੱਤਾ</string>
+    <string name="formula_editor_phiro_sensor_side_right">phiro ਪਾਸੇ ਸੱਜੇ ਸੂਚਕ</string>
+    <string name="formula_editor_phiro_sensor_bottom_left">phiro ਤਲ ਖੱਬੇ ਸੂਚਕ</string>
+    <string name="formula_editor_phiro_sensor_bottom_right">ਫੀਰੋ ਤਲ ਸੱਜਾ ਸੂਚਕ</string>
+    <string name="formula_editor_nfc_tag_id">nfc ਟੈਗ id</string>
+    <string name="formula_editor_nfc_tag_message">nfc ਟੈਗ ਦਾ ਸੁਨੇਹਾ</string>
+    <string name="formula_editor_object_x">ਸਥਿਤੀ x</string>
+    <string name="formula_editor_object_y">ਸਥਿਤੀ y</string>
+    <string name="formula_editor_object_transparency">ਪਾਰਦਰਸ਼ਤਾ</string>
+    <string name="formula_editor_object_brightness">ਚਮਕ</string>
+    <string name="formula_editor_object_size">ਅਕਾਰ</string>
+    <string name="formula_editor_object_rotation">ਦਿਸ਼ਾ</string>
+    <string name="formula_editor_object_rotation_look">दिशा देखो</string>
+    <string name="formula_editor_object_layer">ਪਰਤ</string>
+    <string name="formula_editor_object_x_velocity">x ਵੇਗ</string>
+    <string name="formula_editor_object_y_velocity">y ਵੇਗ</string>
+    <string name="formula_editor_object_angular_velocity">ਕੋਣੀ ਵੇਗ</string>
+    <string name="formula_editor_object_look_number">ਨੰਬਰ ਵੇਖੋ</string>
+    <string name="formula_editor_object_look_name">ਨਾਮ ਵੇਖੋ</string>
+    <string name="formula_editor_object_number_of_looks">ਦਿੱਖ ਦੀ ਗਿਣਤੀ</string>
+    <string name="formula_editor_object_background_number">ਪਿਛੋਕੜ ਨੰਬਰ</string>
+    <string name="formula_editor_object_background_name">ਪਿਛੋਕੜ ਦਾ ਨਾਮ</string>
+    <string name="formula_editor_object_number_of_backgrounds">ਪਿਛੋਕੜ ਦੀ ਗਿਣਤੀ</string>
+    <string name="formula_editor_object_distance_to">ਸਥਿਤੀ ਨੂੰ ਛੂਹਣ ਲਈ ਦੂਰੀ</string>
     <string name="formula_editor_compute">ਗਣਨਾ</string>
     <string name="formula_editor_object">ਗੁਣ</string>
     <string name="formula_editor_functions">ਕਾਰਜ</string>
@@ -1720,7 +1754,9 @@
     <string name="formula_editor_object_look">ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਵੇਖੋ</string>
     <string name="formula_editor_object_movement">ਗਤੀ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ</string>
     <string name="formula_editor_device_face_detection">ਚਿਹਰੇ ਦੀ ਪਛਾਣ</string>
+    <string name="formula_editor_device_pose_detection">ਪੋਜ਼</string>
     <string name="formula_editor_device_text_recognition">ਟੈਕਸਟ ਪਛਾਣ</string>
+    <string name="formula_editor_device_object_recognition">ਵਸਤੂ ਪਛਾਣ</string>
     <string name="formula_editor_device_date_and_time">ਤਾਰੀਖ ਅਤੇ ਸਮਾਂ</string>
     <string name="formula_editor_device_touch_detection">ਟਚ ਖੋਜ</string>
     <string name="formula_editor_device_lego_nxt">ਔਲ Mindstorms NXT</string>
@@ -1732,20 +1768,20 @@
     <string name="formula_editor_device_nfc">NFC</string>
     <string name="formula_editor_device_cast">ਕਰੋਮਕਾਸਟ</string>
     <string name="formula_editor_string">Abc</string>
-    <string name="formula_editor_logic_notequal" tools:ignore="UnusedResources">≠</string>
-    <string name="formula_editor_logic_lesserthan" tools:ignore="UnusedResources">&lt;</string>
-    <string name="formula_editor_logic_greaterthan" tools:ignore="UnusedResources">&gt;</string>
-    <string name="formula_editor_logic_and" tools:ignore="UnusedResources">ਅਤੇ</string>
-    <string name="formula_editor_logic_or" tools:ignore="UnusedResources">ਜਾਂ</string>
-    <string name="formula_editor_logic_not" tools:ignore="UnusedResources">ਨਹੀਂ</string>
-    <string name="formula_editor_logic_greaterequal" tools:ignore="UnusedResources">≥</string>
-    <string name="formula_editor_logic_leserequal" tools:ignore="UnusedResources">≤</string>
-    <string name="formula_editor_logic_equal" tools:ignore="UnusedResources">=</string>
-    <string name="formula_editor_operator_mult" tools:ignore="UnusedResources">×</string>
-    <string name="formula_editor_operator_plus" tools:ignore="UnusedResources">+</string>
-    <string name="formula_editor_operator_minus" tools:ignore="UnusedResources">-</string>
-    <string name="formula_editor_operator_divide" tools:ignore="UnusedResources">÷</string>
-    <string name="formula_editor_operator_power" tools:ignore="UnusedResources">^</string>
+    <string name="formula_editor_logic_notequal">≠</string>
+    <string name="formula_editor_logic_lesserthan">&lt;</string>
+    <string name="formula_editor_logic_greaterthan">&gt;</string>
+    <string name="formula_editor_logic_and">ਅਤੇ</string>
+    <string name="formula_editor_logic_or">ਜਾਂ</string>
+    <string name="formula_editor_logic_not">ਨਹੀਂ</string>
+    <string name="formula_editor_logic_greaterequal">≥</string>
+    <string name="formula_editor_logic_leserequal">≤</string>
+    <string name="formula_editor_logic_equal">=</string>
+    <string name="formula_editor_operator_mult">×</string>
+    <string name="formula_editor_operator_plus">+</string>
+    <string name="formula_editor_operator_minus">-</string>
+    <string name="formula_editor_operator_divide">÷</string>
+    <string name="formula_editor_operator_power">^</string>
     <string name="formula_editor_image_button_description_delete">ਮਿਟਾਓ</string>
     <string name="formula_editor_image_button_description_color_picker">ਰੰਗ ਚੋਣਕਾਰ</string>
     <string name="formula_editor_image_button_description_functions_toggle">ਟੌਗਲ ਫੰਕਸ਼ਨ</string>
@@ -1760,14 +1796,84 @@
          ਸਮੀਕਰਨ</string>
     <string name="formula_editor_fragment_data_current_items">ਮੌਜੂਦਾ ਇਕਾਈ</string>
     <string name="formula_editor_data_dialog_is_list">ਇਸ ਨੂੰ ਇੱਕ ਸੂਚੀ ਬਣਾਓ</string>
-    <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">ਪਹਿਲਾ ਚਿਹਰਾ ਦਿਸਦਾ ਹੈ</string>
-    <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">ਪਹਿਲੇ ਚਿਹਰੇ ਦਾ ਆਕਾਰ</string>
-    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">ਪਹਿਲੀ ਚਿਹਰਾ x ਸਥਿਤੀ</string>
-    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">ਪਹਿਲੀ ਚਿਹਰਾ y ਸਥਿਤੀ</string>
+    <string name="formula_editor_sensor_face_detected">ਪਹਿਲਾ ਚਿਹਰਾ ਦਿਸਦਾ ਹੈ</string>
+    <string name="formula_editor_sensor_face_size">ਪਹਿਲੇ ਚਿਹਰੇ ਦਾ ਆਕਾਰ</string>
+    <string name="formula_editor_sensor_face_x_position">ਪਹਿਲੀ ਚਿਹਰਾ x ਸਥਿਤੀ</string>
+    <string name="formula_editor_sensor_face_y_position">ਪਹਿਲੀ ਚਿਹਰਾ y ਸਥਿਤੀ</string>
     <string name="formula_editor_sensor_second_face_detected">ਦੂਜਾ ਚਿਹਰਾ ਦਿਸਦਾ ਹੈ</string>
     <string name="formula_editor_sensor_second_face_size">ਦੂਜਾ ਚਿਹਰਾ ਅਕਾਰ</string>
     <string name="formula_editor_sensor_second_face_x_position">ਦੂਜਾ ਚਿਹਰਾ x ਸਥਿਤੀ</string>
     <string name="formula_editor_sensor_second_face_y_position">ਦੂਜਾ ਚਿਹਰਾ y ਸਥਿਤੀ</string>
+    <string name="formula_editor_sensor_head_top_x">ਸਿਰ ਦਾ ਸਿਖਰ x</string>
+    <string name="formula_editor_sensor_head_top_y">ਸਿਰ ਦਾ ਸਿਖਰ y</string>
+    <string name="formula_editor_sensor_neck_x">ਗਰਦਨ x</string>
+    <string name="formula_editor_sensor_neck_y">ਗਰਦਨ y</string>
+    <string name="formula_editor_sensor_nose_x">ਨੱਕ ਐਕਸ</string>
+    <string name="formula_editor_sensor_nose_y">ਨੱਕ y</string>
+    <string name="formula_editor_sensor_left_eye_inner_x">ਖੱਬੀ ਅੱਖ ਦਾ ਅੰਦਰੂਨੀ ਐਕਸ</string>
+    <string name="formula_editor_sensor_left_eye_inner_y">ਖੱਬੀ ਅੱਖ ਅੰਦਰੂਨੀ y</string>
+    <string name="formula_editor_sensor_left_eye_center_x">ਖੱਬੀ ਅੱਖ ਦਾ ਕੇਂਦਰ x</string>
+    <string name="formula_editor_sensor_left_eye_center_y">ਖੱਬੀ ਅੱਖ ਦਾ ਕੇਂਦਰ y</string>
+    <string name="formula_editor_sensor_left_eye_outer_x">ਖੱਬੀ ਅੱਖ ਬਾਹਰੀ ਐਕਸ</string>
+    <string name="formula_editor_sensor_left_eye_outer_y">ਖੱਬੀ ਅੱਖ ਬਾਹਰੀ y</string>
+    <string name="formula_editor_sensor_right_eye_inner_x">ਸੱਜੀ ਅੱਖ ਦਾ ਅੰਦਰੂਨੀ ਐਕਸ</string>
+    <string name="formula_editor_sensor_right_eye_inner_y">ਸੱਜੀ ਅੱਖ ਅੰਦਰੂਨੀ ਵਾਈ</string>
+    <string name="formula_editor_sensor_right_eye_center_x">ਸੱਜੀ ਅੱਖ ਦਾ ਕੇਂਦਰ x</string>
+    <string name="formula_editor_sensor_right_eye_center_y">ਸੱਜੀ ਅੱਖ ਦਾ ਕੇਂਦਰ y</string>
+    <string name="formula_editor_sensor_right_eye_outer_x">ਸੱਜੀ ਅੱਖ ਬਾਹਰੀ ਐਕਸ</string>
+    <string name="formula_editor_sensor_right_eye_outer_y">ਸੱਜੀ ਅੱਖ ਬਾਹਰੀ y</string>
+    <string name="formula_editor_sensor_left_ear_x">ਖੱਬਾ ਕੰਨ x</string>
+    <string name="formula_editor_sensor_left_ear_y">ਛੇਤੀ ਛੱਡ ਦਿੱਤਾ</string>
+    <string name="formula_editor_sensor_right_ear_x">ਸੱਜਾ ਕੰਨ ਐਕਸ</string>
+    <string name="formula_editor_sensor_right_ear_y">ਸੱਜੇ ਕੰਨ y</string>
+    <string name="formula_editor_sensor_mouth_left_corner_x">ਮੂੰਹ ਦਾ ਖੱਬਾ ਕੋਨਾ x</string>
+    <string name="formula_editor_sensor_mouth_left_corner_y">ਮੂੰਹ ਦਾ ਖੱਬਾ ਕੋਨਾ y</string>
+    <string name="formula_editor_sensor_mouth_right_corner_x">ਮੂੰਹ ਦਾ ਸੱਜਾ ਕੋਨਾ x</string>
+    <string name="formula_editor_sensor_mouth_right_corner_y">ਮੂੰਹ ਦਾ ਸੱਜਾ ਕੋਨਾ y</string>
+    <string name="formula_editor_sensor_left_shoulder_x">ਖੱਬਾ ਮੋ shoulderਾ x</string>
+    <string name="formula_editor_sensor_left_shoulder_y">ਖੱਬੇ ਮੋ shoulderੇ y</string>
+    <string name="formula_editor_sensor_right_shoulder_x">ਸੱਜਾ ਮੋ shoulderਾ x</string>
+    <string name="formula_editor_sensor_right_shoulder_y">ਸੱਜਾ ਮੋ shoulderਾ y</string>
+    <string name="formula_editor_sensor_left_elbow_x">ਖੱਬੀ ਕੂਹਣੀ x</string>
+    <string name="formula_editor_sensor_left_elbow_y">ਖੱਬੀ ਕੂਹਣੀ y</string>
+    <string name="formula_editor_sensor_right_elbow_x">ਸੱਜੀ ਕੂਹਣੀ x</string>
+    <string name="formula_editor_sensor_right_elbow_y">ਸੱਜੀ ਕੂਹਣੀ y</string>
+    <string name="formula_editor_sensor_left_wrist_x">ਖੱਬਾ ਗੁੱਟ x</string>
+    <string name="formula_editor_sensor_left_wrist_y">ਖੱਬਾ ਗੁੱਟ y</string>
+    <string name="formula_editor_sensor_right_wrist_x">ਸੱਜੀ ਗੁੱਟ ਐਕਸ</string>
+    <string name="formula_editor_sensor_right_wrist_y">ਸੱਜੀ ਗੁੱਟ y</string>
+    <string name="formula_editor_sensor_left_pinky_knuckle_x">ਖੱਬੇ ਪਿੰਕੀ ਨੱਕਲ ਐਕਸ</string>
+    <string name="formula_editor_sensor_left_pinky_knuckle_y">ਖੱਬੇ ਪਿੰਕੀ ਦੀ ਪੱਟੜੀ y</string>
+    <string name="formula_editor_sensor_right_pinky_knuckle_x">ਸੱਜੀ ਪਿੰਕੀ ਨੌਕਲ ਐਕਸ</string>
+    <string name="formula_editor_sensor_right_pinky_knuckle_y">ਸੱਜੀ ਗੁਲਾਬੀ ਨੱਕ y</string>
+    <string name="formula_editor_sensor_left_index_knuckle_x">ਖੱਬਾ ਇੰਡੈਕਸ ਨੱਕਲ ਐਕਸ</string>
+    <string name="formula_editor_sensor_left_index_knuckle_y">ਖੱਬੇ ਇੰਡੈਕਸ ਨੱਕਲ y</string>
+    <string name="formula_editor_sensor_right_index_knuckle_x">ਸੱਜਾ ਇੰਡੈਕਸ ਨੱਕਲ ਐਕਸ</string>
+    <string name="formula_editor_sensor_right_index_knuckle_y">ਸੱਜੇ ਇੰਡੈਕਸ ਨੱਕਲ y</string>
+    <string name="formula_editor_sensor_left_thumb_knuckle_x">ਖੱਬੇ ਅੰਗੂਠੇ ਦੀ ਪੱਟ x</string>
+    <string name="formula_editor_sensor_left_thumb_knuckle_y">ਖੱਬੇ ਅੰਗੂਠੇ ਦੀ ਨੱਕ y</string>
+    <string name="formula_editor_sensor_right_thumb_knuckle_x">ਸੱਜੇ ਅੰਗੂਠੇ ਦੀ ਪੱਟ x</string>
+    <string name="formula_editor_sensor_right_thumb_knuckle_y">ਸੱਜੇ ਅੰਗੂਠੇ ਦੀ ਨੱਕ y</string>
+    <string name="formula_editor_sensor_left_hip_x">ਖੱਬਾ ਹਿੱਪ ਐਕਸ</string>
+    <string name="formula_editor_sensor_left_hip_y">ਖੱਬੀ ਹਿੱਪ y</string>
+    <string name="formula_editor_sensor_right_hip_x">ਸੱਜਾ ਹਿੱਪ ਐਕਸ</string>
+    <string name="formula_editor_sensor_right_hip_y">ਸੱਜੇ ਹਿੱਪ y</string>
+    <string name="formula_editor_sensor_left_knee_x">ਖੱਬਾ ਗੋਡਾ x</string>
+    <string name="formula_editor_sensor_left_knee_y">ਖੱਬਾ ਗੋਡਾ y</string>
+    <string name="formula_editor_sensor_right_knee_x">ਸੱਜਾ ਗੋਡਾ x</string>
+    <string name="formula_editor_sensor_right_knee_y">ਸੱਜਾ ਗੋਡਾ y</string>
+    <string name="formula_editor_sensor_left_ankle_x">ਖੱਬਾ ਗਿੱਟਾ x</string>
+    <string name="formula_editor_sensor_left_ankle_y">ਖੱਬਾ ਗਿੱਟਾ y</string>
+    <string name="formula_editor_sensor_right_ankle_x">ਸੱਜੇ ਗਿੱਟੇ x</string>
+    <string name="formula_editor_sensor_right_ankle_y">ਸੱਜੇ ਗਿੱਟੇ y</string>
+    <string name="formula_editor_sensor_left_heel_x">ਖੱਬੀ ਅੱਡੀ x</string>
+    <string name="formula_editor_sensor_left_heel_y">ਖੱਬੀ ਅੱਡੀ y</string>
+    <string name="formula_editor_sensor_right_heel_x">ਸੱਜੀ ਅੱਡੀ x</string>
+    <string name="formula_editor_sensor_right_heel_y">ਸੱਜੀ ਅੱਡੀ y</string>
+    <string name="formula_editor_sensor_left_foot_index_x">ਖੱਬੇ ਪੈਰ ਦਾ ਇੰਡੈਕਸ ਐਕਸ</string>
+    <string name="formula_editor_sensor_left_foot_index_y">ਖੱਬੇ ਪੈਰ ਦੀ ਇੰਡੈਕਸ y</string>
+    <string name="formula_editor_sensor_right_foot_index_x">ਸੱਜੇ ਪੈਰ ਦਾ ਇੰਡੈਕਸ ਐਕਸ</string>
+    <string name="formula_editor_sensor_right_foot_index_y">ਸੱਜੇ ਪੈਰ ਦੀ ਇੰਡੈਕਸ y</string>
     <string name="formula_editor_sensor_text_from_camera">ਕੈਮਰਾ ਤੱਕ ਪਾਠ</string>
     <string name="formula_editor_sensor_text_blocks_number">ਟੈਕਸਟ ਬਲਾਕਾਂ ਦੀ ਗਿਣਤੀ</string>
     <string name="formula_editor_function_text_block_x">ਕੈਮਰਾ ਤੋਂ ਟੈਕਸਟ ਬਲਾਕ x</string>
@@ -1776,10 +1882,13 @@
     <string name="formula_editor_function_text_block_from_camera">ਕੈਮਰੇ ਤੋਂ ਟੈਕਸਟ ਬਲਾਕ</string>
     <string name="formula_editor_function_text_block_language_from_camera">ਕੈਮਰੇ ਤੋਂ ਟੈਕਸਟ ਬਲਾਕ ਭਾਸ਼ਾ</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
+    <string name="formula_editor_function_get_id_of_detected_object">ਖੋਜੀ ਵਸਤੂ ਦੀ ID</string>
+    <string name="formula_editor_function_object_with_id_visible">object with ID visible</string>
     <string name="formula_editor_intro_title_formula_editor">ਫਾਰਮੂਲਾ ਸੰਪਾਦਕ</string>
     <string name="formula_editor_intro_summary_formula_editor">ਫਾਰਮੂਲੇ ਸੰਪਾਦਕ ਨਾਲ ਤੁਸੀਂ ਗਣਿਤ ਬਣਾ ਸਕਦੇ ਹੋ ਅਤੇ
          ਲਾਜ਼ੀਕਲ ਫਾਰਮੂਲੇ ਜੋ ਤੁਸੀਂ ਆਪਣੀਆਂ ਇੱਟਾਂ ਵਿੱਚ ਵਰਤ ਸਕਦੇ ਹੋ. \n \n \"ਅੱਗੇ\" ਟੈਪ ਕਰਕੇ ਜਾਰੀ ਰੱਖੋ ਜਾਂ ਬੰਦ ਕਰੋ
-         “ਸਕਾਈਪ” ਨਾਲ।</string>
+         “ਸਕਾਈਪ” ਨਾਲ।
+    </string>
     <string name="formula_editor_intro_title_input_field">ਇਨਪੁਟ ਖੇਤਰ</string>
     <string name="formula_editor_intro_summary_input_field">ਇੱਥੇ ਤੁਸੀਂ ਆਪਣੇ ਫਾਰਮੂਲੇ ਨੂੰ ਵੇਖ ਅਤੇ ਸੰਪਾਦਿਤ ਕਰ ਸਕਦੇ ਹੋ.</string>
     <string name="formula_editor_intro_title_keyboard">ਕੀਬੋਰਡ</string>
@@ -1793,47 +1902,51 @@
          ਮੌਜੂਦਾ ਅਦਾਕਾਰ ਜਾਂ ਇਕਾਈ. ਉਦਾਹਰਣ ਹਨ x- ਅਤੇ y- ਧੁਰਾ, ਜਾਂ ਮੌਜੂਦਾ ਗਤੀ.</string>
     <string name="formula_editor_intro_title_functions">ਕਾਰਜ</string>
     <string name="formula_editor_intro_summary_functions">ਕੈਲਕੁਲੇਟਰ ਦੀ ਤਰ੍ਹਾਂ, ਫਾਰਮੂਲਾ ਸੰਪਾਦਕ ਪੇਸ਼ ਕਰਦਾ ਹੈ
-         ਬਹੁਤ ਸਾਰੇ ਗਣਿਤ ਦੇ ਕਾਰਜ. You n ਤੁਸੀਂ ਤਿਕੋਣੀ ਮਿਣਤੀ ਵਾਲੇ ਕਾਰਜਾਂ ਜਿਵੇਂ \"ਪਾਪ\" ਅਤੇ \"ਕੋਸ\",
+         ਬਹੁਤ ਸਾਰੇ ਗਣਿਤ ਦੇ ਕਾਰਜ. You \n ਤੁਸੀਂ ਤਿਕੋਣੀ ਮਿਣਤੀ ਵਾਲੇ ਕਾਰਜਾਂ ਜਿਵੇਂ \"ਪਾਪ\" ਅਤੇ \"ਕੋਸ\",
          ਇੱਕ ਰੈਂਡਮ ਨੰਬਰ ਜਨਰੇਟਰ, ਅਤੇ ਟੈਕਸਟ ਅਤੇ ਲਿਸਟ ਫੰਕਸ਼ਨ.</string>
     <string name="formula_editor_intro_title_logic">ਤਰਕ</string>
-    <string name="formula_editor_intro_summary_logic">ਤਰਕ ਦੀ ਵਰਤੋਂ ਮੁੱਲਾਂ ਦੀ ਤੁਲਨਾ ਕਰਨ ਅਤੇ ਲਾਜ਼ੀਕਲ ਫਾਰਮੂਲੇ ਜੋੜਨ ਲਈ ਕੀਤੀ ਜਾਂਦੀ ਹੈ. O n ਨਹੀਂ
+    <string name="formula_editor_intro_summary_logic">ਤਰਕ ਦੀ ਵਰਤੋਂ ਮੁੱਲਾਂ ਦੀ ਤੁਲਨਾ ਕਰਨ ਅਤੇ ਲਾਜ਼ੀਕਲ ਫਾਰਮੂਲੇ ਜੋੜਨ ਲਈ ਕੀਤੀ ਜਾਂਦੀ ਹੈ. O \n ਨਹੀਂ
          ਮੁੱਲ ਦੀ ਤੁਲਨਾ ਕਰੋ ਜੋ ਤੁਸੀਂ ਲਾਜ਼ੀਕਲ ਓਪਰੇਸ਼ਨਾਂ ਦੀ ਵਰਤੋਂ ਕਰ ਸਕਦੇ ਹੋ ਜਿਵੇਂ ਕਿ \"&gt;\" (ਇਸ ਤੋਂ ਵੱਡਾ) ਜਾਂ \"=\" (ਬਰਾਬਰ). \n ਜੋੜਨਾ ਨਹੀਂ
          ਲਾਜ਼ੀਕਲ ਫਾਰਮੂਲੇ ਤੁਸੀਂ ਲਾਜ਼ੀਕਲ ਓਪਰੇਸ਼ਨਾਂ ਦੀ ਵਰਤੋਂ ਕਰ ਸਕਦੇ ਹੋ ਜਿਵੇਂ ਕਿ \"ਅਤੇ\", \"ਓਰ\" ਅਤੇ \"ਨਹੀਂ\".</string>
     <string name="formula_editor_intro_title_device">ਸੈਂਸਰ</string>
     <string name="formula_editor_intro_summary_device">\"ਸੈਂਸਰਾਂ\" ਵਿਚ ਤੁਸੀਂ ਉਹ ਜਾਣਕਾਰੀ ਪ੍ਰਾਪਤ ਕਰ ਸਕਦੇ ਹੋ ਜੋ ਤੁਹਾਡੀ
-         ਡਿਵਾਈਸ ਰਿਕਾਰਡ. For n ਉਦਾਹਰਣ ਵਜੋਂ, ਤੁਹਾਡੀ ਡਿਵਾਈਸ ਦਾ ਝੁਕਾਓ, ਜਾਂ ਤੁਹਾਡੇ ਆਲੇ ਦੁਆਲੇ ਦੀ ਉੱਚਾਈ.</string>
+         ਡਿਵਾਈਸ ਰਿਕਾਰਡ. For \n ਉਦਾਹਰਣ ਵਜੋਂ, ਤੁਹਾਡੀ ਡਿਵਾਈਸ ਦਾ ਝੁਕਾਓ, ਜਾਂ ਤੁਹਾਡੇ ਆਲੇ ਦੁਆਲੇ ਦੀ ਉੱਚਾਈ.</string>
     <string name="formula_editor_intro_title_data">ਡਾਟਾ</string>
-    <string name="formula_editor_intro_summary_data">ਵੇਰੀਏਬਲ ਅਤੇ ਸੂਚੀ ਨੂੰ ਹੈ, ਜੋ ਕਿ ਆਪਣੇ ਪ੍ਰਾਜੈਕਟ ਵਿਚ ਵਰਤਿਆ ਜਾਦਾ ਹੈ ਇੱਥੇ ਲੱਭੀ ਜਾ ਸਕਦੀ ਹੈ. \ ਤੁਹਾਨੂੰ ਸਿਰਫ਼ ਆਪਣੇ ਫਾਰਮੂਲੇ ਵਿਚ ਇਹ ਪਾਓ, ਜ ਨਵ ਲੋਕ ਸ਼ਾਮਿਲ ਕਰ ਸਕਦੇ ਹੋ.</string>
+    <string name="formula_editor_intro_summary_data">ਵੇਰੀਏਬਲ ਅਤੇ ਸੂਚੀ ਨੂੰ ਹੈ, ਜੋ ਕਿ ਆਪਣੇ ਪ੍ਰਾਜੈਕਟ ਵਿਚ ਵਰਤਿਆ ਜਾਦਾ ਹੈ ਇੱਥੇ ਲੱਭੀ ਜਾ ਸਕਦੀ ਹੈ.
+        \n ਤੁਹਾਨੂੰ ਸਿਰਫ਼ ਆਪਣੇ ਫਾਰਮੂਲੇ ਵਿਚ ਇਹ ਪਾਓ, ਜ ਨਵ ਲੋਕ ਸ਼ਾਮਿਲ ਕਰ ਸਕਦੇ ਹੋ.</string>
     <string name="formula_editor_listening_language_sensor">ਸੁਣਨ ਦੀ ਭਾਸ਼ਾ</string>
     <string name="formula_editor_speech_recognition">ਬੋਲਣ ਦੀ ਪਛਾਣ</string>
-    <string name="camera_error_text_detection">ਟੈਕਸਟ ਖੋਜ ਵਿੱਚ ਇੱਕ ਸਮੱਸਿਆ ਆਈ ਸੀ. ਕੁਝ ਭਾਗ ਅਜੇ ਵੀ ਡਾ inਨਲੋਡ ਕੀਤੇ ਜਾ ਸਕਦੇ ਹਨ
+    <string name="camera_error_text_detection">        ਟੈਕਸਟ ਖੋਜ ਵਿੱਚ ਇੱਕ ਸਮੱਸਿਆ ਆਈ ਸੀ. ਕੁਝ ਭਾਗ ਅਜੇ ਵੀ ਡਾ inਨਲੋਡ ਕੀਤੇ ਜਾ ਸਕਦੇ ਹਨ
          ਪਿਛੋਕੜ ਕਿਰਪਾ ਕਰਕੇ ਇਹ ਸੁਨਿਸ਼ਚਿਤ ਕਰੋ ਕਿ ਤੁਸੀਂ ਇੰਟਰਨੈਟ ਨਾਲ ਜੁੜੇ ਹੋ ਅਤੇ ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਜਾਂਚ ਕਰੋ.</string>
-    <string name="formula_editor_function_flatten">ਸਮਤਲ</string>
-    <string name="formula_editor_function_flatten_parameter">(* ਸੂਚੀ ਦਾ ਨਾਮ *)</string>
+    <string name="warning_formula_recognized">ਤੁਸੀਂ ਇੱਕ ਪਾਠ ਦਾਖਲ ਕੀਤਾ ਹੈ ਜੋ ਇੱਕ ਫਾਰਮੂਲੇ ਵਰਗਾ ਲਗਦਾ ਹੈ. ਜੇ ਤੁਸੀਂ ਫੰਕਸ਼ਨਾਂ ਦੀ ਵਰਤੋਂ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ,
+        ਸੈਂਸਰ, ਵੇਰੀਏਬਲ ਅਤੇ ਹੋਰ ਫਾਰਮੂਲਾ ਤੱਤ, ਕਿਰਪਾ ਕਰਕੇ ਉਹਨਾਂ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਉਹਨਾਂ ਦੀ ਚੋਣ ਕਰੋ
+        ਫਾਰਮੂਲਾ ਸੰਪਾਦਕ ਵਿੱਚ ਬਟਨ.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="brick_show_variable" tools:ignore="UnusedResources">ਵੇਰੀਏਬਲ ਦਿਖਾਓ</string>
-    <string name="brick_hide_variable" tools:ignore="UnusedResources">ਵੇਰੀਏਬਲ ਲੁਕਾਓ</string>
-    <string name="brick_show_variable_position" tools:ignore="UnusedResources">ਤੇ</string>
-    <string name="brick_show_variable_size" tools:ignore="UnusedResources">ਅਕਾਰ:</string>
-    <string name="brick_show_variable_color" tools:ignore="UnusedResources">ਰੰਗ:</string>
-    <string name="brick_show_variable_aligned" tools:ignore="UnusedResources">ਇਕਸਾਰ</string>
-    <string name="brick_show_variable_aligned_centered" tools:ignore="UnusedResources">ਕੇਂਦ੍ਰਿਤ</string>
-    <string name="brick_show_variable_aligned_left" tools:ignore="UnusedResources">ਖੱਬੇ</string>
-    <string name="brick_show_variable_aligned_right" tools:ignore="UnusedResources">ਸਹੀ</string>
+    <string name="brick_show_variable">ਵੇਰੀਏਬਲ ਦਿਖਾਓ</string>
+    <string name="brick_hide_variable">ਵੇਰੀਏਬਲ ਲੁਕਾਓ</string>
+    <string name="brick_show_variable_position">ਤੇ</string>
+    <string name="brick_show_variable_size">ਅਕਾਰ:</string>
+    <string name="brick_show_variable_color">ਰੰਗ:</string>
+    <string name="brick_show_variable_aligned">ਇਕਸਾਰ</string>
+    <string name="brick_show_variable_aligned_centered">ਕੇਂਦ੍ਰਿਤ</string>
+    <string name="brick_show_variable_aligned_left">ਖੱਬੇ</string>
+    <string name="brick_show_variable_aligned_right">ਸਹੀ</string>
     <string name="brick_context_dialog_pick_color">ਰੰਗ ਚੁਣੋ</string>
     <string name="brick_context_dialog_pick_note">ਨੋਟ ਚੁਣੋ</string>
     <!-- -->
     <!-- Camera related strings -->
-    <string name="brick_video" tools:ignore="UnusedResources">ਕੈਮਰਾ ਚਾਲੂ ਕਰੋ</string>
-    <string name="video_brick_camera_on" tools:ignore="UnusedResources">ਚਾਲੂ</string>
-    <string name="video_brick_camera_off" tools:ignore="UnusedResources">ਬੰਦ</string>
-    <string name="brick_choose_camera" tools:ignore="UnusedResources">ਕੈਮਰਾ ਵਰਤੋ</string>
-    <string name="choose_camera_front" tools:ignore="UnusedResources">ਸਾਹਮਣੇ</string>
-    <string name="choose_camera_back" tools:ignore="UnusedResources">ਰੀਅਰ</string>
-    <string name="camera_error_generic">ਕੈਮਰਾ ਵਰਤਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰਦਿਆਂ ਕੁਝ ਗਲਤ ਹੋਇਆ.</string>
-    <string name="camera_error_face_detection">ਚਿਹਰੇ ਦੀ ਪਛਾਣ ਵਿੱਚ ਇੱਕ ਸਮੱਸਿਆ ਸੀ. ਕੁਝ ਭਾਗ ਅਜੇ ਵੀ ਡਾ inਨਲੋਡ ਕੀਤੇ ਜਾ ਸਕਦੇ ਹਨ
-         ਪਿਛੋਕੜ ਕਿਰਪਾ ਕਰਕੇ ਇਹ ਸੁਨਿਸ਼ਚਿਤ ਕਰੋ ਕਿ ਤੁਸੀਂ ਇੰਟਰਨੈਟ ਨਾਲ ਜੁੜੇ ਹੋ ਅਤੇ ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਜਾਂਚ ਕਰੋ.</string>
+    <string name="brick_video">ਕੈਮਰਾ ਚਾਲੂ ਕਰੋ</string>
+    <string name="video_brick_camera_on">ਚਾਲੂ</string>
+    <string name="video_brick_camera_off">ਬੰਦ</string>
+    <string name="brick_choose_camera">ਕੈਮਰਾ ਵਰਤੋ</string>
+    <string name="choose_camera_front">ਸਾਹਮਣੇ</string>
+    <string name="choose_camera_back">ਰੀਅਰ</string>
+    <string name="camera_error_generic">         ਕੈਮਰਾ ਵਰਤਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰਦਿਆਂ ਕੁਝ ਗਲਤ ਹੋਇਆ.
+    </string>
+    <string name="camera_error_face_detection">        ਚਿਹਰੇ ਦੀ ਪਛਾਣ ਵਿੱਚ ਇੱਕ ਸਮੱਸਿਆ ਸੀ. ਕੁਝ ਭਾਗ ਅਜੇ ਵੀ ਡਾ inਨਲੋਡ ਕੀਤੇ ਜਾ ਸਕਦੇ ਹਨ
+         ਪਿਛੋਕੜ ਕਿਰਪਾ ਕਰਕੇ ਇਹ ਸੁਨਿਸ਼ਚਿਤ ਕਰੋ ਕਿ ਤੁਸੀਂ ਇੰਟਰਨੈਟ ਨਾਲ ਜੁੜੇ ਹੋ ਅਤੇ ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਜਾਂਚ ਕਰੋ.
+    </string>
     <!-- -->
     <!-- Cast strings -->
     <string name="cast_gamepad_A">A</string>
@@ -1877,7 +1990,7 @@
     <!-- Snackbar hints -->
     <string name="got_it">ਮਿਲ ਗਿਆ</string>
     <string name="preference_description_hints">ਸੰਕੇਤ ਦਿਖਾਉਣ ਲਈ ਸਮਰੱਥ ਕਰੋ</string>
-    <string name="preference_title_enable_hints">ਸੰਕੇਤ ਦਿਖਾਓ</string>
+    <string name="preference_title_enable_hints">ਸੰਕੇਤ ਦਿਖਾਓ </string>
     <string name="hint_category">ਸਾਰੀਆਂ ਇੱਟਾਂ ਸ਼੍ਰੇਣੀਆਂ ਵਿੱਚ ਕ੍ਰਮਬੱਧ ਹਨ. ਉਹ ਸ਼੍ਰੇਣੀ ਚੁਣੋ ਜਿਸ ਦੀ ਤੁਸੀਂ ਭਾਲ ਕਰ ਰਹੇ ਹੋ.</string>
     <string name="hint_bricks">ਆਪਣੀ ਸਕ੍ਰਿਪਟ ਵਿੱਚ ਇੱਟ ਪਾਉਣ ਲਈ, ਉਸ ਇੱਟ \'ਤੇ ਟੈਪ ਕਰੋ ਜਿਸ ਨੂੰ ਤੁਸੀਂ ਵਰਤਣਾ ਚਾਹੁੰਦੇ ਹੋ.</string>
     <string name="hint_scripts">ਸਕ੍ਰਿਪਟ ਤੁਹਾਡੇ ਅਦਾਕਾਰ ਜਾਂ ਆਬਜੈਕਟ ਦੇ ਵਿਵਹਾਰ ਨੂੰ ਪ੍ਰਭਾਸ਼ਿਤ ਕਰਦੀ ਹੈ. ਸਕ੍ਰਿਪਟ ਵਿੱਚ ਇੱਟਾਂ ਜੋੜਨ ਲਈ,
@@ -1892,7 +2005,7 @@
     <!-- Dialog Disable hints -->
     <string name="dialog_disable_hints_title">ਸੰਕੇਤ ਦਿਖਾਓ?</string>
     <string name="dialog_disable_hints_text">ਸੰਕੇਤ ਤੁਹਾਨੂੰ ਮਦਦਗਾਰ ਜਾਣਕਾਰੀ ਪ੍ਰਦਾਨ ਕਰਦੇ ਹਨ
-         ਆਪਣਾ ਪਹਿਲਾ ਪ੍ਰੋਜੈਕਟ ਬਣਾਉਣ ਵੇਲੇ. ints n \ n ਸੰਕੇਤ ਦੀ ਵਿਜ਼ਿਬਿਲਟੀ ਨੂੰ. ਵਿੱਚ ਬਦਲਿਆ ਜਾ ਸਕਦਾ ਹੈ
+         ਆਪਣਾ ਪਹਿਲਾ ਪ੍ਰੋਜੈਕਟ ਬਣਾਉਣ ਵੇਲੇ. hints \n\n ਸੰਕੇਤ ਦੀ ਵਿਜ਼ਿਬਿਲਟੀ ਨੂੰ. ਵਿੱਚ ਬਦਲਿਆ ਜਾ ਸਕਦਾ ਹੈ
          ਸੈਟਿੰਗਜ਼.</string>
     <string name="dialog_disable_hints_button_hide">ਓਹਲੇ</string>
     <string name="dialog_disable_hints_button_show">ਦਿਖਾਓ</string>
@@ -1903,7 +2016,7 @@
     <string name="device_language">ਤੁਹਾਡੀ ਡਿਵਾਈਸ ਦੀ ਭਾਸ਼ਾ</string>
     <!-- Symbols -->
     <string name="percent_symbol">%</string>
-    <string name="hertz_symbol" tools:ignore="UnusedResources">㎐</string>
+    <string name="hertz_symbol">㎐</string>
     <string name="no_internet_connection">ਕੋਈ ਇੰਟਰਨੈਟ ਕਨੈਕਸ਼ਨ ਨਹੀਂ। ਯਕੀਨੀ ਬਣਾਓ ਕਿ Wi-Fi ਜਾਂ ਮੋਬਾਈਲ ਬਣਾਓ
      ਡਾਟਾ ਚਾਲੂ ਹੈ.</string>
     <string name="edit">ਸੰਪਾਦਿਤ ਕਰੋ</string>
@@ -1912,8 +2025,23 @@
     <string name="new_sprite_dialog_place_visually">ਨਜ਼ਰ ਨਾਲ ਰੱਖੋ</string>
     <string name="place_visually_text">ਤੁਹਾਨੂੰ ਨਵਾਂ ਅਦਾਕਾਰ ਜਾਂ ਇਤਰਾਜ਼ \'ਤੇ ਰੱਖਣ ਲਈ ਕਿਹਾ ਜਾਵੇਗਾ
          ਸਟੇਜ</string>
+    <string name="new_empty_sprite_note">ਨੋਟ: ਅਦਾਕਾਰ ਜਾਂ ਵਸਤੂ ਬਣਾਈ ਜਾਵੇਗੀ
+        ਇੱਕ ਨਜ਼ਰ ਦੇ ਬਗੈਰ.</string>
     <!-- Information -->
     <string name="no_variable_selected">ਕੋਈ ਵੇਰੀਏਬਲ ਨਹੀਂ ਚੁਣਿਆ</string>
     <string name="find">ਲੱਭੋ</string>
     <string name="no_results_found">ਕੋਈ ਨਤੀਜਾ ਨਹੀਂ ਮਿਲਿਆ</string>
+    <string name="query_field_is_empty">ਕਿ fieldਰੀ ਫੀਲਡ ਖਾਲੀ ਹੈ</string>
+    <string name="cut">ਕੱਟੋ</string>
+    <string name="paste">ਚਿਪਕਾਓ</string>
+    <!-- Particle Effects -->
+    <string name="fade_particle_effect">ਫੇਡ ਕਣ ਪ੍ਰਭਾਵ</string>
+    <string name="particle_effects_fade_in">ਵਿੱਚ</string>
+    <string name="particle_effects_fade_out">ਬਾਹਰ</string>
+    <string name="turn_particle_effect_additivity">ਕਣ ਪ੍ਰਭਾਵ ਪ੍ਰਭਾਵ additive ਨੂੰ ਚਾਲੂ ਕਰੋ</string>
+    <string name="particle_effects_additive_on">ਚਾਲੂ</string>
+    <string name="particle_effects_additive_off">ਬੰਦ</string>
+    <string name="set_particle_color_to">ਕਣ ਦਾ ਰੰਗ ਸੈੱਟ ਕਰੋ</string>
+    <string name="undo_sort">ਕ੍ਰਮਬੱਧ ਨੂੰ ਅਣਕੀਤਾ ਕਰੋ</string>
+    <string name="sort">ਲੜੀਬੱਧ</string>
 </resources>

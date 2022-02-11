@@ -98,7 +98,7 @@ public class ShowColorPickerFormulaEditorStrategy implements ShowFormulaEditorSt
 
 	private void showColorPicker(Callback callback, FragmentManager fragmentManager) {
 		int currentColor = callback.getValue();
-		ColorPickerDialog dialog = ColorPickerDialog.newInstance(currentColor);
+		ColorPickerDialog dialog = ColorPickerDialog.Companion.newInstance(currentColor);
 		Bitmap projectBitmap = ProjectManagerExtensionsKt
 				.getProjectBitmap(ProjectManager.getInstance());
 		dialog.setBitmap(projectBitmap);

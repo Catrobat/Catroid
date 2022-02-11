@@ -34,7 +34,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.BaseCastActivity;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.fragment.ProjectListFragment;
-import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -131,7 +131,7 @@ public class FilePickerActivity extends BaseCastActivity implements ListProjectF
 				toggleItemSelection(item);
 			}
 			@Override
-			public void onItemLongClick(File item, CheckableVH holder) {
+			public void onItemLongClick(File item, CheckableViewHolder holder) {
 				toggleItemSelection(item);
 			}
 			@Override

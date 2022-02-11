@@ -115,7 +115,7 @@ public class Project implements Serializable {
 			xmlHeader.setIsCastProject(true);
 		}
 
-		Scene scene = new Scene(context.getString(R.string.default_scene_name, 1), this);
+		Scene scene = new Scene(context.getString(R.string.default_scene_name), this);
 		Sprite backgroundSprite = new Sprite(context.getString(R.string.background));
 		backgroundSprite.look.setZIndex(Z_INDEX_BACKGROUND);
 		scene.addSprite(backgroundSprite);
@@ -336,6 +336,10 @@ public class Project implements Serializable {
 			}
 		}
 		return null;
+	}
+
+	public boolean hasMultiplayerVariables() {
+		return multiplayerVariables.size() > 0;
 	}
 
 	public boolean addMultiplayerVariable(UserVariable multiplayerVariable) {

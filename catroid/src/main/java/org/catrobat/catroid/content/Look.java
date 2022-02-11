@@ -421,12 +421,16 @@ public class Look extends Image {
 	}
 
 	public float getXVelocityInUserInterfaceDimensionUnit() {
-		// only available in physicsLook
+		if (sprite.isGliding()) {
+			return sprite.getGlidingVelocityX();
+		}
 		return 0;
 	}
 
 	public float getYVelocityInUserInterfaceDimensionUnit() {
-		// only available in physicsLook
+		if (sprite.isGliding()) {
+			return sprite.getGlidingVelocityY();
+		}
 		return 0;
 	}
 

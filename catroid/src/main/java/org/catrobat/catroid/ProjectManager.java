@@ -167,9 +167,13 @@ public final class ProjectManager {
 		if (project.getCatrobatLanguageVersion() <= 0.9999995) {
 			updateBackgroundIndexTo9999995(project);
 		}
+		if (project.getCatrobatLanguageVersion() < 999.9 && !BuildConfig.FEATURE_LIST_AS_BASIC_DATATYPE) {
+			ProjectManager.flattenAllLists(project);
+		}
 		if (project.getCatrobatLanguageVersion() <= 1.03) {
 			ProjectManager.updateDirectionProperty(project);
 		}
+
 		project.setCatrobatLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION);
 
 		localizeBackgroundSprites(project, context.getString(R.string.background));
@@ -206,6 +210,10 @@ public final class ProjectManager {
 
 		if (resourcesSet.contains(Brick.TEXT_DETECTION)) {
 			SettingsFragment.setAITextRecognitionPreferenceEnabled(context, true);
+		}
+
+		if (resourcesSet.contains(Brick.OBJECT_DETECTION)) {
+			SettingsFragment.setAIObjectDetectionPreferenceEnabled(context, true);
 		}
 
 		currentlyPlayingScene = project.getDefaultScene();
@@ -348,6 +356,25 @@ public final class ProjectManager {
 			}
 		}
 		return conflicts;
+	}
+
+	public static void flattenAllLists(Project project) {
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Script script : sprite.getScriptList()) {
+					List<Brick> flatList = new ArrayList();
+					script.addToFlatList(flatList);
+					for (Brick brick : flatList) {
+						if (brick instanceof FormulaBrick) {
+							FormulaBrick formulaBrick = (FormulaBrick) brick;
+							for (Formula formula : formulaBrick.getFormulas()) {
+								formula.flattenAllLists();
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	@VisibleForTesting

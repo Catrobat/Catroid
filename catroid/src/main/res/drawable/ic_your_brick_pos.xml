@@ -1,0 +1,33 @@
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<vector android:autoMirrored="true" android:height="24dp"
+    android:viewportHeight="200" android:viewportWidth="200"
+    android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+        android:fillColor="#fff"
+        android:pathData="M32.375,148.247h18.141l2.597,8.474h34.709l2.596,-8.474h77.207l-0.091,-44.877c0.001,-0.022 -1.793,-2.047 -1.793,-2.047c-0.021,-0.024 -0.119,-0.021 -0.134,-0.011c0,0 -43.377,38.283 -43.395,38.271l0,0c-0.031,-0.021 -0.04,-0.063 -0.023,-0.1l0,0l21.172,-43.623c0.016,-0.029 0.014,-0.065 -0.006,-0.097c-0.021,-0.024 -0.051,-0.043 -0.084,-0.04l-18.785,1.178l0,0c-0.03,0 -0.06,-0.017 -0.074,-0.045c-0.014,-0.025 -0.01,-0.062 0.01,-0.086l0,0l16.739,-20.401H90.417l-2.596,7.379H53.112l-2.596,-7.379H32.375V148.247z"/>
+    <path
+        android:fillColor="#fff"
+        android:pathData="M130.359,43.028l14.138,34.42l0,0c0.009,0.026 0.007,0.057 -0.011,0.08l0,0c0,0 -13.795,16.576 -13.758,16.576l-0.021,0.188l17.562,-1.15c0.026,0 0.056,0.015 0.067,0.036l0,0c0.017,0.024 -15.808,32.332 -15.808,32.332c-0.021,0.042 -0.01,0.09 0.025,0.118c0.021,0.015 0.104,0.008 0.121,-0.003l31.94,-28.271l0,0c0.012,-0.012 0.091,-0.016 0.106,0.002l0,0l9.766,9.258c0.021,0.021 0.158,-0.03 0.16,-0.068l0.425,-15.506l0,0c0,-0.041 0.03,-0.074 0.069,-0.078c0,0 0.002,0.001 0.004,0.001l0,0l15.442,-1.083c0.001,0 0.002,0 0.004,0c0.034,-0.004 0.081,-0.14 0.054,-0.166l-13.455,-12.029c-0.025,-0.021 -0.03,-0.058 -0.021,-0.089l13.547,-32.842c0.018,-0.04 -0.136,-0.122 -0.148,-0.11l-27.407,22.814l0,0c-0.011,0.011 -0.08,0.016 -0.099,0.003l0,0l-32.561,-24.544C130.486,42.9 130.342,42.988 130.359,43.028z"/>
+</vector>

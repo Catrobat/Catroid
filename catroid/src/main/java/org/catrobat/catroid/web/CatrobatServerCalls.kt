@@ -32,9 +32,6 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.Okio
 import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.common.Constants.CATROBAT_TOKEN_LOGIN_AMP_TOKEN
-import org.catrobat.catroid.common.Constants.CATROBAT_TOKEN_LOGIN_URL
-import org.catrobat.catroid.common.Constants.NO_TOKEN
 import org.catrobat.catroid.web.ServerAuthenticationConstants.CHECK_EMAIL_AVAILABLE_URL
 import org.catrobat.catroid.web.ServerAuthenticationConstants.CHECK_GOOGLE_TOKEN_URL
 import org.catrobat.catroid.web.ServerAuthenticationConstants.CHECK_USERNAME_AVAILABLE_URL
@@ -175,16 +172,6 @@ class CatrobatServerCalls(private val okHttpClient: OkHttpClient = CatrobatWebCl
         } catch (jsonException: JSONException) {
             Log.e(tag, Log.getStackTraceString(jsonException))
             throw WebconnectionException(WebconnectionException.ERROR_JSON, resultString)
-        }
-    }
-
-    fun logout(userName: String) {
-        try {
-            val serverUrl = CATROBAT_TOKEN_LOGIN_URL + userName + CATROBAT_TOKEN_LOGIN_AMP_TOKEN + NO_TOKEN
-
-            getRequest(serverUrl)
-        } catch (e: WebconnectionException) {
-            Log.e(tag, Log.getStackTraceString(e))
         }
     }
 

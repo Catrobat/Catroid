@@ -1,0 +1,42 @@
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<vector android:autoMirrored="true" android:height="24dp"
+    android:viewportHeight="200" android:viewportWidth="200"
+    android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+        android:fillColor="#fff"
+        android:pathData="M199.5,-0.5v200h-200v-200L199.5,-0.5zM180,100c0,-22.09 -8.96,-42.09 -23.43,-56.57c-14.48,-14.47 -34.48,-23.43 -56.57,-23.43c-44.18,0 -80,35.82 -80,80c0,44.18 35.82,80 80,80C144.18,180 180,144.18 180,100z"/>
+    <path
+        android:fillColor="#fff"
+        android:pathData="M124.85,119.42c13.53,-10.88 36.641,-10.7 42.561,-10.65c-3.97,30.45 -27.851,54.461 -58.271,58.601C109.17,163.62 105.88,134.68 124.85,119.42z"/>
+    <path
+        android:fillColor="#fff"
+        android:pathData="M100,32c35.09,0 64.42,26.71 67.69,61.65c-4.881,-4.52 -29.16,-20.55 -66.53,-20.36C65.73,73.47 36.87,89.36 32.29,93.85C35.47,58.83 64.83,32 100,32z"/>
+    <path
+        android:fillColor="#fff"
+        android:pathData="M100,84c8.84,0 16,7.16 16,16c0,8.83 -7.16,16 -16,16c-8.83,0 -16,-7.17 -16,-16C84,91.16 91.16,84 100,84z"/>
+    <path
+        android:fillColor="#fff"
+        android:pathData="M75.63,119.43c18.97,15.261 15.21,44.19 15.23,47.94c-31.52,-4.24 -55.82,-26.561 -58.28,-58.601C38.54,108.72 62.1,108.54 75.63,119.43z"/>
+</vector>

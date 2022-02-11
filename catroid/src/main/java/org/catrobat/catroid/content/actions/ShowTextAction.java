@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,6 +35,7 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.stage.ShowTextActor;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 
 public class ShowTextAction extends TemporalAction {
 
@@ -45,6 +46,7 @@ public class ShowTextAction extends TemporalAction {
 	private UserVariable variableToShow;
 
 	private Scope scope;
+	private AndroidStringProvider androidStringProvider;
 	private ShowTextActor actor;
 
 	@Override
@@ -55,8 +57,8 @@ public class ShowTextAction extends TemporalAction {
 
 			if (StageActivity.stageListener != null) {
 				Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
-				ShowTextActor dummyActor = new ShowTextActor(new UserVariable("dummyActor"), 0, 0,
-						0.0f, null, scope.getSprite());
+				ShowTextActor dummyActor = new ShowTextActor(new UserVariable("dummyActor"),
+						0, 0, 0.0f, null, scope.getSprite(), androidStringProvider);
 
 				for (Actor actor : stageActors) {
 					if (actor.getClass().equals(dummyActor.getClass())) {
@@ -68,7 +70,8 @@ public class ShowTextAction extends TemporalAction {
 					}
 				}
 
-				actor = new ShowTextActor(variableToShow, xPosition, yPosition, 1.0f, null, scope.getSprite());
+				actor = new ShowTextActor(variableToShow, xPosition, yPosition, 1.0f, null,
+						scope.getSprite(), androidStringProvider);
 				StageActivity.stageListener.addActor(actor);
 			}
 
@@ -104,5 +107,9 @@ public class ShowTextAction extends TemporalAction {
 
 	public void setVariableToShow(UserVariable userVariable) {
 		this.variableToShow = userVariable;
+	}
+
+	public void setAndroidStringProvider(AndroidStringProvider androidStringProvider) {
+		this.androidStringProvider = androidStringProvider;
 	}
 }

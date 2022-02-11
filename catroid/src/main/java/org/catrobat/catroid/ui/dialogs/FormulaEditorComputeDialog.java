@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -43,6 +43,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.SensorLoudness;
+import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -130,7 +131,7 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 			return;
 		}
 
-		String result = formulaToCompute.getResultForComputeDialog(stringProvider, scope);
+		String result = formulaToCompute.getUserFriendlyString(stringProvider, scope);
 		setDialogTextView(trimTrailingCharacters(result));
 	}
 
@@ -155,25 +156,5 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 			params.height = height + heightMargin;
 			computeTextView.setLayoutParams(params);
 		});
-	}
-
-	private static class AndroidStringProvider implements Formula.StringProvider {
-		private final String trueString;
-		private final String falseString;
-
-		AndroidStringProvider(Context context) {
-			this.trueString = context.getString(R.string.formula_editor_true);
-			this.falseString = context.getString(R.string.formula_editor_false);
-		}
-
-		@Override
-		public String getTrue() {
-			return trueString;
-		}
-
-		@Override
-		public String getFalse() {
-			return falseString;
-		}
 	}
 }

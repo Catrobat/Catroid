@@ -147,7 +147,7 @@ public class PlaySoundBrickTest {
 				.perform(click());
 
 		onBrickAtPosition(1).onSpinner(R.id.brick_play_sound_spinner)
-				.checkShowsText(getResourcesString(R.string.soundrecorder_recorded_filename) + " (1)");
+				.checkShowsText(getResourcesString(R.string.soundrecorder_recorded_filename));
 		onBrickAtPosition(2).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);
 	}

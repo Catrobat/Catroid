@@ -45,10 +45,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertNotEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class ImageEditingTest {
@@ -201,7 +198,7 @@ public class ImageEditingTest {
 				rotatedBitmap.getHeight());
 
 		for (int i = 0; i < widthBeforeRotation; i++) {
-			assertThat(testBitmapPixels[i], is(not(equalTo(roatatedBitmapPixels[i]))));
+			assertNotEquals(roatatedBitmapPixels[i], testBitmapPixels[i]);
 		}
 	}
 

@@ -33,7 +33,7 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.DeviceListAccessor;
 import org.catrobat.catroid.io.DeviceVariableAccessor;
-import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
 
 import java.io.File;
@@ -47,7 +47,7 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implements RVAdapter.SelectionListener {
+public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> implements RVAdapter.SelectionListener {
 
 	public boolean allowMultiSelection = true;
 
@@ -83,7 +83,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 
 		multiplayerVarAdapter = new UserDataRVAdapter<UserVariable>(multiplayerVars) {
 			@Override
-			public void onBindViewHolder(CheckableVH holder, int position) {
+			public void onBindViewHolder(CheckableViewHolder holder, int position) {
 				super.onBindViewHolder(holder, position);
 				if (position == 0) {
 					((TextView) holder.itemView.findViewById(R.id.headline)).setText(R.string.multiplayer_vars_headline);
@@ -99,7 +99,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 
 		globalVarAdapter = new UserDataRVAdapter<UserVariable>(globalVars) {
 			@Override
-			public void onBindViewHolder(CheckableVH holder, int position) {
+			public void onBindViewHolder(CheckableViewHolder holder, int position) {
 				super.onBindViewHolder(holder, position);
 				if (position == 0) {
 					((TextView) holder.itemView.findViewById(R.id.headline)).setText(R.string.global_vars_headline);
@@ -115,7 +115,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 
 		localVarAdapter = new UserDataRVAdapter<UserVariable>(localVars){
 			@Override
-			public void onBindViewHolder(CheckableVH holder, int position) {
+			public void onBindViewHolder(CheckableViewHolder holder, int position) {
 				super.onBindViewHolder(holder, position);
 				if (position == 0) {
 					((TextView) holder.itemView.findViewById(R.id.headline)).setText(R.string.local_vars_headline);
@@ -131,7 +131,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 
 		globalListAdapter = new ListRVAdapter(globalLists) {
 			@Override
-			public void onBindViewHolder(CheckableVH holder, int position) {
+			public void onBindViewHolder(CheckableViewHolder holder, int position) {
 				super.onBindViewHolder(holder, position);
 				if (position == 0) {
 					((TextView) holder.itemView.findViewById(R.id.headline)).setText(R.string.global_lists_headline);
@@ -147,7 +147,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 
 		localListAdapter = new ListRVAdapter(localLists) {
 			@Override
-			public void onBindViewHolder(CheckableVH holder, int position) {
+			public void onBindViewHolder(CheckableViewHolder holder, int position) {
 				super.onBindViewHolder(holder, position);
 				if (position == 0) {
 					((TextView) holder.itemView.findViewById(R.id.headline)).setText(R.string.local_lists_headline);
@@ -253,13 +253,13 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 
 	@NonNull
 	@Override
-	public CheckableVH onCreateViewHolder(@NonNull ViewGroup parent, @LayoutRes int viewType) {
+	public CheckableViewHolder onCreateViewHolder(@NonNull ViewGroup parent, @LayoutRes int viewType) {
 		switch (viewType) {
-			case R.layout.vh_variable_with_headline:
-			case R.layout.vh_variable:
+			case R.layout.view_holder_variable_with_headline:
+			case R.layout.view_holder_variable:
 				return globalVarAdapter.onCreateViewHolder(parent, viewType);
-			case R.layout.vh_list_with_headline:
-			case R.layout.vh_list:
+			case R.layout.view_holder_list_with_headline:
+			case R.layout.view_holder_list:
 				return globalListAdapter.onCreateViewHolder(parent, viewType);
 			default:
 				throw new IllegalArgumentException("ViewType was not defined correctly.");
@@ -277,23 +277,23 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 			case VAR_MULTIPLAYER:
 			case VAR_GLOBAL:
 			case VAR_LOCAL:
-				return position == 0 ? R.layout.vh_variable_with_headline : R.layout.vh_variable;
+				return position == 0 ? R.layout.view_holder_variable_with_headline : R.layout.view_holder_variable;
 			case LIST_GLOBAL:
 			case LIST_LOCAL:
-				return position == 0 ? R.layout.vh_list_with_headline : R.layout.vh_list;
+				return position == 0 ? R.layout.view_holder_list_with_headline : R.layout.view_holder_list;
 		}
 		throw new ArrayIndexOutOfBoundsException("position is not within any of the adapters");
 	}
 
 	@Override
-	public void onBindViewHolder(@NonNull CheckableVH holder, int position) {
+	public void onBindViewHolder(@NonNull CheckableViewHolder holder, int position) {
 		@DataType
 		int dataType = getDataType(position);
 		position = getRelativeItemPosition(position, dataType);
 
 		switch (holder.getItemViewType()) {
-			case R.layout.vh_variable_with_headline:
-			case R.layout.vh_variable:
+			case R.layout.view_holder_variable_with_headline:
+			case R.layout.view_holder_variable:
 				if (dataType == VAR_GLOBAL) {
 					globalVarAdapter.onBindViewHolder(holder, position);
 				} else if (dataType == VAR_LOCAL) {
@@ -304,8 +304,8 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 					userDefinedBrickInputAdapter.onBindViewHolder(holder, position);
 				}
 				break;
-			case R.layout.vh_list_with_headline:
-			case R.layout.vh_list:
+			case R.layout.view_holder_list_with_headline:
+			case R.layout.view_holder_list:
 				if (dataType == LIST_GLOBAL) {
 					globalListAdapter.onBindViewHolder(holder, position);
 				} else {

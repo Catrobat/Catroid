@@ -142,7 +142,7 @@ public class ForItemInUserListBrick extends UserDataBrick implements CompositeBr
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		UserVariable userVariable = getUserVariableWithBrickData(BrickData.FOR_ITEM_IN_USERLIST_VARIABLE);
 		UserList userList = getUserListWithBrickData(BrickData.FOR_ITEM_IN_USERLIST_LIST);
-		boolean isLoopDelay = LoopUtil.checkLoopBrickForLoopDelay(this);
+		boolean isLoopDelay = LoopUtil.checkLoopBrickForLoopDelay(this, sequence.getScript());
 
 		if (userVariable == null || userVariable.getName() == null) {
 			userVariable = new UserVariable("NoVariableSet",

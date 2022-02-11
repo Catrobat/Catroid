@@ -40,7 +40,7 @@
         android:id="@+id/brick_report_layout"
         style="@style/BrickContainer.Report">
 
-        <include layout="@layout/icon_brick_category_data" />
+        <include layout="@layout/icon_brick_category_userbrick" />
 
         <TextView
             style="@style/BrickText.SingleLine.UserDefinedScript"
@@ -49,9 +49,7 @@
 		<TextView
             android:id="@+id/brick_report_edit_text"
             style="@style/BrickEditText"
-			android:textColor="@color/dark_blue"
-            app:layout_inputType="number"
-            app:layout_textField="true" />
+			android:textColor="@color/dark_blue" />
 
     </org.catrobat.catroid.ui.BrickLayout>
 

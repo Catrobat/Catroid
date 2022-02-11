@@ -68,6 +68,7 @@ public final class BrickValues {
 	public static final int GO_TO_RANDOM_POSITION = 81;
 	public static final int GO_TO_OTHER_SPRITE_POSITION = 82;
 	public static final int SET_LOOK_BY_INDEX = 1;
+	public static final String PARTICLE_COLOR = "#ff0000";
 
 	//constants Pen
 	public static final double PEN_SIZE = 3.15;
@@ -90,6 +91,8 @@ public final class BrickValues {
 	public static final int STOP_OTHER_SCRIPTS = 2;
 	public static final int FOR_LOOP_FROM = 1;
 	public static final int FOR_LOOP_TO = 10;
+	public static final int USER_DEFINED_BRICK_WITHOUT_SCREEN_REFRESH = 1;
+	public static final int USER_DEFINED_BRICK_WITH_SCREEN_REFRESH = 0;
 
 	//Constants Lego
 	public static final String LEGO_MOTOR = "A";

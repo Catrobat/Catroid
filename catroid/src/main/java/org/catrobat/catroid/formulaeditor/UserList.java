@@ -32,6 +32,7 @@ public class UserList implements Serializable, UserData<List<Object>> {
 	private static final long serialVersionUID = 1L;
 
 	private String name;
+	private int initialIndex = -1;
 	private UUID deviceListKey;
 	private transient List<Object> list;
 
@@ -55,6 +56,14 @@ public class UserList implements Serializable, UserData<List<Object>> {
 		this.name = userList.name;
 		this.list = new ArrayList<>(userList.list);
 		this.deviceListKey = UUID.randomUUID();
+	}
+
+	public int getInitialIndex() {
+		return initialIndex;
+	}
+
+	public void setInitialIndex(int initialIndex) {
+		this.initialIndex = initialIndex;
 	}
 
 	@Override

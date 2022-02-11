@@ -32,13 +32,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotSame;
+import static junit.framework.Assert.assertNotNull;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertNotEquals;
 
 @RunWith(JUnit4.class)
 public class PocketMusicProjectTest {
@@ -127,7 +124,7 @@ public class PocketMusicProjectTest {
 		Project project1 = createProjectWithTrack(MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 		Project project2 = createProjectWithTrack(MusicalInstrument.APPLAUSE);
 
-		assertThat(project1, is(not(equalTo(project2))));
+		assertNotEquals(project2, project1);
 	}
 
 	@Test
@@ -135,7 +132,7 @@ public class PocketMusicProjectTest {
 		Project project1 = createProjectWithTrack(MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 		Project project2 = new Project("testEquals4Project2", Project.DEFAULT_BEAT, Project.DEFAULT_BEATS_PER_MINUTE);
 
-		assertThat(project1, is(not(equalTo(project2))));
+		assertNotEquals(project2, project1);
 	}
 
 	@Test
@@ -143,7 +140,7 @@ public class PocketMusicProjectTest {
 		Project project1 = new Project("testEquals5Project1", Project.DEFAULT_BEAT, Project.DEFAULT_BEATS_PER_MINUTE);
 		Project project2 = new Project("testEquals5Project2", Project.DEFAULT_BEAT, Project.DEFAULT_BEATS_PER_MINUTE);
 
-		assertThat(project1, is(not(equalTo(project2))));
+		assertNotEquals(project2, project1);
 	}
 
 	@Test
@@ -151,21 +148,21 @@ public class PocketMusicProjectTest {
 		Project project1 = new Project("testEquals6", Project.DEFAULT_BEAT, 60);
 		Project project2 = new Project("testEquals6", Project.DEFAULT_BEAT, 90);
 
-		assertThat(project1, is(not(equalTo(project2))));
+		assertNotEquals(project2, project1);
 	}
 
 	@Test
 	public void testEquals7() {
 		Project project = new Project("testEquals7", Project.DEFAULT_BEAT, Project.DEFAULT_BEATS_PER_MINUTE);
 
-		assertThat(project, is(not(equalTo(null))));
+		assertNotNull(project);
 	}
 
 	@Test
 	public void testEquals8() {
 		Project project = new Project("testEquals8", Project.DEFAULT_BEAT, Project.DEFAULT_BEATS_PER_MINUTE);
 
-		assertFalse(project.equals(""));
+		assertNotEquals("", project);
 	}
 
 	@Test
@@ -173,7 +170,7 @@ public class PocketMusicProjectTest {
 		Project project1 = new Project("testEquals9Project1", MusicalBeat.BEAT_4_4, Project.DEFAULT_BEATS_PER_MINUTE);
 		Project project2 = new Project("testEquals9Project2", MusicalBeat.BEAT_16_16, Project.DEFAULT_BEATS_PER_MINUTE);
 
-		assertThat(project1, is(not(equalTo(project2))));
+		assertNotEquals(project2, project1);
 	}
 
 	@Test

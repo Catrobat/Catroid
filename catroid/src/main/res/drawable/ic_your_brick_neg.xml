@@ -1,0 +1,39 @@
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<vector android:autoMirrored="true" android:height="24dp"
+    android:viewportHeight="200" android:viewportWidth="200"
+    android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+        android:fillColor="#fff"
+        android:pathData="M11,0v72.833h189V0H11zM142.766,72.836l-12.654,-30.81c-0.018,-0.04 -0.004,-0.086 0.031,-0.112c0.015,-0.012 0.096,-0.016 0.115,0l32.561,24.544c0.019,0.013 0.037,0.017 0.058,0.016c0.015,-0.001 0.03,-0.007 0.041,-0.019l27.407,-22.814c0.014,-0.012 0.167,0.07 0.148,0.11l-11.996,29.083L142.766,72.836z"/>
+    <path
+        android:fillColor="#fff"
+        android:pathData="M152.999,200.003H200V69.836l-47,-0.002L152.999,200.003zM153,111.021l10.98,-9.705c0.016,-0.014 0.033,-0.021 0.053,-0.021c0.027,-0.003 0.061,0.007 0.082,0.031l1.769,1.98c0.017,0.019 0.025,0.043 0.024,0.065l0.091,44.877H153V111.021zM176.943,76.687l13.455,12.029c0.028,0.025 0.039,0.064 0.026,0.104c-0.012,0.033 -0.045,0.06 -0.079,0.063c-0.002,0 -0.003,0 -0.004,0l-15.443,1.083l-0.004,-0.001c-0.037,0.004 -0.068,0.037 -0.068,0.078l-0.426,15.506c0,0.038 -0.141,0.088 -0.159,0.068c0,0 -9.808,-9.282 -9.828,-9.279c-0.015,0 -0.032,0.008 -0.044,0.019c0,0 -5.176,4.545 -11.369,9.982V69.834l26.714,0.002l-2.788,6.76C176.914,76.629 176.919,76.665 176.943,76.687z"/>
+    <path
+        android:fillColor="#fff"
+        android:pathData="M11,69.837v130.166h147.25l0.002,-130.166H11zM88.792,148.25l-2.596,8.475H51.487l-2.597,-8.475H30.75V76.374h18.141l2.597,7.379h34.709l2.596,-7.379h50.743l-16.739,20.401c-0.02,0.024 -0.021,0.061 -0.01,0.086c0.018,0.028 0.044,0.045 0.074,0.045l18.783,-1.178c0.035,-0.003 0.064,0.016 0.086,0.04c0.02,0.03 0.021,0.066 0.006,0.097l-21.172,43.621c-0.017,0.037 -0.008,0.08 0.023,0.101c0.016,0.013 0.037,0.021 0.057,0.019c0.016,-0.002 0.027,-0.01 0.041,-0.019v-0.001l0.002,-0.003l37.563,-33.2l-0.001,41.867H88.792L88.792,148.25zM158.256,101.777c-9.293,8.219 -25.826,22.85 -25.826,22.85c-0.018,0.012 -0.171,-0.072 -0.147,-0.115l15.813,-32.254c0.014,-0.025 -0.046,-0.115 -0.072,-0.115L131,93.159l0.023,-0.077l13.215,-16.553c0.018,-0.023 0.02,-0.054 0.011,-0.08l-2.718,-6.616h16.72L158.256,101.777z"/>
+    <path
+        android:fillColor="#fff"
+        android:pathData="M0,0h12.75v200.003h-12.75z"/>
+</vector>

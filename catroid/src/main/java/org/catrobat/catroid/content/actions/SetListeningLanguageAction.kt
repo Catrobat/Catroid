@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,8 @@ package org.catrobat.catroid.content.actions
 
 import com.badlogic.gdx.scenes.scene2d.Action
 import org.catrobat.catroid.formulaeditor.SensorHandler
-import org.catrobat.catroid.stage.SpeechRecognitionHolder
+import org.catrobat.catroid.stage.SpeechRecognitionHolderFactory
+import org.koin.java.KoinJavaComponent.get
 
 class SetListeningLanguageAction : Action() {
 
@@ -41,7 +42,7 @@ class SetListeningLanguageAction : Action() {
 
     private fun changeLanguage() {
         SensorHandler.setListeningLanguageSensor(listeningLanguageTag)
-        SpeechRecognitionHolder.instance?.forceSetLanguage()
+        get(SpeechRecognitionHolderFactory::class.java).instance.forceSetLanguage()
         languageChanged = true
     }
 }

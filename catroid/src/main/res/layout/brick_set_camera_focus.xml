@@ -38,7 +38,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_set_camera_focus_layout"
-        style="@style/BrickContainer.Look.Medium">
+        style="@style/BrickContainer.Look.Big">
 
         <include layout="@layout/icon_brick_category_look" />
 
@@ -51,10 +51,7 @@
         <TextView
             android:id="@+id/brick_set_camera_focus_horizontal_input"
             style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true"
-            app:layout_newLine="true"
-            android:maxEms="10">
+            app:layout_newLine="true">
         </TextView>
 
         <TextView
@@ -72,10 +69,7 @@
         <TextView
             android:id="@+id/brick_set_camera_focus_vertical_input"
             style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true"
-            app:layout_newLine="true"
-            android:maxEms="10">
+            app:layout_newLine="true">
         </TextView>
 
         <TextView

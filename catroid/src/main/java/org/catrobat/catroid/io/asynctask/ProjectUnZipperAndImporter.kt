@@ -63,7 +63,7 @@ private fun unzipAndImportProject(projectDir: File): Boolean = try {
         StorageOperations.deleteDir(cachedProjectDir)
     }
     ZipArchiver().unzip(projectDir, cachedProjectDir)
-    ProjectImportTask.task(cachedProjectDir)
+    ProjectImportTask.task(listOf(cachedProjectDir))
 } catch (e: IOException) {
     Log.e(TAG, "Cannot unzip project " + projectDir.name, e)
     false

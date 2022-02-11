@@ -40,7 +40,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.asynctask.saveProjectSerial
 import org.catrobat.catroid.ui.PROJECT_DIR
-import org.catrobat.catroid.uiespresso.ui.activity.ProjectUploadRatingDialogTest
+import org.catrobat.catroid.uiespresso.ui.activity.ProjectUploadDialogTest.ProjectUploadTestActivity
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
 import org.junit.After
 import org.junit.Before
@@ -52,7 +52,7 @@ import org.koin.test.inject
 class ReuploadProjectDialogTest : KoinTest {
     @get:Rule
     var activityTestRule = BaseActivityTestRule(
-        ProjectUploadRatingDialogTest.ProjectUploadTestActivity::class.java, false, false)
+        ProjectUploadTestActivity::class.java, false, false)
 
     lateinit var dummyProject: Project
     var projectName = "reUploadedProject"

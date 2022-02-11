@@ -32,7 +32,7 @@ import android.widget.ImageView;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperAdapterInterface;
 import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager;
-import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Retention;
@@ -44,7 +44,7 @@ import java.util.List;
 import androidx.annotation.IntDef;
 import androidx.recyclerview.widget.RecyclerView;
 
-public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> implements TouchHelperAdapterInterface {
+public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHolder> implements TouchHelperAdapterInterface {
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({SINGLE, PAIRS, MULTIPLE})
@@ -80,13 +80,13 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 	}
 
 	@Override
-	public CheckableVH onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
-		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_with_checkbox, parent, false);
-		return new CheckableVH(view);
+	public CheckableViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
+		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_with_checkbox, parent, false);
+		return new CheckableViewHolder(view);
 	}
 
 	@Override
-	public void onBindViewHolder(CheckableVH holder, int position) {
+	public void onBindViewHolder(CheckableViewHolder holder, int position) {
 		T item = items.get(position);
 
 		holder.checkBox.setOnClickListener(v -> onCheckBoxClick(holder.getAdapterPosition()));
@@ -258,7 +258,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 
 		void onItemClick(T item);
 
-		void onItemLongClick(T item, CheckableVH holder);
+		void onItemLongClick(T item, CheckableViewHolder holder);
 
 		void onSettingsClick(T item, View view);
 	}

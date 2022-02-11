@@ -67,6 +67,7 @@ import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.content.bricks.WhenBounceOffBrick;
 import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
@@ -75,6 +76,7 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -113,10 +115,11 @@ public class BrickSpinnerTest {
 	public static Collection<Object[]> data() {
 		return asList(new Object[][] {
 				{SceneTransitionBrick.class.getSimpleName(), new SceneTransitionBrick(""), R.id.brick_scene_transition_spinner, "Scene 2", asList("new…", "Scene 2")},
-				{SceneStartBrick.class.getSimpleName(), new SceneStartBrick(""), R.id.brick_scene_start_spinner, "Scene (1)", asList("new…", "Scene (1)", "Scene 2")},
+				{SceneStartBrick.class.getSimpleName(), new SceneStartBrick(""), R.id.brick_scene_start_spinner, "Scene", asList("new…", "Scene", "Scene 2")},
 				{CloneBrick.class.getSimpleName(), new CloneBrick(), R.id.brick_clone_spinner, "yourself", asList("yourself", "otherTestSprite")},
 				{SetNfcTagBrick.class.getSimpleName(), new SetNfcTagBrick(), R.id.brick_set_nfc_tag_ndef_record_spinner, "HTTPS", asList("Text", "HTTP", "HTTPS", "SMS", "Phone number", "E-Mail", "External type", "Empty")},
 				{GoToBrick.class.getSimpleName(), new GoToBrick(), R.id.brick_go_to_spinner, "touch position", asList("touch position", "random position", "otherTestSprite")},
+				{UserDefinedReceiverBrick.class.getSimpleName(), new UserDefinedReceiverBrick(), R.id.brick_set_screen_refresh_spinner, "with", asList("with", "without")},
 				{PointToBrick.class.getSimpleName(), new PointToBrick(), R.id.brick_point_to_spinner, "otherTestSprite", asList("new…", "otherTestSprite")},
 				{SetRotationStyleBrick.class.getSimpleName(), new SetRotationStyleBrick(), R.id.brick_set_rotation_style_spinner, "left-right only", asList("left-right only", "all-around", "don't rotate")},
 				{PlaySoundBrick.class.getSimpleName(), new PlaySoundBrick(), R.id.brick_play_sound_spinner, "someSound", asList("new…", "someSound")},
@@ -178,8 +181,13 @@ public class BrickSpinnerTest {
 		View brickView = brick.getView(activity);
 		assertNotNull(brickView);
 
-		brickSpinner = (Spinner) brickView.findViewById(spinnerId);
+		brickSpinner = brickView.findViewById(spinnerId);
 		assertNotNull(brickSpinner);
+	}
+
+	@After
+	public void tearDown() {
+		ProjectManager.getInstance().resetProjectManager();
 	}
 
 	@Test

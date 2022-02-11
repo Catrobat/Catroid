@@ -210,6 +210,7 @@ import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetLookByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetMassBrick;
 import org.catrobat.catroid.content.bricks.SetNfcTagBrick;
+import org.catrobat.catroid.content.bricks.SetParticleColorBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick;
@@ -342,6 +343,7 @@ public final class XstreamSerializer {
 		xstream.registerConverter(new XStreamUserDataHashMapConverter());
 		xstream.registerConverter(new XStreamUserVariableConverter(xstream.getMapper(), xstream.getReflectionProvider(),
 				xstream.getClassLoaderReference()));
+		xstream.registerConverter(new XStreamFormulaElementConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 
 		xstream.registerConverter(new XStreamBrickConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 		xstream.registerConverter(new XStreamScriptConverter(xstream.getMapper(), xstream.getReflectionProvider()));
@@ -384,6 +386,7 @@ public final class XstreamSerializer {
 
 		xstream.omitField(FadeParticleEffectBrick.class, "formulaList");
 		xstream.omitField(ParticleEffectAdditivityBrick.class, "formulaList");
+		xstream.omitField(SetParticleColorBrick.class, "formulaList");
 
 		xstream.alias("look", LookData.class);
 		xstream.alias("sound", SoundInfo.class);
@@ -635,6 +638,7 @@ public final class XstreamSerializer {
 
 		xstream.alias("brick", FadeParticleEffectBrick.class);
 		xstream.alias("brick", ParticleEffectAdditivityBrick.class);
+		xstream.alias("brick", SetParticleColorBrick.class);
 	}
 
 	public Project loadProject(File projectDir, Context context) throws IOException, LoadingProjectException {

@@ -61,7 +61,7 @@ public class AccessibilityProfilesFragment extends Fragment implements View.OnCl
 
 	private View parent;
 
-	private class AccessibilityProfileVH {
+	private class AccessibilityProfileViewHolder {
 
 		View view;
 		RadioButton radioButton;
@@ -69,7 +69,7 @@ public class AccessibilityProfilesFragment extends Fragment implements View.OnCl
 		TextView title;
 		TextView subtitle;
 
-		AccessibilityProfileVH(View view) {
+		AccessibilityProfileViewHolder(View view) {
 			this.view = view;
 			radioButton = view.findViewById(R.id.radio_button);
 			imageView = view.findViewById(R.id.image_view);
@@ -89,39 +89,39 @@ public class AccessibilityProfilesFragment extends Fragment implements View.OnCl
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		AccessibilityProfileVH viewHolder = new AccessibilityProfileVH(parent.findViewById(R.id.custom_profile));
+		AccessibilityProfileViewHolder viewHolder = new AccessibilityProfileViewHolder(parent.findViewById(R.id.custom_profile));
 		viewHolder.view.setOnClickListener(this);
 		viewHolder.imageView
 				.setImageDrawable(ContextCompat.getDrawable(parent.getContext(), R.drawable.nolb_default_myprofile));
 		viewHolder.title.setText(R.string.preference_access_title_profile_custom);
 		viewHolder.subtitle.setText(R.string.preference_access_summary_profile_custom);
 
-		viewHolder = new AccessibilityProfileVH(parent.findViewById(R.id.default_profile));
+		viewHolder = new AccessibilityProfileViewHolder(parent.findViewById(R.id.default_profile));
 		viewHolder.view.setOnClickListener(this);
 		viewHolder.imageView
 				.setImageDrawable(ContextCompat.getDrawable(parent.getContext(), R.drawable.nolb_default_myprofile));
 		viewHolder.title.setText(R.string.preference_access_title_profile_default);
 		viewHolder.subtitle.setText(R.string.preference_access_summary_profile_default);
 
-		viewHolder = new AccessibilityProfileVH(parent.findViewById(R.id.argus));
+		viewHolder = new AccessibilityProfileViewHolder(parent.findViewById(R.id.argus));
 		viewHolder.view.setOnClickListener(this);
 		viewHolder.imageView.setImageDrawable(ContextCompat.getDrawable(parent.getContext(), R.drawable.nolb_argus));
 		viewHolder.title.setText(R.string.preference_access_title_profile_argus);
 		viewHolder.subtitle.setText(R.string.preference_access_summary_profile_argus);
 
-		viewHolder = new AccessibilityProfileVH(parent.findViewById(R.id.fenrir));
+		viewHolder = new AccessibilityProfileViewHolder(parent.findViewById(R.id.fenrir));
 		viewHolder.view.setOnClickListener(this);
 		viewHolder.imageView.setImageDrawable(ContextCompat.getDrawable(parent.getContext(), R.drawable.nolb_fenrir));
 		viewHolder.title.setText(R.string.preference_access_title_profile_fenrir);
 		viewHolder.subtitle.setText(R.string.preference_access_summary_profile_fenrir);
 
-		viewHolder = new AccessibilityProfileVH(parent.findViewById(R.id.odin));
+		viewHolder = new AccessibilityProfileViewHolder(parent.findViewById(R.id.odin));
 		viewHolder.view.setOnClickListener(this);
 		viewHolder.imageView.setImageDrawable(ContextCompat.getDrawable(parent.getContext(), R.drawable.nolb_odin));
 		viewHolder.title.setText(R.string.preference_access_title_profile_odin);
 		viewHolder.subtitle.setText(R.string.preference_access_summary_profile_odin);
 
-		viewHolder = new AccessibilityProfileVH(parent.findViewById(R.id.tiro));
+		viewHolder = new AccessibilityProfileViewHolder(parent.findViewById(R.id.tiro));
 		viewHolder.view.setOnClickListener(this);
 		viewHolder.imageView.setImageDrawable(ContextCompat.getDrawable(parent.getContext(), R.drawable.nolb_tiro));
 		viewHolder.title.setText(R.string.preference_access_title_profile_tiro);
@@ -130,12 +130,12 @@ public class AccessibilityProfilesFragment extends Fragment implements View.OnCl
 		int selectedProfileViewId = PreferenceManager.getDefaultSharedPreferences(getActivity())
 				.getInt(ACCESSIBILITY_PROFILE_PREFERENCE_KEY, R.id.default_profile);
 
-		new AccessibilityProfileVH(parent.findViewById(selectedProfileViewId)).radioButton.setChecked(true);
+		new AccessibilityProfileViewHolder(parent.findViewById(selectedProfileViewId)).radioButton.setChecked(true);
 	}
 
 	@Override
 	public void onClick(View v) {
-		new AccessibilityProfileVH(v).radioButton.setChecked(true);
+		new AccessibilityProfileViewHolder(v).radioButton.setChecked(true);
 
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		AccessibilityProfile currentProfile = AccessibilityProfile.fromCurrentPreferences(sharedPreferences);

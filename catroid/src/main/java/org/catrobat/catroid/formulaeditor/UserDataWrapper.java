@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -51,7 +51,7 @@ public final class UserDataWrapper {
 
 	public static UserList getUserList(String name, Scope scope) {
 		UserList userList = null;
-		if (scope.getSprite() != null) {
+		if (scope != null) {
 			userList = scope.getSprite().getUserList(name);
 		}
 		if (scope.getProject() != null && userList == null) {

@@ -31,7 +31,7 @@ import com.squareup.picasso.Picasso;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.scratchconverter.protocol.Job;
-import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedViewHolder;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
@@ -43,7 +43,7 @@ public class ScratchJobAdapter extends ExtendedRVAdapter<Job> {
 	}
 
 	@Override
-	public void onBindViewHolder(ExtendedVH holder, int position) {
+	public void onBindViewHolder(ExtendedViewHolder holder, int position) {
 		Job item = items.get(position);
 
 		Context context = holder.itemView.getContext();

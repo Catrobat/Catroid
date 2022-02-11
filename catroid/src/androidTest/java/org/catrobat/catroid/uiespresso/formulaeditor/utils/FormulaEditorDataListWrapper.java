@@ -30,10 +30,9 @@ import static org.catrobat.catroid.uiespresso.util.matchers.FormulaEditorDataLis
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
-import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -75,7 +74,7 @@ public final class FormulaEditorDataListWrapper extends ViewInteractionWrapper {
 		onView(withId(R.id.button_add))
 				.perform(click());
 		onView(withId(R.id.input_edit_text))
-				.perform(clearText(), typeText(itemName), closeSoftKeyboard());
+				.perform(replaceText(itemName), closeSoftKeyboard());
 
 		switch (scope) {
 			case GLOBAL:
@@ -131,7 +130,7 @@ public final class FormulaEditorDataListWrapper extends ViewInteractionWrapper {
 				.perform(click());
 
 		onView(withId(R.id.input_edit_text))
-				.perform(clearText(), typeText(itemName), closeSoftKeyboard());
+				.perform(replaceText(itemName), closeSoftKeyboard());
 
 		onView(withId(android.R.id.button2))
 				.perform(click());

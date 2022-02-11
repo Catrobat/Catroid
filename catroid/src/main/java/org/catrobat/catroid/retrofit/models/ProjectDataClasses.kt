@@ -23,8 +23,15 @@
 
 package org.catrobat.catroid.retrofit.models
 
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.Relation
+
 @SuppressWarnings("ConstructorParameterNaming")
+@Entity(tableName = "featured_project")
 data class FeaturedProject(
+    @PrimaryKey
     val id: String,
     val project_id: String,
     val project_url: String,
@@ -33,14 +40,73 @@ data class FeaturedProject(
     val featured_image: String
 )
 
+@Entity(tableName = "project_response", primaryKeys = ["id", "categoryType"])
+data class ProjectResponse(
+    var id: String,
+    var name: String,
+    var author: String,
+    var description: String,
+    var version: String,
+    var views: Int,
+    var download: Int,
+    var private: Boolean,
+    var flavor: String,
+    var tags: List<String>,
+    var uploaded: Long,
+    var uploadedString: String,
+    var screenshotLarge: String,
+    var screenshotSmall: String,
+    var projectUrl: String,
+    var downloadUrl: String,
+    var fileSize: Double,
+    var categoryType: String
+) {
+    constructor() : this(
+        "",
+        "",
+        "",
+        "",
+        "",
+        0,
+        0,
+        false,
+        "",
+        emptyList<String>(),
+        0L,
+        "",
+        "",
+        "",
+        "",
+        "",
+        0.0,
+        ""
+    )
+}
+
+@Entity(tableName = "project_category")
 data class ProjectsCategory(
+    @PrimaryKey
     val type: String,
-    val name: String,
+    val name: String
+)
+
+data class ProjectCategoryWithResponses(
+    @Embedded val category: ProjectsCategory,
+    @Relation(
+        parentColumn = "type",
+        entityColumn = "categoryType"
+    )
     val projectsList: List<ProjectResponse>
 )
 
+data class ProjectsCategoryApi(
+    val type: String,
+    val name: String,
+    val projectsList: List<ProjectResponseApi>
+)
+
 @SuppressWarnings("ConstructorParameterNaming")
-data class ProjectResponse(
+data class ProjectResponseApi(
     val id: String,
     val name: String,
     val author: String,

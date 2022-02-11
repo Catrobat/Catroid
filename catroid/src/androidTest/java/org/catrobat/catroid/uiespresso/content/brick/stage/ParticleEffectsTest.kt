@@ -47,6 +47,7 @@ import org.catrobat.catroid.content.bricks.WaitBrick
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions.wait
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
+import org.hamcrest.core.StringContains
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -98,8 +99,10 @@ class ParticleEffectsTest {
 
     @Test
     fun particleEffectAfterSceneRestartsTest() {
-        script.addBrick(WaitBrick(1000))
-        script.addBrick(FadeParticleEffectBrick(FADE_IN))
+        script.apply {
+            addBrick(WaitBrick(1000))
+            addBrick(FadeParticleEffectBrick(FADE_IN))
+        }
         onView(ViewMatchers.withId(R.id.button_play)).perform(click())
         onView(isRoot()).perform(wait(100))
         assertFalse(projectManager.currentSprite.look.hasParticleEffect)
@@ -110,12 +113,14 @@ class ParticleEffectsTest {
 
     @Test
     fun particleEffectAfterSceneContinuesTest() {
-        script.addBrick(WaitBrick(200))
-        script.addBrick(FadeParticleEffectBrick(FADE_IN))
-        script.addBrick(SceneStartBrick("scene2"))
+        script.apply {
+            addBrick(WaitBrick(200))
+            addBrick(FadeParticleEffectBrick(FADE_IN))
+            addBrick(SceneStartBrick(scene2.name))
+        }
         projectManager.currentlyEditedScene = scene2
         onView(ViewMatchers.withId(R.id.button_play)).perform(click())
-        onView(withText("Current scene (scene2)")).perform(click())
+        onView(withText(StringContains.containsString(scene2.name))).perform(click())
         onView(withText(R.string.play)).perform(click())
         onView(isRoot()).perform(wait(500))
         assertTrue(projectManager.currentSprite.look.hasParticleEffect)
@@ -133,7 +138,7 @@ class ParticleEffectsTest {
         scene2 = Scene("scene2", project)
         val sprite2 = Sprite("testSprite2")
         val script2 = StartScript()
-        script2.addBrick(SceneTransitionBrick("Scene (1)"))
+        script2.addBrick(SceneTransitionBrick(project.defaultScene.name))
         sprite2.addScript(script2)
         scene2.addSprite(sprite2)
 

@@ -1,0 +1,33 @@
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<vector android:autoMirrored="true" android:height="24dp"
+    android:viewportHeight="200" android:viewportWidth="200"
+    android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+        android:fillColor="#fff"
+        android:pathData="M100,20c-44.182,0 -80,35.818 -80,80c0,44.182 35.818,80 80,80c44.182,0 80,-35.818 80,-80l0,0C180,55.818 144.182,20 100,20zM100,32c35.091,0.003 64.416,26.71 67.693,61.647c-4.879,-4.52 -29.168,-20.547 -66.533,-20.357c-35.427,0.177 -64.292,16.068 -68.867,20.559C35.47,58.826 64.832,32.005 100,32zM90.861,167.369c-31.52,-4.241 -55.816,-26.557 -58.279,-58.602c5.957,-0.047 29.521,-0.226 43.053,10.664C94.603,134.689 90.843,163.615 90.861,167.369zM84,99.997c0,-8.837 7.163,-16 16,-16c8.838,0 16,7.163 16,16s-7.162,16 -16,16c-8.835,0 -15.999,-7.163 -16,-15.997L84,99.997zM109.141,167.369c0.025,-3.747 -3.261,-32.691 15.713,-47.947c13.527,-10.885 36.635,-10.701 42.561,-10.65C163.439,139.223 139.564,163.23 109.141,167.369z"/>
+    <path
+        android:fillColor="#fff"
+        android:pathData="M160.826,55.631"/>
+</vector>

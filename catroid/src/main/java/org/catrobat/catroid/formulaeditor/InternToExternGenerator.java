@@ -142,6 +142,10 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.SECOND_FACE_Y.name(),
 				R.string.formula_editor_sensor_second_face_y_position);
 
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.HEAD_TOP_X.name(), R.string.formula_editor_sensor_head_top_x);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.HEAD_TOP_Y.name(), R.string.formula_editor_sensor_head_top_y);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NECK_X.name(), R.string.formula_editor_sensor_neck_x);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NECK_Y.name(), R.string.formula_editor_sensor_neck_y);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NOSE_X.name(), R.string.formula_editor_sensor_nose_x);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NOSE_Y.name(), R.string.formula_editor_sensor_nose_y);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.LEFT_EYE_INNER_X.name(), R.string.formula_editor_sensor_left_eye_inner_x);
@@ -307,6 +311,11 @@ public class InternToExternGenerator {
 
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.SPEECH_RECOGNITION_LANGUAGE.name(),
 				R.string.formula_editor_listening_language_sensor);
+
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.ID_OF_DETECTED_OBJECT.name(),
+				R.string.formula_editor_function_get_id_of_detected_object);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.OBJECT_WITH_ID_VISIBLE.name(),
+				R.string.formula_editor_function_object_with_id_visible);
 	}
 	public InternToExternGenerator(Context context) {
 		this.context = context;

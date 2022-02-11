@@ -222,7 +222,7 @@ public class FormulaTest {
 				Functions.JOIN.name(), null, helloStringFormulaElement, worldStringFormulaElement);
 		Formula joinFormula = new Formula(joinFunctionFormulaElement);
 		StringProvider stringProvider = mock(StringProvider.class);
-		String computeDialogResult = joinFormula.getResultForComputeDialog(stringProvider, null);
+		String computeDialogResult = joinFormula.getUserFriendlyString(stringProvider, null);
 		assertEquals("helloworld", computeDialogResult);
 	}
 
@@ -234,7 +234,7 @@ public class FormulaTest {
 				Functions.LETTER.name(), null, indexFormulaElement, helloStringFormulaElement);
 		Formula letterFormula = new Formula(letterFunctionFormulaElement);
 		StringProvider stringProvider = mock(StringProvider.class);
-		String computeDialogResult = letterFormula.getResultForComputeDialog(stringProvider, null);
+		String computeDialogResult = letterFormula.getUserFriendlyString(stringProvider, null);
 		assertEquals("h", computeDialogResult);
 	}
 
@@ -247,7 +247,7 @@ public class FormulaTest {
 				Functions.REGEX.name(), null, regexStringFormulaElement, iamanelephantStringFormulaElement);
 		Formula regexFormula = new Formula(regexFunctionFormulaElement);
 		StringProvider stringProvider = mock(StringProvider.class);
-		String computeDialogResult = regexFormula.getResultForComputeDialog(stringProvider, null);
+		String computeDialogResult = regexFormula.getUserFriendlyString(stringProvider, null);
 		assertEquals("elephant", computeDialogResult);
 	}
 
@@ -259,7 +259,7 @@ public class FormulaTest {
 				new FormulaElement(FormulaElement.ElementType.BRACKET, null, null, null, numberFormulaElement));
 		Formula bracketWrappedFormula = new Formula(bracketOpenFormulaElement);
 		StringProvider stringProvider = mock(StringProvider.class);
-		String computeDialogResult = bracketWrappedFormula.getResultForComputeDialog(stringProvider, null);
-		assertEquals("1.0", computeDialogResult);
+		String computeDialogResult = bracketWrappedFormula.getUserFriendlyString(stringProvider, null);
+		assertEquals("1", computeDialogResult);
 	}
 }

@@ -1,0 +1,33 @@
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<vector android:autoMirrored="true" android:height="24dp"
+    android:viewportHeight="200" android:viewportWidth="200"
+    android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+        android:fillColor="#fff"
+        android:pathData="M71.834,200H0.031V0h71.803V200zM67.37,82.023L57.546,72.2c-7.593,7.593 -12.256,18.039 -12.256,29.528c0,11.488 4.664,21.938 12.256,29.521l9.824,-9.813c-5.017,-5.018 -8.148,-11.979 -8.148,-19.705C59.222,94.002 62.353,87.041 67.37,82.023zM47.655,62.318l-9.814,-9.824c-12.601,12.61 -20.405,30.018 -20.405,49.234c0,19.219 7.804,36.635 20.405,49.233l9.814,-9.813c-10.092,-10.032 -16.296,-24.03 -16.296,-39.42C31.358,86.265 37.563,72.333 47.655,62.318z"/>
+    <path
+        android:fillColor="#fff"
+        android:pathData="M87.075,115.65c7.688,0 13.921,-6.232 13.921,-13.922c0,-7.69 -6.233,-13.922 -13.921,-13.922s-13.932,6.233 -13.932,13.922C73.144,109.418 79.387,115.65 87.075,115.65zM200,0v200.031L68.5,200V0H200zM170.637,160.922V42.536c0,-9.613 -7.795,-17.407 -17.406,-17.407H97.522c-9.624,0 -17.408,7.794 -17.408,17.407v31.339h13.922V52.982h62.669v104.454H94.036v-27.854H80.114v31.34c0,9.612 7.784,17.407 17.408,17.407h55.708C162.842,178.329 170.637,170.534 170.637,160.922z"/>
+</vector>

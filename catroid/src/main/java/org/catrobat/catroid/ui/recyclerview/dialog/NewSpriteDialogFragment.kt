@@ -35,11 +35,13 @@ import android.view.View
 import android.widget.CompoundButton
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.cast.CastManager
 import org.catrobat.catroid.common.BrickValues
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME
@@ -54,25 +56,29 @@ import org.catrobat.catroid.ui.SpriteActivity.EXTRA_Y_TRANSFORM
 import org.catrobat.catroid.ui.SpriteActivity.REQUEST_CODE_VISUAL_PLACEMENT
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher
 import org.catrobat.catroid.ui.recyclerview.fragment.SpriteListFragment
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.catrobat.catroid.utils.Utils
 import org.catrobat.catroid.visualplacement.VisualPlacementActivity
 import java.io.File
 import java.io.IOException
 
 class NewSpriteDialogFragment(
+    private val emptySprite: Boolean,
     private val lookDataName: String,
     private val lookFileName: String,
-    private val contentResolver: ContentResolver,
-    private val uri: Uri,
+    private val contentResolver: ContentResolver?,
+    private val uri: Uri?,
     private val currentFragment: Fragment,
     private val isObject: Boolean,
     private val importProjectHelper: ImportProjectHelper?
 ) : DialogFragment() {
+    constructor(emptySprite: Boolean, lookDataName: String, currentFragment: Fragment) :
+        this(emptySprite, lookDataName, "", null, null, currentFragment, false, null)
 
     private var visuallyPlaceSwitch: SwitchCompat? = null
     private var placeVisuallyTextView: TextView? = null
     private var isPlaceVisually = true
-    private lateinit var sprite: Sprite
+    private var sprite: Sprite? = null
 
     companion object {
         val TAG: String = NewSpriteDialogFragment::class.java.simpleName
@@ -83,43 +89,28 @@ class NewSpriteDialogFragment(
         val view = View.inflate(activity, R.layout.dialog_new_sprite, null)
         val currentScene = ProjectManager.getInstance().currentlyEditedScene
 
+        visuallyPlaceSwitch = view.findViewById(R.id.place_visually_sprite_switch)
+        placeVisuallyTextView = view.findViewById(R.id.place_visually_textView)
+
+        if (emptySprite) {
+            visuallyPlaceSwitch?.visibility = View.GONE
+            placeVisuallyTextView?.text = getString(R.string.new_empty_sprite_note)
+            isPlaceVisually = false
+        } else {
+            setupToggleButtonListener()
+        }
+
         val builder = context?.let { TextInputDialog.Builder(it) }
         builder?.setHint(getString(R.string.sprite_name_label))
             ?.setText(lookDataName)
             ?.setTextWatcher(DuplicateInputTextWatcher(currentScene.spriteList))
-            ?.setPositiveButton(
-                getString(R.string.ok)
-            ) { dialog: DialogInterface?, textInput: String? ->
-
-                if (isObject) {
-                    sprite = importProjectHelper!!.addObjectDataToSprite()
-                    sprite.rename(textInput)
-                    currentScene.addSprite(sprite)
-                } else {
-                    sprite = Sprite(textInput)
-                    currentScene.addSprite(sprite)
-                    addLookDataToSprite(currentScene, textInput)
-                }
-
-                if (currentFragment is SpriteListFragment) {
-                    currentFragment.notifyDataSetChanged()
-                }
-                if (isPlaceVisually) {
-                    startVisualPlacementActivity()
-                }
+            ?.setPositiveButton(getString(R.string.ok)) { _, textInput: String? ->
+                handlePositiveButton(textInput, currentScene)
             }
 
-        setupToggleButtonListener(view)
-
         builder?.setTitle(R.string.new_sprite_dialog_title)
-            ?.setNegativeButton(R.string.cancel) { dialog: DialogInterface?, which: Int ->
-                try {
-                    if (Constants.MEDIA_LIBRARY_CACHE_DIR.exists()) {
-                        StorageOperations.deleteDir(Constants.MEDIA_LIBRARY_CACHE_DIR)
-                    }
-                } catch (e: IOException) {
-                    Log.e(TAG, Log.getStackTraceString(e))
-                }
+            ?.setNegativeButton(R.string.cancel) { _, _ ->
+                handleNegativeButton()
             }
 
         return builder
@@ -127,6 +118,46 @@ class NewSpriteDialogFragment(
             ?.setNegativeButton(R.string.cancel, null)
             ?.create() as AlertDialog
     }
+
+    private fun handlePositiveButton(textInput: String?, currentScene: Scene) {
+        if (isObject) {
+            sprite = importProjectHelper?.addObjectDataToNewSprite(null)
+            sprite?.rename(textInput)
+            currentScene.addSprite(sprite)
+        } else {
+            sprite = Sprite(textInput)
+            currentScene.addSprite(sprite)
+            if (!emptySprite) {
+                addLookDataToSprite(currentScene, textInput)
+            }
+        }
+
+        if (currentFragment is SpriteListFragment) {
+            currentFragment.notifyDataSetChanged()
+        }
+
+        if (isPlaceVisually) {
+            startVisualPlacementActivity()
+        }
+
+        if (showCastDialog()) {
+            CastManager.getInstance().openDeviceSelectorOrDisconnectDialog(activity as? AppCompatActivity)
+        }
+    }
+
+    private fun handleNegativeButton() {
+        try {
+            if (Constants.MEDIA_LIBRARY_CACHE_DIR.exists()) {
+                StorageOperations.deleteDir(Constants.MEDIA_LIBRARY_CACHE_DIR)
+            }
+        } catch (exception: IOException) {
+            Log.e(TAG, Log.getStackTraceString(exception))
+        }
+    }
+
+    private fun showCastDialog(): Boolean = SettingsFragment.isCastSharedPreferenceEnabled(activity) &&
+        ProjectManager.getInstance().currentProject.isCastProject &&
+        !CastManager.getInstance().isConnected
 
     private fun addLookDataToSprite(currentScene: Scene?, textInput: String?) {
         try {
@@ -145,7 +176,7 @@ class NewSpriteDialogFragment(
                 imgFormatNotSupportedDialog()
                 currentScene?.removeSprite(sprite)
             } else {
-                sprite.lookList?.add(lookData)
+                sprite?.lookList?.add(lookData)
                 lookData.collisionInformation.calculate()
             }
         } catch (e: IOException) {
@@ -153,10 +184,7 @@ class NewSpriteDialogFragment(
         }
     }
 
-    private fun setupToggleButtonListener(view: View) {
-        visuallyPlaceSwitch = view.findViewById(R.id.place_visually_sprite_switch)
-        placeVisuallyTextView = view.findViewById(R.id.place_visually_textView)
-
+    private fun setupToggleButtonListener() {
         PreferenceManager.getDefaultSharedPreferences(context)
             .getBoolean(NEW_SPRITE_VISUAL_PLACEMENT_KEY, true).apply {
                 visuallyPlaceSwitch?.isChecked = this

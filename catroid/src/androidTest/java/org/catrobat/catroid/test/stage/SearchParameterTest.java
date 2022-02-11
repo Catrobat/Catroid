@@ -70,9 +70,8 @@ import static org.junit.Assert.assertTrue;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.Espresso.pressBack;
-import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
@@ -123,8 +122,7 @@ public class SearchParameterTest {
 		openActionBarOverflowOrOptionsMenu(baseActivityTestRule.getActivity());
 		onView(withText(R.string.find)).perform(click());
 		for (String argument : arguments) {
-			onView(withId(R.id.search_bar)).perform(clearText());
-			onView(withId(R.id.search_bar)).perform(typeText(argument));
+			onView(withId(R.id.search_bar)).perform(replaceText(argument));
 			onView(withId(R.id.find)).perform(click());
 			onView(withText(argument)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 		}
@@ -136,20 +134,19 @@ public class SearchParameterTest {
 				baseActivityTestRule.getActivity().getString(R.string.brick_glide) + baseActivityTestRule.getActivity().getString(R.string.brick_glide_to_x);
 		openActionBarOverflowOrOptionsMenu(baseActivityTestRule.getActivity());
 		onView(withText(R.string.find)).perform(click());
-		onView(withId(R.id.search_bar)).perform(clearText());
-		onView(withId(R.id.search_bar)).perform(typeText(searchParam));
+		onView(withId(R.id.search_bar)).perform(replaceText(searchParam));
 		onView(withId(R.id.find)).perform(click());
 		onView(withText(searchParam)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 	}
 
 	@Test
 	public void testSearchSpinner() {
+		final String searchTerm = "look 1";
 		openActionBarOverflowOrOptionsMenu(baseActivityTestRule.getActivity());
 		onView(withText(R.string.find)).perform(click());
-		onView(withId(R.id.search_bar)).perform(clearText());
-		onView(withId(R.id.search_bar)).perform(typeText("look 1"));
+		onView(withId(R.id.search_bar)).perform(replaceText(searchTerm));
 		onView(withId(R.id.find)).perform(click());
-		onView(withText("look 1")).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+		onView(withText(searchTerm)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 	}
 
 	@Test
@@ -157,8 +154,7 @@ public class SearchParameterTest {
 		String searchParam = "0";
 		openActionBarOverflowOrOptionsMenu(baseActivityTestRule.getActivity());
 		onView(withText(R.string.find)).perform(click());
-		onView(withId(R.id.search_bar)).perform(clearText());
-		onView(withId(R.id.search_bar)).perform(typeText(searchParam));
+		onView(withId(R.id.search_bar)).perform(replaceText(searchParam));
 		onView(withId(R.id.find)).perform(click());
 		BrickDataInteractionWrapper.onBrickAtPosition(1).onFormulaTextField(R.id.brick_set_x_edit_text).perform(click());
 		pressBack();

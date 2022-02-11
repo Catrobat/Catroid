@@ -49,16 +49,13 @@
 
         <TextView
             android:id="@+id/wait_until_label_second_part"
-            style="@style/BrickText.Multiple"
-            android:paddingStart="5dip"
+            style="@style/BrickText.SingleLine"
             android:text="@string/brick_wait_until_second_part">
         </TextView>
 
         <TextView
             android:id="@+id/brick_repeat_until_edit_text"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true">
+            style="@style/BrickEditText">
         </TextView>
     </org.catrobat.catroid.ui.BrickLayout>
 

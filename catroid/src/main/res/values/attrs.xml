@@ -91,7 +91,7 @@
     </declare-styleable>
 
     <declare-styleable name="BrickLayout_Layout">
-        <attr name="layout_textField" format="boolean"/>
+        <attr name="layout_editText" format="boolean"/>
         <attr name="layout_inputType" format="string"/>
         <attr name="layout_newLine" format="boolean"/>
         <attr name="layout_forceNewLine" format="boolean"/>

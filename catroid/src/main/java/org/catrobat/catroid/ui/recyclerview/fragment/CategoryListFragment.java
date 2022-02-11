@@ -59,6 +59,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.settingsfragments.RaspberryPiSettingsFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.AddUserListDialog;
+import org.catrobat.catroid.utils.MobileServiceAvailability;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -79,6 +80,7 @@ import static org.catrobat.catroid.CatroidApplication.defaultSystemLanguage;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAGS;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAG_KEY;
+import static org.koin.java.KoinJavaComponent.get;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
@@ -348,6 +350,64 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 					R.string.formula_editor_function_no_parameter,
 					R.string.formula_editor_function_no_parameter,
 					R.string.formula_editor_function_no_parameter);
+	private static final List<Integer> SENSORS_POSE_DETECTION_HUAWEI =
+			asList(R.string.formula_editor_sensor_head_top_x,
+					R.string.formula_editor_sensor_head_top_y,
+					R.string.formula_editor_sensor_neck_x,
+					R.string.formula_editor_sensor_neck_y,
+					R.string.formula_editor_sensor_left_shoulder_x,
+					R.string.formula_editor_sensor_left_shoulder_y,
+					R.string.formula_editor_sensor_right_shoulder_x,
+					R.string.formula_editor_sensor_right_shoulder_y,
+					R.string.formula_editor_sensor_left_elbow_x,
+					R.string.formula_editor_sensor_left_elbow_y,
+					R.string.formula_editor_sensor_right_elbow_x,
+					R.string.formula_editor_sensor_right_elbow_y,
+					R.string.formula_editor_sensor_left_wrist_x,
+					R.string.formula_editor_sensor_left_wrist_y,
+					R.string.formula_editor_sensor_right_wrist_x,
+					R.string.formula_editor_sensor_right_wrist_y,
+					R.string.formula_editor_sensor_left_hip_x,
+					R.string.formula_editor_sensor_left_hip_y,
+					R.string.formula_editor_sensor_right_hip_x,
+					R.string.formula_editor_sensor_right_hip_y,
+					R.string.formula_editor_sensor_left_knee_x,
+					R.string.formula_editor_sensor_left_knee_y,
+					R.string.formula_editor_sensor_right_knee_x,
+					R.string.formula_editor_sensor_right_knee_y,
+					R.string.formula_editor_sensor_left_ankle_x,
+					R.string.formula_editor_sensor_left_ankle_y,
+					R.string.formula_editor_sensor_right_ankle_x,
+					R.string.formula_editor_sensor_right_ankle_y);
+	private static final List<Integer> SENSORS_POSE_DETECTION_PARAMS_HUAWEI =
+			asList(R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter,
+					R.string.formula_editor_function_no_parameter);
 	private static final List<Integer> SENSORS_TEXT_RECOGNITION = asList(R.string.formula_editor_sensor_text_from_camera,
 			R.string.formula_editor_sensor_text_blocks_number,
 			R.string.formula_editor_function_text_block_x,
@@ -362,6 +422,10 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_function_text_block_parameter,
 			R.string.formula_editor_function_text_block_parameter,
 			R.string.formula_editor_function_text_block_parameter);
+	private static final List<Integer> SENSORS_OBJECT_DETECTION = asList(
+			R.string.formula_editor_function_get_id_of_detected_object,
+			R.string.formula_editor_function_object_with_id_visible
+	);
 	private static final List<Integer> SENSORS_DATE_TIME = asList(R.string.formula_editor_sensor_timer,
 			R.string.formula_editor_sensor_date_year, R.string.formula_editor_sensor_date_month,
 			R.string.formula_editor_sensor_date_day, R.string.formula_editor_sensor_date_weekday,
@@ -649,7 +713,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			FragmentActivity activity, TextInputDialog.Builder builder) {
 
 		AddUserListDialog userListDialog = new AddUserListDialog(builder);
-		userListDialog.show(activity.getString(R.string.data_label), activity.getString(R.string.ok), new AddUserListDialog.Callback(){
+		userListDialog.show(activity.getString(R.string.data_label), activity.getString(R.string.ok), new AddUserListDialog.Callback() {
 			@Override
 			public void onPositiveButton(DialogInterface dialog, String textInput) {
 				UserList userList = new UserList(textInput);
@@ -825,6 +889,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		result.addAll(getFaceSensorItems());
 		result.addAll(getPoseSensorItems());
 		result.addAll(getTextSensorItems());
+		result.addAll(getObjectDetectionSensorItems());
 		result.addAll(getDeviceSensorItems());
 		result.addAll(getTouchDetectionSensorItems());
 		result.addAll(getDateTimeSensorItems());
@@ -943,16 +1008,35 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	}
 
 	private List<CategoryListItem> getPoseSensorItems() {
-		return SettingsFragment.isAIPoseDetectionSharedPreferenceEnabled(getActivity().getApplicationContext())
-				? addHeader(toCategoryListItems(SENSORS_POSE_DETECTION, SENSORS_POSE_DETECTION_PARAMS),
-				getString(R.string.formula_editor_device_pose_detection))
-				: Collections.emptyList();
+		MobileServiceAvailability mobileServiceAvailability = get(MobileServiceAvailability.class);
+		boolean isHMSAvailable =
+				mobileServiceAvailability.isHmsAvailable(getActivity().getApplicationContext());
+		boolean isPoseDetectionEnabled =
+				SettingsFragment.isAIPoseDetectionSharedPreferenceEnabled(getActivity().getApplicationContext());
+		if (isPoseDetectionEnabled && isHMSAvailable) {
+			return addHeader(toCategoryListItems(SENSORS_POSE_DETECTION_HUAWEI,
+					SENSORS_POSE_DETECTION_PARAMS_HUAWEI),
+					getString(R.string.formula_editor_device_pose_detection));
+		} else if (isPoseDetectionEnabled) {
+			return addHeader(toCategoryListItems(SENSORS_POSE_DETECTION,
+					SENSORS_POSE_DETECTION_PARAMS),
+					getString(R.string.formula_editor_device_pose_detection));
+		} else {
+			return Collections.emptyList();
+		}
 	}
 
 	private List<CategoryListItem> getTextSensorItems() {
 		return SettingsFragment.isAITextRecognitionSharedPreferenceEnabled(getActivity().getApplicationContext())
 				? addHeader(toCategoryListItems(SENSORS_TEXT_RECOGNITION, SENSORS_TEXT_RECOGNITION_PARAMS),
 				getString(R.string.formula_editor_device_text_recognition))
+				: Collections.emptyList();
+	}
+
+	private List<CategoryListItem> getObjectDetectionSensorItems() {
+		return SettingsFragment.isAIObjectDetectionSharedPreferenceEnabled(getActivity().getApplicationContext())
+				? addHeader(toCategoryListItems(SENSORS_OBJECT_DETECTION),
+				getString(R.string.formula_editor_device_object_recognition))
 				: Collections.emptyList();
 	}
 }

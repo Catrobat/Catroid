@@ -74,6 +74,7 @@ public class UserDefinedBrick extends FormulaBrick {
 	private transient BrickLayout userDefinedBrickLayout;
 	public transient TextView currentUserDefinedDataTextView;
 	public transient BiMap<FormulaField, TextView> formulaFieldToTextViewMap = HashBiMap.create(2);
+	public transient int horizontalSpacing;
 
 	public UserDefinedBrick() {
 		userDefinedBrickDataList = new ArrayList<>();
@@ -220,11 +221,13 @@ public class UserDefinedBrick extends FormulaBrick {
 	public View getView(Context context) {
 		super.getView(context);
 		userDefinedBrickLayout = view.findViewById(R.id.brick_user_brick);
+		horizontalSpacing =
+				context.getResources().getDimensionPixelOffset(R.dimen.material_design_spacing_small);
 
 		TextView textView = null;
 		for (UserDefinedBrickData userDefinedBrickData : userDefinedBrickDataList) {
 			if (userDefinedBrickData.isInput()) {
-				textView = new TextView(new ContextThemeWrapper(context, R.style.BrickEditText));
+				textView = new TextView(context, null, 0, R.style.BrickEditText);
 			} else {
 				textView = new TextView(new ContextThemeWrapper(context, R.style.BrickText));
 			}
@@ -235,6 +238,10 @@ public class UserDefinedBrick extends FormulaBrick {
 				textView.setText(getFormulaWithBrickField(formulaField).getTrimmedFormulaString(context));
 			}
 			userDefinedBrickLayout.addView(textView);
+			if (userDefinedBrickData.isInput()) {
+				((BrickLayout.LayoutParams) textView.getLayoutParams()).setEditText(true);
+			}
+			((BrickLayout.LayoutParams) textView.getLayoutParams()).setHorizontalSpacing(horizontalSpacing);
 		}
 
 		Fragment currentFragment = ((FragmentActivity) context).getSupportFragmentManager().findFragmentById(R.id.fragment_container);
@@ -249,8 +256,9 @@ public class UserDefinedBrick extends FormulaBrick {
 	private void addTextViewForUserData(Context context, TextView textView, UserDefinedBrickDataType dataType) {
 		String text = getDefaultText(context, dataType);
 		if (dataType == INPUT) {
-			textView = new TextView(new ContextThemeWrapper(context, R.style.BrickEditText));
+			textView = new TextView(context, null, 0, R.style.BrickEditText);
 			userDefinedBrickLayout.addView(textView);
+			((BrickLayout.LayoutParams) textView.getLayoutParams()).setEditText(true);
 		} else {
 			if (lastContentIsLabel()) {
 				text = userDefinedBrickDataList.get(userDefinedBrickDataList.size() - 1).getName();
@@ -259,6 +267,7 @@ public class UserDefinedBrick extends FormulaBrick {
 				userDefinedBrickLayout.addView(textView);
 			}
 		}
+		((BrickLayout.LayoutParams) textView.getLayoutParams()).setHorizontalSpacing(horizontalSpacing);
 		textView.setText(text);
 		currentUserDefinedDataTextView = textView;
 	}
@@ -289,6 +298,11 @@ public class UserDefinedBrick extends FormulaBrick {
 				input.setValue(getFormulaWithBrickField(input.getInputFormulaField()));
 			}
 		}
+	}
+
+	@Override
+	public boolean hasEditableFormulaField() {
+		return containsInputs();
 	}
 
 	@Override

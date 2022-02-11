@@ -69,4 +69,7 @@ public interface Cat {
 	//Tests that have side effects that can break other tests, therefore should be excluded from bulk test runs
 	interface Quarantine {
 	}
+
+	interface RoomDb {
+	}
 }

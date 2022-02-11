@@ -34,16 +34,19 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.test.espresso.ViewInteraction;
+
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorCategoryListWrapper.onCategoryList;
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 public final class FormulaEditorWrapper extends ViewInteractionWrapper {
@@ -92,9 +95,10 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 		onView(Control.TEXT)
 				.perform(click());
 		onView(withId(R.id.input_edit_text))
-				.perform(clearText(), typeText(stringToBeEntered));
+				.perform(replaceText(stringToBeEntered));
 		onView(withText(R.string.ok))
 				.perform(click());
+		performCloseFormulaStringWarning();
 		return new FormulaEditorWrapper();
 	}
 
@@ -102,9 +106,10 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 		onView(Control.TEXT)
 				.perform(click());
 		onView(withId(R.id.input_edit_text))
-				.perform(clearText(), typeText(UiTestUtils.getResourcesString(stringResourceId)));
+				.perform(replaceText(UiTestUtils.getResourcesString(stringResourceId)));
 		onView(withText(R.string.ok))
 				.perform(click());
+		performCloseFormulaStringWarning();
 		return new FormulaEditorWrapper();
 	}
 
@@ -124,6 +129,20 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 		onView(category)
 				.perform(click());
 		return onCategoryList();
+	}
+
+	public void performCloseFormulaStringWarning() {
+		try {
+			onView(allOf(withText(R.string.warning),
+					withParent(allOf(withId(R.id.title_template),
+					withParent(withId(R.id.topPanel)))), isDisplayed()));
+			onView(allOf(withText(R.string.warning_formula_recognized),
+					withParent(withParent(withId(R.id.scrollView))), isDisplayed()));
+			ViewInteraction button = onView(
+					allOf(withText(R.string.ok),
+					withParent(withParent(withId(R.id.buttonPanel))), isDisplayed()));
+			button.perform(click());
+		} catch (Exception ignored) { }
 	}
 
 	public void performOpenDataFragment() {

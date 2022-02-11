@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,11 +38,13 @@ import android.preference.PreferenceScreen;
 import android.util.DisplayMetrics;
 
 import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.DroneConfigPreference;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.sync.ProjectsCategoriesSync;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.utils.SnackbarUtil;
 
@@ -58,6 +60,7 @@ import static org.catrobat.catroid.CatroidApplication.defaultSystemLanguage;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAGS;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAG_KEY;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class SettingsFragment extends PreferenceFragment {
 
@@ -85,6 +88,8 @@ public class SettingsFragment extends PreferenceFragment {
 			"setting_ai_pose_detection";
 	public static final String SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS =
 			"setting_ai_text_recognition";
+	public static final String SETTINGS_SHOW_AI_OBJECT_DETECTION_SENSORS =
+			"setting_ai_object_detection";
 
 	public static final String SETTINGS_MULTIPLAYER_VARIABLES_ENABLED = "setting_multiplayer_variables_enabled";
 	public static final String SETTINGS_SHOW_HINTS = "setting_enable_hints";
@@ -361,6 +366,16 @@ public class SettingsFragment extends PreferenceFragment {
 				.apply();
 	}
 
+	public static boolean isAIObjectDetectionSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_AI_OBJECT_DETECTION_SENSORS, context);
+	}
+
+	public static void setAIObjectDetectionPreferenceEnabled(Context context, boolean value) {
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_SHOW_AI_OBJECT_DETECTION_SENSORS, value)
+				.apply();
+	}
+
 	public static boolean isArduinoSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_ARDUINO_BRICKS, context);
 	}
@@ -487,7 +502,8 @@ public class SettingsFragment extends PreferenceFragment {
 	}
 
 	public static boolean isMultiplayerVariablesPreferenceEnabled(Context context) {
-		return getBooleanSharedPreference(false, SETTINGS_MULTIPLAYER_VARIABLES_ENABLED, context);
+		return getBooleanSharedPreference(false, SETTINGS_MULTIPLAYER_VARIABLES_ENABLED, context)
+				|| ProjectManager.getInstance().getCurrentProject().hasMultiplayerVariables();
 	}
 
 	private void setLanguage() {
@@ -512,6 +528,7 @@ public class SettingsFragment extends PreferenceFragment {
 			setLanguageSharedPreference(getActivity().getBaseContext(), selectedLanguageTag);
 			startActivity(new Intent(getActivity().getBaseContext(), MainMenuActivity.class));
 			getActivity().finishAffinity();
+			new Thread(() -> inject(ProjectsCategoriesSync.class).getValue().sync(true));
 			return true;
 		});
 	}

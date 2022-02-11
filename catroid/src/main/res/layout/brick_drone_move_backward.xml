@@ -50,9 +50,7 @@
         <TextView
             android:id="@+id/brick_drone_move_backward_edit_text_second"
             style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_newLine="true"
-            app:layout_textField="true" />
+            app:layout_newLine="true" />
 
         <TextView
             android:id="@+id/brick_seconds_label"
@@ -65,9 +63,7 @@
 
         <TextView
             android:id="@+id/brick_drone_move_backward_edit_text_power"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true" />
+            style="@style/BrickEditText" />
 
         <TextView
             android:id="@+id/brick_drone_move_backward_percent"

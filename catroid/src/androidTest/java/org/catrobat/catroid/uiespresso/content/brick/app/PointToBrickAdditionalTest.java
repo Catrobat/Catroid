@@ -143,7 +143,7 @@ public class PointToBrickAdditionalTest {
 		onView(withText(R.string.ok))
 				.perform(click());
 
-		String newObjectName = lookFileName.replace(".png", " (1)");
+		String newObjectName = lookFileName.replace(".png", "");
 		List<String> pointToBrickSpinnerValues = new ArrayList<>();
 		pointToBrickSpinnerValues.add(ApplicationProvider.getApplicationContext().getString(R.string.new_option));
 		pointToBrickSpinnerValues.add(newObjectName);

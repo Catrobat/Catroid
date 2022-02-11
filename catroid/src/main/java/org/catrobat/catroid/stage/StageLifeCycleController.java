@@ -50,12 +50,12 @@ import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
-import org.catrobat.catroid.utils.VibrationUtil;
 
 import java.util.List;
 
 import static org.catrobat.catroid.stage.StageResourceHolder.getProjectsRuntimePermissionList;
 import static org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask.checkPermission;
+import static org.koin.java.KoinJavaComponent.get;
 
 public final class StageLifeCycleController {
 	public static final String TAG = StageLifeCycleController.class.getSimpleName();
@@ -146,7 +146,7 @@ public final class StageLifeCycleController {
 				}
 			}
 
-			SpeechRecognitionHolder.Companion.getInstance().destroy();
+			get(SpeechRecognitionHolderFactory.class).getInstance().destroy();
 
 			SensorHandler.timerPauseValue = SystemClock.uptimeMillis();
 
@@ -158,13 +158,14 @@ public final class StageLifeCycleController {
 			if (stageActivity.cameraManager != null) {
 				stageActivity.cameraManager.pause();
 			}
-
 			BluetoothDeviceService bluetoothDeviceService =
 					ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 			if (bluetoothDeviceService != null) {
 				bluetoothDeviceService.pause();
 			}
-			VibrationUtil.pauseVibration();
+			if (stageActivity.vibrationManager != null) {
+				stageActivity.vibrationManager.pause();
+			}
 			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 				CastManager.getInstance().setRemoteLayoutToPauseScreen(stageActivity);
 			}
@@ -197,13 +198,14 @@ public final class StageLifeCycleController {
 				}
 			}
 
-			if (resourcesSet.contains(Brick.VIBRATION)) {
-				VibrationUtil.resumeVibration();
+			if (stageActivity.vibrationManager != null) {
+				stageActivity.vibrationManager.resume();
 			}
 
 			if (resourcesSet.contains(Brick.BLUETOOTH_LEGO_NXT)
 					|| resourcesSet.contains(Brick.BLUETOOTH_PHIRO)
-					|| resourcesSet.contains(Brick.BLUETOOTH_SENSORS_ARDUINO)) {
+					|| resourcesSet.contains(Brick.BLUETOOTH_SENSORS_ARDUINO)
+					|| ProjectManager.getInstance().getCurrentProject().hasMultiplayerVariables()) {
 				try {
 					ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).start();
 				} catch (MindstormsException e) {
@@ -245,7 +247,7 @@ public final class StageLifeCycleController {
 			if (service != null) {
 				service.destroy();
 			}
-			VibrationUtil.destroy();
+			stageActivity.vibrationManager = null;
 			if (stageActivity.cameraManager != null) {
 				stageActivity.cameraManager.destroy();
 				stageActivity.cameraManager = null;

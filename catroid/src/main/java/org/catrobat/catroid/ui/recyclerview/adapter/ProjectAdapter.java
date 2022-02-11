@@ -31,7 +31,7 @@ import android.widget.ImageView;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
-import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedViewHolder;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 
 import java.text.DateFormat;
@@ -46,7 +46,7 @@ public class ProjectAdapter extends ExtendedRVAdapter<ProjectData> {
 	}
 
 	@Override
-	public void onBindViewHolder(ExtendedVH holder, int position) {
+	public void onBindViewHolder(ExtendedViewHolder holder, int position) {
 		Context context = holder.itemView.getContext();
 		int thumbnailWidth = context.getResources().getDimensionPixelSize(R.dimen.project_thumbnail_width);
 		int thumbnailHeight = context.getResources().getDimensionPixelSize(R.dimen.project_thumbnail_height);

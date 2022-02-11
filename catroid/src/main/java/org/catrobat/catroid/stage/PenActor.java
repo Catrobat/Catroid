@@ -63,7 +63,7 @@ public class PenActor extends Actor {
 		buffer.begin();
 		for (Sprite sprite : StageActivity.stageListener.getSpritesFromStage()) {
 			PenConfiguration pen = sprite.penConfiguration;
-			pen.drawLinesForSprite(screenRatio);
+			pen.drawLinesForSprite(screenRatio, getStage().getViewport().getCamera());
 		}
 		buffer.end();
 

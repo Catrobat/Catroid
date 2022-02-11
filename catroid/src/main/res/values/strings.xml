@@ -58,7 +58,7 @@
 
     <string name="accept">Accept</string>
     <string name="decline">Decline</string>
-    
+
     <string name="select_all">Select all</string>
     <string name="deselect_all">Deselect all</string>
 
@@ -167,6 +167,8 @@
         recognition</string>
     <string name="preference_description_ai_text_recognition">Enable
         text recognition bricks and sensors</string>
+    <string name="preference_title_ai_object_recognition">Object recognition</string>
+    <string name="preference_description_ai_object_recognition">Enable object recognition and tracking sensors</string>
 
     <string name="preference_title_accessibility">Accessibility</string>
     <string name="preference_description_accessibility">Change the app\'s appearance</string>
@@ -357,7 +359,6 @@
     <string name="reconvert_dialog_reconvert">Convert this project again</string>
     <!--  -->
 
-
     <!-- ERRORS -->
 
     <!-- Terms of Use and Service Error -->
@@ -399,8 +400,10 @@
     <string name="show_details">Show details</string>
     <string name="hide_details">Hide details</string>
     <string name="project_options">Project options</string>
+    <string name="from_library">Add from library</string>
     <string name="sort_projects">Sort</string>
     <string name="unsort_projects">Unsort</string>
+    <string name= "import_from_project">Select project to import from</string>
 
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">New scene</string>
@@ -482,6 +485,7 @@
 
     <!-- Action Toasts -->
     <!-- Backpack -->
+    <string name="backpack_empty">Backpack empty. Nothing to unpack.</string>
     <plurals name="packed_scenes">
         <item quantity="one">Backpacked %d scene.</item>
         <item quantity="other">Backpacked %d scenes.</item>
@@ -580,6 +584,8 @@
         <item quantity="one">Imported %d project.</item>
         <item quantity="other">Imported %d projects.</item>
     </plurals>
+    <!-- Renamed -->
+    <string name="renamed_project">Renamed project</string>
     <!--  -->
 
     <!-- ProjectListActivity and ProjectListFragment -->
@@ -592,10 +598,12 @@
     <string name="set_notes_and_credits">Set notes and credits</string>
     <string name="details_date_today">Today</string>
     <string name="import_project">Import project</string>
+    <string name="export_project">Export project</string>
     <string name="error_import_project">Something went wrong while importing projects.</string>
     <string name="no_projects_selected">No projects selected for import</string>
-
+    <string name="only_select_catrobat_files">Only select project files</string>
     <string name="error_no_files_found">No project files found.</string>
+    <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
 
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Description</string>
@@ -687,6 +695,7 @@
     <string name="add_look_draw_new_image">Draw</string>
     <string name="add_look_choose_image">Gallery</string>
     <string name="add_look_media_library">Looks</string>
+    <string name="add_look_from_local_project">Local projects</string>
     <!--  -->
 
     <!-- NewSoundDialog -->
@@ -745,7 +754,7 @@
     <string name="upload_tags_maximum_error">Selecting more than 3 tags is not possible.</string>
 
     <!-- Save Project to External Storage -->
-    <string name="save_to_external_storage_button">Save project to external storage</string>
+    <string name="save_to_external_storage_button">Export project</string>
     <string name="notification_save_project_to_external_storage_title_pending">" "</string>
     <string name="notification_save_project_to_external_storage_pending">Saving project to external storage.</string>
     <string name="notification_save_project_to_external_storage_title_open">" "</string>
@@ -857,6 +866,7 @@
     <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
     <string name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
+    <string name="prestage_no_object_detection_available">\u2022 Object recognition\n</string>
     <string name="prestage_no_pose_detection_available">\u2022 Pose detection\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Front camera\n</string>
@@ -928,7 +938,9 @@
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
 
     <string name="brick_user_defined_script_define">Define</string>
-    <string name="brick_user_defined_script_as">as</string>
+    <string name="brick_user_defined_script_screen_refresh_as">screen refresh as</string>
+    <string name="brick_user_defined_with_screen_refreshing">with</string>
+    <string name="brick_user_defined_without_screen_refreshing">without</string>
 
     <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
 
@@ -1298,7 +1310,7 @@
     <!-- Default Values -->
     <string name="default_project_name">My project</string>
     <string name="default_variable_name">Variable</string>
-    <string name="default_scene_name">Scene (%1$d)</string>
+    <string name="default_scene_name">Scene</string>
     <string name="default_script_group_name">Script group</string>
     <string name="default_broadcast_message_name">Message</string>
     <string name="default_list_name">List</string>
@@ -1437,6 +1449,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="title_other_devices">New devices</string>
     <string name="searching_devices">Looking for devices…</string>
     <string name="button_scan">Search Bluetooth devices</string>
+    <string name="button_skip">Skip Bluetooth connection</string>
     <string name="select_device">Select device:</string>
     <string name="connecting_please_wait">Connecting to your device.\nPlease wait…</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
@@ -1817,6 +1830,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_index_of_item_parameter">(1,*list name*)</string>
     <string name="formula_editor_function_number_of_items">number of items</string>
     <string name="formula_editor_function_number_of_items_parameter">(*list name*)</string>
+    <string name="formula_editor_function_flatten">flatten</string>
+    <string name="formula_editor_function_flatten_parameter">(*list name*)</string>
     <string name="formula_editor_function_collision">touches actor or object</string>
     <string name="formula_editor_function_collides_with_edge">touches edge</string>
     <string name="formula_editor_function_touched">touches finger</string>
@@ -1933,6 +1948,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_device_face_detection">Face detection</string>
     <string name="formula_editor_device_pose_detection">Pose detection</string>
     <string name="formula_editor_device_text_recognition">Text recognition</string>
+    <string name="formula_editor_device_object_recognition">Object recognition</string>
     <string name="formula_editor_device_date_and_time">Date and time</string>
     <string name="formula_editor_device_touch_detection">Touch detection</string>
     <string name="formula_editor_device_lego_nxt">Lego Mindstorms NXT</string>
@@ -1980,6 +1996,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_second_face_size">second face size</string>
     <string name="formula_editor_sensor_second_face_x_position">second face x position</string>
     <string name="formula_editor_sensor_second_face_y_position">second face y position</string>
+    <string name="formula_editor_sensor_head_top_x">head top x</string>
+    <string name="formula_editor_sensor_head_top_y">head top y</string>
+    <string name="formula_editor_sensor_neck_x">neck x</string>
+    <string name="formula_editor_sensor_neck_y">neck y</string>
     <string name="formula_editor_sensor_nose_x">nose x</string>
     <string name="formula_editor_sensor_nose_y">nose y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">left eye inner x</string>
@@ -2054,6 +2074,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_text_block_from_camera">text block from camera</string>
     <string name="formula_editor_function_text_block_language_from_camera">text block language from camera</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
+    <string name="formula_editor_function_get_id_of_detected_object">ID of detected object</string>
+    <string name="formula_editor_function_object_with_id_visible">object with ID visible</string>
     <string name="formula_editor_intro_title_formula_editor">Formula editor</string>
     <string name="formula_editor_intro_summary_formula_editor">With the formula editor you can create mathematical and
         logical formulas that you can use in your bricks.\n\nContinue by tapping “NEXT” or exit
@@ -2089,8 +2111,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="camera_error_text_detection">
         There was a problem with text detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.</string>
-    <string name="formula_editor_function_flatten">flatten</string>
-    <string name="formula_editor_function_flatten_parameter">(*list name*)</string>
     <string name="warning_formula_recognized">You entered a text that looks like a formula. If you want to use functions,
         sensors, variables and other formula elements, please select them instead using the
         buttons in the formula editor.</string>
@@ -2124,10 +2144,6 @@ needs read and write access to it. You can always change permissions through you
     </string>
     <string name="camera_error_face_detection">
         There was a problem with face detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.
-    </string>
-    <string name="camera_error_pose_detection">
-        There was a problem with pose detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.
     </string>
     <!-- -->
@@ -2222,6 +2238,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="new_sprite_dialog_place_visually">Place visually</string>
     <string name="place_visually_text">You will be asked to place the new actor or object on the
         stage.</string>
+    <string name="new_empty_sprite_note">Note: The actor or object will be created
+        without a look.</string>
 
     <!-- Information -->
     <string name="no_variable_selected">No variable selected</string>
@@ -2237,8 +2255,11 @@ needs read and write access to it. You can always change permissions through you
     <string name="fade_particle_effect">Fade particle effect</string>
     <string name="particle_effects_fade_in">in</string>
     <string name="particle_effects_fade_out">out</string>
-
     <string name="turn_particle_effect_additivity">Turn particle effect additivity</string>
     <string name="particle_effects_additive_on">on</string>
     <string name="particle_effects_additive_off">off</string>
+    <string name="set_particle_color_to">Set particle color to</string>
+
+    <string name="undo_sort">Undo sort</string>
+    <string name="sort">Sort</string>
 </resources>

@@ -86,7 +86,7 @@ public class ScrollController {
 		scrollingAnimator.addListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationStart(Animator animation) {
-				playButton.setImageResource(R.drawable.ic_stop_24dp);
+				playButton.setImageResource(R.drawable.ic_stop);
 				playLine.setVisibility(View.VISIBLE);
 				scrollingView.setPlaying(true);
 				scrollingView.smoothScrollToPosition(0);

@@ -1,0 +1,30 @@
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<vector android:autoMirrored="true" android:height="45dp"
+    android:viewportHeight="200" android:viewportWidth="200"
+    android:width="45dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+        android:fillColor="#fff"
+        android:pathData="M100,116.666c11.068,0 19.936,-8.932 19.936,-19.999l0.064,-40c0,-11.068 -8.932,-20 -20,-20c-11.068,0 -20,8.932 -20,20v40C80,107.734 88.932,116.666 100,116.666zM135.332,96.667c0,19.999 -16.934,33.997 -35.332,33.997S64.668,116.666 64.668,96.667h-11.334c0,22.733 18.135,41.536 40,44.798v21.868h13.333L106.667,141.465c21.863,-3.197 40,-21.999 40,-44.798L135.332,96.667z"/>
+</vector>

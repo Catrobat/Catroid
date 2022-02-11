@@ -73,7 +73,7 @@ import org.catrobat.catroid.ui.runtimepermissions.PermissionRequestActivityExten
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.VibrationUtil;
+import org.catrobat.catroid.utils.VibrationManager;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -86,6 +86,7 @@ import androidx.test.espresso.idling.CountingIdlingResource;
 import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
 import static org.catrobat.catroid.ui.MainMenuActivity.surveyCampaign;
+import static org.koin.java.KoinJavaComponent.get;
 
 public class StageActivity extends AndroidApplication implements PermissionHandlingActivity, PermissionAdaptingActivity {
 
@@ -111,6 +112,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 
 	public static Handler messageHandler;
 	CameraManager cameraManager;
+	public VibrationManager vibrationManager;
 
 	public static SparseArray<IntentListener> intentListeners = new SparseArray<>();
 	public static Random randomGenerator = new Random();
@@ -253,9 +255,6 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			}
 
 			TextToSpeechHolder.getInstance().deleteSpeechFiles();
-			if (VibrationUtil.isActive()) {
-				VibrationUtil.destroy();
-			}
 			Intent marketingIntent = new Intent(this, MarketingActivity.class);
 			startActivity(marketingIntent);
 			finish();
@@ -273,15 +272,11 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		stageListener.finish();
 
 		TextToSpeechHolder.getInstance().shutDownTextToSpeech();
-		SpeechRecognitionHolder.Companion.getInstance().destroy();
+		get(SpeechRecognitionHolderFactory.class).getInstance().destroy();
 
 		BluetoothDeviceService service = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 		if (service != null) {
 			service.pause();
-		}
-
-		if (VibrationUtil.isActive()) {
-			VibrationUtil.pauseVibration();
 		}
 
 		RaspberryPiService.getInstance().disconnect();
@@ -294,8 +289,11 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		return null;
 	}
 
-	public CameraManager getCameraManager() {
-		return cameraManager;
+	public static VibrationManager getActiveVibrationManager() {
+		if (activeStageActivity != null) {
+			return activeStageActivity.get().vibrationManager;
+		}
+		return null;
 	}
 
 	public boolean getResizePossible() {

@@ -32,7 +32,6 @@ import android.location.LocationManager;
 import android.nfc.NfcAdapter;
 import android.os.Vibrator;
 import android.provider.Settings;
-import android.speech.SpeechRecognizer;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 
@@ -54,10 +53,11 @@ import org.catrobat.catroid.formulaeditor.SensorLoudness;
 import org.catrobat.catroid.sensing.GatherCollisionInformationTask;
 import org.catrobat.catroid.ui.runtimepermissions.BrickResourcesToRuntimePermissions;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.utils.MobileServiceAvailability;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TouchUtil;
 import org.catrobat.catroid.utils.Utils;
-import org.catrobat.catroid.utils.VibrationUtil;
+import org.catrobat.catroid.utils.VibrationManager;
 
 import java.io.File;
 import java.util.HashSet;
@@ -71,6 +71,8 @@ import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.VIBRATOR_SERVICE;
 
+import static org.koin.java.KoinJavaComponent.get;
+
 public class StageResourceHolder implements GatherCollisionInformationTask.OnPolygonLoadedListener {
 	private static final String TAG = StageResourceHolder.class.getSimpleName();
 
@@ -82,6 +84,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 	private Set<Integer> failedResources;
 
 	private StageActivity stageActivity;
+	private final SpeechRecognitionHolderFactory speechRecognitionHolderFactory = get(SpeechRecognitionHolderFactory.class);
 
 	StageResourceHolder(final StageActivity stageActivity) {
 		this.stageActivity = stageActivity;
@@ -141,7 +144,12 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		}
 
 		if (requiredResourcesSet.contains(Brick.TEXT_TO_SPEECH)) {
-			TextToSpeechHolder.Companion.getInstance().initTextToSpeech(stageActivity, this);
+			MobileServiceAvailability mobileServiceAvailability = get(MobileServiceAvailability.class);
+			if (mobileServiceAvailability.isGmsAvailable(stageActivity)) {
+				TextToSpeechHolder.Companion.getInstance().initTextToSpeech(stageActivity, this);
+			} else if (mobileServiceAvailability.isHmsAvailable(stageActivity)) {
+				HuaweiTextToSpeechHolder.Companion.getInstance().initTextToSpeech(stageActivity, this);
+			}
 		}
 
 		if (requiredResourcesSet.contains(Brick.BLUETOOTH_LEGO_NXT)) {
@@ -158,6 +166,11 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 
 		if (requiredResourcesSet.contains(Brick.BLUETOOTH_SENSORS_ARDUINO)) {
 			connectBTDevice(BluetoothDevice.ARDUINO);
+		}
+
+		if (ProjectManager.getInstance().getCurrentProject().hasMultiplayerVariables()) {
+			requiredResourceCounter++;
+			connectBTDevice(BluetoothDevice.MULTIPLAYER);
 		}
 
 		if (requiredResourcesSet.contains(Brick.CAMERA_BACK)) {
@@ -195,8 +208,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		if (requiredResourcesSet.contains(Brick.VIBRATION)) {
 			Vibrator vibration = (Vibrator) stageActivity.getSystemService(VIBRATOR_SERVICE);
 			if (vibration != null) {
-				VibrationUtil.setVibration(vibration);
-				VibrationUtil.activateVibrationThread();
+				getVibrationManager().setVibration(vibration);
 				resourceInitialized();
 			} else {
 				resourceFailed(Brick.VIBRATION);
@@ -225,6 +237,14 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 				resourceInitialized();
 			} else {
 				resourceFailed(Brick.FACE_DETECTION);
+			}
+		}
+
+		if (requiredResourcesSet.contains(Brick.OBJECT_DETECTION)) {
+			if (getCameraManager().startDetection()) {
+				resourceInitialized();
+			} else {
+				resourceFailed(Brick.OBJECT_DETECTION);
 			}
 		}
 
@@ -305,7 +325,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		}
 
 		if (requiredResourcesSet.contains(Brick.SPEECH_RECOGNITION)) {
-			if (SpeechRecognizer.isRecognitionAvailable(stageActivity)) {
+			if (speechRecognitionHolderFactory.isRecognitionAvailable(stageActivity)) {
 				resourceInitialized();
 			} else {
 				resourceFailed(Brick.SPEECH_RECOGNITION);
@@ -328,7 +348,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			Log.e(TAG, e.getMessage());
 		}
 		stageActivity.setupAskHandler();
-		SpeechRecognitionHolder.Companion.getInstance().initSpeechRecognition(stageActivity, this);
+		speechRecognitionHolderFactory.getInstance().initSpeechRecognition(stageActivity, this);
 		stageActivity.pendingIntent = PendingIntent.getActivity(stageActivity, 0,
 				new Intent(stageActivity, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
 		stageActivity.nfcAdapter = NfcAdapter.getDefaultAdapter(stageActivity);
@@ -357,6 +377,13 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			stageActivity.cameraManager = new CameraManager(stageActivity);
 		}
 		return stageActivity.cameraManager;
+	}
+
+	public VibrationManager getVibrationManager() {
+		if (stageActivity.vibrationManager == null) {
+			stageActivity.vibrationManager = new VibrationManager();
+		}
+		return stageActivity.vibrationManager;
 	}
 
 	public void endStageActivity() {
@@ -413,6 +440,10 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 				case Brick.FACE_DETECTION:
 					failedResourcesMessage.append(stageActivity.getString(R.string
 							.prestage_no_face_detection_available));
+					break;
+				case Brick.OBJECT_DETECTION:
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_no_object_detection_available));
 					break;
 				case Brick.SPEECH_RECOGNITION:
 					failedResourcesMessage.append(stageActivity.getString(R.string

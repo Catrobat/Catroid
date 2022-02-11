@@ -52,8 +52,6 @@
             android:id="@+id/brick_speak_and_wait_edit_text"
             style="@style/BrickEditText"
             android:layout_width="match_parent"
-            app:layout_inputType="text"
-            app:layout_textField="true"
             android:gravity="start">
         </TextView>
 

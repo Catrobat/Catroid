@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -41,6 +41,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 
 import java.util.List;
 import java.util.Locale;
@@ -66,9 +67,10 @@ public class ShowTextActor extends Actor {
 	private String variableNameToCompare;
 	private int alignment;
 	private Sprite sprite;
+	private AndroidStringProvider androidStringProvider;
 
-	public ShowTextActor(UserVariable userVariable, int xPosition, int yPosition, float relativeSize, String color,
-			Sprite sprite, int alignment) {
+	public ShowTextActor(UserVariable userVariable, int xPosition, int yPosition, float relativeSize,
+			String color, Sprite sprite, int alignment, AndroidStringProvider androidStringProvider) {
 		this.variableToShow = userVariable;
 		this.variableNameToCompare = variableToShow.getName();
 		this.xPosition = xPosition;
@@ -77,10 +79,11 @@ public class ShowTextActor extends Actor {
 		this.color = color;
 		this.sprite = sprite;
 		this.alignment = alignment;
+		this.androidStringProvider = androidStringProvider;
 	}
 
-	public ShowTextActor(UserVariable userVariable, int xPosition, int yPosition, float relativeSize, String color,
-			Sprite sprite) {
+	public ShowTextActor(UserVariable userVariable, int xPosition, int yPosition, float relativeSize,
+			String color, Sprite sprite, AndroidStringProvider androidStringProvider) {
 		this.variableToShow = userVariable;
 		this.variableNameToCompare = variableToShow.getName();
 		this.xPosition = xPosition;
@@ -89,6 +92,7 @@ public class ShowTextActor extends Actor {
 		this.color = color;
 		this.sprite = sprite;
 		this.alignment = DEFAULT_ALIGNMENT;
+		this.androidStringProvider = androidStringProvider;
 	}
 
 	@Override
@@ -110,15 +114,21 @@ public class ShowTextActor extends Actor {
 		} else {
 			for (UserVariable variable : variableList) {
 				if (variable.getName().equals(variableToShow.getName())) {
-					String variableValue = variable.getValue().toString();
-					if (variableValue.isEmpty()) {
+					String variableValueString;
+					Object value = variable.getValue();
+					if (value instanceof Boolean) {
+						variableValueString = androidStringProvider.getTrueOrFalse((Boolean) value);
+					} else {
+						variableValueString = variable.getValue().toString();
+					}
+					if (variableValueString.isEmpty()) {
 						continue;
 					}
 					if (variable.getVisible()) {
-						if (isNumberAndInteger(variableValue)) {
-							drawText(batch, getStringAsInteger(variableValue), xPosition, yPosition, color);
+						if (isNumberAndInteger(variableValueString)) {
+							drawText(batch, getStringAsInteger(variableValueString), xPosition, yPosition, color);
 						} else {
-							drawText(batch, variableValue, xPosition, yPosition, color);
+							drawText(batch, variableValueString, xPosition, yPosition, color);
 						}
 					}
 					break;

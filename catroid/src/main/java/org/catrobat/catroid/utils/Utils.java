@@ -38,6 +38,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.common.base.Splitter;
+import com.huawei.hms.mlsdk.asr.MLAsrConstants;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -50,7 +51,6 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.transfers.GoogleLoginHandler;
-import org.catrobat.catroid.transfers.LogoutTask;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.web.WebconnectionException;
 import org.json.JSONException;
@@ -84,6 +84,7 @@ import static org.catrobat.catroid.common.Constants.MAX_FILE_NAME_LENGTH;
 import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
+import static org.koin.java.KoinJavaComponent.get;
 
 public final class Utils {
 
@@ -471,11 +472,8 @@ public final class Utils {
 
 	public static void logoutUser(Context context) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		String userName = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 		GoogleLoginHandler googleLoginHandler = new GoogleLoginHandler((AppCompatActivity) context);
 		googleLoginHandler.getGoogleSignInClient().signOut();
-		LogoutTask logoutTask = new LogoutTask(context, userName);
-		logoutTask.execute();
 		sharedPreferences.edit()
 				.putString(Constants.TOKEN, Constants.NO_TOKEN)
 				.putString(Constants.USERNAME, Constants.NO_USERNAME)
@@ -519,32 +517,45 @@ public final class Utils {
 			return;
 		}
 
-		final Intent srIntent = new Intent(ACTION_GET_LANGUAGE_DETAILS);
-		srIntent.setPackage("com.google.android.googlequicksearchbox");
+		MobileServiceAvailability mobileServiceAvailability = get(MobileServiceAvailability.class);
 
-		context.sendOrderedBroadcast(srIntent, null, new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				final Bundle bundle = getResultExtras(true);
+		if (mobileServiceAvailability.isGmsAvailable(context)) {
+			final Intent srIntent = new Intent(ACTION_GET_LANGUAGE_DETAILS);
+			srIntent.setPackage("com.google.android.googlequicksearchbox");
 
-				if (bundle != null) {
-					String defaultLanguage = bundle.getString(EXTRA_LANGUAGE_PREFERENCE);
-					SensorHandler.setListeningLanguageSensor(defaultLanguage);
-					List<String> supportedLanguages = bundle
-							.getStringArrayList(EXTRA_SUPPORTED_LANGUAGES);
-					if (supportedLanguages != null) {
-						SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.clear();
-						SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.addAll(supportedLanguages);
-						SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.remove(defaultLanguage);
-						SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(0, defaultLanguage);
+			context.sendOrderedBroadcast(srIntent, null, new BroadcastReceiver() {
+				@Override
+				public void onReceive(Context context, Intent intent) {
+					final Bundle bundle = getResultExtras(true);
+
+					if (bundle != null) {
+						String defaultLanguage = bundle.getString(EXTRA_LANGUAGE_PREFERENCE);
+						SensorHandler.setListeningLanguageSensor(defaultLanguage);
+						List<String> supportedLanguages = bundle
+								.getStringArrayList(EXTRA_SUPPORTED_LANGUAGES);
+						if (supportedLanguages != null) {
+							SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.clear();
+							SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.addAll(supportedLanguages);
+							SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.remove(defaultLanguage);
+							SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(0, defaultLanguage);
+						} else {
+							Log.w(TAG, "onReceive: EXTRA_SUPPORTED_LANGUAGES is null");
+						}
 					} else {
-						Log.w(TAG, "onReceive: EXTRA_SUPPORTED_LANGUAGES is null");
+						Log.w(TAG, "onReceive: Bundle is null");
 					}
-				} else {
-					Log.w(TAG, "onReceive: Bundle is null");
 				}
-			}
-		}, null, Activity.RESULT_OK, null, null);
+			}, null, Activity.RESULT_OK, null, null);
+		} else if (mobileServiceAvailability.isHmsAvailable(context)) {
+			SensorHandler.setListeningLanguageSensor(MLAsrConstants.LAN_EN_US);
+			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.clear();
+			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_EN_US);
+			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_DE_DE);
+			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_EN_IN);
+			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_ES_ES);
+			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_FR_FR);
+			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_ZH_CN);
+		}
 	}
 
 	public static void removeExifData(File directory, String fileName) {

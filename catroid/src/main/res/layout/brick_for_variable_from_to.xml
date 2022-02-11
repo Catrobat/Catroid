@@ -51,9 +51,7 @@
 
         <TextView
             android:id="@+id/brick_loop_from_edit"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true">
+            style="@style/BrickEditText">
         </TextView>
 
         <TextView
@@ -64,9 +62,7 @@
 
         <TextView
             android:id="@+id/brick_loop_to_edit"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true">
+            style="@style/BrickEditText">
         </TextView>
 
         <TextView

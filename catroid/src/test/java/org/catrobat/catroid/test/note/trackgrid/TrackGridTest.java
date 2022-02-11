@@ -35,10 +35,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import static junit.framework.Assert.assertEquals;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertNotEquals;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({MidiNotePlayer.class, TrackGrid.class})
@@ -70,7 +67,7 @@ public class TrackGridTest {
 		TrackGrid trackGrid1 = TrackGridTestDataFactory.createSemiComplexTrackGrid();
 		TrackGrid trackGrid2 = TrackGridTestDataFactory.createSimpleTrackGrid();
 
-		assertThat(trackGrid1, is(not(equalTo(trackGrid2))));
+		assertNotEquals(trackGrid2, trackGrid1);
 	}
 
 	@Test
@@ -86,7 +83,7 @@ public class TrackGridTest {
 		TrackGrid trackGrid1 = TrackGridTestDataFactory.createTrackGridWithSeveralBreaks();
 		TrackGrid trackGrid2 = TrackGridTestDataFactory.createSimpleTrackGrid();
 
-		assertThat(trackGrid1.hashCode(), is(not(equalTo(trackGrid2.hashCode()))));
+		assertNotEquals(trackGrid2.hashCode(), trackGrid1.hashCode());
 	}
 
 	@Test
@@ -94,6 +91,6 @@ public class TrackGridTest {
 		TrackGrid trackGrid1 = TrackGridTestDataFactory.createSemiComplexTrackGrid();
 		TrackGrid trackGrid2 = TrackGridTestDataFactory.createSimpleTrackGrid();
 
-		assertThat(trackGrid1.hashCode(), is(not(equalTo(trackGrid2.hashCode()))));
+		assertNotEquals(trackGrid2.hashCode(), trackGrid1.hashCode());
 	}
 }

@@ -41,6 +41,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -107,6 +108,11 @@ public class FormulaEditorEditTextGenericTest {
 		View brickView = brick.getView(activity);
 		TextView brickFormulaTextView = brickView.findViewById(R.id.brick_set_x_edit_text);
 		brick.onClick(brickFormulaTextView);
+	}
+
+	@After
+	public void tearDown() {
+		ProjectManager.getInstance().resetProjectManager();
 	}
 
 	@Test

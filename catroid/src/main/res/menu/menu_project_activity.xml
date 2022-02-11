@@ -64,5 +64,10 @@
         android:id="@+id/project_options"
         android:title="@string/project_options"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/from_library"
+        android:title="@string/from_library"
+        android:visible="false"
+        app:showAsAction="never"/>
 
 </menu>

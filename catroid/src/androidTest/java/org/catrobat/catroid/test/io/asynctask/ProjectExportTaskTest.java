@@ -26,9 +26,12 @@ package org.catrobat.catroid.test.io.asynctask;
 import android.Manifest;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.net.Uri;
+import android.os.Build;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.asynctask.ProjectExportTask;
@@ -56,8 +59,8 @@ import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.UNDO_CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 
 @RunWith(AndroidJUnit4.class)
@@ -67,6 +70,7 @@ public class ProjectExportTaskTest {
 
 	private Project project;
 	private Context contextMock;
+	private File projectZip;
 
 	@Rule
 	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(
@@ -92,17 +96,28 @@ public class ProjectExportTaskTest {
 		createUndoCodeXmlFile();
 
 		StatusBarNotificationManager notificationManager = new StatusBarNotificationManager(contextMock);
+
+		String fileName = project.getDirectory().getName() + "_destination" + CATROBAT_EXTENSION;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+			projectZip = new File(Constants.CACHE_DIR, fileName);
+		} else {
+			projectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY, fileName);
+		}
+		Uri projectUri = Uri.fromFile(projectZip);
 		NotificationData notificationData = notificationManager
-				.createSaveProjectToExternalMemoryNotification(ApplicationProvider.getApplicationContext(), project.getName());
+				.createSaveProjectToExternalMemoryNotification(ApplicationProvider.getApplicationContext(),
+						projectUri, project.getName());
 
-		new ProjectExportTask(project.getDirectory(), notificationData,
-				ApplicationProvider.getApplicationContext()).exportProjectToExternalStorage();
+		ProjectExportTask task =
+				new ProjectExportTask(project.getDirectory(), projectUri, notificationData,
+						ApplicationProvider.getApplicationContext());
 
-		File externalProjectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY,
-				project.getDirectory().getName() + CATROBAT_EXTENSION);
-		assertTrue(externalProjectZip.exists());
+		task.registerCallback(() -> {
+			assertTrue(projectZip.exists());
 
-		checkUndoCodeXmlFileIsDeleted(externalProjectZip);
+			checkUndoCodeXmlFileIsDeleted(projectZip);
+		});
+		task.exportProjectToExternalStorage();
 	}
 
 	private void createUndoCodeXmlFile() {
@@ -127,7 +142,7 @@ public class ProjectExportTaskTest {
 
 			while (zipEntries.hasMoreElements()) {
 				fileName = ((ZipEntry) zipEntries.nextElement()).getName();
-				assertFalse(fileName.equals(UNDO_CODE_XML_FILE_NAME));
+				assertNotEquals(UNDO_CODE_XML_FILE_NAME, fileName);
 			}
 		} catch (IOException exception) {
 			Log.e(TAG, "Creating zip folder failed.", exception);
@@ -139,7 +154,9 @@ public class ProjectExportTaskTest {
 		if (project.getDirectory().isDirectory()) {
 			StorageOperations.deleteDir(project.getDirectory());
 		}
-		if (EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY.exists()) {
+		projectZip.delete();
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q
+				&& EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY.exists()) {
 			StorageOperations.deleteDir(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY);
 		}
 	}

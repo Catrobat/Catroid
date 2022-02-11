@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,6 @@ import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
-import org.catrobat.catroid.utils.EnumUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
@@ -95,6 +94,12 @@ public class Formula implements Serializable {
 		formulaTree.updateElementByName(oldName, newName, ElementType.COLLISION_FORMULA);
 	}
 
+	public void flattenAllLists() {
+		formulaTree.insertFlattenForAllUserLists(formulaTree, null);
+		formulaTree = formulaTree.getRoot();
+		internFormula.setInternTokenFormulaList(formulaTree.getInternTokenList());
+	}
+
 	public void updateCollisionFormulasToVersion() {
 		internFormula.updateCollisionFormulaToVersion(CatroidApplication.getAppContext());
 		formulaTree.updateCollisionFormulaToVersion(ProjectManager.getInstance().getCurrentProject());
@@ -123,15 +128,6 @@ public class Formula implements Serializable {
 
 	public Integer interpretInteger(Scope scope) throws InterpretationException {
 		return interpretDouble(scope).intValue();
-	}
-
-	@NotNull
-	private String tryInterpretDouble(Scope scope) {
-		try {
-			return String.valueOf(interpretDouble(scope));
-		} catch (InterpretationException interpretationException) {
-			return ERROR_STRING;
-		}
 	}
 
 	public Double interpretDouble(Scope scope) throws InterpretationException {
@@ -218,45 +214,12 @@ public class Formula implements Serializable {
 		formulaTree.addRequiredResources(requiredResourcesSet);
 	}
 
-	public String getResultForComputeDialog(StringProvider stringProvider, Scope scope) {
-		ElementType type = formulaTree.getElementType();
-
-		if (formulaTree.isLogicalOperator()) {
+	public String getUserFriendlyString(StringProvider stringProvider, Scope scope) {
+		if (formulaTree.isBoolean(scope)) {
 			return tryInterpretBooleanToString(stringProvider, scope);
-		} else if (isStringInterpretableType(type, formulaTree.getValue())) {
+		} else {
 			return tryInterpretString(scope);
-		} else if (isVariableWithTypeString(scope)) {
-			return interpretUserVariable(scope);
-		} else {
-			return tryInterpretDouble(scope);
 		}
-	}
-
-	private boolean isStringInterpretableType(ElementType type, String formulaValue) {
-		return type == ElementType.STRING
-				|| type == ElementType.SENSOR
-				|| type == ElementType.FUNCTION && isInterpretableFunction(formulaValue);
-	}
-
-	private boolean isInterpretableFunction(String formulaValue) {
-		Functions function = EnumUtils.getEnum(Functions.class, formulaValue);
-		return function == Functions.LETTER || function == Functions.JOIN || function == Functions.JOIN3
-				|| function == Functions.REGEX || function == Functions.IF_THEN_ELSE;
-	}
-
-	private boolean isVariableWithTypeString(Scope scope) {
-		if (formulaTree.getElementType() == ElementType.USER_VARIABLE) {
-			UserVariable userVariable = UserDataWrapper.getUserVariable(formulaTree.getValue(), scope);
-			return userVariable.getValue() instanceof String;
-		} else {
-			return false;
-		}
-	}
-
-	private String interpretUserVariable(Scope scope) {
-		UserVariable userVariable = UserDataWrapper
-				.getUserVariable(formulaTree.getValue(), scope);
-		return (String) userVariable.getValue();
 	}
 
 	private String tryInterpretString(Scope scope) {
@@ -286,11 +249,10 @@ public class Formula implements Serializable {
 	}
 
 	private String toLocalizedString(boolean value, StringProvider stringProvider) {
-		return value ? stringProvider.getTrue() : stringProvider.getFalse();
+		return stringProvider.getTrueOrFalse(value);
 	}
 
 	public interface StringProvider {
-		String getTrue();
-		String getFalse();
+		String getTrueOrFalse(Boolean value);
 	}
 }
