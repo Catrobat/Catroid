@@ -1101,7 +1101,7 @@
     <string name="brick_store_csv_into_userlist_of">کے</string>
     <string name="brick_store_csv_into_userlist_csv">کوما سے الگ کردہ اقدار</string>
     <string name="brick_store_csv_into_userlist_into">فہرست میں</string>
-    <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
+    <string name="brick_store_csv_into_userlist_data">کٹی,پیارا\n\کتے کا بچہ\n,شرارتی\\nنوکٹوپس,ذہین</string>
     <!--  -->
     <!--Instruments-->
     <string name="piano">پیانو</string>
@@ -1959,9 +1959,7 @@
     <!--  -->
     <!-- Dialog Disable hints -->
     <string name="dialog_disable_hints_title">اشارے دکھائیں؟</string>
-    <string name="dialog_disable_hints_text">Hints provide you with helpful information
-        while making your first project.\n\nVisibility of hints can be changed in the
-        settings.</string>
+    <string name="dialog_disable_hints_text">آپ کا پہلا پروجیکٹ بناتے وقت اشارے آپ کو مددگار معلومات         فراہم کرتے ہیں۔\n\n اشاروں کی مرئیت کو         ترتیبات میں تبدیل کیا جا سکتا ہے۔</string>
     <string name="dialog_disable_hints_button_hide">چھپائیں</string>
     <string name="dialog_disable_hints_button_show">دکھائیں</string>
     <!--  -->
