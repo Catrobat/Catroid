@@ -703,6 +703,7 @@
     <string name="add_sound_from_recorder">Record sound</string>
     <string name="add_sound_choose_file">Select file</string>
     <string name="add_sound_music">Music composer</string>
+    <string name="add_sound_choose_sound">Sounds</string>
 
     <!-- NotePickerDialog -->
     <string name="note_picker_title">Note Picker</string>

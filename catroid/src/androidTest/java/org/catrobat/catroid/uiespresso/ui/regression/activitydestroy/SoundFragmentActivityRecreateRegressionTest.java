@@ -110,6 +110,14 @@ public class SoundFragmentActivityRecreateRegressionTest {
 
 		onView(withText(R.string.new_sound_dialog_title)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
+		onView(withText(R.string.add_sound_from_recorder)).inRoot(isDialog())
+				.check(matches(isDisplayed()));
+		onView(withText(R.string.add_sound_choose_sound)).inRoot(isDialog())
+				.check(matches(isDisplayed()));
+		onView(withText(R.string.add_sound_choose_file)).inRoot(isDialog())
+				.check(matches(isDisplayed()));
+		onView(withText(R.string.add_sound_music)).inRoot(isDialog())
+				.check(matches(isDisplayed()));
 
 		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
 		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
