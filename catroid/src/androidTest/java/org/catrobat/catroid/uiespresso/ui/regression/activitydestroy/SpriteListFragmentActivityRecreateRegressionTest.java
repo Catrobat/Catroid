@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -43,8 +43,6 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
-
 import static androidx.test.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
@@ -82,13 +80,7 @@ public class SpriteListFragmentActivityRecreateRegressionTest {
 		onView(withText(R.string.new_sprite_dialog_title)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				baseActivityTestRule.getActivity().recreate();
-			}
-		});
-
+		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
 		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 	}
 
@@ -97,23 +89,14 @@ public class SpriteListFragmentActivityRecreateRegressionTest {
 	@Test
 	public void testActivityRecreateRenameSpriteDialog() {
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
-		onView(withText(R.string.rename)).perform(click());
 
-		onRecyclerView().atPosition(1)
-				.performCheckItem();
-
-		onView(withId(R.id.confirm)).perform(click());
+		onView(withText(R.string.rename))
+				.perform(click());
 
 		onView(withText(R.string.rename_sprite_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				baseActivityTestRule.getActivity().recreate();
-			}
-		});
-
+		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
 		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 	}
 
@@ -122,18 +105,14 @@ public class SpriteListFragmentActivityRecreateRegressionTest {
 	@Test
 	public void testActivityRecreateNewGroupDialog() {
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
-		onView(withText(R.string.new_group)).perform(click());
+
+		onView(withText(R.string.new_group))
+				.perform(click());
 
 		onView(withText(R.string.new_group)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				baseActivityTestRule.getActivity().recreate();
-			}
-		});
-
+		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
 		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 	}
 
@@ -142,17 +121,14 @@ public class SpriteListFragmentActivityRecreateRegressionTest {
 	@Test
 	public void testActivityRecreateNewSceneDialog() {
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
-		onView(withText(R.string.new_scene)).perform(click());
+
+		onView(withText(R.string.new_scene))
+				.perform(click());
 
 		onView(withText(R.string.new_scene_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				baseActivityTestRule.getActivity().recreate();
-			}
-		});
+		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
 		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 	}
 
