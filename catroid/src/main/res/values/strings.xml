@@ -21,7 +21,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources  xmlns:tools="http://schemas.android.com/tools">
 
     <!-- General terms -->
     <string name="stage">Stage</string>
@@ -37,6 +37,7 @@
     <string name="ignore">Ignore</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
+    <string name="help">Help</string>
 
     <string name="discard">Discard</string>
 
@@ -1804,7 +1805,6 @@ needs read and write access to it. You can always change permissions through you
         assistant</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">Regular
         expression assistant</string>
-    <string name="formula_editor_dialog_wiki_button">More information</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">The keyword could not be found.</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON extractor</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino digital pin</string>

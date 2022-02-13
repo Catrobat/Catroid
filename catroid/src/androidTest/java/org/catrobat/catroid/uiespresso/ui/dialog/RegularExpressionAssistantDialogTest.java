@@ -98,7 +98,6 @@ public class RegularExpressionAssistantDialogTest {
 	@Test (expected = NoMatchingViewException.class)
 	public void testCancelButtonFunctionality() {
 		clickOnAssistantInFunctionList();
-
 		onView(withText(R.string.cancel)).perform(click());
 		onView(withText(R.string.cancel)).check(matches(isDisplayed()));
 	}
@@ -106,19 +105,23 @@ public class RegularExpressionAssistantDialogTest {
 	@Test
 	public void testIsHtmlExtractorInList() {
 		clickOnAssistantInFunctionList();
-
 		onView(withText(R.string.formula_editor_regex_html_extractor_dialog_title)).check(matches(isDisplayed()));
 	}
 
 	@Test
-	public void testIsWikiButtonInList() {
+	public void testIsJsonExtractorInList() {
 		clickOnAssistantInFunctionList();
-		onView(withText(R.string.formula_editor_dialog_wiki_button)).check(matches(isDisplayed()));
+		onView(withText(R.string.formula_editor_function_regex_json_extractor_title)).check(matches(isDisplayed()));
 	}
 
 	@Test
-	public void testOpenWikipageOnWikiButtonClick() {
+	public void testHelpButton() {
+		clickOnAssistantInFunctionList();
+		onView(withText(R.string.help)).check(matches(isDisplayed()));
+	}
 
+	@Test
+	public void testOpenWikipageOnHelpButtonClick() {
 		clickOnAssistantInFunctionList();
 
 		try {
@@ -129,7 +132,7 @@ public class RegularExpressionAssistantDialogTest {
 					new Instrumentation.ActivityResult(Activity.RESULT_OK, intent);
 			intending(anyIntent()).respondWith(intentResult);
 
-			onView(withText(R.string.formula_editor_dialog_wiki_button)).perform(click());
+			onView(withText(R.string.help)).perform(click());
 
 			intended(allOf(
 					hasAction(Intent.ACTION_VIEW),
@@ -142,14 +145,12 @@ public class RegularExpressionAssistantDialogTest {
 	@Test
 	public void testDoesHtmlExtractorOpensCorrectDialog() {
 		clickOnAssistantInFunctionList();
-
 		onView(withText(R.string.formula_editor_regex_html_extractor_dialog_title)).perform(click());
 		onView(withText(R.string.formula_editor_regex_html_extractor_dialog_title)).check(matches(isDisplayed()));
 	}
 	@Test
 	public void testDoesJsonExtractorOpensCorrectDialog() {
 		clickOnAssistantInFunctionList();
-
 		onView(withText(R.string.formula_editor_function_regex_json_extractor_title)).perform(click());
 		onView(withText(R.string.formula_editor_function_regex_json_extractor_title)).check(matches(isDisplayed()));
 	}
