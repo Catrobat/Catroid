@@ -34,6 +34,7 @@
     <string name="ignore">Zignoruj</string>
     <string name="cancel">Anuluj</string>
     <string name="save">Zapisz</string>
+    <string name="help">Pomoc</string>
     <string name="discard">Odrzuć</string>
     <string name="next">Dalej</string>
     <string name="ok">OK</string>
@@ -683,6 +684,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="add_sound_from_recorder">Nagraj dźwięk</string>
     <string name="add_sound_choose_file">Wybierz plik</string>
     <string name="add_sound_music">Kompozytor muzyki</string>
+    <string name="add_sound_choose_sound">Dźwięki</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">Wybór notatki</string>
     <!--  -->
@@ -1665,7 +1667,6 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
     <string name="formula_editor_function_regex_assistant">Asystent wyrażenia regularnego</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">Asystent wyrażenia regularnego</string>
-    <string name="formula_editor_dialog_wiki_button">Więcej informacji</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">Nie znaleziono słowa kluczowego.</string>
     <string name="formula_editor_function_regex_json_extractor_title">Rozpakowywanie JSON</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_cyfrowe_wyjście</string>

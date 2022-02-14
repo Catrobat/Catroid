@@ -34,6 +34,7 @@
     <string name="ignore">ไม่สนใจ</string>
     <string name="cancel">ยกเลิก</string>
     <string name="save">บันทึก</string>
+    <string name="help">ช่วยเหลือ</string>
     <string name="discard">ละทิ้ง</string>
     <string name="next">ถัดไป</string>
     <string name="ok">ตกลง</string>
@@ -577,6 +578,7 @@
     <string name="add_sound_from_recorder">บันทึกเสียง</string>
     <string name="add_sound_choose_file">เลือกไฟล์</string>
     <string name="add_sound_music">นักแต่งเพลง</string>
+    <string name="add_sound_choose_sound">เสียง</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">ตัวเลือกหมายเหตุ</string>
     <!--  -->
@@ -1549,7 +1551,6 @@
          ผู้ช่วย</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">ปกติ
          ผู้ช่วยแสดงออก</string>
-    <string name="formula_editor_dialog_wiki_button">ข้อมูลมากกว่านี้</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">ไม่พบคีย์เวิร์ด</string>
     <string name="formula_editor_function_regex_json_extractor_title">ตัวแยก JSON</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino ขาดิจิตอล</string>

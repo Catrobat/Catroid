@@ -34,6 +34,7 @@
     <string name="ignore">略過</string>
     <string name="cancel">取消</string>
     <string name="save">存檔</string>
+    <string name="help">說明</string>
     <string name="discard">取消</string>
     <string name="next">下一步</string>
     <string name="ok">確認</string>
@@ -585,6 +586,7 @@
     <string name="add_sound_from_recorder">錄製聲音</string>
     <string name="add_sound_choose_file">選擇文件</string>
     <string name="add_sound_music">音樂作曲家</string>
+    <string name="add_sound_choose_sound">音效</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">筆記選擇器</string>
     <!--  -->
@@ -1570,7 +1572,6 @@
         助手</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">常規的
         表情助手</string>
-    <string name="formula_editor_dialog_wiki_button">更多信息</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">找不到關鍵字。</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON 提取器</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino 數字引腳</string>

@@ -34,6 +34,7 @@
     <string name="ignore">Ignore</string>
     <string name="cancel">İmtina et</string>
     <string name="save">Saxla</string>
+    <string name="help">Kömək</string>
     <string name="discard">Ləğv et</string>
     <string name="next">Next</string>
     <string name="ok">Oldu</string>
@@ -627,6 +628,7 @@
     <string name="add_sound_from_recorder">Record sound</string>
     <string name="add_sound_choose_file">Faylı seç</string>
     <string name="add_sound_music">Music composer</string>
+    <string name="add_sound_choose_sound">Sounds</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">Note Picker</string>
     <!--  -->
@@ -1619,7 +1621,6 @@ needs read and write access to it. You can always change permissions through you
         assistant</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">Regular
         expression assistant</string>
-    <string name="formula_editor_dialog_wiki_button">More information</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">The keyword could not be found.</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON extractor</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino digital pin</string>

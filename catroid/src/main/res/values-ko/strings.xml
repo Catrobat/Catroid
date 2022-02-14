@@ -34,6 +34,7 @@
     <string name="ignore">무시</string>
     <string name="cancel">취소</string>
     <string name="save">저장</string>
+    <string name="help">도움말</string>
     <string name="discard">저장 안함</string>
     <string name="next">다음</string>
     <string name="ok">확인</string>
@@ -564,6 +565,7 @@
     <string name="add_sound_from_recorder">소리 녹음</string>
     <string name="add_sound_choose_file">파일 선택</string>
     <string name="add_sound_music">음악 작곡가</string>
+    <string name="add_sound_choose_sound">소리</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">노트 선택기</string>
     <!--  -->
@@ -1541,7 +1543,6 @@
         조수</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">정규병
         표현 도우미</string>
-    <string name="formula_editor_dialog_wiki_button">자세한 정보 보기</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">키워드를 찾을 수 없습니다.</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON 추출기</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">아두이노_디지털_핀</string>

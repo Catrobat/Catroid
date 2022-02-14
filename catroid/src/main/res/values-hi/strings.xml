@@ -34,6 +34,7 @@
     <string name="ignore">नज़रअंदाज़ </string>
     <string name="cancel">रद्द करें</string>
     <string name="save">सहेजें</string>
+    <string name="help">मदद</string>
     <string name="discard">रद्द करें</string>
     <string name="next">अगला</string>
     <string name="ok">ठीक है।</string>
@@ -625,6 +626,7 @@
     <string name="add_sound_from_recorder">रिकॉर्ड ध्वनि</string>
     <string name="add_sound_choose_file">फ़ाइल का चयन करें</string>
     <string name="add_sound_music">संगीतकार</string>
+    <string name="add_sound_choose_sound">ध्वनियाँ</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">नोट बीनने वाला</string>
     <!--  -->
@@ -1615,7 +1617,6 @@
         सहायक</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">नियमित
         अभिव्यक्ति सहायक</string>
-    <string name="formula_editor_dialog_wiki_button">अधिक जानकारी</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">कीवर्ड नहीं मिला।</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON चिमटा</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">Arduino डिजिटल पिन</string>

@@ -34,6 +34,7 @@
     <string name="ignore">چشم پوشی</string>
     <string name="cancel">لغو کردن</string>
     <string name="save">زخیره</string>
+    <string name="help">کمک</string>
     <string name="discard">متروک ساختن</string>
     <string name="next">بعد</string>
     <string name="ok">خوب</string>
@@ -575,6 +576,7 @@
     <string name="add_sound_from_recorder">ضبط صدا</string>
     <string name="add_sound_choose_file">فایل را انتخاب کنید</string>
     <string name="add_sound_music">آهنگساز</string>
+    <string name="add_sound_choose_sound">صدا</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">انتخاب کننده یادداشت</string>
     <!--  -->
@@ -1541,7 +1543,6 @@
         بیان منظم</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">دستیار 
         بیان منظم</string>
-    <string name="formula_editor_dialog_wiki_button">اطلاعات بیشتر</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">کلمه کلیدی پیدا نشد</string>
     <string name="formula_editor_function_regex_json_extractor_title">استخراج کننده JSON</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino digital pin</string>
