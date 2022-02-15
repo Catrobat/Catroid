@@ -34,6 +34,7 @@
     <string name="ignore">தவிர்த்திடு</string>
     <string name="cancel">பின்னெடு</string>
     <string name="save">சேமி</string>
+    <string name="help">உதவி</string>
     <string name="discard">புறக்கணி</string>
     <string name="next">அடுத்து</string>
     <string name="ok">ஆம்</string>
@@ -618,6 +619,7 @@
     <string name="add_sound_from_recorder">ஒலி பதிவு</string>
     <string name="add_sound_choose_file">கோப்பு தேர்ந்தெடு</string>
     <string name="add_sound_music">இசை அமைப்பாளர்</string>
+    <string name="add_sound_choose_sound">ஒலிகள்</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">Note Picker</string>
     <!--  -->
@@ -1597,7 +1599,6 @@
         assistant</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">Regular
         expression assistant</string>
-    <string name="formula_editor_dialog_wiki_button">மேற்கொண்ட தகவல்கள்</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">The keyword could not be found.</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON extractor</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino டிஜிட்டல் முள்</string>

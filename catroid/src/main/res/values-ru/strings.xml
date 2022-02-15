@@ -34,6 +34,7 @@
     <string name="ignore">Игнорировать</string>
     <string name="cancel">Отменить</string>
     <string name="save">Сохранить</string>
+    <string name="help">Помощь</string>
     <string name="discard">Сброс</string>
     <string name="next">Далее</string>
     <string name="ok">ОК</string>
@@ -702,6 +703,7 @@
     <string name="add_sound_from_recorder">Записать звук</string>
     <string name="add_sound_choose_file">Выбрать файл</string>
     <string name="add_sound_music">Музыкальный композитор</string>
+    <string name="add_sound_choose_sound">Звуки</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">Выбор заметок</string>
     <!--  -->
@@ -1706,7 +1708,6 @@
          помощник</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">Обычный
          помощник по выражению лица</string>
-    <string name="formula_editor_dialog_wiki_button">Подробности</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">Запись не найдена.</string>
     <string name="formula_editor_function_regex_json_extractor_title">Экстрактор JSON</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">pin-код для Arduino</string>

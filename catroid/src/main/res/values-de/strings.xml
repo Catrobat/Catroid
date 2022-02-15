@@ -34,6 +34,7 @@
     <string name="ignore">Ignorieren</string>
     <string name="cancel">Abbrechen</string>
     <string name="save">Speichern</string>
+    <string name="help">Hilfe</string>
     <string name="discard">Verwerfen</string>
     <string name="next">Weiter</string>
     <string name="ok">Ok</string>
@@ -618,6 +619,7 @@
     <string name="add_sound_from_recorder">Klang aufnehmen</string>
     <string name="add_sound_choose_file">Datei auswählen</string>
     <string name="add_sound_music">Komponist</string>
+    <string name="add_sound_choose_sound">Klänge</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">Notizauswahl</string>
     <!--  -->
@@ -1584,7 +1586,6 @@
         Assistent</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">Regulärer
         Ausdrucksassistent</string>
-    <string name="formula_editor_dialog_wiki_button">Mehr Informationen</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">Das Schlüsselwort wurde nicht gefunden.</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON-Extraktor</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">Arduino Digital Pin</string>

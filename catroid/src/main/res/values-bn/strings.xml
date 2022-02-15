@@ -34,6 +34,7 @@
     <string name="ignore">উপেক্ষা করুন</string>
     <string name="cancel">বাতিল</string>
     <string name="save">সংরক্ষণ করুন</string>
+    <string name="help">সাহায্য</string>
     <string name="discard">বাতিল করুন</string>
     <string name="next">পরবর্তী</string>
     <string name="ok">সঠিক</string>
@@ -610,6 +611,7 @@
     <string name="add_sound_from_recorder">শব্দ সংরক্ষণ করুন</string>
     <string name="add_sound_choose_file">ফাইল নির্বাচন করুন</string>
     <string name="add_sound_music">সুরকার</string>
+    <string name="add_sound_choose_sound">শব্দ</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">নোট পিকার</string>
     <!--  -->
@@ -1578,7 +1580,6 @@
         সহকারী</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">নিয়মিত
         অভিব্যক্তি সহকারী</string>
-    <string name="formula_editor_dialog_wiki_button">আরো তথ্য</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">কীওয়ার্ডটি পাওয়া যায়নি।</string>
     <string name="formula_editor_function_regex_json_extractor_title">জেএসএন এক্সট্র্যাক্টর</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">আরডুইনো ডিজিটাল পিন</string>

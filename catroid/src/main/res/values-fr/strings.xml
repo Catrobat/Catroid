@@ -34,6 +34,7 @@
     <string name="ignore">Ignorer</string>
     <string name="cancel">Annuler</string>
     <string name="save">Enregistrer</string>
+    <string name="help">Aide</string>
     <string name="discard">Abandonner</string>
     <string name="next">Suivant</string>
     <string name="ok">OK</string>
@@ -622,6 +623,7 @@
     <string name="add_sound_from_recorder">Enregistrer un son</string>
     <string name="add_sound_choose_file">Sélectionner le fichier</string>
     <string name="add_sound_music">Compositeur de musique</string>
+    <string name="add_sound_choose_sound">Sons</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">Sélecteur de notes</string>
     <!--  -->
@@ -1611,7 +1613,6 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'Je suis un panda.\')</string>
     <string name="formula_editor_function_regex_assistant">Assistant d\'expression régulière</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">Assistant d\'expression régulier</string>
-    <string name="formula_editor_dialog_wiki_button">Plus d\'infos</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">Le mot-clé est introuvable.</string>
     <string name="formula_editor_function_regex_json_extractor_title">Extracteur JSON</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">épingle digitale arduino</string>

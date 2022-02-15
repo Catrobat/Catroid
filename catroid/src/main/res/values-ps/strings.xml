@@ -34,6 +34,7 @@
     <string name="ignore">سترګې پټول</string>
     <string name="cancel">لغوه کړئ</string>
     <string name="save">خوندي کړئ</string>
+    <string name="help">مرسته</string>
     <string name="discard">رد کړئ</string>
     <string name="next">وړاندی</string>
     <string name="ok">سمه ده</string>
@@ -624,6 +625,7 @@
     <string name="add_sound_from_recorder">غږ ثبت کړئ</string>
     <string name="add_sound_choose_file">فایل غوره کړئ</string>
     <string name="add_sound_music">د موسیقۍ کمپوزر</string>
+    <string name="add_sound_choose_sound">غږونه</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">نوټ غوره کوونکی</string>
     <!--  -->
@@ -1613,7 +1615,6 @@
     <string name="formula_editor_function_regex_assistant">د منظم بیان معاون</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">د منظم 
         بیان معاون</string>
-    <string name="formula_editor_dialog_wiki_button">نور مالومات</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">کلیمه ونه موندل شوه.</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON استخراج</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino digital pin</string>

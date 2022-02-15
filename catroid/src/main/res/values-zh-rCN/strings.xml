@@ -34,6 +34,7 @@
     <string name="ignore">忽略</string>
     <string name="cancel">取消</string>
     <string name="save">保存</string>
+    <string name="help">帮助</string>
     <string name="discard">放弃</string>
     <string name="next">下一步</string>
     <string name="ok">好的</string>
@@ -579,6 +580,7 @@
     <string name="add_sound_from_recorder">录制声音</string>
     <string name="add_sound_choose_file">选择文件</string>
     <string name="add_sound_music">音乐作曲家</string>
+    <string name="add_sound_choose_sound">声音</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">笔记选择器</string>
     <!--  -->
@@ -1549,7 +1551,6 @@ dash(-), 下划线 (_), 和 句号(.).</string>
         助手</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">正则
         表达式助手</string>
-    <string name="formula_editor_dialog_wiki_button">详细信息</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">找不到关键字。</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON 提取器</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino数字端口</string>

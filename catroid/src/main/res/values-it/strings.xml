@@ -34,6 +34,7 @@
     <string name="ignore">Ignora</string>
     <string name="cancel">Annulla</string>
     <string name="save">Salva</string>
+    <string name="help">Guida</string>
     <string name="discard">Scarta</string>
     <string name="next">Avanti</string>
     <string name="ok">OK</string>
@@ -627,6 +628,7 @@
     <string name="add_sound_from_recorder">Registra suono</string>
     <string name="add_sound_choose_file">Seleziona un file</string>
     <string name="add_sound_music">Compositore musicale</string>
+    <string name="add_sound_choose_sound">Suoni</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">Selettore di Note</string>
     <!--  -->
@@ -1614,7 +1616,6 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
         espressioni regolari</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">Assistente
         espressioni regolari</string>
-    <string name="formula_editor_dialog_wiki_button">Ulteriori informazioni</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">La parola chiave non è stata trovata.</string>
     <string name="formula_editor_function_regex_json_extractor_title">Estrattore JSON</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_pin_digitale</string>

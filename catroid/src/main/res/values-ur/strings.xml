@@ -34,6 +34,7 @@
     <string name="ignore">نظر انداز</string>
     <string name="cancel">منسوخ کریں</string>
     <string name="save">محفوظ </string>
+    <string name="help">مدد</string>
     <string name="discard">مسترد کریں</string>
     <string name="next">اگلا</string>
     <string name="ok">ٹھيک ہے</string>
@@ -608,6 +609,7 @@
     <string name="add_sound_from_recorder">ریکارڈ آواز</string>
     <string name="add_sound_choose_file">فائل منتخب کریں</string>
     <string name="add_sound_music">موسیقی کے کمپوزر</string>
+    <string name="add_sound_choose_sound">آوازیں</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">نوٹ چنندہ</string>
     <!--  -->
@@ -1587,7 +1589,6 @@
     <string name="formula_editor_function_regex_parameter">(\' an؟ ([^ .]+)\'، \'میں ایک پانڈا ہوں۔\')</string>
     <string name="formula_editor_function_regex_assistant">ریگولر ایکسپریشن اسسٹنٹ</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">ریگولر ایکسپریشن اسسٹنٹ</string>
-    <string name="formula_editor_dialog_wiki_button">مزید معلومات</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">کلیدی لفظ نہیں مل سکا۔</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON ایکسٹریکٹر</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">آردوانو ڈیجیٹل پن</string>
