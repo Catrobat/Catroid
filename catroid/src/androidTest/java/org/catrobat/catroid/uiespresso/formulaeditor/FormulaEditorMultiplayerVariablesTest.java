@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,14 +25,15 @@ package org.catrobat.catroid.uiespresso.formulaeditor;
 
 import android.view.View;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.hamcrest.Matcher;
 import org.junit.Before;
@@ -40,11 +41,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import androidx.test.core.app.ApplicationProvider;
-
+import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_FRAGMENT_POSITION;
+import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.hamcrest.CoreMatchers.not;
 
+import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -56,13 +59,11 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 public class FormulaEditorMultiplayerVariablesTest {
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
-			SpriteActivity.FRAGMENT_SCRIPTS);
+			FragmentActivityTestRule<>(SpriteActivity.class, EXTRA_FRAGMENT_POSITION, FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() throws Exception {
-		Script script = BrickTestUtils.createProjectAndGetStartScript(
-				FormulaEditorMultiplayerVariablesTest.class.getSimpleName());
+		Script script = createProjectAndGetStartScript(FormulaEditorMultiplayerVariablesTest.class.getSimpleName());
 		script.addBrick(new ChangeSizeByNBrick(0));
 
 		baseActivityTestRule.launchActivity();
@@ -86,11 +87,25 @@ public class FormulaEditorMultiplayerVariablesTest {
 		testMultiplayerScopeVisibility(false);
 	}
 
+	@Category({Cat.AppUi.class, Level.Functional.class})
+	@Test
+	public void testMultiplayerScopeIsVisibleWithDisabledPreference() {
+		SettingsFragment.setMultiplayerVariablesPreferenceEnabled(getApplicationContext(), false);
+
+		ProjectManager.getInstance().getCurrentProject().addMultiplayerVariable(new UserVariable("oldMultiplayerVariable"));
+
+		onView(withId(R.id.button_add))
+				.perform(click());
+
+		onView(withId(R.id.multiplayer))
+				.check(matches(isDisplayed()));
+	}
+
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testCannotSelectMultiplayerAndListTogether() {
-		SettingsFragment.setMultiplayerVariablesPreferenceEnabled(
-				ApplicationProvider.getApplicationContext(), true);
+		SettingsFragment.setMultiplayerVariablesPreferenceEnabled(getApplicationContext(), true);
+
 		onView(withId(R.id.button_add))
 				.perform(click());
 
@@ -115,8 +130,7 @@ public class FormulaEditorMultiplayerVariablesTest {
 	}
 
 	private void testMultiplayerScopeVisibility(boolean isMultiplayerEnabled) {
-		SettingsFragment.setMultiplayerVariablesPreferenceEnabled(
-				ApplicationProvider.getApplicationContext(), isMultiplayerEnabled);
+		SettingsFragment.setMultiplayerVariablesPreferenceEnabled(getApplicationContext(), isMultiplayerEnabled);
 
 		onView(withId(R.id.button_add))
 				.perform(click());

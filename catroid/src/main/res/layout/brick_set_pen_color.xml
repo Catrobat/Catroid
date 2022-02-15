@@ -57,9 +57,7 @@
 
     <TextView
         android:id="@+id/brick_set_pen_color_action_red_edit_text"
-        style="@style/BrickEditText"
-        app:layout_inputType="number"
-        app:layout_textField="true">
+        style="@style/BrickEditText">
     </TextView>
 
     <TextView
@@ -70,9 +68,7 @@
 
     <TextView
         android:id="@+id/brick_set_pen_color_action_green_edit_text"
-        style="@style/BrickEditText"
-        app:layout_inputType="number"
-        app:layout_textField="true">
+        style="@style/BrickEditText">
     </TextView>
 
     <TextView
@@ -83,9 +79,7 @@
 
     <TextView
         android:id="@+id/brick_set_pen_color_action_blue_edit_text"
-        style="@style/BrickEditText"
-        app:layout_inputType="number"
-        app:layout_textField="true">
+        style="@style/BrickEditText">
     </TextView>
 
     </org.catrobat.catroid.ui.BrickLayout>

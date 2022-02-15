@@ -23,6 +23,7 @@
 package org.catrobat.catroid.io;
 
 import android.util.Log;
+import android.util.Pair;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.ConversionException;
@@ -187,6 +188,7 @@ import org.w3c.dom.NodeList;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -791,6 +793,7 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 			modifyScriptLists(originalDocument);
 			modifyBrickLists(originalDocument);
 			modifyVariables(originalDocument);
+			modifyCameraBricks(originalDocument);
 			checkReferences(originalDocument.getDocumentElement());
 
 			saveDocument(originalDocument, file);
@@ -818,6 +821,11 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 	private List<Node> getScriptsOfType(Document doc, String type) {
 		NodeList scripts = doc.getElementsByTagName("script");
 		return getElementsFilteredByAttribute(scripts, "type", type);
+	}
+
+	private List<Node> getBricksOfType(Document doc, String type) {
+		NodeList bricks = doc.getElementsByTagName("brick");
+		return getElementsFilteredByAttribute(bricks, "type", type);
 	}
 
 	private List<Node> getElementsFilteredByAttribute(NodeList unfiltered, String attributeName, String
@@ -871,6 +879,32 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 			originalDocument.renameNode(variableNode, variableNodeNamespaceURI, "data");
 		} else {
 			Log.e(TAG, "XML-Update: No variables to modify.");
+		}
+	}
+
+	private void modifyCameraBricks(Document originalDocument) {
+		List<Pair<String, String>> brickUpdateData = Arrays.asList(
+				new Pair<>("CameraBrick", "spinnerSelectionON"),
+				new Pair<>("ChooseCameraBrick", "spinnerSelectionFRONT"));
+
+		for (Pair<String, String> brick : brickUpdateData) {
+			String brickType = brick.first;
+			String newNodeName = brick.second;
+			for (Node node : getBricksOfType(originalDocument, brickType)) {
+				Node childNode = findNodeByName(node, "spinnerSelectionID");
+				if (childNode == null) {
+					continue;
+				}
+				String value = childNode.getTextContent();
+				if (value == null) {
+					continue;
+				}
+				String newValue = value.equals("0") ? "false" : "true";
+				Node newChildNode = originalDocument.createElement(newNodeName);
+				newChildNode.setTextContent(newValue);
+				node.removeChild(childNode);
+				node.appendChild(newChildNode);
+			}
 		}
 	}
 

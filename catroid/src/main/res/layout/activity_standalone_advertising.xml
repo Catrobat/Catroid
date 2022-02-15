@@ -79,7 +79,7 @@
             <ImageView
                 android:layout_width="27dp"
                 android:layout_height="30dp"
-                android:src="@drawable/google_playstore_logo"
+                android:src="@drawable/ic_google_playstore_logo"
                 tools:ignore="ContentDescription" />
 
             <TextView
@@ -107,7 +107,7 @@
             <ImageView
                 android:layout_width="27dp"
                 android:layout_height="30dp"
-                android:src="@drawable/huawei_app_gallery_logo"
+                android:src="@drawable/ic_huawei_app_gallery_logo"
                 tools:ignore="ContentDescription" />
 
             <TextView

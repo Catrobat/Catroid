@@ -28,6 +28,7 @@
     android:theme="@android:style/Theme.Light" >
 
     <LinearLayout
+        android:id="@+id/formula_editor_brick_and_formula"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -59,7 +60,7 @@
                 android:hint="@string/formula_nothing_selected"
                 android:inputType="textMultiLine"
                 android:lineSpacingExtra="5dp"
-                android:maxLines="5"
+                android:maxLines="20"
                 android:scrollbarStyle="insideInset"
                 android:scrollbars="vertical"
                 android:textColor="@color/solid_black"

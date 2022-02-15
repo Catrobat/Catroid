@@ -34,7 +34,6 @@ import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,6 +48,8 @@ import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
 import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SOUNDS;
 import static org.catrobat.catroid.uiespresso.util.actions.TabActionsKt.selectTabAtPosition;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import static androidx.test.espresso.Espresso.onIdle;
 import static androidx.test.espresso.Espresso.onView;
@@ -109,8 +110,8 @@ public class SpriteActivityTabsTest {
 				.getSupportFragmentManager()
 				.findFragmentByTag(tag);
 
-		Assert.assertNotNull(fragment);
-		Assert.assertTrue(fragment.isVisible());
+		assertNotNull(fragment);
+		assertTrue(fragment.isVisible());
 	}
 
 	private void assertTabLayoutIsNotShown() {

@@ -50,9 +50,7 @@
 
         <TextView
             android:id="@+id/brick_arduino_set_analog_pin_edit_text"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true" />
+            style="@style/BrickEditText" />
 
         <TextView
             android:id="@+id/brick_arduino_set_analog_value_text_view"
@@ -62,9 +60,7 @@
 
         <TextView
             android:id="@+id/brick_arduino_set_analog_value_edit_text"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true" />
+            style="@style/BrickEditText" />
 
     </org.catrobat.catroid.ui.BrickLayout>
 </LinearLayout>

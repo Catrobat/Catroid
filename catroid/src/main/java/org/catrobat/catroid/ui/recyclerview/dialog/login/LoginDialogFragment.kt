@@ -218,7 +218,7 @@ class LoginDialogFragment : DialogFragment() {
     }
 
     companion object {
-        const val PASSWORD_FORGOTTEN_PATH = "resetting/request"
+        const val PASSWORD_FORGOTTEN_PATH = "reset-password"
         val TAG = LoginDialogFragment::class.java.simpleName
     }
 }

@@ -87,7 +87,7 @@ public class CategoryListRVAdapter extends RecyclerView.Adapter<ViewHolder> {
 	public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
 		final CategoryListItem item = items.get(position);
 
-		if (holder.getItemViewType() == R.layout.vh_category_list_item_with_headline) {
+		if (holder.getItemViewType() == R.layout.view_holder_category_list_item_with_headline) {
 			TextView headlineView = holder.itemView.findViewById(R.id.headline);
 			headlineView.setText(items.get(position).header);
 		}
@@ -99,8 +99,8 @@ public class CategoryListRVAdapter extends RecyclerView.Adapter<ViewHolder> {
 	@Override
 	public @LayoutRes int getItemViewType(int position) {
 		return items.get(position).header != null
-				? R.layout.vh_category_list_item_with_headline
-				: R.layout.vh_category_list_item;
+				? R.layout.view_holder_category_list_item_with_headline
+				: R.layout.view_holder_category_list_item;
 	}
 
 	@Override

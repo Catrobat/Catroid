@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,25 +27,28 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.ResultReceiver;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.project.ProjectUploadService;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.utils.ToastUtil;
 
 import androidx.annotation.StringRes;
 import androidx.core.app.NotificationCompat;
 import kotlin.jvm.Synchronized;
 
-import static org.catrobat.catroid.common.Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.EXTRA_PROJECT_NAME;
 import static org.catrobat.catroid.common.Constants.MAX_PERCENT;
 
@@ -87,20 +90,47 @@ public final class StatusBarNotificationManager {
 		return data;
 	}
 
-	public NotificationData createSaveProjectToExternalMemoryNotification(Context context, String programName) {
+	public NotificationData createSaveProjectToExternalMemoryNotification(Context context,
+			Uri projectDestination, String programName) {
 		if (context == null || programName == null) {
 			return null;
 		}
 
+		String projectPath = getPathOrFileName(context, projectDestination);
 		NotificationData data = new NotificationData(R.drawable.ic_stat, programName,
 				context.getString(R.string.notification_save_project_to_external_storage_title_pending),
 				context.getString(R.string.notification_save_project_to_external_storage_title_open),
 				context.getString(R.string.notification_save_project_to_external_storage_pending),
-				context.getString(R.string.notification_save_project_to_external_storage_open, EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY),
+				context.getString(R.string.notification_save_project_to_external_storage_open,
+						projectPath),
 				0, MAX_PERCENT, false, false, getNextNotificationID());
 
 		showOrUpdateNotification(context, data, 0, null);
 		return data;
+	}
+
+	private String getPathOrFileName(Context context, Uri uri) {
+		String path = uri.getPath();
+		if (uri.getScheme().equals("content")) {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+				ContentResolver contentResolver = context.getContentResolver();
+				String[] projection = {MediaStore.MediaColumns.DISPLAY_NAME};
+				Cursor cursor = contentResolver.query(uri, projection, null, null);
+				if (cursor != null) {
+					if (cursor.moveToFirst()) {
+						int index = cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME);
+						String displayName = cursor.getString(index);
+						if (displayName != null) {
+							path = displayName;
+						}
+					}
+					cursor.close();
+				}
+			} else {
+				Log.e(TAG, "Error while resolving file name.");
+			}
+		}
+		return path;
 	}
 
 	public NotificationData createProjectDownloadNotification(Context context, String programName) {
@@ -119,14 +149,15 @@ public final class StatusBarNotificationManager {
 		int notificationID = notificationData.getNotificationID();
 		notificationData.setProgressInPercent(progressInPercent);
 		if (progressInPercent < MAX_PERCENT) {
-			notificationManager.notify(notificationID, notificationData.toNotification(context, CHANNEL_ID, contentIntent));
+			ToastUtil.showSuccess(context, notificationData.getTextWorking());
 		} else {
 			notificationData.setProgressInPercent(0);
 			notificationData.setMaxProgress(0);
 			notificationData.setAutoCancel(true);
 			notificationData.setOngoing(false);
-			notificationManager.notify(notificationID, notificationData.toNotification(context, CHANNEL_ID, contentIntent));
+			ToastUtil.showSuccess(context, notificationData.getTextDone());
 		}
+		notificationManager.notify(notificationID, notificationData.toNotification(context, CHANNEL_ID, contentIntent));
 	}
 
 	public void abortProgressNotificationWithMessage(Context context, NotificationData notificationData, @StringRes int changeDoneText) {

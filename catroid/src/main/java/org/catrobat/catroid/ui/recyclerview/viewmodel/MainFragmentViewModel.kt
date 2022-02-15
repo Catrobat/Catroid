@@ -27,20 +27,34 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.work.BackoffPolicy
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.ListenableWorker
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.common.ProjectData
 import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser
-import org.catrobat.catroid.retrofit.WebService
-import org.catrobat.catroid.retrofit.models.FeaturedProject
-import org.catrobat.catroid.retrofit.models.ProjectsCategory
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import org.catrobat.catroid.sync.FeaturedProjectSyncWorker
+import org.catrobat.catroid.sync.ProjectsCategoriesSyncWorker
+import org.catrobat.catroid.ui.recyclerview.repository.FeaturedProjectsRepository
+import org.catrobat.catroid.ui.recyclerview.repository.ProjectCategoriesRepository
+import org.catrobat.catroid.utils.NetworkConnectionMonitor
+import org.catrobat.catroid.utils.combineWith
 import java.io.File
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
-class MainFragmentViewModel(private val webServer: WebService) : ViewModel() {
+class MainFragmentViewModel(
+    private val workManager: WorkManager,
+    private val featuredProjectsRepository: FeaturedProjectsRepository,
+    private val projectCategoriesRepository: ProjectCategoriesRepository,
+    private val connectionMonitor: NetworkConnectionMonitor
+) : ViewModel() {
     private val projectList = MutableLiveData<List<ProjectData>>()
 
     fun getProjects(): LiveData<List<ProjectData>> = projectList
@@ -66,7 +80,21 @@ class MainFragmentViewModel(private val webServer: WebService) : ViewModel() {
     }
 
     init {
-        fetchData()
+        update()
+    }
+
+    fun update() {
+        workManager.enqueueUniquePeriodicWork(
+            FEATURED_PROJECTS_WORK_NAME,
+            ExistingPeriodicWorkPolicy.REPLACE,
+            createPeriodicWorkerRequestOf(FeaturedProjectSyncWorker::class.java)
+        )
+
+        workManager.enqueueUniquePeriodicWork(
+            PROJECTS_CATEGORIES_WORK_NAME,
+            ExistingPeriodicWorkPolicy.REPLACE,
+            createPeriodicWorkerRequestOf(ProjectsCategoriesSyncWorker::class.java)
+        )
     }
 
     private val isLoadingData = MutableLiveData<Boolean>(true)
@@ -77,43 +105,47 @@ class MainFragmentViewModel(private val webServer: WebService) : ViewModel() {
         isLoadingData.postValue(loading)
     }
 
-    private val featuredProjects = MutableLiveData<List<FeaturedProject>>()
+    fun connectionStatusAndFeaturedProjectsAndProjectCategoriesLiveData() =
+        connectionMonitor.combineWith(
+            featuredProjectsRepository.getFeaturedProjects().asLiveData(),
+            projectCategoriesRepository.getProjectsCategories().asLiveData()
+        )
 
-    fun getFeaturedProjects(): LiveData<List<FeaturedProject>> = featuredProjects
+    fun registerNetworkCallback() {
+        connectionMonitor.registerDefaultNetworkCallback()
+    }
 
-    private val projectCategories = MutableLiveData<List<ProjectsCategory>>()
+    fun unregisterNetworkCallback() {
+        connectionMonitor.unregisterDefaultNetworkCallback()
+    }
 
-    fun getProjectCategories(): LiveData<List<ProjectsCategory>> = projectCategories
+    private fun createPeriodicWorkerRequestOf(workerClass: Class<out ListenableWorker?>):
+        PeriodicWorkRequest {
 
-    fun fetchData() {
-        webServer.getProjectCategories().enqueue(object : Callback<List<ProjectsCategory>> {
-            override fun onResponse(
-                call: Call<List<ProjectsCategory>>,
-                response: Response<List<ProjectsCategory>>
-            ) {
-                response.body()?.let { items ->
-                    projectCategories.postValue(items.filter { it.type != "example" })
-                }
-            }
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .setRequiresStorageNotLow(true)
+            .setRequiresBatteryNotLow(true)
+            .build()
 
-            override fun onFailure(call: Call<List<ProjectsCategory>>, t: Throwable) {
-                Log.w(javaClass.simpleName, "failed to fetch project categories!!", t)
-            }
-        })
+        return PeriodicWorkRequest.Builder(
+            workerClass,
+            REPEATED_INTERVAL,
+            TimeUnit.DAYS
+        )
+            .setConstraints(constraints)
+            .setBackoffCriteria(
+                BackoffPolicy.EXPONENTIAL,
+                BACKOFF_DELAY,
+                TimeUnit.SECONDS
+            )
+            .build()
+    }
 
-        webServer.getFeaturedProjects().enqueue(object : Callback<List<FeaturedProject>> {
-            override fun onResponse(
-                call: Call<List<FeaturedProject>>,
-                response: Response<List<FeaturedProject>>
-            ) {
-                response.body()?.let {
-                    featuredProjects.postValue(it)
-                }
-            }
-
-            override fun onFailure(call: Call<List<FeaturedProject>>, t: Throwable) {
-                Log.w(javaClass.simpleName, "failed to fetch featured projects!!", t)
-            }
-        })
+    companion object {
+        private const val FEATURED_PROJECTS_WORK_NAME = "featured_projects_work"
+        private const val PROJECTS_CATEGORIES_WORK_NAME = "projects_categories_work"
+        private const val REPEATED_INTERVAL = 1L
+        private const val BACKOFF_DELAY = 20L
     }
 }

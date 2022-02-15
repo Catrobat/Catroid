@@ -108,7 +108,7 @@ public class CopySceneTest {
 		onView(withText(toBeCopiedSceneName + " (1)"))
 				.check(matches(isDisplayed()));
 
-		onView(withText(toBeCopiedSceneName + " (3)"))
+		onView(withText(toBeCopiedSceneName + " (2)"))
 				.check(matches(isDisplayed()));
 		int copiedSceneSpritesCount =
 				ProjectManager.getInstance().getCurrentProject().getSceneList().get(2).getSpriteList().size();
@@ -127,7 +127,7 @@ public class CopySceneTest {
 		Project project = new Project(context, projectName);
 		Sprite sprite = new Sprite("firstSprite");
 		project.getDefaultScene().addSprite(sprite);
-		Scene scene2 = new Scene("Scene (2)", project);
+		Scene scene2 = new Scene("Scene (1)", project);
 		project.addScene(scene2);
 
 		ProjectManager.getInstance().setCurrentProject(project);

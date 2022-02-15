@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,6 +42,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.common.Conversions;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -162,7 +163,9 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 				sequence, getFormulaWithBrickField(BrickField.X_POSITION),
 				getFormulaWithBrickField(BrickField.Y_POSITION),
 				getFormulaWithBrickField(BrickField.SIZE),
-				getFormulaWithBrickField(BrickField.COLOR), userVariable, alignmentSelection));
+				getFormulaWithBrickField(BrickField.COLOR), userVariable,
+				alignmentSelection,
+				new AndroidStringProvider(CatroidApplication.getAppContext())));
 	}
 
 	private String getColor() {

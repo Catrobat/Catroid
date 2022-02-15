@@ -78,14 +78,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import kotlin.Lazy;
-
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS;
-import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
@@ -94,7 +91,6 @@ public class BrickSpinnerDefaultValueTest {
 	private CategoryBricksFactory categoryBricksFactory;
 	private Sprite sprite;
 	private Activity activity;
-	private Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
 
 	private final List<String> speechAISettings = new ArrayList<>(Arrays.asList(
 			SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
@@ -125,7 +121,7 @@ public class BrickSpinnerDefaultValueTest {
 				{"InsertItemIntoUserListBrick - R.id.insert_item_into_userlist_spinner", "Data", InsertItemIntoUserListBrick.class, R.id.insert_item_into_userlist_spinner, "new…"},
 				{"ReplaceItemInUserListBrick - R.id.replace_item_in_userlist_spinner", "Data", ReplaceItemInUserListBrick.class, R.id.replace_item_in_userlist_spinner, "new…"},
 				{"SceneTransitionBrick - R.id.brick_scene_transition_spinner", "Control", SceneTransitionBrick.class, R.id.brick_scene_transition_spinner, "new…"},
-				{"SceneStartBrick - R.id.brick_scene_start_spinner", "Control", SceneStartBrick.class, R.id.brick_scene_start_spinner, "Scene (1)"},
+				{"SceneStartBrick - R.id.brick_scene_start_spinner", "Control", SceneStartBrick.class, R.id.brick_scene_start_spinner, "Scene"},
 				{"CloneBrick - R.id.brick_clone_spinner", "Control", CloneBrick.class, R.id.brick_clone_spinner, "yourself"},
 		});
 	}
@@ -171,6 +167,7 @@ public class BrickSpinnerDefaultValueTest {
 		SharedPreferences.Editor sharedPreferencesEditor = PreferenceManager
 				.getDefaultSharedPreferences(activity.getApplicationContext()).edit();
 		sharedPreferencesEditor.clear().commit();
+		ProjectManager.getInstance().resetProjectManager();
 	}
 
 	public void createProject(Context context) {
@@ -180,9 +177,9 @@ public class BrickSpinnerDefaultValueTest {
 		script.addBrick(new SetXBrick());
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		projectManager.getValue().setCurrentProject(project);
-		projectManager.getValue().setCurrentSprite(sprite);
-		projectManager.getValue().setCurrentlyEditedScene(project.getDefaultScene());
+		ProjectManager.getInstance().setCurrentProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 	}
 
 	private Brick getBrickFromCategoryBricksFactory() {
@@ -205,7 +202,7 @@ public class BrickSpinnerDefaultValueTest {
 		View brickView = brick.getView(activity);
 		assertNotNull(brickView);
 
-		Spinner brickSpinner = (Spinner) brickView.findViewById(spinnerId);
+		Spinner brickSpinner = brickView.findViewById(spinnerId);
 		assertNotNull(brickSpinner);
 
 		assertEquals(expected, ((Nameable) brickSpinner.getSelectedItem()).getName());

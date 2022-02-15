@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,17 +22,18 @@
  */
 package org.catrobat.catroid.uiespresso.content.brick.app;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.rules.FlakyTestRule;
 import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -40,12 +41,15 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_FRAGMENT_POSITION;
+import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
 import static org.hamcrest.Matchers.not;
 
+import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -60,7 +64,7 @@ public class VariableBrickTest {
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
+			FragmentActivityTestRule<>(SpriteActivity.class, EXTRA_FRAGMENT_POSITION, FRAGMENT_SCRIPTS);
 
 	@Rule
 	public FlakyTestRule flakyTestRule = new FlakyTestRule();
@@ -68,7 +72,7 @@ public class VariableBrickTest {
 	@Before
 	public void setUp() throws Exception {
 		setBrickPosition = 1;
-		Script script = BrickTestUtils.createProjectAndGetStartScript("variableBricksTest");
+		Script script = createProjectAndGetStartScript("variableBricksTest");
 		script.addBrick(new SetVariableBrick());
 		script.addBrick(new ChangeVariableBrick());
 		baseActivityTestRule.launchActivity();
@@ -78,7 +82,7 @@ public class VariableBrickTest {
 	@Test
 	@Flaky
 	public void testCreatingNewVariable() {
-		final String variableName = "testVariable";
+		final String variableName = "TestVariable";
 		onBrickAtPosition(setBrickPosition).onVariableSpinner(R.id.set_variable_spinner)
 				.performNewVariable(variableName)
 				.checkShowsText(variableName);
@@ -87,10 +91,9 @@ public class VariableBrickTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testCreatingNewMultiplayerVariable() {
-		SettingsFragment.setMultiplayerVariablesPreferenceEnabled(
-				ApplicationProvider.getApplicationContext(), true);
+		SettingsFragment.setMultiplayerVariablesPreferenceEnabled(getApplicationContext(), true);
 
-		final String variableName = "multiplayerVariable";
+		final String variableName = "MultiplayerVariable";
 		onBrickAtPosition(setBrickPosition).onVariableSpinner(R.id.set_variable_spinner)
 				.performNewMultiplayerVariable(variableName)
 				.checkShowsText(variableName)
@@ -108,8 +111,10 @@ public class VariableBrickTest {
 				.perform(click());
 
 		closeSoftKeyboard();
+
 		onView(withText(R.string.cancel))
 				.perform(click());
+
 		onBrickAtPosition(setBrickPosition).onVariableSpinner(R.id.set_variable_spinner)
 				.checkShowsText(R.string.new_option);
 	}
@@ -117,7 +122,7 @@ public class VariableBrickTest {
 	@Category({Cat.AppUi.class, Level.Functional.class})
 	@Test
 	public void testAfterDeleteBrickVariableStillVisible() {
-		final String variableName = "testVariable";
+		final String variableName = "TestVariable";
 		onBrickAtPosition(setBrickPosition).onVariableSpinner(R.id.set_variable_spinner)
 				.performNewVariable(variableName);
 
@@ -133,8 +138,7 @@ public class VariableBrickTest {
 	@Category({Cat.AppUi.class, Level.Functional.class})
 	@Test
 	public void testMultiplayerVariableScopeIsVisibleWithEnabledPreference() {
-		SettingsFragment.setMultiplayerVariablesPreferenceEnabled(
-				ApplicationProvider.getApplicationContext(), true);
+		SettingsFragment.setMultiplayerVariablesPreferenceEnabled(getApplicationContext(), true);
 
 		onBrickAtPosition(setBrickPosition).onVariableSpinner(R.id.set_variable_spinner)
 				.perform(click());
@@ -149,8 +153,7 @@ public class VariableBrickTest {
 	@Category({Cat.AppUi.class, Level.Functional.class})
 	@Test
 	public void testMultiplayerVariableScopeIsNotVisibleWithDisabledPreference() {
-		SettingsFragment.setMultiplayerVariablesPreferenceEnabled(
-				ApplicationProvider.getApplicationContext(), false);
+		SettingsFragment.setMultiplayerVariablesPreferenceEnabled(getApplicationContext(), false);
 
 		onBrickAtPosition(setBrickPosition).onVariableSpinner(R.id.set_variable_spinner)
 				.perform(click());
@@ -160,5 +163,22 @@ public class VariableBrickTest {
 
 		onView(withId(R.id.multiplayer))
 				.check(matches(not(isDisplayed())));
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void testMultiplayerVariableScopeIsVisibleWithDisabledPreference() {
+		SettingsFragment.setMultiplayerVariablesPreferenceEnabled(getApplicationContext(), false);
+
+		ProjectManager.getInstance().getCurrentProject().addMultiplayerVariable(new UserVariable("oldMultiplayerVariable"));
+
+		onBrickAtPosition(setBrickPosition).onVariableSpinner(R.id.set_variable_spinner)
+				.perform(click());
+
+		onView(withText(R.string.new_option))
+				.perform(click());
+
+		onView(withId(R.id.multiplayer))
+				.check(matches(isDisplayed()));
 	}
 }

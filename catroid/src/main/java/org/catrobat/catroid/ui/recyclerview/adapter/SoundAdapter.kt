@@ -28,7 +28,7 @@ import android.text.format.DateUtils
 import android.util.Log
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.SoundInfo
-import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH
+import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedViewHolder
 import org.catrobat.catroid.utils.FileMetaDataExtractor
 import java.io.IOException
 import java.util.Locale
@@ -41,7 +41,7 @@ class SoundAdapter(items: List<SoundInfo?>?) : ExtendedRVAdapter<SoundInfo?>(ite
     private var currentPlaying: SoundInfo? = null
     private var currentPlayingPosition: Int = 0
 
-    override fun onBindViewHolder(holder: ExtendedVH?, position: Int) {
+    override fun onBindViewHolder(holder: ExtendedViewHolder?, position: Int) {
         val item = items[position]
 
         holder?.title?.text = item?.name
@@ -60,25 +60,26 @@ class SoundAdapter(items: List<SoundInfo?>?) : ExtendedRVAdapter<SoundInfo?>(ite
             }
         }
 
-        val context = holder?.itemView?.context
+        val context = holder?.itemView?.context ?: return
+        item ?: return
 
         if (showDetails) {
-            holder?.details?.text = String.format(
+            holder.details?.text = String.format(
                 Locale.getDefault(),
-                context?.getString(R.string.sound_details)!!,
+                context.getString(R.string.sound_details),
                 getSoundDuration(item),
-                FileMetaDataExtractor.getSizeAsString(item?.file, context)
+                FileMetaDataExtractor.getSizeAsString(item.file, context)
             )
         } else {
-            holder?.details?.text = String.format(
+            holder.details?.text = String.format(
                 Locale.getDefault(),
-                context?.getString(R.string.sound_duration)!!,
+                context.getString(R.string.sound_duration),
                 getSoundDuration(item)
             )
         }
     }
 
-    private fun setAndPlaySound(holder: ExtendedVH?, position: Int, item: SoundInfo?) {
+    private fun setAndPlaySound(holder: ExtendedViewHolder?, position: Int, item: SoundInfo?) {
         holder?.image?.setImageResource(R.drawable.ic_media_pause_dark)
         playSound(item)
         mediaPlayer.setOnCompletionListener { holder?.image?.setImageResource(R.drawable.ic_media_play_dark) }
@@ -86,12 +87,12 @@ class SoundAdapter(items: List<SoundInfo?>?) : ExtendedRVAdapter<SoundInfo?>(ite
         currentPlayingPosition = position
     }
 
-    private fun getSoundDuration(sound: SoundInfo?): String {
+    private fun getSoundDuration(sound: SoundInfo): String {
         val metadataRetriever = MediaMetadataRetriever()
-        metadataRetriever.setDataSource(sound?.file?.absolutePath)
+        metadataRetriever.setDataSource(sound.file?.absolutePath)
 
-        var duration =
-            metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION).toLong()
+        var duration = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
+                ?.toLong() ?: 0
 
         duration =
             if (duration / SOUND_DURATION_DIVISOR == 0L) 1 else duration / SOUND_DURATION_DIVISOR

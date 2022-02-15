@@ -24,16 +24,36 @@
 package org.catrobat.catroid.koin
 
 import android.app.Application
+import androidx.room.Room
+import androidx.work.WorkManager
+import com.google.android.gms.common.GoogleApiAvailability
+import com.huawei.hms.api.HuaweiApiAvailability
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants.BASE_URL_API
 import org.catrobat.catroid.common.Constants.TEST_URL_API
+import org.catrobat.catroid.db.AppDatabase
+import org.catrobat.catroid.db.DatabaseMigrations
 import org.catrobat.catroid.retrofit.CatroidWebServer
-import org.catrobat.catroid.transfers.TokenTask
+import org.catrobat.catroid.stage.HmsSpeechRecognitionHolder
+import org.catrobat.catroid.stage.SpeechRecognitionHolder
+import org.catrobat.catroid.stage.SpeechRecognitionHolderFactory
+import org.catrobat.catroid.sync.DefaultFeaturedProjectSync
+import org.catrobat.catroid.sync.DefaultProjectsCategoriesSync
+import org.catrobat.catroid.sync.FeaturedProjectsSync
+import org.catrobat.catroid.sync.ProjectsCategoriesSync
 import org.catrobat.catroid.transfers.LoginViewModel
 import org.catrobat.catroid.transfers.RegistrationViewModel
+import org.catrobat.catroid.transfers.TokenTask
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoriesAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.FeaturedProjectsAdapter
+import org.catrobat.catroid.ui.recyclerview.repository.DefaultFeaturedProjectsRepository
+import org.catrobat.catroid.ui.recyclerview.repository.DefaultLocalHashVersionRepository
+import org.catrobat.catroid.ui.recyclerview.repository.DefaultProjectCategoriesRepository
+import org.catrobat.catroid.ui.recyclerview.repository.FeaturedProjectsRepository
+import org.catrobat.catroid.ui.recyclerview.repository.LocalHashVersionRepository
+import org.catrobat.catroid.ui.recyclerview.repository.ProjectCategoriesRepository
 import org.catrobat.catroid.ui.recyclerview.viewmodel.MainFragmentViewModel
+import org.catrobat.catroid.utils.MobileServiceAvailability
 import org.catrobat.catroid.utils.NetworkConnectionMonitor
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -44,8 +64,31 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 
 val componentsModules = module(createdAtStart = true, override = false) {
+    single {
+        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "app_database")
+            .addMigrations(DatabaseMigrations.MIGRATION_1_2)
+            .build()
+    }
+    single {
+        CatroidWebServer.getWebService(BASE_URL_API)
+    }
+    single {
+        TokenTask(get())
+    }
+    factory { WorkManager.getInstance(androidContext()) }
     single { ProjectManager(androidContext()) }
     single { NetworkConnectionMonitor(androidContext()) }
+    factory { HuaweiApiAvailability.getInstance() }
+    factory { GoogleApiAvailability.getInstance() }
+    factory { MobileServiceAvailability(get(), get()) }
+
+    single {
+        DefaultFeaturedProjectSync(get(), get(), get()) as FeaturedProjectsSync
+    }
+
+    single {
+        DefaultProjectsCategoriesSync(get(), get(), get()) as ProjectsCategoriesSync
+    }
 }
 
 /**
@@ -53,17 +96,22 @@ val componentsModules = module(createdAtStart = true, override = false) {
  * https://github.com/InsertKoinIO/koin/blob/master/koin-projects/docs/reference/koin-android/viewmodel.md
  */
 val viewModelModules = module {
-    viewModel { MainFragmentViewModel(get()) }
+    viewModel { MainFragmentViewModel(get(), get(), get(), get()) }
     viewModel { LoginViewModel(get()) }
     viewModel { RegistrationViewModel(get()) }
 }
 
 val repositoryModules = module {
     single {
-        CatroidWebServer.getWebService(BASE_URL_API)
+        DefaultLocalHashVersionRepository(androidContext()) as LocalHashVersionRepository
     }
+
     single {
-        TokenTask(get())
+        DefaultFeaturedProjectsRepository(get()) as FeaturedProjectsRepository
+    }
+
+    single {
+        DefaultProjectCategoriesRepository(get()) as ProjectCategoriesRepository
     }
 }
 
@@ -77,13 +125,27 @@ val adapterModules = module {
     }
 }
 
+val speechModules = module {
+    single { SpeechRecognitionHolder() }
+    single { HmsSpeechRecognitionHolder() }
+    single {
+        SpeechRecognitionHolderFactory(
+            get<SpeechRecognitionHolder>(),
+            get<HmsSpeechRecognitionHolder>(),
+            get()
+        )
+    }
+}
+
 val testModules = module {
     single {
         CatroidWebServer.getWebService(TEST_URL_API)
     }
 }
 
-val myModules = listOf(componentsModules, viewModelModules, repositoryModules, adapterModules)
+val myModules = listOf(
+    componentsModules, viewModelModules, repositoryModules, adapterModules, speechModules
+)
 
 fun start(application: Application, modules: List<Module>) {
     startKoin {

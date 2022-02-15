@@ -236,4 +236,8 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 		return null;
 	}
+
+	public boolean hasEditableFormulaField() {
+		return !brickFieldToTextViewIdMap.isEmpty();
+	}
 }

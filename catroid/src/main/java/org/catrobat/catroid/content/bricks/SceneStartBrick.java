@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,6 +38,7 @@ import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
+import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,8 +106,8 @@ public class SceneStartBrick extends BrickBaseType implements BrickSpinner.OnIte
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		List<Scene> currentSceneList = currentProject.getSceneList();
 
-		String defaultSceneName = SceneController
-				.getUniqueDefaultSceneName(activity.getResources(), currentSceneList);
+		String defaultSceneName =
+				new UniqueNameProvider().getUniqueNameInNameables(activity.getResources().getString(R.string.default_scene_name), currentSceneList);
 
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(activity);
 

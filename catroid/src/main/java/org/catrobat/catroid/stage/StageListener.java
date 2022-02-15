@@ -79,7 +79,7 @@ import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.catrobat.catroid.utils.TouchUtil;
-import org.catrobat.catroid.utils.VibrationUtil;
+import org.catrobat.catroid.utils.VibrationManager;
 import org.catrobat.catroid.web.WebConnectionHolder;
 
 import java.util.ArrayList;
@@ -93,6 +93,7 @@ import kotlinx.coroutines.GlobalScope;
 
 import static org.catrobat.catroid.common.ScreenValues.SCREEN_HEIGHT;
 import static org.catrobat.catroid.common.ScreenValues.SCREEN_WIDTH;
+import static org.koin.java.KoinJavaComponent.get;
 
 public class StageListener implements ApplicationListener {
 
@@ -429,7 +430,8 @@ public class StageListener implements ApplicationListener {
 		}
 
 		SoundManager.getInstance().clear();
-		SpeechRecognitionHolder.Companion.getInstance().destroy();
+		get(SpeechRecognitionHolderFactory.class).getInstance().destroy();
+
 		stageBackupMap.remove(sceneName);
 
 		Gdx.input.setInputProcessor(stage);
@@ -453,7 +455,10 @@ public class StageListener implements ApplicationListener {
 		if (cameraManager != null) {
 			cameraManager.reset();
 		}
-		VibrationUtil.reset();
+		VibrationManager vibrationManager = StageActivity.getActiveVibrationManager();
+		if (vibrationManager != null) {
+			vibrationManager.reset();
+		}
 		TouchUtil.reset();
 		MidiSoundManager.getInstance().reset();
 		removeAllClonedSpritesFromStage();
@@ -471,7 +476,6 @@ public class StageListener implements ApplicationListener {
 		if (!paused) {
 			setSchedulerStateForAllLooks(ThreadScheduler.RUNNING);
 			SoundManager.getInstance().resume();
-			VibrationUtil.resumeVibration();
 		}
 
 		for (Sprite sprite : sprites) {
@@ -487,7 +491,6 @@ public class StageListener implements ApplicationListener {
 		if (!paused) {
 			setSchedulerStateForAllLooks(ThreadScheduler.SUSPENDED);
 			SoundManager.getInstance().pause();
-			VibrationUtil.pauseVibration();
 		}
 	}
 
@@ -848,6 +851,7 @@ public class StageListener implements ApplicationListener {
 	private StageBackup saveToBackup() {
 		StageBackup backup = new StageBackup();
 		CameraManager cameraManager = StageActivity.getActiveCameraManager();
+		VibrationManager vibrationManager = StageActivity.getActiveVibrationManager();
 
 		backup.sprites = new ArrayList<>(sprites);
 		backup.actors = new Array<>(stage.getActors());
@@ -862,7 +866,11 @@ public class StageListener implements ApplicationListener {
 		if (backup.flashState) {
 			cameraManager.disableFlash();
 		}
-		backup.timeToVibrate = VibrationUtil.getTimeToVibrate();
+		if (vibrationManager != null && vibrationManager.hasActiveVibration()) {
+			vibrationManager.pause();
+			backup.timeToVibrate = vibrationManager.getTimeToVibrate();
+			vibrationManager.reset();
+		}
 		backup.physicsWorld = physicsWorld;
 		backup.camera = camera;
 		backup.spriteToFocusOn = cameraPositioner.getSpriteToFocusOn();
@@ -887,6 +895,7 @@ public class StageListener implements ApplicationListener {
 		sprites.clear();
 		sprites.addAll(backup.sprites);
 		CameraManager cameraManager = StageActivity.getActiveCameraManager();
+		VibrationManager vibrationManager = StageActivity.getActiveVibrationManager();
 
 		stage.clear();
 		for (Actor actor : backup.actors) {
@@ -906,11 +915,11 @@ public class StageListener implements ApplicationListener {
 		if (backup.flashState && cameraManager != null) {
 			cameraManager.enableFlash();
 		}
-		if (backup.timeToVibrate > 0) {
-			VibrationUtil.resumeVibration();
-			VibrationUtil.setTimeToVibrate(backup.timeToVibrate);
-		} else {
-			VibrationUtil.pauseVibration();
+		if (backup.timeToVibrate > 0 && vibrationManager != null) {
+			vibrationManager.setTimeToVibrate(backup.timeToVibrate);
+			vibrationManager.resume();
+		} else if (vibrationManager != null) {
+			vibrationManager.pause();
 		}
 		physicsWorld = backup.physicsWorld;
 		camera = backup.camera;

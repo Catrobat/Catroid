@@ -41,8 +41,7 @@ public class GoToRandomPositionAction extends TemporalAction {
 		randomYPosition = (float) Math.random()
 				* (ScreenValues.SCREEN_HEIGHT + 1) - (ScreenValues.SCREEN_HEIGHT / 2);
 
-		sprite.look.setXInUserInterfaceDimensionUnit(randomXPosition);
-		sprite.look.setYInUserInterfaceDimensionUnit(randomYPosition);
+		sprite.look.setPositionInUserInterfaceDimensionUnit(randomXPosition, randomYPosition);
 	}
 
 	public void setSprite(Sprite sprite) {

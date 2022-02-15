@@ -30,7 +30,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
-import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedViewHolder;
 
 import java.io.File;
 import java.util.List;
@@ -43,7 +43,7 @@ public class SceneAdapter extends ExtendedRVAdapter<Scene> {
 	}
 
 	@Override
-	public void onBindViewHolder(ExtendedVH holder, int position) {
+	public void onBindViewHolder(ExtendedViewHolder holder, int position) {
 		int thumbnailWidth = holder.itemView.getContext().getResources().getDimensionPixelSize(R.dimen.project_thumbnail_width);
 		int thumbnailHeight = holder.itemView.getContext().getResources().getDimensionPixelSize(R.dimen.project_thumbnail_height);
 		ProjectAndSceneScreenshotLoader loader = new ProjectAndSceneScreenshotLoader(thumbnailWidth, thumbnailHeight);

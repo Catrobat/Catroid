@@ -53,7 +53,7 @@ public class SensorLoudness {
 		@Override
 		public void run() {
 			Double loudness = ((SCALE_RANGE / MAX_AMP_VALUE) * recorder.getMaxAmplitude());
-			if (!loudness.equals(lastValue) && loudness.equals(0.0)) {
+			if (!loudness.equals(lastValue) && !loudness.equals(0.0)) {
 				lastValue = loudness;
 				SensorCustomEvent event = new SensorCustomEvent(Sensors.LOUDNESS, loudness);
 

@@ -30,10 +30,7 @@ import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertEquals;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertNotEquals;
 
 @RunWith(JUnit4.class)
 public class GridRowTest {
@@ -51,7 +48,7 @@ public class GridRowTest {
 		GridRow gridRow1 = GridRowTestDataFactory.createGridRowWithOnePosition();
 		GridRow gridRow2 = GridRowTestDataFactory.createGridRowWithDuplicatePositions();
 
-		assertThat(gridRow1, is(not(equalTo(gridRow2))));
+		assertNotEquals(gridRow2, gridRow1);
 	}
 
 	@Test
@@ -59,7 +56,7 @@ public class GridRowTest {
 		GridRow gridRow1 = GridRowTestDataFactory.createGridRowWithDifferentPositions();
 		GridRow gridRow2 = GridRowTestDataFactory.createGridRowWithDuplicatePositions();
 
-		assertThat(gridRow1, is(not(equalTo(gridRow2))));
+		assertNotEquals(gridRow2, gridRow1);
 	}
 
 	@Test
@@ -83,6 +80,6 @@ public class GridRowTest {
 		GridRow gridRow1 = GridRowTestDataFactory.createGridRowWithDifferentPositions();
 		GridRow gridRow2 = GridRowTestDataFactory.createGridRowWithOnePosition();
 
-		assertThat(gridRow1.hashCode(), is(not(equalTo(gridRow2.hashCode()))));
+		assertNotEquals(gridRow2.hashCode(), gridRow1.hashCode());
 	}
 }

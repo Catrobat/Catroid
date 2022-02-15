@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -40,26 +40,24 @@
         android:id="@+id/brick_open_url_layout"
         style="@style/BrickContainer.Device.Small">
 
+        <include layout="@layout/icon_brick_category_device"/>
+
         <TextView
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_open"
-            app:layout_newLine="true">
+            android:text="@string/brick_open">
         </TextView>
 
         <TextView
             android:id="@+id/brick_open_url_edit_text"
             style="@style/BrickEditText"
-            app:layout_textField="true">
+            app:layout_newLine="true">
         </TextView>
 
         <TextView
             style="@style/BrickText.SingleLine"
-            android:paddingEnd="@dimen/material_design_spacing_small"
-            android:paddingStart="@dimen/material_design_spacing_small"
             android:text="@string/brick_in_browser">
         </TextView>
 
-        <include layout="@layout/icon_brick_category_device" />
     </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

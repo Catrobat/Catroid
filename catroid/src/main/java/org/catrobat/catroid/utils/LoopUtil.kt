@@ -24,6 +24,8 @@
 package org.catrobat.catroid.utils
 
 import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.content.Script
+import org.catrobat.catroid.content.UserDefinedScript
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.BrickBaseType
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick
@@ -73,9 +75,13 @@ object LoopUtil {
         SetVolumeToBrick::class, ChangeVolumeByNBrick::class, SetTempoBrick::class)
 
     @JvmStatic
-    fun checkLoopBrickForLoopDelay(loopBrick: CompositeBrick): Boolean {
+    fun checkLoopBrickForLoopDelay(loopBrick: CompositeBrick, script: Script): Boolean {
         val allNestedBricks: List<Brick> = ArrayList()
         loopBrick.addToFlatList(allNestedBricks)
+
+        if (script is UserDefinedScript && !script.screenRefresh) {
+            return false
+        }
         for (brick in allNestedBricks.filter { b -> !b.isCommentedOut }) {
             if (loopDelayBricks.contains(brick::class)) {
                 return true

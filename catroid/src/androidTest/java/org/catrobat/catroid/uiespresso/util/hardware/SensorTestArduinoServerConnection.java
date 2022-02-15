@@ -35,6 +35,7 @@ import java.net.Socket;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.assertEquals;
 
 @SuppressWarnings("AvoidUsingHardCodedIP")
 public final class SensorTestArduinoServerConnection {
@@ -151,7 +152,7 @@ public final class SensorTestArduinoServerConnection {
 			}
 			assertFalse("Wrong Command!", response.contains("ERROR"));
 			assertTrue("Wrong data received!", response.contains("LIGHT_END"));
-			assertTrue(assertString, response.charAt(0) == expectedChar);
+			assertEquals(assertString, expectedChar, response.charAt(0));
 		} catch (IOException ioException) {
 			throw new AssertionFailedError("Data exchange failed! Check server connection!");
 		} catch (InterruptedException e) {
@@ -191,7 +192,7 @@ public final class SensorTestArduinoServerConnection {
 			}
 			assertFalse("Wrong Command!", response.contains("ERROR"));
 			assertTrue("Wrong data received!", response.contains("AUDIO_END"));
-			assertTrue(assertString, response.charAt(0) == expectedChar);
+			assertEquals(assertString, expectedChar, response.charAt(0));
 		} catch (IOException ioException) {
 			throw new AssertionFailedError("Data exchange failed! Check server connection!");
 		} catch (InterruptedException e) {
@@ -234,7 +235,7 @@ public final class SensorTestArduinoServerConnection {
 			}
 			assertFalse("Wrong Command!", response.contains("ERROR"));
 			assertTrue("Wrong data received!", response.contains("VIBRATION_END"));
-			assertTrue(assertString, response.charAt(0) == expectedChar);
+			assertEquals(assertString, expectedChar, response.charAt(0));
 		} catch (IOException ioException) {
 			throw new AssertionFailedError("Data exchange failed! Check server connection!");
 		} catch (InterruptedException e) {

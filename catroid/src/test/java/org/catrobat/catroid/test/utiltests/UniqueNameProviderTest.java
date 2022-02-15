@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,13 +44,13 @@ public class UniqueNameProviderTest {
 
 	@Test
 	public void testNewName() {
-		assertEquals("Lion (1)",
+		assertEquals("Lion",
 				uniqueNameProvider.getUniqueName("Lion", Lists.newArrayList("Zebra", "Giraffe")));
 	}
 
 	@Test
 	public void testNewNameWithEmptyScope() {
-		assertEquals("Object (1)",
+		assertEquals("Object",
 				uniqueNameProvider.getUniqueName("Object", new ArrayList<String>()));
 	}
 

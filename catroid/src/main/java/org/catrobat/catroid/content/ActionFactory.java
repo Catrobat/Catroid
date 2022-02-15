@@ -128,6 +128,7 @@ import org.catrobat.catroid.content.actions.SetLookAction;
 import org.catrobat.catroid.content.actions.SetLookByIndexAction;
 import org.catrobat.catroid.content.actions.SetNextLookAction;
 import org.catrobat.catroid.content.actions.SetNfcTagAction;
+import org.catrobat.catroid.content.actions.SetParticleColorAction;
 import org.catrobat.catroid.content.actions.SetPenColorAction;
 import org.catrobat.catroid.content.actions.SetPenSizeAction;
 import org.catrobat.catroid.content.actions.SetPreviousLookAction;
@@ -200,13 +201,18 @@ import org.catrobat.catroid.io.DeviceVariableAccessor;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.stage.SpeechSynthesizer;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
+import org.catrobat.catroid.utils.MobileServiceAvailability;
+import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 
 import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
 import kotlin.Pair;
+
+import static org.koin.java.KoinJavaComponent.get;
 
 public class ActionFactory extends Actions {
 
@@ -738,7 +744,6 @@ public class ActionFactory extends Actions {
 		action.setPhysicsLook(physicsLook);
 		action.setPosition(x, y);
 		action.setDuration(duration);
-		action.setPhysicsObject(ProjectManager.getInstance().getCurrentlyPlayingScene().getPhysicsWorld().getPhysicsObject(sprite));
 		action.act(delta);
 		return action;
 	}
@@ -777,16 +782,19 @@ public class ActionFactory extends Actions {
 	public Action createSpeakAction(Sprite sprite, SequenceAction sequence, Formula text) {
 		SpeakAction action = action(SpeakAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
-		SpeechSynthesizer synthesizer = new SpeechSynthesizer(scope, text);
-		action.setSpeechSynthesizer(synthesizer);
+		action.setSpeechSynthesizer(new SpeechSynthesizer(scope, text));
+		action.setMobileServiceAvailability(get(MobileServiceAvailability.class));
+		action.setContext(StageActivity.activeStageActivity.get());
+
 		return action;
 	}
 
 	public Action createSpeakAndWaitAction(Sprite sprite, SequenceAction sequence, Formula text) {
 		SpeakAndWaitAction action = action(SpeakAndWaitAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
-		SpeechSynthesizer synthesizer = new SpeechSynthesizer(scope, text);
-		action.setSpeechSynthesizer(synthesizer);
+		action.setSpeechSynthesizer(new SpeechSynthesizer(scope, text));
+		action.setMobileServiceAvailability(get(MobileServiceAvailability.class));
+		action.setContext(StageActivity.activeStageActivity.get());
 		return action;
 	}
 
@@ -964,20 +972,24 @@ public class ActionFactory extends Actions {
 		return Actions.action(ResetTimerAction.class);
 	}
 
-	public Action createThinkSayBubbleAction(Sprite sprite, SequenceAction sequence, Formula text, int type) {
+	public Action createThinkSayBubbleAction(Sprite sprite, SequenceAction sequence,
+			AndroidStringProvider androidStringProvider, Formula text, int type) {
 		ThinkSayBubbleAction action = action(ThinkSayBubbleAction.class);
 		action.setText(text);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
+		action.setAndroidStringProvider(androidStringProvider);
 		action.setType(type);
 		return action;
 	}
 
-	public Action createThinkSayForBubbleAction(Sprite sprite, SequenceAction sequence, Formula text, int type) {
+	public Action createThinkSayForBubbleAction(Sprite sprite, SequenceAction sequence,
+			AndroidStringProvider androidStringProvider, Formula text, int type) {
 		ThinkSayBubbleAction action = action(ThinkSayBubbleAction.class);
 		action.setText(text);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
+		action.setAndroidStringProvider(androidStringProvider);
 		action.setType(type);
 		return action;
 	}
@@ -1196,18 +1208,19 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createShowVariableAction(Sprite sprite, SequenceAction sequence, Formula xPosition,
-			Formula yPosition, UserVariable userVariable) {
+			Formula yPosition, UserVariable userVariable, AndroidStringProvider androidStringProvider) {
 		ShowTextAction action = action(ShowTextAction.class);
 		action.setPosition(xPosition, yPosition);
 		action.setVariableToShow(userVariable);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
+		action.setAndroidStringProvider(androidStringProvider);
 		return action;
 	}
 
 	public Action createShowVariableColorAndSizeAction(Sprite sprite, SequenceAction sequence,
 			Formula xPosition, Formula yPosition, Formula relativeTextSize, Formula color,
-			UserVariable userVariable, int alignment) {
+			UserVariable userVariable, int alignment, AndroidStringProvider androidStringProvider) {
 		ShowTextColorSizeAlignmentAction action = action(ShowTextColorSizeAlignmentAction.class);
 		action.setPosition(xPosition, yPosition);
 		action.setRelativeTextSize(relativeTextSize);
@@ -1216,13 +1229,16 @@ public class ActionFactory extends Actions {
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setAlignment(alignment);
+		action.setAndroidStringProvider(androidStringProvider);
 		return action;
 	}
 
-	public Action createHideVariableAction(Sprite sprite, UserVariable userVariable) {
+	public Action createHideVariableAction(Sprite sprite, UserVariable userVariable,
+			AndroidStringProvider androidStringProvider) {
 		HideTextAction action = action(HideTextAction.class);
 		action.setVariableToHide(userVariable);
 		action.setSprite(sprite);
+		action.setAndroidStringProvider(androidStringProvider);
 		return action;
 	}
 
@@ -1258,6 +1274,14 @@ public class ActionFactory extends Actions {
 		AdditiveParticleEffectAction action = action(AdditiveParticleEffectAction.class);
 		action.setFadeIn(turnOn);
 		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createSetParticleColorAction(Sprite sprite, Formula color, SequenceAction sequence) {
+		SetParticleColorAction action = action(SetParticleColorAction.class);
+		action.setColor(color);
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		action.setScope(scope);
 		return action;
 	}
 

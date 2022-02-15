@@ -24,39 +24,40 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- General terms -->
     <string name="stage">舞台</string>
-    <string name="play">Chơi</string>
-    <string name="settings">Cài đặt</string>
-    <string name="redo" tools:ignore="UnusedResources">Làm lại</string>
-    <string name="undo" tools:ignore="UnusedResources">Phục hồi</string>
-    <string name="new_option">Mới&#8230;</string>
+    <string name="play">玩</string>
+    <string name="settings">设定值</string>
+    <string name="redo">重做</string>
+    <string name="undo">撤消</string>
+    <string name="new_option">新建&#8230;</string>
     <string name="edit_option">编辑&#8230;</string>
     <string name="confirm">确认</string>
     <string name="ignore">忽略</string>
-    <string name="cancel">Hủy bỏ</string>
-    <string name="save">Lưu</string>
+    <string name="cancel">取消</string>
+    <string name="save">保存</string>
     <string name="discard">放弃</string>
     <string name="next">下一步</string>
-    <string name="ok">Đồng ý</string>
-    <string name="done">Đã Thực hiện</string>
-    <string name="close" tools:ignore="UnusedResources">Đóng</string>
+    <string name="ok">好的</string>
+    <string name="done">已完成</string>
+    <string name="close">关闭</string>
     <string name="assistant">助理</string>
-    <string name="yes">Có</string>
-    <string name="no">Không</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
     <string name="once">一次</string>
     <string name="always">总是</string>
     <string name="deny">拒绝</string>
+    <string name="do_not_show_again">不要再出现</string>
     <string name="accept">接受</string>
     <string name="decline">拒绝</string>
     <string name="select_all">全部选择</string>
     <string name="deselect_all">取消选择</string>
     <string name="skip">跳过</string>
     <string name="warning">警告</string>
-    <string name="error">Lỗi</string>
-    <string name="loading">Đang tải&#8230;</string>
+    <string name="error">错误</string>
+    <string name="loading">载入中&#8230;</string>
     <string name="please_wait">请等待</string>
-    <string name="search_hint">搜索&#8230;</string>
+    <string name="search_hint">搜索…</string>
     <string name="backpack_add">添加到背包</string>
-    <string name="share_website_text">www.pocketcode.org</string>
+    <string name="share_website_text">share.catrob.at</string>
     <!-- Security warning dialog -->
     <string name="security_warning_dialog_msg">您所下载的项目能听到您的声音。
         在后台，也会向互联网发送数据。这可能是无害的，也是必要的
@@ -77,8 +78,8 @@
     <string name="loading_google_exchange_code">交换 google + 数据..。</string>
     <string name="loading_google_login">谷歌 + 登录我们的服务器是完整的..。</string>
     <string name="logout_successful">成功登出</string>
-    <string name="degrees" tools:ignore="UnusedResources">度</string>
-    <string name="background" tools:ignore="UnusedResources">Nền</string>
+    <string name="degrees">度</string>
+    <string name="background">背景</string>
     <string name="landscape">横向</string>
     <string name="portrait">纵向</string>
     <string name="unknown">未知</string>
@@ -88,15 +89,15 @@
     <string name="main_menu_continue">继续</string>
     <string name="main_menu_new">新建</string>
     <string name="main_menu_programs">Các chương trình</string>
-    <string name="main_menu_help" tools:ignore="UnusedResources">Trợ giúp</string>
+    <string name="main_menu_help">Trợ giúp</string>
     <string name="main_menu_web">Catrobat社区</string>
     <string name="main_menu_upload">Tải lên chương trình</string>
     <string name="main_menu_rate_app">给我们评分！</string>
     <string name="main_menu_terms_of_use">使用与服务条例</string>
     <string name="main_menu_privacy_policy">Chính sách bảo mật</string>
     <string name="main_menu_about">关于本应用</string>
-    <string name="main_menu_login">Đăng nhập</string>
-    <string name="main_menu_logout">Đăng xuất</string>
+    <string name="main_menu_login">登录</string>
+    <string name="main_menu_logout">登出</string>
     <string name="main_menu_scratch_converter">Scratch转换模块</string>
     <string name="main_menu_play_store_not_installed">找不到 google play</string>
     <!--  -->
@@ -111,12 +112,35 @@
     <!-- NFC activity -->
     <string name="nfc_activity_title">NFC 标签</string>
     <!-- Settings activity -->
-    <string name="preference_title">Cài đặt</string>
+    <string name="preference_title">设置</string>
     <string name="preference_title_language">语言</string>
     <string name="preference_description_language">设置应用的语言</string>
     <string name="preference_title_web_access">Web 访问</string>
     <string name="preference_description_web_access">编辑以添加或删除信任的域</string>
     <string name="preference_screen_web_access_title">编辑信任的域</string>
+    <string name="preference_title_ai">人工智能（AI）扩展</string>
+    <string name="preference_description_ai">启用AI砖和传感器</string>
+    <string name="preference_title_ai_speech_recognition">语音识别
+        识别</string>
+    <string name="preference_description_ai_speech_recognition">启用
+        语音识别砖和传感器</string>
+    <string name="preference_title_ai_speech_synthetization">语音
+        合成</string>
+    <string name="preference_description_ai_speech_synthetization">启用
+        语音合成砖和传感器</string>
+    <string name="preference_title_ai_face_detection">脸部
+        检测</string>
+    <string name="preference_description_ai_face_detection">启用
+        人脸检测砖和传感器</string>
+    <string name="preference_title_ai_pose_detection">姿势检测</string>
+    <string name="preference_description_ai_pose_detection">启用
+        姿势检测砖和传感器</string>
+    <string name="preference_title_ai_text_recognition">文本
+        确认</string>
+    <string name="preference_description_ai_text_recognition">启用
+        文字识别砖和传感器</string>
+    <string name="preference_title_ai_object_recognition">对象识别</string>
+    <string name="preference_description_ai_object_recognition">启用对象识别和追踪传感器</string>
     <string name="preference_title_accessibility">可访问性</string>
     <string name="preference_description_accessibility">更改应用的外观</string>
     <string name="preference_title_accessibility_profiles">辅助功能配置文件</string>
@@ -143,8 +167,8 @@
     <string name="preference_title_accessibility_beginner_bricks">初砖</string>
     <string name="preference_description_accessibility_beginner_bricks">仅显示基本砖块。</string>
     <string name="preference_title_accessibility_font_style">选择联系人</string>
-    <string name="accessibility_font_regular">Regular</string>
-    <string name="accessibility_font_serif">Serif</string>
+    <string name="accessibility_font_regular">常规的</string>
+    <string name="accessibility_font_serif">衬线</string>
     <string name="accessibility_font_dyslexic">有语言障碍</string>
     <string name="accessibility_settings_applied">应用 更改‎</string>
     <string name="preference_access_title_profile_default">默认</string>
@@ -250,7 +274,7 @@
     <string name="by_x">作者 %1$s</string>
     <string name="warning_program_visibility">警告：\n这似乎是一个私有项目。您可以尝试转换它，但它可能无法运作。</string>
     <string name="instructions">说明</string>
-    <string name="notes_and_credits">评论与得分</string>
+    <string name="notes_and_credits">备注和积分</string>
     <string name="shared_at_x">分享时间：%1$s</string>
     <string name="modified_at_x">修改时间：%1$s</string>
     <string name="remixes">调制</string>
@@ -260,7 +284,7 @@
     <string name="mode">模式：</string>
     <string name="remix_of">调制来源：</string>
     <string name="description_hint">按下并添加说明</string>
-    <string name="notes_and_credits_hint">点击添加便笺和点数</string>
+    <string name="notes_and_credits_hint">点击添加备注和积分</string>
     <!-- ScratchReconvertDialog Strings -->
     <string name="reconvert_text">你在 %1$s 之前转换了这个项目。</string>
     <plurals name="minutes">
@@ -288,27 +312,30 @@
     <string name="name_empty">请输入文本</string>
     <!-- Recycler View -->
     <string name="am_empty_list">此列表中还没有项目。请先添加一些项目。</string>
+    <string name="reject_import">无法添加演员或对象。</string>
     <string name="am_merge_error">还没有完成合并。您先需要选择2个项目进行合并。</string>
     <string name="am_backpack">组件</string>
     <string name="am_unpack">取出</string>
-    <string name="am_copy">Sao chép</string>
-    <string name="am_delete" tools:ignore="UnusedResources">Xóa</string>
-    <string name="am_rename">Đổi Tên</string>
+    <string name="am_copy">复制</string>
+    <string name="am_delete">删除</string>
+    <string name="am_rename">改名</string>
     <string name="am_convert">转换</string>
     <string name="am_merge">合并</string>
     <string name="dialog_confirm_delete">您无法撤消！</string>
     <string name="list_headline_sprites">对象和物体</string>
     <!-- Options Menu Options -->
     <string name="backpack">背包</string>
-    <string name="copy">Sao chép</string>
-    <string name="delete">Xóa</string>
-    <string name="rename">Đổi Tên</string>
+    <string name="copy">复制</string>
+    <string name="delete">删除</string>
+    <string name="rename">重命名</string>
     <string name="merge">合并</string>
     <string name="show_details">显示详情</string>
     <string name="hide_details">隐藏详情</string>
     <string name="project_options">项目选择</string>
+    <string name="from_library">从库添加</string>
     <string name="sort_projects">排序</string>
     <string name="unsort_projects">取消排序</string>
+    <string name="import_from_project">选择要导入的项目</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">新场景</string>
     <!-- Delete Dialog Titles -->
@@ -340,13 +367,18 @@
     <string name="sprite_group_name_label">群组名称</string>
     <string name="script_group_label">脚本组名称</string>
     <string name="look_name_label">外观名称</string>
-    <string name="sound_name_label">Tên tệp âm thanh</string>
+    <string name="sound_name_label">音响名称</string>
     <string name="nfc_tag_name_label">NFC 标签名称</string>
     <string name="string_label">文本</string>
-    <string name="data_label">Tên</string>
+    <string name="data_label">名称</string>
     <string name="keyword_label">插入关键词</string>
     <string name="html_label">插入HTML代码</string>
     <string name="Image_format_not_supported">不支持图像格式</string>
+    <string name="import_conflicting_variables">无法添加演员或对象。</string>
+    <string name="import_conflicting_variables_reason">原因是以下变量或
+        列表名称发生冲突，因为它们被用于
+        所有演员和对象，且只被一个演员或对象使用相同的名字： </string>
+    <string name="import_conflicting_variables_try_again">请重命名这些变量或列表之一，然后重试。</string>
     <!-- Details -->
     <string name="project_details">最后访问： %s，大小： %s</string>
     <string name="last_access_today">今天， %s</string>
@@ -357,11 +389,11 @@
     <string name="sound_details">持续时间: %s, 大小: %s</string>
     <!--  -->
     <!-- Rename Dialog Titles -->
-    <string name="rename_project">Đổi tên chương trình</string>
+    <string name="rename_project">重命名项目</string>
     <string name="rename_scene_dialog">重命名场景</string>
-    <string name="rename_sprite_dialog">Đổi tên đối tượng</string>
-    <string name="rename_look_dialog">Đổi tên giao diện</string>
-    <string name="rename_sound_dialog">Đổi tên âm thanh</string>
+    <string name="rename_sprite_dialog">重命名对象</string>
+    <string name="rename_look_dialog">重命名外观</string>
+    <string name="rename_sound_dialog">重命名声音</string>
     <string name="rename_nfctag_dialog">重命名NFC标签</string>
     <string name="rename_data_dialog">Đổi Tên</string>
     <!-- New Script Group Dialog -->
@@ -371,6 +403,7 @@
     <string name="new_scene">新场景</string>
     <!-- Action Toasts -->
     <!-- Backpack -->
+    <string name="backpack_empty">背包为空。没有任何东西可以解压。</string>
     <plurals name="packed_scenes">
         <item quantity="other">背包的 %d 场景。</item>
     </plurals>
@@ -441,19 +474,29 @@
     <plurals name="deleted_Items">
         <item quantity="other">已删除 %d 项</item>
     </plurals>
+    <!-- Imported -->
+    <plurals name="imported_projects">
+        <item quantity="other">导入了 %d 项目。</item>
+    </plurals>
+    <!-- Renamed -->
+    <string name="renamed_project">重命名项目</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
-    <string name="project_list_title">Các chương trình</string>
-    <string name="last_used">Truy cập cuối cùng:</string>
-    <string name="size">Kích cỡ:</string>
-    <string name="description">Mô tả:</string>
-    <string name="set_description">Thiết lập mô tả</string>
+    <string name="project_list_title">程序</string>
+    <string name="last_used">最近访问:</string>
+    <string name="size">大小：</string>
+    <string name="description">描述：</string>
+    <string name="set_description">设置描述</string>
     <string name="notes_and_credits_title">致谢</string>
     <string name="set_notes_and_credits">设置笔记和点数</string>
-    <string name="details_date_today">Hôm nay</string>
+    <string name="details_date_today">今天</string>
     <string name="import_project">导入项目</string>
+    <string name="export_project">保存项目到外部存储</string>
     <string name="error_import_project">获取项目时出错。</string>
+    <string name="no_projects_selected">没有选择进口的项目</string>
+    <string name="only_select_catrobat_files">仅选择项目文件</string>
     <string name="error_no_files_found">未找到项目。</string>
+    <string name="import_sprite_from_project_launcher">从本地项目导入对象</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">描述</string>
     <string name="project_options_notes_and_credits">致谢</string>
@@ -462,25 +505,25 @@
     <string name="project_options_more_details">更多详情</string>
     <string name="project_options_delete_project">删除项目</string>
     <!-- ScriptListFragment -->
-    <string name="fragment_script_text_description">Bấm vào \"+\" để thêm kịch bản</string>
+    <string name="fragment_script_text_description">点击\"+\"来添加脚本</string>
     <!--  -->
     <!-- SpriteListFragment -->
     <string name="fragment_sprite_text_description">点击 \"+\" 添加演员或对象</string>
     <string name="default_sprite_name">我的对象或物体</string>
     <!--  -->
     <!-- LookListFragment -->
-    <string name="fragment_look_text_description">Bấm vào \"+\" để thêm giao diện</string>
-    <string name="select_look_from_gallery">Chọn hình ảnh</string>
-    <string name="select_look_from_camera">Chọn ảnh</string>
+    <string name="fragment_look_text_description">按“+”添加外观</string>
+    <string name="select_look_from_gallery">选择图像</string>
+    <string name="select_look_from_camera">选择照片</string>
     <!--  -->
     <!-- SoundListFragment -->
-    <string name="fragment_sound_text_description">Bấm vào \"+\" để thêm âm thanh</string>
+    <string name="fragment_sound_text_description">按“+”添加声音</string>
     <string name="sound_select_source">选择一个声音</string>
     <!--  -->
     <!-- NfcTagListFragment -->
     <string name="fragment_nfctag_text_description">扫描 NFC 标签来添加它们</string>
-    <string name="ndef_record_label" tools:ignore="UnusedResources">作为记录类型</string>
-    <string name="brick_set_nfc_tag" tools:ignore="UnusedResources">设置下一个NFC标签为</string>
+    <string name="ndef_record_label">作为记录类型</string>
+    <string name="brick_set_nfc_tag">设置下一个NFC标签为</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
     <string name="default_tag_name">NFC标签</string>
     <string name="tnf_empty">清空</string>
@@ -520,17 +563,19 @@
     <string name="merging_project_text">这两个项目尚不能合并</string>
     <!--  -->
     <!-- NewSpriteDialog -->
-    <string name="new_sprite_dialog_title">Đối tượng mới</string>
+    <string name="new_sprite_dialog_title">新建对象</string>
     <!--  -->
     <!-- NewLookDialog -->
-    <string name="new_look_dialog_title">Thêm giao diện</string>
+    <string name="new_look_dialog_title">添加外观</string>
     <string name="add_look_from_camera">拍摄照片</string>
+    <string name="add_look_object_library">图书馆</string>
     <string name="add_look_draw_new_image">Vẽ hình ảnh</string>
-    <string name="add_look_choose_image">Chọn hình ảnh</string>
+    <string name="add_look_choose_image">选择图片</string>
     <string name="add_look_media_library">媒体库</string>
+    <string name="add_look_from_local_project">本地项目</string>
     <!--  -->
     <!-- NewSoundDialog -->
-    <string name="new_sound_dialog_title">Thêm âm thanh</string>
+    <string name="new_sound_dialog_title">添加声音</string>
     <string name="add_sound_from_recorder">录制声音</string>
     <string name="add_sound_choose_file">选择文件</string>
     <string name="add_sound_music">音乐作曲家</string>
@@ -557,15 +602,15 @@
     <string name="dialog_about_title">关于本应用</string>
     <string name="dialog_about_license_info">这个应用程序为可视化编程语言Catrobat提供了编程环境和解释器.\n\n 这款应用程序的源代码主要根据 GNU AGPL v3 许可证的许可下开发和使用。        详细信息请参阅下面的链接。 \n</string>
     <string name="dialog_about_license_link_text">源代码许可证</string>
-    <string name="dialog_about_catrobat_link_text">Về Catrobat</string>
+    <string name="dialog_about_catrobat_link_text">关于 Catrobat</string>
     <string name="dialog_about_catrobat_language_version">Catrobat语言版本</string>
     <string name="dialog_about_version">版本。</string>
     <!--  -->
     <!-- NetworkAlertDialog -->
     <string name="error_no_network_title">没有网络</string>
     <!-- UploadProjectDialog -->
-    <string name="upload_project_dialog_title">Tải lên chương trình</string>
-    <string name="upload_description">Mô tả:</string>
+    <string name="upload_project_dialog_title">上传程序</string>
+    <string name="upload_description">描述：</string>
     <string name="upload_notes_and_credits">致谢</string>
     <string name="upload_notes_and_credits_explanation">你是如何创建这个项目的？你是否使用了其他人的想法、脚本或艺术作品？请对他们表示感谢。</string>
     <string name="upload_tag_dialog_title">请选择最多三个类别</string>
@@ -588,7 +633,7 @@
     <string name="brick_context_dialog_move_brick">移动积木</string>
     <string name="brick_context_dialog_move_script">移动脚本</string>
     <string name="brick_context_dialog_move_definition">移动此定义</string>
-    <string name="brick_context_dialog_delete_brick" tools:ignore="UnusedResources">删除积木</string>
+    <string name="brick_context_dialog_delete_brick">删除积木</string>
     <string name="brick_context_dialog_copy_brick">复制积木</string>
     <string name="brick_context_dialog_copy_script">复制脚本</string>
     <string name="brick_context_dialog_formula_edit_brick">编辑公式</string>
@@ -599,11 +644,11 @@
     <string name="brick_context_dialog_highlight_brick_parts">明亮积木部分</string>
     <string name="brick_context_dialog_comment_in_script">启用脚本</string>
     <string name="brick_context_dialog_comment_out_script">禁用脚本</string>
-    <string name="brick_context_dialog_help">Trợ giúp</string>
+    <string name="brick_context_dialog_help">帮助</string>
     <string name="comment_in_out">禁用/启用</string>
     <string name="catblocks">切换 2D</string>
     <string name="catblocks_reorder">清理脚本</string>
-    <string name="switch_to_1d" tools:ignore="UnusedResources">1D 视图</string>
+    <string name="switch_to_1d">1D 视图</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">游戏场景：</string>
@@ -612,16 +657,16 @@
     <!--  -->
     <!-- Sign In dialogs -->
     <string name="sign_in_dialog_title">登录</string>
-    <string name="username">Tên đăng nhập</string>
-    <string name="password">Mật khẩu</string>
+    <string name="username">用户名</string>
+    <string name="password">密码</string>
     <string name="reset_password">重置密码</string>
-    <string name="new_user_registered">Tài khoản mới đã được tạo</string>
-    <string name="user_logged_in">Đăng nhập thành công</string>
+    <string name="new_user_registered">新账户已创建</string>
+    <string name="user_logged_in">登陆成功</string>
     <string name="register_error">登录无效</string>
-    <string name="register_terms">Bằng cách đăng ký, bạn đồng ý với</string>
+    <string name="register_terms">注册代表你同意我们的</string>
     <string name="register_code_terms_of_use_text">使用与服务条例</string>
-    <string name="login">Đăng nhập</string>
-    <string name="register">Đăng Ký</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
     <string name="password_confirm">确认密码</string>
     <string name="accountName">邮箱</string>
     <string name="signin_thanks">感谢您的注册 ！</string>
@@ -670,6 +715,8 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="prestage_text_to_speech_error">\u2022 文字转语音引擎\n</string>
     <string name="prestage_no_back_camera_available">\u2022 后置摄像头\n</string>
     <string name="prestage_no_face_detection_available">\u2022 人脸检测\n</string>
+    <string name="prestage_no_object_detection_available">\u2022 对象识别\n</string>
+    <string name="prestage_no_pose_detection_available">\u2022 鼻子检测\n</string>
     <string name="prestage_no_text_detection_available">\u2022 文本检测\n</string>
     <string name="prestage_no_front_camera_available">\u2022 前置摄像头\n</string>
     <string name="prestage_no_camera_available">\u2022 相机\n</string>
@@ -680,17 +727,17 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="nfc_facedetection_support">同时使用 NFC 和面部检测可能会导致性能问题。</string>
     <!--  -->
     <!-- Stage menu dialog -->
-    <string name="stage_dialog_back">Quay về</string>
-    <string name="stage_dialog_resume">Phục hồi</string>
-    <string name="stage_dialog_restart">Khởi động lại</string>
+    <string name="stage_dialog_back">后退</string>
+    <string name="stage_dialog_resume">继续</string>
+    <string name="stage_dialog_restart">重新开始</string>
     <string name="stage_dialog_axes_on">显示坐标轴</string>
     <string name="stage_dialog_axes_off">隐藏坐标轴</string>
-    <string name="stage_dialog_maximize">Tối đa hóa/\nKéo dài</string>
+    <string name="stage_dialog_maximize">最大化/\n拉伸</string>
     <string name="stage_dialog_screenshot">预览</string>
     <string name="stage_dialog_embroidery">刺绣</string>
     <!--  -->
     <!-- Broadcast spinner -->
-    <string name="dialog_new_broadcast_message_title">Tin nhắn mới</string>
+    <string name="dialog_new_broadcast_message_title">新消息</string>
     <string name="dialog_broadcast_message_name">消息：</string>
     <string name="dialog_edit_broadcast_message_title">編輯消息</string>
     <!--  -->
@@ -699,26 +746,27 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="brick_when_nfc_default_all">全部</string>
     <!-- -->
     <!-- Brick categories -->
-    <string name="categories" tools:ignore="UnusedResources">Danh mục</string>
-    <string name="category_embroidery" tools:ignore="UnusedResources">刺绣</string>
-    <string name="category_motion" tools:ignore="UnusedResources">Chuyển động</string>
-    <string name="category_looks" tools:ignore="UnusedResources">Các giao diện</string>
-    <string name="category_pen" tools:ignore="UnusedResources">画笔</string>
-    <string name="category_sound" tools:ignore="UnusedResources">Âm thanh</string>
-    <string name="category_control" tools:ignore="UnusedResources">Điều khiển</string>
-    <string name="category_event" tools:ignore="UnusedResources">事件</string>
-    <string name="category_user_bricks" tools:ignore="UnusedResources">您的砖块</string>
-    <string name="category_data" tools:ignore="UnusedResources">Dữ liệu</string>
-    <string name="category_device" tools:ignore="UnusedResources">设备</string>
-    <string name="category_lego_nxt" tools:ignore="UnusedResources">乐高NXT</string>
-    <string name="category_lego_ev3" tools:ignore="UnusedResources">乐高EV3</string>
-    <string name="category_drone" tools:ignore="UnusedResources">AR无人机2.0</string>
-    <string name="category_jumping_sumo" tools:ignore="UnusedResources">Jumping Sumo</string>
-    <string name="category_phiro" tools:ignore="UnusedResources">Phiro</string>
-    <string name="category_arduino" tools:ignore="UnusedResources">Arduino</string>
-    <string name="category_cast" tools:ignore="UnusedResources">Cast</string>
-    <string name="category_raspi" tools:ignore="UnusedResources">树莓派</string>
-    <string name="category_assertions" tools:ignore="UnusedResources">测试中</string>
+    <string name="categories">类别</string>
+    <string name="category_embroidery">刺绣</string>
+    <string name="category_motion">运动</string>
+    <string name="category_looks">看起来</string>
+    <string name="category_pen">画笔</string>
+    <string name="category_sound">声音</string>
+    <string name="category_control">控制</string>
+    <string name="category_event">事件</string>
+    <string name="category_user_bricks">您的砖块</string>
+    <string name="category_data">数据</string>
+    <string name="category_device">设备</string>
+    <string name="category_lego_nxt">乐高NXT</string>
+    <string name="category_lego_ev3">乐高EV3</string>
+    <string name="category_drone">AR无人机2.0</string>
+    <string name="category_jumping_sumo">Jumping Sumo</string>
+    <string name="category_phiro">Phiro</string>
+    <string name="category_arduino">Arduino</string>
+    <string name="category_cast">Cast</string>
+    <string name="category_raspi">树莓派</string>
+    <string name="category_assertions">测试中</string>
+    <string name="category_search_bricks">搜索砖块</string>
     <!--  -->
     <!-- User Defined Bricks -->
     <string name="brick_user_defined_add_label">添加标签</string>
@@ -728,213 +776,218 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="brick_user_defined_default_input_name">输入名称</string>
     <string name="brick_user_defined_default_label">标签文本</string>
     <string name="brick_user_defined_already_exists">带有这些标签的积木已经存在。请添加更多标签或输入。</string>
-    <string name="brick_user_defined_script_define" tools:ignore="UnusedResources">定义</string>
-    <string name="brick_user_defined_script_as" tools:ignore="UnusedResources">为</string>
+    <string name="brick_user_defined_script_define">定义</string>
+    <string name="brick_user_defined_script_screen_refresh_as">屏幕刷新为</string>
+    <string name="brick_user_defined_with_screen_refreshing">以</string>
+    <string name="brick_user_defined_without_screen_refreshing">没有</string>
     <string name="brick_user_defined_list_empty">点击 \"+\" 添加您自己的积木。</string>
-    <string name="brick_report" tools:ignore="UnusedResources">报告</string>
+    <string name="brick_report">报告</string>
     <!--  -->
     <!-- Motion bricks -->
-    <string name="brick_place_at" tools:ignore="UnusedResources">"Đặt tại "</string>
+    <string name="brick_place_at">"放在 "</string>
     <string name="brick_option_place_visually">视觉设置</string>
-    <string name="x_label" tools:ignore="UnusedResources">"X: "</string>
-    <string name="y_label" tools:ignore="UnusedResources">"Y: "</string>
-    <string name="brick_set_x" tools:ignore="UnusedResources">"Thiết lập X tới "</string>
-    <string name="brick_set_y" tools:ignore="UnusedResources">"Thiết lập Y tới "</string>
-    <string name="brick_change_x_by" tools:ignore="UnusedResources">"Thay đổi X bởi "</string>
-    <string name="brick_change_y_by" tools:ignore="UnusedResources">"Thay đổi Y bởi "</string>
-    <string name="brick_go_back" tools:ignore="UnusedResources">Quay lại</string>
-    <string name="brick_set_rotation_style" tools:ignore="UnusedResources">"设置旋转方式 "</string>
-    <string name="brick_set_rotation_style_lr" tools:ignore="UnusedResources">水平翻转</string>
-    <string name="brick_set_rotation_style_normal" tools:ignore="UnusedResources">正常旋转</string>
-    <string name="brick_set_rotation_style_no" tools:ignore="UnusedResources">不要旋转</string>
+    <string name="x_label">"X: "</string>
+    <string name="y_label">"Y: "</string>
+    <string name="brick_set_x">"设置X坐标为 "</string>
+    <string name="brick_set_y">"设置Y坐标为 "</string>
+    <string name="brick_change_x_by">"将X坐标增加 "</string>
+    <string name="brick_change_y_by">"将Y坐标增加 "</string>
+    <string name="brick_go_back">下移</string>
+    <string name="brick_set_rotation_style">"设置旋转方式 "</string>
+    <string name="brick_set_rotation_style_lr">水平翻转</string>
+    <string name="brick_set_rotation_style_normal">正常旋转</string>
+    <string name="brick_set_rotation_style_no">不要旋转</string>
     <plurals name="brick_go_back_layer_plural">
-        <item quantity="other">tầng lớp</item>
+        <item quantity="other">层</item>
     </plurals>
-    <string name="brick_come_to_front" tools:ignore="UnusedResources">Đi tới trước</string>
-    <string name="brick_if_on_edge_bounce" tools:ignore="UnusedResources">Nếu tới mép, nảy lên</string>
-    <string name="brick_move" tools:ignore="UnusedResources">Di chuyển</string>
+    <string name="brick_come_to_front">移至最上层</string>
+    <string name="brick_if_on_edge_bounce">碰到边缘就反弹</string>
+    <string name="brick_move">移动</string>
     <plurals name="brick_move_n_step_plural">
-        <item quantity="other">bước</item>
+        <item quantity="other">步</item>
     </plurals>
-    <string name="brick_turn_left" tools:ignore="UnusedResources">Rẽ Trái</string>
-    <string name="brick_turn_right" tools:ignore="UnusedResources">Rẽ Phải</string>
-    <string name="brick_point_in_direction" tools:ignore="UnusedResources">Điểm theo hướng</string>
-    <string name="brick_point_to" tools:ignore="UnusedResources">Điểm hướng tới</string>
-    <string name="brick_glide" tools:ignore="UnusedResources">Lướt</string>
-    <string name="brick_glide_to_x" tools:ignore="UnusedResources">để X:</string>
-    <string name="brick_go_to" tools:ignore="UnusedResources">移到</string>
+    <string name="brick_turn_left">左转</string>
+    <string name="brick_turn_right">右转</string>
+    <string name="brick_point_in_direction">面向</string>
+    <string name="brick_point_to">面向</string>
+    <string name="brick_glide">滑行</string>
+    <string name="brick_glide_to_x">到 X:</string>
+    <string name="brick_go_to">移到</string>
     <string name="brick_go_to_touch_position">触摸位置</string>
     <string name="brick_go_to_random_position">随机位置</string>
     <!--  -->
     <!-- Physics -->
-    <string name="brick_set_physics_object_type" tools:ignore="UnusedResources">设置运动类型为</string>
-    <string name="brick_set_physics_object_type_dynamic" tools:ignore="UnusedResources">根据重力弹跳</string>
-    <string name="brick_set_physics_object_type_fixed" tools:ignore="UnusedResources">其他对象碰到后弹开</string>
-    <string name="brick_set_physics_object_type_no" tools:ignore="UnusedResources">没有弹跳</string>
-    <string name="brick_set_mass" tools:ignore="UnusedResources">"设置质量为 "</string>
-    <string name="brick_set_mass_unit" tools:ignore="UnusedResources">公斤</string>
-    <string name="brick_set_gravity_to" tools:ignore="UnusedResources">"设置所有对象的重力为 "</string>
-    <string name="brick_set_gravity_unit" tools:ignore="UnusedResources">步/秒²</string>
-    <string name="brick_set_velocity_to" tools:ignore="UnusedResources">"设置速度为 "</string>
-    <string name="brick_set_velocity_unit" tools:ignore="UnusedResources">步/秒</string>
-    <string name="brick_turn_speed_unit" tools:ignore="UnusedResources">度/秒</string>
-    <string name="brick_set_friction" tools:ignore="UnusedResources">"设置摩擦力为 "</string>
-    <string name="brick_set_bounce_factor" tools:ignore="UnusedResources">"设置反弹因子为 "</string>
-    <string name="brick_rotate_left" tools:ignore="UnusedResources">"向左旋转 "</string>
-    <string name="brick_rotate_right" tools:ignore="UnusedResources">"向右旋转 "</string>
+    <string name="brick_set_physics_object_type">设置运动类型为</string>
+    <string name="brick_set_physics_object_type_dynamic">根据重力弹跳</string>
+    <string name="brick_set_physics_object_type_fixed">其他对象碰到后弹开</string>
+    <string name="brick_set_physics_object_type_no">没有弹跳</string>
+    <string name="brick_set_mass">"设置质量为 "</string>
+    <string name="brick_set_mass_unit">公斤</string>
+    <string name="brick_set_gravity_to">"设置所有对象的重力为 "</string>
+    <string name="brick_set_gravity_unit">步/秒²</string>
+    <string name="brick_set_velocity_to">"设置速度为 "</string>
+    <string name="brick_set_velocity_unit">步/秒</string>
+    <string name="brick_turn_speed_unit">度/秒</string>
+    <string name="brick_set_friction">"设置摩擦力为 "</string>
+    <string name="brick_set_bounce_factor">"设置反弹因子为 "</string>
+    <string name="brick_rotate_left">"向左旋转 "</string>
+    <string name="brick_rotate_right">"向右旋转 "</string>
     <!-- Look bricks -->
-    <string name="brick_set_look" tools:ignore="UnusedResources">Chuyển sang xem xét</string>
-    <string name="brick_set_look_by_index" tools:ignore="UnusedResources">切换外观至编号</string>
+    <string name="brick_set_look">切换为外观</string>
+    <string name="brick_set_look_by_index">切换外观至编号</string>
     <string name="brick_and_wait">并等待</string>
-    <string name="brick_set_background" tools:ignore="UnusedResources">Thiết lập nền</string>
-    <string name="brick_set_background_and_wait" tools:ignore="UnusedResources">设置背景并等待</string>
-    <string name="brick_set_background_by_index" tools:ignore="UnusedResources">设置背景为编号</string>
-    <string name="brick_when_background" tools:ignore="UnusedResources">当背景更改为</string>
-    <string name="brick_set_size_to" tools:ignore="UnusedResources">Đặt kích cỡ để</string>
-    <string name="brick_change_size_by" tools:ignore="UnusedResources">Thay đổi kích thước bởi</string>
-    <string name="brick_hide" tools:ignore="UnusedResources">Ẩn</string>
-    <string name="brick_show" tools:ignore="UnusedResources">Hiển thị</string>
-    <string name="brick_set_transparency" tools:ignore="UnusedResources">"Đặt chế độ trong suốt "</string>
-    <string name="brick_change_ghost_effect" tools:ignore="UnusedResources">"Thay đổi độ trong suốt "</string>
-    <string name="brick_set_brightness" tools:ignore="UnusedResources">"Thiết lập độ sáng "</string>
-    <string name="brick_change_brightness" tools:ignore="UnusedResources">"Thay đổi độ sáng "</string>
-    <string name="brick_set_color" tools:ignore="UnusedResources">"设置颜色 "</string>
-    <string name="brick_change_color" tools:ignore="UnusedResources">"将颜色增加 "</string>
-    <string name="by_label" tools:ignore="UnusedResources">bởi</string>
-    <string name="to_label" tools:ignore="UnusedResources">đến</string>
-    <string name="brick_clear_graphic_effect" tools:ignore="UnusedResources">Hiệu ứng đồ họa rõ ràng</string>
-    <string name="brick_next_look" tools:ignore="UnusedResources">Giao diện tiếp theo</string>
-    <string name="brick_next_background">Nền tiếp theo</string>
-    <string name="brick_previous_look" tools:ignore="UnusedResources">上一个外观</string>
+    <string name="brick_set_background">Thiết lập nền</string>
+    <string name="brick_set_background_and_wait">设置背景并等待</string>
+    <string name="brick_set_background_by_index">设置背景为编号</string>
+    <string name="brick_when_background">当背景更改为</string>
+    <string name="brick_set_size_to">Đặt kích cỡ để</string>
+    <string name="brick_change_size_by">Thay đổi kích thước bởi</string>
+    <string name="brick_hide">Ẩn</string>
+    <string name="brick_show">Hiển thị</string>
+    <string name="brick_set_transparency">"Đặt chế độ trong suốt "</string>
+    <string name="brick_change_ghost_effect">"Thay đổi độ trong suốt "</string>
+    <string name="brick_set_brightness">"Thiết lập độ sáng "</string>
+    <string name="brick_change_brightness">"Thay đổi độ sáng "</string>
+    <string name="brick_set_color">"设置颜色 "</string>
+    <string name="brick_change_color">"将颜色增加 "</string>
+    <string name="by_label">bởi</string>
+    <string name="to_label">đến</string>
+    <string name="brick_clear_graphic_effect">清除所有图形效果</string>
+    <string name="brick_next_look">下一个外观</string>
+    <string name="brick_next_background">下一个背景</string>
+    <string name="brick_previous_look">上一个外观</string>
     <string name="brick_previous_background">上一个背景</string>
-    <string name="brick_edit_look" tools:ignore="UnusedResources">编辑外观</string>
+    <string name="brick_edit_look">编辑外观</string>
     <string name="brick_edit_background">编辑背景</string>
-    <string name="brick_delete_look" tools:ignore="UnusedResources">删除外观？</string>
+    <string name="brick_delete_look">删除外观？</string>
     <string name="brick_delete_background">删除背景色：</string>
-    <string name="brick_flash" tools:ignore="UnusedResources">设置闪光灯为</string>
-    <string name="brick_flash_on" tools:ignore="UnusedResources">开</string>
-    <string name="brick_flash_off" tools:ignore="UnusedResources">关</string>
-    <string name="brick_vibration" tools:ignore="UnusedResources">Rung</string>
-    <string name="brick_ask_label" tools:ignore="UnusedResources">询问</string>
-    <string name="brick_ask_store" tools:ignore="UnusedResources">并将输入的答案存储于</string>
+    <string name="brick_flash">设置闪光灯为</string>
+    <string name="brick_flash_on">开</string>
+    <string name="brick_flash_off">关</string>
+    <string name="brick_vibration">震动，持续</string>
+    <string name="brick_ask_label">询问</string>
+    <string name="brick_ask_store">并将输入的答案存储于</string>
     <string name="brick_ask_default_question">您的名字是什么？</string>
     <string name="brick_ask_dialog_hint">"输入您的答案："</string>
     <string name="brick_ask_dialog_submit">提交答案</string>
-    <string name="brick_ask_speech_label" tools:ignore="UnusedResources">询问</string>
-    <string name="brick_ask_speech_store" tools:ignore="UnusedResources">并将输入的答案存储于</string>
+    <string name="brick_ask_speech_label">询问</string>
+    <string name="brick_ask_speech_store">并将输入的答案存储于</string>
     <string name="brick_ask_speech_default_question">您的名字是什么？</string>
-    <string name="brick_paint_new_look" tools:ignore="UnusedResources">绘制新外观</string>
+    <string name="brick_paint_new_look">绘制新外观</string>
     <string name="brick_paint_new_background">绘制新背景</string>
     <string name="brick_paint_new_look_name">"新外观名称"</string>
-    <string name="brick_copy_look" tools:ignore="UnusedResources">复制外观并命名它</string>
+    <string name="brick_copy_look">复制外观并命名它</string>
     <string name="brick_copy_look_name">已复制外观的名称</string>
     <string name="brick_copy_background">复制背景和名称</string>
+    <string name="brick_focus_point">成为焦点与</string>
+    <string name="brick_horizontal_and">水平和</string>
+    <string name="brick_vertical_flex">垂直亮度</string>
     <!--  -->
     <!-- Pen bricks -->
-    <string name="brick_pen_down" tools:ignore="UnusedResources">落笔</string>
-    <string name="brick_pen_up" tools:ignore="UnusedResources">抬笔</string>
-    <string name="brick_pen_size" tools:ignore="UnusedResources">把画笔的大小设定为</string>
-    <string name="brick_pen_color" tools:ignore="UnusedResources">把画笔的颜色设定为</string>
-    <string name="brick_clear_background" tools:ignore="UnusedResources">清空</string>
-    <string name="brick_stamp" tools:ignore="UnusedResources">Con dấu</string>
+    <string name="brick_pen_down">落笔</string>
+    <string name="brick_pen_up">抬笔</string>
+    <string name="brick_pen_size">把画笔的大小设定为</string>
+    <string name="brick_pen_color">把画笔的颜色设定为</string>
+    <string name="brick_clear_background">清空</string>
+    <string name="brick_stamp">图章</string>
     <!--  -->
     <!-- Sound bricks -->
-    <string name="brick_play_sound" tools:ignore="UnusedResources">Bắt đầu âm thanh</string>
-    <string name="brick_play_sound_and_wait" tools:ignore="UnusedResources">播放声音并等待</string>
-    <string name="brick_stop_sound" tools:ignore="UnusedResources">停止声音</string>
-    <string name="brick_stop_all_sounds" tools:ignore="UnusedResources">Ngừng tất cả âm thanh</string>
-    <string name="brick_set_volume_to" tools:ignore="UnusedResources">Thiết lập âm lượng để</string>
-    <string name="brick_change_volume_by" tools:ignore="UnusedResources">Thay đổi âm lượng bởi</string>
-    <string name="brick_speak" tools:ignore="UnusedResources">Nói chuyện</string>
-    <string name="brick_speak_default_value">Xin chào!</string>
-    <string name="brick_speak_and_wait" tools:ignore="UnusedResources">并等待</string>
-    <string name="brick_start_listening_to_voice" tools:ignore="UnusedResources">开始收听语音并存储语音词在</string>
+    <string name="brick_play_sound">播放声音</string>
+    <string name="brick_play_sound_and_wait">播放声音并等待</string>
+    <string name="brick_stop_sound">停止声音</string>
+    <string name="brick_stop_all_sounds">停止所有声音</string>
+    <string name="brick_set_volume_to">将音量设为</string>
+    <string name="brick_change_volume_by">将音量增加</string>
+    <string name="brick_speak">读出</string>
+    <string name="brick_speak_default_value">您好！</string>
+    <string name="brick_speak_and_wait">并等待</string>
+    <string name="brick_start_listening_to_voice">开始收听语音并存储语音词在</string>
     <string name="speech_recognition_not_available">语音识别不可用。</string>
     <string name="speech_recognition_offline_mode_error_dialog_title">缺少离线数据</string>
     <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">脱机语音识别
  %s 丢失或需要更新。您想现在下载或更新吗？</string>
-    <string name="brick_set_listening_language" tools:ignore="UnusedResources">设置监听语言为</string>
-    <string name="set_instrument_to" tools:ignore="UnusedResources">设置仪器为</string>
-    <string name="set_tempo_to" tools:ignore="UnusedResources">设置节奏为</string>
-    <string name="change_tempo_by" tools:ignore="UnusedResources">更改节奏由</string>
-    <string name="pause_for" tools:ignore="UnusedResources">暂停</string>
-    <string name="play_drum" tools:ignore="UnusedResources">玩鼓机</string>
-    <string name="beats" tools:ignore="UnusedResources">拍子</string>
-    <string name="play_note" tools:ignore="UnusedResources">播放笔记</string>
-    <string name="for_string" tools:ignore="UnusedResources">持续</string>
+    <string name="brick_set_listening_language">设置监听语言为</string>
+    <string name="set_instrument_to">设置仪器为</string>
+    <string name="set_tempo_to">设置节奏为</string>
+    <string name="change_tempo_by">更改节奏由</string>
+    <string name="pause_for">暂停</string>
+    <string name="play_drum">玩鼓机</string>
+    <string name="beats">拍子</string>
+    <string name="play_note">播放笔记</string>
+    <string name="for_string">持续</string>
     <!--  -->
     <!-- Embroidery bricks -->
-    <string name="brick_stitch" tools:ignore="UnusedResources">纹理</string>
-    <string name="brick_running_stitch" tools:ignore="UnusedResources">开始使用长度运行 sitch</string>
-    <string name="brick_zigzag_stitch" tools:ignore="UnusedResources">开始以zigzag sitch长度</string>
-    <string name="brick_zigzag_stitch_width" tools:ignore="UnusedResources">和宽度</string>
-    <string name="brick_triple_stitch" tools:ignore="UnusedResources">按长度开始三次曲目</string>
-    <string name="brick_stop_stitch" tools:ignore="UnusedResources">停止当前色调</string>
-    <string name="brick_write_embroidery" tools:ignore="UnusedResources">将刺绣数据写入文件</string>
+    <string name="brick_stitch">纹理</string>
+    <string name="brick_running_stitch">开始使用长度运行 sitch</string>
+    <string name="brick_zigzag_stitch">开始以zigzag sitch长度</string>
+    <string name="brick_zigzag_stitch_width">和宽度</string>
+    <string name="brick_triple_stitch">按长度开始三次曲目</string>
+    <string name="brick_stop_stitch">停止当前色调</string>
+    <string name="brick_write_embroidery">将刺绣数据写入文件</string>
     <string name="brick_default_embroidery_file">刺绣.dst</string>
-    <string name="brick_sew_up" tools:ignore="UnusedResources">上移</string>
+    <string name="brick_sew_up">上移</string>
     <string name="brick_thread_color">将线的颜色设置为</string>
     <!--  -->
     <!-- Device bricks -->
-    <string name="brick_reset_timer" tools:ignore="UnusedResources">计时器归零</string>
-    <string name="brick_open" tools:ignore="UnusedResources">Mở </string>
-    <string name="brick_in_browser" tools:ignore="UnusedResources">在浏览器中</string>
+    <string name="brick_reset_timer">计时器归零</string>
+    <string name="brick_open">打开</string>
+    <string name="brick_in_browser">在浏览器中</string>
     <!-- Control bricks -->
-    <string name="brick_when_started" tools:ignore="UnusedResources">当程序启动</string>
-    <string name="brick_when" tools:ignore="UnusedResources">Khi nhấp</string>
-    <string name="brick_when_condition_when" tools:ignore="UnusedResources">当</string>
-    <string name="brick_when_becomes_true" tools:ignore="UnusedResources">为真</string>
-    <string name="brick_wait" tools:ignore="UnusedResources">Đợi</string>
-    <string name="brick_wait_until" tools:ignore="UnusedResources">保持等待，直到</string>
-    <string name="brick_wait_until_second_part" tools:ignore="UnusedResources">为真</string>
-    <string name="brick_when_gamepad_button" tools:ignore="UnusedResources">当按下游戏手柄按钮</string>
-    <string name="brick_when_gamepad_button_tapped" tools:ignore="UnusedResources">被点击</string>
-    <string name="brick_when_nfc" tools:ignore="UnusedResources">当 NFC</string>
-    <string name="brick_stop_script" tools:ignore="UnusedResources">停止</string>
-    <string name="brick_stop_this_script" tools:ignore="UnusedResources">当前脚本</string>
-    <string name="brick_stop_all_scripts" tools:ignore="UnusedResources">所有脚本</string>
-    <string name="brick_stop_other_scripts" tools:ignore="UnusedResources">当前对象的其他脚本</string>
+    <string name="brick_when_started">当程序启动</string>
+    <string name="brick_when">当被点击</string>
+    <string name="brick_when_condition_when">当</string>
+    <string name="brick_when_becomes_true">为真</string>
+    <string name="brick_wait">等待</string>
+    <string name="brick_wait_until">保持等待，直到</string>
+    <string name="brick_wait_until_second_part">为真</string>
+    <string name="brick_when_gamepad_button">当按下游戏手柄按钮</string>
+    <string name="brick_when_gamepad_button_tapped">被点击</string>
+    <string name="brick_when_nfc">当 NFC</string>
+    <string name="brick_stop_script">停止</string>
+    <string name="brick_stop_this_script">当前脚本</string>
+    <string name="brick_stop_all_scripts">所有脚本</string>
+    <string name="brick_stop_other_scripts">当前对象的其他脚本</string>
     <plurals name="second_plural">
-        <item quantity="other">"giây "</item>
+        <item quantity="other">"秒 "</item>
     </plurals>
-    <string name="brick_collision_receive" tools:ignore="UnusedResources">当发生物理碰撞与</string>
+    <string name="brick_collision_receive">当发生物理碰撞与</string>
     <string name="collision_with_anything">任何东西</string>
-    <string name="brick_broadcast_receive" tools:ignore="UnusedResources">当接收到</string>
-    <string name="brick_broadcast" tools:ignore="UnusedResources">Phát sóng</string>
-    <string name="brick_broadcast_wait" tools:ignore="UnusedResources">Phát sóng và đợi</string>
-    <string name="brick_scene_transition" tools:ignore="UnusedResources">继续场景</string>
-    <string name="brick_scene_start" tools:ignore="UnusedResources">启动场景</string>
-    <string name="brick_note" tools:ignore="UnusedResources">Lưu ý</string>
-    <string name="brick_think_bubble" tools:ignore="UnusedResources">思考</string>
-    <string name="brick_say_bubble" tools:ignore="UnusedResources">说</string>
-    <string name="brick_think_say_for_text" tools:ignore="UnusedResources">持续</string>
-    <string name="brick_forever" tools:ignore="UnusedResources">Vĩnh viễn</string>
-    <string name="brick_loop_for_values_from" tools:ignore="UnusedResources">对值来自</string>
-    <string name="brick_loop_for_each_value_from" tools:ignore="UnusedResources">对每个值从</string>
-    <string name="brick_loop_in" tools:ignore="UnusedResources">在</string>
-    <string name="brick_loop_to" tools:ignore="UnusedResources">đến</string>
-    <string name="brick_repeat" tools:ignore="UnusedResources">Lặp lại</string>
-    <string name="brick_repeat_until" tools:ignore="UnusedResources">重复执行直到</string>
-    <string name="brick_when_touched" tools:ignore="UnusedResources">当屏幕被点击</string>
-    <string name="brick_clone" tools:ignore="UnusedResources">克隆一个</string>
+    <string name="brick_broadcast_receive">当接收到</string>
+    <string name="brick_broadcast">广播</string>
+    <string name="brick_broadcast_wait">广播并等待</string>
+    <string name="brick_scene_transition">继续场景</string>
+    <string name="brick_scene_start">启动场景</string>
+    <string name="brick_note">注释</string>
+    <string name="brick_think_bubble">思考</string>
+    <string name="brick_say_bubble">说</string>
+    <string name="brick_think_say_for_text">持续</string>
+    <string name="brick_forever">无限重复</string>
+    <string name="brick_loop_for_values_from">对值来自</string>
+    <string name="brick_loop_for_each_value_from">对每个值从</string>
+    <string name="brick_loop_in">在</string>
+    <string name="brick_loop_to">至</string>
+    <string name="brick_repeat">重复执行</string>
+    <string name="brick_repeat_until">重复执行直到</string>
+    <string name="brick_when_touched">当屏幕被点击</string>
+    <string name="brick_clone">克隆一个</string>
     <string name="brick_clone_this">自己</string>
-    <string name="brick_when_cloned" tools:ignore="UnusedResources">当作为克隆启动</string>
-    <string name="brick_delete_this_clone" tools:ignore="UnusedResources">删除这个克隆</string>
-    <string name="brick_assert_that" tools:ignore="UnusedResources">断言 (Assert)</string>
-    <string name="brick_is_equal_to" tools:ignore="UnusedResources">等于预期的</string>
-    <string name="brick_wait_till_idle" tools:ignore="UnusedResources">等待所有其他脚本停止</string>
-    <string name="brick_tap_at" tools:ignore="UnusedResources">"单击在"</string>
-    <string name="brick_touch_at" tools:ignore="UnusedResources">"触摸在"</string>
-    <string name="brick_tap_for" tools:ignore="UnusedResources">"持续"</string>
-    <string name="brick_touch_slide" tools:ignore="UnusedResources">"触摸和滑动"</string>
-    <string name="brick_touch_from_x" tools:ignore="UnusedResources">"从x："</string>
-    <string name="brick_finish_stage" tools:ignore="UnusedResources">结束阶段</string>
-    <string name="brick_finish_tests" tools:ignore="UnusedResources">完成测试</string>
-    <string name="brick_assert_lists" tools:ignore="UnusedResources">Assert列表</string>
-    <string name="brick_assert_actual" tools:ignore="UnusedResources">实际：</string>
-    <string name="brick_assert_expected" tools:ignore="UnusedResources">预期:</string>
-    <string name="brick_parameterized_assert" tools:ignore="UnusedResources">assert</string>
-    <string name="brick_parameterized_equals" tools:ignore="UnusedResources">等于预期的项目</string>
+    <string name="brick_when_cloned">当作为克隆启动</string>
+    <string name="brick_delete_this_clone">删除这个克隆</string>
+    <string name="brick_assert_that">断言 (Assert)</string>
+    <string name="brick_is_equal_to">等于预期的</string>
+    <string name="brick_wait_till_idle">等待所有其他脚本停止</string>
+    <string name="brick_tap_at">"单击在"</string>
+    <string name="brick_touch_at">"触摸在"</string>
+    <string name="brick_tap_for">"持续"</string>
+    <string name="brick_touch_slide">"触摸和滑动"</string>
+    <string name="brick_touch_from_x">"从x："</string>
+    <string name="brick_finish_stage">结束阶段</string>
+    <string name="brick_finish_tests">完成测试</string>
+    <string name="brick_assert_lists">Assert列表</string>
+    <string name="brick_assert_actual">实际：</string>
+    <string name="brick_assert_expected">预期:</string>
+    <string name="brick_parameterized_assert">assert</string>
+    <string name="brick_parameterized_equals">等于预期的项目</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="other">对于每个项目的</item>
     </plurals>
@@ -945,46 +998,46 @@ dash(-), 下划线 (_), 和 句号(.).</string>
         <item quantity="other">已选择 %d 个列表</item>
     </plurals>
     <plurals name="time_plural">
-        <item quantity="other">lần</item>
+        <item quantity="other">次</item>
     </plurals>
-    <string name="brick_loop_end">Kết thúc vòng lặp</string>
-    <string name="brick_if_begin" tools:ignore="UnusedResources">Nếu</string>
-    <string name="brick_if_begin_second_part" tools:ignore="UnusedResources">đúng thì</string>
-    <string name="brick_if_else" tools:ignore="UnusedResources">Nếu không</string>
-    <string name="brick_if_end">Kết thúc nếu</string>
-    <string name="brick_set_variable" tools:ignore="UnusedResources">Đặt biến</string>
-    <string name="brick_change_variable" tools:ignore="UnusedResources">Thay đổi biến</string>
-    <string name="brick_write_variable_on_device" tools:ignore="UnusedResources">在设备上写入变量</string>
-    <string name="brick_read_variable_from_device" tools:ignore="UnusedResources">从设备读取变量</string>
-    <string name="brick_write_variable_to_file_top" tools:ignore="UnusedResources">写入变量</string>
-    <string name="brick_write_variable_to_file_bottom" tools:ignore="UnusedResources">转到文件</string>
+    <string name="brick_loop_end">重复执行结束</string>
+    <string name="brick_if_begin">如果</string>
+    <string name="brick_if_begin_second_part">为真那么</string>
+    <string name="brick_if_else">否则</string>
+    <string name="brick_if_end">如果结束</string>
+    <string name="brick_set_variable">设置变量</string>
+    <string name="brick_change_variable">增加变量</string>
+    <string name="brick_write_variable_on_device">在设备上写入变量</string>
+    <string name="brick_read_variable_from_device">从设备读取变量</string>
+    <string name="brick_write_variable_to_file_top">写入变量</string>
+    <string name="brick_write_variable_to_file_bottom">转到文件</string>
     <string name="brick_write_variable_to_file_default_value">变量.txt</string>
     <string name="brick_write_variable_to_file_success">"数据写入成功到 %1$s"</string>
-    <string name="brick_read_variable_from_file_top" tools:ignore="UnusedResources">读取变量</string>
-    <string name="brick_read_variable_from_file_center" tools:ignore="UnusedResources">从文件</string>
-    <string name="brick_read_variable_from_file_bottom" tools:ignore="UnusedResources">VÀ</string>
+    <string name="brick_read_variable_from_file_top">读取变量</string>
+    <string name="brick_read_variable_from_file_center">从文件</string>
+    <string name="brick_read_variable_from_file_bottom">和</string>
     <string name="brick_read_variable_from_file_keep">保持文件</string>
     <string name="brick_read_variable_from_file_delete">删除文件</string>
-    <string name="brick_write_list_on_device" tools:ignore="UnusedResources">在设备上写入列表</string>
-    <string name="brick_read_list_from_device" tools:ignore="UnusedResources">从设备读取列表</string>
-    <string name="brick_note_default_value">thêm bình luận ở đây&#8230;</string>
+    <string name="brick_write_list_on_device">在设备上写入列表</string>
+    <string name="brick_read_list_from_device">从设备读取列表</string>
+    <string name="brick_note_default_value">在这里添加注释&#8230;</string>
     <string name="brick_think_bubble_default_value">嗯……！</string>
-    <string name="brick_say_bubble_default_value">Xin chào!</string>
-    <string name="brick_broadcast_default_value">"thông báo 1"</string>
-    <string name="brick_add_item_to_userlist_add" tools:ignore="UnusedResources">Thêm</string>
-    <string name="brick_add_item_to_userlist" tools:ignore="UnusedResources">vào danh sách</string>
-    <string name="brick_clear_userlist" tools:ignore="UnusedResources">从列表中删除所有项目。</string>
-    <string name="brick_delete_item_from_userlist_delete" tools:ignore="UnusedResources">Xoá khỏi danh sách</string>
-    <string name="brick_delete_item_from_userlist" tools:ignore="UnusedResources">ở vị trí</string>
-    <string name="brick_insert_item_into_userlist_insert_into" tools:ignore="UnusedResources">Chèn</string>
-    <string name="brick_insert_item_into_userlist_into_list" tools:ignore="UnusedResources">vào danh sách</string>
-    <string name="brick_insert_item_into_userlist_at_position" tools:ignore="UnusedResources">ở vị trí</string>
-    <string name="brick_replace_item_in_userlist_replace_in_list" tools:ignore="UnusedResources">Thay thế các khoản mục trong danh sách</string>
-    <string name="brick_replace_item_in_userlist_item_at_index" tools:ignore="UnusedResources">ở vị trí</string>
-    <string name="brick_replace_item_in_userlist_with_value" tools:ignore="UnusedResources">với</string>
-    <string name="brick_web_request" tools:ignore="UnusedResources">发送网络请求到</string>
+    <string name="brick_say_bubble_default_value">你好！</string>
+    <string name="brick_broadcast_default_value">"新消息"</string>
+    <string name="brick_add_item_to_userlist_add">添加</string>
+    <string name="brick_add_item_to_userlist">到列表中</string>
+    <string name="brick_clear_userlist">从列表中删除所有项目。</string>
+    <string name="brick_delete_item_from_userlist_delete">从列表中删除项，在列表</string>
+    <string name="brick_delete_item_from_userlist">位置为</string>
+    <string name="brick_insert_item_into_userlist_insert_into">插入</string>
+    <string name="brick_insert_item_into_userlist_into_list">到列表中</string>
+    <string name="brick_insert_item_into_userlist_at_position">位置为</string>
+    <string name="brick_replace_item_in_userlist_replace_in_list">替换项目在列表</string>
+    <string name="brick_replace_item_in_userlist_item_at_index">的位置</string>
+    <string name="brick_replace_item_in_userlist_with_value">以</string>
+    <string name="brick_web_request">发送网络请求到</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
-    <string name="brick_web_request_result" tools:ignore="UnusedResources">并存储答案</string>
+    <string name="brick_web_request_result">并存储答案</string>
     <string name="web_request_warning_title">是否允许访问网页？</string>
     <string name="web_request_warning_message">在允许进入之前要非常小心，因为
         链接可能会暴露您的个人信息，如您的准确地理位置或任何文字，您的个人信息可能会被泄露。
@@ -1000,15 +1053,15 @@ dash(-), 下划线 (_), 和 句号(.).</string>
         稍后 您可以从信任域列表中移除此应用程序设置中的
         条目。
     </string>
-    <string name="brick_look_request" tools:ignore="UnusedResources">从中获取图像</string>
-    <string name="brick_look_request_result" tools:ignore="UnusedResources">并用作当前外观</string>
-    <string name="brick_background_request_result" tools:ignore="UnusedResources">并作为当前背景使用</string>
+    <string name="brick_look_request">从中获取图像</string>
+    <string name="brick_look_request_result">并用作当前外观</string>
+    <string name="brick_background_request_result">并作为当前背景使用</string>
     <string name="look_request_http_error_message">"从 %1$s 获取图片返回 HTTP 错误 %2$s"</string>
     <string name="look_request_type_error_message">"从 %1$s 获取图像无法检索公认的图像格式"</string>
-    <string name="brick_store_csv_into_userlist_store" tools:ignore="UnusedResources">存储列</string>
-    <string name="brick_store_csv_into_userlist_of" tools:ignore="UnusedResources">的</string>
-    <string name="brick_store_csv_into_userlist_csv" tools:ignore="UnusedResources">逗号分隔的值</string>
-    <string name="brick_store_csv_into_userlist_into" tools:ignore="UnusedResources">vào danh sách</string>
+    <string name="brick_store_csv_into_userlist_store">存储列</string>
+    <string name="brick_store_csv_into_userlist_of">的</string>
+    <string name="brick_store_csv_into_userlist_csv">逗号分隔的值</string>
+    <string name="brick_store_csv_into_userlist_into">vào danh sách</string>
     <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligence</string>
     <!--  -->
     <!--Instruments-->
@@ -1057,11 +1110,11 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <!-- Default Values -->
     <string name="default_project_name">我的项目</string>
     <string name="default_variable_name">可变</string>
-    <string name="default_scene_name">场景 (%1$d)</string>
+    <string name="default_scene_name">场景</string>
     <string name="default_script_group_name">脚本组</string>
     <string name="default_broadcast_message_name">消息</string>
     <string name="default_list_name">列表</string>
-    <string name="default_project_background_name">Nền</string>
+    <string name="default_project_background_name">背景</string>
     <string name="default_project_cloud_name">云</string>
     <string name="default_project_cloud_sprite_name_1">云1</string>
     <string name="default_project_cloud_sprite_name_2">云2</string>
@@ -1077,7 +1130,7 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <!--suppress UnusedResources -->
     <string name="default_project_inner_loop">内部循环</string>
     <!-- Default ChromeCast Values -->
-    <string name="default_cast_project_background_name">Nền</string>
+    <string name="default_cast_project_background_name">背景</string>
     <string name="default_cast_project_cloud_name">云</string>
     <string name="default_cast_project_cloud_sprite_name1">云1</string>
     <string name="default_cast_project_cloud_sprite_name2">云2</string>
@@ -1088,7 +1141,7 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="default_cast_project_sprites_bird_name_wing_down_left">鸟的翅膀向左下</string>
     <string name="default_cast_project_sprites_tweet_1">鸟鸣1</string>
     <string name="default_cast_project_sprites_tweet_2">鸟鸣2</string>
-    <string name="default_cast_project_var_direction">hướng</string>
+    <string name="default_cast_project_var_direction">方向</string>
     <string name="default_cast_project_name">我的第一个Cast程序</string>
     <!-- Default Drone Values -->
     <string name="drone_brick_set_text">文本</string>
@@ -1126,18 +1179,18 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="notification_screenshot_ok">预览图像已保存</string>
     <string name="notification_download_project_cancel">取消项目下载</string>
     <string name="notification_reconvert_download_program_cancel">已取消下载/重新转换程序</string>
-    <string name="notification_upload_title_pending">"Đang tải lên "</string>
-    <string name="notification_upload_title_finished">"Nhìn vào "</string>
-    <string name="notification_upload_pending">Tải lên đang diễn ra</string>
-    <string name="notification_upload_finished">Tải lên thành công</string>
-    <string name="notification_upload_rejected">Chương trình được tải lên bị từ chối</string>
-    <string name="notification_upload_retry">Thử lại</string>
+    <string name="notification_upload_title_pending">"上传中 "</string>
+    <string name="notification_upload_title_finished">"查看 "</string>
+    <string name="notification_upload_pending">正在上传</string>
+    <string name="notification_upload_finished">上传成功</string>
+    <string name="notification_upload_rejected">上传的程序被拒绝</string>
+    <string name="notification_upload_retry">重试</string>
     <string name="notification_open_play_store">打开Play Store</string>
-    <string name="notification_download_title_pending">"Đang tải về "</string>
-    <string name="notification_download_pending">Tải xuống đang diễn ra</string>
-    <string name="notification_download_finished">Tải về thành công</string>
-    <string name="notification_title_open">"Mở "</string>
-    <string name="size_of_project">Kích cỡ:</string>
+    <string name="notification_download_title_pending">"下载中 "</string>
+    <string name="notification_download_pending">正在下载</string>
+    <string name="notification_download_finished">下载完成</string>
+    <string name="notification_title_open">"打开 "</string>
+    <string name="size_of_project">尺寸：</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">此应用需要所要求的权限才能正常工作。
@@ -1145,11 +1198,11 @@ dash(-), 下划线 (_), 和 句号(.).</string>
 设备的地理位置传感器。 并且为了从本地内存导入和导出项目，应用程序
 需要读写访问它。 您总是可以通过您的设备的设置更改权限。</string>
     <!-- Error messages -->
-    <string name="error_project_upload">Lỗi xảy ra trong khi tải lên chương trình.</string>
-    <string name="error_project_download">Một lỗi xảy ra trong khi tải về chương trình.</string>
+    <string name="error_project_upload">在上传程序的时候发生了一个错误。</string>
+    <string name="error_project_download">下载程序时发生了一个错误。</string>
     <string name="error_project_already_in_queue">"项目 %s 已在队列中。"</string>
     <string name="error_could_not_decode_project_name_from_url">\"您的下载无法开始，似乎我们的服务器有问题。</string>
-    <string name="error_new_project">Lỗi xảy ra trong khi tạo ra một chương trình mới.</string>
+    <string name="error_new_project">创建新程序时发生了一个错误。</string>
     <string name="error_rename_scene">在重命名场景时发生了一个错误。</string>
     <string name="error_load_project">Lỗi xảy ra trong khi tải chương trình.</string>
     <string name="error_screenshot_failed">在保存预览图片时发生了一个错误。</string>
@@ -1177,32 +1230,33 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <!--  -->
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">无法启用蓝牙，请尝试关闭并重新开启。</string>
-    <string name="title_paired_devices">Thiết bị ghép nối</string>
-    <string name="title_other_devices">Thiết bị mới</string>
+    <string name="title_paired_devices">已配对设备</string>
+    <string name="title_other_devices">新的设备</string>
     <string name="searching_devices">搜索设备&#8230;</string>
-    <string name="button_scan">Tìm kiếm thiết bị Bluetooth</string>
+    <string name="button_scan">搜索蓝牙设备</string>
+    <string name="button_skip">跳过蓝牙连接</string>
     <string name="select_device">选中的设备：</string>
-    <string name="connecting_please_wait">Kết nối với thiết bị. \nVui lòng đợi&#8230;</string>
+    <string name="connecting_please_wait">连接到您的设备 \n请等待&#8230;</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
-    <string name="bt_connection_failed">Kết nối với thiết bị thất bại!</string>
-    <string name="none_found">Không có thiết bị liên kết được tìm thấy</string>
-    <string name="none_paired">Không có thiết bị liên kết được tìm thấy</string>
+    <string name="bt_connection_failed">连接设备失败！</string>
+    <string name="none_found">未找到未配对的设备</string>
+    <string name="none_paired">未找到已配对的设备</string>
     <!--  -->
     <!-- Arduino Bricks -->
-    <string name="brick_arduino_select_digital_value" tools:ignore="UnusedResources">设置 Arduino 数字端口</string>
-    <string name="brick_arduino_select_analog_value" tools:ignore="UnusedResources">设置 Arduino PWM端口</string>
-    <string name="brick_arduino_set_pin_value_to" tools:ignore="UnusedResources">đến</string>
+    <string name="brick_arduino_select_digital_value">设置 Arduino 数字端口</string>
+    <string name="brick_arduino_select_analog_value">设置 Arduino PWM端口</string>
+    <string name="brick_arduino_set_pin_value_to">至</string>
     <!--  -->
     <!-- Raspi Bricks -->
-    <string name="brick_raspi_select_digital_value" tools:ignore="UnusedResources">设置树莓派端口</string>
-    <string name="brick_raspi_set_pin_value_to" tools:ignore="UnusedResources">đến</string>
-    <string name="brick_raspi_if_begin" tools:ignore="UnusedResources">当树莓派端口</string>
-    <string name="brick_raspi_if_begin_second_part" tools:ignore="UnusedResources">đúng thì</string>
-    <string name="brick_raspi_when_begin" tools:ignore="UnusedResources">当树莓派端口</string>
-    <string name="brick_raspi_when_equals" tools:ignore="UnusedResources">已改为</string>
+    <string name="brick_raspi_select_digital_value">设置树莓派端口</string>
+    <string name="brick_raspi_set_pin_value_to">至</string>
+    <string name="brick_raspi_if_begin">当树莓派端口</string>
+    <string name="brick_raspi_if_begin_second_part">为真那么</string>
+    <string name="brick_raspi_when_begin">当树莓派端口</string>
+    <string name="brick_raspi_when_equals">已改为</string>
     <string name="brick_raspi_pressed_text">高</string>
     <string name="brick_raspi_released_text">低</string>
-    <string name="brick_raspi_set_pwm" tools:ignore="UnusedResources">设置树莓派PWM端口</string>
+    <string name="brick_raspi_set_pwm">设置树莓派PWM端口</string>
     <!--  -->
     <!-- Raspi Settings -->
     <string name="raspi_settings_title_name">树莓派设置</string>
@@ -1210,21 +1264,21 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="error_connecting_to">错误：无法连接到 %s ： %d</string>
     <!--  -->
     <!-- Lego Mindstorms Strings -->
-    <string name="nxt_brick_motor_move" tools:ignore="UnusedResources">设置NXT马达</string>
-    <string name="nxt_motor_speed_to" tools:ignore="UnusedResources">đến</string>
-    <string name="nxt_motor_speed" tools:ignore="UnusedResources">速度</string>
-    <string name="nxt_brick_motor_turn_angle" tools:ignore="UnusedResources">将NXT马达转动</string>
-    <string name="nxt_motor_move_by" tools:ignore="UnusedResources">bởi</string>
-    <string name="nxt_motor_stop" tools:ignore="UnusedResources">停止NXT马达</string>
-    <string name="nxt_play_tone" tools:ignore="UnusedResources">播放NXT音调</string>
-    <string name="nxt_tone_duration" tools:ignore="UnusedResources">持续</string>
-    <string name="nxt_tone_frequency" tools:ignore="UnusedResources">Tần suất</string>
-    <string name="nxt_tone_hundred_hz" tools:ignore="UnusedResources">x100Hz</string>
-    <string name="nxt_motor_a">A</string>
-    <string name="nxt_motor_b">B</string>
+    <string name="nxt_brick_motor_move">设置NXT马达</string>
+    <string name="nxt_motor_speed_to">至</string>
+    <string name="nxt_motor_speed">速度</string>
+    <string name="nxt_brick_motor_turn_angle">将NXT马达转动</string>
+    <string name="nxt_motor_move_by">经过</string>
+    <string name="nxt_motor_stop">停止NXT马达</string>
+    <string name="nxt_play_tone">播放NXT音调</string>
+    <string name="nxt_tone_duration">持续</string>
+    <string name="nxt_tone_frequency">频率</string>
+    <string name="nxt_tone_hundred_hz">× 100 赫兹</string>
+    <string name="nxt_motor_a">一种</string>
+    <string name="nxt_motor_b">乙</string>
     <string name="nxt_motor_c">C</string>
-    <string name="nxt_motor_b_and_c">B + C</string>
-    <string name="nxt_motor_all">Tất cả</string>
+    <string name="nxt_motor_b_and_c">乙+丙</string>
+    <string name="nxt_motor_all">所有</string>
     <string name="nxt_choose_sensor_1">连接到端口 1 上的传感器</string>
     <string name="nxt_choose_sensor_2">连接到端口 2 上的传感器</string>
     <string name="nxt_choose_sensor_3">连接到端口 3 上的传感器</string>
@@ -1268,24 +1322,24 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="ev3_sensor_nxt_light_active">NXT 光传感器已启用</string>
     <string name="ev3_sensor_nxt_sound">NXT 声音传感器</string>
     <string name="ev3_sensor_nxt_ultrasonic">NXT 超声波传感器</string>
-    <string name="ev3_motor_a">A</string>
-    <string name="ev3_motor_b">B</string>
+    <string name="ev3_motor_a">一种</string>
+    <string name="ev3_motor_b">乙</string>
     <string name="ev3_motor_c">C</string>
     <string name="ev3_motor_d">D</string>
-    <string name="ev3_motor_b_and_c">B + C</string>
-    <string name="ev3_motor_all">Tất cả</string>
-    <string name="ev3_play_tone" tools:ignore="UnusedResources">播放EV3音调</string>
-    <string name="ev3_tone_duration_for" tools:ignore="UnusedResources">持续</string>
-    <string name="ev3_tone_volume" tools:ignore="UnusedResources">音量</string>
-    <string name="ev3_tone_percent" tools:ignore="UnusedResources">%</string>
-    <string name="ev3_motor_stop" tools:ignore="UnusedResources">停止EV3马达</string>
-    <string name="ev3_motor_move" tools:ignore="UnusedResources">设置EV3马达</string>
-    <string name="ev3_brick_motor_turn_angle" tools:ignore="UnusedResources">将EV3马达转动</string>
-    <string name="ev3_motor_move_by" tools:ignore="UnusedResources">bởi</string>
-    <string name="ev3_set_led_status" tools:ignore="UnusedResources">设置EV3 LED 状态</string>
+    <string name="ev3_motor_b_and_c">乙+丙</string>
+    <string name="ev3_motor_all">所有</string>
+    <string name="ev3_play_tone">播放EV3音调</string>
+    <string name="ev3_tone_duration_for">持续</string>
+    <string name="ev3_tone_volume">音量</string>
+    <string name="ev3_tone_percent">%</string>
+    <string name="ev3_motor_stop">停止EV3马达</string>
+    <string name="ev3_motor_move">设置EV3马达</string>
+    <string name="ev3_brick_motor_turn_angle">将EV3马达转动</string>
+    <string name="ev3_motor_move_by">经过</string>
+    <string name="ev3_set_led_status">设置EV3 LED 状态</string>
     <string name="ev3_led_status_off">关</string>
-    <string name="ev3_led_status_green">Xanh lá cây</string>
-    <string name="ev3_led_status_red">Đỏ</string>
+    <string name="ev3_led_status_green">绿色</string>
+    <string name="ev3_led_status_red">红色</string>
     <string name="ev3_led_status_orange">橙色</string>
     <string name="ev3_led_status_green_flashing">绿色闪烁</string>
     <string name="ev3_led_status_red_flashing">红色闪烁</string>
@@ -1295,76 +1349,76 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="ev3_led_status_orange_pulse">橙色脉冲</string>
     <!--  -->
     <!-- Drone Bricks -->
-    <string name="brick_drone_takeoff_land" tools:ignore="UnusedResources">起飞/着陆 AR2.0无人机</string>
-    <string name="brick_drone_play_led_animation" tools:ignore="UnusedResources">启动AR2.0无人机闪光灯动画</string>
-    <string name="brick_drone_flip" tools:ignore="UnusedResources">Flip AR.Drone 2.0</string>
-    <string name="brick_drone_move_left" tools:ignore="UnusedResources">向左移动 AR2.0无人机</string>
-    <string name="brick_drone_move_right" tools:ignore="UnusedResources">向右移动 AR2.0无人机</string>
-    <string name="brick_drone_move_forward" tools:ignore="UnusedResources">向前移动 AR2.0无人机</string>
-    <string name="brick_drone_move_backward" tools:ignore="UnusedResources">向后移动 AR2.0无人机</string>
-    <string name="brick_drone_move_up" tools:ignore="UnusedResources">向上移动 AR2.0无人机</string>
-    <string name="brick_drone_move_down" tools:ignore="UnusedResources">向下移动 AR2.0无人机</string>
-    <string name="brick_drone_emergency" tools:ignore="UnusedResources">AR2.0无人机紧急情况</string>
-    <string name="brick_drone_turn_right" tools:ignore="UnusedResources">右转AR2.0无人机</string>
-    <string name="brick_drone_turn_left" tools:ignore="UnusedResources">左转AR2.0无人机</string>
+    <string name="brick_drone_takeoff_land">起飞/着陆 AR2.0无人机</string>
+    <string name="brick_drone_play_led_animation">启动AR2.0无人机闪光灯动画</string>
+    <string name="brick_drone_flip">Flip AR.Drone 2.0</string>
+    <string name="brick_drone_move_left">向左移动 AR2.0无人机</string>
+    <string name="brick_drone_move_right">向右移动 AR2.0无人机</string>
+    <string name="brick_drone_move_forward">向前移动 AR2.0无人机</string>
+    <string name="brick_drone_move_backward">向后移动 AR2.0无人机</string>
+    <string name="brick_drone_move_up">向上移动 AR2.0无人机</string>
+    <string name="brick_drone_move_down">向下移动 AR2.0无人机</string>
+    <string name="brick_drone_emergency">AR2.0无人机紧急情况</string>
+    <string name="brick_drone_turn_right">右转AR2.0无人机</string>
+    <string name="brick_drone_turn_left">左转AR2.0无人机</string>
     <string name="brick_drone_set_config">设置AR2.0无人机配置</string>
-    <string name="brick_drone_switch_camera" tools:ignore="UnusedResources">开关AR2.0无人机摄像头</string>
+    <string name="brick_drone_switch_camera">开关AR2.0无人机摄像头</string>
     <string name="brick_drone_set_altitude">高度限制 </string>
     <string name="brick_drone_set_vertical_speed">垂直速度极限</string>
     <string name="brick_drone_set_rotation_speed">旋转速度极限</string>
     <string name="brick_drone_set_tilt_limit">倾斜极限</string>
-    <string name="brick_drone_with." tools:ignore="UnusedResources">với</string>
-    <string name="brick_drone_power" tools:ignore="UnusedResources">求幂</string>
+    <string name="brick_drone_with.">以</string>
+    <string name="brick_drone_power">求幂</string>
     <!--  -->
     <!-- Drone play led animation strings -->
-    <string name="drone_animation_blinkgreenred" tools:ignore="UnusedResources">闪亮绿红灯</string>
-    <string name="drone_animation_blinkgreen" tools:ignore="UnusedResources">闪亮绿灯</string>
-    <string name="drone_animation_blinkred" tools:ignore="UnusedResources">闪亮红灯</string>
-    <string name="drone_animation_blinkorange" tools:ignore="UnusedResources">闪烁橙灯</string>
-    <string name="drone_animation_snakegreenred" tools:ignore="UnusedResources">淡绿色红色！</string>
-    <string name="drone_animation_fire" tools:ignore="UnusedResources">射击</string>
-    <string name="drone_animation_standard" tools:ignore="UnusedResources">标准</string>
-    <string name="drone_animation_red" tools:ignore="UnusedResources">Đỏ</string>
-    <string name="drone_animation_green" tools:ignore="UnusedResources">Xanh lá cây</string>
-    <string name="drone_animation_redsnake" tools:ignore="UnusedResources">红蛇</string>
-    <string name="drone_animation_blank" tools:ignore="UnusedResources">空白</string>
-    <string name="drone_animation_rightmissile" tools:ignore="UnusedResources">右导弹</string>
-    <string name="drone_animation_leftmissile" tools:ignore="UnusedResources">左导弹</string>
-    <string name="drone_animation_doublemissile" tools:ignore="UnusedResources">双式导弹</string>
-    <string name="drone_animation_frontleftgreenothersred" tools:ignore="UnusedResources">前左绿色其它红色</string>
-    <string name="drone_animation_frontrightgreenothersred" tools:ignore="UnusedResources">前右绿色其它红色</string>
-    <string name="drone_animation_rearrightgreenothersred" tools:ignore="UnusedResources">右后绿色其它红色</string>
-    <string name="drone_animation_rearleftgreenothersred" tools:ignore="UnusedResources">左后绿色其它红色</string>
-    <string name="drone_animation_leftgreenrightred" tools:ignore="UnusedResources">左绿右红</string>
-    <string name="drone_animation_leftredrightgreen" tools:ignore="UnusedResources">左红右绿</string>
-    <string name="drone_animation_blinkstandard" tools:ignore="UnusedResources">闪光标准</string>
+    <string name="drone_animation_blinkgreenred">闪亮绿红灯</string>
+    <string name="drone_animation_blinkgreen">闪亮绿灯</string>
+    <string name="drone_animation_blinkred">闪亮红灯</string>
+    <string name="drone_animation_blinkorange">闪烁橙灯</string>
+    <string name="drone_animation_snakegreenred">淡绿色红色！</string>
+    <string name="drone_animation_fire">射击</string>
+    <string name="drone_animation_standard">标准</string>
+    <string name="drone_animation_red">红色</string>
+    <string name="drone_animation_green">绿色</string>
+    <string name="drone_animation_redsnake">红蛇</string>
+    <string name="drone_animation_blank">空白</string>
+    <string name="drone_animation_rightmissile">右导弹</string>
+    <string name="drone_animation_leftmissile">左导弹</string>
+    <string name="drone_animation_doublemissile">双式导弹</string>
+    <string name="drone_animation_frontleftgreenothersred">前左绿色其它红色</string>
+    <string name="drone_animation_frontrightgreenothersred">前右绿色其它红色</string>
+    <string name="drone_animation_rearrightgreenothersred">右后绿色其它红色</string>
+    <string name="drone_animation_rearleftgreenothersred">左后绿色其它红色</string>
+    <string name="drone_animation_leftgreenrightred">左绿右红</string>
+    <string name="drone_animation_leftredrightgreen">左红右绿</string>
+    <string name="drone_animation_blinkstandard">闪光标准</string>
     <!-- Jumping Sumo Bricks -->
-    <string name="brick_jumping_sumo_move_forward" tools:ignore="UnusedResources">向前移动Jumping Sumo</string>
-    <string name="brick_jumping_sumo_move_backward" tools:ignore="UnusedResources">向后移动Jumping Sumo</string>
-    <string name="brick_jumping_sumo_animation" tools:ignore="UnusedResources">Jumping Sumo表演</string>
-    <string name="brick_jumping_sumo_no_sound" tools:ignore="UnusedResources">Jumping Sumo没有声音</string>
-    <string name="brick_jumping_sumo_jump_long" tools:ignore="UnusedResources">Jumping Sumo长距离跳跃</string>
-    <string name="brick_jumping_sumo_jump_high" tools:ignore="UnusedResources">Jumping Sumo跳高</string>
-    <string name="brick_jumping_sumo_rotate_left" tools:ignore="UnusedResources">左转Jumping Sumo</string>
-    <string name="brick_jumping_sumo_rotate_right" tools:ignore="UnusedResources">右转Jumping Sumo</string>
-    <string name="brick_jumping_sumo_rotate_text" tools:ignore="UnusedResources">°</string>
-    <string name="brick_jumping_sumo_turn" tools:ignore="UnusedResources">转动Jumping Sumo</string>
-    <string name="brick_jumping_sumo_taking_picture" tools:ignore="UnusedResources">Jumping Sumo拍摄照片</string>
+    <string name="brick_jumping_sumo_move_forward">向前移动Jumping Sumo</string>
+    <string name="brick_jumping_sumo_move_backward">向后移动Jumping Sumo</string>
+    <string name="brick_jumping_sumo_animation">Jumping Sumo表演</string>
+    <string name="brick_jumping_sumo_no_sound">Jumping Sumo没有声音</string>
+    <string name="brick_jumping_sumo_jump_long">Jumping Sumo长距离跳跃</string>
+    <string name="brick_jumping_sumo_jump_high">Jumping Sumo跳高</string>
+    <string name="brick_jumping_sumo_rotate_left">左转Jumping Sumo</string>
+    <string name="brick_jumping_sumo_rotate_right">右转Jumping Sumo</string>
+    <string name="brick_jumping_sumo_rotate_text">°</string>
+    <string name="brick_jumping_sumo_turn">转动Jumping Sumo</string>
+    <string name="brick_jumping_sumo_taking_picture">Jumping Sumo拍摄照片</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_sprites_sound" tools:ignore="UnusedResources">Âm thanh</string>
+    <string name="default_jumping_sumo_project_sprites_sound">声音</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
-    <string name="animation_spin" tools:ignore="UnusedResources">旋转</string>
-    <string name="animation_tab" tools:ignore="UnusedResources">选项卡</string>
-    <string name="animation_slowshake" tools:ignore="UnusedResources">慢速振动</string>
-    <string name="animation_metronome" tools:ignore="UnusedResources">节拍器</string>
-    <string name="animation_ondulation" tools:ignore="UnusedResources">波动</string>
-    <string name="animation_spinjump" tools:ignore="UnusedResources">螺旋跳跃</string>
-    <string name="animation_spiral" tools:ignore="UnusedResources">螺旋</string>
-    <string name="animation_slalom" tools:ignore="UnusedResources">障碍</string>
+    <string name="animation_spin">旋转</string>
+    <string name="animation_tab">选项卡</string>
+    <string name="animation_slowshake">慢速振动</string>
+    <string name="animation_metronome">节拍器</string>
+    <string name="animation_ondulation">波动</string>
+    <string name="animation_spinjump">螺旋跳跃</string>
+    <string name="animation_spiral">螺旋</string>
+    <string name="animation_slalom">障碍</string>
     <!-- Jumping Sumo sound strings -->
-    <string name="jumping_sumo_volume" tools:ignore="UnusedResources">音量</string>
+    <string name="jumping_sumo_volume">音量</string>
     <string name="sound_default">正常</string>
     <string name="sound_robot">机器人</string>
     <string name="sound_insect">昆虫</string>
@@ -1372,23 +1426,23 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->
-    <string name="phiro_motor_stop" tools:ignore="UnusedResources">停止Phiro马达</string>
-    <string name="brick_phiro_motor_forward_action" tools:ignore="UnusedResources">设置Phiro马达向前运动</string>
-    <string name="brick_phiro_motor_backward_action" tools:ignore="UnusedResources">设置Phiro马达向后运动</string>
-    <string name="phiro_motor_speed" tools:ignore="UnusedResources">速度</string>
+    <string name="phiro_motor_stop">停止Phiro马达</string>
+    <string name="brick_phiro_motor_forward_action">设置Phiro马达向前运动</string>
+    <string name="brick_phiro_motor_backward_action">设置Phiro马达向后运动</string>
+    <string name="phiro_motor_speed">速度</string>
     <!-- sensor -->
-    <string name="brick_phiro_sensor_begin" tools:ignore="UnusedResources">如果 Phiro</string>
-    <string name="brick_phiro_sensor_second_part" tools:ignore="UnusedResources">已启用</string>
+    <string name="brick_phiro_sensor_begin">如果 Phiro</string>
+    <string name="brick_phiro_sensor_second_part">已启用</string>
     <!-- tone -->
-    <string name="phiro_play_tone" tools:ignore="UnusedResources">播放Phiro音乐\n</string>
-    <string name="phiro_tone_duration" tools:ignore="UnusedResources">持续</string>
-    <string name="brick_phiro_select_tone" tools:ignore="UnusedResources">音调</string>
-    <string name="phiro_seconds" tools:ignore="UnusedResources">秒</string>
+    <string name="phiro_play_tone">播放Phiro音乐\n</string>
+    <string name="phiro_tone_duration">持续</string>
+    <string name="brick_phiro_select_tone">音调</string>
+    <string name="phiro_seconds">秒</string>
     <!-- light -->
-    <string name="brick_phiro_rgb_led_action" tools:ignore="UnusedResources">设置Phiro灯光</string>
-    <string name="phiro_rgb_led_red" tools:ignore="UnusedResources">Đỏ</string>
-    <string name="phiro_rgb_led_green" tools:ignore="UnusedResources">Xanh lá cây</string>
-    <string name="phiro_rgb_led_blue" tools:ignore="UnusedResources">Xanh da trời</string>
+    <string name="brick_phiro_rgb_led_action">设置Phiro灯光</string>
+    <string name="phiro_rgb_led_red">红色</string>
+    <string name="phiro_rgb_led_green">绿色</string>
+    <string name="phiro_rgb_led_blue">蓝色</string>
     <!--  -->
     <!-- Phiro tone strings -->
     <string name="phiro_tone_do">哆</string>
@@ -1400,13 +1454,13 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="phiro_tone_ti">西</string>
     <!--  -->
     <!-- Phiro motor strings -->
-    <string name="phiro_motor_left">Trái</string>
-    <string name="phiro_motor_right">Phải</string>
+    <string name="phiro_motor_left">左移</string>
+    <string name="phiro_motor_right">右移</string>
     <string name="phiro_motor_both">全部</string>
     <!--  -->
     <!-- Phiro light strings -->
-    <string name="phiro_light_left">Trái</string>
-    <string name="phiro_light_right">Phải</string>
+    <string name="phiro_light_left">左移</string>
+    <string name="phiro_light_right">右移</string>
     <string name="phiro_light_both">全部</string>
     <!--  -->
     <!-- Phiro sensor strings -->
@@ -1424,72 +1478,72 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <!-- Formula editor strings -->
     <string name="formula_editor_data">Dữ liệu</string>
     <string name="formula_editor_true">Đúng</string>
-    <string name="formula_editor_false">Sai</string>
-    <string name="formula_editor_decimal_mark" tools:ignore="UnusedResources">.</string>
-    <string name="formula_editor_title">Trình soạn thảo công thức</string>
-    <string name="formula_editor_changes_discarded">Thay đổi loại bỏ!</string>
+    <string name="formula_editor_false">假</string>
+    <string name="formula_editor_decimal_mark">.</string>
+    <string name="formula_editor_title">公式编辑器</string>
+    <string name="formula_editor_changes_discarded">更改已取消！</string>
     <string name="formula_editor_parse_fail">公式无效！</string>
-    <string name="formula_nothing_selected">Xác định giá trị đầu vào</string>
-    <string name="formula_editor_parse_fail_formula_too_long">Công thức quá dài!</string>
-    <string name="formula_editor_choose_object_variable">Thuộc tính của đối tượng này</string>
+    <string name="formula_nothing_selected">定义输入值</string>
+    <string name="formula_editor_parse_fail_formula_too_long">公式太长！</string>
+    <string name="formula_editor_choose_object_variable">此对象的属性</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
-    <string name="formula_editor_function_sin" tools:ignore="UnusedResources">sine</string>
+    <string name="formula_editor_function_sin">正则体</string>
     <string name="formula_editor_function_sin_parameter">(90)</string>
-    <string name="formula_editor_function_cos" tools:ignore="UnusedResources">cosine</string>
-    <string name="formula_editor_function_cos_parameter">(0)</string>
-    <string name="formula_editor_function_tan" tools:ignore="UnusedResources">tangent</string>
-    <string name="formula_editor_function_tan_parameter">(0)</string>
-    <string name="formula_editor_function_ln" tools:ignore="UnusedResources">natural logarithm</string>
-    <string name="formula_editor_function_ln_parameter">(0)</string>
-    <string name="formula_editor_function_log" tools:ignore="UnusedResources">decimal logarithm</string>
-    <string name="formula_editor_function_log_parameter">(0)</string>
-    <string name="formula_editor_function_pi" tools:ignore="UnusedResources">pi</string>
+    <string name="formula_editor_function_cos">cosine</string>
+    <string name="formula_editor_function_cos_parameter">(360)</string>
+    <string name="formula_editor_function_tan">tangent</string>
+    <string name="formula_editor_function_tan_parameter">(45)</string>
+    <string name="formula_editor_function_ln">自然对数</string>
+    <string name="formula_editor_function_ln_parameter">(2.718281828459)</string>
+    <string name="formula_editor_function_log">十进制对数</string>
+    <string name="formula_editor_function_log_parameter">(10)</string>
+    <string name="formula_editor_function_pi">π</string>
     <string name="formula_editor_function_pi_parameter"></string>
-    <string name="formula_editor_object_color" tools:ignore="UnusedResources">颜色</string>
-    <string name="formula_editor_function_sqrt" tools:ignore="UnusedResources">sqrt</string>
-    <string name="formula_editor_function_sqrt_parameter">(0)</string>
-    <string name="formula_editor_function_rand" tools:ignore="UnusedResources">ngẫu nhiên</string>
+    <string name="formula_editor_object_color">颜色</string>
+    <string name="formula_editor_function_sqrt">平方根</string>
+    <string name="formula_editor_function_sqrt_parameter">(4)</string>
+    <string name="formula_editor_function_rand">随机取值</string>
     <string name="formula_editor_function_rand_parameter">(1,6)</string>
-    <string name="formula_editor_function_abs" tools:ignore="UnusedResources">absolute value</string>
-    <string name="formula_editor_function_abs_parameter">(0)</string>
-    <string name="formula_editor_function_round" tools:ignore="UnusedResources">vòng</string>
-    <string name="formula_editor_function_round_parameter">(0)</string>
-    <string name="formula_editor_function_mod" tools:ignore="UnusedResources">modulo</string>
+    <string name="formula_editor_function_abs">绝对值</string>
+    <string name="formula_editor_function_abs_parameter">(1)</string>
+    <string name="formula_editor_function_round">四舍五入</string>
+    <string name="formula_editor_function_round_parameter">(1.6)</string>
+    <string name="formula_editor_function_mod">模数</string>
     <string name="formula_editor_function_mod_parameter">(3,2)</string>
-    <string name="formula_editor_function_arcsin" tools:ignore="UnusedResources">arcsine</string>
-    <string name="formula_editor_function_arcsin_parameter">(0)</string>
-    <string name="formula_editor_function_arccos" tools:ignore="UnusedResources">arccosine</string>
+    <string name="formula_editor_function_arcsin">反正弦</string>
+    <string name="formula_editor_function_arcsin_parameter">(0.5)</string>
+    <string name="formula_editor_function_arccos">反余弦</string>
     <string name="formula_editor_function_arccos_parameter">(0)</string>
-    <string name="formula_editor_function_arctan" tools:ignore="UnusedResources">arctangent</string>
-    <string name="formula_editor_function_arctan_parameter">(0)</string>
-    <string name="formula_editor_function_arctan2" tools:ignore="UnusedResources">arctangent2</string>
+    <string name="formula_editor_function_arctan">反正切</string>
+    <string name="formula_editor_function_arctan_parameter">(1)</string>
+    <string name="formula_editor_function_arctan2">arctangent2</string>
     <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
-    <string name="formula_editor_function_exp" tools:ignore="UnusedResources">exponent</string>
-    <string name="formula_editor_function_exp_parameter">(0)</string>
-    <string name="formula_editor_function_power" tools:ignore="UnusedResources">求幂</string>
+    <string name="formula_editor_function_exp">指数值</string>
+    <string name="formula_editor_function_exp_parameter">(1)</string>
+    <string name="formula_editor_function_power">求幂</string>
     <string name="formula_editor_function_power_parameter">(2,3)</string>
-    <string name="formula_editor_function_floor" tools:ignore="UnusedResources">向下取整</string>
+    <string name="formula_editor_function_floor">向下取整</string>
     <string name="formula_editor_function_floor_parameter">(0.7)</string>
-    <string name="formula_editor_function_ceil" tools:ignore="UnusedResources">向上取整</string>
+    <string name="formula_editor_function_ceil">向上取整</string>
     <string name="formula_editor_function_ceil_parameter">(0.3)</string>
-    <string name="formula_editor_function_max" tools:ignore="UnusedResources">tối đa</string>
-    <string name="formula_editor_function_max_parameter">(0,1)</string>
-    <string name="formula_editor_function_min" tools:ignore="UnusedResources">tối thiểu</string>
-    <string name="formula_editor_function_min_parameter">(0,1)</string>
-    <string name="formula_editor_function_if_then_else">if then else</string>
+    <string name="formula_editor_function_max">最大值</string>
+    <string name="formula_editor_function_max_parameter">(5,4)</string>
+    <string name="formula_editor_function_min">最小值</string>
+    <string name="formula_editor_function_min_parameter">(7,2)</string>
+    <string name="formula_editor_function_if_then_else">如果然后其他</string>
     <string name="formula_editor_function_if_then_else_parameter">(错，2，3)</string>
-    <string name="formula_editor_function_true" tools:ignore="UnusedResources">ĐÚNG</string>
-    <string name="formula_editor_function_false" tools:ignore="UnusedResources">SAI</string>
-    <string name="formula_editor_function_length" tools:ignore="UnusedResources">chiều dài</string>
-    <string name="formula_editor_function_length_parameter">(\'Xin chào thế giới\')</string>
-    <string name="formula_editor_function_letter" tools:ignore="UnusedResources">thư</string>
-    <string name="formula_editor_function_letter_parameter">(1, \'Xin chào thế giới\')</string>
-    <string name="formula_editor_function_join" tools:ignore="UnusedResources">tham gia</string>
+    <string name="formula_editor_function_true">真</string>
+    <string name="formula_editor_function_false">假</string>
+    <string name="formula_editor_function_length">长度</string>
+    <string name="formula_editor_function_length_parameter">(\'你好世界\')</string>
+    <string name="formula_editor_function_letter">字母</string>
+    <string name="formula_editor_function_letter_parameter">(1，\'你好，世界\')</string>
+    <string name="formula_editor_function_join">连接</string>
     <string name="formula_editor_function_join_parameter">(\'你好\',\'世界\')</string>
-    <string name="formula_editor_function_join3">tham gia</string>
+    <string name="formula_editor_function_join3">连接</string>
     <string name="formula_editor_function_join3_parameter">(\'你好\',\'世界\')</string>
-    <string name="formula_editor_function_regex" tools:ignore="UnusedResources">正则表达式</string>
+    <string name="formula_editor_function_regex">正则表达式</string>
     <string name="formula_editor_function_regex_parameter">(\' an? ([^.]+)\',\'我是一个熊猫.\')</string>
     <string name="formula_editor_function_regex_assistant">正则表达式
         助手</string>
@@ -1498,75 +1552,77 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="formula_editor_dialog_wiki_button">详细信息</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">找不到关键字。</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON 提取器</string>
-    <string name="formula_editor_function_arduino_read_pin_value_digital" tools:ignore="UnusedResources">arduino数字端口</string>
-    <string name="formula_editor_function_arduino_read_pin_value_analog" tools:ignore="UnusedResources">arduino模拟端口</string>
-    <string name="formula_editor_function_raspi_read_pin_value_digital" tools:ignore="UnusedResources">树莓派端口</string>
+    <string name="formula_editor_function_arduino_read_pin_value_digital">arduino数字端口</string>
+    <string name="formula_editor_function_arduino_read_pin_value_analog">arduino模拟端口</string>
+    <string name="formula_editor_function_raspi_read_pin_value_digital">树莓派端口</string>
     <string name="formula_editor_function_pin_default_parameter">(3)</string>
-    <string name="formula_editor_function_finger_x" tools:ignore="UnusedResources">屏幕被点击处x坐标</string>
-    <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">屏幕被点击处y坐标</string>
-    <string name="formula_editor_function_is_finger_touching" tools:ignore="UnusedResources">屏幕被点击</string>
-    <string name="formula_editor_function_multi_finger_x" tools:ignore="UnusedResources">屏幕被点击处x坐标</string>
-    <string name="formula_editor_function_multi_finger_y" tools:ignore="UnusedResources">屏幕被点击处y坐标</string>
-    <string name="formula_editor_function_is_multi_finger_touching" tools:ignore="UnusedResources">屏幕被点击</string>
-    <string name="formula_editor_function_index_of_last_finger" tools:ignore="UnusedResources">最后屏幕点击索引值</string>
+    <string name="formula_editor_function_finger_x">屏幕被点击处x坐标</string>
+    <string name="formula_editor_function_finger_y">屏幕被点击处y坐标</string>
+    <string name="formula_editor_function_is_finger_touching">屏幕被点击</string>
+    <string name="formula_editor_function_multi_finger_x">屏幕被点击处x坐标</string>
+    <string name="formula_editor_function_multi_finger_y">屏幕被点击处y坐标</string>
+    <string name="formula_editor_function_is_multi_finger_touching">屏幕被点击</string>
+    <string name="formula_editor_function_index_of_last_finger">最后屏幕点击索引值</string>
     <string name="formula_editor_function_number_of_current_touches">当前触摸数</string>
     <string name="formula_editor_function_index_of_current_touch">当前触摸索引</string>
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(1)</string>
-    <string name="formula_editor_function_list_item" tools:ignore="UnusedResources">yếu tố</string>
-    <string name="formula_editor_function_list_item_parameter">(1, * danh sách tên *)</string>
-    <string name="formula_editor_function_contains" tools:ignore="UnusedResources">bao gồm</string>
-    <string name="formula_editor_function_contains_parameter">(* danh sách tên *, 1)</string>
-    <string name="formula_editor_function_index_of_item" tools:ignore="UnusedResources">项目索引</string>
-    <string name="formula_editor_function_index_of_item_parameter">(1, * danh sách tên *)</string>
-    <string name="formula_editor_function_number_of_items" tools:ignore="UnusedResources">số_các_mục</string>
-    <string name="formula_editor_function_number_of_items_parameter">(* danh sách tên *)</string>
+    <string name="formula_editor_function_list_item">yếu tố</string>
+    <string name="formula_editor_function_list_item_parameter">(1，*列表名称*)</string>
+    <string name="formula_editor_function_contains">包含</string>
+    <string name="formula_editor_function_contains_parameter">(*列表名称*,1)</string>
+    <string name="formula_editor_function_index_of_item">项目索引</string>
+    <string name="formula_editor_function_index_of_item_parameter">(1,*列表名称*)</string>
+    <string name="formula_editor_function_number_of_items">数据项数量</string>
+    <string name="formula_editor_function_number_of_items_parameter">(*列表名称*)</string>
+    <string name="formula_editor_function_flatten">压平</string>
+    <string name="formula_editor_function_flatten_parameter">(*列表名称*)</string>
     <string name="formula_editor_function_collision">碰到对象</string>
-    <string name="formula_editor_function_collides_with_edge" tools:ignore="UnusedResources">碰到边缘</string>
-    <string name="formula_editor_function_touched" tools:ignore="UnusedResources">碰到手指</string>
+    <string name="formula_editor_function_collides_with_edge">碰到边缘</string>
+    <string name="formula_editor_function_touched">触摸手指</string>
     <string name="formula_editor_function_collides_with_color">触摸颜色</string>
     <string name="formula_editor_function_color_touches_color">颜色触摸颜色</string>
     <string name="formula_editor_sensor_color_at_x_y">在 x y 处颜色</string>
-    <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">颜色等于%的颜色
+    <string name="formula_editor_sensor_color_equals_color">颜色等于%的颜色
         容忍</string>
-    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">gia tốc x</string>
-    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">加速度y</string>
-    <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">gia tốc_z</string>
-    <string name="formula_editor_sensor_compass_direction" tools:ignore="UnusedResources">hướng_la bàn</string>
-    <string name="formula_editor_sensor_latitude" tools:ignore="UnusedResources">纬度</string>
-    <string name="formula_editor_sensor_longitude" tools:ignore="UnusedResources">经度</string>
-    <string name="formula_editor_sensor_location_accuracy" tools:ignore="UnusedResources">定位精度</string>
-    <string name="formula_editor_sensor_altitude" tools:ignore="UnusedResources">海拔高度</string>
+    <string name="formula_editor_sensor_x_acceleration">gia tốc x</string>
+    <string name="formula_editor_sensor_y_acceleration">加速度y</string>
+    <string name="formula_editor_sensor_z_acceleration">z方向加速度</string>
+    <string name="formula_editor_sensor_compass_direction">电子罗盘方向</string>
+    <string name="formula_editor_sensor_latitude">纬度</string>
+    <string name="formula_editor_sensor_longitude">经度</string>
+    <string name="formula_editor_sensor_location_accuracy">定位精度</string>
+    <string name="formula_editor_sensor_altitude">海拔高度</string>
     <string name="formula_editor_sensor_user_language">用户语言</string>
-    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">nghiêng x</string>
-    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">倾角</string>
-    <string name="formula_editor_sensor_loudness" tools:ignore="UnusedResources">âm sắc</string>
+    <string name="formula_editor_sensor_x_inclination">nghiêng x</string>
+    <string name="formula_editor_sensor_y_inclination">倾角</string>
+    <string name="formula_editor_sensor_loudness">噪声值</string>
     <string name="formula_editor_sensor_timer">定时器</string>
-    <string name="formula_editor_sensor_date_year" tools:ignore="UnusedResources">年</string>
-    <string name="formula_editor_sensor_date_month" tools:ignore="UnusedResources">月</string>
-    <string name="formula_editor_sensor_date_day" tools:ignore="UnusedResources">日</string>
-    <string name="formula_editor_sensor_date_weekday" tools:ignore="UnusedResources">平日</string>
-    <string name="formula_editor_sensor_time_hour" tools:ignore="UnusedResources">小时</string>
-    <string name="formula_editor_sensor_time_minute" tools:ignore="UnusedResources">分钟</string>
-    <string name="formula_editor_sensor_time_second" tools:ignore="UnusedResources">秒</string>
-    <string name="formula_editor_sensor_drone_battery_status" tools:ignore="UnusedResources">无人机电池状态</string>
-    <string name="formula_editor_sensor_drone_emergency_state" tools:ignore="UnusedResources">无人机应急警报状态</string>
-    <string name="formula_editor_sensor_drone_flying" tools:ignore="UnusedResources">无人机正在飞行</string>
-    <string name="formula_editor_sensor_drone_initialized" tools:ignore="UnusedResources">无人机已初始化</string>
-    <string name="formula_editor_sensor_drone_usb_active" tools:ignore="UnusedResources">无人机USB启用</string>
-    <string name="formula_editor_sensor_drone_usb_remaining_time" tools:ignore="UnusedResources">无人机usb剩余时间</string>
-    <string name="formula_editor_sensor_drone_camera_ready" tools:ignore="UnusedResources">无人机相机已就绪</string>
-    <string name="formula_editor_sensor_drone_record_ready" tools:ignore="UnusedResources">无人机录像已就绪</string>
-    <string name="formula_editor_sensor_drone_recording" tools:ignore="UnusedResources">无人机录像中</string>
-    <string name="formula_editor_sensor_drone_num_frames" tools:ignore="UnusedResources">无人机镜头数</string>
-    <string name="formula_editor_sensor_lego_nxt_1" tools:ignore="UnusedResources">NXT传感器1</string>
-    <string name="formula_editor_sensor_lego_nxt_2" tools:ignore="UnusedResources">NXT传感器2</string>
-    <string name="formula_editor_sensor_lego_nxt_3" tools:ignore="UnusedResources">NXT传感器3</string>
-    <string name="formula_editor_sensor_lego_nxt_4" tools:ignore="UnusedResources">NXT传感器4</string>
-    <string name="formula_editor_sensor_lego_ev3_1" tools:ignore="UnusedResources">EV3传感器1</string>
-    <string name="formula_editor_sensor_lego_ev3_2" tools:ignore="UnusedResources">EV3传感器2</string>
-    <string name="formula_editor_sensor_lego_ev3_3" tools:ignore="UnusedResources">EV3传感器3</string>
-    <string name="formula_editor_sensor_lego_ev3_4" tools:ignore="UnusedResources">EV3传感器4</string>
+    <string name="formula_editor_sensor_date_year">年</string>
+    <string name="formula_editor_sensor_date_month">月</string>
+    <string name="formula_editor_sensor_date_day">日</string>
+    <string name="formula_editor_sensor_date_weekday">平日</string>
+    <string name="formula_editor_sensor_time_hour">小时</string>
+    <string name="formula_editor_sensor_time_minute">分钟</string>
+    <string name="formula_editor_sensor_time_second">秒</string>
+    <string name="formula_editor_sensor_drone_battery_status">无人机电池状态</string>
+    <string name="formula_editor_sensor_drone_emergency_state">无人机应急警报状态</string>
+    <string name="formula_editor_sensor_drone_flying">无人机正在飞行</string>
+    <string name="formula_editor_sensor_drone_initialized">无人机已初始化</string>
+    <string name="formula_editor_sensor_drone_usb_active">无人机USB启用</string>
+    <string name="formula_editor_sensor_drone_usb_remaining_time">无人机usb剩余时间</string>
+    <string name="formula_editor_sensor_drone_camera_ready">无人机相机已就绪</string>
+    <string name="formula_editor_sensor_drone_record_ready">无人机录像已就绪</string>
+    <string name="formula_editor_sensor_drone_recording">无人机录像中</string>
+    <string name="formula_editor_sensor_drone_num_frames">无人机镜头数</string>
+    <string name="formula_editor_sensor_lego_nxt_1">NXT传感器1</string>
+    <string name="formula_editor_sensor_lego_nxt_2">NXT传感器2</string>
+    <string name="formula_editor_sensor_lego_nxt_3">NXT传感器3</string>
+    <string name="formula_editor_sensor_lego_nxt_4">NXT传感器4</string>
+    <string name="formula_editor_sensor_lego_ev3_1">EV3传感器1</string>
+    <string name="formula_editor_sensor_lego_ev3_2">EV3传感器2</string>
+    <string name="formula_editor_sensor_lego_ev3_3">EV3传感器3</string>
+    <string name="formula_editor_sensor_lego_ev3_4">EV3传感器4</string>
     <string name="formula_editor_sensor_lego_nxt_touch">NXT触碰传感器</string>
     <string name="formula_editor_sensor_lego_nxt_sound">NXT声音传感器</string>
     <string name="formula_editor_sensor_lego_nxt_light">NXT光线传感器</string>
@@ -1584,50 +1640,55 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">EV3 NXT 灯光激活</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">EV3 NXT 音响</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT 超声波器</string>
-    <string name="formula_editor_sensor_gamepad_a_pressed" tools:ignore="UnusedResources">游戏操作杆a键被按下</string>
-    <string name="formula_editor_sensor_gamepad_b_pressed" tools:ignore="UnusedResources">游戏操作杆b键被按下</string>
-    <string name="formula_editor_sensor_gamepad_up_pressed" tools:ignore="UnusedResources">游戏操作杆向上键被按下</string>
-    <string name="formula_editor_sensor_gamepad_down_pressed" tools:ignore="UnusedResources">游戏操作杆向下键被按下</string>
-    <string name="formula_editor_sensor_gamepad_left_pressed" tools:ignore="UnusedResources">游戏操纵杆左键被按下</string>
-    <string name="formula_editor_sensor_gamepad_right_pressed" tools:ignore="UnusedResources">游戏操纵杆右键被按下</string>
-    <string name="formula_editor_phiro_sensor_front_left" tools:ignore="UnusedResources">phiro左前方传感器</string>
-    <string name="formula_editor_phiro_sensor_front_right" tools:ignore="UnusedResources">phiro右前方传感器</string>
-    <string name="formula_editor_phiro_sensor_side_left" tools:ignore="UnusedResources">phiro左侧传感器</string>
-    <string name="formula_editor_phiro_sensor_side_right" tools:ignore="UnusedResources">phiro右侧传感器</string>
-    <string name="formula_editor_phiro_sensor_bottom_left" tools:ignore="UnusedResources">phiro左下方传感器</string>
-    <string name="formula_editor_phiro_sensor_bottom_right" tools:ignore="UnusedResources">phiro右下方传感器</string>
-    <string name="formula_editor_nfc_tag_id" tools:ignore="UnusedResources">NFC标签ID</string>
-    <string name="formula_editor_nfc_tag_message" tools:ignore="UnusedResources">nfc标签消息</string>
-    <string name="formula_editor_object_x" tools:ignore="UnusedResources">vị trí x</string>
-    <string name="formula_editor_object_y" tools:ignore="UnusedResources">阵地</string>
-    <string name="formula_editor_object_transparency" tools:ignore="UnusedResources">Độ trong suốt</string>
-    <string name="formula_editor_object_brightness" tools:ignore="UnusedResources">Độ sáng</string>
-    <string name="formula_editor_object_size" tools:ignore="UnusedResources">kích thước</string>
-    <string name="formula_editor_object_rotation" tools:ignore="UnusedResources">hướng</string>
-    <string name="formula_editor_object_layer" tools:ignore="UnusedResources">lớp</string>
-    <string name="formula_editor_object_x_velocity" tools:ignore="UnusedResources">x方向速度</string>
-    <string name="formula_editor_object_y_velocity" tools:ignore="UnusedResources">y方向速度</string>
-    <string name="formula_editor_object_angular_velocity" tools:ignore="UnusedResources">角速度</string>
-    <string name="formula_editor_object_look_number" tools:ignore="UnusedResources">外观编号</string>
-    <string name="formula_editor_object_look_name" tools:ignore="UnusedResources">外观名称</string>
-    <string name="formula_editor_object_background_number" tools:ignore="UnusedResources">背景编号</string>
-    <string name="formula_editor_object_background_name" tools:ignore="UnusedResources">背景名称</string>
-    <string name="formula_editor_object_distance_to" tools:ignore="UnusedResources">到目标的距离</string>
-    <string name="formula_editor_compute">Tính toán</string>
-    <string name="formula_editor_object">Đối tượng</string>
+    <string name="formula_editor_sensor_gamepad_a_pressed">游戏操作杆a键被按下</string>
+    <string name="formula_editor_sensor_gamepad_b_pressed">游戏操作杆b键被按下</string>
+    <string name="formula_editor_sensor_gamepad_up_pressed">游戏操作杆向上键被按下</string>
+    <string name="formula_editor_sensor_gamepad_down_pressed">游戏操作杆向下键被按下</string>
+    <string name="formula_editor_sensor_gamepad_left_pressed">游戏操纵杆左键被按下</string>
+    <string name="formula_editor_sensor_gamepad_right_pressed">游戏操纵杆右键被按下</string>
+    <string name="formula_editor_phiro_sensor_front_left">phiro左前方传感器</string>
+    <string name="formula_editor_phiro_sensor_front_right">phiro右前方传感器</string>
+    <string name="formula_editor_phiro_sensor_side_left">phiro左侧传感器</string>
+    <string name="formula_editor_phiro_sensor_side_right">phiro右侧传感器</string>
+    <string name="formula_editor_phiro_sensor_bottom_left">phiro左下方传感器</string>
+    <string name="formula_editor_phiro_sensor_bottom_right">phiro右下方传感器</string>
+    <string name="formula_editor_nfc_tag_id">NFC标签ID</string>
+    <string name="formula_editor_nfc_tag_message">nfc标签消息</string>
+    <string name="formula_editor_object_x">位置 x</string>
+    <string name="formula_editor_object_y">阵地</string>
+    <string name="formula_editor_object_transparency">透明度</string>
+    <string name="formula_editor_object_brightness">亮度</string>
+    <string name="formula_editor_object_size">大小</string>
+    <string name="formula_editor_object_rotation">方向</string>
+    <string name="formula_editor_object_rotation_look">看方向</string>
+    <string name="formula_editor_object_layer">层</string>
+    <string name="formula_editor_object_x_velocity">x方向速度</string>
+    <string name="formula_editor_object_y_velocity">y方向速度</string>
+    <string name="formula_editor_object_angular_velocity">角速度</string>
+    <string name="formula_editor_object_look_number">外观编号</string>
+    <string name="formula_editor_object_look_name">外观名称</string>
+    <string name="formula_editor_object_number_of_looks">外观数量</string>
+    <string name="formula_editor_object_background_number">背景编号</string>
+    <string name="formula_editor_object_background_name">背景名称</string>
+    <string name="formula_editor_object_number_of_backgrounds">背景数</string>
+    <string name="formula_editor_object_distance_to">到目标的距离</string>
+    <string name="formula_editor_compute">计算</string>
+    <string name="formula_editor_object">对象</string>
     <string name="formula_editor_functions">函数</string>
     <string name="formula_editor_logic">逻辑</string>
-    <string name="formula_editor_device">Cảm biến</string>
+    <string name="formula_editor_device">设备</string>
     <string name="formula_editor_device_sensors">设备传感器</string>
     <string name="formula_editor_functions_maths">数学</string>
     <string name="formula_editor_functions_strings">文本</string>
-    <string name="formula_editor_functions_lists">Danh sách</string>
+    <string name="formula_editor_functions_lists">列表</string>
     <string name="formula_editor_logic_boolean">逻辑 (布尔) 运算符</string>
     <string name="formula_editor_logic_comparison">比较运算符</string>
     <string name="formula_editor_object_look">查看属性</string>
     <string name="formula_editor_object_movement">运动属性</string>
     <string name="formula_editor_device_face_detection">面部检测</string>
+    <string name="formula_editor_device_pose_detection">姿势检测</string>
     <string name="formula_editor_device_text_recognition">文本识别</string>
+    <string name="formula_editor_device_object_recognition">对象识别</string>
     <string name="formula_editor_device_date_and_time">日期与时间</string>
     <string name="formula_editor_device_touch_detection">触碰检测</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>
@@ -1639,42 +1700,112 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="formula_editor_device_nfc">NFC</string>
     <string name="formula_editor_device_cast">Cast</string>
     <string name="formula_editor_string">文本</string>
-    <string name="formula_editor_logic_notequal" tools:ignore="UnusedResources">≠</string>
-    <string name="formula_editor_logic_lesserthan" tools:ignore="UnusedResources">&lt;</string>
-    <string name="formula_editor_logic_greaterthan" tools:ignore="UnusedResources">&gt;</string>
-    <string name="formula_editor_logic_and" tools:ignore="UnusedResources">VÀ</string>
-    <string name="formula_editor_logic_or" tools:ignore="UnusedResources">HOẶC</string>
-    <string name="formula_editor_logic_not" tools:ignore="UnusedResources">KHÔNG</string>
-    <string name="formula_editor_logic_greaterequal" tools:ignore="UnusedResources">≥</string>
-    <string name="formula_editor_logic_leserequal" tools:ignore="UnusedResources">≤</string>
-    <string name="formula_editor_logic_equal" tools:ignore="UnusedResources">=</string>
-    <string name="formula_editor_operator_mult" tools:ignore="UnusedResources">×</string>
-    <string name="formula_editor_operator_plus" tools:ignore="UnusedResources">+</string>
-    <string name="formula_editor_operator_minus" tools:ignore="UnusedResources">-</string>
-    <string name="formula_editor_operator_divide" tools:ignore="UnusedResources">÷</string>
-    <string name="formula_editor_operator_power" tools:ignore="UnusedResources">^</string>
-    <string name="formula_editor_image_button_description_delete">xóa</string>
+    <string name="formula_editor_logic_notequal">≠</string>
+    <string name="formula_editor_logic_lesserthan">&lt;</string>
+    <string name="formula_editor_logic_greaterthan">&gt;</string>
+    <string name="formula_editor_logic_and">且</string>
+    <string name="formula_editor_logic_or">或</string>
+    <string name="formula_editor_logic_not">不成立</string>
+    <string name="formula_editor_logic_greaterequal">≥</string>
+    <string name="formula_editor_logic_leserequal">≤</string>
+    <string name="formula_editor_logic_equal">=</string>
+    <string name="formula_editor_operator_mult">×</string>
+    <string name="formula_editor_operator_plus">+</string>
+    <string name="formula_editor_operator_minus">-</string>
+    <string name="formula_editor_operator_divide">÷</string>
+    <string name="formula_editor_operator_power">^</string>
+    <string name="formula_editor_image_button_description_delete">删除</string>
     <string name="formula_editor_image_button_description_color_picker">颜色选择器</string>
     <string name="formula_editor_image_button_description_functions_toggle">切换函数</string>
-    <string name="formula_editor_variable_dialog_title">Biến mới</string>
-    <string name="formula_editor_list_dialog_title">Danh sách mới</string>
+    <string name="formula_editor_variable_dialog_title">新建变量</string>
+    <string name="formula_editor_list_dialog_title">新建列表</string>
     <string name="formula_editor_regex_html_extractor_dialog_title">HTML 提取器</string>
-    <string name="formula_editor_discard_changes_dialog_message">Bạn có muốn lưu thay đổi của mình?</string>
-    <string name="formula_editor_discard_changes_dialog_title">Lưu thay đổi?</string>
-    <string name="formula_editor_new_string_name">Văn bản mới</string>
+    <string name="formula_editor_discard_changes_dialog_message">您要保存这些更改吗？</string>
+    <string name="formula_editor_discard_changes_dialog_title">是否保存修改?</string>
+    <string name="formula_editor_new_string_name">新文本</string>
     <string name="formula_editor_dialog_change_text">更改文本</string>
     <string name="formula_editor_dialog_change_regular_expression">更改正则
         表达式</string>
-    <string name="formula_editor_fragment_data_current_items">các mục hiện tại</string>
-    <string name="formula_editor_data_dialog_is_list">Tạo một danh sách</string>
-    <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">mặt_được_nhận_diện</string>
-    <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">kích_cỡ_mặt</string>
-    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">第一面X位置</string>
-    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">第一面Y位置</string>
+    <string name="formula_editor_fragment_data_current_items">当前数据项</string>
+    <string name="formula_editor_data_dialog_is_list">创建一个列表</string>
+    <string name="formula_editor_sensor_face_detected">第一个面可见</string>
+    <string name="formula_editor_sensor_face_size">第一个面大小</string>
+    <string name="formula_editor_sensor_face_x_position">第一面X位置</string>
+    <string name="formula_editor_sensor_face_y_position">第一面Y位置</string>
     <string name="formula_editor_sensor_second_face_detected">第二个面可见</string>
     <string name="formula_editor_sensor_second_face_size">第二面大小</string>
     <string name="formula_editor_sensor_second_face_x_position">第二面 x 位置</string>
     <string name="formula_editor_sensor_second_face_y_position">第二面 y 位置</string>
+    <string name="formula_editor_sensor_head_top_x">头顶 x</string>
+    <string name="formula_editor_sensor_head_top_y">头顶 y</string>
+    <string name="formula_editor_sensor_neck_x">颈部 x</string>
+    <string name="formula_editor_sensor_neck_y">颈部 y</string>
+    <string name="formula_editor_sensor_nose_x">鼻子x</string>
+    <string name="formula_editor_sensor_nose_y">鼻子y</string>
+    <string name="formula_editor_sensor_left_eye_inner_x">左眼内 x</string>
+    <string name="formula_editor_sensor_left_eye_inner_y">左眼内 y</string>
+    <string name="formula_editor_sensor_left_eye_center_x">左眼中心 x</string>
+    <string name="formula_editor_sensor_left_eye_center_y">左眼中心 y</string>
+    <string name="formula_editor_sensor_left_eye_outer_x">左眼外侧X</string>
+    <string name="formula_editor_sensor_left_eye_outer_y">左眼外侧 y</string>
+    <string name="formula_editor_sensor_right_eye_inner_x">右眼内侧X</string>
+    <string name="formula_editor_sensor_right_eye_inner_y">右眼内侧 y</string>
+    <string name="formula_editor_sensor_right_eye_center_x">右眼中心X</string>
+    <string name="formula_editor_sensor_right_eye_center_y">右眼中心y</string>
+    <string name="formula_editor_sensor_right_eye_outer_x">右眼外侧X</string>
+    <string name="formula_editor_sensor_right_eye_outer_y">右眼外侧 y</string>
+    <string name="formula_editor_sensor_left_ear_x">左耳x</string>
+    <string name="formula_editor_sensor_left_ear_y">左耳 y</string>
+    <string name="formula_editor_sensor_right_ear_x">右耳x</string>
+    <string name="formula_editor_sensor_right_ear_y">右耳 y</string>
+    <string name="formula_editor_sensor_mouth_left_corner_x">嘴的左角x</string>
+    <string name="formula_editor_sensor_mouth_left_corner_y">口腔左角 y</string>
+    <string name="formula_editor_sensor_mouth_right_corner_x">口右角x</string>
+    <string name="formula_editor_sensor_mouth_right_corner_y">口右角 y</string>
+    <string name="formula_editor_sensor_left_shoulder_x">左肩X</string>
+    <string name="formula_editor_sensor_left_shoulder_y">左肩 y</string>
+    <string name="formula_editor_sensor_right_shoulder_x">右肩 X</string>
+    <string name="formula_editor_sensor_right_shoulder_y">右肩 y</string>
+    <string name="formula_editor_sensor_left_elbow_x">左肘部x</string>
+    <string name="formula_editor_sensor_left_elbow_y">左肘部 y</string>
+    <string name="formula_editor_sensor_right_elbow_x">右肘部x</string>
+    <string name="formula_editor_sensor_right_elbow_y">右肘部 y</string>
+    <string name="formula_editor_sensor_left_wrist_x">左手腕x</string>
+    <string name="formula_editor_sensor_left_wrist_y">左手腕 y</string>
+    <string name="formula_editor_sensor_right_wrist_x">右手腕x</string>
+    <string name="formula_editor_sensor_right_wrist_y">右手腕 y</string>
+    <string name="formula_editor_sensor_left_pinky_knuckle_x">左手小指关节x</string>
+    <string name="formula_editor_sensor_left_pinky_knuckle_y">左手小指关节 y</string>
+    <string name="formula_editor_sensor_right_pinky_knuckle_x">右手小指关节 X</string>
+    <string name="formula_editor_sensor_right_pinky_knuckle_y">右小指关节Y</string>
+    <string name="formula_editor_sensor_left_index_knuckle_x">左手食指关节 x</string>
+    <string name="formula_editor_sensor_left_index_knuckle_y">左手食指关节 y</string>
+    <string name="formula_editor_sensor_right_index_knuckle_x">右手食指关节 X</string>
+    <string name="formula_editor_sensor_right_index_knuckle_y">右手食指关节Y</string>
+    <string name="formula_editor_sensor_left_thumb_knuckle_x">左手拇指指节 x</string>
+    <string name="formula_editor_sensor_left_thumb_knuckle_y">左手拇指指节Y</string>
+    <string name="formula_editor_sensor_right_thumb_knuckle_x">右手拇指指节X</string>
+    <string name="formula_editor_sensor_right_thumb_knuckle_y">右手拇指指节Y</string>
+    <string name="formula_editor_sensor_left_hip_x">左髋关节 x</string>
+    <string name="formula_editor_sensor_left_hip_y">左髋关节 y</string>
+    <string name="formula_editor_sensor_right_hip_x">右髋关节 x</string>
+    <string name="formula_editor_sensor_right_hip_y">右髋关节 y</string>
+    <string name="formula_editor_sensor_left_knee_x">左膝关节 X</string>
+    <string name="formula_editor_sensor_left_knee_y">左腿膝盖Y</string>
+    <string name="formula_editor_sensor_right_knee_x">右膝关节 X</string>
+    <string name="formula_editor_sensor_right_knee_y">右腿膝盖 y</string>
+    <string name="formula_editor_sensor_left_ankle_x">左脚踝 x</string>
+    <string name="formula_editor_sensor_left_ankle_y">左脚踝 y</string>
+    <string name="formula_editor_sensor_right_ankle_x">右脚踝x</string>
+    <string name="formula_editor_sensor_right_ankle_y">右脚踝 y</string>
+    <string name="formula_editor_sensor_left_heel_x">左脚跟x</string>
+    <string name="formula_editor_sensor_left_heel_y">左脚跟 y</string>
+    <string name="formula_editor_sensor_right_heel_x">右脚跟 x</string>
+    <string name="formula_editor_sensor_right_heel_y">右脚跟y</string>
+    <string name="formula_editor_sensor_left_foot_index_x">左脚指数x</string>
+    <string name="formula_editor_sensor_left_foot_index_y">左脚指数y</string>
+    <string name="formula_editor_sensor_right_foot_index_x">右脚指数x</string>
+    <string name="formula_editor_sensor_right_foot_index_y">右脚指数y</string>
     <string name="formula_editor_sensor_text_from_camera">来自相机的文本</string>
     <string name="formula_editor_sensor_text_blocks_number">文本块数</string>
     <string name="formula_editor_function_text_block_x">来自相机的文本块 x</string>
@@ -1682,19 +1813,21 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="formula_editor_function_text_block_size">来自相机的文本块大小</string>
     <string name="formula_editor_function_text_block_from_camera">来自相机的文本块 </string>
     <string name="formula_editor_function_text_block_language_from_camera">来自相机的文本方块语言</string>
-    <string name="formula_editor_function_text_block_parameter">(0)</string>
-    <string name="formula_editor_intro_title_formula_editor">Trình soạn thảo công thức</string>
-    <string name="formula_editor_intro_summary_formula_editor">With the  formula editor you can create mathematical and
-        logical formulas that you can use in your bricks.\n\nYou can continue through this little intro by tapping
-        the \"Next\" button in the bottom right corner, and you can skip it by clicking the \"SKIP\" button in the
-        bottom left corner.</string>
+    <string name="formula_editor_function_text_block_parameter">(1)</string>
+    <string name="formula_editor_function_get_id_of_detected_object">检测到的对象的ID</string>
+    <string name="formula_editor_function_object_with_id_visible">ID可见的对象</string>
+    <string name="formula_editor_intro_title_formula_editor">公式编辑器</string>
+    <string name="formula_editor_intro_summary_formula_editor">通过公式编辑器，您可以创建您可以在积木中使用的数学和
+        逻辑公式。\n\n继续点击“NEXT”或退出
+        并使用“SKIP”。
+    </string>
     <string name="formula_editor_intro_title_input_field">输入栏</string>
     <string name="formula_editor_intro_summary_input_field">在这里您可以看到自己的公式，并且还可以编辑它。</string>
     <string name="formula_editor_intro_title_keyboard">键盘</string>
     <string name="formula_editor_intro_summary_keyboard">有点像一个计算器，这就是您创建公式的地方。</string>
-    <string name="formula_editor_intro_title_compute">Tính toán</string>
+    <string name="formula_editor_intro_title_compute">计算</string>
     <string name="formula_editor_intro_summary_compute">按下“计算”按钮可以测试您的公式并显示当前的结果。</string>
-    <string name="formula_editor_intro_title_object">Đối tượng</string>
+    <string name="formula_editor_intro_title_object">对象</string>
     <string name="formula_editor_intro_summary_object">这个是描述当前对象的属性值的集合。例如 x 和 y 坐标或当前的速度。</string>
     <string name="formula_editor_intro_title_functions">函数</string>
     <string name="formula_editor_intro_summary_functions">像一个计算器，公式编辑器提供了大量的数学函数。 \n您可以找到三角函数例如\"sin\"和\"cos\"，也能找到随机数生成器或文本和列表函数。</string>
@@ -1710,38 +1843,38 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="formula_editor_speech_recognition">语音识别</string>
     <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.</string>
-    <string name="formula_editor_function_flatten">压平</string>
-    <string name="formula_editor_function_flatten_parameter">(* danh sách tên *)</string>
+    <string name="warning_formula_recognized">你输入了一个看起来像公式的文本。如果你想使用函数。
+        传感器、变量和其他公式元素，请使用公式编辑器中的按钮选择它们。
+        按钮来选择。</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="brick_show_variable" tools:ignore="UnusedResources">Hiển thị các biến</string>
-    <string name="brick_hide_variable" tools:ignore="UnusedResources">隐藏变量</string>
-    <string name="brick_show_variable_position" tools:ignore="UnusedResources">在 </string>
-    <string name="brick_show_variable_size" tools:ignore="UnusedResources">大小：</string>
-    <string name="brick_show_variable_color" tools:ignore="UnusedResources">颜色：</string>
-    <string name="brick_show_variable_aligned" tools:ignore="UnusedResources">对齐</string>
-    <string name="brick_show_variable_aligned_centered" tools:ignore="UnusedResources">居中</string>
-    <string name="brick_show_variable_aligned_left" tools:ignore="UnusedResources">左</string>
-    <string name="brick_show_variable_aligned_right" tools:ignore="UnusedResources">右</string>
+    <string name="brick_show_variable">Hiển thị các biến</string>
+    <string name="brick_hide_variable">隐藏变量</string>
+    <string name="brick_show_variable_position">在 </string>
+    <string name="brick_show_variable_size">大小：</string>
+    <string name="brick_show_variable_color">颜色：</string>
+    <string name="brick_show_variable_aligned">对齐</string>
+    <string name="brick_show_variable_aligned_centered">居中</string>
+    <string name="brick_show_variable_aligned_left">左</string>
+    <string name="brick_show_variable_aligned_right">右</string>
     <string name="brick_context_dialog_pick_color">选取颜色</string>
     <string name="brick_context_dialog_pick_note">选择笔记</string>
     <!-- -->
     <!-- Camera related strings -->
-    <string name="brick_video" tools:ignore="UnusedResources">设置相机状态</string>
-    <string name="video_brick_camera_on" tools:ignore="UnusedResources">开</string>
-    <string name="video_brick_camera_off" tools:ignore="UnusedResources">关</string>
-    <string name="brick_choose_camera" tools:ignore="UnusedResources">使用相机</string>
-    <string name="choose_camera_front" tools:ignore="UnusedResources">前置</string>
-    <string name="choose_camera_back" tools:ignore="UnusedResources">后方</string>
-    <string name="camera_error_generic">        Something went wrong while trying to use the camera.
+    <string name="brick_video">设置相机状态</string>
+    <string name="video_brick_camera_on">开</string>
+    <string name="video_brick_camera_off">关</string>
+    <string name="brick_choose_camera">使用相机</string>
+    <string name="choose_camera_front">前置</string>
+    <string name="choose_camera_back">后方</string>
+    <string name="camera_error_generic">        试图使用相机时出了错。
     </string>
-    <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.
-    </string>
+    <string name="camera_error_face_detection">        文本检测出现问题。 有些组件可能仍然在
+        后台下载。 请确保您已连接到互联网，稍后再试。</string>
     <!-- -->
     <!-- Cast strings -->
-    <string name="cast_gamepad_A">A</string>
-    <string name="cast_gamepad_B">B</string>
+    <string name="cast_gamepad_A">一种</string>
+    <string name="cast_gamepad_B">乙</string>
     <string name="cast_gamepad_up">上</string>
     <string name="cast_gamepad_down">下</string>
     <string name="cast_gamepad_left">左</string>
@@ -1800,7 +1933,7 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="device_language">设备语言</string>
     <!-- Symbols -->
     <string name="percent_symbol">%</string>
-    <string name="hertz_symbol" tools:ignore="UnusedResources">㎐</string>
+    <string name="hertz_symbol">㎐</string>
     <string name="no_internet_connection">没有网络连接。请确保开启Wi-Fi或手机
     数据。</string>
     <string name="edit">编辑</string>
@@ -1809,8 +1942,23 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="new_sprite_dialog_place_visually">视觉设置</string>
     <string name="place_visually_text">你将被要求把新的演员或物体放在舞台上。
         舞台上。</string>
+    <string name="new_empty_sprite_note">注意: 对象或物体创建时
+        没有设置外观。</string>
     <!-- Information -->
     <string name="no_variable_selected">未选择变量</string>
     <string name="find">查找</string>
     <string name="no_results_found">没有发现结果</string>
+    <string name="query_field_is_empty">查询字段为空</string>
+    <string name="cut"> 剪切</string>
+    <string name="paste">粘贴</string>
+    <!-- Particle Effects -->
+    <string name="fade_particle_effect">淡出粒子效果</string>
+    <string name="particle_effects_fade_in">在</string>
+    <string name="particle_effects_fade_out">出</string>
+    <string name="turn_particle_effect_additivity">转动粒子效果的附加性</string>
+    <string name="particle_effects_additive_on">开</string>
+    <string name="particle_effects_additive_off">关</string>
+    <string name="set_particle_color_to">设置粒子颜色为</string>
+    <string name="undo_sort">撤销排序</string>
+    <string name="sort">排序</string>
 </resources>

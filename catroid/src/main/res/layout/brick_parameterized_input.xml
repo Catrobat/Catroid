@@ -44,20 +44,18 @@
 
         <TextView
             android:id="@+id/brick_param_first_label"
-            style="@style/BrickText.Multiple">
+            style="@style/BrickText.SingleLine">
         </TextView>
 
         <TextView
             android:id="@+id/brick_param_list_of_list_text"
-            style="@style/BrickEditText"
-            app:layout_inputType="text"
-            app:layout_textField="true">
+            style="@style/BrickEditText">
         </TextView>
 
         <TextView
             app:layout_newLine="true"
             android:id="@+id/brick_param_second_label"
-            style="@style/BrickText.Multiple"
+            style="@style/BrickText.SingleLine"
             android:text=""
             >
         </TextView>

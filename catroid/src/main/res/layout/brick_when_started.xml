@@ -40,9 +40,7 @@
         android:id="@+id/brick_when_started_layout"
         style="@style/BrickContainer.Event.Small"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
+        android:layout_height="wrap_content">
 
         <include layout="@layout/icon_brick_category_event" />
 

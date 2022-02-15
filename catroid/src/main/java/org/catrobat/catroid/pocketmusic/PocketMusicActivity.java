@@ -69,8 +69,7 @@ public class PocketMusicActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		midiFolder = new File(ProjectManager.getInstance().getCurrentlyEditedScene().getDirectory(),
-				SOUND_DIRECTORY_NAME);
+		midiFolder = new File(getApplicationContext().getFilesDir().getPath(), SOUND_DIRECTORY_NAME);
 
 		midiDriver = new MidiNotePlayer();
 

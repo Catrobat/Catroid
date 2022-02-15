@@ -99,13 +99,13 @@ public class UserDefinedBrickTest {
 	@Test
 	public void testAddInputToUserBrickDefaultText() {
 		clickOnAddInputToUserBrick();
-		onView(withId(R.id.user_data_user_brick_edit_field)).check(matches(withText(baseActivityTestRule.getActivity().getString(R.string.brick_user_defined_default_input_name) + " (1)")));
+		onView(withId(R.id.user_data_user_brick_edit_field)).check(matches(withText(baseActivityTestRule.getActivity().getString(R.string.brick_user_defined_default_input_name))));
 	}
 
 	@Test
 	public void testAddLabelToUserBrickDefaultText() {
 		clickOnAddLabelToUserBrick();
-		onView(withId(R.id.user_data_user_brick_edit_field)).check(matches(withText(baseActivityTestRule.getActivity().getString(R.string.brick_user_defined_default_label) + " (1)")));
+		onView(withId(R.id.user_data_user_brick_edit_field)).check(matches(withText(baseActivityTestRule.getActivity().getString(R.string.brick_user_defined_default_label))));
 	}
 
 	@Test
@@ -147,7 +147,7 @@ public class UserDefinedBrickTest {
 				.perform(click());
 		onView(withId(R.id.button_add_input))
 				.perform(click());
-		onView(withId(R.id.user_data_user_brick_edit_field)).perform(replaceText(baseActivityTestRule.getActivity().getString(R.string.brick_user_defined_default_input_name) + " (1)"));
+		onView(withId(R.id.user_data_user_brick_edit_field)).perform(replaceText(baseActivityTestRule.getActivity().getString(R.string.brick_user_defined_default_input_name)));
 		onView(withText(R.string.name_already_exists)).check(matches(isDisplayed()));
 		onView(withId(R.id.next)).check(matches(not(isEnabled())));
 	}
@@ -259,5 +259,20 @@ public class UserDefinedBrickTest {
 				.perform(click());
 		onView(withId(R.id.button_add_label))
 				.perform(click());
+	}
+
+	@Test
+	public void clickOnWithoutScreen() {
+		clickOnAddInputToUserBrick();
+		onView(withId(R.id.next)).perform(click());
+		onView(withId(R.id.confirm)).perform(click());
+
+		onView(withId(R.id.fragment_script)).perform(waitFor(isDisplayed(), waitThreshold));
+		onView(withId(R.id.fragment_script)).perform(click());
+
+		onBrickAtPosition(0).checkShowsText(R.string.brick_user_defined_script_screen_refresh_as);
+		onBrickAtPosition(0).onSpinner(R.id.brick_set_screen_refresh_spinner)
+				.checkShowsText(R.string.brick_user_defined_with_screen_refreshing);
+		onBrickAtPosition(1).checkShowsText(R.string.brick_when_started);
 	}
 }

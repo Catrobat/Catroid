@@ -75,7 +75,7 @@ public class PocketPaintNewLookIntentTest {
 
 	private Matcher expectedIntent;
 	private final String projectName = getClass().getSimpleName();
-	private final String spriteName = "testSprite (1)";
+	private final String spriteName = "testSprite";
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new

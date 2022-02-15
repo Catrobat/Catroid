@@ -1,0 +1,42 @@
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<vector android:height="35dp" android:viewportHeight="200"
+    android:viewportWidth="200" android:width="35dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#ED761B" android:pathData="M139.462,163.382c-0.924,4.332 -5.18,7.092 -9.51,6.168h-0.003l-86.434,-18.451c-4.328,-0.926 -7.086,-5.186 -6.16,-9.514L66.227,6.338c0.926,-4.326 5.184,-7.082 9.511,-6.16l86.432,18.445c4.33,0.924 7.09,5.182 6.168,9.512L139.462,163.382z"/>
+    <path android:fillColor="#FCE2CE" android:pathData="M52.847,137.362l24.143,-113.084l74.193,15.84l-24.143,113.084z"/>
+    <path android:fillColor="#008B96" android:pathData="M170.356,168.704c-4.814,5.182 -61.262,31.229 -70.355,31.295c-9.096,0.066 -66.07,-25.375 -70.353,-31.076C25.366,163.222 18.944,56.081 18.944,56.081h162.111C181.056,56.081 175.171,163.528 170.356,168.704"/>
+    <path android:fillColor="#15A4B7" android:pathData="M100.001,199.997c-9.095,0.064 -66.074,-24.367 -70.356,-30.068C25.359,164.231 18.945,56.081 18.945,56.081h80.86L100.001,199.997z"/>
+    <path android:fillColor="#FFFFFF" android:pathData="M28.466,82.711c-0.643,-9.586 -1.029,-16.053 -1.029,-16.053l-0.21,-3.405h19.481v6.428h-12.65c0.176,2.813 0.461,7.213 0.82,12.603L28.466,82.711z"/>
+    <path android:fillColor="#FFFFFF" android:pathData="M137.503,69.675L107.898,69.675L107.898,63.25h29.604L137.502,69.675L137.503,69.675zM92.105,69.675L62.499,69.675L62.499,63.25h29.607L92.106,69.675z"/>
+    <path android:fillColor="#FFFFFF" android:pathData="M171.609,82.702l-6.413,-0.4c0.338,-5.4 0.6,-9.807 0.76,-12.623h-12.664v-6.426h19.463l-0.188,3.388C172.565,66.641 172.208,73.115 171.609,82.702"/>
+    <path android:fillColor="#FFFFFF" android:pathData="M108.593,190.683l-2.133,-6.063c6.525,-2.297 16.805,-6.688 27.481,-11.742l2.746,5.813C125.829,183.831 115.321,188.317 108.593,190.683"/>
+    <path android:fillColor="#FFFFFF" android:pathData="M90.906,190.604c-7.063,-2.43 -17.605,-6.838 -28.195,-11.789l2.719,-5.817c10.398,4.86 20.704,9.17 27.558,11.53L90.906,190.604z"/>
+    <path android:fillColor="#FFFFFF" android:pathData="M48.114,171.579c-9.146,-4.881 -10.365,-6.502 -10.884,-7.197c-0.729,-0.973 -1.836,-2.439 -3.727,-19.768l6.387,-0.699c1.391,12.727 2.255,15.916 2.556,16.689c0.374,0.352 2.107,1.791 8.69,5.307L48.114,171.579z"/>
+    <path android:fillColor="#FFFFFF" android:pathData="M151.255,171.456l-3,-5.688c6.861,-3.617 8.896,-5.099 9.437,-5.543c0.299,-0.755 1.224,-3.89 2.571,-15.912l6.392,0.721c-1.924,17.082 -3.181,18.434 -4.099,19.418c-0.521,0.566 -1.903,2.051 -11.305,7.004"/>
+    <path android:fillColor="#FFFFFF" android:pathData="M168.229,128.935l-6.403,-0.563c0.754,-8.561 1.531,-18.666 2.313,-30.041l6.412,0.441c-0.787,11.412 -1.563,21.56 -2.323,30.162"/>
+    <path android:fillColor="#FFFFFF" android:pathData="M31.938,128.519c-0.762,-8.625 -1.564,-18.77 -2.386,-30.151l6.408,-0.464c0.82,11.347 1.621,21.457 2.377,30.048L31.938,128.519z"/>
+    <path android:fillColor="#FFFFFF" android:pathData="M100.001,78.001c-24.325,0 -44.042,19.719 -44.04,44.041c0,24.324 19.719,44.043 44.042,44.043c24.322,0 44.037,-19.719 44.041,-44.041C144.04,97.722 124.325,78.003 100.001,78.001"/>
+    <path android:fillColor="#15A4B7" android:pathData="M69.791,122.044c-0.001,-16.588 13.446,-30.037 30.033,-30.039c16.592,0 30.041,13.445 30.041,30.035c0.002,16.588 -13.445,30.037 -30.034,30.039c-0.002,0 -0.002,0 -0.004,0C83.238,152.079 69.791,138.632 69.791,122.044"/>
+    <path android:fillColor="#FFFFFF" android:pathData="M91.41,141.323l23.25,-19.275l-23.25,-19.277z"/>
+</vector>

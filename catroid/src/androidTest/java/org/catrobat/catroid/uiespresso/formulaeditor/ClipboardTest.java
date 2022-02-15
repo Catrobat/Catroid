@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -46,6 +47,7 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import static org.catrobat.catroid.WaitForConditionAction.waitFor;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.hamcrest.Matchers.not;
 
@@ -56,6 +58,7 @@ import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.RootMatchers.isPlatformPopup;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -107,8 +110,8 @@ public class ClipboardTest {
 	@Test
 	public void hidePasteWhenClipboardIsEmptyTest() {
 		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
-		onView(withId(R.id.formula_editor_edit_field)).perform(click());
 		onView(withId(R.id.formula_editor_edit_field)).perform(doubleClick());
+		onView(withId(R.id.copy)).inRoot(isPlatformPopup()).perform(waitFor(isDisplayed(), 5000));
 		onView(withId(R.id.copy)).inRoot(isPlatformPopup()).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 		onView(withId(R.id.cut)).inRoot(isPlatformPopup()).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 		onView(withId(R.id.paste)).inRoot(isPlatformPopup()).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
@@ -157,6 +160,20 @@ public class ClipboardTest {
 		onView(withId(R.id.cut)).inRoot(isPlatformPopup()).perform(click());
 		onFormulaEditor().checkShows("");
 		onView(withId(R.id.menu_undo)).check(matches(isEnabled()));
+	}
+
+	@Test
+	public void cutWithoutFirstParameterTest() {
+		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
+		onFormulaEditor()
+				.performOpenCategory(FormulaEditorWrapper.Category.FUNCTIONS)
+				.performSelect("power(2,3)");
+		onFormulaEditor().performBackspace();
+		onView(withId(R.id.formula_editor_edit_field)).perform(doubleClick());
+		onView(withId(R.id.cut)).inRoot(isPlatformPopup()).perform(click());
+		onView(withId(R.id.formula_editor_edit_field)).perform(longClick());
+		onView(withId(R.id.paste)).inRoot(isPlatformPopup()).perform(click());
+		onFormulaEditor().checkValue("power( , 3 )");
 	}
 
 	@After

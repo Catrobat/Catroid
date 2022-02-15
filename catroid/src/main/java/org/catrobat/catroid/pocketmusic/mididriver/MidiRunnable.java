@@ -81,7 +81,7 @@ public class MidiRunnable implements Runnable {
 		status |= channel;
 		midiNotePlayer.sendMidi(status, noteName.getMidi(), 127);
 		if (pianoView != null && pianoRow != null) {
-			pianoView.setButtonColor(pianoRow, MidiSignals.NOTE_ON.equals(signal));
+			pianoView.setKeyColor(pianoRow, MidiSignals.NOTE_ON.equals(signal));
 		}
 		if (signal.equals(MidiSignals.NOTE_ON) && !manualNoteOff) {
 			handler.postDelayed(new MidiRunnable(MidiSignals.NOTE_OFF, noteName, duration, handler, midiNotePlayer,

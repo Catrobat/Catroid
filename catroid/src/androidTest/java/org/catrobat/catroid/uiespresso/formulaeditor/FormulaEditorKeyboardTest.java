@@ -134,8 +134,8 @@ public class FormulaEditorKeyboardTest {
 		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
 		onView(withId(R.id.formula_editor_keyboard_functional_button_toggle))
 				.perform(click());
-		onView(withId(R.id.tableRow11)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)));
-		onView(withId(R.id.tableRow12)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)));
+		onView(withId(R.id.tableRow11)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+		onView(withId(R.id.tableRow12)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
 
 		onView(withId(R.id.formula_editor_keyboard_functional_button_toggle))
 				.perform(click());
@@ -151,8 +151,9 @@ public class FormulaEditorKeyboardTest {
 			return;
 		}
 		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
-		onView(withId(R.id.formula_editor_keyboard_sensors)).perform(click());
-		onView(withText(activity.getString(R.string.formula_editor_sensor_x_acceleration))).perform(click());
+		onFormulaEditor()
+				.performOpenCategory(FormulaEditorWrapper.Category.DEVICE)
+				.performSelect(R.string.formula_editor_sensor_x_acceleration);
 		onFormulaEditor()
 				.performEnterFormula("+2");
 		pressBack();

@@ -52,6 +52,9 @@ ext {
     espressoVersion = "3.1.0"
     playServicesVersion = "17.0.0"
     cameraXVersion = "1.0.0-beta07"
+    room_version = "2.3.0"
+    coroutines_version = "1.3.2"
+    work_manager_version = "2.5.0"
 }
 
 apply plugin: 'com.android.application'
@@ -100,16 +103,16 @@ def defaultVersionCode = 85
 def defaultVersionName = "1.0.3"
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
 
     buildFeatures {
-        viewBinding = true
+        viewBinding true
     }
 
     defaultConfig {
 
         minSdkVersion 23
-        targetSdkVersion 29
+        targetSdkVersion 30
         applicationId appId
         testInstrumentationRunner 'org.catrobat.catroid.runner.UiTestApplicationRunner'
         versionCode defaultVersionCode
@@ -132,6 +135,8 @@ android {
         buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
 
         buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", "false"
+
+        buildConfigField "boolean", "FEATURE_LIST_AS_BASIC_DATATYPE", "false"
 
         buildConfigField "boolean", "FEATURE_AI_SENSORS_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
@@ -159,6 +164,12 @@ android {
         resValue "string", "FEATURE_AI_PREFERENCES_ENABLED", "false"
         resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
         resValue "string", "DEBUG_MODE", "false"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
     }
 
     lintOptions {
@@ -196,6 +207,7 @@ android {
         exclude 'LICENSE.txt'
         exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
         exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
+        exclude 'META-INF/INDEX.LIST'
         exclude 'lib/mips/*'    // Mips devices are deprecated
         exclude 'lib/armeabi/*' // armeabiv5 & v6 are deprecated
     }
@@ -239,7 +251,6 @@ android {
         release {
             buildConfigField "boolean", "FEATURE_MERGE_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_MULTIPLAYER_VARIABLES_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_USER_REPORTERS_ENABLED", "false"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
             signingConfig signingConfigs.debug
@@ -324,6 +335,10 @@ android {
     productFlavors.all { flavor ->
         copyGoogleServicesFile(flavor.name, defaultConfig.applicationId + (flavor.applicationIdSuffix ?: ""))
     }
+
+    aaptOptions {
+        noCompress "lite"
+    }
 }
 
 configurations {
@@ -342,10 +357,14 @@ dependencies {
         implementation fileTree(dir: 'src/main/libs', include: ['*.aar'])
     }
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-
+    implementation ('com.esotericsoftware:kryo:5.1.1')
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.8'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
+    androidTestImplementation ('androidx.arch.core:core-testing:2.1.0') {
+        exclude group: 'org.mockito', module: 'mockito-core'
+    }
 
     // Support libraries
     implementation 'androidx.appcompat:appcompat:1.2.0'
@@ -377,13 +396,25 @@ dependencies {
     // Glide (Images downloader)
     implementation 'com.github.bumptech.glide:glide:4.11.0'
 
-    // Shimmer effect
-    implementation 'com.facebook.shimmer:shimmer:0.5.0'
-
     // Lifecycle
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+
+    // Room
+    implementation("androidx.room:room-runtime:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
+    // Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:$room_version")
+
+    // WorkManager
+    implementation "androidx.work:work-runtime-ktx:$work_manager_version"
+
+    // Android Debug Database
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+
+    // Encrypted shared preferences
+    implementation("androidx.security:security-crypto:1.0.0")
 
     // CAST
     implementation "com.google.android.gms:play-services-cast:$playServicesVersion"
@@ -392,7 +423,7 @@ dependencies {
     implementation "com.google.android.gms:play-services-analytics:$playServicesVersion"
 
     implementation 'com.google.guava:guava:28.2-android'
-    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation 'com.google.code.gson:gson:2.8.7'
 
     implementation 'com.koushikdutta.async:androidasync:2.2.1'
     implementation 'com.squareup.picasso:picasso:2.71828'
@@ -416,8 +447,21 @@ dependencies {
     // ML Kit
     implementation 'com.google.android.gms:play-services-mlkit-face-detection:16.1.4'
     implementation 'com.google.android.gms:play-services-mlkit-text-recognition:16.1.3'
+    implementation 'com.google.mlkit:object-detection:16.2.7'
     implementation 'com.google.mlkit:language-id:16.1.1'
     implementation 'com.google.mlkit:pose-detection:17.0.0'
+
+    // HUAWEI Mobile Services
+    implementation 'com.huawei.hms:base:4.0.3.300'
+
+    // Huawei ML Kit
+    implementation 'com.huawei.hms:ml-computer-voice-asr-plugin:2.2.0.300'
+    implementation 'com.huawei.hms:ml-computer-voice-asr:2.2.0.300'
+    implementation 'com.huawei.hms:ml-computer-vision-face:2.0.5.300'
+    implementation 'com.huawei.hms:ml-computer-voice-tts:2.2.0.300'
+    implementation 'com.huawei.hms:ml-computer-vision-ocr:2.0.5.301'
+    implementation 'com.huawei.hms:ml-computer-language-detection:2.2.0.300'
+    implementation 'com.huawei.hms:ml-computer-vision-skeleton:2.0.4.300'
 
     // libGDX
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
@@ -469,6 +513,8 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
 
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+    // Room Test helpers
+    testImplementation("androidx.room:room-testing:$room_version")
 }
 
 static def getGitCommitInfo() {
@@ -513,3 +559,4 @@ tasks.whenTaskAdded { packageTask ->
 }
 
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.huawei.agconnect'

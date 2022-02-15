@@ -36,6 +36,10 @@ public class UniqueNameProvider implements UniqueNameProviderInterface {
 	public String getUniqueName(String name, List<String> scope) {
 		this.scope = scope;
 
+		if (isUnique(name)) {
+			return name;
+		}
+
 		Pattern pattern = Pattern.compile("\\((\\d+)\\)");
 		Matcher matcher = pattern.matcher(name);
 

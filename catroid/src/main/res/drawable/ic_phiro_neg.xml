@@ -1,0 +1,33 @@
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<vector android:autoMirrored="true" android:height="24dp"
+    android:viewportHeight="200" android:viewportWidth="200"
+    android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+        android:fillColor="#fff"
+        android:pathData="M200,0v200h-200v-200L200,0zM176.78,26.31c1.95,-0.73 3.149,-2.63 2.92,-4.64c-0.45,-2.2 -2.5,-3.76 -4.82,-3.67c-2.49,-0.1 -4.59,1.76 -4.7,4.16c-0.08,2.06 1.351,3.9 3.431,4.4v40.68c-2.71,-2.05 -4.65,-3.13 -5.82,-3.24c-23.46,-36.06 -72.83,-46.98 -110.26,-24.38c-37.44,22.6 -48.77,70.16 -25.31,106.22c23.46,36.07 72.82,46.99 110.26,24.391c30.59,-18.471 44.55,-54.4 34.069,-87.69C176.62,63.799 176.7,45.06 176.78,26.31z"/>
+    <path
+        android:fillColor="#fff"
+        android:pathData="M172.77,104.98c0,0.01 0,0.02 0,0.02c0,38.89 -32.72,70.43 -73.089,70.43c-40.37,0.021 -73.11,-31.51 -73.12,-70.41c-0.01,-38.899 32.71,-70.439 73.08,-70.45C140.02,34.56 172.76,66.08 172.77,104.98zM145.07,100.299c6.51,-0.42 11.439,-5.83 11.01,-12.1c-0.4,-5.91 -5.44,-10.53 -11.58,-10.63c-4.35,-0.02 -9.23,2.49 -12.73,6.31l-15.8,-0.63c-8.819,-6.9 -15.54,-10.47 -25.11,-10.08c-7.18,0.29 -16.27,6.95 -16.55,15.03c-0.31,8.65 8.11,15.38 16.1,15.64c9.33,0.3 18.33,-3.42 27.08,-9.41l13.51,-0.37C134.441,98.109 139.64,100.41 145.07,100.299z"/>
+</vector>

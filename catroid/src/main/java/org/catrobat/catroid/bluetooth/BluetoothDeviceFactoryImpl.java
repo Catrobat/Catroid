@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,6 +30,7 @@ import org.catrobat.catroid.devices.arduino.ArduinoImpl;
 import org.catrobat.catroid.devices.arduino.phiro.PhiroImpl;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3Impl;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXTImpl;
+import org.catrobat.catroid.devices.multiplayer.Multiplayer;
 
 public class BluetoothDeviceFactoryImpl implements BluetoothDeviceFactory {
 
@@ -50,6 +51,10 @@ public class BluetoothDeviceFactoryImpl implements BluetoothDeviceFactory {
 
 		if (service == BluetoothDevice.ARDUINO) {
 			return new ArduinoImpl();
+		}
+
+		if (service == BluetoothDevice.MULTIPLAYER) {
+			return new Multiplayer();
 		}
 
 		return null; // may throw exception

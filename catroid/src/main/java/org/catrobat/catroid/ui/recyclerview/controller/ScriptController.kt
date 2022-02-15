@@ -114,20 +114,38 @@ class ScriptController {
     fun pack(groupName: String?, bricksToPack: List<Brick>?) {
         val scriptsToPack: MutableList<Script> = ArrayList()
         val userDefinedBrickListToPack: MutableList<UserDefinedBrick> = ArrayList()
-        bricksToPack?.forEach() {
-            if (it is ScriptBrick) {
-                if (it is UserDefinedReceiverBrick) {
-                    val userDefinedBrick = it.userDefinedBrick
+        bricksToPack?.forEach() { brick ->
+            if (brick is ScriptBrick) {
+                if (brick is UserDefinedReceiverBrick) {
+                    val userDefinedBrick = brick.userDefinedBrick
                     userDefinedBrickListToPack.add(userDefinedBrick.clone() as UserDefinedBrick)
                 }
-                val scriptToPack = it.getScript()
+                val scriptToPack = brick.getScript()
                 scriptsToPack.add(scriptToPack.clone())
             }
+            if (brick is UserDefinedBrick) {
+                val userDefinedScript = projectManager.currentSprite.getUserDefinedScript(brick.userDefinedBrickID)
+
+                if (!checkIfUserDefinedBrickDefinitionIsInBricksToPack(bricksToPack, brick)) {
+                    scriptsToPack.add(userDefinedScript)
+                    userDefinedBrickListToPack.add(brick.clone() as UserDefinedBrick)
+                }
+            }
         }
+
         BackpackListManager.getInstance()
             .addUserDefinedBrickToBackPack(groupName, userDefinedBrickListToPack)
         BackpackListManager.getInstance().addScriptToBackPack(groupName, scriptsToPack)
         BackpackListManager.getInstance().saveBackpack()
+    }
+
+    private fun checkIfUserDefinedBrickDefinitionIsInBricksToPack(bricksToPack: List<Brick>?, userDefinedBrick: UserDefinedBrick): Boolean {
+        bricksToPack?.forEach { brick ->
+            if (brick is UserDefinedReceiverBrick && brick.userDefinedBrick.userDefinedBrickID.equals(userDefinedBrick.userDefinedBrickID)) {
+                return true
+            }
+        }
+        return false
     }
 
     @Throws(IOException::class, CloneNotSupportedException::class)

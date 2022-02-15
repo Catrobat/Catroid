@@ -120,6 +120,7 @@ import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -301,6 +302,11 @@ public class BrickSingleFormulaFieldTest {
 		activityController.create().resume();
 
 		assertCurrentFragmentEquals(ScriptFragment.class);
+	}
+
+	@After
+	public void tearDown() {
+		ProjectManager.getInstance().resetProjectManager();
 	}
 
 	@Test

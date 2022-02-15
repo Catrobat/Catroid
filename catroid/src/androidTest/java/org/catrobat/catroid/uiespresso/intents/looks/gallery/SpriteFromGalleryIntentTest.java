@@ -28,12 +28,12 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
@@ -87,7 +87,7 @@ public class SpriteFromGalleryIntentTest {
 	private final String lookFileName = "catroid_sunglasses.png";
 	private final String projectName = getClass().getSimpleName();
 	private final File tmpPath = new File(
-			Environment.getExternalStorageDirectory().getAbsolutePath(), "Pocket Code Test Temp");
+			Constants.CACHE_DIR.getAbsolutePath(), "Pocket Code Test Temp");
 
 	@Rule
 	public FragmentActivityTestRule<ProjectActivity> baseActivityTestRule = new
@@ -169,7 +169,7 @@ public class SpriteFromGalleryIntentTest {
 				.perform(click());
 
 		onRecyclerView().atPosition(1).onChildView(R.id.title_view)
-				.check(matches(withText(lookFileName.replace(".png", " (1)"))));
+				.check(matches(withText(lookFileName.replace(".png", ""))));
 	}
 
 	private void createProject(String projectName) {

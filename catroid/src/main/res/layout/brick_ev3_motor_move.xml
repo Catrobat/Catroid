@@ -57,19 +57,14 @@
 
         <TextView
             android:id="@+id/lego_motor_action_to_text"
-            style="@style/BrickText.Multiple"
+            style="@style/BrickText.SingleLine"
             app:layout_newLine="true"
             android:text="@string/nxt_motor_speed_to">
         </TextView>
 
         <TextView
             android:id="@+id/ev3_motor_move_speed_edit_text"
-            style="@style/BrickEditText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxEms="5"
-            app:layout_inputType="number"
-            app:layout_textField="true">
+            style="@style/BrickEditText">
         </TextView>
 
         <TextView

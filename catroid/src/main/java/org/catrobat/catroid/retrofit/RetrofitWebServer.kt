@@ -33,7 +33,7 @@ import org.catrobat.catroid.retrofit.models.DeprecatedToken
 import org.catrobat.catroid.retrofit.models.FeaturedProject
 import org.catrobat.catroid.retrofit.models.LoginResponse
 import org.catrobat.catroid.retrofit.models.LoginUser
-import org.catrobat.catroid.retrofit.models.ProjectsCategory
+import org.catrobat.catroid.retrofit.models.ProjectsCategoryApi
 import org.catrobat.catroid.retrofit.models.RegisterUser
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -61,7 +61,7 @@ interface WebService {
     fun getProjectCategories(
         @Query("max_version") maxVersion: String = CURRENT_CATROBAT_LANGUAGE_VERSION.toString(),
         @Query("flavor") flavor: String = FLAVOR_NAME
-    ): Call<List<ProjectsCategory>>
+    ): Call<List<ProjectsCategoryApi>>
 
     @POST("authentication")
     fun login(

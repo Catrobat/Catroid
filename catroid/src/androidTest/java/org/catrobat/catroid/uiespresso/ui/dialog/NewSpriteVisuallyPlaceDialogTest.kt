@@ -76,7 +76,7 @@ class NewSpriteVisuallyPlaceDialogTest {
     )
     private val projectName = "newProject"
     private lateinit var expectedIntent: Matcher<Intent>
-    val newSpriteName = UiTestUtils.getResourcesString(R.string.default_sprite_name).toString() + " (1)"
+    val newSpriteName = UiTestUtils.getResourcesString(R.string.default_sprite_name).toString()
 
     @Before
     @Throws(Exception::class)

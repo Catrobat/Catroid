@@ -56,7 +56,6 @@ import org.catrobat.catroid.ui.recyclerview.adapter.HorizontalProjectsAdapter
 import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialogFragment
 import org.catrobat.catroid.ui.recyclerview.viewmodel.MainFragmentViewModel
 import org.catrobat.catroid.utils.FileMetaDataExtractor
-import org.catrobat.catroid.utils.NetworkConnectionMonitor
 import org.catrobat.catroid.utils.ProjectDownloadUtil.setFragment
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.Utils
@@ -75,7 +74,6 @@ class MainMenuFragment : Fragment(),
     var currentProject: String? = null
     private lateinit var projectsAdapter: HorizontalProjectsAdapter
     private val viewModel: MainFragmentViewModel by viewModel()
-    private val connectionMonitor: NetworkConnectionMonitor by inject()
     private val featuredProjectsAdapter: FeaturedProjectsAdapter by inject()
     private val categoriesAdapter: CategoriesAdapter by inject()
     private var _binding: FragmentMainMenuBinding? = null
@@ -105,6 +103,8 @@ class MainMenuFragment : Fragment(),
             progressBar.setVisibleOrGone(show)
         })
 
+        setupFeaturedProjectsRV()
+        setupCategoriesRV()
         setupViewVisibility()
 
         binding.editProject.setOnClickListener(this)
@@ -117,8 +117,6 @@ class MainMenuFragment : Fragment(),
         setFragment(this)
 
         setupProjectsRV()
-        setupFeaturedProjectsRV()
-        setupCategoriesRV()
         viewModel.setIsLoading(false)
     }
 
@@ -130,30 +128,29 @@ class MainMenuFragment : Fragment(),
         }.let {
             binding.categoriesRecyclerView.adapter = it
         }
-
-        viewModel.getProjectCategories().observe(viewLifecycleOwner, Observer { items ->
-            stopShimmer()
-            if (items.isNullOrEmpty()) {
-                return@Observer
-            }
-            categoriesAdapter.setItems(items)
-        })
     }
 
     private fun setupViewVisibility() {
-        connectionMonitor.observe(viewLifecycleOwner, Observer { connectionActive ->
-            viewModel.fetchData()
-            binding.noInternetLayout.setVisibleOrGone(connectionActive.not())
-            binding.featuredProjectsRecyclerView.setVisibleOrGone(connectionActive)
-            binding.featuredProjectsTextView.isEnabled = connectionActive
-            binding.categoriesRecyclerView.setVisibleOrGone(connectionActive)
+        viewModel.connectionStatusAndFeaturedProjectsAndProjectCategoriesLiveData()
+            .observe(viewLifecycleOwner, Observer {
+                val isConnectionActive = it.first
+                val featuredProjectsList = it.second
+                val projectsCategoriesList = it.third
 
-            if (connectionActive && viewModel.getProjectCategories().value == null) {
-                startShimmer()
-            } else {
-                stopShimmer()
-            }
-        })
+                val showNoInternetLayout = !isConnectionActive &&
+                    (featuredProjectsList.isNullOrEmpty() || projectsCategoriesList.isNullOrEmpty())
+                binding.noInternetLayout.setVisibleOrGone(showNoInternetLayout)
+                if (showNoInternetLayout) {
+                    return@Observer
+                }
+
+                binding.categoriesRecyclerView.setVisibleOrGone(!showNoInternetLayout)
+
+                featuredProjectsAdapter.setItems(featuredProjectsList)
+                binding.featuredProjectsRecyclerView.itemsCount = featuredProjectsList.size
+
+                categoriesAdapter.setItems(projectsCategoriesList)
+            })
     }
 
     private fun setupProjectsRV() {
@@ -183,21 +180,13 @@ class MainMenuFragment : Fragment(),
             PagerSnapHelper().attachToRecyclerView(binding.featuredProjectsRecyclerView)
             resumeAutoScroll()
         }
-
-        viewModel.getFeaturedProjects().observe(viewLifecycleOwner, Observer { items ->
-            if (items.isNullOrEmpty()) {
-                return@Observer
-            }
-
-            featuredProjectsAdapter.setItems(items)
-            binding.featuredProjectsRecyclerView.itemsCount = items.size
-        })
     }
 
     override fun onResume() {
         super.onResume()
-        connectionMonitor.registerDefaultNetworkCallback()
+        viewModel.registerNetworkCallback()
         viewModel.setIsLoading(false)
+        viewModel.update()
         val projectName = requireActivity().intent.getStringExtra(Constants.EXTRA_PROJECT_NAME)
         if (projectName != null) {
             requireActivity().intent.removeExtra(Constants.EXTRA_PROJECT_NAME)
@@ -208,7 +197,7 @@ class MainMenuFragment : Fragment(),
 
     override fun onPause() {
         super.onPause()
-        connectionMonitor.unregisterDefaultNetworkCallback()
+        viewModel.unregisterNetworkCallback()
     }
 
     private fun setAndLoadCurrentProject(myProjects: List<ProjectData>) {
@@ -345,20 +334,6 @@ class MainMenuFragment : Fragment(),
         webViewActivityIntent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url)
         viewModel.setIsLoading(true)
         startActivity(webViewActivityIntent)
-    }
-
-    private fun stopShimmer() {
-        binding.shimmerViewContainer.apply {
-            stopShimmer()
-            setVisibleOrGone(false)
-        }
-    }
-
-    private fun startShimmer() {
-        binding.shimmerViewContainer.apply {
-            setVisibleOrGone(true)
-            startShimmer()
-        }
     }
 
     companion object {

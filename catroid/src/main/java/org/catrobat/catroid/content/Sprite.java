@@ -108,6 +108,10 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 
 	public transient boolean movedByStepsBrick = false;
 
+	private transient boolean isGliding = false;
+	private transient float glidingVelocityX = 0f;
+	private transient float glidingVelocityY = 0f;
+
 	public Sprite() {
 	}
 
@@ -716,5 +720,55 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		this.userVariables = sprite.userVariables;
 		this.userLists = sprite.userLists;
 		this.userDefinedBrickList = sprite.userDefinedBrickList;
+	}
+
+	public void mergeSprites(Sprite sprite) {
+		this.scriptList.addAll(sprite.scriptList);
+		this.lookList.addAll(sprite.lookList);
+		this.soundList.addAll(sprite.soundList);
+		this.nfcTagList.addAll(sprite.nfcTagList);
+
+		for (UserVariable userVariable: sprite.userVariables) {
+			if (!this.userVariables.contains(userVariable)) {
+				this.userVariables.add(userVariable);
+			}
+		}
+		for (UserList userlist: sprite.userLists) {
+			if (!this.userLists.contains(userlist)) {
+				this.userLists.add(userlist);
+			}
+		}
+
+		this.userDefinedBrickList.addAll(sprite.userDefinedBrickList);
+	}
+
+	public UserDefinedScript getUserDefinedScript(UUID userDefinedBrickId) {
+		for (Script script : scriptList) {
+			if (script instanceof UserDefinedScript && ((UserDefinedScript) script).getUserDefinedBrickID().equals(userDefinedBrickId)) {
+				return (UserDefinedScript) script;
+			}
+		}
+		return null;
+	}
+
+	public void setGliding(boolean gliding) {
+		isGliding = gliding;
+	}
+	public boolean isGliding() {
+		return isGliding;
+	}
+
+	public void setGlidingVelocityX(float velocity) {
+		glidingVelocityX = velocity;
+	}
+	public void setGlidingVelocityY(float velocity) {
+		glidingVelocityY = velocity;
+	}
+
+	public float getGlidingVelocityX() {
+		return glidingVelocityX;
+	}
+	public float getGlidingVelocityY() {
+		return glidingVelocityY;
 	}
 }

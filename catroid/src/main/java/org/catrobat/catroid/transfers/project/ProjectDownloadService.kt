@@ -159,7 +159,9 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
             )
             resultReceiver.send(SUCCESS_CODE, Bundle())
         } catch (exception: IOException) {
-            Log.i(TAG, exception.message)
+            exception.message?.let {
+                Log.i(TAG, it)
+            }
             statusBarNotificationManager
                 .abortProgressNotificationWithMessage(context, notificationData, R.string.error_project_download)
 

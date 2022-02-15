@@ -43,19 +43,17 @@
         <include layout="@layout/icon_brick_category_sound" />
 
         <TextView
-            style="@style/BrickText.Multiple"
+            style="@style/BrickText.SingleLine"
             android:text="@string/pause_for">
         </TextView>
 
         <TextView
             android:id="@+id/brick_pause_for_beats_edit_text"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true">
+            style="@style/BrickEditText">
         </TextView>
 
         <TextView
-            style="@style/BrickText.Multiple"
+            style="@style/BrickText.SingleLine"
             android:text="@string/beats">
         </TextView>
     </org.catrobat.catroid.ui.BrickLayout>

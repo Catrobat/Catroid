@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -59,6 +60,9 @@ public class SpriteTest {
 
 	private Project project;
 	private Sprite sprite;
+
+	private AndroidStringProvider androidStringProvider =
+			new AndroidStringProvider(ApplicationProvider.getApplicationContext());
 
 	@Before
 	public void setUp() throws Exception {
@@ -99,7 +103,7 @@ public class SpriteTest {
 		ScriptSequenceAction thread = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(new StartScript());
 		thread.addAction(sprite2.getActionFactory().createShowVariableAction(sprite2,
 				new SequenceAction(), new Formula(10),
-				new Formula(10), userVariable));
+				new Formula(10), userVariable, androidStringProvider));
 		secondScript.run(sprite2, thread);
 
 		userVariable = sprite2.getUserVariable(variableName);

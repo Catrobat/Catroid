@@ -49,6 +49,9 @@ public final class SharedPreferenceKeys {
 	public static final String SHOW_DETAILS_SPRITES_PREFERENCE_KEY = "showDetailsSpriteList";
 
 	public static final String SORT_PROJECTS_PREFERENCE_KEY = "sortProjectsList";
+	public static final String SORT_VARIABLE_PREFERENCE_KEY = "sortVariableList";
+
+	public static final String INDEXING_VARIABLE_PREFERENCE_KEY = "variableIndexing";
 
 	public static final String DISABLE_HINTS_DIALOG_SHOWN_PREFERENCE_KEY =
 			"disableHintsDialogShown";

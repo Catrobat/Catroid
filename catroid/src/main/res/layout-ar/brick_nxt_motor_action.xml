@@ -44,7 +44,7 @@
 
         <TextView
             android:id="@+id/lego_motor_action_label"
-            style="@style/BrickText.Multiple"
+            style="@style/BrickText.SingleLine"
             android:text="@string/nxt_brick_motor_move" />
 
         <Spinner
@@ -55,21 +55,18 @@
 
         <TextView
             android:id="@+id/lego_motor_action_to_text"
-            style="@style/BrickText.Multiple"
+            style="@style/BrickText.SingleLine"
             android:text="@string/nxt_motor_speed_to"
             app:layout_newLine="true" />
 
         <TextView
             android:id="@+id/lego_motor_action_speed_text"
             style="@style/BrickText"
-            android:paddingStart="5dip"
             android:text="@string/nxt_motor_speed" />
 
         <TextView
             android:id="@+id/motor_action_speed_edit_text"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true" />
+            style="@style/BrickEditText" />
 
         <TextView
             android:id="@+id/lego_motor_action_percent"

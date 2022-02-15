@@ -49,9 +49,7 @@
 
         <TextView
             android:id="@+id/brick_add_item_to_userlist_edit_text"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true" />
+            style="@style/BrickEditText" />
 
         <TextView
             android:id="@+id/brick_add_item_to_userlist_textview"

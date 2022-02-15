@@ -23,17 +23,28 @@
 
 package org.catrobat.catroid.stage
 
+import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.util.Log
+import com.huawei.hms.mlsdk.tts.MLTtsAudioFragment
+import com.huawei.hms.mlsdk.tts.MLTtsCallback
+import com.huawei.hms.mlsdk.tts.MLTtsConstants
+import com.huawei.hms.mlsdk.tts.MLTtsError
+import com.huawei.hms.mlsdk.tts.MLTtsWarn
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
-import org.catrobat.catroid.formulaeditor.FormulaElement
-import org.catrobat.catroid.formulaeditor.InterpretationException
+import org.catrobat.catroid.utils.PcmToWavConverter.convertPcmToWav
+import org.catrobat.catroid.utils.PcmToWavConverter.writePcmToFile
+import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider
 import org.catrobat.catroid.utils.Utils
 import java.io.File
-import java.util.HashMap
+
+private const val SAMPLE_RATE = 16_000
+private const val CHANNEL_COUNT = 1
+private const val BITS_PER_SAMPLE = 16
+private val TAG = SpeechSynthesizer::class.simpleName
 
 class SpeechSynthesizer(val scope: Scope?, val text: Formula?) {
     private var interpretedText: Any? = null
@@ -41,11 +52,16 @@ class SpeechSynthesizer(val scope: Scope?, val text: Formula?) {
     var speechFile: File? = null
         private set
 
-    private var listener: UtteranceProgressListener? = null
+    private var listener: Any? = null
 
-    fun synthesize() {
+    fun synthesize(androidStringProvider: AndroidStringProvider) {
         val listener = listener ?: return
-        interpretFormula()
+        interpretedText = if (text != null) {
+            text.getUserFriendlyString(androidStringProvider, scope)
+        } else {
+            ""
+        }
+
         hashText = Utils.md5Checksum(interpretedText.toString())
         val fileName = hashText
         val pathToSpeechFile = File(Constants.TEXT_TO_SPEECH_TMP_PATH)
@@ -53,35 +69,20 @@ class SpeechSynthesizer(val scope: Scope?, val text: Formula?) {
         val speechFile = File(pathToSpeechFile, fileName + Constants.DEFAULT_SOUND_EXTENSION)
         this.speechFile = speechFile
 
-        val speakParameter = HashMap<String, String?>()
-        speakParameter[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = hashText
-        TextToSpeechHolder.instance.textToSpeech(
-            interpretedText.toString(),
-            speechFile,
-            listener,
-            speakParameter
-        )
-    }
-
-    private fun interpretFormula() {
-        interpretedText = try {
-            text?.interpretString(scope) ?: ""
-        } catch (interpretationException: InterpretationException) {
-            Log.d(
-                javaClass.simpleName,
-                "Formula interpretation for this specific Brick failed.",
-                interpretationException
-            )
-            ""
-        }
-        if (text?.root?.elementType != FormulaElement.ElementType.STRING && interpretedText is String) {
-            try {
-                val doubleValue = java.lang.Double.valueOf(interpretedText as String)
-                if (doubleValue.isNaN()) {
-                    interpretedText = ""
-                }
-            } catch (numberFormatException: NumberFormatException) {
-                Log.d(javaClass.simpleName, "Couldn't parse String", numberFormatException)
+        when (listener) {
+            is UtteranceProgressListener -> {
+                val speakParameter = HashMap<String, String?>()
+                speakParameter[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = hashText
+                TextToSpeechHolder.instance.textToSpeech(
+                    interpretedText.toString(),
+                    speechFile,
+                    listener as UtteranceProgressListener,
+                    speakParameter
+                )
+            }
+            is MLTtsCallback -> {
+                HuaweiTextToSpeechHolder.mlTtsEngine.setTtsCallback(listener as MLTtsCallback)
+                HuaweiTextToSpeechHolder.instance.textToSpeech(interpretedText.toString())
             }
         }
     }
@@ -91,6 +92,56 @@ class SpeechSynthesizer(val scope: Scope?, val text: Formula?) {
             override fun onStart(utteranceId: String) = Unit
             override fun onError(utteranceId: String) = onError()
             override fun onDone(utteranceId: String) = onDone()
+        }
+    }
+
+    fun setHuaweiTextToSpeechListener(onError: () -> Unit, onDone: () -> Unit) {
+        listener = object : MLTtsCallback {
+            private lateinit var pcmAudioFile: File
+            override fun onError(taskId: String, err: MLTtsError) {
+                onError()
+            }
+
+            override fun onWarn(taskId: String, warn: MLTtsWarn) {
+                Log.w(TAG, "Warning when synthesizing voice with message: ${warn.warnMsg}")
+            }
+
+            override fun onRangeStart(taskId: String, start: Int, end: Int) {
+                Log.d(TAG, "Starting range start: $start end: $end")
+            }
+
+            override fun onAudioAvailable(
+                taskId: String?,
+                audioFragment: MLTtsAudioFragment?,
+                offset: Int,
+                range: android.util.Pair<Int, Int>?,
+                bundle: Bundle?
+            ) {
+                if (taskId != null && audioFragment != null) {
+                    writePcmToFile(audioFragment.audioData, pcmAudioFile, true)
+                }
+            }
+
+            override fun onEvent(taskId: String?, eventId: Int, bundle: Bundle?) {
+                when (eventId) {
+                    MLTtsConstants.EVENT_SYNTHESIS_START -> {
+                        val path = File(Constants.TEXT_TO_SPEECH_TMP_PATH)
+                        path.mkdirs()
+                        pcmAudioFile = File(path, "placeholder.pcm")
+                    }
+                    MLTtsConstants.EVENT_SYNTHESIS_COMPLETE -> {
+                        convertPcmToWav(
+                            pcmAudioFile,
+                            speechFile,
+                            CHANNEL_COUNT,
+                            SAMPLE_RATE,
+                            BITS_PER_SAMPLE
+                        )
+                        pcmAudioFile.delete()
+                        onDone()
+                    }
+                }
+            }
         }
     }
 }

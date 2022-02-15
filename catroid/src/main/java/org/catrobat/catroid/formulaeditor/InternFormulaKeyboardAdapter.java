@@ -257,6 +257,14 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.SECOND_FACE_X);
 			case R.string.formula_editor_sensor_second_face_y_position:
 				return buildSensor(Sensors.SECOND_FACE_Y);
+			case R.string.formula_editor_sensor_head_top_x:
+				return buildSensor(Sensors.HEAD_TOP_X);
+			case R.string.formula_editor_sensor_head_top_y:
+				return buildSensor(Sensors.HEAD_TOP_Y);
+			case R.string.formula_editor_sensor_neck_x:
+				return buildSensor(Sensors.NECK_X);
+			case R.string.formula_editor_sensor_neck_y:
+				return buildSensor(Sensors.NECK_Y);
 			case R.string.formula_editor_sensor_nose_x:
 				return buildSensor(Sensors.NOSE_X);
 			case R.string.formula_editor_sensor_nose_y:
@@ -578,6 +586,11 @@ public class InternFormulaKeyboardAdapter {
 				return buildDoubleParameterFunction(Functions.COLOR_TOUCHES_COLOR, STRING, "#ff0000", STRING, "#ff0000");
 			case R.string.formula_editor_listening_language_sensor:
 				return buildSensor(Sensors.SPEECH_RECOGNITION_LANGUAGE);
+
+			case R.string.formula_editor_function_get_id_of_detected_object:
+				return buildSingleParameterFunction(Functions.ID_OF_DETECTED_OBJECT, NUMBER, "1");
+			case R.string.formula_editor_function_object_with_id_visible:
+				return buildSingleParameterFunction(Functions.OBJECT_WITH_ID_VISIBLE, NUMBER, "1");
 		}
 		return null;
 	}

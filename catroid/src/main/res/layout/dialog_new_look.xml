@@ -44,18 +44,18 @@
             <TextView
                 android:id="@+id/dialog_new_look_paintroid"
                 android:background="@drawable/new_object_dialog_selector"
-                app:drawableTopCompat="@drawable/ic_paintroid"
                 android:gravity="center"
                 android:text="@string/add_look_draw_new_image"
-                android:textSize="?attr/medium" />
+                android:textSize="?attr/medium"
+                app:drawableTopCompat="@drawable/ic_draw_image" />
 
             <TextView
                 android:id="@+id/dialog_new_look_media_library"
                 android:background="@drawable/new_object_dialog_selector"
-                app:drawableTopCompat="@drawable/ic_media_library"
                 android:gravity="center"
                 android:text="@string/add_look_media_library"
-                android:textSize="?attr/medium" />
+                android:textSize="?attr/medium"
+                app:drawableTopCompat="@drawable/ic_media_library_look" />
         </TableRow>
 
         <TableRow
@@ -65,18 +65,18 @@
             <TextView
                 android:id="@+id/dialog_new_look_gallery"
                 android:background="@drawable/new_object_dialog_selector"
-                app:drawableTopCompat="@drawable/ic_gallery"
                 android:gravity="center"
                 android:text="@string/add_look_choose_image"
-                android:textSize="?attr/medium" />
+                android:textSize="?attr/medium"
+                app:drawableTopCompat="@drawable/ic_gallery" />
 
             <TextView
                 android:id="@+id/dialog_new_look_camera"
                 android:background="@drawable/new_object_dialog_selector"
-                app:drawableTopCompat="@drawable/ic_camera"
                 android:gravity="center"
                 android:text="@string/add_look_from_camera"
-                android:textSize="?attr/medium" />
+                android:textSize="?attr/medium"
+                app:drawableTopCompat="@drawable/ic_camera" />
 
         </TableRow>
     </TableLayout>

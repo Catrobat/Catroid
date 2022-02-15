@@ -43,7 +43,7 @@
         <include layout="@layout/icon_brick_category_legonxt" />
 
         <TextView
-            style="@style/BrickText.Multiple"
+            style="@style/BrickText.SingleLine"
             android:text="@string/nxt_brick_motor_turn_angle">
         </TextView>
 
@@ -54,18 +54,13 @@
             android:textDirection="locale" />
 
         <TextView
-            style="@style/BrickText.Multiple"
+            style="@style/BrickText.SingleLine"
             android:text="@string/nxt_motor_move_by"
             app:layout_newLine="true" />
 
         <TextView
             android:id="@+id/motor_turn_angle_edit_text"
-            style="@style/BrickEditText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxEms="5"
-            app:layout_inputType="number"
-            app:layout_textField="true" />
+            style="@style/BrickEditText" />
 
         <TextView
             style="@style/BrickText"

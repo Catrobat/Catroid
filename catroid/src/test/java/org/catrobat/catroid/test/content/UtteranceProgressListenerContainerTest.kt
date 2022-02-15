@@ -23,7 +23,6 @@
 package org.catrobat.catroid.test.content
 
 import android.speech.tts.UtteranceProgressListener
-import org.junit.Assert
 import org.catrobat.catroid.stage.UtteranceProgressListenerContainer
 import org.junit.Before
 import org.junit.Test
@@ -32,6 +31,9 @@ import org.junit.runners.JUnit4
 import org.mockito.Mockito
 import org.powermock.api.mockito.PowerMockito
 import java.io.File
+
+import junit.framework.Assert.assertTrue
+import junit.framework.Assert.assertFalse
 
 @RunWith(JUnit4::class)
 class UtteranceProgressListenerContainerTest {
@@ -57,7 +59,7 @@ class UtteranceProgressListenerContainerTest {
     fun testExistingSpeechFile() {
         val listener = Mockito.mock(UtteranceProgressListener::class.java)
         val returnValue = container.addUtteranceProgressListener(existingFile, listener, utteranceId1)
-        Assert.assertFalse(returnValue)
+        assertFalse(returnValue)
         Mockito.verify(listener, Mockito.times(1)).onDone(utteranceId1)
     }
 
@@ -65,7 +67,7 @@ class UtteranceProgressListenerContainerTest {
     fun testNonExistingSpeechFile() {
         val listener = Mockito.mock(UtteranceProgressListener::class.java)
         val returnValue = container.addUtteranceProgressListener(nonExistingFile, listener, utteranceId1)
-        Assert.assertTrue(returnValue)
+        assertTrue(returnValue)
         container.onDone(utteranceId1)
         Mockito.verify(listener, Mockito.times(1)).onDone(utteranceId1)
     }
@@ -74,10 +76,10 @@ class UtteranceProgressListenerContainerTest {
     fun testSpeechFilesWithSameHashValue() {
         val listener1 = Mockito.mock(UtteranceProgressListener::class.java)
         var returnValue = container.addUtteranceProgressListener(nonExistingFile, listener1, utteranceId1)
-        Assert.assertTrue(returnValue)
+        assertTrue(returnValue)
         val listener2 = Mockito.mock(UtteranceProgressListener::class.java)
         returnValue = container.addUtteranceProgressListener(nonExistingFile, listener2, utteranceId1)
-        Assert.assertFalse(returnValue)
+        assertFalse(returnValue)
         container.onDone(utteranceId1)
         Mockito.verify(listener1, Mockito.times(1)).onDone(utteranceId1)
         Mockito.verify(listener2, Mockito.times(1)).onDone(utteranceId1)
@@ -89,13 +91,13 @@ class UtteranceProgressListenerContainerTest {
         val listener2 = Mockito.mock(UtteranceProgressListener::class.java)
         val listener3 = Mockito.mock(UtteranceProgressListener::class.java)
         var returnValue = container.addUtteranceProgressListener(nonExistingFile, listener1, utteranceId1)
-        Assert.assertTrue(returnValue)
+        assertTrue(returnValue)
         returnValue = container.addUtteranceProgressListener(nonExistingFile, listener2, utteranceId2)
-        Assert.assertTrue(returnValue)
+        assertTrue(returnValue)
         container.onDone(utteranceId1)
         Mockito.verify(listener1, Mockito.times(1)).onDone(utteranceId1)
         returnValue = container.addUtteranceProgressListener(existingFile, listener3, utteranceId1)
-        Assert.assertFalse(returnValue)
+        assertFalse(returnValue)
         Mockito.verify(listener3, Mockito.times(1)).onDone(utteranceId1)
         container.onDone(utteranceId2)
         Mockito.verify(listener2, Mockito.times(1)).onDone(utteranceId2)

@@ -57,8 +57,6 @@
             android:gravity="start"
             android:maxLines="3"
             android:minLines="1"
-            app:layout_inputType="text"
-            app:layout_textField="true"
             app:layout_newLine="true" />
 
         <TextView
