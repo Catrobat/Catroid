@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -55,6 +55,7 @@ import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -63,6 +64,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+
+import androidx.annotation.NonNull;
 
 @XStreamFieldKeyOrder({
 		"name",
@@ -75,7 +78,7 @@ import java.util.UUID;
 		"userDefinedBrickList"
 })
 
-public class Sprite implements Cloneable, Nameable, Serializable {
+public class Sprite implements Nameable, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -519,6 +522,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		return nfcTagList;
 	}
 
+	@NonNull
 	@Override
 	public String toString() {
 		return name;
@@ -724,8 +728,20 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 
 	public void mergeSprites(Sprite sprite) {
 		this.scriptList.addAll(sprite.scriptList);
-		this.lookList.addAll(sprite.lookList);
-		this.soundList.addAll(sprite.soundList);
+
+		for (LookData look: sprite.lookList) {
+			look.setName(new UniqueNameProvider().getUniqueNameInNameables(
+					look.getName(),
+					this.lookList));
+			this.lookList.add(look);
+		}
+
+		for (SoundInfo sound: sprite.soundList) {
+			sound.setName(new UniqueNameProvider().getUniqueNameInNameables(
+					sound.getName(),
+					this.soundList));
+			this.soundList.add(sound);
+		}
 		this.nfcTagList.addAll(sprite.nfcTagList);
 
 		for (UserVariable userVariable: sprite.userVariables) {
