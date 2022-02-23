@@ -24,7 +24,7 @@ def junitAndCoverage(String jacocoReportDir, String jacocoReportXml, String cove
     // Consume all test xml files. Otherwise tests would be tracked multiple
     // times if this function was called again.
     String testPattern = '**/*TEST*.xml'
-    junit testResults: testPattern, allowEmptyResults: true
+    junit testResults: testPattern, allowEmptyResults: true, skipPublishingChecks: true
     cleanWs patterns: [[pattern: testPattern, type: 'INCLUDE']]
 
     publishJacocoHtml jacocoReportDir, jacocoReportXml, coverageName
@@ -34,9 +34,10 @@ def postEmulator(String coverageNameAndLogcatPrefix) {
     sh './gradlew stopEmulator'
 
     def jacocoReportDir = 'catroid/build/reports/coverage/catroid/debug'
-    junitAndCoverage jacocoReportDir, 'report.xml', coverageNameAndLogcatPrefix
-
-    archiveArtifacts "${coverageNameAndLogcatPrefix}_logcat.txt"
+    if (fileExists('catroid/build/reports/coverage/catroid/debug/report.xml')){
+        junitAndCoverage jacocoReportDir, 'report.xml', coverageNameAndLogcatPrefix
+        archiveArtifacts "${coverageNameAndLogcatPrefix}_logcat.txt"
+    }
 }
 
 def webTestUrlParameter() {
