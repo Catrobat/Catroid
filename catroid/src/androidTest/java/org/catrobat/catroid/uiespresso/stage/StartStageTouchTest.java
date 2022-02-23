@@ -84,9 +84,9 @@ public class StartStageTouchTest {
 	public void switchStageTouchTest() {
 		onView(isRoot()).perform(CustomActions.wait(500));
 		onView(isFocusable()).perform(StageTestTouchUtils.touchDown(50, 50));
-		assertUserVariableEqualsWithTimeout(screenIsTouchedUserVariable, 1, 500);
+		assertUserVariableEqualsWithTimeout(screenIsTouchedUserVariable, "true", 500);
 		onView(isFocusable()).perform(StageTestTouchUtils.touchUp(50, 50));
-		assertUserVariableEqualsWithTimeout(screenIsTouchedUserVariable, 0, 500);
+		assertUserVariableEqualsWithTimeout(screenIsTouchedUserVariable, "false", 500);
 	}
 
 	private void createProject() {

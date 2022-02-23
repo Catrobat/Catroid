@@ -81,14 +81,14 @@ class FormulaEditorColorSensorsComputeTest(
         @JvmStatic
         @Parameterized.Parameters(name = "{0}")
         fun parameters() = listOf(
-            arrayOf("Color at xy", colorAtXY, colorAtXYLeftChild, colorAtXYRightChild, "ERROR"),
-            arrayOf("Touches Color", touchesColor, touchesColorLeftChild, null, "0"),
+            arrayOf("Color at xy", colorAtXY, colorAtXYLeftChild, colorAtXYRightChild, "NaN"),
+            arrayOf("Touches Color", touchesColor, touchesColorLeftChild, null, "false"),
             arrayOf(
                 "Color touches color",
                 colorTouchesColor,
                 touchesColorLeftChild,
                 touchesColorRightChild,
-                "0"
+                "false"
             )
         )
     }
