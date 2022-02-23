@@ -61,3 +61,9 @@ data class Tag(
     val id: String,
     val text: String
 )
+
+@SuppressWarnings("ConstructorParameterNaming")
+data class OAuthToken(
+    val id_token: String,
+    val resource_owner: String
+)

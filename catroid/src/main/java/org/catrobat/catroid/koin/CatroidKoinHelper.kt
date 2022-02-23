@@ -42,6 +42,7 @@ import org.catrobat.catroid.sync.DefaultProjectsCategoriesSync
 import org.catrobat.catroid.sync.FeaturedProjectsSync
 import org.catrobat.catroid.sync.ProjectsCategoriesSync
 import org.catrobat.catroid.transfers.LoginViewModel
+import org.catrobat.catroid.transfers.OAuthViewModel
 import org.catrobat.catroid.transfers.RegistrationViewModel
 import org.catrobat.catroid.transfers.TagsTask
 import org.catrobat.catroid.transfers.TokenTask
@@ -72,6 +73,9 @@ val componentsModules = module(createdAtStart = true, override = false) {
     }
     single {
         CatroidWebServer.getWebService(BASE_URL_API)
+    }
+    single {
+        OAuthViewModel(get())
     }
     single {
         TokenTask(get())

@@ -98,6 +98,7 @@ public class GoogleLogInTask extends AsyncTask<Void, Void, Boolean> {
 
 		if (progressDialog != null && progressDialog.isShowing()) {
 			progressDialog.dismiss();
+			progressDialog.hide();
 		}
 
 		if (Utils.checkForNetworkError(exception)) {
