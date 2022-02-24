@@ -42,6 +42,7 @@ import androidx.annotation.RequiresApi
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
+import org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.common.Nameable
 import org.catrobat.catroid.common.ProjectData
@@ -317,7 +318,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         for (uri in urisToImport) {
             val contentResolver = requireActivity().contentResolver
             var fileName = StorageOperations.resolveFileName(contentResolver, uri)
-            if (!fileName.contains(Constants.CATROBAT_EXTENSION)) {
+            if (!fileName.contains(Constants.CATROBAT_EXTENSION) && !checkXmlExists(uri)) {
                 ToastUtil.showError(requireContext(), R.string.only_select_catrobat_files)
                 continue
             }
@@ -336,6 +337,18 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
                 }
             }
         }
+    }
+
+    private fun checkXmlExists(uri: Uri): Boolean {
+        var fileFromUri = File(uri.path)
+        if(fileFromUri.isDirectory) {
+            fileFromUri.walk().forEach {
+                if(it.name.equals(CODE_XML_FILE_NAME)){
+                    return true
+                }
+            }
+        }
+        return false
     }
 
     private fun copyFileContentToCacheFile(uri: Uri, fileName: String) {
