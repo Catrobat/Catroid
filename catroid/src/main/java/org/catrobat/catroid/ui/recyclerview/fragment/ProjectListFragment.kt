@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,6 +42,7 @@ import androidx.annotation.RequiresApi
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
+import org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.common.Nameable
 import org.catrobat.catroid.common.ProjectData
@@ -317,7 +318,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         for (uri in urisToImport) {
             val contentResolver = requireActivity().contentResolver
             var fileName = StorageOperations.resolveFileName(contentResolver, uri)
-            if (!fileName.contains(Constants.CATROBAT_EXTENSION)) {
+            if (!fileName.contains(Constants.CATROBAT_EXTENSION) && !checkXmlExists(uri)) {
                 ToastUtil.showError(requireContext(), R.string.only_select_catrobat_files)
                 continue
             }
@@ -336,6 +337,18 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
                 }
             }
         }
+    }
+
+    private fun checkXmlExists(uri: Uri): Boolean {
+        var fileFromUri = File(uri.path)
+        if(fileFromUri.isDirectory) {
+            fileFromUri.walk().forEach {
+                if(it.name.equals(CODE_XML_FILE_NAME)){
+                    return true
+                }
+            }
+        }
+        return false
     }
 
     private fun copyFileContentToCacheFile(uri: Uri, fileName: String) {
@@ -565,7 +578,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         @JvmStatic
         fun getLocalProjectList(items: MutableList<ProjectData>) {
             for (projectDir in FlavoredConstants.DEFAULT_ROOT_DIRECTORY.listFiles()) {
-                val xmlFile = File(projectDir, Constants.CODE_XML_FILE_NAME)
+                val xmlFile = File(projectDir, CODE_XML_FILE_NAME)
                 if (!xmlFile.exists()) {
                     continue
                 }
