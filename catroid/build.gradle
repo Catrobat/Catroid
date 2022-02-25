@@ -511,6 +511,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
 
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+
     // Room Test helpers
     testImplementation("androidx.room:room-testing:$room_version")
 }
