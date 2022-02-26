@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2016 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,5 +21,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-include ':catroid'
-include ':machinelearning'
+package org.catrobat.catroidfeature.machinelearning
+
+import android.media.Image
+import com.google.mlkit.vision.common.InputImage
+
+fun interface Detector {
+    fun processImage(
+        mediaImage: Image,
+        inputImage: InputImage,
+        onCompleteListener: DetectorsCompleteListener
+    )
+}

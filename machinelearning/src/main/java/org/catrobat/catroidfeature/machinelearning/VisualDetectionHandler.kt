@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.camera
+package org.catrobat.catroidfeature.machinelearning
 
 import android.graphics.Point
 import android.graphics.Rect
@@ -32,6 +32,7 @@ import com.huawei.hms.mlsdk.face.MLFace
 import com.huawei.hms.mlsdk.skeleton.MLJoint
 import com.huawei.hms.mlsdk.skeleton.MLSkeleton
 import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.camera.Position
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.ScreenValues
 import org.catrobat.catroid.formulaeditor.SensorCustomEvent
@@ -56,10 +57,11 @@ import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_SHOULDER_X
 import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_SHOULDER_Y
 import org.catrobat.catroid.stage.StageActivity
 import kotlin.math.roundToInt
+import org.catrobat.catroid.utils.VisualDetectionHandler as VisualDetectionHandlerInterface
 
 data class VisualDetectionHandlerFace(val id: Int, val boundingBox: Rect)
 
-object VisualDetectionHandler {
+object VisualDetectionHandler : VisualDetectionHandlerInterface{
     private const val MAX_FACE_SIZE = 100
     private const val FACE_SENSORS = 2
     private val sensorListeners = mutableSetOf<SensorCustomEventListener>()
@@ -67,20 +69,18 @@ object VisualDetectionHandler {
     var facesForSensors: Array<VisualDetectionHandlerFace?> = Array(FACE_SENSORS) { null }
     private var faceIds: IntArray = IntArray(FACE_SENSORS) { -1 }
 
-    @JvmStatic
-    fun addListener(listener: SensorCustomEventListener) {
+    override fun addListener(listener: SensorCustomEventListener) {
         sensorListeners.add(listener)
     }
 
-    @JvmStatic
-    fun removeListener(listener: SensorCustomEventListener) {
+    override fun removeListener(listener: SensorCustomEventListener) {
         sensorListeners.remove(listener)
     }
 
     fun translateGoogleFaceToVisualDetectionFace(faceList: List<Face>): List<VisualDetectionHandlerFace> {
         val newFacesList = mutableListOf<VisualDetectionHandlerFace>()
         for (face in faceList) {
-            newFacesList.add(VisualDetectionHandlerFace(face.trackingId, face.boundingBox))
+            newFacesList.add(VisualDetectionHandlerFace(face.trackingId ?: continue, face.boundingBox))
         }
         return newFacesList
     }
@@ -340,7 +340,7 @@ object VisualDetectionHandler {
         x: Double,
         y: Double,
         imageWidth: Int,
-        imageHeight: Int
+        imageHeight: Int,
     ): Point {
         val frontCamera = StageActivity.getActiveCameraManager().isCameraFacingFront
         val aspectRatio = imageWidth.toDouble() / imageHeight

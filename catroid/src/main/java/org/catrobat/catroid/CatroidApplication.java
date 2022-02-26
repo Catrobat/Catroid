@@ -25,17 +25,24 @@ package org.catrobat.catroid;
 import android.annotation.TargetApi;
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
+import com.google.android.play.core.splitinstall.SplitInstallManager;
+import com.google.android.play.core.splitinstall.SplitInstallManagerFactory;
+import com.google.android.play.core.splitinstall.SplitInstallRequest;
 import com.huawei.agconnect.AGConnectInstance;
 import com.huawei.agconnect.config.AGConnectServicesConfig;
 import com.huawei.hms.mlsdk.common.MLApplication;
 
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.utils.MachineLearningUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.Locale;
@@ -78,6 +85,9 @@ public class CatroidApplication extends Application {
 		googleAnalytics.setDryRun(BuildConfig.DEBUG);
 
 		setupHuaweiMobileServices();
+
+		// TODO load the module if the ML is enabled
+		loadMachineLearningModule();
 	}
 
 	private void setupHuaweiMobileServices() {
@@ -105,5 +115,20 @@ public class CatroidApplication extends Application {
 
 	public static Context getAppContext() {
 		return CatroidApplication.context;
+	}
+
+	private void loadMachineLearningModule() {
+		SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences.OnSharedPreferenceChangeListener listener = (prefs, key) -> {
+			if (SettingsFragment.isAISpeechRecognitionSharedPreferenceEnabled(context) ||
+					SettingsFragment.isAISpeechSynthetizationSharedPreferenceEnabled(context) ||
+					SettingsFragment.isAIFaceDetectionSharedPreferenceEnabled(context) ||
+					SettingsFragment.isAIPoseDetectionSharedPreferenceEnabled(context) ||
+					SettingsFragment.isAITextRecognitionSharedPreferenceEnabled(context) ||
+					SettingsFragment.isAIObjectDetectionSharedPreferenceEnabled(context)) {
+				MachineLearningUtil.loadModule(context);
+			}
+		};
+		defaultSharedPreferences.registerOnSharedPreferenceChangeListener(listener);
 	}
 }

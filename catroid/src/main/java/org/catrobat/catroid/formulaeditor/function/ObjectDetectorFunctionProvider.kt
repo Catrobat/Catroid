@@ -22,16 +22,16 @@
  */
 package org.catrobat.catroid.formulaeditor.function
 
-import org.catrobat.catroid.camera.mlkitdetectors.ObjectDetectorResults
 import org.catrobat.catroid.formulaeditor.Functions
+import org.catrobat.catroid.utils.MachineLearningUtil
 
 class ObjectDetectorFunctionProvider : FunctionProvider {
     override fun addFunctionsToMap(formulaFunctions: MutableMap<Functions, FormulaFunction>) {
         formulaFunctions[Functions.ID_OF_DETECTED_OBJECT] = UnaryFunction(UnaryFunctionAction { argument ->
-            ObjectDetectorResults.result.keys.toList().getOrNull(argument.toInt() - 1)?.toDouble() ?: 0.0
+            MachineLearningUtil.getObjectDetectorResults()?.getIdOfDetectedObject(argument.toInt()) ?: 0
         })
         formulaFunctions[Functions.OBJECT_WITH_ID_VISIBLE] = UnaryFunction(UnaryFunctionAction { argument ->
-            ObjectDetectorResults.result[argument.toInt()] != null
+            MachineLearningUtil.getObjectDetectorResults()?.isObjectWithIdVisible(argument.toInt()) ?: false
         })
     }
 }

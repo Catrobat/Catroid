@@ -42,7 +42,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.camera.Position;
-import org.catrobat.catroid.camera.VisualDetectionHandler;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
@@ -50,7 +49,9 @@ import org.catrobat.catroid.devices.arduino.phiro.Phiro;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
 import org.catrobat.catroid.nfc.NfcHandler;
+import org.catrobat.catroid.utils.MachineLearningUtil;
 import org.catrobat.catroid.utils.TouchUtil;
+import org.catrobat.catroid.utils.VisualDetectionHandler;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -198,7 +199,10 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 		registerListener(instance);
 
-		VisualDetectionHandler.addListener(instance);
+		VisualDetectionHandler visualDetectionHandler = MachineLearningUtil.getVisualDetectionHandler();
+		if (visualDetectionHandler != null) {
+			visualDetectionHandler.addListener(instance);
+		}
 
 		if (instance.sensorLoudness != null) {
 			instance.sensorLoudness.registerListener(instance);
@@ -269,7 +273,10 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			instance.locationManager.removeGpsStatusListener(instance);
 		}
 
-		VisualDetectionHandler.removeListener(instance);
+		VisualDetectionHandler visualDetectionHandler = MachineLearningUtil.getVisualDetectionHandler();
+		if (visualDetectionHandler != null) {
+			visualDetectionHandler.removeListener(instance);
+		}
 	}
 
 	@NonNull

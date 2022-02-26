@@ -29,6 +29,7 @@ import android.os.Looper;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.utils.MachineLearningUtil;
 import org.catrobat.catroid.utils.TextBlockUtil;
 
 import java.util.Map;
@@ -53,26 +54,46 @@ public class TextBlockFunctionProvider implements FunctionProvider {
 
 	public String interpretFunctionTextBlock(double argument) {
 		checkTextDetectionEnabled();
-		return TextBlockUtil.INSTANCE.getTextBlock((int) argument);
+		TextBlockUtil textBlockUtil = MachineLearningUtil.getTextBlockUtil();
+		if (textBlockUtil == null) {
+			return "";
+		}
+		return textBlockUtil.getTextBlock((int) argument);
 	}
 
 	public String interpretFunctionTextBlockLanguage(double argument) {
 		checkTextDetectionEnabled();
-		return TextBlockUtil.INSTANCE.getTextBlockLanguage((int) argument);
+		TextBlockUtil textBlockUtil = MachineLearningUtil.getTextBlockUtil();
+		if (textBlockUtil == null) {
+			return "";
+		}
+		return textBlockUtil.getTextBlockLanguage((int) argument);
 	}
 
 	private double interpretFunctionTextBlockX(double argument) {
 		checkTextDetectionEnabled();
-		return TextBlockUtil.INSTANCE.getCenterCoordinates((int) argument).x;
+		TextBlockUtil textBlockUtil = MachineLearningUtil.getTextBlockUtil();
+		if (textBlockUtil == null) {
+			return 0.0;
+		}
+		return textBlockUtil.getCenterCoordinates((int) argument).x;
 	}
 
 	private double interpretFunctionTextBlockY(double argument) {
 		checkTextDetectionEnabled();
-		return TextBlockUtil.INSTANCE.getCenterCoordinates((int) argument).y;
+		TextBlockUtil textBlockUtil = MachineLearningUtil.getTextBlockUtil();
+		if (textBlockUtil == null) {
+			return 0.0;
+		}
+		return textBlockUtil.getCenterCoordinates((int) argument).y;
 	}
 
 	private double interpretFunctionTextBlockSize(double argument) {
 		checkTextDetectionEnabled();
-		return TextBlockUtil.INSTANCE.getSize((int) argument);
+		TextBlockUtil textBlockUtil = MachineLearningUtil.getTextBlockUtil();
+		if (textBlockUtil == null) {
+			return 0.0;
+		}
+		return textBlockUtil.getSize((int) argument);
 	}
 }
