@@ -31,7 +31,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
+import org.catrobat.catroid.io.asynctask.ProjectLoader;
 import org.catrobat.catroid.scratchconverter.protocol.Job;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScratchConverterActivity;
@@ -53,7 +53,7 @@ import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTO
 public class ScratchProgramsFragment extends Fragment implements
 		ScratchConverterActivity.OnJobListListener,
 		RVAdapter.OnItemClickListener<Job>,
-		ProjectLoadTask.ProjectLoadListener {
+		ProjectLoader.ProjectLoadListener {
 
 	public static final String TAG = ScratchProgramsFragment.class.getSimpleName();
 
@@ -146,9 +146,9 @@ public class ScratchProgramsFragment extends Fragment implements
 
 		setShowProgressBar(true);
 
-		new ProjectLoadTask(projectDir, getContext())
+		new ProjectLoader(projectDir, getContext())
 				.setListener(this)
-				.execute();
+				.loadProjectAsync();
 	}
 
 	public void setShowProgressBar(boolean show) {

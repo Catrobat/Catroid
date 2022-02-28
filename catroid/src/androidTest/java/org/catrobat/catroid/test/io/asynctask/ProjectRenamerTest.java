@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.io.asynctask;
 
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -38,6 +37,7 @@ import java.io.IOException;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import static org.catrobat.catroid.io.asynctask.ProjectLoaderKt.loadProject;
 import static org.catrobat.catroid.io.asynctask.ProjectRenamerKt.renameProject;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -68,7 +68,7 @@ public class ProjectRenamerTest {
 		File renamedDirectory = renameProject(defaultProject.getDirectory(), renamedProjectName);
 		assertNotNull(renamedDirectory);
 		assertEquals(renamedProjectName, renamedDirectory.getName());
-		assertTrue(ProjectLoadTask.task(renamedDirectory, ApplicationProvider.getApplicationContext()));
+		assertTrue(loadProject(renamedDirectory, ApplicationProvider.getApplicationContext()));
 	}
 
 	@Test
@@ -77,6 +77,6 @@ public class ProjectRenamerTest {
 		File renamedDirectory = renameProject(defaultProject.getDirectory(), renamedProjectName);
 		assertNotNull(renamedDirectory);
 		assertEquals(expectedDirectory, renamedDirectory);
-		assertTrue(ProjectLoadTask.task(renamedDirectory, ApplicationProvider.getApplicationContext()));
+		assertTrue(loadProject(renamedDirectory, ApplicationProvider.getApplicationContext()));
 	}
 }

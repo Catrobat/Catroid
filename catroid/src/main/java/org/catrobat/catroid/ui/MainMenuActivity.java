@@ -47,7 +47,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.Survey;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.ZipArchiver;
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
+import org.catrobat.catroid.io.asynctask.ProjectLoader;
 import org.catrobat.catroid.io.asynctask.ProjectSaver;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
@@ -73,7 +73,7 @@ import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY
 import static org.koin.java.KoinJavaComponent.inject;
 
 public class MainMenuActivity extends BaseCastActivity implements
-		ProjectLoadTask.ProjectLoadListener {
+		ProjectLoader.ProjectLoadListener {
 
 	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
 
@@ -325,9 +325,9 @@ public class MainMenuActivity extends BaseCastActivity implements
 					FileMetaDataExtractor.encodeSpecialCharsForFileSystem(BuildConfig.PROJECT_NAME));
 			new ZipArchiver()
 					.unzip(inputStream, projectDir);
-			new ProjectLoadTask(projectDir, this)
+			new ProjectLoader(projectDir, this)
 					.setListener(this)
-					.execute();
+					.loadProjectAsync();
 		} catch (IOException e) {
 			Log.e("STANDALONE", "Cannot unpack standalone project: ", e);
 		}

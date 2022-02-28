@@ -39,8 +39,9 @@ import org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY
 import org.catrobat.catroid.common.ProjectData
 import org.catrobat.catroid.databinding.FragmentMainMenuBinding
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask.ProjectLoadListener
+import org.catrobat.catroid.io.asynctask.ProjectLoader
+import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
+import org.catrobat.catroid.io.asynctask.loadProject
 import org.catrobat.catroid.ui.PROJECT_DIR
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.ProjectListActivity
@@ -204,13 +205,13 @@ class MainMenuFragment : Fragment(),
         currentProject = if (myProjects.isNotEmpty()) {
             myProjects[0].name
         } else {
-            Utils.getCurrentProjectName(context)
+            Utils.getCurrentProjectName(requireContext())
         }
         val projectDir = File(
             DEFAULT_ROOT_DIRECTORY,
             FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject)
         )
-        ProjectLoadTask.task(projectDir, context)
+        loadProject(projectDir, requireContext())
         loadProjectImage()
     }
 
@@ -219,9 +220,9 @@ class MainMenuFragment : Fragment(),
             DEFAULT_ROOT_DIRECTORY,
             FileMetaDataExtractor.encodeSpecialCharsForFileSystem(name)
         )
-        ProjectLoadTask(projectDir, context)
+        ProjectLoader(projectDir, requireContext())
             .setListener(this)
-            .execute()
+            .loadProjectAsync()
     }
 
     override fun onLoadFinished(success: Boolean) {
@@ -266,9 +267,9 @@ class MainMenuFragment : Fragment(),
             FileMetaDataExtractor
                 .encodeSpecialCharsForFileSystem(projectData!!.name)
         )
-        ProjectLoadTask(projectDir, context)
+        ProjectLoader(projectDir, requireContext())
             .setListener(this)
-            .execute()
+            .loadProjectAsync()
     }
 
     fun refreshData() {
@@ -285,9 +286,9 @@ class MainMenuFragment : Fragment(),
                     DEFAULT_ROOT_DIRECTORY,
                     FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject)
                 )
-                ProjectLoadTask(projectDir, context)
+                ProjectLoader(projectDir, requireContext())
                     .setListener(this)
-                    .execute()
+                    .loadProjectAsync()
             }
 
             R.id.newProjectFloatingActionButton ->

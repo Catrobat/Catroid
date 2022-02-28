@@ -27,7 +27,7 @@ import android.util.Log
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask
+import org.catrobat.catroid.io.asynctask.ProjectLoader
 import java.io.File
 import java.io.IOException
 
@@ -64,7 +64,7 @@ class LookFileGarbageCollector {
             StorageOperations.deleteFile(file)
         } catch (e: IOException) {
             Log.e(
-                ProjectLoadTask.TAG, "Error while deleting file ${file.name} during " +
+                ProjectLoader.TAG, "Error while deleting file ${file.name} during " +
                     "cleanup of unused LookFile", e
             )
         }
