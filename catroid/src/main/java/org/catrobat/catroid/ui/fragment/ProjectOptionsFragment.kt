@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,6 +42,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.Snackbar
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
@@ -290,8 +291,17 @@ class ProjectOptionsFragment : Fragment() {
 
     private fun onSaveProjectComplete() {
         val currentProject = projectManager.currentProject
+
+        if (Utils.isDefaultProject(currentProject, activity)) {
+            binding.root.apply {
+                Snackbar.make(binding.root, R.string.error_upload_default_project, Snackbar.LENGTH_LONG).show()
+            }
+            return
+        }
+
         val intent = Intent(requireContext(), ProjectUploadActivity::class.java)
         intent.putExtra(PROJECT_DIR, currentProject.directory)
+
         startActivity(intent)
     }
 
