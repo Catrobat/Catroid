@@ -45,8 +45,10 @@ class TokenTask(private val webServer: WebService) {
     private val upgradeTokenResponse = MutableLiveData<LoginResponse>()
     fun getUpgradeTokenResponse(): LiveData<LoginResponse> = upgradeTokenResponse
 
+    fun getBearerToken(token: String) = "Bearer $token"
+
     fun checkToken(token: String) {
-        val checkTokenCall: Call<Void> = webServer.checkToken("Bearer $token")
+        val checkTokenCall: Call<Void> = webServer.checkToken(getBearerToken(token))
 
         checkTokenCall.enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
@@ -69,8 +71,29 @@ class TokenTask(private val webServer: WebService) {
         })
     }
 
+    fun expireToken(token: String, refreshToken: String) {
+        val expireTokenCall: Call<Void> = webServer.expireToken(getBearerToken(token), refreshToken)
+
+        expireTokenCall.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                val statusCode = response.code()
+                val serverAnswer = response.message()
+
+                when (statusCode) {
+                    SERVER_RESPONSE_TOKEN_OK -> Unit
+                    SERVER_RESPONSE_INVALID_UPLOAD_TOKEN -> Log.e(TAG, "The provided refresh token has expired or has been used more than once")
+                    else -> Log.e(TAG, "Invalid Token expiration StatusCode: $statusCode; Server Answer: $serverAnswer")
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, throwable: Throwable) {
+                Log.e(TAG, "expireToken onFailure $throwable.message")
+            }
+        })
+    }
+
     fun refreshToken(token: String, refreshToken: String) {
-        val refreshTokenCall: Call<LoginResponse> = webServer.refreshToken("Bearer $token", RefreshToken(refreshToken))
+        val refreshTokenCall: Call<LoginResponse> = webServer.refreshToken(getBearerToken(token), RefreshToken(refreshToken))
 
         refreshTokenCall.enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
@@ -108,9 +131,9 @@ class TokenTask(private val webServer: WebService) {
     }
 
     fun upgradeToken(deprecatedToken: String) {
-        val checkTokenCall: Call<LoginResponse> = webServer.upgradeToken(DeprecatedToken(deprecatedToken))
+        val upgradeTokenCall: Call<LoginResponse> = webServer.upgradeToken(DeprecatedToken(deprecatedToken))
 
-        checkTokenCall.enqueue(object : Callback<LoginResponse> {
+        upgradeTokenCall.enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 val statusCode = response.code()
                 val serverAnswer = response.message()
