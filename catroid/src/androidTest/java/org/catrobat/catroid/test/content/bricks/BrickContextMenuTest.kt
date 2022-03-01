@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,6 +27,7 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.content.bricks.AssertEqualsBrick
 import org.catrobat.catroid.content.bricks.AssertUserListsBrick
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.content.bricks.EmptyEventBrick
 import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick
 import org.catrobat.catroid.content.bricks.FlashBrick
 import org.catrobat.catroid.content.bricks.ForItemInUserListBrick
@@ -41,7 +42,14 @@ import org.catrobat.catroid.content.bricks.SetVolumeToBrick
 import org.catrobat.catroid.content.bricks.SetXBrick
 import org.catrobat.catroid.content.bricks.UserDefinedBrick
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
+import org.catrobat.catroid.content.bricks.WhenBounceOffBrick
+import org.catrobat.catroid.content.bricks.WhenBrick
+import org.catrobat.catroid.content.bricks.WhenClonedBrick
+import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick
+import org.catrobat.catroid.content.bricks.WhenNfcBrick
+import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick
 import org.catrobat.catroid.content.bricks.WhenStartedBrick
+import org.catrobat.catroid.content.bricks.WhenTouchDownBrick
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment.getContextMenuItems
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput
 import org.catrobat.catroid.userbrick.UserDefinedBrickLabel
@@ -83,7 +91,15 @@ class BrickContextMenuTest(
             arrayOf(FadeParticleEffectBrick(), false, false),
             arrayOf(ParticleEffectAdditivityBrick(), false, false),
             arrayOf(FlashBrick(), false, false),
-            arrayOf(ReadVariableFromDeviceBrick(), false, false)
+            arrayOf(ReadVariableFromDeviceBrick(), false, false),
+            arrayOf(EmptyEventBrick(), false, false),
+            arrayOf(WhenBounceOffBrick(), false, false),
+            arrayOf(WhenBrick(), false, false),
+            arrayOf(WhenClonedBrick(), false, false),
+            arrayOf(WhenGamepadButtonBrick(), false, false),
+            arrayOf(WhenNfcBrick(), false, false),
+            arrayOf(WhenRaspiPinChangedBrick(), false, false),
+            arrayOf(WhenTouchDownBrick(), false, false)
             )
     }
 
@@ -120,7 +136,7 @@ class BrickContextMenuTest(
     @Test
     fun testExpectedCommentOut() {
         val showsCommentOut: Boolean = when (brick) {
-            is UserDefinedReceiverBrick -> !contextMenuItems.contains(R.string.brick_context_dialog_comment_out_script)
+            is UserDefinedReceiverBrick, is EmptyEventBrick -> !contextMenuItems.contains(R.string.brick_context_dialog_comment_out_script)
             is ScriptBrick -> contextMenuItems.contains(R.string.brick_context_dialog_comment_out_script)
             else -> contextMenuItems.contains(R.string.brick_context_dialog_comment_out)
         }
@@ -132,7 +148,7 @@ class BrickContextMenuTest(
         brick.isCommentedOut = true
         contextMenuItems.addAll(getContextMenuItems(brick))
         val showsCommentIn: Boolean = when (brick) {
-            is UserDefinedReceiverBrick -> !contextMenuItems.contains(R.string.brick_context_dialog_comment_in)
+            is UserDefinedReceiverBrick, is EmptyEventBrick -> !contextMenuItems.contains(R.string.brick_context_dialog_comment_in)
             is ScriptBrick -> contextMenuItems.contains(R.string.brick_context_dialog_comment_in_script)
             else -> contextMenuItems.contains(R.string.brick_context_dialog_comment_in)
         }
@@ -152,5 +168,14 @@ class BrickContextMenuTest(
     @Test
     fun testExpectedHelp() {
         assertTrue(contextMenuItems.contains(R.string.brick_context_dialog_help))
+    }
+
+    @Test
+    fun testExpectedAddToBackpack() {
+        val showsAddToBackpack: Boolean = when (brick) {
+            is UserDefinedReceiverBrick, is ScriptBrick -> contextMenuItems.contains(R.string.backpack_add)
+            else -> !contextMenuItems.contains(R.string.backpack_add)
+        }
+        assertTrue(showsAddToBackpack)
     }
 }
