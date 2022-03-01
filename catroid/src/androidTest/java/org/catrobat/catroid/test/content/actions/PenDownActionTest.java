@@ -116,6 +116,24 @@ public class PenDownActionTest {
 	}
 
 	@Test
+	public void testPositionChangeX() {
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
+
+		sprite.getActionFactory().createPlaceAtAction(sprite, new SequenceAction(), new Formula(0f),
+				new Formula(0f)).act(1.0f);
+
+		sprite.getActionFactory().createPenDownAction(sprite).act(1.0f);
+		sprite.getActionFactory().createPlaceAtAction(sprite, new SequenceAction(), xMovement,
+				new Formula(0f)).act(1.0f);
+
+		Queue<Queue<PointF>> positions = sprite.penConfiguration.getPositions();
+		assertEquals(0f, positions.first().removeFirst().x);
+		assertEquals(X_MOVEMENT, positions.first().first().x);
+		assertEquals(0f, positions.first().removeFirst().y);
+	}
+
+	@Test
 	public void testAfterBecomeFocusPoint() {
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());

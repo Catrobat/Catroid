@@ -437,12 +437,12 @@ public class Look extends Image {
 	public void setPositionInUserInterfaceDimensionUnit(float x, float y) {
 		adjustSimultaneousMovementXY(x, y);
 		setXInUserInterfaceDimensionUnit(x);
-		adjustSimultaneousMovementXY(this.getX(), y);
+		adjustSimultaneousMovementXY(getXInUserInterfaceDimensionUnit(), y);
 		setYInUserInterfaceDimensionUnit(y);
 	}
 
 	private void adjustSimultaneousMovementXY(float x, float y) {
-		simultaneousMovementXY = x != this.getX() && y != this.getY();
+		simultaneousMovementXY = x != getXInUserInterfaceDimensionUnit() && y != getYInUserInterfaceDimensionUnit();
 	}
 
 	public void changeXInUserInterfaceDimensionUnit(float changeX) {
