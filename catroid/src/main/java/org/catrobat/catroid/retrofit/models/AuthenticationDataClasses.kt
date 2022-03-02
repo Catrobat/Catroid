@@ -56,3 +56,8 @@ data class RegisterFailedResponse(
     val email: String?,
     val username: String?
 )
+
+data class Tag(
+    val id: String,
+    val text: String
+)
