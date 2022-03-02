@@ -56,6 +56,7 @@ import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
 import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
 import org.catrobat.catroid.io.asynctask.loadProject
 import org.catrobat.catroid.io.asynctask.renameProject
+import org.catrobat.catroid.transfers.TagsTask
 import org.catrobat.catroid.transfers.TokenTask
 import org.catrobat.catroid.transfers.GetTagsTask
 import org.catrobat.catroid.transfers.GetTagsTask.TagResponseListener
@@ -73,7 +74,6 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.nio.charset.StandardCharsets
-import java.util.ArrayList
 import java.util.Objects
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -97,7 +97,6 @@ const val NUMBER_OF_UPLOADED_PROJECTS = "number_of_uploaded_projects"
 
 open class ProjectUploadActivity : BaseActivity(),
     ProjectLoadListener,
-    TagResponseListener,
     ResultReceiverWrapperInterface,
     ProjectUploadInterface {
 
@@ -124,6 +123,7 @@ open class ProjectUploadActivity : BaseActivity(),
     private var tags: List<String> = ArrayList()
 
     private val tokenTask: TokenTask by inject()
+    private val tagsTask: TagsTask by inject()
     private lateinit var sharedPreferences: SharedPreferences
 
     @JvmField
@@ -668,13 +668,13 @@ open class ProjectUploadActivity : BaseActivity(),
     }
 
     private fun getTags() {
-        val getTagsTask = GetTagsTask()
-        getTagsTask.setOnTagsResponseListener(this)
-        getTagsTask.execute()
-    }
+        tagsTask.getTagsResponse().observe(this, Observer { tagsResponse ->
+            tagsResponse?.let { tags ->
+                this.tags = tags
+            }
+        })
 
-    override fun onTagsReceived(tags: List<String>) {
-        this.tags = tags
+        tagsTask.getTags()
     }
 
     inner class NameInputTextWatcher : TextWatcher {

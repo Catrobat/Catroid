@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -43,6 +43,10 @@ import org.catrobat.catroid.sync.DefaultFeaturedProjectSync
 import org.catrobat.catroid.sync.DefaultProjectsCategoriesSync
 import org.catrobat.catroid.sync.FeaturedProjectsSync
 import org.catrobat.catroid.sync.ProjectsCategoriesSync
+import org.catrobat.catroid.transfers.LoginViewModel
+import org.catrobat.catroid.transfers.RegistrationViewModel
+import org.catrobat.catroid.transfers.TagsTask
+import org.catrobat.catroid.transfers.TokenTask
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoriesAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.FeaturedProjectsAdapter
 import org.catrobat.catroid.ui.recyclerview.repository.LocalHashVersionRepository
@@ -70,6 +74,12 @@ val componentsModules = module(createdAtStart = true, override = false) {
     }
     single {
         CatroidWebServer.getWebService(BASE_URL_API)
+    }
+    single {
+        TokenTask(get())
+    }
+    single {
+        TagsTask(get())
     }
     factory { WorkManager.getInstance(androidContext()) }
     single { ProjectManager(androidContext()) }
