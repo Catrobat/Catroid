@@ -36,6 +36,7 @@ import org.catrobat.catroid.retrofit.models.LoginUser
 import org.catrobat.catroid.retrofit.models.ProjectsCategoryApi
 import org.catrobat.catroid.retrofit.models.RefreshToken
 import org.catrobat.catroid.retrofit.models.RegisterUser
+import org.catrobat.catroid.retrofit.models.Tag
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -96,6 +97,9 @@ interface WebService {
         @Query("max_version") maxVersion: String = CURRENT_CATROBAT_LANGUAGE_VERSION.toString(),
         @Query("flavor") flavor: String = FLAVOR_NAME
     ): Call<List<ProjectsCategoryApi>>
+
+    @GET("projects/tags")
+    fun getTags(): Call<List<Tag>>
 }
 
 class CatroidWebServer private constructor() {

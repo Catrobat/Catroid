@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,6 +35,7 @@ import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.retrofit.WebService
 import org.catrobat.catroid.testsuites.annotations.Cat.OutgoingNetworkTests
+import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_TOKEN_OK
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -150,16 +151,6 @@ class CatroidWebServerProjectsTest : KoinTest {
 
     @Test
     @Throws(Exception::class)
-    fun testFeaturedProjectsEmptyFlavorNameReturnsEmptyList() {
-        val response = webServer.getFeaturedProjects(flavor = "")
-            .execute()
-            .body()
-        assertNotNull(response)
-        assertTrue(response!!.isEmpty())
-    }
-
-    @Test
-    @Throws(Exception::class)
     fun testFeaturedProjectsCallWithDefaultValues() {
         val expectedRawResponse =
             "Response{protocol=h2, code=200, message=," +
@@ -225,6 +216,19 @@ class CatroidWebServerProjectsTest : KoinTest {
                     assertNotNull(projectResponse.filesize)
                 }
             }
+    }
+
+    @Test
+    fun testProjectTags() {
+        val response = webServer.getTags().execute()
+
+        assertEquals(response.code(), SERVER_RESPONSE_TOKEN_OK)
+
+        response.body()?.forEach { tag ->
+            assertNotNull(tag)
+            assertNotNull(tag.id)
+            assertNotNull(tag.text)
+        }
     }
 
     private fun String.containsOkHttpCode() = contains(200.toString())
