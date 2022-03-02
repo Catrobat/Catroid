@@ -29,6 +29,8 @@ import com.huawei.hms.api.HuaweiApiAvailability
 import androidx.room.Room
 import androidx.work.WorkManager
 import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.common.Constants.BASE_URL_API
+import org.catrobat.catroid.common.Constants.TEST_URL_API
 import org.catrobat.catroid.db.AppDatabase
 import org.catrobat.catroid.db.DatabaseMigrations
 import org.catrobat.catroid.common.Constants.BASE_URL_API
@@ -44,13 +46,18 @@ import org.catrobat.catroid.sync.DefaultFeaturedProjectSync
 import org.catrobat.catroid.sync.DefaultProjectsCategoriesSync
 import org.catrobat.catroid.sync.FeaturedProjectsSync
 import org.catrobat.catroid.sync.ProjectsCategoriesSync
+import org.catrobat.catroid.transfers.LoginViewModel
+import org.catrobat.catroid.transfers.RegistrationViewModel
+import org.catrobat.catroid.transfers.TagsTask
+import org.catrobat.catroid.transfers.TokenTask
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoriesAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.FeaturedProjectsAdapter
-import org.catrobat.catroid.ui.recyclerview.repository.LocalHashVersionRepository
+import org.catrobat.catroid.ui.recyclerview.repository.DefaultFeaturedProjectsRepository
 import org.catrobat.catroid.ui.recyclerview.repository.DefaultLocalHashVersionRepository
 import org.catrobat.catroid.ui.recyclerview.repository.DefaultFeaturedProjectsRepository
 import org.catrobat.catroid.ui.recyclerview.repository.DefaultProjectCategoriesRepository
 import org.catrobat.catroid.ui.recyclerview.repository.FeaturedProjectsRepository
+import org.catrobat.catroid.ui.recyclerview.repository.LocalHashVersionRepository
 import org.catrobat.catroid.ui.recyclerview.repository.ProjectCategoriesRepository
 import org.catrobat.catroid.ui.recyclerview.viewmodel.MainFragmentViewModel
 import org.catrobat.catroid.utils.MobileServiceAvailability
@@ -70,7 +77,13 @@ val componentsModules = module(createdAtStart = true, override = false) {
             .build()
     }
     single {
-        CatroidWebServer.getWebService("https://share.catrob.at/api/")
+        CatroidWebServer.getWebService(BASE_URL_API)
+    }
+    single {
+        TokenTask(get())
+    }
+    single {
+        TagsTask(get())
     }
     factory { WorkManager.getInstance(androidContext()) }
     single { ProjectManager(androidContext()) }
@@ -109,9 +122,6 @@ val repositoryModules = module {
 
     single {
         DefaultProjectCategoriesRepository(get()) as ProjectCategoriesRepository
-    }
-    single {
-        TokenTask(get())
     }
 }
 
