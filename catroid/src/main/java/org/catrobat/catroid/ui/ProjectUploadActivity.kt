@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -652,7 +652,7 @@ open class ProjectUploadActivity : BaseActivity(),
                 return getString(R.string.name_consists_of_spaces_only)
             }
             if (name == getString(R.string.default_project_name)) {
-                return getString(R.string.error_upload_project_with_default_name)
+                return getString(R.string.error_upload_project_with_default_name, name)
             }
             return if (name != project.name &&
                 FileMetaDataExtractor.getProjectNames(FlavoredConstants.DEFAULT_ROOT_DIRECTORY)
