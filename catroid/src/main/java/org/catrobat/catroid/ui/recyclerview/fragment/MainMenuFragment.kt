@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.PagerSnapHelper
+import com.google.android.material.snackbar.Snackbar
+import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants.CATEGORY_URL
@@ -77,6 +79,7 @@ class MainMenuFragment : Fragment(),
     private val viewModel: MainFragmentViewModel by viewModel()
     private val featuredProjectsAdapter: FeaturedProjectsAdapter by inject()
     private val categoriesAdapter: CategoriesAdapter by inject()
+    private val projectManager: ProjectManager by inject()
     private var _binding: FragmentMainMenuBinding? = null
     private val binding get() = _binding!!
     private lateinit var progressBar: LinearLayout
@@ -295,6 +298,13 @@ class MainMenuFragment : Fragment(),
                 NewProjectDialogFragment().show(parentFragmentManager, NewProjectDialogFragment.TAG)
 
             R.id.uploadProject -> {
+                if (Utils.isDefaultProject(projectManager.currentProject, activity)) {
+                    binding.root.apply {
+                        Snackbar.make(binding.root, R.string.error_upload_default_project, Snackbar.LENGTH_LONG).show()
+                    }
+                    return
+                }
+
                 viewModel.setIsLoading(true)
                 val intent = Intent(activity, ProjectUploadActivity::class.java)
                     .putExtra(
