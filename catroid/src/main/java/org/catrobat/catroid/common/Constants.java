@@ -108,8 +108,6 @@ public final class Constants {
 	// Temporary Files and Directories:
 	public static final File CACHE_DIR = CatroidApplication.getAppContext().getCacheDir();
 
-	public static final String CACHED_PROJECT_ZIP_FILE_NAME = "projectImportCache.zip";
-
 	public static final File POCKET_PAINT_CACHE_DIR = new File(CACHE_DIR, "pocketPaint");
 	public static final File CAMERA_CACHE_DIR = new File(CACHE_DIR, "camera");
 	public static final File SOUND_RECORDER_CACHE_DIR = new File(CACHE_DIR, "soundRecorder");
@@ -151,9 +149,6 @@ public final class Constants {
 	public static final String PLAY_STORE_PAGE_LINK = "https://play.google.com/store/apps/details?id=";
 	public static final String HUAWEI_APP_GALLERY_LINK = "https://catrob.at/HuaweiAppGallery";
 
-	public static final String USERNAME_COOKIE_NAME = "CATRO_LOGIN_USER";
-	public static final String TOKEN_COOKIE_NAME = "CATRO_LOGIN_TOKEN";
-
 	public static final String USER_AGENT = "Mozilla/5.0 (compatible; Catrobatbot/1.0; +https://catrob.at/bot)";
 
 	// HTTP status codes:
@@ -171,7 +166,6 @@ public final class Constants {
 	public static final String RASPI_BROADCAST_PREFIX = "#RASPI#";
 
 	// Login:
-	public static final String CATROBAT_TOKEN_LOGIN_AMP_TOKEN = "&token=";
 	public static final String TOKEN = "token";
 	public static final String REFRESH_TOKEN = "refresh_token";
 	public static final String NO_TOKEN = "no_token";
@@ -180,9 +174,10 @@ public final class Constants {
 	public static final String EMAIL = "email";
 	public static final String NO_EMAIL = "no_email";
 	public static final int MIN_PASSWORD_LENGTH = 6;
-	public static final String LOCALE = "locale";
 	public static final String RESTRICTED_USER = "restricted_user";
-	public static final String JSON_ERROR_CODE = "errorCode";
+
+	public static final String AUTHENTICATION_COOKIE_NAME = "BEARER";
+	public static final String REFRESH_TOKEN_COOKIE_NAME = "REFRESH_TOKEN";
 
 	public static final String GOOGLE_ID = "GOOGLE_ID";
 	public static final String NO_GOOGLE_ID = "NO_GOOGLE_ID";
