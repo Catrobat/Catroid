@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,7 +45,7 @@ import org.catrobat.catroid.common.Constants.POCKET_PAINT_CACHE_DIR
 import org.catrobat.catroid.common.Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME
 import org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME
 import org.catrobat.catroid.io.StorageOperations
-import org.catrobat.catroid.ui.WebViewActivity.INTENT_PARAMETER_URL
+import org.catrobat.catroid.ui.WebViewActivity.Companion.INTENT_PARAMETER_URL
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
 import java.io.File
 import java.io.IOException
