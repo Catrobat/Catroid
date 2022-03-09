@@ -48,6 +48,7 @@ import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
 import static org.hamcrest.Matchers.not;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
@@ -170,7 +171,8 @@ public class VariableBrickTest {
 	public void testMultiplayerVariableScopeIsVisibleWithDisabledPreference() {
 		SettingsFragment.setMultiplayerVariablesPreferenceEnabled(getApplicationContext(), false);
 
-		ProjectManager.getInstance().getCurrentProject().addMultiplayerVariable(new UserVariable("oldMultiplayerVariable"));
+		inject(ProjectManager.class).getValue().getCurrentProject()
+				.addMultiplayerVariable(new UserVariable("oldMultiplayerVariable"));
 
 		onBrickAtPosition(setBrickPosition).onVariableSpinner(R.id.set_variable_spinner)
 				.perform(click());

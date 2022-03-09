@@ -36,6 +36,8 @@ import org.catrobat.catroid.content.actions.WebRequestAction
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.FormulaElement
 import org.catrobat.catroid.formulaeditor.UserVariable
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.StageListener
 import org.catrobat.catroid.test.MockUtil
@@ -48,6 +50,8 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.core.module.Module
+import org.koin.java.KoinJavaComponent.inject
 import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito
@@ -61,6 +65,7 @@ import org.powermock.api.mockito.PowerMockito.verifyNew
 import org.powermock.api.mockito.PowerMockito.whenNew
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
+import java.util.Collections
 
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(GdxNativesLoader::class, WebAction::class)
@@ -70,6 +75,9 @@ class WebRequestActionTest {
     private lateinit var userVariable: UserVariable
     private lateinit var webConnection: WebConnection
     private lateinit var response: Response
+
+    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
 
     companion object {
         private const val TEST_URL = "https://catroid-test.catrob.at/pocketcode/"
@@ -96,8 +104,16 @@ class WebRequestActionTest {
         doReturn(responseBody).`when`(response).body()
         doReturn(RESPONSE_STRING).`when`(responseBody).string()
 
-        val project = Project(MockUtil.mockContextForProject(), "Project")
-        ProjectManager.getInstance().currentProject = project
+        val context = MockUtil.mockContextForProject(dependencyModules)
+        val project = Project(context, "Project")
+        projectManager.currentProject = project
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
+        StageActivity.stageListener.webConnectionHolder = null
+        StageActivity.stageListener = null
     }
 
     @Test
@@ -231,7 +247,6 @@ class WebRequestActionTest {
 
         Mockito.doAnswer { invocation: InvocationOnMock ->
             val scope = invocation.getArgument<Scope>(0)
-//            val sprite = invocation.getArgument<Sprite>(0)
             scope.sprite.getUserVariable(TEST_INPUT_VARIABLE).value.toString()
         }.`when`(formula).interpretString(any(Scope::class.java))
 
@@ -253,11 +268,5 @@ class WebRequestActionTest {
         val action = setupTestSuccessfulResponseWithInputVariable()
         assertTrue(action.act(0f))
         assertEquals(RESPONSE_STRING, userVariable.value)
-    }
-
-    @After
-    fun tearDown() {
-        StageActivity.stageListener.webConnectionHolder = null
-        StageActivity.stageListener = null
     }
 }

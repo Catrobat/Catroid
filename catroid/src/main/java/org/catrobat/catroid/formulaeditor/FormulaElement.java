@@ -93,6 +93,7 @@ import static org.catrobat.catroid.formulaeditor.common.FormulaElementOperations
 import static org.catrobat.catroid.formulaeditor.common.FormulaElementResources.addFunctionResources;
 import static org.catrobat.catroid.formulaeditor.common.FormulaElementResources.addSensorsResources;
 import static org.catrobat.catroid.utils.NumberFormats.trimTrailingCharacters;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class FormulaElement implements Serializable {
 
@@ -394,7 +395,7 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object rawInterpretRecursive(Scope scope) {
-		ProjectManager projectManager = ProjectManager.getInstance();
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 		Project currentProject = projectManager != null ? projectManager.getCurrentProject() : null;
 		Scene currentlyPlayingScene = projectManager != null ? projectManager.getCurrentlyPlayingScene() : null;
 		Scene currentlyEditedScene = projectManager != null ? projectManager.getCurrentlyEditedScene() : null;

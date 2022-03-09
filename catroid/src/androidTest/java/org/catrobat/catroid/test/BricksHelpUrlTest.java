@@ -46,6 +46,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import dalvik.system.DexFile;
 
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class BricksHelpUrlTest {
@@ -512,7 +513,8 @@ public class BricksHelpUrlTest {
 
 	@Before
 	public void setUp() {
-		ProjectManager.getInstance().setCurrentProject(
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(
 				new Project(InstrumentationRegistry.getInstrumentation().getTargetContext(), "empty"));
 	}
 

@@ -44,7 +44,6 @@ import org.catrobat.catroid.stage.StageActivity.IntentListener
 import org.catrobat.catroid.utils.Utils
 import java.io.File
 import java.io.IOException
-import java.util.ArrayList
 
 class WriteVariableToFileAction : Action(), IntentListener {
     var scope: Scope? = null

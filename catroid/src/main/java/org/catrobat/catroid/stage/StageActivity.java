@@ -87,6 +87,7 @@ import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NA
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
 import static org.catrobat.catroid.ui.MainMenuActivity.surveyCampaign;
 import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class StageActivity extends AndroidApplication implements PermissionHandlingActivity, PermissionAdaptingActivity {
 
@@ -186,7 +187,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 
 	@Override
 	protected void onDestroy() {
-		if (ProjectManager.getInstance().getCurrentProject() != null) {
+		if (inject(ProjectManager.class).getValue().getCurrentProject() != null) {
 			StageLifeCycleController.stageDestroy(this);
 		}
 		super.onDestroy();
@@ -302,8 +303,9 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 
 	void calculateScreenSizes() {
 		ScreenValueHandler.updateScreenWidthAndHeight(getContext());
-		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
-		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		int virtualScreenWidth = projectManager.getCurrentProject().getXmlHeader().virtualScreenWidth;
+		int virtualScreenHeight = projectManager.getCurrentProject().getXmlHeader().virtualScreenHeight;
 
 		if (virtualScreenHeight > virtualScreenWidth && isInLandscapeMode()
 				|| virtualScreenHeight < virtualScreenWidth && isInPortraitMode()) {
@@ -315,7 +317,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 
 		if ((virtualScreenWidth == ScreenValues.SCREEN_WIDTH && virtualScreenHeight == ScreenValues.SCREEN_HEIGHT)
 				|| Float.compare(screenAspectRatio, aspectRatio) == 0
-				|| ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+				|| projectManager.getCurrentProject().isCastProject()) {
 			resizePossible = false;
 			stageListener.maxViewPortWidth = ScreenValues.SCREEN_WIDTH;
 			stageListener.maxViewPortHeight = ScreenValues.SCREEN_HEIGHT;
@@ -435,7 +437,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			ToastUtil.showError(this, message);
 			ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData testResult = ClipData.newPlainText("TestResult",
-					ProjectManager.getInstance().getCurrentProject().getName() + "\n" + message);
+					inject(ProjectManager.class).getValue().getCurrentProject().getName() + "\n" + message);
 			clipboard.setPrimaryClip(testResult);
 		}
 
@@ -453,7 +455,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	@Override
 	public void adaptToDeniedPermissions(List<String> deniedPermissions) {
 		Brick.ResourcesSet requiredResources = new Brick.ResourcesSet();
-		Project project = ProjectManager.getInstance().getCurrentProject();
+		Project project = inject(ProjectManager.class).getValue().getCurrentProject();
 
 		for (Scene scene: project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {

@@ -51,6 +51,7 @@ import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class CloneTwoPartCompositeBrickUpdateDataTest {
@@ -87,7 +88,8 @@ public class CloneTwoPartCompositeBrickUpdateDataTest {
 		compositeBrick = compositeBrickClass.newInstance();
 		script.addBrick(compositeBrick);
 		project.addScene(scene);
-		ProjectManager.getInstance().setCurrentProject(project);
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
 	}
 
 	@Test

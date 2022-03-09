@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.io.asynctask
 
-import android.content.Context
 import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -33,11 +32,11 @@ import org.catrobat.catroid.exceptions.ProjectException
 import org.catrobat.catroid.io.DeviceListAccessor
 import org.catrobat.catroid.io.DeviceVariableAccessor
 import org.catrobat.catroid.io.LookFileGarbageCollector
+import org.koin.java.KoinJavaComponent
 import java.io.File
 import java.lang.ref.WeakReference
 
-class ProjectLoader(private var projectDir: File, context: Context) {
-    private var weakContextReference: WeakReference<Context> = WeakReference(context)
+class ProjectLoader(private var projectDir: File) {
     private var weakListenerReference: WeakReference<ProjectLoadListener>? = null
 
     companion object {
@@ -51,9 +50,8 @@ class ProjectLoader(private var projectDir: File, context: Context) {
 
     @JvmOverloads
     fun loadProjectAsync(scope: CoroutineScope = CoroutineScope(Dispatchers.IO)) {
-        val context = weakContextReference.get() ?: return
         scope.launch {
-            val projectSaved = loadProject(projectDir, context)
+            val projectSaved = loadProject(projectDir)
 
             withContext(Dispatchers.Main) {
                 val listener = weakListenerReference?.get() ?: return@withContext
@@ -67,10 +65,11 @@ class ProjectLoader(private var projectDir: File, context: Context) {
     }
 }
 
-fun loadProject(projectDir: File?, context: Context): Boolean {
+fun loadProject(projectDir: File?): Boolean {
     return try {
-        ProjectManager.getInstance().loadProject(projectDir, context)
-        val project = ProjectManager.getInstance().currentProject
+        val projectManager: ProjectManager by KoinJavaComponent.inject(ProjectManager::class.java)
+        projectManager.loadProject(projectDir)
+        val project = projectManager.currentProject
         DeviceVariableAccessor(projectDir).cleanUpDeletedUserData(project)
         DeviceListAccessor(projectDir).cleanUpDeletedUserData(project)
         LookFileGarbageCollector().cleanUpUnusedLookFiles(project)

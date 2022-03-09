@@ -45,6 +45,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertNotNull;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(AndroidJUnit4.class)
 public class SayBubbleBrickStageTest {
 	private Sprite sprite;
@@ -76,8 +78,9 @@ public class SayBubbleBrickStageTest {
 		script.addBrick(new SayBubbleBrick(sayString));
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
 		lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script);
 	}
 }

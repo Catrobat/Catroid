@@ -65,6 +65,7 @@ import static org.catrobat.catroid.uiespresso.util.matchers.BundleMatchers.bundl
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.core.AllOf.allOf;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -139,8 +140,9 @@ public class PocketPaintEditLookIntentTest {
 		Sprite sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
 		XstreamSerializer.getInstance().saveProject(project);
 
 		File imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
@@ -150,7 +152,7 @@ public class PocketPaintEditLookIntentTest {
 				"catroid_sunglasses.png",
 				1);
 
-		List<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookList();
+		List<LookData> lookDataList = projectManager.getCurrentSprite().getLookList();
 		LookData lookData = new LookData();
 		lookData.setFile(imageFile);
 		lookData.setName(lookName);

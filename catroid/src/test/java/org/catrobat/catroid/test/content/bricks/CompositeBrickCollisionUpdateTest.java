@@ -40,18 +40,26 @@ import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.test.PowerMockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.koin.core.module.Module;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.modules.junit4.PowerMockRunnerDelegate;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import kotlin.Lazy;
 
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(PowerMockRunner.class)
 @PowerMockRunnerDelegate(Parameterized.class)
@@ -65,6 +73,10 @@ public class CompositeBrickCollisionUpdateTest {
 	private static final String NEW_VARIABLE_NAME = "NewName";
 	private static final String REPLACED_VARIABLE = "null(" + NEW_VARIABLE_NAME + ") ";
 	private static final String NO_CHANGE_VARIABLE = "null(" + DIFFERENT_VARIABLE_NAME + ") ";
+
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
+	private final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
@@ -84,7 +96,7 @@ public class CompositeBrickCollisionUpdateTest {
 
 	@Before
 	public void setUp() throws IllegalAccessException, InstantiationException {
-		PowerMockUtil.mockStaticAppContextAndInitializeStaticSingletons();
+		PowerMockUtil.mockStaticAppContextAndInitializeStaticSingletons(dependencyModules);
 
 		Project project = new Project();
 		Scene scene = new Scene();
@@ -99,8 +111,13 @@ public class CompositeBrickCollisionUpdateTest {
 		script.addBrick(compositeBrick);
 		compositeBrick.getNestedBricks().add(formulaBrick);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(scene);
+		projectManager.getValue().setCurrentProject(project);
+		projectManager.getValue().setCurrentlyEditedScene(scene);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test

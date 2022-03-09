@@ -28,16 +28,22 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.LookData
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
 import org.catrobat.catroid.test.MockUtil
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.core.module.Module
+import org.koin.java.KoinJavaComponent.inject
 import org.powermock.api.mockito.PowerMockito.mock
 import org.powermock.api.mockito.PowerMockito.mockStatic
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
 import java.io.File
+import java.util.Collections
 
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(GdxNativesLoader::class)
@@ -47,6 +53,9 @@ class SetPreviousLookActionTest {
     private lateinit var lookData1: LookData
     private lateinit var lookData2: LookData
     private lateinit var lookData3: LookData
+
+    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
 
     @Before
     fun setUp() {
@@ -61,9 +70,15 @@ class SetPreviousLookActionTest {
             lookList.add(lookData3)
         }
         sequence = SequenceAction()
-        Project(MockUtil.mockContextForProject(), "testProject").also { project ->
-            ProjectManager.getInstance().currentProject = project
+        val context = MockUtil.mockContextForProject(dependencyModules)
+        Project(context, "testProject").also { project ->
+            projectManager.currentProject = project
         }
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test

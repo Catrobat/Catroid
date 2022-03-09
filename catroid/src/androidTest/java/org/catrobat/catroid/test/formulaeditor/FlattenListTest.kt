@@ -55,6 +55,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.java.KoinJavaComponent.inject
 import java.io.IOException
 
 @RunWith(Parameterized::class)
@@ -65,23 +66,22 @@ class FlattenListTest(
     private val rightChildrenFormulaElementList: List<FormulaElement>?,
     private val expectedValue: String?
 ) {
-    private var projectManager: ProjectManager? = null
     private lateinit var project: Project
     private lateinit var brick: Brick
     private lateinit var context: Context
+    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
 
     @Before
     @Throws(Exception::class)
     fun setUp() {
         context = ApplicationProvider.getApplicationContext()
-        projectManager = ProjectManager.getInstance()
         createProject()
     }
 
     @After
     @Throws(Exception::class)
     fun tearDown() {
-        projectManager?.currentProject = null
+        projectManager.currentProject = null
         deleteProjects(PROJECT_NAME)
     }
 
@@ -101,8 +101,8 @@ class FlattenListTest(
         sprite.addScript(script)
         project = Project(context, PROJECT_NAME)
         project.defaultScene.addSprite(sprite)
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().currentSprite = sprite
+        projectManager.currentProject = project
+        projectManager.currentSprite = sprite
     }
 
     private fun buildFormula(): Formula {

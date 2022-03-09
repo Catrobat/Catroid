@@ -88,6 +88,7 @@ import static org.catrobat.catroid.utils.ShowTextUtils.calculateAlignmentValuesF
 import static org.catrobat.catroid.utils.ShowTextUtils.calculateColorRGBs;
 import static org.catrobat.catroid.utils.ShowTextUtils.isValidColorString;
 import static org.catrobat.catroid.utils.ShowTextUtils.sanitizeTextSize;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class VisualPlacementActivity extends BaseCastActivity implements View.OnTouchListener,
 		DialogInterface.OnClickListener, CoordinateInterface {
@@ -98,7 +99,6 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	public static final String Y_COORDINATE_BUNDLE_ARGUMENT = "yCoordinate";
 	public static final String CHANGED_COORDINATES = "changedCoordinates";
 
-	private ProjectManager projectManager;
 	private FrameLayout frameLayout;
 	private BitmapFactory.Options bitmapOptions;
 	private ImageView imageView;
@@ -157,8 +157,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		if (isFinishing()) {
 			return;
 		}
-
-		projectManager = ProjectManager.getInstance();
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 		Project currentProject = projectManager.getCurrentProject();
 
 		setContentView(R.layout.visual_placement_layout);
@@ -249,7 +248,9 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 	private void setBackground() {
 		try {
-			Bitmap backgroundBitmap = ProjectManagerExtensionsKt.getProjectBitmap(projectManager);
+			final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+			Bitmap backgroundBitmap =
+					ProjectManagerExtensionsKt.getProjectBitmap(projectManager);
 			Bitmap scaledBackgroundBitmap = Bitmap.createScaledBitmap(backgroundBitmap,
 					(int) (backgroundBitmap.getWidth() * layoutWidthRatio),
 					(int) (backgroundBitmap.getHeight() * layoutHeightRatio), true);
@@ -265,6 +266,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	public void showMovableImageView() {
 		Bitmap visualPlacementBitmap;
 		String objectLookPath;
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 		Sprite currentSprite = projectManager.getCurrentSprite();
 
 		imageView = new ImageView(this);

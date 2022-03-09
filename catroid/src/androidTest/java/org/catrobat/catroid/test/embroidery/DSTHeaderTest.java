@@ -40,6 +40,7 @@ import java.util.Locale;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import static org.koin.java.KoinJavaComponent.inject;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -51,7 +52,8 @@ public class DSTHeaderTest {
 	@Before
 	public void setUp() {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		ProjectManager.getInstance().setCurrentProject(project);
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
 		fileOutputStream = Mockito.mock(FileOutputStream.class);
 	}
 

@@ -71,7 +71,6 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.nio.charset.StandardCharsets
-import java.util.ArrayList
 import java.util.Objects
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -454,7 +453,7 @@ open class ProjectUploadActivity : BaseActivity(),
                     Log.e(TAG, "Creating renamed directory failed!")
                     return name
                 }
-                loadProject(renamedDirectory, applicationContext)
+                loadProject(renamedDirectory)
                 project = projectManager.currentProject
             }
             return name

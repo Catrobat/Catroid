@@ -65,6 +65,7 @@ import static android.Manifest.permission.NFC;
 import static android.Manifest.permission.RECORD_AUDIO;
 
 import static org.junit.Assert.assertTrue;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class BrickPermissionTest {
@@ -96,6 +97,7 @@ public class BrickPermissionTest {
 	public String[] expectedPermission;
 
 	Script script;
+
 	@Before
 	public void setUp() {
 		Project project = new Project();
@@ -105,7 +107,8 @@ public class BrickPermissionTest {
 		scene.addSprite(sprite);
 		script = new StartScript();
 		sprite.addScript(script);
-		ProjectManager.getInstance().setCurrentProject(project);
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
 	}
 
 	@Test

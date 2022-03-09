@@ -72,6 +72,8 @@ import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class CategoryBeginnerBricksFactory extends CategoryBricksFactory {
 
 	@Override
@@ -79,7 +81,8 @@ public class CategoryBeginnerBricksFactory extends CategoryBricksFactory {
 		List<Brick> eventBrickList = new ArrayList<>();
 		eventBrickList.add(new WhenStartedBrick());
 		eventBrickList.add(new WhenTouchDownBrick());
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		Project currentProject = projectManager.getCurrentProject();
 		List<String> broadcastMessages = currentProject.getBroadcastMessageContainer().getBroadcastMessages();
 		String broadcastMessage = context.getString(R.string.brick_broadcast_default_value);
 		if (broadcastMessages.size() > 0) {

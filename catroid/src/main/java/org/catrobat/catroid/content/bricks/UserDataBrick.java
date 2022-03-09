@@ -56,6 +56,8 @@ import java.util.Map;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<UserData> {
 
 	public transient BiMap<BrickData, Integer> brickDataToTextViewIdMap = HashBiMap.create(2);
@@ -119,17 +121,18 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 	public View getView(Context context) {
 		super.getView(context);
 
-		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		Sprite sprite = projectManager.getCurrentSprite();
 
 		List<Nameable> lists = new ArrayList<>();
 		lists.add(new NewOption(context.getString(R.string.new_option)));
 		lists.addAll(sprite.getUserLists());
-		lists.addAll(ProjectManager.getInstance().getCurrentProject().getUserLists());
+		lists.addAll(projectManager.getCurrentProject().getUserLists());
 
 		List<Nameable> variables = new ArrayList<>();
 		variables.add(new NewOption(context.getString(R.string.new_option)));
 		variables.addAll(sprite.getUserVariables());
-		variables.addAll(ProjectManager.getInstance().getCurrentProject().getUserVariables());
+		variables.addAll(projectManager.getCurrentProject().getUserVariables());
 
 		for (Map.Entry<BrickData, UserData> entry : userDataList.entrySet()) {
 			Integer spinnerid = brickDataToTextViewIdMap.get(entry.getKey());
@@ -156,8 +159,9 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 			return;
 		}
 
-		final Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		final Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		final Project currentProject = projectManager.getCurrentProject();
+		final Sprite currentSprite = projectManager.getCurrentSprite();
 		BrickData brickData = getBrickDataFromTextViewId(spinnerId);
 		int placeholder;
 		int title;

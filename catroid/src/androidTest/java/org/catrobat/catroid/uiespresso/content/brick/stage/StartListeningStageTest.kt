@@ -47,6 +47,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.experimental.categories.Category
+import org.koin.java.KoinJavaComponent.inject
 import java.util.Locale
 
 class StartListeningStageTest {
@@ -106,8 +107,9 @@ class StartListeningStageTest {
         sprite.addScript(startScript)
 
         project.defaultScene.addSprite(sprite)
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().currentSprite = sprite
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        projectManager.currentProject = project
+        projectManager.currentSprite = sprite
 
         project.addUserVariable(userVariable)
     }

@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.test.content.bricks;
 
+import android.content.Context;
+
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
@@ -35,13 +37,22 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.SetBackgroundByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetLookByIndexBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.koin.core.module.Module;
 import org.mockito.Mockito;
 
+import java.util.Collections;
+import java.util.List;
+
+import kotlin.Lazy;
+
+import static org.koin.java.KoinJavaComponent.inject;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.eq;
@@ -51,18 +62,28 @@ public class SetLookByIndexBrickTest {
 
 	private Sprite sprite;
 
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
+	private final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
 	@Before
 	public void setUp() throws Exception {
-		Project project = new Project(MockUtil.mockContextForProject(), "Project");
+		Context context = MockUtil.mockContextForProject(dependencyModules);
+		Project project = new Project(context, "Project");
 
 		Scene currentlyPlayingScene = new Scene("Currently playing scene", project);
 		sprite = new Sprite("Sprite");
 
 		currentlyPlayingScene.addSprite(sprite);
 		project.addScene(currentlyPlayingScene);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(new Scene());
-		ProjectManager.getInstance().setCurrentlyPlayingScene(currentlyPlayingScene);
+		projectManager.getValue().setCurrentProject(project);
+		projectManager.getValue().setCurrentlyEditedScene(new Scene());
+		projectManager.getValue().setCurrentlyPlayingScene(currentlyPlayingScene);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test

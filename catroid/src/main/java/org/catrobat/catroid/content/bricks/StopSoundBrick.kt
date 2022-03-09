@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.bricks.brickspinner.NewOption
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface
+import org.koin.java.KoinJavaComponent.inject
 
 class StopSoundBrick : BrickBaseType(),
     BrickSpinner.OnItemSelectedListener<SoundInfo>, NewItemInterface<SoundInfo> {
@@ -50,7 +51,8 @@ class StopSoundBrick : BrickBaseType(),
         super.getView(context)
 
         val items = mutableListOf<Nameable>(NewOption(context.getString(R.string.new_option)))
-        items.addAll(ProjectManager.getInstance().currentSprite.soundList)
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        items.addAll(projectManager.currentSprite.soundList)
         with(BrickSpinner<SoundInfo>(R.id.brick_stop_sound_spinner, view, items)) {
             spinner = this
             setOnItemSelectedListener(this@StopSoundBrick)

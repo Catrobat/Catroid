@@ -28,6 +28,8 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.PhysicsLook;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class PointToAction extends TemporalAction {
 
 	private Sprite sprite;
@@ -36,7 +38,7 @@ public class PointToAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
 		if (pointedSprite == null
-				|| !ProjectManager.getInstance().getCurrentlyPlayingScene().getSpriteList().contains(pointedSprite)) {
+				|| !inject(ProjectManager.class).getValue().getCurrentlyPlayingScene().getSpriteList().contains(pointedSprite)) {
 			return;
 		}
 

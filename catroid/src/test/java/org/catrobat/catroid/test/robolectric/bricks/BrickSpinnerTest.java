@@ -100,6 +100,7 @@ import static junit.framework.Assert.assertNotNull;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static java.util.Arrays.asList;
 
@@ -108,6 +109,8 @@ import static java.util.Arrays.asList;
 public class BrickSpinnerTest {
 
 	private SpriteActivity activity;
+
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	Spinner brickSpinner;
 
@@ -187,7 +190,7 @@ public class BrickSpinnerTest {
 
 	@After
 	public void tearDown() {
-		ProjectManager.getInstance().resetProjectManager();
+		projectManager.resetProjectManager();
 	}
 
 	@Test
@@ -211,9 +214,9 @@ public class BrickSpinnerTest {
 		script.addBrick(brick);
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
 
 		Sprite sprite2 = new Sprite("otherTestSprite");
 		project.getDefaultScene().addSprite(sprite2);
@@ -236,10 +239,10 @@ public class BrickSpinnerTest {
 		LookData backgroundLookData = new LookData();
 		backgroundLookData.setFile(Mockito.mock(File.class));
 		backgroundLookData.setName("someBackground");
-		List<LookData> backgroundLookDataList = ProjectManager.getInstance().getCurrentProject().getDefaultScene().getBackgroundSprite().getLookList();
+		List<LookData> backgroundLookDataList = projectManager.getCurrentProject().getDefaultScene().getBackgroundSprite().getLookList();
 		backgroundLookDataList.add(backgroundLookData);
 
-		ProjectManager.getInstance().getCurrentProject().addUserVariable(new UserVariable("someVariable"));
-		ProjectManager.getInstance().getCurrentProject().addUserList(new UserList("someList"));
+		projectManager.getCurrentProject().addUserVariable(new UserVariable("someVariable"));
+		projectManager.getCurrentProject().addUserList(new UserList("someList"));
 	}
 }

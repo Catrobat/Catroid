@@ -47,6 +47,7 @@ import static org.catrobat.catroid.common.Constants.SCREENSHOT_MANUAL_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.Z_INDEX_BACKGROUND;
 import static org.catrobat.catroid.io.StorageOperations.copyFileToDir;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class SceneController {
 
@@ -75,7 +76,8 @@ public class SceneController {
 
 		if (renamed) {
 			sceneToRename.setName(name);
-			for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+			final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+			for (Scene scene : projectManager.getCurrentProject().getSceneList()) {
 				for (Sprite sprite : scene.getSpriteList()) {
 					for (Brick brick : sprite.getAllBricks()) {
 						if (brick instanceof SceneStartBrick
@@ -133,7 +135,8 @@ public class SceneController {
 	}
 
 	public void delete(Scene sceneToDelete) throws IOException {
-		ProjectManager.getInstance().getCurrentProject().removeScene(sceneToDelete);
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.getCurrentProject().removeScene(sceneToDelete);
 		StorageOperations.deleteDir(sceneToDelete.getDirectory());
 	}
 

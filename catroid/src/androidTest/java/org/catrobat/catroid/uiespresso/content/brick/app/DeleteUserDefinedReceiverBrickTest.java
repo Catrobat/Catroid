@@ -56,6 +56,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class DeleteUserDefinedReceiverBrickTest {
@@ -114,8 +115,7 @@ public class DeleteUserDefinedReceiverBrickTest {
 
 	private void createProject(String projectName) throws IOException, CloneNotSupportedException {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		ProjectManager projectManager = ProjectManager.getInstance();
-
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 		SpriteController controller = new SpriteController();
 
 		sprite = new Sprite("Sprite1");

@@ -29,6 +29,8 @@ import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.content.eventids.SetLookEventId;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class WhenBackgroundChangesScript extends Script {
 
 	private static final long serialVersionUID = 1L;
@@ -53,7 +55,8 @@ public class WhenBackgroundChangesScript extends Script {
 
 	@Override
 	public EventId createEventId(Sprite sprite) {
-		Sprite background = ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite();
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		Sprite background = projectManager.getCurrentlyPlayingScene().getBackgroundSprite();
 		return new SetLookEventId(background, look);
 	}
 }

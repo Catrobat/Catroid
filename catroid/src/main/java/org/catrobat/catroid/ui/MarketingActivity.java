@@ -51,6 +51,7 @@ import java.util.List;
 import androidx.appcompat.app.AppCompatActivity;
 
 import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class MarketingActivity extends AppCompatActivity {
@@ -60,22 +61,23 @@ public class MarketingActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		final XmlHeader xmlheader = ProjectManager.getInstance().getCurrentProject().getXmlHeader();
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		final XmlHeader xmlheader = projectManager.getCurrentProject().getXmlHeader();
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_standalone_advertising);
 
-		TextView appName = (TextView) findViewById(R.id.title);
-		appName.setText(ProjectManager.getInstance().getCurrentProject().getName());
+		TextView appName = findViewById(R.id.title);
+		appName.setText(projectManager.getCurrentProject().getName());
 
 		Bitmap bitmap = scaleDrawable2Bitmap(xmlheader.islandscapeMode());
 
-		ImageView imageView = (ImageView) findViewById(R.id.pocket_code_image);
+		ImageView imageView = findViewById(R.id.pocket_code_image);
 		imageView.setImageBitmap(bitmap);
 
-		LinearLayout googlePlayStore = (LinearLayout) findViewById(R.id.googlePlayStore);
-		LinearLayout huaweiAppGallery = (LinearLayout) findViewById(R.id.huaweiAppGallery);
+		LinearLayout googlePlayStore = findViewById(R.id.googlePlayStore);
+		LinearLayout huaweiAppGallery = findViewById(R.id.huaweiAppGallery);
 
 		googlePlayStore.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -103,8 +105,8 @@ public class MarketingActivity extends AppCompatActivity {
 			}
 		});
 
-		TextView website = (TextView) findViewById(R.id.website_link);
-		TextView playstore = (TextView) findViewById(R.id.playStore_link);
+		TextView website = findViewById(R.id.website_link);
+		TextView playstore = findViewById(R.id.playStore_link);
 
 		website.setOnClickListener(new View.OnClickListener() {
 			@Override

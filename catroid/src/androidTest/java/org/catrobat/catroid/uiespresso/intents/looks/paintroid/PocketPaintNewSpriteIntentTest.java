@@ -63,6 +63,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -147,15 +148,18 @@ public class PocketPaintNewSpriteIntentTest {
 
 		onRecyclerView().atPosition(1).onChildView(R.id.title_view)
 				.check(matches(withText(newSpriteName)));
-		Sprite newSprite = ProjectManager.getInstance().getCurrentlyEditedScene().getSprite(newSpriteName);
+		Sprite newSprite =
+				inject(ProjectManager.class).getValue()
+						.getCurrentlyEditedScene().getSprite(newSpriteName);
 
 		assertEquals(newSpriteName, newSprite.getLookList().get(0).getName());
 	}
 
 	private void createProject(String projectName) {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
 		XstreamSerializer.getInstance().saveProject(project);
 	}
 }

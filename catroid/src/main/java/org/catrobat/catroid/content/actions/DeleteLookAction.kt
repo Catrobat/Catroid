@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.eventids.EventId
 import org.catrobat.catroid.content.eventids.SetLookEventId
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.ui.recyclerview.controller.LookController
+import org.koin.java.KoinJavaComponent.inject
 
 class DeleteLookAction : SingleSpriteEventAction() {
 
@@ -52,7 +53,8 @@ class DeleteLookAction : SingleSpriteEventAction() {
             setNewLookData(indexOfLookData + 1)
             lookData.invalidate()
             lookList.removeAt(indexOfLookData)
-            xstreamSerializer.saveProject(ProjectManager.getInstance().currentProject)
+            val projectManager: ProjectManager by inject(ProjectManager::class.java)
+            xstreamSerializer.saveProject(projectManager.currentProject)
         }
         return SetLookEventId(sprite, sprite?.look?.lookData)
     }

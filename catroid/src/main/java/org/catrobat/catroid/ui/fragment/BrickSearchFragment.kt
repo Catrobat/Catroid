@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.fragment
 
+import android.database.Cursor
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.preference.PreferenceManager
@@ -31,6 +32,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
 import android.widget.AdapterView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -49,10 +51,9 @@ import org.catrobat.catroid.ui.hideKeyboard
 import org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.catrobat.catroid.utils.ToastUtil
-import java.util.Locale
-import android.widget.AbsListView
-import android.database.Cursor
 import org.catrobat.catroid.utils.setVisibleOrGone
+import org.koin.java.KoinJavaComponent.inject
+import java.util.Locale
 
 class BrickSearchFragment : ListFragment() {
 
@@ -278,8 +279,9 @@ class BrickSearchFragment : ListFragment() {
             onlyBeginnerBricks() -> CategoryBeginnerBricksFactory()
             else -> CategoryBricksFactory()
         }
-        val backgroundSprite = ProjectManager.getInstance().currentlyEditedScene.backgroundSprite
-        val sprite = ProjectManager.getInstance().currentSprite
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        val backgroundSprite = projectManager.currentlyEditedScene.backgroundSprite
+        val sprite = projectManager.currentSprite
         recentlyUsedBricks.addAll(categoryBricksFactory.getBricks(requireContext().getString(R.string.category_recently_used), backgroundSprite.equals(sprite), requireContext()))
     }
 
@@ -289,8 +291,9 @@ class BrickSearchFragment : ListFragment() {
             onlyBeginnerBricks() -> CategoryBeginnerBricksFactory()
             else -> CategoryBricksFactory()
         }
-        val backgroundSprite = ProjectManager.getInstance().currentlyEditedScene.backgroundSprite
-        val sprite = ProjectManager.getInstance().currentSprite
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        val backgroundSprite = projectManager.currentlyEditedScene.backgroundSprite
+        val sprite = projectManager.currentSprite
         if (category != context?.getString(R.string.category_search_bricks)) {
             availableBricks.clear()
             availableBricks.addAll(categoryBricksFactory.getBricks(category, backgroundSprite.equals(sprite), requireContext()))

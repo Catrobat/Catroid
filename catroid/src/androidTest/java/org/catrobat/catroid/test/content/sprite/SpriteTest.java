@@ -45,9 +45,12 @@ import org.junit.runner.RunWith;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import kotlin.Lazy;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class SpriteTest {
@@ -64,6 +67,8 @@ public class SpriteTest {
 	private AndroidStringProvider androidStringProvider =
 			new AndroidStringProvider(ApplicationProvider.getApplicationContext());
 
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
+
 	@Before
 	public void setUp() throws Exception {
 		sprite = new Sprite("testSprite");
@@ -75,7 +80,7 @@ public class SpriteTest {
 		UserVariable globalVariable = new UserVariable(GLOBAL_VARIABLE_NAME, GLOBAL_VARIABLE_VALUE);
 		project.addUserVariable(globalVariable);
 
-		ProjectManager.getInstance().setCurrentProject(project);
+		projectManager.getValue().setCurrentProject(project);
 	}
 
 	@Test
@@ -98,7 +103,7 @@ public class SpriteTest {
 		UserVariable userVariable = sprite2.getUserVariable(variableName);
 		userVariable.setValue(LOCAL_VARIABLE_VALUE);
 		userVariable.setVisible(false);
-		ProjectManager.getInstance().setCurrentlyPlayingScene(secondScene);
+		projectManager.getValue().setCurrentlyPlayingScene(secondScene);
 
 		ScriptSequenceAction thread = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(new StartScript());
 		thread.addAction(sprite2.getActionFactory().createShowVariableAction(sprite2,

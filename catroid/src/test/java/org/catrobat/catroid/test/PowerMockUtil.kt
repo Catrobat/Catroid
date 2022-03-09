@@ -25,18 +25,20 @@ package org.catrobat.catroid.test
 
 import android.content.Context
 import org.catrobat.catroid.CatroidApplication
+import org.catrobat.catroid.koin.startWithContext
+import org.koin.core.module.Module
 import org.mockito.Mockito
 import org.powermock.api.mockito.PowerMockito
 
 class PowerMockUtil private constructor() {
     companion object {
         @JvmStatic
-        fun mockStaticAppContextAndInitializeStaticSingletons(): Context {
+        fun mockStaticAppContextAndInitializeStaticSingletons(modules: List<Module>): Context {
             val contextMock = Mockito.mock(Context::class.java)
             PowerMockito.mockStatic(CatroidApplication::class.java)
             PowerMockito.`when`(CatroidApplication.getAppContext()).thenReturn(contextMock)
 
-            StaticSingletonInitializer.initializeStaticSingletonMethodsWith(contextMock)
+            startWithContext(contextMock, modules)
             return contextMock
         }
     }

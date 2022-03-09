@@ -41,6 +41,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(AndroidJUnit4.class)
 public class WhenTouchDownScriptTest {
 
@@ -92,7 +94,8 @@ public class WhenTouchDownScriptTest {
 
 	private Project createProjectWithSprite(Sprite sprite) {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), "testProject");
-		ProjectManager.getInstance().setCurrentProject(project);
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
 		project.getDefaultScene().addSprite(sprite);
 		return project;
 	}

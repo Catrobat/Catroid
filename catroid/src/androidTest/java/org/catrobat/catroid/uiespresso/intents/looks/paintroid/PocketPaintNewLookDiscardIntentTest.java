@@ -52,6 +52,7 @@ import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewIn
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.core.AllOf.allOf;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -115,8 +116,9 @@ public class PocketPaintNewLookDiscardIntentTest {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 		Sprite testSprite = new Sprite();
 		project.getDefaultScene().addSprite(testSprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(testSprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(testSprite);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
 	}
 }

@@ -32,11 +32,17 @@ import org.catrobat.catroid.formulaeditor.Functions.ID_OF_DETECTED_OBJECT
 import org.catrobat.catroid.formulaeditor.Functions.OBJECT_WITH_ID_VISIBLE
 import org.catrobat.catroid.formulaeditor.InternToken
 import org.catrobat.catroid.formulaeditor.InternTokenType.NUMBER
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
+import org.catrobat.catroid.test.MockUtil
 import org.catrobat.catroid.test.formulaeditor.FormulaEditorTestUtil.testSingleParameterFunction
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.core.module.Module
+import java.util.Collections
 
 @RunWith(Parameterized::class)
 class ObjectDetectionFunctionTest(
@@ -75,10 +81,17 @@ class ObjectDetectionFunctionTest(
             listOf(Label("Book", 0.9F, 1))
         )
     )
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
 
     @Before
     fun setUp() {
         successListener = ObjectDetectorOnSuccessListener()
+        MockUtil.mockContextForProject(dependencyModules)
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test

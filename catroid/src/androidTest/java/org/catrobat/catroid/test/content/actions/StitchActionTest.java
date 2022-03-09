@@ -44,6 +44,8 @@ import org.mockito.Mockito;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(AndroidJUnit4.class)
 public class StitchActionTest {
 	private Sprite testSprite1;
@@ -66,7 +68,7 @@ public class StitchActionTest {
 		spriteCoords2 = new PointF(0, 0);
 
 		project = new Project(ApplicationProvider.getApplicationContext(), "testProject");
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		StageActivity.stageListener = Mockito.mock(StageListener.class);
 		StageActivity.stageListener.embroideryPatternManager = Mockito.mock(DSTPatternManager.class);
 	}

@@ -29,17 +29,23 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.Formula
-import org.catrobat.catroid.test.StaticSingletonInitializer.Companion.initializeStaticSingletonMethods
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
+import org.catrobat.catroid.test.MockUtil
 import org.catrobat.catroid.test.utils.Reflection
+import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.core.module.Module
+import org.koin.java.KoinJavaComponent.inject
 import org.mockito.Mockito
 import org.mockito.Mockito.anyFloat
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
+import java.util.Collections
 
 @RunWith(Parameterized::class)
 class RepeatActionTest(
@@ -55,6 +61,9 @@ class RepeatActionTest(
     private val deltaDelayByContract = 0.005f
     private val iterations = 4
 
+    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
+
     companion object {
         @JvmStatic
         @Parameterized.Parameters(name = "{index}")
@@ -69,15 +78,20 @@ class RepeatActionTest(
 
     @Before
     fun setUp() {
-        initializeStaticSingletonMethods()
+        MockUtil.mockContextForProject(dependencyModules)
         sprite = Sprite("testSprite")
         project = Mockito.mock(Project::class.java)
-        ProjectManager.getInstance().currentProject = project
+        projectManager.currentProject = project
         Mockito.doReturn(null).`when`(project).spriteListWithClones
         innerLoopAction = Mockito.mock(MockAction()::class.java, Mockito.CALLS_REAL_METHODS)
         repeatAction = sprite.actionFactory.createRepeatAction(
             sprite, SequenceAction(), loopCondition, innerLoopAction, true
         ) as RepeatAction
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test

@@ -68,7 +68,6 @@ class ImportObjectIntoProjectTest {
     var uri: Uri? = null
     private var spriteToBeImported: Sprite? = null
     private lateinit var scriptForVisualPlacement: Script
-    private val projectManager: ProjectManager = inject(ProjectManager::class.java).value
     val tag: String = ImportObjectIntoProjectTest::class.java.simpleName
 
     @get:Rule
@@ -103,7 +102,7 @@ class ImportObjectIntoProjectTest {
                 false
             )
 
-        initProjectVars()
+        initProjectVariables()
 
         XstreamSerializer.getInstance().saveProject(importedProject)
 
@@ -115,14 +114,15 @@ class ImportObjectIntoProjectTest {
         ZipArchiver().zip(projectZip, importedProject.directory?.listFiles())
         uri = Uri.fromFile(projectZip)
 
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
         projectManager.currentProject = project
         projectManager.currentSprite = project.defaultScene.spriteList[1]
         Intents.init()
         baseActivityTestRule.launchActivity()
     }
 
-    private fun initProjectVars() {
-        spriteToBeImported = importedProject.defaultScene.spriteList[1]
+    fun initProjectVariables() {
+        spriteToBeImported = importedProject!!.defaultScene.spriteList[1]
 
         spriteToBeImported!!.userVariables.add(UserVariable("localVariable1"))
         spriteToBeImported!!.userVariables.add(UserVariable("localVariable2"))

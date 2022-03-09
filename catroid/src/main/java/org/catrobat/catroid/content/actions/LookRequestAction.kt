@@ -33,7 +33,6 @@ import org.catrobat.catroid.utils.Utils
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
-import java.util.ArrayList
 
 open class LookRequestAction : WebAction() {
     var response: InputStream? = null

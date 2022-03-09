@@ -37,16 +37,22 @@ import org.catrobat.catroid.formulaeditor.Functions.RAND
 import org.catrobat.catroid.formulaeditor.InternToken
 import org.catrobat.catroid.formulaeditor.InternTokenType
 import org.catrobat.catroid.formulaeditor.Operators
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
 import org.catrobat.catroid.test.MockUtil
 import org.catrobat.catroid.test.formulaeditor.FormulaEditorTestUtil
 import org.catrobat.catroid.test.formulaeditor.FormulaEditorTestUtil.testDoubleParameterFunction
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.core.module.Module
+import org.koin.java.KoinJavaComponent.inject
 import java.lang.Math.max
 import java.lang.Math.min
 import java.lang.Math.toDegrees
+import java.util.Collections
 import kotlin.math.atan2
 
 @RunWith(Parameterized::class)
@@ -76,16 +82,22 @@ class TwoParametersFunctionParserTest(
     private var sprite: Sprite? = null
     private var scope: Scope? = null
 
+    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
+
     @Before
     fun setUp() {
-        val project = Project(
-            MockUtil.mockContextForProject(),
-            "Project"
-        )
+        val context = MockUtil.mockContextForProject(dependencyModules)
+        val project = Project(context, "Project")
         sprite = Sprite("sprite")
         scope = Scope(project, sprite!!, SequenceAction())
         project.defaultScene.addSprite(sprite)
-        ProjectManager.getInstance().currentProject = project
+        projectManager.currentProject = project
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test

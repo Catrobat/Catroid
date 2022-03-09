@@ -36,17 +36,23 @@ import org.catrobat.catroid.content.bricks.SetXBrick
 import org.catrobat.catroid.content.bricks.WaitBrick
 import org.catrobat.catroid.content.eventids.EventId
 import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
 import org.catrobat.catroid.test.MockUtil
 import org.hamcrest.Matchers
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.core.module.Module
+import org.koin.java.KoinJavaComponent.inject
 import org.powermock.api.mockito.PowerMockito
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
+import java.util.Collections
 
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(GdxNativesLoader::class)
@@ -54,6 +60,9 @@ class BroadcastActionTest {
     private lateinit var sprite: Sprite
     private lateinit var startScript: Script
     private lateinit var broadcastScript: Script
+
+    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
 
     @Before
     fun setUp() {
@@ -66,10 +75,16 @@ class BroadcastActionTest {
             addScript(broadcastScript)
         }
 
-        Project(MockUtil.mockContextForProject(), "testProject").also { project ->
-            ProjectManager.getInstance().currentProject = project
+        val context = MockUtil.mockContextForProject(dependencyModules)
+        Project(context, "testProject").also { project ->
+            projectManager.currentProject = project
             project.defaultScene.addSprite(sprite)
         }
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test
@@ -165,7 +180,7 @@ class BroadcastActionTest {
     private fun executeAllActions() {
         sprite.initializeEventThreads(EventId.START)
         repeat(20) {
-            ProjectManager.getInstance().currentlyEditedScene.spriteList.forEach { sprite ->
+            projectManager.currentlyEditedScene.spriteList.forEach { sprite ->
                 sprite.look.act(1f)
             }
             if (sprite.look.haveAllThreadsFinished()) {

@@ -40,11 +40,15 @@ import org.catrobat.catroid.formulaeditor.FormulaElement
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.FUNCTION
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.STRING
 import org.catrobat.catroid.formulaeditor.Functions.JOIN
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
 import org.catrobat.catroid.stage.SpeechSynthesizer
-import org.catrobat.catroid.test.MockUtil
 import org.catrobat.catroid.test.PowerMockUtil.Companion.mockStaticAppContextAndInitializeStaticSingletons
 import org.catrobat.catroid.test.utils.Reflection.getPrivateField
 import org.catrobat.catroid.utils.MobileServiceAvailability
+import org.catrobat.catroid.utils.ScreenValueHandler
+import org.catrobat.catroid.utils.Utils
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -52,11 +56,15 @@ import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.core.module.Module
+import org.koin.java.KoinJavaComponent.inject
 import org.mockito.Mockito
+import org.powermock.api.mockito.PowerMockito
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
 import org.powermock.modules.junit4.PowerMockRunnerDelegate
 import java.io.File
+import java.util.Collections
 
 @RunWith(PowerMockRunner::class)
 @PowerMockRunnerDelegate(Parameterized::class)
@@ -65,7 +73,9 @@ import java.io.File
     SpeakAction::class,
     Constants::class,
     FlavoredConstants::class,
-    CatroidApplication::class
+    CatroidApplication::class,
+    ScreenValueHandler::class,
+    Utils::class
 )
 class SpeakActionTest(
     private val name: String,
@@ -77,6 +87,10 @@ class SpeakActionTest(
     private val temporaryFolder = TemporaryFolder()
     lateinit var mobileServiceAvailability: MobileServiceAvailability
     lateinit var contextMock: Context
+    lateinit var constantsMock: Constants
+
+    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
 
     companion object {
         private const val SPEAK = "hello world!"
@@ -103,17 +117,30 @@ class SpeakActionTest(
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        contextMock = mockStaticAppContextAndInitializeStaticSingletons()
+        contextMock = mockStaticAppContextAndInitializeStaticSingletons(dependencyModules)
         temporaryFolder.create()
         val temporaryCacheFolder = temporaryFolder.newFolder("SpeakTest")
-        Mockito.`when`(contextMock.cacheDir)
-            .thenAnswer { temporaryCacheFolder }
+        Mockito.`when`(contextMock.cacheDir).thenReturn(temporaryCacheFolder)
+        constantsMock = PowerMockito.mock(Constants::class.java)
+
+        PowerMockito.mockStatic(ScreenValueHandler::class.java)
+        Mockito.`when`(ScreenValueHandler.updateScreenWidthAndHeight(Mockito.any())).then {}
+
         mobileServiceAvailability = Mockito.mock(MobileServiceAvailability::class.java)
         Mockito.`when`(mobileServiceAvailability.isGmsAvailable(contextMock)).thenReturn(true)
+
+        PowerMockito.mockStatic(Utils::class.java)
+        Mockito.`when`(Utils.getVersionName(Mockito.any())).thenReturn("TEST")
+
         sprite = Sprite("testSprite")
-        scope = Scope(ProjectManager.getInstance().currentProject, sprite, SequenceAction())
-        val project = Project(MockUtil.mockContextForProject(), "Project")
-        ProjectManager.getInstance().currentProject = project
+        scope = Scope(projectManager.currentProject, sprite, SequenceAction())
+        val project = Project(contextMock, "Project")
+        projectManager.currentProject = project
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test

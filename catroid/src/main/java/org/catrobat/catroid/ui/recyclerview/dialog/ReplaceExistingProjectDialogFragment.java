@@ -46,6 +46,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class ReplaceExistingProjectDialogFragment extends DialogFragment {
 
@@ -103,8 +104,7 @@ public class ReplaceExistingProjectDialogFragment extends DialogFragment {
 							downloader.downloadOverwriteExistingProject(context, textInput);
 							break;
 						case R.id.replace:
-
-							ProjectManager.getInstance().setCurrentProject(null);
+							inject(ProjectManager.class).getValue().setCurrentProject(null);
 							downloader.downloadOverwriteExistingProject(context, textInput);
 							break;
 						default:

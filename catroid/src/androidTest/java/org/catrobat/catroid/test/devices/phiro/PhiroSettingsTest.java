@@ -45,11 +45,13 @@ import java.io.IOException;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import kotlin.Lazy;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class PhiroSettingsTest {
@@ -57,6 +59,7 @@ public class PhiroSettingsTest {
 	private boolean sharedPreferenceBuffer;
 	private String projectName = "testProject";
 	private Project project;
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
 
 	@Before
 	public void setUp() throws Exception {
@@ -73,11 +76,11 @@ public class PhiroSettingsTest {
 	}
 
 	@Test
-	public void testIfPhiroBricksAreEnabledIfItItUsedInAProgram() throws IOException, ProjectException {
+	public void testIfPhiroBricksAreEnabledIfItIsUsedInAProgram()
+			throws IOException, ProjectException {
 		assertFalse(SettingsFragment.isPhiroSharedPreferenceEnabled(ApplicationProvider.getApplicationContext()));
 
-		ProjectManager.getInstance()
-				.loadProject(project.getDirectory(), ApplicationProvider.getApplicationContext());
+		projectManager.getValue().loadProject(project.getDirectory());
 
 		assertTrue(SettingsFragment.isPhiroSharedPreferenceEnabled(ApplicationProvider.getApplicationContext()));
 
@@ -96,7 +99,7 @@ public class PhiroSettingsTest {
 		sprite.addScript(startScript);
 		project.getDefaultScene().addSprite(sprite);
 
-		ProjectManager.getInstance().setCurrentProject(project);
+		projectManager.getValue().setCurrentProject(project);
 		saveProjectSerial(project, ApplicationProvider.getApplicationContext());
 	}
 }

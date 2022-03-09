@@ -195,7 +195,7 @@ public class ProjectLoaderTest {
 		assertTrue(XstreamSerializer.getInstance().saveProject(project));
 
 		assertNotNull(directory);
-		assertTrue(loadProject(directory, ApplicationProvider.getApplicationContext()));
+		assertTrue(loadProject(directory));
 
 		// Check if User Variables are removed
 		Map<UUID, Object> variableMap = variableAccessor.readMapFromJson();
@@ -217,6 +217,6 @@ public class ProjectLoaderTest {
 	public void projectInvalidLoadTaskTest() throws IOException {
 		File directory = new File("");
 		assertNotNull(directory);
-		assertFalse(loadProject(directory, ApplicationProvider.getApplicationContext()));
+		assertFalse(loadProject(directory));
 	}
 }

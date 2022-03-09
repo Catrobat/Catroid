@@ -27,12 +27,16 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.WriteVariableToFileAction
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.UserVariable
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
 import org.catrobat.catroid.test.StaticSingletonInitializer.Companion.initializeStaticSingletonMethods
+import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.core.module.Module
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito
 import org.mockito.Mockito.times
@@ -41,6 +45,7 @@ import org.powermock.api.mockito.PowerMockito.doNothing
 import org.powermock.api.mockito.PowerMockito.doReturn
 import org.powermock.api.mockito.PowerMockito.spy
 import java.io.File
+import java.util.Collections
 
 @RunWith(Parameterized::class)
 class WriteVariableToFileActionTest(
@@ -54,6 +59,7 @@ class WriteVariableToFileActionTest(
     private lateinit var sprite: Sprite
     private lateinit var sequence: SequenceAction
     private lateinit var file: File
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
 
     companion object {
         @JvmStatic
@@ -82,10 +88,15 @@ class WriteVariableToFileActionTest(
 
     @Before
     fun setUp() {
-        initializeStaticSingletonMethods()
+        initializeStaticSingletonMethods(dependencyModules)
         sprite = Sprite("testSprite")
         sequence = SequenceAction()
         file = Mockito.mock(File::class.java)
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test

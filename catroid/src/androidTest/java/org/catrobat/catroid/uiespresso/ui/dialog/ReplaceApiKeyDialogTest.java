@@ -58,6 +58,7 @@ import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial
 import static org.catrobat.catroid.ui.ProjectUploadActivityKt.PROJECT_DIR;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -93,7 +94,8 @@ public class ReplaceApiKeyDialogTest {
 	public void createProject(String secret) {
 		dummyProject = new Project(ApplicationProvider.getApplicationContext(), "ApiProject");
 		Scene dummyScene = new Scene("scene", dummyProject);
-		ProjectManager.getInstance().setCurrentProject(dummyProject);
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(dummyProject);
 		Sprite sprite = new Sprite("sprite");
 		Script firstScript = new StartScript();
 		firstScript.addBrick(new BackgroundRequestBrick(secret));
@@ -111,7 +113,8 @@ public class ReplaceApiKeyDialogTest {
 	public void createProject(String secret1, String secret2) {
 		dummyProject = new Project(ApplicationProvider.getApplicationContext(), "ApiProject");
 		Scene dummyScene = new Scene("scene", dummyProject);
-		ProjectManager.getInstance().setCurrentProject(dummyProject);
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(dummyProject);
 		Sprite sprite = new Sprite("sprite");
 		Script firstScript = new StartScript();
 		firstScript.addBrick(new BackgroundRequestBrick(secret1));

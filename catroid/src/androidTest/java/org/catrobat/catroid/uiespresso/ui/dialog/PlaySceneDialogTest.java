@@ -43,6 +43,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -80,20 +82,21 @@ public class PlaySceneDialogTest {
 		onView(withText(firstSceneRadioButton))
 				.check(matches(isChecked()));
 
-		assertEquals(firstScene, ProjectManager.getInstance().getCurrentlyPlayingScene());
-		assertEquals(firstScene, ProjectManager.getInstance().getStartScene());
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		assertEquals(firstScene, projectManager.getCurrentlyPlayingScene());
+		assertEquals(firstScene, projectManager.getStartScene());
 
 		onView(withText(secondSceneRadioButton))
 				.perform(click());
 
-		assertEquals(secondScene, ProjectManager.getInstance().getCurrentlyPlayingScene());
-		assertEquals(secondScene, ProjectManager.getInstance().getStartScene());
+		assertEquals(secondScene, projectManager.getCurrentlyPlayingScene());
+		assertEquals(secondScene, projectManager.getStartScene());
 
 		onView(withText(firstSceneRadioButton))
 				.perform(click());
 
-		assertEquals(firstScene, ProjectManager.getInstance().getCurrentlyPlayingScene());
-		assertEquals(firstScene, ProjectManager.getInstance().getStartScene());
+		assertEquals(firstScene, projectManager.getCurrentlyPlayingScene());
+		assertEquals(firstScene, projectManager.getStartScene());
 	}
 
 	private void createProject(String projectName) {
@@ -102,7 +105,8 @@ public class PlaySceneDialogTest {
 		secondScene = new Scene("secondScene", project);
 		project.addScene(secondScene);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(secondScene);
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentlyEditedScene(secondScene);
 	}
 }

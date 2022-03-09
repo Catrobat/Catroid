@@ -43,6 +43,7 @@ import java.util.List;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import kotlin.Lazy;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -50,6 +51,7 @@ import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class MessageContainerTest {
@@ -62,6 +64,8 @@ public class MessageContainerTest {
 	private Project project1;
 	private Project project2;
 
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
+
 	@Before
 	public void setUp() throws Exception {
 		createTestProjects();
@@ -69,13 +73,15 @@ public class MessageContainerTest {
 
 	@After
 	public void tearDown() throws Exception {
-		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName1));
-		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName2));
+		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY,
+				projectName1));
+		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY,
+				projectName2));
 	}
 
 	@Test
 	public void testLoadProject() {
-		List<String> broadcastMessages = ProjectManager.getInstance().getCurrentProject()
+		List<String> broadcastMessages = projectManager.getValue().getCurrentProject()
 				.getBroadcastMessageContainer().getBroadcastMessages();
 
 		assertThat(broadcastMessages, hasItem(broadcastMessage1));
@@ -84,15 +90,14 @@ public class MessageContainerTest {
 
 	@Test
 	public void testLoadTwoProjects() throws ProjectException {
-
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		final ProjectManager projectManager = this.projectManager.getValue();
+		Project currentProject = projectManager.getCurrentProject();
 		currentProject.getBroadcastMessageContainer().update();
 
-		ProjectManager.getInstance()
-				.loadProject(project2.getDirectory(), ApplicationProvider.getApplicationContext());
+		projectManager.loadProject(project2.getDirectory());
 
-		currentProject = ProjectManager.getInstance().getCurrentProject();
-		ProjectManager.getInstance().setCurrentlyEditedScene(currentProject.getDefaultScene());
+		currentProject = projectManager.getCurrentProject();
+		projectManager.setCurrentlyEditedScene(currentProject.getDefaultScene());
 		List<String> broadcastMessages = currentProject.getBroadcastMessageContainer().getBroadcastMessages();
 
 		assertThat(broadcastMessages, not(hasItem(broadcastMessage1)));
@@ -129,8 +134,7 @@ public class MessageContainerTest {
 		project2.getDefaultScene().addSprite(sprite2);
 		XstreamSerializer.getInstance().saveProject(project2);
 
-		ProjectManager.getInstance()
-				.loadProject(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName2),
-						ApplicationProvider.getApplicationContext());
+		projectManager.getValue().loadProject(
+				new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName2));
 	}
 }

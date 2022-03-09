@@ -43,10 +43,13 @@ import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.physics.PhysicsLook
 import org.catrobat.catroid.physics.PhysicsObject
 import org.catrobat.catroid.physics.PhysicsWorld
+import org.koin.java.KoinJavaComponent
 
 class ActionPhysicsFactory : ActionFactory() {
+    private val projectManager: ProjectManager by
+        KoinJavaComponent.inject(ProjectManager::class.java)
     private val physicsWorld: PhysicsWorld
-        get() = ProjectManager.getInstance().currentlyPlayingScene.physicsWorld
+        get() = projectManager.currentlyPlayingScene.physicsWorld
 
     private fun getPhysicsObject(sprite: Sprite): PhysicsObject = physicsWorld.getPhysicsObject(sprite)
 
@@ -61,7 +64,7 @@ class ActionPhysicsFactory : ActionFactory() {
         val action = Actions.action(GlideToPhysicsAction::class.java)
         action.setPosition(x, y)
         action.setDuration(duration)
-        val scope = Scope(ProjectManager.getInstance().currentProject, sprite, sequence)
+        val scope = Scope(projectManager.currentProject, sprite, sequence)
         action.setScope(scope)
         action.setPhysicsLook(sprite.look as PhysicsLook)
         return action
@@ -69,7 +72,7 @@ class ActionPhysicsFactory : ActionFactory() {
 
     override fun createSetBounceFactorAction(sprite: Sprite, sequence: SequenceAction, bounceFactor: Formula?): Action {
         val action = Actions.action(SetBounceFactorAction::class.java)
-        val scope = Scope(ProjectManager.getInstance().currentProject, sprite, sequence)
+        val scope = Scope(projectManager.currentProject, sprite, sequence)
         action.setScope(scope)
         action.setPhysicsObject(getPhysicsObject(sprite))
         action.setBounceFactor(bounceFactor)
@@ -78,7 +81,7 @@ class ActionPhysicsFactory : ActionFactory() {
 
     override fun createSetFrictionAction(sprite: Sprite, sequence: SequenceAction, friction: Formula?): Action {
         val action = Actions.action(SetFrictionAction::class.java)
-        val scope = Scope(ProjectManager.getInstance().currentProject, sprite, sequence)
+        val scope = Scope(projectManager.currentProject, sprite, sequence)
         action.setScope(scope)
         action.setPhysicsObject(getPhysicsObject(sprite))
         action.setFriction(friction)
@@ -87,7 +90,7 @@ class ActionPhysicsFactory : ActionFactory() {
 
     override fun createSetGravityAction(sprite: Sprite, sequence: SequenceAction, gravityX: Formula?, gravityY: Formula?): Action {
         val action = Actions.action(SetGravityAction::class.java)
-        val scope = Scope(ProjectManager.getInstance().currentProject, sprite, sequence)
+        val scope = Scope(projectManager.currentProject, sprite, sequence)
         action.setScope(scope)
         action.setPhysicsWorld(physicsWorld)
         action.setGravity(gravityX, gravityY)
@@ -96,7 +99,7 @@ class ActionPhysicsFactory : ActionFactory() {
 
     override fun createSetMassAction(sprite: Sprite, sequence: SequenceAction, mass: Formula?): Action {
         val action = Actions.action(SetMassAction::class.java)
-        val scope = Scope(ProjectManager.getInstance().currentProject, sprite, sequence)
+        val scope = Scope(projectManager.currentProject, sprite, sequence)
         action.setScope(scope)
         action.setPhysicsObject(getPhysicsObject(sprite))
         action.setMass(mass)
@@ -112,7 +115,7 @@ class ActionPhysicsFactory : ActionFactory() {
 
     override fun createSetVelocityAction(sprite: Sprite, sequence: SequenceAction, velocityX: Formula?, velocityY: Formula?): Action {
         val action = Actions.action(SetVelocityAction::class.java)
-        val scope = Scope(ProjectManager.getInstance().currentProject, sprite, sequence)
+        val scope = Scope(projectManager.currentProject, sprite, sequence)
         action.setScope(scope)
         action.setPhysicsObject(getPhysicsObject(sprite))
         action.setVelocity(velocityX, velocityY)
@@ -121,7 +124,7 @@ class ActionPhysicsFactory : ActionFactory() {
 
     override fun createTurnLeftSpeedAction(sprite: Sprite, sequence: SequenceAction, speed: Formula?): Action {
         val action = Actions.action(TurnLeftSpeedAction::class.java)
-        val scope = Scope(ProjectManager.getInstance().currentProject, sprite, sequence)
+        val scope = Scope(projectManager.currentProject, sprite, sequence)
         action.setScope(scope)
         action.setPhysicsObject(getPhysicsObject(sprite))
         action.setSpeed(speed)
@@ -130,7 +133,7 @@ class ActionPhysicsFactory : ActionFactory() {
 
     override fun createTurnRightSpeedAction(sprite: Sprite, sequence: SequenceAction, speed: Formula?): Action {
         val action = Actions.action(TurnRightSpeedAction::class.java)
-        val scope = Scope(ProjectManager.getInstance().currentProject, sprite, sequence)
+        val scope = Scope(projectManager.currentProject, sprite, sequence)
         action.setScope(scope)
         action.setPhysicsObject(getPhysicsObject(sprite))
         action.setSpeed(speed)

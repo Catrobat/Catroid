@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -50,6 +50,7 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class ArduinoSettingsTest {
@@ -57,6 +58,7 @@ public class ArduinoSettingsTest {
 	private boolean sharedPreferenceBuffer;
 	private String projectName = ArduinoSettingsTest.class.getSimpleName();
 	private Project project;
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Before
 	public void setUp() throws Exception {
@@ -79,7 +81,7 @@ public class ArduinoSettingsTest {
 
 		assertFalse(SettingsFragment.isArduinoSharedPreferenceEnabled(context));
 
-		ProjectManager.getInstance().loadProject(project.getDirectory(), context);
+		projectManager.loadProject(project.getDirectory());
 
 		assertTrue(SettingsFragment.isArduinoSharedPreferenceEnabled(context));
 
@@ -97,7 +99,7 @@ public class ArduinoSettingsTest {
 
 		project.getDefaultScene().addSprite(sprite);
 
-		ProjectManager.getInstance().setCurrentProject(project);
+		projectManager.setCurrentProject(project);
 		saveProjectSerial(project, ApplicationProvider.getApplicationContext());
 	}
 }

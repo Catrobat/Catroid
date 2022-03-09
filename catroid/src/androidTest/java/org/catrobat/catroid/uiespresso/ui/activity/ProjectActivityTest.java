@@ -53,6 +53,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBarMenu;
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -67,6 +68,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 public class ProjectActivityTest {
 
 	private static final String PROJECT_NAME = "projectName";
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Rule
 	public FragmentActivityTestRule<ProjectActivity> baseActivityTestRule = new
@@ -78,8 +80,8 @@ public class ProjectActivityTest {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), PROJECT_NAME);
 		Sprite firstSprite = new Sprite("firstSprite");
 		project.getDefaultScene().addSprite(firstSprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(firstSprite);
 		Intents.init();
 	}
 
@@ -87,7 +89,7 @@ public class ProjectActivityTest {
 	public void tearDown() throws Exception {
 		Intents.release();
 		TestUtils.deleteProjects(PROJECT_NAME);
-		ProjectManager.getInstance().setCurrentProject(null);
+		projectManager.setCurrentProject(null);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})

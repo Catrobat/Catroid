@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import android.content.Context;
+
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.GdxNativesLoader;
@@ -30,24 +32,34 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.koin.core.module.Module;
+import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.util.Collections;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(GdxNativesLoader.class)
 public class ComeToFrontActionTest {
+
+	private final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
@@ -59,9 +71,14 @@ public class ComeToFrontActionTest {
 		PowerMockito.mockStatic(GdxNativesLoader.class);
 	}
 
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
+	}
+
 	@Test
 	public void testComeToFront() {
-		Project project = new Project(MockUtil.mockContextForProject(), projectName);
+		Project project = new Project(MockUtil.mockContextForProject(dependencyModules), projectName);
 		Group parentGroup = new Group();
 
 		Sprite bottomSprite = new Sprite("catroid");
@@ -79,7 +96,8 @@ public class ComeToFrontActionTest {
 		project.getDefaultScene().addSprite(bottomSprite);
 		project.getDefaultScene().addSprite(middleSprite);
 		project.getDefaultScene().addSprite(topSprite);
-		ProjectManager.getInstance().setCurrentProject(project);
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
 
 		checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(project);
 
@@ -102,6 +120,46 @@ public class ComeToFrontActionTest {
 		checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(project);
 	}
 
+	@Test
+	public void testNullSprite() {
+		Context contextMock = Mockito.mock(Context.class);
+		CatroidKoinHelperKt.startWithContext(contextMock, dependencyModules);
+		ActionFactory factory = new ActionFactory();
+		Action action = factory.createComeToFrontAction(null);
+
+		exception.expect(NullPointerException.class);
+		action.act(1.0f);
+	}
+
+	@Test
+	public void testBoundaries() {
+		Project project = new Project(MockUtil.mockContextForProject(dependencyModules), projectName);
+		Group parentGroup = new Group();
+
+		Sprite firstSprite = new Sprite("firstSprite");
+		parentGroup.addActor(firstSprite.look);
+		project.getDefaultScene().addSprite(firstSprite);
+
+		for (int i = 0; i < 10; i++) {
+			Sprite sprite = new Sprite("testSprite" + i);
+			parentGroup.addActor(sprite.look);
+			sprite.look.setZIndex(Integer.MAX_VALUE);
+			project.getDefaultScene().addSprite(sprite);
+		}
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
+
+		ActionFactory factory = firstSprite.getActionFactory();
+		Action action = factory.createComeToFrontAction(firstSprite);
+		action.act(1.0f);
+
+		assertEquals(getZMaxValue(firstSprite), firstSprite.look.getZIndex());
+	}
+
+	private int getZMaxValue(Sprite sprite) {
+		return sprite.look.getParent().getChildren().size - 1;
+	}
+
 	private void checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(Project project) {
 		int spriteSize = project.getDefaultScene().getSpriteList().size();
 		int actualZIndex;
@@ -120,43 +178,5 @@ public class ComeToFrontActionTest {
 			}
 			assertTrue(zIndexFound);
 		}
-	}
-
-	@Test
-	public void testNullSprite() {
-		ActionFactory factory = new ActionFactory();
-		Action action = factory.createComeToFrontAction(null);
-
-		exception.expect(NullPointerException.class);
-		action.act(1.0f);
-	}
-
-	@Test
-	public void testBoundaries() {
-		Project project = new Project(MockUtil.mockContextForProject(), projectName);
-		Group parentGroup = new Group();
-
-		Sprite firstSprite = new Sprite("firstSprite");
-		parentGroup.addActor(firstSprite.look);
-		project.getDefaultScene().addSprite(firstSprite);
-
-		for (int i = 0; i < 10; i++) {
-			Sprite sprite = new Sprite("testSprite" + i);
-			parentGroup.addActor(sprite.look);
-			sprite.look.setZIndex(Integer.MAX_VALUE);
-			project.getDefaultScene().addSprite(sprite);
-		}
-
-		ProjectManager.getInstance().setCurrentProject(project);
-
-		ActionFactory factory = firstSprite.getActionFactory();
-		Action action = factory.createComeToFrontAction(firstSprite);
-		action.act(1.0f);
-
-		assertEquals(getZMaxValue(firstSprite), firstSprite.look.getZIndex());
-	}
-
-	private int getZMaxValue(Sprite sprite) {
-		return sprite.look.getParent().getChildren().size - 1;
 	}
 }

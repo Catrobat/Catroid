@@ -36,6 +36,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Locale;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class SceneAdapter extends ExtendedRVAdapter<Scene> {
 
 	public SceneAdapter(List<Scene> items) {
@@ -49,7 +51,8 @@ public class SceneAdapter extends ExtendedRVAdapter<Scene> {
 		ProjectAndSceneScreenshotLoader loader = new ProjectAndSceneScreenshotLoader(thumbnailWidth, thumbnailHeight);
 		Scene item = items.get(position);
 
-		File projectDir = ProjectManager.getInstance().getCurrentProject().getDirectory();
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		File projectDir = projectManager.getCurrentProject().getDirectory();
 		holder.title.setText(item.getName());
 
 		loader.loadAndShowScreenshot(projectDir.getName(), item.getDirectory().getName(), false, holder.image);
@@ -69,7 +72,8 @@ public class SceneAdapter extends ExtendedRVAdapter<Scene> {
 	@Override
 	public boolean onItemMove(int sourcePosition, int targetPosition) {
 		boolean moved = super.onItemMove(sourcePosition, targetPosition);
-		ProjectManager.getInstance().setCurrentlyEditedScene(items.get(0));
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentlyEditedScene(items.get(0));
 		return moved;
 	}
 

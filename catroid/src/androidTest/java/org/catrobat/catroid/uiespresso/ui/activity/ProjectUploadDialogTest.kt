@@ -60,6 +60,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.java.KoinJavaComponent.inject
 import org.mockito.Mockito.spy
 import org.mockito.Mockito.verify
 
@@ -82,7 +83,8 @@ class ProjectUploadDialogTest {
 
         project = Project(getApplicationContext(), projectName, false)
         val firstScene = Scene("scene", project)
-        ProjectManager.getInstance().currentProject = project
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        projectManager.currentProject = project
         val firstSprite = Sprite("firstSprite")
         val firstScript: Script = StartScript()
         firstSprite.addScript(firstScript)

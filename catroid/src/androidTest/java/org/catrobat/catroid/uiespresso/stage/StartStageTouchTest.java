@@ -60,6 +60,7 @@ import java.util.List;
 import androidx.test.core.app.ApplicationProvider;
 
 import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.matcher.ViewMatchers.isFocusable;
@@ -121,8 +122,9 @@ public class StartStageTouchTest {
 		scene2.getBackgroundSprite().addScript(background2StartScript);
 		project.addScene(scene2);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setStartScene(scene1);
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setStartScene(scene1);
 	}
 
 	private Formula createFormulaWithSensor(Sensors sensor, Scope scope) {

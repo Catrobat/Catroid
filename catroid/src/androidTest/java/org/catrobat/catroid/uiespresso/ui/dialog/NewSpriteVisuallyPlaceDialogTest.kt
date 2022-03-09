@@ -27,10 +27,10 @@ import android.app.Instrumentation.ActivityResult
 import android.content.Intent
 import android.preference.PreferenceManager.getDefaultSharedPreferences
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
@@ -66,6 +66,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
+import org.koin.java.KoinJavaComponent.inject
 
 @RunWith(AndroidJUnit4::class)
 class NewSpriteVisuallyPlaceDialogTest {
@@ -172,8 +173,9 @@ class NewSpriteVisuallyPlaceDialogTest {
 
     private fun createProject(projectName: String) {
         val project = Project(ApplicationProvider.getApplicationContext(), projectName)
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().currentlyEditedScene = project.defaultScene
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        projectManager.currentProject = project
+        projectManager.currentlyEditedScene = project.defaultScene
         XstreamSerializer.getInstance().saveProject(project)
     }
 }

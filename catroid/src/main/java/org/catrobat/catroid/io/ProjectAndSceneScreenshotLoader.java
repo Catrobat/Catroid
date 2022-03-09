@@ -52,6 +52,7 @@ import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.SCREENSHOT_MANUAL_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class ProjectAndSceneScreenshotLoader {
 
@@ -244,7 +245,9 @@ public class ProjectAndSceneScreenshotLoader {
 				if (!automaticScreenShotFile.exists()) {
 					int random = new Random().nextInt(placeholderImages.length);
 					try {
-						ResourceImporter.createImageFileFromResourcesInDirectory(ProjectManager.getInstance().getApplicationContext().getResources(),
+						final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+						ResourceImporter.createImageFileFromResourcesInDirectory(
+								projectManager.getApplicationContext().getResources(),
 								placeholderImages[random],
 								projectDir,
 								SCREENSHOT_AUTOMATIC_FILE_NAME,

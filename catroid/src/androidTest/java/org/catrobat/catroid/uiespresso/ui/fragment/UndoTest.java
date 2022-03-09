@@ -47,6 +47,7 @@ import java.util.Collection;
 import static org.catrobat.catroid.WaitForConditionAction.waitFor;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
@@ -137,7 +138,8 @@ public class UndoTest {
 	}
 
 	public String getProjectAsXmlString() {
-		return XstreamSerializer.getInstance().getXmlAsStringFromProject(ProjectManager.getInstance().getCurrentProject());
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		return XstreamSerializer.getInstance().getXmlAsStringFromProject(projectManager.getCurrentProject());
 	}
 
 	private void createProject() {
@@ -147,7 +149,8 @@ public class UndoTest {
 		compositeBrick.addBrickToElseBranch(new SetXBrick());
 		script.addBrick(compositeBrick);
 
-		XstreamSerializer.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		XstreamSerializer.getInstance().saveProject(projectManager.getCurrentProject());
 		initialProject = getProjectAsXmlString();
 	}
 }

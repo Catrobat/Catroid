@@ -79,7 +79,6 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
     private lateinit var privacyPolicyBinding: PrivacyPolicyViewBinding
     private lateinit var declinedTermsOfUseViewBinding: DeclinedTermsOfUseAndServiceAlertViewBinding
     private lateinit var mainMenuBinding: ActivityMainMenuBinding
-    private val projectManager: ProjectManager by inject()
     private var oldPrivacyPolicy = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -239,6 +238,7 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
 
     public override fun onPause() {
         super.onPause()
+        val projectManager: ProjectManager by inject()
         val currentProject = projectManager.currentProject
         if (currentProject != null) {
             ProjectSaver(currentProject, applicationContext).saveProjectAsync()
@@ -334,7 +334,7 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
             )
             ZipArchiver()
                 .unzip(inputStream, projectDir)
-            ProjectLoader(projectDir, this)
+            ProjectLoader(projectDir)
                 .setListener(this)
                 .loadProjectAsync()
         } catch (e: IOException) {

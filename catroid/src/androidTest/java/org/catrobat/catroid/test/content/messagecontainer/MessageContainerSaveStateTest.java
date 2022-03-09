@@ -49,6 +49,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class MessageContainerSaveStateTest {
@@ -56,6 +57,7 @@ public class MessageContainerSaveStateTest {
 	private final String projectName1 = "TestProject1";
 	private final String broadcastMessage1 = "testBroadcast1";
 	private final String unusedMessage = "Unused Message";
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Before
 	public void setUp() throws Exception {
@@ -69,7 +71,7 @@ public class MessageContainerSaveStateTest {
 
 	@Test
 	public void testDoNotSaveUnusedMessages() {
-		List<String> broadcastMessages = ProjectManager.getInstance().getCurrentProject()
+		List<String> broadcastMessages = projectManager.getCurrentProject()
 				.getBroadcastMessageContainer().getBroadcastMessages();
 
 		assertThat(broadcastMessages, hasItem(broadcastMessage1));
@@ -95,10 +97,7 @@ public class MessageContainerSaveStateTest {
 
 		XstreamSerializer.getInstance().saveProject(project1);
 
-		ProjectManager.getInstance()
-				.loadProject(project1.getDirectory(), ApplicationProvider.getApplicationContext());
-
-		ProjectManager.getInstance()
-				.setCurrentlyEditedScene(ProjectManager.getInstance().getCurrentProject().getDefaultScene());
+		projectManager.loadProject(project1.getDirectory());
+		projectManager.setCurrentlyEditedScene(projectManager.getCurrentProject().getDefaultScene());
 	}
 }

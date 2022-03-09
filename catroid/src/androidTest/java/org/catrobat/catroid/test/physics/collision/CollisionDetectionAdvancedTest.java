@@ -58,6 +58,7 @@ import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.test.physics.PhysicsTestUtils.generateLookData;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class CollisionDetectionAdvancedTest {
@@ -102,7 +103,8 @@ public class CollisionDetectionAdvancedTest {
 		project.getDefaultScene().addSprite(sprite2);
 
 		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setCurrentProject(project);
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
 
 		initializeSprite(sprite1, org.catrobat.catroid.test.R.raw.collision_donut, "collision_donut.png");
 		initializeSprite(sprite2, org.catrobat.catroid.test.R.raw.icon, "icon.png");

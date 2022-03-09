@@ -72,6 +72,7 @@ import static android.app.Activity.RESULT_OK;
 import static android.content.Context.VIBRATOR_SERVICE;
 
 import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class StageResourceHolder implements GatherCollisionInformationTask.OnPolygonLoadedListener {
 	private static final String TAG = StageResourceHolder.class.getSimpleName();
@@ -93,13 +94,15 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 
 	@VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
 	public static List<String> getProjectsRuntimePermissionList() {
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 		return BrickResourcesToRuntimePermissions.translate(
-				ProjectManager.getInstance().getCurrentProject().getRequiredResources());
+				projectManager.getCurrentProject().getRequiredResources());
 	}
 
 	public void initResources() {
 		failedResources = new HashSet<>();
-		requiredResourcesSet = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		requiredResourcesSet = projectManager.getCurrentProject().getRequiredResources();
 		requiredResourceCounter = requiredResourcesSet.size();
 
 		SensorHandler sensorHandler = SensorHandler.getInstance(stageActivity);
@@ -168,7 +171,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			connectBTDevice(BluetoothDevice.ARDUINO);
 		}
 
-		if (ProjectManager.getInstance().getCurrentProject().hasMultiplayerVariables()) {
+		if (projectManager.getCurrentProject().hasMultiplayerVariables()) {
 			requiredResourceCounter++;
 			connectBTDevice(BluetoothDevice.MULTIPLAYER);
 		}
@@ -270,7 +273,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			} else {
 				if (!SettingsFragment.isCastSharedPreferenceEnabled(stageActivity)) {
 					ToastUtil.showError(stageActivity, stageActivity.getString(R.string.cast_enable_cast_feature));
-				} else if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+				} else if (projectManager.getCurrentProject().isCastProject()) {
 					ToastUtil.showError(stageActivity, stageActivity.getString(R.string.cast_error_not_connected_msg));
 				} else {
 					ToastUtil.showError(stageActivity, stageActivity.getString(R.string.cast_error_cast_bricks_in_no_cast_project));
@@ -305,7 +308,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		}
 
 		if (requiredResourcesSet.contains(Brick.SOCKET_RASPI)) {
-			Project currentProject = ProjectManager.getInstance().getCurrentProject();
+			Project currentProject = projectManager.getCurrentProject();
 			RaspberryPiService.getInstance().enableRaspberryInterruptPinsForProject(currentProject);
 			connectRaspberrySocket();
 		}

@@ -48,6 +48,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.java.KoinJavaComponent.inject
 
 @RunWith(Parameterized::class)
 class DataListFragmentUserVariablesTest(
@@ -67,7 +68,9 @@ class DataListFragmentUserVariablesTest(
     fun setUp() {
         val script = BrickTestUtils.createProjectAndGetStartScript(projectName)
         script.addBrick(ChangeSizeByNBrick(0.0))
-        project = ProjectManager.getInstance().currentProject
+
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        project = projectManager.currentProject
         baseActivityTestRule.launchActivity()
         project.addUserVariable(UserVariable(userVariableName, value))
         openDataFragment()

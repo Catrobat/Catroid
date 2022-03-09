@@ -46,6 +46,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptBrick,
 		BrickSpinner.OnItemSelectedListener<LookData>,
 		NewItemInterface<LookData> {
@@ -104,7 +106,8 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 
 		List<Nameable> items = new ArrayList<>();
 		items.add(new NewOption(context.getString(R.string.new_option)));
-		items.addAll(ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite().getLookList());
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		items.addAll(projectManager.getCurrentlyEditedScene().getBackgroundSprite().getLookList());
 		spinner = new BrickSpinner<>(R.id.brick_when_background_spinner, view, items);
 		spinner.setOnItemSelectedListener(this);
 		spinner.setSelection(getLook());
@@ -118,8 +121,9 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 		if (!(activity instanceof SpriteActivity)) {
 			return;
 		}
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 		((SpriteActivity) activity).setCurrentSprite(
-				ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite());
+				projectManager.getCurrentlyEditedScene().getBackgroundSprite());
 		((SpriteActivity) activity).registerOnNewLookListener(this);
 		((SpriteActivity) activity).handleAddBackgroundButton();
 	}

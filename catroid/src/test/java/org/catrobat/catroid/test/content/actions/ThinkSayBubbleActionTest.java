@@ -37,6 +37,7 @@ import org.catrobat.catroid.content.actions.ThinkSayBubbleAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.stage.ShowBubbleActor;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
@@ -46,20 +47,31 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.koin.core.module.Module;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.util.Collections;
+import java.util.List;
+
+import kotlin.Lazy;
+
 import static junit.framework.Assert.assertNull;
 import static junit.framework.TestCase.assertNotNull;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({GdxNativesLoader.class, ShowBubbleActor.class, ThinkSayBubbleAction.class})
 public class ThinkSayBubbleActionTest {
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
+	private final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
-	Context contextMock = MockUtil.mockContextForProject();
+	Context contextMock = MockUtil.mockContextForProject(dependencyModules);
 	AndroidStringProvider androidStringProviderMock = new AndroidStringProvider(contextMock);
 
 	@Before
@@ -70,12 +82,13 @@ public class ThinkSayBubbleActionTest {
 		StageActivity.stageListener = Mockito.mock(StageListener.class);
 
 		Project project = new Project(contextMock, "Project");
-		ProjectManager.getInstance().setCurrentProject(project);
+		projectManager.getValue().setCurrentProject(project);
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		StageActivity.stageListener = null;
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test

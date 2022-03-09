@@ -35,6 +35,8 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.LookRequestAction
 import org.catrobat.catroid.content.actions.WebAction
 import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.StageListener
 import org.catrobat.catroid.test.MockUtil
@@ -47,6 +49,8 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.core.module.Module
+import org.koin.java.KoinJavaComponent.inject
 import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito
@@ -59,6 +63,7 @@ import org.powermock.api.mockito.PowerMockito.whenNew
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
 import java.io.InputStream
+import java.util.Collections
 
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(GdxNativesLoader::class, WebAction::class)
@@ -70,6 +75,9 @@ class LookRequestActionTest {
     private lateinit var webConnection: WebConnection
     private lateinit var response: Response
     private lateinit var responseStream: InputStream
+
+    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
 
     companion object {
         private const val TEST_URL = "https://catroid-test.catrob.at/pocketcode/"
@@ -96,11 +104,16 @@ class LookRequestActionTest {
         doReturn(responseBody).`when`(response).body()
         doReturn(responseStream).`when`(responseBody).byteStream()
 
-        val project = Project(
-            MockUtil.mockContextForProject(),
-            "Project"
-        )
-        ProjectManager.getInstance().currentProject = project
+        val context = MockUtil.mockContextForProject(dependencyModules)
+        val project = Project(context, "Project")
+        projectManager.currentProject = project
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
+        StageActivity.stageListener.webConnectionHolder = null
+        StageActivity.stageListener = null
     }
 
     @Test(expected = NullPointerException::class)
@@ -218,11 +231,5 @@ class LookRequestActionTest {
 
         assertEquals(responseStream, action.response)
         assertEquals(lookData2, testSprite.look.lookData)
-    }
-
-    @After
-    fun tearDown() {
-        StageActivity.stageListener.webConnectionHolder = null
-        StageActivity.stageListener = null
     }
 }

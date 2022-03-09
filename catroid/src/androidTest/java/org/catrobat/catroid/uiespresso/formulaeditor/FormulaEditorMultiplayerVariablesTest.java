@@ -46,6 +46,7 @@ import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.hamcrest.CoreMatchers.not;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
@@ -92,7 +93,8 @@ public class FormulaEditorMultiplayerVariablesTest {
 	public void testMultiplayerScopeIsVisibleWithDisabledPreference() {
 		SettingsFragment.setMultiplayerVariablesPreferenceEnabled(getApplicationContext(), false);
 
-		ProjectManager.getInstance().getCurrentProject().addMultiplayerVariable(new UserVariable("oldMultiplayerVariable"));
+		inject(ProjectManager.class).getValue().getCurrentProject()
+				.addMultiplayerVariable(new UserVariable("oldMultiplayerVariable"));
 
 		onView(withId(R.id.button_add))
 				.perform(click());

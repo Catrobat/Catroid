@@ -27,15 +27,21 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
 import org.catrobat.catroid.sensing.ColorCollisionDetection
 import org.catrobat.catroid.stage.StageListener
 import org.catrobat.catroid.test.MockUtil
+import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.core.module.Module
+import org.koin.java.KoinJavaComponent.inject
 import org.mockito.Mockito
+import java.util.Collections
 
 @RunWith(Parameterized::class)
 internal class ColorCollisionParameterTest(
@@ -44,6 +50,8 @@ internal class ColorCollisionParameterTest(
     private val expected: Boolean
 ) {
     private lateinit var colorCollisionDetection: ColorCollisionDetection
+    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
 
     @Before
     @Throws(Exception::class)
@@ -51,12 +59,18 @@ internal class ColorCollisionParameterTest(
         val sprite = Sprite("testSprite")
         val sequence = SequenceAction()
         val stageListener = Mockito.mock(StageListener::class.java)
-        val project = Project(MockUtil.mockContextForProject(), "testProject")
-        ProjectManager.getInstance().currentProject = project
+        val context = MockUtil.mockContextForProject(dependencyModules)
+        val project = Project(context, "testProject")
+        projectManager.currentProject = project
         colorCollisionDetection = ColorCollisionDetection(
             Scope(project, sprite, sequence),
             stageListener
         )
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     companion object {

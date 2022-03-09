@@ -34,16 +34,22 @@ import org.catrobat.catroid.content.actions.EditLookAction
 import org.catrobat.catroid.content.actions.SetNextLookAction
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.XstreamSerializer
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
 import org.catrobat.catroid.test.MockUtil
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.core.module.Module
+import org.koin.java.KoinJavaComponent.inject
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.powermock.api.mockito.PowerMockito
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
 import java.io.File
+import java.util.Collections
 
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(StorageOperations::class, XstreamSerializer::class, GdxNativesLoader::class)
@@ -55,10 +61,14 @@ class EditLookActionTest {
     private val lookDataFileEdited = mock(File::class.java)
     private val lookData = LookData("firstLook", lookDataFile)
 
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
+
     @Before
     fun setUp() {
-        projectMock = Project(MockUtil.mockContextForProject(), "testProject").also { project ->
-            ProjectManager.getInstance().currentProject = project
+        val context = MockUtil.mockContextForProject(dependencyModules)
+        projectMock = Project(context, "testProject").also { project ->
+            val projectManager: ProjectManager by inject(ProjectManager::class.java)
+            projectManager.currentProject = project
         }
         testSequence = SequenceAction()
         PowerMockito.mockStatic(XstreamSerializer::class.java)
@@ -67,6 +77,11 @@ class EditLookActionTest {
         Mockito.`when`(StorageOperations.duplicateFile(lookDataFile)).thenReturn(lookDataFileEdited)
         Mockito.`when`(XstreamSerializer.getInstance()).thenReturn(xstreamSerializerMock)
         Mockito.`when`(xstreamSerializerMock.saveProject(projectMock)).thenReturn(true)
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test

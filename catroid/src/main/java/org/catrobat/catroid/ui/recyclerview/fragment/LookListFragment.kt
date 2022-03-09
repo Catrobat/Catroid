@@ -47,7 +47,6 @@ import org.catrobat.catroid.utils.SnackbarUtil
 import org.catrobat.catroid.utils.ToastUtil
 import org.koin.android.ext.android.inject
 import java.io.IOException
-import java.util.ArrayList
 
 class LookListFragment : RecyclerViewFragment<LookData?>() {
     private val lookController = LookController()

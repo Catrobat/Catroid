@@ -24,11 +24,9 @@ package org.catrobat.catroid.catrobattestrunner
 
 import android.Manifest.permission
 import android.app.Instrumentation.ActivityResult
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import androidx.test.rule.GrantPermissionRule
-import org.junit.Assert
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.io.StorageOperations
@@ -38,6 +36,7 @@ import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.TestResult
 import org.catrobat.catroid.test.utils.TestUtils
 import org.junit.After
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -45,7 +44,6 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import java.io.File
 import java.io.IOException
-import java.util.ArrayList
 
 @RunWith(Parameterized::class)
 class CatrobatTestRunner {
@@ -113,9 +111,7 @@ class CatrobatTestRunner {
             .copyStreamToDir(inputStream, Constants.CACHE_DIRECTORY, assetName)
         Assert.assertTrue(unzipAndImportProjects(arrayOf(projectArchive)))
         val projectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName)
-        Assert.assertTrue(
-            loadProject(projectDir, ApplicationProvider.getApplicationContext())
-        )
+        Assert.assertTrue(loadProject(projectDir))
     }
 
     @After

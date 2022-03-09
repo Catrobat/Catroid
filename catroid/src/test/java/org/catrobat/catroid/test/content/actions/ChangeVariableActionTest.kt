@@ -23,17 +23,23 @@
 package org.catrobat.catroid.test.content.actions
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
-import org.junit.Assert
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.UserVariable
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
 import org.catrobat.catroid.test.MockUtil
+import org.junit.After
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.core.module.Module
+import org.koin.java.KoinJavaComponent.inject
+import java.util.Collections
 
 @RunWith(Parameterized::class)
 class ChangeVariableActionTest(
@@ -44,6 +50,9 @@ class ChangeVariableActionTest(
 ) {
     private lateinit var testSprite: Sprite
     private lateinit var testSequence: SequenceAction
+
+    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
 
     companion object {
         @JvmStatic
@@ -67,10 +76,16 @@ class ChangeVariableActionTest(
     fun setUp() {
         testSprite = Sprite("testSprite")
         testSequence = SequenceAction()
-        Project(MockUtil.mockContextForProject(), "testProject").apply {
+        val context = MockUtil.mockContextForProject(dependencyModules)
+        Project(context, "testProject").apply {
             addUserVariable(userVariable)
-            ProjectManager.getInstance().currentProject = this
+            projectManager.currentProject = this
         }
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test

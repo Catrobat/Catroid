@@ -138,8 +138,8 @@ class AssertEqualsBrickTest {
         sprite.addScript(script)
         project = Project(ApplicationProvider.getApplicationContext(), PROJECT_NAME)
         project.defaultScene.addSprite(sprite)
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().currentSprite = sprite
+        projectManager.currentProject = project
+        projectManager.currentSprite = sprite
         XstreamSerializer.getInstance().saveProject(project)
     }
 }

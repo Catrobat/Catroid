@@ -32,6 +32,8 @@ import org.catrobat.catroid.content.Sprite;
 
 import java.util.LinkedList;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class PhysicsLook extends Look {
 
 	public static final float SCALE_FACTOR_ACCURACY = 10000.0f;
@@ -63,7 +65,8 @@ public class PhysicsLook extends Look {
 	@Override
 	public void setLookData(LookData lookData) {
 		super.setLookData(lookData);
-		PhysicsWorld physicsWorld = ProjectManager.getInstance().getCurrentlyPlayingScene().getPhysicsWorld();
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		PhysicsWorld physicsWorld = projectManager.getCurrentlyPlayingScene().getPhysicsWorld();
 		physicsWorld.changeLook(physicsObject, this);
 		updatePhysicsObjectState(true);
 	}
@@ -215,7 +218,8 @@ public class PhysicsLook extends Look {
 		super.setScale(scaleX, scaleY);
 
 		if (physicsObject != null) {
-			PhysicsWorld physicsWorld = ProjectManager.getInstance().getCurrentlyPlayingScene().getPhysicsWorld();
+			final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+			PhysicsWorld physicsWorld = projectManager.getCurrentlyPlayingScene().getPhysicsWorld();
 			physicsWorld.changeLook(physicsObject, this);
 			updatePhysicsObjectState(true);
 		}

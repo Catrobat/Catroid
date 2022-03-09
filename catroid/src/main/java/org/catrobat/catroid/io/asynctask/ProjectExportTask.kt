@@ -27,14 +27,12 @@ import android.net.Uri
 import android.os.AsyncTask
 import android.util.Log
 import androidx.annotation.VisibleForTesting
-
-import org.catrobat.catroid.utils.notifications.NotificationData
-import org.catrobat.catroid.io.ZipArchiver
-import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.io.StorageOperations
-
+import org.catrobat.catroid.io.ZipArchiver
+import org.catrobat.catroid.utils.notifications.NotificationData
+import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
 import java.io.File
 import java.io.IOException
 import java.lang.ref.WeakReference

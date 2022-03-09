@@ -47,13 +47,18 @@ import org.catrobat.catroid.formulaeditor.InternToken
 import org.catrobat.catroid.formulaeditor.InternTokenType.NUMBER
 import org.catrobat.catroid.formulaeditor.InternTokenType.STRING
 import org.catrobat.catroid.formulaeditor.Operators.PLUS
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
 import org.catrobat.catroid.test.MockUtil
 import org.catrobat.catroid.test.formulaeditor.FormulaEditorTestUtil.buildBinaryOperator
 import org.catrobat.catroid.test.formulaeditor.FormulaEditorTestUtil.testSingleParameterFunction
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.core.module.Module
+import org.koin.java.KoinJavaComponent.inject
 import java.lang.Math.abs
 import java.lang.Math.acos
 import java.lang.Math.asin
@@ -70,6 +75,7 @@ import java.lang.Math.sqrt
 import java.lang.Math.tan
 import java.lang.Math.toDegrees
 import java.lang.Math.toRadians
+import java.util.Collections
 
 @RunWith(Parameterized::class)
 class SingleParameterFunctionParserTest(
@@ -107,16 +113,17 @@ class SingleParameterFunctionParserTest(
     private var sprite: Sprite? = null
     private var scope: Scope? = null
 
+    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
+
     @Before
     fun setUp() {
-        val project = Project(
-            MockUtil.mockContextForProject(),
-            "Project"
-        )
+        val context = MockUtil.mockContextForProject(dependencyModules)
+        val project = Project(context, "Project")
         sprite = Sprite("testSprite")
         scope = Scope(project, sprite!!, SequenceAction())
         project.defaultScene.addSprite(sprite)
-        ProjectManager.getInstance().currentProject = project
+        projectManager.currentProject = project
     }
 
     @Test
@@ -124,6 +131,11 @@ class SingleParameterFunctionParserTest(
         val internToken = InternToken(NUMBER, parameterValue.toString())
         val expectedValue = associatedFunction.function(parameterValue)
         testSingleParameterFunction(function, listOf(internToken), expectedValue, null)
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test

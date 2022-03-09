@@ -78,8 +78,9 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
@@ -96,8 +97,8 @@ import static androidx.test.espresso.intent.matcher.IntentMatchers.hasCategories
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtras;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasType;
-import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.RootMatchers.isDialog;
+import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -106,6 +107,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 public class ProjectOptionsTest {
 
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 	private static final String PROJECT_NAME = "projectName";
 	private static final String NEW_PROJECT_NAME = "newProjectName";
 	private static final String EXISTING_PROJECT_NAME = "existingProjectName";
@@ -161,7 +163,7 @@ public class ProjectOptionsTest {
 
 		assertFalse(projectFile.exists());
 
-		project = ProjectManager.getInstance().getCurrentProject();
+		project = projectManager.getCurrentProject();
 		onView(withText(NEW_PROJECT_NAME))
 				.check(matches(isDisplayed()));
 		assertEquals(NEW_PROJECT_NAME, project.getName());
@@ -241,7 +243,7 @@ public class ProjectOptionsTest {
 
 		pressBack();
 
-		project = ProjectManager.getInstance().getCurrentProject();
+		project = projectManager.getCurrentProject();
 		assertEquals(DESCRIPTION, project.getDescription());
 	}
 
@@ -254,7 +256,7 @@ public class ProjectOptionsTest {
 
 		pressBack();
 
-		project = ProjectManager.getInstance().getCurrentProject();
+		project = projectManager.getCurrentProject();
 		assertEquals(NOTES_AND_CREDITS, project.getNotesAndCredits());
 	}
 
@@ -268,7 +270,7 @@ public class ProjectOptionsTest {
 		List<String> tagsList =
 				new ArrayList<>(Arrays.asList("Game", "Animation", "Tutorial"));
 
-		project = ProjectManager.getInstance().getCurrentProject();
+		project = projectManager.getCurrentProject();
 		project.setTags(tagsList);
 
 		openContextualActionModeOverflowMenu();

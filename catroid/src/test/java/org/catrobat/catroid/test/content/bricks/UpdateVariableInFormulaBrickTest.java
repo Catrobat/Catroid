@@ -21,6 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.test.content.bricks;
+import android.content.Context;
+
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -35,20 +37,27 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.koin.core.module.Module;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+
+import kotlin.Lazy;
 
 import static org.catrobat.catroid.test.xmlformat.ClassDiscoverer.getAllSubClassesOf;
 import static org.catrobat.catroid.test.xmlformat.ClassDiscoverer.removeAbstractClasses;
 import static org.catrobat.catroid.test.xmlformat.ClassDiscoverer.removeInnerClasses;
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class UpdateVariableInFormulaBrickTest {
@@ -63,6 +72,10 @@ public class UpdateVariableInFormulaBrickTest {
 	private static final String NEW_VARIABLE_NAME = "NewName";
 	private static final String NEW_VARIABLE_USERVARIABLE_FORMAT = "\"NewName\" ";
 	private static final String NEW_VARIABLE_USERLIST_FORMAT = "*NewName* ";
+
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
+	private final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
@@ -85,7 +98,8 @@ public class UpdateVariableInFormulaBrickTest {
 
 	@Before
 	public void setUp() throws IllegalAccessException, InstantiationException {
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Context context = MockUtil.mockContextForProject(dependencyModules);
+		Project project = new Project(context, "testProject");
 		userVariable = new UserVariable();
 		userList = new UserList();
 		Scene scene = new Scene();
@@ -103,7 +117,12 @@ public class UpdateVariableInFormulaBrickTest {
 
 		project.addUserVariable(userVariable);
 		project.addUserList(userList);
-		ProjectManager.getInstance().setCurrentProject(project);
+		projectManager.getValue().setCurrentProject(project);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test
@@ -116,7 +135,7 @@ public class UpdateVariableInFormulaBrickTest {
 			formulaBrick.setFormulaWithBrickField(k, newFormula);
 		});
 
-		ProjectManager.getInstance().getCurrentProject().updateUserDataReferences(VARIABLE_NAME,
+		projectManager.getValue().getCurrentProject().updateUserDataReferences(VARIABLE_NAME,
 				NEW_VARIABLE_NAME,
 				userVariable);
 
@@ -136,7 +155,7 @@ public class UpdateVariableInFormulaBrickTest {
 			formulaBrick.setFormulaWithBrickField(k, newFormula);
 		});
 
-		ProjectManager.getInstance().getCurrentProject()
+		projectManager.getValue().getCurrentProject()
 				.updateUserDataReferences(INVALID_NAME, NEW_VARIABLE_NAME, userVariable);
 
 		map.forEach((k, v) -> {
@@ -155,7 +174,7 @@ public class UpdateVariableInFormulaBrickTest {
 			formulaBrick.setFormulaWithBrickField(k, newFormula);
 		});
 
-		ProjectManager.getInstance().getCurrentProject()
+		projectManager.getValue().getCurrentProject()
 				.updateUserDataReferences(VARIABLE_NAME, NEW_VARIABLE_NAME, userList);
 
 		map.forEach((k, v) -> {
@@ -174,7 +193,7 @@ public class UpdateVariableInFormulaBrickTest {
 			formulaBrick.setFormulaWithBrickField(k, newFormula);
 		});
 
-		ProjectManager.getInstance().getCurrentProject()
+		projectManager.getValue().getCurrentProject()
 				.updateUserDataReferences(INVALID_NAME, NEW_VARIABLE_NAME, userList);
 
 		map.forEach((k, v) -> {

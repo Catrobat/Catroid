@@ -46,7 +46,6 @@ import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.databinding.ViewScriptFinderBinding
 import org.catrobat.catroid.utils.ToastUtil
 import org.koin.java.KoinJavaComponent.inject
-import java.util.ArrayList
 import java.util.Locale
 
 class ScriptFinder(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {

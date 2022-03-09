@@ -112,12 +112,16 @@ import java.util.Collection;
 import java.util.List;
 
 import androidx.test.core.app.ApplicationProvider;
+import kotlin.Lazy;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @RunWith(Parameterized.class)
 public class BrickFormulaDefaultValueTest {
+	final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
@@ -239,7 +243,6 @@ public class BrickFormulaDefaultValueTest {
 	@Before
 	public void setUp() throws Exception {
 		createProject(ApplicationProvider.getApplicationContext());
-
 		categoryBricksFactory = new CategoryBricksFactory();
 	}
 
@@ -250,9 +253,10 @@ public class BrickFormulaDefaultValueTest {
 		script.addBrick(new SetXBrick());
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		ProjectManager projectManager = this.projectManager.getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
 	}
 
 	@Test

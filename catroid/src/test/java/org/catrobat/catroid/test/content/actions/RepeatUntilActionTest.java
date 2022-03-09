@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import android.content.Context;
+
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -40,13 +42,21 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.koin.core.module.Module;
+
+import java.util.Collections;
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(JUnit4.class)
 public class RepeatUntilActionTest {
@@ -58,6 +68,9 @@ public class RepeatUntilActionTest {
 	private static final String TEST_USERVARIABLE = "testUservariable";
 	private static final String TEST_USERVARIABLE_2 = "testUservariable2";
 
+	private final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
 	private Sprite testSprite;
 	private Script testScript;
 
@@ -66,15 +79,17 @@ public class RepeatUntilActionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Context context = MockUtil.mockContextForProject(dependencyModules);
+		Project project = new Project(context, "testProject");
 
 		testSprite = new Sprite("testSprite");
 		testScript = new StartScript();
 		testSprite.removeAllScripts();
 		testSprite.addScript(testScript);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(testSprite);
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(testSprite);
 
 		project.removeUserVariable(TEST_USERVARIABLE);
 		userVariable = new UserVariable(TEST_USERVARIABLE);
@@ -83,6 +98,11 @@ public class RepeatUntilActionTest {
 		project.removeUserVariable(TEST_USERVARIABLE_2);
 		userVariable2 = new UserVariable(TEST_USERVARIABLE_2);
 		project.addUserVariable(userVariable2);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test

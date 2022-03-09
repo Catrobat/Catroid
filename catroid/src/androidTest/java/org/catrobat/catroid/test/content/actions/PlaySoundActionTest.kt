@@ -37,6 +37,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.java.KoinJavaComponent.inject
 import java.io.File
 import java.io.IOException
 
@@ -99,7 +100,8 @@ class PlaySoundActionTest {
         val projectName = "testProject"
         project = Project(ApplicationProvider.getApplicationContext(), projectName)
         XstreamSerializer.getInstance().saveProject(project)
-        ProjectManager.getInstance().currentProject = project
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        projectManager.currentProject = project
         soundFile = TestUtils.createSoundFile(project, R.raw.testsound, "soundTest.mp3")
     }
 

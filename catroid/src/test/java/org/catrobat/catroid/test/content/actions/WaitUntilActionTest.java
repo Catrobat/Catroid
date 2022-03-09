@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import android.content.Context;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
@@ -32,14 +34,24 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.test.MockUtil;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.koin.core.module.Module;
+
+import java.util.Collections;
+import java.util.List;
+
+import kotlin.Lazy;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(JUnit4.class)
 public class WaitUntilActionTest {
@@ -47,17 +59,26 @@ public class WaitUntilActionTest {
 	private Sprite testSprite;
 	private Project project;
 	private static final String TEST_USERVARIABLE = "testUservariable";
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
+	private final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Before
 	public void setUp() throws Exception {
 		testSprite = new Sprite("testSprite");
-		project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Context context = MockUtil.mockContextForProject(dependencyModules);
+		project = new Project(context, "testProject");
 		testSprite.removeAllScripts();
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(new Sprite("testSprite1"));
+		projectManager.getValue().setCurrentProject(project);
+		projectManager.getValue().setCurrentSprite(new Sprite("testSprite1"));
 		project.removeUserVariable(TEST_USERVARIABLE);
 		UserVariable userVariable = new UserVariable(TEST_USERVARIABLE);
 		project.addUserVariable(userVariable);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test
@@ -89,7 +110,7 @@ public class WaitUntilActionTest {
 		testScript.addBrick(waitUntilBrick);
 		testSprite.addScript(testScript);
 		project.getDefaultScene().addSprite(testSprite);
-		ProjectManager.getInstance().setCurrentSprite(testSprite);
+		projectManager.getValue().setCurrentSprite(testSprite);
 		testSprite.initializeEventThreads(EventId.START);
 
 		testSprite.look.act(100f);

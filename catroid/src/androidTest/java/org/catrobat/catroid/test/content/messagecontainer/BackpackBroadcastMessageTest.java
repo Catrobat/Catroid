@@ -44,8 +44,10 @@ import java.util.Set;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import kotlin.Lazy;
 
 import static org.catrobat.catroid.test.utils.TestUtils.clearBackPack;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class BackpackBroadcastMessageTest {
@@ -56,6 +58,7 @@ public class BackpackBroadcastMessageTest {
 	private Script backpackedStartScript;
 	private Scene secondScene;
 	private BackpackListManager backpackListManager;
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
 
 	@Before
 	public void setUp() throws Exception {
@@ -74,7 +77,7 @@ public class BackpackBroadcastMessageTest {
 	public void testUnpackBroadcastMessagesIntoNewScene() throws CloneNotSupportedException {
 		ScriptController scriptController = new ScriptController();
 		scriptController.pack("Backpack", backpackedStartScript.getBrickList());
-		scriptController.unpack(backpackedStartScript, ProjectManager.getInstance().getCurrentSprite());
+		scriptController.unpack(backpackedStartScript, projectManager.getValue().getCurrentSprite());
 
 		Set<String> usedMessages = secondScene.getBroadcastMessagesInUse();
 		Assert.assertTrue(usedMessages.contains(firstMessage));
@@ -110,7 +113,8 @@ public class BackpackBroadcastMessageTest {
 		spriteOfSecondScene.addScript(secondStartScript);
 		secondScene.addSprite(spriteOfSecondScene);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(spriteOfSecondScene);
+		final ProjectManager projectManager = this.projectManager.getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(spriteOfSecondScene);
 	}
 }

@@ -34,16 +34,26 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.test.MockUtil;
 import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.koin.core.module.Module;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.util.Collections;
+import java.util.List;
+
+import kotlin.Lazy;
+
 import static junit.framework.Assert.assertTrue;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(GdxNativesLoader.class)
@@ -58,7 +68,11 @@ public class ShowTextActionTest {
 	private UserVariable var1;
 	private Sprite secondSprite;
 
-	Context contextMock = MockUtil.mockContextForProject();
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
+	private final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
+
+	Context contextMock = MockUtil.mockContextForProject(dependencyModules);
 	AndroidStringProvider androidStringProviderMock = new AndroidStringProvider(contextMock);
 
 	@Before
@@ -66,8 +80,8 @@ public class ShowTextActionTest {
 		sprite = new Sprite(SPRITE_NAME);
 		Project project = new Project(contextMock, "testProject");
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		projectManager.getValue().setCurrentProject(project);
+		projectManager.getValue().setCurrentSprite(sprite);
 
 		secondSprite = new Sprite(SECOND_SPRITE_NAME);
 		project.getDefaultScene().addSprite(secondSprite);
@@ -83,6 +97,11 @@ public class ShowTextActionTest {
 		PowerMockito.mockStatic(GdxNativesLoader.class);
 	}
 
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
+	}
+
 	@Test
 	public void testShowVariablesVisibilitySameVariableNameAcrossSprites() {
 		ActionFactory factory = sprite.getActionFactory();
@@ -92,7 +111,7 @@ public class ShowTextActionTest {
 		Action secondSpriteAction = factory.createShowVariableAction(secondSprite, new SequenceAction(),
 				new Formula(0), new Formula(0), var1, androidStringProviderMock);
 		firstSpriteAction.act(1.0f);
-		ProjectManager.getInstance().setCurrentSprite(secondSprite);
+		projectManager.getValue().setCurrentSprite(secondSprite);
 		secondSpriteAction.act(1.0f);
 
 		UserVariable variableOfFirstSprite = sprite.getUserVariable(USER_VARIABLE_NAME);

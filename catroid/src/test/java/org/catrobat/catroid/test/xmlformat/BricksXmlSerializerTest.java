@@ -22,13 +22,21 @@
  */
 package org.catrobat.catroid.test.xmlformat;
 
+import android.content.Context;
+
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.koin.core.module.Module;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -42,6 +50,8 @@ import static org.hamcrest.Matchers.startsWith;
 
 @RunWith(Parameterized.class)
 public class BricksXmlSerializerTest {
+	private final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
@@ -63,6 +73,17 @@ public class BricksXmlSerializerTest {
 
 	@Parameterized.Parameter(1)
 	public Class brickClass;
+
+	@Before
+	public void setUp() throws Exception {
+		Context contextMock = Mockito.mock(Context.class);
+		CatroidKoinHelperKt.startWithContext(contextMock, dependencyModules);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
+	}
 
 	@Test
 	public void testBrickAlias() throws IllegalAccessException, InstantiationException {

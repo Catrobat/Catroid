@@ -51,6 +51,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTex
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.UserDataUtil
+import org.koin.java.KoinJavaComponent
 
 class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
     RVAdapter.OnItemClickListener<UserData<*>> {
@@ -59,6 +60,8 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
     private var adapter: DataListAdapter? = null
     private var listSelectorInterface: ListSelectorInterface? = null
     private var preSelection: List<UserList>? = null
+
+    private val projectManager: ProjectManager by KoinJavaComponent.inject(ProjectManager::class.java)
 
     private fun updateSelection(userLists: List<UserList>) {
         adapter?.clearSelection()
@@ -135,8 +138,8 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
     }
 
     private fun initializeAdapter() {
-        val globalLists = ProjectManager.getInstance().currentProject.userLists
-        val localLists = ProjectManager.getInstance().currentSprite.userLists
+        val globalLists = projectManager.currentProject.userLists
+        val localLists = projectManager.currentSprite.userLists
 
         adapter = DataListAdapter(ArrayList(), ArrayList(), ArrayList(), ArrayList(), globalLists, localLists)
         adapter?.showCheckBoxes(true)
@@ -159,7 +162,7 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
         for (item in selectedItems) {
             adapter?.remove(item)
         }
-        ProjectManager.getInstance().currentProject.deselectElements(selectedItems)
+        projectManager.currentProject.deselectElements(selectedItems)
         ToastUtil.showSuccess(
             activity, resources.getQuantityString(
                 R.plurals.deleted_Items,
@@ -209,7 +212,7 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
 
     private fun renameItem(item: UserData<*>, name: String?) {
         val previousName = item.name
-        ProjectManager.getInstance().currentProject.updateUserDataReferences(
+        projectManager.currentProject.updateUserDataReferences(
             previousName,
             name,
             item

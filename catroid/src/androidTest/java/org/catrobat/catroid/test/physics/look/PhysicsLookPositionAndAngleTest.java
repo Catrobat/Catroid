@@ -58,6 +58,7 @@ public class PhysicsLookPositionAndAngleTest {
 		physicsObject = mock(PhysicsObject.class);
 		physicsWorldSpy = Mockito.spy(new PhysicsWorld(1920, 1600));
 		when(physicsWorldSpy.getPhysicsObject(sprite)).thenReturn(physicsObject);
+		Mockito.doNothing().when(physicsObject).setFixedRotation(Mockito.anyBoolean());
 		physicsLook = new PhysicsLook(sprite, physicsWorldSpy);
 	}
 

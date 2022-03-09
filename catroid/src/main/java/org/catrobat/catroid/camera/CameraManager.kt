@@ -41,9 +41,9 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.utils.MobileServiceAvailability
 import org.catrobat.catroid.utils.ToastUtil
+import org.koin.java.KoinJavaComponent.get
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
-import org.koin.java.KoinJavaComponent.get
 
 class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
     private val cameraProvider = ProcessCameraProvider.getInstance(stageActivity).get()

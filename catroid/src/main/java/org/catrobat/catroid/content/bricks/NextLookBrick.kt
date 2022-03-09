@@ -29,13 +29,15 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
+import org.koin.java.KoinJavaComponent.inject
 
 class NextLookBrick : BrickBaseType() {
     override fun getViewResource() = R.layout.brick_next_look
 
     override fun getView(context: Context): View {
         super.getView(context)
-        if (ProjectManager.getInstance().currentSprite.isBackgroundSprite(context)) {
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        if (projectManager.currentSprite.isBackgroundSprite(context)) {
             view.findViewById<TextView>(R.id.brick_next_look_text_view)
                 .setText(R.string.brick_next_background)
         }

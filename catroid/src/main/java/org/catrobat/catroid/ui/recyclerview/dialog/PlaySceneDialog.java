@@ -33,6 +33,8 @@ import org.catrobat.catroid.content.Scene;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public final class PlaySceneDialog extends AlertDialog {
 
 	private PlaySceneDialog(Context context) {
@@ -44,7 +46,7 @@ public final class PlaySceneDialog extends AlertDialog {
 		public Builder(@NonNull Context context) {
 			super(context);
 
-			final ProjectManager projectManager = ProjectManager.getInstance();
+			final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 			final Scene currentScene = projectManager.getCurrentlyEditedScene();
 			final Scene defaultScene = projectManager.getCurrentProject().getDefaultScene();
 

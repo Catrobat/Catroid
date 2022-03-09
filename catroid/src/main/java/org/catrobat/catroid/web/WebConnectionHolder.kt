@@ -27,7 +27,6 @@ import okhttp3.ConnectionSpec.COMPATIBLE_TLS
 import okhttp3.ConnectionSpec.MODERN_TLS
 import okhttp3.Dispatcher
 import okhttp3.OkHttpClient
-import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 
 class WebConnectionHolder {

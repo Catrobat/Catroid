@@ -55,6 +55,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.content.messagecontainer.BroadcastMessageBrickTestUtils.createNewBroadcastMessageOnBrick;
 import static org.catrobat.catroid.uiespresso.content.messagecontainer.BroadcastMessageBrickTestUtils.editBroadcastMessageOnBrick;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class BroadcastBrickMessageUpdateTest {
@@ -65,6 +66,7 @@ public class BroadcastBrickMessageUpdateTest {
 	private Scene secondScene;
 	private Sprite secondSprite;
 	private BroadcastReceiverBrick firstBroadcastBrick;
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
@@ -166,8 +168,8 @@ public class BroadcastBrickMessageUpdateTest {
 	private void switchScene() {
 		baseActivityTestRule.finishActivity();
 
-		ProjectManager.getInstance().setCurrentSprite(secondSprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(secondScene);
+		projectManager.setCurrentSprite(secondSprite);
+		projectManager.setCurrentlyEditedScene(secondScene);
 		baseActivityTestRule.launchActivity();
 	}
 
@@ -200,8 +202,8 @@ public class BroadcastBrickMessageUpdateTest {
 
 		project.addScene(firstScene);
 		project.addScene(secondScene);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(firstScene);
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentlyEditedScene(firstScene);
 	}
 }

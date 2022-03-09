@@ -42,7 +42,6 @@ import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_RE
 import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_TOKEN_OK
 import org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_LENGTH
 import org.json.JSONObject
-import java.util.HashMap
 
 class ServerAuthenticator(
     var username: String,

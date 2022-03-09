@@ -35,6 +35,7 @@ import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider
+import org.koin.java.KoinJavaComponent.inject
 import java.io.File
 import java.io.IOException
 
@@ -71,7 +72,8 @@ class CopyLookAction : Action() {
         val currentLookDataFile = sprite.look?.lookData?.file ?: return
         var lookDataName = formula.interpretObject(scope).toString()
         val currentLookDataIndex = sprite.lookList.indexOf(sprite.look.lookData)
-        val currentScene = ProjectManager.getInstance().currentlyPlayingScene
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        val currentScene = projectManager.currentlyPlayingScene
         lookDataName = UniqueNameProvider().getUniqueNameInNameables(lookDataName, sprite.lookList)
 
         try {
@@ -95,6 +97,6 @@ class CopyLookAction : Action() {
         } catch (e: IOException) {
             Log.e(TAG, Log.getStackTraceString(e))
         }
-        xstreamSerializer.saveProject(ProjectManager.getInstance().currentProject)
+        xstreamSerializer.saveProject(projectManager.currentProject)
     }
 }

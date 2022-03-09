@@ -48,6 +48,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.espresso.Espresso.onView;
@@ -111,7 +112,8 @@ public class DeleteAllScenesTest {
 				.check(matches(isDisplayed()))
 				.perform(click());
 
-		assertEquals(1, ProjectManager.getInstance().getCurrentProject().getSceneList().size());
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		assertEquals(1, projectManager.getCurrentProject().getSceneList().size());
 
 		onView(withText(secondSceneName))
 				.check(doesNotExist());
@@ -131,7 +133,8 @@ public class DeleteAllScenesTest {
 		Scene scene3 = new Scene(thirdSceneName, project);
 		project.addScene(scene2);
 		project.addScene(scene3);
-		ProjectManager.getInstance().setCurrentProject(project);
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
 		saveProjectSerial(project, ApplicationProvider.getApplicationContext());
 	}
 }

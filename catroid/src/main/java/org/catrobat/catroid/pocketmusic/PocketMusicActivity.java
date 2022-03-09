@@ -52,6 +52,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.pocketmusic.note.midi.ProjectToMidiConverter.midiFolder;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class PocketMusicActivity extends BaseActivity {
 
@@ -148,9 +149,10 @@ public class PocketMusicActivity extends BaseActivity {
 			Track track = TrackGridToTrackConverter
 					.convertTrackGridToTrack(tactScroller.getTrackGrid(), Project.DEFAULT_BEATS_PER_MINUTE);
 
+			final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 			if (track.isEmpty() && receivedSoundInfoThroughIntent) {
 				SoundInfo soundInfo = new SoundInfo(project.getName(), project.getFile(), true);
-				ProjectManager.getInstance().getCurrentSprite().getSoundList().remove(soundInfo);
+				projectManager.getCurrentSprite().getSoundList().remove(soundInfo);
 
 				try {
 					new SoundController().delete(soundInfo);
@@ -172,7 +174,7 @@ public class PocketMusicActivity extends BaseActivity {
 				}
 
 				if (!receivedSoundInfoThroughIntent) {
-					ProjectManager.getInstance().getCurrentSprite().getSoundList().add(soundInfo);
+					projectManager.getCurrentSprite().getSoundList().add(soundInfo);
 				}
 			}
 		}

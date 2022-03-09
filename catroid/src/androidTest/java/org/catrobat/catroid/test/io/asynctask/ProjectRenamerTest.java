@@ -68,7 +68,7 @@ public class ProjectRenamerTest {
 		File renamedDirectory = renameProject(defaultProject.getDirectory(), renamedProjectName);
 		assertNotNull(renamedDirectory);
 		assertEquals(renamedProjectName, renamedDirectory.getName());
-		assertTrue(loadProject(renamedDirectory, ApplicationProvider.getApplicationContext()));
+		assertTrue(loadProject(renamedDirectory));
 	}
 
 	@Test
@@ -77,6 +77,6 @@ public class ProjectRenamerTest {
 		File renamedDirectory = renameProject(defaultProject.getDirectory(), renamedProjectName);
 		assertNotNull(renamedDirectory);
 		assertEquals(expectedDirectory, renamedDirectory);
-		assertTrue(loadProject(renamedDirectory, ApplicationProvider.getApplicationContext()));
+		assertTrue(loadProject(renamedDirectory));
 	}
 }

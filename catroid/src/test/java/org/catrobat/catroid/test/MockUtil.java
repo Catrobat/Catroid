@@ -29,7 +29,11 @@ import android.content.pm.PackageManager;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.koin.core.module.Module;
 import org.mockito.Mockito;
+
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -40,7 +44,7 @@ public final class MockUtil {
 		throw new AssertionError();
 	}
 
-	public static Context mockContextForProject() throws RuntimeException {
+	public static Context mockContextForProject(List<Module> modules) throws RuntimeException {
 		Context contextMock = Mockito.mock(Context.class);
 		PackageManager packageManagerMock = Mockito.mock(PackageManager.class);
 		when(contextMock.getPackageManager()).thenReturn(packageManagerMock);
@@ -55,7 +59,7 @@ public final class MockUtil {
 		}
 		ScreenValues.setToDefaultScreenSize();
 
-		StaticSingletonInitializer.initializeStaticSingletonMethodsWith(contextMock);
+		CatroidKoinHelperKt.startWithContext(contextMock, modules);
 
 		return contextMock;
 	}

@@ -45,6 +45,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class RepeatBrick extends FormulaBrick implements CompositeBrick {
 
 	private transient EndBrick endBrick = new EndBrick(this);
@@ -158,7 +160,7 @@ public class RepeatBrick extends FormulaBrick implements CompositeBrick {
 		TextView label = view.findViewById(R.id.brick_repeat_time_text_view);
 		if (getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).isNumber()) {
 			try {
-				ProjectManager projectManager = ProjectManager.getInstance();
+				final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 				Scope scope = new Scope(projectManager.getCurrentProject(),
 						projectManager.getCurrentSprite(), null);
 				label.setText(view.getResources().getQuantityString(

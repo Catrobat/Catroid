@@ -46,6 +46,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper.onDataList;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
@@ -127,7 +128,8 @@ public class InsertItemToUserListTest {
 				.onFormulaTextField(R.id.brick_insert_item_into_userlist_at_index_edit_text)
 				.performEnterNumber(indexToInsert + 1);
 
-		UserList userList = ProjectManager.getInstance().getCurrentProject().getUserList(userListName);
+		UserList userList = inject(ProjectManager.class)
+				.getValue().getCurrentProject().getUserList(userListName);
 
 		assertEquals(0, userList.getValue().size());
 	}

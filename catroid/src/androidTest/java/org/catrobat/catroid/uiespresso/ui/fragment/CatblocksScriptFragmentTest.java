@@ -46,6 +46,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.TestCase.assertEquals;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openContextualActionModeOverflowMenu;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -131,14 +133,15 @@ public class CatblocksScriptFragmentTest {
 			}
 		}
 
-		ProjectManager.getInstance().getCurrentSprite().getScript(0).setPosX(50);
-		ProjectManager.getInstance().getCurrentSprite().getScript(0).setPosY(50);
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.getCurrentSprite().getScript(0).setPosX(50);
+		projectManager.getCurrentSprite().getScript(0).setPosY(50);
 
 		openContextualActionModeOverflowMenu();
 		onView(withText(R.string.catblocks_reorder)).perform(click());
 
-		assertEquals(ProjectManager.getInstance().getCurrentSprite().getScript(0).getPosX(), 0.0f);
-		assertEquals(ProjectManager.getInstance().getCurrentSprite().getScript(0).getPosY(), 0.0f);
+		assertEquals(projectManager.getCurrentSprite().getScript(0).getPosX(), 0.0f);
+		assertEquals(projectManager.getCurrentSprite().getScript(0).getPosY(), 0.0f);
 	}
 
 	private void createProject() {
@@ -157,7 +160,8 @@ public class CatblocksScriptFragmentTest {
 
 		sprite.addScript(startScript);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
 	}
 }

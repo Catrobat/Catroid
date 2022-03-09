@@ -35,16 +35,22 @@ import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick
 import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
 import org.catrobat.catroid.stage.SpeechSynthesizer
 import org.catrobat.catroid.test.MockUtil
 import org.catrobat.catroid.utils.MobileServiceAvailability
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
+import org.koin.core.module.Module
+import org.koin.java.KoinJavaComponent.inject
 import org.mockito.Mockito
 import org.mockito.Mockito.spy
 import java.lang.reflect.Method
+import java.util.Collections
 
 class SpeakAndWaitActionTest {
     private lateinit var sprite: Sprite
@@ -53,19 +59,27 @@ class SpeakAndWaitActionTest {
     lateinit var mobileServiceAvailability: MobileServiceAvailability
     lateinit var contextMock: Context
 
+    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
+
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        contextMock = MockUtil.mockContextForProject()
+        contextMock = MockUtil.mockContextForProject(dependencyModules)
         temporaryFolder.create()
         val temporaryCacheFolder = temporaryFolder.newFolder("SpeakTest")
         Mockito.`when`(contextMock.cacheDir).thenAnswer { temporaryCacheFolder }
         mobileServiceAvailability = Mockito.mock(MobileServiceAvailability::class.java)
         Mockito.`when`(mobileServiceAvailability.isGmsAvailable(contextMock)).thenReturn(true)
         sprite = Sprite("testSprite")
-        scope = Scope(ProjectManager.getInstance().currentProject, sprite, SequenceAction())
-        val project = Project(MockUtil.mockContextForProject(), "Project")
-        ProjectManager.getInstance().currentProject = project
+        scope = Scope(projectManager.currentProject, sprite, SequenceAction())
+        val project = Project(contextMock, "Project")
+        projectManager.currentProject = project
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test

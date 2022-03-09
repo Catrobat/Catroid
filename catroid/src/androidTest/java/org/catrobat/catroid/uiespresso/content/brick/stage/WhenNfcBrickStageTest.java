@@ -60,6 +60,7 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils
 import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout;
 import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableNotEqualsForTimeMs;
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class WhenNfcBrickStageTest {
 	@Rule
@@ -108,18 +109,19 @@ public class WhenNfcBrickStageTest {
 
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
 
-		tagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
+		tagDataList = projectManager.getCurrentSprite().getNfcTagList();
 		tagDataList.add(firstTagData);
 		tagDataList.add(secondTagData);
 
 		assertEquals("Sprite is not set as current", sprite,
-				ProjectManager.getInstance().getCurrentSprite());
+				projectManager.getCurrentSprite());
 
 		assertEquals("Sprite NFC tag list is not set", sprite.getNfcTagList(),
-				ProjectManager.getInstance().getCurrentSprite().getNfcTagList());
+				projectManager.getCurrentSprite().getNfcTagList());
 
 		numDetectedTags.setValue(0.0);
 		return script;

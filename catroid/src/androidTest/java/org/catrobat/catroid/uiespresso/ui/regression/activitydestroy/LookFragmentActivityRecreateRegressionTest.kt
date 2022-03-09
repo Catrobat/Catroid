@@ -54,6 +54,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
+import org.koin.java.KoinJavaComponent.inject
 
 import java.io.File
 import java.io.IOException
@@ -120,8 +121,9 @@ class LookFragmentActivityRecreateRegressionTest {
         val project = Project(ApplicationProvider.getApplicationContext(), projectName)
         val sprite = Sprite("testSprite")
         project.defaultScene.addSprite(sprite)
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().currentSprite = sprite
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        projectManager.currentProject = project
+        projectManager.currentSprite = sprite
         XstreamSerializer.getInstance().saveProject(project)
         val imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
             InstrumentationRegistry.getInstrumentation().context.resources,
@@ -129,7 +131,7 @@ class LookFragmentActivityRecreateRegressionTest {
             File(project.defaultScene.directory, Constants.IMAGE_DIRECTORY_NAME),
             "catroid_sunglasses.png", 1.0
         )
-        val lookDataList = ProjectManager.getInstance().currentSprite.lookList
+        val lookDataList = projectManager.currentSprite.lookList
         val lookData = LookData(lookName, imageFile)
         lookDataList.add(lookData)
     }

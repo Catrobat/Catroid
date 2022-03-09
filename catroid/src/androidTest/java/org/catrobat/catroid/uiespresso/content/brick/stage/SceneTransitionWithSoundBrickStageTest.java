@@ -44,7 +44,6 @@ import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,6 +59,7 @@ import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class SceneTransitionWithSoundBrickStageTest {
@@ -70,18 +70,12 @@ public class SceneTransitionWithSoundBrickStageTest {
 	private String firstSceneName;
 	private Script secondScript;
 
-	private static ProjectManager projectManager;
 	private File soundFile;
 
 	@Rule
 	public BaseActivityTestRule<StageActivity> baseActivityTestRule = new
 			BaseActivityTestRule<>(StageActivity.class, false,
 			false);
-
-	@BeforeClass
-	public static void setUpProjectManager() {
-		projectManager = ProjectManager.getInstance();
-	}
 
 	@Before
 	public void setUp() throws Exception {
@@ -138,6 +132,7 @@ public class SceneTransitionWithSoundBrickStageTest {
 
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 		projectManager.setCurrentProject(project);
 		projectManager.setCurrentSprite(sprite);
 		project.addScene(secondScene);

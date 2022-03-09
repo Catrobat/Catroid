@@ -40,6 +40,7 @@ import java.util.List;
 import androidx.annotation.PluralsRes;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SCENES_PREFERENCE_KEY;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class BackpackSceneFragment extends BackpackRecyclerViewFragment<Scene> {
 
@@ -59,7 +60,7 @@ public class BackpackSceneFragment extends BackpackRecyclerViewFragment<Scene> {
 	@Override
 	protected void unpackItems(List<Scene> selectedItems) {
 		setShowProgressBar(true);
-		Project destinationProject = ProjectManager.getInstance().getCurrentProject();
+		Project destinationProject = inject(ProjectManager.class).getValue().getCurrentProject();
 		int unpackedItemCnt = 0;
 
 		for (Scene item : selectedItems) {
@@ -114,4 +115,3 @@ public class BackpackSceneFragment extends BackpackRecyclerViewFragment<Scene> {
 		return item.getName();
 	}
 }
-

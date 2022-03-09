@@ -44,9 +44,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.koin.java.KoinJavaComponent.inject
 import org.mockito.Mockito
 
 class SensorHandlerTest {
+    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
+
     @get:Rule
     val runtimePermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
         Manifest.permission.CAMERA,
@@ -55,7 +58,7 @@ class SensorHandlerTest {
 
     @Before
     fun setUp() {
-        ProjectManager.getInstance().currentProject = Project(
+        projectManager.currentProject = Project(
             ApplicationProvider.getApplicationContext(),
             TestUtils.DEFAULT_TEST_PROJECT_NAME
         )

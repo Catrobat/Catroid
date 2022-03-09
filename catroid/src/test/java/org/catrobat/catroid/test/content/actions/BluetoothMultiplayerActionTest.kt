@@ -30,14 +30,20 @@ import org.catrobat.catroid.content.actions.ChangeVariableAction
 import org.catrobat.catroid.content.actions.SetVariableAction
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.UserVariable
+import org.catrobat.catroid.koin.projectManagerModule
+import org.catrobat.catroid.koin.stop
 import org.catrobat.catroid.test.MockUtil
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.core.module.Module
+import org.koin.java.KoinJavaComponent.inject
 import org.mockito.Mockito.spy
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
+import java.util.Collections
 
 @RunWith(Parameterized::class)
 class BluetoothMultiplayerActionTest(
@@ -49,6 +55,9 @@ class BluetoothMultiplayerActionTest(
     private val formula: Formula = Formula(INITIAL_VALUE)
     private val testSprite: Sprite = Sprite("testSprite")
     private val testSequence: SequenceAction = SequenceAction()
+
+    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
+    private val dependencyModules: List<Module> = Collections.singletonList(projectManagerModule)
 
     companion object {
         @JvmStatic
@@ -66,14 +75,20 @@ class BluetoothMultiplayerActionTest(
 
     @Before
     fun setUp() {
-        Project(MockUtil.mockContextForProject(), "testProject").apply {
+        val context = MockUtil.mockContextForProject(dependencyModules)
+        Project(context, "testProject").apply {
             if (expectedValue == 0) {
                 addUserVariable(userVariable)
             } else {
                 addMultiplayerVariable(userVariable)
             }
-            ProjectManager.getInstance().currentProject = this
+            projectManager.currentProject = this
         }
+    }
+
+    @After
+    fun tearDown() {
+        stop(dependencyModules)
     }
 
     @Test

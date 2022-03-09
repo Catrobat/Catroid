@@ -64,6 +64,7 @@ import static junit.framework.Assert.assertTrue;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.catrobat.catroid.uiespresso.util.matchers.BundleMatchers.bundleHasMatchingString;
 import static org.hamcrest.core.AllOf.allOf;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -152,9 +153,10 @@ public class CameraPermissionSpriteActivityTest {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 		Sprite testSprite = new Sprite();
 		project.getDefaultScene().addSprite(testSprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(testSprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(testSprite);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
 	}
 
 	public static Matcher<Intent> containsPermissionRequest(final List<String> expectedPermissions) {

@@ -53,6 +53,7 @@ import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.espresso.Espresso.onView;
@@ -114,7 +115,8 @@ public class DeleteFirstSceneTest {
 				.check(matches(isDisplayed()))
 				.perform(click());
 
-		assertEquals(1, ProjectManager.getInstance().getCurrentProject().getSceneList().size());
+		assertEquals(1, inject(ProjectManager.class).getValue()
+				.getCurrentProject().getSceneList().size());
 
 		onView(withText(secondSceneName))
 				.check(doesNotExist());
@@ -142,7 +144,7 @@ public class DeleteFirstSceneTest {
 		sprite2.addScript(script2);
 		scene2.addSprite(sprite2);
 		project.addScene(scene2);
-		ProjectManager.getInstance().setCurrentProject(project);
+		inject(ProjectManager.class).getValue().setCurrentProject(project);
 		saveProjectSerial(project, ApplicationProvider.getApplicationContext());
 	}
 }

@@ -41,12 +41,11 @@ import org.catrobat.catroid.embroidery.DSTFileGenerator
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.stage.StageActivity
-import org.catrobat.catroid.stage.StageActivity.stageListener
 import org.catrobat.catroid.stage.StageActivity.IntentListener
+import org.catrobat.catroid.stage.StageActivity.stageListener
 import org.catrobat.catroid.utils.Utils
 import java.io.File
 import java.io.IOException
-import java.util.ArrayList
 
 class WriteEmbroideryToFileAction : Action(), IntentListener {
     var scope: Scope? = null

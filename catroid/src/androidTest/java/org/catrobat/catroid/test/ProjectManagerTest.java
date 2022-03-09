@@ -96,7 +96,7 @@ public class ProjectManagerTest {
 				.createProjectWithLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED, PROJECT_NAME);
 
 		try {
-			projectManager.loadProject(project.getDirectory(), ApplicationProvider.getApplicationContext());
+			projectManager.loadProject(project.getDirectory());
 			fail("Project shouldn't be compatible");
 		} catch (CompatibilityProjectException expected) {
 		}
@@ -108,12 +108,12 @@ public class ProjectManagerTest {
 	public void testShouldKeepExistingProjectIfCannotLoadNewProject() throws IOException, ProjectException {
 		Project project = TestUtils.createProjectWithLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION, OLD_PROJECT);
 
-		projectManager.loadProject(project.getDirectory(), ApplicationProvider.getApplicationContext());
+		projectManager.loadProject(project.getDirectory());
 
 		TestUtils.createProjectWithLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED, PROJECT_NAME);
 
 		try {
-			projectManager.loadProject(new File(NEW_PROJECT), ApplicationProvider.getApplicationContext());
+			projectManager.loadProject(new File(NEW_PROJECT));
 			fail("Expected ProjectException while loading  project " + NEW_PROJECT);
 		} catch (ProjectException expected) {
 		}
@@ -131,14 +131,14 @@ public class ProjectManagerTest {
 		assertNull(projectManager.getCurrentProject());
 
 		exception.expect(ProjectException.class);
-		projectManager.loadProject(new File(NEW_PROJECT), ApplicationProvider.getApplicationContext());
+		projectManager.loadProject(new File(NEW_PROJECT));
 	}
 
 	@Test
 	public void testSavingAProjectDuringDelete() throws IOException, ProjectException {
 		Project project = TestUtils.createProjectWithLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION, PROJECT_NAME);
 
-		projectManager.loadProject(project.getDirectory(), ApplicationProvider.getApplicationContext());
+		projectManager.loadProject(project.getDirectory());
 
 		Project currentProject = projectManager.getCurrentProject();
 		assertNotNull(String.format("Could not load %s project.", PROJECT_NAME), currentProject);
@@ -170,7 +170,7 @@ public class ProjectManagerTest {
 		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_NESTING_BRICKS);
 		new ZipArchiver().unzip(inputStream, projectDir);
 
-		projectManager.loadProject(projectDir, ApplicationProvider.getApplicationContext());
+		projectManager.loadProject(projectDir);
 		Project project = projectManager.getCurrentProject();
 
 		assertNotNull(project);

@@ -31,6 +31,8 @@ import org.catrobat.catroid.content.eventids.EventId;
 
 import java.util.ArrayList;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public final class TouchUtil {
 
 	private static SparseIntArray currentlyTouchingPointersToTouchIndex = new SparseIntArray();
@@ -115,7 +117,7 @@ public final class TouchUtil {
 
 	private static void fireTouchEvent() {
 		EventWrapper event = new EventWrapper(new EventId(EventId.TAP_BACKGROUND), false);
-		ProjectManager.getInstance().getCurrentProject().fireToAllSprites(event);
+		inject(ProjectManager.class).getValue().getCurrentProject().fireToAllSprites(event);
 	}
 
 	public static ArrayList<PointF> getCurrentTouchingPoints() {

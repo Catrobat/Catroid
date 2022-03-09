@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.uiespresso.formulaeditor;
 
+import android.content.Context;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
@@ -34,7 +36,6 @@ import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -45,6 +46,7 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
@@ -71,17 +73,13 @@ public class FormulaEditorTest {
 				.perform(click());
 
 		//typeText not working for formula editor, so use CustomActions.typeInValue
-		onFormulaEditor()
-				.performEnterNumber(12345.678);
+		onFormulaEditor().performEnterNumber(12345.678);
 		pressBack();
 	}
 
-	@After
-	public void tearDown() throws Exception {
-	}
-
-	public static Project createProject(String projectName) {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
+	public Project createProject(String projectName) {
+		Context context = ApplicationProvider.getApplicationContext();
+		Project project = new Project(context, projectName);
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
 
@@ -94,8 +92,9 @@ public class FormulaEditorTest {
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
 
 		return project;
 	}

@@ -58,10 +58,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertArrayEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class CollisionInformationTest {
 	private static final float DELTA = Float.MIN_VALUE;
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Test
 	public void testCheckMetaString() {
@@ -109,7 +111,7 @@ public class CollisionInformationTest {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setCurrentProject(project);
+		projectManager.setCurrentProject(project);
 
 		String filename = PhysicsTestUtils.getInternalImageFilenameFromFilename("polygon_in_file.png");
 
@@ -136,7 +138,7 @@ public class CollisionInformationTest {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setCurrentProject(project);
+		projectManager.setCurrentProject(project);
 
 		String filename = "collision_donut.png";
 		String hashedFileName = Utils.md5Checksum(filename) + "_" + filename;
@@ -166,7 +168,7 @@ public class CollisionInformationTest {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setCurrentProject(project);
+		projectManager.setCurrentProject(project);
 
 		String filename = "collision_donut.png";
 		String hashedFileName = Utils.md5Checksum(filename) + "_" + filename;

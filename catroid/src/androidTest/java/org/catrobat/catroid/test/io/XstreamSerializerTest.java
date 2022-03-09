@@ -62,6 +62,7 @@ import java.util.ArrayList;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import kotlin.Lazy;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -76,6 +77,7 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.number.OrderingComparison.greaterThan;
 import static org.junit.Assert.assertThat;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class XstreamSerializerTest {
@@ -89,6 +91,8 @@ public class XstreamSerializerTest {
 	private static final int DEFAULT_MOVE_TIME_IN_MILLISECONDS = 2000;
 	private static final int DEFAULT_MOVE_POWER_IN_PERCENT = 20;
 
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
+
 	public XstreamSerializerTest() {
 		storageHandler = XstreamSerializer.getInstance();
 	}
@@ -96,12 +100,12 @@ public class XstreamSerializerTest {
 	@Before
 	public void setUp() throws Exception {
 		TestUtils.deleteProjects(projectName);
-		currentProjectBuffer = ProjectManager.getInstance().getCurrentProject();
+		currentProjectBuffer = projectManager.getValue().getCurrentProject();
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		ProjectManager.getInstance().setCurrentProject(currentProjectBuffer);
+		projectManager.getValue().setCurrentProject(currentProjectBuffer);
 		TestUtils.deleteProjects(projectName);
 	}
 
@@ -254,7 +258,7 @@ public class XstreamSerializerTest {
 	@Test
 	public void testPermissionFileRemoved() {
 		Project project = generateMultiplePermissionsProject();
-		ProjectManager.getInstance().setCurrentProject(project);
+		projectManager.getValue().setCurrentProject(project);
 		XstreamSerializer.getInstance().saveProject(project);
 
 		File permissionsFile = new File(project.getDirectory(), PERMISSIONS_FILE_NAME);
@@ -271,7 +275,8 @@ public class XstreamSerializerTest {
 		};
 
 		Project project = generateMultiplePermissionsProject();
-		ProjectManager.getInstance().setCurrentProject(project);
+		final ProjectManager projectManager = this.projectManager.getValue();
+		projectManager.setCurrentProject(project);
 
 		SettingsFragment.setLegoMindstormsNXTSensorMapping(ApplicationProvider.getApplicationContext(), sensorMapping);
 
@@ -297,7 +302,7 @@ public class XstreamSerializerTest {
 		SettingsFragment
 				.setLegoMindstormsNXTSensorMapping(ApplicationProvider.getApplicationContext(), changedSensorMapping);
 
-		assertTrue(loadProject(project.getDirectory(), ApplicationProvider.getApplicationContext()));
+		assertTrue(loadProject(project.getDirectory()));
 
 		actualSensorMapping = SettingsFragment.getLegoNXTSensorMapping(ApplicationProvider.getApplicationContext());
 
@@ -308,7 +313,7 @@ public class XstreamSerializerTest {
 		assertEquals(sensorMapping[2], actualSensorMapping[2]);
 		assertEquals(sensorMapping[3], actualSensorMapping[3]);
 
-		project = ProjectManager.getInstance().getCurrentProject();
+		project = projectManager.getCurrentProject();
 
 		setting = project.getSettings().get(0);
 		nxtSetting = (LegoNXTSetting) setting;

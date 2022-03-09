@@ -70,6 +70,8 @@ import java.util.UUID;
 
 import androidx.annotation.NonNull;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 @XStreamFieldKeyOrder({
 		"name",
 		"lookList",
@@ -341,7 +343,9 @@ public class Sprite implements Nameable, Serializable {
 		Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
 		addRequiredResources(resourcesSet);
 		if (resourcesSet.contains(Brick.PHYSICS)) {
-			PhysicsWorld physicsWorld = ProjectManager.getInstance().getCurrentlyPlayingScene().getPhysicsWorld();
+			final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+			PhysicsWorld physicsWorld =
+					projectManager.getCurrentlyPlayingScene().getPhysicsWorld();
 			look = new PhysicsLook(this, physicsWorld);
 		} else {
 			look = new Look(this);
@@ -532,7 +536,8 @@ public class Sprite implements Nameable, Serializable {
 	}
 
 	public void rename(String newSpriteName) {
-		Scene scene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		Scene scene = projectManager.getCurrentlyEditedScene();
 		renameSpriteAndUpdateCollisionFormulas(newSpriteName, scene);
 	}
 

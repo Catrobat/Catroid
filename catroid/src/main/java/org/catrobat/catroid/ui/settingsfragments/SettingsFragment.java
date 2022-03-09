@@ -503,7 +503,7 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static boolean isMultiplayerVariablesPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_MULTIPLAYER_VARIABLES_ENABLED, context)
-				|| ProjectManager.getInstance().getCurrentProject().hasMultiplayerVariables();
+				|| inject(ProjectManager.class).getValue().getCurrentProject().hasMultiplayerVariables();
 	}
 
 	private void setLanguage() {

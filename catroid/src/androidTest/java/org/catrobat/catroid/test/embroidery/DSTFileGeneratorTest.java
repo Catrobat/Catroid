@@ -48,6 +48,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(AndroidJUnit4.class)
 public class DSTFileGeneratorTest {
@@ -58,7 +59,8 @@ public class DSTFileGeneratorTest {
 	@Before
 	public void setUp() throws IOException {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		ProjectManager.getInstance().setCurrentProject(project);
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
 
 		dstFile = new File(Constants.CACHE_DIRECTORY, projectName + ".dst");
 		if (dstFile.exists()) {

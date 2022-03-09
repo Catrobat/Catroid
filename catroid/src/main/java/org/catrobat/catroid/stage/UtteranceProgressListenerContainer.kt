@@ -24,8 +24,6 @@ package org.catrobat.catroid.stage
 
 import android.speech.tts.UtteranceProgressListener
 import java.io.File
-import java.util.ArrayList
-import java.util.HashMap
 
 class UtteranceProgressListenerContainer : UtteranceProgressListener() {
     private val listeners: MutableMap<String?, MutableList<UtteranceProgressListener>?> = HashMap()

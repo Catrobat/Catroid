@@ -34,6 +34,7 @@ import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.LookData
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.stage.StageActivity
+import org.koin.java.KoinJavaComponent.inject
 import java.io.IOException
 
 class EditLookAction : PocketPaintAction() {
@@ -95,6 +96,7 @@ class EditLookAction : PocketPaintAction() {
         } catch (e: IOException) {
             Log.e(TAG, Log.getStackTraceString(e))
         }
-        xstreamSerializer.saveProject(ProjectManager.getInstance().currentProject)
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        xstreamSerializer.saveProject(projectManager.currentProject)
     }
 }

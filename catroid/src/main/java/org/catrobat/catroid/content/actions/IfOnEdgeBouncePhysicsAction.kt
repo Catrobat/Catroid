@@ -32,6 +32,7 @@ import org.catrobat.catroid.physics.PhysicsBoundaryBox.BoundaryBoxIdentifier
 import org.catrobat.catroid.physics.PhysicsLook
 import org.catrobat.catroid.physics.PhysicsObject
 import org.catrobat.catroid.physics.PhysicsWorld
+import org.koin.java.KoinJavaComponent.inject
 
 class IfOnEdgeBouncePhysicsAction : TemporalAction() {
     enum class Side {
@@ -44,8 +45,9 @@ class IfOnEdgeBouncePhysicsAction : TemporalAction() {
         private const val OPPOSITE_DIRECTION = 180.0f
     }
 
-    private val virtualScreenWidth = ProjectManager.getInstance().currentProject.xmlHeader.virtualScreenWidth
-    private val vsHeight = ProjectManager.getInstance().currentProject.xmlHeader.virtualScreenHeight
+    val projectManager: ProjectManager by inject(ProjectManager::class.java)
+    private val virtualScreenWidth = projectManager.currentProject.xmlHeader.virtualScreenWidth
+    private val vsHeight = projectManager.currentProject.xmlHeader.virtualScreenHeight
 
     lateinit var sprite: Sprite
     lateinit var physicsWorld: PhysicsWorld

@@ -71,16 +71,24 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.koin.core.module.Module;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import kotlin.Lazy;
 
 import static org.catrobat.catroid.test.StaticSingletonInitializer.initializeStaticSingletonMethods;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 
 @RunWith(Parameterized.class)
 public class CloneBrickWithFormulaTest {
@@ -88,6 +96,10 @@ public class CloneBrickWithFormulaTest {
 	private static final Integer BRICK_FORMULA_VALUE = 0;
 	private static final String BRICK_INVALID_FORMULA_VALUE = "1";
 	private static final String CLONE_BRICK_FORMULA_VALUE = "2";
+
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
+	private final List<Module> dependencyModules =
+			Collections.singletonList(CatroidKoinHelperKt.getProjectManagerModule());
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
@@ -155,11 +167,11 @@ public class CloneBrickWithFormulaTest {
 
 	@Before
 	public void setUp() throws CloneNotSupportedException {
-		initializeStaticSingletonMethods();
+		initializeStaticSingletonMethods(dependencyModules);
 		FormulaBrick cloneBrick = (FormulaBrick) brick.clone();
 		brickFormula = brick.getFormulaWithBrickField(brickField);
 		cloneBrickFormula = cloneBrick.getFormulaWithBrickField(brickField);
-		scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, new SequenceAction());
+		scope = new Scope(projectManager.getValue().getCurrentProject(), sprite, new SequenceAction());
 	}
 
 	@Test
@@ -167,6 +179,11 @@ public class CloneBrickWithFormulaTest {
 		cloneBrickFormula.setRoot(new FormulaElement(FormulaElement.ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
 		assertNotEquals(brickFormula.interpretInteger(scope),
 				cloneBrickFormula.interpretInteger(scope));
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		CatroidKoinHelperKt.stop(dependencyModules);
 	}
 
 	@Test

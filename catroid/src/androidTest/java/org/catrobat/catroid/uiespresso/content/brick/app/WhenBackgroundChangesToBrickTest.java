@@ -49,6 +49,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static junit.framework.Assert.assertEquals;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
@@ -58,6 +59,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 @RunWith(AndroidJUnit4.class)
 public class WhenBackgroundChangesToBrickTest {
 	private int brickPosition;
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
@@ -73,9 +75,9 @@ public class WhenBackgroundChangesToBrickTest {
 
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
 
 		baseActivityTestRule.launchActivity();
 	}
@@ -97,7 +99,7 @@ public class WhenBackgroundChangesToBrickTest {
 		pressBack();
 
 		List<LookData> lookDataList =
-				ProjectManager.getInstance().getCurrentProject().getDefaultScene().getBackgroundSprite().getLookList();
+				projectManager.getCurrentProject().getDefaultScene().getBackgroundSprite().getLookList();
 
 		assertEquals(1, lookDataList.size());
 

@@ -64,6 +64,7 @@ import static org.catrobat.catroid.io.StorageOperations.deleteDir;
 import static org.catrobat.catroid.test.utils.TestUtils.clearBackPack;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExist;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExists;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
@@ -229,7 +230,8 @@ public class SceneControllerTest {
 	private void createProject() throws IOException {
 		project = new Project(ApplicationProvider.getApplicationContext(), "SpriteControllerTest");
 		scene = project.getDefaultScene();
-		ProjectManager.getInstance().setCurrentProject(project);
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
 
 		Sprite sprite = new Sprite("testSprite");
 		scene.addSprite(sprite);

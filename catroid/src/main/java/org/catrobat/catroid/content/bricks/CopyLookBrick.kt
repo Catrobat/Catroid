@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.actions.SetNextLookAction
 import org.catrobat.catroid.formulaeditor.Formula
+import org.koin.java.KoinJavaComponent.inject
 
 class CopyLookBrick constructor() : FormulaBrick() {
     constructor(value: String) : this(Formula(value))
@@ -48,7 +49,8 @@ class CopyLookBrick constructor() : FormulaBrick() {
 
     override fun getView(context: Context): View {
         super.getView(context)
-        if (ProjectManager.getInstance().currentSprite.isBackgroundSprite(context)) {
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        if (projectManager.currentSprite.isBackgroundSprite(context)) {
             view.findViewById<TextView>(R.id.brick_copy_look_text_view)
                 .setText(R.string.brick_copy_background)
         }

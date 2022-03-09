@@ -55,6 +55,7 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.GrantPermissionRule;
+import kotlin.Lazy;
 
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
@@ -64,6 +65,7 @@ import static org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBarMenu
 import static org.catrobat.catroid.uiespresso.util.actions.TabActionsKt.selectTabAtPosition;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -194,8 +196,9 @@ public class PlaySoundBrickTest {
 
 		sprite.addScript(startScript);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
+		projectManager.getValue().setCurrentProject(project);
+		projectManager.getValue().setCurrentSprite(sprite);
 
 		XstreamSerializer.getInstance().saveProject(project);
 
@@ -222,7 +225,7 @@ public class PlaySoundBrickTest {
 		soundInfo2.setFile(soundFile2);
 		soundInfo2.setName(soundName2);
 
-		List<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		List<SoundInfo> soundInfoList = projectManager.getValue().getCurrentSprite().getSoundList();
 		soundInfoList.add(soundInfo);
 		soundInfoList.add(soundInfo2);
 	}

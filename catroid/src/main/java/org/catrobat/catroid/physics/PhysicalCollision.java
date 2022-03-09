@@ -30,6 +30,8 @@ import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.eventids.BounceOffEventId;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class PhysicalCollision {
 
 	private int contactCounter = 0;
@@ -72,7 +74,8 @@ public class PhysicalCollision {
 	public static void fireBounceOffEvent(Sprite bouncingSprite, Sprite staticSprite) {
 		BounceOffEventId identifier = new BounceOffEventId(bouncingSprite, staticSprite);
 		EventWrapper event = new EventWrapper(identifier, false);
-		ProjectManager.getInstance().getCurrentProject().fireToAllSprites(event);
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.getCurrentProject().fireToAllSprites(event);
 	}
 
 	public String toString() {

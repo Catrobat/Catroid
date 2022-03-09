@@ -25,8 +25,9 @@ package org.catrobat.catroid.content.actions
 
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.content.Sprite
+import org.koin.java.KoinJavaComponent.inject
 
 abstract class MultiSpriteEventAction : EventAction() {
     override val receivingSprites: List<Sprite> =
-        ProjectManager.getInstance().currentProject.spriteListWithClones
+        inject(ProjectManager::class.java).value.currentProject.spriteListWithClones
 }

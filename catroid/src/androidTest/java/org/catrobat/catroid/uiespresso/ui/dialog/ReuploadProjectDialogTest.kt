@@ -44,6 +44,7 @@ import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test
+import org.koin.java.KoinJavaComponent.inject
 
 class ReuploadProjectDialogTest {
     @get:Rule
@@ -54,13 +55,15 @@ class ReuploadProjectDialogTest {
     var dummyProject: Project? = null
     var projectName = "reUploadedProject"
 
+    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
+
     fun createDownloadedProject(name: String?) {
         dummyProject = Project(
             ApplicationProvider.getApplicationContext(),
             name
         )
         val dummyScene = dummyProject?.let { Scene("scene", it) }
-        ProjectManager.getInstance().currentProject = dummyProject
+        projectManager.currentProject = dummyProject
         val sprite = Sprite("sprite")
         val firstScript: Script = StartScript()
         dummyScene?.addSprite(sprite)
@@ -75,13 +78,13 @@ class ReuploadProjectDialogTest {
     @After
     @Throws(Exception::class)
     fun tearDown() {
-        ProjectManager.getInstance().deleteDownloadedProjectInformation(projectName)
+        projectManager.deleteDownloadedProjectInformation(projectName)
     }
 
     @Test
     fun showUploadWarningForUnchangedProjectTest() {
-        ProjectManager.getInstance().deleteDownloadedProjectInformation(projectName)
-        ProjectManager.getInstance().addNewDownloadedProject(projectName)
+        projectManager.deleteDownloadedProjectInformation(projectName)
+        projectManager.addNewDownloadedProject(projectName)
         createDownloadedProject(projectName)
         Espresso.onView(ViewMatchers.withText(R.string.warning))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
@@ -90,14 +93,14 @@ class ReuploadProjectDialogTest {
 
     @Test
     fun notShowUploadWarningForChangedProjectTest() {
-        ProjectManager.getInstance().loadDownloadedProjects()
-        ProjectManager.getInstance().deleteDownloadedProjectInformation(projectName)
-        ProjectManager.getInstance().addNewDownloadedProject(projectName)
+        projectManager.loadDownloadedProjects()
+        projectManager.deleteDownloadedProjectInformation(projectName)
+        projectManager.addNewDownloadedProject(projectName)
         createDownloadedProject(projectName)
         Espresso.onView(ViewMatchers.withText(R.string.warning))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(ViewMatchers.withText(R.string.ok)).perform(ViewActions.click())
-        val currentProject = ProjectManager.getInstance().currentProject
+        val currentProject = projectManager.currentProject
         val newScene = Scene("scene", currentProject)
         currentProject.addScene(newScene)
         XstreamSerializer.getInstance().saveProject(currentProject)
@@ -111,14 +114,14 @@ class ReuploadProjectDialogTest {
 
     @Test
     fun notShowUploadWarningForAddedVariableProjectTest() {
-        ProjectManager.getInstance().loadDownloadedProjects()
-        ProjectManager.getInstance().deleteDownloadedProjectInformation(projectName)
-        ProjectManager.getInstance().addNewDownloadedProject(projectName)
+        projectManager.loadDownloadedProjects()
+        projectManager.deleteDownloadedProjectInformation(projectName)
+        projectManager.addNewDownloadedProject(projectName)
         createDownloadedProject(projectName)
         Espresso.onView(ViewMatchers.withText(R.string.warning))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(ViewMatchers.withText(R.string.ok)).perform(ViewActions.click())
-        val currentProject = ProjectManager.getInstance().currentProject
+        val currentProject = projectManager.currentProject
         val userVariable = UserVariable("uservariable")
         currentProject.addUserVariable(userVariable)
         XstreamSerializer.getInstance().saveProject(currentProject)

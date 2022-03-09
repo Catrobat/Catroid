@@ -221,7 +221,7 @@ class MainMenuFragment : Fragment(),
             // CATROID-1434 Caution
             // running loadProject on main thread may cause ANR due to locking in
             // XstreamSerializer
-            loadProject(projectDir, requireContext())
+            loadProject(projectDir)
         }
         loadProjectImage()
     }
@@ -231,7 +231,7 @@ class MainMenuFragment : Fragment(),
             DEFAULT_ROOT_DIRECTORY,
             FileMetaDataExtractor.encodeSpecialCharsForFileSystem(name)
         )
-        ProjectLoader(projectDir, requireContext())
+        ProjectLoader(projectDir)
             .setListener(this)
             .loadProjectAsync()
     }
@@ -278,9 +278,7 @@ class MainMenuFragment : Fragment(),
             FileMetaDataExtractor
                 .encodeSpecialCharsForFileSystem(projectData!!.name)
         )
-        ProjectLoader(projectDir, requireContext())
-            .setListener(this)
-            .loadProjectAsync()
+        ProjectLoader(projectDir).setListener(this).loadProjectAsync()
     }
 
     fun refreshData() {
@@ -297,9 +295,7 @@ class MainMenuFragment : Fragment(),
                     DEFAULT_ROOT_DIRECTORY,
                     FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject)
                 )
-                ProjectLoader(projectDir, requireContext())
-                    .setListener(this)
-                    .loadProjectAsync()
+                ProjectLoader(projectDir).setListener(this).loadProjectAsync()
             }
 
             R.id.newProjectFloatingActionButton ->

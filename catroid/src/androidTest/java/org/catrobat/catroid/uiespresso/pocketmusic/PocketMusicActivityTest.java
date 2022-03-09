@@ -62,6 +62,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -226,7 +227,8 @@ public class PocketMusicActivityTest {
 	private void relaunchActivityOpenJustSavedFile() {
 		pocketMusicActivityRule.getActivity().finish();
 
-		List<SoundInfo> sounds = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		List<SoundInfo> sounds = inject(ProjectManager.class).getValue()
+				.getCurrentSprite().getSoundList();
 
 		assertNotNull(sounds);
 		assertFalse(sounds.isEmpty());

@@ -34,6 +34,7 @@ import org.catrobat.catroid.io.StorageOperations.copyDir
 import org.catrobat.catroid.io.StorageOperations.deleteDir
 import org.catrobat.catroid.io.XstreamSerializer.renameProject
 import org.catrobat.catroid.utils.FileMetaDataExtractor.encodeSpecialCharsForFileSystem
+import org.koin.java.KoinJavaComponent
 import java.io.File
 import java.io.IOException
 
@@ -64,7 +65,8 @@ class ProjectCopier(
         return try {
             copyDir(sourceDir, destinationDir)
             renameProject(File(destinationDir, Constants.CODE_XML_FILE_NAME), destinationName)
-            ProjectManager.getInstance().addNewDownloadedProject(destinationName)
+            val projectManager: ProjectManager by KoinJavaComponent.inject(ProjectManager::class.java)
+            projectManager.addNewDownloadedProject(destinationName)
             true
         } catch (e: IOException) {
             Log.e(TAG, "Something went wrong while copying ${sourceDir.absolutePath} to $destinationName", e)

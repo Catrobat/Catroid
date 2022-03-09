@@ -33,7 +33,6 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.content.bricks.Brick
 import java.io.File
-import java.util.HashMap
 
 class TextToSpeechHolder private constructor() {
 

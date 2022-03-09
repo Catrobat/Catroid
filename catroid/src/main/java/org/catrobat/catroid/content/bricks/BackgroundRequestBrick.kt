@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.BrickField
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.formulaeditor.Formula
+import org.koin.java.KoinJavaComponent.inject
 
 class BackgroundRequestBrick constructor() : FormulaBrick() {
     constructor(value: String) : this(Formula(value))
@@ -44,8 +45,9 @@ class BackgroundRequestBrick constructor() : FormulaBrick() {
     override fun getViewResource(): Int = R.layout.brick_background_request
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
         sequence.addAction(sprite.actionFactory.createLookRequestAction(
-                ProjectManager.getInstance().currentlyPlayingScene.backgroundSprite, sequence,
+                projectManager.currentlyPlayingScene.backgroundSprite, sequence,
                 getFormulaWithBrickField(BrickField.BACKGROUND_REQUEST)
             )
         )

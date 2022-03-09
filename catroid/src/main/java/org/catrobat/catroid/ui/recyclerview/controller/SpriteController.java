@@ -45,6 +45,8 @@ import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
 import java.io.IOException;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class SpriteController {
 
 	public static final String TAG = SpriteController.class.getSimpleName();
@@ -103,8 +105,9 @@ public class SpriteController {
 	public Sprite copyForCloneBrick(Sprite spriteToCopy) {
 		Sprite sprite = new Sprite(spriteToCopy.getName() + "-c" + StageActivity
 				.getAndIncrementNumberOfClonedSprites());
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		Project currentProject = projectManager.getCurrentProject();
+		Scene currentScene = projectManager.getCurrentlyEditedScene();
 
 		ScriptController scriptController = new ScriptController();
 
@@ -162,7 +165,6 @@ public class SpriteController {
 			throw new IllegalStateException("You are deleting a clone: this means you also delete the files that are "
 					+ "referenced by the original sprite because clones are shallow copies regarding files.");
 		}
-
 		for (LookData look : spriteToDelete.getLookList()) {
 			try {
 				lookController.delete(look);
@@ -178,8 +180,8 @@ public class SpriteController {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
 		}
-
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		Scene currentScene = projectManager.getCurrentlyEditedScene();
 		if (currentScene != null) {
 			currentScene.removeSpriteFromCloneBricks(spriteToDelete);
 		}

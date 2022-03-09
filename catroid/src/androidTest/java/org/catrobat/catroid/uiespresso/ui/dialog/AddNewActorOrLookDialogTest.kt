@@ -23,23 +23,32 @@
 
 package org.catrobat.catroid.uiespresso.ui.dialog
 
+import android.content.Context
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
+import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.StartScript
+import org.catrobat.catroid.content.bricks.SetVariableBrick
+import org.catrobat.catroid.formulaeditor.UserVariable
+import org.catrobat.catroid.koin.myModules
+import org.catrobat.catroid.koin.startWithContext
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.SpriteActivity
-import org.catrobat.catroid.uiespresso.formulaeditor.FormulaEditorTest
 import org.catrobat.catroid.uiespresso.util.actions.selectTabAtPosition
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.koin.java.KoinJavaComponent.inject
 
 class AddNewActorOrLookDialogTest {
     private var currentProject: Project? = null
@@ -53,8 +62,9 @@ class AddNewActorOrLookDialogTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
+        startWithContext(baseActivityTestRule.activity.applicationContext, myModules)
         val projectName = "newProject"
-        currentProject = FormulaEditorTest.createProject(projectName)
+        currentProject = createProject(projectName)
         currentProject!!.defaultScene.addSprite(Sprite("Sprite1"))
         baseActivityTestRule.launchActivity()
     }
@@ -105,5 +115,23 @@ class AddNewActorOrLookDialogTest {
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_media_library))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
+
+    fun createProject(projectName: String?): Project? {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val project = Project(context, projectName)
+        val sprite = Sprite("testSprite")
+        val script: Script = StartScript()
+        val setVariableBrick = SetVariableBrick()
+        val userVariable = UserVariable("Global1")
+        project.addUserVariable(userVariable)
+        setVariableBrick.userVariable = userVariable
+        script.addBrick(setVariableBrick)
+        sprite.addScript(script)
+        project.defaultScene.addSprite(sprite)
+        val projectManager = inject(ProjectManager::class.java)
+        projectManager.value.currentProject = project
+        projectManager.value.currentSprite = sprite
+        return project
     }
 }

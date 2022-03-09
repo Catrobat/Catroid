@@ -32,6 +32,7 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.utils.FileMetaDataExtractor
+import org.koin.java.KoinJavaComponent
 import java.io.File
 import java.io.IOException
 
@@ -73,8 +74,8 @@ fun renameProject(projectDirectory: File, destinationName: String): File? {
     if (!success) {
         return null
     }
-
-    ProjectManager.getInstance().moveChangedFlag(projectDirectory.name, destinationName)
+    val projectManager: ProjectManager by KoinJavaComponent.inject(ProjectManager::class.java)
+    projectManager.moveChangedFlag(projectDirectory.name, destinationName)
     return destinationDirectory
 }
 

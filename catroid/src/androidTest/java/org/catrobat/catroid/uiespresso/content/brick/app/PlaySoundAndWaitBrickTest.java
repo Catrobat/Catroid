@@ -67,6 +67,7 @@ import static org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBarMenu
 import static org.catrobat.catroid.uiespresso.util.actions.TabActionsKt.selectTabAtPosition;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
@@ -252,8 +253,9 @@ public class PlaySoundAndWaitBrickTest {
 
 		sprite.addScript(startScript);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
 
 		XstreamSerializer.getInstance().saveProject(project);
 
@@ -282,7 +284,7 @@ public class PlaySoundAndWaitBrickTest {
 		soundInfo2.setFile(soundFile2);
 		soundInfo2.setName(soundName2);
 
-		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 		soundInfoList.add(soundInfo);
 		soundInfoList.add(soundInfo2);
 	}

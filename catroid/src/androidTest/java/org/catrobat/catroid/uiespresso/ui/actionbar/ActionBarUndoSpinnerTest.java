@@ -60,6 +60,7 @@ import java.util.List;
 
 import static org.catrobat.catroid.WaitForConditionAction.waitFor;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -151,8 +152,9 @@ public class ActionBarUndoSpinnerTest {
 
 	private void createProject() {
 		Script script = BrickTestUtils.createProjectAndGetStartScript(ActionBarUndoSpinnerTest.class.getSimpleName());
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		Project currentProject = projectManager.getCurrentProject();
+		Sprite currentSprite = projectManager.getCurrentSprite();
 
 		currentProject.addUserVariable(new UserVariable(firstItem));
 		currentProject.addUserVariable(new UserVariable(secondItem));

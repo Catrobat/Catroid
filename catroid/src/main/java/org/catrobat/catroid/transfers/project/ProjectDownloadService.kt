@@ -52,6 +52,7 @@ import org.catrobat.catroid.web.CatrobatServerCalls.DownloadErrorCallback
 import org.catrobat.catroid.web.CatrobatServerCalls.DownloadProgressCallback
 import org.catrobat.catroid.web.CatrobatServerCalls.DownloadSuccessCallback
 import org.catrobat.catroid.web.CatrobatWebClient
+import org.koin.java.KoinJavaComponent
 import java.io.File
 import java.io.IOException
 
@@ -140,7 +141,8 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
             ZipArchiver().unzip(destinationFile, projectDir)
 
             XstreamSerializer.renameProject(File(projectDir, Constants.CODE_XML_FILE_NAME), projectName)
-            ProjectManager.getInstance().addNewDownloadedProject(projectName)
+            val projectManager: ProjectManager by KoinJavaComponent.inject(ProjectManager::class.java)
+            projectManager.addNewDownloadedProject(projectName)
 
             val downloadIntent = Intent(context, MainMenuActivity::class.java)
             downloadIntent.setAction(Intent.ACTION_MAIN)

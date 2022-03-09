@@ -47,6 +47,7 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
@@ -69,7 +70,7 @@ public class FormulaEditorLocaleVariableComputeTest {
 				.perform(click());
 		onFormulaEditor()
 				.performCompute();
-		ProjectManager.getInstance().setCurrentlyPlayingScene(firstScene);
+		inject(ProjectManager.class).getValue().setCurrentlyPlayingScene(firstScene);
 		onView(withId(R.id.formula_editor_compute_dialog_textview))
 				.check(matches(withText("0")));
 		pressBack();
@@ -101,9 +102,10 @@ public class FormulaEditorLocaleVariableComputeTest {
 		sprite.addScript(script);
 		project.addScene(secondScene);
 		secondScene.addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(secondScene);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentlyEditedScene(secondScene);
+		projectManager.setCurrentSprite(sprite);
 
 		return project;
 	}

@@ -48,6 +48,7 @@ import androidx.test.core.app.ApplicationProvider;
 import static junit.framework.TestCase.assertEquals;
 
 import static org.junit.Assert.assertNotEquals;
+import static org.koin.java.KoinJavaComponent.inject;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -55,7 +56,6 @@ import static org.mockito.Mockito.when;
 @RunWith(JUnit4.class)
 public class WaitForSoundActionTest {
 
-	private static ProjectManager projectManager;
 	private static Project project;
 	private WaitForSoundAction action;
 	private static final float SOUND_DURATION = 2.0f;
@@ -65,7 +65,6 @@ public class WaitForSoundActionTest {
 	@BeforeClass
 	public static void setUpProjectManager() {
 		project = new Project(ApplicationProvider.getApplicationContext(), "projectName");
-		projectManager = ProjectManager.getInstance();
 	}
 
 	@Before
@@ -105,6 +104,7 @@ public class WaitForSoundActionTest {
 
 	private void createProject(String projectName) {
 		project = new Project(ApplicationProvider.getApplicationContext(), projectName);
+		final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 		projectManager.setCurrentProject(project);
 		projectManager.setCurrentSprite(project.getDefaultScene().getBackgroundSprite());
 	}
