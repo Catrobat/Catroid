@@ -33,6 +33,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.Tab
 import org.catrobat.catroid.BuildConfig
+import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_LOOKS
 import org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS
@@ -111,7 +112,7 @@ private fun SpriteActivity.showScripts(fragmentTransaction: FragmentTransaction)
     } else {
         fragmentTransaction.replace(
             R.id.fragment_container,
-            CatblocksScriptFragment(0),
+            CatblocksScriptFragment(null),
             TAG
         )
     }

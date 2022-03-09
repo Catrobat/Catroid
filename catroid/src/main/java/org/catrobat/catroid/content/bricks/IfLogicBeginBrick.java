@@ -36,6 +36,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import androidx.annotation.VisibleForTesting;
 
@@ -268,6 +269,11 @@ public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 		@Override
 		public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		}
+
+		@Override
+		public UUID getBrickID() {
+			return parent.getBrickID();
+		}
 	}
 
 	@VisibleForTesting
@@ -314,6 +320,11 @@ public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 
 		@Override
 		public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		}
+
+		@Override
+		public UUID getBrickID() {
+			return parent.getBrickID();
 		}
 	}
 }

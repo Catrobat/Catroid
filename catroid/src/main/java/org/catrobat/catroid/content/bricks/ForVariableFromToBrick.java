@@ -36,6 +36,7 @@ import org.catrobat.catroid.utils.LoopUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ForVariableFromToBrick extends UserVariableBrickWithFormula implements CompositeBrick {
 
@@ -227,6 +228,11 @@ public class ForVariableFromToBrick extends UserVariableBrickWithFormula impleme
 
 		@Override
 		public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		}
+
+		@Override
+		public UUID getBrickID() {
+			return parent.getBrickID();
 		}
 	}
 }

@@ -296,6 +296,7 @@ public abstract class BrickBaseType implements Brick {
 			if (subStackIndex == -1
 					&& brick.getBrickID().equals(parentBrickId)) {
 				compositeBrick.getSecondaryNestedBricks().addAll(index, bricksToAdd);
+				return true;
 			} else if (brick instanceof CompositeBrick
 					&& brick.addBrickInNestedBrick(parentBrickId, subStackIndex, bricksToAdd)) {
 				return true;

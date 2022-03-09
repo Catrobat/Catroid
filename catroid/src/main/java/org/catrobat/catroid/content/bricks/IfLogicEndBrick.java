@@ -25,6 +25,8 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
+import java.util.UUID;
+
 public class IfLogicEndBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
@@ -36,5 +38,10 @@ public class IfLogicEndBrick extends BrickBaseType {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	}
+
+	@Override
+	public UUID getBrickID() {
+		return parent.getBrickID();
 	}
 }

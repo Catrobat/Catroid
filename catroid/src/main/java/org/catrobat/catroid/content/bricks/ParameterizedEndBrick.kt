@@ -26,6 +26,7 @@ package org.catrobat.catroid.content.bricks
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
+import java.util.UUID
 
 class ParameterizedEndBrick() : UserListBrick() {
     init {
@@ -55,6 +56,8 @@ class ParameterizedEndBrick() : UserListBrick() {
             )
         )
     }
+
+    override fun getBrickID(): UUID = parent.brickID
 
     override fun getSpinnerId(): Int = R.id.brick_param_expected_list
 }

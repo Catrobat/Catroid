@@ -43,6 +43,7 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class RepeatBrick extends FormulaBrick implements CompositeBrick {
 
@@ -243,6 +244,11 @@ public class RepeatBrick extends FormulaBrick implements CompositeBrick {
 
 		@Override
 		public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		}
+
+		@Override
+		public UUID getBrickID() {
+			return parent.getBrickID();
 		}
 	}
 }
