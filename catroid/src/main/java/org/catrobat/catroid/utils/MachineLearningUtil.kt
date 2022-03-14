@@ -78,6 +78,7 @@ object MachineLearningUtil {
     // 2. bundletool build-apks --local-testing --bundle catroid/catroid/debug/catroid-catroid-debug.aab --output app.apks
     // 3. bundletool install-apks --apks my_app.apks
 
+
     // TODO how to build the bundles for production?
 
     // TODO lock ui while downloading
