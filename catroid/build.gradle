@@ -105,7 +105,7 @@ def defaultVersionName = "1.0.3"
 android {
     compileSdkVersion 30
 
-    // ndkVersion "21.4.7075529"
+    ndkVersion "21.4.7075529"
 
     buildFeatures {
         viewBinding true
