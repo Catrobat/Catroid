@@ -52,7 +52,7 @@ ext {
     espressoVersion = "3.1.0"
     playServicesVersion = "17.0.0"
     cameraXVersion = "1.0.0-beta07"
-    room_version = "2.4.0-beta02"
+    room_version = "2.3.0" // "2.4.0-beta02"
     coroutines_version = "1.3.2"
     work_manager_version = "2.5.0"
 }
