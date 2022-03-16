@@ -33,9 +33,6 @@ import android.util.Log;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
-import com.google.android.play.core.splitinstall.SplitInstallManager;
-import com.google.android.play.core.splitinstall.SplitInstallManagerFactory;
-import com.google.android.play.core.splitinstall.SplitInstallRequest;
 import com.huawei.agconnect.AGConnectInstance;
 import com.huawei.agconnect.config.AGConnectServicesConfig;
 import com.huawei.hms.mlsdk.common.MLApplication;
@@ -52,12 +49,14 @@ import androidx.multidex.MultiDex;
 public class CatroidApplication extends Application {
 
 	private static final String TAG = CatroidApplication.class.getSimpleName();
-
-	private static Context context;
 	public static String defaultSystemLanguage;
-
+	private static Context context;
 	private static GoogleAnalytics googleAnalytics;
 	private static Tracker googleTracker;
+
+	public static Context getAppContext() {
+		return CatroidApplication.context;
+	}
 
 	@TargetApi(29)
 	@Override
@@ -113,19 +112,15 @@ public class CatroidApplication extends Application {
 		return googleTracker;
 	}
 
-	public static Context getAppContext() {
-		return CatroidApplication.context;
-	}
-
 	private void loadMachineLearningModule() {
 		SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences.OnSharedPreferenceChangeListener listener = (prefs, key) -> {
-			if (SettingsFragment.isAISpeechRecognitionSharedPreferenceEnabled(context) ||
-					SettingsFragment.isAISpeechSynthetizationSharedPreferenceEnabled(context) ||
-					SettingsFragment.isAIFaceDetectionSharedPreferenceEnabled(context) ||
-					SettingsFragment.isAIPoseDetectionSharedPreferenceEnabled(context) ||
-					SettingsFragment.isAITextRecognitionSharedPreferenceEnabled(context) ||
-					SettingsFragment.isAIObjectDetectionSharedPreferenceEnabled(context)) {
+			if (SettingsFragment.isAISpeechRecognitionSharedPreferenceEnabled(context)
+					|| SettingsFragment.isAISpeechSynthetizationSharedPreferenceEnabled(context)
+					|| SettingsFragment.isAIFaceDetectionSharedPreferenceEnabled(context)
+					|| SettingsFragment.isAIPoseDetectionSharedPreferenceEnabled(context)
+					|| SettingsFragment.isAITextRecognitionSharedPreferenceEnabled(context)
+					|| SettingsFragment.isAIObjectDetectionSharedPreferenceEnabled(context)) {
 				MachineLearningUtil.loadModule(context);
 			}
 		};

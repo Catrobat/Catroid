@@ -23,8 +23,6 @@
 package org.catrobat.catroid.test.formulaeditor
 
 import android.Manifest
-import android.graphics.Point
-import android.graphics.Rect
 import androidx.test.annotation.UiThreadTest
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.rule.GrantPermissionRule

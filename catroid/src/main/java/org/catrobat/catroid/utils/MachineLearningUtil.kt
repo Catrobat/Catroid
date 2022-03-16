@@ -27,15 +27,9 @@ import android.content.Context
 import android.graphics.Point
 import android.util.Log
 import androidx.camera.core.ImageAnalysis
-import com.google.android.play.core.splitinstall.SplitInstallManager
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener
-import java.lang.Exception
-import android.app.ProgressDialog
-
-
-
 
 interface MachineLearningModule {
     fun init(context: Context)
@@ -45,8 +39,7 @@ interface CatroidImageAnalyzer : ImageAnalysis.Analyzer {
     fun setActiveDetectorsWithContext(context: Context?)
 }
 
-interface FaceTextPoseDetectorHuawei : ImageAnalysis.Analyzer {
-}
+interface FaceTextPoseDetectorHuawei : ImageAnalysis.Analyzer
 
 interface ObjectDetectorResults {
     fun getIdOfDetectedObject(index: Int): Int
@@ -78,7 +71,6 @@ object MachineLearningUtil {
     // 2. bundletool build-apks --local-testing --bundle catroid/catroid/debug/catroid-catroid-debug.aab --output app.apks
     // 3. bundletool install-apks --apks my_app.apks
 
-
     // TODO how to build the bundles for production?
 
     // TODO lock ui while downloading
@@ -101,11 +93,13 @@ object MachineLearningUtil {
             .startInstall(request)
             .addOnSuccessListener { sessionId ->
                 try {
-                    val machineLearningModule = Class.forName("$MODULE_PATH.MachineLearningModule").kotlin.objectInstance as MachineLearningModule
-                    machineLearningModule.init(context)
+                    val machineLearningModule =
+                        Class.forName("$MODULE_PATH.MachineLearningModule").kotlin.objectInstance as MachineLearningModule?
+                    // TODO can be null
+                    machineLearningModule?.init(context)
                     Log.d("BULLSHIT", "is loaded")
                     isLoaded = true
-                } catch (exception: Exception) {
+                } catch (exception: ClassNotFoundException) {
                     Log.e(javaClass.simpleName, "Could not initialize module.", exception)
                     Log.e("BULLSHIT", "could not init", exception)
                 }
@@ -123,35 +117,29 @@ object MachineLearningUtil {
             }
     }
 
-    fun getCatroidImageAnalyzer(): CatroidImageAnalyzer? {
-        return getObjectInstance<CatroidImageAnalyzer>("CatroidImageAnalyzer")
-    }
+    fun getCatroidImageAnalyzer(): CatroidImageAnalyzer? =
+        getObjectInstance<CatroidImageAnalyzer>("CatroidImageAnalyzer")
 
-    fun getFaceTextPoseDetectorHuawei(): FaceTextPoseDetectorHuawei? {
-        return getObjectInstance<FaceTextPoseDetectorHuawei>("FaceTextPoseDetectorHuawei")
-    }
+    fun getFaceTextPoseDetectorHuawei(): FaceTextPoseDetectorHuawei? =
+        getObjectInstance<FaceTextPoseDetectorHuawei>("FaceTextPoseDetectorHuawei")
 
-    fun getObjectDetectorResults(): ObjectDetectorResults? {
-        return getObjectInstance<ObjectDetectorResults>("ObjectDetectorResults")
-    }
+    fun getObjectDetectorResults(): ObjectDetectorResults? =
+        getObjectInstance<ObjectDetectorResults>("ObjectDetectorResults")
 
     @JvmStatic
-    fun getTextBlockUtil(): TextBlockUtil? {
-        return getObjectInstance<TextBlockUtil>("TextBlockUtil")
-    }
+    fun getTextBlockUtil(): TextBlockUtil? = getObjectInstance<TextBlockUtil>("TextBlockUtil")
 
     @JvmStatic
-    fun getVisualDetectionHandler(): VisualDetectionHandler? {
-        return getObjectInstance<VisualDetectionHandler>("VisualDetectionHandler")
-    }
+    fun getVisualDetectionHandler(): VisualDetectionHandler? =
+        getObjectInstance<VisualDetectionHandler>("VisualDetectionHandler")
 
     private fun <T> getObjectInstance(name: String): T? {
         if (!isLoaded) {
             return null
         }
         return try {
-            Class.forName("$MODULE_PATH.$name").kotlin.objectInstance as T
-        } catch (e: Exception) {
+            Class.forName("$MODULE_PATH.$name").kotlin.objectInstance as T?
+        } catch (e: ClassNotFoundException) {
             null
         }
     }
