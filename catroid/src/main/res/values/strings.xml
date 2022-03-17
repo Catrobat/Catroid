@@ -1751,6 +1751,7 @@ needs read and write access to it. You can always change permissions through you
     <!-- -->
 
     <!-- Formula editor strings -->
+    <string name="formula_editor_your_functions">Your functions</string>
     <string name="formula_editor_data">Data</string>
     <string name="formula_editor_true">true</string>
     <string name="formula_editor_false">false</string>
