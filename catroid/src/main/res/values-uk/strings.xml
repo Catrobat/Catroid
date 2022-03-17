@@ -34,7 +34,7 @@
     <string name="ignore">Пропустити</string>
     <string name="cancel">Скасувати</string>
     <string name="save">Зберегти</string>
-    <string name="help">Help</string>
+    <string name="help">Довідка</string>
     <string name="discard">Скинути</string>
     <string name="next">Далі</string>
     <string name="ok">Добре</string>
@@ -85,7 +85,7 @@
     <string name="main_menu_continue">Продовжити проект</string>
     <string name="main_menu_new">Новий проект</string>
     <string name="main_menu_programs">Projects on device</string>
-    <string name="main_menu_help">Help</string>
+    <string name="main_menu_help">Довідка</string>
     <string name="main_menu_web">Catrobat community</string>
     <string name="main_menu_upload">Upload project</string>
     <string name="main_menu_rate_app">Rate us!</string>
@@ -108,7 +108,7 @@
     <!-- NFC activity -->
     <string name="nfc_activity_title">NFC tags</string>
     <!-- Settings activity -->
-    <string name="preference_title">Settings</string>
+    <string name="preference_title">Параметри</string>
     <string name="preference_title_language">Language</string>
     <string name="preference_description_language">Set the app\'s language</string>
     <string name="preference_title_web_access">Web access</string>
@@ -345,7 +345,7 @@
     <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
     <string name="am_backpack">Pack</string>
     <string name="am_unpack">Unpack</string>
-    <string name="am_copy">Copy</string>
+    <string name="am_copy">Копіювати</string>
     <string name="am_delete">Delete</string>
     <string name="am_rename">Rename</string>
     <string name="am_convert">Convert</string>
@@ -354,7 +354,7 @@
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">Backpack</string>
-    <string name="copy">Copy</string>
+    <string name="copy">Копіювати</string>
     <string name="delete">Delete</string>
     <string name="rename">Rename</string>
     <string name="merge">Merge</string>
@@ -419,7 +419,7 @@
     <string name="look_name_label">Look name</string>
     <string name="sound_name_label">Sound name</string>
     <string name="nfc_tag_name_label">NFC tag name</string>
-    <string name="string_label">Text</string>
+    <string name="string_label">Текст</string>
     <string name="data_label">Name</string>
     <string name="keyword_label">Шукати</string>
     <string name="html_label">Insert HTML text</string>
@@ -647,7 +647,7 @@
     <string name="default_tag_name">NFC tag</string>
     <string name="tnf_empty">Empty</string>
     <string name="tnf_external_type">External type</string>
-    <string name="tnf_mime_media">Text</string>
+    <string name="tnf_mime_media">Текст</string>
     <string name="tnf_well_known_http">HTTP</string>
     <string name="tnf_well_known_https">HTTPS</string>
     <string name="tnf_well_known_tel">Phone number</string>
@@ -773,7 +773,7 @@
     <string name="brick_context_dialog_highlight_brick_parts">Highlight brick parts</string>
     <string name="brick_context_dialog_comment_in_script">Enable script</string>
     <string name="brick_context_dialog_comment_out_script">Disable script</string>
-    <string name="brick_context_dialog_help">Help</string>
+    <string name="brick_context_dialog_help">Довідка</string>
     <string name="comment_in_out">Disable/enable</string>
     <string name="catblocks">Toggle 2D</string>
     <string name="catblocks_reorder">Clean up scripts</string>
@@ -1026,7 +1026,7 @@
     <string name="brick_pen_size">Set pen size to</string>
     <string name="brick_pen_color">Set pen color to</string>
     <string name="brick_clear_background">Clear</string>
-    <string name="brick_stamp">Stamp</string>
+    <string name="brick_stamp">Штамп</string>
     <!--  -->
     <!-- Sound bricks -->
     <string name="brick_play_sound">Start sound</string>
@@ -1072,7 +1072,7 @@
     <!-- Control bricks -->
     <string name="brick_when_started">When scene starts</string>
     <string name="brick_when">When tapped</string>
-    <string name="brick_when_condition_when">When</string>
+    <string name="brick_when_condition_when">Коли</string>
     <string name="brick_when_becomes_true">becomes true</string>
     <string name="brick_wait">Wait</string>
     <string name="brick_wait_until">Wait until</string>
@@ -1266,7 +1266,7 @@
     <string name="default_script_group_name">Script group</string>
     <string name="default_broadcast_message_name">Message</string>
     <string name="default_list_name">List</string>
-    <string name="default_project_background_name">Background</string>
+    <string name="default_project_background_name">Фон</string>
     <string name="default_project_cloud_name">Clouds</string>
     <string name="default_project_cloud_sprite_name_1">Clouds1</string>
     <string name="default_project_cloud_sprite_name_2">Clouds2</string>
@@ -1282,7 +1282,7 @@
     <!--suppress UnusedResources -->
     <string name="default_project_inner_loop">Inner Loop</string>
     <!-- Default ChromeCast Values -->
-    <string name="default_cast_project_background_name">Background</string>
+    <string name="default_cast_project_background_name">Фон</string>
     <string name="default_cast_project_cloud_name">Clouds</string>
     <string name="default_cast_project_cloud_sprite_name1">Clouds1</string>
     <string name="default_cast_project_cloud_sprite_name2">Clouds2</string>
@@ -1296,7 +1296,7 @@
     <string name="default_cast_project_var_direction">direction</string>
     <string name="default_cast_project_name">My first Chromecast project</string>
     <!-- Default Drone Values -->
-    <string name="drone_brick_set_text">Text</string>
+    <string name="drone_brick_set_text">Текст</string>
     <string name="drone_brick_set_x">X:</string>
     <!--  -->
     <!-- Drone config spinner values  -->
@@ -1497,8 +1497,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="ev3_motor_move_by">by</string>
     <string name="ev3_set_led_status">Set EV3 LED status</string>
     <string name="ev3_led_status_off">Off</string>
-    <string name="ev3_led_status_green">Green</string>
-    <string name="ev3_led_status_red">Red</string>
+    <string name="ev3_led_status_green">Зелений</string>
+    <string name="ev3_led_status_red">Червоний</string>
     <string name="ev3_led_status_orange">Orange</string>
     <string name="ev3_led_status_green_flashing">Green flashing</string>
     <string name="ev3_led_status_red_flashing">Red flashing</string>
@@ -1537,8 +1537,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="drone_animation_snakegreenred">Snake green red</string>
     <string name="drone_animation_fire">Fire</string>
     <string name="drone_animation_standard">Standard</string>
-    <string name="drone_animation_red">Red</string>
-    <string name="drone_animation_green">Green</string>
+    <string name="drone_animation_red">Червоний</string>
+    <string name="drone_animation_green">Зелений</string>
     <string name="drone_animation_redsnake">Red snake</string>
     <string name="drone_animation_blank">Blank</string>
     <string name="drone_animation_rightmissile">Right missile</string>
@@ -1599,9 +1599,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="phiro_seconds">seconds</string>
     <!-- light -->
     <string name="brick_phiro_rgb_led_action">Set Phiro light</string>
-    <string name="phiro_rgb_led_red">Red</string>
-    <string name="phiro_rgb_led_green">Green</string>
-    <string name="phiro_rgb_led_blue">Blue</string>
+    <string name="phiro_rgb_led_red">Червоний</string>
+    <string name="phiro_rgb_led_green">Зелений</string>
+    <string name="phiro_rgb_led_blue">Синій</string>
     <!--  -->
     <!-- Phiro tone strings -->
     <string name="phiro_tone_do">Do</string>
@@ -1837,7 +1837,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_device">Sensors</string>
     <string name="formula_editor_device_sensors">Device sensors</string>
     <string name="formula_editor_functions_maths">Maths</string>
-    <string name="formula_editor_functions_strings">Text</string>
+    <string name="formula_editor_functions_strings">Текст</string>
     <string name="formula_editor_functions_lists">Lists</string>
     <string name="formula_editor_logic_boolean">Logical (Boolean) operators and constants</string>
     <string name="formula_editor_logic_comparison">Comparison operators</string>
@@ -2122,8 +2122,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="find">Find</string>
     <string name="no_results_found">No results found</string>
     <string name="query_field_is_empty">Query field is empty</string>
-    <string name="cut">Cut</string>
-    <string name="paste">Paste</string>
+    <string name="cut">Вирізати</string>
+    <string name="paste">Вставити</string>
     <!-- Particle Effects -->
     <string name="fade_particle_effect">Fade particle effect</string>
     <string name="particle_effects_fade_in">in</string>
