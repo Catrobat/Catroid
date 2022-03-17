@@ -684,8 +684,8 @@
     <string name="error_session_expired">جلسه منقضی شد، لطفا وارد شوید.</string>
     <string name="error_register_empty_username">نام کاربری خالی</string>
     <string name="error_register_username_as_email">آدرس ایمیل را نمی توان به عنوان نام کاربری استفاده کرد</string>
-    <string name="error_register_invalid_username">Username should only contain letters (a–z), numbers (0–9),
-        dashes (-), underscores (_), and periods (.).</string>
+    <string name="error_register_invalid_username">نام کاربری فقط باید شامل حروف (a-z)، اعداد (0-9)،
+        خط تیره (-)، زیرخط (_) و نقطه (.).</string>
     <string name="error_register_username_start_with">نام کاربری نباید با خط تیره (-)، زیرخط (_)، یا نقطه         (.) شروع شود.</string>
     <string name="error_register_invalid_email_format">قالب ایمیل نامعتبر است</string>
     <string name="error_register_empty_password">قسمت رمز عبور خالی است</string>
@@ -1060,7 +1060,7 @@
     <string name="brick_store_csv_into_userlist_of">از</string>
     <string name="brick_store_csv_into_userlist_csv">مقادیر جدا شده با کاما</string>
     <string name="brick_store_csv_into_userlist_into">به لیست</string>
-    <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
+    <string name="brick_store_csv_into_userlist_data">جلف، ناز\nتوله سگ، شیطون\noctopus، باهوش</string>
     <!--  -->
     <!--Instruments-->
     <string name="piano">پیانو</string>
@@ -1538,7 +1538,7 @@
     <string name="formula_editor_function_join3">پیوست</string>
     <string name="formula_editor_function_join3_parameter">(\'hello\',\' world\',\'!\')</string>
     <string name="formula_editor_function_regex">عبارت منظم</string>
-    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
+    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'من یک پاندا هستم.\')</string>
     <string name="formula_editor_function_regex_assistant">دستیار 
         بیان منظم</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">دستیار 
@@ -1546,8 +1546,8 @@
     <string name="formula_editor_function_regex_html_extractor_not_found">کلمه کلیدی پیدا نشد</string>
     <string name="formula_editor_function_regex_json_extractor_title">استخراج کننده JSON</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino digital pin</string>
-    <string name="formula_editor_function_arduino_read_pin_value_analog">arduino analog pin</string>
-    <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry pi pin</string>
+    <string name="formula_editor_function_arduino_read_pin_value_analog">arduino انلاګ پن</string>
+    <string name="formula_editor_function_raspi_read_pin_value_digital">راسبیري پای پن</string>
     <string name="formula_editor_function_pin_default_parameter">(0)</string>
     <string name="formula_editor_function_finger_x">مرحله لمسی x</string>
     <string name="formula_editor_function_finger_y">لمس مرحله y</string>
@@ -1561,11 +1561,11 @@
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(1)</string>
     <string name="formula_editor_function_list_item">اقلام</string>
-    <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
+    <string name="formula_editor_function_list_item_parameter">(1،*نام لیست*)</string>
     <string name="formula_editor_function_contains">شامل</string>
-    <string name="formula_editor_function_contains_parameter">(*list name*,1)</string>
-    <string name="formula_editor_function_index_of_item">item\'s index</string>
-    <string name="formula_editor_function_index_of_item_parameter">(1,*list name*)</string>
+    <string name="formula_editor_function_contains_parameter">(*نام لیست*،1)</string>
+    <string name="formula_editor_function_index_of_item">شاخص مورد</string>
+    <string name="formula_editor_function_index_of_item_parameter">(1،*نام لیست*)</string>
     <string name="formula_editor_function_number_of_items">تعداد اقلام</string>
     <string name="formula_editor_function_number_of_items_parameter">(*list name*)</string>
     <string name="formula_editor_function_flatten">صاف کردن</string>
@@ -1807,7 +1807,7 @@
     <string name="formula_editor_function_text_block_language_from_camera">زبان بلوک متن از دوربین</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
     <string name="formula_editor_function_get_id_of_detected_object">شناسه شی شناسایی شده</string>
-    <string name="formula_editor_function_object_with_id_visible">object with ID visible</string>
+    <string name="formula_editor_function_object_with_id_visible">شی با شناسه قابل مشاهده</string>
     <string name="formula_editor_intro_title_formula_editor">ویرایشگر فرمول</string>
     <string name="formula_editor_intro_summary_formula_editor">با ویرایشگر فرمول می‌توانید فرمول‌های ریاضی         و منطقی ایجاد کنید که می‌توانید در آجرهای خود استفاده کنید.\n\nبا ضربه زدن روی «NEXT» یا خروج         با «SKIP» ادامه دهید.
     </string>
@@ -1872,8 +1872,8 @@
     <string name="cast_ready_to_cast">آماده پخش به</string>
     <string name="cast_enable_cast_feature">ویژگی‌های Chromecast غیرفعال است. لطفاً ویژگی‌های پخش را در تنظیمات فعال کنید.</string>
     <string name="cast_searching_for_cast_devices">جستجو برای دستگاه‌های Chromecast</string>
-    <string name="cast_trouble_finding_devices_tip">.\nDon\'t see your device? Try turning your device\'s Wifi off
-        and on.</string>
+    <string name="cast_trouble_finding_devices_tip">\nدستگاه خود را نمی بینید؟ وای فای دستگاهتان را خاموش 
+        و روشن کنید.</string>
     <string name="cast_connection_timout_msg">پایان زمان اتصال. لطفا دوباره تلاش کنید.</string>
     <string name="cast_screen_pause_text">مکث شد</string>
     <!-- -->

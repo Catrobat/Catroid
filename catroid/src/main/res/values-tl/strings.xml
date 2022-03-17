@@ -629,7 +629,7 @@ Pakiusap sumubok na lamang ng iba.</string>
     <string name="add_sound_from_recorder">I-record ang tunog</string>
     <string name="add_sound_choose_file">Pumili ng mga file</string>
     <string name="add_sound_music">Taga-compose ng musika</string>
-    <string name="add_sound_choose_sound">Sounds</string>
+    <string name="add_sound_choose_sound">Tunog</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">Taga-pili ng Note</string>
     <!--  -->
@@ -692,67 +692,67 @@ Pakiusap sumubok na lamang ng iba.</string>
     <string name="brick_context_dialog_move_definition">Ilipat itong definition</string>
     <string name="brick_context_dialog_delete_brick">Burahin ang brick</string>
     <string name="brick_context_dialog_copy_brick">Kopyahin ang brick</string>
-    <string name="brick_context_dialog_copy_script">Copy script</string>
-    <string name="brick_context_dialog_formula_edit_brick">Edit formula</string>
-    <string name="brick_context_dialog_delete_script">Delete script</string>
-    <string name="brick_context_dialog_delete_definition">Delete this definition</string>
-    <string name="brick_context_dialog_comment_in">Enable brick</string>
-    <string name="brick_context_dialog_comment_out">Disable brick</string>
-    <string name="brick_context_dialog_highlight_brick_parts">Highlight brick parts</string>
-    <string name="brick_context_dialog_comment_in_script">Enable script</string>
-    <string name="brick_context_dialog_comment_out_script">Disable script</string>
+    <string name="brick_context_dialog_copy_script">Kopyahin ang script</string>
+    <string name="brick_context_dialog_formula_edit_brick">Baguhin ang formula</string>
+    <string name="brick_context_dialog_delete_script">Burahin ang script</string>
+    <string name="brick_context_dialog_delete_definition">Burahin ang definition</string>
+    <string name="brick_context_dialog_comment_in">I-enable ang brick</string>
+    <string name="brick_context_dialog_comment_out">I-disable ang brick</string>
+    <string name="brick_context_dialog_highlight_brick_parts">I-Highlight ang mga parte ng brick</string>
+    <string name="brick_context_dialog_comment_in_script">I-enable ang script</string>
+    <string name="brick_context_dialog_comment_out_script">I-disable ang script</string>
     <string name="brick_context_dialog_help">Tulong</string>
     <string name="comment_in_out">Disable/enable</string>
-    <string name="catblocks">Toggle 2D</string>
-    <string name="catblocks_reorder">Clean up scripts</string>
-    <string name="switch_to_1d">1D view</string>
+    <string name="catblocks">I-toggle ang 2D</string>
+    <string name="catblocks_reorder">Linisin ang scripts</string>
+    <string name="switch_to_1d">view na 1D</string>
     <!--  -->
     <!-- Play scene dialog -->
-    <string name="play_scene_dialog_title">Play scene:</string>
-    <string name="play_scene_dialog_default">First scene (%1$s)</string>
-    <string name="play_scene_dialog_current">Current scene (%1$s)</string>
+    <string name="play_scene_dialog_title">Laruin ang scene:</string>
+    <string name="play_scene_dialog_default">Unang scene (%1$s)</string>
+    <string name="play_scene_dialog_current">Kasalukuyang scene (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string name="sign_in_dialog_title">Sign in</string>
+    <string name="sign_in_dialog_title">Mag-sign in</string>
     <string name="username">Pangalan ng gumagamit</string>
     <string name="password">Password</string>
-    <string name="reset_password">Reset password</string>
-    <string name="new_user_registered">New account created</string>
-    <string name="user_logged_in">Login successful</string>
-    <string name="register_error">Login invalid</string>
-    <string name="register_terms">By registering you agree to our</string>
-    <string name="register_code_terms_of_use_text">Terms of use and service</string>
+    <string name="reset_password">Baguhin ang password</string>
+    <string name="new_user_registered">Nagawa ang bagong account</string>
+    <string name="user_logged_in">Tagumpay na nakapag-log in</string>
+    <string name="register_error">Hindi pinayagang paglog-in</string>
+    <string name="register_terms">Sa pagrerehistro ikaw sa sumasang-ayon sa aming</string>
+    <string name="register_code_terms_of_use_text">Termino ng paggamit at serbisyo</string>
     <string name="login">Mag-Login</string>
-    <string name="register">Register</string>
-    <string name="password_confirm">Confirm password</string>
+    <string name="register">Magrehistro</string>
+    <string name="password_confirm">Kumpirmahin ang password</string>
     <string name="accountName">E-Mail</string>
-    <string name="signin_thanks">Thank you for signing up!</string>
-    <string name="signin_choose_username">Please choose your username:</string>
-    <string name="signin_choose_username_empty">Please enter a username.</string>
-    <string name="signin_choose_username_hint">The username should not be your real name nor should it be an email address.</string>
-    <string name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
-    <string name="show_password">Show password</string>
-    <string name="sign_in_error">Something went wrong during sign in.</string>
-    <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
-    <string name="error_session_expired">Session expired, please log in.</string>
-    <string name="error_register_empty_username">Empty username</string>
-    <string name="error_register_username_as_email">Email address cannot be used as username</string>
-    <string name="error_register_invalid_username">Username should only contain letters (a–z), numbers (0–9),
-        dashes (-), underscores (_), and periods (.).</string>
-    <string name="error_register_username_start_with">Username should not start with dashes (-), underscores (_), or
-        periods (.).</string>
-    <string name="error_register_invalid_email_format">Invalid email format</string>
-    <string name="error_register_empty_password">Password field is empty</string>
-    <string name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
-    <string name="error_register_passwords_mismatch">Passwords do not match</string>
-    <string name="error_register_empty_confirm_password">Confirm password field is empty</string>
-    <string name="error_register_username_already_exists">Username already exists</string>
-    <string name="error_register_email_exists">Email address already exists</string>
+    <string name="signin_thanks">Salamat sa pag-sign up!</string>
+    <string name="signin_choose_username">Pakiusap pumili ng iyong username:</string>
+    <string name="signin_choose_username_empty">Pakiusap maglagay ng username.</string>
+    <string name="signin_choose_username_hint">Ang username ay hindi dapat ang pangalan mo o ang iyong email address.</string>
+    <string name="oauth_username_taken">Nagamit na ng iba ang pangalan na ito. Pakiusap pumili ng iba!</string>
+    <string name="show_password">Ipakita ang password</string>
+    <string name="sign_in_error">May nangyaring hindi inaasahan habang nagsa-sign in.</string>
+    <string name="error_google_plus_sign_in">Error sa Google sign-in. Status: %s</string>
+    <string name="error_session_expired">Nag-expired na ang session. pakiusap mag-log in.</string>
+    <string name="error_register_empty_username">Walang username</string>
+    <string name="error_register_username_as_email">Ang Email address ay hindi maaaring magamit na username</string>
+    <string name="error_register_invalid_username">Ang username ay nagtataglay lamang ng mga letra (a-z),numero (0-9),
+         gatlang(-), salungguhit (_), at mga tuldok (.).</string>
+    <string name="error_register_username_start_with">Ang username ay hindi dapat nagsisimula sa gatlang (-), salungguhit (_) o
+          tuldok (.).</string>
+    <string name="error_register_invalid_email_format">Invalid na email format</string>
+    <string name="error_register_empty_password">Walang laman ang field ng password.</string>
+    <string name="error_register_password_at_least_6_characters">Dapat hindi bababa sa 6 na titik ang password.</string>
+    <string name="error_register_passwords_mismatch">Hindi nagtugma ang password</string>
+    <string name="error_register_empty_confirm_password">Kumpirmahin ang walang laman ma password field</string>
+    <string name="error_register_username_already_exists">Ang username ay nagamit na</string>
+    <string name="error_register_email_exists">Ang email address ay nagamit na</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
-    <string name="overwrite_title">Project exists.</string>
-    <string name="overwrite_text">A project with this name already exists.</string>
-    <string name="overwrite_replace">Overwrite project</string>
+    <string name="overwrite_title">Umiiral na proyekto.</string>
+    <string name="overwrite_text">Ang proyekto na may katulad na pangalan ay umiiral na.</string>
+    <string name="overwrite_replace">I-overwrite ang proyekto</string>
     <string name="overwrite_rename">Choose a new name</string>
     <!--  -->
     <!-- Music activity -->

@@ -203,7 +203,7 @@
     <string name="preference_title_enable_arduino_bricks">Arduino积木</string>
     <string name="preference_description_arduino_bricks">允许控制Arduino控制板</string>
     <string name="preference_title_enable_embroidery_bricks">刺绣扩展</string>
-    <string name="preference_description_embroidery_bricks">创建缝纫机創建圖案</string>
+    <string name="preference_description_embroidery_bricks">创建缝纫机图案</string>
     <string name="preference_title_cast_feature_globally_enabled">启用强制转换功能</string>
     <string name="preference_description_cast_feature_globally_enabled">显示投射按钮并启用投射项目</string>
     <string name="preference_title_enable_nfc_bricks">近距离无线通信</string>
@@ -275,7 +275,7 @@
     <string name="by_x">作者 %1$s</string>
     <string name="warning_program_visibility">警告：\n这似乎是一个私有项目。您可以尝试转换它，但它可能无法运作。</string>
     <string name="instructions">说明</string>
-    <string name="notes_and_credits">备注和积分</string>
+    <string name="notes_and_credits">说明和版权信息</string>
     <string name="shared_at_x">分享时间：%1$s</string>
     <string name="modified_at_x">修改时间：%1$s</string>
     <string name="remixes">调制</string>
@@ -285,7 +285,7 @@
     <string name="mode">模式：</string>
     <string name="remix_of">调制来源：</string>
     <string name="description_hint">按下并添加说明</string>
-    <string name="notes_and_credits_hint">点击添加备注和积分</string>
+    <string name="notes_and_credits_hint">点击添加说明和版权信息</string>
     <!-- ScratchReconvertDialog Strings -->
     <string name="reconvert_text">你在 %1$s 之前转换了这个项目。</string>
     <plurals name="minutes">
@@ -488,8 +488,8 @@
     <string name="size">大小：</string>
     <string name="description">描述：</string>
     <string name="set_description">设置描述</string>
-    <string name="notes_and_credits_title">致谢</string>
-    <string name="set_notes_and_credits">设置笔记和点数</string>
+    <string name="notes_and_credits_title">说明和版权信息:</string>
+    <string name="set_notes_and_credits">设置说明和版权信息</string>
     <string name="details_date_today">今天</string>
     <string name="import_project">导入项目</string>
     <string name="export_project">保存项目到外部存储</string>
@@ -500,7 +500,7 @@
     <string name="import_sprite_from_project_launcher">从本地项目导入对象</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">描述</string>
-    <string name="project_options_notes_and_credits">致谢</string>
+    <string name="project_options_notes_and_credits">说明和版权信息</string>
     <string name="project_options_tags">标签</string>
     <string name="project_options_aspect_ratio">保持原来的长宽比</string>
     <string name="project_options_more_details">更多详情</string>
@@ -613,8 +613,8 @@
     <!-- UploadProjectDialog -->
     <string name="upload_project_dialog_title">上传程序</string>
     <string name="upload_description">描述：</string>
-    <string name="upload_notes_and_credits">致谢</string>
-    <string name="upload_notes_and_credits_explanation">你是如何创建这个项目的？你是否使用了其他人的想法、脚本或艺术作品？请对他们表示感谢。</string>
+    <string name="upload_notes_and_credits">说明和版权信息:</string>
+    <string name="upload_notes_and_credits_explanation">您是如何创建这个项目的？是否使用了其他人的想法、脚本或艺术作品？您可以在此对他们表示感谢。</string>
     <string name="upload_tag_dialog_title">请选择最多三个类别</string>
     <string name="upload_tags_maximum_error">无法选择3个以上的标签。</string>
     <!-- Save Project to External Storage -->
@@ -919,12 +919,12 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="for_string">持续</string>
     <!--  -->
     <!-- Embroidery bricks -->
-    <string name="brick_stitch">纹理</string>
-    <string name="brick_running_stitch">开始使用长度运行 sitch</string>
-    <string name="brick_zigzag_stitch">开始以zigzag sitch长度</string>
+    <string name="brick_stitch">缝制</string>
+    <string name="brick_running_stitch">开始进行缝制，按照长度</string>
+    <string name="brick_zigzag_stitch">开始以锯齿线迹缝制，按照长度</string>
     <string name="brick_zigzag_stitch_width">和宽度</string>
-    <string name="brick_triple_stitch">按长度开始三次曲目</string>
-    <string name="brick_stop_stitch">停止当前色调</string>
+    <string name="brick_triple_stitch">开始以三重线迹缝制，按照长度</string>
+    <string name="brick_stop_stitch">停止当前缝制操作</string>
     <string name="brick_write_embroidery">将刺绣数据写入文件</string>
     <string name="brick_default_embroidery_file">刺绣.dst</string>
     <string name="brick_sew_up">上移</string>
@@ -1224,8 +1224,8 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="error_unknown_error">发生未知错误。</string>
     <string name="error_gps_not_available">地理定位数据不可用。</string>
     <string name="error_set_description">在保存说明时发生了一个错误。</string>
-    <string name="error_set_notes_and_credits">保存新笔记
-        和积分时出了错。</string>
+    <string name="error_set_notes_and_credits">保存说明信息
+        和版权信息时出错。</string>
     <string name="error_no_whatsapp">未安装 WhatsApp</string>
     <string name="error_unsupported_bricks_chromecast">此脚本不能添加到 Chromecast
         项目。</string>
@@ -1903,9 +1903,9 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="unchanged_upload_warning">你试图上传的项目已经存在于
         社区平台上存在，而且形式完全相同。请改变你的项目，最好是通过
         增强它，然后再上传你的重混项目。</string>
-    <string name="unchanged_upload_info">请考虑在社区网站或项目选项中对原作者添加一些好话
-        请考虑在社区网站上的信用部分或项目选项中加入对原作者的赞誉。请注意
-        用户会在你成功上传后收到一个通知。</string>
+    <string name="unchanged_upload_info">请考虑在社区网站或项目选项中
+        对版权信息里的开发者给予一定赞许。
+        该用户会在你成功上传后收到通知。</string>
     <string name="unchanged_upload_url">要了解更多关于翻唱的信息，请访问%1s。</string>
     <!-- -->
     <!-- Snackbar hints -->

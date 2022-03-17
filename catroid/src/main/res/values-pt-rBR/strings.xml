@@ -1878,7 +1878,7 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="formula_editor_function_text_block_language_from_camera">idiomas do bloco de texto da câmera</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
     <string name="formula_editor_function_get_id_of_detected_object">ID do objeto detectado</string>
-    <string name="formula_editor_function_object_with_id_visible">object with ID visible</string>
+    <string name="formula_editor_function_object_with_id_visible">objeto com ID visível</string>
     <string name="formula_editor_intro_title_formula_editor">Editor de fórmula</string>
     <string name="formula_editor_intro_summary_formula_editor">Com o editor de fórmulas, você pode criar fórmulas matemáticas e
         lógicas que você pode usar em seus blocos.\n\nContinue tocando em \"PROXIMO\" ou saia

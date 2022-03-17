@@ -1266,7 +1266,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
     <string name="error_embroidery_data_not_found">Embroidery is missing.</string>
-    <string name="error_unknown_error">Something went wrong.</string>
+    <string name="error_unknown_error">Бірдеңе дұрыс болмады.</string>
     <string name="error_gps_not_available">Geolocation data is not available.</string>
     <string name="error_set_description">Something went wrong while saving the new description.</string>
     <string name="error_set_notes_and_credits">Something went wrong while saving the new notes
