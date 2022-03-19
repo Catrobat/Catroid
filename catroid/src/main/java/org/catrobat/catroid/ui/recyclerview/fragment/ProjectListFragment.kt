@@ -91,7 +91,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
             importProject(requireArguments().getParcelable("intent"))
         }
         if (requireActivity().intent?.hasExtra(ProjectListActivity.IMPORT_LOCAL_INTENT) == true) {
-            adapter.hideSettings = true
+            adapter.showSettings = false
             actionModeType = IMPORT_LOCAL
         }
     }

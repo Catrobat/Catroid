@@ -143,7 +143,7 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 		adapter = new ScratchProgramAdapter(new ArrayList<ScratchProgramData>());
 		adapter.setOnItemClickListener(this);
 		adapter.showRipples = false;
-		adapter.hideSettings = true;
+		adapter.showSettings = false;
 
 		recyclerView.setAdapter(adapter);
 

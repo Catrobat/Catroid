@@ -95,6 +95,8 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		mode.getMenuInflater().inflate(R.menu.context_menu, menu);
 
 		adapter.showCheckBoxes = true;
+		adapter.showSettings = false;
+		adapter.showRipples = false;
 		adapter.notifyDataSetChanged();
 		return true;
 	}
@@ -144,6 +146,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		actionModeType = NONE;
 		actionMode = null;
 		adapter.showCheckBoxes = false;
+		adapter.showSettings = true;
 		adapter.selectionMode = adapter.MULTIPLE;
 	}
 
