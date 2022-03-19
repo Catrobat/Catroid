@@ -49,9 +49,7 @@
 
         <TextView
             android:id="@+id/brick_running_stitch_edit_text_length"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true">
+            style="@style/BrickEditText">
         </TextView>
 
     </org.catrobat.catroid.ui.BrickLayout>

@@ -44,14 +44,12 @@
         <include layout="@layout/icon_brick_category_raspberrypi" />
 
         <TextView
-            style="@style/BrickText.Multiple"
+            style="@style/BrickText.SingleLine"
             android:text="@string/brick_raspi_select_digital_value" />
 
         <TextView
             android:id="@+id/brick_raspi_set_digital_pin_edit_text"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true" />
+            style="@style/BrickEditText" />
 
         <TextView
             style="@style/BrickText.SingleLine"
@@ -60,9 +58,7 @@
 
         <TextView
             android:id="@+id/brick_raspi_set_digital_value_edit_text"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true" />
+            style="@style/BrickEditText" />
 
     </org.catrobat.catroid.ui.BrickLayout>
 </LinearLayout>

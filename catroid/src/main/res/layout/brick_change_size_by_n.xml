@@ -48,10 +48,7 @@
 
         <TextView
             android:id="@+id/brick_change_size_by_edit_text"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true"
-            android:maxEms="5" />
+            style="@style/BrickEditText" />
 
     </org.catrobat.catroid.ui.BrickLayout>
 

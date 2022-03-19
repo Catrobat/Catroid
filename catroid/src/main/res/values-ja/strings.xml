@@ -34,6 +34,7 @@
     <string name="ignore">無視</string>
     <string name="cancel">キャンセル</string>
     <string name="save">保存</string>
+    <string name="help">ヘルプ</string>
     <string name="discard">破棄</string>
     <string name="next">次へ</string>
     <string name="ok">わかりました</string>
@@ -584,6 +585,7 @@
     <string name="add_sound_from_recorder">サウンドの録音</string>
     <string name="add_sound_choose_file">ファイルを選択</string>
     <string name="add_sound_music">音楽の作曲</string>
+    <string name="add_sound_choose_sound">サウンド</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">ノートピッカー</string>
     <!--  -->
@@ -1560,7 +1562,6 @@
     <string name="formula_editor_function_regex_assistant">正規表現
         アシスタント</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">正規表現 アシスタント</string>
-    <string name="formula_editor_dialog_wiki_button">詳細情報</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">キーワードが見つかりませんでした。</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON抽出器</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduinoデジタルピン</string>

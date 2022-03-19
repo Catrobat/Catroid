@@ -34,6 +34,7 @@
     <string name="ignore">Mengabaikan</string>
     <string name="cancel">Membatalkan</string>
     <string name="save">Menyimpan</string>
+    <string name="help">Bantuan</string>
     <string name="discard">Singkirkan</string>
     <string name="next">Lanjut</string>
     <string name="ok">Oke</string>
@@ -588,6 +589,7 @@
     <string name="add_sound_from_recorder">Rekam suara</string>
     <string name="add_sound_choose_file">Pilih File</string>
     <string name="add_sound_music">Komposer musik</string>
+    <string name="add_sound_choose_sound">Suara</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">Alat Pilih Catatan</string>
     <!--  -->
@@ -1568,7 +1570,6 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
         asisten</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">Reguler
         asisten ekspresi</string>
-    <string name="formula_editor_dialog_wiki_button">Informasi lebih lanjut</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">Kata kunci tidak dapat ditemukan.</string>
     <string name="formula_editor_function_regex_json_extractor_title">Ekstraktor JSON</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>

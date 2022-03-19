@@ -50,9 +50,7 @@
         <TextView
             android:id="@+id/brick_glide_to_edit_text_duration"
             style="@style/BrickEditText"
-            android:layout_width="match_parent"
-            app:layout_inputType="number"
-            app:layout_textField="true">
+            android:layout_width="match_parent">
         </TextView>
 
         <TextView
@@ -69,9 +67,7 @@
 
         <TextView
             android:id="@+id/brick_glide_to_edit_text_x"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true">
+            style="@style/BrickEditText">
         </TextView>
 
         <TextView
@@ -82,9 +78,7 @@
 
         <TextView
             android:id="@+id/brick_glide_to_edit_text_y"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true">
+            style="@style/BrickEditText">
         </TextView>
     </org.catrobat.catroid.ui.BrickLayout>
 

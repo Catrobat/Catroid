@@ -34,6 +34,7 @@
     <string name="ignore">Ignorar</string>
     <string name="cancel">Cancelar</string>
     <string name="save">Guardar</string>
+    <string name="help">Ayuda</string>
     <string name="discard">Descartar</string>
     <string name="next">Siguiente</string>
     <string name="ok">OK</string>
@@ -620,6 +621,7 @@
     <string name="add_sound_from_recorder">Grabar Sonido</string>
     <string name="add_sound_choose_file">Seleccione Archivo</string>
     <string name="add_sound_music">Compositor</string>
+    <string name="add_sound_choose_sound">Sonidos</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">Recogedor de notas</string>
     <!--  -->
@@ -1602,7 +1604,6 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string name="formula_editor_function_regex_parameter">(\' un? ([^ .]+)\',\'Soy un panda.\')</string>
     <string name="formula_editor_function_regex_assistant">Asistente de expresión regular</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">Asistente de expresión regular</string>
-    <string name="formula_editor_dialog_wiki_button">Más información</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">No se pudo encontrar la palabra clave.</string>
     <string name="formula_editor_function_regex_json_extractor_title">Extractor JSON</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_pin_digital</string>

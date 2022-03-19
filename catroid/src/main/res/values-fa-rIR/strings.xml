@@ -34,6 +34,7 @@
     <string name="ignore">نادیده بگیر</string>
     <string name="cancel">انصراف</string>
     <string name="save">ذخيره</string>
+    <string name="help">راهنما</string>
     <string name="discard">لغو</string>
     <string name="next">بعدی</string>
     <string name="ok">تایید</string>
@@ -130,8 +131,8 @@
  متن</string>
     <string name="preference_description_ai_text_recognition">فعال کردن 
         آجر تشخیص متن و سنسورها</string>
-    <string name="preference_title_ai_object_recognition">Object recognition</string>
-    <string name="preference_description_ai_object_recognition">Enable object recognition and tracking sensors</string>
+    <string name="preference_title_ai_object_recognition">تشخیص شی</string>
+    <string name="preference_description_ai_object_recognition">حسگرهای تشخیص و ردیابی شی را فعال کنید</string>
     <string name="preference_title_accessibility">دسترسی</string>
     <string name="preference_description_accessibility">ظاهر برنامه را تغییر دهید</string>
     <string name="preference_title_accessibility_profiles">پروفایل های دسترسی</string>
@@ -333,10 +334,10 @@
     <string name="show_details">نمایش جزئیات</string>
     <string name="hide_details">مخفی کردن جزئیات</string>
     <string name="project_options">گزینه های پروژه</string>
-    <string name="from_library">Add from library</string>
+    <string name="from_library">از کتابخانه اضافه کنید</string>
     <string name="sort_projects">مرتب سازی</string>
     <string name="unsort_projects">نامرتب</string>
-    <string name="import_from_project">Select project to import from</string>
+    <string name="import_from_project">پروژه را برای وارد کردن از آن انتخاب کنید</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">صحنه جدید</string>
     <!-- Delete Dialog Titles -->
@@ -411,7 +412,7 @@
     <string name="new_scene">صحنه جدید</string>
     <!-- Action Toasts -->
     <!-- Backpack -->
-    <string name="backpack_empty">Backpack empty. Nothing to unpack.</string>
+    <string name="backpack_empty">کوله پشتی خالی چیزی برای باز کردن بسته بندی نیست.</string>
     <plurals name="packed_scenes">
         <item quantity="one">%d صحنه کوله پشتی.</item>
         <item quantity="other">%d صحنه کوله پشتی.</item>
@@ -510,7 +511,7 @@
         <item quantity="other">%d پروژه وارد شده است.</item>
     </plurals>
     <!-- Renamed -->
-    <string name="renamed_project">Renamed project</string>
+    <string name="renamed_project">پروژه تغییر نام داد</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">برنامه ها</string>
@@ -525,9 +526,9 @@
     <string name="export_project">ذخیره پروژه در حافظه خارجی</string>
     <string name="error_import_project">هنگام وارد کردن پروژه ها مشکلی پیش آمد.</string>
     <string name="no_projects_selected">هیچ پروژه ای برای وارد کردن انتخاب نشده است</string>
-    <string name="only_select_catrobat_files">Only select project files</string>
+    <string name="only_select_catrobat_files">فقط فایل های پروژه را انتخاب کنید</string>
     <string name="error_no_files_found">هیچ فایل پروژه ای یافت نشد.</string>
-    <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
+    <string name="import_sprite_from_project_launcher">وارد کردن شی از پروژه محلی</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">توضیح</string>
     <string name="project_options_notes_and_credits">Credits</string>
@@ -604,13 +605,14 @@
     <string name="add_look_draw_new_image">کشیدن تصویر</string>
     <string name="add_look_choose_image">انتخاب تصویر</string>
     <string name="add_look_media_library">شکل ها</string>
-    <string name="add_look_from_local_project">Local projects</string>
+    <string name="add_look_from_local_project">پروژه های محلی</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">اضافه کردن صدا</string>
     <string name="add_sound_from_recorder">ضبط صوت</string>
     <string name="add_sound_choose_file">فایل را انتخاب کنید</string>
     <string name="add_sound_music">آهنگساز</string>
+    <string name="add_sound_choose_sound">صداها</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">جمع کننده توجه</string>
     <!--  -->
@@ -753,7 +755,7 @@
     <string name="prestage_text_to_speech_error">\u2022موتور تبدیل متن به گفتار\n</string>
     <string name="prestage_no_back_camera_available">\u2022دوربین عقب\n</string>
     <string name="prestage_no_face_detection_available">\u2022شناسایی چهره\n</string>
-    <string name="prestage_no_object_detection_available">\u2022 Object recognition\n</string>
+    <string name="prestage_no_object_detection_available">\u2022تشخیص شی\n</string>
     <string name="prestage_no_pose_detection_available">\u2022تشخیص ژست\n</string>
     <string name="prestage_no_text_detection_available">\u2022تشخیص متن\n</string>
     <string name="prestage_no_front_camera_available">\u2022دوربین جلو\n</string>
@@ -816,9 +818,9 @@
     <string name="brick_user_defined_default_label">متن برچسب</string>
     <string name="brick_user_defined_already_exists">آجری با این برچسب ها در حال حاضر وجود دارد. لطفاً برچسب ها یا ورودی های بیشتری اضافه کنید.</string>
     <string name="brick_user_defined_script_define">تعریف</string>
-    <string name="brick_user_defined_script_screen_refresh_as">screen refresh as</string>
+    <string name="brick_user_defined_script_screen_refresh_as">به روز رسانی صفحه به عنوان</string>
     <string name="brick_user_defined_with_screen_refreshing">با</string>
-    <string name="brick_user_defined_without_screen_refreshing">without</string>
+    <string name="brick_user_defined_without_screen_refreshing">بدون</string>
     <string name="brick_user_defined_list_empty">روی \"+\" ضربه بزنید تا آجرهای جدید خود را اضافه کنید.</string>
     <string name="brick_report">گزارش</string>
     <!--  -->
@@ -1279,7 +1281,7 @@
     <string name="title_other_devices">دستگاه های جدید</string>
     <string name="searching_devices">در جستجوی دستگاه&#8230;</string>
     <string name="button_scan">جستجوی دستگاه های بلوتوث</string>
-    <string name="button_skip">Skip Bluetooth connection</string>
+    <string name="button_skip">رد شدن از اتصال بلوتوث</string>
     <string name="select_device">وسیله را انتخاب کن:</string>
     <string name="connecting_please_wait">در حال اتصال به دستگاه.\nلطفا صبر کن</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
@@ -1599,7 +1601,6 @@
         بیان منظم</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">دستیار 
         بیان منظم</string>
-    <string name="formula_editor_dialog_wiki_button">اطلاعات بیشتر</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">کلمه کلیدی یافت نشد.</string>
     <string name="formula_editor_function_regex_json_extractor_title">استخراج JSON</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">پین دیجیتال آردوینو</string>
@@ -1738,7 +1739,7 @@
     <string name="formula_editor_device_face_detection">شناسایی چهره</string>
     <string name="formula_editor_device_pose_detection">تشخیص ظاهری</string>
     <string name="formula_editor_device_text_recognition">تشخیص متن</string>
-    <string name="formula_editor_device_object_recognition">Object recognition</string>
+    <string name="formula_editor_device_object_recognition">تشخیص شی</string>
     <string name="formula_editor_device_date_and_time">تاریخ و زمان</string>
     <string name="formula_editor_device_touch_detection">تشخیص لمسی</string>
     <string name="formula_editor_device_lego_nxt">لگوی NXT</string>
@@ -1785,10 +1786,10 @@
     <string name="formula_editor_sensor_second_face_size">اندازه صورت دوم</string>
     <string name="formula_editor_sensor_second_face_x_position">موقعیت دوم x موقعیت</string>
     <string name="formula_editor_sensor_second_face_y_position">موقعیت دوم y</string>
-    <string name="formula_editor_sensor_head_top_x">head top x</string>
-    <string name="formula_editor_sensor_head_top_y">head top y</string>
-    <string name="formula_editor_sensor_neck_x">neck x</string>
-    <string name="formula_editor_sensor_neck_y">neck y</string>
+    <string name="formula_editor_sensor_head_top_x">بالای سر x</string>
+    <string name="formula_editor_sensor_head_top_y">بالای سر y</string>
+    <string name="formula_editor_sensor_neck_x">گردن x</string>
+    <string name="formula_editor_sensor_neck_y">گردن y</string>
     <string name="formula_editor_sensor_nose_x">بینی x</string>
     <string name="formula_editor_sensor_nose_y">بینی y</string>
     <string name="formula_editor_sensor_left_eye_inner_x">قسمت داخلی چشم چپ x</string>
@@ -1863,8 +1864,8 @@
     <string name="formula_editor_function_text_block_from_camera">بلوک متن از دوربین</string>
     <string name="formula_editor_function_text_block_language_from_camera">زبان بلوک متن از دوربین</string>
     <string name="formula_editor_function_text_block_parameter">(۰)</string>
-    <string name="formula_editor_function_get_id_of_detected_object">ID of detected object</string>
-    <string name="formula_editor_function_object_with_id_visible">object with ID visible</string>
+    <string name="formula_editor_function_get_id_of_detected_object">شناسه شی شناسایی شده</string>
+    <string name="formula_editor_function_object_with_id_visible">شی با شناسه قابل مشاهده</string>
     <string name="formula_editor_intro_title_formula_editor">ویرایشگر فرمول</string>
     <string name="formula_editor_intro_summary_formula_editor">With the  formula editor you can create mathematical and
         logical formulas that you can use in your bricks.\n\nYou can continue through this little intro by tapping
@@ -1983,8 +1984,7 @@
     <string name="category_recently_used">اخیرا مورد استفاده قرار گرفته</string>
     <string name="new_sprite_dialog_place_visually">بصری قرار دهید</string>
     <string name="place_visually_text">از شما خواسته می شود که بازیگر یا شی جدید را روی         صحنه قرار دهید.</string>
-    <string name="new_empty_sprite_note">Note: The actor or object will be created
-        without a look.</string>
+    <string name="new_empty_sprite_note">توجه: بازیگر یا شیء بدون نگاه ساخته می          شود.</string>
     <!-- Information -->
     <string name="no_variable_selected">هیچ متغیری انتخاب نشده است</string>
     <string name="find">بیاب</string>
@@ -1999,7 +1999,7 @@
     <string name="turn_particle_effect_additivity">تبدیل اثر ذرات افزودنی</string>
     <string name="particle_effects_additive_on">روشن</string>
     <string name="particle_effects_additive_off">خاموش</string>
-    <string name="set_particle_color_to">Set particle color to</string>
-    <string name="undo_sort">Undo sort</string>
+    <string name="set_particle_color_to">رنگ ذرات را روی</string>
+    <string name="undo_sort">لغو مرتب‌سازی</string>
     <string name="sort">مرتب سازی</string>
 </resources>

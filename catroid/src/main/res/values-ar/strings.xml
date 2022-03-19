@@ -34,6 +34,7 @@
     <string name="ignore">تجاهل</string>
     <string name="cancel">إلغاء</string>
     <string name="save">حفظ</string>
+    <string name="help">المساعدة</string>
     <string name="discard">تجاهل</string>
     <string name="next">التالي</string>
     <string name="ok">موافق</string>
@@ -772,6 +773,7 @@
     <string name="add_sound_from_recorder">تسجيل صوت</string>
     <string name="add_sound_choose_file">حدد الملف</string>
     <string name="add_sound_music">مُلحن الموسيقى</string>
+    <string name="add_sound_choose_sound">الأصوات</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">منتقي الملاحظات</string>
     <!--  -->
@@ -1785,7 +1787,6 @@
     <string name="formula_editor_function_regex_assistant">تعبير عادي
         مساعد</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">مساعد التعبير العادي</string>
-    <string name="formula_editor_dialog_wiki_button">مزيد من المعلومات</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">تعذر العثور على الكلمة المفتاحية.</string>
     <string name="formula_editor_function_regex_json_extractor_title">مستخرج JSON</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">دبوس اردوينو الرقمي</string>

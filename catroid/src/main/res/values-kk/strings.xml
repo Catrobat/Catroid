@@ -34,6 +34,7 @@
     <string name="ignore">Ескермеу</string>
     <string name="cancel">Болдырмау</string>
     <string name="save">Save</string>
+    <string name="help">Қөмек</string>
     <string name="discard">Discard</string>
     <string name="next">Келесі</string>
     <string name="ok">Жарайды</string>
@@ -599,7 +600,7 @@
     <string name="add_look_from_camera">Camera</string>
     <string name="add_look_object_library">Library</string>
     <string name="add_look_draw_new_image">Draw</string>
-    <string name="add_look_choose_image">Gallery</string>
+    <string name="add_look_choose_image">Галерея</string>
     <string name="add_look_media_library">Looks</string>
     <string name="add_look_from_local_project">Local projects</string>
     <!--  -->
@@ -608,6 +609,7 @@
     <string name="add_sound_from_recorder">Record sound</string>
     <string name="add_sound_choose_file">Select file</string>
     <string name="add_sound_music">Music composer</string>
+    <string name="add_sound_choose_sound">Sounds</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">Note Picker</string>
     <!--  -->
@@ -679,7 +681,7 @@
     <string name="brick_context_dialog_highlight_brick_parts">Highlight brick parts</string>
     <string name="brick_context_dialog_comment_in_script">Enable script</string>
     <string name="brick_context_dialog_comment_out_script">Disable script</string>
-    <string name="brick_context_dialog_help">Help</string>
+    <string name="brick_context_dialog_help">Қөмек</string>
     <string name="comment_in_out">Disable/enable</string>
     <string name="catblocks">Toggle 2D</string>
     <string name="catblocks_reorder">Clean up scripts</string>
@@ -928,7 +930,7 @@
     <string name="brick_pen_size">Set pen size to</string>
     <string name="brick_pen_color">Set pen color to</string>
     <string name="brick_clear_background">Clear</string>
-    <string name="brick_stamp">Stamp</string>
+    <string name="brick_stamp">Жазу</string>
     <!--  -->
     <!-- Sound bricks -->
     <string name="brick_play_sound">Start sound</string>
@@ -1188,7 +1190,7 @@
     <string name="default_cast_project_var_direction">direction</string>
     <string name="default_cast_project_name">My first Chromecast project</string>
     <!-- Default Drone Values -->
-    <string name="drone_brick_set_text">Text</string>
+    <string name="drone_brick_set_text">Текст</string>
     <string name="drone_brick_set_x">X:</string>
     <!--  -->
     <!-- Drone config spinner values  -->
@@ -1264,7 +1266,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
     <string name="error_embroidery_data_not_found">Embroidery is missing.</string>
-    <string name="error_unknown_error">Something went wrong.</string>
+    <string name="error_unknown_error">Бірдеңе дұрыс болмады.</string>
     <string name="error_gps_not_available">Geolocation data is not available.</string>
     <string name="error_set_description">Something went wrong while saving the new description.</string>
     <string name="error_set_notes_and_credits">Something went wrong while saving the new notes
@@ -1600,7 +1602,6 @@ needs read and write access to it. You can always change permissions through you
         assistant</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">Regular
         expression assistant</string>
-    <string name="formula_editor_dialog_wiki_button">More information</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">The keyword could not be found.</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON extractor</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino digital pin</string>
@@ -1730,7 +1731,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_device">Sensors</string>
     <string name="formula_editor_device_sensors">Device sensors</string>
     <string name="formula_editor_functions_maths">Maths</string>
-    <string name="formula_editor_functions_strings">Text</string>
+    <string name="formula_editor_functions_strings">Текст</string>
     <string name="formula_editor_functions_lists">Lists</string>
     <string name="formula_editor_logic_boolean">Logical (Boolean) operators and constants</string>
     <string name="formula_editor_logic_comparison">Comparison operators</string>
@@ -1772,7 +1773,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_list_dialog_title">New list</string>
     <string name="formula_editor_regex_html_extractor_dialog_title">HTML extractor</string>
     <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
-    <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
+    <string name="formula_editor_discard_changes_dialog_title">Өзгерістерді сақтау?</string>
     <string name="formula_editor_new_string_name">New text</string>
     <string name="formula_editor_dialog_change_text">Change text</string>
     <string name="formula_editor_dialog_change_regular_expression">Change regular
@@ -2015,8 +2016,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="find">Find</string>
     <string name="no_results_found">No results found</string>
     <string name="query_field_is_empty">Query field is empty</string>
-    <string name="cut">Cut</string>
-    <string name="paste">Paste</string>
+    <string name="cut">Қиыу</string>
+    <string name="paste">Қою</string>
     <!-- Particle Effects -->
     <string name="fade_particle_effect">Fade particle effect</string>
     <string name="particle_effects_fade_in">in</string>

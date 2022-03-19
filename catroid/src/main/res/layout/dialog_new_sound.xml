@@ -51,7 +51,7 @@
                 android:id="@+id/dialog_new_sound_media_library"
                 android:background="@drawable/new_object_dialog_selector"
                 android:gravity="center"
-                android:text="@string/add_look_media_library"
+                android:text="@string/add_sound_choose_sound"
                 android:textSize="?attr/medium"
                 app:drawableTopCompat="@drawable/ic_media_library_sounds" />
         </TableRow>

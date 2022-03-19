@@ -57,10 +57,7 @@
 
         <TextView
             android:id="@+id/brick_set_brightness_edit_text"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true"
-            android:maxEms="10">
+            style="@style/BrickEditText">
         </TextView>
 
         <TextView

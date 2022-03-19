@@ -66,6 +66,7 @@
     <dimen name="brick_space_padding">8dp</dimen>
     <dimen name="data_view_space">100dp</dimen>
     <dimen name="data_view_space_spinner_text">400dp</dimen>
+    <dimen name="edit_text_baseline_spacing">10dp</dimen>
 
     <!-- Material Design Dialogs -->
     <dimen name="dialog_content_area_padding_top">18dp</dimen>
@@ -81,19 +82,8 @@
     <dimen name="sprite_group_item_view_holder_padding">40dp</dimen>
     <dimen name="checkbox_margin">16dp</dimen>
 
-    <!-- Flow Layout -->
-    <dimen name="brick_flow_layout_vertical_spacing">0dp</dimen>
-    <dimen name="brick_flow_layout_horizontal_spacing">3dp</dimen>
-    <!--  -->
-
     <!-- Activity -->
     <dimen name="activity_text_view_margin_large" >35dp</dimen >
-
-    <!-- Device -->
-    <dimen name="device_text_view_margin_small" >10dp</dimen >
-    <dimen name="device_text_view_padding" >6dp</dimen >
-    <dimen name="device_button_padding" >5dp</dimen >
-    <dimen name="device_text_view_text_size" >15sp</dimen >
 
     <!-- PocketMusic -->
     <dimen name="pocketmusic_trackrow_margin">0.5dp</dimen>

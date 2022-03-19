@@ -34,6 +34,7 @@
     <string name="ignore">Ignorar</string>
     <string name="cancel">Cancelar</string>
     <string name="save">Salvar</string>
+    <string name="help">Ajuda</string>
     <string name="discard">Descartar</string>
     <string name="next">Próximo</string>
     <string name="ok">OK</string>
@@ -623,6 +624,7 @@
     <string name="add_sound_from_recorder">Gravar som</string>
     <string name="add_sound_choose_file">Selecionar arquivo</string>
     <string name="add_sound_music">Compositor de música</string>
+    <string name="add_sound_choose_sound">Sons</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">Selecionador de Notas</string>
     <!--  -->
@@ -1611,7 +1613,6 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="formula_editor_function_regex_assistant">Assistente de
         expressão regular</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">Assistente de expressão regular</string>
-    <string name="formula_editor_dialog_wiki_button">Mais informações</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">A palavra-chave não pode ser encontrada.</string>
     <string name="formula_editor_function_regex_json_extractor_title">extrator JSON</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">Pino digital arduino</string>
@@ -1877,7 +1878,7 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="formula_editor_function_text_block_language_from_camera">idiomas do bloco de texto da câmera</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
     <string name="formula_editor_function_get_id_of_detected_object">ID do objeto detectado</string>
-    <string name="formula_editor_function_object_with_id_visible">object with ID visible</string>
+    <string name="formula_editor_function_object_with_id_visible">objeto com ID visível</string>
     <string name="formula_editor_intro_title_formula_editor">Editor de fórmula</string>
     <string name="formula_editor_intro_summary_formula_editor">Com o editor de fórmulas, você pode criar fórmulas matemáticas e
         lógicas que você pode usar em seus blocos.\n\nContinue tocando em \"PROXIMO\" ou saia

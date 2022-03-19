@@ -49,9 +49,7 @@
 
         <TextView
             android:id="@+id/brick_for_bubble_edit_text_text"
-            style="@style/BrickEditText"
-            app:layout_inputType="string"
-            app:layout_textField="true">
+            style="@style/BrickEditText">
         </TextView>
 
         <TextView
@@ -63,9 +61,7 @@
         <TextView
             android:id="@+id/brick_for_bubble_edit_text_duration"
             style="@style/BrickEditText"
-            android:layout_width="match_parent"
-            app:layout_inputType="number"
-            app:layout_textField="true">
+            android:layout_width="match_parent">
         </TextView>
 
         <TextView

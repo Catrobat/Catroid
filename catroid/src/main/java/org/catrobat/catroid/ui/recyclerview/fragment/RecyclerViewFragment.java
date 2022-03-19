@@ -136,12 +136,17 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 			case NONE:
 				return false;
 		}
+		adapter.showSettings = false;
+		adapter.showRipples = false;
 		adapter.showCheckBoxes = true;
 		adapter.notifyDataSetChanged();
 		return true;
 	}
 
 	private void onRename(Menu menu) {
+		adapter.selectionMode = adapter.SINGLE;
+		adapter.showSettings = false;
+		adapter.showRipples = false;
 		menu.findItem(R.id.confirm).setVisible(false);
 		menu.findItem(R.id.overflow).setVisible(false);
 		menu.findItem(R.id.toggle_selection).setVisible(false);
@@ -221,6 +226,8 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		actionModeType = NONE;
 		actionMode = null;
 		adapter.showCheckBoxes = false;
+		adapter.showSettings = true;
+		adapter.showRipples = true;
 		adapter.selectionMode = adapter.MULTIPLE;
 	}
 

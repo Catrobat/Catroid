@@ -32,7 +32,7 @@ import org.junit.Assert
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.io.StorageOperations
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask
+import org.catrobat.catroid.io.asynctask.loadProject
 import org.catrobat.catroid.io.asynctask.unzipAndImportProjects
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.TestResult
@@ -114,8 +114,7 @@ class CatrobatTestRunner {
         Assert.assertTrue(unzipAndImportProjects(arrayOf(projectArchive)))
         val projectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName)
         Assert.assertTrue(
-            ProjectLoadTask
-                .task(projectDir, ApplicationProvider.getApplicationContext())
+            loadProject(projectDir, ApplicationProvider.getApplicationContext())
         )
     }
 

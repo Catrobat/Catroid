@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,16 +33,22 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Pair;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothConnection;
@@ -59,22 +65,22 @@ import org.catrobat.catroid.utils.ToastUtil;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.Set;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import static android.bluetooth.BluetoothDevice.DEVICE_TYPE_CLASSIC;
 import static android.bluetooth.BluetoothDevice.DEVICE_TYPE_DUAL;
 import static android.bluetooth.BluetoothDevice.DEVICE_TYPE_LE;
 
+import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_MULTIPLAYER_BLUETOOTH_DIALOG_KEY;
+
 public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 
 	public static final String TAG = ConnectBluetoothDeviceActivity.class.getSimpleName();
 
 	public static final String DEVICE_TO_CONNECT = "org.catrobat.catroid.bluetooth.DEVICE";
-
-	private static final int DEVICE_MAC_ADDRESS_LENGTH = 18;
 
 	private static BluetoothDeviceFactory btDeviceFactory;
 	private static BluetoothConnectionFactory btConnectionFactory;
@@ -83,10 +89,13 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 
 	private BluetoothManager btManager;
 
-	private ArrayAdapter<String> pairedDevicesArrayAdapter;
-	private ArrayAdapter<Pair> newDevicesArrayAdapter;
+	private ArrayAdapter<Pair<String, String>> pairedDevicesArrayAdapter;
+	private ArrayAdapter<Pair<Pair<String, String>, Integer>> newDevicesArrayAdapter;
 
 	private Handler handler;
+
+	FloatingActionButton scanButton;
+	Boolean isDiscovering = false;
 
 	private static BluetoothDeviceFactory getDeviceFactory() {
 		if (btDeviceFactory == null) {
@@ -113,34 +122,22 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 		btConnectionFactory = connectionFactory;
 	}
 
-	public void addPairedDevice(String pairedDevice) {
-		if (pairedDevicesArrayAdapter != null) {
-			pairedDevicesArrayAdapter.add(pairedDevice);
-		}
-	}
-	// end hooks for testing
-
 	private OnItemClickListener deviceClickListener = new OnItemClickListener() {
 
 		private String getSelectedBluetoothAddress(View view) {
-			String info = ((TextView) view).getText().toString();
-			if (info.lastIndexOf('-') != info.length() - DEVICE_MAC_ADDRESS_LENGTH) {
-				return null;
-			}
-
-			return info.substring(info.lastIndexOf('-') + 1);
+			TextView textViewAddresses = view.findViewById(R.id.bluetooth_address);
+			return textViewAddresses.getText().toString();
 		}
 
 		@Override
 		public void onItemClick(AdapterView<?> av, View view, int position, long id) {
 			String address = getSelectedBluetoothAddress(view);
 			Pair pair = null;
+
 			if (!newDevicesArrayAdapter.isEmpty()) {
 				pair = newDevicesArrayAdapter.getItem(position);
 			}
-			if (address == null) {
-				return;
-			}
+
 			if (pair == null || pair.second.equals(DEVICE_TYPE_CLASSIC)) {
 				connectDevice(address);
 			}
@@ -156,34 +153,39 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 			if (android.bluetooth.BluetoothDevice.ACTION_FOUND.equals(action)) {
 				android.bluetooth.BluetoothDevice device = intent.getParcelableExtra(android.bluetooth.BluetoothDevice.EXTRA_DEVICE);
 				if ((device.getBondState() != android.bluetooth.BluetoothDevice.BOND_BONDED)) {
-					String deviceInfo = device.getName() + "-" + device.getAddress();
 					if (device.getType() == DEVICE_TYPE_CLASSIC || device.getType() == DEVICE_TYPE_DUAL) {
-						Pair<String, Integer> listElement = new Pair<>(deviceInfo,
-								DEVICE_TYPE_CLASSIC);
+						Pair<Pair<String, String>, Integer> listElement = new Pair<>(new Pair<>(device.getName(), device.getAddress()), DEVICE_TYPE_CLASSIC);
 						if (newDevicesArrayAdapter.getPosition(listElement) < 0) {
 							newDevicesArrayAdapter.add(listElement);
 						}
 					}
 					if (device.getType() == DEVICE_TYPE_LE || device.getType() == DEVICE_TYPE_DUAL) {
-						String deviceInfoBLE = "BLE - " + deviceInfo;
-						Pair<String, Integer> listElement = new Pair<>(deviceInfoBLE, DEVICE_TYPE_LE);
+						String deviceInfoBLE = "BLE" + (device.getName() != null ? " - " + device.getName() : "");
+						Pair<Pair<String, String>, Integer> listElement = new Pair<>(new Pair<>(deviceInfoBLE, device.getAddress()), DEVICE_TYPE_LE);
 						if (newDevicesArrayAdapter.getPosition(listElement) < 0) {
 							newDevicesArrayAdapter.add(listElement);
 						}
 					}
 				}
 			} else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+				isDiscovering = true;
+				handleScanButtonClicked();
 				setProgressBarIndeterminateVisibility(false);
 
 				findViewById(R.id.device_list_progress_bar).setVisibility(View.GONE);
 
-				setTitle(getString(R.string.select_device) + " " + btDevice.getName());
-				if (newDevicesArrayAdapter.isEmpty()) {
-					String noDevices = getResources().getString(R.string.none_found);
-					Pair<String, Integer> listElement = new Pair<>(noDevices, 0);
-					newDevicesArrayAdapter.add(listElement);
+				if (!btManager.getBluetoothAdapter().isEnabled()) {
+					initBluetooth();
+					newDevicesArrayAdapter.clear();
+				} else {
+					if (newDevicesArrayAdapter.isEmpty()) {
+						String noDevices = getResources().getString(R.string.none_found);
+						Pair<Pair<String, String>, Integer> listElement = new Pair<>(new Pair<>(noDevices, ""), 0);
+						newDevicesArrayAdapter.add(listElement);
+					}
 				}
 			}
+			setDynamicListViewHeight(findViewById(R.id.new_devices));
 		}
 	};
 
@@ -257,32 +259,51 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 		createAndSetDeviceService();
 
 		setContentView(R.layout.device_list);
-		setTitle(getString(R.string.select_device) + " " + btDevice.getName());
+
+		setSupportActionBar(findViewById(R.id.toolbar));
+		getSupportActionBar().setTitle(R.string.bluetooth_connection_title);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		setResult(AppCompatActivity.RESULT_CANCELED);
 
-		Button scanButton = findViewById(R.id.button_scan);
-		scanButton.setOnClickListener(view -> {
-			doDiscovery();
-			view.setVisibility(View.GONE);
-		});
-
-		Button skipButton = findViewById(R.id.button_skip);
-		skipButton.setOnClickListener(view -> {
-			setResult(AppCompatActivity.RESULT_OK);
-			finish();
-		});
+		scanButton = findViewById(R.id.bluetooth_scan);
+		scanButton.setOnClickListener(view -> handleScanButtonClicked());
 
 		handler = new Handler();
 
-		pairedDevicesArrayAdapter = new ArrayAdapter<>(this, R.layout.device_name);
-		newDevicesArrayAdapter = new ArrayAdapter<Pair>(this, R.layout.device_name,
-				new ArrayList<>()) {
+		pairedDevicesArrayAdapter = new ArrayAdapter<Pair<String, String>>(this, R.layout.bluetooth_connection_screen) {
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
-				TextView view = (TextView) super.getView(position, convertView, parent);
-				view.setText((String) getItem(position).first);
-				return view;
+				if (convertView == null) {
+					convertView = LayoutInflater.from(parent.getContext())
+							.inflate(R.layout.bluetooth_connection_screen, parent, false);
+				}
+
+				TextView textViewDevices = convertView.findViewById(R.id.bluetooth_device);
+				TextView textViewAddresses = convertView.findViewById(R.id.bluetooth_address);
+
+				textViewDevices.setText(getItem(position).first);
+				textViewAddresses.setText(getItem(position).second);
+
+				return convertView;
+			}
+		};
+
+		newDevicesArrayAdapter = new ArrayAdapter<Pair<Pair<String, String>, Integer>>(this, R.layout.bluetooth_connection_screen) {
+			@Override
+			public View getView(int position, View convertView, ViewGroup parent) {
+				if (convertView == null) {
+					convertView = LayoutInflater.from(parent.getContext())
+							.inflate(R.layout.bluetooth_connection_screen, parent, false);
+				}
+
+				TextView textViewDevices = convertView.findViewById(R.id.bluetooth_device);
+				TextView textViewAddresses = convertView.findViewById(R.id.bluetooth_address);
+
+				textViewDevices.setText(getItem(position).first.first);
+				textViewAddresses.setText(getItem(position).first.second);
+
+				return convertView;
 			}
 		};
 
@@ -300,11 +321,77 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 		filter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
 		this.registerReceiver(receiver, filter);
 
+		boolean showMultiplayerInformationDialog = PreferenceManager.getDefaultSharedPreferences(this)
+				.getBoolean(SHOW_MULTIPLAYER_BLUETOOTH_DIALOG_KEY, true);
+
+		if (btDevice instanceof Multiplayer && showMultiplayerInformationDialog) {
+			showMultiplayerInformationDialog();
+		} else {
+			initBluetooth();
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.menu_bluetooth_connection, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		menu.findItem(R.id.skip_bluetooth).setVisible(true);
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				onBackPressed();
+				break;
+			case R.id.skip_bluetooth:
+				setResult(AppCompatActivity.RESULT_OK);
+				finish();
+				break;
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
+	private void showMultiplayerInformationDialog() {
+		View view = View.inflate(this, R.layout.dialog_multiplayer_bluetooth, null);
+
+		new AlertDialog.Builder(this)
+				.setCancelable(false)
+				.setNegativeButton(getString(R.string.got_it), (dialog, which) -> {
+					PreferenceManager.getDefaultSharedPreferences(this)
+							.edit()
+							.putBoolean(SHOW_MULTIPLAYER_BLUETOOTH_DIALOG_KEY, false)
+							.apply();
+					initBluetooth();
+				})
+				.setView(view)
+				.show();
+	}
+
+	protected void initBluetooth() {
 		int bluetoothState = activateBluetooth();
 		if (bluetoothState == BluetoothManager.BLUETOOTH_ALREADY_ON) {
 			listAndSelectDevices();
 			startAcceptThread();
 			activateBluetoothVisibility();
+		}
+	}
+
+	private void handleScanButtonClicked() {
+		if (isDiscovering) {
+			scanButton.setImageResource(R.drawable.ic_search);
+			isDiscovering = false;
+			cancelDiscovery();
+		} else {
+			scanButton.setImageResource(R.drawable.ic_close);
+			isDiscovering = true;
+			doDiscovery();
 		}
 	}
 
@@ -323,22 +410,17 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 	}
 
 	private void listAndSelectDevices() {
-
 		Set<android.bluetooth.BluetoothDevice> pairedDevices = btManager.getBluetoothAdapter().getBondedDevices();
 
 		if (pairedDevices.size() > 0) {
-			findViewById(R.id.title_paired_devices).setVisibility(View.VISIBLE);
+			findViewById(R.id.bluetooth_paired_section).setVisibility(View.VISIBLE);
 			for (android.bluetooth.BluetoothDevice device : pairedDevices) {
-				pairedDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
+				Pair<String, String> listElement = new Pair<>(device.getName(), device.getAddress());
+				pairedDevicesArrayAdapter.add(listElement);
 			}
-		}
 
-		if (pairedDevices.size() == 0) {
-			String noDevices = getResources().getText(R.string.none_paired).toString();
-			pairedDevicesArrayAdapter.add(noDevices);
+			setDynamicListViewHeight(findViewById(R.id.paired_devices));
 		}
-
-		this.setVisible(true);
 	}
 
 	protected void createAndSetDeviceService() {
@@ -348,37 +430,40 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 	}
 
 	private void connectDevice(String address) {
-		btManager.getBluetoothAdapter().cancelDiscovery();
+		cancelDiscovery();
 		new ConnectDeviceTask().execute(address);
 	}
 
 	@Override
 	protected void onDestroy() {
 		if (btManager != null && btManager.getBluetoothAdapter() != null) {
-			btManager.getBluetoothAdapter().cancelDiscovery();
+			cancelDiscovery();
 		}
 
 		this.unregisterReceiver(receiver);
 		super.onDestroy();
 	}
 
-	private void doDiscovery() {
+	protected void doDiscovery() {
+		newDevicesArrayAdapter.clear();
+		setDynamicListViewHeight(findViewById(R.id.new_devices));
 
 		setProgressBarIndeterminateVisibility(true);
 
-		findViewById(R.id.title_new_devices).setVisibility(View.VISIBLE);
-
 		findViewById(R.id.device_list_progress_bar).setVisibility(View.VISIBLE);
 
-		if (btManager.getBluetoothAdapter().isDiscovering()) {
-			btManager.getBluetoothAdapter().cancelDiscovery();
-		}
+		cancelDiscovery();
 
 		btManager.getBluetoothAdapter().startDiscovery();
 	}
 
-	private int activateBluetooth() {
+	private void cancelDiscovery() {
+		if (btManager.getBluetoothAdapter().isDiscovering()) {
+			btManager.getBluetoothAdapter().cancelDiscovery();
+		}
+	}
 
+	private int activateBluetooth() {
 		btManager = new BluetoothManager(this);
 
 		int bluetoothState = btManager.activateBluetooth();
@@ -389,6 +474,26 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 		}
 
 		return bluetoothState;
+	}
+
+	public static void setDynamicListViewHeight(ListView listView) {
+		ListAdapter listViewAdapter = listView.getAdapter();
+		if (listViewAdapter == null) {
+			return;
+		}
+
+		int height = 0;
+		int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+		for (int element = 0; element < listViewAdapter.getCount(); element++) {
+			View listItem = listViewAdapter.getView(element, null, listView);
+			listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+			height += listItem.getMeasuredHeight();
+		}
+
+		ViewGroup.LayoutParams params = listView.getLayoutParams();
+		params.height = height + (listView.getDividerHeight() * (listViewAdapter.getCount() - 1));
+		listView.setLayoutParams(params);
+		listView.requestLayout();
 	}
 
 	@Override

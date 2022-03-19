@@ -58,7 +58,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 	protected List<T> items;
 	public boolean showCheckBoxes = false;
 	public boolean showRipples = true;
-	public boolean hideSettings = false;
+	public boolean showSettings = true;
 
 	@SelectionType
 	public int selectionMode = MULTIPLE;
@@ -96,21 +96,25 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 			holder.settings.setOnClickListener(v -> onItemClickListener.onSettingsClick(item, v));
 		}
 
-		holder.itemView.setOnLongClickListener(v -> {
-			onItemClickListener.onItemLongClick(item, holder);
-			return true;
-		});
-
 		holder.checkBox.setVisibility(showCheckBoxes ? View.VISIBLE : View.GONE);
 		holder.checkBox.setChecked(selectionManager.isPositionSelected(position));
 
 		ImageView ripples = holder.itemView.findViewById(R.id.ic_ripples);
 		if (ripples != null && showRipples) {
 			ripples.setVisibility(View.VISIBLE);
+			holder.itemView.setOnLongClickListener(v -> {
+				onItemClickListener.onItemLongClick(item, holder);
+				return true;
+			});
+		} else if (ripples != null && !showRipples) {
+			ripples.setVisibility(View.GONE);
+			holder.itemView.setOnLongClickListener(v -> true);
 		}
 
 		ImageButton settings = holder.itemView.findViewById(R.id.settingsButton);
-		if (settings != null && hideSettings) {
+		if (settings != null && showSettings) {
+			settings.setVisibility(View.VISIBLE);
+		} else if (settings != null && !showSettings) {
 			settings.setVisibility(View.GONE);
 		}
 	}

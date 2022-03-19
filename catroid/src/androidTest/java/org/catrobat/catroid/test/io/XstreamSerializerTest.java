@@ -49,7 +49,6 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.junit.After;
@@ -71,6 +70,7 @@ import static junit.framework.Assert.assertTrue;
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.PERMISSIONS_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.TMP_CODE_XML_FILE_NAME;
+import static org.catrobat.catroid.io.asynctask.ProjectLoaderKt.loadProject;
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
@@ -297,8 +297,7 @@ public class XstreamSerializerTest {
 		SettingsFragment
 				.setLegoMindstormsNXTSensorMapping(ApplicationProvider.getApplicationContext(), changedSensorMapping);
 
-		assertTrue(ProjectLoadTask
-				.task(project.getDirectory(), ApplicationProvider.getApplicationContext()));
+		assertTrue(loadProject(project.getDirectory(), ApplicationProvider.getApplicationContext()));
 
 		actualSensorMapping = SettingsFragment.getLegoNXTSensorMapping(ApplicationProvider.getApplicationContext());
 
