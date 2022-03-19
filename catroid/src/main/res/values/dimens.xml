@@ -64,6 +64,8 @@
     <dimen name="brick_space_padding_formular_editor">8dp</dimen>
     <dimen name="brick_top_space_padding_control">35dp</dimen>
     <dimen name="brick_space_padding">8dp</dimen>
+    <dimen name="data_view_space">100dp</dimen>
+    <dimen name="data_view_space_spinner_text">400dp</dimen>
     <dimen name="edit_text_baseline_spacing">10dp</dimen>
 
     <!-- Material Design Dialogs -->
