@@ -45,6 +45,12 @@ data class DeprecatedToken(
 )
 
 @SuppressWarnings("ConstructorParameterNaming")
+data class OAuthLogin(
+    val id_token: String,
+    val resource_owner: String
+)
+
+@SuppressWarnings("ConstructorParameterNaming")
 data class RegisterUser(
     val dry_run: Boolean,
     val email: String,

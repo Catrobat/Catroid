@@ -31,10 +31,12 @@ import com.squareup.moshi.Moshi
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
 import org.catrobat.catroid.common.Constants
+import org.catrobat.catroid.common.Constants.GOOGLE_PROVIDER
 import org.catrobat.catroid.koin.testModules
 import org.catrobat.catroid.retrofit.WebService
 import org.catrobat.catroid.retrofit.models.DeprecatedToken
 import org.catrobat.catroid.retrofit.models.LoginUser
+import org.catrobat.catroid.retrofit.models.OAuthLogin
 import org.catrobat.catroid.retrofit.models.RefreshToken
 import org.catrobat.catroid.retrofit.models.RegisterFailedResponse
 import org.catrobat.catroid.retrofit.models.RegisterUser
@@ -148,6 +150,13 @@ class CatroidWebServerAuthenticationTest : KoinTest {
 
         val responseRefreshToken = webServer.refreshToken("Bearer $token", RefreshToken(refreshToken)).execute()
         assertEquals(responseRefreshToken.code(), SERVER_RESPONSE_INVALID_UPLOAD_TOKEN)
+    }
+
+    @Test
+    fun testOAuthInvalidToken() {
+        val idToken = "eyJhbaciOiJSUzI1NiIsImtpdCI6IjcyOTE4OTQ1MGQ0OTAyODU3MDQyNTI2NmYwM2U3MzdmNDVhZjI5MzIiLCJ0eXAiOiJKV1QifQ"
+        val responseOAuthToken = webServer.oAuthLogin(OAuthLogin(idToken, GOOGLE_PROVIDER)).execute()
+        assertEquals(responseOAuthToken.code(), SERVER_RESPONSE_INVALID_UPLOAD_TOKEN)
     }
 
     @Test

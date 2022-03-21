@@ -33,6 +33,7 @@ import org.catrobat.catroid.retrofit.models.DeprecatedToken
 import org.catrobat.catroid.retrofit.models.FeaturedProject
 import org.catrobat.catroid.retrofit.models.LoginResponse
 import org.catrobat.catroid.retrofit.models.LoginUser
+import org.catrobat.catroid.retrofit.models.OAuthLogin
 import org.catrobat.catroid.retrofit.models.ProjectsCategoryApi
 import org.catrobat.catroid.retrofit.models.RefreshToken
 import org.catrobat.catroid.retrofit.models.RegisterUser
@@ -76,6 +77,11 @@ interface WebService {
     @POST("authentication/upgrade")
     fun upgradeToken(
         @Body uploadToken: DeprecatedToken
+    ): Call<LoginResponse>
+
+    @POST("authentication/oauth")
+    fun oAuthLogin(
+        @Body oAuthLogin: OAuthLogin
     ): Call<LoginResponse>
 
     @POST("user")

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,12 +22,9 @@
  */
 package org.catrobat.catroid.web;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ResultReceiver;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.android.gms.common.images.WebImage;
@@ -35,7 +32,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.common.ScratchProgramData;
 import org.catrobat.catroid.common.ScratchSearchResult;
 import org.catrobat.catroid.common.ScratchVisibilityState;
@@ -68,20 +64,8 @@ import okhttp3.Response;
 import okio.BufferedSink;
 import okio.Okio;
 
-import static org.catrobat.catroid.web.CatrobatWebClientKt.createFormEncodedRequest;
-import static org.catrobat.catroid.web.CatrobatWebClientKt.performCallWith;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.DEPRECATED_TOKEN_LENGTH;
-import static org.catrobat.catroid.web.ServerAuthenticationConstants.EXCHANGE_GOOGLE_CODE_URL;
-import static org.catrobat.catroid.web.ServerAuthenticationConstants.GOOGLE_LOGIN_URL_APPENDING;
-import static org.catrobat.catroid.web.ServerAuthenticationConstants.JSON_STATUS_CODE;
-import static org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_REGISTER_OK;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_TOKEN_OK;
-import static org.catrobat.catroid.web.ServerAuthenticationConstants.SIGNIN_EMAIL_KEY;
-import static org.catrobat.catroid.web.ServerAuthenticationConstants.SIGNIN_GOOGLE_CODE_KEY;
-import static org.catrobat.catroid.web.ServerAuthenticationConstants.SIGNIN_ID_TOKEN;
-import static org.catrobat.catroid.web.ServerAuthenticationConstants.SIGNIN_LOCALE_KEY;
-import static org.catrobat.catroid.web.ServerAuthenticationConstants.SIGNIN_OAUTH_ID_KEY;
-import static org.catrobat.catroid.web.ServerAuthenticationConstants.SIGNIN_USERNAME_KEY;
 
 public final class ServerCalls implements ScratchDataFetcher {
 	public static final String BASE_URL_TEST_HTTPS = "https://catroid-test.catrob.at/pocketcode/";
@@ -401,76 +385,6 @@ public final class ServerCalls implements ScratchDataFetcher {
 		int statusCode;
 		String answer;
 		String token;
-	}
-
-	public boolean googleLogin(String mail, String username, String id, String locale, Context context) throws
-			WebconnectionException {
-
-		if (context == null) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "Context is null.");
-		}
-
-		try {
-			HashMap<String, String> postValues = new HashMap<>();
-			postValues.put(SIGNIN_EMAIL_KEY, mail);
-			postValues.put(SIGNIN_USERNAME_KEY, username);
-			postValues.put(SIGNIN_OAUTH_ID_KEY, id);
-			postValues.put(SIGNIN_LOCALE_KEY, locale);
-
-			String serverUrl = FlavoredConstants.BASE_URL_HTTPS + GOOGLE_LOGIN_URL_APPENDING;
-			Request request = createFormEncodedRequest(postValues, serverUrl);
-			resultString = performCallWith(okHttpClient, request);
-
-			JSONObject jsonObject = new JSONObject(resultString);
-			checkStatusCode200(jsonObject.getInt(JSON_STATUS_CODE));
-			refreshUploadTokenAndUsername(jsonObject.getString(Constants.TOKEN), username, context);
-
-			return true;
-		} catch (JSONException e) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
-		}
-	}
-
-	public boolean googleExchangeCode(String code, String id, String username,
-			String mail, String locale, String idToken) throws WebconnectionException {
-
-		try {
-			HashMap<String, String> postValues = new HashMap<>();
-			postValues.put(SIGNIN_GOOGLE_CODE_KEY, code);
-			postValues.put(SIGNIN_OAUTH_ID_KEY, id);
-			postValues.put(SIGNIN_USERNAME_KEY, username);
-			postValues.put(SIGNIN_EMAIL_KEY, mail);
-			postValues.put(SIGNIN_LOCALE_KEY, locale);
-			postValues.put(SIGNIN_ID_TOKEN, idToken);
-			postValues.put(Constants.REQUEST_MOBILE, "Android");
-
-			Request request = createFormEncodedRequest(postValues, EXCHANGE_GOOGLE_CODE_URL);
-			resultString = performCallWith(okHttpClient, request);
-
-			JSONObject jsonObject = new JSONObject(resultString);
-			int statusCode = jsonObject.getInt(JSON_STATUS_CODE);
-			if (!(statusCode == SERVER_RESPONSE_TOKEN_OK || statusCode == SERVER_RESPONSE_REGISTER_OK)) {
-				throw new WebconnectionException(statusCode, resultString);
-			}
-
-			return true;
-		} catch (JSONException e) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
-		}
-	}
-
-	private void checkStatusCode200(int statusCode) throws WebconnectionException {
-		if (statusCode != SERVER_RESPONSE_TOKEN_OK) {
-			throw new WebconnectionException(statusCode, resultString);
-		}
-	}
-
-	private void refreshUploadTokenAndUsername(String newToken, String username, Context context) {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		sharedPreferences.edit()
-				.putString(Constants.TOKEN, newToken)
-				.putString(Constants.USERNAME, username)
-				.apply();
 	}
 
 	public interface UploadSuccessCallback {
