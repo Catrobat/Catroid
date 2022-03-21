@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,33 +23,15 @@
 
 package org.catrobat.catroid.web
 
-import android.content.Context
-import android.preference.PreferenceManager
 import android.util.Log
 import okhttp3.ConnectionSpec
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.Okio
-import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.web.ServerAuthenticationConstants.CHECK_EMAIL_AVAILABLE_URL
-import org.catrobat.catroid.web.ServerAuthenticationConstants.CHECK_GOOGLE_TOKEN_URL
-import org.catrobat.catroid.web.ServerAuthenticationConstants.CHECK_USERNAME_AVAILABLE_URL
-import org.catrobat.catroid.web.ServerAuthenticationConstants.EMAIL_AVAILABLE
 import org.catrobat.catroid.web.ServerAuthenticationConstants.FILE_SURVEY_URL_HTTP
-import org.catrobat.catroid.web.ServerAuthenticationConstants.FILE_TAG_URL_HTTP
-import org.catrobat.catroid.web.ServerAuthenticationConstants.JSON_STATUS_CODE
-import org.catrobat.catroid.web.ServerAuthenticationConstants.OAUTH_TOKEN_AVAILABLE
-import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_TOKEN_OK
-import org.catrobat.catroid.web.ServerAuthenticationConstants.SIGNIN_EMAIL_KEY
-import org.catrobat.catroid.web.ServerAuthenticationConstants.SIGNIN_OAUTH_ID_KEY
-import org.catrobat.catroid.web.ServerAuthenticationConstants.SIGNIN_USERNAME_KEY
-import org.catrobat.catroid.web.ServerAuthenticationConstants.USERNAME_AVAILABLE
-import org.json.JSONException
-import org.json.JSONObject
 import java.io.File
 import java.io.IOException
-import java.util.HashMap
 
 class CatrobatServerCalls(private val okHttpClient: OkHttpClient = CatrobatWebClient.client) {
     private val tag = CatrobatServerCalls::class.java.simpleName
@@ -62,19 +44,6 @@ class CatrobatServerCalls(private val okHttpClient: OkHttpClient = CatrobatWebCl
         return okHttpClient.performCallWith(request)
     }
 
-    fun getTags(language: String?): String {
-        return try {
-            var serverUrl = FILE_TAG_URL_HTTP
-            if (language != null) {
-                serverUrl += "?language=$language"
-            }
-            getRequest(serverUrl)
-        } catch (e: WebconnectionException) {
-            Log.e(tag, Log.getStackTraceString(e))
-            ""
-        }
-    }
-
     fun getSurvey(language: String?): String {
         return try {
             var serverUrl = FILE_SURVEY_URL_HTTP
@@ -85,108 +54,6 @@ class CatrobatServerCalls(private val okHttpClient: OkHttpClient = CatrobatWebCl
         } catch (e: WebconnectionException) {
             Log.e(tag, Log.getStackTraceString(e))
             ""
-        }
-    }
-
-    @Throws(WebconnectionException::class)
-    fun checkOAuthToken(id: String, oauthProvider: String, context: Context?): Boolean? {
-        var statusCode: Int
-        var message: String
-        try {
-            val postValues = HashMap<String, String>()
-            postValues[SIGNIN_OAUTH_ID_KEY] = id
-
-            val serverUrl = when (oauthProvider) {
-                Constants.GOOGLE_PLUS -> CHECK_GOOGLE_TOKEN_URL
-                else -> throw WebconnectionException(-1, "OAuth provider not supported!")
-            }
-
-            val request = postValues.createFormEncodedRequest(serverUrl)
-            val resultString = okHttpClient.performCallWith(request)
-
-            val jsonObject = JSONObject(resultString)
-            statusCode = jsonObject.getInt(JSON_STATUS_CODE)
-            if (statusCode == SERVER_RESPONSE_TOKEN_OK) {
-                val serverEmail = jsonObject.optString(SIGNIN_EMAIL_KEY)
-                val serverUsername = jsonObject.optString(SIGNIN_USERNAME_KEY)
-                val tokenAvailable = jsonObject.getBoolean(OAUTH_TOKEN_AVAILABLE)
-
-                if (tokenAvailable && oauthProvider == Constants.GOOGLE_PLUS) {
-                    val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-                    sharedPreferences.edit()
-                        .putString(Constants.GOOGLE_USERNAME, serverUsername)
-                        .putString(Constants.GOOGLE_EMAIL, serverEmail)
-                        .apply()
-                }
-
-                return tokenAvailable
-            }
-            message = resultString
-        } catch (e: JSONException) {
-            statusCode = WebconnectionException.ERROR_JSON
-            message = Log.getStackTraceString(e)
-        }
-        throw WebconnectionException(statusCode, message)
-    }
-
-    @Throws(WebconnectionException::class)
-    fun isEMailAvailable(email: String): Boolean {
-        try {
-            val postValues = HashMap<String, String>()
-            postValues[SIGNIN_EMAIL_KEY] = email
-
-            val serverUrl = CHECK_EMAIL_AVAILABLE_URL
-            val request = postValues.createFormEncodedRequest(serverUrl)
-            val resultString = okHttpClient.performCallWith(request)
-
-            val jsonObject = JSONObject(resultString)
-            val statusCode = jsonObject.getInt(JSON_STATUS_CODE)
-            if (statusCode != SERVER_RESPONSE_TOKEN_OK) {
-                throw WebconnectionException(statusCode, resultString)
-            }
-
-            return jsonObject.getBoolean(EMAIL_AVAILABLE)
-        } catch (e: JSONException) {
-            throw WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e))
-        }
-    }
-
-    @Throws(WebconnectionException::class)
-    fun isUserNameAvailable(username: String): Boolean {
-        var resultString = ""
-        try {
-            val postValues = HashMap<String, String>()
-            postValues[SIGNIN_USERNAME_KEY] = username
-
-            val serverUrl = CHECK_USERNAME_AVAILABLE_URL
-            val request = postValues.createFormEncodedRequest(serverUrl)
-            resultString = okHttpClient.performCallWith(request)
-
-            val jsonObject = JSONObject(resultString)
-            val statusCode = jsonObject.getInt(JSON_STATUS_CODE)
-            if (statusCode != SERVER_RESPONSE_TOKEN_OK) {
-                throw WebconnectionException(statusCode, resultString)
-            }
-
-            return jsonObject.getBoolean(USERNAME_AVAILABLE)
-        } catch (jsonException: JSONException) {
-            Log.e(tag, Log.getStackTraceString(jsonException))
-            throw WebconnectionException(WebconnectionException.ERROR_JSON, resultString)
-        }
-    }
-
-    @Throws(WebconnectionException::class)
-    fun deleteTestUserAccountsOnServer(): Boolean {
-        try {
-            val resultString = getRequest("")
-            val jsonObject = JSONObject(resultString)
-            val statusCode = jsonObject.getInt(JSON_STATUS_CODE)
-            if (statusCode != SERVER_RESPONSE_TOKEN_OK) {
-                throw WebconnectionException(statusCode, resultString)
-            }
-            return true
-        } catch (e: JSONException) {
-            throw WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e))
         }
     }
 

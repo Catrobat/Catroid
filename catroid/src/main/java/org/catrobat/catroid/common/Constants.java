@@ -190,12 +190,9 @@ public final class Constants {
 	public static final String GOOGLE_ID_TOKEN = "GOOGLE_ID_TOKEN";
 	public static final String NO_GOOGLE_ID_TOKEN = "NO_GOOGLE_ID_TOKEN";
 	public static final String GOOGLE_EXCHANGE_CODE = "GOOGLE_EXCHANGE_CODE";
-	public static final String NO_GOOGLE_EXCHANGE_CODE = "NO_GOOGLE_EXCHANGE_CODE";
 	public static final String CURRENT_OAUTH_PROVIDER = "PROVIDER";
-	public static final String GOOGLE_PLUS = "GPLUS";
+	public static final String GOOGLE_PROVIDER = "google";
 	public static final String NO_OAUTH_PROVIDER = "NATIVE";
-
-	public static final String REQUEST_MOBILE = "mobile";
 
 	public static final String FLAVOR_DEFAULT = "PocketCode";
 	public static final String PLATFORM_DEFAULT = "Android";

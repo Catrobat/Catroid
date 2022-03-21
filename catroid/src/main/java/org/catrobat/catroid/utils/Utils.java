@@ -38,6 +38,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.webkit.CookieManager;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.common.base.Splitter;
 import com.huawei.hms.mlsdk.asr.MLAsrConstants;
 
@@ -51,9 +53,6 @@ import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.transfers.GoogleLoginHandler;
-import org.catrobat.catroid.transfers.TokenTask;
-import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.web.Cookie;
 import org.catrobat.catroid.web.WebconnectionException;
 import org.json.JSONException;
@@ -74,22 +73,22 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.exifinterface.media.ExifInterface;
-import kotlin.Lazy;
 import okhttp3.Response;
 
 import static android.speech.RecognizerIntent.ACTION_GET_LANGUAGE_DETAILS;
 import static android.speech.RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE;
 import static android.speech.RecognizerIntent.EXTRA_SUPPORTED_LANGUAGES;
 
+import static com.google.android.gms.auth.api.signin.GoogleSignInOptions.DEFAULT_SIGN_IN;
+
 import static org.catrobat.catroid.common.Constants.EXIFTAGS_FOR_EXIFREMOVER;
 import static org.catrobat.catroid.common.Constants.MAX_FILE_NAME_LENGTH;
 import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
+import static org.catrobat.catroid.web.ServerAuthenticationConstants.GOOGLE_LOGIN_CATROWEB_SERVER_CLIENT_ID;
 import static org.koin.java.KoinJavaComponent.get;
-import static org.koin.java.KoinJavaComponent.inject;
 
 public final class Utils {
 
@@ -98,8 +97,6 @@ public final class Utils {
 	private enum RemixUrlParsingState {
 		STARTING, TOKEN, BETWEEN
 	}
-
-	private static final Lazy<TokenTask> TOKEN_TASK = inject(TokenTask.class);
 
 	public static final int TRANSLATION_PLURAL_OTHER_INTEGER = 767676;
 	// IETF representation like "en-US".
@@ -479,23 +476,23 @@ public final class Utils {
 
 	public static void logoutUser(Context context) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		GoogleLoginHandler googleLoginHandler = new GoogleLoginHandler((AppCompatActivity) context);
-		googleLoginHandler.getGoogleSignInClient().signOut();
 
-		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-		String refreshToken = sharedPreferences.getString(Constants.REFRESH_TOKEN, Constants.NO_TOKEN);
-		TOKEN_TASK.getValue().expireToken(token, refreshToken);
+		GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(DEFAULT_SIGN_IN)
+				.requestEmail()
+				.requestIdToken(GOOGLE_LOGIN_CATROWEB_SERVER_CLIENT_ID)
+				.build();
+		GoogleSignIn.getClient(context, googleSignInOptions).signOut();
 
 		sharedPreferences.edit()
 				.putString(Constants.TOKEN, Constants.NO_TOKEN)
 				.putString(Constants.REFRESH_TOKEN, Constants.NO_TOKEN)
 				.putString(Constants.USERNAME, Constants.NO_USERNAME)
-				.putString(Constants.GOOGLE_EXCHANGE_CODE, Constants.NO_GOOGLE_EXCHANGE_CODE)
 				.putString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL)
 				.putString(Constants.GOOGLE_USERNAME, Constants.NO_GOOGLE_USERNAME)
 				.putString(Constants.GOOGLE_ID, Constants.NO_GOOGLE_ID)
 				.putString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE)
 				.putString(Constants.GOOGLE_ID_TOKEN, Constants.NO_GOOGLE_ID_TOKEN)
+				.remove(Constants.GOOGLE_EXCHANGE_CODE)
 				.apply();
 		clearCookies();
 	}
