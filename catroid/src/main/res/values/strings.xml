@@ -65,7 +65,6 @@
 
     <string formatted="false" name="skip">skip</string>
     <string formatted="false" name="warning">Warning</string>
-    <string formatted="false" name="error">Error</string>
 
     <string formatted="false" name="loading">Loading…</string>
     <string formatted="false" name="please_wait">Please wait</string>
@@ -95,9 +94,6 @@
 
     <!-- Login/Logout Mechanism -->
     <string formatted="false" name="loading_check_oauth_token">Checking login data…</string>
-    <string formatted="false" name="loading_google_exchange_code">Exchanging Google login data…</string>
-    <string formatted="false" name="loading_google_login">Google login on our server is complete…</string>
-
     <string formatted="false" name="logout_successful">Logout successful</string>
 
     <string formatted="false" name="degrees">degrees</string>

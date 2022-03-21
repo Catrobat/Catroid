@@ -49,7 +49,7 @@ import org.catrobat.catroid.common.Constants.EXTRA_SCENE_NAMES
 import org.catrobat.catroid.common.Constants.EXTRA_UPLOAD_NAME
 import org.catrobat.catroid.common.Constants.EXTRA_USER_EMAIL
 import org.catrobat.catroid.common.Constants.GOOGLE_EMAIL
-import org.catrobat.catroid.common.Constants.GOOGLE_PLUS
+import org.catrobat.catroid.common.Constants.GOOGLE_PROVIDER
 import org.catrobat.catroid.common.Constants.MAX_PERCENT
 import org.catrobat.catroid.common.Constants.NO_EMAIL
 import org.catrobat.catroid.common.Constants.NO_GOOGLE_EMAIL
@@ -213,7 +213,7 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
 
         val email = when (provider) {
-            GOOGLE_PLUS -> sharedPreferences.getString(GOOGLE_EMAIL, NO_GOOGLE_EMAIL)
+            GOOGLE_PROVIDER -> sharedPreferences.getString(GOOGLE_EMAIL, NO_GOOGLE_EMAIL)
             else -> sharedPreferences.getString(EMAIL, NO_EMAIL)
         }
 
