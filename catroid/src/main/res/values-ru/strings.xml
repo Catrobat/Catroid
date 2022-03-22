@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -1385,15 +1385,16 @@
     <string name="notification_blueth_err">Не удается включить Bluetooth, пожалуйста, отключите его и снова включите.</string>
     <string name="title_paired_devices">Сопряженные устройства</string>
     <string name="title_other_devices">Новые устройства</string>
-    <string name="searching_devices">Поиск устройств&#8230;</string>
-    <string name="button_scan">Поиск bluetooth устрйств</string>
-    <string name="button_skip">Пропустить Bluetooth-соединение</string>
-    <string name="select_device">Выберите устройство:</string>
+    <string name="bluetooth_connection_title">Bluetooth соединение</string>
+    <string name="skip_bluetooth_connection">Пропустить</string>
     <string name="connecting_please_wait">Подключение к вашему устройству.\nПодождите, пожалуйста&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">Подключение к устройству не удалось!</string>
     <string name="none_found">Не найдено несопряженных устройств</string>
-    <string name="none_paired">Не найдено сопряженных устройств</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Требуется подключение Bluetooth
+        к серверу!</string>
+    <string name="multiplayer_bluetooth_connection_information">Чтобы играть в этой игре в
+        сетевом режиме требуется Bluetooth-соединение. Оба игрока должны начать игру, и
+        быть на этом экране для того, чтобы подключение работало должным образом!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Установить Pin-код для Arduino</string>

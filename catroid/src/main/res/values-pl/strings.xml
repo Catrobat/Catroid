@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -1353,16 +1353,17 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Nie można włączyć Bluetooth, spróbuj wyłączyć i włączyć ponownie.</string>
     <string name="title_paired_devices">Urządzenia sparowane</string>
-    <string name="title_other_devices">Nowe urządzenia</string>
-    <string name="searching_devices">Szukam urządzeń&#8230;</string>
-    <string name="button_scan">Wyszukiwanie urządzeń Bluetooth</string>
-    <string name="button_skip">Pomiń połączenie Bluetooth</string>
-    <string name="select_device">Wybierz urządzenie:</string>
+    <string name="title_other_devices">Dostępne urządzenia</string>
+    <string name="bluetooth_connection_title">Połączenie Bluetooth</string>
+    <string name="skip_bluetooth_connection">Pomiń</string>
     <string name="connecting_please_wait">Łączenie z Twoim urządzeniem. \nProszę, czekaj&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">Podłączenie urządzenia nie powiodło się!</string>
     <string name="none_found">Nie znaleziono niesparowanych urządzeń</string>
-    <string name="none_paired">Nie znaleziono sparowanych urządzeń</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Połączenie Bluetooth
+        wymagane!</string>
+    <string name="multiplayer_bluetooth_connection_information">Aby grać w
+        tryb wieloosobowy, wymagane jest połączenie Bluetooth. Obaj gracze muszą rozpocząć grę i
+        być na tym ekranie, aby połączenie działało poprawnie!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Ustaw cyfrowe wyjście</string>

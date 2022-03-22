@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -1228,15 +1228,16 @@
     <string name="notification_blueth_err">ไม่สามารถเปิดใช้งานบลูทูธ ได้โปรดลองปิดและเปิดใหม่อีกครั้ง</string>
     <string name="title_paired_devices">อุปกรณ์ที่จับคู่ไว้</string>
     <string name="title_other_devices">อุปกรณ์ใหม่</string>
-    <string name="searching_devices">กำลังมองหาอุปกรณ&#8230;</string>
-    <string name="button_scan">ค้นหาอุปกรณ์ Bluetooth</string>
-    <string name="button_skip">ข้ามการเชื่อมต่อบลูทูธ</string>
-    <string name="select_device">เลือกอุปกรณ์:</string>
+    <string name="bluetooth_connection_title">การเชื่อมต่อบลูทูธ</string>
+    <string name="skip_bluetooth_connection">ข้าม</string>
     <string name="connecting_please_wait">กำลังเชื่อมต่อกับอุปกรณ์ \nกรุณารอ&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">เชื่อมต่อกับอุปกรณ์ล้มเหลว!</string>
     <string name="none_found">ไม่พบอุปกรณ์ที่ยังไม่ได้จับคู่</string>
-    <string name="none_paired">ไม่พบอุปกรณ์ที่จับคู่ไว้</string>
+    <string name="multiplayer_bluetooth_connection_information_title">การเชื่อมต่อบลูทูธ
+         ที่จำเป็น!</string>
+    <string name="multiplayer_bluetooth_connection_information">ในการเล่นเกมนี้ใน
+         ผู้เล่นหลายคนต้องมีการเชื่อมต่อ Bluetooth ผู้เล่นทั้งสองต้องเริ่มเกมและ
+         อยู่บนหน้าจอนี้เพื่อให้การเชื่อมต่อทำงานได้อย่างถูกต้อง!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">ตั้ง Arduino ดิจิตอลพิน</string>

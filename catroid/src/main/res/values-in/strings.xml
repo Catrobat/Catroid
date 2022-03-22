@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -1251,15 +1251,16 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="notification_blueth_err">Tidak dapat mengaktifkan Bluetooth, coba matikan dan hidupkan lagi.</string>
     <string name="title_paired_devices">Pasangan perangkat</string>
     <string name="title_other_devices">Perangkat baru</string>
-    <string name="searching_devices">Mencari perangkat&#8230;</string>
-    <string name="button_scan">Mencari perangkat Bluetooth</string>
-    <string name="button_skip">Lewati koneksi Bluetooth</string>
-    <string name="select_device">Pilih alat:</string>
+    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="skip_bluetooth_connection">Lewati</string>
     <string name="connecting_please_wait">Menghubungkan ke perangkat Anda.\nSilahkan tunggu&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">Sambungan ke perangkat gagal!</string>
     <string name="none_found">Tidak ada perangkat terhubung yang ditemukan</string>
-    <string name="none_paired">Tidak ada perangkat terhubung yang ditemukan</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
+        required!</string>
+    <string name="multiplayer_bluetooth_connection_information">To play this game in
+        Multiplayer a Bluetooth connection is required. Both players have to start the game and
+        be on this screen for the connection to work properly!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Tetapkan pin digital Arduino</string>

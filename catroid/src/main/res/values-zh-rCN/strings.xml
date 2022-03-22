@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -1233,16 +1233,16 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">无法启用蓝牙，请尝试关闭并重新开启。</string>
     <string name="title_paired_devices">已配对设备</string>
-    <string name="title_other_devices">新的设备</string>
-    <string name="searching_devices">搜索设备&#8230;</string>
-    <string name="button_scan">搜索蓝牙设备</string>
-    <string name="button_skip">跳过蓝牙连接</string>
-    <string name="select_device">选中的设备：</string>
+    <string name="title_other_devices">Thiết bị mới</string>
+    <string name="bluetooth_connection_title">蓝牙连接</string>
+    <string name="skip_bluetooth_connection">跳过</string>
     <string name="connecting_please_wait">连接到您的设备 \n请等待&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">连接设备失败！</string>
     <string name="none_found">未找到未配对的设备</string>
-    <string name="none_paired">未找到已配对的设备</string>
+    <string name="multiplayer_bluetooth_connection_information_title">需要蓝牙连接
+        ！</string>
+    <string name="multiplayer_bluetooth_connection_information">要在多人模式下
+        玩此游戏，必须有蓝牙连接。双方都需要启动游戏并停留在此屏上，以确保连接能正常工作！</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">设置 Arduino 数字端口</string>

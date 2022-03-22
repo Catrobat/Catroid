@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -1291,15 +1291,16 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="notification_blueth_err">Não foi possível ativar o Bluetooth, por favor tente desligar e ligar novamente.</string>
     <string name="title_paired_devices">Dispositivos pareados</string>
     <string name="title_other_devices">Novos dispositivos</string>
-    <string name="searching_devices">Procurando dispositivos&#8230;</string>
-    <string name="button_scan">Procurar dispositivos Bluetooth</string>
-    <string name="button_skip">Ignorar conexão Bluetooth</string>
-    <string name="select_device">Selecionar dispositivo:</string>
+    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="skip_bluetooth_connection">Saltar</string>
     <string name="connecting_please_wait">Conectando ao seu dispositivo.\nPor favor, aguarde&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">A conexão com o dispositivo falhou!</string>
     <string name="none_found">Não foram encontrados dispositivos não pareados</string>
-    <string name="none_paired">Não foram encontrados dispositivos pareados</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
+        required!</string>
+    <string name="multiplayer_bluetooth_connection_information">To play this game in
+        Multiplayer a Bluetooth connection is required. Both players have to start the game and
+        be on this screen for the connection to work properly!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Definir pin digital Arduino</string>

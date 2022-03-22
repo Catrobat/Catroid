@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -1246,15 +1246,16 @@
     <string name="notification_blueth_err">Bluetoothを有効にできません。再度電源を入れてみてください。</string>
     <string name="title_paired_devices">デバイスの組み合わせ</string>
     <string name="title_other_devices">新しいデバイス</string>
-    <string name="searching_devices">デバイスを検索しています&#8230;</string>
-    <string name="button_scan">Bluetoothデバイスを検索</string>
-    <string name="button_skip">Bluetooth接続をスキップ</string>
-    <string name="select_device">デバイスの選択:</string>
+    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="skip_bluetooth_connection">スキップ</string>
     <string name="connecting_please_wait">お使いのデバイスに接続しています\nしばらく待つ&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">デバイスへの接続に失敗しました！</string>
     <string name="none_found">見つかりませんでした。ペアになっていないデバイスがありません</string>
-    <string name="none_paired">見つかったペアのデバイスがありません</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
+        required!</string>
+    <string name="multiplayer_bluetooth_connection_information">To play this game in
+        Multiplayer a Bluetooth connection is required. Both players have to start the game and
+        be on this screen for the connection to work properly!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Arduino のデジタル端子を設定</string>

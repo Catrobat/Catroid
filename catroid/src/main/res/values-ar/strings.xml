@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -1471,15 +1471,16 @@
     <string name="notification_blueth_err">لا يمكن تفعيل البلوتوث, فضلاً قم بإطفائه وتشغيله من جديد.</string>
     <string name="title_paired_devices">الأجهزة المقترنة</string>
     <string name="title_other_devices">أجهزة جديدة</string>
-    <string name="searching_devices">جاري البحث عن الأجهزة&#8230;</string>
-    <string name="button_scan">البحث عن أجهزة Bluetooth</string>
-    <string name="button_skip">تخطي اتصال البلوتوث</string>
-    <string name="select_device">حدد الجهاز:</string>
+    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="skip_bluetooth_connection">تخطى</string>
     <string name="connecting_please_wait">الاتصال بالجهاز الخاص بك الرجاء الانتظار&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">فشل الاتصال بالجهاز!</string>
     <string name="none_found">لم يتم العثور على أجهزة غير مقترنة</string>
-    <string name="none_paired">لم يتم العثور على أجهزة مقترنة</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
+        required!</string>
+    <string name="multiplayer_bluetooth_connection_information">To play this game in
+        Multiplayer a Bluetooth connection is required. Both players have to start the game and
+        be on this screen for the connection to work properly!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">تعيين قيمة إبرة أردوينو الرقمية</string>
