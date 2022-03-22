@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -1282,15 +1282,16 @@
     <string name="notification_blueth_err">புளூடூத்தை இயக்க முடியாது, தயவுசெய்து அதை அணைக்க முயற்சிக்கவும்.</string>
     <string name="title_paired_devices">இணைக்கப்பட்ட சாதனங்கள்</string>
     <string name="title_other_devices">புதிய சாதனம்</string>
-    <string name="searching_devices">சாதனங்களைத் தேடுகிறது&#8230;</string>
-    <string name="button_scan">புளூடூத் சாதனங்களைத் தேடுங்கள்</string>
-    <string name="button_skip">Skip Bluetooth connection</string>
-    <string name="select_device">சாதனத்தை தேர்ந்தெடு:</string>
+    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="skip_bluetooth_connection">தவிர்</string>
     <string name="connecting_please_wait">உங்கள் சாதனத்துடன் இணைக்கிறது. \n காத்திருங்கள்&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">சாதனத்துக்கான இணைப்பு தோல்வியடைந்தது!</string>
     <string name="none_found">இணைக்கப்படாத சாதனங்கள் எதுவும் கிடைக்கவில்லை</string>
-    <string name="none_paired">இணைக்கப்பட்ட சாதனங்கள் எதுவும் கிடைக்கவில்லை</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
+        required!</string>
+    <string name="multiplayer_bluetooth_connection_information">To play this game in
+        Multiplayer a Bluetooth connection is required. Both players have to start the game and
+        be on this screen for the connection to work properly!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Arduino டிஜிட்டல் முள் அமைக்கவும்</string>

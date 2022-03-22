@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -1221,15 +1221,16 @@
     <string name="notification_blueth_err">블루투스를 사용할 수 없습니다. 껐다가 다시 켜 주세요.</string>
     <string name="title_paired_devices">페어링 된 장치</string>
     <string name="title_other_devices">새 장치</string>
-    <string name="searching_devices">장치를 찾고 있는 중&#8230;</string>
-    <string name="button_scan">블루투스 장치 검색</string>
-    <string name="button_skip">블루투스 연결 건너뛰기</string>
-    <string name="select_device">장치 선택</string>
+    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="skip_bluetooth_connection">건너뛰기</string>
     <string name="connecting_please_wait">장치에 연결중입니다. \n 기다려 주세요 &#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">장치 연결에 실패했습니다!</string>
     <string name="none_found">패어링 안된 장치를 찾을 수 없습니다.</string>
-    <string name="none_paired">페어링 된 장치를 찾을 수 없습니다</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
+        required!</string>
+    <string name="multiplayer_bluetooth_connection_information">To play this game in
+        Multiplayer a Bluetooth connection is required. Both players have to start the game and
+        be on this screen for the connection to work properly!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">아두이노 디지털 핀 설정</string>

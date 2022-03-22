@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -1279,15 +1279,16 @@
     <string name="notification_blueth_err">بلوتوث فعال نمی شود ، لطفاً آن را خاموش و دوباره امتحان کنید.</string>
     <string name="title_paired_devices">دستگاه های متصل شده</string>
     <string name="title_other_devices">دستگاه های جدید</string>
-    <string name="searching_devices">در جستجوی دستگاه&#8230;</string>
-    <string name="button_scan">جستجوی دستگاه های بلوتوث</string>
-    <string name="button_skip">رد شدن از اتصال بلوتوث</string>
-    <string name="select_device">وسیله را انتخاب کن:</string>
+    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="skip_bluetooth_connection">پرش</string>
     <string name="connecting_please_wait">در حال اتصال به دستگاه.\nلطفا صبر کن</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">عدم موفقیت در اتصال به دستگاه!</string>
     <string name="none_found">هیچ دستگاه جفت نشده ای یافت نشد</string>
-    <string name="none_paired">هیچ دستگاهی یافت نشد</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
+        required!</string>
+    <string name="multiplayer_bluetooth_connection_information">To play this game in
+        Multiplayer a Bluetooth connection is required. Both players have to start the game and
+        be on this screen for the connection to work properly!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">پین دیجیتال آردوینو را تنظیم کنید</string>

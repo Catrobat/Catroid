@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -1252,15 +1252,16 @@ needs read and write access to it. You can always change permissions through you
     <string name="notification_blueth_err">Can\'t enable Bluetooth, please try turning it off and on again.</string>
     <string name="title_paired_devices">Thiết bị ghép nối</string>
     <string name="title_other_devices">Thiết bị mới</string>
-    <string name="searching_devices">Looking for devices&#8230;</string>
-    <string name="button_scan">Tìm kiếm thiết bị Bluetooth</string>
-    <string name="button_skip">Skip Bluetooth connection</string>
-    <string name="select_device">Select device:</string>
+    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="skip_bluetooth_connection">Bỏ qua</string>
     <string name="connecting_please_wait">Kết nối với thiết bị. \nVui lòng đợi&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">Kết nối với thiết bị thất bại!</string>
     <string name="none_found">Không có thiết bị liên kết được tìm thấy</string>
-    <string name="none_paired">Không có thiết bị liên kết được tìm thấy</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
+        required!</string>
+    <string name="multiplayer_bluetooth_connection_information">To play this game in
+        Multiplayer a Bluetooth connection is required. Both players have to start the game and
+        be on this screen for the connection to work properly!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Set Arduino digital pin</string>

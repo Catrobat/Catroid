@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -88,7 +88,7 @@
     <string name="main_menu_help">Довідка</string>
     <string name="main_menu_web">Catrobat community</string>
     <string name="main_menu_upload">Upload project</string>
-    <string name="main_menu_rate_app">Rate us!</string>
+    <string name="main_menu_rate_app">Оцініть нас!</string>
     <string name="main_menu_terms_of_use">Terms of Use and Service</string>
     <string name="main_menu_privacy_policy">Політика конфіденційності</string>
     <string name="main_menu_about">About this app</string>
@@ -692,7 +692,7 @@
     <string name="add_look_from_camera">Camera</string>
     <string name="add_look_object_library">Library</string>
     <string name="add_look_draw_new_image">Draw</string>
-    <string name="add_look_choose_image">Gallery</string>
+    <string name="add_look_choose_image">Галерея</string>
     <string name="add_look_media_library">Looks</string>
     <string name="add_look_from_local_project">Local projects</string>
     <!--  -->
@@ -731,7 +731,7 @@
         The source code of this app is mainly licensed under the GNU AGPL v3 license.
         For further details on the license see the link below.\n</string>
     <string name="dialog_about_license_link_text">Source code license</string>
-    <string name="dialog_about_catrobat_link_text">About Catrobat</string>
+    <string name="dialog_about_catrobat_link_text">Про Catrobat</string>
     <string name="dialog_about_catrobat_language_version">Catrobat language version</string>
     <string name="dialog_about_version">version:</string>
     <!--  -->
@@ -1372,7 +1372,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
     <string name="error_embroidery_data_not_found">Embroidery is missing.</string>
-    <string name="error_unknown_error">Something went wrong.</string>
+    <string name="error_unknown_error">Щось пішло не так.</string>
     <string name="error_gps_not_available">Geolocation data is not available.</string>
     <string name="error_set_description">Something went wrong while saving the new description.</string>
     <string name="error_set_notes_and_credits">Something went wrong while saving the new notes
@@ -1384,16 +1384,17 @@ needs read and write access to it. You can always change permissions through you
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Can\'t enable Bluetooth, please try turning it off and on again.</string>
     <string name="title_paired_devices">Paired devices</string>
-    <string name="title_other_devices">New devices</string>
-    <string name="searching_devices">Looking for devices&#8230;</string>
-    <string name="button_scan">Search Bluetooth devices</string>
-    <string name="button_skip">Skip Bluetooth connection</string>
-    <string name="select_device">Select device:</string>
+    <string name="title_other_devices">Available devices</string>
+    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="skip_bluetooth_connection">Пропустити</string>
     <string name="connecting_please_wait">Connecting to your device.\nPlease wait&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">Connection to device failed!</string>
     <string name="none_found">No unpaired devices found</string>
-    <string name="none_paired">No paired devices found</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
+        required!</string>
+    <string name="multiplayer_bluetooth_connection_information">To play this game in
+        Multiplayer a Bluetooth connection is required. Both players have to start the game and
+        be on this screen for the connection to work properly!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Set Arduino digital pin</string>
@@ -1878,8 +1879,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_variable_dialog_title">New variable</string>
     <string name="formula_editor_list_dialog_title">New list</string>
     <string name="formula_editor_regex_html_extractor_dialog_title">HTML extractor</string>
-    <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
-    <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
+    <string name="formula_editor_discard_changes_dialog_message">Бажаєте зберегти свої зміни?</string>
+    <string name="formula_editor_discard_changes_dialog_title">Зберегти зміни?</string>
     <string name="formula_editor_new_string_name">New text</string>
     <string name="formula_editor_dialog_change_text">Change text</string>
     <string name="formula_editor_dialog_change_regular_expression">Change regular
