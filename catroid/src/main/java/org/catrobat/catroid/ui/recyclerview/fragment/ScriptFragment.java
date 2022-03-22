@@ -40,6 +40,7 @@ import android.view.inputmethod.InputMethodManager;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
@@ -274,7 +275,9 @@ public class ScriptFragment extends ListFragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = View.inflate(getActivity(), R.layout.fragment_script, null);
 		listView = view.findViewById(android.R.id.list);
-
+		int bottomListPadding = ScreenValues.SCREEN_HEIGHT/3;
+		listView.setPadding(0,0,0,bottomListPadding);
+		listView.setClipToPadding(false);
 		activity = (SpriteActivity) getActivity();
 
 		scriptFinder = view.findViewById(R.id.findview);
