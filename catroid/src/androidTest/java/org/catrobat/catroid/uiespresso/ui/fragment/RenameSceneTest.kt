@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,7 +45,7 @@ import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
 import org.catrobat.catroid.testsuites.annotations.Level.Smoke
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView
-import org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBar
+import org.catrobat.catroid.uiespresso.util.UiTestUtils.Companion.openActionBarMenu
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.instanceOf
@@ -56,6 +56,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
+import org.koin.java.KoinJavaComponent.inject
 
 @RunWith(AndroidJUnit4::class)
 class RenameSceneTest {
@@ -64,6 +65,8 @@ class RenameSceneTest {
     private val projectName = "RenameSceneTest"
     private val newSceneName = "newSceneName"
     private val otherSceneName = "otherScene"
+
+    private val projectManager by inject(ProjectManager::class.java)
 
     @get:Rule
     var baseActivityTestRule = BaseActivityTestRule(
@@ -86,7 +89,7 @@ class RenameSceneTest {
         val renameSceneDialogString = applicationContext.getString(R.string.rename_scene_dialog)
         val oldSceneName = applicationContext.getString(R.string.default_scene_name)
 
-        openActionBar()
+        openActionBarMenu()
         onView(withText(renameSceneString))
             .perform(click())
         onRecyclerView().atPosition(0)
@@ -115,7 +118,7 @@ class RenameSceneTest {
         project = Project(applicationContext, projectName)
         val otherScene = Scene(otherSceneName, project)
         project.addScene(otherScene)
-        ProjectManager.getInstance().currentProject = project
+        projectManager.currentProject = project
         saveProjectSerial(project, applicationContext)
     }
 }

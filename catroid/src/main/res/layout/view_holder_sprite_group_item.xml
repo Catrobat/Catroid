@@ -26,7 +26,7 @@
     android:layout_height="wrap_content"
     android:minHeight="@dimen/view_holder_height"
     android:paddingStart="@dimen/sprite_group_item_view_holder_padding"
-    android:paddingEnd="@dimen/view_holder_padding"
+    android:paddingEnd="@dimen/view_holder_padding_small"
     android:layout_marginTop="?attr/element_spacing"
     android:layout_marginBottom="?attr/element_spacing"
     xmlns:tools="http://schemas.android.com/tools"
@@ -87,7 +87,7 @@
         </LinearLayout>
 
        <ImageButton
-           android:id="@+id/settingsButton"
+           android:id="@+id/settings_button"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:layout_weight="0"

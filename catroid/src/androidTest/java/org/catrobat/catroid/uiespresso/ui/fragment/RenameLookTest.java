@@ -54,7 +54,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionModeWrapper.onActionMode;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
-import static org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBar;
+import static org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBarMenu;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.not;
@@ -91,7 +91,7 @@ public class RenameLookTest {
 
 	@Test
 	public void renameLookTest() {
-		openActionBar();
+		openActionBarMenu();
 		onView(withText(R.string.rename)).perform(click());
 
 		onRecyclerView().atPosition(0)
@@ -115,7 +115,7 @@ public class RenameLookTest {
 
 	@Test
 	public void cancelRenameLookTest() {
-		openActionBar();
+		openActionBarMenu();
 		onView(withText(R.string.rename)).perform(click());
 
 		onRecyclerView().atPosition(0)
@@ -136,7 +136,7 @@ public class RenameLookTest {
 
 	@Test
 	public void invalidInputRenameLookTest() {
-		openActionBar();
+		openActionBarMenu();
 		onView(withText(R.string.rename)).perform(click());
 
 		onRecyclerView().atPosition(0)
@@ -176,7 +176,7 @@ public class RenameLookTest {
 
 	@Test
 	public void renameSingleLookTest() {
-		openActionBar();
+		openActionBarMenu();
 		onView(withText(R.string.delete)).perform(click());
 
 		onRecyclerView().atPosition(1).performCheckItem();
@@ -185,7 +185,7 @@ public class RenameLookTest {
 
 		onView(withText(R.string.delete)).perform(click());
 
-		openActionBar();
+		openActionBarMenu();
 		onView(withText(R.string.rename)).perform(click());
 
 		onView(withText(R.string.rename_look_dialog)).inRoot(isDialog())

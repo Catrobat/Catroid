@@ -54,7 +54,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionModeWrapper.onActionMode;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
-import static org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBar;
+import static org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBarMenu;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.not;
@@ -91,7 +91,7 @@ public class RenameSoundTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void renameSoundTest() {
-		openActionBar();
+		openActionBarMenu();
 		onView(withText(R.string.rename)).perform(click());
 
 		onRecyclerView().atPosition(0)
@@ -116,7 +116,7 @@ public class RenameSoundTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void cancelRenameSoundTest() {
-		openActionBar();
+		openActionBarMenu();
 		onView(withText(R.string.rename)).perform(click());
 
 		onRecyclerView().atPosition(0)
@@ -139,7 +139,7 @@ public class RenameSoundTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void invalidInputRenameSoundTest() {
-		openActionBar();
+		openActionBarMenu();
 		onView(withText(R.string.rename)).perform(click());
 
 		onRecyclerView().atPosition(0)
@@ -179,7 +179,7 @@ public class RenameSoundTest {
 
 	@Test
 	public void renameSingleSoundTest() {
-		openActionBar();
+		openActionBarMenu();
 		onView(withText(R.string.delete)).perform(click());
 
 		onRecyclerView().atPosition(1).performCheckItem();
@@ -188,7 +188,7 @@ public class RenameSoundTest {
 
 		onView(withText(R.string.delete)).perform(click());
 
-		openActionBar();
+		openActionBarMenu();
 		onView(withText(R.string.rename)).perform(click());
 
 		onView(withText(R.string.rename_sound_dialog)).inRoot(isDialog())

@@ -71,14 +71,14 @@
             android:ellipsize="end"
             android:maxLines="1"/>
 
-        <ImageButton
-            android:id="@+id/settingsButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:gravity="center_vertical"
-            android:backgroundTint="@color/accent"
-            android:background="@drawable/ic_more_vert" />
+           <ImageButton
+               android:id="@+id/settings_button"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_weight="0"
+               android:gravity="center_vertical"
+               android:backgroundTint="@color/accent"
+               android:background="@drawable/ic_more_vert" />
 
     </LinearLayout>
 </LinearLayout>
