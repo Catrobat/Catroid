@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -356,7 +356,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	}
 
 	private void startActionMode(@ActionModeType int type) {
-		if (adapter.getItems().isEmpty()) {
+		if (adapter.getItems().isEmpty() || (this instanceof SpriteListFragment && adapter.getItems().size() == 1)) {
 			ToastUtil.showError(getActivity(), R.string.am_empty_list);
 			resetActionModeParameters();
 		} else {
