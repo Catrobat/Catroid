@@ -184,4 +184,20 @@ public class FormulaEditorEditTextTest {
 		onView(withId(R.id.formula_editor_compute_dialog_textview))
 				.check(matches(withText("-8.111")));
 	}
+
+	@Category({Cat.CatrobatLanguage.class, Level.Smoke.class})
+	@Test
+	public void testTextViewInBrickIsUpdatedCorrectly() {
+		onFormulaEditor()
+				.performEnterFormula("1+");
+
+		onFormulaEditor()
+				.performClickOn(FUNCTIONS);
+
+		onView(withText("pi"))
+				.perform(click());
+
+		onView(withId(R.id.brick_change_size_by_edit_text))
+				.check(matches(withText("1 + pi ")));
+	}
 }
