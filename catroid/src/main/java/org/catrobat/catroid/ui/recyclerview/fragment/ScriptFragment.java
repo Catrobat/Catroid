@@ -89,6 +89,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.Nullable;
@@ -858,21 +859,23 @@ public class ScriptFragment extends ListFragment implements
 			return;
 		}
 
-		int scriptIndex = -1;
 		int firstVisible = listView.getFirstVisiblePosition();
-
+		UUID firstVisibleBrickID = null;
 		if (listView.getCount() > 0 && firstVisible >= 0) {
-			Object firstBrick = listView.getItemAtPosition(firstVisible);
-			if (firstBrick instanceof Brick) {
-				Script scriptOfBrick = ((Brick) firstBrick).getScript();
-				scriptIndex =
-						ProjectManager.getInstance().getCurrentSprite().getScriptIndex(scriptOfBrick);
+			Object firstVisibleObject = listView.getItemAtPosition(firstVisible);
+			if (firstVisibleObject instanceof Brick) {
+				Brick firstVisibleBrick = (Brick) firstVisibleObject;
+				if (firstVisibleBrick instanceof ScriptBrick) {
+					firstVisibleBrickID = firstVisibleBrick.getScript().getScriptId();
+				} else {
+					firstVisibleBrickID = firstVisibleBrick.getBrickID();
+				}
 			}
 		}
 
 		SettingsFragment.setUseCatBlocks(getContext(), true);
 
-		CatblocksScriptFragment catblocksFragment = new CatblocksScriptFragment(scriptIndex);
+		CatblocksScriptFragment catblocksFragment = new CatblocksScriptFragment(firstVisibleBrickID);
 
 		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.fragment_container, catblocksFragment,
