@@ -140,8 +140,8 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
     }
 
     private fun disposeItem() {
-        if (Constants.TEMP_LOOK_FILE.exists()) {
-            Constants.TEMP_LOOK_FILE.delete()
+        if (Constants.TMP_LOOK_FILE.exists()) {
+            Constants.TMP_LOOK_FILE.delete()
             currentItem = null
         }
     }
@@ -197,7 +197,7 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
     fun undo(): Boolean {
         currentItem?.let {
             try {
-                StorageOperations.copyFile(Constants.TEMP_LOOK_FILE, it.file)
+                StorageOperations.copyFile(Constants.TMP_LOOK_FILE, it.file)
             } catch (e: IOException) {
                 Log.e(TAG, Log.getStackTraceString(e))
             }
@@ -225,7 +225,7 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
         item?.invalidateThumbnailBitmap()
         item?.clearCollisionInformation()
         try {
-            StorageOperations.copyFile(currentItem?.file, Constants.TEMP_LOOK_FILE)
+            StorageOperations.copyFile(currentItem?.file, Constants.TMP_LOOK_FILE)
         } catch (e: IOException) {
             Log.e(TAG, Log.getStackTraceString(e))
         }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.catrobat.catroid.common.Constants.CACHE_DIR
+import org.catrobat.catroid.common.Constants.CACHE_DIRECTORY
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.ZipArchiver
 import java.io.File
@@ -58,7 +58,7 @@ fun unzipAndImportProjects(files: Array<File>): Boolean {
 }
 
 private fun unzipAndImportProject(projectDir: File): Boolean = try {
-    val cachedProjectDir = File(CACHE_DIR, StorageOperations.getSanitizedFileName(projectDir.name))
+    val cachedProjectDir = File(CACHE_DIRECTORY, StorageOperations.getSanitizedFileName(projectDir.name))
     if (cachedProjectDir.isDirectory) {
         StorageOperations.deleteDir(cachedProjectDir)
     }

@@ -90,7 +90,7 @@ import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.DEFAULT_SOUND_EXTENSION;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.JPEG_IMAGE_EXTENSION;
-import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIR;
+import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_URL_LANDSCAPE;
@@ -508,8 +508,8 @@ public class SpriteActivity extends BaseActivity {
 		builder.setTitle(R.string.new_sprite_dialog_title)
 				.setNegativeButton(R.string.cancel, (dialog, which) -> {
 					try {
-						if (MEDIA_LIBRARY_CACHE_DIR.exists()) {
-							StorageOperations.deleteDir(MEDIA_LIBRARY_CACHE_DIR);
+						if (MEDIA_LIBRARY_CACHE_DIRECTORY.exists()) {
+							StorageOperations.deleteDir(MEDIA_LIBRARY_CACHE_DIRECTORY);
 						}
 					} catch (IOException e) {
 						Log.e(TAG, Log.getStackTraceString(e));

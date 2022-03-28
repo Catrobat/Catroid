@@ -186,7 +186,7 @@ public class ProjectOptionsTest {
 	}
 
 	private Matcher<Intent> createLookFromPaintroid() throws IOException {
-		File tmpDir = new File(Constants.CACHE_DIR.getAbsolutePath(), "Pocket Code Test Temp");
+		File tmpDir = new File(Constants.CACHE_DIRECTORY.getAbsolutePath(), "Pocket Code Test Temp");
 		String lookFileName = "catroid_sunglasses.png";
 
 		Intents.init();

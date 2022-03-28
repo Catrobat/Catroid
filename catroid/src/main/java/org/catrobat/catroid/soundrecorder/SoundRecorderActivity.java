@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,7 +47,7 @@ import androidx.core.content.FileProvider;
 
 import static android.Manifest.permission.RECORD_AUDIO;
 
-import static org.catrobat.catroid.common.Constants.SOUND_RECORDER_CACHE_DIR;
+import static org.catrobat.catroid.common.Constants.SOUND_RECORDER_CACHE_DIRECTORY;
 
 public class SoundRecorderActivity extends BaseActivity implements OnClickListener {
 
@@ -108,11 +108,11 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 				soundRecorder.stop();
 			}
 
-			SOUND_RECORDER_CACHE_DIR.mkdirs();
-			if (!SOUND_RECORDER_CACHE_DIR.isDirectory()) {
-				throw new IOException("Cannot create " + SOUND_RECORDER_CACHE_DIR);
+			SOUND_RECORDER_CACHE_DIRECTORY.mkdirs();
+			if (!SOUND_RECORDER_CACHE_DIRECTORY.isDirectory()) {
+				throw new IOException("Cannot create " + SOUND_RECORDER_CACHE_DIRECTORY);
 			}
-			File soundFile = new File(SOUND_RECORDER_CACHE_DIR, getString(R.string.soundrecorder_recorded_filename));
+			File soundFile = new File(SOUND_RECORDER_CACHE_DIRECTORY, getString(R.string.soundrecorder_recorded_filename));
 			soundRecorder = new SoundRecorder(soundFile.getAbsolutePath());
 			soundRecorder.start();
 			setViewsToRecordingState();
