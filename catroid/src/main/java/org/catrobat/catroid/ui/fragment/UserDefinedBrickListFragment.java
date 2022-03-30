@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -126,7 +126,7 @@ public class UserDefinedBrickListFragment extends ListFragment implements View.O
 	@Override
 	public void onClick(View v) {
 		AddUserDefinedBrickFragment addUserDefinedBrickFragment =
-				AddUserDefinedBrickFragment.newInstance(addBrickListener);
+				AddUserDefinedBrickFragment.Companion.newInstance(addBrickListener);
 
 		UserDefinedBrick userDefinedBrick = new UserDefinedBrick();
 		Bundle bundle = new Bundle();
@@ -136,7 +136,8 @@ public class UserDefinedBrickListFragment extends ListFragment implements View.O
 		FragmentManager fragmentManager = getFragmentManager();
 		if (fragmentManager != null) {
 			fragmentManager.beginTransaction()
-					.add(R.id.fragment_container, addUserDefinedBrickFragment, AddUserDefinedBrickFragment.TAG)
+					.add(R.id.fragment_container, addUserDefinedBrickFragment,
+							AddUserDefinedBrickFragment.TAG)
 					.addToBackStack(AddUserDefinedBrickFragment.TAG)
 					.commit();
 		}
