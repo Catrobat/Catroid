@@ -49,6 +49,7 @@ import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.ProjectListActivity
 import org.catrobat.catroid.ui.ProjectUploadActivity
 import org.catrobat.catroid.ui.WebViewActivity
+import org.catrobat.catroid.ui.dialogs.NewProjectDialogFragment
 import org.catrobat.catroid.ui.recyclerview.CategoryTitleCallback
 import org.catrobat.catroid.ui.recyclerview.FeaturedProjectCallback
 import org.catrobat.catroid.ui.recyclerview.IndicatorDecoration
@@ -56,7 +57,6 @@ import org.catrobat.catroid.ui.recyclerview.ProjectListener
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoriesAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.FeaturedProjectsAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.HorizontalProjectsAdapter
-import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialogFragment
 import org.catrobat.catroid.ui.recyclerview.viewmodel.MainFragmentViewModel
 import org.catrobat.catroid.utils.FileMetaDataExtractor
 import org.catrobat.catroid.utils.ProjectDownloadUtil.setFragment
@@ -294,8 +294,10 @@ class MainMenuFragment : Fragment(),
                     .loadProjectAsync()
             }
 
-            R.id.newProjectFloatingActionButton ->
-                NewProjectDialogFragment().show(parentFragmentManager, NewProjectDialogFragment.TAG)
+            R.id.newProjectFloatingActionButton -> {
+                val dialog = NewProjectDialogFragment()
+                dialog.show(parentFragmentManager, NewProjectDialogFragment.TAG)
+            }
 
             R.id.uploadProject -> {
                 if (Utils.isDefaultProject(projectManager.currentProject, activity)) {
@@ -348,8 +350,8 @@ class MainMenuFragment : Fragment(),
     }
 
     companion object {
+        val TAG: String = MainMenuFragment::class.java.simpleName
         private const val CURRENT_THUMBNAIL_SIZE = 500
-        val TAG = MainMenuFragment::class.java.simpleName
         private const val MAX_PROJECTS_NUMBER = 10
     }
 }
