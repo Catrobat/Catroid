@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -123,6 +123,7 @@ public final class Constants {
 
 	// Web:
 	private static final String MAIN_URL_PRODUCTION = "https://share.catrob.at";
+	public static final String UPLOAD_URL = "https://upload.catrob.at";
 	private static final String WEB_TEST_URL = BuildConfig.WEB_TEST_URL;
 	public static final String MAIN_URL_HTTPS = BuildConfig.WEB_TEST_FLAG ? WEB_TEST_URL : MAIN_URL_PRODUCTION;
 
