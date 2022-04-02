@@ -46,7 +46,7 @@ class BluetoothConnectionImpl(private val macAddress: String, private val uuid: 
     private lateinit var bluetoothAdapter: BluetoothAdapter
     private lateinit var bluetoothDevice: BluetoothDevice
     private var bluetoothSocket: BluetoothSocket? = null
-    private  var state: BluetoothConnection.State
+    private var state: BluetoothConnection.State
 
     init {
         state = BluetoothConnection.State.NOT_CONNECTED
@@ -54,7 +54,7 @@ class BluetoothConnectionImpl(private val macAddress: String, private val uuid: 
 
     override fun connect(): BluetoothConnection.State {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-        if (bluetoothAdapter.equals(null)) {
+        if (bluetoothAdapter == null) {
             state = BluetoothConnection.State.ERROR_BLUETOOTH_NOT_SUPPORTED
             return state
         }
@@ -64,7 +64,7 @@ class BluetoothConnectionImpl(private val macAddress: String, private val uuid: 
         }
         Log.d(TAG, "Got Adapter and Adapter was on")
         bluetoothDevice = bluetoothAdapter.getRemoteDevice(macAddress)
-        if (bluetoothDevice.equals(null)) {
+        if (bluetoothDevice == null) {
             state = BluetoothConnection.State.ERROR_DEVICE
             return state
         }
@@ -72,18 +72,24 @@ class BluetoothConnectionImpl(private val macAddress: String, private val uuid: 
         try {
             bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(uuid)
         } catch (ioException: IOException) {
-            if (bluetoothDevice.getBondState() == BluetoothDevice.BOND_NONE) {
-                state = BluetoothConnection.State.ERROR_NOT_BONDED
-                return state
-            } else if (bluetoothDevice.getBondState() == BluetoothDevice.BOND_BONDING) {
-                state = BluetoothConnection.State.ERROR_STILL_BONDING
-                return state
-            } else {
-                state = BluetoothConnection.State.ERROR_SOCKET
-                return state
-            }
+            catchIOExceptionWhenCreateBluetoothSocket()
+            return state
         }
         Log.d(TAG, "Socket was created")
+        return bluetoothConnectionState()
+    }
+
+    fun catchIOExceptionWhenCreateBluetoothSocket() {
+        if (bluetoothDevice.getBondState() == BluetoothDevice.BOND_NONE) {
+            state = BluetoothConnection.State.ERROR_NOT_BONDED
+        } else if (bluetoothDevice.getBondState() == BluetoothDevice.BOND_BONDING) {
+            state = BluetoothConnection.State.ERROR_STILL_BONDING
+        } else {
+            state = BluetoothConnection.State.ERROR_SOCKET
+        }
+    }
+
+    fun bluetoothConnectionState(): BluetoothConnection.State {
         when (connectSocket(bluetoothSocket!!)) {
             BluetoothConnection.State.CONNECTED -> {
                 Log.d(TAG, "connected")
@@ -101,7 +107,7 @@ class BluetoothConnectionImpl(private val macAddress: String, private val uuid: 
     }
 
     override fun connectSocket(socket: BluetoothSocket): BluetoothConnection.State? {
-        if (socket.equals(null)) {
+        if (socket == null) {
             state = BluetoothConnection.State.NOT_CONNECTED
             return state
         }
@@ -150,19 +156,11 @@ class BluetoothConnectionImpl(private val macAddress: String, private val uuid: 
         }
     }
 
-    fun getBluetoothDevice(): BluetoothDevice {
-        return bluetoothDevice
-    }
+    fun getBluetoothDevice(): BluetoothDevice = bluetoothDevice
 
-    override fun getInputStream(): InputStream {
-        return bluetoothSocket!!.getInputStream()
-    }
+    override fun getInputStream(): InputStream = bluetoothSocket!!.getInputStream()
 
-    override fun getOutputStream(): OutputStream {
-        return bluetoothSocket!!.getOutputStream()
-    }
+    override fun getOutputStream(): OutputStream = bluetoothSocket!!.getOutputStream()
 
-    override fun getState(): BluetoothConnection.State {
-        return state
-    }
+    override fun getState(): BluetoothConnection.State = state
 }
