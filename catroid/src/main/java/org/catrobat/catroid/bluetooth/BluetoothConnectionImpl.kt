@@ -73,7 +73,7 @@ class BluetoothConnectionImpl(private val macAddress: String, private val uuid: 
             bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(uuid)
         } catch (ioException: IOException) {
             catchIOExceptionWhenCreateBluetoothSocket()
-            Log.d(TAG,Log.getStackTraceString(ioException))
+            Log.d(TAG, Log.getStackTraceString(ioException))
             return state
         }
         Log.d(TAG, "Socket was created")
