@@ -84,9 +84,6 @@ public class CatroidApplication extends Application {
 		googleAnalytics.setDryRun(BuildConfig.DEBUG);
 
 		setupHuaweiMobileServices();
-
-		// TODO load the module if the ML is enabled
-		loadMachineLearningModule();
 	}
 
 	private void setupHuaweiMobileServices() {
@@ -110,20 +107,5 @@ public class CatroidApplication extends Application {
 		}
 
 		return googleTracker;
-	}
-
-	private void loadMachineLearningModule() {
-		SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		SharedPreferences.OnSharedPreferenceChangeListener listener = (prefs, key) -> {
-			if (SettingsFragment.isAISpeechRecognitionSharedPreferenceEnabled(context)
-					|| SettingsFragment.isAISpeechSynthetizationSharedPreferenceEnabled(context)
-					|| SettingsFragment.isAIFaceDetectionSharedPreferenceEnabled(context)
-					|| SettingsFragment.isAIPoseDetectionSharedPreferenceEnabled(context)
-					|| SettingsFragment.isAITextRecognitionSharedPreferenceEnabled(context)
-					|| SettingsFragment.isAIObjectDetectionSharedPreferenceEnabled(context)) {
-				MachineLearningUtil.loadModule(context);
-			}
-		};
-		defaultSharedPreferences.registerOnSharedPreferenceChangeListener(listener);
 	}
 }

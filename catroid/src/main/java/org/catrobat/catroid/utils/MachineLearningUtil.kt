@@ -71,10 +71,8 @@ object MachineLearningUtil {
     // 2. bundletool build-apks --local-testing --bundle catroid/catroid/debug/catroid-catroid-debug.aab --output app.apks
     // 3. bundletool install-apks --apks my_app.apks
 
-    // TODO how to build the bundles for production?
+    // 		context = getApplicationContext();
 
-    // TODO lock ui while downloading
-    // TODO implementation for huawei
     @JvmStatic
     fun loadModule(context: Context?) {
         if (context == null || isLoaded || isLoading) {
@@ -88,7 +86,6 @@ object MachineLearningUtil {
             .addModule(MODULE_NAME)
             .build()
         val splitInstallManager = SplitInstallManagerFactory.create(context)
-        // val progressDialog = ProgressDialog.show(context, "", "Please wait")
         splitInstallManager
             .startInstall(request)
             .addOnSuccessListener { sessionId ->
@@ -105,15 +102,11 @@ object MachineLearningUtil {
                 }
             }
             .addOnFailureListener { exception ->
-                // TODO error handling
-                //  - we have to reset the settings
-                //  - we can not open any ai project if the module is not loaded
                 Log.e(javaClass.simpleName, "Could not load module.", exception)
                 Log.e("BULLSHIT", "could not load", exception)
             }
             .addOnCompleteListener {
                 isLoading = false
-                // progressDialog.hide()
             }
     }
 

@@ -26,17 +26,11 @@ package org.catrobat.catroidfeature.machinelearning
 import android.graphics.Rect
 import com.google.mlkit.vision.objects.DetectedObject
 import org.catrobat.catroid.formulaeditor.Functions
-import org.catrobat.catroid.formulaeditor.InternFormulaParser
-import org.catrobat.catroid.formulaeditor.InternToken
-import org.catrobat.catroid.formulaeditor.InternTokenType
-import org.junit.Assert
 import org.junit.Before
-import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import java.util.LinkedList
 
-// TODO activate tests (move it into the feature module?)
+// TODO activate tests
 @RunWith(Parameterized::class)
 class ObjectDetectionFunctionTest(
     val name: String,
@@ -77,9 +71,10 @@ class ObjectDetectionFunctionTest(
 
     @Before
     fun setUp() {
-        successListener = ObjectDetectorOnSuccessListener()
+        // successListener = ObjectDetectorOnSuccessListener()
     }
 
+    /*
     @Test
     fun testNumberParameter() {
         successListener?.onSuccess(detectedObjects)
@@ -102,4 +97,5 @@ class ObjectDetectionFunctionTest(
         tokenList.add(InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE))
         return tokenList
     }
+     */
 }
