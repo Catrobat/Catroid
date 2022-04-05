@@ -99,6 +99,7 @@ object FormulaElementOperations {
                 Double.POSITIVE_INFINITY -> Double.MAX_VALUE
                 else -> value
             }
+            is ArrayList<*> -> value
             else -> 0.0
         }
     }
@@ -200,7 +201,7 @@ object FormulaElementOperations {
             when {
                 it.value.isEmpty() -> ""
                 it.value.size == 1 -> it.value[0]
-                else -> interpretMultipleItemsUserList(it.value)
+                else -> it.value
             }
         } ?: Conversions.FALSE
     }

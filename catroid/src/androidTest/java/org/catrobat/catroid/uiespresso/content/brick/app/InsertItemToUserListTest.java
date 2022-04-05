@@ -27,6 +27,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
@@ -127,8 +128,9 @@ public class InsertItemToUserListTest {
 				.onFormulaTextField(R.id.brick_insert_item_into_userlist_at_index_edit_text)
 				.performEnterNumber(indexToInsert + 1);
 
-		UserList userList = ProjectManager.getInstance().getCurrentProject().getUserList(userListName);
+		UserVariable userList =
+				ProjectManager.getInstance().getCurrentProject().getUserList(userListName);
 
-		assertEquals(0, userList.getValue().size());
+		assertEquals(0, userList.getListSize());
 	}
 }

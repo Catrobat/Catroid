@@ -49,8 +49,8 @@ public final class UserDataWrapper {
 		return userVariable;
 	}
 
-	public static UserList getUserList(String name, Scope scope) {
-		UserList userList = null;
+	public static UserVariable getUserList(String name, Scope scope) {
+		UserVariable userList = null;
 		if (scope != null) {
 			userList = scope.getSprite().getUserList(name);
 		}

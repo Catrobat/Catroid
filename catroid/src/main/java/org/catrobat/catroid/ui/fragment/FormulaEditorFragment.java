@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -967,6 +967,16 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				.add(R.id.fragment_container, fragment, DataListFragment.TAG)
 				.addToBackStack(DataListFragment.TAG)
 				.commit();
+	}
+
+	public void onDataItemSelected(UserData item) {
+		if (item instanceof UserList) {
+			addUserListToActiveFormula(item.getName());
+		} else if (item instanceof UserVariable) {
+			addUserVariableToActiveFormula(item.getName());
+		} else if (item instanceof UserDefinedBrickInput) {
+			addUserDefinedBrickInputToActiveFormula(item.getName());
+		}
 	}
 
 	@Override

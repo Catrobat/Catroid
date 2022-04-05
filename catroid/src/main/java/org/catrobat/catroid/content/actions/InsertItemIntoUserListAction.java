@@ -28,6 +28,7 @@ import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 
 import java.util.ArrayList;
 
@@ -37,7 +38,7 @@ public class InsertItemIntoUserListAction extends TemporalAction {
 	private Formula formulaIndexToInsert;
 	private Formula formulaItemToInsert;
 
-	private UserList userList;
+	private UserVariable userList;
 
 	@Override
 	protected void update(float percent) {
@@ -58,15 +59,15 @@ public class InsertItemIntoUserListAction extends TemporalAction {
 
 		indexToInsert--;
 
-		if (indexToInsert > userList.getValue().size() || indexToInsert < 0) {
+		if (indexToInsert > userList.getListSize() || indexToInsert < 0) {
 			return;
 		}
 
-		((ArrayList<Object>) userList.getValue()).add(indexToInsert, value);
+		userList.insertListItemAtIndex(indexToInsert, value);
 	}
 
-	public void setUserList(UserList userVariable) {
-		this.userList = userVariable;
+	public void setUserList(UserVariable userList) {
+		this.userList = userList;
 	}
 
 	public void setFormulaIndexToInsert(Formula formulaIndexToInsert) {

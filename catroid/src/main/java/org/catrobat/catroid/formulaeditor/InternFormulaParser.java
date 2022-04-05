@@ -283,7 +283,7 @@ public class InternFormulaParser {
 
 	private FormulaElement userList(Scope scope) throws InternFormulaParserException {
 		String listName = currentToken.getTokenStringValue();
-		UserList userList = UserDataWrapper.getUserList(listName, scope);
+		UserVariable userList = UserDataWrapper.getUserList(listName, scope);
 
 		if (userList == null) {
 			throw new InternFormulaParserException("Parse Error");

@@ -167,7 +167,7 @@ public final class ProjectManager {
 		if (project.getCatrobatLanguageVersion() <= 0.9999995) {
 			updateBackgroundIndexTo9999995(project);
 		}
-		if (project.getCatrobatLanguageVersion() < 999.9 && !BuildConfig.FEATURE_LIST_AS_BASIC_DATATYPE) {
+		if (project.getCatrobatLanguageVersion() < 0.9 && !BuildConfig.FEATURE_LIST_AS_BASIC_DATATYPE) {
 			ProjectManager.flattenAllLists(project);
 		}
 		if (project.getCatrobatLanguageVersion() <= 1.03) {

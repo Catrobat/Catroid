@@ -30,9 +30,15 @@ import android.widget.ImageButton;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.UserData;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.ui.adapter.UserListValuesAdapter;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
+import org.catrobat.catroid.ui.recyclerview.viewholder.ListViewHolder;
 import org.catrobat.catroid.ui.recyclerview.viewholder.VariableViewHolder;
+import org.catrobat.catroid.utils.ShowTextUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.catrobat.catroid.utils.ShowTextUtils.convertObjectToString;
@@ -58,7 +64,11 @@ public class UserDataRVAdapter<T extends UserData> extends RVAdapter<T> {
 		UserData item = getItems().get(position);
 		VariableViewHolder variableViewHolder = (VariableViewHolder) holder;
 		variableViewHolder.title.setText(item.getName());
-		variableViewHolder.value.setText(convertObjectToString(item.getValue()));
+
+		if (!(item instanceof UserVariable && ((UserVariable)item).isList())) {
+			variableViewHolder.value.setText(convertObjectToString(item.getValue()));
+		}
+
 		ImageButton settings = holder.itemView.findViewById(R.id.settings_button);
 		if (settings != null && showSettings) {
 			settings.setVisibility(View.VISIBLE);

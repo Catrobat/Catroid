@@ -25,10 +25,11 @@ package org.catrobat.catroid.content.actions
 import org.catrobat.catroid.common.ParameterizedData
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.UserList
+import org.catrobat.catroid.formulaeditor.UserVariable
 
 class ParameterizedAssertAction : AssertAction() {
     var actualFormula: Formula? = null
-    var expectedList: UserList? = null
+    var expectedList: UserVariable? = null
     var parameterizedData: ParameterizedData? = null
 
     init {
@@ -36,7 +37,7 @@ class ParameterizedAssertAction : AssertAction() {
     }
 
     override fun act(delta: Float): Boolean {
-        parameterizedData?.listSize = expectedList?.value?.size ?: 0
+        parameterizedData?.listSize = expectedList?.listSize ?: 0
 
         if (actualFormula == null) {
             failWith("Actual is null")
@@ -50,7 +51,7 @@ class ParameterizedAssertAction : AssertAction() {
 
         val actualValue = actualFormula?.interpretObject(scope).toString()
         val expectedValue =
-            expectedList?.value?.get(parameterizedData?.currentPosition ?: 0) ?: "null"
+            expectedList?.getListItem(parameterizedData?.currentPosition ?: 0) ?: "null"
 
         parameterizedData?.let { data ->
             if (!equalValues(actualValue, expectedValue.toString())) {
@@ -65,7 +66,7 @@ class ParameterizedAssertAction : AssertAction() {
             data.currentParameters = ""
 
             if (data.failMessages.isNotEmpty() &&
-                data.currentPosition >= expectedList?.value?.size ?: 0) {
+                data.currentPosition >= expectedList?.listSize ?: 0) {
                     failWith("Failed Tests:\n${data.failMessages}\n\nSucceeded Tests:\n${data.successMessages}")
             }
         }

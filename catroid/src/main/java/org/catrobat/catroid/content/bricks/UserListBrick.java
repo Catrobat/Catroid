@@ -34,29 +34,31 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.AddUserListDialog;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public abstract class UserListBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<UserList> {
+public abstract class UserListBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<UserVariable> {
 
-	protected UserList userList;
+	protected UserVariable userList;
 
-	private transient BrickSpinner<UserList> spinner;
+	private transient BrickSpinner<UserVariable> spinner;
 
-	public UserList getUserList() {
+	public UserVariable getUserList() {
 		return userList;
 	}
 
-	public void setUserList(UserList userList) {
+	public void setUserList(UserVariable userList) {
 		this.userList = userList;
 	}
 
@@ -78,6 +80,8 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 
 		List<Nameable> items = new ArrayList<>();
 		items.add(new NewOption(context.getString(R.string.new_option)));
+		items.addAll(sprite.getUserVariables());
+		items.addAll(ProjectManager.getInstance().getCurrentProject().getUserVariables());
 		items.addAll(sprite.getUserLists());
 		items.addAll(ProjectManager.getInstance().getCurrentProject().getUserLists());
 
@@ -135,7 +139,7 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 	}
 
 	@Override
-	public void onItemSelected(Integer spinnerId, @Nullable UserList item) {
+	public void onItemSelected(Integer spinnerId, @Nullable UserVariable item) {
 		userList = item;
 	}
 }

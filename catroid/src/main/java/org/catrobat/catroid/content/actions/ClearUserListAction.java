@@ -26,10 +26,11 @@ package org.catrobat.catroid.content.actions;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 
 public class ClearUserListAction extends TemporalAction {
 
-	private UserList userList;
+	private UserVariable userList;
 
 	@Override
 	protected void update(float percent) {
@@ -40,7 +41,7 @@ public class ClearUserListAction extends TemporalAction {
 		userList.reset();
 	}
 
-	public void setUserList(UserList userVariable) {
-		this.userList = userVariable;
+	public void setUserList(UserVariable userList) {
+		this.userList = userList;
 	}
 }

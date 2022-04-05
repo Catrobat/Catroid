@@ -27,13 +27,14 @@ import android.os.AsyncTask;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.DeviceListAccessor;
 import org.catrobat.catroid.io.DeviceUserDataAccessor;
 
 import java.io.File;
 
 public class ReadListFromDeviceAction extends AsynchronousAction {
-	private UserList userList;
+	private UserVariable userList;
 	private boolean readActionFinished;
 
 	@Override
@@ -47,7 +48,9 @@ public class ReadListFromDeviceAction extends AsynchronousAction {
 	@Override
 	public void initialize() {
 		readActionFinished = false;
-		new ReadListFromDeviceAction.ReadTask().execute(userList);
+		if (userList instanceof UserList) {
+			new ReadListFromDeviceAction.ReadTask().execute((UserList) userList);
+		}
 	}
 
 	@Override
@@ -55,8 +58,8 @@ public class ReadListFromDeviceAction extends AsynchronousAction {
 		return readActionFinished;
 	}
 
-	public void setUserList(UserList userList) {
-		this.userList = userList;
+	public void setUserList(UserVariable userList) {
+		this.userList = (UserList) userList;
 	}
 
 	private class ReadTask extends AsyncTask<UserList, Void, Void> {

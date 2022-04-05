@@ -193,12 +193,12 @@ public class Project implements Serializable {
 	public <T> boolean checkEquality(T newUserData, List<T> oldUserData) {
 		for (T userData : oldUserData) {
 			if (userData.equals(newUserData)) {
-				if (userData.getClass() == UserVariable.class) {
-					UserVariable userVariable = (UserVariable) userData;
-					return userVariable.hasSameValue((UserVariable) newUserData);
-				} else {
+				if (userData instanceof UserList) {
 					UserList userList = (UserList) userData;
 					return userList.hasSameListSize((UserList) newUserData);
+				} else {
+					UserVariable userVariable = (UserVariable) userData;
+					return userVariable.hasSameValue((UserVariable) newUserData);
 				}
 			}
 		}
@@ -230,17 +230,17 @@ public class Project implements Serializable {
 	public <T> void restoreUserDataValues(List<T> currentUserDataList, List<T> userDataListToRestore) {
 		for (T userData : currentUserDataList) {
 			for (T userDataToRestore : userDataListToRestore) {
-				if (userData.getClass() == UserVariable.class) {
-					UserVariable userVariable = (UserVariable) userData;
-					UserVariable newUserVariable = (UserVariable) userDataToRestore;
-					if (userVariable.getName().equals(newUserVariable.getName())) {
-						userVariable.setValue(newUserVariable.getValue());
-					}
-				} else {
+				if (userData instanceof UserList) {
 					UserList userList = (UserList) userData;
 					UserList newUserList = (UserList) userDataToRestore;
 					if (userList.getName().equals(newUserList.getName())) {
 						userList.setValue(newUserList.getValue());
+					}
+				} else {
+					UserVariable userVariable = (UserVariable) userData;
+					UserVariable newUserVariable = (UserVariable) userDataToRestore;
+					if (userVariable.getName().equals(newUserVariable.getName())) {
+						userVariable.setValue(newUserVariable.getValue());
 					}
 				}
 			}
@@ -289,10 +289,15 @@ public class Project implements Serializable {
 		return userListsCopy;
 	}
 
-	public UserList getUserList(String name) {
+	public UserVariable getUserList(String name) {
 		for (UserList list : userLists) {
 			if (list.getName().equals(name)) {
 				return list;
+			}
+		}
+		for (UserVariable variable : userVariables) {
+			if (variable.getName().equals(name)) {
+				return variable;
 			}
 		}
 		return null;

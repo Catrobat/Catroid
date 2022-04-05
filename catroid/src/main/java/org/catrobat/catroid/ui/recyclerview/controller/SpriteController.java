@@ -126,7 +126,7 @@ public class SpriteController {
 
 		for (UserList originalList : spriteToCopy.getUserLists()) {
 			UserList copyList = new UserList(originalList);
-			copyList.setDeviceListKey(originalList.getDeviceKey());
+			copyList.setDeviceValueKey(originalList.getDeviceKey());
 			sprite.getUserLists().add(new UserList(originalList));
 		}
 

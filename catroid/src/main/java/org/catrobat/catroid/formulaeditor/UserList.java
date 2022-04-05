@@ -27,14 +27,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class UserList implements Serializable, UserData<List<Object>> {
+public class UserList extends UserVariable implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-
-	private String name;
-	private int initialIndex = -1;
-	private UUID deviceListKey;
 	private transient List<Object> list;
+	private UUID deviceListKey;
 	private transient boolean visible = true;
 
 	public UserList() {
@@ -44,19 +40,19 @@ public class UserList implements Serializable, UserData<List<Object>> {
 	public UserList(final String name) {
 		this.name = name;
 		this.list = new ArrayList<>();
-		this.deviceListKey = UUID.randomUUID();
+		this.deviceValueKey = UUID.randomUUID();
 	}
 
 	public UserList(final String name, final List<Object> value) {
 		this.name = name;
 		this.list = value;
-		this.deviceListKey = UUID.randomUUID();
+		this.deviceValueKey = UUID.randomUUID();
 	}
 
 	public UserList(UserList userList) {
 		this.name = userList.name;
 		this.list = new ArrayList<>(userList.list);
-		this.deviceListKey = UUID.randomUUID();
+		this.deviceValueKey = UUID.randomUUID();
 	}
 
 	public int getInitialIndex() {
@@ -91,12 +87,13 @@ public class UserList implements Serializable, UserData<List<Object>> {
 	}
 
 	@Override
-	public void setValue(List<Object> list) {
-		this.list = list;
-	}
-
-	public void addListItem(Object listItem) {
-		this.list.add(listItem);
+	public void setValue(Object list) {
+		this.list.clear();
+		try {
+			this.list.addAll((List<Object>)list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public int getIndexOf(Object listItem) {
@@ -108,34 +105,9 @@ public class UserList implements Serializable, UserData<List<Object>> {
 		list.clear();
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == this) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!getClass().equals(obj.getClass())) {
-			return false;
-		}
-		return ((UserList) obj).name.equals(name);
-	}
-
 	public boolean hasSameListSize(UserList listToCheck) {
 		return listToCheck.list.size() == list.size();
 	}
 
-	@Override
-	public int hashCode() {
-		return name.hashCode();
-	}
-
-	public UUID getDeviceKey() {
-		return deviceListKey;
-	}
-
-	public void setDeviceListKey(UUID deviceListFileName) {
-		this.deviceListKey = deviceListFileName;
-	}
+	public int getSize() { return list.size(); }
 }

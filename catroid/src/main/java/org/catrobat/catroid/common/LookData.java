@@ -75,6 +75,8 @@ public class LookData implements Cloneable, Nameable, Serializable {
 
 	private boolean isWebRequest = false;
 
+	private final boolean isCopy = false;
+
 	public LookData() {
 	}
 

@@ -27,12 +27,13 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.UserList
+import org.catrobat.catroid.formulaeditor.UserVariable
 
 class AddItemToUserListAction : TemporalAction() {
 
     var scope: Scope? = null
     var formulaItemToAdd: Formula? = null
-    var userList: UserList? = null
+    var userList: UserVariable? = null
 
     override fun update(percent: Float) {
         var value = formulaItemToAdd?.interpretObject(scope) ?: 0.0

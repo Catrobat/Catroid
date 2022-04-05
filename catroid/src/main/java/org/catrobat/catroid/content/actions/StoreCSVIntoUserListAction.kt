@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
 import org.catrobat.catroid.formulaeditor.UserList
+import org.catrobat.catroid.formulaeditor.UserVariable
 import java.io.IOException
 import java.io.StringReader
 import java.util.regex.Pattern
@@ -43,7 +44,7 @@ class StoreCSVIntoUserListAction : TemporalAction() {
     var formulaColumnToExtract: Formula? = null
     var formulaCSVData: Formula? = null
 
-    var userList: UserList? = null
+    var userList: UserVariable? = null
 
     override fun update(percent: Float) {
         userList ?: return

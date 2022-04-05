@@ -27,6 +27,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.DeviceListAccessor;
 import org.catrobat.catroid.io.DeviceUserDataAccessor;
 import org.catrobat.catroid.io.StorageOperations;
@@ -130,7 +131,7 @@ public class DeviceUserListAccessorParameterizedValueTest<T> {
 
 		Sprite clone = new SpriteController().copyForCloneBrick(sprite);
 		accessor.writeUserData(userList);
-		UserList clonedList = clone.getUserList(userList.getName());
+		UserVariable clonedList = clone.getUserList(userList.getName());
 		assertNotSame(userList, clonedList);
 		assertEquals(userList.getValue(), clonedList.getValue());
 	}

@@ -922,7 +922,7 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createDeleteItemOfUserListAction(Sprite sprite, SequenceAction sequence,
-			Formula userListFormula, UserList userList) {
+			Formula userListFormula, UserVariable userList) {
 		DeleteItemOfUserListAction action = action(DeleteItemOfUserListAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
@@ -931,14 +931,14 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createClearUserListAction(UserList userList) {
+	public Action createClearUserListAction(UserVariable userList) {
 		ClearUserListAction action = action(ClearUserListAction.class);
 		action.setUserList(userList);
 		return action;
 	}
 
 	public Action createAddItemToUserListAction(Sprite sprite, SequenceAction sequence,
-			Formula userListFormula, UserList userList) {
+			Formula userListFormula, UserVariable userList) {
 		AddItemToUserListAction action = action(AddItemToUserListAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
@@ -949,7 +949,7 @@ public class ActionFactory extends Actions {
 
 	public Action createInsertItemIntoUserListAction(Sprite sprite, SequenceAction sequence,
 			Formula userListFormulaIndexToInsert,
-			Formula userListFormulaItemToInsert, UserList userList) {
+			Formula userListFormulaItemToInsert, UserVariable userList) {
 		InsertItemIntoUserListAction action = action(InsertItemIntoUserListAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
@@ -960,7 +960,7 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createStoreCSVIntoUserListAction(Sprite sprite, SequenceAction sequence,
-			Formula userListFormulaColumn, Formula userListFormulaCSV, UserList userList) {
+			Formula userListFormulaColumn, Formula userListFormulaCSV, UserVariable userList) {
 		StoreCSVIntoUserListAction action = action(StoreCSVIntoUserListAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
@@ -972,7 +972,7 @@ public class ActionFactory extends Actions {
 
 	public Action createReplaceItemInUserListAction(Sprite sprite, SequenceAction sequence,
 			Formula userListFormulaIndexToReplace,
-			Formula userListFormulaItemToInsert, UserList userList) {
+			Formula userListFormulaItemToInsert, UserVariable userList) {
 		ReplaceItemInUserListAction action = action(ReplaceItemInUserListAction.class);
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
@@ -1445,8 +1445,8 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createParameterizedAssertAction(Sprite sprite, SequenceAction sequence, Formula actual, UserList expected,
-			ParameterizedData data, String position) {
+	public Action createParameterizedAssertAction(Sprite sprite, SequenceAction sequence,
+			Formula actual, UserVariable expected, ParameterizedData data, String position) {
 		ParameterizedAssertAction action = action(ParameterizedAssertAction.class);
 		action.setActualFormula(actual);
 		action.setExpectedList(expected);
@@ -1531,7 +1531,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createWriteListOnDeviceAction(UserList userList) {
+	public Action createWriteListOnDeviceAction(UserVariable userList) {
 		WriteUserDataOnDeviceAction action = Actions.action(WriteUserDataOnDeviceAction.class);
 		File projectDirectory = ProjectManager.getInstance().getCurrentProject().getDirectory();
 		DeviceUserDataAccessor accessor = new DeviceListAccessor(projectDirectory);
@@ -1553,7 +1553,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createReadListFromDeviceAction(UserList userList) {
+	public Action createReadListFromDeviceAction(UserVariable userList) {
 		ReadListFromDeviceAction action = Actions.action(ReadListFromDeviceAction.class);
 		action.setUserList(userList);
 

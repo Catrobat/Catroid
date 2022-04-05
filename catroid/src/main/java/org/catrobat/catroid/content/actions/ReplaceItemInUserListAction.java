@@ -28,6 +28,7 @@ import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 
 import java.util.ArrayList;
 
@@ -37,7 +38,7 @@ public class ReplaceItemInUserListAction extends TemporalAction {
 	private Formula formulaIndexToReplace;
 	private Formula formulaItemToInsert;
 
-	private UserList userList;
+	private UserVariable userList;
 
 	@Override
 	protected void update(float percent) {
@@ -58,14 +59,14 @@ public class ReplaceItemInUserListAction extends TemporalAction {
 
 		indexToReplace--;
 
-		if (indexToReplace >= userList.getValue().size() || indexToReplace < 0) {
+		if (indexToReplace >= userList.getListSize() || indexToReplace < 0) {
 			return;
 		}
 
-		((ArrayList<Object>) userList.getValue()).set(indexToReplace, value);
+		userList.setListItemAtIndex(indexToReplace, value);
 	}
 
-	public void setUserList(UserList userVariable) {
+	public void setUserList(UserVariable userVariable) {
 		this.userList = userVariable;
 	}
 

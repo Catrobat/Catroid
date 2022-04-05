@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserData;
+import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
@@ -203,10 +204,10 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 			if (renameAll) {
 				formula.updateVariableName(oldName, newName);
 				formula.updateUserlistName(oldName, newName);
-			} else if (item instanceof UserVariable) {
-				formula.updateVariableName(oldName, newName);
-			} else {
+			} else if (item instanceof UserList) {
 				formula.updateUserlistName(oldName, newName);
+			} else {
+				formula.updateVariableName(oldName, newName);
 			}
 		}
 	}
