@@ -111,7 +111,7 @@ private fun SpriteActivity.showScripts(fragmentTransaction: FragmentTransaction)
     } else {
         fragmentTransaction.replace(
             R.id.fragment_container,
-            CatblocksScriptFragment(0),
+            CatblocksScriptFragment(null),
             TAG
         )
     }

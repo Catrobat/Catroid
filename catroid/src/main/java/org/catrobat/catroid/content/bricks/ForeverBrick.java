@@ -33,6 +33,7 @@ import org.catrobat.catroid.utils.LoopUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ForeverBrick extends BrickBaseType implements CompositeBrick {
 
@@ -201,6 +202,11 @@ public class ForeverBrick extends BrickBaseType implements CompositeBrick {
 
 		@Override
 		public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		}
+
+		@Override
+		public UUID getBrickID() {
+			return parent.getBrickID();
 		}
 	}
 }

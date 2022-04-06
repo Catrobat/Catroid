@@ -36,6 +36,7 @@ import org.catrobat.catroid.utils.LoopUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ForItemInUserListBrick extends UserDataBrick implements CompositeBrick {
 
@@ -208,6 +209,11 @@ public class ForItemInUserListBrick extends UserDataBrick implements CompositeBr
 
 		@Override
 		public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		}
+
+		@Override
+		public UUID getBrickID() {
+			return parent.getBrickID();
 		}
 	}
 }
