@@ -205,10 +205,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         var copiedItemCnt = 0
         for (item in selectedItems) {
             try {
-                adapter.add(
-                    adapter.items.indexOf(item) + 1,
-                    spriteController.copy(item, currentProject, currentScene)
-                )
+                adapter.add(spriteController.copy(item, currentProject, currentScene))
                 copiedItemCnt++
             } catch (e: IOException) {
                 Log.e(TAG, Log.getStackTraceString(e))
