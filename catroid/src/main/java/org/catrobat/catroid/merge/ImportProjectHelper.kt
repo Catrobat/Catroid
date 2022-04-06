@@ -95,8 +95,8 @@ class ImportProjectHelper(
 
     fun addGlobalsToProject(globalList: List<Any>, globalsToAdd: List<Any>) {
         for (global in globalsToAdd) {
-            if (!globalList!!.contains(global)) {
-                globalList!!.plus(global)
+            if (!globalList.contains(global)) {
+                globalList.plus(global)
             }
         }
     }

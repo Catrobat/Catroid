@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,16 +44,18 @@ import org.catrobat.catroid.merge.ImportProjectHelper
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
+import org.catrobat.catroid.utils.Utils.checkForDuplicates
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.java.KoinJavaComponent
 import java.io.File
 
 @RunWith(AndroidJUnit4::class)
-class ImportObjectIntoProjectFromContextMenu {
+class ImportObjectIntoProjectFromContextMenuTest {
     var project: Project? = null
     var importedProject: Project? = null
     var importName = "IMPORTED"
@@ -62,6 +64,7 @@ class ImportObjectIntoProjectFromContextMenu {
     var spriteToBeImported: Sprite? = null
     private lateinit var scriptForVisualPlacement: Script
     val TAG: String = ImportObjectIntoProjectTest::class.java.simpleName
+    private val projectManager = KoinJavaComponent.inject(ProjectManager::class.java)
 
     @get:Rule
     var baseActivityTestRule: FragmentActivityTestRule<ProjectActivity> = FragmentActivityTestRule(
@@ -78,8 +81,6 @@ class ImportObjectIntoProjectFromContextMenu {
         } catch (e: Exception) {
             Log.e(TAG, Log.getStackTraceString(e))
         }
-
-        TestUtils.deleteProjects(defaultProjectName, importName)
 
         project = DefaultProjectHandler
             .createAndSaveDefaultProject(
@@ -107,8 +108,8 @@ class ImportObjectIntoProjectFromContextMenu {
         ZipArchiver().zip(projectZip, importedProject?.directory?.listFiles())
         uri = Uri.fromFile(projectZip)
 
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().currentSprite = project!!.defaultScene.spriteList[1]
+        projectManager.value.currentProject = project
+        projectManager.value.currentSprite = project!!.defaultScene.spriteList[1]
         Intents.init()
         baseActivityTestRule.launchActivity()
     }
@@ -171,7 +172,7 @@ class ImportObjectIntoProjectFromContextMenu {
 
         val currentScene = project!!.defaultScene
         val activity = baseActivityTestRule.activity
-        val resolvedFileName = StorageOperations.resolveFileName(activity.getContentResolver(), uri)
+        val resolvedFileName = StorageOperations.resolveFileName(activity.contentResolver, uri)
         val lookFileName: String? = resolvedFileName
 
         val importProjectHelper = ImportProjectHelper(
@@ -288,5 +289,24 @@ class ImportObjectIntoProjectFromContextMenu {
             project!!.defaultScene.spriteList[1].lookList.size,
             oldLookList
         )
+    }
+
+    @Test
+    fun uniqueLooksAndSoundsNamesImportedOnceTest() {
+        val anySpriteOfProject = project!!.defaultScene.spriteList[1]
+        val currentScene = project!!.defaultScene
+        val activity = baseActivityTestRule.activity
+        val resolvedFileName = StorageOperations.resolveFileName(activity.contentResolver, uri)
+        val lookFileName: String? = resolvedFileName
+
+        val importProjectHelper = ImportProjectHelper(
+            lookFileName!!,
+            currentScene, activity
+        )
+
+        Assert.assertTrue(importProjectHelper.checkForConflicts())
+        importProjectHelper.addObjectDataToNewSprite(anySpriteOfProject)
+        Assert.assertFalse(checkForDuplicates(anySpriteOfProject.lookList as List<Any>?))
+        Assert.assertFalse(checkForDuplicates(anySpriteOfProject.soundList as List<Any>?))
     }
 }

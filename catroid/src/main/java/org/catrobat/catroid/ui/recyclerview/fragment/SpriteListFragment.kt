@@ -47,6 +47,8 @@ import org.catrobat.catroid.content.GroupSprite
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.merge.ImportProjectHelper
+import org.catrobat.catroid.ui.ProjectListActivity
+import org.catrobat.catroid.ui.ProjectListActivity.Companion.IMPORT_LOCAL_INTENT
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.WebViewActivity
 import org.catrobat.catroid.ui.controller.BackpackListManager
@@ -253,7 +255,12 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == IMPORT_OBJECT_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            val uri = Uri.fromFile(File(data?.getStringExtra(WebViewActivity.MEDIA_FILE_PATH)))
+            val uri = if (data?.hasExtra(IMPORT_LOCAL_INTENT) == true) {
+                Uri.fromFile(File(data.getStringExtra(IMPORT_LOCAL_INTENT)))
+            } else {
+                Uri.fromFile(File(data?.getStringExtra(WebViewActivity.MEDIA_FILE_PATH)))
+            }
+
             val currentScene = projectManager.currentlyEditedScene
             val resolvedName: String
             val resolvedFileName =
@@ -287,6 +294,15 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         currentSprite = selectedItem
         val intent = Intent(requireContext(), WebViewActivity::class.java)
         intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, FlavoredConstants.LIBRARY_OBJECT_URL)
+        startActivityForResult(intent, IMPORT_OBJECT_REQUEST_CODE)
+    }
+
+    private fun addFromLocalProject(item: Sprite?) {
+        currentSprite = item
+        val intent = Intent(requireContext(), ProjectListActivity::class.java)
+        intent.putExtra(
+            IMPORT_LOCAL_INTENT,
+            getString(R.string.import_sprite_from_project_launcher))
         startActivityForResult(intent, IMPORT_OBJECT_REQUEST_CODE)
     }
 
@@ -336,6 +352,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
                 R.id.delete -> deleteItems(itemList)
                 R.id.rename -> showRenameDialog(item)
                 R.id.from_library -> addFromLibrary(item)
+                R.id.from_local -> addFromLocalProject(item)
                 else -> {}
             }
             true
@@ -352,6 +369,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
             popupMenu.menu.findItem(R.id.backpack).setTitle(R.string.pack)
             popupMenu.menu.findItem(R.id.from_library).isVisible = true
         }
+        popupMenu.menu.findItem(R.id.from_local).isVisible = true
         popupMenu.show()
     }
 
@@ -360,6 +378,6 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
 
     companion object {
         val TAG: String = SpriteListFragment::class.java.simpleName
-        private const val IMPORT_OBJECT_REQUEST_CODE = 0
+        const val IMPORT_OBJECT_REQUEST_CODE = 0
     }
 }

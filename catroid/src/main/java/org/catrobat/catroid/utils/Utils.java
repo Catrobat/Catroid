@@ -580,4 +580,15 @@ public final class Utils {
 			Log.e(TAG, "removeExifData: Failed to remove exif data");
 		}
 	}
+
+	public static boolean checkForDuplicates(List<Object> anyList) {
+		Object prev = null;
+		for (Object it: anyList) {
+			if (it == prev) {
+				return true;
+			}
+			prev = it;
+		}
+		return false;
+	}
 }
