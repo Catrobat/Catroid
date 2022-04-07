@@ -318,7 +318,6 @@ public class ScriptFragment extends ListFragment implements
 		});
 
 		setHasOptionsMenu(true);
-		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_scripts);
 		return view;
 	}
 
@@ -406,6 +405,7 @@ public class ScriptFragment extends ListFragment implements
 		}
 
 		scrollToFocusItem();
+		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_scripts);
 	}
 
 	@Override
@@ -505,8 +505,6 @@ public class ScriptFragment extends ListFragment implements
 				.add(R.id.fragment_container, brickCategoryFragment, BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
 				.addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
 				.commit();
-
-		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_category);
 	}
 
 	@Override

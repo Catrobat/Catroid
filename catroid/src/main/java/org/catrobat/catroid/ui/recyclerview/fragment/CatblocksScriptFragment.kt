@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -53,7 +53,6 @@ import org.catrobat.catroid.ui.fragment.BrickCategoryFragment
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener
 import org.catrobat.catroid.ui.fragment.UserDefinedBrickListFragment
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
-import org.catrobat.catroid.utils.SnackbarUtil
 import org.json.JSONArray
 import org.koin.java.KoinJavaComponent.inject
 import java.util.Locale
@@ -367,8 +366,6 @@ class CatblocksScriptFragment(
             )
             .addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
             .commit()
-
-        SnackbarUtil.showHintSnackbar(activity, R.string.hint_category)
     }
 
     override fun onCategorySelected(category: String?) {

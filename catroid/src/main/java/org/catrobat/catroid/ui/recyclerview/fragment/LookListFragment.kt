@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -60,7 +60,6 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
     }
 
     override fun initializeAdapter() {
-        SnackbarUtil.showHintSnackbar(requireActivity(), R.string.hint_looks)
         sharedPreferenceDetailsKey = SHOW_DETAILS_LOOKS_PREFERENCE_KEY
         val items = projectManager.currentSprite.lookList
         adapter = LookAdapter(items)
@@ -73,6 +72,11 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
         menu.findItem(R.id.catblocks_reorder_scripts).isVisible = false
         menu.findItem(R.id.catblocks).isVisible = false
         menu.findItem(R.id.find).isVisible = false
+    }
+
+    override fun onResume() {
+        super.onResume()
+        SnackbarUtil.showHintSnackbar(requireActivity(), R.string.hint_looks)
     }
 
     override fun packItems(selectedItems: List<LookData?>) {
