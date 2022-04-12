@@ -65,7 +65,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.catrobat.catroid.R.id.tab_layout;
 import static org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION;
-import static org.catrobat.catroid.common.Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.DOWNLOAD_DIRECTORY;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.onToast;
@@ -314,27 +314,24 @@ public class ProjectOptionsTest {
 	public void saveExternal() throws IOException {
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
 
-			String doneToastText =
-					context.getString(
-							R.string.notification_save_project_to_external_storage_open,
-							EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY
-					) + "/" + PROJECT_NAME + CATROBAT_EXTENSION;
-
-			if (EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY.exists()) {
-				StorageOperations.deleteDir(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY);
+			String pendingToastText =
+					context.getString(R.string.notification_save_project_to_external_storage_pending);
+			File externalProjectZip = new File(DOWNLOAD_DIRECTORY,
+					project.getDirectory().getName() + CATROBAT_EXTENSION);
+			if (externalProjectZip.exists()) {
+				StorageOperations.deleteFile(externalProjectZip);
 			}
+			assertFalse(externalProjectZip.exists());
 
 			onView(withId(R.id.project_options_save_external))
 					.perform(ViewActions.scrollTo())
 					.perform(click());
 
-			onToast(withText(doneToastText))
+			onToast(withText(pendingToastText))
 					.check(matches(isDisplayed()));
 			onView(isRoot()).perform(CustomActions
 					.wait(DURATION_WAIT_FOR_ZIP_FILE_IN_MILLISECONDS));
 
-			File externalProjectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY,
-					project.getDirectory().getName() + CATROBAT_EXTENSION);
 			assertTrue(externalProjectZip.exists());
 		}
 	}
