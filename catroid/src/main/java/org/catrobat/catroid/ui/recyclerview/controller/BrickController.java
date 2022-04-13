@@ -54,9 +54,6 @@ public final class BrickController {
 				try {
 					if (!bricksToCopy.contains(brick.getParent())) {
 						script.addBrick(brick.clone());
-						if (brick instanceof UserDefinedBrick) {
-							((UserDefinedBrick) brick).clearFormulaMaps();
-						}
 					}
 				} catch (CloneNotSupportedException e) {
 					Log.e(TAG, Log.getStackTraceString(e));
