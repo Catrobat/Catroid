@@ -36,6 +36,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.PopupMenu
 import androidx.annotation.PluralsRes
 import androidx.annotation.RequiresApi
 import org.catrobat.catroid.ProjectManager
@@ -50,8 +51,6 @@ import org.catrobat.catroid.exceptions.LoadingProjectException
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.asynctask.ProjectCopier
-import org.catrobat.catroid.io.asynctask.ProjectImportTask
-import org.catrobat.catroid.io.asynctask.ProjectImportTask.ProjectImportListener
 import org.catrobat.catroid.io.asynctask.ProjectLoader
 import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
 import org.catrobat.catroid.io.asynctask.ProjectRenamer
@@ -59,7 +58,6 @@ import org.catrobat.catroid.io.asynctask.ProjectUnZipperAndImporter
 import org.catrobat.catroid.ui.BottomBar
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.ProjectListActivity
-import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.filepicker.FilePickerActivity
 import org.catrobat.catroid.ui.fragment.ProjectOptionsFragment
 import org.catrobat.catroid.ui.recyclerview.adapter.ProjectAdapter
@@ -76,17 +74,13 @@ import java.util.ArrayList
 class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadListener {
     private var filesForUnzipAndImportTask: ArrayList<File>? = null
     private var hasUnzipAndImportTaskFinished = false
-    private var filesForImportTask: ArrayList<File>? = null
-    private var hasImportTaskFinished = false
 
     private val projectManager: ProjectManager by inject()
 
     override fun onActivityCreated(savedInstance: Bundle?) {
         super.onActivityCreated(savedInstance)
-        filesForImportTask = ArrayList()
         filesForUnzipAndImportTask = ArrayList()
         hasUnzipAndImportTaskFinished = true
-        hasImportTaskFinished = true
         if (arguments != null) {
             importProject(requireArguments().getParcelable("intent"))
         }
@@ -116,7 +110,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
 
     private fun onRenameFinished(success: Boolean) {
         if (success) {
-            if (hasImportTaskFinished && hasUnzipAndImportTaskFinished) {
+            if (hasUnzipAndImportTaskFinished) {
                 ToastUtil.showSuccess(
                     requireContext(),
                     getString(R.string.renamed_project)
@@ -128,27 +122,6 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
             ToastUtil.showError(requireContext(), R.string.error_rename_incompatible_project)
         }
         setShowProgressBar(false)
-    }
-
-    private val projectImportListener = object : ProjectImportListener {
-        override fun onImportFinished(success: Boolean) {
-            hasImportTaskFinished = true
-            setAdapterItems(adapter.projectsSorted)
-            if (hasImportTaskFinished && hasUnzipAndImportTaskFinished) {
-                ToastUtil.showSuccess(
-                    requireContext(),
-                    resources.getQuantityString(
-                        R.plurals.imported_projects,
-                        filesForImportTask?.size ?: 0,
-                        filesForImportTask?.size ?: 0
-                    )
-                )
-                filesForImportTask?.clear()
-            } else {
-                ToastUtil.showError(requireContext(), R.string.error_import_project)
-            }
-            setShowProgressBar(false)
-        }
     }
 
     override fun onResume() {
@@ -182,11 +155,11 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         get() {
             val items: MutableList<ProjectData> = ArrayList()
             getLocalProjectList(items)
-            items.sortWith(Comparator { project1: ProjectData, project2: ProjectData ->
+            items.sortWith { project1: ProjectData, project2: ProjectData ->
                 project1.name.compareTo(
                     project2.name
                 )
-            })
+            }
             return items
         }
 
@@ -298,12 +271,6 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
 
     private fun importProjectUris(uris: ArrayList<Uri>) {
         prepareFilesForImport(uris)
-        filesForImportTask?.apply {
-            if (isNotEmpty()) {
-                val filesToImport = filesForImportTask?.toList() ?: listOf()
-                ProjectImportTask(filesToImport).setListener(projectImportListener).execute()
-            }
-        }
         filesForUnzipAndImportTask?.apply {
             if (isNotEmpty()) {
                 val filesToUnzipAndImport = filesForUnzipAndImportTask?.toTypedArray() ?: arrayOf()
@@ -322,19 +289,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
                 continue
             }
             fileName = fileName.replace(Constants.CATROBAT_EXTENSION, Constants.ZIP_EXTENSION)
-
-            if (uri.scheme == "content") {
-                copyFileContentToCacheFile(uri, fileName)
-            } else {
-                val filePath = uri.path ?: return
-                val src = File(filePath)
-                if (src.isDirectory) {
-                    filesForImportTask?.add(src)
-                    hasImportTaskFinished = false
-                } else {
-                    copyFileContentToCacheFile(uri, fileName)
-                }
-            }
+            copyFileContentToCacheFile(uri, fileName)
         }
     }
 
@@ -373,8 +328,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         selectedItems ?: return
         for (projectData in selectedItems) {
             projectData ?: continue
-            val name = uniqueNameProvider
-                .getUniqueNameInNameables(projectData.name, usedProjectNames)
+            val name = uniqueNameProvider.getUniqueNameInNameables(projectData.name, usedProjectNames)
             usedProjectNames.add(ProjectData(name, null, 0.0, false))
             val projectCopier = ProjectCopier(projectData.directory, name)
             projectCopier.copyProjectAsync({ success: Boolean -> onCopyProjectComplete(success) })
@@ -474,7 +428,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
             val intent = Intent()
             intent.putExtra(
                 ProjectListActivity.IMPORT_LOCAL_INTENT,
-                item!!.directory.absoluteFile.absolutePath
+                item?.directory?.absoluteFile?.absolutePath
             )
             requireActivity().setResult(RESULT_OK, intent)
             requireActivity().finish()
@@ -486,20 +440,10 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
     }
 
     override fun onSettingsClick(item: ProjectData?, view: View?) {
+        val popupMenu = PopupMenu(requireContext(), view)
         val itemList: MutableList<ProjectData?> = ArrayList()
         itemList.add(item)
-        val hiddenMenuOptionIds = intArrayOf(
-            R.id.backpack,
-            R.id.new_group,
-            R.id.new_scene,
-            R.id.show_details,
-            R.id.from_library,
-            R.id.edit,
-            R.id.from_local
-        )
-        val popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(), R.menu
-                .menu_project_activity, hiddenMenuOptionIds)
-
+        popupMenu.menuInflater.inflate(R.menu.menu_project_activity, popupMenu.menu)
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.copy -> copyItems(itemList)
@@ -509,6 +453,10 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
             }
             true
         }
+        popupMenu.menu.findItem(R.id.backpack).isVisible = false
+        popupMenu.menu.findItem(R.id.new_group).isVisible = false
+        popupMenu.menu.findItem(R.id.new_scene).isVisible = false
+        popupMenu.menu.findItem(R.id.show_details).isVisible = false
         popupMenu.show()
     }
 
@@ -570,10 +518,10 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
 
         @JvmStatic
         fun getLocalProjectList(items: MutableList<ProjectData>) {
-            for (projectDir in FlavoredConstants.DEFAULT_ROOT_DIRECTORY.listFiles()) {
+            FlavoredConstants.DEFAULT_ROOT_DIRECTORY.listFiles()?.forEach { projectDir ->
                 val xmlFile = File(projectDir, Constants.CODE_XML_FILE_NAME)
                 if (!xmlFile.exists()) {
-                    continue
+                    return@forEach
                 }
                 val metaDataParser = ProjectMetaDataParser(xmlFile)
                 try {
