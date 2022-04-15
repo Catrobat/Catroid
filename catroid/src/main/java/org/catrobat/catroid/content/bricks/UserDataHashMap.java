@@ -42,7 +42,8 @@ public class UserDataHashMap extends HashMap<Brick.BrickData, UserData> implemen
 			UserData userData = null;
 			if (entry.getValue() != null) {
 				if (Brick.BrickData.isUserList(entry.getKey())) {
-					userData = new UserList((UserList) entry.getValue());
+					userData = new UserList();
+					userData.setValue(entry.getValue().getValue());
 				} else {
 					userData = new UserVariable((UserVariable) entry.getValue());
 				}

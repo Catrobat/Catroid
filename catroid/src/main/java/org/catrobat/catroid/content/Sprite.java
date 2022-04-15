@@ -104,7 +104,7 @@ public class Sprite implements Nameable, Serializable {
 	private List<SoundInfo> soundList = new ArrayList<>();
 	private List<NfcTagData> nfcTagList = new ArrayList<>();
 	private List<UserVariable> userVariables = new ArrayList<>();
-	private List<UserList> userLists = new ArrayList<>();
+	private List<UserVariable> userLists = new ArrayList<>();
 	private List<Brick> userDefinedBrickList = new ArrayList<>();
 
 	private transient ActionFactory actionFactory = new ActionFactory();
@@ -288,25 +288,29 @@ public class Sprite implements Nameable, Serializable {
 		return userVariables.add(userVariable);
 	}
 
-	public List<UserList> getUserListsCopy() {
+	public List<UserVariable> getUserListsCopy() {
 		if (userLists == null) {
 			userLists = new ArrayList<>();
 		}
 
-		List<UserList> userListsCopy = new ArrayList<>();
-		for (UserList userList : userLists) {
-			userListsCopy.add(new UserList(userList.getName(), userList.getValue()));
+		List<UserVariable> userListsCopy = new ArrayList<>();
+		try {
+			for (UserVariable userList : userLists) {
+				userListsCopy.add(new UserList(userList.getName(), (List<Object>) userList.getValue()));
+			}
+		} catch (Exception e) {
+			Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
 		}
 
 		return userListsCopy;
 	}
 
-	public List<UserList> getUserLists() {
+	public List<UserVariable> getUserLists() {
 		return userLists;
 	}
 
 	public UserVariable getUserList(String name) {
-		for (UserList list : userLists) {
+		for (UserVariable list : userLists) {
 			if (list.getName().equals(name)) {
 				return list;
 			}
@@ -337,7 +341,7 @@ public class Sprite implements Nameable, Serializable {
 		for (UserVariable userVariable : userVariables) {
 			userVariable.reset();
 		}
-		for (UserList userList : userLists) {
+		for (UserVariable userList : userLists) {
 			userList.reset();
 		}
 	}
@@ -796,10 +800,14 @@ public class Sprite implements Nameable, Serializable {
 				this.userVariables.add(userVariable);
 			}
 		}
-		for (UserList userlist: sprite.userLists) {
-			if (!this.userLists.contains(userlist)) {
-				this.userLists.add(userlist);
+		try {
+			for (UserVariable userList : sprite.userLists) {
+				if (!this.userLists.contains(userList)) {
+					this.userLists.add(userList);
+				}
 			}
+		} catch (Exception e) {
+			Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
 		}
 
 		this.userDefinedBrickList.addAll(sprite.userDefinedBrickList);

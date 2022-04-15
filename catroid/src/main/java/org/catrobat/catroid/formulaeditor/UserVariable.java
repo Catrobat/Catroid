@@ -25,7 +25,7 @@ package org.catrobat.catroid.formulaeditor;
 import org.catrobat.catroid.formulaeditor.function.UserVariableEntry;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Comparator;
 import java.util.UUID;
 
 public class UserVariable implements Serializable, UserData<Object> {
@@ -38,7 +38,7 @@ public class UserVariable implements Serializable, UserData<Object> {
 	private transient boolean visible = true;
 	private transient boolean dummy = false;
 
-	private transient UserVariableEntry userVariableEntry;
+	private final UserVariableEntry userVariableEntry;
 
 	public UserVariable() {
 		this.userVariableEntry = new UserVariableEntry();
@@ -117,7 +117,11 @@ public class UserVariable implements Serializable, UserData<Object> {
 
 	@Override
 	public void reset() {
-		this.userVariableEntry = new UserVariableEntry();
+		userVariableEntry.reset();
+	}
+
+	public void setToEmptyList() {
+		userVariableEntry.setToEmptyList();
 	}
 
 	@Override
@@ -155,65 +159,59 @@ public class UserVariable implements Serializable, UserData<Object> {
 		return userVariableEntry.isList();
 	}
 
-	public void setIsList(boolean isList) {
-		userVariableEntry.setIsList(isList);
-	}
-
 	public int getListSize() {
 		if (this instanceof UserList) {
 			return ((UserList) this).getSize();
-		} else {
-			return (userVariableEntry.getSize());
 		}
+		return userVariableEntry.getSize();
 	}
 
 	public Object getListItem(int index) {
 		if (this instanceof UserList) {
 			return ((UserList) this).getValue().get(index);
-		} else if (isList()) {
-			return ((List<Object>) userVariableEntry.getValue()).get(index);
 		}
-		return null;
+		return userVariableEntry.getListItem(index);
 	}
 
 	public int getIndexOfListItem(Object item) {
 		if (this instanceof UserList) {
 			return ((UserList) this).getIndexOf(item);
-		} else if (isList()) {
-			return ((List<Object>) userVariableEntry.getValue()).indexOf(item);
 		}
-		return 0;
+		return userVariableEntry.getIndexOfListItem(item);
 	}
 
 	public void addListItem(Object listItem) {
 		if (this instanceof UserList) {
-			((UserList) this).getValue().add(listItem);
-		} else if (isList()) {
-			((List<Object>) userVariableEntry.getValue()).add(listItem);
+			((UserList) this).addListItem(listItem);
+		} else {
+			userVariableEntry.addListItem(listItem);
 		}
 	}
 
 	public void deleteListItemAtIndex(int index) {
 		if (this instanceof UserList) {
 			((UserList) this).getValue().remove(index);
-		} else if (isList()) {
-			((List<Object>) userVariableEntry.getValue()).remove(index);
+		} else {
+			userVariableEntry.deleteListItemAtIndex(index);
 		}
 	}
 
 	public void insertListItemAtIndex(int index, Object item) {
 		if (this instanceof UserList) {
 			((UserList) this).getValue().add(index, item);
-		} else if (isList()) {
-			((List<Object>) userVariableEntry.getValue()).add(index, item);
+		} else {
+			userVariableEntry.insertListItemAtIndex(index, item);
 		}
 	}
 
 	public void setListItemAtIndex(int index, Object item) {
 		if (this instanceof UserList) {
 			((UserList) this).getValue().set(index, item);
-		} else if (isList()) {
-			((List<Object>) userVariableEntry.getValue()).set(index, item);
+		} else {
+			userVariableEntry.setListItemAtIndex(index, item);
 		}
 	}
+
+	public static Comparator<UserVariable> userVariableNameComparator =
+			(userVariable1, userVariable2) -> userVariable1.name.compareTo(userVariable2.name);
 }

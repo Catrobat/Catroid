@@ -117,16 +117,8 @@ public class FormulaEditorVariableScopeTest {
 		onRecyclerView().atPosition(3).onChildView(R.id.headline)
 				.check(matches(withText(R.string.global_vars_headline)));
 
-		onRecyclerView().atPosition(4).onChildView(R.id.headline)
-				.check(matches(withText(R.string.local_vars_headline)));
-
-		onRecyclerView().perform(scrollToPosition(6));
 		onRecyclerView().atPosition(6).onChildView(R.id.headline)
-				.check(matches(withText(R.string.global_lists_headline)));
-
-		onRecyclerView().perform(scrollToPosition(8));
-		onRecyclerView().atPosition(8).onChildView(R.id.headline)
-				.check(matches(withText(R.string.local_lists_headline)));
+				.check(matches(withText(R.string.local_vars_headline)));
 	}
 
 	@Test

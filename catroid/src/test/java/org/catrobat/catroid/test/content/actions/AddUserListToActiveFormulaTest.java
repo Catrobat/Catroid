@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.content.actions;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.fragment.CategoryListFragment;
@@ -94,7 +95,7 @@ public class AddUserListToActiveFormulaTest {
 
 	@Test
 	public void testNoSpriteAndProjectUserLists() {
-		List<UserList> emptyList = new ArrayList<>();
+		List<UserVariable> emptyList = new ArrayList<>();
 		categoryListFragment.insertLastUserListToActiveFormula(categoryListItemMock,
 				emptyList, emptyList, activityMock, builderMock);
 

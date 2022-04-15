@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
+import android.os.Build;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
@@ -43,7 +45,6 @@ import org.catrobat.catroid.sensing.ColorCollisionDetection;
 import org.catrobat.catroid.sensing.ColorEqualsColor;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
-import org.catrobat.catroid.ui.recyclerview.viewholder.VariableViewHolder;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
@@ -51,7 +52,6 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.LinkedList;
@@ -62,6 +62,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import static org.catrobat.catroid.formulaeditor.Functions.IF_THEN_ELSE;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.BRACKET_CLOSE;
@@ -547,17 +548,10 @@ public class FormulaElement implements Serializable {
 			return FALSE;
 		}
 
-		if (userList instanceof UserList) {
-			for (Object userListElement : ((UserList) userList).getValue()) {
-				if (interpretOperatorEqual(userListElement, right)) {
-					return TRUE;
-				}
-			}
-		} else if (userList.isList()) {
-			for (Object userListElement : (ArrayList<Object>) userList.getValue()) {
-				if (interpretOperatorEqual(userListElement, right)) {
-					return TRUE;
-				}
+		ArrayList<Object> value = (ArrayList<Object>) userList.getValue();
+		for (Object listElement : value) {
+			if (interpretOperatorEqual(listElement, right)) {
+				return TRUE;
 			}
 		}
 
@@ -568,6 +562,9 @@ public class FormulaElement implements Serializable {
 		if (rightChild.getElementType() == ElementType.USER_LIST) {
 			UserVariable userList = UserDataWrapper.getUserList(rightChild.value, scope);
 			return (double) (userList.getIndexOfListItem(left) + 1);
+		} else if (rightChild.getElementType() == ElementType.USER_VARIABLE) {
+			UserVariable userVariable = UserDataWrapper.getUserVariable(rightChild.value, scope);
+			return (double) (userVariable.getIndexOfListItem(left) + 1);
 		}
 
 		return FALSE;
@@ -593,10 +590,13 @@ public class FormulaElement implements Serializable {
 
 	@Nullable
 	private UserVariable getUserListOfChild(FormulaElement child, Scope scope) {
-		if (child.getElementType() != ElementType.USER_LIST) {
-			return null;
+		if (child.getElementType() == ElementType.USER_LIST) {
+			return UserDataWrapper.getUserList(child.value, scope);
 		}
-		return UserDataWrapper.getUserList(child.value, scope);
+		if (child.getElementType() == ElementType.USER_VARIABLE) {
+			return UserDataWrapper.getUserVariable(child.value, scope);
+		}
+		return null;
 	}
 
 	private static String interpretFunctionJoin(Scope scope, FormulaElement leftChild,
@@ -691,6 +691,8 @@ public class FormulaElement implements Serializable {
 		Object userVariableValue = userVariable.getValue();
 		if (userVariableValue instanceof String) {
 			return String.valueOf(userVariableValue).length();
+		} else if (userVariable.isList()) {
+			return userVariable.getListSize();
 		} else {
 			if (isInteger((Double) userVariableValue)) {
 				return Integer.toString(((Double) userVariableValue).intValue()).length();

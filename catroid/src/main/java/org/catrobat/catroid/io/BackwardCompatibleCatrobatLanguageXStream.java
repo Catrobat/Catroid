@@ -214,6 +214,9 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 
 	public BackwardCompatibleCatrobatLanguageXStream(PureJavaReflectionProvider reflectionProvider) {
 		super(reflectionProvider);
+		// TODO: may fail without them
+		/*super.addImmutableType(UserList.class, true);
+		super.addImmutableType(UserVariable.class, true);*/
 	}
 
 	public Object getProjectFromXML(File file) {

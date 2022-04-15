@@ -78,8 +78,8 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 			List<UserVariable> multiplayerVars,
 			List<UserVariable> globalVars,
 			List<UserVariable> localVars,
-			List<UserList> globalLists,
-			List<UserList> localLists) {
+			List<UserVariable> globalLists,
+			List<UserVariable> localLists) {
 
 		userDefinedBrickInputAdapter = new UserDefinedBrickInputRVAdapter(userDefinedBrickInputs);
 		userDefinedBrickInputAdapter.setSelectionListener(this);
@@ -130,6 +130,9 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 			@Override
 			public void onBindViewHolder(CheckableViewHolder holder, int position) {
 				super.onBindViewHolder(holder, position);
+				if (position == 0 && globalVars.size() == 0) {
+					((TextView) holder.itemView.findViewById(R.id.headline)).setText(R.string.global_vars_headline);
+				}
 			}
 
 			@Override
@@ -169,6 +172,9 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 			@Override
 			public void onBindViewHolder(CheckableViewHolder holder, int position) {
 				super.onBindViewHolder(holder, position);
+				if (position == 0 && localVars.size() == 0) {
+					((TextView) holder.itemView.findViewById(R.id.headline)).setText(R.string.local_vars_headline);
+				}
 			}
 
 			@Override
@@ -334,8 +340,15 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 			case VAR_LOCAL:
 				return position == 0 ? R.layout.view_holder_variable_with_headline : R.layout.view_holder_variable;
 			case LIST_GLOBAL:
+				return ProjectManager.getInstance().getCurrentProject().getUserVariables().size() == 0
+						&& position == 0
+						? R.layout.view_holder_list_with_headline
+						: R.layout.view_holder_list;
 			case LIST_LOCAL:
-				return R.layout.view_holder_list;
+				return ProjectManager.getInstance().getCurrentSprite().getUserVariables().size() == 0
+						&& position == 0
+						? R.layout.view_holder_list_with_headline
+						: R.layout.view_holder_list;
 		}
 		throw new ArrayIndexOutOfBoundsException("position is not within any of the adapters");
 	}
@@ -453,8 +466,8 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 		return items;
 	}
 
-	public List<UserList> getLists() {
-		List<UserList> items = new ArrayList<>();
+	public List<UserVariable> getLists() {
+		List<UserVariable> items = new ArrayList<>();
 		items.addAll(globalListAdapter.getItems());
 		items.addAll(localListAdapter.getItems());
 		return items;

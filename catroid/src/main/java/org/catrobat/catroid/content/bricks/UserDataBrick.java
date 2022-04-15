@@ -49,6 +49,7 @@ import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,11 +73,13 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 		return clone;
 	}
 
-	public UserList getUserListWithBrickData(BrickData brickData) {
+	public UserVariable getUserListWithBrickData(BrickData brickData) {
 		if (userDataList.containsKey(brickData)) {
 			UserData result = userDataList.get(brickData);
 			if (result instanceof UserList) {
 				return (UserList) result;
+			} else if (result instanceof UserVariable) {
+				return (UserVariable) result;
 			} else {
 				return null;
 			}
@@ -120,26 +123,28 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 		super.getView(context);
 
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		Project project = ProjectManager.getInstance().getCurrentProject();
 
-		List<Nameable> lists = new ArrayList<>();
-		lists.add(new NewOption(context.getString(R.string.new_option)));
-		lists.addAll(sprite.getUserLists());
-		lists.addAll(ProjectManager.getInstance().getCurrentProject().getUserLists());
+		List<UserVariable> allVariables = new ArrayList<>();
+		List<UserVariable> allLists = new ArrayList<>();
 
-		List<Nameable> variables = new ArrayList<>();
-		variables.add(new NewOption(context.getString(R.string.new_option)));
-		variables.addAll(sprite.getUserVariables());
-		variables.addAll(ProjectManager.getInstance().getCurrentProject().getUserVariables());
+		allVariables.addAll(sprite.getUserVariables());
+		allVariables.addAll(project.getUserVariables());
+		allLists.addAll(sprite.getUserLists());
+		allLists.addAll(project.getUserLists());
+		Collections.sort(allVariables, UserVariable.userVariableNameComparator);
+		Collections.sort(allLists, UserVariable.userVariableNameComparator);
+
+		List<Nameable> items = new ArrayList<>();
+		items.add(new NewOption(context.getString(R.string.new_option)));
+		items.addAll(allVariables);
+		items.addAll(allLists);
 
 		for (Map.Entry<BrickData, UserData> entry : userDataList.entrySet()) {
 			Integer spinnerid = brickDataToTextViewIdMap.get(entry.getKey());
 			BrickSpinner<UserData> spinner;
 
-			if (Brick.BrickData.isUserList(entry.getKey())) {
-				spinner = new BrickSpinner<>(spinnerid, view, lists);
-			} else {
-				spinner = new BrickSpinner<>(spinnerid, view, variables);
-			}
+			spinner = new BrickSpinner<>(spinnerid, view, items);
 
 			spinner.setOnItemSelectedListener(this);
 			spinner.setSelection(entry.getValue());

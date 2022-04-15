@@ -59,7 +59,11 @@ public class ReadListFromDeviceAction extends AsynchronousAction {
 	}
 
 	public void setUserList(UserVariable userList) {
-		this.userList = (UserList) userList;
+		if (userList instanceof UserList) {
+			this.userList = (UserList) userList;
+		} else {
+			this.userList = userList;
+		}
 	}
 
 	private class ReadTask extends AsyncTask<UserList, Void, Void> {

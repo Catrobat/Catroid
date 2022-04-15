@@ -208,6 +208,7 @@ import org.catrobat.catroid.utils.MobileServiceAvailability;
 import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -1057,7 +1058,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createForItemInUserListAction(UserList userList,
+	public Action createForItemInUserListAction(UserVariable userList,
 			UserVariable userVariable, Action repeatedAction, boolean isLoopDelay) {
 		ForItemInUserListAction action = Actions.action(ForItemInUserListAction.class);
 		action.setAction(repeatedAction);
@@ -1417,11 +1418,15 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createAssertUserListsAction(Sprite sprite, SequenceAction sequence, UserList actual, UserList expected,
-			String position) {
+	public Action createAssertUserListsAction(Sprite sprite, SequenceAction sequence, UserVariable actual,
+			UserVariable expected, String position) {
 		AssertUserListAction action = action(AssertUserListAction.class);
-		action.setActualUserList(actual);
-		action.setExpectedUserList(expected);
+		if (actual != null) {
+			action.setActualUserList(actual);
+		}
+		if (expected != null) {
+			action.setExpectedUserList(expected);
+		}
 
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);

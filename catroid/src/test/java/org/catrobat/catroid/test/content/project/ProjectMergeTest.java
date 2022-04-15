@@ -97,14 +97,14 @@ public class ProjectMergeTest {
 
 	@Test
 	public void testProjectNoGlobalUserListConflicts() {
-		List<UserList> globalConflicts = ProjectManager.getInstance().getGlobalListConflicts(project1, project2);
+		List<UserVariable> globalConflicts = ProjectManager.getInstance().getGlobalListConflicts(project1, project2);
 		assertEquals(globalConflicts.size(), 0);
 	}
 
 	@Test
 	public void testProjectGlobalUserListConflicts() {
 		project2.getUserList("TestUserList").addListItem(1.0);
-		List<UserList> globalConflicts = ProjectManager.getInstance().getGlobalListConflicts(project1, project2);
+		List<UserVariable> globalConflicts = ProjectManager.getInstance().getGlobalListConflicts(project1, project2);
 		assertEquals(globalConflicts.size(), 1);
 	}
 }

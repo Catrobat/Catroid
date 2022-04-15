@@ -72,8 +72,8 @@ public class AddUserListDialog {
 		builder.show();
 	}
 
-	public void addUserList(DialogInterface dialog, UserList userList,
-			List<UserList> projectUserList, List<UserList> spriteUserList) {
+	public void addUserList(DialogInterface dialog, UserVariable userList,
+			List<UserVariable> projectUserList, List<UserVariable> spriteUserList) {
 		RadioButton addToProjectListsRadioButton = ((Dialog) dialog).findViewById(R.id.global);
 		boolean addToProjectLists = addToProjectListsRadioButton.isChecked();
 		if (addToProjectLists) {

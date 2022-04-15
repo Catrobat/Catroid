@@ -183,9 +183,9 @@ public class ScriptFragment extends ListFragment implements
 
 	private List<UserVariable> savedUserVariables;
 	private List<UserVariable> savedMultiplayerVariables;
-	private List<UserList> savedUserLists;
+	private List<UserVariable> savedUserLists;
 	private transient List<UserVariable> savedLocalUserVariables;
-	private transient List<UserList> savedLocalLists;
+	private transient List<UserVariable> savedLocalLists;
 
 	@Override
 	public boolean onCreateActionMode(ActionMode mode, Menu menu) {

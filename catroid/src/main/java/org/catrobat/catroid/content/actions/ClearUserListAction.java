@@ -37,8 +37,11 @@ public class ClearUserListAction extends TemporalAction {
 		if (userList == null) {
 			return;
 		}
-
-		userList.reset();
+		if (userList instanceof UserList) {
+			userList.reset();
+		} else {
+			userList.setToEmptyList();
+		}
 	}
 
 	public void setUserList(UserVariable userList) {

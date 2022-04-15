@@ -30,6 +30,7 @@ import android.view.View;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
@@ -43,6 +44,8 @@ import org.catrobat.catroid.utils.AddUserListDialog;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
@@ -72,18 +75,29 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 	@IdRes
 	protected abstract int getSpinnerId();
 
+	@Inject
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
 
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		Project project = ProjectManager.getInstance().getCurrentProject();
+
+		List<UserVariable> allVariables = new ArrayList<>();
+		List<UserVariable> allLists = new ArrayList<>();
+
+		allVariables.addAll(sprite.getUserVariables());
+		allVariables.addAll(project.getUserVariables());
+		allVariables.addAll(project.getMultiplayerVariables());
+		allLists.addAll(sprite.getUserLists());
+		allLists.addAll(project.getUserLists());
+		Collections.sort(allVariables, UserVariable.userVariableNameComparator);
+		Collections.sort(allLists, UserVariable.userVariableNameComparator);
 
 		List<Nameable> items = new ArrayList<>();
 		items.add(new NewOption(context.getString(R.string.new_option)));
-		items.addAll(sprite.getUserVariables());
-		items.addAll(ProjectManager.getInstance().getCurrentProject().getUserVariables());
-		items.addAll(sprite.getUserLists());
-		items.addAll(ProjectManager.getInstance().getCurrentProject().getUserLists());
+		items.addAll(allVariables);
+		items.addAll(allLists);
 
 		spinner = new BrickSpinner<>(getSpinnerId(), view, items);
 		spinner.setOnItemSelectedListener(this);
@@ -99,9 +113,9 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 			return;
 		}
 
-		final List<UserList> projectUserList =
+		final List<UserVariable> projectUserList =
 				ProjectManager.getInstance().getCurrentProject().getUserLists();
-		final List<UserList> spriteUserList =
+		final List<UserVariable> spriteUserList =
 				ProjectManager.getInstance().getCurrentSprite().getUserLists();
 
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(activity);

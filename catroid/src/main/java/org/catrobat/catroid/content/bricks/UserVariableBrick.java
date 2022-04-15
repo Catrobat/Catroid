@@ -38,6 +38,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.UiUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.IdRes;
@@ -75,12 +76,17 @@ public abstract class UserVariableBrick extends BrickBaseType implements UserVar
 		super.getView(context);
 
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		Project project = ProjectManager.getInstance().getCurrentProject();
+
+		List<UserVariable> allVariables = new ArrayList<>();
+		allVariables.addAll(sprite.getUserVariables());
+		allVariables.addAll(project.getUserVariables());
+		allVariables.addAll(project.getMultiplayerVariables());
+		Collections.sort(allVariables, UserVariable.userVariableNameComparator);
 
 		List<Nameable> items = new ArrayList<>();
 		items.add(new NewOption(context.getString(R.string.new_option)));
-		items.addAll(sprite.getUserVariables());
-		items.addAll(ProjectManager.getInstance().getCurrentProject().getUserVariables());
-		items.addAll(ProjectManager.getInstance().getCurrentProject().getMultiplayerVariables());
+		items.addAll(allVariables);
 
 		spinner = new BrickSpinner<>(getSpinnerId(), view, items);
 		spinner.setOnItemSelectedListener(this);

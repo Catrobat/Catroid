@@ -157,8 +157,9 @@ public class InternFormulaParser {
 
 		try {
 			formulaParseTree = formula(scope);
-		} catch (InternFormulaParserException parseExeption) {
+		} catch (InternFormulaParserException parseException) {
 			errorTokenIndex = currentTokenParseIndex;
+			parseException.printStackTrace();
 		}
 		removeEndOfFileToken();
 		return formulaParseTree;

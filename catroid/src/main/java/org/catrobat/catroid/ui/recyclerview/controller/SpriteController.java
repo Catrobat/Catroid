@@ -77,8 +77,8 @@ public class SpriteController {
 		for (UserVariable userVariable : spriteToCopy.getUserVariables()) {
 			sprite.getUserVariables().add(new UserVariable(userVariable));
 		}
-		for (UserList userList : spriteToCopy.getUserLists()) {
-			sprite.getUserLists().add(new UserList(userList));
+		for (UserVariable userList : spriteToCopy.getUserLists()) {
+			sprite.getUserLists().add(new UserVariable(userList));
 		}
 
 		for (Brick userDefinedBrick : spriteToCopy.getUserDefinedBrickList()) {
@@ -124,10 +124,10 @@ public class SpriteController {
 			sprite.getUserVariables().add(copyVariable);
 		}
 
-		for (UserList originalList : spriteToCopy.getUserLists()) {
-			UserList copyList = new UserList(originalList);
+		for (UserVariable originalList : spriteToCopy.getUserLists()) {
+			UserVariable copyList = new UserVariable(originalList);
 			copyList.setDeviceValueKey(originalList.getDeviceKey());
-			sprite.getUserLists().add(new UserList(originalList));
+			sprite.getUserLists().add(new UserVariable(originalList));
 		}
 
 		for (Brick userDefinedBrick : spriteToCopy.getUserDefinedBrickList()) {

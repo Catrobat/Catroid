@@ -95,7 +95,7 @@ public class ParserTestUserLists {
 		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME,
 				userListValuesMultipleNumbersStringInteger)));
 
-		assertEquals("1234",
+		assertEquals(userListValuesMultipleNumbersStringInteger,
 				interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
@@ -116,7 +116,7 @@ public class ParserTestUserLists {
 		userListValuesMultipleNumberString.add("3");
 
 		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesMultipleNumberString)));
-		assertEquals("123", interpretUserList(PROJECT_USER_LIST_NAME));
+		assertEquals(userListValuesMultipleNumberString, interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
 	@Test
@@ -127,7 +127,7 @@ public class ParserTestUserLists {
 		userListValuesMultipleNumbers.add(3.0);
 
 		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesMultipleNumbers)));
-		assertEquals("123", interpretUserList(PROJECT_USER_LIST_NAME));
+		assertEquals(userListValuesMultipleNumbers, interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
 	@Test
@@ -138,7 +138,7 @@ public class ParserTestUserLists {
 		userListValuesStringsAndNumbers.add("WORLDS");
 
 		assertTrue(project.addUserList(new UserList(PROJECT_USER_LIST_NAME, userListValuesStringsAndNumbers)));
-		assertEquals("Hello 42 WORLDS", interpretUserList(PROJECT_USER_LIST_NAME));
+		assertEquals(userListValuesStringsAndNumbers, interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
 	@Test
@@ -245,7 +245,7 @@ public class ParserTestUserLists {
 
 		UserDataWrapper.getUserList(PROJECT_USER_LIST_NAME, scope).setValue(userListValuesStrings);
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_LIST,
-				PROJECT_USER_LIST_NAME, (double) 15, scope);
+				PROJECT_USER_LIST_NAME, (double) 19, scope);
 
 		ArrayList<Object> userList = new ArrayList<>();
 		userList.add("0");
@@ -255,6 +255,7 @@ public class ParserTestUserLists {
 
 		userList.clear();
 		userList.add("0.0");
+		UserDataWrapper.getUserList(PROJECT_USER_LIST_NAME, scope).setValue(userList);
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_LIST,
 				PROJECT_USER_LIST_NAME, (double) 3, scope);
 
@@ -279,7 +280,7 @@ public class ParserTestUserLists {
 
 		UserDataWrapper.getUserList(PROJECT_USER_LIST_NAME, scope).setValue(userListValuesStrings);
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_LIST,
-				PROJECT_USER_LIST_NAME, (double) 15, scope);
+				PROJECT_USER_LIST_NAME, (double) 19, scope);
 	}
 
 	@Test

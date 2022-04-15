@@ -31,6 +31,7 @@ import android.widget.ImageButton;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.adapter.UserListValuesAdapter;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ListViewHolder;
@@ -42,9 +43,9 @@ import java.util.List;
 
 import static org.catrobat.catroid.utils.ShowTextUtils.convertObjectToString;
 
-public class ListRVAdapter extends RVAdapter<UserList> {
+public class ListRVAdapter extends RVAdapter<UserVariable> {
 
-	ListRVAdapter(List<UserList> items) {
+	ListRVAdapter(List<UserVariable> items) {
 		super(items);
 	}
 
@@ -58,7 +59,7 @@ public class ListRVAdapter extends RVAdapter<UserList> {
 	public void onBindViewHolder(CheckableViewHolder holder, int position) {
 		super.onBindViewHolder(holder, position);
 
-		UserList item = getItems().get(position);
+		UserVariable item = getItems().get(position);
 		ListViewHolder listViewHolder = (ListViewHolder) holder;
 		listViewHolder.title.setText(item.getName());
 

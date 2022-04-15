@@ -39,6 +39,9 @@ public final class UserDataWrapper {
 		UserVariable userVariable = null;
 		if (scope.getSprite() != null) {
 			userVariable = scope.getSprite().getUserVariable(name);
+			if (userVariable == null) {
+				userVariable = scope.getSprite().getUserList(name);
+			}
 		}
 		if (scope.getProject() != null && userVariable == null) {
 			userVariable = scope.getProject().getUserVariable(name);

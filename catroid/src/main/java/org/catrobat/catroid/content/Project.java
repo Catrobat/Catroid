@@ -25,6 +25,7 @@ package org.catrobat.catroid.content;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -77,7 +78,7 @@ public class Project implements Serializable {
 	@XStreamAlias("programMultiplayerVariableList")
 	private List<UserVariable> multiplayerVariables = new ArrayList<>();
 	@XStreamAlias("programListOfLists")
-	private List<UserList> userLists = new ArrayList<>();
+	private List<UserVariable> userLists = new ArrayList<>();
 	@XStreamAlias("scenes")
 	private List<Scene> sceneList = new ArrayList<>();
 
@@ -269,28 +270,32 @@ public class Project implements Serializable {
 		return false;
 	}
 
-	public List<UserList> getUserLists() {
+	public List<UserVariable> getUserLists() {
 		if (userLists == null) {
 			userLists = new ArrayList<>();
 		}
 		return userLists;
 	}
 
-	public List<UserList> getUserListsCopy() {
+	public List<UserVariable> getUserListsCopy() {
 		if (userLists == null) {
 			userLists = new ArrayList<>();
 		}
 
-		List<UserList> userListsCopy = new ArrayList<>();
-		for (UserList userList : userLists) {
-			userListsCopy.add(new UserList(userList.getName(), userList.getValue()));
+		List<UserVariable> userListsCopy = new ArrayList<>();
+		try {
+			for (UserVariable userList : userLists) {
+				userListsCopy.add(new UserList(userList.getName(), (List<Object>) userList.getValue()));
+			}
+		} catch (Exception e) {
+			Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
 		}
 
 		return userListsCopy;
 	}
 
 	public UserVariable getUserList(String name) {
-		for (UserList list : userLists) {
+		for (UserVariable list : userLists) {
 			if (list.getName().equals(name)) {
 				return list;
 			}
@@ -308,7 +313,7 @@ public class Project implements Serializable {
 	}
 
 	public boolean removeUserList(String name) {
-		for (UserList list : userLists) {
+		for (UserVariable list : userLists) {
 			if (list.getName().equals(name)) {
 				return userLists.remove(list);
 			}
@@ -357,7 +362,7 @@ public class Project implements Serializable {
 		for (UserVariable userVariable : userVariables) {
 			userVariable.reset();
 		}
-		for (UserList userList : userLists) {
+		for (UserVariable userList : userLists) {
 			userList.reset();
 		}
 		for (UserVariable multiplayerVariable : multiplayerVariables) {

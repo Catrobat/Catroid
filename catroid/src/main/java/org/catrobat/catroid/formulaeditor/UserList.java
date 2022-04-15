@@ -96,6 +96,10 @@ public class UserList extends UserVariable implements Serializable {
 		}
 	}
 
+	public void addListItem(Object item) {
+		list.add(item);
+	}
+
 	public int getIndexOf(Object listItem) {
 		return this.list.indexOf(listItem);
 	}

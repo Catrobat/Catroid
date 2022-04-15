@@ -332,12 +332,12 @@ public final class ProjectManager {
 		return conflicts;
 	}
 
-	public List<UserList> getGlobalListConflicts(Project project1, Project project2) {
-		List<UserList> project1GlobalLists = project1.getUserLists();
-		List<UserList> project2GlobalLists = project2.getUserLists();
-		List<UserList> conflicts = new ArrayList<>();
-		for (UserList project1GlobalList : project1GlobalLists) {
-			for (UserList project2GlobalList : project2GlobalLists) {
+	public List<UserVariable> getGlobalListConflicts(Project project1, Project project2) {
+		List<UserVariable> project1GlobalLists = project1.getUserLists();
+		List<UserVariable> project2GlobalLists = project2.getUserLists();
+		List<UserVariable> conflicts = new ArrayList<>();
+		for (UserVariable project1GlobalList : project1GlobalLists) {
+			for (UserVariable project2GlobalList : project2GlobalLists) {
 				if (project1GlobalList.getName().equals(project2GlobalList.getName()) && !project1GlobalList.getValue()
 						.equals(project2GlobalList.getValue())) {
 					conflicts.add(project1GlobalList);

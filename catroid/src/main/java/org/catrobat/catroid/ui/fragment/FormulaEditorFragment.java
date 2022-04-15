@@ -622,8 +622,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		return false;
 	}
 
-	private boolean stringContainsUserList(String string, List<UserList> userList) {
-		for (UserList list : userList) {
+	private boolean stringContainsUserList(String string, List<UserVariable> userList) {
+		for (UserVariable list : userList) {
 			if (string.contains(list.getName())) {
 				return true;
 			}

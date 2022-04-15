@@ -23,10 +23,12 @@
 package org.catrobat.catroid.content.actions
 
 import org.catrobat.catroid.formulaeditor.UserList
+import org.catrobat.catroid.formulaeditor.UserVariable
+import kotlin.math.exp
 
 class AssertUserListAction : AssertAction() {
-    var actualUserList: UserList? = null
-    var expectedUserList: UserList? = null
+    var actualUserList: Any? = null
+    var expectedUserList: Any? = null
     var message: String = ""
 
     override fun act(delta: Float): Boolean {
@@ -53,14 +55,37 @@ class AssertUserListAction : AssertAction() {
     }
 
     private fun validateLists() {
-        val actualList = actualUserList!!.value
-        val expectedList = expectedUserList!!.value
-        if (actualList.size != expectedList.size) {
-            message = "The number of list elements are not equal\n" +
-                "expected: ${expectedList.size} element/s\n" +
-                "actual:   ${actualList.size} element/s\n"
+        var actual: UserVariable? = null
+        var expected: UserVariable? = null
+
+        if (actualUserList is UserList) {
+            actual = actualUserList as UserList
+        } else if (actualUserList is UserVariable && (actualUserList as UserVariable).isList) {
+            actual = actualUserList as UserVariable
         }
-        for (listPosition in 0..minOf(expectedList.size - 1, actualList.size - 1)) {
+        if (expectedUserList is UserList) {
+            expected = expectedUserList as UserList
+        } else if (expectedUserList is UserVariable && (expectedUserList as UserVariable).isList) {
+            expected = expectedUserList as UserVariable
+        }
+
+        if (actual == null || expected == null) {
+            message = "The type of the variables is wrong\n" +
+                "expected: ${expectedUserList}\n" +
+                "actual: ${actualUserList}\n"
+            return
+        }
+
+        if (actual.listSize != expected.listSize) {
+            message = "The number of list elements are not equal\n" +
+                "expected: ${expected.listSize} element/s\n" +
+                "actual:   ${actual.listSize} element/s\n"
+        }
+
+        val actualList: ArrayList<Any> = actual.value as ArrayList<Any>
+        val expectedList: ArrayList<Any> = expected.value as ArrayList<Any>
+
+        for (listPosition in 0..minOf(expected.listSize - 1, actual.listSize - 1)) {
             if (!equalValues(
                     actualList[listPosition].toString(),
                     expectedList[listPosition].toString()

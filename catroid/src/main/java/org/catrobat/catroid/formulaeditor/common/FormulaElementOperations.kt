@@ -246,8 +246,8 @@ object FormulaElementOperations {
     fun interpretUserDefinedBrickInput(userDefinedBrickInput: UserData<Any>?): Any {
         return userDefinedBrickInput?.let {
             when {
-                it is UserVariable -> interpretUserVariable(it)
                 it is UserList -> interpretUserList(it)
+                it is UserVariable -> interpretUserVariable(it)
                 else -> 0
             }
         } ?: Conversions.FALSE

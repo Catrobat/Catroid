@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -348,8 +348,8 @@ class DataListFragment : Fragment(),
         globalVars: MutableList<UserVariable>,
         localVars: MutableList<UserVariable>,
         multiplayerVars: MutableList<UserVariable>,
-        globalLists: MutableList<UserList>,
-        localLists: MutableList<UserList>
+        globalLists: MutableList<UserVariable>,
+        localLists: MutableList<UserVariable>
     ) {
         sortData = PreferenceManager.getDefaultSharedPreferences(context)
             .getBoolean(SORT_VARIABLE_PREFERENCE_KEY, false)
@@ -369,8 +369,8 @@ class DataListFragment : Fragment(),
         sortUserVariable(multiplayerVars, sortData)
         sortUserVariable(globalVars, sortData)
         sortUserVariable(localVars, sortData)
-        sortUserList(globalLists, sortData)
-        sortUserList(localLists, sortData)
+        sortUserVariable(globalLists, sortData)
+        sortUserVariable(localLists, sortData)
     }
 
     fun sortUserVariable(data: MutableList<UserVariable>, sorted: Boolean) {
@@ -385,26 +385,14 @@ class DataListFragment : Fragment(),
         }
     }
 
-    fun sortUserList(data: MutableList<UserList>, sorted: Boolean) {
-        if (sorted) {
-            data.sortWith(Comparator { item1: UserList, item2: UserList ->
-                item1.name.compareTo(item2.name)
-            })
-        } else {
-            data.sortWith(Comparator { item1: UserList, item2: UserList ->
-                item1.initialIndex.compareTo(item2.initialIndex)
-            })
-        }
-    }
-
     @Suppress("LongParameterList")
     private fun initialIndexing(
         userDefinedBrickInputs: List<UserDefinedBrickInput>,
         globalVars: MutableList<UserVariable>,
         localVars: MutableList<UserVariable>,
         multiplayerVars: MutableList<UserVariable>,
-        globalLists: MutableList<UserList>,
-        localLists: MutableList<UserList>
+        globalLists: MutableList<UserVariable>,
+        localLists: MutableList<UserVariable>
     ) {
         if (userDefinedBrickInputs.isNotEmpty()) {
             for ((counter, userDefinedBrickInput) in userDefinedBrickInputs.withIndex()) {
@@ -430,7 +418,7 @@ class DataListFragment : Fragment(),
         }
     }
 
-    private fun setUserListIndex(data: MutableList<UserList>) {
+    private fun setUserListIndex(data: MutableList<UserVariable>) {
         if (data.size > 0) {
             for ((counter, localList) in data.withIndex()) {
                 if (localList.initialIndex == -1) {
@@ -597,10 +585,10 @@ class DataListFragment : Fragment(),
         renameUserData(item, name ?: "")
         indexAndSort()
         finishActionMode()
-        if (item is UserVariable) {
-            formulaEditorDataInterface?.onVariableRenamed(previousName, name)
-        } else {
+        if (item is UserList) {
             formulaEditorDataInterface?.onListRenamed(previousName, name)
+        } else {
+            formulaEditorDataInterface?.onVariableRenamed(previousName, name)
         }
     }
 
@@ -687,7 +675,7 @@ class DataListFragment : Fragment(),
             R.id.copy, R.id.show_details, R.id.from_library, R.id.from_local, R.id.new_group,
             R.id.new_scene, R.id.cast_button, R.id.backpack, R.id.project_options
         )
-        if (item is UserVariable) {
+        if (item is UserVariable && !(item is UserList) {
             val popupMenu = UiUtils.createSettingsPopUpMenu(
                 view, requireContext(),
                 R.menu.menu_project_activity,
