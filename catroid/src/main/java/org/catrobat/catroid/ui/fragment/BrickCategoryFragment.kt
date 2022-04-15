@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.ui.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -37,11 +36,8 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.ui.BottomBar.hideBottomBar
 import org.catrobat.catroid.ui.BottomBar.showBottomBar
 import org.catrobat.catroid.ui.BottomBar.showPlayButton
-import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.ViewSwitchLock
 import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter
-import org.catrobat.catroid.ui.addTabLayout
-import org.catrobat.catroid.ui.removeTabLayout
 import org.catrobat.catroid.utils.SnackbarUtil
 import java.util.concurrent.locks.Lock
 
@@ -137,16 +133,6 @@ class BrickCategoryFragment : ListFragment() {
 
         adapter = BrickCategoryAdapter(categories)
         listAdapter = adapter
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        activity.removeTabLayout()
-    }
-
-    override fun onDetach() {
-        activity.addTabLayout(SpriteActivity.FRAGMENT_SCRIPTS)
-        super.onDetach()
     }
 
     interface OnCategorySelectedListener {

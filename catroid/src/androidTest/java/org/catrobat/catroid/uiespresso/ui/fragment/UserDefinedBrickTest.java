@@ -27,6 +27,7 @@ import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.TabLayoutContainerFragment;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickCategoryListMatchers;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickPrototypeListMatchers;
@@ -161,8 +162,11 @@ public class UserDefinedBrickTest {
 
 		onView(withId(R.id.fragment_script)).perform(waitFor(isDisplayed(), waitThreshold));
 
-		ScriptFragment scriptFragment = ((ScriptFragment) baseActivityTestRule.getActivity()
-				.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG));
+		TabLayoutContainerFragment tabLayoutContainerFragment =
+				(TabLayoutContainerFragment) baseActivityTestRule.getActivity()
+						.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+		ScriptFragment scriptFragment =
+				(ScriptFragment) tabLayoutContainerFragment.getSelectedTabFragment();
 		assertTrue(scriptFragment.isCurrentlyMoving());
 		onView(withId(R.id.fragment_script)).perform(click());
 

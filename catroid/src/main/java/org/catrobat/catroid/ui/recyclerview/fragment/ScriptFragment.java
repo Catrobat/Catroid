@@ -320,13 +320,11 @@ public class ScriptFragment extends ListFragment implements
 				activity.setCurrentSceneAndSprite(ProjectManager.getInstance().getCurrentlyEditedScene(),
 						ProjectManager.getInstance().getCurrentSprite());
 				activity.getSupportActionBar().setTitle(activity.createActionBarTitle());
-				activity.addTabs();
 			}
 			activity.findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
 		});
 
 		scriptFinder.setOnOpenListener(() -> {
-			activity.removeTabs();
 			activity.findViewById(R.id.toolbar).setVisibility(View.GONE);
 		});
 

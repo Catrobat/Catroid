@@ -39,6 +39,7 @@ import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.TabLayoutContainerFragment;
 
 import java.util.List;
 
@@ -196,8 +197,8 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 		}
 
 		Fragment currentFragment = activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-		if (currentFragment instanceof ScriptFragment) {
-			return (ScriptFragment) currentFragment;
+		if (currentFragment instanceof TabLayoutContainerFragment) {
+			return (ScriptFragment) ((TabLayoutContainerFragment) currentFragment).getSelectedTabFragment();
 		}
 		return null;
 	}

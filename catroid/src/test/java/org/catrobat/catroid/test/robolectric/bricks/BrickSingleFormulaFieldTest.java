@@ -121,6 +121,7 @@ import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.TabLayoutContainerFragment;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -303,7 +304,7 @@ public class BrickSingleFormulaFieldTest {
 		createProject(activity);
 		activityController.create().resume();
 
-		assertCurrentFragmentEquals(ScriptFragment.class);
+		assertCurrentFragmentEqualsScriptFragment();
 	}
 
 	@After
@@ -315,11 +316,13 @@ public class BrickSingleFormulaFieldTest {
 	public void openFormulaEditorTest() {
 		clickOnBricksFormulaTextView();
 
-		assertCurrentFragmentEquals(FormulaEditorFragment.class);
+		Fragment fragment = activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+		assertNotNull(fragment);
+		assertThat(fragment, is(instanceOf(FormulaEditorFragment.class)));
 
 		enterSomeValueAndSave();
 
-		assertCurrentFragmentEquals(ScriptFragment.class);
+		assertCurrentFragmentEqualsScriptFragment();
 
 		assertBricksFormulaTextView();
 	}
@@ -357,10 +360,12 @@ public class BrickSingleFormulaFieldTest {
 		shadowOf(Looper.getMainLooper()).idle();
 	}
 
-	private void assertCurrentFragmentEquals(Class fragmentClazz) {
-		Fragment fragment = activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-		assertNotNull(fragment);
-		assertThat(fragment, is(instanceOf(fragmentClazz)));
+	private void assertCurrentFragmentEqualsScriptFragment() {
+		TabLayoutContainerFragment tabLayoutContainerFragment =
+				(TabLayoutContainerFragment) activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+		Fragment selectedFragment = tabLayoutContainerFragment.getSelectedTabFragment();
+		assertNotNull(selectedFragment);
+		assertThat(selectedFragment, is(instanceOf(ScriptFragment.class)));
 	}
 
 	private void createProject(Activity activity) {
