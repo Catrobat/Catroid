@@ -29,7 +29,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -71,6 +70,7 @@ import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.TabLayoutContainerFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.SnackbarUtil;
@@ -82,7 +82,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
@@ -99,11 +98,6 @@ import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_SOUNDS_URL;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.INDEXING_VARIABLE_PREFERENCE_KEY;
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
-import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.addTabLayout;
-import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.getTabPositionInSpriteActivity;
-import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.isFragmentWithTablayout;
-import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.loadFragment;
-import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.removeTabLayout;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.CHANGED_COORDINATES;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
@@ -184,14 +178,7 @@ public class SpriteActivity extends BaseActivity {
 			RecentBrickListManager.getInstance().loadRecentBricks();
 		}
 
-		int fragmentPosition = FRAGMENT_SCRIPTS;
-
-		Bundle bundle = getIntent().getExtras();
-		if (bundle != null) {
-			fragmentPosition = bundle.getInt(EXTRA_FRAGMENT_POSITION, FRAGMENT_SCRIPTS);
-		}
-		loadFragment(this, fragmentPosition);
-		addTabLayout(this, fragmentPosition);
+		loadFragment();
 	}
 
 	public String createActionBarTitle() {
@@ -203,7 +190,19 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	Fragment getCurrentFragment() {
-		return getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+		return ((TabLayoutContainerFragment) getSupportFragmentManager()
+				.findFragmentById(R.id.fragment_container))
+				.getSelectedTabFragment();
+	}
+
+	private void loadFragment() {
+		getSupportFragmentManager()
+				.beginTransaction()
+				.replace(
+						R.id.fragment_container,
+						new TabLayoutContainerFragment(),
+						TabLayoutContainerFragment.TAG)
+				.commit();
 	}
 
 	@Override
@@ -951,25 +950,6 @@ public class SpriteActivity extends BaseActivity {
 		StageActivity.handlePlayButton(projectManager, this);
 	}
 
-	@Nullable
-	@Override
-	public ActionMode startActionMode(ActionMode.Callback callback) {
-		Fragment fragment = getCurrentFragment();
-		if (isFragmentWithTablayout(fragment)) {
-			removeTabLayout(this);
-		}
-		return super.startActionMode(callback);
-	}
-
-	@Override
-	public void onActionModeFinished(ActionMode mode) {
-		Fragment fragment = getCurrentFragment();
-		if (isFragmentWithTablayout(fragment) && (!(fragment instanceof ScriptFragment) || !((ScriptFragment) fragment).isFinderOpen())) {
-			addTabLayout(this, getTabPositionInSpriteActivity(fragment));
-		}
-		super.onActionModeFinished(mode);
-	}
-
 	public void setCurrentSprite(Sprite sprite) {
 		currentSprite = sprite;
 	}
@@ -977,13 +957,5 @@ public class SpriteActivity extends BaseActivity {
 	public void setCurrentSceneAndSprite(Scene scene, Sprite sprite) {
 		this.currentScene = scene;
 		this.currentSprite = sprite;
-	}
-
-	public void removeTabs() {
-		removeTabLayout(this);
-	}
-
-	public void addTabs() {
-		addTabLayout(this, getTabPositionInSpriteActivity(getCurrentFragment()));
 	}
 }
