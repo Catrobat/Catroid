@@ -155,24 +155,6 @@ pipeline {
                             }
                         }
 
-                        stage('Standalone') {
-                            when {
-                                expression { params.STANDALONE == true }
-                            }
-                            steps {
-                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-
-                                    // Checks that the creation of standalone APKs (APK for a Pocket Code project) works, reducing the risk of breaking gradle changes.
-                                    // The resulting APK is not verified itself.
-                                    sh """./gradlew copyAndroidNatives assembleStandaloneDebug ${webTestUrlParameter()} -Papk_generator_enabled=true -Psuffix=generated817.catrobat \
-                                                -Pdownload='https://share.catrob.at/pocketcode/download/817.catrobat'"""
-
-                                    renameApks("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
-                                    archiveArtifacts '**/catroid-standalone*.apk'
-                                }
-                            }
-                        }
-
                         stage('Static Analysis') {
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
