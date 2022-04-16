@@ -74,6 +74,8 @@ public class Passepartout extends Actor {
 
 	@Override
 	public Actor hit(float x, float y, boolean touchable) {
+		x -= getStage().getViewport().getCamera().position.x;
+		y -= getStage().getViewport().getCamera().position.y;
 		if (x < -virtualScreenWidth / 2 || x > virtualScreenWidth / 2 || y < -virtualScreenHeight / 2
 				|| y > virtualScreenHeight / 2) {
 			return this;
