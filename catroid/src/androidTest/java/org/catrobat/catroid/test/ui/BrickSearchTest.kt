@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -84,7 +84,6 @@ class BrickSearchTest {
     }
 
     @Test
-    @Flaky
     fun testSearchBrickParams() {
         val arguments = arrayOf("When scene starts", "move", "BROADCAST")
         val bricks = arrayOf(
@@ -112,7 +111,6 @@ class BrickSearchTest {
     }
 
     @Test
-    @Flaky
     fun testSearchIfBrick() {
         ensureKeyboardIsClosed()
         Espresso.onView(withId(R.id.button_add)).perform(click())
@@ -143,7 +141,6 @@ class BrickSearchTest {
     }
 
     @Test
-    @Flaky
     fun testCloseKeyboardAfterSearching() {
         ensureKeyboardIsClosed()
         Espresso.onView(withId(R.id.button_add)).perform(click())
@@ -158,7 +155,6 @@ class BrickSearchTest {
     }
 
     @Test
-    @Flaky
     fun testCategorySearch() {
         ensureKeyboardIsClosed()
         Espresso.onView(withId(R.id.button_add)).perform(click())
@@ -228,8 +224,24 @@ class BrickSearchTest {
     fun hideKeyboard() {
         Espresso.onView(ViewMatchers.isRoot()).perform(ViewActions.closeSoftKeyboard())
     }
+    @Test
+    @Flaky
+    fun testProgressiveSearch() {
+        val arguments = arrayOf("W", "h", "e", "n")
+        val brick = WhenStartedBrick::class.java
+        Espresso.onView(withId(R.id.button_add)).perform(click())
+        Espresso.onView(withId(R.id.search)).perform(click())
+        for (index in arguments.indices) {
+            Espresso.onView(withId(R.id.search_src_text)).perform(ViewActions.typeText(arguments[index]))
+            Espresso.onView(ViewMatchers.isRoot()).perform(CustomActions.wait(2000))
+            Espresso.onData(Matchers.allOf(Matchers.`is`(Matchers.instanceOf(brick))))
+                .inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
+                .atPosition(0)
+                .check(matches(isDisplayed()))
+        }
+    }
 
-    fun isKeyboardVisible(): Boolean {
+    private fun isKeyboardVisible(): Boolean {
         return try {
             val manager = ApplicationProvider.getApplicationContext<Context>()
                 .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

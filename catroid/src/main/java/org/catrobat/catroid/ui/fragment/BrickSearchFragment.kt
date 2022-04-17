@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,6 +48,7 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.ui.hideKeyboard
 import java.util.Locale
+import android.widget.AbsListView
 
 class BrickSearchFragment : ListFragment() {
 
@@ -107,12 +108,39 @@ class BrickSearchFragment : ListFragment() {
             isIconified = false
             queryHint = context.getString(R.string.search_hint)
         }
+        listView.setOnScrollListener(object : AbsListView.OnScrollListener {
+            override fun onScrollStateChanged(
+                view: AbsListView,
+                scrollState: Int
+            ) {
+                    searchView.hideKeyboard()
+            }
+
+            @SuppressWarnings("EmptyFunctionBlock")
+            override fun onScroll(
+                view: AbsListView,
+                firstVisibleItem: Int,
+                visibleItemCount: Int,
+                totalItemCount: Int
+            ) {}
+        })
 
         searchView = searchItem
         if (searchView != null) {
             searchView?.setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
             queryTextListener = object : SearchView.OnQueryTextListener {
-                override fun onQueryTextChange(newText: String): Boolean {
+                override fun onQueryTextChange(query: String): Boolean {
+                    searchResults.clear()
+                    searchBrick(query)
+                    if (searchResults.isEmpty()) {
+                        ToastUtil.showError(context, context?.getString(R.string.no_results_found))
+                    }
+                    if (query.isEmpty()) {
+                        searchResults.clear()
+                    }
+                    adapter = PrototypeBrickAdapter(searchResults)
+                    listAdapter = adapter
+
                     return true
                 }
 
