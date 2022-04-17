@@ -193,6 +193,12 @@ public class PhysicsLook extends Look {
 	}
 
 	@Override
+	public void setRotationMode(int mode) {
+		super.setRotationMode(mode);
+		updatePhysicsObjectState(true);
+	}
+
+	@Override
 	public void setScale(float scaleX, float scaleY) {
 		Vector2 oldScales = new Vector2(getScaleX(), getScaleY());
 		if (scaleX < 0.0f || scaleY < 0.0f) {
@@ -417,6 +423,14 @@ public class PhysicsLook extends Look {
 			checkHangup(record);
 			checkNonColliding(record);
 			checkFixed(record);
+			updateRotation();
+		}
+
+		public void updateRotation() {
+			// Needs to be set for all styles except ALL_AROUND, since the rotation would be
+			// off otherwise
+			boolean rotationCondition = !(getRotationMode() == ROTATION_STYLE_ALL_AROUND);
+			physicsObject.setFixedRotation(rotationCondition);
 		}
 
 		public void activateGlideTo() {

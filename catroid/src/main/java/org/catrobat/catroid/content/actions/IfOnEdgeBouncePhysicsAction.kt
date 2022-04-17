@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.actions
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
 import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.content.Look
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.physics.PhysicalCollision
 import org.catrobat.catroid.physics.PhysicsBoundaryBox.BoundaryBoxIdentifier
@@ -100,7 +101,9 @@ class IfOnEdgeBouncePhysicsAction : TemporalAction() {
     ) {
         if (side == Side.LEFT || side == Side.RIGHT) {
             sprite.look.changeXInUserInterfaceDimensionUnit(boundaryBoxLookOffset)
-            changeDirectionOnStepsTaken(side)
+
+            if (sprite.movedByStepsBrick) changeDirectionOnStepsTaken(side) else changeDirectionOnVelocityOrGravity(side)
+
             checkBounceActivation(
                 correctGravityPresent,
                 isVelocityHighEnoughToCollideAfterRepositioning,
@@ -109,7 +112,9 @@ class IfOnEdgeBouncePhysicsAction : TemporalAction() {
             )
         } else {
             sprite.look.changeYInUserInterfaceDimensionUnit(boundaryBoxLookOffset)
-            changeDirectionOnStepsTaken(side)
+
+            if (sprite.movedByStepsBrick) changeDirectionOnStepsTaken(side) else changeDirectionOnVelocityOrGravity(side)
+
             checkBounceActivation(
                 correctGravityPresent,
                 isVelocityHighEnoughToCollideAfterRepositioning,
@@ -120,36 +125,54 @@ class IfOnEdgeBouncePhysicsAction : TemporalAction() {
     }
 
     private fun changeDirectionOnStepsTaken(side: Side) {
-        if (sprite.movedByStepsBrick) {
-            val physicsObject = physicsWorld.getPhysicsObject(sprite)
-            val realRotation = sprite.look.motionDirectionInUserInterfaceDimensionUnit
-            if (side == Side.LEFT || side == Side.RIGHT) {
-                sprite.look.motionDirectionInUserInterfaceDimensionUnit = -realRotation
-                calculateBoundaryBoxDimensions(physicsObject)
-                (sprite.look as PhysicsLook).updateFlippedByAction()
-            } else if (side == Side.TOP || side == Side.BOTTOM) {
-                sprite.look.motionDirectionInUserInterfaceDimensionUnit = OPPOSITE_DIRECTION -
-                    realRotation
-                calculateBoundaryBoxDimensions(physicsObject)
-            }
-            when (side) {
-                Side.LEFT ->
-                    sprite.look.changeXInUserInterfaceDimensionUnit(calculateLeftCollisionOffset())
-                Side.RIGHT ->
-                    sprite.look.changeXInUserInterfaceDimensionUnit(
-                        -calculateRightCollisionOffset()
-                    )
-                Side.TOP ->
-                    sprite.look.changeYInUserInterfaceDimensionUnit(
-                        -calculateTopCollisionOffset()
-                    )
-                Side.BOTTOM ->
-                    sprite.look.changeYInUserInterfaceDimensionUnit(
-                        calculateBottomCollisionOffset()
-                    )
-                else -> throw IllegalArgumentException("invalid side")
-            }
-            PhysicalCollision.fireBounceOffEvent(sprite, null)
+        val physicsObject = physicsWorld.getPhysicsObject(sprite)
+        val realRotation = sprite.look.motionDirectionInUserInterfaceDimensionUnit
+
+        if (side == Side.LEFT || side == Side.RIGHT) {
+            sprite.look.motionDirectionInUserInterfaceDimensionUnit = -realRotation
+            calculateBoundaryBoxDimensions(physicsObject)
+            (sprite.look as PhysicsLook).updateFlippedByAction()
+        } else if (side == Side.TOP || side == Side.BOTTOM) {
+            sprite.look.motionDirectionInUserInterfaceDimensionUnit = OPPOSITE_DIRECTION -
+                realRotation
+            calculateBoundaryBoxDimensions(physicsObject)
+        }
+
+        when (side) {
+            Side.LEFT ->
+                sprite.look.changeXInUserInterfaceDimensionUnit(calculateLeftCollisionOffset())
+            Side.RIGHT ->
+                sprite.look.changeXInUserInterfaceDimensionUnit(
+                    -calculateRightCollisionOffset()
+                )
+            Side.TOP ->
+                sprite.look.changeYInUserInterfaceDimensionUnit(
+                    -calculateTopCollisionOffset()
+                )
+            Side.BOTTOM ->
+                sprite.look.changeYInUserInterfaceDimensionUnit(
+                    calculateBottomCollisionOffset()
+                )
+            else -> throw IllegalArgumentException("invalid side")
+        }
+
+        PhysicalCollision.fireBounceOffEvent(sprite, null)
+    }
+
+    private fun changeDirectionOnVelocityOrGravity(side: Side) {
+        val physicsObject = physicsWorld.getPhysicsObject(sprite)
+        val realRotation = sprite.look.motionDirectionInUserInterfaceDimensionUnit
+
+        if ((side == Side.LEFT || side == Side.RIGHT) &&
+            sprite.look.rotationMode != Look.ROTATION_STYLE_ALL_AROUND) {
+            sprite.look.motionDirectionInUserInterfaceDimensionUnit = -realRotation
+            calculateBoundaryBoxDimensions(physicsObject)
+            (sprite.look as PhysicsLook).updateFlippedByAction()
+        } else if ((side == Side.TOP || side == Side.BOTTOM) &&
+            sprite.look.rotationMode != Look.ROTATION_STYLE_ALL_AROUND) {
+            sprite.look.motionDirectionInUserInterfaceDimensionUnit = OPPOSITE_DIRECTION -
+                realRotation
+            calculateBoundaryBoxDimensions(physicsObject)
         }
     }
 

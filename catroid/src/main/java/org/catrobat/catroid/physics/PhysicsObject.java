@@ -314,6 +314,10 @@ public class PhysicsObject {
 		return body.getGravityScale();
 	}
 
+	void setFixedRotation(boolean flag) {
+		body.setFixedRotation(flag);
+	}
+
 	public void setIfOnEdgeBounce(boolean bounce, Sprite sprite) {
 		if (ifOnEdgeBounce == bounce) {
 			return;
