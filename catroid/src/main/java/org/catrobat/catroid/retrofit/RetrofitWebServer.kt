@@ -61,6 +61,12 @@ interface WebService {
         @Body user: LoginUser
     ): Call<LoginResponse>
 
+    @DELETE("authentication")
+    fun expireToken(
+        @Header("Authorization") bearerToken: String,
+        @Header("X-Refresh") refreshToken: String
+    ): Call<Void>
+
     @POST("authentication/refresh")
     fun refreshToken(
         @Header("Authorization") bearerToken: String,
