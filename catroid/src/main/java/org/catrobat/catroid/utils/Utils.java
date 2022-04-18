@@ -36,6 +36,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.webkit.CookieManager;
 
 import com.google.common.base.Splitter;
 import com.huawei.hms.mlsdk.asr.MLAsrConstants;
@@ -53,6 +54,7 @@ import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.transfers.GoogleLoginHandler;
 import org.catrobat.catroid.transfers.TokenTask;
 import org.catrobat.catroid.ui.WebViewActivity;
+import org.catrobat.catroid.web.Cookie;
 import org.catrobat.catroid.web.WebconnectionException;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -495,7 +497,27 @@ public final class Utils {
 				.putString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE)
 				.putString(Constants.GOOGLE_ID_TOKEN, Constants.NO_GOOGLE_ID_TOKEN)
 				.apply();
-		WebViewActivity.clearCookies();
+		clearCookies();
+	}
+
+	public static void setLoginCookies(String url, SharedPreferences sharedPreferences, CookieManager cookieManager) {
+		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+		String refreshToken = sharedPreferences.getString(Constants.REFRESH_TOKEN, Constants.NO_TOKEN);
+
+		if (token.equals(Constants.NO_TOKEN) || refreshToken.equals(Constants.NO_TOKEN)) {
+			return;
+		}
+
+		Cookie tokenCookie = new Cookie(Constants.AUTHENTICATION_COOKIE_NAME, token);
+		Cookie refreshTokenCookie = new Cookie(Constants.REFRESH_TOKEN_COOKIE_NAME, refreshToken);
+
+		cookieManager.setCookie(url, tokenCookie.generateCookieString());
+		cookieManager.setCookie(url, refreshTokenCookie.generateCookieString());
+	}
+
+	public static void clearCookies() {
+		CookieManager.getInstance().removeAllCookies(null);
+		CookieManager.getInstance().flush();
 	}
 
 	public static boolean isUserLoggedIn(Context context) {
