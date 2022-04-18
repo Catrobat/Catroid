@@ -208,6 +208,30 @@ class CatroidWebServerAuthenticationTest : KoinTest {
         assertEquals(upgradeResponse.code(), SERVER_RESPONSE_INVALID_UPLOAD_TOKEN)
     }
 
+    @Test
+    fun testExpireTokenOk() {
+        var token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN)
+        val response = webServer.login("Bearer $token", LoginUser(username, password)).execute()
+
+        token = response.body()?.token
+        val refreshToken = response.body()?.refresh_token.orEmpty()
+
+        val responseExpireToken = webServer.expireToken("Bearer $token", refreshToken).execute()
+        assertEquals(responseExpireToken.code(), SERVER_RESPONSE_TOKEN_OK)
+
+        val responseRefreshToken = webServer.refreshToken("Bearer $token", RefreshToken(refreshToken)).execute()
+        assertEquals(responseRefreshToken.code(), SERVER_RESPONSE_INVALID_UPLOAD_TOKEN)
+    }
+
+    @Test
+    fun testExpireTokenWithExpiredToken() {
+        val token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN)
+        val refreshToken = "7edb0420a64bfc901caffb0a34de7bbd6fe11b316d3bde2796d16db42ce939abcccca65091a9f914ec031d278852e8f62b0b3374c988147b5db4d1e9ae71fe4a"
+
+        val responseExpireToken = webServer.expireToken("Bearer $token", refreshToken).execute()
+        assertEquals(responseExpireToken.code(), SERVER_RESPONSE_INVALID_UPLOAD_TOKEN)
+    }
+
     private fun parseRegisterErrorMessage(errorBody: String?) =
         Moshi.Builder().build().adapter<RegisterFailedResponse>(RegisterFailedResponse::class.java).fromJson(errorBody)
 
