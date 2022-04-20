@@ -26,33 +26,33 @@ package org.catrobat.catroid.camera.mlkitdetectors
 import android.media.Image
 import android.util.Log
 import com.google.android.gms.tasks.OnSuccessListener
-import com.google.mlkit.vision.common.InputImage
+/*import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.objects.DetectedObject
 import com.google.mlkit.vision.objects.ObjectDetection
-import com.google.mlkit.vision.objects.defaults.ObjectDetectorOptions
+import com.google.mlkit.vision.objects.defaults.ObjectDetectorOptions*/
 import org.catrobat.catroid.camera.CatdroidImageAnalyzer
 import org.catrobat.catroid.camera.DetectorsCompleteListener
 
 private val objectDetectionClient by lazy {
-    ObjectDetection.getClient(
+    /*ObjectDetection.getClient(
         ObjectDetectorOptions.Builder().enableMultipleObjects()
             .enableClassification().build()
-    )
+    )*/
 }
 
-class ObjectDetectorOnSuccessListener : OnSuccessListener<MutableList<DetectedObject>> {
+/*class ObjectDetectorOnSuccessListener : OnSuccessListener<MutableList<DetectedObject>> {
     override fun onSuccess(detectedObjects: MutableList<DetectedObject>) {
         ObjectDetectorResults.result = detectedObjects.map { it.trackingId to it }.toMap()
     }
-}
+}*/
 
 object ObjectDetector : Detector {
     override fun processImage(
         mediaImage: Image,
-        inputImage: InputImage,
+        //inputImage: InputImage,
         onCompleteListener: DetectorsCompleteListener
     ) {
-        objectDetectionClient.process(inputImage)
+        /*objectDetectionClient.process(inputImage)
             .addOnSuccessListener(ObjectDetectorOnSuccessListener())
             .addOnFailureListener { exception ->
                 Log.e(
@@ -62,11 +62,11 @@ object ObjectDetector : Detector {
                 )
             }.addOnCompleteListener {
                 onCompleteListener.onComplete()
-            }
+            }*/
     }
 }
 
-object ObjectDetectorResults {
+/*object ObjectDetectorResults {
     @get:Synchronized @set:Synchronized
     var result: Map<Int?, DetectedObject> = HashMap()
-}
+}*/

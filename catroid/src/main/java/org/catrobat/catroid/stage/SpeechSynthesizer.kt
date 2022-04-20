@@ -27,11 +27,11 @@ import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.util.Log
-import com.huawei.hms.mlsdk.tts.MLTtsAudioFragment
+/*import com.huawei.hms.mlsdk.tts.MLTtsAudioFragment
 import com.huawei.hms.mlsdk.tts.MLTtsCallback
 import com.huawei.hms.mlsdk.tts.MLTtsConstants
 import com.huawei.hms.mlsdk.tts.MLTtsError
-import com.huawei.hms.mlsdk.tts.MLTtsWarn
+import com.huawei.hms.mlsdk.tts.MLTtsWarn*/
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
@@ -80,10 +80,10 @@ class SpeechSynthesizer(val scope: Scope?, val text: Formula?) {
                     speakParameter
                 )
             }
-            is MLTtsCallback -> {
+            /*is MLTtsCallback -> {
                 HuaweiTextToSpeechHolder.mlTtsEngine.setTtsCallback(listener as MLTtsCallback)
                 HuaweiTextToSpeechHolder.instance.textToSpeech(interpretedText.toString())
-            }
+            }*/
         }
     }
 
@@ -96,7 +96,7 @@ class SpeechSynthesizer(val scope: Scope?, val text: Formula?) {
     }
 
     fun setHuaweiTextToSpeechListener(onError: () -> Unit, onDone: () -> Unit) {
-        listener = object : MLTtsCallback {
+        /*listener = object : MLTtsCallback {
             private lateinit var pcmAudioFile: File
             override fun onError(taskId: String, err: MLTtsError) {
                 onError()
@@ -142,6 +142,6 @@ class SpeechSynthesizer(val scope: Scope?, val text: Formula?) {
                     }
                 }
             }
-        }
+        }*/
     }
 }

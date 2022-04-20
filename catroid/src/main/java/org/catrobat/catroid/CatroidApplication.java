@@ -33,7 +33,7 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.huawei.agconnect.AGConnectInstance;
 import com.huawei.agconnect.config.AGConnectServicesConfig;
-import com.huawei.hms.mlsdk.common.MLApplication;
+//import com.huawei.hms.mlsdk.common.MLApplication;
 
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.utils.Utils;
@@ -86,7 +86,7 @@ public class CatroidApplication extends Application {
 		}
 
 		String apiKey = AGConnectServicesConfig.fromContext(this).getString("client/api_key");
-		MLApplication.getInstance().setApiKey(apiKey);
+		//MLApplication.getInstance().setApiKey(apiKey);
 	}
 
 	@Override

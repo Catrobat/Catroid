@@ -25,8 +25,8 @@ package org.catrobat.catroid.camera.mlkitdetectors
 
 import android.media.Image
 import android.util.Log
-import com.google.mlkit.vision.common.InputImage
-import com.google.mlkit.vision.text.TextRecognition
+/*import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.text.TextRecognition*/
 import org.catrobat.catroid.R
 import org.catrobat.catroid.camera.CatdroidImageAnalyzer
 import org.catrobat.catroid.camera.DetectorsCompleteListener
@@ -35,16 +35,16 @@ import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.utils.TextBlockUtil
 
 private val textDetectionClient by lazy {
-    TextRecognition.getClient()
+    //TextRecognition.getClient()
 }
 
 object TextDetector : Detector {
     override fun processImage(
         mediaImage: Image,
-        inputImage: InputImage,
+        //inputImage: InputImage,
         onCompleteListener: DetectorsCompleteListener
     ) {
-        textDetectionClient.process(inputImage)
+        /*textDetectionClient.process(inputImage)
             .addOnSuccessListener { text ->
                 VisualDetectionHandler.updateTextSensorValues(text.text, text.textBlocks.size)
                 TextBlockUtil.setTextBlocksGoogle(
@@ -66,6 +66,6 @@ object TextDetector : Detector {
                 )
             }.addOnCompleteListener {
                 onCompleteListener.onComplete()
-            }
+            }*/
     }
 }
