@@ -430,7 +430,7 @@ public class StageListener implements ApplicationListener {
 		}
 
 		SoundManager.getInstance().clear();
-		get(SpeechRecognitionHolderFactory.class).getInstance().destroy();
+		//get(SpeechRecognitionHolderFactory.class).getInstance().destroy();
 
 		stageBackupMap.remove(sceneName);
 

@@ -84,7 +84,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 	private Set<Integer> failedResources;
 
 	private StageActivity stageActivity;
-	private final SpeechRecognitionHolderFactory speechRecognitionHolderFactory = get(SpeechRecognitionHolderFactory.class);
+	//private final SpeechRecognitionHolderFactory speechRecognitionHolderFactory =get(SpeechRecognitionHolderFactory.class);
 
 	StageResourceHolder(final StageActivity stageActivity) {
 		this.stageActivity = stageActivity;
@@ -148,7 +148,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			if (mobileServiceAvailability.isGmsAvailable(stageActivity)) {
 				TextToSpeechHolder.Companion.getInstance().initTextToSpeech(stageActivity, this);
 			} else if (mobileServiceAvailability.isHmsAvailable(stageActivity)) {
-				HuaweiTextToSpeechHolder.Companion.getInstance().initTextToSpeech(stageActivity, this);
+				//HuaweiTextToSpeechHolder.Companion.getInstance().initTextToSpeech(stageActivity,this);
 			}
 		}
 
@@ -325,11 +325,11 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		}
 
 		if (requiredResourcesSet.contains(Brick.SPEECH_RECOGNITION)) {
-			if (speechRecognitionHolderFactory.isRecognitionAvailable(stageActivity)) {
+			/*if (speechRecognitionHolderFactory.isRecognitionAvailable(stageActivity)) {
 				resourceInitialized();
 			} else {
 				resourceFailed(Brick.SPEECH_RECOGNITION);
-			}
+			}*/
 		}
 
 		if (initFinished()) {
@@ -348,7 +348,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			Log.e(TAG, e.getMessage());
 		}
 		stageActivity.setupAskHandler();
-		speechRecognitionHolderFactory.getInstance().initSpeechRecognition(stageActivity, this);
+		//speechRecognitionHolderFactory.getInstance().initSpeechRecognition(stageActivity, this);
 		stageActivity.pendingIntent = PendingIntent.getActivity(stageActivity, 0,
 				new Intent(stageActivity, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
 		stageActivity.nfcAdapter = NfcAdapter.getDefaultAdapter(stageActivity);

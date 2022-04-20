@@ -25,12 +25,12 @@ package org.catrobat.catroid.camera
 
 import android.graphics.Point
 import android.graphics.Rect
-import com.google.mlkit.vision.face.Face
+/*import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.pose.Pose
 import com.google.mlkit.vision.pose.PoseLandmark
 import com.huawei.hms.mlsdk.face.MLFace
 import com.huawei.hms.mlsdk.skeleton.MLJoint
-import com.huawei.hms.mlsdk.skeleton.MLSkeleton
+import com.huawei.hms.mlsdk.skeleton.MLSkeleton*/
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.ScreenValues
@@ -77,22 +77,23 @@ object VisualDetectionHandler {
         sensorListeners.remove(listener)
     }
 
-    fun translateGoogleFaceToVisualDetectionFace(faceList: List<Face>): List<VisualDetectionHandlerFace> {
+    /*fun translateGoogleFaceToVisualDetectionFace(faceList: List<Face>):
+        List<VisualDetectionHandlerFace> {
         val newFacesList = mutableListOf<VisualDetectionHandlerFace>()
         for (face in faceList) {
             newFacesList.add(VisualDetectionHandlerFace(face.trackingId, face.boundingBox))
         }
         return newFacesList
-    }
+    }*/
 
-    fun translateHuaweiFaceToVisualDetectionFace(faceList: List<MLFace>):
+    /*fun translateHuaweiFaceToVisualDetectionFace(faceList: List<MLFace>):
         List<VisualDetectionHandlerFace> {
         val newFacesList = mutableListOf<VisualDetectionHandlerFace>()
         for (face in faceList) {
             newFacesList.add(VisualDetectionHandlerFace(face.tracingIdentity, face.border))
         }
         return newFacesList
-    }
+    }*/
 
     fun updateTextSensorValues(text: String, numberOfBlocks: Int) {
         sensorListeners.forEach { sensorListener ->
@@ -173,7 +174,7 @@ object VisualDetectionHandler {
         }
     }
 
-    fun updateAllPoseSensorValues(pose: Pose?, imageWidth: Int, imageHeight: Int) {
+    /*fun updateAllPoseSensorValues(pose: Pose?, imageWidth: Int, imageHeight: Int) {
         val allPoseLandmarks = pose?.allPoseLandmarks
 
         if (allPoseLandmarks.isNullOrEmpty()) return
@@ -191,22 +192,22 @@ object VisualDetectionHandler {
                 updatePoseSensorValues(poseLandmark, poseLandmarkPositionTranslated)
             }
         }
-    }
+    }*/
 
-    private fun updatePoseSensorValues(poseLandmark: PoseLandmark, position: Point) {
+    /*private fun updatePoseSensorValues(poseLandmark: PoseLandmark, position: Point) {
         sensorListeners.forEach { sensorListener ->
             updateHeadPoseSensorValues(poseLandmark.landmarkType, sensorListener, position)
             updateUpperBodyPoseSensorValues(poseLandmark.landmarkType, sensorListener, position)
             updateLowerBodyPoseSensorValues(poseLandmark.landmarkType, sensorListener, position)
         }
-    }
+    }*/
 
     private fun updateHeadPoseSensorValues(
         poseLandmarkType: Int,
         sensorListener: SensorCustomEventListener,
         position: Point
     ) {
-        val positionSensor = when (poseLandmarkType) {
+        /*val positionSensor = when (poseLandmarkType) {
             PoseLandmark.NOSE -> Pair(Sensors.NOSE_X, Sensors.NOSE_Y)
             PoseLandmark.LEFT_EYE_INNER -> Pair(Sensors.LEFT_EYE_INNER_X, Sensors.LEFT_EYE_INNER_Y)
             PoseLandmark.LEFT_EYE -> Pair(Sensors.LEFT_EYE_CENTER_X, Sensors.LEFT_EYE_CENTER_Y)
@@ -225,7 +226,7 @@ object VisualDetectionHandler {
                 it.first, it.second,
                 position.toPosition()
             )
-        }
+        }*/
     }
 
     private fun updateUpperBodyPoseSensorValues(
@@ -233,7 +234,7 @@ object VisualDetectionHandler {
         sensorListener: SensorCustomEventListener,
         position: Point
     ) {
-        val positionSensor = when (poseLandmarkType) {
+        /*val positionSensor = when (poseLandmarkType) {
             PoseLandmark.LEFT_SHOULDER -> Pair(LEFT_SHOULDER_X, LEFT_SHOULDER_Y)
             PoseLandmark.RIGHT_SHOULDER -> Pair(RIGHT_SHOULDER_X, RIGHT_SHOULDER_Y)
             PoseLandmark.LEFT_ELBOW -> Pair(Sensors.LEFT_ELBOW_X, Sensors.LEFT_ELBOW_Y)
@@ -253,7 +254,7 @@ object VisualDetectionHandler {
                 it.first, it.second,
                 position.toPosition()
             )
-        }
+        }*/
     }
 
     private fun updateLowerBodyPoseSensorValues(
@@ -261,7 +262,7 @@ object VisualDetectionHandler {
         sensorListener: SensorCustomEventListener,
         position: Point
     ) {
-        val positionSensor = when (poseLandmarkType) {
+        /*val positionSensor = when (poseLandmarkType) {
             PoseLandmark.LEFT_HIP -> Pair(Sensors.LEFT_HIP_X, Sensors.LEFT_HIP_Y)
             PoseLandmark.RIGHT_HIP -> Pair(Sensors.RIGHT_HIP_X, Sensors.RIGHT_HIP_Y)
             PoseLandmark.LEFT_KNEE -> Pair(Sensors.LEFT_KNEE_X, Sensors.LEFT_KNEE_Y)
@@ -279,10 +280,10 @@ object VisualDetectionHandler {
                 it.first, it.second,
                 position.toPosition()
             )
-        }
+        }*/
     }
 
-    fun updateAllPoseSensorValuesHuawei(
+    /*fun updateAllPoseSensorValuesHuawei(
         skeletonList: List<MLSkeleton>,
         imageWidth: Int,
         imageHeight: Int
@@ -301,13 +302,13 @@ object VisualDetectionHandler {
                 updatePoseSensorValuesHuawei(joint.type, jointPositionTranslated)
             }
         }
-    }
+    }*/
 
     private fun updatePoseSensorValuesHuawei(
         jointType: Int,
         position: Point
     ) {
-        sensorListeners.forEach() { sensorListener ->
+        /*sensorListeners.forEach() { sensorListener ->
             val positionSensor = when (jointType) {
                 MLJoint.TYPE_HEAD_TOP -> Pair(Sensors.HEAD_TOP_X, Sensors.HEAD_TOP_Y)
                 MLJoint.TYPE_NECK -> Pair(Sensors.NECK_X, Sensors.NECK_Y)
@@ -331,7 +332,7 @@ object VisualDetectionHandler {
                     position.toPosition()
                 )
             }
-        }
+        }*/
     }
 
     private fun Point.toPosition() = Position(x.toDouble(), y.toDouble())

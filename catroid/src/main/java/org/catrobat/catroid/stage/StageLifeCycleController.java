@@ -146,7 +146,7 @@ public final class StageLifeCycleController {
 				}
 			}
 
-			get(SpeechRecognitionHolderFactory.class).getInstance().destroy();
+			//get(SpeechRecognitionHolderFactory.class).getInstance().destroy();
 
 			SensorHandler.timerPauseValue = SystemClock.uptimeMillis();
 
