@@ -100,11 +100,6 @@ public class UserDefinedBrick extends FormulaBrick {
 		return clone;
 	}
 
-	public void clearFormulaMaps() {
-		formulaFieldToTextViewMap = HashBiMap.create(2);
-		formulaMap = new ConcurrentFormulaHashMap();
-	}
-
 	private void copyUserDefinedDataList(UserDefinedBrick userDefinedBrick) {
 		this.userDefinedBrickDataList = new ArrayList<>();
 		for (UserDefinedBrickData data : userDefinedBrick.getUserDefinedBrickDataList()) {
