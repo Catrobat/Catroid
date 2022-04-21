@@ -339,6 +339,7 @@
     <string name="hide_details">詳細を隠す</string>
     <string name="project_options">プロジェクトオプション</string>
     <string name="from_library">ライブラリから追加</string>
+    <string name="from_local">ローカルから</string>
     <string name="sort_projects">並べ替え</string>
     <string name="unsort_projects">並べ替えを解除</string>
     <string name="import_from_project">インポートするプロジェクトを選択</string>
@@ -1246,16 +1247,13 @@
     <string name="notification_blueth_err">Bluetoothを有効にできません。再度電源を入れてみてください。</string>
     <string name="title_paired_devices">デバイスの組み合わせ</string>
     <string name="title_other_devices">新しいデバイス</string>
-    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="bluetooth_connection_title">Bluetooth接続</string>
     <string name="skip_bluetooth_connection">スキップ</string>
     <string name="connecting_please_wait">お使いのデバイスに接続しています\nしばらく待つ&#8230;</string>
     <string name="bt_connection_failed">デバイスへの接続に失敗しました！</string>
     <string name="none_found">見つかりませんでした。ペアになっていないデバイスがありません</string>
-    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
-        required!</string>
-    <string name="multiplayer_bluetooth_connection_information">To play this game in
-        Multiplayer a Bluetooth connection is required. Both players have to start the game and
-        be on this screen for the connection to work properly!</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth接続が必要です!</string>
+    <string name="multiplayer_bluetooth_connection_information">このゲームをマルチプレイで遊ぶには、Bluetooth接続が必要です。接続するには、2人ともゲームを起動して、この画面にいる必要があります。</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Arduino のデジタル端子を設定</string>
@@ -1828,7 +1826,7 @@
     <string name="formula_editor_function_text_block_language_from_camera">カメラからのテキストブロック言語</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
     <string name="formula_editor_function_get_id_of_detected_object">検出されたオブジェクトのID</string>
-    <string name="formula_editor_function_object_with_id_visible">object with ID visible</string>
+    <string name="formula_editor_function_object_with_id_visible">ID が表示されたオブジェクト</string>
     <string name="formula_editor_intro_title_formula_editor">数式エディター</string>
     <string name="formula_editor_intro_summary_formula_editor">数式エディタでは、レンガに使える数学的、論理的な数式を作成できます。
         数式エディタでは、レンガに使える数式や論理式を作成できます。
@@ -1969,13 +1967,13 @@
     <string name="cut">切り取り</string>
     <string name="paste">貼付け</string>
     <!-- Particle Effects -->
-    <string name="fade_particle_effect">パーティクルのフェード効果</string>
-    <string name="particle_effects_fade_in">で</string>
-    <string name="particle_effects_fade_out">アウト</string>
-    <string name="turn_particle_effect_additivity">パーティクルエフェクトの加算率の変更</string>
+    <string name="fade_particle_effect">パーティクル効果を</string>
+    <string name="particle_effects_fade_in">フェードイン</string>
+    <string name="particle_effects_fade_out">フェードアウト</string>
+    <string name="turn_particle_effect_additivity">パーティクルアディティブを</string>
     <string name="particle_effects_additive_on">オン</string>
     <string name="particle_effects_additive_off">オフ</string>
-    <string name="set_particle_color_to">パーティクルの色を設定</string>
+    <string name="set_particle_color_to">パーティクルカラーの設定</string>
     <string name="undo_sort">並べ替えを取り消す</string>
     <string name="sort">並べ替え</string>
 </resources>

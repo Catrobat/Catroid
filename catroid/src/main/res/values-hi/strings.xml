@@ -349,6 +349,7 @@
     <string name="hide_details">जानकारी छिपाएँ</string>
     <string name="project_options">परियोजना के विकल्प</string>
     <string name="from_library">पुस्तकालय से जोड़ें</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">क्रमबद्ध</string>
     <string name="unsort_projects">अवर्गीकृत</string>
     <string name="import_from_project">से आयात करने के लिए परियोजना का चयन करें</string>

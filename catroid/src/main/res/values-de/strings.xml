@@ -342,6 +342,7 @@
     <string name="hide_details">Details verbergen</string>
     <string name="project_options">Projektoptionen</string>
     <string name="from_library">Aus Bibliothek hinzufügen</string>
+    <string name="from_local">Von eigenen Projekten</string>
     <string name="sort_projects">Sortieren</string>
     <string name="unsort_projects">Unsortiert</string>
     <string name="import_from_project">Projekt zum Importieren auswählen</string>
@@ -1269,16 +1270,13 @@
     <string name="notification_blueth_err">Bluetooth kann nicht aktiviert werden. Bitte versuche es nochmals ein- und auszuschalten.</string>
     <string name="title_paired_devices">Verbundene Geräte</string>
     <string name="title_other_devices">Neue Geräte</string>
-    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="bluetooth_connection_title">Bluetooth-Verbindung</string>
     <string name="skip_bluetooth_connection">Fertig</string>
     <string name="connecting_please_wait">Verbinde zum Gerät.\nBitte warten&#8230;</string>
     <string name="bt_connection_failed">Verbindung zum Gerät fehlgeschlagen!</string>
     <string name="none_found">Keine nicht verbundenen Geräte gefunden</string>
-    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
-        required!</string>
-    <string name="multiplayer_bluetooth_connection_information">To play this game in
-        Multiplayer a Bluetooth connection is required. Both players have to start the game and
-        be on this screen for the connection to work properly!</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth-Verbindung erforderlich!</string>
+    <string name="multiplayer_bluetooth_connection_information">Um dieses Multiplayer-Spiel ausführen zu können, ist eine Bluetooth-Verbindung erforderlich. Beide Spieler müssen das Spiel starten und auf diesem Screen sein, damit die Verbindung richtig funktioniert!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Setze Arduino Digital Pin</string>
@@ -1997,10 +1995,10 @@
     <string name="cut">Ausschneiden</string>
     <string name="paste">Einfügen</string>
     <!-- Particle Effects -->
-    <string name="fade_particle_effect">Partikeleffekt ausblenden</string>
-    <string name="particle_effects_fade_in">Im</string>
+    <string name="fade_particle_effect">Blende Partikeleffekt</string>
+    <string name="particle_effects_fade_in">ein</string>
     <string name="particle_effects_fade_out">aus</string>
-    <string name="turn_particle_effect_additivity">Partikeleffekt-Additivität einschalten</string>
+    <string name="turn_particle_effect_additivity">Schalte Partikeleffekt-Additivität</string>
     <string name="particle_effects_additive_on">ein</string>
     <string name="particle_effects_additive_off">aus</string>
     <string name="set_particle_color_to">Setze Partikelfarbe auf</string>

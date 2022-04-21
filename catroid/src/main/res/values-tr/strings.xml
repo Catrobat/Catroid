@@ -334,6 +334,7 @@
     <string name="hide_details">Detayları gizle</string>
     <string name="project_options">Proje Seçenekleri</string>
     <string name="from_library">Kitaplıktan ekle</string>
+    <string name="from_local">Yerelden ekle</string>
     <string name="sort_projects">Sırala</string>
     <string name="unsort_projects">Sıralamayı Kaldır</string>
     <string name="import_from_project">İçe aktarılacak projeyi seçin</string>
@@ -1254,16 +1255,16 @@ bekleyin</string>
     <string name="notification_blueth_err">Bluetooth etkinleştirilemiyor, lütfen kapatıp tekrar açmayı deneyin.</string>
     <string name="title_paired_devices">Eşleşmiş cihazlar</string>
     <string name="title_other_devices">Yeni aygıtlar</string>
-    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="bluetooth_connection_title">Bluetooth bağlantısı</string>
     <string name="skip_bluetooth_connection">Atla</string>
     <string name="connecting_please_wait">Cihazınıza bağlanıyor.\nLütfen bekleyin&#8230;</string>
     <string name="bt_connection_failed">Aygıt bağlantısı başarısız oldu!</string>
     <string name="none_found">Eşleştirilmemiş aygıt bulunamadı</string>
-    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
-        required!</string>
-    <string name="multiplayer_bluetooth_connection_information">To play this game in
-        Multiplayer a Bluetooth connection is required. Both players have to start the game and
-        be on this screen for the connection to work properly!</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth bağlantısı
+        gereklidir!</string>
+    <string name="multiplayer_bluetooth_connection_information">Bu oyunu oynamak için
+        Çok oyunculu bir Bluetooth bağlantısı gereklidir. Her iki oyuncu da oyuna başlamalı ve
+        bağlantının düzgün çalışması için bu ekranda olun!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Arduino dijital pinini ayarla</string>

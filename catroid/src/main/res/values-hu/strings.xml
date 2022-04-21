@@ -29,36 +29,36 @@
     <string name="redo">Ismétlés</string>
     <string name="undo">Visszavonás</string>
     <string name="new_option">Új&#8230;</string>
-    <string name="edit_option">edit&#8230;</string>
+    <string name="edit_option">szerkesztés&#8230;</string>
     <string name="confirm">Megerősítés</string>
-    <string name="ignore">Ignore</string>
+    <string name="ignore">Kihagyás</string>
     <string name="cancel">Mégse</string>
     <string name="save">Mentés</string>
     <string name="help">Súgó</string>
     <string name="discard">Elvetés</string>
-    <string name="next">Next</string>
+    <string name="next">Következő</string>
     <string name="ok">OK</string>
     <string name="done">Kész</string>
     <string name="close">Bezárás</string>
     <string name="assistant">Assistant</string>
     <string name="yes">Igen</string>
     <string name="no">Nem</string>
-    <string name="once">Once</string>
-    <string name="always">Always</string>
-    <string name="deny">Deny</string>
-    <string name="do_not_show_again">DO NOT SHOW AGAIN</string>
-    <string name="accept">Accept</string>
-    <string name="decline">Decline</string>
-    <string name="select_all">Select all</string>
-    <string name="deselect_all">Deselect all</string>
-    <string name="skip">skip</string>
-    <string name="warning">Warning</string>
+    <string name="once">Egyszer</string>
+    <string name="always">Állandóan</string>
+    <string name="deny">Elutasítás</string>
+    <string name="do_not_show_again">NE MUTASD ÚJRA</string>
+    <string name="accept">Elfogadás</string>
+    <string name="decline">Elutasítás</string>
+    <string name="select_all">Mindent kijelöl</string>
+    <string name="deselect_all">Kijelölés törlése</string>
+    <string name="skip">Kihagyás</string>
+    <string name="warning">Figyelem</string>
     <string name="error">Hiba</string>
     <string name="loading">Betöltés&#8230;</string>
     <string name="please_wait">Kérlek, várj</string>
-    <string name="search_hint">Search</string>
-    <string name="backpack_add">Add to backpack</string>
-    <string name="share_website_text">share.catrob.at</string>
+    <string name="search_hint">Keresési tipp</string>
+    <string name="backpack_add">Hozzáadás csoporthoz</string>
+    <string name="share_website_text">Catrob.at megosztás</string>
     <!-- Security warning dialog -->
     <string name="security_warning_dialog_msg">The project you have downloaded listens to your voice
         in the background and also sends data to the internet. This may be harmless, and necessary
@@ -67,70 +67,68 @@
         You may also report the project on its page on the Catrobat community platform in case
         you are sure that it is harmful.</string>
     <!-- Replace Api dialog -->
-    <string name="api_replacement_dialog_neutral">Upload without change</string>
+    <string name="api_replacement_dialog_neutral">Feltöltés módosítás nélkül</string>
     <string name="api_replacement_dialog_accept">Upload with keys replaced</string>
     <string name="api_replacement_dialog_warning">The project contains bricks that access the
         web, and also seems to contain API keys. Please see %1s why
         uploading these keys can be dangerous.</string>
-    <string name="api_replacement">insert API key here</string>
+    <string name="api_replacement">API kulcs beillesztése</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_oauth_token">Checking login data&#8230;</string>
+    <string name="loading_check_oauth_token">Belépési adatok ellenőrzése&#8230;</string>
     <string name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
-    <string name="loading_google_login">Google login on our server is complete&#8230;</string>
-    <string name="logout_successful">Logout successful</string>
-    <string name="degrees">degrees</string>
+    <string name="loading_google_login">Google bejelentkezés sikeres</string>
+    <string name="logout_successful">Kijelentkezés sikeres</string>
+    <string name="degrees">°</string>
     <string name="background">Háttér</string>
-    <string name="landscape">landscape</string>
-    <string name="portrait">portrait</string>
-    <string name="unknown">unknown</string>
-    <string name="disconnect">Disconnect</string>
+    <string name="landscape">fekvő</string>
+    <string name="portrait">álló</string>
+    <string name="unknown">ismeretlen</string>
+    <string name="disconnect">Kapcsolat bontása</string>
     <!--  -->
     <!-- Main Menu -->
-    <string name="main_menu_continue">Continue project</string>
-    <string name="main_menu_new">New project</string>
+    <string name="main_menu_continue">Projekt folytatása</string>
+    <string name="main_menu_new">Új projekt</string>
     <string name="main_menu_programs">Programok</string>
     <string name="main_menu_help">Súgó</string>
-    <string name="main_menu_web">Catrobat community</string>
+    <string name="main_menu_web">Catrobat közösség</string>
     <string name="main_menu_upload">Program feltöltése</string>
     <string name="main_menu_rate_app">Értékelj minket!</string>
-    <string name="main_menu_terms_of_use">Terms of Use and Service</string>
+    <string name="main_menu_terms_of_use">Felhasználási feltételek</string>
     <string name="main_menu_privacy_policy">Adatvédelem</string>
-    <string name="main_menu_about">About this app</string>
+    <string name="main_menu_about">Névjegy</string>
     <string name="main_menu_login">Bejelentkezés</string>
     <string name="main_menu_logout">Kijelentkezés</string>
-    <string name="main_menu_scratch_converter">Scratch converter</string>
-    <string name="main_menu_play_store_not_installed">App store not found</string>
+    <string name="main_menu_scratch_converter">Scratch átalakítás</string>
+    <string name="main_menu_play_store_not_installed">A Play Áruház nem található</string>
     <!--  -->
     <!-- Marketing activity -->
-    <string name="marketing_created_with">Created with</string>
-    <string name="marketing_app_details">Details about this app</string>
-    <string name="marketing_more_on_google_play">More apps on App store</string>
+    <string name="marketing_created_with">Készült:</string>
+    <string name="marketing_app_details">Bővebben az alkalmazásról</string>
+    <string name="marketing_more_on_google_play">Még több alkalmazás a Play Áruházban</string>
     <string name="error_cannot_open_huawei_app_gallery">Whoops! Failed to open Huawei AppGallery,
         please try again later.</string>
     <string name="google_play_store_logo">Google Play</string>
     <string name="huawei_app_gallery">Huawei App Gallery</string>
     <!-- NFC activity -->
-    <string name="nfc_activity_title">NFC tags</string>
+    <string name="nfc_activity_title">NFC tagek</string>
     <!-- Settings activity -->
     <string name="preference_title">Beállítások</string>
-    <string name="preference_title_language">Language</string>
-    <string name="preference_description_language">Set the app\'s language</string>
-    <string name="preference_title_web_access">Web access</string>
+    <string name="preference_title_language">Nyelv</string>
+    <string name="preference_description_language">Alkalmazás nyelve</string>
+    <string name="preference_title_web_access">Webes hozzáférés</string>
     <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
     <string name="preference_screen_web_access_title">Edit trusted domains</string>
-    <string name="preference_title_ai">Artificial intelligence (AI) extension</string>
+    <string name="preference_title_ai">Mesterséges intelligencia (MI) kiegészítő</string>
     <string name="preference_description_ai">Enable AI bricks and sensors</string>
-    <string name="preference_title_ai_speech_recognition">Speech
-        recognition</string>
+    <string name="preference_title_ai_speech_recognition">Beszédfelismerés</string>
     <string name="preference_description_ai_speech_recognition">Enable
         speech recognition bricks and sensors</string>
     <string name="preference_title_ai_speech_synthetization">Speech
         synthetization</string>
     <string name="preference_description_ai_speech_synthetization">Enable
         speech synthetization bricks and sensors</string>
-    <string name="preference_title_ai_face_detection">Face
-        detection</string>
+    <string name="preference_title_ai_face_detection">Arcfelismerés</string>
     <string name="preference_description_ai_face_detection">Enable
         face detection bricks and sensors</string>
     <string name="preference_title_ai_pose_detection">Pose detection</string>
@@ -351,6 +349,7 @@
     <string name="hide_details">Hide details</string>
     <string name="project_options">Project options</string>
     <string name="from_library">Add from library</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">Sort</string>
     <string name="unsort_projects">Unsort</string>
     <string name="import_from_project">Select project to import from</string>
@@ -396,7 +395,7 @@
     <string name="nfc_tag_name_label">NFC tag name</string>
     <string name="string_label">Szöveg</string>
     <string name="data_label">Név</string>
-    <string name="keyword_label">Search</string>
+    <string name="keyword_label">Keresési tipp</string>
     <string name="html_label">Insert HTML text</string>
     <string name="Image_format_not_supported">Image format not supported</string>
     <string name="import_conflicting_variables">The actor or object could not be added.</string>
@@ -640,12 +639,12 @@
     <string name="rating_dialog_rate_never">Never</string>
     <!--  -->
     <!-- Terms of Use Dialog -->
-    <string name="dialog_terms_of_use_title">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_title">Felhasználási feltételek</string>
     <string name="dialog_terms_of_use_info">In order to
         be allowed to use the apps and other services offered by the Catrobat project, you
         must agree to our Terms of Use and Service. You have to follow these terms strictly when using our apps
         and other services. Please see the link below for their precise formulation.\n</string>
-    <string name="dialog_terms_of_use_link_text">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_link_text">Felhasználási feltételek</string>
     <!--  -->
     <!-- Privacy Policy -->
     <string name="disclaimer_privacy_police_header_headline">Welcome!</string>
@@ -1474,7 +1473,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
     <string name="brick_jumping_sumo_rotate_left">Turn Jumping Sumo left</string>
     <string name="brick_jumping_sumo_rotate_right">Turn Jumping Sumo right</string>
-    <string name="brick_jumping_sumo_rotate_text">degrees</string>
+    <string name="brick_jumping_sumo_rotate_text">°</string>
     <string name="brick_jumping_sumo_turn">Flip Jumping Sumo</string>
     <string name="brick_jumping_sumo_taking_picture">Taking picture Jumping Sumo</string>
     <!--  -->

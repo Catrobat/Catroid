@@ -334,6 +334,7 @@
     <string name="hide_details">বিস্তারিতকে আড়াল করুন</string>
     <string name="project_options">প্রকল্পের বিকল্পগুলি</string>
     <string name="from_library">লাইব্রেরি থেকে যোগ করুন</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">সাজান</string>
     <string name="unsort_projects">আনসোর্ট করা</string>
     <string name="import_from_project">আমদানি করতে প্রকল্প নির্বাচন করুন</string>

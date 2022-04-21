@@ -319,6 +319,7 @@
     <string name="hide_details">세부 사항 숨기기</string>
     <string name="project_options">프로젝트 옵션</string>
     <string name="from_library">라이브러리에서 추가</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">종류</string>
     <string name="unsort_projects">정렬 취소</string>
     <string name="import_from_project">가져올 프로젝트 선택</string>

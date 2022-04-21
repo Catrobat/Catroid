@@ -367,6 +367,7 @@
     <string name="hide_details">Hide details</string>
     <string name="project_options">Project options</string>
     <string name="from_library">Add from library</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">מיון</string>
     <string name="unsort_projects">Unsort</string>
     <string name="import_from_project">Select project to import from</string>

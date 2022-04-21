@@ -347,6 +347,7 @@
     <string name="hide_details">Ocultar detalhes</string>
     <string name="project_options">Opções do projeto</string>
     <string name="from_library">Adicionar da biblioteca</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">Ordenar</string>
     <string name="unsort_projects">Desordenar</string>
     <string name="import_from_project">Selecionar projeto para importar de</string>

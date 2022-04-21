@@ -332,6 +332,7 @@
     <string name="hide_details">Мәліметтерді жасыру</string>
     <string name="project_options">Project options</string>
     <string name="from_library">Add from library</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">Sort</string>
     <string name="unsort_projects">Unsort</string>
     <string name="import_from_project">Select project to import from</string>

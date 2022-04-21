@@ -346,6 +346,7 @@
     <string name="hide_details">Masquer les détails</string>
     <string name="project_options">Options du projet</string>
     <string name="from_library">Ajouter depuis la bibliothèque</string>
+    <string name="from_local">Depuis locaux</string>
     <string name="sort_projects">Trier</string>
     <string name="unsort_projects">Ne pas trier</string>
     <string name="import_from_project">Sélectionnez le projet à importer à partir de</string>
@@ -2025,13 +2026,13 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string name="cut">Couper</string>
     <string name="paste">Coller</string>
     <!-- Particle Effects -->
-    <string name="fade_particle_effect">Effet de fondu des particules</string>
-    <string name="particle_effects_fade_in">sur</string>
-    <string name="particle_effects_fade_out">sur</string>
-    <string name="turn_particle_effect_additivity">Modifier l\'additivité des effets de particules</string>
+    <string name="fade_particle_effect">Effet de particules</string>
+    <string name="particle_effects_fade_in">allumer</string>
+    <string name="particle_effects_fade_out">éteindre</string>
+    <string name="turn_particle_effect_additivity">Additivité des particules</string>
     <string name="particle_effects_additive_on">activé</string>
     <string name="particle_effects_additive_off">désactivé</string>
-    <string name="set_particle_color_to">Définir la couleur des particules à</string>
+    <string name="set_particle_color_to">Défine la couleur des particules à</string>
     <string name="undo_sort">Annuler le tri</string>
     <string name="sort">Trier</string>
 </resources>

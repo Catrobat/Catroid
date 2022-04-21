@@ -335,6 +335,7 @@
     <string name="hide_details">مخفی کردن جزئیات</string>
     <string name="project_options">گزینه های پروژه</string>
     <string name="from_library">از کتابخانه اضافه کنید</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">مرتب سازی</string>
     <string name="unsort_projects">نامرتب</string>
     <string name="import_from_project">پروژه را برای وارد کردن از آن انتخاب کنید</string>
