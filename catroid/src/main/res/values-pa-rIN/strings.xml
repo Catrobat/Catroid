@@ -351,6 +351,7 @@
     <string name="hide_details">ਵੇਰਵੇ ਲੁਕਾਓ</string>
     <string name="project_options">ਪ੍ਰੋਜੈਕਟ ਵਿਕਲਪ</string>
     <string name="from_library">ਲਾਇਬ੍ਰੇਰੀ ਤੋਂ ਸ਼ਾਮਲ ਕਰੋ</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">ਲੜੀਬੱਧ</string>
     <string name="unsort_projects">ਅਣਸੋਰਟ</string>
     <string name="import_from_project">ਤੋਂ ਆਯਾਤ ਕਰਨ ਲਈ ਪ੍ਰੋਜੈਕਟ ਚੁਣੋ</string>

@@ -332,6 +332,7 @@
     <string name="hide_details">แก้ไขรายละเอียด</string>
     <string name="project_options">ตัวเลือกโครงการ</string>
     <string name="from_library">เพิ่มจากคลังภาพ</string>
+    <string name="from_local">เพิ่มจากในเครื่อง</string>
     <string name="sort_projects">เรียงลำดับ</string>
     <string name="unsort_projects">ไม่เรียงลำดับ</string>
     <string name="import_from_project">เลือกโครงการที่จะนำเข้าจาก</string>

@@ -343,6 +343,7 @@
     <string name="hide_details">Sembunyikan rincian</string>
     <string name="project_options">Opsi proyek</string>
     <string name="from_library">Tambahkan dari perpustakaan</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">Menyortir</string>
     <string name="unsort_projects">Batalkan pengurutan</string>
     <string name="import_from_project">Pilih proyek yang akan diimpor</string>

@@ -352,6 +352,7 @@ Pakiusap sumubok na lamang ng iba.</string>
     <string name="hide_details">Itago ang mga detalye</string>
     <string name="project_options">Project options</string>
     <string name="from_library">Idagdag mula sa library</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">Sort</string>
     <string name="unsort_projects">Unsort</string>
     <string name="import_from_project">Pumili ng proyekto na i-i-import mula sa</string>

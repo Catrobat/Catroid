@@ -347,6 +347,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="hide_details">Ukryj szczegóły</string>
     <string name="project_options">Opcje projektu</string>
     <string name="from_library">Dodaj z biblioteki</string>
+    <string name="from_local">Dodaj z lokalnego</string>
     <string name="sort_projects">Sortuj</string>
     <string name="unsort_projects">Odsortuj</string>
     <string name="import_from_project">Wybierz projekt do zaimportowania z</string>

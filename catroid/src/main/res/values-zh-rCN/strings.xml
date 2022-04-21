@@ -334,6 +334,7 @@
     <string name="hide_details">隐藏详情</string>
     <string name="project_options">项目选择</string>
     <string name="from_library">从库添加</string>
+    <string name="from_local">从本地添加</string>
     <string name="sort_projects">排序</string>
     <string name="unsort_projects">取消排序</string>
     <string name="import_from_project">选择要导入的项目</string>

@@ -330,6 +330,7 @@
     <string name="hide_details">تفصیلات چھپائیں</string>
     <string name="project_options">پروجیکٹ کے اختیارات</string>
     <string name="from_library">لائبریری سے شامل کریں۔</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">ترتیب دیں</string>
     <string name="unsort_projects">غیر منظم</string>
     <string name="import_from_project">درآمد کرنے کے لیے پروجیکٹ منتخب کریں۔</string>

@@ -340,6 +340,7 @@
     <string name="hide_details">隱藏細節</string>
     <string name="project_options">項目選項</string>
     <string name="from_library">লাইব্রেরি থেকে যোগ করুন</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">種類</string>
     <string name="unsort_projects">取消排序</string>
     <string name="import_from_project">選擇要從中導入的項目</string>

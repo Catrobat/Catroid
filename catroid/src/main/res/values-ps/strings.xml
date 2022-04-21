@@ -348,6 +348,7 @@
     <string name="hide_details">توضیحات پټ کړئ</string>
     <string name="project_options">د پروژې اختیارونه</string>
     <string name="from_library">له کتابتون څخه اضافه کړئ</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">ترتیب</string>
     <string name="unsort_projects">بې ترتیبه کول</string>
     <string name="import_from_project">د واردولو لپاره پروژه غوره کړئ</string>
