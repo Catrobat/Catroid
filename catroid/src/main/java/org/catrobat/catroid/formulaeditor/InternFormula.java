@@ -609,7 +609,8 @@ public class InternFormula {
 
 				bracketsInternTokensLastIndex = bracketsInternTokens.size() - 1;
 
-				startSelectionIndex = internTokenFormulaList.indexOf(bracketsInternTokens.get(0));
+				startSelectionIndex = internTokenFormulaList.indexOf(bracketsInternTokens
+						.get(bracketsInternTokensLastIndex));
 				endSelectionIndex = internTokenFormulaList.indexOf(bracketsInternTokens
 						.get(bracketsInternTokensLastIndex));
 

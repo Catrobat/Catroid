@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -254,6 +254,9 @@ public final class InternFormulaUtils {
 
 		do {
 			if (bracketsIndex >= internTokenList.size()) {
+				if (nestedBracketsCounter != 0) {
+					return bracketInternTokenListToReturn;
+				}
 				return null;
 			}
 			tempSearchToken = internTokenList.get(bracketsIndex);
@@ -292,6 +295,10 @@ public final class InternFormulaUtils {
 
 		do {
 			if (bracketSearchIndex < 0) {
+				if (nestedBracketsCounter != 0) {
+					Collections.reverse(bracketInternTokenListToReturn);
+					return bracketInternTokenListToReturn;
+				}
 				return null;
 			}
 			tempSearchToken = internTokenList.get(bracketSearchIndex);
