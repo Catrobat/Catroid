@@ -27,26 +27,26 @@ import android.util.Log
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
-import com.huawei.hms.mlsdk.MLAnalyzerFactory
+/*import com.huawei.hms.mlsdk.MLAnalyzerFactory
 import com.huawei.hms.mlsdk.common.MLFrame
-import com.huawei.hms.mlsdk.skeleton.MLSkeletonAnalyzerFactory
+import com.huawei.hms.mlsdk.skeleton.MLSkeletonAnalyzerFactory*/
 import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.R
 import org.catrobat.catroid.camera.VisualDetectionHandler.handleAlreadyExistingFaces
 import org.catrobat.catroid.camera.VisualDetectionHandler.handleNewFaces
-import org.catrobat.catroid.camera.VisualDetectionHandler.translateHuaweiFaceToVisualDetectionFace
+//import org.catrobat.catroid.camera.VisualDetectionHandler.translateHuaweiFaceToVisualDetectionFace
 import org.catrobat.catroid.camera.VisualDetectionHandler.updateAllFaceSensorValues
-import org.catrobat.catroid.camera.VisualDetectionHandler.updateAllPoseSensorValuesHuawei
+//import org.catrobat.catroid.camera.VisualDetectionHandler.updateAllPoseSensorValuesHuawei
 import org.catrobat.catroid.camera.VisualDetectionHandler.updateTextSensorValues
 import org.catrobat.catroid.stage.StageActivity
-import org.catrobat.catroid.utils.TextBlockUtil.setTextBlocksHuawei
+//import org.catrobat.catroid.utils.TextBlockUtil.setTextBlocksHuawei
 
 object FaceTextPoseDetectorHuawei : ImageAnalysis.Analyzer {
     private const val DETECTION_PROCESS_ERROR_MESSAGE = "Could not analyze image."
     private const val QUADRANT_DEGREES = 90
-    private val analyzer = MLAnalyzerFactory.getInstance().faceAnalyzer
+    /*private val analyzer = MLAnalyzerFactory.getInstance().faceAnalyzer
     private val textAnalyzer = MLAnalyzerFactory.getInstance().localTextAnalyzer
-    private val poseAnalyzer = MLSkeletonAnalyzerFactory.getInstance().skeletonAnalyzer
+    private val poseAnalyzer = MLSkeletonAnalyzerFactory.getInstance().skeletonAnalyzer*/
 
     private var textDetected = false
     private var faceDetected = false
@@ -54,7 +54,7 @@ object FaceTextPoseDetectorHuawei : ImageAnalysis.Analyzer {
 
     @ExperimentalGetImage
     override fun analyze(imageProxy: ImageProxy) {
-        imageProxy.image?.let { mediaImage ->
+        /*imageProxy.image?.let { mediaImage ->
             val mlFrame = MLFrame.fromMediaImage(
                 mediaImage,
                 imageProxy.imageInfo.rotationDegrees / QUADRANT_DEGREES
@@ -119,6 +119,6 @@ object FaceTextPoseDetectorHuawei : ImageAnalysis.Analyzer {
                 ).sendToTarget()
                 Log.e(javaClass.simpleName, DETECTION_PROCESS_ERROR_MESSAGE, e)
             }
-        }
+        }*/
     }
 }

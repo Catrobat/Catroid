@@ -27,17 +27,17 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
-import com.huawei.hms.mlplugin.asr.MLAsrCaptureConstants
+/*import com.huawei.hms.mlplugin.asr.MLAsrCaptureConstants
 import com.huawei.hms.mlsdk.asr.MLAsrConstants
 import com.huawei.hms.mlsdk.asr.MLAsrListener
-import com.huawei.hms.mlsdk.asr.MLAsrRecognizer
+import com.huawei.hms.mlsdk.asr.MLAsrRecognizer*/
 import org.catrobat.catroid.R
 import org.catrobat.catroid.formulaeditor.SensorHandler
 import org.catrobat.catroid.utils.ToastUtil
 import java.lang.ref.WeakReference
 
-class HmsSpeechRecognitionHolder : SpeechRecognitionHolderInterface {
-    private var speechRecognizer: MLAsrRecognizer? = null
+/*class HmsSpeechRecognitionHolder : SpeechRecognitionHolderInterface {
+    //private var speechRecognizer: MLAsrRecognizer? = null
     private var speechIntent: Intent? = null
     private var context = WeakReference<Context>(null)
 
@@ -100,4 +100,4 @@ class HmsSpeechRecognitionHolder : SpeechRecognitionHolderInterface {
             speechRecognizer = null
         }
     }
-}
+}*/

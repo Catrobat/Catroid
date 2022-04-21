@@ -42,7 +42,7 @@ class SetListeningLanguageAction : Action() {
 
     private fun changeLanguage() {
         SensorHandler.setListeningLanguageSensor(listeningLanguageTag)
-        get(SpeechRecognitionHolderFactory::class.java).instance.forceSetLanguage()
+        //get(SpeechRecognitionHolderFactory::class.java).instance.forceSetLanguage()
         languageChanged = true
     }
 }
