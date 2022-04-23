@@ -90,7 +90,6 @@ private enum class PermissionState {
 // 3. bundletool install-apks --apks my_app.apks
 
 object MachineLearningUtil {
-    // TODO: init with https://developer.android.com/guide/playcore/feature-delivery/on-demand#manage_installed_modules
     @get:Synchronized
     @set:Synchronized
     private var loadingState: LoadingState = LoadingState.NOT_LOADED
@@ -132,6 +131,17 @@ object MachineLearningUtil {
         getObjectInstance<VisualDetectionHandler>("VisualDetectionHandler")
 
     private fun <T> getObjectInstance(name: String): T? {
+        if (loadingState == LoadingState.NOT_LOADED) {
+            val context = activity?.get()?.applicationContext
+            if (context != null) {
+                val splitInstallManager = SplitInstallManagerFactory.create(context)
+                if (splitInstallManager.installedModules.contains(MODULE_NAME)) {
+                    initializeMachineLearningModule(context)
+                    loadingState = LoadingState.LOADED
+                    permissionState = PermissionState.ACCEPTED
+                }
+            }
+        }
         if (loadingState == LoadingState.NOT_LOADED) {
             val activityNotNull = activity?.get() ?: return null
             showDialog(activityNotNull, { loadModule() }, {})
