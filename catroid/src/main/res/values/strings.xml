@@ -753,6 +753,10 @@
     <string name="upload_tag_dialog_title">Please choose up to three categories</string>
     <string name="upload_tags_maximum_error">Selecting more than 3 tags is not possible.</string>
 
+    <!-- DownloadMLModuleDialog -->
+    <string name="download_ml_module_dialog_title">Download ML Module?</string>
+    <string name="download_ml_module_dialog_message">Your project requires the ML module. Do you want to download it?</string>
+
     <!-- Save Project to External Storage -->
     <string name="save_to_external_storage_button">Export project</string>
     <string name="notification_save_project_to_external_storage_title_pending">" "</string>

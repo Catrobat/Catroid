@@ -23,13 +23,18 @@
 
 package org.catrobat.catroid.utils
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Point
 import android.util.Log
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.camera.core.ImageAnalysis
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
+import org.catrobat.catroid.R
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener
+import java.lang.ref.WeakReference
 
 interface MachineLearningModule {
     fun init(context: Context)
@@ -61,53 +66,53 @@ interface VisualDetectionHandler {
 private const val MODULE_NAME = "machinelearning"
 private const val MODULE_PATH = "org.catrobat.catroidfeature.$MODULE_NAME"
 
+private enum class LoadingState {
+    NOT_LOADED,
+    IS_LOADING,
+    LOADED
+}
+
+private enum class DialogState {
+    HIDDEN,
+    VISIBLE,
+}
+
+private enum class PermissionState {
+    NOT_ANSWERED,
+    REJECTED,
+    ACCEPTED
+}
+
+// TODO how to test the lazy loading??
+// https://developer.android.com/guide/playcore/feature-delivery/on-demand#local-testing
+// 1. Build: Build > Generate signed bundles
+// 2. bundletool build-apks --local-testing --bundle catroid/catroid/debug/catroid-catroid-debug.aab --output app.apks
+// 3. bundletool install-apks --apks my_app.apks
+
 object MachineLearningUtil {
-    private var isLoaded = false
-    private var isLoading = false
+    // TODO: init with https://developer.android.com/guide/playcore/feature-delivery/on-demand#manage_installed_modules
+    @get:Synchronized
+    @set:Synchronized
+    private var loadingState: LoadingState = LoadingState.NOT_LOADED
 
-    // TODO how to test the lazy loading??
-    // https://developer.android.com/guide/playcore/feature-delivery/on-demand#local-testing
-    // 1. Build: Build > Generate signed bundles
-    // 2. bundletool build-apks --local-testing --bundle catroid/catroid/debug/catroid-catroid-debug.aab --output app.apks
-    // 3. bundletool install-apks --apks my_app.apks
+    @get:Synchronized
+    @set:Synchronized
+    private var dialogState: DialogState = DialogState.HIDDEN
 
-    // 		context = getApplicationContext();
+    @get:Synchronized
+    @set:Synchronized
+    private var permissionState: PermissionState = PermissionState.NOT_ANSWERED
+
+    @get:Synchronized
+    @set:Synchronized
+    private var activity: WeakReference<Activity>? = null
 
     @JvmStatic
-    fun loadModule(context: Context?) {
-        if (context == null || isLoaded || isLoading) {
-            Log.d("BULLSHIT", "is already loaded")
-            return
+    fun setActivity(a: Activity?) {
+        activity = WeakReference<Activity>(a)
+        if (a != null && permissionState == PermissionState.REJECTED) {
+            permissionState = PermissionState.NOT_ANSWERED
         }
-        Log.d("BULLSHIT", "start loading")
-        isLoading = true
-        val request = SplitInstallRequest
-            .newBuilder()
-            .addModule(MODULE_NAME)
-            .build()
-        val splitInstallManager = SplitInstallManagerFactory.create(context)
-        splitInstallManager
-            .startInstall(request)
-            .addOnSuccessListener { sessionId ->
-                try {
-                    val machineLearningModule =
-                        Class.forName("$MODULE_PATH.MachineLearningModule").kotlin.objectInstance as MachineLearningModule?
-                    // TODO can be null
-                    machineLearningModule?.init(context)
-                    Log.d("BULLSHIT", "is loaded")
-                    isLoaded = true
-                } catch (exception: ClassNotFoundException) {
-                    Log.e(javaClass.simpleName, "Could not initialize module.", exception)
-                    Log.e("BULLSHIT", "could not init", exception)
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.e(javaClass.simpleName, "Could not load module.", exception)
-                Log.e("BULLSHIT", "could not load", exception)
-            }
-            .addOnCompleteListener {
-                isLoading = false
-            }
     }
 
     fun getCatroidImageAnalyzer(): CatroidImageAnalyzer? =
@@ -127,13 +132,77 @@ object MachineLearningUtil {
         getObjectInstance<VisualDetectionHandler>("VisualDetectionHandler")
 
     private fun <T> getObjectInstance(name: String): T? {
-        if (!isLoaded) {
+        if (loadingState == LoadingState.NOT_LOADED) {
+            val activityNotNull = activity?.get() ?: return null
+            showDialog(activityNotNull, { loadModule() }, {})
+            return null
+        }
+        if (loadingState != LoadingState.LOADED) {
             return null
         }
         return try {
             Class.forName("$MODULE_PATH.$name").kotlin.objectInstance as T?
         } catch (e: ClassNotFoundException) {
             null
+        }
+    }
+
+    private fun loadModule() {
+        val context = activity?.get()?.applicationContext ?: return
+        if (loadingState != LoadingState.NOT_LOADED) {
+            return
+        }
+        loadingState = LoadingState.IS_LOADING
+        val request = SplitInstallRequest
+            .newBuilder()
+            .addModule(MODULE_NAME)
+            .build()
+        val splitInstallManager = SplitInstallManagerFactory.create(context)
+        splitInstallManager
+            .startInstall(request)
+            .addOnSuccessListener {
+                loadingState = LoadingState.LOADED
+                initializeMachineLearningModule(context)
+            }
+            .addOnFailureListener { exception ->
+                loadingState = LoadingState.NOT_LOADED
+                Log.e(javaClass.simpleName, "Could not load module.", exception)
+            }
+    }
+
+    private fun initializeMachineLearningModule(context: Context) {
+        try {
+            val machineLearningModule =
+                Class.forName("$MODULE_PATH.MachineLearningModule").kotlin.objectInstance as MachineLearningModule?
+            machineLearningModule?.init(context)
+        } catch (exception: ClassNotFoundException) {
+            Log.e(javaClass.simpleName, "Could not initialize module.", exception)
+        }
+    }
+
+    private fun showDialog(activity: Activity, positiveButtonHandler: () -> Unit, negativeButtonHandler: () -> Unit) {
+        if (dialogState == DialogState.VISIBLE || permissionState == PermissionState.ACCEPTED || permissionState == PermissionState.REJECTED) {
+            return
+        }
+        activity.runOnUiThread {
+            AlertDialog.Builder(ContextThemeWrapper(activity, R.style.Theme_AppCompat_Dialog))
+                .setTitle(R.string.download_ml_module_dialog_title)
+                .setMessage(R.string.download_ml_module_dialog_message)
+                .setPositiveButton(R.string.yes) { _, _ ->
+                    positiveButtonHandler()
+                    dialogState = DialogState.HIDDEN
+                    permissionState = PermissionState.ACCEPTED
+                }
+                .setNegativeButton(R.string.no) { _, _ ->
+                    negativeButtonHandler()
+                    dialogState = DialogState.HIDDEN
+                    permissionState = PermissionState.REJECTED
+                }
+                .setCancelable(false)
+                .create()
+                .show()
+            dialogState = DialogState.VISIBLE
+
         }
     }
 }

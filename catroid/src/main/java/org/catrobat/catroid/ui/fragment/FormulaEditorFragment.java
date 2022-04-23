@@ -87,6 +87,7 @@ import org.catrobat.catroid.ui.runtimepermissions.BrickResourcesToRuntimePermiss
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
+import org.catrobat.catroid.utils.MachineLearningUtil;
 import org.catrobat.catroid.utils.ProjectManagerExtensionsKt;
 import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 import org.catrobat.catroid.utils.SnackbarUtil;
@@ -167,6 +168,12 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	}
 
 	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		MachineLearningUtil.setActivity(null);
+	}
+
+	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
@@ -176,6 +183,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 		setHasOptionsMenu(true);
 		SettingsFragment.setToChosenLanguage(getActivity());
+
+		MachineLearningUtil.setActivity((AppCompatActivity) getActivity());
 	}
 
 	private static void showFragment(Context context, FormulaBrick formulaBrick, Brick.FormulaField formulaField, boolean showCustomView) {

@@ -50,6 +50,7 @@ import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
+import org.catrobat.catroid.utils.MachineLearningUtil;
 
 import java.util.List;
 
@@ -72,6 +73,8 @@ public final class StageLifeCycleController {
 			Log.d(TAG, "no current project set, cowardly refusing to run");
 			return;
 		}
+
+		MachineLearningUtil.setActivity(stageActivity);
 
 		StageActivity.numberOfSpritesCloned = 0;
 
@@ -239,6 +242,8 @@ public final class StageLifeCycleController {
 	}
 
 	static void stageDestroy(StageActivity stageActivity) {
+		MachineLearningUtil.setActivity(null);
+
 		if (checkPermission(stageActivity, getProjectsRuntimePermissionList())) {
 			if (stageActivity.brickDialogManager != null) {
 				stageActivity.brickDialogManager.dismissAllDialogs();
