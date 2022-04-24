@@ -753,9 +753,12 @@
     <string name="upload_tag_dialog_title">Please choose up to three categories</string>
     <string name="upload_tags_maximum_error">Selecting more than 3 tags is not possible.</string>
 
-    <!-- DownloadMLModuleDialog -->
-    <string name="download_ml_module_dialog_title">Download ML Module?</string>
-    <string name="download_ml_module_dialog_message">Your project requires the ML module. Do you want to download it?</string>
+    <!-- Download ML Module -->
+    <string name="download_ml_module_dialog_title">Download Machine Learning Module?</string>
+    <string name="download_ml_module_dialog_message">Your project requires the Machine Learning Module. Do you want to download it?</string>
+    <string name="notification_program_name_ml_module">Machine Learning Module</string>
+    <string name="download_ml_module_error_message">Failed to download Machine Learning Module</string>
+    <!--  -->
 
     <!-- Save Project to External Storage -->
     <string name="save_to_external_storage_button">Export project</string>
@@ -1404,6 +1407,7 @@
     <string name="notification_download_pending">Download in progress</string>
     <string name="notification_download_finished">Download successful</string>
     <string name="notification_title_open">"Open"</string>
+    <string name="notification_title_done">"Done"</string>
     <string name="size_of_project">Size:</string>
     <!--  -->
 

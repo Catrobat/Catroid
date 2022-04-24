@@ -140,6 +140,22 @@ public final class StatusBarNotificationManager {
 				0, MAX_PERCENT, true, false, getNextNotificationID());
 	}
 
+	public NotificationData createMLModuleDownloadNotification(Context context) {
+		return new NotificationData(
+				R.drawable.ic_stat,
+				context.getString(R.string.notification_program_name_ml_module),
+				context.getString(R.string.notification_download_title_pending),
+				context.getString(R.string.notification_title_done),
+				context.getString(R.string.notification_download_pending),
+				context.getString(R.string.notification_download_finished),
+				0,
+				MAX_PERCENT,
+				true,
+				false,
+				getNextNotificationID()
+		);
+	}
+
 	@Synchronized
 	public static int getNextNotificationID() {
 		return notificationId++;

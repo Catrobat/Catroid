@@ -32,8 +32,11 @@ import androidx.appcompat.view.ContextThemeWrapper
 import androidx.camera.core.ImageAnalysis
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
+import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener
+import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
 import org.catrobat.catroid.R
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener
+import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
 import java.lang.ref.WeakReference
 
 interface MachineLearningModule {
@@ -83,11 +86,11 @@ private enum class PermissionState {
     ACCEPTED
 }
 
-// TODO how to test the lazy loading??
+// NOTE: How to test lazy loading locally in the simulator:
 // https://developer.android.com/guide/playcore/feature-delivery/on-demand#local-testing
 // 1. Build: Build > Generate signed bundles
 // 2. bundletool build-apks --local-testing --bundle catroid/catroid/debug/catroid-catroid-debug.aab --output app.apks
-// 3. bundletool install-apks --apks my_app.apks
+// 3. bundletool install-apks --apks app.apks
 
 object MachineLearningUtil {
     @get:Synchronized
@@ -167,13 +170,44 @@ object MachineLearningUtil {
             .newBuilder()
             .addModule(MODULE_NAME)
             .build()
+
+        val statusBarNotificationManager = StatusBarNotificationManager(context)
+        val notificationData = statusBarNotificationManager.createMLModuleDownloadNotification(context)
+        statusBarNotificationManager.showOrUpdateNotification(context, notificationData, 0, null)
+
         val splitInstallManager = SplitInstallManagerFactory.create(context)
+        val listener = SplitInstallStateUpdatedListener { state ->
+            when (state.status()) {
+                SplitInstallSessionStatus.REQUIRES_USER_CONFIRMATION -> {
+                    // TODO
+                    // https://developer.android.com/reference/com/google/android/play/core/splitinstall/SplitInstallManager.html#startConfirmationDialogForResult(com.google.android.play.core.splitinstall.SplitInstallSessionState,%20android.app.Activity,%20int)
+                    // https://developer.android.com/guide/playcore/feature-delivery/on-demand#obtain_confirmation
+                    // https://medium.com/swlh/dynamic-feature-module-integration-android-a315194a4801
+                }
+                SplitInstallSessionStatus.DOWNLOADING -> {
+                    val size = state.totalBytesToDownload()
+                    val downloaded = state.bytesDownloaded()
+                    val percentage = (downloaded * 100 / size).toInt()
+                    statusBarNotificationManager.showOrUpdateNotification(context, notificationData, percentage, null)
+                }
+                SplitInstallSessionStatus.INSTALLED -> {
+                    loadingState = LoadingState.LOADED
+                    initializeMachineLearningModule(context)
+                }
+                SplitInstallSessionStatus.UNKNOWN,
+                SplitInstallSessionStatus.CANCELED,
+                SplitInstallSessionStatus.FAILED -> {
+                    statusBarNotificationManager.abortProgressNotificationWithMessage(
+                        context,
+                        notificationData,
+                        R.string.download_ml_module_error_message
+                    )
+                }
+            }
+        }
+        splitInstallManager.registerListener(listener)
         splitInstallManager
             .startInstall(request)
-            .addOnSuccessListener {
-                loadingState = LoadingState.LOADED
-                initializeMachineLearningModule(context)
-            }
             .addOnFailureListener { exception ->
                 loadingState = LoadingState.NOT_LOADED
                 Log.e(javaClass.simpleName, "Could not load module.", exception)
