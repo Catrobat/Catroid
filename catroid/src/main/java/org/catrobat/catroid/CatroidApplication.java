@@ -23,7 +23,6 @@
 package org.catrobat.catroid;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Build;

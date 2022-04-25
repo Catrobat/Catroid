@@ -68,6 +68,7 @@ interface VisualDetectionHandler {
 
 private const val MODULE_NAME = "machinelearning"
 private const val MODULE_PATH = "org.catrobat.catroidfeature.$MODULE_NAME"
+private const val MAX_PERCENT = 100
 
 private enum class LoadingState {
     NOT_LOADED,
@@ -75,13 +76,9 @@ private enum class LoadingState {
     LOADED
 }
 
-private enum class DialogState {
-    HIDDEN,
-    VISIBLE,
-}
-
 private enum class PermissionState {
     NOT_ANSWERED,
+    PENDING,
     REJECTED,
     ACCEPTED
 }
@@ -96,10 +93,6 @@ object MachineLearningUtil {
     @get:Synchronized
     @set:Synchronized
     private var loadingState: LoadingState = LoadingState.NOT_LOADED
-
-    @get:Synchronized
-    @set:Synchronized
-    private var dialogState: DialogState = DialogState.HIDDEN
 
     @get:Synchronized
     @set:Synchronized
@@ -155,7 +148,8 @@ object MachineLearningUtil {
         }
         return try {
             Class.forName("$MODULE_PATH.$name").kotlin.objectInstance as T?
-        } catch (e: ClassNotFoundException) {
+        } catch (exception: ClassNotFoundException) {
+            Log.e(javaClass.simpleName, "Could not get class for name '$MODULE_PATH.$name'", exception)
             null
         }
     }
@@ -179,15 +173,16 @@ object MachineLearningUtil {
         val listener = SplitInstallStateUpdatedListener { state ->
             when (state.status()) {
                 SplitInstallSessionStatus.REQUIRES_USER_CONFIRMATION -> {
-                    // TODO
-                    // https://developer.android.com/reference/com/google/android/play/core/splitinstall/SplitInstallManager.html#startConfirmationDialogForResult(com.google.android.play.core.splitinstall.SplitInstallSessionState,%20android.app.Activity,%20int)
-                    // https://developer.android.com/guide/playcore/feature-delivery/on-demand#obtain_confirmation
-                    // https://medium.com/swlh/dynamic-feature-module-integration-android-a315194a4801
+                    // NOTE: only necessary for feature modules > 150MB (https://issuetracker.google.com/issues/171501820#comment6)
+                    // Implementation details:
+                    //  - https://developer.android.com/reference/com/google/android/play/core/splitinstall/SplitInstallManager.html#startConfirmationDialogForResult(com.google.android.play.core.splitinstall.SplitInstallSessionState,%20android.app.Activity,%20int)
+                    //  - https://developer.android.com/guide/playcore/feature-delivery/on-demand#obtain_confirmation
+                    //  - https://medium.com/swlh/dynamic-feature-module-integration-android-a315194a4801
                 }
                 SplitInstallSessionStatus.DOWNLOADING -> {
                     val size = state.totalBytesToDownload()
                     val downloaded = state.bytesDownloaded()
-                    val percentage = (downloaded * 100 / size).toInt()
+                    val percentage = (downloaded * MAX_PERCENT / size).toInt()
                     statusBarNotificationManager.showOrUpdateNotification(context, notificationData, percentage, null)
                 }
                 SplitInstallSessionStatus.INSTALLED -> {
@@ -196,12 +191,16 @@ object MachineLearningUtil {
                 }
                 SplitInstallSessionStatus.UNKNOWN,
                 SplitInstallSessionStatus.CANCELED,
-                SplitInstallSessionStatus.FAILED -> {
+                SplitInstallSessionStatus.FAILED ->
                     statusBarNotificationManager.abortProgressNotificationWithMessage(
                         context,
                         notificationData,
                         R.string.download_ml_module_error_message
                     )
+                SplitInstallSessionStatus.CANCELING,
+                SplitInstallSessionStatus.DOWNLOADED,
+                SplitInstallSessionStatus.INSTALLING,
+                SplitInstallSessionStatus.PENDING -> {
                 }
             }
         }
@@ -225,28 +224,25 @@ object MachineLearningUtil {
     }
 
     private fun showDialog(activity: Activity, positiveButtonHandler: () -> Unit, negativeButtonHandler: () -> Unit) {
-        if (dialogState == DialogState.VISIBLE || permissionState == PermissionState.ACCEPTED || permissionState == PermissionState.REJECTED) {
+        if (permissionState == PermissionState.PENDING || permissionState == PermissionState.ACCEPTED || permissionState == PermissionState.REJECTED) {
             return
         }
+        permissionState = PermissionState.PENDING
         activity.runOnUiThread {
             AlertDialog.Builder(ContextThemeWrapper(activity, R.style.Theme_AppCompat_Dialog))
                 .setTitle(R.string.download_ml_module_dialog_title)
                 .setMessage(R.string.download_ml_module_dialog_message)
                 .setPositiveButton(R.string.yes) { _, _ ->
                     positiveButtonHandler()
-                    dialogState = DialogState.HIDDEN
                     permissionState = PermissionState.ACCEPTED
                 }
                 .setNegativeButton(R.string.no) { _, _ ->
                     negativeButtonHandler()
-                    dialogState = DialogState.HIDDEN
                     permissionState = PermissionState.REJECTED
                 }
                 .setCancelable(false)
                 .create()
                 .show()
-            dialogState = DialogState.VISIBLE
-
         }
     }
 }
