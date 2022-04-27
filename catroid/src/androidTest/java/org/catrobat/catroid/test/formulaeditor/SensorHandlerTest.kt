@@ -70,7 +70,7 @@ class SensorHandlerTest {
         compareToSensor(0, Sensors.OBJECT_BRIGHTNESS)
     }
 
-    // TODO fix tests
+    // TODO: (ML) fix tests
     /*
     @Test
     fun testFirstFaceDetection() {
