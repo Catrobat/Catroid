@@ -85,8 +85,7 @@ public class Look extends Image {
 	protected Pixmap pixmap;
 	private BrightnessContrastHueShader shader;
 	private int rotationMode = ROTATION_STYLE_ALL_AROUND;
-	private float rotation = 90f;
-	private float realRotation = rotation;
+	protected boolean isFlippedByAction = false;
 	private ThreadScheduler scheduler;
 	private ParticleEffect particleEffect;
 
@@ -462,7 +461,7 @@ public class Look extends Image {
 	}
 
 	public float getMotionDirectionInUserInterfaceDimensionUnit() {
-		return realRotation;
+		return convertStageAngleToCatroidAngle(getRotation());
 	}
 
 	public float getLookDirectionInUserInterfaceDimensionUnit() {
@@ -470,7 +469,7 @@ public class Look extends Image {
 		switch (rotationMode) {
 			case ROTATION_STYLE_NONE : direction = DEGREE_UI_OFFSET;
 			break;
-			case ROTATION_STYLE_ALL_AROUND : direction = realRotation;
+			case ROTATION_STYLE_ALL_AROUND : direction = convertStageAngleToCatroidAngle(getRotation());
 			break;
 			case ROTATION_STYLE_LEFT_RIGHT_ONLY : direction =
 					isFlipped() ? -DEGREE_UI_OFFSET : DEGREE_UI_OFFSET;
@@ -541,18 +540,16 @@ public class Look extends Image {
 	}
 
 	public void setMotionDirectionInUserInterfaceDimensionUnit(float degrees) {
-		rotation = (-degrees + DEGREE_UI_OFFSET) % 360;
-		realRotation = convertStageAngleToCatroidAngle(rotation);
+		float rotation = (-degrees + DEGREE_UI_OFFSET) % 360;
+		float realRotation = convertStageAngleToCatroidAngle(rotation);
+		setRotationBasedOnMode(rotation, realRotation);
+	}
 
+	protected void setRotationBasedOnMode(float rotation, float realRotation) {
 		switch (rotationMode) {
 			case ROTATION_STYLE_LEFT_RIGHT_ONLY:
 				setRotation(0f);
-				boolean orientedRight = realRotation >= 0;
-				boolean orientedLeft = realRotation < 0;
-				boolean needsFlipping = (isFlipped() && orientedRight) || (!isFlipped() && orientedLeft);
-				if (needsFlipping && lookData != null) {
-					lookData.getTextureRegion().flip(true, false);
-				}
+				flipLookDataIfNeeded(realRotation);
 				break;
 			case ROTATION_STYLE_ALL_AROUND:
 				setRotation(rotation);
@@ -560,6 +557,18 @@ public class Look extends Image {
 			case ROTATION_STYLE_NONE:
 				setRotation(0f);
 				break;
+		}
+	}
+
+	protected void flipLookDataIfNeeded(float realRotation) {
+		boolean orientedRight = realRotation > 180 || realRotation <= 0;
+		boolean orientedLeft = realRotation <= 180 && realRotation > 0;
+		boolean isLookDataFlipped = isFlipped();
+		if (isFlippedByAction) {
+			isLookDataFlipped = !isLookDataFlipped;
+		}
+		if (lookData != null && ((isLookDataFlipped && orientedRight) || (!isLookDataFlipped && orientedLeft))) {
+			lookData.getTextureRegion().flip(true, false);
 		}
 	}
 
