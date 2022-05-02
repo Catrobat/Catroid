@@ -127,4 +127,10 @@ dependencies {
     // Gdx
     implementation "com.badlogicgames.gdx:gdx:1.9.10"
     implementation "com.badlogicgames.gdx:gdx-backend-android:1.9.10"
+
+    // NOTE: tests files of the this feature module will throw a NoClassDefFoundError error on
+    // runtime if we do not include this line
+    // https://stackoverflow.com/questions/56766795/noclassdeffounderror-when-running-unit-test-with-gradle-task
+    // https://github.com/android/app-bundle-samples/issues/11
+    testRuntimeOnly(files("$projectDir/../catroid/build/intermediates/app_classes/catroidDebug/classes.jar"))
 }

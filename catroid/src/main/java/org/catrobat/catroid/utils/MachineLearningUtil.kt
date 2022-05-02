@@ -133,7 +133,6 @@ object MachineLearningUtil {
                 val splitInstallManager = SplitInstallManagerFactory.create(context)
                 if (splitInstallManager.installedModules.contains(MODULE_NAME)) {
                     initializeMachineLearningModule(context)
-                    loadingState = LoadingState.LOADED
                     permissionState = PermissionState.ACCEPTED
                 }
             }
@@ -186,7 +185,6 @@ object MachineLearningUtil {
                     statusBarNotificationManager.showOrUpdateNotification(context, notificationData, percentage, null)
                 }
                 SplitInstallSessionStatus.INSTALLED -> {
-                    loadingState = LoadingState.LOADED
                     initializeMachineLearningModule(context)
                 }
                 SplitInstallSessionStatus.UNKNOWN,
@@ -213,11 +211,12 @@ object MachineLearningUtil {
             }
     }
 
-    private fun initializeMachineLearningModule(context: Context) {
+    fun initializeMachineLearningModule(context: Context) {
         try {
             val machineLearningModule =
                 Class.forName("$MODULE_PATH.MachineLearningModule").kotlin.objectInstance as MachineLearningModule?
             machineLearningModule?.init(context)
+            loadingState = LoadingState.LOADED
         } catch (exception: ClassNotFoundException) {
             Log.e(javaClass.simpleName, "Could not initialize module.", exception)
         }
