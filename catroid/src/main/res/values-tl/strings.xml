@@ -352,7 +352,7 @@ Pakiusap sumubok na lamang ng iba.</string>
     <string name="hide_details">Itago ang mga detalye</string>
     <string name="project_options">Project options</string>
     <string name="from_library">Idagdag mula sa library</string>
-    <string name="from_local">Add from local</string>
+    <string name="from_local">Idagdag mula sa lokal</string>
     <string name="sort_projects">Sort</string>
     <string name="unsort_projects">Unsort</string>
     <string name="import_from_project">Pumili ng proyekto na i-i-import mula sa</string>
@@ -754,67 +754,64 @@ Pakiusap sumubok na lamang ng iba.</string>
     <string name="overwrite_title">Umiiral na proyekto.</string>
     <string name="overwrite_text">Ang proyekto na may katulad na pangalan ay umiiral na.</string>
     <string name="overwrite_replace">I-overwrite ang proyekto</string>
-    <string name="overwrite_rename">Choose a new name</string>
+    <string name="overwrite_rename">Pumili ng bagong pangalan</string>
     <!--  -->
     <!-- Music activity -->
-    <string name="pocket_music_default_project_name">Untitled song</string>
+    <string name="pocket_music_default_project_name">Walang titulong kanta</string>
     <string name="pocket_music_default_track_name">Track 1</string>
     <!--  -->
     <!-- Resource initialization fka PrestageActivity -->
-    <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to
-        install it?</string>
-    <string name="prestage_resource_not_available_title">Component not available</string>
-    <string name="prestage_resource_not_available_text">Unfortunately this project does not work on your device.
-        The following components are unavailable:\n\n</string>
-    <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
+    <string name="prestage_text_to_speech_engine_not_installed">Hindi naka-install ang Text-to-Speech engine!\nGusto mo bang i-install ito?</string>
+    <string name="prestage_resource_not_available_title">Hindi available ang component</string>
+    <string name="prestage_resource_not_available_text">Sa kasamaang palad ang proyektong ito ay hindi gumagana sa iyong device. Ang mga sumusunod na component ay hindi available:\n\n</string>
+    <string name="prestage_no_vibration_available">\u2022Vibration\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Inclination sensor\n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 Compass\n</string>
     <string name="prestage_no_gps_sensor_available">\u2022 Geolocation\n</string>
-    <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
-    <string name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
+    <string name="prestage_text_to_speech_error">\u2022 Text-to-Speech engine\n</string>
+    <string name="prestage_no_back_camera_available">\u2022 Likod na camera\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
     <string name="prestage_no_object_detection_available">\u2022 Object recognition\n</string>
     <string name="prestage_no_pose_detection_available">\u2022 Pose detection\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
-    <string name="prestage_no_front_camera_available">\u2022 Front camera\n</string>
+    <string name="prestage_no_front_camera_available">\u2022 Harap na camera\n</string>
     <string name="prestage_no_camera_available">\u2022 Camera\n</string>
     <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
-    <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
-    <string name="no_nfc_available">NFC not available</string>
-    <string name="nfc_not_activated">Please activate NFC and press Back to return to the app.</string>
-    <string name="nfc_facedetection_support">Using NFC and face detection at the same time might lead to performance
-        issues.</string>
+    <string name="prestage_default_resource_not_available">\u2022 Hindi matukoy na component\n</string>
+    <string name="no_nfc_available">Hindi available ang NFC</string>
+    <string name="nfc_not_activated">Pakiusap i-activate ang NFC at i-press ang Back upang bumalik sa app.</string>
+    <string name="nfc_facedetection_support">Ang paggamit ng NFC at face detection ng magkasabay ay maaaring magdulot ng performance issues.</string>
     <!--  -->
     <!-- Stage menu dialog -->
-    <string name="stage_dialog_back">Back</string>
-    <string name="stage_dialog_resume">Resume</string>
-    <string name="stage_dialog_restart">Restart</string>
+    <string name="stage_dialog_back">Bumalik</string>
+    <string name="stage_dialog_resume">Ipagpatuloy</string>
+    <string name="stage_dialog_restart">I-Restart</string>
     <string name="stage_dialog_axes_on">Axes on</string>
     <string name="stage_dialog_axes_off">Axes off</string>
-    <string name="stage_dialog_maximize">Maximize/\nstretch</string>
+    <string name="stage_dialog_maximize">I-maximize ang/\nstretch</string>
     <string name="stage_dialog_screenshot">Preview</string>
-    <string name="stage_dialog_embroidery">Embroidery</string>
+    <string name="stage_dialog_embroidery">Pagbuburda</string>
     <!--  -->
     <!-- Broadcast spinner -->
-    <string name="dialog_new_broadcast_message_title">New message</string>
-    <string name="dialog_broadcast_message_name">message:</string>
-    <string name="dialog_edit_broadcast_message_title">Edit message</string>
+    <string name="dialog_new_broadcast_message_title">Bagong mensahe</string>
+    <string name="dialog_broadcast_message_name">mensahe:</string>
+    <string name="dialog_edit_broadcast_message_title">I-edit ang mensahe</string>
     <!--  -->
     <!-- NFC spinner -->
-    <string name="brick_when_nfc_edit_list_of_nfc_tags">Edit list of NFC tags</string>
-    <string name="brick_when_nfc_default_all">all</string>
+    <string name="brick_when_nfc_edit_list_of_nfc_tags">I-edit ang listahan ng NFC tags</string>
+    <string name="brick_when_nfc_default_all">lahat</string>
     <!-- -->
     <!-- Brick categories -->
-    <string name="categories">Categories</string>
-    <string name="category_embroidery">Embroidery</string>
-    <string name="category_motion">Motion</string>
+    <string name="categories">Kategorya</string>
+    <string name="category_embroidery">Pagbuburda</string>
+    <string name="category_motion">Paggalaw</string>
     <string name="category_looks">Larawan</string>
-    <string name="category_pen">Pen</string>
-    <string name="category_sound">Sound</string>
-    <string name="category_control">Control</string>
+    <string name="category_pen">Panulat</string>
+    <string name="category_sound">Tunog</string>
+    <string name="category_control">Kontrol</string>
     <string name="category_event">Event</string>
-    <string name="category_user_bricks">Your bricks</string>
+    <string name="category_user_bricks">Ang iyong bricks</string>
     <string name="category_data">Data</string>
     <string name="category_device">Device</string>
     <string name="category_lego_nxt">Lego NXT</string>
@@ -826,12 +823,12 @@ Pakiusap sumubok na lamang ng iba.</string>
     <string name="category_cast">Chromecast</string>
     <string name="category_raspi">Raspberry Pi</string>
     <string name="category_assertions">Testing</string>
-    <string name="category_search_bricks">Search Bricks</string>
+    <string name="category_search_bricks">Maghanap ng Bricks</string>
     <!--  -->
     <!-- User Defined Bricks -->
-    <string name="brick_user_defined_add_label">Add label</string>
-    <string name="brick_user_defined_add_input">Add input</string>
-    <string name="brick_user_defined_add_input_description">Add input for this brick:</string>
+    <string name="brick_user_defined_add_label">Magdagdag ng label</string>
+    <string name="brick_user_defined_add_input">Magdagdag ng input</string>
+    <string name="brick_user_defined_add_input_description">Magdagdag ng input para sa brick na ito:</string>
     <string name="brick_user_defined_add_label_description">Add label for this brick:</string>
     <string name="brick_user_defined_default_input_name">Name of input</string>
     <string name="brick_user_defined_default_label">Label text</string>
@@ -881,60 +878,60 @@ Pakiusap sumubok na lamang ng iba.</string>
     <!-- Physics -->
     <string name="brick_set_physics_object_type">Set your motion type to</string>
     <string name="brick_set_physics_object_type_dynamic">moving and bouncing under gravity</string>
-    <string name="brick_set_physics_object_type_fixed">not moving under gravity, but others bounce off you under gravity</string>
-    <string name="brick_set_physics_object_type_no">not moving or bouncing under gravity (default)</string>
-    <string name="brick_set_mass">"Set mass to"</string>
+    <string name="brick_set_physics_object_type_fixed">hindi gumagalaw sa gravity, pero ang iba ay magba-bounce off sa iyo sa ilalim ng gravity</string>
+    <string name="brick_set_physics_object_type_no">hindi gumagalaw o tumatalbog sa ilalim ng gravity (default)</string>
+    <string name="brick_set_mass">"I-set ang mass sa"</string>
     <string name="brick_set_mass_unit">kilogram</string>
-    <string name="brick_set_gravity_to">"Set gravity for all actors and objects to"</string>
+    <string name="brick_set_gravity_to">"I-set ang gravity sa lahat ng aktor o bagay sa"</string>
     <string name="brick_set_gravity_unit">steps/second²</string>
-    <string name="brick_set_velocity_to">"Set velocity to"</string>
+    <string name="brick_set_velocity_to">"I-set ang velocity sa"</string>
     <string name="brick_set_velocity_unit">steps/second</string>
     <string name="brick_turn_speed_unit">degrees/second</string>
-    <string name="brick_set_friction">"Set friction to"</string>
-    <string name="brick_set_bounce_factor">"Set bounce factor to"</string>
-    <string name="brick_rotate_left">"Spin left"</string>
-    <string name="brick_rotate_right">"Spin right"</string>
+    <string name="brick_set_friction">"I-set ang friction sa"</string>
+    <string name="brick_set_bounce_factor">"I-set ang bounce factor sa"</string>
+    <string name="brick_rotate_left">"Umikot pakaliwa"</string>
+    <string name="brick_rotate_right">"Umikot pakanan"</string>
     <!-- Look bricks -->
-    <string name="brick_set_look">Switch to look</string>
-    <string name="brick_set_look_by_index">Switch to look with number</string>
-    <string name="brick_and_wait">and wait</string>
-    <string name="brick_set_background">Set background</string>
-    <string name="brick_set_background_and_wait">Set background and wait</string>
-    <string name="brick_set_background_by_index">Set background to number</string>
-    <string name="brick_when_background">When background changes to</string>
-    <string name="brick_set_size_to">Set size to</string>
-    <string name="brick_change_size_by">Change size by</string>
-    <string name="brick_hide">Hide</string>
-    <string name="brick_show">Show</string>
-    <string name="brick_set_transparency">"Set transparency"</string>
-    <string name="brick_change_ghost_effect">"Change transparency"</string>
-    <string name="brick_set_brightness">"Set brightness"</string>
-    <string name="brick_change_brightness">"Change brightness"</string>
-    <string name="brick_set_color">"Set color"</string>
-    <string name="brick_change_color">"Change color"</string>
-    <string name="by_label">by</string>
-    <string name="to_label">to</string>
-    <string name="brick_clear_graphic_effect">Clear graphic effects</string>
-    <string name="brick_next_look">Next look</string>
-    <string name="brick_next_background">Next background</string>
-    <string name="brick_previous_look">Previous look</string>
-    <string name="brick_previous_background">Previous background</string>
-    <string name="brick_edit_look">Edit look</string>
-    <string name="brick_edit_background">Edit background</string>
-    <string name="brick_delete_look">Delete look</string>
-    <string name="brick_delete_background">Delete background</string>
+    <string name="brick_set_look">Lumipat ng larawan</string>
+    <string name="brick_set_look_by_index">Lumipat ng larawan sa bilang</string>
+    <string name="brick_and_wait">at maghintay</string>
+    <string name="brick_set_background">I-set ang background</string>
+    <string name="brick_set_background_and_wait">I-set ang background at maghintay</string>
+    <string name="brick_set_background_by_index">I-set ang background sa numero</string>
+    <string name="brick_when_background">Kapag nagpalit ng background sa</string>
+    <string name="brick_set_size_to">I-set ang size sa</string>
+    <string name="brick_change_size_by">Palitan ang size sa</string>
+    <string name="brick_hide">Itago</string>
+    <string name="brick_show">Ipakita</string>
+    <string name="brick_set_transparency">"I-set ang transparency"</string>
+    <string name="brick_change_ghost_effect">"Baguhin ang transparency"</string>
+    <string name="brick_set_brightness">"I-set ang brightness"</string>
+    <string name="brick_change_brightness">"Baguhin ang brightness"</string>
+    <string name="brick_set_color">"I-set ang color"</string>
+    <string name="brick_change_color">"Baguhin ang color"</string>
+    <string name="by_label">ni</string>
+    <string name="to_label">sa</string>
+    <string name="brick_clear_graphic_effect">I-Clear ang graphic effects</string>
+    <string name="brick_next_look">Sumunod na larawan</string>
+    <string name="brick_next_background">Sumunod na background</string>
+    <string name="brick_previous_look">Nakaraang larawan</string>
+    <string name="brick_previous_background">Nakaraang background</string>
+    <string name="brick_edit_look">I-edit ang larawan</string>
+    <string name="brick_edit_background">I-edit ang background</string>
+    <string name="brick_delete_look">Burahin ang larawan</string>
+    <string name="brick_delete_background">Burahin ang background</string>
     <string name="brick_flash">Turn flashlight</string>
     <string name="brick_flash_on">on</string>
     <string name="brick_flash_off">off</string>
     <string name="brick_vibration">Vibrate for</string>
-    <string name="brick_ask_label">Ask</string>
-    <string name="brick_ask_store">and store written answer in</string>
-    <string name="brick_ask_default_question">What\'s your name?</string>
-    <string name="brick_ask_dialog_hint">"Enter your answer:"</string>
-    <string name="brick_ask_dialog_submit">Submit answer</string>
-    <string name="brick_ask_speech_label">Ask</string>
+    <string name="brick_ask_label">Magtanong</string>
+    <string name="brick_ask_store">at i-save ang nasulat na sagot sa</string>
+    <string name="brick_ask_default_question">Ano\'ng pangalan mo?</string>
+    <string name="brick_ask_dialog_hint">"Isulat ang iyong sagot:"</string>
+    <string name="brick_ask_dialog_submit">Isumite ang sagot</string>
+    <string name="brick_ask_speech_label">Magtanong</string>
     <string name="brick_ask_speech_store">and store spoken answer in</string>
-    <string name="brick_ask_speech_default_question">What\'s your name?</string>
+    <string name="brick_ask_speech_default_question">Ano\'ng pangalan mo?</string>
     <string name="brick_paint_new_look">Paint new look</string>
     <string name="brick_paint_new_background">Paint new background</string>
     <string name="brick_paint_new_look_name">"name of new look"</string>
@@ -995,52 +992,52 @@ Pakiusap sumubok na lamang ng iba.</string>
     <string name="brick_open">Open</string>
     <string name="brick_in_browser">in browser</string>
     <!-- Control bricks -->
-    <string name="brick_when_started">When scene starts</string>
-    <string name="brick_when">When tapped</string>
-    <string name="brick_when_condition_when">When</string>
-    <string name="brick_when_becomes_true">becomes true</string>
-    <string name="brick_wait">Wait</string>
-    <string name="brick_wait_until">Wait until</string>
-    <string name="brick_wait_until_second_part">is true</string>
-    <string name="brick_when_gamepad_button">When gamepad button</string>
-    <string name="brick_when_gamepad_button_tapped">tapped</string>
-    <string name="brick_when_nfc">When NFC</string>
-    <string name="brick_stop_script">Stop</string>
-    <string name="brick_stop_this_script">this script</string>
-    <string name="brick_stop_all_scripts">all scripts</string>
-    <string name="brick_stop_other_scripts">other scripts of this actor or object</string>
+    <string name="brick_when_started">Kapag nagsimula na ang scene</string>
+    <string name="brick_when">Kapag pinindot</string>
+    <string name="brick_when_condition_when">Kapag</string>
+    <string name="brick_when_becomes_true">ay naging totoo</string>
+    <string name="brick_wait">Maghintay</string>
+    <string name="brick_wait_until">Maghintay hanggang</string>
+    <string name="brick_wait_until_second_part">ay totoo</string>
+    <string name="brick_when_gamepad_button">Kapag ang gamepad button</string>
+    <string name="brick_when_gamepad_button_tapped">napindot</string>
+    <string name="brick_when_nfc">Kapag ang NFC</string>
+    <string name="brick_stop_script">Tigil</string>
+    <string name="brick_stop_this_script">ang script na ito</string>
+    <string name="brick_stop_all_scripts">lahat ng script</string>
+    <string name="brick_stop_other_scripts">ibang script ng aktor o bagay na ito</string>
     <plurals name="second_plural">
         <item quantity="one">"second"</item>
-        <item quantity="other">"seconds"</item>
+        <item quantity="other">"mga segundo"</item>
     </plurals>
-    <string name="brick_collision_receive">When you bounce off</string>
-    <string name="collision_with_anything">any edge, actor, or object</string>
-    <string name="brick_broadcast_receive">When you receive</string>
+    <string name="brick_collision_receive">Kapag na bounce off ka</string>
+    <string name="collision_with_anything">kahit anong gilid, aktor, o bagay</string>
+    <string name="brick_broadcast_receive">Kapag natanggap mo</string>
     <string name="brick_broadcast">Broadcast</string>
-    <string name="brick_broadcast_wait">Broadcast and wait</string>
-    <string name="brick_scene_transition">Continue scene</string>
-    <string name="brick_scene_start">Start scene</string>
+    <string name="brick_broadcast_wait">I-brodcast at maghintay</string>
+    <string name="brick_scene_transition">Ipagpatuloy ang scene</string>
+    <string name="brick_scene_start">Simulan ang scene</string>
     <string name="brick_note">Note</string>
-    <string name="brick_think_bubble">Think</string>
-    <string name="brick_say_bubble">Say</string>
+    <string name="brick_think_bubble">Mag-isip</string>
+    <string name="brick_say_bubble">Magsalita</string>
     <string name="brick_think_say_for_text">for</string>
     <string name="brick_forever">Forever</string>
-    <string name="brick_loop_for_values_from">For values from</string>
-    <string name="brick_loop_for_each_value_from">For each value from</string>
+    <string name="brick_loop_for_values_from">Para sa values mula</string>
+    <string name="brick_loop_for_each_value_from">Para sa bawat value mula</string>
     <string name="brick_loop_in">in</string>
-    <string name="brick_loop_to">to</string>
-    <string name="brick_repeat">Repeat</string>
-    <string name="brick_repeat_until">Repeat until</string>
-    <string name="brick_when_touched">When stage is tapped</string>
-    <string name="brick_clone">Create clone of</string>
-    <string name="brick_clone_this">yourself</string>
-    <string name="brick_when_cloned">When you start as a clone</string>
-    <string name="brick_delete_this_clone">Delete this clone</string>
+    <string name="brick_loop_to">sa</string>
+    <string name="brick_repeat">Ulitin</string>
+    <string name="brick_repeat_until">Ulitin hanggang</string>
+    <string name="brick_when_touched">Kapag ang stage ay pinindot</string>
+    <string name="brick_clone">Lumikha ng kopya ng</string>
+    <string name="brick_clone_this">sarili mo</string>
+    <string name="brick_when_cloned">Kapag nagsimula ka bilang kopya</string>
+    <string name="brick_delete_this_clone">Burahin ang kopya na ito</string>
     <string name="brick_assert_that">Assert</string>
     <string name="brick_is_equal_to">equals expected</string>
-    <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
-    <string name="brick_tap_at">"Single tap at"</string>
-    <string name="brick_touch_at">"Touch at"</string>
+    <string name="brick_wait_till_idle">Maghintay hanggang lahat ng ibang script ay huminto</string>
+    <string name="brick_tap_at">"Isang pindot sa"</string>
+    <string name="brick_touch_at">"Touch sa"</string>
     <string name="brick_tap_for">"for"</string>
     <string name="brick_touch_slide">"Touch and slide"</string>
     <string name="brick_touch_from_x">"from x:"</string>
@@ -1314,11 +1311,11 @@ needs read and write access to it. You can always change permissions through you
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Set Arduino digital pin</string>
     <string name="brick_arduino_select_analog_value">Set Arduino PWM~ pin</string>
-    <string name="brick_arduino_set_pin_value_to">to</string>
+    <string name="brick_arduino_set_pin_value_to">sa</string>
     <!--  -->
     <!-- Raspi Bricks -->
     <string name="brick_raspi_select_digital_value">Set Raspberry Pi pin</string>
-    <string name="brick_raspi_set_pin_value_to">to</string>
+    <string name="brick_raspi_set_pin_value_to">sa</string>
     <string name="brick_raspi_if_begin">If Raspberry Pi pin</string>
     <string name="brick_raspi_if_begin_second_part">is true then</string>
     <string name="brick_raspi_when_begin">When Raspberry Pi pin</string>
@@ -1334,10 +1331,10 @@ needs read and write access to it. You can always change permissions through you
     <!--  -->
     <!-- Lego Mindstorms Strings -->
     <string name="nxt_brick_motor_move">Set NXT motor</string>
-    <string name="nxt_motor_speed_to">to</string>
+    <string name="nxt_motor_speed_to">sa</string>
     <string name="nxt_motor_speed">speed</string>
     <string name="nxt_brick_motor_turn_angle">Turn NXT motor</string>
-    <string name="nxt_motor_move_by">by</string>
+    <string name="nxt_motor_move_by">ni</string>
     <string name="nxt_motor_stop">Stop NXT motor</string>
     <string name="nxt_play_tone">Play NXT tone</string>
     <string name="nxt_tone_duration">Duration</string>
@@ -1410,7 +1407,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="ev3_motor_stop">Stop EV3 motor</string>
     <string name="ev3_motor_move">Set EV3 motor</string>
     <string name="ev3_brick_motor_turn_angle">Turn EV3 motor</string>
-    <string name="ev3_motor_move_by">by</string>
+    <string name="ev3_motor_move_by">ni</string>
     <string name="ev3_set_led_status">Set EV3 LED status</string>
     <string name="ev3_led_status_off">Off</string>
     <string name="ev3_led_status_green">Berde</string>
@@ -1481,7 +1478,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_taking_picture">Taking picture Jumping Sumo</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_sprites_sound">Sound</string>
+    <string name="default_jumping_sumo_project_sprites_sound">Tunog</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
     <string name="animation_spin">Spin</string>
