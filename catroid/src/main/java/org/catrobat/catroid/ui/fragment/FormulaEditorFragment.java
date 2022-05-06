@@ -1056,7 +1056,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				updateBrickView();
 			}
 			if (chosenCategoryItem != null) {
-				addResourceToActiveFormula(chosenCategoryItem.nameResId);
+				addResourceToActiveFormula(chosenCategoryItem.getNameResId());
 				chosenCategoryItem = null;
 			}
 			if (chosenUserDataItem != null) {
