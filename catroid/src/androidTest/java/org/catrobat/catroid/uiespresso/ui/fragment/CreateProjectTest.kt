@@ -40,6 +40,7 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants.CATROBAT_TERMS_OF_USE_ACCEPTED
 import org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION
+import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.ui.MainMenuActivity
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
@@ -61,7 +62,7 @@ class CreateProjectTest : KoinTest {
 
     @get:Rule
     var baseActivityTestRule = BaseActivityTestRule(
-        MainMenuActivity::class.java,
+        StageActivity::class.java,
         false,
         false
     )
