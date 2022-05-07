@@ -156,7 +156,7 @@ android {
         buildConfigField "boolean", "FEATURE_USER_REPORTERS_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_MULTIPLAYER_VARIABLES_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_TESTBRICK_ENABLED", "true"
-        buildConfigField "boolean", "FEATURE_CATBLOCKS_ENABLED", "false"
+        buildConfigField "boolean", "FEATURE_CATBLOCKS_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_CATBLOCKS_DEBUGABLE", "false"
         resValue "string", "FEATURE_EMBROIDERY_PREFERENCES_ENABLED", "false"
         resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
