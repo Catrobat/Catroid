@@ -51,6 +51,7 @@ import org.catrobat.catroid.formulaeditor.UserData
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.ui.BottomBar
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment
 import org.catrobat.catroid.ui.recyclerview.adapter.DataListAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
@@ -484,7 +485,9 @@ class DataListFragment : Fragment(),
 
     override fun onItemClick(item: UserData<*>) {
         if (actionModeType == NONE) {
-            formulaEditorDataInterface?.onDataItemSelected(item)
+            val formulaEditorFragment =
+                fragmentManager?.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG) as FormulaEditorFragment?
+            formulaEditorFragment?.setChosenUserDataItem(item)
             fragmentManager?.popBackStack()
         }
     }
@@ -494,7 +497,6 @@ class DataListFragment : Fragment(),
     }
 
     interface FormulaEditorDataInterface {
-        fun onDataItemSelected(item: UserData<*>?)
         fun onVariableRenamed(previousName: String?, newName: String?)
 
         fun onListRenamed(previousName: String?, newName: String?)
