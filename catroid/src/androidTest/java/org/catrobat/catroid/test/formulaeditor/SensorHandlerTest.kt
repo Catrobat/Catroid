@@ -23,6 +23,8 @@
 package org.catrobat.catroid.test.formulaeditor
 
 import android.Manifest
+import android.graphics.Point
+import android.graphics.Rect
 import androidx.test.annotation.UiThreadTest
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.rule.GrantPermissionRule
@@ -33,6 +35,8 @@ import org.catrobat.catroid.formulaeditor.SensorLoudness
 import org.catrobat.catroid.formulaeditor.Sensors
 import org.catrobat.catroid.soundrecorder.SoundRecorder
 import org.catrobat.catroid.test.utils.TestUtils
+import org.catrobat.catroid.utils.MachineLearningUtil
+import org.catrobat.catroid.utils.VisualDetectionHandlerFace
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -70,20 +74,20 @@ class SensorHandlerTest {
         compareToSensor(0, Sensors.OBJECT_BRIGHTNESS)
     }
 
-    // TODO: (ML) fix tests
-    /*
     @Test
     fun testFirstFaceDetection() {
+        MachineLearningUtil.initializeMachineLearningModule(ApplicationProvider.getApplicationContext())
+
         SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext())
         compareToSensor(0, Sensors.FACE_DETECTED)
         compareToSensor(0, Sensors.FACE_SIZE)
 
         val firstFaceSize = 50
         val firstFacePosition = Point(15, -15)
-        facesForSensors[0] = VisualDetectionHandlerFace(0, Rect())
+        MachineLearningUtil.getVisualDetectionHandler()?.facesForSensors?.set(0, VisualDetectionHandlerFace(0, Rect()))
 
-        updateFaceDetectionStatusSensorValues()
-        updateFaceSensorValues(firstFacePosition, firstFaceSize, 0)
+        MachineLearningUtil.getVisualDetectionHandler()?.updateFaceDetectionStatusSensorValues()
+        MachineLearningUtil.getVisualDetectionHandler()?.updateFaceSensorValues(firstFacePosition, firstFaceSize, 0)
 
         compareToSensor(1, Sensors.FACE_DETECTED)
         compareToSensor(firstFaceSize, Sensors.FACE_SIZE)
@@ -93,24 +97,24 @@ class SensorHandlerTest {
 
     @Test
     fun testSecondFaceDetection() {
+        MachineLearningUtil.initializeMachineLearningModule(ApplicationProvider.getApplicationContext())
+
         SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext())
         compareToSensor(0, Sensors.SECOND_FACE_DETECTED)
         compareToSensor(0, Sensors.SECOND_FACE_SIZE)
 
         val secondFaceSize = 50
         val secondFacePosition = Point(15, -15)
-        facesForSensors[1] = VisualDetectionHandlerFace(1, Rect())
+        MachineLearningUtil.getVisualDetectionHandler()?.facesForSensors?.set(1, VisualDetectionHandlerFace(1, Rect()))
 
-        updateFaceDetectionStatusSensorValues()
-        updateFaceSensorValues(secondFacePosition, secondFaceSize, 1)
+        MachineLearningUtil.getVisualDetectionHandler()?.updateFaceDetectionStatusSensorValues()
+        MachineLearningUtil.getVisualDetectionHandler()?.updateFaceSensorValues(secondFacePosition, secondFaceSize, 1)
 
         compareToSensor(1, Sensors.SECOND_FACE_DETECTED)
         compareToSensor(secondFaceSize, Sensors.SECOND_FACE_SIZE)
         compareToSensor(secondFacePosition.x, Sensors.SECOND_FACE_X)
         compareToSensor(secondFacePosition.y, Sensors.SECOND_FACE_Y)
     }
-
-     */
 
     @Test
     @UiThreadTest

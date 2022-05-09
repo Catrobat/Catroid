@@ -449,6 +449,7 @@ dependencies {
 
     // ML Kit
     implementation 'com.google.mlkit:playstore-dynamic-feature-support:16.0.0-beta2'
+    androidTestImplementation 'com.google.mlkit:object-detection-common:17.0.0'
 
     // HUAWEI Mobile Services
     implementation 'com.huawei.hms:base:4.0.3.300'

@@ -21,14 +21,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroidfeature.machinelearning
+package org.catrobat.catroid.test.formulaeditor
 
 import android.graphics.Rect
+import androidx.test.core.app.ApplicationProvider
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.mlkit.vision.objects.DetectedObject
 import org.catrobat.catroid.formulaeditor.Functions
 import org.catrobat.catroid.formulaeditor.InternFormulaParser
 import org.catrobat.catroid.formulaeditor.InternToken
 import org.catrobat.catroid.formulaeditor.InternTokenType
+import org.catrobat.catroid.utils.MachineLearningUtil
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -36,7 +39,6 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import java.util.LinkedList
 
-// TODO (ML) activate tests
 @RunWith(Parameterized::class)
 class ObjectDetectionFunctionTest(
     val name: String,
@@ -56,13 +58,12 @@ class ObjectDetectionFunctionTest(
                 arrayOf("Get invalid ID", Functions.ID_OF_DETECTED_OBJECT, 0, 0),
                 arrayOf("Get invalid ID", Functions.ID_OF_DETECTED_OBJECT, -1, 0),
                 arrayOf("Object is visible", Functions.OBJECT_WITH_ID_VISIBLE, 5, 1),
-                arrayOf("Object is not visible", Functions.OBJECT_WITH_ID_VISIBLE, 100, 0),
-                arrayOf("Object is not visible", Functions.OBJECT_WITH_ID_VISIBLE, 100, 999) // TODO (ML) delete
+                arrayOf("Object is not visible", Functions.OBJECT_WITH_ID_VISIBLE, 100, 0)
             )
         }
     }
 
-    private var successListener: ObjectDetectorOnSuccessListener? = null
+    private var successListener: OnSuccessListener<MutableList<DetectedObject>>? = null
     private var detectedObjects: MutableList<DetectedObject> = mutableListOf(
         DetectedObject(
             Rect(0, 0, 0, 0),
@@ -78,7 +79,8 @@ class ObjectDetectionFunctionTest(
 
     @Before
     fun setUp() {
-        successListener = ObjectDetectorOnSuccessListener()
+        MachineLearningUtil.initializeMachineLearningModule(ApplicationProvider.getApplicationContext())
+        successListener = MachineLearningUtil.getObjectDetectorOnSuccessListener()
     }
 
     @Test

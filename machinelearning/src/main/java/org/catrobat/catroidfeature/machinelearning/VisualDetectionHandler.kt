@@ -58,15 +58,16 @@ import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_SHOULDER_Y
 import org.catrobat.catroid.stage.StageActivity
 import kotlin.math.roundToInt
 import org.catrobat.catroid.utils.VisualDetectionHandler as VisualDetectionHandlerInterface
+import org.catrobat.catroid.utils.VisualDetectionHandlerFace as VisualDetectionHandlerFaceInterface
 
-data class VisualDetectionHandlerFace(val id: Int, val boundingBox: Rect)
+class VisualDetectionHandlerFace(id: Int, boundingBox: Rect) : VisualDetectionHandlerFaceInterface(id, boundingBox)
 
 object VisualDetectionHandler : VisualDetectionHandlerInterface{
     private const val MAX_FACE_SIZE = 100
     private const val FACE_SENSORS = 2
     private val sensorListeners = mutableSetOf<SensorCustomEventListener>()
 
-    var facesForSensors: Array<VisualDetectionHandlerFace?> = Array(FACE_SENSORS) { null }
+    override var facesForSensors: Array<VisualDetectionHandlerFaceInterface?> = Array(FACE_SENSORS) { null }
     private var faceIds: IntArray = IntArray(FACE_SENSORS) { -1 }
 
     override fun addListener(listener: SensorCustomEventListener) {
@@ -149,7 +150,7 @@ object VisualDetectionHandler : VisualDetectionHandlerInterface{
         }
     }
 
-    fun updateFaceDetectionStatusSensorValues() {
+    override fun updateFaceDetectionStatusSensorValues() {
         val firstSensorValue = if (facesForSensors[0] != null) 1.0 else 0.0
         val secondSensorValue = if (facesForSensors[1] != null) 1.0 else 0.0
         sensorListeners.forEach { sensorListener ->
@@ -158,7 +159,7 @@ object VisualDetectionHandler : VisualDetectionHandlerInterface{
         }
     }
 
-    fun updateFaceSensorValues(facePosition: Point, faceSize: Int, faceNumber: Int) {
+    override fun updateFaceSensorValues(facePosition: Point, faceSize: Int, faceNumber: Int) {
         sensorListeners.filter { faceNumber in 0..1 }.forEach {
             val sensors = when (faceNumber) {
                 1 -> Triple(Sensors.SECOND_FACE_X, Sensors.SECOND_FACE_Y, Sensors.SECOND_FACE_SIZE)

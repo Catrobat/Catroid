@@ -39,7 +39,7 @@ private val objectDetectionClient by lazy {
     )
 }
 
-class ObjectDetectorOnSuccessListener : OnSuccessListener<MutableList<DetectedObject>> {
+object ObjectDetectorOnSuccessListener : OnSuccessListener<MutableList<DetectedObject>> {
     override fun onSuccess(detectedObjects: MutableList<DetectedObject>) {
         ObjectDetectorResults.result = detectedObjects.map { it.trackingId to it }.toMap()
     }
@@ -52,7 +52,7 @@ object ObjectDetector : Detector {
         onCompleteListener: DetectorsCompleteListener
     ) {
         objectDetectionClient.process(inputImage)
-            .addOnSuccessListener(ObjectDetectorOnSuccessListener())
+            .addOnSuccessListener(ObjectDetectorOnSuccessListener)
             .addOnFailureListener { exception ->
                 Log.e(javaClass.simpleName, "Could not analyze image.", exception)
             }.addOnCompleteListener {

@@ -26,10 +26,12 @@ package org.catrobat.catroid.utils
 import android.app.Activity
 import android.content.Context
 import android.graphics.Point
+import android.graphics.Rect
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.camera.core.ImageAnalysis
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
 import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener
@@ -62,9 +64,14 @@ interface TextBlockUtil {
 }
 
 interface VisualDetectionHandler {
+    var facesForSensors: Array<VisualDetectionHandlerFace?>
     fun addListener(listener: SensorCustomEventListener)
     fun removeListener(listener: SensorCustomEventListener)
+    fun updateFaceDetectionStatusSensorValues()
+    fun updateFaceSensorValues(facePosition: Point, faceSize: Int, faceNumber: Int)
 }
+
+open class VisualDetectionHandlerFace(val id: Int, val boundingBox: Rect)
 
 private const val MODULE_NAME = "machinelearning"
 private const val MODULE_PATH = "org.catrobat.catroidfeature.$MODULE_NAME"
@@ -119,6 +126,9 @@ object MachineLearningUtil {
     fun getObjectDetectorResults(): ObjectDetectorResults? =
         getObjectInstance<ObjectDetectorResults>("ObjectDetectorResults")
 
+    fun <E> getObjectDetectorOnSuccessListener(): OnSuccessListener<MutableList<E>>? =
+        getObjectInstance<OnSuccessListener<MutableList<E>>>("ObjectDetectorOnSuccessListener")
+
     @JvmStatic
     fun getTextBlockUtil(): TextBlockUtil? = getObjectInstance<TextBlockUtil>("TextBlockUtil")
 
@@ -133,7 +143,6 @@ object MachineLearningUtil {
                 val splitInstallManager = SplitInstallManagerFactory.create(context)
                 if (splitInstallManager.installedModules.contains(MODULE_NAME)) {
                     initializeMachineLearningModule(context)
-                    permissionState = PermissionState.ACCEPTED
                 }
             }
         }
@@ -185,6 +194,7 @@ object MachineLearningUtil {
                     statusBarNotificationManager.showOrUpdateNotification(context, notificationData, percentage, null)
                 }
                 SplitInstallSessionStatus.INSTALLED -> {
+                    statusBarNotificationManager.showOrUpdateNotification(context, notificationData, MAX_PERCENT, null)
                     initializeMachineLearningModule(context)
                 }
                 SplitInstallSessionStatus.UNKNOWN,
@@ -212,11 +222,15 @@ object MachineLearningUtil {
     }
 
     fun initializeMachineLearningModule(context: Context) {
+        if (loadingState == LoadingState.LOADED) {
+            return
+        }
         try {
             val machineLearningModule =
                 Class.forName("$MODULE_PATH.MachineLearningModule").kotlin.objectInstance as MachineLearningModule?
             machineLearningModule?.init(context)
             loadingState = LoadingState.LOADED
+            permissionState = PermissionState.ACCEPTED
         } catch (exception: ClassNotFoundException) {
             Log.e(javaClass.simpleName, "Could not initialize module.", exception)
         }
