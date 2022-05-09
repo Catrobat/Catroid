@@ -70,7 +70,7 @@ public class EmbroideryFileExporterTest {
 		Intent actualShareIntent = actualChooserIntent.getParcelableExtra(Intent.EXTRA_INTENT);
 
 		Intent expectedShareIntent = new Intent(Intent.ACTION_SEND, uriForFile);
-		expectedShareIntent.setType("application/octet-stream");
+		expectedShareIntent.setType("text/*");
 		expectedShareIntent.putExtra(Intent.EXTRA_STREAM, uriForFile);
 		expectedShareIntent.putExtra(Intent.EXTRA_SUBJECT, dstFile.getName());
 

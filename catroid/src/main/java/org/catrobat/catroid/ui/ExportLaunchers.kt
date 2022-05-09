@@ -40,7 +40,7 @@ class ExportEmbroideryFileLauncher(
     override fun startActivity() {
         val fileUri = FileProvider.getUriForFile(activity, activity.packageName + ".fileProvider", file)
         val shareIntent = Intent(Intent.ACTION_SEND)
-        shareIntent.type = "application/octet-stream"
+        shareIntent.type = "text/*"
         shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri)
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, file.name)
 
