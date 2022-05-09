@@ -32,6 +32,7 @@
         android:layout_height="80dp"
         android:id="@+id/empty_view_item"
         android:gravity="center_vertical"
+        android:paddingEnd="5dp"
         android:paddingStart="5dp">
 
         <ProgressBar

@@ -48,6 +48,7 @@
             android:layout_weight="1"
             android:hint="@string/keyword_label"
             android:inputType="text"
+            android:importantForAutofill="no"
             android:imeOptions="actionSearch"
             android:textColor="@color/solid_white" />
 

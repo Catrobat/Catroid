@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -41,6 +41,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.nio.file.InvalidPathException;
+import java.util.Objects;
 
 import static org.catrobat.catroid.common.Constants.BUFFER_8K;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
@@ -105,7 +106,10 @@ public final class StorageOperations {
 			try {
 				try (Cursor cursor = contentResolver.query(uri, null, null, null, null)) {
 					if (cursor != null && cursor.moveToFirst()) {
-						result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+						int index = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+						if (index >= 0) {
+							result = cursor.getString(index);
+						}
 					}
 				}
 			} catch (Exception e) {
@@ -262,11 +266,14 @@ public final class StorageOperations {
 			throw new IOException("Cannot create directory: " + destinationDir.getAbsolutePath());
 		}
 
-		for (File file : sourceDir.listFiles()) {
-			if (file.isDirectory()) {
-				copyDir(file, new File(destinationDir, file.getName()));
-			} else {
-				copyFileToDir(file, destinationDir);
+		File[] files = sourceDir.listFiles();
+		if (files != null) {
+			for (File file : files) {
+				if (file.isDirectory()) {
+					copyDir(file, new File(destinationDir, file.getName()));
+				} else {
+					copyFileToDir(file, destinationDir);
+				}
 			}
 		}
 
@@ -328,14 +335,16 @@ public final class StorageOperations {
 			throw new FileNotFoundException(dir.getAbsolutePath() + " is not a directory.");
 		}
 
-		for (File file : dir.listFiles()) {
-			if (file.isDirectory()) {
-				deleteDir(file);
-			} else {
-				deleteFile(file);
+		File[] files = dir.listFiles();
+		if (files != null) {
+			for (File file : files) {
+				if (file.isDirectory()) {
+					deleteDir(file);
+				} else {
+					deleteFile(file);
+				}
 			}
 		}
-
 		if (!dir.delete()) {
 			throw new IOException("Cannot delete directory: " + dir.getAbsolutePath());
 		}
