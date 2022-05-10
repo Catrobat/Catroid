@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,7 +46,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
@@ -57,8 +56,10 @@ import static org.catrobat.catroid.ui.ProjectUploadActivityKt.PROJECT_DIR;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
+import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -79,10 +80,10 @@ public class ProjectUploadDialogTest {
 	@Before
 	public void setUp() throws Exception {
 		this.sharedPreferences =
-				PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
+				PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		this.bundle = new Bundle();
 
-		this.project = new Project(ApplicationProvider.getApplicationContext(),
+		this.project = new Project(getApplicationContext(),
 				PROJECT_NAME, false);
 		Scene firstScene = new Scene("scene", project);
 		ProjectManager.getInstance().setCurrentProject(project);
@@ -91,7 +92,7 @@ public class ProjectUploadDialogTest {
 		firstSprite.addScript(firstScript);
 		firstScene.addSprite(firstSprite);
 		project.addScene(firstScene);
-		saveProjectSerial(project, ApplicationProvider.getApplicationContext());
+		saveProjectSerial(project, getApplicationContext());
 
 		Intent intent = new Intent();
 		intent.putExtra(PROJECT_DIR, project.getDirectory());
@@ -226,6 +227,18 @@ public class ProjectUploadDialogTest {
 
 		onView(withText(R.string.rating_dialog_rate_now))
 				.check(doesNotExist());
+	}
+
+	@Test
+	public void testUploadDefaultProjectName() {
+		String defaultProjectName = getApplicationContext().getResources().getString(R.string.default_project_name);
+		String errorMessage = getApplicationContext().getResources().getString(R.string.error_upload_project_with_default_name, defaultProjectName);
+
+		onView(withId(R.id.project_upload_name))
+				.perform(replaceText(defaultProjectName));
+
+		onView(withText(errorMessage))
+				.check(matches(isDisplayed()));
 	}
 
 	public static class ProjectUploadTestActivity extends ProjectUploadActivity {
