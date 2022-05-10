@@ -151,7 +151,7 @@ class ProjectOptionsFragment : Fragment() {
 
     private fun setupProjectAspectRatio() {
         binding.projectOptionsAspectRatio.apply {
-            isChecked = project?.screenMode == ScreenModes.STRETCH
+            isChecked = project?.screenMode == ScreenModes.MAXIMIZE
             setOnCheckedChangeListener { _, isChecked ->
                 handleAspectRatioChecked(isChecked)
             }
@@ -184,9 +184,9 @@ class ProjectOptionsFragment : Fragment() {
 
     private fun handleAspectRatioChecked(checked: Boolean) {
         project?.screenMode = if (checked) {
-            ScreenModes.STRETCH
-        } else {
             ScreenModes.MAXIMIZE
+        } else {
+            ScreenModes.STRETCH
         }
     }
 
