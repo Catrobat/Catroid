@@ -1227,8 +1227,8 @@
     <string name="error_internet_connection">發生未知的錯誤。檢查您的網路連線。</string>
     <string name="error_project_compatibility">該項目與此版本的應用程序不兼容。</string>
     <string name="error_outdated_version">此應用程序版本已過時。現在更新？</string>
-    <string name="error_upload_project_with_default_name">您不能上傳名為“我的第一個項目”的項目。
-        請重命名項目。</string>
+    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"%s\".
+        Please rename the project.</string>
     <string name="error_upload_default_project">您不能上傳未經修改的示例項目。請
         改變一些東西然後再試一次。</string>
     <string name="error_adding_brick">新增這個程式塊時出錯。</string>

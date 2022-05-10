@@ -1263,7 +1263,7 @@
     <string name="error_internet_connection">அறியப்படாத பிழை ஏற்பட்டது. உங்கள் இணைய இணைப்பைச் சரிபார்க்கவும்.</string>
     <string name="error_project_compatibility">பயன்பாட்டின் இந்த பதிப்போடு திட்டம் பொருந்தாது.</string>
     <string name="error_outdated_version">இந்த பயன்பாட்டு பதிப்பு காலாவதியானது. இப்பொழுது மேம்படுத்து?</string>
-    <string name="error_upload_project_with_default_name">\"எனது முதல் திட்டம்\" என்ற பெயரில் ஒரு திட்டத்தை நீங்கள் பதிவேற்ற முடியாது. தயவுசெய்து திட்டத்தின் மறுபெயரிடுக.</string>
+    <string name="error_upload_project_with_default_name">\"%s\" என்ற பெயரில் ஒரு திட்டத்தை நீங்கள் பதிவேற்ற முடியாது. தயவுசெய்து திட்டத்தின் மறுபெயரிடுக.</string>
     <string name="error_upload_default_project">மாற்றப்படாத எடுத்துக்காட்டு திட்டத்தை நீங்கள் பதிவேற்ற முடியாது. ஏதாவது ஒன்றை மாற்றி மீண்டும் முயற்சிக்கவும்.</string>
     <string name="error_adding_brick">இந்த செங்கலைச் சேர்க்கும்போது ஏதோ தவறு ஏற்பட்டது.</string>
     <string name="error_copying_brick">இந்த செங்கலை நகலெடுக்கும் போது ஏதோ தவறு ஏற்பட்டது.</string>

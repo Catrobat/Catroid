@@ -1206,7 +1206,7 @@
     <string name="error_internet_connection">خطای نا مشخص رخ داده است. اتصال اینترنت خود را بررسی نمایید.</string>
     <string name="error_project_compatibility">این پروژه با این نسخه از برنامه سازگار نیست.</string>
     <string name="error_outdated_version">این نسخه برنامه قدیمی است. اکنون به روز رسانی شود؟</string>
-    <string name="error_upload_project_with_default_name">شما نمی توانید پروژه ای را با نام \"اولین پروژه من\" آپلود کنید.         لطفا نام پروژه را تغییر دهید.</string>
+    <string name="error_upload_project_with_default_name">شما نمی توانید پروژه ای را با نام \"%s\" آپلود کنید.         لطفا نام پروژه را تغییر دهید.</string>
     <string name="error_upload_default_project">شما نمی توانید یک پروژه نمونه اصلاح نشده را آپلود کنید. لطفا
         چیزی را تغییر دهید و دوباره امتحان کنید.</string>
     <string name="error_adding_brick">هنگام افزودن این آجر مشکلی پیش آمد.</string>

@@ -1315,7 +1315,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_internet_connection">Dogodila se nepoznata pogreška. Provjerite vezu s internetom.</string>
     <string name="error_project_compatibility">Program nije kompatibilan s ovom verzijom Pocket Code-a.</string>
     <string name="error_outdated_version">Ova verzija aplikacije je zastarjela. Azuriraj sada?</string>
-    <string name="error_upload_project_with_default_name">Ne mozete prenijeti projekt sa imenom \"Moj prvi projekt\". Molimo preimenujte projekt.</string>
+    <string name="error_upload_project_with_default_name">Ne mozete prenijeti projekt sa imenom \"%s\". Molimo preimenujte projekt.</string>
     <string name="error_upload_default_project">You cannot upload an unmodified example project. Please
         change something and try again.</string>
     <string name="error_adding_brick">Pogreška pri dodavanju bloka</string>

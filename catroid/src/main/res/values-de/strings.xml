@@ -1249,7 +1249,7 @@
     <string name="error_internet_connection">Unbekannter Fehler aufgetreten. Überprüfe deine Internetverbindung.</string>
     <string name="error_project_compatibility">Das Projekt ist nicht mit dieser Version der App kompatibel.</string>
     <string name="error_outdated_version">Die Version ist zu alt. Jetzt updaten?</string>
-    <string name="error_upload_project_with_default_name">Du kannst kein Projekt mit dem Namen \"Mein erstes Project\" hochladen. Bitte benenne es um.</string>
+    <string name="error_upload_project_with_default_name">Du kannst kein Projekt mit dem Namen \"%s\" hochladen. Bitte benenne es um.</string>
     <string name="error_upload_default_project">Du kannst kein unverändertes Beispiel Projekt hochladen. Bitte
         ändere etwas und versuche es dann nochmals.</string>
     <string name="error_adding_brick">Beim Hinzufügen des Bausteins ist ein Fehler aufgetreten</string>
