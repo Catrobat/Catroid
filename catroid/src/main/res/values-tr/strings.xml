@@ -1235,7 +1235,7 @@ bekleyin</string>
     <string name="error_internet_connection">Bilinmeyen bir hata oluştu. Internet bağlantınızı kontrol edin.</string>
     <string name="error_project_compatibility">Proje, uygulamanın bu sürümüyle uyumlu değil.</string>
     <string name="error_outdated_version">Bu app sürümü güncel değil. Şimdi Güncellensin mi ?</string>
-    <string name="error_upload_project_with_default_name">\"İlk projem\" adıyla bir proje yükleyemezsiniz. Lütfen projeyi yeniden adlandırın.</string>
+    <string name="error_upload_project_with_default_name">\"%s\" adıyla bir proje yükleyemezsiniz. Lütfen projeyi yeniden adlandırın.</string>
     <string name="error_upload_default_project">Değiştirilmemiş bir örnek proje yükleyemezsiniz. Lütfen bir şeyi değiştirip tekrar deneyin.</string>
     <string name="error_adding_brick">Bu tuğla eklenirken bir hata oluştu</string>
     <string name="error_copying_brick">Bu tuğla kopyalanırken bir hata oluştu.</string>

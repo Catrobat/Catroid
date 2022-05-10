@@ -1252,7 +1252,7 @@
     <string name="error_internet_connection">ایک نامعلوم غلطی واقع ہوئی. اپنا انٹرنیٹ کنکشن چیک کریں.</string>
     <string name="error_project_compatibility">اس منصوبے کے اطلاق کا یہ ورژن کے ساتھ ہم آہنگ نہیں ہے ۔</string>
     <string name="error_outdated_version">یہ ایپ ورژن ختم ہو گیا ہے. تازہ ترین کریں. جدید بنایں؟</string>
-    <string name="error_upload_project_with_default_name">آپ \"میری پہلی پروجیکٹ\" کے نام سے ایک پراجیکٹ اپ لوڈ نہیں کرسکتے.
+    <string name="error_upload_project_with_default_name">آپ \"%s\" کے نام سے ایک پراجیکٹ اپ لوڈ نہیں کرسکتے.
          برائے مہربانی اس منصوبے کا نام تبدیل کریں.</string>
     <string name="error_upload_default_project">آپ ایک غیر جمود شدہ مثال پروجیکٹ اپ لوڈ نہیں کر سکتے ہیں. براہ کرم
          کچھ تبدیل کریں اور دوبارہ کوشش کریں.</string>

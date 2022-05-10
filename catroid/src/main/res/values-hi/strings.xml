@@ -1272,8 +1272,8 @@
     <string name="error_internet_connection">एक अज्ञात ग़लती हुई। अपना इंटरनेट संपर्क जांचे।</string>
     <string name="error_project_compatibility">परियोजना एप्लिकेशन के इस संस्करण के साथ संगत नहीं है।</string>
     <string name="error_outdated_version">यह ऐप संस्करण पुराना है। अभी अद्यतन करें?</string>
-    <string name="error_upload_project_with_default_name">आप \"मेरी पहली परियोजना\" नाम के साथ एक परियोजना अपलोड नहीं कर सकते।
-        कृपया प्रोजेक्ट का नाम बदलें।</string>
+    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"%s\".
+        Please rename the project.</string>
     <string name="error_upload_default_project">आप एक unmodified उदाहरण परियोजना अपलोड नहीं कर सकते। कृपया
         कुछ बदलें और पुनः प्रयास करें।</string>
     <string name="error_adding_brick">इस ईंट को जोड़ते समय कुछ गड़बड़ हो गई।</string>

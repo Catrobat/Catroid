@@ -1269,7 +1269,7 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="error_internet_connection">Ocorreu um erro desconhecido. Verifique sua conexão com a Internet.</string>
     <string name="error_project_compatibility">O projeto não é compatível com esta versão do aplicativo.</string>
     <string name="error_outdated_version">Esta versão do app está desatualizada. Atualizar agora?</string>
-    <string name="error_upload_project_with_default_name">Você não pode fazer upload de um projeto com o nome \"Meu primeiro projeto\".
+    <string name="error_upload_project_with_default_name">Você não pode fazer upload de um projeto com o nome \"%s\".
         Por favor, renomeie o projeto.</string>
     <string name="error_upload_default_project">Você não pode fazer upload de um projeto de exemplo não modificado. Por favor
         altere algo e tente novamente.</string>

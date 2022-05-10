@@ -1209,7 +1209,7 @@
     <string name="error_internet_connection">เกิดข้อผิดพลาดที่ไม่รู้จักขึ้น กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ต</string>
     <string name="error_project_compatibility">โครงการเข้ากันไม่ได้กับแอพเวอร์ชันนี้</string>
     <string name="error_outdated_version">แอพเวอร์ชันนี้ล้าสมัยแล้ว อัปเดตตอนนี้หรือไม่</string>
-    <string name="error_upload_project_with_default_name">คุณไม่สามารถอัปโหลดโครงการที่มีชื่อ \"โครงการแรกของฉัน\"  โปรดเปลี่ยนชื่อโครงการ</string>
+    <string name="error_upload_project_with_default_name">คุณไม่สามารถอัปโหลดโครงการที่มีชื่อ \"%s\"  โปรดเปลี่ยนชื่อโครงการ</string>
     <string name="error_upload_default_project">คุณไม่สามารถอัพโหลดโครงการตัวอย่างที่ไม่ได้แก้ไข  โปรดเปลี่ยนบางสิ่งและลองอีกครั้ง</string>
     <string name="error_adding_brick">เกิดข้อผิดพลาดขณะเพิ่มก้อนนี้</string>
     <string name="error_copying_brick">เกิดข้อผิดพลาดขณะคัดลอกก้อนนี้</string>

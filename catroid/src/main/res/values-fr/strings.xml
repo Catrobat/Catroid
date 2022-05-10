@@ -1270,7 +1270,7 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string name="error_internet_connection">Une erreur est apparue. Vérifiez votre connexion Internet.</string>
     <string name="error_project_compatibility">Le projet n\'est pas compatible avec cette version de l\'application.</string>
     <string name="error_outdated_version">Cette version de l\'application est obsolète. Mettre à jour maintenant ?</string>
-    <string name="error_upload_project_with_default_name">Vous ne pouvez pas télécharger un projet avec le nom \"Mon premier projet\".
+    <string name="error_upload_project_with_default_name">Vous ne pouvez pas télécharger un projet avec le nom \"%s\".
         Veuillez renommer le projet.</string>
     <string name="error_upload_default_project">Vous ne pouvez pas télécharger un exemple de projet non modifié. Veuillez
         modifier quelque chose et réessayer.</string>

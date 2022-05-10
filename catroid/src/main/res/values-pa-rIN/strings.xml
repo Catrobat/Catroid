@@ -1274,7 +1274,7 @@
     <string name="error_internet_connection">ਇੱਕ ਅਣਜਾਣ ਗਲਤੀ ਆਈ ਹੈ. ਆਪਣੇ ਇੰਟਰਨੈਟ ਕਨੈਕਸ਼ਨ ਦੀ ਜਾਂਚ ਕਰੋ.</string>
     <string name="error_project_compatibility">ਪ੍ਰੋਜੈਕਟ ਐਪ ਦੇ ਇਸ ਸੰਸਕਰਣ ਦੇ ਅਨੁਕੂਲ ਨਹੀਂ ਹੈ.</string>
     <string name="error_outdated_version">ਇਹ ਐਪ ਦਾ ਸੰਸਕਰਣ ਪੁਰਾਣਾ ਹੈ. ਹੁਣ ਅਪਡੇਟ ਕਰੋ?</string>
-    <string name="error_upload_project_with_default_name">ਤੁਸੀਂ \"ਮੇਰਾ ਪਹਿਲਾ ਪ੍ਰੋਜੈਕਟ\" ਨਾਮ ਦੇ ਨਾਲ ਕੋਈ ਪ੍ਰੋਜੈਕਟ ਅਪਲੋਡ ਨਹੀਂ ਕਰ ਸਕਦੇ.
+    <string name="error_upload_project_with_default_name">ਤੁਸੀਂ \"%s\" ਨਾਮ ਦੇ ਨਾਲ ਕੋਈ ਪ੍ਰੋਜੈਕਟ ਅਪਲੋਡ ਨਹੀਂ ਕਰ ਸਕਦੇ.
          ਕਿਰਪਾ ਕਰਕੇ ਪ੍ਰੋਜੈਕਟ ਦਾ ਨਾਮ ਬਦਲੋ.</string>
     <string name="error_upload_default_project">ਤੁਸੀਂ ਗੈਰ-ਸੋਧਿਆ ਉਦਾਹਰਨ ਪ੍ਰੋਜੈਕਟ ਅਪਲੋਡ ਨਹੀਂ ਕਰ ਸਕਦੇ. ਕ੍ਰਿਪਾ ਕਰਕੇ
          ਕੁਝ ਬਦਲੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ.</string>

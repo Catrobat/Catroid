@@ -1271,7 +1271,7 @@
     <string name="error_internet_connection">یوه نامعلومه تېروتنه رامنځته شوه. خپل انټرنیټ پیوستون چیک کړئ.</string>
     <string name="error_project_compatibility">پروژه د ایپ د دې نسخې سره مطابقت نلري.</string>
     <string name="error_outdated_version">د دې اپلیکیشن نسخه پخوانۍ ده. اوس تازه کړئ؟</string>
-    <string name="error_upload_project_with_default_name">تاسو نشئ کولی د \"زما لومړۍ پروژه\" نوم سره پروژه اپلوډ کړئ. 
+    <string name="error_upload_project_with_default_name">تاسو نشئ کولی د \"%s\" نوم سره پروژه اپلوډ کړئ. 
         مهرباني وکړئ د پروژې نوم بدل کړئ.</string>
     <string name="error_upload_default_project">تاسو نشئ کولی د نه بدلیدونکي مثال پروژه اپلوډ کړئ. مهرباني 
         وکړئ یو څه بدل کړئ او بیا هڅه وکړئ.</string>
