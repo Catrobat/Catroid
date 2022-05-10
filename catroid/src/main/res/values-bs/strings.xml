@@ -1306,7 +1306,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_internet_connection">Došlo je do greške. Provjeri vezu sa internetom.</string>
     <string name="error_project_compatibility">The project is not compatible with this version of the app.</string>
     <string name="error_outdated_version">Ova verzija aplikacije je zastarila. Želite li je ažurirati?</string>
-    <string name="error_upload_project_with_default_name">Ne možete postaviti projekat sa nazivom \"Moj prvi projekat\". Molimo promijenite naziv.</string>
+    <string name="error_upload_project_with_default_name">Ne možete postaviti projekat sa nazivom \"%s\". Molimo promijenite naziv.</string>
     <string name="error_upload_default_project">Ne možete objaviti nepromijenjen primjer projekat. Molimo Vas da promijenite nešto i pokušate ponovo.</string>
     <string name="error_adding_brick">Došlo je do greške prilikom dodavanja ovog bloka</string>
     <string name="error_copying_brick">Došlo je do greške prilikom kopiranja ovog bloka</string>

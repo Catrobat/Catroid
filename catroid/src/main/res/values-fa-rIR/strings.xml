@@ -1258,7 +1258,7 @@
     <string name="error_internet_connection">یک خطای نامعلوم رخ داده. برسی کن که به اینترنت وصلی یا نه.</string>
     <string name="error_project_compatibility">پروژه با این نسخه از برنامه سازگار نیست.</string>
     <string name="error_outdated_version">این نسخه برنامه قدیمی است. اکنون به روز شود؟</string>
-    <string name="error_upload_project_with_default_name">نمی توانید پروژه ای با نام \"اولین پروژه من\" بارگذاری کنید.
+    <string name="error_upload_project_with_default_name">نمی توانید پروژه ای با نام \"%s\" بارگذاری کنید.
         لطفا نام پروژه را تغییر دهید.</string>
     <string name="error_upload_default_project">شما نمی توانید یک پروژه نمونه اصلاح نشده را بارگذاری کنید. 
         لطفاً چیزی را تغییر دهید و دوباره امتحان کنید.</string>

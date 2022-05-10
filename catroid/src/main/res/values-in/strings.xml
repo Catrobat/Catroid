@@ -1229,7 +1229,7 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="error_internet_connection">Terjadi kesalahan yang tidak diketahui. Periksa koneksi Internet Anda.</string>
     <string name="error_project_compatibility">Proyek tidak kompatibel dengan versi aplikasi ini.</string>
     <string name="error_outdated_version">Versi aplikasi ini sudah usang. Memperbarui sekarang?</string>
-    <string name="error_upload_project_with_default_name">Anda tidak dapat mengupload proyek dengan nama \"Proyek pertama saya\".
+    <string name="error_upload_project_with_default_name">Anda tidak dapat mengupload proyek dengan nama \"%s\".
         Harap ganti nama proyek.</string>
     <string name="error_upload_default_project">Anda tidak dapat mengunggah proyek contoh yang tidak dimodifikasi. Silahkan
         ubah sesuatu dan coba lagi.</string>

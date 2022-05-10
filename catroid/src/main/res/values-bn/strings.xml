@@ -1244,7 +1244,7 @@
     <string name="error_internet_connection">একটি অজানা ভুল ঘটেছে. আপনার ইন্টারনেট সংযোগ পরীক্ষা করুন</string>
     <string name="error_project_compatibility">প্রজেক্টটি এই সংস্করণটির সাথে সামঞ্জস্য নেই।</string>
     <string name="error_outdated_version">এই অ্যাপ্লিকেশন সংস্করণটি পুরানো। এখন আধুনিক করুন?</string>
-    <string name="error_upload_project_with_default_name">আপনি \"আমার প্রথম প্রজেক্ট\" নামে কোনও প্রজেক্ট আপলোড করতে পারবেন না l অনুগ্রহ করে প্রজেক্টটির নামকরণ করুন।</string>
+    <string name="error_upload_project_with_default_name">আপনি \"%s\" নামে কোনও প্রজেক্ট আপলোড করতে পারবেন না l অনুগ্রহ করে প্রজেক্টটির নামকরণ করুন।</string>
     <string name="error_upload_default_project">আপনি একটি অপরিবর্তিত উদাহরণ প্রজেক্ট আপলোড করতে পারবেন না। দয়া করে কিছু পরিবর্তন করুন এবং আবার চেষ্টা করুন।</string>
     <string name="error_adding_brick">এই ব্রিকটি যুক্ত করার সময় কিছু ভুল হয়েছে।</string>
     <string name="error_copying_brick">এই ব্রিকটি অনুলিপি করার সময় কিছু ভুল হয়েছে।</string>

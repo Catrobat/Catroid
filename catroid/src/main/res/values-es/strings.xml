@@ -1267,7 +1267,7 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string name="error_internet_connection">Se produjo un error desconocido. Compruebe su conexión a Internet.</string>
     <string name="error_project_compatibility">Este proyecto no es compatible con esta versión de la aplicación.</string>
     <string name="error_outdated_version">Esta versión está obsoleta. ¿Actualiza ahora?</string>
-    <string name="error_upload_project_with_default_name">No puede cargar un proyecto con el nombre \"Mi primer proyecto\".
+    <string name="error_upload_project_with_default_name">No puede cargar un proyecto con el nombre \"%s\".
         Por favor, cambie el nombre del proyecto.</string>
     <string name="error_upload_default_project">No puede subir un proyecto de ejemplo sin modificar. Por favor,
         cambie algo e inténtelo de nuevo.</string>

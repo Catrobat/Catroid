@@ -1224,8 +1224,8 @@
     <string name="error_internet_connection">不明なエラーが発生しました。インターネット接続を確認してください</string>
     <string name="error_project_compatibility">プロジェクトは、このバージョンのアプリと互換性がありません。</string>
     <string name="error_outdated_version">このアプリのバージョンが古すぎます。今すぐ更新しますか?</string>
-    <string name="error_upload_project_with_default_name">「私の最初のプロジェクト」という名前のプロジェクトをアップロードすることはできません。
-        プロジェクトの名前を変更してください。</string>
+    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"%s\".
+        Please rename the project.</string>
     <string name="error_upload_default_project">変更されていないサンプルプロジェクトをアップロードすることはできません。
         何かを変更して再度お試し下さい。</string>
     <string name="error_adding_brick">このブロックを追加中にエラーが発生しました</string>

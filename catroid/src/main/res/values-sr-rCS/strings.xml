@@ -1322,7 +1322,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_internet_connection">Došlo je do nepoznate greške. Proverite Internet vezu.</string>
     <string name="error_project_compatibility">Projekat nije kompatibilan sa ovom verzijom aplikacije.</string>
     <string name="error_outdated_version">Verzija ove aplikacije je zastarela. Ažuriranje sada?</string>
-    <string name="error_upload_project_with_default_name">Ne možete da pošaljete projekat sa nazivom „Moj prvi projekat“.
+    <string name="error_upload_project_with_default_name">Ne možete da pošaljete projekat sa nazivom „%s“.
         Preimenujte projekat.</string>
     <string name="error_upload_default_project">Ne možete poslati nepromenjeni primer projekta. Molimo Vas da
         promenite nešto i pokušajte ponovo.</string>

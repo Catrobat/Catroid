@@ -1271,7 +1271,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_internet_connection">Kosa lisilojulikana limetokea. Kagua muunganisho wa mtandao wako.</string>
     <string name="error_project_compatibility">The project is not compatible with this version of the app.</string>
     <string name="error_outdated_version">Toleo hili la programu limepitwa na wakati. Sasisha sasa?</string>
-    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"My first project\".
+    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"%s\".
         Please rename the project.</string>
     <string name="error_upload_default_project">You cannot upload an unmodified example project. Please
         change something and try again.</string>
