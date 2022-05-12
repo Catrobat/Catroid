@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,7 +42,6 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -72,6 +71,7 @@ import static android.app.Activity.RESULT_OK;
 import static android.content.Context.VIBRATOR_SERVICE;
 
 import static org.koin.java.KoinJavaComponent.get;
+import static org.catrobat.catroid.common.Constants.DOWNLOAD_DIRECTORY;
 
 public class StageResourceHolder implements GatherCollisionInformationTask.OnPolygonLoadedListener {
 	private static final String TAG = StageResourceHolder.class.getSimpleName();
@@ -311,7 +311,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		}
 
 		if (requiredResourcesSet.contains(Brick.STORAGE_WRITE)) {
-			File directory = Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY;
+			File directory = DOWNLOAD_DIRECTORY;
 
 			if (directory.exists() || directory.mkdirs()) {
 				resourceInitialized();
@@ -456,6 +456,10 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 				case Brick.POSE_DETECTION:
 					failedResourcesMessage.append(stageActivity.getString(R.string
 							.prestage_no_pose_detection_available));
+					break;
+				case Brick.STORAGE_WRITE:
+					failedResourcesMessage.append(stageActivity.getString(R.string
+							.prestage_shared_storage_not_available));
 					break;
 				default:
 					failedResourcesMessage.append(stageActivity.getString(R.string
