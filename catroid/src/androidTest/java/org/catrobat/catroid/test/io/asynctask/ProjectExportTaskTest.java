@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -56,7 +56,7 @@ import androidx.test.rule.GrantPermissionRule;
 
 import static org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION;
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
-import static org.catrobat.catroid.common.Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.DOWNLOAD_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.UNDO_CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 import static org.junit.Assert.assertTrue;
@@ -101,7 +101,7 @@ public class ProjectExportTaskTest {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
 			projectZip = new File(Constants.CACHE_DIR, fileName);
 		} else {
-			projectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY, fileName);
+			projectZip = new File(DOWNLOAD_DIRECTORY, fileName);
 		}
 		Uri projectUri = Uri.fromFile(projectZip);
 		NotificationData notificationData = notificationManager
@@ -156,8 +156,8 @@ public class ProjectExportTaskTest {
 		}
 		projectZip.delete();
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q
-				&& EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY.exists()) {
-			StorageOperations.deleteDir(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY);
+				&& DOWNLOAD_DIRECTORY.exists()) {
+			StorageOperations.deleteDir(DOWNLOAD_DIRECTORY);
 		}
 	}
 }
