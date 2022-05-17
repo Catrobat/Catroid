@@ -754,8 +754,10 @@
     <string name="upload_tags_maximum_error">Selecting more than 3 tags is not possible.</string>
 
     <!-- Download ML Module -->
-    <string name="download_ml_module_dialog_title">Download Machine Learning Module?</string>
-    <string name="download_ml_module_dialog_message">Your project requires the Machine Learning Module. Do you want to download it?</string>
+    <string name="download_ml_module_permission_dialog_title">Download Machine Learning Module?</string>
+    <string name="download_ml_module_permission_dialog_message">Your project requires the Machine Learning Module. Do you want to download it?</string>
+    <string name="download_ml_module_not_available_dialog_title">Machine Learning Feature not available</string>
+    <string name="download_ml_module_not_available_dialog_message">The machine learning features are not available on this device at the moment.</string>
     <string name="notification_program_name_ml_module">Machine Learning Module</string>
     <string name="download_ml_module_error_message">Failed to download Machine Learning Module</string>
     <!--  -->

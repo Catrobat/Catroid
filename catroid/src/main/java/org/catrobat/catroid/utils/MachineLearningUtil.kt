@@ -31,6 +31,7 @@ import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.camera.core.ImageAnalysis
+import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
@@ -39,6 +40,7 @@ import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
 import org.catrobat.catroid.R
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
+import org.koin.java.KoinJavaComponent
 import java.lang.ref.WeakReference
 
 interface MachineLearningModule {
@@ -117,28 +119,29 @@ object MachineLearningUtil {
         }
     }
 
-    fun isLoaded(): Boolean = this.loadingState == LoadingState.LOADED
+    fun isLoaded() = this.loadingState == LoadingState.LOADED
 
-    fun getCatroidImageAnalyzer(): CatroidImageAnalyzer? =
-        getObjectInstance<CatroidImageAnalyzer>("CatroidImageAnalyzer")
+    fun getCatroidImageAnalyzer() = getObjectInstance<CatroidImageAnalyzer>("CatroidImageAnalyzer")
 
-    fun getFaceTextPoseDetectorHuawei(): FaceTextPoseDetectorHuawei? =
-        getObjectInstance<FaceTextPoseDetectorHuawei>("FaceTextPoseDetectorHuawei")
+    fun getFaceTextPoseDetectorHuawei() = getObjectInstance<FaceTextPoseDetectorHuawei>("FaceTextPoseDetectorHuawei")
 
-    fun getObjectDetectorResults(): ObjectDetectorResults? =
-        getObjectInstance<ObjectDetectorResults>("ObjectDetectorResults")
+    fun getObjectDetectorResults() = getObjectInstance<ObjectDetectorResults>("ObjectDetectorResults")
 
-    fun <E> getObjectDetectorOnSuccessListener(): OnSuccessListener<MutableList<E>>? =
+    fun <E> getObjectDetectorOnSuccessListener() =
         getObjectInstance<OnSuccessListener<MutableList<E>>>("ObjectDetectorOnSuccessListener")
 
     @JvmStatic
-    fun getTextBlockUtil(): TextBlockUtil? = getObjectInstance<TextBlockUtil>("TextBlockUtil")
+    fun getTextBlockUtil() = getObjectInstance<TextBlockUtil>("TextBlockUtil")
 
     @JvmStatic
-    fun getVisualDetectionHandler(): VisualDetectionHandler? =
-        getObjectInstance<VisualDetectionHandler>("VisualDetectionHandler")
+    fun getVisualDetectionHandler() = getObjectInstance<VisualDetectionHandler>("VisualDetectionHandler")
 
     private fun <T> getObjectInstance(name: String): T? {
+        if (!isAvailableForAndroid() && permissionState == PermissionState.NOT_ANSWERED) {
+            permissionState = PermissionState.REJECTED
+            showNotAvailableDialog()
+            return null
+        }
         if (loadingState == LoadingState.NOT_LOADED) {
             val context = activity?.get()?.applicationContext
             if (context != null) {
@@ -148,9 +151,8 @@ object MachineLearningUtil {
                 }
             }
         }
-        if (loadingState == LoadingState.NOT_LOADED) {
-            val activityNotNull = activity?.get() ?: return null
-            showDialog(activityNotNull, { loadModule() }, {})
+        if (loadingState == LoadingState.NOT_LOADED && permissionState == PermissionState.NOT_ANSWERED) {
+            showPermissionDialog { loadModule() }
             return null
         }
         if (loadingState != LoadingState.LOADED) {
@@ -238,26 +240,47 @@ object MachineLearningUtil {
         }
     }
 
-    private fun showDialog(activity: Activity, positiveButtonHandler: () -> Unit, negativeButtonHandler: () -> Unit) {
-        if (permissionState == PermissionState.PENDING || permissionState == PermissionState.ACCEPTED || permissionState == PermissionState.REJECTED) {
-            return
-        }
+    private fun showPermissionDialog(positiveButtonHandler: () -> Unit) {
+        val activityNotNull = activity?.get() ?: return
         permissionState = PermissionState.PENDING
-        activity.runOnUiThread {
-            AlertDialog.Builder(ContextThemeWrapper(activity, R.style.Theme_AppCompat_Dialog))
-                .setTitle(R.string.download_ml_module_dialog_title)
-                .setMessage(R.string.download_ml_module_dialog_message)
+        activityNotNull.runOnUiThread {
+            AlertDialog.Builder(ContextThemeWrapper(activityNotNull, R.style.Theme_AppCompat_Dialog))
+                .setTitle(R.string.download_ml_module_permission_dialog_title)
+                .setMessage(R.string.download_ml_module_permission_dialog_message)
                 .setPositiveButton(R.string.yes) { _, _ ->
                     positiveButtonHandler()
                     permissionState = PermissionState.ACCEPTED
                 }
                 .setNegativeButton(R.string.no) { _, _ ->
-                    negativeButtonHandler()
                     permissionState = PermissionState.REJECTED
                 }
                 .setCancelable(false)
                 .create()
                 .show()
         }
+    }
+
+    private fun showNotAvailableDialog() {
+        val activityNotNull = activity?.get() ?: return
+        activityNotNull.runOnUiThread {
+            AlertDialog.Builder(ContextThemeWrapper(activityNotNull, R.style.Theme_AppCompat_Dialog))
+                .setTitle(R.string.download_ml_module_not_available_dialog_title)
+                .setMessage(R.string.download_ml_module_not_available_dialog_message)
+                .setPositiveButton(R.string.ok) { _, _ -> }
+                .setCancelable(false)
+                .create()
+                .show()
+        }
+    }
+
+    private fun isAvailableForAndroid(): Boolean {
+        val activityNotNull = activity?.get() ?: return false
+        val mobileServiceAvailability = KoinJavaComponent.get(MobileServiceAvailability::class.java)
+        val status = mobileServiceAvailability.getGmsAvailabilityStatus(activityNotNull)
+        if (status != ConnectionResult.SUCCESS) {
+            Log.w(javaClass.simpleName, "machine learning features not available (status: $status)")
+            return false
+        }
+        return true
     }
 }
