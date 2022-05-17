@@ -117,6 +117,8 @@ object MachineLearningUtil {
         }
     }
 
+    fun isLoaded(): Boolean = this.loadingState == LoadingState.LOADED
+
     fun getCatroidImageAnalyzer(): CatroidImageAnalyzer? =
         getObjectInstance<CatroidImageAnalyzer>("CatroidImageAnalyzer")
 

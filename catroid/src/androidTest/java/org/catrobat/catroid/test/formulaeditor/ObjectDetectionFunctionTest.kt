@@ -85,6 +85,7 @@ class ObjectDetectionFunctionTest(
 
     @Test
     fun testNumberParameter() {
+        Assert.assertTrue(MachineLearningUtil.isLoaded())
         successListener?.onSuccess(detectedObjects)
         val internToken = InternToken(InternTokenType.NUMBER, parameterValue.toString())
         testSingleParameterFunction(function, listOf(internToken), expectedReturnValue)

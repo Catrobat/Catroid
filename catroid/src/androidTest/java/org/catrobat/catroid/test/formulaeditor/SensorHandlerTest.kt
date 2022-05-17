@@ -38,7 +38,7 @@ import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.utils.MachineLearningUtil
 import org.catrobat.catroid.utils.VisualDetectionHandlerFace
 import org.junit.After
-import org.junit.Assert.assertEquals
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -77,6 +77,7 @@ class SensorHandlerTest {
     @Test
     fun testFirstFaceDetection() {
         MachineLearningUtil.initializeMachineLearningModule(ApplicationProvider.getApplicationContext())
+        Assert.assertTrue(MachineLearningUtil.isLoaded())
 
         SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext())
         compareToSensor(0, Sensors.FACE_DETECTED)
@@ -98,6 +99,7 @@ class SensorHandlerTest {
     @Test
     fun testSecondFaceDetection() {
         MachineLearningUtil.initializeMachineLearningModule(ApplicationProvider.getApplicationContext())
+        Assert.assertTrue(MachineLearningUtil.isLoaded())
 
         SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext())
         compareToSensor(0, Sensors.SECOND_FACE_DETECTED)
@@ -140,7 +142,7 @@ class SensorHandlerTest {
     }
 
     private fun compareToSensor(value: Int, sensor: Sensors) {
-        assertEquals(value.toDouble(), SensorHandler.getSensorValue(sensor) as Double, DELTA)
+        Assert.assertEquals(value.toDouble(), SensorHandler.getSensorValue(sensor) as Double, DELTA)
     }
 
     companion object {
