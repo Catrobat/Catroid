@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,9 +28,11 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.Spinner
@@ -60,6 +62,23 @@ class ScriptFinder(context: Context, attrs: AttributeSet?) : LinearLayout(contex
 
     private var binding: ViewScriptFinderBinding
 
+    private fun showNavigationButtons() {
+        binding.findNext.visibility = VISIBLE
+        binding.findPrevious.visibility = VISIBLE
+        binding.searchPositionIndicator.visibility = VISIBLE
+        binding.find.visibility = GONE
+    }
+
+    private fun hideNavigationButtons() {
+        binding.findNext.visibility = GONE
+        binding.findPrevious.visibility = GONE
+        binding.searchPositionIndicator.visibility = GONE
+        binding.find.visibility = VISIBLE
+    }
+
+    private fun formatSearchQuery(query: CharSequence): String = query.toString().trim()
+        .toLowerCase(Locale.ROOT)
+
     init {
         orientation = VERTICAL
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -74,23 +93,24 @@ class ScriptFinder(context: Context, attrs: AttributeSet?) : LinearLayout(contex
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) =
                 Unit
 
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                if (searchQuery == s.toString().toLowerCase(Locale.ROOT)) {
-                    binding.findNext.visibility = VISIBLE
-                    binding.findPrevious.visibility = VISIBLE
-                    binding.searchPositionIndicator.visibility = VISIBLE
-                    binding.find.visibility = GONE
+            override fun onTextChanged(newText: CharSequence, start: Int, before: Int, count: Int) {
+                if (searchQuery == formatSearchQuery(newText)) {
+                    showNavigationButtons()
                 } else {
-                    binding.findNext.visibility = GONE
-                    binding.findPrevious.visibility = GONE
-                    binding.searchPositionIndicator.visibility = GONE
-                    binding.find.visibility = VISIBLE
+                    hideNavigationButtons()
                 }
             }
 
             override fun afterTextChanged(s: Editable) = Unit
         }
         binding.searchBar.addTextChangedListener(textWatcher)
+        binding.searchBar.setOnEditorActionListener { _, actionId, keyEvent ->
+            when (actionId) {
+                EditorInfo.IME_ACTION_SEARCH, EditorInfo.IME_ACTION_DONE -> find()
+                else -> if (keyEvent.action == KeyEvent.KEYCODE_ENTER) find()
+            }
+            false
+        }
     }
 
     companion object {
@@ -127,7 +147,7 @@ class ScriptFinder(context: Context, attrs: AttributeSet?) : LinearLayout(contex
     }
 
     private fun find() {
-        val query = binding.searchBar.text.toString().toLowerCase(Locale.ROOT)
+        val query = formatSearchQuery(binding.searchBar.text)
         if (query.isNotEmpty()) {
             if (searchQuery != query) {
                 searchQuery = query
@@ -161,7 +181,8 @@ class ScriptFinder(context: Context, attrs: AttributeSet?) : LinearLayout(contex
     private fun findPrevious() {
         searchResults?.let {
             if (it.isNotEmpty()) {
-                searchResultIndex = if (searchResultIndex == 0) it.size - 1 else searchResultIndex - 1
+                searchResultIndex =
+                    if (searchResultIndex == 0) it.size - 1 else searchResultIndex - 1
                 updateUI()
             } else {
                 binding.searchPositionIndicator.text = "0/0"
