@@ -56,6 +56,16 @@ object ObjectDetector : Detector {
             .addOnFailureListener { exception ->
                 Log.e(javaClass.simpleName, "Could not analyze image.", exception)
             }.addOnCompleteListener {
+
+
+
+
+
+
+
+
+
+
                 onCompleteListener.onComplete()
             }
     }

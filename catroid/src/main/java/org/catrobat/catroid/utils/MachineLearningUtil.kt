@@ -148,6 +148,14 @@ object MachineLearningUtil {
                 val splitInstallManager = SplitInstallManagerFactory.create(context)
                 if (splitInstallManager.installedModules.contains(MODULE_NAME)) {
                     initializeMachineLearningModule(context)
+
+
+
+
+
+
+
+
                 }
             }
         }
