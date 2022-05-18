@@ -342,7 +342,8 @@ android {
         noCompress "lite"
     }
 
-    dynamicFeatures = [':machinelearning']
+    // TODO add again
+    // dynamicFeatures = [':machinelearning']
 }
 
 configurations {
