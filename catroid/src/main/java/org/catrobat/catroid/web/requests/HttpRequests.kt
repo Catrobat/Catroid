@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2019 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,7 +42,7 @@ private const val PROJECT_CHECKSUM_TAG = "fileChecksum"
 private const val USER_EMAIL = "userEmail"
 private const val DEVICE_LANGUAGE = "deviceLanguage"
 private val MEDIA_TYPE_ZIPFILE = MediaType.parse("application/zip")
-private const val FILE_UPLOAD_URL = FlavoredConstants.BASE_URL_HTTPS + "api/upload/upload.json"
+private const val FILE_UPLOAD_URL = FlavoredConstants.BASE_UPLOAD_URL + "api/upload/upload.json"
 
 fun createUploadRequest(
     uploadData: ProjectUploadData
