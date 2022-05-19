@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,14 +30,14 @@ import android.widget.PopupMenu
 import androidx.annotation.PluralsRes
 import androidx.appcompat.app.AppCompatActivity
 import org.catrobat.catroid.ProjectManager
-
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.SharedPreferenceKeys
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
-import org.catrobat.catroid.io.asynctask.ProjectSaver
+import org.catrobat.catroid.io.asynctask.loadProject
 import org.catrobat.catroid.ui.controller.BackpackListManager
 import org.catrobat.catroid.ui.recyclerview.adapter.SceneAdapter
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity
@@ -191,7 +191,9 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
         if (item?.name != name) {
             if (sceneController.rename(item, name)) {
                 val currentProject = projectManager.currentProject
-                ProjectSaver(currentProject, requireContext()).saveProjectAsync()
+                XstreamSerializer.getInstance().saveProject(currentProject)
+                loadProject(currentProject.directory, requireContext().applicationContext)
+                initializeAdapter()
             } else {
                 ToastUtil.showError(activity, R.string.error_rename_scene)
             }
