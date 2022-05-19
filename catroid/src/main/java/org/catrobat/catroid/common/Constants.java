@@ -124,6 +124,7 @@ public final class Constants {
 
 	// Web:
 	private static final String MAIN_URL_PRODUCTION = "https://share.catrob.at";
+	public static final String UPLOAD_URL = "https://upload.catrob.at";
 	private static final String WEB_TEST_URL = BuildConfig.WEB_TEST_URL;
 	public static final String MAIN_URL_HTTPS = BuildConfig.WEB_TEST_FLAG ? WEB_TEST_URL : MAIN_URL_PRODUCTION;
 
