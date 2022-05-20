@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -583,9 +583,11 @@ public class ActionFactory extends Actions {
 		return Actions.action(ClearBackgroundAction.class);
 	}
 
-	public Action createSetCameraFocusPointAction(Sprite sprite, Formula horizontal,
-			Formula vertical) {
+	public Action createSetCameraFocusPointAction(Sprite sprite, SequenceAction sequence,
+			Formula horizontal, Formula vertical) {
 		SetCameraFocusPointAction action = action(SetCameraFocusPointAction.class);
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		action.setScope(scope);
 		action.setSprite(sprite);
 		action.setHorizontal(horizontal);
 		action.setVertical(vertical);
