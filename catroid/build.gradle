@@ -326,9 +326,8 @@ android {
                     default:
                         flavorName = variant.flavorName
                 }
-                def versionName = variant.versionName
                 def buildType = variant.buildType.name
-                outputFileName = "catroid-${flavorName}-${versionName}-${buildType}.apk"
+                outputFileName = "catroid-${flavorName}-${buildType}.apk"
             }
         }
     }
