@@ -149,7 +149,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+		super.onCreate(null);
 
 		if (isFinishing()) {
 			return;
