@@ -1988,7 +1988,7 @@ needs read and write access to it. You can always change permissions through you
         without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">No variable selected</string>
-    <string name="find">Find</string>
+    <string name="search">Search</string>
     <string name="no_results_found">No results found</string>
     <string name="query_field_is_empty">Query field is empty</string>
     <string name="cut">Cắt</string>

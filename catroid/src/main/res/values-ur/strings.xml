@@ -330,7 +330,7 @@
     <string name="hide_details">تفصیلات چھپائیں</string>
     <string name="project_options">پروجیکٹ کے اختیارات</string>
     <string name="from_library">لائبریری سے شامل کریں۔</string>
-    <string name="from_local">Add from local</string>
+    <string name="from_local">مقامی سے شامل کریں۔</string>
     <string name="sort_projects">ترتیب دیں</string>
     <string name="unsort_projects">غیر منظم</string>
     <string name="import_from_project">درآمد کرنے کے لیے پروجیکٹ منتخب کریں۔</string>
@@ -1274,16 +1274,16 @@
     <string name="notification_blueth_err">بلوٹوت کو فعال نہیں کر سکتے ہیں، براہ مہربانی دوبارہ کوشش کریں اور پھر دوبارہ کوشش کریں.</string>
     <string name="title_paired_devices">جوڑی آلات</string>
     <string name="title_other_devices">جوڑی آلات</string>
-    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="bluetooth_connection_title">بلوٹوتھ کنکشن</string>
     <string name="skip_bluetooth_connection">چھوڑ دیں</string>
     <string name="connecting_please_wait">آپ کے آلہ سے جڑ رہا ہے ۔\n&#8230; براۓ مہربانی انتظار کريں</string>
     <string name="bt_connection_failed">آلہ میں کنکشن ناکام ہوگیا!</string>
     <string name="none_found">کوئی غیر جوڑا آلات نہیں ملے</string>
-    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
-        required!</string>
-    <string name="multiplayer_bluetooth_connection_information">To play this game in
-        Multiplayer a Bluetooth connection is required. Both players have to start the game and
-        be on this screen for the connection to work properly!</string>
+    <string name="multiplayer_bluetooth_connection_information_title">بلوٹوتھ کنکشن
+        کی ضرورت ہے!</string>
+    <string name="multiplayer_bluetooth_connection_information">اس گیم کو کھیلنے کے لیے
+        ملٹی پلیئر ایک بلوٹوتھ کنکشن درکار ہے۔ دونوں کھلاڑیوں کو کھیل شروع کرنا ہوگا اور
+        کنکشن کے صحیح طریقے سے کام کرنے کے لیے اس اسکرین پر رہیں!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">اردینو ڈیجیٹل پن سیٹ کریں</string>
@@ -1983,7 +1983,7 @@
     <string name="new_empty_sprite_note">نوٹ: اداکار یا شے بغیر         نظر کے بنائی جائے گی۔</string>
     <!-- Information -->
     <string name="no_variable_selected">کوئی متغیر منتخب نہیں ہے۔</string>
-    <string name="find">پیدا کر</string>
+    <string name="search">تلاش کریں…</string>
     <string name="no_results_found">کوئی نتیجہ نہیں</string>
     <string name="query_field_is_empty">سوال کا میدان خالی ہے۔</string>
     <string name="cut">کٹ</string>

@@ -2004,7 +2004,7 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
         sin mirar.</string>
     <!-- Information -->
     <string name="no_variable_selected">Ninguna variable seleccionada</string>
-    <string name="find">Encuentre</string>
+    <string name="search">Búsqueda…</string>
     <string name="no_results_found">No se han encontrado resultados</string>
     <string name="query_field_is_empty">El campo de consulta está vacío</string>
     <string name="cut">Cortar</string>
