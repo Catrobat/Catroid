@@ -25,7 +25,7 @@
     <!-- General terms -->
     <string name="stage">舞台</string>
     <string name="play">玩</string>
-    <string name="settings">设定值</string>
+    <string name="settings">设置</string>
     <string name="redo">重做</string>
     <string name="undo">撤消</string>
     <string name="new_option">新建&#8230;</string>
@@ -46,7 +46,7 @@
     <string name="once">一次</string>
     <string name="always">总是</string>
     <string name="deny">拒绝</string>
-    <string name="do_not_show_again">不要再出现</string>
+    <string name="do_not_show_again">不再显示</string>
     <string name="accept">接受</string>
     <string name="decline">拒绝</string>
     <string name="select_all">全部选择</string>
@@ -1948,7 +1948,7 @@ dash(-), 下划线 (_), 和 句号(.).</string>
         没有设置外观。</string>
     <!-- Information -->
     <string name="no_variable_selected">未选择变量</string>
-    <string name="find">查找</string>
+    <string name="search">搜索</string>
     <string name="no_results_found">没有发现结果</string>
     <string name="query_field_is_empty">查询字段为空</string>
     <string name="cut"> 剪切</string>

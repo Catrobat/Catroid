@@ -37,7 +37,7 @@ class StartListeningAction : Action(), OnSpeechRecognitionResultCallback {
 
     private var listeningRequested = false
     private var spokenWordsReceived = false
-    private val speechRecognitionHolder = get(SpeechRecognitionHolderFactory::class.java).instance
+    //private val speechRecognitionHolder = get(SpeechRecognitionHolderFactory::class.java).instance
     var userVariable: UserVariable? = null
 
     override fun act(delta: Float): Boolean {
@@ -55,10 +55,10 @@ class StartListeningAction : Action(), OnSpeechRecognitionResultCallback {
     }
 
     private fun requestStartListening() {
-        speechRecognitionHolder.apply {
+        /*speechRecognitionHolder.apply {
             callback = this@StartListeningAction
             startListening()
-        }
+        }*/
         listeningRequested = true
     }
 

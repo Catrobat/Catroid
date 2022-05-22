@@ -627,43 +627,43 @@
     <string name="project_options_more_details">Подробнее</string>
     <string name="project_options_delete_project">Удалить проект</string>
     <!-- ScriptListFragment -->
-    <string name="fragment_script_text_description">Нажмите \"+\" чтобы добавить скрипт</string>
+    <string name="fragment_script_text_description">Нажмите \"+\" чтобы добавить скрипты</string>
     <!--  -->
     <!-- SpriteListFragment -->
-    <string name="fragment_sprite_text_description">Нажми \"+\" чтобы добавить актеров или объектов</string>
+    <string name="fragment_sprite_text_description">Нажмите \"+\" чтобы добавить актеров или объекты</string>
     <string name="default_sprite_name">Мой актер или объект</string>
     <!--  -->
     <!-- LookListFragment -->
     <string name="fragment_look_text_description">Нажмите \"+\" чтобы добавить образы</string>
     <string name="select_look_from_gallery">Выбрать изображение</string>
-    <string name="select_look_from_camera">Выберите фотографию</string>
+    <string name="select_look_from_camera">Выберать фото</string>
     <!--  -->
     <!-- SoundListFragment -->
-    <string name="fragment_sound_text_description">Нажмите \"+\" чтобы добавить звуки</string>
-    <string name="sound_select_source">Выберите звук</string>
+    <string name="fragment_sound_text_description">Нажмите \"+\" чтобы звук</string>
+    <string name="sound_select_source">Выберать звук</string>
     <!--  -->
     <!-- NfcTagListFragment -->
-    <string name="fragment_nfctag_text_description">Просканируйте NFC теги, чтобы их добавить</string>
-    <string name="ndef_record_label">как тип записи</string>
-    <string name="brick_set_nfc_tag">Подождите, пока следующий NFC тег будет записан</string>
+    <string name="fragment_nfctag_text_description">Просканируйте NFC теги, чтобы добавить</string>
+    <string name="ndef_record_label">как записи тип</string>
+    <string name="brick_set_nfc_tag">Подождите, пока следующий NFC тег будет записан.</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
     <string name="default_tag_name">NFC тег</string>
     <string name="tnf_empty">Пусто</string>
-    <string name="tnf_external_type">Внешний тип</string>
+    <string name="tnf_external_type">Внешний тип.</string>
     <string name="tnf_mime_media">Текст</string>
     <string name="tnf_well_known_http">HTTP</string>
     <string name="tnf_well_known_https">HTTPS</string>
-    <string name="tnf_well_known_tel">Номер телефона</string>
-    <string name="tnf_well_known_sms">СМС</string>
+    <string name="tnf_well_known_tel">Номер телефона.</string>
+    <string name="tnf_well_known_sms">СМС Сообщение</string>
     <string name="tnf_well_known_mailto">Электронная почта</string>
     <!--  -->
     <!-- DataListFragment -->
-    <string name="multiplayer_vars_headline">Переменные для подключенных устройств</string>
-    <string name="global_vars_headline">Переменные для всех актеров и объектов</string>
-    <string name="local_vars_headline">Переменные только для этого актера или объекта</string>
+    <string name="multiplayer_vars_headline">Переменные для подключенных девайсов</string>
+    <string name="global_vars_headline">Переменные для всех актеров и объектов.</string>
+    <string name="local_vars_headline">Переменные только для этого актера или объекта только</string>
     <string name="global_lists_headline">Списки для всех актеров или объектов</string>
-    <string name="local_lists_headline">Списки только для этого актера или объекта</string>
-    <string name="fragment_data_text_description">Нажмите \"+\" чтобы добавить\nпеременных или списков</string>
+    <string name="local_lists_headline">Списки только для актера или объекта только</string>
+    <string name="fragment_data_text_description">Tap \"+\" to add\nvariables or lists</string>
     <plurals name="user_defined_brick_input_headline">
         <item quantity="one">Введите для этого кирпича</item>
         <item quantity="few">Введите для этого кирпича</item>
@@ -941,9 +941,9 @@
     <string name="brick_if_on_edge_bounce">Оттолкнуться, если на краю</string>
     <string name="brick_move">Идти</string>
     <plurals name="brick_move_n_step_plural">
-        <item quantity="one">шаг</item>
+        <item quantity="one">Step</item>
         <item quantity="few">шага</item>
-        <item quantity="many">шагов</item>
+        <item quantity="many">Steps</item>
         <item quantity="other">шагов</item>
     </plurals>
     <string name="brick_turn_left">Повернуть налево на</string>
@@ -2119,7 +2119,7 @@
         без внешнего образа.        </string>
     <!-- Information -->
     <string name="no_variable_selected">Переменная не выбрана</string>
-    <string name="find">Найти</string>
+    <string name="search">Поиск</string>
     <string name="no_results_found">Ничего не найдено</string>
     <string name="query_field_is_empty">Поле запроса пустое</string>
     <string name="cut">Вырезать</string>

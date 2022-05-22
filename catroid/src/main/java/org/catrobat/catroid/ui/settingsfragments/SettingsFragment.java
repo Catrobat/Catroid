@@ -198,6 +198,11 @@ public class SettingsFragment extends PreferenceFragment {
 			testPreference.setEnabled(BuildConfig.DEBUG);
 			screen.removePreference(testPreference);
 		}
+
+		if (!BuildConfig.FEATURE_AI_SENSORS_ENABLED) {
+			PreferenceScreen AIPreference = (PreferenceScreen) findPreference(AI_SENSORS_SCREEN_KEY);
+			screen.removePreference(AIPreference);
+		}
 	}
 
 	@Override

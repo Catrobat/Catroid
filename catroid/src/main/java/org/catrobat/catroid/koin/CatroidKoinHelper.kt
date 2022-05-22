@@ -32,7 +32,7 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.db.AppDatabase
 import org.catrobat.catroid.db.DatabaseMigrations
 import org.catrobat.catroid.retrofit.CatroidWebServer
-import org.catrobat.catroid.stage.HmsSpeechRecognitionHolder
+//import org.catrobat.catroid.stage.HmsSpeechRecognitionHolder
 import org.catrobat.catroid.stage.SpeechRecognitionHolder
 import org.catrobat.catroid.stage.SpeechRecognitionHolderFactory
 import org.catrobat.catroid.sync.DefaultFeaturedProjectSync
@@ -117,14 +117,14 @@ val adapterModules = module {
 
 val speechModules = module {
     single { SpeechRecognitionHolder() }
-    single { HmsSpeechRecognitionHolder() }
+    /*single { HmsSpeechRecognitionHolder() }
     single {
         SpeechRecognitionHolderFactory(
             get<SpeechRecognitionHolder>(),
             get<HmsSpeechRecognitionHolder>(),
             get()
         )
-    }
+    }*/
 }
 
 val myModules = listOf(

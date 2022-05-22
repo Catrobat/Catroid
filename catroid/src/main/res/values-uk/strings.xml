@@ -421,7 +421,7 @@
     <string name="sound_name_label">Sound name</string>
     <string name="nfc_tag_name_label">NFC tag name</string>
     <string name="string_label">Текст</string>
-    <string name="data_label">Name</string>
+    <string name="data_label">Ім\'я</string>
     <string name="keyword_label">Шукати</string>
     <string name="html_label">Insert HTML text</string>
     <string name="Image_format_not_supported">Image format not supported</string>
@@ -618,7 +618,7 @@
     <string name="error_no_files_found">No project files found.</string>
     <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
     <!-- ProjectOptionsFragment -->
-    <string name="project_options_description">Description</string>
+    <string name="project_options_description">Опис</string>
     <string name="project_options_notes_and_credits">Credits</string>
     <string name="project_options_tags">Tags</string>
     <string name="project_options_aspect_ratio">Keep original aspect ratio</string>
@@ -2121,7 +2121,7 @@ needs read and write access to it. You can always change permissions through you
         without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">No variable selected</string>
-    <string name="find">Find</string>
+    <string name="search">Шукати</string>
     <string name="no_results_found">No results found</string>
     <string name="query_field_is_empty">Query field is empty</string>
     <string name="cut">Вирізати</string>

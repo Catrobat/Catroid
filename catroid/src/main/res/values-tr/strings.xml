@@ -1972,7 +1972,7 @@ bekleyin</string>
         Obje oluşturuluçaktır.</string>
     <!-- Information -->
     <string name="no_variable_selected">Değişken seçilmedi</string>
-    <string name="find">Bul</string>
+    <string name="search">Ara…</string>
     <string name="no_results_found">Sonuç bulunamadı</string>
     <string name="query_field_is_empty">Sorgu alanı boş</string>
     <string name="cut">Kes</string>

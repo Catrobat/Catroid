@@ -2029,7 +2029,7 @@
         एक नज़र के बिना।</string>
     <!-- Information -->
     <string name="no_variable_selected">कोई चर नहीं चुना गया</string>
-    <string name="find">खोज</string>
+    <string name="search">खोज…</string>
     <string name="no_results_found">कोई परिणाम नहीं मिला</string>
     <string name="query_field_is_empty">क्वेरी फ़ील्ड खाली है</string>
     <string name="cut">काटें</string>

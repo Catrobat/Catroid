@@ -2032,7 +2032,7 @@
         ਇੱਕ ਨਜ਼ਰ ਦੇ ਬਗੈਰ.</string>
     <!-- Information -->
     <string name="no_variable_selected">ਕੋਈ ਵੇਰੀਏਬਲ ਨਹੀਂ ਚੁਣਿਆ</string>
-    <string name="find">ਲੱਭੋ</string>
+    <string name="search">ਖੋਜ ਕਰੋ…</string>
     <string name="no_results_found">ਕੋਈ ਨਤੀਜਾ ਨਹੀਂ ਮਿਲਿਆ</string>
     <string name="query_field_is_empty">ਕਿ fieldਰੀ ਫੀਲਡ ਖਾਲੀ ਹੈ</string>
     <string name="cut">ਕੱਟੋ</string>

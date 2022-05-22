@@ -24,13 +24,13 @@
 package org.catrobat.catroid.camera.mlkitdetectors
 
 import android.media.Image
-import com.google.mlkit.vision.common.InputImage
+//import com.google.mlkit.vision.common.InputImage
 import org.catrobat.catroid.camera.DetectorsCompleteListener
 
 fun interface Detector {
     fun processImage(
         mediaImage: Image,
-        inputImage: InputImage,
+        //inputImage: InputImage,
         onCompleteListener: DetectorsCompleteListener
     )
 }

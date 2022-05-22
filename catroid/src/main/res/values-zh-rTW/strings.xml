@@ -1984,7 +1984,7 @@
         不看。</string>
     <!-- Information -->
     <string name="no_variable_selected">未選擇變量</string>
-    <string name="find">找</string>
+    <string name="search">搜索…</string>
     <string name="no_results_found">未找到結果</string>
     <string name="query_field_is_empty">查詢字段為空</string>
     <string name="cut">切</string>

@@ -2196,7 +2196,7 @@
         بدون نظرة.</string>
     <!-- Information -->
     <string name="no_variable_selected">لا يوجد متغير محدد</string>
-    <string name="find">تجد</string>
+    <string name="search">جاري البحث…</string>
     <string name="no_results_found">لم يتم العثور على نتائج</string>
     <string name="query_field_is_empty">حقل الاستعلام فارغ</string>
     <string name="cut">قطع</string>
