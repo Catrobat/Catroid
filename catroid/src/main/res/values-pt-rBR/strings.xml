@@ -56,7 +56,7 @@
     <string name="error">Erro</string>
     <string name="loading">Carregando&#8230;</string>
     <string name="please_wait">Por favor, aguarde</string>
-    <string name="search_hint">Buscar</string>
+    <string name="search_hint">Procurar</string>
     <string name="backpack_add">Adicionar à mochila</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Security warning dialog -->
@@ -138,7 +138,7 @@
     <string name="preference_description_ai_text_recognition">Ativar
         blocos e sensores de reconhecimento de texto</string>
     <string name="preference_title_ai_object_recognition">Reconhecimento de objeto</string>
-    <string name="preference_description_ai_object_recognition">Ativar o reconhecimento de objetos e sensores de rastreamento</string>
+    <string name="preference_description_ai_object_recognition">Ative o reconhecimento de objetos e sensores de rastreamento</string>
     <string name="preference_title_accessibility">Acessibilidade</string>
     <string name="preference_description_accessibility">Alterar aparência do aplicativo</string>
     <string name="preference_title_accessibility_profiles">Perfis de acessibilidade</string>
@@ -347,7 +347,7 @@
     <string name="hide_details">Ocultar detalhes</string>
     <string name="project_options">Opções do projeto</string>
     <string name="from_library">Adicionar da biblioteca</string>
-    <string name="from_local">Add from local</string>
+    <string name="from_local">Adicionar do local</string>
     <string name="sort_projects">Ordenar</string>
     <string name="unsort_projects">Desordenar</string>
     <string name="import_from_project">Selecionar projeto para importar de</string>
@@ -393,14 +393,14 @@
     <string name="nfc_tag_name_label">Nome da tag NFC</string>
     <string name="string_label">Texto</string>
     <string name="data_label">Nome</string>
-    <string name="keyword_label">Insira a palavra-passe</string>
+    <string name="keyword_label">Pesquisar</string>
     <string name="html_label">Inserir texto HTML</string>
     <string name="Image_format_not_supported">Formato de imagem não suportado</string>
     <string name="import_conflicting_variables">O ator ou objeto não poderia ser adicionado.</string>
     <string name="import_conflicting_variables_reason">A razão é que a seguinte variável ou
         nomes de listas estão em conflito porque são usados para
         todos os atores e objetos e com o mesmo nome também para apenas um dos atores ou objetos: </string>
-    <string name="import_conflicting_variables_try_again">Favor renomear uma dessas variáveis ou listas e tentar novamente.</string>
+    <string name="import_conflicting_variables_try_again">Por favor, renomeie uma dessas variáveis ou listas e tente novamente.</string>
     <!-- Details -->
     <string name="project_details">Último acesso: %s, tamanho: %s</string>
     <string name="last_access_today">Hoje, %s</string>
@@ -538,8 +538,8 @@
     <string name="import_project">Importar projeto</string>
     <string name="export_project">Exportar projeto</string>
     <string name="error_import_project">Ocorreu um erro ao importar os projetos.</string>
-    <string name="no_projects_selected">Nenhum projeto selecionado para importação</string>
-    <string name="only_select_catrobat_files">Selecionar apenas arquivos do projeto</string>
+    <string name="no_projects_selected">Nenhum projeto foi selecionado para importação</string>
+    <string name="only_select_catrobat_files">Selecione apenas arquivos do projeto</string>
     <string name="error_no_files_found">Nenhum arquivo de projeto encontrado.</string>
     <string name="import_sprite_from_project_launcher">Importar objeto do projeto local</string>
     <!-- ProjectOptionsFragment -->
@@ -615,7 +615,7 @@
     <string name="new_look_dialog_title">Adicionar aparência</string>
     <string name="add_look_from_camera">Tirar foto</string>
     <string name="add_look_object_library">Biblioteca</string>
-    <string name="add_look_draw_new_image">Desenhar imagem</string>
+    <string name="add_look_draw_new_image">Desenhar</string>
     <string name="add_look_choose_image">Selecionar Imagem</string>
     <string name="add_look_media_library">Biblioteca de mídia</string>
     <string name="add_look_from_local_project">Projetos locais</string>
@@ -767,7 +767,7 @@
     <string name="prestage_no_back_camera_available">\u2022 Câmera traseira\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Detecção de rosto\n</string>
     <string name="prestage_no_object_detection_available">\u2022 Reconhecimento de Objeto\n</string>
-    <string name="prestage_no_pose_detection_available">\u2022 Detecção de passo\n</string>
+    <string name="prestage_no_pose_detection_available">\u2022 Detecção de postura\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Detecção de texto\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Câmera frontal\n</string>
     <string name="prestage_no_camera_available">\u2022 Câmera\n</string>
@@ -818,7 +818,7 @@
     <string name="category_cast">Chromecast</string>
     <string name="category_raspi">Raspberry Pi</string>
     <string name="category_assertions">Testando</string>
-    <string name="category_search_bricks">Tijolos de Busca</string>
+    <string name="category_search_bricks">Procurar blocos</string>
     <!--  -->
     <!-- User Defined Bricks -->
     <string name="brick_user_defined_add_label">Adicionar texto</string>
@@ -933,9 +933,9 @@
     <string name="brick_copy_look">Copiar a aparência e dar o nome de</string>
     <string name="brick_copy_look_name">nome da aparência copiada</string>
     <string name="brick_copy_background">Copiar fundo e nomeá-lo</string>
-    <string name="brick_focus_point">Torne-se o ponto de foco com</string>
+    <string name="brick_focus_point">Definir como ponto de foco móvel em</string>
     <string name="brick_horizontal_and">horizontal e</string>
-    <string name="brick_vertical_flex">flexibilidade vertical</string>
+    <string name="brick_vertical_flex">vertical</string>
     <!--  -->
     <!-- Pen bricks -->
     <string name="brick_pen_down">Caneta para baixo</string>
@@ -1169,7 +1169,7 @@
     <!-- Default Values -->
     <string name="default_project_name">Meu projeto</string>
     <string name="default_variable_name">Variável</string>
-    <string name="default_scene_name">Cenário</string>
+    <string name="default_scene_name">Cena</string>
     <string name="default_script_group_name">Grupo de script</string>
     <string name="default_broadcast_message_name">Mensagem</string>
     <string name="default_list_name">Lista</string>
@@ -1291,17 +1291,17 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Não foi possível ativar o Bluetooth, por favor tente desligar e ligar novamente.</string>
     <string name="title_paired_devices">Dispositivos pareados</string>
-    <string name="title_other_devices">Novos dispositivos</string>
-    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="title_other_devices">Dispositivos disponíveis</string>
+    <string name="bluetooth_connection_title">Conexão Bluetooth</string>
     <string name="skip_bluetooth_connection">Saltar</string>
     <string name="connecting_please_wait">Conectando ao seu dispositivo.\nPor favor, aguarde&#8230;</string>
     <string name="bt_connection_failed">A conexão com o dispositivo falhou!</string>
     <string name="none_found">Não foram encontrados dispositivos não pareados</string>
-    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
-        required!</string>
-    <string name="multiplayer_bluetooth_connection_information">To play this game in
-        Multiplayer a Bluetooth connection is required. Both players have to start the game and
-        be on this screen for the connection to work properly!</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Conexão Bluetooth
+        necessária!</string>
+    <string name="multiplayer_bluetooth_connection_information">Para jogar este jogo em
+        Multijogador é necessária uma conexão Bluetooth. Ambos os jogadores precisam iniciar o jogo e
+        estar na tela para que a conexão funcione corretamente!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Definir pin digital Arduino</string>
@@ -1438,11 +1438,11 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="brick_drone_power">Elevar</string>
     <!--  -->
     <!-- Drone play led animation strings -->
-    <string name="drone_animation_blinkgreenred">Piscar verde</string>
+    <string name="drone_animation_blinkgreenred">Piscar verde e vermelho</string>
     <string name="drone_animation_blinkgreen">Piscar verde</string>
     <string name="drone_animation_blinkred">Piscar vermelho</string>
     <string name="drone_animation_blinkorange">Piscar laranja</string>
-    <string name="drone_animation_snakegreenred">Cobra verde vermelho</string>
+    <string name="drone_animation_snakegreenred">Piscar verde e vermelho (animação cobra)</string>
     <string name="drone_animation_fire">Disparar</string>
     <string name="drone_animation_standard">Padrão</string>
     <string name="drone_animation_red">Vermelho</string>
@@ -1598,7 +1598,7 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="formula_editor_function_max_parameter">(5,4)</string>
     <string name="formula_editor_function_min">menor entre</string>
     <string name="formula_editor_function_min_parameter">(7,2)</string>
-    <string name="formula_editor_function_if_then_else">Se não</string>
+    <string name="formula_editor_function_if_then_else">Senão</string>
     <string name="formula_editor_function_if_then_else_parameter">(falso, 2, 3)</string>
     <string name="formula_editor_function_true">verdadeiro</string>
     <string name="formula_editor_function_false">falso</string>
@@ -1617,8 +1617,8 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="formula_editor_dialog_regular_expression_assistant_title">Assistente de expressão regular</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">A palavra-chave não pode ser encontrada.</string>
     <string name="formula_editor_function_regex_json_extractor_title">extrator JSON</string>
-    <string name="formula_editor_function_arduino_read_pin_value_digital">Pino digital arduino</string>
-    <string name="formula_editor_function_arduino_read_pin_value_analog">Pino analógico de arduino</string>
+    <string name="formula_editor_function_arduino_read_pin_value_digital">Pino de entrada digital do arduino</string>
+    <string name="formula_editor_function_arduino_read_pin_value_analog">Pino de entrada analógica do arduino</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">Pino raspberry pi</string>
     <string name="formula_editor_function_pin_default_parameter">(3)</string>
     <string name="formula_editor_function_finger_x">toque x</string>
@@ -1689,35 +1689,35 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="formula_editor_sensor_lego_ev3_3">EV3 sensor 3</string>
     <string name="formula_editor_sensor_lego_ev3_4">EV3 sensor 4</string>
     <string name="formula_editor_sensor_lego_nxt_touch">Toque NXT</string>
-    <string name="formula_editor_sensor_lego_nxt_sound">Som do NXT</string>
+    <string name="formula_editor_sensor_lego_nxt_sound">Som NXT</string>
     <string name="formula_editor_sensor_lego_nxt_light">Luz NXT</string>
     <string name="formula_editor_sensor_lego_nxt_light_active">Luz de NXT ativa</string>
-    <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT ultrasônico</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_touch">EV3 toque</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_infrared">EV3 infravermelho</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color">Cor de EV3</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3 cor do ambiente</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3 refletido na cor</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3 cor hiTécnica</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">EV3 NXT temperatura em °C</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">temperatura de EV3 NXT em °F</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light">EV3 NXT light</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">EV3 NXT luz ativa</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">Som de EV3 NXT</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT ultrasônico</string>
-    <string name="formula_editor_sensor_gamepad_a_pressed">controle A pressionado</string>
-    <string name="formula_editor_sensor_gamepad_b_pressed">controle B pressionado</string>
-    <string name="formula_editor_sensor_gamepad_up_pressed">controle pressionado</string>
-    <string name="formula_editor_sensor_gamepad_down_pressed">controle pressionado</string>
-    <string name="formula_editor_sensor_gamepad_left_pressed">controle à esquerda pressionado</string>
-    <string name="formula_editor_sensor_gamepad_right_pressed">controle pressionado à direita</string>
-    <string name="formula_editor_phiro_sensor_front_left">sensor frontal do phiro</string>
-    <string name="formula_editor_phiro_sensor_front_right">sensor frontal do phiro</string>
+    <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT ultrassônico</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_touch">Toque EV3 </string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_infrared">Sensor infravermelho EV3 </string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color">Cor EV3</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">Cor do ambiente EV3 </string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">Cor refletida EV3</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">Cores HiTechnic EV3</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">Temperatura em °C de EV3 NXT </string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">Temperatura em °F de EV3 NXT </string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light">Luz EV3 NXT </string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">Luz EV3 NXT ativa  </string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">Som EV3 NXT</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT ultrassônico</string>
+    <string name="formula_editor_sensor_gamepad_a_pressed">Tecla A do controle pressionada</string>
+    <string name="formula_editor_sensor_gamepad_b_pressed">Tecla B do controle pressionada</string>
+    <string name="formula_editor_sensor_gamepad_up_pressed">Tecla PARA CIMA do controle pressionada</string>
+    <string name="formula_editor_sensor_gamepad_down_pressed">Tecla PARA BAIXO do controle pressionada</string>
+    <string name="formula_editor_sensor_gamepad_left_pressed">Tecla ESQUERDA do controle pressionada</string>
+    <string name="formula_editor_sensor_gamepad_right_pressed">Tecla DIREITA do controle pressionada</string>
+    <string name="formula_editor_phiro_sensor_front_left">sensor frontal esquerdo do phiro</string>
+    <string name="formula_editor_phiro_sensor_front_right">sensor frontal direito do phiro</string>
     <string name="formula_editor_phiro_sensor_side_left">sensor esquerdo do phiro</string>
     <string name="formula_editor_phiro_sensor_side_right">sensor direito do phiro</string>
-    <string name="formula_editor_phiro_sensor_bottom_left">Sensor inferior esquerdo do phiro</string>
+    <string name="formula_editor_phiro_sensor_bottom_left">sensor inferior esquerdo do phiro</string>
     <string name="formula_editor_phiro_sensor_bottom_right">sensor inferior direito do phiro</string>
-    <string name="formula_editor_nfc_tag_id">nfc tag id</string>
+    <string name="formula_editor_nfc_tag_id">id da tag nfc </string>
     <string name="formula_editor_nfc_tag_message">mensagem de tag nfc</string>
     <string name="formula_editor_object_x">posição x</string>
     <string name="formula_editor_object_y">posição y</string>
@@ -1801,28 +1801,28 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="formula_editor_sensor_second_face_size">tamanho do segundo rosto</string>
     <string name="formula_editor_sensor_second_face_x_position">posição x do segundo rosto</string>
     <string name="formula_editor_sensor_second_face_y_position">posição y do segundo rosto</string>
-    <string name="formula_editor_sensor_head_top_x">tipo da cabeça x</string>
-    <string name="formula_editor_sensor_head_top_y">topo da cabeça y</string>
+    <string name="formula_editor_sensor_head_top_x">cabeça superior x</string>
+    <string name="formula_editor_sensor_head_top_y">cabeça superior y</string>
     <string name="formula_editor_sensor_neck_x">pescoço x</string>
     <string name="formula_editor_sensor_neck_y">pescoço y</string>
     <string name="formula_editor_sensor_nose_x">nariz x</string>
     <string name="formula_editor_sensor_nose_y">nariz y</string>
-    <string name="formula_editor_sensor_left_eye_inner_x">olho esquerdo dentro x</string>
-    <string name="formula_editor_sensor_left_eye_inner_y">olho esquerdo interior y</string>
+    <string name="formula_editor_sensor_left_eye_inner_x">interior do olho esquerdo x</string>
+    <string name="formula_editor_sensor_left_eye_inner_y">interior do olho esquerdo y</string>
     <string name="formula_editor_sensor_left_eye_center_x">centro do olho esquerdo x</string>
     <string name="formula_editor_sensor_left_eye_center_y">centro do olho esquerdo y</string>
-    <string name="formula_editor_sensor_left_eye_outer_x">olho esquerdo exterior x</string>
-    <string name="formula_editor_sensor_left_eye_outer_y">olho esquerdo exterior y</string>
-    <string name="formula_editor_sensor_right_eye_inner_x">olho direito dentro x</string>
-    <string name="formula_editor_sensor_right_eye_inner_y">olho direito interno y</string>
-    <string name="formula_editor_sensor_right_eye_center_x">centro olho direito x</string>
+    <string name="formula_editor_sensor_left_eye_outer_x">exterior do olho esquerdo x</string>
+    <string name="formula_editor_sensor_left_eye_outer_y">exterior do olho esquerdo y</string>
+    <string name="formula_editor_sensor_right_eye_inner_x">interior do olho direito x</string>
+    <string name="formula_editor_sensor_right_eye_inner_y">interior do olho direito y</string>
+    <string name="formula_editor_sensor_right_eye_center_x">centro do olho direito x</string>
     <string name="formula_editor_sensor_right_eye_center_y">centro do olho direito y</string>
-    <string name="formula_editor_sensor_right_eye_outer_x">olho direito externo x</string>
-    <string name="formula_editor_sensor_right_eye_outer_y">olho direito exterior y</string>
+    <string name="formula_editor_sensor_right_eye_outer_x">exterior do olho direito x</string>
+    <string name="formula_editor_sensor_right_eye_outer_y">exterior do olho direito y</string>
     <string name="formula_editor_sensor_left_ear_x">orelha esquerda x</string>
     <string name="formula_editor_sensor_left_ear_y">orelha esquerda y</string>
     <string name="formula_editor_sensor_right_ear_x">orelha direita x</string>
-    <string name="formula_editor_sensor_right_ear_y">ouvido direito y</string>
+    <string name="formula_editor_sensor_right_ear_y">orelha direito y</string>
     <string name="formula_editor_sensor_mouth_left_corner_x">canto esquerdo da boca x</string>
     <string name="formula_editor_sensor_mouth_left_corner_y">canto esquerdo da boca y</string>
     <string name="formula_editor_sensor_mouth_right_corner_x">canto direito da boca x</string>
@@ -1840,19 +1840,19 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="formula_editor_sensor_right_wrist_x">pulso direito x</string>
     <string name="formula_editor_sensor_right_wrist_y">pulso direito y</string>
     <string name="formula_editor_sensor_left_pinky_knuckle_x">articulação do dedo mindinho esquerdo x</string>
-    <string name="formula_editor_sensor_left_pinky_knuckle_y">nó esquerdo do dedo mindinho e</string>
+    <string name="formula_editor_sensor_left_pinky_knuckle_y">articulação do dedo mindinho esquerdo y</string>
     <string name="formula_editor_sensor_right_pinky_knuckle_x">articulação do dedo mínimo direito x</string>
-    <string name="formula_editor_sensor_right_pinky_knuckle_y">nó direito do dedo mindinho e</string>
-    <string name="formula_editor_sensor_left_index_knuckle_x">nó de índice esquerdo x</string>
-    <string name="formula_editor_sensor_left_index_knuckle_y">nó esquerdo do índice y</string>
-    <string name="formula_editor_sensor_right_index_knuckle_x">nó de índice direito x</string>
-    <string name="formula_editor_sensor_right_index_knuckle_y">nó de índice direito y</string>
+    <string name="formula_editor_sensor_right_pinky_knuckle_y">articulação do dedo mindinho direito y</string>
+    <string name="formula_editor_sensor_left_index_knuckle_x">articulação do dedo indicador esquerdo x</string>
+    <string name="formula_editor_sensor_left_index_knuckle_y">articulação do dedo indicador esquerdo y</string>
+    <string name="formula_editor_sensor_right_index_knuckle_x">articulação do dedo indicador direito x</string>
+    <string name="formula_editor_sensor_right_index_knuckle_y">articulação do dedo indicador direito y</string>
     <string name="formula_editor_sensor_left_thumb_knuckle_x">articulação do polegar esquerdo x</string>
-    <string name="formula_editor_sensor_left_thumb_knuckle_y">nó esquerdo do polegar y</string>
+    <string name="formula_editor_sensor_left_thumb_knuckle_y">articulação do polegar esquerdo y</string>
     <string name="formula_editor_sensor_right_thumb_knuckle_x">articulação do polegar direito x</string>
-    <string name="formula_editor_sensor_right_thumb_knuckle_y">articulação do polegar direito e</string>
+    <string name="formula_editor_sensor_right_thumb_knuckle_y">articulação do polegar direito y</string>
     <string name="formula_editor_sensor_left_hip_x">quadril esquerdo x</string>
-    <string name="formula_editor_sensor_left_hip_y">anca esquerda y</string>
+    <string name="formula_editor_sensor_left_hip_y">quadril esquerdo y</string>
     <string name="formula_editor_sensor_right_hip_x">quadril direito x</string>
     <string name="formula_editor_sensor_right_hip_y">quadril direito y</string>
     <string name="formula_editor_sensor_left_knee_x">joelho esquerdo x</string>
@@ -1867,10 +1867,10 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="formula_editor_sensor_left_heel_y">calcanhar esquerdo y</string>
     <string name="formula_editor_sensor_right_heel_x">calcanhar direito x</string>
     <string name="formula_editor_sensor_right_heel_y">calcanhar direito y</string>
-    <string name="formula_editor_sensor_left_foot_index_x">índice do pé esquerdo x</string>
-    <string name="formula_editor_sensor_left_foot_index_y">índice do pé esquerdo y</string>
-    <string name="formula_editor_sensor_right_foot_index_x">índice do pé direito x</string>
-    <string name="formula_editor_sensor_right_foot_index_y">índice do pé direito y</string>
+    <string name="formula_editor_sensor_left_foot_index_x">dedo indicador do pé esquerdo x</string>
+    <string name="formula_editor_sensor_left_foot_index_y">dedo indicador do pé esquerdo y</string>
+    <string name="formula_editor_sensor_right_foot_index_x">dedo indicador do pé direito x</string>
+    <string name="formula_editor_sensor_right_foot_index_y">dedo indicador do pé direito y</string>
     <string name="formula_editor_sensor_text_from_camera">texto da câmera</string>
     <string name="formula_editor_sensor_text_blocks_number">número de blocos de texto</string>
     <string name="formula_editor_function_text_block_x">Bloco de texto X da câmera</string>
@@ -2025,16 +2025,16 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
         sem uma aparência.</string>
     <!-- Information -->
     <string name="no_variable_selected">Nenhuma variável selecionada</string>
-    <string name="find">Procurar</string>
+    <string name="search">Procurar</string>
     <string name="no_results_found">Nenhum resultado encontrado</string>
     <string name="query_field_is_empty">O campo de inserção está vazio</string>
     <string name="cut">Cortar</string>
     <string name="paste">Colar</string>
     <!-- Particle Effects -->
-    <string name="fade_particle_effect">Efeito partícula de desbotamento</string>
+    <string name="fade_particle_effect">Efeito de partícula desvanecer</string>
     <string name="particle_effects_fade_in">em</string>
     <string name="particle_effects_fade_out">fora</string>
-    <string name="turn_particle_effect_additivity">Aditividade do efeito de virar partícula</string>
+    <string name="turn_particle_effect_additivity">Virar efeito de partícula adicional</string>
     <string name="particle_effects_additive_on">ligado</string>
     <string name="particle_effects_additive_off">desligado</string>
     <string name="set_particle_color_to">Define a cor da partícula para</string>

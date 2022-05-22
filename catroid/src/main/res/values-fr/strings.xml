@@ -2020,7 +2020,7 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
         sans apparence.</string>
     <!-- Information -->
     <string name="no_variable_selected">Aucune variable sélectionnée</string>
-    <string name="find">Trouvez</string>
+    <string name="search">Recherche en cours…</string>
     <string name="no_results_found">Aucun résultat trouvé</string>
     <string name="query_field_is_empty">Le champ de la requête est vide</string>
     <string name="cut">Couper</string>

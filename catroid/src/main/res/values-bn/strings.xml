@@ -1973,7 +1973,7 @@
          একটি চেহারা ছাড়া</string>
     <!-- Information -->
     <string name="no_variable_selected">কোনও ভেরিয়েবল নির্বাচন করা হয়নি</string>
-    <string name="find">অনুসন্ধান</string>
+    <string name="search">অনুসন্ধান</string>
     <string name="no_results_found">কোন ফলাফল পাওয়া যায়নি</string>
     <string name="query_field_is_empty">অনুসন্ধান ক্ষেত্রটি খালি</string>
     <string name="cut">কাটা</string>

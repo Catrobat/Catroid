@@ -1961,7 +1961,7 @@
         作成されます。</string>
     <!-- Information -->
     <string name="no_variable_selected">変数が選択されていません</string>
-    <string name="find">探す</string>
+    <string name="search">検索…</string>
     <string name="no_results_found">結果は見つかりませんでした。</string>
     <string name="query_field_is_empty">クエリーフィールドが空です</string>
     <string name="cut">切り取り</string>

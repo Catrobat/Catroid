@@ -618,7 +618,7 @@
     <!-- NewLookDialog -->
     <string name="new_look_dialog_title">Lägg till utseende</string>
     <string name="add_look_from_camera">Ta bild</string>
-    <string name="add_look_object_library">Library</string>
+    <string name="add_look_object_library">Bibliotek</string>
     <string name="add_look_draw_new_image">Rita bild</string>
     <string name="add_look_choose_image">Välj bild</string>
     <string name="add_look_media_library">Mediabibliotek</string>
@@ -757,7 +757,7 @@
     <!--  -->
     <!-- Music activity -->
     <string name="pocket_music_default_project_name">Namnlös låt</string>
-    <string name="pocket_music_default_track_name">Track 1</string>
+    <string name="pocket_music_default_track_name">Spår 1</string>
     <!--  -->
     <!-- Resource initialization fka PrestageActivity -->
     <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to
@@ -838,7 +838,7 @@
     <string name="brick_user_defined_script_define">Definiera</string>
     <string name="brick_user_defined_script_screen_refresh_as">screen refresh as</string>
     <string name="brick_user_defined_with_screen_refreshing">med</string>
-    <string name="brick_user_defined_without_screen_refreshing">without</string>
+    <string name="brick_user_defined_without_screen_refreshing">utan</string>
     <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
     <string name="brick_report">Rapportera</string>
     <!--  -->
@@ -974,7 +974,7 @@
     <string name="pause_for">Pause for</string>
     <string name="play_drum">Spela trumma</string>
     <string name="beats">beats</string>
-    <string name="play_note">Play note</string>
+    <string name="play_note">Spela not</string>
     <string name="for_string">för</string>
     <!--  -->
     <!-- Embroidery bricks -->
@@ -1026,7 +1026,7 @@
     <string name="brick_forever">För alltid</string>
     <string name="brick_loop_for_values_from">För värden från</string>
     <string name="brick_loop_for_each_value_from">För varje värde från</string>
-    <string name="brick_loop_in">in</string>
+    <string name="brick_loop_in">i</string>
     <string name="brick_loop_to">till</string>
     <string name="brick_repeat">Upprepa</string>
     <string name="brick_repeat_until">Upprepa tills</string>
@@ -1938,7 +1938,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_show_variable_aligned_left">vänster</string>
     <string name="brick_show_variable_aligned_right">höger</string>
     <string name="brick_context_dialog_pick_color">Välj färg</string>
-    <string name="brick_context_dialog_pick_note">Pick note</string>
+    <string name="brick_context_dialog_pick_note">Välj not</string>
     <!-- -->
     <!-- Camera related strings -->
     <string name="brick_video">Turn camera</string>
@@ -2034,14 +2034,14 @@ needs read and write access to it. You can always change permissions through you
         without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">Ingen variabel vald</string>
-    <string name="find">Hitta</string>
+    <string name="search">Sök…</string>
     <string name="no_results_found">Inga resultat hittades</string>
     <string name="query_field_is_empty">Query field is empty</string>
     <string name="cut">Cut</string>
     <string name="paste">Klistra in</string>
     <!-- Particle Effects -->
     <string name="fade_particle_effect">Fade particle effect</string>
-    <string name="particle_effects_fade_in">in</string>
+    <string name="particle_effects_fade_in">i</string>
     <string name="particle_effects_fade_out">out</string>
     <string name="turn_particle_effect_additivity">Turn particle effect additivity</string>
     <string name="particle_effects_additive_on">på</string>
