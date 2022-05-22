@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,6 +47,7 @@ class WriteVariableToFileActionTest(
     private val name: String,
     private val formula: Formula?,
     private val userVariable: UserVariable?,
+    private val expectedFileName: String,
     private val expectedFileContent: String,
     private val createFile: Int,
     private val writeToFile: Int
@@ -57,22 +58,72 @@ class WriteVariableToFileActionTest(
 
     companion object {
         @JvmStatic
+        @Suppress("LongMethod")
         @Parameterized.Parameters(name = "{0}")
         fun parameters() = listOf(
-            arrayOf("USER_VARIABLE_NULL", Formula("file.txt"), null, "", 0, 0),
-            arrayOf("FORMULA_NULL", null, UserVariable(VAR_NAME, DEFAULT_VAR_VALUE), "", 0, 0),
-            arrayOf("VALID_FILE_NAME", Formula(DEFAULT_FILE_NAME),
-                    UserVariable(VAR_NAME, DEFAULT_VAR_VALUE), DEFAULT_VAR_VALUE, 1, 1),
-            arrayOf("CANNOT_CREATE_FILE", Formula(DEFAULT_FILE_NAME),
-                    UserVariable(VAR_NAME, DEFAULT_VAR_VALUE), DEFAULT_VAR_VALUE, 1, 0),
-            arrayOf("NO_SUFFIX", Formula("file"),
-                    UserVariable(VAR_NAME, DEFAULT_VAR_VALUE), DEFAULT_VAR_VALUE, 1, 1),
-            arrayOf("INVALID_FILE_NAME", Formula("\"f\\i^^ *\\\"l\\|\"e.t xt\\\""),
-                    UserVariable(VAR_NAME, DEFAULT_VAR_VALUE), DEFAULT_VAR_VALUE, 1, 1),
-            arrayOf("UNICODE", Formula(DEFAULT_FILE_NAME),
-                    UserVariable(VAR_NAME, "🐼~🐵~🐘"), "🐼~🐵~🐘", 1, 1),
-            arrayOf("NUMBER", Formula(DEFAULT_FILE_NAME),
-                    UserVariable(VAR_NAME, -3.14), "-3.14", 1, 1)
+            arrayOf("USER_VARIABLE_NULL",
+                    Formula("file.txt"),
+                    null,
+                    "",
+                    "",
+                    0,
+                    0),
+            arrayOf("FORMULA_NULL",
+                    null,
+                    UserVariable(VAR_NAME, DEFAULT_VAR_VALUE),
+                    "",
+                    "",
+                    0,
+                    0),
+            arrayOf("VALID_FILE_NAME",
+                    Formula(DEFAULT_FILE_NAME),
+                    UserVariable(VAR_NAME, DEFAULT_VAR_VALUE),
+                    DEFAULT_FILE_NAME,
+                    DEFAULT_VAR_VALUE,
+                    1,
+                    1),
+            arrayOf("CANNOT_CREATE_FILE",
+                    Formula(DEFAULT_FILE_NAME),
+                    UserVariable(VAR_NAME, DEFAULT_VAR_VALUE),
+                    DEFAULT_FILE_NAME,
+                    DEFAULT_VAR_VALUE,
+                    1,
+                    0),
+            arrayOf("NO_SUFFIX",
+                    Formula("file"),
+                    UserVariable(VAR_NAME, DEFAULT_VAR_VALUE),
+                    DEFAULT_FILE_NAME,
+                    DEFAULT_VAR_VALUE,
+                    1,
+                    1),
+            arrayOf("NON_TXT_SUFFIX",
+                    Formula("file.out"),
+                    UserVariable(VAR_NAME, DEFAULT_VAR_VALUE),
+                    "file.out",
+                    DEFAULT_VAR_VALUE,
+                    1,
+                    1),
+            arrayOf("INVALID_FILE_NAME",
+                    Formula("\"f\\i^^ *\\\"l\\|\"e.t xt\\\""),
+                    UserVariable(VAR_NAME, DEFAULT_VAR_VALUE),
+                    DEFAULT_FILE_NAME,
+                    DEFAULT_VAR_VALUE,
+                    1,
+                    1),
+            arrayOf("UNICODE",
+                    Formula(DEFAULT_FILE_NAME),
+                    UserVariable(VAR_NAME, "🐼~🐵~🐘"),
+                    DEFAULT_FILE_NAME,
+                    "🐼~🐵~🐘",
+                    1,
+                    1),
+            arrayOf("NUMBER",
+                    Formula(DEFAULT_FILE_NAME),
+                    UserVariable(VAR_NAME, -3.14),
+                    DEFAULT_FILE_NAME,
+                    "-3.14",
+                    1,
+                    1)
         )
 
         private const val DEFAULT_FILE_NAME = "file.txt"
@@ -106,7 +157,7 @@ class WriteVariableToFileActionTest(
         doNothing().`when`(action).writeToFile(file, expectedFileContent)
         Assert.assertTrue(action.act(1f))
 
-        verify(action, times(createFile)).createFile(DEFAULT_FILE_NAME)
+        verify(action, times(createFile)).createFile(expectedFileName)
         verify(action, times(writeToFile)).writeToFile(file, expectedFileContent)
     }
 }
