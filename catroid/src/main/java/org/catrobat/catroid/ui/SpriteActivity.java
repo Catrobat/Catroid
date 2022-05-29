@@ -299,7 +299,7 @@ public class SpriteActivity extends BaseActivity {
 				return;
 			}
 		} else if (currentFragment instanceof FormulaEditorFragment) {
-			((FormulaEditorFragment) currentFragment).exitFormulaEditorFragment();
+			((FormulaEditorFragment) currentFragment).revertChangesDialog();
 			return;
 		} else if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
 

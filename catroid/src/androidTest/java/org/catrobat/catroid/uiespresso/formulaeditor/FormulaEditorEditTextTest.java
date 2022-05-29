@@ -56,6 +56,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.doubleClick;
 import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -131,6 +132,10 @@ public class FormulaEditorEditTextTest {
 		onFormulaEditor()
 				.performClickOn(BACKSPACE);
 		pressBack();
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
 		onToast(withText(R.string.formula_editor_parse_fail))
 				.check(matches(isDisplayed()));
 		onView(isRoot()).perform(CustomActions.wait(3000));
@@ -144,6 +149,10 @@ public class FormulaEditorEditTextTest {
 		onFormulaEditor()
 				.performEnterFormula("1+1+");
 		pressBack();
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
 		onToast(withText(R.string.formula_editor_parse_fail))
 				.check(matches(isDisplayed()));
 		onView(isRoot()).perform(CustomActions.wait(3000));
@@ -157,6 +166,10 @@ public class FormulaEditorEditTextTest {
 		onFormulaEditor()
 				.performEnterFormula("+");
 		pressBack();
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
 		onToast(withText(R.string.formula_editor_parse_fail))
 				.check(matches(isDisplayed()));
 		onView(isRoot()).perform(CustomActions.wait(3000));

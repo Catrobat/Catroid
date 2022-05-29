@@ -52,9 +52,6 @@
     <color name="action_button">#ffab08</color>
 
     <!-- Formula Editor Colors -->
-    <color name="formula_editor_compute_button">#D3D3D3</color>
-    <color name="formula_editor_compute_button_pressed">#A9A9A9</color>
-    <color name="formula_editor_compute_text">#242424</color>
     <color name="formula_editor_delete_button">#E9E9E9</color>
     <color name="formula_editor_delete_button_pressed">#A9A9A9</color>
     <color name="formula_editor_delete_icon">#242424</color>

@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.formulaeditor;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
@@ -48,7 +49,13 @@ import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorW
 
 import static java.util.Arrays.asList;
 
+import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.isDialog;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class FormulaEditorUserDefinedBrickTest {
@@ -79,6 +86,10 @@ public class FormulaEditorUserDefinedBrickTest {
 		clickOnFormulaField(input.getInputFormulaField());
 		onFormulaEditor().performEnterFormula("1234");
 		pressBack();
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
 		assertEquals("200 ", getValueOfFormulaField(secondInput.getInputFormulaField()));
 		assertEquals("1234 ", getValueOfFormulaField(input.getInputFormulaField()));
 	}

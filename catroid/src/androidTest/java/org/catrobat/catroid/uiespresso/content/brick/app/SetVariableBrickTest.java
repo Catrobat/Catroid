@@ -53,6 +53,7 @@ import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withChild;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -99,6 +100,10 @@ public class SetVariableBrickTest {
 		onDataList()
 				.performClose();
 		pressBack();
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
 
 		onView(withText(userVariableName))
 				.check(doesNotExist());
@@ -117,6 +122,10 @@ public class SetVariableBrickTest {
 		addNewVariableViaFormulaEditor(1, userVariableName);
 
 		pressBack();
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
 
 		onBrickAtPosition(1).onVariableSpinner(R.id.set_variable_spinner)
 				.performNewVariable(userVariableNameTwo);
