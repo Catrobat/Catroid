@@ -55,6 +55,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -83,6 +84,10 @@ public class FormulaEditorFragmentTest {
 		onFormulaEditor()
 				.performEnterNumber(0);
 		pressBack();
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
 				.perform(click());
 		onFormulaEditor()
@@ -98,6 +103,10 @@ public class FormulaEditorFragmentTest {
 		onFormulaEditor()
 				.performEnterFormula("3+");
 		pressBack();
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
 		UiTestUtils.onToast(withText(R.string.formula_editor_parse_fail))
 				.check(matches(isDisplayed()));
 		onView(withText(R.string.formula_editor_title))
@@ -119,6 +128,10 @@ public class FormulaEditorFragmentTest {
 		onFormulaEditor()
 				.performUndo();
 		pressBack();
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
 				.check(matches(withText("12 ")));
 	}
@@ -135,6 +148,10 @@ public class FormulaEditorFragmentTest {
 		onFormulaEditor()
 				.performBackspace();
 		pressBack();
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
 				.check(matches(withText("12 ")));
 	}
@@ -151,6 +168,10 @@ public class FormulaEditorFragmentTest {
 		onFormulaEditor()
 				.performRedo();
 		pressBack();
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
 				.check(matches(withText("12 ")));
 	}
@@ -175,7 +196,6 @@ public class FormulaEditorFragmentTest {
 
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
-
 		return project;
 	}
 }

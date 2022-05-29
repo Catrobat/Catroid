@@ -1937,7 +1937,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_object_background_name">background name</string>
     <string name="formula_editor_object_number_of_backgrounds">number of backgrounds</string>
     <string name="formula_editor_object_distance_to">distance to touch position</string>
-    <string name="formula_editor_compute">Compute</string>
     <string name="formula_editor_object">Properties</string>
     <string name="formula_editor_functions">Functions</string>
     <string name="formula_editor_logic">Logic</string>
@@ -1981,6 +1980,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_operator_power">^</string>
     <string name="formula_editor_image_button_description_delete">delete</string>
     <string name="formula_editor_image_button_description_color_picker">color picker</string>
+    <string name="formula_editor_image_button_description_done">done button</string>
+    <string name="formula_editor_image_button_description_compute">play button</string>
     <string name="formula_editor_image_button_description_functions_toggle">toggle functions</string>
     <string name="formula_editor_variable_dialog_title">New variable</string>
     <string name="formula_editor_list_dialog_title">New list</string>
