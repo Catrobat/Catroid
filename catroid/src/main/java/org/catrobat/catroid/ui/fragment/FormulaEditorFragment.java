@@ -65,8 +65,10 @@ import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.InternFormula;
 import org.catrobat.catroid.formulaeditor.InternFormulaKeyboardAdapter;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
+import org.catrobat.catroid.formulaeditor.InternFormulaState;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.UndoState;
 import org.catrobat.catroid.formulaeditor.UserData;
@@ -99,6 +101,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
@@ -354,6 +357,9 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 					view.setPressed(true);
 
 					switch (view.getId()) {
+						case R.id.formula_editor_keyboard_done:
+							exitFormulaEditorFragment();
+							return true;
 						case R.id.formula_editor_keyboard_compute:
 							showComputeDialog();
 							return true;
@@ -894,6 +900,38 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		}
 
 		return false;
+	}
+
+	public void revertChangesDialog() {
+		ScriptFragment fragment = (ScriptFragment) getActivity().getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG);
+		if (hasFormulaBeenChanged || formulaEditorEditText.hasChanges()
+				|| hasFileChanged() || fragment.checkVariables()) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			builder.setTitle(R.string.formula_editor_discard_changes_dialog_title)
+					.setMessage(R.string.formula_editor_discard_changes_dialog_message)
+					.setNegativeButton(R.string.no, (dialog, which) -> {
+						Map<Brick.FormulaField, InternFormulaState> initialStates = formulaEditorEditText
+								.getHistory().getInitialStates();
+						restoreInitialStates(initialStates);
+						ToastUtil.showError(getActivity(), R.string.formula_editor_changes_discarded);
+						onUserDismiss();
+					})
+					.setPositiveButton(R.string.yes, (dialog, which) -> {
+						exitFormulaEditorFragment();
+					})
+					.create()
+					.show();
+		} else {
+			exitFormulaEditorFragment();
+		}
+	}
+
+	private void restoreInitialStates(Map<Brick.FormulaField, InternFormulaState> initialStates) {
+		for (Map.Entry<Brick.FormulaField, InternFormulaState> state : initialStates.entrySet()) {
+			InternFormula internFormula = state.getValue().createInternFormulaFromState();
+			formulaBrick.setFormulaWithBrickField(state.getKey(),
+					new Formula(internFormula.getInternFormulaParser().parseFormula(generateScope())));
+		}
 	}
 
 	public void exitFormulaEditorFragment() {

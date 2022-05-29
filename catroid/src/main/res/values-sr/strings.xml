@@ -1594,7 +1594,6 @@
     <string name="formula_editor_false">false</string>
     <string name="formula_editor_decimal_mark">.</string>
     <string name="formula_editor_title">Formula editor</string>
-    <string name="formula_editor_changes_saved">Changes saved.</string>
     <string name="formula_editor_changes_discarded">Changes discarded!</string>
     <string name="formula_editor_parse_fail">Formula is not valid!</string>
     <string name="formula_nothing_selected">Define input value</string>

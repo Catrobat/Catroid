@@ -538,11 +538,6 @@
         <item name="android:layout_below">@+id/formula_editor_keyboard_decimal_mark</item>
     </style>
 
-     <style name="FormulaEditorComputeButton" parent="@style/FormulaEditorButton">
-        <item name="android:background">@drawable/formula_editor_compute_button_selector</item>
-        <item name="android:textColor">@color/formula_editor_compute_text</item>
-    </style>
-
     <style name="FormulaEditorDeleteButton" parent="@style/FormulaEditorButton">
         <item name="android:background">@drawable/formula_editor_delete_button_selector</item>
     </style>

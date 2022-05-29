@@ -1698,7 +1698,6 @@
     <string name="formula_editor_object_background_name">背景名稱</string>
     <string name="formula_editor_object_number_of_backgrounds">背景數量</string>
     <string name="formula_editor_object_distance_to">到觸摸位置的距離</string>
-    <string name="formula_editor_compute">計算</string>
     <string name="formula_editor_object">物件</string>
     <string name="formula_editor_functions">職能</string>
     <string name="formula_editor_logic">邏輯</string>

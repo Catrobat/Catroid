@@ -1676,7 +1676,6 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="formula_editor_object_background_name">背景名称</string>
     <string name="formula_editor_object_number_of_backgrounds">背景数</string>
     <string name="formula_editor_object_distance_to">到目标的距离</string>
-    <string name="formula_editor_compute">计算</string>
     <string name="formula_editor_object">对象</string>
     <string name="formula_editor_functions">函数</string>
     <string name="formula_editor_logic">逻辑</string>

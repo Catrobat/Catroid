@@ -49,6 +49,7 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInter
 import static org.catrobat.catroid.uiespresso.content.brick.utils.ColorPickerInteractionWrapper.onColorPickerPresetButton;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper.onDataList;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -59,7 +60,9 @@ import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -113,6 +116,11 @@ public class FormulaEditorUndoTest {
 				.performEnterFormula("745");
 
 		pressBack();
+
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
 
 		onView(withId(R.id.menu_undo))
 				.check(matches(isDisplayed()));
@@ -184,6 +192,10 @@ public class FormulaEditorUndoTest {
 				.performEnterFormula("0");
 
 		pressBack();
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
 
 		onView(withId(R.id.menu_undo))
 				.check(doesNotExist());
@@ -217,6 +229,11 @@ public class FormulaEditorUndoTest {
 
 		pressBack();
 
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
+
 		onView(withId(R.id.menu_undo))
 				.check(matches(isDisplayed()));
 
@@ -245,6 +262,11 @@ public class FormulaEditorUndoTest {
 
 		pressBack();
 
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
+
 		onView(withId(R.id.menu_undo))
 				.check(matches(isDisplayed()));
 
@@ -271,6 +293,11 @@ public class FormulaEditorUndoTest {
 				.performClose();
 
 		pressBack();
+
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
 
 		onView(withId(R.id.menu_undo))
 				.check(matches(isDisplayed()));
@@ -302,11 +329,13 @@ public class FormulaEditorUndoTest {
 		onDataList().onVariableAtPosition(0)
 				.performRename(NEW_VARIABLE_NAME);
 
-		onDataList()
-				.performClose();
+		pressBack();
+		pressBack();
 
-		pressBack();
-		pressBack();
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
 
 		onView(withId(R.id.menu_undo))
 				.check(matches(isDisplayed()));
@@ -317,11 +346,11 @@ public class FormulaEditorUndoTest {
 		assertEquals(ProjectManager.getInstance().getCurrentProject().getUserVariable(NEW_VARIABLE_NAME).getValue(), VARIABLE_VALUE);
 
 		onView(withId(R.id.menu_undo))
+				.check(matches(isDisplayed()))
 				.perform(click());
 		userVariable.setName(VARIABLE_NAME);
 		onView(withId(R.id.menu_undo))
-				.check(doesNotExist());
-
+				.check(matches(not(isEnabled())));
 		assertNull(ProjectManager.getInstance().getCurrentProject().getUserVariable(NEW_VARIABLE_NAME));
 		assertNotNull(ProjectManager.getInstance().getCurrentProject().getUserVariable(VARIABLE_NAME));
 		assertEquals(ProjectManager.getInstance().getCurrentProject().getUserVariable(VARIABLE_NAME), userVariable);
@@ -349,6 +378,10 @@ public class FormulaEditorUndoTest {
 
 		pressBack();
 
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
 		onView(withId(R.id.menu_undo))
 				.check(matches(isDisplayed()));
 
@@ -390,6 +423,11 @@ public class FormulaEditorUndoTest {
 
 		pressBack();
 
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
+
 		onBrickAtPosition(2)
 				.onSpinner(R.id.set_variable_spinner)
 				.checkShowsText(R.string.new_option);
@@ -428,6 +466,11 @@ public class FormulaEditorUndoTest {
 				.perform(click());
 
 		pressBack();
+
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
 
 		onView(withId(R.id.brick_place_at_edit_text_x))
 				.check(matches(withText("'#0074CD' ")));

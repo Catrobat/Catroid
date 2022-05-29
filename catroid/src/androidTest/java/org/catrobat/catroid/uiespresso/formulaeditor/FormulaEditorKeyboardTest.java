@@ -49,6 +49,7 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -60,6 +61,10 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static androidx.test.espresso.matcher.RootMatchers.isDialog;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -75,6 +80,7 @@ public class FormulaEditorKeyboardTest {
 
 	@Before
 	public void setUp() throws Exception {
+		Intents.init();
 		createProject();
 		baseActivityTestRule.launchActivity();
 	}
@@ -88,6 +94,10 @@ public class FormulaEditorKeyboardTest {
 				.performEnterNumber(1234567890.1);
 
 		pressBack();
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
 
 		onView(withId(R.id.brick_set_variable_edit_text))
 				.check(matches(withText("1234567890"
@@ -108,6 +118,10 @@ public class FormulaEditorKeyboardTest {
 		onFormulaEditor().performEnterFormula("1");
 
 		pressBack();
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
 
 		onView(withId(R.id.brick_set_variable_edit_text))
 				.check(matches(withText("( 1 ) + 1 - 1 × 1 ÷ 1 = 1 ")));
@@ -123,6 +137,10 @@ public class FormulaEditorKeyboardTest {
 				.performEnterString("Foo");
 
 		pressBack();
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
 
 		onView(withId(R.id.brick_set_variable_edit_text))
 				.check(matches(withText("'Foo' ")));
@@ -157,6 +175,10 @@ public class FormulaEditorKeyboardTest {
 		onFormulaEditor()
 				.performEnterFormula("+2");
 		pressBack();
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
 		onView(withId(R.id.brick_set_variable_edit_text))
 				.check(matches(withText(activity.getString(R.string.formula_editor_sensor_x_acceleration) + " + 2 ")));
 	}
@@ -178,8 +200,16 @@ public class FormulaEditorKeyboardTest {
 		onView(withId(R.id.brick_set_variable_edit_text)).check(matches(withText("'#0074CD' ")));
 	}
 
+	@Test
+	public void doneButtonTest() {
+		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
+		onView(withId(R.id.formula_editor_keyboard_done)).perform(click());
+		intended(hasComponent(SpriteActivity.class.getName()));
+	}
+
 	@After
 	public void tearDown() throws IOException {
+		Intents.release();
 		baseActivityTestRule.finishActivity();
 		TestUtils.deleteProjects(PROJECT_NAME);
 	}
