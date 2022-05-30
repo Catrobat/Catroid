@@ -36,7 +36,6 @@ import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiSelector
 import androidx.test.uiautomator.Until
 import junit.framework.TestCase.assertEquals
-import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.UiTestCatroidApplication.Companion.projectManager
 import org.catrobat.catroid.content.EmptyScript
@@ -44,9 +43,9 @@ import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
-import org.catrobat.catroid.content.bricks.ChangeXByNBrick
+import org.catrobat.catroid.content.UserDefinedScript
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick
-import org.catrobat.catroid.content.bricks.SetXBrick
+import org.catrobat.catroid.content.bricks.UserDefinedBrick
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
@@ -57,12 +56,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class ScriptSplitSingleTest {
+class ScriptSplitUserDefinedBrickTest {
     private val projectName = javaClass.simpleName
 
     companion object {
         private const val TIMEOUT: Long = (5 * 1000).toLong()
-        private const val TEST_SPRITE = "testSprite"
     }
 
     @get:Rule
@@ -86,10 +84,10 @@ class ScriptSplitSingleTest {
     }
 
     @Test
-    fun testSplitOfSingleScript() {
-        val currentSprite = projectManager.currentProject.defaultScene.getSprite(TEST_SPRITE)
+    fun testSplitUserDefinedBrick() {
+        val currentSprite = projectManager.currentSprite
         val scriptCount = currentSprite.scriptList.size
-        assertEquals(1, scriptCount)
+        assertEquals(2, scriptCount)
 
         openContextualActionModeOverflowMenu()
         onView(withText(R.string.catblocks)).perform(ViewActions.click())
@@ -107,30 +105,48 @@ class ScriptSplitSingleTest {
         onView(withText(R.string.catblocks)).perform(ViewActions.click())
 
         val scriptList = currentSprite.scriptList
-        assertEquals(2, scriptList.size)
+        assertEquals(3, scriptList.size)
 
-        assertEquals(true, scriptList[0] is StartScript)
-        assertEquals(true, scriptList[1] is EmptyScript)
+        assertEquals(true, scriptList[0] is UserDefinedScript)
+        assertEquals(true, scriptList[1] is StartScript)
+        assertEquals(true, scriptList[2] is EmptyScript)
 
-        val brickListOfNewScript = scriptList[1].brickList
+        val brickListOfNewScript = scriptList[2].brickList
         assertEquals(1, brickListOfNewScript.size)
         assertEquals(true, brickListOfNewScript[0] is IfLogicBeginBrick)
     }
 
     private fun createProject() {
         val project = Project(ApplicationProvider.getApplicationContext(), projectName)
-        val sprite = Sprite(TEST_SPRITE)
+        val sprite = Sprite("testSprite")
         project.defaultScene.addSprite(sprite)
 
+        val userDefinedBrick = createUserDefinedBrick(sprite)
+
         val startScript: Script = StartScript()
-        val ifBrick = IfLogicBeginBrick()
-        ifBrick.addBrickToIfBranch(SetXBrick())
-        ifBrick.addBrickToElseBranch(ChangeXByNBrick())
-        startScript.addBrick(ifBrick)
-        startScript.setParents()
+        startScript.addBrick(userDefinedBrick)
+
         sprite.addScript(startScript)
 
         projectManager.currentProject = project
         projectManager.currentSprite = sprite
+    }
+
+    private fun createUserDefinedBrick(sprite: Sprite): UserDefinedBrick {
+        val userDefinedBrick = UserDefinedBrick()
+        userDefinedBrick.addInput("Input")
+        userDefinedBrick.addLabel("Label")
+
+        sprite.addUserDefinedBrick(userDefinedBrick)
+
+        val userDefinedScript = UserDefinedScript(userDefinedBrick.userDefinedBrickID)
+        val ifBrick = IfLogicBeginBrick()
+        userDefinedScript.addBrick(ifBrick)
+
+        sprite.addScript(userDefinedScript)
+
+        val userDefinedCallingBrick = UserDefinedBrick(userDefinedBrick)
+        userDefinedCallingBrick.setCallingBrick(true)
+        return userDefinedCallingBrick
     }
 }

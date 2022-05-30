@@ -38,6 +38,7 @@ import androidx.test.uiautomator.Until
 import junit.framework.TestCase.assertEquals
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.UiTestCatroidApplication.Companion.projectManager
 import org.catrobat.catroid.content.EmptyScript
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Script
@@ -57,13 +58,10 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.test.KoinTest
-import org.koin.test.inject
 
 @RunWith(AndroidJUnit4::class)
-class ScriptSplitMultipleTest : KoinTest {
+class ScriptSplitMultipleTest {
     private val projectName = javaClass.simpleName
-    private val projectManager: ProjectManager by inject()
 
     companion object {
         private const val TIMEOUT: Long = (5 * 1000).toLong()
@@ -81,12 +79,13 @@ class ScriptSplitMultipleTest : KoinTest {
     fun setUp() {
         SettingsFragment.setUseCatBlocks(ApplicationProvider.getApplicationContext(), false)
         createProject()
-        baseActivityTestRule.launchActivity(null)
+        baseActivityTestRule.launchActivity()
     }
 
     @After
     fun tearDown() {
         SettingsFragment.setUseCatBlocks(ApplicationProvider.getApplicationContext(), false)
+        baseActivityTestRule.finishActivity()
     }
 
     @Test

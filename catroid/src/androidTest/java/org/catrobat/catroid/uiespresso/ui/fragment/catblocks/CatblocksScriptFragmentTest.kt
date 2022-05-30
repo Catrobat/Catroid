@@ -23,23 +23,19 @@
 
 package org.catrobat.catroid.uiespresso.ui.fragment.catblocks
 
-import android.webkit.WebView
-import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openContextualActionModeOverflowMenu
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.uiautomator.By
-import androidx.test.uiautomator.UiDevice
-import androidx.test.uiautomator.UiSelector
-import androidx.test.uiautomator.Until
-import junit.framework.TestCase.assertEquals
-import org.catrobat.catroid.ProjectManager
+import androidx.test.espresso.web.assertion.WebViewAssertions
+import androidx.test.espresso.web.matcher.DomMatchers
+import androidx.test.espresso.web.sugar.Web.onWebView
 import org.catrobat.catroid.R
 import org.catrobat.catroid.UiTestCatroidApplication.Companion.projectManager
-import org.catrobat.catroid.content.EmptyScript
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
@@ -51,18 +47,16 @@ import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class ScriptSplitSingleTest {
-    private val projectName = javaClass.simpleName
-
+class CatblocksScriptFragmentTest {
     companion object {
         private const val TIMEOUT: Long = (5 * 1000).toLong()
-        private const val TEST_SPRITE = "testSprite"
     }
 
     @get:Rule
@@ -86,42 +80,70 @@ class ScriptSplitSingleTest {
     }
 
     @Test
-    fun testSplitOfSingleScript() {
-        val currentSprite = projectManager.currentProject.defaultScene.getSprite(TEST_SPRITE)
-        val scriptCount = currentSprite.scriptList.size
-        assertEquals(1, scriptCount)
+    fun testContextMenuItems() {
+        openContextualActionModeOverflowMenu()
+        onView(withText(R.string.catblocks_reorder)).check(ViewAssertions.doesNotExist())
+        onView(withText(R.string.catblocks)).perform(ViewActions.click())
+        openContextualActionModeOverflowMenu()
+        onView(withText(R.string.catblocks_reorder))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withText(R.string.undo)).check(ViewAssertions.doesNotExist())
+        onView(withText(R.string.backpack)).check(ViewAssertions.doesNotExist())
+        onView(withText(R.string.copy)).check(ViewAssertions.doesNotExist())
+        onView(withText(R.string.delete)).check(ViewAssertions.doesNotExist())
+        onView(withText(R.string.rename)).check(ViewAssertions.doesNotExist())
+        onView(withText(R.string.show_details)).check(ViewAssertions.doesNotExist())
+        onView(withText(R.string.comment_in_out)).check(ViewAssertions.doesNotExist())
+        onView(withText(R.string.catblocks)).perform(ViewActions.click())
+        openContextualActionModeOverflowMenu()
+        onView(withText(R.string.catblocks_reorder)).check(ViewAssertions.doesNotExist())
+        onView(withText(R.string.backpack))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withText(R.string.copy))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withText(R.string.comment_in_out))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withText(R.string.catblocks))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
 
+    @Test
+    fun testReorderScript() {
         openContextualActionModeOverflowMenu()
         onView(withText(R.string.catblocks)).perform(ViewActions.click())
+        var loadCounter = 0
+        while (true) {
+            loadCounter++
+            try {
+                onWebView().check(
+                    WebViewAssertions.webContent(
+                        DomMatchers.hasElementWithXpath(
+                            "//*[@id=\"catroid-catblocks-container\"]/div/svg[1]/g"
+                        )
+                    )
+                )
+                break
+            } catch (throwable: Throwable) {
+                if (loadCounter >= 25) {
+                    throw throwable
+                }
+                Thread.sleep(100)
+            }
+        }
 
-        val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-        uiDevice.wait(Until.findObject(By.clazz(WebView::class.java)), TIMEOUT)
-
-        val ifBrick = uiDevice.findObject(
-            UiSelector().resourceId("IfLogicBeginBrick-0-text")
-        )
-        assertEquals(true, ifBrick.waitForExists(TIMEOUT))
-        ifBrick.dragTo(30, 800, 1)
-
+        projectManager.currentSprite.getScript(0).posX = 50f
+        projectManager.currentSprite.getScript(0).posY = 50f
         openContextualActionModeOverflowMenu()
-        onView(withText(R.string.catblocks)).perform(ViewActions.click())
-
-        val scriptList = currentSprite.scriptList
-        assertEquals(2, scriptList.size)
-
-        assertEquals(true, scriptList[0] is StartScript)
-        assertEquals(true, scriptList[1] is EmptyScript)
-
-        val brickListOfNewScript = scriptList[1].brickList
-        assertEquals(1, brickListOfNewScript.size)
-        assertEquals(true, brickListOfNewScript[0] is IfLogicBeginBrick)
+        onView(withText(R.string.catblocks_reorder)).perform(ViewActions.click())
+        assertEquals(projectManager.currentSprite.getScript(0).posX, 0.0f)
+        assertEquals(projectManager.currentSprite.getScript(0).posY, 0.0f)
     }
 
     private fun createProject() {
+        val projectName = javaClass.simpleName
         val project = Project(ApplicationProvider.getApplicationContext(), projectName)
-        val sprite = Sprite(TEST_SPRITE)
+        val sprite = Sprite("testSprite")
         project.defaultScene.addSprite(sprite)
-
         val startScript: Script = StartScript()
         val ifBrick = IfLogicBeginBrick()
         ifBrick.addBrickToIfBranch(SetXBrick())
@@ -129,7 +151,6 @@ class ScriptSplitSingleTest {
         startScript.addBrick(ifBrick)
         startScript.setParents()
         sprite.addScript(startScript)
-
         projectManager.currentProject = project
         projectManager.currentSprite = sprite
     }
