@@ -82,7 +82,7 @@ class CatblocksScriptFragment(
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.catblocks) {
             webview!!.evaluateJavascript("javascript:CatBlocks.getBrickAtTopOfScreen();",
-                SwitchTo1DHelper())
+                                         SwitchTo1DHelper())
             return true
         } else if (item.itemId == R.id.catblocks_reorder_scripts) {
             webview!!.evaluateJavascript("javascript:CatBlocks.reorderCurrentScripts();", null)
@@ -209,7 +209,7 @@ class CatblocksScriptFragment(
             } else {
                 if (projectManager?.currentSprite?.scriptList != null &&
                     projectManager.currentSprite.scriptList.any()) {
-                        return projectManager.currentSprite.scriptList[0].scriptId.toString()
+                    return projectManager.currentSprite.scriptList[0].scriptId.toString()
                 }
             }
             return null

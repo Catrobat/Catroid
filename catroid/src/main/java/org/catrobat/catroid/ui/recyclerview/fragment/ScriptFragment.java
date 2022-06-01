@@ -40,7 +40,6 @@ import android.view.inputmethod.InputMethodManager;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
@@ -53,6 +52,7 @@ import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.content.bricks.VisualPlacementBrick;
+import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.formulaeditor.InternToExternGenerator;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -276,9 +276,6 @@ public class ScriptFragment extends ListFragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = View.inflate(getActivity(), R.layout.fragment_script, null);
 		listView = view.findViewById(android.R.id.list);
-		int bottomListPadding = ScreenValues.SCREEN_HEIGHT / 3;
-		listView.setPadding(0, 0, 0, bottomListPadding);
-		listView.setClipToPadding(false);
 
 		activity = (SpriteActivity) getActivity();
 
@@ -322,6 +319,7 @@ public class ScriptFragment extends ListFragment implements
 		});
 
 		setHasOptionsMenu(true);
+		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_scripts);
 		return view;
 	}
 
@@ -409,7 +407,6 @@ public class ScriptFragment extends ListFragment implements
 		}
 
 		scrollToFocusItem();
-		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_scripts);
 	}
 
 	@Override
@@ -509,6 +506,8 @@ public class ScriptFragment extends ListFragment implements
 				.add(R.id.fragment_container, brickCategoryFragment, BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
 				.addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
 				.commit();
+
+		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_category);
 	}
 
 	@Override
@@ -866,10 +865,11 @@ public class ScriptFragment extends ListFragment implements
 		if (listView.getCount() > 0 && firstVisible >= 0) {
 			Object firstVisibleObject = listView.getItemAtPosition(firstVisible);
 			if (firstVisibleObject instanceof Brick) {
-				Brick firstVisibleBrick = (Brick) firstVisibleObject;
+				Brick firstVisibleBrick = (Brick)firstVisibleObject;
 				if (firstVisibleBrick instanceof ScriptBrick) {
 					firstVisibleBrickID = firstVisibleBrick.getScript().getScriptId();
-				} else {
+				}
+				else {
 					firstVisibleBrickID = firstVisibleBrick.getBrickID();
 				}
 			}

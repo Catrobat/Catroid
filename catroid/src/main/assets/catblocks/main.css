@@ -1,3 +1,6 @@
+/*!******************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./src/library/css/common.css ***!
+  \******************************************************************************/
 .blocklyText {
   fill: #fff;
   font-family: 'Helvetica Neue', 'Segoe UI', Helvetica, sans-serif;
@@ -50,6 +53,9 @@
   stroke-opacity: 0.35;
 }
 
+/*!*******************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./src/library/css/catroid.css ***!
+  \*******************************************************************************/
 html,
 body {
   height: 100vh;
@@ -66,6 +72,9 @@ body {
   width: 100%;
 }
 
+/*!*************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/bootstrap/dist/css/bootstrap.css ***!
+  \*************************************************************************************************/
 /*!
  * Bootstrap v4.6.1 (https://getbootstrap.com/)
  * Copyright 2011-2021 The Bootstrap Authors
