@@ -1927,7 +1927,7 @@
     <string name="new_empty_sprite_note">توجه: بازیگر یا شیء         بدون نگاه ساخته می شود.</string>
     <!-- Information -->
     <string name="no_variable_selected">هیچ متغیری انتخاب نشده است</string>
-    <string name="find">پیدا کردن</string>
+    <string name="search">جستجو …</string>
     <string name="no_results_found">نتیجه ای پیدا نشد</string>
     <string name="query_field_is_empty">فیلد پرس و جو خالی است</string>
     <string name="cut">قطع کن</string>
