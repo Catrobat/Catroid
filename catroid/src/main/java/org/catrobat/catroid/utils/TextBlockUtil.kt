@@ -24,12 +24,12 @@ package org.catrobat.catroid.utils
 
 import android.graphics.Point
 import android.graphics.Rect
-import com.google.mlkit.nl.languageid.LanguageIdentification
+/*import com.google.mlkit.nl.languageid.LanguageIdentification
 import com.google.mlkit.vision.text.Text
 import com.huawei.hms.mlsdk.langdetect.MLLangDetectorFactory
 import com.huawei.hms.mlsdk.langdetect.local.MLLocalLangDetector
 import com.huawei.hms.mlsdk.langdetect.local.MLLocalLangDetectorSetting
-import com.huawei.hms.mlsdk.text.MLText
+import com.huawei.hms.mlsdk.text.MLText*/
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.camera.VisualDetectionHandler.coordinatesFromRelativePosition
 import org.catrobat.catroid.common.ScreenValues.SCREEN_HEIGHT
@@ -45,7 +45,7 @@ object TextBlockUtil {
     private var imageWidth = 0
     private var imageHeight = 0
     private const val MAX_TEXT_SIZE = 100
-    private var languageIdentifierGoogle = LanguageIdentification.getClient()
+    /*private var languageIdentifierGoogle = LanguageIdentification.getClient()
     private var languageDetectorFactoryHuawei: MLLangDetectorFactory = MLLangDetectorFactory.getInstance()
     var languageDetectorSettingHuawei: MLLocalLangDetectorSetting = MLLocalLangDetectorSetting.Factory()
         .setTrustedThreshold(TRUSTED_THRESHOLD)
@@ -83,7 +83,7 @@ object TextBlockUtil {
                 textBlockLanguages[index] = languageCode
             }
         }
-    }
+    }*/
 
     fun getTextBlock(index: Int): String = textBlocks.getOrNull(index - 1) ?: "0"
 

@@ -1959,7 +1959,7 @@
         โดยไม่มีวัตถุหรือรูปลักษณ์</string>
     <!-- Information -->
     <string name="no_variable_selected">ไม่ได้เลือกตัวแปร</string>
-    <string name="find">ค้นหา</string>
+    <string name="search">ค้นหา</string>
     <string name="no_results_found">ไม่พบผลลัพธ์</string>
     <string name="query_field_is_empty">ฟิลด์แบบสอบถามว่างเปล่า</string>
     <string name="cut">ตัด</string>

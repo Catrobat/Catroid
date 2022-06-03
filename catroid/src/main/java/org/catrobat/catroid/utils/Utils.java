@@ -38,7 +38,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.common.base.Splitter;
-import com.huawei.hms.mlsdk.asr.MLAsrConstants;
+//import com.huawei.hms.mlsdk.asr.MLAsrConstants;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -551,14 +551,14 @@ public final class Utils {
 				}
 			}, null, Activity.RESULT_OK, null, null);
 		} else if (mobileServiceAvailability.isHmsAvailable(context)) {
-			SensorHandler.setListeningLanguageSensor(MLAsrConstants.LAN_EN_US);
+			/*SensorHandler.setListeningLanguageSensor(MLAsrConstants.LAN_EN_US);
 			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.clear();
 			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_EN_US);
 			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_DE_DE);
 			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_EN_IN);
 			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_ES_ES);
 			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_FR_FR);
-			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_ZH_CN);
+			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_ZH_CN);*/
 		}
 	}
 

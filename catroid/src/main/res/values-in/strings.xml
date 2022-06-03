@@ -1981,7 +1981,7 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
         tanpa melihat.</string>
     <!-- Information -->
     <string name="no_variable_selected">Tidak ada variabel yang dipilih</string>
-    <string name="find">Temukan</string>
+    <string name="search">Pencarian…</string>
     <string name="no_results_found">Tidak ada hasil yang ditemukan</string>
     <string name="query_field_is_empty">Bidang kueri kosong</string>
     <string name="cut">Memotong</string>

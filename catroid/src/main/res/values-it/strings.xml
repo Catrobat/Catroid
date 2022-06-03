@@ -2025,7 +2025,7 @@ con tolleranza %        </string>
         senza un costume.</string>
     <!-- Information -->
     <string name="no_variable_selected">Nessuna variabile selezionata</string>
-    <string name="find">Trova</string>
+    <string name="search">Cerca</string>
     <string name="no_results_found">Nessun risultato trovato</string>
     <string name="query_field_is_empty">Il campo di interrogazione è vuoto</string>
     <string name="cut">Taglia</string>

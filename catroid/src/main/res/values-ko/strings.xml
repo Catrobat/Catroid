@@ -1946,7 +1946,7 @@
         눈치도 없이.</string>
     <!-- Information -->
     <string name="no_variable_selected">선택된 변수가 없습니다.</string>
-    <string name="find">찾기</string>
+    <string name="search">검색…</string>
     <string name="no_results_found">검색 결과가 없습니다</string>
     <string name="query_field_is_empty">쿼리 필드가 비어 있습니다.</string>
     <string name="cut">절단</string>

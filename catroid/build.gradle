@@ -99,8 +99,8 @@ ext.copyGoogleServicesFile = { flavorName, flavorId ->
     }
 }
 
-def defaultVersionCode = 88
-def defaultVersionName = "1.1.2"
+def defaultVersionCode = 89
+def defaultVersionName = "1.2.0"
 
 android {
     compileSdkVersion 30
@@ -138,7 +138,7 @@ android {
 
         buildConfigField "boolean", "FEATURE_LIST_AS_BASIC_DATATYPE", "false"
 
-        buildConfigField "boolean", "FEATURE_AI_SENSORS_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_AI_SENSORS_ENABLED", "false"
         buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
         buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_CAST_ENABLED", "true"
@@ -444,23 +444,23 @@ dependencies {
     implementation "androidx.camera:camera-lifecycle:${cameraXVersion}"
 
     // ML Kit
-    implementation 'com.google.android.gms:play-services-mlkit-face-detection:16.1.4'
+    /*implementation 'com.google.android.gms:play-services-mlkit-face-detection:16.1.4'
     implementation 'com.google.android.gms:play-services-mlkit-text-recognition:16.1.3'
     implementation 'com.google.mlkit:object-detection:16.2.7'
     implementation 'com.google.mlkit:language-id:16.1.1'
-    implementation 'com.google.mlkit:pose-detection:17.0.0'
+    implementation 'com.google.mlkit:pose-detection:17.0.0'*/
 
     // HUAWEI Mobile Services
     implementation 'com.huawei.hms:base:4.0.3.300'
 
     // Huawei ML Kit
-    implementation 'com.huawei.hms:ml-computer-voice-asr-plugin:2.2.0.300'
+    /*implementation 'com.huawei.hms:ml-computer-voice-asr-plugin:2.2.0.300'
     implementation 'com.huawei.hms:ml-computer-voice-asr:2.2.0.300'
     implementation 'com.huawei.hms:ml-computer-vision-face:2.0.5.300'
     implementation 'com.huawei.hms:ml-computer-voice-tts:2.2.0.300'
     implementation 'com.huawei.hms:ml-computer-vision-ocr:2.0.5.301'
     implementation 'com.huawei.hms:ml-computer-language-detection:2.2.0.300'
-    implementation 'com.huawei.hms:ml-computer-vision-skeleton:2.0.4.300'
+    implementation 'com.huawei.hms:ml-computer-vision-skeleton:2.0.4.300'*/
 
     // libGDX
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"

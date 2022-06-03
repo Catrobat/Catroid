@@ -1989,7 +1989,7 @@
         erstellt.</string>
     <!-- Information -->
     <string name="no_variable_selected">Keine Variable ausgewählt</string>
-    <string name="find">Finden</string>
+    <string name="search">Suche…</string>
     <string name="no_results_found">Keine Ergebnisse gefunden</string>
     <string name="query_field_is_empty">Abfragefeld ist leer</string>
     <string name="cut">Ausschneiden</string>

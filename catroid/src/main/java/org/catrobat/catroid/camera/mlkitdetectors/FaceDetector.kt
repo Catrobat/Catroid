@@ -25,9 +25,9 @@ package org.catrobat.catroid.camera.mlkitdetectors
 
 import android.media.Image
 import android.util.Log
-import com.google.mlkit.vision.common.InputImage
+/*import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.FaceDetection
-import com.google.mlkit.vision.face.FaceDetectorOptions
+import com.google.mlkit.vision.face.FaceDetectorOptions*/
 import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.R
 import org.catrobat.catroid.camera.CatdroidImageAnalyzer
@@ -36,21 +36,21 @@ import org.catrobat.catroid.camera.VisualDetectionHandler
 import org.catrobat.catroid.stage.StageActivity
 
 private val faceDetectionClient by lazy {
-    FaceDetection.getClient(
+    /*FaceDetection.getClient(
         FaceDetectorOptions.Builder()
             .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
             .enableTracking()
             .build()
-    )
+    )*/
 }
 
 object FaceDetector : Detector {
     override fun processImage(
         mediaImage: Image,
-        inputImage: InputImage,
+        //inputImage: InputImage,
         onCompleteListener: DetectorsCompleteListener
     ) {
-        faceDetectionClient.process(inputImage)
+        /*faceDetectionClient.process(inputImage)
             .addOnSuccessListener { faces ->
                 val translatedFaces =
                     VisualDetectionHandler.translateGoogleFaceToVisualDetectionFace(faces)
@@ -75,6 +75,6 @@ object FaceDetector : Detector {
                 )
             }.addOnCompleteListener {
                 onCompleteListener.onComplete()
-            }
+            }*/
     }
 }

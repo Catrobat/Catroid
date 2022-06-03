@@ -2065,7 +2065,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
         bez wyglądu.</string>
     <!-- Information -->
     <string name="no_variable_selected">Nie wybrano zmiennej</string>
-    <string name="find">Znajdź</string>
+    <string name="search">Szukaj</string>
     <string name="no_results_found">Nie znaleziono wyników</string>
     <string name="query_field_is_empty">Pole zapytania jest puste</string>
     <string name="cut">Wytnij</string>
