@@ -272,7 +272,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		stageListener.finish();
 
 		TextToSpeechHolder.getInstance().shutDownTextToSpeech();
-		get(SpeechRecognitionHolderFactory.class).getInstance().destroy();
+		//get(SpeechRecognitionHolderFactory.class).getInstance().destroy();
 
 		BluetoothDeviceService service = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 		if (service != null) {

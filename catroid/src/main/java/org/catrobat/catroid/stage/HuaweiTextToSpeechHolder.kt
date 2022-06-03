@@ -26,7 +26,7 @@ package org.catrobat.catroid.stage
 import android.util.Log
 import android.view.ContextThemeWrapper
 import androidx.appcompat.app.AlertDialog
-import com.huawei.hms.mlsdk.model.download.MLLocalModelManager
+/*import com.huawei.hms.mlsdk.model.download.MLLocalModelManager
 import com.huawei.hms.mlsdk.model.download.MLModelDownloadListener
 import com.huawei.hms.mlsdk.model.download.MLModelDownloadStrategy
 import com.huawei.hms.mlsdk.tts.MLTtsConfig
@@ -35,7 +35,7 @@ import com.huawei.hms.mlsdk.tts.MLTtsEngine
 import com.huawei.hms.mlsdk.tts.MLTtsEngine.EXTERNAL_PLAYBACK
 import com.huawei.hms.mlsdk.tts.MLTtsEngine.OPEN_STREAM
 import com.huawei.hms.mlsdk.tts.MLTtsEngine.QUEUE_APPEND
-import com.huawei.hms.mlsdk.tts.MLTtsLocalModel
+import com.huawei.hms.mlsdk.tts.MLTtsLocalModel*/
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.bricks.Brick
 
@@ -47,7 +47,7 @@ class HuaweiTextToSpeechHolder {
         stageActivity: StageActivity,
         stageResourceHolder: StageResourceHolder
     ) {
-        mlTtsEngine.updateConfig(mlTtsConfig)
+        /*mlTtsEngine.updateConfig(mlTtsConfig)
 
         val localModelManager = MLLocalModelManager.getInstance()
         val model =
@@ -77,15 +77,15 @@ class HuaweiTextToSpeechHolder {
             }.addOnFailureListener { e ->
                 Log.e(TAG, "Failed to download HMS Text-to-speech engine", e)
                 stageResourceHolder.resourceFailed(Brick.TEXT_TO_SPEECH)
-            }
+            }*/
     }
 
     fun textToSpeech(text: String) {
-        mlTtsEngine.speak(text, QUEUE_APPEND or OPEN_STREAM or EXTERNAL_PLAYBACK)
+        //mlTtsEngine.speak(text, QUEUE_APPEND or OPEN_STREAM or EXTERNAL_PLAYBACK)
     }
 
     private fun downloadModel(person: String) {
-        val localModelManager = MLLocalModelManager.getInstance()
+        /*val localModelManager = MLLocalModelManager.getInstance()
         val model = MLTtsLocalModel.Factory(person).create()
         val request = MLModelDownloadStrategy.Factory().needWifi().create()
         val modelDownloadListener = MLModelDownloadListener { _, _ -> }
@@ -94,16 +94,16 @@ class HuaweiTextToSpeechHolder {
                 mlTtsEngine.updateConfig(mlTtsConfig)
             }.addOnFailureListener { e ->
                 Log.e(TAG, "Failed to download HMS Text-to-speech engine", e)
-            }
+            }*/
     }
 
     companion object {
-        @JvmStatic
+        /*@JvmStatic
         var instance = HuaweiTextToSpeechHolder()
         val mlTtsConfig: MLTtsConfig = MLTtsConfig()
             .setLanguage(MLTtsConstants.TTS_EN_US)
             .setPerson(MLTtsConstants.TTS_SPEAKER_OFFLINE_EN_US_FEMALE_BEE)
             .setSynthesizeMode(MLTtsConstants.TTS_OFFLINE_MODE)
-        val mlTtsEngine = MLTtsEngine(mlTtsConfig)
+        val mlTtsEngine = MLTtsEngine(mlTtsConfig)*/
     }
 }
