@@ -786,7 +786,6 @@ public class Look extends Image {
 		}
 	}
 
-	@VisibleForTesting
 	public float getAlpha() {
 		return alpha;
 	}
