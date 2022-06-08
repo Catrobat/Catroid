@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,6 +33,7 @@ package org.catrobat.catroid.ui
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import androidx.appcompat.app.AlertDialog
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
@@ -46,6 +47,7 @@ import org.catrobat.catroid.content.bricks.ForeverBrick
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick
 import org.catrobat.catroid.content.bricks.LookRequestBrick
+import org.catrobat.catroid.content.bricks.OpenUrlBrick
 import org.catrobat.catroid.content.bricks.ParameterizedBrick
 import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick
 import org.catrobat.catroid.content.bricks.RepeatBrick
@@ -57,14 +59,17 @@ import org.catrobat.catroid.content.bricks.WebRequestBrick
  * extension boolean function for List<Brick> data type.
  * check if the list contains suspicious bricks
  * */
-private fun List<Brick>.containsSuspiciousBricks(): Boolean {
+private fun List<Brick>.containsSuspiciousBricks(): Pair<Boolean, Boolean> {
     val startListeningBrickExists = any { brick ->
         brick is StartListeningBrick
     }
     val backgroundRequestOrWebRequestBrickExists = any { brick ->
         brick is WebRequestBrick || brick is BackgroundRequestBrick || brick is LookRequestBrick
     }
-    return startListeningBrickExists and backgroundRequestOrWebRequestBrickExists
+    val webAccessBrickExists = any { brick ->
+        brick is WebRequestBrick || brick is OpenUrlBrick || brick is LookRequestBrick
+    }
+    return Pair(webAccessBrickExists, startListeningBrickExists and backgroundRequestOrWebRequestBrickExists)
 }
 
 /**
@@ -114,7 +119,7 @@ public fun Sprite.getListAllBricks(): List<Brick> {
  * extension boolean function for Project data type.
  * check if the project contains suspicious bricks
  * */
-private fun Project.shouldDisplaySuspiciousBricksWarning(): Boolean {
+private fun Project.shouldDisplaySuspiciousBricksWarning(): Pair<Boolean, Boolean> {
     val brickList = arrayListOf<Brick>()
     sceneList.forEach { scene ->
         brickList.run {
@@ -139,26 +144,43 @@ fun showWarningForSuspiciousBricksOnce(context: Context) {
     // since the projectUrl is kinda unique, ues it as key for the shared preference, if it's null
     // that means the dialog hasn't been displayed yet
     val showForFirstTime = sharedPreferences.getString(projectUrl, null).isNullOrBlank()
-
-    if (isDownloadedProject && currentProject.shouldDisplaySuspiciousBricksWarning() && showForFirstTime) {
-        AlertDialog.Builder(context)
-            .setTitle(context.resources.getString(R.string.warning))
-            .setMessage(context.resources.getString(R.string.security_warning_dialog_msg))
-            .setCancelable(false)
-            .setPositiveButton(context.resources.getString(R.string.ok)) { dialog, _ ->
-                sharedPreferences
-                    .edit()
-                    .putString(projectUrl, projectUrl)
-                    .apply()
-                dialog.dismiss()
-            }
-            .show()
-    } else if (isDownloadedProject) {
+    val suspiciousBrickWarning = currentProject.shouldDisplaySuspiciousBricksWarning()
+    val displaySuspiciousWarning = suspiciousBrickWarning.first || suspiciousBrickWarning.second
+    if (isDownloadedProject && displaySuspiciousWarning && showForFirstTime) {
         // add it anyway to avoid showing this dialog for downloaded projects, but have
         // suspicious bricks added by the user afterwards..
-        sharedPreferences
-            .edit()
-            .putString(projectUrl, projectUrl)
-            .apply()
+        when {
+            suspiciousBrickWarning.first -> showWarningDialog(
+                context,
+                sharedPreferences,
+                projectUrl,
+                context.resources.getString(R.string.web_brick_warning_dialog_msg)
+            )
+            suspiciousBrickWarning.second -> showWarningDialog(
+                context,
+                sharedPreferences,
+                projectUrl,
+                context.resources.getString(R.string.security_warning_dialog_msg)
+            )
+            isDownloadedProject -> sharedPreferences
+                .edit()
+                .putString(projectUrl, projectUrl)
+                .apply()
+        }
     }
+}
+
+fun showWarningDialog(context: Context, sharedPreferences: SharedPreferences, projectUrl: String, warningText: CharSequence) {
+    AlertDialog.Builder(context)
+        .setTitle(context.resources.getString(R.string.warning))
+        .setMessage(warningText)
+        .setCancelable(false)
+        .setPositiveButton(context.resources.getString(R.string.ok)) { dialog, _ ->
+            sharedPreferences
+                .edit()
+                .putString(projectUrl, projectUrl)
+                .apply()
+            dialog.dismiss()
+        }
+        .show()
 }
