@@ -33,6 +33,9 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
@@ -214,7 +217,12 @@ class MainMenuFragment : Fragment(),
             DEFAULT_ROOT_DIRECTORY,
             FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject)
         )
-        loadProject(projectDir, requireContext())
+        CoroutineScope(Dispatchers.IO).launch {
+            // CATROID-1434 Caution
+            // running loadProject on main thread may cause ANR due to locking in
+            // XstreamSerializer
+            loadProject(projectDir, requireContext())
+        }
         loadProjectImage()
     }
 
