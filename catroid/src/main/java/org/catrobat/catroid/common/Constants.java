@@ -45,7 +45,9 @@ public final class Constants {
 	public static final double CURRENT_CATROBAT_LANGUAGE_VERSION = 1.11;
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
-	public static final int CAST_NOT_SEEING_DEVICE_TIMEOUT = 3000; //in milliseconds
+	public static final int CAST_NOT_SEEING_DEVICE_TIMEOUT = 3000; //in
+	public static final long PROGESSIVE_INPUT_DELAY = 400;
+	public static final long PROGESSIVE_INPUT_COUNTDOWN_INTERVALL = 500;
 	public static final long RETROFIT_WRITE_TIMEOUT = 15;
 
 	public static final String PLATFORM_NAME = "Android";

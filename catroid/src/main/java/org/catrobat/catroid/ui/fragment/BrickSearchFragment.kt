@@ -26,29 +26,33 @@ package org.catrobat.catroid.ui.fragment
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
 import android.widget.AdapterView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.ListFragment
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.common.Constants.PROGESSIVE_INPUT_COUNTDOWN_INTERVALL
+import org.catrobat.catroid.common.Constants.PROGESSIVE_INPUT_DELAY
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.ui.BottomBar.hideBottomBar
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter
+import org.catrobat.catroid.ui.hideKeyboard
 import org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.catrobat.catroid.utils.ToastUtil
-import org.catrobat.catroid.ui.hideKeyboard
 import java.util.Locale
-import android.widget.AbsListView
 
 class BrickSearchFragment : ListFragment() {
 
@@ -60,7 +64,6 @@ class BrickSearchFragment : ListFragment() {
     private var searchResults = mutableListOf<Brick>()
     private var addBrickListener: AddBrickFragment.OnAddBrickListener? = null
     private var category: String? = null
-
     private var adapter: PrototypeBrickAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -127,28 +130,46 @@ class BrickSearchFragment : ListFragment() {
 
         searchView = searchItem
         if (searchView != null) {
-            searchView?.setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
-            queryTextListener = object : SearchView.OnQueryTextListener {
-                override fun onQueryTextChange(query: String): Boolean {
-                    searchResults.clear()
-                    searchBrick(query)
-                    if (searchResults.isEmpty()) {
-                        ToastUtil.showError(context, context?.getString(R.string.no_results_found))
-                    }
-                    if (query.isEmpty()) {
-                        searchResults.clear()
-                    }
-                    adapter = PrototypeBrickAdapter(searchResults)
-                    listAdapter = adapter
+                var countDownTimer: CountDownTimer
+                adapter = PrototypeBrickAdapter(searchResults)
+                listAdapter = adapter
+                searchView?.setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
+                queryTextListener = object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextChange(query: String): Boolean {
+                        countDownTimer = object : CountDownTimer(
+                            PROGESSIVE_INPUT_DELAY,
+                            PROGESSIVE_INPUT_COUNTDOWN_INTERVALL
+                        ) {
+                            @SuppressWarnings("EmptyFunctionBlock")
+                            override fun onTick(millisUntilFinished: Long) {
+                            }
 
-                    return true
-                }
+                            override fun onFinish() {
+                                    setShowProgressBar(false)
+                                    searchResults.clear()
+                                    adapter?.replaceList(searchResults)
+                                    searchBrick(query)
+                                    if (searchResults.isEmpty()) {
+                                        ToastUtil.showError(
+                                            context,
+                                            context?.getString(R.string.no_results_found)
+                                        )
+                                    }
+                                    if (query.isEmpty()) {
+                                        searchResults.clear()
+                                    }
+                                    adapter?.replaceList(searchResults)
+                            }
+                        }
+                        countDownTimer.start()
+                        setShowProgressBar(true)
+                        return true
+                    }
 
                 override fun onQueryTextSubmit(query: String): Boolean {
                     searchResults.clear()
                     searchBrick(query)
-                    adapter = PrototypeBrickAdapter(searchResults)
-                    listAdapter = adapter
+                    adapter?.replaceList(searchResults)
                     if (searchResults.isEmpty()) {
                         ToastUtil.showError(context, context?.getString(R.string.no_results_found))
                     } else searchView?.clearFocus()
@@ -159,6 +180,13 @@ class BrickSearchFragment : ListFragment() {
             searchView?.requestFocus()
         }
         super.onCreateOptionsMenu(menu, inflater)
+    }
+    private fun setShowProgressBar(visible: Boolean) {
+            if (visible) {
+                view?.findViewById<ProgressBar>(R.id.progress_bar)?.visibility = View.VISIBLE
+            } else {
+                view?.findViewById<ProgressBar>(R.id.progress_bar)?.visibility = View.INVISIBLE
+            }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
