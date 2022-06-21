@@ -601,7 +601,6 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="no_projects_selected">Nie wybrano projektów do importu</string>
     <string name="only_select_catrobat_files">Wybierz tylko pliki projektu</string>
     <string name="error_no_files_found">Nie znaleziono plików projektu.</string>
-    <string name="import_sprite_from_project_launcher">Importuj obiekt z projektu lokalnego</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Opis</string>
     <string name="project_options_notes_and_credits">Uwagi i podziękowania</string>

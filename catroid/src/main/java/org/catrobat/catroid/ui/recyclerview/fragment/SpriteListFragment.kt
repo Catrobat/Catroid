@@ -23,7 +23,7 @@
 package org.catrobat.catroid.ui.recyclerview.fragment
 
 import android.annotation.SuppressLint
-import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
@@ -45,14 +45,17 @@ import org.catrobat.catroid.common.SharedPreferenceKeys
 import org.catrobat.catroid.content.GroupSprite
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.io.StorageOperations
-import org.catrobat.catroid.merge.ImportProjectHelper
-import org.catrobat.catroid.ui.ProjectListActivity
-import org.catrobat.catroid.ui.ProjectListActivity.Companion.IMPORT_LOCAL_INTENT
+import org.catrobat.catroid.merge.ImportLocalObjectActivity
+import org.catrobat.catroid.merge.ImportLocalObjectActivity.Companion.REQUEST_PROJECT
+import org.catrobat.catroid.merge.ImportLocalObjectActivity.Companion.REQUEST_SCENE
+import org.catrobat.catroid.merge.ImportLocalObjectActivity.Companion.REQUEST_SPRITE
+import org.catrobat.catroid.merge.ImportSpriteHelper
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.WebViewActivity
 import org.catrobat.catroid.ui.controller.BackpackListManager
 import org.catrobat.catroid.ui.recyclerview.adapter.MultiViewSpriteAdapter
+import org.catrobat.catroid.ui.recyclerview.adapter.SpriteAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperAdapterInterface
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallback
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity
@@ -102,34 +105,42 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         }
     }
 
-    public override fun shouldShowEmptyView() = adapter.itemCount == 1
+    public override fun shouldShowEmptyView() = actionModeType != IMPORT_LOCAL && adapter.itemCount == 1
 
     override fun onResume() {
         initializeAdapter()
         super.onResume()
-        SnackbarUtil.showHintSnackbar(requireActivity(), R.string.hint_objects)
-        val currentProject = projectManager.currentProject
-        val title: String = if (currentProject.sceneList.size < 2) {
-            currentProject.name
-        } else {
-            val currentScene = projectManager.currentlyEditedScene
-            currentProject.name + ": " + currentScene.name
+        if (actionModeType != IMPORT_LOCAL) {
+            SnackbarUtil.showHintSnackbar(requireActivity(), R.string.hint_objects)
+            val currentProject = projectManager.currentProject
+            val title: String = if (!currentProject.hasMultipleScenes()) {
+                currentProject.name
+            } else {
+                val currentScene = projectManager.currentlyEditedScene
+                currentProject.name + ": " + currentScene.name
+            }
+            PreferenceManager.getDefaultSharedPreferences(requireContext()).edit()
+                .putBoolean(SharedPreferenceKeys.INDEXING_VARIABLE_PREFERENCE_KEY, false).apply()
+                (requireActivity() as AppCompatActivity).supportActionBar?.title = title
         }
-        PreferenceManager.getDefaultSharedPreferences(requireContext()).edit()
-            .putBoolean(SharedPreferenceKeys.INDEXING_VARIABLE_PREFERENCE_KEY, false).apply()
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = title
     }
 
     override fun onAdapterReady() {
         super.onAdapterReady()
-        val callback: ItemTouchHelper.Callback = MultiViewTouchHelperCallback(adapter)
-        touchHelper = ItemTouchHelper(callback)
-        touchHelper.attachToRecyclerView(recyclerView)
+        if (actionModeType != IMPORT_LOCAL) {
+            val callback: ItemTouchHelper.Callback = MultiViewTouchHelperCallback(adapter)
+            touchHelper = ItemTouchHelper(callback)
+            touchHelper.attachToRecyclerView(recyclerView)
+        } else {
+            adapter.showSettings = false
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.new_group).isVisible = true
+        if (actionModeType != IMPORT_LOCAL) {
+            menu.findItem(R.id.new_group).isVisible = true
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -161,9 +172,13 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
 
     override fun initializeAdapter() {
         sharedPreferenceDetailsKey = SharedPreferenceKeys.SHOW_DETAILS_SPRITES_PREFERENCE_KEY
-        val items = projectManager.currentlyEditedScene.spriteList
-        adapter = MultiViewSpriteAdapter(items)
-        emptyView.setText(R.string.fragment_sprite_text_description)
+        adapter = if (actionModeType == IMPORT_LOCAL) {
+            SpriteAdapter(ImportLocalObjectActivity.sceneToImportFrom.spriteList)
+        } else {
+            emptyView.setText(R.string.fragment_sprite_text_description)
+            MultiViewSpriteAdapter(projectManager.currentlyEditedScene.spriteList)
+        }
+
         onAdapterReady()
     }
 
@@ -254,56 +269,63 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == IMPORT_OBJECT_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            val uri = if (data?.hasExtra(IMPORT_LOCAL_INTENT) == true) {
-                Uri.fromFile(File(data.getStringExtra(IMPORT_LOCAL_INTENT)))
-            } else {
-                Uri.fromFile(File(data?.getStringExtra(WebViewActivity.MEDIA_FILE_PATH)))
+        if (resultCode != RESULT_OK) {
+            return
+        }
+        val uri: Uri?
+        when (requestCode) {
+            IMPORT_MEDIA_OBJECT_REQUEST_CODE -> {
+                uri = Uri.fromFile(File(data?.getStringExtra(WebViewActivity.MEDIA_FILE_PATH)))
+                processSpriteImport(uri)
             }
-
-            val currentScene = projectManager.currentlyEditedScene
-            val resolvedName: String
-            val resolvedFileName =
-                StorageOperations.resolveFileName(requireActivity().contentResolver, uri)
-            val lookFileName: String
-            val useDefaultSpriteName = resolvedFileName == null ||
-                StorageOperations.getSanitizedFileName(resolvedFileName) == TMP_IMAGE_FILE_NAME
-            if (useDefaultSpriteName) {
-                resolvedName = getString(R.string.default_sprite_name)
-                lookFileName = resolvedName + Constants.CATROBAT_EXTENSION
-            } else {
-                lookFileName = resolvedFileName
-            }
-            val importProjectHelper = ImportProjectHelper(
-                lookFileName,
-                currentScene,
-                requireActivity()
-            )
-            if (!importProjectHelper.checkForConflicts()) {
-                return
-            }
-            if (currentSprite != null) {
-                importProjectHelper.addObjectDataToNewSprite(currentSprite)
-            } else {
-                importProjectHelper.rejectImportDialog(null)
+            IMPORT_LOCAL_OBJECT_REQUEST_CODE -> {
+                uri = Uri.fromFile(data?.extras?.get(REQUEST_PROJECT) as File)
+                val sceneName = data.extras?.getString(REQUEST_SCENE)
+                val spriteName = data.extras?.getString(REQUEST_SPRITE)
+                processSpriteImport(uri, sceneName, spriteName, ImportSpriteHelper.REQUEST_LOCAL)
             }
         }
     }
 
-    private fun addFromLibrary(selectedItem: Sprite?) {
-        currentSprite = selectedItem
+    private fun processSpriteImport(
+        uri: Uri?,
+        sceneName: String? = null,
+        spriteName: String? = null,
+        importSource: Int = ImportSpriteHelper.REQUEST_MEDIA_LIBRARY
+    ) {
+        val resolvedName: String
+        val resolvedFileName = StorageOperations.resolveFileName(requireActivity().contentResolver, uri)
+        val lookFileName: String
+        val useDefaultSpriteName = resolvedFileName == null || StorageOperations.getSanitizedFileName(resolvedFileName) == TMP_IMAGE_FILE_NAME
+        if (useDefaultSpriteName) {
+            resolvedName = getString(R.string.default_sprite_name)
+            lookFileName = resolvedName + Constants.CATROBAT_EXTENSION
+        } else {
+            lookFileName = resolvedFileName
+        }
+        val importSpriteHelper = ImportSpriteHelper(lookFileName, requireActivity(), importSource, sceneName, spriteName)
+        if (!importSpriteHelper.checkForConflicts()) {
+            return
+        }
+        if (currentSprite != null) {
+            importSpriteHelper.addObjectDataToNewSprite(currentSprite)
+        } else {
+            importSpriteHelper.rejectImportDialog(null)
+        }
+    }
+
+    private fun addFromLibrary(item: Sprite?) {
+        currentSprite = item
         val intent = Intent(requireContext(), WebViewActivity::class.java)
         intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, FlavoredConstants.LIBRARY_OBJECT_URL)
-        startActivityForResult(intent, IMPORT_OBJECT_REQUEST_CODE)
+        startActivityForResult(intent, IMPORT_MEDIA_OBJECT_REQUEST_CODE)
     }
 
     private fun addFromLocalProject(item: Sprite?) {
         currentSprite = item
-        val intent = Intent(requireContext(), ProjectListActivity::class.java)
-        intent.putExtra(
-            IMPORT_LOCAL_INTENT,
-            getString(R.string.import_sprite_from_project_launcher))
-        startActivityForResult(intent, IMPORT_OBJECT_REQUEST_CODE)
+        val intent = Intent(requireContext(), ImportLocalObjectActivity::class.java)
+        intent.putExtra(ImportLocalObjectActivity.TAG, REQUEST_PROJECT)
+        startActivityForResult(intent, IMPORT_LOCAL_OBJECT_REQUEST_CODE)
     }
 
     override fun getRenameDialogTitle() = R.string.rename_sprite_dialog
@@ -333,6 +355,10 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
                 )
                 startActivity(intent)
             }
+            if (actionModeType == IMPORT_LOCAL && item != null) {
+                ImportLocalObjectActivity.spriteToImport = item
+                (activity as ImportLocalObjectActivity).finishImport()
+            }
         }
     }
 
@@ -343,9 +369,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
     override fun onSettingsClick(item: Sprite?, view: View) {
         val itemList = mutableListOf<Sprite?>()
         itemList.add(item)
-        val hiddenMenuOptionIds = mutableListOf<Int>(
-            R.id.new_group, R.id.project_options, R.id.new_scene, R.id.show_details, R.id.edit
-        )
+        val hiddenMenuOptionIds = mutableListOf<Int>(R.id.new_group, R.id.project_options, R.id.new_scene, R.id.show_details, R.id.edit)
         if (item is GroupSprite) {
             hiddenMenuOptionIds.add(R.id.backpack)
             hiddenMenuOptionIds.add(R.id.copy)
@@ -353,8 +377,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
             hiddenMenuOptionIds.add(R.id.from_local)
         }
         val popupMenu = UiUtils.createSettingsPopUpMenu(
-            view, requireContext(), R.menu
-                .menu_project_activity, hiddenMenuOptionIds.toIntArray()
+            view, requireContext(), R.menu.menu_project_activity, hiddenMenuOptionIds.toIntArray()
         )
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -379,6 +402,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
 
     companion object {
         val TAG: String = SpriteListFragment::class.java.simpleName
-        const val IMPORT_OBJECT_REQUEST_CODE = 0
+        const val IMPORT_MEDIA_OBJECT_REQUEST_CODE = 0
+        const val IMPORT_LOCAL_OBJECT_REQUEST_CODE = 1
     }
 }

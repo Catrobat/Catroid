@@ -106,7 +106,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 				onItemClickListener.onItemLongClick(item, holder);
 				return true;
 			});
-		} else if (ripples != null && !showRipples) {
+		} else if (ripples != null) {
 			ripples.setVisibility(View.GONE);
 			holder.itemView.setOnLongClickListener(v -> true);
 		}
@@ -114,7 +114,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 		ImageButton settings = holder.itemView.findViewById(R.id.settings_button);
 		if (settings != null && showSettings) {
 			settings.setVisibility(View.VISIBLE);
-		} else if (settings != null && !showSettings) {
+		} else if (settings != null) {
 			settings.setVisibility(View.GONE);
 		}
 	}

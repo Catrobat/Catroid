@@ -31,6 +31,7 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.Menu
 import android.view.MenuItem
+import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -49,7 +50,8 @@ import org.catrobat.catroid.databinding.DialogNewActorBinding
 import org.catrobat.catroid.databinding.ProgressBarBinding
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.asynctask.ProjectSaver
-import org.catrobat.catroid.merge.ImportProjectHelper
+import org.catrobat.catroid.merge.ImportLocalObjectActivity
+import org.catrobat.catroid.merge.ImportSpriteHelper
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.TestResult
 import org.catrobat.catroid.ui.BottomBar.showBottomBar
@@ -266,25 +268,23 @@ class ProjectActivity : BaseCastActivity() {
                 currentSprite.prependScript(startScript)
                 startScript.addBrick(placeAtBrick)
             }
-            SPRITE_FROM_LOCAL ->
-                if (data != null && data.hasExtra(ProjectListActivity.IMPORT_LOCAL_INTENT)) {
-                    uri = Uri.fromFile(
-                        File(data.getStringExtra(ProjectListActivity.IMPORT_LOCAL_INTENT))
-                    )
-                    addObjectFromUri(uri)
-                }
+            SPRITE_FROM_LOCAL -> {
+                uri = Uri.fromFile(data?.extras?.get(ImportLocalObjectActivity.REQUEST_PROJECT) as File)
+                addSpriteObjectFromUri(uri, Constants.CATROBAT_EXTENSION, true, data.extras, ImportSpriteHelper.REQUEST_LOCAL)
+            }
         }
     }
 
-    private fun addSpriteFromUri(uri: Uri?, imageExtension: String = DEFAULT_IMAGE_EXTENSION) {
-        addSpriteObjectFromUri(uri, imageExtension, false)
-    }
+    private fun addSpriteObjectFromUri(
+        uri: Uri?,
+        extension: String,
+        isObject: Boolean,
+        importData: Bundle? = null,
+        sourceType: Int = ImportSpriteHelper.REQUEST_MEDIA_LIBRARY
+    ) {
+        val sceneName = importData?.getString(ImportLocalObjectActivity.REQUEST_SCENE)
+        val spriteName = importData?.getString(ImportLocalObjectActivity.REQUEST_SPRITE)
 
-    fun addObjectFromUri(uri: Uri?) {
-        addSpriteObjectFromUri(uri, Constants.CATROBAT_EXTENSION, true)
-    }
-
-    private fun addSpriteObjectFromUri(uri: Uri?, extension: String, isObject: Boolean) {
         val currentScene = projectManager.currentlyEditedScene
         val resolvedName: String
         val resolvedFileName = StorageOperations.resolveFileName(contentResolver, uri)
@@ -302,19 +302,18 @@ class ProjectActivity : BaseCastActivity() {
             resolvedName,
             currentScene.spriteList
         )
-        var importProjectHelper: ImportProjectHelper? = null
+        var importSpriteHelper: ImportSpriteHelper? = null
         if (isObject) {
-            importProjectHelper = ImportProjectHelper(
-                lookFileName, currentScene, this
-            )
-            if (!importProjectHelper.checkForConflicts()) {
+            importSpriteHelper = ImportSpriteHelper(lookFileName, this, sourceType, sceneName, spriteName)
+            if (!importSpriteHelper.checkForConflicts()) {
                 return
             }
             lookDataName = UniqueNameProvider().getUniqueNameInNameables(
-                importProjectHelper.getSpriteToAddName(),
+                importSpriteHelper.getSpriteToAddName(),
                 currentScene.spriteList
             )
         }
+
         NewSpriteDialogFragment(
             false,
             lookDataName,
@@ -323,8 +322,17 @@ class ProjectActivity : BaseCastActivity() {
             uri,
             currentFragment!!,
             isObject,
-            importProjectHelper
+            importSpriteHelper
         ).show(supportFragmentManager, NewSpriteDialogFragment.TAG)
+    }
+
+    private fun addSpriteFromUri(uri: Uri?, imageExtension: String = DEFAULT_IMAGE_EXTENSION) {
+        addSpriteObjectFromUri(uri, imageExtension, false)
+    }
+
+    @VisibleForTesting(otherwise = MODE_PRIVATE)
+    fun addObjectFromUri(uri: Uri?) {
+        addSpriteObjectFromUri(uri, Constants.CATROBAT_EXTENSION, true)
     }
 
     private fun addEmptySpriteObject() {
@@ -431,11 +439,9 @@ class ProjectActivity : BaseCastActivity() {
             alertDialog.dismiss()
         }
         dialogNewActorBinding.dialogNewLookFromLocal.setOnClickListener {
-            ImportFromLocalProjectListLauncher(
-                this,
-                getString(R.string.import_sprite_from_project_launcher)
-            )
-                .startActivityForResult(SPRITE_FROM_LOCAL)
+            ImportFromLocalLauncher(this,
+                                    ImportLocalObjectActivity.REQUEST_PROJECT
+            ).startActivityForResult(SPRITE_FROM_LOCAL)
             alertDialog.dismiss()
         }
         alertDialog.show()

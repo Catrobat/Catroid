@@ -50,7 +50,7 @@ import org.catrobat.catroid.common.SharedPreferenceKeys.NEW_SPRITE_VISUAL_PLACEM
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.io.StorageOperations
-import org.catrobat.catroid.merge.ImportProjectHelper
+import org.catrobat.catroid.merge.ImportSpriteHelper
 import org.catrobat.catroid.ui.SpriteActivity.EXTRA_X_TRANSFORM
 import org.catrobat.catroid.ui.SpriteActivity.EXTRA_Y_TRANSFORM
 import org.catrobat.catroid.ui.SpriteActivity.REQUEST_CODE_VISUAL_PLACEMENT
@@ -70,7 +70,7 @@ class NewSpriteDialogFragment(
     private val uri: Uri?,
     private val currentFragment: Fragment,
     private val isObject: Boolean,
-    private val importProjectHelper: ImportProjectHelper?
+    private val importSpriteHelper: ImportSpriteHelper?
 ) : DialogFragment() {
     constructor(emptySprite: Boolean, lookDataName: String, currentFragment: Fragment) :
         this(emptySprite, lookDataName, "", null, null, currentFragment, false, null)
@@ -85,7 +85,6 @@ class NewSpriteDialogFragment(
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-
         val view = View.inflate(activity, R.layout.dialog_new_sprite, null)
         val currentScene = ProjectManager.getInstance().currentlyEditedScene
 
@@ -121,7 +120,7 @@ class NewSpriteDialogFragment(
 
     private fun handlePositiveButton(textInput: String?, currentScene: Scene) {
         if (isObject) {
-            sprite = importProjectHelper?.addObjectDataToNewSprite(null)
+            sprite = importSpriteHelper?.addObjectDataToNewSprite(null)
             sprite?.rename(textInput)
             currentScene.addSprite(sprite)
         } else {

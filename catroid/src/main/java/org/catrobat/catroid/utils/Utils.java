@@ -591,4 +591,15 @@ public final class Utils {
 		}
 		return false;
 	}
+
+	public static void removeDuplicates(List<Object> anyList) {
+		Object prev = null;
+		for (Object it: anyList) {
+			if (it == prev) {
+				anyList.remove(it);
+			} else {
+				prev = it;
+			}
+		}
+	}
 }

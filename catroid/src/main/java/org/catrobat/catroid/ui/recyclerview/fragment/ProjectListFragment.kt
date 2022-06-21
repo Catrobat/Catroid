@@ -43,7 +43,6 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants
-import org.catrobat.catroid.common.Nameable
 import org.catrobat.catroid.common.ProjectData
 import org.catrobat.catroid.common.SharedPreferenceKeys
 import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser
@@ -55,9 +54,11 @@ import org.catrobat.catroid.io.asynctask.ProjectLoader
 import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
 import org.catrobat.catroid.io.asynctask.ProjectRenamer
 import org.catrobat.catroid.io.asynctask.ProjectUnZipperAndImporter
+import org.catrobat.catroid.merge.ImportLocalObjectActivity
+import org.catrobat.catroid.merge.ImportLocalObjectActivity.Companion.REQUEST_SCENE
+import org.catrobat.catroid.merge.ImportLocalObjectActivity.Companion.REQUEST_SPRITE
 import org.catrobat.catroid.ui.BottomBar
 import org.catrobat.catroid.ui.ProjectActivity
-import org.catrobat.catroid.ui.ProjectListActivity
 import org.catrobat.catroid.ui.filepicker.FilePickerActivity
 import org.catrobat.catroid.ui.fragment.ProjectOptionsFragment
 import org.catrobat.catroid.ui.recyclerview.adapter.ProjectAdapter
@@ -68,7 +69,6 @@ import org.catrobat.catroid.utils.ToastUtil
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.io.IOException
-import java.util.ArrayList
 
 @SuppressLint("NotifyDataSetChanged")
 class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadListener {
@@ -83,10 +83,6 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         hasUnzipAndImportTaskFinished = true
         if (arguments != null) {
             importProject(requireArguments().getParcelable("intent"))
-        }
-        if (requireActivity().intent?.hasExtra(ProjectListActivity.IMPORT_LOCAL_INTENT) == true) {
-            adapter.showSettings = false
-            actionModeType = IMPORT_LOCAL
         }
     }
 
@@ -127,11 +123,10 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
     override fun onResume() {
         if (actionModeType != IMPORT_LOCAL) {
             projectManager.currentProject = null
+            BottomBar.showBottomBar(requireActivity())
         }
-
         setAdapterItems(adapter.projectsSorted)
         checkForEmptyList()
-        BottomBar.showBottomBar(requireActivity())
         super.onResume()
     }
 
@@ -155,11 +150,11 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         get() {
             val items: MutableList<ProjectData> = ArrayList()
             getLocalProjectList(items)
-            items.sortWith { project1: ProjectData, project2: ProjectData ->
+            items.sortWith(Comparator { project1: ProjectData, project2: ProjectData ->
                 project1.name.compareTo(
                     project2.name
                 )
-            }
+            })
             return items
         }
 
@@ -324,7 +319,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
     override fun copyItems(selectedItems: MutableList<ProjectData?>?) {
         finishActionMode()
         setShowProgressBar(true)
-        val usedProjectNames = ArrayList<Nameable>(adapter.items)
+        val usedProjectNames = ArrayList(adapter.items)
         selectedItems ?: return
         for (projectData in selectedItems) {
             projectData ?: continue
@@ -425,13 +420,13 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
             ProjectLoader(directoryFile, requireContext()).setListener(this).loadProjectAsync()
         }
         if (actionModeType == IMPORT_LOCAL) {
-            val intent = Intent()
-            intent.putExtra(
-                ProjectListActivity.IMPORT_LOCAL_INTENT,
-                item?.directory?.absoluteFile?.absolutePath
-            )
-            requireActivity().setResult(RESULT_OK, intent)
-            requireActivity().finish()
+            ImportLocalObjectActivity.projectToImportFrom = XstreamSerializer.getInstance().loadProject(item!!.directory.absoluteFile, context)
+            if (!ImportLocalObjectActivity.projectToImportFrom.hasMultipleScenes()) {
+                ImportLocalObjectActivity.sceneToImportFrom = ImportLocalObjectActivity.projectToImportFrom.defaultScene
+                (activity as ImportLocalObjectActivity).loadSelector(REQUEST_SPRITE)
+            } else {
+                (activity as ImportLocalObjectActivity).loadSelector(REQUEST_SCENE)
+            }
         }
     }
 
@@ -485,16 +480,18 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        adapter.projectsSorted = PreferenceManager.getDefaultSharedPreferences(requireContext())
-            .getBoolean(SharedPreferenceKeys.SORT_PROJECTS_PREFERENCE_KEY, false)
-        menu.findItem(R.id.sort_projects)
-            .setTitle(
-                if (adapter.projectsSorted) {
-                    R.string.unsort_projects
-                } else {
-                    R.string.sort_projects
-                }
-            )
+        if (actionModeType != IMPORT_LOCAL) {
+            adapter.projectsSorted = PreferenceManager.getDefaultSharedPreferences(requireContext())
+                .getBoolean(SharedPreferenceKeys.SORT_PROJECTS_PREFERENCE_KEY, false)
+            menu.findItem(R.id.sort_projects)
+                .setTitle(
+                    if (adapter.projectsSorted) {
+                        R.string.unsort_projects
+                    } else {
+                        R.string.sort_projects
+                    }
+                )
+        }
     }
 
     private fun setAdapterItems(sortProjects: Boolean) {

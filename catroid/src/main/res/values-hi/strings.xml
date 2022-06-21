@@ -543,7 +543,6 @@
     <string name="no_projects_selected">आयात के लिए कोई प्रोजेक्ट नहीं चुना गया</string>
     <string name="only_select_catrobat_files">केवल प्रोजेक्ट फ़ाइलें चुनें</string>
     <string name="error_no_files_found">कोई प्रोजेक्ट फ़ाइल नहीं मिली।</string>
-    <string name="import_sprite_from_project_launcher">स्थानीय परियोजना से आयात वस्तु</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">वर्णन</string>
     <string name="project_options_notes_and_credits">इसका श्रेय</string>

@@ -583,7 +583,6 @@
     <string name="no_projects_selected">No projects selected for import</string>
     <string name="only_select_catrobat_files">Only select project files</string>
     <string name="error_no_files_found">Datoteke projekata nisu pronađene.</string>
-    <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Opis</string>
     <string name="project_options_notes_and_credits">Zasluge</string>

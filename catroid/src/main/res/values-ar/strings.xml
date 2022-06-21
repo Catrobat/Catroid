@@ -686,7 +686,6 @@
     <string name="no_projects_selected">لم يتم تحديد مشاريع للاستيراد</string>
     <string name="only_select_catrobat_files">تحديد ملفات المشروع فقط</string>
     <string name="error_no_files_found">لم يتم العثور على مشاريع.</string>
-    <string name="import_sprite_from_project_launcher">استيراد الكائن من المشروع المحلي</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">الوصف</string>
     <string name="project_options_notes_and_credits">الملاحظات والاعتمادات</string>

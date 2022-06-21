@@ -48,10 +48,6 @@ class ProjectListActivity : BaseCastActivity() {
         BottomBar.hidePlayButton(this)
 
         val projectListFragment = ProjectListFragment()
-        if (intent.hasExtra(IMPORT_LOCAL_INTENT)) {
-            BottomBar.hideAddButton(this)
-            supportActionBar?.setTitle(R.string.import_from_project)
-        }
         intent?.apply {
             if (action != null) {
                 val data = Bundle()
@@ -90,7 +86,6 @@ class ProjectListActivity : BaseCastActivity() {
     }
 
     companion object {
-        const val IMPORT_LOCAL_INTENT: String = "merge"
         val TAG: String = ProjectListActivity::class.java.simpleName
     }
 }

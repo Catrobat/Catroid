@@ -528,7 +528,6 @@
     <string name="no_projects_selected">İçe aktarmak için hiçbir proje seçilmedi</string>
     <string name="only_select_catrobat_files">Yalnızca proje dosyalarını seçin</string>
     <string name="error_no_files_found">Proje dosyası bulunamadı.</string>
-    <string name="import_sprite_from_project_launcher">Objeyi Yerel Projeden İçe Aktar</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Açıklama</string>
     <string name="project_options_notes_and_credits">Yapanlar</string>

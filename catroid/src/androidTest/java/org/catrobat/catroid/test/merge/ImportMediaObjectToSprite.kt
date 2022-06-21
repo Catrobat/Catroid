@@ -20,13 +20,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.content.sprite
+package org.catrobat.catroid.test.merge
 
 import android.net.Uri
 import android.util.Log
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.intent.Intents
-import androidx.test.runner.AndroidJUnit4
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.DefaultProjectHandler
@@ -40,7 +39,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.ZipArchiver
-import org.catrobat.catroid.merge.ImportProjectHelper
+import org.catrobat.catroid.merge.ImportSpriteHelper
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
@@ -50,12 +49,10 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.koin.java.KoinJavaComponent
 import java.io.File
 
-@RunWith(AndroidJUnit4::class)
-class ImportObjectIntoProjectFromContextMenuTest {
+class ImportMediaObjectToSprite {
     var project: Project? = null
     var importedProject: Project? = null
     var importName = "IMPORTED"
@@ -63,7 +60,7 @@ class ImportObjectIntoProjectFromContextMenuTest {
     var uri: Uri? = null
     var spriteToBeImported: Sprite? = null
     private lateinit var scriptForVisualPlacement: Script
-    val TAG: String = ImportObjectIntoProjectTest::class.java.simpleName
+    val TAG: String = ImportMediaObjectToSprite::class.java.simpleName
     private val projectManager = KoinJavaComponent.inject(ProjectManager::class.java)
 
     @get:Rule
@@ -114,7 +111,7 @@ class ImportObjectIntoProjectFromContextMenuTest {
         baseActivityTestRule.launchActivity()
     }
 
-    fun initProjectVars() {
+    private fun initProjectVars() {
         spriteToBeImported = importedProject!!.defaultScene.spriteList[1]
 
         spriteToBeImported!!.userVariables.add(UserVariable("localVariable1"))
@@ -133,6 +130,7 @@ class ImportObjectIntoProjectFromContextMenuTest {
     }
 
     @After
+    @Throws(Exception::class)
     fun tearDown() {
         Intents.release()
         baseActivityTestRule.finishActivity()
@@ -170,14 +168,12 @@ class ImportObjectIntoProjectFromContextMenuTest {
         val importedSoundList = spriteToBeImported!!.soundList.size
         val importedScriptList = spriteToBeImported!!.scriptList.size
 
-        val currentScene = project!!.defaultScene
         val activity = baseActivityTestRule.activity
         val resolvedFileName = StorageOperations.resolveFileName(activity.contentResolver, uri)
         val lookFileName: String? = resolvedFileName
 
-        val importProjectHelper = ImportProjectHelper(
-            lookFileName!!,
-            currentScene, activity
+        val importProjectHelper = ImportSpriteHelper(
+            lookFileName!!, activity, ImportSpriteHelper.REQUEST_MEDIA_LIBRARY
         )
 
         Assert.assertTrue(importProjectHelper.checkForConflicts())
@@ -242,14 +238,12 @@ class ImportObjectIntoProjectFromContextMenuTest {
         val oldSoundList = anySpriteOfProject.soundList.size
         val oldScriptList = anySpriteOfProject.scriptList.size
 
-        val currentScene = project!!.defaultScene
         val activity = baseActivityTestRule.activity
-        val resolvedFileName = StorageOperations.resolveFileName(activity.getContentResolver(), uri)
+        val resolvedFileName = StorageOperations.resolveFileName(activity.contentResolver, uri)
         val lookFileName: String? = resolvedFileName
 
-        val importProjectHelper = ImportProjectHelper(
-            lookFileName!!,
-            currentScene, activity
+        val importProjectHelper = ImportSpriteHelper(
+            lookFileName!!, activity, ImportSpriteHelper.REQUEST_MEDIA_LIBRARY
         )
 
         if (importProjectHelper.checkForConflicts()) {
@@ -294,14 +288,12 @@ class ImportObjectIntoProjectFromContextMenuTest {
     @Test
     fun uniqueLooksAndSoundsNamesImportedOnceTest() {
         val anySpriteOfProject = project!!.defaultScene.spriteList[1]
-        val currentScene = project!!.defaultScene
         val activity = baseActivityTestRule.activity
         val resolvedFileName = StorageOperations.resolveFileName(activity.contentResolver, uri)
         val lookFileName: String? = resolvedFileName
 
-        val importProjectHelper = ImportProjectHelper(
-            lookFileName!!,
-            currentScene, activity
+        val importProjectHelper = ImportSpriteHelper(
+            lookFileName!!, activity, ImportSpriteHelper.REQUEST_MEDIA_LIBRARY
         )
 
         Assert.assertTrue(importProjectHelper.checkForConflicts())

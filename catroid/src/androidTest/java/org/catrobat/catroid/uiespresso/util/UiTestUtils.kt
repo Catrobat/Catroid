@@ -22,19 +22,20 @@
  */
 package org.catrobat.catroid.uiespresso.util
 
-import androidx.test.core.app.ApplicationProvider
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.util.Log
 import android.view.View
-import org.hamcrest.CoreMatchers
-import org.catrobat.catroid.content.StartScript
-import org.catrobat.catroid.ProjectManager
-import androidx.test.espresso.ViewInteraction
+import android.view.ViewGroup
+import androidx.appcompat.widget.SwitchCompat
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
+import androidx.test.espresso.ViewInteraction
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import androidx.test.espresso.matcher.ViewMatchers.hasSibling
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
@@ -44,13 +45,19 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
 import androidx.test.runner.lifecycle.Stage
+import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.uiespresso.util.matchers.SuperToastMatchers
+import org.hamcrest.CoreMatchers
+import org.hamcrest.Description
 import org.hamcrest.Matcher
+import org.hamcrest.Matchers
 import org.hamcrest.Matchers.allOf
+import org.hamcrest.TypeSafeMatcher
 import org.koin.java.KoinJavaComponent.inject
 
 class UiTestUtils private constructor() {
@@ -133,6 +140,44 @@ class UiTestUtils private constructor() {
                         hasSibling(withChild(withText(spriteName)))
                     )
                 ).perform(click())
+            }
+        }
+
+        @JvmStatic
+        fun childAtPosition(parentMatcher: Matcher<View>, position: Int): Matcher<View> {
+            return object : TypeSafeMatcher<View>() {
+                override fun describeTo(description: Description) {
+                    description.appendText("Child at position $position in parent ")
+                    parentMatcher.describeTo(description)
+                }
+
+                public override fun matchesSafely(view: View): Boolean {
+                    val parent = view.parent
+                    return parent is ViewGroup && parentMatcher.matches(parent) &&
+                        view == parent.getChildAt(position)
+                }
+            }
+        }
+
+        @JvmStatic
+        fun uncheckPlaceVisually(activity: Activity) {
+            getInstrumentation().waitForIdleSync()
+
+            val switchCompat = onView(
+                allOf(
+                    withId(R.id.place_visually_sprite_switch), withText("Place visually"),
+                    childAtPosition(
+                        childAtPosition(
+                            ViewMatchers.withClassName(Matchers.`is`("android.widget.ScrollView")),
+                            0
+                        ),
+                        1
+                    )
+                )
+            )
+
+            if (activity.window.currentFocus?.findViewById<SwitchCompat>(R.id.place_visually_sprite_switch)?.isChecked == true) {
+                switchCompat.perform(ViewActions.scrollTo(), click())
             }
         }
     }
