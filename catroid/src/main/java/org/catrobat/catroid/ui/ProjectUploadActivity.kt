@@ -267,6 +267,8 @@ open class ProjectUploadActivity : BaseActivity(),
     }
 
     private fun onNextButtonClick() {
+        Utils.hideStandardSystemKeyboard(this)
+
         if (!notesAndCreditsScreen) {
             val name = binding.inputProjectName.editText?.text.toString().trim()
             val error = nameInputTextWatcher.validateName(name)
