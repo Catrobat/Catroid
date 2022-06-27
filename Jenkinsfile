@@ -121,12 +121,11 @@ pipeline {
             parallel {
                 stage('1') {
                     agent {
-                        dockerfile {
-                            filename d.fileName
-                            dir d.dir
-                            additionalBuildArgs d.buildArgs
-                            args d.args
-                            label useDebugLabelParameter(d.label)
+                        docker {
+                            image 'catrobat/catrobat-android:stable'
+                            args '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -m=6.5G'
+                            label 'LimitedEmulator'
+                            alwaysPull true
                         }
                     }
 
@@ -273,12 +272,11 @@ pipeline {
 
                 stage('2') {
                     agent {
-                        dockerfile {
-                            filename d.fileName
-                            dir d.dir
-                            additionalBuildArgs d.buildArgs
-                            args d.args
-                            label useDebugLabelParameter(d.label)
+                        docker {
+                            image 'catrobat/catrobat-android:stable'
+                            args '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -m=6.5G'
+                            label 'LimitedEmulator'
+                            alwaysPull true
                         }
                     }
 
