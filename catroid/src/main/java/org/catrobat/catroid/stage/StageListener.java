@@ -189,6 +189,8 @@ public class StageListener implements ApplicationListener {
 		} else {
 			stage.getRoot().clear();
 		}
+		screenshotWidth = ScreenValues.getScreenWidthForProject(project);
+		screenshotHeight = ScreenValues.getScreenHeightForProject(project);
 		initScreenMode();
 		initStageInputListener();
 		screenshotSaver = new ScreenshotSaver(Gdx.files, getScreenshotPath(), screenshotWidth,
