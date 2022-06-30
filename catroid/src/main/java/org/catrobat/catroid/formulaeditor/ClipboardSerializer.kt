@@ -20,12 +20,29 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.formulaeditor;
 
-import java.io.Serializable;
+package org.catrobat.catroid.formulaeditor
 
-public enum InternTokenType implements Serializable {
-	NUMBER, OPERATOR, FUNCTION_NAME, BRACKET_OPEN, BRACKET_CLOSE, SENSOR, FUNCTION_PARAMETERS_BRACKET_OPEN,
-	FUNCTION_PARAMETERS_BRACKET_CLOSE, FUNCTION_PARAMETER_DELIMITER, PERIOD, USER_VARIABLE,
-	USER_LIST, USER_DEFINED_BRICK_INPUT, COLLISION_FORMULA, STRING, PARSER_END_OF_FILE,
+import androidx.annotation.VisibleForTesting
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import java.io.File
+
+class ClipboardSerializer(private val clipBoardFile: File) {
+    @VisibleForTesting
+    var clipboardGson: Gson = GsonBuilder().enableComplexMapKeySerialization().setPrettyPrinting().create()
+
+    fun saveClipboard(clipboard: Clipboard) {
+        val jsonString = clipboardGson.toJson(clipboard)
+        clipBoardFile.writeText(jsonString, Charsets.US_ASCII)
+    }
+
+    fun loadClipboard(): Clipboard {
+        if (!clipBoardFile.exists()) {
+            return Clipboard()
+        }
+
+        val jsonString = clipBoardFile.readText(Charsets.US_ASCII)
+        return clipboardGson.fromJson(jsonString, Clipboard::class.java) ?: Clipboard()
+    }
 }

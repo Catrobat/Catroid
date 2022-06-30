@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -2119,6 +2119,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="warning_formula_recognized">You entered a text that looks like a formula. If you want to use functions,
         sensors, variables and other formula elements, please select them instead using the
         buttons in the formula editor.</string>
+        <string name="formula_editor_missing_variable">missing variable</string>
+        <string name="formula_editor_missing_list">missing list</string>
     <!--  -->
 
 

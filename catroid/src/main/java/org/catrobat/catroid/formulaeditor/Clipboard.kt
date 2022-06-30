@@ -20,12 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.formulaeditor;
 
-import java.io.Serializable;
+package org.catrobat.catroid.formulaeditor
 
-public enum InternTokenType implements Serializable {
-	NUMBER, OPERATOR, FUNCTION_NAME, BRACKET_OPEN, BRACKET_CLOSE, SENSOR, FUNCTION_PARAMETERS_BRACKET_OPEN,
-	FUNCTION_PARAMETERS_BRACKET_CLOSE, FUNCTION_PARAMETER_DELIMITER, PERIOD, USER_VARIABLE,
-	USER_LIST, USER_DEFINED_BRICK_INPUT, COLLISION_FORMULA, STRING, PARSER_END_OF_FILE,
-}
+data class Clipboard(var content: List<InternToken> = ArrayList())

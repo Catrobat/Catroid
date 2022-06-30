@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,6 +47,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
+import static androidx.test.espresso.matcher.ViewMatchers.withSubstring;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 public final class FormulaEditorWrapper extends ViewInteractionWrapper {
@@ -116,6 +117,12 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 	public FormulaEditorWrapper checkShows(String expected) {
 		onView(FORMULA_EDITOR_TEXT_FIELD_MATCHER)
 				.check(matches(withText(equalToIgnoringWhiteSpace(expected))));
+		return new FormulaEditorWrapper();
+	}
+
+	public FormulaEditorWrapper checkContains(String expected) {
+		onView(FORMULA_EDITOR_TEXT_FIELD_MATCHER)
+				.check(matches(withSubstring(expected)));
 		return new FormulaEditorWrapper();
 	}
 

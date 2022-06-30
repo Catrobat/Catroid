@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -100,6 +100,10 @@ public final class Constants {
 	public static final String BACKBACK_SCENES_DIRECTORY_NAME = "scenes";
 	public static final String BACKPACK_SOUND_DIRECTORY_NAME = "backpack_sound";
 	public static final String BACKPACK_IMAGE_DIRECTORY_NAME = "backpack_image";
+
+	// Clipboard Directories
+	public static final String CLIPBOARD_DIRECTORY_NAME = "clipboard";
+	public static final String CLIPBOARD_JSON_FILE_NAME = "clipboard.json";
 
 	// Trusted domains for Web access bricks
 	public static final String TRUSTED_DOMAINS_FILE_NAME = "trustedDomains.json";

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,11 +32,8 @@ import android.view.View;
 import android.widget.PopupWindow;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.formulaeditor.ClipboardManager;
 import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
-import org.catrobat.catroid.formulaeditor.InternToken;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static android.view.View.GONE;
@@ -52,8 +49,6 @@ public class FormulaEditorPopupMenu {
 	private final View cut;
 	private final View copy;
 	private final View paste;
-
-	private List<InternToken> clipboard;
 
 	@SuppressLint("InflateParams")
 	public FormulaEditorPopupMenu(Context context, FormulaEditorEditText formulaEditorEditText) {
@@ -71,7 +66,9 @@ public class FormulaEditorPopupMenu {
 		paste = popupView.findViewById(R.id.paste);
 
 		cut.setOnClickListener(v -> {
-			copyTokens(formulaEditorEditText.getSelectedTokens());
+			ClipboardManager.INSTANCE.setClipboardContent(formulaEditorEditText.getSelectedTokens());
+			ClipboardManager.INSTANCE.saveClipboard();
+
 			formulaEditorEditText.deleteSelection();
 			if (onUpdateListener != null) {
 				onUpdateListener.onUpdate();
@@ -80,16 +77,15 @@ public class FormulaEditorPopupMenu {
 		});
 
 		copy.setOnClickListener(v -> {
-			copyTokens(formulaEditorEditText.getSelectedTokens());
+			ClipboardManager.INSTANCE.setClipboardContent(formulaEditorEditText.getSelectedTokens());
+			ClipboardManager.INSTANCE.saveClipboard();
 			popupWindow.dismiss();
 		});
 
 		paste.setOnClickListener(v -> {
-			if (clipboard != null && clipboard.size() > 0) {
-				formulaEditorEditText.addTokens(cloneTokens(clipboard));
-				if (onUpdateListener != null) {
-					onUpdateListener.onUpdate();
-				}
+			formulaEditorEditText.addTokens(ClipboardManager.INSTANCE.getClipboardContent());
+			if (onUpdateListener != null) {
+				onUpdateListener.onUpdate();
 			}
 			popupWindow.dismiss();
 		});
@@ -135,30 +131,18 @@ public class FormulaEditorPopupMenu {
 		};
 	}
 
-	private List<InternToken> cloneTokens(List<InternToken> tokens) {
-		List<InternToken> t = new ArrayList<>();
-		for (InternToken token : tokens) {
-			t.add(token.deepCopy());
-		}
-		return t;
-	}
-
-	private void copyTokens(List<InternToken> tokens) {
-		clipboard = cloneTokens(tokens);
-	}
-
 	public void setOnUpdateListener(OnUpdateListener onUpdateListener) {
 		this.onUpdateListener = onUpdateListener;
 	}
 
 	public void show(int x, int y, boolean isHighlighted) {
-		boolean isClipboardEmpty = (clipboard == null || clipboard.isEmpty());
+		ClipboardManager.INSTANCE.loadClipboard();
 
-		if (isClipboardEmpty && !isHighlighted) {
+		if (ClipboardManager.INSTANCE.isClipboardEmpty() && !isHighlighted) {
 			return;
 		}
 
-		if (isClipboardEmpty) {
+		if (ClipboardManager.INSTANCE.isClipboardEmpty()) {
 			paste.setVisibility(GONE);
 		} else {
 			paste.setVisibility(VISIBLE);

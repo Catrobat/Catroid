@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,12 +25,15 @@ package org.catrobat.catroid.uiespresso.formulaeditor;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
+import org.catrobat.catroid.formulaeditor.ClipboardManager;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper;
@@ -41,13 +44,16 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.WaitForConditionAction.waitFor;
+import static org.catrobat.catroid.common.Constants.CLIPBOARD_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.hamcrest.Matchers.not;
 
@@ -157,6 +163,7 @@ public class ClipboardTest {
 	public void checkUndoVisibleAfterCutOperation() {
 		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
 		onView(withId(R.id.menu_undo)).check(matches(not(isEnabled())));
+		onView(withId(R.id.cut)).inRoot(isPlatformPopup()).perform(waitFor(isDisplayed(), 10000));
 		onView(withId(R.id.cut)).inRoot(isPlatformPopup()).perform(click());
 		onFormulaEditor().checkShows("");
 		onView(withId(R.id.menu_undo)).check(matches(isEnabled()));
@@ -180,5 +187,14 @@ public class ClipboardTest {
 	public void tearDown() throws IOException {
 		baseActivityTestRule.finishActivity();
 		TestUtils.deleteProjects(PROJECT_NAME);
+		this.deleteClipboard();
+	}
+
+	private void deleteClipboard() throws IOException {
+		ClipboardManager.INSTANCE.setClipboardContent(new ArrayList());
+		File clipboardDirectory = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, CLIPBOARD_DIRECTORY_NAME);
+		if (clipboardDirectory.exists() && clipboardDirectory.isDirectory()) {
+			StorageOperations.deleteDir(clipboardDirectory);
+		}
 	}
 }
