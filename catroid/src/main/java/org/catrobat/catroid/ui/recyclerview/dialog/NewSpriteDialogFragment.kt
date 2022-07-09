@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -147,8 +147,8 @@ class NewSpriteDialogFragment(
 
     private fun handleNegativeButton() {
         try {
-            if (Constants.MEDIA_LIBRARY_CACHE_DIR.exists()) {
-                StorageOperations.deleteDir(Constants.MEDIA_LIBRARY_CACHE_DIR)
+            if (Constants.MEDIA_LIBRARY_CACHE_DIRECTORY.exists()) {
+                StorageOperations.deleteDir(Constants.MEDIA_LIBRARY_CACHE_DIRECTORY)
             }
         } catch (exception: IOException) {
             Log.e(TAG, Log.getStackTraceString(exception))

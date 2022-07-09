@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,7 @@ import java.util.List;
 import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION;
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
-import static org.catrobat.catroid.common.Constants.TMP_DIR_NAME;
+import static org.catrobat.catroid.common.Constants.TMP_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.EXTERNAL_STORAGE_ROOT_DIRECTORY;
 
 public class ListProjectFilesTask extends AsyncTask<File, Void, List<File>> {
@@ -74,7 +74,7 @@ public class ListProjectFilesTask extends AsyncTask<File, Void, List<File>> {
 		}
 		for (File dir : EXTERNAL_STORAGE_ROOT_DIRECTORY.listFiles()) {
 			if (!dir.getName().equals(BACKPACK_DIRECTORY_NAME)
-					&& !dir.getName().equals(TMP_DIR_NAME)
+					&& !dir.getName().equals(TMP_DIRECTORY_NAME)
 					&& dir.isDirectory()
 					&& new File(dir, CODE_XML_FILE_NAME).exists()) {
 				projectFiles.add(dir);

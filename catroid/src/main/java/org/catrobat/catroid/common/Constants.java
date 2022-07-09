@@ -58,12 +58,12 @@ public final class Constants {
 	public static final String TMP_CODE_XML_FILE_NAME = "tmp_" + CODE_XML_FILE_NAME;
 	public static final String UNDO_CODE_XML_FILE_NAME = "undo_" + CODE_XML_FILE_NAME;
 
-	public static final String DEVICE_VARIABLE_JSON_FILENAME = "DeviceVariables.json";
-	public static final String DEVICE_LIST_JSON_FILENAME = "DeviceLists.json";
+	public static final String DEVICE_VARIABLE_JSON_FILE_NAME = "DeviceVariables.json";
+	public static final String DEVICE_LIST_JSON_FILE_NAME = "DeviceLists.json";
 
-	public static final String POCKET_CODE_EXTERNAL_EXPORT_STORAGE_FOLDER_NAME = "Catrobat";
+	public static final String POCKET_CODE_EXTERNAL_EXPORT_STORAGE_DIRECTORY_NAME = "Catrobat";
 	public static final File EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY = new File(
-			Environment.getExternalStorageDirectory(), POCKET_CODE_EXTERNAL_EXPORT_STORAGE_FOLDER_NAME);
+			Environment.getExternalStorageDirectory(), POCKET_CODE_EXTERNAL_EXPORT_STORAGE_DIRECTORY_NAME);
 	public static final File DOWNLOAD_DIRECTORY =
 			new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "");
 	public static final String CATROBAT_EXTENSION = ".catrobat";
@@ -87,7 +87,7 @@ public final class Constants {
 	public static final String SOUND_DIRECTORY_NAME = "sounds";
 	public static final String SCREENSHOT_AUTOMATIC_FILE_NAME = "automatic_screenshot" + DEFAULT_IMAGE_EXTENSION;
 	public static final String SCREENSHOT_MANUAL_FILE_NAME = "manual_screenshot" + DEFAULT_IMAGE_EXTENSION;
-	public static final File TEMP_LOOK_FILE =
+	public static final File TMP_LOOK_FILE =
 			new File(DEFAULT_ROOT_DIRECTORY, "temporary_look_file" + DEFAULT_IMAGE_EXTENSION);
 
 	// Recent Bricks Directory
@@ -109,19 +109,19 @@ public final class Constants {
 	public static final int JSON_INDENTATION = 4;
 
 	// Temporary Files and Directories:
-	public static final File CACHE_DIR = CatroidApplication.getAppContext().getCacheDir();
+	public static final File CACHE_DIRECTORY = CatroidApplication.getAppContext().getCacheDir();
 
 	public static final String CACHED_PROJECT_ZIP_FILE_NAME = "projectImportCache.zip";
 
-	public static final File POCKET_PAINT_CACHE_DIR = new File(CACHE_DIR, "pocketPaint");
-	public static final File CAMERA_CACHE_DIR = new File(CACHE_DIR, "camera");
-	public static final File SOUND_RECORDER_CACHE_DIR = new File(CACHE_DIR, "soundRecorder");
-	public static final File MEDIA_LIBRARY_CACHE_DIR = new File(CACHE_DIR, "mediaLibrary");
+	public static final File POCKET_PAINT_CACHE_DIRECTORY = new File(CACHE_DIRECTORY, "pocketPaint");
+	public static final File CAMERA_CACHE_DIRECTORY = new File(CACHE_DIRECTORY, "camera");
+	public static final File SOUND_RECORDER_CACHE_DIRECTORY = new File(CACHE_DIRECTORY, "soundRecorder");
+	public static final File MEDIA_LIBRARY_CACHE_DIRECTORY = new File(CACHE_DIRECTORY, "mediaLibrary");
 
 	public static final String TMP_IMAGE_FILE_NAME = "image";
 
-	public static final String TMP_DIR_NAME = "tmp";
-	public static final String TMP_PATH = CACHE_DIR.getAbsolutePath() + "/" + TMP_DIR_NAME;
+	public static final String TMP_DIRECTORY_NAME = "tmp";
+	public static final String TMP_PATH = CACHE_DIRECTORY.getAbsolutePath() + "/" + TMP_DIRECTORY_NAME;
 	public static final String TEXT_TO_SPEECH_TMP_PATH = TMP_PATH + "/textToSpeech";
 
 	// Web:
@@ -221,7 +221,7 @@ public final class Constants {
 	public static final int SCRATCH_SECOND_RELEASE_PUBLISHED_DATE_MONTH = Calendar.MAY;
 	public static final int SCRATCH_SECOND_RELEASE_PUBLISHED_DATE_DAY = 9;
 	public static final int SCRATCH_HTTP_REQUEST_MIN_TIMEOUT = 1_000; // in ms
-	public static final int SCRATCH_HTTP_REQUEST_MAX_NUM_OF_RETRIES = 2;
+	public static final int SCRATCH_HTTP_REQUEST_MAX_NUMBER_OF_RETRIES = 2;
 	public static final int SCRATCH_IMAGE_DEFAULT_WIDTH = 480;
 	public static final int SCRATCH_IMAGE_DEFAULT_HEIGHT = 360;
 	public static final String DATE_FORMAT_DEFAULT = "yyyy-MM-dd HH:mm:ss";

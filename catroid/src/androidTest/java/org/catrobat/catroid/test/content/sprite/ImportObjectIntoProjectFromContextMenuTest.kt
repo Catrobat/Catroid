@@ -77,7 +77,7 @@ class ImportObjectIntoProjectFromContextMenuTest {
     @Before
     fun setUp() {
         try {
-            Constants.MEDIA_LIBRARY_CACHE_DIR.mkdirs()
+            Constants.MEDIA_LIBRARY_CACHE_DIRECTORY.mkdirs()
         } catch (e: Exception) {
             Log.e(TAG, Log.getStackTraceString(e))
         }
@@ -101,7 +101,7 @@ class ImportObjectIntoProjectFromContextMenuTest {
         XstreamSerializer.getInstance().saveProject(importedProject)
 
         val projectZip = File(
-            Constants.MEDIA_LIBRARY_CACHE_DIR,
+            Constants.MEDIA_LIBRARY_CACHE_DIRECTORY,
             importedProject?.name + Constants.CATROBAT_EXTENSION
         )
 

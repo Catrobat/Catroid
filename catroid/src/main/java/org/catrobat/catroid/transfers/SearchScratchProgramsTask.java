@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -78,7 +78,7 @@ public class SearchScratchProgramsTask extends AsyncTask<String, Void, ScratchSe
 
 	public ScratchSearchResult fetchProgramList(String query) throws InterruptedIOException {
 		final int minTimeout = Constants.SCRATCH_HTTP_REQUEST_MIN_TIMEOUT;
-		final int maxNumRetries = Constants.SCRATCH_HTTP_REQUEST_MAX_NUM_OF_RETRIES;
+		final int maxNumRetries = Constants.SCRATCH_HTTP_REQUEST_MAX_NUMBER_OF_RETRIES;
 
 		int delay;
 
