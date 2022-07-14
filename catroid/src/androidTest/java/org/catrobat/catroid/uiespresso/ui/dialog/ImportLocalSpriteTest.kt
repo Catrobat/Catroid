@@ -170,6 +170,30 @@ class ImportLocalSpriteTest {
 
         Assert.assertEquals(projectToImportTo.defaultScene.spriteList.size, originalSpriteSize)
     }
+    @Test
+    fun importConflictsWithAutomaticResolve() {
+        Espresso.onView(ViewMatchers.withText(projectWithConflicts.name))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withText(projectToImportTo.name))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+
+        val originalSpriteSize = projectToImportTo.defaultScene.spriteList.size
+        Espresso.onView(ViewMatchers.withText(projectToImportTo.name))
+            .perform(ViewActions.click())
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+
+        Espresso.onView(ViewMatchers.withId(R.id.button_add))
+            .perform(ViewActions.click())
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_from_local))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_from_local))
+            .perform(ViewActions.click())
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        Espresso.onView(ViewMatchers.withText(projectWithConflicts.name))
+            .perform(ViewActions.click())
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+    }
 
     @Test
     fun importActorOrObjectTest() {
