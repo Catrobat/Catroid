@@ -69,7 +69,7 @@ import java.io.File
 import java.io.IOException
 
 @SuppressLint("NotifyDataSetChanged")
-class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
+class SpriteListFragment : RecyclerViewFragment<Sprite?>(), ImportProjectHelper.MergeProjectListener {
     private val spriteController = SpriteController()
     private val projectManager: ProjectManager by inject()
 
@@ -278,15 +278,18 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
             val importProjectHelper = ImportProjectHelper(
                 lookFileName,
                 currentScene,
-                requireActivity()
+                requireActivity(),
+                null,
+                uri
             )
+            importProjectHelper.setMergeProjectListener(this)
             if (!importProjectHelper.checkForConflicts()) {
                 return
             }
             if (currentSprite != null) {
                 importProjectHelper.addObjectDataToNewSprite(currentSprite)
             } else {
-                importProjectHelper.rejectImportDialog(null)
+                importProjectHelper.rejectImportDialog(null, null)
             }
         }
     }
@@ -384,5 +387,13 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
     companion object {
         val TAG: String = SpriteListFragment::class.java.simpleName
         const val IMPORT_OBJECT_REQUEST_CODE = 0
+    }
+
+    override fun onResolvedConflicts(importProjectHelper: ImportProjectHelper) {
+        if (currentSprite != null) {
+            importProjectHelper.addObjectDataToNewSprite(currentSprite)
+        } else {
+            importProjectHelper.rejectImportDialog(null, null)
+        }
     }
 }
