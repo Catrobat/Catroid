@@ -117,7 +117,7 @@ class ImportObjectIntoProjectTest {
         baseActivityTestRule.launchActivity()
     }
 
-    fun initProjectVars() {
+    private fun initProjectVars() {
         spriteToBeImported = importedProject!!.defaultScene.spriteList[1]
 
         spriteToBeImported!!.userVariables.add(UserVariable("localVariable1"))
@@ -127,8 +127,8 @@ class ImportObjectIntoProjectTest {
 
         importedProject!!.addUserVariable(UserVariable("globalVariable1", 1))
         importedProject!!.addUserVariable(UserVariable("globalVariable2", 2))
-        importedProject!!.addUserList(UserList("globalListe1"))
-        importedProject!!.addUserList(UserList("globalListe2"))
+        importedProject!!.addUserList(UserList("globalList1"))
+        importedProject!!.addUserList(UserList("globalList2"))
 
         scriptForVisualPlacement = StartScript().apply {
             addBrick(PlaceAtBrick(100, 200))
@@ -152,8 +152,8 @@ class ImportObjectIntoProjectTest {
 
         project!!.addUserVariable(UserVariable("globalVariable3", 1))
         project!!.addUserVariable(UserVariable("globalVariable4", 2))
-        project!!.addUserList(UserList("globalListe3"))
-        project!!.addUserList(UserList("globalListe4"))
+        project!!.addUserList(UserList("globalList3"))
+        project!!.addUserList(UserList("globalList4"))
         XstreamSerializer.getInstance().saveProject(project)
 
         val globalVariableList = project!!.userVariables
@@ -197,8 +197,8 @@ class ImportObjectIntoProjectTest {
 
         project!!.addUserVariable(UserVariable("globalVariable3", 1))
         project!!.addUserVariable(UserVariable("globalVariable4", 2))
-        project!!.addUserList(UserList("globalListe3"))
-        project!!.addUserList(UserList("globalListe4"))
+        project!!.addUserList(UserList("globalList3"))
+        project!!.addUserList(UserList("globalList4"))
         XstreamSerializer.getInstance().saveProject(project)
 
         val globalVariableList = project!!.userVariables
@@ -242,8 +242,8 @@ class ImportObjectIntoProjectTest {
 
         project!!.addUserVariable(UserVariable("globalVariable1", 1))
         project!!.addUserVariable(UserVariable("globalVariable2", 2))
-        project!!.addUserList(UserList("globalListe1"))
-        project!!.addUserList(UserList("globalListe2"))
+        project!!.addUserList(UserList("globalList1"))
+        project!!.addUserList(UserList("globalList2"))
         XstreamSerializer.getInstance().saveProject(project)
 
         val globalVariableList = project!!.userVariables
@@ -283,12 +283,12 @@ class ImportObjectIntoProjectTest {
         anySpriteOfProject.userVariables.add(UserVariable("globalVariable1")) // Conflicting var
         anySpriteOfProject.userVariables.add(UserVariable("localVariable4"))
         anySpriteOfProject.userLists.add(UserList("localList3"))
-        anySpriteOfProject.userLists.add(UserList("globalListe1")) // Conflicting var
+        anySpriteOfProject.userLists.add(UserList("globalList1")) // Conflicting var
 
         project!!.addUserVariable(UserVariable("globalVariable1", 1))
         project!!.addUserVariable(UserVariable("globalVariable2", 2))
-        project!!.addUserList(UserList("globalListe1"))
-        project!!.addUserList(UserList("globalListe2"))
+        project!!.addUserList(UserList("globalList1"))
+        project!!.addUserList(UserList("globalList2"))
         XstreamSerializer.getInstance().saveProject(project)
 
         val importedLocalVariableList = spriteToBeImported!!.userVariables
@@ -336,6 +336,64 @@ class ImportObjectIntoProjectTest {
     }
 
     @Test
+    fun importProjectWithConflictsTestLocalVarAutomaticRename() {
+        val anySpriteOfProject = project!!.defaultScene.spriteList[1]
+        anySpriteOfProject.userVariables.add(UserVariable("globalVariable1")) // Conflicting var
+        anySpriteOfProject.userVariables.add(UserVariable("localVariable4"))
+        anySpriteOfProject.userLists.add(UserList("localList3"))
+        anySpriteOfProject.userLists.add(UserList("globalList1")) // Conflicting var
+
+        project!!.addUserVariable(UserVariable("globalVariable1", 1))
+        project!!.addUserVariable(UserVariable("globalVariable2", 2))
+        project!!.addUserList(UserList("globalList1"))
+        project!!.addUserList(UserList("globalList2"))
+        XstreamSerializer.getInstance().saveProject(project)
+
+        val importedLocalVariableList = spriteToBeImported!!.userVariables
+        val importedLocalListList = spriteToBeImported!!.userLists
+        val importedLookList = spriteToBeImported!!.lookList
+        val importedSoundList = spriteToBeImported!!.soundList
+        val importedScriptList = spriteToBeImported!!.scriptList + scriptForVisualPlacement
+
+        val originLastSprite = project!!.defaultScene.spriteList.last()
+        val originLocalVariableList = originLastSprite.userVariables
+        val originLocalListList = originLastSprite.userLists
+        val originGlobalVariableList = project!!.userVariables
+        val originGlobalListList = project!!.userLists
+        val originLookList = originLastSprite.lookList
+        val originSoundList = originLastSprite.soundList
+        val originScriptList = originLastSprite.scriptList
+
+        baseActivityTestRule.activity.addObjectFromUri(uri)
+        Espresso.onView(withText(R.string.merge_automatically)).perform(click())
+
+        assertNotEquals(project!!.defaultScene.spriteList.last().userVariables, importedLocalVariableList)
+        assertEquals(project!!.defaultScene.spriteList.last().userVariables, originLocalVariableList)
+        assertNotEquals(project!!.defaultScene.spriteList.last().userLists, importedLocalListList)
+        assertEquals(project!!.defaultScene.spriteList.last().userLists, originLocalListList)
+
+        assertEquals(project!!.userVariables, originGlobalVariableList)
+
+        assertEquals(project!!.userLists, originGlobalListList)
+
+        assertNotEquals(project!!.defaultScene.spriteList.last().lookList.size, importedLookList.size)
+        assertEquals(project!!.defaultScene.spriteList.last().lookList.size, originLookList.size)
+
+        assertNotEquals(project!!.defaultScene.spriteList.last().lookList[0].file.name, importedLookList[0].file.name)
+        assertEquals(project!!.defaultScene.spriteList.last().lookList[0].file.name, originLookList[0].file.name)
+
+        assertNotEquals(project!!.defaultScene.spriteList.last().soundList.size, importedSoundList.size)
+        assertEquals(project!!.defaultScene.spriteList.last().soundList.size, originSoundList.size)
+
+        assertNotEquals(project!!.defaultScene.spriteList.last().scriptList.size, importedScriptList.size)
+        assertEquals(project!!.defaultScene.spriteList.last().scriptList.size, originScriptList.size)
+        assertNotEquals(project!!.defaultScene.spriteList.last().scriptList[0].brickList.size, importedScriptList[0].brickList.size)
+        assertEquals(project!!.defaultScene.spriteList.last().scriptList[0].brickList.size, originScriptList[0].brickList.size)
+
+        assertEquals(project!!.defaultScene.spriteList.last().scriptList[1].brickList.size, originScriptList[1].brickList.size)
+    }
+
+    @Test
     fun importProjectWithConflictsTestGlobalVar() {
         val anySpriteOfProject = project!!.defaultScene.spriteList[1]
         anySpriteOfProject.userVariables.add(UserVariable("localVariable3"))
@@ -346,7 +404,7 @@ class ImportObjectIntoProjectTest {
         project!!.addUserVariable(UserVariable("globalVariable1", 1))
         project!!.addUserVariable(UserVariable("localVariable1", 2)) // Conflicting var
         project!!.addUserList(UserList("localList1")) // Conflicting var
-        project!!.addUserList(UserList("globalListe2"))
+        project!!.addUserList(UserList("globalList2"))
         XstreamSerializer.getInstance().saveProject(project)
 
         val importedLocalVariableList = spriteToBeImported!!.userVariables
@@ -403,7 +461,7 @@ class ImportObjectIntoProjectTest {
 
         project!!.addUserVariable(UserVariable("globalVariable1", 1))
         project!!.addUserVariable(UserVariable("localVariable1", 2)) // Conflicting var
-        project!!.addUserList(UserList("globalListe2"))
+        project!!.addUserList(UserList("globalList2"))
         XstreamSerializer.getInstance().saveProject(project)
 
         baseActivityTestRule.activity.addObjectFromUri(uri)

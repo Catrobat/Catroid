@@ -177,7 +177,7 @@ class ImportObjectIntoProjectFromContextMenuTest {
 
         val importProjectHelper = ImportProjectHelper(
             lookFileName!!,
-            currentScene, activity
+            currentScene, activity, null, uri
         )
 
         Assert.assertTrue(importProjectHelper.checkForConflicts())
@@ -249,7 +249,7 @@ class ImportObjectIntoProjectFromContextMenuTest {
 
         val importProjectHelper = ImportProjectHelper(
             lookFileName!!,
-            currentScene, activity
+            currentScene, activity, null, uri
         )
 
         if (importProjectHelper.checkForConflicts()) {
@@ -301,7 +301,7 @@ class ImportObjectIntoProjectFromContextMenuTest {
 
         val importProjectHelper = ImportProjectHelper(
             lookFileName!!,
-            currentScene, activity
+            currentScene, activity, null, uri
         )
 
         Assert.assertTrue(importProjectHelper.checkForConflicts())
