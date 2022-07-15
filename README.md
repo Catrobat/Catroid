@@ -41,11 +41,10 @@ Below you can find an outline of the technologies we currently use at Catroid. I
 
 ### Communication
 [![Slack](https://img.shields.io/badge/Slack-green)](https://slack.com/)
-[![Discord](https://img.shields.io/badge/Discord-green)](https://discord.com/)
 
 
 ## Start Contribution
-If you feel confident that your tech stack matches our requirements, then we invite you to [start contributing](https://github.com/schrpa/Catroid/blob/develop/.github/onboarding.md)!
+If you feel confident that your tech stack matches our requirements, then we invite you to [start contributing](https://github.com/Catrobat/Catroid/blob/develop/.github/onboarding.md)!
 
 ## Issues
 You found a bug? 
