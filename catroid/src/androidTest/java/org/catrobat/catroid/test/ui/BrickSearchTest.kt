@@ -33,6 +33,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.clearText
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.pressKey
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
@@ -118,26 +119,47 @@ class BrickSearchTest {
         Espresso.onView(withId(R.id.search_src_text)).perform(
             replaceText("if")
         ).perform(pressKey(KeyEvent.KEYCODE_ENTER))
-        val searchAutoComplete = Espresso.onView(
-            Matchers.allOf(
-                withId(R.id.search_src_text),
-                ViewMatchers.withText("if"), childAtPosition(
-                    Matchers.allOf(
-                        withId(R.id.search_plate),
-                        childAtPosition(withId(R.id.search_edit_frame), 1)
-                    ), 0
-                ), isDisplayed()
-            )
-        )
-        searchAutoComplete.perform(ViewActions.pressImeActionButton())
-        val linearLayout = Espresso.onData(Matchers.anything()).inAdapterView(
-            Matchers.allOf(
-                withId(android.R.id.list),
-                childAtPosition(withId(R.id.fragment_brick_search), 0)
-            )
-        ).atPosition(0)
-        linearLayout.perform(click())
+        Espresso.onData(Matchers.anything())
+            .inAdapterView(
+                Matchers.allOf(
+                    withId(android.R.id.list),
+                    childAtPosition(
+                        withId(R.id.fragment_brick_search),
+                        2
+                    )
+                )
+            ).atPosition(0).check(matches(isDisplayed())).perform(click())
         Assert.assertFalse(isKeyboardVisible())
+    }
+
+    @Test
+    fun testSearchHistory() {
+        Espresso.onView(withId(R.id.button_add)).perform(click())
+        Espresso.onView(withId(R.id.search)).perform(click())
+        Espresso.onView(withId(R.id.search_src_text)).perform(clearText(), ViewActions.typeText
+            ("test")).perform(pressKey(KeyEvent.KEYCODE_ENTER))
+        Espresso.onData(Matchers.anything())
+            .inAdapterView(
+                Matchers.allOf(
+                    withId(android.R.id.list),
+                    childAtPosition(
+                        withId(R.id.fragment_brick_search),
+                        2
+                    )
+                )
+            ).atPosition(0).perform(click())
+        Espresso.onView(withId(R.id.button_add)).perform(click())
+        Espresso.onView(withId(R.id.search)).perform(click())
+        Espresso.onData(Matchers.anything())
+            .inAdapterView(
+                Matchers.allOf(
+                    withId(android.R.id.list),
+                    childAtPosition(
+                        withId(R.id.fragment_brick_search),
+                        2
+                    )
+                )
+            ).atPosition(0).check(matches(isDisplayed()))
     }
 
     @Test
