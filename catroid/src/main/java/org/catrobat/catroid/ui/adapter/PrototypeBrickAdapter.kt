@@ -20,46 +20,25 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.adapter;
+package org.catrobat.catroid.ui.adapter
 
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.view.View
+import android.view.ViewGroup
+import android.widget.BaseAdapter
+import org.catrobat.catroid.content.bricks.Brick
 
-import org.catrobat.catroid.content.bricks.Brick;
+class PrototypeBrickAdapter(private var brickList: List<Brick>) : BaseAdapter() {
+    override fun getCount(): Int = brickList.size
 
-import java.util.List;
+    override fun getItem(position: Int): Brick = brickList[position]
 
-public class PrototypeBrickAdapter extends BaseAdapter {
+    override fun getItemId(position: Int): Long = position.toLong()
 
-	private List<Brick> brickList;
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? =
+        brickList[position].getPrototypeView(parent?.context)
 
-	public PrototypeBrickAdapter(List<Brick> brickList) {
-		this.brickList = brickList;
-	}
-
-	@Override
-	public int getCount() {
-		return brickList.size();
-	}
-
-	@Override
-	public Brick getItem(int position) {
-		return brickList.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return position;
-	}
-
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		return brickList.get(position).getPrototypeView(parent.getContext());
-	}
-
-	public void replaceList(List<Brick> list) {
-		this.brickList = list;
-		notifyDataSetChanged();
-	}
+    fun replaceList(list: List<Brick>) {
+        brickList = list
+        notifyDataSetChanged()
+    }
 }
