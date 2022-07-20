@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -80,6 +80,7 @@ public final class BrickValues {
 	//constants Sounds
 	public static final double SET_VOLUME_TO = 60;
 	public static final double CHANGE_VOLUME_BY = -10;
+	public static final double PLAY_AT_DEFAULT_OFFSET = 0.5;
 
 	//Constants Control
 	public static final int WAIT = 1000;

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -94,6 +94,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/DroneTurnLeftBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PlaySoundAndWaitBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PlaySoundAtBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PlaySoundAtBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetBackgroundBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetBackgroundBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PhiroPlayToneBrick",

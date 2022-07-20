@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -52,6 +52,7 @@ public interface Brick extends Serializable, Cloneable {
 		VARIABLE_CHANGE, WEB_REQUEST, LOOK_REQUEST, LOOK_NEW, LOOK_COPY, BACKGROUND_REQUEST, WRITE_FILENAME,
 		READ_FILENAME, TEMPO, HORIZONTAL_FLEXIBILITY, VERTICAL_FLEXIBILITY,
 		TEMPO_CHANGE, BEATS_TO_PAUSE, NOTE_TO_PLAY, BEATS_TO_PLAY_NOTE, OPEN_URL, PLAY_DRUM,
+		PLAY_SOUND_AT,
 
 		PEN_SIZE, PEN_COLOR_RED, PEN_COLOR_GREEN, PEN_COLOR_BLUE,
 

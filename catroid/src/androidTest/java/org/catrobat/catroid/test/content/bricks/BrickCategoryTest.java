@@ -133,6 +133,7 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlayDrumForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PlayNoteForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
+import org.catrobat.catroid.content.bricks.PlaySoundAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
@@ -351,6 +352,7 @@ public class BrickCategoryTest {
 						ClearBackgroundBrick.class)},
 				{"Sound", Arrays.asList(PlaySoundBrick.class,
 						PlaySoundAndWaitBrick.class,
+						PlaySoundAtBrick.class,
 						StopSoundBrick.class,
 						StopAllSoundsBrick.class,
 						SetVolumeToBrick.class,
