@@ -76,7 +76,7 @@ class AddBrickFragment : ListFragment() {
                                             it1
             )
         } }
-        adapter = PrototypeBrickAdapter(brickList)
+        adapter = brickList?.let { PrototypeBrickAdapter(it) }
         listAdapter = adapter
     }
 
