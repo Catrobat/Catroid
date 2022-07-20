@@ -33,9 +33,18 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.GlideToBrick;
+import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
+import org.catrobat.catroid.content.bricks.PenDownBrick;
+import org.catrobat.catroid.content.bricks.PenUpBrick;
+import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
+import org.catrobat.catroid.content.bricks.SetPenColorBrick;
+import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
+import org.catrobat.catroid.content.bricks.ShowBrick;
+import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.ZigZagStitchBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -49,12 +58,14 @@ import org.catrobat.catroid.utils.ImageEditing;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
 import static org.catrobat.catroid.common.ScreenValues.SCREEN_HEIGHT;
 import static org.catrobat.catroid.common.ScreenValues.SCREEN_WIDTH;
-import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
 
 public class DefaultExampleProject extends DefaultProjectCreator {
 	public DefaultExampleProject() {
@@ -63,8 +74,12 @@ public class DefaultExampleProject extends DefaultProjectCreator {
 
 	@Override
 	public Project createDefaultProject(String name, Context context, boolean landscapeMode) throws IOException {
-		Project project = new Project(context, name, landscapeMode);
+		return createFramedExampleProject(name, context, landscapeMode);
+	}
 
+	private Project createDefaultUnframedExampleProject(String name, Context context,
+			boolean landscapeMode) throws IOException {
+		Project project = new Project(context, name, landscapeMode);
 		if (project.getDirectory().exists()) {
 			throw new IOException("Cannot create new project at "
 					+ project.getDirectory().getAbsolutePath()
@@ -173,5 +188,120 @@ public class DefaultExampleProject extends DefaultProjectCreator {
 
 		XstreamSerializer.getInstance().saveProject(project);
 		return project;
+	}
+
+	private Project createFramedExampleProject(String name, Context context,
+			boolean landscapeMode) throws IOException {
+		Project project = createDefaultUnframedExampleProject(name, context, landscapeMode);
+
+		int needleDrawableId = R.drawable.default_project_embroidery_red;
+		int frameDrawableId = R.drawable.default_project_embroidery_pen;
+
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
+
+		Scene scene = project.getDefaultScene();
+		scene.getSprite(context.getString(R.string.default_project_needle_name))
+				.renameSpriteAndUpdateCollisionFormulas(context.getString(R.string.default_project_pattern_name), scene);
+
+		File imageDir = new File(scene.getDirectory(), IMAGE_DIRECTORY_NAME);
+
+		String imageFileName = "img" + DEFAULT_IMAGE_EXTENSION;
+
+		File frameFile =
+				ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(),
+						frameDrawableId, imageDir, imageFileName, backgroundImageScaleFactor);
+
+		File needleFile = ResourceImporter.createImageFileFromResourcesInDirectory(context.getResources(),
+				needleDrawableId,
+				imageDir,
+				imageFileName,
+				backgroundImageScaleFactor);
+
+		UserVariable globalVariableNumber0 =
+				new UserVariable(context.getString(R.string.number_0));
+		UserVariable globalVariableEmbroideryDegree0 =
+				new UserVariable(context.getString(R.string.embroidery_degree_0));
+		UserVariable globalVariableEmbroideryDegree90 =
+				new UserVariable(context.getString(R.string.embroidery_degree_90));
+		UserVariable globalVariableEmbroideryDegree180 =
+				new UserVariable(context.getString(R.string.embroidery_degree_180));
+		UserVariable globalVariableEmbroideryDegree270 =
+				new UserVariable(context.getString(R.string.embroidery_degree_270));
+
+		List<UserVariable> globalUserVariablesList = Arrays.asList(
+				globalVariableNumber0, globalVariableEmbroideryDegree0,
+				globalVariableEmbroideryDegree90, globalVariableEmbroideryDegree180,
+				globalVariableEmbroideryDegree270);
+
+		for (UserVariable variable: globalUserVariablesList) {
+			project.addUserVariable(variable);
+		}
+
+		Sprite frame = new Sprite(context.getString(R.string.default_project_frame_name));
+		scene.addSprite(frame);
+		frame.getLookList().add(new LookData(context.getString(R.string.default_project_pen), frameFile));
+		frame.addScript(createFrameScript(frame, context, project));
+
+		Sprite needle = new Sprite(context.getString(R.string.default_project_needle_name));
+		scene.addSprite(needle);
+		needle.getLookList().add(new LookData(context.getString(R.string.default_project_red), needleFile));
+
+		XstreamSerializer.getInstance().saveProject(project);
+		return project;
+	}
+
+	public static Script createFrameScript(Sprite sprite, Context context, Project project) {
+		UserVariable localVariableEmbroideryDegree = new UserVariable(context.getString(R.string.embroidery_degree));
+		sprite.addUserVariable(localVariableEmbroideryDegree);
+		StartScript script = new StartScript();
+		script.addBrick(new PlaceAtBrick(-250, 250));
+		script.addBrick(new SetSizeToBrick(2));
+		script.addBrick(new HideBrick());
+		script.addBrick(new PenDownBrick());
+		script.addBrick(new SetPenColorBrick(
+				new Formula(new FormulaElement(FormulaElement.ElementType.USER_VARIABLE,
+						context.getString(R.string.embroidery_degree_270),
+						null)),
+				new Formula(0),
+				new Formula(0)));
+		script.addBrick(new GlideToBrick(250, 250, 100));
+		script.addBrick(new GlideToBrick(250, -250, 100));
+		script.addBrick(new GlideToBrick(-250, -250, 100));
+		script.addBrick(new GlideToBrick(-250, 250, 100));
+		script.addBrick(new PenUpBrick());
+		script.addBrick(new PlaceAtBrick(0, 0));
+
+		script.addBrick(new SetVariableBrick(new Formula("0°"),
+				project.getUserVariable(context.getString(R.string.embroidery_degree_0))));
+		script.addBrick(new SetVariableBrick(new Formula("90°"),
+				project.getUserVariable(context.getString(R.string.embroidery_degree_90))));
+		script.addBrick(new SetVariableBrick(new Formula("180°"),
+				project.getUserVariable(context.getString(R.string.embroidery_degree_180))));
+		script.addBrick(new SetVariableBrick(new Formula("270°"),
+				project.getUserVariable(context.getString(R.string.embroidery_degree_270))));
+
+		ShowTextColorSizeAlignmentBrick showVariableBrick = new ShowTextColorSizeAlignmentBrick(
+				0, 300, 120, "#FF0000");
+		showVariableBrick.setUserVariable(project.getUserVariable(context.getString(R.string.embroidery_degree_0)));
+		script.addBrick(showVariableBrick);
+
+		ShowTextColorSizeAlignmentBrick showVariableBrick1 = new ShowTextColorSizeAlignmentBrick(
+				300, 25, 120, "#FF0000");
+		showVariableBrick1.setUserVariable(project.getUserVariable(context.getString(R.string.embroidery_degree_90)));
+		script.addBrick(showVariableBrick1);
+
+		ShowTextColorSizeAlignmentBrick showVariableBrick2 = new ShowTextColorSizeAlignmentBrick(
+				0, -280, 120, "#FF0000");
+		showVariableBrick2.setUserVariable(project.getUserVariable(context.getString(R.string.embroidery_degree_180)));
+		script.addBrick(showVariableBrick2);
+
+		ShowTextColorSizeAlignmentBrick showVariableBrick3 = new ShowTextColorSizeAlignmentBrick(
+				-320, 25, 120, "#FF0000");
+		showVariableBrick3.setUserVariable(project.getUserVariable(context.getString(R.string.embroidery_degree_270)));
+		script.addBrick(showVariableBrick3);
+
+		script.addBrick(new ShowBrick());
+		return script;
 	}
 }

@@ -1329,7 +1329,26 @@
     <string name="default_project_sprites_tweet_1">Tweet1</string>
     <string name="default_project_sprites_tweet_2">Tweet2</string>
     <!--suppress UnusedResources -->
+    <string name="default_project_red">Red</string>
+    <!--suppress UnusedResources -->
+    <string name="default_project_pen">Pen</string>
+    <!--suppress UnusedResources -->
     <string name="default_project_needle_name">Needle</string>
+    <!--suppress UnusedResources -->
+    <string name="default_project_frame_name">Frame</string>
+    <!--suppress UnusedResources -->
+    <string name="default_project_pattern_name">Pattern</string>
+    <!-- Default Embroidery Degrees -->
+    <!--suppress UnusedResources -->
+    <string name="embroidery_degree">embroidery degree</string>
+    <!--suppress UnusedResources -->
+    <string name="embroidery_degree_0">embroidery degree 0</string>
+    <!--suppress UnusedResources -->
+    <string name="embroidery_degree_90">embroidery degree 90</string>
+    <!--suppress UnusedResources -->
+    <string name="embroidery_degree_180">embroidery degree 180</string>
+    <!--suppress UnusedResources -->
+    <string name="embroidery_degree_270">embroidery degree 270</string>
     <!--suppress UnusedResources -->
     <string name="default_project_outer_loop">Outer Loop</string>
     <!--suppress UnusedResources -->

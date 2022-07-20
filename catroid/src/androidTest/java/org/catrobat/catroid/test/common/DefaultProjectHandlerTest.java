@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.common;
 
+import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
@@ -41,6 +43,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
@@ -93,5 +96,17 @@ public class DefaultProjectHandlerTest {
 
 		file = new File(currentScene.getDirectory(), SCREENSHOT_AUTOMATIC_FILE_NAME);
 		assertTrue(file.exists());
+	}
+
+	@Test
+	public void testFrameInEmbroideryDefault() {
+		if (!BuildConfig.FLAVOR.equals("embroiderDesigner")) {
+			return;
+		}
+
+		Scene currentScene = project.getDefaultScene();
+		Sprite testFrame = new Sprite(ApplicationProvider.getApplicationContext().getString(R.string.default_project_frame_name));
+		Sprite frameInProject = currentScene.getSprite(testFrame.getName());
+		assertNotNull(frameInProject);
 	}
 }
