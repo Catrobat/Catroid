@@ -32,7 +32,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.PopupMenu
 import androidx.annotation.PluralsRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -50,6 +49,7 @@ import org.catrobat.catroid.merge.ImportProjectHelper
 import org.catrobat.catroid.ui.ProjectListActivity
 import org.catrobat.catroid.ui.ProjectListActivity.Companion.IMPORT_LOCAL_INTENT
 import org.catrobat.catroid.ui.SpriteActivity
+import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.WebViewActivity
 import org.catrobat.catroid.ui.controller.BackpackListManager
 import org.catrobat.catroid.ui.recyclerview.adapter.MultiViewSpriteAdapter
@@ -341,10 +341,21 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
     }
 
     override fun onSettingsClick(item: Sprite?, view: View) {
-        val popupMenu = PopupMenu(requireContext(), view)
         val itemList = mutableListOf<Sprite?>()
         itemList.add(item)
-        popupMenu.menuInflater.inflate(R.menu.menu_project_activity, popupMenu.menu)
+        val hiddenMenuOptionIds = mutableListOf<Int>(
+            R.id.new_group, R.id.project_options, R.id.new_scene, R.id.show_details, R.id.edit
+        )
+        if (item is GroupSprite) {
+            hiddenMenuOptionIds.add(R.id.backpack)
+            hiddenMenuOptionIds.add(R.id.copy)
+            hiddenMenuOptionIds.add(R.id.from_library)
+            hiddenMenuOptionIds.add(R.id.from_local)
+        }
+        val popupMenu = UiUtils.createSettingsPopUpMenu(
+            view, requireContext(), R.menu
+                .menu_project_activity, hiddenMenuOptionIds.toIntArray()
+        )
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.backpack -> packItems(itemList)
@@ -357,19 +368,9 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
             }
             true
         }
-        popupMenu.menu.findItem(R.id.new_group).isVisible = false
-        popupMenu.menu.findItem(R.id.new_scene).isVisible = false
-        popupMenu.menu.findItem(R.id.show_details).isVisible = false
-        popupMenu.menu.findItem(R.id.project_options).isVisible = false
-        if (item is GroupSprite) {
-            popupMenu.menu.findItem(R.id.backpack).isVisible = false
-            popupMenu.menu.findItem(R.id.copy).isVisible = false
-            popupMenu.menu.findItem(R.id.from_library).isVisible = false
-        } else {
+        if (item !is GroupSprite) {
             popupMenu.menu.findItem(R.id.backpack).setTitle(R.string.pack)
-            popupMenu.menu.findItem(R.id.from_library).isVisible = true
         }
-        popupMenu.menu.findItem(R.id.from_local).isVisible = true
         popupMenu.show()
     }
 

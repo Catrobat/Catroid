@@ -28,16 +28,19 @@
     <item
         android:id="@+id/unpack"
         android:title="@string/unpack"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        android:icon="@drawable/ic_placeholder"/>
 
     <item
         android:id="@+id/delete"
         android:title="@string/delete"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        android:icon="@drawable/ic_delete"/>
 
     <item
         android:id="@+id/show_details"
         android:title="@string/show_details"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        android:icon="@drawable/ic_placeholder"/>
 
 </menu>

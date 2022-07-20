@@ -32,7 +32,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -47,10 +46,9 @@ import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.recyclerview.adapter.DataListAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
 import org.catrobat.catroid.utils.ToastUtil
-import java.util.ArrayList
-import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher
 import org.catrobat.catroid.utils.UserDataUtil
 
 class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
@@ -270,17 +268,24 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
     }
 
     override fun onSettingsClick(item: UserData<*>, view: View?) {
-        val elementList = arrayOf<CharSequence>(getString(R.string.delete), getString(R.string.rename))
-        val popupMenu = PopupMenu(context, view)
-        for (element: CharSequence in elementList) popupMenu.menu.add(element)
+        val itemList: MutableList<UserData<*>> = ArrayList()
+        itemList.add(item)
+        val hiddenOptionMenuIds = intArrayOf(
+                R.id.backpack,
+                R.id.copy,
+                R.id.new_group,
+                R.id.new_scene,
+                R.id.show_details,
+                R.id.project_options,
+                R.id.from_library,
+                R.id.from_local
+        )
+        val popupMenu = UiUtils.createSettingsPopUpMenu(view, context, R.menu
+            .menu_project_activity, hiddenOptionMenuIds)
         popupMenu.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.title) {
-                getString(R.string.rename) -> showRenameDialog(
-                    listOf(item)
-                )
-                getString(R.string.delete) -> showDeleteAlert(
-                    listOf(item)
-                )
+            when (menuItem.itemId) {
+                R.id.rename -> showRenameDialog(listOf(item))
+                R.id.delete -> showDeleteAlert(listOf(item))
             }
             true
         }

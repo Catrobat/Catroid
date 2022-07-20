@@ -257,7 +257,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 				scratchConverter.length(), scratchConverterBeta.length(),
 				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		menu.findItem(R.id.menu_scratch_converter).setTitle(scratchConverterBeta);
-		return true;
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override

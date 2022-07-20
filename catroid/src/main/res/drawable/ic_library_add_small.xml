@@ -1,6 +1,6 @@
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -22,12 +22,15 @@
   -->
 
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="24dp"
+    android:width="56dp"
     android:height="24dp"
-    android:viewportWidth="24"
-    android:viewportHeight="24"
-    android:autoMirrored="true">
+    android:viewportWidth="56"
+    android:viewportHeight="24">
+  <group>
+    <clip-path
+        android:pathData="M0,0h56v24h-56z"/>
     <path
-        android:fillColor="@color/solid_white"
-        android:pathData="M11,18h2v-2h-2v2zM12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2zM12,20c-4.41,0 -8,-3.59 -8,-8s3.59,-8 8,-8 8,3.59 8,8 -3.59,8 -8,8zM12,6c-2.21,0 -4,1.79 -4,4h2c0,-1.1 0.9,-2 2,-2s2,0.9 2,2c0,2 -3,1.75 -3,5h2c0,-2.25 3,-2.5 3,-5 0,-2.21 -1.79,-4 -4,-4z" />
+        android:pathData="M20,6L18,6L18,20C18,21.1 18.9,22 20,22L34,22L34,20L20,20L20,6ZM36,2L24,2C22.9,2 22,2.9 22,4L22,16C22,17.1 22.9,18 24,18L36,18C37.1,18 38,17.1 38,16L38,4C38,2.9 37.1,2 36,2ZM35,11L31,11L31,15L29,15L29,11L25,11L25,9L29,9L29,5L31,5L31,9L35,9L35,11Z"
+        android:fillColor="#FFFFFF"/>
+  </group>
 </vector>

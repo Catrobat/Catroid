@@ -32,8 +32,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListAdapter;
+import android.widget.PopupMenu;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallback;
@@ -280,19 +283,26 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		if (actionModeType != NONE) {
 			return;
 		}
-		CharSequence[] items = new CharSequence[] {getString(R.string.unpack), getString(R.string.delete)};
-		new AlertDialog.Builder(getContext())
+
+		List<Integer> options = new ArrayList<>();
+		options.add(R.string.unpack);
+		options.add(R.string.delete);
+		List<String> names = new ArrayList<>();
+		for (Integer option: options) {
+			names.add(getString(option));
+		}
+		ListAdapter arrayAdapter = UiUtils.getAlertDialogAdapterForMenuIcons(options,
+				names, requireContext(), requireActivity());
+
+		new AlertDialog.Builder(requireContext())
 				.setTitle(getItemName(item))
-				.setItems(items, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						switch (which) {
-							case 0:
-								unpackItems(new ArrayList<>(Collections.singletonList(item)));
-								break;
-							case 1:
-								showDeleteAlert(new ArrayList<>(Collections.singletonList(item)));
-						}
+				.setAdapter(arrayAdapter, (dialog, which) -> {
+					switch (which) {
+						case 0:
+							unpackItems(new ArrayList<>(Collections.singletonList(item)));
+							break;
+						case 1:
+							showDeleteAlert(new ArrayList<>(Collections.singletonList(item)));
 					}
 				})
 				.show();
@@ -310,7 +320,25 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 
 	@Override
 	public void onSettingsClick(T item, View view) {
-		onItemClick(item);
+		List<T> itemList = new ArrayList<>(Collections.singletonList(item));
+		int[] hiddenOptionMenuIds = {R.id.show_details};
+		PopupMenu popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(),
+				R.menu.menu_backpack_activity, hiddenOptionMenuIds);
+
+		popupMenu.setOnMenuItemClickListener(menuItem -> {
+			switch (menuItem.getItemId()) {
+				case R.id.unpack:
+					unpackItems(itemList);
+					break;
+				case R.id.delete:
+					showDeleteAlert(itemList);
+					break;
+				default:
+					break;
+			}
+			return true;
+		});
+		popupMenu.show();
 	}
 
 	protected abstract void initializeAdapter();
