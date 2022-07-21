@@ -147,9 +147,9 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			MobileServiceAvailability mobileServiceAvailability = get(MobileServiceAvailability.class);
 			if (mobileServiceAvailability.isGmsAvailable(stageActivity)) {
 				TextToSpeechHolder.Companion.getInstance().initTextToSpeech(stageActivity, this);
-			} else if (mobileServiceAvailability.isHmsAvailable(stageActivity)) {
-				//HuaweiTextToSpeechHolder.Companion.getInstance().initTextToSpeech(stageActivity,this);
-			}
+			} /*else if (mobileServiceAvailability.isHmsAvailable(stageActivity)) {
+				HuaweiTextToSpeechHolder.Companion.getInstance().initTextToSpeech(stageActivity,this);
+			}*/
 		}
 
 		if (requiredResourcesSet.contains(Brick.BLUETOOTH_LEGO_NXT)) {

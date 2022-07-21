@@ -45,9 +45,9 @@ class SpeakAndWaitAction : TemporalAction() {
         duration = Float.MAX_VALUE
         if (mobileServiceAvailability.isGmsAvailable(context)) {
             speechSynthesizer.setUtteranceProgressListener(this::onError, this::onDone)
-        } else if (mobileServiceAvailability.isHmsAvailable(context)) {
+        } /*else if (mobileServiceAvailability.isHmsAvailable(context)) {
             speechSynthesizer.setHuaweiTextToSpeechListener(this::onError, this::onDone)
-        } else {
+        }*/ else {
             return
         }
         speechSynthesizer.synthesize(AndroidStringProvider(context))

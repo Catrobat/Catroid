@@ -31,8 +31,8 @@ import android.util.Log;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
-import com.huawei.agconnect.AGConnectInstance;
-import com.huawei.agconnect.config.AGConnectServicesConfig;
+//import com.huawei.agconnect.AGConnectInstance;
+//import com.huawei.agconnect.config.AGConnectServicesConfig;
 //import com.huawei.hms.mlsdk.common.MLApplication;
 
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
@@ -77,17 +77,17 @@ public class CatroidApplication extends Application {
 		googleAnalytics = GoogleAnalytics.getInstance(this);
 		googleAnalytics.setDryRun(BuildConfig.DEBUG);
 
-		setupHuaweiMobileServices();
+		//setupHuaweiMobileServices();
 	}
 
-	private void setupHuaweiMobileServices() {
+	/*private void setupHuaweiMobileServices() {
 		if (AGConnectInstance.getInstance() == null) {
 			AGConnectInstance.initialize(this);
 		}
 
 		String apiKey = AGConnectServicesConfig.fromContext(this).getString("client/api_key");
 		//MLApplication.getInstance().setApiKey(apiKey);
-	}
+	}*/
 
 	@Override
 	protected void attachBaseContext(Context base) {

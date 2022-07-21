@@ -26,17 +26,17 @@ package org.catrobat.catroid.utils
 import android.content.Context
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
-import com.huawei.hms.api.HuaweiApiAvailability
+//import com.huawei.hms.api.HuaweiApiAvailability
 
 class MobileServiceAvailability(
-    private val googleApiAvailability: GoogleApiAvailability,
-    private val huaweiApiAvailability: HuaweiApiAvailability
+    private val googleApiAvailability: GoogleApiAvailability
+    //private val huaweiApiAvailability: HuaweiApiAvailability
 ) {
     fun isGmsAvailable(context: Context) =
         (googleApiAvailability.isGooglePlayServicesAvailable(context)
             == ConnectionResult.SUCCESS)
 
-    fun isHmsAvailable(context: Context) =
+    /*fun isHmsAvailable(context: Context) =
         (huaweiApiAvailability.isHuaweiMobileServicesAvailable(context)
-            == com.huawei.hms.api.ConnectionResult.SUCCESS)
+            == com.huawei.hms.api.ConnectionResult.SUCCESS)*/
 }

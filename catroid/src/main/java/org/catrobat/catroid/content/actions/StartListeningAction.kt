@@ -26,8 +26,8 @@ import android.util.Log
 import com.badlogic.gdx.scenes.scene2d.Action
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.stage.OnSpeechRecognitionResultCallback
-import org.catrobat.catroid.stage.SpeechRecognitionHolderFactory
-import org.koin.java.KoinJavaComponent.get
+//import org.catrobat.catroid.stage.SpeechRecognitionHolderFactory
+//import org.koin.java.KoinJavaComponent.get
 
 class StartListeningAction : Action(), OnSpeechRecognitionResultCallback {
 
