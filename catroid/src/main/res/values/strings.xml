@@ -1800,6 +1800,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_length_parameter">(\'hello world\')</string>
     <string name="formula_editor_function_letter">letter</string>
     <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
+    <string name="formula_editor_function_subtext">subtext</string>
+    <string name="formula_editor_function_subtext_parameter">(3,5,\'hello world\')</string>
     <string name="formula_editor_function_join">join</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
     <string name="formula_editor_function_join3">join</string>

@@ -160,6 +160,9 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_function_letter:
 				return buildDoubleParameterFunction(Functions.LETTER, NUMBER, "1",
 						STRING, "hello world");
+			case R.string.formula_editor_function_subtext:
+				return buildTripleParameterFunction(Functions.SUBTEXT, NUMBER, "3", NUMBER, "5",
+						STRING, "hello world");
 			case R.string.formula_editor_function_length:
 				return buildSingleParameterFunction(Functions.LENGTH, STRING, "hello world");
 			case R.string.formula_editor_function_number_of_items:
