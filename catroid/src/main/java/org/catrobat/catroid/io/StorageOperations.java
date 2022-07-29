@@ -41,7 +41,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.nio.file.InvalidPathException;
-import java.util.Objects;
 
 import static org.catrobat.catroid.common.Constants.BUFFER_8K;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
