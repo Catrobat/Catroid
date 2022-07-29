@@ -108,6 +108,9 @@ class SpeechRecognitionHolder : SpeechRecognitionHolderInterface {
                         // in case the chosen language is not downloaded or outdated
                         showDialog(stageActivity, stageResourceHolder)
                     }
+                    else -> {
+                        // every other case
+                    }
                 }
                 Log.d(TAG, "SpeechRecognizer restarted!")
             }

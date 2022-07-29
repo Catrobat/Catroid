@@ -2267,4 +2267,5 @@ needs read and write access to it. You can always change permissions through you
 
     <string name="undo_sort">Undo sort</string>
     <string name="sort">Sort</string>
+    <string name="checkbox">checkbox</string>
 </resources>

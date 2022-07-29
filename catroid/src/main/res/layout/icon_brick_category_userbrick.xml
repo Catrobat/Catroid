@@ -28,6 +28,7 @@
     <ImageView
         android:src="?attr/icon_userbrick"
         style="@style/CategoryIconStyle"
-        android:background="#395cab">
+        android:background="#395cab"
+        android:contentDescription="@string/category_user_bricks">
     </ImageView >
 </LinearLayout>

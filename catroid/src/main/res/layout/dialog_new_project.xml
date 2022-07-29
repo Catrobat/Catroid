@@ -64,6 +64,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.33"
                 android:drawableStart="@drawable/ic_smartphone_dialog_orientation_portrait"
+                android:paddingEnd="@dimen/material_design_spacing_large"
                 android:paddingStart="@dimen/material_design_spacing_large"/>
 
             <RadioButton
@@ -72,6 +73,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.33"
                 android:drawableStart="@drawable/ic_smartphone_dialog_orientation_landscape"
+                android:paddingEnd="@dimen/material_design_spacing_large"
                 android:paddingStart="@dimen/material_design_spacing_large"/>
 
             <RadioButton
@@ -81,6 +83,7 @@
                 android:layout_weight="0.33"
                 android:drawableStart="@drawable/ic_dialog_tv"
                 android:visibility="gone"
+                android:paddingEnd="@dimen/material_design_spacing_large"
                 android:paddingStart="@dimen/material_design_spacing_large"/>
 
         </RadioGroup>

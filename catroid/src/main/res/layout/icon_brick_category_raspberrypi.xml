@@ -27,6 +27,7 @@
     android:layout_height="wrap_content">
     <ImageView
         android:src="?attr/icon_raspberrypi"
-        style="@style/CategoryIconStyle">
+        style="@style/CategoryIconStyle"
+        android:contentDescription="@string/category_raspi">
     </ImageView >
 </LinearLayout>

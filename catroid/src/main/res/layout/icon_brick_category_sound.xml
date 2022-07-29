@@ -27,6 +27,7 @@
     android:layout_height="wrap_content">
     <ImageView
         style="@style/CategoryIconStyle"
-        android:src="?attr/icon_sound">
+        android:src="?attr/icon_sound"
+        android:contentDescription="@string/category_sound">
     </ImageView >
 </LinearLayout>
