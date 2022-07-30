@@ -420,6 +420,27 @@
     </issue>
 
     <issue
+        id="UnusedResources"
+        message="The resource `R.mipmap.ic_launcher_round` appears to be unused"
+        errorLine1="&lt;adaptive-icon xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;>"
+        errorLine2="^">
+        <location
+            file="src\main\res\mipmap-anydpi-v26\ic_launcher_round.xml"
+            line="25"
+            column="1"/>
+        <location
+            file="src\main\res\mipmap-hdpi\ic_launcher_round.png"/>
+        <location
+            file="src\main\res\mipmap-mdpi\ic_launcher_round.png"/>
+        <location
+            file="src\main\res\mipmap-xhdpi\ic_launcher_round.png"/>
+        <location
+            file="src\main\res\mipmap-xxhdpi\ic_launcher_round.png"/>
+        <location
+            file="src\main\res\mipmap-xxxhdpi\ic_launcher_round.png"/>
+    </issue>
+
+    <issue
         id="IconDensities"
         message="Missing the following drawables in `drawable-hdpi`: brick_1h_blue.9.png, brick_1h_cyan.9.png, brick_1h_green.9.png, brick_1h_olive.9.png, brick_1h_orange.9.png... (25 more)">
         <location
