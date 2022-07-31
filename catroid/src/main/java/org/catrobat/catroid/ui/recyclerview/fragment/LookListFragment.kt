@@ -223,6 +223,9 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
             super.onItemClick(item, selectionManager)
             return
         }
+        if (item?.isGif == true) {
+            return
+        }
 
         currentItem = item
         item?.invalidateThumbnailBitmap()

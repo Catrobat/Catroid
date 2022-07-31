@@ -565,6 +565,12 @@ public class StageListener implements ApplicationListener {
 				deltaActionTimeDivisor -= 1f;
 				deltaActionTimeDivisor = Math.max(1f, deltaActionTimeDivisor);
 			}
+
+			for (Sprite sprite : sprites) {
+				if (sprite.look.getLookData().isGif()) {
+					sprite.look.refreshTextures(true);
+				}
+			}
 		}
 
 		if (!finished) {
