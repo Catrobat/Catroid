@@ -169,6 +169,9 @@ abstract class BaseActivity : AppCompatActivity(), PermissionHandlingActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val tasks = activityManager.getRunningTasks(1)
+            if (tasks == null || tasks.isEmpty()) {
+                return true
+            }
             val topActivity = tasks[0].topActivity
             if (topActivity?.packageName == context.packageName) {
                 return false
