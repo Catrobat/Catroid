@@ -41,18 +41,14 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.content.GroupSprite
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.rules.FlakyTestRule
-import org.catrobat.catroid.runner.Flaky
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
 import org.catrobat.catroid.testsuites.annotations.Level.Smoke
-import org.catrobat.catroid.ui.MainMenuActivity
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.setLanguageSharedPreference
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView
 import org.catrobat.catroid.uiespresso.util.UiTestUtils
-import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.instanceOf
@@ -74,9 +70,6 @@ class RenameSpriteTest {
         ProjectActivity.FRAGMENT_SPRITES
     )
 
-    @get:Rule
-    var flakyTestRule = FlakyTestRule()
-
     private val firstSpriteName = "firstSprite"
     private val secondSpriteName = "secondSprite"
     private val groupSpriteName = "groupSprite"
@@ -85,31 +78,31 @@ class RenameSpriteTest {
 
     @Before
     fun setUp() {
+        setLanguageSharedPreference(ApplicationProvider.getApplicationContext(), "en")
         createProject(RenameSpriteTest::class.java.simpleName)
-        setLanguageSharedPreference(ApplicationProvider.getApplicationContext(), "en-GB")
         baseActivityTestRule.launchActivity()
     }
 
     @After
     fun tearDown() {
+        setLanguageSharedPreference(ApplicationProvider.getApplicationContext(), "en")
+        baseActivityTestRule.finishActivity()
         TestUtils.deleteProjects(RenameSpriteTest::class.java.simpleName)
     }
 
     @Test
-    @Flaky
+    fun renameSpriteSwitchCaseDialogTest() {
+        val newSpriteName = "SeConDspRite"
+        renameViaActionBarMenu(secondSpriteName, newSpriteName, 2)
+    }
+
+    @Test
     fun renameSpriteDialogTest() {
         val modifiedFirstSprite = "modifiedFirstSprite"
         val modifiedGroupSprite = "modifiedGroupSprite"
         renameViaSpriteActionMenu(firstSpriteName, modifiedFirstSprite, isGroupSprite = false)
         renameViaActionBarMenu(modifiedFirstSprite, firstSpriteName, 1)
         renameViaSpriteActionMenu(groupSpriteName, modifiedGroupSprite, isGroupSprite = true)
-    }
-
-    @Test
-    @Flaky
-    fun renameSpriteSwitchCaseDialogTest() {
-        val newSpriteName = "SeConDspRite"
-        renameViaActionBarMenu(secondSpriteName, newSpriteName, 2)
     }
 
     @Test
@@ -235,23 +228,43 @@ class RenameSpriteTest {
         onView(withText(R.string.rename_sprite_dialog))
             .inRoot(isDialog())
             .check(matches(isDisplayed()))
-        setLanguageSharedPreference(ApplicationProvider.getApplicationContext(), "de")
+        val backgroundString = "Background"
+        onView(allOf(withText(secondSpriteName), isDisplayed()))
+            .perform(replaceText(backgroundString))
+        closeSoftKeyboard()
+        onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
+            .check(matches(not(isEnabled())))
+    }
+
+    // This test only works when the OS language of the emulator or device is set to English.
+    // Somehow the project gets created in the OS language whilst menus are translated according
+    // to setLanguageSharedPreference(...). This test is used to test functionality after switching
+    // language, this means if OS language is not set to english it probably wont work.
+    @Test
+    fun spriteEqualsBackgroundNameAfterLanguageChangeTest() {
+        baseActivityTestRule.finishActivity()
+        setLanguageSharedPreference(ApplicationProvider.getApplicationContext(), "en-GB")
+        baseActivityTestRule.launchActivity()
+
+        UiTestUtils.openActionBarMenu()
+        onView(withText(R.string.rename)).perform(click())
+        onRecyclerView().atPosition(0)
+            .check(matches(not(isDisplayed())))
+        onRecyclerView().atPosition(2)
+            .perform(click())
+        onView(withText(R.string.rename_sprite_dialog))
+            .inRoot(isDialog())
+            .check(matches(isDisplayed()))
         val backgroundString = "Hintergrund"
         onView(allOf(withText(secondSpriteName), isDisplayed()))
             .perform(replaceText(backgroundString))
         closeSoftKeyboard()
         onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
             .perform(click())
-        val mainMenu_ = BaseActivityTestRule(
-            MainMenuActivity::class.java, false, false
-        )
-        mainMenu_.launchActivity(null)
-        onView(withId(R.id.myProjectsTextView))
-            .check(matches(isDisplayed()))
-            .perform(click())
-        onView(withText(RenameSpriteTest::class.java.simpleName))
-            .check(matches(isDisplayed()))
-            .perform(click())
+
+        baseActivityTestRule.finishActivity()
+        setLanguageSharedPreference(ApplicationProvider.getApplicationContext(), "de")
+        baseActivityTestRule.launchActivity()
         onView(withText("$backgroundString (1)"))
             .check(matches(isDisplayed()))
     }
