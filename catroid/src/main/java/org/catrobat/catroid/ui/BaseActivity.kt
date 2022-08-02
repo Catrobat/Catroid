@@ -40,7 +40,7 @@ import com.google.android.gms.analytics.HitBuilders.ScreenViewBuilder
 import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.R
 import org.catrobat.catroid.cast.CastManager
-import org.catrobat.catroid.ui.MainMenuActivity.surveyCampaign
+import org.catrobat.catroid.ui.MainMenuActivity.Companion.surveyCampaign
 import org.catrobat.catroid.ui.runtimepermissions.PermissionHandlingActivity
 import org.catrobat.catroid.ui.runtimepermissions.PermissionRequestActivityExtension
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
@@ -159,8 +159,8 @@ abstract class BaseActivity : AppCompatActivity(), PermissionHandlingActivity {
     override fun onPause() {
         super.onPause()
         val pm = getSystemService(POWER_SERVICE) as PowerManager
-        if (surveyCampaign != null && (isApplicationSentToBackground(this) || !pm.isInteractive)) {
-            surveyCampaign.endAppTime(this)
+        if (isApplicationSentToBackground(this) || !pm.isInteractive) {
+            surveyCampaign?.endAppTime(this)
         }
     }
 
