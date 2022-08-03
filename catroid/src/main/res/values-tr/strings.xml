@@ -947,6 +947,8 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="beats">vuruş</string>
     <string name="play_note">Nota çal</string>
     <string name="for_string">için</string>
+    <string name="at_string">en</string>
+    <string name="seconds_string">saniyeler</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Dikiş</string>
@@ -1235,7 +1237,8 @@ bekleyin</string>
     <string name="error_internet_connection">Bilinmeyen bir hata oluştu. Internet bağlantınızı kontrol edin.</string>
     <string name="error_project_compatibility">Proje, uygulamanın bu sürümüyle uyumlu değil.</string>
     <string name="error_outdated_version">Bu app sürümü güncel değil. Şimdi Güncellensin mi ?</string>
-    <string name="error_upload_project_with_default_name">\"%s\" adıyla bir proje yükleyemezsiniz. Lütfen projeyi yeniden adlandırın.</string>
+    <string name="error_upload_project_with_default_name">\"%s\" adıyla bir proje yükleyemezsiniz.
+Lütfen projeyi yeniden adlandırın.</string>
     <string name="error_upload_default_project">Değiştirilmemiş bir örnek proje yükleyemezsiniz. Lütfen bir şeyi değiştirip tekrar deneyin.</string>
     <string name="error_adding_brick">Bu tuğla eklenirken bir hata oluştu</string>
     <string name="error_copying_brick">Bu tuğla kopyalanırken bir hata oluştu.</string>
@@ -1972,7 +1975,7 @@ bekleyin</string>
         Obje oluşturuluçaktır.</string>
     <!-- Information -->
     <string name="no_variable_selected">Değişken seçilmedi</string>
-    <string name="find">Bul</string>
+    <string name="search">Ara…</string>
     <string name="no_results_found">Sonuç bulunamadı</string>
     <string name="query_field_is_empty">Sorgu alanı boş</string>
     <string name="cut">Kes</string>
@@ -1987,4 +1990,5 @@ bekleyin</string>
     <string name="set_particle_color_to">Parçacık rengini şuna ayarla</string>
     <string name="undo_sort">Sıralamayı geri al</string>
     <string name="sort">Sırala</string>
+    <string name="checkbox">checkbox</string>
 </resources>

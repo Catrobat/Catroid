@@ -908,6 +908,8 @@
     <string name="beats">박자</string>
     <string name="play_note">악보 연주</string>
     <string name="for_string">동안</string>
+    <string name="at_string">에</string>
+    <string name="seconds_string">초</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">스티치</string>
@@ -1946,7 +1948,7 @@
         눈치도 없이.</string>
     <!-- Information -->
     <string name="no_variable_selected">선택된 변수가 없습니다.</string>
-    <string name="find">찾기</string>
+    <string name="search">검색…</string>
     <string name="no_results_found">검색 결과가 없습니다</string>
     <string name="query_field_is_empty">쿼리 필드가 비어 있습니다.</string>
     <string name="cut">절단</string>
@@ -1961,4 +1963,5 @@
     <string name="set_particle_color_to">입자 색상을 다음으로 설정</string>
     <string name="undo_sort">정렬 취소</string>
     <string name="sort">종류</string>
+    <string name="checkbox">checkbox</string>
 </resources>

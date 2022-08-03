@@ -977,6 +977,8 @@ app
     <string name="beats">battiti</string>
     <string name="play_note">Suona nota</string>
     <string name="for_string">per</string>
+    <string name="at_string">a </string>
+    <string name="seconds_string">secondi</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Stitch</string>
@@ -2025,7 +2027,7 @@ con tolleranza %        </string>
         senza un costume.</string>
     <!-- Information -->
     <string name="no_variable_selected">Nessuna variabile selezionata</string>
-    <string name="find">Trova</string>
+    <string name="search">Cerca</string>
     <string name="no_results_found">Nessun risultato trovato</string>
     <string name="query_field_is_empty">Il campo di interrogazione è vuoto</string>
     <string name="cut">Taglia</string>
@@ -2040,4 +2042,5 @@ con tolleranza %        </string>
     <string name="set_particle_color_to">Imposta il colore delle particelle a</string>
     <string name="undo_sort">Annulla ordinamento</string>
     <string name="sort">Ordina</string>
+    <string name="checkbox">checkbox</string>
 </resources>

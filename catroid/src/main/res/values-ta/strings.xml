@@ -967,6 +967,8 @@
     <string name="beats">beats</string>
     <string name="play_note">Play note</string>
     <string name="for_string">ஆக</string>
+    <string name="at_string">இல்</string>
+    <string name="seconds_string">விநாடிகள்</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">தைத்து</string>
@@ -1997,7 +1999,7 @@
         without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">No variable selected</string>
-    <string name="find">Find</string>
+    <string name="search">தேடு…</string>
     <string name="no_results_found">No results found</string>
     <string name="query_field_is_empty">Query field is empty</string>
     <string name="cut">வெட்டு</string>
@@ -2012,4 +2014,5 @@
     <string name="set_particle_color_to">Set particle color to</string>
     <string name="undo_sort">Undo sort</string>
     <string name="sort">வரிசைப்படுத்து</string>
+    <string name="checkbox">checkbox</string>
 </resources>

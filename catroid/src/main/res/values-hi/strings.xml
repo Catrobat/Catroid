@@ -973,6 +973,8 @@
     <string name="beats">बीट्स</string>
     <string name="play_note">नोट चलाएं</string>
     <string name="for_string">के लिये</string>
+    <string name="at_string">पर</string>
+    <string name="seconds_string">सेकंड</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">टांका</string>
@@ -2029,7 +2031,7 @@
         एक नज़र के बिना।</string>
     <!-- Information -->
     <string name="no_variable_selected">कोई चर नहीं चुना गया</string>
-    <string name="find">खोज</string>
+    <string name="search">खोज…</string>
     <string name="no_results_found">कोई परिणाम नहीं मिला</string>
     <string name="query_field_is_empty">क्वेरी फ़ील्ड खाली है</string>
     <string name="cut">काटें</string>
@@ -2044,4 +2046,5 @@
     <string name="set_particle_color_to">कण रंग को पर सेट करें</string>
     <string name="undo_sort">पूर्ववत क्रमबद्ध करें</string>
     <string name="sort">क्रमबद्ध</string>
+    <string name="checkbox">checkbox</string>
 </resources>

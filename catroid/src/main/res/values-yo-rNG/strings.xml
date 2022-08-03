@@ -24,40 +24,40 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- General terms -->
     <string name="stage">Stage</string>
-    <string name="play">Speel af</string>
-    <string name="settings">Instellingen</string>
-    <string name="redo">Opnieuw uitvoeren</string>
-    <string name="undo">Ongedaan maken</string>
-    <string name="new_option">Nieuw&#8230;</string>
+    <string name="play">Play</string>
+    <string name="settings">Settings</string>
+    <string name="redo">Redo</string>
+    <string name="undo">Undo</string>
+    <string name="new_option">new&#8230;</string>
     <string name="edit_option">edit&#8230;</string>
-    <string name="confirm">Bevestig</string>
-    <string name="ignore">Negeren</string>
-    <string name="cancel">Annuleren</string>
-    <string name="save">Opslaan</string>
+    <string name="confirm">Confirm</string>
+    <string name="ignore">Ignore</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
     <string name="help">Help</string>
-    <string name="discard">Weggooien</string>
-    <string name="next">Volgende</string>
+    <string name="discard">Discard</string>
+    <string name="next">Next</string>
     <string name="ok">OK</string>
-    <string name="done">Gereed</string>
-    <string name="close">Sluiten</string>
-    <string name="assistant">Assistent</string>
-    <string name="yes">Ja</string>
-    <string name="no">Nee</string>
-    <string name="once">Eén keer</string>
-    <string name="always">Altijd</string>
-    <string name="deny">Weigeren</string>
+    <string name="done">Done</string>
+    <string name="close">Close</string>
+    <string name="assistant">Assistant</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="once">Once</string>
+    <string name="always">Always</string>
+    <string name="deny">Deny</string>
     <string name="do_not_show_again">DO NOT SHOW AGAIN</string>
     <string name="accept">Accept</string>
     <string name="decline">Decline</string>
-    <string name="select_all">Alles selecteren</string>
-    <string name="deselect_all">Alles deselecteren</string>
-    <string name="skip">overslaan</string>
-    <string name="warning">Waarschuwing</string>
-    <string name="error">Fout</string>
-    <string name="loading">Laden&#8230;</string>
-    <string name="please_wait">Even geduld</string>
-    <string name="search_hint">Zoeken…</string>
-    <string name="backpack_add">Toevoegen aan rugzak</string>
+    <string name="select_all">Select all</string>
+    <string name="deselect_all">Deselect all</string>
+    <string name="skip">skip</string>
+    <string name="warning">Warning</string>
+    <string name="error">Error</string>
+    <string name="loading">Loading&#8230;</string>
+    <string name="please_wait">Please wait</string>
+    <string name="search_hint">Search</string>
+    <string name="backpack_add">Add to backpack</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Security warning dialog -->
     <string name="security_warning_dialog_msg">The project you have downloaded listens to your voice
@@ -75,12 +75,12 @@
     <string name="api_replacement">insert API key here</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_oauth_token">Inloggegevens controleren&#8230;</string>
-    <string name="loading_google_exchange_code">Google logingegevens uitwisselen&#8230;</string>
+    <string name="loading_check_oauth_token">Checking login data&#8230;</string>
+    <string name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
     <string name="loading_google_login">Google login on our server is complete&#8230;</string>
     <string name="logout_successful">Logout successful</string>
     <string name="degrees">degrees</string>
-    <string name="background">Achtergrond</string>
+    <string name="background">Background</string>
     <string name="landscape">landscape</string>
     <string name="portrait">portrait</string>
     <string name="unknown">unknown</string>
@@ -89,15 +89,15 @@
     <!-- Main Menu -->
     <string name="main_menu_continue">Continue project</string>
     <string name="main_menu_new">New project</string>
-    <string name="main_menu_programs">Programma\'s</string>
+    <string name="main_menu_programs">Projects on device</string>
     <string name="main_menu_help">Help</string>
     <string name="main_menu_web">Catrobat community</string>
-    <string name="main_menu_upload">Upload programma</string>
+    <string name="main_menu_upload">Upload project</string>
     <string name="main_menu_rate_app">Rate us!</string>
     <string name="main_menu_terms_of_use">Terms of Use and Service</string>
-    <string name="main_menu_privacy_policy">Privacybeleid</string>
+    <string name="main_menu_privacy_policy">Privacy Policy</string>
     <string name="main_menu_about">About this app</string>
-    <string name="main_menu_login">Inloggen</string>
+    <string name="main_menu_login">Login</string>
     <string name="main_menu_logout">Logout</string>
     <string name="main_menu_scratch_converter">Scratch converter</string>
     <string name="main_menu_play_store_not_installed">App store not found</string>
@@ -108,12 +108,12 @@
     <string name="marketing_more_on_google_play">More apps on App store</string>
     <string name="error_cannot_open_huawei_app_gallery">Whoops! Failed to open Huawei AppGallery,
         please try again later.</string>
-    <string name="google_play_store_logo">Google Play</string>
+    <string name="google_play_store_logo">Google Play Store</string>
     <string name="huawei_app_gallery">Huawei App Gallery</string>
     <!-- NFC activity -->
     <string name="nfc_activity_title">NFC tags</string>
     <!-- Settings activity -->
-    <string name="preference_title">Instellingen</string>
+    <string name="preference_title">Settings</string>
     <string name="preference_title_language">Language</string>
     <string name="preference_description_language">Set the app\'s language</string>
     <string name="preference_title_web_access">Web access</string>
@@ -247,8 +247,6 @@
     <string name="error_cannot_convert_deprecated_scratch_program_x_x">I could not convert %1$s. This seems to be
         an old Scratch project from before %2$s. Please try another one.</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
-        <item quantity="one">You cannot convert more than %d project at the same time. Please wait for the
-            running conversions to finish first.</item>
         <item quantity="other">You cannot convert more than %d projects at the same time. Please wait for the
             running conversions to finish first.</item>
     </plurals>
@@ -260,7 +258,6 @@
     <string name="authentication_failed">There seems to be a problem with your connection to the service. Please
         contact the Catrobat team.</string>
     <plurals name="scratch_conversion_scheduled_x">
-        <item quantity="one">Added %d Scratch project to the queue&#8230;</item>
         <item quantity="other">Added %d Scratch projects to the queue&#8230;</item>
     </plurals>
     <string name="scratch_conversion_started">Started to convert Scratch project&#8230;</string>
@@ -271,11 +268,9 @@
     <string name="status_started">Started&#8230;</string>
     <string name="status_conversion_finished">Conversion finished</string>
     <plurals name="status_in_progress_x_jobs">
-        <item quantity="one">In progress: %d job</item>
         <item quantity="other">In progress: %d jobs</item>
     </plurals>
     <plurals name="status_completed_x_jobs">
-        <item quantity="one">Completed: %d job</item>
         <item quantity="other">Completed: %d jobs</item>
     </plurals>
     <string name="status_conversion_failed">Conversion failed!</string>
@@ -302,15 +297,12 @@
     <!-- ScratchReconvertDialog Strings -->
     <string name="reconvert_text">You converted this project %1$s ago.</string>
     <plurals name="minutes">
-        <item quantity="one">%d minute</item>
         <item quantity="other">%d minutes</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">%d hour</item>
         <item quantity="other">%d hours</item>
     </plurals>
     <plurals name="days">
-        <item quantity="one">%d day</item>
         <item quantity="other">%d days</item>
     </plurals>
     <string name="reconvert_dialog_download">Download the project again</string>
@@ -334,18 +326,18 @@
     <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
     <string name="am_backpack">Pack</string>
     <string name="am_unpack">Unpack</string>
-    <string name="am_copy">Kopiëren</string>
-    <string name="am_delete">verwijderen</string>
-    <string name="am_rename">Hernoemen</string>
+    <string name="am_copy">Copy</string>
+    <string name="am_delete">Delete</string>
+    <string name="am_rename">Rename</string>
     <string name="am_convert">Convert</string>
     <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">You can\'t undo this!</string>
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">Backpack</string>
-    <string name="copy">Kopiëren</string>
-    <string name="delete">verwijderen</string>
-    <string name="rename">Hernoemen</string>
+    <string name="copy">Copy</string>
+    <string name="delete">Delete</string>
+    <string name="rename">Rename</string>
     <string name="merge">Merge</string>
     <string name="show_details">Show details</string>
     <string name="hide_details">Hide details</string>
@@ -359,31 +351,24 @@
     <string name="new_scene_dialog">New scene</string>
     <!-- Delete Dialog Titles -->
     <plurals name="delete_projects">
-        <item quantity="one">Delete this project?</item>
         <item quantity="other">Delete these projects?</item>
     </plurals>
     <plurals name="delete_scenes">
-        <item quantity="one">Delete this scene?</item>
         <item quantity="other">Delete these scenes?</item>
     </plurals>
     <plurals name="delete_sprites">
-        <item quantity="one">Delete this actor or object?</item>
         <item quantity="other">Delete these actors or objects?</item>
     </plurals>
     <plurals name="delete_looks">
-        <item quantity="one">Delete this look?</item>
         <item quantity="other">Delete these looks?</item>
     </plurals>
     <plurals name="delete_sounds">
-        <item quantity="one">Delete this sound?</item>
         <item quantity="other">Delete these sounds?</item>
     </plurals>
     <plurals name="delete_nfc_tags">
-        <item quantity="one">Delete this tag?</item>
         <item quantity="other">Delete these tags?</item>
     </plurals>
     <plurals name="delete_scripts">
-        <item quantity="one">Delete this script?</item>
         <item quantity="other">Delete these scripts?</item>
     </plurals>
     <!-- Dialog Labels -->
@@ -395,9 +380,9 @@
     <string name="look_name_label">Look name</string>
     <string name="sound_name_label">Sound name</string>
     <string name="nfc_tag_name_label">NFC tag name</string>
-    <string name="string_label">Tekst</string>
+    <string name="string_label">Text</string>
     <string name="data_label">Name</string>
-    <string name="keyword_label">Zoeken…</string>
+    <string name="keyword_label">Search</string>
     <string name="html_label">Insert HTML text</string>
     <string name="Image_format_not_supported">Image format not supported</string>
     <string name="import_conflicting_variables">The actor or object could not be added.</string>
@@ -415,13 +400,13 @@
     <string name="sound_details">Duration: %s, size: %s</string>
     <!--  -->
     <!-- Rename Dialog Titles -->
-    <string name="rename_project">Programma hernoemen</string>
+    <string name="rename_project">Rename project</string>
     <string name="rename_scene_dialog">Rename scene</string>
-    <string name="rename_sprite_dialog">Object hernoemen</string>
-    <string name="rename_look_dialog">Uiterlijk hernoemen</string>
-    <string name="rename_sound_dialog">Geluid hernoemen</string>
+    <string name="rename_sprite_dialog">Rename actor or object</string>
+    <string name="rename_look_dialog">Rename look</string>
+    <string name="rename_sound_dialog">Rename sound</string>
     <string name="rename_nfctag_dialog">Rename NFC tag</string>
-    <string name="rename_data_dialog">Hernoemen</string>
+    <string name="rename_data_dialog">Rename</string>
     <!-- New Script Group Dialog -->
     <string name="new_group">New group</string>
     <string name="default_group_name">Group</string>
@@ -431,114 +416,91 @@
     <!-- Backpack -->
     <string name="backpack_empty">Backpack empty. Nothing to unpack.</string>
     <plurals name="packed_scenes">
-        <item quantity="one">Backpacked %d scene.</item>
         <item quantity="other">Backpacked %d scenes.</item>
     </plurals>
     <plurals name="packed_sprites">
-        <item quantity="one">Backpacked %d actor or object.</item>
         <item quantity="other">Backpacked %d actors or objects.</item>
     </plurals>
     <plurals name="packed_looks">
-        <item quantity="one">Backpacked %d look.</item>
         <item quantity="other">Backpacked %d looks.</item>
     </plurals>
     <plurals name="packed_sounds">
-        <item quantity="one">Backpacked %d sound.</item>
         <item quantity="other">Backpacked %d sounds.</item>
     </plurals>
     <string name="packed_script_group">Backpacked one script group.</string>
     <!-- Unpack -->
     <plurals name="unpacked_scenes">
-        <item quantity="one">Unpacked %d scene.</item>
         <item quantity="other">Unpacked %d scenes.</item>
     </plurals>
     <plurals name="unpacked_sprites">
-        <item quantity="one">Unpacked %d actor or object.</item>
         <item quantity="other">Unpacked %d actors or objects.</item>
     </plurals>
     <plurals name="unpacked_looks">
-        <item quantity="one">Unpacked %d look.</item>
         <item quantity="other">Unpacked %d looks.</item>
     </plurals>
     <plurals name="unpacked_sounds">
-        <item quantity="one">Unpacked %d sound.</item>
         <item quantity="other">Unpacked %d sounds.</item>
     </plurals>
     <plurals name="unpacked_scripts">
-        <item quantity="one">Unpacked %d script.</item>
         <item quantity="other">Unpacked %d scripts.</item>
     </plurals>
     <!-- Copy -->
     <plurals name="copied_scenes">
-        <item quantity="one">Copied %d scene.</item>
         <item quantity="other">Copied %d scenes.</item>
     </plurals>
     <plurals name="copied_sprites">
-        <item quantity="one">Copied %d actor or object.</item>
         <item quantity="other">Copied %d actors or objects.</item>
     </plurals>
     <plurals name="copied_looks">
-        <item quantity="one">Copied %d look.</item>
         <item quantity="other">Copied %d looks.</item>
     </plurals>
     <plurals name="copied_sounds">
-        <item quantity="one">Copied %d sound.</item>
         <item quantity="other">Copied %d sounds.</item>
     </plurals>
     <plurals name="copied_nfc_tags">
-        <item quantity="one">Copied %d NFC tag.</item>
         <item quantity="other">Copied %d NFC tags.</item>
     </plurals>
     <!-- Delete -->
     <plurals name="deleted_projects">
-        <item quantity="one">Deleted %d project.</item>
         <item quantity="other">Deleted %d projects.</item>
     </plurals>
     <plurals name="deleted_scenes">
-        <item quantity="one">Deleted %d scene.</item>
         <item quantity="other">Deleted %d scenes.</item>
     </plurals>
     <plurals name="deleted_sprites">
-        <item quantity="one">Deleted %d actor or object.</item>
         <item quantity="other">Deleted %d actors or objects.</item>
     </plurals>
     <plurals name="deleted_looks">
-        <item quantity="one">Deleted %d look.</item>
         <item quantity="other">Deleted %d looks.</item>
     </plurals>
     <plurals name="deleted_sounds">
-        <item quantity="one">Deleted %d sound.</item>
         <item quantity="other">Deleted %d sounds.</item>
     </plurals>
     <plurals name="deleted_nfc_tags">
-        <item quantity="one">Deleted %d NFC tag.</item>
         <item quantity="other">Deleted %d NFC tags.</item>
     </plurals>
     <plurals name="deleted_scripts">
-        <item quantity="one">Deleted %d script.</item>
         <item quantity="other">Deleted %d scripts.</item>
     </plurals>
     <plurals name="deleted_Items">
-        <item quantity="one">Deleted %d item.</item>
         <item quantity="other">Deleted %d items.</item>
     </plurals>
     <!-- Imported -->
     <plurals name="imported_projects">
-        <item quantity="one">Imported %d project.</item>
         <item quantity="other">Imported %d projects.</item>
     </plurals>
     <!-- Renamed -->
     <string name="renamed_project">Renamed project</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
-    <string name="project_list_title">Programma\'s</string>
-    <string name="last_used">Laatste aanmelding:</string>
-    <string name="size">Grootte:</string>
-    <string name="description">Omschrijving:</string>
-    <string name="set_description">Vul omschrijving in</string>
+    <string name="project_list_title">Projects</string>
+    <string name="last_used">Last access:</string>
+    <string name="size">Size:</string>
+    <string name="description">Description:</string>
+    <string name="set_description">Set description</string>
     <string name="notes_and_credits_title">Notes and credits:</string>
     <string name="set_notes_and_credits">Set notes and credits</string>
-    <string name="details_date_today">Vandaag</string>
+    <string name="details_date_today">Today</string>
     <string name="import_project">Import project</string>
     <string name="export_project">Export project</string>
     <string name="error_import_project">Something went wrong while importing projects.</string>
@@ -547,26 +509,26 @@
     <string name="error_no_files_found">No project files found.</string>
     <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
     <!-- ProjectOptionsFragment -->
-    <string name="project_options_description">Beschrijving</string>
-    <string name="project_options_notes_and_credits">Credits</string>
+    <string name="project_options_description">Description</string>
+    <string name="project_options_notes_and_credits">Notes and credits</string>
     <string name="project_options_tags">Tags</string>
     <string name="project_options_aspect_ratio">Keep original aspect ratio</string>
     <string name="project_options_more_details">More details</string>
     <string name="project_options_delete_project">Delete project</string>
     <!-- ScriptListFragment -->
-    <string name="fragment_script_text_description">Tik op \"+\" om scripts toe te voegen</string>
+    <string name="fragment_script_text_description">Tap \"+\" to add scripts</string>
     <!--  -->
     <!-- SpriteListFragment -->
     <string name="fragment_sprite_text_description">Tap \"+\" to add actors or objects</string>
     <string name="default_sprite_name">My actor or object</string>
     <!--  -->
     <!-- LookListFragment -->
-    <string name="fragment_look_text_description">Tik op \"+\" om uiterlijken toe te voegen</string>
-    <string name="select_look_from_gallery">Selecteer afbeelding</string>
-    <string name="select_look_from_camera">Selecteer foto</string>
+    <string name="fragment_look_text_description">Tap \"+\" to add looks</string>
+    <string name="select_look_from_gallery">Select image</string>
+    <string name="select_look_from_camera">Select photo</string>
     <!--  -->
     <!-- SoundListFragment -->
-    <string name="fragment_sound_text_description">Tik op \"+\" geluiden toe te voegen</string>
+    <string name="fragment_sound_text_description">Tap \"+\" to add sounds</string>
     <string name="sound_select_source">Select a sound</string>
     <!--  -->
     <!-- NfcTagListFragment -->
@@ -577,7 +539,7 @@
     <string name="default_tag_name">NFC tag</string>
     <string name="tnf_empty">Empty</string>
     <string name="tnf_external_type">External type</string>
-    <string name="tnf_mime_media">Tekst</string>
+    <string name="tnf_mime_media">Text</string>
     <string name="tnf_well_known_http">HTTP</string>
     <string name="tnf_well_known_https">HTTPS</string>
     <string name="tnf_well_known_tel">Phone number</string>
@@ -592,7 +554,6 @@
     <string name="local_lists_headline">Lists for this actor or object only</string>
     <string name="fragment_data_text_description">Tap \"+\" to add\nvariables or lists</string>
     <plurals name="user_defined_brick_input_headline">
-        <item quantity="one">Input for this brick</item>
         <item quantity="other">Inputs for this brick</item>
     </plurals>
     <!-- NewDataDialog -->
@@ -613,23 +574,23 @@
     <string name="merging_project_text">These two projects cannot yet be merged</string>
     <!--  -->
     <!-- NewSpriteDialog -->
-    <string name="new_sprite_dialog_title">Naam van nieuw object</string>
+    <string name="new_sprite_dialog_title">New actor or object</string>
     <!--  -->
     <!-- NewLookDialog -->
-    <string name="new_look_dialog_title">Uiterlijk toevoegen</string>
+    <string name="new_look_dialog_title">Add look</string>
     <string name="add_look_from_camera">Camera</string>
     <string name="add_look_object_library">Library</string>
-    <string name="add_look_draw_new_image">Teken een nieuwe afbeelding</string>
-    <string name="add_look_choose_image">Kies afbeelding</string>
-    <string name="add_look_media_library">Uiterlijk</string>
+    <string name="add_look_draw_new_image">Draw</string>
+    <string name="add_look_choose_image">Gallery</string>
+    <string name="add_look_media_library">Looks</string>
     <string name="add_look_from_local_project">Local projects</string>
     <!--  -->
     <!-- NewSoundDialog -->
-    <string name="new_sound_dialog_title">Geluid toevoegen</string>
+    <string name="new_sound_dialog_title">Add sound</string>
     <string name="add_sound_from_recorder">Record sound</string>
     <string name="add_sound_choose_file">Select file</string>
     <string name="add_sound_music">Music composer</string>
-    <string name="add_sound_choose_sound">Geluiden</string>
+    <string name="add_sound_choose_sound">Sounds</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">Note Picker</string>
     <!--  -->
@@ -659,15 +620,15 @@
         The source code of this app is mainly licensed under the GNU AGPL v3 license.
         For further details on the license see the link below.\n</string>
     <string name="dialog_about_license_link_text">Source code license</string>
-    <string name="dialog_about_catrobat_link_text">Over Catrobat</string>
+    <string name="dialog_about_catrobat_link_text">About Catrobat</string>
     <string name="dialog_about_catrobat_language_version">Catrobat language version</string>
     <string name="dialog_about_version">version:</string>
     <!--  -->
     <!-- NetworkAlertDialog -->
     <string name="error_no_network_title">No network</string>
     <!-- UploadProjectDialog -->
-    <string name="upload_project_dialog_title">Upload programma</string>
-    <string name="upload_description">Omschrijving:</string>
+    <string name="upload_project_dialog_title">Upload project</string>
+    <string name="upload_description">Description:</string>
     <string name="upload_notes_and_credits">Notes and credits:</string>
     <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
     <string name="upload_tag_dialog_title">Please choose up to three categories</string>
@@ -681,10 +642,10 @@
     <string name="save_project_to_external_storage_io_exception_message">Failed to save project, not enough memory is available!</string>
     <!--  -->
     <!-- SoundRecorderActivity -->
-    <string name="soundrecorder_name">Pocket Code-recorder</string>
-    <string name="soundrecorder_error">Geluidsopname mislukt</string>
-    <string name="soundrecorder_recorded_filename">opnemen</string>
-    <string name="soundrecorder_text_view">Tik op het pictogram hierboven om het opnemen te starten en te stoppen.</string>
+    <string name="soundrecorder_name">Sound recorder</string>
+    <string name="soundrecorder_error">Sound recording failed</string>
+    <string name="soundrecorder_recorded_filename">recording</string>
+    <string name="soundrecorder_text_view">Tap the icon above to start and stop recording.</string>
     <!--  -->
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Move brick</string>
@@ -714,15 +675,15 @@
     <!--  -->
     <!-- Sign In dialogs -->
     <string name="sign_in_dialog_title">Sign in</string>
-    <string name="username">Gebruikersnaam</string>
-    <string name="password">Wachtwoord</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
     <string name="reset_password">Reset password</string>
-    <string name="new_user_registered">Nieuw account aangemaakt</string>
-    <string name="user_logged_in">Succesvol ingelogd</string>
+    <string name="new_user_registered">New account created</string>
+    <string name="user_logged_in">Login successful</string>
     <string name="register_error">Login invalid</string>
-    <string name="register_terms">Door je te registreren, ga je akkoord met onze</string>
+    <string name="register_terms">By registering you agree to our</string>
     <string name="register_code_terms_of_use_text">Terms of use and service</string>
-    <string name="login">Inloggen</string>
+    <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="password_confirm">Confirm password</string>
     <string name="accountName">E-Mail</string>
@@ -786,17 +747,17 @@
         issues.</string>
     <!--  -->
     <!-- Stage menu dialog -->
-    <string name="stage_dialog_back">Terug</string>
-    <string name="stage_dialog_resume">Verder gaan</string>
-    <string name="stage_dialog_restart">Opnieuw starten</string>
+    <string name="stage_dialog_back">Back</string>
+    <string name="stage_dialog_resume">Resume</string>
+    <string name="stage_dialog_restart">Restart</string>
     <string name="stage_dialog_axes_on">Axes on</string>
     <string name="stage_dialog_axes_off">Axes off</string>
-    <string name="stage_dialog_maximize">Maximaliseren/\nUitrekken</string>
+    <string name="stage_dialog_maximize">Maximize/\nstretch</string>
     <string name="stage_dialog_screenshot">Preview</string>
     <string name="stage_dialog_embroidery">Embroidery</string>
     <!--  -->
     <!-- Broadcast spinner -->
-    <string name="dialog_new_broadcast_message_title">Nieuw bericht</string>
+    <string name="dialog_new_broadcast_message_title">New message</string>
     <string name="dialog_broadcast_message_name">message:</string>
     <string name="dialog_edit_broadcast_message_title">Edit message</string>
     <!--  -->
@@ -805,13 +766,13 @@
     <string name="brick_when_nfc_default_all">all</string>
     <!-- -->
     <!-- Brick categories -->
-    <string name="categories">Categorieën</string>
+    <string name="categories">Categories</string>
     <string name="category_embroidery">Embroidery</string>
-    <string name="category_motion">Bewegen</string>
-    <string name="category_looks">Uiterlijk</string>
+    <string name="category_motion">Motion</string>
+    <string name="category_looks">Looks</string>
     <string name="category_pen">Pen</string>
-    <string name="category_sound">Geluid</string>
-    <string name="category_control">Besturen</string>
+    <string name="category_sound">Sound</string>
+    <string name="category_control">Control</string>
     <string name="category_event">Event</string>
     <string name="category_user_bricks">Your bricks</string>
     <string name="category_data">Data</string>
@@ -840,39 +801,37 @@
     <string name="brick_user_defined_with_screen_refreshing">with</string>
     <string name="brick_user_defined_without_screen_refreshing">without</string>
     <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
-    <string name="brick_report">Rapporteren</string>
+    <string name="brick_report">Report</string>
     <!--  -->
     <!-- Motion bricks -->
-    <string name="brick_place_at">"Plaats op:"</string>
+    <string name="brick_place_at">"Place at"</string>
     <string name="brick_option_place_visually">Place visually</string>
-    <string name="x_label">"X:"</string>
-    <string name="y_label">"Y:"</string>
-    <string name="brick_set_x">"Maak X:"</string>
-    <string name="brick_set_y">"Maak Y:"</string>
-    <string name="brick_change_x_by">"Verander X met:"</string>
-    <string name="brick_change_y_by">"Verander Y met:"</string>
-    <string name="brick_go_back">Ga</string>
+    <string name="x_label">"x:"</string>
+    <string name="y_label">"y:"</string>
+    <string name="brick_set_x">"Set x to"</string>
+    <string name="brick_set_y">"Set y to"</string>
+    <string name="brick_change_x_by">"Change x by"</string>
+    <string name="brick_change_y_by">"Change y by"</string>
+    <string name="brick_go_back">Go back</string>
     <string name="brick_set_rotation_style">"Set rotation style"</string>
     <string name="brick_set_rotation_style_lr">left-right only</string>
     <string name="brick_set_rotation_style_normal">all-around</string>
     <string name="brick_set_rotation_style_no">don\'t rotate</string>
     <plurals name="brick_go_back_layer_plural">
-        <item quantity="one">laag</item>
-        <item quantity="other">lagen terug</item>
+        <item quantity="other">layers</item>
     </plurals>
-    <string name="brick_come_to_front">Ga naar voorgrond</string>
-    <string name="brick_if_on_edge_bounce">Aan de rand, keer om</string>
-    <string name="brick_move">Neem</string>
+    <string name="brick_come_to_front">Go to front</string>
+    <string name="brick_if_on_edge_bounce">If on edge, bounce</string>
+    <string name="brick_move">Move</string>
     <plurals name="brick_move_n_step_plural">
-        <item quantity="one">stap</item>
-        <item quantity="other">stappen</item>
+        <item quantity="other">steps</item>
     </plurals>
-    <string name="brick_turn_left">Draai linksom</string>
-    <string name="brick_turn_right">Draai rechtsom</string>
-    <string name="brick_point_in_direction">Wijs in richting</string>
-    <string name="brick_point_to">Richt naar</string>
-    <string name="brick_glide">Glijd in</string>
-    <string name="brick_glide_to_x">naar X:</string>
+    <string name="brick_turn_left">Turn left</string>
+    <string name="brick_turn_right">Turn right</string>
+    <string name="brick_point_in_direction">Point in direction</string>
+    <string name="brick_point_to">Point towards</string>
+    <string name="brick_glide">Glide</string>
+    <string name="brick_glide_to_x">to x:</string>
     <string name="brick_go_to">Go to</string>
     <string name="brick_go_to_touch_position">touch position</string>
     <string name="brick_go_to_random_position">random position</string>
@@ -894,28 +853,28 @@
     <string name="brick_rotate_left">"Spin left"</string>
     <string name="brick_rotate_right">"Spin right"</string>
     <!-- Look bricks -->
-    <string name="brick_set_look">Wissel naar uiterlijk</string>
+    <string name="brick_set_look">Switch to look</string>
     <string name="brick_set_look_by_index">Switch to look with number</string>
     <string name="brick_and_wait">and wait</string>
-    <string name="brick_set_background">Kies achtergrond</string>
+    <string name="brick_set_background">Set background</string>
     <string name="brick_set_background_and_wait">Set background and wait</string>
     <string name="brick_set_background_by_index">Set background to number</string>
     <string name="brick_when_background">When background changes to</string>
-    <string name="brick_set_size_to">Maak grootte</string>
-    <string name="brick_change_size_by">Verander grootte met</string>
-    <string name="brick_hide">Verdwijn</string>
-    <string name="brick_show">Verschijn</string>
+    <string name="brick_set_size_to">Set size to</string>
+    <string name="brick_change_size_by">Change size by</string>
+    <string name="brick_hide">Hide</string>
+    <string name="brick_show">Show</string>
     <string name="brick_set_transparency">"Set transparency"</string>
-    <string name="brick_change_ghost_effect">"Verander doorzichtigheid"</string>
-    <string name="brick_set_brightness">"Stel helderheid"</string>
-    <string name="brick_change_brightness">"Verander helderheid"</string>
+    <string name="brick_change_ghost_effect">"Change transparency"</string>
+    <string name="brick_set_brightness">"Set brightness"</string>
+    <string name="brick_change_brightness">"Change brightness"</string>
     <string name="brick_set_color">"Set color"</string>
     <string name="brick_change_color">"Change color"</string>
-    <string name="by_label">met</string>
-    <string name="to_label">in op</string>
-    <string name="brick_clear_graphic_effect">Grafische effecten verwijderen</string>
-    <string name="brick_next_look">Volgende uiterlijk</string>
-    <string name="brick_next_background">Volgende achtergrond</string>
+    <string name="by_label">by</string>
+    <string name="to_label">to</string>
+    <string name="brick_clear_graphic_effect">Clear graphic effects</string>
+    <string name="brick_next_look">Next look</string>
+    <string name="brick_next_background">Next background</string>
     <string name="brick_previous_look">Previous look</string>
     <string name="brick_previous_background">Previous background</string>
     <string name="brick_edit_look">Edit look</string>
@@ -925,7 +884,7 @@
     <string name="brick_flash">Turn flashlight</string>
     <string name="brick_flash_on">on</string>
     <string name="brick_flash_off">off</string>
-    <string name="brick_vibration">Tril</string>
+    <string name="brick_vibration">Vibrate for</string>
     <string name="brick_ask_label">Ask</string>
     <string name="brick_ask_store">and store written answer in</string>
     <string name="brick_ask_default_question">What\'s your name?</string>
@@ -950,17 +909,17 @@
     <string name="brick_pen_size">Set pen size to</string>
     <string name="brick_pen_color">Set pen color to</string>
     <string name="brick_clear_background">Clear</string>
-    <string name="brick_stamp">Stempel</string>
+    <string name="brick_stamp">Stamp</string>
     <!--  -->
     <!-- Sound bricks -->
-    <string name="brick_play_sound">Start geluid</string>
+    <string name="brick_play_sound">Start sound</string>
     <string name="brick_play_sound_and_wait">Start sound and wait</string>
     <string name="brick_stop_sound">Stop sound</string>
-    <string name="brick_stop_all_sounds">Stop alle geluiden</string>
-    <string name="brick_set_volume_to">Maak volume</string>
-    <string name="brick_change_volume_by">Wijzig volume met</string>
-    <string name="brick_speak">Zeg</string>
-    <string name="brick_speak_default_value">Hallo!</string>
+    <string name="brick_stop_all_sounds">Stop all sounds</string>
+    <string name="brick_set_volume_to">Set volume to</string>
+    <string name="brick_change_volume_by">Change volume by</string>
+    <string name="brick_speak">Speak</string>
+    <string name="brick_speak_default_value">Hello!</string>
     <string name="brick_speak_and_wait">and wait</string>
     <string name="brick_start_listening_to_voice">Start listening to voice and store spoken words in</string>
     <string name="speech_recognition_not_available">Speech recognition isn\'t available.</string>
@@ -993,14 +952,14 @@
     <!--  -->
     <!-- Device bricks -->
     <string name="brick_reset_timer">Reset timer</string>
-    <string name="brick_open">Open </string>
+    <string name="brick_open">Open</string>
     <string name="brick_in_browser">in browser</string>
     <!-- Control bricks -->
     <string name="brick_when_started">When scene starts</string>
-    <string name="brick_when">Wanneer aangeklikt</string>
+    <string name="brick_when">When tapped</string>
     <string name="brick_when_condition_when">When</string>
     <string name="brick_when_becomes_true">becomes true</string>
-    <string name="brick_wait">Wacht</string>
+    <string name="brick_wait">Wait</string>
     <string name="brick_wait_until">Wait until</string>
     <string name="brick_wait_until_second_part">is true</string>
     <string name="brick_when_gamepad_button">When gamepad button</string>
@@ -1011,26 +970,25 @@
     <string name="brick_stop_all_scripts">all scripts</string>
     <string name="brick_stop_other_scripts">other scripts of this actor or object</string>
     <plurals name="second_plural">
-        <item quantity="one">"seconde"</item>
-        <item quantity="other">"seconden"</item>
+        <item quantity="other">"seconds"</item>
     </plurals>
     <string name="brick_collision_receive">When you bounce off</string>
     <string name="collision_with_anything">any edge, actor, or object</string>
     <string name="brick_broadcast_receive">When you receive</string>
-    <string name="brick_broadcast">Zend signaal</string>
-    <string name="brick_broadcast_wait">Zend signaal en wacht</string>
+    <string name="brick_broadcast">Broadcast</string>
+    <string name="brick_broadcast_wait">Broadcast and wait</string>
     <string name="brick_scene_transition">Continue scene</string>
     <string name="brick_scene_start">Start scene</string>
-    <string name="brick_note">Opmerking</string>
+    <string name="brick_note">Note</string>
     <string name="brick_think_bubble">Think</string>
     <string name="brick_say_bubble">Say</string>
     <string name="brick_think_say_for_text">for</string>
-    <string name="brick_forever">Herhaal</string>
+    <string name="brick_forever">Forever</string>
     <string name="brick_loop_for_values_from">For values from</string>
     <string name="brick_loop_for_each_value_from">For each value from</string>
     <string name="brick_loop_in">in</string>
-    <string name="brick_loop_to">in op</string>
-    <string name="brick_repeat">Herhaal</string>
+    <string name="brick_loop_to">to</string>
+    <string name="brick_repeat">Repeat</string>
     <string name="brick_repeat_until">Repeat until</string>
     <string name="brick_when_touched">When stage is tapped</string>
     <string name="brick_clone">Create clone of</string>
@@ -1053,28 +1011,24 @@
     <string name="brick_parameterized_assert">assert</string>
     <string name="brick_parameterized_equals">equals to expected item of</string>
     <plurals name="brick_parameterized_foreach_plural">
-        <item quantity="one">For each item of</item>
         <item quantity="other">For each tuple of items of</item>
     </plurals>
     <plurals name="brick_parameterized_stored_plural">
-        <item quantity="one">stored in variable with the same name</item>
         <item quantity="other">stored in variables with the same names</item>
     </plurals>
     <plurals name="list_selection_plural">
-        <item quantity="one">%d list selected</item>
         <item quantity="other">%d lists selected</item>
     </plurals>
     <plurals name="time_plural">
-        <item quantity="one">keer</item>
-        <item quantity="other">keer</item>
+        <item quantity="other">times</item>
     </plurals>
-    <string name="brick_loop_end">Einde van Herhaal</string>
-    <string name="brick_if_begin">Als</string>
-    <string name="brick_if_begin_second_part">is waar, dan</string>
-    <string name="brick_if_else">Anders</string>
-    <string name="brick_if_end">Einde van Als</string>
-    <string name="brick_set_variable">Stel variabele</string>
-    <string name="brick_change_variable">Verander variabele</string>
+    <string name="brick_loop_end">End of loop</string>
+    <string name="brick_if_begin">If</string>
+    <string name="brick_if_begin_second_part">is true then</string>
+    <string name="brick_if_else">Else</string>
+    <string name="brick_if_end">End if</string>
+    <string name="brick_set_variable">Set variable</string>
+    <string name="brick_change_variable">Change variable</string>
     <string name="brick_write_variable_on_device">Write variable on device</string>
     <string name="brick_read_variable_from_device">Read variable from device</string>
     <string name="brick_write_variable_to_file_top">Write variable</string>
@@ -1083,15 +1037,15 @@
     <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
     <string name="brick_read_variable_from_file_top">Read variable</string>
     <string name="brick_read_variable_from_file_center">from file</string>
-    <string name="brick_read_variable_from_file_bottom">EN</string>
+    <string name="brick_read_variable_from_file_bottom">and</string>
     <string name="brick_read_variable_from_file_keep">keep the file</string>
     <string name="brick_read_variable_from_file_delete">delete the file</string>
     <string name="brick_write_list_on_device">Write list on device</string>
     <string name="brick_read_list_from_device">Read list from device</string>
-    <string name="brick_note_default_value">hier commentaar toevoegen &#8230;</string>
+    <string name="brick_note_default_value">add comment here&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmmmm!</string>
-    <string name="brick_say_bubble_default_value">Hallo!</string>
-    <string name="brick_broadcast_default_value">"bericht 1"</string>
+    <string name="brick_say_bubble_default_value">Hello!</string>
+    <string name="brick_broadcast_default_value">"new message"</string>
     <string name="brick_add_item_to_userlist_add">Add</string>
     <string name="brick_add_item_to_userlist">to list</string>
     <string name="brick_clear_userlist">Delete all items from list</string>
@@ -1182,7 +1136,7 @@
     <string name="default_script_group_name">Script group</string>
     <string name="default_broadcast_message_name">Message</string>
     <string name="default_list_name">List</string>
-    <string name="default_project_background_name">Achtergrond</string>
+    <string name="default_project_background_name">Background</string>
     <string name="default_project_cloud_name">Clouds</string>
     <string name="default_project_cloud_sprite_name_1">Clouds1</string>
     <string name="default_project_cloud_sprite_name_2">Clouds2</string>
@@ -1198,7 +1152,7 @@
     <!--suppress UnusedResources -->
     <string name="default_project_inner_loop">Inner Loop</string>
     <!-- Default ChromeCast Values -->
-    <string name="default_cast_project_background_name">Achtergrond</string>
+    <string name="default_cast_project_background_name">Background</string>
     <string name="default_cast_project_cloud_name">Clouds</string>
     <string name="default_cast_project_cloud_sprite_name1">Clouds1</string>
     <string name="default_cast_project_cloud_sprite_name2">Clouds2</string>
@@ -1209,10 +1163,10 @@
     <string name="default_cast_project_sprites_bird_name_wing_down_left">Bird Wings down left</string>
     <string name="default_cast_project_sprites_tweet_1">Tweet1</string>
     <string name="default_cast_project_sprites_tweet_2">Tweet2</string>
-    <string name="default_cast_project_var_direction">richting</string>
+    <string name="default_cast_project_var_direction">direction</string>
     <string name="default_cast_project_name">My first Chromecast project</string>
     <!-- Default Drone Values -->
-    <string name="drone_brick_set_text">Tekst</string>
+    <string name="drone_brick_set_text">Text</string>
     <string name="drone_brick_set_x">X:</string>
     <!--  -->
     <!-- Drone config spinner values  -->
@@ -1247,18 +1201,18 @@
     <string name="notification_screenshot_ok">Preview image saved</string>
     <string name="notification_download_project_cancel">Cancel project download</string>
     <string name="notification_reconvert_download_program_cancel">Canceled downloading/reconverting project</string>
-    <string name="notification_upload_title_pending">"Uploaden "</string>
-    <string name="notification_upload_title_finished">"Richt naar "</string>
-    <string name="notification_upload_pending">Bezig met uploaden</string>
-    <string name="notification_upload_finished">Upload geslaagd</string>
-    <string name="notification_upload_rejected">Geüpload programma is afgewezen</string>
-    <string name="notification_upload_retry">Opnieuw proberen</string>
+    <string name="notification_upload_title_pending">"Uploading"</string>
+    <string name="notification_upload_title_finished">"Look at"</string>
+    <string name="notification_upload_pending">Upload in progress</string>
+    <string name="notification_upload_finished">Upload successful</string>
+    <string name="notification_upload_rejected">Uploaded project rejected</string>
+    <string name="notification_upload_retry">Retry</string>
     <string name="notification_open_play_store">Open App store</string>
-    <string name="notification_download_title_pending">"Downloaden "</string>
-    <string name="notification_download_pending">Bezig met downloaden</string>
-    <string name="notification_download_finished">Download geslaagd</string>
-    <string name="notification_title_open">"Open "</string>
-    <string name="size_of_project">Grootte:</string>
+    <string name="notification_download_title_pending">"Downloading"</string>
+    <string name="notification_download_pending">Download in progress</string>
+    <string name="notification_download_finished">Download successful</string>
+    <string name="notification_title_open">"Open"</string>
+    <string name="size_of_project">Size:</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">This app needs the requested permissions to function properly. E.g., the
@@ -1266,24 +1220,24 @@ Camera brick needs access to the device\'s camera, the \"location\" formula elem
 device\'s geolocation sensor, and in order to import and export projects from and to the local memory, the app
 needs read and write access to it. You can always change permissions through your device\'s settings.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">Er is een fout opgetreden tijdens het uploaden van het programma.</string>
-    <string name="error_project_download">Er is een fout opgetreden tijdens het downloaden van het programma.</string>
+    <string name="error_project_upload">Something went wrong while uploading the project.</string>
+    <string name="error_project_download">Something went wrong while downloading the project.</string>
     <string name="error_project_already_in_queue">"Project %s already in queue."</string>
     <string name="error_could_not_decode_project_name_from_url">"Your download could not be
         started, seems there is a problem with our server."</string>
-    <string name="error_new_project">Er is een fout opgetreden tijdens het maken van een nieuw programma.</string>
+    <string name="error_new_project">Something went wrong while creating a new project.</string>
     <string name="error_rename_scene">Something went wrong while renaming the scene.</string>
-    <string name="error_load_project">Er is een fout opgetreden tijdens het laden van het programma.</string>
+    <string name="error_load_project">Something went wrong while loading the project.</string>
     <string name="error_screenshot_failed">Something went wrong while saving the preview image.</string>
-    <string name="error_internet_connection">Er is een onbekende fout opgetreden. Controleer je internetverbinding.</string>
+    <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
     <string name="error_project_compatibility">The project is not compatible with this version of the app.</string>
     <string name="error_outdated_version">This app version is outdated. Update now?</string>
     <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"%s\".
         Please rename the project.</string>
     <string name="error_upload_default_project">You cannot upload an unmodified example project. Please
         change something and try again.</string>
-    <string name="error_adding_brick">Er is een fout opgetreden bij het toevoegen van dit blok</string>
-    <string name="error_copying_brick">Er is een fout opgetreden tijdens het kopiëren van dit blok</string>
+    <string name="error_adding_brick">Something went wrong while adding this brick.</string>
+    <string name="error_copying_brick">Something went wrong while copying this brick.</string>
     <string name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
     <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
@@ -1299,13 +1253,13 @@ needs read and write access to it. You can always change permissions through you
     <!--  -->
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Can\'t enable Bluetooth, please try turning it off and on again.</string>
-    <string name="title_paired_devices">Gekoppelde apparaten</string>
-    <string name="title_other_devices">Nieuwe apparaten</string>
+    <string name="title_paired_devices">Paired devices</string>
+    <string name="title_other_devices">Available devices</string>
     <string name="bluetooth_connection_title">Bluetooth connection</string>
-    <string name="skip_bluetooth_connection">Overslaan</string>
-    <string name="connecting_please_wait">Verbinding maken met je apparaat.\nEven wachten&#8230;</string>
-    <string name="bt_connection_failed">Verbinding maken mislukt!</string>
-    <string name="none_found">Geen niet-gekoppelde apparaten gevonden</string>
+    <string name="skip_bluetooth_connection">Skip</string>
+    <string name="connecting_please_wait">Connecting to your device.\nPlease wait&#8230;</string>
+    <string name="bt_connection_failed">Connection to device failed!</string>
+    <string name="none_found">No unpaired devices found</string>
     <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
         required!</string>
     <string name="multiplayer_bluetooth_connection_information">To play this game in
@@ -1315,13 +1269,13 @@ needs read and write access to it. You can always change permissions through you
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Set Arduino digital pin</string>
     <string name="brick_arduino_select_analog_value">Set Arduino PWM~ pin</string>
-    <string name="brick_arduino_set_pin_value_to">in op</string>
+    <string name="brick_arduino_set_pin_value_to">to</string>
     <!--  -->
     <!-- Raspi Bricks -->
     <string name="brick_raspi_select_digital_value">Set Raspberry Pi pin</string>
-    <string name="brick_raspi_set_pin_value_to">in op</string>
+    <string name="brick_raspi_set_pin_value_to">to</string>
     <string name="brick_raspi_if_begin">If Raspberry Pi pin</string>
-    <string name="brick_raspi_if_begin_second_part">is waar, dan</string>
+    <string name="brick_raspi_if_begin_second_part">is true then</string>
     <string name="brick_raspi_when_begin">When Raspberry Pi pin</string>
     <string name="brick_raspi_when_equals">changes to</string>
     <string name="brick_raspi_pressed_text">high</string>
@@ -1335,20 +1289,20 @@ needs read and write access to it. You can always change permissions through you
     <!--  -->
     <!-- Lego Mindstorms Strings -->
     <string name="nxt_brick_motor_move">Set NXT motor</string>
-    <string name="nxt_motor_speed_to">in op</string>
+    <string name="nxt_motor_speed_to">to</string>
     <string name="nxt_motor_speed">speed</string>
     <string name="nxt_brick_motor_turn_angle">Turn NXT motor</string>
-    <string name="nxt_motor_move_by">met</string>
+    <string name="nxt_motor_move_by">by</string>
     <string name="nxt_motor_stop">Stop NXT motor</string>
     <string name="nxt_play_tone">Play NXT tone</string>
     <string name="nxt_tone_duration">Duration</string>
-    <string name="nxt_tone_frequency">Frequentie</string>
-    <string name="nxt_tone_hundred_hz">x100Hz</string>
+    <string name="nxt_tone_frequency">Frequency</string>
+    <string name="nxt_tone_hundred_hz">×100Hz</string>
     <string name="nxt_motor_a">A</string>
     <string name="nxt_motor_b">B</string>
     <string name="nxt_motor_c">C</string>
     <string name="nxt_motor_b_and_c">B+C</string>
-    <string name="nxt_motor_all">Alle</string>
+    <string name="nxt_motor_all">All</string>
     <string name="nxt_choose_sensor_1">Sensor connected on port 1</string>
     <string name="nxt_choose_sensor_2">Sensor connected on port 2</string>
     <string name="nxt_choose_sensor_3">Sensor connected on port 3</string>
@@ -1403,7 +1357,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="ev3_motor_c">C</string>
     <string name="ev3_motor_d">D</string>
     <string name="ev3_motor_b_and_c">B+C</string>
-    <string name="ev3_motor_all">Alle</string>
+    <string name="ev3_motor_all">All</string>
     <string name="ev3_play_tone">Play EV3 tone</string>
     <string name="ev3_tone_duration_for">for</string>
     <string name="ev3_tone_volume">Volume</string>
@@ -1411,11 +1365,11 @@ needs read and write access to it. You can always change permissions through you
     <string name="ev3_motor_stop">Stop EV3 motor</string>
     <string name="ev3_motor_move">Set EV3 motor</string>
     <string name="ev3_brick_motor_turn_angle">Turn EV3 motor</string>
-    <string name="ev3_motor_move_by">met</string>
+    <string name="ev3_motor_move_by">by</string>
     <string name="ev3_set_led_status">Set EV3 LED status</string>
     <string name="ev3_led_status_off">Off</string>
-    <string name="ev3_led_status_green">Groen</string>
-    <string name="ev3_led_status_red">Rood</string>
+    <string name="ev3_led_status_green">Green</string>
+    <string name="ev3_led_status_red">Red</string>
     <string name="ev3_led_status_orange">Orange</string>
     <string name="ev3_led_status_green_flashing">Green flashing</string>
     <string name="ev3_led_status_red_flashing">Red flashing</string>
@@ -1454,8 +1408,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="drone_animation_snakegreenred">Snake green red</string>
     <string name="drone_animation_fire">Fire</string>
     <string name="drone_animation_standard">Standard</string>
-    <string name="drone_animation_red">Rood</string>
-    <string name="drone_animation_green">Groen</string>
+    <string name="drone_animation_red">Red</string>
+    <string name="drone_animation_green">Green</string>
     <string name="drone_animation_redsnake">Red snake</string>
     <string name="drone_animation_blank">Blank</string>
     <string name="drone_animation_rightmissile">Right missile</string>
@@ -1482,7 +1436,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_taking_picture">Taking picture Jumping Sumo</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_sprites_sound">Geluid</string>
+    <string name="default_jumping_sumo_project_sprites_sound">Sound</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
     <string name="animation_spin">Spin</string>
@@ -1516,9 +1470,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="phiro_seconds">seconds</string>
     <!-- light -->
     <string name="brick_phiro_rgb_led_action">Set Phiro light</string>
-    <string name="phiro_rgb_led_red">Rood</string>
-    <string name="phiro_rgb_led_green">Groen</string>
-    <string name="phiro_rgb_led_blue">Blauw</string>
+    <string name="phiro_rgb_led_red">Red</string>
+    <string name="phiro_rgb_led_green">Green</string>
+    <string name="phiro_rgb_led_blue">Blue</string>
     <!--  -->
     <!-- Phiro tone strings -->
     <string name="phiro_tone_do">Do</string>
@@ -1530,13 +1484,13 @@ needs read and write access to it. You can always change permissions through you
     <string name="phiro_tone_ti">Ti</string>
     <!--  -->
     <!-- Phiro motor strings -->
-    <string name="phiro_motor_left">Links</string>
-    <string name="phiro_motor_right">Recht</string>
+    <string name="phiro_motor_left">Left</string>
+    <string name="phiro_motor_right">Right</string>
     <string name="phiro_motor_both">Both</string>
     <!--  -->
     <!-- Phiro light strings -->
-    <string name="phiro_light_left">Links</string>
-    <string name="phiro_light_right">Recht</string>
+    <string name="phiro_light_left">Left</string>
+    <string name="phiro_light_right">Right</string>
     <string name="phiro_light_both">Both</string>
     <!--  -->
     <!-- Phiro sensor strings -->
@@ -1553,71 +1507,71 @@ needs read and write access to it. You can always change permissions through you
     <!-- -->
     <!-- Formula editor strings -->
     <string name="formula_editor_data">Data</string>
-    <string name="formula_editor_true">WAAR</string>
-    <string name="formula_editor_false">NIET WAAR</string>
-    <string name="formula_editor_decimal_mark">,</string>
-    <string name="formula_editor_title">Formule bewerken</string>
-    <string name="formula_editor_changes_discarded">Je wijzigingen zijn ongedaan gemaakt!</string>
+    <string name="formula_editor_true">true</string>
+    <string name="formula_editor_false">false</string>
+    <string name="formula_editor_decimal_mark">.</string>
+    <string name="formula_editor_title">Formula editor</string>
+    <string name="formula_editor_changes_discarded">Changes discarded!</string>
     <string name="formula_editor_parse_fail">Formula is not valid!</string>
-    <string name="formula_nothing_selected">Definieer invoerwaarde</string>
-    <string name="formula_editor_parse_fail_formula_too_long">Formule te lang! Repareer of druk opnieuw om alle wijzigingen ongedaan te maken.</string>
-    <string name="formula_editor_choose_object_variable">Eigenschappen van dit object</string>
+    <string name="formula_nothing_selected">Define input value</string>
+    <string name="formula_editor_parse_fail_formula_too_long">Formula too long!</string>
+    <string name="formula_editor_choose_object_variable">Properties of this actor or object</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
-    <string name="formula_editor_function_sin">sin</string>
-    <string name="formula_editor_function_sin_parameter">(0)</string>
-    <string name="formula_editor_function_cos">cos</string>
-    <string name="formula_editor_function_cos_parameter">(0)</string>
-    <string name="formula_editor_function_tan">tan</string>
-    <string name="formula_editor_function_tan_parameter">(0)</string>
-    <string name="formula_editor_function_ln">ln</string>
-    <string name="formula_editor_function_ln_parameter">(0)</string>
-    <string name="formula_editor_function_log">log</string>
-    <string name="formula_editor_function_log_parameter">(0)</string>
+    <string name="formula_editor_function_sin">sine</string>
+    <string name="formula_editor_function_sin_parameter">(90)</string>
+    <string name="formula_editor_function_cos">cosine</string>
+    <string name="formula_editor_function_cos_parameter">(360)</string>
+    <string name="formula_editor_function_tan">tangent</string>
+    <string name="formula_editor_function_tan_parameter">(45)</string>
+    <string name="formula_editor_function_ln">natural logarithm</string>
+    <string name="formula_editor_function_ln_parameter">(2.718281828459)</string>
+    <string name="formula_editor_function_log">decimal logarithm</string>
+    <string name="formula_editor_function_log_parameter">(10)</string>
     <string name="formula_editor_function_pi">pi</string>
     <string name="formula_editor_function_pi_parameter"></string>
     <string name="formula_editor_object_color">color</string>
-    <string name="formula_editor_function_sqrt">wortel</string>
-    <string name="formula_editor_function_sqrt_parameter">(0)</string>
-    <string name="formula_editor_function_rand">Willekeurig</string>
-    <string name="formula_editor_function_rand_parameter">(0,1)</string>
-    <string name="formula_editor_function_abs">abs</string>
-    <string name="formula_editor_function_abs_parameter">(0)</string>
-    <string name="formula_editor_function_round">afgerond</string>
-    <string name="formula_editor_function_round_parameter">(0)</string>
+    <string name="formula_editor_function_sqrt">square root</string>
+    <string name="formula_editor_function_sqrt_parameter">(4)</string>
+    <string name="formula_editor_function_rand">random value from to</string>
+    <string name="formula_editor_function_rand_parameter">(1,6)</string>
+    <string name="formula_editor_function_abs">absolute value</string>
+    <string name="formula_editor_function_abs_parameter">(1)</string>
+    <string name="formula_editor_function_round">round</string>
+    <string name="formula_editor_function_round_parameter">(1.6)</string>
     <string name="formula_editor_function_mod">modulo</string>
-    <string name="formula_editor_function_mod_parameter">(1,1)</string>
-    <string name="formula_editor_function_arcsin">arcsin</string>
-    <string name="formula_editor_function_arcsin_parameter">(0)</string>
-    <string name="formula_editor_function_arccos">arccos</string>
+    <string name="formula_editor_function_mod_parameter">(3,2)</string>
+    <string name="formula_editor_function_arcsin">arcsine</string>
+    <string name="formula_editor_function_arcsin_parameter">(0.5)</string>
+    <string name="formula_editor_function_arccos">arccosine</string>
     <string name="formula_editor_function_arccos_parameter">(0)</string>
-    <string name="formula_editor_function_arctan">arctan</string>
-    <string name="formula_editor_function_arctan_parameter">(0)</string>
+    <string name="formula_editor_function_arctan">arctangent</string>
+    <string name="formula_editor_function_arctan_parameter">(1)</string>
     <string name="formula_editor_function_arctan2">arctangent2</string>
     <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
-    <string name="formula_editor_function_exp">exp</string>
-    <string name="formula_editor_function_exp_parameter">(0)</string>
+    <string name="formula_editor_function_exp">exponent</string>
+    <string name="formula_editor_function_exp_parameter">(1)</string>
     <string name="formula_editor_function_power">power</string>
     <string name="formula_editor_function_power_parameter">(2,3)</string>
     <string name="formula_editor_function_floor">floor</string>
     <string name="formula_editor_function_floor_parameter">(0.7)</string>
     <string name="formula_editor_function_ceil">ceiling</string>
     <string name="formula_editor_function_ceil_parameter">(0.3)</string>
-    <string name="formula_editor_function_max">max</string>
-    <string name="formula_editor_function_max_parameter">(0,1)</string>
-    <string name="formula_editor_function_min">min</string>
-    <string name="formula_editor_function_min_parameter">(0,1)</string>
+    <string name="formula_editor_function_max">maximum of</string>
+    <string name="formula_editor_function_max_parameter">(5,4)</string>
+    <string name="formula_editor_function_min">minimum of</string>
+    <string name="formula_editor_function_min_parameter">(7,2)</string>
     <string name="formula_editor_function_if_then_else">if then else</string>
     <string name="formula_editor_function_if_then_else_parameter">(false, 2, 3)</string>
-    <string name="formula_editor_function_true">WAAR</string>
-    <string name="formula_editor_function_false">NIET WAAR</string>
-    <string name="formula_editor_function_length">lengte</string>
-    <string name="formula_editor_function_length_parameter">(\'hallo wereld\')</string>
+    <string name="formula_editor_function_true">true</string>
+    <string name="formula_editor_function_false">false</string>
+    <string name="formula_editor_function_length">length</string>
+    <string name="formula_editor_function_length_parameter">(\'hello world\')</string>
     <string name="formula_editor_function_letter">letter</string>
-    <string name="formula_editor_function_letter_parameter">(1,\'hallo wereld\')</string>
-    <string name="formula_editor_function_join">samenvoegen</string>
+    <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
+    <string name="formula_editor_function_join">join</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
-    <string name="formula_editor_function_join3">samenvoegen</string>
+    <string name="formula_editor_function_join3">join</string>
     <string name="formula_editor_function_join3_parameter">(\'hello\',\' world\',\'!\')</string>
     <string name="formula_editor_function_regex">regular expression</string>
     <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
@@ -1641,7 +1595,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_number_of_current_touches">number of current touches</string>
     <string name="formula_editor_function_index_of_current_touch">index of current touch</string>
     <string name="formula_editor_function_no_parameter"></string>
-    <string name="formula_editor_function_touch_parameter">(0)</string>
+    <string name="formula_editor_function_touch_parameter">(1)</string>
     <string name="formula_editor_function_list_item">item</string>
     <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
     <string name="formula_editor_function_contains">contains</string>
@@ -1660,18 +1614,18 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_color_at_x_y">color at x y</string>
     <string name="formula_editor_sensor_color_equals_color">color equals color with %
         tolerance</string>
-    <string name="formula_editor_sensor_x_acceleration">versnelling_x</string>
-    <string name="formula_editor_sensor_y_acceleration">versnelling_y</string>
-    <string name="formula_editor_sensor_z_acceleration">versnelling_z</string>
-    <string name="formula_editor_sensor_compass_direction">kompas_richting</string>
+    <string name="formula_editor_sensor_x_acceleration">acceleration x</string>
+    <string name="formula_editor_sensor_y_acceleration">acceleration y</string>
+    <string name="formula_editor_sensor_z_acceleration">acceleration z</string>
+    <string name="formula_editor_sensor_compass_direction">compass direction</string>
     <string name="formula_editor_sensor_latitude">latitude</string>
     <string name="formula_editor_sensor_longitude">longitude</string>
     <string name="formula_editor_sensor_location_accuracy">location accuracy</string>
     <string name="formula_editor_sensor_altitude">altitude</string>
     <string name="formula_editor_sensor_user_language">user language</string>
-    <string name="formula_editor_sensor_x_inclination">helling_x</string>
-    <string name="formula_editor_sensor_y_inclination">helling_y</string>
-    <string name="formula_editor_sensor_loudness">luidheid</string>
+    <string name="formula_editor_sensor_x_inclination">inclination x</string>
+    <string name="formula_editor_sensor_y_inclination">inclination y</string>
+    <string name="formula_editor_sensor_loudness">loudness</string>
     <string name="formula_editor_sensor_timer">timer</string>
     <string name="formula_editor_sensor_date_year">year</string>
     <string name="formula_editor_sensor_date_month">month</string>
@@ -1729,14 +1683,14 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_phiro_sensor_bottom_right">phiro bottom right sensor</string>
     <string name="formula_editor_nfc_tag_id">nfc tag id</string>
     <string name="formula_editor_nfc_tag_message">nfc tag message</string>
-    <string name="formula_editor_object_x">positie_x</string>
-    <string name="formula_editor_object_y">positie_y</string>
+    <string name="formula_editor_object_x">position x</string>
+    <string name="formula_editor_object_y">position y</string>
     <string name="formula_editor_object_transparency">transparency</string>
-    <string name="formula_editor_object_brightness">helderheid</string>
-    <string name="formula_editor_object_size">grootte</string>
-    <string name="formula_editor_object_rotation">richting</string>
+    <string name="formula_editor_object_brightness">brightness</string>
+    <string name="formula_editor_object_size">size</string>
+    <string name="formula_editor_object_rotation">motion direction</string>
     <string name="formula_editor_object_rotation_look">look direction</string>
-    <string name="formula_editor_object_layer">laag</string>
+    <string name="formula_editor_object_layer">layer</string>
     <string name="formula_editor_object_x_velocity">x velocity</string>
     <string name="formula_editor_object_y_velocity">y velocity</string>
     <string name="formula_editor_object_angular_velocity">angular velocity</string>
@@ -1747,14 +1701,14 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_object_background_name">background name</string>
     <string name="formula_editor_object_number_of_backgrounds">number of backgrounds</string>
     <string name="formula_editor_object_distance_to">distance to touch position</string>
-    <string name="formula_editor_compute">Berekenen</string>
-    <string name="formula_editor_object">Object</string>
+    <string name="formula_editor_compute">Compute</string>
+    <string name="formula_editor_object">Properties</string>
     <string name="formula_editor_functions">Functions</string>
-    <string name="formula_editor_logic">Logica</string>
-    <string name="formula_editor_device">Sensoren</string>
+    <string name="formula_editor_logic">Logic</string>
+    <string name="formula_editor_device">Sensors</string>
     <string name="formula_editor_device_sensors">Device sensors</string>
     <string name="formula_editor_functions_maths">Maths</string>
-    <string name="formula_editor_functions_strings">Tekst</string>
+    <string name="formula_editor_functions_strings">Text</string>
     <string name="formula_editor_functions_lists">Lists</string>
     <string name="formula_editor_logic_boolean">Logical (Boolean) operators and constants</string>
     <string name="formula_editor_logic_comparison">Comparison operators</string>
@@ -1766,7 +1720,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_device_object_recognition">Object recognition</string>
     <string name="formula_editor_device_date_and_time">Date and time</string>
     <string name="formula_editor_device_touch_detection">Touch detection</string>
-    <string name="formula_editor_device_lego_nxt">Lego NXT</string>
+    <string name="formula_editor_device_lego_nxt">Lego Mindstorms NXT</string>
     <string name="formula_editor_device_lego_ev3">Lego Mindstorms EV3</string>
     <string name="formula_editor_device_arduino">Arduino</string>
     <string name="formula_editor_device_phiro">Phiro</string>
@@ -1778,9 +1732,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_logic_notequal">≠</string>
     <string name="formula_editor_logic_lesserthan">&lt;</string>
     <string name="formula_editor_logic_greaterthan">&gt;</string>
-    <string name="formula_editor_logic_and">EN</string>
-    <string name="formula_editor_logic_or">OF</string>
-    <string name="formula_editor_logic_not">NIET</string>
+    <string name="formula_editor_logic_and">and</string>
+    <string name="formula_editor_logic_or">or</string>
+    <string name="formula_editor_logic_not">not</string>
     <string name="formula_editor_logic_greaterequal">≥</string>
     <string name="formula_editor_logic_leserequal">≤</string>
     <string name="formula_editor_logic_equal">=</string>
@@ -1789,24 +1743,24 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_operator_minus">-</string>
     <string name="formula_editor_operator_divide">÷</string>
     <string name="formula_editor_operator_power">^</string>
-    <string name="formula_editor_image_button_description_delete">verwijderen</string>
+    <string name="formula_editor_image_button_description_delete">delete</string>
     <string name="formula_editor_image_button_description_color_picker">color picker</string>
     <string name="formula_editor_image_button_description_functions_toggle">toggle functions</string>
-    <string name="formula_editor_variable_dialog_title">Nieuwe variabele</string>
+    <string name="formula_editor_variable_dialog_title">New variable</string>
     <string name="formula_editor_list_dialog_title">New list</string>
     <string name="formula_editor_regex_html_extractor_dialog_title">HTML extractor</string>
-    <string name="formula_editor_discard_changes_dialog_message">Wil je de wijzigingen opslaan?</string>
-    <string name="formula_editor_discard_changes_dialog_title">Wijzigingen opslaan?</string>
-    <string name="formula_editor_new_string_name">Nieuwe tekst</string>
+    <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
+    <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
+    <string name="formula_editor_new_string_name">New text</string>
     <string name="formula_editor_dialog_change_text">Change text</string>
     <string name="formula_editor_dialog_change_regular_expression">Change regular
         expression</string>
     <string name="formula_editor_fragment_data_current_items">current items</string>
     <string name="formula_editor_data_dialog_is_list">Make it a list</string>
-    <string name="formula_editor_sensor_face_detected">face is visible</string>
-    <string name="formula_editor_sensor_face_size">face size</string>
-    <string name="formula_editor_sensor_face_x_position">face x position</string>
-    <string name="formula_editor_sensor_face_y_position">face y position</string>
+    <string name="formula_editor_sensor_face_detected">first face is visible</string>
+    <string name="formula_editor_sensor_face_size">first face size</string>
+    <string name="formula_editor_sensor_face_x_position">first face x position</string>
+    <string name="formula_editor_sensor_face_y_position">first face y position</string>
     <string name="formula_editor_sensor_second_face_detected">second face is visible</string>
     <string name="formula_editor_sensor_second_face_size">second face size</string>
     <string name="formula_editor_sensor_second_face_x_position">second face x position</string>
@@ -1888,34 +1842,34 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_text_block_size">text block size from camera</string>
     <string name="formula_editor_function_text_block_from_camera">text block from camera</string>
     <string name="formula_editor_function_text_block_language_from_camera">text block language from camera</string>
-    <string name="formula_editor_function_text_block_parameter">(0)</string>
+    <string name="formula_editor_function_text_block_parameter">(1)</string>
     <string name="formula_editor_function_get_id_of_detected_object">ID of detected object</string>
     <string name="formula_editor_function_object_with_id_visible">object with ID visible</string>
-    <string name="formula_editor_intro_title_formula_editor">Formule bewerken</string>
-    <string name="formula_editor_intro_summary_formula_editor">With the  formula editor you can create mathematical and
-        logical formulas that you can use in your bricks.\n\nYou can continue through this little intro by tapping
-        the \"Next\" button in the bottom right corner, and you can skip it by clicking the \"SKIP\" button in the
-        bottom left corner.</string>
+    <string name="formula_editor_intro_title_formula_editor">Formula editor</string>
+    <string name="formula_editor_intro_summary_formula_editor">With the formula editor you can create mathematical and
+        logical formulas that you can use in your bricks.\n\nContinue by tapping “NEXT” or exit
+        with “SKIP”.
+    </string>
     <string name="formula_editor_intro_title_input_field">Input field</string>
     <string name="formula_editor_intro_summary_input_field">Here you can see and edit your formula.</string>
     <string name="formula_editor_intro_title_keyboard">Keyboard</string>
     <string name="formula_editor_intro_summary_keyboard">This is where you can create
         your formula, just like on a calculator.</string>
-    <string name="formula_editor_intro_title_compute">Berekenen</string>
+    <string name="formula_editor_intro_title_compute">Compute</string>
     <string name="formula_editor_intro_summary_compute">To show your formula\'s current result, you can
         use \"Compute\".</string>
-    <string name="formula_editor_intro_title_object">Object</string>
+    <string name="formula_editor_intro_title_object">Properties</string>
     <string name="formula_editor_intro_summary_object">This is a collection of values that describe the properties of your
         current actor or object. Examples are the x- and y-coordinates, or the current speed.</string>
     <string name="formula_editor_intro_title_functions">Functions</string>
     <string name="formula_editor_intro_summary_functions">Like a calculator, the formula editor offers
         many mathematical functions.\nYou can find trigonometric functions such as \"sin\" and \"cos\",
         a random number generator, and text and list functions.</string>
-    <string name="formula_editor_intro_title_logic">Logica</string>
+    <string name="formula_editor_intro_title_logic">Logic</string>
     <string name="formula_editor_intro_summary_logic">Logic is used to compare values and combine logical formulas.\nTo
         compare values you can use logical operations such as \"&gt;\" (greater than) or \"=\" (equals).\nTo combine
         logical formulas you can use logical operations such as \"AND\", \"OR\" and \"NOT\".</string>
-    <string name="formula_editor_intro_title_device">Sensoren</string>
+    <string name="formula_editor_intro_title_device">Sensors</string>
     <string name="formula_editor_intro_summary_device">In \"Sensors\" you can find information that your
         device records.\nFor example, the tilt of your device, or the loudness of your surroundings.</string>
     <string name="formula_editor_intro_title_data">Data</string>
@@ -2036,7 +1990,7 @@ needs read and write access to it. You can always change permissions through you
         without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">No variable selected</string>
-    <string name="search">Zoeken…</string>
+    <string name="search">Search</string>
     <string name="no_results_found">No results found</string>
     <string name="query_field_is_empty">Query field is empty</string>
     <string name="cut">Cut</string>

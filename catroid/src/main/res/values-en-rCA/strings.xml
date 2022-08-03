@@ -976,6 +976,8 @@
     <string name="beats">beats</string>
     <string name="play_note">Play note</string>
     <string name="for_string">for</string>
+    <string name="at_string">at</string>
+    <string name="seconds_string">seconds</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Stitch</string>
@@ -2034,7 +2036,7 @@ needs read and write access to it. You can always change permissions through you
         without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">No variable selected</string>
-    <string name="find">Find</string>
+    <string name="search">Search</string>
     <string name="no_results_found">No results found</string>
     <string name="query_field_is_empty">Query field is empty</string>
     <string name="cut">Cut</string>
@@ -2046,7 +2048,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="turn_particle_effect_additivity">Turn particle effect additivity</string>
     <string name="particle_effects_additive_on">on</string>
     <string name="particle_effects_additive_off">off</string>
-    <string name="set_particle_color_to">Set particle color to</string>
+    <string name="set_particle_color_to">Set particle colour to</string>
     <string name="undo_sort">Undo sort</string>
     <string name="sort">Sort</string>
+    <string name="checkbox">checkbox</string>
 </resources>

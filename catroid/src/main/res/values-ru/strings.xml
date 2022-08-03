@@ -29,13 +29,13 @@
     <string name="redo">Повторить</string>
     <string name="undo">Отменить</string>
     <string name="new_option">новое&#8230;</string>
-    <string name="edit_option">редактировать&#8230;</string>
+    <string name="edit_option">изменить&#8230;</string>
     <string name="confirm">Подтвердить</string>
     <string name="ignore">Игнорировать</string>
     <string name="cancel">Отменить</string>
     <string name="save">Сохранить</string>
     <string name="help">Помощь</string>
-    <string name="discard">Сброс</string>
+    <string name="discard">Сбросить</string>
     <string name="next">Далее</string>
     <string name="ok">ОК</string>
     <string name="done">Готово</string>
@@ -50,39 +50,39 @@
     <string name="accept">Принять</string>
     <string name="decline">Отклонить</string>
     <string name="select_all">Выбрать все</string>
-    <string name="deselect_all">Отменить все</string>
-    <string name="skip">Пропустить</string>
+    <string name="deselect_all">Снять все выделения</string>
+    <string name="skip">пропустить</string>
     <string name="warning">Предупреждение</string>
     <string name="error">Ошибка</string>
     <string name="loading">Загрузка&#8230;</string>
     <string name="please_wait">Пожалуйста, подождите</string>
     <string name="search_hint">Поиск</string>
-    <string name="backpack_add">Положить в рюкзак</string>
+    <string name="backpack_add">Положить в портфель</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Security warning dialog -->
     <string name="security_warning_dialog_msg">Загруженный проект прослушивает голос
         в фоновом режиме, а также отправляет данные в интернет. Это может быть безвредным и необходимым
-        для его предполагаемого поведения. Однако, пожалуйста, убедитесь, что вы говорите о том, что проект
-        работает безопасно. В случае сомнений удалите скачанный проект.
+        для его предполагаемого поведения. Однако, пожалуйста, убедитесь, что то, что вы говорите, пока
+        работает проект, безопасно. В случае сомнений удалите скачанный проект.
         Вы также можете сообщить о проекте на его странице на платформе сообщества Catrobat в случае, если
         вы уверены, что он опасный.</string>
     <!-- Replace Api dialog -->
-    <string name="api_replacement_dialog_neutral">Загрузка без изменений</string>
-    <string name="api_replacement_dialog_accept">Загрузка с замененными ключами</string>
-    <string name="api_replacement_dialog_warning">Проект содержит блоки, доступ к
+    <string name="api_replacement_dialog_neutral">Выкладывание без изменений</string>
+    <string name="api_replacement_dialog_accept">Выкладывание с замененными ключами</string>
+    <string name="api_replacement_dialog_warning">Проект содержит блоки, которые имеют доступ к
         веб, а также содержит API ключи. Пожалуйста, посмотрите %1s почему
         загрузка этих ключей может быть опасной.</string>
     <string name="api_replacement">вставьте API ключ здесь</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
     <string name="loading_check_oauth_token">Проверка входа&#8230;</string>
-    <string name="loading_google_exchange_code">Обмен данными Google&#8230;</string>
-    <string name="loading_google_login">Логин в Google+ на нашем сервере был произведен&#8230;</string>
+    <string name="loading_google_exchange_code">Обмен данными для входа в Google&#8230;</string>
+    <string name="loading_google_login">Логин в Google на нашем сервере был произведен&#8230;</string>
     <string name="logout_successful">Выход выполнен</string>
     <string name="degrees">градусов</string>
     <string name="background">Фон</string>
-    <string name="landscape">горизонтальная</string>
-    <string name="portrait">вертикальная</string>
+    <string name="landscape">горизонтальный</string>
+    <string name="portrait">вертикальный</string>
     <string name="unknown">неизвестно</string>
     <string name="disconnect">Связь прервана</string>
     <!--  -->
@@ -92,20 +92,20 @@
     <string name="main_menu_programs">Проекты на устройстве</string>
     <string name="main_menu_help">Помощь</string>
     <string name="main_menu_web">Сообщество Catrobat</string>
-    <string name="main_menu_upload">Загрузить проект</string>
+    <string name="main_menu_upload">Выложить проект</string>
     <string name="main_menu_rate_app">Оцените нас!</string>
     <string name="main_menu_terms_of_use">Условия пользования и обслуживания</string>
     <string name="main_menu_privacy_policy">Политика конфиденциальности</string>
     <string name="main_menu_about">Об этом приложении</string>
     <string name="main_menu_login">Войти в аккаунт</string>
-    <string name="main_menu_logout">Выйти</string>
+    <string name="main_menu_logout">Выйти из аккаунта</string>
     <string name="main_menu_scratch_converter">Scratch конвертер</string>
     <string name="main_menu_play_store_not_installed">App store не найден</string>
     <!--  -->
     <!-- Marketing activity -->
     <string name="marketing_created_with">Создан с помощью</string>
     <string name="marketing_app_details">Сведения об этом приложении</string>
-    <string name="marketing_more_on_google_play">Больше приложений на Google Play</string>
+    <string name="marketing_more_on_google_play">Больше приложений в App store</string>
     <string name="error_cannot_open_huawei_app_gallery">Упс! Не удалось открыть Huawei AppGallery,
         Пожалуйста, повторите попытку позже.</string>
     <string name="google_play_store_logo">Google Play Маркет</string>
@@ -115,77 +115,77 @@
     <!-- Settings activity -->
     <string name="preference_title">Настройки</string>
     <string name="preference_title_language">Язык</string>
-    <string name="preference_description_language">Выберите язык приложения</string>
+    <string name="preference_description_language">Выбрать язык приложения</string>
     <string name="preference_title_web_access">Веб-доступ</string>
-    <string name="preference_description_web_access">Изменить, чтобы добавить или удалить доверенные домены</string>
+    <string name="preference_description_web_access">Изменить, добавить или удалить доверенные домены</string>
     <string name="preference_screen_web_access_title">Изменить доверенные домены</string>
     <string name="preference_title_ai">Расширение искусственного интеллекта (ИИ)</string>
-    <string name="preference_description_ai">Включение кирпичей и датчиков искусственного интеллекта</string>
-    <string name="preference_title_ai_speech_recognition">Речь
-        распознавание</string>
+    <string name="preference_description_ai">Включить блоки и датчики искусственного интеллекта</string>
+    <string name="preference_title_ai_speech_recognition">Распознование
+        речи</string>
     <string name="preference_description_ai_speech_recognition">Включить
-        устройства и датчики распознавания речи</string>
-    <string name="preference_title_ai_speech_synthetization">Речь
-        синтез</string>
+        блоки и датчики распознавания речи</string>
+    <string name="preference_title_ai_speech_synthetization">Синтез
+        речи</string>
     <string name="preference_description_ai_speech_synthetization">Включить
-        кирпичи синтеза речи и датчики</string>
-    <string name="preference_title_ai_face_detection">Лицо
-        обнаружение</string>
+        блоки и датчики синтеза речи</string>
+    <string name="preference_title_ai_face_detection">Обнаружение
+        лица</string>
     <string name="preference_description_ai_face_detection">Включить
-        кирпичи и датчики для распознавания лиц</string>
+        блоки и датчики для распознавания лиц</string>
     <string name="preference_title_ai_pose_detection">Определение позы</string>
     <string name="preference_description_ai_pose_detection">Включить
-        кирпичи и датчики для определения позы</string>
-    <string name="preference_title_ai_text_recognition">Текст
-        распознавание</string>
+        блоки и датчики для определения позы</string>
+    <string name="preference_title_ai_text_recognition">Распознование
+        текста</string>
     <string name="preference_description_ai_text_recognition">Включить
-        распознавания текста и датчиков</string>
+        распознавание текста и датчиков</string>
     <string name="preference_title_ai_object_recognition">Распознавание объектов</string>
     <string name="preference_description_ai_object_recognition">Включить датчики распознавания и отслеживания объектов</string>
     <string name="preference_title_accessibility">Доступность</string>
     <string name="preference_description_accessibility">Изменить вид приложения</string>
-    <string name="preference_title_accessibility_profiles">Профили доступности</string>
-    <string name="preference_title_accessibility_profile">Предопределенные профили</string>
+    <string name="preference_title_accessibility_profiles">Профили доступа</string>
+    <string name="preference_title_accessibility_profile">Заданные профили</string>
     <string name="preference_title_accessibility_profile_headline">Профили</string>
-    <string name="preference_title_accessibility_predefined_profile_headline">Предопределенные профили</string>
-    <string name="preference_description_accessibility_profiles">Выбрать профиль с предопределенной доступностью</string>
+    <string name="preference_title_accessibility_predefined_profile_headline">Заданные профили</string>
+    <string name="preference_description_accessibility_profiles">Выбрать профиль с уже заданным доступом</string>
     <string name="preference_title_accessibility_text_appearance">Вид текста</string>
     <string name="preference_title_accessibility_handling">Обработка</string>
     <string name="preference_title_accessibility_category_icons_big">Крупные значки</string>
-    <string name="preference_description_accessibility_category_icons_big">Увеличение размера значка.</string>
-    <string name="preference_title_accessibility_category_icons_high_contrast">Значки высокой контрастности</string>
+    <string name="preference_description_accessibility_category_icons_big">Увеличить размер значков.</string>
+    <string name="preference_title_accessibility_category_icons_high_contrast">Значки с повышенной контрастностью</string>
     <string name="preference_title_accessibility_Brick_icons">Значки</string>
     <string name="preference_title_accessibility_category_icons">Показать значки</string>
-    <string name="preference_description_accessibility_category_icons">Добавить значки в категории и кирпичи.</string>
+    <string name="preference_description_accessibility_category_icons">Добавить значки в категории и блоки.</string>
     <string name="preference_title_accessibility_high_contrast">Высокая контрастность</string>
     <string name="preference_description_accessibility_high_contrast">Увеличить контрастность текста.</string>
     <string name="preference_description_accessibility_large_text">Увеличить размер текста.</string>
     <string name="preference_title_accessibility_large_text">Крупный текст</string>
     <string name="preference_title_accessibility_element_spacing">Большой отступ между элементами</string>
-    <string name="preference_description_accessibility_element_spacing">Увеличить интервал между элементами в списках.</string>
+    <string name="preference_description_accessibility_element_spacing">Увеличить отступ между элементами в списках.</string>
     <string name="preference_title_accessibility_dragndrop_delay">Drag\'n\'drop задержка</string>
-    <string name="preference_description_accessibility_dragndrop_delay">Drag\'n\'drop задержка для кирпичей.</string>
-    <string name="preference_title_accessibility_beginner_bricks">Простой режим</string>
-    <string name="preference_description_accessibility_beginner_bricks">Показать только простые функции.</string>
+    <string name="preference_description_accessibility_dragndrop_delay">Drag\'n\'drop задержка для блоков.</string>
+    <string name="preference_title_accessibility_beginner_bricks">Режим новичка</string>
+    <string name="preference_description_accessibility_beginner_bricks">Показывать только простые функции.</string>
     <string name="preference_title_accessibility_font_style">Выбрать тип текста</string>
-    <string name="accessibility_font_regular">Обычный</string>
+    <string name="accessibility_font_regular">Системный</string>
     <string name="accessibility_font_serif">Шрифт с засечками</string>
     <string name="accessibility_font_dyslexic">Дислексический</string>
     <string name="accessibility_settings_applied">Изменения применены</string>
     <string name="preference_access_title_profile_default">По умолчанию</string>
     <string name="preference_access_summary_profile_default">Настройки по умолчанию</string>
-    <string name="preference_access_title_profile_custom">Мой профиль</string>
+    <string name="preference_access_title_profile_custom">Мой собственный профиль</string>
     <string name="preference_access_summary_profile_custom">Мои личные настройки</string>
     <string name="preference_access_title_profile_argus">Аргус</string>
     <string name="preference_access_summary_profile_argus">Высокая контрастность, дополнительные значки</string>
     <string name="preference_access_title_profile_odin">Один</string>
-    <string name="preference_access_summary_profile_odin">Большой текст, крупные значки, большой отступ между
+    <string name="preference_access_summary_profile_odin">Крупный текст, крупные значки, большой отступ между
        элементами, высокая контрастность</string>
     <string name="preference_access_title_profile_fenrir">Фенрир</string>
     <string name="preference_access_summary_profile_fenrir">Большой отступ между элементами, drag\'n\'drop
        задержка</string>
     <string name="preference_access_title_profile_tiro">Тиро</string>
-    <string name="preference_access_summary_profile_tiro">Простой режим</string>
+    <string name="preference_access_summary_profile_tiro">Режим новичка</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string name="preference_title_enable_quadcopter_bricks">Расширение Parrot AR.Drone 2.0</string>
     <string name="preference_description_quadcopter_bricks">Разрешить приложению управлять квадрокоптерами Parrot AR.Drone 2.0</string>
@@ -196,7 +196,7 @@
     <string name="preference_description_mindstorms_nxt_bricks">Разрешить приложению управлять роботами Lego Mindstorms NXT</string>
     <string name="preference_description_mindstorms_ev3_bricks">Разрешить приложению управлять роботами Lego Mindstorms EV3</string>
     <string name="preference_title_mindstorms_nxt_sensors">Датчики Lego NXT</string>
-    <string name="preference_title_mindstorms_ev3_sensors">Датчики Lego NXT</string>
+    <string name="preference_title_mindstorms_ev3_sensors">Датчики Lego EV3</string>
     <string name="preference_title_drone_config_properties">Конфигурация Parrot AR.Drone 2.0</string>
     <string name="preference_title_enable_phiro_bricks">Расширение Phiro от RobotixEdu</string>
     <string name="preference_description_phiro_bricks">Разрешить приложению управлять роботами Phiro от RobotixEdu</string>
@@ -205,16 +205,16 @@
     <string name="preference_title_enable_embroidery_bricks">Расширение для вышивки</string>
     <string name="preference_description_embroidery_bricks">Создавать шаблоны для швейных машин</string>
     <string name="preference_title_cast_feature_globally_enabled">Расширение Chromecast</string>
-    <string name="preference_description_cast_feature_globally_enabled">Показать кнопку трансляции и транслируемые проекты</string>
-    <string name="preference_title_enable_nfc_bricks">Ближняя бесконтактная связь (NFC)</string>
+    <string name="preference_description_cast_feature_globally_enabled">Показывать кнопку трансляции и транслируемые проекты</string>
+    <string name="preference_title_enable_nfc_bricks">Расширение NFC</string>
     <string name="preference_description_nfc_bricks">Разрешить приложению использовать NFC теги в проектах</string>
     <string name="preference_title_enable_crash_reports">Отправлять анонимные отчеты об ошибках</string>
     <string name="preference_description_crash_reports">Разрешить приложению автоматически отправлять отчеты об ошибках</string>
     <!-- -->
-    <string name="preference_title_enable_raspi_bricks">Блоки Raspberry Pi</string>
+    <string name="preference_title_enable_raspi_bricks">Расширение Raspberry Pi</string>
     <string name="preference_description_raspi_bricks">Разрешить приложению управлять компьютерами Raspberry Pi</string>
-    <string name="preference_raspi_enable_bricks">Включить блоки и сенсоры</string>
-    <string name="preference_raspi_help">Помощь / Начало работы</string>
+    <string name="preference_raspi_enable_bricks">Включить блоки и датчики</string>
+    <string name="preference_raspi_help">Помощь / начало работы</string>
     <string name="preference_raspi_help_summary">Получить справку о том, как настроить параметры подключения</string>
     <string name="preference_raspi_host">Raspberry Pi IP-/хост-адрес</string>
     <string name="preference_raspi_port">Порт Raspberry Pi</string>
@@ -231,14 +231,16 @@
     <string name="error_scratch_project_data_not_available">Ой! Некоторые части проекта, похоже, пропали,
         пожалуйста, повторите попытку позже.</string>
     <string name="error_request_timeout">Ой! Наш сервер не ответил вовремя, пожалуйста, повторите попытку позже.</string>
-    <string name="error_scratch_program_conversion_failed">К сожалению не удалось конвертировать программу Scratch, пожалуйста, повторите попытку позже!</string>
-    <string name="error_specific_scratch_program_conversion_failed_x">К сожалению, не удалось конвертировать %1$s, пожалуйста, повторите попытку позже!</string>
+    <string name="error_scratch_program_conversion_failed">Ой! Не удалось конвертировать проект, пожалуйста, повторите попытку
+        позже.</string>
+    <string name="error_specific_scratch_program_conversion_failed_x">К сожалению, не удалось конвертировать %1$s, 
+        пожалуйста, повторите попытку позже!</string>
     <string name="error_scratch_converter_outdated_app_version">Ваша версия этого приложения устарела. Наш конвертер
         Scratch работает только на последней версии. Пожалуйста, обновите приложение.</string>
     <string name="error_cannot_open_not_existing_scratch_program">Невозможно открыть этот проект Scratch. Похоже вы
         отменили преобразование/загрузку проекта или переименовали/удалили его.</string>
     <string name="error_cannot_open_currently_downloading_scratch_program">Вы еще не можете открыть проект.
-        Пожалуйста, подождите пока он не будет загружен.</string>
+        Пожалуйста, подождите пока он загрузится.</string>
     <string name="error_cannot_open_not_yet_downloaded_scratch_program">Вы еще не можете открыть проект.
         Пожалуйста, сначала загрузите его и затем откройте.</string>
     <string name="error_cannot_convert_deprecated_scratch_program_x_x">Невозможно преобразовать %1$s. Похоже, это
@@ -271,7 +273,7 @@
     <string name="converting">Конвертация&#8230;</string>
     <string name="status_scheduled">Запланировано</string>
     <string name="status_waiting_for_worker">Ищем свободный процесс&#8230; Пожалуйста, подождите&#8230;</string>
-    <string name="status_started">Начали&#8230;</string>
+    <string name="status_started">Начато&#8230;</string>
     <string name="status_conversion_finished">Конвертация завершена</string>
     <plurals name="status_in_progress_x_jobs">
         <item quantity="one">В процессе: %d операция</item>
@@ -280,19 +282,19 @@
         <item quantity="other">В процессе: %d операции</item>
     </plurals>
     <plurals name="status_completed_x_jobs">
-        <item quantity="one">Завершены: %d операция</item>
-        <item quantity="few">Завершены: %d операций</item>
+        <item quantity="one">Завершена: %d операция</item>
+        <item quantity="few">Завершены: %d операции</item>
         <item quantity="many">Завершены: %d операции</item>
         <item quantity="other">Завершены: %d операции</item>
     </plurals>
     <string name="status_conversion_failed">Конвертация не удалась!</string>
     <string name="status_downloading">Скачивание&#8230;</string>
     <string name="status_download_finished">Скачивание завершено.</string>
-    <string name="status_download_canceled">Загрузка отменена!</string>
+    <string name="status_download_canceled">Скачивание отменено!</string>
     <string name="scratch_programs_in_progress_title">В процессе</string>
     <string name="scratch_programs_finished_title">Сконвертированные проекты</string>
-    <string name="by_x">от %1$s</string>
-    <string name="warning_program_visibility">ВНИМАНИЕ:\nКажется это частный проект. Вы можете попробовать
+    <string name="by_x">сделано %1$s</string>
+    <string name="warning_program_visibility">ВНИМАНИЕ:\nКажется это приватный проект. Вы можете попробовать
         конвертировать его, но он может не работать.</string>
     <string name="instructions">Инструкции</string>
     <string name="notes_and_credits">Примечания и авторы</string>
@@ -301,8 +303,8 @@
     <string name="remixes">Ремиксы</string>
     <!--  -->
     <string name="author">Автор:</string>
-    <string name="screen_size">Размер экрана:</string>
-    <string name="mode">Ориентация:</string>
+    <string name="screen_size">Размер сцены:</string>
+    <string name="mode">Режим:</string>
     <string name="remix_of">Ремикс программы:</string>
     <string name="description_hint">Нажмите, чтобы добавить описание</string>
     <string name="notes_and_credits_hint">Нажмите, чтобы добавить примечания и авторов</string>
@@ -332,7 +334,7 @@
     <!-- ERRORS -->
     <!-- Terms of Use and Service Error -->
     <string name="declined_terms_of_use_and_service_alert">Для использования нашего приложения необходимо принять наши Условия использования и обслуживания.
-        Однако, если вы не чувствуете себя комфортным, вы можете воспользоваться нашими бесплатными веб-сервисами</string>
+        Однако, если вам доставляет это дискомфорт, вы можете воспользоваться нашими бесплатными веб-сервисами</string>
     <string name="wtf_error">Произошла непредвиденная ошибка: Невозможно восстановить образец проекта.</string>
     <!-- Project Handling Errors -->
     <string name="error_copy_project">Произошла ошибка при копировании проекта</string>
@@ -343,11 +345,11 @@
     <string name="name_empty">Пожалуйста, введите текст</string>
     <!-- Recycler View -->
     <string name="am_empty_list">В этом списке пока нет элементов. Пожалуйста, добавьте сначала несколько.</string>
-    <string name="reject_import">Объект или актёр не может быть добавлен.</string>
-    <string name="am_merge_error">Объединение не завершено. Для слияния должны быть выбраны как минимум 2 проекта</string>
+    <string name="reject_import">Актер или объект не может быть добавлен.</string>
+    <string name="am_merge_error">Объединение не произошло. Для слияния должны быть выбраны как минимум 2 проекта.</string>
     <string name="am_backpack">Упаковать</string>
     <string name="am_unpack">Распаковать</string>
-    <string name="am_copy">Копировать</string>
+    <string name="am_copy">Скопировать</string>
     <string name="am_delete">Удалить</string>
     <string name="am_rename">Переименовать</string>
     <string name="am_convert">Конвертировать</string>
@@ -355,8 +357,8 @@
     <string name="dialog_confirm_delete">Вы не сможете это отменить!</string>
     <string name="list_headline_sprites">Актеры и объекты</string>
     <!-- Options Menu Options -->
-    <string name="backpack">Рюкзак</string>
-    <string name="copy">Копировать</string>
+    <string name="backpack">Портфель</string>
+    <string name="copy">Скопировать</string>
     <string name="delete">Удалить</string>
     <string name="rename">Переименовать</string>
     <string name="merge">Объединить</string>
@@ -416,7 +418,7 @@
     <!-- Dialog Labels -->
     <string name="project_name_label">Название проекта</string>
     <string name="scene_name_label">Название сцены</string>
-    <string name="sprite_name_label">Имя актера или объекта</string>
+    <string name="sprite_name_label">Название актера или объекта</string>
     <string name="sprite_group_name_label">Название группы</string>
     <string name="script_group_label">Название группы скриптов</string>
     <string name="look_name_label">Название образа</string>
@@ -424,8 +426,8 @@
     <string name="nfc_tag_name_label">Название NFC тега</string>
     <string name="string_label">Текст</string>
     <string name="data_label">Название</string>
-    <string name="keyword_label">Вставить ключевое слово</string>
-    <string name="html_label">Вставить HTML-текст</string>
+    <string name="keyword_label">Вставьте ключевое слово</string>
+    <string name="html_label">Вставьте HTML-текст</string>
     <string name="Image_format_not_supported">Формат изображения не поддерживается</string>
     <string name="import_conflicting_variables">Актер или объект не может быть добавлен.</string>
     <string name="import_conflicting_variables_reason">Причина в том, что следующие переменные или
@@ -433,18 +435,18 @@
         всех действующих актеров и объектов и с тем же именем только для одного из действующих актеров или объектов: </string>
     <string name="import_conflicting_variables_try_again">Пожалуйста, переименуйте одну из этих переменных или списков и повторите попытку.</string>
     <!-- Details -->
-    <string name="project_details">Последний раз доступа: %s, размер: %s</string>
-    <string name="last_access_today">Сегодня, %s</string>
-    <string name="scene_details">Актеры и объекты: %d, образов: %d, звуков: %d</string>
+    <string name="project_details">Последний доступ: %s, размер: %s</string>
+    <string name="last_access_today">сегодня, %s</string>
+    <string name="scene_details">Актеров и объектов: %d, образов: %d, звуков: %d</string>
     <string name="sprite_details">Блоков: %d, образов: %d, звуков: %d</string>
     <string name="look_details">Разрешение: %s, размер: %s</string>
-    <string name="sound_duration">Продолжительность: %s</string>
-    <string name="sound_details">Продолжительность: %s, размер: %s</string>
+    <string name="sound_duration">Длительность: %s</string>
+    <string name="sound_details">Длительность: %s, размер: %s</string>
     <!--  -->
     <!-- Rename Dialog Titles -->
     <string name="rename_project">Переименовать проект</string>
     <string name="rename_scene_dialog">Переименовать сцену</string>
-    <string name="rename_sprite_dialog">Переименовать актера или объекта</string>
+    <string name="rename_sprite_dialog">Переименовать актера или объект</string>
     <string name="rename_look_dialog">Переименовать образ</string>
     <string name="rename_sound_dialog">Переименовать звук</string>
     <string name="rename_nfctag_dialog">Переименовать NFC тег</string>
@@ -456,7 +458,7 @@
     <string name="new_scene">Новая сцена</string>
     <!-- Action Toasts -->
     <!-- Backpack -->
-    <string name="backpack_empty">Рюкзак пуст. Нечего распаковать.</string>
+    <string name="backpack_empty">Портфель пуст. Нечего распаковывать.</string>
     <plurals name="packed_scenes">
         <item quantity="one">Упакована %d сцена.</item>
         <item quantity="few">Упаковано %d сцен.</item>
@@ -477,7 +479,7 @@
     </plurals>
     <plurals name="packed_sounds">
         <item quantity="one">Упакован %d звук.</item>
-        <item quantity="few">Упаковано %d звуков.</item>
+        <item quantity="few">Упаковано %d звука.</item>
         <item quantity="many">Упаковано %d звуков.</item>
         <item quantity="other">Упаковано %d звуков.</item>
     </plurals>
@@ -497,13 +499,13 @@
     </plurals>
     <plurals name="unpacked_looks">
         <item quantity="one">Распакован %d образ.</item>
-        <item quantity="few">Распаковано %d образов.</item>
+        <item quantity="few">Распаковано %d образа.</item>
         <item quantity="many">Распаковано %d образов.</item>
         <item quantity="other">Распаковано %d образов.</item>
     </plurals>
     <plurals name="unpacked_sounds">
         <item quantity="one">Распакован %d звук.</item>
-        <item quantity="few">Распаковано %d звуков.</item>
+        <item quantity="few">Распаковано %d звука.</item>
         <item quantity="many">Распаковано %d звуков.</item>
         <item quantity="other">Распаковано %d звуков.</item>
     </plurals>
@@ -601,24 +603,24 @@
         <item quantity="other">Импортировано %d проектов.</item>
     </plurals>
     <!-- Renamed -->
-    <string name="renamed_project">Переименованный проект</string>
+    <string name="renamed_project">Проект был переименован</string>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">Проекты</string>
-    <string name="last_used">Последний раз доступа</string>
+    <string name="last_used">Последний доступ:</string>
     <string name="size">Размер:</string>
     <string name="description">Описание:</string>
     <string name="set_description">Добавить описание</string>
     <string name="notes_and_credits_title">Примечания и авторы:</string>
-    <string name="set_notes_and_credits">Задать примечания и авторов</string>
+    <string name="set_notes_and_credits">Добавить примечания и авторов</string>
     <string name="details_date_today">Сегодня</string>
     <string name="import_project">Импортировать проект</string>
-    <string name="export_project">Сохранить проект на устройство</string>
-    <string name="error_import_project">Произошла ошибка при импорте проектов.</string>
-    <string name="no_projects_selected">Нет проектов, выбранных для импорта</string>
-    <string name="only_select_catrobat_files">Выберите только файлы проекта</string>
+    <string name="export_project">Экспортировать проект</string>
+    <string name="error_import_project">Что-то пошло не так при импорте проектов.</string>
+    <string name="no_projects_selected">Проекты для импорта не выбраны</string>
+    <string name="only_select_catrobat_files">Выберите файл проекта с расширением .catrobat</string>
     <string name="error_no_files_found">Файлы проекта не найдены.</string>
-    <string name="import_sprite_from_project_launcher">Импорт объекта из проекта</string>
+    <string name="import_sprite_from_project_launcher">Импорт объекта из локального проекта</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Описание</string>
     <string name="project_options_notes_and_credits">Примечания и авторы</string>
@@ -627,10 +629,10 @@
     <string name="project_options_more_details">Подробнее</string>
     <string name="project_options_delete_project">Удалить проект</string>
     <!-- ScriptListFragment -->
-    <string name="fragment_script_text_description">Нажмите \"+\" чтобы добавить скрипт</string>
+    <string name="fragment_script_text_description">Нажмите \"+\" чтобы добавить скрипты</string>
     <!--  -->
     <!-- SpriteListFragment -->
-    <string name="fragment_sprite_text_description">Нажми \"+\" чтобы добавить актеров или объектов</string>
+    <string name="fragment_sprite_text_description">Нажмите \"+\" чтобы добавить актеров или объектов</string>
     <string name="default_sprite_name">Мой актер или объект</string>
     <!--  -->
     <!-- LookListFragment -->
@@ -645,7 +647,7 @@
     <!-- NfcTagListFragment -->
     <string name="fragment_nfctag_text_description">Просканируйте NFC теги, чтобы их добавить</string>
     <string name="ndef_record_label">как тип записи</string>
-    <string name="brick_set_nfc_tag">Подождите, пока следующий NFC тег будет записан</string>
+    <string name="brick_set_nfc_tag">Ждать до следующей записи NFC тега</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
     <string name="default_tag_name">NFC тег</string>
     <string name="tnf_empty">Пусто</string>
@@ -663,12 +665,12 @@
     <string name="local_vars_headline">Переменные только для этого актера или объекта</string>
     <string name="global_lists_headline">Списки для всех актеров или объектов</string>
     <string name="local_lists_headline">Списки только для этого актера или объекта</string>
-    <string name="fragment_data_text_description">Нажмите \"+\" чтобы добавить\nпеременных или списков</string>
+    <string name="fragment_data_text_description">Нажмите \"+\" чтобы добавить\nпеременные или списки</string>
     <plurals name="user_defined_brick_input_headline">
-        <item quantity="one">Введите для этого кирпича</item>
-        <item quantity="few">Введите для этого кирпича</item>
-        <item quantity="many">Введите для этих кирпичей</item>
-        <item quantity="other">Введите для этих кирпичей</item>
+        <item quantity="one">Ввод для этого блока</item>
+        <item quantity="few">Вводы для этого блока</item>
+        <item quantity="many">Вводы для этого блока</item>
+        <item quantity="other">Вводы для этих блоков</item>
     </plurals>
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">Для всех актеров, объектов, и клонов во всех сценах</string>
@@ -676,7 +678,7 @@
     <string name="new_data_for_connected_devices">Для всех актеров, объектов и клонов во всех сценах проектов
      на подключенных многопользовательских устройствах</string>
     <!-- Backpack -->
-    <string name="backpack_title">Ваш рюкзак</string>
+    <string name="backpack_title">Ваш портфель</string>
     <string name="pack">Упаковать</string>
     <string name="unpack">Распаковать</string>
     <!--  -->
@@ -695,9 +697,9 @@
     <string name="add_look_from_camera">Сделать снимок</string>
     <string name="add_look_object_library">Моя библиотека</string>
     <string name="add_look_draw_new_image">Нарисовать</string>
-    <string name="add_look_choose_image">Из галереи</string>
+    <string name="add_look_choose_image">Загрузить из галереи</string>
     <string name="add_look_media_library">Загрузить из библиотеки</string>
-    <string name="add_look_from_local_project">Локальные проекты</string>
+    <string name="add_look_from_local_project">Загрузить из локальных проектов</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">Добавить звук</string>
@@ -706,7 +708,7 @@
     <string name="add_sound_music">Музыкальный композитор</string>
     <string name="add_sound_choose_sound">Звуки</string>
     <!-- NotePickerDialog -->
-    <string name="note_picker_title">Выбор заметок</string>
+    <string name="note_picker_title">Выбор нот</string>
     <!--  -->
     <!-- Rating Dialog -->
     <string name="rating_dialog_title">Оценить приложение</string>
@@ -716,12 +718,12 @@
     <string name="rating_dialog_rate_never">Никогда</string>
     <!--  -->
     <!-- Terms of Use Dialog -->
-    <string name="dialog_terms_of_use_title">Условия Пользования и Обслуживания</string>
+    <string name="dialog_terms_of_use_title">Условия пользования и обслуживания</string>
     <string name="dialog_terms_of_use_info">Чтобы
         использовать приложения и сервисы проекта Catrobat, вы
-        должны принять наши Условия Пользования и Обслуживания. Вы должны придерживаться данных условий, используя наши приложения
+        должны принять наши Условия пользования и обслуживания. Вы должны придерживаться данных условий, когда используете наши приложения
         и другие сервисы. Пожалуйста, перейдите по ссылке ниже для их детального рассмотрения.\n</string>
-    <string name="dialog_terms_of_use_link_text">Условия Пользования и Обслуживания</string>
+    <string name="dialog_terms_of_use_link_text">Условия пользования и обслуживания</string>
     <!--  -->
     <!-- Privacy Policy -->
     <string name="disclaimer_privacy_police_header_headline">Добро пожаловать!</string>
@@ -741,46 +743,46 @@
     <!-- NetworkAlertDialog -->
     <string name="error_no_network_title">Отсутствует подключение к интернету</string>
     <!-- UploadProjectDialog -->
-    <string name="upload_project_dialog_title">Загрузить проект</string>
+    <string name="upload_project_dialog_title">Выложить проект</string>
     <string name="upload_description">Описание:</string>
     <string name="upload_notes_and_credits">Примечания и авторы:</string>
     <string name="upload_notes_and_credits_explanation">Как вы создали этот проект? Вы использовали идеи, скрипты или работы от других людей? Поблагодарите их здесь.</string>
     <string name="upload_tag_dialog_title">Пожалуйста, выберите до трех категорий</string>
     <string name="upload_tags_maximum_error">Выбор более 3 категорий невозможен.</string>
     <!-- Save Project to External Storage -->
-    <string name="save_to_external_storage_button">Сохранить проект на устройство</string>
+    <string name="save_to_external_storage_button">Экспортировать проект</string>
     <string name="notification_save_project_to_external_storage_title_pending">" "</string>
     <string name="notification_save_project_to_external_storage_pending">Сохранение проекта на устройство.</string>
     <string name="notification_save_project_to_external_storage_title_open">" "</string>
-    <string name="notification_save_project_to_external_storage_open">"Проект сохранён в %1$s"</string>
+    <string name="notification_save_project_to_external_storage_open">"Проект сохранен в %1$s"</string>
     <string name="save_project_to_external_storage_io_exception_message">Не удалось сохранить проект, недостаточно памяти!</string>
     <!--  -->
     <!-- SoundRecorderActivity -->
     <string name="soundrecorder_name">Запись звука</string>
     <string name="soundrecorder_error">Ошибка записи звука</string>
-    <string name="soundrecorder_recorded_filename">Новая запись</string>
+    <string name="soundrecorder_recorded_filename">запись</string>
     <string name="soundrecorder_text_view">Нажмите на верхнюю иконку для начала или остановки записи.</string>
     <!--  -->
     <!-- Brick context dialog -->
-    <string name="brick_context_dialog_move_brick">Переместить кирпич</string>
+    <string name="brick_context_dialog_move_brick">Переместить блок</string>
     <string name="brick_context_dialog_move_script">Переместить скрипт</string>
     <string name="brick_context_dialog_move_definition">Переместить это определение</string>
-    <string name="brick_context_dialog_delete_brick">Удалить кирпич</string>
-    <string name="brick_context_dialog_copy_brick">Копировать кирпич</string>
-    <string name="brick_context_dialog_copy_script">Копировать скрипт</string>
+    <string name="brick_context_dialog_delete_brick">Удалить блок</string>
+    <string name="brick_context_dialog_copy_brick">Скопировать блок</string>
+    <string name="brick_context_dialog_copy_script">Скопировать скрипт</string>
     <string name="brick_context_dialog_formula_edit_brick">Изменить формулу</string>
     <string name="brick_context_dialog_delete_script">Удалить скрипт</string>
     <string name="brick_context_dialog_delete_definition">Удалить это определение</string>
-    <string name="brick_context_dialog_comment_in">Включить кирпич</string>
-    <string name="brick_context_dialog_comment_out">Отключить кирпич</string>
-    <string name="brick_context_dialog_highlight_brick_parts">Выделить части кирпича</string>
+    <string name="brick_context_dialog_comment_in">Включить блок</string>
+    <string name="brick_context_dialog_comment_out">Отключить блок</string>
+    <string name="brick_context_dialog_highlight_brick_parts">Выделить части блока</string>
     <string name="brick_context_dialog_comment_in_script">Включить скрипт</string>
     <string name="brick_context_dialog_comment_out_script">Отключить скрипт</string>
     <string name="brick_context_dialog_help">Помощь</string>
     <string name="comment_in_out">Отключить/включить</string>
     <string name="catblocks">Переключить в 2D</string>
-    <string name="catblocks_reorder">Очистить скрипты</string>
-    <string name="switch_to_1d">1D вид</string>
+    <string name="catblocks_reorder">Перегрупировать скрипты</string>
+    <string name="switch_to_1d">Переключить в 1D</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">Запустить сцену:</string>
@@ -793,7 +795,7 @@
     <string name="password">Пароль</string>
     <string name="reset_password">Сбросить пароль</string>
     <string name="new_user_registered">Новый аккаунт был создан</string>
-    <string name="user_logged_in">Вы вошли в аккаунт</string>
+    <string name="user_logged_in">Вы успешно вошли в аккаунт</string>
     <string name="register_error">Неверный логин</string>
     <string name="register_terms">Регистрируясь, вы соглашаетесь с нашими</string>
     <string name="register_code_terms_of_use_text">Условия пользования и обслуживания</string>
@@ -804,15 +806,15 @@
     <string name="signin_thanks">Спасибо за регистрацию!</string>
     <string name="signin_choose_username">Пожалуйста, выберите имя пользователя:</string>
     <string name="signin_choose_username_empty">Пожалуйста, введите имя пользователя.</string>
-    <string name="signin_choose_username_hint">Имя пользователя не должно совпадать с вашим настоящим именем.</string>
+    <string name="signin_choose_username_hint">Имя пользователя не должно совпадать с вашим настоящим именем, и не должно являться адресом электронной почты.</string>
     <string name="oauth_username_taken">Кто-то уже использует это имя. Пожалуйста, выберите другое!</string>
     <string name="show_password">Показать пароль</string>
-    <string name="sign_in_error">Что-то пошло не так во время входа.</string>
+    <string name="sign_in_error">Что-то пошло не так при входе в аккаунт.</string>
     <string name="error_google_plus_sign_in">Ошибка входа в аккаунт Google. Статус: %s</string>
     <string name="error_session_expired">Сессия истекла, пожалуйста, войдите в аккаунт.</string>
     <string name="error_register_empty_username">Пустое имя пользователя</string>
     <string name="error_register_username_as_email">Адрес электронной почты не может быть использован как имя пользователя</string>
-    <string name="error_register_invalid_username">Имя пользователя должно содержать только буквы (a–z), цифры (0–9),
+    <string name="error_register_invalid_username">Имя пользователя может содержать только буквы (a–z), цифры (0–9),
         тире (-), подчеркивания (_), и точки (.).</string>
     <string name="error_register_username_start_with">Имя пользователя не должно начинаться с тире (-), подчеркивания (_), или
         точек (.).</string>
@@ -821,13 +823,13 @@
     <string name="error_register_password_at_least_6_characters">Пароль должен содержать не менее 6 символов</string>
     <string name="error_register_passwords_mismatch">Пароли не совпадают</string>
     <string name="error_register_empty_confirm_password">Не заполнено поле \"Подтвердить пароль\"</string>
-    <string name="error_register_username_already_exists">Имя пользователя уже существует</string>
-    <string name="error_register_email_exists">Эта электронная почта уже зарегистрирована</string>
+    <string name="error_register_username_already_exists">Это имя пользователя уже зарегистрировано</string>
+    <string name="error_register_email_exists">Этот адрес электронной почты уже зарегистрирован</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string name="overwrite_title">Проект уже существует.</string>
     <string name="overwrite_text">Проект с таким названием уже существует.</string>
-    <string name="overwrite_replace">Обновить текущий проект</string>
+    <string name="overwrite_replace">Обновить проект</string>
     <string name="overwrite_rename">Выберите новое имя</string>
     <!--  -->
     <!-- Music activity -->
@@ -842,38 +844,38 @@
         Следующие компоненты недоступны:\n\n</string>
     <string name="prestage_no_vibration_available">\u2022 Вибрация\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Датчик ускорения\n</string>
-    <string name="prestage_no_inclination_sensor_available">\u2022 Датчик угла наклона\n</string>
+    <string name="prestage_no_inclination_sensor_available">\u2022 Датчик наклона\n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 Компас\n</string>
-    <string name="prestage_no_gps_sensor_available">\u2022 GPS\n</string>
-    <string name="prestage_text_to_speech_error">\u2022 Программа воспроизведения текста\n</string>
+    <string name="prestage_no_gps_sensor_available">\u2022 Местоположение\n</string>
+    <string name="prestage_text_to_speech_error">\u2022 Программа преобразования текста в речь\n</string>
     <string name="prestage_no_back_camera_available">\u2022 Задняя камера\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Обнаружение лица\n</string>
     <string name="prestage_no_object_detection_available">\u2022 Распознавание объектов\n</string>
     <string name="prestage_no_pose_detection_available">\u2022 Обнаружение позы\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Определение текста\n</string>
-    <string name="prestage_no_front_camera_available">\u2022 Фронтальная камера\n</string>
+    <string name="prestage_no_front_camera_available">\u2022 Передняя камера\n</string>
     <string name="prestage_no_camera_available">\u2022 Камера\n</string>
     <string name="prestage_no_flash_available">\u2022 Фонарик\n</string>
     <string name="prestage_default_resource_not_available">\u2022 Неизвестный компонент\n</string>
-    <string name="no_nfc_available">NFC недоступна</string>
+    <string name="no_nfc_available">NFC недоступен</string>
     <string name="nfc_not_activated">Пожалуйста активируйте NFC и нажмите кнопку Назад, чтобы вернуться в приложение.</string>
-    <string name="nfc_facedetection_support">Использование NFC и обнаружения лица одновременно может привести к проблемам
+    <string name="nfc_facedetection_support">Одновременное использование NFC и функции обнаружения лица может привести к проблемам
         с производительностью.</string>
     <!--  -->
     <!-- Stage menu dialog -->
     <string name="stage_dialog_back">Назад</string>
     <string name="stage_dialog_resume">Продолжить</string>
-    <string name="stage_dialog_restart">Заново</string>
+    <string name="stage_dialog_restart">Перезапустить</string>
     <string name="stage_dialog_axes_on">Показать оси</string>
     <string name="stage_dialog_axes_off">Скрыть оси</string>
     <string name="stage_dialog_maximize">Развернуть/\nрастянуть</string>
-    <string name="stage_dialog_screenshot">Предпросмотр</string>
+    <string name="stage_dialog_screenshot">Превью</string>
     <string name="stage_dialog_embroidery">Вышивка</string>
     <!--  -->
     <!-- Broadcast spinner -->
-    <string name="dialog_new_broadcast_message_title">Новый сигнал</string>
+    <string name="dialog_new_broadcast_message_title">Новое сообщение</string>
     <string name="dialog_broadcast_message_name">сообщение:</string>
-    <string name="dialog_edit_broadcast_message_title">Редактировать сообщение</string>
+    <string name="dialog_edit_broadcast_message_title">Изменить сообщение</string>
     <!--  -->
     <!-- NFC spinner -->
     <string name="brick_when_nfc_edit_list_of_nfc_tags">Редактировать список NFC тегов</string>
@@ -882,13 +884,13 @@
     <!-- Brick categories -->
     <string name="categories">Категории</string>
     <string name="category_embroidery">Вышивка</string>
-    <string name="category_motion">Физика</string>
+    <string name="category_motion">Движение</string>
     <string name="category_looks">Образы</string>
     <string name="category_pen">Перо</string>
     <string name="category_sound">Звук</string>
     <string name="category_control">Управление</string>
     <string name="category_event">Событие</string>
-    <string name="category_user_bricks">Свои кирпичи</string>
+    <string name="category_user_bricks">Ваши блоки</string>
     <string name="category_data">Данные</string>
     <string name="category_device">Устройство</string>
     <string name="category_lego_nxt">Лего NXT</string>
@@ -900,44 +902,44 @@
     <string name="category_cast">Chromecast</string>
     <string name="category_raspi">Raspberry Pi</string>
     <string name="category_assertions">Тестирование</string>
-    <string name="category_search_bricks">Поиск кирпичей</string>
+    <string name="category_search_bricks">Поиск блоков</string>
     <!--  -->
     <!-- User Defined Bricks -->
     <string name="brick_user_defined_add_label">Добавить метку</string>
     <string name="brick_user_defined_add_input">Добавить ввод</string>
-    <string name="brick_user_defined_add_input_description">Добавить ввод для этого кирпича:</string>
-    <string name="brick_user_defined_add_label_description">Добавьте метку для этого кирпича:</string>
+    <string name="brick_user_defined_add_input_description">Добавить ввод для этого блока:</string>
+    <string name="brick_user_defined_add_label_description">Добавить метку для этого блока:</string>
     <string name="brick_user_defined_default_input_name">Имя ввода</string>
     <string name="brick_user_defined_default_label">Текст метки</string>
-    <string name="brick_user_defined_already_exists">Кирпич с этими ярлыками уже существует. Пожалуйста, добавьте больше меток или входов.</string>
+    <string name="brick_user_defined_already_exists">Блок с этими метками уже существует. Пожалуйста, добавьте больше меток или вводных данных.</string>
     <string name="brick_user_defined_script_define">Задать</string>
     <string name="brick_user_defined_script_screen_refresh_as">экран обновляется как</string>
     <string name="brick_user_defined_with_screen_refreshing">с</string>
     <string name="brick_user_defined_without_screen_refreshing">без</string>
-    <string name="brick_user_defined_list_empty">Нажмите \"+\" чтобы добавить свои собственные кирпичи.</string>
-    <string name="brick_report">Пожаловаться</string>
+    <string name="brick_user_defined_list_empty">Нажмите \"+\" чтобы добавить свои собственные блоки.</string>
+    <string name="brick_report">Отчет</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Поместить в "</string>
     <string name="brick_option_place_visually">Поместить визуально</string>
     <string name="x_label">"X: "</string>
-    <string name="y_label">"Y:"</string>
+    <string name="y_label">"Y: "</string>
     <string name="brick_set_x">"Установить X в "</string>
     <string name="brick_set_y">"Установить Y в "</string>
-    <string name="brick_change_x_by">"Изменить X на:"</string>
-    <string name="brick_change_y_by">"Изменить Y на:"</string>
-    <string name="brick_go_back">Назад на</string>
+    <string name="brick_change_x_by">"Изменить X на"</string>
+    <string name="brick_change_y_by">"Изменить Y на"</string>
+    <string name="brick_go_back">Вернуться на</string>
     <string name="brick_set_rotation_style">"Задать тип вращения "</string>
-    <string name="brick_set_rotation_style_lr">только слева-направо</string>
+    <string name="brick_set_rotation_style_lr">только влево-вправо</string>
     <string name="brick_set_rotation_style_normal">вокруг</string>
     <string name="brick_set_rotation_style_no">не вращать</string>
     <plurals name="brick_go_back_layer_plural">
         <item quantity="one">слой</item>
         <item quantity="few">слоев</item>
         <item quantity="many">слоев</item>
-        <item quantity="other">слоев</item>
+        <item quantity="other">слоя</item>
     </plurals>
-    <string name="brick_come_to_front">Переместить на передний план</string>
+    <string name="brick_come_to_front">Переместить на передний слой</string>
     <string name="brick_if_on_edge_bounce">Оттолкнуться, если на краю</string>
     <string name="brick_move">Идти</string>
     <plurals name="brick_move_n_step_plural">
@@ -947,14 +949,14 @@
         <item quantity="other">шагов</item>
     </plurals>
     <string name="brick_turn_left">Повернуть налево на</string>
-    <string name="brick_turn_right">Повернуть направо</string>
+    <string name="brick_turn_right">Повернуть направо на</string>
     <string name="brick_point_in_direction">Указать в направлении</string>
-    <string name="brick_point_to">Указать в направление к</string>
+    <string name="brick_point_to">Указать в направлении к</string>
     <string name="brick_glide">Скользить </string>
     <string name="brick_glide_to_x">по X:</string>
     <string name="brick_go_to">Перейти в</string>
-    <string name="brick_go_to_touch_position">Место, к которому прикоснулись</string>
-    <string name="brick_go_to_random_position">Случайное место</string>
+    <string name="brick_go_to_touch_position">место касания</string>
+    <string name="brick_go_to_random_position">случайное место</string>
     <!--  -->
     <!-- Physics -->
     <string name="brick_set_physics_object_type">Задать тип движения</string>
@@ -963,8 +965,8 @@
     <string name="brick_set_physics_object_type_no">без отталкивания и прыжков под гравитацией (по умолчанию)</string>
     <string name="brick_set_mass">"Задать массу "</string>
     <string name="brick_set_mass_unit">килограмм</string>
-    <string name="brick_set_gravity_to">"Задать силу тяжести для всех актеров или объектов на"</string>
-    <string name="brick_set_gravity_unit">шагов в секунду^2</string>
+    <string name="brick_set_gravity_to">"Задать силу тяжести для всех актеров или объектов"</string>
+    <string name="brick_set_gravity_unit">шагов в секунду²</string>
     <string name="brick_set_velocity_to">"Задать скорость "</string>
     <string name="brick_set_velocity_unit">шагов в секунду</string>
     <string name="brick_turn_speed_unit">градусов в секунду</string>
@@ -973,16 +975,16 @@
     <string name="brick_rotate_left">"Вращать влево "</string>
     <string name="brick_rotate_right">"Вращать вправо "</string>
     <!-- Look bricks -->
-    <string name="brick_set_look">Переключиться на образ</string>
-    <string name="brick_set_look_by_index">Переключиться на образ с номером</string>
+    <string name="brick_set_look">Задать образ</string>
+    <string name="brick_set_look_by_index">Задать образ под номером</string>
     <string name="brick_and_wait">и ждать</string>
     <string name="brick_set_background">Задать фон</string>
-    <string name="brick_set_background_and_wait">Установить фон и ждать</string>
-    <string name="brick_set_background_by_index">Установить фон под номером</string>
+    <string name="brick_set_background_and_wait">Задать фон и ждать</string>
+    <string name="brick_set_background_by_index">Задать фон под номером</string>
     <string name="brick_when_background">Когда фон изменится на</string>
-    <string name="brick_set_size_to">Установить размер</string>
+    <string name="brick_set_size_to">Задать размер</string>
     <string name="brick_change_size_by">Изменить размер на</string>
-    <string name="brick_hide">Спрятать</string>
+    <string name="brick_hide">Скрыть</string>
     <string name="brick_show">Показать</string>
     <string name="brick_set_transparency">"Задать прозрачность "</string>
     <string name="brick_change_ghost_effect">"Изменить прозрачность "</string>
@@ -1006,42 +1008,42 @@
     <string name="brick_flash_off">выкл.</string>
     <string name="brick_vibration">Вибрировать</string>
     <string name="brick_ask_label">Спросить</string>
-    <string name="brick_ask_store">и сохранить напечатанный ответ в</string>
+    <string name="brick_ask_store">и сохранить написанный ответ в</string>
     <string name="brick_ask_default_question">Как тебя зовут?</string>
     <string name="brick_ask_dialog_hint">"Введите ваш ответ:"</string>
     <string name="brick_ask_dialog_submit">Отправить ответ</string>
     <string name="brick_ask_speech_label">Спросить</string>
     <string name="brick_ask_speech_store">и сохранить сказанный ответ в</string>
-    <string name="brick_ask_speech_default_question">Как тебя зовут?</string>
+    <string name="brick_ask_speech_default_question">Как вас зовут?</string>
     <string name="brick_paint_new_look">Нарисовать новый образ</string>
     <string name="brick_paint_new_background">Нарисовать новый фон</string>
     <string name="brick_paint_new_look_name">"название нового образа"</string>
-    <string name="brick_copy_look">Скопировать внешний вид и имя как</string>
-    <string name="brick_copy_look_name">имя скопированного внешнего образа</string>
-    <string name="brick_copy_background">Копировать фон и его имя</string>
-    <string name="brick_focus_point">Сфокусироваться на объект с</string>
+    <string name="brick_copy_look">Скопировать образ и назвать как</string>
+    <string name="brick_copy_look_name">имя скопированного образа</string>
+    <string name="brick_copy_background">Скопировать фон и назвать как</string>
+    <string name="brick_focus_point">Сфокусироваться с</string>
     <string name="brick_horizontal_and">горизонтальной и</string>
     <string name="brick_vertical_flex">вертикальной гибкостью</string>
     <!--  -->
     <!-- Pen bricks -->
     <string name="brick_pen_down">Опустить перо</string>
     <string name="brick_pen_up">Поднять перо</string>
-    <string name="brick_pen_size">Установить размер пера</string>
-    <string name="brick_pen_color">Задать цвет пера:</string>
+    <string name="brick_pen_size">Задать размер пера</string>
+    <string name="brick_pen_color">Задать цвет пера </string>
     <string name="brick_clear_background">Очистить</string>
     <string name="brick_stamp">Штамп</string>
     <!--  -->
     <!-- Sound bricks -->
     <string name="brick_play_sound">Воспроизвести звук</string>
-    <string name="brick_play_sound_and_wait">Играть звук и ждать</string>
+    <string name="brick_play_sound_and_wait">Воспроизвести звук и ждать</string>
     <string name="brick_stop_sound">Остановить звук</string>
     <string name="brick_stop_all_sounds">Остановить все звуки</string>
-    <string name="brick_set_volume_to">Установить громкость</string>
+    <string name="brick_set_volume_to">Задать громкость</string>
     <string name="brick_change_volume_by">Изменить громкость на</string>
-    <string name="brick_speak">Говорить</string>
+    <string name="brick_speak">Сказать</string>
     <string name="brick_speak_default_value">Привет!</string>
     <string name="brick_speak_and_wait">и ждать</string>
-    <string name="brick_start_listening_to_voice">Начать слушать голос и хранить озвученные слова в</string>
+    <string name="brick_start_listening_to_voice">Начать слушать голос и хранить сказанные слова в</string>
     <string name="speech_recognition_not_available">Распознавание речи недоступно.</string>
     <string name="speech_recognition_offline_mode_error_dialog_title">Отсутствуют оффлайн данные</string>
     <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">Оффлайн распознавание речи
@@ -1050,30 +1052,32 @@
     <string name="set_instrument_to">Установить инструмент</string>
     <string name="set_tempo_to">Задать темп</string>
     <string name="change_tempo_by">Изменить темп на</string>
-    <string name="pause_for">Пауза на</string>
-    <string name="play_drum">Играть барабан</string>
-    <string name="beats">битов</string>
+    <string name="pause_for">Остановить на</string>
+    <string name="play_drum">Воспроизвести барабан</string>
+    <string name="beats">биты</string>
     <string name="play_note">Воспроизвести ноты</string>
     <string name="for_string">в течении</string>
+    <string name="at_string">на</string>
+    <string name="seconds_string">секунды</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Прикрепить</string>
-    <string name="brick_running_stitch">Запустить stitch с длиной</string>
-    <string name="brick_zigzag_stitch">Запустите zigzag с длиной</string>
-    <string name="brick_zigzag_stitch_width">и ширина</string>
-    <string name="brick_triple_stitch">Начать тройное строение с длиной</string>
-    <string name="brick_stop_stitch">Остановить текущее строение</string>
+    <string name="brick_running_stitch">Запустить вышивку с длиной</string>
+    <string name="brick_zigzag_stitch">Запустить вышивку зигзагом с длиной</string>
+    <string name="brick_zigzag_stitch_width">и шириной</string>
+    <string name="brick_triple_stitch">Запустить тройную вышивку с длиной</string>
+    <string name="brick_stop_stitch">Остановить текущую вышивку</string>
     <string name="brick_write_embroidery">Записать данные вышивки в файл</string>
     <string name="brick_default_embroidery_file">вышивка.dst</string>
     <string name="brick_sew_up">Шить</string>
-    <string name="brick_thread_color">Установите цвет резьбы в</string>
+    <string name="brick_thread_color">Задать цвет нити</string>
     <!--  -->
     <!-- Device bricks -->
     <string name="brick_reset_timer">Сбросить таймер</string>
     <string name="brick_open">Открыть </string>
     <string name="brick_in_browser">в браузере</string>
     <!-- Control bricks -->
-    <string name="brick_when_started">При старте</string>
+    <string name="brick_when_started">При запуске сцены</string>
     <string name="brick_when">При нажатии</string>
     <string name="brick_when_condition_when">Как только</string>
     <string name="brick_when_becomes_true">становится истинным</string>
@@ -1095,40 +1099,40 @@
     </plurals>
     <string name="brick_collision_receive">При столкновении с</string>
     <string name="collision_with_anything">любым краем, актером, или объектом</string>
-    <string name="brick_broadcast_receive">Когда я получу</string>
+    <string name="brick_broadcast_receive">Когда будет получено</string>
     <string name="brick_broadcast">Вещать всем</string>
     <string name="brick_broadcast_wait">Вещать всем и ждать</string>
     <string name="brick_scene_transition">Продолжить сцену</string>
-    <string name="brick_scene_start">Начать сцену</string>
+    <string name="brick_scene_start">Запустить сцену</string>
     <string name="brick_note">Примечание</string>
     <string name="brick_think_bubble">Думать</string>
     <string name="brick_say_bubble">Cказать</string>
     <string name="brick_think_say_for_text">в течении</string>
-    <string name="brick_forever">Вечно</string>
+    <string name="brick_forever">Вечно повторять</string>
     <string name="brick_loop_for_values_from">Для значений от</string>
-    <string name="brick_loop_for_each_value_from">Повторять для каждого значения</string>
-    <string name="brick_loop_in">от</string>
+    <string name="brick_loop_for_each_value_from">Для каждого значения от</string>
+    <string name="brick_loop_in">в</string>
     <string name="brick_loop_to">до</string>
     <string name="brick_repeat">Повторять</string>
     <string name="brick_repeat_until">Повторять до тех пор, пока</string>
-    <string name="brick_when_touched">При прикосновении к экрану</string>
+    <string name="brick_when_touched">При нажатии на экран</string>
     <string name="brick_clone">Клонировать</string>
-    <string name="brick_clone_this">этот актер или объект</string>
+    <string name="brick_clone_this">себя</string>
     <string name="brick_when_cloned">Когда начинает как клон</string>
     <string name="brick_delete_this_clone">Удалить этот клон</string>
     <string name="brick_assert_that">Утвердить</string>
     <string name="brick_is_equal_to">равно ожидаемому</string>
     <string name="brick_wait_till_idle">Ждать остановки всех других скриптов</string>
-    <string name="brick_tap_at">"Одиночное нажатие в"</string>
-    <string name="brick_touch_at">"Коснуться"</string>
+    <string name="brick_tap_at">"Нажать один раз в"</string>
+    <string name="brick_touch_at">"Нажать в"</string>
     <string name="brick_tap_for">"в тeчении"</string>
     <string name="brick_touch_slide">"Коснуться и перелистывать"</string>
-    <string name="brick_touch_from_x">"от x:"</string>
-    <string name="brick_finish_stage">Завершить сеанс</string>
+    <string name="brick_touch_from_x">"от X:"</string>
+    <string name="brick_finish_stage">Завершить cцену</string>
     <string name="brick_finish_tests">Закончить тесты</string>
     <string name="brick_assert_lists">Утвердить списки</string>
     <string name="brick_assert_actual">Фактически: </string>
-    <string name="brick_assert_expected">Ожидается:</string>
+    <string name="brick_assert_expected">Ожидаемо:</string>
     <string name="brick_parameterized_assert">утвердить</string>
     <string name="brick_parameterized_equals">равно ожидаемому элементу</string>
     <plurals name="brick_parameterized_foreach_plural">
@@ -1138,16 +1142,16 @@
         <item quantity="other">Для каждых элементов</item>
     </plurals>
     <plurals name="brick_parameterized_stored_plural">
-        <item quantity="one">сохранена в переменной с таким же именем</item>
-        <item quantity="few">сохранена в переменной с таким же именем</item>
-        <item quantity="many">сохранены в переменных с таким же именем</item>
-        <item quantity="other">сохранены в переменных с таким же именем</item>
+        <item quantity="one">сохранена в переменную с таким же именем</item>
+        <item quantity="few">сохранены в переменные с таким же именем</item>
+        <item quantity="many">сохранены в переменные с таким же именем</item>
+        <item quantity="other">сохранены в переменные с таким же именем</item>
     </plurals>
     <plurals name="list_selection_plural">
         <item quantity="one">%d список выбран</item>
-        <item quantity="few">%d список выбран</item>
-        <item quantity="many">%d списки выбраны</item>
-        <item quantity="other">%d списки выбраны</item>
+        <item quantity="few">%d списков выбрано</item>
+        <item quantity="many">%d списков выбрано</item>
+        <item quantity="other">%d списков выбрано</item>
     </plurals>
     <plurals name="time_plural">
         <item quantity="one">раз</item>
@@ -1155,35 +1159,35 @@
         <item quantity="many">раз</item>
         <item quantity="other">разa</item>
     </plurals>
-    <string name="brick_loop_end">Конец (вечно)</string>
+    <string name="brick_loop_end">Конец цикла</string>
     <string name="brick_if_begin">Если</string>
     <string name="brick_if_begin_second_part">истина, то</string>
     <string name="brick_if_else">Инaче</string>
-    <string name="brick_if_end">Конец (если)</string>
-    <string name="brick_set_variable">Присвоить переменной</string>
+    <string name="brick_if_end">Конец если</string>
+    <string name="brick_set_variable">Задать переменную</string>
     <string name="brick_change_variable">Изменить значение переменной</string>
-    <string name="brick_write_variable_on_device">Сохранить переменную на устройство</string>
-    <string name="brick_read_variable_from_device">Считать переменную с устройства</string>
+    <string name="brick_write_variable_on_device">Записать переменную на устройство</string>
+    <string name="brick_read_variable_from_device">Прочитать переменную с устройства</string>
     <string name="brick_write_variable_to_file_top">Записать переменную</string>
     <string name="brick_write_variable_to_file_bottom">в файл</string>
     <string name="brick_write_variable_to_file_default_value">переменная.txt</string>
     <string name="brick_write_variable_to_file_success">"Данные успешно записаны в %1$s"</string>
-    <string name="brick_read_variable_from_file_top">Считать переменную</string>
+    <string name="brick_read_variable_from_file_top">Прочитать переменную</string>
     <string name="brick_read_variable_from_file_center">с файла</string>
     <string name="brick_read_variable_from_file_bottom">и</string>
-    <string name="brick_read_variable_from_file_keep">оставить файл</string>
+    <string name="brick_read_variable_from_file_keep">сохранить файл</string>
     <string name="brick_read_variable_from_file_delete">удалить файл</string>
-    <string name="brick_write_list_on_device">Сохранить список на устройство</string>
-    <string name="brick_read_list_from_device">Считать список с устройства</string>
-    <string name="brick_note_default_value">новое примечание&#8230;</string>
+    <string name="brick_write_list_on_device">Записать список на устройство</string>
+    <string name="brick_read_list_from_device">Прочитать список с устройства</string>
+    <string name="brick_note_default_value">добавьте примечание&#8230;</string>
     <string name="brick_think_bubble_default_value">Хмммм!</string>
     <string name="brick_say_bubble_default_value">Привет!</string>
-    <string name="brick_broadcast_default_value">"новый сигнал"</string>
+    <string name="brick_broadcast_default_value">"новое сообщение"</string>
     <string name="brick_add_item_to_userlist_add">Добавить</string>
-    <string name="brick_add_item_to_userlist">к списку</string>
+    <string name="brick_add_item_to_userlist">в список</string>
     <string name="brick_clear_userlist">Удалить все элементы из списка</string>
     <string name="brick_delete_item_from_userlist_delete">Удалить элемент из списка</string>
-    <string name="brick_delete_item_from_userlist">на позицию</string>
+    <string name="brick_delete_item_from_userlist">на позиции</string>
     <string name="brick_insert_item_into_userlist_insert_into">Вставить</string>
     <string name="brick_insert_item_into_userlist_into_list">в список</string>
     <string name="brick_insert_item_into_userlist_at_position">на позицию</string>
@@ -1194,15 +1198,15 @@
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string name="brick_web_request_result">и сохранить ответ в</string>
     <string name="web_request_warning_title">Разрешить веб-доступ?</string>
-    <string name="web_request_warning_message">Будьте предельно внимательны перед предоставлением доступа, поскольку ссылка
-        может раскрыть вашу личную информацию, например, точное географическое местоположение или любой текст
-        , который вы ввели злоумышленникам, или общественности. Смотрите наши
+    <string name="web_request_warning_message">Будьте очень внимательны перед предоставлением доступа, поскольку ссылка
+        может раскрыть вашу личную информацию, например, точное географическое местоположение или любой текст,
+        который вы ввели злоумышленникам, или общественности. Посмотрите наши
         &lt;a href=%1s&gt;вики&lt;/a&gt; для получения дополнительной информации, почему это может
         быть чрезвычайно опасно.
     </string>
     <string name="web_request_trust_domain_warning_title">Всегда разрешать веб-доступ?</string>
-    <string name="web_request_trust_domain_warning_message">Всегда открывая доступ, с
-        вас более не потребуется разрешение для подтверждения запросов с веб-адресов с этого домена.
+    <string name="web_request_trust_domain_warning_message">Разрешив доступ навсегда, с
+        вас более не потребуется разрешения для подтверждения запросов с веб-адресов этого домена.
     </string>
     <string name="trusted_domains_edit_hint">Если вы хотите отозвать это разрешение
         позже, вы можете удалить веб-адрес из списка доверенных доменов в
@@ -1213,11 +1217,11 @@
     <string name="brick_background_request_result">и использовать как текущий фон</string>
     <string name="look_request_http_error_message">"Отправленный запрос по адресу %1$s выдал ошибку HTTP %2$s"</string>
     <string name="look_request_type_error_message">"Отправленный запрос по адресу %1$s выдал ошибку \"Не удалось распознать формат изображения\""</string>
-    <string name="brick_store_csv_into_userlist_store">Столбец хранилища</string>
+    <string name="brick_store_csv_into_userlist_store">Сохранить в столбец</string>
     <string name="brick_store_csv_into_userlist_of">из</string>
     <string name="brick_store_csv_into_userlist_csv">значения через запятую</string>
     <string name="brick_store_csv_into_userlist_into">в список</string>
-    <string name="brick_store_csv_into_userlist_data">котенок,милый\nщенков, непослушный\nосьминог,умный</string>
+    <string name="brick_store_csv_into_userlist_data">котенок,милый\nщенок, непослушный\nосьминог,умный</string>
     <!--  -->
     <!--Instruments-->
     <string name="piano">пианино</string>
@@ -1244,14 +1248,14 @@
     <!--  -->
     <!--Drums-->
     <string name="snare_drum">маленький барабан</string>
-    <string name="bass_drum">бас барабан</string>
+    <string name="bass_drum">большой барабан</string>
     <string name="side_stick">боковая палочка</string>
     <string name="crash_cymbal">тарелки</string>
     <string name="open_hi_hat">открытый хай-хет</string>
     <string name="closed_hi_hat">закрытый хай-хет</string>
-    <string name="tambourine">табурин</string>
+    <string name="tambourine">бубен</string>
     <string name="hand_clap">хлопок в ладоши</string>
-    <string name="claves">клавы</string>
+    <string name="claves">клаве</string>
     <string name="wood_block">деревянная коробочка</string>
     <string name="cowbell">колокольчик</string>
     <string name="triangle">треугольник</string>
@@ -1260,7 +1264,7 @@
     <string name="cabasa">кабаса</string>
     <string name="guiro">гуиро</string>
     <string name="vibraslap">виброшлепок</string>
-    <string name="open_cuica">открыть куику</string>
+    <string name="open_cuica">открытая куика</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">Мой проект</string>
@@ -1283,7 +1287,7 @@
     <!--suppress UnusedResources -->
     <string name="default_project_outer_loop">Внешний цикл</string>
     <!--suppress UnusedResources -->
-    <string name="default_project_inner_loop">Внутренний цикл</string>
+    <string name="default_project_inner_loop">Внутренний Цикл</string>
     <!-- Default ChromeCast Values -->
     <string name="default_cast_project_background_name">Фон</string>
     <string name="default_cast_project_cloud_name">Облака</string>
@@ -1292,12 +1296,12 @@
     <string name="default_cast_project_sprites_bird_name">Птица</string>
     <string name="default_cast_project_sprites_bird_name_wing_up">Птица с поднятыми крыльями</string>
     <string name="default_cast_project_sprites_bird_name_wing_down">Птица с опущенными крыльями</string>
-    <string name="default_cast_project_sprites_bird_name_wing_up_left">Птица с крыльями вверху слева</string>
-    <string name="default_cast_project_sprites_bird_name_wing_down_left">Птица с крыльями внизу слева</string>
+    <string name="default_cast_project_sprites_bird_name_wing_up_left">Птица с поднятыми крыльями слева</string>
+    <string name="default_cast_project_sprites_bird_name_wing_down_left">Птица с опущенными крыльями слева</string>
     <string name="default_cast_project_sprites_tweet_1">Щебет1</string>
     <string name="default_cast_project_sprites_tweet_2">Щебет2</string>
     <string name="default_cast_project_var_direction">направление</string>
-    <string name="default_cast_project_name">Мой первый проект Chromecast</string>
+    <string name="default_cast_project_name">Мой первый Chromecast проект</string>
     <!-- Default Drone Values -->
     <string name="drone_brick_set_text">Текст</string>
     <string name="drone_brick_set_x">Х:</string>
@@ -1334,13 +1338,13 @@
     <string name="notification_screenshot_ok">Превью сохранено</string>
     <string name="notification_download_project_cancel">Отменить загрузку проекта</string>
     <string name="notification_reconvert_download_program_cancel">Загрузка/реконвертация проекта отменена</string>
-    <string name="notification_upload_title_pending">"Загружается"</string>
+    <string name="notification_upload_title_pending">"Выкладывается"</string>
     <string name="notification_upload_title_finished">"Посмотреть"</string>
-    <string name="notification_upload_pending">Загрузка в процессе</string>
-    <string name="notification_upload_finished">Проект успешно загружен</string>
-    <string name="notification_upload_rejected">Загрузка проекта не удалась</string>
+    <string name="notification_upload_pending">Выкладывание в процессе</string>
+    <string name="notification_upload_finished">Проект успешно выложен</string>
+    <string name="notification_upload_rejected">Выкладывание проекта не удалось</string>
     <string name="notification_upload_retry">Повторить</string>
-    <string name="notification_open_play_store">Открыть Play Store</string>
+    <string name="notification_open_play_store">Открыть App store</string>
     <string name="notification_download_title_pending">"Загрузка "</string>
     <string name="notification_download_pending">Загрузка в процессе</string>
     <string name="notification_download_finished">Загрузка завершена успешно</string>
@@ -1348,35 +1352,35 @@
     <string name="size_of_project">Размер проекта:</string>
     <!--  -->
     <!-- Runtime permission messages -->
-    <string name="runtime_permission_general">Это приложение нуждается запрашиваемых разрешениях для правильного функционирования.
-Например, блок камеры нуждается в доступе к камере устройства, а \"местоположение\" из редактора формул нуждается в доступе к GPS устройства, и для того, чтобы импортировать или экспортировать проекты из и на устройство, приложению нужен доступ для чтения и записи. Вы всегда можете поменять разрешения через настройки своего устройства.</string>
+    <string name="runtime_permission_general">Это приложение нуждается в запрашиваемых разрешениях для правильного функционирования.
+Например, блок камеры нуждается в доступе к камере устройства, а \"местоположение\" из редактора формул нуждается в доступе к GPS устройства, также для того, чтобы импортировать или экспортировать проекты с, и на устройство, приложению нужен доступ к внешнему хранилищу. Вы всегда можете поменять разрешения через настройки своего устройства.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">Произошла ошибка во время закачивания проекта.</string>
-    <string name="error_project_download">Произошла ошибка во время скачивания проекта.</string>
+    <string name="error_project_upload">Что-то пошло не так во время выкладывания проекта.</string>
+    <string name="error_project_download">Что-то пошло не так при скачивании проекта.</string>
     <string name="error_project_already_in_queue">"Проект %s уже в очереди."</string>
-    <string name="error_could_not_decode_project_name_from_url">"Ваша загрузка не может быть запущена
-        , кажется, есть проблема с нашим сервером."</string>
+    <string name="error_could_not_decode_project_name_from_url">"Ваша загрузка не может быть запущена,
+         кажется, у нас есть проблема с нашим сервером."</string>
     <string name="error_new_project">Произошла ошибка при создании нового проекта.</string>
-    <string name="error_rename_scene">Произошла ошибка при переименовании сцены.</string>
-    <string name="error_load_project">Произошла ошибка при загрузки проекта.</string>
-    <string name="error_screenshot_failed">Произошла ошибка при сохранении превью.</string>
+    <string name="error_rename_scene">Что-то пошло не так при переименовании сцены.</string>
+    <string name="error_load_project">Что-то пошло не так при загрузке проекта.</string>
+    <string name="error_screenshot_failed">Что-то пошло не так при сохранении превью.</string>
     <string name="error_internet_connection">Произошла неизвестная ошибка. Проверьте подключение к интернету.</string>
     <string name="error_project_compatibility">Проект несовместим с этой версией приложения.</string>
     <string name="error_outdated_version">Эта версия приложения устарела. Обновить ее прямо сейчас?</string>
-    <string name="error_upload_project_with_default_name">Вы не можете загрузить проект с именем \"%s\".
+    <string name="error_upload_project_with_default_name">Вы не можете выложить проект с именем \"%s\".
         Пожалуйста, переименуйте проект.</string>
-    <string name="error_upload_default_project">Вы не можете загрузить неизмененный пример проекта. Пожалуйста,
-        изменить что-то и повторите попытку.</string>
-    <string name="error_adding_brick">Произошла ошибка при добавлении кирпича.</string>
-    <string name="error_copying_brick">Произошла ошибка при копировании кирпича.</string>
+    <string name="error_upload_default_project">Вы не можете выложить неизмененный пример проекта. Пожалуйста,
+        измените что-то и повторите попытку.</string>
+    <string name="error_adding_brick">Что-то пошло не так при добавлении этого блока.</string>
+    <string name="error_copying_brick">Что-то пошло не так при копировании этого блока.</string>
     <string name="error_rename_incompatible_project">Переименование несовместимого проекта невозможно.</string>
-    <string name="error_embroidery_file_export">Произошла ошибка при открытии файла для вышивки.</string>
-    <string name="error_embroidery_file_write">Произошла ошибка при сохранении файла для вышивки.</string>
+    <string name="error_embroidery_file_export">Что-то пошло не так при передаче файла для вышивки.</string>
+    <string name="error_embroidery_file_write">Что-то пошло не так при сохранении файла для вышивки.</string>
     <string name="error_embroidery_data_not_found">Отсутствует файл для вышивки.</string>
-    <string name="error_unknown_error">Произошла неизвестная ошибка.</string>
-    <string name="error_gps_not_available">Данные GPS недоступны.</string>
-    <string name="error_set_description">Произошла ошибка при сохранении описания.</string>
-    <string name="error_set_notes_and_credits">Произошла ошибка при сохранении новых примечаний
+    <string name="error_unknown_error">Что-то пошло не так.</string>
+    <string name="error_gps_not_available">Данные местоположения недоступны.</string>
+    <string name="error_set_description">Что-то пошло не так при сохранении нового описания.</string>
+    <string name="error_set_notes_and_credits">Что-то пошло не так при сохранении новых примечаний
         и авторов.</string>
     <string name="error_no_whatsapp">WhatsApp не установлен</string>
     <string name="error_unsupported_bricks_chromecast">Этот скрипт не может быть добавлен в проект
@@ -1388,7 +1392,7 @@
     <string name="title_other_devices">Доступные устройства</string>
     <string name="bluetooth_connection_title">Подключение Bluetooth</string>
     <string name="skip_bluetooth_connection">Пропустить</string>
-    <string name="connecting_please_wait">Подключение к вашему устройству.\nПожалуйста, подождите&#8230;</string>
+    <string name="connecting_please_wait">Идет подключение к вашему устройству.\nПожалуйста, подождите&#8230;</string>
     <string name="bt_connection_failed">Подключение к устройству не удалось!</string>
     <string name="none_found">Не найдено несопряженных устройств</string>
     <string name="multiplayer_bluetooth_connection_information_title">Требуется подключение
@@ -1429,10 +1433,10 @@
     <string name="nxt_play_tone">Играть тон NXT</string>
     <string name="nxt_tone_duration">Продолжительность</string>
     <string name="nxt_tone_frequency">Частота</string>
-    <string name="nxt_tone_hundred_hz">х100Гц</string>
+    <string name="nxt_tone_hundred_hz">×100Гц</string>
     <string name="nxt_motor_a">А</string>
-    <string name="nxt_motor_b">B</string>
-    <string name="nxt_motor_c">C</string>
+    <string name="nxt_motor_b">Б</string>
+    <string name="nxt_motor_c">В</string>
     <string name="nxt_motor_b_and_c">B+C</string>
     <string name="nxt_motor_all">Все</string>
     <string name="nxt_choose_sensor_1">Датчик подключен к порту 1</string>
@@ -1474,20 +1478,20 @@
     <string name="ev3_no_sensor">отсутствует</string>
     <string name="ev3_sensor_touch">датчик касания EV3</string>
     <string name="ev3_sensor_infrared">инфракрасный датчик EV3</string>
-    <string name="ev3_sensor_color">датчик цвет EV3</string>
+    <string name="ev3_sensor_color">датчик цвета EV3</string>
     <string name="ev3_sensor_color_ambient">Датчик цвета окружающей среды EV3</string>
-    <string name="ev3_sensor_color_reflected">Цветовой датчик отражения EV3</string>
+    <string name="ev3_sensor_color_reflected">Отраженный датчик цвета EV3</string>
     <string name="ev3_sensor_hitechnic_color">Датчик цвета HiTechnic</string>
     <string name="ev3_sensor_nxt_temperature_c">Температурный датчик NXT (°C)</string>
     <string name="ev3_sensor_nxt_temperature_f">Температурный датчик NXT (°F)</string>
-    <string name="ev3_sensor_nxt_light">световой датчик NXT</string>
+    <string name="ev3_sensor_nxt_light">Световой датчик NXT</string>
     <string name="ev3_sensor_nxt_light_active">Световой датчик NXT включен</string>
-    <string name="ev3_sensor_nxt_sound">звуковой датчик NXT</string>
-    <string name="ev3_sensor_nxt_ultrasonic">ультра-звуковой сенсор NXT</string>
+    <string name="ev3_sensor_nxt_sound">Звуковой датчик NXT</string>
+    <string name="ev3_sensor_nxt_ultrasonic">Ультра-звуковой датчик NXT</string>
     <string name="ev3_motor_a">А</string>
-    <string name="ev3_motor_b">B</string>
-    <string name="ev3_motor_c">C</string>
-    <string name="ev3_motor_d">D</string>
+    <string name="ev3_motor_b">Б</string>
+    <string name="ev3_motor_c">В</string>
+    <string name="ev3_motor_d">Г</string>
     <string name="ev3_motor_b_and_c">B+C</string>
     <string name="ev3_motor_all">Все</string>
     <string name="ev3_play_tone">Играть тон EV3</string>
@@ -1511,7 +1515,7 @@
     <string name="ev3_led_status_orange_pulse">Пульсирующий оранжевый</string>
     <!--  -->
     <!-- Drone Bricks -->
-    <string name="brick_drone_takeoff_land">Взлететь / посадить AR.Drone 2.0</string>
+    <string name="brick_drone_takeoff_land">Поднять вверх / посадить AR.Drone 2.0</string>
     <string name="brick_drone_play_led_animation">Воспроизвести флеш-анимацию AR.Drone 2.0</string>
     <string name="brick_drone_flip">Перевернуть AR.Drone 2.0</string>
     <string name="brick_drone_move_left">Переместить AR.Drone 2.0 влево</string>
@@ -1546,7 +1550,7 @@
     <string name="drone_animation_blank">Пустой</string>
     <string name="drone_animation_rightmissile">Правая ракета</string>
     <string name="drone_animation_leftmissile">Левая ракета</string>
-    <string name="drone_animation_doublemissile">Двумя ракетами</string>
+    <string name="drone_animation_doublemissile">Двойная ракета</string>
     <string name="drone_animation_frontleftgreenothersred">Передний левый зеленый, остальные красный</string>
     <string name="drone_animation_frontrightgreenothersred">Передний правый зеленый, остальные красный</string>
     <string name="drone_animation_rearrightgreenothersred">Задний правый зеленый, остальные красный</string>
@@ -1565,7 +1569,7 @@
     <string name="brick_jumping_sumo_rotate_right">Повернуть Jumping Sumo вправо</string>
     <string name="brick_jumping_sumo_rotate_text">градусов</string>
     <string name="brick_jumping_sumo_turn">Перевернуть Jumping Sumo</string>
-    <string name="brick_jumping_sumo_taking_picture">Снятие изображения на Jumping Sumo</string>
+    <string name="brick_jumping_sumo_taking_picture">Съемка изображения на Jumping Sumo</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
     <string name="default_jumping_sumo_project_sprites_sound">Звук</string>
@@ -1576,7 +1580,7 @@
     <string name="animation_slowshake">Медленная встряска</string>
     <string name="animation_metronome">Метроном</string>
     <string name="animation_ondulation">Волнообразно</string>
-    <string name="animation_spinjump">Прыгнуть с переворотом</string>
+    <string name="animation_spinjump">Прыжок с переворотом</string>
     <string name="animation_spiral">Спираль</string>
     <string name="animation_slalom">Слалом</string>
     <!-- Jumping Sumo sound strings -->
@@ -1596,12 +1600,12 @@
     <string name="brick_phiro_sensor_begin">Если Phiro</string>
     <string name="brick_phiro_sensor_second_part">активен</string>
     <!-- tone -->
-    <string name="phiro_play_tone">Играть музыку Phiro\n</string>
+    <string name="phiro_play_tone">Воспроизвести музыку Phiro\n</string>
     <string name="phiro_tone_duration">Продолжительность</string>
     <string name="brick_phiro_select_tone">тон</string>
     <string name="phiro_seconds">секунды</string>
     <!-- light -->
-    <string name="brick_phiro_rgb_led_action">Установить свет Phiro</string>
+    <string name="brick_phiro_rgb_led_action">Задать свет Phiro</string>
     <string name="phiro_rgb_led_red">Красный</string>
     <string name="phiro_rgb_led_green">Зеленый</string>
     <string name="phiro_rgb_led_blue">Синий</string>
@@ -1616,13 +1620,13 @@
     <string name="phiro_tone_ti">Си</string>
     <!--  -->
     <!-- Phiro motor strings -->
-    <string name="phiro_motor_left">Налево</string>
-    <string name="phiro_motor_right">Направо</string>
+    <string name="phiro_motor_left">Левый</string>
+    <string name="phiro_motor_right">Правый</string>
     <string name="phiro_motor_both">Оба</string>
     <!--  -->
     <!-- Phiro light strings -->
-    <string name="phiro_light_left">Налево</string>
-    <string name="phiro_light_right">Направо</string>
+    <string name="phiro_light_left">Левый</string>
+    <string name="phiro_light_right">Правый</string>
     <string name="phiro_light_both">Оба</string>
     <!--  -->
     <!-- Phiro sensor strings -->
@@ -1639,14 +1643,14 @@
     <!-- -->
     <!-- Formula editor strings -->
     <string name="formula_editor_data">Данные</string>
-    <string name="formula_editor_true">Истина</string>
-    <string name="formula_editor_false">Ложь</string>
+    <string name="formula_editor_true">истина</string>
+    <string name="formula_editor_false">ложь</string>
     <string name="formula_editor_decimal_mark">.</string>
     <string name="formula_editor_title">Редактор формул</string>
-    <string name="formula_editor_changes_discarded">Изменения сброшены!</string>
-    <string name="formula_editor_parse_fail">Неправильная формула!</string>
+    <string name="formula_editor_changes_discarded">Изменения отменены!</string>
+    <string name="formula_editor_parse_fail">Формула неправильна!</string>
     <string name="formula_nothing_selected">Установить значение ввода</string>
-    <string name="formula_editor_parse_fail_formula_too_long">Выражение слишком длинное!</string>
+    <string name="formula_editor_parse_fail_formula_too_long">Формула слишком длинная!</string>
     <string name="formula_editor_choose_object_variable">Свойства этого актера или объекта</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
@@ -1665,7 +1669,7 @@
     <string name="formula_editor_object_color">цвет</string>
     <string name="formula_editor_function_sqrt">корень</string>
     <string name="formula_editor_function_sqrt_parameter">(4)</string>
-    <string name="formula_editor_function_rand">случайный</string>
+    <string name="formula_editor_function_rand">случайное значение от до</string>
     <string name="formula_editor_function_rand_parameter">(1,6)</string>
     <string name="formula_editor_function_abs">абсолютное значение</string>
     <string name="formula_editor_function_abs_parameter">(1)</string>
@@ -1685,18 +1689,18 @@
     <string name="formula_editor_function_exp_parameter">(1)</string>
     <string name="formula_editor_function_power">степень</string>
     <string name="formula_editor_function_power_parameter">(2,3)</string>
-    <string name="formula_editor_function_floor">округление к меньшему</string>
-    <string name="formula_editor_function_floor_parameter">(0,7)</string>
-    <string name="formula_editor_function_ceil">округление к большему</string>
-    <string name="formula_editor_function_ceil_parameter">(0,3)</string>
-    <string name="formula_editor_function_max">макс.</string>
+    <string name="formula_editor_function_floor">округлить к меньшему</string>
+    <string name="formula_editor_function_floor_parameter">(0.7)</string>
+    <string name="formula_editor_function_ceil">округлить к большему</string>
+    <string name="formula_editor_function_ceil_parameter">(0.3)</string>
+    <string name="formula_editor_function_max">максимум</string>
     <string name="formula_editor_function_max_parameter">(5,4)</string>
     <string name="formula_editor_function_min">минимум</string>
     <string name="formula_editor_function_min_parameter">(7,2)</string>
     <string name="formula_editor_function_if_then_else">если то иначе</string>
     <string name="formula_editor_function_if_then_else_parameter">(ложь, 2, 3)</string>
-    <string name="formula_editor_function_true">ИСТИНА</string>
-    <string name="formula_editor_function_false">ЛОЖЬ</string>
+    <string name="formula_editor_function_true">истина</string>
+    <string name="formula_editor_function_false">ложь</string>
     <string name="formula_editor_function_length">длина</string>
     <string name="formula_editor_function_length_parameter">(\'hello world\')</string>
     <string name="formula_editor_function_letter">символ</string>
@@ -1707,24 +1711,24 @@
     <string name="formula_editor_function_join3_parameter">(\'hello\',\' world\',\'!\')</string>
     <string name="formula_editor_function_regex">регулярное выражение</string>
     <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
-    <string name="formula_editor_function_regex_assistant">Регулярное выражение
-         помощь</string>
-    <string name="formula_editor_dialog_regular_expression_assistant_title">Обычный
-         помощь по выражению лица</string>
-    <string name="formula_editor_function_regex_html_extractor_not_found">Запись не найдена.</string>
+    <string name="formula_editor_function_regex_assistant">Помощник по
+         регулярным выражениям</string>
+    <string name="formula_editor_dialog_regular_expression_assistant_title">Помощник по
+         регулярным выражениям</string>
+    <string name="formula_editor_function_regex_html_extractor_not_found">Ключевое слово не найдено.</string>
     <string name="formula_editor_function_regex_json_extractor_title">Экстрактор JSON</string>
-    <string name="formula_editor_function_arduino_read_pin_value_digital">pin-код для Arduino</string>
-    <string name="formula_editor_function_arduino_read_pin_value_analog">arduino аналоговый pin-код</string>
+    <string name="formula_editor_function_arduino_read_pin_value_digital">цифровой pin-код arduino</string>
+    <string name="formula_editor_function_arduino_read_pin_value_analog">аналоговый pin-код arduino</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">pin-код raspberry pi</string>
-    <string name="formula_editor_function_pin_default_parameter">(3)</string>
-    <string name="formula_editor_function_finger_x">прикосновение к экрану X</string>
-    <string name="formula_editor_function_finger_y">прикосновение к экрану Y</string>
-    <string name="formula_editor_function_is_finger_touching">коснулся экрана</string>
-    <string name="formula_editor_function_multi_finger_x">касание к экрану X</string>
-    <string name="formula_editor_function_multi_finger_y">касение к экрану Y</string>
-    <string name="formula_editor_function_is_multi_finger_touching">коснулся экрана</string>
+    <string name="formula_editor_function_pin_default_parameter">(0)</string>
+    <string name="formula_editor_function_finger_x">касание к экрану по оси X</string>
+    <string name="formula_editor_function_finger_y">касание к экрану по оси Y</string>
+    <string name="formula_editor_function_is_finger_touching">касается экрана</string>
+    <string name="formula_editor_function_multi_finger_x">касание к экрану по оси X</string>
+    <string name="formula_editor_function_multi_finger_y">касание к экрану по оси Y</string>
+    <string name="formula_editor_function_is_multi_finger_touching">касается экрана</string>
     <string name="formula_editor_function_index_of_last_finger">количество касаний к экрану</string>
-    <string name="formula_editor_function_number_of_current_touches">количество касаний</string>
+    <string name="formula_editor_function_number_of_current_touches">количество одновременных касаний</string>
     <string name="formula_editor_function_index_of_current_touch">индекс текущего касания</string>
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(1)</string>
@@ -1732,7 +1736,7 @@
     <string name="formula_editor_function_list_item_parameter">(1,*название списка*)</string>
     <string name="formula_editor_function_contains">содержит</string>
     <string name="formula_editor_function_contains_parameter">(*название списка*,1)</string>
-    <string name="formula_editor_function_index_of_item">индекс предмета</string>
+    <string name="formula_editor_function_index_of_item">индекс элемента</string>
     <string name="formula_editor_function_index_of_item_parameter">(1,*название списка*)</string>
     <string name="formula_editor_function_number_of_items">количество элементов</string>
     <string name="formula_editor_function_number_of_items_parameter">(*название списка*)</string>
@@ -1744,7 +1748,7 @@
     <string name="formula_editor_function_collides_with_color">касается цвета</string>
     <string name="formula_editor_function_color_touches_color">цвет касается цвета</string>
     <string name="formula_editor_sensor_color_at_x_y">цвет на X и Y</string>
-    <string name="formula_editor_sensor_color_equals_color">цвет равен цвету с разрешением в %</string>
+    <string name="formula_editor_sensor_color_equals_color">цвет равен цвету с допустимостью в %</string>
     <string name="formula_editor_sensor_x_acceleration">ускорение по оси X</string>
     <string name="formula_editor_sensor_y_acceleration">ускорение по оси Y</string>
     <string name="formula_editor_sensor_z_acceleration">ускорение по оси Z</string>
@@ -1791,7 +1795,7 @@
     <string name="formula_editor_sensor_lego_ev3_sensor_touch">EV3 касание</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_infrared">EV3 инфракрасное излучение</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3 цвет</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3 окружающий цвет</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3 цвет окружающей среды</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3 отражаемый цвет</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3 гитехнический цвет</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">EV3 NXT температура в °C</string>
@@ -1807,24 +1811,24 @@
     <string name="formula_editor_sensor_gamepad_left_pressed">на джойстике нажато \"влево\"</string>
     <string name="formula_editor_sensor_gamepad_right_pressed">на джойстике нажато \"вправо\"</string>
     <string name="formula_editor_phiro_sensor_front_left">передний левый датчик phiro</string>
-    <string name="formula_editor_phiro_sensor_front_right">правый датчик phiro</string>
-    <string name="formula_editor_phiro_sensor_side_left">левый датчик phiro</string>
-    <string name="formula_editor_phiro_sensor_side_right">правый датчик phiro</string>
-    <string name="formula_editor_phiro_sensor_bottom_left">левый датчик phiro</string>
+    <string name="formula_editor_phiro_sensor_front_right">передний правый датчик phiro</string>
+    <string name="formula_editor_phiro_sensor_side_left">левый боковой датчик phiro</string>
+    <string name="formula_editor_phiro_sensor_side_right">правый боковой датчик phiro</string>
+    <string name="formula_editor_phiro_sensor_bottom_left">левый нижний датчик phiro</string>
     <string name="formula_editor_phiro_sensor_bottom_right">правый нижний датчик phiro</string>
-    <string name="formula_editor_nfc_tag_id">id NFC тега</string>
-    <string name="formula_editor_nfc_tag_message">сообщение NFC тега</string>
+    <string name="formula_editor_nfc_tag_id">id nfc тега</string>
+    <string name="formula_editor_nfc_tag_message">сообщение nfc тега</string>
     <string name="formula_editor_object_x">координата X</string>
     <string name="formula_editor_object_y">координата Y</string>
     <string name="formula_editor_object_transparency">прозрачность</string>
     <string name="formula_editor_object_brightness">яркость</string>
     <string name="formula_editor_object_size">размер</string>
-    <string name="formula_editor_object_rotation">направление</string>
+    <string name="formula_editor_object_rotation">направление движения</string>
     <string name="formula_editor_object_rotation_look">направление взгляда</string>
     <string name="formula_editor_object_layer">слой</string>
     <string name="formula_editor_object_x_velocity">скорость по оси X</string>
     <string name="formula_editor_object_y_velocity">скорость по оси Y</string>
-    <string name="formula_editor_object_angular_velocity">угловая скорость</string>
+    <string name="formula_editor_object_angular_velocity">угловое ускорение</string>
     <string name="formula_editor_object_look_number">номер образа</string>
     <string name="formula_editor_object_look_name">название образа</string>
     <string name="formula_editor_object_number_of_looks">количество образов</string>
@@ -1836,14 +1840,14 @@
     <string name="formula_editor_object">Свойства</string>
     <string name="formula_editor_functions">Функции</string>
     <string name="formula_editor_logic">Логика</string>
-    <string name="formula_editor_device">Устройство</string>
+    <string name="formula_editor_device">Датчики</string>
     <string name="formula_editor_device_sensors">Датчики устройства</string>
     <string name="formula_editor_functions_maths">Математика</string>
-    <string name="formula_editor_functions_strings">Строки</string>
+    <string name="formula_editor_functions_strings">Текст</string>
     <string name="formula_editor_functions_lists">Списки</string>
     <string name="formula_editor_logic_boolean">Логические операторы и константы</string>
     <string name="formula_editor_logic_comparison">Операторы сравнения</string>
-    <string name="formula_editor_object_look">Свойства отображения</string>
+    <string name="formula_editor_object_look">Свойства образа</string>
     <string name="formula_editor_object_movement">Свойства движения</string>
     <string name="formula_editor_device_face_detection">Обнаружение лиц</string>
     <string name="formula_editor_device_pose_detection">Определение позы</string>
@@ -1863,9 +1867,9 @@
     <string name="formula_editor_logic_notequal">≠</string>
     <string name="formula_editor_logic_lesserthan">&lt;</string>
     <string name="formula_editor_logic_greaterthan">&gt;</string>
-    <string name="formula_editor_logic_and">И</string>
-    <string name="formula_editor_logic_or">ИЛИ</string>
-    <string name="formula_editor_logic_not">НЕ</string>
+    <string name="formula_editor_logic_and">и</string>
+    <string name="formula_editor_logic_or">или</string>
+    <string name="formula_editor_logic_not">не</string>
     <string name="formula_editor_logic_greaterequal">≥</string>
     <string name="formula_editor_logic_leserequal">≤</string>
     <string name="formula_editor_logic_equal">=</string>
@@ -1874,45 +1878,46 @@
     <string name="formula_editor_operator_minus">-</string>
     <string name="formula_editor_operator_divide">÷</string>
     <string name="formula_editor_operator_power">^</string>
-    <string name="formula_editor_image_button_description_delete">Удалить</string>
-    <string name="formula_editor_image_button_description_color_picker">выбор цвета</string>
+    <string name="formula_editor_image_button_description_delete">удалить</string>
+    <string name="formula_editor_image_button_description_color_picker">палитра</string>
     <string name="formula_editor_image_button_description_functions_toggle">переключить функции</string>
     <string name="formula_editor_variable_dialog_title">Новая переменная</string>
     <string name="formula_editor_list_dialog_title">Новый список</string>
     <string name="formula_editor_regex_html_extractor_dialog_title">Экстрактор HTML</string>
     <string name="formula_editor_discard_changes_dialog_message">Хотите ли вы сохранить свои изменения?</string>
-    <string name="formula_editor_discard_changes_dialog_title">Сохранить?</string>
+    <string name="formula_editor_discard_changes_dialog_title">Сохранить изменения?</string>
     <string name="formula_editor_new_string_name">Новый текст</string>
     <string name="formula_editor_dialog_change_text">Изменить текст</string>
-    <string name="formula_editor_dialog_change_regular_expression">Изменить регулярное выражение</string>
+    <string name="formula_editor_dialog_change_regular_expression">Изменить регулярное
+        выражение</string>
     <string name="formula_editor_fragment_data_current_items">текущие предметы</string>
     <string name="formula_editor_data_dialog_is_list">Сделать списком</string>
     <string name="formula_editor_sensor_face_detected">видно первое лицо</string>
     <string name="formula_editor_sensor_face_size">размер первого лица</string>
-    <string name="formula_editor_sensor_face_x_position">лицо по оси X</string>
-    <string name="formula_editor_sensor_face_y_position">лицо по оси Y</string>
+    <string name="formula_editor_sensor_face_x_position">первое лицо по оси X</string>
+    <string name="formula_editor_sensor_face_y_position">первое лицо по оси Y</string>
     <string name="formula_editor_sensor_second_face_detected">видно второе лицо</string>
     <string name="formula_editor_sensor_second_face_size">размер второго лица</string>
-    <string name="formula_editor_sensor_second_face_x_position">позиция второй лица по оси X</string>
+    <string name="formula_editor_sensor_second_face_x_position">второе лицо по оси X</string>
     <string name="formula_editor_sensor_second_face_y_position">второе лицо по оси Y</string>
     <string name="formula_editor_sensor_head_top_x">верхняя часть головы по оси X</string>
-    <string name="formula_editor_sensor_head_top_y">голова сверху по оси Y</string>
+    <string name="formula_editor_sensor_head_top_y">верх головы по оси Y</string>
     <string name="formula_editor_sensor_neck_x">шея по оси X</string>
     <string name="formula_editor_sensor_neck_y">шея по оси Y</string>
     <string name="formula_editor_sensor_nose_x">нос по оси X</string>
     <string name="formula_editor_sensor_nose_y">нос по оси Y</string>
-    <string name="formula_editor_sensor_left_eye_inner_x">внутренний левый глаз по оси X</string>
-    <string name="formula_editor_sensor_left_eye_inner_y">внутренний левый глаз по оси Y</string>
+    <string name="formula_editor_sensor_left_eye_inner_x">внутренний угол левого глаза по оси X</string>
+    <string name="formula_editor_sensor_left_eye_inner_y">внутренний угол левого глаза по оси Y</string>
     <string name="formula_editor_sensor_left_eye_center_x">центр левого глаза по оси X</string>
     <string name="formula_editor_sensor_left_eye_center_y">центр правого глаза по оси Y</string>
-    <string name="formula_editor_sensor_left_eye_outer_x">наружный левый глаз по оси X</string>
-    <string name="formula_editor_sensor_left_eye_outer_y">наружный левый глаз по оси Y</string>
-    <string name="formula_editor_sensor_right_eye_inner_x">внутренний правый глаз по оси X</string>
-    <string name="formula_editor_sensor_right_eye_inner_y">внутренний правый глаз по оси Y</string>
+    <string name="formula_editor_sensor_left_eye_outer_x">внешний угол левого глаза по оси X</string>
+    <string name="formula_editor_sensor_left_eye_outer_y">внешний угол левого глаза по оси Y</string>
+    <string name="formula_editor_sensor_right_eye_inner_x">внутренний угол правого глаза по оси X</string>
+    <string name="formula_editor_sensor_right_eye_inner_y">внутренний угол правого глаза по оси Y</string>
     <string name="formula_editor_sensor_right_eye_center_x">центр правого глаза по оси X</string>
     <string name="formula_editor_sensor_right_eye_center_y">центр правого глаза по оси Y</string>
-    <string name="formula_editor_sensor_right_eye_outer_x">наружный правый глаз по оси X</string>
-    <string name="formula_editor_sensor_right_eye_outer_y">наружный правый глаз по оси Y</string>
+    <string name="formula_editor_sensor_right_eye_outer_x">наружный угол правого глаза по оси X</string>
+    <string name="formula_editor_sensor_right_eye_outer_y">наружный угол правого глаза по оси Y</string>
     <string name="formula_editor_sensor_left_ear_x">левое ухо по оси X</string>
     <string name="formula_editor_sensor_left_ear_y">левое ухо по оси Y</string>
     <string name="formula_editor_sensor_right_ear_x">правое ухо по оси X</string>
@@ -1932,15 +1937,15 @@
     <string name="formula_editor_sensor_left_wrist_x">левое запястье по оси X</string>
     <string name="formula_editor_sensor_left_wrist_y">левое запястье по оси Y</string>
     <string name="formula_editor_sensor_right_wrist_x">правое запястье по оси X</string>
-    <string name="formula_editor_sensor_right_wrist_y">правое запястье у</string>
-    <string name="formula_editor_sensor_left_pinky_knuckle_x">левый мизинец по оси X</string>
-    <string name="formula_editor_sensor_left_pinky_knuckle_y">левый мизинец по оси Y</string>
-    <string name="formula_editor_sensor_right_pinky_knuckle_x">правый мизинец по оси X</string>
-    <string name="formula_editor_sensor_right_pinky_knuckle_y">правый мизинец по оси Y</string>
-    <string name="formula_editor_sensor_left_index_knuckle_x">индекс левого мизинца по оси X</string>
-    <string name="formula_editor_sensor_left_index_knuckle_y">индекс левого мизинца по оси Y</string>
-    <string name="formula_editor_sensor_right_index_knuckle_x">индекс правого мизинца по оси X</string>
-    <string name="formula_editor_sensor_right_index_knuckle_y">индекс правого мизинца по оси Y</string>
+    <string name="formula_editor_sensor_right_wrist_y">правое запястье по оси Y</string>
+    <string name="formula_editor_sensor_left_pinky_knuckle_x">сустав мизинца левой руки по оси X</string>
+    <string name="formula_editor_sensor_left_pinky_knuckle_y">сустав мизинца левой руки по оси Y</string>
+    <string name="formula_editor_sensor_right_pinky_knuckle_x">сустав мизинца правой руки по оси X</string>
+    <string name="formula_editor_sensor_right_pinky_knuckle_y">сустав мизинца правой руки по оси Y</string>
+    <string name="formula_editor_sensor_left_index_knuckle_x">сустав указательного пальца левой руки по оси X</string>
+    <string name="formula_editor_sensor_left_index_knuckle_y">сустав указательного пальца левой руки по оси Y</string>
+    <string name="formula_editor_sensor_right_index_knuckle_x">сустав указательного пальца правой руки по оси X</string>
+    <string name="formula_editor_sensor_right_index_knuckle_y">сустав указательного пальца правой руки по оси Y</string>
     <string name="formula_editor_sensor_left_thumb_knuckle_x">сустав большого пальца левой руки по оси X</string>
     <string name="formula_editor_sensor_left_thumb_knuckle_y">сустав большого пальца левой руки по оси Y</string>
     <string name="formula_editor_sensor_right_thumb_knuckle_x">сустав большого пальца правой руки по оси X</string>
@@ -1968,7 +1973,7 @@
     <string name="formula_editor_sensor_text_from_camera">текст с камеры</string>
     <string name="formula_editor_sensor_text_blocks_number">количество текстовых блоков</string>
     <string name="formula_editor_function_text_block_x">текстовый блок по оси X с камеры</string>
-    <string name="formula_editor_function_text_block_y">текстовый блок по оси X с камеры</string>
+    <string name="formula_editor_function_text_block_y">текстовый блок по оси Y с камеры</string>
     <string name="formula_editor_function_text_block_size">размер текстового блока с камеры</string>
     <string name="formula_editor_function_text_block_from_camera">текстовый блок с камеры</string>
     <string name="formula_editor_function_text_block_language_from_camera">текстовый блок языка с камеры</string>
@@ -1977,11 +1982,11 @@
     <string name="formula_editor_function_object_with_id_visible">Объект с ID виден</string>
     <string name="formula_editor_intro_title_formula_editor">Редактор формул</string>
     <string name="formula_editor_intro_summary_formula_editor">С помощью редактора формул вы можете создавать математические и
-        логические формулы, которые вы можете использовать в своих кирпичах.\n\nПродолжайте, нажав \"NEXT\" или выйдите из
-        с помощью \"SKIP\".
+        логические формулы, которые вы можете использовать в своих блоках.\n\nПродолжите, нажав \"Далее\" или выйдите
+        с помощью \"Пропустить\".
     </string>
     <string name="formula_editor_intro_title_input_field">Поле ввода</string>
-    <string name="formula_editor_intro_summary_input_field">Здесь вы можете посмотреть и отредактировать свою формулу.</string>
+    <string name="formula_editor_intro_summary_input_field">Здесь вы можете посмотреть и изменить свою формулу.</string>
     <string name="formula_editor_intro_title_keyboard">Клавиатура</string>
     <string name="formula_editor_intro_summary_keyboard">Здесь вы можете создать
         свою формулу, прямо как на калькуляторе.</string>
@@ -1989,28 +1994,29 @@
     <string name="formula_editor_intro_summary_compute">Чтобы показать текущий результат вашей формулы, вы можете
         использовать \"Вычислить\".</string>
     <string name="formula_editor_intro_title_object">Свойства</string>
-    <string name="formula_editor_intro_summary_object">Это список значений, которые описывают свойства твоего
-        текущего актера или объекта. Например x и y координаты или текущую скорость.</string>
+    <string name="formula_editor_intro_summary_object">Это разнообразие значений, которые описывают свойства вашего
+        текущего актера или объекта. Например, X и Y координаты, или текущая скорость.</string>
     <string name="formula_editor_intro_title_functions">Функции</string>
     <string name="formula_editor_intro_summary_functions">Как и калькулятор, редактор формул предлагает
         множество математических функций.\nВы можете найти такие тригонометрические функции как синус и косинус,
         генератор случайных чисел и функции для работы с текстами и списками.</string>
-    <string name="formula_editor_intro_title_logic">Логические</string>
-    <string name="formula_editor_intro_summary_logic">\"Логические\" используются для сравнения значений и комбинирования формул.\nДля
-        сравнения значений ты можешь использовать такие логические операторы как \"&gt;\" (больше чем) или \"=\" (равно).\nДля комбинирования
-        логических формул ты можешь использовать такие логические операторы, как \"И\", \"ИЛИ\" и \"НЕ\".</string>
-    <string name="formula_editor_intro_title_device">Сенсоры</string>
-    <string name="formula_editor_intro_summary_device">В \"Устройство\" ты можешь найти информацию, которую записывает твоё устройство.\nК примеру, наклон твоего устройства или громкость его окружения.</string>
+    <string name="formula_editor_intro_title_logic">Логика</string>
+    <string name="formula_editor_intro_summary_logic">\"Логика\" используется для сравнения значений и комбинирования формул.\nДля
+        сравнения значений вы можете использовать такие логические операторы как \"&gt;\" (больше чем) или \"=\" (равно).\nДля комбинирования
+        логических формул вы можете использовать такие логические операторы, как \"И\", \"ИЛИ\" и \"НЕ\".</string>
+    <string name="formula_editor_intro_title_device">Датчики</string>
+    <string name="formula_editor_intro_summary_device">В \"Датчики\" вы можете найти информацию, которую
+        записывает ваше устройство.\nК примеру, наклон вашего устройства или громкость его окружения.</string>
     <string name="formula_editor_intro_title_data">Данные</string>
-    <string name="formula_editor_intro_summary_data">Переменные и списки, которые используются в твоем проекте могут быть найдены здесь.
-        \nТы можешь просто вставить их в твою формулу, или добавить новых.</string>
+    <string name="formula_editor_intro_summary_data">Переменные и списки, которые используются в вашем проекте могут быть найдены здесь.
+        \nВы легко можете вставить их в свою формулу, или добавить новые.</string>
     <string name="formula_editor_listening_language_sensor">язык прослушивания</string>
     <string name="formula_editor_speech_recognition">Распознавание речи</string>
-    <string name="camera_error_text_detection">        Возникла проблема с обнаружением текста. Некоторые компоненты все еще могут загружаться в фоновом режиме
-        . Пожалуйста, убедитесь, что вы подключены к Интернету и проверьте позже.</string>
+    <string name="camera_error_text_detection">        Возникла проблема с обнаружением текста. Некоторые компоненты все еще могут загружаться в фоновом режиме.
+        Пожалуйста, убедитесь, что вы подключены к интернету и повторите попытку позже.</string>
     <string name="warning_formula_recognized">Вы ввели текст, который выглядит как формула. Если вы хотите использовать функции,
         датчики, переменные и другие элементы формулы, выберите их с помощью
-        кнопки в редакторе формул.</string>
+        кнопок в редакторе формул.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
     <string name="brick_show_variable">Показать переменную</string>
@@ -2023,38 +2029,38 @@
     <string name="brick_show_variable_aligned_left">слева</string>
     <string name="brick_show_variable_aligned_right">справа</string>
     <string name="brick_context_dialog_pick_color">Выбрать цвет</string>
-    <string name="brick_context_dialog_pick_note">Выбрать заметку</string>
+    <string name="brick_context_dialog_pick_note">Выбрать ноту</string>
     <!-- -->
     <!-- Camera related strings -->
-    <string name="brick_video">Повернуть камеру</string>
+    <string name="brick_video">Включить камеру</string>
     <string name="video_brick_camera_on">вкл.</string>
     <string name="video_brick_camera_off">выкл.</string>
     <string name="brick_choose_camera">Использовать камеру</string>
     <string name="choose_camera_front">переднюю</string>
     <string name="choose_camera_back">заднюю</string>
-    <string name="camera_error_generic">        Произошла ошибка при попытке использовать камеру.
+    <string name="camera_error_generic">        Что-то пошло не так при попытке использовать камеру.
     </string>
-    <string name="camera_error_face_detection">        Возникла проблема с обнаружением лица. Некоторые компоненты все еще могут загружаться в фоновом режиме
-        . Пожалуйста, убедитесь, что вы подключены к интернету или повторите попытку позже.
+    <string name="camera_error_face_detection">        Возникла проблема с обнаружением лица. Некоторые компоненты все еще могут загружаться в фоновом режиме.
+        Пожалуйста, убедитесь, что вы подключены к интернету и повторите попытку позже.
     </string>
     <!-- -->
     <!-- Cast strings -->
     <string name="cast_gamepad_A">А</string>
-    <string name="cast_gamepad_B">B</string>
+    <string name="cast_gamepad_B">Б</string>
     <string name="cast_gamepad_up">вверх</string>
     <string name="cast_gamepad_down">вниз</string>
     <string name="cast_gamepad_left">влево</string>
     <string name="cast_gamepad_right">вправо</string>
     <string name="cast_error_not_connected_msg">Пожалуйста, сначала подключитесь к Chromecast</string>
-    <string name="cast_error_cast_bricks_in_no_cast_project">Ваш проект использует кирпичи Chromecast и не может быть запущен
+    <string name="cast_error_cast_bricks_in_no_cast_project">Ваш проект использует блоки Chromecast и не может быть запущен
         локально</string>
     <string name="cast_device_selector_dialog_title">Трансляция на</string>
     <string name="cast_button_menu_item_title">Кнопка трансляции</string>
     <string name="cast_ready_to_cast">Готов транслировать на</string>
     <string name="cast_enable_cast_feature">Функции Chromecast отключены. Пожалуйста, включите функции трансляции в настройках.</string>
     <string name="cast_searching_for_cast_devices">Поиск устройств Chromecast</string>
-    <string name="cast_trouble_finding_devices_tip">.\nНе видите свое устройство? Попробуйте перезапустить
-        Wifi.</string>
+    <string name="cast_trouble_finding_devices_tip">.\nНе видите свое устройство? Попробуйте перезагрузить
+        Wi-Fi.</string>
     <string name="cast_connection_timout_msg">Время ожидания превышено. Пожалуйста, попробуйте еще раз.</string>
     <string name="cast_screen_pause_text">Пауза</string>
     <!-- -->
@@ -2062,34 +2068,34 @@
     <string name="deletion_alert_text">Удаление переменной или списка, которые все еще используются могут вызвать ошибки
         . Вы не можете отменить это!</string>
     <!-- Upload progress dialog -->
-    <string name="progress_upload_dialog_message">Ваш проект загружается на сайт, где другие могут использовать и
+    <string name="progress_upload_dialog_message">Ваш проект выкладывается на сайт, где другие могут использовать и
         скачивать его. Вы также можете скачать свой проект в качестве отдельного приложения.</string>
-    <string name="progress_upload_dialog_failed">Загрузка не удалась. Проверьте подключение к интернету и попробуйте
+    <string name="progress_upload_dialog_failed">Выкладывание не удалось. Проверьте подключение к интернету и попробуйте
         снова!</string>
     <string name="progress_upload_dialog_show_program">Показать проект</string>
     <!--  -->
     <!-- unchanged upload dialog -->
-    <string name="unchanged_upload_warning">Проект, который вы пытаетесь загрузить, уже существует на
+    <string name="unchanged_upload_warning">Проект, который вы пытаетесь выложить, уже существует на
         платформе сообщества в точно такой же форме. Пожалуйста, измените свой проект, в идеале
-        усовершенствовать его, перед загрузкой вашего ремиксованного проекта.</string>
-    <string name="unchanged_upload_info">Пожалуйста, подумайте о том, чтобы добавить несколько добрых слов к оригинальному
+        усовершенствовав его, перед загрузкой вашего ремикс-проекта.</string>
+    <string name="unchanged_upload_info">Пожалуйста, подумайте о том, чтобы добавить несколько добрых слов первоначальному
         автору в разделе \"Примечания\" на сайте сообщества или в опциях проекта. Обратите внимание
-        что пользователь получит уведомление после успешной загрузки.</string>
+        что пользователь получит уведомление после успешного выкладывания.</string>
     <string name="unchanged_upload_url">Чтобы узнать больше о ремиксах, посетите %1s.</string>
     <!-- -->
     <!-- Snackbar hints -->
-    <string name="got_it">Хорошо</string>
+    <string name="got_it">Ясно</string>
     <string name="preference_description_hints">Разрешить показывать подсказки</string>
     <string name="preference_title_enable_hints">Показывать подсказки </string>
-    <string name="hint_category">Все кирпичи распределены по категориям. Выберите котегорию, которую вы ищете.</string>
-    <string name="hint_bricks">Для добавления кирпича к вашему скрипту прикоснитесь к кирпичу, который вы хотите использовать.</string>
-    <string name="hint_scripts">Скрипт определяет поведение вашего актера или объекта. Чтобы добавить кирпичи,
+    <string name="hint_category">Все блоки распределены по категориям. Выберите категорию, которую вы ищете.</string>
+    <string name="hint_bricks">Чтобы добавить блок к вашему скрипту, прикоснитесь к блоку, который хотите использовать.</string>
+    <string name="hint_scripts">Скрипт определяет поведение вашего актера или объекта. Чтобы добавить блоки к вашему скрипту,
         нажмите на \"+\".</string>
-    <string name="hint_looks">Здесь вы можете найти различные образы твоего актера или объекта. Чтобы добавить новый образ,
+    <string name="hint_looks">Здесь вы можете найти различные образы вашего актера или объекта. Чтобы добавить новый образ,
         нажмите на \"+\".</string>
     <string name="hint_sounds">Здесь вы можете добавить новые звуки актеру или объекту. Они находятся
         в категории \"звуки\".</string>
-    <string name="hint_objects">Твой проект состоит из разных актеров или объектов, которые могут взаимодействовать друг с другом.
+    <string name="hint_objects">Ваш проект состоит из разных актеров или объектов, которые могут взаимодействовать друг с другом.
         Чтобы добавить нового актера или объекта нажмите на \"+\".</string>
     <!--  -->
     <!-- Dialog Disable hints -->
@@ -2098,7 +2104,7 @@
         во время создания вашего первого проекта.\n\nВидимость подсказок может быть изменена в разделе
         настройки.</string>
     <string name="dialog_disable_hints_button_hide">СКРЫТЬ</string>
-    <string name="dialog_disable_hints_button_show">ПОКАЗЫВАТЬ</string>
+    <string name="dialog_disable_hints_button_show">ПОКАЗАТЬ</string>
     <!--  -->
     <!-- Crash report dialog -->
     <!--  -->
@@ -2109,24 +2115,24 @@
     <string name="hertz_symbol">Гц</string>
     <string name="no_internet_connection">Нет подключения к интернету. Убедитесь, что включены Wi-Fi или передача
     данных по мобильной сети.</string>
-    <string name="edit">Редактирование</string>
+    <string name="edit">Редактировать</string>
     <string name="data_value">Значение</string>
     <string name="category_recently_used">Недавно использованные</string>
     <string name="new_sprite_dialog_place_visually">Поместить визуально</string>
     <string name="place_visually_text">Вам будет предложено поместить нового актера или объекта на
          сцену.</string>
-    <string name="new_empty_sprite_note">Примечание: Персонаж или объект будет создан
-        без внешнего образа.        </string>
+    <string name="new_empty_sprite_note">Примечание: Актер или объект будет создан
+        без образа.        </string>
     <!-- Information -->
     <string name="no_variable_selected">Переменная не выбрана</string>
-    <string name="find">Найти</string>
+    <string name="search">Поиск</string>
     <string name="no_results_found">Ничего не найдено</string>
     <string name="query_field_is_empty">Поле запроса пустое</string>
     <string name="cut">Вырезать</string>
     <string name="paste">Вставить</string>
     <!-- Particle Effects -->
     <string name="fade_particle_effect">Эффект затухающих частиц</string>
-    <string name="particle_effects_fade_in">от</string>
+    <string name="particle_effects_fade_in">в</string>
     <string name="particle_effects_fade_out">из</string>
     <string name="turn_particle_effect_additivity">Включить аддитивности эффекта частиц</string>
     <string name="particle_effects_additive_on">вкл.</string>
@@ -2134,4 +2140,5 @@
     <string name="set_particle_color_to">Задать цвет частиц</string>
     <string name="undo_sort">Отменить сортировку</string>
     <string name="sort">Сортировка</string>
+    <string name="checkbox">флажок</string>
 </resources>
