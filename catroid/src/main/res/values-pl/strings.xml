@@ -1028,6 +1028,8 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="beats">Uderzenia</string>
     <string name="play_note">Odtwórz nutę</string>
     <string name="for_string">dla</string>
+    <string name="at_string">w </string>
+    <string name="seconds_string">sekund</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Szyj</string>
@@ -2065,7 +2067,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
         bez wyglądu.</string>
     <!-- Information -->
     <string name="no_variable_selected">Nie wybrano zmiennej</string>
-    <string name="find">Znajdź</string>
+    <string name="search">Szukaj</string>
     <string name="no_results_found">Nie znaleziono wyników</string>
     <string name="query_field_is_empty">Pole zapytania jest puste</string>
     <string name="cut">Wytnij</string>
@@ -2080,4 +2082,5 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="set_particle_color_to">Ustaw kolor cząsteczki na</string>
     <string name="undo_sort">Cofnij sortowanie</string>
     <string name="sort">Sortuj</string>
+    <string name="checkbox">pole wyboru</string>
 </resources>

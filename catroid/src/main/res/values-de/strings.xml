@@ -963,6 +963,8 @@
     <string name="beats">schläge</string>
     <string name="play_note">Musiknote abspielen</string>
     <string name="for_string">für</string>
+    <string name="at_string">bei </string>
+    <string name="seconds_string">Sekunden</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Stich</string>
@@ -1989,7 +1991,7 @@
         erstellt.</string>
     <!-- Information -->
     <string name="no_variable_selected">Keine Variable ausgewählt</string>
-    <string name="find">Finden</string>
+    <string name="search">Suche…</string>
     <string name="no_results_found">Keine Ergebnisse gefunden</string>
     <string name="query_field_is_empty">Abfragefeld ist leer</string>
     <string name="cut">Ausschneiden</string>
@@ -2004,4 +2006,5 @@
     <string name="set_particle_color_to">Setze Partikelfarbe auf</string>
     <string name="undo_sort">sortieren rückgängig machen </string>
     <string name="sort">Sortieren</string>
+    <string name="checkbox">checkbox</string>
 </resources>

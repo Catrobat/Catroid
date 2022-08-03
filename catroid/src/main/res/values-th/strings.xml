@@ -921,6 +921,8 @@
     <string name="beats">เต้น</string>
     <string name="play_note">เล่นบันทึก</string>
     <string name="for_string">สำหรับ</string>
+    <string name="at_string">ที่</string>
+    <string name="seconds_string">วินาที</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">ตะเข็บ</string>
@@ -1959,7 +1961,7 @@
         โดยไม่มีวัตถุหรือรูปลักษณ์</string>
     <!-- Information -->
     <string name="no_variable_selected">ไม่ได้เลือกตัวแปร</string>
-    <string name="find">ค้นหา</string>
+    <string name="search">ค้นหา</string>
     <string name="no_results_found">ไม่พบผลลัพธ์</string>
     <string name="query_field_is_empty">ฟิลด์แบบสอบถามว่างเปล่า</string>
     <string name="cut">ตัด</string>
@@ -1974,4 +1976,5 @@
     <string name="set_particle_color_to">ตั้งค่าสีอนุภาคเป็น</string>
     <string name="undo_sort">เลิกทำการเรียงลำดับ</string>
     <string name="sort">เรียงลำดับ</string>
+    <string name="checkbox">checkbox</string>
 </resources>

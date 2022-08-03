@@ -971,6 +971,8 @@
     <string name="beats">batbattements</string>
     <string name="play_note">Lire la note</string>
     <string name="for_string">pendant</string>
+    <string name="at_string">à </string>
+    <string name="seconds_string">secondes</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Point de suture</string>
@@ -2020,7 +2022,7 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
         sans apparence.</string>
     <!-- Information -->
     <string name="no_variable_selected">Aucune variable sélectionnée</string>
-    <string name="find">Trouvez</string>
+    <string name="search">Recherche en cours…</string>
     <string name="no_results_found">Aucun résultat trouvé</string>
     <string name="query_field_is_empty">Le champ de la requête est vide</string>
     <string name="cut">Couper</string>
@@ -2035,4 +2037,5 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string name="set_particle_color_to">Défine la couleur des particules à</string>
     <string name="undo_sort">Annuler le tri</string>
     <string name="sort">Trier</string>
+    <string name="checkbox">checkbox</string>
 </resources>
