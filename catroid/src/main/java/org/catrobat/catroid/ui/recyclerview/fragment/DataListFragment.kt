@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -33,11 +34,11 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.annotation.IntDef
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.menu.MenuBuilder
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
@@ -51,6 +52,7 @@ import org.catrobat.catroid.formulaeditor.UserData
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.ui.BottomBar
+import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment
 import org.catrobat.catroid.ui.recyclerview.adapter.DataListAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
@@ -60,7 +62,6 @@ import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.UserDataUtil.renameUserData
-import java.util.ArrayList
 import java.util.Collections
 
 class DataListFragment : Fragment(),
@@ -85,6 +86,7 @@ class DataListFragment : Fragment(),
         this.formulaEditorDataInterface = formulaEditorDataInterface
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
         when (actionModeType) {
             DELETE -> mode.title = getString(R.string.am_delete)
@@ -92,6 +94,9 @@ class DataListFragment : Fragment(),
         }
         val inflater = mode.menuInflater
         inflater.inflate(R.menu.context_menu, menu)
+        if (menu is MenuBuilder) {
+            menu.setOptionalIconsVisible(true)
+        }
         adapter?.showCheckBoxes(true)
         adapter?.updateDataSet()
         return true
@@ -523,29 +528,35 @@ class DataListFragment : Fragment(),
     override fun onSettingsClick(item: UserData<*>, view: View?) {
         if (item is UserDefinedBrickInput) {
             return
-        } else if (item is UserVariable) {
-            val elementList = arrayOf<CharSequence>(getString(R.string.delete), getString(R.string.rename),
-                                                    getString(R.string.edit))
-
-            val popupMenu = PopupMenu(context, view)
-            for (element: CharSequence in elementList) popupMenu.menu.add(element)
+        }
+        val itemList: MutableList<UserData<*>> = ArrayList()
+        itemList.add(item)
+        val hiddenOptionsMenu = mutableListOf<Int>(
+            R.id.copy, R.id.show_details, R.id.from_library, R.id.from_local, R.id.new_group,
+            R.id.new_scene, R.id.cast_button, R.id.backpack, R.id.project_options
+        )
+        if (item is UserVariable) {
+            val popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(),
+                                                            R.menu.menu_project_activity,
+                                                            hiddenOptionsMenu.toIntArray())
             popupMenu.setOnMenuItemClickListener { menuItem ->
-                when (menuItem.title) {
-                    getString(R.string.rename) -> showRenameDialog(ArrayList(listOf(item)))
-                    getString(R.string.delete) -> showDeleteAlert(ArrayList(listOf(item)))
-                    getString(R.string.edit) -> showEditDialog(ArrayList(listOf(item)))
+                when (menuItem.itemId) {
+                    R.id.rename -> showRenameDialog(ArrayList(listOf(item)))
+                    R.id.delete -> showDeleteAlert(ArrayList(listOf(item)))
+                    R.id.edit -> showEditDialog(ArrayList(listOf(item)))
                 }
                 true
             }
             popupMenu.show()
         } else {
-            val elementList = arrayOf<CharSequence>(getString(R.string.delete), getString(R.string.rename))
-            val popupMenu = PopupMenu(context, view)
-            for (element: CharSequence in elementList) popupMenu.menu.add(element)
+            hiddenOptionsMenu.add(R.id.edit)
+            val popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(),
+                                                            R.menu.menu_project_activity,
+                                                            hiddenOptionsMenu.toIntArray())
             popupMenu.setOnMenuItemClickListener { menuItem ->
-                when (menuItem.title) {
-                    getString(R.string.rename) -> showRenameDialog(listOf(item))
-                    getString(R.string.delete) -> showDeleteAlert(ArrayList(listOf(item)))
+                when (menuItem.itemId) {
+                    R.id.rename -> showRenameDialog(ArrayList(listOf(item)))
+                    R.id.delete -> showDeleteAlert(ArrayList(listOf(item)))
                 }
                 true
             }

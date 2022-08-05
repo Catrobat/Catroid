@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -87,7 +87,7 @@ public class SpriteFromGalleryIntentTest {
 	private final String lookFileName = "catroid_sunglasses.png";
 	private final String projectName = getClass().getSimpleName();
 	private final File tmpPath = new File(
-			Constants.CACHE_DIR.getAbsolutePath(), "Pocket Code Test Temp");
+			Constants.CACHE_DIRECTORY.getAbsolutePath(), "Pocket Code Test Temp");
 
 	@Rule
 	public FragmentActivityTestRule<ProjectActivity> baseActivityTestRule = new

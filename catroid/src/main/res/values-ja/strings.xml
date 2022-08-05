@@ -930,6 +930,8 @@
     <string name="beats">ビーツ</string>
     <string name="play_note">ノートを再生</string>
     <string name="for_string">次の</string>
+    <string name="at_string">位置 </string>
+    <string name="seconds_string">秒</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">ステッチ</string>
@@ -1961,7 +1963,7 @@
         作成されます。</string>
     <!-- Information -->
     <string name="no_variable_selected">変数が選択されていません</string>
-    <string name="find">探す</string>
+    <string name="search">検索…</string>
     <string name="no_results_found">結果は見つかりませんでした。</string>
     <string name="query_field_is_empty">クエリーフィールドが空です</string>
     <string name="cut">切り取り</string>
@@ -1976,4 +1978,5 @@
     <string name="set_particle_color_to">パーティクルカラーの設定</string>
     <string name="undo_sort">並べ替えを取り消す</string>
     <string name="sort">並べ替え</string>
+    <string name="checkbox">checkbox</string>
 </resources>

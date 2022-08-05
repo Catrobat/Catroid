@@ -919,6 +919,8 @@
     <string name="beats">می زند</string>
     <string name="play_note">نت پخش کنید</string>
     <string name="for_string">برای</string>
+    <string name="at_string">در</string>
+    <string name="seconds_string">ثانیه</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">بخیه</string>
@@ -1927,7 +1929,7 @@
     <string name="new_empty_sprite_note">توجه: بازیگر یا شیء         بدون نگاه ساخته می شود.</string>
     <!-- Information -->
     <string name="no_variable_selected">هیچ متغیری انتخاب نشده است</string>
-    <string name="find">پیدا کردن</string>
+    <string name="search">جستجو …</string>
     <string name="no_results_found">نتیجه ای پیدا نشد</string>
     <string name="query_field_is_empty">فیلد پرس و جو خالی است</string>
     <string name="cut">قطع کن</string>
@@ -1942,4 +1944,5 @@
     <string name="set_particle_color_to">رنگ ذرات را روی</string>
     <string name="undo_sort">لغو مرتب‌سازی</string>
     <string name="sort">مرتب سازی</string>
+    <string name="checkbox">checkbox</string>
 </resources>

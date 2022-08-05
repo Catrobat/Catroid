@@ -968,6 +968,8 @@
     <string name="beats">tiempos musicales</string>
     <string name="play_note">Reproducir nota</string>
     <string name="for_string">por</string>
+    <string name="at_string">en </string>
+    <string name="seconds_string">segundos</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Unir</string>
@@ -2004,7 +2006,7 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
         sin mirar.</string>
     <!-- Information -->
     <string name="no_variable_selected">Ninguna variable seleccionada</string>
-    <string name="find">Encuentre</string>
+    <string name="search">Búsqueda…</string>
     <string name="no_results_found">No se han encontrado resultados</string>
     <string name="query_field_is_empty">El campo de consulta está vacío</string>
     <string name="cut">Cortar</string>
@@ -2019,4 +2021,5 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string name="set_particle_color_to">Establecer color de partículas a</string>
     <string name="undo_sort">Deshacer orden</string>
     <string name="sort">Ordenar</string>
+    <string name="checkbox">checkbox</string>
 </resources>

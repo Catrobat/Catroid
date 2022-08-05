@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -77,7 +77,7 @@ android:paddingBottom="@dimen/dialog_content_area_padding_top">
                 android:gravity="center"
                 android:text="@string/add_look_object_library"
                 android:textSize="?attr/medium"
-                app:drawableTopCompat="@drawable/ic_apps_white" />
+                app:drawableTopCompat="@drawable/ic_apps" />
         </TableRow>
 
         <TableRow

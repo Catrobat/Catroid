@@ -136,6 +136,7 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick
 import org.catrobat.catroid.content.bricks.PlayDrumForBeatsBrick
 import org.catrobat.catroid.content.bricks.PlayNoteForBeatsBrick
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick
+import org.catrobat.catroid.content.bricks.PlaySoundAtBrick
 import org.catrobat.catroid.content.bricks.PlaySoundBrick
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick
 import org.catrobat.catroid.content.bricks.PointToBrick
@@ -417,6 +418,7 @@ open class CategoryBricksFactory {
         val soundBrickList: MutableList<Brick> = ArrayList()
         soundBrickList.add(PlaySoundBrick())
         soundBrickList.add(PlaySoundAndWaitBrick())
+        soundBrickList.add(PlaySoundAtBrick(BrickValues.PLAY_AT_DEFAULT_OFFSET))
         soundBrickList.add(StopSoundBrick())
         soundBrickList.add(StopAllSoundsBrick())
         soundBrickList.add(SetVolumeToBrick(BrickValues.SET_VOLUME_TO))

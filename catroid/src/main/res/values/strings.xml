@@ -1094,6 +1094,8 @@
     <string name="beats">beats</string>
     <string name="play_note">Play note</string>
     <string name="for_string">for</string>
+    <string name="at_string">at</string>
+    <string name="seconds_string">seconds</string>
     <!--  -->
 
     <!-- Embroidery bricks -->
@@ -2265,4 +2267,5 @@ needs read and write access to it. You can always change permissions through you
 
     <string name="undo_sort">Undo sort</string>
     <string name="sort">Sort</string>
+    <string name="checkbox">checkbox</string>
 </resources>

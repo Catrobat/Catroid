@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ListAdapter;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -64,6 +66,7 @@ import org.catrobat.catroid.io.asynctask.ProjectSaver;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptFinder;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.controller.RecentBrickListManager;
 import org.catrobat.catroid.ui.dragndrop.BrickListView;
@@ -643,20 +646,27 @@ public class ScriptFragment extends ListFragment implements
 			listView.cancelHighlighting();
 			return;
 		}
-		List<Integer> options = getContextMenuItems(brick);
-		CharSequence[] items = new CharSequence[options.size()];
 
-		for (int i = 0; i < options.size(); i++) {
-			items[i] = getString(options.get(i));
+		List<Integer> options = getContextMenuItems(brick);
+		List<String> names = new ArrayList<>();
+		for (Integer option: options) {
+			names.add(getString(option));
 		}
+
+		ListAdapter arrayAdapter = UiUtils.getAlertDialogAdapterForMenuIcons(options, names,
+				requireContext(), requireActivity());
 
 		View brickView = brick.getView(getContext());
 		brick.disableSpinners();
 
 		new AlertDialog.Builder(getContext())
-				.setCustomTitle(brickView)
-				.setItems(items, (dialog, which) -> handleContextMenuItemClick(options.get(which), brick, position))
-				.show();
+			.setCustomTitle(brickView)
+			.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					handleContextMenuItemClick(options.get(which), brick, position);
+				}
+			}).show();
 	}
 
 	@VisibleForTesting

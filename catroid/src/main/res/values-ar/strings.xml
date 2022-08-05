@@ -372,7 +372,7 @@
     <string name="hide_details">إخفاء التفاصيل</string>
     <string name="project_options">خيارات المشروع</string>
     <string name="from_library">إضافة من المكتبة</string>
-    <string name="from_local">Add from local</string>
+    <string name="from_local">إضافة من المحلية</string>
     <string name="sort_projects">فرز</string>
     <string name="unsort_projects">ترتيب</string>
     <string name="import_from_project">حدد المشروع المراد استيراده من</string>
@@ -1129,6 +1129,8 @@
     <string name="beats">هزات</string>
     <string name="play_note">تشغيل الملاحظة</string>
     <string name="for_string">لفترة</string>
+    <string name="at_string">في </string>
+    <string name="seconds_string">ثوان</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">حياكة</string>
@@ -1479,9 +1481,9 @@
     <string name="none_found">لم يتم العثور على أجهزة غير مقترنة</string>
     <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
         required!</string>
-    <string name="multiplayer_bluetooth_connection_information">To play this game in
-        Multiplayer a Bluetooth connection is required. Both players have to start the game and
-        be on this screen for the connection to work properly!</string>
+    <string name="multiplayer_bluetooth_connection_information">للعب هذه اللعبة في
+        متعدد اللاعبين مطلوب اتصال بلوتوث. يجب على كلا اللاعبين أن يبدأا اللعبة و
+        أن يكونا على هذه الشاشة لكي يعمل الاتصال بشكل صحيح!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">تعيين قيمة إبرة أردوينو الرقمية</string>
@@ -2196,7 +2198,7 @@
         بدون نظرة.</string>
     <!-- Information -->
     <string name="no_variable_selected">لا يوجد متغير محدد</string>
-    <string name="find">تجد</string>
+    <string name="search">جاري البحث…</string>
     <string name="no_results_found">لم يتم العثور على نتائج</string>
     <string name="query_field_is_empty">حقل الاستعلام فارغ</string>
     <string name="cut">قطع</string>
@@ -2211,4 +2213,5 @@
     <string name="set_particle_color_to">تعيين لون الجسيم إلى</string>
     <string name="undo_sort">التراجع عن الترتيب</string>
     <string name="sort">فرز</string>
+    <string name="checkbox">checkbox</string>
 </resources>

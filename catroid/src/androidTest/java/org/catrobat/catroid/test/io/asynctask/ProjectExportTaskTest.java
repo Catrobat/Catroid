@@ -99,7 +99,7 @@ public class ProjectExportTaskTest {
 
 		String fileName = project.getDirectory().getName() + "_destination" + CATROBAT_EXTENSION;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-			projectZip = new File(Constants.CACHE_DIR, fileName);
+			projectZip = new File(Constants.CACHE_DIRECTORY, fileName);
 		} else {
 			projectZip = new File(DOWNLOAD_DIRECTORY, fileName);
 		}

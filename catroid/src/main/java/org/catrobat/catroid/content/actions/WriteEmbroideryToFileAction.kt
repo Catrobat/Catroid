@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -123,7 +123,7 @@ class WriteEmbroideryToFileAction : Action(), IntentListener {
         val fileName = StorageOperations.resolveFileName(contentResolver, uri) ?: return
         var message = context.getString(R.string.brick_write_variable_to_file_success, fileName)
         try {
-            val cacheFile = File(Constants.CACHE_DIR, fileName)
+            val cacheFile = File(Constants.CACHE_DIRECTORY, fileName)
             if (!cacheFile.exists()) {
                 cacheFile.createNewFile()
             }

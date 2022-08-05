@@ -35,43 +35,56 @@
     <item
         android:id="@+id/backpack"
         android:title="@string/backpack"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        android:icon="@drawable/ic_content_paste_small"/>
     <item
         android:id="@+id/copy"
         android:title="@string/copy"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        android:icon="@drawable/ic_content_copy"/>
     <item
         android:id="@+id/delete"
         android:title="@string/delete"
+        android:icon="@drawable/ic_delete"
         app:showAsAction="never" />
     <item
         android:id="@+id/rename"
         android:title="@string/rename"
+        android:icon="@drawable/ic_edit"
         app:showAsAction="never" />
     <item
         android:id="@+id/new_group"
         android:title="@string/new_group"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        android:icon="@drawable/ic_placeholder"/>
     <item
         android:id="@+id/new_scene"
         android:title="@string/new_scene"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        android:icon="@drawable/ic_placeholder" />
     <item
         android:id="@+id/show_details"
         android:title="@string/show_details"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        android:icon="@drawable/ic_placeholder" />
     <item
         android:id="@+id/project_options"
         android:title="@string/project_options"
-        app:showAsAction="never"/>
+        app:showAsAction="never"
+        android:icon="@drawable/ic_settings"/>
     <item
         android:id="@+id/from_library"
         android:title="@string/from_library"
-        android:visible="false"
+        android:icon="@drawable/ic_apps_small"
         app:showAsAction="never"/>
-      <item
-          android:id="@+id/from_local"
-          android:title="@string/from_local"
-          android:visible="false"
-          app:showAsAction="never"/>
+   <item
+        android:id="@+id/edit"
+        android:title="@string/edit"
+        android:icon="@drawable/ic_edit"
+        app:showAsAction="never" />
+    <item
+      android:id="@+id/from_local"
+      android:title="@string/from_local"
+      app:showAsAction="never"
+      android:icon="@drawable/ic_library_add_small"/>
 </menu>

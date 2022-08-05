@@ -29,7 +29,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.View
-import android.widget.PopupMenu
 import androidx.annotation.PluralsRes
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
@@ -38,6 +37,7 @@ import org.catrobat.catroid.common.LookData
 import org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_LOOKS_PREFERENCE_KEY
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.ui.SpriteActivity
+import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.controller.BackpackListManager
 import org.catrobat.catroid.ui.recyclerview.adapter.LookAdapter
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity
@@ -140,8 +140,8 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
     }
 
     private fun disposeItem() {
-        if (Constants.TEMP_LOOK_FILE.exists()) {
-            Constants.TEMP_LOOK_FILE.delete()
+        if (Constants.TMP_LOOK_FILE.exists()) {
+            Constants.TMP_LOOK_FILE.delete()
             currentItem = null
         }
     }
@@ -197,7 +197,7 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
     fun undo(): Boolean {
         currentItem?.let {
             try {
-                StorageOperations.copyFile(Constants.TEMP_LOOK_FILE, it.file)
+                StorageOperations.copyFile(Constants.TMP_LOOK_FILE, it.file)
             } catch (e: IOException) {
                 Log.e(TAG, Log.getStackTraceString(e))
             }
@@ -225,7 +225,7 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
         item?.invalidateThumbnailBitmap()
         item?.clearCollisionInformation()
         try {
-            StorageOperations.copyFile(currentItem?.file, Constants.TEMP_LOOK_FILE)
+            StorageOperations.copyFile(currentItem?.file, Constants.TMP_LOOK_FILE)
         } catch (e: IOException) {
             Log.e(TAG, Log.getStackTraceString(e))
         }
@@ -239,10 +239,20 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
     }
 
     override fun onSettingsClick(item: LookData?, view: View?) {
-        val popupMenu = PopupMenu(context, view)
         val itemList: MutableList<LookData?> = ArrayList()
         itemList.add(item)
-        popupMenu.menuInflater.inflate(R.menu.menu_project_activity, popupMenu.menu)
+        val hiddenOptionMenuIds = intArrayOf(
+            R.id.new_group,
+            R.id.new_scene,
+            R.id.show_details,
+            R.id.project_options,
+            R.id.edit,
+            R.id.from_local,
+            R.id.from_library
+        )
+        val popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(), R.menu
+            .menu_project_activity, hiddenOptionMenuIds)
+
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.backpack -> packItems(itemList)
@@ -255,10 +265,6 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
             true
         }
         popupMenu.menu.findItem(R.id.backpack).setTitle(R.string.pack)
-        popupMenu.menu.findItem(R.id.new_group).isVisible = false
-        popupMenu.menu.findItem(R.id.new_scene).isVisible = false
-        popupMenu.menu.findItem(R.id.show_details).isVisible = false
-        popupMenu.menu.findItem(R.id.project_options).isVisible = false
         popupMenu.show()
     }
 }

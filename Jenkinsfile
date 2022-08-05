@@ -77,16 +77,16 @@ pipeline {
         separator(name: "TEST_STAGES", sectionHeader: "Test Stages - CAUTION: The PR needs to be rebuild again with all test stages enabled before Code Review!!",
                 separatorStyle: "border-width: 0",
                 sectionHeaderStyle: """
-				background-color: #ffff00;
-				text-align: center;
-				padding: 4px;
-				color: #000000;
-				font-size: 20px;
-				font-weight: normal;
-				font-family: 'Orienta', sans-serif;
-				letter-spacing: 1px;
-				font-style: italic;
-			""")
+                background-color: #ffff00;
+                text-align: center;
+                padding: 4px;
+                color: #000000;
+                font-size: 20px;
+                font-weight: normal;
+                font-family: 'Orienta', sans-serif;
+                letter-spacing: 1px;
+                font-style: italic;
+                """)
         booleanParam name: 'PULL_REQUEST_SUITE', defaultValue: true, description: 'Enables Pull ' +
                 'request suite'
         booleanParam name: 'STANDALONE', defaultValue: true, description: 'When selected, ' +
@@ -99,6 +99,8 @@ pipeline {
         booleanParam name: 'QUARANTINED_TESTS', defaultValue: true, description: 'Enables ' +
                 'Quarantined Tests'
         booleanParam name: 'RTL_TESTS', defaultValue: true, description: 'Enables RTL Tests'
+        booleanParam name: 'OUTGOING_NETWORK_CALL_TESTS', defaultValue: false, description: 'Enables' +
+                'start Outgoing web tests'
     }
 
     options {
@@ -121,12 +123,11 @@ pipeline {
             parallel {
                 stage('1') {
                     agent {
-                        dockerfile {
-                            filename d.fileName
-                            dir d.dir
-                            additionalBuildArgs d.buildArgs
-                            args d.args
-                            label useDebugLabelParameter(d.label)
+                        docker {
+                            image 'catrobat/catrobat-android:stable'
+                            args '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -m=6.5G'
+                            label 'LimitedEmulator'
+                            alwaysPull true
                         }
                     }
 
@@ -244,6 +245,27 @@ pipeline {
                             }
                         }
 
+                        stage('Outgoing Network Call Tests') {
+                            when {
+                                expression { params.OUTGOING_NETWORK_CALL_TESTS == true }
+                            }
+                            steps {
+                                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE')
+                                {
+                                    sh '''./gradlew -PenableCoverage -Pemulator=android28 \
+                                       startEmulator createCatroidDebugAndroidTestCoverageReport \
+                                       -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.OutgoingNetworkCallsTestSuite'''
+                                }
+                            }
+                            post {
+                                always {
+                                   junit '**/*TEST*.xml'
+                                         sh './gradlew stopEmulator clearAvdStore'
+                                         archiveArtifacts 'logcat.txt'
+                                       }
+                            }
+                        }
+
                         stage('RTL Tests') {
                             when {
                                 expression { params.RTL_TESTS == true }
@@ -273,12 +295,11 @@ pipeline {
 
                 stage('2') {
                     agent {
-                        dockerfile {
-                            filename d.fileName
-                            dir d.dir
-                            additionalBuildArgs d.buildArgs
-                            args d.args
-                            label useDebugLabelParameter(d.label)
+                        docker {
+                            image 'catrobat/catrobat-android:stable'
+                            args '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -m=6.5G'
+                            label 'LimitedEmulator'
+                            alwaysPull true
                         }
                     }
 

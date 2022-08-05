@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,7 @@ import junit.framework.Assert.assertEquals
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIR
+import org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIRECTORY
 import org.catrobat.catroid.common.DefaultProjectHandler
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Script
@@ -78,7 +78,7 @@ class ImportObjectIntoProjectTest {
     @Before
     fun setUp() {
         try {
-            MEDIA_LIBRARY_CACHE_DIR.mkdirs()
+            MEDIA_LIBRARY_CACHE_DIRECTORY.mkdirs()
         } catch (e: Exception) {
             Log.e(TAG, Log.getStackTraceString(e))
         }
@@ -104,7 +104,7 @@ class ImportObjectIntoProjectTest {
         XstreamSerializer.getInstance().saveProject(importedProject)
 
         val projectZip = File(
-            Constants.MEDIA_LIBRARY_CACHE_DIR,
+            Constants.MEDIA_LIBRARY_CACHE_DIRECTORY,
             importedProject?.name + Constants.CATROBAT_EXTENSION
         )
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@ import org.catrobat.catroid.formulaeditor.UserData;
 import java.io.File;
 import java.util.List;
 
-import static org.catrobat.catroid.common.Constants.DEVICE_LIST_JSON_FILENAME;
+import static org.catrobat.catroid.common.Constants.DEVICE_LIST_JSON_FILE_NAME;
 
 public class DeviceListAccessor extends DeviceUserDataAccessor {
 
@@ -47,7 +47,7 @@ public class DeviceListAccessor extends DeviceUserDataAccessor {
 
 	@Override
 	protected String getDeviceFileName() {
-		return DEVICE_LIST_JSON_FILENAME;
+		return DEVICE_LIST_JSON_FILE_NAME;
 	}
 
 	@Override
