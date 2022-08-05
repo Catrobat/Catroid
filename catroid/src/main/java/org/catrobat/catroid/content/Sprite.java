@@ -44,6 +44,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
+import org.catrobat.catroid.content.bricks.WhenCollideWithBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.embroidery.RunningStitch;
@@ -372,6 +373,10 @@ public class Sprite implements Nameable, Serializable {
 				WhenConditionBrick conditionBrick = (WhenConditionBrick) script.getScriptBrick();
 				Formula condition = conditionBrick.getFormulaWithBrickField(Brick.BrickField.IF_CONDITION);
 				conditionScriptTriggers.add(new ConditionScriptTrigger(condition));
+			} else if (script instanceof WhenCollideWithScript) {
+				WhenCollideWithBrick conditionBrick = (WhenCollideWithBrick) script.getScriptBrick();
+				Formula condition = conditionBrick.getFormula();
+				conditionScriptTriggers.add(new ConditionScriptTrigger(condition));
 			}
 		}
 	}
@@ -570,6 +575,13 @@ public class Sprite implements Nameable, Serializable {
 						}
 					}
 				}
+				if (brick instanceof WhenCollideWithBrick) {
+					WhenCollideWithBrick formulaBrick = (WhenCollideWithBrick) brick;
+					Formula formula = formulaBrick.getFormula();
+					if (formula != null && formula.containsSpriteInCollision(other.getName())) {
+						return true;
+					}
+				}
 			}
 		}
 		return false;
@@ -589,6 +601,13 @@ public class Sprite implements Nameable, Serializable {
 					if (brick instanceof FormulaBrick) {
 						List<Formula> formulaList = ((FormulaBrick) brick).getFormulas();
 						for (Formula formula : formulaList) {
+							formula.updateCollisionFormulas(oldName, newName, CatroidApplication.getAppContext());
+						}
+					}
+					if (brick instanceof WhenCollideWithBrick) {
+						Formula formula = ((WhenCollideWithBrick) brick).getFormula();
+						if (formula != null && !oldName.equals(newName)) {
+							formula.setRoot(formula.getFormulaTree());
 							formula.updateCollisionFormulas(oldName, newName, CatroidApplication.getAppContext());
 						}
 					}
@@ -786,12 +805,12 @@ public class Sprite implements Nameable, Serializable {
 		this.scriptList.addAll(sprite.scriptList);
 		this.nfcTagList.addAll(sprite.nfcTagList);
 
-		for (UserVariable userVariable: sprite.userVariables) {
+		for (UserVariable userVariable : sprite.userVariables) {
 			if (!this.userVariables.contains(userVariable)) {
 				this.userVariables.add(userVariable);
 			}
 		}
-		for (UserList userlist: sprite.userLists) {
+		for (UserList userlist : sprite.userLists) {
 			if (!this.userLists.contains(userlist)) {
 				this.userLists.add(userlist);
 			}
@@ -812,6 +831,7 @@ public class Sprite implements Nameable, Serializable {
 	public void setGliding(boolean gliding) {
 		isGliding = gliding;
 	}
+
 	public boolean isGliding() {
 		return isGliding;
 	}
@@ -819,6 +839,7 @@ public class Sprite implements Nameable, Serializable {
 	public void setGlidingVelocityX(float velocity) {
 		glidingVelocityX = velocity;
 	}
+
 	public void setGlidingVelocityY(float velocity) {
 		glidingVelocityY = velocity;
 	}
@@ -826,6 +847,7 @@ public class Sprite implements Nameable, Serializable {
 	public float getGlidingVelocityX() {
 		return glidingVelocityX;
 	}
+
 	public float getGlidingVelocityY() {
 		return glidingVelocityY;
 	}
