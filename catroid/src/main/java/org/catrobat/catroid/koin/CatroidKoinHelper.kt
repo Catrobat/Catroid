@@ -25,7 +25,7 @@ package org.catrobat.catroid.koin
 
 import android.app.Application
 import com.google.android.gms.common.GoogleApiAvailability
-import com.huawei.hms.api.HuaweiApiAvailability
+//import com.huawei.hms.api.HuaweiApiAvailability
 import androidx.room.Room
 import androidx.work.WorkManager
 import org.catrobat.catroid.ProjectManager
@@ -33,8 +33,8 @@ import org.catrobat.catroid.db.AppDatabase
 import org.catrobat.catroid.db.DatabaseMigrations
 import org.catrobat.catroid.retrofit.CatroidWebServer
 //import org.catrobat.catroid.stage.HmsSpeechRecognitionHolder
-import org.catrobat.catroid.stage.SpeechRecognitionHolder
-import org.catrobat.catroid.stage.SpeechRecognitionHolderFactory
+//import org.catrobat.catroid.stage.SpeechRecognitionHolder
+//import org.catrobat.catroid.stage.SpeechRecognitionHolderFactory
 import org.catrobat.catroid.sync.DefaultFeaturedProjectSync
 import org.catrobat.catroid.sync.DefaultProjectsCategoriesSync
 import org.catrobat.catroid.sync.FeaturedProjectsSync
@@ -70,9 +70,9 @@ val componentsModules = module(createdAtStart = true, override = false) {
     factory { WorkManager.getInstance(androidContext()) }
     single { ProjectManager(androidContext()) }
     single { NetworkConnectionMonitor(androidContext()) }
-    factory { HuaweiApiAvailability.getInstance() }
+    //factory { HuaweiApiAvailability.getInstance() }
     factory { GoogleApiAvailability.getInstance() }
-    factory { MobileServiceAvailability(get(), get()) }
+    factory { MobileServiceAvailability(get()) }
 
     single {
         DefaultFeaturedProjectSync(get(), get(), get()) as FeaturedProjectsSync
@@ -116,7 +116,7 @@ val adapterModules = module {
 }
 
 val speechModules = module {
-    single { SpeechRecognitionHolder() }
+    //single { SpeechRecognitionHolder() }
     /*single { HmsSpeechRecognitionHolder() }
     single {
         SpeechRecognitionHolderFactory(

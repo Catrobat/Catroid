@@ -550,16 +550,16 @@ public final class Utils {
 					}
 				}
 			}, null, Activity.RESULT_OK, null, null);
-		} else if (mobileServiceAvailability.isHmsAvailable(context)) {
-			/*SensorHandler.setListeningLanguageSensor(MLAsrConstants.LAN_EN_US);
+		} /*else if (mobileServiceAvailability.isHmsAvailable(context)) {
+			SensorHandler.setListeningLanguageSensor(MLAsrConstants.LAN_EN_US);
 			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.clear();
 			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_EN_US);
 			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_DE_DE);
 			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_EN_IN);
 			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_ES_ES);
 			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_FR_FR);
-			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_ZH_CN);*/
-		}
+			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_ZH_CN);
+		}*/
 	}
 
 	public static void removeExifData(File directory, String fileName) {

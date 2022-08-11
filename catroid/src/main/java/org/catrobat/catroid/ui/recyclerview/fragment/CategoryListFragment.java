@@ -1016,11 +1016,12 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 
 	private List<CategoryListItem> getPoseSensorItems() {
 		MobileServiceAvailability mobileServiceAvailability = get(MobileServiceAvailability.class);
-		boolean isHMSAvailable =
-				mobileServiceAvailability.isHmsAvailable(getActivity().getApplicationContext());
+		/*boolean isHMSAvailable =
+				mobileServiceAvailability.isHmsAvailable(getActivity().getApplicationContext());*/
 		boolean isPoseDetectionEnabled =
 				SettingsFragment.isAIPoseDetectionSharedPreferenceEnabled(getActivity().getApplicationContext());
-		if (isPoseDetectionEnabled && isHMSAvailable) {
+		//if (isPoseDetectionEnabled && isHMSAvailable) {
+		if (isPoseDetectionEnabled) {
 			return addHeader(toCategoryListItems(SENSORS_POSE_DETECTION_HUAWEI,
 					SENSORS_POSE_DETECTION_PARAMS_HUAWEI),
 					getString(R.string.formula_editor_device_pose_detection));

@@ -28,7 +28,7 @@ import org.catrobat.catroid.utils.MobileServiceAvailability
 
 class SpeechRecognitionHolderFactory(
     private val gmsSpeechRecognitionHolder: SpeechRecognitionHolderInterface,
-    private val hmsSpeechRecognitionHolder: SpeechRecognitionHolderInterface,
+    //private val hmsSpeechRecognitionHolder: SpeechRecognitionHolderInterface,
     private val mobileServiceAvailability: MobileServiceAvailability
 ) {
     companion object {
@@ -57,10 +57,10 @@ class SpeechRecognitionHolderFactory(
                 instance = gmsSpeechRecognitionHolder
                 true
             }
-            mobileServiceAvailability.isHmsAvailable(context) -> {
+            /*mobileServiceAvailability.isHmsAvailable(context) -> {
                 instance = hmsSpeechRecognitionHolder
                 true
-            }
+            }*/
             else -> false
         }
     }

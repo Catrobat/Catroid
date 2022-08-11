@@ -25,8 +25,8 @@ package org.catrobat.catroid.content.actions
 
 import com.badlogic.gdx.scenes.scene2d.Action
 import org.catrobat.catroid.formulaeditor.SensorHandler
-import org.catrobat.catroid.stage.SpeechRecognitionHolderFactory
-import org.koin.java.KoinJavaComponent.get
+//import org.catrobat.catroid.stage.SpeechRecognitionHolderFactory
+//import org.koin.java.KoinJavaComponent.get
 
 class SetListeningLanguageAction : Action() {
 
