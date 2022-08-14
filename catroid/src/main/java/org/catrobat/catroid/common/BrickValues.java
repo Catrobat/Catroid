@@ -67,6 +67,9 @@ public final class BrickValues {
 	public static final int GO_TO_TOUCH_POSITION = 80;
 	public static final int GO_TO_RANDOM_POSITION = 81;
 	public static final int GO_TO_OTHER_SPRITE_POSITION = 82;
+	public static final int GLIDE_TO_TOUCH_POSITION = 83;
+	public static final int GLIDE_TO_RANDOM_POSITION = 84;
+	public static final int GLIDE_TO_OTHER_SPRITE_POSITION = 85;
 	public static final int SET_LOOK_BY_INDEX = 1;
 	public static final String PARTICLE_COLOR = "#ff0000";
 

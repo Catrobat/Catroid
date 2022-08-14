@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.GlideToActionBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.JumpingSumoMoveBackwardBrick;
@@ -110,6 +111,7 @@ public class BricksDefaultFormulaFieldTest {
 				{SetPenColorBrick.class.getSimpleName(), new SetPenColorBrick(), PEN_COLOR_RED},
 				{PlaceAtBrick.class.getSimpleName(), new PlaceAtBrick(), X_POSITION},
 				{GlideToBrick.class.getSimpleName(), new GlideToBrick(), DURATION_IN_SECONDS},
+				{GlideToActionBrick.class.getSimpleName(), new GlideToActionBrick(), DURATION_IN_SECONDS},
 				{SetVelocityBrick.class.getSimpleName(), new SetVelocityBrick(), PHYSICS_VELOCITY_X},
 				{SetGravityBrick.class.getSimpleName(), new SetGravityBrick(), PHYSICS_GRAVITY_X},
 		});

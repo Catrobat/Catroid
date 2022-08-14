@@ -877,6 +877,9 @@ app
     <string name="brick_go_to">Vai a</string>
     <string name="brick_go_to_touch_position">posizione del tocco</string>
     <string name="brick_go_to_random_position">posizione casuale</string>
+    <string name="brick_glide_seconds">Glide to</string>
+    <string name="brick_glide_to_touch_position">posizione del tocco</string>
+    <string name="brick_glide_to_random_position">posizione casuale</string>
     <!--  -->
     <!-- Physics -->
     <string name="brick_set_physics_object_type">Imposta il tuo tipo di movimento a</string>

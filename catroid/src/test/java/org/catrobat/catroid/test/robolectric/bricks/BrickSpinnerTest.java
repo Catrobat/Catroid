@@ -50,6 +50,7 @@ import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
+import org.catrobat.catroid.content.bricks.GlideToActionBrick;
 import org.catrobat.catroid.content.bricks.GoToBrick;
 import org.catrobat.catroid.content.bricks.HideTextBrick;
 import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
@@ -119,6 +120,9 @@ public class BrickSpinnerTest {
 				{CloneBrick.class.getSimpleName(), new CloneBrick(), R.id.brick_clone_spinner, "yourself", asList("yourself", "otherTestSprite")},
 				{SetNfcTagBrick.class.getSimpleName(), new SetNfcTagBrick(), R.id.brick_set_nfc_tag_ndef_record_spinner, "HTTPS", asList("Text", "HTTP", "HTTPS", "SMS", "Phone number", "E-Mail", "External type", "Empty")},
 				{GoToBrick.class.getSimpleName(), new GoToBrick(), R.id.brick_go_to_spinner, "touch position", asList("touch position", "random position", "otherTestSprite")},
+				{GlideToActionBrick.class.getSimpleName(), new GlideToActionBrick(),
+						R.id.brick_glide_seconds_to_spinner, "touch position", asList("touch position",
+						"random position", "otherTestSprite")},
 				{UserDefinedReceiverBrick.class.getSimpleName(), new UserDefinedReceiverBrick(), R.id.brick_set_screen_refresh_spinner, "with", asList("with", "without")},
 				{PointToBrick.class.getSimpleName(), new PointToBrick(), R.id.brick_point_to_spinner, "otherTestSprite", asList("new…", "otherTestSprite")},
 				{SetRotationStyleBrick.class.getSimpleName(), new SetRotationStyleBrick(), R.id.brick_set_rotation_style_spinner, "left-right only", asList("left-right only", "all-around", "don't rotate")},

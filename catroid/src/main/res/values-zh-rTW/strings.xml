@@ -832,6 +832,9 @@
     <string name="brick_go_to">去</string>
     <string name="brick_go_to_touch_position">觸摸位置</string>
     <string name="brick_go_to_random_position">隨機位置</string>
+    <string name="brick_glide_seconds">Glide to</string>
+    <string name="brick_glide_to_touch_position">觸摸位置</string>
+    <string name="brick_glide_to_random_position">隨機位置</string>
     <!--  -->
     <!-- Physics -->
     <string name="brick_set_physics_object_type">將您的動作類型設置為</string>

@@ -37,6 +37,7 @@ import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick
+import org.catrobat.catroid.content.bricks.GlideToActionBrick
 import org.catrobat.catroid.content.bricks.GoToBrick
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick
@@ -94,6 +95,7 @@ internal class LoopDelayBricksTest(private val brick: Brick?) {
                 arrayOf(ChangeXByNBrick(0)),
                 arrayOf(ChangeYByNBrick(0)),
                 arrayOf(GoToBrick()),
+                arrayOf(GlideToActionBrick()),
                 arrayOf(IfOnEdgeBounceBrick()),
                 arrayOf(MoveNStepsBrick(0.0)),
                 arrayOf(TurnLeftBrick(0.0)),
@@ -128,6 +130,9 @@ internal class LoopDelayBricksTest(private val brick: Brick?) {
         conditionBrick = IfThenLogicBeginBrick()
         if (brick is GoToBrick) {
             brick.onItemSelected(BrickValues.GO_TO_RANDOM_POSITION, null)
+        }
+        if (brick is GlideToActionBrick) {
+            brick.onItemSelected(BrickValues.GLIDE_TO_RANDOM_POSITION, null)
         }
     }
 
