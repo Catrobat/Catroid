@@ -147,20 +147,11 @@ public class PhiroColorBrickNumberTest {
 		onView(withText(R.string.color_picker_cancel))
 				.perform(click());
 
-		if ((Integer) red < 0 || (Integer) green < 0 || (Integer) blue < 0) {
-			onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(R.id.brick_phiro_rgb_led_action_red_edit_text)
-					.check(matches(withText(containsString("0"))));
-			onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(R.id.brick_phiro_rgb_led_action_green_edit_text)
-					.check(matches(withText(containsString("0"))));
-			onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(R.id.brick_phiro_rgb_led_action_blue_edit_text)
-					.check(matches(withText(containsString("0"))));
-		} else {
-			onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(R.id.brick_phiro_rgb_led_action_red_edit_text)
-					.checkShowsNumber((Integer) red);
-			onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(R.id.brick_phiro_rgb_led_action_green_edit_text)
-					.checkShowsNumber((Integer) green);
-			onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(R.id.brick_phiro_rgb_led_action_blue_edit_text)
-					.checkShowsNumber((Integer) blue);
-		}
+		onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(R.id.brick_phiro_rgb_led_action_red_edit_text)
+				.checkShowsNumber((Integer) red);
+		onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(R.id.brick_phiro_rgb_led_action_green_edit_text)
+				.checkShowsNumber((Integer) green);
+		onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(R.id.brick_phiro_rgb_led_action_blue_edit_text)
+				.checkShowsNumber((Integer) blue);
 	}
 }
