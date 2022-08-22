@@ -27,11 +27,13 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.RootMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
-import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
@@ -40,22 +42,22 @@ import org.catrobat.catroid.exceptions.ProjectException
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.asynctask.saveProjectSerial
+import org.catrobat.catroid.merge.MergeTestUtils
 import org.catrobat.catroid.test.utils.TestUtils
-import org.catrobat.catroid.ui.ProjectListActivity
+import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
 import org.junit.After
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.koin.java.KoinJavaComponent.inject
-import java.io.File
 
 class ImportLocalSpriteTest {
     private lateinit var projectToImportFrom: Project
     private lateinit var projectToImportTo: Project
     private lateinit var projectWithSameGlobals: Project
     private lateinit var projectWithConflicts: Project
+    private lateinit var projectWithProjectNameConflict: Project
     private var global1 = UserVariable("global1")
     private var local1 = UserVariable("local1")
     private var userListGlobal1 = UserList("userListGlobal1")
@@ -63,14 +65,14 @@ class ImportLocalSpriteTest {
     private lateinit var cat: Sprite
     private lateinit var dog: Sprite
     private lateinit var doggo: Sprite
-    private lateinit var no_dog: Sprite
+    private lateinit var noDog: Sprite
     private val projectManager = inject(
         ProjectManager::class.java
     )
 
     @get:Rule
     var activityTestRule = BaseActivityTestRule(
-        ProjectListActivity::class.java, true, false
+        ProjectActivity::class.java, true, false
     )
 
     @Before
@@ -91,182 +93,86 @@ class ImportLocalSpriteTest {
 
     @Test
     fun importObjectAndMergeGlobals() {
-        Espresso.onView(ViewMatchers.withText(projectWithSameGlobals.name))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withText(projectToImportTo.name))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        addSpriteFromLocalProject(projectWithSameGlobals)
 
-        val originalUserListsSize = projectToImportTo.userLists.size
-        val originalUserVariableSize = projectToImportTo.userVariables.size
-        val originalBroadcastMessagesSize = projectToImportTo.broadcastMessageContainer
-            .broadcastMessages.size
+        Espresso.onView(withText(R.string.ok)).inRoot(RootMatchers.isDialog()).check(
+            ViewAssertions.matches(isDisplayed())
+        ).perform(ViewActions.click())
 
-        Assert.assertTrue(projectToImportTo.userVariables.contains(global1))
-        Assert.assertTrue(projectToImportTo.defaultScene.spriteList[1].userVariables.contains(local1))
-        Assert.assertTrue(projectToImportTo.userLists.contains(userListGlobal1))
-        Assert.assertEquals(projectToImportTo.defaultScene.spriteList.size, 2)
-        Assert.assertEquals(projectToImportTo.defaultScene.spriteList[1], dog)
-
-        Espresso.onView(ViewMatchers.withText(projectToImportTo.name))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withId(R.id.button_add))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_from_local))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_from_local))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withText(projectWithSameGlobals.name))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-
-        Espresso.onView(ViewMatchers.withText(R.string.new_sprite_dialog_place_visually))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.place_visually_sprite_switch))
-            .perform(ViewActions.swipeLeft())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withText(R.string.ok))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-
-        assertAddedSprite(doggo)
-
-        Assert.assertEquals(originalUserListsSize, projectToImportTo.userLists.size)
-        Assert.assertFalse(checkForDuplicates(projectToImportTo.userLists))
-
-        Assert.assertEquals(originalUserVariableSize, projectToImportTo.userVariables.size)
-        Assert.assertFalse(checkForDuplicates(projectToImportTo.userVariables))
-
-        Assert.assertEquals(originalBroadcastMessagesSize, projectToImportTo
-            .broadcastMessageContainer.broadcastMessages.size)
-        Assert.assertFalse(checkForDuplicates(projectToImportTo.broadcastMessageContainer.broadcastMessages))
+        MergeTestUtils().assertSuccessfulSpriteImport(
+            projectToImportTo, projectWithSameGlobals,
+            projectWithSameGlobals.defaultScene
+                .spriteList[1], projectToImportTo
+                .defaultScene.spriteList.last()
+        )
     }
 
     @Test
     fun abortImportWithConflicts() {
-        Espresso.onView(ViewMatchers.withText(projectWithConflicts.name))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withText(projectToImportTo.name))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        val original = MergeTestUtils().getOriginalProjectData(projectToImportTo)
+        addSpriteFromLocalProject(projectWithConflicts)
 
-        val originalSpriteSize = projectToImportTo.defaultScene.spriteList.size
-        Espresso.onView(ViewMatchers.withText(projectToImportTo.name))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        Espresso.onView(withText(R.string.import_conflicting_variables)).check(
+            ViewAssertions.matches
+                (isDisplayed())
+        )
+        Espresso.onView(withText(R.string.ok)).inRoot(RootMatchers.isDialog()).check(
+            ViewAssertions.matches(
+                isDisplayed()
+            )
+        ).perform(ViewActions.click())
 
-        Espresso.onView(ViewMatchers.withId(R.id.button_add))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_from_local))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_from_local))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withText(projectWithConflicts.name))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        MergeTestUtils().assertRejectedImport(projectToImportTo, original)
+    }
 
-        Assert.assertEquals(projectToImportTo.defaultScene.spriteList.size, originalSpriteSize)
+    @Test
+    fun abortImportWithProjectNameConflict() {
+        val original = MergeTestUtils().getOriginalProjectData(projectToImportTo)
+
+        addSpriteFromLocalProject(projectWithProjectNameConflict)
+        Espresso.onView(withText(R.string.import_unresolvable_project_name_reason)).check(
+            ViewAssertions.matches
+                (isDisplayed())
+        )
+        Espresso.onView(withText(R.string.ok)).inRoot(RootMatchers.isDialog()).check(
+            ViewAssertions.matches(
+                isDisplayed()
+            )
+        ).perform(ViewActions.click())
+
+        MergeTestUtils().assertRejectedImport(projectToImportTo, original)
     }
 
     @Test
     fun importActorOrObjectTest() {
-        Espresso.onView(ViewMatchers.withText(projectToImportFrom.name))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withText(projectToImportTo.name))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-
-        Espresso.onView(ViewMatchers.withText(projectToImportFrom.name))
-            .perform(ViewActions.click())
+        addSpriteFromLocalProject(projectToImportFrom)
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        Espresso.onView(withText(R.string.ok)).inRoot(RootMatchers.isDialog()).check(
+            ViewAssertions.matches(isDisplayed())
+        ).perform(ViewActions.click())
+        Espresso.onView(withId(R.id.confirm)).perform(ViewActions.click())
 
-        Assert.assertEquals(projectToImportFrom.defaultScene.spriteList.size, 2)
-        Assert.assertEquals(projectToImportFrom.defaultScene.spriteList[1], cat)
+        Espresso.onView(withText("cat"))
+            .check(ViewAssertions.matches(isDisplayed()))
+        Espresso.onView(withText("dog"))
+            .check(ViewAssertions.matches(isDisplayed()))
 
-        Espresso.onView(ViewMatchers.withText("cat"))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withText("dog"))
-            .check(ViewAssertions.doesNotExist())
-
-        Espresso.onView(ViewMatchers.isRoot()).perform(ViewActions.pressBack())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-
-        Espresso.onView(ViewMatchers.withText(projectToImportTo.name))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withText(projectToImportTo.name))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withText("dog"))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withText("cat"))
-            .check(ViewAssertions.doesNotExist())
-
-        Assert.assertEquals(projectToImportTo.defaultScene.spriteList.size, 2)
-        Assert.assertEquals(projectToImportTo.defaultScene.spriteList[1], dog)
-
-        Espresso.onView(ViewMatchers.withId(R.id.button_add))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_from_local))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_from_local))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withText(projectToImportFrom.name))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withText(R.string.new_sprite_dialog_place_visually))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.place_visually_sprite_switch))
-            .perform(ViewActions.swipeLeft())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withText(R.string.ok))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withText("cat"))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withText("dog"))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-
-        assertAddedSprite(cat)
+        MergeTestUtils().assertSuccessfulSpriteImport(
+            projectToImportTo, projectToImportFrom,
+            projectToImportTo
+                .defaultScene.getSprite("cat"),
+            projectToImportTo
+                .defaultScene.spriteList.last()
+        )
     }
 
-    private fun assertAddedSprite(addedSprite: Sprite) {
-        projectToImportTo = projectManager.value.currentProject
-        val originalScriptListOfCat = addedSprite.scriptList
-
-        Assert.assertEquals(projectToImportTo.defaultScene.spriteList.size, 3)
-        Assert.assertEquals(projectToImportTo.defaultScene.spriteList[1].name, dog.name)
-        Assert.assertEquals(projectToImportTo.defaultScene.spriteList[2].name, addedSprite.name)
-        for ((scriptCounter, script) in projectToImportTo.defaultScene.spriteList[2].scriptList
-            .withIndex()) {
-            Assert.assertTrue(script.javaClass == originalScriptListOfCat[scriptCounter].javaClass)
-            for ((brickCounter, brick) in script.brickList
-                .withIndex()) {
-                Assert.assertTrue(brick.javaClass == originalScriptListOfCat[scriptCounter]
-                    .brickList[brickCounter].javaClass)
-            }
-        }
-        for ((lookCounter, look) in projectToImportTo.defaultScene.spriteList[2].lookList
-            .withIndex()) {
-            Assert.assertTrue(look.name == cat.lookList[lookCounter].name)
-            Assert.assertTrue(look.file == cat.lookList[lookCounter].file)
-        }
-        for ((variableCounter, variable) in projectToImportTo.defaultScene.spriteList[2]
-            .userVariables
-            .withIndex()) {
-            Assert.assertTrue(variable.name == addedSprite.userVariables[variableCounter].name)
-            Assert.assertTrue(variable.value == addedSprite.userVariables[variableCounter].value)
-        }
-        for ((listCounter, list) in projectToImportTo.defaultScene.spriteList[2].userLists
-            .withIndex()) {
-            for ((listElementCounter, listElement) in list.value.withIndex()) {
-                Assert.assertTrue(
-                    listElement.equals(addedSprite.userLists[listCounter].value[listElementCounter]))
-            }
-        }
+    private fun addSpriteFromLocalProject(
+        projectToAddFrom: Project
+    ) {
+        Espresso.onView(withId(R.id.button_add)).perform(ViewActions.click())
+        Espresso.onView(withId(R.id.dialog_new_look_from_local)).perform(ViewActions.click())
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        Espresso.onView(withText(projectToAddFrom.name)).perform(ViewActions.click())
     }
 
     @Throws(ProjectException::class)
@@ -281,6 +187,7 @@ class ImportLocalSpriteTest {
         projectWithSameGlobals =
             Project(ApplicationProvider.getApplicationContext(), "projectWithSameGlobals")
         doggo = Sprite("doggo")
+        doggo.addScript(StartScript())
         projectWithSameGlobals.userVariables.add(global1)
         projectWithSameGlobals.userLists.add(userListGlobal1)
         projectWithSameGlobals.broadcastMessageContainer.addBroadcastMessage(broadcast1)
@@ -289,10 +196,20 @@ class ImportLocalSpriteTest {
 
         projectWithConflicts =
             Project(ApplicationProvider.getApplicationContext(), "projectWithConflicts")
-        no_dog = Sprite("no_dog")
-        projectWithConflicts.userVariables.add(global1)
-        no_dog.userVariables.add(local1)
+        noDog = Sprite("no_dog")
+        projectWithConflicts.userVariables.add(local1)
+        noDog.userVariables.add(global1)
+        projectWithConflicts.defaultScene.addSprite(noDog)
         saveProjectSerial(projectWithConflicts, ApplicationProvider.getApplicationContext())
+
+        projectWithProjectNameConflict =
+            Project(ApplicationProvider.getApplicationContext(), "project.name.conflict")
+        noDog.userVariables.add(global1)
+        projectWithProjectNameConflict.defaultScene.addSprite(noDog)
+        saveProjectSerial(
+            projectWithProjectNameConflict, ApplicationProvider
+                .getApplicationContext()
+        )
 
         projectToImportTo =
             Project(ApplicationProvider.getApplicationContext(), "projectToImportTo")
@@ -305,19 +222,6 @@ class ImportLocalSpriteTest {
         dog.scriptList[0].addBrick(BroadcastWaitBrick(broadcast1))
         projectToImportTo.defaultScene.addSprite(dog)
         saveProjectSerial(projectToImportTo, ApplicationProvider.getApplicationContext())
-        projectManager.value.loadProject(
-            File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "projectToImportTo")
-        )
-    }
-
-    private fun checkForDuplicates(any_list: List<Any>): Boolean {
-        var prev: Any? = null
-        any_list.forEach {
-            if (it == prev) {
-                return true
-            }
-            prev = it
-        }
-        return false
+        projectManager.value.currentProject = projectToImportTo
     }
 }

@@ -172,6 +172,10 @@ public class Project implements Serializable {
 		return (sceneList.size() > 0);
 	}
 
+	public boolean hasMultipleScenes() {
+		return (sceneList.size() > 1);
+	}
+
 	public Scene getDefaultScene() {
 		return sceneList.get(0);
 	}

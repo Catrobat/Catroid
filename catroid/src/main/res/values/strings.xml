@@ -389,7 +389,6 @@
     <string name="am_convert">Convert</string>
     <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">You can\'t undo this!</string>
-
     <string name="list_headline_sprites">Actors and objects</string>
 
     <!-- Options Menu Options -->
@@ -405,7 +404,7 @@
     <string name="from_local">Add from local</string>
     <string name="sort_projects">Sort</string>
     <string name="unsort_projects">Unsort</string>
-    <string name= "import_from_project">Select project to import from</string>
+
 
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">New scene</string>
@@ -459,6 +458,11 @@
         list names are in conflict because they are used for
         all actors and objects and with the same name also for only one of the actors or objects: </string>
     <string name="import_conflicting_variables_try_again">Please rename one of these variables or lists and try again.</string>
+    <string name="import_unresolvable_project_name_reason">The reason is that the project
+        from which you are trying to import has an unresolvable name.</string>
+    <string name="import_unresolvable_project_name_try_again">Please rename the project and try
+        again. Try to remove . in project names.</string>
+
     <!-- Details -->
     <string name="project_details">Last access: %s, size: %s</string>
     <string name="last_access_today">today, %s</string>
@@ -484,6 +488,9 @@
 
     <!-- New Scene Menu -->
     <string name="new_scene">New scene</string>
+
+    <!-- Import Local Sprite -->
+    <string name= "import_from_project">Select project to import from</string>
 
     <!-- Action Toasts -->
     <!-- Backpack -->

@@ -98,8 +98,10 @@ class MergeLocalSpriteTest {
         initProjectVars()
         projectManager.value.currentProject = project
         projectManager.value.currentSprite = project.defaultScene.spriteList[1]
-        originalSpriteCopy = controller.copy(project.defaultScene.spriteList[1], project, project
-            .defaultScene)
+        originalSpriteCopy = controller.copy(
+            project.defaultScene.spriteList[1], project, project
+                .defaultScene
+        )
         originalSpriteCopy.name = project.defaultScene.spriteList[1].name
         activityTestRule.launchActivity(null)
     }
@@ -117,14 +119,18 @@ class MergeLocalSpriteTest {
         Espresso.onView(
             allOf(
                 withText(R.string.from_local),
-                isDisplayed()))
+                isDisplayed()
+            )
+        )
             .perform(ViewActions.click())
 
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
         Espresso.onView(
             allOf(
                 withText(sameGlobalsProject.name),
-                isDisplayed()))
+                isDisplayed()
+            )
+        )
             .perform(ViewActions.click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
 
@@ -146,7 +152,8 @@ class MergeLocalSpriteTest {
             .perform(ViewActions.click())
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
 
-        val currentSprite: Sprite = projectManager.value.currentProject.defaultScene!!.spriteList!![1]
+        val currentSprite: Sprite =
+            projectManager.value.currentProject.defaultScene!!.spriteList!![1]
         assertOriginalIntact(originalSprite, currentSprite)
     }
 
@@ -163,8 +170,8 @@ class MergeLocalSpriteTest {
         mergeLocalSprite()
         mergeLocalSprite()
         val mergedSprite: Sprite = projectManager.value.currentProject.defaultScene.spriteList[1]
-        Assert.assertFalse(checkForDuplicates(mergedSprite.lookList as List<Any>?))
-        Assert.assertFalse(checkForDuplicates(mergedSprite.soundList as List<Any>?))
+        Assert.assertFalse(checkForDuplicates(mergedSprite.lookList.map { it.name }))
+        Assert.assertFalse(checkForDuplicates(mergedSprite.soundList.map { it.name }))
     }
 
     private fun mergeLocalSprite() {
@@ -209,12 +216,18 @@ class MergeLocalSpriteTest {
         val mergedSoundList = mergedSprite.soundList
         val mergedLookList = mergedSprite.lookList
 
-        Assert.assertEquals(sprite1.lookList.size + sprite2.lookList.size,
-                            mergedLookList.size)
-        Assert.assertEquals(sprite1.scriptList.size + sprite2.scriptList.size,
-                            mergedScriptList.size)
-        Assert.assertEquals(sprite1.soundList.size + sprite2.soundList.size,
-                            mergedSoundList.size)
+        Assert.assertEquals(
+            sprite1.lookList.size + sprite2.lookList.size,
+            mergedLookList.size
+        )
+        Assert.assertEquals(
+            sprite1.scriptList.size + sprite2.scriptList.size,
+            mergedScriptList.size
+        )
+        Assert.assertEquals(
+            sprite1.soundList.size + sprite2.soundList.size,
+            mergedSoundList.size
+        )
     }
 
     private fun assertOriginalIntact(originalSprite: Sprite, currentSprite: Sprite) {
@@ -229,10 +242,12 @@ class MergeLocalSpriteTest {
     private fun assertGlobalsMerged(project: Project, currentProject: Project) {
         Assert.assertFalse(checkForDuplicates(currentProject.userLists as List<Any>?))
         Assert.assertFalse(checkForDuplicates(currentProject.userVariables as List<Any>?))
-        Assert.assertFalse(checkForDuplicates(
-            currentProject.broadcastMessageContainer
-                .broadcastMessages as List<Any>?
-        ))
+        Assert.assertFalse(
+            checkForDuplicates(
+                currentProject.broadcastMessageContainer
+                    .broadcastMessages as List<Any>?
+            )
+        )
 
         project.userLists.forEach { Assert.assertTrue(currentProject.userLists.contains(it)) }
         project.userVariables.forEach { Assert.assertTrue(currentProject.userVariables.contains(it)) }

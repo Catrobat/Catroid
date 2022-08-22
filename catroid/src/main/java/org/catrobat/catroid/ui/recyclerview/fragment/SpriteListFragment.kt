@@ -261,7 +261,6 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
                 Uri.fromFile(File(data?.getStringExtra(WebViewActivity.MEDIA_FILE_PATH)))
             }
 
-            val currentScene = projectManager.currentlyEditedScene
             val resolvedName: String
             val resolvedFileName =
                 StorageOperations.resolveFileName(requireActivity().contentResolver, uri)
@@ -276,7 +275,6 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
             }
             val importProjectHelper = ImportProjectHelper(
                 lookFileName,
-                currentScene,
                 requireActivity()
             )
             if (!importProjectHelper.checkForConflicts()) {

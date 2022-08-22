@@ -305,7 +305,7 @@ class ProjectActivity : BaseCastActivity() {
         var importProjectHelper: ImportProjectHelper? = null
         if (isObject) {
             importProjectHelper = ImportProjectHelper(
-                lookFileName, currentScene, this
+                lookFileName, this
             )
             if (!importProjectHelper.checkForConflicts()) {
                 return
