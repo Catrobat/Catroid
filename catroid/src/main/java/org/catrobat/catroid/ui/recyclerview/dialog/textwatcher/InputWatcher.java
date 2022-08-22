@@ -39,10 +39,15 @@ import androidx.annotation.Nullable;
 
 public class InputWatcher {
 	public static class TextWatcher implements android.text.TextWatcher {
+		protected boolean errorRegistered = false;
 		protected TextInputLayout inputLayout;
 		protected Button button;
 		protected Context context;
 		protected List<String> scope = new ArrayList<>();
+
+		public boolean getRegisteredError() {
+			return errorRegistered;
+		}
 
 		public void setScope(List<String> scope) {
 			this.scope = scope;
@@ -73,7 +78,10 @@ public class InputWatcher {
 			String input = s.toString();
 			String error = validateInput(input, context);
 			inputLayout.setError(error);
-			button.setEnabled(error == null);
+			errorRegistered = error != null;
+			if (button != null) {
+				button.setEnabled(!errorRegistered);
+			}
 		}
 
 		@Nullable

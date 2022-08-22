@@ -79,11 +79,11 @@ class AddNewActorOrLookDialogTest {
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_media_library))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_object_library))
+        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_object_media_library))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_backpack))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_from_local))
+        Espresso.onView(ViewMatchers.withId(R.id.dialog_import_sprite_from_local))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 

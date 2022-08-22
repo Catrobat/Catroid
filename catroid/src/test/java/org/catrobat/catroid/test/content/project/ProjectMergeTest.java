@@ -24,10 +24,10 @@ package org.catrobat.catroid.test.content.project;
 
 import android.content.Context;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.merge.ImportVariablesManager;
 import org.catrobat.catroid.test.MockUtil;
 import org.junit.After;
 import org.junit.Before;
@@ -51,8 +51,8 @@ public class ProjectMergeTest {
 		project1 = new Project(mockContext, "testProject");
 		project2 = new Project(mockContext, "testProject2");
 
-		List<Object> initializedList1 = new ArrayList<Object>();
-		List<Object> initializedList2 = new ArrayList<Object>();
+		List<Object> initializedList1 = new ArrayList<>();
+		List<Object> initializedList2 = new ArrayList<>();
 
 		initializedList1.clear();
 		initializedList1.add(1.0);
@@ -82,14 +82,14 @@ public class ProjectMergeTest {
 
 	@Test
 	public void testProjectNoGlobalVariableConflicts() {
-		List<UserVariable> globalConflicts = ProjectManager.getInstance().getGlobalVariableConflicts(project1, project2);
+		List<UserVariable> globalConflicts = ImportVariablesManager.getGlobalVariableConflicts(project1, project2);
 		assertEquals(globalConflicts.size(), 0);
 	}
 
 	@Test
 	public void testProjectGlobalVariableConflict() {
 		project2.getUserVariable("testVariable").setValue(2);
-		List<UserVariable> globalConflicts = ProjectManager.getInstance().getGlobalVariableConflicts(project1, project2);
+		List<UserVariable> globalConflicts = ImportVariablesManager.getGlobalVariableConflicts(project1, project2);
 		assertEquals(globalConflicts.size(), 1);
 
 		assertEquals(globalConflicts.get(0), project1.getUserVariable("testVariable"));
@@ -97,14 +97,14 @@ public class ProjectMergeTest {
 
 	@Test
 	public void testProjectNoGlobalUserListConflicts() {
-		List<UserList> globalConflicts = ProjectManager.getInstance().getGlobalListConflicts(project1, project2);
+		List<UserList> globalConflicts = ImportVariablesManager.getGlobalListConflicts(project1, project2);
 		assertEquals(globalConflicts.size(), 0);
 	}
 
 	@Test
 	public void testProjectGlobalUserListConflicts() {
 		project2.getUserList("TestUserList").addListItem(1.0);
-		List<UserList> globalConflicts = ProjectManager.getInstance().getGlobalListConflicts(project1, project2);
+		List<UserList> globalConflicts = ImportVariablesManager.getGlobalListConflicts(project1, project2);
 		assertEquals(globalConflicts.size(), 1);
 	}
 }

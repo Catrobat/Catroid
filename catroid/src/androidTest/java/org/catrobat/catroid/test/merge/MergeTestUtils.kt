@@ -33,6 +33,69 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 
 class MergeTestUtils {
+
+    fun assertRejectedSpriteMerge(
+        currentProject: Project,
+        projectBeforeMerge: ProjectMergeData,
+        originalSprite: Sprite,
+        currentSprite: Sprite
+    ) {
+        assertRejectedImport(currentProject, projectBeforeMerge)
+        assertEquals(originalSprite, currentSprite)
+        assertEquals(originalSprite.soundList, currentSprite.soundList)
+        assertEquals(originalSprite.scriptList, currentSprite.scriptList)
+        assertEquals(originalSprite.lookList, currentSprite.lookList)
+        assertEquals(originalSprite.userVariables, currentSprite.userVariables)
+        assertEquals(originalSprite.userLists, currentSprite.userLists)
+    }
+
+    fun assertSuccessfulSpriteMerge(
+        currentProject: Project,
+        sourceProject: Project,
+        mergedSprite: Sprite,
+        sprite1: Sprite,
+        spritesToBeMerged: List<Sprite>
+    ) {
+        Assert.assertNotNull(mergedSprite)
+        assertTrue(mergedSprite.userVariables.containsAll(sprite1.userVariables))
+        spritesToBeMerged.forEach {
+            assertTrue(mergedSprite.userVariables.containsAll(it.userVariables))
+        }
+        assertTrue(mergedSprite.userLists.containsAll(sprite1.userLists))
+        spritesToBeMerged.forEach {
+            assertTrue(mergedSprite.userLists.containsAll(it.userLists))
+        }
+        assertTrue(mergedSprite.lookList.map { it.name }.containsAll(sprite1.lookList.map {
+            it.name
+        }))
+        spritesToBeMerged.forEach { sprite ->
+            assertTrue(mergedSprite.lookList.map { it.name }.containsAll(sprite.lookList.map { it.name }))
+        }
+        assertTrue(mergedSprite.soundList.map { it.name }.containsAll(sprite1.soundList.map {
+            it.name
+        }))
+        spritesToBeMerged.forEach { sprite ->
+            assertTrue(mergedSprite.soundList.map { it.name }.containsAll(sprite.soundList.map { it.name }))
+        }
+
+        var scriptListSize = 0
+        spritesToBeMerged.forEach {
+            scriptListSize += it.scriptList.size
+        }
+        assertEquals(scriptListSize, mergedSprite.scriptList.size)
+
+        assertTrue(currentProject.userVariables.containsAll(sourceProject.userVariables))
+        assertTrue(currentProject.userLists.containsAll(sourceProject.userLists))
+        assertTrue(
+            currentProject.broadcastMessageContainer.broadcastMessages.containsAll(
+                sourceProject.broadcastMessageContainer.broadcastMessages
+            )
+        )
+        Assert.assertFalse(TestUtils.checkForDuplicates(currentProject.userLists as List<Any>?))
+        Assert.assertFalse(TestUtils.checkForDuplicates(currentProject.userVariables as List<Any>?))
+        Assert.assertFalse(TestUtils.checkForDuplicates(currentProject.broadcastMessageContainer.broadcastMessages as List<Any>?))
+    }
+
     fun assertSuccessfulSpriteImport(
         currentProject: Project,
         sourceProject: Project,

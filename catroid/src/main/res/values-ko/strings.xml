@@ -483,7 +483,6 @@
     <string name="no_projects_selected">가져올 프로젝트가 없습니다.</string>
     <string name="only_select_catrobat_files">프로젝트 파일만 선택</string>
     <string name="error_no_files_found">프로젝트를 찾을 수 없습니다</string>
-    <string name="import_sprite_from_project_launcher">로컬 프로젝트에서 개체 가져오기</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">설명</string>
     <string name="project_options_notes_and_credits">만든이</string>

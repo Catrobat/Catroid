@@ -620,7 +620,6 @@
     <string name="no_projects_selected">Проекты для импорта не выбраны</string>
     <string name="only_select_catrobat_files">Выберите файл проекта с расширением .catrobat</string>
     <string name="error_no_files_found">Файлы проекта не найдены.</string>
-    <string name="import_sprite_from_project_launcher">Импорт объекта из локального проекта</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Описание</string>
     <string name="project_options_notes_and_credits">Примечания и авторы</string>

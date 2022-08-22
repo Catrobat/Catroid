@@ -23,7 +23,9 @@
 package org.catrobat.catroid.ui.recyclerview.fragment
 
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
+import android.view.ActionMode
 import android.view.Menu
 import android.view.View
 import androidx.annotation.PluralsRes
@@ -37,6 +39,8 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
 import org.catrobat.catroid.io.asynctask.loadProject
+import org.catrobat.catroid.merge.ImportLocalObjectActivity
+import org.catrobat.catroid.merge.ImportLocalObjectActivity.Companion.REQUEST_SCENE
 import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.controller.BackpackListManager
 import org.catrobat.catroid.ui.recyclerview.adapter.SceneAdapter
@@ -52,15 +56,26 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
     private val sceneController = SceneController()
     private val projectManager: ProjectManager by inject()
 
+    override fun onActivityCreated(savedInstance: Bundle?) {
+        super.onActivityCreated(savedInstance)
+        if (ImportLocalObjectActivity.hasExtraTAG(activity) == true) {
+            prepareActionMode(IMPORT_LOCAL)
+            ImportLocalObjectActivity.sceneToImportFrom = null
+            ImportLocalObjectActivity.spritesToImport = null
+        }
+    }
+
     override fun onResume() {
         super.onResume()
-        val currentProject = projectManager.currentProject
-        if (currentProject.sceneList.size < 2) {
+        if (ImportLocalObjectActivity.hasExtraTAG(activity) == false) {
+            val currentProject = projectManager.currentProject
+            if (!currentProject.hasMultipleScenes()) {
+                projectManager.currentlyEditedScene = currentProject.defaultScene
+                switchToSpriteListFragment()
+            }
             projectManager.currentlyEditedScene = currentProject.defaultScene
-            switchToSpriteListFragment()
+            (requireActivity() as AppCompatActivity).supportActionBar?.title = currentProject.name
         }
-        projectManager.currentlyEditedScene = currentProject.defaultScene
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = currentProject.name
     }
 
     private fun switchToSpriteListFragment() {
@@ -71,13 +86,19 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.new_group).isVisible = false
-        menu.findItem(R.id.new_scene).isVisible = false
+        if (ImportLocalObjectActivity.hasExtraTAG(activity) == false) {
+            menu.findItem(R.id.new_group).isVisible = false
+            menu.findItem(R.id.new_scene).isVisible = false
+        }
     }
 
     override fun initializeAdapter() {
         sharedPreferenceDetailsKey = SharedPreferenceKeys.SHOW_DETAILS_SCENES_PREFERENCE_KEY
-        val items = projectManager.currentProject.sceneList
+        val items = if (ImportLocalObjectActivity.hasExtraTAG(activity) == true) {
+            ImportLocalObjectActivity.projectToImportFrom?.sceneList
+        } else {
+            projectManager.currentProject.sceneList
+        }
         adapter = SceneAdapter(items)
         onAdapterReady()
     }
@@ -163,7 +184,7 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
             createEmptySceneWithDefaultName()
         }
         val currentProject = projectManager.currentProject
-        if (currentProject.sceneList.size < 2) {
+        if (!currentProject.hasMultipleScenes()) {
             projectManager.currentlyEditedScene = currentProject.defaultScene
             switchToSpriteListFragment()
         }
@@ -213,6 +234,10 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
                 .addToBackStack(SpriteListFragment.TAG)
                 .commit()
         }
+        if (actionModeType == IMPORT_LOCAL && item != null) {
+            ImportLocalObjectActivity.sceneToImportFrom = item
+            (activity as ImportLocalObjectActivity).loadNext(REQUEST_SCENE)
+        }
     }
 
     override fun onSettingsClick(item: Scene?, view: View) {
@@ -228,8 +253,10 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
             R.id.from_local,
             R.id.from_library
         )
-        val popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(), R.menu
-            .menu_project_activity, hiddenOptionMenuIds)
+        val popupMenu = UiUtils.createSettingsPopUpMenu(
+            view, requireContext(), R.menu
+                .menu_project_activity, hiddenOptionMenuIds
+        )
 
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -256,5 +283,25 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
 
     companion object {
         val TAG: String = SceneListFragment::class.java.simpleName
+    }
+
+    override fun importItems(selectedItems: MutableList<Scene?>?) {
+        throw IllegalStateException("$TAG: Scenes cannot be imported yet.")
+    }
+
+    override fun onImport(menu: Menu?, mode: ActionMode?) {
+        super.onImport(menu, mode)
+        mode!!.setTitle(R.string.import_from_scene)
+    }
+
+    override fun onDestroyActionMode(mode: ActionMode?) {
+        if (actionModeType != IMPORT_LOCAL) {
+            super.onDestroyActionMode(mode)
+            return
+        }
+
+        if (ImportLocalObjectActivity.sceneToImportFrom == null && activity is ImportLocalObjectActivity) {
+            (activity as ImportLocalObjectActivity).onBackPressed()
+        }
     }
 }

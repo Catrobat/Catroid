@@ -507,7 +507,6 @@
     <string name="no_projects_selected">Tidak ada proyek yang dipilih untuk diimpor</string>
     <string name="only_select_catrobat_files">Hanya pilih file proyek</string>
     <string name="error_no_files_found">Tidak ada file proyek yang ditemukan.</string>
-    <string name="import_sprite_from_project_launcher">Impor Objek dari Proyek Lokal</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Keterangan</string>
     <string name="project_options_notes_and_credits">Catatan dan kredit</string>

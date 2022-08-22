@@ -498,7 +498,6 @@
     <string name="no_projects_selected">没有选择进口的项目</string>
     <string name="only_select_catrobat_files">仅选择项目文件</string>
     <string name="error_no_files_found">未找到项目。</string>
-    <string name="import_sprite_from_project_launcher">从本地项目导入对象</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">描述</string>
     <string name="project_options_notes_and_credits">说明和版权信息</string>

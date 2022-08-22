@@ -58,6 +58,7 @@ import org.catrobat.catroid.web.ProjectDownloader;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
@@ -128,7 +129,7 @@ public class WebViewActivity extends AppCompatActivity {
 				}
 
 				File file = new File(MEDIA_LIBRARY_CACHE_DIRECTORY, fileName);
-				resultIntent.putExtra(MEDIA_FILE_PATH, file.getAbsolutePath());
+				resultIntent.setData(Uri.fromFile(file.getAbsoluteFile()));
 				new MediaDownloader(this)
 						.startDownload(this, downloadUrl, fileName, file.getAbsolutePath());
 			} else {
@@ -194,11 +195,16 @@ public class WebViewActivity extends AppCompatActivity {
 					ToastUtil.showError(getBaseContext(), R.string.error_no_whatsapp);
 				}
 				return true;
-			} else if (!forceOpenInApp && checkIfWebViewVisitExternalWebsite(url)) {
-				Uri uri = Uri.parse(url);
-				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-				startActivity(intent);
-				return true;
+			} else {
+				if (!forceOpenInApp) {
+					assert url != null;
+					if (checkIfWebViewVisitExternalWebsite(url)) {
+						Uri uri = Uri.parse(url);
+						Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+						startActivity(intent);
+						return true;
+					}
+				}
 			}
 			return false;
 		}
@@ -217,7 +223,7 @@ public class WebViewActivity extends AppCompatActivity {
 					|| errorCode == ERROR_UNKNOWN) {
 				setContentView(R.layout.activity_network_error);
 				setSupportActionBar(findViewById(R.id.toolbar));
-				getSupportActionBar().setIcon(R.drawable.pc_toolbar_icon);
+				Objects.requireNonNull(getSupportActionBar()).setIcon(R.drawable.pc_toolbar_icon);
 				getSupportActionBar().setTitle(R.string.app_name);
 			} else {
 				Log.e(TAG, "couldn't connect to the server! info: " + description + " : " + errorCode);

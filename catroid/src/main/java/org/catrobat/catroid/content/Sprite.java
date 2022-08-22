@@ -736,7 +736,7 @@ public class Sprite implements Nameable, Serializable {
 		this.name = sprite.getName();
 	}
 
-	private void copyLooksAndSounds(Sprite sprite, Scene destinationScene,
+	public void copyLooksAndSounds(Sprite sprite, Scene destinationScene,
 			boolean setUniqueName) throws IOException {
 		File imageDirectory = new File(
 				destinationScene.getDirectory(),
