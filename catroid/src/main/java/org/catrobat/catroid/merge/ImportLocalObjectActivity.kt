@@ -139,7 +139,6 @@ class ImportLocalObjectActivity : BaseActivity() {
         } else {
             setResult(RESULT_CANCELED)
         }
-
         super.finish()
     }
 
