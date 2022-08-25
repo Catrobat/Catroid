@@ -1,21 +1,12 @@
 #!groovy
 
 class DockerParameters {
-    def fileName = 'Dockerfile.jenkins'
-
     // 'docker build' would normally copy the whole build-dir to the container, changing the
     // docker build directory avoids that overhead
     def dir = 'docker'
-
-    // Pass the uid and the gid of the current user (jenkins-user) to the Dockerfile, so a
-    // corresponding user can be added. This is needed to provide the jenkins user inside
-    // the container for the ssh-agent to work.
-    // Another way would be to simply map the passwd file, but would spoil additional information
-    // Also hand in the group id of kvm to allow using /dev/kvm.
-    def buildArgs = '--build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) --build-arg KVM_GROUP_ID=$(getent group kvm | cut -d: -f3)'
-
-    def args = '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -v /var/local/container_shared/huawei:/home/user/huawei -m=14G'
+    def args = '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -v /var/local/container_shared/huawei:/home/user/huawei -m=8G'
     def label = 'LimitedEmulator'
+    def image = 'catrobat/catrobat-android:stable'
 }
 
 def d = new DockerParameters()
@@ -117,16 +108,16 @@ pipeline {
         cron(env.BRANCH_NAME == 'develop' ? '@midnight' : '')
         issueCommentTrigger('.*test this please.*')
     }
-
+    
     stages {
         stage('All') {
             parallel {
                 stage('1') {
                     agent {
                         docker {
-                            image 'catrobat/catrobat-android:stable'
-                            args '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -m=6.5G'
-                            label 'LimitedEmulator'
+                            image d.image
+                            args d.args
+                            label d.label
                             alwaysPull true
                         }
                     }
@@ -296,9 +287,9 @@ pipeline {
                 stage('2') {
                     agent {
                         docker {
-                            image 'catrobat/catrobat-android:stable'
-                            args '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -m=6.5G'
-                            label 'LimitedEmulator'
+                            image d.image
+                            args d.args
+                            label d.label
                             alwaysPull true
                         }
                     }
