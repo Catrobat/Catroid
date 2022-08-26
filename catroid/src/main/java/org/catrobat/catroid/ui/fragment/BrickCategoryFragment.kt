@@ -65,8 +65,6 @@ class BrickCategoryFragment : ListFragment() {
         scriptFragment = listener
     }
 
-    private fun onlyBeginnerBricks(): Boolean = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(AccessibilityProfile.BEGINNER_BRICKS, false)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val isRestoringPreviouslyDestroyedActivity = savedInstanceState != null
@@ -141,55 +139,9 @@ class BrickCategoryFragment : ListFragment() {
 
     @SuppressWarnings("ComplexMethod")
     private fun setupBrickCategories() {
-        val inflater = requireActivity().layoutInflater
-        val categories: MutableList<View> = ArrayList()
+        val brickCategoryFactory = BrickCategoryFactory(requireActivity())
+        val categories = brickCategoryFactory.getBrickCategoryViews()
 
-        categories.add(inflater.inflate(R.layout.brick_category_recently_used, null))
-
-        if (SettingsFragment.isEmroiderySharedPreferenceEnabled(activity)) {
-            categories.add(inflater.inflate(R.layout.brick_category_embroidery, null))
-        }
-        if (SettingsFragment.isMindstormsNXTSharedPreferenceEnabled(activity)) {
-            categories.add(inflater.inflate(R.layout.brick_category_lego_nxt, null))
-        }
-        if (SettingsFragment.isMindstormsEV3SharedPreferenceEnabled(activity)) {
-            categories.add(inflater.inflate(R.layout.brick_category_lego_ev3, null))
-        }
-        if (SettingsFragment.isDroneSharedPreferenceEnabled(activity)) {
-            categories.add(inflater.inflate(R.layout.brick_category_drone, null))
-        }
-        if (SettingsFragment.isJSSharedPreferenceEnabled(activity)) {
-            categories.add(inflater.inflate(R.layout.brick_category_drone_js, null))
-        }
-        if (SettingsFragment.isArduinoSharedPreferenceEnabled(activity)) {
-            categories.add(inflater.inflate(R.layout.brick_category_arduino, null))
-        }
-        if (RaspberryPiSettingsFragment.isRaspiSharedPreferenceEnabled(activity)) {
-            categories.add(inflater.inflate(R.layout.brick_category_raspi, null))
-        }
-        if (SettingsFragment.isPhiroSharedPreferenceEnabled(activity)) {
-            categories.add(inflater.inflate(R.layout.brick_category_phiro, null))
-        }
-        if (ProjectManager.getInstance().currentProject.isCastProject) {
-            categories.add(inflater.inflate(R.layout.brick_category_chromecast, null))
-        }
-
-        categories.add(inflater.inflate(R.layout.brick_category_event, null))
-        categories.add(inflater.inflate(R.layout.brick_category_control, null))
-        categories.add(inflater.inflate(R.layout.brick_category_motion, null))
-        categories.add(inflater.inflate(R.layout.brick_category_sound, null))
-        categories.add(inflater.inflate(R.layout.brick_category_looks, null))
-        if (!onlyBeginnerBricks()) {
-            categories.add(inflater.inflate(R.layout.brick_category_pen, null))
-        }
-        categories.add(inflater.inflate(R.layout.brick_category_data, null))
-        categories.add(inflater.inflate(R.layout.brick_category_device, null))
-        if (!onlyBeginnerBricks()) {
-            categories.add(inflater.inflate(R.layout.brick_category_userbrick, null))
-        }
-        if (SettingsFragment.isTestSharedPreferenceEnabled(activity)) {
-            categories.add(inflater.inflate(R.layout.brick_category_assert, null))
-        }
         adapter = BrickCategoryAdapter(categories)
         listAdapter = adapter
     }
