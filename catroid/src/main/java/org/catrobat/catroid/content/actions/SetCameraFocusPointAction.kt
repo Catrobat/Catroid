@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,20 +23,22 @@
 package org.catrobat.catroid.content.actions
 
 import com.badlogic.gdx.scenes.scene2d.Action
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.stage.StageActivity
 
 class SetCameraFocusPointAction : Action() {
     var sprite: Sprite? = null
+    var scope: Scope? = null
     var horizontal: Formula? = null
     var vertical: Formula? = null
 
     override fun act(delta: Float): Boolean {
         StageActivity.stageListener.cameraPositioner.horizontalFlex =
-            horizontal?.interpretFloat(null) ?: 0.0f
+            horizontal?.interpretFloat(scope) ?: 0.0f
         StageActivity.stageListener.cameraPositioner.verticalFlex =
-            vertical?.interpretFloat(null) ?: 0.0f
+            vertical?.interpretFloat(scope) ?: 0.0f
         StageActivity.stageListener.cameraPositioner.spriteToFocusOn = sprite
         return true
     }

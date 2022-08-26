@@ -335,6 +335,7 @@
     <string name="hide_details">مخفی کردن جزئیات</string>
     <string name="project_options">گزینه های پروژه</string>
     <string name="from_library">از کتابخانه اضافه کنید</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">مرتب سازی</string>
     <string name="unsort_projects">نامرتب</string>
     <string name="import_from_project">پروژه را برای وارد کردن از آن انتخاب کنید</string>
@@ -958,6 +959,8 @@
     <string name="beats">ضربه</string>
     <string name="play_note">پخش نت</string>
     <string name="for_string">برای</string>
+    <string name="at_string">در</string>
+    <string name="seconds_string">ثانیها</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">کوک</string>
@@ -1257,7 +1260,7 @@
     <string name="error_internet_connection">یک خطای نامعلوم رخ داده. برسی کن که به اینترنت وصلی یا نه.</string>
     <string name="error_project_compatibility">پروژه با این نسخه از برنامه سازگار نیست.</string>
     <string name="error_outdated_version">این نسخه برنامه قدیمی است. اکنون به روز شود؟</string>
-    <string name="error_upload_project_with_default_name">نمی توانید پروژه ای با نام \"اولین پروژه من\" بارگذاری کنید.
+    <string name="error_upload_project_with_default_name">نمی توانید پروژه ای با نام \"%s\" بارگذاری کنید.
         لطفا نام پروژه را تغییر دهید.</string>
     <string name="error_upload_default_project">شما نمی توانید یک پروژه نمونه اصلاح نشده را بارگذاری کنید. 
         لطفاً چیزی را تغییر دهید و دوباره امتحان کنید.</string>
@@ -1988,7 +1991,7 @@
     <string name="new_empty_sprite_note">توجه: بازیگر یا شیء بدون نگاه ساخته می          شود.</string>
     <!-- Information -->
     <string name="no_variable_selected">هیچ متغیری انتخاب نشده است</string>
-    <string name="find">بیاب</string>
+    <string name="search">جستجو</string>
     <string name="no_results_found">نتیجه ای پیدا نشد</string>
     <string name="query_field_is_empty">فیلد پرس و جو خالی است</string>
     <string name="cut">کات</string>
@@ -2003,4 +2006,5 @@
     <string name="set_particle_color_to">رنگ ذرات را روی</string>
     <string name="undo_sort">لغو مرتب‌سازی</string>
     <string name="sort">مرتب سازی</string>
+    <string name="checkbox">checkbox</string>
 </resources>

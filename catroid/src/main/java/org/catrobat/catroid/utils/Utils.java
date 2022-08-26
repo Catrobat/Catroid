@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -579,5 +579,16 @@ public final class Utils {
 		} catch (IOException e) {
 			Log.e(TAG, "removeExifData: Failed to remove exif data");
 		}
+	}
+
+	public static boolean checkForDuplicates(List<Object> anyList) {
+		Object prev = null;
+		for (Object it: anyList) {
+			if (it == prev) {
+				return true;
+			}
+			prev = it;
+		}
+		return false;
 	}
 }

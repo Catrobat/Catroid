@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,7 +48,6 @@ import org.catrobat.catroid.formulaeditor.UserDataWrapper
 import org.catrobat.catroid.ui.controller.BackpackListManager
 import org.koin.java.KoinJavaComponent
 import java.io.IOException
-import java.util.ArrayList
 
 class ScriptController {
     private val lookController = LookController()
@@ -249,7 +248,6 @@ class ScriptController {
                         destinationScene,
                         destinationSprite
                     )
-
                 brick is UserVariableBrickInterface && brick.userVariable != null ->
                     updateUserVariable(brick, destinationProject, destinationSprite)
 

@@ -466,7 +466,7 @@ open class ProjectUploadActivity : BaseActivity(),
 
     fun showUploadDialog() {
         if (MainMenuActivity.surveyCampaign != null) {
-            MainMenuActivity.surveyCampaign.uploadFlag = true
+            MainMenuActivity.surveyCampaign?.uploadFlag = true
         }
 
         uploadProgressDialog = AlertDialog.Builder(this)
@@ -643,7 +643,7 @@ open class ProjectUploadActivity : BaseActivity(),
                 return getString(R.string.name_consists_of_spaces_only)
             }
             if (name == getString(R.string.default_project_name)) {
-                return getString(R.string.error_upload_project_with_default_name)
+                return getString(R.string.error_upload_project_with_default_name, name)
             }
             return if (name != project.name &&
                 FileMetaDataExtractor.getProjectNames(FlavoredConstants.DEFAULT_ROOT_DIRECTORY)

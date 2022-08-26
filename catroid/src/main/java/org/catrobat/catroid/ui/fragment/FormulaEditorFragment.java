@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -79,6 +79,7 @@ import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorIntroDialog;
 import org.catrobat.catroid.ui.dialogs.regexassistant.RegularExpressionAssistantDialog;
+import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.fragment.CategoryListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
@@ -151,6 +152,9 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	private String actionBarTitleBuffer = "";
 
+	private CategoryListRVAdapter.CategoryListItem chosenCategoryItem = null;
+	private UserData<?> chosenUserDataItem = null;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -211,10 +215,12 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	@Override
 	public void onResume() {
 		super.onResume();
-		if (SnackbarUtil.areHintsEnabled(this.getActivity())
-				&& !wasHintAlreadyShown(getActivity(), getActivity().getResources()
-				.getResourceName(R.string.formula_editor_intro_title_formula_editor))) {
-			new FormulaEditorIntroDialog(this, R.style.StageDialog).show();
+		if (SnackbarUtil.areHintsEnabled(this.getActivity())) {
+			SnackbarUtil.dismissAllHints();
+			if (!wasHintAlreadyShown(getActivity(), getActivity().getResources()
+					.getResourceName(R.string.formula_editor_intro_title_formula_editor))) {
+				new FormulaEditorIntroDialog(this, R.style.StageDialog).show();
+			}
 		}
 	}
 
@@ -410,7 +416,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	private void showColorPicker(ShowFormulaEditorStrategy.Callback callback,
 			FragmentManager fragmentManager) {
 		int currentColor = callback.getValue();
-		ColorPickerDialog dialog = ColorPickerDialog.Companion.newInstance(currentColor);
+		ColorPickerDialog dialog = ColorPickerDialog.Companion.newInstance(currentColor, true,
+				true);
 		Bitmap projectBitmap = ProjectManagerExtensionsKt
 				.getProjectBitmap(ProjectManager.getInstance());
 		dialog.setBitmap(projectBitmap);
@@ -961,17 +968,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	}
 
 	@Override
-	public void onDataItemSelected(UserData item) {
-		if (item instanceof UserVariable) {
-			addUserVariableToActiveFormula(item.getName());
-		} else if (item instanceof UserList) {
-			addUserListToActiveFormula(item.getName());
-		} else if (item instanceof UserDefinedBrickInput) {
-			addUserDefinedBrickInputToActiveFormula(item.getName());
-		}
-	}
-
-	@Override
 	public void onVariableRenamed(String previousName, String newName) {
 		formulaEditorEditText.updateVariableReferences(previousName, newName);
 	}
@@ -1040,6 +1036,14 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		formulaEditorEditText.overrideSelectedText(string);
 	}
 
+	public void setChosenCategoryItem(CategoryListRVAdapter.CategoryListItem chosenCategoryItem) {
+		this.chosenCategoryItem = chosenCategoryItem;
+	}
+
+	public void setChosenUserDataItem(UserData<?> chosenUserDataItem) {
+		this.chosenUserDataItem = chosenUserDataItem;
+	}
+
 	@Override
 	public void onHiddenChanged(boolean hidden) {
 		if (!hidden) {
@@ -1050,6 +1054,20 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				BottomBar.hideBottomBar(getActivity());
 				updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 				updateBrickView();
+			}
+			if (chosenCategoryItem != null) {
+				addResourceToActiveFormula(chosenCategoryItem.nameResId);
+				chosenCategoryItem = null;
+			}
+			if (chosenUserDataItem != null) {
+				if (chosenUserDataItem instanceof UserVariable) {
+					addUserVariableToActiveFormula(chosenUserDataItem.getName());
+				} else if (chosenUserDataItem instanceof UserList) {
+					addUserListToActiveFormula(chosenUserDataItem.getName());
+				} else if (chosenUserDataItem instanceof UserDefinedBrickInput) {
+					addUserDefinedBrickInputToActiveFormula(chosenUserDataItem.getName());
+				}
+				chosenUserDataItem = null;
 			}
 		}
 	}

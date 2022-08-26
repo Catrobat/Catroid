@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -63,7 +63,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
 import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
-import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIR;
+import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIRECTORY;
 import static org.catrobat.catroid.common.FlavoredConstants.CATROBAT_HELP_URL;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BASE_URL;
 import static org.catrobat.catroid.ui.MainMenuActivity.surveyCampaign;
@@ -121,13 +121,13 @@ public class WebViewActivity extends AppCompatActivity {
 			} else if (downloadUrl.contains(LIBRARY_BASE_URL)) {
 				String fileName = URLUtil.guessFileName(downloadUrl, contentDisposition, mimetype);
 
-				MEDIA_LIBRARY_CACHE_DIR.mkdirs();
-				if (!MEDIA_LIBRARY_CACHE_DIR.isDirectory()) {
-					Log.e(TAG, "Cannot create " + MEDIA_LIBRARY_CACHE_DIR);
+				MEDIA_LIBRARY_CACHE_DIRECTORY.mkdirs();
+				if (!MEDIA_LIBRARY_CACHE_DIRECTORY.isDirectory()) {
+					Log.e(TAG, "Cannot create " + MEDIA_LIBRARY_CACHE_DIRECTORY);
 					return;
 				}
 
-				File file = new File(MEDIA_LIBRARY_CACHE_DIR, fileName);
+				File file = new File(MEDIA_LIBRARY_CACHE_DIRECTORY, fileName);
 				resultIntent.putExtra(MEDIA_FILE_PATH, file.getAbsolutePath());
 				new MediaDownloader(this)
 						.startDownload(this, downloadUrl, fileName, file.getAbsolutePath());

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,7 +42,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
-import static org.catrobat.catroid.common.Constants.TMP_DIR_NAME;
+import static org.catrobat.catroid.common.Constants.TMP_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.EXTERNAL_STORAGE_ROOT_DIRECTORY;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -114,7 +114,7 @@ public class ListProjectFilesTest {
 			File backpackFolder = new File(EXTERNAL_STORAGE_ROOT_DIRECTORY, "backpack");
 			assertTrue(backpackFolder.mkdirs());
 
-			File tempFolder = new File(EXTERNAL_STORAGE_ROOT_DIRECTORY, TMP_DIR_NAME);
+			File tempFolder = new File(EXTERNAL_STORAGE_ROOT_DIRECTORY, TMP_DIRECTORY_NAME);
 			assertTrue(tempFolder.mkdirs());
 
 			File projectFolder1 = new File(EXTERNAL_STORAGE_ROOT_DIRECTORY, "projectFolder1");

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -80,6 +80,7 @@ import static org.catrobat.catroid.CatroidApplication.defaultSystemLanguage;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAGS;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAG_KEY;
+import static org.catrobat.catroid.ui.fragment.FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG;
 import static org.koin.java.KoinJavaComponent.get;
 
 import static java.util.Arrays.asList;
@@ -529,6 +530,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		}
 	}
 
+	public CategoryListItem chosenItem = null;
+
 	@Override
 	public void onItemClick(CategoryListItem item) {
 		switch (item.type) {
@@ -547,7 +550,11 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 				} else if (R.string.formula_editor_function_regex_assistant == item.nameResId) {
 					regularExpressionAssistantActivityOnButtonClick();
 				} else {
-					addResourceToActiveFormulaInFormulaEditor(item);
+					FormulaEditorFragment formulaEditorFragment =
+							((FormulaEditorFragment) getFragmentManager().findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG));
+					if (formulaEditorFragment != null) {
+						formulaEditorFragment.setChosenCategoryItem(item);
+					}
 					getActivity().onBackPressed();
 				}
 				break;
@@ -623,7 +630,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		FormulaEditorFragment formulaEditorFragment = null;
 		if (getFragmentManager() != null) {
 			formulaEditorFragment = ((FormulaEditorFragment) getFragmentManager()
-					.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
+					.findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG));
 			if (formulaEditorFragment != null) {
 				formulaEditorFragment.addResourceToActiveFormula(categoryListItem.nameResId);
 			}
@@ -700,7 +707,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	private FormulaEditorFragment getFormulaEditorFragment() {
 		if (getFragmentManager() != null) {
 			return ((FormulaEditorFragment) getFragmentManager()
-					.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
+					.findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG));
 		}
 		return null;
 	}
@@ -741,7 +748,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 					}
 
 					FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getFragmentManager()
-							.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+							.findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG);
 
 					int sensorPortsId = type == Constants.NXT
 							? R.array.formula_editor_nxt_ports
@@ -784,7 +791,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 					selectedSprite.createCollisionPolygons();
 
 					((FormulaEditorFragment) getFragmentManager()
-							.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG))
+							.findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG))
 							.addCollideFormulaToActiveFormula(selectedSprite.getName());
 					getActivity().onBackPressed();
 				})

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -95,8 +95,8 @@ class ImportProjectHelper(
 
     fun addGlobalsToProject(globalList: List<Any>, globalsToAdd: List<Any>) {
         for (global in globalsToAdd) {
-            if (!globalList!!.contains(global)) {
-                globalList!!.plus(global)
+            if (!globalList.contains(global)) {
+                globalList.plus(global)
             }
         }
     }
@@ -179,9 +179,9 @@ class ImportProjectHelper(
     fun getNewProject(resolvedName: String): Project? {
         try {
             val cachedProjectDir =
-                File(Constants.MEDIA_LIBRARY_CACHE_DIR, resolvedName)
+                File(Constants.MEDIA_LIBRARY_CACHE_DIRECTORY, resolvedName)
             val cachedProject =
-                File(Constants.MEDIA_LIBRARY_CACHE_DIR, lookFileName)
+                File(Constants.MEDIA_LIBRARY_CACHE_DIRECTORY, lookFileName)
 
             ZipArchiver().unzip(cachedProject, cachedProjectDir)
             return XstreamSerializer.getInstance()

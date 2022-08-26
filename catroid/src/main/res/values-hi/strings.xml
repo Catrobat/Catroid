@@ -349,6 +349,7 @@
     <string name="hide_details">जानकारी छिपाएँ</string>
     <string name="project_options">परियोजना के विकल्प</string>
     <string name="from_library">पुस्तकालय से जोड़ें</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">क्रमबद्ध</string>
     <string name="unsort_projects">अवर्गीकृत</string>
     <string name="import_from_project">से आयात करने के लिए परियोजना का चयन करें</string>
@@ -972,6 +973,8 @@
     <string name="beats">बीट्स</string>
     <string name="play_note">नोट चलाएं</string>
     <string name="for_string">के लिये</string>
+    <string name="at_string">पर</string>
+    <string name="seconds_string">सेकंड</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">टांका</string>
@@ -1271,8 +1274,8 @@
     <string name="error_internet_connection">एक अज्ञात ग़लती हुई। अपना इंटरनेट संपर्क जांचे।</string>
     <string name="error_project_compatibility">परियोजना एप्लिकेशन के इस संस्करण के साथ संगत नहीं है।</string>
     <string name="error_outdated_version">यह ऐप संस्करण पुराना है। अभी अद्यतन करें?</string>
-    <string name="error_upload_project_with_default_name">आप \"मेरी पहली परियोजना\" नाम के साथ एक परियोजना अपलोड नहीं कर सकते।
-        कृपया प्रोजेक्ट का नाम बदलें।</string>
+    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"%s\".
+        Please rename the project.</string>
     <string name="error_upload_default_project">आप एक unmodified उदाहरण परियोजना अपलोड नहीं कर सकते। कृपया
         कुछ बदलें और पुनः प्रयास करें।</string>
     <string name="error_adding_brick">इस ईंट को जोड़ते समय कुछ गड़बड़ हो गई।</string>
@@ -2028,7 +2031,7 @@
         एक नज़र के बिना।</string>
     <!-- Information -->
     <string name="no_variable_selected">कोई चर नहीं चुना गया</string>
-    <string name="find">खोज</string>
+    <string name="search">खोज…</string>
     <string name="no_results_found">कोई परिणाम नहीं मिला</string>
     <string name="query_field_is_empty">क्वेरी फ़ील्ड खाली है</string>
     <string name="cut">काटें</string>
@@ -2043,4 +2046,5 @@
     <string name="set_particle_color_to">कण रंग को पर सेट करें</string>
     <string name="undo_sort">पूर्ववत क्रमबद्ध करें</string>
     <string name="sort">क्रमबद्ध</string>
+    <string name="checkbox">checkbox</string>
 </resources>

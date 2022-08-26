@@ -348,6 +348,7 @@
     <string name="hide_details">توضیحات پټ کړئ</string>
     <string name="project_options">د پروژې اختیارونه</string>
     <string name="from_library">له کتابتون څخه اضافه کړئ</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">ترتیب</string>
     <string name="unsort_projects">بې ترتیبه کول</string>
     <string name="import_from_project">د واردولو لپاره پروژه غوره کړئ</string>
@@ -971,6 +972,8 @@
     <string name="beats">وهل</string>
     <string name="play_note">یادښت پلی کړئ</string>
     <string name="for_string">لپاره</string>
+    <string name="at_string">په</string>
+    <string name="seconds_string">دوهم </string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">ډنډ</string>
@@ -1270,7 +1273,7 @@
     <string name="error_internet_connection">یوه نامعلومه تېروتنه رامنځته شوه. خپل انټرنیټ پیوستون چیک کړئ.</string>
     <string name="error_project_compatibility">پروژه د ایپ د دې نسخې سره مطابقت نلري.</string>
     <string name="error_outdated_version">د دې اپلیکیشن نسخه پخوانۍ ده. اوس تازه کړئ؟</string>
-    <string name="error_upload_project_with_default_name">تاسو نشئ کولی د \"زما لومړۍ پروژه\" نوم سره پروژه اپلوډ کړئ. 
+    <string name="error_upload_project_with_default_name">تاسو نشئ کولی د \"%s\" نوم سره پروژه اپلوډ کړئ. 
         مهرباني وکړئ د پروژې نوم بدل کړئ.</string>
     <string name="error_upload_default_project">تاسو نشئ کولی د نه بدلیدونکي مثال پروژه اپلوډ کړئ. مهرباني 
         وکړئ یو څه بدل کړئ او بیا هڅه وکړئ.</string>
@@ -2007,7 +2010,7 @@
         without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">No variable selected</string>
-    <string name="find">Find</string>
+    <string name="search">لټون</string>
     <string name="no_results_found">No results found</string>
     <string name="query_field_is_empty">Query field is empty</string>
     <string name="cut">کټ</string>
@@ -2022,4 +2025,5 @@
     <string name="set_particle_color_to">Set particle color to</string>
     <string name="undo_sort">Undo sort</string>
     <string name="sort">ترتیب</string>
+    <string name="checkbox">checkbox</string>
 </resources>

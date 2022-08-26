@@ -151,7 +151,7 @@ class ProjectOptionsFragment : Fragment() {
 
     private fun setupProjectAspectRatio() {
         binding.projectOptionsAspectRatio.apply {
-            isChecked = project?.screenMode == ScreenModes.STRETCH
+            isChecked = project?.screenMode == ScreenModes.MAXIMIZE
             setOnCheckedChangeListener { _, isChecked ->
                 handleAspectRatioChecked(isChecked)
             }
@@ -184,9 +184,9 @@ class ProjectOptionsFragment : Fragment() {
 
     private fun handleAspectRatioChecked(checked: Boolean) {
         project?.screenMode = if (checked) {
-            ScreenModes.STRETCH
-        } else {
             ScreenModes.MAXIMIZE
+        } else {
+            ScreenModes.STRETCH
         }
     }
 
@@ -334,9 +334,9 @@ class ProjectOptionsFragment : Fragment() {
         ) {
             override fun task() {
                 val fileName = project?.name + Constants.CATROBAT_EXTENSION
-                val projectZip = File(Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY, fileName)
-                Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY.mkdirs()
-                if (!Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY.isDirectory) {
+                val projectZip = File(Constants.DOWNLOAD_DIRECTORY, fileName)
+                Constants.DOWNLOAD_DIRECTORY.mkdirs()
+                if (!Constants.DOWNLOAD_DIRECTORY.isDirectory) {
                     return
                 }
                 if (projectZip.exists()) {

@@ -340,6 +340,7 @@
     <string name="hide_details">隱藏細節</string>
     <string name="project_options">項目選項</string>
     <string name="from_library">লাইব্রেরি থেকে যোগ করুন</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">種類</string>
     <string name="unsort_projects">取消排序</string>
     <string name="import_from_project">選擇要從中導入的項目</string>
@@ -931,6 +932,8 @@
     <string name="beats">節拍</string>
     <string name="play_note">播放音符</string>
     <string name="for_string">持續</string>
+    <string name="at_string">在</string>
+    <string name="seconds_string">秒</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">縫</string>
@@ -1226,8 +1229,8 @@
     <string name="error_internet_connection">發生未知的錯誤。檢查您的網路連線。</string>
     <string name="error_project_compatibility">該項目與此版本的應用程序不兼容。</string>
     <string name="error_outdated_version">此應用程序版本已過時。現在更新？</string>
-    <string name="error_upload_project_with_default_name">您不能上傳名為“我的第一個項目”的項目。
-        請重命名項目。</string>
+    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"%s\".
+        Please rename the project.</string>
     <string name="error_upload_default_project">您不能上傳未經修改的示例項目。請
         改變一些東西然後再試一次。</string>
     <string name="error_adding_brick">新增這個程式塊時出錯。</string>
@@ -1983,7 +1986,7 @@
         不看。</string>
     <!-- Information -->
     <string name="no_variable_selected">未選擇變量</string>
-    <string name="find">找</string>
+    <string name="search">搜索…</string>
     <string name="no_results_found">未找到結果</string>
     <string name="query_field_is_empty">查詢字段為空</string>
     <string name="cut">切</string>
@@ -1998,4 +2001,5 @@
     <string name="set_particle_color_to">কণার রঙ সেট করুন</string>
     <string name="undo_sort">撤銷排序</string>
     <string name="sort">種類</string>
+    <string name="checkbox">checkbox</string>
 </resources>

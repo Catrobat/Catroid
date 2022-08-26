@@ -26,6 +26,7 @@ package org.catrobat.catroid.ui.recyclerview.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -81,6 +82,8 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	protected static final int RENAME = 4;
 	protected static final int MERGE = 5;
 	protected static final int IMPORT_LOCAL = 6;
+
+	private static final String TAG = RecyclerViewFragment.class.getSimpleName();
 
 	protected View parentView;
 	protected RecyclerView recyclerView;
@@ -282,7 +285,11 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	@Override
 	public void onPause() {
 		super.onPause();
-		adapter.unregisterAdapterDataObserver(observer);
+		try {
+			adapter.unregisterAdapterDataObserver(observer);
+		} catch (IllegalStateException exception) {
+			Log.d(TAG, "Observer was not registered");
+		}
 	}
 
 	@Override

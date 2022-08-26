@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -53,14 +53,13 @@ import org.catrobat.catroid.ui.fragment.BrickCategoryFragment
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener
 import org.catrobat.catroid.ui.fragment.UserDefinedBrickListFragment
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
-import org.catrobat.catroid.utils.SnackbarUtil
 import org.json.JSONArray
 import org.koin.java.KoinJavaComponent.inject
 import java.util.Locale
 import java.util.UUID
 
 class CatblocksScriptFragment(
-    private val currentScriptIndex: Int
+    private val brickAtTopID: UUID?
 ) : Fragment(), OnCategorySelectedListener, AddBrickFragment.OnAddBrickListener {
 
     private var webview: WebView? = null
@@ -82,12 +81,11 @@ class CatblocksScriptFragment(
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.catblocks) {
-            activity?.runOnUiThread(SwitchTo1DHelper())
-
+            webview!!.evaluateJavascript("javascript:CatBlocks.getBrickAtTopOfScreen();",
+                SwitchTo1DHelper())
             return true
         } else if (item.itemId == R.id.catblocks_reorder_scripts) {
-            val callback = ReorderCallback()
-            webview!!.evaluateJavascript("javascript:CatBlocks.reorderCurrentScripts();", callback)
+            webview!!.evaluateJavascript("javascript:CatBlocks.reorderCurrentScripts();", null)
         }
         return super.onOptionsItemSelected(item)
     }
@@ -122,9 +120,7 @@ class CatblocksScriptFragment(
             .build()
 
         catblocksWebView.addJavascriptInterface(
-            JSInterface(
-                currentScriptIndex
-            ), "Android"
+            JSInterface(), "Android"
         )
 
         catblocksWebView.webViewClient = object : WebViewClient() {
@@ -138,22 +134,17 @@ class CatblocksScriptFragment(
         catblocksWebView.loadUrl("https://appassets.androidplatform.net/assets/catblocks/index.html")
     }
 
-    class ReorderCallback : ValueCallback<String> {
-
-        override fun onReceiveValue(value: String?) { // do nothing
-        }
-    }
-
-    inner class SwitchTo1DHelper : Runnable {
-
+    inner class SwitchTo1DHelper() : Runnable, ValueCallback<String> {
         var brickToFocus: Brick? = null
+
+        constructor(brickToFocus: Brick?) : this() {
+            this.brickToFocus = brickToFocus
+        }
 
         override fun run() {
             SettingsFragment.setUseCatBlocks(context, false)
 
-            var scriptFragment: ScriptFragment
-
-            scriptFragment = if (brickToFocus == null) {
+            val scriptFragment: ScriptFragment = if (brickToFocus == null) {
                 ScriptFragment()
             } else if (brickToFocus is ScriptBrick) {
                 ScriptFragment.newInstance((brickToFocus as ScriptBrick).script)
@@ -168,9 +159,24 @@ class CatblocksScriptFragment(
             )
             fragmentTransaction.commit()
         }
+
+        override fun onReceiveValue(strBrickToFocusId: String?) {
+            if (strBrickToFocusId != null) {
+                val strBrickId = strBrickToFocusId.trim('"')
+                if (strBrickId.isNotEmpty()) {
+                    try {
+                        val brickId = UUID.fromString(strBrickId)
+                        brickToFocus = projectManager.currentSprite.findBrickInSprite(brickId)
+                    } catch (exception: IllegalArgumentException) {
+                        println(exception.message)
+                    }
+                }
+            }
+            activity?.runOnUiThread(this)
+        }
     }
 
-    inner class JSInterface(private val script: Int) {
+    inner class JSInterface {
 
         @JavascriptInterface
         fun getCurrentProject(): String {
@@ -197,7 +203,17 @@ class CatblocksScriptFragment(
         fun getSpriteNameToDisplay(): String? = projectManager.currentSprite?.name?.trim()
 
         @JavascriptInterface
-        fun getScriptIndexToDisplay(): Int = script
+        fun getBrickIDToFocus(): String? {
+            if (brickAtTopID != null) {
+                return brickAtTopID.toString()
+            } else {
+                if (projectManager?.currentSprite?.scriptList != null &&
+                    projectManager.currentSprite.scriptList.any()) {
+                        return projectManager.currentSprite.scriptList[0].scriptId.toString()
+                }
+            }
+            return null
+        }
 
         @SuppressLint
         @JavascriptInterface
@@ -290,8 +306,7 @@ class CatblocksScriptFragment(
             val foundBrick = projectManager.currentSprite.findBrickInSprite(brickId)
 
             if (foundBrick != null) {
-                val switchTo1DHelper = SwitchTo1DHelper()
-                switchTo1DHelper.brickToFocus = foundBrick
+                val switchTo1DHelper = SwitchTo1DHelper(foundBrick)
                 activity?.runOnUiThread(switchTo1DHelper)
             }
         }
@@ -351,8 +366,6 @@ class CatblocksScriptFragment(
             )
             .addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
             .commit()
-
-        SnackbarUtil.showHintSnackbar(activity, R.string.hint_category)
     }
 
     override fun onCategorySelected(category: String?) {

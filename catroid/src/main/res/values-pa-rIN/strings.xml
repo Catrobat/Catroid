@@ -351,6 +351,7 @@
     <string name="hide_details">ਵੇਰਵੇ ਲੁਕਾਓ</string>
     <string name="project_options">ਪ੍ਰੋਜੈਕਟ ਵਿਕਲਪ</string>
     <string name="from_library">ਲਾਇਬ੍ਰੇਰੀ ਤੋਂ ਸ਼ਾਮਲ ਕਰੋ</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">ਲੜੀਬੱਧ</string>
     <string name="unsort_projects">ਅਣਸੋਰਟ</string>
     <string name="import_from_project">ਤੋਂ ਆਯਾਤ ਕਰਨ ਲਈ ਪ੍ਰੋਜੈਕਟ ਚੁਣੋ</string>
@@ -975,6 +976,8 @@
     <string name="beats">ਬੀਟਸ</string>
     <string name="play_note">ਖੇਡੋ ਨੋਟ</string>
     <string name="for_string">ਲਈ</string>
+    <string name="at_string">ਤੇ</string>
+    <string name="seconds_string">ਸਕਿੰਟ</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">ਸਿਲਾਈ</string>
@@ -1273,7 +1276,7 @@
     <string name="error_internet_connection">ਇੱਕ ਅਣਜਾਣ ਗਲਤੀ ਆਈ ਹੈ. ਆਪਣੇ ਇੰਟਰਨੈਟ ਕਨੈਕਸ਼ਨ ਦੀ ਜਾਂਚ ਕਰੋ.</string>
     <string name="error_project_compatibility">ਪ੍ਰੋਜੈਕਟ ਐਪ ਦੇ ਇਸ ਸੰਸਕਰਣ ਦੇ ਅਨੁਕੂਲ ਨਹੀਂ ਹੈ.</string>
     <string name="error_outdated_version">ਇਹ ਐਪ ਦਾ ਸੰਸਕਰਣ ਪੁਰਾਣਾ ਹੈ. ਹੁਣ ਅਪਡੇਟ ਕਰੋ?</string>
-    <string name="error_upload_project_with_default_name">ਤੁਸੀਂ \"ਮੇਰਾ ਪਹਿਲਾ ਪ੍ਰੋਜੈਕਟ\" ਨਾਮ ਦੇ ਨਾਲ ਕੋਈ ਪ੍ਰੋਜੈਕਟ ਅਪਲੋਡ ਨਹੀਂ ਕਰ ਸਕਦੇ.
+    <string name="error_upload_project_with_default_name">ਤੁਸੀਂ \"%s\" ਨਾਮ ਦੇ ਨਾਲ ਕੋਈ ਪ੍ਰੋਜੈਕਟ ਅਪਲੋਡ ਨਹੀਂ ਕਰ ਸਕਦੇ.
          ਕਿਰਪਾ ਕਰਕੇ ਪ੍ਰੋਜੈਕਟ ਦਾ ਨਾਮ ਬਦਲੋ.</string>
     <string name="error_upload_default_project">ਤੁਸੀਂ ਗੈਰ-ਸੋਧਿਆ ਉਦਾਹਰਨ ਪ੍ਰੋਜੈਕਟ ਅਪਲੋਡ ਨਹੀਂ ਕਰ ਸਕਦੇ. ਕ੍ਰਿਪਾ ਕਰਕੇ
          ਕੁਝ ਬਦਲੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ.</string>
@@ -2031,7 +2034,7 @@
         ਇੱਕ ਨਜ਼ਰ ਦੇ ਬਗੈਰ.</string>
     <!-- Information -->
     <string name="no_variable_selected">ਕੋਈ ਵੇਰੀਏਬਲ ਨਹੀਂ ਚੁਣਿਆ</string>
-    <string name="find">ਲੱਭੋ</string>
+    <string name="search">ਖੋਜ ਕਰੋ…</string>
     <string name="no_results_found">ਕੋਈ ਨਤੀਜਾ ਨਹੀਂ ਮਿਲਿਆ</string>
     <string name="query_field_is_empty">ਕਿ fieldਰੀ ਫੀਲਡ ਖਾਲੀ ਹੈ</string>
     <string name="cut">ਕੱਟੋ</string>
@@ -2046,4 +2049,5 @@
     <string name="set_particle_color_to">ਕਣ ਦਾ ਰੰਗ ਸੈੱਟ ਕਰੋ</string>
     <string name="undo_sort">ਕ੍ਰਮਬੱਧ ਨੂੰ ਅਣਕੀਤਾ ਕਰੋ</string>
     <string name="sort">ਲੜੀਬੱਧ</string>
+    <string name="checkbox">checkbox</string>
 </resources>

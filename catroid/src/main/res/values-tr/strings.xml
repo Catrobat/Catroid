@@ -334,6 +334,7 @@
     <string name="hide_details">Detayları gizle</string>
     <string name="project_options">Proje Seçenekleri</string>
     <string name="from_library">Kitaplıktan ekle</string>
+    <string name="from_local">Yerelden ekle</string>
     <string name="sort_projects">Sırala</string>
     <string name="unsort_projects">Sıralamayı Kaldır</string>
     <string name="import_from_project">İçe aktarılacak projeyi seçin</string>
@@ -946,6 +947,8 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="beats">vuruş</string>
     <string name="play_note">Nota çal</string>
     <string name="for_string">için</string>
+    <string name="at_string">en</string>
+    <string name="seconds_string">saniyeler</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Dikiş</string>
@@ -1234,7 +1237,8 @@ bekleyin</string>
     <string name="error_internet_connection">Bilinmeyen bir hata oluştu. Internet bağlantınızı kontrol edin.</string>
     <string name="error_project_compatibility">Proje, uygulamanın bu sürümüyle uyumlu değil.</string>
     <string name="error_outdated_version">Bu app sürümü güncel değil. Şimdi Güncellensin mi ?</string>
-    <string name="error_upload_project_with_default_name">\"İlk projem\" adıyla bir proje yükleyemezsiniz. Lütfen projeyi yeniden adlandırın.</string>
+    <string name="error_upload_project_with_default_name">\"%s\" adıyla bir proje yükleyemezsiniz.
+Lütfen projeyi yeniden adlandırın.</string>
     <string name="error_upload_default_project">Değiştirilmemiş bir örnek proje yükleyemezsiniz. Lütfen bir şeyi değiştirip tekrar deneyin.</string>
     <string name="error_adding_brick">Bu tuğla eklenirken bir hata oluştu</string>
     <string name="error_copying_brick">Bu tuğla kopyalanırken bir hata oluştu.</string>
@@ -1254,16 +1258,16 @@ bekleyin</string>
     <string name="notification_blueth_err">Bluetooth etkinleştirilemiyor, lütfen kapatıp tekrar açmayı deneyin.</string>
     <string name="title_paired_devices">Eşleşmiş cihazlar</string>
     <string name="title_other_devices">Yeni aygıtlar</string>
-    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="bluetooth_connection_title">Bluetooth bağlantısı</string>
     <string name="skip_bluetooth_connection">Atla</string>
     <string name="connecting_please_wait">Cihazınıza bağlanıyor.\nLütfen bekleyin&#8230;</string>
     <string name="bt_connection_failed">Aygıt bağlantısı başarısız oldu!</string>
     <string name="none_found">Eşleştirilmemiş aygıt bulunamadı</string>
-    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
-        required!</string>
-    <string name="multiplayer_bluetooth_connection_information">To play this game in
-        Multiplayer a Bluetooth connection is required. Both players have to start the game and
-        be on this screen for the connection to work properly!</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth bağlantısı
+        gereklidir!</string>
+    <string name="multiplayer_bluetooth_connection_information">Bu oyunu oynamak için
+        Çok oyunculu bir Bluetooth bağlantısı gereklidir. Her iki oyuncu da oyuna başlamalı ve
+        bağlantının düzgün çalışması için bu ekranda olun!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Arduino dijital pinini ayarla</string>
@@ -1971,7 +1975,7 @@ bekleyin</string>
         Obje oluşturuluçaktır.</string>
     <!-- Information -->
     <string name="no_variable_selected">Değişken seçilmedi</string>
-    <string name="find">Bul</string>
+    <string name="search">Ara…</string>
     <string name="no_results_found">Sonuç bulunamadı</string>
     <string name="query_field_is_empty">Sorgu alanı boş</string>
     <string name="cut">Kes</string>
@@ -1986,4 +1990,5 @@ bekleyin</string>
     <string name="set_particle_color_to">Parçacık rengini şuna ayarla</string>
     <string name="undo_sort">Sıralamayı geri al</string>
     <string name="sort">Sırala</string>
+    <string name="checkbox">checkbox</string>
 </resources>

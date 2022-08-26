@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,18 +26,18 @@ import android.content.Intent
 import android.util.Log
 import android.view.Menu
 import android.view.View
-import android.widget.PopupMenu
 import androidx.annotation.PluralsRes
 import androidx.appcompat.app.AppCompatActivity
 import org.catrobat.catroid.ProjectManager
-
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.SharedPreferenceKeys
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
-import org.catrobat.catroid.io.asynctask.ProjectSaver
+import org.catrobat.catroid.io.asynctask.loadProject
+import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.controller.BackpackListManager
 import org.catrobat.catroid.ui.recyclerview.adapter.SceneAdapter
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity
@@ -191,7 +191,9 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
         if (item?.name != name) {
             if (sceneController.rename(item, name)) {
                 val currentProject = projectManager.currentProject
-                ProjectSaver(currentProject, requireContext()).saveProjectAsync()
+                XstreamSerializer.getInstance().saveProject(currentProject)
+                loadProject(currentProject.directory, requireContext().applicationContext)
+                initializeAdapter()
             } else {
                 ToastUtil.showError(activity, R.string.error_rename_scene)
             }
@@ -214,25 +216,33 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
     }
 
     override fun onSettingsClick(item: Scene?, view: View) {
-        val popupMenu = PopupMenu(context, view)
         val itemList = mutableListOf<Scene?>()
         itemList.add(item)
-        popupMenu.menuInflater.inflate(R.menu.menu_project_activity, popupMenu.menu)
+
+        val hiddenOptionMenuIds = intArrayOf(
+            R.id.new_group,
+            R.id.new_scene,
+            R.id.show_details,
+            R.id.project_options,
+            R.id.edit,
+            R.id.from_local,
+            R.id.from_library
+        )
+        val popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(), R.menu
+            .menu_project_activity, hiddenOptionMenuIds)
+
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.backpack -> packItems(itemList)
                 R.id.copy -> copyItems(itemList)
-                R.id.delete -> deleteItems(itemList)
                 R.id.rename -> showRenameDialog(item)
-                else -> {}
+                R.id.delete -> deleteItems(itemList)
+                else -> {
+                }
             }
             true
         }
         popupMenu.menu.findItem(R.id.backpack).setTitle(R.string.pack)
-        popupMenu.menu.findItem(R.id.new_group).isVisible = false
-        popupMenu.menu.findItem(R.id.new_scene).isVisible = false
-        popupMenu.menu.findItem(R.id.show_details).isVisible = false
-        popupMenu.menu.findItem(R.id.project_options).isVisible = false
         popupMenu.show()
     }
 

@@ -343,6 +343,7 @@
     <string name="hide_details">Sembunyikan rincian</string>
     <string name="project_options">Opsi proyek</string>
     <string name="from_library">Tambahkan dari perpustakaan</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">Menyortir</string>
     <string name="unsort_projects">Batalkan pengurutan</string>
     <string name="import_from_project">Pilih proyek yang akan diimpor</string>
@@ -933,6 +934,8 @@
     <string name="beats">ketukan</string>
     <string name="play_note">Mainkan catatan</string>
     <string name="for_string">untuk</string>
+    <string name="at_string">di </string>
+    <string name="seconds_string">detik</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Menjahit</string>
@@ -1228,7 +1231,7 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="error_internet_connection">Terjadi kesalahan yang tidak diketahui. Periksa koneksi Internet Anda.</string>
     <string name="error_project_compatibility">Proyek tidak kompatibel dengan versi aplikasi ini.</string>
     <string name="error_outdated_version">Versi aplikasi ini sudah usang. Memperbarui sekarang?</string>
-    <string name="error_upload_project_with_default_name">Anda tidak dapat mengupload proyek dengan nama \"Proyek pertama saya\".
+    <string name="error_upload_project_with_default_name">Anda tidak dapat mengupload proyek dengan nama \"%s\".
         Harap ganti nama proyek.</string>
     <string name="error_upload_default_project">Anda tidak dapat mengunggah proyek contoh yang tidak dimodifikasi. Silahkan
         ubah sesuatu dan coba lagi.</string>
@@ -1980,7 +1983,7 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
         tanpa melihat.</string>
     <!-- Information -->
     <string name="no_variable_selected">Tidak ada variabel yang dipilih</string>
-    <string name="find">Temukan</string>
+    <string name="search">Pencarian…</string>
     <string name="no_results_found">Tidak ada hasil yang ditemukan</string>
     <string name="query_field_is_empty">Bidang kueri kosong</string>
     <string name="cut">Memotong</string>
@@ -1995,4 +1998,5 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="set_particle_color_to">Setel warna partikel ke</string>
     <string name="undo_sort">Urungkan pengurutan</string>
     <string name="sort">Menyortir</string>
+    <string name="checkbox">checkbox</string>
 </resources>
