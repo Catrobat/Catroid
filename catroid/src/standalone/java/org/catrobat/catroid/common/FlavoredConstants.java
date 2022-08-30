@@ -52,7 +52,7 @@ public final class FlavoredConstants {
 			Environment.getExternalStorageDirectory().getAbsolutePath(), POCKET_CODE_EXTERNAL_STORAGE_FOLDER_NAME);
 
 	// Media Library:
-	public static final String LIBRARY_BASE_URL = BASE_URL_HTTPS + "download-media/";
+	public static final String LIBRARY_BASE_URL = MAIN_URL_HTTPS + "/app/download-media/";
 	public static final String LIBRARY_LOOKS_URL = BASE_URL_HTTPS + "media-library/looks";
 	public static final String LIBRARY_OBJECT_URL = BASE_URL_HTTPS + "media-library/objects";
 	public static final String LIBRARY_BACKGROUNDS_URL_PORTRAIT = BASE_URL_HTTPS + "media-library/backgrounds-portrait";

@@ -51,6 +51,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class InsertItemToUserListTest {
@@ -101,6 +102,11 @@ public class InsertItemToUserListTest {
 				.onFormulaTextField(R.id.brick_insert_item_into_userlist_value_edit_text)
 				.checkShowsNumber(valueToInsert);
 
+		onBrickAtPosition(brickPosition)
+				.onVariableSpinner(R.id.insert_item_into_userlist_spinner)
+				.perform(click());
+		onView(withText(userListName))
+				.perform(click());
 		onBrickAtPosition(brickPosition)
 				.onVariableSpinner(R.id.insert_item_into_userlist_spinner)
 				.checkShowsText(userListName);

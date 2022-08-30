@@ -46,7 +46,6 @@ import static androidx.test.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 public class FormulaEditorDeleteVariableTest {
@@ -97,8 +96,6 @@ public class FormulaEditorDeleteVariableTest {
 				.performCheckItem();
 		onActionMode()
 				.performConfirm();
-		onView(withId(android.R.id.button1))
-				.perform(click());
 
 		onRecyclerView().checkHasNumberOfItems(0);
 	}
