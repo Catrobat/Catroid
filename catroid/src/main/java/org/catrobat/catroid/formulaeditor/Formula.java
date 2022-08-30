@@ -201,6 +201,14 @@ public class Formula implements Serializable {
 		return formulaTree.containsElement(elementType);
 	}
 
+	public boolean containsList(String name) {
+		return formulaTree.containsList(name);
+	}
+
+	public boolean containsVariable(String name) {
+		return formulaTree.containsVariable(name);
+	}
+
 	public boolean isNumber() {
 		return formulaTree.isNumber();
 	}

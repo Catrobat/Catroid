@@ -36,6 +36,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.IntDef
+import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
@@ -44,10 +45,18 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.content.bricks.FormulaBrick
 import org.catrobat.catroid.common.SharedPreferenceKeys.INDEXING_VARIABLE_PREFERENCE_KEY
 import org.catrobat.catroid.common.SharedPreferenceKeys.SORT_VARIABLE_PREFERENCE_KEY
 import org.catrobat.catroid.content.bricks.ScriptBrick
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
+import org.catrobat.catroid.content.bricks.UserListBrick
+import org.catrobat.catroid.content.bricks.UserVariableBrickWithFormula
+import org.catrobat.catroid.formulaeditor.FormulaElement
 import org.catrobat.catroid.formulaeditor.UserData
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
@@ -63,6 +72,7 @@ import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.UserDataUtil.renameUserData
+import java.util.ArrayList
 import java.util.Collections
 
 class DataListFragment : Fragment(),
@@ -72,7 +82,10 @@ class DataListFragment : Fragment(),
     @IntDef(NONE, DELETE)
     internal annotation class ActionModeType
 
-    private var recyclerView: RecyclerView? = null
+    private val projectManager = ProjectManager.getInstance()
+
+    @VisibleForTesting
+    var recyclerView: RecyclerView? = null
     private var adapter: DataListAdapter? = null
     private var actionMode: ActionMode? = null
     private var formulaEditorDataInterface: FormulaEditorDataInterface? = null
@@ -137,7 +150,7 @@ class DataListFragment : Fragment(),
             return
         }
         when (actionModeType) {
-            DELETE -> showDeleteAlert(adapter!!.selectedItems)
+            DELETE -> deleteItemsNotInUse(adapter!!.selectedItems)
             NONE -> throw IllegalStateException("ActionModeType not set Correctly")
         }
     }
@@ -187,7 +200,7 @@ class DataListFragment : Fragment(),
         BottomBar.hideBottomBar(activity)
     }
 
-    private fun initializeAdapter() {
+    fun initializeAdapter() {
         arguments?.getSerializable(PARENT_SCRIPT_BRICK_BUNDLE_ARGUMENT)
             .let { parentScriptBrick = it as ScriptBrick? }
 
@@ -412,26 +425,24 @@ class DataListFragment : Fragment(),
         }
     }
 
-    private fun showDeleteAlert(selectedItems: List<UserData<*>>) {
-        AlertDialog.Builder(requireContext())
-            .setTitle(R.string.deletion_alert_title)
-            .setMessage(R.string.deletion_alert_text)
-            .setPositiveButton(R.string.delete) { _: DialogInterface?, _: Int ->
-                deleteItems(selectedItems)
-            }
-            .setNegativeButton(R.string.cancel, null)
-            .setCancelable(false)
-            .show()
-    }
-
     private fun deleteItems(selectedItems: List<UserData<*>>) {
         finishActionMode()
         for (item in selectedItems) {
             adapter?.remove(item)
         }
         ProjectManager.getInstance().currentProject.deselectElements(selectedItems)
-        ToastUtil.showSuccess(activity, resources.getQuantityString(R.plurals.deleted_Items,
-                                                                    selectedItems.size, selectedItems.size))
+        showSuccess(selectedItems.size)
+    }
+
+    @VisibleForTesting
+    open fun showSuccess(size: Int?) {
+        ToastUtil.showSuccess(
+            activity, resources.getQuantityString(
+                R.plurals.deleted_Items,
+                size!!,
+                size
+            )
+        )
     }
 
     private fun showRenameDialog(selectedItems: List<UserData<*>>) {
@@ -502,6 +513,155 @@ class DataListFragment : Fragment(),
         onItemClick(item, null)
     }
 
+    @VisibleForTesting
+    fun deleteItemsNotInUse(selectedItems: List<UserData<*>>) {
+        val itemsToDelete: List<UserData<*>> = filterDeletableUserDataItems(selectedItems)
+
+        if (itemsToDelete.isNotEmpty()) {
+            deleteItems(itemsToDelete)
+        }
+    }
+
+    private fun filterDeletableUserDataItems(selectedItems: List<UserData<*>>): List<UserData<*>> {
+        var brickFlatList: List<Brick>
+        val currentSprite: Sprite = projectManager.currentSprite
+        val currentProject: Project = projectManager.currentProject
+        val itemsToDelete: MutableList<UserData<*>> = ArrayList()
+        val globalLists = currentProject.userLists
+        val globalVariables = currentProject.userVariables
+        val localVariables = currentSprite.userVariables
+        val localLists = currentSprite.userLists
+        val multiplayerVars = currentProject.multiplayerVariables
+
+        for (item in selectedItems) {
+            brickFlatList = if (globalVariables.contains(item) || globalLists.contains(item) ||
+                multiplayerVars.contains(item)) {
+                getBrickList(currentProject.sceneList)
+            } else if (localLists.contains(item) || localVariables.contains(item)) {
+                getBrickList(currentProject.sceneList)
+            } else {
+                currentSprite.allBricks
+            }
+            if (!checkIfItemIsUsed(item, brickFlatList)) {
+                itemsToDelete.add(item)
+            }
+        }
+        return itemsToDelete
+    }
+
+    private fun checkIfItemIsUsed(item: UserData<*>, brickFlatList: List<Brick>): Boolean {
+        for (brick in brickFlatList) {
+            if (isItemInUse(item, brick)) {
+                showInUseAlert(item)
+                return true
+            }
+        }
+
+        for (brick in brickFlatList) {
+            if (isItemInDropDown(item, brick)) {
+                showInDropDownDialog(item, brickFlatList)
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun isItemInUse(item: UserData<*>, brick: Brick): Boolean {
+        val itemName = item.name
+
+        if (brick is FormulaBrick) {
+            for (formula in brick.formulas) {
+                val formulaTree: FormulaElement = formula.root
+
+                if (item is UserVariable && formulaTree.containsVariable(itemName)) {
+                    return true
+                } else if (item is UserList && formulaTree.containsList(itemName)) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    private fun isItemInDropDown(item: UserData<*>, brick: Brick): Boolean {
+        val itemName = item.name
+
+        if (brick is UserVariableBrickWithFormula && item is UserVariable && isItemNameAndVariableNameSame(itemName, brick)) {
+            return true
+        } else if (brick is UserListBrick && item is UserList && isItemNameAndListNameSame(itemName, brick)) {
+            return true
+        }
+        return false
+    }
+
+    @VisibleForTesting
+    fun deleteUserDataItemFromDropDown(item: UserData<*>, brickFlatList: List<Brick?>) {
+        val itemName = item.name
+
+        for (brick in brickFlatList) {
+            if (brick is UserVariableBrickWithFormula && item is UserVariable && isItemNameAndVariableNameSame(itemName, brick)) {
+                brick.userVariable = null
+            } else if (brick is UserListBrick && item is UserList && isItemNameAndListNameSame(itemName, brick)) {
+                brick.userList = null
+            }
+        }
+        deleteItem(item)
+    }
+
+    private fun getBrickList(sceneList: List<Scene>): List<Brick> {
+        val brickFlatList: List<Brick> = ArrayList()
+
+        for (scene in sceneList) {
+            for (sprite in scene.spriteList) {
+                for (script in sprite.scriptList) {
+                    script.addToFlatList(brickFlatList)
+                }
+            }
+        }
+        return brickFlatList
+    }
+
+    private fun isItemNameAndVariableNameSame(itemName: String, brick: Brick): Boolean =
+        (brick as UserVariableBrickWithFormula).userVariable != null && itemName === brick.userVariable.name
+
+    private fun isItemNameAndListNameSame(itemName: String, brick: Brick): Boolean =
+        (brick as UserListBrick).userList != null && itemName === brick.userList.name
+
+    private fun deleteItem(item: UserData<*>) {
+        val items: MutableList<UserData<*>> = ArrayList()
+        items.add(item)
+        deleteItems(items)
+    }
+
+    @VisibleForTesting
+    open fun showInUseAlert(item: UserData<*>) {
+        val message = getString(R.string.deletion_alert_text_in_use_with_variable_name, item.name)
+
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.deletion_alert_warning)
+            .setMessage(message)
+            .setNeutralButton(R.string.ok, null)
+            .setCancelable(true)
+            .show()
+    }
+
+    @VisibleForTesting
+    open fun showInDropDownDialog(item: UserData<*>, brickFlatList: List<Brick>) {
+        val message = getString(R.string.deletion_alert_text_drop_down_with_variable_name, item.name)
+
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.deletion_alert_title)
+            .setMessage(message)
+            .setPositiveButton(
+                R.string.deletion_alert_yes
+            ) { _: DialogInterface?, _: Int ->
+                deleteUserDataItemFromDropDown(item, brickFlatList)
+            }
+            .setNegativeButton(R.string.no, null)
+            .setCancelable(true)
+            .show()
+    }
+
     interface FormulaEditorDataInterface {
         fun onVariableRenamed(previousName: String?, newName: String?)
 
@@ -543,7 +703,7 @@ class DataListFragment : Fragment(),
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.rename -> showRenameDialog(ArrayList(listOf(item)))
-                    R.id.delete -> showDeleteAlert(ArrayList(listOf(item)))
+                    R.id.delete -> deleteItemsNotInUse(ArrayList(listOf(item)))
                     R.id.edit -> showEditDialog(ArrayList(listOf(item)))
                 }
                 true
@@ -557,7 +717,7 @@ class DataListFragment : Fragment(),
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.rename -> showRenameDialog(ArrayList(listOf(item)))
-                    R.id.delete -> showDeleteAlert(ArrayList(listOf(item)))
+                    R.id.delete -> deleteItemsNotInUse(ArrayList(listOf(item)))
                 }
                 true
             }

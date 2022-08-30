@@ -49,6 +49,7 @@ import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorD
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
@@ -108,7 +109,7 @@ public class DeleteItemOfUserListBrickTest {
 				.performOpenDataFragment();
 		onDataList().onListAtPosition(1)
 				.checkHasName(secondUserListName)
-				.performDelete();
+				.performDeleteInDropDown();
 		onDataList()
 				.performClose();
 		pressBack();
@@ -116,8 +117,7 @@ public class DeleteItemOfUserListBrickTest {
 		onView(allOf(withText(secondUserListName), isDisplayed()))
 				.check(doesNotExist());
 		userList = deleteItemOfUserListBrick.getUserList();
-		assertNotNull(userList);
-		assertEquals(firstUserListName, userList.getName());
+		assertNull(userList);
 	}
 
 	@Category({Cat.AppUi.class, Level.Detailed.class})

@@ -126,6 +126,12 @@ public class VariableBrickTest {
 		onBrickAtPosition(setBrickPosition).onVariableSpinner(R.id.set_variable_spinner)
 				.performNewVariable(variableName);
 
+		onBrickAtPosition(setBrickPosition + 1)
+				.onVariableSpinner(R.id.change_variable_spinner)
+				.perform(click());
+		onView(withText(variableName))
+				.perform(click());
+
 		onBrickAtPosition(setBrickPosition)
 				.performDeleteBrick();
 
