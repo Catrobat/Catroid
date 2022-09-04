@@ -220,6 +220,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 			if (!wasHintAlreadyShown(getActivity(), getActivity().getResources()
 					.getResourceName(R.string.formula_editor_intro_title_formula_editor))) {
 				new FormulaEditorIntroDialog(this, R.style.StageDialog).show();
+				SnackbarUtil.setHintShown(getActivity(),
+						getActivity().getResources().getResourceName(R.string.formula_editor_intro_title_formula_editor));
 			}
 		}
 	}
