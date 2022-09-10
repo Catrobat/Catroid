@@ -23,20 +23,17 @@
 
 package org.catrobat.catroid.retrofit
 
-import okhttp3.ConnectionSpec
-import okhttp3.OkHttpClient
 import org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION
-import org.catrobat.catroid.common.Constants.RETROFIT_WRITE_TIMEOUT
+
 import org.catrobat.catroid.common.FlavoredConstants.FLAVOR_NAME
 import org.catrobat.catroid.retrofit.models.FeaturedProject
 import org.catrobat.catroid.retrofit.models.ProjectsCategoryApi
+import org.catrobat.catroid.web.CatrobatWebClient
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
-import java.util.Locale
-import java.util.concurrent.TimeUnit
 
 interface WebService {
     @GET("projects/featured")
@@ -47,35 +44,19 @@ interface WebService {
         @Query("limit") limit: Int = 20,
         @Query("offset") offset: Int = 0
     ): Call<List<FeaturedProject>>
-
     @GET("projects/categories")
     fun getProjectCategories(
         @Query("max_version") maxVersion: String = CURRENT_CATROBAT_LANGUAGE_VERSION.toString(),
         @Query("flavor") flavor: String = FLAVOR_NAME
     ): Call<List<ProjectsCategoryApi>>
 }
-
 class CatroidWebServer private constructor() {
     companion object {
         @JvmStatic
         fun getWebService(baseUrl: String): WebService {
-            val okHttpClient = OkHttpClient.Builder()
-                .writeTimeout(RETROFIT_WRITE_TIMEOUT, TimeUnit.SECONDS)
-                .connectionSpecs(listOf(ConnectionSpec.MODERN_TLS))
-                .addInterceptor { chain ->
-                    val lang = Locale.getDefault().language
-                    val request = chain.request()
-                        .newBuilder()
-                        .addHeader("Accept-Language", lang)
-                        .build()
-                    chain.proceed(request)
-                }
-                .addInterceptor(ErrorInterceptor())
-                .build()
-
             return Retrofit.Builder()
                 .baseUrl(baseUrl)
-                .client(okHttpClient)
+                .client(CatrobatWebClient.client)
                 .addConverterFactory(MoshiConverterFactory.create())
                 .build()
                 .create(WebService::class.java)

@@ -70,3 +70,5 @@ fastlane/*
 !fastlane/Fastfile
 !fastlane/staticContent/
 Gemfile
+
+cloudflare.properties

@@ -101,6 +101,9 @@ ext.copyGoogleServicesFile = { flavorName, flavorId ->
 
 def defaultVersionCode = 88
 def defaultVersionName = "1.1.2"
+def cloudflarePropertiesFile = rootProject.file("cloudflare.properties")
+def cloudflareProperties = new Properties()
+cloudflareProperties.load(new FileInputStream(cloudflarePropertiesFile))
 
 android {
     compileSdkVersion 30
@@ -162,6 +165,11 @@ android {
         resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
         resValue "string", "FEATURE_MINDSTORMS_PREFERENCES_ENABLED", "false"
         resValue "string", "FEATURE_AI_PREFERENCES_ENABLED", "false"
+        buildConfigField "String", "CLOUDFLARE_PRIVATE_KEY", cloudflareProperties['CLOUDFLARE_PRIVATE_KEY']
+        buildConfigField "String", "CLOUDFLARE_CERTIFICATE",
+                cloudflareProperties['CLOUDFLARE_CERTIFICATE']
+        buildConfigField "String", "CLOUDFLARE_SECRET",
+                cloudflareProperties['CLOUDFLARE_SECRET']
         resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
         resValue "string", "DEBUG_MODE", "false"
 
