@@ -115,13 +115,6 @@ public class FormulaEditorEditTextTest {
 		onFormulaEditor()
 				.performClickOn(BACKSPACE);
 		onFormulaEditor()
-				.performOpenCategory(FUNCTIONS)
-				.performSelect(random);
-		onFormulaEditor()
-				.performClickOn(BACKSPACE);
-		onFormulaEditor()
-				.performClickOn(BACKSPACE);
-		onFormulaEditor()
 				.checkShows(" ");
 	}
 
