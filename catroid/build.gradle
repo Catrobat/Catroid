@@ -99,8 +99,8 @@ ext.copyGoogleServicesFile = { flavorName, flavorId ->
     }
 }
 
-def defaultVersionCode = 91
-def defaultVersionName = "1.2.2"
+def defaultVersionCode = 92
+def defaultVersionName = "1.2.3"
 
 android {
     compileSdkVersion 30
