@@ -29,6 +29,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.ResultReceiver
 import android.preference.PreferenceManager
@@ -149,11 +150,20 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
         var uploadIntent = Intent(applicationContext, MainMenuActivity::class.java)
         uploadIntent.action = Intent.ACTION_MAIN
         uploadIntent = uploadIntent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
-        val pendingIntent = PendingIntent.getActivity(
-            applicationContext,
-            StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
-            uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT
-        )
+
+        val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.getActivity(
+                applicationContext,
+                StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
+                uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+        } else {
+            PendingIntent.getActivity(
+                applicationContext,
+                StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
+                uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT
+            )
+        }
 
         return NotificationCompat.Builder(applicationContext, StatusBarNotificationManager.CHANNEL_ID)
             .setContentIntent(pendingIntent)
@@ -171,11 +181,20 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
         var uploadIntent = Intent(applicationContext, MainMenuActivity::class.java)
         uploadIntent.action = Intent.ACTION_MAIN
         uploadIntent = uploadIntent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
-        val pendingIntent = PendingIntent.getActivity(
-            applicationContext,
-            StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
-            uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT
-        )
+        val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.getActivity(
+                applicationContext,
+                StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
+                uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+        } else {
+            PendingIntent.getActivity(
+                applicationContext,
+                StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
+                uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT
+            )
+        }
+
 
         return NotificationCompat.Builder(applicationContext, StatusBarNotificationManager.CHANNEL_ID)
             .setContentIntent(pendingIntent)

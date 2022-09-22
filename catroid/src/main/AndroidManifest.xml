@@ -92,6 +92,7 @@
 
         <activity
             android:name=".ui.MainMenuActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>
@@ -142,6 +143,7 @@
 
         <activity
             android:name=".ui.ProjectListActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" >
             <intent-filter
@@ -173,6 +175,7 @@
 
         <activity
             android:name=".ui.SpriteActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>
