@@ -18,7 +18,7 @@ pipeline {
     stages {
         stage('End to end tests requiring share authentication') {
             steps {
-                sh '''./gradlew -PenableCoverage -Pemulator=android28 \
+                sh '''./gradlew -PenableCoverage -Pemulator=android31 \
                                             startEmulator createCatroidDebugAndroidTestCoverageReport \
                                             -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.OutgoingNetworkCallsTestSuite'''
             }

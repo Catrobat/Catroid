@@ -26,7 +26,7 @@ pipeline {
 
         stage('Unit and Device tests') {
             steps {
-                sh """./gradlew -PenableCoverage -Pemulator=${env.EMULATOR} startEmulator \
+                sh """./gradlew -PenableCoverage -Pemulator=android31 startEmulator \
                             createCatroidDebugAndroidTestCoverageReport -Pandroid.testInstrumentationRunnerArguments.${env.TYPE}=${env.NAME}"""
             }
 

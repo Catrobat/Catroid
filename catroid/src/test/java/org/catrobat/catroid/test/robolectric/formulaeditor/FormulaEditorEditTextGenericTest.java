@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.robolectric.formulaeditor;
 
 import android.app.Activity;
 import android.os.Build;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.view.View;
@@ -55,6 +56,7 @@ import java.util.Arrays;
 import androidx.annotation.IdRes;
 
 import static org.junit.Assert.assertEquals;
+import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
@@ -108,6 +110,8 @@ public class FormulaEditorEditTextGenericTest {
 		View brickView = brick.getView(activity);
 		TextView brickFormulaTextView = brickView.findViewById(R.id.brick_set_x_edit_text);
 		brick.onClick(brickFormulaTextView);
+
+		shadowOf(Looper.getMainLooper()).idle();
 	}
 
 	@After
