@@ -3,7 +3,7 @@
 pipeline {
     agent {
         docker {
-            image 'catrobat/catrobat-android:stable'
+            image 'catrobat/catrobat-android:api33'
             args '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -m=6.5G'
             label 'LimitedEmulator'
             alwaysPull true
@@ -71,8 +71,8 @@ pipeline {
             steps {
                 script {
                     env.APPROVE_UPLOAD_APK = input message: 'User input required',
-                        parameters: [choice(name: 'Upload', choices: 'no\nyes',
-                        description: 'Do you want to upload this APK to Alpha Channel on Google Play?')]
+                            parameters: [choice(name: 'Upload', choices: 'no\nyes',
+                                    description: 'Do you want to upload this APK to Alpha Channel on Google Play?')]
                 }
             }
         }

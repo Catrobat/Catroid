@@ -3,11 +3,15 @@
 pipeline {
     agent {
         docker {
-            image 'catrobat/catrobat-android:stable'
+            image 'catrobat/catrobat-android:api33'
             args '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -m=6.5G'
             label 'LimitedEmulator'
             alwaysPull true
         }
+    }
+
+    environment {
+        ANDROID_VERSION = 33
     }
 
     options {
@@ -44,7 +48,7 @@ pipeline {
 
         stage('Start emulator') {
             steps {
-                sh './gradlew -Pemulator=android28 startEmulator'
+                sh './gradlew -Pemulator=android${ANDROID_VERSION} startEmulator'
             }
         }
 
@@ -67,12 +71,12 @@ pipeline {
 
                 success {
                     publishHTML target: [
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: false,
-                    keepAll: true,
-                    reportDir: 'fastlane/metadata/android',
-                    reportFiles: 'screenshots.html',
-                    reportName: 'Screenshots'
+                            allowMissing: false,
+                            alwaysLinkToLastBuild: false,
+                            keepAll: true,
+                            reportDir: 'fastlane/metadata/android',
+                            reportFiles: 'screenshots.html',
+                            reportName: 'Screenshots'
                     ]
                 }
             }
@@ -86,8 +90,8 @@ pipeline {
             steps {
                 script {
                     env.APPROVE_DEPLOY = input message: 'User input required',
-                        parameters: [choice(name: 'Deploy', choices: 'no\nyes',
-                        description: 'Please review the Screenshots! Do you want to deploy this to Google Play?')]
+                            parameters: [choice(name: 'Deploy', choices: 'no\nyes',
+                                    description: 'Please review the Screenshots! Do you want to deploy this to Google Play?')]
                 }
             }
         }
