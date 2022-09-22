@@ -50,11 +50,11 @@ ext {
     gdxVersion = "1.9.10"
     mockitoVersion = "2.8.47"
     espressoVersion = "3.1.0"
-    playServicesVersion = "17.0.0"
+    playServicesVersion = '17.0.1'
     cameraXVersion = "1.0.0-beta07"
     room_version = "2.3.0"
     coroutines_version = "1.3.2"
-    work_manager_version = "2.5.0"
+    work_manager_version = '2.7.1'
 }
 
 apply plugin: 'com.android.application'
@@ -103,7 +103,7 @@ def defaultVersionCode = 88
 def defaultVersionName = "1.1.2"
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     buildFeatures {
         viewBinding true
@@ -112,7 +112,7 @@ android {
     defaultConfig {
 
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 31
         applicationId appId
         testInstrumentationRunner 'org.catrobat.catroid.runner.UiTestApplicationRunner'
         versionCode defaultVersionCode
@@ -358,6 +358,9 @@ dependencies {
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation ('com.esotericsoftware:kryo:5.1.1')
     implementation 'id.zelory:compressor:2.1.1'
+    // WorkManager
+    implementation "androidx.work:work-runtime-ktx:$work_manager_version"
+    implementation "androidx.work:work-runtime:$work_manager_version"
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -406,9 +409,6 @@ dependencies {
     // Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$room_version")
 
-    // WorkManager
-    implementation "androidx.work:work-runtime-ktx:$work_manager_version"
-
     // Android Debug Database
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 
@@ -416,7 +416,7 @@ dependencies {
     implementation("androidx.security:security-crypto:1.0.0")
 
     // CAST
-    implementation "com.google.android.gms:play-services-cast:$playServicesVersion"
+    implementation "com.google.android.gms:play-services-cast:17.0.0"
 
     // Analytics
     implementation "com.google.android.gms:play-services-analytics:$playServicesVersion"
@@ -475,7 +475,7 @@ dependencies {
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-arm64-v8a"
 
-    implementation "com.google.android.gms:play-services-auth:$playServicesVersion"
+    implementation "com.google.android.gms:play-services-auth:17.0.0"
 
     androidTestImplementation('tools.fastlane:screengrab:1.2.0') {
         // https://issuetracker.google.com/issues/123060356
