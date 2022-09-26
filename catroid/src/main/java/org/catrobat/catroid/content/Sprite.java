@@ -26,7 +26,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
@@ -57,6 +56,7 @@ import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
+import org.catrobat.catroid.utils.TouchUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -666,9 +666,8 @@ public class Sprite implements Nameable, Serializable {
 
 	public void releaseAllPointers() {
 		if (StageActivity.stageListener != null) {
-			Stage stage = StageActivity.stageListener.getStage();
 			for (int pointer : usedTouchPointer) {
-				stage.touchUp(0, 0, pointer, 0);
+				TouchUtil.touchUp(pointer);
 			}
 		}
 		usedTouchPointer.clear();
