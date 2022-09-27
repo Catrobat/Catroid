@@ -37,7 +37,6 @@ import org.catrobat.catroid.ui.ProjectActivity.Companion.FRAGMENT_SPRITES
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
-import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
@@ -77,9 +76,6 @@ class SpriteListFragmentWithObjectTest {
             .performCheckItem()
 
         onView(withId(R.id.confirm))
-            .perform(click())
-
-        onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
             .perform(click())
 
         onView(withId(R.id.empty_view))

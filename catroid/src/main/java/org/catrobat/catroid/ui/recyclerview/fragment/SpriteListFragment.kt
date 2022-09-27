@@ -39,13 +39,19 @@ import androidx.recyclerview.widget.RecyclerView
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
+import org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME
 import org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME
+import org.catrobat.catroid.common.Constants.UNDO_CODE_XML_FILE_NAME
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.common.SharedPreferenceKeys
 import org.catrobat.catroid.content.GroupSprite
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.io.StorageOperations
+import org.catrobat.catroid.io.XstreamSerializer
+import org.catrobat.catroid.io.asynctask.ProjectLoader
+import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
 import org.catrobat.catroid.merge.ImportProjectHelper
+import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.ProjectListActivity
 import org.catrobat.catroid.ui.ProjectListActivity.Companion.IMPORT_LOCAL_INTENT
 import org.catrobat.catroid.ui.SpriteActivity
@@ -68,11 +74,14 @@ import java.io.File
 import java.io.IOException
 
 @SuppressLint("NotifyDataSetChanged")
-class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
+class SpriteListFragment : RecyclerViewFragment<Sprite?>(), ProjectLoadListener {
     private val spriteController = SpriteController()
     private val projectManager: ProjectManager by inject()
 
     private var currentSprite: Sprite? = null
+
+    private var undoSpriteOrder: MutableList<String> = ArrayList()
+    private val undoableActions: List<Int> = listOf(R.id.delete, R.id.rename, R.id.copy, R.id.new_group)
 
     internal inner class MultiViewTouchHelperCallback(adapterInterface: TouchHelperAdapterInterface?) :
         TouchHelperCallback(adapterInterface) {
@@ -133,8 +142,14 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        setupUndoOption(item)
+
         when (item.itemId) {
             R.id.new_group -> showNewGroupDialog()
+            R.id.menu_undo -> {
+                prepareActionMode(NONE)
+                loadProjectAfterUndoOption()
+            }
             else -> super.onOptionsItemSelected(item)
         }
         return true
@@ -239,7 +254,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
                 }
                 adapter.notifyDataSetChanged()
             }
-            spriteController.delete(item)
+            spriteController.delete(item, true)
             adapter.remove(item)
         }
         ToastUtil.showSuccess(
@@ -357,6 +372,8 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
                 .menu_project_activity, hiddenMenuOptionIds.toIntArray()
         )
         popupMenu.setOnMenuItemClickListener { menuItem ->
+            setupUndoOption(menuItem)
+
             when (menuItem.itemId) {
                 R.id.backpack -> packItems(itemList)
                 R.id.copy -> copyItems(itemList)
@@ -374,11 +391,82 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         popupMenu.show()
     }
 
+    private fun copyProjectForUndoOption(): Boolean {
+        val project = projectManager.currentProject
+        XstreamSerializer.getInstance().saveProject(project)
+        val currentCodeFile = File(project.directory, CODE_XML_FILE_NAME)
+        val undoCodeFile = File(project.directory, UNDO_CODE_XML_FILE_NAME)
+        if (currentCodeFile.exists()) {
+            StorageOperations.transferData(currentCodeFile, undoCodeFile)
+            return true
+        }
+        return false
+    }
+
+    private fun loadProjectAfterUndoOption() {
+        val project = projectManager.currentProject
+        val currentCodeFile = File(project.directory, CODE_XML_FILE_NAME)
+        val undoCodeFile = File(project.directory, UNDO_CODE_XML_FILE_NAME)
+        if (currentCodeFile.exists()) {
+            StorageOperations.transferData(undoCodeFile, currentCodeFile)
+            ProjectLoader(project.directory, requireContext()).setListener(this).loadProjectAsync()
+        }
+    }
+
+    private fun refreshFragmentAfterUndo() {
+        val sprites: HashSet<Sprite> = HashSet()
+        for (sceneList in projectManager.currentProject.sceneList) {
+            sprites.addAll(sceneList.spriteList)
+        }
+
+        adapter.items.clear()
+        undoSpriteOrder.forEach { wantedName ->
+            val sprite = sprites.first { currentSprite -> currentSprite.name == wantedName }
+            adapter.items.add(sprite)
+        }
+        adapter.notifyDataSetChanged()
+
+        undoSpriteOrder.clear()
+        hideUndo()
+        finishActionMode()
+    }
+
     val isSingleVisibleSprite: Boolean
         get() = adapter.items.size == 2 && adapter.items[1] !is GroupSprite
 
     companion object {
         val TAG: String = SpriteListFragment::class.java.simpleName
         const val IMPORT_OBJECT_REQUEST_CODE = 0
+    }
+
+    override fun onLoadFinished(success: Boolean) {
+        refreshFragmentAfterUndo()
+    }
+
+    fun showUndo() {
+        toggleUndo(true)
+    }
+
+    fun hideUndo() {
+        toggleUndo(false)
+    }
+
+    private fun toggleUndo(visible: Boolean) {
+        (activity as ProjectActivity).showUndo(visible)
+    }
+
+    private fun saveSpriteOrder() {
+        undoSpriteOrder = adapter.items
+            .filterNotNull()
+            .map(Sprite::getName)
+            .toMutableList()
+    }
+
+    private fun setupUndoOption(menuItem: MenuItem) {
+        if (undoableActions.contains(menuItem.itemId)) {
+            saveSpriteOrder()
+            copyProjectForUndoOption()
+            showUndo()
+        }
     }
 }

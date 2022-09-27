@@ -158,24 +158,30 @@ public class SpriteController {
 	}
 
 	public void delete(Sprite spriteToDelete) {
+		delete(spriteToDelete, false);
+	}
+
+	public void delete(Sprite spriteToDelete, boolean undoable) {
 		if (spriteToDelete.isClone) {
 			throw new IllegalStateException("You are deleting a clone: this means you also delete the files that are "
 					+ "referenced by the original sprite because clones are shallow copies regarding files.");
 		}
 
-		for (LookData look : spriteToDelete.getLookList()) {
-			try {
-				lookController.delete(look);
-			} catch (IOException e) {
-				Log.e(TAG, Log.getStackTraceString(e));
+		if (!undoable) {
+			for (LookData look : spriteToDelete.getLookList()) {
+				try {
+					lookController.delete(look);
+				} catch (IOException e) {
+					Log.e(TAG, Log.getStackTraceString(e));
+				}
 			}
-		}
 
-		for (SoundInfo sound : spriteToDelete.getSoundList()) {
-			try {
-				soundController.delete(sound);
-			} catch (IOException e) {
-				Log.e(TAG, Log.getStackTraceString(e));
+			for (SoundInfo sound : spriteToDelete.getSoundList()) {
+				try {
+					soundController.delete(sound);
+				} catch (IOException e) {
+					Log.e(TAG, Log.getStackTraceString(e));
+				}
 			}
 		}
 

@@ -57,7 +57,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(Parameterized.class)
-public class UndoTest {
+public class ScriptUndoTest {
 
 	private final long waitThreshold = 5000;
 
@@ -87,7 +87,7 @@ public class UndoTest {
 
 	@After
 	public void tearDown() throws IOException {
-		TestUtils.deleteProjects(UndoTest.class.getSimpleName());
+		TestUtils.deleteProjects(ScriptUndoTest.class.getSimpleName());
 	}
 
 	@Before
@@ -141,7 +141,7 @@ public class UndoTest {
 	}
 
 	private void createProject() {
-		Script script = BrickTestUtils.createProjectAndGetStartScript(UndoTest.class.getSimpleName());
+		Script script = BrickTestUtils.createProjectAndGetStartScript(ScriptUndoTest.class.getSimpleName());
 		IfLogicBeginBrick compositeBrick = new IfLogicBeginBrick();
 		compositeBrick.addBrickToIfBranch(new SetXBrick());
 		compositeBrick.addBrickToElseBranch(new SetXBrick());
