@@ -33,6 +33,7 @@ import org.catrobat.catroid.exceptions.ProjectException
 import org.catrobat.catroid.io.DeviceListAccessor
 import org.catrobat.catroid.io.DeviceVariableAccessor
 import org.catrobat.catroid.io.LookFileGarbageCollector
+import org.catrobat.catroid.io.SoundFileGarbageCollector
 import java.io.File
 import java.lang.ref.WeakReference
 
@@ -74,6 +75,7 @@ fun loadProject(projectDir: File?, context: Context): Boolean {
         DeviceVariableAccessor(projectDir).cleanUpDeletedUserData(project)
         DeviceListAccessor(projectDir).cleanUpDeletedUserData(project)
         LookFileGarbageCollector().cleanUpUnusedLookFiles(project)
+        SoundFileGarbageCollector().cleanUpUnusedSoundFiles(project)
         true
     } catch (e: ProjectException) {
         projectDir ?: return false
