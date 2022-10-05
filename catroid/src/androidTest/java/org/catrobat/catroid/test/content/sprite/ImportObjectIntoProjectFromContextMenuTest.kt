@@ -26,7 +26,6 @@ import android.net.Uri
 import android.util.Log
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.intent.Intents
-import androidx.test.runner.AndroidJUnit4
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.DefaultProjectHandler
@@ -50,20 +49,18 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.koin.java.KoinJavaComponent
 import java.io.File
 
-@RunWith(AndroidJUnit4::class)
 class ImportObjectIntoProjectFromContextMenuTest {
     var project: Project? = null
-    var importedProject: Project? = null
-    var importName = "IMPORTED"
-    var defaultProjectName = "defaultProject"
+    private var importedProject: Project? = null
+    private var importName = "IMPORTED"
+    private var defaultProjectName = "defaultProject"
     var uri: Uri? = null
-    var spriteToBeImported: Sprite? = null
+    private var spriteToBeImported: Sprite? = null
     private lateinit var scriptForVisualPlacement: Script
-    val TAG: String = ImportObjectIntoProjectTest::class.java.simpleName
+    val tag: String = ImportObjectIntoProjectTest::class.java.simpleName
     private val projectManager = KoinJavaComponent.inject(ProjectManager::class.java)
 
     @get:Rule
@@ -79,7 +76,7 @@ class ImportObjectIntoProjectFromContextMenuTest {
         try {
             Constants.MEDIA_LIBRARY_CACHE_DIRECTORY.mkdirs()
         } catch (e: Exception) {
-            Log.e(TAG, Log.getStackTraceString(e))
+            Log.e(tag, Log.getStackTraceString(e))
         }
 
         project = DefaultProjectHandler
@@ -114,7 +111,7 @@ class ImportObjectIntoProjectFromContextMenuTest {
         baseActivityTestRule.launchActivity()
     }
 
-    fun initProjectVars() {
+    private fun initProjectVars() {
         spriteToBeImported = importedProject!!.defaultScene.spriteList[1]
 
         spriteToBeImported!!.userVariables.add(UserVariable("localVariable1"))
@@ -124,8 +121,8 @@ class ImportObjectIntoProjectFromContextMenuTest {
 
         importedProject!!.addUserVariable(UserVariable("globalVariable1", 1))
         importedProject!!.addUserVariable(UserVariable("globalVariable2", 2))
-        importedProject!!.addUserList(UserList("globalListe1"))
-        importedProject!!.addUserList(UserList("globalListe2"))
+        importedProject!!.addUserList(UserList("globalList1"))
+        importedProject!!.addUserList(UserList("globalList2"))
 
         scriptForVisualPlacement = StartScript().apply {
             addBrick(PlaceAtBrick(100, 200))
@@ -244,7 +241,7 @@ class ImportObjectIntoProjectFromContextMenuTest {
 
         val currentScene = project!!.defaultScene
         val activity = baseActivityTestRule.activity
-        val resolvedFileName = StorageOperations.resolveFileName(activity.getContentResolver(), uri)
+        val resolvedFileName = StorageOperations.resolveFileName(activity.contentResolver, uri)
         val lookFileName: String? = resolvedFileName
 
         val importProjectHelper = ImportProjectHelper(

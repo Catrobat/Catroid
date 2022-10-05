@@ -43,6 +43,7 @@ import org.catrobat.catroid.ui.controller.BackpackListManager;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -120,5 +121,16 @@ public final class TestUtils {
 		return backpackListManager.backpackSceneDirectory.mkdirs()
 				&& backpackListManager.backpackImageDirectory.mkdirs()
 				&& backpackListManager.backpackSoundDirectory.mkdirs();
+	}
+
+	public static boolean checkForDuplicates(List<Object> anyList) {
+		Object prev = null;
+		for (Object any : anyList) {
+			if (any == prev) {
+				return true;
+			}
+			prev = any;
+		}
+		return false;
 	}
 }
