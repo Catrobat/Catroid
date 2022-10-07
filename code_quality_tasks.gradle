@@ -38,7 +38,7 @@ dependencies {
 }
 
 task checkstyle(type: Checkstyle) {
-    configFile file('config/checkstyle.xml')
+    configFile file("${project.rootDir}/code-quality-config/checkstyle.xml")
     source '.'
     include '**/*.java', '**/*.xml', '**/*.gradle'
     exclude '**/gen/**', '**/build/**', 'libraryProjects/**', '**/.idea/**'
@@ -56,7 +56,7 @@ task checkstyle(type: Checkstyle) {
 }
 
 task pmd(type: Pmd) {
-    ruleSetFiles = files('config/pmd.xml')
+    ruleSetFiles = files("${project.rootDir}/code-quality-config/pmd.xml")
     ruleSets = []
 
     source '.'
@@ -74,7 +74,13 @@ task pmd(type: Pmd) {
 
 detekt {
     toolVersion = "1.1.1"
-    config = files("config/detekt.yml")
+    config = files("${project.rootDir}/code-quality-config/detekt.yml")
     input = files("src")
     filters = ".*/resources/.*,.*/build/.*"
+
+    reports {
+        xml.destination = file("build/reports/detekt/detekt.xml")
+        html.destination = file("build/reports/detekt/detekt.html")
+        txt.destination = file("build/reports/detekt/detekt.txt")
+    }
 }

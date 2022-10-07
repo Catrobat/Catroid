@@ -21,56 +21,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.camera.mlkitdetectors
+package org.catrobat.catroidfeature.machinelearning
 
 import android.media.Image
 import android.util.Log
 import com.google.mlkit.vision.common.InputImage
-import com.google.mlkit.vision.face.FaceDetection
-import com.google.mlkit.vision.face.FaceDetectorOptions
-import org.catrobat.catroid.CatroidApplication
-import org.catrobat.catroid.R
-import org.catrobat.catroid.camera.CatdroidImageAnalyzer
-import org.catrobat.catroid.camera.DetectorsCompleteListener
-import org.catrobat.catroid.camera.VisualDetectionHandler
-import org.catrobat.catroid.stage.StageActivity
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 
-private val faceDetectionClient by lazy {
-    FaceDetection.getClient(
-        FaceDetectorOptions.Builder()
-            .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
-            .enableTracking()
-            .build()
-    )
+private val textDetectionClient by lazy {
+    TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 }
 
-object FaceDetector : Detector {
+object TextDetector : Detector {
     override fun processImage(
         mediaImage: Image,
         inputImage: InputImage,
         onCompleteListener: DetectorsCompleteListener
     ) {
-        faceDetectionClient.process(inputImage)
-            .addOnSuccessListener { faces ->
-                val translatedFaces =
-                    VisualDetectionHandler.translateGoogleFaceToVisualDetectionFace(faces)
-                VisualDetectionHandler.handleAlreadyExistingFaces(translatedFaces)
-                VisualDetectionHandler.handleNewFaces(translatedFaces)
-                VisualDetectionHandler.updateAllFaceSensorValues(
+        textDetectionClient.process(inputImage)
+            .addOnSuccessListener { text ->
+                VisualDetectionHandler.updateTextSensorValues(text.text, text.textBlocks.size)
+                TextBlockUtil.setTextBlocksGoogle(
+                    text.textBlocks,
                     mediaImage.width,
                     mediaImage.height
                 )
             }
             .addOnFailureListener { e ->
-                VisualDetectionHandler.updateFaceDetectionStatusSensorValues()
-                val context = CatroidApplication.getAppContext()
-                StageActivity.messageHandler.obtainMessage(
-                    StageActivity.SHOW_TOAST,
-                    arrayListOf(context.getString(R.string.camera_error_face_detection))
-                ).sendToTarget()
                 Log.e(
                     javaClass.simpleName,
-                    CatdroidImageAnalyzer.DETECTION_PROCESS_ERROR_MESSAGE,
+                    "Could not analyze image.",
                     e
                 )
             }.addOnCompleteListener {

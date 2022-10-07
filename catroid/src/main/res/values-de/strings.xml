@@ -1884,9 +1884,6 @@
     <string name="formula_editor_intro_summary_data">Hier findest du Variablen und Listen, welche in deinem Projekt verwendet werden. \nDu kannst diese einfach in deine Formel einfügen. </string>
     <string name="formula_editor_listening_language_sensor">Hörsprache</string>
     <string name="formula_editor_speech_recognition">Spracherkennung</string>
-    <string name="camera_error_text_detection">        Es gab ein Problem bei der Gesichtserkennung. Einige Komponenten werden möglicherweise noch im Hintergrund
-        heruntergeladen. Bitte stelle sicher, dass du mit dem Internet verbunden bist und versuchen es später erneut.
-    </string>
     <string name="warning_formula_recognized">Du hast einen Text eingegeben, der wie eine Formel aussieht. Wenn du Funktionen,
         Sensoren, Variablen und andere Formelelemente verwenden möchtest, wähle diese stattdessen bitte mit den
         Schaltflächen im Formeleditor aus.</string>
@@ -1912,9 +1909,6 @@
     <string name="choose_camera_front">Frontkamera</string>
     <string name="choose_camera_back">Hauptkamera</string>
     <string name="camera_error_generic">        Something went wrong while trying to use the camera.
-    </string>
-    <string name="camera_error_face_detection">        Es gab ein Problem bei der Gesichtserkennung. Einige Komponenten werden möglicherweise noch im Hintergrund
-        heruntergeladen. Bitte stelle sicher, dass du mit dem Internet verbunden bist und versuche es später erneut.
     </string>
     <!-- -->
     <!-- Cast strings -->

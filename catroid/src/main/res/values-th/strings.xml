@@ -1852,8 +1852,6 @@
         \n คุณสามารถแทรกสิ่งเหล่านี้ในสูตรของคุณหรือเพิ่มใหม่ได้</string>
     <string name="formula_editor_listening_language_sensor">ภาษาที่ใช้ในการฟัง</string>
     <string name="formula_editor_speech_recognition">การเรียนรู้จดจำเสียง</string>
-    <string name="camera_error_text_detection">        มีปัญหากับการตรวจจับข้อความ ส่วนประกอบบางอย่างอาจยังดาวน์โหลดอยู่ในไฟล์
-         พื้นหลัง. โปรดตรวจสอบว่าคุณเชื่อมต่ออินเทอร์เน็ตแล้วและกลับมาตรวจสอบในภายหลัง</string>
     <string name="warning_formula_recognized">คุณป้อนข้อความที่ดูเหมือนสูตร หากคุณต้องการใช้ฟังก์ชัน
          เซ็นเซอร์ ตัวแปร และองค์ประกอบสูตรอื่นๆ โปรดเลือกแทนโดยใช้
          ปุ่มในตัวแก้ไขสูตร</string>
@@ -1879,9 +1877,6 @@
     <string name="choose_camera_front">ด้านหน้า</string>
     <string name="choose_camera_back">ด้านหลัง</string>
     <string name="camera_error_generic">        เกิดข้อผิดพลาดขณะพยายามใช้กล้อง
-    </string>
-    <string name="camera_error_face_detection">        มีปัญหากับการตรวจจับใบหน้า ส่วนประกอบบางอย่างอาจยังคงดาวน์โหลดอยู่ในไฟล์
-        พื้นหลัง. โปรดตรวจสอบว่าคุณเชื่อมต่อกับอินเทอร์เน็ตและกลับมาตรวจสอบในภายหลัง
     </string>
     <!-- -->
     <!-- Cast strings -->

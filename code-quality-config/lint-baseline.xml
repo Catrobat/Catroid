@@ -564,4 +564,19 @@
             column="17"/>
     </issue>
 
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.title_machinelearning` appears to be unused"
+        errorLine1=" <string name=&quot;title_machinelearning&quot;>Machine Learning</string>"
+        errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" />
+    </issue>
+
+    <issue
+        id="ExportedContentProvider"
+        message="Exported content providers can provide access to potentially sensitive data"
+        errorLine1=" <provider"
+        errorLine2=" ~~~~~~~~">
+        <location file="src/main/AndroidManifest.xml" />
+    </issue>
 </issues>

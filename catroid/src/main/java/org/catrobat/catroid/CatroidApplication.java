@@ -45,12 +45,14 @@ import androidx.multidex.MultiDex;
 public class CatroidApplication extends Application {
 
 	private static final String TAG = CatroidApplication.class.getSimpleName();
-
-	private static Context context;
 	public static String defaultSystemLanguage;
-
+	private static Context context;
 	private static GoogleAnalytics googleAnalytics;
 	private static Tracker googleTracker;
+
+	public static Context getAppContext() {
+		return CatroidApplication.context;
+	}
 
 	@TargetApi(29)
 	@Override
@@ -101,9 +103,5 @@ public class CatroidApplication extends Application {
 		}
 
 		return googleTracker;
-	}
-
-	public static Context getAppContext() {
-		return CatroidApplication.context;
 	}
 }

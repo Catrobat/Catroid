@@ -1917,8 +1917,6 @@ con tolleranza %        </string>
     <string name="formula_editor_intro_summary_data">Variabili e liste usate nel tuo        progetto possono essere trovate qui..\nPuoi inserirle in qualsiasi tua formula o crearne di nuove.</string>
     <string name="formula_editor_listening_language_sensor">lingua di ascolto</string>
     <string name="formula_editor_speech_recognition">Riconoscimento vocale</string>
-    <string name="camera_error_text_detection">        Si è verificato un problema con il rilevamento del testo. Alcuni componenti potrebbero essere ancora in fase di download
-        . Assicurati di essere connesso a internet e controlla più tardi.</string>
     <string name="warning_formula_recognized">Hai inserito un testo simile a una formula. Se desideri usare le funzioni,
         i sensori, le variabili e altri elementi della formula, sei pregato di selezionarli invece di usare i
         pulsanti nell\'editor della formula.</string>
@@ -1945,8 +1943,6 @@ con tolleranza %        </string>
     <string name="choose_camera_back">posteriore</string>
     <string name="camera_error_generic">        Qualcosa è andato storto durante il tentativo di utilizzare la fotocamera.
     </string>
-    <string name="camera_error_face_detection">        Si è verificato un problema con il rilevamento del volto. Alcuni componenti potrebbero essere ancora in fase di download
-        . Assicurati di essere connesso a internet e controlla più tardi.</string>
     <!-- -->
     <!-- Cast strings -->
     <string name="cast_gamepad_A">A</string>

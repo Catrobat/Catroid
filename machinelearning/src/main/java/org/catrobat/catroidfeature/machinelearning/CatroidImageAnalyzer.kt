@@ -20,25 +20,19 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.camera
+package org.catrobat.catroidfeature.machinelearning
 
 import android.content.Context
 import androidx.camera.core.ExperimentalGetImage
-import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import com.google.mlkit.vision.common.InputImage
-import org.catrobat.catroid.camera.mlkitdetectors.Detector
-import org.catrobat.catroid.camera.mlkitdetectors.FaceDetector
-import org.catrobat.catroid.camera.mlkitdetectors.ObjectDetector
-import org.catrobat.catroid.camera.mlkitdetectors.PoseDetector
-import org.catrobat.catroid.camera.mlkitdetectors.TextDetector
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isAIFaceDetectionSharedPreferenceEnabled
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isAIObjectDetectionSharedPreferenceEnabled
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isAIPoseDetectionSharedPreferenceEnabled
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isAITextRecognitionSharedPreferenceEnabled
+import org.catrobat.catroid.utils.CatroidImageAnalyzer as CatroidImageAnalyzerInterface
 
-object CatdroidImageAnalyzer : ImageAnalysis.Analyzer {
-    const val DETECTION_PROCESS_ERROR_MESSAGE: String = "Could not analyze image."
+object CatroidImageAnalyzer : CatroidImageAnalyzerInterface {
     private val activeDetectors = ArrayList<Detector>()
 
     @ExperimentalGetImage
@@ -52,7 +46,7 @@ object CatdroidImageAnalyzer : ImageAnalysis.Analyzer {
         }
     }
 
-    fun setActiveDetectorsWithContext(context: Context?) {
+    override fun setActiveDetectorsWithContext(context: Context?) {
         activeDetectors.clear()
         context?.let {
             if (isAIFaceDetectionSharedPreferenceEnabled(it)) {

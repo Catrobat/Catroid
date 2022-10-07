@@ -39,6 +39,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import org.catrobat.catroid.R
 import org.catrobat.catroid.stage.StageActivity
+import org.catrobat.catroid.utils.MachineLearningUtil
 import org.catrobat.catroid.utils.MobileServiceAvailability
 import org.catrobat.catroid.utils.ToastUtil
 import java.util.concurrent.CountDownLatch
@@ -235,11 +236,14 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
     @UiThread
     private fun bindFaceAndTextDetector() = bindUseCase(analysisUseCase).also {
         val mobileServiceAvailability = get(MobileServiceAvailability::class.java)
+
         if (mobileServiceAvailability.isGmsAvailable(stageActivity)) {
-            CatdroidImageAnalyzer.setActiveDetectorsWithContext(this.stageActivity.context)
-            analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), CatdroidImageAnalyzer)
+            val catroidImageAnalyzer = MachineLearningUtil.getCatroidImageAnalyzer() ?: return false
+            catroidImageAnalyzer.setActiveDetectorsWithContext(this.stageActivity.context)
+            analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), catroidImageAnalyzer)
         } else if (mobileServiceAvailability.isHmsAvailable(stageActivity)) {
-            analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), FaceTextPoseDetectorHuawei)
+            val faceTextPoseDetectorHuawei = MachineLearningUtil.getFaceTextPoseDetectorHuawei() ?: return false
+            analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), faceTextPoseDetectorHuawei)
         }
     }
 

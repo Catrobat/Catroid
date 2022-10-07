@@ -1833,7 +1833,6 @@
     <string name="formula_editor_intro_summary_data">متغیرها و لیست هایی که در پروژه شما استفاده می شوند را می توانید در اینجا بیابید.         \n شما به سادگی می توانید اینها را در فرمول خود وارد کنید یا موارد جدید اضافه کنید.</string>
     <string name="formula_editor_listening_language_sensor">زبان گوش دادن</string>
     <string name="formula_editor_speech_recognition">تشخیص گفتار</string>
-    <string name="camera_error_text_detection">        مشکلی در تشخیص متن وجود داشت. ممکن است برخی از مؤلفه‌ها همچنان در         پس‌زمینه بارگیری شوند. لطفاً مطمئن شوید که به اینترنت متصل هستید و بعداً دوباره بررسی کنید.</string>
     <string name="warning_formula_recognized">شما متنی را وارد کرده اید که شبیه فرمول است. اگر می‌خواهید از توابع، حسگرها، متغیرها و سایر عناصر فرمول استفاده کنید، لطفاً آنها را با استفاده از         دکمه‌های موجود در ویرایشگر فرمول انتخاب کنید.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
@@ -1857,8 +1856,6 @@
     <string name="choose_camera_front">جلو</string>
     <string name="choose_camera_back">عقب</string>
     <string name="camera_error_generic">        هنگام تلاش برای استفاده از دوربین، مشکلی پیش آمد.
-    </string>
-    <string name="camera_error_face_detection">        مشکلی در تشخیص چهره وجود داشت. ممکن است برخی از مؤلفه‌ها همچنان در پس‌زمینه ب        ارگیری شوند. لطفاً مطمئن شوید که به اینترنت متصل هستید و بعداً دوباره بررسی کنید.
     </string>
     <!-- -->
     <!-- Cast strings -->

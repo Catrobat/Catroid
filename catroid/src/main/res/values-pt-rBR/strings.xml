@@ -1915,8 +1915,6 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
         \nVocê pode simplesmente inserir estes na sua fórmula, ou adicionar novas.</string>
     <string name="formula_editor_listening_language_sensor">escutando idioma</string>
     <string name="formula_editor_speech_recognition">Reconhecimento de voz</string>
-    <string name="camera_error_text_detection">        Houve um problema com a detecção de texto. Alguns componentes ainda podem estar baixando em segundo plano. 
-        Por favor, verifique se está conectado à internet e verifique novamente mais tarde.</string>
     <string name="warning_formula_recognized">Você inseriu um texto que se parece com uma fórmula. Se você quiser usar funções,
         sensores, variáveis e outros elementos de fórmula, por favor, selecione-os usando o
         botões no editor de fórmulas.</string>
@@ -1943,8 +1941,6 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="choose_camera_back">trâs</string>
     <string name="camera_error_generic">        Algo deu errado ao tentar usar a câmera.
     </string>
-    <string name="camera_error_face_detection">        Houve um problema com a detecção de texto. Alguns componentes ainda podem estar baixando em segundo plano.
-        Por favor, verifique se está conectado à internet e verifique novamente mais tarde.</string>
     <!-- -->
     <!-- Cast strings -->
     <string name="cast_gamepad_A">A</string>

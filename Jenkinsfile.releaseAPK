@@ -24,15 +24,15 @@ pipeline {
             }
         }
 
-        stage('Build signed APK') {
+        stage('Build signed AAB') {
             steps {
-                // Build, zipalign and sign releasable APK
+                // Build, zipalign and sign releasable AAB
                 withCredentials([file(credentialsId: 'a925b6e8-b3c6-407e-8cad-65886e330037', variable: 'SIGNING_KEYSTORE')]) {
                     script {
                         if (env.flavor == 'All') {
                             sh '''
                                 set +x
-                                ./gradlew copyAndroidNatives assembleSignedRelease \
+                                ./gradlew :catroid:copyAndroidNatives :catroid:bundleSignedRelease \
                                 -PsigningKeystore=${SIGNING_KEYSTORE} \
                                 -PsigningKeystorePassword=$signingKeystorePassword \
                                 -PsigningKeyAlias=$signingKeyAlias \
@@ -41,7 +41,7 @@ pipeline {
                         } else if (env.flavor == 'PocketCodeBeta') {
                             sh '''
                                 set +x
-                                ./gradlew copyAndroidNatives assembleCatroidSignedRelease \
+                                ./gradlew :catroid:copyAndroidNatives :catroid:bundleCatroidSignedRelease \
                                 -PsigningKeystore=${SIGNING_KEYSTORE} \
                                 -PsigningKeystorePassword=$signingKeystorePassword \
                                 -PsigningKeyAlias=$signingKeyAlias \
@@ -51,7 +51,7 @@ pipeline {
                         } else {
                             sh '''
                                 set +x
-                                ./gradlew copyAndroidNatives assemble${flavor}SignedRelease \
+                                ./gradlew :catroid:copyAndroidNatives :catroid:bundle${flavor}SignedRelease \
                                 -PsigningKeystore=${SIGNING_KEYSTORE} \
                                 -PsigningKeystorePassword=$signingKeystorePassword \
                                 -PsigningKeyAlias=$signingKeyAlias \
@@ -60,7 +60,7 @@ pipeline {
                         }
                     }
                 }
-                archiveArtifacts artifacts: 'catroid/build/outputs/apk/**/*signedRelease.apk', fingerprint: true
+                archiveArtifacts artifacts: 'catroid/build/outputs/bundle/**/*signedRelease.aab', fingerprint: true
             }
         }
 
@@ -72,7 +72,7 @@ pipeline {
                 script {
                     env.APPROVE_UPLOAD_APK = input message: 'User input required',
                         parameters: [choice(name: 'Upload', choices: 'no\nyes',
-                        description: 'Do you want to upload this APK to Alpha Channel on Google Play?')]
+                        description: 'Do you want to upload this AAB to Alpha Channel on Google Play?')]
                 }
             }
         }

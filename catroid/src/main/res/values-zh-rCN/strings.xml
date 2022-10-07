@@ -1845,8 +1845,6 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="formula_editor_intro_summary_data">在这里可以找到程序中使用的变量和列表。\n它们可以被方便地插入公式，或随时创建新的变量或列表。</string>
     <string name="formula_editor_listening_language_sensor">侦听语言</string>
     <string name="formula_editor_speech_recognition">语音识别</string>
-    <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.</string>
     <string name="warning_formula_recognized">你输入了一个看起来像公式的文本。如果你想使用函数。
         传感器、变量和其他公式元素，请使用公式编辑器中的按钮选择它们。
         按钮来选择。</string>
@@ -1873,8 +1871,6 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="choose_camera_back">后方</string>
     <string name="camera_error_generic">        试图使用相机时出了错。
     </string>
-    <string name="camera_error_face_detection">        文本检测出现问题。 有些组件可能仍然在
-        后台下载。 请确保您已连接到互联网，稍后再试。</string>
     <!-- -->
     <!-- Cast strings -->
     <string name="cast_gamepad_A">一种</string>

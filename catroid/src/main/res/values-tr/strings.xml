@@ -1871,8 +1871,6 @@ Lütfen projeyi yeniden adlandırın.</string>
     <string name="formula_editor_intro_summary_data">Programda kullandığınız değişkenler ve listeler burada bulunabilir. Bunları formülünüze basitçe ekleyebilir veya yenilerini ekleyebilirsiniz.</string>
     <string name="formula_editor_listening_language_sensor">dinleme dili</string>
     <string name="formula_editor_speech_recognition">Konuşma tanıma</string>
-    <string name="camera_error_text_detection">        Metni algılamayla ilgili bir sorun yaşandı. Bazı bileşenler hala arka planda indiriliyor olabilir
-        . Lütfen İnternet\'e bağlı olduğunuzdan emin olun ve daha sonra tekrar deneyin.</string>
     <string name="warning_formula_recognized">Formüle benzeyen bir metin girdiniz. Fonksiyonları kullanmak istiyorsanız,
         sensörler, değişkenler ve diğer formül öğeleri için lütfen
         formül düzenleyicisindeki düğmeleri kullanım</string>
@@ -1898,7 +1896,6 @@ Lütfen projeyi yeniden adlandırın.</string>
     <string name="choose_camera_front">ön</string>
     <string name="choose_camera_back">Arka</string>
     <string name="camera_error_generic">Kamerayı kullanmaya çalışırken bir şeyler ters gitti.</string>
-    <string name="camera_error_face_detection">Yüz tanıma ile ilgili bir sorun vardı. Bazı bileşenler hala arka planda indiriliyor olabilir. Lütfen İnternet\'e bağlı olduğunuzdan emin olun ve daha sonra tekrar kontrol edin.</string>
     <!-- -->
     <!-- Cast strings -->
     <string name="cast_gamepad_A">A</string>

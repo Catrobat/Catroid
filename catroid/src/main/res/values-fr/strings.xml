@@ -1912,8 +1912,6 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string name="formula_editor_intro_summary_data">Les variables et listes utilisées dans votre programme se trouvent ici. \nVous pouvez simplement les insérer dans votre formule, ou en ajouter de nouvelles.</string>
     <string name="formula_editor_listening_language_sensor">langue d\'écoute</string>
     <string name="formula_editor_speech_recognition">Reconnaissance vocale</string>
-    <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.</string>
     <string name="warning_formula_recognized">Vous avez saisi un texte qui ressemble à une formule. Si vous souhaitez utiliser des fonctions,
         des capteurs, des variables et d\'autres éléments de formule, veuillez les sélectionner à la place en utilisant les
         dans l\'éditeur de formule.</string>
@@ -1939,9 +1937,6 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string name="choose_camera_front">avant</string>
     <string name="choose_camera_back">arrière</string>
     <string name="camera_error_generic">        Something went wrong while trying to use the camera.
-    </string>
-    <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.
     </string>
     <!-- -->
     <!-- Cast strings -->

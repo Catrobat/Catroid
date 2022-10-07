@@ -1921,8 +1921,6 @@
         \n ਤੁਹਾਨੂੰ ਸਿਰਫ਼ ਆਪਣੇ ਫਾਰਮੂਲੇ ਵਿਚ ਇਹ ਪਾਓ, ਜ ਨਵ ਲੋਕ ਸ਼ਾਮਿਲ ਕਰ ਸਕਦੇ ਹੋ.</string>
     <string name="formula_editor_listening_language_sensor">ਸੁਣਨ ਦੀ ਭਾਸ਼ਾ</string>
     <string name="formula_editor_speech_recognition">ਬੋਲਣ ਦੀ ਪਛਾਣ</string>
-    <string name="camera_error_text_detection">        ਟੈਕਸਟ ਖੋਜ ਵਿੱਚ ਇੱਕ ਸਮੱਸਿਆ ਆਈ ਸੀ. ਕੁਝ ਭਾਗ ਅਜੇ ਵੀ ਡਾ inਨਲੋਡ ਕੀਤੇ ਜਾ ਸਕਦੇ ਹਨ
-         ਪਿਛੋਕੜ ਕਿਰਪਾ ਕਰਕੇ ਇਹ ਸੁਨਿਸ਼ਚਿਤ ਕਰੋ ਕਿ ਤੁਸੀਂ ਇੰਟਰਨੈਟ ਨਾਲ ਜੁੜੇ ਹੋ ਅਤੇ ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਜਾਂਚ ਕਰੋ.</string>
     <string name="warning_formula_recognized">ਤੁਸੀਂ ਇੱਕ ਪਾਠ ਦਾਖਲ ਕੀਤਾ ਹੈ ਜੋ ਇੱਕ ਫਾਰਮੂਲੇ ਵਰਗਾ ਲਗਦਾ ਹੈ. ਜੇ ਤੁਸੀਂ ਫੰਕਸ਼ਨਾਂ ਦੀ ਵਰਤੋਂ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ,
         ਸੈਂਸਰ, ਵੇਰੀਏਬਲ ਅਤੇ ਹੋਰ ਫਾਰਮੂਲਾ ਤੱਤ, ਕਿਰਪਾ ਕਰਕੇ ਉਹਨਾਂ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਉਹਨਾਂ ਦੀ ਚੋਣ ਕਰੋ
         ਫਾਰਮੂਲਾ ਸੰਪਾਦਕ ਵਿੱਚ ਬਟਨ.</string>
@@ -1948,9 +1946,6 @@
     <string name="choose_camera_front">ਸਾਹਮਣੇ</string>
     <string name="choose_camera_back">ਰੀਅਰ</string>
     <string name="camera_error_generic">         ਕੈਮਰਾ ਵਰਤਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰਦਿਆਂ ਕੁਝ ਗਲਤ ਹੋਇਆ.
-    </string>
-    <string name="camera_error_face_detection">        ਚਿਹਰੇ ਦੀ ਪਛਾਣ ਵਿੱਚ ਇੱਕ ਸਮੱਸਿਆ ਸੀ. ਕੁਝ ਭਾਗ ਅਜੇ ਵੀ ਡਾ inਨਲੋਡ ਕੀਤੇ ਜਾ ਸਕਦੇ ਹਨ
-         ਪਿਛੋਕੜ ਕਿਰਪਾ ਕਰਕੇ ਇਹ ਸੁਨਿਸ਼ਚਿਤ ਕਰੋ ਕਿ ਤੁਸੀਂ ਇੰਟਰਨੈਟ ਨਾਲ ਜੁੜੇ ਹੋ ਅਤੇ ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਜਾਂਚ ਕਰੋ.
     </string>
     <!-- -->
     <!-- Cast strings -->

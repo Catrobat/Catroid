@@ -1896,8 +1896,6 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string name="formula_editor_intro_summary_data">Las variables y las listas que se utilizan en el programa pueden encontrarse aquí. \nPuede simplemente insertar éstos en la fórmula, o añadir nuevas.</string>
     <string name="formula_editor_listening_language_sensor">idioma para escuchar</string>
     <string name="formula_editor_speech_recognition">Reconocimiento de voz</string>
-    <string name="camera_error_text_detection">        Hubo un problema con la detección de texto. Algunos componentes pueden estar descargándose en el fondo de
-        . Por favor, asegúrese de que está conectado a Internet y vuelva a intentarlo más tarde.</string>
     <string name="warning_formula_recognized">Has introducido un texto que parece una fórmula. Si desea utilizar funciones
         sensores, variables y otros elementos de la fórmula, selecciónelos en su lugar utilizando los
         en el editor de fórmulas.</string>
@@ -1923,9 +1921,6 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string name="choose_camera_front">frontal</string>
     <string name="choose_camera_back">trasero</string>
     <string name="camera_error_generic">        Algo salió mal al intentar usar la cámara.
-    </string>
-    <string name="camera_error_face_detection">        Hubo un problema con la detección de caras. Algunos componentes pueden estar descargándose en el fondo de
-        . Por favor, asegúrese de que está conectado a Internet y vuelva más tarde.
     </string>
     <!-- -->
     <!-- Cast strings -->

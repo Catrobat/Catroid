@@ -1886,9 +1886,7 @@
     <string name="formula_editor_intro_summary_data">متغیرات اور فہرستیں جو آپ کے منصوبے میں استعمال ہوتے ہیں یہاں پایا جا سکتا ہے. \ آپ ان کو اپنی فارمولہ میں داخل کر سکتے ہیں، یا نئے شامل کریں.</string>
     <string name="formula_editor_listening_language_sensor">سننے کی زبان</string>
     <string name="formula_editor_speech_recognition">تقریر کی پہچان</string>
-    <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.</string>
-    <string name="warning_formula_recognized">آپ نے ایک ایسا متن درج کیا ہے جو فارمولے کی طرح لگتا ہے۔ اگر آپ فنکشنز، 
+    <string name="warning_formula_recognized">آپ نے ایک ایسا متن درج کیا ہے جو فارمولے کی طرح لگتا ہے۔ اگر آپ فنکشنز،
         سینسرز، متغیرات اور دیگر فارمولہ عناصر استعمال کرنا چاہتے ہیں، تو براہ کرم فارمولا ایڈیٹر میں 
         بٹن استعمال کرنے کے بجائے انہیں منتخب کریں۔</string>
     <!--  -->
@@ -1913,9 +1911,6 @@
     <string name="choose_camera_front">سامنے</string>
     <string name="choose_camera_back">پیچھے</string>
     <string name="camera_error_generic">        Something went wrong while trying to use the camera.
-    </string>
-    <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.
     </string>
     <!-- -->
     <!-- Cast strings -->

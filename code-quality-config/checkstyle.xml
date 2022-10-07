@@ -300,7 +300,7 @@
   </module>
 
   <module name="SuppressionFilter">
-    <property name="file" value="catroid/config/checkstyle_suppressions.xml" />
+    <property name="file" value="code-quality-config/checkstyle_suppressions.xml" />
   </module>
 
 </module>

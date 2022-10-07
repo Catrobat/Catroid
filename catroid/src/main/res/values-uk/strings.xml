@@ -61,9 +61,9 @@
     <string name="share_website_text">share.catrob.at</string>
     <!-- Security warning dialog -->
     <string name="security_warning_dialog_msg">Проєкт, який ви завантажили слухає ваш голос
-     у фоновому режимі і також відправляє дані в інтернет. Це може бути корисним й обов\'язковим 
-    для потрібної поведінки. Але, будь ласка, зверніть увагу що ви кажете, поки ваш 
-    проєкт запущений, безпечно. Якщо ви сумніваєтесь, будь ласка, видаліть завантажений проєкт. 
+     у фоновому режимі і також відправляє дані в інтернет. Це може бути корисним й обов\'язковим
+    для потрібної поведінки. Але, будь ласка, зверніть увагу що ви кажете, поки ваш
+    проєкт запущений, безпечно. Якщо ви сумніваєтесь, будь ласка, видаліть завантажений проєкт.
     Ви можете також поскаржитися на проєкт на його сторінці у спільноті Catrobat,
     якщо ви впевнені що цей проєкт небезпечний.</string>
     <!-- Replace Api dialog -->
@@ -244,7 +244,7 @@
         Зачекайте, поки він буде завантажений.</string>
     <string name="error_cannot_open_not_yet_downloaded_scratch_program">Ви ще не можете відкрити проєкт.
         Спочатку завантажте його, а потім відкрийте.</string>
-    <string name="error_cannot_convert_deprecated_scratch_program_x_x">Не вдалося конвертувати %1$s. Здається, що це старий проєкт 
+    <string name="error_cannot_convert_deprecated_scratch_program_x_x">Не вдалося конвертувати %1$s. Здається, що це старий проєкт
         Scratch від %2$s. Будь ласка, спробуйте інший.</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
         <item quantity="one">Ви не можете конвертувати більше ніж %d проєкту одночасно. Зачекайте, поки
@@ -341,7 +341,7 @@
     <string name="error_copy_project">Помилка при копіюванні проєкту</string>
     <!-- Dialog Errors -->
     <string name="name_already_exists">Ця назва вже використовується, будь ласка, виберіть інше.</string>
-    <string name="name_consists_of_spaces_only">Ви розміщуєте пробіли лише в текстовому полі, введіть текст 
+    <string name="name_consists_of_spaces_only">Ви розміщуєте пробіли лише в текстовому полі, введіть текст
         за допомогою букв, цифр або інших спеціальних символів.</string>
     <string name="name_empty">Будь ласка, введіть текст</string>
     <!-- Recycler View -->
@@ -1382,7 +1382,7 @@
     <string name="error_set_notes_and_credits">Щось пішло не так під час збереження нових приміток
         і авторів.</string>
     <string name="error_no_whatsapp">WhatsApp не встановлено</string>
-    <string name="error_unsupported_bricks_chromecast">Цей скрипт не можна додати до проєкту 
+    <string name="error_unsupported_bricks_chromecast">Цей скрипт не можна додати до проєкту
         Chromecast.</string>
     <!--  -->
     <!-- Bluetooth Connection Strings -->
@@ -1396,7 +1396,7 @@
     <string name="none_found">Не знайдено неспарених пристроїв</string>
     <string name="multiplayer_bluetooth_connection_information_title">З\'єднання Bluetooth
         необхідне!</string>
-    <string name="multiplayer_bluetooth_connection_information">Щоб грати в цю гру в 
+    <string name="multiplayer_bluetooth_connection_information">Щоб грати в цю гру в
         мультиплеєрі, потрібне з\'єднання Bluetooth. Обидва гравці повинні почати гру і бути на цьому
         екрані,щоб з\'єднання працювало належним чином!</string>
     <!--  -->
@@ -1463,7 +1463,7 @@
     <string name="lego_sensor_config_dont_show_again">Більше не показувати це повідомлення.</string>
     <string name="lego_sensor_port_config_dialog_title">Виберіть порт для підключення до %1$s.</string>
     <string name="lego_ev3_sensor_config_info_title">Налаштування датчика EV3</string>
-    <string name="preference_disable_ev3_info_dialog_description">Налаштування EV3 для конкретного проєкту не показується під час 
+    <string name="preference_disable_ev3_info_dialog_description">Налаштування EV3 для конкретного проєкту не показується під час
         відкриття проєкту.</string>
     <string name="preference_title_mindstorms_ev3_sensors_description">Показ датчиків EV3 з портами є проєктом
         конкретним і може бути налаштований тільки для відкритих проєктів.</string>
@@ -1981,7 +1981,7 @@
     <string name="formula_editor_function_object_with_id_visible">об\'єкт із видимим ідентифікатором</string>
     <string name="formula_editor_intro_title_formula_editor">Редактор формул</string>
     <string name="formula_editor_intro_summary_formula_editor">За допомогою редактора формул ви можете створювати математичні та
-        логічні формули, які можна використовувати у своїх цеглинах.\n\nПродовжуйте,                         
+        логічні формули, які можна використовувати у своїх цеглинах.\n\nПродовжуйте,
         натиснувши «ДАЛІ» або вийдіть, натиснувши «SKIP».
     </string>
     <string name="formula_editor_intro_title_input_field">Поле введення</string>
@@ -2011,10 +2011,10 @@
         \nВи можете просто вставити їх у формулу або додати нові.</string>
     <string name="formula_editor_listening_language_sensor">мова прослуховування</string>
     <string name="formula_editor_speech_recognition">Розпізнавання мовлення</string>
-    <string name="camera_error_text_detection">        Виникла проблема з визначенням тексту. Деякі компоненти все ще можуть                 
+    <string name="camera_error_text_detection">        Виникла проблема з визначенням тексту. Деякі компоненти все ще можуть
         завантажуватися у фоновому режимі. Переконайтеся, що ви підключені до Інтернету, і перевірте пізніше.</string>
     <string name="warning_formula_recognized">Введено текст, який виглядає як формула. Якщо ви хочете використовувати функції,
-        датчиків, змінних та інших елементів формули, будь ласка, виберіть їх за допомогою         
+        датчиків, змінних та інших елементів формули, будь ласка, виберіть їх за допомогою
         кнопки у редакторі формул.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
@@ -2038,9 +2038,6 @@
     <string name="choose_camera_front">передню</string>
     <string name="choose_camera_back">задню</string>
     <string name="camera_error_generic">        Під час спроби скористати камеру сталася помилка.
-    </string>
-    <string name="camera_error_face_detection">        Виникла проблема з розпізнаванням обличчя. Деякі компоненти можуть все ще         
-        завантажуватися в фону. Переконайтеся, що ви підключені до Інтернету, і перевірте пізніше.
     </string>
     <!-- -->
     <!-- Cast strings -->
@@ -2077,7 +2074,7 @@
     <string name="unchanged_upload_warning">Проєкт, який ви намагаєтеся вивантажити, уже існує
         на платформі спільноти в точно такій же формі. Будь ласка, змініть свій проєкт, в ідеалі
         покращення його, перш ніж завантажувати реміксований проєкт.</string>
-    <string name="unchanged_upload_info">Будь ласка, подумайте про додавання деяких добрих слів для оригінального 
+    <string name="unchanged_upload_info">Будь ласка, подумайте про додавання деяких добрих слів для оригінального
         автора у розділі \"Примітки\" на сайті спільноти або в варіантах проєкту. Будь ласка, зверніть увагу, що
         користувач отримає сповіщення після успішного вивантаження.</string>
     <string name="unchanged_upload_url">Щоб дізнатися більше про ремікси, відвідайте %1s.</string>

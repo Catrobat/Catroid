@@ -1870,8 +1870,6 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="formula_editor_intro_summary_data">Variabel dan daftar yang digunakan dalam program Anda dapat ditemukan di sini.\n Anda bisa memasukkannya ke dalam formula Anda, atau menambahkan yang baru.</string>
     <string name="formula_editor_listening_language_sensor">bahasa mendengarkan</string>
     <string name="formula_editor_speech_recognition">Pengenalan suara</string>
-    <string name="camera_error_text_detection">        Ada masalah dengan deteksi teks. Beberapa komponen mungkin masih diunduh di
-        Latar Belakang. Pastikan Anda terhubung ke internet dan periksa kembali nanti.</string>
     <string name="warning_formula_recognized">Anda memasukkan teks yang terlihat seperti rumus. Jika Anda ingin menggunakan fungsi,
         sensor, variabel, dan elemen rumus lainnya, harap pilih sebagai gantinya menggunakan
         tombol di editor rumus.</string>
@@ -1897,9 +1895,6 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string name="choose_camera_front">depan</string>
     <string name="choose_camera_back">belakang</string>
     <string name="camera_error_generic">        Terjadi masalah saat mencoba menggunakan kamera
-    </string>
-    <string name="camera_error_face_detection">        Ada masalah dengan deteksi wajah. Beberapa komponen mungkin masih diunduh di
-        Latar Belakang. Pastikan Anda terhubung ke internet dan periksa kembali nanti.
     </string>
     <!-- -->
     <!-- Cast strings -->
