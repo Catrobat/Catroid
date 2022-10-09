@@ -41,7 +41,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jacoco:org.jacoco.core:$jacoco_core_version"
         classpath 'org.catrobat.gradle.androidemulators:android-emulators-gradle:1.6.2'
-        //classpath 'com.huawei.agconnect:agcp:1.4.2.300'
+        classpath 'com.huawei.agconnect:agcp:1.6.0.300'
     }
 }
 
@@ -49,6 +49,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-        //maven { url "https://developer.huawei.com/repo/" }
+        maven { url "https://developer.huawei.com/repo/" }
     }
 }

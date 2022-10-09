@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -38,6 +39,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import com.huawei.hms.analytics.HiAnalyticsInstance;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -98,11 +101,14 @@ public class MainMenuActivity extends BaseCastActivity implements
 		oldPrivacyPolicy = PreferenceManager.getDefaultSharedPreferences(this)
 				.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
 
-		loadContent();
-
 		if (oldPrivacyPolicy != Constants.CATROBAT_TERMS_OF_USE_ACCEPTED) {
 			showTermsOfUseDialog();
 		}
+
+		HiAnalyticsTools.enableLog();
+		HiAnalyticsInstance instance = HiAnalytics.getInstance(this);
+
+		loadContent();
 
 		surveyCampaign = new Survey(this);
 		surveyCampaign.showSurvey(this);
@@ -148,6 +154,9 @@ public class MainMenuActivity extends BaseCastActivity implements
 				.edit()
 				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, Constants.CATROBAT_TERMS_OF_USE_ACCEPTED)
 				.apply();
+
+		//Huawei to be able to send any network requests
+		AccessNetworkManager.getInstance().setAccessNetwork(true);
 
 		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
 			prepareStandaloneProject();

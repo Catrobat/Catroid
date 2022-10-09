@@ -245,5 +245,15 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <meta-data
+            android:name="com.huawei.agconnect.AccessNetwork"
+            android:value="false" />
+
+        <meta-data
+            android:name="install_channel"
+            android:value="AppGallery">
+        </meta-data>
+
     </application>
 </manifest>
