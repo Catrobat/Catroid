@@ -24,7 +24,6 @@ package org.catrobat.catroid.ui;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -40,7 +39,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.huawei.agconnect.common.network.AccessNetworkManager;
+import com.huawei.hms.analytics.HiAnalytics;
 import com.huawei.hms.analytics.HiAnalyticsInstance;
+import com.huawei.hms.analytics.HiAnalyticsTools;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
