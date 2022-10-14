@@ -33,6 +33,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -41,15 +42,23 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
+import java.util.Collections;
+
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
+import static org.hamcrest.Matchers.not;
 
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.replaceText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class FormulaEditorTest {
@@ -74,6 +83,22 @@ public class FormulaEditorTest {
 		onFormulaEditor()
 				.performEnterNumber(12345.678);
 		pressBack();
+	}
+
+	@Test
+	public void wholeScreenScrollableTest() {
+		onView(withId(R.id.brick_set_variable_edit_text))
+				.perform(click());
+		String largeInputString = String.join("", Collections.nCopies(500, "0"));
+		onView(FormulaEditorWrapper.Control.TEXT)
+				.perform(click());
+		onView(withId(R.id.input_edit_text))
+				.perform(replaceText(largeInputString));
+		closeSoftKeyboard();
+		onView(withText(R.string.ok))
+				.perform(click());
+		onView(withId(R.id.formula_editor_keyboard_function))
+				.check(matches(not(isDisplayed())));
 	}
 
 	@After

@@ -21,24 +21,24 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:theme="@android:style/Theme.Light" >
+    android:layout_height="wrap_content"
+    android:fillViewport="true">
 
     <LinearLayout
         android:id="@+id/formula_editor_brick_and_formula"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:weightSum="100">
 
         <LinearLayout
             android:id="@+id/formula_editor_brick_space"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/brick_space_padding_formular_editor"
+            android:layout_weight="10"
             android:paddingBottom="@dimen/brick_space_padding_formular_editor"
             android:background="@color/toolbar_background"
             android:orientation="vertical"/>
@@ -61,20 +61,16 @@
                 android:inputType="textMultiLine"
                 android:lineSpacingExtra="5dp"
                 android:maxLines="20"
-                android:scrollbarStyle="insideInset"
-                android:scrollbars="vertical"
                 android:textColor="@color/solid_black"
                 android:textSize="?attr/x_large" />
         </FrameLayout>
 
+        <include
+            android:id="@+id/formula_editor_keyboardview"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="90"
+            android:layout_gravity="bottom"
+            layout="@layout/formula_editor_keyboard" />
     </LinearLayout>
-
-    <include
-        android:id="@+id/formula_editor_keyboardview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:layout_gravity="bottom"
-        layout="@layout/formula_editor_keyboard" />
-
-</LinearLayout>
+</ScrollView>

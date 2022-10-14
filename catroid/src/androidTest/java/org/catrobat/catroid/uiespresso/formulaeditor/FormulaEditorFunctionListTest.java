@@ -125,7 +125,7 @@ public class FormulaEditorFunctionListTest {
 		String formulaEditorFunctionParameterString = UiTestUtils.getResourcesString(formulaEditorFunctionParameter);
 		String editorFunction = formulaEditorFunctionString + formulaEditorFunctionParameterString;
 		String selectedFunctionString = getSelectedFunctionString(editorFunction);
-
+		onFormulaEditor().performBackspace();
 		onFormulaEditor()
 				.performOpenCategory(FormulaEditorWrapper.Category.FUNCTIONS)
 				.performSelect(editorFunction);

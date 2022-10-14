@@ -137,6 +137,7 @@ public class AddUserListToActiveFormulaUITest {
 		onBrickAtPosition(1).performEditFormula();
 		String listFunction =
 				getResourcesString(formulaName) + getResourcesString(formulaParameters);
+		onFormulaEditor().performBackspace();
 		onFormulaEditor().performOpenCategory(FUNCTIONS).performSelect(listFunction);
 		onFormulaEditor().checkShows(generateExpectedOutput(expectedOutput));
 	}
