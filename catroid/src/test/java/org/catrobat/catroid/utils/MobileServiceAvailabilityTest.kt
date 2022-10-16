@@ -26,7 +26,7 @@ package org.catrobat.catroid.utils
 import android.content.Context
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
-import com.huawei.hms.api.HuaweiApiAvailability
+//import com.huawei.hms.api.HuaweiApiAvailability
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -39,19 +39,19 @@ class MobileServiceAvailabilityTest {
 
     @Mock
     private lateinit var googleApiAvailability: GoogleApiAvailability
-    @Mock
-    private lateinit var huaweiApiAvailability: HuaweiApiAvailability
+    //@Mock
+    //private lateinit var huaweiApiAvailability: HuaweiApiAvailability
     @Mock
     private lateinit var context: Context
 
     private lateinit var mobileServiceAvailability: MobileServiceAvailability
 
-    @Before
-    fun setUp() {
-        MockitoAnnotations.initMocks(this)
-        mobileServiceAvailability =
-            MobileServiceAvailability(googleApiAvailability, huaweiApiAvailability)
-    }
+    //@Before
+    //fun setUp() {
+    //    MockitoAnnotations.initMocks(this)
+    //    mobileServiceAvailability =
+    //        MobileServiceAvailability(googleApiAvailability, huaweiApiAvailability)
+    //}
 
     @Test
     fun testGmsAvailable() {
@@ -69,19 +69,19 @@ class MobileServiceAvailabilityTest {
         assertFalse(mobileServiceAvailability.isGmsAvailable(context))
     }
 
-    @Test
-    fun testHmsAvailable() {
-        Mockito.`when`(huaweiApiAvailability.isHuaweiMobileServicesAvailable(context))
-            .thenReturn(com.huawei.hms.api.ConnectionResult.SUCCESS)
+//    @Test
+//    fun testHmsAvailable() {
+//        Mockito.`when`(huaweiApiAvailability.isHuaweiMobileServicesAvailable(context))
+//            .thenReturn(com.huawei.hms.api.ConnectionResult.SUCCESS)
+//
+//        assertTrue(mobileServiceAvailability.isHmsAvailable(context))
+//    }
 
-        assertTrue(mobileServiceAvailability.isHmsAvailable(context))
-    }
-
-    @Test
-    fun testHmsNotAvailable() {
-        Mockito.`when`(huaweiApiAvailability.isHuaweiMobileServicesAvailable(context))
-            .thenReturn(com.huawei.hms.api.ConnectionResult.SERVICE_MISSING)
-
-        assertFalse(mobileServiceAvailability.isHmsAvailable(context))
-    }
+//    @Test
+//    fun testHmsNotAvailable() {
+//        Mockito.`when`(huaweiApiAvailability.isHuaweiMobileServicesAvailable(context))
+//            .thenReturn(com.huawei.hms.api.ConnectionResult.SERVICE_MISSING)
+//
+//        assertFalse(mobileServiceAvailability.isHmsAvailable(context))
+//    }
 }
