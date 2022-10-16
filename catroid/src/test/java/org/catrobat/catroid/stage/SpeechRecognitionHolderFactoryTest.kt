@@ -39,8 +39,8 @@ class SpeechRecognitionHolderFactoryTest {
 
     @Mock
     private lateinit var googleRecognitionHolder: SpeechRecognitionHolderInterface
-    @Mock
-    private lateinit var huaweiRecognitionHolder: SpeechRecognitionHolderInterface
+//    @Mock
+//    private lateinit var huaweiRecognitionHolder: SpeechRecognitionHolderInterface
     @Mock
     private lateinit var mobileServiceAvailability: MobileServiceAvailability
     @Mock
@@ -53,7 +53,7 @@ class SpeechRecognitionHolderFactoryTest {
         MockitoAnnotations.initMocks(this)
         factory = SpeechRecognitionHolderFactory(
             googleRecognitionHolder,
-            huaweiRecognitionHolder,
+            //huaweiRecognitionHolder,
             mobileServiceAvailability
         )
     }
@@ -69,19 +69,19 @@ class SpeechRecognitionHolderFactoryTest {
     @Test
     fun testHmsRecognizerIsReturnedWhenGmsIsNotAvailable() {
         Mockito.`when`(mobileServiceAvailability.isGmsAvailable(context)).thenReturn(false)
-        Mockito.`when`(mobileServiceAvailability.isHmsAvailable(context)).thenReturn(true)
+        //Mockito.`when`(mobileServiceAvailability.isHmsAvailable(context)).thenReturn(true)
 
         assertTrue(factory.isRecognitionAvailable(context))
-        assertEquals(huaweiRecognitionHolder, factory.instance)
+        //assertEquals(huaweiRecognitionHolder, factory.instance)
     }
 
     @Test
     fun testNoneIsReturnedWhenNeitherIsAvailable() {
         Mockito.`when`(mobileServiceAvailability.isGmsAvailable(context)).thenReturn(false)
-        Mockito.`when`(mobileServiceAvailability.isHmsAvailable(context)).thenReturn(false)
+        //Mockito.`when`(mobileServiceAvailability.isHmsAvailable(context)).thenReturn(false)
 
         assertFalse(factory.isRecognitionAvailable(context))
         assertNotEquals(googleRecognitionHolder, factory.instance)
-        assertNotEquals(huaweiRecognitionHolder, factory.instance)
+        //assertNotEquals(huaweiRecognitionHolder, factory.instance)
     }
 }
