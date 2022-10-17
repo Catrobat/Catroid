@@ -24,6 +24,7 @@ package org.catrobat.catroid.merge
 
 import android.app.Activity
 import android.content.DialogInterface
+import android.net.Uri
 import android.text.SpannableStringBuilder
 import android.text.style.BulletSpan
 import android.util.Log
@@ -42,7 +43,9 @@ import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.ZipArchiver
+import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider
 import org.catrobat.catroid.utils.ToastUtil
+import org.catrobat.catroid.utils.UserDataUtil.renameUserData
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
@@ -52,14 +55,21 @@ private const val DISPLAYED_CONFLICT_VARIABLE: Int = 3
 private const val GAP_WIDTH: Int = 15
 
 class ImportProjectHelper(
-    private var lookFileName: String,
+    internal var lookFileName: String,
     currentScene: Scene,
-    private var context: Activity
+    private var context: Activity,
+    internal var lookDataName: String? = null,
+    internal var uri: Uri? = null
 ) {
     private var currentScene: Scene? = currentScene
     private var newSprite: Sprite = Sprite("Sprite")
     private var spriteToAdd: Sprite? = null
     private var newProject: Project? = null
+    private var mergeProjectListener: MergeProjectListener? = null
+
+    interface MergeProjectListener {
+        fun onResolvedConflicts(importProjectHelper: ImportProjectHelper)
+    }
 
     fun getSpriteToAddName(): String? = spriteToAdd?.name
 
@@ -93,17 +103,17 @@ class ImportProjectHelper(
         return newSprite
     }
 
-    fun addGlobalsToProject(globalList: List<Any>, globalsToAdd: List<Any>) {
+    private fun addGlobalsToProject(globalList: List<Any>, globalsToAdd: List<Any>) {
         for (global in globalsToAdd) {
             if (!globalList.contains(global)) {
                 globalList.plus(global)
             }
         }
     }
-
+    @SuppressWarnings("ComplexMethod")
     fun checkForConflicts(): Boolean {
-        val conflicts: ArrayList<String> = ArrayList()
-
+        val conflicts: ArrayList<Any> = ArrayList()
+        val allVariablesAndListNames: ArrayList<String> = ArrayList()
         if (newProject == null || spriteToAdd == null) {
             return false
         }
@@ -112,14 +122,20 @@ class ImportProjectHelper(
             currentScene?.project?.userLists as List<Any>?,
             spriteToAdd?.userLists as List<Any>?
         ).forEach { elem ->
-            conflicts.add((elem as UserList).name)
+            conflicts.add(elem as UserList)
+        }
+        spriteToAdd?.userLists?.forEach { elem: UserList ->
+            allVariablesAndListNames.add(elem.name)
         }
 
         checkForVariablesConflicts(
             currentScene?.project?.userVariables as List<Any>?,
             spriteToAdd?.userVariables as List<Any>?
         ).forEach { elem ->
-            conflicts.add((elem as UserVariable).name)
+            conflicts.add(elem as UserVariable)
+        }
+        spriteToAdd?.userVariables?.forEach { elem: UserVariable ->
+            allVariablesAndListNames.add(elem.name)
         }
 
         currentScene?.project?.sceneList?.forEach { scene ->
@@ -127,16 +143,28 @@ class ImportProjectHelper(
                 checkForVariablesConflicts(
                     newProject?.userLists as List<Any>?,
                     sprite.userLists as List<Any>?
-                ).forEach { elem -> conflicts.add((elem as UserList).name) }
+                ).forEach { elem -> conflicts.add(elem as UserList) }
                 checkForVariablesConflicts(
                     newProject?.userVariables as List<Any>?,
                     sprite.userVariables as List<Any>?
-                ).forEach { elem -> conflicts.add((elem as UserVariable).name) }
+                ).forEach { elem -> conflicts.add(elem as UserVariable) }
+                currentScene?.project?.userLists?.forEach { elem: UserList ->
+                    allVariablesAndListNames.add(elem.name)
+                }
+                currentScene?.project?.userVariables?.forEach { elem: UserVariable ->
+                    allVariablesAndListNames.add(elem.name)
+                }
+                sprite.userLists.forEach { elem: UserList ->
+                    allVariablesAndListNames.add(elem.name)
+                }
+                sprite.userVariables.forEach { elem: UserVariable ->
+                    allVariablesAndListNames.add(elem.name)
+                }
             }
         }
 
         if (conflicts.size > 0) {
-            rejectImportDialog(conflicts)
+            rejectImportDialog(conflicts, allVariablesAndListNames)
             return false
         }
         return true
@@ -169,8 +197,7 @@ class ImportProjectHelper(
     fun getProject(resolvedName: String): Project? {
         val projectDir = File(DEFAULT_ROOT_DIRECTORY, resolvedName)
         return if (projectDir.exists() && projectDir.isDirectory) {
-            XstreamSerializer.getInstance()
-                .loadProject(projectDir, context)
+            XstreamSerializer.getInstance().loadProject(projectDir, context)
         } else {
             getNewProject(resolvedName)
         }
@@ -191,21 +218,30 @@ class ImportProjectHelper(
         } catch (e: FileNotFoundException) {
             Log.e(TAG, Log.getStackTraceString(e))
         }
-        rejectImportDialog(null)
+        rejectImportDialog(null, null)
         return null
     }
 
-    fun rejectImportDialog(conflicts: ArrayList<String>?) {
-        if (conflicts == null) {
+    fun rejectImportDialog(
+        conflicts: ArrayList<Any>?,
+        allVariablesAndListNames: ArrayList<String>?
+    ) {
+        if (conflicts == null || allVariablesAndListNames == null) {
             ToastUtil.showError(context, R.string.reject_import)
         } else {
             val view = View.inflate(context, R.layout.dialog_import_rejected, null)
-
             context.runOnUiThread {
                 val alertDialog: AlertDialog = AlertDialog.Builder(context)
                     .setTitle(R.string.warning)
                     .setView(view)
                     .setPositiveButton(context.getString(R.string.ok)) { dialog: DialogInterface, _: Int ->
+                        dialog.cancel()
+                    }
+                    .setNegativeButton(context.getString(R.string.merge_automatically)) {
+                            dialog:
+                    DialogInterface, _: Int ->
+                        autoResolveConflicts(conflicts, allVariablesAndListNames)
+                        mergeProjectListener?.onResolvedConflicts(this)
                         dialog.cancel()
                     }
                     .setCancelable(false)
@@ -219,13 +255,20 @@ class ImportProjectHelper(
 
                 for (iterator in conflicts.withIndex().take(numberOfIterations)) {
                     val contentStart = content.length
-
-                    if (iterator.index < numberOfIterations - 1) {
-                        content.append(iterator.value + System.lineSeparator())
-                    } else {
-                        content.append(iterator.value)
+                    when (iterator.value) {
+                        is UserList ->
+                            if (iterator.index < numberOfIterations - 1) {
+                                content.append((iterator.value as? UserList)?.name + System.lineSeparator())
+                            } else {
+                                content.append((iterator.value as? UserList)?.name)
+                            }
+                        is UserVariable ->
+                            if (iterator.index < numberOfIterations - 1) {
+                                content.append((iterator.value as? UserVariable)?.name + System.lineSeparator())
+                            } else {
+                                content.append((iterator.value as? UserVariable)?.name)
+                            }
                     }
-
                     content.setSpan(
                         BulletSpan(GAP_WIDTH), contentStart, content.length, 0
                     )
@@ -235,12 +278,43 @@ class ImportProjectHelper(
         }
     }
 
+    private fun autoResolveConflicts(conflicts: ArrayList<Any>, allVariablesAndListNames: ArrayList<String>) {
+        val uniqueNameProvider = UniqueNameProvider()
+        for (conflict in conflicts) {
+            when (conflict) {
+                is UserList -> {
+                    val variable: UserList = (conflict as? UserList)!!
+                    val name: String = uniqueNameProvider.getUniqueName(variable.name, allVariablesAndListNames)
+                    spriteToAdd?.updateUserDataReferences(
+                        variable.name,
+                        name,
+                        conflict
+                    )
+                    renameUserData(variable, name)
+                }
+                is UserVariable -> {
+                    val variable: UserVariable = (conflict as? UserVariable)!!
+                    val name: String = uniqueNameProvider.getUniqueName(variable.name, allVariablesAndListNames)
+                    spriteToAdd?.updateUserDataReferences(
+                        variable.name,
+                        name,
+                        conflict
+                    )
+                    renameUserData(variable, name)
+                }
+            }
+        }
+    }
+    fun setMergeProjectListener(listener: MergeProjectListener) {
+        this.mergeProjectListener = listener
+    }
+
     init {
         val resolvedName = StorageOperations.getSanitizedFileName(lookFileName)
         val project = getProject(resolvedName)
         val firstScene = project?.defaultScene
         if (project == null || firstScene!!.spriteList.size < 2) {
-            rejectImportDialog(null)
+            rejectImportDialog(null, null)
         } else {
             newProject = project
             spriteToAdd = firstScene.spriteList[1]
