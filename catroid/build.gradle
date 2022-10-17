@@ -451,16 +451,16 @@ dependencies {
     implementation 'com.google.mlkit:pose-detection:17.0.0'
 
     // HUAWEI Mobile Services
-    implementation 'com.huawei.hms:base:4.0.3.300'
+    implementation 'com.huawei.hms:base:6.4.0.303'
 
     // Huawei ML Kit
-    implementation 'com.huawei.hms:ml-computer-voice-asr-plugin:2.2.0.300'
-    implementation 'com.huawei.hms:ml-computer-voice-asr:2.2.0.300'
-    implementation 'com.huawei.hms:ml-computer-vision-face:2.0.5.300'
-    implementation 'com.huawei.hms:ml-computer-voice-tts:2.2.0.300'
-    implementation 'com.huawei.hms:ml-computer-vision-ocr:2.0.5.301'
-    implementation 'com.huawei.hms:ml-computer-language-detection:2.2.0.300'
-    implementation 'com.huawei.hms:ml-computer-vision-skeleton:2.0.4.300'
+    implementation 'com.huawei.hms:ml-computer-voice-asr-plugin:3.7.0.301'
+    implementation 'com.huawei.hms:ml-computer-voice-asr:3.7.0.301'
+    implementation 'com.huawei.hms:ml-computer-vision-face:3.7.0.301'
+    implementation 'com.huawei.hms:ml-computer-voice-tts:3.7.0.303'
+    implementation 'com.huawei.hms:ml-computer-vision-ocr:3.7.0.302'
+    implementation 'com.huawei.hms:ml-computer-language-detection:3.7.0.301'
+    implementation 'com.huawei.hms:ml-computer-vision-skeleton:3.7.0.301'
 
     // libGDX
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
