@@ -391,8 +391,8 @@ class DataListFragment : Fragment(),
         globalVars: MutableList<UserVariable>,
         localVars: MutableList<UserVariable>,
         multiplayerVars: MutableList<UserVariable>,
-        globalLists: MutableList<UserVariable>,
-        localLists: MutableList<UserVariable>
+        globalLists: MutableList<UserList>,
+        localLists: MutableList<UserList>
     ) {
         if (userDefinedBrickInputs.isNotEmpty()) {
             for ((counter, userDefinedBrickInput) in userDefinedBrickInputs.withIndex()) {
@@ -675,7 +675,7 @@ class DataListFragment : Fragment(),
             R.id.copy, R.id.show_details, R.id.from_library, R.id.from_local, R.id.new_group,
             R.id.new_scene, R.id.cast_button, R.id.backpack, R.id.project_options
         )
-        if (item is UserVariable && !(item is UserList) {
+        if (item is UserVariable && item !is UserList) {
             val popupMenu = UiUtils.createSettingsPopUpMenu(
                 view, requireContext(),
                 R.menu.menu_project_activity,
