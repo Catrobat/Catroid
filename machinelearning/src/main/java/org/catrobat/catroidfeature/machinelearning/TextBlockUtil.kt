@@ -46,11 +46,6 @@ object TextBlockUtil : TextBlockUtilInterface {
     private var imageHeight = 0
     private const val MAX_TEXT_SIZE = 100
     private var languageIdentifierGoogle = LanguageIdentification.getClient()
-    private var languageDetectorFactoryHuawei: MLLangDetectorFactory = MLLangDetectorFactory.getInstance()
-    var languageDetectorSettingHuawei: MLLocalLangDetectorSetting = MLLocalLangDetectorSetting.Factory()
-        .setTrustedThreshold(TRUSTED_THRESHOLD)
-        .create()
-    var languageIdentifierHuawei: MLLocalLangDetector = languageDetectorFactoryHuawei.getLocalLangDetector(languageDetectorSettingHuawei)
 
     fun setTextBlocksGoogle(text: List<Text.TextBlock>, width: Int, height: Int) {
         imageWidth = width
@@ -62,9 +57,10 @@ object TextBlockUtil : TextBlockUtilInterface {
         text.forEachIndexed { index, textBlock ->
             textBlock.text.let { textBlocks.add(index, it) }
             textBlock.boundingBox?.let { textBlockBoundingBoxes.add(index, it) }
-            languageIdentifierGoogle.identifyLanguage(textBlock.text).addOnSuccessListener { languageCode ->
-                textBlockLanguages[index] = languageCode
-            }
+            languageIdentifierGoogle.identifyLanguage(textBlock.text)
+                .addOnSuccessListener { languageCode ->
+                    textBlockLanguages[index] = languageCode
+                }
         }
     }
 
@@ -78,7 +74,10 @@ object TextBlockUtil : TextBlockUtilInterface {
         text.forEachIndexed { index, textBlock ->
             textBlock.stringValue?.let { textBlocks.add(index, it) }
             textBlock.border?.let { textBlockBoundingBoxes.add(index, it) }
-            val firstBestDetectTask = languageIdentifierHuawei.firstBestDetect(textBlock.stringValue)
+            val firstBestDetectTask = MLLangDetectorFactory.getInstance().getLocalLangDetector(
+                MLLocalLangDetectorSetting.Factory().setTrustedThreshold(TRUSTED_THRESHOLD).create()
+            )
+                .firstBestDetect(textBlock.stringValue)
             firstBestDetectTask.addOnSuccessListener { languageCode ->
                 textBlockLanguages[index] = languageCode
             }
@@ -91,7 +90,8 @@ object TextBlockUtil : TextBlockUtilInterface {
 
     override fun getCenterCoordinates(index: Int): Point {
         val textBlockBounds = textBlockBoundingBoxes.getOrNull(index - 1) ?: return Point(0, 0)
-        val isCameraFacingFront = StageActivity.getActiveCameraManager()?.isCameraFacingFront ?: return Point(0, 0)
+        val isCameraFacingFront =
+            StageActivity.getActiveCameraManager()?.isCameraFacingFront ?: return Point(0, 0)
         val aspectRatio = imageWidth.toDouble() / imageHeight
 
         return if (ProjectManager.getInstance().isCurrentProjectLandscapeMode) {

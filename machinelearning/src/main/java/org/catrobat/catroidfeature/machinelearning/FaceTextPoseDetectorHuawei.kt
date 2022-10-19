@@ -40,9 +40,6 @@ import org.catrobat.catroidfeature.machinelearning.VisualDetectionHandler.update
 
 object FaceTextPoseDetectorHuawei : ImageAnalysis.Analyzer {
     private const val QUADRANT_DEGREES = 90
-    private val analyzer = MLAnalyzerFactory.getInstance().faceAnalyzer
-    private val textAnalyzer = MLAnalyzerFactory.getInstance().localTextAnalyzer
-    private val poseAnalyzer = MLSkeletonAnalyzerFactory.getInstance().skeletonAnalyzer
 
     private var textDetected = false
     private var faceDetected = false
@@ -64,7 +61,7 @@ object FaceTextPoseDetectorHuawei : ImageAnalysis.Analyzer {
                 Log.e(javaClass.simpleName, "Could not analyze image.", e)
             }
 
-            val textTask = textAnalyzer.asyncAnalyseFrame(mlFrame)
+            val textTask = MLAnalyzerFactory.getInstance().localTextAnalyzer.asyncAnalyseFrame(mlFrame)
             textTask.addOnSuccessListener { text ->
                 updateTextSensorValues(text.stringValue, text.blocks.size)
                 setTextBlocksHuawei(text.blocks, mediaImage.width, mediaImage.height)
@@ -76,7 +73,7 @@ object FaceTextPoseDetectorHuawei : ImageAnalysis.Analyzer {
                 onFailureListener(e)
             }
 
-            val faceTask = analyzer.asyncAnalyseFrame(mlFrame)
+            val faceTask = MLAnalyzerFactory.getInstance().faceAnalyzer.asyncAnalyseFrame(mlFrame)
             faceTask.addOnSuccessListener { huaweiMLFaces ->
                 val faces = translateHuaweiFaceToVisualDetectionFace(huaweiMLFaces)
                 handleAlreadyExistingFaces(faces)
@@ -90,7 +87,7 @@ object FaceTextPoseDetectorHuawei : ImageAnalysis.Analyzer {
                 onFailureListener(e)
             }
 
-            val poseTask = poseAnalyzer.asyncAnalyseFrame(mlFrame)
+            val poseTask = MLSkeletonAnalyzerFactory.getInstance().skeletonAnalyzer.asyncAnalyseFrame(mlFrame)
             poseTask.addOnSuccessListener { huaweiMLPoseList ->
                 updateAllPoseSensorValuesHuawei(
                     huaweiMLPoseList,
