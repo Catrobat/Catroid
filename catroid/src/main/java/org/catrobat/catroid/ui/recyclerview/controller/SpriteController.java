@@ -162,6 +162,7 @@ public class SpriteController {
 			throw new IllegalStateException("You are deleting a clone: this means you also delete the files that are "
 					+ "referenced by the original sprite because clones are shallow copies regarding files.");
 		}
+
 		for (LookData look : spriteToDelete.getLookList()) {
 			try {
 				lookController.delete(look);
@@ -177,6 +178,7 @@ public class SpriteController {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
 		}
+
 		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 		if (currentScene != null) {
 			currentScene.removeSpriteFromCloneBricks(spriteToDelete);

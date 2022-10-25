@@ -36,14 +36,12 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.PopupMenu
 import androidx.annotation.PluralsRes
 import androidx.annotation.RequiresApi
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants
-import org.catrobat.catroid.common.Nameable
 import org.catrobat.catroid.common.ProjectData
 import org.catrobat.catroid.common.SharedPreferenceKeys
 import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser
@@ -58,6 +56,7 @@ import org.catrobat.catroid.io.asynctask.ProjectUnZipperAndImporter
 import org.catrobat.catroid.ui.BottomBar
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.ProjectListActivity
+import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.filepicker.FilePickerActivity
 import org.catrobat.catroid.ui.fragment.ProjectOptionsFragment
 import org.catrobat.catroid.ui.recyclerview.adapter.ProjectAdapter
@@ -68,7 +67,6 @@ import org.catrobat.catroid.utils.ToastUtil
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.io.IOException
-import java.util.ArrayList
 
 @SuppressLint("NotifyDataSetChanged")
 class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadListener {
@@ -155,11 +153,11 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         get() {
             val items: MutableList<ProjectData> = ArrayList()
             getLocalProjectList(items)
-            items.sortWith { project1: ProjectData, project2: ProjectData ->
+            items.sortWith(Comparator { project1: ProjectData, project2: ProjectData ->
                 project1.name.compareTo(
                     project2.name
                 )
-            }
+            })
             return items
         }
 
@@ -324,8 +322,8 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
     override fun copyItems(selectedItems: MutableList<ProjectData?>?) {
         finishActionMode()
         setShowProgressBar(true)
-        val usedProjectNames = ArrayList<Nameable>(adapter.items)
         selectedItems ?: return
+        val usedProjectNames = ArrayList(adapter.items)
         for (projectData in selectedItems) {
             projectData ?: continue
             val name = uniqueNameProvider.getUniqueNameInNameables(projectData.name, usedProjectNames)
@@ -440,11 +438,17 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
     }
 
     override fun onSettingsClick(item: ProjectData?, view: View?) {
-        val popupMenu = PopupMenu(requireContext(), view)
         val itemList: MutableList<ProjectData?> = ArrayList()
         itemList.add(item)
-        popupMenu.menuInflater.inflate(R.menu.menu_project_activity, popupMenu.menu)
-        popupMenu.setOnMenuItemClickListener { menuItem ->
+        val hiddenMenuOptionIds = intArrayOf(
+            R.id.new_group, R.id.new_scene, R.id.show_details,
+            R.id.from_library, R.id.from_local, R.id.edit
+        )
+        val popupMenu = UiUtils.createSettingsPopUpMenu(
+            view, requireContext(),
+            R.menu.menu_project_activity, hiddenMenuOptionIds
+        )
+        popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
             when (menuItem.itemId) {
                 R.id.copy -> copyItems(itemList)
                 R.id.rename -> showRenameDialog(item)
@@ -453,10 +457,6 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
             }
             true
         }
-        popupMenu.menu.findItem(R.id.backpack).isVisible = false
-        popupMenu.menu.findItem(R.id.new_group).isVisible = false
-        popupMenu.menu.findItem(R.id.new_scene).isVisible = false
-        popupMenu.menu.findItem(R.id.show_details).isVisible = false
         popupMenu.show()
     }
 

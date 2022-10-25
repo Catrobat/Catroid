@@ -28,13 +28,17 @@ import android.content.Context
 import android.content.res.Resources
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import androidx.appcompat.widget.SwitchCompat
 import org.hamcrest.CoreMatchers
 import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.ProjectManager
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import androidx.test.espresso.matcher.ViewMatchers.hasSibling
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
@@ -49,8 +53,11 @@ import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.uiespresso.util.matchers.SuperToastMatchers
+import org.hamcrest.Description
 import org.hamcrest.Matcher
+import org.hamcrest.Matchers
 import org.hamcrest.Matchers.allOf
+import org.hamcrest.TypeSafeMatcher
 import org.koin.java.KoinJavaComponent.inject
 
 class UiTestUtils private constructor() {
@@ -133,6 +140,42 @@ class UiTestUtils private constructor() {
                         hasSibling(withChild(withText(spriteName)))
                     )
                 ).perform(click())
+            }
+        }
+
+        @JvmStatic
+        fun childAtPosition(parentMatcher: Matcher<View>, position: Int): Matcher<View> {
+            return object : TypeSafeMatcher<View>() {
+                override fun describeTo(description: Description) {
+                    description.appendText("Child at position $position in parent ")
+                    parentMatcher.describeTo(description)
+                }
+
+                override fun matchesSafely(view: View): Boolean {
+                    val parent = view.parent
+                    return parent is ViewGroup && parentMatcher.matches(parent) &&
+                        view == parent.getChildAt(position)
+                }
+            }
+        }
+
+        @JvmStatic
+        fun uncheckPlaceVisually(activity: Activity) {
+            val switchCompat = onView(
+                allOf(
+                    withId(R.id.place_visually_sprite_switch), withText("Place visually"),
+                    childAtPosition(
+                        childAtPosition(
+                            ViewMatchers.withClassName(Matchers.`is`("android.widget.ScrollView")),
+                            0
+                        ),
+                        1
+                    )
+                )
+            )
+
+            if (activity.window.currentFocus?.findViewById<SwitchCompat>(R.id.place_visually_sprite_switch)?.isChecked == true) {
+                switchCompat.perform(ViewActions.scrollTo(), click())
             }
         }
     }
