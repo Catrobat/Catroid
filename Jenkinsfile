@@ -6,7 +6,7 @@ class DockerParameters {
     def dir = 'docker'
     def args = '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -v /var/local/container_shared/huawei:/home/user/huawei -m=8G'
     def label = 'LimitedEmulator'
-    def image = 'catrobat/catrobat-android:stable'
+    def image = 'catrobat/catrobat-paintroid:stable'
 }
 
 def d = new DockerParameters()
