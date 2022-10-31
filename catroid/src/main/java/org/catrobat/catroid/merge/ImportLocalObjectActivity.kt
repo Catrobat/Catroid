@@ -25,8 +25,8 @@ package org.catrobat.catroid.merge
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.FragmentActivity
 import org.catrobat.catroid.R
+import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.content.GroupSprite
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
@@ -41,7 +41,9 @@ import org.catrobat.catroid.ui.recyclerview.fragment.SpriteListFragment
 class ImportLocalObjectActivity : BaseActivity() {
     private lateinit var binding: ActivityRecyclerBinding
     private lateinit var listFragment: RecyclerViewFragment<*>
-    private var type: String? = null
+    private val request: String
+        get() = intent.getStringExtra(Constants.EXTRA_IMPORT_REQUEST_CODE) ?: REQUEST_SPRITE
+    private var currentFragmentType: String = REQUEST_PROJECT
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,25 +55,17 @@ class ImportLocalObjectActivity : BaseActivity() {
         setSupportActionBar(binding.toolbar.toolbar)
         BottomBar.hideBottomBar(this)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        setTypeFromIntent()
-        loadSelector(type)
-    }
-
-    private fun setTypeFromIntent() {
-        if (intent.hasExtra(TAG) && type == null) {
-            type = intent.extras?.getString(TAG)!!
-        }
+        loadSelector(currentFragmentType)
     }
 
     override fun onResume() {
         super.onResume()
         BottomBar.hideBottomBar(this)
-        setTypeFromIntent()
-        loadSelector(type)
+        loadSelector(currentFragmentType)
     }
 
-    fun loadSelector(type: String?) {
-        this.type = type
+    fun loadSelector(type: String) {
+        this.currentFragmentType = type
         listFragment = when (type) {
             REQUEST_PROJECT -> ProjectListFragment()
             REQUEST_SCENE -> SceneListFragment()
@@ -95,46 +89,55 @@ class ImportLocalObjectActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        when (type) {
-            REQUEST_SPRITE ->
-                if (projectToImportFrom?.hasMultipleScenes() == true) {
-                    loadSelector(REQUEST_SCENE)
-                } else {
-                    loadSelector(REQUEST_PROJECT)
-                }
+        when (currentFragmentType) {
+            REQUEST_SPRITE -> if (projectToImportFrom?.hasMultipleScenes() == true) {
+                loadSelector(REQUEST_SCENE)
+            } else {
+                loadSelector(REQUEST_PROJECT)
+            }
             REQUEST_SCENE -> loadSelector(REQUEST_PROJECT)
             REQUEST_PROJECT -> finish()
-            else -> throw java.lang.IllegalStateException(
-                TAG + "Access press Back in illegal " +
-                    "state"
-            )
         }
     }
 
-    fun loadNext(type: String) {
-        return when (type) {
-            REQUEST_PROJECT ->
-                if (projectToImportFrom?.hasMultipleScenes() == true) {
-                    loadSelector(REQUEST_SCENE)
-                } else {
-                    sceneToImportFrom = projectToImportFrom?.defaultScene
-                    loadSelector(REQUEST_SPRITE)
+    fun loadNext() {
+        when (currentFragmentType) {
+            REQUEST_PROJECT -> if (projectToImportFrom?.hasMultipleScenes() == true) {
+                loadSelector(REQUEST_SCENE)
+            } else {
+                sceneToImportFrom = projectToImportFrom?.defaultScene
+                when (request) {
+                    REQUEST_SPRITE -> loadSelector(REQUEST_SPRITE)
+                    REQUEST_SCENE -> finish()
                 }
-            REQUEST_SCENE -> loadSelector(REQUEST_SPRITE)
-            else -> throw java.lang.IllegalStateException(
-                TAG + "Other Types can't navigate to " +
-                    "next Fragments"
-            )
+            }
+            REQUEST_SCENE ->
+                when (request) {
+                REQUEST_SPRITE -> loadSelector(REQUEST_SPRITE)
+                REQUEST_SCENE -> finish()
+            }
         }
     }
 
     override fun finish() {
         val intent = Intent()
+        if (request == REQUEST_SCENE) {
+            sceneToImportFrom?.spriteList?.forEach { sprite ->
+                if (sprite is GroupSprite) {
+                    groupSpritesToImport.add(sprite.name)
+                } else {
+                    spritesToImport.add(sprite.name)
+                }
+            }
+        }
         if (projectToImportFrom != null && sceneToImportFrom != null) {
-            intent.putExtra(REQUEST_PROJECT, projectToImportFrom?.directory?.absoluteFile)
-            intent.putExtra(REQUEST_SCENE, sceneToImportFrom?.name)
-            intent.putExtra(REQUEST_SPRITE, spritesToImport)
-            intent.putExtra(REQUEST_GROUP_SPRITE, groupSpritesToImport)
+            intent.putExtra(
+                Constants.EXTRA_PROJECT_PATH,
+                projectToImportFrom?.directory?.absoluteFile
+            )
+            intent.putExtra(Constants.EXTRA_SCENE_NAME, sceneToImportFrom?.name)
+            intent.putExtra(Constants.EXTRA_SPRITE_NAMES, spritesToImport)
+            intent.putExtra(Constants.EXTRA_GROUP_SPRITE_NAMES, groupSpritesToImport)
             setResult(RESULT_OK, intent)
         } else {
             setResult(RESULT_CANCELED)
@@ -152,9 +155,6 @@ class ImportLocalObjectActivity : BaseActivity() {
         val REQUEST_PROJECT = ProjectListFragment.TAG
         val REQUEST_SCENE = SceneListFragment.TAG
         val REQUEST_SPRITE = SpriteListFragment.TAG
-        val REQUEST_GROUP_SPRITE: String = GroupSprite.TAG
         val TAG: String = ImportLocalObjectActivity::class.java.simpleName
-
-        fun hasExtraTAG(activity: FragmentActivity?) = activity?.intent?.hasExtra(TAG)
     }
 }

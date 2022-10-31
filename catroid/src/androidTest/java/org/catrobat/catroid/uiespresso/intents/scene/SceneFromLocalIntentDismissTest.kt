@@ -21,9 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.intents.sprite
+package org.catrobat.catroid.uiespresso.intents.scene
 
-import android.Manifest
 import android.app.Activity
 import android.app.Instrumentation
 import android.content.Intent
@@ -33,22 +32,24 @@ import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.rule.GrantPermissionRule
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.DefaultProjectHandler
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.StartScript
+import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.merge.ImportLocalObjectActivity
 import org.catrobat.catroid.test.merge.MergeTestUtils
-import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
-import org.catrobat.catroid.testsuites.annotations.Level.Smoke
+import org.catrobat.catroid.testsuites.annotations.Cat
+import org.catrobat.catroid.testsuites.annotations.Level
 import org.catrobat.catroid.ui.ProjectActivity
-import org.catrobat.catroid.uiespresso.util.UiTestUtils
+import org.catrobat.catroid.uiespresso.util.matchers.IndexMatchers
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.hamcrest.Matcher
 import org.hamcrest.core.AllOf
@@ -60,8 +61,7 @@ import org.junit.experimental.categories.Category
 import org.koin.java.KoinJavaComponent
 import java.io.File
 
-class SpriteFromLocalIntentDismissTest {
-    private val testSprite: Sprite = Sprite("test")
+class SceneFromLocalIntentDismissTest {
     private lateinit var project: Project
     private lateinit var localProject: Project
     private var expectedIntent: Matcher<Intent>? = null
@@ -76,13 +76,7 @@ class SpriteFromLocalIntentDismissTest {
     var baseActivityTestRule = FragmentActivityTestRule(
         ProjectActivity::class.java,
         ProjectActivity.EXTRA_FRAGMENT_POSITION,
-        ProjectActivity.FRAGMENT_SPRITES
-    )
-
-    @get:Rule
-    var runtimePermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE
+        ProjectActivity.FRAGMENT_SCENES
     )
 
     @Before
@@ -94,7 +88,7 @@ class SpriteFromLocalIntentDismissTest {
         expectedIntent = AllOf.allOf(
             IntentMatchers.hasExtra(
                 Constants.EXTRA_IMPORT_REQUEST_CODE,
-                ImportLocalObjectActivity.REQUEST_SPRITE
+                ImportLocalObjectActivity.REQUEST_SCENE
             )
         )
 
@@ -102,7 +96,9 @@ class SpriteFromLocalIntentDismissTest {
             tmpPath.mkdirs()
         }
 
-        val result = Instrumentation.ActivityResult(Activity.RESULT_CANCELED, Intent())
+        val resultData = Intent()
+
+        val result = Instrumentation.ActivityResult(Activity.RESULT_CANCELED, resultData)
         Intents.intending(expectedIntent).respondWith(result)
     }
 
@@ -115,47 +111,39 @@ class SpriteFromLocalIntentDismissTest {
         StorageOperations.deleteDir(File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName))
     }
 
-    @Category(AppUi::class, Smoke::class)
+    @Category(Cat.AppUi::class, Level.Smoke::class)
     @Test
-    fun testMergeWithSpriteFromLocalIntentDismiss() {
-        val originalProjectData = MergeTestUtils().getOriginalProjectData(project)
-        UiTestUtils.openSpriteActionMenu(projectManager.currentSprite.name, false)
-        Espresso.onView(
-            ViewMatchers.withText(
-                baseActivityTestRule.activity.getString(R.string.from_local)
-            )
-        ).perform(ViewActions.click())
-        Intents.intended(expectedIntent)
-        MergeTestUtils().assertRejectedSpriteMerge(
-            project, originalProjectData, testSprite,
-            projectManager.currentSprite
-        )
-    }
-
-    @Category(AppUi::class, Smoke::class)
-    @Test
-    fun testSpriteFromLocalIntentDismiss() {
-        val originalProjectData = MergeTestUtils().getOriginalProjectData(project)
-        Espresso.onView(ViewMatchers.withId(R.id.button_add))
+    fun testMergeSceneWithEmptyScene() {
+        val original = MergeTestUtils().getOriginalProjectData(project)
+        Espresso.onView(IndexMatchers().withIndex(ViewMatchers.withId(R.id.settings_button), 1))
             .perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_import_sprite_from_local))
-            .perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withText(R.string.from_local)).perform(ViewActions.click())
         Intents.intended(expectedIntent)
-        MergeTestUtils().assertRejectedImport(project, originalProjectData)
+        MergeTestUtils().assertRejectedImport(project, original)
     }
 
     private fun createProjects(projectName: String) {
         project = Project(ApplicationProvider.getApplicationContext(), projectName)
-        project.defaultScene.addSprite(Sprite("test"))
+        val emptyScene = Scene("emptyScene", project)
+        project.addScene(emptyScene)
+        val sceneWithSprites = Scene("sceneWithSprites", project)
+        val sprite1 = Sprite("sprite1")
+        sprite1.addScript(StartScript())
+        sprite1.userVariables.add(UserVariable("var1", 1))
+        val sprite2 = Sprite("Clouds1")
+        sceneWithSprites.addSprite(sprite1)
+        sceneWithSprites.addSprite(sprite2)
+        project.addScene(sceneWithSprites)
         projectManager.currentProject = project
         projectManager.currentlyEditedScene = project.defaultScene
-        projectManager.currentSprite = project.defaultScene.getSprite("test")
-        XstreamSerializer.getInstance().saveProject(project)
         localProject = DefaultProjectHandler.createAndSaveDefaultProject(
             "local",
             ApplicationProvider.getApplicationContext(),
             false
         )
+
         XstreamSerializer.getInstance().saveProject(localProject)
+        project.addScene(localProject.defaultScene)
+        XstreamSerializer.getInstance().saveProject(project)
     }
 }

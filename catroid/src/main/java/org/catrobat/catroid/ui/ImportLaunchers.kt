@@ -38,6 +38,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.Constants.CAMERA_CACHE_DIRECTORY
 import org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION
 import org.catrobat.catroid.common.Constants.EXTRA_PICTURE_PATH_POCKET_PAINT
@@ -167,13 +168,13 @@ class ImportFromCameraLauncher(private val activity: AppCompatActivity) : Import
 }
 
 class ImportFromLocalLauncher(
-    val activity: AppCompatActivity,
-    val type: String
+    val activity: Activity,
+    val requestImport: String
 ) : ImportLauncher {
 
     override fun startActivityForResult(requestCode: Int) {
         val intent = Intent(activity, ImportLocalObjectActivity::class.java)
-        intent.putExtra(ImportLocalObjectActivity.TAG, type)
+        intent.putExtra(Constants.EXTRA_IMPORT_REQUEST_CODE, requestImport)
         activity.startActivityForResult(intent, requestCode)
     }
 }

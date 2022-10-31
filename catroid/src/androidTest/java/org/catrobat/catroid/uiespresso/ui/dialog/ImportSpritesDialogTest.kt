@@ -88,12 +88,8 @@ class ImportSpritesDialogTest {
         createProjects(projectName)
         baseActivityTestRule.launchActivity()
         Intents.init()
-        expectedIntent = AllOf.allOf(
-            IntentMatchers.hasExtra(
-                ImportLocalObjectActivity.TAG,
-                ImportLocalObjectActivity.REQUEST_PROJECT
-            )
-        )
+        expectedIntent = AllOf.allOf(IntentMatchers.hasExtra(
+            Constants.EXTRA_IMPORT_REQUEST_CODE, ImportLocalObjectActivity.REQUEST_SPRITE))
 
         if (!tmpPath.exists()) {
             tmpPath.mkdirs()
@@ -105,12 +101,9 @@ class ImportSpritesDialogTest {
         )
         importSpriteCount = importSprites.size
         val resultData = Intent()
-        resultData.putExtra(
-            ImportLocalObjectActivity.REQUEST_PROJECT, localProject.directory
-                .absoluteFile
-        )
-        resultData.putExtra(ImportLocalObjectActivity.REQUEST_SCENE, localProject.defaultScene.name)
-        resultData.putExtra(ImportLocalObjectActivity.REQUEST_SPRITE, importSprites)
+        resultData.putExtra(Constants.EXTRA_PROJECT_PATH, localProject.directory.absoluteFile)
+        resultData.putExtra(Constants.EXTRA_SCENE_NAME, localProject.defaultScene.name)
+        resultData.putExtra(Constants.EXTRA_SPRITE_NAMES, importSprites)
 
         val result = Instrumentation.ActivityResult(Activity.RESULT_OK, resultData)
         Intents.intending(expectedIntent).respondWith(result)

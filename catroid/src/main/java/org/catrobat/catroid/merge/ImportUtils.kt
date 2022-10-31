@@ -39,12 +39,8 @@ import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.ZipArchiver
-import org.catrobat.catroid.ui.ProjectActivity.Companion.SPRITE_FROM_LOCAL
-import org.catrobat.catroid.ui.ProjectActivity.Companion.SPRITE_OBJECT
 import org.catrobat.catroid.ui.recyclerview.dialog.RejectImportDialogFragment
 import org.catrobat.catroid.ui.recyclerview.dialog.RejectImportDialogFragment.Companion.CONFLICT_PROJECT_NAME
-import org.catrobat.catroid.ui.recyclerview.fragment.SpriteListFragment.Companion.IMPORT_LOCAL_OBJECT
-import org.catrobat.catroid.ui.recyclerview.fragment.SpriteListFragment.Companion.IMPORT_MEDIA_OBJECT
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider
 import org.catrobat.catroid.utils.ToastUtil
 import org.koin.java.KoinJavaComponent.inject
@@ -76,10 +72,15 @@ class ImportUtils(val context: Context) {
         }
 
         return when (requestCode) {
-            SPRITE_FROM_LOCAL -> processLocalImport(importData, lookFileName, sourceProject)
-            IMPORT_LOCAL_OBJECT -> processLocalImport(importData, lookFileName, sourceProject)
-            SPRITE_OBJECT -> processMediaImport(lookFileName, sourceProject)
-            IMPORT_MEDIA_OBJECT -> processMediaImport(lookFileName, sourceProject)
+            Constants.REQUEST_IMPORT_LOCAL_SPRITE,
+            Constants.REQUEST_IMPORT_LOCAL_SCENE ->
+                processLocalImport(importData, lookFileName, sourceProject)
+            Constants.REQUEST_MERGE_LOCAL_SPRITE ->
+                processLocalImport(importData, lookFileName, sourceProject)
+            Constants.REQUEST_IMPORT_MEDIA_OBJECT ->
+                processMediaImport(lookFileName, sourceProject)
+            Constants.REQUEST_MERGE_MEDIA_OBJECT ->
+                processMediaImport(lookFileName, sourceProject)
             else -> null
         }
     }
@@ -123,18 +124,18 @@ class ImportUtils(val context: Context) {
         lookFileName: String,
         sourceProject: Project
     ): ArrayList<ImportSpriteData>? {
-        val sceneName = importData?.getString(ImportLocalObjectActivity.REQUEST_SCENE)
+        val sceneName = importData?.getString(Constants.EXTRA_SCENE_NAME) ?: return null
         val scene = sourceProject.getSceneByName(sceneName) ?: return null
-        val spriteNames = importData?.getStringArrayList(ImportLocalObjectActivity.REQUEST_SPRITE)
-        val groupNames = importData?.getStringArrayList(ImportLocalObjectActivity.REQUEST_GROUP_SPRITE)
+        val spriteNames = importData.getStringArrayList(Constants.EXTRA_SPRITE_NAMES)
+        val groupNames = importData.getStringArrayList(Constants.EXTRA_GROUP_SPRITE_NAMES)
 
         if (spriteNames.isNullOrEmpty() && groupNames.isNullOrEmpty()) return null
 
         val importSpritesData: ArrayList<ImportSpriteData> = createNewSpritesData(
-                spriteNames,
-                groupNames,
-                lookFileName,
-                scene
+            spriteNames,
+            groupNames,
+            lookFileName,
+            scene
         )
 
         val conflicts = ImportVariablesManager.validateVariableConflictsForImport(
@@ -147,6 +148,7 @@ class ImportUtils(val context: Context) {
             )
             return null
         }
+
         return importSpritesData
     }
 

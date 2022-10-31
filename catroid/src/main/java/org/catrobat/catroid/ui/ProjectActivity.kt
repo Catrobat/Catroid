@@ -246,7 +246,7 @@ class ProjectActivity : BaseCastActivity() {
             }
             SPRITE_OBJECT -> {
                 uri = data?.data ?: return
-                addImportedSpriteOrObject(uri, SPRITE_OBJECT, null)
+                addImportedSpriteOrObject(uri, Constants.REQUEST_IMPORT_MEDIA_OBJECT, null)
             }
             SPRITE_FILE -> {
                 uri = data?.data
@@ -270,8 +270,8 @@ class ProjectActivity : BaseCastActivity() {
             }
             SPRITE_FROM_LOCAL -> {
                 val extras = data?.extras ?: return
-                uri = Uri.fromFile(extras.get(ImportLocalObjectActivity.REQUEST_PROJECT) as File)
-                addImportedSpriteOrObject(uri, SPRITE_FROM_LOCAL, extras)
+                uri = Uri.fromFile(extras.get(Constants.EXTRA_PROJECT_PATH) as File)
+                addImportedSpriteOrObject(uri, Constants.REQUEST_IMPORT_LOCAL_SPRITE, extras)
             }
         }
     }
@@ -426,7 +426,7 @@ class ProjectActivity : BaseCastActivity() {
         dialogNewActorBinding.dialogImportSpriteFromLocal.setOnClickListener {
             ImportFromLocalLauncher(
                 this,
-                ImportLocalObjectActivity.REQUEST_PROJECT
+                ImportLocalObjectActivity.REQUEST_SPRITE
             ).startActivityForResult(SPRITE_FROM_LOCAL)
             alertDialog.dismiss()
         }

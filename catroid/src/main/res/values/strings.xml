@@ -493,8 +493,9 @@
     <!-- Import Local Sprite -->
     <string name= "import_from_project">Select project to import from</string>
     <string name="import_from_scene">Select scene to import from</string>
-    <string name="import_object">Choose Object Or Actor to import</string>
+    <string name="import_object">Select object to import</string>
     <string name="import_sprite_dialog_title">Import Actors and Objects</string>
+    <string name="import_local_scene_successful">Local scene was added successfully</string>
 
     <!-- Action Toasts -->
     <!-- Backpack -->

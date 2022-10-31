@@ -253,17 +253,28 @@ public final class Constants {
 	public static final String EXTRA_PICTURE_PATH_POCKET_PAINT = "org.catrobat.extra.PAINTROID_PICTURE_PATH";
 	public static final String POCKET_PAINT_INTENT_ACTIVITY_NAME = "org.catrobat.paintroid.MainActivity";
 
+	// Import/Merge REQUEST CODES
+	public static final int REQUEST_IMPORT_LOCAL_SPRITE = 0;
+	public static final int REQUEST_MERGE_LOCAL_SPRITE = 1;
+	public static final int REQUEST_IMPORT_LOCAL_SCENE = 2;
+	public static final int REQUEST_IMPORT_MEDIA_OBJECT = 3;
+	public static final int REQUEST_MERGE_MEDIA_OBJECT = 4;
+
 	// Intent Extra / Bundle Keys
 	public static final String EXTRA_PROJECT_NAME = "projectName";
 	public static final String EXTRA_PROJECT_DESCRIPTION = "projectDescription";
 	public static final String EXTRA_PROJECT_PATH = "projectPath";
 	public static final String EXTRA_PROJECT_ID = "projectId";
 	public static final String EXTRA_SCENE_NAMES = "sceneNames";
+	public static final String EXTRA_SCENE_NAME = "sceneName";
+	public static final String EXTRA_SPRITE_NAMES = "spriteNames";
+	public static final String EXTRA_GROUP_SPRITE_NAMES = "groupSpriteNames";
 	public static final String EXTRA_USER_EMAIL = "userEmail";
 	public static final String EXTRA_LANGUAGE = "language";
 	public static final String EXTRA_RESULT_RECEIVER = "resultReceiver";
 	public static final String EXTRA_PROVIDER = "provider";
 	public static final String EXTRA_UPLOAD_NAME = "uploadName";
+	public static final String EXTRA_IMPORT_REQUEST_CODE = "importRequestCode";
 
 	public static final int UPLOAD_RESULT_RECEIVER_RESULT_CODE = 1;
 
@@ -323,42 +334,42 @@ public final class Constants {
 
 	//ExifTags for Exifremover
 	public static final ArrayList<String> EXIFTAGS_FOR_EXIFREMOVER =
-			new ArrayList<String>(Arrays.asList(
-			ExifInterface.TAG_ARTIST,
-			ExifInterface.TAG_DATETIME,
-			ExifInterface.TAG_DATETIME_ORIGINAL,
-			ExifInterface.TAG_DATETIME_DIGITIZED,
-			ExifInterface.TAG_EXPOSURE_TIME,
-			ExifInterface.TAG_FLASH,
-			ExifInterface.TAG_FILE_SOURCE,
-			ExifInterface.TAG_GPS_ALTITUDE,
-			ExifInterface.TAG_GPS_ALTITUDE_REF,
-			ExifInterface.TAG_GPS_AREA_INFORMATION,
-			ExifInterface.TAG_GPS_DATESTAMP,
-			ExifInterface.TAG_GPS_DEST_BEARING,
-			ExifInterface.TAG_GPS_DEST_BEARING_REF,
-			ExifInterface.TAG_GPS_DEST_DISTANCE,
-			ExifInterface.TAG_GPS_DEST_DISTANCE_REF,
-			ExifInterface.TAG_GPS_DEST_LATITUDE,
-			ExifInterface.TAG_GPS_DEST_LATITUDE_REF,
-			ExifInterface.TAG_GPS_DEST_LONGITUDE,
-			ExifInterface.TAG_GPS_DEST_LONGITUDE_REF,
-			ExifInterface.TAG_GPS_LATITUDE,
-			ExifInterface.TAG_GPS_LATITUDE_REF,
-			ExifInterface.TAG_GPS_LONGITUDE,
-			ExifInterface.TAG_GPS_LONGITUDE_REF,
-			ExifInterface.TAG_GPS_MAP_DATUM,
-			ExifInterface.TAG_GPS_SATELLITES,
-			ExifInterface.TAG_GPS_TIMESTAMP,
-			ExifInterface.TAG_GPS_PROCESSING_METHOD,
-			ExifInterface.TAG_GPS_DATESTAMP,
-			ExifInterface.TAG_MAKE,
-			ExifInterface.TAG_MODEL,
-			ExifInterface.TAG_IMAGE_DESCRIPTION,
-			ExifInterface.TAG_STRIP_OFFSETS,
-			ExifInterface.TAG_SOFTWARE,
-			ExifInterface.TAG_CAMARA_OWNER_NAME
-	));
+			new ArrayList<>(Arrays.asList(
+					ExifInterface.TAG_ARTIST,
+					ExifInterface.TAG_DATETIME,
+					ExifInterface.TAG_DATETIME_ORIGINAL,
+					ExifInterface.TAG_DATETIME_DIGITIZED,
+					ExifInterface.TAG_EXPOSURE_TIME,
+					ExifInterface.TAG_FLASH,
+					ExifInterface.TAG_FILE_SOURCE,
+					ExifInterface.TAG_GPS_ALTITUDE,
+					ExifInterface.TAG_GPS_ALTITUDE_REF,
+					ExifInterface.TAG_GPS_AREA_INFORMATION,
+					ExifInterface.TAG_GPS_DATESTAMP,
+					ExifInterface.TAG_GPS_DEST_BEARING,
+					ExifInterface.TAG_GPS_DEST_BEARING_REF,
+					ExifInterface.TAG_GPS_DEST_DISTANCE,
+					ExifInterface.TAG_GPS_DEST_DISTANCE_REF,
+					ExifInterface.TAG_GPS_DEST_LATITUDE,
+					ExifInterface.TAG_GPS_DEST_LATITUDE_REF,
+					ExifInterface.TAG_GPS_DEST_LONGITUDE,
+					ExifInterface.TAG_GPS_DEST_LONGITUDE_REF,
+					ExifInterface.TAG_GPS_LATITUDE,
+					ExifInterface.TAG_GPS_LATITUDE_REF,
+					ExifInterface.TAG_GPS_LONGITUDE,
+					ExifInterface.TAG_GPS_LONGITUDE_REF,
+					ExifInterface.TAG_GPS_MAP_DATUM,
+					ExifInterface.TAG_GPS_SATELLITES,
+					ExifInterface.TAG_GPS_TIMESTAMP,
+					ExifInterface.TAG_GPS_PROCESSING_METHOD,
+					ExifInterface.TAG_GPS_DATESTAMP,
+					ExifInterface.TAG_MAKE,
+					ExifInterface.TAG_MODEL,
+					ExifInterface.TAG_IMAGE_DESCRIPTION,
+					ExifInterface.TAG_STRIP_OFFSETS,
+					ExifInterface.TAG_SOFTWARE,
+					ExifInterface.TAG_CAMARA_OWNER_NAME
+			));
 
 	private Constants() {
 		throw new AssertionError("No.");

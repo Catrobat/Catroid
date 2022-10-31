@@ -21,29 +21,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.intents.sprite
+package org.catrobat.catroid.uiespresso.intents.scene
 
 import android.Manifest
 import android.app.Activity
 import android.app.Instrumentation
 import android.content.Intent
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.GrantPermissionRule
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.common.DefaultProjectHandler
 import org.catrobat.catroid.common.FlavoredConstants
-import org.catrobat.catroid.content.GroupSprite
 import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.formulaeditor.UserList
+import org.catrobat.catroid.content.StartScript
+import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.merge.ImportLocalObjectActivity
@@ -51,9 +51,12 @@ import org.catrobat.catroid.test.merge.MergeTestUtils
 import org.catrobat.catroid.testsuites.annotations.Cat
 import org.catrobat.catroid.testsuites.annotations.Level
 import org.catrobat.catroid.ui.ProjectActivity
+import org.catrobat.catroid.ui.recyclerview.controller.SceneController.newSceneWithBackgroundSprite
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
+import org.catrobat.catroid.uiespresso.util.matchers.IndexMatchers
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.hamcrest.Matcher
-import org.hamcrest.core.AllOf
+import org.hamcrest.core.AllOf.allOf
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -62,8 +65,7 @@ import org.junit.experimental.categories.Category
 import org.koin.java.KoinJavaComponent
 import java.io.File
 
-class GroupSpriteFromLocalIntent {
-    private val testGroupSprite: Sprite = GroupSprite("testGroup")
+class SceneFromLocalIntentTest {
     private lateinit var project: Project
     private lateinit var localProject: Project
     private var expectedIntent: Matcher<Intent>? = null
@@ -78,7 +80,7 @@ class GroupSpriteFromLocalIntent {
     var baseActivityTestRule = FragmentActivityTestRule(
         ProjectActivity::class.java,
         ProjectActivity.EXTRA_FRAGMENT_POSITION,
-        ProjectActivity.FRAGMENT_SPRITES
+        ProjectActivity.FRAGMENT_SCENES
     )
 
     @get:Rule
@@ -93,11 +95,8 @@ class GroupSpriteFromLocalIntent {
         baseActivityTestRule.launchActivity()
         Intents.init()
 
-        expectedIntent = AllOf.allOf(
-            IntentMatchers.hasExtra(
-                Constants.EXTRA_IMPORT_REQUEST_CODE,
-                ImportLocalObjectActivity.REQUEST_SPRITE
-            )
+        expectedIntent = allOf(IntentMatchers.hasExtra(Constants.EXTRA_IMPORT_REQUEST_CODE,
+                ImportLocalObjectActivity.REQUEST_SCENE)
         )
 
         if (!tmpPath.exists()) {
@@ -107,8 +106,9 @@ class GroupSpriteFromLocalIntent {
         val resultData = Intent()
         resultData.putExtra(Constants.EXTRA_PROJECT_PATH, localProject.directory.absoluteFile)
         resultData.putExtra(Constants.EXTRA_SCENE_NAME, localProject.defaultScene.name)
-        resultData.putExtra(Constants.EXTRA_SPRITE_NAMES, arrayListOf("Clouds1"))
-        resultData.putExtra(Constants.EXTRA_GROUP_SPRITE_NAMES, arrayListOf(testGroupSprite.name))
+        resultData.putExtra(Constants.EXTRA_SPRITE_NAMES,
+            localProject.defaultScene.spriteList.map { it.name } as ArrayList<String>
+        )
 
         val result = Instrumentation.ActivityResult(Activity.RESULT_OK, resultData)
         Intents.intending(expectedIntent).respondWith(result)
@@ -125,42 +125,79 @@ class GroupSpriteFromLocalIntent {
 
     @Category(Cat.AppUi::class, Level.Smoke::class)
     @Test
-    fun testImportGroupSprite() {
-        Espresso.onView(ViewMatchers.withId(R.id.button_add))
-            .perform(ViewActions.click())
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_import_sprite_from_local))
-            .perform(ViewActions.click())
+    fun testMergeSceneWithEmptyScene() {
+        val (originalMerges, importSprites) = getSpritesForMerge(project.sceneList[1])
+        onView(IndexMatchers().withIndex(withId(R.id.settings_button), 1)).perform(click())
+        onView(withText(R.string.from_local)).perform(click())
         Intents.intended(expectedIntent)
-        Espresso.onView(ViewMatchers.withText(R.string.import_sprite_dialog_title))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withText(R.string.ok))
-            .perform(ViewActions.click())
-        MergeTestUtils().assertSuccessfulSpriteImport(
-            project, localProject, localProject.defaultScene.getSprite("Clouds1"),
-            project.defaultScene.getSprite("Clouds1"), false
-        )
-        MergeTestUtils().assertSuccessfulSpriteImport(
-            project, localProject, localProject.defaultScene.getSprite(testGroupSprite.name),
-            project.defaultScene.getSprite(testGroupSprite.name), false
+        MergeTestUtils().assertSceneMerge(
+            importSprites, originalMerges, project, project.sceneList[1], localProject
         )
     }
 
+    @Category(Cat.AppUi::class, Level.Smoke::class)
+    @Test
+    fun testMergeScene() {
+        val (originalMerges, importSprites) = getSpritesForMerge(project.sceneList[2])
+        onView(IndexMatchers().withIndex(withId(R.id.settings_button), 2)).perform(click())
+        onView(withText(R.string.from_local)).perform(click())
+        Intents.intended(expectedIntent)
+        MergeTestUtils().assertSceneMerge(
+            importSprites, originalMerges, project, project.sceneList[2], localProject
+        )
+    }
+
+    @Category(Cat.AppUi::class, Level.Smoke::class)
+    @Test
+    fun testMergeSceneWithEqualScene() {
+        val (originalMerges, importSprites) = getSpritesForMerge(project.sceneList[3])
+        onView(IndexMatchers().withIndex(withId(R.id.settings_button), 3)).perform(click())
+        onView(withText(R.string.from_local)).perform(click())
+        Intents.intended(expectedIntent)
+        MergeTestUtils().assertSceneMerge(
+            importSprites, originalMerges, project, project.sceneList[3],
+            localProject
+        )
+    }
+
+    private fun getSpritesForMerge(scene: Scene): Pair<List<Sprite>, List<Sprite>> {
+        val originalMerges = ArrayList<Sprite>()
+        val importSprites = ArrayList<Sprite>()
+        localProject.defaultScene.spriteList.forEach {
+            val sprite = scene.getSprite(it.name)
+            if (sprite != null) {
+                originalMerges.add(sprite)
+            } else {
+                importSprites.add(it)
+            }
+        }
+        return Pair(originalMerges, importSprites)
+    }
+
     private fun createProjects(projectName: String) {
-        project = Project(ApplicationProvider.getApplicationContext(), projectName)
-        project.defaultScene.addSprite(Sprite("test"))
+        project = UiTestUtils.createEmptyProject(projectName)
+        val emptyScene = newSceneWithBackgroundSprite("emptyScene", "Background", project)
+        project.addScene(emptyScene)
+        val sceneWithSprites = newSceneWithBackgroundSprite(
+            "sceneWithSprites",
+            "Background",
+            project
+        )
+        project.addScene(sceneWithSprites)
+        val sprite1 = Sprite("sprite1")
+        sprite1.addScript(StartScript())
+        sprite1.userVariables.add(UserVariable("var1", 1))
+        val sprite2 = Sprite("Clouds1")
+        sceneWithSprites.addSprite(sprite1)
+        sceneWithSprites.addSprite(sprite2)
         projectManager.currentProject = project
         projectManager.currentlyEditedScene = project.defaultScene
-        projectManager.currentSprite = project.defaultScene.getSprite("test")
-        projectManager.currentSprite.addUserList(UserList("list"))
+        localProject =
+            UiTestUtils.getDefaultTestProject(ApplicationProvider.getApplicationContext())
+        val scene = localProject.defaultScene
+        scene.name = "defaultScene"
+        project.addScene(scene)
         XstreamSerializer.getInstance().saveProject(project)
-        localProject = DefaultProjectHandler.createAndSaveDefaultProject(
-            "local",
-            ApplicationProvider.getApplicationContext(),
-            false
-        )
-        localProject.defaultScene.spriteList.add(2, testGroupSprite)
-        localProject.defaultScene.spriteList[3].setConvertToGroupItemSprite(true)
-        localProject.defaultScene.spriteList[3].convert()
         XstreamSerializer.getInstance().saveProject(localProject)
     }
 }

@@ -161,7 +161,7 @@ class UiTestUtils private constructor() {
         @JvmStatic
         fun getDefaultTestProject(context: Context): Project {
             val baseProject =
-                DefaultProjectHandler.createAndSaveDefaultProject("base", context, false)
+                DefaultProjectHandler.createAndSaveDefaultProject("test", context, false)
             XstreamSerializer.getInstance().saveProject(baseProject)
             return baseProject
         }
@@ -173,7 +173,7 @@ class UiTestUtils private constructor() {
 
             val scene2 = SceneController.newSceneWithBackgroundSprite(
                 "scene2",
-                "background1",
+                "Background",
                 testProject
             )
             testProject.addScene(scene2)
@@ -182,24 +182,24 @@ class UiTestUtils private constructor() {
             )
 
             val scene3 = SceneController.newSceneWithBackgroundSprite(
-                "scene3",
-                "background1",
+                "empty",
+                "Background",
                 testProject
             )
-
             testProject.addScene(scene3)
-            testProject.getSceneByName(scene3.name)?.spriteList?.add(
-                testProject.defaultScene.getSprite(context.getString(R.string.default_project_cloud_sprite_name_1))
-
-            )
 
             val scene4 = SceneController.newSceneWithBackgroundSprite(
-                "scene4",
-                "background1",
+                "mergeClouds",
+                "Background",
                 testProject
             )
 
             testProject.addScene(scene4)
+            testProject.getSceneByName(scene4.name)?.spriteList?.add(
+                testProject.defaultScene.getSprite(context.getString(R.string.default_project_cloud_sprite_name_1))
+
+            )
+
             testProject.getSceneByName(scene4.name)?.spriteList?.add(
                 testProject.defaultScene.getSprite(context.getString(R.string.default_project_cloud_sprite_name_2))
 

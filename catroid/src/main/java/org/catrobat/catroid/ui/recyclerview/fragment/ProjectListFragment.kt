@@ -84,7 +84,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
             importProject(requireArguments().getParcelable("intent"))
         }
 
-        if (ImportLocalObjectActivity.hasExtraTAG(activity) == true) {
+        if (activity is ImportLocalObjectActivity) {
             actionModeType = IMPORT_LOCAL
             setHasOptionsMenu(false)
             adapter.showSettings = false
@@ -130,7 +130,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
     }
 
     override fun onResume() {
-        if (ImportLocalObjectActivity.hasExtraTAG(activity) == false) {
+        if (activity !is ImportLocalObjectActivity) {
             projectManager.currentProject = null
             BottomBar.showBottomBar(requireActivity())
         }
@@ -431,7 +431,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         if (actionModeType == IMPORT_LOCAL) {
             try {
                 ImportLocalObjectActivity.projectToImportFrom = XstreamSerializer.getInstance().loadProject(item!!.directory.absoluteFile, context)
-                (activity as ImportLocalObjectActivity).loadNext(ImportLocalObjectActivity.REQUEST_PROJECT)
+                (activity as ImportLocalObjectActivity).loadNext()
             } catch (e: IOException) {
                 Log.e(TAG, Log.getStackTraceString(e))
             }

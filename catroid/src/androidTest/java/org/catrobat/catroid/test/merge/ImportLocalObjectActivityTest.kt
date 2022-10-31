@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.test.merge
 
-import android.content.Intent
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.assertion.ViewAssertions
@@ -61,6 +60,7 @@ class ImportLocalObjectActivityTest {
             UiTestUtils.getMultipleScenesAndSpriteProject(ApplicationProvider.getApplicationContext())
         projectManager.currentProject = baseProject
         projectManager.currentlyEditedScene = baseProject.defaultScene
+        baseActivityTestRule.launchActivity(null)
     }
 
     @After
@@ -73,7 +73,7 @@ class ImportLocalObjectActivityTest {
     fun testImportSpriteView() {
         ImportLocalObjectActivity.projectToImportFrom = testProject
         ImportLocalObjectActivity.sceneToImportFrom = testProject.defaultScene
-        setUpActivity(ImportLocalObjectActivity.REQUEST_SPRITE)
+        baseActivityTestRule.activity.loadSelector(ImportLocalObjectActivity.REQUEST_SPRITE)
 
         Espresso.onView(ViewMatchers.withText(R.string.import_object))
             .check(ViewAssertions.matches(isDisplayed()))
@@ -95,7 +95,7 @@ class ImportLocalObjectActivityTest {
     @Test
     fun testImportFromSceneView() {
         ImportLocalObjectActivity.projectToImportFrom = testProject
-        setUpActivity(ImportLocalObjectActivity.REQUEST_SCENE)
+        baseActivityTestRule.activity.loadSelector(ImportLocalObjectActivity.REQUEST_SCENE)
 
         Espresso.onView(ViewMatchers.withText(R.string.import_from_scene))
             .check(ViewAssertions.matches(isDisplayed()))
@@ -113,7 +113,7 @@ class ImportLocalObjectActivityTest {
 
     @Test
     fun testImportFromProjectView() {
-        setUpActivity(ImportLocalObjectActivity.REQUEST_PROJECT)
+        baseActivityTestRule.activity.loadSelector(ImportLocalObjectActivity.REQUEST_PROJECT)
 
         Espresso.onView(ViewMatchers.withText(R.string.import_from_project))
             .check(ViewAssertions.matches(isDisplayed()))
@@ -134,7 +134,7 @@ class ImportLocalObjectActivityTest {
     @Test
     fun navigateBackFromScene() {
         ImportLocalObjectActivity.projectToImportFrom = baseProject
-        setUpActivity(ImportLocalObjectActivity.REQUEST_SCENE)
+        baseActivityTestRule.activity.loadSelector(ImportLocalObjectActivity.REQUEST_SCENE)
         Espresso.onView(ViewMatchers.withText(R.string.import_from_scene))
             .check(ViewAssertions.matches(isDisplayed()))
         Espresso.pressBack()
@@ -146,7 +146,7 @@ class ImportLocalObjectActivityTest {
     fun navigateBackFromSpriteToSingleSceneProject() {
         ImportLocalObjectActivity.projectToImportFrom = baseProject
         ImportLocalObjectActivity.sceneToImportFrom = testProject.defaultScene
-        setUpActivity(ImportLocalObjectActivity.REQUEST_SPRITE)
+        baseActivityTestRule.activity.loadSelector(ImportLocalObjectActivity.REQUEST_SPRITE)
         Espresso.onView(ViewMatchers.withText(R.string.import_object))
             .check(ViewAssertions.matches(isDisplayed()))
         Espresso.pressBack()
@@ -158,17 +158,11 @@ class ImportLocalObjectActivityTest {
     fun navigateBackFromSpriteToSelectScene() {
         ImportLocalObjectActivity.projectToImportFrom = testProject
         ImportLocalObjectActivity.sceneToImportFrom = testProject.defaultScene
-        setUpActivity(ImportLocalObjectActivity.REQUEST_SPRITE)
+        baseActivityTestRule.activity.loadSelector(ImportLocalObjectActivity.REQUEST_SPRITE)
         Espresso.onView(ViewMatchers.withText(R.string.import_object))
             .check(ViewAssertions.matches(isDisplayed()))
         Espresso.pressBack()
         Espresso.onView(ViewMatchers.withText(R.string.import_from_scene))
             .check(ViewAssertions.matches(isDisplayed()))
-    }
-
-    private fun setUpActivity(request: String) {
-        val intent = Intent()
-        intent.putExtra(ImportLocalObjectActivity.TAG, request)
-        baseActivityTestRule.launchActivity(intent)
     }
 }

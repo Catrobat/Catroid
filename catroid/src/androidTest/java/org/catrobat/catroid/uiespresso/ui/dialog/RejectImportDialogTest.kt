@@ -92,12 +92,8 @@ class RejectImportDialogTest {
         createProjects(projectName)
         baseActivityTestRule.launchActivity()
         Intents.init()
-        expectedIntent = AllOf.allOf(
-            IntentMatchers.hasExtra(
-                ImportLocalObjectActivity.TAG,
-                ImportLocalObjectActivity.REQUEST_PROJECT
-            )
-        )
+        expectedIntent = AllOf.allOf(IntentMatchers.hasExtra(
+            Constants.EXTRA_IMPORT_REQUEST_CODE, ImportLocalObjectActivity.REQUEST_SPRITE))
 
         if (!tmpPath.exists()) {
             tmpPath.mkdirs()
@@ -112,26 +108,18 @@ class RejectImportDialogTest {
         )
         importSpriteCount = importSprites.size
         val resultData1 = Intent()
-        resultData1.putExtra(
-            ImportLocalObjectActivity.REQUEST_PROJECT, projectWithVariableConflicts.directory
-                .absoluteFile
-        )
-        resultData1.putExtra(
-            ImportLocalObjectActivity.REQUEST_SCENE,
-            projectWithVariableConflicts.defaultScene.name
-        )
-        resultData1.putExtra(ImportLocalObjectActivity.REQUEST_SPRITE, importSprites)
+        resultData1.putExtra(Constants.EXTRA_PROJECT_PATH, projectWithVariableConflicts.directory
+            .absoluteFile)
+        resultData1.putExtra(Constants.EXTRA_SCENE_NAME, projectWithVariableConflicts
+            .defaultScene.name)
+        resultData1.putExtra(Constants.EXTRA_SPRITE_NAMES, importSprites)
 
         val resultData2 = Intent()
-        resultData2.putExtra(
-            ImportLocalObjectActivity.REQUEST_PROJECT, projectWithProjectNameConflicts.directory
-                .absoluteFile
-        )
-        resultData2.putExtra(
-            ImportLocalObjectActivity.REQUEST_SCENE,
-            projectWithProjectNameConflicts.defaultScene.name
-        )
-        resultData2.putExtra(ImportLocalObjectActivity.REQUEST_SPRITE, importSprites)
+        resultData2.putExtra(Constants.EXTRA_PROJECT_PATH, projectWithProjectNameConflicts.directory
+                .absoluteFile)
+        resultData2.putExtra(Constants.EXTRA_SCENE_NAME, projectWithProjectNameConflicts
+            .defaultScene.name)
+        resultData2.putExtra(Constants.EXTRA_SPRITE_NAMES, importSprites)
 
         result1 = Instrumentation.ActivityResult(Activity.RESULT_OK, resultData1)
         result2 = Instrumentation.ActivityResult(Activity.RESULT_OK, resultData2)

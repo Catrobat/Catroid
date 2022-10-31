@@ -83,7 +83,6 @@ class MergeLocalSpriteTest {
                 ApplicationProvider.getApplicationContext(),
                 false
             )
-
         sameGlobalsProject = DefaultProjectHandler
             .createAndSaveDefaultProject(
                 sameGlobalsName,

@@ -93,25 +93,17 @@ class SpriteFromLocalIntentTest {
         baseActivityTestRule.launchActivity()
         Intents.init()
 
-        expectedIntent = AllOf.allOf(
-            IntentMatchers.hasExtra(
-                ImportLocalObjectActivity.TAG,
-                ImportLocalObjectActivity.REQUEST_PROJECT
-            )
-        )
+        expectedIntent = AllOf.allOf(IntentMatchers.hasExtra(Constants.EXTRA_IMPORT_REQUEST_CODE, ImportLocalObjectActivity.REQUEST_SPRITE))
 
         if (!tmpPath.exists()) {
             tmpPath.mkdirs()
         }
 
         val resultData = Intent()
+        resultData.putExtra(Constants.EXTRA_PROJECT_PATH, localProject.directory.absoluteFile)
+        resultData.putExtra(Constants.EXTRA_SCENE_NAME, localProject.defaultScene.name)
         resultData.putExtra(
-            ImportLocalObjectActivity.REQUEST_PROJECT,
-            localProject.directory.absoluteFile
-        )
-        resultData.putExtra(ImportLocalObjectActivity.REQUEST_SCENE, localProject.defaultScene.name)
-        resultData.putExtra(
-            ImportLocalObjectActivity.REQUEST_SPRITE,
+            Constants.EXTRA_SPRITE_NAMES,
             arrayListOf(
                 localProject.defaultScene.backgroundSprite.name,
                 localProject.defaultScene.spriteList[1].name
@@ -152,7 +144,7 @@ class SpriteFromLocalIntentTest {
 
     @Category(AppUi::class, Smoke::class)
     @Test
-    fun testImportSpriteFromLocalIntentTest() {
+    fun testImportSpriteFromLocalIntent() {
         Espresso.onView(ViewMatchers.withId(R.id.button_add))
             .perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.dialog_import_sprite_from_local))
