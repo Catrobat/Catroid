@@ -115,7 +115,8 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         super.onActivityCreated(savedInstance)
         if (ImportLocalObjectActivity.hasExtraTAG(activity) == true) {
             prepareActionMode(IMPORT_LOCAL)
-            ImportLocalObjectActivity.spritesToImport = null
+            ImportLocalObjectActivity.spritesToImport = ArrayList()
+            ImportLocalObjectActivity.groupSpritesToImport = ArrayList()
         }
     }
 
@@ -385,8 +386,6 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
                 R.id.rename -> showRenameDialog(item)
                 R.id.from_library -> addFromLibrary(item)
                 R.id.from_local -> addFromLocalProject(item)
-                else -> {
-                }
             }
             true
         }
@@ -406,11 +405,17 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
     }
 
     override fun importItems(selectedItems: MutableList<Sprite?>?) {
-        if (selectedItems != null) {
-            ImportLocalObjectActivity.spritesToImport =
-                selectedItems.map { it?.name } as ArrayList<String>
-            (activity as ImportLocalObjectActivity).finish()
+        selectedItems?.forEach { sprite ->
+            if (sprite == null) {
+                return@forEach
+            }
+            if (ImportLocalObjectActivity.sceneToImportFrom?.getSprite(sprite.name) is GroupSprite) {
+                ImportLocalObjectActivity.groupSpritesToImport.add(sprite.name)
+            } else {
+                ImportLocalObjectActivity.spritesToImport.add(sprite.name)
+            }
         }
+        (activity as ImportLocalObjectActivity).finish()
     }
 
     override fun onImport(menu: Menu?, mode: ActionMode?) {
@@ -453,9 +458,8 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
             return
         }
 
-        if (activity is ImportLocalObjectActivity && ImportLocalObjectActivity.spritesToImport ==
-            null
-        ) {
+        if (activity is ImportLocalObjectActivity && ImportLocalObjectActivity.spritesToImport
+                .isEmpty()) {
             (activity as ImportLocalObjectActivity).onBackPressed()
         }
     }

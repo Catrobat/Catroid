@@ -29,8 +29,8 @@ import org.catrobat.catroid.content.Sprite
 data class ImportSpriteData(
     val sprite: Sprite,
     val sourceProject: Project,
-    val emptySprite: Boolean,
     val lookDataName: String,
     val lookFileName: String,
-    val isObject: Boolean
+    val isGroup: Boolean,
+    val isGroupItem: Boolean
 )

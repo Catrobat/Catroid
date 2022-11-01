@@ -91,7 +91,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
             activity?.setTitle(R.string.import_from_project)
             ImportLocalObjectActivity.projectToImportFrom = null
             ImportLocalObjectActivity.sceneToImportFrom = null
-            ImportLocalObjectActivity.spritesToImport = null
+            ImportLocalObjectActivity.spritesToImport = ArrayList()
         }
     }
 

@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.test.merge
 
+import org.catrobat.catroid.content.GroupSprite
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.UserList
@@ -105,6 +106,20 @@ class MergeTestUtils {
     ) {
         Assert.assertNotNull(importedSprite)
         assertTrue(currentProject.spriteListWithClones.contains(importedSprite))
+        if (spriteToImport is GroupSprite) {
+            assertGroupSpriteImport(currentProject, importedSprite)
+        } else {
+            assertSingleSpriteImport(currentProject, sourceProject, spriteToImport, importedSprite, wasVisuallyPlaced)
+        }
+    }
+
+    private fun assertSingleSpriteImport(
+        currentProject: Project,
+        sourceProject: Project,
+        spriteToImport: Sprite,
+        importedSprite: Sprite,
+        wasVisuallyPlaced: Boolean
+    ) {
         assertTrue(currentProject.userVariables.containsAll(sourceProject.userVariables))
         assertTrue(currentProject.userLists.containsAll(sourceProject.userLists))
         assertTrue(
@@ -126,6 +141,14 @@ class MergeTestUtils {
         Assert.assertFalse(TestUtils.checkForDuplicates(currentProject.userLists as List<Any>?))
         Assert.assertFalse(TestUtils.checkForDuplicates(currentProject.userVariables as List<Any>?))
         Assert.assertFalse(TestUtils.checkForDuplicates(currentProject.broadcastMessageContainer.broadcastMessages as List<Any>?))
+    }
+
+    private fun assertGroupSpriteImport(
+        currentProject: Project,
+        importedSprite: Sprite
+    ) {
+        assertTrue(importedSprite is GroupSprite)
+        assertTrue(currentProject.spriteListWithClones.contains(importedSprite))
     }
 
     fun assertRejectedImport(currentProject: Project, projectBeforeImport: ProjectMergeData) {

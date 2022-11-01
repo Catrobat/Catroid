@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.ui.recyclerview.dialog
 
-import android.content.DialogInterface
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -40,8 +38,7 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.cast.CastManager
 import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME
-import org.catrobat.catroid.common.LookData
+import org.catrobat.catroid.content.GroupSprite
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
@@ -53,14 +50,11 @@ import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTex
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.InputWatcher
 import org.catrobat.catroid.ui.recyclerview.fragment.SpriteListFragment
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
-import org.catrobat.catroid.utils.Utils
 import org.koin.java.KoinJavaComponent.inject
-import java.io.File
 import java.io.IOException
 
 class ImportSpritesDialogFragment(
     private val newSpritesData: List<ImportSpriteData>,
-    private val uri: Uri,
     private val currentFragment: Fragment
 ) : DialogFragment() {
 
@@ -83,7 +77,11 @@ class ImportSpritesDialogFragment(
         newSpritesData.forEach { spriteData ->
             val inputLayout = TextInputLayout(requireContext())
             val editText = TextInputEditText(requireContext())
-            editText.hint = getString(R.string.sprite_name_label)
+            if (spriteData.isGroup) {
+                editText.hint = getString(R.string.new_group)
+            } else {
+                editText.hint = getString(R.string.sprite_name_label)
+            }
             editText.setText(spriteData.lookDataName)
             inputLayout.addView(editText)
             container.addView(inputLayout)
@@ -118,28 +116,27 @@ class ImportSpritesDialogFragment(
         }
 
         for ((index, data) in newSpritesData.withIndex()) {
-            val sprite: Sprite
-            if (data.isObject) {
-                data.sprite.rename(textInput[index]?.text.toString())
-                sprite = Sprite(data.sprite, currentScene)
-                currentScene.addSprite(sprite)
-            } else {
-                sprite = Sprite(textInput[index]?.text.toString())
-                currentScene.addSprite(sprite)
-                if (!data.emptySprite) {
-                    addLookDataToSprite(sprite, data.lookFileName)
-                }
-            }
-
+            addLocalSprite(data, textInput[index]?.text.toString(), currentScene)
             if (currentFragment is SpriteListFragment) {
                 currentFragment.notifyDataSetChanged()
             }
         }
-        ImportVariablesManager.importProjectVariables(sourceProject)
 
+        ImportVariablesManager.importProjectVariables(sourceProject)
         if (showCastDialog()) {
             CastManager.getInstance()
                 .openDeviceSelectorOrDisconnectDialog(activity as? AppCompatActivity)
+        }
+    }
+
+    private fun addLocalSprite(data: ImportSpriteData, name: String, currentScene: Scene) {
+        val sprite: Sprite?
+        if (data.isGroup) {
+            currentScene.addSprite(GroupSprite(data.sprite.name))
+        } else {
+            data.sprite.rename(name)
+            sprite = Sprite(data.sprite, currentScene)
+            currentScene.addSprite(sprite)
         }
     }
 
@@ -157,42 +154,4 @@ class ImportSpritesDialogFragment(
         SettingsFragment.isCastSharedPreferenceEnabled(activity) &&
             projectManager.currentProject.isCastProject &&
             !CastManager.getInstance().isConnected
-
-    private fun addLookDataToSprite(sprite: Sprite, lookFileName: String) {
-        try {
-            val imageDirectory = File(
-                currentScene.directory,
-                IMAGE_DIRECTORY_NAME
-            )
-            val file = StorageOperations.copyUriToDir(
-                context?.contentResolver,
-                uri,
-                imageDirectory,
-                lookFileName
-            )
-            Utils.removeExifData(imageDirectory, lookFileName)
-            val lookData = LookData(sprite.name, file)
-            if (lookData.imageMimeType == null) {
-                imgFormatNotSupportedDialog()
-                currentScene.removeSprite(sprite)
-            } else {
-                sprite.lookList?.add(lookData)
-                lookData.collisionInformation.calculate()
-            }
-        } catch (e: IOException) {
-            Log.e(NewSpriteDialogFragment.TAG, Log.getStackTraceString(e))
-        }
-    }
-
-    private fun imgFormatNotSupportedDialog() {
-        val alertDialogBuilder = context?.let {
-            AlertDialog.Builder(it)
-                .setMessage(getString(R.string.Image_format_not_supported))
-                .setPositiveButton(getString(R.string.ok)) { dialog: DialogInterface, _: Int ->
-                    dialog.cancel()
-                }
-        }
-        val alertDialog = alertDialogBuilder?.create()
-        alertDialog?.show()
-    }
 }

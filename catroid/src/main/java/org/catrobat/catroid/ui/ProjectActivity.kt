@@ -282,7 +282,6 @@ class ProjectActivity : BaseCastActivity() {
         if (importData != null) {
             ImportSpritesDialogFragment(
                 importData,
-                uri,
                 currentFragment!!
             ).show(supportFragmentManager, ImportSpritesDialogFragment.TAG)
         }

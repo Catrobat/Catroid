@@ -27,6 +27,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import org.catrobat.catroid.R
+import org.catrobat.catroid.content.GroupSprite
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.databinding.ActivityRecyclerBinding
@@ -129,26 +130,30 @@ class ImportLocalObjectActivity : BaseActivity() {
 
     override fun finish() {
         val intent = Intent()
-        if (projectToImportFrom != null && sceneToImportFrom != null && spritesToImport != null) {
+        if (projectToImportFrom != null && sceneToImportFrom != null) {
             intent.putExtra(REQUEST_PROJECT, projectToImportFrom?.directory?.absoluteFile)
             intent.putExtra(REQUEST_SCENE, sceneToImportFrom?.name)
             intent.putExtra(REQUEST_SPRITE, spritesToImport)
+            intent.putExtra(REQUEST_GROUP_SPRITE, groupSpritesToImport)
             setResult(RESULT_OK, intent)
         } else {
             setResult(RESULT_CANCELED)
         }
+
         super.finish()
     }
 
     companion object {
         var projectToImportFrom: Project? = null
         var sceneToImportFrom: Scene? = null
-        var spritesToImport: ArrayList<String>? = null
+        var spritesToImport: ArrayList<String> = ArrayList()
+        var groupSpritesToImport: ArrayList<String> = ArrayList()
         var backPressedInActionMode: Boolean = false
 
         val REQUEST_PROJECT = ProjectListFragment.TAG
         val REQUEST_SCENE = SceneListFragment.TAG
         val REQUEST_SPRITE = SpriteListFragment.TAG
+        val REQUEST_GROUP_SPRITE: String = GroupSprite.TAG
         val TAG: String = ImportLocalObjectActivity::class.java.simpleName
 
         fun hasExtraTAG(activity: FragmentActivity?) = activity?.intent?.hasExtra(TAG)

@@ -76,15 +76,10 @@ class ImportUtils(val context: Context) {
         }
 
         return when (requestCode) {
-            SPRITE_FROM_LOCAL -> processLocalImport(importData, lookFileName, sourceProject, true)
-            IMPORT_LOCAL_OBJECT -> processLocalImport(
-                importData,
-                lookFileName,
-                sourceProject,
-                false
-            )
-            SPRITE_OBJECT -> processMediaImport(lookFileName, sourceProject, true)
-            IMPORT_MEDIA_OBJECT -> processMediaImport(lookFileName, sourceProject, false)
+            SPRITE_FROM_LOCAL -> processLocalImport(importData, lookFileName, sourceProject)
+            IMPORT_LOCAL_OBJECT -> processLocalImport(importData, lookFileName, sourceProject)
+            SPRITE_OBJECT -> processMediaImport(lookFileName, sourceProject)
+            IMPORT_MEDIA_OBJECT -> processMediaImport(lookFileName, sourceProject)
             else -> null
         }
     }
@@ -92,12 +87,10 @@ class ImportUtils(val context: Context) {
     @VisibleForTesting(otherwise = MODE_PRIVATE)
     fun processMediaImport(
         lookFileName: String,
-        sourceProject: Project,
-        isObject: Boolean
+        sourceProject: Project
     ): List<ImportSpriteData>? {
         val spriteToImport = sourceProject.defaultScene.spriteList?.get(1) ?: return null
-        val lookDataName = UniqueNameProvider().getUniqueNameInNameables(
-            spriteToImport.name,
+        val lookDataName = UniqueNameProvider().getUniqueNameInNameables(spriteToImport.name,
             currentScene.spriteList
         )
 
@@ -105,10 +98,10 @@ class ImportUtils(val context: Context) {
             ImportSpriteData(
                 spriteToImport,
                 sourceProject,
-                false,
                 lookDataName,
                 lookFileName,
-                isObject
+                isGroup = false,
+                isGroupItem = false
             )
         )
 
@@ -128,23 +121,21 @@ class ImportUtils(val context: Context) {
     fun processLocalImport(
         importData: Bundle?,
         lookFileName: String,
-        sourceProject: Project,
-        isObject: Boolean
+        sourceProject: Project
     ): ArrayList<ImportSpriteData>? {
-        val sceneName = importData?.getString(
-            ImportLocalObjectActivity
-                .REQUEST_SCENE
-        ) ?: return null
-        val spriteNames = importData.getStringArrayList(
-            ImportLocalObjectActivity
-                .REQUEST_SPRITE
-        ) ?: return null
+        val sceneName = importData?.getString(ImportLocalObjectActivity.REQUEST_SCENE)
+        val scene = sourceProject.getSceneByName(sceneName) ?: return null
+        val spriteNames = importData?.getStringArrayList(ImportLocalObjectActivity.REQUEST_SPRITE)
+        val groupNames = importData?.getStringArrayList(ImportLocalObjectActivity.REQUEST_GROUP_SPRITE)
 
-        val importSpritesData: ArrayList<ImportSpriteData> =
-            createNewSpritesData(
-                spriteNames, lookFileName, sourceProject, sceneName,
-                isObject
-            )
+        if (spriteNames.isNullOrEmpty() && groupNames.isNullOrEmpty()) return null
+
+        val importSpritesData: ArrayList<ImportSpriteData> = createNewSpritesData(
+                spriteNames,
+                groupNames,
+                lookFileName,
+                scene
+        )
 
         val conflicts = ImportVariablesManager.validateVariableConflictsForImport(
             importSpritesData.map { it.sprite }, sourceProject
@@ -156,7 +147,6 @@ class ImportUtils(val context: Context) {
             )
             return null
         }
-
         return importSpritesData
     }
 
@@ -184,7 +174,7 @@ class ImportUtils(val context: Context) {
         } catch (e: FileNotFoundException) {
             Log.e(TAG, Log.getStackTraceString(e))
         }
-       return null
+        return null
     }
 
     fun showRejectToast() {
@@ -217,26 +207,41 @@ class ImportUtils(val context: Context) {
 
     @VisibleForTesting(otherwise = MODE_PRIVATE)
     fun createNewSpritesData(
-        spriteNames: ArrayList<String>,
+        spriteNames: ArrayList<String?>?,
+        groupSprites: ArrayList<String?>?,
         lookFileName: String,
-        sourceProject: Project,
-        sceneName: String,
-        isObject: Boolean
+        scene: Scene
     ): ArrayList<ImportSpriteData> {
         val data: ArrayList<ImportSpriteData> = ArrayList()
-        val scene = sourceProject.getSceneByName(sceneName)
         val currentScene = projectManager.currentlyEditedScene
-        spriteNames.forEach {
-            data.add(
-                ImportSpriteData(
-                    scene.getSprite(it),
-                    sourceProject,
-                    false,
-                    createNewLookDataName(it, currentScene),
-                    lookFileName,
-                    isObject
+        spriteNames?.forEach {
+            if (it != null) {
+                data.add(
+                    ImportSpriteData(
+                        scene.getSprite(it),
+                        scene.project,
+                        createNewLookDataName(it, currentScene),
+                        lookFileName,
+                        isGroup = false,
+                        isGroupItem = false
+                    )
                 )
-            )
+            }
+        }
+
+        groupSprites?.forEach {
+            if (it != null) {
+                data.add(
+                    ImportSpriteData(
+                        scene.getSprite(it),
+                        scene.project,
+                        createNewLookDataName(it, currentScene),
+                        it,
+                        isGroup = true,
+                        isGroupItem = false
+                    )
+                )
+            }
         }
         return data
     }

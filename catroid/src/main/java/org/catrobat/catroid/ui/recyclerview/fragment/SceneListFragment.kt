@@ -61,7 +61,7 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
         if (ImportLocalObjectActivity.hasExtraTAG(activity) == true) {
             prepareActionMode(IMPORT_LOCAL)
             ImportLocalObjectActivity.sceneToImportFrom = null
-            ImportLocalObjectActivity.spritesToImport = null
+            ImportLocalObjectActivity.spritesToImport = ArrayList()
         }
     }
 
