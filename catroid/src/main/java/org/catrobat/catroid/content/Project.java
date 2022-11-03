@@ -29,6 +29,7 @@ import android.os.Build;
 import com.badlogic.gdx.math.Rectangle;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BroadcastMessageContainer;
 import org.catrobat.catroid.common.Constants;
@@ -38,9 +39,12 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.ScreenValueHandler;
@@ -134,6 +138,28 @@ public class Project implements Serializable {
 
 	public Project(Context context, String name) {
 		this(context, name, false);
+	}
+
+	public Project(String name, Project sourceProject1, Project sourceProject2) {
+		File destinationDir = new File(
+				sourceProject1.directory.getParentFile(),
+				FileMetaDataExtractor.encodeSpecialCharsForFileSystem(name)
+		);
+		try {
+			StorageOperations.copyDir(sourceProject1.directory, destinationDir);
+			XstreamSerializer.renameProject(
+					new File(destinationDir, Constants.CODE_XML_FILE_NAME),
+					name
+			);
+			ProjectManager.getInstance().addNewDownloadedProject(name);
+			ProjectManager.getInstance().loadProject(destinationDir);
+			for (Scene scene : sourceProject2.sceneList) {
+				Scene newScene = new SceneController().copy(scene, ProjectManager.getInstance().getCurrentProject());
+				ProjectManager.getInstance().getCurrentProject().sceneList.add(newScene);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("Copying project failed", e);
+		}
 	}
 
 	public File getDirectory() {
