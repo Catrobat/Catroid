@@ -259,7 +259,7 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         menu.findItem(R.id.menu_scratch_converter).title = scratchConverterBeta
-        return true
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
