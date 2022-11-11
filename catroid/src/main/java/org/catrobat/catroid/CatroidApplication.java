@@ -42,6 +42,8 @@ import java.util.Locale;
 
 import androidx.multidex.MultiDex;
 
+import static org.catrobat.catroid.ui.LightThemeManager.setLightTheme;
+
 public class CatroidApplication extends Application {
 
 	private static final String TAG = CatroidApplication.class.getSimpleName();
@@ -78,6 +80,8 @@ public class CatroidApplication extends Application {
 		googleAnalytics.setDryRun(BuildConfig.DEBUG);
 
 		setupHuaweiMobileServices();
+
+		setLightTheme(false);
 	}
 
 	private void setupHuaweiMobileServices() {

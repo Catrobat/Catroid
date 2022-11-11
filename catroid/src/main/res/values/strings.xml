@@ -254,6 +254,10 @@
     <string name="preference_raspi_port">Raspberry Pi port</string>
     <!--  -->
 
+    <string name="preference_title_light_theme_enabled">Light Theme</string>
+    <string name="preference_description_light_theme_enabled">Enable a theme with
+        lighter colors</string>
+
     <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
     <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
         multiplayer variables shared via Bluetooth</string>

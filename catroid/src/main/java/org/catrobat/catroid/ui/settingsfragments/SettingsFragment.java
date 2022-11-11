@@ -46,6 +46,7 @@ import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.sync.ProjectsCategoriesSync;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.util.ArrayList;
@@ -57,12 +58,16 @@ import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 
 import static org.catrobat.catroid.CatroidApplication.defaultSystemLanguage;
+import static org.catrobat.catroid.CatroidApplication.getAppContext;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAGS;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAG_KEY;
+import static org.catrobat.catroid.ui.LightThemeManager.isLightThemeEnabled;
+import static org.catrobat.catroid.ui.LightThemeManager.setLightTheme;
 import static org.koin.java.KoinJavaComponent.inject;
 
 public class SettingsFragment extends PreferenceFragment {
+	public static final String SETTINGS_LIGHT_THEME_ENABLED = "settings_light_theme_enabled";
 
 	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED = "settings_mindstorms_nxt_bricks_enabled";
 	public static final String SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_nxt_show_sensor_info_box_disabled";
@@ -142,6 +147,8 @@ public class SettingsFragment extends PreferenceFragment {
 		setLanguage();
 
 		screen = getPreferenceScreen();
+
+		setupLightThemePreference(screen);
 
 		if (!BuildConfig.FEATURE_EMBROIDERY_ENABLED) {
 			CheckBoxPreference embroideryPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_EMBROIDERY_BRICKS);
@@ -290,6 +297,16 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static boolean isCastSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_CAST_GLOBALLY_ENABLED, context);
+	}
+
+	public static boolean isLightThemeSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_CAST_GLOBALLY_ENABLED, context);
+	}
+
+	public static void setLightThemeSharedPreferenceEnabled(Context context, boolean value) {
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_LIGHT_THEME_ENABLED, value)
+				.apply();
 	}
 
 	public static void setPhiroSharedPreferenceEnabled(Context context, boolean value) {
@@ -579,5 +596,20 @@ public class SettingsFragment extends PreferenceFragment {
 		getSharedPreferences(context).edit()
 				.putBoolean(SETTINGS_USE_CATBLOCKS, useCatBlocks)
 				.apply();
+	}
+
+	private void resetActivity() {
+		startActivity(new Intent(getAppContext(), SettingsActivity.class));
+		getActivity().finish();
+	}
+
+	public void setupLightThemePreference(PreferenceScreen screen) {
+		screen.findPreference(SETTINGS_LIGHT_THEME_ENABLED).setDefaultValue(isLightThemeEnabled());
+
+		screen.findPreference(SETTINGS_LIGHT_THEME_ENABLED).setOnPreferenceChangeListener((preference, newValue) -> {
+			setLightTheme((Boolean) newValue);
+			resetActivity();
+			return false;
+		});
 	}
 }

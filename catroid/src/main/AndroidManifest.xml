@@ -88,7 +88,8 @@
         <activity
             android:name=".ui.SettingsActivity"
             android:noHistory="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:configChanges="uiMode" />
 
         <activity
             android:name=".ui.MainMenuActivity"
