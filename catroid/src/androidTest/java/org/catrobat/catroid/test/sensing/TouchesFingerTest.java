@@ -24,8 +24,10 @@
 package org.catrobat.catroid.test.sensing;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.sensing.CollisionDetection;
 import org.catrobat.catroid.test.physics.collision.CollisionTestUtils;
@@ -40,8 +42,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import static junit.framework.Assert.assertEquals;
-
-import static org.junit.Assert.assertNotEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class TouchesFingerTest {
@@ -65,14 +65,8 @@ public class TouchesFingerTest {
 
 	@Test
 	public void testBasicOneTouchingPoint() {
-		TouchUtil.reset();
-		TouchUtil.touchDown(150, 150, 1);
-		assertEquals(1d, CollisionDetection.collidesWithFinger(
-				sprite1.look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints()));
-		TouchUtil.touchUp(1);
-		TouchUtil.touchDown(0, 0, 1);
-		assertNotEquals(1d, CollisionDetection.collidesWithFinger(
-				sprite1.look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints()));
+		assertCollidesWithFinger(170, 0, 1d);
+		assertCollidesWithFinger(0, 0, 0d);
 	}
 
 	@Test
@@ -80,26 +74,77 @@ public class TouchesFingerTest {
 		TouchUtil.reset();
 		TouchUtil.touchDown(150, 150, 1);
 		TouchUtil.touchDown(0, 0, 2);
-		TouchUtil.touchDown(151, 151, 3);
+		TouchUtil.touchDown(225, 0, 3);
 		assertEquals(1d, CollisionDetection.collidesWithFinger(
-				sprite1.look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints()));
+				sprite1.look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints()),
+				0d);
 	}
 
 	@Test
 	public void testAdvancedOneTouchingPoint() {
-		TouchUtil.reset();
-		TouchUtil.touchDown(0, 0, 1);
-
-		assertNotEquals(1d, CollisionDetection.collidesWithFinger(
-				sprite1.look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints()));
+		assertCollidesWithFinger(0, 0, 0d);
 
 		float x = sprite1.look.getXInUserInterfaceDimensionUnit();
 		float y = sprite1.look.getYInUserInterfaceDimensionUnit();
 
-		sprite1.look.setXInUserInterfaceDimensionUnit(x - 150);
-		sprite1.look.setYInUserInterfaceDimensionUnit(y - 150);
+		sprite1.look.setXInUserInterfaceDimensionUnit(x - 225);
+		sprite1.look.setYInUserInterfaceDimensionUnit(y - 225);
 
 		assertEquals(1d, CollisionDetection.collidesWithFinger(
-				sprite1.look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints()));
+				sprite1.look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints()),
+				0d);
+	}
+
+	@Test
+	public void testOneTouchingPointWitRadiusLimits() {
+		XmlHeader header = project.getXmlHeader();
+		header.setVirtualScreenHeight(ScreenValues.CAST_SCREEN_HEIGHT);
+		header.setVirtualScreenWidth(ScreenValues.CAST_SCREEN_WIDTH);
+
+		assertCollidesWithFinger(-301, 0, 0d);
+		assertCollidesWithFinger(-300, 0, 1d);
+		assertCollidesWithFinger(-72, 0, 1d);
+		assertCollidesWithFinger(-71, 0, 0d);
+		assertCollidesWithFinger(76, 0, 0d);
+		assertCollidesWithFinger(77, 0, 1d);
+		assertCollidesWithFinger(299, 0, 1d);
+		assertCollidesWithFinger(300, 0, 0d);
+		assertCollidesWithFinger(0, -292, 0d);
+		assertCollidesWithFinger(0, -291, 1d);
+		assertCollidesWithFinger(0, -69, 1d);
+		assertCollidesWithFinger(0, -68, 0d);
+		assertCollidesWithFinger(0, 74, 0d);
+		assertCollidesWithFinger(0, 75, 1d);
+		assertCollidesWithFinger(0, 300, 1d);
+		assertCollidesWithFinger(0, 301, 0d);
+
+		header.setVirtualScreenHeight(480);
+		header.setVirtualScreenWidth(640);
+
+		assertCollidesWithFinger(-276, 0, 0d);
+		assertCollidesWithFinger(-275, 0, 1d);
+		assertCollidesWithFinger(-151, 0, 1d);
+		assertCollidesWithFinger(-150, 0, 0d);
+		assertCollidesWithFinger(149, 0, 0d);
+		assertCollidesWithFinger(150, 0, 1d);
+		assertCollidesWithFinger(274, 0, 1d);
+		assertCollidesWithFinger(275, 0, 0d);
+		assertCollidesWithFinger(0, -267, 0d);
+		assertCollidesWithFinger(0, -266, 1d);
+		assertCollidesWithFinger(0, -146, 1d);
+		assertCollidesWithFinger(0, -145, 0d);
+		assertCollidesWithFinger(0, 150, 0d);
+		assertCollidesWithFinger(0, 151, 1d);
+		assertCollidesWithFinger(0, 275, 1d);
+		assertCollidesWithFinger(0, 276, 0d);
+	}
+
+	private void assertCollidesWithFinger(float x, float y, double expected) {
+		TouchUtil.reset();
+		TouchUtil.touchDown(x, y, 1);
+		assertEquals(String.format("Failed with params: x: %f, y: %f!", x, y), expected,
+				CollisionDetection.collidesWithFinger(
+						sprite1.look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints()),
+				0d);
 	}
 }

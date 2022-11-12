@@ -30,11 +30,14 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.XmlHeader;
 
 import java.util.ArrayList;
 
@@ -181,7 +184,10 @@ public final class CollisionDetection {
 		Vector2 start = new Vector2();
 		Vector2 end = new Vector2();
 		Vector2 center = new Vector2();
-		float touchRadius = Constants.COLLISION_WITH_FINGER_TOUCH_RADIUS;
+		XmlHeader header = ProjectManager.getInstance().getCurrentProject().getXmlHeader();
+
+		float displayFactor = (float) header.virtualScreenWidth / ScreenValues.CAST_SCREEN_WIDTH;
+		float touchRadius = Constants.COLLISION_WITH_FINGER_TOUCH_RADIUS * displayFactor;
 
 		for (PointF point : touchingPoints) {
 			center.set(point.x, point.y);
@@ -211,7 +217,7 @@ public final class CollisionDetection {
 					if (Intersector.intersectSegmentCircle(start, end, center, touchRadius * touchRadius)) {
 						return 1d;
 					}
-					if (polygon.contains(point.x, point.y)) {
+					if (boundingRectangle.contains(point.x, point.y)) {
 						containedIn++;
 					}
 				}
