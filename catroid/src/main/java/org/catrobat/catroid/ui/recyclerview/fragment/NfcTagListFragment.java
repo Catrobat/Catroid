@@ -41,6 +41,7 @@ import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.NfcTagAdapter;
+import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -199,9 +200,9 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 	}
 
 	@Override
-	public void onItemClick(NfcTagData item) {
+	public void onItemClick(NfcTagData item, MultiSelectionManager selectionManager) {
 		if (actionModeType == RENAME) {
-			super.onItemClick(item);
+			super.onItemClick(item, null);
 		}
 	}
 

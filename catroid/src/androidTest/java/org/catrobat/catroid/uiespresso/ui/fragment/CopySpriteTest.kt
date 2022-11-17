@@ -82,7 +82,7 @@ class CopySpriteTest {
     @Test
     fun copySpriteTest() {
         openCopyAction()
-        RecyclerViewInteractionWrapper.onRecyclerView().atPosition(3).performCheckItem()
+        RecyclerViewInteractionWrapper.onRecyclerView().atPosition(3).performCheckItemClick()
         Espresso.onView(withId(R.id.confirm)).perform(ViewActions.click())
         Espresso.onView(
             ViewMatchers.withText(
@@ -95,9 +95,17 @@ class CopySpriteTest {
     }
 
     @Test
+    fun selectFragmentToCopyTest() {
+        openCopyAction()
+        Espresso.onView(withText(R.string.copy)).perform(ViewActions.click())
+        RecyclerViewInteractionWrapper.onRecyclerView().atPosition(1).perform(ViewActions.click())
+        RecyclerViewInteractionWrapper.onRecyclerView().atPosition(1).performCheckItemCheck()
+    }
+
+    @Test
     fun copySpritePositionTest() {
         openCopyAction()
-        RecyclerViewInteractionWrapper.onRecyclerView().atPosition(3).performCheckItem()
+        RecyclerViewInteractionWrapper.onRecyclerView().atPosition(3).performCheckItemClick()
         Espresso.onView(withId(R.id.confirm)).perform(ViewActions.click())
         val name = uniqueNameProvider!!.getUniqueName(
             spriteList[1],
@@ -111,8 +119,8 @@ class CopySpriteTest {
     @Test
     fun copyTwoDifferentSpritesTest() {
         openCopyAction()
-        RecyclerViewInteractionWrapper.onRecyclerView().atPosition(1).performCheckItem()
-        RecyclerViewInteractionWrapper.onRecyclerView().atPosition(3).performCheckItem()
+        RecyclerViewInteractionWrapper.onRecyclerView().atPosition(1).performCheckItemClick()
+        RecyclerViewInteractionWrapper.onRecyclerView().atPosition(3).performCheckItemClick()
         Espresso.onView(withId(R.id.confirm)).perform(ViewActions.click())
         Espresso.onView(
             ViewMatchers.withText(

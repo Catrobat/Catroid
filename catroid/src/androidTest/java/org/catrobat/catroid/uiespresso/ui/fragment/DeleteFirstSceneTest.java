@@ -95,7 +95,7 @@ public class DeleteFirstSceneTest {
 				.perform(click());
 
 		onRecyclerView().atPosition(0)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onView(withId(R.id.confirm))
 				.perform(click());

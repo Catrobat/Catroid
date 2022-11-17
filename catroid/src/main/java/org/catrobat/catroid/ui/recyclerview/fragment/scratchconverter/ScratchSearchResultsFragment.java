@@ -48,6 +48,7 @@ import org.catrobat.catroid.ui.ScratchProgramDetailsActivity;
 import org.catrobat.catroid.ui.ViewUtils;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.ScratchProgramAdapter;
+import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -363,7 +364,7 @@ public class ScratchSearchResultsFragment extends Fragment implements
 	}
 
 	@Override
-	public void onItemClick(ScratchProgramData item) {
+	public void onItemClick(ScratchProgramData item, MultiSelectionManager selectionManager) {
 		if (actionModeType == NONE) {
 			ScratchProgramDetailsActivity.setConversionManager(conversionManager);
 			Intent intent = new Intent(getActivity(), ScratchProgramDetailsActivity.class);
