@@ -40,6 +40,7 @@ import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallback;
+import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
 import org.catrobat.catroid.utils.ToastUtil;
 
@@ -279,8 +280,15 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	}
 
 	@Override
-	public void onItemClick(final T item) {
+	public void onItemClick(final T item, MultiSelectionManager selectionManager) {
 		if (actionModeType != NONE) {
+			if (selectionManager == null) {
+				return;
+			}
+			List<T> items = adapter.getItems();
+			selectionManager.toggleSelection(items.indexOf(item));
+			onSelectionChanged(selectionManager.getSelectedPositions().size());
+			adapter.notifyDataSetChanged();
 			return;
 		}
 
@@ -315,7 +323,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 
 	@Override
 	public void onItemLongClick(T item, CheckableViewHolder holder) {
-		onItemClick(item);
+		onItemClick(item, null);
 	}
 
 	@Override

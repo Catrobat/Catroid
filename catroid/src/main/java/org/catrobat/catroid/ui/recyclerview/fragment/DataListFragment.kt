@@ -56,6 +56,7 @@ import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment
 import org.catrobat.catroid.ui.recyclerview.adapter.DataListAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
+import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
@@ -488,7 +489,7 @@ class DataListFragment : Fragment(),
         }
     }
 
-    override fun onItemClick(item: UserData<*>) {
+    override fun onItemClick(item: UserData<*>, selectionManager: MultiSelectionManager?) {
         if (actionModeType == NONE) {
             val formulaEditorFragment =
                 fragmentManager?.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG) as FormulaEditorFragment?
@@ -498,7 +499,7 @@ class DataListFragment : Fragment(),
     }
 
     override fun onItemLongClick(item: UserData<*>, holder: CheckableViewHolder) {
-        onItemClick(item)
+        onItemClick(item, null)
     }
 
     interface FormulaEditorDataInterface {

@@ -45,6 +45,7 @@ import org.catrobat.catroid.ui.BottomBar
 import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.recyclerview.adapter.DataListAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
+import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
@@ -229,13 +230,13 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
         updateTitle()
     }
 
-    override fun onItemClick(item: UserData<*>) {
+    override fun onItemClick(item: UserData<*>, selectionManager: MultiSelectionManager?) {
         adapter?.toggleSelection(item)
         updateTitle()
     }
 
     override fun onItemLongClick(item: UserData<*>, holder: CheckableViewHolder) {
-        onItemClick(item)
+        onItemClick(item, null)
     }
 
     interface ListSelectorInterface {
