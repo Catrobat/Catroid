@@ -61,6 +61,7 @@ import org.catrobat.catroid.ui.filepicker.FilePickerActivity
 import org.catrobat.catroid.ui.fragment.ProjectOptionsFragment
 import org.catrobat.catroid.ui.recyclerview.adapter.ProjectAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
+import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
 import org.catrobat.catroid.utils.ToastUtil
@@ -412,29 +413,32 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         setShowProgressBar(false)
     }
 
-    override fun onItemClick(item: ProjectData?) {
-        if (actionModeType == RENAME) {
-            super.onItemClick(item)
-            return
-        }
-        if (actionModeType == NONE) {
-            setShowProgressBar(true)
-            val directoryFile = item?.directory ?: return
-            ProjectLoader(directoryFile, requireContext()).setListener(this).loadProjectAsync()
-        }
-        if (actionModeType == IMPORT_LOCAL) {
-            val intent = Intent()
-            intent.putExtra(
-                ProjectListActivity.IMPORT_LOCAL_INTENT,
-                item?.directory?.absoluteFile?.absolutePath
-            )
-            requireActivity().setResult(RESULT_OK, intent)
-            requireActivity().finish()
+    override fun onItemClick(item: ProjectData?, selectionManager: MultiSelectionManager?) {
+        when (actionModeType) {
+            RENAME -> {
+                super.onItemClick(item, null)
+                return
+            }
+            NONE -> {
+                setShowProgressBar(true)
+                val directoryFile = item?.directory ?: return
+                ProjectLoader(directoryFile, requireContext()).setListener(this).loadProjectAsync()
+            }
+            IMPORT_LOCAL -> {
+                val intent = Intent()
+                intent.putExtra(
+                    ProjectListActivity.IMPORT_LOCAL_INTENT,
+                    item?.directory?.absoluteFile?.absolutePath
+                )
+                requireActivity().setResult(RESULT_OK, intent)
+                requireActivity().finish()
+            }
+            else -> super.onItemClick(item, selectionManager)
         }
     }
 
     override fun onItemLongClick(item: ProjectData?, holder: CheckableViewHolder?) {
-        onItemClick(item)
+        onItemClick(item, null)
     }
 
     override fun onSettingsClick(item: ProjectData?, view: View?) {

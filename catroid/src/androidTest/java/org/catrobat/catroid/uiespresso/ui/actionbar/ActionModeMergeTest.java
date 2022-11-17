@@ -86,13 +86,13 @@ public class ActionModeMergeTest {
 		onView(withText(R.string.merge)).perform(click());
 
 		onRecyclerView().atPosition(0)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onRecyclerView().atPosition(1)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onRecyclerView().atPosition(2)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onRecyclerView().atPosition(0).onChildView(R.id.checkbox).check(matches(isChecked()));
 		onRecyclerView().atPosition(1).onChildView(R.id.checkbox).check(matches(isChecked()));
@@ -115,19 +115,19 @@ public class ActionModeMergeTest {
 				.perform(click());
 
 		onRecyclerView().atPosition(0)
-				.performCheckItem();
+				.performCheckItemClick();
 		onActionMode().checkTitleMatches(UiTestUtils.getResourcesString(R.string.merge) + " 1");
 
 		onRecyclerView().atPosition(1)
-				.performCheckItem();
+				.performCheckItemClick();
 		onActionMode().checkTitleMatches(UiTestUtils.getResourcesString(R.string.merge) + " 2");
 
 		onRecyclerView().atPosition(0)
-				.performCheckItem();
+				.performCheckItemClick();
 		onActionMode().checkTitleMatches(UiTestUtils.getResourcesString(R.string.merge) + " 1");
 
 		onRecyclerView().atPosition(1)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onActionMode().checkTitleMatches(UiTestUtils.getResourcesString(R.string.merge) + " 0");
 	}

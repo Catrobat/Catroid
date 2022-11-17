@@ -54,7 +54,6 @@ import static org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionModeWrapp
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.hamcrest.Matchers.allOf;
 
-import static androidx.test.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -84,11 +83,11 @@ public class DeleteSoundDialogTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void deleteSoundDialogTest() {
-		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
 		onRecyclerView().atPosition(1)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onView(withId(R.id.confirm)).perform(click());
 
@@ -114,11 +113,11 @@ public class DeleteSoundDialogTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void cancelDeleteSoundDialogTest() {
-		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
 		onRecyclerView().atPosition(1)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onView(withId(R.id.confirm)).perform(click());
 
@@ -141,6 +140,16 @@ public class DeleteSoundDialogTest {
 				.check(matches(isDisplayed()));
 
 		onActionMode().checkTitleMatches(UiTestUtils.getResourcesString(R.string.delete) + " 1");
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void selectFragmentToDeleteTest() {
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
+		onView(withText(R.string.delete)).perform(click());
+
+		onRecyclerView().atPosition(0).perform(click());
+		onRecyclerView().atPosition(0).performCheckItemCheck();
 	}
 
 	private void createProject(String projectName) throws IOException {

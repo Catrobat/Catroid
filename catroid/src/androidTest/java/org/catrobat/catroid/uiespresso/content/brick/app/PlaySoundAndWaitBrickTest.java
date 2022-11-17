@@ -191,7 +191,7 @@ public class PlaySoundAndWaitBrickTest {
 		onView(withText(R.string.delete))
 				.perform(click());
 		onRecyclerView().atPosition(position)
-				.performCheckItem();
+				.performCheckItemClick();
 		onView(withId(R.id.confirm))
 				.perform(click());
 
