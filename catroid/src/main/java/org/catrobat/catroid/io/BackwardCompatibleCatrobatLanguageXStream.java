@@ -25,6 +25,7 @@ package org.catrobat.catroid.io;
 import android.util.Log;
 import android.util.Pair;
 
+import com.badlogic.gdx.graphics.g3d.Attribute;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.ConversionException;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
@@ -214,14 +215,22 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 
 	public BackwardCompatibleCatrobatLanguageXStream(PureJavaReflectionProvider reflectionProvider) {
 		super(reflectionProvider);
-		// TODO: may fail without them
-		/*super.addImmutableType(UserList.class, true);
-		super.addImmutableType(UserVariable.class, true);*/
 	}
 
 	public Object getProjectFromXML(File file) {
 		Object parsedObject;
 		try {
+			initializeScriptInfoMap();
+			initializeBrickInfoMap();
+			Document originalDocument = getDocument(file);
+			if (originalDocument != null) {
+				checkReferences(originalDocument.getDocumentElement());
+				OldUserListInterpreter userListInterpreter =
+						new OldUserListInterpreter(originalDocument);
+				originalDocument = userListInterpreter.interpret();
+			}
+			saveDocument(originalDocument, file);
+
 			parsedObject = super.fromXML(file);
 		} catch (ConversionException exception) {
 			Log.d(TAG, "Conversion error " + exception.getLocalizedMessage());
@@ -818,7 +827,7 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 	private void renameScriptChildNodeByName(Document originalDocument, String scriptName, String oldChildNodeName,
 			String newChildNodeName) {
 		for (Node script : getScriptsOfType(originalDocument, scriptName)) {
-			Element message = findNodeByName(script, oldChildNodeName);
+			Element message = (Element) NodeOperatorExtension.getNodeByName(script, oldChildNodeName);
 			if (message != null) {
 				originalDocument.renameNode(message, null, newChildNodeName);
 			}
@@ -898,7 +907,7 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 			String brickType = brick.first;
 			String newNodeName = brick.second;
 			for (Node node : getBricksOfType(originalDocument, brickType)) {
-				Node childNode = findNodeByName(node, "spinnerSelectionID");
+				Node childNode = NodeOperatorExtension.getNodeByName(node, "spinnerSelectionID");
 				if (childNode == null) {
 					continue;
 				}
@@ -957,20 +966,8 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		}
 	}
 
-	private Element findNodeByName(Node parentNode, String nodeName) {
-		NodeList childNodes = parentNode.getChildNodes();
-		if (childNodes != null) {
-			for (int i = 0; i < childNodes.getLength(); i++) {
-				if (childNodes.item(i).getNodeName().equals(nodeName)) {
-					return (Element) childNodes.item(i);
-				}
-			}
-		}
-		return null;
-	}
-
 	private void deleteChildNodeByName(Node parentNode, String childNodeName) {
-		Node node = findNodeByName(parentNode, childNodeName);
+		Node node = NodeOperatorExtension.getNodeByName(parentNode, childNodeName);
 		if (node != null) {
 			parentNode.removeChild(node);
 		}
@@ -1006,7 +1003,7 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		NodeList nodeList = originalDocument.getElementsByTagName(parentNodeName);
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node node = nodeList.item(i);
-			Node childNode = findNodeByName(node, childNodeName);
+			Node childNode = NodeOperatorExtension.getNodeByName(node, childNodeName);
 			if (childNode != null && node instanceof Element) {
 				Element elem = (Element) node;
 				elem.setAttribute(childNodeName, childNode.getTextContent());
@@ -1100,13 +1097,13 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 	}
 
 	private void handleFormulaNode(Document doc, BrickInfo brickInfo, Element newParentNode, Element oldNode) {
-		Node formulaListNode = findNodeByName(newParentNode, "formulaList");
+		Node formulaListNode = NodeOperatorExtension.getNodeByName(newParentNode, "formulaList");
 		if (formulaListNode == null) {
 			formulaListNode = doc.createElement("formulaList");
 			newParentNode.appendChild(formulaListNode);
 		}
 
-		Element formulaNode = findNodeByName(oldNode, "formulaTree");
+		Element formulaNode = (Element) NodeOperatorExtension.getNodeByName(oldNode, "formulaTree");
 		if (formulaNode == null) {
 			formulaNode = doc.createElement("formula");
 		} else {
@@ -1129,7 +1126,7 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 
 	private void handleUserVariableNode(Element parentNode, Element userVariableNode) {
 		if (!userVariableNode.hasAttribute("reference")) {
-			Node nameNode = findNodeByName(userVariableNode, "name");
+			Node nameNode = NodeOperatorExtension.getNodeByName(userVariableNode, "name");
 			if (nameNode != null) {
 				String userVariable = nameNode.getTextContent();
 				userVariableNode.removeChild(nameNode);

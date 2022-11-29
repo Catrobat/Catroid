@@ -391,8 +391,8 @@ class DataListFragment : Fragment(),
         globalVars: MutableList<UserVariable>,
         localVars: MutableList<UserVariable>,
         multiplayerVars: MutableList<UserVariable>,
-        globalLists: MutableList<UserList>,
-        localLists: MutableList<UserList>
+        globalLists: MutableList<UserVariable>,
+        localLists: MutableList<UserVariable>
     ) {
         if (userDefinedBrickInputs.isNotEmpty()) {
             for ((counter, userDefinedBrickInput) in userDefinedBrickInputs.withIndex()) {
