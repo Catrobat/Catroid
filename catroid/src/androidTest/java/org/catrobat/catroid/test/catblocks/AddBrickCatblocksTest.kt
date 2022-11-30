@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.content.brick.app
+package org.catrobat.catroid.test.catblocks
 
 import android.view.View
 import android.webkit.WebView
@@ -35,7 +35,7 @@ import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiSelector
 import androidx.test.uiautomator.Until
 import org.catrobat.catroid.R
-import org.catrobat.catroid.UiTestCatroidApplication.Companion.projectManager
+import org.catrobat.catroid.UiTestCatroidApplication
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
@@ -82,9 +82,9 @@ class AddBrickCatblocksTest {
         uiDevice.wait(Until.findObject(By.clazz(WebView::class.java)), TIMEOUT)
         val catblocksView = baseActivityTestRule.activity.findViewById<View>(R.id.catblocksWebView)
         val catblocksFragment = FragmentManager.findFragment<Fragment>(catblocksView) as CatblocksScriptFragment
-        catblocksFragment.activity?.runOnUiThread(Runnable {
+        catblocksFragment.activity?.runOnUiThread {
             catblocksFragment.handleAddButton()
-        })
+        }
         val categoryEvent = uiDevice.findObject(
             UiSelector().resourceId("categoryEVENT")
         )
@@ -97,8 +97,8 @@ class AddBrickCatblocksTest {
         Assert.assertTrue(brickStartScript.exists())
         Assert.assertTrue(brickStartScript.click())
         Assert.assertTrue(brickStartScript.waitUntilGone(TIMEOUT))
-        Assert.assertEquals(projectManager.currentSprite.scriptList.count(), 1)
-        val addedScript = projectManager.currentSprite.scriptList.first()
+        Assert.assertEquals(UiTestCatroidApplication.projectManager.currentSprite.scriptList.count(), 1)
+        val addedScript = UiTestCatroidApplication.projectManager.currentSprite.scriptList.first()
         Assert.assertNotNull(addedScript)
         Assert.assertTrue(addedScript is StartScript)
     }
@@ -108,7 +108,7 @@ class AddBrickCatblocksTest {
         val project = Project(ApplicationProvider.getApplicationContext(), projectName)
         val sprite = Sprite("testSprite")
         project.defaultScene.addSprite(sprite)
-        projectManager.currentProject = project
-        projectManager.currentSprite = sprite
+        UiTestCatroidApplication.projectManager.currentProject = project
+        UiTestCatroidApplication.projectManager.currentSprite = sprite
     }
 }
