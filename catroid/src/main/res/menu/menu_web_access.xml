@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -22,18 +22,29 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:layout_gravity="end">
 
-    <include layout="@layout/toolbar" />
+        <item
+            android:id="@+id/menu_delete"
+            android:enabled="true"
+            android:title="@string/delete"
+            app:showAsAction="never" />
 
-    <FrameLayout
-        android:id="@+id/content_frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        <item
+            android:id="@+id/menu_done"
+            android:icon="@drawable/ic_done"
+            android:title="@string/main_menu_help"
+            android:visibility="gone"
+            android:visible="false"
+            app:showAsAction="ifRoom" />
 
-    </FrameLayout>
-
-</LinearLayout>
+        <item
+            android:id="@+id/menu_help"
+            android:icon="@drawable/ic_main_menu_help"
+            android:title="@string/main_menu_help"
+            app:showAsAction="ifRoom"/>
+    </group>
+</menu>

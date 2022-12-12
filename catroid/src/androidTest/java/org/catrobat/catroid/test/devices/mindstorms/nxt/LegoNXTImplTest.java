@@ -50,7 +50,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.NXT_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.LegoSensors.NXT_SENSORS;
 
 @RunWith(AndroidJUnit4.class)
 public class LegoNXTImplTest {

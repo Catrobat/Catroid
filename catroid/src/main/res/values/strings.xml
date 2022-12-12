@@ -141,12 +141,20 @@
     <!-- Settings activity -->
     <string formatted="false" name="preference_title">Settings</string>
     <string formatted="false" name="preference_title_language">Language</string>
+    <string formatted="false" name="preference_title_extension">Manage Extensions</string>
+
     <string formatted="false" name="preference_description_language">Set the app\'s language</string>
+    <string formatted="false" name="preference_description_extension">Edit extensions</string>
 
     <string formatted="false" name="preference_title_web_access">Web access</string>
     <string formatted="false" name="preference_description_web_access">Edit to add or remove trusted domains</string>
     <string formatted="false" name="preference_screen_web_access_title">Edit trusted domains</string>
+    <string formatted="false" name="preference_empty_web_access">Tap \"+\" to add trusted domains</string>
+    <string formatted="false" name="web_access_rename_trusted_domain">Edit domain</string>
+    <string formatted="false" name="web_access_add_trusted_domain">Add trusted domain</string>
 
+    <string formatted="false" name="preference_title_manage_extensions">Extensions</string>
+    <string formatted="false" name="preference_web_settings">Web access</string>
     <string formatted="false" name="preference_title_ai">Artificial intelligence (AI) extension</string>
     <string formatted="false" name="preference_description_ai">Enable AI bricks and sensors</string>
     <string formatted="false" name="preference_title_ai_speech_recognition">Speech

@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.ui.fragment
 
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import org.catrobat.catroid.ProjectManager
@@ -46,7 +46,7 @@ class BrickCategoryListBuilder(private val activity: FragmentActivity) {
 
         categories.add(inflater.inflate(R.layout.brick_category_recently_used, null))
 
-        if (SettingsFragment.isEmroiderySharedPreferenceEnabled(activity)) {
+        if (SettingsFragment.isEmbroiderySharedPreferenceEnabled(activity)) {
             categories.add(inflater.inflate(R.layout.brick_category_embroidery, null))
         }
         if (SettingsFragment.isMindstormsNXTSharedPreferenceEnabled(activity)) {
@@ -64,6 +64,7 @@ class BrickCategoryListBuilder(private val activity: FragmentActivity) {
         if (SettingsFragment.isArduinoSharedPreferenceEnabled(activity)) {
             categories.add(inflater.inflate(R.layout.brick_category_arduino, null))
         }
+        // why?
         if (RaspberryPiSettingsFragment.isRaspiSharedPreferenceEnabled(activity)) {
             categories.add(inflater.inflate(R.layout.brick_category_raspi, null))
         }
