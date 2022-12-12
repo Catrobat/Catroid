@@ -48,8 +48,8 @@ import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.EV3_SENSORS;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.NXT_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.LegoSensors.EV3_SENSORS;
+import static org.catrobat.catroid.ui.settingsfragments.LegoSensors.NXT_SENSORS;
 
 public class LegoSensorService implements CatroidService, SharedPreferences.OnSharedPreferenceChangeListener {
 

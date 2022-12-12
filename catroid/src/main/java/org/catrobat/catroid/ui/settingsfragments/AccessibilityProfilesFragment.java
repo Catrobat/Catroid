@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,11 +23,9 @@
 
 package org.catrobat.catroid.ui.settingsfragments;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,15 +41,10 @@ import org.catrobat.catroid.utils.ToastUtil;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.ACCESSIBILITY_PROFILE_PREFERENCE_KEY;
-import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile.BEGINNER_BRICKS;
-import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile.DRAGNDROP_DELAY;
-import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile.ELEMENT_SPACING;
-import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile.HIGH_CONTRAST;
-import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile.ICONS;
-import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile.LARGE_ICONS;
-import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile.LARGE_TEXT;
 import static org.catrobat.catroid.ui.settingsfragments.AccessibilitySettingsFragment.CUSTOM_PROFILE;
 
 public class AccessibilityProfilesFragment extends Fragment implements View.OnClickListener {
@@ -61,33 +54,10 @@ public class AccessibilityProfilesFragment extends Fragment implements View.OnCl
 
 	private View parent;
 
-	private class AccessibilityProfileViewHolder {
-
-		View view;
-		RadioButton radioButton;
-		ImageView imageView;
-		TextView title;
-		TextView subtitle;
-
-		AccessibilityProfileViewHolder(View view) {
-			this.view = view;
-			radioButton = view.findViewById(R.id.radio_button);
-			imageView = view.findViewById(R.id.image_view);
-			title = view.findViewById(R.id.title_view);
-			subtitle = view.findViewById(R.id.subtitle_view);
-		}
-	}
-
-	@Nullable
-	@Override
-	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-		parent = inflater.inflate(R.layout.fragment_accesibility_profiles, container, false);
-		return parent;
-	}
-
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+
 
 		AccessibilityProfileViewHolder viewHolder = new AccessibilityProfileViewHolder(parent.findViewById(R.id.custom_profile));
 		viewHolder.view.setOnClickListener(this);
@@ -127,17 +97,33 @@ public class AccessibilityProfilesFragment extends Fragment implements View.OnCl
 		viewHolder.title.setText(R.string.preference_access_title_profile_tiro);
 		viewHolder.subtitle.setText(R.string.preference_access_summary_profile_tiro);
 
-		int selectedProfileViewId = PreferenceManager.getDefaultSharedPreferences(getActivity())
+		int selectedProfileViewId = PreferenceManager.getDefaultSharedPreferences(requireActivity())
 				.getInt(ACCESSIBILITY_PROFILE_PREFERENCE_KEY, R.id.default_profile);
 
-		new AccessibilityProfileViewHolder(parent.findViewById(selectedProfileViewId)).radioButton.setChecked(true);
+		if (selectedProfileViewId != R.id.default_profile &&
+				selectedProfileViewId != R.id.custom_profile &&
+				selectedProfileViewId != R.id.argus && selectedProfileViewId != R.id.fenrir &&
+				selectedProfileViewId != R.id.odin && selectedProfileViewId != R.id.tiro) {
+			selectedProfileViewId = R.id.default_profile;
+		}
+
+		AccessibilityProfileViewHolder selectedProfile =
+				new AccessibilityProfileViewHolder(parent.findViewById(selectedProfileViewId));
+		selectedProfile.radioButton.setChecked(true);
+	}
+
+	@Nullable
+	@Override
+	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+		parent = inflater.inflate(R.layout.fragment_accesibility_profiles, container, false);
+		return parent;
 	}
 
 	@Override
 	public void onClick(View v) {
 		new AccessibilityProfileViewHolder(v).radioButton.setChecked(true);
 
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
 		AccessibilityProfile currentProfile = AccessibilityProfile.fromCurrentPreferences(sharedPreferences);
 		if (sharedPreferences.getBoolean(CUSTOM_PROFILE, false)) {
 			currentProfile.saveAsCustomProfile(sharedPreferences);
@@ -149,16 +135,16 @@ public class AccessibilityProfilesFragment extends Fragment implements View.OnCl
 		AccessibilityProfile newProfile;
 		switch (v.getId()) {
 			case R.id.argus:
-				newProfile = new AccessibilityProfile(HIGH_CONTRAST, ICONS);
+				newProfile = new AccessibilityProfile(AccessibilityProfile.HIGH_CONTRAST, AccessibilityProfile.ICONS);
 				break;
 			case R.id.fenrir:
-				newProfile = new AccessibilityProfile(ELEMENT_SPACING, DRAGNDROP_DELAY);
+				newProfile = new AccessibilityProfile(AccessibilityProfile.ELEMENT_SPACING, AccessibilityProfile.DRAGNDROP_DELAY);
 				break;
 			case R.id.odin:
-				newProfile = new AccessibilityProfile(LARGE_TEXT, HIGH_CONTRAST, ICONS, LARGE_ICONS, ELEMENT_SPACING);
+				newProfile = new AccessibilityProfile(AccessibilityProfile.LARGE_TEXT, AccessibilityProfile.HIGH_CONTRAST, AccessibilityProfile.ICONS, AccessibilityProfile.LARGE_ICONS, AccessibilityProfile.ELEMENT_SPACING);
 				break;
 			case R.id.tiro:
-				newProfile = new AccessibilityProfile(BEGINNER_BRICKS);
+				newProfile = new AccessibilityProfile(AccessibilityProfile.BEGINNER_BRICKS);
 				break;
 			case R.id.custom_profile:
 				newProfile = AccessibilityProfile.fromCustomProfile(sharedPreferences);
@@ -187,7 +173,24 @@ public class AccessibilityProfilesFragment extends Fragment implements View.OnCl
 	@Override
 	public void onResume() {
 		super.onResume();
-		((AppCompatActivity) getActivity()).getSupportActionBar()
+		((AppCompatActivity) requireActivity()).getSupportActionBar()
 				.setTitle(R.string.preference_title_accessibility_profiles);
+	}
+
+	private class AccessibilityProfileViewHolder {
+
+		View view;
+		RadioButton radioButton;
+		ImageView imageView;
+		TextView title;
+		TextView subtitle;
+
+		AccessibilityProfileViewHolder(View view) {
+			this.view = view;
+			radioButton = view.findViewById(R.id.radio_button);
+			imageView = view.findViewById(R.id.image_view);
+			title = view.findViewById(R.id.title_view);
+			subtitle = view.findViewById(R.id.subtitle_view);
+		}
 	}
 }

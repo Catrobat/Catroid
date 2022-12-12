@@ -56,6 +56,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter.CategoryListItem;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter.CategoryListItemType;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
+import org.catrobat.catroid.ui.settingsfragments.LegoSensors;
 import org.catrobat.catroid.ui.settingsfragments.RaspberryPiSettingsFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.AddUserListDialog;
@@ -744,10 +745,10 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 				.setPositiveButton(getString(R.string.ok), (dialog, selectedPort, selectedSensor) -> {
 					if (type == Constants.NXT) {
 						SettingsFragment.setLegoMindstormsNXTSensorMapping(getActivity(),
-								(NXTSensor.Sensor) selectedSensor, SettingsFragment.NXT_SENSORS[selectedPort]);
+								(NXTSensor.Sensor) selectedSensor, LegoSensors.NXT_SENSORS[selectedPort]);
 					} else if (type == Constants.EV3) {
 						SettingsFragment.setLegoMindstormsEV3SensorMapping(getActivity(),
-								(EV3Sensor.Sensor) selectedSensor, SettingsFragment.EV3_SENSORS[selectedPort]);
+								(EV3Sensor.Sensor) selectedSensor, LegoSensors.EV3_SENSORS[selectedPort]);
 					}
 
 					FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getFragmentManager()

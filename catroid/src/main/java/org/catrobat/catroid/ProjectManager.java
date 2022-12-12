@@ -193,7 +193,7 @@ public final class ProjectManager {
 		}
 
 		if (resourcesSet.contains(Brick.SPEECH_RECOGNITION)) {
-			SettingsFragment.setAISpeechReconitionPreferenceEnabled(context, true);
+			SettingsFragment.setAISpeechRecognitionPreferenceEnabled(context, true);
 		}
 
 		if (resourcesSet.contains(Brick.FACE_DETECTION)) {

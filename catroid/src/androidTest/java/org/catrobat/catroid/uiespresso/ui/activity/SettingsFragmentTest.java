@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -164,12 +164,12 @@ public class SettingsFragmentTest {
 		for (String setting : initialSettings.keySet()) {
 			sharedPreferencesEditor.putBoolean(setting, initialSettings.get(setting));
 		}
+
 		sharedPreferencesEditor.putInt(ACCESSIBILITY_PROFILE_PREFERENCE_KEY, R.id.default_profile);
 		sharedPreferencesEditor.commit();
 		initialSettings.clear();
 		Intents.release();
 	}
-
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void basicSettingsTest() {
