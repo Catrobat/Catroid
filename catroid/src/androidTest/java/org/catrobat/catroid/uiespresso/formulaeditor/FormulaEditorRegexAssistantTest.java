@@ -27,7 +27,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
@@ -55,7 +54,7 @@ public class FormulaEditorRegexAssistantTest {
 
 	@Before
 	public void setUp() {
-		Script script = BrickTestUtils.createProjectAndGetStartScript(
+		Script script = UiTestUtils.createProjectAndGetStartScript(
 				"FormulaEditorRegExDetectionTest");
 		script.addBrick(new SetVariableBrick(0)); //standard value of editor field is 123
 		baseActivityTestRule.launchActivity();

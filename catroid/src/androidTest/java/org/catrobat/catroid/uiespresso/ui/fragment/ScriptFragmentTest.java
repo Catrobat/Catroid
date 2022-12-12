@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -85,6 +85,7 @@ public class ScriptFragmentTest {
 
 	@After
 	public void tearDown() {
+
 		baseActivityTestRule.getActivity().finish();
 	}
 
@@ -237,6 +238,15 @@ public class ScriptFragmentTest {
 		onBrickAtPosition(5)
 				.onCheckBox().check(matches(allOf(not(isChecked()), isEnabled())));
 	}
+
+	@Test
+	public void testToggle2DView() {
+		openContextualActionModeOverflowMenu();
+		onView(withText(R.string.catblocks))
+				.perform(click());
+		pressBack();
+	}
+
 
 	private void createProject() {
 		String projectName = getClass().getSimpleName();

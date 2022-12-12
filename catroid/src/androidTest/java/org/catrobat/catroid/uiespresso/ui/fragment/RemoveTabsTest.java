@@ -29,6 +29,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,7 +41,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static org.catrobat.catroid.R.id.tab_layout;
 import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_FRAGMENT_POSITION;
 import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -57,7 +57,8 @@ public class RemoveTabsTest {
 
 	@Before
 	public void setUp() {
-		Script script = createProjectAndGetStartScript("RemoveTabsFromSpriteActivityTest");
+		Script script = UiTestUtils.createProjectAndGetStartScript(
+				"RemoveTabsFromSpriteActivityTest");
 		script.addBrick(new SetVariableBrick());
 		baseActivityTestRule.launchActivity();
 	}

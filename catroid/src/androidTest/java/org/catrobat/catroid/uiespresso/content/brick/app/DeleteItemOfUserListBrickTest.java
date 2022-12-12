@@ -31,8 +31,8 @@ import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -74,7 +74,7 @@ public class DeleteItemOfUserListBrickTest {
 	public void setUp() throws Exception {
 		brickPosition = 1;
 		deleteItemOfUserListBrick = new DeleteItemOfUserListBrick();
-		BrickTestUtils.createProjectAndGetStartScript("deleteItemOfUserListBrickTest1")
+		UiTestUtils.createProjectAndGetStartScript("deleteItemOfUserListBrickTest1")
 				.addBrick(deleteItemOfUserListBrick);
 		baseActivityTestRule.launchActivity();
 	}

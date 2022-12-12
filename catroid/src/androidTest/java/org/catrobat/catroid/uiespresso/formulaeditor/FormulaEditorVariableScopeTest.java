@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.formulaeditor;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -88,7 +87,17 @@ public class FormulaEditorVariableScopeTest {
 		SettingsFragment.setMultiplayerVariablesPreferenceEnabled(
 				ApplicationProvider.getApplicationContext(), true);
 
-		createProject(FormulaEditorVariableScopeTest.class.getSimpleName());
+		Project project = UiTestUtils.createDefaultTestProject("FormulaEditorVariableScopeTest");
+		Sprite sprite = UiTestUtils.getDefaultTestSprite(project);
+
+		UserDefinedBrick userDefinedBrick = new UserDefinedBrick(asList(input, label, secondInput));
+		Script userDefinedScript = new UserDefinedScript();
+		userDefinedScript.setScriptBrick(new UserDefinedReceiverBrick(userDefinedBrick));
+		userDefinedScript.addBrick(new ChangeSizeByNBrick(0));
+		Script startScript = new StartScript();
+		startScript.addBrick(new SetXBrick(0));
+		sprite.addScript(userDefinedScript);
+		sprite.addScript(startScript);
 
 		baseActivityTestRule.launchActivity();
 	}
@@ -158,27 +167,5 @@ public class FormulaEditorVariableScopeTest {
 
 		onFormulaEditor()
 				.performOpenDataFragment();
-	}
-
-	private void createProject(String projectName) {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		ProjectManager projectManager = ProjectManager.getInstance();
-
-		Sprite sprite = new Sprite("Sprite1");
-		UserDefinedBrick userDefinedBrick = new UserDefinedBrick(asList(input, label, secondInput));
-
-		Script userDefinedScript = new UserDefinedScript();
-		userDefinedScript.setScriptBrick(new UserDefinedReceiverBrick(userDefinedBrick));
-		userDefinedScript.addBrick(new ChangeSizeByNBrick(0));
-
-		Script startScript = new StartScript();
-		startScript.addBrick(new SetXBrick(0));
-
-		sprite.addScript(userDefinedScript);
-		sprite.addScript(startScript);
-
-		project.getDefaultScene().addSprite(sprite);
-		projectManager.setCurrentProject(project);
-		projectManager.setCurrentSprite(sprite);
 	}
 }

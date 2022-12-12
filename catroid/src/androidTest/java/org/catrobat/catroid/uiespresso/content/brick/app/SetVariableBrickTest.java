@@ -28,7 +28,6 @@ import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
@@ -69,7 +68,7 @@ public class SetVariableBrickTest {
 	public void setUp() throws Exception {
 		SetVariableBrick setVariableTestBrick1 = new SetVariableBrick(10);
 		SetVariableBrick setVariableTestBrick2 = new SetVariableBrick(0);
-		Script script = BrickTestUtils.createProjectAndGetStartScript("setVariableTest");
+		Script script = UiTestUtils.createProjectAndGetStartScript("setVariableTest");
 		script.addBrick(setVariableTestBrick1);
 		script.addBrick(setVariableTestBrick2);
 		baseActivityTestRule.launchActivity();

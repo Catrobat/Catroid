@@ -23,12 +23,10 @@
 
 package org.catrobat.catroid.uiespresso.stage;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenClonedScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.CloneBrick;
@@ -37,6 +35,7 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -44,7 +43,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
@@ -70,15 +68,12 @@ public class BroadcastForDeletedClonesRegressionTest {
 	}
 
 	private void createProject() {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), "BroadcastForDeletedClonesRegressionTest");
-		ProjectManager.getInstance().setCurrentProject(project);
+		Project project = UiTestUtils.createDefaultTestProject("BroadcastForDeletedClonesRegressionTest");
+		Sprite sprite = UiTestUtils.getDefaultTestSprite(project);
+		Script startScript = UiTestUtils.getDefaultTestScript(project);
 
-		Sprite sprite = new Sprite("testSprite");
-
-		Script startScript = new StartScript();
 		startScript.addBrick(new CloneBrick());
 		startScript.addBrick(new BroadcastBrick(BROADCAST_MESSAGE_1));
-		sprite.addScript(startScript);
 
 		Script whenStartAsCloneScript = new WhenClonedScript();
 		whenStartAsCloneScript.addBrick(new DeleteThisCloneBrick());
@@ -87,8 +82,5 @@ public class BroadcastForDeletedClonesRegressionTest {
 		Script broadcastReceiveScript = new BroadcastScript(BROADCAST_MESSAGE_1);
 		sprite.addScript(broadcastReceiveScript);
 		broadCastReceived = ScriptEvaluationGateBrick.appendToScript(broadcastReceiveScript);
-
-		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
 	}
 }

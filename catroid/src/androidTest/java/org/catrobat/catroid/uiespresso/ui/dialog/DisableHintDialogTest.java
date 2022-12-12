@@ -158,7 +158,7 @@ public class DisableHintDialogTest {
 	}
 
 	private void createProject(String projectName) {
-		Project project = UiTestUtils.createEmptyProject(projectName);
+		Project project = UiTestUtils.createDefaultTestProject(projectName);
 		saveProjectSerial(project, ApplicationProvider.getApplicationContext());
 	}
 

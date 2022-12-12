@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,12 +42,12 @@ import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
 import org.catrobat.catroid.testsuites.annotations.Level.Smoke
 import org.catrobat.catroid.ui.MainMenuActivity
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.setLanguageSharedPreference
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.setLanguageSharedPreference
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorCategoryListWrapper.onCategoryList
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
 import org.hamcrest.Matchers
 import org.junit.After
@@ -88,7 +88,7 @@ class FormulaEditorTouchesActorOrObjectTest {
 
         setLanguageSharedPreference(applicationContext, "en")
 
-        val script = createProjectAndGetStartScript(projectName)
+        val script = UiTestUtils.createProjectAndGetStartScript(projectName)
         script.addBrick(ChangeSizeByNBrick(0.0))
 
         baseActivityTestRule.launchActivity(null)

@@ -32,7 +32,6 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
-import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.UserDefinedScript
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick
 import org.catrobat.catroid.content.bricks.UserDefinedBrick
@@ -43,8 +42,8 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.USER_DEFINE
 import org.catrobat.catroid.formulaeditor.Functions
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.SpriteActivity
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.catrobat.catroid.userbrick.UserDefinedBrickData
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput
@@ -55,6 +54,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.koin.java.KoinJavaComponent.inject
 
 @RunWith(Parameterized::class)
 class FormulaEditorComputeDialogUserDefinedBrickInputTest(
@@ -63,8 +63,7 @@ class FormulaEditorComputeDialogUserDefinedBrickInputTest(
     private val expectedString: String
 ) {
     private lateinit var userDefinedBrick: UserDefinedBrick
-    private val label = UserDefinedBrickLabel("Label")
-    private var input = UserDefinedBrickInput("Input")
+    private val projectManager by inject(ProjectManager::class.java)
 
     @Rule
     @JvmField
@@ -74,30 +73,26 @@ class FormulaEditorComputeDialogUserDefinedBrickInputTest(
     )
 
     @Before
-    @kotlin.jvm.Throws(Exception::class)
     fun setUp() {
-        BrickTestUtils.createProjectAndGetStartScript(projectName)
+        UiTestUtils.createProjectAndGetStartScript(projectName)
 
+        val input = UserDefinedBrickInput("Input")
         input.value = formula
         val userDefinedScript = UserDefinedScript()
+        val label = UserDefinedBrickLabel("Label")
         userDefinedBrick = UserDefinedBrick(mutableListOf<UserDefinedBrickData>(label, input))
         userDefinedBrick.setCallingBrick(true)
-        userDefinedBrick.formulaMap.putIfAbsent(
-            input.inputFormulaField,
-            formula
-        )
+        userDefinedBrick.formulaMap.putIfAbsent(input.inputFormulaField, formula)
         userDefinedScript.setUserDefinedBrickInputs(listOf(input))
         userDefinedScript.scriptBrick = UserDefinedReceiverBrick(userDefinedBrick)
         userDefinedScript.addBrick(
             ChangeSizeByNBrick(Formula(FormulaElement(USER_DEFINED_BRICK_INPUT, input.name, null)))
         )
-        ProjectManager.getInstance().currentSprite.addScript(userDefinedScript)
-        project = ProjectManager.getInstance().currentProject
+        projectManager.currentSprite.addScript(userDefinedScript)
         baseActivityTestRule.launchActivity()
     }
 
     @After
-    @Throws(Exception::class)
     fun tearDown() {
         TestUtils.deleteProjects(projectName)
     }
@@ -105,25 +100,22 @@ class FormulaEditorComputeDialogUserDefinedBrickInputTest(
     @Test
     fun userDefinedBrickInputTest() {
         openComputeDialog()
-        onView(withId(R.id.formula_editor_compute_dialog_textview))
-            .check(matches(ViewMatchers.withText(expectedString)))
+        onView(withId(R.id.formula_editor_compute_dialog_textview)).check(
+            matches(ViewMatchers.withText(expectedString))
+        )
     }
 
     private fun openComputeDialog() {
-        onView(withId(R.id.brick_change_size_by_edit_text))
-            .perform(click())
-        onFormulaEditor()
-            .performCompute()
+        onView(withId(R.id.brick_change_size_by_edit_text)).perform(click())
+        onFormulaEditor().performCompute()
     }
 
     companion object {
-        private val applicationContext: Context =
-            ApplicationProvider.getApplicationContext<Context>()
+        private val applicationContext: Context = ApplicationProvider.getApplicationContext()
 
         private val trueString = applicationContext.getString(R.string.formula_editor_true)
         private val falseString = applicationContext.getString(R.string.formula_editor_false)
 
-        private lateinit var project: Project
         private const val projectName = "DataListFragmentBooleanUserVariablesTest"
 
         @JvmStatic

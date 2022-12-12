@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -749,18 +749,13 @@ public class RtlBrickTest {
 
 	private void createProject(String projectName) {
 		String nameSpriteTwo = "testSpriteTwo";
-
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Sprite spriteOne = new Sprite("testSpriteOne");
-		project.getDefaultScene().addSprite(spriteOne);
+		Project project = UiTestUtils.createDefaultTestProject(projectName);
 
 		Sprite spriteTwo = new Sprite(nameSpriteTwo);
 		Script script = new StartScript();
 		spriteTwo.addScript(script);
 
 		project.getDefaultScene().addSprite(spriteTwo);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 		ProjectManager.getInstance().setCurrentSprite(spriteTwo);
 	}
 

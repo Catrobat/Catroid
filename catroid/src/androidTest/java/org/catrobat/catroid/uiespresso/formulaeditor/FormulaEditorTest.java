@@ -22,17 +22,17 @@
  */
 package org.catrobat.catroid.uiespresso.formulaeditor;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -41,7 +41,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
@@ -60,7 +59,19 @@ public class FormulaEditorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject("formulaEditorInputTest");
+		Project project = UiTestUtils.createDefaultTestProject("formulaEditorInputTest");
+		Sprite sprite = UiTestUtils.getDefaultTestSprite(project);
+		Script script = sprite.getScript(TestUtils.DEFAULT_TEST_SCRIPT_INDEX);
+
+		SetVariableBrick setVariableBrick = new SetVariableBrick();
+		UserVariable userVariable = new UserVariable("Global1");
+		project.addUserVariable(userVariable);
+		setVariableBrick.setUserVariable(userVariable);
+
+		script.addBrick(setVariableBrick);
+		sprite.addScript(script);
+		project.getDefaultScene().addSprite(sprite);
+
 		baseActivityTestRule.launchActivity();
 	}
 
@@ -78,25 +89,5 @@ public class FormulaEditorTest {
 
 	@After
 	public void tearDown() throws Exception {
-	}
-
-	public static Project createProject(String projectName) {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Sprite sprite = new Sprite("testSprite");
-		Script script = new StartScript();
-
-		SetVariableBrick setVariableBrick = new SetVariableBrick();
-		UserVariable userVariable = new UserVariable("Global1");
-		project.addUserVariable(userVariable);
-		setVariableBrick.setUserVariable(userVariable);
-
-		script.addBrick(setVariableBrick);
-		sprite.addScript(script);
-		project.getDefaultScene().addSprite(sprite);
-
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-
-		return project;
 	}
 }

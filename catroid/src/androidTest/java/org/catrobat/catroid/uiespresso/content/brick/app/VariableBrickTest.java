@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@ import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -46,7 +47,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_FRAGMENT_POSITION;
 import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
 import static org.hamcrest.Matchers.not;
 
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
@@ -72,7 +72,7 @@ public class VariableBrickTest {
 	@Before
 	public void setUp() throws Exception {
 		setBrickPosition = 1;
-		Script script = createProjectAndGetStartScript("variableBricksTest");
+		Script script = UiTestUtils.createProjectAndGetStartScript("variableBricksTest");
 		script.addBrick(new SetVariableBrick());
 		script.addBrick(new ChangeVariableBrick());
 		baseActivityTestRule.launchActivity();
