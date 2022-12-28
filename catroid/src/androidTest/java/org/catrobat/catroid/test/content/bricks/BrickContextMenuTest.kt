@@ -50,7 +50,7 @@ import org.catrobat.catroid.content.bricks.WhenNfcBrick
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick
 import org.catrobat.catroid.content.bricks.WhenStartedBrick
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick
-import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment.getContextMenuItems
+import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput
 import org.catrobat.catroid.userbrick.UserDefinedBrickLabel
 import org.junit.After
@@ -105,7 +105,7 @@ class BrickContextMenuTest(
 
     @Before
     fun setUp() {
-        contextMenuItems.addAll(getContextMenuItems(brick))
+        contextMenuItems.addAll(ScriptFragment().getContextMenuItems(brick))
     }
 
     @After
@@ -146,7 +146,7 @@ class BrickContextMenuTest(
     @Test
     fun testExpectedCommentIn() {
         brick.isCommentedOut = true
-        contextMenuItems.addAll(getContextMenuItems(brick))
+        contextMenuItems.addAll(ScriptFragment().getContextMenuItems(brick))
         val showsCommentIn: Boolean = when (brick) {
             is UserDefinedReceiverBrick, is EmptyEventBrick -> !contextMenuItems.contains(R.string.brick_context_dialog_comment_in)
             is ScriptBrick -> contextMenuItems.contains(R.string.brick_context_dialog_comment_in_script)
