@@ -42,7 +42,6 @@ import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
 import org.catrobat.catroid.ui.dragndrop.BrickAdapterInterface
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.ViewStateManager
 import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
-import java.util.ArrayList
 import java.util.Collections
 
 class BrickAdapter(private val sprite: Sprite) :
@@ -185,8 +184,8 @@ class BrickAdapter(private val sprite: Sprite) :
 
     override fun onItemClick(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
         if (checkBoxMode == NONE) {
-            val item = items[position]
-            onItemClickListener?.onBrickClick(item, position)
+            val brick = items[position]
+            onItemClickListener?.onBrickClick(brick, position)
         }
     }
 
@@ -360,34 +359,34 @@ class BrickAdapter(private val sprite: Sprite) :
 
     override fun getPosition(brick: Brick?): Int = items.indexOf(brick)
 
-    override fun onItemMove(sourcePosition: Int, targetPosition: Int): Boolean {
-        val source = items[sourcePosition]
-        if (source !is ScriptBrick && targetPosition == 0) {
+    override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
+        val source = items[fromPosition]
+        if (source !is ScriptBrick && toPosition == 0) {
             return false
         }
-        if (source.allParts.contains(items[targetPosition])) {
+        if (source.allParts.contains(items[toPosition])) {
             return false
         }
-        Collections.swap(items, sourcePosition, targetPosition)
+        Collections.swap(items, fromPosition, toPosition)
         return true
     }
 
-    override fun moveItemTo(position: Int, itemToMove: Brick?) {
+    override fun moveItemTo(position: Int, brickToMove: Brick?) {
         val brickAboveTargetPosition = getBrickAbovePosition(position)
 
-        if (itemToMove is ScriptBrick) {
-            moveScript(itemToMove, brickAboveTargetPosition)
+        if (brickToMove is ScriptBrick) {
+            moveScript(brickToMove, brickAboveTargetPosition)
         } else {
             for (script in scripts) {
-                script.removeBrick(itemToMove)
+                script.removeBrick(brickToMove)
             }
             val destinationPosition = brickAboveTargetPosition.positionInDragAndDropTargetList + 1
             val destinationList = brickAboveTargetPosition.dragAndDropTargetList
 
             if (destinationPosition < destinationList.size) {
-                destinationList.add(destinationPosition, itemToMove)
+                destinationList.add(destinationPosition, brickToMove)
             } else {
-                destinationList.add(itemToMove)
+                destinationList.add(brickToMove)
             }
         }
         updateItemsFromCurrentScripts()
@@ -425,11 +424,11 @@ class BrickAdapter(private val sprite: Sprite) :
     }
 
     private fun getBrickAbovePosition(position: Int): Brick {
-        var position = position
-        if (position > 0) {
-            position--
+        return if (position > 0) {
+            items[position]
+        }else{
+            items[position - 1]
         }
-        return items[position]
     }
 
     override fun getCount(): Int = items.size
@@ -441,7 +440,7 @@ class BrickAdapter(private val sprite: Sprite) :
     }
 
     interface OnBrickClickListener {
-        fun onBrickClick(item: Brick, position: Int)
-        fun onBrickLongClick(item: Brick, position: Int): Boolean
+        fun onBrickClick(brick: Brick, position: Int)
+        fun onBrickLongClick(brick: Brick, position: Int): Boolean
     }
 }
