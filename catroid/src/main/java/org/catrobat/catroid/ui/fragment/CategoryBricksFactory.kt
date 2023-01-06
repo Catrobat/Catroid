@@ -205,6 +205,7 @@ import org.catrobat.catroid.content.bricks.TapForBrick
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick
 import org.catrobat.catroid.content.bricks.TouchAndSlideBrick
+import org.catrobat.catroid.content.bricks.TranslateTextFromToBrick
 import org.catrobat.catroid.content.bricks.TripleStitchBrick
 import org.catrobat.catroid.content.bricks.TurnLeftBrick
 import org.catrobat.catroid.content.bricks.TurnLeftSpeedBrick
@@ -238,7 +239,6 @@ import org.catrobat.catroid.formulaeditor.Operators
 import org.catrobat.catroid.formulaeditor.Sensors
 import org.catrobat.catroid.ui.controller.RecentBrickListManager
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
-import java.util.ArrayList
 import java.util.Locale
 
 open class CategoryBricksFactory {
@@ -521,7 +521,14 @@ open class CategoryBricksFactory {
         dataBrickList.add(SetVariableBrick(BrickValues.SET_VARIABLE))
         dataBrickList.add(ChangeVariableBrick(BrickValues.CHANGE_VARIABLE))
         dataBrickList.add(ShowTextBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION))
-        dataBrickList.add(ShowTextColorSizeAlignmentBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION, BrickValues.RELATIVE_SIZE_IN_PERCENT, BrickValues.SHOW_VARIABLE_COLOR))
+        dataBrickList.add(
+            ShowTextColorSizeAlignmentBrick(
+                BrickValues.X_POSITION,
+                BrickValues.Y_POSITION,
+                BrickValues.RELATIVE_SIZE_IN_PERCENT,
+                BrickValues.SHOW_VARIABLE_COLOR
+            )
+        )
         dataBrickList.add(HideTextBrick())
         dataBrickList.add(WriteVariableOnDeviceBrick())
         dataBrickList.add(ReadVariableFromDeviceBrick())
@@ -530,15 +537,42 @@ open class CategoryBricksFactory {
         dataBrickList.add(AddItemToUserListBrick(BrickValues.ADD_ITEM_TO_USERLIST))
         dataBrickList.add(DeleteItemOfUserListBrick(BrickValues.DELETE_ITEM_OF_USERLIST))
         dataBrickList.add(ClearUserListBrick())
-        dataBrickList.add(InsertItemIntoUserListBrick(BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE, BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX))
-        dataBrickList.add(ReplaceItemInUserListBrick(BrickValues.REPLACE_ITEM_IN_USERLIST_VALUE, BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX))
+        dataBrickList.add(
+            InsertItemIntoUserListBrick(
+                BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE,
+                BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX
+            )
+        )
+        dataBrickList.add(
+            ReplaceItemInUserListBrick(
+                BrickValues.REPLACE_ITEM_IN_USERLIST_VALUE,
+                BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX
+            )
+        )
         dataBrickList.add(WriteListOnDeviceBrick())
         dataBrickList.add(ReadListFromDeviceBrick())
-        dataBrickList.add(StoreCSVIntoUserListBrick(BrickValues.STORE_CSV_INTO_USERLIST_COLUMN, context.getString(R.string.brick_store_csv_into_userlist_data)))
+        dataBrickList.add(
+            StoreCSVIntoUserListBrick(
+                BrickValues.STORE_CSV_INTO_USERLIST_COLUMN,
+                context.getString(R.string.brick_store_csv_into_userlist_data)
+            )
+        )
         dataBrickList.add(WebRequestBrick(context.getString(R.string.brick_web_request_default_value)))
+        if (SettingsFragment.isAITextTranslationSharedPreferencesEnabled(context)) {
+            dataBrickList.add(
+                TranslateTextFromToBrick(
+                    context.getString(R.string.brick_translate_text_default_value),
+                    Sensors.USER_LANGUAGE,
+                    Sensors.USER_LANGUAGE,
+                    context
+                )
+            )
+        }
         when {
             !isBackgroundSprite -> dataBrickList.add(LookRequestBrick(BrickValues.LOOK_REQUEST))
-            ProjectManager.getInstance().currentProject.xmlHeader.islandscapeMode() -> dataBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE))
+            ProjectManager.getInstance().currentProject.xmlHeader.islandscapeMode() -> dataBrickList.add(
+                BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE)
+            )
             else -> dataBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST))
         }
         dataBrickList.add(AskBrick(context.getString(R.string.brick_ask_default_question)))
@@ -568,9 +602,21 @@ open class CategoryBricksFactory {
             deviceBrickList.add(SetNfcTagBrick(context.getString(R.string.brick_set_nfc_tag_default_value)))
         }
         deviceBrickList.add(WebRequestBrick(context.getString(R.string.brick_web_request_default_value)))
+        if (SettingsFragment.isAITextTranslationSharedPreferencesEnabled(context)) {
+            deviceBrickList.add(
+                TranslateTextFromToBrick(
+                    context.getString(R.string.brick_translate_text_default_value),
+                    Sensors.USER_LANGUAGE,
+                    Sensors.USER_LANGUAGE,
+                    context
+                )
+            )
+        }
         when {
             !isBackgroundSprite -> deviceBrickList.add(LookRequestBrick(BrickValues.LOOK_REQUEST))
-            ProjectManager.getInstance().currentProject.xmlHeader.islandscapeMode() -> deviceBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE))
+            ProjectManager.getInstance().currentProject.xmlHeader.islandscapeMode() -> deviceBrickList.add(
+                BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE)
+            )
             else -> deviceBrickList.add(BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST))
         }
         deviceBrickList.add(OpenUrlBrick(BrickValues.OPEN_IN_BROWSER))

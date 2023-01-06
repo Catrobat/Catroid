@@ -47,6 +47,12 @@
 
         <CheckBoxPreference
             android:defaultValue="@string/FEATURE_AI_PREFERENCES_ENABLED"
+            android:key="setting_ai_text_translation"
+            android:summary="@string/preference_description_text_translation"
+            android:title="@string/preference_title_text_translation" />
+
+        <CheckBoxPreference
+            android:defaultValue="@string/FEATURE_AI_PREFERENCES_ENABLED"
             android:key="setting_ai_pose_detection"
             android:summary="@string/preference_description_ai_pose_detection"
             android:title="@string/preference_title_ai_pose_detection" />

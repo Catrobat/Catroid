@@ -449,6 +449,7 @@ dependencies {
     implementation 'com.google.mlkit:object-detection:16.2.7'
     implementation 'com.google.mlkit:language-id:16.1.1'
     implementation 'com.google.mlkit:pose-detection:17.0.0'
+    implementation 'com.google.mlkit:translate:16.1.2'
 
     // HUAWEI Mobile Services
     implementation 'com.huawei.hms:base:4.0.3.300'

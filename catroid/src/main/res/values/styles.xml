@@ -134,6 +134,12 @@
         <item name="android:windowIsFloating">true</item>
     </style>
 
+    <style name="StageDownloadLanguageModelsDialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
     <style name="StageButton">
         <item name="android:paddingTop">4dp</item>
         <item name="android:paddingBottom">4dp</item>

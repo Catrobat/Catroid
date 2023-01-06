@@ -466,6 +466,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetCameraFocusPointBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetParticleColorBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetParticleColorBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.TranslateTextFromToBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/TranslateTextFromToBrick");
 	}
 
 	@Parameterized.Parameters(name = "{0}")

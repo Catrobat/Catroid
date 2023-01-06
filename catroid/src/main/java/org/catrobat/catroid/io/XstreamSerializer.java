@@ -244,6 +244,7 @@ import org.catrobat.catroid.content.bricks.TapForBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
 import org.catrobat.catroid.content.bricks.TouchAndSlideBrick;
+import org.catrobat.catroid.content.bricks.TranslateTextFromToBrick;
 import org.catrobat.catroid.content.bricks.TripleStitchBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftSpeedBrick;
@@ -520,6 +521,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", SayBubbleBrick.class);
 		xstream.alias("brick", ThinkForBubbleBrick.class);
 		xstream.alias("brick", SayForBubbleBrick.class);
+		xstream.alias("brick", TranslateTextFromToBrick.class);
 		xstream.alias("brick", TurnLeftBrick.class);
 		xstream.alias("brick", TurnRightBrick.class);
 		xstream.alias("brick", VibrationBrick.class);

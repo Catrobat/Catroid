@@ -160,6 +160,7 @@ import org.catrobat.catroid.content.actions.StopThisScriptAction;
 import org.catrobat.catroid.content.actions.StoreCSVIntoUserListAction;
 import org.catrobat.catroid.content.actions.TapAtAction;
 import org.catrobat.catroid.content.actions.ThinkSayBubbleAction;
+import org.catrobat.catroid.content.actions.TranslateTextFromToAction;
 import org.catrobat.catroid.content.actions.TripleStitchAction;
 import org.catrobat.catroid.content.actions.TurnLeftAction;
 import org.catrobat.catroid.content.actions.TurnRightAction;
@@ -1555,6 +1556,18 @@ public class ActionFactory extends Actions {
 		action.setScope(scope);
 		action.setFormula(variableFormula);
 		action.setUserVariable(userVariable);
+		return action;
+	}
+
+	public Action createTranslateTextFromToAction(Sprite sprite, SequenceAction sequence,
+			Formula text, Formula fromLanguage, Formula toLanguage, UserVariable userVariable) {
+		TranslateTextFromToAction action = Actions.action(TranslateTextFromToAction.class);
+		action.setText(text);
+		action.setLanguageFrom(fromLanguage);
+		action.setLanguageTo(toLanguage);
+		action.setUserVariable(userVariable);
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		action.setScope(scope);
 		return action;
 	}
 
