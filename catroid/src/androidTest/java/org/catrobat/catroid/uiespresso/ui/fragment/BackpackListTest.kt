@@ -264,7 +264,7 @@ class BackpackListTest {
         assertEquals(projectManager.currentSprite.userLists[0].name, localListName)
     }
 
-    /*@Test
+    @Test
     fun testDifferentListTypesWithSameName() {
         packScriptViaOverflowMenu()
 
@@ -303,7 +303,7 @@ class BackpackListTest {
 
         assertEquals(projectManager.currentProject.userLists[1].name, "$globalListName (1)")
         assertEquals(projectManager.currentSprite.userLists[1].name, "$localListName (1)")
-    }*/
+    }
 
     @FlakyTest
     @Test

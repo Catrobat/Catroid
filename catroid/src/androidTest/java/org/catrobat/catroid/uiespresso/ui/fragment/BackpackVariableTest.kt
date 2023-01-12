@@ -276,7 +276,7 @@ class BackpackVariableTest {
         assertEquals(projectManager.currentProject.multiplayerVariables[0].name, multiplayerVariableName)
     }
 
-    /*@Test
+    @Test
     fun testDifferentVariableTypesWithSameName() {
         packScriptViaOverflowMenu()
 
@@ -318,7 +318,7 @@ class BackpackVariableTest {
         assertEquals(projectManager.currentProject.userVariables[1].name, "$globalVariableName (1)")
         assertEquals(projectManager.currentSprite.userVariables[1].name, "$localVariableName (1)")
         assertEquals(projectManager.currentProject.multiplayerVariables[1].name, "$multiplayerVariableName (1)")
-    }*/
+    }
 
     @FlakyTest
     @Test
