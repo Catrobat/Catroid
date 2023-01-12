@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -196,10 +196,7 @@ class BackpackListTest {
     @Test
     fun testUnpackScriptInOtherSpriteTestViaOverflowMenu() {
         packScriptViaOverflowMenu()
-
-        val sprite2 = Sprite(sprite2Name)
-        projectManager.currentProject.defaultScene.addSprite(sprite2)
-
+        projectManager.currentProject.defaultScene.addSprite(Sprite(sprite2Name))
         XstreamSerializer.getInstance().saveProject(projectManager.currentProject)
 
         pressBack()
@@ -465,12 +462,12 @@ class BackpackListTest {
         return script
     }
 
-    private fun addListBrick(name: String, variableType: Int, value: Int = 1): AddItemToUserListBrick {
+    private fun addListBrick(name: String, type: Int, value: Int = 1): AddItemToUserListBrick {
         val list = UserList(name)
         val addItemToUserListBrick = AddItemToUserListBrick(Formula(value))
         addItemToUserListBrick.userList = list
 
-        when (variableType) {
+        when (type) {
             GLOBAL_USER_VARIABLE -> projectManager.currentProject.userLists.add(list)
             LOCAL_USER_VARIABLE -> projectManager.currentSprite.userLists.add(list)
         }

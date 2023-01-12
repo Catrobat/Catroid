@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -341,7 +341,7 @@ class ScriptController {
     private fun unpackUserList(sprite: Sprite, scriptName: String, brick: Brick) {
         for (userListName in getUserDataNamesForBrick(brick, USER_LIST)) {
             val listType: Int? = BackpackListManager.getInstance().backpack.backpackedUserLists[scriptName]?.get(userListName)
-            var destinationList: MutableList<UserList> = if (listType == GLOBAL_USER_VARIABLE) {
+            val destinationList: MutableList<UserList> = if (listType == GLOBAL_USER_VARIABLE) {
                 projectManager.currentProject.userLists
             } else {
                 sprite.userLists
@@ -360,11 +360,10 @@ class ScriptController {
             }
 
             updateFormula(brick, name, renamedUserVariables[name], USER_VARIABLE)
-
         } else if (!destinationList.any { variable -> variable.name == name }) {
             val newNameForVariable = UniqueNameProvider().getUniqueName(name, getAllUserDataNames(sprite))
 
-            if(newNameForVariable != name) {
+            if (newNameForVariable != name) {
                 renamedUserVariables[name] = newNameForVariable
             }
 
@@ -389,7 +388,7 @@ class ScriptController {
         } else if (!destinationList.any { list -> list.name == name }) {
             val newNameForList = UniqueNameProvider().getUniqueName(name, getAllUserDataNames(sprite))
 
-            if(newNameForList != name) {
+            if (newNameForList != name) {
                 renamedUserLists[name] = newNameForList
             }
 
@@ -407,109 +406,6 @@ class ScriptController {
         if (brick is FormulaBrick) {
             brick.formulas.forEach { formula ->
                 formula.formulaTree.root.updateElementByName(name, newName, type)
-            }
-        }
-    }
-
-    private fun getAllUserDataNames(sprite: Sprite): List<String> {
-        val userDataNameList: ArrayList<String> = ArrayList()
-
-        userDataNameList.addAll(getUserVariableNames(sprite))
-        userDataNameList.addAll(getUserListNames(sprite))
-
-        return userDataNameList
-    }
-
-    private fun getUserVariableNames(sprite: Sprite): List<String> {
-        val variableNameList: ArrayList<String> = ArrayList()
-
-        for (variable in projectManager.currentProject.userVariables) {
-            variableNameList.add(variable.name)
-        }
-
-        for (variable in sprite.userVariables) {
-            variableNameList.add(variable.name)
-        }
-
-        for (variable in projectManager.currentProject.multiplayerVariables) {
-            variableNameList.add(variable.name)
-        }
-
-        return variableNameList
-    }
-
-    private fun getUserListNames(sprite: Sprite): List<String> {
-        val listNameList: ArrayList<String> = ArrayList()
-
-        for (list in projectManager.currentProject.userLists) {
-            listNameList.add(list.name)
-        }
-
-        for (list in sprite.userLists) {
-            listNameList.add(list.name)
-        }
-
-        return listNameList
-    }
-
-    private fun unpackUserVariable(sprite: Sprite, scriptName: String, brick: Brick) {
-        for (userVariableName in getUserDataNamesForBrick(brick, USER_VARIABLE)) {
-            val variableType: Int? = BackpackListManager.getInstance().backpack.backpackedUserVariables[scriptName]?.get(userVariableName)
-            var destinationList: MutableList<UserVariable> = projectManager.currentProject.userVariables
-
-            when (variableType) {
-                LOCAL_USER_VARIABLE -> destinationList = sprite.userVariables
-                MULTIPLAYER_USER_VARIABLE -> destinationList = projectManager.currentProject.multiplayerVariables
-            }
-
-            addNewUserVariable(sprite, userVariableName, destinationList, brick)
-        }
-    }
-
-    private fun unpackUserList(sprite: Sprite, scriptName: String, brick: Brick) {
-        for (userListName in getUserDataNamesForBrick(brick, USER_LIST)) {
-            val listType: Int? = BackpackListManager.getInstance().backpack.backpackedUserLists[scriptName]?.get(userListName)
-
-            if (listType == GLOBAL_USER_VARIABLE) {
-                addNewUserList(sprite, userListName, projectManager.currentProject.userLists, brick)
-            } else if (listType == LOCAL_USER_VARIABLE) {
-                addNewUserList(sprite, userListName, sprite.userLists, brick)
-            }
-        }
-    }
-
-    private fun addNewUserVariable(sprite: Sprite, name: String, destinationList: MutableList<UserVariable>, brick: Brick) {
-        if (!destinationList.any { variable -> variable.name == name }) {
-            val newNameForVariable = UniqueNameProvider().getUniqueName(name, getAllUserDataNames(sprite))
-
-            val newUserVariable = UserVariable(newNameForVariable)
-            destinationList.add(newUserVariable)
-            if (brick is UserVariableBrickInterface) {
-                brick.userVariable = newUserVariable
-            }
-
-            if (brick is FormulaBrick) {
-                brick.formulas.forEach { formula ->
-                    formula.formulaTree.root.updateElementByName(name, newNameForVariable, USER_VARIABLE)
-                }
-            }
-        }
-    }
-
-    private fun addNewUserList(sprite: Sprite, name: String, destinationList: MutableList<UserList>, brick: Brick) {
-        if (!destinationList.any { list -> list.name == name }) {
-            val newNameForList = UniqueNameProvider().getUniqueName(name, getAllUserDataNames(sprite))
-
-            val newUserList = UserList(newNameForList)
-            destinationList.add(newUserList)
-            if (brick is UserListBrick) {
-                brick.userList = newUserList
-            }
-
-            if (brick is FormulaBrick) {
-                brick.formulas.forEach { formula ->
-                    formula.formulaTree.root.updateElementByName(name, newNameForList, USER_LIST)
-                }
             }
         }
     }

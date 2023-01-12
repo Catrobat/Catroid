@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -145,10 +145,7 @@ class BackpackVariableTest {
     @Test
     fun testUnpackScriptInOtherSpriteTestViaOverflowMenu() {
         packScriptViaOverflowMenu()
-
-        val sprite2 = Sprite(sprite2Name)
-        projectManager.currentProject.defaultScene.addSprite(sprite2)
-
+        projectManager.currentProject.defaultScene.addSprite(Sprite(sprite2Name))
         XstreamSerializer.getInstance().saveProject(projectManager.currentProject)
 
         pressBack()
