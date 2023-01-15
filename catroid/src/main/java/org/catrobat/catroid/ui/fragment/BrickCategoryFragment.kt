@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,13 +30,8 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.ListFragment
 import org.catrobat.catroid.R
-import org.catrobat.catroid.ui.BottomBar.hideBottomBar
-import org.catrobat.catroid.ui.BottomBar.showBottomBar
-import org.catrobat.catroid.ui.BottomBar.showPlayButton
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.ViewSwitchLock
 import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter
@@ -45,8 +40,7 @@ import org.catrobat.catroid.ui.removeTabLayout
 import org.catrobat.catroid.utils.SnackbarUtil
 import java.util.concurrent.locks.Lock
 
-class BrickCategoryFragment : ListFragment() {
-    private var previousActionBarTitle: CharSequence? = null
+class BrickCategoryFragment(val title: String) : BaseListFragment(title) {
     private var scriptFragment: OnCategorySelectedListener? = null
     private var adapter: BrickCategoryAdapter? = null
     private val viewSwitchLock: Lock = ViewSwitchLock()
@@ -71,8 +65,6 @@ class BrickCategoryFragment : ListFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_brick_categories, container, false)
-        setUpActionBar()
-        hideBottomBar(activity)
         setupBrickCategories()
         return rootView
     }
@@ -90,27 +82,8 @@ class BrickCategoryFragment : ListFragment() {
 
     override fun onResume() {
         super.onResume()
-        hideBottomBar(activity)
         setupBrickCategories()
         SnackbarUtil.showHintSnackbar(activity, R.string.hint_category)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        showBottomBar(activity)
-        showPlayButton(activity)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        val actionBar = (activity as? AppCompatActivity)?.supportActionBar
-        val isRestoringPreviouslyDestroyedActivity = actionBar == null
-        if (!isRestoringPreviouslyDestroyedActivity) {
-            actionBar?.setDisplayShowTitleEnabled(true)
-            actionBar?.title = previousActionBarTitle
-            showBottomBar(activity)
-            showPlayButton(activity)
-        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -123,12 +96,7 @@ class BrickCategoryFragment : ListFragment() {
         menu.findItem(R.id.catblocks_reorder_scripts).isVisible = false
         menu.findItem(R.id.find).isVisible = false
         menu.findItem(R.id.search).isVisible = true
-    }
-
-    private fun setUpActionBar() {
-        (activity as? AppCompatActivity)?.supportActionBar?.setDisplayShowTitleEnabled(true)
-        previousActionBarTitle = (activity as? AppCompatActivity)?.supportActionBar?.title.toString()
-        (activity as? AppCompatActivity)?.supportActionBar?.setTitle(R.string.categories)
+        menu.findItem(R.id.help).isVisible = false
     }
 
     private fun setupBrickCategories() {

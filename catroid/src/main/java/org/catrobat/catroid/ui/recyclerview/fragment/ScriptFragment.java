@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -75,6 +75,7 @@ import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
 import org.catrobat.catroid.ui.fragment.BrickSearchFragment;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
+import org.catrobat.catroid.ui.fragment.HelpBrickFragment;
 import org.catrobat.catroid.ui.fragment.UserDefinedBrickListFragment;
 import org.catrobat.catroid.ui.recyclerview.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
@@ -505,7 +506,8 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	private void showCategoryFragment() {
-		BrickCategoryFragment brickCategoryFragment = new BrickCategoryFragment();
+		BrickCategoryFragment brickCategoryFragment =
+				new BrickCategoryFragment(getString(R.string.categories));
 		brickCategoryFragment.setOnCategorySelectedListener(this);
 
 		getFragmentManager().beginTransaction()
@@ -520,9 +522,16 @@ public class ScriptFragment extends ListFragment implements
 		String tag = "";
 		Fragment currentFragment = getParentFragmentManager().findFragmentById(R.id.fragment_container);
 		if (category.equals(getContext().getString(R.string.category_user_bricks))) {
-			fragment = UserDefinedBrickListFragment.newInstance(this);
+			fragment = UserDefinedBrickListFragment.newInstance(
+					this,
+					getString(R.string.category_user_bricks));
 			tag = UserDefinedBrickListFragment.USER_DEFINED_BRICK_LIST_FRAGMENT_TAG;
-		} else if (currentFragment instanceof AddBrickFragment || category.equals(getContext().getString(R.string.category_search_bricks))) {
+		} else if (currentFragment instanceof AddBrickFragment && category.endsWith(getString(R.string.help))) {
+			fragment = HelpBrickFragment.newInstance(
+					category.replace(getString(R.string.help), ""),
+					getString(R.string.help));
+			tag = HelpBrickFragment.HELP_BRICK_FRAGMENT_TAG;
+		} else if (currentFragment instanceof AddBrickFragment || category.equals(getString(R.string.category_search_bricks))) {
 			fragment = BrickSearchFragment.newInstance(this, category);
 			tag = BrickSearchFragment.BRICK_SEARCH_FRAGMENT_TAG;
 		} else {

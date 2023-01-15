@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,7 +36,6 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import org.catrobat.catroid.R
@@ -45,7 +44,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.InputWatcher
 import org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType
 import org.catrobat.catroid.utils.Utils
 
-class AddUserDataToUserDefinedBrickFragment : Fragment() {
+class AddUserDataToUserDefinedBrickFragment(var title: String) : BaseFragment(title) {
 
     companion object {
         const val TAG: String = "add_user_data_to_user_defined_brick_fragment"
@@ -129,12 +128,8 @@ class AddUserDataToUserDefinedBrickFragment : Fragment() {
         }
 
         val appCompatActivity = requireActivity() as AppCompatActivity
-        appCompatActivity.let {
+        if (appCompatActivity != null) {
             Utils.showStandardSystemKeyboard(appCompatActivity)
-            val actionBar = appCompatActivity.supportActionBar
-            if (actionBar != null) {
-                appCompatActivity.supportActionBar?.setTitle(R.string.category_user_bricks)
-            }
         }
 
         view.findViewById<LinearLayout>(R.id.bottom_constraint).requestFocus()

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -13,7 +13,7 @@
  * http://developer.catrobat.org/license_additional_term
  *
  * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
@@ -34,6 +34,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ScrollView
+import androidx.appcompat.app.AppCompatActivity
 
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
@@ -41,18 +42,17 @@ import org.catrobat.catroid.content.bricks.UserDefinedBrick
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
 import org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType
 import org.catrobat.catroid.utils.ToastUtil
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 
 import org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType.INPUT
 import org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType.LABEL
 import org.koin.android.ext.android.inject
 
-class AddUserDefinedBrickFragment : Fragment() {
+class AddUserDefinedBrickFragment(val title: String) : BaseFragment(title) {
     companion object {
         const val TAG: String = "add_user_defined_brick_fragment"
-        fun newInstance(addBrickListener: AddBrickFragment.OnAddBrickListener): AddUserDefinedBrickFragment {
-            val fragment = AddUserDefinedBrickFragment()
+        fun newInstance(addBrickListener: AddBrickFragment.OnAddBrickListener, title: String):
+            AddUserDefinedBrickFragment {
+            val fragment = AddUserDefinedBrickFragment(title)
             fragment.addBrickListener = addBrickListener
             return fragment
         }
@@ -95,10 +95,6 @@ class AddUserDefinedBrickFragment : Fragment() {
                 userBrickSpace?.addView(userBrickView)
             }
         }
-        val activity = activity as AppCompatActivity
-
-        val actionBar = activity.supportActionBar
-        actionBar?.setTitle(R.string.category_user_bricks)
         setHasOptionsMenu(true)
         return view
     }
@@ -193,7 +189,8 @@ class AddUserDefinedBrickFragment : Fragment() {
     }
 
     private fun handleAddUserDefinedBrickData(dataType: UserDefinedBrickDataType) {
-        val addUserDataToUserDefinedBrickFragment = AddUserDataToUserDefinedBrickFragment()
+        val addUserDataToUserDefinedBrickFragment = AddUserDataToUserDefinedBrickFragment(
+            getString(R.string.category_user_bricks))
 
         val bundle = Bundle()
         bundle.putSerializable(UserDefinedBrick.USER_BRICK_BUNDLE_ARGUMENT, userDefinedBrick)
@@ -202,15 +199,14 @@ class AddUserDefinedBrickFragment : Fragment() {
         addUserDataToUserDefinedBrickFragment.arguments = bundle
 
         val fragmentManager = parentFragmentManager
-        fragmentManager.let {
-            fragmentManager.beginTransaction()
-                .add(
-                    R.id.fragment_container, addUserDataToUserDefinedBrickFragment,
-                    AddUserDataToUserDefinedBrickFragment.TAG
-                )
-                .addToBackStack(AddUserDataToUserDefinedBrickFragment.TAG)
-                .commit()
-        }
+
+        fragmentManager.beginTransaction()
+            .add(
+                R.id.fragment_container, addUserDataToUserDefinedBrickFragment,
+                AddUserDataToUserDefinedBrickFragment.TAG
+            )
+            .addToBackStack(AddUserDataToUserDefinedBrickFragment.TAG)
+            .commit()
     }
 
     fun addUserDataToUserBrick(input: String?, dataType: UserDefinedBrickDataType?) {

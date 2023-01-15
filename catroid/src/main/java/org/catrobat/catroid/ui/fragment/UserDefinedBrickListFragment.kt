@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,8 +29,6 @@ import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.ListFragment
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.UserDefinedBrick
@@ -39,7 +37,7 @@ import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter
 import org.catrobat.catroid.ui.fragment.AddBrickFragment.OnAddBrickListener
 import org.catrobat.catroid.utils.ToastUtil
 
-class UserDefinedBrickListFragment : ListFragment(), View.OnClickListener {
+class UserDefinedBrickListFragment(val title: String) : BaseListFragment(title), View.OnClickListener {
 
     private var addBrickListener: OnAddBrickListener? = null
     private var adapter: PrototypeBrickAdapter? = null
@@ -49,7 +47,6 @@ class UserDefinedBrickListFragment : ListFragment(), View.OnClickListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        setActionBar(R.string.categories)
         _binding = null
     }
 
@@ -65,15 +62,7 @@ class UserDefinedBrickListFragment : ListFragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.buttonAddUserBrick.setOnClickListener(this)
-
         setupUserDefinedBrickListView()
-        setActionBar(R.string.category_user_bricks)
-    }
-
-    private fun setActionBar(resId: Int) {
-        val activity = activity as AppCompatActivity?
-        val actionBar = activity?.supportActionBar
-        actionBar?.setTitle(resId)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -105,7 +94,9 @@ class UserDefinedBrickListFragment : ListFragment(), View.OnClickListener {
     }
 
     override fun onClick(v: View) {
-        val addUserDefinedBrickFragment = AddUserDefinedBrickFragment.newInstance(addBrickListener!!)
+        val addUserDefinedBrickFragment = AddUserDefinedBrickFragment.newInstance(
+            addBrickListener!!,
+            getString(R.string.category_user_bricks))
         val userDefinedBrick = UserDefinedBrick()
 
         val bundle = Bundle()
@@ -157,8 +148,8 @@ class UserDefinedBrickListFragment : ListFragment(), View.OnClickListener {
         val USER_DEFINED_BRICK_LIST_FRAGMENT_TAG = AddBrickFragment::class.java.simpleName
 
         @JvmStatic
-        fun newInstance(addBrickListener: OnAddBrickListener?): UserDefinedBrickListFragment {
-            val fragment = UserDefinedBrickListFragment()
+        fun newInstance(addBrickListener: OnAddBrickListener?, title: String): UserDefinedBrickListFragment {
+            val fragment = UserDefinedBrickListFragment(title)
             fragment.addBrickListener = addBrickListener
             return fragment
         }

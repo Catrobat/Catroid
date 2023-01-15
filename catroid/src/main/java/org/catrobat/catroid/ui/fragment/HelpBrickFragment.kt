@@ -23,36 +23,32 @@
 package org.catrobat.catroid.ui.fragment
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.util.Log
-import android.view.View
 import android.view.ViewGroup
-import android.view.LayoutInflater
+import android.view.View
 import android.view.Menu
-import android.view.MenuItem
 import android.view.MenuInflater
+import android.view.LayoutInflater
 import android.widget.AdapterView
-import androidx.fragment.app.FragmentManager
+import androidx.core.content.ContextCompat.startActivity
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
-import org.catrobat.catroid.cast.CastManager
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter
 import org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile
-import org.catrobat.catroid.utils.SnackbarUtil
-import org.catrobat.catroid.utils.ToastUtil
 import org.koin.java.KoinJavaComponent.inject
 
-class AddBrickFragment(val title: String) : BaseListFragment(title) {
-    private var addBrickListener: OnAddBrickListener? = null
+class HelpBrickFragment(val title: String) : BaseListFragment(title) {
     private var adapter: PrototypeBrickAdapter? = null
     private fun onlyBeginnerBricks(): Boolean = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(AccessibilityProfile.BEGINNER_BRICKS, false)
     private val projectManager: ProjectManager by inject(ProjectManager::class.java)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_brick_add, container, false)
+        val view = inflater.inflate(R.layout.fragment_brick_help, container, false)
         setupSelectedBrickCategory()
         return view
     }
@@ -82,18 +78,19 @@ class AddBrickFragment(val title: String) : BaseListFragment(title) {
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.help).isVisible = true
+        menu.findItem(R.id.help).isVisible = false
+        menu.findItem(R.id.search).isVisible = false
     }
 
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, menuInflater)
         menu.findItem(R.id.comment_in_out).isVisible = false
+        menu.findItem(R.id.search).isVisible = false
     }
 
     override fun onResume() {
         super.onResume()
         setupSelectedBrickCategory()
-        SnackbarUtil.showHintSnackbar(activity, R.string.hint_bricks)
     }
 
     override fun onStart() {
@@ -102,67 +99,34 @@ class AddBrickFragment(val title: String) : BaseListFragment(title) {
             listView.setSelection(listIndexToFocus)
             listIndexToFocus = -1
         }
-        listView.onItemClickListener = AdapterView.OnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long -> adapter?.getItem(position)?.let { addBrickToScript(
+        listView.onItemClickListener = AdapterView.OnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long -> adapter?.getItem(position)?.let { helpBrick(
             it,
-            activity as SpriteActivity,
-            addBrickListener,
-            parentFragmentManager,
-            ADD_BRICK_FRAGMENT_TAG) }
+            activity as SpriteActivity
+        ) }
         }
-    }
-
-    interface OnAddBrickListener {
-        fun addBrick(brick: Brick?)
     }
 
     companion object {
         @JvmField
-        val ADD_BRICK_FRAGMENT_TAG = AddBrickFragment::class.java.simpleName
+        val HELP_BRICK_FRAGMENT_TAG = HelpBrickFragment::class.java.simpleName
         private const val BUNDLE_ARGUMENTS_SELECTED_CATEGORY = "selected_category"
         private var listIndexToFocus = -1
         @JvmStatic
-        fun newInstance(selectedCategory: String?, addBrickListener: OnAddBrickListener?): AddBrickFragment {
-            val fragment = AddBrickFragment(selectedCategory.toString())
+        fun newInstance(selectedCategory: String?, title: String): HelpBrickFragment {
+            val fragment = HelpBrickFragment(title)
             val arguments = Bundle()
             arguments.putString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY, selectedCategory)
             fragment.arguments = arguments
-            fragment.addBrickListener = addBrickListener
             return fragment
         }
     }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.search) {
-            (addBrickListener as BrickCategoryFragment.OnCategorySelectedListener).onCategorySelected(arguments?.getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY))
-        } else if (item.itemId == R.id.help) {
-            (addBrickListener as BrickCategoryFragment.OnCategorySelectedListener).onCategorySelected(arguments?.getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY) + getString(R.string.help))
-        }
-        return super.onOptionsItemSelected(item)
-    }
 }
-fun addBrickToScript(brick: Brick, activity: SpriteActivity, addBrickListener: AddBrickFragment.OnAddBrickListener?, parentFragmentManager: FragmentManager, tag: String) {
-    if (ProjectManager.getInstance().currentProject.isCastProject && CastManager.unsupportedBricks.contains(brick.javaClass)) {
-        ToastUtil.showError(activity, R.string.error_unsupported_bricks_chromecast)
-        return
-    }
-    try {
-        val brickToAdd = brick.clone()
-        addBrickListener?.addBrick(brickToAdd)
-        SnackbarUtil.showHintSnackbar(activity, R.string.hint_scripts)
-        val fragmentTransaction = parentFragmentManager.beginTransaction()
-        val categoryFragment = parentFragmentManager.findFragmentByTag(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
-        if (categoryFragment != null) {
-            fragmentTransaction.remove(categoryFragment)
-            parentFragmentManager.popBackStack()
-        }
-        val fragment = parentFragmentManager.findFragmentByTag(tag)
-        if (fragment != null) {
-            fragmentTransaction.remove(fragment)
-            parentFragmentManager.popBackStack()
-        }
-        fragmentTransaction.commit()
-    } catch (e: CloneNotSupportedException) {
-        Log.e(tag, e.localizedMessage)
-        ToastUtil.showError(activity, R.string.error_adding_brick)
-    }
+
+fun helpBrick(brick: Brick, activity: SpriteActivity) {
+    startActivity(activity,
+            Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(brick.getHelpUrl(""))
+            ), null
+    )
 }
