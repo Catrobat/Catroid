@@ -38,6 +38,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.Constants.CAMERA_CACHE_DIRECTORY
 import org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION
 import org.catrobat.catroid.common.Constants.EXTRA_PICTURE_PATH_POCKET_PAINT
@@ -45,13 +46,13 @@ import org.catrobat.catroid.common.Constants.POCKET_PAINT_CACHE_DIRECTORY
 import org.catrobat.catroid.common.Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME
 import org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME
 import org.catrobat.catroid.io.StorageOperations
+import org.catrobat.catroid.merge.ImportLocalObjectActivity
 import org.catrobat.catroid.ui.WebViewActivity.INTENT_PARAMETER_URL
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask
 import java.io.File
 import java.io.IOException
 
 interface ImportLauncher {
-
     fun startActivityForResult(requestCode: Int)
 }
 
@@ -166,14 +167,14 @@ class ImportFromCameraLauncher(private val activity: AppCompatActivity) : Import
     }
 }
 
-class ImportFromLocalProjectListLauncher(
-    private val activity: AppCompatActivity,
-    private val title: String
+class ImportFromLocalLauncher(
+    val activity: Activity,
+    val requestImport: String
 ) : ImportLauncher {
 
     override fun startActivityForResult(requestCode: Int) {
-        val intent = Intent(activity, ProjectListActivity::class.java)
-        intent.putExtra(ProjectListActivity.IMPORT_LOCAL_INTENT, title)
+        val intent = Intent(activity, ImportLocalObjectActivity::class.java)
+        intent.putExtra(Constants.EXTRA_IMPORT_REQUEST_CODE, requestImport)
         activity.startActivityForResult(intent, requestCode)
     }
 }

@@ -23,7 +23,9 @@
 
 package org.catrobat.catroid.test.merge
 
+import org.catrobat.catroid.content.GroupSprite
 import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
@@ -33,6 +35,82 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 
 class MergeTestUtils {
+
+    fun assertSceneMerge(
+        spritesToImport: List<Sprite>,
+        mergedSprites: List<Sprite>,
+        currentProject: Project,
+        currentScene: Scene,
+        sourceProject: Project
+    ) {
+        spritesToImport.forEach { sprite ->
+            assertSuccessfulSpriteImport(
+                sourceProject, currentProject,
+                sprite, currentScene.getSprite(sprite.name), false
+            )
+        }
+
+        mergedSprites.forEach { sprite ->
+            assertSuccessfulSpriteMerge(
+                sourceProject,
+                currentProject,
+                sprite,
+                sourceProject
+                    .defaultScene.getSprite(sprite.name),
+                listOf(currentScene.getSprite(sprite.name))
+            )
+        }
+    }
+
+    fun assertRejectedSpriteMerge(
+        currentProject: Project,
+        projectBeforeMerge: ProjectMergeData,
+        originalSprite: Sprite,
+        currentSprite: Sprite
+    ) {
+        assertRejectedImport(currentProject, projectBeforeMerge)
+        assertEquals(originalSprite, currentSprite)
+        assertEquals(originalSprite.soundList, currentSprite.soundList)
+        assertEquals(originalSprite.scriptList, currentSprite.scriptList)
+        assertEquals(originalSprite.lookList, currentSprite.lookList)
+        assertEquals(originalSprite.userVariables, currentSprite.userVariables)
+        assertEquals(originalSprite.userLists, currentSprite.userLists)
+    }
+
+    fun assertSuccessfulSpriteMerge(
+        currentProject: Project,
+        sourceProject: Project,
+        mergedSprite: Sprite,
+        original: Sprite,
+        spritesToBeMerged: List<Sprite>
+    ) {
+        Assert.assertNotNull(mergedSprite)
+        assertTrue(mergedSprite.userVariables.containsAll(original.userVariables))
+        spritesToBeMerged.forEach {
+            assertTrue(mergedSprite.userVariables.containsAll(it.userVariables))
+        }
+        assertTrue(mergedSprite.userLists.containsAll(original.userLists))
+        spritesToBeMerged.forEach {
+            assertTrue(mergedSprite.userLists.containsAll(it.userLists))
+        }
+        var scriptListSize = 0
+        spritesToBeMerged.forEach {
+            scriptListSize += it.scriptList.size
+        }
+        assertEquals(scriptListSize, mergedSprite.scriptList.size)
+
+        assertTrue(currentProject.userVariables.containsAll(sourceProject.userVariables))
+        assertTrue(currentProject.userLists.containsAll(sourceProject.userLists))
+        assertTrue(
+            currentProject.broadcastMessageContainer.broadcastMessages.containsAll(
+                sourceProject.broadcastMessageContainer.broadcastMessages
+            )
+        )
+        Assert.assertFalse(TestUtils.checkForDuplicates(currentProject.userLists as List<Any>?))
+        Assert.assertFalse(TestUtils.checkForDuplicates(currentProject.userVariables as List<Any>?))
+        Assert.assertFalse(TestUtils.checkForDuplicates(currentProject.broadcastMessageContainer.broadcastMessages as List<Any>?))
+    }
+
     fun assertSuccessfulSpriteImport(
         currentProject: Project,
         sourceProject: Project,
@@ -42,6 +120,20 @@ class MergeTestUtils {
     ) {
         Assert.assertNotNull(importedSprite)
         assertTrue(currentProject.spriteListWithClones.contains(importedSprite))
+        if (spriteToImport is GroupSprite) {
+            assertGroupSpriteImport(currentProject, importedSprite)
+        } else {
+            assertSingleSpriteImport(currentProject, sourceProject, spriteToImport, importedSprite, wasVisuallyPlaced)
+        }
+    }
+
+    private fun assertSingleSpriteImport(
+        currentProject: Project,
+        sourceProject: Project,
+        spriteToImport: Sprite,
+        importedSprite: Sprite,
+        wasVisuallyPlaced: Boolean
+    ) {
         assertTrue(currentProject.userVariables.containsAll(sourceProject.userVariables))
         assertTrue(currentProject.userLists.containsAll(sourceProject.userLists))
         assertTrue(
@@ -50,8 +142,6 @@ class MergeTestUtils {
             )
         )
 
-        assertEquals(importedSprite.soundList.size, spriteToImport.soundList.size)
-        assertEquals(importedSprite.lookList.size, spriteToImport.lookList.size)
         if (wasVisuallyPlaced) {
             assertEquals(importedSprite.scriptList.size, spriteToImport.scriptList.size + 1)
         } else {
@@ -63,6 +153,14 @@ class MergeTestUtils {
         Assert.assertFalse(TestUtils.checkForDuplicates(currentProject.userLists as List<Any>?))
         Assert.assertFalse(TestUtils.checkForDuplicates(currentProject.userVariables as List<Any>?))
         Assert.assertFalse(TestUtils.checkForDuplicates(currentProject.broadcastMessageContainer.broadcastMessages as List<Any>?))
+    }
+
+    private fun assertGroupSpriteImport(
+        currentProject: Project,
+        importedSprite: Sprite
+    ) {
+        assertTrue(importedSprite is GroupSprite)
+        assertTrue(currentProject.spriteListWithClones.contains(importedSprite))
     }
 
     fun assertRejectedImport(currentProject: Project, projectBeforeImport: ProjectMergeData) {

@@ -545,7 +545,6 @@
     <string name="no_projects_selected">ਆਯਾਤ ਲਈ ਕੋਈ ਪ੍ਰੋਜੈਕਟ ਨਹੀਂ ਚੁਣਿਆ ਗਿਆ</string>
     <string name="only_select_catrobat_files">ਸਿਰਫ਼ ਪ੍ਰੋਜੈਕਟ ਫਾਈਲਾਂ ਦੀ ਚੋਣ ਕਰੋ</string>
     <string name="error_no_files_found">ਕੋਈ ਪ੍ਰੋਜੈਕਟ ਫਾਈਲਾਂ ਨਹੀਂ ਮਿਲੀਆਂ.</string>
-    <string name="import_sprite_from_project_launcher">ਸਥਾਨਕ ਪ੍ਰੋਜੈਕਟ ਤੋਂ ਆਬਜੈਕਟ ਆਯਾਤ ਕਰੋ</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">ਵੇਰਵਾ</string>
     <string name="project_options_notes_and_credits">ਨੋਟ ਅਤੇ ਕ੍ਰੈਡਿਟ</string>

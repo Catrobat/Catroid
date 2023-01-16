@@ -82,5 +82,11 @@ public class ProjectAdapter extends ExtendedRVAdapter<ProjectData> {
 		} else {
 			holder.details.setVisibility(View.GONE);
 		}
+
+		if (showSettings) {
+			holder.settings.setVisibility(View.VISIBLE);
+		} else {
+			holder.settings.setVisibility(View.GONE);
+		}
 	}
 }

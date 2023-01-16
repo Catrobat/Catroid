@@ -32,6 +32,8 @@ import java.util.List;
 
 public class GroupSprite extends Sprite {
 
+	public static final String TAG = GroupSprite.class.getSimpleName();
+
 	private static final long serialVersionUID = 1L;
 
 	private transient boolean collapsed = true;

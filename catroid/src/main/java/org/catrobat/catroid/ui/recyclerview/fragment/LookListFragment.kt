@@ -267,4 +267,8 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
         popupMenu.menu.findItem(R.id.backpack).setTitle(R.string.pack)
         popupMenu.show()
     }
+
+    override fun importItems(selectedItems: MutableList<LookData?>?) {
+        throw IllegalStateException("$TAG: LookData cannot be imported.")
+    }
 }

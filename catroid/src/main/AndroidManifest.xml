@@ -231,6 +231,10 @@
         <activity
             android:name=".ui.filepicker.FilePickerActivity" />
 
+        <activity
+              android:name=".merge.ImportLocalObjectActivity"
+              android:screenOrientation="portrait" />
+
         <service android:name=".transfers.project.ProjectUploadService" />
         <service android:name=".transfers.project.ProjectDownloadService" />
         <service android:name=".transfers.MediaDownloadService" />

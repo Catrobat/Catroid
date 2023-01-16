@@ -538,7 +538,6 @@
     <string name="no_projects_selected">No hay proyectos seleccionados para la importación</string>
     <string name="only_select_catrobat_files">Sólo seleccionar archivos de proyecto</string>
     <string name="error_no_files_found">No se han encontrado archivos de proyecto.</string>
-    <string name="import_sprite_from_project_launcher">Importar objeto del proyecto local</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Descripción</string>
     <string name="project_options_notes_and_credits">Credits</string>

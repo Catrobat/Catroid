@@ -546,7 +546,6 @@ Pakiusap sumubok na lamang ng iba.</string>
     <string name="no_projects_selected">Walang proyektong napili para i-import.</string>
     <string name="only_select_catrobat_files">Pillin lang ang file ng proyekto</string>
     <string name="error_no_files_found">Walang nahanap na proyekto.</string>
-    <string name="import_sprite_from_project_launcher">Mag-import ng bagay mula sa lokal na proyekto</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Paglalarawan</string>
     <string name="project_options_notes_and_credits">Mga Notes at Credits</string>

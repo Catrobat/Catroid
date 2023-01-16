@@ -59,7 +59,7 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 		super.onCreate(savedInstanceState);
 
 		nfcAdapter = NfcAdapter.getDefaultAdapter(getActivity());
-		Intent nfcIntent = new Intent(getActivity(), getActivity().getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		Intent nfcIntent = new Intent(getActivity(), requireActivity().getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		pendingIntent = PendingIntent.getActivity(getActivity(), 0, nfcIntent, 0);
 		if (nfcAdapter != null && !nfcAdapter.isEnabled()) {
 			ToastUtil.showError(getActivity(), R.string.nfc_not_activated);
@@ -224,5 +224,10 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 			return true;
 		});
 		popupMenu.show();
+	}
+
+	@Override
+	protected void importItems(List<NfcTagData> selectedItems) {
+		throw new IllegalStateException(TAG + ": NfcTags cannot be imported.");
 	}
 }

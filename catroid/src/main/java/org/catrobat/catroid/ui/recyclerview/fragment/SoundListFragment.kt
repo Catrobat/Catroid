@@ -221,4 +221,8 @@ class SoundListFragment : RecyclerViewFragment<SoundInfo?>() {
         popupMenu.menu.findItem(R.id.backpack).setTitle(R.string.pack)
         popupMenu.show()
     }
+
+    override fun importItems(selectedItems: MutableList<SoundInfo?>?) {
+        throw IllegalStateException("$TAG: SoundInfo cannot be imported.")
+    }
 }

@@ -504,7 +504,6 @@
     <string name="no_projects_selected">沒有選擇要導入的項目</string>
     <string name="only_select_catrobat_files">只選擇項目文件</string>
     <string name="error_no_files_found">未找到項目文件。</string>
-    <string name="import_sprite_from_project_launcher">從本地項目導入對象</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">描述</string>
     <string name="project_options_notes_and_credits">筆記和信用</string>

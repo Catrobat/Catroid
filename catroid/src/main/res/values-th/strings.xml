@@ -496,7 +496,6 @@
     <string name="no_projects_selected">ไม่ได้เลือกโครงการสำหรับการนำเข้า</string>
     <string name="only_select_catrobat_files">เลือกเฉพาะไฟล์โครงการ</string>
     <string name="error_no_files_found">ไม่พบไฟล์โครงการ</string>
-    <string name="import_sprite_from_project_launcher">นำเข้าวัตถุจากโครงการที่มีอยู่</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">คำอธิบาย</string>
     <string name="project_options_notes_and_credits">เครดิต</string>
