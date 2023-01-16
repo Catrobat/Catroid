@@ -38,12 +38,12 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY
 import org.catrobat.catroid.content.GroupSprite
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.rules.FlakyTestRule
-import org.catrobat.catroid.runner.Flaky
-import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
 import org.catrobat.catroid.testsuites.annotations.Level.Smoke
 import org.catrobat.catroid.ui.MainMenuActivity
@@ -64,6 +64,7 @@ import org.junit.Test
 import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
 import org.koin.java.KoinJavaComponent.inject
+import java.io.File
 
 @Category(AppUi::class, Smoke::class)
 @RunWith(AndroidJUnit4::class)
@@ -92,24 +93,24 @@ class RenameSpriteTest {
 
     @After
     fun tearDown() {
-        TestUtils.deleteProjects(RenameSpriteTest::class.java.simpleName)
+        baseActivityTestRule.finishActivity()
+        StorageOperations.deleteDir(
+            File(DEFAULT_ROOT_DIRECTORY, RenameSpriteTest::class.java.simpleName))
     }
 
     @Test
-    @Flaky
+    fun renameSpriteSwitchCaseDialogTest() {
+        val newSpriteName = "SeConDspRite"
+        renameViaActionBarMenu(secondSpriteName, newSpriteName, 2)
+    }
+
+    @Test
     fun renameSpriteDialogTest() {
         val modifiedFirstSprite = "modifiedFirstSprite"
         val modifiedGroupSprite = "modifiedGroupSprite"
         renameViaSpriteActionMenu(firstSpriteName, modifiedFirstSprite, isGroupSprite = false)
         renameViaActionBarMenu(modifiedFirstSprite, firstSpriteName, 1)
         renameViaSpriteActionMenu(groupSpriteName, modifiedGroupSprite, isGroupSprite = true)
-    }
-
-    @Test
-    @Flaky
-    fun renameSpriteSwitchCaseDialogTest() {
-        val newSpriteName = "SeConDspRite"
-        renameViaActionBarMenu(secondSpriteName, newSpriteName, 2)
     }
 
     @Test
@@ -235,13 +236,33 @@ class RenameSpriteTest {
         onView(withText(R.string.rename_sprite_dialog))
             .inRoot(isDialog())
             .check(matches(isDisplayed()))
-        setLanguageSharedPreference(ApplicationProvider.getApplicationContext(), "de")
-        val backgroundString = "Hintergrund"
+        val backgroundString = "Background"
+        onView(allOf(withText(secondSpriteName), isDisplayed()))
+            .perform(replaceText(backgroundString))
+        closeSoftKeyboard()
+        onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
+            .check(matches(not(isEnabled())))
+    }
+
+    @Test
+    fun spriteEqualsBackgroundNameAfterLanguageChangeTest() {
+        UiTestUtils.openActionBarMenu()
+        onView(withText(R.string.rename)).perform(click())
+        onRecyclerView().atPosition(0)
+            .check(matches(not(isDisplayed())))
+        onRecyclerView().atPosition(2)
+            .perform(click())
+        onView(withText(R.string.rename_sprite_dialog))
+            .inRoot(isDialog())
+            .check(matches(isDisplayed()))
+        val backgroundString = "Background"
         onView(allOf(withText(secondSpriteName), isDisplayed()))
             .perform(replaceText(backgroundString))
         closeSoftKeyboard()
         onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
             .perform(click())
+
+        setLanguageSharedPreference(ApplicationProvider.getApplicationContext(), "en-GB")
         val mainMenu_ = BaseActivityTestRule(
             MainMenuActivity::class.java, false, false
         )
