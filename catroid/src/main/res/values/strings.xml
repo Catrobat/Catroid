@@ -21,7 +21,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources  xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <!-- General terms -->
     <string name="stage">Stage</string>
@@ -405,7 +405,7 @@
     <string name="from_local">Add from local</string>
     <string name="sort_projects">Sort</string>
     <string name="unsort_projects">Unsort</string>
-    <string name= "import_from_project">Select project to import from</string>
+    <string name="import_from_project">Select project to import from</string>
 
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">New scene</string>
@@ -454,11 +454,22 @@
     <string name="keyword_label">Search</string>
     <string name="html_label">Insert HTML text</string>
     <string name="Image_format_not_supported">Image format not supported</string>
-    <string name="import_conflicting_variables">The actor or object could not be added.</string>
+    <string name="import_conflicting_variables">The actors, objects, scenes or projects could not
+        be added.</string>
     <string name="import_conflicting_variables_reason">The reason is that the following variable or
-        list names are in conflict because they are used for
-        all actors and objects and with the same name also for only one of the actors or objects: </string>
+        list names are in conflict because they are used for all actors and objects and with the
+        same name also for only one of the actors or objects: </string>
     <string name="import_conflicting_variables_try_again">Please rename one of these variables or lists and try again.</string>
+    <string name="import_unresolvable_project_name_reason">The reason is that the project
+        from which you are trying to import has an unresolvable name.</string>
+    <string name="import_unresolvable_project_name_try_again">Please rename the project and try
+        again. Try to remove . in project names.</string>
+    <string name="import_conflicting_screen_orientation_reason">The reason is that the
+        projects use different modes for screen orientation. Landscape should be either enabled
+        in both or none of them.</string>
+    <string name="import_conflicting_screen_orientation_try_again">Please only merge projects
+        with same screen orientation.</string>
+
     <!-- Details -->
     <string name="project_details">Last access: %s, size: %s</string>
     <string name="last_access_today">today, %s</string>

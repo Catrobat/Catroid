@@ -98,4 +98,18 @@ class MergeTestUtils {
             originalBroadCastMessages
         )
     }
+
+    fun assertSuccessfulProjectMerge(
+        project: Project,
+        defaultProject1: Project,
+        currentProject: Project
+    ) {
+        currentProject.defaultScene.spriteList.containsAll(project.defaultScene.spriteList)
+        currentProject.sceneList[1].spriteList.containsAll(defaultProject1.sceneList[1].spriteList)
+
+        currentProject.userVariables.containsAll(project.userVariables)
+        currentProject.userVariables.containsAll(defaultProject1.userVariables)
+        currentProject.userLists.containsAll(project.userLists)
+        currentProject.userLists.containsAll(defaultProject1.userLists)
+    }
 }

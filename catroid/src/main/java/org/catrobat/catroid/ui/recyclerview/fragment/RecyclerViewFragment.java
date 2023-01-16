@@ -37,13 +37,17 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
-import org.catrobat.catroid.merge.NewProjectNameTextWatcher;
+import org.catrobat.catroid.common.ProjectData;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.merge.ImportVariablesManager;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
-import org.catrobat.catroid.ui.recyclerview.adapter.MultiViewSpriteAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallback;
+import org.catrobat.catroid.ui.recyclerview.dialog.MergeProjectDialogFragment;
+import org.catrobat.catroid.ui.recyclerview.dialog.RejectImportDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
@@ -59,6 +63,7 @@ import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.PluralsRes;
 import androidx.annotation.StringRes;
+import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -146,24 +151,28 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		return true;
 	}
 
-	private void onRename(Menu menu) {
-		adapter.selectionMode = adapter.SINGLE;
+	protected void onRename(Menu menu) {
+		adapter.selectionMode = RVAdapter.SINGLE;
 		adapter.showSettings = false;
 		adapter.showRipples = false;
 		menu.findItem(R.id.confirm).setVisible(false);
 		menu.findItem(R.id.overflow).setVisible(false);
 		menu.findItem(R.id.toggle_selection).setVisible(false);
 
-		if (this instanceof SpriteListFragment) {
-			((MultiViewSpriteAdapter) adapter).setBackgroundVisible(View.GONE);
-			if (((SpriteListFragment) this).isSingleVisibleSprite()) {
-				showRenameDialog(adapter.getItems().get(1));
-			}
-		} else if (adapter.getItemCount() == 1) {
+		if (adapter.getItemCount() == 1) {
 			showRenameDialog(adapter.getItems().get(0));
 		}
 
 		adapter.notifyDataSetChanged();
+	}
+
+	protected void onImport(Menu menu, ActionMode mode) {
+		setHasOptionsMenu(false);
+		adapter.showSettings = false;
+		adapter.selectionMode = RVAdapter.SINGLE;
+		menu.findItem(R.id.confirm).setVisible(false);
+		menu.findItem(R.id.overflow).setVisible(false);
+		menu.findItem(R.id.toggle_selection).setVisible(false);
 	}
 
 	@Override
@@ -193,9 +202,6 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		resetActionModeParameters();
 		adapter.clearSelection();
 		BottomBar.showBottomBar(getActivity());
-		if (this instanceof SpriteListFragment) {
-			((MultiViewSpriteAdapter) adapter).setBackgroundVisible(View.VISIBLE);
-		}
 	}
 
 	private void handleContextualAction() {
@@ -247,7 +253,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	@Override
 	public void onActivityCreated(Bundle savedInstance) {
 		super.onActivityCreated(savedInstance);
-		if (getActivity().isFinishing()) {
+		if (requireActivity().isFinishing()) {
 			return;
 		}
 		initializeAdapter();
@@ -398,7 +404,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	}
 
 	protected void updateSelectionToggle(Menu menu) {
-		if (adapter.selectionMode == adapter.MULTIPLE) {
+		if (adapter.selectionMode == RVAdapter.MULTIPLE) {
 			MenuItem selectionToggle = menu.findItem(R.id.toggle_selection);
 			selectionToggle.setVisible(true);
 			menu.findItem(R.id.overflow).setVisible(true);
@@ -448,7 +454,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 
 	protected void showBackpackModeChooser() {
 		CharSequence[] items = new CharSequence[] {getString(R.string.pack), getString(R.string.unpack)};
-		new AlertDialog.Builder(getContext())
+		new AlertDialog.Builder(requireContext())
 				.setTitle(R.string.backpack_title)
 				.setItems(items, (dialog, which) -> {
 					switch (which) {
@@ -472,7 +478,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	protected abstract int getDeleteAlertTitleId();
 
 	protected void showDeleteAlert(final List<T> selectedItems) {
-		new AlertDialog.Builder(getContext())
+		new AlertDialog.Builder(requireContext())
 				.setTitle(getResources().getQuantityString(getDeleteAlertTitleId(), selectedItems.size()))
 				.setMessage(R.string.dialog_confirm_delete)
 				.setPositiveButton(R.string.delete, (dialog, id) -> deleteItems(selectedItems))
@@ -484,7 +490,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	protected abstract void deleteItems(List<T> selectedItems);
 
 	protected void showRenameDialog(T selectedItem) {
-		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(requireContext());
 		builder.setHint(getString(getRenameDialogHint()))
 				.setText(selectedItem.getName())
 				.setTextWatcher(new DuplicateInputTextWatcher(adapter.getItems()))
@@ -493,9 +499,6 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		builder.setTitle(getRenameDialogTitle())
 				.setNegativeButton(R.string.cancel, null)
 				.setOnDismissListener(dialogInterface -> {
-					if (this instanceof SpriteListFragment) {
-						((MultiViewSpriteAdapter) adapter).setBackgroundVisible(View.VISIBLE);
-					}
 					if (actionMode != null) {
 						finishActionMode();
 					}
@@ -503,24 +506,48 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 				.show();
 	}
 
-	protected void showMergeDialog(List<T> selectedItems) {
+	@VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+	public void showMergeDialog(List<T> selectedItems) {
 		if (adapter.getSelectedItems().size() <= 1) {
 			ToastUtil.showError(getContext(), R.string.am_merge_error);
-		} else {
-			TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
-
-			builder.setHint(getString(R.string.project_name_label))
-					.setTextWatcher(new NewProjectNameTextWatcher<>())
-					.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput)
-							-> {
-						mergeProjects(selectedItems, textInput);
-					});
-
-			builder.setTitle(R.string.new_merge_project_dialog_title)
-					.setNegativeButton(R.string.cancel, null)
-					.show();
+			setShowProgressBar(true);
+			finishActionMode();
+			return;
 		}
 
+		try {
+			Project sourceProject1 = XstreamSerializer.getInstance().loadProject(
+					((ProjectData) selectedItems.get(0)).getDirectory(), requireContext());
+
+			Project sourceProject2 = XstreamSerializer.getInstance().loadProject(
+					((ProjectData) selectedItems.get(1)).getDirectory(), requireContext());
+
+			List<String> variableConflicts =
+					ImportVariablesManager.validateVariableConflictsForImport(
+							sourceProject2.getDefaultScene().getSpriteList(), sourceProject2, sourceProject1);
+			boolean screenOrientationConflict =
+					sourceProject1.getXmlHeader().islandscapeMode() != sourceProject2.getXmlHeader().islandscapeMode();
+
+			if (!variableConflicts.isEmpty()) {
+				new RejectImportDialogFragment(variableConflicts).show(
+						requireActivity().getSupportFragmentManager(),
+						RejectImportDialogFragment.Companion.getTAG());
+			} else if (screenOrientationConflict) {
+				new RejectImportDialogFragment(null, RejectImportDialogFragment.CONFLICT_SCREEN_ORIENTATION)
+						.show(requireActivity().getSupportFragmentManager(),
+								RejectImportDialogFragment.Companion.getTAG());
+			} else {
+				new MergeProjectDialogFragment(sourceProject1, sourceProject2, adapter).show(
+						requireActivity().getSupportFragmentManager(),
+						MergeProjectDialogFragment.Companion.getTAG());
+			}
+		} catch (Exception e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+			ToastUtil.showError(getContext(), R.string.error_load_project);
+			setShowProgressBar(true);
+			finishActionMode();
+			return;
+		}
 		setShowProgressBar(true);
 		finishActionMode();
 	}
@@ -532,11 +559,6 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 
 	protected void renameItem(T item, String newName) {
 		item.setName(newName);
-		finishActionMode();
-	}
-
-	protected void mergeProjects(List<T> selectedProjects, String mergeProjectName) {
-		ToastUtil.showSuccess(getContext(), R.string.merging_project_text);
 		finishActionMode();
 	}
 }
