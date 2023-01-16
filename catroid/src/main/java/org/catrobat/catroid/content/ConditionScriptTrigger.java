@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.content;
 
+import android.os.SystemClock;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
@@ -45,6 +46,13 @@ public class ConditionScriptTrigger {
 	static final int ALREADY_TRIGGERED = 1;
 	private static final String TAG = ConditionScriptTrigger.class.getSimpleName();
 
+	private boolean sceneFirstStart = false;
+	private boolean sceneRestarted = false;
+	private boolean sceneAlreadyStarted = false;
+
+	private long startTime = 0;
+	static final long EVALUATE_AND_TRIGGER_ACTIONS_THRESHOLD = 200;
+
 	@TriggerStatus
 	private int status = TRIGGER_NOW;
 	private final Formula formula;
@@ -56,7 +64,28 @@ public class ConditionScriptTrigger {
 	void evaluateAndTriggerActions(Sprite sprite) {
 		try {
 			Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, null);
-			boolean conditionValue = formula.interpretBoolean(scope);
+			boolean conditionValue = false;
+
+			if (sceneFirstStart || sceneRestarted) {
+				if (startTime == 0) {
+					startTime = SystemClock.uptimeMillis();
+				} else {
+					long elapsedTime = SystemClock.uptimeMillis() - startTime;
+
+					if (elapsedTime >= EVALUATE_AND_TRIGGER_ACTIONS_THRESHOLD) {
+						if (sceneFirstStart) {
+							sceneFirstStart = false;
+						} else if (sceneRestarted) {
+							sceneRestarted = false;
+						}
+						startTime = 0;
+						conditionValue = formula.interpretBoolean(scope);
+					}
+				}
+			} else {
+				conditionValue = formula.interpretBoolean(scope);
+			}
+
 			if (conditionValue) {
 				triggerScript(sprite);
 			} else {
@@ -72,6 +101,19 @@ public class ConditionScriptTrigger {
 			EventWrapper eventWrapper = new EventWrapper(new WhenConditionEventId(formula), false);
 			sprite.look.fire(eventWrapper);
 			status = ALREADY_TRIGGERED;
+		}
+	}
+
+	public void updateSceneFirstStart() {
+		sceneFirstStart = true;
+		sceneAlreadyStarted = true;
+	}
+
+	public void resetStartTimeIfSceneRestarted() {
+		if (sceneAlreadyStarted) {
+			startTime = 0;
+			sceneRestarted = true;
+			sceneFirstStart = false;
 		}
 	}
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,6 +42,8 @@ public class Formula implements Serializable {
 	private FormulaElement formulaTree;
 
 	private transient InternFormula internFormula = null;
+
+	private boolean sceneFirstStart = false;
 
 	public Formula(FormulaElement formulaElement) {
 		formulaTree = formulaElement;
@@ -136,7 +138,12 @@ public class Formula implements Serializable {
 
 	public Double interpretDouble(Scope scope) throws InterpretationException {
 		try {
-			return assertNotNaN(interpretDoubleInternal(scope));
+			if (sceneFirstStart) {
+				sceneFirstStart = false;
+				return 0.0;
+			} else {
+				return assertNotNaN(interpretDoubleInternal(scope));
+			}
 		} catch (ClassCastException | NumberFormatException exception) {
 			throw new InterpretationException("Couldn't interpret Formula.", exception);
 		}
@@ -258,5 +265,9 @@ public class Formula implements Serializable {
 
 	public interface StringProvider {
 		String getTrueOrFalse(Boolean value);
+	}
+
+	public void sceneFirstStart(boolean sceneFirstStart) {
+		this.sceneFirstStart = sceneFirstStart;
 	}
 }
