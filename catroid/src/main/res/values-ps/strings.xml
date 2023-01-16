@@ -542,7 +542,6 @@
     <string name="no_projects_selected">د وارداتو لپاره کومه پروژه نه ده غوره شوې</string>
     <string name="only_select_catrobat_files">یوازې د پروژې فایلونه غوره کړئ</string>
     <string name="error_no_files_found">د پروژې فایلونه ونه موندل شول.</string>
-    <string name="import_sprite_from_project_launcher">د ځایی پروژې څخه توکي وارد کړئ</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">تفصیل</string>
     <string name="project_options_notes_and_credits">Credits</string>

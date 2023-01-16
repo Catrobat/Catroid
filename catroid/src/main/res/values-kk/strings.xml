@@ -522,7 +522,6 @@
     <string name="no_projects_selected">Импортталатын жобалар таңдалмаған</string>
     <string name="only_select_catrobat_files">Тек жоба файлдарын таңдау</string>
     <string name="error_no_files_found">Жоба файлдары табылмады.</string>
-    <string name="import_sprite_from_project_launcher">Жергілікті жобадан объекті импорттау</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Сипаттама</string>
     <string name="project_options_notes_and_credits">Credits</string>

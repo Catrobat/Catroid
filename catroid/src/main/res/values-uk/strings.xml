@@ -621,7 +621,6 @@
     <string name="no_projects_selected">Для імпорту не вибрано жодного проєкту</string>
     <string name="only_select_catrobat_files">Вибрати лише файли проєкту</string>
     <string name="error_no_files_found">Не знайдено файлів проєкту.</string>
-    <string name="import_sprite_from_project_launcher">Імпортувати об\'єкт з локального проєкту</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Опис</string>
     <string name="project_options_notes_and_credits">Примітки та автори</string>

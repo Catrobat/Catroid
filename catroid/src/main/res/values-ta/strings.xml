@@ -536,7 +536,6 @@
     <string name="no_projects_selected">No projects selected for import</string>
     <string name="only_select_catrobat_files">Only select project files</string>
     <string name="error_no_files_found">திட்ட கோப்புகள் எதுவும் கிடைக்கவில்லை.</string>
-    <string name="import_sprite_from_project_launcher">Import Object from Local Project</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">விளக்கம்</string>
     <string name="project_options_notes_and_credits">குறிப்புகளும் பொதுவொப்புதல்களும்</string>

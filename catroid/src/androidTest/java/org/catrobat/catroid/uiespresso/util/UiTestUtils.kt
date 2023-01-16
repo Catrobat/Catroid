@@ -22,23 +22,17 @@
  */
 package org.catrobat.catroid.uiespresso.util
 
-import androidx.test.core.app.ApplicationProvider
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SwitchCompat
-import org.hamcrest.CoreMatchers
-import org.catrobat.catroid.content.StartScript
-import org.catrobat.catroid.ProjectManager
-import androidx.test.espresso.ViewInteraction
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
-import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import androidx.test.espresso.matcher.ViewMatchers.hasSibling
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
@@ -48,14 +42,19 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
 import androidx.test.runner.lifecycle.Stage
+import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.common.DefaultProjectHandler
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.StartScript
+import org.catrobat.catroid.io.XstreamSerializer
+import org.catrobat.catroid.ui.recyclerview.controller.SceneController
 import org.catrobat.catroid.uiespresso.util.matchers.SuperToastMatchers
+import org.hamcrest.CoreMatchers
 import org.hamcrest.Description
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.TypeSafeMatcher
 import org.koin.java.KoinJavaComponent.inject
@@ -151,7 +150,7 @@ class UiTestUtils private constructor() {
                     parentMatcher.describeTo(description)
                 }
 
-                override fun matchesSafely(view: View): Boolean {
+                public override fun matchesSafely(view: View): Boolean {
                     val parent = view.parent
                     return parent is ViewGroup && parentMatcher.matches(parent) &&
                         view == parent.getChildAt(position)
@@ -160,23 +159,53 @@ class UiTestUtils private constructor() {
         }
 
         @JvmStatic
-        fun uncheckPlaceVisually(activity: Activity) {
-            val switchCompat = onView(
-                allOf(
-                    withId(R.id.place_visually_sprite_switch), withText("Place visually"),
-                    childAtPosition(
-                        childAtPosition(
-                            ViewMatchers.withClassName(Matchers.`is`("android.widget.ScrollView")),
-                            0
-                        ),
-                        1
-                    )
-                )
+        fun getDefaultTestProject(context: Context): Project {
+            val baseProject =
+                DefaultProjectHandler.createAndSaveDefaultProject("base", context, false)
+            XstreamSerializer.getInstance().saveProject(baseProject)
+            return baseProject
+        }
+
+        @JvmStatic
+        fun getMultipleScenesAndSpriteProject(context: Context): Project {
+            val testProject = DefaultProjectHandler
+                .createAndSaveDefaultProject(context)
+
+            val scene2 = SceneController.newSceneWithBackgroundSprite(
+                "scene2",
+                "background1",
+                testProject
+            )
+            testProject.addScene(scene2)
+            testProject.getSceneByName(scene2.name)?.spriteList?.add(
+                testProject.defaultScene.getSprite(context.getString(R.string.default_project_sprites_animal_name))
             )
 
-            if (activity.window.currentFocus?.findViewById<SwitchCompat>(R.id.place_visually_sprite_switch)?.isChecked == true) {
-                switchCompat.perform(ViewActions.scrollTo(), click())
-            }
+            val scene3 = SceneController.newSceneWithBackgroundSprite(
+                "scene3",
+                "background1",
+                testProject
+            )
+
+            testProject.addScene(scene3)
+            testProject.getSceneByName(scene3.name)?.spriteList?.add(
+                testProject.defaultScene.getSprite(context.getString(R.string.default_project_cloud_sprite_name_1))
+
+            )
+
+            val scene4 = SceneController.newSceneWithBackgroundSprite(
+                "scene4",
+                "background1",
+                testProject
+            )
+
+            testProject.addScene(scene4)
+            testProject.getSceneByName(scene4.name)?.spriteList?.add(
+                testProject.defaultScene.getSprite(context.getString(R.string.default_project_cloud_sprite_name_2))
+
+            )
+            XstreamSerializer.getInstance().saveProject(testProject)
+            return testProject
         }
     }
 }

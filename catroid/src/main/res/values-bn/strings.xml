@@ -528,7 +528,6 @@
     <string name="no_projects_selected">আমদানির জন্য কোন প্রকল্প নির্বাচন করা হয়নি</string>
     <string name="only_select_catrobat_files">শুধুমাত্র প্রকল্প ফাইল নির্বাচন করুন</string>
     <string name="error_no_files_found">কোনও প্রজেক্ট ফাইল পাওয়া যায়নি।</string>
-    <string name="import_sprite_from_project_launcher">স্থানীয় প্রকল্প থেকে বস্তু আমদানি করুন</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">বর্ণনা</string>
     <string name="project_options_notes_and_credits">Credits</string>

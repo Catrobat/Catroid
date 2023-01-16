@@ -495,7 +495,6 @@
     <string name="no_projects_selected">هیچ پروژه ای برای واردات انتخاب نشده است</string>
     <string name="only_select_catrobat_files">فقط فایل های پروژه را انتخاب کنید</string>
     <string name="error_no_files_found">هیچ فایل پروژه ای یافت نشد</string>
-    <string name="import_sprite_from_project_launcher">وارد کردن شی از پروژه محلی</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">توضیح </string>
     <string name="project_options_notes_and_credits">Credits</string>

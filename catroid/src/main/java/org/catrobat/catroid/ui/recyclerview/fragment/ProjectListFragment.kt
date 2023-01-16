@@ -33,6 +33,7 @@ import android.os.Environment
 import android.preference.PreferenceManager
 import android.provider.DocumentsContract
 import android.util.Log
+import android.view.ActionMode
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -53,9 +54,9 @@ import org.catrobat.catroid.io.asynctask.ProjectLoader
 import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
 import org.catrobat.catroid.io.asynctask.ProjectRenamer
 import org.catrobat.catroid.io.asynctask.ProjectUnZipperAndImporter
+import org.catrobat.catroid.merge.ImportLocalObjectActivity
 import org.catrobat.catroid.ui.BottomBar
 import org.catrobat.catroid.ui.ProjectActivity
-import org.catrobat.catroid.ui.ProjectListActivity
 import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.filepicker.FilePickerActivity
 import org.catrobat.catroid.ui.fragment.ProjectOptionsFragment
@@ -82,9 +83,15 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         if (arguments != null) {
             importProject(requireArguments().getParcelable("intent"))
         }
-        if (requireActivity().intent?.hasExtra(ProjectListActivity.IMPORT_LOCAL_INTENT) == true) {
-            adapter.showSettings = false
+
+        if (ImportLocalObjectActivity.hasExtraTAG(activity) == true) {
             actionModeType = IMPORT_LOCAL
+            setHasOptionsMenu(false)
+            adapter.showSettings = false
+            activity?.setTitle(R.string.import_from_project)
+            ImportLocalObjectActivity.projectToImportFrom = null
+            ImportLocalObjectActivity.sceneToImportFrom = null
+            ImportLocalObjectActivity.spritesToImport = null
         }
     }
 
@@ -123,13 +130,12 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
     }
 
     override fun onResume() {
-        if (actionModeType != IMPORT_LOCAL) {
+        if (ImportLocalObjectActivity.hasExtraTAG(activity) == false) {
             projectManager.currentProject = null
+            BottomBar.showBottomBar(requireActivity())
         }
-
         setAdapterItems(adapter.projectsSorted)
         checkForEmptyList()
-        BottomBar.showBottomBar(requireActivity())
         super.onResume()
     }
 
@@ -322,8 +328,8 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
     override fun copyItems(selectedItems: MutableList<ProjectData?>?) {
         finishActionMode()
         setShowProgressBar(true)
-        selectedItems ?: return
         val usedProjectNames = ArrayList(adapter.items)
+        selectedItems ?: return
         for (projectData in selectedItems) {
             projectData ?: continue
             val name = uniqueNameProvider.getUniqueNameInNameables(projectData.name, usedProjectNames)
@@ -423,13 +429,12 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
             ProjectLoader(directoryFile, requireContext()).setListener(this).loadProjectAsync()
         }
         if (actionModeType == IMPORT_LOCAL) {
-            val intent = Intent()
-            intent.putExtra(
-                ProjectListActivity.IMPORT_LOCAL_INTENT,
-                item?.directory?.absoluteFile?.absolutePath
-            )
-            requireActivity().setResult(RESULT_OK, intent)
-            requireActivity().finish()
+            try {
+                ImportLocalObjectActivity.projectToImportFrom = XstreamSerializer.getInstance().loadProject(item!!.directory.absoluteFile, context)
+                (activity as ImportLocalObjectActivity).loadNext(ImportLocalObjectActivity.REQUEST_PROJECT)
+            } catch (e: IOException) {
+                Log.e(TAG, Log.getStackTraceString(e))
+            }
         }
     }
 
@@ -485,16 +490,18 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        adapter.projectsSorted = PreferenceManager.getDefaultSharedPreferences(requireContext())
-            .getBoolean(SharedPreferenceKeys.SORT_PROJECTS_PREFERENCE_KEY, false)
-        menu.findItem(R.id.sort_projects)
-            .setTitle(
-                if (adapter.projectsSorted) {
-                    R.string.unsort_projects
-                } else {
-                    R.string.sort_projects
-                }
-            )
+        if (actionModeType != IMPORT_LOCAL) {
+            adapter.projectsSorted = PreferenceManager.getDefaultSharedPreferences(requireContext())
+                .getBoolean(SharedPreferenceKeys.SORT_PROJECTS_PREFERENCE_KEY, false)
+            menu.findItem(R.id.sort_projects)
+                .setTitle(
+                    if (adapter.projectsSorted) {
+                        R.string.unsort_projects
+                    } else {
+                        R.string.sort_projects
+                    }
+                )
+        }
     }
 
     private fun setAdapterItems(sortProjects: Boolean) {
@@ -531,5 +538,13 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
                 }
             }
         }
+    }
+
+    override fun importItems(selectedItems: MutableList<ProjectData?>?) {
+        throw IllegalStateException("$TAG: ProjectData cannot be imported yet.")
+    }
+
+    override fun onImport(menu: Menu?, mode: ActionMode?) {
+        super.onImport(menu, mode)
     }
 }
