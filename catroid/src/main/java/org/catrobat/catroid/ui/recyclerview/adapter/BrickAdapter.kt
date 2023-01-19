@@ -148,9 +148,18 @@ class BrickAdapter(private val sprite: Sprite) :
         item.checkBox.setOnClickListener { onCheckBoxClick(position) }
         when (checkBoxMode) {
             NONE -> handleCheckBoxModeNone(item)
-            CONNECTED_ONLY -> handleCheckBoxModeConnectedOnly(item, itemView, position)
-            ALL -> handleCheckBoxModeAll(item)
-            SCRIPTS_ONLY -> handleCheckBoxModeScriptsOnly(item)
+            CONNECTED_ONLY -> {
+                itemView.setOnClickListener { onCheckBoxClick(position) }
+                handleCheckBoxModeConnectedOnly(item, itemView, position)
+            }
+            ALL -> {
+                itemView.setOnClickListener { onCheckBoxClick(position) }
+                handleCheckBoxModeAll(item)
+            }
+            SCRIPTS_ONLY -> {
+                itemView.setOnClickListener { onCheckBoxClick(position) }
+                handleCheckBoxModeScriptsOnly(item)
+            }
         }
     }
 
@@ -184,10 +193,8 @@ class BrickAdapter(private val sprite: Sprite) :
     }
 
     override fun onItemClick(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
-        if (checkBoxMode == NONE) {
-            val item = items[position]
-            onItemClickListener?.onBrickClick(item, position)
-        }
+        val item = items[position]
+        onItemClickListener?.onBrickClick(item, position)
     }
 
     override fun onItemLongClick(

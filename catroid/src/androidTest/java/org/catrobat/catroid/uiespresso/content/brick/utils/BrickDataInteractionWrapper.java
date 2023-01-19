@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.utils;
 
+import android.view.View;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -30,6 +31,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.uiespresso.util.matchers.ScriptListMatchers;
 import org.catrobat.catroid.uiespresso.util.wrappers.DataInteractionWrapper;
+import org.hamcrest.Matcher;
 
 import androidx.test.espresso.DataInteraction;
 import androidx.test.espresso.action.CoordinatesProvider;
@@ -38,14 +40,18 @@ import androidx.test.espresso.action.Press;
 import androidx.test.espresso.action.Swipe;
 import androidx.test.espresso.action.Tap;
 
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.AnyOf.anyOf;
+import static org.hamcrest.core.IsNot.not;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -124,5 +130,16 @@ public class BrickDataInteractionWrapper extends DataInteractionWrapper {
 				Press.FINGER));
 		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
 				.perform(click());
+	}
+
+	public static void checkBricksCheckedEnabled(int startBrickPosition, int brickCount,
+			boolean checked, boolean enabled) {
+		Matcher<View> matcherChecked = checked ? isChecked() : not(isChecked());
+		Matcher<View> matcherEnabled = enabled ? isEnabled() : not(isEnabled());
+
+		for (int i = startBrickPosition; i < brickCount; i++) {
+			onBrickAtPosition(i)
+					.onCheckBox().check(matches(allOf(matcherChecked, matcherEnabled)));
+		}
 	}
 }
