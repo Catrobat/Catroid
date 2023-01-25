@@ -87,7 +87,7 @@ class DeleteSpriteCloneTest {
         Espresso.onView(withText(R.string.delete))
             .perform(click())
         RecyclerViewInteractionWrapper.onRecyclerView().atPosition(2)
-            .performCheckItem()
+            .performCheckItemClick()
         Espresso.onView(withId(R.id.confirm))
             .perform(click())
         Espresso.onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))

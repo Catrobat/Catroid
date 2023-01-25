@@ -55,6 +55,7 @@ import org.catrobat.catroid.ui.controller.BackpackListManager
 import org.catrobat.catroid.ui.recyclerview.adapter.MultiViewSpriteAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperAdapterInterface
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallback
+import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
@@ -315,23 +316,26 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         finishActionMode()
     }
 
-    override fun onItemClick(item: Sprite?) {
+    override fun onItemClick(item: Sprite?, selectionManager: MultiSelectionManager?) {
         if (item is GroupSprite) {
             item.isCollapsed = !item.isCollapsed
             adapter.notifyDataSetChanged()
         } else {
-            if (actionModeType == RENAME) {
-                super.onItemClick(item)
-                return
-            }
-            if (actionModeType == NONE) {
-                projectManager.currentSprite = item
-                val intent = Intent(requireContext(), SpriteActivity::class.java)
-                intent.putExtra(
-                    SpriteActivity.EXTRA_FRAGMENT_POSITION,
-                    SpriteActivity.FRAGMENT_SCRIPTS
-                )
-                startActivity(intent)
+            when (actionModeType) {
+                RENAME -> {
+                    super.onItemClick(item, null)
+                    return
+                }
+                NONE -> {
+                    projectManager.currentSprite = item
+                    val intent = Intent(requireContext(), SpriteActivity::class.java)
+                    intent.putExtra(
+                        SpriteActivity.EXTRA_FRAGMENT_POSITION,
+                        SpriteActivity.FRAGMENT_SCRIPTS
+                    )
+                    startActivity(intent)
+                }
+                else -> super.onItemClick(item, selectionManager)
             }
         }
     }

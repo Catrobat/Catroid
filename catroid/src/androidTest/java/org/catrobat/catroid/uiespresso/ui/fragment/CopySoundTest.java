@@ -51,7 +51,6 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 
-import static androidx.test.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -79,11 +78,11 @@ public class CopySoundTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void copySoundTest() {
-		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.copy)).perform(click());
 
 		onRecyclerView().atPosition(0)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onView(withId(R.id.confirm)).perform(click());
 
@@ -92,6 +91,16 @@ public class CopySoundTest {
 
 		onView(withText(toBeCopiedSoundName + " (1)"))
 				.check(matches(isDisplayed()));
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void selectFragmentToCopyTest() {
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
+		onView(withText(R.string.copy)).perform(click());
+
+		onRecyclerView().atPosition(0).perform(click());
+		onRecyclerView().atPosition(0).performCheckItemCheck();
 	}
 
 	private void createProject() throws IOException {

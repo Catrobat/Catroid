@@ -118,7 +118,7 @@ public class PlaySoundBrickTest {
 		onView(withText(R.string.delete))
 				.perform(click());
 		onRecyclerView().atPosition(position)
-				.performCheckItem();
+				.performCheckItemClick();
 		onView(withId(R.id.confirm))
 				.perform(click());
 		onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))

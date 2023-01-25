@@ -40,6 +40,7 @@ import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.controller.BackpackListManager
 import org.catrobat.catroid.ui.recyclerview.adapter.LookAdapter
+import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity
 import org.catrobat.catroid.ui.recyclerview.controller.LookController
 import org.catrobat.catroid.utils.SnackbarUtil
@@ -213,14 +214,16 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
         deleteItems(listOf(lookData))
     }
 
-    override fun onItemClick(item: LookData?) {
+    override fun onItemClick(item: LookData?, selectionManager: MultiSelectionManager) {
         if (actionModeType == RENAME) {
-            super.onItemClick(item)
+            super.onItemClick(item, null)
             return
         }
         if (actionModeType != NONE) {
+            super.onItemClick(item, selectionManager)
             return
         }
+
         currentItem = item
         item?.invalidateThumbnailBitmap()
         item?.clearCollisionInformation()
