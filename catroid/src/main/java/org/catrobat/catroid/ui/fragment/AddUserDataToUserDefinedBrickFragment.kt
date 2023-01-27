@@ -52,7 +52,6 @@ class AddUserDataToUserDefinedBrickFragment : Fragment() {
     }
 
     private var dataTypeToAdd: UserDefinedBrickDataType? = null
-    private var activity: AppCompatActivity? = null
     private var addUserDataUserBrickEditText: TextInputEditText? = null
     private var addUserDataUserBrickTextLayout: TextInputLayout? = null
     private var scrollView: ScrollView? = null
@@ -84,7 +83,7 @@ class AddUserDataToUserDefinedBrickFragment : Fragment() {
                     as UserDefinedBrickDataType
         }
         userDefinedBrick?.let {
-            val userBrickView = userDefinedBrick?.getView(getActivity())
+            val userBrickView = userDefinedBrick?.getView(requireActivity())
             userBrickSpace.addView(userBrickView)
             userBrickTextView = userDefinedBrick?.currentUserDefinedDataTextView
         }
@@ -129,12 +128,12 @@ class AddUserDataToUserDefinedBrickFragment : Fragment() {
             }
         }
 
-        activity = getActivity() as AppCompatActivity
-        activity?.let {
-            Utils.showStandardSystemKeyboard(activity)
-            val actionBar = activity?.supportActionBar
+        val appCompatActivity = requireActivity() as AppCompatActivity
+        appCompatActivity.let {
+            Utils.showStandardSystemKeyboard(appCompatActivity)
+            val actionBar = appCompatActivity.supportActionBar
             if (actionBar != null) {
-                activity?.supportActionBar?.setTitle(R.string.category_user_bricks)
+                appCompatActivity.supportActionBar?.setTitle(R.string.category_user_bricks)
             }
         }
 
@@ -146,12 +145,12 @@ class AddUserDataToUserDefinedBrickFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Utils.showStandardSystemKeyboard(activity)
+        Utils.showStandardSystemKeyboard(requireActivity())
     }
 
     override fun onDetach() {
         super.onDetach()
-        Utils.hideStandardSystemKeyboard(activity)
+        Utils.hideStandardSystemKeyboard(requireActivity())
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -172,7 +171,7 @@ class AddUserDataToUserDefinedBrickFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.next) {
             val fragmentManager = parentFragmentManager
-            Utils.hideStandardSystemKeyboard(activity)
+            Utils.hideStandardSystemKeyboard(requireActivity())
             fragmentManager.let {
                 val addUserDefinedBrickFragment =
                     fragmentManager.findFragmentByTag(AddUserDefinedBrickFragment.TAG)
