@@ -20,37 +20,32 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.actions
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.stage.StageActivity
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.stage.StageActivity;
+class SceneStartAction : TemporalAction() {
+    private var sceneName: String? = null
+    private lateinit var sprite: Sprite
+    override fun update(percent: Float) {
+        if (sceneName != null) {
+            sprite.releaseAllPointers()
+            StageActivity.stageListener.startScene(sceneName)
+        }
+    }
 
-public class SceneStartAction extends TemporalAction {
+    override fun reset() {
+        super.reset()
+        sceneName = null
+    }
 
-	private String sceneName;
-	private Sprite sprite;
+    fun setScene(sceneName: String?) {
+        this.sceneName = sceneName
+    }
 
-	@Override
-	protected void update(float percent) {
-		if (sceneName != null) {
-			sprite.releaseAllPointers();
-			StageActivity.stageListener.startScene(sceneName);
-		}
-	}
-
-	@Override
-	public void reset() {
-		super.reset();
-		sceneName = null;
-	}
-
-	public void setScene(String sceneName) {
-		this.sceneName = sceneName;
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
+    fun setSprite(sprite: Sprite) {
+        this.sprite = sprite
+    }
 }
