@@ -50,6 +50,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.koin.java.KoinJavaComponent.inject
 import java.io.File
+import java.io.ObjectInput
 
 class ImportLocalSpriteTest {
     private lateinit var projectToImportFrom: Project
@@ -262,9 +263,12 @@ class ImportLocalSpriteTest {
         }
         for ((listCounter, list) in projectToImportTo.defaultScene.spriteList[2].userLists
             .withIndex()) {
-            for ((listElementCounter, listElement) in list.value.withIndex()) {
-                Assert.assertTrue(
-                    listElement.equals(addedSprite.userLists[listCounter].value[listElementCounter]))
+            for ((listElementCounter, listElement) in (list.value as List<*>).withIndex()) {
+                if (listElement != null) {
+                    Assert.assertTrue(
+                        listElement == addedSprite.userLists[listCounter].getListItem(listElementCounter)
+                    )
+                }
             }
         }
     }

@@ -77,7 +77,7 @@ class MergeTestUtils {
 
     data class ProjectMergeData(
         val userVariables: List<UserVariable>,
-        val userLists: List<UserList>,
+        val userLists: List<UserVariable>,
         val spriteListWithClones: List<Sprite>,
         val broadcastMessages: List<String>
     )
@@ -85,7 +85,7 @@ class MergeTestUtils {
     fun getOriginalProjectData(project: Project): ProjectMergeData {
         val originalUserVariables = ArrayList<UserVariable>()
         originalUserVariables.addAll(project.userVariables)
-        val originalUserLists = ArrayList<UserList>()
+        val originalUserLists = ArrayList<UserVariable>()
         originalUserLists.addAll(project.userLists)
         val originalSprites = ArrayList<Sprite>()
         originalSprites.addAll(project.spriteListWithClones)

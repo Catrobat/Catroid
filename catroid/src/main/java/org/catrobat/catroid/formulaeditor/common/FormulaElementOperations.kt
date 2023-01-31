@@ -83,6 +83,7 @@ object FormulaElementOperations {
             } catch (_: NumberFormatException) {
                 Double.NaN
             }
+            is ArrayList<*> -> Double.NaN
             else -> obj as Double
         }
     }

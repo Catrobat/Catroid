@@ -26,6 +26,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.DeviceListAccessor;
 import org.catrobat.catroid.io.DeviceUserDataAccessor;
 import org.catrobat.catroid.io.StorageOperations;
@@ -65,7 +66,7 @@ public class DeviceUserListAccessorCleanRoutineTest {
 	public void setUp() throws IOException {
 		project = createProject();
 
-		ArrayList<UserList> allLists = new ArrayList<>();
+		ArrayList<UserVariable> allLists = new ArrayList<>();
 
 		sprite1.getUserLists().add(sprite1UserList);
 		allLists.addAll(sprite1.getUserLists());
@@ -79,8 +80,8 @@ public class DeviceUserListAccessorCleanRoutineTest {
 		accessor = new DeviceListAccessor(directory);
 		Map<UUID, List<Object>> map = new HashMap<>();
 
-		for (UserList userList : allLists) {
-			map.put(userList.getDeviceKey(), userList.getValue());
+		for (UserVariable userList : allLists) {
+			map.put(userList.getDeviceKey(), (List<Object>) userList.getValue());
 		}
 		accessor.writeMapToJson(map);
 	}

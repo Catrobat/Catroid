@@ -132,7 +132,7 @@ public class ProjectLoaderTest {
 
 	private void setUpUserLists() {
 		sprite1.getUserLists().add(sprite1UserList);
-		ArrayList<UserList> allLists = new ArrayList<>(sprite1.getUserLists());
+		ArrayList<UserVariable> allLists = new ArrayList<>(sprite1.getUserLists());
 
 		sprite2.getUserLists().add(sprite2UserList);
 		allLists.addAll(sprite2.getUserLists());
@@ -143,8 +143,8 @@ public class ProjectLoaderTest {
 		userDataAccessor = new DeviceListAccessor(directory);
 		Map<UUID, List<Object>> map = new HashMap<>();
 
-		for (UserList userList : allLists) {
-			map.put(userList.getDeviceKey(), userList.getValue());
+		for (UserVariable userList : allLists) {
+			map.put(userList.getDeviceKey(), (List<Object>) userList.getValue());
 		}
 		userDataAccessor.writeMapToJson(map);
 	}

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,7 @@ import androidx.annotation.RequiresApi;
 public class UserVariableEntry implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private List<UserVariableEntry> userVariableEntries;
+	private final List<UserVariableEntry> userVariableEntries;
 	private boolean isList = false;
 
 	private transient Object value;
@@ -57,11 +57,11 @@ public class UserVariableEntry implements Serializable {
 			for (UserVariableEntry currentUserVariableEntry : copyUserVariableEntry.getUserVariableEntries()) {
 				userVariableEntries.add(new UserVariableEntry(currentUserVariableEntry));
 			}
+			this.setValue(0d);
 		} else {
 			this.setValue(copyUserVariableEntry.getValue());
 		}
 		isList = copyUserVariableEntry.isList;
-		this.value = 0d;
 	}
 
 	public boolean hasSameValue(UserVariableEntry variableToCheckEntry) {

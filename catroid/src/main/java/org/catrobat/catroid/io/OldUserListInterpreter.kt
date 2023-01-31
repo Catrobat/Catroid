@@ -29,24 +29,29 @@ import org.w3c.dom.NodeList
 import kotlin.collections.ArrayList
 
 class OldUserListInterpreter(private val outcomeDocument: Document) {
-    // Todo: check that it really is an old userList
     fun interpret(): Document {
         val userListNodes = getProgramsUserLists() ?: return outcomeDocument
-        val userList = userListNodes[0] as Element
-        if (userList.childNodes.length == 4) return outcomeDocument
+        for (i in 0 until userListNodes.size) {
+            val userList = userListNodes[i] as Element
+            if (userList.childNodes.length == 2 &&
+                userList.childNodes.item(0).nodeName.equals("deviceListKey") &&
+                userList.childNodes.item(1).nodeName.equals("name")) {
 
-        userList.setAttribute("class", "userList")
-        clearUserListNode(userList)
-        val name: Node = NodeOperatorExtension.getNodeByName(userList, "name")
-            ?: return outcomeDocument
-        val deviceValueKey: Node = NodeOperatorExtension.getNodeByName(
-            userList, "deviceListKey"
-        ) ?: return outcomeDocument
+                userList.setAttribute("class", "userList")
+                clearUserListNode(userList)
+                val name: Node = NodeOperatorExtension.getNodeByName(userList, "name")
+                    ?: return outcomeDocument
+                val deviceValueKey: Node = NodeOperatorExtension.getNodeByName(
+                    userList, "deviceListKey"
+                ) ?: return outcomeDocument
+                outcomeDocument.renameNode(deviceValueKey, null, "deviceValueKey")
 
-        buildNewUserList(
-            userList, name, createInitialIndexNode(deviceValueKey.cloneNode(true)),
-            deviceValueKey
-        )
+                buildNewUserList(
+                    userList, name, createInitialIndexNode(deviceValueKey.cloneNode(true)),
+                    deviceValueKey
+                )
+            }
+        }
         return outcomeDocument
     }
 
@@ -112,7 +117,7 @@ class OldUserListInterpreter(private val outcomeDocument: Document) {
     }
 
     private fun createIsListNode(isListChild: Node): Node {
-        isListChild.firstChild.textContent = "false"
+        isListChild.firstChild.textContent = "true"
         outcomeDocument.renameNode(isListChild, null, "isList")
         return isListChild
     }
