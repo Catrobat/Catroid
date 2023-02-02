@@ -31,6 +31,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Set;
 
 import static org.catrobat.catroid.utils.NumberFormats.trimTrailingCharacters;
@@ -148,6 +149,8 @@ public class Formula implements Serializable {
 		Double doubleReturnValue;
 		if (o instanceof String) {
 			doubleReturnValue = Double.valueOf((String) o);
+		} else if (o instanceof ArrayList) {
+			doubleReturnValue = 1d;
 		} else {
 			doubleReturnValue = (Double) o;
 		}

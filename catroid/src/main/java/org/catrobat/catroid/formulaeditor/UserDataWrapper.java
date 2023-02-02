@@ -48,6 +48,9 @@ public final class UserDataWrapper {
 			if (userVariable == null) {
 				userVariable = scope.getProject().getMultiplayerVariable(name);
 			}
+			if (userVariable == null) {
+				userVariable = scope.getProject().getUserList(name);
+			}
 		}
 		return userVariable;
 	}
