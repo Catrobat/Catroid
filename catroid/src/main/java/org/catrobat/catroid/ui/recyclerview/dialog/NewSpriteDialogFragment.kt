@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -49,6 +49,7 @@ import org.catrobat.catroid.common.LookData
 import org.catrobat.catroid.common.SharedPreferenceKeys.NEW_SPRITE_VISUAL_PLACEMENT_KEY
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.exceptions.ImageTooLargeException
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.merge.ImportProjectHelper
 import org.catrobat.catroid.ui.SpriteActivity.EXTRA_X_TRANSFORM
@@ -127,8 +128,9 @@ class NewSpriteDialogFragment(
         } else {
             sprite = Sprite(textInput)
             currentScene.addSprite(sprite)
-            if (!emptySprite) {
-                addLookDataToSprite(currentScene, textInput)
+            if (!emptySprite && !addLookDataToSprite(currentScene, textInput)) {
+                currentScene.removeSprite(sprite)
+                return
             }
         }
 
@@ -159,7 +161,7 @@ class NewSpriteDialogFragment(
         ProjectManager.getInstance().currentProject.isCastProject &&
         !CastManager.getInstance().isConnected
 
-    private fun addLookDataToSprite(currentScene: Scene?, textInput: String?) {
+    private fun addLookDataToSprite(currentScene: Scene?, textInput: String?): Boolean {
         try {
             val imageDirectory = File(
                 currentScene?.directory,
@@ -175,13 +177,19 @@ class NewSpriteDialogFragment(
             if (lookData.imageMimeType == null) {
                 imgFormatNotSupportedDialog()
                 currentScene?.removeSprite(sprite)
+                return false
             } else {
                 sprite?.lookList?.add(lookData)
                 lookData.collisionInformation.calculate()
             }
         } catch (e: IOException) {
             Log.e(TAG, Log.getStackTraceString(e))
+            return false
+        } catch (e: ImageTooLargeException) {
+            e.show(this.requireContext())
+            return false
         }
+        return true
     }
 
     private fun setupToggleButtonListener() {

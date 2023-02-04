@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,6 +44,7 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.exceptions.ImageTooLargeException;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Functions;
@@ -174,8 +175,12 @@ public class ChromeCastProjectCreator extends ProjectCreator {
 				1);
 
 		Sprite background = scene.getSpriteList().get(0);
-		background.getLookList()
-				.add(new LookData(context.getString(R.string.default_cast_project_background_name), backgroundFile));
+		try {
+			background.getLookList()
+					.add(new LookData(context.getString(R.string.default_cast_project_background_name), backgroundFile));
+		} catch (ImageTooLargeException e) {
+			e.show(context);
+		}
 
 		Sprite cloud1 = new Sprite(context.getString(R.string.default_cast_project_cloud_sprite_name1));
 		Sprite cloud2 = new Sprite(context.getString(R.string.default_cast_project_cloud_sprite_name2));
@@ -185,18 +190,23 @@ public class ChromeCastProjectCreator extends ProjectCreator {
 		scene.addSprite(cloud2);
 		scene.addSprite(bird);
 
-		cloud1.getLookList()
-				.add(new LookData(context.getString(R.string.default_cast_project_cloud_name), cloudFile1));
-		cloud2.getLookList()
-				.add(new LookData(context.getString(R.string.default_cast_project_cloud_name), cloudFile2));
-		bird.getLookList()
-				.add(new LookData(context.getString(R.string.default_cast_project_sprites_bird_name_wing_up), birdWingUpFile));
-		bird.getLookList()
-				.add(new LookData(context.getString(R.string.default_cast_project_sprites_bird_name_wing_down), birdWingDownFile));
-		bird.getLookList()
-				.add(new LookData(context.getString(R.string.default_cast_project_sprites_bird_name_wing_up_left), birdLeftWingUpFile));
-		bird.getLookList()
-				.add(new LookData(context.getString(R.string.default_cast_project_sprites_bird_name_wing_down_left), birdLeftWingDownFile));
+		try {
+			cloud1.getLookList()
+					.add(new LookData(context.getString(R.string.default_cast_project_cloud_name), cloudFile1));
+
+			cloud2.getLookList()
+					.add(new LookData(context.getString(R.string.default_cast_project_cloud_name), cloudFile2));
+			bird.getLookList()
+					.add(new LookData(context.getString(R.string.default_cast_project_sprites_bird_name_wing_up), birdWingUpFile));
+			bird.getLookList()
+					.add(new LookData(context.getString(R.string.default_cast_project_sprites_bird_name_wing_down), birdWingDownFile));
+			bird.getLookList()
+					.add(new LookData(context.getString(R.string.default_cast_project_sprites_bird_name_wing_up_left), birdLeftWingUpFile));
+			bird.getLookList()
+					.add(new LookData(context.getString(R.string.default_cast_project_sprites_bird_name_wing_down_left), birdLeftWingDownFile));
+		} catch (ImageTooLargeException e) {
+			e.show(context);
+		}
 		bird.getSoundList()
 				.add(new SoundInfo(context.getString(R.string.default_cast_project_sprites_tweet_1), tweetFile1));
 		bird.getSoundList()

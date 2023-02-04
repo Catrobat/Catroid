@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
+import org.catrobat.catroid.exceptions.ImageTooLargeException;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.nfc.NfcHandler;
@@ -149,7 +150,7 @@ public class ActionBarUndoSpinnerTest {
 		}
 	}
 
-	private void createProject() {
+	private void createProject() throws ImageTooLargeException {
 		Script script = BrickTestUtils.createProjectAndGetStartScript(ActionBarUndoSpinnerTest.class.getSimpleName());
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();

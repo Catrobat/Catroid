@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
+import org.catrobat.catroid.exceptions.ImageTooLargeException;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.ResourceImporter;
@@ -73,7 +74,7 @@ public class SpriteControllerTest {
 	private BackpackListManager backpackListManager;
 
 	@Before
-	public void setUp() throws IOException {
+	public void setUp() throws IOException, ImageTooLargeException {
 		backpackListManager = BackpackListManager.getInstance();
 		clearBackPack(backpackListManager);
 		createProject();
@@ -263,7 +264,7 @@ public class SpriteControllerTest {
 		assertFileDoesNotExist(sprite.getSoundList().get(0).getFile());
 	}
 
-	private void createProject() throws IOException {
+	private void createProject() throws IOException, ImageTooLargeException {
 		project = new Project(ApplicationProvider.getApplicationContext(), "SpriteControllerTest");
 		scene = project.getDefaultScene();
 		ProjectManager.getInstance().setCurrentProject(project);

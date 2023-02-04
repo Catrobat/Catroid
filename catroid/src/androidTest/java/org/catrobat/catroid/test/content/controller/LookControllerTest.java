@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.exceptions.ImageTooLargeException;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
@@ -64,7 +65,7 @@ public class LookControllerTest {
 	private BackpackListManager backpackListManager;
 
 	@Before
-	public void setUp() throws IOException {
+	public void setUp() throws IOException, ImageTooLargeException {
 		backpackListManager = BackpackListManager.getInstance();
 		clearBackPack(backpackListManager);
 		createProject();
@@ -143,7 +144,7 @@ public class LookControllerTest {
 		assertFileExists(lookData.getFile());
 	}
 
-	private void createProject() throws IOException {
+	private void createProject() throws IOException, ImageTooLargeException {
 		project = new Project(ApplicationProvider.getApplicationContext(), "LookControllerTest");
 		scene = project.getDefaultScene();
 		ProjectManager.getInstance().setCurrentProject(project);

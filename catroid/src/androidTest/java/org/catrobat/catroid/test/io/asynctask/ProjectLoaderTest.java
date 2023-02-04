@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.exceptions.ImageTooLargeException;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.DeviceListAccessor;
@@ -80,7 +81,7 @@ public class ProjectLoaderTest {
 	private File[] correctLooks;
 
 	@Before
-	public void setUp() throws IOException {
+	public void setUp() throws IOException, ImageTooLargeException {
 		project = createProject();
 		assertTrue(XstreamSerializer.getInstance().saveProject(project));
 
@@ -149,14 +150,14 @@ public class ProjectLoaderTest {
 		userDataAccessor.writeMapToJson(map);
 	}
 
-	private void setUpLooks() throws IOException {
+	private void setUpLooks() throws IOException, ImageTooLargeException {
 		addLookToSprite(sprite1, scene1, "Valid look1");
 		addLookToSprite(sprite1, scene1, "Valid look2");
 		addUnusedLookToSprite(scene1, "Unused look1");
 		addUnusedLookToSprite(scene1, "Unused look2");
 	}
 
-	private void addLookToSprite(Sprite sprite, Scene scene, String name) throws IOException {
+	private void addLookToSprite(Sprite sprite, Scene scene, String name) throws IOException, ImageTooLargeException {
 		File imageDirectory = new File(scene.getDirectory(), Constants.IMAGE_DIRECTORY_NAME);
 		File lookDataFile = new File(imageDirectory, name);
 		lookDataFile.createNewFile();

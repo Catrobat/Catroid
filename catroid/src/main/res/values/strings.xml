@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -454,11 +454,16 @@
     <string name="keyword_label">Search</string>
     <string name="html_label">Insert HTML text</string>
     <string name="Image_format_not_supported">Image format not supported</string>
+    <string name="Image_size_too_large_title">Image size exceeds available memory</string>
+    <string name="Image_size_too_large">The image has a resolution that is too large for the
+        available memory. Please reduce the image size.</string>
     <string name="import_conflicting_variables">The actor or object could not be added.</string>
     <string name="import_conflicting_variables_reason">The reason is that the following variable or
         list names are in conflict because they are used for
-        all actors and objects and with the same name also for only one of the actors or objects: </string>
-    <string name="import_conflicting_variables_try_again">Please rename one of these variables or lists and try again.</string>
+        all actors and objects and with the same name also for only one of the actors or objects:
+    </string>
+    <string name="import_conflicting_variables_try_again">Please rename one of these variables or
+        lists and try again.</string>
     <!-- Details -->
     <string name="project_details">Last access: %s, size: %s</string>
     <string name="last_access_today">today, %s</string>

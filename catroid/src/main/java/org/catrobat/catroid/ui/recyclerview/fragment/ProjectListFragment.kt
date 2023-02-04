@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -365,7 +365,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
     fun checkForEmptyList() {
         if (adapter.items.isEmpty()) {
             setShowProgressBar(true)
-            if (projectManager.initializeDefaultProject()) {
+            if (projectManager.initializeDefaultProject(requireContext())) {
                 setAdapterItems(adapter.projectsSorted)
                 setShowProgressBar(false)
             } else {

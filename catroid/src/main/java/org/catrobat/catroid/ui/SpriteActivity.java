@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -49,6 +49,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.VisualPlacementBrick;
+import org.catrobat.catroid.exceptions.ImageTooLargeException;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -494,6 +495,10 @@ public class SpriteActivity extends BaseActivity {
 						lookData.getCollisionInformation().calculate();
 					} catch (IOException e) {
 						Log.e(TAG, Log.getStackTraceString(e));
+					} catch (ImageTooLargeException e) {
+						e.show(getBaseContext());
+						currentScene.removeSprite(sprite);
+						return;
 					}
 					if (onNewSpriteListener != null) {
 						onNewSpriteListener.addItem(sprite);
@@ -552,6 +557,8 @@ public class SpriteActivity extends BaseActivity {
 			}
 		} catch (IOException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
+		} catch (ImageTooLargeException e) {
+			e.show(this);
 		}
 	}
 
@@ -590,6 +597,8 @@ public class SpriteActivity extends BaseActivity {
 			}
 		} catch (IOException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
+		} catch (ImageTooLargeException e) {
+			e.show(this);
 		}
 	}
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,9 +35,11 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.exceptions.ImageTooLargeException;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.sensing.CollisionInformation;
 import org.catrobat.catroid.utils.ImageEditing;
+import org.catrobat.catroid.utils.MemoryAvailability;
 
 import java.io.File;
 import java.io.IOException;
@@ -78,10 +80,19 @@ public class LookData implements Cloneable, Nameable, Serializable {
 	public LookData() {
 	}
 
-	public LookData(String name, @NonNull File file) {
+	public LookData(String name, @NonNull File file) throws ImageTooLargeException {
 		this.name = name;
 		this.file = file;
 		fileName = file.getName();
+		long memory = MemoryAvailability.INSTANCE.getAvailableMemory();
+		if (memory > 0 && getMemorySize() >= memory / 2) {
+			throw new ImageTooLargeException("Image Too Large");
+		}
+	}
+
+	public Long getMemorySize() {
+		int[] measures = getMeasure();
+		return (measures[0] * measures[1] * 32L) / 8L;
 	}
 
 	public String getName() {
@@ -157,7 +168,7 @@ public class LookData implements Cloneable, Nameable, Serializable {
 	public LookData clone() {
 		try {
 			return new LookData(name, StorageOperations.duplicateFile(file));
-		} catch (IOException e) {
+		} catch (IOException | ImageTooLargeException e) {
 			throw new RuntimeException(TAG + ": Could not copy file: " + file.getAbsolutePath());
 		}
 	}

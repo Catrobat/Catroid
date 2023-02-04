@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
+import org.catrobat.catroid.exceptions.ImageTooLargeException;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.stage.StageActivity;
@@ -112,7 +113,11 @@ public class SpriteController {
 		sprite.setActionFactory(spriteToCopy.getActionFactory());
 
 		for (LookData look : spriteToCopy.getLookList()) {
-			sprite.getLookList().add(new LookData(look.getName(), look.getFile()));
+			try {
+				sprite.getLookList().add(new LookData(look.getName(), look.getFile()));
+			} catch (ImageTooLargeException e) {
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
 		}
 
 		sprite.getSoundList().addAll(spriteToCopy.getSoundList());
