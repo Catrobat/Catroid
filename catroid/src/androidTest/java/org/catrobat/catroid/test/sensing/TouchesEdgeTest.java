@@ -54,6 +54,7 @@ public class TouchesEdgeTest {
 	@Before
 	public void setUp() throws Exception {
 		TestUtils.deleteProjects();
+		TestUtils.setupLibGdxFiles();
 
 		project = new Project(ApplicationProvider.getApplicationContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		sprite1 = new Sprite("TestSprite1");

@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.content.sprite;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
@@ -34,8 +35,12 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
+import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedBrick;
+import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
@@ -43,10 +48,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.IOException;
+
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
@@ -113,5 +122,51 @@ public class SpriteTest {
 
 		userVariable = sprite2.getUserVariable(variableName);
 		assertTrue(userVariable.getVisible());
+	}
+
+	@Test
+	public void testSpriteAndSceneCtor() throws IOException {
+		String testLookDataName = "Test";
+		Sprite spriteCloned = new Sprite("spriteWithCloneBrick");
+		spriteCloned.cloneNameExtension = "001";
+		spriteCloned.isClone = true;
+		spriteCloned.addScript(new Script() {
+			@Override
+			public EventId createEventId(Sprite sprite) {
+				return null;
+			}
+
+			@Override
+			public ScriptBrick getScriptBrick() {
+				return null;
+			}
+		});
+		spriteCloned.addUserVariable(new UserVariable("dummy"));
+		spriteCloned.addUserList(new UserList());
+		spriteCloned.addUserDefinedBrick(new UserDefinedBrick());
+		LookData lookData = new LookData();
+		lookData.setName(testLookDataName);
+		spriteCloned.look.setLookData(lookData);
+
+		Sprite spriteTarget = new Sprite(spriteCloned, new Scene("scene1", project));
+
+		assertEquals(spriteCloned.getScriptList().size(), spriteTarget.getScriptList().size());
+		assertEquals(spriteCloned.getScriptList().get(0).getScriptId(), spriteTarget.getScriptList().get(0).getScriptId());
+		assertEquals(spriteCloned.getNfcTagList().size(), spriteTarget.getNfcTagList().size());
+
+		assertEquals(spriteCloned.getUserVariables().size(), spriteTarget.getUserVariables().size());
+		assertEquals(spriteCloned.getUserVariables().get(0).hashCode(),
+				spriteTarget.getUserVariables().get(0).hashCode());
+		assertEquals(spriteCloned.getUserLists().size(), spriteTarget.getUserLists().size());
+		assertEquals(spriteCloned.getUserDefinedBrickList().size(),
+				spriteTarget.getUserDefinedBrickList().size());
+
+		assertEquals(spriteCloned.look.getName(), spriteTarget.look.getName());
+		assertEquals(testLookDataName, spriteCloned.look.getLookData().getName());
+		assertNull(spriteTarget.look.getLookData());
+
+		assertEquals(spriteCloned, spriteTarget.myOriginal);
+		assertEquals(spriteCloned.getName(), spriteTarget.getName());
+		assertEquals(spriteCloned.isClone, spriteTarget.isClone);
 	}
 }

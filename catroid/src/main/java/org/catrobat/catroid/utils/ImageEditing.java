@@ -28,6 +28,12 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.util.Log;
 
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.AbsoluteFileHandleResolver;
+
+import org.apache.commons.lang3.StringUtils;
+import org.catrobat.catroid.ProjectManager;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -39,12 +45,8 @@ import ar.com.hjg.pngj.PngReader;
 import ar.com.hjg.pngj.PngWriter;
 import ar.com.hjg.pngj.PngjException;
 import ar.com.hjg.pngj.chunks.ChunkCopyBehaviour;
-import ar.com.hjg.pngj.chunks.ChunkHelper;
-import ar.com.hjg.pngj.chunks.PngChunk;
-import ar.com.hjg.pngj.chunks.PngChunkTextVar;
 
 public final class ImageEditing {
-
 	private static final String TAG = ImageEditing.class.getSimpleName();
 
 	private static final int JPG_COMPRESSION_SETTING = 95;
@@ -203,23 +205,33 @@ public final class ImageEditing {
 	}
 
 	public static String readMetaDataStringFromPNG(String absolutePath, String key) throws PngjException {
-		File image = new File(absolutePath);
-		PngReader pngr = new PngReader(image);
-		pngr.readSkippingAllRows();
-		for (PngChunk c : pngr.getChunksList().getChunks()) {
-			if (!ChunkHelper.isText(c)) {
-				continue;
-			}
-			PngChunkTextVar ct = (PngChunkTextVar) c;
-			String k = ct.getKey();
-			String val = ct.getVal();
-			if (key.equals(k)) {
-				pngr.close();
-				return val;
-			}
+		return readMetaDataStringFromPng(absolutePath, key);
+	}
+
+	private static void setLoader(AssetManager am) {
+		if (am.getLoader(String.class) == null) {
+			am.setLoader(String.class,
+					new MetaDataStringFromPNGLoader(new AbsoluteFileHandleResolver()));
 		}
-		pngr.close();
-		return "";
+	}
+
+	private static String readMetaDataStringFromPng(String absolutePath, String key) throws PngjException {
+		String amFileId = absolutePath + MetaDataStringFromPNGLoader.ID_POSTFIX;
+		AssetManager am = ProjectManager.getInstance().getAssetManager();
+		setLoader(am);
+		if (!am.isLoaded(amFileId)) {
+			MetaDataStringFromPNGLoader.MetaDataStringFromPNGParameter params =
+					new MetaDataStringFromPNGLoader.MetaDataStringFromPNGParameter();
+			params.key = key;
+			params.absolutePath = absolutePath;
+			am.load(amFileId, String.class, params);
+			am.finishLoading();
+		}
+		String result = am.get(amFileId);
+		if (StringUtils.isEmpty(result)) {
+			am.unload(amFileId);
+		}
+		return result;
 	}
 
 	public static synchronized void writeMetaDataStringToPNG(String absolutePath, String key, String value) {

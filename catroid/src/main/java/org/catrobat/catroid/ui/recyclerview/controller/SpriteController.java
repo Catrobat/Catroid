@@ -101,14 +101,16 @@ public class SpriteController {
 	}
 
 	public Sprite copyForCloneBrick(Sprite spriteToCopy) {
-		Sprite sprite = new Sprite(spriteToCopy.getName() + "-c" + StageActivity
-				.getAndIncrementNumberOfClonedSprites());
+		Sprite sprite = new Sprite(spriteToCopy.getName());
+
+		sprite.cloneNameExtension = "-c" + StageActivity.getAndIncrementNumberOfClonedSprites();
+		sprite.isClone = true;
+
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 
 		ScriptController scriptController = new ScriptController();
 
-		sprite.isClone = true;
 		sprite.setActionFactory(spriteToCopy.getActionFactory());
 
 		for (LookData look : spriteToCopy.getLookList()) {

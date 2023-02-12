@@ -72,7 +72,7 @@ class ShowTextAction : TemporalAction() {
                 val stageActors = StageActivity.stageListener.stage.actors
                 iterateActors(stageActors)
                 showTextActor = ShowTextActor(
-                    variableToShow, xPosition ?: 0, yPosition ?: 0, 1.0f, null,
+                    variableToShow ?: UserVariable("dummyActor"), xPosition ?: 0, yPosition ?: 0, 1.0f, "",
                     scope?.sprite, androidStringProvider
                 )
                 StageActivity.stageListener.addActor(showTextActor)

@@ -27,8 +27,6 @@ import android.util.Log;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.google.common.collect.LinkedHashMultimap;
-import com.google.common.collect.Multimap;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 import org.catrobat.catroid.CatroidApplication;
@@ -63,6 +61,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -92,7 +91,8 @@ public class Sprite implements Nameable, Serializable {
 	public transient RunningStitch runningStitch = new RunningStitch();
 	private transient boolean convertToSprite = false;
 	private transient boolean convertToGroupItemSprite = false;
-	private transient Multimap<EventId, ScriptSequenceAction> idToEventThreadMap = LinkedHashMultimap.create();
+	private transient HashMap<EventId, List<ScriptSequenceAction>> idToEventThreadMap =
+			new HashMap<>();
 	private transient Set<ConditionScriptTrigger> conditionScriptTriggers = new HashSet<>();
 	private transient List<Integer> usedTouchPointer = new ArrayList<>();
 	private transient Color embroideryThreadColor = Color.BLACK;
@@ -109,6 +109,7 @@ public class Sprite implements Nameable, Serializable {
 
 	private transient ActionFactory actionFactory = new ActionFactory();
 
+	public transient String cloneNameExtension = "";
 	public transient boolean isClone = false;
 	public transient Sprite myOriginal = null;
 
@@ -135,7 +136,7 @@ public class Sprite implements Nameable, Serializable {
 		}
 
 		Sprite sprite = (Sprite) obj;
-		return sprite.name.equals(this.name);
+		return sprite.getName().equals(this.getName());
 	}
 
 	@Override
@@ -394,7 +395,14 @@ public class Sprite implements Nameable, Serializable {
 		if (script.isCommentedOut()) {
 			return;
 		}
-		idToEventThreadMap.put(script.createEventId(this), createSequenceAction(script));
+		EventId eventId = script.createEventId(this);
+		if (idToEventThreadMap.containsKey(eventId)) {
+			idToEventThreadMap.get(eventId).add(createSequenceAction(script));
+		} else {
+			ArrayList<ScriptSequenceAction> list = new ArrayList<>();
+			list.add(createSequenceAction(script));
+			idToEventThreadMap.put(eventId, list);
+		}
 	}
 
 	public ActionFactory getActionFactory() {
@@ -415,6 +423,11 @@ public class Sprite implements Nameable, Serializable {
 		} else {
 			Log.d(TAG, "Nothing to convert: if this is not what you wanted have a look at the convert flags.");
 			return this;
+		}
+
+		if (isClone) {
+			convertedSprite.cloneNameExtension = this.cloneNameExtension;
+			convertedSprite.isClone = true;
 		}
 
 		convertedSprite.look = new Look(convertedSprite);
@@ -444,6 +457,10 @@ public class Sprite implements Nameable, Serializable {
 	}
 
 	public String getName() {
+		return isClone ? name + cloneNameExtension : name;
+	}
+
+	public String getRawName() {
 		return name;
 	}
 
@@ -646,8 +663,15 @@ public class Sprite implements Nameable, Serializable {
 		return name.equals(context.getString(R.string.background));
 	}
 
-	public Multimap<EventId, ScriptSequenceAction> getIdToEventThreadMap() {
-		return idToEventThreadMap;
+	public List<ScriptSequenceAction> getIdToEventThreadMap(EventId eventId) {
+		if (idToEventThreadMap.containsKey(eventId)) {
+			return idToEventThreadMap.get(eventId);
+		}
+		return new ArrayList<>();
+	}
+
+	public void clearIdToEventThreadMap() {
+		idToEventThreadMap.clear();
 	}
 
 	public int getUnusedPointer() {
@@ -733,7 +757,9 @@ public class Sprite implements Nameable, Serializable {
 		this.userDefinedBrickList.addAll(sprite.userDefinedBrickList);
 		sprite.look.copyTo(this.look);
 		this.myOriginal = sprite;
-		this.name = sprite.getName();
+		this.name = sprite.name;
+		this.cloneNameExtension = sprite.cloneNameExtension;
+		this.isClone = sprite.isClone;
 	}
 
 	private void copyLooksAndSounds(Sprite sprite, Scene destinationScene,

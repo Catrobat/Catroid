@@ -26,7 +26,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -34,6 +34,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.sensing.CollisionInformation;
@@ -125,7 +126,12 @@ public class LookData implements Cloneable, Nameable, Serializable {
 
 	public void dispose() {
 		if (pixmap != null) {
-			pixmap.dispose();
+			if (file != null && ProjectManager.getInstance().getAssetManager().contains(file.getAbsolutePath(), Pixmap.class)) {
+				ProjectManager.getInstance().getAssetManager().unload(file.getAbsolutePath());
+			}
+			if (!pixmap.isDisposed()) {
+				pixmap.dispose();
+			}
 			pixmap = null;
 		}
 		if (textureRegion != null) {
@@ -179,10 +185,20 @@ public class LookData implements Cloneable, Nameable, Serializable {
 		this.textureRegion = textureRegion;
 	}
 
+	private Pixmap getPixmap(AssetManager am) {
+		String amFileId = file.getAbsolutePath();
+		if (!am.isLoaded(amFileId)) {
+			am.load(amFileId, Pixmap.class);
+			am.finishLoading();
+		}
+		return am.get(amFileId);
+	}
+
 	public Pixmap getPixmap() {
 		if (pixmap == null) {
 			try {
-				pixmap = new Pixmap(Gdx.files.absolute(file.getAbsolutePath()));
+				AssetManager am = ProjectManager.getInstance().getAssetManager();
+				pixmap = getPixmap(am);
 			} catch (GdxRuntimeException gdxRuntimeException) {
 				Log.e(TAG, Log.getStackTraceString(gdxRuntimeException));
 				if (gdxRuntimeException.getMessage().startsWith("Couldn't load file:")) {

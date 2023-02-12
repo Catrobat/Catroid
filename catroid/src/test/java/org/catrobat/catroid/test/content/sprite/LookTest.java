@@ -22,18 +22,34 @@
  */
 package org.catrobat.catroid.test.content.sprite;
 
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.BrightnessContrastHueShaderLoader;
+import org.catrobat.catroid.content.BrightnessContrastHueShaderProgram;
 import org.catrobat.catroid.content.Look;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.test.MockUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.mockito.Mockito;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(JUnit4.class)
 public class LookTest {
@@ -46,6 +62,9 @@ public class LookTest {
 
 	@Before
 	public void setUp() {
+		Project project = new Project(MockUtil.mockContextForProject(), "Project");
+		ProjectManager.getInstance().setCurrentProject(project);
+
 		Group parentGroup = new Group();
 		sprite = new Sprite("test");
 		parentGroup.addActor(sprite.look);
@@ -71,6 +90,51 @@ public class LookTest {
 		assertTrue(look.isVisible());
 		assertEquals(Touchable.enabled, look.getTouchable());
 		assertEquals("", look.getImagePath());
+	}
+
+	@Test
+	public void testClear() {
+		AssetManager assetManagerMock = Mockito.mock(AssetManager.class);
+		ProjectManager.getInstance().setAssetManager(assetManagerMock);
+		float brightness = look.getBrightness();
+		float hue = look.getHue();
+		when(assetManagerMock.contains(ShaderProgram.class.getName().concat(String.valueOf(brightness) + hue + BrightnessContrastHueShaderLoader.ID_POSTFIX),
+				ShaderProgram.class)).thenReturn(true);
+		look.addAction(new Action() {
+			@Override
+			public boolean act(float delta) {
+				return false;
+			}
+		});
+		assertEquals(2, look.getListeners().size);
+		assertEquals(1, look.getActions().size);
+
+		look.clear();
+
+		assertEquals(0, look.getListeners().size);
+		assertEquals(0, look.getActions().size);
+		verify(assetManagerMock, times(1)).contains(ShaderProgram.class.getName().concat(String.valueOf(brightness) + hue + BrightnessContrastHueShaderLoader.ID_POSTFIX),
+				ShaderProgram.class);
+		verify(assetManagerMock, times(1)).unload(ShaderProgram.class.getName().concat(String.valueOf(brightness) + hue + BrightnessContrastHueShaderLoader.ID_POSTFIX));
+	}
+
+	@Test
+	public void testCreateBrightnessContrastHueShader() {
+		AssetManager assetManagerMock = Mockito.mock(AssetManager.class);
+		ProjectManager.getInstance().setAssetManager(assetManagerMock);
+		when(assetManagerMock.getLoader(BrightnessContrastHueShaderProgram.class)).thenReturn(null);
+		when(assetManagerMock.isLoaded(anyString())).thenReturn(false);
+		float brightness = look.getBrightness();
+		float hue = look.getHue();
+
+		look.createBrightnessContrastHueShader();
+
+		verify(assetManagerMock, times(1)).setLoader(eq(BrightnessContrastHueShaderProgram.class),
+				any(BrightnessContrastHueShaderLoader.class));
+		verify(assetManagerMock, times(1)).load(eq(ShaderProgram.class.getName().concat(String.valueOf(brightness) + hue + BrightnessContrastHueShaderLoader.ID_POSTFIX)), eq(BrightnessContrastHueShaderProgram.class),
+				any(BrightnessContrastHueShaderLoader.ShaderParameter.class));
+		verify(assetManagerMock, times(1)).finishLoading();
+		verify(assetManagerMock, times(1)).get(ShaderProgram.class.getName().concat(String.valueOf(brightness) + hue + BrightnessContrastHueShaderLoader.ID_POSTFIX));
 	}
 
 	@Test

@@ -38,7 +38,7 @@ class EventWrapperListener internal constructor(private val look: Look) : EventL
 
     private fun handleEvent(event: EventWrapper) {
         with(look) {
-            sprite.idToEventThreadMap[event.eventId].forEach { sequenceAction ->
+            sprite.getIdToEventThreadMap(event.eventId).forEach { sequenceAction ->
                 if (event.eventId is UserDefinedBrickEventId) {
                     handleUserBrickEvent(sequenceAction, event)
                     return

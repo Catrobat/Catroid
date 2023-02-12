@@ -27,6 +27,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.AbsoluteFileHandleResolver;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -84,6 +86,9 @@ public final class ProjectManager {
 	private Scene currentlyPlayingScene;
 	private Scene startScene;
 	private Sprite currentSprite;
+
+	private AssetManager assetManager;
+
 	private HashMap<String, Boolean> downloadedProjects;
 	private final String downloadedProjectsName = "downloaded_projects";
 
@@ -120,6 +125,10 @@ public final class ProjectManager {
 	 */
 	@Deprecated
 	public void loadProject(File projectDir, Context context) throws ProjectException {
+		if (assetManager != null) {
+			assetManager.dispose();
+			assetManager = null;
+		}
 
 		Project previousProject = project;
 
@@ -602,6 +611,18 @@ public final class ProjectManager {
 		return currentlyEditedScene;
 	}
 
+	public AssetManager getAssetManager() {
+		if (assetManager == null) {
+			assetManager = new AssetManager(new AbsoluteFileHandleResolver());
+		}
+		return assetManager;
+	}
+
+	@VisibleForTesting
+	public void setAssetManager(AssetManager assetManager) {
+		this.assetManager = assetManager;
+	}
+
 	public boolean isCurrentProjectLandscapeMode() {
 		int virtualScreenWidth = getCurrentProject().getXmlHeader().virtualScreenWidth;
 		int virtualScreenHeight = getCurrentProject().getXmlHeader().virtualScreenHeight;
@@ -724,5 +745,9 @@ public final class ProjectManager {
 		currentlyEditedScene = null;
 		currentlyPlayingScene = null;
 		currentSprite = null;
+		if (assetManager != null) {
+			assetManager.dispose();
+			assetManager = null;
+		}
 	}
 }
