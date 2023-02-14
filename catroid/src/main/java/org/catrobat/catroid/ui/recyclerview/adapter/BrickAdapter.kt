@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,9 @@ import androidx.annotation.IntDef
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.content.bricks.CompositeBrick
 import org.catrobat.catroid.content.bricks.EmptyEventBrick
+import org.catrobat.catroid.content.bricks.EndBrick
 import org.catrobat.catroid.content.bricks.FormulaBrick
 import org.catrobat.catroid.content.bricks.ListSelectorBrick
 import org.catrobat.catroid.content.bricks.ScriptBrick
@@ -389,9 +391,30 @@ class BrickAdapter(private val sprite: Sprite) :
             } else {
                 destinationList.add(itemToMove)
             }
+            checkAndSetCommentedOut(brickAboveTargetPosition, itemToMove)
         }
         updateItemsFromCurrentScripts()
     }
+
+    private fun checkAndSetCommentedOut(brickAboveTargetPosition: Brick, itemToMove: Brick?) {
+        if (brickAboveTargetPosition.script != null) {
+            if (brickAboveTargetPosition.script.isCommentedOut) {
+                itemToMove?.isCommentedOut = true
+            } else if (isBrickNotEndBrickAndCommentedOut(brickAboveTargetPosition)) {
+                itemToMove?.isCommentedOut = true
+            } else if (isBrickNotEndBrickAndParentCommentedOut(brickAboveTargetPosition)) {
+                itemToMove?.isCommentedOut = true
+            }
+        }
+    }
+
+    private fun isBrickNotEndBrickAndCommentedOut(brickAboveTargetPosition: Brick) =
+        brickAboveTargetPosition !is EndBrick && brickAboveTargetPosition is
+            CompositeBrick && brickAboveTargetPosition.isCommentedOut
+
+    private fun isBrickNotEndBrickAndParentCommentedOut(brickAboveTargetPosition: Brick) =
+        brickAboveTargetPosition !is EndBrick && brickAboveTargetPosition.parent is
+            CompositeBrick && brickAboveTargetPosition.parent.isCommentedOut
 
     private fun moveScript(itemToMove: ScriptBrick, brickAboveTargetPosition: Brick) {
         val scriptToMove = itemToMove.script
