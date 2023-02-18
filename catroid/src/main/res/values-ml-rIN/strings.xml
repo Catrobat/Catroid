@@ -705,7 +705,6 @@
     <string name="comment_in_out">Disable/enable</string>
     <string name="catblocks">Toggle 2D</string>
     <string name="catblocks_reorder">Clean up scripts</string>
-    <string name="switch_to_1d">1D view</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">Play scene:</string>
@@ -784,6 +783,9 @@
     <string name="nfc_not_activated">Please activate NFC and press Back to return to the app.</string>
     <string name="nfc_facedetection_support">Using NFC and face detection at the same time might lead to performance
         issues.</string>
+     <string name="prestage_resource_in_use_text">Another device is connected to the Jumping Sumo. Make sure you
+        are the one connected to the drone.</string>
+    <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
     <!--  -->
     <!-- Stage menu dialog -->
     <string name="stage_dialog_back">Back</string>
@@ -841,6 +843,7 @@
     <string name="brick_user_defined_without_screen_refreshing">without</string>
     <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
     <string name="brick_report">റിപ്പോർട്ട് </string>
+    <string name="brick_user_defined_script_as" tools:ignore="UnusedResources">as</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Place at"</string>
@@ -1259,12 +1262,35 @@
     <string name="notification_download_finished">Download successful</string>
     <string name="notification_title_open">"Open"</string>
     <string name="size_of_project">Size:</string>
+     <string name="notification_low_battery_with_value">Attention. Battery is low. Current status is %d</string>
+    <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
+    <string name="drone_emergency_camera">One or more cameras are not responding.</string>
+    <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
+    <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shut down to prevent dangerous
+        behavior.</string>
+    <string name="drone_emergency_cutout">One or more motors were stopped by environment.</string>
+    <string name="drone_alert_battery_low">Battery is too low to take off again.</string>
+    <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone 2.0 altitude.</string>
+    <string name="drone_alert_vision">No speed estimation from bottom facing camera.</string>
+    <string name="drone_emergency_title">Emergency</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">This app needs the requested permissions to function properly. E.g., the
 Camera brick needs access to the device\'s camera, the \"location\" formula element needs access to the
 device\'s geolocation sensor, and in order to import and export projects from and to the local memory, the app
 needs read and write access to it. You can always change permissions through your device\'s settings.</string>
+     <string name="error_no_drone_connected_title">Cannot find AR.Drone 2.0.</string>
+    <string name="error_no_drone_connected">Connect your wifi to the AR.Drone 2.0 and try again.</string>
+    <string name="error_drone_low_battery_title">AR.Drone 2.0 battery low: %d%%</string>
+    <string name="error_drone_low_battery">Insert a charged battery and try again.</string>
+    <string name="error_jumpingsumo_wrong_platform">We cannot run a Jumping Sumo project on your device.</string>
+    <string name="error_no_jumpingsumo_connected_title">Cannot find Jumping Sumo</string>
+    <string name="error_no_jumpingsumo_connected">Connect your wifi to the Jumping Sumo and try again.</string>
+    <string name="error_jumpingsumo_battery_title">Jumping Sumo battery low</string>
+    <string name="error_jumpingsumo_battery">Insert a charged battery and try again.</string>
+    <string name="error_jumpingsumo_wrong_platform_title">No Jumping Sumo support</string>
+    <string name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
+    <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
     <!-- Error messages -->
     <string name="error_project_upload">Something went wrong while uploading the project.</string>
     <string name="error_project_download">Something went wrong while downloading the project.</string>
@@ -1311,6 +1337,11 @@ needs read and write access to it. You can always change permissions through you
     <string name="multiplayer_bluetooth_connection_information">To play this game in
         Multiplayer a Bluetooth connection is required. Both players have to start the game and
         be on this screen for the connection to work properly!</string>
+    <string name="searching_devices">Looking for devices&#8230;</string>
+    <string name="button_scan">Search Bluetooth devices</string>
+    <string name="select_device">Select device:</string>
+    <!-- <string name="pairing_message">After pairing, connect.</string> -->
+    <string name="none_paired">No paired devices found</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Set Arduino digital pin</string>
@@ -2052,4 +2083,15 @@ needs read and write access to it. You can always change permissions through you
     <string name="undo_sort">Undo sort</string>
     <string name="sort">Sort</string>
     <string name="checkbox">checkbox</string>
+    <!--  -->
+    <!-- Terms of Use Dialog Parrot ARDrone-->
+    <string name="dialog_terms_of_use_link_text_parrot_reminder">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_parrot_reminder_text">You are about to use this app together with Parrot\'s
+        AR.Drone 2.0. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and Services.</string>
+    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
+    <!--  -->
+    <!-- Terms of Use Dialog Parrot Jumping Sumo-->
+    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You are about to use this app together with
+        Parrot\'s Jumping Sumo. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and
+        Services.</string>
 </resources>

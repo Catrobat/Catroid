@@ -651,7 +651,6 @@
     <string name="comment_in_out">禁用/启用</string>
     <string name="catblocks">切换 2D</string>
     <string name="catblocks_reorder">清理脚本</string>
-    <string name="switch_to_1d">1D 视图</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">游戏场景：</string>

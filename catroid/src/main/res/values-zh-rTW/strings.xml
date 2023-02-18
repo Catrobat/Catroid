@@ -663,7 +663,6 @@
     <string name="comment_in_out">禁用啟用</string>
     <string name="catblocks">切換 2D</string>
     <string name="catblocks_reorder">清理腳本</string>
-    <string name="switch_to_1d">一維視圖</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">播放場景：</string>
