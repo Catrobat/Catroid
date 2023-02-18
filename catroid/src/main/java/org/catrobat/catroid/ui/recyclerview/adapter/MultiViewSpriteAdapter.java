@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -162,6 +162,58 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 		Sprite toItem = items.get(targetPosition);
 
 		if (fromItem instanceof GroupSprite) {
+			int last = sourcePosition;
+			if (last + 1 < items.size()) {
+				Sprite groupItem = items.get(last + 1);
+				while (groupItem instanceof GroupItemSprite) {
+					last++;
+					if (last + 1 >= items.size()) {
+						break;
+					}
+					groupItem = items.get(last + 1);
+				}
+			}
+
+			if (toItem instanceof GroupItemSprite) {
+				return false;
+			} else if (toItem instanceof GroupSprite) {
+				int lastTarget = targetPosition;
+
+				if (lastTarget + 1 < items.size()) {
+					Sprite groupItem = items.get(lastTarget + 1);
+					while (groupItem instanceof GroupItemSprite) {
+						lastTarget++;
+						if (lastTarget + 1 >= items.size()) {
+							break;
+						}
+						groupItem = items.get(lastTarget + 1);
+					}
+				}
+				int s1 = (last - sourcePosition) + 1;
+				int s2 = (lastTarget - targetPosition) + 1;
+				if (targetPosition > sourcePosition) {
+					for (int i = 0; i < s1; i++) {
+						super.onItemMove(sourcePosition, lastTarget);
+					}
+				} else {
+					for (int i = 0; i < s2; i++) {
+						super.onItemMove(targetPosition, last);
+					}
+				}
+			} else {
+				int count = 0;
+				if (targetPosition < sourcePosition) {
+					for (int i = sourcePosition; i <= last; i++) {
+						super.onItemMove(i, targetPosition + count);
+						count++;
+					}
+				} else {
+					for (int i = last; i >= sourcePosition; i--) {
+						super.onItemMove(targetPosition - count, i);
+						count++;
+					}
+				}
+			}
 			return true;
 		}
 

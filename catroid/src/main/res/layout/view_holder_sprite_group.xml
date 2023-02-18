@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -33,6 +33,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="Overdraw"
     android:background="@drawable/button_background_selector">
+    <ImageView
+        android:id="@+id/ic_ripples"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_ripples"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="@dimen/img_margin"/>
 
     <CheckBox
         android:id="@+id/checkbox"
