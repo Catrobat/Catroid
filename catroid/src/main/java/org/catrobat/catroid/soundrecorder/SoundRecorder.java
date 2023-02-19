@@ -38,6 +38,10 @@ public class SoundRecorder {
 
 	private String path;
 
+	public SoundRecorder() {
+		this("/dev/null");
+	}
+
 	public SoundRecorder(String path) {
 		this.recorder = new MediaRecorder();
 		this.path = path;
