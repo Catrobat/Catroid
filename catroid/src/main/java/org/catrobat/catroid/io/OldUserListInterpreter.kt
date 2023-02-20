@@ -33,23 +33,16 @@ class OldUserListInterpreter(private val outcomeDocument: Document) {
         val userListNodes = getProgramsUserLists() ?: return outcomeDocument
         for (i in 0 until userListNodes.size) {
             val userList = userListNodes[i] as Element
-            if (userList.childNodes.length == 2 &&
+            val isOldUserList1 = userList.childNodes.length == 2 &&
                 userList.childNodes.item(0).nodeName.equals("deviceListKey") &&
-                userList.childNodes.item(1).nodeName.equals("name")) {
+                userList.childNodes.item(1).nodeName.equals("name")
+            val isOldUserList2 = userList.childNodes.length == 3 &&
+                userList.childNodes.item(0).nodeName.equals("deviceListKey") &&
+                userList.childNodes.item(1).nodeName.equals("initialIndex") &&
+                userList.childNodes.item(2).nodeName.equals("name")
 
-                userList.setAttribute("class", "userList")
-                clearUserListNode(userList)
-                val name: Node = NodeOperatorExtension.getNodeByName(userList, "name")
-                    ?: return outcomeDocument
-                val deviceValueKey: Node = NodeOperatorExtension.getNodeByName(
-                    userList, "deviceListKey"
-                ) ?: return outcomeDocument
-                outcomeDocument.renameNode(deviceValueKey, null, "deviceValueKey")
-
-                buildNewUserList(
-                    userList, name, createInitialIndexNode(deviceValueKey.cloneNode(true)),
-                    deviceValueKey
-                )
+            if (isOldUserList1 || isOldUserList2) {
+                createNewUserLists(userList)
             }
         }
         return outcomeDocument
@@ -64,6 +57,22 @@ class OldUserListInterpreter(private val outcomeDocument: Document) {
             }
         }
         return if (userListList.isEmpty()) null else userListList
+    }
+
+    private fun createNewUserLists(userList: Element) {
+        userList.setAttribute("class", "userList")
+        clearUserListNode(userList)
+        val name: Node = NodeOperatorExtension.getNodeByName(userList, "name")
+            ?: return
+        val deviceValueKey: Node = NodeOperatorExtension.getNodeByName(
+            userList, "deviceListKey"
+        ) ?: return
+        outcomeDocument.renameNode(deviceValueKey, null, "deviceValueKey")
+
+        buildNewUserList(
+            userList, name, createInitialIndexNode(deviceValueKey.cloneNode(true)),
+            deviceValueKey
+        )
     }
 
     private fun clearUserListNode(userList: Element) {
@@ -92,7 +101,9 @@ class OldUserListInterpreter(private val outcomeDocument: Document) {
     private fun buildNewUserList(userList: Element, name: Node, initialIndex: Node?, deviceValueKey: Node) {
         val tempName = name.cloneNode(true)
         userList.removeChild(name)
-        userList.appendChild(initialIndex)
+        if (NodeOperatorExtension.getNodeByName(userList, "initialIndex") == null) {
+            userList.appendChild(initialIndex)
+        }
         userList.appendChild(tempName)
         userList.appendChild(createUserVariableEntry(
             deviceValueKey.cloneNode(true) as Element, deviceValueKey, name

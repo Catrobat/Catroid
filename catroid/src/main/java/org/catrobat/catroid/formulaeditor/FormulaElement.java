@@ -548,11 +548,16 @@ public class FormulaElement implements Serializable {
 			return FALSE;
 		}
 
-		ArrayList<Object> value = (ArrayList<Object>) userList.getValue();
-		for (Object listElement : value) {
-			if (interpretOperatorEqual(listElement, right)) {
-				return TRUE;
+		Object value = userList.getValue();
+		if (userList.isList()) {
+			ArrayList<Object> list = (ArrayList<Object>) value;
+			for (Object listElement : list) {
+				if (interpretOperatorEqual(listElement, right)) {
+					return TRUE;
+				}
 			}
+		} else if (interpretOperatorEqual(value, right)) {
+			return TRUE;
 		}
 
 		return FALSE;

@@ -1171,7 +1171,13 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 				for (int j = 0; j < childNodes.getLength(); j++) {
 					Element childNode = (Element) childNodes.item(j);
 
-					if (childNode.getNodeName().equals(nodeName)) {
+					if (brickInfoMap.get(nodeName) == null) {
+						// TODO: for the test testEmptyLists and maybe more this statement is null
+						//   in the test nodeName is 'org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick'
+						//   and he doesn't find it in the brickInfoMap
+						break;
+					}
+					else if (childNode.getNodeName().equals(nodeName)) {
 						if (occurrence == position) {
 							node = childNode;
 							break;
