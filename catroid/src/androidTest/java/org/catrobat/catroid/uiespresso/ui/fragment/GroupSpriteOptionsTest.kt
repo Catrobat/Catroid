@@ -69,13 +69,13 @@ class GroupSpriteOptionsTest {
 
     @Before
     fun setUp() {
-        createProject(RenameSpriteTest::class.java.simpleName)
+        createProject(this::class.java.simpleName)
         baseActivityTestRule.launchActivity()
     }
 
     @After
     fun tearDown() {
-        TestUtils.deleteProjects(RenameSpriteTest::class.java.simpleName)
+        TestUtils.deleteProjects(this::class.java.simpleName)
     }
 
     @Test
