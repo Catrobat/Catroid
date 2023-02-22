@@ -177,6 +177,11 @@ pipeline {
                                     junitAndCoverage 'catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport', 'jacocoTestCatroidDebugUnitTestReport.xml', 'unit'
                                 }
                             }
+                            post {
+                            	always {
+                            		archiveArtifacts 'catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport/jacocoTestCatroidDebugUnitTestReport.xml'
+                            	}
+                            }
                         }
 
                         stage('Instrumented Unit Tests') {
