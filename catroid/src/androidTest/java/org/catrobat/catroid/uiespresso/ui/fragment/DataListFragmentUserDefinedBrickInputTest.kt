@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -154,9 +154,9 @@ class DataListFragmentUserDefinedBrickInputTest(
                 ),
                 trueString
             ),
-            arrayOf("Int 1", Formula(1), "1"),
-            arrayOf("Int 1000", Formula(1_000), "1k"),
-            arrayOf("Int 1000000", Formula(1_000_000), "1M"),
+            arrayOf("Int 1", Formula(1), "1.0"),
+            arrayOf("Int 1300", Formula(1_300), "1.3k"),
+            arrayOf("Int 1000300", Formula(1_000_300), "1.0003M"),
             arrayOf("Double 1.1", Formula(1.1), "1.1"),
             arrayOf("String hello", Formula("hello"), "hello")
         )

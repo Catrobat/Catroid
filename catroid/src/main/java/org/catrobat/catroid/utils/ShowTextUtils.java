@@ -127,7 +127,7 @@ public final class ShowTextUtils {
 	public static String convertStringToMetricRepresentation(String value) {
 		String result = value;
 		try {
-			result = toMetricUnitRepresentation(Integer.parseInt(value));
+			result = toMetricUnitRepresentation(Double.parseDouble(value));
 		} catch (NumberFormatException ignored) {
 		}
 		return result;

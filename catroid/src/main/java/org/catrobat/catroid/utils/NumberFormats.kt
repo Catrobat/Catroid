@@ -37,7 +37,7 @@ class NumberFormats private constructor() {
 
         @Suppress("MagicNumber")
         @JvmStatic
-        fun toMetricUnitRepresentation(number: Int): String {
+        fun toMetricUnitRepresentation(number: Double): String {
             var prefix = ""
             var absoluteNumber = number
             if (number < 0) {
