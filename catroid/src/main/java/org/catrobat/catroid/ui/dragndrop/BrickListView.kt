@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,11 +35,12 @@ import android.graphics.drawable.BitmapDrawable
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import java.util.ArrayList
 import android.widget.ListAdapter
 import android.widget.ListView
 import androidx.annotation.VisibleForTesting
 import org.catrobat.catroid.content.bricks.Brick
-import java.util.ArrayList
+import org.catrobat.catroid.content.bricks.CompositeBrick
 
 private const val SMOOTH_SCROLL_BY = 15
 private const val ANIMATION_DURATION = 250
@@ -102,13 +103,23 @@ class BrickListView : ListView {
 
     fun startMoving(brickToMove: Brick?) {
         cancelMove()
-        val flatList: MutableList<Brick> = ArrayList()
-        brickToMove?.addToFlatList(flatList)
-        if (brickToMove !== flatList[0]) {
+        if (brickToMove == null) {
             return
         }
-        this.brickToMove = flatList[0]
-        flatList.removeAt(0)
+        val flatList: MutableList<Brick> = ArrayList()
+        brickToMove.addToFlatList(flatList)
+        if (brickToMove.parent is CompositeBrick &&
+            brickToMove.parent.consistsOfMultipleParts() &&
+            brickToMove.allParts.indexOf(brickToMove) == 1 &&
+            brickToMove.allParts.size == 3) {
+            this.brickToMove = brickToMove
+            flatList.clear()
+        } else if (brickToMove !== flatList[0]) {
+            return
+        } else {
+            this.brickToMove = flatList[0]
+            flatList.removeAt(0)
+        }
 
         upperScrollBound = height / UPPER_SCROLL_BOUND_DIVISOR
         lowerScrollBound = height / LOWER_SCROLL_BOUND_DIVISOR

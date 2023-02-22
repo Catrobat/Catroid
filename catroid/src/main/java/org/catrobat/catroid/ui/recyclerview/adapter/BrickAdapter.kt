@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@ import androidx.annotation.IntDef
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.content.bricks.CompositeBrick
 import org.catrobat.catroid.content.bricks.EmptyEventBrick
 import org.catrobat.catroid.content.bricks.FormulaBrick
 import org.catrobat.catroid.content.bricks.ListSelectorBrick
@@ -42,7 +43,6 @@ import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
 import org.catrobat.catroid.ui.dragndrop.BrickAdapterInterface
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.ViewStateManager
 import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
-import java.util.ArrayList
 import java.util.Collections
 
 class BrickAdapter(private val sprite: Sprite) :
@@ -50,7 +50,7 @@ class BrickAdapter(private val sprite: Sprite) :
     BrickAdapterInterface,
     AdapterView.OnItemClickListener,
     OnItemLongClickListener {
-    @kotlin.annotation.Retention(AnnotationRetention.SOURCE)
+    @Retention(AnnotationRetention.SOURCE)
     @IntDef(NONE, ALL, SCRIPTS_ONLY, CONNECTED_ONLY)
     internal annotation class CheckBoxMode
 
@@ -360,34 +360,126 @@ class BrickAdapter(private val sprite: Sprite) :
 
     override fun getPosition(brick: Brick?): Int = items.indexOf(brick)
 
-    override fun onItemMove(sourcePosition: Int, targetPosition: Int): Boolean {
-        val source = items[sourcePosition]
-        if (source !is ScriptBrick && targetPosition == 0) {
+    private fun isElseBrick(brick: Brick): Boolean =
+        brick.parent is CompositeBrick &&
+        brick.parent.consistsOfMultipleParts() &&
+        brick.allParts.indexOf(brick) == 1 &&
+        brick.allParts.size == 3
+
+    override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
+        val source = items[fromPosition]
+        if (source !is ScriptBrick && toPosition == 0) {
             return false
         }
-        if (source.allParts.contains(items[targetPosition])) {
+        if (!isElseBrick(source) && source.allParts.contains(items[toPosition])) {
             return false
         }
-        Collections.swap(items, sourcePosition, targetPosition)
+        Collections.swap(items, fromPosition, toPosition)
         return true
     }
 
-    override fun moveItemTo(position: Int, itemToMove: Brick?) {
-        val brickAboveTargetPosition = getBrickAbovePosition(position)
+    private fun getParentBrickInDragAndDropList(
+        brickAboveTarget: Brick,
+        enclosureBrick: Brick
+    ): Pair<Brick, Int>? {
 
-        if (itemToMove is ScriptBrick) {
-            moveScript(itemToMove, brickAboveTargetPosition)
+        if (brickAboveTarget == enclosureBrick) {
+            return brickAboveTarget to 0
+        }
+
+        var brickInEnclosure = brickAboveTarget
+        while (brickInEnclosure.parent !== null &&
+            brickInEnclosure.parent !in enclosureBrick.allParts &&
+            brickInEnclosure !in enclosureBrick.dragAndDropTargetList
+        ) {
+
+            brickInEnclosure = brickInEnclosure.parent
+        }
+        if (brickInEnclosure.parent !== enclosureBrick &&
+            brickInEnclosure !in enclosureBrick.dragAndDropTargetList
+        ) {
+            return null
+        }
+        return brickInEnclosure to
+            enclosureBrick.dragAndDropTargetList.indexOf(brickInEnclosure) + 1
+    }
+
+    private fun getParentBrickOfBrickAbove(
+        brickAboveTarget: Brick,
+        firstPart: Brick,
+        secondPart: Brick
+    ): Pair<Brick, Int>? {
+
+        // Under End Block
+        if (brickAboveTarget == firstPart.allParts[2]) {
+            return null
+        }
+        var parentBrick = getParentBrickInDragAndDropList(brickAboveTarget, firstPart)
+        if (parentBrick != null) {
+            return parentBrick
+        }
+        parentBrick = getParentBrickInDragAndDropList(brickAboveTarget, secondPart)
+        if (parentBrick != null) {
+            return parentBrick
+        }
+        return null
+    }
+
+    private fun moveElseBrick(position: Int, elseBrick: Brick) {
+        val brickAboveTargetPosition = getBrickAbovePosition(position)
+        val ifBrick: CompositeBrick = elseBrick.parent as CompositeBrick
+        val indexBegin = getPosition(ifBrick)
+        val indexEnd = getPosition(ifBrick.allParts[2])
+        val (parentOfBrickAboveTargetPosition, destinationPosition) =
+            getParentBrickOfBrickAbove(brickAboveTargetPosition, ifBrick, elseBrick)
+                ?: return
+
+        val globalDestinationPosition = getPosition(brickAboveTargetPosition) + 1
+
+        if (globalDestinationPosition in indexBegin until indexEnd) {
+
+            val ifBranch = ifBrick.nestedBricks
+            val elseBranch = ifBrick.secondaryNestedBricks
+
+            val enclosureOfBrickAbove = parentOfBrickAboveTargetPosition.parent
+            if (enclosureOfBrickAbove == elseBrick) {
+                for (i in 0 until destinationPosition) {
+                    val brick = elseBranch.removeAt(0)
+                    brick.parent = ifBrick
+                    ifBranch.add(brick)
+                }
+            } else if (enclosureOfBrickAbove == ifBrick ||
+                brickAboveTargetPosition == ifBrick) {
+                for ((index, _) in (destinationPosition until ifBranch.size).withIndex()) {
+                    val brick = ifBranch.removeAt(destinationPosition)
+                    brick.parent = elseBrick
+                    elseBranch.add(index, brick)
+                }
+            }
+        }
+    }
+
+    override fun moveItemTo(position: Int, brickToMove: Brick?) {
+        if (brickToMove == null) {
+            return
+        }
+
+        val brickAboveTargetPosition = getBrickAbovePosition(position)
+        if (brickToMove is ScriptBrick) {
+            moveScript(brickToMove, brickAboveTargetPosition)
+        } else if (isElseBrick(brickToMove)) {
+            moveElseBrick(position, brickToMove)
         } else {
             for (script in scripts) {
-                script.removeBrick(itemToMove)
+                script.removeBrick(brickToMove)
             }
             val destinationPosition = brickAboveTargetPosition.positionInDragAndDropTargetList + 1
             val destinationList = brickAboveTargetPosition.dragAndDropTargetList
 
             if (destinationPosition < destinationList.size) {
-                destinationList.add(destinationPosition, itemToMove)
+                destinationList.add(destinationPosition, brickToMove)
             } else {
-                destinationList.add(itemToMove)
+                destinationList.add(brickToMove)
             }
         }
         updateItemsFromCurrentScripts()
@@ -425,11 +517,11 @@ class BrickAdapter(private val sprite: Sprite) :
     }
 
     private fun getBrickAbovePosition(position: Int): Brick {
-        var position = position
-        if (position > 0) {
-            position--
+        var positionLocal = position
+        if (positionLocal > 0) {
+            positionLocal--
         }
-        return items[position]
+        return items[positionLocal]
     }
 
     override fun getCount(): Int = items.size
