@@ -698,6 +698,7 @@
     <string name="add_look_choose_image">Gallery</string>
     <string name="add_look_media_library">Looks</string>
     <string name="add_look_from_local_project">Local projects</string>
+    <string name="add_look_empty_object">Empty Object</string>
     <!--  -->
 
     <!-- NewSoundDialog -->
