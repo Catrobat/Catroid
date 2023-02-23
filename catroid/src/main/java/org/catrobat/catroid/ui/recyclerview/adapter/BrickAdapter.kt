@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@ import androidx.annotation.IntDef
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.content.bricks.CompositeBrick
 import org.catrobat.catroid.content.bricks.EmptyEventBrick
 import org.catrobat.catroid.content.bricks.FormulaBrick
 import org.catrobat.catroid.content.bricks.ListSelectorBrick
@@ -42,7 +43,6 @@ import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
 import org.catrobat.catroid.ui.dragndrop.BrickAdapterInterface
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.ViewStateManager
 import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
-import java.util.ArrayList
 import java.util.Collections
 
 class BrickAdapter(private val sprite: Sprite) :
@@ -360,23 +360,156 @@ class BrickAdapter(private val sprite: Sprite) :
 
     override fun getPosition(brick: Brick?): Int = items.indexOf(brick)
 
+    private fun isEndBrick(brick: Brick): Boolean = brick.parent is CompositeBrick &&
+        brick == brick.allParts?.last() &&
+        brick.allParts.size >= 2
+
     override fun onItemMove(sourcePosition: Int, targetPosition: Int): Boolean {
         val source = items[sourcePosition]
         if (source !is ScriptBrick && targetPosition == 0) {
             return false
         }
-        if (source.allParts.contains(items[targetPosition])) {
+        if (!isEndBrick(source) &&
+            source.allParts.contains(items[targetPosition])
+        ) {
             return false
         }
         Collections.swap(items, sourcePosition, targetPosition)
         return true
     }
 
+    private fun getParentBrickInDragAndDropList(
+        brickAboveTarget: Brick,
+        enclosureBrick: Brick
+    ): Pair<Brick, Int>? {
+
+        if (brickAboveTarget == enclosureBrick) {
+            return brickAboveTarget to 0
+        }
+
+        var brickInEnclosure = brickAboveTarget
+        while (brickInEnclosure.parent !== null &&
+            brickInEnclosure.parent !in enclosureBrick.allParts &&
+            brickInEnclosure !in enclosureBrick.dragAndDropTargetList
+        ) {
+
+            brickInEnclosure = brickInEnclosure.parent
+        }
+        if (brickInEnclosure.parent !== enclosureBrick &&
+            brickInEnclosure !in enclosureBrick.dragAndDropTargetList
+        ) {
+            return null
+        }
+        return brickInEnclosure to
+            enclosureBrick.dragAndDropTargetList.indexOf(brickInEnclosure) + 1
+    }
+
+    private fun isInSameScript(brickToMove: Brick, brickAbove: Brick): Boolean {
+
+        var brickToMoveParent = brickToMove
+        while (brickToMoveParent.parent != null && brickToMoveParent !is ScriptBrick) {
+            brickToMoveParent = brickToMoveParent.parent
+        }
+
+        var brickAboveParent = brickAbove
+        while (brickAboveParent.parent != null && brickAboveParent !is ScriptBrick) {
+            brickAboveParent = brickAboveParent.parent
+        }
+        return brickToMoveParent == brickAboveParent
+    }
+
+    private fun getParentDragAndDropList(endBrick: Brick, parentEndBrick: Brick): Pair<Brick, Int> =
+        parentEndBrick to parentEndBrick.dragAndDropTargetList.indexOf(endBrick) + 1
+
+    private fun getStartBrick(comboBrick: CompositeBrick): Pair<Brick, MutableList<Brick>> {
+        if (comboBrick.hasSecondaryList()) {
+            return comboBrick.allParts[1] to comboBrick.secondaryNestedBricks
+        }
+        return comboBrick.allParts.first() to comboBrick.nestedBricks
+    }
+
+    private fun moveEndIntoExtendedSection(
+        position: Int,
+        endBrick: Brick,
+        brickAboveTargetPosition: Brick
+    ): Boolean {
+        var tmpParent = brickAboveTargetPosition
+        val firstPart = endBrick.allParts.first()
+        while (tmpParent.parent != null) {
+            if (tmpParent is CompositeBrick) {
+                // if end is moved into composite block we move whole enclosure to new enclosure
+                moveItemTo(position, firstPart)
+                return true
+            }
+            tmpParent = tmpParent.parent
+            if (tmpParent !is CompositeBrick || tmpParent == firstPart.parent) {
+                break
+            }
+        }
+        return false
+    }
+
+    private fun moveEndTo(position: Int, endBrick: Brick) {
+        val brickAboveTargetPosition = getBrickAbovePosition(position)
+        if (!isInSameScript(endBrick, brickAboveTargetPosition)) {
+            return
+        }
+        val comboBrick = endBrick.allParts.first() as CompositeBrick
+        val (startBrick, enclosure) = getStartBrick(comboBrick)
+        val indexStartBrick = getPosition(startBrick)
+
+        val (parentOfBrickAboveTargetPosition, destinationPosition) =
+            getParentBrickInDragAndDropList(brickAboveTargetPosition, startBrick)
+                ?: null to 0
+
+        if (getPosition(brickAboveTargetPosition) + 1 < indexStartBrick) {
+            return
+        }
+
+        if (parentOfBrickAboveTargetPosition == null) {
+            // end block moves down if
+            if (moveEndIntoExtendedSection(position, endBrick, brickAboveTargetPosition)) {
+                return
+            }
+
+            var (outsideParent, outPosition) =
+                getParentBrickInDragAndDropList(
+                    brickAboveTargetPosition,
+                    endBrick.allParts.first().parent
+                )
+                    ?: return
+            outsideParent = outsideParent.parent
+            val startIndex =
+                outsideParent.dragAndDropTargetList.indexOf(endBrick.allParts.first()) + 1
+
+            for (i in startIndex until outPosition) {
+                val brick = outsideParent.dragAndDropTargetList.removeAt(startIndex)
+                brick.parent = startBrick
+                enclosure.add(brick)
+            }
+        } else {
+            // end block moves up(maximum to begin if no else block(or else if available))
+            val parentOfEnd = endBrick.allParts.first().parent
+            val (list, positionInList) =
+                getParentDragAndDropList(endBrick.allParts.first(), parentOfEnd)
+
+            for ((index, _) in (destinationPosition until enclosure.size).withIndex()) {
+                val brick = enclosure.removeAt(destinationPosition)
+                brick.parent = parentOfEnd
+                list.dragAndDropTargetList.add(positionInList + index, brick)
+            }
+        }
+    }
+
     override fun moveItemTo(position: Int, itemToMove: Brick?) {
         val brickAboveTargetPosition = getBrickAbovePosition(position)
-
+        if (itemToMove == null) {
+            return
+        }
         if (itemToMove is ScriptBrick) {
             moveScript(itemToMove, brickAboveTargetPosition)
+        } else if (isEndBrick(itemToMove)) {
+            moveEndTo(position, itemToMove)
         } else {
             for (script in scripts) {
                 script.removeBrick(itemToMove)

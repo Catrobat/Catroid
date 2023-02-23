@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,6 +39,7 @@ import android.widget.ListAdapter
 import android.widget.ListView
 import androidx.annotation.VisibleForTesting
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.content.bricks.CompositeBrick
 import java.util.ArrayList
 
 private const val SMOOTH_SCROLL_BY = 15
@@ -104,11 +105,20 @@ class BrickListView : ListView {
         cancelMove()
         val flatList: MutableList<Brick> = ArrayList()
         brickToMove?.addToFlatList(flatList)
-        if (brickToMove !== flatList[0]) {
+        if (brickToMove == null) {
             return
         }
-        this.brickToMove = flatList[0]
-        flatList.removeAt(0)
+        if (brickToMove.parent is CompositeBrick &&
+            brickToMove == brickToMove.allParts?.last() &&
+            brickToMove.allParts.size >= 2) {
+            this.brickToMove = brickToMove
+            flatList.clear()
+        } else if (brickToMove !== flatList[0]) {
+            return
+        } else {
+            this.brickToMove = flatList[0]
+            flatList.removeAt(0)
+        }
 
         upperScrollBound = height / UPPER_SCROLL_BOUND_DIVISOR
         lowerScrollBound = height / LOWER_SCROLL_BOUND_DIVISOR
