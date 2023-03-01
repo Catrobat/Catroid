@@ -72,7 +72,6 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.new_group).isVisible = false
         menu.findItem(R.id.new_scene).isVisible = false
     }
 
@@ -224,7 +223,6 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
         itemList.add(item)
 
         val hiddenOptionMenuIds = intArrayOf(
-            R.id.new_group,
             R.id.new_scene,
             R.id.show_details,
             R.id.project_options,

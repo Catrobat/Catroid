@@ -112,5 +112,18 @@ android:paddingBottom="@dimen/dialog_content_area_padding_top">
                  android:textSize="?attr/medium"
                  app:drawableTopCompat="@drawable/ic_library_add" />
         </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/dialog_add_new_group"
+                android:background="@drawable/new_object_dialog_selector"
+                android:gravity="center"
+                android:text="@string/add_new_group"
+                android:textSize="?attr/medium"
+                app:drawableTopCompat="@drawable/ic_group_add"
+                app:drawableTint="@color/solid_white" />
+        </TableRow>
     </TableLayout>
 </ScrollView>

@@ -438,6 +438,12 @@ class ProjectActivity : BaseCastActivity() {
                 .startActivityForResult(SPRITE_FROM_LOCAL)
             alertDialog.dismiss()
         }
+        dialogNewActorBinding.dialogAddNewGroup.setOnClickListener {
+            if (currentFragment is SpriteListFragment) {
+                (currentFragment as SpriteListFragment).showNewGroupDialog()
+            }
+            alertDialog.dismiss()
+        }
         alertDialog.show()
     }
 

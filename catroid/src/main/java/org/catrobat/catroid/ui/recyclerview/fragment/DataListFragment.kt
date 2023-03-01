@@ -533,7 +533,7 @@ class DataListFragment : Fragment(),
         val itemList: MutableList<UserData<*>> = ArrayList()
         itemList.add(item)
         val hiddenOptionsMenu = mutableListOf<Int>(
-            R.id.copy, R.id.show_details, R.id.from_library, R.id.from_local, R.id.new_group,
+            R.id.copy, R.id.show_details, R.id.from_library, R.id.from_local,
             R.id.new_scene, R.id.cast_button, R.id.backpack, R.id.project_options
         )
         if (item is UserVariable) {
