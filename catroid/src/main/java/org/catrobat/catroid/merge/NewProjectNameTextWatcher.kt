@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,16 +20,13 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.merge;
+package org.catrobat.catroid.merge
 
-import org.catrobat.catroid.common.Nameable;
-import org.catrobat.catroid.ui.recyclerview.dialog.ReplaceExistingProjectDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.InputWatcher;
+import org.catrobat.catroid.common.Nameable
+import org.catrobat.catroid.ui.recyclerview.dialog.ReplaceExistingProjectDialogFragment
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.InputWatcher
 
-public class NewProjectNameTextWatcher<T extends Nameable> extends InputWatcher.TextWatcher {
-
-	@Override
-	protected boolean isNameUnique(String name) {
-		return !ReplaceExistingProjectDialogFragment.projectExistsInDirectory(name);
-	}
+open class NewProjectNameTextWatcher<T : Nameable?> : InputWatcher.TextWatcher() {
+    override fun isNameUnique(name: String): Boolean =
+        !ReplaceExistingProjectDialogFragment.projectExistsInDirectory(name)
 }
