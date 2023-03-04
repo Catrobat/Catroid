@@ -107,7 +107,7 @@ class UiTestUtils private constructor() {
 
         @JvmStatic
         fun createDefaultTestProject(projectName: String?): Project {
-            val project = Project(ApplicationProvider.getApplicationContext(), projectName)
+            val project = Project(ApplicationProvider.getApplicationContext(), projectName, false)
             val sprite = Sprite(TestUtils.DEFAULT_TEST_SPRITE_NAME)
             val script: Script = StartScript()
             sprite.addScript(script)
@@ -119,7 +119,7 @@ class UiTestUtils private constructor() {
 
         @JvmStatic
         fun createProjectAndGetStartScript(projectName: String?): Script {
-            val project = Project(ApplicationProvider.getApplicationContext(), projectName)
+            val project = Project(ApplicationProvider.getApplicationContext(), projectName, false)
             val sprite = Sprite(TestUtils.DEFAULT_TEST_SPRITE_NAME)
             val script: Script = StartScript()
             sprite.addScript(script)
@@ -131,8 +131,20 @@ class UiTestUtils private constructor() {
         }
 
         @JvmStatic
+        fun createEmptyProjectForTheFirstTime(projectName: String?): Project {
+            val project = Project(ApplicationProvider.getApplicationContext(), projectName, true)
+            val sprite = Sprite("testSprite")
+            val script: Script = StartScript()
+            sprite.addScript(script)
+            project.defaultScene.addSprite(sprite)
+            projectManager.currentProject = project
+            projectManager.currentSprite = sprite
+            return project
+        }
+
+        @JvmStatic
         fun createProjectWithCustomScript(projectName: String?, script: Script): Project {
-            val project = Project(ApplicationProvider.getApplicationContext(), projectName)
+            val project = Project(ApplicationProvider.getApplicationContext(), projectName, false)
             val sprite = Sprite(TestUtils.DEFAULT_TEST_SPRITE_NAME)
             sprite.addScript(script)
             project.defaultScene.addSprite(sprite)
@@ -144,7 +156,7 @@ class UiTestUtils private constructor() {
 
         @JvmStatic
         fun createProjectWithOutDefaultScript(projectName: String?): Project {
-            val project = Project(ApplicationProvider.getApplicationContext(), projectName)
+            val project = Project(ApplicationProvider.getApplicationContext(), projectName, false)
             val sprite = Sprite(TestUtils.DEFAULT_TEST_SPRITE_NAME)
             project.defaultScene.addSprite(sprite)
             UiTestCatroidApplication.projectManager.currentProject = project

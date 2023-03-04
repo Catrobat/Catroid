@@ -34,6 +34,7 @@ import org.catrobat.catroid.common.BroadcastMessageContainer;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.common.SharedPreferencesRepository;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -88,7 +89,8 @@ public class Project implements Serializable {
 	public Project() {
 	}
 
-	public Project(Context context, String name, boolean landscapeMode, boolean isCastProject) {
+	public Project(Context context, String name, boolean addToNeverOpenedList, boolean landscapeMode,
+			boolean isCastProject) {
 		xmlHeader.setProjectName(name);
 		xmlHeader.setDescription("");
 		xmlHeader.setNotesAndCredits("");
@@ -117,6 +119,12 @@ public class Project implements Serializable {
 			xmlHeader.setIsCastProject(true);
 		}
 
+		if (addToNeverOpenedList) {
+			ArrayList<String> neverOpenedProjectsList = new ArrayList<>();
+			neverOpenedProjectsList.add(name);
+			SharedPreferencesRepository.INSTANCE.saveNeverOpenedProjectsList(context.getApplicationContext(), neverOpenedProjectsList);
+		}
+
 		Scene scene = new Scene(context.getString(R.string.default_scene_name), this);
 		Sprite backgroundSprite = new Sprite(context.getString(R.string.background));
 		backgroundSprite.look.setZIndex(Z_INDEX_BACKGROUND);
@@ -128,12 +136,17 @@ public class Project implements Serializable {
 		setDeviceData(context);
 	}
 
-	public Project(Context context, String name, boolean landscapeMode) {
-		this(context, name, landscapeMode, false);
+	public Project(Context context, String name, boolean addToNeverOpenedList,
+			boolean landscapeMode) {
+		this(context, name, addToNeverOpenedList, landscapeMode, true);
+	}
+
+	public Project(Context context, String name, boolean addToNeverOpenedList ) {
+		this(context, name, addToNeverOpenedList, false);
 	}
 
 	public Project(Context context, String name) {
-		this(context, name, false);
+		this(context, name, true);
 	}
 
 	public File getDirectory() {
@@ -550,5 +563,18 @@ public class Project implements Serializable {
 				return;
 			}
 		}
+	}
+
+	public boolean checkIfProjectOpenedFirstTime(Context context, String projectName) {
+		List<String> list =
+				SharedPreferencesRepository.INSTANCE.getNeverOpenedProjectsList(context);
+		return list.contains(projectName);
+	}
+
+	public void removeProjectFromNeverOpenedList(Context context, String projectName) {
+		List<String> list =
+				new ArrayList<>(SharedPreferencesRepository.INSTANCE.getNeverOpenedProjectsList(context));
+		list.remove(projectName);
+		SharedPreferencesRepository.INSTANCE.saveNeverOpenedProjectsList(context, list);
 	}
 }
