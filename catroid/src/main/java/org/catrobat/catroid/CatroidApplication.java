@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -43,6 +43,7 @@ import java.util.Locale;
 import androidx.multidex.MultiDex;
 
 import static org.catrobat.catroid.ui.LightThemeManager.setLightTheme;
+import static org.catrobat.catroid.ui.LightThemeManager.isLightThemeEnabled;
 
 public class CatroidApplication extends Application {
 
@@ -81,7 +82,7 @@ public class CatroidApplication extends Application {
 
 		setupHuaweiMobileServices();
 
-		setLightTheme(false);
+		setLightTheme(isLightThemeEnabled());
 	}
 
 	private void setupHuaweiMobileServices() {

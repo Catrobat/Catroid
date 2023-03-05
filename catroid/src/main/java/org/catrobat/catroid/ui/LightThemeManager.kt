@@ -23,10 +23,10 @@
 
 package org.catrobat.catroid.ui
 
-import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
 import org.catrobat.catroid.CatroidApplication.getAppContext
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.setLightThemeSharedPreferenceEnabled
 
 object LightThemeManager {
@@ -34,19 +34,11 @@ object LightThemeManager {
     @JvmStatic
     fun setLightTheme(value: Boolean) {
         setLightThemeSharedPreferenceEnabled(getAppContext(), value)
-
-        if (value) {
-            setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        } else {
-            setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        }
+        if (value) setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO) else setDefaultNightMode(
+            AppCompatDelegate.MODE_NIGHT_YES
+        )
     }
 
     @JvmStatic
-    fun isLightThemeEnabled(): Boolean {
-        val currentNightMode =
-            getAppContext().resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        return currentNightMode == Configuration.UI_MODE_NIGHT_NO
-    }
-
+    fun isLightThemeEnabled() = SettingsFragment.isLightThemeSharedPreferenceEnabled(getAppContext())
 }

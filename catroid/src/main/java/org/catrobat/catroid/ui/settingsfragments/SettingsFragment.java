@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,7 +46,6 @@ import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.sync.ProjectsCategoriesSync;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.util.ArrayList;
@@ -58,11 +57,9 @@ import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 
 import static org.catrobat.catroid.CatroidApplication.defaultSystemLanguage;
-import static org.catrobat.catroid.CatroidApplication.getAppContext;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAGS;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAG_KEY;
-import static org.catrobat.catroid.ui.LightThemeManager.isLightThemeEnabled;
 import static org.catrobat.catroid.ui.LightThemeManager.setLightTheme;
 import static org.koin.java.KoinJavaComponent.inject;
 
@@ -135,6 +132,8 @@ public class SettingsFragment extends PreferenceFragment {
 	public static final String TAG = SettingsFragment.class.getSimpleName();
 
 	public static final String SETTINGS_USE_CATBLOCKS = "settings_use_catblocks";
+
+	private static final ProjectManager PROJECT_MANAGER = inject(ProjectManager.class).getValue();
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -262,12 +261,9 @@ public class SettingsFragment extends PreferenceFragment {
 	@SuppressWarnings("deprecation")
 	private void setHintPreferences() {
 		CheckBoxPreference hintCheckBoxPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_HINTS);
-		hintCheckBoxPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				preference.getEditor().remove(SnackbarUtil.SHOWN_HINT_LIST).commit();
-				return true;
-			}
+		hintCheckBoxPreference.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
+			preference.getEditor().remove(SnackbarUtil.SHOWN_HINT_LIST).commit();
+			return true;
 		});
 	}
 
@@ -300,7 +296,7 @@ public class SettingsFragment extends PreferenceFragment {
 	}
 
 	public static boolean isLightThemeSharedPreferenceEnabled(Context context) {
-		return getBooleanSharedPreference(false, SETTINGS_CAST_GLOBALLY_ENABLED, context);
+		return getBooleanSharedPreference(false, SETTINGS_LIGHT_THEME_ENABLED, context);
 	}
 
 	public static void setLightThemeSharedPreferenceEnabled(Context context, boolean value) {
@@ -520,7 +516,7 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static boolean isMultiplayerVariablesPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_MULTIPLAYER_VARIABLES_ENABLED, context)
-				|| ProjectManager.getInstance().getCurrentProject().hasMultiplayerVariables();
+				|| PROJECT_MANAGER.getCurrentProject().hasMultiplayerVariables();
 	}
 
 	private void setLanguage() {
@@ -543,8 +539,7 @@ public class SettingsFragment extends PreferenceFragment {
 		listPreference.setOnPreferenceChangeListener((preference, languageTag) -> {
 			String selectedLanguageTag = languageTag.toString();
 			setLanguageSharedPreference(getActivity().getBaseContext(), selectedLanguageTag);
-			startActivity(new Intent(getActivity().getBaseContext(), MainMenuActivity.class));
-			getActivity().finishAffinity();
+			resetActivity();
 			new Thread(() -> inject(ProjectsCategoriesSync.class).getValue().sync(true));
 			return true;
 		});
@@ -598,18 +593,16 @@ public class SettingsFragment extends PreferenceFragment {
 				.apply();
 	}
 
-	private void resetActivity() {
-		startActivity(new Intent(getAppContext(), SettingsActivity.class));
-		getActivity().finish();
-	}
-
 	public void setupLightThemePreference(PreferenceScreen screen) {
-		screen.findPreference(SETTINGS_LIGHT_THEME_ENABLED).setDefaultValue(isLightThemeEnabled());
-
 		screen.findPreference(SETTINGS_LIGHT_THEME_ENABLED).setOnPreferenceChangeListener((preference, newValue) -> {
 			setLightTheme((Boolean) newValue);
 			resetActivity();
-			return false;
+			return true;
 		});
+	}
+
+	private void resetActivity() {
+		startActivity(new Intent(getActivity().getBaseContext(), MainMenuActivity.class));
+		getActivity().finishAffinity();
 	}
 }
