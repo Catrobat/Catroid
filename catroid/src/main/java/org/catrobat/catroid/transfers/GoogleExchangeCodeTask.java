@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,7 +32,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.CatrobatWebClient;
 import org.catrobat.catroid.web.ServerCalls;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -40,17 +40,17 @@ public class GoogleExchangeCodeTask extends AsyncTask<Void, Void, Boolean> {
 
 	private static final String TAG = GoogleExchangeCodeTask.class.getSimpleName();
 
-	private Context context;
+	private final Context context;
 	private ProgressDialog progressDialog;
-	private String code;
-	private String mail;
-	private String username;
-	private String id;
-	private String locale;
+	private final String code;
+	private final String mail;
+	private final String username;
+	private final String id;
+	private final String locale;
 	private final String idToken;
 	private String message;
 	private OnGoogleExchangeCodeCompleteListener onGoogleExchangeCodeCompleteListener;
-	private WebconnectionException exception;
+	private WebConnectionException exception;
 	private boolean tokenExchanged;
 
 	public GoogleExchangeCodeTask(Activity activity, String code, String mail, String username, String id, String
@@ -83,13 +83,13 @@ public class GoogleExchangeCodeTask extends AsyncTask<Void, Void, Boolean> {
 	protected Boolean doInBackground(Void... arg0) {
 		try {
 			if (!Utils.isNetworkAvailable(context)) {
-				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Network not available!");
+				exception = new WebConnectionException(WebConnectionException.ERROR_NETWORK, "Network not available!");
 				return false;
 			}
 
 			tokenExchanged = new ServerCalls(CatrobatWebClient.INSTANCE.getClient()).googleExchangeCode(code, id, username, mail, locale, idToken);
 			return true;
-		} catch (WebconnectionException webconnectionException) {
+		} catch (WebConnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));
 			message = webconnectionException.getMessage();
 		}

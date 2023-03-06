@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,7 +42,6 @@ import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_RE
 import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_TOKEN_OK
 import org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_LENGTH
 import org.json.JSONObject
-import java.util.HashMap
 
 class ServerAuthenticator(
     var username: String,
@@ -94,8 +93,8 @@ class ServerAuthenticator(
         val resultString = try {
             val request = postValues.createFormEncodedRequest(serverUrl)
             okHttpClient.performCallWith(request)
-        } catch (exception: WebconnectionException) {
-            exception.message?.let {
+        } catch (exception: WebConnectionException) {
+            exception.message.let {
                 Log.e(tag, it)
             }
             taskListener.onError(exception.statusCode, null)

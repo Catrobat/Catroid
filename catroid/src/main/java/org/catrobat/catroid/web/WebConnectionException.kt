@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,35 +20,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.web;
+package org.catrobat.catroid.web
 
-public class WebconnectionException extends Exception {
+class WebConnectionException(val statusCode: Int, message: String?) : Exception(message) {
+    constructor(statusCode: Int) : this(statusCode, "Unknown Error, no exception message given.")
 
-	private static final long serialVersionUID = 1L;
-
-	public static final int ERROR_JSON = 1001;
-	public static final int ERROR_NETWORK = 1002;
-	public static final int ERROR_EMPTY_PROJECT_DATA = 1003;
-
-	private final int statusCode;
-	private final String message;
-
-	public WebconnectionException(int statusCode, String message) {
-		super(message);
-		if (message == null) {
-			message = "Unknown Error, no exception message given.";
-		}
-
-		this.statusCode = statusCode;
-		this.message = message;
-	}
-
-	public int getStatusCode() {
-		return statusCode;
-	}
-
-	@Override
-	public String getMessage() {
-		return message;
-	}
+    companion object {
+        private const val serialVersionUID: Long = 1L
+        const val ERROR_JSON: Int = 1001
+        const val ERROR_NETWORK: Int = 1002
+        const val ERROR_EMPTY_PROJECT_DATA: Int = 1003
+    }
 }

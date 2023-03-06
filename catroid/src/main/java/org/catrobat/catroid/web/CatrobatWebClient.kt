@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,10 +35,10 @@ object CatrobatWebClient {
         .build()
 }
 
-@Throws(WebconnectionException::class)
+@Throws(WebConnectionException::class)
 fun OkHttpClient.performCallWith(request: Request): String {
     var message = "Bad Connection"
-    var statusCode = WebconnectionException.ERROR_NETWORK
+    var statusCode = WebConnectionException.ERROR_NETWORK
     try {
         val response = this.newCall(request).execute()
         response.body()?.let {
@@ -52,7 +52,7 @@ fun OkHttpClient.performCallWith(request: Request): String {
         }
     }
 
-    throw WebconnectionException(statusCode, message)
+    throw WebConnectionException(statusCode, message)
 }
 
 fun Map<String, String>.createFormEncodedRequest(url: String): Request {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,13 +26,13 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import org.catrobat.catroid.web.CatrobatServerCalls;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.WebConnectionException;
 
 public class CheckEmailAvailableTask extends AsyncTask<String, Void, Boolean> {
 	private static final String TAG = CheckEmailAvailableTask.class.getSimpleName();
 
-	private String email;
-	private String provider;
+	private final String email;
+	private final String provider;
 
 	private Boolean emailAvailable;
 
@@ -52,7 +52,7 @@ public class CheckEmailAvailableTask extends AsyncTask<String, Void, Boolean> {
 		try {
 			emailAvailable = new CatrobatServerCalls().isEMailAvailable(email);
 			return true;
-		} catch (WebconnectionException webconnectionException) {
+		} catch (WebConnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));
 		}
 		return false;
