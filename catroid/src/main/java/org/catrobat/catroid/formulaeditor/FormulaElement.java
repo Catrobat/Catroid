@@ -423,8 +423,12 @@ public class FormulaElement implements Serializable {
 				UserVariable userVariable = UserDataWrapper.getUserVariable(value, scope);
 				return interpretUserVariable(userVariable);
 			case USER_LIST:
-				UserList userList = (UserList) UserDataWrapper.getUserList(value, scope);
-				return interpretUserList(userList);
+				UserVariable userList = UserDataWrapper.getUserList(value, scope);
+				if (userList instanceof UserList) {
+					return interpretUserList((UserList) userList);
+				} else {
+					return interpretUserVariable(userList);
+				}
 			case USER_DEFINED_BRICK_INPUT:
 				UserData userBrickVariable = UserDataWrapper.getUserDefinedBrickInput(value,
 						scope.getSequence());

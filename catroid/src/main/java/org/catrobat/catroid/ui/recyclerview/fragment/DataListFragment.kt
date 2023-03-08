@@ -585,11 +585,7 @@ class DataListFragment : Fragment(),
         renameUserData(item, name ?: "")
         indexAndSort()
         finishActionMode()
-        if (item is UserList) {
-            formulaEditorDataInterface?.onListRenamed(previousName, name)
-        } else {
-            formulaEditorDataInterface?.onVariableRenamed(previousName, name)
-        }
+        formulaEditorDataInterface?.onVariableRenamed(previousName, name)
     }
 
     private fun showEditDialog(selectedItems: List<UserData<*>>) {

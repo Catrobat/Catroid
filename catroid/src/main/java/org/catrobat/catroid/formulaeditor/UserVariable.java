@@ -186,7 +186,7 @@ public class UserVariable implements Serializable, UserData<Object> {
 
 	public void addListItem(Object listItem) {
 		if (this instanceof UserList) {
-			((UserList) this).addListItem(listItem);
+			this.addListItem(listItem);
 		} else {
 			userVariableEntry.addListItem(listItem);
 		}

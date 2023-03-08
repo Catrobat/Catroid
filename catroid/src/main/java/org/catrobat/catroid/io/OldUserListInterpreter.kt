@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,26 +25,20 @@ package org.catrobat.catroid.io
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import org.w3c.dom.Node
-import org.w3c.dom.NodeList
 import kotlin.collections.ArrayList
 
 class OldUserListInterpreter(private val outcomeDocument: Document) {
     fun interpret(): Document {
         val userListNodes = getProgramsUserLists() ?: return outcomeDocument
-        for (i in 0 until userListNodes.size) {
-            val userList = userListNodes[i] as Element
-            val isOldUserList1 = userList.childNodes.length == 2 &&
-                userList.childNodes.item(0).nodeName.equals("deviceListKey") &&
-                userList.childNodes.item(1).nodeName.equals("name")
-            val isOldUserList2 = userList.childNodes.length == 3 &&
-                userList.childNodes.item(0).nodeName.equals("deviceListKey") &&
-                userList.childNodes.item(1).nodeName.equals("initialIndex") &&
-                userList.childNodes.item(2).nodeName.equals("name")
-
-            if (isOldUserList1 || isOldUserList2) {
-                createNewUserLists(userList)
+        userListNodes.filterNot { isNewUserList(it) }
+            .forEach { oldUserList ->
+                if (oldUserList.childNodes.length !in 1..4) {
+                    throw OldUserListInterpretationException(
+                        "unlikely userList in " + outcomeDocument.documentURI + " found"
+                    )
+                }
+                createNewUserLists(oldUserList as Element)
             }
-        }
         return outcomeDocument
     }
 
@@ -56,7 +50,17 @@ class OldUserListInterpreter(private val outcomeDocument: Document) {
                 userListList.add(userListWithNewFunction.item(i))
             }
         }
+
         return if (userListList.isEmpty()) null else userListList
+    }
+
+    private fun isNewUserList(userList: Node): Boolean {
+        if (listOf("name", "deviceValueKey", "initialIndex", "userVariableEntry").all {
+                NodeOperatorExtension.getNodeByName(userList, it) != null
+        } || NodeOperatorExtension.getNodeByName(userList, "userVariable") != null) {
+            return true
+        }
+        return false
     }
 
     private fun createNewUserLists(userList: Element) {
@@ -89,6 +93,27 @@ class OldUserListInterpreter(private val outcomeDocument: Document) {
             } else {
                 userList.removeChild(temp)
             }
+        }
+
+        if (!nameFound) {
+            // this case only appeared when deviceValueKey was the only item
+            val deviceValueKeyClone = userList.firstChild.cloneNode(true)
+            deviceValueKeyClone.textContent = "userList"
+            userList.appendChild(deviceValueKeyClone)
+            outcomeDocument.renameNode(deviceValueKeyClone, null, "name")
+        }
+
+        if (!deviceValueKeyFound) {
+            // this case only appeared when name was the only item
+            val nameClone = userList.firstChild.cloneNode(true)
+            val deviceValueKey = userList.firstChild.cloneNode(true)
+            userList.removeChild(userList.firstChild)
+
+            deviceValueKey.textContent = "11111111-1111-1111-1111-111111111111"
+            userList.appendChild(deviceValueKey)
+            outcomeDocument.renameNode(deviceValueKey, null, "deviceListKey")
+
+            userList.appendChild(nameClone)
         }
     }
 

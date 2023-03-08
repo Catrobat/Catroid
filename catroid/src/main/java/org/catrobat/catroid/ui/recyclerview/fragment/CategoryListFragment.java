@@ -552,7 +552,9 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 					regularExpressionAssistantActivityOnButtonClick();
 				} else {
 					FormulaEditorFragment formulaEditorFragment =
-							((FormulaEditorFragment) getFragmentManager().findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG));
+							((FormulaEditorFragment) getFragmentManager().findFragmentByTag(
+									FORMULA_EDITOR_FRAGMENT_TAG
+							));
 					if (formulaEditorFragment != null) {
 						formulaEditorFragment.setChosenCategoryItem(item);
 					}
