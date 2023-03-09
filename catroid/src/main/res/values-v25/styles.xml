@@ -489,6 +489,11 @@
         <item name="android:background">@drawable/brick_lightorange_3h</item>
     </style>
 
+    <style name="BrickContainer.Control.NoteBrick">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_note_1h</item>
+    </style>
+
     <style name ="BrickContainer.UserDefinedBrick" />
 
     <style name="BrickContainer.UserDefinedBrick.Medium">
