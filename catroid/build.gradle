@@ -48,7 +48,7 @@ ext {
 
     projectVersion = "0.9"
     gdxVersion = "1.9.10"
-    mockitoVersion = "2.8.47"
+    mockitoVersion = "3.6.28"
     espressoVersion = "3.1.0"
     playServicesVersion = "17.0.0"
     cameraXVersion = "1.0.0-beta07"
@@ -103,7 +103,7 @@ def defaultVersionCode = 88
 def defaultVersionName = "1.1.2"
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 33
 
     buildFeatures {
         viewBinding true
@@ -112,7 +112,7 @@ android {
     defaultConfig {
 
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 33
         applicationId appId
         testInstrumentationRunner 'org.catrobat.catroid.runner.UiTestApplicationRunner'
         versionCode defaultVersionCode
