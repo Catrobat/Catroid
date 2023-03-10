@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,45 +20,37 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.stage;
+package org.catrobat.catroid.stage
 
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.graphics.g2d.BitmapFont
+import com.badlogic.gdx.scenes.scene2d.Actor
 
-public class TextActor extends Actor {
+class TextActor(private var text: String, private var posX: Int, private var posY: Int) : Actor() {
+    private var font: BitmapFont? = null
 
-	private int posX;
-	private int posY;
-	private String text;
-	private BitmapFont font;
+    init {
+        init()
+    }
 
-	public TextActor(String text, int posX, int posY) {
-		this.text = text;
-		this.posX = posX;
-		this.posY = posY;
-		init();
-	}
+    override fun draw(batch: Batch, parentAlpha: Float) {
+        font!!.draw(batch, text, posX.toFloat(), posY.toFloat())
+    }
 
-	@Override
-	public void draw(Batch batch, float parentAlpha) {
-		font.draw(batch, text, posX, posY);
-	}
+    private fun init() {
+        font = BitmapFont()
+        font!!.setColor(1.0f, 0.0f, 0.0f, 1.0f)
+    }
 
-	private void init() {
-		font = new BitmapFont();
-		font.setColor(1.0f, 0.0f, 0.0f, 1.0f);
-	}
+    fun setPosX(posX: Int) {
+        this.posX = posX
+    }
 
-	public void setPosX(int posX) {
-		this.posX = posX;
-	}
+    fun setPosY(posY: Int) {
+        this.posY = posY
+    }
 
-	public void setPosY(int posY) {
-		this.posY = posY;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
+    fun setText(text: String) {
+        this.text = text
+    }
 }
