@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
+import android.content.Context;
+
 import org.catrobat.catroid.R;
 
 import java.util.LinkedList;
@@ -44,11 +46,15 @@ import static org.catrobat.catroid.formulaeditor.InternTokenType.USER_LIST;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.USER_VARIABLE;
 
 public class InternFormulaKeyboardAdapter {
-
+	private Context context;
 	public static final int FORMULA_EDITOR_USER_VARIABLE_RESOURCE_ID = 0;
 	public static final int FORMULA_EDITOR_USER_LIST_RESOURCE_ID = 1;
 	public static final int FORMULA_EDITOR_USER_DEFINED_BRICK_INPUT_RESOURCE_ID = 2;
 	public static final int FORMULA_EDITOR_COLLIDE_RESOURCE_ID = 3;
+
+	public InternFormulaKeyboardAdapter(Context context) {
+		this.context = context;
+	}
 
 	public List<InternToken> createInternTokenListByResourceId(int resource, String name) {
 
@@ -109,7 +115,7 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_function_sqrt:
 				return buildSingleParameterFunction(Functions.SQRT, NUMBER, "4");
 			case R.string.formula_editor_function_rand:
-				return buildDoubleParameterFunction(Functions.RAND,
+				return buildRandFunction(Functions.RAND,
 						NUMBER, "1",
 						NUMBER, "6");
 			case R.string.formula_editor_function_abs:
@@ -727,6 +733,19 @@ public class InternFormulaKeyboardAdapter {
 		}
 		returnList.add(new InternToken(secondParameter, secondParameterNumberValue));
 		returnList.add(new InternToken(FUNCTION_PARAMETERS_BRACKET_CLOSE));
+		return returnList;
+	}
+
+	private List<InternToken> buildRandFunction(Functions function, InternTokenType firstParameter,
+			String firstParameterNumberValue, InternTokenType secondParameter, String secondParameterNumberValue) {
+		List<InternToken> returnList = new LinkedList<InternToken>();
+		returnList.add(new InternToken(FUNCTION_NAME, function.name()));
+		returnList.add(new InternToken(STRING,
+				context.getString(R.string.formula_editor_from)));
+		returnList.add(new InternToken(firstParameter, firstParameterNumberValue));
+		returnList.add(new InternToken(STRING,
+				context.getString(R.string.formula_editor_to)));
+		returnList.add(new InternToken(secondParameter, secondParameterNumberValue));
 		return returnList;
 	}
 }

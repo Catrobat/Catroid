@@ -844,6 +844,18 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 
 		List<CategoryListItem> result = new ArrayList<>();
 		for (int i = 0; i < nameResIds.size(); i++) {
+			if (nameResIds.get(i) == R.string.formula_editor_function_rand) {
+				StringBuilder randFunctionString = new StringBuilder();
+				randFunctionString
+						.append(getString(R.string.formula_editor_function_rand))
+						.append(' ')
+						.append(getString(R.string.formula_editor_from))
+						.append(" 1 ")
+						.append(getString(R.string.formula_editor_to))
+						.append(" 6");
+				result.add(new CategoryListItem(nameResIds.get(i), randFunctionString.toString(), type));
+				continue;
+			}
 			String param = "";
 			if (paramResIds != null) {
 				param = getString(paramResIds.get(i));

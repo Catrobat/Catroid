@@ -40,10 +40,8 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 
-import static org.hamcrest.Matchers.anyOf;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.catrobat.catroid.formulaeditor.InternTokenType.STRING;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(JUnit4.class)
 public class ParserFunctionTest {
@@ -65,17 +63,19 @@ public class ParserFunctionTest {
 	@Test
 	public void testRandomNaturalNumbers() {
 		List<InternToken> internTokenList = new LinkedList<>();
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.RAND.name()));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
+
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, "RAND"));
+		internTokenList.add(new InternToken(STRING,
+				"from"));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "0"));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER, ","));
+		internTokenList.add(new InternToken(STRING,
+				"to"));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
 		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula(null);
 
 		assertNotNull(parseTree);
 		Double result = (Double) parseTree.interpretRecursive(null);
-		assertThat(result, is(anyOf(equalTo(0d), equalTo(1d))));
+		assertTrue(0 <= result && result <= 1);
 	}
 
 	@Test

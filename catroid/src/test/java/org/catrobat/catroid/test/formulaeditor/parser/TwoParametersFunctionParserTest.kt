@@ -33,7 +33,6 @@ import org.catrobat.catroid.formulaeditor.Functions.ARCTAN2
 import org.catrobat.catroid.formulaeditor.Functions.MAX
 import org.catrobat.catroid.formulaeditor.Functions.MIN
 import org.catrobat.catroid.formulaeditor.Functions.MOD
-import org.catrobat.catroid.formulaeditor.Functions.RAND
 import org.catrobat.catroid.formulaeditor.InternToken
 import org.catrobat.catroid.formulaeditor.InternTokenType
 import org.catrobat.catroid.formulaeditor.Operators
@@ -66,7 +65,6 @@ class TwoParametersFunctionParserTest(
         fun data(): Iterable<Array<Any>> {
             return listOf(
                 arrayOf("MOD", MOD, AssociatedFunction { firPar, secPar -> firPar % secPar }, 9.0, 2.0),
-                arrayOf("RAND", RAND, AssociatedFunction { _, _ -> 0.0 }, 0.0, 0.0),
                 arrayOf("ARCTAN2", ARCTAN2, AssociatedFunction { firPar, secPar -> toDegrees(atan2(firPar, secPar)) }, 9.0, 3.0),
                 arrayOf("MAX", MAX, AssociatedFunction { firPar, secPar -> max(firPar, secPar) }, 9.0, 3.0),
                 arrayOf("MIN", MIN, AssociatedFunction { firPar, secPar -> min(firPar, secPar) }, 9.0, 3.0))

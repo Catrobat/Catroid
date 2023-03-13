@@ -29,6 +29,7 @@
 
     <!-- Text Colors -->
     <color name="toolbar_title">@color/accent</color>
+    <color name="view_holder_headline">@color/accent</color>
     <color name="view_holder_item_title">@color/accent</color>
     <color name="view_holder_item_details">@color/accent</color>
 

@@ -108,7 +108,7 @@ public class InternFormula {
 
 	public void handleKeyInput(int resourceId, Context context, String name) {
 
-		List<InternToken> keyInputInternTokenList = new InternFormulaKeyboardAdapter()
+		List<InternToken> keyInputInternTokenList = new InternFormulaKeyboardAdapter(context)
 				.createInternTokenListByResourceId(resourceId, name);
 
 		CursorTokenPropertiesAfterModification cursorTokenPropertiesAfterInput = CursorTokenPropertiesAfterModification
@@ -285,6 +285,16 @@ public class InternFormula {
 	private CursorTokenPropertiesAfterModification handleDeletion() {
 		CursorTokenPropertiesAfterModification cursorTokenPropertiesAfterModification = CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 		if (internFormulaTokenSelection != null) {
+			if (Functions.RAND.name().equals(internTokenFormulaList
+					.get(internFormulaTokenSelection.getStartIndex()).getTokenStringValue())) {
+				deleteInternTokens(0, internTokenFormulaList.size() - 1);
+				cursorPositionInternTokenIndex = internFormulaTokenSelection.getStartIndex();
+				cursorPositionInternToken = null;
+
+				internFormulaTokenSelection = null;
+
+				return CursorTokenPropertiesAfterModification.LEFT;
+			}
 			deleteInternTokens(internFormulaTokenSelection.getStartIndex(), internFormulaTokenSelection.getEndIndex());
 
 			cursorPositionInternTokenIndex = internFormulaTokenSelection.getStartIndex();
@@ -303,6 +313,9 @@ public class InternFormula {
 						if (firstLeftInternToken.getInternTokenType() == InternTokenType.FUNCTION_PARAMETER_DELIMITER) {
 							setExternCursorPositionLeftTo(internTokenFormulaList.indexOf(firstLeftInternToken));
 							break;
+						} else if (Functions.RAND.name().equals(firstLeftInternToken.getTokenStringValue())) {
+							deleteInternTokens(0, internTokenFormulaList.size() - 1);
+							break;
 						}
 
 						int firstLeftInternTokenIndex = internTokenFormulaList.indexOf(firstLeftInternToken);
@@ -319,6 +332,9 @@ public class InternFormula {
 					InternToken internToken = getFirstLeftInternToken(externCursorPosition);
 					if (internToken.getInternTokenType() == InternTokenType.FUNCTION_PARAMETER_DELIMITER) {
 						setExternCursorPositionLeftTo(internTokenFormulaList.indexOf(internToken));
+						break;
+					} else if (Functions.RAND.name().equals(internToken.getTokenStringValue())) {
+						deleteInternTokens(0, internTokenFormulaList.size() - 1);
 						break;
 					}
 

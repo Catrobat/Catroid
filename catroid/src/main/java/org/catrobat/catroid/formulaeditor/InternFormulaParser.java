@@ -328,6 +328,9 @@ public class InternFormulaParser {
 			throw new InternFormulaParserException("Parse Error");
 		}
 
+		if (Functions.RAND.name().equals(currentToken.getTokenStringValue())) {
+			return randFunction(scope);
+		}
 		FormulaElement functionTree = new FormulaElement(FormulaElement.ElementType.FUNCTION, currentToken.getTokenStringValue(), null);
 		getNextToken();
 
@@ -365,5 +368,22 @@ public class InternFormulaParser {
 		String currentStringValue = currentToken.getTokenStringValue();
 		getNextToken();
 		return currentStringValue;
+	}
+
+	private FormulaElement randFunction(Scope scope) throws InternFormulaParserException {
+		FormulaElement functionTree = new FormulaElement(FormulaElement.ElementType.FUNCTION,
+				currentToken.getTokenStringValue(), null);
+		getNextToken();
+		if (!currentToken.getTokenStringValue().equals("from")) {
+			throw new InternFormulaParserException("Parse Error");
+		}
+		getNextToken();
+		functionTree.setLeftChild(termList(scope));
+		if (!currentToken.getTokenStringValue().equals("to")) {
+			throw new InternFormulaParserException("Parse Error");
+		}
+		getNextToken();
+		functionTree.setRightChild(termList(scope));
+		return functionTree;
 	}
 }

@@ -48,7 +48,6 @@ public class SelectInternTokenFunctionWithTwoParametersTest {
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
 		return Arrays.asList(new Object[][] {
-				{Functions.RAND.name(), new InternToken(FUNCTION_NAME, Functions.RAND.name())},
 				{Functions.MOD.name(), new InternToken(FUNCTION_NAME, Functions.MOD.name())},
 				{Functions.POWER.name(), new InternToken(FUNCTION_NAME, Functions.POWER.name())},
 				{Functions.MAX.name(), new InternToken(FUNCTION_NAME, Functions.MAX.name())},

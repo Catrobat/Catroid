@@ -348,9 +348,14 @@ public class InternToExternGenerator {
 		String externTokenString;
 		int externStringStartIndex;
 		int externStringEndIndex;
+		boolean isRandFunction = false;
+
+		if (!internTokenList.isEmpty()
+				&& Functions.RAND.name().equals(internTokenList.get(0).getTokenStringValue())) {
+			isRandFunction = true;
+		}
 
 		int internTokenListIndex = 0;
-
 		while (!internTokenList.isEmpty()) {
 			if (appendWhiteSpace(currentToken, nextToken)) {
 				externalFormulaString.append(' ');
@@ -364,7 +369,7 @@ public class InternToExternGenerator {
 				nextToken = internTokenList.get(1);
 			}
 
-			externTokenString = generateExternStringFromToken(currentToken, trimNumbers);
+			externTokenString = generateExternStringFromToken(currentToken, trimNumbers, isRandFunction);
 			externalFormulaString.append(externTokenString);
 			externStringEndIndex = externalFormulaString.length();
 
@@ -379,7 +384,8 @@ public class InternToExternGenerator {
 		generatedExternFormulaString = externalFormulaString.toString();
 	}
 
-	private String generateExternStringFromToken(InternToken internToken, boolean trimNumbers) {
+	private String generateExternStringFromToken(InternToken internToken, boolean trimNumbers,
+			boolean isRandFunction) {
 		switch (internToken.getInternTokenType()) {
 			case NUMBER:
 				String number = internToken.getTokenStringValue();
@@ -407,6 +413,9 @@ public class InternToExternGenerator {
 			case USER_DEFINED_BRICK_INPUT:
 				return "[" + internToken.getTokenStringValue() + "]";
 			case STRING:
+				if (isRandFunction) {
+					return internToken.getTokenStringValue();
+				}
 				return "\'" + internToken.getTokenStringValue() + "\'";
 			case COLLISION_FORMULA:
 				String collisionTag = CatroidApplication.getAppContext().getString(R.string

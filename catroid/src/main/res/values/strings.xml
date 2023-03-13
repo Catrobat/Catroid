@@ -1764,7 +1764,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_object_color">color</string>
     <string name="formula_editor_function_sqrt">square root</string>
     <string name="formula_editor_function_sqrt_parameter">(4)</string>
-    <string name="formula_editor_function_rand">random value from to</string>
+    <string name="formula_editor_function_rand">random value</string>
+    <string name="formula_editor_from">from</string>
+    <string name="formula_editor_to">to</string>
     <string name="formula_editor_function_rand_parameter">(1,6)</string>
     <string name="formula_editor_function_abs">absolute value</string>
     <string name="formula_editor_function_abs_parameter">(1)</string>

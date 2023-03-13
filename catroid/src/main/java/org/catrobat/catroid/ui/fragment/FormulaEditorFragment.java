@@ -164,7 +164,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 			getFragmentManager().popBackStack(FORMULA_EDITOR_FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			return;
 		}
-
 		formulaBrick = (FormulaBrick) getArguments().getSerializable(FORMULA_BRICK_BUNDLE_ARGUMENT);
 		currentFormulaField = (Brick.FormulaField) getArguments().getSerializable(FORMULA_FIELD_BUNDLE_ARGUMENT);
 		currentFormula = formulaBrick.getFormulaWithBrickField(currentFormulaField);

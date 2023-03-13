@@ -22,7 +22,9 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Scope;
@@ -184,6 +186,10 @@ public class FormulaElement implements Serializable {
 				addOperatorTokens(tokens, value);
 				break;
 			case FUNCTION:
+				if (Functions.RAND.name().equals(value)) {
+					addRandFunctionTokens(tokens, value, leftChild, rightChild);
+					break;
+				}
 				addFunctionTokens(tokens, value, leftChild, rightChild);
 				break;
 			case USER_VARIABLE:
@@ -252,6 +258,16 @@ public class FormulaElement implements Serializable {
 		if (functionHasParameters) {
 			addToken(tokens, FUNCTION_PARAMETERS_BRACKET_CLOSE);
 		}
+	}
+
+	private void addRandFunctionTokens(List<InternToken> tokens, String value,
+			FormulaElement leftChild, FormulaElement rightChild) {
+		addToken(tokens, FUNCTION_NAME, value);
+		addToken(tokens, STRING, CatroidApplication.getAppContext().getString(R.string.formula_editor_from));
+		tokens.addAll(leftChild.getInternTokenList());
+		addToken(tokens, STRING,
+				CatroidApplication.getAppContext().getString(R.string.formula_editor_to));
+		tokens.addAll(rightChild.getInternTokenList());
 	}
 
 	private void tryAddInternTokens(List<InternToken> tokens, FormulaElement child) {

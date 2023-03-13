@@ -38,6 +38,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 
+import static org.catrobat.catroid.formulaeditor.InternTokenType.STRING;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.number.IsCloseTo.closeTo;
 
@@ -95,12 +96,31 @@ public final class FormulaEditorTestUtil {
 	public static void testDoubleParameterFunction(Functions function, List<InternToken> firstInternTokenList,
 			List<InternToken> secondInternTokenList, Object expected, Scope testScope) {
 
-		List<InternToken> internTokenList = buildDoubleParameterFunction(function, firstInternTokenList,
-				secondInternTokenList);
-		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula(testScope);
-
+		FormulaElement parseTree;
+		List<InternToken> internTokenList;
+		if (function.name().equals("RAND")) {
+			internTokenList = buildRandFunction(firstInternTokenList, secondInternTokenList);
+		} else {
+			internTokenList = buildDoubleParameterFunction(function, firstInternTokenList,
+					secondInternTokenList);
+		}
+		parseTree = new InternFormulaParser(internTokenList).parseFormula(testScope);
 		assertNotNull(parseTree);
 		assertEquals(expected, parseTree.interpretRecursive(testScope));
+	}
+
+	public static List<InternToken> buildRandFunction(List<InternToken> firstInternTokenList,
+			List<InternToken> secondInternTokenList) {
+		List<InternToken> returnList = new LinkedList<>();
+
+		returnList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.RAND.name()));
+		returnList.add(new InternToken(STRING,
+				"from"));
+		returnList.addAll(firstInternTokenList);
+		returnList.add(new InternToken(STRING,
+				"to"));
+		returnList.addAll(secondInternTokenList);
+		return returnList;
 	}
 
 	public static List<InternToken> buildDoubleParameterFunction(Functions function, InternTokenType firstParameter,
