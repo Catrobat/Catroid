@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,36 +20,13 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.stage
 
-package org.catrobat.catroid.stage;
+class TestResult(var message: String, var resultCode: Int) {
 
-public class TestResult {
-
-	public static final int STAGE_ACTIVITY_TEST_SUCCESS = 7777;
-	public static final int STAGE_ACTIVITY_TEST_FAIL = 8888;
-	public static final String TEST_RESULT_MESSAGE = "ASSERTION_MESSAGE";
-
-	private String message;
-	private int resultCode;
-
-	public TestResult(String message, int resultCode) {
-		this.message = message;
-		this.resultCode = resultCode;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public int getResultCode() {
-		return resultCode;
-	}
-
-	public void setResultCode(int resultCode) {
-		this.resultCode = resultCode;
-	}
+    companion object {
+        const val STAGE_ACTIVITY_TEST_SUCCESS: Int = 7777
+        const val STAGE_ACTIVITY_TEST_FAIL: Int = 8888
+        const val TEST_RESULT_MESSAGE: String = "ASSERTION_MESSAGE"
+    }
 }
