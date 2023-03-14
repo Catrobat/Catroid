@@ -75,11 +75,11 @@ val componentsModules = module(createdAtStart = true, override = false) {
     factory { MobileServiceAvailability(get(), get()) }
 
     single {
-        DefaultFeaturedProjectSync(get(), get(), get()) as FeaturedProjectsSync
+        DefaultFeaturedProjectSync(get(), get(), get())
     }
 
     single {
-        DefaultProjectsCategoriesSync(get(), get(), get()) as ProjectsCategoriesSync
+        DefaultProjectsCategoriesSync(get(), get(), get())
     }
 }
 
