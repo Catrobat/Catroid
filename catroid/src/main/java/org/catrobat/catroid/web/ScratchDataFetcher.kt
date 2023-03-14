@@ -20,18 +20,23 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.web
 
-package org.catrobat.catroid.web;
+import org.catrobat.catroid.common.ScratchProgramData
+import org.catrobat.catroid.common.ScratchSearchResult
+import java.io.InterruptedIOException
 
-import org.catrobat.catroid.common.ScratchProgramData;
-import org.catrobat.catroid.common.ScratchSearchResult;
+interface ScratchDataFetcher {
+    @Throws(
+        WebconnectionException::class,
+        WebScratchProgramException::class,
+        InterruptedIOException::class
+    )
+    fun fetchScratchProgramDetails(programID: Long): ScratchProgramData?
 
-import java.io.InterruptedIOException;
+    @Throws(WebconnectionException::class, InterruptedIOException::class)
+    fun fetchDefaultScratchPrograms(): ScratchSearchResult?
 
-public interface ScratchDataFetcher {
-	ScratchProgramData fetchScratchProgramDetails(long programID)
-			throws WebconnectionException, WebScratchProgramException, InterruptedIOException;
-	ScratchSearchResult fetchDefaultScratchPrograms() throws WebconnectionException, InterruptedIOException;
-	ScratchSearchResult scratchSearch(String query, int numberOfItems, int pageNumber)
-			throws WebconnectionException, InterruptedIOException;
+    @Throws(WebconnectionException::class, InterruptedIOException::class)
+    fun scratchSearch(query: String?, numberOfItems: Int, pageNumber: Int): ScratchSearchResult?
 }
