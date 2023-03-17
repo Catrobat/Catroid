@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,19 +21,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.web;
+package org.catrobat.catroid.test.web
 
-public class Cookie {
+import org.catrobat.catroid.web.Cookie
+import org.junit.Assert.assertEquals
+import org.junit.Test
 
-	private String name;
-	private String value;
-
-	public Cookie(String name, String value) {
-		this.name = name;
-		this.value = value;
-	}
-
-	public String generateCookieString() {
-		return this.name + "=" + this.value;
-	}
+class CookieTest {
+    @Test
+    fun `test generateCookieString`() {
+        val cookie = Cookie("sessionID", "12345")
+        assertEquals("sessionID=12345", cookie.generateCookieString())
+    }
 }
