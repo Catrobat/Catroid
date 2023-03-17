@@ -20,20 +20,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.web
 
-package org.catrobat.catroid.web;
-
-public class Cookie {
-
-	private String name;
-	private String value;
-
-	public Cookie(String name, String value) {
-		this.name = name;
-		this.value = value;
-	}
-
-	public String generateCookieString() {
-		return this.name + "=" + this.value;
-	}
+class Cookie(private val name: String, private val value: String) {
+    fun generateCookieString(): String = "$name=$value"
 }
