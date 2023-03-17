@@ -34,6 +34,7 @@ import org.catrobat.catroid.retrofit.models.FeaturedProject
 import org.catrobat.catroid.retrofit.models.LoginResponse
 import org.catrobat.catroid.retrofit.models.LoginUser
 import org.catrobat.catroid.retrofit.models.OAuthLogin
+import org.catrobat.catroid.retrofit.models.ProjectResponse
 import org.catrobat.catroid.retrofit.models.ProjectsCategoryApi
 import org.catrobat.catroid.retrofit.models.RefreshToken
 import org.catrobat.catroid.retrofit.models.RegisterUser
@@ -112,6 +113,16 @@ interface WebService {
 
     @GET("projects/tags")
     fun getTags(): Call<List<Tag>>
+
+    @GET("projects/user")
+    fun getUserProjects(
+        @Header("Authorization") bearerToken: String,
+        @Query("max_version") maxVersion: String = CURRENT_CATROBAT_LANGUAGE_VERSION.toString(),
+        @Query("limit") limit: Int = 20,
+        @Query("offset") offset: Int = 0,
+        @Query("attributes") attributes: String = "id,name,description",
+        @Query("flavor") flavor: String = FLAVOR_NAME
+    ): Call<List<ProjectResponse>>
 }
 
 class CatroidWebServer private constructor() {

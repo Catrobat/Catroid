@@ -39,10 +39,17 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import android.widget.RadioGroup
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
+import com.google.android.material.textfield.TextInputLayout
 import com.google.common.base.Charsets
 import com.google.common.io.Files
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
@@ -56,12 +63,16 @@ import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask.ProjectLoadListener
 import org.catrobat.catroid.io.asynctask.renameProject
+import org.catrobat.catroid.retrofit.models.ProjectResponseApi
+import org.catrobat.catroid.transfers.GetUserProjectsTask
 import org.catrobat.catroid.transfers.TagsTask
 import org.catrobat.catroid.transfers.TokenTask
 import org.catrobat.catroid.transfers.project.ResultReceiverWrapper
 import org.catrobat.catroid.transfers.project.ResultReceiverWrapperInterface
 import org.catrobat.catroid.ui.controller.ProjectUploadController
 import org.catrobat.catroid.ui.controller.ProjectUploadController.ProjectUploadInterface
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.InputWatcher
 import org.catrobat.catroid.utils.FileMetaDataExtractor
 import org.catrobat.catroid.utils.NetworkConnectionMonitor
 import org.catrobat.catroid.utils.ToastUtil
@@ -127,6 +138,12 @@ open class ProjectUploadActivity : BaseActivity(),
     @JvmField
     protected var projectUploadController: ProjectUploadController? = null
 
+    private val getUserProjectsTask: GetUserProjectsTask by inject()
+
+    private var getUserProjectsJob: Job? = null
+
+    private var projectNamesOfUser: MutableList<String> = mutableListOf()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUploadBinding.inflate(layoutInflater)
@@ -141,6 +158,20 @@ open class ProjectUploadActivity : BaseActivity(),
 
         uploadResultReceiver = ResultReceiverWrapper(this, Handler())
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+
+        getUserProjectsTask.clear()
+        getUserProjectsTask.getUserProjectsResponse()
+            .observe(this) { getUserProjectsResponse ->
+                getUserProjectsResponse?.let {
+                    Log.d(TAG, "We got a response!")
+                    for(response in getUserProjectsResponse) {
+                        projectNamesOfUser.add(response.name)
+                    }
+                    Log.d(TAG, getUserProjectsResponse.toString())
+                } ?: run {
+                    Log.d(TAG, "We got no response, something failed")
+                }
+            }
 
         loadProjectActivity()
     }
@@ -163,6 +194,7 @@ open class ProjectUploadActivity : BaseActivity(),
         project = projectManager.currentProject
         projectUploadController = createProjectUploadController()
         verifyUserIdentity()
+        getAllUserProjects()
     }
 
     protected fun onCreateView() {
@@ -224,6 +256,7 @@ open class ProjectUploadActivity : BaseActivity(),
         if (uploadProgressDialog?.isShowing == true) {
             uploadProgressDialog?.dismiss()
         }
+        getUserProjectsJob?.cancel()
         super.onDestroy()
     }
 
@@ -289,6 +322,15 @@ open class ProjectUploadActivity : BaseActivity(),
                 binding.inputProjectDescription.isEnabled = false
                 setShowProgressBar(false)
                 return
+            }
+
+            if (projectNamesOfUser.contains(binding.inputProjectName.toString())) {
+                Log.e(TAG, "Name is not unique, show Overwrite Dialog!")
+                showOverwriteDialog()
+            }
+            else
+            {
+                Log.d(TAG, "Name is unique")
             }
 
             setScreen(notesAndCreditsScreen)
@@ -441,6 +483,65 @@ open class ProjectUploadActivity : BaseActivity(),
             }
             .setCancelable(false)
             .show()
+    }
+
+    private fun checkIfProjectNameAlreadyExists(name: String) : Boolean {
+        return projectNamesOfUser.contains(name)
+    }
+
+    private fun showOverwriteDialog() {
+        val view = View.inflate(this, R.layout.dialog_overwrite_project, null)
+        val radioGroup = view.findViewById<RadioGroup>(R.id.radio_group)
+        val inputLayout = view.findViewById<TextInputLayout>(R.id.input)
+
+        val textWatcher: InputWatcher.TextWatcher = object : InputWatcher.TextWatcher() {
+            override fun isNameUnique(name: String?): Boolean {
+                return name?.let { checkIfProjectNameAlreadyExists(it) } ?: true
+            }
+        }
+
+        val builder = TextInputDialog.Builder(this)
+            .setText(binding.inputProjectName.toString())
+            .setTextWatcher(textWatcher)
+            .setPositiveButton(
+                getString(R.string.ok),
+                TextInputDialog.OnClickListener {dialog: DialogInterface?, textInput: String? ->
+                    when (radioGroup.checkedRadioButtonId) {
+                        R.id.rename -> {
+                            if (textInput != null) {
+                                project.name = textInput
+                            }
+                        }
+                        R.id.replace -> {
+                            Log.d(TAG, "Project will be overwritten!")
+                        }
+                        else -> throw java.lang.IllegalStateException("Cannot find Radio Button")
+                    }
+                }
+            )
+        val alertDialog: AlertDialog = builder
+            .setTitle(R.string.overwrite_title)
+            .setView(view)
+            .setNegativeButton(R.string.cancel, null)
+            .create()
+
+        radioGroup.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener {group:
+        RadioGroup?, checkedId: Int ->
+            when (checkedId) {
+                R.id.replace -> {
+                    inputLayout.visibility = TextView.GONE
+                    inputLayout.editText.hideKeyboard()
+                    alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = true
+                }
+                R.id.rename -> {
+                    inputLayout.visibility = TextView.VISIBLE
+                    inputLayout.editText.showKeyboard()
+                    alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = textWatcher
+                        .validateInput(inputLayout.editText!!.text.toString(), this) == null
+                }
+            }
+        })
+        alertDialog.show()
     }
 
     private fun setScreen(screen: Boolean) {
@@ -680,6 +781,14 @@ open class ProjectUploadActivity : BaseActivity(),
         })
 
         tagsTask.getTags()
+    }
+
+    private fun getAllUserProjects() {
+        getUserProjectsJob = GlobalScope.launch(Dispatchers.Main) {
+            getUserProjectsTask.getProjectsFromUser(
+                sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN).orEmpty()
+            )
+        }
     }
 
     inner class NameInputTextWatcher : TextWatcher {

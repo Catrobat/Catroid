@@ -41,6 +41,7 @@ import org.catrobat.catroid.sync.DefaultFeaturedProjectSync
 import org.catrobat.catroid.sync.DefaultProjectsCategoriesSync
 import org.catrobat.catroid.sync.FeaturedProjectsSync
 import org.catrobat.catroid.sync.ProjectsCategoriesSync
+import org.catrobat.catroid.transfers.GetUserProjectsTask
 import org.catrobat.catroid.transfers.LoginViewModel
 import org.catrobat.catroid.transfers.OAuthTask
 import org.catrobat.catroid.transfers.RegistrationViewModel
@@ -96,6 +97,10 @@ val componentsModules = module(createdAtStart = true, override = false) {
 
     single {
         DefaultProjectsCategoriesSync(get(), get(), get()) as ProjectsCategoriesSync
+    }
+
+    single {
+        GetUserProjectsTask(get())
     }
 }
 
