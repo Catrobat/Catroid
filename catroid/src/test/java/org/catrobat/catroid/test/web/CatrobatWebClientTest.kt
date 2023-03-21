@@ -47,7 +47,7 @@ class CatrobatWebClientTest {
     val exception = ExpectedException.none()
     private lateinit var requestMock: Request
     private lateinit var clientMock: OkHttpClient
-    private var call: Call? = null
+    private lateinit var call: Call
     @Before
     fun setUp() {
         requestMock = PowerMockito.mock(Request::class.java)
