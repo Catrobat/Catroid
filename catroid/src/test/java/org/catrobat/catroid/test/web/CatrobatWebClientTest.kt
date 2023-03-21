@@ -46,7 +46,7 @@ class CatrobatWebClientTest {
     @Rule
     val exception = ExpectedException.none()
     private lateinit var requestMock: Request
-    private var clientMock: OkHttpClient? = null
+    private lateinit var clientMock: OkHttpClient
     private var call: Call? = null
     @Before
     fun setUp() {
