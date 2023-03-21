@@ -45,23 +45,23 @@ import java.io.IOException
 class CatrobatWebClientTest {
     @Rule
     val exception = ExpectedException.none()
-    private var requestMock: Request? = null
-    private var clientMock: OkHttpClient? = null
-    private var call: Call? = null
+    private lateinit var requestMock: Request
+    private lateinit var clientMock: OkHttpClient
+    private lateinit var call: Call
     @Before
     fun setUp() {
         requestMock = PowerMockito.mock(Request::class.java)
         clientMock = Mockito.mock(OkHttpClient::class.java)
         call = Mockito.mock(Call::class.java)
-        Mockito.`when`(clientMock!!.newCall(requestMock)).thenReturn(call)
+        Mockito.`when`(clientMock.newCall(requestMock)).thenReturn(call)
     }
 
     @Test
     @Throws(WebconnectionException::class, IOException::class)
     fun testThrowsExceptionWhenConnectionFails() {
-        Mockito.`when`(call!!.execute()).thenThrow(IOException())
+        Mockito.`when`(call.execute()).thenThrow(IOException())
         exception.expect(WebconnectionException::class.java)
-        clientMock!!.performCallWith(requestMock!!)
+        clientMock.performCallWith(requestMock)
     }
 
     @Test
@@ -69,9 +69,9 @@ class CatrobatWebClientTest {
     fun testThrowsExceptionWhenResponseBodyIsNull() {
         val response = PowerMockito.mock(Response::class.java)
         Mockito.`when`(response.message()).thenReturn("")
-        Mockito.`when`(call!!.execute()).thenReturn(response)
+        Mockito.`when`(call.execute()).thenReturn(response)
         exception.expect(WebconnectionException::class.java)
-        clientMock!!.performCallWith(requestMock!!)
+        clientMock.performCallWith(requestMock)
     }
 
     @Test
@@ -79,12 +79,12 @@ class CatrobatWebClientTest {
     fun testThrowsExceptionWhenResponseBodyIsInvalid() {
         val response = PowerMockito.mock(Response::class.java)
         Mockito.`when`(response.message()).thenReturn("")
-        Mockito.`when`(call!!.execute()).thenReturn(response)
+        Mockito.`when`(call.execute()).thenReturn(response)
         val body = PowerMockito.mock(ResponseBody::class.java)
         Mockito.`when`(response.body()).thenReturn(body)
         PowerMockito.`when`(body.string()).thenThrow(IOException())
         exception.expect(WebconnectionException::class.java)
-        clientMock!!.performCallWith(requestMock!!)
+        clientMock.performCallWith(requestMock)
     }
 
     @Test
@@ -92,11 +92,11 @@ class CatrobatWebClientTest {
     fun testValidRun() {
         val response = PowerMockito.mock(Response::class.java)
         Mockito.`when`(response.isSuccessful).thenReturn(true)
-        Mockito.`when`(call!!.execute()).thenReturn(response)
+        Mockito.`when`(call.execute()).thenReturn(response)
         val body = PowerMockito.mock(ResponseBody::class.java)
         Mockito.`when`(response.body()).thenReturn(body)
         PowerMockito.`when`(body.string()).thenReturn("valid")
-        clientMock!!.performCallWith(requestMock!!)
-        Mockito.verify(clientMock, Mockito.times(1))!!.newCall(requestMock)
+        clientMock.performCallWith(requestMock!!)
+        Mockito.verify(clientMock, Mockito.times(1)).newCall(requestMock)
     }
 }
