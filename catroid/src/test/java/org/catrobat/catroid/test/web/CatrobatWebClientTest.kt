@@ -45,7 +45,7 @@ import java.io.IOException
 class CatrobatWebClientTest {
     @Rule
     val exception = ExpectedException.none()
-    private var requestMock: Request? = null
+    private lateinit var requestMock: Request
     private var clientMock: OkHttpClient? = null
     private var call: Call? = null
     @Before
