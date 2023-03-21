@@ -53,7 +53,7 @@ class CatrobatWebClientTest {
         requestMock = PowerMockito.mock(Request::class.java)
         clientMock = Mockito.mock(OkHttpClient::class.java)
         call = Mockito.mock(Call::class.java)
-        Mockito.`when`(clientMock!!.newCall(requestMock)).thenReturn(call)
+        Mockito.`when`(clientMock.newCall(requestMock)).thenReturn(call)
     }
 
     @Test
