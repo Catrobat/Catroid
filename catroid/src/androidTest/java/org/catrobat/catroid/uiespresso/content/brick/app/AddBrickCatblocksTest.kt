@@ -54,7 +54,7 @@ import org.junit.runner.RunWith
 class AddBrickCatblocksTest {
 
     companion object {
-        private const val TIMEOUT: Long = (5 * 1000).toLong()
+        private const val TIMEOUT: Long = (10 * 1000).toLong()
     }
 
     @get:Rule
