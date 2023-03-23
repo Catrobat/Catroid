@@ -1,3 +1,4 @@
+
 /*
  * Catroid: An on-device visual programming system for Android devices
  * Copyright (C) 2010-2022 The Catrobat Team
@@ -59,7 +60,7 @@ class CatrobatWebClientTest {
     @Test
     @Throws(WebconnectionException::class, IOException::class)
     fun testThrowsExceptionWhenConnectionFails() {
-        Mockito.`when`(call.execute()).thenThrow(IOException())
+        Mockito.`when`(call.execute()).thenThrow(IOException("Connection Failed"))
         exception.expect(WebconnectionException::class.java)
         clientMock.performCallWith(requestMock)
     }
@@ -82,7 +83,7 @@ class CatrobatWebClientTest {
         Mockito.`when`(call.execute()).thenReturn(response)
         val body = PowerMockito.mock(ResponseBody::class.java)
         Mockito.`when`(response.body()).thenReturn(body)
-        PowerMockito.`when`(body.string()).thenThrow(IOException())
+        PowerMockito.`when`(body.string()).thenThrow(IOException("Connection Failed"))
         exception.expect(WebconnectionException::class.java)
         clientMock.performCallWith(requestMock)
     }
