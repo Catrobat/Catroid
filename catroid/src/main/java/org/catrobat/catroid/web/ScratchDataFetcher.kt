@@ -1,3 +1,4 @@
+
 /*
  * Catroid: An on-device visual programming system for Android devices
  * Copyright (C) 2010-2022 The Catrobat Team
