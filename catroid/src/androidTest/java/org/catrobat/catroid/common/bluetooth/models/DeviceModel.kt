@@ -20,14 +20,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.common.bluetooth.models;
+package org.catrobat.catroid.common.bluetooth.models
 
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.DataInputStream
+import java.io.IOException
+import java.io.OutputStream
+import kotlin.Throws
 
-public interface DeviceModel {
-
-	void start(DataInputStream inStream, OutputStream outStream) throws IOException;
-	void stop();
+interface DeviceModel {
+    @Throws(IOException::class)
+    fun start(inStream: DataInputStream?, outStream: OutputStream?)
+    fun stop()
 }

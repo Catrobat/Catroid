@@ -20,158 +20,159 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.common.bluetooth;
+package org.catrobat.catroid.common.bluetooth
 
-import com.google.common.base.Stopwatch;
+import androidx.annotation.VisibleForTesting
+import com.google.common.base.Stopwatch
+import org.catrobat.catroid.common.bluetooth.BluetoothTestUtils.getSubArray
+import org.catrobat.catroid.common.bluetooth.BluetoothTestUtils.hookInConnection
+import org.catrobat.catroid.common.bluetooth.BluetoothTestUtils.hookInConnectionFactoryWithBluetoothConnectionProxy
+import org.catrobat.catroid.common.bluetooth.BluetoothTestUtils.resetConnectionHooks
+import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger
+import org.catrobat.catroid.common.bluetooth.BluetoothTestUtils
+import org.catrobat.catroid.bluetooth.base.BluetoothConnection
+import org.catrobat.catroid.common.bluetooth.BluetoothLogger
+import org.catrobat.catroid.common.bluetooth.LocalConnectionProxy
+import java.util.ArrayList
+import java.util.concurrent.BlockingQueue
+import java.util.concurrent.LinkedBlockingQueue
+import java.util.concurrent.TimeUnit
 
-import org.catrobat.catroid.bluetooth.base.BluetoothConnection;
+class ConnectionDataLogger private constructor(local: Boolean) {
+    private val sentMessages: BlockingQueue<ByteArray?> = LinkedBlockingQueue()
+    private val receivedMessages: BlockingQueue<ByteArray?> = LinkedBlockingQueue()
+    private var timeoutMilliSeconds = 15000
+    @VisibleForTesting
+    fun setTimeoutMilliSeconds(timeoutMilliSeconds: Int) {
+        this.timeoutMilliSeconds = timeoutMilliSeconds
+    }
 
-import java.util.ArrayList;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
+    val nextSentMessage: ByteArray?
+        get() = getNextSentMessage(0, 0)
 
-import androidx.annotation.VisibleForTesting;
+    fun getNextSentMessage(messageOffset: Int, messageByteOffset: Int): ByteArray? {
+        return getNextMessage(sentMessages, messageOffset, messageByteOffset)
+    }
 
-public final class ConnectionDataLogger {
+    fun getSentMessages(messageCountToWaitFor: Int): ArrayList<ByteArray?> {
+        return getSentMessages(0, messageCountToWaitFor)
+    }
 
-	private BlockingQueue<byte[]> sentMessages = new LinkedBlockingQueue<byte[]>();
-	private BlockingQueue<byte[]> receivedMessages = new LinkedBlockingQueue<byte[]>();
+    fun getSentMessages(messageByteOffset: Int, messageCountToWaitFor: Int): ArrayList<ByteArray?> {
+        return getMessages(sentMessages, messageByteOffset, messageCountToWaitFor)
+    }
 
-	private int timeoutMilliSeconds = 15000;
+    private fun getNextMessage(
+        messages: BlockingQueue<ByteArray?>,
+        messageOffset: Int,
+        messageByteOffset: Int
+    ): ByteArray? {
+        val stopWatch = Stopwatch.createStarted()
+        for (i in 0 until messageOffset) {
+            val message = pollMessage(
+                messages,
+                timeoutMilliSeconds - stopWatch.elapsed(TimeUnit.MILLISECONDS)
+                    .toInt()
+            )
+                ?: return null
+        }
+        val message = pollMessage(
+            messages,
+            timeoutMilliSeconds - stopWatch.elapsed(TimeUnit.MILLISECONDS)
+                .toInt()
+        )
+            ?: return null
+        return getSubArray(message, messageByteOffset)
+    }
 
-	@VisibleForTesting
-	public void setTimeoutMilliSeconds(int timeoutMilliSeconds) {
-		this.timeoutMilliSeconds = timeoutMilliSeconds;
-	}
+    private fun getMessages(
+        messages: BlockingQueue<ByteArray?>,
+        messageByteOffset: Int,
+        messageCountToWaitFor: Int
+    ): ArrayList<ByteArray?> {
+        return if (messageCountToWaitFor == 0) {
+            getMessages(messages, messageByteOffset)
+        } else waitForMessages(messages, messageByteOffset, messageCountToWaitFor)
+    }
 
-	public byte[] getNextSentMessage() {
-		return getNextSentMessage(0, 0);
-	}
+    private fun waitForMessages(
+        messages: BlockingQueue<ByteArray?>,
+        messageByteOffset: Int,
+        messageCountToWaitFor: Int
+    ): ArrayList<ByteArray?> {
+        val m = ArrayList<ByteArray?>()
+        val stopWatch = Stopwatch.createStarted()
+        do {
+            val message = pollMessage(
+                messages,
+                timeoutMilliSeconds - stopWatch.elapsed(TimeUnit.MILLISECONDS)
+                    .toInt()
+            )
+                ?: return m
+            m.add(getSubArray(message, messageByteOffset))
+        } while (m.size < messageCountToWaitFor && stopWatch.elapsed(TimeUnit.MILLISECONDS) < timeoutMilliSeconds)
+        return m
+    }
 
-	public byte[] getNextSentMessage(int messageOffset, int messageByteOffset) {
-		return getNextMessage(sentMessages, messageOffset, messageByteOffset);
-	}
+    var connectionProxy: BluetoothConnection? = null
+        private set
+    val logger: BluetoothLogger = object : BluetoothLogger {
+        override fun logSentData(b: ByteArray?) {
+            sentMessages.add(b)
+        }
 
-	public ArrayList<byte[]> getSentMessages(int messageCountToWaitFor) {
-		return getSentMessages(0, messageCountToWaitFor);
-	}
+        override fun logReceivedData(b: ByteArray?) {
+            receivedMessages.add(b)
+        }
 
-	public ArrayList<byte[]> getSentMessages(int messageByteOffset, int messageCountToWaitFor) {
-		return getMessages(sentMessages, messageByteOffset, messageCountToWaitFor);
-	}
+        override fun loggerAttached(proxy: BluetoothConnection?) {
+            connectionProxy = proxy
+        }
+    }
 
-	private byte[] getNextMessage(BlockingQueue<byte[]> messages, int messageOffset, int messageByteOffset) {
+    init {
+        if (local) {
+            connectionProxy = LocalConnectionProxy(logger)
+            hookInConnection(connectionProxy as LocalConnectionProxy)
+        } else {
+            hookInConnectionFactoryWithBluetoothConnectionProxy(logger)
+        }
+    }
 
-		Stopwatch stopWatch = Stopwatch.createStarted();
+    fun disconnectAndDestroy() {
+        if (connectionProxy != null) {
+            connectionProxy!!.disconnect()
+        }
+        resetConnectionHooks()
+    }
 
-		for (int i = 0; i < messageOffset; i++) {
-			byte[] message = pollMessage(messages, timeoutMilliSeconds - (int) stopWatch.elapsed(TimeUnit.MILLISECONDS));
-			if (message == null) {
-				return null;
-			}
-		}
+    companion object {
+        private fun getMessages(
+            messages: BlockingQueue<ByteArray?>,
+            messageByteOffset: Int
+        ): ArrayList<ByteArray?> {
+            val m = ArrayList<ByteArray?>()
+            var message: ByteArray? = null
+            while (messages.poll().also { message = it } != null) {
+                m.add(getSubArray(message, messageByteOffset))
+            }
+            return m
+        }
 
-		byte[] message = pollMessage(messages, timeoutMilliSeconds - (int) stopWatch.elapsed(TimeUnit.MILLISECONDS));
-		if (message == null) {
-			return null;
-		}
+        private fun pollMessage(
+            messages: BlockingQueue<ByteArray?>,
+            timeoutMilliSeconds: Int
+        ): ByteArray? {
+            return try {
+                messages.poll(timeoutMilliSeconds.toLong(), TimeUnit.MILLISECONDS)
+            } catch (e: InterruptedException) {
+                null
+            }
+        }
 
-		return BluetoothTestUtils.getSubArray(message, messageByteOffset);
-	}
-
-	private ArrayList<byte[]> getMessages(BlockingQueue<byte[]> messages, int messageByteOffset, int messageCountToWaitFor) {
-
-		if (messageCountToWaitFor == 0) {
-			return getMessages(messages, messageByteOffset);
-		}
-
-		return waitForMessages(messages, messageByteOffset, messageCountToWaitFor);
-	}
-
-	private ArrayList<byte[]> waitForMessages(BlockingQueue<byte[]> messages, int messageByteOffset, int messageCountToWaitFor) {
-
-		ArrayList<byte[]> m = new ArrayList<byte[]>();
-		Stopwatch stopWatch = Stopwatch.createStarted();
-
-		do {
-			byte[] message = pollMessage(messages, timeoutMilliSeconds - (int) stopWatch.elapsed(TimeUnit.MILLISECONDS));
-			if (message == null) {
-				return m;
-			}
-			m.add(BluetoothTestUtils.getSubArray(message, messageByteOffset));
-		} while (m.size() < messageCountToWaitFor && stopWatch.elapsed(TimeUnit.MILLISECONDS) < timeoutMilliSeconds);
-
-		return m;
-	}
-
-	private static ArrayList<byte[]> getMessages(BlockingQueue<byte[]> messages, int messageByteOffset) {
-
-		ArrayList<byte[]> m = new ArrayList<byte[]>();
-
-		byte[] message = null;
-		while ((message = messages.poll()) != null) {
-			m.add(BluetoothTestUtils.getSubArray(message, messageByteOffset));
-		}
-
-		return m;
-	}
-
-	private static byte[] pollMessage(BlockingQueue<byte[]> messages, int timeoutMilliSeconds) {
-
-		try {
-			return messages.poll(timeoutMilliSeconds, TimeUnit.MILLISECONDS);
-		} catch (InterruptedException e) {
-			return null;
-		}
-	}
-
-	private BluetoothConnection connectionProxy;
-
-	private BluetoothLogger logger = new BluetoothLogger() {
-
-		@Override
-		public void logSentData(byte[] b) {
-			sentMessages.add(b);
-		}
-
-		@Override
-		public void logReceivedData(byte[] b) {
-			receivedMessages.add(b);
-		}
-
-		@Override
-		public void loggerAttached(BluetoothConnection proxy) {
-			connectionProxy = proxy;
-		}
-	};
-
-	private ConnectionDataLogger(boolean local) {
-		if (local) {
-			connectionProxy = new LocalConnectionProxy(logger);
-			BluetoothTestUtils.hookInConnection(connectionProxy);
-		} else {
-			BluetoothTestUtils.hookInConnectionFactoryWithBluetoothConnectionProxy(logger);
-		}
-	}
-
-	public static ConnectionDataLogger createLocalConnectionLogger() {
-		return new ConnectionDataLogger(true);
-	}
-
-	public void disconnectAndDestroy() {
-		if (connectionProxy != null) {
-			connectionProxy.disconnect();
-		}
-
-		BluetoothTestUtils.resetConnectionHooks();
-	}
-
-	public BluetoothConnection getConnectionProxy() {
-		return connectionProxy;
-	}
-
-	BluetoothLogger getLogger() {
-		return logger;
-	}
+        @JvmStatic
+		fun createLocalConnectionLogger(): ConnectionDataLogger {
+            return ConnectionDataLogger(true)
+        }
+    }
 }

@@ -20,47 +20,46 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.common.bluetooth;
+package org.catrobat.catroid.common.bluetooth
 
-import java.io.IOException;
-import java.io.OutputStream;
+import org.catrobat.catroid.common.bluetooth.BluetoothTestUtils.getSubArray
+import org.catrobat.catroid.common.bluetooth.BluetoothTestUtils.intToByteArray
+import org.catrobat.catroid.common.bluetooth.BluetoothLogger
+import kotlin.Throws
+import org.catrobat.catroid.common.bluetooth.BluetoothTestUtils
+import java.io.IOException
+import java.io.OutputStream
 
-class ObservedOutputStream extends OutputStream {
+internal class ObservedOutputStream(
+    private val outputStream: OutputStream,
+    private val logger: BluetoothLogger
+) : OutputStream() {
+    @Throws(IOException::class)
+    override fun write(buffer: ByteArray) {
+        outputStream.write(buffer)
+        logger.logSentData(buffer)
+    }
 
-	private final OutputStream outputStream;
-	private final BluetoothLogger logger;
+    @Throws(IOException::class)
+    override fun write(buffer: ByteArray, offset: Int, count: Int) {
+        outputStream.write(buffer, offset, count)
+        logger.logSentData(getSubArray(buffer, offset, count))
+    }
 
-	ObservedOutputStream(OutputStream outputStream, BluetoothLogger logger) {
-		this.outputStream = outputStream;
-		this.logger = logger;
-	}
+    @Throws(IOException::class)
+    override fun write(i: Int) {
+        outputStream.write(i)
+        logger.logSentData(intToByteArray(i))
+    }
 
-	@Override
-	public void write(byte[] buffer) throws IOException {
-		outputStream.write(buffer);
-		logger.logSentData(buffer);
-	}
+    @Throws(IOException::class)
+    override fun flush() {
+        outputStream.flush()
+    }
 
-	@Override
-	public void write(byte[] buffer, int offset, int count) throws IOException {
-		outputStream.write(buffer, offset, count);
-		logger.logSentData(BluetoothTestUtils.getSubArray(buffer, offset, count));
-	}
-
-	@Override
-	public void write(int i) throws IOException {
-		outputStream.write(i);
-		logger.logSentData(BluetoothTestUtils.intToByteArray(i));
-	}
-
-	@Override
-	public void flush() throws IOException {
-		outputStream.flush();
-	}
-
-	@Override
-	public void close() throws IOException {
-		super.close();
-		outputStream.close();
-	}
+    @Throws(IOException::class)
+    override fun close() {
+        super.close()
+        outputStream.close()
+    }
 }

@@ -20,12 +20,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.common.bluetooth;
+package org.catrobat.catroid.common.bluetooth
 
-import org.catrobat.catroid.bluetooth.base.BluetoothConnection;
+import org.catrobat.catroid.bluetooth.base.BluetoothConnection
 
 interface BluetoothLogger {
-	void logSentData(byte[] b);
-	void logReceivedData(byte[] b);
-	void loggerAttached(BluetoothConnection proxy);
+    fun logSentData(b: ByteArray?)
+    fun logReceivedData(b: ByteArray?)
+    fun loggerAttached(proxy: BluetoothConnection?)
 }

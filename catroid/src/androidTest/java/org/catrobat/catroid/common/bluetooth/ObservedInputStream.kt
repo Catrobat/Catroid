@@ -20,45 +20,44 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.common.bluetooth;
+package org.catrobat.catroid.common.bluetooth
 
-import java.io.IOException;
-import java.io.InputStream;
+import org.catrobat.catroid.common.bluetooth.BluetoothTestUtils.intToByteArray
+import org.catrobat.catroid.common.bluetooth.BluetoothTestUtils.getSubArray
+import org.catrobat.catroid.common.bluetooth.BluetoothLogger
+import kotlin.Throws
+import org.catrobat.catroid.common.bluetooth.BluetoothTestUtils
+import java.io.IOException
+import java.io.InputStream
 
-class ObservedInputStream extends InputStream {
-	private final BluetoothLogger logger;
-	private final InputStream inputStream;
+internal class ObservedInputStream(
+    private val inputStream: InputStream,
+    private val logger: BluetoothLogger
+) : InputStream() {
+    @Throws(IOException::class)
+    override fun read(): Int {
+        val readByte = inputStream.read()
+        logger.logReceivedData(intToByteArray(readByte))
+        return readByte
+    }
 
-	ObservedInputStream(InputStream inputStream, BluetoothLogger logger) {
-		this.inputStream = inputStream;
-		this.logger = logger;
-	}
+    @Throws(IOException::class)
+    override fun read(buffer: ByteArray): Int {
+        val numOfReadBytes = inputStream.read(buffer)
+        logger.logReceivedData(buffer)
+        return numOfReadBytes
+    }
 
-	@Override
-	public int read() throws IOException {
-		int readByte = inputStream.read();
-		logger.logReceivedData(BluetoothTestUtils.intToByteArray(readByte));
+    @Throws(IOException::class)
+    override fun read(buffer: ByteArray, byteOffset: Int, byteCount: Int): Int {
+        val numOfReadBytes = inputStream.read(buffer, byteOffset, byteCount)
+        logger.logReceivedData(getSubArray(buffer, byteOffset, byteCount))
+        return numOfReadBytes
+    }
 
-		return readByte;
-	}
-
-	@Override
-	public int read(byte[] buffer) throws IOException {
-		int numOfReadBytes = inputStream.read(buffer);
-		logger.logReceivedData(buffer);
-		return numOfReadBytes;
-	}
-
-	@Override
-	public int read(byte[] buffer, int byteOffset, int byteCount) throws IOException {
-		int numOfReadBytes = inputStream.read(buffer, byteOffset, byteCount);
-		logger.logReceivedData(BluetoothTestUtils.getSubArray(buffer, byteOffset, byteCount));
-		return numOfReadBytes;
-	}
-
-	@Override
-	public void close() throws IOException {
-		super.close();
-		inputStream.close();
-	}
+    @Throws(IOException::class)
+    override fun close() {
+        super.close()
+        inputStream.close()
+    }
 }

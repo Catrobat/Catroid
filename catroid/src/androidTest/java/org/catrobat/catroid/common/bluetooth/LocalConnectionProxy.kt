@@ -20,112 +20,105 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.common.bluetooth;
+package org.catrobat.catroid.common.bluetooth
 
-import android.bluetooth.BluetoothSocket;
-import android.util.Log;
+import org.catrobat.catroid.bluetooth.base.BluetoothConnection
+import org.catrobat.catroid.common.bluetooth.ModelRunner
+import org.catrobat.catroid.common.bluetooth.BluetoothLogger
+import org.catrobat.catroid.common.bluetooth.ObservedInputStream
+import kotlin.Throws
+import org.catrobat.catroid.common.bluetooth.ObservedOutputStream
+import org.catrobat.catroid.common.bluetooth.models.DeviceModel
+import android.bluetooth.BluetoothSocket
+import android.util.Log
+import junit.framework.Assert
+import org.catrobat.catroid.common.bluetooth.LocalConnectionProxy
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
+import java.io.PipedInputStream
+import java.io.PipedOutputStream
 
-import junit.framework.Assert;
+internal class LocalConnectionProxy : BluetoothConnection {
+    private var observedInputStream: InputStream? = null
+    private var observedOutputStream: OutputStream? = null
+    private var connectionState = BluetoothConnection.State.NOT_CONNECTED
+    private var modelRunner: ModelRunner? = null
 
-import org.catrobat.catroid.bluetooth.base.BluetoothConnection;
-import org.catrobat.catroid.common.bluetooth.models.DeviceModel;
+    constructor(logger: BluetoothLogger) {
+        observedInputStream = ObservedInputStream(object : InputStream() {
+            @Throws(IOException::class)
+            override fun read(): Int {
+                return 0
+            }
+        }, logger)
+        observedOutputStream = ObservedOutputStream(object : OutputStream() {
+            @Throws(IOException::class)
+            override fun write(i: Int) {
+            }
+        }, logger)
+        logger.loggerAttached(this)
+    }
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
+    constructor(logger: BluetoothLogger?, deviceModel: DeviceModel?) {
+        val serverInputStreamFromClientsOutputStream = PipedInputStream()
+        val serverOutputStreamToClientsInputStream = PipedOutputStream()
+        val pipedInputStreamForClient = PipedInputStream()
+        val pipedOutputStreamForClient = PipedOutputStream()
+        try {
+            serverInputStreamFromClientsOutputStream.connect(pipedOutputStreamForClient)
+            serverOutputStreamToClientsInputStream.connect(pipedInputStreamForClient)
+            observedInputStream = ObservedInputStream(pipedInputStreamForClient, logger)
+            observedOutputStream = ObservedOutputStream(pipedOutputStreamForClient, logger)
+            modelRunner = ModelRunner(
+                deviceModel,
+                serverInputStreamFromClientsOutputStream,
+                serverOutputStreamToClientsInputStream
+            )
+            modelRunner!!.start()
+        } catch (e: IOException) {
+            Assert.fail("Error with ConnectionProxy Stream pipes.")
+        }
+    }
 
-class LocalConnectionProxy implements BluetoothConnection {
+    override fun connect(): BluetoothConnection.State {
+        connectionState = BluetoothConnection.State.CONNECTED
+        return connectionState
+    }
 
-	public static final String TAG = LocalConnectionProxy.class.getSimpleName();
+    override fun connectSocket(socket: BluetoothSocket): BluetoothConnection.State {
+        connectionState = BluetoothConnection.State.CONNECTED
+        return connectionState
+    }
 
-	private InputStream observedInputStream;
-	private OutputStream observedOutputStream;
+    override fun disconnect() {
+        try {
+            observedOutputStream!!.close()
+            observedInputStream!!.close()
+        } catch (e: IOException) {
+            Log.e(TAG, "Error on disconnect while closing streams")
+        }
+        if (modelRunner != null) {
+            modelRunner!!.stopModelRunner()
+        }
+        connectionState = BluetoothConnection.State.NOT_CONNECTED
+    }
 
-	private State connectionState = State.NOT_CONNECTED;
-	private ModelRunner modelRunner;
+    @Throws(IOException::class)
+    override fun getInputStream(): InputStream {
+        return observedInputStream!!
+    }
 
-	LocalConnectionProxy(BluetoothLogger logger) {
+    @Throws(IOException::class)
+    override fun getOutputStream(): OutputStream {
+        return observedOutputStream!!
+    }
 
-		observedInputStream = new ObservedInputStream(new InputStream() {
-			@Override
-			public int read() throws IOException {
-				return 0;
-			}
-		}, logger);
+    override fun getState(): BluetoothConnection.State {
+        return connectionState
+    }
 
-		observedOutputStream = new ObservedOutputStream(new OutputStream() {
-			@Override
-			public void write(int i) throws IOException {
-			}
-		}, logger);
-
-		logger.loggerAttached(this);
-	}
-
-	LocalConnectionProxy(BluetoothLogger logger, DeviceModel deviceModel) {
-
-		PipedInputStream serverInputStreamFromClientsOutputStream = new PipedInputStream();
-		PipedOutputStream serverOutputStreamToClientsInputStream = new PipedOutputStream();
-
-		PipedInputStream pipedInputStreamForClient = new PipedInputStream();
-		PipedOutputStream pipedOutputStreamForClient = new PipedOutputStream();
-
-		try {
-			serverInputStreamFromClientsOutputStream.connect(pipedOutputStreamForClient);
-			serverOutputStreamToClientsInputStream.connect(pipedInputStreamForClient);
-
-			observedInputStream = new ObservedInputStream(pipedInputStreamForClient, logger);
-			observedOutputStream = new ObservedOutputStream(pipedOutputStreamForClient, logger);
-
-			modelRunner = new ModelRunner(deviceModel, serverInputStreamFromClientsOutputStream, serverOutputStreamToClientsInputStream);
-			modelRunner.start();
-		} catch (IOException e) {
-			Assert.fail("Error with ConnectionProxy Stream pipes.");
-		}
-	}
-
-	@Override
-	public BluetoothConnection.State connect() {
-		connectionState = BluetoothConnection.State.CONNECTED;
-		return connectionState;
-	}
-
-	@Override
-	public BluetoothConnection.State connectSocket(BluetoothSocket socket) {
-		connectionState = BluetoothConnection.State.CONNECTED;
-		return connectionState;
-	}
-
-	@Override
-	public void disconnect() {
-		try {
-			observedOutputStream.close();
-			observedInputStream.close();
-		} catch (IOException e) {
-			Log.e(TAG, "Error on disconnect while closing streams");
-		}
-
-		if (modelRunner != null) {
-			modelRunner.stopModelRunner();
-		}
-
-		connectionState = State.NOT_CONNECTED;
-	}
-
-	@Override
-	public InputStream getInputStream() throws IOException {
-		return observedInputStream;
-	}
-
-	@Override
-	public OutputStream getOutputStream() throws IOException {
-		return observedOutputStream;
-	}
-
-	@Override
-	public BluetoothConnection.State getState() {
-		return connectionState;
-	}
+    companion object {
+        val TAG = LocalConnectionProxy::class.java.simpleName
+    }
 }

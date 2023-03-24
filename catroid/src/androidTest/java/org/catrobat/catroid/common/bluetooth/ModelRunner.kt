@@ -20,49 +20,48 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.common.bluetooth;
+package org.catrobat.catroid.common.bluetooth
 
-import android.util.Log;
+import android.util.Log
+import org.catrobat.catroid.common.bluetooth.models.DeviceModel
+import org.catrobat.catroid.common.bluetooth.ModelRunner
+import java.io.DataInputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
 
-import org.catrobat.catroid.common.bluetooth.models.DeviceModel;
+internal class ModelRunner(
+    private val model: DeviceModel,
+    inStream: InputStream?,
+    outStream: OutputStream
+) : Thread() {
+    private val inStream: DataInputStream
+    private val outStream: OutputStream
 
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+    init {
+        this.inStream = DataInputStream(inStream)
+        this.outStream = outStream
+    }
 
-class ModelRunner extends Thread {
+    override fun run() {
+        try {
+            model.start(inStream, outStream)
+        } catch (e: IOException) {
+            Log.e(TAG, "Model execution terminated, Input or Output stream was closed.")
+        }
+    }
 
-	public static final String TAG = ModelRunner.class.getSimpleName();
+    fun stopModelRunner() {
+        try {
+            model.stop()
+            outStream.close()
+            inStream.close()
+        } catch (e: IOException) {
+            Log.e(TAG, "An error occurred on stopping model.")
+        }
+    }
 
-	private DataInputStream inStream;
-	private OutputStream outStream;
-	private DeviceModel model;
-
-	ModelRunner(DeviceModel model, InputStream inStream, OutputStream outStream) {
-
-		this.model = model;
-
-		this.inStream = new DataInputStream(inStream);
-		this.outStream = outStream;
-	}
-
-	@Override
-	public void run() {
-		try {
-			model.start(inStream, outStream);
-		} catch (IOException e) {
-			Log.e(TAG, "Model execution terminated, Input or Output stream was closed.");
-		}
-	}
-
-	public void stopModelRunner() {
-		try {
-			model.stop();
-			outStream.close();
-			inStream.close();
-		} catch (IOException e) {
-			Log.e(TAG, "An error occurred on stopping model.");
-		}
-	}
+    companion object {
+        val TAG = ModelRunner::class.java.simpleName
+    }
 }

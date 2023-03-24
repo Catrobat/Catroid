@@ -20,378 +20,316 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package org.catrobat.catroid.common.bluetooth.models;
-
-import org.catrobat.catroid.devices.mindstorms.nxt.CommandByte;
-import org.catrobat.catroid.devices.mindstorms.nxt.CommandType;
-import org.catrobat.catroid.devices.mindstorms.nxt.NXTError;
-import org.catrobat.catroid.devices.mindstorms.nxt.NXTReply;
-
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Random;
-
-public class MindstormsNXTTestModel implements DeviceModel {
-	private boolean isRunning = true;
-	private static final byte SHOULD_REPLY = 0x0;
-	private static final byte NO_ERROR = 0x0;
-	private Random random = new Random(System.currentTimeMillis());
-	private byte[] batteryValue = {getRandomByte(256), getRandomByte(256)};
-	private byte[] keepAliveTime = {getRandomByte(256), getRandomByte(256), getRandomByte(256), getRandomByte(256)};
-
-	private byte[] portSensorType = {0, 0, 0, 0};
-	private byte[] portSensorMode = {0, 0, 0, 0};
-
-	private byte[] sensorValue = {getRandomByte(256), getRandomByte(256)};
-
-	private byte ultrasonicSensorBytesReady = 0;
-
-	protected byte[] createResponseFromClientRequest(byte[] message) {
-		byte commandType = message[0];
-		byte commandByte = message[1];
-
-		switch (CommandByte.getTypeByValue(commandByte)) {
-			case SET_INPUT_MODE:
-				return handleSetInputModeMessage(message, commandType);
-
-			case GET_INPUT_VALUES:
-				return handleGetInputValuesMessage(message, commandType);
-
-			case RESET_INPUT_SCALED_VALUE:
-				return handleResetInputScaledValueMessage(message, commandType);
-
-			case LS_WRITE:
-				return handleLsWriteMessage(message, commandType);
-
-			case LS_GET_STATUS:
-				return handleLsGetStatusMessage(message, commandType);
-
-			case LS_READ:
-				return handleLsReadMessage(message, commandType);
-
-			case KEEP_ALIVE:
-				return handleKeepAlive(message, commandType);
-
-			case GET_BATTERY_LEVEL:
-				return handleGetBatteryLevel(message, commandType);
-
-			default:
-				return handleUnknownMessage(commandType, commandByte);
-		}
-	}
-
-	private byte[] handleSetInputModeMessage(byte[] message, byte commandType) {
-		byte status;
-		byte[] reply = null;
-
-		status = checkMessageLength(message, 5);
-		if (status == NXTReply.NO_ERROR) {
-			byte port = message[2];
-			byte sensorType = message[3];
-			byte sensorMode = message[4];
-
-			status = setSensorTypeAndMode(sensorType, sensorMode, port);
-		}
-
-		if (commandType == SHOULD_REPLY) {
-			reply = new byte[3];
-			reply[0] = CommandType.REPLY_COMMAND.getByte();
-			reply[1] = CommandByte.SET_INPUT_MODE.getByte();
-			reply[2] = status;
-		}
-		return reply;
-	}
-
-	private byte[] handleGetInputValuesMessage(byte[] message, byte commandType) {
-		byte[] reply = null;
-		byte status;
-		status = checkMessageLength(message, 3);
-		byte port = message[2];
-		if (status == NXTReply.NO_ERROR) {
-			status = checkMessagePort(port);
-		}
-
-		if (commandType == SHOULD_REPLY) {
-			reply = new byte[16];
-
-			final byte isValid = 1;
-			final byte isCalibrated = 0;
-			final byte notUsed = 0;
-			final byte scaledValue0 = sensorValue[0];
-			final byte scaledValue1 = sensorValue[1];
-
-			reply[0] = CommandType.REPLY_COMMAND.getByte();
-			reply[1] = CommandByte.GET_INPUT_VALUES.getByte();
-			reply[2] = status;
-			reply[3] = port;
-			reply[4] = isValid;
-			reply[5] = isCalibrated;
-			reply[6] = portSensorType[port];
-			reply[7] = portSensorMode[port];
-			reply[8] = notUsed;
-			reply[9] = notUsed;
-			reply[10] = notUsed;
-			reply[11] = notUsed;
-			reply[12] = scaledValue0;
-			reply[13] = scaledValue1;
-			reply[14] = notUsed;
-			reply[15] = notUsed;
-		}
-		return reply;
-	}
-
-	private byte[] handleResetInputScaledValueMessage(byte[] message, byte commandType) {
-		byte[] reply = null;
-		byte status = checkMessageLength(message, 3);
-		if (status == NO_ERROR) {
-			status = checkMessagePort(message[2]);
-		}
-
-		if (commandType == SHOULD_REPLY) {
-			reply = new byte[3];
-
-			reply[0] = CommandType.REPLY_COMMAND.getByte();
-			reply[1] = CommandByte.RESET_INPUT_SCALED_VALUE.getByte();
-			reply[2] = status;
-		}
-		return reply;
-	}
-
-	private byte[] handleLsWriteMessage(byte[] message, byte commandType) {
-
-		byte[] reply = null;
-		byte status = checkMessageLength(message, 7);
-		if (status == NO_ERROR) {
-			status = checkMessagePort(message[2]);
-		}
-
-		if (commandType == SHOULD_REPLY) {
-			reply = new byte[3];
-
-			reply[0] = CommandType.REPLY_COMMAND.getByte();
-			reply[1] = CommandByte.LS_WRITE.getByte();
-			reply[2] = status;
-		}
-
-		return reply;
-	}
-
-	private byte[] handleLsGetStatusMessage(byte[] message, byte commandType) {
-
-		byte[] reply = null;
-		byte status = checkMessageLength(message, 3);
-		if (status == NO_ERROR) {
-			status = checkMessagePort(message[2]);
-		}
-
-		if (commandType == SHOULD_REPLY) {
-			reply = new byte[4];
-			ultrasonicSensorBytesReady = getRandomByte(2);
-
-			reply[0] = CommandType.REPLY_COMMAND.getByte();
-			reply[1] = CommandByte.LS_GET_STATUS.getByte();
-			reply[2] = status;
-			reply[3] = ultrasonicSensorBytesReady;
-		}
-
-		return reply;
-	}
-
-	private byte[] handleLsReadMessage(byte[] message, byte commandType) {
-
-		byte[] reply = null;
-		byte status = checkMessageLength(message, 3);
-		if (status == NO_ERROR) {
-			status = checkMessagePort(message[2]);
-		}
-
-		if (commandType == SHOULD_REPLY) {
-			reply = new byte[20];
-
-			reply[0] = CommandType.REPLY_COMMAND.getByte();
-			reply[1] = CommandByte.LS_READ.getByte();
-			reply[2] = status;
-			reply[3] = ultrasonicSensorBytesReady;
-			reply[4] = sensorValue[0];
-
-			ultrasonicSensorBytesReady = 0;
-		}
-
-		return reply;
-	}
-
-	private byte[] handleKeepAlive(byte[] message, byte commandType) {
-		byte[] reply = null;
-		byte status = checkMessageLength(message, 2);
-
-		if (commandType == SHOULD_REPLY) {
-			reply = new byte[7];
-			reply[0] = CommandType.REPLY_COMMAND.getByte();
-			reply[1] = CommandByte.KEEP_ALIVE.getByte();
-			reply[2] = status;
-			reply[3] = keepAliveTime[0];
-			reply[4] = keepAliveTime[1];
-			reply[5] = keepAliveTime[2];
-			reply[6] = keepAliveTime[3];
-		}
-
-		return reply;
-	}
-
-	private byte[] handleGetBatteryLevel(byte[] message, byte commandType) {
-
-		byte[] reply = null;
-		byte status = checkMessageLength(message, 2);
-
-		if (commandType == SHOULD_REPLY) {
-			reply = new byte[5];
-			reply[0] = CommandType.REPLY_COMMAND.getByte();
-			reply[1] = CommandByte.GET_BATTERY_LEVEL.getByte();
-			reply[2] = status;
-			reply[3] = batteryValue[0];
-			reply[4] = batteryValue[1];
-		}
-
-		return reply;
-	}
-
-	private byte[] handleUnknownMessage(byte commandType, byte commandByte) {
-		byte[] reply = null;
-		if (commandType == SHOULD_REPLY) {
-			reply = new byte[3];
-			reply[0] = CommandType.REPLY_COMMAND.getByte();
-			reply[1] = commandByte;
-			reply[2] = NXTError.ErrorCode.UnknownCommand.getByte();
-		}
-
-		return reply;
-	}
-
-	private byte checkMessagePort(byte port) {
-
-		if (port < 0 || port > 3) {
-			return NXTError.ErrorCode.BadArguments.getByte();
-		}
-
-		return NXTReply.NO_ERROR;
-	}
-
-	private byte checkMessageLength(byte[] message, int expectedMessageLength) {
-		if (message.length != expectedMessageLength) {
-			return NXTError.ErrorCode.WrongNumberOfBytes.getByte();
-		}
-
-		return NXTReply.NO_ERROR;
-	}
-
-	private byte setSensorType(byte sensorType, byte port) {
-		if (sensorType < 0x0 || sensorType > 0x0C) {
-			return NXTError.ErrorCode.BadArguments.getByte();
-		}
-
-		portSensorType[port] = sensorType;
-
-		return NXTReply.NO_ERROR;
-	}
-
-	private byte setSensorTypeAndMode(byte sensorType, byte sensorMode, byte port) {
-
-		byte status = checkMessagePort(port);
-		if (status != NO_ERROR) {
-			return status;
-		}
-
-		status = setSensorType(sensorType, port);
-		if (status != NO_ERROR) {
-			return status;
-		}
-
-		return setSensorMode(sensorMode, port);
-	}
-
-	private byte setSensorMode(byte sensorMode, byte port) {
-
-		switch (sensorMode) {
-			case 0x00: // raw mode
-			case 0x20: // bool mode
-			case 0x40:
-			case 0x60:
-			case (byte) 0x80: // percent
-			case (byte) 0xA0:
-			case (byte) 0xC0:
-			case (byte) 0xE0:
-			case (byte) 0x1F:
-				portSensorMode[port] = sensorMode;
-				return NO_ERROR;
-			default:
-				return NXTError.ErrorCode.BadArguments.getByte();
-		}
-	}
-
-	@Override
-	public void start(DataInputStream inStream, OutputStream outStream) throws IOException {
-		byte[] messageLengthBuffer = new byte[2];
-
-		while (isRunning) {
-			inStream.readFully(messageLengthBuffer, 0, 2);
-			int expectedMessageLength = ((messageLengthBuffer[0] & 0xFF) | (messageLengthBuffer[1] & 0xFF) << 8);
-			handleClientMessage(expectedMessageLength, inStream, outStream);
-		}
-	}
-
-	@Override
-	public void stop() {
-		isRunning = false;
-	}
-
-	private void handleClientMessage(int expectedMessageLength, DataInputStream inStream, OutputStream outStream) throws IOException {
-
-		byte[] requestMessage = new byte[expectedMessageLength];
-
-		inStream.readFully(requestMessage, 0, expectedMessageLength);
-
-		byte[] responseMessage = createResponseFromClientRequest(requestMessage);
-
-		if (responseMessage == null) {
-			return;
-		}
-
-		outStream.write(getMessageLength(responseMessage));
-		outStream.write(responseMessage);
-		outStream.flush();
-	}
-
-	private byte[] getMessageLength(byte[] message) {
-
-		byte[] messageLength = {
-				(byte) (message.length & 0x00FF),
-				(byte) ((message.length & 0xFF00) >> 8)
-		};
-
-		return messageLength;
-	}
-
-	public void setSensorValue(int value) {
-		sensorValue[0] = (byte) (value & 0xff);
-		sensorValue[1] = (byte) ((value >> 8) & 0xff);
-	}
-
-	public void setBatteryValue(int batteryValue) {
-
-		this.batteryValue[0] = (byte) (batteryValue & 0xff);
-		this.batteryValue[1] = (byte) ((batteryValue >> 8) & 0xff);
-	}
-
-	public void setKeepAliveTime(int keepAliveTimeValue) {
-		keepAliveTime[0] = (byte) (keepAliveTimeValue & 0xff);
-		keepAliveTime[1] = (byte) ((keepAliveTimeValue >> 8) & 0xff);
-		keepAliveTime[2] = (byte) ((keepAliveTimeValue >> 16) & 0xff);
-		keepAliveTime[3] = (byte) ((keepAliveTimeValue >> 24) & 0xff);
-	}
-
-	public byte getRandomByte(int maxExclusive) {
-		return (byte) random.nextInt(maxExclusive);
-	}
+package org.catrobat.catroid.common.bluetooth.models
+
+import org.catrobat.catroid.devices.mindstorms.nxt.CommandByte
+import org.catrobat.catroid.devices.mindstorms.nxt.CommandType
+import org.catrobat.catroid.devices.mindstorms.nxt.NXTError
+import org.catrobat.catroid.devices.mindstorms.nxt.NXTReply
+import java.io.DataInputStream
+import java.io.IOException
+import java.io.OutputStream
+import java.util.Random
+import kotlin.experimental.and
+import kotlin.experimental.or
+
+class MindstormsNXTTestModel : DeviceModel {
+    private var isRunning = true
+    private val random = Random(System.currentTimeMillis())
+    private val batteryValue = byteArrayOf(getRandomByte(256), getRandomByte(256))
+    private val keepAliveTime =
+        byteArrayOf(getRandomByte(256), getRandomByte(256), getRandomByte(256), getRandomByte(256))
+    private val portSensorType = byteArrayOf(0, 0, 0, 0)
+    private val portSensorMode = byteArrayOf(0, 0, 0, 0)
+    private val sensorValue = byteArrayOf(getRandomByte(256), getRandomByte(256))
+    private var ultrasonicSensorBytesReady: Byte = 0
+    protected fun createResponseFromClientRequest(message: ByteArray): ByteArray? {
+        val commandType = message[0]
+        val commandByte = message[1]
+        return when (CommandByte.getTypeByValue(commandByte)) {
+            CommandByte.SET_INPUT_MODE -> handleSetInputModeMessage(message, commandType)
+            CommandByte.GET_INPUT_VALUES -> handleGetInputValuesMessage(message, commandType)
+            CommandByte.RESET_INPUT_SCALED_VALUE -> handleResetInputScaledValueMessage(
+                message,
+                commandType
+            )
+            CommandByte.LS_WRITE -> handleLsWriteMessage(message, commandType)
+            CommandByte.LS_GET_STATUS -> handleLsGetStatusMessage(message, commandType)
+            CommandByte.LS_READ -> handleLsReadMessage(message, commandType)
+            CommandByte.KEEP_ALIVE -> handleKeepAlive(message, commandType)
+            CommandByte.GET_BATTERY_LEVEL -> handleGetBatteryLevel(message, commandType)
+            else -> handleUnknownMessage(commandType, commandByte)
+        }
+    }
+
+    private fun handleSetInputModeMessage(message: ByteArray, commandType: Byte): ByteArray? {
+        var status: Byte
+        var reply: ByteArray? = null
+        status = checkMessageLength(message, 5)
+        if (status == NXTReply.NO_ERROR) {
+            val port = message[2]
+            val sensorType = message[3]
+            val sensorMode = message[4]
+            status = setSensorTypeAndMode(sensorType, sensorMode, port)
+        }
+        if (commandType == SHOULD_REPLY) {
+            reply = ByteArray(3)
+            reply[0] = CommandType.REPLY_COMMAND.byte
+            reply[1] = CommandByte.SET_INPUT_MODE.byte
+            reply[2] = status
+        }
+        return reply
+    }
+
+    private fun handleGetInputValuesMessage(message: ByteArray, commandType: Byte): ByteArray? {
+        var reply: ByteArray? = null
+        var status: Byte
+        status = checkMessageLength(message, 3)
+        val port = message[2]
+        if (status == NXTReply.NO_ERROR) {
+            status = checkMessagePort(port)
+        }
+        if (commandType == SHOULD_REPLY) {
+            reply = ByteArray(16)
+            val isValid: Byte = 1
+            val isCalibrated: Byte = 0
+            val notUsed: Byte = 0
+            val scaledValue0 = sensorValue[0]
+            val scaledValue1 = sensorValue[1]
+            reply[0] = CommandType.REPLY_COMMAND.byte
+            reply[1] = CommandByte.GET_INPUT_VALUES.byte
+            reply[2] = status
+            reply[3] = port
+            reply[4] = isValid
+            reply[5] = isCalibrated
+            reply[6] = portSensorType[port.toInt()]
+            reply[7] = portSensorMode[port.toInt()]
+            reply[8] = notUsed
+            reply[9] = notUsed
+            reply[10] = notUsed
+            reply[11] = notUsed
+            reply[12] = scaledValue0
+            reply[13] = scaledValue1
+            reply[14] = notUsed
+            reply[15] = notUsed
+        }
+        return reply
+    }
+
+    private fun handleResetInputScaledValueMessage(
+        message: ByteArray,
+        commandType: Byte
+    ): ByteArray? {
+        var reply: ByteArray? = null
+        var status = checkMessageLength(message, 3)
+        if (status == NO_ERROR) {
+            status = checkMessagePort(message[2])
+        }
+        if (commandType == SHOULD_REPLY) {
+            reply = ByteArray(3)
+            reply[0] = CommandType.REPLY_COMMAND.byte
+            reply[1] = CommandByte.RESET_INPUT_SCALED_VALUE.byte
+            reply[2] = status
+        }
+        return reply
+    }
+
+    private fun handleLsWriteMessage(message: ByteArray, commandType: Byte): ByteArray? {
+        var reply: ByteArray? = null
+        var status = checkMessageLength(message, 7)
+        if (status == NO_ERROR) {
+            status = checkMessagePort(message[2])
+        }
+        if (commandType == SHOULD_REPLY) {
+            reply = ByteArray(3)
+            reply[0] = CommandType.REPLY_COMMAND.byte
+            reply[1] = CommandByte.LS_WRITE.byte
+            reply[2] = status
+        }
+        return reply
+    }
+
+    private fun handleLsGetStatusMessage(message: ByteArray, commandType: Byte): ByteArray? {
+        var reply: ByteArray? = null
+        var status = checkMessageLength(message, 3)
+        if (status == NO_ERROR) {
+            status = checkMessagePort(message[2])
+        }
+        if (commandType == SHOULD_REPLY) {
+            reply = ByteArray(4)
+            ultrasonicSensorBytesReady = getRandomByte(2)
+            reply[0] = CommandType.REPLY_COMMAND.byte
+            reply[1] = CommandByte.LS_GET_STATUS.byte
+            reply[2] = status
+            reply[3] = ultrasonicSensorBytesReady
+        }
+        return reply
+    }
+
+    private fun handleLsReadMessage(message: ByteArray, commandType: Byte): ByteArray? {
+        var reply: ByteArray? = null
+        var status = checkMessageLength(message, 3)
+        if (status == NO_ERROR) {
+            status = checkMessagePort(message[2])
+        }
+        if (commandType == SHOULD_REPLY) {
+            reply = ByteArray(20)
+            reply[0] = CommandType.REPLY_COMMAND.byte
+            reply[1] = CommandByte.LS_READ.byte
+            reply[2] = status
+            reply[3] = ultrasonicSensorBytesReady
+            reply[4] = sensorValue[0]
+            ultrasonicSensorBytesReady = 0
+        }
+        return reply
+    }
+
+    private fun handleKeepAlive(message: ByteArray, commandType: Byte): ByteArray? {
+        var reply: ByteArray? = null
+        val status = checkMessageLength(message, 2)
+        if (commandType == SHOULD_REPLY) {
+            reply = ByteArray(7)
+            reply[0] = CommandType.REPLY_COMMAND.byte
+            reply[1] = CommandByte.KEEP_ALIVE.byte
+            reply[2] = status
+            reply[3] = keepAliveTime[0]
+            reply[4] = keepAliveTime[1]
+            reply[5] = keepAliveTime[2]
+            reply[6] = keepAliveTime[3]
+        }
+        return reply
+    }
+
+    private fun handleGetBatteryLevel(message: ByteArray, commandType: Byte): ByteArray? {
+        var reply: ByteArray? = null
+        val status = checkMessageLength(message, 2)
+        if (commandType == SHOULD_REPLY) {
+            reply = ByteArray(5)
+            reply[0] = CommandType.REPLY_COMMAND.byte
+            reply[1] = CommandByte.GET_BATTERY_LEVEL.byte
+            reply[2] = status
+            reply[3] = batteryValue[0]
+            reply[4] = batteryValue[1]
+        }
+        return reply
+    }
+
+    private fun handleUnknownMessage(commandType: Byte, commandByte: Byte): ByteArray? {
+        var reply: ByteArray? = null
+        if (commandType == SHOULD_REPLY) {
+            reply = ByteArray(3)
+            reply[0] = CommandType.REPLY_COMMAND.byte
+            reply[1] = commandByte
+            reply[2] = NXTError.ErrorCode.UnknownCommand.byte
+        }
+        return reply
+    }
+
+    private fun checkMessagePort(port: Byte): Byte {
+        return if (port < 0 || port > 3) {
+            NXTError.ErrorCode.BadArguments.byte
+        } else NXTReply.NO_ERROR
+    }
+
+    private fun checkMessageLength(message: ByteArray, expectedMessageLength: Int): Byte {
+        return if (message.size != expectedMessageLength) {
+            NXTError.ErrorCode.WrongNumberOfBytes.byte
+        } else NXTReply.NO_ERROR
+    }
+
+    private fun setSensorType(sensorType: Byte, port: Byte): Byte {
+        if (sensorType < 0x0 || sensorType > 0x0C) {
+            return NXTError.ErrorCode.BadArguments.byte
+        }
+        portSensorType[port.toInt()] = sensorType
+        return NXTReply.NO_ERROR
+    }
+
+    private fun setSensorTypeAndMode(sensorType: Byte, sensorMode: Byte, port: Byte): Byte {
+        var status = checkMessagePort(port)
+        if (status != NO_ERROR) {
+            return status
+        }
+        status = setSensorType(sensorType, port)
+        return if (status != NO_ERROR) {
+            status
+        } else setSensorMode(sensorMode, port)
+    }
+
+    private fun setSensorMode(sensorMode: Byte, port: Byte): Byte {
+        return when (sensorMode) {
+            0x00.toByte(), 0x20.toByte(), 0x40.toByte(), 0x60.toByte(), 0x80.toByte(), 0xA0.toByte(),
+            0xC0.toByte(), 0xE0.toByte(),
+            0x1F.toByte() -> {
+                portSensorMode[port.toInt()] = sensorMode
+                NO_ERROR
+            }
+            else -> NXTError.ErrorCode.BadArguments.byte
+        }
+    }
+
+    @Throws(IOException::class)
+    override fun start(inStream: DataInputStream?, outStream: OutputStream?) {
+        val messageLengthBuffer = ByteArray(2)
+
+        while (isRunning) {
+            if (inStream != null) {
+                inStream.readFully(messageLengthBuffer, 0, 2)
+            }
+            val expectedMessageLength = (messageLengthBuffer[0].toInt() and 0xFF) or
+                ((messageLengthBuffer[1].toInt() and 0xFF) shl 8)
+            handleClientMessage(expectedMessageLength, inStream, outStream)
+        }
+    }
+
+    override fun stop() {
+        isRunning = false
+    }
+
+    @Throws(IOException::class)
+    private fun handleClientMessage(
+        expectedMessageLength: Int,
+        inStream: DataInputStream?,
+        outStream: OutputStream?
+    ) {
+        val requestMessage = ByteArray(expectedMessageLength)
+        inStream!!.readFully(requestMessage, 0, expectedMessageLength)
+        val responseMessage = createResponseFromClientRequest(requestMessage) ?: return
+        outStream!!.write(getMessageLength(responseMessage))
+        outStream.write(responseMessage)
+        outStream.flush()
+    }
+
+    private fun getMessageLength(message: ByteArray): ByteArray {
+        return byteArrayOf(
+            (message.size and 0x00FF).toByte(),
+            (message.size and 0xFF00 shr 8).toByte()
+        )
+    }
+
+    fun setSensorValue(value: Int) {
+        sensorValue[0] = (value and 0xff).toByte()
+        sensorValue[1] = (value shr 8 and 0xff).toByte()
+    }
+
+    fun setBatteryValue(batteryValue: Int) {
+        this.batteryValue[0] = (batteryValue and 0xff).toByte()
+        this.batteryValue[1] = (batteryValue shr 8 and 0xff).toByte()
+    }
+
+    fun setKeepAliveTime(keepAliveTimeValue: Int) {
+        keepAliveTime[0] = (keepAliveTimeValue and 0xff).toByte()
+        keepAliveTime[1] = (keepAliveTimeValue shr 8 and 0xff).toByte()
+        keepAliveTime[2] = (keepAliveTimeValue shr 16 and 0xff).toByte()
+        keepAliveTime[3] = (keepAliveTimeValue shr 24 and 0xff).toByte()
+    }
+
+    fun getRandomByte(maxExclusive: Int): Byte {
+        return random.nextInt(maxExclusive).toByte()
+    }
+
+    companion object {
+        private const val SHOULD_REPLY: Byte = 0x0
+        private const val NO_ERROR: Byte = 0x0
+    }
 }

@@ -20,71 +20,62 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.common.bluetooth;
+package org.catrobat.catroid.common.bluetooth
 
-import android.bluetooth.BluetoothSocket;
+import org.catrobat.catroid.common.bluetooth.BluetoothLogger
+import org.catrobat.catroid.bluetooth.base.BluetoothConnection
+import org.catrobat.catroid.common.bluetooth.ObservedInputStream
+import org.catrobat.catroid.common.bluetooth.ObservedOutputStream
+import org.catrobat.catroid.bluetooth.BluetoothConnectionImpl
+import android.bluetooth.BluetoothSocket
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
+import java.util.UUID
+import kotlin.Throws
 
-import org.catrobat.catroid.bluetooth.BluetoothConnectionImpl;
-import org.catrobat.catroid.bluetooth.base.BluetoothConnection;
+internal class BluetoothConnectionProxy(macAddress: String?, uuid: UUID?, logger: BluetoothLogger) :
+    BluetoothConnection {
+    private val logger: BluetoothLogger
+    var btConnection: BluetoothConnection
+    var observedInputStream: ObservedInputStream? = null
+    var observedOutputStream: ObservedOutputStream? = null
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.UUID;
+    init {
+        btConnection = BluetoothConnectionImpl(macAddress, uuid)
+        this.logger = logger
+        logger.loggerAttached(this)
+    }
 
-class BluetoothConnectionProxy implements BluetoothConnection {
+    override fun connect(): BluetoothConnection.State {
+        return btConnection.connect()
+    }
 
-	private final BluetoothLogger logger;
+    override fun connectSocket(socket: BluetoothSocket): BluetoothConnection.State {
+        return btConnection.connectSocket(socket)
+    }
 
-	BluetoothConnection btConnection;
+    override fun disconnect() {
+        btConnection.disconnect()
+    }
 
-	ObservedInputStream observedInputStream;
-	ObservedOutputStream observedOutputStream;
+    @Throws(IOException::class)
+    override fun getInputStream(): InputStream {
+        if (observedInputStream == null) {
+            observedInputStream = ObservedInputStream(btConnection.inputStream, logger)
+        }
+        return observedInputStream as ObservedInputStream
+    }
 
-	BluetoothConnectionProxy(String macAddress, UUID uuid, final BluetoothLogger logger) {
+    @Throws(IOException::class)
+    override fun getOutputStream(): OutputStream {
+        if (observedOutputStream == null) {
+            observedOutputStream = ObservedOutputStream(btConnection.outputStream, logger)
+        }
+        return observedOutputStream as ObservedOutputStream
+    }
 
-		btConnection = new BluetoothConnectionImpl(macAddress, uuid);
-		this.logger = logger;
-
-		logger.loggerAttached(this);
-	}
-
-	@Override
-	public State connect() {
-		return btConnection.connect();
-	}
-
-	@Override
-	public State connectSocket(BluetoothSocket socket) {
-		return btConnection.connectSocket(socket);
-	}
-
-	@Override
-	public void disconnect() {
-		btConnection.disconnect();
-	}
-
-	@Override
-	public InputStream getInputStream() throws IOException {
-		if (observedInputStream == null) {
-			observedInputStream = new ObservedInputStream(btConnection.getInputStream(), logger);
-		}
-
-		return observedInputStream;
-	}
-
-	@Override
-	public OutputStream getOutputStream() throws IOException {
-
-		if (observedOutputStream == null) {
-			observedOutputStream = new ObservedOutputStream(btConnection.getOutputStream(), logger);
-		}
-
-		return observedOutputStream;
-	}
-
-	@Override
-	public State getState() {
-		return btConnection.getState();
-	}
+    override fun getState(): BluetoothConnection.State {
+        return btConnection.state
+    }
 }
