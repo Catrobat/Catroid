@@ -20,154 +20,150 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.content.controller
+import org.junit.runner.RunWith
+import org.catrobat.catroid.common.LookData
+import org.catrobat.catroid.ui.controller.BackpackListManager
+import org.junit.Before
+import kotlin.Throws
+import org.catrobat.catroid.test.utils.TestUtils
+import org.catrobat.catroid.ui.recyclerview.controller.LookController
+import org.catrobat.catroid.uiespresso.util.FileTestUtils
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import junit.framework.Assert
+import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.common.Constants
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.io.XstreamSerializer
+import org.catrobat.catroid.io.ResourceImporter
+import org.catrobat.catroid.io.StorageOperations
+import org.catrobat.catroid.test.R
+import org.junit.After
+import org.junit.Test
+import java.io.File
+import java.io.IOException
 
-package org.catrobat.catroid.test.content.controller;
+@RunWith(AndroidJUnit4::class)
+class LookControllerTest {
+    private var project: Project? = null
+    private var scene: Scene? = null
+    private var sprite: Sprite? = null
+    private var lookData: LookData? = null
+    private var backpackListManager: BackpackListManager? = null
+    @Before
+    @Throws(IOException::class)
+    fun setUp() {
+        backpackListManager = BackpackListManager.getInstance()
+        TestUtils.clearBackPack(backpackListManager)
+        createProject()
+    }
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.ResourceImporter;
-import org.catrobat.catroid.io.StorageOperations;
-import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.ui.controller.BackpackListManager;
-import org.catrobat.catroid.ui.recyclerview.controller.LookController;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+    @After
+    @Throws(IOException::class)
+    fun tearDown() {
+        deleteProject()
+        TestUtils.clearBackPack(backpackListManager)
+    }
 
-import java.io.File;
-import java.io.IOException;
+    @Test
+    @Throws(IOException::class)
+    fun testCopyLook() {
+        val controller = LookController()
+        val copy = controller.copy(lookData, scene, sprite)
+        Assert.assertEquals(1, sprite!!.lookList.size)
+        FileTestUtils.assertFileExists(copy.file)
+    }
 
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
+    @Test
+    @Throws(IOException::class)
+    fun testDeleteLook() {
+        val controller = LookController()
+        val deletedLookFile = lookData!!.file
+        controller.delete(lookData)
+        Assert.assertEquals(1, sprite!!.lookList.size)
+        FileTestUtils.assertFileDoesNotExist(deletedLookFile)
+    }
 
-import static junit.framework.Assert.assertEquals;
+    @Test
+    @Throws(IOException::class)
+    fun testPackLook() {
+        val controller = LookController()
+        val packedLook = controller.pack(lookData)
+        Assert.assertEquals(0, backpackListManager!!.backpackedLooks.size)
+        FileTestUtils.assertFileExistsInDirectory(
+            packedLook.file,
+            backpackListManager!!.backpackImageDirectory
+        )
+    }
 
-import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
-import static org.catrobat.catroid.test.utils.TestUtils.clearBackPack;
-import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExist;
-import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExistInDirectory;
-import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExists;
-import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExistsInDirectory;
+    @Test
+    @Throws(IOException::class)
+    fun testDeleteLookFromBackPack() {
+        val controller = LookController()
+        val packedLook = controller.pack(lookData)
+        controller.delete(packedLook)
+        Assert.assertEquals(0, BackpackListManager.getInstance().backpackedLooks.size)
+        FileTestUtils.assertFileDoesNotExistInDirectory(
+            packedLook.file,
+            backpackListManager!!.backpackImageDirectory
+        )
+        Assert.assertEquals(1, sprite!!.lookList.size)
+        FileTestUtils.assertFileExists(lookData!!.file)
+    }
 
-@RunWith(AndroidJUnit4.class)
-public class LookControllerTest {
+    @Test
+    @Throws(IOException::class)
+    fun testUnpackLook() {
+        val controller = LookController()
+        val packedLook = controller.pack(lookData)
+        val unpackedLook = controller.unpack(packedLook, scene, sprite)
+        Assert.assertEquals(0, BackpackListManager.getInstance().backpackedLooks.size)
+        FileTestUtils.assertFileExistsInDirectory(
+            packedLook.file,
+            backpackListManager!!.backpackImageDirectory
+        )
+        Assert.assertEquals(1, sprite!!.lookList.size)
+        FileTestUtils.assertFileExists(unpackedLook.file)
+    }
 
-	private Project project;
-	private Scene scene;
-	private Sprite sprite;
-	private LookData lookData;
-	private BackpackListManager backpackListManager;
+    @Test
+    @Throws(IOException::class)
+    fun testDeepCopyLook() {
+        val controller = LookController()
+        val copy = controller.copy(lookData, scene, sprite)
+        FileTestUtils.assertFileExists(copy.file)
+        controller.delete(copy)
+        FileTestUtils.assertFileDoesNotExist(copy.file)
+        FileTestUtils.assertFileExists(lookData!!.file)
+    }
 
-	@Before
-	public void setUp() throws IOException {
-		backpackListManager = BackpackListManager.getInstance();
-		clearBackPack(backpackListManager);
-		createProject();
-	}
+    @Throws(IOException::class)
+    private fun createProject() {
+        project = Project(ApplicationProvider.getApplicationContext(), "LookControllerTest")
+        scene = project!!.defaultScene
+        ProjectManager.getInstance().currentProject = project
+        sprite = Sprite("testSprite")
+        project!!.defaultScene.addSprite(sprite)
+        XstreamSerializer.getInstance().saveProject(project)
+        val imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
+            InstrumentationRegistry.getInstrumentation().context.resources,
+            R.raw.red_image,
+            File(project!!.defaultScene.directory, Constants.IMAGE_DIRECTORY_NAME),
+            "red_image.bmp", 1.0
+        )
+        lookData = LookData("testLook", imageFile)
+        sprite!!.lookList.add(lookData)
+        XstreamSerializer.getInstance().saveProject(project)
+    }
 
-	@After
-	public void tearDown() throws IOException {
-		deleteProject();
-		clearBackPack(backpackListManager);
-	}
-
-	@Test
-	public void testCopyLook() throws IOException {
-		LookController controller = new LookController();
-		LookData copy = controller.copy(lookData, scene, sprite);
-
-		assertEquals(1, sprite.getLookList().size());
-		assertFileExists(copy.getFile());
-	}
-
-	@Test
-	public void testDeleteLook() throws IOException {
-		LookController controller = new LookController();
-		File deletedLookFile = lookData.getFile();
-		controller.delete(lookData);
-
-		assertEquals(1, sprite.getLookList().size());
-		assertFileDoesNotExist(deletedLookFile);
-	}
-
-	@Test
-	public void testPackLook() throws IOException {
-		LookController controller = new LookController();
-		LookData packedLook = controller.pack(lookData);
-
-		assertEquals(0, backpackListManager.getBackpackedLooks().size());
-		assertFileExistsInDirectory(packedLook.getFile(), backpackListManager.backpackImageDirectory);
-	}
-
-	@Test
-	public void testDeleteLookFromBackPack() throws IOException {
-		LookController controller = new LookController();
-		LookData packedLook = controller.pack(lookData);
-		controller.delete(packedLook);
-
-		assertEquals(0, BackpackListManager.getInstance().getBackpackedLooks().size());
-		assertFileDoesNotExistInDirectory(packedLook.getFile(), backpackListManager.backpackImageDirectory);
-
-		assertEquals(1, sprite.getLookList().size());
-		assertFileExists(lookData.getFile());
-	}
-
-	@Test
-	public void testUnpackLook() throws IOException {
-		LookController controller = new LookController();
-		LookData packedLook = controller.pack(lookData);
-		LookData unpackedLook = controller.unpack(packedLook, scene, sprite);
-
-		assertEquals(0, BackpackListManager.getInstance().getBackpackedLooks().size());
-		assertFileExistsInDirectory(packedLook.getFile(), backpackListManager.backpackImageDirectory);
-
-		assertEquals(1, sprite.getLookList().size());
-		assertFileExists(unpackedLook.getFile());
-	}
-
-	@Test
-	public void testDeepCopyLook() throws IOException {
-		LookController controller = new LookController();
-		LookData copy = controller.copy(lookData, scene, sprite);
-
-		assertFileExists(copy.getFile());
-
-		controller.delete(copy);
-
-		assertFileDoesNotExist(copy.getFile());
-		assertFileExists(lookData.getFile());
-	}
-
-	private void createProject() throws IOException {
-		project = new Project(ApplicationProvider.getApplicationContext(), "LookControllerTest");
-		scene = project.getDefaultScene();
-		ProjectManager.getInstance().setCurrentProject(project);
-
-		sprite = new Sprite("testSprite");
-		project.getDefaultScene().addSprite(sprite);
-		XstreamSerializer.getInstance().saveProject(project);
-
-		File imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
-				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
-				org.catrobat.catroid.test.R.raw.red_image,
-				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
-				"red_image.bmp",
-				1);
-
-		lookData = new LookData("testLook", imageFile);
-		sprite.getLookList().add(lookData);
-
-		XstreamSerializer.getInstance().saveProject(project);
-	}
-
-	private void deleteProject() throws IOException {
-		if (project.getDirectory().exists()) {
-			StorageOperations.deleteDir(project.getDirectory());
-		}
-	}
+    @Throws(IOException::class)
+    private fun deleteProject() {
+        if (project!!.directory.exists()) {
+            StorageOperations.deleteDir(project!!.directory)
+        }
+    }
 }

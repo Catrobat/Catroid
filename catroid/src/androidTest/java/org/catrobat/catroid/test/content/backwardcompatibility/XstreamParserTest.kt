@@ -20,153 +20,142 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.content.backwardcompatibility
 
-package org.catrobat.catroid.test.content.backwardcompatibility;
+import android.content.Context
+import kotlin.Throws
+import org.catrobat.catroid.io.StorageOperations
+import org.catrobat.catroid.io.ZipArchiver
+import org.catrobat.catroid.common.FlavoredConstants
+import org.catrobat.catroid.exceptions.LoadingProjectException
+import org.catrobat.catroid.io.XstreamSerializer
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.platform.app.InstrumentationRegistry
+import org.catrobat.catroid.R
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+import junit.framework.Assert
+import org.catrobat.catroid.content.Scope
+import org.catrobat.catroid.formulaeditor.UserDataWrapper
+import org.junit.After
+import org.junit.Test
+import java.io.File
+import java.io.IOException
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+class XstreamParserTest {
+    private var projectDir: File? = null
+    @After
+    @Throws(IOException::class)
+    fun tearDown() {
+        if (projectDir != null && projectDir!!.isDirectory) {
+            StorageOperations.deleteDir(projectDir)
+        }
+    }
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Scope;
-import org.catrobat.catroid.exceptions.LoadingProjectException;
-import org.catrobat.catroid.formulaeditor.UserDataWrapper;
-import org.catrobat.catroid.io.StorageOperations;
-import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.io.ZipArchiver;
-import org.junit.After;
-import org.junit.Test;
+    @Throws(IOException::class)
+    private fun copyProjectFromAssets(assetName: String, projectName: String) {
+        val inputStream =
+            InstrumentationRegistry.getInstrumentation().context.assets.open(assetName)
+        ZipArchiver().unzip(
+            inputStream,
+            File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName)
+        )
+    }
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+    @Throws(IOException::class, LoadingProjectException::class)
+    private fun testLoadProjectWithoutScenes(projectName: String, assetName: String) {
+        copyProjectFromAssets(assetName, projectName)
+        projectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName)
+        val project = XstreamSerializer.getInstance()
+            .loadProject(projectDir, ApplicationProvider.getApplicationContext())
+        Assert.assertNotNull(project)
+        org.junit.Assert.assertEquals(projectName, project.name)
+        org.junit.Assert.assertEquals(1, project.sceneList.size.toLong())
+        org.junit.Assert.assertEquals(
+            ApplicationProvider.getApplicationContext<Context>()
+                .getString(R.string.default_scene_name),
+            project.sceneList[0].name
+        )
+    }
 
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.platform.app.InstrumentationRegistry;
+    @Test
+    @Throws(IOException::class, LoadingProjectException::class)
+    fun testLoadProjectWithLanguageVersion08() {
+        val projectName = "Falling balls"
+        val assetName = "Falling_balls.catrobat"
+        testLoadProjectWithoutScenes(projectName, assetName)
+    }
 
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
+    @Test
+    @Throws(IOException::class, LoadingProjectException::class)
+    fun testLoadProjectLanguageVersion091() {
+        val projectName = "Air fight 0.5"
+        val assetName = "Air_fight_0.5.catrobat"
+        testLoadProjectWithoutScenes(projectName, assetName)
+    }
 
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
+    @Test
+    @Throws(IOException::class, LoadingProjectException::class)
+    fun testLoadProjectLanguageVersion092() {
+        val projectName = "NoteAndSpeakBrick"
+        val assetName = "Note_And_Speak_Brick.catrobat"
+        testLoadProjectWithoutScenes(projectName, assetName)
+    }
 
-public class XstreamParserTest {
+    @Test
+    @Throws(IOException::class, LoadingProjectException::class)
+    fun testLoadProjectLanguageVersion095() {
+        val projectName = "GhostEffectBricks"
+        val assetName = "Ghost_Effect_Bricks.catrobat"
+        testLoadProjectWithoutScenes(projectName, assetName)
+    }
 
-	private File projectDir;
-
-	@After
-	public void tearDown() throws IOException {
-		if (projectDir != null && projectDir.isDirectory()) {
-			StorageOperations.deleteDir(projectDir);
-		}
-	}
-
-	private void copyProjectFromAssets(String assetName, String projectName) throws IOException {
-		InputStream inputStream = InstrumentationRegistry.getInstrumentation().getContext().getAssets().open(assetName);
-		new ZipArchiver().unzip(inputStream, new File(DEFAULT_ROOT_DIRECTORY, projectName));
-	}
-
-	private void testLoadProjectWithoutScenes(String projectName, String assetName) throws IOException, LoadingProjectException {
-		copyProjectFromAssets(assetName, projectName);
-		projectDir = new File(DEFAULT_ROOT_DIRECTORY, projectName);
-
-		Project project = XstreamSerializer.getInstance()
-				.loadProject(projectDir, ApplicationProvider.getApplicationContext());
-
-		assertNotNull(project);
-
-		assertEquals(projectName, project.getName());
-
-		assertEquals(1, project.getSceneList().size());
-
-		assertEquals(ApplicationProvider.getApplicationContext().getString(R.string.default_scene_name),
-				project.getSceneList().get(0).getName());
-	}
-
-	@Test
-	public void testLoadProjectWithLanguageVersion08() throws IOException, LoadingProjectException {
-		String projectName = "Falling balls";
-		String assetName = "Falling_balls.catrobat";
-
-		testLoadProjectWithoutScenes(projectName, assetName);
-	}
-
-	@Test
-	public void testLoadProjectLanguageVersion091() throws IOException, LoadingProjectException {
-		String projectName = "Air fight 0.5";
-		String assetName = "Air_fight_0.5.catrobat";
-
-		testLoadProjectWithoutScenes(projectName, assetName);
-	}
-
-	@Test
-	public void testLoadProjectLanguageVersion092() throws IOException, LoadingProjectException {
-		String projectName = "NoteAndSpeakBrick";
-		String assetName = "Note_And_Speak_Brick.catrobat";
-
-		testLoadProjectWithoutScenes(projectName, assetName);
-	}
-
-	@Test
-	public void testLoadProjectLanguageVersion095() throws IOException, LoadingProjectException {
-		String projectName = "GhostEffectBricks";
-		String assetName = "Ghost_Effect_Bricks.catrobat";
-
-		testLoadProjectWithoutScenes(projectName, assetName);
-	}
-
-	@Test
-	public void testLoadProjectLanguageVersion0999() throws IOException, LoadingProjectException {
-		String projectName = "TestUserDataConversion0999To09991";
-		String assetName = "TestUserDataConversion0999To09991.catrobat";
-
-		copyProjectFromAssets(assetName, projectName);
-		projectDir = new File(DEFAULT_ROOT_DIRECTORY, projectName);
-
-		Project project = XstreamSerializer.getInstance()
-				.loadProject(projectDir, ApplicationProvider.getApplicationContext());
-
-		assertNotNull(project);
-
-		assertEquals(projectName, project.getName());
-
-		assertEquals(2, project.getSceneList().size());
-
-		Scene scene1 = project.getSceneList().get(0);
-		Scene scene2 = project.getSceneList().get(1);
-
-		assertEquals("Scene 1",
-				scene1.getName());
-
-		assertEquals("Scene 2",
-				scene2.getName());
-
-		Scope scopeLocal = new Scope(project, scene1.getSprite("SpriteWithLocalVarAndList"),
-				new SequenceAction());
-		Scope scopeGlobal = new Scope(project, scene1.getSprite("SpriteWithGlobalVarAndList"),
-				new SequenceAction());
-
-		assertNotNull(UserDataWrapper.getUserVariable("localVar", scopeLocal));
-
-		assertNotNull(UserDataWrapper.getUserList("localList", scopeLocal));
-
-		assertNull(UserDataWrapper.getUserVariable("localVar", scopeGlobal));
-
-		assertNull(UserDataWrapper.getUserList("localList", scopeGlobal));
-
-		assertNotNull(UserDataWrapper.getUserVariable("globalVar", scopeLocal));
-
-		assertNotNull(UserDataWrapper.getUserList("globalList", scopeLocal));
-
-		assertNull(UserDataWrapper.getUserVariable("localVar", scopeGlobal));
-
-		assertNull(UserDataWrapper.getUserList("localList", scopeGlobal));
-
-		assertNotSame(UserDataWrapper.getUserVariable("localVar", scopeLocal),
-				UserDataWrapper.getUserVariable("globalList", scopeLocal));
-
-		assertNotSame(UserDataWrapper.getUserList("localList", scopeLocal),
-				UserDataWrapper.getUserList("globalList", scopeLocal));
-	}
+    @Test
+    @Throws(IOException::class, LoadingProjectException::class)
+    fun testLoadProjectLanguageVersion0999() {
+        val projectName = "TestUserDataConversion0999To09991"
+        val assetName = "TestUserDataConversion0999To09991.catrobat"
+        copyProjectFromAssets(assetName, projectName)
+        projectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName)
+        val project = XstreamSerializer.getInstance()
+            .loadProject(projectDir, ApplicationProvider.getApplicationContext())
+        Assert.assertNotNull(project)
+        org.junit.Assert.assertEquals(projectName, project.name)
+        org.junit.Assert.assertEquals(2, project.sceneList.size.toLong())
+        val scene1 = project.sceneList[0]
+        val scene2 = project.sceneList[1]
+        org.junit.Assert.assertEquals(
+            "Scene 1",
+            scene1.name
+        )
+        org.junit.Assert.assertEquals(
+            "Scene 2",
+            scene2.name
+        )
+        val scopeLocal = Scope(
+            project,
+            scene1.getSprite("SpriteWithLocalVarAndList"),
+            SequenceAction()
+        )
+        val scopeGlobal = Scope(
+            project,
+            scene1.getSprite("SpriteWithGlobalVarAndList"),
+            SequenceAction()
+        )
+        Assert.assertNotNull(UserDataWrapper.getUserVariable("localVar", scopeLocal))
+        Assert.assertNotNull(UserDataWrapper.getUserList("localList", scopeLocal))
+        Assert.assertNull(UserDataWrapper.getUserVariable("localVar", scopeGlobal))
+        Assert.assertNull(UserDataWrapper.getUserList("localList", scopeGlobal))
+        Assert.assertNotNull(UserDataWrapper.getUserVariable("globalVar", scopeLocal))
+        Assert.assertNotNull(UserDataWrapper.getUserList("globalList", scopeLocal))
+        Assert.assertNull(UserDataWrapper.getUserVariable("localVar", scopeGlobal))
+        Assert.assertNull(UserDataWrapper.getUserList("localList", scopeGlobal))
+        org.junit.Assert.assertNotSame(
+            UserDataWrapper.getUserVariable("localVar", scopeLocal),
+            UserDataWrapper.getUserVariable("globalList", scopeLocal)
+        )
+        org.junit.Assert.assertNotSame(
+            UserDataWrapper.getUserList("localList", scopeLocal),
+            UserDataWrapper.getUserList("globalList", scopeLocal)
+        )
+    }
 }

@@ -20,286 +20,257 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package org.catrobat.catroid.test.content.controller;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.bricks.PlaceAtBrick;
-import org.catrobat.catroid.content.bricks.UserDefinedBrick;
-import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.io.ResourceImporter;
-import org.catrobat.catroid.io.StorageOperations;
-import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.ui.controller.BackpackListManager;
-import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import java.io.File;
-import java.io.IOException;
-
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
-
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNotSame;
-import static junit.framework.Assert.assertTrue;
-
-import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
-import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
-import static org.catrobat.catroid.test.utils.TestUtils.clearBackPack;
-import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExist;
-import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExistInDirectory;
-import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExists;
-import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExistsInDirectory;
-
-@RunWith(AndroidJUnit4.class)
-public class SpriteControllerTest {
-
-	private Project project;
-	private Scene scene;
-	private Sprite sprite;
-	private BackpackListManager backpackListManager;
-
-	@Before
-	public void setUp() throws IOException {
-		backpackListManager = BackpackListManager.getInstance();
-		clearBackPack(backpackListManager);
-		createProject();
-	}
-
-	@After
-	public void tearDown() throws IOException {
-		deleteProject();
-		clearBackPack(backpackListManager);
-	}
-
-	@Test
-	public void testCopySprite() throws IOException {
-		SpriteController controller = new SpriteController();
-
-		String spriteVarName = "spriteVar";
-		String spriteListName = "spriteList";
-		UserDefinedBrick userDefinedBrick = new UserDefinedBrick();
-		assertTrue(sprite.addUserVariable(new UserVariable(spriteVarName)));
-		assertTrue(sprite.addUserList(new UserList(spriteListName)));
-		sprite.addUserDefinedBrick(userDefinedBrick);
-
-		Sprite copy = controller.copy(sprite, project, scene);
-
-		assertEquals(2, scene.getSpriteList().size());
-
-		assertEquals(sprite.getLookList().size(), copy.getLookList().size());
-		assertEquals(sprite.getSoundList().size(), copy.getSoundList().size());
-		assertEquals(sprite.getNumberOfScripts(), copy.getNumberOfScripts());
-		assertEquals(sprite.getNumberOfBricks(), copy.getNumberOfBricks());
-
-		assertNotNull(sprite.getUserVariable(spriteVarName));
-		assertNotNull(copy.getUserVariable(spriteVarName));
-		assertNotSame(sprite.getUserVariable(spriteVarName),
-				copy.getUserVariable(spriteVarName));
-
-		assertNotNull(sprite.getUserList(spriteListName));
-		assertNotNull(copy.getUserList(spriteListName));
-		assertNotSame(sprite.getUserList(spriteListName),
-				copy.getUserList(spriteListName));
-
-		assertNotNull(sprite.getUserDefinedBrickWithSameUserData(userDefinedBrick));
-		assertNotNull(copy.getUserDefinedBrickWithSameUserData(userDefinedBrick));
-		assertNotSame(sprite.getUserDefinedBrickWithSameUserData(userDefinedBrick),
-				copy.getUserDefinedBrickWithSameUserData(userDefinedBrick));
-
-		assertFileExists(copy.getLookList().get(0).getFile());
-		assertFileExists(copy.getSoundList().get(0).getFile());
-	}
-
-	@Test
-	public void testConvertSpriteToGroupItemSprite() {
-		SpriteController controller = new SpriteController();
-
-		String spriteVarName = "spriteVar";
-		String spriteListName = "spriteList";
-		UserDefinedBrick userDefinedBrick = new UserDefinedBrick();
-		assertTrue(sprite.addUserVariable(new UserVariable(spriteVarName)));
-		assertTrue(sprite.addUserList(new UserList(spriteListName)));
-		sprite.addUserDefinedBrick(userDefinedBrick);
-
-		sprite.setConvertToGroupItemSprite(true);
-		Sprite groupItemSprite = controller.convert(sprite);
-
-		assertEquals(2, scene.getSpriteList().size());
-
-		assertEquals(sprite.getLookList().size(), groupItemSprite.getLookList().size());
-		assertEquals(sprite.getSoundList().size(), groupItemSprite.getSoundList().size());
-		assertEquals(sprite.getNumberOfScripts(), groupItemSprite.getNumberOfScripts());
-		assertEquals(sprite.getNumberOfBricks(), groupItemSprite.getNumberOfBricks());
-
-		assertNotNull(sprite.getUserVariable(spriteVarName));
-		assertNotNull(groupItemSprite.getUserVariable(spriteVarName));
-
-		assertNotNull(sprite.getUserList(spriteListName));
-		assertNotNull(groupItemSprite.getUserList(spriteListName));
-
-		assertNotNull(sprite.getUserDefinedBrickWithSameUserData(userDefinedBrick));
-		assertNotNull(groupItemSprite.getUserDefinedBrickWithSameUserData(userDefinedBrick));
-
-		assertFileExists(groupItemSprite.getLookList().get(0).getFile());
-		assertFileExists(groupItemSprite.getSoundList().get(0).getFile());
-	}
-
-	@Test
-	public void testDeleteSprite() {
-		SpriteController controller = new SpriteController();
-
-		String spriteVarName = "spriteVar";
-		String spriteListName = "spriteList";
-		assertTrue(sprite.addUserVariable(new UserVariable(spriteVarName)));
-		assertTrue(sprite.addUserList(new UserList(spriteListName)));
-
-		File deletedLookFile = sprite.getLookList().get(0).getFile();
-		File deletedSoundFile = sprite.getSoundList().get(0).getFile();
-
-		controller.delete(sprite);
-
-		assertEquals(2, scene.getSpriteList().size());
-
-		assertFileDoesNotExist(deletedLookFile);
-		assertFileDoesNotExist(deletedSoundFile);
-	}
-
-	@Test
-	public void testPackSprite() throws IOException {
-		SpriteController controller = new SpriteController();
-		Sprite packedSprite = controller.pack(sprite);
-
-		assertEquals(0, backpackListManager.getSprites().size());
-
-		assertEquals(sprite.getLookList().size(), packedSprite.getLookList().size());
-		assertEquals(sprite.getSoundList().size(), packedSprite.getSoundList().size());
-		assertEquals(sprite.getNumberOfScripts(), packedSprite.getNumberOfScripts());
-		assertEquals(sprite.getNumberOfBricks(), packedSprite.getNumberOfBricks());
-
-		assertFileExistsInDirectory(packedSprite.getLookList().get(0).getFile(),
-				backpackListManager.backpackImageDirectory);
-		assertFileExistsInDirectory(packedSprite.getSoundList().get(0).getFile(),
-				backpackListManager.backpackSoundDirectory);
-	}
-
-	@Test
-	public void testDeleteSpriteFromBackPack() throws IOException {
-		SpriteController controller = new SpriteController();
-		Sprite packedSprite = controller.pack(sprite);
-
-		controller.delete(packedSprite);
-
-		assertEquals(0, BackpackListManager.getInstance().getSprites().size());
-		assertFileDoesNotExistInDirectory(packedSprite.getLookList().get(0).getFile(),
-				backpackListManager.backpackImageDirectory);
-		assertFileDoesNotExistInDirectory(packedSprite.getSoundList().get(0).getFile(),
-				backpackListManager.backpackSoundDirectory);
-	}
-
-	@Test
-	public void testUnpackSprite() throws IOException {
-		SpriteController controller = new SpriteController();
-		Sprite packedSprite = controller.pack(sprite);
-		Sprite unpackedSprite = controller.unpack(packedSprite, project, scene);
-
-		assertEquals(0, BackpackListManager.getInstance().getSprites().size());
-
-		assertFileExistsInDirectory(packedSprite.getLookList().get(0).getFile(),
-				backpackListManager.backpackImageDirectory);
-		assertFileExistsInDirectory(packedSprite.getSoundList().get(0).getFile(),
-				backpackListManager.backpackSoundDirectory);
-
-		assertEquals(2, scene.getSpriteList().size());
-
-		assertEquals(sprite.getLookList().size(), unpackedSprite.getLookList().size());
-		assertEquals(sprite.getSoundList().size(), unpackedSprite.getSoundList().size());
-		assertEquals(sprite.getNumberOfScripts(), unpackedSprite.getNumberOfScripts());
-		assertEquals(sprite.getNumberOfBricks(), unpackedSprite.getNumberOfBricks());
-
-		assertFileExists(unpackedSprite.getLookList().get(0).getFile());
-		assertFileExists(unpackedSprite.getSoundList().get(0).getFile());
-	}
-
-	@Test
-	public void testDeepCopySprite() throws IOException {
-		SpriteController controller = new SpriteController();
-		Sprite copy = controller.copy(sprite, project, scene);
-
-		assertEquals(2, scene.getSpriteList().size());
-
-		assertEquals(sprite.getLookList().size(), copy.getLookList().size());
-		assertEquals(sprite.getSoundList().size(), copy.getSoundList().size());
-		assertEquals(sprite.getNumberOfScripts(), copy.getNumberOfScripts());
-		assertEquals(sprite.getNumberOfBricks(), copy.getNumberOfBricks());
-
-		assertFileExists(copy.getLookList().get(0).getFile());
-		assertFileExists(copy.getSoundList().get(0).getFile());
-
-		controller.delete(sprite);
-
-		assertEquals(sprite.getLookList().size(), copy.getLookList().size());
-		assertEquals(sprite.getSoundList().size(), copy.getSoundList().size());
-		assertEquals(sprite.getNumberOfScripts(), copy.getNumberOfScripts());
-		assertEquals(sprite.getNumberOfBricks(), copy.getNumberOfBricks());
-
-		assertFileExists(copy.getLookList().get(0).getFile());
-		assertFileExists(copy.getSoundList().get(0).getFile());
-
-		assertFileDoesNotExist(sprite.getLookList().get(0).getFile());
-		assertFileDoesNotExist(sprite.getSoundList().get(0).getFile());
-	}
-
-	private void createProject() throws IOException {
-		project = new Project(ApplicationProvider.getApplicationContext(), "SpriteControllerTest");
-		scene = project.getDefaultScene();
-		ProjectManager.getInstance().setCurrentProject(project);
-
-		sprite = new Sprite("testSprite");
-		scene.addSprite(sprite);
-
-		StartScript script = new StartScript();
-		PlaceAtBrick placeAtBrick = new PlaceAtBrick(0, 0);
-		script.addBrick(placeAtBrick);
-		sprite.addScript(script);
-
-		XstreamSerializer.getInstance().saveProject(project);
-
-		File imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
-				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
-				org.catrobat.catroid.test.R.raw.red_image,
-				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
-				"red_image.bmp",
-				1);
-
-		sprite.getLookList().add(new LookData("testLook", imageFile));
-
-		File soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
-				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
-				org.catrobat.catroid.test.R.raw.longsound,
-				new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME),
-				"longsound.mp3");
-
-		sprite.getSoundList().add(new SoundInfo("testSound", soundFile));
-		XstreamSerializer.getInstance().saveProject(project);
-	}
-
-	private void deleteProject() throws IOException {
-		if (project.getDirectory().exists()) {
-			StorageOperations.deleteDir(project.getDirectory());
-		}
-	}
+package org.catrobat.catroid.test.content.controller
+
+import org.junit.runner.RunWith
+import org.catrobat.catroid.ui.controller.BackpackListManager
+import org.junit.Before
+import kotlin.Throws
+import org.catrobat.catroid.test.utils.TestUtils
+import org.catrobat.catroid.ui.recyclerview.controller.SpriteController
+import org.catrobat.catroid.content.bricks.UserDefinedBrick
+import org.catrobat.catroid.formulaeditor.UserVariable
+import org.catrobat.catroid.formulaeditor.UserList
+import org.catrobat.catroid.uiespresso.util.FileTestUtils
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import junit.framework.Assert
+import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.common.Constants
+import org.catrobat.catroid.content.StartScript
+import org.catrobat.catroid.content.bricks.PlaceAtBrick
+import org.catrobat.catroid.io.XstreamSerializer
+import org.catrobat.catroid.io.ResourceImporter
+import org.catrobat.catroid.common.LookData
+import org.catrobat.catroid.common.SoundInfo
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.io.StorageOperations
+import org.catrobat.catroid.test.R
+import org.junit.After
+import org.junit.Test
+import java.io.File
+import java.io.IOException
+
+@RunWith(AndroidJUnit4::class)
+class SpriteControllerTest {
+    private var project: Project? = null
+    private var scene: Scene? = null
+    private var sprite: Sprite? = null
+    private var backpackListManager: BackpackListManager? = null
+    @Before
+    @Throws(IOException::class)
+    fun setUp() {
+        backpackListManager = BackpackListManager.getInstance()
+        TestUtils.clearBackPack(backpackListManager)
+        createProject()
+    }
+
+    @After
+    @Throws(IOException::class)
+    fun tearDown() {
+        deleteProject()
+        TestUtils.clearBackPack(backpackListManager)
+    }
+
+    @Test
+    @Throws(IOException::class)
+    fun testCopySprite() {
+        val controller = SpriteController()
+        val spriteVarName = "spriteVar"
+        val spriteListName = "spriteList"
+        val userDefinedBrick = UserDefinedBrick()
+        Assert.assertTrue(sprite!!.addUserVariable(UserVariable(spriteVarName)))
+        Assert.assertTrue(sprite!!.addUserList(UserList(spriteListName)))
+        sprite!!.addUserDefinedBrick(userDefinedBrick)
+        val copy = controller.copy(sprite, project, scene)
+        Assert.assertEquals(2, scene!!.spriteList.size)
+        Assert.assertEquals(sprite!!.lookList.size, copy.lookList.size)
+        Assert.assertEquals(sprite!!.soundList.size, copy.soundList.size)
+        Assert.assertEquals(sprite!!.numberOfScripts, copy.numberOfScripts)
+        Assert.assertEquals(sprite!!.numberOfBricks, copy.numberOfBricks)
+        Assert.assertNotNull(sprite!!.getUserVariable(spriteVarName))
+        Assert.assertNotNull(copy.getUserVariable(spriteVarName))
+        Assert.assertNotSame(
+            sprite!!.getUserVariable(spriteVarName),
+            copy.getUserVariable(spriteVarName)
+        )
+        Assert.assertNotNull(sprite!!.getUserList(spriteListName))
+        Assert.assertNotNull(copy.getUserList(spriteListName))
+        Assert.assertNotSame(
+            sprite!!.getUserList(spriteListName),
+            copy.getUserList(spriteListName)
+        )
+        Assert.assertNotNull(sprite!!.getUserDefinedBrickWithSameUserData(userDefinedBrick))
+        Assert.assertNotNull(copy.getUserDefinedBrickWithSameUserData(userDefinedBrick))
+        Assert.assertNotSame(
+            sprite!!.getUserDefinedBrickWithSameUserData(userDefinedBrick),
+            copy.getUserDefinedBrickWithSameUserData(userDefinedBrick)
+        )
+        FileTestUtils.assertFileExists(copy.lookList[0].file)
+        FileTestUtils.assertFileExists(copy.soundList[0].file)
+    }
+
+    @Test
+    fun testConvertSpriteToGroupItemSprite() {
+        val controller = SpriteController()
+        val spriteVarName = "spriteVar"
+        val spriteListName = "spriteList"
+        val userDefinedBrick = UserDefinedBrick()
+        Assert.assertTrue(sprite!!.addUserVariable(UserVariable(spriteVarName)))
+        Assert.assertTrue(sprite!!.addUserList(UserList(spriteListName)))
+        sprite!!.addUserDefinedBrick(userDefinedBrick)
+        sprite!!.setConvertToGroupItemSprite(true)
+        val groupItemSprite = controller.convert(sprite)
+        Assert.assertEquals(2, scene!!.spriteList.size)
+        Assert.assertEquals(sprite!!.lookList.size, groupItemSprite.lookList.size)
+        Assert.assertEquals(sprite!!.soundList.size, groupItemSprite.soundList.size)
+        Assert.assertEquals(sprite!!.numberOfScripts, groupItemSprite.numberOfScripts)
+        Assert.assertEquals(sprite!!.numberOfBricks, groupItemSprite.numberOfBricks)
+        Assert.assertNotNull(sprite!!.getUserVariable(spriteVarName))
+        Assert.assertNotNull(groupItemSprite.getUserVariable(spriteVarName))
+        Assert.assertNotNull(sprite!!.getUserList(spriteListName))
+        Assert.assertNotNull(groupItemSprite.getUserList(spriteListName))
+        Assert.assertNotNull(sprite!!.getUserDefinedBrickWithSameUserData(userDefinedBrick))
+        Assert.assertNotNull(groupItemSprite.getUserDefinedBrickWithSameUserData(userDefinedBrick))
+        FileTestUtils.assertFileExists(groupItemSprite.lookList[0].file)
+        FileTestUtils.assertFileExists(groupItemSprite.soundList[0].file)
+    }
+
+    @Test
+    fun testDeleteSprite() {
+        val controller = SpriteController()
+        val spriteVarName = "spriteVar"
+        val spriteListName = "spriteList"
+        Assert.assertTrue(sprite!!.addUserVariable(UserVariable(spriteVarName)))
+        Assert.assertTrue(sprite!!.addUserList(UserList(spriteListName)))
+        val deletedLookFile = sprite!!.lookList[0].file
+        val deletedSoundFile = sprite!!.soundList[0].file
+        controller.delete(sprite)
+        Assert.assertEquals(2, scene!!.spriteList.size)
+        FileTestUtils.assertFileDoesNotExist(deletedLookFile)
+        FileTestUtils.assertFileDoesNotExist(deletedSoundFile)
+    }
+
+    @Test
+    @Throws(IOException::class)
+    fun testPackSprite() {
+        val controller = SpriteController()
+        val packedSprite = controller.pack(sprite)
+        Assert.assertEquals(0, backpackListManager!!.sprites.size)
+        Assert.assertEquals(sprite!!.lookList.size, packedSprite.lookList.size)
+        Assert.assertEquals(sprite!!.soundList.size, packedSprite.soundList.size)
+        Assert.assertEquals(sprite!!.numberOfScripts, packedSprite.numberOfScripts)
+        Assert.assertEquals(sprite!!.numberOfBricks, packedSprite.numberOfBricks)
+        FileTestUtils.assertFileExistsInDirectory(
+            packedSprite.lookList[0].file,
+            backpackListManager!!.backpackImageDirectory
+        )
+        FileTestUtils.assertFileExistsInDirectory(
+            packedSprite.soundList[0].file,
+            backpackListManager!!.backpackSoundDirectory
+        )
+    }
+
+    @Test
+    @Throws(IOException::class)
+    fun testDeleteSpriteFromBackPack() {
+        val controller = SpriteController()
+        val packedSprite = controller.pack(sprite)
+        controller.delete(packedSprite)
+        Assert.assertEquals(0, BackpackListManager.getInstance().sprites.size)
+        FileTestUtils.assertFileDoesNotExistInDirectory(
+            packedSprite.lookList[0].file,
+            backpackListManager!!.backpackImageDirectory
+        )
+        FileTestUtils.assertFileDoesNotExistInDirectory(
+            packedSprite.soundList[0].file,
+            backpackListManager!!.backpackSoundDirectory
+        )
+    }
+
+    @Test
+    @Throws(IOException::class)
+    fun testUnpackSprite() {
+        val controller = SpriteController()
+        val packedSprite = controller.pack(sprite)
+        val unpackedSprite = controller.unpack(packedSprite, project, scene)
+        Assert.assertEquals(0, BackpackListManager.getInstance().sprites.size)
+        FileTestUtils.assertFileExistsInDirectory(
+            packedSprite.lookList[0].file,
+            backpackListManager!!.backpackImageDirectory
+        )
+        FileTestUtils.assertFileExistsInDirectory(
+            packedSprite.soundList[0].file,
+            backpackListManager!!.backpackSoundDirectory
+        )
+        Assert.assertEquals(2, scene!!.spriteList.size)
+        Assert.assertEquals(sprite!!.lookList.size, unpackedSprite.lookList.size)
+        Assert.assertEquals(sprite!!.soundList.size, unpackedSprite.soundList.size)
+        Assert.assertEquals(sprite!!.numberOfScripts, unpackedSprite.numberOfScripts)
+        Assert.assertEquals(sprite!!.numberOfBricks, unpackedSprite.numberOfBricks)
+        FileTestUtils.assertFileExists(unpackedSprite.lookList[0].file)
+        FileTestUtils.assertFileExists(unpackedSprite.soundList[0].file)
+    }
+
+    @Test
+    @Throws(IOException::class)
+    fun testDeepCopySprite() {
+        val controller = SpriteController()
+        val copy = controller.copy(sprite, project, scene)
+        Assert.assertEquals(2, scene!!.spriteList.size)
+        Assert.assertEquals(sprite!!.lookList.size, copy.lookList.size)
+        Assert.assertEquals(sprite!!.soundList.size, copy.soundList.size)
+        Assert.assertEquals(sprite!!.numberOfScripts, copy.numberOfScripts)
+        Assert.assertEquals(sprite!!.numberOfBricks, copy.numberOfBricks)
+        FileTestUtils.assertFileExists(copy.lookList[0].file)
+        FileTestUtils.assertFileExists(copy.soundList[0].file)
+        controller.delete(sprite)
+        Assert.assertEquals(sprite!!.lookList.size, copy.lookList.size)
+        Assert.assertEquals(sprite!!.soundList.size, copy.soundList.size)
+        Assert.assertEquals(sprite!!.numberOfScripts, copy.numberOfScripts)
+        Assert.assertEquals(sprite!!.numberOfBricks, copy.numberOfBricks)
+        FileTestUtils.assertFileExists(copy.lookList[0].file)
+        FileTestUtils.assertFileExists(copy.soundList[0].file)
+        FileTestUtils.assertFileDoesNotExist(sprite!!.lookList[0].file)
+        FileTestUtils.assertFileDoesNotExist(sprite!!.soundList[0].file)
+    }
+
+    @Throws(IOException::class)
+    private fun createProject() {
+        project = Project(ApplicationProvider.getApplicationContext(), "SpriteControllerTest")
+        scene = project!!.defaultScene
+        ProjectManager.getInstance().currentProject = project
+        sprite = Sprite("testSprite")
+        scene?.addSprite(sprite)
+        val script = StartScript()
+        val placeAtBrick = PlaceAtBrick(0, 0)
+        script.addBrick(placeAtBrick)
+        sprite!!.addScript(script)
+        XstreamSerializer.getInstance().saveProject(project)
+        val imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
+            InstrumentationRegistry.getInstrumentation().context.resources,
+            R.raw.red_image,
+            File(project!!.defaultScene.directory, Constants.IMAGE_DIRECTORY_NAME),
+            "red_image.bmp", 1.0
+        )
+        sprite!!.lookList.add(LookData("testLook", imageFile))
+        val soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
+            InstrumentationRegistry.getInstrumentation().context.resources,
+            R.raw.longsound,
+            File(project!!.defaultScene.directory, Constants.SOUND_DIRECTORY_NAME),
+            "longsound.mp3"
+        )
+        sprite!!.soundList.add(SoundInfo("testSound", soundFile))
+        XstreamSerializer.getInstance().saveProject(project)
+    }
+
+    @Throws(IOException::class)
+    private fun deleteProject() {
+        if (project!!.directory.exists()) {
+            StorageOperations.deleteDir(project!!.directory)
+        }
+    }
 }
