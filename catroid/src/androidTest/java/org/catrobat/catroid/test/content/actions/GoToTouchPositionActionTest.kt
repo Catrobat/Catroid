@@ -20,65 +20,67 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.content.actions
 
-package org.catrobat.catroid.test.content.actions;
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.badlogic.gdx.scenes.scene2d.Action
+import junit.framework.Assert
+import org.junit.runner.RunWith
+import org.junit.rules.ExpectedException
+import org.junit.Before
+import kotlin.Throws
+import org.catrobat.catroid.common.BrickValues
+import org.catrobat.catroid.utils.TouchUtil
+import org.catrobat.catroid.test.content.actions.GoToTouchPositionActionTest
+import org.catrobat.catroid.content.ActionFactory
+import org.catrobat.catroid.content.Sprite
+import org.junit.Rule
+import org.junit.Test
+import java.lang.Exception
+import java.lang.NullPointerException
 
-import com.badlogic.gdx.scenes.scene2d.Action;
+@RunWith(AndroidJUnit4::class)
+class GoToTouchPositionActionTest {
+    @get:Rule
+    val exception = ExpectedException.none()
+    private var sprite: Sprite? = null
+    private var dummySprite: Sprite? = null
+    private var action: Action? = null
+    @Before
+    @Throws(Exception::class)
+    fun setUp() {
+        sprite = Sprite("testSprite")
+        dummySprite = Sprite("dummySprite")
+        action = sprite!!.actionFactory.createGoToAction(
+            sprite,
+            dummySprite,
+            BrickValues.GO_TO_TOUCH_POSITION
+        )
+    }
 
-import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.content.ActionFactory;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.utils.TouchUtil;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
+    @Test
+    @Throws(InterruptedException::class)
+    fun testGoToTouchPositionAction() {
+        sprite!!.look.xInUserInterfaceDimensionUnit = 0f
+        sprite!!.look.yInUserInterfaceDimensionUnit = 0f
+        Assert.assertEquals(0f, sprite!!.look.xInUserInterfaceDimensionUnit)
+        Assert.assertEquals(0f, sprite!!.look.yInUserInterfaceDimensionUnit)
+        TouchUtil.setDummyTouchForTest(EXPECTED_X_POSITION, EXPECTED_Y_POSITION)
+        action!!.act(1f)
+        Assert.assertEquals(EXPECTED_X_POSITION, sprite!!.look.xInUserInterfaceDimensionUnit)
+        Assert.assertEquals(EXPECTED_Y_POSITION, sprite!!.look.yInUserInterfaceDimensionUnit)
+    }
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+    @Test
+    fun testNullActor() {
+        val factory = ActionFactory()
+        val action = factory.createGoToAction(null, dummySprite, BrickValues.GO_TO_TOUCH_POSITION)
+        exception.expect(NullPointerException::class.java)
+        action.act(1.0f)
+    }
 
-import static junit.framework.Assert.assertEquals;
-
-@RunWith(AndroidJUnit4.class)
-public class GoToTouchPositionActionTest {
-
-	@Rule
-	public final ExpectedException exception = ExpectedException.none();
-
-	private static final float EXPECTED_X_POSITION = 20f;
-	private static final float EXPECTED_Y_POSITION = 25f;
-	private Sprite sprite;
-	private Sprite dummySprite;
-	private Action action;
-
-	@Before
-	public void setUp() throws Exception {
-		sprite = new Sprite("testSprite");
-		dummySprite = new Sprite("dummySprite");
-		action = sprite.getActionFactory().createGoToAction(sprite, dummySprite, BrickValues.GO_TO_TOUCH_POSITION);
-	}
-
-	@Test
-	public void testGoToTouchPositionAction() throws InterruptedException {
-		sprite.look.setXInUserInterfaceDimensionUnit(0f);
-		sprite.look.setYInUserInterfaceDimensionUnit(0f);
-
-		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
-
-		TouchUtil.setDummyTouchForTest(EXPECTED_X_POSITION, EXPECTED_Y_POSITION);
-
-		action.act(1f);
-
-		assertEquals(EXPECTED_X_POSITION, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals(EXPECTED_Y_POSITION, sprite.look.getYInUserInterfaceDimensionUnit());
-	}
-
-	@Test
-	public void testNullActor() {
-		ActionFactory factory = new ActionFactory();
-		Action action = factory.createGoToAction(null, dummySprite, BrickValues.GO_TO_TOUCH_POSITION);
-		exception.expect(NullPointerException.class);
-		action.act(1.0f);
-	}
+    companion object {
+        private const val EXPECTED_X_POSITION = 20f
+        private const val EXPECTED_Y_POSITION = 25f
+    }
 }

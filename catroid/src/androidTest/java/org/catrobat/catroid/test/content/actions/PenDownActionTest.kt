@@ -20,156 +20,150 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.content.actions
 
-package org.catrobat.catroid.test.content.actions;
+import org.junit.runner.RunWith
+import org.junit.rules.ExpectedException
+import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.test.content.actions.PenDownActionTest
+import com.badlogic.gdx.graphics.OrthographicCamera
+import org.catrobat.catroid.stage.CameraPositioner
+import org.junit.Before
+import kotlin.Throws
+import org.catrobat.catroid.test.utils.TestUtils
+import org.catrobat.catroid.content.ActionFactory
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+import android.graphics.PointF
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import junit.framework.Assert
+import org.catrobat.catroid.io.XstreamSerializer
+import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Sprite
+import org.junit.After
+import org.junit.Rule
+import org.junit.Test
+import org.mockito.Mockito
+import java.lang.Exception
+import java.lang.NullPointerException
 
-import android.graphics.PointF;
+@RunWith(AndroidJUnit4::class)
+class PenDownActionTest {
+    @get:Rule
+    val exception = ExpectedException.none()
+    private val xMovement = Formula(X_MOVEMENT)
+    private val yMovement = Formula(Y_MOVEMENT)
+    private var sprite: Sprite? = null
+    private val camera = Mockito.spy(OrthographicCamera())
+    private val cameraPositioner = CameraPositioner(camera, 960.0f, 540.0f)
+    private val projectName = "testProject"
+    @Before
+    @Throws(Exception::class)
+    fun setUp() {
+        sprite = Sprite("testSprite")
+        Mockito.doNothing().`when`(camera).update()
+        createTestProject()
+    }
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-import com.badlogic.gdx.utils.Queue;
+    @After
+    @Throws(Exception::class)
+    fun tearDown() {
+        TestUtils.deleteProjects(projectName)
+    }
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.ActionFactory;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.stage.CameraPositioner;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
+    @Test
+    fun testNullSprite() {
+        val factory = ActionFactory()
+        val action = factory.createPenDownAction(null)
+        exception.expect(NullPointerException::class.java)
+        action.act(1.0f)
+    }
 
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+    @Test
+    fun testSaveOnePositionChange() {
+        Assert.assertEquals(0f, sprite!!.look.xInUserInterfaceDimensionUnit)
+        Assert.assertEquals(0f, sprite!!.look.yInUserInterfaceDimensionUnit)
+        sprite!!.actionFactory.createPenDownAction(sprite).act(1.0f)
+        sprite!!.actionFactory.createChangeXByNAction(sprite, SequenceAction(), xMovement).act(1.0f)
+        val positions = sprite!!.penConfiguration.positions
+        Assert.assertEquals(0f, positions.first().removeFirst().x)
+        Assert.assertEquals(X_MOVEMENT, positions.first().removeFirst().x)
+    }
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
+    @Test
+    fun testSimultaneousPositionChangeXY() {
+        Assert.assertEquals(0f, sprite!!.look.xInUserInterfaceDimensionUnit)
+        Assert.assertEquals(0f, sprite!!.look.yInUserInterfaceDimensionUnit)
+        sprite!!.actionFactory.createPenDownAction(sprite).act(1.0f)
+        sprite!!.actionFactory.createPlaceAtAction(
+            sprite, SequenceAction(), xMovement,
+            yMovement
+        ).act(1.0f)
+        val positions = sprite!!.penConfiguration.positions
+        Assert.assertEquals(0f, positions.first().removeFirst().x)
+        Assert.assertEquals(X_MOVEMENT, positions.first().first().x)
+        Assert.assertEquals(Y_MOVEMENT, positions.first().removeFirst().y)
+    }
 
-@RunWith(AndroidJUnit4.class)
-public class PenDownActionTest {
+    @Test
+    fun testPositionChangeX() {
+        Assert.assertEquals(0f, sprite!!.look.xInUserInterfaceDimensionUnit)
+        Assert.assertEquals(0f, sprite!!.look.yInUserInterfaceDimensionUnit)
+        sprite!!.actionFactory.createPlaceAtAction(
+            sprite, SequenceAction(), Formula(0f),
+            Formula(0f)
+        ).act(1.0f)
+        sprite!!.actionFactory.createPenDownAction(sprite).act(1.0f)
+        sprite!!.actionFactory.createPlaceAtAction(
+            sprite, SequenceAction(), xMovement,
+            Formula(0f)
+        ).act(1.0f)
+        val positions = sprite!!.penConfiguration.positions
+        Assert.assertEquals(0f, positions.first().removeFirst().x)
+        Assert.assertEquals(X_MOVEMENT, positions.first().first().x)
+        Assert.assertEquals(0f, positions.first().removeFirst().y)
+    }
 
-	@Rule
-	public final ExpectedException exception = ExpectedException.none();
+    @Test
+    fun testAfterBecomeFocusPoint() {
+        Assert.assertEquals(0f, sprite!!.look.xInUserInterfaceDimensionUnit)
+        Assert.assertEquals(0f, sprite!!.look.yInUserInterfaceDimensionUnit)
+        cameraPositioner.horizontalFlex = 0f
+        cameraPositioner.verticalFlex = 0f
+        cameraPositioner.spriteToFocusOn = sprite
+        sprite!!.actionFactory.createPenDownAction(sprite).act(1.0f)
+        sprite!!.actionFactory.createPlaceAtAction(
+            sprite, SequenceAction(), xMovement,
+            yMovement
+        ).act(1.0f)
+        cameraPositioner.updateCameraPositionForFocusedSprite()
+        val positions = sprite!!.penConfiguration.positions
+        Assert.assertEquals(0f, positions.first().removeFirst().x)
+        Assert.assertEquals(X_MOVEMENT, positions.first().first().x)
+        Assert.assertEquals(Y_MOVEMENT, positions.first().removeFirst().y)
+        cameraPositioner.reset()
+    }
 
-	private static final float X_MOVEMENT = 100.0f;
-	private static final float Y_MOVEMENT = 50.0f;
-	private Formula xMovement = new Formula(X_MOVEMENT);
-	private Formula yMovement = new Formula(Y_MOVEMENT);
-	private Sprite sprite;
-	private OrthographicCamera camera = Mockito.spy(new OrthographicCamera());
-	private CameraPositioner cameraPositioner = new CameraPositioner(camera, 960.0f, 540.0f);
-	private String projectName = "testProject";
+    @Test
+    fun testMultiplePenDownActions() {
+        Assert.assertEquals(0f, sprite!!.look.xInUserInterfaceDimensionUnit)
+        Assert.assertEquals(0f, sprite!!.look.yInUserInterfaceDimensionUnit)
+        sprite!!.actionFactory.createPenDownAction(sprite).act(1.0f)
+        sprite!!.actionFactory.createPenDownAction(sprite).act(1.0f)
+        val positions = sprite!!.penConfiguration.positions
+        Assert.assertEquals(0f, positions.first().removeFirst().x)
+        Assert.assertTrue(positions.first().isEmpty)
+    }
 
-	@Before
-	public void setUp() throws Exception {
-		sprite = new Sprite("testSprite");
-		Mockito.doNothing().when(camera).update();
-		createTestProject();
-	}
+    private fun createTestProject() {
+        val project = Project(ApplicationProvider.getApplicationContext(), projectName)
+        XstreamSerializer.getInstance().saveProject(project)
+        ProjectManager.getInstance().currentProject = project
+    }
 
-	@After
-	public void tearDown() throws Exception {
-		TestUtils.deleteProjects(projectName);
-	}
-
-	@Test
-	public void testNullSprite() {
-		ActionFactory factory = new ActionFactory();
-		Action action = factory.createPenDownAction(null);
-		exception.expect(NullPointerException.class);
-		action.act(1.0f);
-	}
-
-	@Test
-	public void testSaveOnePositionChange() {
-		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
-
-		sprite.getActionFactory().createPenDownAction(sprite).act(1.0f);
-		sprite.getActionFactory().createChangeXByNAction(sprite, new SequenceAction(), xMovement).act(1.0f);
-
-		Queue<Queue<PointF>> positions = sprite.penConfiguration.getPositions();
-		assertEquals(0f, positions.first().removeFirst().x);
-		assertEquals(X_MOVEMENT, positions.first().removeFirst().x);
-	}
-
-	@Test
-	public void testSimultaneousPositionChangeXY() {
-		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
-
-		sprite.getActionFactory().createPenDownAction(sprite).act(1.0f);
-		sprite.getActionFactory().createPlaceAtAction(sprite, new SequenceAction(), xMovement,
-				yMovement).act(1.0f);
-
-		Queue<Queue<PointF>> positions = sprite.penConfiguration.getPositions();
-		assertEquals(0f, positions.first().removeFirst().x);
-		assertEquals(X_MOVEMENT, positions.first().first().x);
-		assertEquals(Y_MOVEMENT, positions.first().removeFirst().y);
-	}
-
-	@Test
-	public void testPositionChangeX() {
-		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
-
-		sprite.getActionFactory().createPlaceAtAction(sprite, new SequenceAction(), new Formula(0f),
-				new Formula(0f)).act(1.0f);
-
-		sprite.getActionFactory().createPenDownAction(sprite).act(1.0f);
-		sprite.getActionFactory().createPlaceAtAction(sprite, new SequenceAction(), xMovement,
-				new Formula(0f)).act(1.0f);
-
-		Queue<Queue<PointF>> positions = sprite.penConfiguration.getPositions();
-		assertEquals(0f, positions.first().removeFirst().x);
-		assertEquals(X_MOVEMENT, positions.first().first().x);
-		assertEquals(0f, positions.first().removeFirst().y);
-	}
-
-	@Test
-	public void testAfterBecomeFocusPoint() {
-		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
-
-		cameraPositioner.setHorizontalFlex(0f);
-		cameraPositioner.setVerticalFlex(0f);
-		cameraPositioner.setSpriteToFocusOn(sprite);
-
-		sprite.getActionFactory().createPenDownAction(sprite).act(1.0f);
-		sprite.getActionFactory().createPlaceAtAction(sprite, new SequenceAction(), xMovement,
-				yMovement).act(1.0f);
-		cameraPositioner.updateCameraPositionForFocusedSprite();
-
-		Queue<Queue<PointF>> positions = sprite.penConfiguration.getPositions();
-		assertEquals(0f, positions.first().removeFirst().x);
-		assertEquals(X_MOVEMENT, positions.first().first().x);
-		assertEquals(Y_MOVEMENT, positions.first().removeFirst().y);
-		cameraPositioner.reset();
-	}
-
-	@Test
-	public void testMultiplePenDownActions() {
-		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
-
-		sprite.getActionFactory().createPenDownAction(sprite).act(1.0f);
-		sprite.getActionFactory().createPenDownAction(sprite).act(1.0f);
-
-		Queue<Queue<PointF>> positions = sprite.penConfiguration.getPositions();
-		assertEquals(0f, positions.first().removeFirst().x);
-		assertTrue(positions.first().isEmpty());
-	}
-
-	private void createTestProject() {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setCurrentProject(project);
-	}
+    companion object {
+        private const val X_MOVEMENT = 100.0f
+        private const val Y_MOVEMENT = 50.0f
+    }
 }

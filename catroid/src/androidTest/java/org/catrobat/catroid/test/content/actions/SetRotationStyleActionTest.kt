@@ -20,170 +20,154 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.content.actions;
+package org.catrobat.catroid.test.content.actions
 
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.runner.RunWith
+import org.catrobat.catroid.test.physics.PhysicsTestRule
+import org.catrobat.catroid.physics.PhysicsWorld
+import org.junit.Before
+import kotlin.Throws
+import org.catrobat.catroid.content.ActionFactory
+import org.catrobat.catroid.content.Look
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+import junit.framework.Assert
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.physics.PhysicsObject
+import org.catrobat.catroid.physics.PhysicsLook
+import org.junit.Rule
+import org.junit.Test
+import java.lang.Exception
 
-import org.catrobat.catroid.content.ActionFactory;
-import org.catrobat.catroid.content.Look;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.physics.PhysicsLook;
-import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.physics.PhysicsWorld;
-import org.catrobat.catroid.test.physics.PhysicsTestRule;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+@RunWith(AndroidJUnit4::class)
+class SetRotationStyleActionTest {
+    @get:Rule
+    var rule = PhysicsTestRule()
+    private var sprite: Sprite? = null
+    private var physicsWorld: PhysicsWorld? = null
+    @Before
+    @Throws(Exception::class)
+    fun setUp() {
+        sprite = rule.sprite
+        physicsWorld = rule.physicsWorld
+    }
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+    @Test
+    fun testNormalMode() {
+        val factory = sprite!!.actionFactory
+        val rotationStyleAction =
+            factory.createSetRotationStyleAction(sprite, Look.ROTATION_STYLE_ALL_AROUND)
+        val pointInDirectionAction = factory.createPointInDirectionAction(
+            sprite,
+            SequenceAction(),
+            Formula(90)
+        )
+        rotationStyleAction.act(1.0f)
+        pointInDirectionAction.act(1.0f)
+        Assert.assertEquals(90f, sprite!!.look.motionDirectionInUserInterfaceDimensionUnit)
+    }
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
+    @Test
+    fun testNoMode() {
+        val factory = sprite!!.actionFactory
+        val rotationStyleAction =
+            factory.createSetRotationStyleAction(sprite, Look.ROTATION_STYLE_NONE)
+        val pointInDirectionAction = factory.createPointInDirectionAction(
+            sprite,
+            SequenceAction(),
+            Formula(-90)
+        )
+        rotationStyleAction.act(1.0f)
+        pointInDirectionAction.act(1.0f)
+        Assert.assertEquals(-90f, sprite!!.look.motionDirectionInUserInterfaceDimensionUnit)
+    }
 
-@RunWith(AndroidJUnit4.class)
-public class SetRotationStyleActionTest {
+    @Test
+    fun testLRMode() {
+        val factory = sprite!!.actionFactory
+        val rotationStyleAction =
+            factory.createSetRotationStyleAction(sprite, Look.ROTATION_STYLE_LEFT_RIGHT_ONLY)
+        val pointInDirectionAction = factory.createPointInDirectionAction(
+            sprite,
+            SequenceAction(),
+            Formula(-90)
+        )
+        rotationStyleAction.act(1.0f)
+        pointInDirectionAction.act(1.0f)
+        Assert.assertEquals(-90f, sprite!!.look.motionDirectionInUserInterfaceDimensionUnit)
+    }
 
-	@Rule
-	public PhysicsTestRule rule = new PhysicsTestRule();
+    //Directions here get funky because in physics there is no UI Degree Offset as in the normal looks
+    //Right is Left, Left is Right, Up is Up and Down is Down
+    @Test
+    fun testNormalModeInPhysics() {
+        val physicsObject = physicsWorld!!.getPhysicsObject(sprite)
+        val physicsLook = PhysicsLook(sprite, physicsWorld)
+        physicsLook.rotationMode = Look.ROTATION_STYLE_ALL_AROUND
+        physicsLook.rotation = 90f
+        Assert.assertEquals(90f, physicsObject.direction)
+        Assert.assertEquals(90f, physicsLook.rotation)
+        Assert.assertFalse(physicsLook.isFlipped)
+        physicsLook.rotation = -90f
+        Assert.assertEquals(-90f, physicsObject.direction)
+        Assert.assertEquals(-90f, physicsLook.rotation)
+        Assert.assertFalse(physicsLook.isFlipped)
+        physicsLook.rotation = 0f
+        Assert.assertEquals(0f, physicsObject.direction)
+        Assert.assertEquals(0f, physicsLook.rotation)
+        Assert.assertFalse(physicsLook.isFlipped)
+        physicsLook.rotation = 180f
+        Assert.assertEquals(180f, physicsObject.direction)
+        Assert.assertEquals(180f, physicsLook.rotation)
+        Assert.assertFalse(physicsLook.isFlipped)
+    }
 
-	private Sprite sprite;
-	private PhysicsWorld physicsWorld;
+    @Test
+    fun testNoModeInPhysics() {
+        val physicsObject = physicsWorld!!.getPhysicsObject(sprite)
+        val physicsLook = PhysicsLook(sprite, physicsWorld)
+        physicsLook.rotationMode = Look.ROTATION_STYLE_NONE
+        physicsLook.rotation = 90f
+        Assert.assertEquals(90f, physicsObject.direction)
+        Assert.assertEquals(0f, physicsLook.rotation)
+        Assert.assertFalse(physicsLook.isFlipped)
+        physicsLook.rotation = -90f
+        Assert.assertEquals(-90f, physicsObject.direction)
+        Assert.assertEquals(0f, physicsLook.rotation)
+        Assert.assertFalse(physicsLook.isFlipped)
+        physicsLook.rotation = 0f
+        Assert.assertEquals(0f, physicsObject.direction)
+        Assert.assertEquals(0f, physicsLook.rotation)
+        Assert.assertFalse(physicsLook.isFlipped)
+        physicsLook.rotation = 180f
+        Assert.assertEquals(180f, physicsObject.direction)
+        Assert.assertEquals(0f, physicsLook.rotation)
+        Assert.assertFalse(physicsLook.isFlipped)
+    }
 
-	@Before
-	public void setUp() throws Exception {
-		sprite = rule.sprite;
-		physicsWorld = rule.physicsWorld;
-	}
-
-	@Test
-	public void testNormalMode() {
-		ActionFactory factory = sprite.getActionFactory();
-		Action rotationStyleAction = factory.createSetRotationStyleAction(sprite, Look.ROTATION_STYLE_ALL_AROUND);
-		Action pointInDirectionAction = factory.createPointInDirectionAction(sprite,
-				new SequenceAction(), new Formula(90));
-
-		rotationStyleAction.act(1.0f);
-		pointInDirectionAction.act(1.0f);
-		assertEquals(90f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit());
-	}
-
-	@Test
-	public void testNoMode() {
-		ActionFactory factory = sprite.getActionFactory();
-		Action rotationStyleAction = factory.createSetRotationStyleAction(sprite, Look.ROTATION_STYLE_NONE);
-		Action pointInDirectionAction = factory.createPointInDirectionAction(sprite,
-				new SequenceAction(), new Formula(-90));
-
-		rotationStyleAction.act(1.0f);
-		pointInDirectionAction.act(1.0f);
-
-		assertEquals(-90f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit());
-	}
-
-	@Test
-	public void testLRMode() {
-		ActionFactory factory = sprite.getActionFactory();
-		Action rotationStyleAction = factory.createSetRotationStyleAction(sprite, Look.ROTATION_STYLE_LEFT_RIGHT_ONLY);
-		Action pointInDirectionAction = factory.createPointInDirectionAction(sprite,
-				new SequenceAction(), new Formula(-90));
-
-		rotationStyleAction.act(1.0f);
-		pointInDirectionAction.act(1.0f);
-
-		assertEquals(-90f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit());
-	}
-
-	//Directions here get funky because in physics there is no UI Degree Offset as in the normal looks
-	//Right is Left, Left is Right, Up is Up and Down is Down
-
-	@Test
-	public void testNormalModeInPhysics() {
-		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		PhysicsLook physicsLook = new PhysicsLook(sprite, physicsWorld);
-
-		physicsLook.setRotationMode(Look.ROTATION_STYLE_ALL_AROUND);
-
-		physicsLook.setRotation(90);
-		assertEquals(90f, physicsObject.getDirection());
-		assertEquals(90f, physicsLook.getRotation());
-		assertFalse(physicsLook.isFlipped());
-
-		physicsLook.setRotation(-90);
-		assertEquals(-90f, physicsObject.getDirection());
-		assertEquals(-90f, physicsLook.getRotation());
-		assertFalse(physicsLook.isFlipped());
-
-		physicsLook.setRotation(0);
-		assertEquals(0f, physicsObject.getDirection());
-		assertEquals(0f, physicsLook.getRotation());
-		assertFalse(physicsLook.isFlipped());
-
-		physicsLook.setRotation(180);
-		assertEquals(180f, physicsObject.getDirection());
-		assertEquals(180f, physicsLook.getRotation());
-		assertFalse(physicsLook.isFlipped());
-	}
-
-	@Test
-	public void testNoModeInPhysics() {
-		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		PhysicsLook physicsLook = new PhysicsLook(sprite, physicsWorld);
-
-		physicsLook.setRotationMode(Look.ROTATION_STYLE_NONE);
-
-		physicsLook.setRotation(90);
-		assertEquals(90f, physicsObject.getDirection());
-		assertEquals(0f, physicsLook.getRotation());
-		assertFalse(physicsLook.isFlipped());
-
-		physicsLook.setRotation(-90);
-		assertEquals(-90f, physicsObject.getDirection());
-		assertEquals(0f, physicsLook.getRotation());
-		assertFalse(physicsLook.isFlipped());
-
-		physicsLook.setRotation(0);
-		assertEquals(0f, physicsObject.getDirection());
-		assertEquals(0f, physicsLook.getRotation());
-		assertFalse(physicsLook.isFlipped());
-
-		physicsLook.setRotation(180);
-		assertEquals(180f, physicsObject.getDirection());
-		assertEquals(0f, physicsLook.getRotation());
-		assertFalse(physicsLook.isFlipped());
-	}
-
-	@Test
-	public void testLRModeInPhysics() {
-		assertNotNull(sprite.look.getLookData());
-		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		PhysicsLook physicsLook = new PhysicsLook(sprite, physicsWorld);
-		physicsLook.setLookData(sprite.look.getLookData());
-
-		physicsLook.setRotationMode(Look.ROTATION_STYLE_LEFT_RIGHT_ONLY);
-
-		physicsLook.setRotation(90);
-		assertEquals(90f, physicsObject.getDirection());
-		assertEquals(0f, physicsLook.getRotation());
-		assertTrue(physicsLook.isFlipped());
-
-		physicsLook.setRotation(-90);
-		assertEquals(-90f, physicsObject.getDirection());
-		assertEquals(0f, physicsLook.getRotation());
-		assertFalse(physicsLook.isFlipped());
-
-		physicsLook.setRotation(0);
-		assertEquals(0f, physicsObject.getDirection());
-		assertEquals(0f, physicsLook.getRotation());
-		assertFalse(physicsLook.isFlipped());
-
-		physicsLook.setRotation(180);
-		assertEquals(180f, physicsObject.getDirection());
-		assertEquals(0f, physicsLook.getRotation());
-		assertTrue(physicsLook.isFlipped());
-	}
+    @Test
+    fun testLRModeInPhysics() {
+        Assert.assertNotNull(sprite!!.look.lookData)
+        val physicsObject = physicsWorld!!.getPhysicsObject(sprite)
+        val physicsLook = PhysicsLook(sprite, physicsWorld)
+        physicsLook.lookData = sprite!!.look.lookData
+        physicsLook.rotationMode = Look.ROTATION_STYLE_LEFT_RIGHT_ONLY
+        physicsLook.rotation = 90f
+        Assert.assertEquals(90f, physicsObject.direction)
+        Assert.assertEquals(0f, physicsLook.rotation)
+        Assert.assertTrue(physicsLook.isFlipped)
+        physicsLook.rotation = -90f
+        Assert.assertEquals(-90f, physicsObject.direction)
+        Assert.assertEquals(0f, physicsLook.rotation)
+        Assert.assertFalse(physicsLook.isFlipped)
+        physicsLook.rotation = 0f
+        Assert.assertEquals(0f, physicsObject.direction)
+        Assert.assertEquals(0f, physicsLook.rotation)
+        Assert.assertFalse(physicsLook.isFlipped)
+        physicsLook.rotation = 180f
+        Assert.assertEquals(180f, physicsObject.direction)
+        Assert.assertEquals(0f, physicsLook.rotation)
+        Assert.assertTrue(physicsLook.isFlipped)
+    }
 }

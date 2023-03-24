@@ -20,154 +20,142 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.content.actions
 
-package org.catrobat.catroid.test.content.actions;
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
+import org.catrobat.catroid.content.actions.PlaySoundAtAction
+import org.junit.Before
+import kotlin.Throws
+import org.catrobat.catroid.test.utils.TestUtils
+import org.catrobat.catroid.test.content.actions.PlaySoundAtActionTest
+import androidx.test.core.app.ApplicationProvider
+import org.catrobat.catroid.io.XstreamSerializer
+import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.test.R
+import org.catrobat.catroid.common.SoundInfo
+import org.catrobat.catroid.content.ActionFactory
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.content.MediaPlayerWithSoundDetails
+import junit.framework.TestCase
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.io.SoundManager
+import org.junit.After
+import org.junit.Assert
+import org.junit.Test
+import java.io.File
+import java.io.IOException
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+@RunWith(JUnit4::class)
+class PlaySoundAtActionTest {
+    private var action: PlaySoundAtAction? = null
+    @Before
+    @Throws(IOException::class)
+    fun setUp() {
+        TestUtils.deleteProjects()
+        soundManager.clear()
+        project = Project(ApplicationProvider.getApplicationContext(), "projectName")
+        XstreamSerializer.getInstance().saveProject(project)
+        ProjectManager.getInstance().currentProject = project
+        soundFile = TestUtils.createSoundFile(project, R.raw.testsoundui, "soundTest.mp3")
+    }
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.ActionFactory;
-import org.catrobat.catroid.content.MediaPlayerWithSoundDetails;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.PlaySoundAtAction;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.io.SoundManager;
-import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.test.R;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+    @After
+    @Throws(IOException::class)
+    fun cleanup() {
+        TestUtils.deleteProjects()
+        soundManager.clear()
+    }
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
+    @Test
+    fun testPlaySound() {
+        soundManager.clear()
+        val offset = 0.0f
+        val testSprite = Sprite("testSprite")
+        val soundinfo = createSoundInfo(soundFile)
+        val factory = testSprite.actionFactory
+        testSprite.soundList.add(soundinfo)
+        action = factory.createPlaySoundAtAction(
+            testSprite,
+            SequenceAction(),
+            Formula(offset), soundinfo
+        ) as PlaySoundAtAction
+        action!!.act(1.0f)
+        val mediaPlayers = soundManager.mediaPlayers
+        TestCase.assertEquals(1, mediaPlayers.size)
+        Assert.assertTrue(mediaPlayers[0].isPlaying)
+    }
 
-import androidx.test.core.app.ApplicationProvider;
+    @Test
+    fun testPlaySoundNoOffset() {
+        soundManager.clear()
+        val offset = 0.0f
+        val soundDuration = soundManager.getDurationOfSoundFile(
+            soundFile!!.absolutePath
+        )
+        val testSprite = Sprite("testSprite")
+        val soundinfo = createSoundInfo(soundFile)
+        val factory = testSprite.actionFactory
+        testSprite.soundList.add(soundinfo)
+        action = factory.createPlaySoundAtAction(
+            testSprite,
+            SequenceAction(),
+            Formula(offset), soundinfo
+        ) as PlaySoundAtAction
+        val playedDuration = action!!.runWithMockedSoundManager(soundManager)
+        action!!.act(1.0f)
+        TestCase.assertEquals(playedDuration, soundDuration)
+    }
 
-import static junit.framework.TestCase.assertEquals;
+    @Test
+    fun testPlaySoundAtOffset() {
+        soundManager.clear()
+        val offset = 1.5f
+        val soundDuration = soundManager.getDurationOfSoundFile(
+            soundFile!!.absolutePath
+        ) - offset * 1000.0f
+        val testSprite = Sprite("testSprite")
+        val soundinfo = createSoundInfo(soundFile)
+        val factory = testSprite.actionFactory
+        testSprite.soundList.add(soundinfo)
+        action = factory.createPlaySoundAtAction(
+            testSprite,
+            SequenceAction(),
+            Formula(offset), soundinfo
+        ) as PlaySoundAtAction
+        val playedDuration = action!!.runWithMockedSoundManager(soundManager)
+        action!!.act(1.0f)
+        TestCase.assertEquals(playedDuration, soundDuration)
+    }
 
-import static org.junit.Assert.assertTrue;
+    @Test
+    fun testPlaySoundWrongParameter() {
+        soundManager.clear()
+        val testSprite = Sprite("testSprite")
+        val soundinfo = createSoundInfo(soundFile)
+        val factory = testSprite.actionFactory
+        testSprite.soundList.add(soundinfo)
+        action = factory.createPlaySoundAtAction(
+            testSprite,
+            SequenceAction(),
+            Formula("WrongParameter"), soundinfo
+        ) as PlaySoundAtAction
+        action!!.act(1.0f)
+        val mediaPlayers = soundManager.mediaPlayers
+        TestCase.assertEquals(0, mediaPlayers.size)
+    }
 
-@RunWith(JUnit4.class)
-public class PlaySoundAtActionTest {
+    private fun createSoundInfo(soundFile: File?): SoundInfo {
+        val soundInfo = SoundInfo()
+        soundInfo.file = soundFile
+        return soundInfo
+    }
 
-	private static SoundManager soundManager = SoundManager.getInstance();
-	private static Project project;
-	private static File soundFile;
-	private PlaySoundAtAction action;
-
-	@Before
-	public void setUp() throws IOException {
-		TestUtils.deleteProjects();
-		soundManager.clear();
-		project = new Project(ApplicationProvider.getApplicationContext(), "projectName");
-		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setCurrentProject(project);
-
-		soundFile = TestUtils.createSoundFile(project, R.raw.testsoundui, "soundTest.mp3");
-	}
-
-	@After
-	public void cleanup() throws IOException {
-		TestUtils.deleteProjects();
-		soundManager.clear();
-	}
-
-	@Test
-	public void testPlaySound() {
-		soundManager.clear();
-		float offset = 0.0f;
-
-		Sprite testSprite = new Sprite("testSprite");
-		SoundInfo soundinfo = createSoundInfo(soundFile);
-
-		ActionFactory factory = testSprite.getActionFactory();
-		testSprite.getSoundList().add(soundinfo);
-
-		action = (PlaySoundAtAction) factory.createPlaySoundAtAction(testSprite,
-				new SequenceAction(),
-				new Formula(offset), soundinfo);
-
-		action.act(1.0f);
-
-		List<MediaPlayerWithSoundDetails> mediaPlayers = soundManager.getMediaPlayers();
-		assertEquals(1, mediaPlayers.size());
-		assertTrue(mediaPlayers.get(0).isPlaying());
-	}
-
-	@Test
-	public void testPlaySoundNoOffset() {
-		soundManager.clear();
-		float offset = 0.0f;
-		float soundDuration = soundManager.getDurationOfSoundFile(soundFile.getAbsolutePath());
-
-		Sprite testSprite = new Sprite("testSprite");
-		SoundInfo soundinfo = createSoundInfo(soundFile);
-
-		ActionFactory factory = testSprite.getActionFactory();
-		testSprite.getSoundList().add(soundinfo);
-
-		action = (PlaySoundAtAction) factory.createPlaySoundAtAction(testSprite,
-				new SequenceAction(),
-				new Formula(offset), soundinfo);
-
-		float playedDuration = action.runWithMockedSoundManager(soundManager);
-		action.act(1.0f);
-
-		assertEquals(playedDuration, soundDuration);
-	}
-
-	@Test
-	public void testPlaySoundAtOffset() {
-		soundManager.clear();
-		float offset = 1.5f;
-		float soundDuration =
-				soundManager.getDurationOfSoundFile(soundFile.getAbsolutePath()) - (offset * 1000.0f);
-
-		Sprite testSprite = new Sprite("testSprite");
-		SoundInfo soundinfo = createSoundInfo(soundFile);
-
-		ActionFactory factory = testSprite.getActionFactory();
-		testSprite.getSoundList().add(soundinfo);
-
-		action = (PlaySoundAtAction) factory.createPlaySoundAtAction(testSprite,
-				new SequenceAction(),
-				new Formula(offset), soundinfo);
-
-		float playedDuration = action.runWithMockedSoundManager(soundManager);
-		action.act(1.0f);
-
-		assertEquals(playedDuration, soundDuration);
-	}
-
-	@Test
-	public void testPlaySoundWrongParameter() {
-		soundManager.clear();
-
-		Sprite testSprite = new Sprite("testSprite");
-		SoundInfo soundinfo = createSoundInfo(soundFile);
-
-		ActionFactory factory = testSprite.getActionFactory();
-		testSprite.getSoundList().add(soundinfo);
-
-		action = (PlaySoundAtAction) factory.createPlaySoundAtAction(testSprite,
-				new SequenceAction(),
-				new Formula("WrongParameter"), soundinfo);
-
-		action.act(1.0f);
-
-		List<MediaPlayerWithSoundDetails> mediaPlayers = soundManager.getMediaPlayers();
-		assertEquals(0, mediaPlayers.size());
-	}
-
-	private SoundInfo createSoundInfo(File soundFile) {
-		SoundInfo soundInfo = new SoundInfo();
-		soundInfo.setFile(soundFile);
-		return soundInfo;
-	}
+    companion object {
+        private val soundManager = SoundManager.getInstance()
+        private var project: Project? = null
+        private var soundFile: File? = null
+    }
 }

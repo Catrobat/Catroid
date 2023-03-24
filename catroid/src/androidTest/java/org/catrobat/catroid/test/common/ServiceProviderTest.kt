@@ -20,41 +20,42 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.common;
+package org.catrobat.catroid.test.common
 
-import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
-import org.catrobat.catroid.common.CatroidService;
-import org.catrobat.catroid.common.ServiceProvider;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import junit.framework.Assert
+import org.junit.runner.RunWith
+import org.catrobat.catroid.common.CatroidService
+import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService
+import org.catrobat.catroid.common.ServiceProvider
+import org.catrobat.catroid.test.common.ServiceProviderTest.TestService
+import org.junit.Test
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+@RunWith(AndroidJUnit4::class)
+class ServiceProviderTest {
+    @Test
+    fun testCommonServices() {
+        val service: CatroidService =
+            ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE)
+        Assert.assertNotNull(service)
+        Assert.assertTrue(service is BluetoothDeviceService)
+    }
 
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
-import static junit.framework.Assert.assertTrue;
+    @Test
+    fun testRegisterAndGetService() {
+        Assert.assertNull(
+            ServiceProvider.getService(
+                TestService::class.java
+            )
+        )
+        ServiceProvider.registerService(
+            TestService::class.java, TestService()
+        )
+        val service = ServiceProvider.getService(
+            TestService::class.java
+        )
+        Assert.assertNotNull(service)
+    }
 
-@RunWith(AndroidJUnit4.class)
-public class ServiceProviderTest {
-
-	@Test
-	public void testCommonServices() {
-		CatroidService service = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
-
-		assertNotNull(service);
-		assertTrue(service instanceof BluetoothDeviceService);
-	}
-
-	@Test
-	public void testRegisterAndGetService() {
-		assertNull(ServiceProvider.getService(TestService.class));
-
-		ServiceProvider.registerService(TestService.class, new TestService());
-
-		TestService service = ServiceProvider.getService(TestService.class);
-		assertNotNull(service);
-	}
-
-	private static class TestService implements CatroidService {
-	}
+    private class TestService : CatroidService
 }

@@ -20,75 +20,97 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.content.actions
 
-package org.catrobat.catroid.test.content.actions;
+import org.junit.runner.RunWith
+import android.graphics.PointF
+import org.junit.Before
+import kotlin.Throws
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.badlogic.gdx.graphics.Color
+import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.stage.StageActivity
+import org.catrobat.catroid.stage.StageListener
+import org.catrobat.catroid.embroidery.DSTPatternManager
+import org.catrobat.catroid.content.ActionFactory
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.embroidery.EmbroideryPatternManager
+import org.catrobat.catroid.embroidery.DSTStitchCommand
+import org.junit.After
+import org.junit.Test
+import org.mockito.Mockito
+import java.lang.Exception
 
-import android.graphics.PointF;
+@RunWith(AndroidJUnit4::class)
+class StitchActionTest {
+    private var testSprite1: Sprite? = null
+    private var testSprite2: Sprite? = null
+    private var spriteCoords1: PointF? = null
+    private var spriteCoords2: PointF? = null
+    @Before
+    @Throws(Exception::class)
+    fun setUp() {
+        val project: Project
+        val xCoord = 50.0f
+        val yCoord = 160.0f
+        testSprite1 = Sprite("testSprite1")
+        testSprite1!!.look.x = xCoord
+        testSprite1!!.look.y = yCoord
+        spriteCoords1 = PointF(xCoord, yCoord)
+        testSprite2 = Sprite("testSprite2")
+        spriteCoords2 = PointF(0F, 0F)
+        project = Project(ApplicationProvider.getApplicationContext(), "testProject")
+        ProjectManager.getInstance().currentProject = project
+        StageActivity.stageListener = Mockito.mock(StageListener::class.java)
+        StageActivity.stageListener.embroideryPatternManager = Mockito.mock(
+            DSTPatternManager::class.java
+        )
+    }
 
-import com.badlogic.gdx.graphics.Color;
+    @After
+    fun tearDown() {
+        StageActivity.stageListener = null
+    }
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.ActionFactory;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.embroidery.DSTPatternManager;
-import org.catrobat.catroid.embroidery.DSTStitchCommand;
-import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.stage.StageListener;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
+    @Test
+    fun testAddSingleStitchPoint() {
+        ActionFactory.createStitchAction(testSprite1).act(1f)
+        Mockito.verify(StageActivity.stageListener.embroideryPatternManager, Mockito.times(1))
+            .addStitchCommand(
+                Mockito.eq(
+                    DSTStitchCommand(
+                        spriteCoords1!!.x, spriteCoords1!!.y,
+                        testSprite1!!.look.zIndex, testSprite1, Color.BLACK
+                    )
+                )
+            )
+    }
 
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-@RunWith(AndroidJUnit4.class)
-public class StitchActionTest {
-	private Sprite testSprite1;
-	private Sprite testSprite2;
-	private PointF spriteCoords1;
-	private PointF spriteCoords2;
-
-	@Before
-	public void setUp() throws Exception {
-		Project project;
-		float xCoord = 50.0f;
-		float yCoord = 160.0f;
-
-		testSprite1 = new Sprite("testSprite1");
-		testSprite1.look.setX(xCoord);
-		testSprite1.look.setY(yCoord);
-		spriteCoords1 = new PointF(xCoord, yCoord);
-
-		testSprite2 = new Sprite("testSprite2");
-		spriteCoords2 = new PointF(0, 0);
-
-		project = new Project(ApplicationProvider.getApplicationContext(), "testProject");
-		ProjectManager.getInstance().setCurrentProject(project);
-		StageActivity.stageListener = Mockito.mock(StageListener.class);
-		StageActivity.stageListener.embroideryPatternManager = Mockito.mock(DSTPatternManager.class);
-	}
-
-	@After
-	public void tearDown() {
-		StageActivity.stageListener = null;
-	}
-
-	@Test
-	public void testAddSingleStitchPoint() {
-		ActionFactory.createStitchAction(testSprite1).act(1f);
-		Mockito.verify(StageActivity.stageListener.embroideryPatternManager, Mockito.times(1)).addStitchCommand(
-				Mockito.eq(new DSTStitchCommand(spriteCoords1.x, spriteCoords1.y,
-						testSprite1.look.getZIndex(), testSprite1, Color.BLACK)));
-	}
-
-	@Test
-	public void testAddPointsTwoSprites() {
-		ActionFactory.createStitchAction(testSprite1).act(1f);
-		ActionFactory.createStitchAction(testSprite2).act(1f);
-		Mockito.verify(StageActivity.stageListener.embroideryPatternManager, Mockito.times(1)).addStitchCommand(new DSTStitchCommand(spriteCoords1.x, spriteCoords1.y, testSprite1.look.getZIndex(), testSprite1, Color.BLACK));
-		Mockito.verify(StageActivity.stageListener.embroideryPatternManager, Mockito.times(1)).addStitchCommand(new DSTStitchCommand(spriteCoords2.x, spriteCoords2.y, testSprite2.look.getZIndex(), testSprite2, Color.BLACK));
-	}
+    @Test
+    fun testAddPointsTwoSprites() {
+        ActionFactory.createStitchAction(testSprite1).act(1f)
+        ActionFactory.createStitchAction(testSprite2).act(1f)
+        Mockito.verify(StageActivity.stageListener.embroideryPatternManager, Mockito.times(1))
+            .addStitchCommand(
+                DSTStitchCommand(
+                    spriteCoords1!!.x,
+                    spriteCoords1!!.y,
+                    testSprite1!!.look.zIndex,
+                    testSprite1,
+                    Color.BLACK
+                )
+            )
+        Mockito.verify(StageActivity.stageListener.embroideryPatternManager, Mockito.times(1))
+            .addStitchCommand(
+                DSTStitchCommand(
+                    spriteCoords2!!.x,
+                    spriteCoords2!!.y,
+                    testSprite2!!.look.zIndex,
+                    testSprite2,
+                    Color.BLACK
+                )
+            )
+    }
 }
