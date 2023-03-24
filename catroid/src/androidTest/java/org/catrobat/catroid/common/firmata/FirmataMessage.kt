@@ -20,29 +20,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.common.firmata
 
-package org.catrobat.catroid.common.firmata;
-
-public class FirmataMessage {
-	private final int command;
-	private final int pin;
-	private final int data;
-
-	public FirmataMessage(int command, int pin, int data) {
-		this.command = command;
-		this.pin = pin;
-		this.data = data;
-	}
-
-	public int getCommand() {
-		return command;
-	}
-
-	public int getPin() {
-		return pin;
-	}
-
-	public int getData() {
-		return data;
-	}
-}
+class FirmataMessage(val command: Int, val pin: Int, val data: Int)
