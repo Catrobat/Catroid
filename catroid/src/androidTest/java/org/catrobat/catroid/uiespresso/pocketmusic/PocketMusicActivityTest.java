@@ -137,7 +137,7 @@ public class PocketMusicActivityTest {
 
 	@Before
 	public void startPocketMusicActivityWithEmptyProject() {
-		UiTestUtils.createEmptyProject("pocketMusicInputTest");
+		UiTestUtils.createDefaultTestProject("pocketMusicInputTest");
 		pocketMusicActivityRule.launchActivity(null);
 	}
 

@@ -27,13 +27,11 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -48,7 +46,6 @@ import org.junit.runner.RunWith;
 import java.util.Arrays;
 import java.util.List;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -87,7 +84,7 @@ public class CameraPermissionSpriteActivityTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject("CameraPermissionSpriteActivityTest");
+		UiTestUtils.createDefaultTestProject("CameraPermissionSpriteActivityTest");
 		device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
 		baseActivityTestRule.launchActivity();
 
@@ -146,15 +143,6 @@ public class CameraPermissionSpriteActivityTest {
 		intended(chooserIntentMatcher);
 
 		onRecyclerView().checkHasNumberOfItems(0);
-	}
-
-	private void createProject(String projectName) {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Sprite testSprite = new Sprite();
-		project.getDefaultScene().addSprite(testSprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(testSprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 	}
 
 	public static Matcher<Intent> containsPermissionRequest(final List<String> expectedPermissions) {

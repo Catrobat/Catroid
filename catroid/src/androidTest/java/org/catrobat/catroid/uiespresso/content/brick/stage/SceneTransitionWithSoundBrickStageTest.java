@@ -41,6 +41,7 @@ import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -52,7 +53,6 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.io.IOException;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
@@ -128,19 +128,14 @@ public class SceneTransitionWithSoundBrickStageTest {
 	}
 
 	private void createProject(String projectName) throws IOException {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Script script = new StartScript();
-		Sprite sprite = project.getDefaultScene().getBackgroundSprite();
+		Project project = UiTestUtils.createDefaultTestProject(projectName);
+		Script script = UiTestUtils.getDefaultTestScript(project);
 		XstreamSerializer.getInstance().saveProject(project);
 
 		firstSceneName = project.getDefaultScene().getName();
 		Scene secondScene = new Scene("Scene 2", project);
-
-		sprite.addScript(script);
-		project.getDefaultScene().addSprite(sprite);
-		projectManager.setCurrentProject(project);
-		projectManager.setCurrentSprite(sprite);
 		project.addScene(secondScene);
+
 		PlaySoundBrick soundBrick = new PlaySoundBrick();
 		soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
 				InstrumentationRegistry.getInstrumentation().getContext().getResources(),

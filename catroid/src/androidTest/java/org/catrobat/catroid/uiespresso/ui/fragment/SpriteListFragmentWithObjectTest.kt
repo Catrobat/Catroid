@@ -34,8 +34,8 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.ProjectActivity.Companion.EXTRA_FRAGMENT_POSITION
 import org.catrobat.catroid.ui.ProjectActivity.Companion.FRAGMENT_SPRITES
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
@@ -56,7 +56,7 @@ class SpriteListFragmentWithObjectTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        createProjectAndGetStartScript(SpriteListFragmentWithObjectTest::class.java.simpleName)
+        UiTestUtils.createProjectAndGetStartScript(SpriteListFragmentWithObjectTest::class.java.simpleName)
         baseActivityTestRule.launchActivity()
     }
 

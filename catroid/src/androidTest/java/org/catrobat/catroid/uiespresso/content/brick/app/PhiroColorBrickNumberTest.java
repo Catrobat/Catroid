@@ -28,7 +28,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -84,7 +84,7 @@ public class PhiroColorBrickNumberTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Script script = BrickTestUtils.createProjectAndGetStartScript("PhiroColorBrickTest");
+		Script script = UiTestUtils.createProjectAndGetStartScript("PhiroColorBrickTest");
 
 		Object[] parameters = {red, green, blue};
 		ArrayList<Formula> formula = new ArrayList<>();
