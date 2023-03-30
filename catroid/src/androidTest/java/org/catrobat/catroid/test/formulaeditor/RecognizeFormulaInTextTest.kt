@@ -28,28 +28,25 @@ import junit.framework.Assert
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
-import org.catrobat.catroid.formulaeditor.UserVariable
-import org.catrobat.catroid.formulaeditor.UserList
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment
-import org.catrobat.catroid.content.bricks.FormulaBrick
-import org.junit.Before
-import kotlin.Throws
 import org.catrobat.catroid.content.UserDefinedScript
+import org.catrobat.catroid.content.bricks.FormulaBrick
 import org.catrobat.catroid.content.bricks.UserDefinedBrick
+import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
+import org.catrobat.catroid.formulaeditor.UserList
+import org.catrobat.catroid.formulaeditor.UserVariable
+import org.catrobat.catroid.test.utils.TestUtils
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment
 import org.catrobat.catroid.userbrick.UserDefinedBrickData
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput
-import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
-import org.catrobat.catroid.test.formulaeditor.RecognizeFormulaInTextTest
-import org.catrobat.catroid.test.utils.TestUtils
 import org.junit.After
+import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.mockito.Spy
 import java.io.IOException
-import java.lang.Exception
 import java.util.Arrays
 
 @RunWith(Parameterized::class)
