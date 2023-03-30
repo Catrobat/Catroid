@@ -51,7 +51,7 @@ class RecentBricksTest {
     private val projectName = "recentBrickTest"
     private val spriteName = "testSprite"
 
-    @Rule
+    @get:Rule
     var baseActivityTestRule = FragmentActivityTestRule(
         ProjectActivity::class.java,
         ProjectActivity.EXTRA_FRAGMENT_POSITION,
