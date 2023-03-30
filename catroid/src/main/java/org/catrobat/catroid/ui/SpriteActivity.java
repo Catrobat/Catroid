@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -452,6 +452,24 @@ public class SpriteActivity extends BaseActivity {
 		onNewSoundListener = listener;
 	}
 
+	public LookData createNewLookData(String lookFileName, String lookDataName, Uri uri) {
+		LookData look = null;
+		try {
+			File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
+			File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
+			Utils.removeExifData(imageDirectory, lookFileName);
+			look = new LookData(lookDataName, file);
+			currentSprite.getLookList().add(look);
+			look.getCollisionInformation().calculate();
+			if (onNewLookListener != null) {
+				onNewLookListener.addItem(look);
+			}
+		} catch (IOException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+		}
+		return look;
+	}
+
 	private void addSpriteFromUri(final Uri uri) {
 		addSpriteFromUri(uri, DEFAULT_IMAGE_EXTENSION);
 	}
@@ -577,20 +595,7 @@ public class SpriteActivity extends BaseActivity {
 
 		lookDataName = new UniqueNameProvider().getUniqueNameInNameables(lookDataName, currentSprite.getLookList());
 
-		try {
-			File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
-			File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
-			Utils.removeExifData(imageDirectory, lookFileName);
-			LookData look = new LookData(lookDataName, file);
-			this.currentLookData = look;
-			currentSprite.getLookList().add(look);
-			look.getCollisionInformation().calculate();
-			if (onNewLookListener != null) {
-				onNewLookListener.addItem(look);
-			}
-		} catch (IOException e) {
-			Log.e(TAG, Log.getStackTraceString(e));
-		}
+		this.currentLookData = this.createNewLookData(lookFileName, lookDataName, uri);
 	}
 
 	private void addSoundFromUri(Uri uri) {
