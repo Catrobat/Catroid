@@ -20,143 +20,124 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.embroidery
 
-package org.catrobat.catroid.test.embroidery;
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.badlogic.gdx.graphics.Color
+import org.junit.runner.RunWith
+import org.junit.Before
+import org.catrobat.catroid.embroidery.StitchPoint
+import org.catrobat.catroid.embroidery.DSTStitchPoint
+import org.junit.Assert
+import org.junit.Test
+import org.mockito.Mockito
+import java.io.FileOutputStream
+import java.io.IOException
+import kotlin.Throws
 
-import com.badlogic.gdx.graphics.Color;
+@RunWith(AndroidJUnit4::class)
+class DSTStitchPointTest {
+    private var fileOutputStream: FileOutputStream? = null
+    @Before
+    fun setUo() {
+        fileOutputStream = Mockito.mock(FileOutputStream::class.java)
+    }
 
-import org.catrobat.catroid.embroidery.DSTStitchPoint;
-import org.catrobat.catroid.embroidery.StitchPoint;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
+    @Test
+    fun testisConnectingPoint() {
+        val stitchPoint: StitchPoint = DSTStitchPoint(0F, 0F, Color.BLACK)
+        Assert.assertTrue(stitchPoint.isConnectingPoint)
+        Assert.assertFalse(stitchPoint.isColorChangePoint)
+        Assert.assertFalse(stitchPoint.isJumpPoint)
+    }
 
-import java.io.FileOutputStream;
-import java.io.IOException;
+    @Test
+    fun testJumpStitchPoint() {
+        val stitchPoint: StitchPoint = DSTStitchPoint(0F, 0F, Color.BLACK)
+        stitchPoint.setJump(true)
+        Assert.assertTrue(stitchPoint.isJumpPoint)
+        Assert.assertFalse(stitchPoint.isConnectingPoint)
+    }
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+    @Test
+    fun testColorChangeStitchPoint() {
+        val stitchPoint: StitchPoint = DSTStitchPoint(0F, 0F, Color.BLACK)
+        stitchPoint.setColorChange(true)
+        Assert.assertTrue(stitchPoint.isColorChangePoint)
+        Assert.assertFalse(stitchPoint.isConnectingPoint)
+    }
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+    @Test
+    @Throws(IOException::class)
+    fun testStitchBytesZeroDifference() {
+        val expectedStitchBytes = byteArrayOf(0, 0, 0x3.toByte())
+        val stitchPoint: StitchPoint = DSTStitchPoint(0F, 0F, Color.BLACK)
+        stitchPoint.setRelativeCoordinatesToPreviousPoint(0f, 0f)
+        stitchPoint.appendToStream(fileOutputStream)
+        Mockito.verify(fileOutputStream, Mockito.times(1))?.write(expectedStitchBytes)
+    }
 
-@RunWith(AndroidJUnit4.class)
-public class DSTStitchPointTest {
+    @Test
+    @Throws(IOException::class)
+    fun testStitchBytesDifference() {
+        val expectedStitchBytes = byteArrayOf(0x5A.toByte(), 0x5A.toByte(), 0x03.toByte())
+        val stitchPoint: StitchPoint = DSTStitchPoint(0F, 0F, Color.BLACK)
+        stitchPoint.setRelativeCoordinatesToPreviousPoint(20f, 20f)
+        stitchPoint.appendToStream(fileOutputStream)
+        Mockito.verify(fileOutputStream, Mockito.times(1))?.write(expectedStitchBytes)
+    }
 
-	private FileOutputStream fileOutputStream;
+    @Test
+    @Throws(IOException::class)
+    fun testStitchBytesWithColorChange() {
+        val expectedStitchBytes = byteArrayOf(0xA5.toByte(), 0xA5.toByte(), 0xC3.toByte())
+        val stitchPoint: StitchPoint = DSTStitchPoint(0F, 0F, Color.BLACK)
+        stitchPoint.setColorChange(true)
+        stitchPoint.setRelativeCoordinatesToPreviousPoint(-20f, -20f)
+        stitchPoint.appendToStream(fileOutputStream)
+        Mockito.verify(fileOutputStream, Mockito.times(1))?.write(expectedStitchBytes)
+    }
 
-	@Before
-	public void setUo() {
-		fileOutputStream = Mockito.mock(FileOutputStream.class);
-	}
+    @Test
+    @Throws(IOException::class)
+    fun testStitchBytesWithJump() {
+        val expectedStitchBytes = byteArrayOf(0xAA.toByte(), 0xAA.toByte(), 0x83.toByte())
+        val stitchPoint: StitchPoint = DSTStitchPoint(0F, 0F, Color.BLACK)
+        stitchPoint.setJump(true)
+        stitchPoint.setRelativeCoordinatesToPreviousPoint(20f, -20f)
+        stitchPoint.appendToStream(fileOutputStream)
+        Mockito.verify(fileOutputStream, Mockito.times(1))?.write(expectedStitchBytes)
+    }
 
-	@Test
-	public void testisConnectingPoint() {
-		StitchPoint stitchPoint = new DSTStitchPoint(0, 0, Color.BLACK);
 
-		assertTrue(stitchPoint.isConnectingPoint());
-		assertFalse(stitchPoint.isColorChangePoint());
-		assertFalse(stitchPoint.isJumpPoint());
-	}
+    @Test
+    fun testStitchPointsEquals() {
+        val stitchPoint1: StitchPoint = DSTStitchPoint(0F, 0F, Color.BLACK)
+        val stitchPoint2: StitchPoint = DSTStitchPoint(1F, 1F, Color.BLACK)
+        val stitchPoint3: StitchPoint = DSTStitchPoint(0F, 0F, Color.BLACK)
+        stitchPoint3.setColorChange(true)
+        val stitchPoint4: StitchPoint = DSTStitchPoint(0F, 0F, Color.BLACK)
+        stitchPoint4.setJump(true)
+        val stitchPoint5: StitchPoint = DSTStitchPoint(0F, 0F, Color.BLACK)
+        Assert.assertNotEquals(stitchPoint1, stitchPoint2)
+        Assert.assertNotEquals(stitchPoint1, stitchPoint3)
+        Assert.assertNotEquals(stitchPoint1, stitchPoint4)
+        Assert.assertNotEquals(stitchPoint3, stitchPoint4)
+        Assert.assertEquals(stitchPoint1, stitchPoint5)
+    }
 
-	@Test
-	public void testJumpStitchPoint() {
-		StitchPoint stitchPoint = new DSTStitchPoint(0, 0, Color.BLACK);
-		stitchPoint.setJump(true);
-
-		assertTrue(stitchPoint.isJumpPoint());
-		assertFalse(stitchPoint.isConnectingPoint());
-	}
-
-	@Test
-	public void testColorChangeStitchPoint() {
-		StitchPoint stitchPoint = new DSTStitchPoint(0, 0, Color.BLACK);
-		stitchPoint.setColorChange(true);
-
-		assertTrue(stitchPoint.isColorChangePoint());
-		assertFalse(stitchPoint.isConnectingPoint());
-	}
-
-	@Test
-	public void testStitchBytesZeroDifference() throws IOException {
-		final byte[] expectedStitchBytes = new byte[] {0, 0, (byte) 0x3};
-
-		StitchPoint stitchPoint = new DSTStitchPoint(0, 0, Color.BLACK);
-		stitchPoint.setRelativeCoordinatesToPreviousPoint(0, 0);
-
-		stitchPoint.appendToStream(fileOutputStream);
-		verify(fileOutputStream, times(1)).write(expectedStitchBytes);
-	}
-
-	@Test
-	public void testStitchBytesDifference() throws IOException {
-		final byte[] expectedStitchBytes = new byte[] {(byte) 0x5A, (byte) 0x5A, (byte) 0x03};
-
-		StitchPoint stitchPoint = new DSTStitchPoint(0, 0, Color.BLACK);
-		stitchPoint.setRelativeCoordinatesToPreviousPoint(20, 20);
-
-		stitchPoint.appendToStream(fileOutputStream);
-		verify(fileOutputStream, times(1)).write(expectedStitchBytes);
-	}
-
-	@Test
-	public void testStitchBytesWithColorChange() throws IOException {
-		final byte[] expectedStitchBytes = new byte[] {(byte) 0xA5, (byte) 0xA5, (byte) 0xC3};
-
-		StitchPoint stitchPoint = new DSTStitchPoint(0, 0, Color.BLACK);
-		stitchPoint.setColorChange(true);
-		stitchPoint.setRelativeCoordinatesToPreviousPoint(-20, -20);
-
-		stitchPoint.appendToStream(fileOutputStream);
-		verify(fileOutputStream, times(1)).write(expectedStitchBytes);
-	}
-
-	@Test
-	public void testStitchBytesWithJump() throws IOException {
-		final byte[] expectedStitchBytes = new byte[] {(byte) 0xAA, (byte) 0xAA, (byte) 0x83};
-
-		StitchPoint stitchPoint = new DSTStitchPoint(0, 0, Color.BLACK);
-		stitchPoint.setJump(true);
-		stitchPoint.setRelativeCoordinatesToPreviousPoint(20, -20);
-
-		stitchPoint.appendToStream(fileOutputStream);
-		verify(fileOutputStream, times(1)).write(expectedStitchBytes);
-	}
-
-	@Test
-	public void testStitchPointsEquals() {
-		StitchPoint stitchPoint1 = new DSTStitchPoint(0, 0, Color.BLACK);
-		StitchPoint stitchPoint2 = new DSTStitchPoint(1, 1, Color.BLACK);
-		StitchPoint stitchPoint3 = new DSTStitchPoint(0, 0, Color.BLACK);
-		stitchPoint3.setColorChange(true);
-		StitchPoint stitchPoint4 = new DSTStitchPoint(0, 0, Color.BLACK);
-		stitchPoint4.setJump(true);
-		StitchPoint stitchPoint5 = new DSTStitchPoint(0, 0, Color.BLACK);
-
-		assertNotEquals(stitchPoint1, stitchPoint2);
-		assertNotEquals(stitchPoint1, stitchPoint3);
-		assertNotEquals(stitchPoint1, stitchPoint4);
-		assertNotEquals(stitchPoint3, stitchPoint4);
-		assertEquals(stitchPoint1, stitchPoint5);
-	}
-
-	@Test
-	public void testStitchPointsHashCode() {
-		StitchPoint stitchPoint1 = new DSTStitchPoint(1, 2, Color.BLACK);
-		StitchPoint stitchPoint2 = new DSTStitchPoint(0, 0, Color.BLACK);
-		stitchPoint2.setJump(true);
-		StitchPoint stitchPoint3 = new DSTStitchPoint(0, 0, Color.BLACK);
-		stitchPoint3.setColorChange(true);
-		StitchPoint stitchPoint4 = new DSTStitchPoint(2, 1, Color.BLACK);
-		StitchPoint stitchPoint5 = new DSTStitchPoint(1, 2, Color.BLACK);
-
-		assertNotEquals(stitchPoint1.hashCode(), stitchPoint2.hashCode());
-		assertNotEquals(stitchPoint1.hashCode(), stitchPoint3.hashCode());
-		assertNotEquals(stitchPoint1.hashCode(), stitchPoint4.hashCode());
-		assertEquals(stitchPoint1.hashCode(), stitchPoint5.hashCode());
-	}
+    @Test
+    fun testStitchPointsHashCode() {
+        val stitchPoint1: StitchPoint = DSTStitchPoint(1F, 2F, Color.BLACK)
+        val stitchPoint2: StitchPoint = DSTStitchPoint(0F, 0F, Color.BLACK)
+        stitchPoint2.setJump(true)
+        val stitchPoint3: StitchPoint = DSTStitchPoint(0F, 0F, Color.BLACK)
+        stitchPoint3.setColorChange(true)
+        val stitchPoint4: StitchPoint = DSTStitchPoint(2F, 1F, Color.BLACK)
+        val stitchPoint5: StitchPoint = DSTStitchPoint(1F, 2F, Color.BLACK)
+        Assert.assertNotEquals(stitchPoint1.hashCode().toLong(), stitchPoint2.hashCode().toLong())
+        Assert.assertNotEquals(stitchPoint1.hashCode().toLong(), stitchPoint3.hashCode().toLong())
+        Assert.assertNotEquals(stitchPoint1.hashCode().toLong(), stitchPoint4.hashCode().toLong())
+        Assert.assertEquals(stitchPoint1.hashCode().toLong(), stitchPoint5.hashCode().toLong())
+    }
 }

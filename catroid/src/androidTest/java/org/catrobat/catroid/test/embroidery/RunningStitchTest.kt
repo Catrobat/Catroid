@@ -20,129 +20,123 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.embroidery
 
-package org.catrobat.catroid.test.embroidery;
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.runner.RunWith
+import org.catrobat.catroid.content.Look
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.embroidery.RunningStitch
+import org.catrobat.catroid.embroidery.RunningStitchType
+import org.junit.Before
+import org.junit.Test
+import org.mockito.ArgumentMatchers
+import org.mockito.Mockito
 
-import org.catrobat.catroid.content.Look;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.embroidery.RunningStitch;
-import org.catrobat.catroid.embroidery.RunningStitchType;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
+@RunWith(AndroidJUnit4::class)
+class RunningStitchTest {
+    private var sprite: Sprite? = null
+    private var spriteLook: Look? = null
+    private var runningStitch: RunningStitch? = null
+    private var runningStitchType: RunningStitchType? = null
+    @Before
+    fun setUp() {
+        spriteLook = Mockito.mock(Look::class.java)
+        sprite = Mockito.mock(Sprite::class.java)
+        sprite?.look = spriteLook
+        runningStitchType = Mockito.mock(RunningStitchType::class.java)
+        runningStitch = RunningStitch()
+    }
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+    @Test
+    fun testActivateRunningStitch() {
+        runningStitch!!.activateStitching(sprite, runningStitchType)
+        runningStitch!!.update()
+        Mockito.verify(spriteLook, Mockito.times(1))?.xInUserInterfaceDimensionUnit
+        Mockito.verify(spriteLook, Mockito.times(1))?.yInUserInterfaceDimensionUnit
+        Mockito.verify(runningStitchType, Mockito.times(1))
+            ?.update(ArgumentMatchers.anyFloat(), ArgumentMatchers.anyFloat())
+    }
 
-import static org.mockito.ArgumentMatchers.anyFloat;
+    @Test
+    fun testInvalidRunningTypeActivateRunningStitch() {
+        runningStitch!!.activateStitching(sprite, null)
+        runningStitch!!.update()
+        Mockito.verify(spriteLook, Mockito.times(0))?.xInUserInterfaceDimensionUnit
+        Mockito.verify(spriteLook, Mockito.times(0))?.yInUserInterfaceDimensionUnit
+    }
 
-@RunWith(AndroidJUnit4.class)
-public class RunningStitchTest {
-	private Sprite sprite;
-	private Look spriteLook;
-	private RunningStitch runningStitch;
-	private RunningStitchType runningStitchType;
+    @Test
+    fun testInvalidSpriteActivateRunningStitch() {
+        runningStitch!!.activateStitching(null, runningStitchType)
+        runningStitch!!.update()
+        Mockito.verify(runningStitchType, Mockito.times(0))
+            ?.update(ArgumentMatchers.anyFloat(), ArgumentMatchers.anyFloat())
+    }
 
-	@Before
-	public void setUp() {
-		spriteLook = Mockito.mock(Look.class);
-		sprite = Mockito.mock(Sprite.class);
-		sprite.look = spriteLook;
-		runningStitchType = Mockito.mock(RunningStitchType.class);
-		runningStitch = new RunningStitch();
-	}
+    @Test
+    fun testPauseRunningStitch() {
+        runningStitch!!.activateStitching(sprite, runningStitchType)
+        runningStitch!!.pause()
+        runningStitch!!.update()
+        Mockito.verify(spriteLook, Mockito.times(0))?.xInUserInterfaceDimensionUnit
+        Mockito.verify(spriteLook, Mockito.times(0))?.yInUserInterfaceDimensionUnit
+        Mockito.verify(runningStitchType, Mockito.times(0))
+            ?.update(ArgumentMatchers.anyFloat(), ArgumentMatchers.anyFloat())
+    }
 
-	@Test
-	public void testActivateRunningStitch() {
-		runningStitch.activateStitching(sprite, runningStitchType);
-		runningStitch.update();
+    @Test
+    fun testResumeRunningStitch() {
+        runningStitch!!.activateStitching(sprite, runningStitchType)
+        runningStitch!!.pause()
+        runningStitch!!.resume()
+        runningStitch!!.update()
+        Mockito.verify(spriteLook, Mockito.times(1))?.xInUserInterfaceDimensionUnit
+        Mockito.verify(spriteLook, Mockito.times(1))?.yInUserInterfaceDimensionUnit
+        Mockito.verify(runningStitchType, Mockito.times(1))
+            ?.update(ArgumentMatchers.anyFloat(), ArgumentMatchers.anyFloat())
+    }
 
-		Mockito.verify(spriteLook, Mockito.times(1)).getXInUserInterfaceDimensionUnit();
-		Mockito.verify(spriteLook, Mockito.times(1)).getYInUserInterfaceDimensionUnit();
-		Mockito.verify(runningStitchType, Mockito.times(1)).update(anyFloat(), anyFloat());
-	}
+    @Test
+    fun testInvalidResumeRunningStitch() {
+        runningStitch!!.resume()
+        runningStitch!!.update()
+        Mockito.verify(spriteLook, Mockito.times(0))?.xInUserInterfaceDimensionUnit
+        Mockito.verify(spriteLook, Mockito.times(0))?.yInUserInterfaceDimensionUnit
+        Mockito.verify(runningStitchType, Mockito.times(0))
+            ?.update(ArgumentMatchers.anyFloat(), ArgumentMatchers.anyFloat())
+    }
 
-	@Test
-	public void testInvalidRunningTypeActivateRunningStitch() {
-		runningStitch.activateStitching(sprite, null);
-		runningStitch.update();
+    @Test
+    fun testSetStartCoordinates() {
+        val xCoord = 1f
+        val yCoord = 2f
+        runningStitch!!.activateStitching(sprite, runningStitchType)
+        runningStitch!!.setStartCoordinates(xCoord, yCoord)
+        Mockito.verify(runningStitchType, Mockito.times(1))?.setStartCoordinates(xCoord, yCoord)
+    }
 
-		Mockito.verify(spriteLook, Mockito.times(0)).getXInUserInterfaceDimensionUnit();
-		Mockito.verify(spriteLook, Mockito.times(0)).getYInUserInterfaceDimensionUnit();
-	}
+    @Test
+    fun testInvalidSetStartCoordinates() {
+        val xCoord = 1f
+        val yCoord = 2f
+        runningStitch!!.setStartCoordinates(xCoord, yCoord)
+        Mockito.verify(runningStitchType, Mockito.times(0))
+            ?.setStartCoordinates(ArgumentMatchers.anyFloat(), ArgumentMatchers.anyFloat())
+    }
 
-	@Test
-	public void testInvalidSpriteActivateRunningStitch() {
-		runningStitch.activateStitching(null, runningStitchType);
-		runningStitch.update();
-
-		Mockito.verify(runningStitchType, Mockito.times(0)).update(anyFloat(), anyFloat());
-	}
-
-	@Test
-	public void testPauseRunningStitch() {
-		runningStitch.activateStitching(sprite, runningStitchType);
-		runningStitch.pause();
-		runningStitch.update();
-
-		Mockito.verify(spriteLook, Mockito.times(0)).getXInUserInterfaceDimensionUnit();
-		Mockito.verify(spriteLook, Mockito.times(0)).getYInUserInterfaceDimensionUnit();
-		Mockito.verify(runningStitchType, Mockito.times(0)).update(anyFloat(), anyFloat());
-	}
-
-	@Test
-	public void testResumeRunningStitch() {
-		runningStitch.activateStitching(sprite, runningStitchType);
-		runningStitch.pause();
-		runningStitch.resume();
-		runningStitch.update();
-
-		Mockito.verify(spriteLook, Mockito.times(1)).getXInUserInterfaceDimensionUnit();
-		Mockito.verify(spriteLook, Mockito.times(1)).getYInUserInterfaceDimensionUnit();
-		Mockito.verify(runningStitchType, Mockito.times(1)).update(anyFloat(), anyFloat());
-	}
-
-	@Test
-	public void testInvalidResumeRunningStitch() {
-		runningStitch.resume();
-		runningStitch.update();
-
-		Mockito.verify(spriteLook, Mockito.times(0)).getXInUserInterfaceDimensionUnit();
-		Mockito.verify(spriteLook, Mockito.times(0)).getYInUserInterfaceDimensionUnit();
-		Mockito.verify(runningStitchType, Mockito.times(0)).update(anyFloat(), anyFloat());
-	}
-
-	@Test
-	public void testSetStartCoordinates() {
-		final float xCoord = 1;
-		final float yCoord = 2;
-		runningStitch.activateStitching(sprite, runningStitchType);
-		runningStitch.setStartCoordinates(xCoord, yCoord);
-
-		Mockito.verify(runningStitchType, Mockito.times(1)).setStartCoordinates(xCoord, yCoord);
-	}
-
-	@Test
-	public void testInvalidSetStartCoordinates() {
-		final float xCoord = 1;
-		final float yCoord = 2;
-		runningStitch.setStartCoordinates(xCoord, yCoord);
-
-		Mockito.verify(runningStitchType, Mockito.times(0)).setStartCoordinates(anyFloat(), anyFloat());
-	}
-
-	@Test
-	public void testDeactivateRunningStitch() {
-		runningStitch.activateStitching(sprite, runningStitchType);
-		runningStitch.deactivate();
-		final float xCoord = 1;
-		final float yCoord = 2;
-		runningStitch.setStartCoordinates(xCoord, yCoord);
-		runningStitch.update();
-
-		Mockito.verify(runningStitchType, Mockito.times(0)).setStartCoordinates(xCoord, yCoord);
-		Mockito.verify(spriteLook, Mockito.times(0)).getXInUserInterfaceDimensionUnit();
-		Mockito.verify(spriteLook, Mockito.times(0)).getYInUserInterfaceDimensionUnit();
-		Mockito.verify(runningStitchType, Mockito.times(0)).update(anyFloat(), anyFloat());
-	}
+    @Test
+    fun testDeactivateRunningStitch() {
+        runningStitch!!.activateStitching(sprite, runningStitchType)
+        runningStitch!!.deactivate()
+        val xCoord = 1f
+        val yCoord = 2f
+        runningStitch!!.setStartCoordinates(xCoord, yCoord)
+        runningStitch!!.update()
+        Mockito.verify(runningStitchType, Mockito.times(0))?.setStartCoordinates(xCoord, yCoord)
+        Mockito.verify(spriteLook, Mockito.times(0))?.xInUserInterfaceDimensionUnit
+        Mockito.verify(spriteLook, Mockito.times(0))?.yInUserInterfaceDimensionUnit
+        Mockito.verify(runningStitchType, Mockito.times(0))
+            ?.update(ArgumentMatchers.anyFloat(), ArgumentMatchers.anyFloat())
+    }
 }

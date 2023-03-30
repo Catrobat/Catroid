@@ -20,83 +20,86 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.devices.phiro
 
-package org.catrobat.catroid.test.devices.phiro;
+import org.catrobat.catroid.io.asynctask.saveProjectSerial
+import org.junit.runner.RunWith
+import org.junit.Before
+import kotlin.Throws
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import junit.framework.Assert
+import org.catrobat.catroid.exceptions.ProjectException
+import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.io.StorageOperations
+import org.catrobat.catroid.common.FlavoredConstants
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.StartScript
+import org.catrobat.catroid.content.bricks.SetSizeToBrick
+import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.formulaeditor.FormulaElement
+import org.catrobat.catroid.formulaeditor.Sensors
+import org.junit.After
+import org.junit.Test
+import java.io.File
+import java.io.IOException
+import java.lang.Exception
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.FlavoredConstants;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.bricks.SetSizeToBrick;
-import org.catrobat.catroid.exceptions.ProjectException;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.FormulaElement;
-import org.catrobat.catroid.formulaeditor.Sensors;
-import org.catrobat.catroid.io.StorageOperations;
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+@RunWith(AndroidJUnit4::class)
+class PhiroSettingsTest {
+    private var sharedPreferenceBuffer = false
+    private val projectName = "testProject"
+    private var project: Project? = null
+    @Before
+    @Throws(Exception::class)
+    fun setUp() {
+        sharedPreferenceBuffer =
+            SettingsFragment.isPhiroSharedPreferenceEnabled(ApplicationProvider.getApplicationContext())
+        SettingsFragment.setPhiroSharedPreferenceEnabled(
+            ApplicationProvider.getApplicationContext(),
+            false
+        )
+        createProject()
+    }
 
-import java.io.File;
-import java.io.IOException;
+    @After
+    @Throws(Exception::class)
+    fun tearDown() {
+        SettingsFragment
+            .setPhiroSharedPreferenceEnabled(
+                ApplicationProvider.getApplicationContext(),
+                sharedPreferenceBuffer
+            )
+    }
 
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+    @Test
+    @Throws(IOException::class, ProjectException::class)
+    fun testIfPhiroBricksAreEnabledIfItItUsedInAProgram() {
+        Assert.assertFalse(SettingsFragment.isPhiroSharedPreferenceEnabled(ApplicationProvider.getApplicationContext()))
+        ProjectManager.getInstance()
+            .loadProject(project!!.directory, ApplicationProvider.getApplicationContext())
+        Assert.assertTrue(SettingsFragment.isPhiroSharedPreferenceEnabled(ApplicationProvider.getApplicationContext()))
+        StorageOperations.deleteDir(File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName))
+    }
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
-
-import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
-
-@RunWith(AndroidJUnit4.class)
-public class PhiroSettingsTest {
-
-	private boolean sharedPreferenceBuffer;
-	private String projectName = "testProject";
-	private Project project;
-
-	@Before
-	public void setUp() throws Exception {
-		sharedPreferenceBuffer =
-				SettingsFragment.isPhiroSharedPreferenceEnabled(ApplicationProvider.getApplicationContext());
-		SettingsFragment.setPhiroSharedPreferenceEnabled(ApplicationProvider.getApplicationContext(), false);
-		createProject();
-	}
-
-	@After
-	public void tearDown() throws Exception {
-		SettingsFragment
-				.setPhiroSharedPreferenceEnabled(ApplicationProvider.getApplicationContext(), sharedPreferenceBuffer);
-	}
-
-	@Test
-	public void testIfPhiroBricksAreEnabledIfItItUsedInAProgram() throws IOException, ProjectException {
-		assertFalse(SettingsFragment.isPhiroSharedPreferenceEnabled(ApplicationProvider.getApplicationContext()));
-
-		ProjectManager.getInstance()
-				.loadProject(project.getDirectory(), ApplicationProvider.getApplicationContext());
-
-		assertTrue(SettingsFragment.isPhiroSharedPreferenceEnabled(ApplicationProvider.getApplicationContext()));
-
-		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName));
-	}
-
-	private void createProject() {
-		project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Sprite sprite = new Sprite("Phiro");
-		StartScript startScript = new StartScript();
-		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(
-				new Formula(new FormulaElement(FormulaElement.ElementType.SENSOR,
-						Sensors.PHIRO_BOTTOM_LEFT.name(), null)));
-
-		startScript.addBrick(setSizeToBrick);
-		sprite.addScript(startScript);
-		project.getDefaultScene().addSprite(sprite);
-
-		ProjectManager.getInstance().setCurrentProject(project);
-		saveProjectSerial(project, ApplicationProvider.getApplicationContext());
-	}
+    private fun createProject() {
+        project = Project(ApplicationProvider.getApplicationContext(), projectName)
+        val sprite = Sprite("Phiro")
+        val startScript = StartScript()
+        val setSizeToBrick = SetSizeToBrick(
+            Formula(
+                FormulaElement(
+                    FormulaElement.ElementType.SENSOR,
+                    Sensors.PHIRO_BOTTOM_LEFT.name, null
+                )
+            )
+        )
+        startScript.addBrick(setSizeToBrick)
+        sprite.addScript(startScript)
+        project!!.defaultScene.addSprite(sprite)
+        ProjectManager.getInstance().currentProject = project
+        saveProjectSerial(project, ApplicationProvider.getApplicationContext())
+    }
 }

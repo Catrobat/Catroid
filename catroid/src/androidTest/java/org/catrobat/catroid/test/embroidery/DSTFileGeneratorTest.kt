@@ -20,119 +20,114 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.embroidery
 
-package org.catrobat.catroid.test.embroidery;
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import com.android.dex.util.FileUtils
+import com.badlogic.gdx.graphics.Color
+import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.common.Constants
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.embroidery.DSTFileGenerator
+import org.catrobat.catroid.embroidery.DSTHeader
+import org.catrobat.catroid.embroidery.DSTStream
+import org.catrobat.catroid.embroidery.EmbroideryStream
+import org.catrobat.catroid.io.StorageOperations
+import org.catrobat.catroid.test.R
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import java.io.File
+import java.io.IOException
 
-import com.android.dex.util.FileUtils;
-import com.badlogic.gdx.graphics.Color;
+@RunWith(AndroidJUnit4::class)
+class DSTFileGeneratorTest {
+    private val projectName = DSTFileGeneratorTest::class.java.simpleName
+    private var dstFile: File? = null
+    @Before
+    @Throws(IOException::class)
+    fun setUp() {
+        val project = Project(ApplicationProvider.getApplicationContext(), projectName)
+        ProjectManager.getInstance().currentProject = project
+        dstFile = File(Constants.CACHE_DIRECTORY, "$projectName.dst")
+        if (dstFile!!.exists()) {
+            dstFile!!.delete()
+        }
+        if (!Constants.CACHE_DIRECTORY.exists()) {
+            Constants.CACHE_DIRECTORY.mkdirs()
+        }
+        dstFile!!.createNewFile()
+    }
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.embroidery.DSTFileGenerator;
-import org.catrobat.catroid.embroidery.DSTHeader;
-import org.catrobat.catroid.embroidery.DSTStream;
-import org.catrobat.catroid.embroidery.EmbroideryStream;
-import org.catrobat.catroid.io.StorageOperations;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+    @Test
+    @Throws(IOException::class)
+    fun testWriteToSampleDSTFile() {
+        val stream: EmbroideryStream = DSTStream(DSTHeader())
+        stream.addStitchPoint(-10f, 0f, Color.BLACK)
+        stream.addStitchPoint(10f, 0f, Color.BLACK)
+        stream.addStitchPoint(10f, 10f, Color.BLACK)
+        stream.addStitchPoint(0f, 15f, Color.BLACK)
+        stream.addStitchPoint(-10f, 10f, Color.BLACK)
+        stream.addStitchPoint(-10f, 0f, Color.BLACK)
+        stream.addStitchPoint(10f, 10f, Color.BLACK)
+        stream.addStitchPoint(-10f, 10f, Color.BLACK)
+        stream.addStitchPoint(10f, 0f, Color.BLACK)
+        val fileGenerator = DSTFileGenerator(stream)
+        fileGenerator.writeToDSTFile(dstFile)
+        val inputStream =
+            InstrumentationRegistry.getInstrumentation().context.resources.openRawResource(
+                R.raw.sample_dst_file
+            )
+        val compareFile = StorageOperations.copyStreamToDir(
+            inputStream,
+            Constants.CACHE_DIRECTORY,
+            "sample_dst_file.dst"
+        )
+        Assert.assertEquals(compareFile.length(), dstFile!!.length())
+        val compareFileBytes = FileUtils.readFile(compareFile)
+        val dstFileBytes = FileUtils.readFile(dstFile)
+        Assert.assertArrayEquals(compareFileBytes, dstFileBytes)
+    }
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+    private fun addArrowToStream(stream: EmbroideryStream, shiftFactor: Int) {
+        stream.addStitchPoint(0f, shiftFactor.toFloat(), Color.BLACK)
+        stream.addStitchPoint(40f, (-40 + shiftFactor).toFloat(), Color.BLACK)
+        stream.addStitchPoint(-40f, (-40 + shiftFactor).toFloat(), Color.BLACK)
+        stream.addStitchPoint(0f, shiftFactor.toFloat(), Color.BLACK)
+    }
 
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
+    private fun addColorChangeAndJumpToStream(stream: EmbroideryStream, shiftFactor: Int) {
+        stream.addColorChange()
+        stream.addStitchPoint(0f, shiftFactor.toFloat(), Color.BLACK)
+        stream.addJump()
+        stream.addStitchPoint(0f, shiftFactor.toFloat(), Color.BLACK)
+    }
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-
-@RunWith(AndroidJUnit4.class)
-public class DSTFileGeneratorTest {
-
-	private final String projectName = DSTFileGeneratorTest.class.getSimpleName();
-	private File dstFile;
-
-	@Before
-	public void setUp() throws IOException {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		ProjectManager.getInstance().setCurrentProject(project);
-
-		dstFile = new File(Constants.CACHE_DIRECTORY, projectName + ".dst");
-		if (dstFile.exists()) {
-			dstFile.delete();
-		}
-		if (!Constants.CACHE_DIRECTORY.exists()) {
-			Constants.CACHE_DIRECTORY.mkdirs();
-		}
-		dstFile.createNewFile();
-	}
-
-	@Test
-	public void testWriteToSampleDSTFile() throws IOException {
-		EmbroideryStream stream = new DSTStream(new DSTHeader());
-		stream.addStitchPoint(-10, 0, Color.BLACK);
-		stream.addStitchPoint(10, 0, Color.BLACK);
-		stream.addStitchPoint(10, 10, Color.BLACK);
-		stream.addStitchPoint(0, 15, Color.BLACK);
-		stream.addStitchPoint(-10, 10, Color.BLACK);
-		stream.addStitchPoint(-10, 0, Color.BLACK);
-		stream.addStitchPoint(10, 10, Color.BLACK);
-		stream.addStitchPoint(-10, 10, Color.BLACK);
-		stream.addStitchPoint(10, 0, Color.BLACK);
-		DSTFileGenerator fileGenerator = new DSTFileGenerator(stream);
-		fileGenerator.writeToDSTFile(dstFile);
-
-		InputStream inputStream = InstrumentationRegistry.getInstrumentation().getContext().getResources().openRawResource(org.catrobat
-				.catroid.test.R.raw.sample_dst_file);
-		File compareFile = StorageOperations.copyStreamToDir(inputStream, Constants.CACHE_DIRECTORY, "sample_dst_file.dst");
-
-		assertEquals(compareFile.length(), dstFile.length());
-
-		byte[] compareFileBytes = FileUtils.readFile(compareFile);
-		byte[] dstFileBytes = FileUtils.readFile(dstFile);
-
-		assertArrayEquals(compareFileBytes, dstFileBytes);
-	}
-
-	private void addArrowToStream(EmbroideryStream stream, int shiftFactor) {
-		stream.addStitchPoint(0, shiftFactor, Color.BLACK);
-		stream.addStitchPoint(40, -40 + shiftFactor, Color.BLACK);
-		stream.addStitchPoint(-40, -40 + shiftFactor, Color.BLACK);
-		stream.addStitchPoint(0, shiftFactor, Color.BLACK);
-	}
-
-	private void addColorChangeAndJumpToStream(EmbroideryStream stream, int shiftFactor) {
-		stream.addColorChange();
-		stream.addStitchPoint(0, shiftFactor, Color.BLACK);
-		stream.addJump();
-		stream.addStitchPoint(0, shiftFactor, Color.BLACK);
-	}
-
-	@Test
-	public void testWriteToComplexSampleDSTFile() throws IOException {
-		EmbroideryStream stream = new DSTStream(new DSTHeader());
-		addArrowToStream(stream, 0);
-		addColorChangeAndJumpToStream(stream, 0);
-		addArrowToStream(stream, 20);
-		addColorChangeAndJumpToStream(stream, 20);
-		addArrowToStream(stream, 40);
-
-		DSTFileGenerator fileGenerator = new DSTFileGenerator(stream);
-		fileGenerator.writeToDSTFile(dstFile);
-
-		InputStream inputStream = InstrumentationRegistry.getInstrumentation().getContext().getResources().openRawResource(org.catrobat
-				.catroid.test.R.raw.complex_sample_dst_file);
-		File compareFile = StorageOperations.copyStreamToDir(inputStream, Constants.CACHE_DIRECTORY,
-				"complex_sample_dst_file.dst");
-
-		assertEquals(compareFile.length(), dstFile.length());
-
-		byte[] compareFileBytes = FileUtils.readFile(compareFile);
-		byte[] dstFileBytes = FileUtils.readFile(dstFile);
-
-		assertArrayEquals(compareFileBytes, dstFileBytes);
-	}
+    @Test
+    @Throws(IOException::class)
+    fun testWriteToComplexSampleDSTFile() {
+        val stream: EmbroideryStream = DSTStream(DSTHeader())
+        addArrowToStream(stream, 0)
+        addColorChangeAndJumpToStream(stream, 0)
+        addArrowToStream(stream, 20)
+        addColorChangeAndJumpToStream(stream, 20)
+        addArrowToStream(stream, 40)
+        val fileGenerator = DSTFileGenerator(stream)
+        fileGenerator.writeToDSTFile(dstFile)
+        val inputStream =
+            InstrumentationRegistry.getInstrumentation().context.resources.openRawResource(
+                R.raw.complex_sample_dst_file
+            )
+        val compareFile = StorageOperations.copyStreamToDir(
+            inputStream, Constants.CACHE_DIRECTORY,
+            "complex_sample_dst_file.dst"
+        )
+        Assert.assertEquals(compareFile.length(), dstFile!!.length())
+        val compareFileBytes = FileUtils.readFile(compareFile)
+        val dstFileBytes = FileUtils.readFile(dstFile)
+        Assert.assertArrayEquals(compareFileBytes, dstFileBytes)
+    }
 }

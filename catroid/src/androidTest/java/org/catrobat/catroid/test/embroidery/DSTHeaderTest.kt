@@ -20,98 +20,127 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.embroidery
 
-package org.catrobat.catroid.test.embroidery;
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.embroidery.DSTFileConstants
+import org.catrobat.catroid.embroidery.DSTHeader
+import org.catrobat.catroid.embroidery.EmbroideryHeader
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.Mockito
+import java.io.FileOutputStream
+import java.io.IOException
+import java.util.Locale
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.embroidery.DSTFileConstants;
-import org.catrobat.catroid.embroidery.DSTHeader;
-import org.catrobat.catroid.embroidery.EmbroideryHeader;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
+@RunWith(AndroidJUnit4::class)
+class DSTHeaderTest {
+    private val projectName = DSTHeaderTest::class.java.simpleName
+    private var fileOutputStream: FileOutputStream? = null
+    @Before
+    fun setUp() {
+        val project = Project(ApplicationProvider.getApplicationContext(), projectName)
+        ProjectManager.getInstance().currentProject = project
+        fileOutputStream = Mockito.mock(FileOutputStream::class.java)
+    }
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Locale;
+    @Test
+    @Throws(IOException::class)
+    fun testDSTHeaderInitialize() {
+        val expectedX = 2.0f
+        val expectedY = 4.0f
+        val stringBuilder = StringBuilder()
+        stringBuilder.append(String.format(DSTFileConstants.DST_HEADER_LABEL, projectName))
+            .append(
+                String.format(
+                    Locale.getDefault(),
+                    DSTFileConstants.DST_HEADER,
+                    1,
+                    1,
+                    expectedX.toInt(),
+                    expectedX.toInt(),
+                    expectedY.toInt(),
+                    expectedY.toInt(),
+                    (expectedX - expectedX).toInt(),
+                    (expectedY - expectedY).toInt(),
+                    0,
+                    0,
+                    "*****"
+                ).replace(
+                    ' ',
+                    '\u0000'
+                )
+            )
+            .append(DSTFileConstants.HEADER_FILL)
+        val header: EmbroideryHeader = DSTHeader()
+        header.initialize(1.0f, 2.0f)
+        header.appendToStream(fileOutputStream)
+        Mockito.verify(fileOutputStream, Mockito.times(1))
+            ?.write(stringBuilder.toString().toByteArray())
+    }
 
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+    @Test
+    @Throws(IOException::class)
+    fun testDSTHeaderColorChangeReset() {
+        val stringBuilder = StringBuilder()
+        stringBuilder.append(String.format(DSTFileConstants.DST_HEADER_LABEL, projectName))
+            .append(
+                String.format(
+                    Locale.getDefault(), DSTFileConstants.DST_HEADER, 1,
+                    2, 0, 0, 0, 0, 0, 0, 0, 0, "*****"
+                ).replace(' ', '\u0000')
+            )
+            .append(DSTFileConstants.HEADER_FILL)
+        val header: EmbroideryHeader = DSTHeader()
+        header.initialize(0f, 0f)
+        header.addColorChange()
+        header.appendToStream(fileOutputStream)
+        Mockito.verify(fileOutputStream, Mockito.times(1))
+            ?.write(stringBuilder.toString().toByteArray())
+    }
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
-@RunWith(AndroidJUnit4.class)
-public class DSTHeaderTest {
-	private final String projectName = DSTHeaderTest.class.getSimpleName();
-	private FileOutputStream fileOutputStream;
-
-	@Before
-	public void setUp() {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		ProjectManager.getInstance().setCurrentProject(project);
-		fileOutputStream = Mockito.mock(FileOutputStream.class);
-	}
-
-	@Test
-	public void testDSTHeaderInitialize() throws IOException {
-		final float expectedX = 2.0f;
-		final float expectedY = 4.0f;
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(String.format(DSTFileConstants.DST_HEADER_LABEL, projectName))
-				.append(String.format(Locale.getDefault(), DSTFileConstants.DST_HEADER, 1,
-						1, (int) expectedX, (int) expectedX, (int) expectedY, (int) expectedY,
-						(int) (expectedX - expectedX), (int) (expectedY - expectedY), 0, 0,
-						"*****").replace(' ',
-						'\0'))
-				.append(DSTFileConstants.HEADER_FILL);
-
-		EmbroideryHeader header = new DSTHeader();
-		header.initialize(1.0f, 2.0f);
-		header.appendToStream(fileOutputStream);
-		verify(fileOutputStream, times(1)).write(stringBuilder.toString().getBytes());
-	}
-
-	@Test
-	public void testDSTHeaderColorChangeReset() throws IOException {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(String.format(DSTFileConstants.DST_HEADER_LABEL, projectName))
-				.append(String.format(Locale.getDefault(), DSTFileConstants.DST_HEADER, 1,
-						2, 0, 0, 0, 0, 0, 0, 0, 0, "*****").replace(' ', '\0'))
-				.append(DSTFileConstants.HEADER_FILL);
-		EmbroideryHeader header = new DSTHeader();
-		header.initialize(0, 0);
-		header.addColorChange();
-
-		header.appendToStream(fileOutputStream);
-		verify(fileOutputStream, times(1)).write(stringBuilder.toString().getBytes());
-	}
-
-	@Test
-	public void testDSTHeaderUpdate() throws IOException {
-		final float expectedXInit = 0.0f;
-		final float expectedXHigh = 10.0f;
-		final float expectedXLow = -4.0f;
-		final float expectedYInit = 0.0f;
-		final float expectedYHigh = 4.0f;
-		final float expectedYLow = -10.0f;
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(String.format(DSTFileConstants.DST_HEADER_LABEL, projectName))
-				.append(String.format(Locale.getDefault(), DSTFileConstants.DST_HEADER, 3,
-						1, (int) expectedXHigh, (int) expectedXLow, (int) expectedYHigh,
-						(int) expectedYLow, (int) (expectedXHigh - expectedXInit),
-						(int) (expectedYHigh - expectedYInit), 0, 0, "*****").replace(' ',
-						'\0'))
-				.append(DSTFileConstants.HEADER_FILL);
-
-		EmbroideryHeader header = new DSTHeader();
-		header.initialize(0, 0);
-		header.update(-2.0f, -5.0f);
-		header.update(5.0f, 2.0f);
-
-		header.appendToStream(fileOutputStream);
-		verify(fileOutputStream, times(1)).write(stringBuilder.toString().getBytes());
-	}
+    @Test
+    @Throws(IOException::class)
+    fun testDSTHeaderUpdate() {
+        val expectedXInit = 0.0f
+        val expectedXHigh = 10.0f
+        val expectedXLow = -4.0f
+        val expectedYInit = 0.0f
+        val expectedYHigh = 4.0f
+        val expectedYLow = -10.0f
+        val stringBuilder = StringBuilder()
+        stringBuilder.append(String.format(DSTFileConstants.DST_HEADER_LABEL, projectName))
+            .append(
+                String.format(
+                    Locale.getDefault(),
+                    DSTFileConstants.DST_HEADER,
+                    3,
+                    1,
+                    expectedXHigh.toInt(),
+                    expectedXLow.toInt(),
+                    expectedYHigh.toInt(),
+                    expectedYLow.toInt(),
+                    (expectedXHigh - expectedXInit).toInt(),
+                    (expectedYHigh - expectedYInit).toInt(),
+                    0,
+                    0,
+                    "*****"
+                ).replace(
+                    ' ',
+                    '\u0000'
+                )
+            )
+            .append(DSTFileConstants.HEADER_FILL)
+        val header: EmbroideryHeader = DSTHeader()
+        header.initialize(0f, 0f)
+        header.update(-2.0f, -5.0f)
+        header.update(5.0f, 2.0f)
+        header.appendToStream(fileOutputStream)
+        Mockito.verify(fileOutputStream, Mockito.times(1))
+            ?.write(stringBuilder.toString().toByteArray())
+    }
 }

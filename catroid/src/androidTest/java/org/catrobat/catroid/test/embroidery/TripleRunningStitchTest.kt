@@ -20,72 +20,68 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.embroidery
 
-package org.catrobat.catroid.test.embroidery;
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.catrobat.catroid.content.Look
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.embroidery.EmbroideryPatternManager
+import org.catrobat.catroid.embroidery.TripleRunningStitch
+import org.catrobat.catroid.stage.StageActivity
+import org.catrobat.catroid.stage.StageListener
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.ArgumentMatchers
+import org.mockito.Mockito
 
-import org.catrobat.catroid.content.Look;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.embroidery.EmbroideryPatternManager;
-import org.catrobat.catroid.embroidery.TripleRunningStitch;
-import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.stage.StageListener;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
+@RunWith(AndroidJUnit4::class)
+class TripleRunningStitchTest {
+    private var sprite: Sprite? = null
+    private var tripleRunningStitch: TripleRunningStitch? = null
+    private var embroideryPatternManager: EmbroideryPatternManager? = null
+    @Before
+    fun setUp() {
+        sprite = Mockito.mock(Sprite::class.java)
+        sprite?.look = Mockito.mock(Look::class.java)
+        embroideryPatternManager = Mockito.mock(
+            EmbroideryPatternManager::class.java
+        )
+        StageActivity.stageListener = Mockito.mock(StageListener::class.java)
+        StageActivity.stageListener.embroideryPatternManager = embroideryPatternManager
+    }
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+    @After
+    fun tearDown() {
+        StageActivity.stageListener = null
+    }
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+    @Test
+    fun testNoMoveOfRunningStitch() {
+        val steps = 10
+        tripleRunningStitch = TripleRunningStitch(sprite, steps)
+        tripleRunningStitch!!.update(0f, 0f)
+        Mockito.verify(embroideryPatternManager, Mockito.times(0))
+            ?.addStitchCommand(ArgumentMatchers.any())
+    }
 
-@RunWith(AndroidJUnit4.class)
-public class TripleRunningStitchTest {
-	private Sprite sprite;
-	private TripleRunningStitch tripleRunningStitch;
-	private EmbroideryPatternManager embroideryPatternManager;
+    @Test
+    fun testSimpleMoveOfRunningStitch() {
+        val steps = 10
+        tripleRunningStitch = TripleRunningStitch(sprite, steps)
+        tripleRunningStitch!!.update(10f, 10f)
+        Mockito.verify(embroideryPatternManager, Mockito.times(4))
+            ?.addStitchCommand(ArgumentMatchers.any())
+    }
 
-	@Before
-	public void setUp() {
-		sprite = Mockito.mock(Sprite.class);
-		sprite.look = Mockito.mock(Look.class);
-		embroideryPatternManager = Mockito.mock(EmbroideryPatternManager.class);
-		StageActivity.stageListener = Mockito.mock(StageListener.class);
-		StageActivity.stageListener.embroideryPatternManager = embroideryPatternManager;
-	}
-
-	@After
-	public void tearDown() {
-		StageActivity.stageListener = null;
-	}
-
-	@Test
-	public void testNoMoveOfRunningStitch() {
-		final int steps = 10;
-		tripleRunningStitch = new TripleRunningStitch(sprite, steps);
-		tripleRunningStitch.update(0, 0);
-
-		verify(embroideryPatternManager, times(0)).addStitchCommand(any());
-	}
-
-	@Test
-	public void testSimpleMoveOfRunningStitch() {
-		final int steps = 10;
-		tripleRunningStitch = new TripleRunningStitch(sprite, steps);
-		tripleRunningStitch.update(10, 10);
-
-		verify(embroideryPatternManager, times(4)).addStitchCommand(any());
-	}
-
-	@Test
-	public void testSetStartCoordinates() {
-		final int steps = 10;
-		tripleRunningStitch = new TripleRunningStitch(sprite, steps);
-		tripleRunningStitch.setStartCoordinates(20, 20);
-		tripleRunningStitch.update(0, 0);
-
-		verify(embroideryPatternManager, times(7)).addStitchCommand(any());
-	}
+    @Test
+    fun testSetStartCoordinates() {
+        val steps = 10
+        tripleRunningStitch = TripleRunningStitch(sprite, steps)
+        tripleRunningStitch!!.setStartCoordinates(20f, 20f)
+        tripleRunningStitch!!.update(0f, 0f)
+        Mockito.verify(embroideryPatternManager, Mockito.times(7))
+            ?.addStitchCommand(ArgumentMatchers.any())
+    }
 }

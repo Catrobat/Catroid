@@ -20,34 +20,30 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.embroidery
 
-package org.catrobat.catroid.test.embroidery;
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.catrobat.catroid.content.Sprite
+import org.junit.runner.RunWith
+import org.catrobat.catroid.embroidery.EmbroideryWorkSpace
+import org.catrobat.catroid.embroidery.DSTWorkSpace
+import org.junit.Assert
+import org.junit.Test
+import org.mockito.Mockito
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.embroidery.DSTWorkSpace;
-import org.catrobat.catroid.embroidery.EmbroideryWorkSpace;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import static org.junit.Assert.assertEquals;
-
-@RunWith(AndroidJUnit4.class)
-public class DSTWorkSpaceTest {
-
-	@Test
-	public void simpleWorkSpaceTest() {
-		final Sprite sprite = Mockito.mock(Sprite.class);
-		final float x = 1.5f;
-		final float y = 1.5f;
-
-		EmbroideryWorkSpace workSpace = new DSTWorkSpace();
-		workSpace.set(x, y, sprite);
-
-		assertEquals(x, workSpace.getCurrentX(), Float.MIN_VALUE);
-		assertEquals(y, workSpace.getCurrentY(), Float.MIN_VALUE);
-		assertEquals(sprite, workSpace.getLastSprite());
-	}
+@RunWith(AndroidJUnit4::class)
+class DSTWorkSpaceTest {
+    @Test
+    fun simpleWorkSpaceTest() {
+        val sprite = Mockito.mock(
+            Sprite::class.java
+        )
+        val x = 1.5f
+        val y = 1.5f
+        val workSpace: EmbroideryWorkSpace = DSTWorkSpace()
+        workSpace[x, y] = sprite
+        Assert.assertEquals(x, workSpace.currentX, Float.MIN_VALUE)
+        Assert.assertEquals(y, workSpace.currentY, Float.MIN_VALUE)
+        Assert.assertEquals(sprite, workSpace.lastSprite)
+    }
 }

@@ -20,122 +20,136 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.embroidery
 
-package org.catrobat.catroid.test.embroidery;
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.badlogic.gdx.graphics.Color
+import org.catrobat.catroid.content.Sprite
+import org.junit.runner.RunWith
+import org.catrobat.catroid.embroidery.EmbroideryPatternManager
+import org.catrobat.catroid.embroidery.StitchCommand
+import org.junit.Before
+import org.catrobat.catroid.embroidery.DSTPatternManager
+import org.catrobat.catroid.embroidery.EmbroideryWorkSpace
+import org.catrobat.catroid.embroidery.EmbroideryStream
+import org.catrobat.catroid.embroidery.DSTStitchCommand
+import org.catrobat.catroid.embroidery.DSTStitchPoint
+import org.junit.Assert
+import org.junit.Test
+import org.mockito.Mockito
 
-import com.badlogic.gdx.graphics.Color;
+@RunWith(AndroidJUnit4::class)
+class DSTPatternManagerTest {
+    private var patternManager: EmbroideryPatternManager? = null
+    private var sprite: Sprite? = null
+    private var stitchCommand1: StitchCommand? = null
+    private var stitchCommand2: StitchCommand? = null
+    @Before
+    fun setUp() {
+        patternManager = DSTPatternManager()
+        sprite = Mockito.mock(Sprite::class.java)
+        stitchCommand1 = Mockito.mock(StitchCommand::class.java)
+        Mockito.`when`(stitchCommand1?.getLayer()).thenReturn(0)
+        Mockito.`when`(stitchCommand1?.getSprite()).thenReturn(sprite)
+        stitchCommand2 = Mockito.mock(StitchCommand::class.java)
+        Mockito.`when`(stitchCommand2?.getLayer()).thenReturn(1)
+        Mockito.`when`(stitchCommand2?.getSprite()).thenReturn(sprite)
+    }
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.embroidery.DSTPatternManager;
-import org.catrobat.catroid.embroidery.DSTStitchCommand;
-import org.catrobat.catroid.embroidery.DSTStitchPoint;
-import org.catrobat.catroid.embroidery.EmbroideryPatternManager;
-import org.catrobat.catroid.embroidery.EmbroideryStream;
-import org.catrobat.catroid.embroidery.EmbroideryWorkSpace;
-import org.catrobat.catroid.embroidery.StitchCommand;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
+    @Test
+    fun testAddSingleStitchCommand() {
+        patternManager!!.addStitchCommand(stitchCommand1)
+        Mockito.verify(stitchCommand1, Mockito.times(1))?.act(
+            Mockito.any(
+                EmbroideryWorkSpace::class.java
+            ),
+            Mockito.any(
+                EmbroideryStream::class.java
+            ), Mockito.eq<StitchCommand>(null)
+        )
+    }
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+    @Test
+    fun testAddMultipleIndependentStitchCommands() {
+        val stitchCommand3 = Mockito.mock(StitchCommand::class.java)
+        Mockito.`when`(stitchCommand3.layer).thenReturn(1)
+        Mockito.`when`(stitchCommand3.sprite).thenReturn(Sprite())
+        patternManager!!.addStitchCommand(stitchCommand1)
+        patternManager!!.addStitchCommand(stitchCommand3)
+        Mockito.verify(stitchCommand3, Mockito.times(1)).act(
+            Mockito.any(
+                EmbroideryWorkSpace::class.java
+            ),
+            Mockito.any(
+                EmbroideryStream::class.java
+            ), Mockito.eq<StitchCommand>(null)
+        )
+    }
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+    @Test
+    fun testAddMultipleStitchCommands() {
+        patternManager!!.addStitchCommand(stitchCommand1)
+        patternManager!!.addStitchCommand(stitchCommand2)
+        Mockito.verify(stitchCommand2, Mockito.times(1))?.act(
+            Mockito.any(
+                EmbroideryWorkSpace::class.java
+            ),
+            Mockito.any(
+                EmbroideryStream::class.java
+            ), Mockito.eq(stitchCommand1)
+        )
+    }
 
-@RunWith(AndroidJUnit4.class)
-public class DSTPatternManagerTest {
+    @Test
+    fun testClearEmbroideryPattern() {
+        patternManager!!.addStitchCommand(stitchCommand1)
+        patternManager!!.clear()
+        patternManager!!.addStitchCommand(stitchCommand2)
+        Mockito.verify(stitchCommand2, Mockito.times(1))?.act(
+            Mockito.any(
+                EmbroideryWorkSpace::class.java
+            ),
+            Mockito.any(
+                EmbroideryStream::class.java
+            ), Mockito.eq<StitchCommand>(null)
+        )
+    }
 
-	private EmbroideryPatternManager patternManager;
-	private Sprite sprite;
-	private StitchCommand stitchCommand1;
-	private StitchCommand stitchCommand2;
+    @Test
+    fun testInvalidPattern() {
+        patternManager!!.addStitchCommand(DSTStitchCommand(0F, 0F, 0, sprite, Color.BLACK))
+        Assert.assertFalse(patternManager!!.validPatternExists())
+    }
 
-	@Before
-	public void setUp() {
-		patternManager = new DSTPatternManager();
-		sprite = Mockito.mock(Sprite.class);
-		stitchCommand1 = Mockito.mock(StitchCommand.class);
-		Mockito.when(stitchCommand1.getLayer()).thenReturn(0);
-		Mockito.when(stitchCommand1.getSprite()).thenReturn(sprite);
-		stitchCommand2 = Mockito.mock(StitchCommand.class);
-		Mockito.when(stitchCommand2.getLayer()).thenReturn(1);
-		Mockito.when(stitchCommand2.getSprite()).thenReturn(sprite);
-	}
+    @Test
+    fun testValidPattern() {
+        patternManager!!.addStitchCommand(DSTStitchCommand(0F, 0F, 0, sprite, Color.BLACK))
+        patternManager!!.addStitchCommand(DSTStitchCommand(0F, 1F, 0, sprite, Color.BLACK))
+        Assert.assertTrue(patternManager!!.validPatternExists())
+    }
 
-	@Test
-	public void testAddSingleStitchCommand() {
-		patternManager.addStitchCommand(stitchCommand1);
-		Mockito.verify(stitchCommand1, Mockito.times(1)).act(Mockito.any(EmbroideryWorkSpace.class),
-				Mockito.any(EmbroideryStream.class), Mockito.eq(null));
-	}
+    @Test
+    fun testEmptyEmbroideryPattern() {
+        Assert.assertTrue(patternManager!!.embroideryPatternList.isEmpty())
+    }
 
-	@Test
-	public void testAddMultipleIndependentStitchCommands() {
-		StitchCommand stitchCommand3 = Mockito.mock(StitchCommand.class);
-		Mockito.when(stitchCommand3.getLayer()).thenReturn(1);
-		Mockito.when(stitchCommand3.getSprite()).thenReturn(new Sprite());
+    @Test
+    fun testSingleLayerEmbroideryPatternList() {
+        val command: StitchCommand = DSTStitchCommand(0F, 0F, 0, sprite, Color.BLACK)
+        patternManager!!.addStitchCommand(command)
+        Assert.assertEquals(1, patternManager!!.embroideryPatternList.size.toLong())
+        Assert.assertEquals(
+            DSTStitchPoint(command.x, command.y, Color.BLACK),
+            patternManager!!.embroideryPatternList[0]
+        )
+    }
 
-		patternManager.addStitchCommand(stitchCommand1);
-		patternManager.addStitchCommand(stitchCommand3);
-
-		Mockito.verify(stitchCommand3, Mockito.times(1)).act(Mockito.any(EmbroideryWorkSpace.class),
-				Mockito.any(EmbroideryStream.class), Mockito.eq(null));
-	}
-
-	@Test
-	public void testAddMultipleStitchCommands() {
-		patternManager.addStitchCommand(stitchCommand1);
-		patternManager.addStitchCommand(stitchCommand2);
-		Mockito.verify(stitchCommand2, Mockito.times(1)).act(Mockito.any(EmbroideryWorkSpace.class),
-				Mockito.any(EmbroideryStream.class), Mockito.eq(stitchCommand1));
-	}
-
-	@Test
-	public void testClearEmbroideryPattern() {
-		patternManager.addStitchCommand(stitchCommand1);
-		patternManager.clear();
-		patternManager.addStitchCommand(stitchCommand2);
-		Mockito.verify(stitchCommand2, Mockito.times(1)).act(Mockito.any(EmbroideryWorkSpace.class),
-				Mockito.any(EmbroideryStream.class), Mockito.eq(null));
-	}
-
-	@Test
-	public void testInvalidPattern() {
-		patternManager.addStitchCommand(new DSTStitchCommand(0, 0, 0, sprite, Color.BLACK));
-		assertFalse(patternManager.validPatternExists());
-	}
-
-	@Test
-	public void testValidPattern() {
-		patternManager.addStitchCommand(new DSTStitchCommand(0, 0, 0, sprite, Color.BLACK));
-		patternManager.addStitchCommand(new DSTStitchCommand(0, 1, 0, sprite, Color.BLACK));
-		assertTrue(patternManager.validPatternExists());
-	}
-
-	@Test
-	public void testEmptyEmbroideryPattern() {
-		assertTrue(patternManager.getEmbroideryPatternList().isEmpty());
-	}
-
-	@Test
-	public void testSingleLayerEmbroideryPatternList() {
-		StitchCommand command = new DSTStitchCommand(0, 0, 0, sprite, Color.BLACK);
-		patternManager.addStitchCommand(command);
-
-		assertEquals(1, patternManager.getEmbroideryPatternList().size());
-		assertEquals(new DSTStitchPoint(command.getX(), command.getY(), Color.BLACK),
-				patternManager.getEmbroideryPatternList().get(0));
-	}
-
-	@Test
-	public void testMultilayerEmbroideryPatternList() {
-		patternManager.addStitchCommand(new DSTStitchCommand(0, 0, 0, sprite, Color.BLACK));
-		patternManager.addStitchCommand(new DSTStitchCommand(0, 0, 1, sprite, Color.BLACK));
-
-		assertEquals(5, patternManager.getEmbroideryPatternList().size());
-		assertTrue(patternManager.getEmbroideryPatternList().get(1).isColorChangePoint());
-		assertTrue(patternManager.getEmbroideryPatternList().get(2).isJumpPoint());
-	}
+    @Test
+    fun testMultilayerEmbroideryPatternList() {
+        patternManager!!.addStitchCommand(DSTStitchCommand(0F, 0F, 0, sprite, Color.BLACK))
+        patternManager!!.addStitchCommand(DSTStitchCommand(0F, 0F, 1, sprite, Color.BLACK))
+        Assert.assertEquals(5, patternManager!!.embroideryPatternList.size.toLong())
+        Assert.assertTrue(patternManager!!.embroideryPatternList[1].isColorChangePoint)
+        Assert.assertTrue(patternManager!!.embroideryPatternList[2].isJumpPoint)
+    }
 }

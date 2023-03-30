@@ -20,242 +20,203 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.devices.phiro
 
-package org.catrobat.catroid.test.devices.phiro;
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.google.common.base.Stopwatch
+import junit.framework.Assert
+import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger
+import org.catrobat.catroid.common.firmata.FirmataUtils
+import org.catrobat.catroid.devices.arduino.phiro.Phiro
+import org.catrobat.catroid.devices.arduino.phiro.PhiroImpl
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import java.util.concurrent.TimeUnit
 
-import com.google.common.base.Stopwatch;
+@RunWith(AndroidJUnit4::class)
+class PhiroImplTest {
+    private var phiro: Phiro? = null
+    private var logger: ConnectionDataLogger? = null
+    private var firmataUtils: FirmataUtils? = null
+    @Before
+    @Throws(Exception::class)
+    fun setUp() {
+        phiro = PhiroImpl()
+        logger = ConnectionDataLogger.createLocalConnectionLogger()
+        firmataUtils = FirmataUtils(logger)
+        (phiro as PhiroImpl).setConnection(logger?.connectionProxy)
+        (phiro as PhiroImpl).initialise()
+    }
 
-import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
-import org.catrobat.catroid.common.firmata.FirmataMessage;
-import org.catrobat.catroid.common.firmata.FirmataUtils;
-import org.catrobat.catroid.devices.arduino.phiro.Phiro;
-import org.catrobat.catroid.devices.arduino.phiro.PhiroImpl;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+    @After
+    @Throws(Exception::class)
+    fun tearDown() {
+        phiro!!.disconnect()
+        logger!!.disconnectAndDestroy()
+    }
 
-import java.util.concurrent.TimeUnit;
+    @Test
+    fun testMoveLeftMotorForward() {
+        doTestFirmataInitialization()
+        phiro!!.moveLeftMotorForward(SPEED_IN_PERCENT)
+        testSpeed(SPEED_IN_PERCENT, PIN_LEFT_MOTOR_SPEED)
+    }
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+    @Test
+    fun testMoveLeftMotorBackward() {
+        doTestFirmataInitialization()
+        phiro!!.moveLeftMotorBackward(SPEED_IN_PERCENT)
+        testSpeed(SPEED_IN_PERCENT, PIN_LEFT_MOTOR_SPEED)
+    }
 
-import static junit.framework.Assert.assertEquals;
+    @Test
+    fun testMoveRightMotorForward() {
+        doTestFirmataInitialization()
+        phiro!!.moveRightMotorForward(SPEED_IN_PERCENT)
+        testSpeed(SPEED_IN_PERCENT, PIN_RIGHT_MOTOR_SPEED)
+    }
 
-@RunWith(AndroidJUnit4.class)
-public class PhiroImplTest {
+    @Test
+    fun testMoveRightMotorBackward() {
+        doTestFirmataInitialization()
+        phiro!!.moveRightMotorBackward(SPEED_IN_PERCENT)
+        testSpeed(SPEED_IN_PERCENT, PIN_RIGHT_MOTOR_SPEED)
+    }
 
-	private Phiro phiro;
-	private ConnectionDataLogger logger;
-	private FirmataUtils firmataUtils;
+    @Test
+    fun testStopLeftMotor() {
+        doTestFirmataInitialization()
+        phiro!!.stopLeftMotor()
+        testSpeed(0, PIN_LEFT_MOTOR_SPEED)
+        testSpeed(0, PIN_LEFT_MOTOR_FORWARD_BACKWARD)
+    }
 
-	private static final int PIN_SPEAKER_OUT = 3;
+    @Test
+    fun testStopRightMotor() {
+        doTestFirmataInitialization()
+        phiro!!.stopRightMotor()
+        testSpeed(0, PIN_RIGHT_MOTOR_SPEED)
+    }
 
-	private static final int PIN_RGB_RED_RIGHT = 4;
-	private static final int PIN_RGB_GREEN_RIGHT = 5;
-	private static final int PIN_RGB_BLUE_RIGHT = 6;
+    @Test
+    fun testStopAllMovements() {
+        doTestFirmataInitialization()
+        phiro!!.stopAllMovements()
+        testSpeed(0, PIN_LEFT_MOTOR_SPEED)
+        testSpeed(0, PIN_LEFT_MOTOR_FORWARD_BACKWARD)
+        testSpeed(0, PIN_RIGHT_MOTOR_SPEED)
+    }
 
-	private static final int PIN_RGB_RED_LEFT = 7;
-	private static final int PIN_RGB_GREEN_LEFT = 8;
-	private static final int PIN_RGB_BLUE_LEFT = 9;
+    @Test
+    fun testSetLeftRGBLightColor() {
+        doTestFirmataInitialization()
+        val red = 242
+        val green = 0
+        val blue = 3
+        phiro!!.setLeftRGBLightColor(red, green, blue)
+        testLight(red, PIN_RGB_RED_LEFT)
+        testLight(green, PIN_RGB_GREEN_LEFT)
+        testLight(blue, PIN_RGB_BLUE_LEFT)
+    }
 
-	private static final int PIN_LEFT_MOTOR_SPEED = 10;
-	private static final int PIN_LEFT_MOTOR_FORWARD_BACKWARD = 11;
+    @Test
+    fun testSetRightRGBLightColor() {
+        doTestFirmataInitialization()
+        val red = 242
+        val green = 1
+        val blue = 3
+        phiro!!.setRightRGBLightColor(red, green, blue)
+        testLight(red, PIN_RGB_RED_RIGHT)
+        testLight(green, PIN_RGB_GREEN_RIGHT)
+        testLight(blue, PIN_RGB_BLUE_RIGHT)
+    }
 
-	private static final int PIN_RIGHT_MOTOR_SPEED = 12;
+    @Test
+    @Throws(InterruptedException::class)
+    fun testPlayTone() {
+        doTestFirmataInitialization()
+        val tone = 294
+        val durationInSeconds = 1
+        phiro!!.playTone(tone, durationInSeconds)
+        var m = firmataUtils!!.analogMessageData
+        Assert.assertEquals(ANALOG_MESSAGE_COMMAND, m.command)
+        Assert.assertEquals(PIN_SPEAKER_OUT, m.pin)
+        Assert.assertEquals(tone, m.data)
+        val stopwatch = Stopwatch.createStarted()
+        while (stopwatch.elapsed(TimeUnit.SECONDS) < durationInSeconds) {
+            Assert.assertEquals(0, logger!!.getSentMessages(0).size)
+            Thread.sleep((durationInSeconds * 100).toLong())
+        }
+        m = firmataUtils!!.analogMessageData
+        Assert.assertEquals(ANALOG_MESSAGE_COMMAND, m.command)
+        Assert.assertEquals(PIN_SPEAKER_OUT, m.pin)
+        Assert.assertEquals(0, m.data)
+    }
 
-	private static final int MIN_PWM_PIN = 2;
-	private static final int MAX_PWM_PIN = 13;
+    private fun doTestFirmataInitialization() {
+        for (i in MIN_PWM_PIN..MAX_PWM_PIN) {
+            val m = firmataUtils!!.setPinModeMessage
+            Assert.assertEquals(SET_PIN_MODE_COMMAND, m.command)
+            Assert.assertEquals(i, m.pin)
+            Assert.assertEquals(PWM_MODE, m.data)
+        }
+        testReportAnalogPin(true)
+    }
 
-	private static final int MIN_SENSOR_PIN = 0;
-	private static final int MAX_SENSOR_PIN = 5;
+    private fun testReportAnalogPin(enable: Boolean) {
+        for (i in MIN_SENSOR_PIN..MAX_SENSOR_PIN) {
+            val m = firmataUtils!!.reportAnalogPinMessage
+            Assert.assertEquals(REPORT_ANALOG_PIN_COMMAND, m.command)
+            Assert.assertEquals(i, m.pin)
+            Assert.assertEquals(if (enable) 1 else 0, m.data)
+        }
+    }
 
-	private static final int PWM_MODE = 3;
+    private fun testSpeed(speedInPercent: Int, pin: Int) {
+        val speed = percentToSpeed(speedInPercent)
+        val m = firmataUtils!!.analogMessageData
+        Assert.assertEquals(ANALOG_MESSAGE_COMMAND, m.command)
+        Assert.assertEquals(pin, m.pin)
+        Assert.assertEquals(speed, m.data)
+    }
 
-	private static final int SET_PIN_MODE_COMMAND = 0xF4;
-	private static final int REPORT_ANALOG_PIN_COMMAND = 0xC0;
-	private static final int ANALOG_MESSAGE_COMMAND = 0xE0;
+    private fun testLight(color: Int, pin: Int) {
+        val m = firmataUtils!!.analogMessageData
+        Assert.assertEquals(ANALOG_MESSAGE_COMMAND, m.command)
+        Assert.assertEquals(pin, m.pin)
+        Assert.assertEquals(color, m.data)
+    }
 
-	@Before
-	public void setUp() throws Exception {
+    private fun percentToSpeed(percent: Int): Int {
+        if (percent <= 0) {
+            return 0
+        }
+        return if (percent >= 100) {
+            255
+        } else (percent * 2.55).toInt()
+    }
 
-		phiro = new PhiroImpl();
-		logger = ConnectionDataLogger.createLocalConnectionLogger();
-		firmataUtils = new FirmataUtils(logger);
-		phiro.setConnection(logger.getConnectionProxy());
-		phiro.initialise();
-	}
-
-	@After
-	public void tearDown() throws Exception {
-		phiro.disconnect();
-		logger.disconnectAndDestroy();
-	}
-
-	private static final int SPEED_IN_PERCENT = 42;
-
-	@Test
-	public void testMoveLeftMotorForward() {
-		doTestFirmataInitialization();
-
-		phiro.moveLeftMotorForward(SPEED_IN_PERCENT);
-		testSpeed(SPEED_IN_PERCENT, PIN_LEFT_MOTOR_SPEED);
-	}
-
-	@Test
-	public void testMoveLeftMotorBackward() {
-		doTestFirmataInitialization();
-
-		phiro.moveLeftMotorBackward(SPEED_IN_PERCENT);
-		testSpeed(SPEED_IN_PERCENT, PIN_LEFT_MOTOR_SPEED);
-	}
-
-	@Test
-	public void testMoveRightMotorForward() {
-		doTestFirmataInitialization();
-
-		phiro.moveRightMotorForward(SPEED_IN_PERCENT);
-		testSpeed(SPEED_IN_PERCENT, PIN_RIGHT_MOTOR_SPEED);
-	}
-
-	@Test
-	public void testMoveRightMotorBackward() {
-		doTestFirmataInitialization();
-
-		phiro.moveRightMotorBackward(SPEED_IN_PERCENT);
-		testSpeed(SPEED_IN_PERCENT, PIN_RIGHT_MOTOR_SPEED);
-	}
-
-	@Test
-	public void testStopLeftMotor() {
-		doTestFirmataInitialization();
-
-		phiro.stopLeftMotor();
-		testSpeed(0, PIN_LEFT_MOTOR_SPEED);
-		testSpeed(0, PIN_LEFT_MOTOR_FORWARD_BACKWARD);
-	}
-
-	@Test
-	public void testStopRightMotor() {
-		doTestFirmataInitialization();
-
-		phiro.stopRightMotor();
-		testSpeed(0, PIN_RIGHT_MOTOR_SPEED);
-	}
-
-	@Test
-	public void testStopAllMovements() {
-		doTestFirmataInitialization();
-
-		phiro.stopAllMovements();
-		testSpeed(0, PIN_LEFT_MOTOR_SPEED);
-		testSpeed(0, PIN_LEFT_MOTOR_FORWARD_BACKWARD);
-		testSpeed(0, PIN_RIGHT_MOTOR_SPEED);
-	}
-
-	@Test
-	public void testSetLeftRGBLightColor() {
-		doTestFirmataInitialization();
-
-		int red = 242;
-		int green = 0;
-		int blue = 3;
-
-		phiro.setLeftRGBLightColor(red, green, blue);
-		testLight(red, PIN_RGB_RED_LEFT);
-		testLight(green, PIN_RGB_GREEN_LEFT);
-		testLight(blue, PIN_RGB_BLUE_LEFT);
-	}
-
-	@Test
-	public void testSetRightRGBLightColor() {
-		doTestFirmataInitialization();
-
-		int red = 242;
-		int green = 1;
-		int blue = 3;
-
-		phiro.setRightRGBLightColor(red, green, blue);
-		testLight(red, PIN_RGB_RED_RIGHT);
-		testLight(green, PIN_RGB_GREEN_RIGHT);
-		testLight(blue, PIN_RGB_BLUE_RIGHT);
-	}
-
-	@Test
-	public void testPlayTone() throws InterruptedException {
-		doTestFirmataInitialization();
-
-		int tone = 294;
-		int durationInSeconds = 1;
-
-		phiro.playTone(tone, durationInSeconds);
-
-		FirmataMessage m = firmataUtils.getAnalogMessageData();
-
-		assertEquals(ANALOG_MESSAGE_COMMAND, m.getCommand());
-		assertEquals(PIN_SPEAKER_OUT, m.getPin());
-		assertEquals(tone, m.getData());
-
-		Stopwatch stopwatch = Stopwatch.createStarted();
-		while (stopwatch.elapsed(TimeUnit.SECONDS) < durationInSeconds) {
-			assertEquals(0, logger.getSentMessages(0).size());
-			Thread.sleep(durationInSeconds * 100);
-		}
-
-		m = firmataUtils.getAnalogMessageData();
-
-		assertEquals(ANALOG_MESSAGE_COMMAND, m.getCommand());
-		assertEquals(PIN_SPEAKER_OUT, m.getPin());
-		assertEquals(0, m.getData());
-	}
-
-	private void doTestFirmataInitialization() {
-		for (int i = MIN_PWM_PIN; i <= MAX_PWM_PIN; ++i) {
-			FirmataMessage m = firmataUtils.getSetPinModeMessage();
-
-			assertEquals(SET_PIN_MODE_COMMAND, m.getCommand());
-			assertEquals(i, m.getPin());
-			assertEquals(PWM_MODE, m.getData());
-		}
-
-		testReportAnalogPin(true);
-	}
-
-	private void testReportAnalogPin(boolean enable) {
-		for (int i = MIN_SENSOR_PIN; i <= MAX_SENSOR_PIN; ++i) {
-			FirmataMessage m = firmataUtils.getReportAnalogPinMessage();
-
-			assertEquals(REPORT_ANALOG_PIN_COMMAND, m.getCommand());
-			assertEquals(i, m.getPin());
-			assertEquals(enable ? 1 : 0, m.getData());
-		}
-	}
-
-	private void testSpeed(int speedInPercent, int pin) {
-		int speed = percentToSpeed(speedInPercent);
-
-		FirmataMessage m = firmataUtils.getAnalogMessageData();
-
-		assertEquals(ANALOG_MESSAGE_COMMAND, m.getCommand());
-		assertEquals(pin, m.getPin());
-		assertEquals(speed, m.getData());
-	}
-
-	private void testLight(int color, int pin) {
-		FirmataMessage m = firmataUtils.getAnalogMessageData();
-
-		assertEquals(ANALOG_MESSAGE_COMMAND, m.getCommand());
-		assertEquals(pin, m.getPin());
-		assertEquals(color, m.getData());
-	}
-
-	private int percentToSpeed(int percent) {
-		if (percent <= 0) {
-			return 0;
-		}
-		if (percent >= 100) {
-			return 255;
-		}
-
-		return (int) (percent * 2.55);
-	}
+    companion object {
+        private const val PIN_SPEAKER_OUT = 3
+        private const val PIN_RGB_RED_RIGHT = 4
+        private const val PIN_RGB_GREEN_RIGHT = 5
+        private const val PIN_RGB_BLUE_RIGHT = 6
+        private const val PIN_RGB_RED_LEFT = 7
+        private const val PIN_RGB_GREEN_LEFT = 8
+        private const val PIN_RGB_BLUE_LEFT = 9
+        private const val PIN_LEFT_MOTOR_SPEED = 10
+        private const val PIN_LEFT_MOTOR_FORWARD_BACKWARD = 11
+        private const val PIN_RIGHT_MOTOR_SPEED = 12
+        private const val MIN_PWM_PIN = 2
+        private const val MAX_PWM_PIN = 13
+        private const val MIN_SENSOR_PIN = 0
+        private const val MAX_SENSOR_PIN = 5
+        private const val PWM_MODE = 3
+        private const val SET_PIN_MODE_COMMAND = 0xF4
+        private const val REPORT_ANALOG_PIN_COMMAND = 0xC0
+        private const val ANALOG_MESSAGE_COMMAND = 0xE0
+        private const val SPEED_IN_PERCENT = 42
+    }
 }

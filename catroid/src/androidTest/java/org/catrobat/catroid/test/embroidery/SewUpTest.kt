@@ -20,107 +20,91 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.embroidery
 
-package org.catrobat.catroid.test.embroidery;
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.catrobat.catroid.content.Look
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.actions.SewUpAction
+import org.catrobat.catroid.embroidery.DSTPatternManager
+import org.catrobat.catroid.embroidery.EmbroideryPatternManager
+import org.catrobat.catroid.stage.StageActivity
+import org.catrobat.catroid.stage.StageListener
+import org.junit.After
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.Mockito
 
-import org.catrobat.catroid.content.Look;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.SewUpAction;
-import org.catrobat.catroid.embroidery.DSTPatternManager;
-import org.catrobat.catroid.embroidery.EmbroideryPatternManager;
-import org.catrobat.catroid.embroidery.StitchPoint;
-import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.stage.StageListener;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
+@RunWith(AndroidJUnit4::class)
+class SewUpTest {
+    private var sprite: Sprite? = null
+    private var spriteLook: Look? = null
+    private var embroideryPatternManager: EmbroideryPatternManager? = null
+    @Before
+    fun setUp() {
+        sprite = Sprite("testSprite")
+        spriteLook = Mockito.mock(Look::class.java)
+        sprite!!.look = spriteLook
+        embroideryPatternManager = DSTPatternManager()
+        StageActivity.stageListener = StageListener()
+        StageActivity.stageListener.embroideryPatternManager = embroideryPatternManager
+    }
 
-import java.util.ArrayList;
-import java.util.List;
+    @After
+    fun tearDown() {
+        StageActivity.stageListener = null
+    }
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+    @Test
+    fun testVerticalSewUp() {
+        sprite!!.actionFactory.createSewUpAction(sprite).act(1f)
+        val stitches = StageActivity.stageListener.embroideryPatternManager.embroideryPatternList
+        val expectedStitchesX = ArrayList<Float>()
+        val expectedStitchesY = ArrayList<Float>()
+        val x = sprite!!.look.xInUserInterfaceDimensionUnit
+        val y = sprite!!.look.yInUserInterfaceDimensionUnit
+        expectedStitchesX.add(x)
+        expectedStitchesY.add(y)
+        expectedStitchesX.add(x)
+        expectedStitchesY.add(y + SewUpAction.STEPS)
+        expectedStitchesX.add(x)
+        expectedStitchesY.add(y)
+        expectedStitchesX.add(x)
+        expectedStitchesY.add(y - SewUpAction.STEPS)
+        expectedStitchesX.add(x)
+        expectedStitchesY.add(y)
+        for (i in expectedStitchesX.indices) {
+            Assert.assertEquals(stitches[i].x.toDouble(), expectedStitchesX[i].toDouble(), 0.01)
+            Assert.assertEquals(stitches[i].y.toDouble(), expectedStitchesY[i].toDouble(), 0.01)
+        }
+    }
 
-import static org.junit.Assert.assertEquals;
-@RunWith(AndroidJUnit4.class)
-public class SewUpTest {
-	private Sprite sprite;
-	private Look spriteLook;
-	private EmbroideryPatternManager embroideryPatternManager;
-
-	@Before
-	public void setUp() {
-		sprite = new Sprite("testSprite");
-		spriteLook = Mockito.mock(Look.class);
-		sprite.look = spriteLook;
-		embroideryPatternManager = new DSTPatternManager();
-		StageActivity.stageListener = new StageListener();
-		StageActivity.stageListener.embroideryPatternManager = embroideryPatternManager;
-	}
-
-	@After
-	public void tearDown() {
-		StageActivity.stageListener = null;
-	}
-
-	@Test
-	public void testVerticalSewUp() {
-		sprite.getActionFactory().createSewUpAction(sprite).act(1f);
-
-		List<StitchPoint> stitches =
-				StageActivity.stageListener.embroideryPatternManager.getEmbroideryPatternList();
-
-		ArrayList<Float> expectedStitchesX = new ArrayList<>();
-		ArrayList<Float> expectedStitchesY = new ArrayList<>();
-		float x = sprite.look.getXInUserInterfaceDimensionUnit();
-		float y = sprite.look.getYInUserInterfaceDimensionUnit();
-
-		expectedStitchesX.add(x);
-		expectedStitchesY.add(y);
-		expectedStitchesX.add(x);
-		expectedStitchesY.add(y + SewUpAction.STEPS);
-		expectedStitchesX.add(x);
-		expectedStitchesY.add(y);
-		expectedStitchesX.add(x);
-		expectedStitchesY.add(y - SewUpAction.STEPS);
-		expectedStitchesX.add(x);
-		expectedStitchesY.add(y);
-
-		for (int i = 0; i < expectedStitchesX.size(); i++) {
-			assertEquals(stitches.get(i).getX(), expectedStitchesX.get(i), 0.01);
-			assertEquals(stitches.get(i).getY(), expectedStitchesY.get(i), 0.01);
-		}
-	}
-
-	@Test
-	public void testAngledSewUp() {
-		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(137);
-		sprite.getActionFactory().createSewUpAction(sprite).act(1f);
-
-		List<StitchPoint> stitches =
-				StageActivity.stageListener.embroideryPatternManager.getEmbroideryPatternList();
-
-		ArrayList<Float> expectedStitchesX = new ArrayList<>();
-		ArrayList<Float> expectedStitchesY = new ArrayList<>();
-		float x = sprite.look.getXInUserInterfaceDimensionUnit();
-		float y = sprite.look.getYInUserInterfaceDimensionUnit();
-		double radians = Math.toRadians(sprite.look.getMotionDirectionInUserInterfaceDimensionUnit());
-
-		expectedStitchesX.add(x);
-		expectedStitchesY.add(y);
-		expectedStitchesX.add(x + SewUpAction.STEPS * (float) Math.sin(radians));
-		expectedStitchesY.add(y + SewUpAction.STEPS * (float) Math.cos(radians));
-		expectedStitchesX.add(x);
-		expectedStitchesY.add(y);
-		expectedStitchesX.add(x - SewUpAction.STEPS * (float) Math.sin(radians));
-		expectedStitchesY.add(y - SewUpAction.STEPS * (float) Math.cos(radians));
-		expectedStitchesX.add(x);
-		expectedStitchesY.add(y);
-
-		for (int i = 0; i < expectedStitchesX.size(); i++) {
-			assertEquals(stitches.get(i).getX(), expectedStitchesX.get(i), 0.01);
-			assertEquals(stitches.get(i).getY(), expectedStitchesY.get(i), 0.01);
-		}
-	}
+    @Test
+    fun testAngledSewUp() {
+        sprite!!.look.motionDirectionInUserInterfaceDimensionUnit = 137f
+        sprite!!.actionFactory.createSewUpAction(sprite).act(1f)
+        val stitches = StageActivity.stageListener.embroideryPatternManager.embroideryPatternList
+        val expectedStitchesX = ArrayList<Float>()
+        val expectedStitchesY = ArrayList<Float>()
+        val x = sprite!!.look.xInUserInterfaceDimensionUnit
+        val y = sprite!!.look.yInUserInterfaceDimensionUnit
+        val radians =
+            Math.toRadians(sprite!!.look.motionDirectionInUserInterfaceDimensionUnit.toDouble())
+        expectedStitchesX.add(x)
+        expectedStitchesY.add(y)
+        expectedStitchesX.add(x + SewUpAction.STEPS * Math.sin(radians).toFloat())
+        expectedStitchesY.add(y + SewUpAction.STEPS * Math.cos(radians).toFloat())
+        expectedStitchesX.add(x)
+        expectedStitchesY.add(y)
+        expectedStitchesX.add(x - SewUpAction.STEPS * Math.sin(radians).toFloat())
+        expectedStitchesY.add(y - SewUpAction.STEPS * Math.cos(radians).toFloat())
+        expectedStitchesX.add(x)
+        expectedStitchesY.add(y)
+        for (i in expectedStitchesX.indices) {
+            Assert.assertEquals(stitches[i].x.toDouble(), expectedStitchesX[i].toDouble(), 0.01)
+            Assert.assertEquals(stitches[i].y.toDouble(), expectedStitchesY[i].toDouble(), 0.01)
+        }
+    }
 }
