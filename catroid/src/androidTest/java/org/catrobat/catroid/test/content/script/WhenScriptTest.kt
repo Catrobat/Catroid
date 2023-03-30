@@ -20,121 +20,108 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.content.script
 
-package org.catrobat.catroid.test.content.script;
+import org.junit.runner.RunWith
+import com.badlogic.gdx.graphics.OrthographicCamera
+import org.junit.Before
+import org.catrobat.catroid.content.WhenScript
+import org.catrobat.catroid.utils.TouchUtil
+import org.catrobat.catroid.content.Look
+import org.catrobat.catroid.test.utils.TestUtils
+import org.catrobat.catroid.test.content.script.WhenScriptTest
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.badlogic.gdx.graphics.Color
+import junit.framework.Assert
+import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Script
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.bricks.ChangeXByNBrick
+import org.catrobat.catroid.content.eventids.EventId
+import org.catrobat.catroid.content.bricks.WaitBrick
+import org.junit.Test
+import org.mockito.Mockito
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+@RunWith(AndroidJUnit4::class)
+class WhenScriptTest {
+    private var sprite: Sprite? = null
+    private var whenScript: Script? = null
+    private val camera = Mockito.spy(OrthographicCamera())
+    @Before
+    fun setUp() {
+        sprite = createSprite()
+        whenScript = WhenScript()
+        sprite!!.addScript(whenScript)
+        Mockito.doNothing().`when`(camera).update()
+        createProjectWithSprite(sprite)
+        TouchUtil.reset()
+    }
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.Look;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.WhenScript;
-import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
-import org.catrobat.catroid.content.bricks.WaitBrick;
-import org.catrobat.catroid.content.eventids.EventId;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.TouchUtil;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
+    private fun createSprite(): Sprite {
+        val sprite = Sprite("testSprite")
+        sprite.look = object : Look(sprite) {
+            init {
+                pixmap = TestUtils.createRectanglePixmap(WIDTH, HEIGHT, Color.RED)
+            }
+        }
+        sprite.look.setSize(WIDTH.toFloat(), HEIGHT.toFloat())
+        sprite.look.xInUserInterfaceDimensionUnit = 0f
+        sprite.look.yInUserInterfaceDimensionUnit = 0f
+        return sprite
+    }
 
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+    private fun createProjectWithSprite(sprite: Sprite?): Project {
+        val project = Project(ApplicationProvider.getApplicationContext(), "testProject")
+        ProjectManager.getInstance().currentProject = project
+        project.defaultScene.addSprite(sprite)
+        return project
+    }
 
-import static junit.framework.Assert.assertEquals;
+    @Test
+    fun basicWhenScriptTest() {
+        whenScript!!.addBrick(ChangeXByNBrick(10))
+        sprite!!.initializeEventThreads(EventId.START)
+        tapSprite()
+        while (!sprite!!.look.haveAllThreadsFinished()) {
+            sprite!!.look.act(1.0f)
+        }
+        Assert.assertEquals(10f, sprite!!.look.xInUserInterfaceDimensionUnit)
+    }
 
-@RunWith(AndroidJUnit4.class)
-public class WhenScriptTest {
+    private fun tapSprite() {
+        sprite!!.look.doTouchDown(0f, 0f, 0)
+    }
 
-	private static final int WIDTH = 100;
-	private static final int HEIGHT = 100;
-	private Sprite sprite;
-	private Script whenScript;
-	private final OrthographicCamera camera = Mockito.spy(new OrthographicCamera());
+    @Test
+    fun whenScriptRestartTest() {
+        whenScript!!.addBrick(WaitBrick(50))
+        whenScript!!.addBrick(ChangeXByNBrick(10))
+        sprite!!.initializeEventThreads(EventId.START)
+        tapSprite()
+        tapSprite()
+        while (!sprite!!.look.haveAllThreadsFinished()) {
+            sprite!!.look.act(1.0f)
+        }
+        Assert.assertEquals(10f, sprite!!.look.xInUserInterfaceDimensionUnit)
+    }
 
-	@Before
-	public void setUp() {
-		sprite = createSprite();
+    @Test
+    fun movedCameraPosition() {
+        camera.position[1000.0f, 600.0f] = 0.0f
+        sprite!!.look.setPositionInUserInterfaceDimensionUnit(1000.0f, 600.0f)
+        whenScript!!.addBrick(ChangeXByNBrick(10))
+        sprite!!.initializeEventThreads(EventId.START)
+        tapSprite()
+        while (!sprite!!.look.haveAllThreadsFinished()) {
+            sprite!!.look.act(1.0f)
+        }
+        Assert.assertEquals(1010f, sprite!!.look.xInUserInterfaceDimensionUnit)
+    }
 
-		whenScript = new WhenScript();
-		sprite.addScript(whenScript);
-		Mockito.doNothing().when(camera).update();
-
-		createProjectWithSprite(sprite);
-		TouchUtil.reset();
-	}
-
-	private Sprite createSprite() {
-		Sprite sprite = new Sprite("testSprite");
-		sprite.look = new Look(sprite) {
-			{
-				pixmap = TestUtils.createRectanglePixmap(WIDTH, HEIGHT, Color.RED);
-			}
-		};
-
-		sprite.look.setSize(WIDTH, HEIGHT);
-		sprite.look.setXInUserInterfaceDimensionUnit(0);
-		sprite.look.setYInUserInterfaceDimensionUnit(0);
-		return sprite;
-	}
-
-	private Project createProjectWithSprite(Sprite sprite) {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), "testProject");
-		ProjectManager.getInstance().setCurrentProject(project);
-		project.getDefaultScene().addSprite(sprite);
-		return project;
-	}
-
-	@Test
-	public void basicWhenScriptTest() {
-		whenScript.addBrick(new ChangeXByNBrick(10));
-		sprite.initializeEventThreads(EventId.START);
-
-		tapSprite();
-		while (!sprite.look.haveAllThreadsFinished()) {
-			sprite.look.act(1.0f);
-		}
-
-		assertEquals((float) 10, sprite.look.getXInUserInterfaceDimensionUnit());
-	}
-
-	private void tapSprite() {
-		sprite.look.doTouchDown(0, 0, 0);
-	}
-
-	@Test
-	public void whenScriptRestartTest() {
-		whenScript.addBrick(new WaitBrick(50));
-		whenScript.addBrick(new ChangeXByNBrick(10));
-		sprite.initializeEventThreads(EventId.START);
-
-		tapSprite();
-		tapSprite();
-
-		while (!sprite.look.haveAllThreadsFinished()) {
-			sprite.look.act(1.0f);
-		}
-
-		assertEquals((float) 10, sprite.look.getXInUserInterfaceDimensionUnit());
-	}
-
-	@Test
-	public void movedCameraPosition() {
-		camera.position.set(1000.0f, 600.0f, 0.0f);
-		sprite.look.setPositionInUserInterfaceDimensionUnit(1000.0f, 600.0f);
-
-		whenScript.addBrick(new ChangeXByNBrick(10));
-		sprite.initializeEventThreads(EventId.START);
-
-		tapSprite();
-		while (!sprite.look.haveAllThreadsFinished()) {
-			sprite.look.act(1.0f);
-		}
-
-		assertEquals((float) 1010, sprite.look.getXInUserInterfaceDimensionUnit());
-	}
+    companion object {
+        private const val WIDTH = 100
+        private const val HEIGHT = 100
+    }
 }

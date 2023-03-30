@@ -20,84 +20,77 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.devices.arduino
 
-package org.catrobat.catroid.test.devices.arduino;
+import android.content.Context
+import org.catrobat.catroid.io.asynctask.saveProjectSerial
+import org.junit.runner.RunWith
+import org.catrobat.catroid.test.devices.arduino.ArduinoSettingsTest
+import org.junit.Before
+import kotlin.Throws
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import junit.framework.Assert
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
+import org.catrobat.catroid.test.utils.TestUtils
+import org.catrobat.catroid.exceptions.ProjectException
+import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.io.StorageOperations
+import org.catrobat.catroid.common.FlavoredConstants
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.StartScript
+import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick
+import org.junit.After
+import org.junit.Test
+import java.io.File
+import java.io.IOException
+import java.lang.Exception
 
-import android.content.Context;
+@RunWith(AndroidJUnit4::class)
+class ArduinoSettingsTest {
+    private var sharedPreferenceBuffer = false
+    private val projectName = ArduinoSettingsTest::class.java.simpleName
+    private var project: Project? = null
+    @Before
+    @Throws(Exception::class)
+    fun setUp() {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        sharedPreferenceBuffer = SettingsFragment.isArduinoSharedPreferenceEnabled(context)
+        SettingsFragment.setArduinoSharedPreferenceEnabled(context, false)
+        createProjectArduino()
+    }
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.FlavoredConstants;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
-import org.catrobat.catroid.exceptions.ProjectException;
-import org.catrobat.catroid.io.StorageOperations;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+    @After
+    @Throws(Exception::class)
+    fun tearDown() {
+        TestUtils.deleteProjects(projectName)
+        SettingsFragment
+            .setArduinoSharedPreferenceEnabled(
+                ApplicationProvider.getApplicationContext(),
+                sharedPreferenceBuffer
+            )
+    }
 
-import java.io.File;
-import java.io.IOException;
+    @Test
+    @Throws(IOException::class, ProjectException::class)
+    fun testIfArduinoBricksAreEnabledIfItItUsedInAProgram() {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        Assert.assertFalse(SettingsFragment.isArduinoSharedPreferenceEnabled(context))
+        ProjectManager.getInstance().loadProject(project!!.directory, context)
+        Assert.assertTrue(SettingsFragment.isArduinoSharedPreferenceEnabled(context))
+        StorageOperations.deleteDir(File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName))
+    }
 
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
-
-import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
-
-@RunWith(AndroidJUnit4.class)
-public class ArduinoSettingsTest {
-
-	private boolean sharedPreferenceBuffer;
-	private String projectName = ArduinoSettingsTest.class.getSimpleName();
-	private Project project;
-
-	@Before
-	public void setUp() throws Exception {
-		Context context = ApplicationProvider.getApplicationContext();
-		sharedPreferenceBuffer = SettingsFragment.isArduinoSharedPreferenceEnabled(context);
-		SettingsFragment.setArduinoSharedPreferenceEnabled(context, false);
-		createProjectArduino();
-	}
-
-	@After
-	public void tearDown() throws Exception {
-		TestUtils.deleteProjects(projectName);
-		SettingsFragment
-				.setArduinoSharedPreferenceEnabled(ApplicationProvider.getApplicationContext(), sharedPreferenceBuffer);
-	}
-
-	@Test
-	public void testIfArduinoBricksAreEnabledIfItItUsedInAProgram() throws IOException, ProjectException {
-		Context context = ApplicationProvider.getApplicationContext();
-
-		assertFalse(SettingsFragment.isArduinoSharedPreferenceEnabled(context));
-
-		ProjectManager.getInstance().loadProject(project.getDirectory(), context);
-
-		assertTrue(SettingsFragment.isArduinoSharedPreferenceEnabled(context));
-
-		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName));
-	}
-
-	private void createProjectArduino() {
-		project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Sprite sprite = new Sprite("Arduino");
-
-		StartScript startScript = new StartScript();
-		ArduinoSendPWMValueBrick brick = new ArduinoSendPWMValueBrick(3, 255);
-		startScript.addBrick(brick);
-		sprite.addScript(startScript);
-
-		project.getDefaultScene().addSprite(sprite);
-
-		ProjectManager.getInstance().setCurrentProject(project);
-		saveProjectSerial(project, ApplicationProvider.getApplicationContext());
-	}
+    private fun createProjectArduino() {
+        project = Project(ApplicationProvider.getApplicationContext(), projectName)
+        val sprite = Sprite("Arduino")
+        val startScript = StartScript()
+        val brick = ArduinoSendPWMValueBrick(3, 255)
+        startScript.addBrick(brick)
+        sprite.addScript(startScript)
+        project!!.defaultScene.addSprite(sprite)
+        ProjectManager.getInstance().currentProject = project
+        saveProjectSerial(project, ApplicationProvider.getApplicationContext())
+    }
 }

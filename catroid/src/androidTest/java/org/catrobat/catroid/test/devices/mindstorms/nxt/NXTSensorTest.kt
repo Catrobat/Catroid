@@ -20,168 +20,293 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.devices.mindstorms.nxt
 
-package org.catrobat.catroid.test.devices.mindstorms.nxt;
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
+import org.junit.rules.ExpectedException
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensorType
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensorMode
+import org.catrobat.catroid.devices.mindstorms.MindstormsConnection
+import org.junit.Before
+import kotlin.Throws
+import org.catrobat.catroid.devices.mindstorms.MindstormsException
+import org.catrobat.catroid.devices.mindstorms.MindstormsCommand
+import org.catrobat.catroid.devices.mindstorms.nxt.Command
+import org.catrobat.catroid.devices.mindstorms.nxt.CommandByte
+import org.catrobat.catroid.devices.mindstorms.nxt.NXTReply
+import org.catrobat.catroid.devices.mindstorms.nxt.NXTException
+import org.catrobat.catroid.devices.mindstorms.nxt.CommandType
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTTouchSensor
+import org.catrobat.catroid.test.devices.mindstorms.nxt.NXTSensorTest
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSoundSensor
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTLightSensor
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTLightSensorActive
+import org.junit.Assert
+import org.junit.Rule
+import org.junit.Test
+import org.mockito.ArgumentMatchers
+import org.mockito.Mockito
+import org.mockito.internal.verification.VerificationModeFactory
+import java.lang.Exception
+import java.util.Arrays
 
-import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
-import org.catrobat.catroid.devices.mindstorms.MindstormsException;
-import org.catrobat.catroid.devices.mindstorms.nxt.Command;
-import org.catrobat.catroid.devices.mindstorms.nxt.CommandByte;
-import org.catrobat.catroid.devices.mindstorms.nxt.CommandType;
-import org.catrobat.catroid.devices.mindstorms.nxt.NXTException;
-import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTLightSensor;
-import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTLightSensorActive;
-import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
-import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensorMode;
-import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensorType;
-import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSoundSensor;
-import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTTouchSensor;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+@RunWith(Parameterized::class)
+class NXTSensorTest {
+    @get:Rule
+    val exception = ExpectedException.none()
+    @JvmField
+    @Parameterized.Parameter
+    var name: String? = null
+    @JvmField
+    @Parameterized.Parameter(1)
+    var nxtSensorClass: Class<NXTSensor>? = null
+    @JvmField
+    @Parameterized.Parameter(2)
+    var sensorType: NXTSensorType? = null
+    @JvmField
+    @Parameterized.Parameter(3)
+    var sensorMode: NXTSensorMode? = null
+    @JvmField
+    @Parameterized.Parameter(4)
+    var port: Byte = 0
+    @JvmField
+    @Parameterized.Parameter(5)
+    var expectedSensorValue = 0
+    private var mindstormsConnection: MindstormsConnection? = null
+    private var nxtSensor: NXTSensor? = null
+    @Before
+    @Throws(Exception::class)
+    fun setUp() {
+        mindstormsConnection = Mockito.mock(MindstormsConnection::class.java)
+        Mockito.`when`(mindstormsConnection?.isConnected).thenReturn(true)
+        nxtSensor = nxtSensorClass!!.getConstructor(
+            Int::class.javaPrimitiveType,
+            MindstormsConnection::class.java
+        ).newInstance(port, mindstormsConnection)
+        nxtSensor?.hasInit = true
+    }
 
-import java.util.Arrays;
+    @Test
+    @Throws(MindstormsException::class)
+    fun testSensorGetValueInvalidFirstByteException() {
+        Mockito.`when`(mindstormsConnection!!.sendAndReceive(ArgumentMatchers.any())).thenReturn(
+            byteArrayOf(
+                0,
+                CommandByte.LS_READ.byte,
+                NXTReply.NO_ERROR,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            )
+        )
+        exception.expect(NXTException::class.java)
+        exception.expectMessage(NXTReply.INVALID_FIRST_BYTE_EXCEPTION_MESSAGE)
+        nxtSensor!!.value
+    }
 
-import static org.catrobat.catroid.devices.mindstorms.nxt.CommandByte.LS_READ;
-import static org.catrobat.catroid.devices.mindstorms.nxt.CommandType.REPLY_COMMAND;
-import static org.catrobat.catroid.devices.mindstorms.nxt.NXTReply.INSUFFICIENT_REPLY_LENGTH_EXCEPTION_MESSAGE;
-import static org.catrobat.catroid.devices.mindstorms.nxt.NXTReply.INVALID_COMMAND_BYTE_EXCEPTION_MESSAGE;
-import static org.catrobat.catroid.devices.mindstorms.nxt.NXTReply.INVALID_FIRST_BYTE_EXCEPTION_MESSAGE;
-import static org.catrobat.catroid.devices.mindstorms.nxt.NXTReply.NO_ERROR;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.internal.verification.VerificationModeFactory.times;
+    @Test
+    @Throws(MindstormsException::class)
+    fun testSensorGetValueInvalidCommandByteException() {
+        Mockito.`when`(mindstormsConnection!!.sendAndReceive(ArgumentMatchers.any())).thenReturn(
+            byteArrayOf(
+                CommandType.REPLY_COMMAND.byte,
+                0,
+                NXTReply.NO_ERROR,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            )
+        )
+        exception.expect(NXTException::class.java)
+        exception.expectMessage(NXTReply.INVALID_COMMAND_BYTE_EXCEPTION_MESSAGE)
+        nxtSensor!!.value
+    }
 
-@RunWith(Parameterized.class)
-public class NXTSensorTest {
+    @Test
+    @Throws(MindstormsException::class)
+    fun testSensorGetValueInvalidReplyLengthException() {
+        Mockito.`when`(mindstormsConnection!!.sendAndReceive(ArgumentMatchers.any()))
+            .thenReturn(byteArrayOf())
+        exception.expect(NXTException::class.java)
+        exception.expectMessage(NXTReply.INSUFFICIENT_REPLY_LENGTH_EXCEPTION_MESSAGE)
+        nxtSensor!!.value
+    }
 
-	@Rule
-	public final ExpectedException exception = ExpectedException.none();
+    @Test
+    @Throws(MindstormsException::class)
+    fun testGetValueLeastSignificantByte() {
+        val expectedNormalizedValue: Byte = 1
+        val expectedRawValue: Byte = 2
+        val expectedScaledValue: Byte = 3
+        Mockito.`when`(mindstormsConnection!!.sendAndReceive(ArgumentMatchers.any())).thenReturn(
+            byteArrayOf(
+                CommandType.REPLY_COMMAND.byte,
+                CommandByte.LS_READ.byte,
+                NXTReply.NO_ERROR,
+                0,
+                0,
+                0,
+                0,
+                0,
+                expectedRawValue,
+                0,
+                expectedNormalizedValue,
+                0,
+                expectedScaledValue,
+                0,
+                0,
+                0
+            )
+        )
+        Assert.assertEquals(
+            expectedNormalizedValue.toLong(),
+            nxtSensor!!.sensorReadings.normalized.toLong()
+        )
+        Assert.assertEquals(expectedRawValue.toLong(), nxtSensor!!.sensorReadings.raw.toLong())
+        Assert.assertEquals(
+            expectedScaledValue.toLong(),
+            nxtSensor!!.sensorReadings.scaled.toLong()
+        )
+        Assert.assertEquals(expectedScaledValue.toFloat(), nxtSensor!!.value)
+    }
 
-	private static final byte PORT_NR_0 = 0;
-	private static final byte PORT_NR_1 = 1;
-	private static final byte PORT_NR_2 = 2;
+    @Test
+    @Throws(MindstormsException::class)
+    fun testGetValueMostSignificantByte() {
+        val expectedNormalizedValue: Byte = 1
+        val expectedRawValue: Byte = 2
+        val expectedScaledValue: Byte = 3
+        Mockito.`when`(mindstormsConnection!!.sendAndReceive(ArgumentMatchers.any())).thenReturn(
+            byteArrayOf(
+                CommandType.REPLY_COMMAND.byte,
+                CommandByte.LS_READ.byte,
+                NXTReply.NO_ERROR,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                expectedRawValue,
+                0,
+                expectedNormalizedValue,
+                0,
+                expectedScaledValue,
+                0,
+                0
+            )
+        )
+        Assert.assertEquals(
+            (256 * expectedNormalizedValue).toLong(),
+            nxtSensor!!.sensorReadings.normalized.toLong()
+        )
+        Assert.assertEquals(
+            (256 * expectedRawValue).toLong(),
+            nxtSensor!!.sensorReadings.raw.toLong()
+        )
+        Assert.assertEquals(
+            (256 * expectedScaledValue).toLong(),
+            nxtSensor!!.sensorReadings.scaled.toLong()
+        )
+        Assert.assertEquals((256f * expectedScaledValue), nxtSensor!!.value)
+    }
 
-	@Parameterized.Parameters(name = "{0}")
-	public static Iterable<Object[]> data() {
-		return Arrays.asList(new Object[][] {
-				{"NXTTouchSensor", NXTTouchSensor.class, NXTSensorType.TOUCH, NXTSensorMode.BOOL, PORT_NR_0, 1},
-				{"NXTSoundSensor", NXTSoundSensor.class, NXTSensorType.SOUND_DBA, NXTSensorMode.Percent, PORT_NR_1, 42},
-				{"NXTLightSensor", NXTLightSensor.class, NXTSensorType.LIGHT_INACTIVE, NXTSensorMode.Percent, PORT_NR_2, 24},
-				{"NXTLightSensorActive", NXTLightSensorActive.class, NXTSensorType.LIGHT_ACTIVE, NXTSensorMode.Percent, PORT_NR_2, 33}
-		});
-	}
+    @Test
+    @Throws(MindstormsException::class)
+    fun testResetScaledValue() {
+        val command =
+            Command(CommandType.DIRECT_COMMAND, CommandByte.RESET_INPUT_SCALED_VALUE, false)
+        command.append(port)
+        nxtSensor!!.resetScaledValue()
+        Mockito.verify(mindstormsConnection, VerificationModeFactory.times(1))
+            ?.send(ArgumentMatchers.eq(command))
+    }
 
-	@Parameterized.Parameter
-	public String name;
+    @Test
+    @Throws(MindstormsException::class)
+    fun testUpdateTypeAndMode() {
+        Mockito.`when`(mindstormsConnection!!.sendAndReceive(ArgumentMatchers.any())).thenReturn(
+            byteArrayOf(
+                CommandType.REPLY_COMMAND.byte,
+                CommandByte.LS_READ.byte,
+                NXTReply.NO_ERROR
+            )
+        )
+        val command = Command(CommandType.DIRECT_COMMAND, CommandByte.SET_INPUT_MODE, true)
+        command.append(port)
+        command.append(sensorType!!.byte)
+        command.append(sensorMode!!.byte)
+        nxtSensor!!.updateTypeAndMode()
+        Mockito.verify(mindstormsConnection, VerificationModeFactory.times(1))?.sendAndReceive(
+            ArgumentMatchers.eq(command)
+        )
+    }
 
-	@Parameterized.Parameter(1)
-	public Class<NXTSensor> nxtSensorClass;
-
-	@Parameterized.Parameter(2)
-	public NXTSensorType sensorType;
-
-	@Parameterized.Parameter(3)
-	public NXTSensorMode sensorMode;
-
-	@Parameterized.Parameter(4)
-	public byte port;
-
-	@Parameterized.Parameter(5)
-	public int expectedSensorValue;
-
-	private MindstormsConnection mindstormsConnection;
-	private NXTSensor nxtSensor;
-
-	@Before
-	public void setUp() throws Exception {
-		mindstormsConnection = mock(MindstormsConnection.class);
-		when(mindstormsConnection.isConnected()).thenReturn(true);
-		nxtSensor = nxtSensorClass.getConstructor(int.class, MindstormsConnection.class).newInstance(port, mindstormsConnection);
-		nxtSensor.hasInit = true;
-	}
-
-	@Test
-	public void testSensorGetValueInvalidFirstByteException() throws MindstormsException {
-		when(mindstormsConnection.sendAndReceive(any())).thenReturn(new byte[]{
-				0, LS_READ.getByte(), NO_ERROR, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-		exception.expect(NXTException.class);
-		exception.expectMessage(INVALID_FIRST_BYTE_EXCEPTION_MESSAGE);
-		nxtSensor.getValue();
-	}
-
-	@Test
-	public void testSensorGetValueInvalidCommandByteException() throws MindstormsException {
-		when(mindstormsConnection.sendAndReceive(any())).thenReturn(new byte[]{
-				REPLY_COMMAND.getByte(), 0, NO_ERROR, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-		exception.expect(NXTException.class);
-		exception.expectMessage(INVALID_COMMAND_BYTE_EXCEPTION_MESSAGE);
-		nxtSensor.getValue();
-	}
-
-	@Test
-	public void testSensorGetValueInvalidReplyLengthException() throws MindstormsException {
-		when(mindstormsConnection.sendAndReceive(any())).thenReturn(new byte[]{});
-		exception.expect(NXTException.class);
-		exception.expectMessage(INSUFFICIENT_REPLY_LENGTH_EXCEPTION_MESSAGE);
-		nxtSensor.getValue();
-	}
-
-	@Test
-	public void testGetValueLeastSignificantByte() throws MindstormsException {
-		byte expectedNormalizedValue = 1;
-		byte expectedRawValue = 2;
-		byte expectedScaledValue = 3;
-		when(mindstormsConnection.sendAndReceive(any())).thenReturn(new byte[]{
-				REPLY_COMMAND.getByte(), LS_READ.getByte(), NO_ERROR, 0, 0, 0, 0, 0,
-				expectedRawValue, 0, expectedNormalizedValue, 0, expectedScaledValue, 0,
-				0, 0});
-		assertEquals(expectedNormalizedValue, nxtSensor.getSensorReadings().normalized);
-		assertEquals(expectedRawValue, nxtSensor.getSensorReadings().raw);
-		assertEquals(expectedScaledValue, nxtSensor.getSensorReadings().scaled);
-		assertEquals((Float) (float) expectedScaledValue, (Float) nxtSensor.getValue());
-	}
-
-	@Test
-	public void testGetValueMostSignificantByte() throws MindstormsException {
-		byte expectedNormalizedValue = 1;
-		byte expectedRawValue = 2;
-		byte expectedScaledValue = 3;
-		when(mindstormsConnection.sendAndReceive(any())).thenReturn(new byte[]{
-				REPLY_COMMAND.getByte(), LS_READ.getByte(), NO_ERROR, 0, 0, 0, 0, 0,
-				0, expectedRawValue, 0, expectedNormalizedValue, 0, expectedScaledValue,
-				0, 0});
-		assertEquals(256 * expectedNormalizedValue, nxtSensor.getSensorReadings().normalized);
-		assertEquals(256 * expectedRawValue, nxtSensor.getSensorReadings().raw);
-		assertEquals(256 * expectedScaledValue, nxtSensor.getSensorReadings().scaled);
-		assertEquals((Float) (256f * expectedScaledValue), (Float) nxtSensor.getValue());
-	}
-
-	@Test
-	public void testResetScaledValue() throws MindstormsException {
-		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.RESET_INPUT_SCALED_VALUE, false);
-		command.append(port);
-		nxtSensor.resetScaledValue();
-		verify(mindstormsConnection, times(1)).send(eq(command));
-	}
-
-	@Test
-	public void testUpdateTypeAndMode() throws MindstormsException {
-		when(mindstormsConnection.sendAndReceive(any())).thenReturn(new byte[]{REPLY_COMMAND.getByte(),
-				LS_READ.getByte(), NO_ERROR});
-
-		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.SET_INPUT_MODE, true);
-		command.append(port);
-		command.append(sensorType.getByte());
-		command.append(sensorMode.getByte());
-		nxtSensor.updateTypeAndMode();
-		verify(mindstormsConnection, times(1)).sendAndReceive(eq(command));
-	}
+    companion object {
+        private const val PORT_NR_0: Byte = 0
+        private const val PORT_NR_1: Byte = 1
+        private const val PORT_NR_2: Byte = 2
+        @JvmStatic
+        @Parameterized.Parameters(name = "{0}")
+        fun data(): Iterable<Array<Any>> {
+            return Arrays.asList(
+                *arrayOf(
+                    arrayOf(
+                        "NXTTouchSensor",
+                        NXTTouchSensor::class.java,
+                        NXTSensorType.TOUCH,
+                        NXTSensorMode.BOOL,
+                        PORT_NR_0,
+                        1
+                    ),
+                    arrayOf(
+                        "NXTSoundSensor",
+                        NXTSoundSensor::class.java,
+                        NXTSensorType.SOUND_DBA,
+                        NXTSensorMode.Percent,
+                        PORT_NR_1,
+                        42
+                    ),
+                    arrayOf(
+                        "NXTLightSensor",
+                        NXTLightSensor::class.java,
+                        NXTSensorType.LIGHT_INACTIVE,
+                        NXTSensorMode.Percent,
+                        PORT_NR_2,
+                        24
+                    ),
+                    arrayOf(
+                        "NXTLightSensorActive",
+                        NXTLightSensorActive::class.java,
+                        NXTSensorType.LIGHT_ACTIVE,
+                        NXTSensorMode.Percent,
+                        PORT_NR_2,
+                        33
+                    )
+                )
+            )
+        }
+    }
 }

@@ -20,213 +20,189 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.devices.mindstorms.nxt;
+package org.catrobat.catroid.test.devices.mindstorms.nxt
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.content.Context
+import org.junit.runner.RunWith
+import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT
+import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor
+import org.junit.Before
+import kotlin.Throws
+import androidx.test.core.app.ApplicationProvider
+import android.content.SharedPreferences
+import android.preference.PreferenceManager
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import junit.framework.Assert
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
+import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXTImpl
+import org.catrobat.catroid.devices.mindstorms.MindstormsException
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTLightSensor
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSoundSensor
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTTouchSensor
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTI2CUltraSonicSensor
+import org.catrobat.catroid.test.devices.mindstorms.nxt.LegoNXTImplTest
+import org.junit.After
+import org.junit.Test
+import java.lang.Exception
 
-import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
-import org.catrobat.catroid.devices.mindstorms.MindstormsException;
-import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
-import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXTImpl;
-import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTI2CUltraSonicSensor;
-import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTLightSensor;
-import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
-import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSoundSensor;
-import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTTouchSensor;
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+@RunWith(AndroidJUnit4::class)
+class LegoNXTImplTest {
+    private var applicationContext: Context? = null
+    private var nxt: LegoNXT? = null
+    private var logger: ConnectionDataLogger? = null
+    private lateinit var sensorMappingBuffer: Array<NXTSensor.Sensor>
+    private var nxtSettingBuffer = false
+    private val defaultSensorMapping = arrayOf(
+        NXTSensor.Sensor.TOUCH,
+        NXTSensor.Sensor.SOUND,
+        NXTSensor.Sensor.LIGHT_INACTIVE,
+        NXTSensor.Sensor.ULTRASONIC
+    )
 
-import java.util.ArrayList;
+    @Before
+    @Throws(Exception::class)
+    fun setUp() {
+        applicationContext = ApplicationProvider.getApplicationContext<Context>().applicationContext
+        val sharedPreferences = PreferenceManager
+            .getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
+        nxtSettingBuffer = sharedPreferences
+            .getBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false)
+        sharedPreferences.edit()
+            .putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true)
+            .commit()
+        sensorMappingBuffer =
+            SettingsFragment.getLegoNXTSensorMapping(ApplicationProvider.getApplicationContext())
+        setSensorMapping(
+            arrayOf(
+                NXTSensor.Sensor.NO_SENSOR,
+                NXTSensor.Sensor.NO_SENSOR,
+                NXTSensor.Sensor.NO_SENSOR,
+                NXTSensor.Sensor.NO_SENSOR
+            )
+        )
+        nxt = LegoNXTImpl(applicationContext)
+        logger = ConnectionDataLogger.createLocalConnectionLogger()
+        (nxt as LegoNXTImpl).setConnection(logger?.connectionProxy)
+    }
 
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+    @After
+    @Throws(Exception::class)
+    fun tearDown() {
+        nxt!!.disconnect()
+        logger!!.disconnectAndDestroy()
+        PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
+            .edit()
+            .putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, nxtSettingBuffer)
+            .commit()
+        setSensorMapping(sensorMappingBuffer)
+    }
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
+    @Test
+    @Throws(MindstormsException::class)
+    fun testSensorAssignment() {
+        val sensorMapping = arrayOf(
+            NXTSensor.Sensor.LIGHT_INACTIVE,
+            NXTSensor.Sensor.SOUND,
+            NXTSensor.Sensor.TOUCH,
+            NXTSensor.Sensor.ULTRASONIC
+        )
+        setSensorMapping(sensorMapping)
+        nxt!!.initialise()
+        Assert.assertNotNull(nxt!!.motorA)
+        Assert.assertNotNull(nxt!!.motorB)
+        Assert.assertNotNull(nxt!!.motorC)
+        Assert.assertNotNull(nxt!!.sensor1)
+        Assert.assertTrue(nxt!!.sensor1 is NXTLightSensor)
+        Assert.assertNotNull(nxt!!.sensor2)
+        Assert.assertTrue(nxt!!.sensor2 is NXTSoundSensor)
+        Assert.assertNotNull(nxt!!.sensor3)
+        Assert.assertTrue(nxt!!.sensor3 is NXTTouchSensor)
+        Assert.assertNotNull(nxt!!.sensor4)
+        Assert.assertTrue(nxt!!.sensor4 is NXTI2CUltraSonicSensor)
+    }
 
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.NXT_SENSORS;
+    @Test
+    @Throws(InterruptedException::class, MindstormsException::class)
+    fun testSensorAssignmentChange() {
+        setSensorMapping(defaultSensorMapping)
+        nxt!!.initialise()
+        SettingsFragment.setLegoMindstormsNXTSensorMapping(
+            applicationContext,
+            NXTSensor.Sensor.LIGHT_INACTIVE, SettingsFragment.NXT_SENSORS[0]
+        )
+        Thread.sleep(PREFERENCES_SAVE_BROADCAST_DELAY.toLong())
+        Assert.assertNotNull(nxt!!.sensor1)
+        Assert.assertTrue(nxt!!.sensor1 is NXTLightSensor)
+        SettingsFragment.setLegoMindstormsNXTSensorMapping(
+            applicationContext,
+            NXTSensor.Sensor.TOUCH, SettingsFragment.NXT_SENSORS[0]
+        )
+        Thread.sleep(PREFERENCES_SAVE_BROADCAST_DELAY.toLong())
+        Assert.assertNotNull(nxt!!.sensor1)
+        Assert.assertTrue(nxt!!.sensor1 is NXTTouchSensor)
+    }
 
-@RunWith(AndroidJUnit4.class)
-public class LegoNXTImplTest {
+    @Test
+    @Throws(MindstormsException::class)
+    fun testSimplePlayToneTest() {
+        val inputHz = 100
+        val expectedHz = 10000
+        val durationInMs = 3000
+        nxt!!.initialise()
+        nxt!!.playTone(inputHz * 100, durationInMs)
+        val setOutputState = logger!!.getNextSentMessage(0, 2)
+        Assert.assertEquals(expectedHz.toByte(), setOutputState[2])
+        Assert.assertEquals((expectedHz shr 8).toByte(), setOutputState[3])
+    }
 
-	private Context applicationContext;
+    @Test
+    @Throws(MindstormsException::class)
+    fun testPlayToneHzOverMaxValue() {
+        val inputHz = 160
+        val expectedHz = 14000
+        val durationInMs = 5000
+        nxt!!.initialise()
+        nxt!!.playTone(inputHz * 100, durationInMs)
+        val setOutputState = logger!!.getNextSentMessage(0, 2)
+        Assert.assertEquals(expectedHz.toByte(), setOutputState[2])
+        Assert.assertEquals((expectedHz shr 8).toByte(), setOutputState[3])
+    }
 
-	private LegoNXT nxt;
-	private ConnectionDataLogger logger;
+    @Test
+    @Throws(MindstormsException::class)
+    fun testCheckDurationOfTone() {
+        val inputHz = 130
+        val inputDurationInS = 5.5f
+        val inputDurationInMs = (inputDurationInS * 1000).toInt()
+        val expectedDurationInMs = 5500
+        nxt!!.initialise()
+        nxt!!.playTone(inputHz * 100, inputDurationInMs)
+        val setOutputState = logger!!.getNextSentMessage(0, 2)
+        Assert.assertEquals(expectedDurationInMs.toByte(), setOutputState[4])
+        Assert.assertEquals((expectedDurationInMs shr 8).toByte(), setOutputState[5])
+    }
 
-	private NXTSensor.Sensor[] sensorMappingBuffer;
-	private boolean nxtSettingBuffer;
+    @Test
+    @Throws(MindstormsException::class)
+    fun testWithZeroDuration() {
+        val inputHz = 13000
+        val inputDurationInMs = 0
+        nxt!!.initialise()
+        nxt!!.playTone(inputHz, inputDurationInMs)
+        val commands = logger!!.getSentMessages(2, 0)
+        Assert.assertEquals(0, commands.size)
+    }
 
-	private NXTSensor.Sensor[] defaultSensorMapping = {
-			NXTSensor.Sensor.TOUCH,
-			NXTSensor.Sensor.SOUND,
-			NXTSensor.Sensor.LIGHT_INACTIVE,
-			NXTSensor.Sensor.ULTRASONIC
-	};
+    private fun setSensorMapping(sensorMapping: Array<NXTSensor.Sensor>) {
+        val editor = PreferenceManager.getDefaultSharedPreferences(applicationContext).edit()
+        for (i in SettingsFragment.NXT_SENSORS.indices) {
+            editor.putString(SettingsFragment.NXT_SENSORS[i], sensorMapping[i].sensorCode)
+        }
+        editor.commit()
+    }
 
-	private static final int PREFERENCES_SAVE_BROADCAST_DELAY = 50;
-
-	@Before
-	public void setUp() throws Exception {
-		applicationContext = ApplicationProvider.getApplicationContext().getApplicationContext();
-
-		SharedPreferences sharedPreferences = PreferenceManager
-				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
-
-		nxtSettingBuffer = sharedPreferences
-				.getBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false);
-
-		sharedPreferences.edit()
-				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true)
-				.commit();
-
-		sensorMappingBuffer = SettingsFragment.getLegoNXTSensorMapping(ApplicationProvider.getApplicationContext());
-
-		setSensorMapping(new NXTSensor.Sensor[] {
-				NXTSensor.Sensor.NO_SENSOR,
-				NXTSensor.Sensor.NO_SENSOR,
-				NXTSensor.Sensor.NO_SENSOR,
-				NXTSensor.Sensor.NO_SENSOR});
-
-		nxt = new LegoNXTImpl(this.applicationContext);
-		logger = ConnectionDataLogger.createLocalConnectionLogger();
-		nxt.setConnection(logger.getConnectionProxy());
-	}
-
-	@After
-	public void tearDown() throws Exception {
-		nxt.disconnect();
-		logger.disconnectAndDestroy();
-
-		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit()
-				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, nxtSettingBuffer)
-				.commit();
-		setSensorMapping(sensorMappingBuffer);
-	}
-
-	@Test
-	public void testSensorAssignment() throws MindstormsException {
-		NXTSensor.Sensor[] sensorMapping = {
-				NXTSensor.Sensor.LIGHT_INACTIVE,
-				NXTSensor.Sensor.SOUND,
-				NXTSensor.Sensor.TOUCH,
-				NXTSensor.Sensor.ULTRASONIC
-		};
-
-		setSensorMapping(sensorMapping);
-
-		nxt.initialise();
-
-		assertNotNull(nxt.getMotorA());
-		assertNotNull(nxt.getMotorB());
-		assertNotNull(nxt.getMotorC());
-
-		assertNotNull(nxt.getSensor1());
-		assertTrue(nxt.getSensor1() instanceof NXTLightSensor);
-
-		assertNotNull(nxt.getSensor2());
-		assertTrue(nxt.getSensor2() instanceof NXTSoundSensor);
-
-		assertNotNull(nxt.getSensor3());
-		assertTrue(nxt.getSensor3() instanceof NXTTouchSensor);
-
-		assertNotNull(nxt.getSensor4());
-		assertTrue(nxt.getSensor4() instanceof NXTI2CUltraSonicSensor);
-	}
-
-	@Test
-	public void testSensorAssignmentChange() throws InterruptedException, MindstormsException {
-		setSensorMapping(defaultSensorMapping);
-		nxt.initialise();
-
-		SettingsFragment.setLegoMindstormsNXTSensorMapping(applicationContext,
-				NXTSensor.Sensor.LIGHT_INACTIVE, NXT_SENSORS[0]);
-
-		Thread.sleep(PREFERENCES_SAVE_BROADCAST_DELAY);
-
-		assertNotNull(nxt.getSensor1());
-		assertTrue(nxt.getSensor1() instanceof NXTLightSensor);
-
-		SettingsFragment.setLegoMindstormsNXTSensorMapping(applicationContext,
-				NXTSensor.Sensor.TOUCH, NXT_SENSORS[0]);
-
-		Thread.sleep(PREFERENCES_SAVE_BROADCAST_DELAY);
-
-		assertNotNull(nxt.getSensor1());
-		assertTrue(nxt.getSensor1() instanceof NXTTouchSensor);
-	}
-
-	@Test
-	public void testSimplePlayToneTest() throws MindstormsException {
-		int inputHz = 100;
-		int expectedHz = 10000;
-		int durationInMs = 3000;
-
-		nxt.initialise();
-		nxt.playTone(inputHz * 100, durationInMs);
-
-		byte[] setOutputState = logger.getNextSentMessage(0, 2);
-
-		assertEquals((byte) expectedHz, setOutputState[2]);
-		assertEquals((byte) (expectedHz >> 8), setOutputState[3]);
-	}
-
-	@Test
-	public void testPlayToneHzOverMaxValue() throws MindstormsException {
-		int inputHz = 160;
-		int expectedHz = 14000;
-		int durationInMs = 5000;
-
-		nxt.initialise();
-		nxt.playTone(inputHz * 100, durationInMs);
-
-		byte[] setOutputState = logger.getNextSentMessage(0, 2);
-
-		assertEquals((byte) expectedHz, setOutputState[2]);
-		assertEquals((byte) (expectedHz >> 8), setOutputState[3]);
-	}
-
-	@Test
-	public void testCheckDurationOfTone() throws MindstormsException {
-		int inputHz = 130;
-		float inputDurationInS = 5.5f;
-		int inputDurationInMs = (int) (inputDurationInS * 1000);
-
-		int expectedDurationInMs = 5500;
-
-		nxt.initialise();
-		nxt.playTone(inputHz * 100, inputDurationInMs);
-
-		byte[] setOutputState = logger.getNextSentMessage(0, 2);
-
-		assertEquals((byte) expectedDurationInMs, setOutputState[4]);
-		assertEquals((byte) (expectedDurationInMs >> 8), setOutputState[5]);
-	}
-
-	@Test
-	public void testWithZeroDuration() throws MindstormsException {
-		int inputHz = 13000;
-		int inputDurationInMs = 0;
-
-		nxt.initialise();
-		nxt.playTone(inputHz, inputDurationInMs);
-
-		ArrayList<byte[]> commands = logger.getSentMessages(2, 0);
-
-		assertEquals(0, commands.size());
-	}
-
-	private void setSensorMapping(NXTSensor.Sensor[] sensorMapping) {
-		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(applicationContext).edit();
-		for (int i = 0; i < NXT_SENSORS.length; i++) {
-			editor.putString(NXT_SENSORS[i], sensorMapping[i].getSensorCode());
-		}
-		editor.commit();
-	}
+    companion object {
+        private const val PREFERENCES_SAVE_BROADCAST_DELAY = 50
+    }
 }

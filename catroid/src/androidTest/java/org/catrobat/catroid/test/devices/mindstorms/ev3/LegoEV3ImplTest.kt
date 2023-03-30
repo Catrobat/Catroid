@@ -20,172 +20,144 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.devices.mindstorms.ev3;
+package org.catrobat.catroid.test.devices.mindstorms.ev3
 
-import android.content.Context;
+import android.content.Context
+import org.junit.runner.RunWith
+import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3
+import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger
+import org.junit.Before
+import kotlin.Throws
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import junit.framework.Assert
+import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3Impl
+import org.catrobat.catroid.devices.mindstorms.MindstormsException
+import org.catrobat.catroid.test.devices.mindstorms.ev3.LegoEV3ImplTest
+import org.junit.Test
+import java.lang.Exception
 
-import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
-import org.catrobat.catroid.devices.mindstorms.MindstormsException;
-import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
-import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3Impl;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+@RunWith(AndroidJUnit4::class)
+class LegoEV3ImplTest {
+    private var applicationContext: Context? = null
+    private var ev3: LegoEV3? = null
+    var logger: ConnectionDataLogger? = null
+    @Before
+    @Throws(Exception::class)
+    fun setUp() {
+        applicationContext = ApplicationProvider.getApplicationContext<Context>().applicationContext
+        ev3 = LegoEV3Impl(applicationContext)
+        logger = ConnectionDataLogger.createLocalConnectionLogger()
+        logger?.setTimeoutMilliSeconds(100)
+        (ev3 as LegoEV3Impl).setConnection(logger?.getConnectionProxy())
+    }
 
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+    @Test
+    @Throws(MindstormsException::class)
+    fun testSimplePlayToneTest() {
+        val inputHz = 9000
+        val expectedHz = 9000
+        val durationInMs = 3000
+        val volume = 100
+        ev3!!.initialise()
+        ev3!!.playTone(inputHz, durationInMs, volume)
+        val setOutputState = logger!!.getNextSentMessage(0, 2)
+        val offset =
+            BASIC_MESSAGE_BYTE_OFFSET + 3 // 1 byte command, 1 bytes volume, 1 byte datatype
+        Assert.assertEquals(expectedHz.toByte(), setOutputState[offset])
+        Assert.assertEquals((expectedHz shr 8).toByte(), setOutputState[offset + 1])
+    }
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNull;
+    @Test
+    @Throws(MindstormsException::class)
+    fun testPlayToneHzOverMaxValue() {
 
-@RunWith(AndroidJUnit4.class)
-public class LegoEV3ImplTest {
+        // MaxHz = 10000;
+        val inputHz = 16000
+        val expectedHz = 10000
+        val durationInMs = 5000
+        val volume = 100
+        ev3!!.initialise()
+        ev3!!.playTone(inputHz, durationInMs, volume)
+        val setOutputState = logger!!.getNextSentMessage(0, 2)
+        val offset =
+            BASIC_MESSAGE_BYTE_OFFSET + 3 // 1 byte command, 1 bytes volume, 1 byte datatype
+        Assert.assertEquals(expectedHz.toByte(), setOutputState[offset])
+        Assert.assertEquals((expectedHz shr 8).toByte(), setOutputState[offset + 1])
+    }
 
-	private Context applicationContext;
+    @Test
+    @Throws(MindstormsException::class)
+    fun testPlayToneCheckDuration() {
+        val inputHz = 9000
+        val durationInMs = 2000
+        val volume = 100
+        val expectedDurationInMs = 2000
+        ev3!!.initialise()
+        ev3!!.playTone(inputHz, durationInMs, volume)
+        val setOutputState = logger!!.getNextSentMessage(0, 2)
+        val offset =
+            BASIC_MESSAGE_BYTE_OFFSET + 6 // 1 byte command, 1 bytes volume, 3 bytes freq, 1 byte datatype
+        Assert.assertEquals(expectedDurationInMs.toByte(), setOutputState[offset])
+        Assert.assertEquals((expectedDurationInMs shr 8).toByte(), setOutputState[offset + 1])
+    }
 
-	private LegoEV3 ev3;
-	ConnectionDataLogger logger;
+    @Test
+    @Throws(MindstormsException::class)
+    fun testPlayToneCheckVolume() {
+        val inputHz = 9000
+        val durationInMs = 2000
+        val volume1 = 100
+        val expectedVolumeLevel1 = 13
+        ev3!!.initialise()
+        ev3!!.playTone(inputHz, durationInMs, volume1)
+        var setOutputState = logger!!.getNextSentMessage(0, 2)
+        val offset = BASIC_MESSAGE_BYTE_OFFSET + 1 // 1 byte command
+        Assert.assertEquals(expectedVolumeLevel1.toByte(), setOutputState[offset])
+        val volume2 = 25
+        val expectedVolumeLevel2 = 4
+        ev3!!.playTone(inputHz, durationInMs, volume2)
+        setOutputState = logger!!.getNextSentMessage(0, 2)
+        Assert.assertEquals(expectedVolumeLevel2.toByte(), setOutputState[offset])
+    }
 
-	private static final int BASIC_MESSAGE_BYTE_OFFSET = 6;
+    @Test
+    @Throws(MindstormsException::class)
+    fun testPlayToneWithZeroDuration() {
+        val inputHz = 13000
+        val inputDurationInMs = 0
+        val volume = 100
+        ev3!!.initialise()
+        ev3!!.playTone(inputHz, inputDurationInMs, volume)
+        val command = logger!!.getNextSentMessage(0, 2)
+        Assert.assertNull(command)
+    }
 
-	@Before
-	public void setUp() throws Exception {
+    @Test
+    @Throws(Exception::class)
+    fun testPlayToneWithZeroVolume() {
+        val inputHz = 13000
+        val inputDurationInMs = 0
+        val volume = 0
+        ev3!!.initialise()
+        ev3!!.playTone(inputHz, inputDurationInMs, volume)
+        val command = logger!!.getNextSentMessage(0, 2)
+        Assert.assertNull(command)
+    }
 
-		applicationContext = ApplicationProvider.getApplicationContext().getApplicationContext();
+    @Test
+    @Throws(MindstormsException::class)
+    fun testSimpleLED() {
+        val ledStatus = 0x04
+        val expectedLedStatus = 0x04
+        ev3!!.initialise()
+        ev3!!.setLed(ledStatus)
+        val setOutputState = logger!!.getNextSentMessage(0, 2)
+        val offset = BASIC_MESSAGE_BYTE_OFFSET + 2 // 1 byte command, 1 byte datatype
+        Assert.assertEquals(expectedLedStatus.toByte(), setOutputState[offset])
+    }
 
-		ev3 = new LegoEV3Impl(this.applicationContext);
-		logger = ConnectionDataLogger.createLocalConnectionLogger();
-		logger.setTimeoutMilliSeconds(100);
-		ev3.setConnection(logger.getConnectionProxy());
-	}
-
-	@Test
-	public void testSimplePlayToneTest() throws MindstormsException {
-
-		int inputHz = 9000;
-		int expectedHz = 9000;
-		int durationInMs = 3000;
-		int volume = 100;
-
-		ev3.initialise();
-		ev3.playTone(inputHz, durationInMs, volume);
-
-		byte[] setOutputState = logger.getNextSentMessage(0, 2);
-
-		int offset = BASIC_MESSAGE_BYTE_OFFSET + 3; // 1 byte command, 1 bytes volume, 1 byte datatype
-
-		assertEquals((byte) expectedHz, setOutputState[offset]);
-		assertEquals((byte) (expectedHz >> 8), setOutputState[offset + 1]);
-	}
-
-	@Test
-	public void testPlayToneHzOverMaxValue() throws MindstormsException {
-
-		// MaxHz = 10000;
-		int inputHz = 16000;
-		int expectedHz = 10000;
-		int durationInMs = 5000;
-		int volume = 100;
-
-		ev3.initialise();
-		ev3.playTone(inputHz, durationInMs, volume);
-
-		byte[] setOutputState = logger.getNextSentMessage(0, 2);
-
-		int offset = BASIC_MESSAGE_BYTE_OFFSET + 3; // 1 byte command, 1 bytes volume, 1 byte datatype
-
-		assertEquals((byte) expectedHz, setOutputState[offset]);
-		assertEquals((byte) (expectedHz >> 8), setOutputState[offset + 1]);
-	}
-
-	@Test
-	public void testPlayToneCheckDuration() throws MindstormsException {
-
-		int inputHz = 9000;
-		int durationInMs = 2000;
-		int volume = 100;
-		int expectedDurationInMs = 2000;
-
-		ev3.initialise();
-		ev3.playTone(inputHz, durationInMs, volume);
-
-		byte[] setOutputState = logger.getNextSentMessage(0, 2);
-
-		int offset = BASIC_MESSAGE_BYTE_OFFSET + 6; // 1 byte command, 1 bytes volume, 3 bytes freq, 1 byte datatype
-
-		assertEquals((byte) expectedDurationInMs, setOutputState[offset]);
-		assertEquals((byte) (expectedDurationInMs >> 8), setOutputState[offset + 1]);
-	}
-
-	@Test
-	public void testPlayToneCheckVolume() throws MindstormsException {
-
-		int inputHz = 9000;
-		int durationInMs = 2000;
-		int volume1 = 100;
-		int expectedVolumeLevel1 = 13;
-
-		ev3.initialise();
-		ev3.playTone(inputHz, durationInMs, volume1);
-
-		byte[] setOutputState = logger.getNextSentMessage(0, 2);
-
-		int offset = BASIC_MESSAGE_BYTE_OFFSET + 1; // 1 byte command
-
-		assertEquals((byte) expectedVolumeLevel1, setOutputState[offset]);
-
-		int volume2 = 25;
-		int expectedVolumeLevel2 = 4;
-		ev3.playTone(inputHz, durationInMs, volume2);
-
-		setOutputState = logger.getNextSentMessage(0, 2);
-
-		assertEquals((byte) expectedVolumeLevel2, setOutputState[offset]);
-	}
-
-	@Test
-	public void testPlayToneWithZeroDuration() throws MindstormsException {
-
-		int inputHz = 13000;
-		int inputDurationInMs = 0;
-		int volume = 100;
-
-		ev3.initialise();
-		ev3.playTone(inputHz, inputDurationInMs, volume);
-
-		byte[] command = logger.getNextSentMessage(0, 2);
-
-		assertNull(command);
-	}
-
-	@Test
-	public void testPlayToneWithZeroVolume() throws Exception {
-
-		int inputHz = 13000;
-		int inputDurationInMs = 0;
-		int volume = 0;
-
-		ev3.initialise();
-		ev3.playTone(inputHz, inputDurationInMs, volume);
-
-		byte[] command = logger.getNextSentMessage(0, 2);
-
-		assertNull(command);
-	}
-
-	@Test
-	public void testSimpleLED() throws MindstormsException {
-
-		int ledStatus = 0x04;
-		int expectedLedStatus = 0x04;
-
-		ev3.initialise();
-		ev3.setLed(ledStatus);
-
-		byte[] setOutputState = logger.getNextSentMessage(0, 2);
-
-		int offset = BASIC_MESSAGE_BYTE_OFFSET + 2; // 1 byte command, 1 byte datatype
-
-		assertEquals((byte) expectedLedStatus, setOutputState[offset]);
-	}
+    companion object {
+        private const val BASIC_MESSAGE_BYTE_OFFSET = 6
+    }
 }
