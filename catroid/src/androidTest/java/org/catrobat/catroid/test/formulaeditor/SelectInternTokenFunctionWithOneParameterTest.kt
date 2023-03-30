@@ -20,115 +20,141 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.formulaeditor
 
-package org.catrobat.catroid.test.formulaeditor;
+import android.content.Context
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
+import org.catrobat.catroid.formulaeditor.InternToken
+import org.catrobat.catroid.formulaeditor.InternFormula
+import org.junit.Before
+import org.catrobat.catroid.formulaeditor.InternTokenType
+import androidx.test.core.app.ApplicationProvider
+import junit.framework.Assert
+import org.catrobat.catroid.formulaeditor.Functions
+import org.catrobat.catroid.formulaeditor.InternToExternGenerator
+import org.junit.Test
+import java.util.ArrayList
+import java.util.Arrays
 
-import org.catrobat.catroid.formulaeditor.Functions;
-import org.catrobat.catroid.formulaeditor.InternFormula;
-import org.catrobat.catroid.formulaeditor.InternToExternGenerator;
-import org.catrobat.catroid.formulaeditor.InternToken;
-import org.catrobat.catroid.formulaeditor.InternTokenType;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+@RunWith(Parameterized::class)
+class SelectInternTokenFunctionWithOneParameterTest {
+    @JvmField
+    @Parameterized.Parameter
+    var name: String? = null
+    @JvmField
+    @Parameterized.Parameter(1)
+    var functionToken: InternToken? = null
+    private var internFormula: InternFormula? = null
+    private var functionName: String? = null
+    @Before
+    fun setUp() {
+        val internTokens = ArrayList<InternToken?>()
+        internTokens.add(functionToken)
+        internTokens.add(InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN))
+        internTokens.add(InternToken(InternTokenType.NUMBER, "0"))
+        internTokens.add(InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE))
+        internFormula = InternFormula(internTokens)
+        internFormula!!.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext())
+        functionName = ApplicationProvider.getApplicationContext<Context>().resources
+            .getString(InternToExternGenerator.getMappedString(functionToken!!.tokenStringValue))
+    }
 
-import java.util.ArrayList;
-import java.util.Arrays;
+    @Test
+    fun testSelectFunctionNameBegin() {
+        internFormula!!.setCursorAndSelection(0, true)
+        assertInternFormulaSelectionIndices(0, 3, internFormula)
+    }
 
-import androidx.test.core.app.ApplicationProvider;
+    @Test
+    fun testSelectFunctionNameMiddle() {
+        internFormula!!.setCursorAndSelection(functionName!!.length / 2, true)
+        assertInternFormulaSelectionIndices(0, 3, internFormula)
+    }
 
-import static junit.framework.Assert.assertEquals;
+    @Test
+    fun testSelectFunctionNameEnd() {
+        internFormula!!.setCursorAndSelection(functionName!!.length, true)
+        assertInternFormulaSelectionIndices(0, 3, internFormula)
+    }
 
-import static org.catrobat.catroid.formulaeditor.InternTokenType.FUNCTION_NAME;
+    @Test
+    fun testSelectBracketOpen() {
+        internFormula!!.setCursorAndSelection(functionName!!.length + 1, true)
+        assertInternFormulaSelectionIndices(0, 3, internFormula)
+    }
 
-@RunWith(Parameterized.class)
-public class SelectInternTokenFunctionWithOneParameterTest {
+    @Test
+    fun testSelectNumberParameter() {
+        internFormula!!.setCursorAndSelection(functionName!!.length + 2, true)
+        assertInternFormulaSelectionIndices(2, 2, internFormula)
+        internFormula!!.setCursorAndSelection(functionName!!.length + 3, true)
+        assertInternFormulaSelectionIndices(2, 2, internFormula)
+    }
 
-	@Parameterized.Parameters(name = "{0}")
-	public static Iterable<Object[]> data() {
-		return Arrays.asList(new Object[][] {
-				{Functions.SIN.name(), new InternToken(FUNCTION_NAME, Functions.SIN.name())},
-				{Functions.COS.name(), new InternToken(FUNCTION_NAME, Functions.COS.name())},
-				{Functions.TAN.name(), new InternToken(FUNCTION_NAME, Functions.TAN.name())},
-				{Functions.LOG.name(), new InternToken(FUNCTION_NAME, Functions.LOG.name())},
-				{Functions.SQRT.name(), new InternToken(FUNCTION_NAME, Functions.SQRT.name())},
-				{Functions.ABS.name(), new InternToken(FUNCTION_NAME, Functions.ABS.name())},
-				{Functions.ROUND.name(), new InternToken(FUNCTION_NAME, Functions.ROUND.name())},
-				{Functions.ARCSIN.name(), new InternToken(FUNCTION_NAME, Functions.ARCSIN.name())},
-				{Functions.ARCCOS.name(), new InternToken(FUNCTION_NAME, Functions.ARCCOS.name())},
-				{Functions.ARCTAN.name(), new InternToken(FUNCTION_NAME, Functions.ARCTAN.name())},
-				{Functions.LENGTH.name(), new InternToken(FUNCTION_NAME, Functions.LENGTH.name())},
-				{Functions.LETTER.name(), new InternToken(FUNCTION_NAME, Functions.LETTER.name())},
-				{Functions.NUMBER_OF_ITEMS.name(), new InternToken(FUNCTION_NAME, Functions.NUMBER_OF_ITEMS.name())},
-		});
-	}
+    @Test
+    fun testSelectStringParameterEnd() {
+        internFormula!!.setCursorAndSelection(functionName!!.length + 4, true)
+        assertInternFormulaSelectionIndices(0, 3, internFormula)
+    }
 
-	@Parameterized.Parameter
-	public String name;
+    private fun assertInternFormulaSelectionIndices(
+        expectedStartIndex: Int,
+        expectedEndIndex: Int,
+        internFormula: InternFormula?
+    ) {
+        Assert.assertEquals(expectedStartIndex, internFormula!!.selection.startIndex)
+        Assert.assertEquals(expectedEndIndex, internFormula.selection.endIndex)
+    }
 
-	@Parameterized.Parameter(1)
-	public InternToken functionToken;
-
-	private InternFormula internFormula;
-	private String functionName;
-
-	@Before
-	public void setUp() {
-		ArrayList<InternToken> internTokens = new ArrayList<>();
-		internTokens.add(functionToken);
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-		internTokens.add(new InternToken(InternTokenType.NUMBER, "0"));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
-
-		internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext());
-
-		functionName = ApplicationProvider.getApplicationContext().getResources()
-				.getString(InternToExternGenerator.getMappedString(functionToken.getTokenStringValue()));
-	}
-
-	@Test
-	public void testSelectFunctionNameBegin() {
-		internFormula.setCursorAndSelection(0, true);
-		assertInternFormulaSelectionIndices(0, 3, internFormula);
-	}
-
-	@Test
-	public void testSelectFunctionNameMiddle() {
-		internFormula.setCursorAndSelection(functionName.length() / 2, true);
-		assertInternFormulaSelectionIndices(0, 3, internFormula);
-	}
-
-	@Test
-	public void testSelectFunctionNameEnd() {
-		internFormula.setCursorAndSelection(functionName.length(), true);
-		assertInternFormulaSelectionIndices(0, 3, internFormula);
-	}
-
-	@Test
-	public void testSelectBracketOpen() {
-		internFormula.setCursorAndSelection(functionName.length() + 1, true);
-		assertInternFormulaSelectionIndices(0, 3, internFormula);
-	}
-
-	@Test
-	public void testSelectNumberParameter() {
-		internFormula.setCursorAndSelection(functionName.length() + 2, true);
-		assertInternFormulaSelectionIndices(2, 2, internFormula);
-		internFormula.setCursorAndSelection(functionName.length() + 3, true);
-		assertInternFormulaSelectionIndices(2, 2, internFormula);
-	}
-
-	@Test
-	public void testSelectStringParameterEnd() {
-		internFormula.setCursorAndSelection(functionName.length() + 4, true);
-		assertInternFormulaSelectionIndices(0, 3, internFormula);
-	}
-
-	private void assertInternFormulaSelectionIndices(int expectedStartIndex, int expectedEndIndex, InternFormula internFormula) {
-		assertEquals(expectedStartIndex, internFormula.getSelection().getStartIndex());
-		assertEquals(expectedEndIndex, internFormula.getSelection().getEndIndex());
-	}
+    companion object {
+        @JvmStatic
+        @Parameterized.Parameters(name = "{0}")
+        fun data(): Iterable<Array<Any>> {
+            return Arrays.asList(
+                *arrayOf(
+                    arrayOf(
+                        Functions.SIN.name,
+                        InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name)
+                    ), arrayOf(
+                        Functions.COS.name,
+                        InternToken(InternTokenType.FUNCTION_NAME, Functions.COS.name)
+                    ), arrayOf(
+                        Functions.TAN.name,
+                        InternToken(InternTokenType.FUNCTION_NAME, Functions.TAN.name)
+                    ), arrayOf(
+                        Functions.LOG.name,
+                        InternToken(InternTokenType.FUNCTION_NAME, Functions.LOG.name)
+                    ), arrayOf(
+                        Functions.SQRT.name,
+                        InternToken(InternTokenType.FUNCTION_NAME, Functions.SQRT.name)
+                    ), arrayOf(
+                        Functions.ABS.name,
+                        InternToken(InternTokenType.FUNCTION_NAME, Functions.ABS.name)
+                    ), arrayOf(
+                        Functions.ROUND.name,
+                        InternToken(InternTokenType.FUNCTION_NAME, Functions.ROUND.name)
+                    ), arrayOf(
+                        Functions.ARCSIN.name,
+                        InternToken(InternTokenType.FUNCTION_NAME, Functions.ARCSIN.name)
+                    ), arrayOf(
+                        Functions.ARCCOS.name,
+                        InternToken(InternTokenType.FUNCTION_NAME, Functions.ARCCOS.name)
+                    ), arrayOf(
+                        Functions.ARCTAN.name,
+                        InternToken(InternTokenType.FUNCTION_NAME, Functions.ARCTAN.name)
+                    ), arrayOf(
+                        Functions.LENGTH.name,
+                        InternToken(InternTokenType.FUNCTION_NAME, Functions.LENGTH.name)
+                    ), arrayOf(
+                        Functions.LETTER.name,
+                        InternToken(InternTokenType.FUNCTION_NAME, Functions.LETTER.name)
+                    ), arrayOf(
+                        Functions.NUMBER_OF_ITEMS.name,
+                        InternToken(InternTokenType.FUNCTION_NAME, Functions.NUMBER_OF_ITEMS.name)
+                    )
+                )
+            )
+        }
+    }
 }
-

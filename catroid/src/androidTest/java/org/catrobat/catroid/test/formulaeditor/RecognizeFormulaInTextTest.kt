@@ -20,105 +20,121 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.formulaeditor
 
-package org.catrobat.catroid.test.formulaeditor;
+import android.content.Context
+import androidx.test.platform.app.InstrumentationRegistry
+import junit.framework.Assert
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
+import org.catrobat.catroid.content.Sprite
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
+import org.catrobat.catroid.formulaeditor.UserVariable
+import org.catrobat.catroid.formulaeditor.UserList
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment
+import org.catrobat.catroid.content.bricks.FormulaBrick
+import org.junit.Before
+import kotlin.Throws
+import org.catrobat.catroid.content.UserDefinedScript
+import org.catrobat.catroid.content.bricks.UserDefinedBrick
+import org.catrobat.catroid.userbrick.UserDefinedBrickData
+import org.catrobat.catroid.userbrick.UserDefinedBrickInput
+import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
+import org.catrobat.catroid.test.formulaeditor.RecognizeFormulaInTextTest
+import org.catrobat.catroid.test.utils.TestUtils
+import org.junit.After
+import org.junit.Test
+import org.mockito.Mockito
+import org.mockito.MockitoAnnotations
+import org.mockito.Spy
+import java.io.IOException
+import java.lang.Exception
+import java.util.Arrays
 
-import android.content.Context;
+@RunWith(Parameterized::class)
+class RecognizeFormulaInTextTest {
+    @JvmField
+    @Parameterized.Parameter
+    var name: String? = null
+    @JvmField
+    @Parameterized.Parameter(1)
+    var string: String? = null
+    @JvmField
+    @Parameterized.Parameter(2)
+    var expectedResult = false
+    var context: Context? = null
+    var project: Project? = null
+    var sprite: Sprite? = null
+    var userVariable = UserVariable("variable")
+    var userList = UserList("list", Arrays.asList(*arrayOf<Any>("a", "b", "c")))
 
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.UserDefinedScript;
-import org.catrobat.catroid.content.bricks.FormulaBrick;
-import org.catrobat.catroid.content.bricks.UserDefinedBrick;
-import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
-import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.mockito.Spy;
+    @Spy
+    private val formulaEditorFragmentMock: FormulaEditorFragment? = null
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
+    @Spy
+    private val formulaBrick: FormulaBrick? = null
+    @Before
+    @Throws(Exception::class)
+    fun setUp() {
+        MockitoAnnotations.initMocks(this)
+        val userDefinedScript = UserDefinedScript()
+        val userDefinedBrick =
+            UserDefinedBrick(listOf<UserDefinedBrickData>(UserDefinedBrickInput("userDefinedBrickInput")))
+        userDefinedScript.scriptBrick = UserDefinedReceiverBrick(userDefinedBrick)
+        Mockito.doReturn(formulaBrick).`when`(formulaEditorFragmentMock)?.formulaBrick
+        Mockito.doReturn(userDefinedScript).`when`(formulaBrick)?.script
+        context = InstrumentationRegistry.getInstrumentation().targetContext
+        project = Project(context, RecognizeFormulaInTextTest::class.java.simpleName)
+        sprite = Sprite()
+        val scene = Scene()
+        scene.addSprite(sprite)
+        sprite!!.addUserVariable(userVariable)
+        sprite!!.addUserList(userList)
+        project!!.addScene(scene)
+    }
 
-import androidx.test.platform.app.InstrumentationRegistry;
+    @After
+    @Throws(IOException::class)
+    fun tearDown() {
+        TestUtils.deleteProjects(RecognizeFormulaInTextTest::class.java.simpleName)
+    }
 
-import static junit.framework.Assert.assertEquals;
+    @Test
+    fun testEditFormula() {
+        Assert.assertEquals(
+            formulaEditorFragmentMock!!.recognizedFormulaInText(
+                string,
+                context,
+                project,
+                sprite
+            ), expectedResult
+        )
+    }
 
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.MockitoAnnotations.initMocks;
-
-@RunWith(Parameterized.class)
-public class RecognizeFormulaInTextTest {
-	@Parameterized.Parameters(name = "{0}")
-	public static Iterable<Object[]> data() {
-		return Arrays.asList(new Object[][] {
-				{"NoFormula", "This is just text", false},
-				{"WithFormula", "sine(20)", true},
-				{"WithCompoundFormula", "random value from to( modulo (20,4), 7)", true},
-				{"FormulaWithoutParams", "inclination x", true},
-				{"FormulaWithUserVariable", "variable + 4", true},
-				{"FormulaWithUserList", "list", true},
-				{"FormulaWithUserDefinedBrickInput", "userDefinedBrickInput + 3", true}
-		});
-	}
-
-	@Parameterized.Parameter
-	public String name;
-
-	@Parameterized.Parameter(1)
-	public String string;
-
-	@Parameterized.Parameter(2)
-	public boolean expectedResult;
-
-	Context context;
-	Project project;
-	Sprite sprite;
-	UserVariable userVariable = new UserVariable("variable");
-	UserList userList = new UserList("list", Arrays.asList(new Object[]{"a", "b", "c"}));
-
-	@Spy
-	private FormulaEditorFragment formulaEditorFragmentMock;
-	@Spy
-	private FormulaBrick formulaBrick;
-
-	@Before
-	public void setUp() throws Exception {
-		initMocks(this);
-
-		UserDefinedScript userDefinedScript = new UserDefinedScript();
-		UserDefinedBrick userDefinedBrick = new UserDefinedBrick(Collections.singletonList(new UserDefinedBrickInput("userDefinedBrickInput")));
-		userDefinedScript.setScriptBrick(new UserDefinedReceiverBrick(userDefinedBrick));
-
-		doReturn(formulaBrick).when(formulaEditorFragmentMock).getFormulaBrick();
-		doReturn(userDefinedScript).when(formulaBrick).getScript();
-
-		context = InstrumentationRegistry.getInstrumentation().getTargetContext();
-		project = new Project(context, RecognizeFormulaInTextTest.class.getSimpleName());
-		sprite = new Sprite();
-
-		Scene scene = new Scene();
-		scene.addSprite(sprite);
-		sprite.addUserVariable(userVariable);
-		sprite.addUserList(userList);
-		project.addScene(scene);
-	}
-
-	@After
-	public void tearDown() throws IOException {
-		TestUtils.deleteProjects(RecognizeFormulaInTextTest.class.getSimpleName());
-	}
-
-	@Test
-	public void testEditFormula() {
-		assertEquals(formulaEditorFragmentMock.recognizedFormulaInText(string, context, project, sprite), expectedResult);
-	}
+    companion object {
+        @JvmStatic
+        @Parameterized.Parameters(name = "{0}")
+        fun data(): Iterable<Array<Any>> {
+            return Arrays.asList(
+                *arrayOf(
+                    arrayOf("NoFormula", "This is just text", false),
+                    arrayOf("WithFormula", "sine(20)", true),
+                    arrayOf(
+                        "WithCompoundFormula",
+                        "random value from to( modulo (20,4), 7)",
+                        true
+                    ),
+                    arrayOf("FormulaWithoutParams", "inclination x", true),
+                    arrayOf("FormulaWithUserVariable", "variable + 4", true),
+                    arrayOf("FormulaWithUserList", "list", true),
+                    arrayOf(
+                        "FormulaWithUserDefinedBrickInput",
+                        "userDefinedBrickInput + 3",
+                        true
+                    )
+                )
+            )
+        }
+    }
 }

@@ -20,203 +20,191 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.io.asynctask
 
-package org.catrobat.catroid.test.io.asynctask;
+import org.catrobat.catroid.io.asynctask.loadProject
+import org.junit.runner.RunWith
+import org.catrobat.catroid.formulaeditor.UserVariable
+import org.catrobat.catroid.formulaeditor.UserList
+import org.catrobat.catroid.io.DeviceVariableAccessor
+import org.catrobat.catroid.io.DeviceUserDataAccessor
+import org.junit.Before
+import kotlin.Throws
+import org.catrobat.catroid.io.XstreamSerializer
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.catrobat.catroid.common.Constants
+import org.catrobat.catroid.io.DeviceListAccessor
+import org.catrobat.catroid.common.LookData
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.test.utils.TestUtils
+import org.junit.After
+import org.junit.Assert
+import org.junit.Test
+import java.io.File
+import java.io.IOException
+import java.util.ArrayList
+import java.util.HashMap
+import java.util.Objects
+import java.util.UUID
 
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.io.DeviceListAccessor;
-import org.catrobat.catroid.io.DeviceUserDataAccessor;
-import org.catrobat.catroid.io.DeviceVariableAccessor;
-import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+@RunWith(AndroidJUnit4::class)
+class ProjectLoaderTest {
+    private val projectName = "testProject"
+    private var project: Project? = null
+    private var directory: File? = null
+    private var scene1: Scene? = null
+    private var scene2: Scene? = null
+    private var sprite1: Sprite? = null
+    private var sprite2: Sprite? = null
+    private val sprite1UserVariable = UserVariable("Sprite1_Variable", 0)
+    private val sprite2UserVariable = UserVariable("Sprite2_Variable", 0)
+    private val globalUserVariable = UserVariable("Global_Variable", 0)
+    private val multiplayerUserVariable = UserVariable("Multiplayer_Variable", 0)
+    private val sprite1UserList = UserList("Sprite1_List")
+    private val sprite2UserList = UserList("Sprite2_List")
+    private val globalUserList = UserList("Global_List")
+    private var variableAccessor: DeviceVariableAccessor? = null
+    private var userDataAccessor: DeviceUserDataAccessor? = null
+    private lateinit var correctLooks: Array<File>
+    @Before
+    @Throws(IOException::class)
+    fun setUp() {
+        project = createProject()
+        Assert.assertTrue(XstreamSerializer.getInstance().saveProject(project))
+        setUpVariables()
+        setUpUserLists()
+        setUpLooks()
+        Assert.assertTrue(XstreamSerializer.getInstance().saveProject(project))
+    }
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+    @Throws(IOException::class)
+    private fun createProject(): Project {
+        val project = Project(ApplicationProvider.getApplicationContext(), projectName)
+        directory = project.directory
+        sprite1 = Sprite("__sprite1__")
+        sprite2 = Sprite("__sprite3__")
+        scene1 = Scene("__scene1__", project)
+        scene1!!.addSprite(sprite1)
+        scene2 = Scene("__scene2__", project)
+        scene2!!.addSprite(sprite2)
+        project.addScene(scene1)
+        project.addScene(scene2)
+        return project
+    }
 
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+    private fun setUpVariables() {
+        sprite1!!.userVariables.add(sprite1UserVariable)
+        val allVariables = ArrayList(
+            sprite1!!.userVariables
+        )
+        sprite2!!.userVariables.add(sprite2UserVariable)
+        allVariables.addAll(sprite2!!.userVariables)
+        project!!.userVariables.add(globalUserVariable)
+        allVariables.addAll(project!!.userVariables)
+        project!!.multiplayerVariables.add(multiplayerUserVariable)
+        allVariables.addAll(project!!.multiplayerVariables)
+        variableAccessor = DeviceVariableAccessor(directory)
+        val variablesMap: MutableMap<UUID?, Any?> = HashMap()
+        for (userVariable in allVariables) {
+            variablesMap[userVariable.deviceKey] = userVariable.value
+        }
+        variableAccessor!!.writeMapToJson(variablesMap)
+    }
 
-import static org.catrobat.catroid.io.asynctask.ProjectLoaderKt.loadProject;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+    private fun setUpUserLists() {
+        sprite1!!.userLists.add(sprite1UserList)
+        val allLists = ArrayList(sprite1!!.userLists)
+        sprite2!!.userLists.add(sprite2UserList)
+        allLists.addAll(sprite2!!.userLists)
+        project!!.userLists.add(globalUserList)
+        allLists.addAll(project!!.userLists)
+        userDataAccessor = DeviceListAccessor(directory)
+        val map: MutableMap<UUID?, List<Any>?> = HashMap()
+        for (userList in allLists) {
+            map[userList.deviceKey] = userList.value
+        }
+        (userDataAccessor as DeviceListAccessor).writeMapToJson(map)
+    }
 
-@RunWith(AndroidJUnit4.class)
-public class ProjectLoaderTest {
-	private final String projectName = "testProject";
-	private Project project;
-	private File directory;
-	private Scene scene1;
-	private Scene scene2;
-	private Sprite sprite1;
-	private Sprite sprite2;
-	private UserVariable sprite1UserVariable = new UserVariable("Sprite1_Variable", 0);
-	private UserVariable sprite2UserVariable = new UserVariable("Sprite2_Variable", 0);
-	private UserVariable globalUserVariable = new UserVariable("Global_Variable", 0);
-	private UserVariable multiplayerUserVariable = new UserVariable("Multiplayer_Variable", 0);
-	private UserList sprite1UserList = new UserList("Sprite1_List");
-	private UserList sprite2UserList = new UserList("Sprite2_List");
-	private UserList globalUserList = new UserList("Global_List");
-	private DeviceVariableAccessor variableAccessor;
-	private DeviceUserDataAccessor userDataAccessor;
-	private File[] correctLooks;
+    @Throws(IOException::class)
+    private fun setUpLooks() {
+        addLookToSprite(sprite1, scene1, "Valid look1")
+        addLookToSprite(sprite1, scene1, "Valid look2")
+        addUnusedLookToSprite(scene1, "Unused look1")
+        addUnusedLookToSprite(scene1, "Unused look2")
+    }
 
-	@Before
-	public void setUp() throws IOException {
-		project = createProject();
-		assertTrue(XstreamSerializer.getInstance().saveProject(project));
+    @Throws(IOException::class)
+    private fun addLookToSprite(sprite: Sprite?, scene: Scene?, name: String) {
+        val imageDirectory = File(scene!!.directory, Constants.IMAGE_DIRECTORY_NAME)
+        val lookDataFile = File(imageDirectory, name)
+        lookDataFile.createNewFile()
+        val lookData = LookData(name, lookDataFile)
+        sprite!!.lookList.add(lookData)
+        sprite.look.lookData = sprite.lookList.stream().findFirst().get()
+        correctLooks = imageDirectory.listFiles()
+    }
 
-		setUpVariables();
-		setUpUserLists();
-		setUpLooks();
-		assertTrue(XstreamSerializer.getInstance().saveProject(project));
-	}
+    @Throws(IOException::class)
+    private fun addUnusedLookToSprite(scene: Scene?, name: String) {
+        val imageDirectory = File(scene!!.directory, Constants.IMAGE_DIRECTORY_NAME)
+        val lookDataFile = File(imageDirectory, name)
+        lookDataFile.createNewFile()
+    }
 
-	private Project createProject() throws IOException {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		directory = project.getDirectory();
+    @After
+    @Throws(IOException::class)
+    fun tearDown() {
+        TestUtils.deleteProjects(projectName)
+    }
 
-		sprite1 = new Sprite("__sprite1__");
-		sprite2 = new Sprite("__sprite3__");
+    @Test
+    @Throws(IOException::class)
+    fun projectLoadTaskTest() {
+        // Delete User Variables
+        project!!.userVariables.clear()
+        sprite1!!.userVariables.clear()
+        project!!.removeScene(scene2)
+        project!!.multiplayerVariables.clear()
+        //Delete User Lists
+        project!!.userLists.clear()
+        sprite1!!.userLists.clear()
+        // Check Look Count (2 used, 2 unused, 1 nomediaOffset)
+        val imageDirectoryPre = File(scene1!!.directory, Constants.IMAGE_DIRECTORY_NAME)
+        Assert.assertEquals(
+            (2 + 2 + 1).toLong(),
+            Objects.requireNonNull(imageDirectoryPre.listFiles()).size.toLong()
+        )
 
-		scene1 = new Scene("__scene1__", project);
-		scene1.addSprite(sprite1);
+        //save changes of project
+        Assert.assertTrue(XstreamSerializer.getInstance().saveProject(project))
+        Assert.assertNotNull(directory)
+        Assert.assertTrue(loadProject(directory, ApplicationProvider.getApplicationContext()))
 
-		scene2 = new Scene("__scene2__", project);
-		scene2.addSprite(sprite2);
+        // Check if User Variables are removed
+        val variableMap = variableAccessor!!.readMapFromJson()
+        Assert.assertFalse(variableMap.containsKey(globalUserVariable.deviceKey))
+        Assert.assertFalse(variableMap.containsKey(multiplayerUserVariable.deviceKey))
+        Assert.assertFalse(variableMap.containsKey(sprite1UserVariable.deviceKey))
+        Assert.assertFalse(variableMap.containsKey(sprite2UserVariable.deviceKey))
+        // Check if User Lists are removed
+        val listMap = userDataAccessor!!.readMapFromJson()
+        Assert.assertFalse(listMap.containsKey(globalUserList.deviceKey))
+        Assert.assertFalse(listMap.containsKey(sprite1UserList.deviceKey))
+        Assert.assertFalse(listMap.containsKey(sprite2UserList.deviceKey))
+        // Check if Looks are removed and only correct ones remain
+        val imageDirectoryPost = File(scene1!!.directory, Constants.IMAGE_DIRECTORY_NAME)
+        Assert.assertArrayEquals(correctLooks, imageDirectoryPost.listFiles())
+    }
 
-		project.addScene(scene1);
-		project.addScene(scene2);
-		return project;
-	}
-
-	private void setUpVariables() {
-		sprite1.getUserVariables().add(sprite1UserVariable);
-		ArrayList<UserVariable> allVariables = new ArrayList<>(sprite1.getUserVariables());
-
-		sprite2.getUserVariables().add(sprite2UserVariable);
-		allVariables.addAll(sprite2.getUserVariables());
-
-		project.getUserVariables().add(globalUserVariable);
-		allVariables.addAll(project.getUserVariables());
-
-		project.getMultiplayerVariables().add(multiplayerUserVariable);
-		allVariables.addAll(project.getMultiplayerVariables());
-
-		variableAccessor = new DeviceVariableAccessor(directory);
-		Map<UUID, Object> variablesMap = new HashMap<>();
-
-		for (UserVariable userVariable : allVariables) {
-			variablesMap.put(userVariable.getDeviceKey(), userVariable.getValue());
-		}
-		variableAccessor.writeMapToJson(variablesMap);
-	}
-
-	private void setUpUserLists() {
-		sprite1.getUserLists().add(sprite1UserList);
-		ArrayList<UserList> allLists = new ArrayList<>(sprite1.getUserLists());
-
-		sprite2.getUserLists().add(sprite2UserList);
-		allLists.addAll(sprite2.getUserLists());
-
-		project.getUserLists().add(globalUserList);
-		allLists.addAll(project.getUserLists());
-
-		userDataAccessor = new DeviceListAccessor(directory);
-		Map<UUID, List<Object>> map = new HashMap<>();
-
-		for (UserList userList : allLists) {
-			map.put(userList.getDeviceKey(), userList.getValue());
-		}
-		userDataAccessor.writeMapToJson(map);
-	}
-
-	private void setUpLooks() throws IOException {
-		addLookToSprite(sprite1, scene1, "Valid look1");
-		addLookToSprite(sprite1, scene1, "Valid look2");
-		addUnusedLookToSprite(scene1, "Unused look1");
-		addUnusedLookToSprite(scene1, "Unused look2");
-	}
-
-	private void addLookToSprite(Sprite sprite, Scene scene, String name) throws IOException {
-		File imageDirectory = new File(scene.getDirectory(), Constants.IMAGE_DIRECTORY_NAME);
-		File lookDataFile = new File(imageDirectory, name);
-		lookDataFile.createNewFile();
-		LookData lookData = new LookData(name, lookDataFile);
-		sprite.getLookList().add(lookData);
-		sprite.look.setLookData(sprite.getLookList().stream().findFirst().get());
-		correctLooks = imageDirectory.listFiles();
-	}
-
-	private void addUnusedLookToSprite(Scene scene, String name) throws IOException {
-		File imageDirectory = new File(scene.getDirectory(), Constants.IMAGE_DIRECTORY_NAME);
-		File lookDataFile = new File(imageDirectory, name);
-		lookDataFile.createNewFile();
-	}
-
-	@After
-	public void tearDown() throws IOException {
-		TestUtils.deleteProjects(projectName);
-	}
-
-	@Test
-	public void projectLoadTaskTest() throws IOException {
-		// Delete User Variables
-		project.getUserVariables().clear();
-		sprite1.getUserVariables().clear();
-		project.removeScene(scene2);
-		project.getMultiplayerVariables().clear();
-		//Delete User Lists
-		project.getUserLists().clear();
-		sprite1.getUserLists().clear();
-		// Check Look Count (2 used, 2 unused, 1 nomediaOffset)
-		File imageDirectoryPre = new File(scene1.getDirectory(), Constants.IMAGE_DIRECTORY_NAME);
-		assertEquals(2 + 2 + 1, Objects.requireNonNull(imageDirectoryPre.listFiles()).length);
-
-		//save changes of project
-		assertTrue(XstreamSerializer.getInstance().saveProject(project));
-
-		assertNotNull(directory);
-		assertTrue(loadProject(directory, ApplicationProvider.getApplicationContext()));
-
-		// Check if User Variables are removed
-		Map<UUID, Object> variableMap = variableAccessor.readMapFromJson();
-		assertFalse(variableMap.containsKey(globalUserVariable.getDeviceKey()));
-		assertFalse(variableMap.containsKey(multiplayerUserVariable.getDeviceKey()));
-		assertFalse(variableMap.containsKey(sprite1UserVariable.getDeviceKey()));
-		assertFalse(variableMap.containsKey(sprite2UserVariable.getDeviceKey()));
-		// Check if User Lists are removed
-		Map<UUID, Object> listMap = userDataAccessor.readMapFromJson();
-		assertFalse(listMap.containsKey(globalUserList.getDeviceKey()));
-		assertFalse(listMap.containsKey(sprite1UserList.getDeviceKey()));
-		assertFalse(listMap.containsKey(sprite2UserList.getDeviceKey()));
-		// Check if Looks are removed and only correct ones remain
-		File imageDirectoryPost = new File(scene1.getDirectory(), Constants.IMAGE_DIRECTORY_NAME);
-		assertArrayEquals(correctLooks, imageDirectoryPost.listFiles());
-	}
-
-	@Test
-	public void projectInvalidLoadTaskTest() throws IOException {
-		File directory = new File("");
-		assertNotNull(directory);
-		assertFalse(loadProject(directory, ApplicationProvider.getApplicationContext()));
-	}
+    @Test
+    @Throws(IOException::class)
+    fun projectInvalidLoadTaskTest() {
+        val directory = File("")
+        Assert.assertNotNull(directory)
+        Assert.assertFalse(loadProject(directory, ApplicationProvider.getApplicationContext()))
+    }
 }

@@ -20,152 +20,156 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.formulaeditor
 
-package org.catrobat.catroid.test.formulaeditor;
+import android.content.Context
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
+import org.catrobat.catroid.formulaeditor.InternToken
+import org.catrobat.catroid.formulaeditor.InternFormula
+import org.junit.Before
+import org.catrobat.catroid.formulaeditor.InternTokenType
+import androidx.test.core.app.ApplicationProvider
+import junit.framework.Assert
+import org.catrobat.catroid.formulaeditor.Functions
+import org.catrobat.catroid.formulaeditor.InternToExternGenerator
+import org.junit.Test
+import java.util.ArrayList
+import java.util.Arrays
 
-import org.catrobat.catroid.formulaeditor.Functions;
-import org.catrobat.catroid.formulaeditor.InternFormula;
-import org.catrobat.catroid.formulaeditor.InternToExternGenerator;
-import org.catrobat.catroid.formulaeditor.InternToken;
-import org.catrobat.catroid.formulaeditor.InternTokenType;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+@RunWith(Parameterized::class)
+class SelectInternTokenFunctionWithThreeParametersTest {
+    @JvmField
+    @Parameterized.Parameter
+    var name: String? = null
+    @JvmField
+    @Parameterized.Parameter(1)
+    var functionToken: InternToken? = null
+    private var internFormula: InternFormula? = null
+    private var functionName: String? = null
+    @Before
+    fun setUp() {
+        val internTokens = ArrayList<InternToken?>()
+        internTokens.add(functionToken)
+        internTokens.add(InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN))
+        internTokens.add(InternToken(InternTokenType.NUMBER, "0"))
+        internTokens.add(InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER))
+        internTokens.add(InternToken(InternTokenType.STRING, "A"))
+        internTokens.add(InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER))
+        internTokens.add(InternToken(InternTokenType.NUMBER, "3"))
+        internTokens.add(InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE))
+        internFormula = InternFormula(internTokens)
+        internFormula!!.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext())
+        functionName = ApplicationProvider.getApplicationContext<Context>().resources
+            .getString(InternToExternGenerator.getMappedString(functionToken!!.tokenStringValue))
+    }
 
-import java.util.ArrayList;
-import java.util.Arrays;
+    @Test
+    fun testSelectFunctionNameBegin() {
+        internFormula!!.setCursorAndSelection(0, true)
+        assertInternFormulaSelectionIndices(0, 7, internFormula)
+    }
 
-import androidx.test.core.app.ApplicationProvider;
+    @Test
+    fun testSelectFunctionNameMiddle() {
+        internFormula!!.setCursorAndSelection(functionName!!.length / 2, true)
+        assertInternFormulaSelectionIndices(0, 7, internFormula)
+    }
 
-import static junit.framework.Assert.assertEquals;
+    @Test
+    fun testSelectFunctionNameEnd() {
+        internFormula!!.setCursorAndSelection(functionName!!.length, true)
+        assertInternFormulaSelectionIndices(0, 7, internFormula)
+    }
 
-import static org.catrobat.catroid.formulaeditor.InternTokenType.FUNCTION_NAME;
+    @Test
+    fun testSelectBracketOpen() {
+        internFormula!!.setCursorAndSelection(functionName!!.length + 1, true)
+        assertInternFormulaSelectionIndices(0, 7, internFormula)
+    }
 
-@RunWith(Parameterized.class)
-public class SelectInternTokenFunctionWithThreeParametersTest {
+    @Test
+    fun testSelectNumberParameter() {
+        internFormula!!.setCursorAndSelection(functionName!!.length + 2, true)
+        assertInternFormulaSelectionIndices(2, 2, internFormula)
+        internFormula!!.setCursorAndSelection(functionName!!.length + 3, true)
+        assertInternFormulaSelectionIndices(2, 2, internFormula)
+    }
 
-	@Parameterized.Parameters(name = "{0}")
-	public static Iterable<Object[]> data() {
-		return Arrays.asList(new Object[][] {
-				{Functions.JOIN3.name(), new InternToken(FUNCTION_NAME, Functions.JOIN3.name())},
-				{Functions.IF_THEN_ELSE.name(), new InternToken(FUNCTION_NAME, Functions.IF_THEN_ELSE.name())}
-		});
-	}
+    @Test
+    fun testSelectDelimiter() {
+        internFormula!!.setCursorAndSelection(functionName!!.length + 4, true)
+        assertInternFormulaSelectionIndices(0, 7, internFormula)
+        internFormula!!.setCursorAndSelection(functionName!!.length + 5, true)
+        assertInternFormulaSelectionIndices(0, 7, internFormula)
+    }
 
-	@Parameterized.Parameter
-	public String name;
+    @Test
+    fun testSelectStringParameterBegin() {
+        internFormula!!.setCursorAndSelection(functionName!!.length + 6, true)
+        assertInternFormulaSelectionIndices(4, 4, internFormula)
+    }
 
-	@Parameterized.Parameter(1)
-	public InternToken functionToken;
+    @Test
+    fun testSelectStringParameterMiddle() {
+        internFormula!!.setCursorAndSelection(functionName!!.length + 8, true)
+        assertInternFormulaSelectionIndices(4, 4, internFormula)
+    }
 
-	private InternFormula internFormula;
-	private String functionName;
+    @Test
+    fun testSelectStringParameterEnd() {
+        internFormula!!.setCursorAndSelection(functionName!!.length + 9, true)
+        assertInternFormulaSelectionIndices(4, 4, internFormula)
+    }
 
-	@Before
-	public void setUp() {
-		ArrayList<InternToken> internTokens = new ArrayList<>();
-		internTokens.add(functionToken);
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-		internTokens.add(new InternToken(InternTokenType.NUMBER, "0"));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
-		internTokens.add(new InternToken(InternTokenType.STRING, "A"));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
-		internTokens.add(new InternToken(InternTokenType.NUMBER, "3"));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
+    @Test
+    fun testSelectDelimiter2() {
+        internFormula!!.setCursorAndSelection(functionName!!.length + 10, true)
+        assertInternFormulaSelectionIndices(0, 7, internFormula)
+        internFormula!!.setCursorAndSelection(functionName!!.length + 11, true)
+        assertInternFormulaSelectionIndices(0, 7, internFormula)
+    }
 
-		internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext());
+    @Test
+    fun testSelectNumber2Parameter() {
+        internFormula!!.setCursorAndSelection(functionName!!.length + 12, true)
+        assertInternFormulaSelectionIndices(6, 6, internFormula)
+        internFormula!!.setCursorAndSelection(functionName!!.length + 13, true)
+        assertInternFormulaSelectionIndices(6, 6, internFormula)
+    }
 
-		functionName = ApplicationProvider.getApplicationContext().getResources()
-				.getString(InternToExternGenerator.getMappedString(functionToken.getTokenStringValue()));
-	}
+    @Test
+    fun testSelectBracketClose() {
+        internFormula!!.setCursorAndSelection(functionName!!.length + 14, true)
+        assertInternFormulaSelectionIndices(0, 7, internFormula)
+        internFormula!!.setCursorAndSelection(functionName!!.length + 16, true)
+        assertInternFormulaSelectionIndices(0, 7, internFormula)
+    }
 
-	@Test
-	public void testSelectFunctionNameBegin() {
-		internFormula.setCursorAndSelection(0, true);
-		assertInternFormulaSelectionIndices(0, 7, internFormula);
-	}
+    private fun assertInternFormulaSelectionIndices(
+        expectedStartIndex: Int,
+        expectedEndIndex: Int,
+        internFormula: InternFormula?
+    ) {
+        Assert.assertEquals(expectedStartIndex, internFormula!!.selection.startIndex)
+        Assert.assertEquals(expectedEndIndex, internFormula.selection.endIndex)
+    }
 
-	@Test
-	public void testSelectFunctionNameMiddle() {
-		internFormula.setCursorAndSelection(functionName.length() / 2, true);
-		assertInternFormulaSelectionIndices(0, 7, internFormula);
-	}
-
-	@Test
-	public void testSelectFunctionNameEnd() {
-		internFormula.setCursorAndSelection(functionName.length(), true);
-		assertInternFormulaSelectionIndices(0, 7, internFormula);
-	}
-
-	@Test
-	public void testSelectBracketOpen() {
-		internFormula.setCursorAndSelection(functionName.length() + 1, true);
-		assertInternFormulaSelectionIndices(0, 7, internFormula);
-	}
-
-	@Test
-	public void testSelectNumberParameter() {
-		internFormula.setCursorAndSelection(functionName.length() + 2, true);
-		assertInternFormulaSelectionIndices(2, 2, internFormula);
-		internFormula.setCursorAndSelection(functionName.length() + 3, true);
-		assertInternFormulaSelectionIndices(2, 2, internFormula);
-	}
-
-	@Test
-	public void testSelectDelimiter() {
-		internFormula.setCursorAndSelection(functionName.length() + 4, true);
-		assertInternFormulaSelectionIndices(0, 7, internFormula);
-		internFormula.setCursorAndSelection(functionName.length() + 5, true);
-		assertInternFormulaSelectionIndices(0, 7, internFormula);
-	}
-
-	@Test
-	public void testSelectStringParameterBegin() {
-		internFormula.setCursorAndSelection(functionName.length() + 6, true);
-		assertInternFormulaSelectionIndices(4, 4, internFormula);
-	}
-
-	@Test
-	public void testSelectStringParameterMiddle() {
-		internFormula.setCursorAndSelection(functionName.length() + 8, true);
-		assertInternFormulaSelectionIndices(4, 4, internFormula);
-	}
-
-	@Test
-	public void testSelectStringParameterEnd() {
-		internFormula.setCursorAndSelection(functionName.length() + 9, true);
-		assertInternFormulaSelectionIndices(4, 4, internFormula);
-	}
-
-	@Test
-	public void testSelectDelimiter2() {
-		internFormula.setCursorAndSelection(functionName.length() + 10, true);
-		assertInternFormulaSelectionIndices(0, 7, internFormula);
-		internFormula.setCursorAndSelection(functionName.length() + 11, true);
-		assertInternFormulaSelectionIndices(0, 7, internFormula);
-	}
-
-	@Test
-	public void testSelectNumber2Parameter() {
-		internFormula.setCursorAndSelection(functionName.length() + 12, true);
-		assertInternFormulaSelectionIndices(6, 6, internFormula);
-		internFormula.setCursorAndSelection(functionName.length() + 13, true);
-		assertInternFormulaSelectionIndices(6, 6, internFormula);
-	}
-
-	@Test
-	public void testSelectBracketClose() {
-		internFormula.setCursorAndSelection(functionName.length() + 14, true);
-		assertInternFormulaSelectionIndices(0, 7, internFormula);
-		internFormula.setCursorAndSelection(functionName.length() + 16, true);
-		assertInternFormulaSelectionIndices(0, 7, internFormula);
-	}
-
-	private void assertInternFormulaSelectionIndices(int expectedStartIndex, int expectedEndIndex, InternFormula internFormula) {
-		assertEquals(expectedStartIndex, internFormula.getSelection().getStartIndex());
-		assertEquals(expectedEndIndex, internFormula.getSelection().getEndIndex());
-	}
+    companion object {
+        @JvmStatic
+        @Parameterized.Parameters(name = "{0}")
+        fun data(): Iterable<Array<Any>> {
+            return Arrays.asList(
+                *arrayOf(
+                    arrayOf(
+                        Functions.JOIN3.name,
+                        InternToken(InternTokenType.FUNCTION_NAME, Functions.JOIN3.name)
+                    ), arrayOf(
+                        Functions.IF_THEN_ELSE.name,
+                        InternToken(InternTokenType.FUNCTION_NAME, Functions.IF_THEN_ELSE.name)
+                    )
+                )
+            )
+        }
+    }
 }
-

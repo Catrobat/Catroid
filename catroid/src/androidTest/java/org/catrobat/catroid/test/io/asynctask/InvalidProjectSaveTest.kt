@@ -20,29 +20,26 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.io.asynctask
 
-package org.catrobat.catroid.test.io.asynctask;
+import org.catrobat.catroid.io.asynctask.saveProjectSerial
+import org.junit.runner.RunWith
+import org.junit.Before
+import org.catrobat.catroid.ProjectManager
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.Assert
+import org.junit.Test
 
-import org.catrobat.catroid.ProjectManager;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+@RunWith(AndroidJUnit4::class)
+class InvalidProjectSaveTest {
+    @Before
+    fun setUp() {
+        ProjectManager.getInstance().currentProject = null
+    }
 
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
-import static org.junit.Assert.assertFalse;
-
-@RunWith(AndroidJUnit4.class)
-public class InvalidProjectSaveTest {
-	@Before
-	public void setUp() {
-		ProjectManager.getInstance().setCurrentProject(null);
-	}
-
-	@Test
-	public void invalidProjectSaveTaskTest() {
-		assertFalse(saveProjectSerial(null, ApplicationProvider.getApplicationContext()));
-	}
+    @Test
+    fun invalidProjectSaveTaskTest() {
+        Assert.assertFalse(saveProjectSerial(null, ApplicationProvider.getApplicationContext()))
+    }
 }

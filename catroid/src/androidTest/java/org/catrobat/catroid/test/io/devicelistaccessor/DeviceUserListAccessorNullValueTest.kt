@@ -20,87 +20,82 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.io.devicelistaccessor;
+package org.catrobat.catroid.test.io.devicelistaccessor
 
-import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.io.DeviceListAccessor;
-import org.catrobat.catroid.io.StorageOperations;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import android.content.Context
+import org.junit.runner.RunWith
+import org.catrobat.catroid.formulaeditor.UserList
+import org.catrobat.catroid.io.DeviceListAccessor
+import org.junit.Before
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import kotlin.Throws
+import org.catrobat.catroid.io.StorageOperations
+import org.junit.After
+import org.junit.Assert
+import org.junit.Test
+import java.io.File
+import java.io.IOException
+import java.util.ArrayList
+import java.util.HashMap
+import java.util.UUID
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+@RunWith(AndroidJUnit4::class)
+class DeviceUserListAccessorNullValueTest {
+    private val initialNullValue: List<Any>? = null
+    private val expectedValue: List<Any> = ArrayList()
+    private val throwAwayValue: List<Any> = ArrayList()
+    private var directory: File? = null
+    private var userList: UserList? = null
+    private var accessor: DeviceListAccessor? = null
+    @Before
+    fun setUp() {
+        directory =
+            File(ApplicationProvider.getApplicationContext<Context>().cacheDir, "DeviceLists")
+        directory!!.mkdir()
+        userList = UserList("UserList", initialNullValue)
+        accessor = DeviceListAccessor(directory)
+    }
 
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+    @Test
+    fun saveNullUserListTest() {
+        accessor!!.writeUserData(userList)
+        userList!!.value = throwAwayValue
+        val map: Map<*, *> = accessor!!.readMapFromJson()
+        val listValueFromFile = map[userList!!.deviceKey]
+        Assert.assertEquals(initialNullValue, listValueFromFile)
+    }
 
-import static junit.framework.Assert.assertFalse;
+    @Test
+    fun loadNullUserListTest() {
+        val map = HashMap<UUID?, Any?>()
+        map[userList!!.deviceKey] = initialNullValue
+        accessor!!.writeMapToJson(map)
+        userList!!.value = throwAwayValue
+        junit.framework.Assert.assertFalse(accessor!!.readUserData(userList))
+        Assert.assertEquals(expectedValue, userList!!.value)
+    }
 
-import static org.junit.Assert.assertEquals;
+    @Test
+    fun loadUserListNoJsonFileTest() {
+        userList!!.value = throwAwayValue
+        junit.framework.Assert.assertFalse(accessor!!.readUserData(userList))
+        Assert.assertEquals(expectedValue, userList!!.value)
+    }
 
-@RunWith(AndroidJUnit4.class)
-public class DeviceUserListAccessorNullValueTest {
+    @Test
+    fun loadUserListJsonFileDoesNotContainKeyTest() {
+        val map = HashMap<UUID?, Any?>()
+        map[UUID.randomUUID()] = "value"
+        accessor!!.writeMapToJson(map)
+        userList!!.value = throwAwayValue
+        junit.framework.Assert.assertFalse(accessor!!.readUserData(userList))
+        Assert.assertEquals(expectedValue, userList!!.value)
+    }
 
-	private List<Object> initialNullValue = null;
-	private List<Object> expectedValue = new ArrayList<>();
-	private List<Object> throwAwayValue = new ArrayList<>();
-	private File directory;
-	private UserList userList;
-	private DeviceListAccessor accessor;
-
-	@Before
-	public void setUp() {
-		directory = new File(ApplicationProvider.getApplicationContext().getCacheDir(), "DeviceLists");
-		directory.mkdir();
-		userList = new UserList("UserList", initialNullValue);
-		accessor = new DeviceListAccessor(directory);
-	}
-
-	@Test
-	public void saveNullUserListTest() {
-		accessor.writeUserData(userList);
-		userList.setValue(throwAwayValue);
-		Map map = accessor.readMapFromJson();
-		Object listValueFromFile = map.get(userList.getDeviceKey());
-		assertEquals(initialNullValue, listValueFromFile);
-	}
-
-	@Test
-	public void loadNullUserListTest() {
-		HashMap<UUID, Object> map = new HashMap<>();
-		map.put(userList.getDeviceKey(), initialNullValue);
-		accessor.writeMapToJson(map);
-		userList.setValue(throwAwayValue);
-		assertFalse(accessor.readUserData(userList));
-		assertEquals(expectedValue, userList.getValue());
-	}
-
-	@Test
-	public void loadUserListNoJsonFileTest() {
-		userList.setValue(throwAwayValue);
-		assertFalse(accessor.readUserData(userList));
-		assertEquals(expectedValue, userList.getValue());
-	}
-
-	@Test
-	public void loadUserListJsonFileDoesNotContainKeyTest() {
-		HashMap<UUID, Object> map = new HashMap<>();
-		map.put(UUID.randomUUID(), "value");
-		accessor.writeMapToJson(map);
-		userList.setValue(throwAwayValue);
-		assertFalse(accessor.readUserData(userList));
-		assertEquals(expectedValue, userList.getValue());
-	}
-
-	@After
-	public void tearDown() throws IOException {
-		StorageOperations.deleteDir(directory);
-	}
+    @After
+    @Throws(IOException::class)
+    fun tearDown() {
+        StorageOperations.deleteDir(directory)
+    }
 }

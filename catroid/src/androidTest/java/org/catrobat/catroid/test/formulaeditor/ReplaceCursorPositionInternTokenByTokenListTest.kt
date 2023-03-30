@@ -20,86 +20,112 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.formulaeditor
 
-package org.catrobat.catroid.test.formulaeditor;
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
+import org.catrobat.catroid.formulaeditor.InternToken
+import org.catrobat.catroid.formulaeditor.InternFormula.CursorTokenPropertiesAfterModification
+import org.catrobat.catroid.formulaeditor.InternFormula
+import org.junit.Before
+import androidx.test.core.app.ApplicationProvider
+import junit.framework.Assert
+import org.catrobat.catroid.formulaeditor.Functions
+import org.catrobat.catroid.formulaeditor.InternTokenType
+import org.catrobat.catroid.formulaeditor.Sensors
+import org.junit.Test
+import java.util.ArrayList
+import java.util.Arrays
 
-import org.catrobat.catroid.formulaeditor.Functions;
-import org.catrobat.catroid.formulaeditor.InternFormula;
-import org.catrobat.catroid.formulaeditor.InternFormula.CursorTokenPropertiesAfterModification;
-import org.catrobat.catroid.formulaeditor.InternToken;
-import org.catrobat.catroid.formulaeditor.InternTokenType;
-import org.catrobat.catroid.formulaeditor.Sensors;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+@RunWith(Parameterized::class)
+class ReplaceCursorPositionInternTokenByTokenListTest {
+    @JvmField
+    @Parameterized.Parameter
+    var name: String? = null
 
-import java.util.ArrayList;
-import java.util.Arrays;
+    @Parameterized.Parameter(1)
+    lateinit var initialTokens: Array<InternToken>
 
-import androidx.test.core.app.ApplicationProvider;
+    @Parameterized.Parameter(2)
+    lateinit var tokensToReplaceWith: Array<InternToken>
+    @JvmField
+    @Parameterized.Parameter(3)
+    var expectedModification: CursorTokenPropertiesAfterModification? = null
+    private var internFormula: InternFormula? = null
+    @Before
+    fun setUp() {
+        val internTokens = ArrayList(Arrays.asList(*initialTokens))
+        internFormula = InternFormula(internTokens)
+        internFormula!!.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext())
+        internFormula!!.setCursorAndSelection(1, true)
+    }
 
-import static junit.framework.Assert.assertEquals;
+    @Test
+    fun testReplaceInternTokenModification() {
+        Assert.assertEquals(
+            expectedModification, internFormula!!.replaceCursorPositionInternTokenByTokenList(
+                Arrays.asList(*tokensToReplaceWith)
+            )
+        )
+    }
 
-@RunWith(Parameterized.class)
-public class ReplaceCursorPositionInternTokenByTokenListTest {
-
-	@Parameterized.Parameters(name = "{0}")
-	public static Iterable<Object[]> data() {
-		return Arrays.asList(new Object[][] {
-				{"Replace number with the same", new InternToken[]{new InternToken(InternTokenType.NUMBER, "42.42")},
-						new InternToken[]{new InternToken(InternTokenType.NUMBER, "42.42")},
-						CursorTokenPropertiesAfterModification.DO_NOT_MODIFY},
-				{"Replace Float number with period", new InternToken[]{new InternToken(InternTokenType.NUMBER, "42.42")},
-						new InternToken[]{new InternToken(InternTokenType.PERIOD)},
-						CursorTokenPropertiesAfterModification.DO_NOT_MODIFY},
-				{"Replace Integer number with period", new InternToken[]{new InternToken(InternTokenType.NUMBER, "4242")},
-						new InternToken[]{new InternToken(InternTokenType.PERIOD)},
-						CursorTokenPropertiesAfterModification.DO_NOT_MODIFY},
-				{"Replace function SIN with period",
-						new InternToken[]{new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()),
-								new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN)},
-						new InternToken[]{new InternToken(InternTokenType.PERIOD)},
-						CursorTokenPropertiesAfterModification.DO_NOT_MODIFY},
-				{"Replace sensor OBJECT_COLOR with period",
-						new InternToken[]{new InternToken(InternTokenType.SENSOR, Sensors.OBJECT_COLOR.name())},
-						new InternToken[]{new InternToken(InternTokenType.PERIOD)},
-						CursorTokenPropertiesAfterModification.RIGHT},
-				{"Replace sensor OBJECT_BRIGHTNESS with period",
-						new InternToken[]{new InternToken(InternTokenType.SENSOR, Sensors.OBJECT_BRIGHTNESS.name())},
-						new InternToken[]{new InternToken(InternTokenType.PERIOD)},
-						CursorTokenPropertiesAfterModification.RIGHT},
-				{"Replace sensor OBJECT_BRIGHTNESS with function",
-						new InternToken[]{new InternToken(InternTokenType.SENSOR, Sensors.OBJECT_BRIGHTNESS.name())},
-						new InternToken[]{new InternToken(InternTokenType.FUNCTION_NAME)},
-						CursorTokenPropertiesAfterModification.RIGHT},
-		});
-	}
-
-	@Parameterized.Parameter
-	public String name;
-
-	@Parameterized.Parameter(1)
-	public InternToken[] initialTokens;
-
-	@Parameterized.Parameter(2)
-	public InternToken[] tokensToReplaceWith;
-
-	@Parameterized.Parameter(3)
-	public CursorTokenPropertiesAfterModification expectedModification;
-
-	private InternFormula internFormula;
-
-	@Before
-	public void setUp() {
-		ArrayList<InternToken> internTokens = new ArrayList<>(Arrays.asList(initialTokens));
-		internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext());
-		internFormula.setCursorAndSelection(1, true);
-	}
-
-	@Test
-	public void testReplaceInternTokenModification() {
-		assertEquals(expectedModification, internFormula.replaceCursorPositionInternTokenByTokenList(Arrays.asList(tokensToReplaceWith)));
-	}
+    companion object {
+        @JvmStatic
+        @Parameterized.Parameters(name = "{0}")
+        fun data(): Iterable<Array<Any>> {
+            return Arrays.asList(
+                *arrayOf(
+                    arrayOf(
+                        "Replace number with the same",
+                        arrayOf(InternToken(InternTokenType.NUMBER, "42.42")),
+                        arrayOf(InternToken(InternTokenType.NUMBER, "42.42")),
+                        CursorTokenPropertiesAfterModification.DO_NOT_MODIFY
+                    ), arrayOf(
+                        "Replace Float number with period",
+                        arrayOf(InternToken(InternTokenType.NUMBER, "42.42")),
+                        arrayOf(InternToken(InternTokenType.PERIOD)),
+                        CursorTokenPropertiesAfterModification.DO_NOT_MODIFY
+                    ), arrayOf(
+                        "Replace Integer number with period",
+                        arrayOf(InternToken(InternTokenType.NUMBER, "4242")),
+                        arrayOf(InternToken(InternTokenType.PERIOD)),
+                        CursorTokenPropertiesAfterModification.DO_NOT_MODIFY
+                    ), arrayOf(
+                        "Replace function SIN with period",
+                        arrayOf(
+                            InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name),
+                            InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN)
+                        ),
+                        arrayOf(InternToken(InternTokenType.PERIOD)),
+                        CursorTokenPropertiesAfterModification.DO_NOT_MODIFY
+                    ), arrayOf(
+                        "Replace sensor OBJECT_COLOR with period",
+                        arrayOf(InternToken(InternTokenType.SENSOR, Sensors.OBJECT_COLOR.name)),
+                        arrayOf(InternToken(InternTokenType.PERIOD)),
+                        CursorTokenPropertiesAfterModification.RIGHT
+                    ), arrayOf(
+                        "Replace sensor OBJECT_BRIGHTNESS with period",
+                        arrayOf(
+                            InternToken(
+                                InternTokenType.SENSOR,
+                                Sensors.OBJECT_BRIGHTNESS.name
+                            )
+                        ),
+                        arrayOf(InternToken(InternTokenType.PERIOD)),
+                        CursorTokenPropertiesAfterModification.RIGHT
+                    ), arrayOf(
+                        "Replace sensor OBJECT_BRIGHTNESS with function",
+                        arrayOf(
+                            InternToken(
+                                InternTokenType.SENSOR,
+                                Sensors.OBJECT_BRIGHTNESS.name
+                            )
+                        ),
+                        arrayOf(InternToken(InternTokenType.FUNCTION_NAME)),
+                        CursorTokenPropertiesAfterModification.RIGHT
+                    )
+                )
+            )
+        }
+    }
 }

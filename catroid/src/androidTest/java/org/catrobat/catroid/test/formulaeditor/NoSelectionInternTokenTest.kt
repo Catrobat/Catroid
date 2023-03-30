@@ -20,91 +20,108 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.formulaeditor
 
-package org.catrobat.catroid.test.formulaeditor;
+import android.content.Context
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
+import org.catrobat.catroid.formulaeditor.InternToken
+import org.catrobat.catroid.formulaeditor.InternFormula
+import org.junit.Before
+import androidx.test.core.app.ApplicationProvider
+import org.catrobat.catroid.formulaeditor.InternTokenType
+import org.catrobat.catroid.R
+import org.catrobat.catroid.formulaeditor.Functions
+import org.catrobat.catroid.formulaeditor.Operators
+import org.junit.Assert
+import org.junit.Test
+import java.util.ArrayList
+import java.util.Arrays
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.formulaeditor.Functions;
-import org.catrobat.catroid.formulaeditor.InternFormula;
-import org.catrobat.catroid.formulaeditor.InternToken;
-import org.catrobat.catroid.formulaeditor.InternTokenType;
-import org.catrobat.catroid.formulaeditor.Operators;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+@RunWith(Parameterized::class)
+class NoSelectionInternTokenTest {
+    @JvmField
+    @Parameterized.Parameter
+    var name: String? = null
 
-import java.util.ArrayList;
-import java.util.Arrays;
+    @Parameterized.Parameter(1)
+    lateinit var initialTokens: Array<InternToken>
+    @JvmField
+    @Parameterized.Parameter(2)
+    var externCursorPosition = 0
+    private var internFormula: InternFormula? = null
+    @Before
+    fun setUp() {
+        val internTokens = ArrayList(Arrays.asList(*initialTokens))
+        internFormula = InternFormula(internTokens)
+        internFormula!!.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext())
+        internFormula!!.setCursorAndSelection(externCursorPosition, true)
+    }
 
-import androidx.test.core.app.ApplicationProvider;
+    @Test
+    fun testExternFormulaString() {
+        Assert.assertNull(internFormula!!.internFormulaTokenSelection)
+    }
 
-import static org.junit.Assert.assertNull;
-
-@RunWith(Parameterized.class)
-public class NoSelectionInternTokenTest {
-	@Parameterized.Parameters(name = "{0}")
-	public static Iterable<Object[]> data() {
-		return Arrays.asList(new Object[][] {
-				{"Select Bracket OPEN", new InternToken[]{
-						new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN),
-						new InternToken(InternTokenType.NUMBER, "42.42")},
-						0},
-				{"Select Bracket CLOSE", new InternToken[]{
-						new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE),
-						new InternToken(InternTokenType.NUMBER, "42.42")},
-						0},
-				{"Select Bracket CLOSE SIN", new InternToken[]{
-						new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()),
-						new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN),
-						new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE),
-						new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE),
-						new InternToken(InternTokenType.NUMBER, "42.42")},
-						ApplicationProvider.getApplicationContext().getResources().getString(R.string.formula_editor_function_sin)
-								.length() + 4},
-				{"Select SIN Bracket OPEN", new InternToken[]{
-						new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()),
-						new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN),
-						new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER),
-						new InternToken(InternTokenType.NUMBER, "42.42")},
-						ApplicationProvider.getApplicationContext().getResources().getString(R.string.formula_editor_function_sin)
-								.length() + 2},
-				{"Select SIN name end", new InternToken[]{
-						new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()),
-						new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN),
-						new InternToken(InternTokenType.NUMBER, "42.42")},
-						ApplicationProvider.getApplicationContext().getResources().getString(R.string.formula_editor_function_sin)
-								.length()},
-				{"Select SIN name begin", new InternToken[]{
-						new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()),
-						new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, Operators.PLUS.name()),
-						new InternToken(InternTokenType.NUMBER, "42.42")},
-						1},
-		});
-	}
-
-	@Parameterized.Parameter
-	public String name;
-
-	@Parameterized.Parameter(1)
-	public InternToken[] initialTokens;
-
-	@Parameterized.Parameter(2)
-	public int externCursorPosition;
-
-	private InternFormula internFormula;
-
-	@Before
-	public void setUp() {
-		ArrayList<InternToken> internTokens = new ArrayList<>(Arrays.asList(initialTokens));
-		internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext());
-		internFormula.setCursorAndSelection(externCursorPosition, true);
-	}
-
-	@Test
-	public void testExternFormulaString() {
-		assertNull(internFormula.internFormulaTokenSelection);
-	}
+    companion object {
+        @JvmStatic
+        @Parameterized.Parameters(name = "{0}")
+        fun data(): Iterable<Array<Any>> {
+            return Arrays.asList(
+                *arrayOf(
+                    arrayOf(
+                        "Select Bracket OPEN", arrayOf(
+                            InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN),
+                            InternToken(InternTokenType.NUMBER, "42.42")
+                        ),
+                        0
+                    ), arrayOf(
+                        "Select Bracket CLOSE", arrayOf(
+                            InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE),
+                            InternToken(InternTokenType.NUMBER, "42.42")
+                        ),
+                        0
+                    ), arrayOf(
+                        "Select Bracket CLOSE SIN",
+                        arrayOf(
+                            InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name),
+                            InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN),
+                            InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE),
+                            InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE),
+                            InternToken(InternTokenType.NUMBER, "42.42")
+                        ),
+                        ApplicationProvider.getApplicationContext<Context>().resources.getString(R.string.formula_editor_function_sin)
+                            .length + 4
+                    ), arrayOf(
+                        "Select SIN Bracket OPEN", arrayOf(
+                            InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name),
+                            InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN),
+                            InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER),
+                            InternToken(InternTokenType.NUMBER, "42.42")
+                        ),
+                        ApplicationProvider.getApplicationContext<Context>().resources.getString(R.string.formula_editor_function_sin)
+                            .length + 2
+                    ), arrayOf(
+                        "Select SIN name end", arrayOf(
+                            InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name),
+                            InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN),
+                            InternToken(InternTokenType.NUMBER, "42.42")
+                        ),
+                        ApplicationProvider.getApplicationContext<Context>().resources.getString(R.string.formula_editor_function_sin)
+                            .length
+                    ), arrayOf(
+                        "Select SIN name begin", arrayOf(
+                            InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name),
+                            InternToken(
+                                InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN,
+                                Operators.PLUS.name
+                            ),
+                            InternToken(InternTokenType.NUMBER, "42.42")
+                        ),
+                        1
+                    )
+                )
+            )
+        }
+    }
 }
-

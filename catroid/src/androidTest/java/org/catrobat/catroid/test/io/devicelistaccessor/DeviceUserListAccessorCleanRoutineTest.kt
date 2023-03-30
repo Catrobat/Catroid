@@ -20,124 +20,113 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.io.devicelistaccessor;
+package org.catrobat.catroid.test.io.devicelistaccessor
 
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.io.DeviceListAccessor;
-import org.catrobat.catroid.io.DeviceUserDataAccessor;
-import org.catrobat.catroid.io.StorageOperations;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import android.content.Context
+import org.junit.runner.RunWith
+import org.catrobat.catroid.formulaeditor.UserList
+import org.catrobat.catroid.io.DeviceUserDataAccessor
+import org.junit.Before
+import kotlin.Throws
+import org.catrobat.catroid.io.DeviceListAccessor
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import junit.framework.Assert
+import junit.framework.TestCase
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.io.StorageOperations
+import org.junit.After
+import org.junit.Test
+import java.io.File
+import java.io.IOException
+import java.util.ArrayList
+import java.util.HashMap
+import java.util.UUID
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+@RunWith(AndroidJUnit4::class)
+class DeviceUserListAccessorCleanRoutineTest {
+    private var project: Project? = null
+    private var directory: File? = null
+    private var scene1: Scene? = null
+    private var scene2: Scene? = null
+    private var sprite1: Sprite? = null
+    private var sprite2: Sprite? = null
+    private val sprite1UserList = UserList("Sprite1_List")
+    private val sprite2UserList = UserList("Sprite2_List")
+    private val globalUserList = UserList("Global_List")
+    private var accessor: DeviceUserDataAccessor? = null
+    @Before
+    @Throws(IOException::class)
+    fun setUp() {
+        project = createProject()
+        val allLists = ArrayList<UserList>()
+        sprite1!!.userLists.add(sprite1UserList)
+        allLists.addAll(sprite1!!.userLists)
+        sprite2!!.userLists.add(sprite2UserList)
+        allLists.addAll(sprite2!!.userLists)
+        project!!.userLists.add(globalUserList)
+        allLists.addAll(project!!.userLists)
+        accessor = DeviceListAccessor(directory)
+        val map: MutableMap<UUID?, List<Any>?> = HashMap()
+        for (userList in allLists) {
+            map[userList.deviceKey] = userList.value
+        }
+        (accessor as DeviceListAccessor).writeMapToJson(map)
+    }
 
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+    private fun createProject(): Project {
+        val project = Project()
+        directory =
+            File(ApplicationProvider.getApplicationContext<Context>().cacheDir, "DeviceValues")
+        directory!!.mkdir()
+        project.directory = directory
+        project.name = "__project__"
+        sprite1 = Sprite("__sprite1__")
+        sprite2 = Sprite("__sprite3__")
+        scene1 = Scene()
+        scene1!!.addSprite(sprite1)
+        scene2 = Scene()
+        scene2!!.addSprite(sprite2)
+        project.addScene(scene1)
+        project.addScene(scene2)
+        return project
+    }
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.TestCase.assertTrue;
+    @Test
+    fun deleteGlobalListsTest() {
+        project!!.userLists.clear()
+        accessor!!.cleanUpDeletedUserData(project)
+        val map: Map<*, *> = accessor!!.readMapFromJson()
+        Assert.assertFalse(map.containsKey(globalUserList.deviceKey))
+        TestCase.assertTrue(map.containsKey(sprite1UserList.deviceKey))
+        TestCase.assertTrue(map.containsKey(sprite2UserList.deviceKey))
+    }
 
-@RunWith(AndroidJUnit4.class)
-public class DeviceUserListAccessorCleanRoutineTest {
-	private Project project;
-	private File directory;
-	private Scene scene1;
-	private Scene scene2;
-	private Sprite sprite1;
-	private Sprite sprite2;
-	private UserList sprite1UserList = new UserList("Sprite1_List");
-	private UserList sprite2UserList = new UserList("Sprite2_List");
-	private UserList globalUserList = new UserList("Global_List");
-	private DeviceUserDataAccessor accessor;
+    @Test
+    fun deleteSceneListsTest() {
+        project!!.removeScene(scene1)
+        accessor!!.cleanUpDeletedUserData(project)
+        val map: Map<*, *> = accessor!!.readMapFromJson()
+        TestCase.assertTrue(map.containsKey(globalUserList.deviceKey))
+        Assert.assertFalse(map.containsKey(sprite1UserList.deviceKey))
+        TestCase.assertTrue(map.containsKey(sprite2UserList.deviceKey))
+    }
 
-	@Before
-	public void setUp() throws IOException {
-		project = createProject();
+    @Test
+    fun deleteSpriteListsTest() {
+        sprite2!!.userLists.clear()
+        accessor!!.cleanUpDeletedUserData(project)
+        val map: Map<*, *> = accessor!!.readMapFromJson()
+        TestCase.assertTrue(map.containsKey(globalUserList.deviceKey))
+        TestCase.assertTrue(map.containsKey(sprite1UserList.deviceKey))
+        Assert.assertFalse(map.containsKey(sprite2UserList.deviceKey))
+    }
 
-		ArrayList<UserList> allLists = new ArrayList<>();
-
-		sprite1.getUserLists().add(sprite1UserList);
-		allLists.addAll(sprite1.getUserLists());
-
-		sprite2.getUserLists().add(sprite2UserList);
-		allLists.addAll(sprite2.getUserLists());
-
-		project.getUserLists().add(globalUserList);
-		allLists.addAll(project.getUserLists());
-
-		accessor = new DeviceListAccessor(directory);
-		Map<UUID, List<Object>> map = new HashMap<>();
-
-		for (UserList userList : allLists) {
-			map.put(userList.getDeviceKey(), userList.getValue());
-		}
-		accessor.writeMapToJson(map);
-	}
-
-	private Project createProject() {
-		Project project = new Project();
-		directory = new File(ApplicationProvider.getApplicationContext().getCacheDir(), "DeviceValues");
-		directory.mkdir();
-		project.setDirectory(directory);
-		project.setName("__project__");
-
-		sprite1 = new Sprite("__sprite1__");
-		sprite2 = new Sprite("__sprite3__");
-
-		scene1 = new Scene();
-		scene1.addSprite(sprite1);
-
-		scene2 = new Scene();
-		scene2.addSprite(sprite2);
-
-		project.addScene(scene1);
-		project.addScene(scene2);
-		return project;
-	}
-
-	@Test
-	public void deleteGlobalListsTest() {
-		project.getUserLists().clear();
-		accessor.cleanUpDeletedUserData(project);
-		Map map = accessor.readMapFromJson();
-		assertFalse(map.containsKey(globalUserList.getDeviceKey()));
-		assertTrue(map.containsKey(sprite1UserList.getDeviceKey()));
-		assertTrue(map.containsKey(sprite2UserList.getDeviceKey()));
-	}
-
-	@Test
-	public void deleteSceneListsTest() {
-		project.removeScene(scene1);
-		accessor.cleanUpDeletedUserData(project);
-		Map map = accessor.readMapFromJson();
-		assertTrue(map.containsKey(globalUserList.getDeviceKey()));
-		assertFalse(map.containsKey(sprite1UserList.getDeviceKey()));
-		assertTrue(map.containsKey(sprite2UserList.getDeviceKey()));
-	}
-
-	@Test
-	public void deleteSpriteListsTest() {
-		sprite2.getUserLists().clear();
-		accessor.cleanUpDeletedUserData(project);
-		Map map = accessor.readMapFromJson();
-		assertTrue(map.containsKey(globalUserList.getDeviceKey()));
-		assertTrue(map.containsKey(sprite1UserList.getDeviceKey()));
-		assertFalse(map.containsKey(sprite2UserList.getDeviceKey()));
-	}
-
-	@After
-	public void tearDown() throws IOException {
-		StorageOperations.deleteDir(directory);
-	}
+    @After
+    @Throws(IOException::class)
+    fun tearDown() {
+        StorageOperations.deleteDir(directory)
+    }
 }

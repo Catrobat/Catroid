@@ -20,63 +20,71 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.io.asynctask
 
-package org.catrobat.catroid.test.io.asynctask;
+import org.catrobat.catroid.io.asynctask.renameProject
+import org.catrobat.catroid.io.asynctask.loadProject
+import org.junit.runner.RunWith
+import org.junit.Before
+import kotlin.Throws
+import org.catrobat.catroid.test.utils.TestUtils
+import org.catrobat.catroid.common.DefaultProjectHandler
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.catrobat.catroid.content.Project
+import org.junit.After
+import org.junit.Assert
+import org.junit.Test
+import java.io.File
+import java.io.IOException
 
-import org.catrobat.catroid.common.DefaultProjectHandler;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+@RunWith(AndroidJUnit4::class)
+class ProjectRenamerTest {
+    private val projectName = "testProject"
+    private val renamedProjectName = "renamedTestProject"
+    private var defaultProject: Project? = null
+    @Before
+    @Throws(IOException::class)
+    fun setUp() {
+        TestUtils.deleteProjects(projectName, renamedProjectName)
+        defaultProject = DefaultProjectHandler.createAndSaveDefaultProject(
+            projectName,
+            ApplicationProvider.getApplicationContext(), false
+        )
+    }
 
-import java.io.File;
-import java.io.IOException;
+    @After
+    @Throws(IOException::class)
+    fun tearDown() {
+        TestUtils.deleteProjects(projectName, renamedProjectName)
+    }
 
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+    @Test
+    @Throws(IOException::class)
+    fun projectRenameTaskTest() {
+        val renamedDirectory = renameProject(defaultProject!!.directory, renamedProjectName)
+        Assert.assertNotNull(renamedDirectory)
+        Assert.assertEquals(renamedProjectName, renamedDirectory!!.name)
+        Assert.assertTrue(
+            loadProject(
+                renamedDirectory,
+                ApplicationProvider.getApplicationContext()
+            )
+        )
+    }
 
-import static org.catrobat.catroid.io.asynctask.ProjectLoaderKt.loadProject;
-import static org.catrobat.catroid.io.asynctask.ProjectRenamerKt.renameProject;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-@RunWith(AndroidJUnit4.class)
-public class ProjectRenamerTest {
-
-	private final String projectName = "testProject";
-	private final String renamedProjectName = "renamedTestProject";
-
-	private Project defaultProject;
-
-	@Before
-	public void setUp() throws IOException {
-		TestUtils.deleteProjects(projectName, renamedProjectName);
-		defaultProject = DefaultProjectHandler.createAndSaveDefaultProject(projectName,
-				ApplicationProvider.getApplicationContext(), false);
-	}
-
-	@After
-	public void tearDown() throws IOException {
-		TestUtils.deleteProjects(projectName, renamedProjectName);
-	}
-
-	@Test
-	public void projectRenameTaskTest() throws IOException {
-		File renamedDirectory = renameProject(defaultProject.getDirectory(), renamedProjectName);
-		assertNotNull(renamedDirectory);
-		assertEquals(renamedProjectName, renamedDirectory.getName());
-		assertTrue(loadProject(renamedDirectory, ApplicationProvider.getApplicationContext()));
-	}
-
-	@Test
-	public void projectDirectoryRenameTest() throws IOException {
-		File expectedDirectory = new File(defaultProject.getDirectory().getParent(), renamedProjectName);
-		File renamedDirectory = renameProject(defaultProject.getDirectory(), renamedProjectName);
-		assertNotNull(renamedDirectory);
-		assertEquals(expectedDirectory, renamedDirectory);
-		assertTrue(loadProject(renamedDirectory, ApplicationProvider.getApplicationContext()));
-	}
+    @Test
+    @Throws(IOException::class)
+    fun projectDirectoryRenameTest() {
+        val expectedDirectory = File(defaultProject!!.directory.parent, renamedProjectName)
+        val renamedDirectory = renameProject(defaultProject!!.directory, renamedProjectName)
+        Assert.assertNotNull(renamedDirectory)
+        Assert.assertEquals(expectedDirectory, renamedDirectory)
+        Assert.assertTrue(
+            loadProject(
+                renamedDirectory,
+                ApplicationProvider.getApplicationContext()
+            )
+        )
+    }
 }

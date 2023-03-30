@@ -20,98 +20,149 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.formulaeditor
 
-package org.catrobat.catroid.test.formulaeditor;
+import android.content.Context
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
+import org.catrobat.catroid.formulaeditor.InternToken
+import org.catrobat.catroid.formulaeditor.InternFormula
+import org.junit.Before
+import androidx.test.core.app.ApplicationProvider
+import junit.framework.Assert
+import org.catrobat.catroid.R
+import org.catrobat.catroid.formulaeditor.Functions
+import org.catrobat.catroid.formulaeditor.InternTokenType
+import org.catrobat.catroid.formulaeditor.Operators
+import org.junit.Test
+import java.util.ArrayList
+import java.util.Arrays
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.formulaeditor.Functions;
-import org.catrobat.catroid.formulaeditor.InternFormula;
-import org.catrobat.catroid.formulaeditor.InternToken;
-import org.catrobat.catroid.formulaeditor.InternTokenType;
-import org.catrobat.catroid.formulaeditor.Operators;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+@RunWith(Parameterized::class)
+class DeleteInternTokenTest {
+    @JvmField
+    @Parameterized.Parameter
+    var name: String? = null
 
-import java.util.ArrayList;
-import java.util.Arrays;
+    @Parameterized.Parameter(1)
+    lateinit var initialTokens: Array<InternToken>
 
-import androidx.test.core.app.ApplicationProvider;
+    @JvmField
+    @Parameterized.Parameter(2)
+    var externCursorPosition = 0
+    @JvmField
+    @Parameterized.Parameter(3)
+    var expectedFormulaString: String? = null
+    private var internFormula: InternFormula? = null
+    @Before
+    fun setUp() {
+        val internTokens = ArrayList(Arrays.asList(*initialTokens))
+        internFormula = InternFormula(internTokens)
+        internFormula!!.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext())
+        internFormula!!.setCursorAndSelection(0, false)
+    }
 
-import static junit.framework.Assert.assertEquals;
+    @Test
+    fun testExternFormulaString() {
+        internFormula!!.externCursorPosition = externCursorPosition
+        internFormula!!.handleKeyInput(
+            R.id.formula_editor_keyboard_delete,
+            ApplicationProvider.getApplicationContext(),
+            null
+        )
+        internFormula!!.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext())
+        Assert.assertEquals(expectedFormulaString, internFormula!!.externFormulaString)
+    }
 
-@RunWith(Parameterized.class)
-public class DeleteInternTokenTest {
-
-	@Parameterized.Parameters(name = "{0}")
-	public static Iterable<Object[]> data() {
-		return Arrays.asList(new Object[][] {
-				{"Invalid CursorPosition", new InternToken[]{
-						new InternToken(InternTokenType.NUMBER, "42.42"),
-						new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, Operators.PLUS.name()),
-						new InternToken(InternTokenType.NUMBER, "42.42")},
-						-1, "42.42( 42.42 "},
-				{"Begin CursorPosition", new InternToken[]{
-						new InternToken(InternTokenType.NUMBER, "42.42"),
-						new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, Operators.PLUS.name()),
-						new InternToken(InternTokenType.NUMBER, "42.42")},
-						0, "42.42( 42.42 "},
-				{"CursorPosition 1", new InternToken[]{
-						new InternToken(InternTokenType.NUMBER, "42.42"),
-						new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, Operators.PLUS.name()),
-						new InternToken(InternTokenType.NUMBER, "42.42")},
-						1, "2.42( 42.42 "},
-				{"CursorPosition 8", new InternToken[]{
-						new InternToken(InternTokenType.NUMBER, "42.42"),
-						new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, Operators.PLUS.name()),
-						new InternToken(InternTokenType.NUMBER, "42.42")},
-						8, "42.42( 2.42 "},
-				{"Invalid Deletion of Brace", new InternToken[]{
-						new InternToken(InternTokenType.NUMBER, "42.42"),
-						new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, Operators.PLUS.name()),
-						new InternToken(InternTokenType.NUMBER, "42.42")},
-						6, "42.42( 42.42 "},
-				{"Invalid Sin Deletion Begin", new InternToken[]{
-						new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()),
-						new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, Operators.PLUS.name())},
-						1, "sine( "},
-				{"Invalid Sin Deletion End", new InternToken[]{
-						new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()),
-						new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, Operators.PLUS.name()),
-						new InternToken(InternTokenType.NUMBER, "42.42")},
-						ApplicationProvider.getApplicationContext().getResources().getString(R.string.formula_editor_function_sin)
-								.length(), "sine( 42.42 "},
-		});
-	}
-
-	@Parameterized.Parameter
-	public String name;
-
-	@Parameterized.Parameter(1)
-	public InternToken[] initialTokens;
-
-	@Parameterized.Parameter(2)
-	public int externCursorPosition;
-
-	@Parameterized.Parameter(3)
-	public String expectedFormulaString;
-
-	private InternFormula internFormula;
-
-	@Before
-	public void setUp() {
-		ArrayList<InternToken> internTokens = new ArrayList<>(Arrays.asList(initialTokens));
-		internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext());
-		internFormula.setCursorAndSelection(0, false);
-	}
-
-	@Test
-	public void testExternFormulaString() {
-		internFormula.externCursorPosition = externCursorPosition;
-		internFormula.handleKeyInput(R.id.formula_editor_keyboard_delete, ApplicationProvider.getApplicationContext(), null);
-		internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext());
-		assertEquals(expectedFormulaString, internFormula.getExternFormulaString());
-	}
+    companion object {
+        @JvmStatic
+        @Parameterized.Parameters(name = "{0}")
+        fun data(): Iterable<Array<Any>> {
+            return Arrays.asList(
+                *arrayOf(
+                    arrayOf(
+                        "Invalid CursorPosition", arrayOf(
+                            InternToken(InternTokenType.NUMBER, "42.42"),
+                            InternToken(
+                                InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN,
+                                Operators.PLUS.name
+                            ),
+                            InternToken(InternTokenType.NUMBER, "42.42")
+                        ),
+                        -1, "42.42( 42.42 "
+                    ), arrayOf(
+                        "Begin CursorPosition", arrayOf(
+                            InternToken(InternTokenType.NUMBER, "42.42"),
+                            InternToken(
+                                InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN,
+                                Operators.PLUS.name
+                            ),
+                            InternToken(InternTokenType.NUMBER, "42.42")
+                        ),
+                        0, "42.42( 42.42 "
+                    ), arrayOf(
+                        "CursorPosition 1",
+                        arrayOf(
+                            InternToken(InternTokenType.NUMBER, "42.42"),
+                            InternToken(
+                                InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN,
+                                Operators.PLUS.name
+                            ),
+                            InternToken(InternTokenType.NUMBER, "42.42")
+                        ),
+                        1,
+                        "2.42( 42.42 "
+                    ), arrayOf(
+                        "CursorPosition 8",
+                        arrayOf(
+                            InternToken(InternTokenType.NUMBER, "42.42"),
+                            InternToken(
+                                InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN,
+                                Operators.PLUS.name
+                            ),
+                            InternToken(InternTokenType.NUMBER, "42.42")
+                        ),
+                        8,
+                        "42.42( 2.42 "
+                    ), arrayOf(
+                        "Invalid Deletion of Brace",
+                        arrayOf(
+                            InternToken(InternTokenType.NUMBER, "42.42"),
+                            InternToken(
+                                InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN,
+                                Operators.PLUS.name
+                            ),
+                            InternToken(InternTokenType.NUMBER, "42.42")
+                        ),
+                        6,
+                        "42.42( 42.42 "
+                    ), arrayOf(
+                        "Invalid Sin Deletion Begin",
+                        arrayOf(
+                            InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name),
+                            InternToken(
+                                InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN,
+                                Operators.PLUS.name
+                            )
+                        ),
+                        1,
+                        "sine( "
+                    ), arrayOf(
+                        "Invalid Sin Deletion End",
+                        arrayOf(
+                            InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name),
+                            InternToken(
+                                InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN,
+                                Operators.PLUS.name
+                            ),
+                            InternToken(InternTokenType.NUMBER, "42.42")
+                        ),
+                        ApplicationProvider.getApplicationContext<Context>().resources.getString(R.string.formula_editor_function_sin)
+                            .length,
+                        "sine( 42.42 "
+                    )
+                )
+            )
+        }
+    }
 }

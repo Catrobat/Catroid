@@ -20,203 +20,207 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.formulaeditor
 
-package org.catrobat.catroid.test.formulaeditor;
+import org.junit.runner.RunWith
+import org.catrobat.catroid.formulaeditor.InternToken
+import org.catrobat.catroid.formulaeditor.InternTokenType
+import org.catrobat.catroid.formulaeditor.InternFormula
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import junit.framework.Assert
+import org.catrobat.catroid.R
+import org.catrobat.catroid.formulaeditor.InternFormulaTokenSelection
+import org.catrobat.catroid.formulaeditor.InternFormula.TokenSelectionType
+import org.catrobat.catroid.formulaeditor.ExternInternRepresentationMapping
+import org.catrobat.catroid.formulaeditor.Functions
+import org.catrobat.catroid.formulaeditor.Operators
+import org.junit.Test
+import java.util.ArrayList
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.formulaeditor.ExternInternRepresentationMapping;
-import org.catrobat.catroid.formulaeditor.Functions;
-import org.catrobat.catroid.formulaeditor.InternFormula;
-import org.catrobat.catroid.formulaeditor.InternFormula.TokenSelectionType;
-import org.catrobat.catroid.formulaeditor.InternFormulaTokenSelection;
-import org.catrobat.catroid.formulaeditor.InternToken;
-import org.catrobat.catroid.formulaeditor.InternTokenType;
-import org.catrobat.catroid.formulaeditor.Operators;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+@RunWith(AndroidJUnit4::class)
+class InternFormulaTest {
+    @Test
+    fun testReplaceFunctionByToken() {
+        val internTokens = ArrayList<InternToken>()
+        internTokens.add(InternToken(InternTokenType.FUNCTION_NAME, Functions.COS.name))
+        internTokens.add(InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN))
+        internTokens.add(InternToken(InternTokenType.FUNCTION_NAME, Functions.ROUND.name))
+        internTokens.add(InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN))
+        internTokens.add(InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name))
+        internTokens.add(InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN))
+        internTokens.add(InternToken(InternTokenType.NUMBER, "42.42"))
+        internTokens.add(InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE))
+        internTokens.add(InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE))
+        internTokens.add(InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE))
+        val internFormula = InternFormula(internTokens)
+        internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext())
+        internFormula.setCursorAndSelection(internFormula.externFormulaString.length, true)
+        internFormula.handleKeyInput(
+            R.id.formula_editor_keyboard_4,
+            ApplicationProvider.getApplicationContext(),
+            null
+        )
+        internFormula.handleKeyInput(
+            R.id.formula_editor_keyboard_2,
+            ApplicationProvider.getApplicationContext(),
+            null
+        )
+        Assert.assertNull(internFormula.selection)
+        internFormula.setCursorAndSelection(internFormula.externFormulaString.length, true)
+        assertInternFormulaSelectionIndices(0, 0, internFormula)
+    }
 
-import java.util.ArrayList;
+    @Test
+    fun testReplaceFunctionButKeepParameters() {
+        val internTokens = ArrayList<InternToken>()
+        internTokens.add(InternToken(InternTokenType.FUNCTION_NAME, Functions.COS.name))
+        internTokens.add(InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN))
+        internTokens.add(InternToken(InternTokenType.FUNCTION_NAME, Functions.ROUND.name))
+        internTokens.add(InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN))
+        internTokens.add(InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name))
+        internTokens.add(InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN))
+        internTokens.add(InternToken(InternTokenType.NUMBER, "42.42"))
+        internTokens.add(InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE))
+        internTokens.add(InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE))
+        internTokens.add(InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE))
+        val internFormula = InternFormula(internTokens)
+        internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext())
+        internFormula.setCursorAndSelection(internFormula.externFormulaString.length, true)
+        assertInternFormulaSelectionIndices(0, 9, internFormula)
+        internFormula.handleKeyInput(
+            R.string.formula_editor_function_rand,
+            ApplicationProvider.getApplicationContext(),
+            null
+        )
+        assertInternFormulaSelectionIndices(2, 8, internFormula)
+        internFormula.setCursorAndSelection(internFormula.externFormulaString.length, true)
+        assertInternFormulaSelectionIndices(0, 11, internFormula)
+        internFormula.handleKeyInput(
+            R.string.formula_editor_function_sqrt,
+            ApplicationProvider.getApplicationContext(),
+            null
+        )
+        assertInternFormulaSelectionIndices(2, 8, internFormula)
+        internFormula.setCursorAndSelection(internFormula.externFormulaString.length, true)
+        assertInternFormulaSelectionIndices(0, 9, internFormula)
+    }
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+    @Test
+    fun testSelectBrackets() {
+        val internTokens = ArrayList<InternToken>()
+        internTokens.add(InternToken(InternTokenType.BRACKET_OPEN))
+        internTokens.add(InternToken(InternTokenType.NUMBER, "0"))
+        internTokens.add(InternToken(InternTokenType.BRACKET_CLOSE))
+        val internFormula = InternFormula(internTokens)
+        internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext())
+        val externFormulaString = internFormula.externFormulaString
+        internFormula.setCursorAndSelection(externFormulaString.length, true)
+        assertInternFormulaSelectionIndices(0, 2, internFormula)
+        internFormula.setCursorAndSelection(externFormulaString.length, true)
+        assertInternFormulaSelectionIndices(0, 2, internFormula)
+    }
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNull;
+    @Test
+    fun testReplaceSelection() {
+        val internTokens = ArrayList<InternToken>()
+        internTokens.add(InternToken(InternTokenType.NUMBER, "42.42"))
+        val internFormula = InternFormula(internTokens)
+        internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext())
+        internFormula.setCursorAndSelection(1, true)
+        val externFormulaString = internFormula.externFormulaString
+        val tokenSelectionStartIndex = -1
+        val tokenSelectionEndIndex = 3
+        internFormula.internFormulaTokenSelection = InternFormulaTokenSelection(
+            TokenSelectionType.USER_SELECTION, tokenSelectionStartIndex, tokenSelectionEndIndex
+        )
+        internFormula.handleKeyInput(
+            R.id.formula_editor_keyboard_0,
+            ApplicationProvider.getApplicationContext(),
+            null
+        )
+        internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext())
+        Assert.assertEquals(externFormulaString, internFormula.externFormulaString)
+    }
 
-import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
+    @Test
+    fun testSetExternCursorPositionLeftTo() {
+        val internTokens = ArrayList<InternToken>()
+        internTokens.add(InternToken(InternTokenType.NUMBER, "42.42"))
+        internTokens.add(InternToken(InternTokenType.OPERATOR, Operators.PLUS.name))
+        internTokens.add(InternToken(InternTokenType.NUMBER, "42.42"))
+        val internFormula = InternFormula(internTokens)
+        internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext())
+        internFormula.setCursorAndSelection(1, false)
+        val externInternRepresentationMapping = ExternInternRepresentationMapping()
+        internFormula.externInternRepresentationMapping = externInternRepresentationMapping
+        val externCursorPositionBeforeMethodCall = internFormula.getExternCursorPosition()
+        internFormula.setExternCursorPositionLeftTo(1)
+        Assert.assertEquals(
+            externCursorPositionBeforeMethodCall,
+            internFormula.getExternCursorPosition()
+        )
+    }
 
-@RunWith(AndroidJUnit4.class)
-public class InternFormulaTest {
-	@Test
-	public void testReplaceFunctionByToken() {
-		ArrayList<InternToken> internTokens = new ArrayList<>();
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.COS.name()));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ROUND.name()));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
+    @Test
+    fun testSetExternCursorPositionRightToEmptyFormula() {
+        val internTokens = ArrayList<InternToken>()
+        val internFormula = InternFormula(internTokens)
+        internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext())
+        internFormula.setCursorAndSelection(1, false)
+        val externCursorPositionBeforeMethodCall = internFormula.getExternCursorPosition()
+        internFormula.setExternCursorPositionRightTo(1)
+        Assert.assertEquals(
+            externCursorPositionBeforeMethodCall,
+            internFormula.getExternCursorPosition()
+        )
+    }
 
-		InternFormula internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(getApplicationContext());
+    @Test
+    fun testSetExternCursorPositionRightTo() {
+        val internTokens = ArrayList<InternToken>()
+        internTokens.add(InternToken(InternTokenType.NUMBER, "42.42"))
+        internTokens.add(InternToken(InternTokenType.OPERATOR, Operators.PLUS.name))
+        internTokens.add(InternToken(InternTokenType.NUMBER, "42.42"))
+        val internFormula = InternFormula(internTokens)
+        internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext())
+        internFormula.setCursorAndSelection(1, false)
+        internFormula.setExternCursorPositionRightTo(3)
+        Assert.assertEquals(13, internFormula.getExternCursorPosition())
+        internFormula.externInternRepresentationMapping = ExternInternRepresentationMapping()
+        val externCursorPositionBeforeMethodCall = internFormula.getExternCursorPosition()
+        internFormula.setExternCursorPositionRightTo(1)
+        Assert.assertEquals(
+            externCursorPositionBeforeMethodCall,
+            internFormula.getExternCursorPosition()
+        )
+    }
 
-		internFormula.setCursorAndSelection(internFormula.getExternFormulaString().length(), true);
-		internFormula.handleKeyInput(R.id.formula_editor_keyboard_4, getApplicationContext(), null);
-		internFormula.handleKeyInput(R.id.formula_editor_keyboard_2, getApplicationContext(), null);
-		assertNull(internFormula.getSelection());
+    @Test
+    fun testSelectCursorPositionInternTokenOnError() {
+        val internTokens = ArrayList<InternToken>()
+        internTokens.add(InternToken(InternTokenType.BRACKET_OPEN))
+        internTokens.add(InternToken(InternTokenType.NUMBER, "42.42"))
+        val internFormula = InternFormula(internTokens)
+        internFormula.cursorPositionInternToken = null
+        internFormula.selectCursorPositionInternToken(TokenSelectionType.USER_SELECTION)
+        Assert.assertNull(internFormula.internFormulaTokenSelection)
+    }
 
-		internFormula.setCursorAndSelection(internFormula.getExternFormulaString().length(), true);
-		assertInternFormulaSelectionIndices(0, 0, internFormula);
-	}
+    @Test
+    fun testTokenTrailingWhiteSpace() {
+        val internTokens = ArrayList<InternToken>()
+        internTokens.add(InternToken(InternTokenType.NUMBER, "0 "))
+        val internFormula = InternFormula(internTokens)
+        internFormula.trimExternFormulaString(ApplicationProvider.getApplicationContext())
+    }
 
-	@Test
-	public void testReplaceFunctionButKeepParameters() {
-		ArrayList<InternToken> internTokens = new ArrayList<>();
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.COS.name()));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ROUND.name()));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
-
-		InternFormula internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(getApplicationContext());
-
-		internFormula.setCursorAndSelection(internFormula.getExternFormulaString().length(), true);
-		assertInternFormulaSelectionIndices(0, 9, internFormula);
-
-		internFormula.handleKeyInput(R.string.formula_editor_function_rand, getApplicationContext(), null);
-		assertInternFormulaSelectionIndices(2, 8, internFormula);
-
-		internFormula.setCursorAndSelection(internFormula.getExternFormulaString().length(), true);
-		assertInternFormulaSelectionIndices(0, 11, internFormula);
-
-		internFormula.handleKeyInput(R.string.formula_editor_function_sqrt, getApplicationContext(), null);
-		assertInternFormulaSelectionIndices(2, 8, internFormula);
-
-		internFormula.setCursorAndSelection(internFormula.getExternFormulaString().length(), true);
-		assertInternFormulaSelectionIndices(0, 9, internFormula);
-	}
-
-	@Test
-	public void testSelectBrackets() {
-		ArrayList<InternToken> internTokens = new ArrayList<>();
-		internTokens.add(new InternToken(InternTokenType.BRACKET_OPEN));
-		internTokens.add(new InternToken(InternTokenType.NUMBER, "0"));
-		internTokens.add(new InternToken(InternTokenType.BRACKET_CLOSE));
-
-		InternFormula internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(getApplicationContext());
-		String externFormulaString = internFormula.getExternFormulaString();
-
-		internFormula.setCursorAndSelection(externFormulaString.length(), true);
-		assertInternFormulaSelectionIndices(0, 2, internFormula);
-
-		internFormula.setCursorAndSelection(externFormulaString.length(), true);
-		assertInternFormulaSelectionIndices(0, 2, internFormula);
-	}
-
-	@Test
-	public void testReplaceSelection() {
-		ArrayList<InternToken> internTokens = new ArrayList<>();
-		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
-
-		InternFormula internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(getApplicationContext());
-
-		internFormula.setCursorAndSelection(1, true);
-		String externFormulaString = internFormula.getExternFormulaString();
-
-		int tokenSelectionStartIndex = -1;
-		int tokenSelectionEndIndex = 3;
-
-		internFormula.internFormulaTokenSelection = new InternFormulaTokenSelection(
-				TokenSelectionType.USER_SELECTION, tokenSelectionStartIndex, tokenSelectionEndIndex);
-
-		internFormula.handleKeyInput(R.id.formula_editor_keyboard_0, getApplicationContext(), null);
-		internFormula.generateExternFormulaStringAndInternExternMapping(getApplicationContext());
-		assertEquals(externFormulaString, internFormula.getExternFormulaString());
-	}
-
-	@Test
-	public void testSetExternCursorPositionLeftTo() {
-		ArrayList<InternToken> internTokens = new ArrayList<>();
-		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
-		internTokens.add(new InternToken(InternTokenType.OPERATOR, Operators.PLUS.name()));
-		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
-		InternFormula internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(getApplicationContext());
-		internFormula.setCursorAndSelection(1, false);
-
-		ExternInternRepresentationMapping externInternRepresentationMapping = new ExternInternRepresentationMapping();
-
-		internFormula.externInternRepresentationMapping = externInternRepresentationMapping;
-
-		int externCursorPositionBeforeMethodCall = internFormula.getExternCursorPosition();
-		internFormula.setExternCursorPositionLeftTo(1);
-		assertEquals(externCursorPositionBeforeMethodCall, internFormula.getExternCursorPosition());
-	}
-
-	@Test
-	public void testSetExternCursorPositionRightToEmptyFormula() {
-		ArrayList<InternToken> internTokens = new ArrayList<>();
-		InternFormula internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(getApplicationContext());
-		internFormula.setCursorAndSelection(1, false);
-
-		int externCursorPositionBeforeMethodCall = internFormula.getExternCursorPosition();
-		internFormula.setExternCursorPositionRightTo(1);
-		assertEquals(externCursorPositionBeforeMethodCall, internFormula.getExternCursorPosition());
-	}
-
-	@Test
-	public void testSetExternCursorPositionRightTo() {
-		ArrayList<InternToken> internTokens = new ArrayList<>();
-		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
-		internTokens.add(new InternToken(InternTokenType.OPERATOR, Operators.PLUS.name()));
-		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
-		InternFormula internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(getApplicationContext());
-		internFormula.setCursorAndSelection(1, false);
-
-		internFormula.setExternCursorPositionRightTo(3);
-		assertEquals(13, internFormula.getExternCursorPosition());
-
-		internFormula.externInternRepresentationMapping = new ExternInternRepresentationMapping();
-		int externCursorPositionBeforeMethodCall = internFormula.getExternCursorPosition();
-		internFormula.setExternCursorPositionRightTo(1);
-		assertEquals(externCursorPositionBeforeMethodCall, internFormula.getExternCursorPosition());
-	}
-
-	@Test
-	public void testSelectCursorPositionInternTokenOnError() {
-		ArrayList<InternToken> internTokens = new ArrayList<>();
-		internTokens.add(new InternToken(InternTokenType.BRACKET_OPEN));
-		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
-		InternFormula internFormula = new InternFormula(internTokens);
-
-		internFormula.cursorPositionInternToken = null;
-		internFormula.selectCursorPositionInternToken(InternFormula.TokenSelectionType.USER_SELECTION);
-		assertNull(internFormula.internFormulaTokenSelection);
-	}
-
-	@Test
-	public void testTokenTrailingWhiteSpace() {
-		ArrayList<InternToken> internTokens = new ArrayList<>();
-		internTokens.add(new InternToken(InternTokenType.NUMBER, "0 "));
-		InternFormula internFormula = new InternFormula(internTokens);
-		internFormula.trimExternFormulaString(getApplicationContext());
-	}
-
-	private void assertInternFormulaSelectionIndices(int expectedStartIndex, int expectedEndIndex, InternFormula internFormula) {
-		assertEquals(expectedStartIndex, internFormula.getSelection().getStartIndex());
-		assertEquals(expectedEndIndex, internFormula.getSelection().getEndIndex());
-	}
+    private fun assertInternFormulaSelectionIndices(
+        expectedStartIndex: Int,
+        expectedEndIndex: Int,
+        internFormula: InternFormula
+    ) {
+        Assert.assertEquals(expectedStartIndex, internFormula.selection.startIndex)
+        Assert.assertEquals(expectedEndIndex, internFormula.selection.endIndex)
+    }
 }
