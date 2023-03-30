@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,17 +20,20 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.utils;
 
-public class Stopwatch {
+package org.catrobat.catroid.test.utils
 
-	private long start;
+import junit.framework.TestCase.assertTrue
+import org.catrobat.catroid.utils.Stopwatch
+import org.junit.Test
 
-	public void start() {
-		start = System.currentTimeMillis();
-	}
-
-	public long getElapsedMilliseconds() {
-		return (System.currentTimeMillis() - start);
-	}
+class StopwatchTest {
+    @Test
+    fun getElapsedMilliseconds() {
+        val stopwatch = Stopwatch()
+        stopwatch.start()
+        Thread.sleep(100L)
+        val elapsed = stopwatch.getElapsedMilliseconds()
+        assertTrue(elapsed in 100L..199)
+    }
 }
