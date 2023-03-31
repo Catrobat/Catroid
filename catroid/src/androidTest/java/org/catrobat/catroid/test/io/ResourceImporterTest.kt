@@ -20,62 +20,62 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.io
 
-package org.catrobat.catroid.test.io;
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import junit.framework.Assert
+import org.junit.runner.RunWith
+import org.catrobat.catroid.common.FlavoredConstants
+import org.junit.Before
+import kotlin.Throws
+import org.catrobat.catroid.io.StorageOperations
+import org.catrobat.catroid.io.ResourceImporter
+import org.catrobat.catroid.test.R
+import org.junit.After
+import org.junit.Test
+import java.io.File
+import java.io.IOException
 
-import org.catrobat.catroid.common.FlavoredConstants;
-import org.catrobat.catroid.io.ResourceImporter;
-import org.catrobat.catroid.io.StorageOperations;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+@RunWith(AndroidJUnit4::class)
+class ResourceImporterTest {
+    private val testDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "ResourceImporterTest")
+    @Before
+    fun setUp() {
+        testDir.mkdirs()
+    }
 
-import java.io.File;
-import java.io.IOException;
+    @After
+    @Throws(IOException::class)
+    fun tearDown() {
+        StorageOperations.deleteDir(testDir)
+    }
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
+    @Test
+    @Throws(IOException::class)
+    fun testImportImageFile() {
+        val fileFromDrawables = ResourceImporter.createImageFileFromResourcesInDirectory(
+            InstrumentationRegistry.getInstrumentation().context.resources,
+            R.drawable.catroid_banzai, testDir, "drawable.png", 1.0
+        )
+        Assert.assertTrue(
+            fileFromDrawables.absolutePath + " does not exist",
+            fileFromDrawables.exists()
+        )
+        val fileFromRaw = ResourceImporter.createImageFileFromResourcesInDirectory(
+            InstrumentationRegistry.getInstrumentation().context.resources, R.raw.alpha_test_image,
+            testDir, "raw.png", 1.0
+        )
+        Assert.assertTrue(fileFromRaw.absolutePath + " does not exist", fileFromRaw.exists())
+    }
 
-import static junit.framework.Assert.assertTrue;
-
-@RunWith(AndroidJUnit4.class)
-public class ResourceImporterTest {
-
-	private File testDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "ResourceImporterTest");
-
-	@Before
-	public void setUp() {
-		testDir.mkdirs();
-	}
-
-	@After
-	public void tearDown() throws IOException {
-		StorageOperations.deleteDir(testDir);
-	}
-
-	@Test
-	public void testImportImageFile() throws IOException {
-		File fileFromDrawables = ResourceImporter.createImageFileFromResourcesInDirectory(
-				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
-				org.catrobat.catroid.test.R.drawable.catroid_banzai, testDir, "drawable.png", 1);
-
-		assertTrue(fileFromDrawables.getAbsolutePath() + " does not exist", fileFromDrawables.exists());
-
-		File fileFromRaw = ResourceImporter.createImageFileFromResourcesInDirectory(
-				InstrumentationRegistry.getInstrumentation().getContext().getResources(), org.catrobat.catroid.test.R.raw.alpha_test_image,
-				testDir, "raw.png", 1);
-
-		assertTrue(fileFromRaw.getAbsolutePath() + " does not exist", fileFromRaw.exists());
-	}
-
-	@Test
-	public void testImportSoundFile() throws IOException {
-		File fileFromRaw = ResourceImporter.createSoundFileFromResourcesInDirectory(
-				InstrumentationRegistry.getInstrumentation().getContext().getResources(), org.catrobat.catroid.test.R.raw.longtestsound,
-				testDir, "sound.m4a"
-		);
-
-		assertTrue(fileFromRaw.getAbsolutePath() + " does not exist", fileFromRaw.exists());
-	}
+    @Test
+    @Throws(IOException::class)
+    fun testImportSoundFile() {
+        val fileFromRaw = ResourceImporter.createSoundFileFromResourcesInDirectory(
+            InstrumentationRegistry.getInstrumentation().context.resources, R.raw.longtestsound,
+            testDir, "sound.m4a"
+        )
+        Assert.assertTrue(fileFromRaw.absolutePath + " does not exist", fileFromRaw.exists())
+    }
 }

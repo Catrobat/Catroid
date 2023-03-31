@@ -20,55 +20,49 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.io.ziparchiver
 
-package org.catrobat.catroid.test.io.ziparchiver;
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import junit.framework.Assert
+import org.junit.runner.RunWith
+import org.junit.Before
+import kotlin.Throws
+import org.catrobat.catroid.common.FlavoredConstants
+import org.catrobat.catroid.io.StorageOperations
+import org.catrobat.catroid.io.ZipArchiver
+import org.junit.After
+import org.junit.Test
+import java.io.File
+import java.io.IOException
 
-import org.catrobat.catroid.common.FlavoredConstants;
-import org.catrobat.catroid.io.StorageOperations;
-import org.catrobat.catroid.io.ZipArchiver;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+@RunWith(AndroidJUnit4::class)
+class ZipSingleFileTest {
+    private var tmpFile: File? = null
+    private var outputArchive: File? = null
+    private var unzippedDir: File? = null
+    @Before
+    @Throws(IOException::class)
+    fun setUp() {
+        outputArchive = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "folderToZip.zip")
+        unzippedDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "unzippedFolder")
+        tmpFile = File.createTempFile("test", ".png", FlavoredConstants.DEFAULT_ROOT_DIRECTORY)
+    }
 
-import java.io.File;
-import java.io.IOException;
+    @After
+    @Throws(IOException::class)
+    fun tearDown() {
+        tmpFile!!.delete()
+        outputArchive!!.delete()
+        StorageOperations.deleteDir(unzippedDir)
+    }
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import static junit.framework.Assert.assertTrue;
-
-@RunWith(AndroidJUnit4.class)
-public class ZipSingleFileTest {
-
-	private File tmpFile;
-	private File outputArchive;
-	private File unzippedDir;
-
-	@Before
-	public void setUp() throws IOException {
-		outputArchive = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "folderToZip.zip");
-		unzippedDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "unzippedFolder");
-		tmpFile = File.createTempFile("test", ".png", FlavoredConstants.DEFAULT_ROOT_DIRECTORY);
-	}
-
-	@After
-	public void tearDown() throws IOException {
-		tmpFile.delete();
-		outputArchive.delete();
-		StorageOperations.deleteDir(unzippedDir);
-	}
-
-	@Test
-	public void testZipAndUnzipFile() throws IOException {
-		ZipArchiver archiver = new ZipArchiver();
-
-		archiver.zip(outputArchive, new File[] {tmpFile});
-
-		assertTrue(outputArchive.exists());
-
-		archiver.unzip(outputArchive, unzippedDir);
-
-		assertTrue(unzippedDir.exists());
-	}
+    @Test
+    @Throws(IOException::class)
+    fun testZipAndUnzipFile() {
+        val archiver = ZipArchiver()
+        archiver.zip(outputArchive, arrayOf(tmpFile))
+        Assert.assertTrue(outputArchive!!.exists())
+        archiver.unzip(outputArchive, unzippedDir)
+        Assert.assertTrue(unzippedDir!!.exists())
+    }
 }

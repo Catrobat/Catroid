@@ -20,233 +20,202 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.io;
+package org.catrobat.catroid.test.io
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.converters.ConversionException;
-import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
-import com.thoughtworks.xstream.converters.reflection.FieldKey;
-import com.thoughtworks.xstream.converters.reflection.FieldKeySorter;
-import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.thoughtworks.xstream.XStream
+import com.thoughtworks.xstream.annotations.XStreamAlias
+import com.thoughtworks.xstream.converters.ConversionException
+import com.thoughtworks.xstream.converters.reflection.FieldDictionary
+import com.thoughtworks.xstream.converters.reflection.FieldKey
+import com.thoughtworks.xstream.converters.reflection.FieldKeySorter
+import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider
+import org.catrobat.catroid.io.CatroidFieldKeySorter
+import org.catrobat.catroid.io.XStreamFieldKeyOrder
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.rules.ExpectedException
+import org.junit.runner.RunWith
+import java.lang.reflect.Field
 
-import org.catrobat.catroid.io.CatroidFieldKeySorter;
-import org.catrobat.catroid.io.XStreamFieldKeyOrder;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
+@RunWith(AndroidJUnit4::class)
+class CatroidFieldKeySorterTest {
+    @get:Rule
+    val exception = ExpectedException.none()
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+    private class FieldKeySorterDecorator : FieldKeySorter {
+        private val catroidFieldKeySorter: FieldKeySorter = CatroidFieldKeySorter()
+        private val sortResults: MutableMap<Class<*>, Map<FieldKey, Field>> = HashMap()
+        override fun sort(type: Class<*>, keyedByFieldKey: Map<*, *>?): Map<*, *> {
+            val sortResult = catroidFieldKeySorter.sort(type, keyedByFieldKey)
+            sortResults[type] = sortResult as Map<FieldKey, Field>
+            return sortResult
+        }
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+        fun getFieldNames(type: Class<*>): Array<String> {
+            return getFieldNames(sortResults[type]!!)
+        }
 
-import static junit.framework.Assert.assertEquals;
+        fun getFieldNames(fieldKeys: Map<FieldKey, Field>): Array<String> {
+            val fieldNames: MutableList<String> = ArrayList()
+            for ((fieldKey) in fieldKeys) {
+                fieldNames.add(CatroidFieldKeySorter.getAliasOrFieldName(fieldKey))
+            }
+            return fieldNames.toTypedArray()
+        }
+    }
 
-import static org.junit.Assert.assertArrayEquals;
+    private var xstream: XStream? = null
+    private var fieldKeySorter: FieldKeySorterDecorator? = null
 
-@RunWith(AndroidJUnit4.class)
-public class CatroidFieldKeySorterTest {
+    // CHECKSTYLE DISABLE MemberName FOR 1000 LINES
+    @Before
+    fun setUp() {
+        fieldKeySorter = FieldKeySorterDecorator()
+        xstream = XStream(PureJavaReflectionProvider(FieldDictionary(fieldKeySorter)))
+    }
 
-	@Rule
-	public final ExpectedException exception = ExpectedException.none();
+    @Test
+    fun testSortTagsAlphabetically() {
+        xstream!!.toXML(BaseClass())
+        Assert.assertArrayEquals(
+            arrayOf("a", "x"),
+            fieldKeySorter!!.getFieldNames(BaseClass::class.java)
+        )
+    }
 
-	private static class FieldKeySorterDecorator implements FieldKeySorter {
+    @Test
+    fun testSortTagsAlphabeticallyByClassHierarchy() {
+        xstream!!.toXML(SubClass())
+        Assert.assertArrayEquals(
+            arrayOf("a", "x", "b", "y", "z"),
+            fieldKeySorter!!.getFieldNames(SubClass::class.java)
+        )
+    }
 
-		private final FieldKeySorter catroidFieldKeySorter = new CatroidFieldKeySorter();
-		private Map<Class, Map<FieldKey, Field>> sortResults = new HashMap<>();
+    private open class BaseClass {
+        private val x = 0
+        private val a = 0
+    }
 
-		@Override
-		public Map sort(Class type, Map keyedByFieldKey) {
-			Map sortResult = catroidFieldKeySorter.sort(type, keyedByFieldKey);
-			this.sortResults.put(type, sortResult);
-			return sortResult;
-		}
+    private class SubClass : BaseClass() {
+        private val b = 0
+        private val z = 0
+        private val y = 0
+    }
 
-		public String[] getFieldNames(Class type) {
-			return getFieldNames(sortResults.get(type));
-		}
+    @Test
+    fun testGetFieldName() {
+        val fieldKey = FieldKey("b", SortAlphabeticallyWithAliases::class.java, 0)
+        val fieldName = CatroidFieldKeySorter.getAliasOrFieldName(fieldKey)
+        junit.framework.Assert.assertEquals("b", fieldName)
+    }
 
-		public String[] getFieldNames(Map<FieldKey, Field> fieldKeys) {
-			List<String> fieldNames = new ArrayList<>();
-			for (Map.Entry<FieldKey, Field> fieldKeyEntry : fieldKeys.entrySet()) {
-				FieldKey fieldKey = fieldKeyEntry.getKey();
-				fieldNames.add(CatroidFieldKeySorter.getAliasOrFieldName(fieldKey));
-			}
-			return fieldNames.toArray(new String[fieldNames.size()]);
-		}
-	}
+    @Test
+    fun testGetFieldAlias() {
+        val fieldKeyWithAlias = FieldKey("a", SortAlphabeticallyWithAliases::class.java, 0)
+        val fieldAlias = CatroidFieldKeySorter.getAliasOrFieldName(fieldKeyWithAlias)
+        junit.framework.Assert.assertEquals("x", fieldAlias)
+    }
 
-	private XStream xstream;
-	private FieldKeySorterDecorator fieldKeySorter;
-	// CHECKSTYLE DISABLE MemberName FOR 1000 LINES
+    @Test
+    fun testSortAlphabeticallyWithAliases() {
+        xstream!!.processAnnotations(SortAlphabeticallyWithAliases::class.java)
+        xstream!!.toXML(SortAlphabeticallyWithAliases())
+        Assert.assertArrayEquals(
+            arrayOf("b", "x", "y"),
+            fieldKeySorter!!.getFieldNames(
+                SortAlphabeticallyWithAliases::class.java
+            )
+        )
+    }
 
-	@Before
-	public void setUp() {
-		fieldKeySorter = new FieldKeySorterDecorator();
-		xstream = new XStream(new PureJavaReflectionProvider(new FieldDictionary(fieldKeySorter)));
-	}
+    private class SortAlphabeticallyWithAliases {
+        @XStreamAlias("x")
+        private val a = 0
+        private val y = 0
+        private val b = 0
+    }
 
-	@Test
-	public void testSortTagsAlphabetically() {
-		xstream.toXML(new BaseClass());
+    @Test
+    fun testSortByAnnotation() {
+        xstream!!.toXML(SortByAnnotation())
+        Assert.assertArrayEquals(
+            arrayOf("c", "a", "d", "b"),
+            fieldKeySorter!!.getFieldNames(SortByAnnotation::class.java)
+        )
+    }
 
-		assertArrayEquals(new String[] {"a", "x"},
-				fieldKeySorter.getFieldNames(BaseClass.class));
-	}
+    // Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
+    // CHECKSTYLE DISABLE IndentationCheck FOR 6 LINES
+    @XStreamFieldKeyOrder("c", "a", "d", "b")
+    private class SortByAnnotation {
+        private val a = 0
+        private val b = 0
+        private val c = 0
+        private val d = 0
+    }
 
-	@Test
-	public void testSortTagsAlphabeticallyByClassHierarchy() {
-		xstream.toXML(new SubClass());
+    @Test
+    fun testSortByAnnotationWithAliases() {
+        xstream!!.toXML(SortByAnnotationWithAliases())
+        Assert.assertArrayEquals(
+            arrayOf("x", "b"),
+            fieldKeySorter!!.getFieldNames(SortByAnnotationWithAliases::class.java)
+        )
+    }
 
-		assertArrayEquals(new String[] {"a", "x", "b", "y", "z"},
-				fieldKeySorter.getFieldNames(SubClass.class));
-	}
+    // Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
+    // CHECKSTYLE DISABLE IndentationCheck FOR 4 LINES
+    @XStreamFieldKeyOrder("x", "b")
+    private class SortByAnnotationWithAliases {
+        private val b = 0
 
-	@SuppressWarnings("PMD.UnusedPrivateField")
-	private static class BaseClass {
-		private int x;
-		private int a;
-	}
+        @XStreamAlias("x")
+        private val a = 0
+    }
 
-	@SuppressWarnings("PMD.UnusedPrivateField")
-	private static class SubClass extends BaseClass {
-		private int b;
-		private int z;
-		private int y;
-	}
+    @Test
+    fun testMissingFieldInAnnotationThrowsException() {
+        exception.expect(ConversionException::class.java)
+        xstream!!.toXML(MissingFieldInAnnotation())
+    }
 
-	@Test
-	public void testGetFieldName() {
-		FieldKey fieldKey = new FieldKey("b", SortAlphabeticallyWithAliases.class, 0);
-		String fieldName = CatroidFieldKeySorter.getAliasOrFieldName(fieldKey);
+    // Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
+    // CHECKSTYLE DISABLE IndentationCheck FOR 3 LINES
+    @XStreamFieldKeyOrder("a")
+    private class MissingFieldInAnnotation {
+        private val a = 0
+        private val b = 0
+    }
 
-		assertEquals("b", fieldName);
-	}
+    @Test
+    fun testSortByAnnotationIsInBaseClass() {
+        xstream!!.toXML(SubClassWithoutAnnotation())
+        Assert.assertArrayEquals(
+            arrayOf("b", "a"),
+            fieldKeySorter!!.getFieldNames(SubClassWithoutAnnotation::class.java)
+        )
+    }
 
-	@Test
-	public void testGetFieldAlias() {
-		FieldKey fieldKeyWithAlias = new FieldKey("a", SortAlphabeticallyWithAliases.class, 0);
-		String fieldAlias = CatroidFieldKeySorter.getAliasOrFieldName(fieldKeyWithAlias);
+    @Test
+    fun testMissingFieldInSubClassWithoutAnnotationThrowsException() {
+        exception.expect(ConversionException::class.java)
+        xstream!!.toXML(SubClassWithNewMemberButWithoutAnnotation())
+    }
 
-		assertEquals("x", fieldAlias);
-	}
+    // Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
+    // CHECKSTYLE DISABLE IndentationCheck FOR 4 LINES
+    @XStreamFieldKeyOrder("b", "a")
+    private open class BaseClassWithAnnotation {
+        private val a = 0
+        private val b = 0
+    }
 
-	@Test
-	public void testSortAlphabeticallyWithAliases() {
-		xstream.processAnnotations(SortAlphabeticallyWithAliases.class);
-		xstream.toXML(new SortAlphabeticallyWithAliases());
-
-		assertArrayEquals(new String[] {"b", "x", "y"},
-				fieldKeySorter.getFieldNames(SortAlphabeticallyWithAliases.class));
-	}
-
-	@SuppressWarnings("PMD.UnusedPrivateField")
-	private static class SortAlphabeticallyWithAliases {
-		@XStreamAlias("x")
-		private int a;
-		private int y;
-		private int b;
-	}
-
-	@Test
-	public void testSortByAnnotation() {
-		xstream.toXML(new SortByAnnotation());
-
-		assertArrayEquals(new String[] {"c", "a", "d", "b"},
-				fieldKeySorter.getFieldNames(SortByAnnotation.class));
-	}
-
-	// Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
-	// CHECKSTYLE DISABLE IndentationCheck FOR 6 LINES
-	@XStreamFieldKeyOrder({
-			"c",
-			"a",
-			"d",
-			"b"
-	})
-	@SuppressWarnings("PMD.UnusedPrivateField")
-	private static class SortByAnnotation {
-		private int a;
-		private int b;
-		private int c;
-		private int d;
-	}
-
-	@Test
-	public void testSortByAnnotationWithAliases() {
-		xstream.toXML(new SortByAnnotationWithAliases());
-
-		assertArrayEquals(new String[] {"x", "b"},
-				fieldKeySorter.getFieldNames(SortByAnnotationWithAliases.class));
-	}
-
-	// Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
-	// CHECKSTYLE DISABLE IndentationCheck FOR 4 LINES
-	@XStreamFieldKeyOrder({
-			"x",
-			"b"
-	})
-	@SuppressWarnings("PMD.UnusedPrivateField")
-	private static class SortByAnnotationWithAliases {
-		private int b;
-		@XStreamAlias("x")
-		private int a;
-	}
-
-	@Test
-	public void testMissingFieldInAnnotationThrowsException() {
-		exception.expect(ConversionException.class);
-		xstream.toXML(new MissingFieldInAnnotation());
-	}
-
-	// Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
-	// CHECKSTYLE DISABLE IndentationCheck FOR 3 LINES
-	@XStreamFieldKeyOrder({
-			"a"
-	})
-	@SuppressWarnings("PMD.UnusedPrivateField")
-	private static class MissingFieldInAnnotation {
-		private int a;
-		private int b;
-	}
-
-	@Test
-	public void testSortByAnnotationIsInBaseClass() {
-		xstream.toXML(new SubClassWithoutAnnotation());
-
-		assertArrayEquals(new String[] {"b", "a"},
-				fieldKeySorter.getFieldNames(SubClassWithoutAnnotation.class));
-	}
-
-	@Test
-	public void testMissingFieldInSubClassWithoutAnnotationThrowsException() {
-		exception.expect(ConversionException.class);
-		xstream.toXML(new SubClassWithNewMemberButWithoutAnnotation());
-	}
-
-	// Remove checkstyle disable when https://github.com/checkstyle/checkstyle/issues/1349 is fixed
-	// CHECKSTYLE DISABLE IndentationCheck FOR 4 LINES
-	@XStreamFieldKeyOrder({
-			"b",
-			"a"
-	})
-	@SuppressWarnings("PMD.UnusedPrivateField")
-	private static class BaseClassWithAnnotation {
-		private int a;
-		private int b;
-	}
-
-	private static class SubClassWithoutAnnotation extends BaseClassWithAnnotation {
-	}
-
-	@SuppressWarnings("PMD.UnusedPrivateField")
-	private static class SubClassWithNewMemberButWithoutAnnotation extends BaseClassWithAnnotation {
-		private int c;
-	}
+    private class SubClassWithoutAnnotation : BaseClassWithAnnotation()
+    private class SubClassWithNewMemberButWithoutAnnotation : BaseClassWithAnnotation() {
+        private val c = 0
+    }
 }

@@ -20,140 +20,130 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.io.devicevariableaccessor;
+package org.catrobat.catroid.test.io.devicevariableaccessor
 
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.io.DeviceVariableAccessor;
-import org.catrobat.catroid.io.StorageOperations;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import android.content.Context
+import org.junit.runner.RunWith
+import org.catrobat.catroid.formulaeditor.UserVariable
+import org.catrobat.catroid.io.DeviceVariableAccessor
+import org.junit.Before
+import kotlin.Throws
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import junit.framework.Assert
+import junit.framework.TestCase
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.io.StorageOperations
+import org.junit.After
+import org.junit.Test
+import java.io.File
+import java.io.IOException
+import java.util.ArrayList
+import java.util.HashMap
+import java.util.UUID
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+@RunWith(AndroidJUnit4::class)
+class DeviceVariableAccessorCleanRoutineTest {
+    private var project: Project? = null
+    private var directory: File? = null
+    private var scene1: Scene? = null
+    private var scene2: Scene? = null
+    private var sprite1: Sprite? = null
+    private var sprite2: Sprite? = null
+    private val sprite1UserVariable = UserVariable("Sprite1_Variable", 0)
+    private val sprite2UserVariable = UserVariable("Sprite2_Variable", 0)
+    private val globalUserVariable = UserVariable("Global_Variable", 0)
+    private val multiplayerUserVariable = UserVariable("Multiplayer_Variable", 0)
+    private var accessor: DeviceVariableAccessor? = null
+    @Before
+    @Throws(IOException::class)
+    fun setUp() {
+        project = createProject()
+        val allVariables = ArrayList<UserVariable>()
+        sprite1!!.userVariables.add(sprite1UserVariable)
+        allVariables.addAll(sprite1!!.userVariables)
+        sprite2!!.userVariables.add(sprite2UserVariable)
+        allVariables.addAll(sprite2!!.userVariables)
+        project!!.userVariables.add(globalUserVariable)
+        allVariables.addAll(project!!.userVariables)
+        project!!.multiplayerVariables.add(multiplayerUserVariable)
+        allVariables.addAll(project!!.multiplayerVariables)
+        accessor = DeviceVariableAccessor(directory)
+        val map: MutableMap<UUID?, Any?> = HashMap()
+        for (userVariable in allVariables) {
+            map[userVariable.deviceKey] = userVariable.value
+        }
+        accessor!!.writeMapToJson(map)
+    }
 
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+    private fun createProject(): Project {
+        val project = Project()
+        directory =
+            File(ApplicationProvider.getApplicationContext<Context>().cacheDir, "DeviceValues")
+        directory!!.mkdir()
+        project.directory = directory
+        project.name = "__project__"
+        sprite1 = Sprite("__sprite1__")
+        sprite2 = Sprite("__sprite3__")
+        scene1 = Scene()
+        scene1!!.addSprite(sprite1)
+        scene2 = Scene()
+        scene2!!.addSprite(sprite2)
+        project.addScene(scene1)
+        project.addScene(scene2)
+        return project
+    }
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.TestCase.assertTrue;
+    @Test
+    fun deleteGlobalVariablesTest() {
+        project!!.userVariables.clear()
+        accessor!!.cleanUpDeletedUserData(project)
+        val map = accessor!!.readMapFromJson()
+        Assert.assertFalse(map.containsKey(globalUserVariable.deviceKey))
+        TestCase.assertTrue(map.containsKey(multiplayerUserVariable.deviceKey))
+        TestCase.assertTrue(map.containsKey(sprite1UserVariable.deviceKey))
+        TestCase.assertTrue(map.containsKey(sprite2UserVariable.deviceKey))
+    }
 
-@RunWith(AndroidJUnit4.class)
-public class DeviceVariableAccessorCleanRoutineTest {
-	private Project project;
-	private File directory;
-	private Scene scene1;
-	private Scene scene2;
-	private Sprite sprite1;
-	private Sprite sprite2;
-	private UserVariable sprite1UserVariable = new UserVariable("Sprite1_Variable", 0);
-	private UserVariable sprite2UserVariable = new UserVariable("Sprite2_Variable", 0);
-	private UserVariable globalUserVariable = new UserVariable("Global_Variable", 0);
-	private UserVariable multiplayerUserVariable = new UserVariable("Multiplayer_Variable", 0);
-	private DeviceVariableAccessor accessor;
+    @Test
+    fun deleteSceneVariablesTest() {
+        project!!.removeScene(scene1)
+        accessor!!.cleanUpDeletedUserData(project)
+        val map = accessor!!.readMapFromJson()
+        TestCase.assertTrue(map.containsKey(globalUserVariable.deviceKey))
+        TestCase.assertTrue(map.containsKey(multiplayerUserVariable.deviceKey))
+        Assert.assertFalse(map.containsKey(sprite1UserVariable.deviceKey))
+        TestCase.assertTrue(map.containsKey(sprite2UserVariable.deviceKey))
+    }
 
-	@Before
-	public void setUp() throws IOException {
-		project = createProject();
+    @Test
+    fun deleteSpriteVariablesTest() {
+        sprite2!!.userVariables.clear()
+        accessor!!.cleanUpDeletedUserData(project)
+        val map = accessor!!.readMapFromJson()
+        TestCase.assertTrue(map.containsKey(globalUserVariable.deviceKey))
+        TestCase.assertTrue(map.containsKey(multiplayerUserVariable.deviceKey))
+        TestCase.assertTrue(map.containsKey(sprite1UserVariable.deviceKey))
+        Assert.assertFalse(map.containsKey(sprite2UserVariable.deviceKey))
+    }
 
-		ArrayList<UserVariable> allVariables = new ArrayList<>();
+    @Test
+    fun deleteMultiplayerVariablesTest() {
+        project!!.multiplayerVariables.clear()
+        accessor!!.cleanUpDeletedUserData(project)
+        val map = accessor!!.readMapFromJson()
+        TestCase.assertTrue(map.containsKey(globalUserVariable.deviceKey))
+        Assert.assertFalse(map.containsKey(multiplayerUserVariable.deviceKey))
+        TestCase.assertTrue(map.containsKey(sprite1UserVariable.deviceKey))
+        TestCase.assertTrue(map.containsKey(sprite2UserVariable.deviceKey))
+    }
 
-		sprite1.getUserVariables().add(sprite1UserVariable);
-		allVariables.addAll(sprite1.getUserVariables());
-
-		sprite2.getUserVariables().add(sprite2UserVariable);
-		allVariables.addAll(sprite2.getUserVariables());
-
-		project.getUserVariables().add(globalUserVariable);
-		allVariables.addAll(project.getUserVariables());
-
-		project.getMultiplayerVariables().add(multiplayerUserVariable);
-		allVariables.addAll(project.getMultiplayerVariables());
-
-		accessor = new DeviceVariableAccessor(directory);
-		Map<UUID, Object> map = new HashMap<>();
-
-		for (UserVariable userVariable : allVariables) {
-			map.put(userVariable.getDeviceKey(), userVariable.getValue());
-		}
-		accessor.writeMapToJson(map);
-	}
-
-	private Project createProject() {
-		Project project = new Project();
-		directory = new File(ApplicationProvider.getApplicationContext().getCacheDir(), "DeviceValues");
-		directory.mkdir();
-		project.setDirectory(directory);
-		project.setName("__project__");
-
-		sprite1 = new Sprite("__sprite1__");
-		sprite2 = new Sprite("__sprite3__");
-
-		scene1 = new Scene();
-		scene1.addSprite(sprite1);
-
-		scene2 = new Scene();
-		scene2.addSprite(sprite2);
-
-		project.addScene(scene1);
-		project.addScene(scene2);
-		return project;
-	}
-
-	@Test
-	public void deleteGlobalVariablesTest() {
-		project.getUserVariables().clear();
-		accessor.cleanUpDeletedUserData(project);
-		Map<UUID, Object> map = accessor.readMapFromJson();
-		assertFalse(map.containsKey(globalUserVariable.getDeviceKey()));
-		assertTrue(map.containsKey(multiplayerUserVariable.getDeviceKey()));
-		assertTrue(map.containsKey(sprite1UserVariable.getDeviceKey()));
-		assertTrue(map.containsKey(sprite2UserVariable.getDeviceKey()));
-	}
-
-	@Test
-	public void deleteSceneVariablesTest() {
-		project.removeScene(scene1);
-		accessor.cleanUpDeletedUserData(project);
-		Map<UUID, Object> map = accessor.readMapFromJson();
-		assertTrue(map.containsKey(globalUserVariable.getDeviceKey()));
-		assertTrue(map.containsKey(multiplayerUserVariable.getDeviceKey()));
-		assertFalse(map.containsKey(sprite1UserVariable.getDeviceKey()));
-		assertTrue(map.containsKey(sprite2UserVariable.getDeviceKey()));
-	}
-
-	@Test
-	public void deleteSpriteVariablesTest() {
-		sprite2.getUserVariables().clear();
-		accessor.cleanUpDeletedUserData(project);
-		Map<UUID, Object> map = accessor.readMapFromJson();
-		assertTrue(map.containsKey(globalUserVariable.getDeviceKey()));
-		assertTrue(map.containsKey(multiplayerUserVariable.getDeviceKey()));
-		assertTrue(map.containsKey(sprite1UserVariable.getDeviceKey()));
-		assertFalse(map.containsKey(sprite2UserVariable.getDeviceKey()));
-	}
-
-	@Test
-	public void deleteMultiplayerVariablesTest() {
-		project.getMultiplayerVariables().clear();
-		accessor.cleanUpDeletedUserData(project);
-		Map<UUID, Object> map = accessor.readMapFromJson();
-		assertTrue(map.containsKey(globalUserVariable.getDeviceKey()));
-		assertFalse(map.containsKey(multiplayerUserVariable.getDeviceKey()));
-		assertTrue(map.containsKey(sprite1UserVariable.getDeviceKey()));
-		assertTrue(map.containsKey(sprite2UserVariable.getDeviceKey()));
-	}
-
-	@After
-	public void tearDown() throws IOException {
-		StorageOperations.deleteDir(directory);
-	}
+    @After
+    @Throws(IOException::class)
+    fun tearDown() {
+        StorageOperations.deleteDir(directory)
+    }
 }
+

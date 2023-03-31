@@ -20,69 +20,65 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.io
 
-package org.catrobat.catroid.test.io;
+import android.content.Context
+import org.junit.runner.RunWith
+import org.junit.Before
+import kotlin.Throws
+import org.catrobat.catroid.ProjectManager
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import junit.framework.Assert
+import org.catrobat.catroid.R
+import org.catrobat.catroid.common.defaultprojectcreators.ChromeCastProjectCreator
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.test.utils.TestUtils
+import org.catrobat.catroid.exceptions.LoadingProjectException
+import org.catrobat.catroid.io.XstreamSerializer
+import org.junit.After
+import org.junit.Test
+import java.io.IOException
+import java.lang.Exception
+import java.util.ArrayList
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.defaultprojectcreators.ChromeCastProjectCreator;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.exceptions.LoadingProjectException;
-import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+@RunWith(AndroidJUnit4::class)
+class DefaultChromeCastProgramLoadingTest {
+    private var projectName: String? = null
+    private var currentProjectBuffer: Project? = null
+    private var project: Project? = null
+    @Before
+    @Throws(Exception::class)
+    fun setUp() {
+        currentProjectBuffer = ProjectManager.getInstance().currentProject
+        projectName = ApplicationProvider.getApplicationContext<Context>()
+            .getString(R.string.default_cast_project_name)
+        project = ChromeCastProjectCreator()
+            .createDefaultProject(projectName, ApplicationProvider.getApplicationContext(), true)
+    }
 
-import java.io.IOException;
-import java.util.ArrayList;
+    @After
+    @Throws(Exception::class)
+    fun tearDown() {
+        ProjectManager.getInstance().currentProject = currentProjectBuffer
+        TestUtils.deleteProjects(projectName)
+    }
 
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import static junit.framework.Assert.assertEquals;
-
-@RunWith(AndroidJUnit4.class)
-public class DefaultChromeCastProgramLoadingTest {
-
-	private String projectName;
-	private Project currentProjectBuffer;
-	private Project project;
-
-	@Before
-	public void setUp() throws Exception {
-		currentProjectBuffer = ProjectManager.getInstance().getCurrentProject();
-		projectName = ApplicationProvider.getApplicationContext().getString(R.string.default_cast_project_name);
-		project = new ChromeCastProjectCreator()
-				.createDefaultProject(projectName, ApplicationProvider.getApplicationContext(), true);
-	}
-
-	@After
-	public void tearDown() throws Exception {
-		ProjectManager.getInstance().setCurrentProject(currentProjectBuffer);
-		TestUtils.deleteProjects(projectName);
-	}
-
-	@Test
-	public void testLoadingChromeCastProgram() throws IOException, LoadingProjectException {
-		Project loadedProject = XstreamSerializer.getInstance()
-				.loadProject(project.getDirectory(), ApplicationProvider.getApplicationContext());
-
-		Scene preScene = project.getDefaultScene();
-		Scene postScene = loadedProject.getDefaultScene();
-
-		ArrayList<Sprite> preSpriteList = (ArrayList<Sprite>) project.getDefaultScene().getSpriteList();
-		ArrayList<Sprite> postSpriteList = (ArrayList<Sprite>) loadedProject.getDefaultScene().getSpriteList();
-
-		assertEquals(project.getName(), loadedProject.getName());
-		assertEquals(preScene.getName(), postScene.getName());
-
-		assertEquals(preSpriteList.get(0).getName(), postSpriteList.get(0).getName());
-		assertEquals(preSpriteList.get(1).getName(), postSpriteList.get(1).getName());
-		assertEquals(preSpriteList.get(2).getName(), postSpriteList.get(2).getName());
-		assertEquals(preSpriteList.get(3).getName(), postSpriteList.get(3).getName());
-	}
+    @Test
+    @Throws(IOException::class, LoadingProjectException::class)
+    fun testLoadingChromeCastProgram() {
+        val loadedProject = XstreamSerializer.getInstance()
+            .loadProject(project!!.directory, ApplicationProvider.getApplicationContext())
+        val preScene = project!!.defaultScene
+        val postScene = loadedProject.defaultScene
+        val preSpriteList = project!!.defaultScene.spriteList as ArrayList<Sprite>
+        val postSpriteList = loadedProject.defaultScene.spriteList as ArrayList<Sprite>
+        Assert.assertEquals(project!!.name, loadedProject.name)
+        Assert.assertEquals(preScene.name, postScene.name)
+        Assert.assertEquals(preSpriteList[0].name, postSpriteList[0].name)
+        Assert.assertEquals(preSpriteList[1].name, postSpriteList[1].name)
+        Assert.assertEquals(preSpriteList[2].name, postSpriteList[2].name)
+        Assert.assertEquals(preSpriteList[3].name, postSpriteList[3].name)
+    }
 }
