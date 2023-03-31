@@ -202,15 +202,15 @@ android {
     }
 
     dexOptions.javaMaxHeapSize "4g"
-
     packagingOptions {
-        exclude 'LICENSE.txt'
-        exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
-        exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
-        exclude 'META-INF/INDEX.LIST'
-        exclude 'lib/mips/*'    // Mips devices are deprecated
-        exclude 'lib/armeabi/*' // armeabiv5 & v6 are deprecated
+        jniLibs {
+            excludes += ['lib/mips/*', 'lib/armeabi/*']
+        }
+        resources {
+            excludes += ['LICENSE.txt', 'META-INF/maven/com.google.guava/guava/pom.properties', 'META-INF/maven/com.google.guava/guava/pom.xml', 'META-INF/INDEX.LIST', 'lib/mips/*', 'lib/armeabi/*']
+        }
     }
+
 
     signingConfigs {
         signedRelease {
@@ -338,6 +338,7 @@ android {
     aaptOptions {
         noCompress "lite"
     }
+    namespace 'org.catrobat.catroid'
 }
 
 configurations {
