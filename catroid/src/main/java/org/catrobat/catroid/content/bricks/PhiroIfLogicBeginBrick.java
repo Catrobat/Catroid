@@ -43,7 +43,7 @@ import java.util.UUID;
 import androidx.annotation.VisibleForTesting;
 import kotlin.Unit;
 
-public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBrick {
+public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBrick, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -230,6 +230,11 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 						elseSequence);
 
 		sequence.addAction(action);
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		sensorSpinnerPosition = itemIndex;
 	}
 
 	@VisibleForTesting

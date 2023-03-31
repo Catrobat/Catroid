@@ -38,9 +38,11 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 
-public class PlayDrumForBeatsBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<PickableDrum> {
+public class PlayDrumForBeatsBrick extends FormulaBrick
+		implements BrickSpinner.OnItemSelectedListener<PickableDrum>, UpdateableSpinnerBrick {
 
 	private PickableDrum drumSelection = PickableDrum.values()[0];
+	private transient BrickSpinner<PickableDrum> spinner;
 
 	@Override
 	public int getViewResource() {
@@ -74,7 +76,7 @@ public class PlayDrumForBeatsBrick extends FormulaBrick implements BrickSpinner.
 			items.add(drum);
 		}
 
-		BrickSpinner<PickableDrum> spinner = new BrickSpinner<>(R.id.play_drum_for_beats_spinner, view, items);
+		spinner = new BrickSpinner<>(R.id.play_drum_for_beats_spinner, view, items);
 		spinner.setSelection(PickableDrum.getIndexByValue(drumSelection.getValue()));
 		spinner.setOnItemSelectedListener(this);
 
@@ -103,6 +105,13 @@ public class PlayDrumForBeatsBrick extends FormulaBrick implements BrickSpinner.
 	public void onItemSelected(Integer spinnerId, @Nullable PickableDrum item) {
 		if (item != null) {
 			drumSelection = item;
+		}
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinner != null) {
+			spinner.setSelection(itemName);
 		}
 	}
 }

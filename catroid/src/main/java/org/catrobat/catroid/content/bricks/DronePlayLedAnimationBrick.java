@@ -38,7 +38,7 @@ import java.util.List;
 
 import kotlin.Unit;
 
-public class DronePlayLedAnimationBrick extends BrickBaseType {
+public class DronePlayLedAnimationBrick extends BrickBaseType implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -78,6 +78,15 @@ public class DronePlayLedAnimationBrick extends BrickBaseType {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		String[] animations = context.getResources().getStringArray(
+				R.array.brick_drone_play_led_animation_spinner);
+		if (itemIndex >= 0 && itemIndex < animations.length) {
+			ledAnimationName = animations[itemIndex];
+		}
 	}
 }
 

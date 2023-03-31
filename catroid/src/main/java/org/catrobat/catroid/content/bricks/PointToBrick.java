@@ -43,7 +43,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class PointToBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite>,
-		NewItemInterface<Sprite> {
+		NewItemInterface<Sprite>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -119,5 +119,12 @@ public class PointToBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createPointToAction(sprite, pointedObject));
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinner != null) {
+			spinner.setSelection(itemName);
+		}
 	}
 }

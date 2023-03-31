@@ -32,7 +32,7 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 
-class ParticleEffectAdditivityBrick(fadeType: Int = ON) : BrickBaseType() {
+class ParticleEffectAdditivityBrick(fadeType: Int = ON) : BrickBaseType(), UpdateableSpinnerBrick {
 
     companion object {
         const val ON = 0
@@ -96,5 +96,16 @@ class ParticleEffectAdditivityBrick(fadeType: Int = ON) : BrickBaseType() {
                 fadeSpinnerSelectionId == ON
             )
         )
+    }
+
+    override fun updateSelectedItem(
+        context: Context,
+        spinnerId: Int,
+        itemName: String?,
+        itemIndex: Int
+    ) {
+        if (itemIndex == ON || itemIndex == OFF) {
+            fadeSpinnerSelectionId = itemIndex
+        }
     }
 }

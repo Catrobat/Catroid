@@ -35,7 +35,7 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import kotlin.Unit;
 
-public class JumpingSumoAnimationsBrick extends BrickBaseType {
+public class JumpingSumoAnimationsBrick extends BrickBaseType implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -78,5 +78,13 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		Animation[] animations = Animation.values();
+		if (itemIndex >= 0 && itemIndex < animations.length) {
+			animationName = animations[itemIndex].name();
+		}
 	}
 }
