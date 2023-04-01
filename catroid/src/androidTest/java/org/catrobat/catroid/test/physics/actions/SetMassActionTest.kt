@@ -20,119 +20,118 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.physics.actions;
+package org.catrobat.catroid.test.physics.actions
 
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.runner.RunWith
+import org.catrobat.catroid.test.physics.PhysicsTestRule
+import org.catrobat.catroid.physics.PhysicsWorld
+import org.junit.Before
+import org.catrobat.catroid.test.physics.actions.SetMassActionTest
+import org.catrobat.catroid.physics.PhysicsObject
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+import junit.framework.Assert
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.formulaeditor.Formula
+import org.hamcrest.Matchers
+import org.junit.Rule
+import org.junit.Test
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.physics.PhysicsWorld;
-import org.catrobat.catroid.test.physics.PhysicsTestRule;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+@RunWith(AndroidJUnit4::class)
+class SetMassActionTest {
+    @get:Rule
+    var rule = PhysicsTestRule()
+    private var sprite: Sprite? = null
+    private var physicsWorld: PhysicsWorld? = null
+    @Before
+    fun setUp() {
+        sprite = rule.sprite
+        physicsWorld = rule.physicsWorld
+    }
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+    @Test
+    fun testNormalBehavior() {
+        initMassValue(MASS)
+        Assert.assertEquals(MASS, physicsWorld!!.getPhysicsObject(sprite).mass)
+    }
 
-import static junit.framework.Assert.assertEquals;
+    @Test
+    fun testNegativeValue() {
+        val mass = -10f
+        initMassValue(mass)
+        Assert.assertEquals(PhysicsObject.MIN_MASS, physicsWorld!!.getPhysicsObject(sprite).mass)
+    }
 
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+    @Test
+    fun testZeroValue() {
+        val mass = 0f
+        initMassValue(mass)
+        Assert.assertEquals(0.0f, physicsWorld!!.getPhysicsObject(sprite).mass)
+    }
 
-@RunWith(AndroidJUnit4.class)
-public class SetMassActionTest {
+    private fun initMassValue(mass: Float) {
+        val physicsObject = physicsWorld!!.getPhysicsObject(sprite)
+        val action = sprite!!.actionFactory.createSetMassAction(
+            sprite,
+            SequenceAction(), Formula(mass)
+        )
+        Assert.assertEquals(PhysicsObject.DEFAULT_MASS, physicsObject.mass)
+        action.act(1.0f)
+        physicsWorld!!.step(1.0f)
+    }
 
-	private static final float MASS = 10f;
+    @Test
+    fun testBrickWithStringFormula() {
+        val physicsObject = physicsWorld!!.getPhysicsObject(sprite)
+        sprite!!.actionFactory.createSetMassAction(
+            sprite,
+            SequenceAction(), Formula(MASS.toString())
+        ).act(1.0f)
+        Assert.assertEquals(MASS, physicsObject.mass)
+        sprite!!.actionFactory.createSetMassAction(
+            sprite, SequenceAction(),
+            Formula("not a numerical string")
+        )
+            .act(1.0f)
+        Assert.assertEquals(MASS, physicsObject.mass)
+    }
 
-	@Rule
-	public PhysicsTestRule rule = new PhysicsTestRule();
+    @Test
+    fun testNullFormula() {
+        val physicsObject = physicsWorld!!.getPhysicsObject(sprite)
+        sprite!!.actionFactory.createSetMassAction(sprite, SequenceAction(), null).act(1.0f)
+        Assert.assertEquals(0f, physicsObject.mass)
+    }
 
-	private Sprite sprite;
-	private PhysicsWorld physicsWorld;
+    @Test
+    fun testNotANumberFormula() {
+        val physicsObject = physicsWorld!!.getPhysicsObject(sprite)
+        sprite!!.actionFactory.createSetMassAction(
+            sprite, SequenceAction(),
+            Formula(Double.NaN)
+        ).act(1.0f)
+        Assert.assertEquals(PhysicsObject.DEFAULT_MASS, physicsObject.mass)
+    }
 
-	@Before
-	public void setUp() {
-		sprite = rule.sprite;
-		physicsWorld = rule.physicsWorld;
-	}
+    @Test
+    fun testMassAcceleration() {
+        val physicsObject = physicsWorld!!.getPhysicsObject(sprite)
+        physicsObject.type = PhysicsObject.Type.DYNAMIC
+        physicsObject.mass = 5.0f
+        physicsWorld!!.step(0.10f)
+        val lastVelocity = Math.abs(physicsObject.velocity.y)
+        physicsWorld!!.step(0.25f)
+        physicsWorld!!.step(0.25f)
+        physicsWorld!!.step(0.25f)
+        physicsWorld!!.step(0.25f)
+        val currentVelocity = Math.abs(physicsObject.velocity.y)
+        org.junit.Assert.assertThat(
+            currentVelocity - lastVelocity,
+            Matchers.`is`(Matchers.greaterThan(1.0f))
+        )
+    }
 
-	@Test
-	public void testNormalBehavior() {
-		initMassValue(MASS);
-		assertEquals(MASS, physicsWorld.getPhysicsObject(sprite).getMass());
-	}
-
-	@Test
-	public void testNegativeValue() {
-		float mass = -10f;
-		initMassValue(mass);
-		assertEquals(PhysicsObject.MIN_MASS, physicsWorld.getPhysicsObject(sprite).getMass());
-	}
-
-	@Test
-	public void testZeroValue() {
-		float mass = 0f;
-		initMassValue(mass);
-		assertEquals(0.0f, physicsWorld.getPhysicsObject(sprite).getMass());
-	}
-
-	private void initMassValue(float mass) {
-		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		Action action = sprite.getActionFactory().createSetMassAction(sprite,
-				new SequenceAction(), new Formula(mass));
-
-		assertEquals(PhysicsObject.DEFAULT_MASS, physicsObject.getMass());
-
-		action.act(1.0f);
-		physicsWorld.step(1.0f);
-	}
-
-	@Test
-	public void testBrickWithStringFormula() {
-		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		sprite.getActionFactory().createSetMassAction(sprite,
-				new SequenceAction(), new Formula(String.valueOf(MASS))).act(1.0f);
-		assertEquals(MASS, physicsObject.getMass());
-
-		sprite.getActionFactory().createSetMassAction(sprite, new SequenceAction(),
-				new Formula("not a numerical string"))
-				.act(1.0f);
-		assertEquals(MASS, physicsObject.getMass());
-	}
-
-	@Test
-	public void testNullFormula() {
-		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		sprite.getActionFactory().createSetMassAction(sprite, new SequenceAction(), null).act(1.0f);
-		assertEquals(0f, physicsObject.getMass());
-	}
-
-	@Test
-	public void testNotANumberFormula() {
-		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		sprite.getActionFactory().createSetMassAction(sprite, new SequenceAction(),
-				new Formula(Double.NaN)).act(1.0f);
-		assertEquals(PhysicsObject.DEFAULT_MASS, physicsObject.getMass());
-	}
-
-	@Test
-	public void testMassAcceleration() {
-		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
-		physicsObject.setMass(5.0f);
-
-		physicsWorld.step(0.10f);
-		float lastVelocity = Math.abs(physicsObject.getVelocity().y);
-		physicsWorld.step(0.25f);
-		physicsWorld.step(0.25f);
-		physicsWorld.step(0.25f);
-		physicsWorld.step(0.25f);
-		float currentVelocity = Math.abs(physicsObject.getVelocity().y);
-
-		assertThat((currentVelocity - lastVelocity), is(greaterThan(1.0f)));
-	}
+    companion object {
+        private const val MASS = 10f
+    }
 }

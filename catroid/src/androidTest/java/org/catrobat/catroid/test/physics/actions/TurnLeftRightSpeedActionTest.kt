@@ -20,90 +20,107 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.physics.actions;
+package org.catrobat.catroid.test.physics.actions
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.physics.PhysicsWorld;
-import org.catrobat.catroid.test.physics.PhysicsTestRule;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import junit.framework.Assert
+import org.catrobat.catroid.content.Sprite
+import org.junit.runner.RunWith
+import org.catrobat.catroid.physics.PhysicsObject
+import org.catrobat.catroid.test.physics.PhysicsTestRule
+import org.catrobat.catroid.physics.PhysicsWorld
+import org.junit.Before
+import kotlin.Throws
+import org.catrobat.catroid.test.physics.actions.TurnLeftRightSpeedActionTest
+import org.catrobat.catroid.test.utils.TestUtils
+import org.hamcrest.Matchers
+import org.hamcrest.number.OrderingComparison
+import org.junit.Rule
+import org.junit.Test
+import java.lang.Exception
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+@RunWith(AndroidJUnit4::class)
+class TurnLeftRightSpeedActionTest {
+    private var physicsObject: PhysicsObject? = null
 
-import static junit.framework.Assert.assertEquals;
+    @get:Rule
+    var rule = PhysicsTestRule()
+    private var sprite: Sprite? = null
+    private var physicsWorld: PhysicsWorld? = null
+    @Before
+    @Throws(Exception::class)
+    fun setUp() {
+        sprite = rule.sprite
+        physicsWorld = rule.physicsWorld
+        physicsObject = physicsWorld!!.getPhysicsObject(sprite)
+        physicsObject!!.setType(PhysicsObject.Type.DYNAMIC)
+    }
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.lessThan;
-import static org.hamcrest.number.OrderingComparison.greaterThan;
-import static org.junit.Assert.assertThat;
+    @Test
+    fun testLeftSpeedRotation() {
+        physicsObject!!.direction = 0f
+        physicsObject!!.rotationSpeed = TURN_TEST_SPEED
+        Assert.assertEquals(
+            TURN_TEST_SPEED.toDouble(),
+            physicsObject!!.rotationSpeed.toDouble(),
+            TestUtils.DELTA
+        )
+        skipWorldStabilizingSteps()
+        val expectedDegrees = TURN_TEST_SPEED * TEST_STEP_DELTA_TIME
+        for (i in 0 until TEST_STEPS) {
+            val preStepDirection = physicsObject!!.direction
+            physicsWorld!!.step(TEST_STEP_DELTA_TIME)
+            val postStepDirection = physicsObject!!.direction
+            Assert.assertEquals(
+                expectedDegrees.toDouble(),
+                (postStepDirection - preStepDirection).toDouble(),
+                TestUtils.DELTA
+            )
+            org.junit.Assert.assertThat(
+                postStepDirection,
+                Matchers.`is`(
+                    OrderingComparison.greaterThan(preStepDirection)
+                )
+            )
+        }
+    }
 
-@RunWith(AndroidJUnit4.class)
-public class TurnLeftRightSpeedActionTest {
+    @Test
+    fun testRightSpeedRotation() {
+        physicsObject!!.direction = 0f
+        physicsObject!!.rotationSpeed = -TURN_TEST_SPEED
+        Assert.assertEquals(
+            -TURN_TEST_SPEED.toDouble(),
+            physicsObject!!.rotationSpeed.toDouble(),
+            TestUtils.DELTA
+        )
+        skipWorldStabilizingSteps()
+        val expectedDegrees = -TURN_TEST_SPEED * TEST_STEP_DELTA_TIME
+        for (i in 0 until TEST_STEPS) {
+            val preStepDirection = physicsObject!!.direction
+            physicsWorld!!.step(TEST_STEP_DELTA_TIME)
+            val postStepDirection = physicsObject!!.direction
+            Assert.assertEquals(
+                expectedDegrees.toDouble(),
+                (postStepDirection - preStepDirection).toDouble(),
+                TestUtils.DELTA
+            )
+            org.junit.Assert.assertThat(
+                postStepDirection,
+                Matchers.`is`(Matchers.lessThan(preStepDirection))
+            )
+        }
+    }
 
-	private static final float TURN_TEST_SPEED = 10.0f;
+    private fun skipWorldStabilizingSteps() {
+        for (i in 0 until PhysicsWorld.STABILIZING_STEPS) {
+            physicsWorld!!.step(1.0f)
+        }
+    }
 
-	private static final int TEST_STEPS = 5;
-	private static final float TEST_STEP_DELTA_TIME = 1.0f / 60.0f;
-
-	private PhysicsObject physicsObject;
-
-	@Rule
-	public PhysicsTestRule rule = new PhysicsTestRule();
-
-	private Sprite sprite;
-	private PhysicsWorld physicsWorld;
-
-	@Before
-	public void setUp() throws Exception {
-		sprite = rule.sprite;
-		physicsWorld = rule.physicsWorld;
-		physicsObject = physicsWorld.getPhysicsObject(sprite);
-		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
-	}
-
-	@Test
-	public void testLeftSpeedRotation() {
-		physicsObject.setDirection(0);
-		physicsObject.setRotationSpeed(TURN_TEST_SPEED);
-
-		assertEquals(TURN_TEST_SPEED, physicsObject.getRotationSpeed(), TestUtils.DELTA);
-		skipWorldStabilizingSteps();
-		float expectedDegrees = TURN_TEST_SPEED * TEST_STEP_DELTA_TIME;
-
-		for (int i = 0; i < TEST_STEPS; i++) {
-			float preStepDirection = physicsObject.getDirection();
-			physicsWorld.step(TEST_STEP_DELTA_TIME);
-			float postStepDirection = physicsObject.getDirection();
-			assertEquals(expectedDegrees, postStepDirection - preStepDirection, TestUtils.DELTA);
-			assertThat(postStepDirection, is(greaterThan(preStepDirection)));
-		}
-	}
-
-	@Test
-	public void testRightSpeedRotation() {
-		physicsObject.setDirection(0);
-		physicsObject.setRotationSpeed(-TURN_TEST_SPEED);
-
-		assertEquals(-TURN_TEST_SPEED, physicsObject.getRotationSpeed(), TestUtils.DELTA);
-		skipWorldStabilizingSteps();
-		float expectedDegrees = -TURN_TEST_SPEED * TEST_STEP_DELTA_TIME;
-
-		for (int i = 0; i < TEST_STEPS; i++) {
-			float preStepDirection = physicsObject.getDirection();
-			physicsWorld.step(TEST_STEP_DELTA_TIME);
-			float postStepDirection = physicsObject.getDirection();
-			assertEquals(expectedDegrees, postStepDirection - preStepDirection, TestUtils.DELTA);
-			assertThat(postStepDirection, is(lessThan(preStepDirection)));
-		}
-	}
-
-	private void skipWorldStabilizingSteps() {
-		for (int i = 0; i < PhysicsWorld.STABILIZING_STEPS; i++) {
-			physicsWorld.step(1.0f);
-		}
-	}
+    companion object {
+        private const val TURN_TEST_SPEED = 10.0f
+        private const val TEST_STEPS = 5
+        private const val TEST_STEP_DELTA_TIME = 1.0f / 60.0f
+    }
 }

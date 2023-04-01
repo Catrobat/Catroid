@@ -20,95 +20,80 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.physics.actions
 
-package org.catrobat.catroid.test.physics.actions;
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import junit.framework.Assert
+import org.catrobat.catroid.common.Constants
+import org.junit.runner.RunWith
+import org.catrobat.catroid.common.LookData
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.test.physics.PhysicsTestRule
+import org.junit.Before
+import kotlin.Throws
+import org.catrobat.catroid.test.physics.PhysicsTestUtils
+import org.catrobat.catroid.io.ResourceImporter
+import org.catrobat.catroid.test.R
+import org.catrobat.catroid.test.utils.TestUtils
+import org.hamcrest.MatcherAssert
+import org.hamcrest.Matchers
+import org.hamcrest.core.IsNot
+import org.junit.After
+import org.junit.Rule
+import org.junit.Test
+import java.io.File
+import java.lang.Exception
 
-import com.badlogic.gdx.scenes.scene2d.Action;
+@RunWith(AndroidJUnit4::class)
+class SetLookActionTest {
+    private var multipleConvexPolygonsFileName: String? = null
+    private var multipleConvexPolygonsFile: File? = null
+    private var lookData: LookData? = null
 
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.ResourceImporter;
-import org.catrobat.catroid.test.physics.PhysicsTestRule;
-import org.catrobat.catroid.test.physics.PhysicsTestUtils;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+    @get:Rule
+    var rule = PhysicsTestRule()
+    private var sprite: Sprite? = null
+    private var project: Project? = null
+    @Before
+    @Throws(Exception::class)
+    fun setUp() {
+        sprite = rule.sprite
+        project = rule.project
+        multipleConvexPolygonsFileName =
+            PhysicsTestUtils.getInternalImageFilenameFromFilename("multible_convex_polygons.png")
+        multipleConvexPolygonsFile = ResourceImporter.createImageFileFromResourcesInDirectory(
+            InstrumentationRegistry.getInstrumentation().context.resources,
+            R.raw.multible_convex_polygons,
+            File(project!!.getDefaultScene().directory, Constants.IMAGE_DIRECTORY_NAME),
+            multipleConvexPolygonsFileName, 1.0
+        )
+        lookData = PhysicsTestUtils.generateLookData(multipleConvexPolygonsFile)
+        Assert.assertNotNull(sprite!!.look.lookData)
+    }
 
-import java.io.File;
+    @After
+    @Throws(Exception::class)
+    fun tearDown() {
+        multipleConvexPolygonsFileName = null
+        multipleConvexPolygonsFile = null
+        TestUtils.deleteProjects()
+    }
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
+    @Test
+    fun testLookChanged() {
+        val expectedLookData = lookData
+        val previousLookData = sprite!!.look.lookData
+        changeLook()
+        MatcherAssert.assertThat(sprite!!.look.lookData, Matchers.`is`(IsNot.not(previousLookData)))
+        Assert.assertEquals(sprite!!.look.lookData, expectedLookData)
+    }
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-
-import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.core.IsNot.not;
-
-@RunWith(AndroidJUnit4.class)
-public class SetLookActionTest {
-
-	private String multipleConvexPolygonsFileName;
-	private File multipleConvexPolygonsFile;
-
-	private LookData lookData = null;
-
-	@Rule
-	public PhysicsTestRule rule = new PhysicsTestRule();
-
-	private Sprite sprite;
-	private Project project;
-
-	@Before
-	public void setUp() throws Exception {
-		sprite = rule.sprite;
-		project = rule.project;
-
-		multipleConvexPolygonsFileName = PhysicsTestUtils.getInternalImageFilenameFromFilename("multible_convex_polygons.png");
-
-		multipleConvexPolygonsFile = ResourceImporter.createImageFileFromResourcesInDirectory(
-				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
-				org.catrobat.catroid.test.R.raw.multible_convex_polygons,
-				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
-				multipleConvexPolygonsFileName,
-				1);
-
-		lookData = PhysicsTestUtils.generateLookData(multipleConvexPolygonsFile);
-
-		assertNotNull(sprite.look.getLookData());
-	}
-
-	@After
-	public void tearDown() throws Exception {
-
-		multipleConvexPolygonsFileName = null;
-		multipleConvexPolygonsFile = null;
-
-		TestUtils.deleteProjects();
-	}
-
-	@Test
-	public void testLookChanged() {
-
-		LookData expectedLookData = lookData;
-		LookData previousLookData = sprite.look.getLookData();
-
-		changeLook();
-
-		assertThat(sprite.look.getLookData(), is(not(previousLookData)));
-		assertEquals(sprite.look.getLookData(), expectedLookData);
-	}
-
-	private void changeLook() {
-		sprite.getLookList().add(lookData);
-		Action action = sprite.getActionFactory().createSetLookAction(sprite, lookData);
-		action.act(1.0f);
-		assertNotNull(sprite.look);
-	}
+    private fun changeLook() {
+        sprite!!.lookList.add(lookData)
+        val action = sprite!!.actionFactory.createSetLookAction(sprite, lookData)
+        action.act(1.0f)
+        Assert.assertNotNull(sprite!!.look)
+    }
 }

@@ -20,98 +20,105 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.physics.actions;
+package org.catrobat.catroid.test.physics.actions
 
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.runner.RunWith
+import org.catrobat.catroid.test.physics.PhysicsTestRule
+import org.catrobat.catroid.physics.PhysicsWorld
+import org.junit.Before
+import org.catrobat.catroid.test.physics.actions.SetFrictionActionTest
+import org.catrobat.catroid.physics.PhysicsObject
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+import junit.framework.Assert
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.formulaeditor.Formula
+import org.junit.Rule
+import org.junit.Test
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.physics.PhysicsWorld;
-import org.catrobat.catroid.test.physics.PhysicsTestRule;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+@RunWith(AndroidJUnit4::class)
+class SetFrictionActionTest {
+    @get:Rule
+    var rule = PhysicsTestRule()
+    private var sprite: Sprite? = null
+    private var physicsWorld: PhysicsWorld? = null
+    @Before
+    fun setUp() {
+        sprite = rule.sprite
+        physicsWorld = rule.physicsWorld
+    }
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+    @Test
+    fun testNormalBehavior() {
+        initFrictionValue(FRICTION)
+        Assert.assertEquals(FRICTION / 100.0f, physicsWorld!!.getPhysicsObject(sprite).friction)
+    }
 
-import static junit.framework.Assert.assertEquals;
+    @Test
+    fun testNegativeValue() {
+        val friction = -1f
+        initFrictionValue(friction)
+        Assert.assertEquals(
+            PhysicsObject.MIN_FRICTION,
+            physicsWorld!!.getPhysicsObject(sprite).friction
+        )
+    }
 
-@RunWith(AndroidJUnit4.class)
-public class SetFrictionActionTest {
+    @Test
+    fun testHighValue() {
+        val friction = 101f
+        initFrictionValue(friction)
+        Assert.assertEquals(
+            PhysicsObject.MAX_FRICTION,
+            physicsWorld!!.getPhysicsObject(sprite).friction
+        )
+    }
 
-	@Rule
-	public PhysicsTestRule rule = new PhysicsTestRule();
+    private fun initFrictionValue(frictionFactor: Float) {
+        val physicsObject = physicsWorld!!.getPhysicsObject(sprite)
+        val action = sprite!!.actionFactory.createSetFrictionAction(
+            sprite,
+            SequenceAction(), Formula(frictionFactor)
+        )
+        Assert.assertEquals(PhysicsObject.DEFAULT_FRICTION, physicsObject.friction)
+        action.act(1.0f)
+        physicsWorld!!.step(1.0f)
+    }
 
-	private Sprite sprite;
-	private PhysicsWorld physicsWorld;
+    @Test
+    fun testBrickWithStringFormula() {
+        val physicsObject = physicsWorld!!.getPhysicsObject(sprite)
+        sprite!!.actionFactory.createSetFrictionAction(
+            sprite,
+            SequenceAction(), Formula(FRICTION.toString())
+        ).act(1.0f)
+        Assert.assertEquals(FRICTION / 100f, physicsObject.friction)
+        sprite!!.actionFactory.createSetFrictionAction(
+            sprite, SequenceAction(),
+            Formula("not a numerical string")
+        )
+            .act(1.0f)
+        Assert.assertEquals(FRICTION / 100f, physicsObject.friction)
+    }
 
-	@Before
-	public void setUp() {
-		sprite = rule.sprite;
-		physicsWorld = rule.physicsWorld;
-	}
+    @Test
+    fun testNullFormula() {
+        val physicsObject = physicsWorld!!.getPhysicsObject(sprite)
+        sprite!!.actionFactory.createSetFrictionAction(sprite, SequenceAction(), null).act(1.0f)
+        Assert.assertEquals(0f, physicsObject.friction)
+    }
 
-	private static final float FRICTION = 100f;
+    @Test
+    fun testNotANumberFormula() {
+        val physicsObject = physicsWorld!!.getPhysicsObject(sprite)
+        sprite!!.actionFactory.createSetFrictionAction(
+            sprite, SequenceAction(),
+            Formula(Double.NaN)
+        ).act(1.0f)
+        Assert.assertEquals(PhysicsObject.DEFAULT_FRICTION, physicsObject.friction)
+    }
 
-	@Test
-	public void testNormalBehavior() {
-		initFrictionValue(FRICTION);
-		assertEquals(FRICTION / 100.0f, physicsWorld.getPhysicsObject(sprite).getFriction());
-	}
-
-	@Test
-	public void testNegativeValue() {
-		float friction = -1f;
-		initFrictionValue(friction);
-		assertEquals(PhysicsObject.MIN_FRICTION, physicsWorld.getPhysicsObject(sprite).getFriction());
-	}
-
-	@Test
-	public void testHighValue() {
-		float friction = 101f;
-		initFrictionValue(friction);
-		assertEquals(PhysicsObject.MAX_FRICTION, physicsWorld.getPhysicsObject(sprite).getFriction());
-	}
-
-	private void initFrictionValue(float frictionFactor) {
-		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		Action action = sprite.getActionFactory().createSetFrictionAction(sprite,
-				new SequenceAction(), new Formula(frictionFactor));
-
-		assertEquals(PhysicsObject.DEFAULT_FRICTION, physicsObject.getFriction());
-
-		action.act(1.0f);
-		physicsWorld.step(1.0f);
-	}
-
-	@Test
-	public void testBrickWithStringFormula() {
-		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		sprite.getActionFactory().createSetFrictionAction(sprite,
-			new SequenceAction(), new Formula(String.valueOf(FRICTION))).act(1.0f);
-		assertEquals(FRICTION / 100.f, physicsObject.getFriction());
-
-		sprite.getActionFactory().createSetFrictionAction(sprite, new SequenceAction(),
-				new Formula("not a numerical string"))
-				.act(1.0f);
-		assertEquals(FRICTION / 100.f, physicsObject.getFriction());
-	}
-
-	@Test
-	public void testNullFormula() {
-		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		sprite.getActionFactory().createSetFrictionAction(sprite, new SequenceAction(), null).act(1.0f);
-		assertEquals(0f, physicsObject.getFriction());
-	}
-
-	@Test
-	public void testNotANumberFormula() {
-		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		sprite.getActionFactory().createSetFrictionAction(sprite, new SequenceAction(),
-				new Formula(Double.NaN)).act(1.0f);
-		assertEquals(PhysicsObject.DEFAULT_FRICTION, physicsObject.getFriction());
-	}
+    companion object {
+        private const val FRICTION = 100f
+    }
 }

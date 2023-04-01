@@ -20,119 +20,164 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.physics.actions;
+package org.catrobat.catroid.test.physics.actions
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.runner.RunWith
+import org.catrobat.catroid.physics.PhysicsLook
+import org.catrobat.catroid.physics.PhysicsObject
+import org.catrobat.catroid.test.physics.PhysicsTestRule
+import org.junit.Before
+import kotlin.Throws
+import com.badlogic.gdx.math.Vector2
+import org.catrobat.catroid.test.utils.TestUtils
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+import junit.framework.Assert
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.test.utils.Reflection
+import org.junit.Rule
+import org.junit.Test
+import java.lang.Exception
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.physics.PhysicsLook;
-import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.test.physics.PhysicsTestRule;
-import org.catrobat.catroid.test.utils.Reflection;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+@RunWith(AndroidJUnit4::class)
+class SetSizeToActionTest {
+    private var physicsLook: PhysicsLook? = null
+    private var physicsObject: PhysicsObject? = null
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+    @get:Rule
+    var rule = PhysicsTestRule()
+    private var sprite: Sprite? = null
+    @Before
+    @Throws(Exception::class)
+    fun setUp() {
+        sprite = rule.sprite
+        physicsLook = sprite!!.look as PhysicsLook
+        physicsObject = Reflection.getPrivateField(physicsLook, "physicsObject") as PhysicsObject
+    }
 
-import static junit.framework.Assert.assertEquals;
+    @Test
+    fun testSizeLarger() {
+        val oldAabbDimensions = physicsObject!!.boundaryBoxDimensions
+        val oldCircumference = physicsObject!!.circumference
+        val scaleFactor = 500.0f
+        performSetSizeToAction(scaleFactor)
+        val newAabbDimensions = physicsObject!!.boundaryBoxDimensions
+        val newCircumference = physicsObject!!.circumference
+        Assert.assertEquals(
+            oldAabbDimensions.x * (scaleFactor / 100.0f),
+            newAabbDimensions.x,
+            SIZE_COMPARISON_DELTA * scaleFactor / 100f
+        )
+        Assert.assertEquals(
+            oldAabbDimensions.y * (scaleFactor / 100.0f),
+            newAabbDimensions.y,
+            SIZE_COMPARISON_DELTA * scaleFactor / 100f
+        )
+        Assert.assertEquals(
+            oldCircumference * (scaleFactor / 100.0f),
+            newCircumference,
+            SIZE_COMPARISON_DELTA * scaleFactor / 100f
+        )
+    }
 
-@RunWith(AndroidJUnit4.class)
-public class SetSizeToActionTest {
+    @Test
+    fun testSizeSmaller() {
+        val smallerSizeComparisonDelta = 1.5f
+        val oldAabbDimensions = physicsObject!!.boundaryBoxDimensions
+        val oldCircumference = physicsObject!!.circumference
+        val scaleFactor = 10.0f
+        performSetSizeToAction(scaleFactor)
+        val newAabbDimensions = physicsObject!!.boundaryBoxDimensions
+        val newCircumference = physicsObject!!.circumference
+        Assert.assertEquals(
+            oldAabbDimensions.x * (scaleFactor / 100.0f),
+            newAabbDimensions.x,
+            smallerSizeComparisonDelta
+        )
+        Assert.assertEquals(
+            oldAabbDimensions.y * (scaleFactor / 100.0f),
+            newAabbDimensions.y,
+            smallerSizeComparisonDelta
+        )
+        Assert.assertEquals(
+            oldCircumference * (scaleFactor / 100.0f),
+            newCircumference,
+            smallerSizeComparisonDelta
+        )
+    }
 
-	private PhysicsLook physicsLook;
-	private PhysicsObject physicsObject;
-	public static final float SIZE_COMPARISON_DELTA = 1.0f;
+    @Test
+    fun testSizeSame() {
+        val oldAabbDimensions = physicsObject!!.boundaryBoxDimensions
+        val oldCircumference = physicsObject!!.circumference
+        val scaleFactor = 100.0f
+        performSetSizeToAction(scaleFactor)
+        val newAabbDimensions = physicsObject!!.boundaryBoxDimensions
+        val newCircumference = physicsObject!!.circumference
+        Assert.assertEquals(
+            oldAabbDimensions.x.toDouble(),
+            newAabbDimensions.x.toDouble(),
+            TestUtils.DELTA
+        )
+        Assert.assertEquals(
+            oldAabbDimensions.y.toDouble(),
+            newAabbDimensions.y.toDouble(),
+            TestUtils.DELTA
+        )
+        Assert.assertEquals(
+            oldCircumference.toDouble(),
+            newCircumference.toDouble(),
+            TestUtils.DELTA
+        )
+    }
 
-	@Rule
-	public PhysicsTestRule rule = new PhysicsTestRule();
+    @Test
+    fun testSizeSmallerAndOriginal() {
+        val oldAabbDimensions = physicsObject!!.boundaryBoxDimensions
+        val oldCircumference = physicsObject!!.circumference
+        var scaleFactor = 25.0f
+        performSetSizeToAction(scaleFactor)
+        scaleFactor = 100.0f
+        performSetSizeToAction(scaleFactor)
+        val newAabbDimensions = physicsObject!!.boundaryBoxDimensions
+        val newCircumference = physicsObject!!.circumference
+        Assert.assertEquals(
+            oldAabbDimensions.x.toDouble(),
+            newAabbDimensions.x.toDouble(),
+            TestUtils.DELTA
+        )
+        Assert.assertEquals(
+            oldAabbDimensions.y.toDouble(),
+            newAabbDimensions.y.toDouble(),
+            TestUtils.DELTA
+        )
+        Assert.assertEquals(
+            oldCircumference.toDouble(),
+            newCircumference.toDouble(),
+            TestUtils.DELTA
+        )
+    }
 
-	private Sprite sprite;
+    @Test
+    fun testSizeZero() {
+        val scaleFactor = 0.0f
+        performSetSizeToAction(scaleFactor)
+        val newAabbDimensions = physicsObject!!.boundaryBoxDimensions
+        val newCircumference = physicsObject!!.circumference
+        Assert.assertEquals(1.0, newAabbDimensions.x.toDouble(), TestUtils.DELTA)
+        Assert.assertEquals(1.0, newAabbDimensions.y.toDouble(), TestUtils.DELTA)
+        Assert.assertEquals(0.0, newCircumference.toDouble(), TestUtils.DELTA)
+    }
 
-	@Before
-	public void setUp() throws Exception {
-		sprite = rule.sprite;
-		this.physicsLook = (PhysicsLook) sprite.look;
-		this.physicsObject = (PhysicsObject) Reflection.getPrivateField(physicsLook, "physicsObject");
-	}
+    private fun performSetSizeToAction(scaleFactor: Float) {
+        sprite!!.actionFactory.createSetSizeToAction(
+            sprite, SequenceAction(),
+            Formula(scaleFactor)
+        ).act(1.0f)
+    }
 
-	@Test
-	public void testSizeLarger() {
-		Vector2 oldAabbDimensions = physicsObject.getBoundaryBoxDimensions();
-		float oldCircumference = physicsObject.getCircumference();
-		float scaleFactor = 500.0f;
-		performSetSizeToAction(scaleFactor);
-
-		Vector2 newAabbDimensions = physicsObject.getBoundaryBoxDimensions();
-		float newCircumference = physicsObject.getCircumference();
-		assertEquals(oldAabbDimensions.x * (scaleFactor / 100.0f), newAabbDimensions.x, SIZE_COMPARISON_DELTA * scaleFactor / 100f);
-		assertEquals(oldAabbDimensions.y * (scaleFactor / 100.0f), newAabbDimensions.y, SIZE_COMPARISON_DELTA * scaleFactor / 100f);
-		assertEquals(oldCircumference * (scaleFactor / 100.0f), newCircumference, SIZE_COMPARISON_DELTA * scaleFactor / 100f);
-	}
-
-	@Test
-	public void testSizeSmaller() {
-		float smallerSizeComparisonDelta = 1.5f;
-		Vector2 oldAabbDimensions = physicsObject.getBoundaryBoxDimensions();
-		float oldCircumference = physicsObject.getCircumference();
-		float scaleFactor = 10.0f;
-		performSetSizeToAction(scaleFactor);
-
-		Vector2 newAabbDimensions = physicsObject.getBoundaryBoxDimensions();
-		float newCircumference = physicsObject.getCircumference();
-		assertEquals(oldAabbDimensions.x * (scaleFactor / 100.0f), newAabbDimensions.x, smallerSizeComparisonDelta);
-		assertEquals(oldAabbDimensions.y * (scaleFactor / 100.0f), newAabbDimensions.y, smallerSizeComparisonDelta);
-		assertEquals(oldCircumference * (scaleFactor / 100.0f), newCircumference, smallerSizeComparisonDelta);
-	}
-
-	@Test
-	public void testSizeSame() {
-		Vector2 oldAabbDimensions = physicsObject.getBoundaryBoxDimensions();
-		float oldCircumference = physicsObject.getCircumference();
-		float scaleFactor = 100.0f;
-		performSetSizeToAction(scaleFactor);
-
-		Vector2 newAabbDimensions = physicsObject.getBoundaryBoxDimensions();
-		float newCircumference = physicsObject.getCircumference();
-		assertEquals(oldAabbDimensions.x, newAabbDimensions.x, TestUtils.DELTA);
-		assertEquals(oldAabbDimensions.y, newAabbDimensions.y, TestUtils.DELTA);
-		assertEquals(oldCircumference, newCircumference, TestUtils.DELTA);
-	}
-
-	@Test
-	public void testSizeSmallerAndOriginal() {
-		Vector2 oldAabbDimensions = physicsObject.getBoundaryBoxDimensions();
-		float oldCircumference = physicsObject.getCircumference();
-		float scaleFactor = 25.0f;
-		performSetSizeToAction(scaleFactor);
-		scaleFactor = 100.0f;
-		performSetSizeToAction(scaleFactor);
-
-		Vector2 newAabbDimensions = physicsObject.getBoundaryBoxDimensions();
-		float newCircumference = physicsObject.getCircumference();
-		assertEquals(oldAabbDimensions.x, newAabbDimensions.x, TestUtils.DELTA);
-		assertEquals(oldAabbDimensions.y, newAabbDimensions.y, TestUtils.DELTA);
-		assertEquals(oldCircumference, newCircumference, TestUtils.DELTA);
-	}
-
-	@Test
-	public void testSizeZero() {
-		float scaleFactor = 0.0f;
-		performSetSizeToAction(scaleFactor);
-
-		Vector2 newAabbDimensions = physicsObject.getBoundaryBoxDimensions();
-		float newCircumference = physicsObject.getCircumference();
-		assertEquals(1, newAabbDimensions.x, TestUtils.DELTA);
-		assertEquals(1, newAabbDimensions.y, TestUtils.DELTA);
-		assertEquals(0.0f, newCircumference, TestUtils.DELTA);
-	}
-
-	private void performSetSizeToAction(float scaleFactor) {
-		sprite.getActionFactory().createSetSizeToAction(sprite, new SequenceAction(),
-				new Formula(scaleFactor)).act(1.0f);
-	}
+    companion object {
+        const val SIZE_COMPARISON_DELTA = 1.0f
+    }
 }

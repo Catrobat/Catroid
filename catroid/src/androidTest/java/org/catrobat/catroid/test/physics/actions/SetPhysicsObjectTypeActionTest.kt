@@ -20,65 +20,56 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.physics.actions;
+package org.catrobat.catroid.test.physics.actions
 
-import com.badlogic.gdx.scenes.scene2d.Action;
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import junit.framework.Assert
+import org.catrobat.catroid.content.Sprite
+import org.junit.runner.RunWith
+import org.catrobat.catroid.test.physics.PhysicsTestRule
+import org.catrobat.catroid.physics.PhysicsWorld
+import org.junit.Before
+import org.catrobat.catroid.physics.PhysicsObject
+import org.junit.Rule
+import org.junit.Test
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.physics.PhysicsWorld;
-import org.catrobat.catroid.test.physics.PhysicsTestRule;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+@RunWith(AndroidJUnit4::class)
+class SetPhysicsObjectTypeActionTest {
+    @get:Rule
+    var rule = PhysicsTestRule()
+    private var sprite: Sprite? = null
+    private var physicsWorld: PhysicsWorld? = null
+    @Before
+    fun setUp() {
+        sprite = rule.sprite
+        physicsWorld = rule.physicsWorld
+    }
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+    @Test
+    fun testPhysicsTypeNone() {
+        val type = PhysicsObject.Type.NONE
+        initPhysicsTypeValue(type)
+        Assert.assertEquals(type, physicsWorld!!.getPhysicsObject(sprite).type)
+    }
 
-import static junit.framework.Assert.assertEquals;
+    @Test
+    fun testPhysicsTypeDynamic() {
+        val type = PhysicsObject.Type.DYNAMIC
+        initPhysicsTypeValue(type)
+        Assert.assertEquals(type, physicsWorld!!.getPhysicsObject(sprite).type)
+    }
 
-@RunWith(AndroidJUnit4.class)
-public class SetPhysicsObjectTypeActionTest {
+    @Test
+    fun testPhysicsTypeFixed() {
+        val type = PhysicsObject.Type.FIXED
+        initPhysicsTypeValue(type)
+        Assert.assertEquals(type, physicsWorld!!.getPhysicsObject(sprite).type)
+    }
 
-	@Rule
-	public PhysicsTestRule rule = new PhysicsTestRule();
-
-	private Sprite sprite;
-	private PhysicsWorld physicsWorld;
-
-	@Before
-	public void setUp() {
-		sprite = rule.sprite;
-		physicsWorld = rule.physicsWorld;
-	}
-
-	@Test
-	public void testPhysicsTypeNone() {
-		PhysicsObject.Type type = PhysicsObject.Type.NONE;
-		initPhysicsTypeValue(type);
-		assertEquals(type, physicsWorld.getPhysicsObject(sprite).getType());
-	}
-
-	@Test
-	public void testPhysicsTypeDynamic() {
-		PhysicsObject.Type type = PhysicsObject.Type.DYNAMIC;
-		initPhysicsTypeValue(type);
-		assertEquals(type, physicsWorld.getPhysicsObject(sprite).getType());
-	}
-
-	@Test
-	public void testPhysicsTypeFixed() {
-		PhysicsObject.Type type = PhysicsObject.Type.FIXED;
-		initPhysicsTypeValue(type);
-		assertEquals(type, physicsWorld.getPhysicsObject(sprite).getType());
-	}
-
-	private void initPhysicsTypeValue(PhysicsObject.Type type) {
-		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		Action action = sprite.getActionFactory().createSetPhysicsObjectTypeAction(sprite, type);
-
-		assertEquals(PhysicsObject.Type.NONE, physicsObject.getType());
-
-		action.act(1.0f);
-	}
+    private fun initPhysicsTypeValue(type: PhysicsObject.Type) {
+        val physicsObject = physicsWorld!!.getPhysicsObject(sprite)
+        val action = sprite!!.actionFactory.createSetPhysicsObjectTypeAction(sprite, type)
+        Assert.assertEquals(PhysicsObject.Type.NONE, physicsObject.type)
+        action.act(1.0f)
+    }
 }
