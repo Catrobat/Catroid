@@ -48,7 +48,7 @@ ext {
 
     projectVersion = "0.9"
     gdxVersion = "1.9.10"
-    mockitoVersion = "2.8.47"
+    mockitoVersion = "3.3.3"
     espressoVersion = "3.1.0"
     playServicesVersion = "17.0.0"
     cameraXVersion = "1.0.0-beta07"
