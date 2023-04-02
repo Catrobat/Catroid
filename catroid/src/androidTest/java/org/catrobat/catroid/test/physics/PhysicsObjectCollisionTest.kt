@@ -20,106 +20,93 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.physics
 
-package org.catrobat.catroid.test.physics;
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.physics.box2d.Body
+import com.badlogic.gdx.physics.box2d.Contact
+import com.badlogic.gdx.physics.box2d.Fixture
+import junit.framework.Assert
+import org.catrobat.catroid.physics.PhysicsObject
+import org.catrobat.catroid.test.utils.Reflection
+import org.junit.After
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.Fixture;
+@RunWith(AndroidJUnit4::class)
+class PhysicsObjectCollisionTest {
+    private var contactFixturePairs: MutableList<HashSet<Fixture>?>? = ArrayList()
+    private var expectedcontactFixtures: HashSet<Fixture>? = HashSet()
 
-import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.test.utils.Reflection;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+    @get:Rule
+    var rule: PhysicsCollisionTestRule = object : PhysicsCollisionTestRule() {
+        override fun beginContactCallback(contact: Contact?) {
+            super.beginContactCallback(contact)
+            val contactFixtureSet = HashSet<Fixture>()
+            contactFixtureSet.add(contact!!.fixtureA)
+            contactFixtureSet.add(contact.fixtureB)
+            contactFixturePairs!!.add(contactFixtureSet)
+        }
+    }
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+    @Before
+    @Throws(Exception::class)
+    fun setUp() {
+        rule.spritePosition = Vector2(-125f, 0f)
+        rule.sprite2Position = Vector2(125f, 0f)
+        rule.physicsObject1Type = PhysicsObject.Type.DYNAMIC
+        rule.physicsObject2Type = PhysicsObject.Type.DYNAMIC
+        rule.physicsObject1!!.gravityScale = 0f
+        rule.physicsObject2!!.gravityScale = 0f
+        rule.physicsObject1!!.setVelocity(64f, 0f)
+        rule.physicsObject2!!.setVelocity(-64f, 0f)
+        val body1 = Reflection.getPrivateField(rule.physicsObject1, "body") as Body
+        val expectedContactFixture1 = body1.fixtureList[0]
+        expectedcontactFixtures!!.add(expectedContactFixture1)
+        val body2 = Reflection.getPrivateField(rule.physicsObject2, "body") as Body
+        val expectedContactFixture2 = body2.fixtureList[0]
+        expectedcontactFixtures!!.add(expectedContactFixture2)
+        rule.initializeSpritesForCollision()
+    }
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+    @After
+    @Throws(Exception::class)
+    fun tearDown() {
+        contactFixturePairs = null
+        expectedcontactFixtures = null
+    }
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+    @Test
+    fun testCollisionDynamicNone() {
+        rule.physicsObject2!!.type = PhysicsObject.Type.NONE
+        Assert.assertTrue(rule.simulateFullCollision())
+        Assert.assertFalse(contactFixturePairs!!.contains(expectedcontactFixtures))
+    }
 
-@RunWith(AndroidJUnit4.class)
-public class PhysicsObjectCollisionTest {
+    @Test
+    fun testCollisionFixedFixed() {
+        rule.physicsObject1!!.type = PhysicsObject.Type.FIXED
+        rule.physicsObject2!!.type = PhysicsObject.Type.FIXED
+        Assert.assertTrue(rule.simulateFullCollision())
+        Assert.assertFalse(contactFixturePairs!!.contains(expectedcontactFixtures))
+    }
 
-	private List<HashSet<Fixture>> contactFixturePairs = new ArrayList<HashSet<Fixture>>();
-	private HashSet<Fixture> expectedcontactFixtures = new HashSet<Fixture>();
+    @Test
+    fun testCollisionFixedNone() {
+        rule.physicsObject1!!.type = PhysicsObject.Type.FIXED
+        rule.physicsObject2!!.type = PhysicsObject.Type.NONE
+        Assert.assertTrue(rule.simulateFullCollision())
+        Assert.assertFalse(contactFixturePairs!!.contains(expectedcontactFixtures))
+    }
 
-	@Rule
-	public PhysicsCollisionTestRule rule = new PhysicsCollisionTestRule() {
-		@Override
-		public void beginContactCallback(Contact contact) {
-			super.beginContactCallback(contact);
-			HashSet<Fixture> contactFixtureSet = new HashSet<Fixture>();
-			contactFixtureSet.add(contact.getFixtureA());
-			contactFixtureSet.add(contact.getFixtureB());
-			contactFixturePairs.add(contactFixtureSet);
-		}
-	};
-
-	@Before
-	public void setUp() throws Exception {
-		rule.spritePosition = new Vector2(-125f, 0f);
-		rule.sprite2Position = new Vector2(125f, 0f);
-		rule.physicsObject1Type = PhysicsObject.Type.DYNAMIC;
-		rule.physicsObject2Type = PhysicsObject.Type.DYNAMIC;
-
-		rule.physicsObject1.setGravityScale(0f);
-		rule.physicsObject2.setGravityScale(0f);
-		rule.physicsObject1.setVelocity(64f, 0f);
-		rule.physicsObject2.setVelocity(-64f, 0f);
-
-		Body body1 = (Body) Reflection.getPrivateField(rule.physicsObject1, "body");
-
-		Fixture expectedContactFixture1 = body1.getFixtureList().get(0);
-		expectedcontactFixtures.add(expectedContactFixture1);
-		Body body2 = (Body) Reflection.getPrivateField(rule.physicsObject2, "body");
-		Fixture expectedContactFixture2 = body2.getFixtureList().get(0);
-		expectedcontactFixtures.add(expectedContactFixture2);
-
-		rule.initializeSpritesForCollision();
-	}
-
-	@After
-	public void tearDown() throws Exception {
-		contactFixturePairs = null;
-		expectedcontactFixtures = null;
-	}
-
-	@Test
-	public void testCollisionDynamicNone() {
-		rule.physicsObject2.setType(PhysicsObject.Type.NONE);
-		assertTrue(rule.simulateFullCollision());
-		assertFalse(contactFixturePairs.contains(expectedcontactFixtures));
-	}
-
-	@Test
-	public void testCollisionFixedFixed() {
-		rule.physicsObject1.setType(PhysicsObject.Type.FIXED);
-		rule.physicsObject2.setType(PhysicsObject.Type.FIXED);
-		assertTrue(rule.simulateFullCollision());
-		assertFalse(contactFixturePairs.contains(expectedcontactFixtures));
-	}
-
-	@Test
-	public void testCollisionFixedNone() {
-		rule.physicsObject1.setType(PhysicsObject.Type.FIXED);
-		rule.physicsObject2.setType(PhysicsObject.Type.NONE);
-		assertTrue(rule.simulateFullCollision());
-		assertFalse(contactFixturePairs.contains(expectedcontactFixtures));
-	}
-
-	@Test
-	public void testCollisionNoneNone() {
-		rule.physicsObject1.setType(PhysicsObject.Type.NONE);
-		rule.physicsObject2.setType(PhysicsObject.Type.NONE);
-		assertTrue(rule.simulateFullCollision());
-		assertFalse(contactFixturePairs.contains(expectedcontactFixtures));
-	}
+    @Test
+    fun testCollisionNoneNone() {
+        rule.physicsObject1!!.type = PhysicsObject.Type.NONE
+        rule.physicsObject2!!.type = PhysicsObject.Type.NONE
+        Assert.assertTrue(rule.simulateFullCollision())
+        Assert.assertFalse(contactFixturePairs!!.contains(expectedcontactFixtures))
+    }
 }

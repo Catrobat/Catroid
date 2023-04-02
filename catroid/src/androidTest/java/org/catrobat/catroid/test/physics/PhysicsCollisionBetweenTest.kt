@@ -20,126 +20,116 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.physics
 
-package org.catrobat.catroid.test.physics;
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.physics.box2d.Contact
+import junit.framework.Assert
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.WhenBounceOffScript
+import org.catrobat.catroid.content.bricks.PlaceAtBrick
+import org.catrobat.catroid.content.eventids.BounceOffEventId
+import org.catrobat.catroid.content.eventids.EventId
+import org.catrobat.catroid.physics.PhysicalCollision
+import org.catrobat.catroid.physics.PhysicsCollisionListener
+import org.catrobat.catroid.physics.PhysicsObject
+import org.catrobat.catroid.test.utils.Reflection
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Contact;
+@RunWith(AndroidJUnit4::class)
+class PhysicsCollisionBetweenTest {
+    @get:Rule
+    var rule = PhysicsCollisionTestRule()
+    private var sprite: Sprite? = null
+    private var sprite2: Sprite? = null
+    private var project: Project? = null
+    @Before
+    fun setUp() {
+        sprite = rule.sprite
+        sprite2 = rule.sprite2
+        project = rule.project
+        rule.spritePosition = Vector2(0.0f, 100.0f)
+        rule.sprite2Position = Vector2(0.0f, -200.0f)
+        rule.physicsObject1Type = PhysicsObject.Type.DYNAMIC
+        rule.physicsObject2Type = PhysicsObject.Type.FIXED
+        rule.initializeSpritesForCollision()
+    }
 
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.WhenBounceOffScript;
-import org.catrobat.catroid.content.bricks.PlaceAtBrick;
-import org.catrobat.catroid.content.eventids.BounceOffEventId;
-import org.catrobat.catroid.content.eventids.EventId;
-import org.catrobat.catroid.physics.PhysicalCollision;
-import org.catrobat.catroid.physics.PhysicsCollisionListener;
-import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.test.utils.Reflection;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+    @Throws(Exception::class)
+    fun beginContactCallback(contact: Contact?) {
+        rule.beginContactCallback(contact)
+        val physicsCollisionBroadcasts = Reflection.getPrivateField(
+            PhysicsCollisionListener::class.java,
+            rule.physicsCollisionTestListener, "physicsCollisionBroadcasts"
+        ) as Map<Int, PhysicalCollision>
+        Assert.assertEquals(1, physicsCollisionBroadcasts.size)
+        val parameters = arrayOf<Any?>(sprite, sprite2)
+        val paramList = Reflection.ParameterList(*parameters)
+        val key = Reflection.invokeMethod(
+            PhysicsCollisionListener::class.java,
+            rule.physicsCollisionTestListener,
+            "generateKey", paramList
+        ) as BounceOffEventId
+        val collisionBroadcast = physicsCollisionBroadcasts.get(key)
+        Assert.assertEquals(collisionBroadcast!!.contactCounter, rule.contactDifference)
+    }
 
-import java.util.Map;
+    @Throws(Exception::class)
+    fun endContactCallback(contact: Contact?) {
+        rule.endContactCallback(contact)
+        val physicsCollisionBroadcasts = Reflection.getPrivateField(
+            PhysicsCollisionListener::class.java,
+            rule.physicsCollisionTestListener, "physicsCollisionBroadcasts"
+        ) as Map<Int, PhysicalCollision>
+        if (rule.contactDifference == 0) {
+            Assert.assertEquals(0, physicsCollisionBroadcasts.size)
+        } else {
+            Assert.assertEquals(2, physicsCollisionBroadcasts.size)
+        }
+    }
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+    @Test
+    fun testIfBroadcastsAreCorrectPreparedAndFired() {
+        Assert.assertTrue(rule.isContactRateOk)
+        Assert.assertTrue(rule.simulateFullCollision())
+        Assert.assertTrue(rule.isContactRateOk)
+    }
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
+    @Test
+    fun testBounceOffEvent() {
+        val testXValue = 444
+        val testYValue = 555
+        val firstSpriteWhenBounceOffScript = WhenBounceOffScript(sprite2!!.name)
+        firstSpriteWhenBounceOffScript.addBrick(PlaceAtBrick(-testXValue, -testYValue))
+        sprite!!.addScript(firstSpriteWhenBounceOffScript)
+        sprite!!.initializeEventThreads(EventId.START)
+        val secondSpriteWhenBounceOffScript = WhenBounceOffScript(sprite!!.name)
+        secondSpriteWhenBounceOffScript.addBrick(PlaceAtBrick(testXValue, testYValue))
+        sprite2!!.addScript(secondSpriteWhenBounceOffScript)
+        sprite2!!.initializeEventThreads(EventId.START)
+        rule.simulateFullCollision()
+        while (!allActionsOfAllSpritesAreFinished()) {
+            for (spriteOfList in project!!.defaultScene.spriteList) {
+                spriteOfList.look.act(1.0f)
+            }
+        }
+        Assert.assertEquals(testXValue.toFloat(), sprite2!!.look.xInUserInterfaceDimensionUnit)
+        Assert.assertEquals(testYValue.toFloat(), sprite2!!.look.yInUserInterfaceDimensionUnit)
+        Assert.assertEquals(-testXValue.toFloat(), sprite!!.look.xInUserInterfaceDimensionUnit)
+        Assert.assertEquals(-testYValue.toFloat(), sprite!!.look.yInUserInterfaceDimensionUnit)
+    }
 
-@RunWith(AndroidJUnit4.class)
-public class PhysicsCollisionBetweenTest {
-
-	@Rule
-	public PhysicsCollisionTestRule rule = new PhysicsCollisionTestRule();
-
-	private Sprite sprite;
-	private Sprite sprite2;
-	private Project project;
-
-	@Before
-	public void setUp() {
-		sprite = rule.sprite;
-		sprite2 = rule.sprite2;
-		project = rule.project;
-
-		rule.spritePosition = new Vector2(0.0f, 100.0f);
-		rule.sprite2Position = new Vector2(0.0f, -200.0f);
-		rule.physicsObject1Type = PhysicsObject.Type.DYNAMIC;
-		rule.physicsObject2Type = PhysicsObject.Type.FIXED;
-		rule.initializeSpritesForCollision();
-	}
-
-	public void beginContactCallback(Contact contact) throws Exception {
-		rule.beginContactCallback(contact);
-		Map<Integer, PhysicalCollision> physicsCollisionBroadcasts =
-				(Map<Integer, PhysicalCollision>) Reflection.getPrivateField(PhysicsCollisionListener.class,
-						rule.physicsCollisionTestListener, "physicsCollisionBroadcasts");
-		assertEquals(1, physicsCollisionBroadcasts.size());
-		Object[] parameters = {sprite, sprite2};
-		Reflection.ParameterList paramList = new Reflection.ParameterList(parameters);
-		BounceOffEventId key = (BounceOffEventId) Reflection.invokeMethod(PhysicsCollisionListener.class,
-				rule.physicsCollisionTestListener,
-				"generateKey", paramList);
-		PhysicalCollision collisionBroadcast = physicsCollisionBroadcasts.get(key);
-		assertEquals(collisionBroadcast.getContactCounter(), rule.getContactDifference());
-	}
-
-	public void endContactCallback(Contact contact) throws Exception {
-		rule.endContactCallback(contact);
-		Map<Integer, PhysicalCollision> physicsCollisionBroadcasts =
-				(Map<Integer, PhysicalCollision>) Reflection.getPrivateField(PhysicsCollisionListener.class,
-						rule.physicsCollisionTestListener, "physicsCollisionBroadcasts");
-		if (rule.getContactDifference() == 0) {
-			assertEquals(0, physicsCollisionBroadcasts.size());
-		} else {
-			assertEquals(2, physicsCollisionBroadcasts.size());
-		}
-	}
-
-	@Test
-	public void testIfBroadcastsAreCorrectPreparedAndFired() {
-		assertTrue(rule.isContactRateOk());
-		assertTrue(rule.simulateFullCollision());
-		assertTrue(rule.isContactRateOk());
-	}
-
-	@Test
-	public void testBounceOffEvent() {
-		final int testXValue = 444;
-		final int testYValue = 555;
-
-		WhenBounceOffScript firstSpriteWhenBounceOffScript = new WhenBounceOffScript(sprite2.getName());
-		firstSpriteWhenBounceOffScript.addBrick(new PlaceAtBrick(-testXValue, -testYValue));
-		sprite.addScript(firstSpriteWhenBounceOffScript);
-		sprite.initializeEventThreads(EventId.START);
-
-		WhenBounceOffScript secondSpriteWhenBounceOffScript = new WhenBounceOffScript(sprite.getName());
-		secondSpriteWhenBounceOffScript.addBrick(new PlaceAtBrick(testXValue, testYValue));
-		sprite2.addScript(secondSpriteWhenBounceOffScript);
-		sprite2.initializeEventThreads(EventId.START);
-
-		rule.simulateFullCollision();
-
-		while (!allActionsOfAllSpritesAreFinished()) {
-			for (Sprite spriteOfList : project.getDefaultScene().getSpriteList()) {
-				spriteOfList.look.act(1.0f);
-			}
-		}
-
-		assertEquals((float) testXValue, sprite2.look.getXInUserInterfaceDimensionUnit());
-		assertEquals((float) testYValue, sprite2.look.getYInUserInterfaceDimensionUnit());
-		assertEquals((float) -testXValue, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals((float) -testYValue, sprite.look.getYInUserInterfaceDimensionUnit());
-	}
-
-	public boolean allActionsOfAllSpritesAreFinished() {
-		for (Sprite spriteOfList : project.getDefaultScene().getSpriteList()) {
-			if (!spriteOfList.look.haveAllThreadsFinished()) {
-				return false;
-			}
-		}
-		return true;
-	}
+    fun allActionsOfAllSpritesAreFinished(): Boolean {
+        for (spriteOfList in project!!.defaultScene.spriteList) {
+            if (!spriteOfList.look.haveAllThreadsFinished()) {
+                return false
+            }
+        }
+        return true
+    }
 }

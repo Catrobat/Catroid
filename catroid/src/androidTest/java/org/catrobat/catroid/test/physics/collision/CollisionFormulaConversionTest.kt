@@ -20,156 +20,153 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.physics.collision
 
-package org.catrobat.catroid.test.physics.collision;
+import android.content.Context
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import org.catrobat.catroid.CatroidApplication
+import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.R
+import org.catrobat.catroid.common.Constants
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Script
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.StartScript
+import org.catrobat.catroid.content.bricks.FormulaBrick
+import org.catrobat.catroid.content.bricks.IfLogicBeginBrick
+import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.formulaeditor.FormulaElement
+import org.catrobat.catroid.test.utils.TestUtils
+import org.catrobat.catroid.utils.ScreenValueHandler
+import org.hamcrest.Matchers
+import org.junit.After
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import java.io.IOException
+import java.util.Locale
 
-import android.content.Context;
-import android.content.res.Configuration;
-import android.content.res.Resources;
+@RunWith(AndroidJUnit4::class)
+class CollisionFormulaConversionTest {
+    private var projectManager: ProjectManager? = null
+    @Before
+    @Throws(Exception::class)
+    fun setUp() {
+        ScreenValueHandler.updateScreenWidthAndHeight(InstrumentationRegistry.getInstrumentation().context)
+        projectManager = ProjectManager.getInstance()
+    }
 
-import org.catrobat.catroid.CatroidApplication;
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.FormulaBrick;
-import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.FormulaElement;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.ScreenValueHandler;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+    @After
+    @Throws(Exception::class)
+    fun tearDown() {
+        projectManager!!.currentProject = null
+        TestUtils.deleteProjects(COLLISION_TEST_PROJECT)
+        TestUtils.removeFromPreferences(
+            InstrumentationRegistry.getInstrumentation().context,
+            Constants.PREF_PROJECTNAME_KEY
+        )
+    }
 
-import java.io.IOException;
-import java.util.Locale;
+    @Test
+    @Throws(IOException::class)
+    fun testFormulaUpdated() {
+        val firstSpriteName = "a"
+        val secondSpriteName = "b"
+        val thirdSpriteName = "ab"
+        val collisionTag =
+            CatroidApplication.getAppContext().getString(R.string.formula_editor_function_collision)
+        val project = createProjectWithOldCollisionFormulas(
+            COLLISION_TEST_PROJECT,
+            ApplicationProvider.getApplicationContext(),
+            firstSpriteName, secondSpriteName, thirdSpriteName, collisionTag
+        )
+        ProjectManager.updateCollisionFormulasTo993(project)
+        val sprite1 = project.defaultScene.getSprite(firstSpriteName)
+        val brick = sprite1.getScript(0).getBrick(0)
+        Assert.assertThat(
+            brick, Matchers.`is`(
+                Matchers.instanceOf(
+                    FormulaBrick::class.java
+                )
+            )
+        )
+        val formulaBrick = brick as FormulaBrick
+        val newFormula =
+            formulaBrick.formulas[0].getTrimmedFormulaString(ApplicationProvider.getApplicationContext())
+        val expected = "$collisionTag($thirdSpriteName) "
+        junit.framework.Assert.assertEquals(expected, newFormula)
+        TestUtils.deleteProjects()
+    }
 
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
+    @Test
+    @Throws(IOException::class)
+    fun testFormulaUpdatedWithLanguageConversion() {
+        val firstSpriteName = "sprite1"
+        val secondSpriteName = "sprite2"
+        val thirdSpriteName = "sprite3"
+        val res = CatroidApplication.getAppContext().resources
+        val conf = res.configuration
+        val savedLocale = conf.locale
+        conf.locale = Locale.US
+        res.updateConfiguration(conf, null)
+        var collisionTag = res.getString(R.string.formula_editor_function_collision)
+        conf.locale = savedLocale
+        res.updateConfiguration(conf, null)
+        collisionTag =
+            CatroidApplication.getAppContext().getString(R.string.formula_editor_function_collision)
+        val project = createProjectWithOldCollisionFormulas(
+            COLLISION_TEST_PROJECT,
+            ApplicationProvider.getApplicationContext(),
+            firstSpriteName, secondSpriteName, thirdSpriteName, collisionTag
+        )
+        ProjectManager.updateCollisionFormulasTo993(project)
+        val sprite1 = project.defaultScene.getSprite(firstSpriteName)
+        val brick = sprite1.getScript(0).getBrick(0)
+        Assert.assertThat(
+            brick, Matchers.`is`(
+                Matchers.instanceOf(
+                    FormulaBrick::class.java
+                )
+            )
+        )
+        val formulaBrick = brick as FormulaBrick
+        val newFormula =
+            formulaBrick.formulas[0].getTrimmedFormulaString(ApplicationProvider.getApplicationContext())
+        val expected = "$collisionTag($thirdSpriteName) "
+        junit.framework.Assert.assertEquals(expected, newFormula)
+        TestUtils.deleteProjects()
+    }
 
-import static junit.framework.Assert.assertEquals;
+    private fun createProjectWithOldCollisionFormulas(
+        name: String, context: Context, firstSprite: String,
+        secondSprite: String, thirdSprite: String, collisionTag: String
+    ): Project {
+        val project = Project(context, name)
+        project.catrobatLanguageVersion = 0.992
+        val sprite1 = Sprite(firstSprite)
+        val sprite2 = Sprite(secondSprite)
+        val sprite3 = Sprite(thirdSprite)
+        val firstScript: Script = StartScript()
+        val formulaElement = FormulaElement(
+            FormulaElement.ElementType.COLLISION_FORMULA,
+            "$firstSprite $collisionTag $thirdSprite", null
+        )
+        val formula1 = Formula(formulaElement)
+        val ifBrick = IfLogicBeginBrick(formula1)
+        firstScript.addBrick(ifBrick)
+        sprite1.addScript(firstScript)
+        project.defaultScene.addSprite(sprite1)
+        project.defaultScene.addSprite(sprite2)
+        project.defaultScene.addSprite(sprite3)
+        val projectManager = ProjectManager.getInstance()
+        projectManager.currentProject = project
+        return project
+    }
 
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
-
-@RunWith(AndroidJUnit4.class)
-public class CollisionFormulaConversionTest {
-
-	private static final String COLLISION_TEST_PROJECT = "COLLISION_TEST_PROJECT";
-	private ProjectManager projectManager;
-
-	@Before
-	public void setUp() throws Exception {
-		ScreenValueHandler.updateScreenWidthAndHeight(InstrumentationRegistry.getInstrumentation().getContext());
-		projectManager = ProjectManager.getInstance();
-	}
-
-	@After
-	public void tearDown() throws Exception {
-		projectManager.setCurrentProject(null);
-		TestUtils.deleteProjects(COLLISION_TEST_PROJECT);
-		TestUtils.removeFromPreferences(InstrumentationRegistry.getInstrumentation().getContext(), Constants.PREF_PROJECTNAME_KEY);
-	}
-
-	@Test
-	public void testFormulaUpdated() throws IOException {
-		String firstSpriteName = "a";
-		String secondSpriteName = "b";
-		String thirdSpriteName = "ab";
-		String collisionTag = CatroidApplication.getAppContext().getString(R.string
-				.formula_editor_function_collision);
-		Project project = createProjectWithOldCollisionFormulas(COLLISION_TEST_PROJECT,
-				ApplicationProvider.getApplicationContext(),
-				firstSpriteName, secondSpriteName, thirdSpriteName, collisionTag);
-
-		ProjectManager.updateCollisionFormulasTo993(project);
-
-		Sprite sprite1 = project.getDefaultScene().getSprite(firstSpriteName);
-		Brick brick = sprite1.getScript(0).getBrick(0);
-
-		assertThat(brick, is(instanceOf(FormulaBrick.class)));
-
-		FormulaBrick formulaBrick = (FormulaBrick) brick;
-		String newFormula =
-				formulaBrick.getFormulas().get(0).getTrimmedFormulaString(ApplicationProvider.getApplicationContext());
-		String expected = collisionTag + "(" + thirdSpriteName + ") ";
-		assertEquals(expected, newFormula);
-
-		TestUtils.deleteProjects();
-	}
-
-	@Test
-	public void testFormulaUpdatedWithLanguageConversion() throws IOException {
-		String firstSpriteName = "sprite1";
-		String secondSpriteName = "sprite2";
-		String thirdSpriteName = "sprite3";
-
-		Resources res = CatroidApplication.getAppContext().getResources();
-		Configuration conf = res.getConfiguration();
-		Locale savedLocale = conf.locale;
-		conf.locale = Locale.US;
-		res.updateConfiguration(conf, null);
-		String collisionTag = res.getString(R.string.formula_editor_function_collision);
-
-		conf.locale = savedLocale;
-		res.updateConfiguration(conf, null);
-
-		collisionTag = CatroidApplication.getAppContext().getString(R.string
-				.formula_editor_function_collision);
-
-		Project project = createProjectWithOldCollisionFormulas(COLLISION_TEST_PROJECT,
-				ApplicationProvider.getApplicationContext(),
-				firstSpriteName, secondSpriteName, thirdSpriteName, collisionTag);
-
-		ProjectManager.updateCollisionFormulasTo993(project);
-
-		Sprite sprite1 = project.getDefaultScene().getSprite(firstSpriteName);
-		Brick brick = sprite1.getScript(0).getBrick(0);
-
-		assertThat(brick, is(instanceOf(FormulaBrick.class)));
-
-		FormulaBrick formulaBrick = (FormulaBrick) brick;
-		String newFormula =
-				formulaBrick.getFormulas().get(0).getTrimmedFormulaString(ApplicationProvider.getApplicationContext());
-		String expected = collisionTag + "(" + thirdSpriteName + ") ";
-		assertEquals(expected, newFormula);
-
-		TestUtils.deleteProjects();
-	}
-
-	private Project createProjectWithOldCollisionFormulas(String name, Context context, String firstSprite,
-			String secondSprite, String thirdSprite, String collisionTag) {
-		Project project = new Project(context, name);
-		project.setCatrobatLanguageVersion(0.992f);
-		Sprite sprite1 = new Sprite(firstSprite);
-		Sprite sprite2 = new Sprite(secondSprite);
-		Sprite sprite3 = new Sprite(thirdSprite);
-
-		Script firstScript = new StartScript();
-
-		FormulaElement formulaElement = new FormulaElement(FormulaElement.ElementType.COLLISION_FORMULA,
-				firstSprite + " " + collisionTag + " " + thirdSprite, null);
-		Formula formula1 = new Formula(formulaElement);
-
-		IfLogicBeginBrick ifBrick = new IfLogicBeginBrick(formula1);
-		firstScript.addBrick(ifBrick);
-
-		sprite1.addScript(firstScript);
-
-		project.getDefaultScene().addSprite(sprite1);
-		project.getDefaultScene().addSprite(sprite2);
-		project.getDefaultScene().addSprite(sprite3);
-
-		ProjectManager projectManager = ProjectManager.getInstance();
-		projectManager.setCurrentProject(project);
-		return project;
-	}
+    companion object {
+        private const val COLLISION_TEST_PROJECT = "COLLISION_TEST_PROJECT"
+    }
 }

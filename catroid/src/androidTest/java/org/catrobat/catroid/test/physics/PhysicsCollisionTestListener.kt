@@ -20,54 +20,35 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.physics
 
-package org.catrobat.catroid.test.physics;
+import com.badlogic.gdx.physics.box2d.Contact
+import com.badlogic.gdx.physics.box2d.ContactImpulse
+import com.badlogic.gdx.physics.box2d.Manifold
+import org.catrobat.catroid.physics.PhysicsCollisionListener
+import org.catrobat.catroid.physics.PhysicsWorld
 
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.Manifold;
+class PhysicsCollisionTestListener(
+    private val receiver: PhysicsCollisionTestReceiver?,
+    physicsWorld: PhysicsWorld?
+) : PhysicsCollisionListener(physicsWorld) {
+    override fun beginContact(contact: Contact) {
+        super.beginContact(contact)
+        receiver?.beginContactCallback(contact)
+    }
 
-import org.catrobat.catroid.physics.PhysicsCollisionListener;
-import org.catrobat.catroid.physics.PhysicsWorld;
+    override fun endContact(contact: Contact) {
+        super.endContact(contact)
+        receiver?.endContactCallback(contact)
+    }
 
-public class PhysicsCollisionTestListener extends PhysicsCollisionListener {
+    override fun preSolve(contact: Contact, oldManifold: Manifold) {
+        super.preSolve(contact, oldManifold)
+        receiver?.preSolveCallback(contact, oldManifold)
+    }
 
-	private PhysicsCollisionTestReceiver receiver;
-
-	public PhysicsCollisionTestListener(PhysicsCollisionTestReceiver receiver, PhysicsWorld physicsWorld) {
-		super(physicsWorld);
-		this.receiver = receiver;
-	}
-
-	@Override
-	public void beginContact(Contact contact) {
-		super.beginContact(contact);
-		if (receiver != null) {
-			receiver.beginContactCallback(contact);
-		}
-	}
-
-	@Override
-	public void endContact(Contact contact) {
-		super.endContact(contact);
-		if (receiver != null) {
-			receiver.endContactCallback(contact);
-		}
-	}
-
-	@Override
-	public void preSolve(Contact contact, Manifold oldManifold) {
-		super.preSolve(contact, oldManifold);
-		if (receiver != null) {
-			receiver.preSolveCallback(contact, oldManifold);
-		}
-	}
-
-	@Override
-	public void postSolve(Contact contact, ContactImpulse impulse) {
-		super.postSolve(contact, impulse);
-		if (receiver != null) {
-			receiver.postSolveCallback(contact, impulse);
-		}
-	}
+    override fun postSolve(contact: Contact, impulse: ContactImpulse) {
+        super.postSolve(contact, impulse)
+        receiver?.postSolveCallback(contact, impulse)
+    }
 }

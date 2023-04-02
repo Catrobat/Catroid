@@ -20,132 +20,118 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.physics.look;
+package org.catrobat.catroid.test.physics.look
 
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.Shape;
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.physics.box2d.PolygonShape
+import com.badlogic.gdx.physics.box2d.Shape
+import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.common.Constants
+import org.catrobat.catroid.common.FlavoredConstants
+import org.catrobat.catroid.common.LookData
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.io.ResourceImporter
+import org.catrobat.catroid.io.StorageOperations
+import org.catrobat.catroid.io.XstreamSerializer
+import org.catrobat.catroid.physics.PhysicsLook
+import org.catrobat.catroid.physics.PhysicsWorld
+import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder
+import org.catrobat.catroid.test.R
+import org.catrobat.catroid.test.physics.PhysicsTestUtils
+import org.catrobat.catroid.test.utils.Reflection
+import org.catrobat.catroid.test.utils.TestUtils
+import org.hamcrest.Matchers
+import org.hamcrest.number.OrderingComparison
+import org.junit.After
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import java.io.File
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.FlavoredConstants;
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.ResourceImporter;
-import org.catrobat.catroid.io.StorageOperations;
-import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.physics.PhysicsLook;
-import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.physics.PhysicsWorld;
-import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
-import org.catrobat.catroid.test.R;
-import org.catrobat.catroid.test.physics.PhysicsTestUtils;
-import org.catrobat.catroid.test.utils.Reflection;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+@RunWith(AndroidJUnit4::class)
+class PhysicsLookDataTest {
+    private var physicsWorld: PhysicsWorld? = null
+    private val projectName = "testProject"
+    private var sprite: Sprite? = null
+    private var lookData: LookData? = null
+    @Before
+    @Throws(Exception::class)
+    fun setUp() {
+        physicsWorld = PhysicsWorld(1920, 1600)
+        val projectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName)
+        if (projectDir.exists()) {
+            StorageOperations.deleteDir(projectDir)
+        }
+        val testImageFilename =
+            PhysicsTestUtils.getInternalImageFilenameFromFilename("testImage.png")
+        val project = Project(ApplicationProvider.getApplicationContext(), projectName)
+        XstreamSerializer.getInstance().saveProject(project)
+        ProjectManager.getInstance().currentProject = project
+        val testImage = ResourceImporter.createImageFileFromResourcesInDirectory(
+            InstrumentationRegistry.getInstrumentation().context.resources,
+            R.raw.multible_mixed_polygons,
+            File(project.defaultScene.directory, Constants.IMAGE_DIRECTORY_NAME),
+            testImageFilename, 1.0
+        )
+        sprite = Sprite("TestSprite")
+        lookData = PhysicsTestUtils.generateLookData(testImage)
+        sprite!!.lookList.add(lookData)
+        val pixmap = PhysicsTestUtils.getPixmapFromFile(testImage)
+        lookData!!.setPixmap(pixmap)
+    }
 
-import java.io.File;
+    @After
+    @Throws(Exception::class)
+    fun tearDown() {
+        TestUtils.deleteProjects(projectName)
+    }
 
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
+    @Test
+    fun testShapeComputationOfLook() {
+        val physicsShapeBuilder = PhysicsShapeBuilder.getInstance()
+        val shapes = physicsShapeBuilder.getScaledShapes(
+            lookData,
+            sprite!!.look.sizeInUserInterfaceDimensionUnit / 100f
+        )
+        Assert.assertThat(shapes.size, Matchers.`is`(OrderingComparison.greaterThan(0)))
+        physicsShapeBuilder.reset()
+    }
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-
-import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.number.OrderingComparison.greaterThan;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertThat;
-
-@RunWith(AndroidJUnit4.class)
-public class PhysicsLookDataTest {
-
-	private PhysicsWorld physicsWorld;
-	private final String projectName = "testProject";
-	private Sprite sprite;
-	private LookData lookData;
-
-	@Before
-	public void setUp() throws Exception {
-		physicsWorld = new PhysicsWorld(1920, 1600);
-		File projectDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName);
-		if (projectDir.exists()) {
-			StorageOperations.deleteDir(projectDir);
-		}
-		String testImageFilename = PhysicsTestUtils.getInternalImageFilenameFromFilename("testImage.png");
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setCurrentProject(project);
-
-		File testImage = ResourceImporter.createImageFileFromResourcesInDirectory(
-				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
-				R.raw.multible_mixed_polygons,
-				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
-				testImageFilename,
-				1);
-
-		sprite = new Sprite("TestSprite");
-		lookData = PhysicsTestUtils.generateLookData(testImage);
-		sprite.getLookList().add(lookData);
-		Pixmap pixmap = PhysicsTestUtils.getPixmapFromFile(testImage);
-		lookData.setPixmap(pixmap);
-	}
-
-	@After
-	public void tearDown() throws Exception {
-		TestUtils.deleteProjects(projectName);
-	}
-
-	@Test
-	public void testShapeComputationOfLook() {
-		PhysicsShapeBuilder physicsShapeBuilder = PhysicsShapeBuilder.getInstance();
-
-		Shape[] shapes = physicsShapeBuilder.getScaledShapes(lookData, sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f);
-
-		assertThat(shapes.length, is(greaterThan(0)));
-		physicsShapeBuilder.reset();
-	}
-
-	@Test
-	public void testSetScale() throws Exception {
-		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		PhysicsLook physicsLook = new PhysicsLook(sprite, physicsWorld);
-		physicsLook.setLookData(lookData);
-
-		float testScaleFactor = 1.1f;
-
-		Vector2[] expectedVertices = new Vector2[] {
-				new Vector2(10.84f, -7.31f),
-				new Vector2(10.84f, -0.6f),
-				new Vector2(9.63f, 10.62f),
-				new Vector2(-10.84f, 10.62f),
-				new Vector2(-10.84f, 6.44f),
-				new Vector2(-3.35f, -7.31f),
-				new Vector2(-0.06f, -10.61f),
-				new Vector2(7.54f, -10.61f),
-		};
-
-		physicsLook.setScale(testScaleFactor, testScaleFactor);
-		Shape[] scaledShapes = (Shape[]) Reflection.getPrivateField(physicsObject, "shapes");
-		assertNotNull(scaledShapes);
-		assertEquals(1, scaledShapes.length);
-
-		Shape scaledShape = scaledShapes[0];
-		assertEquals(Shape.Type.Polygon, scaledShape.getType());
-
-		int scaledVertexCount = ((PolygonShape) scaledShape).getVertexCount();
-		assertEquals(8, scaledVertexCount);
-		Vector2[] scaledVertices = new Vector2[8];
-		for (int idx = 0; idx < scaledVertexCount; idx++) {
-			scaledVertices[idx] = new Vector2();
-			((PolygonShape) scaledShape).getVertex(idx, scaledVertices[idx]);
-		}
-		assertArrayEquals(expectedVertices, scaledVertices);
-	}
+    @Test
+    @Throws(Exception::class)
+    fun testSetScale() {
+        val physicsObject = physicsWorld!!.getPhysicsObject(sprite)
+        val physicsLook = PhysicsLook(sprite, physicsWorld)
+        physicsLook.lookData = lookData
+        val testScaleFactor = 1.1f
+        val expectedVertices = arrayOf(
+            Vector2(10.84f, -7.31f),
+            Vector2(10.84f, -0.6f),
+            Vector2(9.63f, 10.62f),
+            Vector2(-10.84f, 10.62f),
+            Vector2(-10.84f, 6.44f),
+            Vector2(-3.35f, -7.31f),
+            Vector2(-0.06f, -10.61f),
+            Vector2(7.54f, -10.61f)
+        )
+        physicsLook.setScale(testScaleFactor, testScaleFactor)
+        val scaledShapes = Reflection.getPrivateField(physicsObject, "shapes") as Array<Shape>
+        junit.framework.Assert.assertNotNull(scaledShapes)
+        junit.framework.Assert.assertEquals(1, scaledShapes.size)
+        val scaledShape = scaledShapes[0]
+        junit.framework.Assert.assertEquals(Shape.Type.Polygon, scaledShape.type)
+        val scaledVertexCount = (scaledShape as PolygonShape).vertexCount
+        junit.framework.Assert.assertEquals(8, scaledVertexCount)
+        val scaledVertices = arrayOfNulls<Vector2>(8)
+        for (idx in 0 until scaledVertexCount) {
+            scaledVertices[idx] = Vector2()
+            scaledShape.getVertex(idx, scaledVertices[idx])
+        }
+        Assert.assertArrayEquals(expectedVertices, scaledVertices)
+    }
 }

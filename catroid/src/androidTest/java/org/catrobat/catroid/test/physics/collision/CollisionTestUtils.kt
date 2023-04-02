@@ -20,59 +20,52 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.physics.collision
 
-package org.catrobat.catroid.test.physics.collision;
+import android.content.Context
+import androidx.test.platform.app.InstrumentationRegistry
+import junit.framework.Assert
+import org.catrobat.catroid.common.Constants
+import org.catrobat.catroid.content.ActionFactory
+import org.catrobat.catroid.content.Look
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.io.ResourceImporter
+import org.catrobat.catroid.test.physics.PhysicsTestUtils
+import org.catrobat.catroid.utils.Utils
+import java.io.File
+import java.io.IOException
 
-import android.content.Context;
+class CollisionTestUtils private constructor() {
+    init {
+        throw AssertionError()
+    }
 
-import junit.framework.Assert;
-
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.content.ActionFactory;
-import org.catrobat.catroid.content.Look;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.ResourceImporter;
-import org.catrobat.catroid.sensing.CollisionInformation;
-import org.catrobat.catroid.utils.Utils;
-
-import java.io.File;
-import java.io.IOException;
-
-import androidx.test.platform.app.InstrumentationRegistry;
-
-import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
-import static org.catrobat.catroid.test.physics.PhysicsTestUtils.generateLookData;
-
-public final class CollisionTestUtils {
-
-	private CollisionTestUtils() {
-		throw new AssertionError();
-	}
-
-	public static void initializeSprite(Sprite sprite, int resourceId, String filename, Context context,
-			Project project) throws IOException {
-		sprite.look = new Look(sprite);
-		sprite.setActionFactory(new ActionFactory());
-
-		String hashedFileName = Utils.md5Checksum(filename) + "_" + filename;
-
-		File file = ResourceImporter.createImageFileFromResourcesInDirectory(
-				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
-				resourceId,
-				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
-				hashedFileName,
-				1);
-
-		LookData lookData = generateLookData(file);
-		Assert.assertNotNull(lookData);
-		CollisionInformation collisionInformation = lookData.getCollisionInformation();
-		collisionInformation.loadCollisionPolygon();
-
-		sprite.look.setLookData(lookData);
-		sprite.getLookList().add(lookData);
-		sprite.look.setHeight(sprite.look.getLookData().getPixmap().getHeight());
-		sprite.look.setWidth(sprite.look.getLookData().getPixmap().getWidth());
-		sprite.look.setPositionInUserInterfaceDimensionUnit(0, 0);
-	}
+    companion object {
+        @JvmStatic
+		@Throws(IOException::class)
+        fun initializeSprite(
+            sprite: Sprite, resourceId: Int, filename: String, context: Context?,
+            project: Project
+        ) {
+            sprite.look = Look(sprite)
+            sprite.actionFactory = ActionFactory()
+            val hashedFileName = Utils.md5Checksum(filename) + "_" + filename
+            val file = ResourceImporter.createImageFileFromResourcesInDirectory(
+                InstrumentationRegistry.getInstrumentation().context.resources,
+                resourceId,
+                File(project.defaultScene.directory, Constants.IMAGE_DIRECTORY_NAME),
+                hashedFileName, 1.0
+            )
+            val lookData = PhysicsTestUtils.generateLookData(file)
+            Assert.assertNotNull(lookData)
+            val collisionInformation = lookData.collisionInformation
+            collisionInformation.loadCollisionPolygon()
+            sprite.look.lookData = lookData
+            sprite.lookList.add(lookData)
+            sprite.look.height = sprite.look.lookData.pixmap.height.toFloat()
+            sprite.look.width = sprite.look.lookData.pixmap.width.toFloat()
+            sprite.look.setPositionInUserInterfaceDimensionUnit(0f, 0f)
+        }
+    }
 }
