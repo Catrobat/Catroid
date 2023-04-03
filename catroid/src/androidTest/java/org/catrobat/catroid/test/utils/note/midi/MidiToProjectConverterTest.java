@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,13 +20,17 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.pocketmusic.note.midi;
+package org.catrobat.catroid.test.utils.note.midi;
 
 import android.Manifest;
 
+import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.catroid.pocketmusic.note.Project;
+import org.catrobat.catroid.pocketmusic.note.Track;
 import org.catrobat.catroid.pocketmusic.note.midi.MidiException;
+import org.catrobat.catroid.pocketmusic.note.midi.MidiToProjectConverter;
 import org.catrobat.catroid.pocketmusic.note.midi.ProjectToMidiConverter;
+import org.catrobat.catroid.test.utils.note.TrackTestDataFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -36,25 +40,24 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.io.IOException;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
-public class ProjectToMidiConverterTest {
+public class MidiToProjectConverterTest {
 
 	@Rule
 	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE);
 
-	private static final String FILE_NAME = "ProjectToMidiConverterTest.midi";
+	private Project project;
 	private File file;
 
 	@Before
 	public void setUp() {
-		file = new File(ApplicationProvider.getApplicationContext().getCacheDir(), FILE_NAME);
+		project = createProjectWithSemiComplexTracks();
+		file = new File(ProjectToMidiConverter.midiFolder + File.separator + project.getName() + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
 	}
 
 	@After
@@ -63,24 +66,24 @@ public class ProjectToMidiConverterTest {
 	}
 
 	@Test
-	public void testWriteProjectAsMidi() throws IOException, MidiException {
-		Project project = new Project("testWriteProjectAsMidi", Project.DEFAULT_BEAT, Project.DEFAULT_BEATS_PER_MINUTE);
-		ProjectToMidiConverter converter = new ProjectToMidiConverter();
+	public void testConvertToMidiToProject() throws MidiException, IOException {
+		ProjectToMidiConverter projectConverter = new ProjectToMidiConverter();
+		MidiToProjectConverter midiConverter = new MidiToProjectConverter();
 
-		converter.writeProjectAsMidi(project, file);
+		projectConverter.writeProjectAsMidi(project);
+		Project actualProject = midiConverter.convertMidiFileToProject(file);
 
-		assertTrue(file.exists());
+		assertEquals(project, actualProject);
 	}
 
-	@Test
-	public void testGetMidiFileFromProjectName() throws IOException, MidiException {
-		Project project = new Project("testGetMidiFileFromProjectName", Project.DEFAULT_BEAT, Project.DEFAULT_BEATS_PER_MINUTE);
-		ProjectToMidiConverter converter = new ProjectToMidiConverter();
+	public static Project createProjectWithSemiComplexTracks() {
+		Project project = new Project("MidiToProjectConverterTest", Project.DEFAULT_BEAT, Project.DEFAULT_BEATS_PER_MINUTE);
+		Track track1 = TrackTestDataFactory.createSemiComplexTrack(MusicalInstrument.GUNSHOT);
+		Track track2 = TrackTestDataFactory.createSemiComplexTrack(MusicalInstrument.WHISTLE);
 
-		converter.writeProjectAsMidi(project, file);
-		File newFile = ProjectToMidiConverter.getMidiFileFromProjectName(ProjectToMidiConverter
-				.removeMidiExtensionFromString(file.getName()));
+		project.putTrack("someRandomTrackName1", track1);
+		project.putTrack("someRandomTrackName2", track2);
 
-		assertEquals(file.getName(), newFile.getName());
+		return project;
 	}
 }

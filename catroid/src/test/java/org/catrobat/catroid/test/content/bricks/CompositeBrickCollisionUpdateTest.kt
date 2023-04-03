@@ -20,120 +20,140 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.test.content.bricks
 
-package org.catrobat.catroid.test.content.bricks;
+import org.catrobat.catroid.CatroidApplication
+import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scene
+import org.catrobat.catroid.content.Script
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.WhenScript
+import org.catrobat.catroid.content.bricks.Brick.FormulaField
+import org.catrobat.catroid.content.bricks.CompositeBrick
+import org.catrobat.catroid.content.bricks.ForeverBrick
+import org.catrobat.catroid.content.bricks.FormulaBrick
+import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick
+import org.catrobat.catroid.content.bricks.RepeatBrick
+import org.catrobat.catroid.content.bricks.RepeatUntilBrick
+import org.catrobat.catroid.content.bricks.SetXBrick
+import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.formulaeditor.FormulaElement
+import org.catrobat.catroid.test.PowerMockUtil.Companion.mockStaticAppContextAndInitializeStaticSingletons
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
+import org.powermock.core.classloader.annotations.PrepareForTest
+import org.powermock.modules.junit4.PowerMockRunner
+import org.powermock.modules.junit4.PowerMockRunnerDelegate
+import java.util.Arrays
 
-import org.catrobat.catroid.CatroidApplication;
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.WhenScript;
-import org.catrobat.catroid.content.bricks.CompositeBrick;
-import org.catrobat.catroid.content.bricks.ConcurrentFormulaHashMap;
-import org.catrobat.catroid.content.bricks.ForeverBrick;
-import org.catrobat.catroid.content.bricks.FormulaBrick;
-import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
-import org.catrobat.catroid.content.bricks.RepeatBrick;
-import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
-import org.catrobat.catroid.content.bricks.SetXBrick;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.FormulaElement;
-import org.catrobat.catroid.test.PowerMockUtil;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.modules.junit4.PowerMockRunnerDelegate;
+@RunWith(PowerMockRunner::class)
+@PowerMockRunnerDelegate(Parameterized::class)
+@PrepareForTest(
+    CatroidApplication::class
+)
+class CompositeBrickCollisionUpdateTest {
+    private var formulaBrick: FormulaBrick? = null
+    private var sprite: Sprite? = null
+    @JvmField
+    @Parameterized.Parameter
+    var name: String? = null
+    @JvmField
+    @Parameterized.Parameter(1)
+    var compositeBrickClass: Class<CompositeBrick>? = null
+    @Before
+    @Throws(IllegalAccessException::class, InstantiationException::class)
+    fun setUp() {
+        mockStaticAppContextAndInitializeStaticSingletons()
+        val project = Project()
+        val scene = Scene()
+        sprite = Sprite(VARIABLE_NAME)
+        val script: Script = WhenScript()
+        val compositeBrick = compositeBrickClass!!.newInstance()
+        formulaBrick = SetXBrick()
+        project.addScene(scene)
+        scene.addSprite(sprite)
+        sprite!!.addScript(script)
+        script.addBrick(compositeBrick)
+        compositeBrick.nestedBricks.add(formulaBrick)
+        ProjectManager.getInstance().currentProject = project
+        ProjectManager.getInstance().currentlyEditedScene = scene
+    }
 
-import java.util.Arrays;
+    @Test
+    fun testRenameSprite() {
+        val newFormula = Formula(
+            FormulaElement(
+                FormulaElement.ElementType.COLLISION_FORMULA,
+                VARIABLE_NAME, null
+            )
+        )
+        val map = formulaBrick!!.formulaMap
+        map.forEach { (k: FormulaField?, v: Formula?) ->
+            formulaBrick!!.setFormulaWithBrickField(
+                k,
+                newFormula
+            )
+        }
+        sprite!!.rename(NEW_VARIABLE_NAME)
+        map.forEach { (k: FormulaField?, v: Formula) ->
+            Assert.assertEquals(
+                v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+                REPLACED_VARIABLE
+            )
+        }
+    }
 
-import static org.junit.Assert.assertEquals;
+    @Test
+    fun testRenameSpriteNoChange() {
+        val newFormula = Formula(
+            FormulaElement(
+                FormulaElement.ElementType.COLLISION_FORMULA,
+                DIFFERENT_VARIABLE_NAME, null
+            )
+        )
+        val map = formulaBrick!!.formulaMap
+        map.forEach { (k: FormulaField?, v: Formula?) ->
+            formulaBrick!!.setFormulaWithBrickField(
+                k,
+                newFormula
+            )
+        }
+        sprite!!.rename(NEW_VARIABLE_NAME)
+        map.forEach { (k: FormulaField?, v: Formula) ->
+            Assert.assertEquals(
+                v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
+                NO_CHANGE_VARIABLE
+            )
+        }
+    }
 
-@RunWith(PowerMockRunner.class)
-@PowerMockRunnerDelegate(Parameterized.class)
-@PrepareForTest({CatroidApplication.class})
-public class CompositeBrickCollisionUpdateTest {
-
-	private FormulaBrick formulaBrick;
-	private Sprite sprite;
-	private static final String VARIABLE_NAME = "Test";
-	private static final String DIFFERENT_VARIABLE_NAME = "Abcd";
-	private static final String NEW_VARIABLE_NAME = "NewName";
-	private static final String REPLACED_VARIABLE = "null(" + NEW_VARIABLE_NAME + ") ";
-	private static final String NO_CHANGE_VARIABLE = "null(" + DIFFERENT_VARIABLE_NAME + ") ";
-
-	@Parameterized.Parameters(name = "{0}")
-	public static Iterable<Object[]> data() {
-		return Arrays.asList(new Object[][] {
-				{IfThenLogicBeginBrick.class.getSimpleName(), IfThenLogicBeginBrick.class},
-				{ForeverBrick.class.getSimpleName(), ForeverBrick.class},
-				{RepeatBrick.class.getSimpleName(), RepeatBrick.class},
-				{RepeatUntilBrick.class.getSimpleName(), RepeatUntilBrick.class},
-		});
-	}
-
-	@Parameterized.Parameter
-	public String name;
-
-	@Parameterized.Parameter(1)
-	public Class<CompositeBrick> compositeBrickClass;
-
-	@Before
-	public void setUp() throws IllegalAccessException, InstantiationException {
-		PowerMockUtil.mockStaticAppContextAndInitializeStaticSingletons();
-
-		Project project = new Project();
-		Scene scene = new Scene();
-		sprite = new Sprite(VARIABLE_NAME);
-		Script script = new WhenScript();
-		CompositeBrick compositeBrick = compositeBrickClass.newInstance();
-		formulaBrick = new SetXBrick();
-
-		project.addScene(scene);
-		scene.addSprite(sprite);
-		sprite.addScript(script);
-		script.addBrick(compositeBrick);
-		compositeBrick.getNestedBricks().add(formulaBrick);
-
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(scene);
-	}
-
-	@Test
-	public void testRenameSprite() {
-		Formula newFormula = new Formula(new FormulaElement(FormulaElement.ElementType.COLLISION_FORMULA,
-				VARIABLE_NAME, null));
-		ConcurrentFormulaHashMap map = formulaBrick.getFormulaMap();
-		map.forEach((k, v) -> {
-			formulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
-
-		sprite.rename(NEW_VARIABLE_NAME);
-
-		map.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					REPLACED_VARIABLE);
-		});
-	}
-
-	@Test
-	public void testRenameSpriteNoChange() {
-		Formula newFormula = new Formula(new FormulaElement(FormulaElement.ElementType.COLLISION_FORMULA,
-				DIFFERENT_VARIABLE_NAME, null));
-		ConcurrentFormulaHashMap map = formulaBrick.getFormulaMap();
-		map.forEach((k, v) -> {
-			formulaBrick.setFormulaWithBrickField(k, newFormula);
-		});
-
-		sprite.rename(NEW_VARIABLE_NAME);
-
-		map.forEach((k, v) -> {
-			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
-					NO_CHANGE_VARIABLE);
-		});
-	}
+    companion object {
+        private const val VARIABLE_NAME = "Test"
+        private const val DIFFERENT_VARIABLE_NAME = "Abcd"
+        private const val NEW_VARIABLE_NAME = "NewName"
+        private const val REPLACED_VARIABLE = "null(" + NEW_VARIABLE_NAME + ") "
+        private const val NO_CHANGE_VARIABLE = "null(" + DIFFERENT_VARIABLE_NAME + ") "
+        @JvmStatic
+        @Parameterized.Parameters(name = "{0}")
+        fun data(): Iterable<Array<Any>> {
+            return Arrays.asList(
+                *arrayOf(
+                    arrayOf(
+                        IfThenLogicBeginBrick::class.java.simpleName,
+                        IfThenLogicBeginBrick::class.java
+                    ), arrayOf(
+                        ForeverBrick::class.java.simpleName, ForeverBrick::class.java
+                    ), arrayOf(
+                        RepeatBrick::class.java.simpleName, RepeatBrick::class.java
+                    ), arrayOf(
+                        RepeatUntilBrick::class.java.simpleName, RepeatUntilBrick::class.java
+                    )
+                )
+            )
+        }
+    }
 }
