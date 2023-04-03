@@ -22,28 +22,25 @@
  */
 package org.catrobat.catroid.test.content.bricks
 
-import org.catrobat.catroid.test.StaticSingletonInitializer.Companion.initializeStaticSingletonMethods
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
-import org.catrobat.catroid.content.bricks.CompositeBrick
-import org.catrobat.catroid.content.bricks.Brick
-import org.junit.Before
-import kotlin.Throws
-import org.catrobat.catroid.test.StaticSingletonInitializer
-import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.ActionFactory
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.actions.ScriptSequenceAction
+import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.BrickBaseType
-import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick
+import org.catrobat.catroid.content.bricks.CompositeBrick
 import org.catrobat.catroid.content.bricks.ForeverBrick
+import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick
 import org.catrobat.catroid.content.bricks.RepeatBrick
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick
+import org.catrobat.catroid.test.StaticSingletonInitializer.Companion.initializeStaticSingletonMethods
 import org.junit.Assert
+import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
-import java.util.ArrayList
 import java.util.Arrays
 
 @RunWith(Parameterized::class)

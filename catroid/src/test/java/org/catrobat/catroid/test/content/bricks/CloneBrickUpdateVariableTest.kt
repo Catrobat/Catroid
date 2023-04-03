@@ -23,31 +23,28 @@
 package org.catrobat.catroid.test.content.bricks
 
 import junit.framework.Assert
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
-import org.catrobat.catroid.content.bricks.UserVariableBrickInterface
-import org.junit.Before
-import kotlin.Throws
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
-import org.catrobat.catroid.formulaeditor.UserVariable
-import org.catrobat.catroid.test.content.bricks.CloneBrickUpdateVariableTest
-import org.catrobat.catroid.ui.recyclerview.controller.SpriteController
-import org.catrobat.catroid.content.bricks.SetVariableBrick
-import org.catrobat.catroid.content.bricks.ChangeVariableBrick
 import org.catrobat.catroid.content.bricks.AskBrick
 import org.catrobat.catroid.content.bricks.AskSpeechBrick
+import org.catrobat.catroid.content.bricks.ChangeVariableBrick
 import org.catrobat.catroid.content.bricks.HideTextBrick
+import org.catrobat.catroid.content.bricks.ReadVariableFromDeviceBrick
+import org.catrobat.catroid.content.bricks.SetVariableBrick
 import org.catrobat.catroid.content.bricks.ShowTextBrick
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick
+import org.catrobat.catroid.content.bricks.UserVariableBrickInterface
 import org.catrobat.catroid.content.bricks.WebRequestBrick
-import org.catrobat.catroid.content.bricks.ReadVariableFromDeviceBrick
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick
+import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.test.MockUtil
+import org.catrobat.catroid.ui.recyclerview.controller.SpriteController
+import org.junit.Before
 import org.junit.Test
-import java.lang.Exception
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
 import java.util.Arrays
 
 @RunWith(Parameterized::class)

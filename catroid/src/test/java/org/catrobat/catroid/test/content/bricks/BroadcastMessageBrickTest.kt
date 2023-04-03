@@ -23,21 +23,17 @@
 package org.catrobat.catroid.test.content.bricks
 
 import android.content.Context
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
-import org.junit.Before
-import kotlin.Throws
 import org.catrobat.catroid.R
-import org.catrobat.catroid.test.content.bricks.BroadcastMessageBrickTest
 import org.catrobat.catroid.common.Nameable
 import org.catrobat.catroid.content.bricks.BroadcastMessageBrick
 import org.hamcrest.CoreMatchers
 import org.junit.Assert
+import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
-import java.lang.Exception
-import java.util.ArrayList
 import java.util.Arrays
 import java.util.stream.Collectors
 
