@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,33 +20,29 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.utils
 
-package org.catrobat.catroid.utils;
+class JsonRegexExtractor private constructor() {
+    init {
+        throw IllegalStateException("Utility class")
+    }
 
-public final class EnumUtils {
-	private EnumUtils() {
-	}
-
-	public static <E extends Enum<E>> boolean isValidEnum(Class<E> clazz, String name) {
-		if (name == null) {
-			return false;
-		}
-		try {
-			Enum.valueOf(clazz, name);
-		} catch (IllegalArgumentException e) {
-			return false;
-		}
-		return true;
-	}
-
-	public static <E extends Enum<E>> E getEnum(Class<E> clazz, String name) {
-		if (name == null) {
-			return null;
-		}
-		try {
-			return Enum.valueOf(clazz, name);
-		} catch (IllegalArgumentException e) {
-			return null;
-		}
-	}
+    companion object {
+        @JvmStatic
+        fun getJsonParserRegex(keyword: String): String {
+            return ("\"" + keyword + "\"\\s*:\\s*" // find keyword
+                // string
+                + "\"?((?<=\")(\\\\\"|[^\"])*(?=\")"
+                // number
+                + "|(?<!\")([+-]?(0|[1-9]\\d*)(\\.\\d+)?([eE][+-]?\\d+)?"
+                // boolean
+                + "|(true|false|null)"
+                // un-nested object
+                + "|\\{[^{]*?\\}"
+                // un-nested array
+                + "|\\[[^\\[]*?\\])"
+                // correct json expression format
+                + "(?!\"))\"?(?=\\s*[,\\]}])")
+        }
+    }
 }

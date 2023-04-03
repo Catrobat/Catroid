@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,22 +20,36 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.utils
 
-package org.catrobat.catroid.utils;
+object EnumUtils {
+    @JvmStatic
+    fun <E : Enum<E>> isValidEnum(clazz: Class<E>?, name: String?): Boolean {
+        if (name == null) {
+            return false
+        }
+        return try {
+            java.lang.Enum.valueOf(clazz, name)
+            true
+        } catch (ex: IllegalArgumentException) {
+            false
+        } catch (ex: Exception) {
+            // Log or handle the exception as appropriate
+            throw ex
+        }
+    }
 
-public final class JsonRegexExtractor {
-
-	private JsonRegexExtractor() {
-		throw new IllegalStateException("Utility class");
-	}
-
-	public static String getJsonParserRegex(String keyword) {
-		return "\"" + keyword + "\"\\s*:\\s*" // find keyword
-				+ "\"?((?<=\")(\\\\\"|[^\"])*(?=\")" // string
-				+ "|(?<!\")([+-]?(0|[1-9]\\d*)(\\.\\d+)?([eE][+-]?\\d+)?" // number
-				+ "|(true|false|null)" // boolean
-				+ "|\\{[^{]*?\\}" // un-nested object
-				+ "|\\[[^\\[]*?\\])" // un-nested array
-				+ "(?!\"))\"?(?=\\s*[,\\]}])"; // correct json expression format
-	}
+    @JvmStatic
+    fun <E : Enum<E>> getEnum(clazz: Class<E>?, name: String?): E? {
+        return if (name == null) {
+            null
+        } else try {
+            java.lang.Enum.valueOf(clazz, name)
+        } catch (ex: IllegalArgumentException) {
+            null
+        } catch (ex: Exception) {
+            // Log or handle the exception as appropriate
+            throw ex
+        }
+    }
 }

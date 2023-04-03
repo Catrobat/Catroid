@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,40 +20,35 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.utils;
+package org.catrobat.catroid.utils
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.util.AttributeSet;
-import android.widget.TextView;
+import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Color
+import android.util.AttributeSet
+import android.widget.TextView
 
 @SuppressLint("AppCompatCustomView")
-public class BorderTextView extends TextView {
+class BorderTextView : TextView {
+    constructor(context: Context?) : super(context)
+    constructor(context: Context?, attributeSet: AttributeSet?) : super(context, attributeSet)
+    constructor(context: Context?, attributeSet: AttributeSet?, defStyle: Int) : super(
+        context,
+        attributeSet,
+        defStyle
+    )
 
-	private static final int SHADOW_RADIUS = 3;
-	private static final int SHADOW_REPEAT = 3;
+    override fun onDraw(canvas: Canvas) {
+        paint.setShadowLayer(SHADOW_RADIUS.toFloat(), 0f, 0f, Color.BLACK)
+        paint.shader = null
+        for (i in 0 until SHADOW_REPEAT) {
+            super.onDraw(canvas)
+        }
+    }
 
-	public BorderTextView(Context context) {
-		super(context);
-	}
-
-	public BorderTextView(Context context, AttributeSet attributeSet) {
-		super(context, attributeSet);
-	}
-
-	public BorderTextView(Context context, AttributeSet attributeSet, int defStyle) {
-		super(context, attributeSet, defStyle);
-	}
-
-	@Override
-	protected void onDraw(Canvas canvas) {
-		getPaint().setShadowLayer(SHADOW_RADIUS, 0, 0, Color.BLACK);
-		getPaint().setShader(null);
-
-		for (int i = 0; i < SHADOW_REPEAT; i++) {
-			super.onDraw(canvas);
-		}
-	}
+    companion object {
+        private const val SHADOW_RADIUS = 3
+        private const val SHADOW_REPEAT = 3
+    }
 }
