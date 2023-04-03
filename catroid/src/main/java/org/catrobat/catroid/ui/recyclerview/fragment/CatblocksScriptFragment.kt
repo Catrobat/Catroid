@@ -64,6 +64,7 @@ class CatblocksScriptFragment(
 ) : Fragment() {
 
     private var webview: WebView? = null
+    private var advancedMode: Boolean = false
 
     companion object {
         val TAG: String = CatblocksScriptFragment::class.java.simpleName
@@ -412,6 +413,11 @@ class CatblocksScriptFragment(
             val brickCategoryInfos = getAvailableBrickCategories()
 
             return Gson().toJson(brickCategoryInfos)
+        }
+
+        @JavascriptInterface
+        fun isAdvancedMode(): Boolean {
+            return advancedMode
         }
     }
 
