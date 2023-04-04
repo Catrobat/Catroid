@@ -171,6 +171,8 @@
     <string name="preference_title_ai_object_recognition">Object recognition</string>
     <string name="preference_description_ai_object_recognition">Enable object recognition and tracking sensors</string>
 
+    <string name="preference_title_catblocks_advanced_mode">Advanced mode</string>
+    <string name="preference_description_catblocks_advanced_mode">Change to text-oriented interface</string>
     <string name="preference_title_accessibility">Accessibility</string>
     <string name="preference_description_accessibility">Change the app\'s appearance</string>
     <string name="preference_title_accessibility_profiles">Accessibility profiles</string>
