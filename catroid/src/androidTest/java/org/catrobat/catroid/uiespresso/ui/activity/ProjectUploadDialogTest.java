@@ -229,6 +229,15 @@ public class ProjectUploadDialogTest {
 				.check(doesNotExist());
 	}
 
+	@Test
+	public void uploadProjectWithAlreadyExistingName() {
+		activityTestRule.getActivity().addProjectName(PROJECT_NAME);
+		onView(withId(R.id.next))
+				.perform(click());
+
+		onView(withText(R.string.overwrite_text)).check(matches(isDisplayed()));
+	}
+
 	public static class ProjectUploadTestActivity extends ProjectUploadActivity {
 		@NotNull
 		@Override

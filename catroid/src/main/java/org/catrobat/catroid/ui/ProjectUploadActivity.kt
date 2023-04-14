@@ -63,7 +63,6 @@ import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask.ProjectLoadListener
 import org.catrobat.catroid.io.asynctask.renameProject
-import org.catrobat.catroid.retrofit.models.ProjectResponseApi
 import org.catrobat.catroid.transfers.GetUserProjectsTask
 import org.catrobat.catroid.transfers.TagsTask
 import org.catrobat.catroid.transfers.TokenTask
@@ -144,6 +143,8 @@ open class ProjectUploadActivity : BaseActivity(),
 
     private var projectNamesOfUser: MutableList<String> = mutableListOf()
 
+    private var extractProjectNamesFromResponseJob: Job? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUploadBinding.inflate(layoutInflater)
@@ -164,10 +165,11 @@ open class ProjectUploadActivity : BaseActivity(),
             .observe(this) { getUserProjectsResponse ->
                 getUserProjectsResponse?.let {
                     Log.d(TAG, "We got a response!")
-                    for(response in getUserProjectsResponse) {
-                        projectNamesOfUser.add(response.name)
+                    extractProjectNamesFromResponseJob = GlobalScope.launch(Dispatchers.Main) {
+                        for(response in getUserProjectsResponse) {
+                            projectNamesOfUser.add(response.name)
+                        }
                     }
-                    Log.d(TAG, getUserProjectsResponse.toString())
                 } ?: run {
                     Log.d(TAG, "We got no response, something failed")
                 }
@@ -257,6 +259,7 @@ open class ProjectUploadActivity : BaseActivity(),
             uploadProgressDialog?.dismiss()
         }
         getUserProjectsJob?.cancel()
+        extractProjectNamesFromResponseJob?.cancel()
         super.onDestroy()
     }
 
@@ -324,7 +327,7 @@ open class ProjectUploadActivity : BaseActivity(),
                 return
             }
 
-            if (projectNamesOfUser.contains(binding.inputProjectName.toString())) {
+            if (checkIfProjectNameAlreadyExists(binding.inputProjectName.editText?.text.toString())) {
                 Log.e(TAG, "Name is not unique, show Overwrite Dialog!")
                 showOverwriteDialog()
             }
@@ -501,7 +504,7 @@ open class ProjectUploadActivity : BaseActivity(),
         }
 
         val builder = TextInputDialog.Builder(this)
-            .setText(binding.inputProjectName.toString())
+            .setText(binding.inputProjectName.editText?.text.toString())
             .setTextWatcher(textWatcher)
             .setPositiveButton(
                 getString(R.string.ok),
@@ -789,6 +792,10 @@ open class ProjectUploadActivity : BaseActivity(),
                 sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN).orEmpty()
             )
         }
+    }
+
+    fun addProjectName(name: String) {
+        projectNamesOfUser.add(name)
     }
 
     inner class NameInputTextWatcher : TextWatcher {

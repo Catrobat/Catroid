@@ -241,6 +241,17 @@ class CatroidWebServerAuthenticationTest : KoinTest {
         assertEquals(responseExpireToken.code(), SERVER_RESPONSE_INVALID_UPLOAD_TOKEN)
     }
 
+    @Test
+    fun testGetUserProjects() {
+        var token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN)
+        val loginResponse = webServer.login("Bearer $token", LoginUser(username, password))
+            .execute()
+        token = loginResponse.body()?.token
+        val response = webServer.getUserProjects("Bearer $token").execute()
+
+        assertEquals(response.code(), SERVER_RESPONSE_TOKEN_OK)
+    }
+
     private fun parseRegisterErrorMessage(errorBody: String?) =
         Moshi.Builder().build().adapter<RegisterFailedResponse>(RegisterFailedResponse::class.java).fromJson(errorBody)
 

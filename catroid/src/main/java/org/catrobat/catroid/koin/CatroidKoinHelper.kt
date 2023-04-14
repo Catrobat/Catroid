@@ -84,6 +84,9 @@ val componentsModules = module(createdAtStart = true, override = false) {
     single {
         TagsTask(get())
     }
+    single {
+        GetUserProjectsTask(get())
+    }
     factory { WorkManager.getInstance(androidContext()) }
     single { ProjectManager(androidContext()) }
     single { NetworkConnectionMonitor(androidContext()) }
@@ -97,10 +100,6 @@ val componentsModules = module(createdAtStart = true, override = false) {
 
     single {
         DefaultProjectsCategoriesSync(get(), get(), get()) as ProjectsCategoriesSync
-    }
-
-    single {
-        GetUserProjectsTask(get())
     }
 }
 

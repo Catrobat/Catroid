@@ -28,8 +28,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import org.catrobat.catroid.retrofit.WebService
 import org.catrobat.catroid.retrofit.models.ProjectResponse
-import org.catrobat.catroid.retrofit.models.ProjectsCategoryApi
-import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_REGISTER_OK
 import org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_TOKEN_OK
 import retrofit2.Call
 import retrofit2.Callback
