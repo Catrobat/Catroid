@@ -24,7 +24,9 @@
 package org.catrobat.catroid.retrofit
 
 import okhttp3.ConnectionSpec
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION
 import org.catrobat.catroid.common.Constants.RETROFIT_WRITE_TIMEOUT
@@ -34,6 +36,7 @@ import org.catrobat.catroid.retrofit.models.FeaturedProject
 import org.catrobat.catroid.retrofit.models.LoginResponse
 import org.catrobat.catroid.retrofit.models.LoginUser
 import org.catrobat.catroid.retrofit.models.OAuthLogin
+import org.catrobat.catroid.retrofit.models.ProjectUploadResponseApi
 import org.catrobat.catroid.retrofit.models.ProjectsCategoryApi
 import org.catrobat.catroid.retrofit.models.RefreshToken
 import org.catrobat.catroid.retrofit.models.RegisterUser
@@ -45,7 +48,10 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
+import retrofit2.http.PartMap
 import retrofit2.http.Query
 import java.util.Locale
 import java.util.concurrent.TimeUnit
@@ -112,6 +118,14 @@ interface WebService {
 
     @GET("projects/tags")
     fun getTags(): Call<List<Tag>>
+
+    @Multipart
+    @POST("projects")
+    fun uploadProject(
+        @Header("Authorization") bearerToken: String,
+        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
+        @Part projectFile: MultipartBody.Part
+    ) : Call<ProjectUploadResponseApi>
 }
 
 class CatroidWebServer private constructor() {
