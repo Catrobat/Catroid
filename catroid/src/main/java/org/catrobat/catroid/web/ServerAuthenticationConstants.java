@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,8 +27,8 @@ import org.catrobat.catroid.common.Constants;
 
 public final class ServerAuthenticationConstants {
 	public static final Integer SERVER_RESPONSE_REGISTER_OK = 201;
-	public static final Integer SERVER_RESPONSE_TOKEN_OK = 200;
 	public static final Integer SERVER_RESPONSE_USER_DELETED = 204;
+	public static final Integer SERVER_RESPONSE_TOKEN_OK = 200;
 	public static final Integer SERVER_RESPONSE_INVALID_UPLOAD_TOKEN = 401;
 	public static final Integer SERVER_RESPONSE_REGISTER_UNPROCESSABLE_ENTITY = 422;
 	public static final int DEPRECATED_TOKEN_LENGTH = 32;

@@ -28,15 +28,11 @@ import android.os.ResultReceiver;
 import android.util.Log;
 
 import com.google.android.gms.common.images.WebImage;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScratchProgramData;
 import org.catrobat.catroid.common.ScratchSearchResult;
 import org.catrobat.catroid.common.ScratchVisibilityState;
-import org.catrobat.catroid.transfers.project.ProjectUploadData;
-import org.catrobat.catroid.web.requests.HttpRequestsKt;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,16 +60,12 @@ import okhttp3.Response;
 import okio.BufferedSink;
 import okio.Okio;
 
-import static org.catrobat.catroid.web.ServerAuthenticationConstants.DEPRECATED_TOKEN_LENGTH;
-import static org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_TOKEN_OK;
-
 public final class ServerCalls implements ScratchDataFetcher {
 	public static final String BASE_URL_TEST_HTTPS = "https://catroid-test.catrob.at/pocketcode/";
 	public static final String TAG = ServerCalls.class.getSimpleName();
 	public static boolean useTestUrl = false;
 	private final OkHttpClient okHttpClient;
 	private String resultString;
-	private String projectId;
 
 	public ServerCalls(OkHttpClient httpClient) {
 		okHttpClient = httpClient;
@@ -279,48 +271,6 @@ public final class ServerCalls implements ScratchDataFetcher {
 		return programDataList;
 	}
 
-	public void uploadProject(ProjectUploadData uploadData, UploadSuccessCallback successCallback,
-			UploadErrorCallback errorCallback) {
-
-		executeUploadCall(
-				HttpRequestsKt.createUploadRequest(uploadData),
-				(uploadResponse) -> {
-					String newToken = uploadResponse.token;
-					projectId = uploadResponse.projectId;
-
-					if (uploadResponse.statusCode != SERVER_RESPONSE_TOKEN_OK) {
-						errorCallback.onError(uploadResponse.statusCode, "Upload failed! JSON Response was " + uploadResponse.statusCode);
-					} else if (newToken.length() != DEPRECATED_TOKEN_LENGTH) {
-						errorCallback.onError(uploadResponse.statusCode, uploadResponse.answer);
-					} else {
-						successCallback.onSuccess(projectId, uploadData.getUsername(), newToken);
-					}
-				},
-				errorCallback
-		);
-	}
-
-	private void executeUploadCall(Request request, UploadCallSuccessCallback successCallback, UploadErrorCallback errorCallback) {
-		Response response;
-		UploadResponse uploadResponse;
-		try {
-			response = okHttpClient.newCall(request).execute();
-			if (response.isSuccessful()) {
-				uploadResponse = new Gson().fromJson(response.body().string(), UploadResponse.class);
-				successCallback.onSuccess(uploadResponse);
-			} else {
-				Log.v(TAG, "Upload not successful");
-				errorCallback.onError(response.code(), "Upload failed! HTTP Status code was " + response.code());
-			}
-		} catch (IOException ioException) {
-			Log.e(TAG, Log.getStackTraceString(ioException));
-			errorCallback.onError(WebconnectionException.ERROR_NETWORK, "I/O Exception");
-		} catch (JsonSyntaxException jsonSyntaxException) {
-			Log.e(TAG, Log.getStackTraceString(jsonSyntaxException));
-			errorCallback.onError(WebconnectionException.ERROR_JSON, "JsonSyntaxException");
-		}
-	}
-
 	public void downloadMedia(final String url, final String filePath, final ResultReceiver receiver)
 			throws IOException, WebconnectionException {
 
@@ -378,24 +328,5 @@ public final class ServerCalls implements ScratchDataFetcher {
 		} catch (IOException e) {
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, Log.getStackTraceString(e));
 		}
-	}
-
-	static class UploadResponse {
-		String projectId;
-		int statusCode;
-		String answer;
-		String token;
-	}
-
-	public interface UploadSuccessCallback {
-		void onSuccess(String projectId, String username, String token);
-	}
-
-	public interface UploadErrorCallback {
-		void onError(int statusCode, String errorMessage);
-	}
-
-	private interface UploadCallSuccessCallback {
-		void onSuccess(UploadResponse response);
 	}
 }
