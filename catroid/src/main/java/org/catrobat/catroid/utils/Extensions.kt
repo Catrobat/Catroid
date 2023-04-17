@@ -33,7 +33,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import org.catrobat.catroid.retrofit.models.ProjectCategoryWithResponses
 import org.catrobat.catroid.retrofit.models.ProjectResponse
-import org.catrobat.catroid.retrofit.models.ProjectResponseApi
+import org.catrobat.catroid.retrofit.models.ProjectUploadResponseApi
 import org.catrobat.catroid.retrofit.models.ProjectsCategory
 import org.catrobat.catroid.retrofit.models.ProjectsCategoryApi
 
@@ -62,7 +62,7 @@ fun View.setVisibleOrGone(show: Boolean) {
     }
 }
 
-fun List<ProjectResponseApi>.toProjectResponsesList(projectType: String): List<ProjectResponse> {
+fun List<ProjectUploadResponseApi>.toProjectResponsesList(projectType: String): List<ProjectResponse> {
     return this.map { src ->
         ProjectResponse(
             id = src.id,
