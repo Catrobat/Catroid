@@ -20,59 +20,46 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.content.actions
 
-package org.catrobat.catroid.content.actions;
+import android.os.AsyncTask
+import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.formulaeditor.UserVariable
+import org.catrobat.catroid.io.DeviceVariableAccessor
 
-import android.os.AsyncTask;
+class ReadVariableFromDeviceAction : AsynchronousAction() {
+    private var userVariable: UserVariable? = null
+    private var readActionFinished = false
+    override fun act(delta: Float): Boolean {
+        return if (userVariable == null) {
+            true
+        } else super.act(delta)
+    }
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.io.DeviceVariableAccessor;
+    override fun initialize() {
+        readActionFinished = false
+        ReadTask().execute(userVariable)
+    }
 
-import java.io.File;
+    override fun isFinished(): Boolean = readActionFinished
 
-public class ReadVariableFromDeviceAction extends AsynchronousAction {
-	private UserVariable userVariable;
-	private boolean readActionFinished;
+    fun setUserVariable(userVariable: UserVariable?) {
+        this.userVariable = userVariable
+    }
 
-	@Override
-	public boolean act(float delta) {
-		if (userVariable == null) {
-			return true;
-		}
-		return super.act(delta);
-	}
+    private inner class ReadTask : AsyncTask<UserVariable?, Void?, Void?>() {
+        override fun doInBackground(userVariables: Array<UserVariable?>): Void? {
+            val projectDirectory = ProjectManager.getInstance().currentProject.directory
+            val accessor = DeviceVariableAccessor(projectDirectory)
+            for (variable in userVariables) {
+                accessor.readUserData(variable)
+            }
+            return null
+        }
 
-	@Override
-	public void initialize() {
-		readActionFinished = false;
-		new ReadTask().execute(userVariable);
-	}
-
-	@Override
-	public boolean isFinished() {
-		return readActionFinished;
-	}
-
-	public void setUserVariable(UserVariable userVariable) {
-		this.userVariable = userVariable;
-	}
-
-	private class ReadTask extends AsyncTask<UserVariable, Void, Void> {
-
-		@Override
-		protected Void doInBackground(UserVariable[] userVariables) {
-			File projectDirectory = ProjectManager.getInstance().getCurrentProject().getDirectory();
-			DeviceVariableAccessor accessor = new DeviceVariableAccessor(projectDirectory);
-
-			for (UserVariable variable: userVariables) {
-				accessor.readUserData(variable);
-			}
-			return null;
-		}
-		@Override
-		protected void onPostExecute(Void o) {
-			readActionFinished = true;
-		}
-	}
+        @Deprecated("Deprecated in Java")
+        override fun onPostExecute(o: Void?) {
+            readActionFinished = true
+        }
+    }
 }
