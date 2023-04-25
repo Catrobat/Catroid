@@ -1338,13 +1338,6 @@
     <string name="notification_screenshot_ok">Превью сохранено</string>
     <string name="notification_download_project_cancel">Отменить загрузку проекта</string>
     <string name="notification_reconvert_download_program_cancel">Загрузка/реконвертация проекта отменена</string>
-    <string name="notification_upload_title_pending">"Выкладывается"</string>
-    <string name="notification_upload_title_finished">"Посмотреть"</string>
-    <string name="notification_upload_pending">Выкладывание в процессе</string>
-    <string name="notification_upload_finished">Проект успешно выложен</string>
-    <string name="notification_upload_rejected">Выкладывание проекта не удалось</string>
-    <string name="notification_upload_retry">Повторить</string>
-    <string name="notification_open_play_store">Открыть App store</string>
     <string name="notification_download_title_pending">"Загрузка "</string>
     <string name="notification_download_pending">Загрузка в процессе</string>
     <string name="notification_download_finished">Загрузка завершена успешно</string>
@@ -1355,7 +1348,6 @@
     <string name="runtime_permission_general">Это приложение нуждается в запрашиваемых разрешениях для правильного функционирования.
 Например, блок камеры нуждается в доступе к камере устройства, а \"местоположение\" из редактора формул нуждается в доступе к GPS устройства, также для того, чтобы импортировать или экспортировать проекты с, и на устройство, приложению нужен доступ к внешнему хранилищу. Вы всегда можете поменять разрешения через настройки своего устройства.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">Что-то пошло не так во время выкладывания проекта.</string>
     <string name="error_project_download">Что-то пошло не так при скачивании проекта.</string>
     <string name="error_project_already_in_queue">"Проект %s уже в очереди."</string>
     <string name="error_could_not_decode_project_name_from_url">"Ваша загрузка не может быть запущена,

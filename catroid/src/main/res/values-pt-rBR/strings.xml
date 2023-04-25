@@ -1240,13 +1240,6 @@
     <string name="notification_screenshot_ok">Pré-visualizar imagem salva</string>
     <string name="notification_download_project_cancel">Cancelar download do projeto</string>
     <string name="notification_reconvert_download_program_cancel">Download/conversão do projeto cancelado</string>
-    <string name="notification_upload_title_pending">"Fazendo upload "</string>
-    <string name="notification_upload_title_finished">"Olhar para "</string>
-    <string name="notification_upload_pending">Upload em progresso</string>
-    <string name="notification_upload_finished">Upload efetuado com sucesso</string>
-    <string name="notification_upload_rejected">O projeto foi rejeitado</string>
-    <string name="notification_upload_retry">Tentar novamente</string>
-    <string name="notification_open_play_store">Abrir loja de aplicativos</string>
     <string name="notification_download_title_pending">"Baixando "</string>
     <string name="notification_download_pending">Download em progresso</string>
     <string name="notification_download_finished">Download bem-sucedido</string>
@@ -1259,7 +1252,6 @@ precisa acessar a câmera do dispositivo, o elemento de fórmula \"location\" pr
 dispositivo, e para importar e exportar projetos de e para a memória local, o aplicativo
 precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permissões nas configurações do seu dispositivo.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">Algo deu errado ao enviar o projeto.</string>
     <string name="error_project_download">Algo deu errado durante o download do projeto.</string>
     <string name="error_project_already_in_queue">"Projeto %s já está na fila."</string>
     <string name="error_could_not_decode_project_name_from_url">Não foi possível

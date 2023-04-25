@@ -1223,13 +1223,6 @@
     <string name="notification_screenshot_ok">پیش منظر تصویر محفوظ</string>
     <string name="notification_download_project_cancel">پروجیکٹ ڈاؤن لوڈ منسوخ کریں</string>
     <string name="notification_reconvert_download_program_cancel">منسوخ ڈاؤن لوڈ / منصوبے کی بحالی</string>
-    <string name="notification_upload_title_pending">"اپ لوڈ کررہا ہے"</string>
-    <string name="notification_upload_title_finished">"پر دیکھو"</string>
-    <string name="notification_upload_pending">اپ لوڈنگ جاری ہے</string>
-    <string name="notification_upload_finished">اپ لوڈ کامیاب</string>
-    <string name="notification_upload_rejected">اپ لوڈ کردہ منصوبے کو مسترد کر دیا</string>
-    <string name="notification_upload_retry">دوبارہ کوشش کریں</string>
-    <string name="notification_open_play_store">اپلی کیشن اسٹور کھولیں</string>
     <string name="notification_download_title_pending">"ڈاؤن لوڈ کیا جا رہا ہے …"</string>
     <string name="notification_download_pending">ڈاؤن لوڈ جاری ہے</string>
     <string name="notification_download_finished">ڈاؤن لوڈ کامیاب</string>
@@ -1242,7 +1235,6 @@
 آلے کے جغرافیائیشن سینسر، اور مقامی میموری سے اور مقامی میموری پر درآمد اور برآمد کرنے کے لئے
 اس تک رسائی پڑھنے اور لکھنے کی ضرورت ہے. آپ ہمیشہ اپنے آلات کی ترتیبات کے ذریعے اجازت کو تبدیل کرسکتے ہیں.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">اس منصوبے کو اپ لوڈ کرتے وقت کچھ غلط ہوگیا.</string>
     <string name="error_project_download">منصوبے کو ڈاؤن لوڈ کرتے ہوئے کچھ غلط ہوگیا.</string>
     <string name="error_project_already_in_queue">"پروجیکٹ %s پہلے ہی قطار میں ہے۔"</string>
     <string name="error_could_not_decode_project_name_from_url">"آپ کا ڈاؤن لوڈ 

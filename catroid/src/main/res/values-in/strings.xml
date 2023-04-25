@@ -1200,13 +1200,6 @@
     <string name="notification_screenshot_ok">Pratinjau gambar disimpan</string>
     <string name="notification_download_project_cancel">Batalkan pengunduhan proyek</string>
     <string name="notification_reconvert_download_program_cancel">Membatalkan proses unduhan/mengubah kembali</string>
-    <string name="notification_upload_title_pending">"Mengunggah "</string>
-    <string name="notification_upload_title_finished">"Melihat kepda "</string>
-    <string name="notification_upload_pending">Pengunggahan dalam proses</string>
-    <string name="notification_upload_finished">Unggahan berhasil</string>
-    <string name="notification_upload_rejected">Program yang diunggah ditolak</string>
-    <string name="notification_upload_retry">Coba Lagi</string>
-    <string name="notification_open_play_store">Buka Play Store</string>
     <string name="notification_download_title_pending">"Unduh "</string>
     <string name="notification_download_pending">Sedang mengunduh</string>
     <string name="notification_download_finished">Berhasil mengunduh</string>
@@ -1219,7 +1212,6 @@ Batu bata kamera memerlukan akses ke kamera perangkat, elemen rumus \"lokasi\" m
 sensor geolokasi perangkat, dan untuk mengimpor dan mengekspor proyek dari dan ke memori lokal, aplikasi
 membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin melalui pengaturan perangkat Anda.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">Terjadi kesalahan pada saat memuat program.</string>
     <string name="error_project_download">Terjadi kesalahan saat mengunduh program.</string>
     <string name="error_project_already_in_queue">"Proyek %s sudah dalam antrian."</string>
     <string name="error_could_not_decode_project_name_from_url">"Unduhan Anda tidak bisa

@@ -1198,13 +1198,6 @@
     <string name="notification_screenshot_ok">預覽圖像已保存</string>
     <string name="notification_download_project_cancel">取消項目下載</string>
     <string name="notification_reconvert_download_program_cancel">取消下載/重新轉換項目</string>
-    <string name="notification_upload_title_pending">"上傳中 "</string>
-    <string name="notification_upload_title_finished">"檢視 "</string>
-    <string name="notification_upload_pending">上傳進行中</string>
-    <string name="notification_upload_finished">上傳成功</string>
-    <string name="notification_upload_rejected">上傳程式檔被拒絕</string>
-    <string name="notification_upload_retry">重試</string>
-    <string name="notification_open_play_store">打開應用商店</string>
     <string name="notification_download_title_pending">"下載中 "</string>
     <string name="notification_download_pending">下載進行中</string>
     <string name="notification_download_finished">下載成功</string>
@@ -1217,7 +1210,6 @@
 設備的地理定位傳感器，為了從本地內存導入和導出項目，應用程序
 需要對其進行讀寫訪問。您可以隨時通過設備設置更改權限。</string>
     <!-- Error messages -->
-    <string name="error_project_upload">上傳程式檔時出錯。</string>
     <string name="error_project_download">下載程式檔時出錯。</string>
     <string name="error_project_already_in_queue">"項目 %s 已在隊列中。"</string>
     <string name="error_could_not_decode_project_name_from_url">“您的下載不能

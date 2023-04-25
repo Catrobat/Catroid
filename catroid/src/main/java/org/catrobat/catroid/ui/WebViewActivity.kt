@@ -148,8 +148,7 @@ class WebViewActivity : AppCompatActivity() {
             val request = DownloadManager.Request(Uri.parse(downloadUrl))
             val projectName = getProjectNameFromUrl(downloadUrl)
             request.run {
-                setTitle(getString(R.string.notification_download_title_pending) + " " +
-                             projectName)
+                setTitle(getString(R.string.notification_download_title_pending) + " " + projectName)
                 setDescription(getString(R.string.notification_download_pending))
                 setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                 setDestinationInExternalPublicDir(DIRECTORY_DOWNLOADS, projectName + ANDROID_APPLICATION_EXTENSION)

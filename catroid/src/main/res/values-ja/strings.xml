@@ -1195,13 +1195,6 @@
     <string name="notification_screenshot_ok">プレビュー画像を保存しました</string>
     <string name="notification_download_project_cancel">プロジェクトのダウンロードをキャンセル</string>
     <string name="notification_reconvert_download_program_cancel">プログラムのダウンロード/再変換をキャンセルしました</string>
-    <string name="notification_upload_title_pending">"アップロード中 "</string>
-    <string name="notification_upload_title_finished">"見てください："</string>
-    <string name="notification_upload_pending">アップロードは進行中</string>
-    <string name="notification_upload_finished">アップロードが成功</string>
-    <string name="notification_upload_rejected">アップロードしたプログラムが拒否されました</string>
-    <string name="notification_upload_retry">リトライ</string>
-    <string name="notification_open_play_store">Play ストア を開く</string>
     <string name="notification_download_title_pending">"ダウンロード中 "</string>
     <string name="notification_download_pending">ダウンロードが進行中</string>
     <string name="notification_download_finished">ダウンロードに成功しました</string>
@@ -1214,7 +1207,6 @@
 また、プロジェクトをローカルメモリーとの間でインポートおよびエクスポートするためには、アプリはローカルメモリーに対する読み取りおよび書き込みのアクセスを必要とします。
 読み込みと書き込みのアクセスが必要です。パーミッションの変更は、デバイスの設定からいつでも行えます。</string>
     <!-- Error messages -->
-    <string name="error_project_upload">アップロード中にエラーが発生しました</string>
     <string name="error_project_download">プログラムをダウンロード中にエラーが発生しました</string>
     <string name="error_project_already_in_queue">"プロジェクト %s はすでにキューに入っています。"</string>
     <string name="error_could_not_decode_project_name_from_url">「ダウンロードを

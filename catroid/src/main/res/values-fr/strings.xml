@@ -1241,13 +1241,6 @@
     <string name="notification_screenshot_ok">Aperçu de l’image enregistrée</string>
     <string name="notification_download_project_cancel">Annuler le téléchargement du projet</string>
     <string name="notification_reconvert_download_program_cancel">Téléchargement/reconversion du programme annulé</string>
-    <string name="notification_upload_title_pending">"Envoi "</string>
-    <string name="notification_upload_title_finished">"Regarder vers "</string>
-    <string name="notification_upload_pending">Envoi en cours</string>
-    <string name="notification_upload_finished">Envoi terminé</string>
-    <string name="notification_upload_rejected">L\'envoi du programme a échoué</string>
-    <string name="notification_upload_retry">Réessayer</string>
-    <string name="notification_open_play_store">Ouvrir le Play Store</string>
     <string name="notification_download_title_pending">"Téléchargement "</string>
     <string name="notification_download_pending">Téléchargement en cours</string>
     <string name="notification_download_finished">Téléchargement terminé</string>
@@ -1260,7 +1253,6 @@ caméra doit avoir accès à la caméra de l\'appareil, l\'élément de formule 
 capteur de géolocalisation de l\'appareil, et pour importer et exporter des projets depuis et vers la mémoire locale, l\'appli
 doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez toujours modifier les autorisations dans les paramètres de votre appareil.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">Une erreur s\'est produite lors du téléchargement de l\'appli.</string>
     <string name="error_project_download">Une erreur s\'est produite lors du téléchargement de l\'appli.</string>
     <string name="error_project_already_in_queue">"Le projet %s est déjà en file d'attente."</string>
     <string name="error_could_not_decode_project_name_from_url">"Votre téléchargement n\'a pas pu être démarré

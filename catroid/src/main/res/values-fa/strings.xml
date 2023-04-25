@@ -1180,13 +1180,6 @@
     <string name="notification_screenshot_ok">پیش نمایش تصویر ذخیره شد</string>
     <string name="notification_download_project_cancel">لغو دانلود پروژه</string>
     <string name="notification_reconvert_download_program_cancel">دانلود/تبدیل مجدد پروژه لغو شد</string>
-    <string name="notification_upload_title_pending">"در حال آپلود"</string>
-    <string name="notification_upload_title_finished">"نگاه کنید"</string>
-    <string name="notification_upload_pending">آپلود در حال انجام است</string>
-    <string name="notification_upload_finished">آپلود با موفقیت انجام شد</string>
-    <string name="notification_upload_rejected">پروژه آپلود شده رد شد</string>
-    <string name="notification_upload_retry">دوباره امتحان کنید</string>
-    <string name="notification_open_play_store">فروشگاه App را باز کنید</string>
     <string name="notification_download_title_pending">"در حال دانلود"</string>
     <string name="notification_download_pending">دانلود در حال انجام است</string>
     <string name="notification_download_finished">دانلود با موفقیت انجام شد</string>
@@ -1196,7 +1189,6 @@
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">این برنامه برای عملکرد صحیح به مجوزهای درخواستی نیاز دارد. به عنوان مثال، آجر دوربین نیاز به دسترسی به دوربین دستگاه دارد، عنصر فرمول «مکان» نیاز به دسترسی به حسگر موقعیت جغرافیایی دستگاه دارد، و برای وارد کردن و صادرات پروژه ها از و به حافظه محلی، برنامه نیاز به دسترسی خواندن و نوشتن به آن دارد. . همیشه می توانید مجوزها را از طریق تنظیمات دستگاه خود تغییر دهید.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">هنگام بارگذاری پروژه مشکلی پیش آمد.</string>
     <string name="error_project_download">هنگام دانلود پروژه مشکلی پیش آمد.</string>
     <string name="error_project_already_in_queue">"پروژه %s از قبل در صف است."</string>
     <string name="error_could_not_decode_project_name_from_url">"دانلود شما نمی تواند باشد

@@ -1184,13 +1184,6 @@
     <string name="notification_screenshot_ok">ภาพตัวอย่างที่บันทึกไว้</string>
     <string name="notification_download_project_cancel">ยกเลิกการดาวน์โหลดโครงการ</string>
     <string name="notification_reconvert_download_program_cancel">ยกเลิกโครงการดาวน์โหลด / กู้คืน</string>
-    <string name="notification_upload_title_pending">"กำลังอัปโหลด "</string>
-    <string name="notification_upload_title_finished">"ดูที่ "</string>
-    <string name="notification_upload_pending">อัปโหลดในระหว่างดำเนินการ</string>
-    <string name="notification_upload_finished">อัพโหลดเสร็จสิ้น</string>
-    <string name="notification_upload_rejected">โปรแกรมอัพโหลดถูกปฏิเสธ</string>
-    <string name="notification_upload_retry">ลองอีกครั้ง</string>
-    <string name="notification_open_play_store">เปิด App store</string>
     <string name="notification_download_title_pending">"กำลังดาวน์โหลด"</string>
     <string name="notification_download_pending">ดาวน์โหลดอยู่</string>
     <string name="notification_download_finished">ดาวน์โหลดเสร็จเรียบร้อย</string>
@@ -1200,7 +1193,6 @@
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">แอปนี้ต้องการสิทธิ์ที่ร้องขอเพื่อให้สามารถทำงานได้ ตัวอย่างเช่นคำสั่งของกล้องต้องการการเข้าถึงกล้องของอุปกรณ์องค์ประกอบของสูตร \"ตำแหน่ง\" ต้องการการเข้าถึงเซ็นเซอร์ตำแหน่งทางภูมิศาสตร์ของอุปกรณ์และเพื่อนำเข้าและส่งออกโครงการจากและไปยังหน่วยความจำท้องถิ่นแอปนี้จำเป็นต้องมีสิทธิ์อ่านและเขียน. คุณสามารถเปลี่ยนการอนุญาตผ่านการตั้งค่าอุปกรณ์ของคุณ</string>
     <!-- Error messages -->
-    <string name="error_project_upload">ข้อผิดพลาดเกิดขึ้นขณะอัปโหลดโปรแกรม</string>
     <string name="error_project_download">เกิดข้อผิดพลาดในขณะดาวน์โหลดโปรแกรม</string>
     <string name="error_project_already_in_queue">"โครงการ %s อยู่ในคิวแล้ว"</string>
     <string name="error_could_not_decode_project_name_from_url">"การดาวน์โหลดของคุณไม่สามารถเริ่มต้นดูเหมือนว่ามีปัญหากับเซิร์ฟเวอร์ของเรา"</string>

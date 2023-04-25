@@ -1242,13 +1242,6 @@
     <string name="notification_screenshot_ok">د مخکتنې انځور خوندي شو</string>
     <string name="notification_download_project_cancel">د پروژې ډاونلوډ لغوه کړئ</string>
     <string name="notification_reconvert_download_program_cancel">د پروژی ډاونلوډ کول / بیا رغول لغوه شوي</string>
-    <string name="notification_upload_title_pending">"پورته کول"</string>
-    <string name="notification_upload_title_finished">"وګوره ورته"</string>
-    <string name="notification_upload_pending">پورته کول په کار دي</string>
-    <string name="notification_upload_finished">اپلوډ بریالی شو</string>
-    <string name="notification_upload_rejected">اپلوډ شوې پروژه رد شوه</string>
-    <string name="notification_upload_retry">بیا هڅه وکړئ</string>
-    <string name="notification_open_play_store">د اپلیکیشن پلورنځی خلاص کړئ</string>
     <string name="notification_download_title_pending">"کښته کول"</string>
     <string name="notification_download_pending">ډاونلوډ په پرمختګ کې دی</string>
     <string name="notification_download_finished">ډاونلوډ بریالی شو</string>
@@ -1261,7 +1254,6 @@
 د وسیلې جیو لوکیشن سینسر، او د محلي حافظې څخه د پروژو د واردولو او صادرولو لپاره، ایپ
 لوستلو او لیکلو ته اړتیا لري. تاسو کولی شئ تل د خپل وسیله تنظیماتو له لارې اجازې بدل کړئ.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">د پروژې د پورته کولو په وخت کې یو څه غلط شو.</string>
     <string name="error_project_download">د پروژې ډاونلوډ کولو پرمهال یو څه غلط شو.</string>
     <string name="error_project_already_in_queue">"پروژه %s لا دمخه په کتار کې ده."</string>
     <string name="error_could_not_decode_project_name_from_url">"ستاسو ډاونلوډ 

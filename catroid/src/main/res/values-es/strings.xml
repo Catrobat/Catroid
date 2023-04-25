@@ -1239,13 +1239,6 @@
     <string name="notification_screenshot_ok">Vista previa guardada</string>
     <string name="notification_download_project_cancel">Cancelar la descarga del proyecto</string>
     <string name="notification_reconvert_download_program_cancel">Descarga Cancelada/Reconvirtiendo programa</string>
-    <string name="notification_upload_title_pending">"Cargando "</string>
-    <string name="notification_upload_title_finished">"Apariencia en"</string>
-    <string name="notification_upload_pending">Carga en progreso</string>
-    <string name="notification_upload_finished">Carga exitosa</string>
-    <string name="notification_upload_rejected">Programa subido rechazado</string>
-    <string name="notification_upload_retry">Intentelo otra vez</string>
-    <string name="notification_open_play_store">Abrir Play Store</string>
     <string name="notification_download_title_pending">"Descargando "</string>
     <string name="notification_download_pending">Descarga en progreso</string>
     <string name="notification_download_finished">Descarga exitosa</string>
@@ -1257,7 +1250,6 @@
 necesita acceso a la cámara del dispositivo, el elemento de fórmula \"ubicación\" necesita acceso al sensor de geolocalización del dispositivo, y con el fin de importar y exportar proyectos desde y hacia la memoria local, la aplicación
 necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permisos a través de la configuración de tu dispositivo.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">Un error ha ocurrido durante el proceso de carga</string>
     <string name="error_project_download">Un error ha ocurrido durante el proceso de descarga.</string>
     <string name="error_project_already_in_queue">"El proyecto %s ya está en cola."</string>
     <string name="error_could_not_decode_project_name_from_url">"Tu descarga no pudo ser

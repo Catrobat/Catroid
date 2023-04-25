@@ -36,10 +36,10 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.webkit.CookieManager;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.CookieManager;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -601,7 +601,7 @@ public final class Utils {
 		File file = new File(directory, fileName);
 		try {
 			ExifInterface exif = new ExifInterface(file.getAbsolutePath());
-			for (String exifTag: EXIFTAGS_FOR_EXIFREMOVER) {
+			for (String exifTag : EXIFTAGS_FOR_EXIFREMOVER) {
 				exif.setAttribute(exifTag, "");
 			}
 			exif.saveAttributes();
@@ -612,7 +612,7 @@ public final class Utils {
 
 	public static boolean checkForDuplicates(List<Object> anyList) {
 		Object prev = null;
-		for (Object it: anyList) {
+		for (Object it : anyList) {
 			if (it == prev) {
 				return true;
 			}

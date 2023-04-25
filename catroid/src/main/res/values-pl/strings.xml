@@ -1309,13 +1309,6 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="notification_screenshot_ok">Podgląd zapisanego obrazu</string>
     <string name="notification_download_project_cancel">Anulowane pobieranie programu</string>
     <string name="notification_reconvert_download_program_cancel">Anulowano pobieranie/ponowną konwersję programu</string>
-    <string name="notification_upload_title_pending">"Wysyłanie "</string>
-    <string name="notification_upload_title_finished">"Zerknij na "</string>
-    <string name="notification_upload_pending">Trwa wysyłanie</string>
-    <string name="notification_upload_finished">Wysyłanie zakończone powodzeniem</string>
-    <string name="notification_upload_rejected">Przesłane programu odrzucone</string>
-    <string name="notification_upload_retry">Spróbuj ponownie</string>
-    <string name="notification_open_play_store">Otwórz Sklep Play</string>
     <string name="notification_download_title_pending">"Pobieranie "</string>
     <string name="notification_download_pending">Trwa pobieranie</string>
     <string name="notification_download_finished">Pobieranie zakończone powodzeniem</string>
@@ -1325,7 +1318,6 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">Ta aplikacja potrzebuje wymaganych uprawnień do prawidłowego działania. Np. bloczek aparatu wymaga dostępu do aparatu urządzenia, element formuły „lokalizacja” wymaga dostępu do czujnika geolokalizacji urządzenia, a aby importować i eksportować projekty z i do pamięci lokalnej, aplikacja musi mieć dostęp do odczytu i zapisu. Zawsze możesz zmienić uprawnienia za pomocą ustawień urządzenia.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">Podczas wysyłania programu wystąpił błąd.</string>
     <string name="error_project_download">Podczas pobierania programu wystąpił błąd.</string>
     <string name="error_project_already_in_queue">"Projekt %s jest już w kolejce."</string>
     <string name="error_could_not_decode_project_name_from_url">"Twoje pobieranie nie może zostać rozpoczęte

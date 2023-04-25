@@ -1174,13 +1174,6 @@
     <string name="notification_screenshot_ok">캡쳐 하기 이미지 저장</string>
     <string name="notification_download_project_cancel">프로젝트 다운로드 취소</string>
     <string name="notification_reconvert_download_program_cancel">프로그램 다운로드/변환 취소</string>
-    <string name="notification_upload_title_pending">"업로드 중"</string>
-    <string name="notification_upload_title_finished">"방향 보기"</string>
-    <string name="notification_upload_pending">업로드가 진행중</string>
-    <string name="notification_upload_finished">업로드 성공</string>
-    <string name="notification_upload_rejected">프로그램 업로드 거부</string>
-    <string name="notification_upload_retry">다시 시도</string>
-    <string name="notification_open_play_store">플레이 스토어 열기</string>
     <string name="notification_download_title_pending">"다운로드 중 "</string>
     <string name="notification_download_pending">다운로드 진행 중</string>
     <string name="notification_download_finished">다운로드 성공</string>
@@ -1190,7 +1183,6 @@
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">이 앱은 기능의 권한이 필요합니다. 즉, 카메라 블록은 기기의 카메라 접근, \"위치\"기능은 기기의 위치 센서의 접근, 프로젝트를 불러오거나 저장하기 위한 일고 저장하는 기능 등. 기기의 설정을 통해 접근 권한을 변경할 수 있습니다.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">프로그램을 업로드하는 중에 오류가 발생했습니다.</string>
     <string name="error_project_download">프로그램을 다운로드하는 동안 오류가 발생했습니다.</string>
     <string name="error_project_already_in_queue">"프로그램이 %s 대기중."</string>
     <string name="error_could_not_decode_project_name_from_url">"다운로드할 수 없습니다.

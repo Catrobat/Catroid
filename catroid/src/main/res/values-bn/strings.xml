@@ -1218,13 +1218,6 @@
     <string name="notification_screenshot_ok">পূর্বরূপ চিত্র সংরক্ষণ করা হয়েছে</string>
     <string name="notification_download_project_cancel">প্রজেক্ট ডাউনলোড বাতিল করুন</string>
     <string name="notification_reconvert_download_program_cancel">ডাউনলোড করা / পুনর্নির্মাণ প্রজেক্ট বাতিল হয়েছে</string>
-    <string name="notification_upload_title_pending">"আপলোড হচ্ছ …"</string>
-    <string name="notification_upload_title_finished">"তাকানো"</string>
-    <string name="notification_upload_pending">আপলোড চলছে</string>
-    <string name="notification_upload_finished">আপলোড সফল</string>
-    <string name="notification_upload_rejected">আপলোড করা প্রকল্প বাতিল হয়েছে</string>
-    <string name="notification_upload_retry">পুনরায় চেষ্টা করুন</string>
-    <string name="notification_open_play_store">অ্যাপ স্টোর খুলুন</string>
     <string name="notification_download_title_pending">"ডাউনলোড হচ্ছে"</string>
     <string name="notification_download_pending">আপলোড চলছে</string>
     <string name="notification_download_finished">ডাউনলোড সফল</string>
@@ -1234,7 +1227,6 @@
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">এই অ্যাপ্লিকেশনটির সঠিকভাবে কাজ করার জন্য অনুরোধ করা অনুমতিগুলি দরকার। উদাহরণস্বরূপ, ক্যামেরা ব্রিক ডিভাইসের ক্যামেরায় অ্যাক্সেস প্রয়োজন, \"অবস্থান\" সূত্র উপাদানটি ডিভাইসের ভূ-অবস্থান সেন্সরটিতে অ্যাক্সেসের প্রয়োজন, এবং স্থানীয় মেমরি থেকে এবং আমদানি ও রফতানি করতে অ্যাপ্লিকেশনটিকে এটি পড়তে এবং লেখার অ্যাক্সেসের প্রয়োজন । আপনি সর্বদা আপনার ডিভাইসের সেটিংসের মাধ্যমে অনুমতিগুলি পরিবর্তন করতে পারেন।</string>
     <!-- Error messages -->
-    <string name="error_project_upload">প্রজেক্টটি আপলোড করার সময় কিছু ভুল হয়েছে।</string>
     <string name="error_project_download">প্রজেক্টটি ডাউনলোড করার সময় কিছু ভুল হয়েছে।</string>
     <string name="error_project_already_in_queue">"প্রকল্প %s ইতিমধ্যে সারিতে রয়েছে।"</string>
     <string name="error_could_not_decode_project_name_from_url">"আপনার ডাউনলোড হতে পারে না

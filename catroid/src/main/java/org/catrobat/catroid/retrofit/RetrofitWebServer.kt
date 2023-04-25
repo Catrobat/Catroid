@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -93,7 +93,6 @@ interface WebService {
 
     @POST("user")
     fun register(
-        @Header("Authorization") bearerToken: String,
         @Body user: RegisterUser
     ): Call<LoginResponse>
 
@@ -126,8 +125,9 @@ interface WebService {
         @Header("Authorization") bearerToken: String,
         @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
         @Part projectFile: MultipartBody.Part
-    ) : Call<ProjectUploadResponseApi>
+    ): Call<ProjectUploadResponseApi>
 
+    @SuppressWarnings("LongParameterList")
     @GET("projects/user")
     fun getUserProjects(
         @Header("Authorization") bearerToken: String,

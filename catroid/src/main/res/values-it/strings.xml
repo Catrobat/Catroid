@@ -1248,13 +1248,6 @@ app
     <string name="notification_screenshot_ok">Anteprima immagine salvata</string>
     <string name="notification_download_project_cancel">Download del progetto annullato</string>
     <string name="notification_reconvert_download_program_cancel">Annullato il download/conversione del progetto</string>
-    <string name="notification_upload_title_pending">"Caricamento "</string>
-    <string name="notification_upload_title_finished">"Notifica da "</string>
-    <string name="notification_upload_pending">Caricamento in corso</string>
-    <string name="notification_upload_finished">Caricamento terminato con successo</string>
-    <string name="notification_upload_rejected">L\'invio del progetto è stato rifiutato</string>
-    <string name="notification_upload_retry">Riprova</string>
-    <string name="notification_open_play_store">Apri Play Store</string>
     <string name="notification_download_title_pending">"Download di "</string>
     <string name="notification_download_pending">Download in corso</string>
     <string name="notification_download_finished">Download completato</string>
@@ -1267,7 +1260,6 @@ il mattoncino della videocamera necessita di accedere alla videocamera del dispo
 la posizione del sensore di posizione, per importare o esportare progetti sulla memoria secondaria, l\'app
 deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modificare i permessi in un secondo momento dalle impostazioni del dispositivo.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">Errore durante il caricamento del progetto.</string>
     <string name="error_project_download">Errore durante il download del progetto.</string>
     <string name="error_project_already_in_queue">"Il progetto %s è già in coda."</string>
     <string name="error_could_not_decode_project_name_from_url">"Il download non può essere avviato,

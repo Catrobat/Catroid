@@ -1229,13 +1229,6 @@
     <string name="notification_screenshot_ok">پیش نمایش تصویر ذخیره شد</string>
     <string name="notification_download_project_cancel">لغو بارگیری پروژه</string>
     <string name="notification_reconvert_download_program_cancel">پروژه بارگیری/تبدیل مجدد لغو شد</string>
-    <string name="notification_upload_title_pending">"در حال بارگزاري"</string>
-    <string name="notification_upload_title_finished">"نگاه کن به "</string>
-    <string name="notification_upload_pending">آپلود در جریان است</string>
-    <string name="notification_upload_finished">آپلود با موفقیت انجام شد</string>
-    <string name="notification_upload_rejected">برنامه آپلود شده رد شده</string>
-    <string name="notification_upload_retry">دوباره امتحان کن</string>
-    <string name="notification_open_play_store">فروشگاه برنامه را باز کنید</string>
     <string name="notification_download_title_pending">"در حال دانلود "</string>
     <string name="notification_download_pending">دانلود در جریان است</string>
     <string name="notification_download_finished">بارگيري با موفقیت انجام شد</string>
@@ -1248,7 +1241,6 @@
 سنسور موقعیت جغرافیایی دستگاه ، و به منظور واردات و صادرات پروژه ها از و به حافظه محلی ، برنامه
 نیاز به دسترسی به خواندن و نوشتن دارد. همیشه می توانید مجوزها را از طریق تنظیمات دستگاه خود تغییر دهید.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">خطایی هنگام آپلود برنامه رخ داده است.</string>
     <string name="error_project_download">خطایی هنگام دانلود برنامه رخ داده است.</string>
     <string name="error_project_already_in_queue">"پروژه %s در حال حاضر در صف است."</string>
     <string name="error_could_not_decode_project_name_from_url">"بارگیری شما شروع نمی شود ، به نظر 

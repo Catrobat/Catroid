@@ -1245,13 +1245,6 @@
     <string name="notification_screenshot_ok">ਪੂਰਵਦਰਸ਼ਨ ਚਿੱਤਰ ਸੁਰੱਖਿਅਤ ਕੀਤਾ ਗਿਆ</string>
     <string name="notification_download_project_cancel">ਰੱਦ ਕਰੋ ਪ੍ਰਾਜੈਕਟ ਨੂੰ ਡਾਊਨਲੋਡ</string>
     <string name="notification_reconvert_download_program_cancel">ਰੱਦ ਡਾਊਨਲੋਡਿੰਗ / ਪ੍ਰਵਿਸ਼ਟ ਪ੍ਰਾਜੈਕਟ ਨੂੰ</string>
-    <string name="notification_upload_title_pending">"ਅੱਪਲੋਡ"</string>
-    <string name="notification_upload_title_finished">"ਵੱਲ ਦੇਖੋ"</string>
-    <string name="notification_upload_pending">ਅਪਲੋਡ ਜਾਰੀ ਹੈ</string>
-    <string name="notification_upload_finished">ਅਪਲੋਡ ਸਫਲ</string>
-    <string name="notification_upload_rejected">ਅਪਲੋਡ ਕੀਤਾ ਪ੍ਰੋਜੈਕਟ ਰੱਦ ਕਰ ਦਿੱਤਾ ਗਿਆ</string>
-    <string name="notification_upload_retry">ਮੁੜ</string>
-    <string name="notification_open_play_store">ਐਪ ਸਟੋਰ ਖੋਲ੍ਹੋ</string>
     <string name="notification_download_title_pending">"ਡਾਊਨਲੋਡ"</string>
     <string name="notification_download_pending">ਤਰੱਕੀ ਵਿੱਚ ਡਾਊਨਲੋਡ</string>
     <string name="notification_download_finished">ਡਾਊਨਲੋਡ ਸਫਲ</string>
@@ -1264,7 +1257,6 @@
 ਡਿਵਾਈਸ ਦਾ ਭੂ-ਸਥਿਤੀ ਸੰਵੇਦਕ, ਅਤੇ ਸਥਾਨਕ ਮੈਮੋਰੀ ਤੋਂ, ਐਪ ਨੂੰ ਆਯਾਤ ਅਤੇ ਨਿਰਯਾਤ ਕਰਨ ਲਈ
 ਇਸ ਨੂੰ ਪੜ੍ਹਨ ਅਤੇ ਲਿਖਣ ਦੀ ਪਹੁੰਚ ਦੀ ਜ਼ਰੂਰਤ ਹੈ. ਤੁਸੀਂ ਹਮੇਸ਼ਾਂ ਆਪਣੇ ਡਿਵਾਈਸ ਦੀਆਂ ਸੈਟਿੰਗਾਂ ਦੁਆਰਾ ਅਨੁਮਤੀਆਂ ਨੂੰ ਬਦਲ ਸਕਦੇ ਹੋ.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਅਪਲੋਡ ਕਰਨ ਵੇਲੇ ਕੁਝ ਗਲਤ ਹੋਇਆ.</string>
     <string name="error_project_download">ਜਦਕਿ ਪ੍ਰਾਜੈਕਟ ਨੂੰ ਡਾਊਨਲੋਡ ਕਰਨ ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ.</string>
     <string name="error_project_already_in_queue">"ਪ੍ਰੋਜੈਕਟ%s ਪਹਿਲਾਂ ਹੀ ਕਤਾਰ ਵਿੱਚ ਹੈ."</string>
     <string name="error_could_not_decode_project_name_from_url">"ਤੁਹਾਡਾ ਡਾਊਨਲੋਡ ਨਾ ਹੋ ਸਕਦਾ ਹੈ

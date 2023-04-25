@@ -1210,13 +1210,6 @@ bekleyin</string>
     <string name="notification_screenshot_ok">Önizleme resmi kaydedildi</string>
     <string name="notification_download_project_cancel">Proje indirmeyi iptal et</string>
     <string name="notification_reconvert_download_program_cancel">Programı indirme/yeniden dönüştürme iptal edildi</string>
-    <string name="notification_upload_title_pending">"Catrobat topluluğuna yükleniyor "</string>
-    <string name="notification_upload_title_finished">"Bak "</string>
-    <string name="notification_upload_pending">Topluluğa Yükleme Devam Ediyor</string>
-    <string name="notification_upload_finished">Yükleme Başarılı</string>
-    <string name="notification_upload_rejected">Yüklenen proje rededildi</string>
-    <string name="notification_upload_retry">Yeniden deneyin</string>
-    <string name="notification_open_play_store">Uygulama mağazasını aç</string>
     <string name="notification_download_title_pending">"İndiriliyor…"</string>
     <string name="notification_download_pending">İndirme devam ediyor…</string>
     <string name="notification_download_finished">İndirme başarılı oldu</string>
@@ -1226,7 +1219,6 @@ bekleyin</string>
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">Bu uygulamanın düzgün çalışması için istenen izinlere ihtiyacı var. Ör. Kamera tuğlasının cihazın kamerasına erişmesi gerekiyor, \"konum\" formül öğesinin cihazın coğrafi konum sensörü ve projeleri yerel bellekten ve yerel bellekten içe ve dışa aktarmak için uygulama okuma ve yazma erişimine ihtiyacı var. İzinleri her zaman cihazınızın ayarlarından değiştirebilirsiniz.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">Programı yüklerken bir hata oluştu.</string>
     <string name="error_project_download">Programı yüklerken bir hata oluştu.</string>
     <string name="error_project_already_in_queue">"%s projesi zaten sırada."</string>
     <string name="error_could_not_decode_project_name_from_url">İndirme işleminiz başlatılamadı, sunucumuzda bir sorun var gibi görünüyor.</string>

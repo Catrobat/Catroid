@@ -1184,13 +1184,6 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="notification_screenshot_ok">预览图像已保存</string>
     <string name="notification_download_project_cancel">取消项目下载</string>
     <string name="notification_reconvert_download_program_cancel">已取消下载/重新转换程序</string>
-    <string name="notification_upload_title_pending">"上传中 "</string>
-    <string name="notification_upload_title_finished">"查看 "</string>
-    <string name="notification_upload_pending">正在上传</string>
-    <string name="notification_upload_finished">上传成功</string>
-    <string name="notification_upload_rejected">上传的程序被拒绝</string>
-    <string name="notification_upload_retry">重试</string>
-    <string name="notification_open_play_store">打开Play Store</string>
     <string name="notification_download_title_pending">"下载中 "</string>
     <string name="notification_download_pending">正在下载</string>
     <string name="notification_download_finished">下载完成</string>
@@ -1203,7 +1196,6 @@ dash(-), 下划线 (_), 和 句号(.).</string>
 设备的地理位置传感器。 并且为了从本地内存导入和导出项目，应用程序
 需要读写访问它。 您总是可以通过您的设备的设置更改权限。</string>
     <!-- Error messages -->
-    <string name="error_project_upload">在上传程序的时候发生了一个错误。</string>
     <string name="error_project_download">下载程序时发生了一个错误。</string>
     <string name="error_project_already_in_queue">"项目 %s 已在队列中。"</string>
     <string name="error_could_not_decode_project_name_from_url">\"您的下载无法开始，似乎我们的服务器有问题。</string>

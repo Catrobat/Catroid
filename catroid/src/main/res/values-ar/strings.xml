@@ -1420,13 +1420,6 @@
     <string name="notification_screenshot_ok">معاينة الصورة المحفوظة</string>
     <string name="notification_download_project_cancel">الغاء تحميل المشروع</string>
     <string name="notification_reconvert_download_program_cancel">إلغاء اللتحميل/إعادة التحويل البرنامج</string>
-    <string name="notification_upload_title_pending">"التحميل "</string>
-    <string name="notification_upload_title_finished">"أنظر الى"</string>
-    <string name="notification_upload_pending">جاري التحميل </string>
-    <string name="notification_upload_finished">تم التحميل بنجاح</string>
-    <string name="notification_upload_rejected">تم رفض تحميل البرنامج</string>
-    <string name="notification_upload_retry">إعادة المحاولة</string>
-    <string name="notification_open_play_store">فتح في بلي ستور</string>
     <string name="notification_download_title_pending">"التنزيل "</string>
     <string name="notification_download_pending">جاري التنزيل</string>
     <string name="notification_download_finished">تم التنزيل بنجاح</string>
@@ -1440,7 +1433,6 @@
 ومن أجل استيراد وتصدير المشاريع من والى الذاكرة الخارجية, التطبيق يحتاج إذن القراء والكتابة.
 يمكنك دائماً تغيير الاذونات الممنوحة للتطبيق من إعدادات الجهاز.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">حدث خطأ أثناء تحميل البرنامج.</string>
     <string name="error_project_download">حدث خطأ أثناء تنزيل البرنامج.</string>
     <string name="error_project_already_in_queue">"المشروع %s في قائمة الانتظار بالفعل."</string>
     <string name="error_could_not_decode_project_name_from_url">"لا يمكن أن يكون تحميلك

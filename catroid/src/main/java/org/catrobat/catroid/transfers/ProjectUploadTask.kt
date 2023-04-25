@@ -45,8 +45,11 @@ class ProjectUploadTask(private val webServer: WebService) {
     fun getErrorMessage(): String = errorMessage
 
     fun uploadProject(
-        projectZip: File, checksum: String, idToken: String, flavor: String? = null, isPrivate:
-        Boolean? = null
+        projectZip: File,
+        checksum: String,
+        idToken: String,
+        flavor: String? = null,
+        isPrivate: Boolean? = null
     ) {
         Log.d(TAG, "Starting project upload")
 
@@ -60,20 +63,16 @@ class ProjectUploadTask(private val webServer: WebService) {
         val map: HashMap<String, RequestBody> = HashMap()
         map["checksum"] = RequestBody.create(MultipartBody.FORM, checksum)
 
-        if (isPrivate != null)
-        {
+        if (isPrivate != null) {
             map["private"] = RequestBody.create(MultipartBody.FORM, isPrivate.toString())
         }
 
-        if (flavor != null)
-        {
+        if (flavor != null) {
             map["flavor"] = RequestBody.create(MultipartBody.FORM, flavor)
         }
 
         val uploadProjectCall: Call<ProjectUploadResponseApi> = webServer.uploadProject(
-            "Bearer $idToken",
-            map,
-            body
+            "Bearer $idToken", map, body
         )
 
         uploadProjectCall.enqueue(object : Callback<ProjectUploadResponseApi> {
@@ -94,8 +93,7 @@ class ProjectUploadTask(private val webServer: WebService) {
                     else -> {
                         Log.e(
                             TAG,
-                            "Not accepted StatusCode: $statusCode on project upload; Server " +
-                                "Answer: ${response.body()}"
+                            "Not accepted StatusCode: $statusCode on project upload; Server " + "Answer: ${response.body()}"
                         )
                         errorMessage = "Project could not be uploaded!"
                         projectUploadResponse.postValue(null)

@@ -1224,13 +1224,6 @@
     <string name="notification_screenshot_ok">Bildvorschau gespeichert</string>
     <string name="notification_download_project_cancel">Projektdownload abbrechen</string>
     <string name="notification_reconvert_download_program_cancel">Download/Rückkonvertierung des Projektes abgebrochen</string>
-    <string name="notification_upload_title_pending">"Hochladen von "</string>
-    <string name="notification_upload_title_finished">"Anschauen von "</string>
-    <string name="notification_upload_pending">Upload wird ausgeführt</string>
-    <string name="notification_upload_finished">Upload erfolgreich</string>
-    <string name="notification_upload_rejected">Upload des Projekts verweigert</string>
-    <string name="notification_upload_retry">Wiederholen</string>
-    <string name="notification_open_play_store">Öffnen im Play Store</string>
     <string name="notification_download_title_pending">"Herunterladen von "</string>
     <string name="notification_download_pending">Download wird ausgeführt</string>
     <string name="notification_download_finished">Download erfolgreich</string>
@@ -1240,7 +1233,6 @@
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">Diese App benötigt die angeforderten Berechtigungen, um ordnungsgemäß zu funktionieren. Beispielsweise benötigt der Kamera Baustein Zugriff auf die Kamera des Geräts, das Formelelement \"Standort\" benötigt Zugriff auf den Geolocation-Sensor des Geräts. Um Projekte aus und in den lokalen Speicher zu importieren und zu exportieren, benötigt die App Lese- und Schreibzugriff auf diesen. Du kannst Berechtigungen jederzeit über die Einstellungen deines Geräts ändern.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">Beim Hochladen des Projekts ist ein Fehler aufgetreten.</string>
     <string name="error_project_download">Beim Herunterladen des Projekts ist ein Fehler aufgetreten.</string>
     <string name="error_project_already_in_queue">"Projekt %s bereits in Warteschlange."</string>
     <string name="error_could_not_decode_project_name_from_url">Der Download konnte nicht gestartet werden, es scheint als gäbe es ein Problem mit unserem Server.</string>

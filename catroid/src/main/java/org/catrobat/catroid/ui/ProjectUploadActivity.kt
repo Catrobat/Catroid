@@ -61,19 +61,12 @@ import org.catrobat.catroid.databinding.DialogReplaceApiKeyBinding
 import org.catrobat.catroid.databinding.DialogUploadUnchangedProjectBinding
 import org.catrobat.catroid.exceptions.ProjectException
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask.ProjectLoadListener
 import org.catrobat.catroid.retrofit.models.ProjectUploadResponseApi
 import org.catrobat.catroid.transfers.ProjectUploadTask
 import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
-import org.catrobat.catroid.io.asynctask.loadProject
-import org.catrobat.catroid.io.asynctask.renameProject
 import org.catrobat.catroid.transfers.GetUserProjectsTask
 import org.catrobat.catroid.transfers.TagsTask
 import org.catrobat.catroid.transfers.TokenTask
-import org.catrobat.catroid.transfers.project.ResultReceiverWrapper
-import org.catrobat.catroid.transfers.project.ResultReceiverWrapperInterface
-import org.catrobat.catroid.ui.controller.ProjectUploadController
-import org.catrobat.catroid.ui.controller.ProjectUploadController.ProjectUploadInterface
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.InputWatcher
 import org.catrobat.catroid.utils.FileMetaDataExtractor
@@ -177,11 +170,11 @@ open class ProjectUploadActivity : BaseActivity(),
 
         getUserProjectsTask.clear()
         getUserProjectsTask.getUserProjectsResponse()
-            .observe(this) { getUserProjectsResponse ->
-                getUserProjectsResponse?.let {
+            .observe(this) { projectResponse ->
+                projectResponse?.let {
                     Log.d(TAG, "We got a response!")
                     extractProjectNamesFromResponseJob = GlobalScope.launch(Dispatchers.Main) {
-                        for(response in getUserProjectsResponse) {
+                        for (response in projectResponse) {
                             projectNamesOfUser.add(response.name)
                         }
                     }
@@ -332,12 +325,12 @@ open class ProjectUploadActivity : BaseActivity(),
                 return
             }
 
-            if (checkIfProjectNameAlreadyExists(binding.inputProjectName.editText?.text.toString())) {
+            if (projectNamesOfUser
+                    .contains(binding.inputProjectName.editText?.text.toString())
+            ) {
                 Log.e(TAG, "Name is not unique, show Overwrite Dialog!")
                 showOverwriteDialog()
-            }
-            else
-            {
+            } else {
                 Log.d(TAG, "Name is unique")
             }
 
@@ -518,10 +511,6 @@ open class ProjectUploadActivity : BaseActivity(),
         }
     }
 
-    private fun checkIfProjectNameAlreadyExists(name: String) : Boolean {
-        return projectNamesOfUser.contains(name)
-    }
-
     private fun showOverwriteDialog() {
         val view = View.inflate(this, R.layout.dialog_overwrite_project, null)
         val radioGroup = view.findViewById<RadioGroup>(R.id.radio_group)
@@ -529,7 +518,7 @@ open class ProjectUploadActivity : BaseActivity(),
 
         val textWatcher: InputWatcher.TextWatcher = object : InputWatcher.TextWatcher() {
             override fun isNameUnique(name: String?): Boolean {
-                return name?.let { checkIfProjectNameAlreadyExists(it) } ?: true
+                return name?.let { projectNamesOfUser.contains(it) } ?: true
             }
         }
 
@@ -538,16 +527,12 @@ open class ProjectUploadActivity : BaseActivity(),
             .setTextWatcher(textWatcher)
             .setPositiveButton(
                 getString(R.string.ok),
-                TextInputDialog.OnClickListener {dialog: DialogInterface?, textInput: String? ->
+                TextInputDialog.OnClickListener { dialog: DialogInterface?, textInput: String? ->
                     when (radioGroup.checkedRadioButtonId) {
-                        R.id.rename -> {
-                            if (textInput != null) {
-                                project.name = textInput
-                            }
+                        R.id.rename -> if (textInput != null) {
+                            project.name = textInput
                         }
-                        R.id.replace -> {
-                            Log.d(TAG, "Project will be overwritten!")
-                        }
+                        R.id.replace -> Log.d(TAG, "Project will be overwritten!")
                         else -> throw java.lang.IllegalStateException("Cannot find Radio Button")
                     }
                 }
@@ -558,7 +543,7 @@ open class ProjectUploadActivity : BaseActivity(),
             .setNegativeButton(R.string.cancel, null)
             .create()
 
-        radioGroup.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener {group:
+        radioGroup.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group:
         RadioGroup?, checkedId: Int ->
             when (checkedId) {
                 R.id.replace -> {
@@ -626,6 +611,7 @@ open class ProjectUploadActivity : BaseActivity(),
             uploadProgressDialog?.findViewById<ImageView>(R.id.dialog_upload_progress_image)
         image?.setImageResource(R.drawable.ic_upload_failed)
         image?.visibility = View.VISIBLE
+        Log.e(TAG, errorMessage)
     }
 
     private fun showSuccessDialog(projectMetaData: ProjectUploadResponseApi) {
@@ -740,23 +726,6 @@ open class ProjectUploadActivity : BaseActivity(),
         })
 
         tokenTask.refreshToken(token, refreshToken)
-    }
-
-    @Deprecated("Use new API call instead", ReplaceWith("checkRefreshToken(token, refreshToken)"))
-    private fun checkDeprecatedToken(token: String) {
-        tokenTask.getUpgradeTokenResponse().observe(this, Observer { upgradeResponse ->
-            upgradeResponse?.let {
-                sharedPreferences.edit()
-                    .putString(Constants.TOKEN, upgradeResponse.token)
-                    .putString(Constants.REFRESH_TOKEN, upgradeResponse.refresh_token)
-                    .apply()
-                onCreateView()
-            } ?: run {
-                verifyUserIdentityFailed()
-            }
-        })
-
-        tokenTask.upgradeToken(token)
     }
 
     private fun verifyUserIdentityFailed() {

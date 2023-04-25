@@ -1338,13 +1338,6 @@
     <string name="notification_screenshot_ok">Зображення проєкту збережено</string>
     <string name="notification_download_project_cancel">Скасувати завантаження проєкту</string>
     <string name="notification_reconvert_download_program_cancel">Скасовано завантаження/повторне конвертування проєкту</string>
-    <string name="notification_upload_title_pending">"Вивантаження"</string>
-    <string name="notification_upload_title_finished">"Подивитися на"</string>
-    <string name="notification_upload_pending">Триває вивантаження</string>
-    <string name="notification_upload_finished">Успішно завантажено</string>
-    <string name="notification_upload_rejected">Вивантаження проєкту відхилено</string>
-    <string name="notification_upload_retry">Повторити</string>
-    <string name="notification_open_play_store">Відкрити App store</string>
     <string name="notification_download_title_pending">"Завантаження"</string>
     <string name="notification_download_pending">Триває завантаження</string>
     <string name="notification_download_finished">Успішно завантажено</string>
@@ -1354,7 +1347,6 @@
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">Ця програма потребує запитаних дозволів для належного функціонування. Наприклад, цеглина камери потребує доступу до камери пристрою, елемент формули «розташування» потребує доступу до датчика геолокації пристрою, а для імпорту та експорту проєктів з та до локальної пам\'яті додаток потребує доступу до нього для читання та запису. Ви завжди можете змінити дозволи в налаштуваннях пристрою.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">Щось пішло не так під час вивантаження проєкту.</string>
     <string name="error_project_download">Щось пішло не так під час завантаження проєкту.</string>
     <string name="error_project_already_in_queue">"Проєкт %s уже в черзі."</string>
     <string name="error_could_not_decode_project_name_from_url">\"Ваше завантаження не може бути
