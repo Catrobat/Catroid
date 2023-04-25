@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -67,7 +67,7 @@ public final class LegoSensorPortConfigDialogWrapper extends ViewInteractionWrap
 	public static LegoSensorPortConfigDialogWrapper onLegoSensorPortConfigDialog(@FormulaEditorNXTLegoSensors int sensorStringResource) {
 		String sensorString = UiTestUtils.getResourcesString(sensorStringResource);
 		String legoSensorConfigDialogTitle = UiTestUtils
-				.getResourcesString(R.string.lego_sensor_port_config_dialog_title, sensorString);
+				.getResourcesStringWithArgs(R.string.lego_sensor_port_config_dialog_title, sensorString);
 		return new LegoSensorPortConfigDialogWrapper(onView(withText(legoSensorConfigDialogTitle)));
 	}
 

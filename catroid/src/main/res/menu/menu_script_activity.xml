@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -36,39 +36,48 @@
         android:id="@+id/backpack"
         android:visible="true"
         android:title="@string/backpack"
+        android:icon="@drawable/ic_content_paste_small"
         app:showAsAction="never" />
     <item
         android:id="@+id/copy"
         android:title="@string/copy"
+        android:icon="@drawable/ic_content_copy"
         app:showAsAction="never" />
     <item
         android:id="@+id/delete"
         android:title="@string/delete"
+        android:icon="@drawable/ic_delete"
         app:showAsAction="never" />
     <item
         android:id="@+id/rename"
         android:title="@string/rename"
+        android:icon="@drawable/ic_edit"
         app:showAsAction="never" />
     <item
         android:id="@+id/show_details"
         android:title="@string/show_details"
+        android:icon="@drawable/ic_placeholder"
         app:showAsAction="never" />
     <item
         android:id="@+id/comment_in_out"
         android:title="@string/comment_in_out"
         android:visible="false"
+        android:icon="@drawable/ic_placeholder"
         app:showAsAction="never" />
     <item
         android:id="@+id/find"
-        android:title="@string/find"
+        android:title="@string/search"
+        android:icon="@drawable/ic_search_menu"
         app:showAsAction="never" />
     <item
          android:id="@+id/catblocks"
          android:title="@string/catblocks"
+         android:icon="@drawable/ic_placeholder"
          app:showAsAction="never"
          />
     <item android:id="@+id/catblocks_reorder_scripts"
         android:title="@string/catblocks_reorder"
+        android:icon="@drawable/ic_placeholder"
         app:showAsAction="never" />
     <item
         android:id="@+id/search"

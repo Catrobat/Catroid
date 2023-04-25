@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,6 @@ import android.content.Intent
 import android.util.Log
 import android.view.Menu
 import android.view.View
-import android.widget.PopupMenu
 import androidx.annotation.PluralsRes
 import org.catrobat.catroid.BuildConfig
 import org.catrobat.catroid.ProjectManager
@@ -34,15 +33,16 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.common.SharedPreferenceKeys
 import org.catrobat.catroid.common.SoundInfo
 import org.catrobat.catroid.pocketmusic.PocketMusicActivity
+import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.controller.BackpackListManager
 import org.catrobat.catroid.ui.recyclerview.adapter.SoundAdapter
+import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity
 import org.catrobat.catroid.ui.recyclerview.controller.SoundController
 import org.catrobat.catroid.utils.SnackbarUtil
 import org.catrobat.catroid.utils.ToastUtil
 import org.koin.android.ext.android.inject
 import java.io.IOException
-import java.util.ArrayList
 
 class SoundListFragment : RecyclerViewFragment<SoundInfo?>() {
 
@@ -55,12 +55,16 @@ class SoundListFragment : RecyclerViewFragment<SoundInfo?>() {
     }
 
     override fun initializeAdapter() {
-        SnackbarUtil.showHintSnackbar(requireActivity(), R.string.hint_sounds)
         sharedPreferenceDetailsKey = SharedPreferenceKeys.SHOW_DETAILS_SOUNDS_PREFERENCE_KEY
         val items = projectManager.currentSprite.soundList
         adapter = SoundAdapter(items)
         emptyView.setText(R.string.fragment_sound_text_description)
         onAdapterReady()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        SnackbarUtil.showHintSnackbar(requireActivity(), R.string.hint_sounds)
     }
 
     override fun onPause() {
@@ -166,13 +170,14 @@ class SoundListFragment : RecyclerViewFragment<SoundInfo?>() {
 
     override fun getRenameDialogHint(): Int = R.string.sound_name_label
 
-    override fun onItemClick(item: SoundInfo?) {
+    override fun onItemClick(item: SoundInfo?, selectionManager: MultiSelectionManager) {
         if (actionModeType == RENAME) {
-            super.onItemClick(item)
+            super.onItemClick(item, null)
             return
         }
 
         if (actionModeType != NONE) {
+            super.onItemClick(item, selectionManager)
             return
         }
 
@@ -189,10 +194,21 @@ class SoundListFragment : RecyclerViewFragment<SoundInfo?>() {
     }
 
     override fun onSettingsClick(item: SoundInfo?, view: View?) {
-        val popupMenu = PopupMenu(context, view)
-        val itemList: MutableList<SoundInfo?> = ArrayList()
+        val itemList = mutableListOf<SoundInfo?>()
         itemList.add(item)
-        popupMenu.menuInflater.inflate(R.menu.menu_project_activity, popupMenu.menu)
+
+        val hiddenOptionMenuIds = intArrayOf(
+            R.id.new_group,
+            R.id.new_scene,
+            R.id.show_details,
+            R.id.project_options,
+            R.id.edit,
+            R.id.from_local,
+            R.id.from_library
+        )
+        val popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(), R.menu
+            .menu_project_activity, hiddenOptionMenuIds)
+
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.backpack -> packItems(itemList)
@@ -205,10 +221,6 @@ class SoundListFragment : RecyclerViewFragment<SoundInfo?>() {
             true
         }
         popupMenu.menu.findItem(R.id.backpack).setTitle(R.string.pack)
-        popupMenu.menu.findItem(R.id.new_group).isVisible = false
-        popupMenu.menu.findItem(R.id.new_scene).isVisible = false
-        popupMenu.menu.findItem(R.id.show_details).isVisible = false
-        popupMenu.menu.findItem(R.id.project_options).isVisible = false
         popupMenu.show()
     }
 }

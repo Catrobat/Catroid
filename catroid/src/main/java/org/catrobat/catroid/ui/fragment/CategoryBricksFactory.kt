@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -136,6 +136,7 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick
 import org.catrobat.catroid.content.bricks.PlayDrumForBeatsBrick
 import org.catrobat.catroid.content.bricks.PlayNoteForBeatsBrick
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick
+import org.catrobat.catroid.content.bricks.PlaySoundAtBrick
 import org.catrobat.catroid.content.bricks.PlaySoundBrick
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick
 import org.catrobat.catroid.content.bricks.PointToBrick
@@ -417,6 +418,7 @@ open class CategoryBricksFactory {
         val soundBrickList: MutableList<Brick> = ArrayList()
         soundBrickList.add(PlaySoundBrick())
         soundBrickList.add(PlaySoundAndWaitBrick())
+        soundBrickList.add(PlaySoundAtBrick(BrickValues.PLAY_AT_DEFAULT_OFFSET))
         soundBrickList.add(StopSoundBrick())
         soundBrickList.add(StopAllSoundsBrick())
         soundBrickList.add(SetVolumeToBrick(BrickValues.SET_VOLUME_TO))
@@ -592,6 +594,8 @@ open class CategoryBricksFactory {
         }
         deviceBrickList.add(WriteVariableOnDeviceBrick())
         deviceBrickList.add(ReadVariableFromDeviceBrick())
+        deviceBrickList.add(WriteVariableToFileBrick(context.getString(R.string.brick_write_variable_to_file_default_value)))
+        deviceBrickList.add(ReadVariableFromFileBrick(context.getString(R.string.brick_write_variable_to_file_default_value)))
         deviceBrickList.add(WriteListOnDeviceBrick())
         deviceBrickList.add(ReadListFromDeviceBrick())
         deviceBrickList.add(TapAtBrick(BrickValues.TOUCH_X_START, BrickValues.TOUCH_Y_START))

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -113,6 +113,24 @@ public class PenDownActionTest {
 		assertEquals(0f, positions.first().removeFirst().x);
 		assertEquals(X_MOVEMENT, positions.first().first().x);
 		assertEquals(Y_MOVEMENT, positions.first().removeFirst().y);
+	}
+
+	@Test
+	public void testPositionChangeX() {
+		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
+
+		sprite.getActionFactory().createPlaceAtAction(sprite, new SequenceAction(), new Formula(0f),
+				new Formula(0f)).act(1.0f);
+
+		sprite.getActionFactory().createPenDownAction(sprite).act(1.0f);
+		sprite.getActionFactory().createPlaceAtAction(sprite, new SequenceAction(), xMovement,
+				new Formula(0f)).act(1.0f);
+
+		Queue<Queue<PointF>> positions = sprite.penConfiguration.getPositions();
+		assertEquals(0f, positions.first().removeFirst().x);
+		assertEquals(X_MOVEMENT, positions.first().first().x);
+		assertEquals(0f, positions.first().removeFirst().y);
 	}
 
 	@Test

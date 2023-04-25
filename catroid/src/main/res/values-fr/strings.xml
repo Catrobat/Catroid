@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@
     <string name="ignore">Ignorer</string>
     <string name="cancel">Annuler</string>
     <string name="save">Enregistrer</string>
+    <string name="help">Aide</string>
     <string name="discard">Abandonner</string>
     <string name="next">Suivant</string>
     <string name="ok">OK</string>
@@ -345,6 +346,7 @@
     <string name="hide_details">Masquer les détails</string>
     <string name="project_options">Options du projet</string>
     <string name="from_library">Ajouter depuis la bibliothèque</string>
+    <string name="from_local">Depuis locaux</string>
     <string name="sort_projects">Trier</string>
     <string name="unsort_projects">Ne pas trier</string>
     <string name="import_from_project">Sélectionnez le projet à importer à partir de</string>
@@ -622,6 +624,7 @@
     <string name="add_sound_from_recorder">Enregistrer un son</string>
     <string name="add_sound_choose_file">Sélectionner le fichier</string>
     <string name="add_sound_music">Compositeur de musique</string>
+    <string name="add_sound_choose_sound">Sons</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">Sélecteur de notes</string>
     <!--  -->
@@ -968,6 +971,8 @@
     <string name="beats">batbattements</string>
     <string name="play_note">Lire la note</string>
     <string name="for_string">pendant</string>
+    <string name="at_string">à </string>
+    <string name="seconds_string">secondes</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Point de suture</string>
@@ -1267,7 +1272,7 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string name="error_internet_connection">Une erreur est apparue. Vérifiez votre connexion Internet.</string>
     <string name="error_project_compatibility">Le projet n\'est pas compatible avec cette version de l\'application.</string>
     <string name="error_outdated_version">Cette version de l\'application est obsolète. Mettre à jour maintenant ?</string>
-    <string name="error_upload_project_with_default_name">Vous ne pouvez pas télécharger un projet avec le nom \"Mon premier projet\".
+    <string name="error_upload_project_with_default_name">Vous ne pouvez pas télécharger un projet avec le nom \"%s\".
         Veuillez renommer le projet.</string>
     <string name="error_upload_default_project">Vous ne pouvez pas télécharger un exemple de projet non modifié. Veuillez
         modifier quelque chose et réessayer.</string>
@@ -1290,15 +1295,16 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string name="notification_blueth_err">Impossible d\'activer le Bluetooth. Essayez de l\'éteindre puis de le rallumer.</string>
     <string name="title_paired_devices">Périphériques liés</string>
     <string name="title_other_devices">Nouveau périphériques</string>
-    <string name="searching_devices">Recherche de périphériques&#8230;</string>
-    <string name="button_scan">Rechercher les périphériques Bluetooth</string>
-    <string name="button_skip">Ignorer la connexion Bluetooth</string>
-    <string name="select_device">Sélectionner un périphérique:</string>
+    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="skip_bluetooth_connection">Ignorer</string>
     <string name="connecting_please_wait">Connexion à votre périphérique.\nPatientez&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">Échec de la connexion au périphérique !</string>
     <string name="none_found">Aucun périphérique non liés trouvés</string>
-    <string name="none_paired">Aucun périphérique non liés trouvés</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
+        required!</string>
+    <string name="multiplayer_bluetooth_connection_information">To play this game in
+        Multiplayer a Bluetooth connection is required. Both players have to start the game and
+        be on this screen for the connection to work properly!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Définir broche digitale Arduino</string>
@@ -1611,7 +1617,6 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'Je suis un panda.\')</string>
     <string name="formula_editor_function_regex_assistant">Assistant d\'expression régulière</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">Assistant d\'expression régulier</string>
-    <string name="formula_editor_dialog_wiki_button">Plus d\'infos</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">Le mot-clé est introuvable.</string>
     <string name="formula_editor_function_regex_json_extractor_title">Extracteur JSON</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">épingle digitale arduino</string>
@@ -2017,19 +2022,20 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
         sans apparence.</string>
     <!-- Information -->
     <string name="no_variable_selected">Aucune variable sélectionnée</string>
-    <string name="find">Trouvez</string>
+    <string name="search">Recherche en cours…</string>
     <string name="no_results_found">Aucun résultat trouvé</string>
     <string name="query_field_is_empty">Le champ de la requête est vide</string>
     <string name="cut">Couper</string>
     <string name="paste">Coller</string>
     <!-- Particle Effects -->
-    <string name="fade_particle_effect">Effet de fondu des particules</string>
-    <string name="particle_effects_fade_in">sur</string>
-    <string name="particle_effects_fade_out">sur</string>
-    <string name="turn_particle_effect_additivity">Modifier l\'additivité des effets de particules</string>
+    <string name="fade_particle_effect">Effet de particules</string>
+    <string name="particle_effects_fade_in">allumer</string>
+    <string name="particle_effects_fade_out">éteindre</string>
+    <string name="turn_particle_effect_additivity">Additivité des particules</string>
     <string name="particle_effects_additive_on">activé</string>
     <string name="particle_effects_additive_off">désactivé</string>
-    <string name="set_particle_color_to">Définir la couleur des particules à</string>
+    <string name="set_particle_color_to">Défine la couleur des particules à</string>
     <string name="undo_sort">Annuler le tri</string>
     <string name="sort">Trier</string>
+    <string name="checkbox">checkbox</string>
 </resources>

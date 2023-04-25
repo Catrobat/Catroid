@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -162,6 +162,7 @@ public class SpriteController {
 			throw new IllegalStateException("You are deleting a clone: this means you also delete the files that are "
 					+ "referenced by the original sprite because clones are shallow copies regarding files.");
 		}
+
 		for (LookData look : spriteToDelete.getLookList()) {
 			try {
 				lookController.delete(look);
@@ -177,6 +178,7 @@ public class SpriteController {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
 		}
+
 		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 		if (currentScene != null) {
 			currentScene.removeSpriteFromCloneBricks(spriteToDelete);

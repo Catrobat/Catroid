@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,6 +37,6 @@ public class CheckableViewHolder extends ViewHolder {
 	public CheckableViewHolder(View itemView) {
 		super(itemView);
 		checkBox = itemView.findViewById(R.id.checkbox);
-		settings = itemView.findViewById(R.id.settingsButton);
+		settings = itemView.findViewById(R.id.settings_button);
 	}
 }

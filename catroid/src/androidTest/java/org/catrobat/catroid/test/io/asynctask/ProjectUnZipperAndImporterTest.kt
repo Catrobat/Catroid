@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,7 @@ package org.catrobat.catroid.test.io.asynctask
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import junit.framework.TestCase
-import org.catrobat.catroid.common.Constants.CACHE_DIR
+import org.catrobat.catroid.common.Constants.CACHE_DIRECTORY
 import org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME
 import org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY
 import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser
@@ -57,21 +57,21 @@ class ProjectUnZipperAndImporterTest {
     fun setUp() {
         TestUtils.deleteProjects(AIR_FIGHT_0_5, AIR_FIGHT_0_5_1, FALLING_BALLS)
         DEFAULT_ROOT_DIRECTORY.mkdir()
-        CACHE_DIR.mkdir()
+        CACHE_DIRECTORY.mkdir()
         var assetName = "Air_fight_0.5.catrobat"
         var inputStream =
             InstrumentationRegistry.getInstrumentation().context.assets.open(assetName)
-        projectAirFightFile = StorageOperations.copyStreamToDir(inputStream, CACHE_DIR, assetName)
+        projectAirFightFile = StorageOperations.copyStreamToDir(inputStream, CACHE_DIRECTORY, assetName)
         assetName = "Falling_balls.catrobat"
         inputStream = InstrumentationRegistry.getInstrumentation().context.assets.open(assetName)
         projectFallingBallsFile =
-            StorageOperations.copyStreamToDir(inputStream, CACHE_DIR, assetName)
+            StorageOperations.copyStreamToDir(inputStream, CACHE_DIRECTORY, assetName)
     }
 
     @After
     @Throws(IOException::class)
     fun tearDown() {
-        StorageOperations.deleteDir(CACHE_DIR)
+        StorageOperations.deleteDir(CACHE_DIRECTORY)
         TestUtils.deleteProjects(AIR_FIGHT_0_5, AIR_FIGHT_0_5_1, FALLING_BALLS)
     }
 

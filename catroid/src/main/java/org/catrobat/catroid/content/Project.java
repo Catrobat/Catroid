@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 
@@ -40,6 +41,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.catrobat.catroid.utils.Utils;
@@ -524,6 +526,29 @@ public class Project implements Serializable {
 	public void checkForInvisibleSprites() {
 		for (Scene scene : sceneList) {
 			scene.checkForInvisibleSprites();
+		}
+	}
+
+	public List<String> getSpriteNames(List<Sprite> spriteList) {
+		List<String> spriteNames = new ArrayList<>();
+		for (int sprite = 0; sprite < spriteList.size(); ++sprite) {
+			spriteNames.add(spriteList.get(sprite).getName());
+		}
+		return spriteNames;
+	}
+
+	public void checkIfSpriteNameEqualBackground(Activity activity) {
+		List<Sprite> spriteList =
+				new ArrayList<>(this.getSpriteListWithClones());
+		List<String> spriteNames = getSpriteNames(spriteList);
+		for (int sprite = 1; sprite < spriteList.size(); ++sprite) {
+			if (spriteList.get(sprite).getName().matches("[\\s]*" + activity.getString(R.string.background)
+					+ "[\\s]*")) {
+				UniqueNameProvider name = new UniqueNameProvider();
+				String newSpriteName = name.getUniqueName(activity.getString(R.string.background), spriteNames);
+				spriteList.get(sprite).setName(newSpriteName);
+				return;
+			}
 		}
 	}
 }

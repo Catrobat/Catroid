@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -55,7 +55,7 @@ class ProjectExportTask(
         deleteUndoFile()
 
         val projectFileName = projectDir.name + Constants.ZIP_EXTENSION
-        val cacheFile = File(Constants.CACHE_DIR, projectFileName)
+        val cacheFile = File(Constants.CACHE_DIRECTORY, projectFileName)
         if (cacheFile.exists()) {
             cacheFile.delete()
         }

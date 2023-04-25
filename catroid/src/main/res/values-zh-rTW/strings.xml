@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@
     <string name="ignore">略過</string>
     <string name="cancel">取消</string>
     <string name="save">存檔</string>
+    <string name="help">說明</string>
     <string name="discard">取消</string>
     <string name="next">下一步</string>
     <string name="ok">確認</string>
@@ -339,6 +340,7 @@
     <string name="hide_details">隱藏細節</string>
     <string name="project_options">項目選項</string>
     <string name="from_library">লাইব্রেরি থেকে যোগ করুন</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">種類</string>
     <string name="unsort_projects">取消排序</string>
     <string name="import_from_project">選擇要從中導入的項目</string>
@@ -585,6 +587,7 @@
     <string name="add_sound_from_recorder">錄製聲音</string>
     <string name="add_sound_choose_file">選擇文件</string>
     <string name="add_sound_music">音樂作曲家</string>
+    <string name="add_sound_choose_sound">音效</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">筆記選擇器</string>
     <!--  -->
@@ -929,6 +932,8 @@
     <string name="beats">節拍</string>
     <string name="play_note">播放音符</string>
     <string name="for_string">持續</string>
+    <string name="at_string">在</string>
+    <string name="seconds_string">秒</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">縫</string>
@@ -1224,8 +1229,8 @@
     <string name="error_internet_connection">發生未知的錯誤。檢查您的網路連線。</string>
     <string name="error_project_compatibility">該項目與此版本的應用程序不兼容。</string>
     <string name="error_outdated_version">此應用程序版本已過時。現在更新？</string>
-    <string name="error_upload_project_with_default_name">您不能上傳名為“我的第一個項目”的項目。
-        請重命名項目。</string>
+    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"%s\".
+        Please rename the project.</string>
     <string name="error_upload_default_project">您不能上傳未經修改的示例項目。請
         改變一些東西然後再試一次。</string>
     <string name="error_adding_brick">新增這個程式塊時出錯。</string>
@@ -1247,15 +1252,16 @@
     <string name="notification_blueth_err">無法啟用藍牙，請嘗試關閉並重新開啟。</string>
     <string name="title_paired_devices">配對裝置</string>
     <string name="title_other_devices">新裝置</string>
-    <string name="searching_devices">正在尋找設備&#8230;</string>
-    <string name="button_scan">搜尋藍牙設備</string>
-    <string name="button_skip">跳過藍牙連接</string>
-    <string name="select_device">選擇設備：</string>
+    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="skip_bluetooth_connection">跳過</string>
     <string name="connecting_please_wait">連接到你的設備,\n請等待&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">設備連接失敗!</string>
     <string name="none_found">沒有未配對的設備</string>
-    <string name="none_paired">沒有已配對的設備</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
+        required!</string>
+    <string name="multiplayer_bluetooth_connection_information">To play this game in
+        Multiplayer a Bluetooth connection is required. Both players have to start the game and
+        be on this screen for the connection to work properly!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">設定 Arduino 數位腳位資料</string>
@@ -1570,7 +1576,6 @@
         助手</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">常規的
         表情助手</string>
-    <string name="formula_editor_dialog_wiki_button">更多信息</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">找不到關鍵字。</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON 提取器</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino 數字引腳</string>
@@ -1981,7 +1986,7 @@
         不看。</string>
     <!-- Information -->
     <string name="no_variable_selected">未選擇變量</string>
-    <string name="find">找</string>
+    <string name="search">搜索…</string>
     <string name="no_results_found">未找到結果</string>
     <string name="query_field_is_empty">查詢字段為空</string>
     <string name="cut">切</string>
@@ -1996,4 +2001,5 @@
     <string name="set_particle_color_to">কণার রঙ সেট করুন</string>
     <string name="undo_sort">撤銷排序</string>
     <string name="sort">種類</string>
+    <string name="checkbox">checkbox</string>
 </resources>

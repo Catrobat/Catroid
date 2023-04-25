@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -37,7 +37,6 @@
         android:id="@+id/checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="@dimen/checkbox_margin"
         android:visibility="gone" />
@@ -54,25 +53,33 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingEnd="@dimen/details_spacing"
+            android:paddingStart="@dimen/details_spacing"
             android:textColor="@color/view_holder_item_title"
-            android:textSize="?attr/large"/>
+            android:textSize="?attr/large"
+            android:minWidth="@dimen/data_view_space"
+            android:ellipsize="end"
+            android:maxLines="1"/>
 
         <TextView
             android:id="@+id/value_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minWidth="@dimen/data_view_space"
             android:layout_weight="1"
             android:textColor="@color/solid_white"
-            android:textSize="?attr/large" />
+            android:textSize="?attr/large"
+            android:ellipsize="end"
+            android:maxLines="1"/>
 
            <ImageButton
-               android:id="@+id/settingsButton"
+               android:id="@+id/settings_button"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_weight="0"
                android:gravity="center_vertical"
                android:backgroundTint="@color/accent"
-               android:background="@drawable/ic_more_vert" />
+               android:background="@drawable/ic_more_vert"
+               android:contentDescription="@string/settings"/>
 
     </LinearLayout>
 </LinearLayout>

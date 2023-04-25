@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,11 +32,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListAdapter;
+import android.widget.PopupMenu;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallback;
+import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
 import org.catrobat.catroid.utils.ToastUtil;
 
@@ -95,6 +99,8 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		mode.getMenuInflater().inflate(R.menu.context_menu, menu);
 
 		adapter.showCheckBoxes = true;
+		adapter.showSettings = false;
+		adapter.showRipples = false;
 		adapter.notifyDataSetChanged();
 		return true;
 	}
@@ -144,6 +150,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		actionModeType = NONE;
 		actionMode = null;
 		adapter.showCheckBoxes = false;
+		adapter.showSettings = true;
 		adapter.selectionMode = adapter.MULTIPLE;
 	}
 
@@ -273,23 +280,37 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	}
 
 	@Override
-	public void onItemClick(final T item) {
+	public void onItemClick(final T item, MultiSelectionManager selectionManager) {
 		if (actionModeType != NONE) {
+			if (selectionManager == null) {
+				return;
+			}
+			List<T> items = adapter.getItems();
+			selectionManager.toggleSelection(items.indexOf(item));
+			onSelectionChanged(selectionManager.getSelectedPositions().size());
+			adapter.notifyDataSetChanged();
 			return;
 		}
-		CharSequence[] items = new CharSequence[] {getString(R.string.unpack), getString(R.string.delete)};
-		new AlertDialog.Builder(getContext())
+
+		List<Integer> options = new ArrayList<>();
+		options.add(R.string.unpack);
+		options.add(R.string.delete);
+		List<String> names = new ArrayList<>();
+		for (Integer option: options) {
+			names.add(getString(option));
+		}
+		ListAdapter arrayAdapter = UiUtils.getAlertDialogAdapterForMenuIcons(options,
+				names, requireContext(), requireActivity());
+
+		new AlertDialog.Builder(requireContext())
 				.setTitle(getItemName(item))
-				.setItems(items, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						switch (which) {
-							case 0:
-								unpackItems(new ArrayList<>(Collections.singletonList(item)));
-								break;
-							case 1:
-								showDeleteAlert(new ArrayList<>(Collections.singletonList(item)));
-						}
+				.setAdapter(arrayAdapter, (dialog, which) -> {
+					switch (which) {
+						case 0:
+							unpackItems(new ArrayList<>(Collections.singletonList(item)));
+							break;
+						case 1:
+							showDeleteAlert(new ArrayList<>(Collections.singletonList(item)));
 					}
 				})
 				.show();
@@ -302,12 +323,30 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 
 	@Override
 	public void onItemLongClick(T item, CheckableViewHolder holder) {
-		onItemClick(item);
+		onItemClick(item, null);
 	}
 
 	@Override
 	public void onSettingsClick(T item, View view) {
-		onItemClick(item);
+		List<T> itemList = new ArrayList<>(Collections.singletonList(item));
+		int[] hiddenOptionMenuIds = {R.id.show_details};
+		PopupMenu popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(),
+				R.menu.menu_backpack_activity, hiddenOptionMenuIds);
+
+		popupMenu.setOnMenuItemClickListener(menuItem -> {
+			switch (menuItem.getItemId()) {
+				case R.id.unpack:
+					unpackItems(itemList);
+					break;
+				case R.id.delete:
+					showDeleteAlert(itemList);
+					break;
+				default:
+					break;
+			}
+			return true;
+		});
+		popupMenu.show();
 	}
 
 	protected abstract void initializeAdapter();

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -51,7 +51,7 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import static org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBar;
+import static org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBarMenu;
 import static org.junit.Assert.assertEquals;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -112,7 +112,7 @@ public class ProjectActivityTest {
 		Instrumentation.ActivityResult intentResult = new Instrumentation.ActivityResult(Activity.RESULT_OK, intent);
 
 		baseActivityTestRule.launchActivity();
-		openActionBar();
+		openActionBarMenu();
 
 		intending(anyIntent()).respondWith(intentResult);
 

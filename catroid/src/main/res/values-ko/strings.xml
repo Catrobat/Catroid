@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@
     <string name="ignore">무시</string>
     <string name="cancel">취소</string>
     <string name="save">저장</string>
+    <string name="help">도움말</string>
     <string name="discard">저장 안함</string>
     <string name="next">다음</string>
     <string name="ok">확인</string>
@@ -318,6 +319,7 @@
     <string name="hide_details">세부 사항 숨기기</string>
     <string name="project_options">프로젝트 옵션</string>
     <string name="from_library">라이브러리에서 추가</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">종류</string>
     <string name="unsort_projects">정렬 취소</string>
     <string name="import_from_project">가져올 프로젝트 선택</string>
@@ -564,6 +566,7 @@
     <string name="add_sound_from_recorder">소리 녹음</string>
     <string name="add_sound_choose_file">파일 선택</string>
     <string name="add_sound_music">음악 작곡가</string>
+    <string name="add_sound_choose_sound">소리</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">노트 선택기</string>
     <!--  -->
@@ -905,6 +908,8 @@
     <string name="beats">박자</string>
     <string name="play_note">악보 연주</string>
     <string name="for_string">동안</string>
+    <string name="at_string">에</string>
+    <string name="seconds_string">초</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">스티치</string>
@@ -1197,8 +1202,8 @@
     <string name="error_internet_connection">알 수 없는 오류가 발생했습니다. 인터넷 연결을 확인하십시오.</string>
     <string name="error_project_compatibility">프로젝트가 이 버전과 호환되지 않습니다.</string>
     <string name="error_outdated_version">포켓 코드 버전이 너무 오래되었습니다. 지금 업데이트하시겠습니까?</string>
-    <string name="error_upload_project_with_default_name">\'나의 첫 번째 프로그램\' 이름으로 프로그램을 업로드할 수 없습니다.
-        프로그램 이름을 바꾸시기 바랍니다.</string>
+    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"%s\".
+        Please rename the project.</string>
     <string name="error_upload_default_project">예시 프로젝트를 그대로 업로드 할 수 없습니다.
         수정후 다시 시도 하세요.</string>
     <string name="error_adding_brick">이 블록을 추가하는 동안 오류가 발생했습니다.</string>
@@ -1219,15 +1224,16 @@
     <string name="notification_blueth_err">블루투스를 사용할 수 없습니다. 껐다가 다시 켜 주세요.</string>
     <string name="title_paired_devices">페어링 된 장치</string>
     <string name="title_other_devices">새 장치</string>
-    <string name="searching_devices">장치를 찾고 있는 중&#8230;</string>
-    <string name="button_scan">블루투스 장치 검색</string>
-    <string name="button_skip">블루투스 연결 건너뛰기</string>
-    <string name="select_device">장치 선택</string>
+    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="skip_bluetooth_connection">건너뛰기</string>
     <string name="connecting_please_wait">장치에 연결중입니다. \n 기다려 주세요 &#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">장치 연결에 실패했습니다!</string>
     <string name="none_found">패어링 안된 장치를 찾을 수 없습니다.</string>
-    <string name="none_paired">페어링 된 장치를 찾을 수 없습니다</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
+        required!</string>
+    <string name="multiplayer_bluetooth_connection_information">To play this game in
+        Multiplayer a Bluetooth connection is required. Both players have to start the game and
+        be on this screen for the connection to work properly!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">아두이노 디지털 핀 설정</string>
@@ -1541,7 +1547,6 @@
         조수</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">정규병
         표현 도우미</string>
-    <string name="formula_editor_dialog_wiki_button">자세한 정보 보기</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">키워드를 찾을 수 없습니다.</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON 추출기</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">아두이노_디지털_핀</string>
@@ -1943,7 +1948,7 @@
         눈치도 없이.</string>
     <!-- Information -->
     <string name="no_variable_selected">선택된 변수가 없습니다.</string>
-    <string name="find">찾기</string>
+    <string name="search">검색…</string>
     <string name="no_results_found">검색 결과가 없습니다</string>
     <string name="query_field_is_empty">쿼리 필드가 비어 있습니다.</string>
     <string name="cut">절단</string>
@@ -1958,4 +1963,5 @@
     <string name="set_particle_color_to">입자 색상을 다음으로 설정</string>
     <string name="undo_sort">정렬 취소</string>
     <string name="sort">종류</string>
+    <string name="checkbox">checkbox</string>
 </resources>

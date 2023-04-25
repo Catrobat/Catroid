@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -66,4 +66,5 @@ public final class SharedPreferenceKeys {
 	public static final String SURVEY_URL1_HASH_KEY = "surveyUrl1Hash";
 	public static final String SURVEY_URL2_HASH_KEY = "surveyUrl2Hash";
 	public static final String NEW_SPRITE_VISUAL_PLACEMENT_KEY = "newSpriteVisualPlacement";
+	public static final String SHOW_MULTIPLAYER_BLUETOOTH_DIALOG_KEY = "showMultiplayerBluetoothDialog";
 }

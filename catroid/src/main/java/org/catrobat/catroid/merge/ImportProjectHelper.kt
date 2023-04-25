@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -57,18 +57,17 @@ class ImportProjectHelper(
     private var context: Activity
 ) {
     private var currentScene: Scene? = currentScene
-    private var newSprite: Sprite = Sprite("Sprite")
     private var spriteToAdd: Sprite? = null
     private var newProject: Project? = null
 
     fun getSpriteToAddName(): String? = spriteToAdd?.name
 
-    fun addObjectDataToNewSprite(spriteToAddTo: Sprite?): Sprite {
-        copyFilesToSoundAndSpriteDir()
+    fun addObjectDataToNewSprite(spriteToAddTo: Sprite?): Sprite? {
+        var newSprite: Sprite? = null
         if (spriteToAddTo == null) {
-            newSprite.replaceSpriteWithSprite(spriteToAdd)
+            newSprite = Sprite(spriteToAdd, currentScene)
         } else {
-            spriteToAddTo.mergeSprites(spriteToAdd)
+            spriteToAddTo.mergeSprites(spriteToAdd, currentScene)
         }
         newProject?.let {
             for (userList in it.userLists) {
@@ -95,8 +94,8 @@ class ImportProjectHelper(
 
     fun addGlobalsToProject(globalList: List<Any>, globalsToAdd: List<Any>) {
         for (global in globalsToAdd) {
-            if (!globalList!!.contains(global)) {
-                globalList!!.plus(global)
+            if (!globalList.contains(global)) {
+                globalList.plus(global)
             }
         }
     }
@@ -142,30 +141,6 @@ class ImportProjectHelper(
         return true
     }
 
-    private fun copyFilesToSoundAndSpriteDir() {
-        val imageDirectory = File(
-            currentScene?.directory,
-            Constants.IMAGE_DIRECTORY_NAME
-        )
-        val soundsDirectory = File(
-            currentScene?.directory,
-            Constants.SOUND_DIRECTORY_NAME
-        )
-
-        spriteToAdd?.lookList?.forEach { currentListObject ->
-            StorageOperations.copyFileToDir(
-                currentListObject.file,
-                imageDirectory
-            )
-        }
-        spriteToAdd?.soundList?.forEach { currentListObject ->
-            StorageOperations.copyFileToDir(
-                currentListObject.file,
-                soundsDirectory
-            )
-        }
-    }
-
     fun getProject(resolvedName: String): Project? {
         val projectDir = File(DEFAULT_ROOT_DIRECTORY, resolvedName)
         return if (projectDir.exists() && projectDir.isDirectory) {
@@ -179,9 +154,9 @@ class ImportProjectHelper(
     fun getNewProject(resolvedName: String): Project? {
         try {
             val cachedProjectDir =
-                File(Constants.MEDIA_LIBRARY_CACHE_DIR, resolvedName)
+                File(Constants.MEDIA_LIBRARY_CACHE_DIRECTORY, resolvedName)
             val cachedProject =
-                File(Constants.MEDIA_LIBRARY_CACHE_DIR, lookFileName)
+                File(Constants.MEDIA_LIBRARY_CACHE_DIRECTORY, lookFileName)
 
             ZipArchiver().unzip(cachedProject, cachedProjectDir)
             return XstreamSerializer.getInstance()

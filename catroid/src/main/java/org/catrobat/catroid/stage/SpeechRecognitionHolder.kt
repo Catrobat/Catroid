@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -107,6 +107,9 @@ class SpeechRecognitionHolder : SpeechRecognitionHolderInterface {
                         // this error happens only in offline mode
                         // in case the chosen language is not downloaded or outdated
                         showDialog(stageActivity, stageResourceHolder)
+                    }
+                    else -> {
+                        // every other case
                     }
                 }
                 Log.d(TAG, "SpeechRecognizer restarted!")

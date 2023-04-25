@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -98,11 +98,6 @@ public class UserDefinedBrick extends FormulaBrick {
 		clone.userDefinedBrickID = this.getUserDefinedBrickID();
 		clone.isCallingBrick = this.isCallingBrick;
 		return clone;
-	}
-
-	public void clearFormulaMaps() {
-		formulaFieldToTextViewMap = HashBiMap.create(2);
-		formulaMap = new ConcurrentFormulaHashMap();
 	}
 
 	private void copyUserDefinedDataList(UserDefinedBrick userDefinedBrick) {

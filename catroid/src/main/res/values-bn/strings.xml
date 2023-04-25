@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@
     <string name="ignore">উপেক্ষা করুন</string>
     <string name="cancel">বাতিল</string>
     <string name="save">সংরক্ষণ করুন</string>
+    <string name="help">সাহায্য</string>
     <string name="discard">বাতিল করুন</string>
     <string name="next">পরবর্তী</string>
     <string name="ok">সঠিক</string>
@@ -333,6 +334,7 @@
     <string name="hide_details">বিস্তারিতকে আড়াল করুন</string>
     <string name="project_options">প্রকল্পের বিকল্পগুলি</string>
     <string name="from_library">লাইব্রেরি থেকে যোগ করুন</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">সাজান</string>
     <string name="unsort_projects">আনসোর্ট করা</string>
     <string name="import_from_project">আমদানি করতে প্রকল্প নির্বাচন করুন</string>
@@ -610,6 +612,7 @@
     <string name="add_sound_from_recorder">শব্দ সংরক্ষণ করুন</string>
     <string name="add_sound_choose_file">ফাইল নির্বাচন করুন</string>
     <string name="add_sound_music">সুরকার</string>
+    <string name="add_sound_choose_sound">শব্দ</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">নোট পিকার</string>
     <!--  -->
@@ -945,6 +948,8 @@
     <string name="beats">beats</string>
     <string name="play_note">প্লে নোট</string>
     <string name="for_string">জন্য</string>
+    <string name="at_string">প্রতি</string>
+    <string name="seconds_string">সেকেন্ড</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">সেলাই</string>
@@ -1241,7 +1246,7 @@
     <string name="error_internet_connection">একটি অজানা ভুল ঘটেছে. আপনার ইন্টারনেট সংযোগ পরীক্ষা করুন</string>
     <string name="error_project_compatibility">প্রজেক্টটি এই সংস্করণটির সাথে সামঞ্জস্য নেই।</string>
     <string name="error_outdated_version">এই অ্যাপ্লিকেশন সংস্করণটি পুরানো। এখন আধুনিক করুন?</string>
-    <string name="error_upload_project_with_default_name">আপনি \"আমার প্রথম প্রজেক্ট\" নামে কোনও প্রজেক্ট আপলোড করতে পারবেন না l অনুগ্রহ করে প্রজেক্টটির নামকরণ করুন।</string>
+    <string name="error_upload_project_with_default_name">আপনি \"%s\" নামে কোনও প্রজেক্ট আপলোড করতে পারবেন না l অনুগ্রহ করে প্রজেক্টটির নামকরণ করুন।</string>
     <string name="error_upload_default_project">আপনি একটি অপরিবর্তিত উদাহরণ প্রজেক্ট আপলোড করতে পারবেন না। দয়া করে কিছু পরিবর্তন করুন এবং আবার চেষ্টা করুন।</string>
     <string name="error_adding_brick">এই ব্রিকটি যুক্ত করার সময় কিছু ভুল হয়েছে।</string>
     <string name="error_copying_brick">এই ব্রিকটি অনুলিপি করার সময় কিছু ভুল হয়েছে।</string>
@@ -1261,15 +1266,16 @@
     <string name="notification_blueth_err">ব্লোটুথ সক্ষম করতে পারছে না, দয়া করে এটিকে আবার বন্ধ করার চেষ্টা করুন।</string>
     <string name="title_paired_devices">জোড়াযুক্ত ডিভাইসগুলি</string>
     <string name="title_other_devices">নতুন ডিভাইস</string>
-    <string name="searching_devices">ডিভাইসগুলি খুঁজছেন</string>
-    <string name="button_scan">ব্লুটুথ ডিভাইসগুলি অনুসন্ধান করুন</string>
-    <string name="button_skip">ব্লুটুথ সংযোগ এড়িয়ে যান</string>
-    <string name="select_device">ডিভাইস নির্বাচন করুন</string>
+    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="skip_bluetooth_connection">এড়িয়ে যান</string>
     <string name="connecting_please_wait">আপনার ডিভাইসে সংযুক্ত হচ্ছে. অনুগ্রহ করে অপেক্ষা করুন &#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">ডিভাইসের সাথে সংযোগ ব্যর্থ!</string>
     <string name="none_found">কোনও জোড়হীন ডিভাইস পাওয়া যায় নি</string>
-    <string name="none_paired">কোনও জোড়াযুক্ত ডিভাইস পাওয়া যায় নি</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
+        required!</string>
+    <string name="multiplayer_bluetooth_connection_information">To play this game in
+        Multiplayer a Bluetooth connection is required. Both players have to start the game and
+        be on this screen for the connection to work properly!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">আরডুইনো ডিজিটাল পিন সেট করুন</string>
@@ -1578,7 +1584,6 @@
         সহকারী</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">নিয়মিত
         অভিব্যক্তি সহকারী</string>
-    <string name="formula_editor_dialog_wiki_button">আরো তথ্য</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">কীওয়ার্ডটি পাওয়া যায়নি।</string>
     <string name="formula_editor_function_regex_json_extractor_title">জেএসএন এক্সট্র্যাক্টর</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">আরডুইনো ডিজিটাল পিন</string>
@@ -1970,7 +1975,7 @@
          একটি চেহারা ছাড়া</string>
     <!-- Information -->
     <string name="no_variable_selected">কোনও ভেরিয়েবল নির্বাচন করা হয়নি</string>
-    <string name="find">অনুসন্ধান</string>
+    <string name="search">অনুসন্ধান</string>
     <string name="no_results_found">কোন ফলাফল পাওয়া যায়নি</string>
     <string name="query_field_is_empty">অনুসন্ধান ক্ষেত্রটি খালি</string>
     <string name="cut">কাটা</string>
@@ -1985,4 +1990,5 @@
     <string name="set_particle_color_to">কণার রঙ সেট করুন</string>
     <string name="undo_sort">সাজানোর পূর্বাবস্থায় ফেরান</string>
     <string name="sort">সাজান</string>
+    <string name="checkbox">checkbox</string>
 </resources>

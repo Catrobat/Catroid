@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -54,9 +54,6 @@ public final class BrickController {
 				try {
 					if (!bricksToCopy.contains(brick.getParent())) {
 						script.addBrick(brick.clone());
-						if (brick instanceof UserDefinedBrick) {
-							((UserDefinedBrick) brick).clearFormulaMaps();
-						}
 					}
 				} catch (CloneNotSupportedException e) {
 					Log.e(TAG, Log.getStackTraceString(e));

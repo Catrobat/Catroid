@@ -37,6 +37,9 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.webkit.CookieManager;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -605,5 +608,31 @@ public final class Utils {
 		} catch (IOException e) {
 			Log.e(TAG, "removeExifData: Failed to remove exif data");
 		}
+	}
+
+	public static boolean checkForDuplicates(List<Object> anyList) {
+		Object prev = null;
+		for (Object it: anyList) {
+			if (it == prev) {
+				return true;
+			}
+			prev = it;
+		}
+		return false;
+	}
+
+	public static void hideStandardSystemKeyboard(Activity activity) {
+		InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+		View currentFocus = activity.getCurrentFocus();
+
+		if (currentFocus == null) {
+			currentFocus = new View(activity);
+		}
+
+		inputMethodManager.hideSoftInputFromWindow(currentFocus.getWindowToken(), 0);
+	}
+
+	public static void showStandardSystemKeyboard(Activity activity) {
+		activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,11 +33,11 @@ import android.util.Log
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.common.Constants.CACHE_DIR
+import org.catrobat.catroid.common.Constants.CACHE_DIRECTORY
 import org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION
 import org.catrobat.catroid.common.Constants.EXTRA_PROJECT_NAME
 import org.catrobat.catroid.common.Constants.MAX_PERCENT
-import org.catrobat.catroid.common.Constants.TMP_DIR_NAME
+import org.catrobat.catroid.common.Constants.TMP_DIRECTORY_NAME
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.ZipArchiver
@@ -82,7 +82,7 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
         val resultReceiver = downloadIntent.getParcelableExtra<ResultReceiver>(EXTRA_RESULT_RECEIVER)
                 ?: return logWarning("Called ProjectDownloadService without url - aborting")
 
-        val zipFileString = File(File(CACHE_DIR, TMP_DIR_NAME), DOWNLOAD_FILE_NAME).absolutePath
+        val zipFileString = File(File(CACHE_DIRECTORY, TMP_DIRECTORY_NAME), DOWNLOAD_FILE_NAME).absolutePath
         val destinationFile = File(zipFileString)
 
         if ((destinationFile.parentFile.isDirectory or destinationFile.parentFile.mkdirs()).not()) {

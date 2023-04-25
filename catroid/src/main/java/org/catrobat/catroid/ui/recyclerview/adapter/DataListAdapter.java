@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -232,10 +232,15 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 
 	public void showCheckBoxes(boolean visible) {
 		multiplayerVarAdapter.showCheckBoxes = visible;
+		multiplayerVarAdapter.showSettings = !visible;
 		globalVarAdapter.showCheckBoxes = visible;
+		globalVarAdapter.showSettings = !visible;
 		localVarAdapter.showCheckBoxes = visible;
+		localVarAdapter.showSettings = !visible;
 		globalListAdapter.showCheckBoxes = visible;
+		globalListAdapter.showSettings = !visible;
 		localListAdapter.showCheckBoxes = visible;
+		localListAdapter.showSettings = !visible;
 	}
 
 	public void setSelectionListener(RVAdapter.SelectionListener selectionListener) {

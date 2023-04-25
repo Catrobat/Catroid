@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -53,7 +53,6 @@ import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.hamcrest.Matchers.allOf;
 
-import static androidx.test.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -83,11 +82,11 @@ public class DeleteLookTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void deleteLookTest() {
-		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
 		onRecyclerView().atPosition(1)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onView(withId(R.id.confirm)).perform(click());
 
@@ -110,12 +109,22 @@ public class DeleteLookTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
+	public void selectFragmentToDeleteTest() {
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
+		onView(withText(R.string.delete)).perform(click());
+
+		onRecyclerView().atPosition(0).perform(click());
+		onRecyclerView().atPosition(0).performCheckItemCheck();
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
 	public void cancelDeleteLookTest() {
-		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
 		onRecyclerView().atPosition(1)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onView(withId(R.id.confirm)).perform(click());
 

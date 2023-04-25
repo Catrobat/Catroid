@@ -60,8 +60,8 @@ import org.catrobat.catroid.databinding.DialogReplaceApiKeyBinding
 import org.catrobat.catroid.databinding.DialogUploadUnchangedProjectBinding
 import org.catrobat.catroid.exceptions.ProjectException
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask.ProjectLoadListener
+import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
+import org.catrobat.catroid.io.asynctask.loadProject
 import org.catrobat.catroid.io.asynctask.renameProject
 import org.catrobat.catroid.transfers.GetUserProjectsTask
 import org.catrobat.catroid.transfers.TagsTask
@@ -309,21 +309,14 @@ open class ProjectUploadActivity : BaseActivity(),
     }
 
     private fun onNextButtonClick() {
+        Utils.hideStandardSystemKeyboard(this)
+
         if (!notesAndCreditsScreen) {
             val name = binding.inputProjectName.editText?.text.toString().trim()
             val error = nameInputTextWatcher.validateName(name)
 
             error?.let {
                 binding.inputProjectName.error = it
-                return
-            }
-
-            if (Utils.isDefaultProject(project, this)) {
-                binding.inputProjectName.error = getString(R.string.error_upload_default_project)
-                binding.inputProjectName.editText?.removeTextChangedListener(nameInputTextWatcher)
-                binding.inputProjectName.isEnabled = false
-                binding.inputProjectDescription.isEnabled = false
-                setShowProgressBar(false)
                 return
             }
 
@@ -571,7 +564,7 @@ open class ProjectUploadActivity : BaseActivity(),
                     Log.e(TAG, "Creating renamed directory failed!")
                     return name
                 }
-                ProjectLoadTask.task(renamedDirectory, applicationContext)
+                loadProject(renamedDirectory, applicationContext)
                 project = projectManager.currentProject
             }
             return name
@@ -585,7 +578,7 @@ open class ProjectUploadActivity : BaseActivity(),
 
     fun showUploadDialog() {
         if (MainMenuActivity.surveyCampaign != null) {
-            MainMenuActivity.surveyCampaign.uploadFlag = true
+            MainMenuActivity.surveyCampaign?.uploadFlag = true
         }
 
         uploadProgressDialog = AlertDialog.Builder(this)
@@ -809,7 +802,7 @@ open class ProjectUploadActivity : BaseActivity(),
                 return getString(R.string.name_consists_of_spaces_only)
             }
             if (name == getString(R.string.default_project_name)) {
-                return getString(R.string.error_upload_project_with_default_name)
+                return getString(R.string.error_upload_project_with_default_name, name)
             }
             return if (name != project.name &&
                 FileMetaDataExtractor.getProjectNames(FlavoredConstants.DEFAULT_ROOT_DIRECTORY)

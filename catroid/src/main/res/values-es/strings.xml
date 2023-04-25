@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@
     <string name="ignore">Ignorar</string>
     <string name="cancel">Cancelar</string>
     <string name="save">Guardar</string>
+    <string name="help">Ayuda</string>
     <string name="discard">Descartar</string>
     <string name="next">Siguiente</string>
     <string name="ok">OK</string>
@@ -343,6 +344,7 @@
     <string name="hide_details">Ocultar detalles</string>
     <string name="project_options">Opciones del proyecto</string>
     <string name="from_library">Añadir desde la biblioteca</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">Ordenar</string>
     <string name="unsort_projects">Desordenar</string>
     <string name="import_from_project">Seleccione el proyecto del que importar</string>
@@ -620,6 +622,7 @@
     <string name="add_sound_from_recorder">Grabar Sonido</string>
     <string name="add_sound_choose_file">Seleccione Archivo</string>
     <string name="add_sound_music">Compositor</string>
+    <string name="add_sound_choose_sound">Sonidos</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">Recogedor de notas</string>
     <!--  -->
@@ -965,6 +968,8 @@
     <string name="beats">tiempos musicales</string>
     <string name="play_note">Reproducir nota</string>
     <string name="for_string">por</string>
+    <string name="at_string">en </string>
+    <string name="seconds_string">segundos</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Unir</string>
@@ -1264,7 +1269,7 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string name="error_internet_connection">Se produjo un error desconocido. Compruebe su conexión a Internet.</string>
     <string name="error_project_compatibility">Este proyecto no es compatible con esta versión de la aplicación.</string>
     <string name="error_outdated_version">Esta versión está obsoleta. ¿Actualiza ahora?</string>
-    <string name="error_upload_project_with_default_name">No puede cargar un proyecto con el nombre \"Mi primer proyecto\".
+    <string name="error_upload_project_with_default_name">No puede cargar un proyecto con el nombre \"%s\".
         Por favor, cambie el nombre del proyecto.</string>
     <string name="error_upload_default_project">No puede subir un proyecto de ejemplo sin modificar. Por favor,
         cambie algo e inténtelo de nuevo.</string>
@@ -1287,15 +1292,16 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string name="notification_blueth_err">No se puede activar Bluetooth, por favor intente apagarlo y encenderlo de nuevo.</string>
     <string name="title_paired_devices">Dispositivos emparejados</string>
     <string name="title_other_devices">Nuevos dispositivos</string>
-    <string name="searching_devices">En busca de dispositivos&#8230;</string>
-    <string name="button_scan">Búsqueda de dispositivos Bluetooth</string>
-    <string name="button_skip">Omitir conexión Bluetooth</string>
-    <string name="select_device">Seleccionar dispositivo:</string>
+    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="skip_bluetooth_connection">Ignorar</string>
     <string name="connecting_please_wait">Conexión a la espera del dispositivo. \nPlease&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">Error en la conexión al dispositivo.</string>
     <string name="none_found">No hay dispositivos emparejados</string>
-    <string name="none_paired">No hay dispositivos emparejados</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
+        required!</string>
+    <string name="multiplayer_bluetooth_connection_information">To play this game in
+        Multiplayer a Bluetooth connection is required. Both players have to start the game and
+        be on this screen for the connection to work properly!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Configurar pin digital de Arduino</string>
@@ -1602,7 +1608,6 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string name="formula_editor_function_regex_parameter">(\' un? ([^ .]+)\',\'Soy un panda.\')</string>
     <string name="formula_editor_function_regex_assistant">Asistente de expresión regular</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">Asistente de expresión regular</string>
-    <string name="formula_editor_dialog_wiki_button">Más información</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">No se pudo encontrar la palabra clave.</string>
     <string name="formula_editor_function_regex_json_extractor_title">Extractor JSON</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_pin_digital</string>
@@ -2001,7 +2006,7 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
         sin mirar.</string>
     <!-- Information -->
     <string name="no_variable_selected">Ninguna variable seleccionada</string>
-    <string name="find">Encuentre</string>
+    <string name="search">Búsqueda…</string>
     <string name="no_results_found">No se han encontrado resultados</string>
     <string name="query_field_is_empty">El campo de consulta está vacío</string>
     <string name="cut">Cortar</string>
@@ -2016,4 +2021,5 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string name="set_particle_color_to">Establecer color de partículas a</string>
     <string name="undo_sort">Deshacer orden</string>
     <string name="sort">Ordenar</string>
+    <string name="checkbox">checkbox</string>
 </resources>

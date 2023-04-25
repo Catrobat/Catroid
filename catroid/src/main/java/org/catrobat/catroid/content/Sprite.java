@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -51,11 +51,15 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -63,6 +67,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+
+import androidx.annotation.NonNull;
 
 @XStreamFieldKeyOrder({
 		"name",
@@ -75,7 +81,7 @@ import java.util.UUID;
 		"userDefinedBrickList"
 })
 
-public class Sprite implements Cloneable, Nameable, Serializable {
+public class Sprite implements Nameable, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -519,6 +525,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		return nfcTagList;
 	}
 
+	@NonNull
 	@Override
 	public String toString() {
 		return name;
@@ -712,20 +719,71 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		return this.embroideryThreadColor;
 	}
 
-	public void replaceSpriteWithSprite(Sprite sprite) {
-		this.scriptList = sprite.scriptList;
-		this.lookList = sprite.lookList;
-		this.soundList = sprite.soundList;
-		this.nfcTagList = sprite.nfcTagList;
-		this.userVariables = sprite.userVariables;
-		this.userLists = sprite.userLists;
-		this.userDefinedBrickList = sprite.userDefinedBrickList;
+	public Sprite(Sprite sprite, Scene destinationScene) throws IOException {
+		try {
+			copyLooksAndSounds(sprite, destinationScene, false);
+		} catch (IOException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+			throw e;
+		}
+		this.scriptList.addAll(sprite.scriptList);
+		this.nfcTagList.addAll(sprite.nfcTagList);
+		this.userVariables.addAll(sprite.userVariables);
+		this.userLists.addAll(sprite.userLists);
+		this.userDefinedBrickList.addAll(sprite.userDefinedBrickList);
+		sprite.look.copyTo(this.look);
+		this.myOriginal = sprite;
+		this.name = sprite.getName();
 	}
 
-	public void mergeSprites(Sprite sprite) {
+	private void copyLooksAndSounds(Sprite sprite, Scene destinationScene,
+			boolean setUniqueName) throws IOException {
+		File imageDirectory = new File(
+				destinationScene.getDirectory(),
+				Constants.IMAGE_DIRECTORY_NAME
+		);
+		File soundsDirectory = new File(
+				destinationScene.getDirectory(),
+				Constants.SOUND_DIRECTORY_NAME
+		);
+
+		for (LookData data : sprite.lookList) {
+			File lookFile = StorageOperations.copyFileToDir(
+					data.getFile(),
+					imageDirectory
+			);
+			LookData newData = data.clone();
+			newData.setFile(lookFile);
+			if (setUniqueName) {
+				newData.setName(new UniqueNameProvider().getUniqueNameInNameables(newData.getName(),
+						this.lookList));
+			}
+
+			this.lookList.add(newData);
+		}
+		for (SoundInfo data : sprite.soundList) {
+			File soundFile = StorageOperations.copyFileToDir(
+					data.getFile(),
+					soundsDirectory
+			);
+			SoundInfo newData = data.clone();
+			newData.setFile(soundFile);
+			if (setUniqueName) {
+				newData.setName(new UniqueNameProvider().getUniqueNameInNameables(newData.getName(),
+						this.soundList));
+			}
+			this.soundList.add(newData);
+		}
+	}
+
+	public void mergeSprites(Sprite sprite, Scene destinationScene) throws IOException {
+		try {
+			copyLooksAndSounds(sprite, destinationScene, true);
+		} catch (IOException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+			throw e;
+		}
 		this.scriptList.addAll(sprite.scriptList);
-		this.lookList.addAll(sprite.lookList);
-		this.soundList.addAll(sprite.soundList);
 		this.nfcTagList.addAll(sprite.nfcTagList);
 
 		for (UserVariable userVariable: sprite.userVariables) {

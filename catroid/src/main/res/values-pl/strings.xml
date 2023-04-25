@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -26,14 +26,15 @@
     <string name="stage">Scena</string>
     <string name="play">Graj</string>
     <string name="settings">Ustawienia</string>
-    <string name="redo">Ponów</string>
+    <string name="redo">Przywróć</string>
     <string name="undo">Cofnij</string>
-    <string name="new_option">Nowy&#8230;</string>
+    <string name="new_option">nowy&#8230;</string>
     <string name="edit_option">edytuj&#8230;</string>
     <string name="confirm">Potwierdź</string>
-    <string name="ignore">Zignoruj</string>
+    <string name="ignore">Ignoruj</string>
     <string name="cancel">Anuluj</string>
     <string name="save">Zapisz</string>
+    <string name="help">Pomoc</string>
     <string name="discard">Odrzuć</string>
     <string name="next">Dalej</string>
     <string name="ok">OK</string>
@@ -46,7 +47,7 @@
     <string name="always">Zawsze</string>
     <string name="deny">Odmów</string>
     <string name="do_not_show_again">NIE POKAZUJ PONOWNIE</string>
-    <string name="accept">Akceptuj</string>
+    <string name="accept">Akceptuję</string>
     <string name="decline">Nie akceptuję</string>
     <string name="select_all">Zaznacz wszystko</string>
     <string name="deselect_all">Odznacz wszystko</string>
@@ -55,16 +56,16 @@
     <string name="error">Błąd</string>
     <string name="loading">Ładowanie&#8230;</string>
     <string name="please_wait">Proszę czekać</string>
-    <string name="search_hint">Szukaj…</string>
+    <string name="search_hint">Szukaj</string>
     <string name="backpack_add">Dodaj do plecaka</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Security warning dialog -->
     <string name="security_warning_dialog_msg">Projekt, który pobrałeś nasłuchuje twój głos
         w tle, a także wysyła dane do Internetu. Może to być nieszkodliwe i konieczne
         dla zamierzonego zachowania. Upewnij się jednak, że to, co mówisz, gdy
-        jest uruchomione, jest bezpieczne. W razie wątpliwości usuń pobrany projekt.
-        Możesz również zgłosić projekt na jego stronie na platformie społeczności Catrobat na wypadek
-        jesteś pewien, że jest szkodliwy.</string>
+        projekt jest uruchomiony, jest bezpieczne. W razie wątpliwości usuń pobrany projekt.
+        Możesz również zgłosić projekt na jego stronie na platformie społeczności Catrobat na wypadek,
+        gdy jesteś pewien, że jest szkodliwy.</string>
     <!-- Replace Api dialog -->
     <string name="api_replacement_dialog_neutral">Prześlij bez zmian</string>
     <string name="api_replacement_dialog_accept">Prześlij za pomocą zastąpionych kluczy</string>
@@ -75,9 +76,9 @@
     <!-- -->
     <!-- Login/Logout Mechanism -->
     <string name="loading_check_oauth_token">Sprawdzanie danych logowania&#8230;</string>
-    <string name="loading_google_exchange_code">Wymiana danych z Google+&#8230;</string>
-    <string name="loading_google_login">Logowanie do Google+ na naszym serwerze zostało zakończone&#8230;</string>
-    <string name="logout_successful">Wylogowanie powiodło się</string>
+    <string name="loading_google_exchange_code">Wymiana danych logowania Google&#8230;</string>
+    <string name="loading_google_login">Logowanie do Google na naszym serwerze zostało zakończone&#8230;</string>
+    <string name="logout_successful">Pomyślnie wylogowano</string>
     <string name="degrees">stopni</string>
     <string name="background">Tło</string>
     <string name="landscape">poziomo</string>
@@ -96,18 +97,18 @@
     <string name="main_menu_terms_of_use">Warunki użytkowania i korzystania z usługi</string>
     <string name="main_menu_privacy_policy">Polityka prywatności</string>
     <string name="main_menu_about">O aplikacji</string>
-    <string name="main_menu_login">Logowanie</string>
+    <string name="main_menu_login">Zaloguj się</string>
     <string name="main_menu_logout">Wyloguj się</string>
-    <string name="main_menu_scratch_converter">Konwerter Scratcha</string>
+    <string name="main_menu_scratch_converter">Konwerter projektów Scratch</string>
     <string name="main_menu_play_store_not_installed">Nie znaleziono Google Play</string>
     <!--  -->
     <!-- Marketing activity -->
-    <string name="marketing_created_with">Utworzono przez</string>
-    <string name="marketing_app_details">Szczegółowe informacje o tej aplikacji</string>
+    <string name="marketing_created_with">Utworzono z</string>
+    <string name="marketing_app_details">Szczegóły aplikacji</string>
     <string name="marketing_more_on_google_play">Więcej aplikacji w Google Play</string>
     <string name="error_cannot_open_huawei_app_gallery">Ups! Nie udało się otworzyć aplikacji Huawei AppGallery,
         spróbuj ponownie później.</string>
-    <string name="google_play_store_logo">Google Play</string>
+    <string name="google_play_store_logo">Sklep Google Play</string>
     <string name="huawei_app_gallery">Huawei App Gallery</string>
     <!-- NFC activity -->
     <string name="nfc_activity_title">Tagi NFC</string>
@@ -115,28 +116,30 @@
     <string name="preference_title">Ustawienia</string>
     <string name="preference_title_language">Język</string>
     <string name="preference_description_language">Ustaw język aplikacji</string>
-    <string name="preference_title_web_access">Dostęp do sieci Web</string>
+    <string name="preference_title_web_access">Dostęp do sieci</string>
     <string name="preference_description_web_access">Edytuj aby dodać lub usunąć zaufane domeny</string>
     <string name="preference_screen_web_access_title">Edytuj zaufane domeny</string>
-    <string name="preference_title_ai">Rozszerzenie Sztucznej Inteligencji (AI)</string>
-    <string name="preference_description_ai">Włączenie sztucznej inteligencji i czujników</string>
+    <string name="preference_title_ai">Rozszerzenie Sztucznej Inteligencji (SI)</string>
+    <string name="preference_description_ai">Włączenie bloczków i czujników SI</string>
     <string name="preference_title_ai_speech_recognition">Rozpoznawanie
         mowy</string>
     <string name="preference_description_ai_speech_recognition">Włącz
-        bloki i czujniki dla rozpoznawania mowy</string>
+        bloki i czujniki rozpoznawania mowy</string>
     <string name="preference_title_ai_speech_synthetization">Sentetyzacja
         mowy</string>
     <string name="preference_description_ai_speech_synthetization">Włącz
-        klocki i czujniki syntezy mowy</string>
-    <string name="preference_title_ai_face_detection">Wykrywanie twarzy</string>
+        bloczki i czujniki syntetyzacji mowy</string>
+    <string name="preference_title_ai_face_detection">Wykrywanie
+        twarzy</string>
     <string name="preference_description_ai_face_detection">Włącz
-        klocki i czujniki wykrywania twarzy</string>
+        bloczki i czujniki wykrywania twarzy</string>
     <string name="preference_title_ai_pose_detection">Wykrywanie pozycji</string>
     <string name="preference_description_ai_pose_detection">Włącz
-        Cegły i czujniki wykrywania pozycji</string>
-    <string name="preference_title_ai_text_recognition">Rozpoznawanie tekstu</string>
+        bloczki i czujniki wykrywania pozycji</string>
+    <string name="preference_title_ai_text_recognition">Rozpoznawanie
+        tekstu</string>
     <string name="preference_description_ai_text_recognition">Włącz
-        cegły i czujniki do rozpoznawania tekstu</string>
+        bloczki i czujniki do rozpoznawania tekstu</string>
     <string name="preference_title_ai_object_recognition">Rozpoznawanie obiektów</string>
     <string name="preference_description_ai_object_recognition">Włącz czujniki rozpoznawania i śledzenia obiektów</string>
     <string name="preference_title_accessibility">Dostępność</string>
@@ -160,15 +163,15 @@
     <string name="preference_title_accessibility_large_text">Duży tekst</string>
     <string name="preference_title_accessibility_element_spacing">Duże odstępy między elementami</string>
     <string name="preference_description_accessibility_element_spacing">Zwiększ odstępy między elementami w listach.</string>
-    <string name="preference_title_accessibility_dragndrop_delay">Opóźnienie drag\'n\'drop (przeciągnij i upuść)</string>
-    <string name="preference_description_accessibility_dragndrop_delay">Opóźnienie drag\'n\'drop dla bloków.</string>
+    <string name="preference_title_accessibility_dragndrop_delay">Opóźnienie drag\'n\'drop</string>
+    <string name="preference_description_accessibility_dragndrop_delay">Opóźnienie drag\'n\'drop dla bloczków.</string>
     <string name="preference_title_accessibility_beginner_bricks">Bloczki dla początkujących</string>
     <string name="preference_description_accessibility_beginner_bricks">Pokaż tylko podstawowe bloki.</string>
     <string name="preference_title_accessibility_font_style">Wybierz czcionkę</string>
     <string name="accessibility_font_regular">Standardowa</string>
-    <string name="accessibility_font_serif">Szeryfowa</string>
+    <string name="accessibility_font_serif">Serif</string>
     <string name="accessibility_font_dyslexic">Dyslektyczna</string>
-    <string name="accessibility_settings_applied">Zmiany zastosowano</string>
+    <string name="accessibility_settings_applied">Zastosowano zmiany</string>
     <string name="preference_access_title_profile_default">Domyślny</string>
     <string name="preference_access_summary_profile_default">Ustawienia domyślne</string>
     <string name="preference_access_title_profile_custom">Mój własny profil</string>
@@ -217,7 +220,7 @@
     <string name="preference_title_multiplayer_variables_enabled">Rozszerzenie trybu wieloosobowego</string>
     <string name="preference_description_multiplayer_variables_enabled">Zezwalaj aplikacji na używanie
         zmiennych wieloosobowych udostępnianych przez Bluetooth</string>
-    <string name="preference_title_enable_test_bricks">Bloki Testów</string>
+    <string name="preference_title_enable_test_bricks">Rozszerzenie Testów</string>
     <string name="preference_description_test_bricks">Pozwala na tworzenie testów</string>
     <!-- Scratch Converter activity -->
     <string name="beta">BETA</string>
@@ -344,6 +347,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="hide_details">Ukryj szczegóły</string>
     <string name="project_options">Opcje projektu</string>
     <string name="from_library">Dodaj z biblioteki</string>
+    <string name="from_local">Dodaj z lokalnego</string>
     <string name="sort_projects">Sortuj</string>
     <string name="unsort_projects">Odsortuj</string>
     <string name="import_from_project">Wybierz projekt do zaimportowania z</string>
@@ -626,7 +630,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="ndef_record_label">jako typ rekordu</string>
     <string name="brick_set_nfc_tag">Poczekaj na zapis następnego tagu NFC</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
-    <string name="default_tag_name">tag_nfc</string>
+    <string name="default_tag_name">tag NFC</string>
     <string name="tnf_empty">Pusty</string>
     <string name="tnf_external_type">Typ zewnętrzny</string>
     <string name="tnf_mime_media">Tekst</string>
@@ -683,6 +687,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="add_sound_from_recorder">Nagraj dźwięk</string>
     <string name="add_sound_choose_file">Wybierz plik</string>
     <string name="add_sound_music">Kompozytor muzyki</string>
+    <string name="add_sound_choose_sound">Dźwięki</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">Wybór notatki</string>
     <!--  -->
@@ -734,18 +739,18 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="soundrecorder_text_view">Puknij obrazek mikrofonu, aby rozpocząć i zakończyć nagrywanie.</string>
     <!--  -->
     <!-- Brick context dialog -->
-    <string name="brick_context_dialog_move_brick">Przenieś klocek</string>
+    <string name="brick_context_dialog_move_brick">Przenieś bloczek</string>
     <string name="brick_context_dialog_move_script">Przenieś skrypt</string>
     <string name="brick_context_dialog_move_definition">Przenieś tę definicję</string>
-    <string name="brick_context_dialog_delete_brick">Usuń klocek</string>
-    <string name="brick_context_dialog_copy_brick">Skopiuj klocek</string>
+    <string name="brick_context_dialog_delete_brick">Usuń bloczek</string>
+    <string name="brick_context_dialog_copy_brick">Skopiuj bloczek</string>
     <string name="brick_context_dialog_copy_script">Skopiuj skrypt</string>
     <string name="brick_context_dialog_formula_edit_brick">Edytuj formułę</string>
     <string name="brick_context_dialog_delete_script">Usuń skrypt</string>
     <string name="brick_context_dialog_delete_definition">Usuń tę definicję</string>
     <string name="brick_context_dialog_comment_in">Włącz bloczek</string>
     <string name="brick_context_dialog_comment_out">Wyłącz bloczek</string>
-    <string name="brick_context_dialog_highlight_brick_parts">Podświetl części klocka</string>
+    <string name="brick_context_dialog_highlight_brick_parts">Wyróżnij części bloczka</string>
     <string name="brick_context_dialog_comment_in_script">Włącz skrypt</string>
     <string name="brick_context_dialog_comment_out_script">Wyłącz skrypt</string>
     <string name="brick_context_dialog_help">Pomoc</string>
@@ -879,8 +884,8 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="brick_user_defined_default_label">Tekst etykiety</string>
     <string name="brick_user_defined_already_exists">Blok z tymi etykietami już istnieje. Dodaj więcej etykiet lub danych wejściowych.</string>
     <string name="brick_user_defined_script_define">Zdefiniuj</string>
-    <string name="brick_user_defined_script_screen_refresh_as">odśwież ekran jako</string>
-    <string name="brick_user_defined_with_screen_refreshing">na</string>
+    <string name="brick_user_defined_script_screen_refresh_as">odświeżeniem ekranu, jako</string>
+    <string name="brick_user_defined_with_screen_refreshing">z</string>
     <string name="brick_user_defined_without_screen_refreshing">bez</string>
     <string name="brick_user_defined_list_empty">Naciśnij \"+\", aby dodać własne nowe bloki.</string>
     <string name="brick_report">Zgłoś</string>
@@ -1023,6 +1028,8 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="beats">Uderzenia</string>
     <string name="play_note">Odtwórz nutę</string>
     <string name="for_string">dla</string>
+    <string name="at_string">w </string>
+    <string name="seconds_string">sekund</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Szyj</string>
@@ -1157,7 +1164,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="brick_insert_item_into_userlist_at_position">na pozycji</string>
     <string name="brick_replace_item_in_userlist_replace_in_list">Zastąp element listy</string>
     <string name="brick_replace_item_in_userlist_item_at_index">na pozycji</string>
-    <string name="brick_replace_item_in_userlist_with_value">na</string>
+    <string name="brick_replace_item_in_userlist_with_value">z</string>
     <string name="brick_web_request">Wyślij żądanie do strony internetowej</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string name="brick_web_request_result">i przechowaj odpowiedź w</string>
@@ -1188,8 +1195,8 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="brick_store_csv_into_userlist_data">kotek,uroczy\nszczeniak,niegrzeczny\nośmiornica, inteligentna</string>
     <!--  -->
     <!--Instruments-->
-    <string name="piano">pianino</string>
-    <string name="electric_piano">pianino elektryczne</string>
+    <string name="piano">Pianino</string>
+    <string name="electric_piano">Pianino elektryczne</string>
     <string name="cello">Wiolonczela</string>
     <string name="flute">Flet</string>
     <string name="vibraphone">Wibrafon</string>
@@ -1220,7 +1227,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="tambourine">tamburyn</string>
     <string name="hand_clap">klaskanie</string>
     <string name="claves">Klawesyn</string>
-    <string name="wood_block">Klocek drewniany</string>
+    <string name="wood_block">drewniany bloczek</string>
     <string name="cowbell">Krowi dzwonek</string>
     <string name="triangle">Trójkąt</string>
     <string name="bongo">Bongosy</string>
@@ -1330,7 +1337,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="error_internet_connection">Wystąpił nieznany błąd. Sprawdź połączenie z Internetem.</string>
     <string name="error_project_compatibility">Projekt nie jest zgodny z tą wersją aplikacji.</string>
     <string name="error_outdated_version">Ta wersja aplikacji jest przestarzała. Zaktualizować teraz?</string>
-    <string name="error_upload_project_with_default_name">Nie możesz przesłać projektu o nazwie „Mój pierwszy projekt”. Zmień nazwę projektu.</string>
+    <string name="error_upload_project_with_default_name">Nie możesz przesłać projektu o nazwie „%s”. Zmień nazwę projektu.</string>
     <string name="error_upload_default_project">Nie możesz przesłać niezmodyfikowanego przykładowego projektu. Zmień coś i spróbuj ponownie.</string>
     <string name="error_adding_brick">Podczas dodawania tego bloku wystąpił błąd</string>
     <string name="error_copying_brick">Podczas kopiowania tego bloku wystąpił błąd</string>
@@ -1349,16 +1356,17 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Nie można włączyć Bluetooth, spróbuj wyłączyć i włączyć ponownie.</string>
     <string name="title_paired_devices">Urządzenia sparowane</string>
-    <string name="title_other_devices">Nowe urządzenia</string>
-    <string name="searching_devices">Szukam urządzeń&#8230;</string>
-    <string name="button_scan">Wyszukiwanie urządzeń Bluetooth</string>
-    <string name="button_skip">Pomiń połączenie Bluetooth</string>
-    <string name="select_device">Wybierz urządzenie:</string>
+    <string name="title_other_devices">Dostępne urządzenia</string>
+    <string name="bluetooth_connection_title">Połączenie Bluetooth</string>
+    <string name="skip_bluetooth_connection">Pomiń</string>
     <string name="connecting_please_wait">Łączenie z Twoim urządzeniem. \nProszę, czekaj&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">Podłączenie urządzenia nie powiodło się!</string>
     <string name="none_found">Nie znaleziono niesparowanych urządzeń</string>
-    <string name="none_paired">Nie znaleziono sparowanych urządzeń</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Połączenie Bluetooth
+        wymagane!</string>
+    <string name="multiplayer_bluetooth_connection_information">Aby grać w
+        tryb wieloosobowy, wymagane jest połączenie Bluetooth. Obaj gracze muszą rozpocząć grę i
+        być na tym ekranie, aby połączenie działało poprawnie!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Ustaw cyfrowe wyjście</string>
@@ -1412,7 +1420,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="preference_disable_nxt_info_dialog">Wyłącz okno dialogowe Informacji</string>
     <string name="preference_disable_nxt_info_dialog_description">Konkretne ustawienia programu NXT nie są wyświetlane, gdy program jest otwierany.</string>
     <string name="preference_title_mindstorms_nxt_sensors_description">Mapowanie czujników NXT do portów jest specyficzne dla programu i może być konfigurowane tylko dla otwieranych programów!</string>
-    <string name="lego_nxt_sensor_config_info_text">Bieżący program korzysta z klocków Lego Mindstorms NXT lub czujników. Dla pełnej funkcjonalności proszę podłączyć czujniki do robota w następujący sposób</string>
+    <string name="lego_nxt_sensor_config_info_text">Bieżący program korzysta z bloczków lub czujników Lego Mindstorms NXT. Dla pełnej funkcjonalności proszę podłączyć czujniki do robota w następujący sposób</string>
     <string name="lego_port_1">Port 1</string>
     <string name="lego_port_2">Port 2</string>
     <string name="lego_port_3">Port 3</string>
@@ -1422,7 +1430,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="lego_ev3_sensor_config_info_title">Konfiguracja czujników EV3</string>
     <string name="preference_disable_ev3_info_dialog_description">Konkretne ustawienia programu EV3 nie są wyświetlane, gdy program jest otwierany.</string>
     <string name="preference_title_mindstorms_ev3_sensors_description">Mapowanie czujników EV3 do portów jest specyficzne dla programu i może być konfigurowane tylko dla otwieranych programów!</string>
-    <string name="lego_ev3_sensor_config_info_text">Bieżący program korzysta z klocków Lego Mindstorms EV3 lub czujników. Dla pełnej funkcjonalności proszę podłączyć czujniki do robota w następujący sposób</string>
+    <string name="lego_ev3_sensor_config_info_text">Bieżący program korzysta z bloczków lub czujników Lego Mindstorms EV3. Dla pełnej funkcjonalności proszę podłączyć czujniki do robota w następujący sposób</string>
     <string name="ev3_choose_sensor_1">Czujnik podłączony do portu 1</string>
     <string name="ev3_choose_sensor_2">Czujnik podłączony do portu 2</string>
     <string name="ev3_choose_sensor_3">Czujnik podłączony do portu 3</string>
@@ -1665,20 +1673,19 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
     <string name="formula_editor_function_regex_assistant">Asystent wyrażenia regularnego</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">Asystent wyrażenia regularnego</string>
-    <string name="formula_editor_dialog_wiki_button">Więcej informacji</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">Nie znaleziono słowa kluczowego.</string>
     <string name="formula_editor_function_regex_json_extractor_title">Rozpakowywanie JSON</string>
-    <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_cyfrowe_wyjście</string>
-    <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analogowe_wyjście</string>
-    <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
+    <string name="formula_editor_function_arduino_read_pin_value_digital">arduino cyfrowe wyjście</string>
+    <string name="formula_editor_function_arduino_read_pin_value_analog">arduino analogowe wyjście</string>
+    <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry pi pin</string>
     <string name="formula_editor_function_pin_default_parameter">(0)</string>
-    <string name="formula_editor_function_finger_x">x_dotknięcia_ekranu</string>
+    <string name="formula_editor_function_finger_x">x dotknięcia ekranu</string>
     <string name="formula_editor_function_finger_y">y dotknięcia ekranu</string>
-    <string name="formula_editor_function_is_finger_touching">dotknięto_ekran</string>
-    <string name="formula_editor_function_multi_finger_x">x_dotknięcia_ekranu</string>
+    <string name="formula_editor_function_is_finger_touching">dotyka ekranu</string>
+    <string name="formula_editor_function_multi_finger_x">x dotknięcia ekranu</string>
     <string name="formula_editor_function_multi_finger_y">y dotknięcia ekranu</string>
-    <string name="formula_editor_function_is_multi_finger_touching">dotknięto_ekran</string>
-    <string name="formula_editor_function_index_of_last_finger">indeks_ostatniego_dotknięcia_ekranu</string>
+    <string name="formula_editor_function_is_multi_finger_touching">dotyka ekranu</string>
+    <string name="formula_editor_function_index_of_last_finger">indeks ostatniego dotknięcia ekranu</string>
     <string name="formula_editor_function_number_of_current_touches">liczba aktualnych dotyków</string>
     <string name="formula_editor_function_index_of_current_touch">indeks bieżącego dotknięcia</string>
     <string name="formula_editor_function_no_parameter"></string>
@@ -1689,13 +1696,13 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="formula_editor_function_contains_parameter">(*nazwa listy*,1)</string>
     <string name="formula_editor_function_index_of_item">indeks elementu</string>
     <string name="formula_editor_function_index_of_item_parameter">(1,*nazwa listy*)</string>
-    <string name="formula_editor_function_number_of_items">liczba_elementów</string>
+    <string name="formula_editor_function_number_of_items">liczba elementów</string>
     <string name="formula_editor_function_number_of_items_parameter">(*nazwa listy*)</string>
     <string name="formula_editor_function_flatten">złącz</string>
     <string name="formula_editor_function_flatten_parameter">(*nazwa listy*)</string>
-    <string name="formula_editor_function_collision">dotyka_aktora_lub_obiekt</string>
-    <string name="formula_editor_function_collides_with_edge">dotyka_krawędzi</string>
-    <string name="formula_editor_function_touched">dotyk_palcem</string>
+    <string name="formula_editor_function_collision">dotyka aktora lub obiekt</string>
+    <string name="formula_editor_function_collides_with_edge">dotyka krawędzi</string>
+    <string name="formula_editor_function_touched">dotyka palca</string>
     <string name="formula_editor_function_collides_with_color">dotyka koloru</string>
     <string name="formula_editor_function_color_touches_color">kolor dotyka koloru</string>
     <string name="formula_editor_sensor_color_at_x_y">kolor w x y</string>
@@ -1703,11 +1710,11 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
         tolerancji</string>
     <string name="formula_editor_sensor_x_acceleration">przyspieszenie x</string>
     <string name="formula_editor_sensor_y_acceleration">przyśpieszenie y</string>
-    <string name="formula_editor_sensor_z_acceleration">przyspieszenie_z</string>
-    <string name="formula_editor_sensor_compass_direction">kierunek_kompasu</string>
+    <string name="formula_editor_sensor_z_acceleration">przyspieszenie z</string>
+    <string name="formula_editor_sensor_compass_direction">kierunek kompasu</string>
     <string name="formula_editor_sensor_latitude">szerokość geograficzna</string>
     <string name="formula_editor_sensor_longitude">długość geograficzna</string>
-    <string name="formula_editor_sensor_location_accuracy">dokładność_lokalizacji</string>
+    <string name="formula_editor_sensor_location_accuracy">dokładność lokalizacji</string>
     <string name="formula_editor_sensor_altitude">wysokość npm</string>
     <string name="formula_editor_sensor_user_language">język użytkownika</string>
     <string name="formula_editor_sensor_x_inclination">nachylenie x</string>
@@ -1933,8 +1940,8 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="formula_editor_function_object_with_id_visible">obiekt o widocznym ID</string>
     <string name="formula_editor_intro_title_formula_editor">Edytor formuł</string>
     <string name="formula_editor_intro_summary_formula_editor">Dzięki edytorowi formuł możesz tworzyć wzory matematyczne i
-        logiczne, z których możesz korzystać w klockach.\n\nKontynuuj naciskając „DALEJ” lub wyjdź
-        za pomocą „POMIŃ”.
+        logiczne, z których możesz korzystać w bloczkach.\n\nKontynuuj naciskając „NEXT” lub wyjdź
+        za pomocą „SKIP”.
     </string>
     <string name="formula_editor_intro_title_input_field">Pole wprowadzania</string>
     <string name="formula_editor_intro_summary_input_field">Tutaj możesz zobaczyć swoją formułę, a także ją edytować.</string>
@@ -2026,7 +2033,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="got_it">Zrozumiałem</string>
     <string name="preference_description_hints">Włącz podpowiedzi</string>
     <string name="preference_title_enable_hints">Pokaż wskazówki </string>
-    <string name="hint_category">Wszystkie klocki są podzielone na kategorie. Wybierz kategorię, której szukasz.</string>
+    <string name="hint_category">Wszystkie bloczki są podzielone na kategorie. Wybierz kategorię, której szukasz.</string>
     <string name="hint_bricks">Aby dodać bloczek do skryptu, naciśnij bloczek, który chcesz użyć.</string>
     <string name="hint_scripts">Skrypt określa zachowanie twojego aktora lub obiektu. Aby dodać bloczki do skryptu, naciśnij symbol „+”.</string>
     <string name="hint_looks">Tutaj możesz znaleźć różne typy wyglądu danego aktora lub obiektu. Aby dodać nowy wygląd, naciśnij symbol \"+\".</string>
@@ -2060,7 +2067,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
         bez wyglądu.</string>
     <!-- Information -->
     <string name="no_variable_selected">Nie wybrano zmiennej</string>
-    <string name="find">Znajdź</string>
+    <string name="search">Szukaj</string>
     <string name="no_results_found">Nie znaleziono wyników</string>
     <string name="query_field_is_empty">Pole zapytania jest puste</string>
     <string name="cut">Wytnij</string>
@@ -2075,4 +2082,5 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="set_particle_color_to">Ustaw kolor cząsteczki na</string>
     <string name="undo_sort">Cofnij sortowanie</string>
     <string name="sort">Sortuj</string>
+    <string name="checkbox">pole wyboru</string>
 </resources>

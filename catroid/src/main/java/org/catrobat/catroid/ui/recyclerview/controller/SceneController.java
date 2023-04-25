@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,8 +42,11 @@ import java.io.File;
 import java.io.IOException;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.SCREENSHOT_MANUAL_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.Z_INDEX_BACKGROUND;
+import static org.catrobat.catroid.io.StorageOperations.copyFileToDir;
 
 public class SceneController {
 
@@ -108,7 +111,25 @@ public class SceneController {
 			scene.getSpriteList().add(spriteController.copy(sprite, dstProject, scene));
 		}
 
+		copyScreenshot(sceneToCopy.getDirectory(), scene.getDirectory());
+
 		return scene;
+	}
+
+	private void copyScreenshot(File sourceDirectory, File destinationDirectory) {
+		File screenshotFile = new File(sourceDirectory, SCREENSHOT_MANUAL_FILE_NAME);
+
+		if (!screenshotFile.exists()) {
+			screenshotFile = new File(sourceDirectory, SCREENSHOT_AUTOMATIC_FILE_NAME);
+		}
+
+		if (screenshotFile.exists()) {
+			try {
+				copyFileToDir(screenshotFile, destinationDirectory);
+			} catch (IOException exception) {
+				Log.e(TAG, Log.getStackTraceString(exception));
+			}
+		}
 	}
 
 	public void delete(Scene sceneToDelete) throws IOException {
@@ -131,6 +152,8 @@ public class SceneController {
 		for (Sprite sprite : sceneToPack.getSpriteList()) {
 			scene.getSpriteList().add(spriteController.copy(sprite, null, scene));
 		}
+
+		copyScreenshot(sceneToPack.getDirectory(), scene.getDirectory());
 
 		return scene;
 	}

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -190,6 +190,12 @@ public class PhysicsLook extends Look {
 		if (null != physicsObject) {
 			physicsObject.setDirection(super.getRotation() % 360);
 		}
+	}
+
+	@Override
+	public void setRotationMode(int mode) {
+		super.setRotationMode(mode);
+		updatePhysicsObjectState(true);
 	}
 
 	@Override
@@ -417,6 +423,14 @@ public class PhysicsLook extends Look {
 			checkHangup(record);
 			checkNonColliding(record);
 			checkFixed(record);
+			updateRotation();
+		}
+
+		public void updateRotation() {
+			// Needs to be set for all styles except ALL_AROUND, since the rotation would be
+			// off otherwise
+			boolean rotationCondition = !(getRotationMode() == ROTATION_STYLE_ALL_AROUND);
+			physicsObject.setFixedRotation(rotationCondition);
 		}
 
 		public void activateGlideTo() {

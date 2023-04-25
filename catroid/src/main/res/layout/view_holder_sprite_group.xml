@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -22,10 +22,11 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/view_holder_sprite_group"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="@dimen/sprite_group_view_holder_height"
-    android:paddingEnd="@dimen/view_holder_padding"
+    android:paddingEnd="@dimen/view_holder_padding_small"
     android:paddingStart="@dimen/view_holder_padding"
     android:layout_marginTop="?attr/element_spacing"
     android:layout_marginBottom="?attr/element_spacing"
@@ -58,11 +59,21 @@
 
         <TextView
             android:id="@+id/title_view"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:textColor="@color/view_holder_item_title"
             android:textSize="?attr/large"/>
 
+        <ImageButton
+            android:id="@+id/settings_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:backgroundTint="@color/accent"
+            android:background="@drawable/ic_more_vert"
+            android:layout_marginStart="@dimen/img_margin"
+            android:visibility="visible" />
     </LinearLayout>
 </LinearLayout>

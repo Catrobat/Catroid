@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@
 package org.catrobat.catroid.test.content.script;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Look;
@@ -39,6 +40,7 @@ import org.catrobat.catroid.utils.TouchUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -52,6 +54,7 @@ public class WhenScriptTest {
 	private static final int HEIGHT = 100;
 	private Sprite sprite;
 	private Script whenScript;
+	private final OrthographicCamera camera = Mockito.spy(new OrthographicCamera());
 
 	@Before
 	public void setUp() {
@@ -59,6 +62,7 @@ public class WhenScriptTest {
 
 		whenScript = new WhenScript();
 		sprite.addScript(whenScript);
+		Mockito.doNothing().when(camera).update();
 
 		createProjectWithSprite(sprite);
 		TouchUtil.reset();
@@ -116,5 +120,21 @@ public class WhenScriptTest {
 		}
 
 		assertEquals((float) 10, sprite.look.getXInUserInterfaceDimensionUnit());
+	}
+
+	@Test
+	public void movedCameraPosition() {
+		camera.position.set(1000.0f, 600.0f, 0.0f);
+		sprite.look.setPositionInUserInterfaceDimensionUnit(1000.0f, 600.0f);
+
+		whenScript.addBrick(new ChangeXByNBrick(10));
+		sprite.initializeEventThreads(EventId.START);
+
+		tapSprite();
+		while (!sprite.look.haveAllThreadsFinished()) {
+			sprite.look.act(1.0f);
+		}
+
+		assertEquals((float) 1010, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 }

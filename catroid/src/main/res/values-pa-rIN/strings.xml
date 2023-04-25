@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@
     <string name="ignore">ਅਣਡਿੱਠ ਕਰੋ</string>
     <string name="cancel">ਰੱਦ ਕਰੋ</string>
     <string name="save">ਸੇਵ</string>
+    <string name="help">ਮਦਦ ਕਰੋ</string>
     <string name="discard">ਬਰਖਾਸਤ ਕਰੋ</string>
     <string name="next">ਅਗਲਾ</string>
     <string name="ok">ਠੀਕ ਹੈ</string>
@@ -350,6 +351,7 @@
     <string name="hide_details">ਵੇਰਵੇ ਲੁਕਾਓ</string>
     <string name="project_options">ਪ੍ਰੋਜੈਕਟ ਵਿਕਲਪ</string>
     <string name="from_library">ਲਾਇਬ੍ਰੇਰੀ ਤੋਂ ਸ਼ਾਮਲ ਕਰੋ</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">ਲੜੀਬੱਧ</string>
     <string name="unsort_projects">ਅਣਸੋਰਟ</string>
     <string name="import_from_project">ਤੋਂ ਆਯਾਤ ਕਰਨ ਲਈ ਪ੍ਰੋਜੈਕਟ ਚੁਣੋ</string>
@@ -627,6 +629,7 @@
     <string name="add_sound_from_recorder">ਰਿਕਾਰਡ ਆਵਾਜ਼</string>
     <string name="add_sound_choose_file">ਫਾਈਲ ਚੁਣੋ</string>
     <string name="add_sound_music">ਸੰਗੀਤ ਸੰਗੀਤਕਾਰ</string>
+    <string name="add_sound_choose_sound">ਆਵਾਜ਼ਾਂ</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">ਨੋਟ ਚੋਣਕਾਰ</string>
     <!--  -->
@@ -973,6 +976,8 @@
     <string name="beats">ਬੀਟਸ</string>
     <string name="play_note">ਖੇਡੋ ਨੋਟ</string>
     <string name="for_string">ਲਈ</string>
+    <string name="at_string">ਤੇ</string>
+    <string name="seconds_string">ਸਕਿੰਟ</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">ਸਿਲਾਈ</string>
@@ -1271,7 +1276,7 @@
     <string name="error_internet_connection">ਇੱਕ ਅਣਜਾਣ ਗਲਤੀ ਆਈ ਹੈ. ਆਪਣੇ ਇੰਟਰਨੈਟ ਕਨੈਕਸ਼ਨ ਦੀ ਜਾਂਚ ਕਰੋ.</string>
     <string name="error_project_compatibility">ਪ੍ਰੋਜੈਕਟ ਐਪ ਦੇ ਇਸ ਸੰਸਕਰਣ ਦੇ ਅਨੁਕੂਲ ਨਹੀਂ ਹੈ.</string>
     <string name="error_outdated_version">ਇਹ ਐਪ ਦਾ ਸੰਸਕਰਣ ਪੁਰਾਣਾ ਹੈ. ਹੁਣ ਅਪਡੇਟ ਕਰੋ?</string>
-    <string name="error_upload_project_with_default_name">ਤੁਸੀਂ \"ਮੇਰਾ ਪਹਿਲਾ ਪ੍ਰੋਜੈਕਟ\" ਨਾਮ ਦੇ ਨਾਲ ਕੋਈ ਪ੍ਰੋਜੈਕਟ ਅਪਲੋਡ ਨਹੀਂ ਕਰ ਸਕਦੇ.
+    <string name="error_upload_project_with_default_name">ਤੁਸੀਂ \"%s\" ਨਾਮ ਦੇ ਨਾਲ ਕੋਈ ਪ੍ਰੋਜੈਕਟ ਅਪਲੋਡ ਨਹੀਂ ਕਰ ਸਕਦੇ.
          ਕਿਰਪਾ ਕਰਕੇ ਪ੍ਰੋਜੈਕਟ ਦਾ ਨਾਮ ਬਦਲੋ.</string>
     <string name="error_upload_default_project">ਤੁਸੀਂ ਗੈਰ-ਸੋਧਿਆ ਉਦਾਹਰਨ ਪ੍ਰੋਜੈਕਟ ਅਪਲੋਡ ਨਹੀਂ ਕਰ ਸਕਦੇ. ਕ੍ਰਿਪਾ ਕਰਕੇ
          ਕੁਝ ਬਦਲੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ.</string>
@@ -1294,15 +1299,16 @@
     <string name="notification_blueth_err">ਬਲਿਊਟੁੱਥ ਨੂੰ ਯੋਗ ਨਾ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ, ਇਸ ਨੂੰ ਬੰਦ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ \'ਤੇ ਕਰ ਦਿਓ ਕੋਸ਼ਿਸ਼ ਕਰੋ.</string>
     <string name="title_paired_devices">ਪੇਅਰ ਕੀਤੀਆਂ ਡਿਵਾਈਸਾਂ</string>
     <string name="title_other_devices">ਨਵੀਆਂ ਡਿਵਾਈਸਾਂ</string>
-    <string name="searching_devices">ਡਿਵਾਈਸਾਂ ਦੀ ਭਾਲ ਕਰ ਰਿਹਾ ਹੈ&#8230;</string>
-    <string name="button_scan">ਬਲੂਟੁੱਥ ਉਪਕਰਣ ਖੋਜੋ</string>
-    <string name="button_skip">ਬਲੂਟੁੱਥ ਕਨੈਕਸ਼ਨ ਛੱਡੋ</string>
-    <string name="select_device">ਜੰਤਰ ਚੁਣੋ:</string>
+    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="skip_bluetooth_connection">ਛੱਡੋ</string>
     <string name="connecting_please_wait">ਆਪਣੇ ਜੰਤਰ ਨੂੰ ਨਾਲ ਕੁਨੈਕਟ ਕੀਤਾ. \n ਕਿਰਪਾ ਕਰਕੇ ਉਡੀਕ ਕਰੋ&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">ਡਿਵਾਈਸ ਨਾਲ ਕਨੈਕਸ਼ਨ ਅਸਫਲ!</string>
     <string name="none_found">ਕੋਈ ਅਨ ਪੇਅਰ ਕੀਤੀਆਂ ਡਿਵਾਈਸਾਂ ਨਹੀਂ ਮਿਲੀਆਂ</string>
-    <string name="none_paired">ਕੋਈ ਜੋੜੀ ਵਾਲੀਆਂ ਡਿਵਾਈਸਾਂ ਨਹੀਂ ਮਿਲੀਆਂ</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
+        required!</string>
+    <string name="multiplayer_bluetooth_connection_information">To play this game in
+        Multiplayer a Bluetooth connection is required. Both players have to start the game and
+        be on this screen for the connection to work properly!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">ਅਰੂਦਿਨੋ ਡਿਜੀਟਲ ਪਿੰਨ ਸੈਟ ਕਰੋ</string>
@@ -1617,7 +1623,6 @@
          ਸਹਾਇਕ</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">ਰੋਜਾਨਾ
          ਸਮੀਕਰਨ ਸਹਾਇਕ</string>
-    <string name="formula_editor_dialog_wiki_button">ਹੋਰ ਜਾਣਕਾਰੀ</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">ਕੀਵਰਡ ਨਹੀਂ ਮਿਲਿਆ.</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON ਐਬਸਟਰੈਕਟਰ</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">ਆਰਡਿਨੋ ਡਿਜੀਟਲ ਪਿੰਨ</string>
@@ -2029,7 +2034,7 @@
         ਇੱਕ ਨਜ਼ਰ ਦੇ ਬਗੈਰ.</string>
     <!-- Information -->
     <string name="no_variable_selected">ਕੋਈ ਵੇਰੀਏਬਲ ਨਹੀਂ ਚੁਣਿਆ</string>
-    <string name="find">ਲੱਭੋ</string>
+    <string name="search">ਖੋਜ ਕਰੋ…</string>
     <string name="no_results_found">ਕੋਈ ਨਤੀਜਾ ਨਹੀਂ ਮਿਲਿਆ</string>
     <string name="query_field_is_empty">ਕਿ fieldਰੀ ਫੀਲਡ ਖਾਲੀ ਹੈ</string>
     <string name="cut">ਕੱਟੋ</string>
@@ -2044,4 +2049,5 @@
     <string name="set_particle_color_to">ਕਣ ਦਾ ਰੰਗ ਸੈੱਟ ਕਰੋ</string>
     <string name="undo_sort">ਕ੍ਰਮਬੱਧ ਨੂੰ ਅਣਕੀਤਾ ਕਰੋ</string>
     <string name="sort">ਲੜੀਬੱਧ</string>
+    <string name="checkbox">checkbox</string>
 </resources>
