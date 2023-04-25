@@ -358,6 +358,7 @@ dependencies {
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation ('com.esotericsoftware:kryo:5.1.1')
     implementation 'id.zelory:compressor:2.1.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
