@@ -56,7 +56,7 @@ import org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION
 import org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION
 import org.catrobat.catroid.common.Constants.FLAVOR_DEFAULT
 import org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS
-import org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIR
+import org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIRECTORY
 import org.catrobat.catroid.common.Constants.NO_TOKEN
 import org.catrobat.catroid.common.Constants.PLATFORM_DEFAULT
 import org.catrobat.catroid.common.Constants.REFRESH_TOKEN
@@ -67,7 +67,7 @@ import org.catrobat.catroid.common.FlavoredConstants.BASE_URL_HTTPS
 import org.catrobat.catroid.common.FlavoredConstants.CATROBAT_HELP_URL
 import org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BASE_URL
 import org.catrobat.catroid.transfers.TokenTask
-import org.catrobat.catroid.ui.MainMenuActivity.surveyCampaign
+import org.catrobat.catroid.ui.MainMenuActivity.Companion.surveyCampaign
 import org.catrobat.catroid.utils.MediaDownloader
 import org.catrobat.catroid.utils.ProjectDownloadUtil
 import org.catrobat.catroid.utils.ToastUtil
@@ -135,20 +135,21 @@ class WebViewActivity : AppCompatActivity() {
         } else if (downloadUrl.contains(LIBRARY_BASE_URL)) {
             val fileName = guessFileName(downloadUrl, contentDisposition, mimetype)
 
-            MEDIA_LIBRARY_CACHE_DIR.mkdirs()
-            if (!MEDIA_LIBRARY_CACHE_DIR.isDirectory) {
-                Log.e(TAG, "Cannot create $MEDIA_LIBRARY_CACHE_DIR")
+            MEDIA_LIBRARY_CACHE_DIRECTORY.mkdirs()
+            if (!MEDIA_LIBRARY_CACHE_DIRECTORY.isDirectory) {
+                Log.e(TAG, "Cannot create $MEDIA_LIBRARY_CACHE_DIRECTORY")
                 return
             }
 
-            val file = File(MEDIA_LIBRARY_CACHE_DIR, fileName)
+            val file = File(MEDIA_LIBRARY_CACHE_DIRECTORY, fileName)
             resultIntent.putExtra(MEDIA_FILE_PATH, file.absolutePath)
             MediaDownloader(this).startDownload(this, downloadUrl, fileName, file.absolutePath)
         } else {
             val request = DownloadManager.Request(Uri.parse(downloadUrl))
             val projectName = getProjectNameFromUrl(downloadUrl)
             request.run {
-                setTitle(getString(R.string.notification_download_title_pending) + " " + projectName)
+                setTitle(getString(R.string.notification_download_title_pending) + " " +
+                             projectName)
                 setDescription(getString(R.string.notification_download_pending))
                 setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                 setDestinationInExternalPublicDir(DIRECTORY_DOWNLOADS, projectName + ANDROID_APPLICATION_EXTENSION)
@@ -307,7 +308,7 @@ class WebViewActivity : AppCompatActivity() {
             .apply()
 
         surveyCampaign?.let {
-            surveyCampaign.showSurvey(applicationContext)
+            surveyCampaign!!.showSurvey(applicationContext)
         }
 
         super.onDestroy()
