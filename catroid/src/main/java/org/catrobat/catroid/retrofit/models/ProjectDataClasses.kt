@@ -27,6 +27,7 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Relation
+import java.io.File
 
 @SuppressWarnings("ConstructorParameterNaming")
 @Entity(tableName = "featured_project")
@@ -38,6 +39,27 @@ data class FeaturedProject(
     val name: String,
     val author: String,
     val featured_image: String
+)
+
+@SuppressWarnings("ConstructorParameterNaming")
+data class ProjectUploadResponseApi(
+    val id: String,
+    val name: String,
+    val author: String,
+    val description: String,
+    val version: String,
+    val views: Int,
+    val download: Int,
+    val private: Boolean,
+    val flavor: String,
+    val tags: List<String>,
+    val uploaded: Long,
+    val uploaded_string: String,
+    val screenshot_large: String,
+    val screenshot_small: String,
+    val project_url: String,
+    val download_url: String,
+    val filesize: Double
 )
 
 @Entity(tableName = "project_response", primaryKeys = ["id", "categoryType"])
@@ -102,26 +124,5 @@ data class ProjectCategoryWithResponses(
 data class ProjectsCategoryApi(
     val type: String,
     val name: String,
-    val projectsList: List<ProjectResponseApi>
-)
-
-@SuppressWarnings("ConstructorParameterNaming")
-data class ProjectResponseApi(
-    val id: String,
-    val name: String,
-    val author: String,
-    val description: String,
-    val version: String,
-    val views: Int,
-    val download: Int,
-    val private: Boolean,
-    val flavor: String,
-    val tags: List<String>,
-    val uploaded: Long,
-    val uploaded_string: String,
-    val screenshot_large: String,
-    val screenshot_small: String,
-    val project_url: String,
-    val download_url: String,
-    val filesize: Double
+    val projectsList: List<ProjectUploadResponseApi>
 )
