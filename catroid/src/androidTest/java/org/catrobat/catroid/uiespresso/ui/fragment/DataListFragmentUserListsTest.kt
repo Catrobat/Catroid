@@ -35,7 +35,7 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick
-import org.catrobat.catroid.formulaeditor.UserList
+import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils
@@ -72,7 +72,7 @@ class DataListFragmentUserListsTest(
         script.addBrick(ChangeSizeByNBrick(0.0))
         project = ProjectManager.getInstance().currentProject
         baseActivityTestRule.launchActivity()
-        project.addUserList(UserList(userListName, values))
+        project.addUserVariable(UserVariable(userListName, values))
         openDataFragment()
         onView(withId(R.id.empty_view))
             .check(matches(not(isDisplayed())))
@@ -86,9 +86,9 @@ class DataListFragmentUserListsTest(
 
     @Test
     fun booleanUserListTest() {
-        onDataList().onListAtPosition(0)
+        onDataList().onVariableAtPosition(0)
             .checkHasName(userListName)
-        onDataList().onListAtPosition(0)
+        onDataList().onVariableAtPosition(0)
             .performClickDetails()
         expectedStrings.forEach { expectedString ->
             onView(withText(expectedString))

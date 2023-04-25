@@ -35,7 +35,6 @@ import org.catrobat.catroid.common.DefaultProjectHandler
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.exceptions.ProjectException
-import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.asynctask.saveProjectSerial
 import org.catrobat.catroid.test.utils.TestUtils
@@ -193,7 +192,7 @@ class MergeLocalSpriteTest {
 
         // Add same globals to projects
         val global1 = UserVariable("global1")
-        val userListGlobal1 = UserList("userListGlobal1")
+        val userListGlobal1 = UserVariable("userListGlobal1", true)
 
         project.userVariables?.add(global1)
         project.userLists?.add(userListGlobal1)

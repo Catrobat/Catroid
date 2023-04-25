@@ -29,7 +29,7 @@ import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.DeleteItemOfUserListAction
 import org.catrobat.catroid.formulaeditor.Formula
-import org.catrobat.catroid.formulaeditor.UserList
+import org.catrobat.catroid.formulaeditor.UserVariable
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -44,7 +44,7 @@ class DeleteItemOfUserListActionTest(
     private var expectedList: List<Any>
 ) {
 
-    private lateinit var userList: UserList
+    private lateinit var userList: UserVariable
     private lateinit var actionFactory: ActionFactory
     private lateinit var deleteaction: DeleteItemOfUserListAction
 
@@ -58,14 +58,14 @@ class DeleteItemOfUserListActionTest(
             arrayOf("DeleteAllEntries", listOf(Formula(1), Formula(1)), mutableListOf("First", 2), emptyList<Any>()),
             arrayOf("DeleteInvalidEntries", listOf(Formula(3), Formula(0), Formula(-1)), mutableListOf(1, 2), listOf(1, 2)),
             arrayOf("DeleteNotANumberEntry", listOf(Formula(Double.NaN)), mutableListOf(1, 2), listOf(1, 2)),
-            arrayOf("DeleteEmptyList", listOf(Formula(1)), emptyList<Any>(), emptyList<Any>()))
+            arrayOf("DeleteEmptyList", listOf(Formula(1)), arrayListOf<Any>(), ArrayList<Any>()))
     }
 
     @Before
     @Throws(Exception::class)
     fun setUp() {
         actionFactory = ActionFactory()
-        userList = UserList(testName, initList)
+        userList = UserVariable(testName, initList)
         deleteaction = DeleteItemOfUserListAction()
     }
 
@@ -78,6 +78,6 @@ class DeleteItemOfUserListActionTest(
             deleteaction.act(1f)
             deleteaction.reset()
         }
-        Assert.assertEquals(userList.value, UserList(testName, expectedList).value)
+        Assert.assertEquals(expectedList, userList.value)
     }
 }

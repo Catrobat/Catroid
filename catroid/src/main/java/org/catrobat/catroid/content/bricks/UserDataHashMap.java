@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.formulaeditor.UserData;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.jetbrains.annotations.NotNull;
 
@@ -42,7 +41,7 @@ public class UserDataHashMap extends HashMap<Brick.BrickData, UserData> implemen
 			UserData userData = null;
 			if (entry.getValue() != null) {
 				if (Brick.BrickData.isUserList(entry.getKey())) {
-					userData = new UserList();
+					userData = new UserVariable(true);
 					userData.setValue(entry.getValue().getValue());
 				} else {
 					userData = new UserVariable((UserVariable) entry.getValue());

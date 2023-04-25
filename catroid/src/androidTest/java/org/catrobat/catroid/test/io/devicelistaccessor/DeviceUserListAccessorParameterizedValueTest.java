@@ -26,7 +26,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.DeviceListAccessor;
 import org.catrobat.catroid.io.DeviceUserDataAccessor;
@@ -79,7 +78,7 @@ public class DeviceUserListAccessorParameterizedValueTest<T> {
 
 	private List<Object> throwAwayValue = Arrays.asList("Throw Away Value");
 	private File directory;
-	private UserList userList;
+	private UserVariable userList;
 	private DeviceUserDataAccessor accessor;
 
 	@Before
@@ -87,7 +86,7 @@ public class DeviceUserListAccessorParameterizedValueTest<T> {
 		directory = new File(ApplicationProvider.getApplicationContext().getCacheDir(), "DeviceLists");
 		directory.mkdir();
 
-		userList = new UserList("globalListX", initialValue);
+		userList = new UserVariable("globalListX", initialValue, true);
 		accessor = new DeviceListAccessor(directory);
 	}
 

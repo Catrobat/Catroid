@@ -38,7 +38,6 @@ import org.catrobat.catroid.formulaeditor.FormulaElement
 import org.catrobat.catroid.formulaeditor.SensorHandler
 import org.catrobat.catroid.formulaeditor.Sensors
 import org.catrobat.catroid.formulaeditor.UserData
-import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.nfc.NfcHandler
 import org.catrobat.catroid.sensing.CollisionDetection
@@ -47,6 +46,7 @@ import org.catrobat.catroid.stage.StageListener
 import org.catrobat.catroid.utils.NumberFormats.Companion.trimTrailingCharacters
 import org.catrobat.catroid.utils.TouchUtil
 import java.lang.Double.valueOf
+import java.util.Objects
 import kotlin.math.round
 
 object FormulaElementOperations {
@@ -197,11 +197,11 @@ object FormulaElementOperations {
     }
 
     @JvmStatic
-    fun interpretUserList(userList: UserList?): Any {
+    fun interpretUserList(userList: UserVariable?): Any {
         return userList?.let {
             when {
-                it.value.isEmpty() -> ""
-                it.value.size == 1 -> it.value[0]
+                (it.value as ArrayList<*>).isEmpty() -> ""
+                (it.value as ArrayList<*>).size == 1 -> (it.value as ArrayList<*>)[0]
                 else -> it.value
             }
         } ?: Conversions.FALSE
@@ -247,7 +247,7 @@ object FormulaElementOperations {
     fun interpretUserDefinedBrickInput(userDefinedBrickInput: UserData<Any>?): Any {
         return userDefinedBrickInput?.let {
             when {
-                it is UserList -> interpretUserList(it)
+                it is UserVariable && it.isList -> interpretUserList(it)
                 it is UserVariable -> interpretUserVariable(it)
                 else -> 0
             }

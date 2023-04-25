@@ -32,7 +32,6 @@ import org.catrobat.catroid.content.UserDefinedScript;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -83,7 +82,7 @@ public class RecognizeFormulaInTextTest {
 	Project project;
 	Sprite sprite;
 	UserVariable userVariable = new UserVariable("variable");
-	UserList userList = new UserList("list", Arrays.asList(new Object[]{"a", "b", "c"}));
+	UserVariable userList = new UserVariable("list", Arrays.asList("a", "b", "c"));
 
 	@Spy
 	private FormulaEditorFragment formulaEditorFragmentMock;

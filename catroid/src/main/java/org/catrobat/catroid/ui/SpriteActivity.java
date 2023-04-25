@@ -50,7 +50,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.VisualPlacementBrick;
 import org.catrobat.catroid.formulaeditor.UserData;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.asynctask.ProjectSaver;
@@ -844,7 +843,7 @@ public class SpriteActivity extends BaseActivity {
 							.putBoolean(INDEXING_VARIABLE_PREFERENCE_KEY, false).apply();
 
 					if (makeListCheckBox.isChecked()) {
-						UserList userList = new UserList(textInput);
+						UserVariable userList = new UserVariable(textInput, true);
 						if (addToProjectUserData) {
 							currentProject.addUserList(userList);
 						} else {
@@ -914,7 +913,7 @@ public class SpriteActivity extends BaseActivity {
 				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
 					boolean addToProjectUserData = addToProjectUserDataRadioButton.isChecked();
 
-					UserList userList = new UserList(textInput);
+					UserVariable userList = new UserVariable(textInput, true);
 					if (addToProjectUserData) {
 						currentProject.addUserList(userList);
 					} else {

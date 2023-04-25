@@ -31,7 +31,6 @@ import com.opencsv.exceptions.CsvException
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
-import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import java.io.IOException
 import java.io.StringReader

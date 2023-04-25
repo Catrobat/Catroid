@@ -32,7 +32,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.MockUtil;
 import org.catrobat.catroid.utils.NumberFormats;
@@ -59,7 +58,7 @@ public class FormulaEditorDataListAdapterArraysValueTest {
 
 		UserVariable userVariable = new UserVariable(userVarName);
 		userVariable.setValue(NumberFormats.trimTrailingCharacters("1.0"));
-		UserList userList = new UserList(userListName);
+		UserVariable userList = new UserVariable(userListName);
 		UserVariable multiplayerVariable = new UserVariable(multiplayerVarName);
 		multiplayerVariable.setValue(NumberFormats.trimTrailingCharacters("2.0"));
 		userList.addListItem(NumberFormats.trimTrailingCharacters("1.0"));

@@ -32,7 +32,6 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Setting;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.XmlHeader;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
@@ -128,7 +127,7 @@ public class LegacyProjectWithoutScenes implements Serializable {
 		return Collections.emptyList();
 	}
 
-	public List<UserList> getProjectUserLists() {
+	public List<UserVariable> getProjectUserLists() {
 		if (data != null && data.projectLists != null) {
 			return data.projectLists;
 		}
@@ -142,7 +141,7 @@ public class LegacyProjectWithoutScenes implements Serializable {
 		return Collections.emptyList();
 	}
 
-	public List<UserList> getSpriteUserLists(Sprite sprite) {
+	public List<UserVariable> getSpriteUserLists(Sprite sprite) {
 		if (data != null && data.spriteListOfLists.get(sprite) != null) {
 			return data.spriteListOfLists.get(sprite);
 		}

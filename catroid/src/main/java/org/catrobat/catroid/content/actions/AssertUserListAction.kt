@@ -22,9 +22,7 @@
  */
 package org.catrobat.catroid.content.actions
 
-import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
-import kotlin.math.exp
 
 class AssertUserListAction : AssertAction() {
     var actualUserList: Any? = null
@@ -58,14 +56,10 @@ class AssertUserListAction : AssertAction() {
         var actual: UserVariable? = null
         var expected: UserVariable? = null
 
-        if (actualUserList is UserList) {
-            actual = actualUserList as UserList
-        } else if (actualUserList is UserVariable && (actualUserList as UserVariable).isList) {
+        if (actualUserList is UserVariable && (actualUserList as UserVariable).isList) {
             actual = actualUserList as UserVariable
         }
-        if (expectedUserList is UserList) {
-            expected = expectedUserList as UserList
-        } else if (expectedUserList is UserVariable && (expectedUserList as UserVariable).isList) {
+        if (expectedUserList is UserVariable && (expectedUserList as UserVariable).isList) {
             expected = expectedUserList as UserVariable
         }
 

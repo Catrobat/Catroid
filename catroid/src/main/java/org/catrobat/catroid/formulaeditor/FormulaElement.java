@@ -424,8 +424,8 @@ public class FormulaElement implements Serializable {
 				return interpretUserVariable(userVariable);
 			case USER_LIST:
 				UserVariable userList = UserDataWrapper.getUserList(value, scope);
-				if (userList instanceof UserList) {
-					return interpretUserList((UserList) userList);
+				if (userList != null && userList.isList()) {
+					return interpretUserList(userList);
 				} else {
 					return interpretUserVariable(userList);
 				}
@@ -960,8 +960,6 @@ public class FormulaElement implements Serializable {
 
 		if (userVariable.isList()) {
 			listValues = (ArrayList<Object>) userVariable.getValue();
-		} else if (userVariable instanceof UserList) {
-			listValues = ((UserList) userVariable).getValue();
 		}
 
 		if (listValues.size() != 1) {

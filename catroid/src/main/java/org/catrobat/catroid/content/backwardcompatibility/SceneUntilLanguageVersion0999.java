@@ -26,7 +26,6 @@ package org.catrobat.catroid.content.backwardcompatibility;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 
@@ -64,7 +63,7 @@ public class SceneUntilLanguageVersion0999 implements Serializable {
 		return Collections.emptyList();
 	}
 
-	public List<UserList> getSpriteUserLists(Sprite sprite) {
+	public List<UserVariable> getSpriteUserLists(Sprite sprite) {
 		if (data != null && data.spriteListOfLists.get(sprite) != null) {
 			return data.spriteListOfLists.get(sprite);
 		}

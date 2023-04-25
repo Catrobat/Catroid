@@ -37,7 +37,6 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick
 import org.catrobat.catroid.exceptions.ProjectException
-import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.asynctask.saveProjectSerial
 import org.catrobat.catroid.test.utils.TestUtils
@@ -50,7 +49,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.koin.java.KoinJavaComponent.inject
 import java.io.File
-import java.io.ObjectInput
 
 class ImportLocalSpriteTest {
     private lateinit var projectToImportFrom: Project
@@ -59,7 +57,7 @@ class ImportLocalSpriteTest {
     private lateinit var projectWithConflicts: Project
     private var global1 = UserVariable("global1")
     private var local1 = UserVariable("local1")
-    private var userListGlobal1 = UserList("userListGlobal1")
+    private var userListGlobal1 = UserVariable("userListGlobal1", true)
     private var broadcast1 = "broadcast1"
     private lateinit var cat: Sprite
     private lateinit var dog: Sprite

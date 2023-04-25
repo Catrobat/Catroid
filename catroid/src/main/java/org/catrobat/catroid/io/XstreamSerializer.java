@@ -275,7 +275,6 @@ import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableToFileBrick;
 import org.catrobat.catroid.content.bricks.ZigZagStitchBrick;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.userbrick.UserDefinedBrickData;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
@@ -393,7 +392,7 @@ public final class XstreamSerializer {
 		xstream.alias("sound", SoundInfo.class);
 		xstream.alias("nfcTag", NfcTagData.class);
 		xstream.alias("userVariable", UserVariable.class);
-		xstream.alias("userList", UserList.class);
+		xstream.alias("userList", UserVariable.class);
 
 		xstream.alias("script", Script.class);
 		xstream.alias("object", Sprite.class);

@@ -47,7 +47,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.dialogs.LegoSensorPortConfigDialog;
@@ -650,9 +649,9 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		FragmentActivity activity = getActivity();
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(activity);
 		final List<UserVariable> projectUserList =
-				ProjectManager.getInstance().getCurrentProject().getUserLists();
+				ProjectManager.getInstance().getCurrentProject().getUserVariables();
 		final List<UserVariable> spriteUserList =
-				ProjectManager.getInstance().getCurrentSprite().getUserLists();
+				ProjectManager.getInstance().getCurrentSprite().getUserVariables();
 		insertLastUserListToActiveFormula(item, projectUserList, spriteUserList,
 				activity, builder);
 	}

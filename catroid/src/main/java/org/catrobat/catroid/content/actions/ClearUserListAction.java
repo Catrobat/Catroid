@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
 public class ClearUserListAction extends TemporalAction {
@@ -37,11 +36,7 @@ public class ClearUserListAction extends TemporalAction {
 		if (userList == null) {
 			return;
 		}
-		if (userList instanceof UserList) {
-			userList.reset();
-		} else {
-			userList.setToEmptyList();
-		}
+		userList.setToEmptyList();
 	}
 
 	public void setUserList(UserVariable userList) {

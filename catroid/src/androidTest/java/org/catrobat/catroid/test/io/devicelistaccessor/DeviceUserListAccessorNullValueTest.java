@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.io.devicelistaccessor;
 
-import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.DeviceListAccessor;
 import org.catrobat.catroid.io.StorageOperations;
 import org.junit.After;
@@ -52,14 +52,14 @@ public class DeviceUserListAccessorNullValueTest {
 	private List<Object> expectedValue = new ArrayList<>();
 	private List<Object> throwAwayValue = new ArrayList<>();
 	private File directory;
-	private UserList userList;
+	private UserVariable userList;
 	private DeviceListAccessor accessor;
 
 	@Before
 	public void setUp() {
 		directory = new File(ApplicationProvider.getApplicationContext().getCacheDir(), "DeviceLists");
 		directory.mkdir();
-		userList = new UserList("UserList", initialNullValue);
+		userList = new UserVariable("UserList", initialNullValue);
 		accessor = new DeviceListAccessor(directory);
 	}
 

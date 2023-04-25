@@ -39,7 +39,6 @@ import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.junit.Before;
@@ -78,7 +77,7 @@ public class CompositeBrickWithSecondaryListUpdateTest {
 	private static final String NEW_VARIABLE_USERVARIABLE_FORMAT = "\"NewName\" ";
 	private static final String NEW_VARIABLE_USERLIST_FORMAT = "*NewName* ";
 
-	private UserList userList;
+	private UserVariable userList;
 	private UserVariable userVariable;
 	private FormulaBrick primaryListFormulaBrick;
 	private FormulaBrick secondaryListFormulaBrick;
@@ -88,7 +87,7 @@ public class CompositeBrickWithSecondaryListUpdateTest {
 		initializeStaticSingletonMethods();
 		Project project = new Project();
 		userVariable = new UserVariable();
-		userList = new UserList();
+		userList = new UserVariable(true);
 		Scene scene = new Scene();
 		Sprite sprite = new Sprite();
 		Script script = new WhenScript();

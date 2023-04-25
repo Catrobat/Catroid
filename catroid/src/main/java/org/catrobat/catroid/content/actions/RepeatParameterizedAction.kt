@@ -24,10 +24,10 @@ package org.catrobat.catroid.content.actions
 
 import org.catrobat.catroid.common.ParameterizedData
 import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.TestResult
+import java.util.Objects
 
 class RepeatParameterizedAction : LoopAction() {
     private var assertTitle = "ParameterizedInitialisationError"
@@ -35,7 +35,7 @@ class RepeatParameterizedAction : LoopAction() {
     var position = ""
     var sprite: Sprite? = null
     var parameterizedData: ParameterizedData? = null
-    var parameters: List<Pair<UserList, UserVariable>> = emptyList()
+    var parameters: List<Pair<UserVariable, UserVariable>> = emptyList()
 
     override fun delegate(delta: Float): Boolean {
         if (parameters.isNullOrEmpty()) {
@@ -86,7 +86,7 @@ class RepeatParameterizedAction : LoopAction() {
         it.currentParameters = "[${it.currentPosition + 1}] "
 
         for ((userList, userVariable) in parameters) {
-            val data = userList.value
+            val data = userList.value as ArrayList<*>
             if (data.size <= it.currentPosition) {
                 fail(
                     "Input list is missing elements\n" +

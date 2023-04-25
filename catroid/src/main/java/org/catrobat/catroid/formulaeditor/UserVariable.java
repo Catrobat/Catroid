@@ -22,49 +22,82 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import android.os.Build;
-
-import org.catrobat.catroid.formulaeditor.function.UserVariableEntry;
+import org.jetbrains.annotations.TestOnly;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.UUID;
-
-import androidx.annotation.RequiresApi;
 
 public class UserVariable implements Serializable, UserData<Object> {
 
 	private static final long serialVersionUID = 1L;
 
-	protected String name;
-	protected int initialIndex = -1;
-	protected UUID deviceValueKey;
+	private String name;
+	private int initialIndex = -1;
+	private UUID deviceValueKey;
+	private boolean isList = false;
+	private final transient List<Object> value;
 	private transient boolean visible = true;
 	private transient boolean dummy = false;
 
-	private final UserVariableEntry userVariableEntry;
-
 	public UserVariable() {
-		this.userVariableEntry = new UserVariableEntry();
+		this.value = new ArrayList<>();
+	}
+
+	public UserVariable(boolean isList) {
+		this.value = new ArrayList<>();
+		this.isList = isList;
 	}
 
 	public UserVariable(String name) {
 		this.name = name;
-		this.userVariableEntry = new UserVariableEntry();
 		this.deviceValueKey = UUID.randomUUID();
+		this.value = new ArrayList<>();
+		this.value.add(0d);
 	}
 
+	@TestOnly
 	public UserVariable(final String name, final Object value) {
 		this.name = name;
-		this.userVariableEntry = new UserVariableEntry();
-		userVariableEntry.setValue(value);
 		this.deviceValueKey = UUID.randomUUID();
+		if (value instanceof List<?>) {
+			this.value = (List<Object>) value;
+			this.isList = true;
+		} else {
+			this.value = new ArrayList<>();
+			this.value.add(value);
+		}
+	}
+
+	public UserVariable(final String name, final boolean isList) {
+		this.name = name;
+		this.deviceValueKey = UUID.randomUUID();
+		this.value = new ArrayList<>();
+		this.isList = isList;
+	}
+
+	@TestOnly // is necessary for testing to have lists with one element
+	public UserVariable(final String name, final Object value, Boolean isList) {
+		this.name = name;
+		this.deviceValueKey = UUID.randomUUID();
+		if (value instanceof List<?>) {
+			this.value = (List<Object>) value;
+			this.isList = true;
+		} else {
+			this.value = new ArrayList<>();
+			this.value.add(value);
+			this.isList = isList;
+		}
 	}
 
 	public UserVariable(UserVariable variable) {
 		this.name = variable.name;
-		this.userVariableEntry = new UserVariableEntry(variable.userVariableEntry);
+		this.initialIndex = variable.initialIndex;
 		this.deviceValueKey = UUID.randomUUID();
+		this.value = variable.value;
+		this.isList = variable.isList;
 	}
 
 	public int getInitialIndex() {
@@ -85,21 +118,27 @@ public class UserVariable implements Serializable, UserData<Object> {
 		this.name = name;
 	}
 
+	// TODO: Consider splitting it up into two functions (getVariableValue for variables and
+	//  getListValue for lists). That way no cast to ArrayList<Object> would be necessary. If a
+	//  variable calls getListValue, it would return an empty list.
 	@Override
 	public Object getValue() {
-		if (this instanceof UserList) {
-			return ((UserList) this).getValue();
-		} else {
-			return userVariableEntry.getValue();
-		}
+		return isList ? value : (value.isEmpty() ? 0d : value.get(0));
 	}
 
 	@Override
 	public void setValue(Object value) {
-		if (this instanceof UserList) {
-			this.setValue(value);
+		this.value.clear();
+		if (value instanceof ArrayList) {
+			try {
+				this.value.addAll((ArrayList<?>) value);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			this.isList = true;
 		} else {
-			userVariableEntry.setValue(value);
+			this.value.add(value);
+			this.isList = false;
 		}
 	}
 
@@ -121,11 +160,12 @@ public class UserVariable implements Serializable, UserData<Object> {
 
 	@Override
 	public void reset() {
-		userVariableEntry.reset();
+		value.clear();
 	}
 
 	public void setToEmptyList() {
-		userVariableEntry.setToEmptyList();
+		value.clear();
+		isList = true;
 	}
 
 	@Override
@@ -143,7 +183,7 @@ public class UserVariable implements Serializable, UserData<Object> {
 	}
 
 	public boolean hasSameValue(UserVariable variableToCheck) {
-		return variableToCheck.userVariableEntry.hasSameValue(userVariableEntry);
+		return variableToCheck.value.equals(this.value);
 	}
 
 	@Override
@@ -160,59 +200,56 @@ public class UserVariable implements Serializable, UserData<Object> {
 	}
 
 	public boolean isList() {
-		return userVariableEntry.isList();
+		return isList;
 	}
 
 	public int getListSize() {
-		if (this instanceof UserList) {
-			return ((UserList) this).getSize();
-		}
-		return userVariableEntry.getSize();
+		return value.size();
 	}
 
 	public Object getListItem(int index) {
-		if (this instanceof UserList) {
-			return ((UserList) this).getValue().get(index);
+		try {
+			return value.get(index);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
-		return userVariableEntry.getListItem(index);
 	}
 
 	public int getIndexOfListItem(Object item) {
-		if (this instanceof UserList) {
-			return ((UserList) this).getIndexOf(item);
-		}
-		return userVariableEntry.getIndexOfListItem(item);
+		return value.indexOf(item);
 	}
 
 	public void addListItem(Object listItem) {
-		if (this instanceof UserList) {
-			this.addListItem(listItem);
-		} else {
-			userVariableEntry.addListItem(listItem);
+		try {
+			value.add(listItem);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		isList = true;
 	}
 
 	public void deleteListItemAtIndex(int index) {
-		if (this instanceof UserList) {
-			((UserList) this).getValue().remove(index);
-		} else {
-			userVariableEntry.deleteListItemAtIndex(index);
+		try {
+			value.remove(index);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
 	public void insertListItemAtIndex(int index, Object item) {
-		if (this instanceof UserList) {
-			((UserList) this).getValue().add(index, item);
-		} else {
-			userVariableEntry.insertListItemAtIndex(index, item);
+		try {
+			value.add(index, item);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
 	public void setListItemAtIndex(int index, Object item) {
-		if (this instanceof UserList) {
-			((UserList) this).getValue().set(index, item);
-		} else {
-			userVariableEntry.setListItemAtIndex(index, item);
+		try {
+			value.set(index, item);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

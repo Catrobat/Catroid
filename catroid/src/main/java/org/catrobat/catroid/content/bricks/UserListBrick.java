@@ -34,7 +34,6 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
@@ -124,7 +123,7 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 		userListDialog.show(activity.getString(R.string.data_label), activity.getString(R.string.ok), new AddUserListDialog.Callback() {
 			@Override
 			public void onPositiveButton(DialogInterface dialog, String textInput) {
-				UserList userList = new UserList(textInput);
+				UserVariable userList = new UserVariable(textInput, true);
 
 				userListDialog.addUserList(dialog, userList, projectUserList, spriteUserList);
 				spinner.add(userList);

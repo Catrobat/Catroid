@@ -30,7 +30,6 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Setting;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.XmlHeader;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 
@@ -50,7 +49,7 @@ public class ProjectUntilLanguageVersion0999 implements Serializable {
 	private List<Setting> settings = new ArrayList<>();
 	private List<UserVariable> programVariableList = new ArrayList<>();
 	private List<UserVariable> programMultiplayerVariableList = new ArrayList<>();
-	private List<UserList> programListOfLists = new ArrayList<>();
+	private List<UserVariable> programListOfLists = new ArrayList<>();
 	private List<SceneUntilLanguageVersion0999> scenes = new ArrayList<>();
 
 	public Project toProject() {
@@ -98,7 +97,7 @@ public class ProjectUntilLanguageVersion0999 implements Serializable {
 		return programMultiplayerVariableList;
 	}
 
-	public List<UserList> getUserLists() {
+	public List<UserVariable> getUserLists() {
 		return programListOfLists;
 	}
 

@@ -29,7 +29,7 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.MockUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +49,7 @@ public class AddItemToUserListActionTest {
 
 	private Sprite testSprite;
 	private Project project;
-	private UserList userList;
+	private UserVariable userList;
 
 	private ActionFactory actionFactory;
 
@@ -64,7 +64,7 @@ public class AddItemToUserListActionTest {
 		List<Object> initialList = new ArrayList<>();
 		initialList.add(1.0);
 		initialList.add(2.0);
-		userList = new UserList(TEST_USERLIST_NAME, initialList);
+		userList = new UserVariable(TEST_USERLIST_NAME, initialList);
 		project.addUserList(userList);
 	}
 
@@ -72,9 +72,10 @@ public class AddItemToUserListActionTest {
 	public void testAddNumericalValueToUserList() {
 		actionFactory.createAddItemToUserListAction(testSprite,
 			new SequenceAction(), new Formula(DOUBLE_VALUE_ITEM_TO_ADD), userList).act(1f);
-		Object lastItemOfUserList = userList.getValue().get(userList.getValue().size() - 1);
+		Object lastItemOfUserList =
+				((ArrayList<?>) userList.getValue()).get(userList.getListSize() - 1);
 
-		assertEquals(3, userList.getValue().size());
+		assertEquals(3, userList.getListSize());
 		assertEquals("3.0", lastItemOfUserList);
 	}
 
@@ -82,14 +83,15 @@ public class AddItemToUserListActionTest {
 	public void testAddItemWithInvalidUserList() {
 		actionFactory.createAddItemToUserListAction(testSprite,
 			new SequenceAction(), new Formula(DOUBLE_VALUE_ITEM_TO_ADD), null).act(1f);
-		assertEquals(2, userList.getValue().size());
+		assertEquals(2, userList.getListSize());
 	}
 
 	@Test
 	public void testAddNullFormula() {
 		actionFactory.createAddItemToUserListAction(testSprite, new SequenceAction(), null,
 				userList).act(1f);
-		Object lastItemOfUserList = userList.getValue().get(userList.getValue().size() - 1);
+		Object lastItemOfUserList = ((ArrayList<Object>) userList.getValue()).
+				get(userList.getListSize() - 1);
 		assertEquals(0d, lastItemOfUserList);
 	}
 
@@ -98,7 +100,8 @@ public class AddItemToUserListActionTest {
 		actionFactory.createAddItemToUserListAction(testSprite, new SequenceAction(),
 				new Formula(Double.NaN),
 				userList).act(1f);
-		Object lastItemOfUserList = userList.getValue().get(userList.getValue().size() - 1);
+		Object lastItemOfUserList = ((ArrayList<Object>) userList.getValue()).
+				get(userList.getListSize() - 1);
 		assertEquals(String.valueOf(Double.NaN), lastItemOfUserList);
 	}
 }

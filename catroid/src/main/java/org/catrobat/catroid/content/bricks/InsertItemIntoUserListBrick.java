@@ -26,7 +26,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 
 public class InsertItemIntoUserListBrick extends UserListBrick {
 
@@ -39,7 +39,8 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 				R.id.brick_insert_item_into_userlist_at_index_edit_text);
 	}
 
-	public InsertItemIntoUserListBrick(Formula userListFormulaValueToInsert, Formula userListFormulaIndexToInsert, UserList userList) {
+	public InsertItemIntoUserListBrick(Formula userListFormulaValueToInsert,
+			Formula userListFormulaIndexToInsert, UserVariable userList) {
 		this(userListFormulaValueToInsert, userListFormulaIndexToInsert);
 		this.userList = userList;
 	}

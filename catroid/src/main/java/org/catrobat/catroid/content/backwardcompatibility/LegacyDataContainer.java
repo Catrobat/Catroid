@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.backwardcompatibility;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
 import java.io.Serializable;
@@ -41,11 +40,11 @@ public class LegacyDataContainer implements Serializable {
 	public List<UserVariable> projectVariables;
 
 	@XStreamAlias("programListOfLists")
-	public List<UserList> projectLists;
+	public List<UserVariable> projectLists;
 
 	@XStreamAlias("objectVariableList")
 	public Map<Sprite, List<UserVariable>> spriteVariables = new HashMap<>();
 
 	@XStreamAlias("objectListOfList")
-	public Map<Sprite, List<UserList>> spriteListOfLists = new HashMap<>();
+	public Map<Sprite, List<UserVariable>> spriteListOfLists = new HashMap<>();
 }

@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.io.devicelistaccessor;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.DeviceListAccessor;
 import org.catrobat.catroid.io.DeviceUserDataAccessor;
@@ -57,9 +56,9 @@ public class DeviceUserListAccessorCleanRoutineTest {
 	private Scene scene2;
 	private Sprite sprite1;
 	private Sprite sprite2;
-	private UserList sprite1UserList = new UserList("Sprite1_List");
-	private UserList sprite2UserList = new UserList("Sprite2_List");
-	private UserList globalUserList = new UserList("Global_List");
+	private UserVariable sprite1UserList = new UserVariable("Sprite1_List", true);
+	private UserVariable sprite2UserList = new UserVariable("Sprite2_List", true);
+	private UserVariable globalUserList = new UserVariable("Global_List", true);
 	private DeviceUserDataAccessor accessor;
 
 	@Before

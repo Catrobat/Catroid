@@ -38,7 +38,6 @@ import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.UserListBrick;
 import org.catrobat.catroid.content.bricks.UserVariableBrickWithFormula;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.junit.Before;
@@ -54,7 +53,9 @@ import static org.junit.Assert.assertNotSame;
 @RunWith(Parameterized.class)
 public class CloneThreePartCompositeBrickUpdateDataTest {
 	private static final UserVariable USER_VARIABLE = new UserVariable("variable");
-	private static final UserList USER_LIST = new UserList("list", Arrays.asList(new Object[]{"a", "b", "c"}));
+	private static final UserVariable USER_LIST = new UserVariable(
+			"list", Arrays.asList(new Object[]{"a", "b", "c"})
+	);
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {

@@ -49,7 +49,6 @@ import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.embroidery.RunningStitch;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserData;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
@@ -225,13 +224,8 @@ public class Sprite implements Nameable, Serializable {
 	public <T> boolean checkUserData(T newUserData, List<T> oldUserData) {
 		for (T userData : oldUserData) {
 			if (userData.equals(newUserData)) {
-				if (userData instanceof UserList) {
-					UserList userList = (UserList) userData;
-					return userList.hasSameListSize((UserList) newUserData);
-				} else {
-					UserVariable userVariable = (UserVariable) userData;
-					return userVariable.hasSameValue((UserVariable) newUserData);
-				}
+				UserVariable userVariable = (UserVariable) userData;
+				return userVariable.hasSameValue((UserVariable) newUserData);
 			}
 		}
 
@@ -241,18 +235,10 @@ public class Sprite implements Nameable, Serializable {
 	public <T> void restoreUserDataValues(List<T> currentUserDataList, List<T> userDataListToRestore) {
 		for (T userData : currentUserDataList) {
 			for (T userDataToRestore : userDataListToRestore) {
-				if (userData instanceof UserList) {
-					UserList userList = (UserList) userData;
-					UserList newUserList = (UserList) userDataToRestore;
-					if (userList.getName().equals(newUserList.getName())) {
-						userList.setValue(newUserList.getValue());
-					}
-				} else {
-					UserVariable userVariable = (UserVariable) userData;
-					UserVariable newUserVariable = (UserVariable) userDataToRestore;
-					if (userVariable.getName().equals(newUserVariable.getName())) {
-						userVariable.setValue(newUserVariable.getValue());
-					}
+				UserVariable userVariable = (UserVariable) userData;
+				UserVariable newUserVariable = (UserVariable) userDataToRestore;
+				if (userVariable.getName().equals(newUserVariable.getName())) {
+					userVariable.setValue(newUserVariable.getValue());
 				}
 			}
 		}
@@ -296,7 +282,7 @@ public class Sprite implements Nameable, Serializable {
 		List<UserVariable> userListsCopy = new ArrayList<>();
 		try {
 			for (UserVariable userList : userLists) {
-				userListsCopy.add(new UserList(userList.getName(), (List<Object>) userList.getValue()));
+				userListsCopy.add(new UserVariable(userList.getName(), (List<Object>) userList.getValue()));
 			}
 		} catch (Exception e) {
 			Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
@@ -323,7 +309,7 @@ public class Sprite implements Nameable, Serializable {
 		return null;
 	}
 
-	public boolean addUserList(UserList userList) {
+	public boolean addUserList(UserVariable userList) {
 		return userLists.add(userList);
 	}
 

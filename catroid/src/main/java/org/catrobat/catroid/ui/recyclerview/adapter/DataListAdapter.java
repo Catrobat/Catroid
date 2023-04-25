@@ -30,7 +30,6 @@ import android.widget.TextView;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.UserData;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.DeviceListAccessor;
 import org.catrobat.catroid.io.DeviceVariableAccessor;
@@ -421,18 +420,19 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 	}
 
 	public void remove(UserData item) {
-		if (item instanceof UserList) {
-			if (!globalListAdapter.remove((UserList) item)) {
-				localListAdapter.remove((UserList) item);
+		UserVariable userVariable = (UserVariable) item;
+		if (userVariable.isList()) {
+			if (!globalListAdapter.remove(userVariable)) {
+				localListAdapter.remove(userVariable);
 			}
 			File projectDir = ProjectManager.getInstance().getCurrentProject().getDirectory();
-			new DeviceListAccessor(projectDir).removeDeviceValue(item);
-		} else if (item instanceof UserVariable) {
-			if (!globalVarAdapter.remove((UserVariable) item) && !localVarAdapter.remove((UserVariable) item)) {
-				multiplayerVarAdapter.remove((UserVariable) item);
+			new DeviceListAccessor(projectDir).removeDeviceValue(userVariable);
+		} else {
+			if (!globalVarAdapter.remove(userVariable) && !localVarAdapter.remove(userVariable)) {
+				multiplayerVarAdapter.remove(userVariable);
 			}
 			File projectDir = ProjectManager.getInstance().getCurrentProject().getDirectory();
-			new DeviceVariableAccessor(projectDir).removeDeviceValue(item);
+			new DeviceVariableAccessor(projectDir).removeDeviceValue(userVariable);
 		}
 		updateDataSet();
 	}
@@ -484,22 +484,24 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 	}
 
 	public void setSelection(UserData item, boolean selection) {
-		if (item instanceof UserList) {
-			if (!globalListAdapter.setSelection((UserList) item, selection)) {
-				localListAdapter.setSelection((UserList) item, selection);
+		UserVariable userVariable = (UserVariable) item;
+		if (userVariable.isList()) {
+			if (!globalListAdapter.setSelection(userVariable, selection)) {
+				localListAdapter.setSelection(userVariable, selection);
 			}
 		} else {
-			if (!globalVarAdapter.setSelection((UserVariable) item, selection)
-					&& !localVarAdapter.setSelection((UserVariable) item, selection)) {
-				multiplayerVarAdapter.setSelection((UserVariable) item, selection);
+			if (!globalVarAdapter.setSelection(userVariable, selection)
+					&& !localVarAdapter.setSelection(userVariable, selection)) {
+				multiplayerVarAdapter.setSelection(userVariable, selection);
 			}
 		}
 	}
 
 	public void toggleSelection(UserData item) {
-		if (item instanceof UserList) {
-			if (!globalListAdapter.toggleSelection((UserList) item)) {
-				localListAdapter.toggleSelection((UserList) item);
+		UserVariable userVariable = (UserVariable) item;
+		if (userVariable.isList()) {
+			if (!globalListAdapter.toggleSelection(userVariable)) {
+				localListAdapter.toggleSelection(userVariable);
 			}
 		} else {
 			if (!globalVarAdapter.toggleSelection((UserVariable) item)

@@ -26,7 +26,6 @@ package org.catrobat.catroid.content.actions;
 import android.os.AsyncTask;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.DeviceListAccessor;
 import org.catrobat.catroid.io.DeviceUserDataAccessor;
@@ -48,8 +47,8 @@ public class ReadListFromDeviceAction extends AsynchronousAction {
 	@Override
 	public void initialize() {
 		readActionFinished = false;
-		if (userList instanceof UserList) {
-			new ReadListFromDeviceAction.ReadTask().execute((UserList) userList);
+		if (userList.isList()) {
+			new ReadListFromDeviceAction.ReadTask().execute(userList);
 		}
 	}
 
@@ -59,21 +58,17 @@ public class ReadListFromDeviceAction extends AsynchronousAction {
 	}
 
 	public void setUserList(UserVariable userList) {
-		if (userList instanceof UserList) {
-			this.userList = (UserList) userList;
-		} else {
-			this.userList = userList;
-		}
+		this.userList = userList;
 	}
 
-	private class ReadTask extends AsyncTask<UserList, Void, Void> {
+	private class ReadTask extends AsyncTask<UserVariable, Void, Void> {
 
 		@Override
-		protected Void doInBackground(UserList[] userList) {
+		protected Void doInBackground(UserVariable[] userList) {
 			File projectDirectory = ProjectManager.getInstance().getCurrentProject().getDirectory();
 			DeviceUserDataAccessor accessor = new DeviceListAccessor(projectDirectory);
 
-			for (UserList list: userList) {
+			for (UserVariable list: userList) {
 				accessor.readUserData(list);
 			}
 			return null;

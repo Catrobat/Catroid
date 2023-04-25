@@ -106,7 +106,6 @@ import org.catrobat.catroid.formulaeditor.Operators.PLUS
 import org.catrobat.catroid.formulaeditor.Operators.POW
 import org.catrobat.catroid.formulaeditor.Operators.SMALLER_OR_EQUAL
 import org.catrobat.catroid.formulaeditor.Operators.SMALLER_THAN
-import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
@@ -185,10 +184,10 @@ class FormulaEditorComputeDialogComputationResultTest(
             project.addUserVariable(UserVariable(userVariableRightName, userVariableRightValue))
         }
         if (userListLeftElements != null) {
-            project.addUserList(UserList(userListLeftName, userListLeftElements))
+            project.addUserList(UserVariable(userListLeftName, userListLeftElements))
         }
         if (userListRightElements != null) {
-            project.addUserList(UserList(userListRightName, userListRightElements))
+            project.addUserList(UserVariable(userListRightName, userListRightElements))
         }
 
         ProjectManager.getInstance().currentProject = project

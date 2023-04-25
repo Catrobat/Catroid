@@ -25,7 +25,7 @@ package org.catrobat.catroid.uiespresso.content.brick.stage;
 
 import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
@@ -48,12 +48,13 @@ public class InsertItemToUserListStageTest {
 	public BaseActivityTestRule<StageActivity> baseActivityTestRule = new
 			BaseActivityTestRule<>(StageActivity.class, true, false);
 	private Float valueToInsert;
-	private UserList userList;
+	private UserVariable userList;
 
 	@Before
 	public void setUp() throws Exception {
 		valueToInsert = 99.99f;
-		userList = new UserList("LIST");
+		userList = new UserVariable("LIST");
+		userList.setToEmptyList();
 		Integer indexToInsert = 1;
 		BrickTestUtils.createProjectAndGetStartScript("addItemToUserListStageTest")
 				.addBrick(new InsertItemIntoUserListBrick(new Formula(valueToInsert), new Formula(indexToInsert), userList));
@@ -65,9 +66,9 @@ public class InsertItemToUserListStageTest {
 		onView(isRoot())
 				.perform(CustomActions.wait(500));
 
-		float value = Float.valueOf(userList.getValue().get(0).toString());
+		float value = Float.parseFloat(userList.getListItem(0).toString());
 
 		assertEquals(valueToInsert, value, Float.MIN_VALUE);
-		assertEquals(1, userList.getValue().size());
+		assertEquals(1, userList.getListSize());
 	}
 }

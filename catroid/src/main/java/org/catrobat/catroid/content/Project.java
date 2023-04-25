@@ -37,7 +37,6 @@ import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.UserData;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
@@ -194,13 +193,8 @@ public class Project implements Serializable {
 	public <T> boolean checkEquality(T newUserData, List<T> oldUserData) {
 		for (T userData : oldUserData) {
 			if (userData.equals(newUserData)) {
-				if (userData instanceof UserList) {
-					UserList userList = (UserList) userData;
-					return userList.hasSameListSize((UserList) newUserData);
-				} else {
-					UserVariable userVariable = (UserVariable) userData;
-					return userVariable.hasSameValue((UserVariable) newUserData);
-				}
+				UserVariable userVariable = (UserVariable) userData;
+				return userVariable.hasSameValue((UserVariable) newUserData);
 			}
 		}
 
@@ -231,18 +225,10 @@ public class Project implements Serializable {
 	public <T> void restoreUserDataValues(List<T> currentUserDataList, List<T> userDataListToRestore) {
 		for (T userData : currentUserDataList) {
 			for (T userDataToRestore : userDataListToRestore) {
-				if (userData instanceof UserList) {
-					UserList userList = (UserList) userData;
-					UserList newUserList = (UserList) userDataToRestore;
-					if (userList.getName().equals(newUserList.getName())) {
-						userList.setValue(newUserList.getValue());
-					}
-				} else {
-					UserVariable userVariable = (UserVariable) userData;
-					UserVariable newUserVariable = (UserVariable) userDataToRestore;
-					if (userVariable.getName().equals(newUserVariable.getName())) {
-						userVariable.setValue(newUserVariable.getValue());
-					}
+				UserVariable userVariable = (UserVariable) userData;
+				UserVariable newUserVariable = (UserVariable) userDataToRestore;
+				if (userVariable.getName().equals(newUserVariable.getName())) {
+					userVariable.setValue(newUserVariable.getValue());
 				}
 			}
 		}
@@ -285,7 +271,11 @@ public class Project implements Serializable {
 		List<UserVariable> userListsCopy = new ArrayList<>();
 		try {
 			for (UserVariable userList : userLists) {
-				userListsCopy.add(new UserList(userList.getName(), (List<Object>) userList.getValue()));
+				if (userList.getValue() instanceof List) {
+					userListsCopy.add(new UserVariable(userList.getName(), (List<Object>) userList.getValue()));
+				}
+				else
+					userListsCopy.add(new UserVariable(userList.getName(), userList.getValue()));
 			}
 		} catch (Exception e) {
 			Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
@@ -308,7 +298,7 @@ public class Project implements Serializable {
 		return null;
 	}
 
-	public boolean addUserList(UserList userList) {
+	public boolean addUserList(UserVariable userList) {
 		return userLists.add(userList);
 	}
 

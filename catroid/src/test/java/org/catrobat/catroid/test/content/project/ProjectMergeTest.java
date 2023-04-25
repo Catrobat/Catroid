@@ -26,7 +26,6 @@ import android.content.Context;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.MockUtil;
 import org.junit.After;
@@ -62,10 +61,10 @@ public class ProjectMergeTest {
 		initializedList2.add(1.0);
 		initializedList2.add(2.0);
 
-		UserList userList1 = new UserList("TestUserList", initializedList1);
+		UserVariable userList1 = new UserVariable("TestUserList", initializedList1);
 		project1.addUserList(userList1);
 
-		UserList userList2 = new UserList("TestUserList", initializedList2);
+		UserVariable userList2 = new UserVariable("TestUserList", initializedList2);
 		project2.addUserList(userList2);
 
 		project1.addUserVariable(new UserVariable("testVariable", 1));

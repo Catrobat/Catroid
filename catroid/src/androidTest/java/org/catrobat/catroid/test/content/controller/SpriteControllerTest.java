@@ -32,7 +32,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
@@ -93,7 +92,7 @@ public class SpriteControllerTest {
 		String spriteListName = "spriteList";
 		UserDefinedBrick userDefinedBrick = new UserDefinedBrick();
 		assertTrue(sprite.addUserVariable(new UserVariable(spriteVarName)));
-		assertTrue(sprite.addUserList(new UserList(spriteListName)));
+		assertTrue(sprite.addUserList(new UserVariable(spriteListName, true)));
 		sprite.addUserDefinedBrick(userDefinedBrick);
 
 		Sprite copy = controller.copy(sprite, project, scene);
@@ -132,7 +131,7 @@ public class SpriteControllerTest {
 		String spriteListName = "spriteList";
 		UserDefinedBrick userDefinedBrick = new UserDefinedBrick();
 		assertTrue(sprite.addUserVariable(new UserVariable(spriteVarName)));
-		assertTrue(sprite.addUserList(new UserList(spriteListName)));
+		assertTrue(sprite.addUserList(new UserVariable(spriteListName, true)));
 		sprite.addUserDefinedBrick(userDefinedBrick);
 
 		sprite.setConvertToGroupItemSprite(true);
@@ -165,7 +164,7 @@ public class SpriteControllerTest {
 		String spriteVarName = "spriteVar";
 		String spriteListName = "spriteList";
 		assertTrue(sprite.addUserVariable(new UserVariable(spriteVarName)));
-		assertTrue(sprite.addUserList(new UserList(spriteListName)));
+		assertTrue(sprite.addUserList(new UserVariable(spriteListName, true)));
 
 		File deletedLookFile = sprite.getLookList().get(0).getFile();
 		File deletedSoundFile = sprite.getSoundList().get(0).getFile();

@@ -29,7 +29,7 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.MockUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,7 +50,7 @@ public class ReplaceItemInUserListActionTest {
 
 	private Sprite testSprite;
 	private Project project;
-	private UserList userList;
+	private UserVariable userList;
 
 	private ActionFactory actionFactory;
 
@@ -65,57 +65,63 @@ public class ReplaceItemInUserListActionTest {
 		INITIALIZED_LIST_VALUES.add(1.0);
 		INITIALIZED_LIST_VALUES.add(2.0);
 		INITIALIZED_LIST_VALUES.add(3.0);
-		userList = new UserList(TEST_USERLIST_NAME, INITIALIZED_LIST_VALUES);
+		userList = new UserVariable(TEST_USERLIST_NAME, INITIALIZED_LIST_VALUES);
 		project.addUserList(userList);
 	}
 
 	@Test
 	public void testReplaceNumericalValueInUserList() {
-		actionFactory.createReplaceItemInUserListAction(testSprite, new SequenceAction(), new Formula(1), new Formula(DOUBLE_VALUE_ITEM_TO_REPLACE_WITH), userList).act(1f);
-		Object firstItemOfUserList = userList.getValue().get(0);
+		actionFactory.createReplaceItemInUserListAction(testSprite, new SequenceAction(),
+				new Formula(1), new Formula(DOUBLE_VALUE_ITEM_TO_REPLACE_WITH), userList).act(1f);
+		Object firstItemOfUserList = ((ArrayList<Object>) userList.getValue()).get(0);
 
-		assertEquals(3, userList.getValue().size());
+		assertEquals(3, userList.getListSize());
 		assertEquals(String.valueOf(DOUBLE_VALUE_ITEM_TO_REPLACE_WITH), firstItemOfUserList);
 	}
 
 	@Test
 	public void testReplaceNumericalValueInUserListAtLastPosition() {
-		actionFactory.createReplaceItemInUserListAction(testSprite, new SequenceAction(), new Formula(3), new Formula(DOUBLE_VALUE_ITEM_TO_REPLACE_WITH), userList).act(1f);
-		Object lastItemOfUserList = userList.getValue().get(userList.getValue().size() - 1);
+		actionFactory.createReplaceItemInUserListAction(testSprite, new SequenceAction(),
+				new Formula(3), new Formula(DOUBLE_VALUE_ITEM_TO_REPLACE_WITH), userList).act(1f);
+		Object lastItemOfUserList = ((ArrayList<Object>) userList.getValue()).get(userList.getListSize() - 1);
 
-		assertEquals(3, userList.getValue().size());
+		assertEquals(3, userList.getListSize());
 		assertEquals(String.valueOf(DOUBLE_VALUE_ITEM_TO_REPLACE_WITH), lastItemOfUserList);
 	}
 
 	@Test
 	public void testReplaceNumericalValueInUserListOutOfUserListBounds() {
-		actionFactory.createReplaceItemInUserListAction(testSprite, new SequenceAction(), new Formula(4), new Formula(DOUBLE_VALUE_ITEM_TO_REPLACE_WITH), userList).act(1f);
+		actionFactory.createReplaceItemInUserListAction(testSprite, new SequenceAction(),
+				new Formula(4), new Formula(DOUBLE_VALUE_ITEM_TO_REPLACE_WITH), userList).act(1f);
 
-		assertEquals(3, userList.getValue().size());
-		assertEquals(1d, userList.getValue().get(0));
-		assertEquals(2d, userList.getValue().get(1));
-		assertEquals(3d, userList.getValue().get(2));
+		assertEquals(3, userList.getListSize());
+		assertEquals(1d, ((ArrayList<Object>) userList.getValue()).get(0));
+		assertEquals(2d, ((ArrayList<Object>) userList.getValue()).get(1));
+		assertEquals(3d, ((ArrayList<Object>) userList.getValue()).get(2));
 	}
 
 	@Test
 	public void testReplaceItemWithInvalidUserList() {
-		actionFactory.createReplaceItemInUserListAction(testSprite, new SequenceAction(), new Formula(1), new Formula(DOUBLE_VALUE_ITEM_TO_REPLACE_WITH), null).act(1f);
-		assertEquals(3, userList.getValue().size());
+		actionFactory.createReplaceItemInUserListAction(testSprite, new SequenceAction(),
+				new Formula(1), new Formula(DOUBLE_VALUE_ITEM_TO_REPLACE_WITH), null).act(1f);
+		assertEquals(3, userList.getListSize());
 	}
 
 	@Test
 	public void testReplaceNullFormula() {
-		actionFactory.createReplaceItemInUserListAction(testSprite, new SequenceAction(), new Formula(1), null, userList).act(1f);
-		Object firstItemOfUserList = userList.getValue().get(0);
+		actionFactory.createReplaceItemInUserListAction(testSprite, new SequenceAction(),
+				new Formula(1), null, userList).act(1f);
+		Object firstItemOfUserList = ((ArrayList<Object>) userList.getValue()).get(0);
 
-		assertEquals(3, userList.getValue().size());
+		assertEquals(3, userList.getListSize());
 		assertEquals(0d, firstItemOfUserList);
 	}
 
 	@Test
 	public void testNotANumberFormula() {
-		actionFactory.createReplaceItemInUserListAction(testSprite, new SequenceAction(), new Formula(1), new Formula(Double.NaN), userList).act(1f);
-		Object firstItemOfUserList = userList.getValue().get(0);
+		actionFactory.createReplaceItemInUserListAction(testSprite, new SequenceAction(),
+				new Formula(1), new Formula(Double.NaN), userList).act(1f);
+		Object firstItemOfUserList = ((ArrayList<Object>) userList.getValue()).get(0);
 		assertEquals(String.valueOf(Double.NaN), firstItemOfUserList);
 	}
 }

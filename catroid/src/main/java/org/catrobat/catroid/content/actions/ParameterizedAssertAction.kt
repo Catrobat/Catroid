@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.actions
 
 import org.catrobat.catroid.common.ParameterizedData
 import org.catrobat.catroid.formulaeditor.Formula
-import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 
 class ParameterizedAssertAction : AssertAction() {

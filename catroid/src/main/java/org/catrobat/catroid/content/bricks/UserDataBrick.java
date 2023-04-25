@@ -40,7 +40,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.formulaeditor.UserData;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
@@ -76,9 +75,7 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 	public UserVariable getUserListWithBrickData(BrickData brickData) {
 		if (userDataList.containsKey(brickData)) {
 			UserData result = userDataList.get(brickData);
-			if (result instanceof UserList) {
-				return (UserList) result;
-			} else if (result instanceof UserVariable) {
+			if (result instanceof UserVariable) {
 				return (UserVariable) result;
 			} else {
 				return null;
@@ -187,11 +184,11 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 						boolean isUserList = BrickData.isUserList(brickData);
 						UserData userData;
 						if (isUserList) {
-							userData = new UserList(textInput);
+							userData = new UserVariable(textInput, true);
 							if (addToProjectData) {
-								currentProject.addUserList((UserList) userData);
+								currentProject.addUserList((UserVariable) userData);
 							} else {
-								currentSprite.addUserList((UserList) userData);
+								currentSprite.addUserList((UserVariable) userData);
 							}
 						} else {
 							userData = new UserVariable(textInput);

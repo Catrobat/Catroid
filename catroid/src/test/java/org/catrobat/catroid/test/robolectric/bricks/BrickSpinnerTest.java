@@ -72,7 +72,6 @@ import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.content.bricks.WhenBounceOffBrick;
 import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
@@ -240,6 +239,6 @@ public class BrickSpinnerTest {
 		backgroundLookDataList.add(backgroundLookData);
 
 		ProjectManager.getInstance().getCurrentProject().addUserVariable(new UserVariable("someVariable"));
-		ProjectManager.getInstance().getCurrentProject().addUserList(new UserList("someList"));
+		ProjectManager.getInstance().getCurrentProject().addUserList(new UserVariable("someList", true));
 	}
 }

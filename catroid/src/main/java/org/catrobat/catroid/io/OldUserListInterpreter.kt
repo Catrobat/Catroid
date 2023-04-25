@@ -25,6 +25,7 @@ package org.catrobat.catroid.io
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import org.w3c.dom.Node
+import java.util.UUID
 import kotlin.collections.ArrayList
 
 class OldUserListInterpreter(private val outcomeDocument: Document) {
@@ -55,16 +56,31 @@ class OldUserListInterpreter(private val outcomeDocument: Document) {
     }
 
     private fun isNewUserList(userList: Node): Boolean {
-        if (listOf("name", "deviceValueKey", "initialIndex", "userVariableEntry").all {
+        if (listOf("name", "deviceValueKey", "initialIndex", "isList").all {
                 NodeOperatorExtension.getNodeByName(userList, it) != null
-        } || NodeOperatorExtension.getNodeByName(userList, "userVariable") != null) {
+        }) {
+            if (NodeOperatorExtension.getNodeByName(userList, "value") == null) {
+                val value = userList.firstChild.cloneNode(true)
+                value.firstChild.textContent = ""
+                userList.appendChild(value)
+                outcomeDocument.renameNode(value, null, "value")
+            }
             return true
+        }
+
+        if (NodeOperatorExtension.getNodeByName(userList, "userVariable") != null ||
+            NodeOperatorExtension.getNodeByName(userList, "userList") != null ||
+            NodeOperatorExtension.getNodeByName(userList, "default") != null) {
+            return isNewUserList(userList.firstChild)
         }
         return false
     }
 
     private fun createNewUserLists(userList: Element) {
-        userList.setAttribute("class", "userList")
+        userList.setAttribute("type", "UserVariable")
+        userList.setAttribute("serialization", "custom")
+
+        outcomeDocument.renameNode(userList, null, "userList")
         clearUserListNode(userList)
         val name: Node = NodeOperatorExtension.getNodeByName(userList, "name")
             ?: return
@@ -88,6 +104,9 @@ class OldUserListInterpreter(private val outcomeDocument: Document) {
             val temp = children.item(i)
             if (temp.nodeName == "name" && !nameFound) {
                 nameFound = true
+                if (temp.textContent.isEmpty()) {
+                    temp.textContent = "userList"
+                }
             } else if (temp.nodeName == "deviceListKey" && !deviceValueKeyFound) {
                 deviceValueKeyFound = true
             } else {
@@ -109,7 +128,7 @@ class OldUserListInterpreter(private val outcomeDocument: Document) {
             val deviceValueKey = userList.firstChild.cloneNode(true)
             userList.removeChild(userList.firstChild)
 
-            deviceValueKey.textContent = "11111111-1111-1111-1111-111111111111"
+            deviceValueKey.textContent = UUID.randomUUID().toString()
             userList.appendChild(deviceValueKey)
             outcomeDocument.renameNode(deviceValueKey, null, "deviceListKey")
 
@@ -125,14 +144,31 @@ class OldUserListInterpreter(private val outcomeDocument: Document) {
 
     private fun buildNewUserList(userList: Element, name: Node, initialIndex: Node?, deviceValueKey: Node) {
         val tempName = name.cloneNode(true)
+        val tempDeviceValueKey = deviceValueKey.cloneNode(true)
         userList.removeChild(name)
+        userList.removeChild(deviceValueKey)
+
+        val firstChild = name.cloneNode(true)
+        firstChild.removeChild(firstChild.firstChild)
+
+        val secondChild = firstChild.cloneNode(true)
+        firstChild.appendChild(secondChild)
+
         if (NodeOperatorExtension.getNodeByName(userList, "initialIndex") == null) {
-            userList.appendChild(initialIndex)
+            secondChild.appendChild(initialIndex)
         }
-        userList.appendChild(tempName)
-        userList.appendChild(createUserVariableEntry(
-            deviceValueKey.cloneNode(true) as Element, deviceValueKey, name
-        ))
+        if (NodeOperatorExtension.getNodeByName(userList, "isList") == null) {
+            val isListNode = name.cloneNode(true)
+            isListNode.firstChild.textContent = "true"
+            secondChild.appendChild(isListNode)
+            outcomeDocument.renameNode(isListNode, null, "isList")
+        }
+        secondChild.appendChild(tempDeviceValueKey)
+        secondChild.appendChild(tempName)
+
+        userList.appendChild(firstChild)
+        outcomeDocument.renameNode(firstChild, null, "userList")
+        outcomeDocument.renameNode(secondChild, null, "default")
     }
 
     private fun createUserVariableEntry(

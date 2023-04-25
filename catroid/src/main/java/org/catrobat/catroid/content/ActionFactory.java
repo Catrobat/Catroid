@@ -194,7 +194,6 @@ import org.catrobat.catroid.content.bricks.brickspinner.PickableDrum;
 import org.catrobat.catroid.content.bricks.brickspinner.PickableMusicalInstrument;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserData;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.DeviceListAccessor;
 import org.catrobat.catroid.io.DeviceUserDataAccessor;
@@ -208,7 +207,6 @@ import org.catrobat.catroid.utils.MobileServiceAvailability;
 import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -1436,7 +1434,7 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createRepeatParameterizedAction(Sprite sprite, ParameterizedData data,
-			List<? extends Pair<UserList, UserVariable>> parameters,
+			List<? extends Pair<UserVariable, UserVariable>> parameters,
 			String position, Action repeatedAction, boolean isLoopDelay) {
 		RepeatParameterizedAction action = action(RepeatParameterizedAction.class);
 		action.setParameterizedData(data);

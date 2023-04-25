@@ -28,7 +28,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
@@ -93,7 +92,7 @@ public class ActionModeDataFragmentTitleTest {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		currentProject.addUserVariable(new UserVariable("var1"));
 		currentProject.addUserVariable(new UserVariable("var2"));
-		currentProject.addUserList(new UserList("list1"));
-		currentProject.addUserList(new UserList("list2"));
+		currentProject.addUserList(new UserVariable("list1", true));
+		currentProject.addUserList(new UserVariable("list2", true));
 	}
 }

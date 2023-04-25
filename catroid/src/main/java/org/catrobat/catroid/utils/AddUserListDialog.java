@@ -29,7 +29,6 @@ import android.widget.RadioButton;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;

@@ -30,7 +30,6 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.WhenScript
 import org.catrobat.catroid.content.bricks.ParameterizedBrick
 import org.catrobat.catroid.formulaeditor.UserData
-import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.test.MockUtil
 import org.catrobat.catroid.utils.UserDataUtil.renameUserData
@@ -40,7 +39,7 @@ import org.junit.Test
 import java.util.ArrayList
 
 class ParameterizedBrickTest {
-    private var userList: UserList? = null
+    private var userList: UserVariable? = null
     private var userVariable: UserVariable? = null
     private var parameterizedBrick: ParameterizedBrick? = null
 
@@ -52,7 +51,7 @@ class ParameterizedBrickTest {
             "testProject"
         )
         userVariable = UserVariable()
-        userList = UserList()
+        userList = UserVariable(true)
         val scene = Scene()
         val sprite = Sprite()
         val script: Script = WhenScript()

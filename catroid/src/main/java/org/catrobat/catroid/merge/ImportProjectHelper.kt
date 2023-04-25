@@ -37,7 +37,6 @@ import org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.XstreamSerializer
@@ -111,7 +110,7 @@ class ImportProjectHelper(
             currentScene?.project?.userLists as List<Any>?,
             spriteToAdd?.userLists as List<Any>?
         ).forEach { elem ->
-            conflicts.add((elem as UserList).name)
+            conflicts.add((elem as UserVariable).name)
         }
 
         checkForVariablesConflicts(
@@ -126,7 +125,7 @@ class ImportProjectHelper(
                 checkForVariablesConflicts(
                     newProject?.userLists as List<Any>?,
                     sprite.userLists as List<Any>?
-                ).forEach { elem -> conflicts.add((elem as UserList).name) }
+                ).forEach { elem -> conflicts.add((elem as UserVariable).name) }
                 checkForVariablesConflicts(
                     newProject?.userVariables as List<Any>?,
                     sprite.userVariables as List<Any>?
