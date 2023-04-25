@@ -975,7 +975,7 @@
     <string name="brick_stop_stitch">Beende aktuellen Stich</string>
     <string name="brick_write_embroidery">Schreibe Stickdaten in die Datei</string>
     <string name="brick_default_embroidery_file">Stickerei.dst</string>
-    <string name="brick_sew_up">vernähen</string>
+    <string name="brick_sew_up">Vernähen</string>
     <string name="brick_thread_color">Setze auf Farbe </string>
     <!--  -->
     <!-- Device bricks -->

@@ -31,6 +31,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.LookAdapter;
+import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager;
 import org.catrobat.catroid.ui.recyclerview.controller.LookController;
 import org.catrobat.catroid.utils.ToastUtil;
 
@@ -40,10 +41,12 @@ import java.util.List;
 import androidx.annotation.PluralsRes;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_LOOKS_PREFERENCE_KEY;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData> {
 
 	public static final String TAG = BackpackLookFragment.class.getSimpleName();
+	public final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	private LookController lookController = new LookController();
 
@@ -59,7 +62,7 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 	@Override
 	protected void unpackItems(List<LookData> selectedItems) {
 		setShowProgressBar(true);
-		Sprite destinationSprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite destinationSprite = projectManager.getCurrentSprite();
 		int unpackedItemCnt = 0;
 
 		for (LookData item : selectedItems) {
@@ -109,6 +112,11 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 		if (adapter.getItems().isEmpty()) {
 			getActivity().finish();
 		}
+	}
+
+	@Override
+	public void onItemClick(final LookData item, MultiSelectionManager selectionManager) {
+		super.onItemClick(item, selectionManager);
 	}
 
 	@Override

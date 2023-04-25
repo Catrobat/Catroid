@@ -374,6 +374,8 @@ dependencies {
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    testImplementation project(path: ':catroid')
+    androidTestImplementation project(path: ':catroid')
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     androidTestImplementation ('androidx.arch.core:core-testing:2.1.0') {
@@ -474,6 +476,7 @@ dependencies {
     implementation 'com.huawei.hms:ml-computer-vision-ocr:3.4.0.301'
     implementation 'com.huawei.hms:ml-computer-language-detection:3.4.0.301'
     implementation 'com.huawei.hms:ml-computer-vision-skeleton:3.4.0.300'
+
 
     // libGDX
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
