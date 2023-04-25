@@ -1892,8 +1892,6 @@
     <string name="formula_editor_intro_summary_data">உங்கள் திட்டத்தில் பயன்படுத்தப்படும் மாறிகள் மற்றும் பட்டியல்களை இங்கே காணலாம். \n நீங்கள் இதை உங்கள் சூத்திரத்தில் செருகலாம் அல்லது புதியவற்றைச் சேர்க்கலாம்.</string>
     <string name="formula_editor_listening_language_sensor">listening language</string>
     <string name="formula_editor_speech_recognition">Speech recognition</string>
-    <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.</string>
     <string name="warning_formula_recognized">You entered a text that looks like a formula. If you want to use functions,
         sensors, variables and other formula elements, please select them instead using the
         buttons in the formula editor.</string>
@@ -1919,9 +1917,6 @@
     <string name="choose_camera_front">முன்</string>
     <string name="choose_camera_back">பின்</string>
     <string name="camera_error_generic">        Something went wrong while trying to use the camera.
-    </string>
-    <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.
     </string>
     <!-- -->
     <!-- Cast strings -->

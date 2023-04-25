@@ -1841,8 +1841,6 @@
         \n수식에 간단히 삽입하거나 새로 추가할 수 있습니다.</string>
     <string name="formula_editor_listening_language_sensor">듣기 언어</string>
     <string name="formula_editor_speech_recognition">음성 인식</string>
-    <string name="camera_error_text_detection">        텍스트 감지에 문제가 있습니다. 일부 구성 요소는 아직 다운로드 중일 수 있습니다.
-        배경. 인터넷에 연결되어 있는지 확인하고 나중에 다시 확인하세요.</string>
     <string name="warning_formula_recognized">수식처럼 보이는 텍스트를 입력했습니다. 기능을 사용하고 싶다면,
         센서, 변수 및 기타 공식 요소를 사용하여 대신 선택하십시오.
         수식 편집기의 버튼.</string>
@@ -1868,9 +1866,6 @@
     <string name="choose_camera_front">전면</string>
     <string name="choose_camera_back">뒤쪽</string>
     <string name="camera_error_generic">        Something went wrong while trying to use the camera.
-    </string>
-    <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.
     </string>
     <!-- -->
     <!-- Cast strings -->

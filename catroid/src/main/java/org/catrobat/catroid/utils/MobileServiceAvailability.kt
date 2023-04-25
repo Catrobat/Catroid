@@ -36,6 +36,8 @@ class MobileServiceAvailability(
         (googleApiAvailability.isGooglePlayServicesAvailable(context)
             == ConnectionResult.SUCCESS)
 
+    fun getGmsAvailabilityStatus(context: Context) = googleApiAvailability.isGooglePlayServicesAvailable(context)
+
     fun isHmsAvailable(context: Context) =
         (huaweiApiAvailability.isHuaweiMobileServicesAvailable(context)
             == com.huawei.hms.api.ConnectionResult.SUCCESS)

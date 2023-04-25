@@ -50,23 +50,23 @@ ext {
     gdxVersion = "1.9.10"
     mockitoVersion = "2.8.47"
     espressoVersion = "3.1.0"
-    playServicesVersion = "17.0.0"
+    playServicesVersion = '17.0.1'
     cameraXVersion = "1.0.0-beta07"
     room_version = "2.3.0"
     coroutines_version = "1.3.2"
-    work_manager_version = "2.5.0"
+    work_manager_version = '2.7.1'
 }
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
-apply from: 'gradle/code_quality_tasks.gradle'
+apply from: '../code_quality_tasks.gradle'
 apply from: 'gradle/emulator_tasks.gradle'
 apply from: 'gradle/release_crowdin_tasks.gradle'
 apply from: 'gradle/release_fastlane_tasks.gradle'
 apply from: 'gradle/standalone_apk_tasks.gradle'
-apply from: 'gradle/setup_jacoco.gradle'
+apply from: '../setup_jacoco.gradle'
 
 if (rootProject.hasProperty('independent')) {
     println "Independent build"
@@ -99,20 +99,26 @@ ext.copyGoogleServicesFile = { flavorName, flavorId ->
     }
 }
 
-def defaultVersionCode = 88
-def defaultVersionName = "1.1.2"
+def defaultVersionCode = 89
+def defaultVersionName = "1.1.3"
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     buildFeatures {
         viewBinding true
     }
 
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+
     defaultConfig {
 
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 31
         applicationId appId
         testInstrumentationRunner 'org.catrobat.catroid.runner.UiTestApplicationRunner'
         versionCode defaultVersionCode
@@ -173,7 +179,7 @@ android {
     }
 
     lintOptions {
-        lintConfig file('config/lint.xml')
+        lintConfig file("${project.rootDir}/code-quality-config/lint.xml")
         ignore 'GradleDependency', 'OldTargetApi', 'ExtraTranslation', 'MissingTranslation',
                 'LintBaseline', 'ObsoleteLintCustomCheck'
 
@@ -184,7 +190,7 @@ android {
         htmlReport true
         xmlOutput file("build/reports/lint-report.xml")
         htmlOutput file("build/reports/lint-report.html")
-        baseline file('config/lint-baseline.xml')
+        baseline file("${project.rootDir}/code-quality-config/lint-baseline.xml")
     }
 
     testOptions {
@@ -198,6 +204,7 @@ android {
     sourceSets {
         androidTest {
             resources.srcDirs += ['src/androidTest/res', 'src/androidTest/assets']
+            java.srcDir project(':machinelearning').file("src/main/java")
         }
     }
 
@@ -338,6 +345,8 @@ android {
     aaptOptions {
         noCompress "lite"
     }
+
+    dynamicFeatures = [':machinelearning']
 }
 
 configurations {
@@ -358,6 +367,9 @@ dependencies {
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation ('com.esotericsoftware:kryo:5.1.1')
     implementation 'id.zelory:compressor:2.1.1'
+    // WorkManager
+    implementation "androidx.work:work-runtime-ktx:$work_manager_version"
+    implementation "androidx.work:work-runtime:$work_manager_version"
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -365,6 +377,7 @@ dependencies {
     testImplementation project(path: ':catroid')
     androidTestImplementation project(path: ':catroid')
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     androidTestImplementation ('androidx.arch.core:core-testing:2.1.0') {
         exclude group: 'org.mockito', module: 'mockito-core'
     }
@@ -408,9 +421,6 @@ dependencies {
     // Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$room_version")
 
-    // WorkManager
-    implementation "androidx.work:work-runtime-ktx:$work_manager_version"
-
     // Android Debug Database
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 
@@ -418,7 +428,7 @@ dependencies {
     implementation("androidx.security:security-crypto:1.0.0")
 
     // CAST
-    implementation "com.google.android.gms:play-services-cast:$playServicesVersion"
+    implementation "com.google.android.gms:play-services-cast:17.0.0"
 
     // Analytics
     implementation "com.google.android.gms:play-services-analytics:$playServicesVersion"
@@ -446,23 +456,27 @@ dependencies {
     implementation "androidx.camera:camera-lifecycle:${cameraXVersion}"
 
     // ML Kit
-    implementation 'com.google.android.gms:play-services-mlkit-face-detection:16.1.4'
-    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:16.1.3'
-    implementation 'com.google.mlkit:object-detection:16.2.7'
-    implementation 'com.google.mlkit:language-id:16.1.1'
-    implementation 'com.google.mlkit:pose-detection:17.0.0'
+    implementation 'com.google.mlkit:playstore-dynamic-feature-support:16.0.0-beta2'
+
+    // ML Kit - just for android tests
+    androidTestImplementation 'com.google.mlkit:pose-detection:17.0.0'
+    androidTestImplementation 'com.google.android.gms:play-services-mlkit-face-detection:17.0.0'
+    androidTestImplementation 'com.google.android.gms:play-services-mlkit-text-recognition:18.0.0'
+    androidTestImplementation 'com.google.mlkit:object-detection:17.0.0'
+    androidTestImplementation 'com.google.mlkit:language-id:17.0.3'
 
     // HUAWEI Mobile Services
     implementation 'com.huawei.hms:base:6.4.0.303'
 
     // Huawei ML Kit
-    implementation 'com.huawei.hms:ml-computer-voice-asr-plugin:3.7.0.301'
-    implementation 'com.huawei.hms:ml-computer-voice-asr:3.7.0.301'
-    implementation 'com.huawei.hms:ml-computer-vision-face:3.7.0.301'
-    implementation 'com.huawei.hms:ml-computer-voice-tts:3.7.0.303'
-    implementation 'com.huawei.hms:ml-computer-vision-ocr:3.7.0.302'
-    implementation 'com.huawei.hms:ml-computer-language-detection:3.7.0.301'
-    implementation 'com.huawei.hms:ml-computer-vision-skeleton:3.7.0.301'
+    implementation 'com.huawei.hms:ml-computer-voice-asr:3.4.0.302'
+    implementation 'com.huawei.hms:ml-computer-voice-asr-plugin:3.4.0.302'
+    implementation 'com.huawei.hms:ml-computer-vision-face:3.4.0.301'
+    implementation 'com.huawei.hms:ml-computer-voice-tts:3.4.0.302'
+    implementation 'com.huawei.hms:ml-computer-vision-ocr:3.4.0.301'
+    implementation 'com.huawei.hms:ml-computer-language-detection:3.4.0.301'
+    implementation 'com.huawei.hms:ml-computer-vision-skeleton:3.4.0.300'
+
 
     // libGDX
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
@@ -477,7 +491,7 @@ dependencies {
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-arm64-v8a"
 
-    implementation "com.google.android.gms:play-services-auth:$playServicesVersion"
+    implementation "com.google.android.gms:play-services-auth:17.0.0"
 
     androidTestImplementation('tools.fastlane:screengrab:1.2.0') {
         // https://issuetracker.google.com/issues/123060356

@@ -1,0 +1,144 @@
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2022 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+plugins {
+    id 'com.android.dynamic-feature'
+    id 'kotlin-android'
+    id "io.gitlab.arturbosch.detekt" version "1.1.1"
+}
+
+repositories {
+    maven { url "https://jitpack.io" }
+}
+
+apply from: '../code_quality_tasks.gradle'
+
+android {
+    compileSdkVersion 31
+
+    defaultConfig {
+        minSdkVersion 23
+        targetSdkVersion 31
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+        }
+
+        release {
+        }
+
+        signedRelease {
+        }
+    }
+
+    flavorDimensions "default"
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        lintConfig file("${project.rootDir}/code-quality-config/lint.xml")
+        ignore 'GradleDependency', 'OldTargetApi', 'ExtraTranslation', 'MissingTranslation',
+                'LintBaseline', 'ObsoleteLintCustomCheck'
+
+        abortOnError false
+
+        textReport true
+        xmlReport true
+        htmlReport true
+        xmlOutput file("build/reports/lint-report.xml")
+        htmlOutput file("build/reports/lint-report.html")
+        baseline file("${project.rootDir}/code-quality-config/lint-baseline.xml")
+    }
+
+    productFlavors {
+        catroid {
+            dimension "default"
+        }
+        createAtSchool {
+            dimension "default"
+        }
+        embroideryDesigner {
+            dimension "default"
+        }
+        lunaAndCat {
+            dimension "default"
+        }
+        phiro {
+            dimension "default"
+        }
+        pocketCodeBeta {
+            dimension "default"
+        }
+        mindstorms {
+            dimension "default"
+        }
+        standalone {
+            dimension "default"
+        }
+    }
+
+    aaptOptions {
+        noCompress "lite"
+    }
+}
+
+dependencies {
+    implementation project(":catroid")
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'com.google.android.play:core-ktx:1.8.1'
+    implementation 'com.google.mlkit:playstore-dynamic-feature-support:16.0.0-beta2'
+
+    testImplementation 'junit:junit:4.12'
+
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.1.0"
+
+    // ML kit
+    implementation 'com.google.mlkit:pose-detection:17.0.0'
+    implementation 'com.google.android.gms:play-services-mlkit-face-detection:17.0.0'
+    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:18.0.0'
+    implementation 'com.google.mlkit:object-detection:17.0.0'
+    implementation 'com.google.mlkit:language-id:17.0.3'
+
+    // HUAWEI Mobile Services
+    implementation 'com.huawei.hms:base:6.4.0.303'
+    implementation 'com.huawei.hms:ml-computer-voice-asr:3.4.0.302'
+    implementation 'com.huawei.hms:ml-computer-voice-asr-plugin:3.4.0.302'
+    implementation 'com.huawei.hms:ml-computer-vision-face:3.4.0.301'
+    implementation 'com.huawei.hms:ml-computer-voice-tts:3.4.0.302'
+    implementation 'com.huawei.hms:ml-computer-vision-ocr:3.4.0.301'
+    implementation 'com.huawei.hms:ml-computer-language-detection:3.4.0.301'
+    implementation 'com.huawei.hms:ml-computer-vision-skeleton:3.4.0.300'
+
+    // CameraX
+    implementation "androidx.camera:camera-camera2:1.0.0-beta07"
+    implementation "androidx.camera:camera-lifecycle:1.0.0-beta07"
+
+    // Gdx
+    implementation "com.badlogicgames.gdx:gdx:1.9.10"
+    implementation "com.badlogicgames.gdx:gdx-backend-android:1.9.10"
+}

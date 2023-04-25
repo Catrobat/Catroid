@@ -6,7 +6,7 @@ class DockerParameters {
     def dir = 'docker'
     def args = '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -v /var/local/container_shared/huawei:/home/user/huawei -m=8G'
     def label = 'LimitedEmulator'
-    def image = 'catrobat/catrobat-android:stable'
+    def image = 'catrobat/catrobat-paintroid:stable'
 }
 
 def d = new DockerParameters()
@@ -25,7 +25,7 @@ def postEmulator(String coverageNameAndLogcatPrefix) {
     sh './gradlew stopEmulator'
 
     def jacocoReportDir = 'catroid/build/reports/coverage/catroid/debug'
-    if (fileExists('catroid/build/reports/coverage/catroid/debug/report.xml')){
+    if (fileExists('catroid/build/reports/coverage/catroid/debug/report.xml')) {
         junitAndCoverage jacocoReportDir, 'report.xml', coverageNameAndLogcatPrefix
         archiveArtifacts "${coverageNameAndLogcatPrefix}_logcat.txt"
     }
@@ -36,9 +36,13 @@ def webTestUrlParameter() {
 }
 
 def allFlavoursParameters() {
-    return env.BUILD_ALL_FLAVOURS?.toBoolean() ? 'assembleCreateAtSchoolDebug ' +
-            'assembleLunaAndCatDebug assemblePhiroDebug assembleEmbroideryDesignerDebug ' +
-            'assemblePocketCodeBetaDebug assembleMindstormsDebug' : ''
+    return env.BUILD_ALL_FLAVOURS?.toBoolean() ? ':catroid:assembleCreateAtSchoolDebug ' +
+            ':catroid:assembleLunaAndCatDebug :catroid:assemblePhiroDebug :catroid:assembleEmbroideryDesignerDebug ' +
+            ':catroid:assemblePocketCodeBetaDebug :catroid:assembleMindstormsDebug' : ''
+}
+
+def universalApkParameters() {
+    return env.BUILD_UNIVERSAL_APK?.toBoolean() ? 'packageCatroidDebugUniversalApk' : ''
 }
 
 def debugUnitTests() {
@@ -61,6 +65,7 @@ pipeline {
         string name: 'WEB_TEST_URL', defaultValue: '', description: 'When set, all the archived ' +
                 'APKs will point to this Catrobat web server, useful for testing web changes. E.g https://web-test.catrob.at'
         booleanParam name: 'BUILD_ALL_FLAVOURS', defaultValue: false, description: 'When selected all flavours are built and archived as artifacts that can be installed alongside other versions of the same APK.'
+        booleanParam name: 'BUILD_UNIVERSAL_APK', defaultValue: false, description: 'When selected all feature modules are built and bundled into one APK which can be installed.'
         booleanParam name: 'UNIT_TEST_DEBUG', defaultValue: false, description: 'When selected the Unit Test suite prints the currently running tests and any output that it might produce'
         booleanParam name: 'INCLUDE_HUAWEI_FILES', defaultValue: false, description: 'Embed any huawei files that are needed'
         string name: 'DEBUG_LABEL', defaultValue: '', description: 'For debugging when entered will be used as label to decide on which slaves the jobs will run.'
@@ -127,7 +132,7 @@ pipeline {
                             steps {
                                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                                     script {
-                                        def additionalParameters = [webTestUrlParameter(), allFlavoursParameters()].findAll {
+                                        def additionalParameters = [webTestUrlParameter(), allFlavoursParameters(), universalApkParameters()].findAll {
                                             it
                                         }.collect()
                                         if (additionalParameters) {
@@ -139,7 +144,7 @@ pipeline {
                                     }
 
                                     // Build the flavors so that they can be installed next independently of older versions.
-                                    sh "./gradlew ${webTestUrlParameter()} -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleCatroidDebug ${allFlavoursParameters()}"
+                                    sh "./gradlew ${webTestUrlParameter()} -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' :catroid:assembleCatroidDebug ${allFlavoursParameters()} ${universalApkParameters()}"
 
                                     renameApks("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
                                     archiveArtifacts '**/*.apk'
@@ -157,10 +162,10 @@ pipeline {
                             post {
                                 always {
                                     recordIssues aggregatingResults: true, enabledForFailure: true, qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]],
-                                            tools: [androidLintParser(pattern: 'catroid/build/reports/lint*.xml'),
-                                                    checkStyle(pattern: 'catroid/build/reports/checkstyle.xml'),
-                                                    pmdParser(pattern: 'catroid/build/reports/pmd.xml'),
-                                                    detekt(pattern: 'catroid/build/reports/detekt/detekt.xml')]
+                                            tools: [androidLintParser(pattern: '**/build/reports/lint*.xml'),
+                                                    checkStyle(pattern: '**/build/reports/checkstyle.xml'),
+                                                    pmdParser(pattern: '**/build/reports/pmd.xml'),
+                                                    detekt(pattern: '**/build/reports/detekt/detekt.xml')]
                                 }
                             }
                         }

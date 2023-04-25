@@ -1873,8 +1873,6 @@
         \n您可以簡單地將這些插入到您的公式中，或者添加新的。</string>
     <string name="formula_editor_listening_language_sensor">聽力語言</string>
     <string name="formula_editor_speech_recognition">語音識別</string>
-    <string name="camera_error_text_detection">文本檢測出現問題。某些組件可能仍在下載
-        背景。請確保您已連接到 Internet，稍後再回來查看。</string>
     <string name="warning_formula_recognized">您輸入了一個看起來像公式的文本。如果你想使用函數，
         傳感器、變量和其他公式元素，請使用
         公式編輯器中的按鈕。</string>
@@ -1900,9 +1898,6 @@
     <string name="choose_camera_front">正面</string>
     <string name="choose_camera_back">後部</string>
     <string name="camera_error_generic">        嘗試使用相機時出現問題。
-    </string>
-    <string name="camera_error_face_detection">人臉檢測出現問題。某些組件可能仍在下載
-        背景。請確保您已連接到 Internet，稍後再回來查看。
     </string>
     <!-- -->
     <!-- Cast strings -->

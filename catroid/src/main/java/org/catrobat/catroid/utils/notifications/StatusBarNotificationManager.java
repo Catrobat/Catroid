@@ -78,8 +78,16 @@ public final class StatusBarNotificationManager {
 		Intent uploadIntent = new Intent(context, MainMenuActivity.class);
 		uploadIntent.setAction(Intent.ACTION_MAIN);
 		uploadIntent = uploadIntent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-		PendingIntent pendingIntent = PendingIntent.getActivity(context, notificationId, uploadIntent,
-				PendingIntent.FLAG_CANCEL_CURRENT);
+
+		PendingIntent pendingIntent;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+			pendingIntent = PendingIntent.getActivity(context, notificationId,
+					uploadIntent,
+					PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+		} else {
+			pendingIntent = PendingIntent.getActivity(context, notificationId,
+					uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+		}
 
 		NotificationData data = new NotificationData(R.drawable.ic_stat, programName,
 				context.getString(R.string.notification_upload_title_pending), context.getString(R.string.notification_upload_title_finished),
@@ -138,6 +146,22 @@ public final class StatusBarNotificationManager {
 				context.getString(R.string.notification_download_title_pending), context.getString(R.string.notification_title_open),
 				context.getString(R.string.notification_download_pending), context.getString(R.string.notification_download_finished),
 				0, MAX_PERCENT, true, false, getNextNotificationID());
+	}
+
+	public NotificationData createMLModuleDownloadNotification(Context context) {
+		return new NotificationData(
+				R.drawable.ic_stat,
+				context.getString(R.string.notification_program_name_ml_module),
+				context.getString(R.string.notification_download_title_pending),
+				context.getString(R.string.notification_title_done),
+				context.getString(R.string.notification_download_pending),
+				context.getString(R.string.notification_download_finished),
+				0,
+				MAX_PERCENT,
+				true,
+				false,
+				getNextNotificationID()
+		);
 	}
 
 	@Synchronized
@@ -226,8 +250,16 @@ public final class StatusBarNotificationManager {
 				openIntent.setAction(Intent.ACTION_MAIN).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 						.putExtra(EXTRA_PROJECT_NAME, bundle.getString("projectName"));
 
-				PendingIntent pendingIntent = PendingIntent.getActivity(context, notificationId, openIntent,
-						PendingIntent.FLAG_CANCEL_CURRENT);
+				PendingIntent pendingIntent;
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+					pendingIntent = PendingIntent.getActivity(context, notificationId,
+							openIntent,
+							PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+				} else {
+					pendingIntent = PendingIntent.getActivity(context, notificationId,
+							openIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+				}
+
 				builder.setContentIntent(pendingIntent);
 				break;
 		}

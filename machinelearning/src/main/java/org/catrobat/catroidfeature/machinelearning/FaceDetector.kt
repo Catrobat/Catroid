@@ -21,45 +21,46 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.camera.mlkitdetectors
+package org.catrobat.catroidfeature.machinelearning
 
 import android.media.Image
 import android.util.Log
 import com.google.mlkit.vision.common.InputImage
-import com.google.mlkit.vision.pose.PoseDetection
-import com.google.mlkit.vision.pose.defaults.PoseDetectorOptions
-import org.catrobat.catroid.camera.CatdroidImageAnalyzer
-import org.catrobat.catroid.camera.DetectorsCompleteListener
-import org.catrobat.catroid.camera.VisualDetectionHandler
+import com.google.mlkit.vision.face.FaceDetection
+import com.google.mlkit.vision.face.FaceDetectorOptions
 
-private val poseDetectionClient by lazy {
-    PoseDetection.getClient(
-        PoseDetectorOptions.Builder()
-            .setDetectorMode(PoseDetectorOptions.STREAM_MODE)
+private val faceDetectionClient by lazy {
+    FaceDetection.getClient(
+        FaceDetectorOptions.Builder()
+            .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
+            .enableTracking()
             .build()
     )
 }
 
-object PoseDetector : Detector {
-
+object FaceDetector : Detector {
     override fun processImage(
         mediaImage: Image,
         inputImage: InputImage,
         onCompleteListener: DetectorsCompleteListener
     ) {
-        poseDetectionClient.process(inputImage)
-            .addOnSuccessListener { pose ->
-                VisualDetectionHandler.updateAllPoseSensorValues(
-                    pose,
+        faceDetectionClient.process(inputImage)
+            .addOnSuccessListener { faces ->
+                val translatedFaces =
+                    VisualDetectionHandler.translateGoogleFaceToVisualDetectionFace(faces)
+                VisualDetectionHandler.handleAlreadyExistingFaces(translatedFaces)
+                VisualDetectionHandler.handleNewFaces(translatedFaces)
+                VisualDetectionHandler.updateAllFaceSensorValues(
                     mediaImage.width,
                     mediaImage.height
                 )
             }
-            .addOnFailureListener { exception ->
+            .addOnFailureListener { e ->
+                VisualDetectionHandler.updateFaceDetectionStatusSensorValues()
                 Log.e(
                     javaClass.simpleName,
-                    CatdroidImageAnalyzer.DETECTION_PROCESS_ERROR_MESSAGE,
-                    exception
+                    "Could not analyze image.",
+                    e
                 )
             }.addOnCompleteListener {
                 onCompleteListener.onComplete()

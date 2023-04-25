@@ -1870,8 +1870,6 @@
     <string name="formula_editor_intro_summary_data">আপনার প্রকল্পে ব্যবহৃত ভেরিয়েবল এবং তালিকাগুলি এখানে পাওয়া যাবে। আপনি এগুলি কেবল আপনার সূত্রে সন্নিবেশ করতে পারেন বা একটি নতুন যুক্ত করতে পারেন।</string>
     <string name="formula_editor_listening_language_sensor">শোনা ভাষা</string>
     <string name="formula_editor_speech_recognition">কন্ঠ সনান্তকরণ</string>
-    <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.</string>
     <string name="warning_formula_recognized">আপনি একটি পাঠ্য প্রবেশ করেছেন যা একটি সূত্রের মত মনে হয়। আপনি যদি ফাংশন ব্যবহার করতে চান,
         সেন্সর, ভেরিয়েবল এবং অন্যান্য ফর্মুলা উপাদান, অনুগ্রহ করে ব্যবহার করে সেগুলি নির্বাচন করুন
         সূত্র সম্পাদকের বোতাম।</string>
@@ -1897,9 +1895,6 @@
     <string name="choose_camera_front">সামনে</string>
     <string name="choose_camera_back">পিছনের</string>
     <string name="camera_error_generic">        Something went wrong while trying to use the camera.
-    </string>
-    <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.
     </string>
     <!-- -->
     <!-- Cast strings -->

@@ -2085,8 +2085,6 @@
         برنامجك موجودة هنا.\n يمكنك ببساطة إدراجها في صيغتك, أو إضافة واحدة جديدة.</string>
     <string name="formula_editor_listening_language_sensor">لغة الاستماع</string>
     <string name="formula_editor_speech_recognition">التعرف على الكلام</string>
-    <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.</string>
     <string name="warning_formula_recognized">لقد أدخلت نصًا يشبه الصيغة. إذا كنت تريد استخدام الوظائف ،
         المستشعرات والمتغيرات وعناصر الصيغة الأخرى ، يرجى تحديدها بدلاً من ذلك باستخدام
         الأزرار في محرر الصيغة.</string>
@@ -2112,9 +2110,6 @@
     <string name="choose_camera_front">الأمامية</string>
     <string name="choose_camera_back">خلفي</string>
     <string name="camera_error_generic">        Something went wrong while trying to use the camera.
-    </string>
-    <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.
     </string>
     <!-- -->
     <!-- Cast strings -->

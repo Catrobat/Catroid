@@ -756,6 +756,14 @@
     <string name="upload_tag_dialog_title">Please choose up to three categories</string>
     <string name="upload_tags_maximum_error">Selecting more than 3 tags is not possible.</string>
 
+     <!-- Download AI module -->
+     <string name="download_ml_module_permission_dialog_title">Download Artificial Intelligence (AI) extension module?</string>
+    <string name="download_ml_module_permission_dialog_message">Your project requires the Artificial Intelligence (AI) extension module. Do you want to download it?</string>
+    <string name="download_ml_module_not_available_dialog_title">Artificial Intelligence (AI) extension feature not available</string>
+    <string name="download_ml_module_not_available_dialog_message">The Artificial Intelligence (AI) extension  features are not available on this device at the moment.</string>
+    <string name="notification_program_name_ml_module">Artificial Intelligence (AI) extension module</string>
+    <string name="download_ml_module_error_message">Failed to download Artificial Intelligence (AI) extension module</string>
+
     <!-- Save Project to External Storage -->
     <string name="save_to_external_storage_button">Export project</string>
     <string name="notification_save_project_to_external_storage_title_pending">" "</string>
@@ -1405,6 +1413,7 @@
     <string name="notification_download_pending">Download in progress</string>
     <string name="notification_download_finished">Download successful</string>
     <string name="notification_title_open">"Open"</string>
+    <string name="notification_title_done">"Done"</string>
     <string name="size_of_project">Size:</string>
     <!--  -->
 
@@ -2113,9 +2122,6 @@ needs read and write access to it. You can always change permissions through you
         \nYou can simply insert these in your formula, or add new ones.</string>
     <string name="formula_editor_listening_language_sensor">listening language</string>
     <string name="formula_editor_speech_recognition">Speech recognition</string>
-    <string name="camera_error_text_detection">
-        There was a problem with text detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.</string>
     <string name="warning_formula_recognized">You entered a text that looks like a formula. If you want to use functions,
         sensors, variables and other formula elements, please select them instead using the
         buttons in the formula editor.</string>
@@ -2146,10 +2152,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="choose_camera_back">rear</string>
     <string name="camera_error_generic">
         Something went wrong while trying to use the camera.
-    </string>
-    <string name="camera_error_face_detection">
-        There was a problem with face detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.
     </string>
     <!-- -->
 
@@ -2268,4 +2270,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="undo_sort">Undo sort</string>
     <string name="sort">Sort</string>
     <string name="checkbox">checkbox</string>
+
+    <string name="title_machinelearning">Machine Learning</string>
 </resources>

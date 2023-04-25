@@ -1852,8 +1852,6 @@
     <string name="formula_editor_intro_summary_data">プログラムで使用される変数やリストをここで見つけることができます。\n数式にこれらを挿入したり、新しいものを追加することができます。</string>
     <string name="formula_editor_listening_language_sensor">聞いている言語</string>
     <string name="formula_editor_speech_recognition">音声認識</string>
-    <string name="camera_error_text_detection">        テキストの検出に問題がありました。一部のコンポーネントがバックグラウンドでダウンロードされている可能性があります。
-        バックグラウンドでダウンロードしている可能性があります。インターネットに接続されていることを確認して、後で確認してください。</string>
     <string name="warning_formula_recognized">数式のようなテキストを入力しました。関数、センサー、変数などの数式要素を使用したい場合は
         関数、センサー、変数などの数式要素を使いたい場合は、数式エディターのボタンで選択してください。
         ボタンで選択してください。</string>
@@ -1880,8 +1878,6 @@
     <string name="choose_camera_back">背面へ</string>
     <string name="camera_error_generic">        カメラの使用中に問題が発生しました。
     </string>
-    <string name="camera_error_face_detection">        顔検出に問題がありました。一部のコンポーネントがバックグラウンドでダウンロードされている可能性があります。
-        バックグラウンドでダウンロードしている可能性があります。インターネットに接続されていることを確認して、後で確認してください。</string>
     <!-- -->
     <!-- Cast strings -->
     <string name="cast_gamepad_A">A</string>

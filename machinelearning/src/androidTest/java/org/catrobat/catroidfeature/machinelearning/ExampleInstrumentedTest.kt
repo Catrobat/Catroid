@@ -21,16 +21,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.camera.mlkitdetectors
+package org.catrobat.catroidfeature.machinelearning
 
-import android.media.Image
-import com.google.mlkit.vision.common.InputImage
-import org.catrobat.catroid.camera.DetectorsCompleteListener
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import org.junit.Assert.assertEquals
+import org.junit.Test
+import org.junit.runner.RunWith
 
-fun interface Detector {
-    fun processImage(
-        mediaImage: Image,
-        inputImage: InputImage,
-        onCompleteListener: DetectorsCompleteListener
-    )
+@RunWith(AndroidJUnit4::class)
+class ExampleInstrumentedTest {
+    @Test
+    fun useAppContext() {
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        assertEquals("org.catrobat.catroidfeature.machinelearning", appContext.packageName)
+    }
 }

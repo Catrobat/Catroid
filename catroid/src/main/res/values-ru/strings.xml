@@ -233,7 +233,7 @@
     <string name="error_request_timeout">Ой! Наш сервер не ответил вовремя, пожалуйста, повторите попытку позже.</string>
     <string name="error_scratch_program_conversion_failed">Ой! Не удалось конвертировать проект, пожалуйста, повторите попытку
         позже.</string>
-    <string name="error_specific_scratch_program_conversion_failed_x">К сожалению, не удалось конвертировать %1$s, 
+    <string name="error_specific_scratch_program_conversion_failed_x">К сожалению, не удалось конвертировать %1$s,
         пожалуйста, повторите попытку позже!</string>
     <string name="error_scratch_converter_outdated_app_version">Ваша версия этого приложения устарела. Наш конвертер
         Scratch работает только на последней версии. Пожалуйста, обновите приложение.</string>
@@ -2012,8 +2012,6 @@
         \nВы легко можете вставить их в свою формулу, или добавить новые.</string>
     <string name="formula_editor_listening_language_sensor">язык прослушивания</string>
     <string name="formula_editor_speech_recognition">Распознавание речи</string>
-    <string name="camera_error_text_detection">        Возникла проблема с обнаружением текста. Некоторые компоненты все еще могут загружаться в фоновом режиме.
-        Пожалуйста, убедитесь, что вы подключены к интернету и повторите попытку позже.</string>
     <string name="warning_formula_recognized">Вы ввели текст, который выглядит как формула. Если вы хотите использовать функции,
         датчики, переменные и другие элементы формулы, выберите их с помощью
         кнопок в редакторе формул.</string>
@@ -2039,9 +2037,6 @@
     <string name="choose_camera_front">переднюю</string>
     <string name="choose_camera_back">заднюю</string>
     <string name="camera_error_generic">        Что-то пошло не так при попытке использовать камеру.
-    </string>
-    <string name="camera_error_face_detection">        Возникла проблема с обнаружением лица. Некоторые компоненты все еще могут загружаться в фоновом режиме.
-        Пожалуйста, убедитесь, что вы подключены к интернету и повторите попытку позже.
     </string>
     <!-- -->
     <!-- Cast strings -->

@@ -1910,9 +1910,7 @@
     <string name="formula_editor_intro_summary_data">متغیرات او لیستونه چې ستاسو په پروژه کې کارول کیږي دلته موندل کیدی شي.\n تاسو کولی شئ دا په ساده ډول په خپل فارمول کې داخل کړئ، یا نوي اضافه کړئ.</string>
     <string name="formula_editor_listening_language_sensor">د اوریدلو ژبه</string>
     <string name="formula_editor_speech_recognition">د وینا پیژندنه</string>
-    <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.</string>
-    <string name="warning_formula_recognized">تاسو یو متن داخل کړی چې د فورمول په څیر ښکاري. که تاسو غواړئ فنکشنونه، 
+    <string name="warning_formula_recognized">تاسو یو متن داخل کړی چې د فورمول په څیر ښکاري. که تاسو غواړئ فنکشنونه،
         سینسرونه، متغیرات او نور د فورمول عناصر وکاروئ، نو مهرباني وکړئ د فورمول مدیر کې د         بټونو کارولو پرځای یې غوره کړئ.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
@@ -1936,9 +1934,6 @@
     <string name="choose_camera_front">مخ</string>
     <string name="choose_camera_back">شاته</string>
     <string name="camera_error_generic">        Something went wrong while trying to use the camera.
-    </string>
-    <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.
     </string>
     <!-- -->
     <!-- Cast strings -->

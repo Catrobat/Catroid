@@ -1961,8 +1961,6 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="formula_editor_intro_summary_data">Zmienne i listy, które są używane w projekcie można znaleźć tutaj.\nMożna po prostu wstawić je do formuły lub dodać nowe.</string>
     <string name="formula_editor_listening_language_sensor">język słuchania</string>
     <string name="formula_editor_speech_recognition">Rozpoznawanie mowy</string>
-    <string name="camera_error_text_detection">        Wystąpił problem z wykrywaniem tekstu. Niektóre komponenty nadal mogą być pobierane w
-        tle. Upewnij się, że jesteś połączony z Internetem i sprawdź ponownie później.</string>
     <string name="warning_formula_recognized">Wprowadziłeś tekst, który wygląda jak wzór. Jeśli chcesz użyć funkcji,
         czujników, zmiennych i innych elementów wzoru, wybierz je, używając przycisków
         w edytorze formuł.</string>
@@ -1989,8 +1987,6 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="choose_camera_back">z tyłu</string>
     <string name="camera_error_generic">        Coś poszło nie tak podczas próby użycia aparatu.
     </string>
-    <string name="camera_error_face_detection">        Wystąpił problem z wykrywaniem twarzy. Niektóre komponenty nadal mogą być pobierane w
-        tle. Upewnij się, że jesteś połączony z Internetem i sprawdź ponownie później.</string>
     <!-- -->
     <!-- Cast strings -->
     <string name="cast_gamepad_A">A</string>

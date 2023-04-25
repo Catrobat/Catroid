@@ -1918,8 +1918,6 @@
         \n आप बस इन्हें अपने सूत्र में सम्मिलित कर सकते हैं, या नए जोड़ सकते हैं।</string>
     <string name="formula_editor_listening_language_sensor">सुनने की भाषा</string>
     <string name="formula_editor_speech_recognition">वाक् पहचान</string>
-    <string name="camera_error_text_detection">        लेख का पता लगाने में कोई समस्या थी. कुछ घटक अभी भी डाउनलोड हो रहे हैं
-        पृष्ठभूमि। कृपया सुनिश्चित करें कि आप इंटरनेट से कनेक्ट हैं और बाद में वापस देखें।</string>
     <string name="warning_formula_recognized">आपने एक सूत्र की तरह दिखने वाला पाठ दर्ज किया है। यदि आप कार्यों का उपयोग करना चाहते हैं,
         सेंसर, चर और अन्य सूत्र तत्व, कृपया उनका उपयोग करने के बजाय उनका चयन करें
         सूत्र संपादक में बटन।</string>
@@ -1945,9 +1943,6 @@
     <string name="choose_camera_front">सामने</string>
     <string name="choose_camera_back">पीछे</string>
     <string name="camera_error_generic">        कैमरे का उपयोग करने का प्रयास करते समय कुछ गलत हुआ।
-    </string>
-    <string name="camera_error_face_detection">        चेहरा पहचानने में समस्या हुई. कुछ घटक अभी भी डाउनलोड हो रहे हैं
-        पृष्ठभूमि। कृपया सुनिश्चित करें कि आप इंटरनेट से कनेक्ट हैं और बाद में वापस देखें।
     </string>
     <!-- -->
     <!-- Cast strings -->
