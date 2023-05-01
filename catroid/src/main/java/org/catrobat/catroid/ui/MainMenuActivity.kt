@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -228,6 +228,12 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
             val webIntent = Intent(this, WebViewActivity::class.java)
             webIntent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, shareUri.toString())
             startActivity(webIntent)
+        }
+
+        if (intent.action != null && intent.action == Intent.ACTION_MAIN &&
+            intent.extras?.containsKey("importSharedProject") == true
+        ) {
+            ToastUtil.showSuccess(this, R.string.shared_project)
         }
     }
 

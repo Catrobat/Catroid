@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,10 @@
  */
 package org.catrobat.catroid.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -53,17 +56,29 @@ class ProjectListActivity : BaseCastActivity() {
             supportActionBar?.setTitle(R.string.import_from_project)
         }
         intent?.apply {
-            if (action != null) {
+            if (action != null && !handleSharedProject(projectListFragment)) {
                 val data = Bundle()
                 data.putParcelable("intent", intent)
                 projectListFragment.arguments = data
             }
         }
-
         loadFragment(projectListFragment)
     }
 
+    private fun handleSharedProject(fragment: Fragment): Boolean {
+        if (intent.action == Intent.ACTION_SEND) {
+            Log.i(TAG, "Received intent for shared project")
+            val shareUri = intent?.extras?.get(Intent.EXTRA_STREAM) as Uri
+            val data = Bundle()
+            data.putParcelable("shareUri", shareUri)
+            fragment.arguments = data
+            return true
+        }
+        return false
+    }
+
     private fun loadFragment(fragment: Fragment) {
+        handleSharedProject(fragment)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment, ProjectListFragment.TAG)
             .commit()
