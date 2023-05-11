@@ -50,6 +50,14 @@
         tools:ignore="UseCompoundDrawables">
 
         <ImageView
+            android:id="@+id/ic_ripples"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_ripples"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/img_margin"/>
+
+        <ImageView
             android:id="@+id/image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
