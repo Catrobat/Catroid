@@ -32,6 +32,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Scope;
@@ -39,6 +40,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -46,9 +48,14 @@ import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
+import java.util.SortedMap;
 
 import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -57,6 +64,8 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 	@XStreamAlias("formulaList")
 	ConcurrentFormulaHashMap formulaMap = new ConcurrentFormulaHashMap();
+
+	protected LinkedHashMap<FormulaField, String> catrobatLanguageFormulaParameters = new LinkedHashMap<>();
 
 	public transient BiMap<FormulaField, Integer> brickFieldToTextViewIdMap = HashBiMap.create(2);
 
@@ -81,6 +90,14 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	protected void addAllowedBrickField(FormulaField formulaField, int textViewResourceId) {
 		formulaMap.putIfAbsent(formulaField, new Formula(0));
 		brickFieldToTextViewIdMap.put(formulaField, textViewResourceId);
+		catrobatLanguageFormulaParameters.put(formulaField, null);
+	}
+
+	protected void addAllowedBrickField(FormulaField formulaField, int textViewResourceId,
+			String catrobatLanguageParameterName) {
+		formulaMap.putIfAbsent(formulaField, new Formula(0));
+		brickFieldToTextViewIdMap.put(formulaField, textViewResourceId);
+		catrobatLanguageFormulaParameters.put(formulaField, catrobatLanguageParameterName);
 	}
 
 	@Override
@@ -239,5 +256,45 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 	public boolean hasEditableFormulaField() {
 		return !brickFieldToTextViewIdMap.isEmpty();
+	}
+
+	protected void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
+		Set<FormulaField> formulaFieldSet = catrobatLanguageFormulaParameters.keySet();
+		FormulaField[] formulas = formulaFieldSet.toArray(new FormulaField[formulaFieldSet.size()]);
+		int numberOfFormulas = formulas.length;
+		for (int i = 0; i < numberOfFormulas; ++i) {
+			FormulaField field = formulas[i];
+			boolean hasIdentifier = false;
+			String formulaIdentifier = catrobatLanguageFormulaParameters.get(field);
+			if (formulaIdentifier != null && !formulaIdentifier.isEmpty()) {
+				brickBuilder.append(formulaIdentifier);
+				brickBuilder.append(": (");
+				hasIdentifier = true;
+			}
+			String formulaString =
+					formulaMap.get(field).getTrimmedFormulaString(CatroidApplication.getAppContext());
+			brickBuilder.append(formulaString.trim());
+
+			if (hasIdentifier) {
+				brickBuilder.append(")");
+			}
+			if (i < (numberOfFormulas - 1)) {
+				brickBuilder.append(", ");
+			}
+		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+
+		StringBuilder catrobatLanguage = new StringBuilder();
+		catrobatLanguage.append(indention);
+		catrobatLanguage.append(getCatrobatLanguageCommand());
+		catrobatLanguage.append(" (");
+		appendCatrobatLanguageArguments(catrobatLanguage);
+		catrobatLanguage.append(");");
+		return catrobatLanguage.toString();
 	}
 }

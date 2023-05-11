@@ -31,14 +31,18 @@ import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import static org.catrobat.catroid.content.Look.ROTATION_STYLE_LEFT_RIGHT_ONLY;
 
+@CatrobatLanguageBrick(command = "Set")
 public class SetRotationStyleBrick extends BrickBaseType implements
 		BrickSpinner.OnItemSelectedListener<SetRotationStyleBrick.RotationStyleOption> {
 
@@ -94,6 +98,30 @@ public class SetRotationStyleBrick extends BrickBaseType implements
 	@Override
 	public void onItemSelected(Integer spinnerId, @Nullable RotationStyleOption item) {
 		selection = item != null ? item.getRotationStyle() : 0;
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+
+		String brickCommand = getCatrobatLanguageCommand();
+		StringBuilder catrobatLanguage = new StringBuilder();
+		catrobatLanguage.append(indention);
+		catrobatLanguage.append(brickCommand);
+		catrobatLanguage.append(" (rotation style: ('");
+		switch (selection) {
+			case 1:
+				catrobatLanguage.append("all-around");
+				break;
+			case 2:
+				catrobatLanguage.append("don't rotate");
+				break;
+			default:
+				catrobatLanguage.append("left-right-only");
+		}
+		catrobatLanguage.append("'));");
+		return catrobatLanguage.toString();
 	}
 
 	class RotationStyleOption implements Nameable {

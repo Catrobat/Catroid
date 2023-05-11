@@ -31,6 +31,7 @@ import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ import java.util.UUID;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -303,5 +305,21 @@ public abstract class BrickBaseType implements Brick {
 			}
 		}
 		return false;
+	}
+
+	protected String getCatrobatLanguageCommand() {
+		CatrobatLanguageBrick annotation =
+				this.getClass().getAnnotation(CatrobatLanguageBrick.class);
+		if (annotation != null) {
+			return annotation.command();
+		}
+		return null;
+	}
+
+	// TODO: remove from brick base type!
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		return "";
 	}
 }

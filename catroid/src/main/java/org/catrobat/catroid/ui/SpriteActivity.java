@@ -46,6 +46,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.VisualPlacementBrick;
@@ -625,6 +626,17 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	public void handleAddButton(View view) {
+
+		// TODO: just here for testing
+		try {
+			for (Script s : ProjectManager.getInstance().getCurrentSprite().getScriptList()) {
+				String catrobatString = s.getScriptBrick().serializeToCatrobatLanguage(0);
+				System.out.println(catrobatString);
+			}
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+
 		if (getCurrentFragment() instanceof ScriptFragment) {
 			((ScriptFragment) getCurrentFragment()).handleAddButton();
 			return;

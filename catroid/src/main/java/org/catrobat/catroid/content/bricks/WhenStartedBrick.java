@@ -27,7 +27,9 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "When scene started")
 public class WhenStartedBrick extends ScriptBrickBaseType {
 
 	private static final long serialVersionUID = 1L;

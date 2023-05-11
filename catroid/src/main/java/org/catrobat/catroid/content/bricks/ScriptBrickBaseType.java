@@ -23,7 +23,11 @@
 
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
+
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 public abstract class ScriptBrickBaseType extends BrickBaseType implements ScriptBrick {
 
@@ -54,5 +58,24 @@ public abstract class ScriptBrickBaseType extends BrickBaseType implements Scrip
 	public void setCommentedOut(boolean commentedOut) {
 		super.setCommentedOut(commentedOut);
 		getScript().setCommentedOut(commentedOut);
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+
+		StringBuilder catrobatLanguage = new StringBuilder();
+		catrobatLanguage.append(indention);
+		catrobatLanguage.append(getCatrobatLanguageCommand());
+		catrobatLanguage.append(" {\n");
+		for (Brick subBrick : getScript().getBrickList()) {
+			catrobatLanguage.append(subBrick.serializeToCatrobatLanguage(indentionLevel + 1));
+			catrobatLanguage.append("\n");
+		}
+		catrobatLanguage.append(indention);
+		catrobatLanguage.append("}\n");
+
+		return catrobatLanguage.toString();
 	}
 }
