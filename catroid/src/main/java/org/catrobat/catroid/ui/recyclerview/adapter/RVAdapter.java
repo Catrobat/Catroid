@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,9 +27,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.GroupItemSprite;
+import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperAdapterInterface;
 import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
@@ -99,15 +100,14 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 		holder.checkBox.setVisibility(showCheckBoxes ? View.VISIBLE : View.GONE);
 		holder.checkBox.setChecked(selectionManager.isPositionSelected(position));
 
-		ImageView ripples = holder.itemView.findViewById(R.id.ic_ripples);
-		if (ripples != null && showRipples) {
-			ripples.setVisibility(View.VISIBLE);
+		if (holder.ripples != null && showRipples) {
+			holder.ripples.setVisibility(View.VISIBLE);
 			holder.itemView.setOnLongClickListener(v -> {
 				onItemClickListener.onItemLongClick(item, holder);
 				return true;
 			});
-		} else if (ripples != null && !showRipples) {
-			ripples.setVisibility(View.GONE);
+		} else if (holder.ripples != null && !showRipples) {
+			holder.ripples.setVisibility(View.GONE);
 			holder.itemView.setOnLongClickListener(v -> true);
 		}
 
@@ -182,16 +182,61 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 
 	@Override
 	public boolean onItemMove(int sourcePosition, int targetPosition) {
-		if (Math.abs(sourcePosition - targetPosition) <= 1) {
-			Collections.swap(items, sourcePosition, targetPosition);
-		} else {
-			T movedItem = items.get(sourcePosition);
-			items.remove(movedItem);
-			items.add(targetPosition, movedItem);
+		if (sourcePosition == targetPosition) {
+			return true;
 		}
+
+		T sourceItem = items.get(sourcePosition);
+		T targetItem = items.get(targetPosition);
+
+		if (sourceItem instanceof GroupSprite && targetItem instanceof GroupSprite) {
+			if (sourcePosition < targetPosition) {
+				targetPosition += ((GroupSprite) sourceItem).getNumberOfChildren();
+				swapGroupItemSprites(sourcePosition, targetPosition, false);
+				targetPosition -= ((GroupSprite) sourceItem).getNumberOfChildren();
+			} else {
+				swapGroupItemSprites(sourcePosition, targetPosition, true);
+			}
+			items.remove(sourceItem);
+			items.add(targetPosition, sourceItem);
+		} else if (sourceItem instanceof GroupSprite) {
+			if (sourcePosition < targetPosition) {
+				swapGroupItemSprites(sourcePosition, targetPosition, false);
+				targetPosition -= ((GroupSprite) sourceItem).getNumberOfChildren();
+			} else {
+				swapGroupItemSprites(sourcePosition, targetPosition, true);
+			}
+			items.remove(sourceItem);
+			items.add(targetPosition, sourceItem);
+		} else {
+			if (Math.abs(sourcePosition - targetPosition) <= 1) {
+				Collections.swap(items, sourcePosition, targetPosition);
+			} else {
+				T movedItem = items.get(sourcePosition);
+				items.remove(movedItem);
+				items.add(targetPosition, movedItem);
+			}
+		}
+
 		notifyItemMoved(sourcePosition, targetPosition);
 		selectionManager.updateSelection(sourcePosition, targetPosition);
 		return true;
+	}
+
+	private void swapGroupItemSprites(int sourcePosition, int targetPosition, boolean reversed) {
+		List<GroupItemSprite> childrenSpriteList;
+		T sourceItem = items.get(sourcePosition);
+
+		if (reversed) {
+			childrenSpriteList = ((GroupSprite) sourceItem).getReversedGroupItems();
+		} else {
+			childrenSpriteList = ((GroupSprite) sourceItem).getChildrenSpriteList();
+		}
+
+		for (GroupItemSprite childSprite: childrenSpriteList) {
+			items.remove(childSprite);
+			items.add(targetPosition, (T) childSprite);
+		}
 	}
 
 	public List<T> getSelectedItems() {
@@ -203,7 +248,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 	}
 
 	public boolean setSelection(T item, boolean selection) {
-		if (items.indexOf(item) == -1) {
+		if (!items.contains(item)) {
 			return false;
 		}
 		selectionManager.setSelectionTo(selection, items.indexOf(item));
@@ -211,7 +256,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 	}
 
 	public boolean toggleSelection(T item) {
-		if (items.indexOf(item) == -1) {
+		if (!items.contains(item)) {
 			return false;
 		}
 		selectionManager.toggleSelection(items.indexOf(item));

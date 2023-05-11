@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -152,6 +152,7 @@ class CopySpriteTest {
         val standaloneSprite = Sprite(spriteList[2])
         val groupSprite = GroupSprite(spriteList[0])
         val sprite: Sprite = GroupItemSprite(spriteList[1])
+        groupSprite.addToChildrenSpriteList(sprite as GroupItemSprite)
         project.defaultScene.addSprite(standaloneSprite)
         project.defaultScene.addSprite(groupSprite)
         project.defaultScene.addSprite(sprite)

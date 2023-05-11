@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -158,36 +158,41 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 			return true;
 		}
 
-		Sprite fromItem = items.get(sourcePosition);
-		Sprite toItem = items.get(targetPosition);
+		Sprite sourceItem = items.get(sourcePosition);
+		Sprite targetItem = items.get(targetPosition);
 
-		if (fromItem instanceof GroupSprite) {
-			return true;
+		if (sourceItem instanceof GroupSprite && targetItem instanceof GroupSprite) {
+			return super.onItemMove(sourcePosition, targetPosition);
 		}
 
-		if (toItem instanceof GroupSprite) {
-			GroupSprite groupItem = (GroupSprite) toItem;
-			if (targetPosition > sourcePosition) {
-				targetPosition += groupItem.getNumberOfItems();
-				fromItem.setConvertToGroupItemSprite(true);
-			} else {
-				fromItem.setConvertToSprite(true);
+		if (sourceItem instanceof GroupSprite) {
+			return super.onItemMove(sourcePosition, targetPosition);
+		}
+
+		if (targetItem instanceof GroupSprite) {
+			GroupSprite groupItem = (GroupSprite) targetItem;
+			targetPosition += groupItem.getNumberOfChildren();
+			if (sourcePosition > targetPosition) {
+				targetPosition = sourcePosition;
 			}
+			sourceItem.setConvertToGroupItemSprite(true);
+			sourceItem.setParent((GroupSprite) targetItem);
 			return super.onItemMove(sourcePosition, targetPosition);
 		}
 
-		if (!(fromItem instanceof GroupItemSprite) && toItem instanceof GroupItemSprite) {
-			fromItem.setConvertToGroupItemSprite(true);
+		if (!(sourceItem instanceof GroupItemSprite) && targetItem instanceof GroupItemSprite) {
+			sourceItem.setConvertToGroupItemSprite(true);
+			sourceItem.setParent(targetItem.getParent());
 			return super.onItemMove(sourcePosition, targetPosition);
 		}
 
-		if (fromItem instanceof GroupItemSprite && !(toItem instanceof GroupItemSprite)) {
-			fromItem.setConvertToSprite(true);
+		if (sourceItem instanceof GroupItemSprite && !(targetItem instanceof GroupItemSprite)) {
+			sourceItem.setConvertToSprite(true);
 			return super.onItemMove(sourcePosition, targetPosition);
 		}
 
-		fromItem.setConvertToGroupItemSprite(false);
-		fromItem.setConvertToSprite(false);
+		sourceItem.setConvertToGroupItemSprite(false);
+		sourceItem.setConvertToSprite(false);
 		return super.onItemMove(sourcePosition, targetPosition);
 	}
 
