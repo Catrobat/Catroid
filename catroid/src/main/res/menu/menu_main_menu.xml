@@ -35,6 +35,11 @@
         android:visible="false"
         app:showAsAction="ifRoom" />
 
+     <item
+         android:id="@+id/menu_achievements_button"
+         android:icon="@drawable/ic_main_menu_achievements_button"
+         android:title="@string/main_menu_achievements"
+         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_rate_app"
         android:title="@string/main_menu_rate_app"

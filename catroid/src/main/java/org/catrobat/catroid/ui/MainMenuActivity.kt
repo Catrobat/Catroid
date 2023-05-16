@@ -38,6 +38,7 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.text.HtmlCompat
 import org.catrobat.catroid.BuildConfig
@@ -288,6 +289,9 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
                     ToastUtil.showError(this, R.string.main_menu_play_store_not_installed)
                 }
             }
+            R.id.menu_achievements_button ->
+                Toast.makeText(this, "Achievements", Toast.LENGTH_SHORT);
+
             R.id.menu_terms_of_use -> TermsOfUseDialogFragment().show(
                 supportFragmentManager,
                 TermsOfUseDialogFragment.TAG
