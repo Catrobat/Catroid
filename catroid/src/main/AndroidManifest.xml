@@ -91,6 +91,11 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".ui.AchievementsActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".ui.MainMenuActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing">

@@ -290,7 +290,7 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
                 }
             }
             R.id.menu_achievements_button ->
-                Toast.makeText(this, "Achievements", Toast.LENGTH_SHORT);
+                startActivity(Intent(this, AchievementsActivity::class.java))
 
             R.id.menu_terms_of_use -> TermsOfUseDialogFragment().show(
                 supportFragmentManager,
