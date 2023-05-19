@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,34 +21,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui;
+package org.catrobat.catroid.content.achievements;
 
-import android.os.Bundle;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.settingsfragments.AccessibilitySettingsFragment;
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import java.util.ArrayList;
 
-import androidx.appcompat.widget.Toolbar;
 
-import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfilesFragment.SETTINGS_FRAGMENT_INTENT_KEY;
+public class AchievementCondition implements Subject, org.catrobat.catroid.content.achievements.Observer {
+	ArrayList<Observer> observerArrayList = new ArrayList<>();
+	boolean finished = false;
+	int numberOftenConditionMet;
+	int howOftenConditionHasToBeMet;
 
-public class AchievementsActivity extends BaseActivity {
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		setContentView(R.layout.achievements);
-
-
-
-		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setTitle(R.string.achievements_title);
+	public void addObserver(Observer observer) {
+		observerArrayList.add(observer);
 	}
 
+	@Override
+	public void removeObserver(Observer observer) {
+		observerArrayList.remove(observer);
+	}
 
+	@Override
+	public void notifyObserver() {
+
+	}
+
+	@Override
+	public void update(Subject subject) {
+
+	}
 }
-
