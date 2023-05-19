@@ -83,15 +83,19 @@ import org.catrobat.catroid.utils.TouchUtil;
 import org.catrobat.catroid.utils.VibrationManager;
 import org.catrobat.catroid.web.WebConnectionHolder;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import kotlinx.coroutines.GlobalScope;
 
+import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.SCREENSHOT_MANUAL_FILE_NAME;
 import static org.koin.java.KoinJavaComponent.get;
 
 public class StageListener implements ApplicationListener {
@@ -588,15 +592,28 @@ public class StageListener implements ApplicationListener {
 		}
 
 		if (makeScreenshot) {
-			byte[] screenshot = ScreenUtils
-					.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth, screenshotHeight, true);
+			Scene scene = ProjectManager.getInstance().getCurrentlyEditedScene();
+			String manualScreenshotPath = scene.getDirectory()
+					+ "/" + SCREENSHOT_MANUAL_FILE_NAME;
+			File manualScreenshot = new File(manualScreenshotPath);
+			if (!manualScreenshot.exists() || Objects.equals(screenshotName,
+					SCREENSHOT_MANUAL_FILE_NAME)) {
+				byte[] screenshot = ScreenUtils
+						.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth, screenshotHeight, true);
+				screenshotSaver.saveScreenshotAndNotify(
+						screenshot,
+						screenshotName,
+						this::notifyScreenshotCallbackAndCleanup,
+						GlobalScope.INSTANCE
+				);
+			}
+			String automaticScreenShotPath = scene.getDirectory()
+					+ "/" + SCREENSHOT_AUTOMATIC_FILE_NAME;
+			File automaticScreenShot = new File(automaticScreenShotPath);
+			if (manualScreenshot.exists() && automaticScreenShot.exists()) {
+				automaticScreenShot.delete();
+			}
 			makeScreenshot = false;
-			screenshotSaver.saveScreenshotAndNotify(
-					screenshot,
-					screenshotName,
-					this::notifyScreenshotCallbackAndCleanup,
-					GlobalScope.INSTANCE
-			);
 		}
 
 		if (axesOn && !finished) {
