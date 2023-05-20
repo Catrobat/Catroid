@@ -24,8 +24,32 @@
 package org.catrobat.catroid.content.achievements;
 
 public class Achievement implements Observer{
+	private String Title;
+	private int Drawable;
+
+	public Achievement(String title, int drawable) {
+		Title = title;
+		Drawable = drawable;
+	}
+
 	@Override
 	public void update(Subject subject) {
 
+	}
+
+	public String getTitle() {
+		return Title;
+	}
+
+	public void setTitle(String title) {
+		Title = title;
+	}
+
+	public int getDrawable() {
+		return Drawable;
+	}
+
+	public void setDrawable(int drawable) {
+		Drawable = drawable;
 	}
 }

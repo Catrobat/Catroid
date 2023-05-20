@@ -91,7 +91,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.AchievementsActivity"
+            android:name=".ui.AchievementsListActivity"
             android:noHistory="true"
             android:screenOrientation="portrait" />
 

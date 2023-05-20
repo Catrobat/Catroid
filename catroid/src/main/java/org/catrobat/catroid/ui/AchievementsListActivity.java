@@ -24,22 +24,41 @@
 package org.catrobat.catroid.ui;
 
 import android.os.Bundle;
+import android.widget.ListView;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.settingsfragments.AccessibilitySettingsFragment;
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.content.achievements.Achievement;
+import org.catrobat.catroid.content.achievements.AchievementListAdapter;
+
+import java.util.ArrayList;
 
 import androidx.appcompat.widget.Toolbar;
 
-import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfilesFragment.SETTINGS_FRAGMENT_INTENT_KEY;
+public class AchievementsListActivity extends BaseActivity {
 
-public class AchievementsActivity extends BaseActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.achievements);
+
+		ListView listView = (ListView) findViewById(R.id.achievementsListView);
+		Achievement Start = new Achievement("Start" , R.drawable.ic_main_menu_achievements_button);
+		Achievement End = new Achievement("End",  R.drawable.ic_main_menu_achievements_button);
+
+		ArrayList<Achievement> AchievementList = new ArrayList<>();
+		AchievementList.add(Start);
+		for (int i = 0; i < 40; i++) {
+			AchievementList.add(new Achievement("Progress "+ Integer.toString(i), R.drawable.ic_main_menu_achievements_button));
+		}
+
+		AchievementList.add(End);
+
+		AchievementListAdapter adapter = new AchievementListAdapter(this,
+				R.layout.achievement_single_item, AchievementList);
+		listView.setAdapter(adapter);
+		listView.setClickable(true);
 
 
 

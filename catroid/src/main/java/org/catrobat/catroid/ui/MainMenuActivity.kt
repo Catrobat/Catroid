@@ -290,7 +290,7 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
                 }
             }
             R.id.menu_achievements_button ->
-                startActivity(Intent(this, AchievementsActivity::class.java))
+                startActivity(Intent(this, AchievementsListActivity::class.java))
 
             R.id.menu_terms_of_use -> TermsOfUseDialogFragment().show(
                 supportFragmentManager,
