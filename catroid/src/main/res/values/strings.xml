@@ -138,8 +138,10 @@
 
     <!-- NFC activity -->
     <string name="nfc_activity_title">NFC tags</string>
-    <!-- Achievements activity -->
-    <string name="achievements_title">Achievements</string>
+    <!-- Achievement List activity -->
+    <string name="achievements_list_title">Achievements List</string>
+    <!-- Achievement activity -->
+    <string name="achievement_title">Achievement</string>
     <!-- Settings activity -->
     <string name="preference_title">Settings</string>
     <string name="preference_title_language">Language</string>

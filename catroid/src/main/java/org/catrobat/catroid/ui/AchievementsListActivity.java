@@ -23,7 +23,11 @@
 
 package org.catrobat.catroid.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import org.catrobat.catroid.R;
@@ -37,13 +41,14 @@ import androidx.appcompat.widget.Toolbar;
 public class AchievementsListActivity extends BaseActivity {
 
 
+	ListView listView;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.achievements);
+		setContentView(R.layout.achievements_list);
 
-		ListView listView = (ListView) findViewById(R.id.achievementsListView);
+		listView = (ListView) findViewById(R.id.achievementsListView);
 		Achievement Start = new Achievement("Start" , R.drawable.ic_main_menu_achievements_button);
 		Achievement End = new Achievement("End",  R.drawable.ic_main_menu_achievements_button);
 
@@ -59,15 +64,31 @@ public class AchievementsListActivity extends BaseActivity {
 				R.layout.achievement_single_item, AchievementList);
 		listView.setAdapter(adapter);
 		listView.setClickable(true);
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+				Intent intent = new Intent(AchievementsListActivity.this,AchievementActivity.class);
+
+
+				intent.putExtra("Image", AchievementList.get(i).getDrawable());
+				intent.putExtra("Title", AchievementList.get(i).getTitle());
+				intent.putExtra("Description",AchievementList.get(i).getDescription());
+				startActivity(intent);
+			}
+		});
 
 
 
 		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setTitle(R.string.achievements_title);
+		getSupportActionBar().setTitle(R.string.achievements_list_title);
 	}
 
-
+	@Override
+	protected void onResume() {
+		super.onResume();
+		((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
+	}
 }
 

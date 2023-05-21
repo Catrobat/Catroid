@@ -26,6 +26,7 @@ package org.catrobat.catroid.content.achievements;
 public class Achievement implements Observer{
 	private String Title;
 	private int Drawable;
+	private String Description = "hallo \n hallo";
 
 	public Achievement(String title, int drawable) {
 		Title = title;
@@ -51,5 +52,9 @@ public class Achievement implements Observer{
 
 	public void setDrawable(int drawable) {
 		Drawable = drawable;
+	}
+
+	public String getDescription() {
+		return Description;
 	}
 }

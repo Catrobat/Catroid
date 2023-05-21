@@ -92,8 +92,13 @@
 
         <activity
             android:name=".ui.AchievementsListActivity"
-            android:noHistory="true"
+
             android:screenOrientation="portrait" />
+
+        <activity
+             android:name=".ui.AchievementActivity"
+            android:parentActivityName=".ui.AchievementsListActivity"
+             android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.MainMenuActivity"

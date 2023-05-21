@@ -75,6 +75,7 @@ public class AchievementListAdapter extends ArrayAdapter<Achievement> {
 			holder.Title = (TextView) convertView.findViewById(R.id.achievementTitle);
 			holder.Image = (ImageView) convertView.findViewById(R.id.achievementImage);
 
+
 			convertView.setTag(holder);
 		}
 		else {
