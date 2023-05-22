@@ -64,6 +64,7 @@ class CatblocksScriptFragment(
 ) : Fragment() {
 
     private var webview: WebView? = null
+    private var advancedMode: Boolean = false
 
     companion object {
         val TAG: String = CatblocksScriptFragment::class.java.simpleName
@@ -114,6 +115,8 @@ class CatblocksScriptFragment(
         if (BuildConfig.FEATURE_CATBLOCKS_DEBUGABLE) {
             WebView.setWebContentsDebuggingEnabled(true)
         }
+
+        advancedMode = SettingsFragment.getCatBlocksAdvancedMode(context)
 
         val assetLoader: WebViewAssetLoader = WebViewAssetLoader.Builder()
             .addPathHandler("/assets/", WebViewAssetLoader.AssetsPathHandler(requireActivity()))
@@ -413,6 +416,9 @@ class CatblocksScriptFragment(
 
             return Gson().toJson(brickCategoryInfos)
         }
+
+        @JavascriptInterface
+        fun isAdvancedMode(): Boolean = advancedMode
     }
 
     fun handleAddButton() {

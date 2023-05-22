@@ -130,6 +130,8 @@ public class SettingsFragment extends PreferenceFragment {
 	public static final String TAG = SettingsFragment.class.getSimpleName();
 
 	public static final String SETTINGS_USE_CATBLOCKS = "settings_use_catblocks";
+	public static final String SETTINGS_CATBLOCKS_ADVANCED_MODE = "setting_enable_catblocks_advanced_mode";
+	public static final String SETTINGS_CATBLOCKS_SWITCHED = "setting_catblocks_switched";
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -578,6 +580,26 @@ public class SettingsFragment extends PreferenceFragment {
 	public static void setUseCatBlocks(Context context, boolean useCatBlocks) {
 		getSharedPreferences(context).edit()
 				.putBoolean(SETTINGS_USE_CATBLOCKS, useCatBlocks)
+				.apply();
+	}
+
+	public static boolean getCatBlocksAdvancedMode(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_CATBLOCKS_ADVANCED_MODE, context);
+	}
+
+	public static void setCatBlocksAdvancedMode(Context context, boolean advancedMode) {
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_CATBLOCKS_ADVANCED_MODE, advancedMode)
+				.apply();
+	}
+
+	public static boolean getCatBlocksSwitched(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_CATBLOCKS_SWITCHED, context);
+	}
+
+	public static void setCatBlocksSwitched(Context context, boolean catBlocksSwitched) {
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_CATBLOCKS_SWITCHED, catBlocksSwitched)
 				.apply();
 	}
 }
