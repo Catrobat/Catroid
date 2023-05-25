@@ -24,6 +24,7 @@
 package org.catrobat.catroid.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -33,6 +34,7 @@ import android.widget.ListView;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.achievements.Achievement;
 import org.catrobat.catroid.content.achievements.AchievementListAdapter;
+import org.catrobat.catroid.content.achievements.AchievementSystem;
 
 import java.util.ArrayList;
 
@@ -41,42 +43,33 @@ import androidx.appcompat.widget.Toolbar;
 public class AchievementsListActivity extends BaseActivity {
 
 
-	ListView listView;
+
+	ListView achievementsListView;
+	AchievementSystem achievementSystem;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.achievements_list);
+		achievementSystem = AchievementSystem.getInstance();
 
-		listView = (ListView) findViewById(R.id.achievementsListView);
-		Achievement Start = new Achievement("Start" , R.drawable.ic_main_menu_achievements_button);
-		Achievement End = new Achievement("End",  R.drawable.ic_main_menu_achievements_button);
+		achievementsListView = (ListView) findViewById(R.id.achievementsListView);
 
-		ArrayList<Achievement> AchievementList = new ArrayList<>();
-		AchievementList.add(Start);
-		for (int i = 0; i < 40; i++) {
-			AchievementList.add(new Achievement("Progress "+ Integer.toString(i), R.drawable.ic_main_menu_achievements_button));
-		}
 
-		AchievementList.add(End);
+		ArrayList<Achievement> AchievementList = achievementSystem.getAchievementList();
+
 
 		AchievementListAdapter adapter = new AchievementListAdapter(this,
 				R.layout.achievement_single_item, AchievementList);
-		listView.setAdapter(adapter);
-		listView.setClickable(true);
-		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-				Intent intent = new Intent(AchievementsListActivity.this,AchievementActivity.class);
-
-
-				intent.putExtra("Image", AchievementList.get(i).getDrawable());
-				intent.putExtra("Title", AchievementList.get(i).getTitle());
-				intent.putExtra("Description",AchievementList.get(i).getDescription());
-				startActivity(intent);
-			}
+		achievementsListView.setAdapter(adapter);
+		achievementsListView.setClickable(true);
+		achievementsListView.setOnItemClickListener((adapterView, view, i, l) -> {
+			Intent intent = new Intent(AchievementsListActivity.this,AchievementActivity.class);
+			intent.putExtra("Image", AchievementList.get(i).getDrawable());
+			intent.putExtra("Title", AchievementList.get(i).getTitle());
+			intent.putExtra("Description",AchievementList.get(i).getDescription());
+			startActivity(intent);
 		});
-
 
 
 		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
@@ -88,7 +81,7 @@ public class AchievementsListActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
+		((BaseAdapter) achievementsListView.getAdapter()).notifyDataSetChanged();
 	}
 }
 

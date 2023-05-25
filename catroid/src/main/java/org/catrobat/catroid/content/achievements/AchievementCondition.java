@@ -24,15 +24,33 @@
 package org.catrobat.catroid.content.achievements;
 
 
+import android.content.SharedPreferences;
+
 import java.util.ArrayList;
 
 
 public class AchievementCondition implements Subject, org.catrobat.catroid.content.achievements.Observer {
-	ArrayList<Observer> observerArrayList = new ArrayList<>();
-	boolean finished = false;
-	int numberOftenConditionMet;
-	int howOftenConditionHasToBeMet;
+	private ArrayList<Observer> observerArrayList = new ArrayList<>();
+	private boolean Finished;
 
+	private int ConditionMetNumerator;
+	private final int ConditionMetDenominator;
+	private final String Description;
+	private String Condition = "";
+	private String Key;
+
+	public AchievementCondition(String key,
+			int conditionMetDenominator, String description)
+	{
+
+		this.Key = key;
+		SharedPreferences preferences = AchievementSystem.getInstance().getPreferences();
+		this.ConditionMetNumerator = preferences.getInt(this.Key+"_Int", 0);
+		this.Finished = preferences.getBoolean(this.Key+"_Boolean", false);
+		this.ConditionMetDenominator = conditionMetDenominator;
+		this.Description = description;
+		updateCondition();
+	}
 
 	@Override
 	public void addObserver(Observer observer) {
@@ -46,11 +64,41 @@ public class AchievementCondition implements Subject, org.catrobat.catroid.conte
 
 	@Override
 	public void notifyObserver() {
-
+		for (Observer observer: observerArrayList		) {
+			observer.update(this);
+		}
 	}
 
 	@Override
 	public void update(Subject subject) {
-
+		if(Finished)
+			return;
+		ConditionMetNumerator+=1;
+		SharedPreferences.Editor editor = AchievementSystem.getInstance().getEditor();
+		editor.putInt(this.Key+"_Int", this.ConditionMetNumerator);
+		updateCondition();
+		if(ConditionMetNumerator == ConditionMetDenominator)
+		{
+			this.Finished = true;
+			editor.putBoolean(this.Key+"_Boolean", true);
+			subject.removeObserver(this);
+			notifyObserver();
+		}
+		editor.apply();
 	}
+	private void updateCondition()
+	{
+		Condition =
+				ConditionMetNumerator + "/" + ConditionMetDenominator;
+		Condition += " " + Description + "\n";
+	}
+	public String getCondition() {
+		return Condition;
+	}
+
+	public boolean isFinished() {
+		return Finished;
+	}
+
+
 }

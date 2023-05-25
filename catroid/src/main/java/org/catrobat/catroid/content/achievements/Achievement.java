@@ -23,19 +23,42 @@
 
 package org.catrobat.catroid.content.achievements;
 
+import java.util.ArrayList;
+
 public class Achievement implements Observer{
 	private String Title;
 	private int Drawable;
-	private String Description = "hallo \n hallo";
+	private boolean Unlocked;
+	private ArrayList<AchievementCondition> ConditionList = new ArrayList<>();
+	private String Description = "";
 
 	public Achievement(String title, int drawable) {
 		Title = title;
 		Drawable = drawable;
+		Unlocked = false;
+	}
+	public Achievement(String title, int drawable, boolean unlocked) {
+		Title = title;
+		Drawable = drawable;
+		Unlocked = unlocked;
 	}
 
 	@Override
 	public void update(Subject subject) {
-
+		if (Unlocked)
+			return;
+		for (AchievementCondition condition:ConditionList) {
+			if(!condition.isFinished())
+			{
+				return;
+			}
+		}
+		Unlocked = true;
+	}
+	public void addCondition(AchievementCondition condition)
+	{
+		ConditionList.add(condition);
+		condition.addObserver(this);
 	}
 
 	public String getTitle() {
@@ -55,6 +78,14 @@ public class Achievement implements Observer{
 	}
 
 	public String getDescription() {
+		Description = "";
+		for (AchievementCondition condition:ConditionList) {
+			Description += condition.getCondition();
+		}
 		return Description;
+	}
+
+	public boolean isUnlocked() {
+		return Unlocked;
 	}
 }

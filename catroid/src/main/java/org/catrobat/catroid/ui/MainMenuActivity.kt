@@ -50,6 +50,7 @@ import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.common.FlavoredConstants.CATROBAT_HELP_URL
 import org.catrobat.catroid.common.SharedPreferenceKeys
 import org.catrobat.catroid.common.Survey
+import org.catrobat.catroid.content.achievements.AchievementSystem
 import org.catrobat.catroid.databinding.ActivityMainMenuBinding
 import org.catrobat.catroid.databinding.ActivityMainMenuSplashscreenBinding
 import org.catrobat.catroid.databinding.DeclinedTermsOfUseAndServiceAlertViewBinding
@@ -97,6 +98,7 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
             .getInt(SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION, 0)
 
         loadContent()
+        loadAchievement()
 
         if (oldPrivacyPolicy != Constants.CATROBAT_TERMS_OF_USE_ACCEPTED) {
             showTermsOfUseDialog()
@@ -104,6 +106,11 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
 
         surveyCampaign = Survey(this)
         surveyCampaign?.showSurvey(this)
+    }
+
+    private fun loadAchievement() {
+        val achievementSystem: AchievementSystem = AchievementSystem.getInstance();
+        achievementSystem.setPreferences(getSharedPreferences("test_string_key", MODE_PRIVATE))
     }
 
     private fun showTermsOfUseDialog() {
