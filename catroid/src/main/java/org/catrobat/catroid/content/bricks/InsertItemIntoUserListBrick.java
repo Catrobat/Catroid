@@ -28,7 +28,7 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
-public class InsertItemIntoUserListBrick extends UserListBrick {
+public class InsertItemIntoUserListBrick extends UserVariableBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -42,7 +42,7 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 	public InsertItemIntoUserListBrick(Formula userListFormulaValueToInsert,
 			Formula userListFormulaIndexToInsert, UserVariable userList) {
 		this(userListFormulaValueToInsert, userListFormulaIndexToInsert);
-		this.userList = userList;
+		this.userVariable = userList;
 	}
 
 	public InsertItemIntoUserListBrick(double value, Integer indexToInsert) {
@@ -74,6 +74,6 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createInsertItemIntoUserListAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX),
-				getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE), userList));
+				getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE), userVariable));
 	}
 }

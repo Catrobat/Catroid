@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import android.os.Build;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
@@ -62,7 +60,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 
 import static org.catrobat.catroid.formulaeditor.Functions.IF_THEN_ELSE;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.BRACKET_CLOSE;
@@ -744,7 +741,9 @@ public class FormulaElement implements Serializable {
 		if (index < 0 || index >= stringValueOfRight.length()) {
 			return "";
 		}
-		return String.valueOf(stringValueOfRight.charAt(index));
+
+		String output = String.valueOf(stringValueOfRight.charAt(index));
+		return output.equals(" ") ? "" : output;
 	}
 
 	private double interpretFunctionRand(double from, double to) {

@@ -125,7 +125,6 @@ import org.junit.runners.Parameterized
 @Category(AppUi::class, Smoke::class)
 @RunWith(Parameterized::class)
 class FormulaEditorComputeDialogComputationResultTest(
-    private val name: String,
     private val formula: Formula,
     private val userVariableLeftValue: Any?,
     private val userVariableRightValue: Any?,
@@ -184,10 +183,10 @@ class FormulaEditorComputeDialogComputationResultTest(
             project.addUserVariable(UserVariable(userVariableRightName, userVariableRightValue))
         }
         if (userListLeftElements != null) {
-            project.addUserList(UserVariable(userListLeftName, userListLeftElements))
+            project.addUserVariable(UserVariable(userListLeftName, userListLeftElements, true))
         }
         if (userListRightElements != null) {
-            project.addUserList(UserVariable(userListRightName, userListRightElements))
+            project.addUserVariable(UserVariable(userListRightName, userListRightElements, true))
         }
 
         ProjectManager.getInstance().currentProject = project
@@ -220,7 +219,7 @@ class FormulaEditorComputeDialogComputationResultTest(
         )
 
         private val applicationContext: Context =
-            ApplicationProvider.getApplicationContext<Context>()
+            ApplicationProvider.getApplicationContext()
         private val trueString = applicationContext.getString(R.string.formula_editor_true)
         private val falseString = applicationContext.getString(R.string.formula_editor_false)
 

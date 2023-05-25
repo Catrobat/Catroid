@@ -65,7 +65,7 @@ public class AddItemToUserListActionTest {
 		initialList.add(1.0);
 		initialList.add(2.0);
 		userList = new UserVariable(TEST_USERLIST_NAME, initialList);
-		project.addUserList(userList);
+		project.addUserVariable(userList);
 	}
 
 	@Test
@@ -90,8 +90,8 @@ public class AddItemToUserListActionTest {
 	public void testAddNullFormula() {
 		actionFactory.createAddItemToUserListAction(testSprite, new SequenceAction(), null,
 				userList).act(1f);
-		Object lastItemOfUserList = ((ArrayList<Object>) userList.getValue()).
-				get(userList.getListSize() - 1);
+		Object lastItemOfUserList = ((ArrayList<Object>) userList.getValue())
+				.get(userList.getListSize() - 1);
 		assertEquals(0d, lastItemOfUserList);
 	}
 
@@ -100,8 +100,8 @@ public class AddItemToUserListActionTest {
 		actionFactory.createAddItemToUserListAction(testSprite, new SequenceAction(),
 				new Formula(Double.NaN),
 				userList).act(1f);
-		Object lastItemOfUserList = ((ArrayList<Object>) userList.getValue()).
-				get(userList.getListSize() - 1);
+		Object lastItemOfUserList = ((ArrayList<Object>) userList.getValue())
+				.get(userList.getListSize() - 1);
 		assertEquals(String.valueOf(Double.NaN), lastItemOfUserList);
 	}
 }

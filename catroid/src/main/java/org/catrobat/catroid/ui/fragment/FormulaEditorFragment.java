@@ -1071,8 +1071,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				chosenCategoryItem = null;
 			}
 			if (chosenUserDataItem != null) {
-				if (chosenUserDataItem instanceof UserVariable &&
-					((UserVariable) chosenUserDataItem).isList()) {
+				if (chosenUserDataItem instanceof UserVariable
+						&& ((UserVariable) chosenUserDataItem).isList()) {
 					addUserListToActiveFormula(chosenUserDataItem.getName());
 				} else if (chosenUserDataItem instanceof UserVariable) {
 					addUserVariableToActiveFormula(chosenUserDataItem.getName());

@@ -27,7 +27,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-public class WriteListOnDeviceBrick extends UserListBrick {
+public class WriteListOnDeviceBrick extends UserVariableBrick {
 	private static final long serialVersionUID = 1L;
 
 	public WriteListOnDeviceBrick() {
@@ -44,9 +44,9 @@ public class WriteListOnDeviceBrick extends UserListBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		if (userList == null || userList.getName() == null) {
+		if (userVariable == null || userVariable.getName() == null) {
 			return;
 		}
-		sequence.addAction(sprite.getActionFactory().createWriteListOnDeviceAction(userList));
+		sequence.addAction(sprite.getActionFactory().createWriteListOnDeviceAction(userVariable));
 	}
 }

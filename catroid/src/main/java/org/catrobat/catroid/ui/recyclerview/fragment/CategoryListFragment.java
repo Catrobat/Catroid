@@ -649,9 +649,9 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		FragmentActivity activity = getActivity();
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(activity);
 		final List<UserVariable> projectUserList =
-				ProjectManager.getInstance().getCurrentProject().getUserVariables();
+				ProjectManager.getInstance().getCurrentProject().getUserVariableList();
 		final List<UserVariable> spriteUserList =
-				ProjectManager.getInstance().getCurrentSprite().getUserVariables();
+				ProjectManager.getInstance().getCurrentSprite().getUserVariableList();
 		insertLastUserListToActiveFormula(item, projectUserList, spriteUserList,
 				activity, builder);
 	}
@@ -663,8 +663,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			TextInputDialog.Builder builder) {
 
 		if (spriteUserList.isEmpty() && projectUserList.isEmpty()) {
-			showNewUserListDialog(categoryListItem, projectUserList, spriteUserList,
-					activity, builder);
+			showNewUserListDialog(categoryListItem, activity, builder);
 			return;
 		}
 
@@ -718,15 +717,15 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		new RegularExpressionAssistantDialog(getContext(), getFragmentManager()).createAssistant();
 	}
 
-	private void showNewUserListDialog(CategoryListItem categoryListItem, List<UserVariable> projectUserList,
-			List<UserVariable> spriteUserList, FragmentActivity activity, TextInputDialog.Builder builder) {
+	private void showNewUserListDialog(CategoryListItem categoryListItem, FragmentActivity activity,
+			TextInputDialog.Builder builder) {
 
 		AddUserListDialog userListDialog = new AddUserListDialog(builder);
 		userListDialog.show(activity.getString(R.string.data_label), activity.getString(R.string.ok), new AddUserListDialog.Callback() {
 			@Override
 			public void onPositiveButton(DialogInterface dialog, String textInput) {
 				UserVariable userList = new UserVariable(textInput);
-				userListDialog.addUserList(dialog, userList, projectUserList, spriteUserList);
+				userListDialog.addUserList(dialog, userList);
 				addResourceToActiveFormulaInFormulaEditor(categoryListItem, userList);
 			}
 

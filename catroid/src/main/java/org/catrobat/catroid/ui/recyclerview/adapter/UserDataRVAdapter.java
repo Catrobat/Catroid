@@ -59,10 +59,7 @@ public class UserDataRVAdapter<T extends UserData> extends RVAdapter<T> {
 		UserData item = getItems().get(position);
 		VariableViewHolder variableViewHolder = (VariableViewHolder) holder;
 		variableViewHolder.title.setText(item.getName());
-
-		if (!(item instanceof UserVariable && ((UserVariable)item).isList())) {
-			variableViewHolder.value.setText(convertObjectToString(item.getValue()));
-		}
+		variableViewHolder.value.setText(convertObjectToString(item.getValue()));
 
 		ImageButton settings = holder.itemView.findViewById(R.id.settings_button);
 		if (settings != null && showSettings) {

@@ -40,7 +40,7 @@ import org.catrobat.catroid.content.bricks.SetLookBrick
 import org.catrobat.catroid.content.bricks.UserDataBrick
 import org.catrobat.catroid.content.bricks.UserDefinedBrick
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
-import org.catrobat.catroid.content.bricks.UserListBrick
+import org.catrobat.catroid.content.bricks.UserVariableBrick
 import org.catrobat.catroid.content.bricks.UserVariableBrickInterface
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick
 import org.catrobat.catroid.formulaeditor.UserData
@@ -95,11 +95,6 @@ class ScriptController {
                 is UserVariableBrickInterface ->
                     brick.userVariable?.let {
                         updateUserVariable(brick, destinationProject, destinationSprite)
-                    }
-
-                is UserListBrick ->
-                    brick.userList?.let {
-                        updateUserList(brick, destinationProject, destinationSprite)
                     }
 
                 is UserDataBrick ->
@@ -251,9 +246,6 @@ class ScriptController {
                 brick is UserVariableBrickInterface && brick.userVariable != null ->
                     updateUserVariable(brick, destinationProject, destinationSprite)
 
-                brick is UserListBrick && brick.userList != null ->
-                    updateUserList(brick, destinationProject, destinationSprite)
-
                 brick is UserDataBrick ->
                     updateUserData(brick, destinationProject, destinationSprite)
             }
@@ -280,14 +272,14 @@ class ScriptController {
     }
 
     private fun updateUserList(
-        brick: UserListBrick,
+        brick: UserVariableBrick,
         destinationProject: Project?,
         destinationSprite: Sprite?
     ) {
-        val previousUserList = brick.userList
+        val previousUserList = brick.userVariable
         val scope = destinationSprite?.let { Scope(destinationProject, it, null) }
         val updatedUserList = UserDataWrapper.getUserList(previousUserList?.name, scope)
-        brick.userList = updatedUserList
+        brick.userVariable = updatedUserList
     }
 
     private fun updateUserVariable(

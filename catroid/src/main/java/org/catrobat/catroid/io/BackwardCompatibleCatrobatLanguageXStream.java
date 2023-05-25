@@ -25,7 +25,6 @@ package org.catrobat.catroid.io;
 import android.util.Log;
 import android.util.Pair;
 
-import com.badlogic.gdx.graphics.g3d.Attribute;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.ConversionException;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
@@ -1176,8 +1175,7 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 						//   in the test nodeName is 'org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick'
 						//   and he doesn't find it in the brickInfoMap
 						break;
-					}
-					else if (childNode.getNodeName().equals(nodeName)) {
+					} else if (childNode.getNodeName().equals(nodeName)) {
 						if (occurrence == position) {
 							node = childNode;
 							break;

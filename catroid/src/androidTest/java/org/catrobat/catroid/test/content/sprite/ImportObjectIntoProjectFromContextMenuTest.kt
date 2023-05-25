@@ -120,8 +120,8 @@ class ImportObjectIntoProjectFromContextMenuTest {
 
         importedProject!!.addUserVariable(UserVariable("globalVariable1", 1))
         importedProject!!.addUserVariable(UserVariable("globalVariable2", 2))
-        importedProject!!.addUserList(UserVariable("globalList1", true))
-        importedProject!!.addUserList(UserVariable("globalList2", true))
+        importedProject!!.addUserVariable(UserVariable("globalList1", true))
+        importedProject!!.addUserVariable(UserVariable("globalList2", true))
 
         scriptForVisualPlacement = StartScript().apply {
             addBrick(PlaceAtBrick(100, 200))
@@ -146,8 +146,8 @@ class ImportObjectIntoProjectFromContextMenuTest {
 
         project!!.addUserVariable(UserVariable("globalVariable3", 1))
         project!!.addUserVariable(UserVariable("globalVariable4", 2))
-        project!!.addUserList(UserVariable("globalList3", true))
-        project!!.addUserList(UserVariable("globalList4"))
+        project!!.addUserVariable(UserVariable("globalList3", true))
+        project!!.addUserVariable(UserVariable("globalList4", true))
         XstreamSerializer.getInstance().saveProject(project)
 
         val oldLocalVariableList = anySpriteOfProject!!.userVariables.size
@@ -226,8 +226,8 @@ class ImportObjectIntoProjectFromContextMenuTest {
 
         project!!.addUserVariable(UserVariable("localVariable2", 1))
         project!!.addUserVariable(UserVariable("globalVariable4", 2))
-        project!!.addUserList(UserVariable("globalList3"))
-        project!!.addUserList(UserVariable("globalList4"))
+        project!!.addUserVariable(UserVariable("globalList3", true))
+        project!!.addUserVariable(UserVariable("globalList4", true))
         XstreamSerializer.getInstance().saveProject(project)
 
         val oldLocalVariableList = anySpriteOfProject!!.userVariables.size

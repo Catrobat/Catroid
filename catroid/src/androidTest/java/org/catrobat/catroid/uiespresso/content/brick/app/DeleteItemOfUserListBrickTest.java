@@ -89,7 +89,7 @@ public class DeleteItemOfUserListBrickTest {
 		onBrickAtPosition(brickPosition).onVariableSpinner(R.id.delete_item_of_userlist_spinner)
 				.performNewVariable(firstUserListName);
 
-		UserVariable userList = deleteItemOfUserListBrick.getUserList();
+		UserVariable userList = deleteItemOfUserListBrick.getUserVariable();
 		assertNotNull(userList);
 		assertEquals(firstUserListName, userList.getName());
 
@@ -97,7 +97,7 @@ public class DeleteItemOfUserListBrickTest {
 				.performNewVariable(secondUserListName)
 				.checkShowsText(secondUserListName);
 
-		userList = deleteItemOfUserListBrick.getUserList();
+		userList = deleteItemOfUserListBrick.getUserVariable();
 		assertNotNull(userList);
 		assertEquals(secondUserListName, userList.getName());
 
@@ -105,12 +105,12 @@ public class DeleteItemOfUserListBrickTest {
 				.perform(click());
 
 		onFormulaEditor().performOpenDataFragment();
-		onDataList().onListAtPosition(1).checkHasName(secondUserListName).performDelete();
+		onDataList().onVariableAtPosition(1).checkHasName(secondUserListName).performDelete();
 		onDataList().performClose();
 		pressBack();
 
 		onView(allOf(withText(secondUserListName), isDisplayed())).check(doesNotExist());
-		userList = deleteItemOfUserListBrick.getUserList();
+		userList = deleteItemOfUserListBrick.getUserVariable();
 		assertNotNull(userList);
 		assertEquals(firstUserListName, userList.getName());
 	}

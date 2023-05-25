@@ -115,7 +115,10 @@ public final class TextInputDialog extends AlertDialog {
 					uniqueNameProvider = new UniqueNameProvider() {
 						@Override
 						public boolean isUnique(String newName) {
-							return null == ProjectManager.getInstance().getCurrentProject().getUserList(newName) && null == ProjectManager.getInstance().getCurrentSprite().getUserList(newName);
+							return null == ProjectManager.getInstance().getCurrentProject()
+									.getUserVariable(newName)
+									&& null == ProjectManager.getInstance().getCurrentSprite()
+											.getUserVariable(newName);
 						}
 					};
 					break;
@@ -123,7 +126,12 @@ public final class TextInputDialog extends AlertDialog {
 					uniqueNameProvider = new UniqueNameProvider() {
 						@Override
 						public boolean isUnique(String newName) {
-							return null == ProjectManager.getInstance().getCurrentProject().getUserVariable(newName) && null == ProjectManager.getInstance().getCurrentProject().getMultiplayerVariable(newName) && null == ProjectManager.getInstance().getCurrentSprite().getUserVariable(newName);
+							return null == ProjectManager.getInstance().getCurrentProject()
+									.getUserVariable(newName)
+									&& null == ProjectManager.getInstance().getCurrentProject()
+									.getMultiplayerVariable(newName)
+									&& null == ProjectManager.getInstance().getCurrentSprite()
+									.getUserVariable(newName);
 						}
 						};
 					break;

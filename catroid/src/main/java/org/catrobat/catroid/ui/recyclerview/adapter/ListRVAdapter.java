@@ -57,7 +57,7 @@ public class ListRVAdapter extends RVAdapter<UserVariable> {
 		listViewHolder.title.setText(item.getName());
 
 		List<String> userList = new ArrayList<>();
-		for (Object userListItem : item.getValue()) {
+		for (Object userListItem : (ArrayList<Object>) item.getValue()) {
 			userList.add(ShowTextUtils.convertObjectToString(userListItem));
 		}
 		listViewHolder.spinner.setAdapter(new UserListValuesAdapter(holder.itemView.getContext(), userList));

@@ -123,19 +123,14 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 		Project project = ProjectManager.getInstance().getCurrentProject();
 
 		List<UserVariable> allVariables = new ArrayList<>();
-		List<UserVariable> allLists = new ArrayList<>();
 
-		allVariables.addAll(sprite.getUserVariables());
-		allVariables.addAll(project.getUserVariables());
-		allLists.addAll(sprite.getUserLists());
-		allLists.addAll(project.getUserLists());
+		allVariables.addAll(sprite.getUserVariableList());
+		allVariables.addAll(project.getUserVariableList());
 		Collections.sort(allVariables, UserVariable.userVariableNameComparator);
-		Collections.sort(allLists, UserVariable.userVariableNameComparator);
 
 		List<Nameable> items = new ArrayList<>();
 		items.add(new NewOption(context.getString(R.string.new_option)));
 		items.addAll(allVariables);
-		items.addAll(allLists);
 
 		for (Map.Entry<BrickData, UserData> entry : userDataList.entrySet()) {
 			Integer spinnerid = brickDataToTextViewIdMap.get(entry.getKey());
@@ -186,9 +181,9 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 						if (isUserList) {
 							userData = new UserVariable(textInput, true);
 							if (addToProjectData) {
-								currentProject.addUserList((UserVariable) userData);
+								currentProject.addUserVariable((UserVariable) userData);
 							} else {
-								currentSprite.addUserList((UserVariable) userData);
+								currentSprite.addUserVariable((UserVariable) userData);
 							}
 						} else {
 							userData = new UserVariable(textInput);

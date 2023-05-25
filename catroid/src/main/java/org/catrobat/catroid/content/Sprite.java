@@ -103,7 +103,6 @@ public class Sprite implements Nameable, Serializable {
 	private List<SoundInfo> soundList = new ArrayList<>();
 	private List<NfcTagData> nfcTagList = new ArrayList<>();
 	private List<UserVariable> userVariables = new ArrayList<>();
-	private List<UserVariable> userLists = new ArrayList<>();
 	private List<Brick> userDefinedBrickList = new ArrayList<>();
 
 	private transient ActionFactory actionFactory = new ActionFactory();
@@ -258,6 +257,19 @@ public class Sprite implements Nameable, Serializable {
 	}
 
 	public List<UserVariable> getUserVariables() {
+		if (userVariables == null) {
+			return new ArrayList<>();
+		}
+		ArrayList<UserVariable> userVariableList = new ArrayList<>();
+		for (UserVariable userVariable : userVariables) {
+			if (!userVariable.isList()) {
+				userVariableList.add(userVariable);
+			}
+		}
+		return userVariableList;
+	}
+
+	public List<UserVariable> getUserVariableList() {
 		return userVariables;
 	}
 
@@ -275,14 +287,15 @@ public class Sprite implements Nameable, Serializable {
 	}
 
 	public List<UserVariable> getUserListsCopy() {
-		if (userLists == null) {
-			userLists = new ArrayList<>();
+		if (userVariables == null) {
+			userVariables = new ArrayList<>();
 		}
 
 		List<UserVariable> userListsCopy = new ArrayList<>();
+		List<UserVariable> userLists = getUserLists();
 		try {
 			for (UserVariable userList : userLists) {
-				userListsCopy.add(new UserVariable(userList.getName(), (List<Object>) userList.getValue()));
+				userListsCopy.add(new UserVariable(userList.getName(), userList.getValue(), true));
 			}
 		} catch (Exception e) {
 			Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
@@ -292,25 +305,17 @@ public class Sprite implements Nameable, Serializable {
 	}
 
 	public List<UserVariable> getUserLists() {
-		return userLists;
-	}
-
-	public UserVariable getUserList(String name) {
-		for (UserVariable list : userLists) {
-			if (list.getName().equals(name)) {
-				return list;
-			}
+		ArrayList<UserVariable> userLists = new ArrayList<>();
+		if (userVariables == null) {
+			userVariables = new ArrayList<>();
 		}
+
 		for (UserVariable variable : userVariables) {
-			if (variable.getName().equals(name)) {
-				return variable;
+			if (variable.isList()) {
+				userLists.add(variable);
 			}
 		}
-		return null;
-	}
-
-	public boolean addUserList(UserVariable userList) {
-		return userLists.add(userList);
+		return userLists;
 	}
 
 	public List<PlaySoundBrick> getPlaySoundBricks() {
@@ -326,9 +331,6 @@ public class Sprite implements Nameable, Serializable {
 	public void resetUserData() {
 		for (UserVariable userVariable : userVariables) {
 			userVariable.reset();
-		}
-		for (UserVariable userList : userLists) {
-			userList.reset();
 		}
 	}
 
@@ -424,7 +426,6 @@ public class Sprite implements Nameable, Serializable {
 		convertedSprite.scriptList = scriptList;
 
 		convertedSprite.userVariables = userVariables;
-		convertedSprite.userLists = userLists;
 		convertedSprite.userDefinedBrickList = userDefinedBrickList;
 
 		return convertedSprite;
@@ -724,7 +725,6 @@ public class Sprite implements Nameable, Serializable {
 		this.scriptList.addAll(sprite.scriptList);
 		this.nfcTagList.addAll(sprite.nfcTagList);
 		this.userVariables.addAll(sprite.userVariables);
-		this.userLists.addAll(sprite.userLists);
 		this.userDefinedBrickList.addAll(sprite.userDefinedBrickList);
 		sprite.look.copyTo(this.look);
 		this.myOriginal = sprite;
@@ -785,15 +785,6 @@ public class Sprite implements Nameable, Serializable {
 			if (!this.userVariables.contains(userVariable)) {
 				this.userVariables.add(userVariable);
 			}
-		}
-		try {
-			for (UserVariable userList : sprite.userLists) {
-				if (!this.userLists.contains(userList)) {
-					this.userLists.add(userList);
-				}
-			}
-		} catch (Exception e) {
-			Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
 		}
 
 		this.userDefinedBrickList.addAll(sprite.userDefinedBrickList);

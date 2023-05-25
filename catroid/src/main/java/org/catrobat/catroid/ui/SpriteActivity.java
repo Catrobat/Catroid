@@ -842,22 +842,15 @@ public class SpriteActivity extends BaseActivity {
 					PreferenceManager.getDefaultSharedPreferences(this).edit()
 							.putBoolean(INDEXING_VARIABLE_PREFERENCE_KEY, false).apply();
 
-					if (makeListCheckBox.isChecked()) {
-						UserVariable userList = new UserVariable(textInput, true);
-						if (addToProjectUserData) {
-							currentProject.addUserList(userList);
-						} else {
-							currentSprite.addUserList(userList);
-						}
+					UserVariable userVariable = makeListCheckBox.isChecked()
+							? new UserVariable(textInput, true) : new UserVariable(textInput);
+
+					if (addToMultiplayerData) {
+						currentProject.addMultiplayerVariable(userVariable);
+					} else if (addToProjectUserData) {
+						currentProject.addUserVariable(userVariable);
 					} else {
-						UserVariable userVariable = new UserVariable(textInput);
-						if (addToMultiplayerData) {
-							currentProject.addMultiplayerVariable(userVariable);
-						} else if (addToProjectUserData) {
-							currentProject.addUserVariable(userVariable);
-						} else {
-							currentSprite.addUserVariable(userVariable);
-						}
+						currentSprite.addUserVariable(userVariable);
 					}
 
 					if (getCurrentFragment() instanceof DataListFragment) {
@@ -915,9 +908,9 @@ public class SpriteActivity extends BaseActivity {
 
 					UserVariable userList = new UserVariable(textInput, true);
 					if (addToProjectUserData) {
-						currentProject.addUserList(userList);
+						currentProject.addUserVariable(userList);
 					} else {
-						currentSprite.addUserList(userList);
+						currentSprite.addUserVariable(userList);
 					}
 
 					if (getCurrentFragment() instanceof ListSelectorFragment) {

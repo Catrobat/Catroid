@@ -86,7 +86,7 @@ public class FormulaEditorAddVariableTest {
 				.performAdd(listName, FormulaEditorDataListWrapper.ItemType.LIST);
 
 		onDataList()
-				.onListAtPosition(0).checkHasName(listName);
+				.onVariableAtPosition(0).checkHasName(listName);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})

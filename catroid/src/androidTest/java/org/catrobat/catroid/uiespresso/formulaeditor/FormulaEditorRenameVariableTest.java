@@ -115,23 +115,24 @@ public class FormulaEditorRenameVariableTest {
 				.performAdd(variableNameOld, FormulaEditorDataListWrapper.ItemType.LIST);
 
 		onDataList()
-				.onListAtPosition(0)
+				.onVariableAtPosition(0)
 				.performSelect();
 
 		onFormulaEditor()
-				.checkShows(getUserVariableEditText(variableNameOld));
+				.checkShows(getUserListEditText(variableNameOld));
 
 		onFormulaEditor()
 				.performOpenDataFragment();
 
-		onDataList().onListAtPosition(0)
+		onDataList()
+				.onVariableAtPosition(0)
 				.performRename(variableNameNew);
 
 		onDataList()
 				.performClose();
 
 		onFormulaEditor()
-				.checkShows(getUserVariableEditText(variableNameNew));
+				.checkShows(getUserListEditText(variableNameNew));
 	}
 
 	private String getUserVariableEditText(String variableName) {

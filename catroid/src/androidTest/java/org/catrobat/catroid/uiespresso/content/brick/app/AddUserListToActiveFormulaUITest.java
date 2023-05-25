@@ -172,8 +172,8 @@ public class AddUserListToActiveFormulaUITest {
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 
-		projectUserList.forEach(project::addUserList);
-		spriteUserList.forEach(sprite::addUserList);
+		projectUserList.forEach(project::addUserVariable);
+		spriteUserList.forEach(sprite::addUserVariable);
 
 		script.addBrick(new SetXBrick());
 	}

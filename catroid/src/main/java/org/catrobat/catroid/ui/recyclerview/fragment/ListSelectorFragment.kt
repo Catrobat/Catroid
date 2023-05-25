@@ -135,10 +135,7 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
     }
 
     private fun initializeAdapter() {
-        val globalLists = ProjectManager.getInstance().currentProject.userLists
-        val localLists = ProjectManager.getInstance().currentSprite.userLists
-
-        adapter = DataListAdapter(ArrayList(), ArrayList(), ArrayList(), ArrayList(), globalLists, localLists)
+        adapter = DataListAdapter(ArrayList(), ArrayList(), ArrayList(), ArrayList())
         adapter?.showCheckBoxes(true)
         onAdapterReady()
     }

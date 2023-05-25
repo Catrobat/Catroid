@@ -24,7 +24,6 @@
 package org.catrobat.catroid.ui.recyclerview.dialog.textwatcher;
 
 import org.catrobat.catroid.common.Nameable;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
 import java.util.List;
@@ -48,8 +47,7 @@ public class DuplicateInputTextWatcher<T extends Nameable> extends InputWatcher.
 			for (Nameable item : this.originalScope) {
 
 				// Needed for variable-deletion undo-functionality
-				if ((item instanceof UserVariable && !((UserVariable) item).getVisible())
-						|| (item instanceof UserList && !((UserList) item).getVisible())) {
+				if ((item instanceof UserVariable && !((UserVariable) item).getVisible())) {
 					continue;
 				}
 

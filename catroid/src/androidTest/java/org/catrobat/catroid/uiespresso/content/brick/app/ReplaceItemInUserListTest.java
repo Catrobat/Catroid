@@ -85,7 +85,7 @@ public class ReplaceItemInUserListTest {
 
 		onFormulaEditor()
 				.performOpenDataFragment();
-		onDataList().onListAtPosition(1)
+		onDataList().onVariableAtPosition(1)
 				.performDelete();
 		onDataList()
 				.performClose();

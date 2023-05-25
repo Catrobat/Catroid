@@ -33,35 +33,31 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.UserDefinedScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
+import java.util.Objects;
+
 public final class UserDataWrapper {
 
 	public static UserVariable getUserVariable(String name, Scope scope) {
-		UserVariable userVariable = null;
-		if (scope.getSprite() != null) {
-			userVariable = scope.getSprite().getUserVariable(name);
-			if (userVariable == null) {
-				userVariable = scope.getSprite().getUserList(name);
-			}
-		}
+		UserVariable userVariable;
+		userVariable = scope.getSprite().getUserVariable(name);
+
 		if (scope.getProject() != null && userVariable == null) {
 			userVariable = scope.getProject().getUserVariable(name);
 			if (userVariable == null) {
 				userVariable = scope.getProject().getMultiplayerVariable(name);
-			}
-			if (userVariable == null) {
-				userVariable = scope.getProject().getUserList(name);
 			}
 		}
 		return userVariable;
 	}
 
 	public static UserVariable getUserList(String name, Scope scope) {
-		UserVariable userList = null;
-		if (scope != null) {
-			userList = scope.getSprite().getUserList(name);
+		UserVariable userList;
+		if (scope == null) {
+			return null;
 		}
-		if (scope.getProject() != null && userList == null) {
-			return scope.getProject().getUserList(name);
+		userList = scope.getSprite().getUserVariable(name);
+		if (userList == null && scope.getProject() != null) {
+			userList = scope.getProject().getUserVariable(name);
 		}
 		return userList;
 	}

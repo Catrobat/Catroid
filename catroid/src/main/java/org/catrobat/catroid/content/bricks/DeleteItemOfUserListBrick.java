@@ -28,7 +28,7 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
-public class DeleteItemOfUserListBrick extends UserListBrick {
+public class DeleteItemOfUserListBrick extends UserVariableBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -42,7 +42,7 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 
 	public DeleteItemOfUserListBrick(Formula formula, UserVariable userList) {
 		this(formula);
-		this.userList = userList;
+		this.userVariable = userList;
 	}
 
 	public DeleteItemOfUserListBrick(Formula formula) {
@@ -64,6 +64,6 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
 				.createDeleteItemOfUserListAction(sprite, sequence,
-						getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM), userList));
+						getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM), userVariable));
 	}
 }

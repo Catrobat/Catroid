@@ -79,8 +79,8 @@ public abstract class UserVariableBrickWithFormula extends FormulaBrick implemen
 		Project project = ProjectManager.getInstance().getCurrentProject();
 
 		List<UserVariable> allVariables = new ArrayList<>();
-		allVariables.addAll(sprite.getUserVariables());
-		allVariables.addAll(project.getUserVariables());
+		allVariables.addAll(sprite.getUserVariableList());
+		allVariables.addAll(project.getUserVariableList());
 		allVariables.addAll(project.getMultiplayerVariables());
 		Collections.sort(allVariables, UserVariable.userVariableNameComparator);
 

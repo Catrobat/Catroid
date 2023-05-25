@@ -30,7 +30,9 @@ import kotlin.collections.ArrayList
 
 class OldUserListInterpreter(private val outcomeDocument: Document) {
     fun interpret(): Document {
+        moveUserListReferencesToVariableReferences()
         val userListNodes = getProgramsUserLists() ?: return outcomeDocument
+
         userListNodes.filterNot { isNewUserList(it) }
             .forEach { oldUserList ->
                 if (oldUserList.childNodes.length !in 1..4) {
@@ -38,7 +40,12 @@ class OldUserListInterpreter(private val outcomeDocument: Document) {
                         "unlikely userList in " + outcomeDocument.documentURI + " found"
                     )
                 }
-                createNewUserLists(oldUserList as Element)
+                // TODO: make better error handling
+                try {
+                    createNewUserLists(oldUserList as Element)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         return outcomeDocument
     }
@@ -47,18 +54,40 @@ class OldUserListInterpreter(private val outcomeDocument: Document) {
         val userListWithNewFunction = outcomeDocument.getElementsByTagName("userList")
         val userListList = ArrayList<Node>()
         for (i in 0 until userListWithNewFunction.length) {
-            if (userListWithNewFunction.item(i).childNodes.length != 0) {
-                userListList.add(userListWithNewFunction.item(i))
+            val userList = userListWithNewFunction.item(i)
+            if (userList.childNodes.length != 0) {
+                userListList.add(userList)
+            } else if ((userList as Element).hasAttribute("reference")) {
+                updateUserListReference(userList)
             }
+            outcomeDocument.renameNode(userList, null, "userVariable")
         }
-
+        updateAllUserListReferences()
         return if (userListList.isEmpty()) null else userListList
+    }
+
+    private fun updateAllUserListReferences()
+    {
+        val userDataList = outcomeDocument.getElementsByTagName("userData")
+        for (i in 0 until userDataList.length) {
+            updateUserListReference(userDataList.item(i) as Element)
+        }
+    }
+
+    private fun updateUserListReference(userList: Element) {
+        val reference = userList.getAttribute("reference")
+        val referenceParts = reference.split("/").toMutableList()
+        if (referenceParts.isNotEmpty() && referenceParts.last() == "userList") {
+            referenceParts[referenceParts.size - 1] = "userVariable"
+            userList.removeAttribute("reference")
+            userList.setAttribute("reference", referenceParts.joinToString("/"))
+        }
     }
 
     private fun isNewUserList(userList: Node): Boolean {
         if (listOf("name", "deviceValueKey", "initialIndex", "isList").all {
                 NodeOperatorExtension.getNodeByName(userList, it) != null
-        }) {
+            }) {
             if (NodeOperatorExtension.getNodeByName(userList, "value") == null) {
                 val value = userList.firstChild.cloneNode(true)
                 value.firstChild.textContent = ""
@@ -70,9 +99,11 @@ class OldUserListInterpreter(private val outcomeDocument: Document) {
 
         if (NodeOperatorExtension.getNodeByName(userList, "userVariable") != null ||
             NodeOperatorExtension.getNodeByName(userList, "userList") != null ||
-            NodeOperatorExtension.getNodeByName(userList, "default") != null) {
+            NodeOperatorExtension.getNodeByName(userList, "default") != null
+        ) {
             return isNewUserList(userList.firstChild)
         }
+
         return false
     }
 
@@ -80,7 +111,6 @@ class OldUserListInterpreter(private val outcomeDocument: Document) {
         userList.setAttribute("type", "UserVariable")
         userList.setAttribute("serialization", "custom")
 
-        outcomeDocument.renameNode(userList, null, "userList")
         clearUserListNode(userList)
         val name: Node = NodeOperatorExtension.getNodeByName(userList, "name")
             ?: return
@@ -142,7 +172,12 @@ class OldUserListInterpreter(private val outcomeDocument: Document) {
         return initialIndex
     }
 
-    private fun buildNewUserList(userList: Element, name: Node, initialIndex: Node?, deviceValueKey: Node) {
+    private fun buildNewUserList(
+        userList: Element,
+        name: Node,
+        initialIndex: Node?,
+        deviceValueKey: Node
+    ) {
         val tempName = name.cloneNode(true)
         val tempDeviceValueKey = deviceValueKey.cloneNode(true)
         userList.removeChild(name)
@@ -171,32 +206,95 @@ class OldUserListInterpreter(private val outcomeDocument: Document) {
         outcomeDocument.renameNode(secondChild, null, "default")
     }
 
-    private fun createUserVariableEntry(
-        userVariableEntry: Element, deviceValueKey: Node, name: Node
-    ): Node {
-        val attributes = userVariableEntry.attributes
-        while (attributes.length != 0) {
-            attributes.removeNamedItem(
-                attributes.getNamedItem(attributes.item(0).nodeName).toString()
-            )
+
+/**
+ * These 3 functions are necessary because with CATROID-851, there are no userListLists in
+ * neither the Project nor the Sprite.
+ * To still be able to interpret old programs, these functions move userVariables that are
+ * lists into the userVariableLists of the program and of each Sprite.
+ **/
+    private fun moveUserListReferencesToVariableReferences() {
+        try {
+            moveProjectsLists()
+            moveSpritesLists()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-        userVariableEntry.removeChild(userVariableEntry.firstChild)
-        outcomeDocument.renameNode(userVariableEntry, null, "userVariableEntry")
-
-        userVariableEntry.appendChild(createIsListNode(deviceValueKey.cloneNode(true)))
-        userVariableEntry.appendChild(createUserVariableEntriesNode(name.cloneNode(true)))
-        return userVariableEntry
     }
 
-    private fun createIsListNode(isListChild: Node): Node {
-        isListChild.firstChild.textContent = "true"
-        outcomeDocument.renameNode(isListChild, null, "isList")
-        return isListChild
+    private fun moveProjectsLists() {
+        val program = outcomeDocument.firstChild
+        val programUserLists = NodeOperatorExtension
+            .getNodeByName(program, "programListOfLists") ?: return
+        var userVariableList = NodeOperatorExtension
+            .getNodeByName(program, "programVariableList")
+
+        if (userVariableList == null) {
+            userVariableList = programUserLists.cloneNode(true)
+            program.appendChild(userVariableList)
+            outcomeDocument.renameNode(userVariableList, null, "programVariableList")
+        } else {
+            for (i in 0 until programUserLists.childNodes.length) {
+                userVariableList.appendChild(programUserLists.firstChild)
+            }
+        }
+
+        program.removeChild(programUserLists)
     }
 
-    private fun createUserVariableEntriesNode(userVariableEntriesChild: Node): Node {
-        userVariableEntriesChild.removeChild(userVariableEntriesChild.firstChild)
-        outcomeDocument.renameNode(userVariableEntriesChild, null, "userVariableEntries")
-        return userVariableEntriesChild
+    /**
+     * Is a bit different because we are only allowed to move those userLists into the
+     * userVariableList that belong to this Sprite */
+    private fun moveSpritesLists() {
+        val scenes = NodeOperatorExtension.getNodeByName(outcomeDocument.firstChild, "scenes")
+            ?: return
+
+        for (i in 0 until scenes.childNodes.length) {
+            val objectList = scenes.childNodes.item(i).lastChild
+            for (j in 0 until objectList.childNodes.length) {
+                val objectNode = objectList.childNodes.item(j)
+                correctCloneBrick(objectNode)
+
+                val objectsUserListList = NodeOperatorExtension
+                    .getNodeByName(objectNode, "userLists") ?: continue
+                val objectsUserVariableList = NodeOperatorExtension
+                    .getNodeByName(objectNode, "userVariables")
+                if (objectsUserVariableList != null) {
+                    for (k in 0 until objectsUserListList.childNodes.length) {
+                        objectsUserVariableList.appendChild(objectsUserListList.firstChild)
+                    }
+                }
+                objectNode.removeChild(objectsUserListList)
+            }
+        }
+    }
+
+    private fun correctCloneBrick(objectNode: Node) {
+        val scriptList = NodeOperatorExtension
+            .getNodeByName(objectNode, "scriptList") ?: return
+        for (k in 0 until scriptList.childNodes.length) {
+            val script = scriptList.childNodes.item(k)
+            val brickList = NodeOperatorExtension
+                .getNodeByName(script, "brickList") ?: continue
+            for (l in 0 until brickList.childNodes.length) {
+                val brick = brickList.childNodes.item(l)
+                val brickType = brick.attributes.getNamedItem("type")
+                if (brickType.textContent == "CloneBrick") {
+                    val objectToClone = NodeOperatorExtension
+                        .getNodeByName(brick, "objectToClone") ?: continue
+                    val objectToClonesUserListList = NodeOperatorExtension
+                        .getNodeByName(objectToClone, "userLists") ?: continue
+                    val objectToClonesUserVariableList = NodeOperatorExtension
+                        .getNodeByName(objectToClone, "userVariables")
+                    if (objectToClonesUserVariableList != null) {
+                        for (m in 0 until objectToClonesUserListList.childNodes.length) {
+                            objectToClonesUserVariableList
+                                .appendChild(objectToClonesUserListList.firstChild)
+                        }
+                    }
+                    objectToClone.removeChild(objectToClonesUserListList)
+                }
+            }
+        }
     }
 }

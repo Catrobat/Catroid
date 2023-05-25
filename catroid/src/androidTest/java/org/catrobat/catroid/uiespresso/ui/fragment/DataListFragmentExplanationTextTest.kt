@@ -112,7 +112,7 @@ class DataListFragmentExplanationTextTest {
         onDataList()
             .performAdd(listName, FormulaEditorDataListWrapper.ItemType.LIST)
         onDataList()
-            .onListAtPosition(0).checkHasName(listName)
+            .onVariableAtPosition(0).checkHasName(listName)
 
         onView(withId(R.id.empty_view))
             .check(matches(not(isDisplayed())))

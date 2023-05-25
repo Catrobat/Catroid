@@ -49,7 +49,6 @@ import org.catrobat.catroid.common.SharedPreferenceKeys.SORT_VARIABLE_PREFERENCE
 import org.catrobat.catroid.content.bricks.ScriptBrick
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
 import org.catrobat.catroid.formulaeditor.UserData
-import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.ui.BottomBar
 import org.catrobat.catroid.ui.UiUtils
@@ -286,17 +285,12 @@ class DataListFragment : Fragment(),
             userDefinedBrickInputs =
                 (parentScriptBrick as UserDefinedReceiverBrick).userDefinedBrick.userDefinedBrickInputs
         }
-        val globalVars = currentProject.userVariables
-        val localVars = currentSprite.userVariables
+        val globalVars = currentProject.userVariableList
+        val localVars = currentSprite.userVariableList
         val multiplayerVars = currentProject.multiplayerVariables
-        val globalLists = currentProject.userLists
-        val localLists = currentSprite.userLists
 
         indexAndSort()
-        adapter = DataListAdapter(
-            userDefinedBrickInputs, multiplayerVars, globalVars,
-            localVars, globalLists, localLists
-        )
+        adapter = DataListAdapter(userDefinedBrickInputs, multiplayerVars, globalVars, localVars)
         if (adapter?.hasObservers() == false) {
             adapter?.registerAdapterDataObserver(observer)
         }
@@ -375,13 +369,13 @@ class DataListFragment : Fragment(),
 
     fun sortUserVariable(data: MutableList<UserVariable>, sorted: Boolean) {
         if (sorted) {
-            data.sortWith(Comparator { item1: UserVariable, item2: UserVariable ->
+            data.sortWith { item1: UserVariable, item2: UserVariable ->
                 item1.name.compareTo(item2.name)
-            })
+            }
         } else {
-            data.sortWith(Comparator { item1: UserVariable, item2: UserVariable ->
+            data.sortWith { item1: UserVariable, item2: UserVariable ->
                 item1.initialIndex.compareTo(item2.initialIndex)
-            })
+            }
         }
     }
 
@@ -622,8 +616,9 @@ class DataListFragment : Fragment(),
 
     override fun onItemClick(item: UserData<*>, selectionManager: MultiSelectionManager?) {
         if (actionModeType == NONE) {
-            val formulaEditorFragment =
-                fragmentManager?.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG) as FormulaEditorFragment?
+            val formulaEditorFragment = fragmentManager?.findFragmentByTag(
+                FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG
+            ) as FormulaEditorFragment?
             formulaEditorFragment?.setChosenUserDataItem(item)
             fragmentManager?.popBackStack()
         }
@@ -671,7 +666,7 @@ class DataListFragment : Fragment(),
             R.id.copy, R.id.show_details, R.id.from_library, R.id.from_local, R.id.new_group,
             R.id.new_scene, R.id.cast_button, R.id.backpack, R.id.project_options
         )
-        if (item is UserVariable && item !is UserList) {
+        if (item is UserVariable) {
             val popupMenu = UiUtils.createSettingsPopUpMenu(
                 view, requireContext(),
                 R.menu.menu_project_activity,

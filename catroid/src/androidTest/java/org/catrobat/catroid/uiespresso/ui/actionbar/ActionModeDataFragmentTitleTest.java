@@ -77,9 +77,9 @@ public class ActionModeDataFragmentTitleTest {
 				.performCheckItemClick();
 		onDataList().onVariableAtPosition(1)
 				.performCheckItemClick();
-		onDataList().onListAtPosition(2)
+		onDataList().onVariableAtPosition(2)
 				.performCheckItemClick();
-		onDataList().onListAtPosition(2)
+		onDataList().onVariableAtPosition(2)
 				.performCheckItemClick();
 
 		onActionMode().checkTitleMatches(UiTestUtils.getResourcesString(R.string.delete) + " 2");
@@ -92,7 +92,7 @@ public class ActionModeDataFragmentTitleTest {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		currentProject.addUserVariable(new UserVariable("var1"));
 		currentProject.addUserVariable(new UserVariable("var2"));
-		currentProject.addUserList(new UserVariable("list1", true));
-		currentProject.addUserList(new UserVariable("list2", true));
+		currentProject.addUserVariable(new UserVariable("list1", true));
+		currentProject.addUserVariable(new UserVariable("list2", true));
 	}
 }

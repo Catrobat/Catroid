@@ -82,7 +82,7 @@ public class RecognizeFormulaInTextTest {
 	Project project;
 	Sprite sprite;
 	UserVariable userVariable = new UserVariable("variable");
-	UserVariable userList = new UserVariable("list", Arrays.asList("a", "b", "c"));
+	UserVariable userList = new UserVariable("list", Arrays.asList("a", "b", "c"), true);
 
 	@Spy
 	private FormulaEditorFragment formulaEditorFragmentMock;
@@ -107,7 +107,7 @@ public class RecognizeFormulaInTextTest {
 		Scene scene = new Scene();
 		scene.addSprite(sprite);
 		sprite.addUserVariable(userVariable);
-		sprite.addUserList(userList);
+		sprite.addUserVariable(userList);
 		project.addScene(scene);
 	}
 

@@ -252,7 +252,6 @@ import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.TurnRightSpeedBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
-import org.catrobat.catroid.content.bricks.UserListBrick;
 import org.catrobat.catroid.content.bricks.UserVariableBrickWithFormula;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
@@ -334,7 +333,6 @@ public final class XstreamSerializer {
 		xstream.processAnnotations(XmlHeader.class);
 		xstream.processAnnotations(Setting.class);
 		xstream.processAnnotations(UserVariableBrickWithFormula.class);
-		xstream.processAnnotations(UserListBrick.class);
 		xstream.processAnnotations(UserDefinedBrickData.class);
 		xstream.processAnnotations(UserDefinedBrickInput.class);
 		xstream.processAnnotations(UserDefinedBrickLabel.class);

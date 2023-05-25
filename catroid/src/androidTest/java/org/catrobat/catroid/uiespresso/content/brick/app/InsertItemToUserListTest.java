@@ -128,7 +128,7 @@ public class InsertItemToUserListTest {
 				.performEnterNumber(indexToInsert + 1);
 
 		UserVariable userList =
-				ProjectManager.getInstance().getCurrentProject().getUserList(userListName);
+				ProjectManager.getInstance().getCurrentProject().getUserVariable(userListName);
 
 		assertEquals(0, userList.getListSize());
 	}

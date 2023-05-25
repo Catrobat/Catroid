@@ -130,8 +130,8 @@ class ImportObjectIntoProjectTest {
 
         importedProject.addUserVariable(UserVariable("globalVariable1", 1))
         importedProject.addUserVariable(UserVariable("globalVariable2", 2))
-        importedProject.addUserList(UserVariable("globalList1", true))
-        importedProject.addUserList(UserVariable("globalList2", true))
+        importedProject.addUserVariable(UserVariable("globalList1", true))
+        importedProject.addUserVariable(UserVariable("globalList2", true))
 
         scriptForVisualPlacement = StartScript().apply {
             addBrick(PlaceAtBrick(100, 200))
@@ -155,8 +155,8 @@ class ImportObjectIntoProjectTest {
 
         project.addUserVariable(UserVariable("globalVariable3", 1))
         project.addUserVariable(UserVariable("globalVariable4", 2))
-        project.addUserList(UserVariable("globalList3", true))
-        project.addUserList(UserVariable("globalList4", true))
+        project.addUserVariable(UserVariable("globalList3", true))
+        project.addUserVariable(UserVariable("globalList4", true))
         XstreamSerializer.getInstance().saveProject(project)
 
         baseActivityTestRule.activity.addObjectFromUri(uri)
@@ -181,8 +181,8 @@ class ImportObjectIntoProjectTest {
 
         project.addUserVariable(UserVariable("globalVariable3", 1))
         project.addUserVariable(UserVariable("globalVariable4", 2))
-        project.addUserList(UserVariable("globalList3", true))
-        project.addUserList(UserVariable("globalList4", true))
+        project.addUserVariable(UserVariable("globalList3", true))
+        project.addUserVariable(UserVariable("globalList4", true))
         XstreamSerializer.getInstance().saveProject(project)
 
         baseActivityTestRule.activity.addObjectFromUri(uri)
@@ -206,8 +206,8 @@ class ImportObjectIntoProjectTest {
 
         project.addUserVariable(UserVariable("globalVariable1", 1))
         project.addUserVariable(UserVariable("globalVariable2", 2))
-        project.addUserList(UserVariable("globalList1", true))
-        project.addUserList(UserVariable("globalList2", true))
+        project.addUserVariable(UserVariable("globalList1", true))
+        project.addUserVariable(UserVariable("globalList2", true))
         XstreamSerializer.getInstance().saveProject(project)
 
         baseActivityTestRule.activity.addObjectFromUri(uri)
@@ -231,8 +231,8 @@ class ImportObjectIntoProjectTest {
 
         project.addUserVariable(UserVariable("globalVariable1", 1))
         project.addUserVariable(UserVariable("globalVariable2", 2))
-        project.addUserList(UserVariable("globalList1", true))
-        project.addUserList(UserVariable("globalList2", true))
+        project.addUserVariable(UserVariable("globalList1", true))
+        project.addUserVariable(UserVariable("globalList2", true))
         XstreamSerializer.getInstance().saveProject(project)
 
         val original = MergeTestUtils().getOriginalProjectData(project)
@@ -253,8 +253,8 @@ class ImportObjectIntoProjectTest {
 
         project.addUserVariable(UserVariable("globalVariable1", 1))
         project.addUserVariable(UserVariable("localVariable1", 2)) // Conflicting var
-        project.addUserList(UserVariable("localList1", true)) // Conflicting var
-        project.addUserList(UserVariable("globalList2", true))
+        project.addUserVariable(UserVariable("localList1", true)) // Conflicting var
+        project.addUserVariable(UserVariable("globalList2", true))
         XstreamSerializer.getInstance().saveProject(project)
 
         val original = MergeTestUtils().getOriginalProjectData(project)
@@ -275,7 +275,7 @@ class ImportObjectIntoProjectTest {
 
         project.addUserVariable(UserVariable("globalVariable1", 1))
         project.addUserVariable(UserVariable("localVariable1", 2)) // Conflicting var
-        project.addUserList(UserVariable("globalList2", true))
+        project.addUserVariable(UserVariable("globalList2", true))
         XstreamSerializer.getInstance().saveProject(project)
 
         baseActivityTestRule.activity.addObjectFromUri(uri)

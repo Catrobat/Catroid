@@ -45,7 +45,7 @@ import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public abstract class UserVariableBrick extends BrickBaseType implements UserVariableBrickInterface {
+public abstract class UserVariableBrick extends FormulaBrick implements UserVariableBrickInterface {
 
 	protected UserVariable userVariable;
 
@@ -79,8 +79,8 @@ public abstract class UserVariableBrick extends BrickBaseType implements UserVar
 		Project project = ProjectManager.getInstance().getCurrentProject();
 
 		List<UserVariable> allVariables = new ArrayList<>();
-		allVariables.addAll(sprite.getUserVariables());
-		allVariables.addAll(project.getUserVariables());
+		allVariables.addAll(sprite.getUserVariableList());
+		allVariables.addAll(project.getUserVariableList());
 		allVariables.addAll(project.getMultiplayerVariables());
 		Collections.sort(allVariables, UserVariable.userVariableNameComparator);
 
@@ -105,7 +105,9 @@ public abstract class UserVariableBrick extends BrickBaseType implements UserVar
 		final Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
 		UserVariableBrickTextInputDialogBuilder builder =
-				new UserVariableBrickTextInputDialogBuilder(currentProject, currentSprite, userVariable, activity, spinner);
+				new UserVariableBrickTextInputDialogBuilder(
+						currentProject, currentSprite, userVariable, activity, spinner
+				);
 
 		builder.show();
 	}

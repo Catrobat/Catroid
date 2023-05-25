@@ -61,7 +61,6 @@ import static org.catrobat.catroid.utils.Utils.SPEECH_RECOGNITION_SUPPORTED_LANG
 		"settings",
 		"scenes",
 		"programVariableList",
-		"programListOfLists",
 		"programMultiplayerVariableList"
 })
 public class Project implements Serializable {
@@ -76,8 +75,6 @@ public class Project implements Serializable {
 	private List<UserVariable> userVariables = new ArrayList<>();
 	@XStreamAlias("programMultiplayerVariableList")
 	private List<UserVariable> multiplayerVariables = new ArrayList<>();
-	@XStreamAlias("programListOfLists")
-	private List<UserVariable> userLists = new ArrayList<>();
 	@XStreamAlias("scenes")
 	private List<Scene> sceneList = new ArrayList<>();
 
@@ -203,6 +200,19 @@ public class Project implements Serializable {
 
 	public List<UserVariable> getUserVariables() {
 		if (userVariables == null) {
+			return new ArrayList<>();
+		}
+		ArrayList<UserVariable> userVariableList = new ArrayList<>();
+		for (UserVariable userVariable : userVariables) {
+			if (!userVariable.isList()) {
+				userVariableList.add(userVariable);
+			}
+		}
+		return userVariableList;
+	}
+
+	public List<UserVariable> getUserVariableList() {
+		if (userVariables == null) {
 			userVariables = new ArrayList<>();
 		}
 		return userVariables;
@@ -216,7 +226,7 @@ public class Project implements Serializable {
 		List<UserVariable> userVariablesCopy = new ArrayList<>();
 		for (UserVariable userVariable : userVariables) {
 			userVariablesCopy.add(new UserVariable(userVariable.getName(),
-					userVariable.getValue()));
+					userVariable.getValue(), false));
 		}
 
 		return userVariablesCopy;
@@ -257,58 +267,43 @@ public class Project implements Serializable {
 	}
 
 	public List<UserVariable> getUserLists() {
-		if (userLists == null) {
-			userLists = new ArrayList<>();
+		ArrayList<UserVariable> userLists = new ArrayList<>();
+		if (userVariables == null) {
+			userVariables = new ArrayList<>();
+		}
+
+		for (UserVariable variable : userVariables) {
+			if (variable.isList()) {
+				userLists.add(variable);
+			}
 		}
 		return userLists;
 	}
 
+	public List<UserVariable> getUserListList() {
+		if (userVariables == null) {
+			userVariables = new ArrayList<>();
+		}
+		return userVariables;
+	}
+
 	public List<UserVariable> getUserListsCopy() {
-		if (userLists == null) {
-			userLists = new ArrayList<>();
+		if (userVariables == null) {
+			userVariables = new ArrayList<>();
 		}
 
 		List<UserVariable> userListsCopy = new ArrayList<>();
+		List<UserVariable> userLists = getUserLists();
+
 		try {
 			for (UserVariable userList : userLists) {
-				if (userList.getValue() instanceof List) {
-					userListsCopy.add(new UserVariable(userList.getName(), (List<Object>) userList.getValue()));
-				}
-				else
-					userListsCopy.add(new UserVariable(userList.getName(), userList.getValue()));
+				userListsCopy.add(new UserVariable(userList.getName(), userList.getValue(), true));
 			}
 		} catch (Exception e) {
 			Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
 		}
 
 		return userListsCopy;
-	}
-
-	public UserVariable getUserList(String name) {
-		for (UserVariable list : userLists) {
-			if (list.getName().equals(name)) {
-				return list;
-			}
-		}
-		for (UserVariable variable : userVariables) {
-			if (variable.getName().equals(name)) {
-				return variable;
-			}
-		}
-		return null;
-	}
-
-	public boolean addUserList(UserVariable userList) {
-		return userLists.add(userList);
-	}
-
-	public boolean removeUserList(String name) {
-		for (UserVariable list : userLists) {
-			if (list.getName().equals(name)) {
-				return userLists.remove(list);
-			}
-		}
-		return false;
 	}
 
 	public List<UserVariable> getMultiplayerVariablesCopy() {
@@ -318,7 +313,8 @@ public class Project implements Serializable {
 
 		List<UserVariable> multiplayerVariablesCopy = new ArrayList<>();
 		for (UserVariable userVariable : multiplayerVariables) {
-			multiplayerVariablesCopy.add(new UserVariable(userVariable.getName(), userVariable.getValue()));
+			multiplayerVariablesCopy.add(new UserVariable(userVariable.getName(),
+					userVariable.getValue(), false));
 		}
 
 		return multiplayerVariablesCopy;
@@ -351,9 +347,6 @@ public class Project implements Serializable {
 	public void resetUserData() {
 		for (UserVariable userVariable : userVariables) {
 			userVariable.reset();
-		}
-		for (UserVariable userList : userLists) {
-			userList.reset();
 		}
 		for (UserVariable multiplayerVariable : multiplayerVariables) {
 			multiplayerVariable.reset();

@@ -26,6 +26,7 @@ import org.jetbrains.annotations.TestOnly;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
@@ -62,11 +63,12 @@ public class UserVariable implements Serializable, UserData<Object> {
 	public UserVariable(final String name, final Object value) {
 		this.name = name;
 		this.deviceValueKey = UUID.randomUUID();
+		this.value = new ArrayList<>();
+
 		if (value instanceof List<?>) {
-			this.value = (List<Object>) value;
+			this.value.addAll((Collection<?>) value);
 			this.isList = true;
 		} else {
-			this.value = new ArrayList<>();
 			this.value.add(value);
 		}
 	}
@@ -78,18 +80,16 @@ public class UserVariable implements Serializable, UserData<Object> {
 		this.isList = isList;
 	}
 
-	@TestOnly // is necessary for testing to have lists with one element
 	public UserVariable(final String name, final Object value, Boolean isList) {
 		this.name = name;
 		this.deviceValueKey = UUID.randomUUID();
-		if (value instanceof List<?>) {
-			this.value = (List<Object>) value;
-			this.isList = true;
+		this.value = new ArrayList<>();
+		if (isList) {
+			this.value.addAll((Collection<?>) value);
 		} else {
-			this.value = new ArrayList<>();
 			this.value.add(value);
-			this.isList = isList;
 		}
+		this.isList = isList;
 	}
 
 	public UserVariable(UserVariable variable) {

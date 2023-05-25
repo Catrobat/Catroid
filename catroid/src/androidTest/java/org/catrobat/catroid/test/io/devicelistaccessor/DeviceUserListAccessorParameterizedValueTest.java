@@ -126,11 +126,11 @@ public class DeviceUserListAccessorParameterizedValueTest<T> {
 		ProjectManager.getInstance().setCurrentProject(dummyProject);
 
 		Sprite sprite = new Sprite("sprite");
-		sprite.addUserList(userList);
+		sprite.addUserVariable(userList);
 
 		Sprite clone = new SpriteController().copyForCloneBrick(sprite);
 		accessor.writeUserData(userList);
-		UserVariable clonedList = clone.getUserList(userList.getName());
+		UserVariable clonedList = clone.getUserVariable(userList.getName());
 		assertNotSame(userList, clonedList);
 		assertEquals(userList.getValue(), clonedList.getValue());
 	}

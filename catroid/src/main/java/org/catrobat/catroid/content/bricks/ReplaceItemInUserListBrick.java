@@ -28,7 +28,7 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
-public class ReplaceItemInUserListBrick extends UserListBrick {
+public class ReplaceItemInUserListBrick extends UserVariableBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -45,7 +45,7 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 
 	public ReplaceItemInUserListBrick(Formula valueFormula, Formula indexFormula, UserVariable userList) {
 		this(valueFormula, indexFormula);
-		this.userList = userList;
+		this.userVariable = userList;
 	}
 
 	public ReplaceItemInUserListBrick(Formula valueFormula, Formula indexFormula) {
@@ -73,6 +73,6 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createReplaceItemInUserListAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX),
-				getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE), userList));
+				getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE), userVariable));
 	}
 }

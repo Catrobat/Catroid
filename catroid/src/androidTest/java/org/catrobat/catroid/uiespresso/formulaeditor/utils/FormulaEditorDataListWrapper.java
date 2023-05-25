@@ -117,10 +117,6 @@ public final class FormulaEditorDataListWrapper extends ViewInteractionWrapper {
 		return new FormulaEditorDataListWrapper();
 	}
 
-	public UserListDataItemRVInteractionWrapper onListAtPosition(int position) {
-		return UserListDataItemRVInteractionWrapper.onListAtPosition(position);
-	}
-
 	public UserVariableDataItemRVInteractionWrapper onVariableAtPosition(int position) {
 		return UserVariableDataItemRVInteractionWrapper.onVariableAtPosition(position);
 	}

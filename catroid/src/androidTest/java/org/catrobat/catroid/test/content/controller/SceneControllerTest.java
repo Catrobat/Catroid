@@ -236,7 +236,7 @@ public class SceneControllerTest {
 		String spriteVarName = "spriteVar";
 		String spriteListName = "spriteList";
 		assertTrue(sprite.addUserVariable(new UserVariable(spriteVarName)));
-		assertTrue(sprite.addUserList(new UserVariable(spriteListName, true)));
+		assertTrue(sprite.addUserVariable(new UserVariable(spriteListName, true)));
 
 		StartScript script = new StartScript();
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(0, 0);
