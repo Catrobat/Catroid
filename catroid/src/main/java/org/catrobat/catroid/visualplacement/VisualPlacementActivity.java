@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.visualplacement;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -60,6 +61,7 @@ import org.catrobat.catroid.utils.ToastUtil;
 import java.util.Locale;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
@@ -88,6 +90,7 @@ import static org.catrobat.catroid.utils.ShowTextUtils.calculateAlignmentValuesF
 import static org.catrobat.catroid.utils.ShowTextUtils.calculateColorRGBs;
 import static org.catrobat.catroid.utils.ShowTextUtils.isValidColorString;
 import static org.catrobat.catroid.utils.ShowTextUtils.sanitizeTextSize;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class VisualPlacementActivity extends BaseCastActivity implements View.OnTouchListener,
 		DialogInterface.OnClickListener, CoordinateInterface {
@@ -98,7 +101,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	public static final String Y_COORDINATE_BUNDLE_ARGUMENT = "yCoordinate";
 	public static final String CHANGED_COORDINATES = "changedCoordinates";
 
-	private ProjectManager projectManager;
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
 	private FrameLayout frameLayout;
 	private BitmapFactory.Options bitmapOptions;
 	private ImageView imageView;
@@ -158,7 +161,6 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 			return;
 		}
 
-		projectManager = ProjectManager.getInstance();
 		Project currentProject = projectManager.getCurrentProject();
 
 		setContentView(R.layout.visual_placement_layout);
@@ -241,25 +243,23 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		bitmapOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;
 
 		setBackground();
+		drawAxes();
 		showMovableImageView();
 
 		toolbar.bringToFront();
+
 		frameLayout.setOnTouchListener(this);
 	}
 
 	private void setBackground() {
-		try {
-			Bitmap backgroundBitmap = ProjectManagerExtensionsKt.getProjectBitmap(projectManager);
-			Bitmap scaledBackgroundBitmap = Bitmap.createScaledBitmap(backgroundBitmap,
-					(int) (backgroundBitmap.getWidth() * layoutWidthRatio),
-					(int) (backgroundBitmap.getHeight() * layoutHeightRatio), true);
-			Drawable backgroundDrawable = new BitmapDrawable(getResources(), scaledBackgroundBitmap);
-			backgroundDrawable.setColorFilter(Color.parseColor("#6F000000"), PorterDuff.Mode.SRC_ATOP);
+		Bitmap backgroundBitmap = ProjectManagerExtensionsKt.getProjectBitmap(projectManager);
+		Bitmap scaledBackgroundBitmap = Bitmap.createScaledBitmap(backgroundBitmap,
+				(int) (backgroundBitmap.getWidth() * layoutWidthRatio),
+				(int) (backgroundBitmap.getHeight() * layoutHeightRatio), true);
+		Drawable backgroundDrawable = new BitmapDrawable(getResources(), scaledBackgroundBitmap);
+		backgroundDrawable.setColorFilter(Color.parseColor("#6F000000"), PorterDuff.Mode.SRC_ATOP);
 
-			frameLayout.setBackground(backgroundDrawable);
-		} catch (Exception e) {
-			frameLayout.setBackgroundColor(Color.WHITE);
-		}
+		frameLayout.setBackground(backgroundDrawable);
 	}
 
 	public void showMovableImageView() {
@@ -369,13 +369,13 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 				baseline,
 				paint);
 
-		yOffsetText = textSizeInPx - height / 2;
+		yOffsetText = textSizeInPx - height / 2f;
 		switch (textAlignment) {
 			case ALIGNMENT_STYLE_LEFT:
-				xOffsetText += visualPlacementBitmap.getWidth() / 2;
+				xOffsetText += visualPlacementBitmap.getWidth() / 2f;
 				break;
 			case ALIGNMENT_STYLE_RIGHT:
-				xOffsetText -= visualPlacementBitmap.getWidth() / 2;
+				xOffsetText -= visualPlacementBitmap.getWidth() / 2f;
 				break;
 		}
 		return visualPlacementBitmap;
@@ -460,5 +460,33 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		} else {
 			yCoord = yCoordinate;
 		}
+	}
+
+	@SuppressLint("ResourceAsColor")
+	@VisibleForTesting(otherwise = MODE_PRIVATE)
+	public void drawAxes() {
+		Bitmap workingBitmap = Bitmap.createBitmap(layoutWidth, layoutHeight,
+				Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(workingBitmap);
+		Paint paint = new Paint();
+		float layoutWidthHalf = layoutWidth / 2f;
+		float layoutHeightHalf = layoutHeight / 2f;
+		paint.setColor(R.color.axis_color);
+		paint.setStrokeWidth(5);
+		canvas.drawLine(0, layoutHeightHalf, layoutWidth, layoutHeightHalf, paint);
+		canvas.drawLine(layoutWidthHalf, 0, layoutWidthHalf, layoutHeight, paint);
+		paint.setColor(Color.RED);
+		paint.setTextSize(50);
+		canvas.drawText("0", layoutWidthHalf + 10, layoutHeightHalf - 10, paint);
+		canvas.drawText(String.valueOf((int) Math.floor(layoutHeightHalf - 50)),
+				layoutWidthHalf + 10, 50, paint);
+		canvas.drawText(String.valueOf((int) Math.floor((layoutHeightHalf - 50) * -1)),
+				layoutWidthHalf + 10, layoutHeight - 30, paint);
+		canvas.drawText(String.valueOf((int) Math.floor((layoutWidthHalf - 30) * -1)), 30,
+				layoutHeightHalf - 10, paint);
+		canvas.drawText(String.valueOf((int) Math.floor(layoutWidthHalf - 30)), layoutWidth - 150,
+				layoutHeightHalf - 10, paint);
+		ImageView img=(ImageView) findViewById(R.id.place_visually_axes);
+		img.setImageBitmap(workingBitmap);
 	}
 }
