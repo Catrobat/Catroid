@@ -35,6 +35,7 @@ public class UserList implements Serializable, UserData<List<Object>> {
 	private int initialIndex = -1;
 	private UUID deviceListKey;
 	private transient List<Object> list;
+	private transient boolean visible = true;
 
 	public UserList() {
 		list = new ArrayList<>();
@@ -64,6 +65,14 @@ public class UserList implements Serializable, UserData<List<Object>> {
 
 	public void setInitialIndex(int initialIndex) {
 		this.initialIndex = initialIndex;
+	}
+
+	public boolean getVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
 	}
 
 	@Override

@@ -57,7 +57,7 @@ public class UserDefinedBrickInputRVAdapter extends RVAdapter<UserDefinedBrickIn
 			((TextView) holder.itemView.findViewById(R.id.headline)).setText(holder.itemView.getResources().getQuantityText(R.plurals.user_defined_brick_input_headline, getItemCount()));
 		}
 
-		UserDefinedBrickInput item = items.get(position);
+		UserDefinedBrickInput item = getItems().get(position);
 		VariableViewHolder variableViewHolder = (VariableViewHolder) holder;
 		variableViewHolder.title.setText(item.getName());
 

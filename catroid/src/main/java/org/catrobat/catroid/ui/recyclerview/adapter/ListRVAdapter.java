@@ -52,7 +52,7 @@ public class ListRVAdapter extends RVAdapter<UserList> {
 	public void onBindViewHolder(CheckableViewHolder holder, int position) {
 		super.onBindViewHolder(holder, position);
 
-		UserList item = items.get(position);
+		UserList item = getItems().get(position);
 		ListViewHolder listViewHolder = (ListViewHolder) holder;
 		listViewHolder.title.setText(item.getName());
 

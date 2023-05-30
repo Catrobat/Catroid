@@ -91,7 +91,7 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 	public void onBindViewHolder(ExtendedViewHolder holder, int position) {
 		Context context = holder.itemView.getContext();
 
-		Sprite item = items.get(position);
+		Sprite item = getItems().get(position);
 		holder.title.setText(item.getName());
 
 		if (holder.getItemViewType() == SPRITE_GROUP) {
@@ -143,10 +143,10 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 		if (position == 0) {
 			return BACKGROUND;
 		}
-		if (items.get(position) instanceof GroupSprite) {
+		if (getItems().get(position) instanceof GroupSprite) {
 			return SPRITE_GROUP;
 		}
-		if (items.get(position) instanceof GroupItemSprite) {
+		if (getItems().get(position) instanceof GroupItemSprite) {
 			return SPRITE_GROUP_ITEM;
 		}
 		return SPRITE_SINGLE;
@@ -158,8 +158,8 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 			return true;
 		}
 
-		Sprite fromItem = items.get(sourcePosition);
-		Sprite toItem = items.get(targetPosition);
+		Sprite fromItem = getItems().get(sourcePosition);
+		Sprite toItem = getItems().get(targetPosition);
 
 		if (fromItem instanceof GroupSprite) {
 			return true;
@@ -193,7 +193,7 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 
 	@Override
 	public boolean setSelection(Sprite item, boolean selection) {
-		if (items.indexOf(item) == 0) {
+		if (getItems().indexOf(item) == 0) {
 			throw new IllegalArgumentException("You should never select the Background Sprite for any ActionMode "
 					+ "operation. Modifying it via ActionMode is not supported.");
 		}
@@ -205,11 +205,11 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 	public void selectAll() {
 		int backgroundIndex = 0;
 
-		for (Sprite item : items) {
-			if (items.indexOf(item) == backgroundIndex || item instanceof GroupSprite) {
+		for (Sprite item : getItems()) {
+			if (getItems().indexOf(item) == backgroundIndex || item instanceof GroupSprite) {
 				continue;
 			}
-			selectionManager.setSelectionTo(true, items.indexOf(item));
+			selectionManager.setSelectionTo(true, getItems().indexOf(item));
 		}
 		notifyDataSetChanged();
 	}
@@ -219,13 +219,13 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 		int backgroundCount = 1;
 		int groupSpriteCount = 0;
 
-		for (Sprite item : items) {
+		for (Sprite item : getItems()) {
 			if (item instanceof GroupSprite) {
 				groupSpriteCount++;
 			}
 		}
 
-		return items.size() - backgroundCount - groupSpriteCount;
+		return getItems().size() - backgroundCount - groupSpriteCount;
 	}
 
 	public void setBackgroundVisible(int visible) {
