@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.content.achievements;
+package org.catrobat.catroid.achievements;
 
 public interface Observer {
 	void update(Subject subject);

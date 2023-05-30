@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.content.achievements;
+package org.catrobat.catroid.achievements;
 
 
 import android.content.SharedPreferences;
@@ -29,10 +29,9 @@ import android.content.SharedPreferences;
 import java.util.ArrayList;
 
 
-public class AchievementCondition implements Subject, org.catrobat.catroid.content.achievements.Observer {
+public class AchievementCondition implements Subject, Observer {
 	private ArrayList<Observer> observerArrayList = new ArrayList<>();
 	private boolean Finished;
-
 	private int ConditionMetNumerator;
 	private final int ConditionMetDenominator;
 	private final String Description;
@@ -86,6 +85,7 @@ public class AchievementCondition implements Subject, org.catrobat.catroid.conte
 		}
 		editor.apply();
 	}
+
 	private void updateCondition()
 	{
 		Condition =
@@ -100,5 +100,7 @@ public class AchievementCondition implements Subject, org.catrobat.catroid.conte
 		return Finished;
 	}
 
-
+	public String getKey() {
+		return Key;
+	}
 }

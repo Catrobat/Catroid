@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.content.achievements;
+package org.catrobat.catroid.achievements;
 
 import java.util.ArrayList;
 
@@ -37,11 +37,7 @@ public class Achievement implements Observer{
 		Drawable = drawable;
 		Unlocked = false;
 	}
-	public Achievement(String title, int drawable, boolean unlocked) {
-		Title = title;
-		Drawable = drawable;
-		Unlocked = unlocked;
-	}
+
 
 	@Override
 	public void update(Subject subject) {

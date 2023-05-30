@@ -21,10 +21,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.content.achievements;
+package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.achievements.Achievement;
 
 import java.util.List;
 
@@ -84,6 +87,15 @@ public class AchievementListAdapter extends ArrayAdapter<Achievement> {
 
 		holder.Title.setText(Title);
 		holder.Image.setImageResource(drawable);
+
+		ColorMatrix colorMatrix = new ColorMatrix();
+		colorMatrix.setSaturation(0);
+		holder.Image.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
+		if(getItem(position).isUnlocked())
+		{
+			holder.Image.clearColorFilter();
+		}
+
 
 
 		return convertView;

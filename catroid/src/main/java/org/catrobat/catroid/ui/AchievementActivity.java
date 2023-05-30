@@ -24,6 +24,9 @@
 package org.catrobat.catroid.ui;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -52,10 +55,17 @@ public class AchievementActivity extends BaseActivity {
 			String title = intent.getStringExtra("Title");
 			String description = intent.getStringExtra("Description");
 			int imageId = intent.getIntExtra("Image", R.drawable.ic_main_menu_achievements_button);
-
+			boolean unlocked = intent.getBooleanExtra("Unlocked", false);
 			imageView.setImageResource(imageId);
 			titleView.setText(title);
 			descriptionView.setText(description);
+			ColorMatrix colorMatrix = new ColorMatrix();
+			colorMatrix.setSaturation(0);
+			imageView.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
+			if(unlocked)
+			{
+				imageView.clearColorFilter();
+			}
 		}
 
 

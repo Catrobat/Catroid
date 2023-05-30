@@ -24,17 +24,14 @@
 package org.catrobat.catroid.ui;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.achievements.Achievement;
-import org.catrobat.catroid.content.achievements.AchievementListAdapter;
-import org.catrobat.catroid.content.achievements.AchievementSystem;
+import org.catrobat.catroid.achievements.Achievement;
+import org.catrobat.catroid.ui.adapter.AchievementListAdapter;
+import org.catrobat.catroid.achievements.AchievementSystem;
 
 import java.util.ArrayList;
 
@@ -68,6 +65,7 @@ public class AchievementsListActivity extends BaseActivity {
 			intent.putExtra("Image", AchievementList.get(i).getDrawable());
 			intent.putExtra("Title", AchievementList.get(i).getTitle());
 			intent.putExtra("Description",AchievementList.get(i).getDescription());
+			intent.putExtra("Unlocked", AchievementList.get(i).isUnlocked());
 			startActivity(intent);
 		});
 
