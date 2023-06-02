@@ -70,10 +70,11 @@ public class AchievementCondition implements Subject, Observer {
 
 	@Override
 	public void update(Subject subject) {
-		if(Finished)
+		AchievementSystem achievementSystem = AchievementSystem.getInstance();
+		if(Finished || !achievementSystem.isActive())
 			return;
 		ConditionMetNumerator+=1;
-		SharedPreferences.Editor editor = AchievementSystem.getInstance().getEditor();
+		SharedPreferences.Editor editor = achievementSystem.getEditor();
 		editor.putInt(this.Key+"_Int", this.ConditionMetNumerator);
 		updateCondition();
 		if(ConditionMetNumerator == ConditionMetDenominator)

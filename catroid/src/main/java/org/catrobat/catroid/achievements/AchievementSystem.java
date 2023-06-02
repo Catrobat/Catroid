@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.achievements;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import org.catrobat.catroid.R;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 
 public class AchievementSystem {
 	private  boolean Active = false;
+	private Context context = null;
 	private static AchievementSystem Instance = null;
 	private ArrayList<Achievement> AchievementList = new ArrayList<>();
 	private ArrayList<AchievementCondition> ConditionList = new ArrayList<>();
@@ -57,17 +59,26 @@ public class AchievementSystem {
 		Active = active;
 	}
 
-	public void setUpConditionList()
+	public void setUpConditionList(Context context)
 	{
-		addCondition(new AchievementCondition("test_string_key",2 , "test_string_condition"));
+		this.context = context.getApplicationContext();
+		addCondition(new AchievementCondition(context.getString(R.string.achievement_condition_key_test), 4 ,
+				"test_string_condition"));
 	}
 	public void setUpAchievementList()
 	{
-		Achievement Start = new Achievement("Start" , R.drawable.test_image);
-		Achievement End = new Achievement("End",  R.drawable.test_image);
+
+
+		Achievement Start = new Achievement(context.getString(R.string.achievement_title_when),
+				context.getString(R.string.achievement_key_test),
+			R.drawable.test_image);
+		Start.addCondition(getCondition(context.getString(R.string.achievement_condition_key_test)));
+		Achievement End = new Achievement("End", context.getString(R.string.achievement_key_test),
+				R.drawable.test_image);
 		AchievementList.add(Start);
 		for (int i = 0; i < 40; i++) {
-			AchievementList.add(new Achievement("Progress "+ Integer.toString(i), R.drawable.test_image));
+			AchievementList.add(new Achievement("Progress "+ Integer.toString(i), context.getString(R.string.achievement_key_test),
+					R.drawable.test_image));
 		}
 		AchievementList.add(End);
 	}

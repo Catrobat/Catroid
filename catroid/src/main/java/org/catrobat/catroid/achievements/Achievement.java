@@ -23,33 +23,48 @@
 
 package org.catrobat.catroid.achievements;
 
+
+import android.content.SharedPreferences;
+
 import java.util.ArrayList;
 
-public class Achievement implements Observer{
+
+
+public class Achievement implements Observer {
 	private String Title;
+	private String Key;
 	private int Drawable;
 	private boolean Unlocked;
-	private ArrayList<AchievementCondition> ConditionList = new ArrayList<>();
+	private final ArrayList<AchievementCondition> ConditionList = new ArrayList<>();
 	private String Description = "";
 
-	public Achievement(String title, int drawable) {
+	public Achievement(String title,String key, int drawable) {
 		Title = title;
+		Key = key;
 		Drawable = drawable;
-		Unlocked = false;
+		Unlocked = AchievementSystem.getInstance().getPreferences().getBoolean(Key, false);
 	}
 
+	/*public Achievement(String title, int drawable) {
+		Title = title;
+
+		Drawable = drawable;
+		Unlocked = false;
+	}*/
 
 	@Override
 	public void update(Subject subject) {
 		if (Unlocked)
 			return;
+
 		for (AchievementCondition condition:ConditionList) {
 			if(!condition.isFinished())
 			{
 				return;
 			}
 		}
-		Unlocked = true;
+		updateDescription();
+		setUnlocked(true);
 	}
 	public void addCondition(AchievementCondition condition)
 	{
@@ -61,9 +76,6 @@ public class Achievement implements Observer{
 		return Title;
 	}
 
-	public void setTitle(String title) {
-		Title = title;
-	}
 
 	public int getDrawable() {
 		return Drawable;
@@ -73,15 +85,28 @@ public class Achievement implements Observer{
 		Drawable = drawable;
 	}
 
-	public String getDescription() {
-		Description = "";
+	private void updateDescription()
+	{
+		StringBuilder builder = new StringBuilder();
 		for (AchievementCondition condition:ConditionList) {
-			Description += condition.getCondition();
+			builder.append(condition.getCondition());
 		}
+		Description = builder.toString();
+	}
+	public String getDescription() {
+		if(!Unlocked)
+			updateDescription();
 		return Description;
 	}
 
 	public boolean isUnlocked() {
 		return Unlocked;
+	}
+
+	private void setUnlocked(boolean unlocked) {
+		Unlocked = unlocked;
+		SharedPreferences.Editor editor = AchievementSystem.getInstance().getEditor();
+		editor.putBoolean(Key, Unlocked);
+		editor.apply();
 	}
 }

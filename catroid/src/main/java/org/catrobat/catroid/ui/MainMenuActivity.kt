@@ -110,7 +110,7 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
     private fun loadAchievement() {
         val achievementSystem: AchievementSystem = AchievementSystem.getInstance();
         achievementSystem.preferences = getSharedPreferences("test_string_key", MODE_PRIVATE)
-        achievementSystem.setUpConditionList();
+        achievementSystem.setUpConditionList(applicationContext);
         achievementSystem.setUpAchievementList();
     }
 
@@ -299,6 +299,9 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
             }
             R.id.menu_achievements_button ->
                 startActivity(Intent(this, AchievementsListActivity::class.java))
+
+            R.id.menu_test ->
+                startActivity(Intent(this, TestActivity::class.java))
 
             R.id.menu_terms_of_use -> TermsOfUseDialogFragment().show(
                 supportFragmentManager,
