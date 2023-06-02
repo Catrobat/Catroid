@@ -116,6 +116,7 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
         super.onResume()
         BottomBar.showBottomBar(activity)
         BottomBar.hidePlayButton(activity)
+        BottomBar.hideAiAssistButton(activity)
     }
 
     override fun onStop() {
