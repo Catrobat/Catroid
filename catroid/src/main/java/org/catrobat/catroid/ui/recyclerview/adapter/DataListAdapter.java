@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.ui.recyclerview.adapter;
 
-import android.os.Build;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -42,7 +41,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.LayoutRes;
@@ -55,8 +53,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({USER_DEFINED_BRICK_INPUTS, VAR_MULTIPLAYER, VAR_GLOBAL, VAR_LOCAL, LIST_GLOBAL, LIST_LOCAL})
-	@interface DataType {
-	}
+	@interface DataType {}
 
 	private static final int USER_DEFINED_BRICK_INPUTS = 0;
 	private static final int VAR_MULTIPLAYER = 1;
@@ -97,11 +94,6 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 			protected void onCheckBoxClick(int position) {
 				super.onCheckBoxClick(getRelativeItemPosition(position, VAR_MULTIPLAYER));
 			}
-
-			@Override
-			public List<UserVariable> filterItems(List<UserVariable> allItems) {
-				return filterVariables(allItems);
-			}
 		};
 		multiplayerVarAdapter.setSelectionListener(this);
 
@@ -118,15 +110,10 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 			protected void onCheckBoxClick(int position) {
 				super.onCheckBoxClick(getRelativeItemPosition(position, VAR_GLOBAL));
 			}
-
-			@Override
-			public List<UserVariable> filterItems(List<UserVariable> allItems) {
-				return filterVariables(allItems);
-			}
 		};
 		globalVarAdapter.setSelectionListener(this);
 
-		localVarAdapter = new UserDataRVAdapter<UserVariable>(localVars) {
+		localVarAdapter = new UserDataRVAdapter<UserVariable>(localVars){
 			@Override
 			public void onBindViewHolder(CheckableViewHolder holder, int position) {
 				super.onBindViewHolder(holder, position);
@@ -138,11 +125,6 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 			@Override
 			protected void onCheckBoxClick(int position) {
 				super.onCheckBoxClick(getRelativeItemPosition(position, VAR_LOCAL));
-			}
-
-			@Override
-			public List<UserVariable> filterItems(List<UserVariable> allItems) {
-				return filterVariables(allItems);
 			}
 		};
 		localVarAdapter.setSelectionListener(this);
@@ -160,11 +142,6 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 			protected void onCheckBoxClick(int position) {
 				super.onCheckBoxClick(getRelativeItemPosition(position, LIST_GLOBAL));
 			}
-
-			@Override
-			public List<UserList> filterItems(List<UserList> allItems) {
-				return filterList(allItems);
-			}
 		};
 		globalListAdapter.setSelectionListener(this);
 
@@ -181,41 +158,8 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 			protected void onCheckBoxClick(int position) {
 				super.onCheckBoxClick(getRelativeItemPosition(position, LIST_LOCAL));
 			}
-
-			@Override
-			public List<UserList> filterItems(List<UserList> allItems) {
-				return filterList(allItems);
-			}
 		};
 		localListAdapter.setSelectionListener(this);
-	}
-
-	private List<UserVariable> filterVariables(List<UserVariable> allItems) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-			return allItems.stream().filter(UserVariable::getVisible).collect(Collectors.toList());
-		}
-
-		List<UserVariable> list = new ArrayList<>();
-		for (UserVariable variable : allItems) {
-			if (variable.getVisible()) {
-				list.add(variable);
-			}
-		}
-		return list;
-	}
-
-	private List<UserList> filterList(List<UserList> allItems) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-			return allItems.stream().filter(UserList::getVisible).collect(Collectors.toList());
-		}
-
-		List<UserList> list = new ArrayList<>();
-		for (UserList variable : allItems) {
-			if (variable.getVisible()) {
-				list.add(variable);
-			}
-		}
-		return list;
 	}
 
 	private int getRelativeItemPosition(int position, @DataType int dataType) {
@@ -392,7 +336,6 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 		localVarAdapter.notifyDataSetChanged();
 		globalListAdapter.notifyDataSetChanged();
 		localListAdapter.notifyDataSetChanged();
-
 		notifyDataSetChanged();
 	}
 
@@ -402,7 +345,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 		localVarAdapter.clearSelection();
 		globalListAdapter.clearSelection();
 		localListAdapter.clearSelection();
-		updateDataSet();
+		notifyDataSetChanged();
 	}
 
 	public void selectAll() {
@@ -411,7 +354,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 		localVarAdapter.selectAll();
 		globalListAdapter.selectAll();
 		localListAdapter.selectAll();
-		updateDataSet();
+		notifyDataSetChanged();
 	}
 
 	public void remove(UserData item) {
@@ -428,17 +371,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 			File projectDir = ProjectManager.getInstance().getCurrentProject().getDirectory();
 			new DeviceListAccessor(projectDir).removeDeviceValue(item);
 		}
-		updateDataSet();
-	}
-
-	public void setVisible(UserData item, boolean visible) {
-		if (item instanceof UserVariable) {
-			((UserVariable) item).setVisible(visible);
-		} else if (item instanceof UserList) {
-			((UserList) item).setVisible(visible);
-		}
-
-		updateDataSet();
+		notifyDataSetChanged();
 	}
 
 	public List<UserData> getItems() {
@@ -501,7 +434,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 				localListAdapter.toggleSelection((UserList) item);
 			}
 		}
-		updateDataSet();
+		notifyDataSetChanged();
 	}
 
 	@Override

@@ -29,11 +29,4 @@
         android:title="@string/sort"
         android:icon="@drawable/ic_sort"
         app:showAsAction="never" />
-
-    <item
-        android:id="@+id/undo"
-        android:title="@string/undo"
-        android:icon="@drawable/icon_undo"
-        android:visible="false"
-        app:showAsAction="ifRoom" />
 </menu>

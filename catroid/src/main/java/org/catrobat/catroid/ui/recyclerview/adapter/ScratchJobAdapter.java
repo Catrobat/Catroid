@@ -44,7 +44,7 @@ public class ScratchJobAdapter extends ExtendedRVAdapter<Job> {
 
 	@Override
 	public void onBindViewHolder(ExtendedViewHolder holder, int position) {
-		Job item = getItems().get(position);
+		Job item = items.get(position);
 
 		Context context = holder.itemView.getContext();
 		holder.title.setText(item.getTitle());

@@ -2176,7 +2176,7 @@ needs read and write access to it. You can always change permissions through you
 
     <string name="deletion_alert_title">Delete?</string>
     <string name="deletion_alert_text">Deleting a variable or list that is still in use can cause
-        errors.</string>
+        errors. You can\'t undo this!</string>
 
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">Your project gets uploaded to the app\’s sharing site where others
@@ -2268,10 +2268,4 @@ needs read and write access to it. You can always change permissions through you
     <string name="undo_sort">Undo sort</string>
     <string name="sort">Sort</string>
     <string name="checkbox">checkbox</string>
-
-    <string name="datalist_undo_rename_duplicate">Cannot undo renaming of variable %1$s. It
-    appears another variable has the same name.</string>
-    <string name="datalist_undo_delete_duplicate">You can no longer restore variable %1$s</string>
-
-
 </resources>
