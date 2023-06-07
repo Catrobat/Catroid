@@ -55,9 +55,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 	public static final int PAIRS = 1;
 	public static final int MULTIPLE = 2;
 
-	private final List<T> allItems;
-	private final List<T> filteredItems;
-
+	protected List<T> items;
 	public boolean showCheckBoxes = false;
 	public boolean showRipples = true;
 	public boolean showSettings = true;
@@ -70,15 +68,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 	private OnItemClickListener<T> onItemClickListener;
 
 	protected RVAdapter(List<T> items) {
-		this.allItems = items;
-		this.filteredItems = new ArrayList<>();
-
-		this.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-			@Override
-			public void onChanged() {
-				applyFilter();
-			}
-		});
+		this.items = items;
 	}
 
 	public void setSelectionListener(SelectionListener selectionListener) {
@@ -97,7 +87,7 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 
 	@Override
 	public void onBindViewHolder(CheckableViewHolder holder, int position) {
-		T item = filteredItems.get(position);
+		T item = items.get(position);
 
 		holder.checkBox.setOnClickListener(v -> onCheckBoxClick(holder.getAdapterPosition()));
 		holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(item, selectionManager));
@@ -159,46 +149,45 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 	}
 
 	public boolean add(int i, T item) {
-		allItems.add(i, item);
-		notifyItemInserted(filteredItems.indexOf(item));
+		items.add(i, item);
+		notifyItemInserted(items.indexOf(item));
 		return true;
 	}
 
 	public boolean add(T item) {
-		if (allItems.add(item)) {
-			notifyItemInserted(filteredItems.indexOf(item));
+		if (items.add(item)) {
+			notifyItemInserted(items.indexOf(item));
 			return true;
 		}
 		return false;
 	}
 
 	public boolean remove(T item) {
-		if (allItems.remove(item)) {
-			notifyItemRemoved(filteredItems.indexOf(item));
+		if (items.remove(item)) {
+			notifyItemRemoved(items.indexOf(item));
 			return true;
 		}
 		return false;
 	}
 
 	public List<T> getItems() {
-		return filteredItems;
+		return items;
 	}
 
 	public void setItems(List<T> items) {
-		this.allItems.clear();
-		this.allItems.addAll(items);
+		this.items.clear();
+		this.items.addAll(items);
 		notifyDataSetChanged();
 	}
 
 	@Override
 	public boolean onItemMove(int sourcePosition, int targetPosition) {
 		if (Math.abs(sourcePosition - targetPosition) <= 1) {
-			Collections.swap(allItems, allItems.indexOf(filteredItems.get(sourcePosition)),
-					allItems.indexOf(filteredItems.get(targetPosition)));
+			Collections.swap(items, sourcePosition, targetPosition);
 		} else {
-			T movedItem = filteredItems.get(sourcePosition);
-			allItems.remove(movedItem);
-			allItems.add(allItems.indexOf(filteredItems.get(targetPosition)), movedItem);
+			T movedItem = items.get(sourcePosition);
+			items.remove(movedItem);
+			items.add(targetPosition, movedItem);
 		}
 		notifyItemMoved(sourcePosition, targetPosition);
 		selectionManager.updateSelection(sourcePosition, targetPosition);
@@ -208,25 +197,25 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 	public List<T> getSelectedItems() {
 		List<T> selectedItems = new ArrayList<>();
 		for (int position : selectionManager.getSelectedPositions()) {
-			selectedItems.add(filteredItems.get(position));
+			selectedItems.add(items.get(position));
 		}
 		return selectedItems;
 	}
 
 	public boolean setSelection(T item, boolean selection) {
-		if (!filteredItems.contains(item)) {
+		if (items.indexOf(item) == -1) {
 			return false;
 		}
-		selectionManager.setSelectionTo(selection, filteredItems.indexOf(item));
+		selectionManager.setSelectionTo(selection, items.indexOf(item));
 		return true;
 	}
 
 	public boolean toggleSelection(T item) {
-		if (!filteredItems.contains(item)) {
+		if (items.indexOf(item) == -1) {
 			return false;
 		}
-		selectionManager.toggleSelection(filteredItems.indexOf(item));
-		notifyItemChanged(filteredItems.indexOf(item));
+		selectionManager.toggleSelection(items.indexOf(item));
+		notifyItemChanged(items.indexOf(item));
 		return true;
 	}
 
@@ -240,8 +229,8 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 	}
 
 	public void selectAll() {
-		for (T item : filteredItems) {
-			selectionManager.setSelectionTo(true, filteredItems.indexOf(item));
+		for (T item : items) {
+			selectionManager.setSelectionTo(true, items.indexOf(item));
 		}
 		notifyDataSetChanged();
 	}
@@ -251,19 +240,9 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 		notifyDataSetChanged();
 	}
 
-	public List<T> filterItems(List<T> allItems) {
-		return allItems;
-	}
-
-	// Gets called automatically whenever the RV adapter needs re-rendering
-	private void applyFilter() {
-		filteredItems.clear();
-		filteredItems.addAll(filterItems(allItems));
-	}
-
 	@Override
 	public int getItemCount() {
-		return filteredItems.size();
+		return items.size();
 	}
 
 	public int getSelectableItemCount() {

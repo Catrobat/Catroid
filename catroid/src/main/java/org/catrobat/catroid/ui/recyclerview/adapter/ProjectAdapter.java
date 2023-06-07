@@ -51,7 +51,7 @@ public class ProjectAdapter extends ExtendedRVAdapter<ProjectData> {
 		int thumbnailWidth = context.getResources().getDimensionPixelSize(R.dimen.project_thumbnail_width);
 		int thumbnailHeight = context.getResources().getDimensionPixelSize(R.dimen.project_thumbnail_height);
 		ProjectAndSceneScreenshotLoader loader = new ProjectAndSceneScreenshotLoader(thumbnailWidth, thumbnailHeight);
-		ProjectData item = getItems().get(position);
+		ProjectData item = items.get(position);
 
 		holder.title.setText(item.getName());
 		loader.loadAndShowScreenshot(item.getDirectory().getName(),

@@ -44,7 +44,7 @@ public class SpriteAdapter extends ExtendedRVAdapter<Sprite> {
 	public void onBindViewHolder(ExtendedViewHolder holder, int position) {
 		Context context = holder.itemView.getContext();
 
-		Sprite item = getItems().get(position);
+		Sprite item = items.get(position);
 		Bitmap lookData = null;
 
 		if (!item.getLookList().isEmpty()) {

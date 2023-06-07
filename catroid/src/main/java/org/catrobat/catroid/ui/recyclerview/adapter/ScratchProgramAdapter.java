@@ -42,7 +42,7 @@ public class ScratchProgramAdapter extends ExtendedRVAdapter<ScratchProgramData>
 
 	@Override
 	public void onBindViewHolder(ExtendedViewHolder holder, int position) {
-		ScratchProgramData item = getItems().get(position);
+		ScratchProgramData item = items.get(position);
 
 		holder.title.setText(item.getTitle());
 

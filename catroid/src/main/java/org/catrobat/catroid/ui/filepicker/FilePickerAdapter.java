@@ -53,9 +53,14 @@ public class FilePickerAdapter extends RVAdapter<File> {
 	public void onBindViewHolder(CheckableViewHolder holder, int position) {
 		super.onBindViewHolder(holder, position);
 
-		File item = getItems().get(position);
+		File item = items.get(position);
 		holder.title.setText(item.getName());
 		((FileViewHolder) holder).subtitle.setText(item.getAbsolutePath());
+	}
+
+	@Override
+	public int getItemCount() {
+		return items.size();
 	}
 
 	public interface OnItemClickListener {
