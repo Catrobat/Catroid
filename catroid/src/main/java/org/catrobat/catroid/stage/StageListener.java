@@ -575,13 +575,12 @@ public class StageListener implements ApplicationListener {
 		if (makeScreenshot) {
 			byte[] screenshot = ScreenUtils
 					.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth, screenshotHeight, true);
-			makeScreenshot = false;
 			screenshotSaver.saveScreenshotAndNotify(
 					screenshot,
 					screenshotName,
 					this::notifyScreenshotCallbackAndCleanup,
-					GlobalScope.INSTANCE
-			);
+					GlobalScope.INSTANCE);
+			makeScreenshot = false;
 		}
 
 		if (axesOn && !finished) {

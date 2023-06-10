@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui.dialogs;
 
 import android.app.Dialog;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
@@ -40,6 +41,7 @@ import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.CameraBrick;
 import org.catrobat.catroid.embroidery.DSTFileGenerator;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.stage.StageActivity;
@@ -199,15 +201,24 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 			return;
 		}
 
-		stageListener.requestTakingScreenshot(SCREENSHOT_MANUAL_FILE_NAME,
-				success -> {
-					if (success) {
-						ToastUtil.showSuccess(stageActivity, R.string.notification_screenshot_ok);
-						ProjectManager.getInstance().changedProject(ProjectManager.getInstance().getCurrentProject().getName());
-					} else {
-						ToastUtil.showError(stageActivity, R.string.error_screenshot_failed);
-					}
-				});
+		boolean cameraInUse = false;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+			cameraInUse =
+					ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite().getAllBricks().stream().anyMatch(c -> c instanceof CameraBrick);
+		}
+		if (!cameraInUse) {
+			stageListener.requestTakingScreenshot(SCREENSHOT_MANUAL_FILE_NAME,
+					success -> {
+						if (success) {
+							ToastUtil.showSuccess(stageActivity, R.string.notification_screenshot_ok);
+							ProjectManager.getInstance().changedProject(ProjectManager.getInstance().getCurrentProject().getName());
+						} else {
+							ToastUtil.showError(stageActivity, R.string.error_screenshot_failed);
+						}
+					});
+		} else {
+			ToastUtil.showError(stageActivity, R.string.error_screenshot_failed_camera_block);
+		}
 	}
 
 	private void restartProject() {

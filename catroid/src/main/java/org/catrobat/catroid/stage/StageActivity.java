@@ -33,6 +33,7 @@ import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -60,6 +61,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.CameraBrick;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.nfc.NfcHandler;
@@ -261,8 +263,17 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		} else {
 			StageLifeCycleController.stagePause(this);
 			idlingResource.increment();
-			stageListener.requestTakingScreenshot(SCREENSHOT_AUTOMATIC_FILE_NAME,
-					success -> runOnUiThread(() -> idlingResource.decrement()));
+
+			boolean cameraInUse = false;
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+				cameraInUse =
+						ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite().getAllBricks().stream().anyMatch(c -> c instanceof CameraBrick);
+			}
+			if (!cameraInUse) {
+				stageListener.requestTakingScreenshot(SCREENSHOT_AUTOMATIC_FILE_NAME,
+						success -> runOnUiThread(() -> idlingResource.decrement()));
+			}
+
 			stageDialog.show();
 		}
 	}

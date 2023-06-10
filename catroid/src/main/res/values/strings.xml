@@ -1424,6 +1424,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_rename_scene">Something went wrong while renaming the scene.</string>
     <string name="error_load_project">Something went wrong while loading the project.</string>
     <string name="error_screenshot_failed">Something went wrong while saving the preview image.</string>
+    <string name="error_screenshot_failed_camera_block">Screenshot not possible, when
+        camera block is used.</string>
     <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
     <string name="error_project_compatibility">The project is not compatible with this version of the app.</string>
     <string name="error_outdated_version">This app version is outdated. Update now?</string>
