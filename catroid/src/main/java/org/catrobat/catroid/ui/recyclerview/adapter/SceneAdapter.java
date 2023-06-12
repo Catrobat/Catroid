@@ -47,7 +47,7 @@ public class SceneAdapter extends ExtendedRVAdapter<Scene> {
 		int thumbnailWidth = holder.itemView.getContext().getResources().getDimensionPixelSize(R.dimen.project_thumbnail_width);
 		int thumbnailHeight = holder.itemView.getContext().getResources().getDimensionPixelSize(R.dimen.project_thumbnail_height);
 		ProjectAndSceneScreenshotLoader loader = new ProjectAndSceneScreenshotLoader(thumbnailWidth, thumbnailHeight);
-		Scene item = getItems().get(position);
+		Scene item = items.get(position);
 
 		File projectDir = ProjectManager.getInstance().getCurrentProject().getDirectory();
 		holder.title.setText(item.getName());
@@ -69,7 +69,7 @@ public class SceneAdapter extends ExtendedRVAdapter<Scene> {
 	@Override
 	public boolean onItemMove(int sourcePosition, int targetPosition) {
 		boolean moved = super.onItemMove(sourcePosition, targetPosition);
-		ProjectManager.getInstance().setCurrentlyEditedScene(getItems().get(0));
+		ProjectManager.getInstance().setCurrentlyEditedScene(items.get(0));
 		return moved;
 	}
 

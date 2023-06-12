@@ -66,11 +66,6 @@ public final class FormulaEditorDataListWrapper extends ViewInteractionWrapper {
 		return performAdd(itemName, ItemType.VARIABLE, ItemScope.GLOBAL);
 	}
 
-	public void performUndo() {
-		onView(withId(R.id.undo))
-				.perform(click());
-	}
-
 	public FormulaEditorDataListWrapper performAdd(String itemName, ItemType type) {
 		return performAdd(itemName, type, ItemScope.GLOBAL);
 	}

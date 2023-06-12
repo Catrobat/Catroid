@@ -56,7 +56,7 @@ public class UserDataRVAdapter<T extends UserData> extends RVAdapter<T> {
 	public void onBindViewHolder(CheckableViewHolder holder, int position) {
 		super.onBindViewHolder(holder, position);
 
-		UserData item = getItems().get(position);
+		UserData item = items.get(position);
 		VariableViewHolder variableViewHolder = (VariableViewHolder) holder;
 		variableViewHolder.title.setText(item.getName());
 		variableViewHolder.value.setText(convertObjectToString(item.getValue()));

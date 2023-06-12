@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.io.DeviceListAccessor;
 import org.catrobat.catroid.io.DeviceVariableAccessor;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
@@ -54,15 +53,13 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 	public boolean allowMultiSelection = true;
 
 	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({USER_DEFINED_BRICK_INPUTS, VAR_MULTIPLAYER, VAR_GLOBAL, VAR_LOCAL, LIST_GLOBAL, LIST_LOCAL})
+	@IntDef({USER_DEFINED_BRICK_INPUTS, VAR_MULTIPLAYER, VAR_GLOBAL, VAR_LOCAL})
 	@interface DataType {}
 
 	private static final int USER_DEFINED_BRICK_INPUTS = 0;
 	private static final int VAR_MULTIPLAYER = 1;
 	private static final int VAR_GLOBAL = 2;
 	private static final int VAR_LOCAL = 3;
-	private static final int LIST_GLOBAL = 4;
-	private static final int LIST_LOCAL = 5;
 
 	private final UserDefinedBrickInputRVAdapter userDefinedBrickInputAdapter;
 	private final UserDataRVAdapter<UserVariable> multiplayerVarAdapter;
@@ -93,11 +90,6 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 			protected void onCheckBoxClick(int position) {
 				super.onCheckBoxClick(getRelativeItemPosition(position, VAR_MULTIPLAYER));
 			}
-
-			@Override
-			public List<UserVariable> filterItems(List<UserVariable> allItems) {
-				return filterVariables(allItems);
-			}
 		};
 		multiplayerVarAdapter.setSelectionListener(this);
 
@@ -115,11 +107,6 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 			protected void onCheckBoxClick(int position) {
 				super.onCheckBoxClick(getRelativeItemPosition(position, VAR_GLOBAL));
 			}
-
-			@Override
-			public List<UserVariable> filterItems(List<UserVariable> allItems) {
-				return filterVariables(allItems);
-			}
 		};
 		globalVarAdapter.setSelectionListener(this);
 
@@ -135,29 +122,10 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 
 			@Override
 			protected void onCheckBoxClick(int position) {
-				super.onCheckBoxClick(getRelativeItemPosition(position, LIST_GLOBAL));
-			}
-
-			@Override
-			public List<UserVariable> filterItems(List<UserVariable> allItems) {
-				return filterVariables(allItems);
+				super.onCheckBoxClick(getRelativeItemPosition(position, VAR_LOCAL));
 			}
 		};
 		localVarAdapter.setSelectionListener(this);
-	}
-
-	private List<UserVariable> filterVariables(List<UserVariable> allItems) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-			return allItems.stream().filter(UserVariable::getVisible).collect(Collectors.toList());
-		}
-
-		List<UserVariable> list = new ArrayList<>();
-		for (UserVariable variable : allItems) {
-			if (variable.getVisible()) {
-				list.add(variable);
-			}
-		}
-		return list;
 	}
 
 	private int getRelativeItemPosition(int position, @DataType int dataType) {
@@ -169,19 +137,10 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 			case VAR_GLOBAL:
 				return position - (userDefinedBrickInputAdapter.getItemCount()
 						+ multiplayerVarAdapter.getItemCount());
-			case LIST_GLOBAL:
-				return position - (userDefinedBrickInputAdapter.getItemCount()
-						+ multiplayerVarAdapter.getItemCount()
-						+ globalVarAdapter.getItemCount());
 			case VAR_LOCAL:
 				return position - (userDefinedBrickInputAdapter.getItemCount()
 						+ multiplayerVarAdapter.getItemCount()
 						+ globalVarAdapter.getItemCount());
-			case LIST_LOCAL:
-				return position - (userDefinedBrickInputAdapter.getItemCount()
-						+ multiplayerVarAdapter.getItemCount()
-						+ globalVarAdapter.getItemCount()
-						+ localVarAdapter.getItemCount());
 			default:
 				throw new IllegalArgumentException("DataType is not specified: this would throw an index out of "
 						+ "bounds exception.");
@@ -203,20 +162,9 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 		}
 		if (position < (userDefinedBrickInputAdapter.getItemCount()
 				+ multiplayerVarAdapter.getItemCount()
-				+ globalVarAdapter.getItemCount())) {
-			return LIST_GLOBAL;
-		}
-		if (position < (userDefinedBrickInputAdapter.getItemCount()
-				+ multiplayerVarAdapter.getItemCount()
 				+ globalVarAdapter.getItemCount()
 				+ localVarAdapter.getItemCount())) {
 			return VAR_LOCAL;
-		}
-		if (position < (userDefinedBrickInputAdapter.getItemCount()
-				+ multiplayerVarAdapter.getItemCount()
-				+ globalVarAdapter.getItemCount()
-				+ localVarAdapter.getItemCount())) {
-			return LIST_LOCAL;
 		}
 		throw new IndexOutOfBoundsException("None of the sub adapters provides this position. size:" + getItemCount()
 				+ "index: " + position);
@@ -266,16 +214,6 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 			case VAR_GLOBAL:
 			case VAR_LOCAL:
 				return position == 0 ? R.layout.view_holder_variable_with_headline : R.layout.view_holder_variable;
-			case LIST_GLOBAL:
-				return ProjectManager.getInstance().getCurrentProject().getUserVariables().size() == 0
-						&& position == 0
-						? R.layout.view_holder_list_with_headline
-						: R.layout.view_holder_list;
-			case LIST_LOCAL:
-				return ProjectManager.getInstance().getCurrentSprite().getUserVariables().size() == 0
-						&& position == 0
-						? R.layout.view_holder_list_with_headline
-						: R.layout.view_holder_list;
 		}
 		throw new ArrayIndexOutOfBoundsException("position is not within any of the adapters");
 	}
@@ -286,19 +224,14 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 		int dataType = getDataType(position);
 		position = getRelativeItemPosition(position, dataType);
 
-		switch (holder.getItemViewType()) {
-			case R.layout.view_holder_variable_with_headline:
-			case R.layout.view_holder_variable:
-				if (dataType == VAR_GLOBAL) {
-					globalVarAdapter.onBindViewHolder(holder, position);
-				} else if (dataType == VAR_LOCAL) {
-					localVarAdapter.onBindViewHolder(holder, position);
-				} else if (dataType == VAR_MULTIPLAYER) {
-					multiplayerVarAdapter.onBindViewHolder(holder, position);
-				} else if (dataType == USER_DEFINED_BRICK_INPUTS) {
-					userDefinedBrickInputAdapter.onBindViewHolder(holder, position);
-				}
-				break;
+		if (dataType == VAR_GLOBAL) {
+			globalVarAdapter.onBindViewHolder(holder, position);
+		} else if (dataType == VAR_LOCAL) {
+			localVarAdapter.onBindViewHolder(holder, position);
+		} else if (dataType == VAR_MULTIPLAYER) {
+			multiplayerVarAdapter.onBindViewHolder(holder, position);
+		} else if (dataType == USER_DEFINED_BRICK_INPUTS) {
+			userDefinedBrickInputAdapter.onBindViewHolder(holder, position);
 		}
 	}
 
@@ -321,14 +254,14 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 		multiplayerVarAdapter.clearSelection();
 		globalVarAdapter.clearSelection();
 		localVarAdapter.clearSelection();
-		updateDataSet();
+		notifyDataSetChanged();
 	}
 
 	public void selectAll() {
 		multiplayerVarAdapter.selectAll();
 		globalVarAdapter.selectAll();
 		localVarAdapter.selectAll();
-		updateDataSet();
+		notifyDataSetChanged();
 	}
 
 	public void remove(UserData item) {
@@ -343,14 +276,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 		if (!ProjectManager.getInstance().getCurrentProject().removeUserVariable(userVariable.getName())) {
 			ProjectManager.getInstance().getCurrentSprite().getUserVariableList().remove(userVariable);
 		}
-		updateDataSet();
-	}
-
-	public void setVisible(UserData item, boolean visible) {
-		if (item instanceof UserVariable) {
-			((UserVariable) item).setVisible(visible);
-		}
-		updateDataSet();
+		notifyDataSetChanged();
 	}
 
 	public List<UserData> getItems() {
@@ -405,7 +331,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableViewHolder> i
 				&& !localVarAdapter.toggleSelection(userVariable)) {
 			multiplayerVarAdapter.toggleSelection(userVariable);
 		}
-		updateDataSet();
+		notifyDataSetChanged();
 	}
 
 	@Override

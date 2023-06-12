@@ -63,7 +63,6 @@ import org.catrobat.catroid.userbrick.UserDefinedBrickInput
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.UserDataUtil.renameUserData
 import java.util.Collections
-import java.util.Collections.emptyList
 
 class DataListFragment : Fragment(),
     ActionMode.Callback, RVAdapter.SelectionListener,
@@ -80,83 +79,6 @@ class DataListFragment : Fragment(),
     private var emptyView: TextView? = null
     private var sortData = false
     private var indexVariable = false
-    private var lastPerformedAction: PerformedAction? = null
-
-    enum class ActionType {
-        DELETE, RENAME, EDIT
-    }
-
-    inner class PerformedAction(
-        val actionType: ActionType,
-        val targets: MutableList<UserData<*>> = emptyList(),
-        val oldValue: Any?
-    ) {
-        fun undo() {
-            when (actionType) {
-                ActionType.DELETE ->
-                    for (target in targets) {
-                        adapter?.setVisible(target, true)
-                    }
-                ActionType.RENAME -> {
-                    val variableName = oldValue.toString().trim()
-                    if (checkDuplicateVariable(variableName)) {
-                        ToastUtil.showInfoLong(
-                            activity,
-                            getString(
-                                R.string.datalist_undo_rename_duplicate,
-                                variableName
-                            )
-                        )
-                        return
-                    }
-
-                    val previousName = targets[0].name
-                    val newName = oldValue.toString()
-                    updateUserDataReferences(previousName, newName, targets[0])
-                    renameUserData(targets[0], newName)
-                    indexAndSort()
-                    finishActionMode()
-                    if (targets[0] is UserVariable) {
-                        formulaEditorDataInterface?.onVariableRenamed(previousName, newName)
-                    } else {
-                        formulaEditorDataInterface?.onListRenamed(previousName, newName)
-                    }
-                }
-                ActionType.EDIT -> {
-                    updateUserVariableValue(oldValue.toString().trim(), targets[0])
-                    adapter?.updateDataSet()
-                    finishActionMode()
-                }
-            }
-        }
-    }
-
-    fun checkDuplicateVariable(variableName: String): Boolean {
-        for (variable in adapter!!.items) {
-            if (variable.name == variableName) {
-                return true
-            }
-        }
-
-        return false
-    }
-
-    private fun commitDelete() {
-        if (lastPerformedAction?.actionType == ActionType.DELETE) {
-            for (target in lastPerformedAction?.targets!!) {
-                adapter?.remove(target)
-            }
-            ProjectManager.getInstance().currentProject.deselectElements(lastPerformedAction?.targets)
-            lastPerformedAction = null
-            requireActivity().invalidateOptionsMenu()
-        }
-    }
-
-    fun storeAction(action: PerformedAction) {
-        commitDelete()
-        lastPerformedAction = action
-        requireActivity().invalidateOptionsMenu()
-    }
 
     @ActionModeType
     var actionModeType = NONE
@@ -227,11 +149,7 @@ class DataListFragment : Fragment(),
         BottomBar.showAddButton(activity)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val parent = inflater.inflate(R.layout.fragment_list_view, container, false)
         recyclerView = parent.findViewById(R.id.recycler_view)
         emptyView = parent.findViewById(R.id.empty_view)
@@ -248,7 +166,7 @@ class DataListFragment : Fragment(),
         super.onResume()
         initializeAdapter()
         (activity as AppCompatActivity?)?.supportActionBar?.setTitle(R.string.formula_editor_data)
-        adapter?.updateDataSet()
+        adapter?.notifyDataSetChanged()
         setShowEmptyView(shouldShowEmptyView())
 
         BottomBar.showBottomBar(activity)
@@ -260,11 +178,6 @@ class DataListFragment : Fragment(),
         if (adapter?.hasObservers() == true) {
             adapter?.unregisterAdapterDataObserver(observer)
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        commitDelete()
     }
 
     override fun onStop() {
@@ -318,10 +231,8 @@ class DataListFragment : Fragment(),
             .getBoolean(INDEXING_VARIABLE_PREFERENCE_KEY, false)
 
         if (!indexVariable) {
-            initialIndexing(
-                userDefinedBrickInputs, globalVars, localVars, multiplayerVars,
-                globalLists, localLists
-            )
+            initialIndexing(userDefinedBrickInputs, globalVars, localVars, multiplayerVars,
+                            globalLists, localLists)
             indexVariable = true
             PreferenceManager.getDefaultSharedPreferences(activity)
                 .edit()
@@ -329,11 +240,9 @@ class DataListFragment : Fragment(),
                 .apply()
         }
 
-        sortVariableAndList(
-            userDefinedBrickInputs, globalVars, localVars, multiplayerVars,
-            globalLists, localLists
-        )
-        adapter?.updateDataSet()
+        sortVariableAndList(userDefinedBrickInputs, globalVars, localVars, multiplayerVars,
+                            globalLists, localLists)
+        adapter?.notifyDataSetChanged()
     }
 
     @Suppress("LongParameterList")
@@ -434,29 +343,7 @@ class DataListFragment : Fragment(),
     }
 
     fun notifyDataSetChanged() {
-        adapter?.updateDataSet()
-
-        // Check if new variables conflict with restorable ones
-        if (lastPerformedAction?.actionType == ActionType.DELETE) {
-            val it = lastPerformedAction?.targets?.iterator()
-            while (it != null && it.hasNext()) {
-                val variableName = it.next().name
-                if (checkDuplicateVariable(variableName)) {
-                    ToastUtil.showInfoLong(
-                        context, getString(
-                            R.string.datalist_undo_delete_duplicate,
-                            variableName
-                        )
-                    )
-                    it.remove()
-                }
-            }
-
-            if (lastPerformedAction?.targets?.isEmpty() == true) {
-                lastPerformedAction = null
-                requireActivity().invalidateOptionsMenu()
-            }
-        }
+        adapter?.notifyDataSetChanged()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -464,13 +351,7 @@ class DataListFragment : Fragment(),
         for (index in 0 until menu.size()) {
             menu.getItem(index).isVisible = false
         }
-
         menu.findItem(R.id.delete).isVisible = true
-
-        if (lastPerformedAction != null) {
-            menu.findItem(R.id.undo).isVisible = true
-        }
-
         if (context != null) {
             sortData = PreferenceManager.getDefaultSharedPreferences(context)
                 .getBoolean(SORT_VARIABLE_PREFERENCE_KEY, false)
@@ -491,16 +372,9 @@ class DataListFragment : Fragment(),
                     .apply()
                 indexAndSort()
             }
-            R.id.undo -> undoLastPerformedAction()
             else -> return super.onOptionsItemSelected(item)
         }
         return true
-    }
-
-    private fun undoLastPerformedAction() {
-        lastPerformedAction?.undo()
-        lastPerformedAction = null
-        requireActivity().invalidateOptionsMenu()
     }
 
     private fun startActionMode(@ActionModeType type: Int) {
@@ -535,20 +409,11 @@ class DataListFragment : Fragment(),
     private fun deleteItems(selectedItems: List<UserData<*>>) {
         finishActionMode()
         for (item in selectedItems) {
-            adapter?.setVisible(item, false)
+            adapter?.remove(item)
         }
-        storeAction(
-            PerformedAction(
-                ActionType.DELETE, selectedItems.toMutableList(),
-                null
-            )
-        )
-        ToastUtil.showSuccess(
-            activity, resources.getQuantityString(
-                R.plurals.deleted_Items,
-                selectedItems.size, selectedItems.size
-            )
-        )
+        ProjectManager.getInstance().currentProject.deselectElements(selectedItems)
+        ToastUtil.showSuccess(activity, resources.getQuantityString(R.plurals.deleted_Items,
+                                                                    selectedItems.size, selectedItems.size))
     }
 
     private fun showRenameDialog(selectedItems: List<UserData<*>>) {
@@ -569,12 +434,6 @@ class DataListFragment : Fragment(),
 
     private fun renameItem(item: UserData<*>, name: String?) {
         val previousName = item.name
-        storeAction(
-            PerformedAction(
-                ActionType.RENAME, listOf(item).toMutableList(),
-                previousName
-            )
-        )
         updateUserDataReferences(previousName, name, item)
         renameUserData(item, name ?: "")
         indexAndSort()
@@ -597,12 +456,6 @@ class DataListFragment : Fragment(),
     }
 
     private fun editItem(item: UserData<*>, value: String?) {
-        storeAction(
-            PerformedAction(
-                ActionType.EDIT, listOf(item).toMutableList(),
-                item.value
-            )
-        )
         updateUserVariableValue(value, item)
         adapter?.updateDataSet()
         finishActionMode()
@@ -643,11 +496,7 @@ class DataListFragment : Fragment(),
 
         @JvmStatic
         fun updateUserDataReferences(oldName: String?, newName: String?, item: UserData<*>?) {
-            ProjectManager.getInstance().currentProject.updateUserDataReferences(
-                oldName,
-                newName,
-                item
-            )
+            ProjectManager.getInstance().currentProject.updateUserDataReferences(oldName, newName, item)
         }
 
         @JvmStatic
@@ -667,11 +516,9 @@ class DataListFragment : Fragment(),
             R.id.new_scene, R.id.cast_button, R.id.backpack, R.id.project_options
         )
         if (item is UserVariable) {
-            val popupMenu = UiUtils.createSettingsPopUpMenu(
-                view, requireContext(),
-                R.menu.menu_project_activity,
-                hiddenOptionsMenu.toIntArray()
-            )
+            val popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(),
+                                                            R.menu.menu_project_activity,
+                                                            hiddenOptionsMenu.toIntArray())
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.rename -> showRenameDialog(ArrayList(listOf(item)))
@@ -683,11 +530,9 @@ class DataListFragment : Fragment(),
             popupMenu.show()
         } else {
             hiddenOptionsMenu.add(R.id.edit)
-            val popupMenu = UiUtils.createSettingsPopUpMenu(
-                view, requireContext(),
-                R.menu.menu_project_activity,
-                hiddenOptionsMenu.toIntArray()
-            )
+            val popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(),
+                                                            R.menu.menu_project_activity,
+                                                            hiddenOptionsMenu.toIntArray())
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.rename -> showRenameDialog(ArrayList(listOf(item)))
