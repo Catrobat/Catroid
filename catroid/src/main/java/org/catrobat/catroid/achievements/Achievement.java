@@ -43,6 +43,7 @@ public class Achievement implements Observer {
 		Key = key;
 		Drawable = drawable;
 		Unlocked = AchievementSystem.getInstance().getPreferences().getBoolean(Key, false);
+
 	}
 
 	/*public Achievement(String title, int drawable) {
@@ -70,6 +71,7 @@ public class Achievement implements Observer {
 	{
 		ConditionList.add(condition);
 		condition.addObserver(this);
+		updateDescription();
 	}
 
 	public String getTitle() {
@@ -105,6 +107,7 @@ public class Achievement implements Observer {
 
 	private void setUnlocked(boolean unlocked) {
 		Unlocked = unlocked;
+		updateDescription();
 		SharedPreferences.Editor editor = AchievementSystem.getInstance().getEditor();
 		editor.putBoolean(Key, Unlocked);
 		editor.apply();

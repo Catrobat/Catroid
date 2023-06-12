@@ -31,7 +31,7 @@ import org.catrobat.catroid.R;
 import java.util.ArrayList;
 
 public class AchievementSystem {
-	private  boolean Active = false;
+	private boolean Active = false;
 	private Context context = null;
 	private static AchievementSystem Instance = null;
 	private ArrayList<Achievement> AchievementList = new ArrayList<>();
@@ -62,13 +62,21 @@ public class AchievementSystem {
 	public void setUpConditionList(Context context)
 	{
 		this.context = context.getApplicationContext();
-		addCondition(new AchievementCondition(context.getString(R.string.achievement_condition_key_test), 4 ,
+		addCondition(new AchievementCondition(this.context.getString(R.string.achievement_condition_key_test), 4 ,
 				"test_string_condition"));
+		this.context.getString(R.string.achievement_condition_key_run_first_project);
+		addCondition(new AchievementCondition(this.context.getString(R.string.achievement_condition_key_run_first_project), 1,
+				this.context.getString(R.string.achievement_condition_description_run_first_project)));
 	}
 	public void setUpAchievementList()
 	{
 
-
+		Achievement runFirstProject =
+				new Achievement(context.getString(R.string.achievement_title_run_first_project),
+						context.getString(R.string.achievement_key_run_first_project),
+						R.drawable.test_image);
+		runFirstProject.addCondition(getCondition(context.getString(R.string.achievement_condition_key_run_first_project)));
+		AchievementList.add(runFirstProject);
 		Achievement Start = new Achievement(context.getString(R.string.achievement_title_when),
 				context.getString(R.string.achievement_key_test),
 			R.drawable.test_image);

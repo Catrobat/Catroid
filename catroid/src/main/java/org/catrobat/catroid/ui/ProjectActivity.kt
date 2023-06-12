@@ -36,6 +36,9 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.achievements.AchievementSystem
+import org.catrobat.catroid.achievements.Observer
+import org.catrobat.catroid.achievements.Subject
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION
 import org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME
@@ -73,7 +76,7 @@ import org.catrobat.catroid.visualplacement.VisualPlacementActivity
 import org.koin.android.ext.android.inject
 import java.io.File
 
-class ProjectActivity : BaseCastActivity() {
+class ProjectActivity : BaseCastActivity(),Subject{
 
     companion object {
         const val EXTRA_FRAGMENT_POSITION = "fragmentPosition"
@@ -89,6 +92,7 @@ class ProjectActivity : BaseCastActivity() {
         const val SPRITE_FROM_LOCAL = 5
     }
 
+    private val observerArrayList = ArrayList<Observer>()
     private lateinit var binding: ActivityRecyclerBinding
     private val projectManager: ProjectManager by inject()
 
@@ -119,6 +123,14 @@ class ProjectActivity : BaseCastActivity() {
             }
         }
         projectManager.currentProject.checkIfSpriteNameEqualBackground(this)
+        addObserver(AchievementSystem.getInstance().getCondition(getString(R.string.achievement_condition_key_run_first_project)))
+    }
+
+    override fun onResume() {
+
+        AchievementSystem.getInstance().isActive = true
+
+        super.onResume()
     }
 
     private fun loadFragment(fragmentPosition: Int) {
@@ -176,6 +188,7 @@ class ProjectActivity : BaseCastActivity() {
     }
 
     override fun onBackPressed() {
+        AchievementSystem.getInstance().isActive = false;
         val currentProject = projectManager.currentProject
         if (currentProject == null) {
             finish()
@@ -200,6 +213,7 @@ class ProjectActivity : BaseCastActivity() {
         } else {
             super.onBackPressed()
         }
+
     }
 
     private fun saveProject(currentProject: Project?) {
@@ -442,6 +456,7 @@ class ProjectActivity : BaseCastActivity() {
     }
 
     private fun handlePlayButton() {
+        notifyObserver()
         StageActivity.handlePlayButton(projectManager, this)
     }
 
@@ -463,6 +478,21 @@ class ProjectActivity : BaseCastActivity() {
         if (!ev3DialogDisabled && resourcesSet.contains(Brick.BLUETOOTH_LEGO_EV3)) {
             val dialog: DialogFragment = LegoSensorConfigInfoDialog.newInstance(Constants.EV3)
             dialog.show(supportFragmentManager, LegoSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG)
+        }
+    }
+
+    override fun addObserver(observer: Observer) {
+        observerArrayList.add(observer)
+    }
+
+    override fun removeObserver(observer: Observer) {
+       observerArrayList.remove(observer)
+    }
+
+    override fun notifyObserver() {
+        for (observer in observerArrayList)
+        {
+            observer.update(this);
         }
     }
 }
