@@ -43,9 +43,9 @@ emulators {
         }
     }
 
-    emulator 'android28', 'template1', {
+    emulator 'android33', 'template1', {
         avd {
-            systemImage = 'system-images;android-28;default;x86_64'
+            systemImage = 'system-images;android-33;default;x86_64'
         }
     }
 }
