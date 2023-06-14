@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,18 +25,16 @@ package org.catrobat.catroid.io
 
 import org.w3c.dom.Node
 
-class NodeOperatorExtension {
-    companion object {
-        @JvmStatic
-        fun getNodeByName(node: Node?, nodeName: String): Node? {
-            if (node == null) return null
-            val nodeList = node.childNodes
-            for (i in 0 until nodeList.length) {
-                if (nodeList.item(i).nodeName == nodeName) {
-                    return nodeList.item(i)
-                }
+object NodeOperatorExtension {
+    @JvmStatic
+    fun getNodeByName(node: Node?, nodeName: String): Node? {
+        if (node == null) return null
+        val nodeList = node.childNodes
+        for (i in 0 until nodeList.length) {
+            if (nodeList.item(i).nodeName == nodeName) {
+                return nodeList.item(i)
             }
-            return null
         }
+        return null
     }
 }

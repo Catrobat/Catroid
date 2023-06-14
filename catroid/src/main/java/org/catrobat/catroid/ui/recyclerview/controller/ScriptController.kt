@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,6 @@ import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.bricks.Brick
-import org.catrobat.catroid.content.bricks.Brick.BrickData
 import org.catrobat.catroid.content.bricks.BroadcastMessageBrick
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick
 import org.catrobat.catroid.content.bricks.PlaySoundBrick
@@ -40,7 +39,6 @@ import org.catrobat.catroid.content.bricks.SetLookBrick
 import org.catrobat.catroid.content.bricks.UserDataBrick
 import org.catrobat.catroid.content.bricks.UserDefinedBrick
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
-import org.catrobat.catroid.content.bricks.UserVariableBrick
 import org.catrobat.catroid.content.bricks.UserVariableBrickInterface
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick
 import org.catrobat.catroid.formulaeditor.UserData
@@ -55,7 +53,7 @@ class ScriptController {
     private val projectManager: ProjectManager by KoinJavaComponent.inject(ProjectManager::class.java)
 
     companion object {
-        val TAG = ScriptController::class.java.simpleName
+        val TAG: String = ScriptController::class.java.simpleName
     }
 
     @Throws(IOException::class, CloneNotSupportedException::class)
@@ -262,24 +260,9 @@ class ScriptController {
             val previousUserData = entry.value
             var updatedUserList: UserData<*>?
             val scope = destinationSprite?.let { Scope(destinationProject, it, null) }
-            updatedUserList = if (BrickData.isUserList(entry.key)) {
-                UserDataWrapper.getUserList(previousUserData?.name, scope)
-            } else {
-                UserDataWrapper.getUserVariable(previousUserData?.name, scope)
-            }
+            updatedUserList = UserDataWrapper.getUserVariable(previousUserData?.name, scope)
             entry.setValue(updatedUserList)
         }
-    }
-
-    private fun updateUserList(
-        brick: UserVariableBrick,
-        destinationProject: Project?,
-        destinationSprite: Sprite?
-    ) {
-        val previousUserList = brick.userVariable
-        val scope = destinationSprite?.let { Scope(destinationProject, it, null) }
-        val updatedUserList = UserDataWrapper.getUserList(previousUserList?.name, scope)
-        brick.userVariable = updatedUserList
     }
 
     private fun updateUserVariable(

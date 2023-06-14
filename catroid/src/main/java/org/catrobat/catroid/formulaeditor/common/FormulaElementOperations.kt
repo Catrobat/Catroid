@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,8 +24,6 @@ package org.catrobat.catroid.formulaeditor.common
 
 import android.content.res.Resources
 import com.badlogic.gdx.math.Rectangle
-import org.catrobat.catroid.CatroidApplication
-import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.LookData
 import org.catrobat.catroid.content.GroupSprite
@@ -43,10 +41,8 @@ import org.catrobat.catroid.nfc.NfcHandler
 import org.catrobat.catroid.sensing.CollisionDetection
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.StageListener
-import org.catrobat.catroid.utils.NumberFormats.Companion.trimTrailingCharacters
 import org.catrobat.catroid.utils.TouchUtil
 import java.lang.Double.valueOf
-import java.util.Objects
 import kotlin.math.round
 
 object FormulaElementOperations {
@@ -206,38 +202,6 @@ object FormulaElementOperations {
             }
         } ?: Conversions.FALSE
     }
-
-    private fun booleanToLocalizedString(value: Boolean): String {
-        return if (value) {
-            CatroidApplication.getAppContext().getString(R.string.formula_editor_true)
-        } else {
-            CatroidApplication.getAppContext().getString(R.string.formula_editor_false)
-        }
-    }
-
-    private fun interpretMultipleItemsUserList(userListValues: List<Any>): Any {
-        val userListStringValues = userListValues.map {
-            trimTrailingCharacters(
-                when (it) {
-                    is Int -> it.toString()
-                    is Double -> it.toString()
-                    is Boolean -> booleanToLocalizedString(it)
-                    is Char -> it.toString()
-                    else -> it as String
-                }
-            )
-        }
-        val stringBuilder = StringBuilder(userListStringValues.size)
-        val separator = if (listConsistsOfSingleCharacters(userListStringValues)) "" else " "
-        for (userListStringValue in userListStringValues) {
-            stringBuilder.append(trimTrailingCharacters(userListStringValue))
-            stringBuilder.append(separator)
-        }
-        return stringBuilder.toString().trim { it <= ' ' }
-    }
-
-    private fun listConsistsOfSingleCharacters(userListStringValues: List<String>) =
-        userListStringValues.none { it.length > 1 }
 
     @JvmStatic
     fun interpretUserVariable(userVariable: UserVariable?) =

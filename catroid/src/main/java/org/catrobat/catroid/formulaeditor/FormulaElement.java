@@ -100,7 +100,8 @@ public class FormulaElement implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public enum ElementType {
-		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, USER_DEFINED_BRICK_INPUT, BRACKET, STRING, COLLISION_FORMULA
+		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, USER_DEFINED_BRICK_INPUT,
+		BRACKET, STRING, COLLISION_FORMULA
 	}
 
 	private ElementType type;
@@ -420,7 +421,7 @@ public class FormulaElement implements Serializable {
 				UserVariable userVariable = UserDataWrapper.getUserVariable(value, scope);
 				return interpretUserVariable(userVariable);
 			case USER_LIST:
-				UserVariable userList = UserDataWrapper.getUserList(value, scope);
+				UserVariable userList = UserDataWrapper.getUserVariable(value, scope);
 				if (userList != null && userList.isList()) {
 					return interpretUserList(userList);
 				} else {
@@ -529,7 +530,7 @@ public class FormulaElement implements Serializable {
 
 	private Object interpretFunctionNumberOfItems(Object left, Scope scope) {
 		if (leftChild.type == ElementType.USER_LIST) {
-			UserVariable userList = UserDataWrapper.getUserList(leftChild.value, scope);
+			UserVariable userList = UserDataWrapper.getUserVariable(leftChild.value, scope);
 			return (double) handleNumberOfItemsOfUserListParameter(userList);
 		}
 		return interpretFunctionLength(left, scope);
@@ -565,10 +566,8 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretFunctionIndexOfItem(Object left, Scope scope) {
-		if (rightChild.getElementType() == ElementType.USER_LIST) {
-			UserVariable userList = UserDataWrapper.getUserList(rightChild.value, scope);
-			return (double) (userList.getIndexOfListItem(left) + 1);
-		} else if (rightChild.getElementType() == ElementType.USER_VARIABLE) {
+		if (rightChild.getElementType() == ElementType.USER_VARIABLE
+				|| rightChild.getElementType() == ElementType.USER_LIST) {
 			UserVariable userVariable = UserDataWrapper.getUserVariable(rightChild.value, scope);
 			return (double) (userVariable.getIndexOfListItem(left) + 1);
 		}
@@ -596,10 +595,8 @@ public class FormulaElement implements Serializable {
 
 	@Nullable
 	private UserVariable getUserListOfChild(FormulaElement child, Scope scope) {
-		if (child.getElementType() == ElementType.USER_LIST) {
-			return UserDataWrapper.getUserList(child.value, scope);
-		}
-		if (child.getElementType() == ElementType.USER_VARIABLE) {
+		if (child.getElementType() == ElementType.USER_VARIABLE
+				|| child.getElementType() == ElementType.USER_LIST) {
 			return UserDataWrapper.getUserVariable(child.value, scope);
 		}
 		return null;
@@ -683,7 +680,7 @@ public class FormulaElement implements Serializable {
 				UserVariable userVariable = UserDataWrapper.getUserVariable(leftChild.value, scope);
 				return (double) calculateUserVariableLength(userVariable);
 			case USER_LIST:
-				UserVariable userList = UserDataWrapper.getUserList(leftChild.value, scope);
+				UserVariable userList = UserDataWrapper.getUserVariable(leftChild.value, scope);
 				return calculateUserListLength(userList, left, scope);
 			default:
 				if (left instanceof Double && ((Double) left).isNaN()) {
@@ -954,7 +951,7 @@ public class FormulaElement implements Serializable {
 	}
 
 	private boolean isUserListBoolean(Scope scope) {
-		UserVariable userVariable = UserDataWrapper.getUserList(value, scope);
+		UserVariable userVariable = UserDataWrapper.getUserVariable(value, scope);
 		List<Object> listValues = Collections.emptyList();
 
 		if (userVariable.isList()) {

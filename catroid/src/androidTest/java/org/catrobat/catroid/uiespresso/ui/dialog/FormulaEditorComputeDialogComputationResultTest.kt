@@ -125,6 +125,7 @@ import org.junit.runners.Parameterized
 @Category(AppUi::class, Smoke::class)
 @RunWith(Parameterized::class)
 class FormulaEditorComputeDialogComputationResultTest(
+    private val name: String,
     private val formula: Formula,
     private val userVariableLeftValue: Any?,
     private val userVariableRightValue: Any?,

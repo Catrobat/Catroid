@@ -117,16 +117,10 @@ public class SpriteController {
 		sprite.getSoundList().addAll(spriteToCopy.getSoundList());
 		sprite.getNfcTagList().addAll(spriteToCopy.getNfcTagList());
 
-		for (UserVariable originalVariable : spriteToCopy.getUserVariables()) {
+		for (UserVariable originalVariable : spriteToCopy.getUserVariableList()) {
 			UserVariable copyVariable = new UserVariable(originalVariable);
 			copyVariable.setDeviceValueKey(originalVariable.getDeviceKey());
-			sprite.getUserVariables().add(copyVariable);
-		}
-
-		for (UserVariable originalList : spriteToCopy.getUserLists()) {
-			UserVariable copyList = new UserVariable(originalList);
-			copyList.setDeviceValueKey(originalList.getDeviceKey());
-			sprite.getUserLists().add(new UserVariable(originalList));
+			sprite.getUserVariableList().add(copyVariable);
 		}
 
 		for (Brick userDefinedBrick : spriteToCopy.getUserDefinedBrickList()) {

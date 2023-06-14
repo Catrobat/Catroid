@@ -23,5 +23,4 @@
 
 package org.catrobat.catroid.io
 
-class OldUserListInterpretationException(message: String) : Exception(message) {
-}
+class OldUserListInterpretationException(message: String) : Exception(message)

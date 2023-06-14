@@ -149,24 +149,24 @@ public class XstreamParserTest {
 
 		assertNotNull(UserDataWrapper.getUserVariable("localVar", scopeLocal));
 
-		assertNotNull(UserDataWrapper.getUserList("localList", scopeLocal));
+		assertNotNull(UserDataWrapper.getUserVariable("localList", scopeLocal));
 
 		assertNull(UserDataWrapper.getUserVariable("localVar", scopeGlobal));
 
-		assertNull(UserDataWrapper.getUserList("localList", scopeGlobal));
+		assertNull(UserDataWrapper.getUserVariable("localList", scopeGlobal));
 
 		assertNotNull(UserDataWrapper.getUserVariable("globalVar", scopeLocal));
 
-		assertNotNull(UserDataWrapper.getUserList("globalList", scopeLocal));
+		assertNotNull(UserDataWrapper.getUserVariable("globalList", scopeLocal));
 
 		assertNull(UserDataWrapper.getUserVariable("localVar", scopeGlobal));
 
-		assertNull(UserDataWrapper.getUserList("localList", scopeGlobal));
+		assertNull(UserDataWrapper.getUserVariable("localList", scopeGlobal));
 
 		assertNotSame(UserDataWrapper.getUserVariable("localVar", scopeLocal),
 				UserDataWrapper.getUserVariable("globalList", scopeLocal));
 
-		assertNotSame(UserDataWrapper.getUserList("localList", scopeLocal),
-				UserDataWrapper.getUserList("globalList", scopeLocal));
+		assertNotSame(UserDataWrapper.getUserVariable("localList", scopeLocal),
+				UserDataWrapper.getUserVariable("globalList", scopeLocal));
 	}
 }

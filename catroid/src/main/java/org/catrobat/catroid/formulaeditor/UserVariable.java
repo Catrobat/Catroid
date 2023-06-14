@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
+import android.util.Log;
+
 import org.jetbrains.annotations.TestOnly;
 
 import java.io.Serializable;
@@ -34,7 +36,6 @@ import java.util.UUID;
 public class UserVariable implements Serializable, UserData<Object> {
 
 	private static final long serialVersionUID = 1L;
-
 	private String name;
 	private int initialIndex = -1;
 	private UUID deviceValueKey;
@@ -118,9 +119,6 @@ public class UserVariable implements Serializable, UserData<Object> {
 		this.name = name;
 	}
 
-	// TODO: Consider splitting it up into two functions (getVariableValue for variables and
-	//  getListValue for lists). That way no cast to ArrayList<Object> would be necessary. If a
-	//  variable calls getListValue, it would return an empty list.
 	@Override
 	public Object getValue() {
 		return isList ? value : (value.isEmpty() ? 0d : value.get(0));
@@ -208,12 +206,7 @@ public class UserVariable implements Serializable, UserData<Object> {
 	}
 
 	public Object getListItem(int index) {
-		try {
-			return value.get(index);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+		return (index < 0 || index >= value.size() || !isList) ? null : value.get(index);
 	}
 
 	public int getIndexOfListItem(Object item) {
@@ -223,8 +216,8 @@ public class UserVariable implements Serializable, UserData<Object> {
 	public void addListItem(Object listItem) {
 		try {
 			value.add(listItem);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception exception) {
+			Log.d(getClass().getSimpleName(), "addListItem failed", exception);
 		}
 		isList = true;
 	}
@@ -232,24 +225,24 @@ public class UserVariable implements Serializable, UserData<Object> {
 	public void deleteListItemAtIndex(int index) {
 		try {
 			value.remove(index);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception exception) {
+			Log.d(getClass().getSimpleName(), "deleteListItemAtIndex failed", exception);
 		}
 	}
 
 	public void insertListItemAtIndex(int index, Object item) {
 		try {
 			value.add(index, item);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception exception) {
+			Log.d(getClass().getSimpleName(), "insertListItemAtIndex failed", exception);
 		}
 	}
 
 	public void setListItemAtIndex(int index, Object item) {
 		try {
 			value.set(index, item);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception exception) {
+			Log.d(getClass().getSimpleName(), "setListItemAtIndex failed", exception);
 		}
 	}
 

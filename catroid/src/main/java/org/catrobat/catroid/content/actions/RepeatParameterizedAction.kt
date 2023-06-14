@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,6 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.TestResult
-import java.util.Objects
 
 class RepeatParameterizedAction : LoopAction() {
     private var assertTitle = "ParameterizedInitialisationError"

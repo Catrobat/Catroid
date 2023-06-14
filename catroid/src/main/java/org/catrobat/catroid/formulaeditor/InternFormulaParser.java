@@ -159,7 +159,7 @@ public class InternFormulaParser {
 			formulaParseTree = formula(scope);
 		} catch (InternFormulaParserException parseException) {
 			errorTokenIndex = currentTokenParseIndex;
-			parseException.printStackTrace();
+			Log.d(TAG, "Formula parsing failed", parseException);
 		}
 		removeEndOfFileToken();
 		return formulaParseTree;
@@ -290,7 +290,7 @@ public class InternFormulaParser {
 
 	private FormulaElement userList(Scope scope) throws InternFormulaParserException {
 		String listName = currentToken.getTokenStringValue();
-		UserVariable userList = UserDataWrapper.getUserList(listName, scope);
+		UserVariable userList = UserDataWrapper.getUserVariable(listName, scope);
 
 		if (userList == null) {
 			throw new InternFormulaParserException("Parse Error");
