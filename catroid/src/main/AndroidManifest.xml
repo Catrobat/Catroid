@@ -100,9 +100,7 @@
             android:parentActivityName=".ui.AchievementsListActivity"
              android:screenOrientation="portrait" />
 
-        <activity
-            android:name=".ui.TestActivity"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".ui.MainMenuActivity"
             android:screenOrientation="portrait"

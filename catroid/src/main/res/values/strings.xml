@@ -109,7 +109,7 @@
     <!--  -->
 
     <!-- Main Menu -->
-    <string name="main_menu_test">Test</string>
+
     <string name="main_menu_continue">Continue project</string>
     <string name="main_menu_new">New project</string>
     <string name="main_menu_programs">Projects on device</string>
@@ -2296,7 +2296,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="undo_sort">Undo sort</string>
     <string name="sort">Sort</string>
     <string name="checkbox">checkbox</string>
-    <string name="title_activity_test">TestActivity</string>
+
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
