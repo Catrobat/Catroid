@@ -3,11 +3,15 @@
 pipeline {
     agent {
         docker {
-            image 'catrobat/catrobat-android:stable'
+            image 'catrobat/catrobat-android:api33'
             args '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -m=6.5G'
             label 'LimitedEmulator'
             alwaysPull true
         }
+    }
+
+    environment {
+        ANDROID_VERSION = 33
     }
 
     options {
@@ -26,7 +30,7 @@ pipeline {
 
         stage('Unit and Device tests') {
             steps {
-                sh """./gradlew -PenableCoverage -Pemulator=${env.EMULATOR} startEmulator \
+                sh """./gradlew -PenableCoverage -Pemulator=android${ANDROID_VERSION} startEmulator \
                             createCatroidDebugAndroidTestCoverageReport -Pandroid.testInstrumentationRunnerArguments.${env.TYPE}=${env.NAME}"""
             }
 
