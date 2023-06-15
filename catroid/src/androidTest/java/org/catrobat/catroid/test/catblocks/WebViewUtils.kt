@@ -38,6 +38,7 @@ class WebViewUtils(private var activity: Activity, timeoutSeconds: Long? = null)
     private val DEFAULT_TIMEOUT_SECONDS: Long = 5
     private var TIMEOUT_SECONDS: Long = DEFAULT_TIMEOUT_SECONDS
     private var webView: WebView
+    private val jsInterface: JSInterface
 
     companion object {
         private val pageLoadLatch: CountDownLatch = CountDownLatch(1)
@@ -48,8 +49,10 @@ class WebViewUtils(private var activity: Activity, timeoutSeconds: Long? = null)
         if (timeoutSeconds != null) {
             TIMEOUT_SECONDS = timeoutSeconds
         }
+
+        jsInterface = JSInterface(pageLoadLatch)
         activity.runOnUiThread {
-            webView.addJavascriptInterface(JSInterface(pageLoadLatch), "webViewUtils")
+            webView.addJavascriptInterface(jsInterface, "webViewUtils")
             webView.loadUrl("https://appassets.androidplatform.net/assets/catblocks/index.html")
         }
     }
@@ -112,7 +115,7 @@ class WebViewUtils(private var activity: Activity, timeoutSeconds: Long? = null)
     fun waitForElement(querySelector: String, onElementFound: (() -> Unit)? = null) {
         waitForPageToLoad()
         val currentLatch = CountDownLatch(1)
-        JSInterface.waitForElementLatch = currentLatch
+        jsInterface.setWaitForElementLatch(currentLatch)
 
         val jsCode = """
             javascript:(function() {
@@ -321,8 +324,9 @@ class WebViewUtils(private var activity: Activity, timeoutSeconds: Long? = null)
     }
 
     private class JSInterface(private val pageLoadLatch: CountDownLatch) {
-        companion object {
-            var waitForElementLatch: CountDownLatch = CountDownLatch(1)
+        private var waitForElementLatch: CountDownLatch = CountDownLatch(1)
+        fun setWaitForElementLatch(latch: CountDownLatch) {
+            waitForElementLatch = latch
         }
 
         @JavascriptInterface

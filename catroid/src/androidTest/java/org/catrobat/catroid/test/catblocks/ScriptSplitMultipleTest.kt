@@ -23,6 +23,9 @@
 
 package org.catrobat.catroid.test.catblocks
 
+import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openContextualActionModeOverflowMenu
@@ -79,7 +82,6 @@ class ScriptSplitMultipleTest {
 
     @After
     fun tearDown() {
-        CatblocksScriptFragment.testingMode = false
         SettingsFragment.setUseCatBlocks(ApplicationProvider.getApplicationContext(), false)
         baseActivityTestRule.finishActivity()
     }

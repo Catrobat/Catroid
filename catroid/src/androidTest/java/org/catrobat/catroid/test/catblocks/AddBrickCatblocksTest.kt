@@ -66,7 +66,6 @@ class AddBrickCatblocksTest {
 
     @After
     fun tearDown() {
-        CatblocksScriptFragment.testingMode = false
         SettingsFragment.setUseCatBlocks(ApplicationProvider.getApplicationContext(), false)
         baseActivityTestRule.finishActivity()
     }
