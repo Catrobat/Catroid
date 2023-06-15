@@ -57,6 +57,8 @@ def useDockerLabelParameter(dockerImage, defaultLabel) {
 pipeline {
     agent none
 
+    tools {nodejs "NodeJS"}
+
     parameters {
         string name: 'WEB_TEST_URL', defaultValue: '', description: 'When set, all the archived ' +
                 'APKs will point to this Catrobat web server, useful for testing web changes. E.g https://web-test.catrob.at'
@@ -78,6 +80,11 @@ pipeline {
                 letter-spacing: 1px;
                 font-style: italic;
                 """)
+
+        choice choices: ['AndroidDevices', 'Samsung Galaxy S23-13.0', 'Samsung Galaxy S23 Ultra-13.0', 'Samsung Galaxy S23 Ultra-13.0", "Google Pixel 7 Pro-13.0", "OnePlus 9-11.0', 'Samsung Galaxy S23-13.0', 'Samsung Galaxy S22 Ultra-12.0', 'Samsung Galaxy S22 Plus-12.0', 'Samsung Galaxy S22-12.0', 'Samsung Galaxy S21-12.0', 'Samsung Galaxy S21 Ultra-11.0', 'Samsung Galaxy S21-11.0', 'Samsung Galaxy S21 Plus-11.0', 'Samsung Galaxy S20-10.0', 'Samsung Galaxy S20 Plus-10.0', 'Samsung Galaxy S20 Ultra-10.0', 'Samsung Galaxy M52-11.0', 'Samsung Galaxy M32-11.0', 'Samsung Galaxy A52-11.0', 'Samsung Galaxy Note 20 Ultra-10.0', 'Samsung Galaxy Note 20-10.0', 'Samsung Galaxy A51-10.0', 'Samsung Galaxy A11-10.0', 'Samsung Galaxy S10e-9.0', 'Samsung Galaxy S10 Plus-9.0', 'Samsung Galaxy S10-9.0', 'Samsung Galaxy Note 10 Plus-9.0', 'Samsung Galaxy Note 10-9.0', 'Samsung Galaxy A10-9.0', 'Samsung Galaxy Note 9-8.1', 'Samsung Galaxy J7 Prime-8.1', 'Samsung Galaxy S9 Plus-9.0', 'Samsung Galaxy S9 Plus-8.0', 'Samsung Galaxy S9-8.0', 'Samsung Galaxy Note 8-7.1', 'Samsung Galaxy A8-7.1', 'Samsung Galaxy S8 Plus-7.0', 'Samsung Galaxy S8-7.0', 'Samsung Galaxy S7-6.0', 'Samsung Galaxy S6-5.0', 'Samsung Galaxy Tab S8-12.0', 'Samsung Galaxy Tab S7-11.0', 'Samsung Galaxy Tab S7-10.0', 'Samsung Galaxy Tab S6-9.0', 'Samsung Galaxy Tab S5e-9.0', 'Samsung Galaxy Tab S4-8.1', 'Google Pixel 7 Pro-13.0', 'Google Pixel 7-13.0', 'Google Pixel 6 Pro-13.0', 'Google Pixel 6 Pro-12.0', 'Google Pixel 6-12.0', 'Google Pixel 5-12.0', 'Google Pixel 5-11.0', 'Google Pixel 4-11.0', 'Google Pixel 4 XL-10.0', 'Google Pixel 4-10.0', 'Google Pixel 3-10.0', 'Google Pixel 3a XL-9.0', 'Google Pixel 3a-9.0', 'Google Pixel 3 XL-9.0', 'Google Pixel 3-9.0', 'Google Pixel 2-9.0', 'Google Pixel 2-8.0', 'Google Pixel-7.1', 'Google Nexus 5-4.4', 'OnePlus 9-11.0', 'OnePlus 8-10.0', 'OnePlus 7T-10.0', 'OnePlus 7-9.0', 'OnePlus 6T-9.0', 'Xiaomi Redmi Note 11-11.0', 'Xiaomi Redmi Note 9-10.0', 'Xiaomi Redmi Note 8-9.0', 'Xiaomi Redmi Note 7-9.0', 'Motorola Moto G71 5G-11.0', 'Motorola Moto G9 Play-10.0', 'Motorola Moto G7 Play-9.0', 'Vivo Y21-11.0', 'Vivo Y50-10.0', 'Oppo Reno 6-11.0', 'Oppo A96-11.0', 'Oppo Reno 3 Pro-10.0', 'Huawei P30-9.0'], description: 'Available Android Devices on BrowserStack', name: 'BROWSERSTACK_ANDROID_DEVICES'
+        booleanParam name: 'BROWSERSTACK_TESTING', defaultValue: false, description: 'When selected
+        testing runs over Browserstack'
+        choice choices: ['1', '2', '3', '4',' 5'], description: 'Number of Shards for running tests on BrowserStack. <a href="https://app-automate.browserstack.com/dashboard/v2/builds/">BrowserStack Dashboard</a>', name: 'BROWSERSTACK_SHARDS'
         booleanParam name: 'PULL_REQUEST_SUITE', defaultValue: true, description: 'Enables Pull ' +
                 'request suite'
         booleanParam name: 'STANDALONE', defaultValue: true, description: 'When selected, ' +
@@ -108,8 +115,41 @@ pipeline {
         cron(env.BRANCH_NAME == 'develop' ? '@midnight' : '')
         issueCommentTrigger('.*test this please.*')
     }
-    
+
     stages {
+        stage('Build APKs') {
+            agent {
+                docker {
+                    image d.image
+                    args d.args
+                    label d.label
+                    alwaysPull true
+                }
+            }
+            steps {
+                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                    script {
+                        def additionalParameters = [webTestUrlParameter(), allFlavoursParameters()].findAll {
+                            it
+                        }.collect()
+                        if (additionalParameters) {
+                            currentBuild.description = "<p>Additional APK build parameters: <b>${additionalParameters.join(' ')}</b></p>"
+                        }
+                        if (env.INCLUDE_HUAWEI_FILES?.toBoolean()) {
+                            sh "cp /home/user/huawei/agconnect-services.json catroid/src/agconnect-services.json"
+                        }
+                    }
+
+                    Build the flavors so that they can be installed next independently of older versions.
+                    sh "./gradlew ${webTestUrlParameter()} -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleCatroidDebug ${allFlavoursParameters()}"
+                    sh "./gradlew ${webTestUrlParameter()} -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleAndroidTest ${allFlavoursParameters()}"
+
+
+                    renameApks("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
+                    archiveArtifacts '**/*.apk'
+                }
+            }
+        }
         stage('All') {
             parallel {
                 stage('1') {
@@ -123,30 +163,6 @@ pipeline {
                     }
 
                     stages {
-                        stage('APKs') {
-                            steps {
-                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                                    script {
-                                        def additionalParameters = [webTestUrlParameter(), allFlavoursParameters()].findAll {
-                                            it
-                                        }.collect()
-                                        if (additionalParameters) {
-                                            currentBuild.description = "<p>Additional APK build parameters: <b>${additionalParameters.join(' ')}</b></p>"
-                                        }
-                                        if (env.INCLUDE_HUAWEI_FILES?.toBoolean()) {
-                                            sh "cp /home/user/huawei/agconnect-services.json catroid/src/agconnect-services.json"
-                                        }
-                                    }
-
-                                    // Build the flavors so that they can be installed next independently of older versions.
-                                    sh "./gradlew ${webTestUrlParameter()} -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleCatroidDebug ${allFlavoursParameters()}"
-
-                                    renameApks("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
-                                    archiveArtifacts '**/*.apk'
-                                }
-                            }
-                        }
-
                         stage('Static Analysis') {
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
@@ -295,6 +311,23 @@ pipeline {
                     }
 
                     stages {
+                        stage('BrowserStack Testing') {
+                          when {
+                            expression { params.BROWSERSTACK_TESTING == true }
+                          }
+                          steps {
+                            withCredentials([usernamePassword(credentialsId: 'browserstack', passwordVariable: 'BROWSERSTACK_ACCESS_KEY', usernameVariable: 'BROWSERSTACK_USERNAME')]) {
+                                script {
+                                    browserStack('catroid/build/outputs/apk/catroid/debug/', 'catroid/build/outputs/apk/androidTest/catroid/debug/', "Catroid")
+                                }
+                            }
+                          }
+                          post {
+                            always {
+                                junitAndCoverage "$reports/jacoco/jacocoTestDebugUnitTestReport/jacoco.xml", 'unit', javaSrc
+                            }
+                          }
+                        }
                         stage('Pull Request Suite') {
                             when {
                                 expression { params.PULL_REQUEST_SUITE == true }
