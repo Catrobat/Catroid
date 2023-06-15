@@ -24,27 +24,28 @@
 package org.catrobat.catroid.test.catblocks
 
 import android.webkit.WebView
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openContextualActionModeOverflowMenu
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.espresso.web.assertion.WebViewAssertions
 import androidx.test.espresso.web.matcher.DomMatchers
 import androidx.test.espresso.web.sugar.Web.onWebView
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.By
+import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.Until
 import org.catrobat.catroid.R
 import org.catrobat.catroid.UiTestCatroidApplication
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
-import org.catrobat.catroid.content.bricks.ChangeXByNBrick
+import org.catrobat.catroid.content.UserDefinedScript
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick
-import org.catrobat.catroid.content.bricks.SetXBrick
+import org.catrobat.catroid.content.bricks.UserDefinedBrick
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.recyclerview.fragment.CatblocksScriptFragment
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
@@ -57,7 +58,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class CatblocksScriptFragmentTest {
+class UserDefinedBrickTest {
+    private val projectName = javaClass.simpleName
+
+    companion object {
+        private const val TIMEOUT: Long = (5).toLong()
+    }
+
     @get:Rule
     var baseActivityTestRule = FragmentActivityTestRule(
         SpriteActivity::class.java,
@@ -81,64 +88,75 @@ class CatblocksScriptFragmentTest {
     }
 
     @Test
-    fun testContextMenuItems() {
+    fun testUserDefinedBrickNestingAndRecursion() {
+        val currentSprite = UiTestCatroidApplication.projectManager.currentSprite
+        val scriptCount = currentSprite.scriptList.size
+        assertEquals(3, scriptCount)
+
         openContextualActionModeOverflowMenu()
-        onView(withText(R.string.catblocks_reorder)).check(doesNotExist())
         onView(withText(R.string.catblocks)).perform(click())
-        openContextualActionModeOverflowMenu()
-        onView(withText(R.string.catblocks_reorder))
-            .check(matches(isDisplayed()))
-        onView(withText(R.string.undo)).check(doesNotExist())
-        onView(withText(R.string.backpack)).check(doesNotExist())
-        onView(withText(R.string.copy)).check(doesNotExist())
-        onView(withText(R.string.delete)).check(doesNotExist())
-        onView(withText(R.string.rename)).check(doesNotExist())
-        onView(withText(R.string.show_details)).check(doesNotExist())
-        onView(withText(R.string.comment_in_out)).check(doesNotExist())
-        onView(withText(R.string.catblocks)).perform(click())
-        openContextualActionModeOverflowMenu()
-        onView(withText(R.string.catblocks_reorder)).check(doesNotExist())
-        onView(withText(R.string.backpack))
-            .check(matches(isDisplayed()))
-        onView(withText(R.string.copy))
-            .check(matches(isDisplayed()))
-        onView(withText(R.string.comment_in_out))
-            .check(matches(isDisplayed()))
-        onView(withText(R.string.catblocks))
-            .check(matches(isDisplayed()))
+
+        var webViewUtils = WebViewUtils(baseActivityTestRule.activity, TIMEOUT)
+
+        checkIfIDSequenceExists(webViewUtils, arrayOf("UserDefinedScript-0", "IfLogicBeginBrick-0",
+                                        "UserDefinedScript-0-Call-0"))
+        checkIfIDSequenceExists(webViewUtils, arrayOf("UserDefinedScript-0", "IfLogicBeginBrick-0",
+                                        "UserDefinedScript-0-Call-1"))
+        checkIfIDSequenceExists(webViewUtils, arrayOf("UserDefinedScript-0", "IfLogicBeginBrick-0",
+                                        "UserDefinedScript-1-Call-0"))
+
+        checkIfIDSequenceExists(webViewUtils, arrayOf("UserDefinedScript-1", "IfLogicBeginBrick-1",
+                                        "UserDefinedScript-1-Call-1"))
+        checkIfIDSequenceExists(webViewUtils, arrayOf("UserDefinedScript-1", "IfLogicBeginBrick-1",
+                                        "UserDefinedScript-1-Call-2"))
+        checkIfIDSequenceExists(webViewUtils, arrayOf("UserDefinedScript-1", "IfLogicBeginBrick-1",
+                                        "UserDefinedScript-0-Call-2"))
     }
 
-    @Test
-    fun testReorderScript() {
-        openContextualActionModeOverflowMenu()
-        onView(withText(R.string.catblocks)).perform(click())
-
-        val webViewUtils = WebViewUtils(baseActivityTestRule.activity)
-        webViewUtils.waitForElement("#catroid-catblocks-container") {
-            webViewUtils.waitForElement("#catroid-catblocks-container > div > svg > g")
-        }
-
-        UiTestCatroidApplication.projectManager.currentSprite.getScript(0).posX = 50f
-        UiTestCatroidApplication.projectManager.currentSprite.getScript(0).posY = 50f
-        openContextualActionModeOverflowMenu()
-        onView(withText(R.string.catblocks_reorder)).perform(click())
-        assertEquals(UiTestCatroidApplication.projectManager.currentSprite.getScript(0).posX, 0.0f)
-        assertEquals(UiTestCatroidApplication.projectManager.currentSprite.getScript(0).posY, 0.0f)
+    private fun checkIfIDSequenceExists(webViewUtils: WebViewUtils, ids: Array<String>) {
+        val querySelector = ids.joinToString(" > ") { id -> "#$id" }
+        webViewUtils.waitForElement(querySelector)
     }
 
     private fun createProject() {
-        val projectName = javaClass.simpleName
         val project = Project(ApplicationProvider.getApplicationContext(), projectName)
         val sprite = Sprite("testSprite")
         project.defaultScene.addSprite(sprite)
+
+        val userDefinedBrick1 = createUserDefinedBrick(sprite, "UDB1")
+        val userDefinedBrick2 = createUserDefinedBrick(sprite, "UDB2")
+
+        sprite.scriptList[0].addBrick(userDefinedBrick2)
+        sprite.scriptList[1].addBrick(userDefinedBrick1)
+
         val startScript: Script = StartScript()
-        val ifBrick = IfLogicBeginBrick()
-        ifBrick.addBrickToIfBranch(SetXBrick())
-        ifBrick.addBrickToElseBranch(ChangeXByNBrick())
-        startScript.addBrick(ifBrick)
-        startScript.setParents()
+        startScript.addBrick(userDefinedBrick1.clone())
+        startScript.addBrick(userDefinedBrick2.clone())
+
         sprite.addScript(startScript)
+
         UiTestCatroidApplication.projectManager.currentProject = project
         UiTestCatroidApplication.projectManager.currentSprite = sprite
+    }
+
+    private fun createUserDefinedBrick(sprite: Sprite, name: String): UserDefinedBrick {
+        val userDefinedBrick = UserDefinedBrick()
+        userDefinedBrick.addInput("Input")
+        userDefinedBrick.addLabel(name)
+
+        sprite.addUserDefinedBrick(userDefinedBrick)
+
+        val userDefinedScript = UserDefinedScript(userDefinedBrick.userDefinedBrickID)
+        val ifBrick = IfLogicBeginBrick()
+        userDefinedScript.addBrick(ifBrick)
+
+        sprite.addScript(userDefinedScript)
+
+        val userDefinedCallingBrick = UserDefinedBrick(userDefinedBrick)
+        userDefinedCallingBrick.setCallingBrick(true)
+        ifBrick.addBrickToIfBranch(userDefinedCallingBrick.clone())
+        ifBrick.addBrickToElseBranch(userDefinedCallingBrick.clone())
+
+        return userDefinedCallingBrick
     }
 }

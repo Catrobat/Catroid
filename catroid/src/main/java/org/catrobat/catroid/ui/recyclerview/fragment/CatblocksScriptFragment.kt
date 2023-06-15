@@ -157,10 +157,8 @@ class CatblocksScriptFragment(
                     const scene = Android.getSceneNameToDisplay();
                     const object = Android.getSpriteNameToDisplay();
                     CatBlocks.render(programXML, scene, object);
-                    
-                    if (window.webViewUtils) {
-                        window.webViewUtils.onPageLoaded();
-                    }
+                    ${if (testingMode) "if (window.webViewUtils) window.webViewUtils.onPageLoaded();"
+                     else ""}
                 })()""".trimMargin(), null
                 )
             }
