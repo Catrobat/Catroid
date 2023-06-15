@@ -23,18 +23,12 @@
 
 package org.catrobat.catroid.test.catblocks
 
-import android.webkit.WebView
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openContextualActionModeOverflowMenu
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.uiautomator.By
-import androidx.test.uiautomator.UiDevice
-import androidx.test.uiautomator.UiSelector
-import androidx.test.uiautomator.Until
 import junit.framework.TestCase.assertEquals
 import org.catrobat.catroid.R
 import org.catrobat.catroid.UiTestCatroidApplication.Companion.projectManager
@@ -99,14 +93,14 @@ class ScriptSplitMultipleTest {
         openContextualActionModeOverflowMenu()
         onView(withText(R.string.catblocks)).perform(click())
 
-        var webViewUtils = WebViewUtils(baseActivityTestRule.activity, TIMEOUT)
+        val webViewUtils = WebViewUtils(baseActivityTestRule.activity, TIMEOUT)
         webViewUtils.waitForElement("#ChangeVolumeByNBrick-0") {
             webViewUtils.moveElementByPixels("#ChangeVolumeByNBrick-0", 200, 1600)
         }
 
-       webViewUtils.waitForElement("#ChangeSizeByNBrick-0") {
-           webViewUtils.moveElementByPixels("#ChangeSizeByNBrick-0", 200, 1900)
-       }
+        webViewUtils.waitForElement("#ChangeSizeByNBrick-0") {
+            webViewUtils.moveElementByPixels("#ChangeSizeByNBrick-0", 200, 1900)
+        }
 
         openContextualActionModeOverflowMenu()
         onView(withText(R.string.catblocks)).perform(click())

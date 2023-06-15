@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.test.catblocks
 
-import android.webkit.WebView
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
@@ -33,9 +32,6 @@ import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.espresso.web.assertion.WebViewAssertions
-import androidx.test.espresso.web.matcher.DomMatchers
-import androidx.test.espresso.web.sugar.Web.onWebView
 import org.catrobat.catroid.R
 import org.catrobat.catroid.UiTestCatroidApplication
 import org.catrobat.catroid.content.Project

@@ -33,24 +33,20 @@ import java.util.concurrent.TimeUnit
 import org.catrobat.catroid.R
 import org.json.JSONObject
 
-class WebViewUtils {
+class WebViewUtils(private var activity: Activity, timeoutSeconds: Long? = null) {
     private val DEFAULT_TIMEOUT_SECONDS: Long = 5
     private var TIMEOUT_SECONDS: Long = DEFAULT_TIMEOUT_SECONDS
-    private var activity: Activity
     private var webView: WebView
 
     companion object {
         private val pageLoadLatch: CountDownLatch = CountDownLatch(1)
     }
 
-    constructor(activity: Activity, timeoutSeconds: Long? = null) {
-        this.activity = activity
+    init {
         this.webView = activity.findViewById(R.id.catblocksWebView)
-
         if (timeoutSeconds != null) {
             TIMEOUT_SECONDS = timeoutSeconds
         }
-
         activity.runOnUiThread {
             webView.addJavascriptInterface(JSInterface(pageLoadLatch), "webViewUtils")
             webView.loadUrl("https://appassets.androidplatform.net/assets/catblocks/index.html")
@@ -58,10 +54,8 @@ class WebViewUtils {
     }
 
     fun isElementVisible(querySelector: String): Boolean {
-        if(!pageLoadLatch.await(TIMEOUT_SECONDS, TimeUnit.SECONDS)) {
-            throw PageLoadTimeoutException("Page load timed out")
-        }
-        var currentLatch = CountDownLatch(1)
+        waitForPageToLoad()
+        val currentLatch = CountDownLatch(1)
 
         val jsCode = """
             javascript:(function() {
@@ -105,18 +99,18 @@ class WebViewUtils {
 
         val finished = currentLatch.await(TIMEOUT_SECONDS, TimeUnit.SECONDS)
         if (!finished) {
-            throw ElementNotFoundException("Check for '$querySelector' did not finish " +
-                                               "within timeout")
+            throw ElementNotFoundException(
+                "Check for '$querySelector' did not finish " +
+                    "within timeout"
+            )
         }
 
         return found
     }
 
     fun waitForElement(querySelector: String, onElementFound: (() -> Unit)? = null) {
-        if(!pageLoadLatch.await(TIMEOUT_SECONDS, TimeUnit.SECONDS)) {
-            throw PageLoadTimeoutException("Page load timed out")
-        }
-        var currentLatch = CountDownLatch(1)
+        waitForPageToLoad()
+        val currentLatch = CountDownLatch(1)
         JSInterface.waitForElementLatch = currentLatch
 
         val jsCode = """
@@ -154,11 +148,9 @@ class WebViewUtils {
     }
 
     fun clickElement(querySelector: String) {
-        if(!pageLoadLatch.await(TIMEOUT_SECONDS, TimeUnit.SECONDS)) {
-            throw PageLoadTimeoutException("Page load timed out")
-        }
+        waitForPageToLoad()
 
-        var currentLatch = CountDownLatch(1)
+        val currentLatch = CountDownLatch(1)
         val jsCode = """
             javascript:(function() {
                 const element = document.querySelector('$querySelector');
@@ -214,11 +206,9 @@ class WebViewUtils {
     }
 
     fun moveElementByPixels(querySelector: String, directionX: Int, directionY: Int) {
-        if(!pageLoadLatch.await(TIMEOUT_SECONDS, TimeUnit.SECONDS)) {
-            throw PageLoadTimeoutException("Page load timed out")
-        }
+        waitForPageToLoad()
 
-        var currentLatch = CountDownLatch(1)
+        val currentLatch = CountDownLatch(1)
         val jsCode = """
             javascript:(function() {
                 const element = document.querySelector('$querySelector');
@@ -286,11 +276,9 @@ class WebViewUtils {
     }
 
     fun getBoundingClientRectOfElement(querySelector: String): Rectangle {
-        if (!pageLoadLatch.await(TIMEOUT_SECONDS, TimeUnit.SECONDS)) {
-            throw PageLoadTimeoutException("Page load timed out")
-        }
+        waitForPageToLoad()
 
-        var currentLatch = CountDownLatch(1)
+        val currentLatch = CountDownLatch(1)
         val jsCode = """
             javascript:(function() {
                 const element = document.querySelector('$querySelector');
@@ -326,23 +314,17 @@ class WebViewUtils {
         return resultRect
     }
 
-    private fun getOpenSpinnerJavascript(catblocksSpinnerId: String): String {
-        return "document.getElementById('$catblocksSpinnerId').dispatchEvent(new PointerEvent" +
-            "('pointerover', {\n" +
-            "    bubbles: true\n" +
-            "  }));\n" +
-            "  document.getElementById('$catblocksSpinnerId').dispatchEvent(new PointerEvent('pointerdown', {\n" +
-            "    bubbles: true\n" +
-            "  }));\n" +
-            "  document.getElementById('$catblocksSpinnerId').dispatchEvent(new PointerEvent('pointerup', {\n" +
-            "    bubbles: true\n" +
-            "  }));"
+    private fun waitForPageToLoad() {
+        if (!pageLoadLatch.await(TIMEOUT_SECONDS, TimeUnit.SECONDS)) {
+            throw PageLoadTimeoutException("Page load timed out")
+        }
     }
 
     private class JSInterface(private val pageLoadLatch: CountDownLatch) {
         companion object {
             var waitForElementLatch: CountDownLatch = CountDownLatch(1)
         }
+
         @JavascriptInterface
         fun onElementFound() {
             waitForElementLatch.countDown()

@@ -23,20 +23,12 @@
 
 package org.catrobat.catroid.test.catblocks
 
-import android.webkit.WebView
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openContextualActionModeOverflowMenu
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.espresso.web.assertion.WebViewAssertions
-import androidx.test.espresso.web.matcher.DomMatchers
-import androidx.test.espresso.web.sugar.Web.onWebView
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.uiautomator.By
-import androidx.test.uiautomator.UiDevice
-import androidx.test.uiautomator.Until
 import org.catrobat.catroid.R
 import org.catrobat.catroid.UiTestCatroidApplication
 import org.catrobat.catroid.content.Project
@@ -96,21 +88,45 @@ class UserDefinedBrickTest {
         openContextualActionModeOverflowMenu()
         onView(withText(R.string.catblocks)).perform(click())
 
-        var webViewUtils = WebViewUtils(baseActivityTestRule.activity, TIMEOUT)
+        val webViewUtils = WebViewUtils(baseActivityTestRule.activity, TIMEOUT)
 
-        checkIfIDSequenceExists(webViewUtils, arrayOf("UserDefinedScript-0", "IfLogicBeginBrick-0",
-                                        "UserDefinedScript-0-Call-0"))
-        checkIfIDSequenceExists(webViewUtils, arrayOf("UserDefinedScript-0", "IfLogicBeginBrick-0",
-                                        "UserDefinedScript-0-Call-1"))
-        checkIfIDSequenceExists(webViewUtils, arrayOf("UserDefinedScript-0", "IfLogicBeginBrick-0",
-                                        "UserDefinedScript-1-Call-0"))
+        checkIfIDSequenceExists(
+            webViewUtils, arrayOf(
+                "UserDefinedScript-0", "IfLogicBeginBrick-0",
+                "UserDefinedScript-0-Call-0"
+            )
+        )
+        checkIfIDSequenceExists(
+            webViewUtils, arrayOf(
+                "UserDefinedScript-0", "IfLogicBeginBrick-0",
+                "UserDefinedScript-0-Call-1"
+            )
+        )
+        checkIfIDSequenceExists(
+            webViewUtils, arrayOf(
+                "UserDefinedScript-0", "IfLogicBeginBrick-0",
+                "UserDefinedScript-1-Call-0"
+            )
+        )
 
-        checkIfIDSequenceExists(webViewUtils, arrayOf("UserDefinedScript-1", "IfLogicBeginBrick-1",
-                                        "UserDefinedScript-1-Call-1"))
-        checkIfIDSequenceExists(webViewUtils, arrayOf("UserDefinedScript-1", "IfLogicBeginBrick-1",
-                                        "UserDefinedScript-1-Call-2"))
-        checkIfIDSequenceExists(webViewUtils, arrayOf("UserDefinedScript-1", "IfLogicBeginBrick-1",
-                                        "UserDefinedScript-0-Call-2"))
+        checkIfIDSequenceExists(
+            webViewUtils, arrayOf(
+                "UserDefinedScript-1", "IfLogicBeginBrick-1",
+                "UserDefinedScript-1-Call-1"
+            )
+        )
+        checkIfIDSequenceExists(
+            webViewUtils, arrayOf(
+                "UserDefinedScript-1", "IfLogicBeginBrick-1",
+                "UserDefinedScript-1-Call-2"
+            )
+        )
+        checkIfIDSequenceExists(
+            webViewUtils, arrayOf(
+                "UserDefinedScript-1", "IfLogicBeginBrick-1",
+                "UserDefinedScript-0-Call-2"
+            )
+        )
     }
 
     private fun checkIfIDSequenceExists(webViewUtils: WebViewUtils, ids: Array<String>) {

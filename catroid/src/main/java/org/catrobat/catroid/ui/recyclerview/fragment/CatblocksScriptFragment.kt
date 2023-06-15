@@ -138,28 +138,36 @@ class CatblocksScriptFragment(
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
 
-                view?.evaluateJavascript("""javascript:(async function(){
-                    await CatBlocks.init({
-                      container: 'catroid-catblocks-container',
-                      renderSize: 0.75,
-                      language: Android.getCurrentLanguage(),
-                      rtl: Android.isRTL(),
-                      shareRoot: 'https://appassets.androidplatform.net/assets/catblocks',
-                      media: 'https://appassets.androidplatform.net/assets/catblocks/media',
-                      i18n: 'https://appassets.androidplatform.net/assets/catblocks/i18n',
-                      noImageFound: 'No_Image_Available.jpg',
-                      renderLooks: false,
-                      renderSounds: false,
-                      readOnly: false
-                    });
-                    
-                    const programXML = Android.getCurrentProject();
-                    const scene = Android.getSceneNameToDisplay();
-                    const object = Android.getSpriteNameToDisplay();
-                    CatBlocks.render(programXML, scene, object);
-                    ${if (testingMode) "if (window.webViewUtils) window.webViewUtils.onPageLoaded();"
-                     else ""}
-                })()""".trimMargin(), null
+                view?.evaluateJavascript(
+                    """javascript:(async function(){
+                        await CatBlocks.init({
+                           container: 'catroid-catblocks-container',
+                           renderSize: 0.75,
+                           language: Android.getCurrentLanguage(),
+                           rtl: Android.isRTL(),
+                           shareRoot: 'https://appassets.androidplatform.net/assets/catblocks',
+                           media: 'https://appassets.androidplatform.net/assets/catblocks/media',
+                           i18n: 'https://appassets.androidplatform.net/assets/catblocks/i18n',
+                           noImageFound: 'No_Image_Available.jpg',
+                           renderLooks: false,
+                           renderSounds: false,
+                           readOnly: false
+                        });
+                        
+                        const programXML = Android.getCurrentProject();
+                        const scene = Android.getSceneNameToDisplay();
+                        const object = Android.getSpriteNameToDisplay();
+                        CatBlocks.render(programXML, scene, object);
+                        ${
+                            if (testingMode) {
+                                "if (window.webViewUtils) window.webViewUtils" +
+                                    ".onPageLoaded();"
+                            } else {
+                                ""
+                            }
+                        }
+                    })()
+                """.trimMargin(), null
                 )
             }
         }
@@ -238,7 +246,7 @@ class CatblocksScriptFragment(
             if (brickAtTopID != null) {
                 return brickAtTopID.toString()
             } else {
-                if (projectManager?.currentSprite?.scriptList != null &&
+                if (projectManager.currentSprite?.scriptList != null &&
                     projectManager.currentSprite.scriptList.any()
                 ) {
                     return projectManager.currentSprite.scriptList[0].scriptId.toString()
