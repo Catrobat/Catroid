@@ -39,10 +39,7 @@ class WebViewUtils(private var activity: Activity, timeoutSeconds: Long? = null)
     private var TIMEOUT_SECONDS: Long = DEFAULT_TIMEOUT_SECONDS
     private var webView: WebView
     private val jsInterface: JSInterface
-
-    companion object {
-        private val pageLoadLatch: CountDownLatch = CountDownLatch(1)
-    }
+    private val pageLoadLatch: CountDownLatch
 
     init {
         this.webView = activity.findViewById(R.id.catblocksWebView)
@@ -50,6 +47,7 @@ class WebViewUtils(private var activity: Activity, timeoutSeconds: Long? = null)
             TIMEOUT_SECONDS = timeoutSeconds
         }
 
+        pageLoadLatch = CountDownLatch(1)
         jsInterface = JSInterface(pageLoadLatch)
         activity.runOnUiThread {
             webView.addJavascriptInterface(jsInterface, "webViewUtils")
@@ -144,6 +142,9 @@ class WebViewUtils(private var activity: Activity, timeoutSeconds: Long? = null)
         }
 
         val found = currentLatch.await(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+        if (jsInterface.getWaitForElementLatch() != currentLatch) {
+            throw IllegalStateException("Latch was changed by another thread")
+        }
         if (found) {
             onElementFound?.invoke()
         } else {
@@ -328,6 +329,7 @@ class WebViewUtils(private var activity: Activity, timeoutSeconds: Long? = null)
         fun setWaitForElementLatch(latch: CountDownLatch) {
             waitForElementLatch = latch
         }
+        fun getWaitForElementLatch() = waitForElementLatch
 
         @JavascriptInterface
         fun onElementFound() {
