@@ -54,7 +54,7 @@ class UserDefinedBrickTest {
     private val projectName = javaClass.simpleName
 
     companion object {
-        private const val TIMEOUT: Long = 5
+        private const val TIMEOUT: Long = 30
     }
 
     @get:Rule

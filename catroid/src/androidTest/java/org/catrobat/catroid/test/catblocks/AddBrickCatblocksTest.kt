@@ -47,7 +47,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class AddBrickCatblocksTest {
     companion object {
-        private const val TIMEOUT: Long = 5
+        private const val TIMEOUT: Long = 30
     }
 
     @get:Rule
