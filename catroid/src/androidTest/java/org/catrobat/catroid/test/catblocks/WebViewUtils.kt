@@ -55,18 +55,9 @@ class WebViewUtils(private var activity: Activity, timeoutSeconds: Long? = null)
         }
     }
 
-    fun isElementVisible(querySelector: String): Boolean {
-        waitForPageToLoad()
-        val currentLatch = CountDownLatch(1)
-
-        val jsCode = """
-            javascript:(function() {
-                const initialElement = document.querySelector('$querySelector');
-                if (!initialElement) {
-                    return false;
-                }
-                
-                function isVisible(element) {
+    private fun getIsVisibleFunction(): String {
+        return """
+            function isVisible(element) {
                     const style = getComputedStyle(element);
                   
                     if (style.display === 'none') {
@@ -86,6 +77,61 @@ class WebViewUtils(private var activity: Activity, timeoutSeconds: Long? = null)
                     console.log(element, "is visible");
                     return true;
                 }
+        """.trimIndent()
+    }
+
+    fun waitForElementVisible(querySelector: String) = waitForElementVisibility(querySelector, true)
+    fun waitForElementInvisible(querySelector: String) = waitForElementVisibility(querySelector, false)
+    private fun waitForElementVisibility(querySelector: String, visible: Boolean) {
+        waitForPageToLoad()
+        val currentLatch = CountDownLatch(1)
+        jsInterface.setAsyncLatch(currentLatch)
+
+        val isVisibleCall = if (visible) "isVisible(element)" else "!isVisible(element)"
+        val jsCode = """
+            javascript:(function() {                
+                ${getIsVisibleFunction()}
+                
+                const checkInterval = setInterval(function() {
+                    const element = document.querySelector('$querySelector');
+                    if (element !== null && element !== undefined) {
+                        if ($isVisibleCall) {
+                            clearInterval(checkInterval);
+                            window.webViewUtils.signalSuccess();
+                        }
+                    }
+                }, 100);
+                setTimeout(function() {
+                    clearInterval(checkInterval);
+                }, ${TIMEOUT_SECONDS * 1000});
+            })();
+        """.trimIndent()
+
+        activity.runOnUiThread {
+            webView.evaluateJavascript(jsCode, null)
+        }
+
+        val success = currentLatch.await(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+        if (jsInterface.getAsyncLatch() != currentLatch) {
+            throw IllegalStateException("Latch was changed by another thread")
+        }
+        if (!success) {
+            throw ElementNotFoundException("Element '$querySelector' not found within the specified timeout")
+        }
+    }
+
+    fun isElementVisible(querySelector: String): Boolean {
+        waitForPageToLoad()
+        val currentLatch = CountDownLatch(1)
+
+        val jsCode = """
+            javascript:(function() {
+                const initialElement = document.querySelector('$querySelector');
+                if (!initialElement) {
+                    return false;
+                }
+                
+                ${getIsVisibleFunction()}
                 
                 return isVisible(initialElement);
             })();
@@ -113,7 +159,7 @@ class WebViewUtils(private var activity: Activity, timeoutSeconds: Long? = null)
     fun waitForElement(querySelector: String, onElementFound: (() -> Unit)? = null) {
         waitForPageToLoad()
         val currentLatch = CountDownLatch(1)
-        jsInterface.setWaitForElementLatch(currentLatch)
+        jsInterface.setAsyncLatch(currentLatch)
 
         val jsCode = """
             javascript:(function() {
@@ -125,7 +171,7 @@ class WebViewUtils(private var activity: Activity, timeoutSeconds: Long? = null)
                         console.log('element found: $querySelector');
                         found = true;
                         clearInterval(checkInterval);
-                        window.webViewUtils.onElementFound();
+                        window.webViewUtils.signalSuccess();
                     }
                 }, 100);
                 setTimeout(function() {
@@ -142,7 +188,7 @@ class WebViewUtils(private var activity: Activity, timeoutSeconds: Long? = null)
         }
 
         val found = currentLatch.await(TIMEOUT_SECONDS, TimeUnit.SECONDS)
-        if (jsInterface.getWaitForElementLatch() != currentLatch) {
+        if (jsInterface.getAsyncLatch() != currentLatch) {
             throw IllegalStateException("Latch was changed by another thread")
         }
         if (found) {
@@ -325,15 +371,15 @@ class WebViewUtils(private var activity: Activity, timeoutSeconds: Long? = null)
     }
 
     private class JSInterface(private val pageLoadLatch: CountDownLatch) {
-        private var waitForElementLatch: CountDownLatch = CountDownLatch(1)
-        fun setWaitForElementLatch(latch: CountDownLatch) {
-            waitForElementLatch = latch
+        private var asyncWaitLatch: CountDownLatch = CountDownLatch(1)
+        fun setAsyncLatch(latch: CountDownLatch) {
+            asyncWaitLatch = latch
         }
-        fun getWaitForElementLatch() = waitForElementLatch
+        fun getAsyncLatch() = asyncWaitLatch
 
         @JavascriptInterface
-        fun onElementFound() {
-            waitForElementLatch.countDown()
+        fun signalSuccess() {
+            asyncWaitLatch.countDown()
         }
 
         @JavascriptInterface

@@ -86,11 +86,10 @@ class AddBrickCatblocksTest {
         }
 
         webViewUtils.waitForElement("#brickStartScript") {
-            var visible = webViewUtils.isElementVisible("#brickStartScript")
-            Assert.assertTrue(visible)
+            webViewUtils.isElementVisible("#brickStartScript")
+            webViewUtils.waitForElementVisible("#brickStartScript")
             webViewUtils.clickElement("#brickStartScript")
-            visible = webViewUtils.isElementVisible("#brickStartScript")
-            Assert.assertFalse(visible)
+            webViewUtils.waitForElementInvisible("#brickStartScript")
         }
 
         Assert.assertEquals(UiTestCatroidApplication.projectManager.currentSprite.scriptList.count(), 1)
