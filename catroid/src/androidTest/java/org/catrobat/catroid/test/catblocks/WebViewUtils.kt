@@ -24,6 +24,7 @@
 package org.catrobat.catroid.test.catblocks
 
 import android.app.Activity
+import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import com.badlogic.gdx.math.Rectangle
@@ -271,9 +272,7 @@ class WebViewUtils(private var activity: Activity, timeoutSeconds: Long? = null)
         }
     }
 
-    fun getWorkspaceBoundingClientRect(): Rectangle {
-        return getBoundingClientRectOfElement(".blocklyWorkspace")
-    }
+    fun getWorkspaceBoundingClientRect() = getBoundingClientRectOfElement(".blocklyWorkspace")
 
     fun getBoundingClientRectOfElement(querySelector: String): Rectangle {
         waitForPageToLoad()
@@ -301,6 +300,7 @@ class WebViewUtils(private var activity: Activity, timeoutSeconds: Long? = null)
                     resultRect.height = resultObject.getDouble("height").toFloat()
                     currentLatch.countDown()
                 } catch (e: Exception) {
+                    Log.e("CatBlocks", "Error parsing JSON: $result", e)
                     throw ElementNotFoundException("Element '$querySelector' not found")
                 }
             }

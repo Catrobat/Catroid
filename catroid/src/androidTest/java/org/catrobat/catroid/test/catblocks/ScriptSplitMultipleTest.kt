@@ -58,7 +58,7 @@ class ScriptSplitMultipleTest {
     private val projectName = javaClass.simpleName
 
     companion object {
-        private const val TIMEOUT: Long = (5).toLong()
+        private const val TIMEOUT: Long = 5
         private const val TEST_SPRITE = "testSprite"
     }
 

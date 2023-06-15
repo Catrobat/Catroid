@@ -24,16 +24,10 @@
 package org.catrobat.catroid.test.catblocks
 
 import android.view.View
-import android.webkit.WebView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.uiautomator.By
-import androidx.test.uiautomator.UiDevice
-import androidx.test.uiautomator.UiSelector
-import androidx.test.uiautomator.Until
 import org.catrobat.catroid.R
 import org.catrobat.catroid.UiTestCatroidApplication
 import org.catrobat.catroid.content.Project
@@ -53,7 +47,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class AddBrickCatblocksTest {
     companion object {
-        private const val TIMEOUT: Long = (5).toLong()
+        private const val TIMEOUT: Long = 5
     }
 
     @get:Rule
@@ -79,7 +73,7 @@ class AddBrickCatblocksTest {
 
     @Test
     fun addBricksFromCatblocksView() {
-        var webViewUtils = WebViewUtils(baseActivityTestRule.activity, TIMEOUT)
+        val webViewUtils = WebViewUtils(baseActivityTestRule.activity, TIMEOUT)
         webViewUtils.waitForElement(".blocklyWorkspace")
 
         val catblocksView = baseActivityTestRule.activity.findViewById<View>(R.id.catblocksWebView)
