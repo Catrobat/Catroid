@@ -37,6 +37,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.annotation.VisibleForTesting
 import androidx.fragment.app.Fragment
 import androidx.webkit.WebViewAssetLoader
 import com.google.gson.Gson
@@ -67,6 +68,8 @@ class CatblocksScriptFragment(
 
     companion object {
         val TAG: String = CatblocksScriptFragment::class.java.simpleName
+        @VisibleForTesting
+        var testingMode = false
     }
 
     private val projectManager = inject(ProjectManager::class.java).value
@@ -131,8 +134,58 @@ class CatblocksScriptFragment(
             ): WebResourceResponse? {
                 return assetLoader.shouldInterceptRequest(request.url)
             }
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+
+                if (testingMode) {
+                    view?.evaluateJavascript("""
+                        javascript:(function(){
+                            console.log("Load webViewUtilsFunctions.js");
+                            const scriptElement = document.createElement("script");
+                            scriptElement.src = "https://appassets.androidplatform.net/assets/catblocks/webViewUtilsFunctions.js";
+                            document.head.appendChild(scriptElement);
+                        })()
+                    """.trimIndent(), null)
+                }
+
+                view?.evaluateJavascript(
+                    """javascript:(async function(){
+                        await CatBlocks.init({
+                           container: 'catroid-catblocks-container',
+                           renderSize: 0.75,
+                           language: Android.getCurrentLanguage(),
+                           rtl: Android.isRTL(),
+                           shareRoot: 'https://appassets.androidplatform.net/assets/catblocks',
+                           media: 'https://appassets.androidplatform.net/assets/catblocks/media',
+                           i18n: 'https://appassets.androidplatform.net/assets/catblocks/i18n',
+                           noImageFound: 'No_Image_Available.jpg',
+                           renderLooks: false,
+                           renderSounds: false,
+                           readOnly: false
+                        });
+                        
+                        const programXML = Android.getCurrentProject();
+                        const scene = Android.getSceneNameToDisplay();
+                        const object = Android.getSpriteNameToDisplay();
+                        CatBlocks.render(programXML, scene, object);
+                        ${
+                            if (testingMode) {
+                                "if (window.webViewUtils) window.webViewUtils" +
+                                    ".onPageLoaded();"
+                            } else {
+                                ""
+                            }
+                        }
+                    })()
+                """.trimMargin(), null
+                )
+            }
         }
-        catblocksWebView.loadUrl("https://appassets.androidplatform.net/assets/catblocks/index.html")
+
+        if (!testingMode) {
+            catblocksWebView.loadUrl("https://appassets.androidplatform.net/assets/catblocks/index.html")
+        }
     }
 
     inner class SwitchTo1DHelper : Runnable, ValueCallback<String> {
@@ -204,7 +257,7 @@ class CatblocksScriptFragment(
             if (brickAtTopID != null) {
                 return brickAtTopID.toString()
             } else {
-                if (projectManager?.currentSprite?.scriptList != null &&
+                if (projectManager.currentSprite?.scriptList != null &&
                     projectManager.currentSprite.scriptList.any()) {
                         return projectManager.currentSprite.scriptList[0].scriptId.toString()
                 }
