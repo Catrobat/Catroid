@@ -95,7 +95,9 @@ class AddBrickCatblocksTest {
         Assert.assertEquals(UiTestCatroidApplication.projectManager.currentSprite.scriptList.count(), 1)
         val addedScript = UiTestCatroidApplication.projectManager.currentSprite.scriptList.first()
         Assert.assertNotNull(addedScript)
-        Assert.assertTrue(addedScript is StartScript)
+        if (!(addedScript is StartScript)) {
+            Assert.fail("Added script is not a StartScript: " + addedScript.javaClass.simpleName)
+        }
     }
 
     private fun createProject() {
