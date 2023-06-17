@@ -119,6 +119,7 @@
     <string name="main_menu_rate_app">Rate us!</string>
     <string name="main_menu_terms_of_use">Terms of Use and Service</string>
     <string name="main_menu_privacy_policy">Privacy Policy</string>
+    <string name="main_menu_privacy_awareness_guide">Privacy Awareness Guide</string>
     <string name="main_menu_about">About this app</string>
     <string name="main_menu_login">Login</string>
     <string name="main_menu_logout">Logout</string>
@@ -733,6 +734,23 @@
     <string name="disclaimer_privacy_policy_header">To use this app, please accept our</string>
     <!-- -->
 
+    <!-- Privacy Awareness Dialog -->
+    <string name="dialog_privacy_awareness_title">Privacy Awareness</string>
+    <string name="dialog_privacy_awareness_info">We aim to increase privacy awareness
+        of our users. We have prepared some information to raise awareness of possible privacy
+        risks in the web. Feel free to read our guide!\n</string>
+    <string name="dialog_privacy_awareness_link_text">Privacy Awareness Guide</string>
+    <string name="disclaimer_privacy_awareness_title">Uploaded projects are public!</string>
+    <string name="disclaimer_privacy_awareness_info">Your uploaded projects are publicly available for every user.
+        Please keep in mind not to share any sensitive information in your projects.
+        \n\nYou can check out the following guide to inform yourself about potential risks!\n</string>
+    <string name="warning_privacy_awareness_title">Project Content</string>
+    <string name="warning_privacy_awareness_info">Your project may use images containing
+        human faces. Uploaded projects are publicly available for every user.
+        Please keep in mind not to share any sensitive information in your projects.
+        \n\nYou can check out the following guide to inform yourself about potential risks!\n</string>
+    <!-- -->
+
     <!-- About Dialog -->
     <string name="dialog_about_title">About this App</string>
     <string name="dialog_about_license_info">This app offers a coding
@@ -749,6 +767,7 @@
     <string name="error_no_network_title">No network</string>
 
     <!-- UploadProjectDialog -->
+    <string name="upload_project">Upload</string>
     <string name="upload_project_dialog_title">Upload project</string>
     <string name="upload_description">Description:</string>
     <string name="upload_notes_and_credits">Notes and credits:</string>

@@ -61,6 +61,8 @@ import org.catrobat.catroid.io.asynctask.ProjectSaver
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment
 import org.catrobat.catroid.ui.recyclerview.dialog.AboutDialogFragment
+import org.catrobat.catroid.ui.recyclerview.dialog.PrivacyAwarenessDialogFragment
+import org.catrobat.catroid.ui.recyclerview.dialog.PrivacyAwarenessDisclaimerDialogFragment
 import org.catrobat.catroid.ui.recyclerview.fragment.MainMenuFragment
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.catrobat.catroid.utils.FileMetaDataExtractor
@@ -153,6 +155,10 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
         if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
             prepareStandaloneProject()
         }
+        PrivacyAwarenessDisclaimerDialogFragment().show(
+            supportFragmentManager,
+            PrivacyAwarenessDialogFragment.TAG
+        )
     }
 
     fun handleDeclinedPrivacyPolicyButton() {
@@ -299,6 +305,10 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
                 )
                 startActivity(browserIntent)
             }
+            R.id.menu_privacy_awareness_guide -> PrivacyAwarenessDialogFragment().show(
+                supportFragmentManager,
+                PrivacyAwarenessDialogFragment.TAG
+            )
             R.id.menu_about -> AboutDialogFragment().show(
                 supportFragmentManager,
                 AboutDialogFragment.TAG
