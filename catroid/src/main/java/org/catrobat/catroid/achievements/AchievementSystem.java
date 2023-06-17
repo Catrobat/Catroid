@@ -96,10 +96,10 @@ public class AchievementSystem {
 	public void addAchievement(Achievement achievement) {
 		AchievementList.add(achievement);
 	}
-	public Achievement getAchievement(String title)
+	public Achievement getAchievement(String key)
 	{
 		for (Achievement achievement:AchievementList) {
-			if(achievement.getTitle() == title){
+			if(achievement.getKey() == key){
 				return achievement;
 			}
 		}
@@ -124,8 +124,11 @@ public class AchievementSystem {
 	}
 
 
-	public void setPreferences(SharedPreferences preferences) {
-		this.Preferences = preferences;
+	public void setPreferences(Context context_in)
+	{
+		Context context_local = context_in.getApplicationContext();
+		this.Preferences = context_local.getSharedPreferences("Achievement_System_Key",
+				Context.MODE_PRIVATE);
 		this.Editor = this.Preferences.edit();
 	}
 
@@ -135,5 +138,14 @@ public class AchievementSystem {
 
 	public SharedPreferences.Editor getEditor() {
 		return Editor;
+	}
+
+	public void reset() {
+		Active = false;
+		context = null;
+		AchievementList = new ArrayList<>();
+		ConditionList = new ArrayList<>();
+		Preferences = null;
+		Editor = null;
 	}
 }

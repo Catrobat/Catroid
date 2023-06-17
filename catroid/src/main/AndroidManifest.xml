@@ -91,13 +91,13 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.AchievementsListActivity"
+            android:name=".achievements.AchievementsListActivity"
 
             android:screenOrientation="portrait" />
 
         <activity
-             android:name=".ui.AchievementActivity"
-            android:parentActivityName=".ui.AchievementsListActivity"
+             android:name=".achievements.AchievementActivity"
+            android:parentActivityName=".achievements.AchievementsListActivity"
              android:screenOrientation="portrait" />
 
 

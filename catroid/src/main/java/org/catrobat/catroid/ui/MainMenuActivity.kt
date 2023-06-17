@@ -50,6 +50,7 @@ import org.catrobat.catroid.common.FlavoredConstants.CATROBAT_HELP_URL
 import org.catrobat.catroid.common.SharedPreferenceKeys
 import org.catrobat.catroid.common.Survey
 import org.catrobat.catroid.achievements.AchievementSystem
+import org.catrobat.catroid.achievements.AchievementsListActivity
 import org.catrobat.catroid.databinding.ActivityMainMenuBinding
 import org.catrobat.catroid.databinding.ActivityMainMenuSplashscreenBinding
 import org.catrobat.catroid.databinding.DeclinedTermsOfUseAndServiceAlertViewBinding
@@ -109,7 +110,7 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
 
     private fun loadAchievement() {
         val achievementSystem: AchievementSystem = AchievementSystem.getInstance();
-        achievementSystem.preferences = getSharedPreferences("test_string_key", MODE_PRIVATE)
+        achievementSystem.setPreferences(applicationContext)
         achievementSystem.setUpConditionList(applicationContext);
         achievementSystem.setUpAchievementList();
     }

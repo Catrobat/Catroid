@@ -24,11 +24,19 @@
 package org.catrobat.catroid.achievements;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.BaseActivity;
+import org.catrobat.catroid.ui.adapter.AchievementListAdapter;
 
 import java.util.ArrayList;
 
-
+import androidx.appcompat.widget.Toolbar;
 
 public class Achievement implements Observer {
 	private String Title;
@@ -52,6 +60,10 @@ public class Achievement implements Observer {
 		Drawable = drawable;
 		Unlocked = false;
 	}*/
+
+	public String getKey() {
+		return Key;
+	}
 
 	@Override
 	public void update(Subject subject) {
@@ -112,4 +124,6 @@ public class Achievement implements Observer {
 		editor.putBoolean(Key, Unlocked);
 		editor.apply();
 	}
+
+
 }

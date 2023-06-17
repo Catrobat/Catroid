@@ -73,7 +73,7 @@ public class AchievementCondition implements Subject, Observer {
 		AchievementSystem achievementSystem = AchievementSystem.getInstance();
 		if (Finished)
 		{
-			subject.removeObserver(this);
+
 			return;
 		}
 		if(!achievementSystem.isActive())
@@ -86,7 +86,7 @@ public class AchievementCondition implements Subject, Observer {
 		{
 			this.Finished = true;
 			editor.putBoolean(this.Key+"_Boolean", true);
-			subject.removeObserver(this);
+
 			notifyObserver();
 		}
 		editor.apply();

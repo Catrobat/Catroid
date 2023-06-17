@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid;
+package org.catrobat.catroid.test.achievement;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -52,6 +52,7 @@ public class AchievementConditionTest implements Subject {
 
 	private ArrayList<Observer> observerArrayList = new ArrayList<>();
 	AchievementSystem achievementSystem = AchievementSystem.getInstance();
+
 	String key = "test_key";
 	String description = "test_description";
 
@@ -62,7 +63,7 @@ public class AchievementConditionTest implements Subject {
 	public void initAchievementSystem()
 	{
 		Context context = ApplicationProvider.getApplicationContext();
-		achievementSystem.setPreferences(context.getSharedPreferences("test_string_key", MODE_PRIVATE));
+		achievementSystem.setPreferences(context);
 		achievementSystem.setActive(true);
 		SharedPreferences.Editor editor = achievementSystem.getEditor();
 		editor.putInt(key+"_Int", 0);

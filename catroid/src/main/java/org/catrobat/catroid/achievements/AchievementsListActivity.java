@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui;
+package org.catrobat.catroid.achievements;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,9 +29,8 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.achievements.Achievement;
+import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.adapter.AchievementListAdapter;
-import org.catrobat.catroid.achievements.AchievementSystem;
 
 import java.util.ArrayList;
 
@@ -61,7 +60,7 @@ public class AchievementsListActivity extends BaseActivity {
 		achievementsListView.setAdapter(adapter);
 		achievementsListView.setClickable(true);
 		achievementsListView.setOnItemClickListener((adapterView, view, i, l) -> {
-			Intent intent = new Intent(AchievementsListActivity.this,AchievementActivity.class);
+			Intent intent = new Intent(AchievementsListActivity.this, AchievementActivity.class);
 			intent.putExtra("Image", AchievementList.get(i).getDrawable());
 			intent.putExtra("Title", AchievementList.get(i).getTitle());
 			intent.putExtra("Description",AchievementList.get(i).getDescription());
