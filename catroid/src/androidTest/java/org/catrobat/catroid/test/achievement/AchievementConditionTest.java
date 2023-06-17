@@ -23,36 +23,26 @@
 
 package org.catrobat.catroid.test.achievement;
 
-import android.content.Context;
+
 import android.content.SharedPreferences;
 
 import org.catrobat.catroid.achievements.AchievementCondition;
 import org.catrobat.catroid.achievements.AchievementSystem;
 import org.catrobat.catroid.achievements.Observer;
 import org.catrobat.catroid.achievements.Subject;
-
 import org.junit.Before;
-
 import org.junit.Test;
-
 
 import java.util.ArrayList;
 
 import androidx.test.core.app.ApplicationProvider;
 
-
-import static android.content.Context.MODE_PRIVATE;
-
-
-
-import static org.junit.Assert.assertEquals;
-
+import static org.junit.Assert.assertTrue;
 
 public class AchievementConditionTest implements Subject {
 
-	private ArrayList<Observer> observerArrayList = new ArrayList<>();
+	private final ArrayList<Observer> observerArrayList = new ArrayList<>();
 	AchievementSystem achievementSystem = AchievementSystem.getInstance();
-
 	String key = "test_key";
 	String description = "test_description";
 
@@ -62,8 +52,8 @@ public class AchievementConditionTest implements Subject {
 	}
 	public void initAchievementSystem()
 	{
-		Context context = ApplicationProvider.getApplicationContext();
-		achievementSystem.setPreferences(context);
+
+		achievementSystem.setPreferences(ApplicationProvider.getApplicationContext());
 		achievementSystem.setActive(true);
 		SharedPreferences.Editor editor = achievementSystem.getEditor();
 		editor.putInt(key+"_Int", 0);
@@ -71,7 +61,21 @@ public class AchievementConditionTest implements Subject {
 		editor.commit();
 	}
 	@Test
-	public void notifyObserverIncreamentsByOne()
+	public void outputWithoutNotification()
+	{
+		int denominator = 1;
+		AchievementCondition condition = new AchievementCondition(key, denominator,
+				description);
+		addObserver(condition);
+		boolean result = false;
+		String test_description = "0/"+ denominator +" "+description + '\n';
+		if(!condition.isFinished() && condition.getCondition().equals(test_description))
+			result = true;
+
+		assertTrue(result);
+	}
+	@Test
+	public void notifyObserverIncrementByOne()
 	{
 
 		AchievementCondition condition = new AchievementCondition(key, 1, description);
@@ -82,7 +86,7 @@ public class AchievementConditionTest implements Subject {
 		if (condition.getCondition().equals(test_description) && condition.isFinished())
 			result = true;
 
-		assertEquals(true, result);
+		assertTrue(result);
 	}
 
 	@Test
@@ -98,7 +102,7 @@ public class AchievementConditionTest implements Subject {
 		if (condition.getCondition().equals(test_description) && condition.isFinished())
 			result = true;
 
-		assertEquals(true, result);
+		assertTrue(result);
 	}
 
 	@Test
@@ -112,12 +116,8 @@ public class AchievementConditionTest implements Subject {
 		String test_description = condition.getCondition();
 
 		condition = new AchievementCondition(key, 4, description);
-		boolean result = false;
-		if(condition.getCondition().equals(test_description))
-		{
-			result = true;
-		}
-		assertEquals(true, result);
+		boolean result = condition.getCondition().equals(test_description);
+		assertTrue(result);
 	}
 	@Test
 	public void doesRememberItIsFinished()
@@ -130,12 +130,8 @@ public class AchievementConditionTest implements Subject {
 		boolean Finished = condition.isFinished();
 
 		condition = new AchievementCondition(key, 4, description);
-		boolean result = false;
-		if(condition.isFinished() == Finished)
-		{
-			result = true;
-		}
-		assertEquals(true, result);
+		boolean result = condition.isFinished() == Finished;
+		assertTrue(result);
 	}
 
 	@Override

@@ -23,24 +23,13 @@
 
 package org.catrobat.catroid.achievements;
 
-
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.BaseActivity;
-import org.catrobat.catroid.ui.adapter.AchievementListAdapter;
 
 import java.util.ArrayList;
 
-import androidx.appcompat.widget.Toolbar;
-
 public class Achievement implements Observer {
-	private String Title;
-	private String Key;
+	private final String Title;
+	private final String Key;
 	private int Drawable;
 	private boolean Unlocked;
 	private final ArrayList<AchievementCondition> ConditionList = new ArrayList<>();
@@ -54,12 +43,7 @@ public class Achievement implements Observer {
 
 	}
 
-	/*public Achievement(String title, int drawable) {
-		Title = title;
 
-		Drawable = drawable;
-		Unlocked = false;
-	}*/
 
 	public String getKey() {
 		return Key;
@@ -77,7 +61,7 @@ public class Achievement implements Observer {
 			}
 		}
 		updateDescription();
-		setUnlocked(true);
+		setUnlocked();
 	}
 	public void addCondition(AchievementCondition condition)
 	{
@@ -117,8 +101,8 @@ public class Achievement implements Observer {
 		return Unlocked;
 	}
 
-	private void setUnlocked(boolean unlocked) {
-		Unlocked = unlocked;
+	private void setUnlocked() {
+		Unlocked = true;
 		updateDescription();
 		SharedPreferences.Editor editor = AchievementSystem.getInstance().getEditor();
 		editor.putBoolean(Key, Unlocked);

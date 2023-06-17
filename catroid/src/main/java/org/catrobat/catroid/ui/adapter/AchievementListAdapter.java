@@ -24,7 +24,7 @@
 package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
+
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.view.LayoutInflater;
@@ -46,8 +46,8 @@ import androidx.annotation.Nullable;
 
 public class AchievementListAdapter extends ArrayAdapter<Achievement> {
 
-	private Context adapterContext;
-	private int adapterResource;
+	private final Context adapterContext;
+	private final int adapterResource;
 	static class ViewHolder{
 		TextView Title;
 		ImageView Image;
@@ -75,8 +75,8 @@ public class AchievementListAdapter extends ArrayAdapter<Achievement> {
 
 			holder = new ViewHolder();
 
-			holder.Title = (TextView) convertView.findViewById(R.id.achievementTitle);
-			holder.Image = (ImageView) convertView.findViewById(R.id.achievementImage);
+			holder.Title = convertView.findViewById(R.id.achievementTitle);
+			holder.Image = convertView.findViewById(R.id.achievementImage);
 
 
 			convertView.setTag(holder);

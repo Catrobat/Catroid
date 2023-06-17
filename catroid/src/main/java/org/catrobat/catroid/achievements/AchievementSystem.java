@@ -29,6 +29,7 @@ import android.content.SharedPreferences;
 import org.catrobat.catroid.R;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class AchievementSystem {
 	private boolean Active = false;
@@ -85,7 +86,7 @@ public class AchievementSystem {
 				R.drawable.test_image);
 		AchievementList.add(Start);
 		for (int i = 0; i < 40; i++) {
-			AchievementList.add(new Achievement("Progress "+ Integer.toString(i), context.getString(R.string.achievement_key_test),
+			AchievementList.add(new Achievement("Progress "+ i, context.getString(R.string.achievement_key_test),
 					R.drawable.test_image));
 		}
 		AchievementList.add(End);
@@ -99,7 +100,7 @@ public class AchievementSystem {
 	public Achievement getAchievement(String key)
 	{
 		for (Achievement achievement:AchievementList) {
-			if(achievement.getKey() == key){
+			if(Objects.equals(achievement.getKey(), key)){
 				return achievement;
 			}
 		}
@@ -115,7 +116,7 @@ public class AchievementSystem {
 	}
 	public AchievementCondition getCondition(String key){
 		for (AchievementCondition condition:ConditionList) {
-			if (condition.getKey() == key)
+			if (Objects.equals(condition.getKey(), key))
 			{
 				return condition;
 			}

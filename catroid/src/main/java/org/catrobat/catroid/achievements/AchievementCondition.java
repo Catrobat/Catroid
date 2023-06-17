@@ -30,13 +30,13 @@ import java.util.ArrayList;
 
 
 public class AchievementCondition implements Subject, Observer {
-	private ArrayList<Observer> observerArrayList = new ArrayList<>();
+	private final ArrayList<Observer> observerArrayList = new ArrayList<>();
 	private boolean Finished;
 	private int ConditionMetNumerator;
 	private final int ConditionMetDenominator;
 	private final String Description;
 	private String Condition = "";
-	private String Key;
+	private final String Key;
 
 	public AchievementCondition(String key,
 			int conditionMetDenominator, String description)

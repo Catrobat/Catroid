@@ -33,8 +33,7 @@ import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.adapter.AchievementListAdapter;
 
 import java.util.ArrayList;
-
-import androidx.appcompat.widget.Toolbar;
+import java.util.Objects;
 
 public class AchievementsListActivity extends BaseActivity {
 
@@ -49,7 +48,7 @@ public class AchievementsListActivity extends BaseActivity {
 		setContentView(R.layout.achievements_list);
 		achievementSystem = AchievementSystem.getInstance();
 
-		achievementsListView = (ListView) findViewById(R.id.achievementsListView);
+		achievementsListView =  findViewById(R.id.achievementsListView);
 
 
 		ArrayList<Achievement> AchievementList = achievementSystem.getAchievementList();
@@ -69,8 +68,8 @@ public class AchievementsListActivity extends BaseActivity {
 		});
 
 
-		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		setSupportActionBar(findViewById(R.id.toolbar));
+		Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setTitle(R.string.achievements_list_title);
 	}

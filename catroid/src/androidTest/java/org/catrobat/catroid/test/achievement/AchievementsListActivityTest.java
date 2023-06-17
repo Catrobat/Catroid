@@ -112,7 +112,9 @@ public class AchievementsListActivityTest {
 			scenario.moveToState(Lifecycle.State.RESUMED);
 			onData(anything()).inAdapterView(withId(R.id.achievementsListView))
 					.atPosition(0).perform(click());
+
 			onView(withId(R.id.BigAchievementImage)).check(matches(isDisplayed()));
+
 		}
 	}
 
@@ -126,6 +128,7 @@ public class AchievementsListActivityTest {
 					.atPosition(0).perform(click());
 			onView(withId(R.id.BigAchievementImage)).check(matches(isDisplayed()));
 			pressBack();
+			scenario.moveToState(Lifecycle.State.RESUMED);
 			onView(withId(R.id.achievementsListView)).check(matches(isDisplayed()));
 		}
 	}

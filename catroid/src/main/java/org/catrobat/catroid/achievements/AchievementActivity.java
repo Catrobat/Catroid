@@ -24,7 +24,7 @@
 package org.catrobat.catroid.achievements;
 
 import android.content.Intent;
-import android.graphics.Color;
+
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
@@ -34,7 +34,7 @@ import android.widget.TextView;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.BaseActivity;
 
-import androidx.appcompat.widget.Toolbar;
+import java.util.Objects;
 
 public class AchievementActivity extends BaseActivity {
 
@@ -46,9 +46,9 @@ public class AchievementActivity extends BaseActivity {
 
 		setContentView(R.layout.achievement);
 
-		ImageView imageView = (ImageView) findViewById(R.id.BigAchievementImage);
-		TextView titleView = (TextView) findViewById(R.id.BigAchievementTitle);
-		TextView descriptionView = (TextView) findViewById(R.id.BigAchievementDescription);
+		ImageView imageView = findViewById(R.id.BigAchievementImage);
+		TextView titleView =  findViewById(R.id.BigAchievementTitle);
+		TextView descriptionView = findViewById(R.id.BigAchievementDescription);
 
 		Intent intent = this.getIntent();
 		if(intent != null)
@@ -70,8 +70,8 @@ public class AchievementActivity extends BaseActivity {
 		}
 
 
-		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		setSupportActionBar(findViewById(R.id.toolbar));
+		Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setTitle(R.string.achievement_title);
 	}

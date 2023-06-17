@@ -26,7 +26,7 @@ package org.catrobat.catroid.achievements;
 
 
 public interface Subject {
-	public void addObserver(Observer observer);
-	public void removeObserver(Observer observer);
-	public void notifyObserver();
+	void addObserver(Observer observer);
+	void removeObserver(Observer observer);
+	void notifyObserver();
 }
