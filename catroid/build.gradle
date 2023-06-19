@@ -100,7 +100,7 @@ ext.copyGoogleServicesFile = { flavorName, flavorId ->
 }
 
 def defaultVersionCode = 89
-def defaultVersionName = "1.1.3"
+def defaultVersionName = "1.2.0"
 
 android {
     compileSdkVersion 31
@@ -370,6 +370,7 @@ dependencies {
     // WorkManager
     implementation "androidx.work:work-runtime-ktx:$work_manager_version"
     implementation "androidx.work:work-runtime:$work_manager_version"
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
