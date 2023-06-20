@@ -38,7 +38,6 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.text.HtmlCompat
 import org.catrobat.catroid.BuildConfig
@@ -50,6 +49,8 @@ import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.common.FlavoredConstants.CATROBAT_HELP_URL
 import org.catrobat.catroid.common.SharedPreferenceKeys
 import org.catrobat.catroid.common.Survey
+import org.catrobat.catroid.achievements.AchievementSystem
+import org.catrobat.catroid.achievements.AchievementsListActivity
 import org.catrobat.catroid.databinding.ActivityMainMenuBinding
 import org.catrobat.catroid.databinding.ActivityMainMenuSplashscreenBinding
 import org.catrobat.catroid.databinding.DeclinedTermsOfUseAndServiceAlertViewBinding
@@ -97,6 +98,7 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
             .getInt(SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION, 0)
 
         loadContent()
+        loadAchievement()
 
         if (oldPrivacyPolicy != Constants.CATROBAT_TERMS_OF_USE_ACCEPTED) {
             showTermsOfUseDialog()
@@ -104,6 +106,14 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
 
         surveyCampaign = Survey(this)
         surveyCampaign?.showSurvey(this)
+    }
+
+    private fun loadAchievement() {
+        val achievementSystem: AchievementSystem = AchievementSystem.getInstance()
+        achievementSystem.setPreferences(applicationContext)
+        achievementSystem.setUpConditionList(applicationContext)
+        achievementSystem.setUpAchievementList(applicationContext)
+        achievementSystem.setUpQueryList(applicationContext)
     }
 
     private fun showTermsOfUseDialog() {
@@ -290,7 +300,9 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
                 }
             }
             R.id.menu_achievements_button ->
-                Toast.makeText(this, "Achievements", Toast.LENGTH_SHORT);
+                startActivity(Intent(this, AchievementsListActivity::class.java))
+
+
 
             R.id.menu_terms_of_use -> TermsOfUseDialogFragment().show(
                 supportFragmentManager,
