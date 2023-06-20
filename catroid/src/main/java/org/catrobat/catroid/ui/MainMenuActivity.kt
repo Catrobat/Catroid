@@ -109,10 +109,11 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
     }
 
     private fun loadAchievement() {
-        val achievementSystem: AchievementSystem = AchievementSystem.getInstance();
+        val achievementSystem: AchievementSystem = AchievementSystem.getInstance()
         achievementSystem.setPreferences(applicationContext)
-        achievementSystem.setUpConditionList(applicationContext);
-        achievementSystem.setUpAchievementList();
+        achievementSystem.setUpConditionList(applicationContext)
+        achievementSystem.setUpAchievementList(applicationContext)
+        achievementSystem.setUpQueryList(applicationContext)
     }
 
     private fun showTermsOfUseDialog() {

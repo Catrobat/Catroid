@@ -150,20 +150,36 @@
     <string name="achievement_condition_key_test">Condition_Test_Key</string>
     <string name="achievement_condition_key_run_first_project">Condition_Run_First_Project_Key
     </string>
+    <string name="achievement_condition_key_forever_loop">Condition_Run_Forever_Loop
+    </string>
+    <string name="achievement_condition_key_if_then">Condition_If_Then</string>
+    <string name="achievement_condition_key_if_else">Condition_If_Else</string>
     <!--  -->
     <!-- AchievementCondition Description -->
     <string name="achievement_condition_description_when">When-Bricks copied</string>
     <string name="achievement_condition_description_run_first_project">Run your first
         Project</string>
+    <string name="achievement_condition_description_forever_loop">Run a Project with
+        forever loop with at least 5 nested Bricks</string>
+    <string name="achievement_condition_description_if_then">Run a Project with
+        an if then Brick with at least 5 nested Bricks</string>
+    <string name="achievement_condition_description_if_else">Run a Project with
+        an if else Brick with at least 5 nested Bricks for if or else</string>
     <!--  -->
     <!-- Achievement Titles -->
     <string name="achievement_title_when">When?</string>
     <string name="achievement_title_run_first_project">Run your Project</string>
+    <string name="achievement_title_forever_loop">Loop Forever</string>
+    <string name="achievement_title_if_then">If Then</string>
+    <string name="achievement_title_if_else">Else...</string>
     <!--  -->
     <!-- Achievement Key String -->
     <string name="achievement_key_when">Achievement_Key_01</string>
     <string name="achievement_key_test">Achievement_Key_Test</string>
     <string name="achievement_key_run_first_project">Achievement_Key_Run_First_Project</string>
+    <string name="achievement_key_forever_loop">Achievement_Key_Forever_Loop</string>
+    <string name="achievement_key_if_then">Achievement_Key_Run_If_Then</string>
+    <string name="achievement_key_if_else">Achievement_Key_Run_If_Else</string>
     <!--  -->
 
     <!-- Settings activity -->

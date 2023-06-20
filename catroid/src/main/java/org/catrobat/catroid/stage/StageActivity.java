@@ -51,6 +51,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.achievements.AchievementSystem;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.CatroidService;
@@ -487,6 +488,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	}
 
 	public static void handlePlayButton(ProjectManager projectManager, final Activity activity) {
+		AchievementSystem.getInstance().runQueries(projectManager);
 		Scene currentScene = projectManager.getCurrentlyEditedScene();
 		Scene defaultScene = projectManager.getCurrentProject().getDefaultScene();
 

@@ -26,17 +26,28 @@ package org.catrobat.catroid.achievements;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.ForeverBrick;
+import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
 
 import java.util.ArrayList;
+
+
 import java.util.Objects;
 
 public class AchievementSystem {
 	private boolean Active = false;
-	private Context context = null;
+
 	private static AchievementSystem Instance = null;
 	private ArrayList<Achievement> AchievementList = new ArrayList<>();
 	private ArrayList<AchievementCondition> ConditionList = new ArrayList<>();
+	private ArrayList<Query> QueryList = new ArrayList<>();
 	private SharedPreferences Preferences = null;
 
 	private SharedPreferences.Editor Editor = null;
@@ -60,37 +71,129 @@ public class AchievementSystem {
 		Active = active;
 	}
 
-	public void setUpConditionList(Context context)
+	public void setUpConditionList(Context contextIn)
 	{
-		this.context = context.getApplicationContext();
-		addCondition(new AchievementCondition(this.context.getString(R.string.achievement_condition_key_test), 4 ,
-				"test_string_condition"));
-		this.context.getString(R.string.achievement_condition_key_run_first_project);
-		addCondition(new AchievementCondition(this.context.getString(R.string.achievement_condition_key_run_first_project), 1,
-				this.context.getString(R.string.achievement_condition_description_run_first_project)));
-	}
-	public void setUpAchievementList()
-	{
+		Context context = contextIn.getApplicationContext();
 
+		addCondition(new AchievementCondition(context.getString(R.string.achievement_condition_key_run_first_project), 1,
+				context.getString(R.string.achievement_condition_description_run_first_project)));
+		addCondition(new AchievementCondition(context.getString(R.string.achievement_condition_key_forever_loop), 1,
+				context.getString(R.string.achievement_condition_description_forever_loop)));
+		addCondition(new AchievementCondition(context.getString(R.string.achievement_condition_key_if_then),1,
+				context.getString(R.string.achievement_condition_description_if_then)));
+		addCondition(new AchievementCondition(context.getString(R.string.achievement_condition_key_if_else), 1,
+				context.getString(R.string.achievement_condition_description_if_else)));
+	}
+	public void setUpAchievementList(Context contextIn)
+	{
+		Context context = contextIn.getApplicationContext();
 		Achievement runFirstProject =
 				new Achievement(context.getString(R.string.achievement_title_run_first_project),
 						context.getString(R.string.achievement_key_run_first_project),
-						R.drawable.test_image);
+						R.drawable.achievement_run_first_project_image);
 		runFirstProject.addCondition(getCondition(context.getString(R.string.achievement_condition_key_run_first_project)));
-		AchievementList.add(runFirstProject);
-		Achievement Start = new Achievement(context.getString(R.string.achievement_title_when),
-				context.getString(R.string.achievement_key_test),
-			R.drawable.test_image);
-		Start.addCondition(getCondition(context.getString(R.string.achievement_condition_key_test)));
-		Achievement End = new Achievement("End", context.getString(R.string.achievement_key_test),
-				R.drawable.test_image);
-		AchievementList.add(Start);
-		for (int i = 0; i < 40; i++) {
-			AchievementList.add(new Achievement("Progress "+ i, context.getString(R.string.achievement_key_test),
-					R.drawable.test_image));
-		}
-		AchievementList.add(End);
+		addAchievement(runFirstProject);
+
+		Achievement foreverLoop =
+				new Achievement(context.getString(R.string.achievement_title_forever_loop),
+						context.getString(R.string.achievement_key_forever_loop),
+						R.drawable.achievement_forever_loop_image);
+		foreverLoop.addCondition(getCondition(context.getString(R.string.achievement_condition_key_forever_loop)));
+		addAchievement(foreverLoop);
+
+		Achievement ifThen =
+				new Achievement(context.getString(R.string.achievement_title_if_then),
+						context.getString(R.string.achievement_key_if_then),
+						R.drawable.achievement_if_then_image);
+		ifThen.addCondition(getCondition(context.getString(R.string.achievement_condition_key_if_then)));
+		addAchievement(ifThen);
+
+		Achievement ifElse =
+				new Achievement(context.getString(R.string.achievement_title_if_else),
+						context.getString(R.string.achievement_key_if_else),
+						R.drawable.achievement_if_else_image);
+		ifElse.addCondition(getCondition(context.getString(R.string.achievement_condition_key_if_else)));
+		addAchievement(ifElse);
+
+
 	}
+	public void setUpQueryList(Context contextIn){
+		Context context = contextIn.getApplicationContext();
+		addQuery(context.getString(R.string.achievement_condition_key_forever_loop),new Query() {
+			@Override
+			protected boolean query(ProjectManager projectManager) {
+				for (Scene scene: projectManager.getCurrentProject().getSceneList()) {
+					for (Sprite sprite: scene.getSpriteList()) {
+						for (Script script: sprite.getScriptList()) {
+							for (Brick brick: script.getBrickList()) {
+								if(brick instanceof ForeverBrick && ((ForeverBrick) brick).getNestedBricks().size() >= 5)
+								{
+									return true;
+								}
+							}
+						}
+					}
+				}
+				return false;
+			}
+		});
+		addQuery(context.getString(R.string.achievement_condition_key_if_then), new Query() {
+			@Override
+			protected boolean query(ProjectManager projectManager) {
+				for (Scene scene: projectManager.getCurrentProject().getSceneList()) {
+					for (Sprite sprite: scene.getSpriteList()) {
+						for (Script script: sprite.getScriptList()) {
+							for (Brick brick: script.getBrickList()) {
+								if(brick instanceof IfThenLogicBeginBrick && ((IfThenLogicBeginBrick) brick).getNestedBricks().size() >= 5)
+								{
+									return true;
+								}
+							}
+						}
+					}
+				}
+				return false;
+			}
+		});
+
+		addQuery(context.getString(R.string.achievement_condition_key_if_else), new Query() {
+			@Override
+			protected boolean query(ProjectManager projectManager) {
+				for (Scene scene: projectManager.getCurrentProject().getSceneList()) {
+					for (Sprite sprite: scene.getSpriteList()) {
+						for (Script script: sprite.getScriptList()) {
+							for (Brick brick: script.getBrickList()) {
+								if(brick instanceof IfLogicBeginBrick &&
+										(((IfLogicBeginBrick) brick).getNestedBricks().size() >= 5 ||
+										((IfLogicBeginBrick) brick).getSecondaryNestedBricks().size() >= 5))
+								{
+									return true;
+								}
+							}
+						}
+					}
+				}
+				return false;
+			}
+		});
+	}
+
+	public void addQuery(String condition_key, Query query)
+	{
+		AchievementCondition condition = getCondition(condition_key);
+		if(condition.isFinished())
+			return;
+		QueryList.add(query);
+		query.addObserver(condition);
+	}
+	public void runQueries(ProjectManager projectManager)
+	{
+		for (Query query: QueryList)
+		{
+			query.run(projectManager);
+		}
+	}
+
 	public ArrayList<Achievement> getAchievementList() {
 		return AchievementList;
 	}
@@ -143,9 +246,10 @@ public class AchievementSystem {
 
 	public void reset() {
 		Active = false;
-		context = null;
+
 		AchievementList = new ArrayList<>();
 		ConditionList = new ArrayList<>();
+		QueryList = new ArrayList<>();
 		Preferences = null;
 		Editor = null;
 	}
