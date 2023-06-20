@@ -540,6 +540,11 @@ public final class ProjectManager {
 	public void createNewEmptyProject(String name, boolean landscapeMode, boolean castEnabled) throws IOException {
 		createNewEmptyProject(name, applicationContext, landscapeMode, castEnabled);
 	}
+	public void createNewEmptyProject(String name, boolean landscapeMode, boolean castEnabled,
+			Double widthInCm, Double heightInCm) throws IOException {
+		createNewEmptyProject(name, applicationContext, landscapeMode, castEnabled, widthInCm,
+				heightInCm);
+	}
 
 	/**
 	 * @deprecated use {@link #createNewEmptyProject(String, boolean, boolean)} ()} without Context instead.
@@ -547,6 +552,15 @@ public final class ProjectManager {
 	@Deprecated
 	public void createNewEmptyProject(String name, Context context, boolean landscapeMode, boolean castEnabled) throws IOException {
 		project = DefaultProjectHandler.createAndSaveEmptyProject(name, context, landscapeMode, castEnabled);
+		currentSprite = null;
+		currentlyEditedScene = project.getDefaultScene();
+		currentlyPlayingScene = currentlyEditedScene;
+	}
+	@Deprecated
+	public void createNewEmptyProject(String name, Context context, boolean landscapeMode,
+			boolean castEnabled, Double widthInCm, Double heightInCm) throws IOException {
+		project = DefaultProjectHandler.createAndSaveEmptyProject(name, context, landscapeMode,
+				castEnabled, widthInCm, heightInCm);
 		currentSprite = null;
 		currentlyEditedScene = project.getDefaultScene();
 		currentlyPlayingScene = currentlyEditedScene;

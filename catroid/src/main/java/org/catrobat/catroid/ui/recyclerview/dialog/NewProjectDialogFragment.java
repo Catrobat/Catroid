@@ -26,7 +26,9 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
@@ -36,6 +38,7 @@ import org.catrobat.catroid.merge.NewProjectNameTextWatcher;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.utils.FrameSizeProvider;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.IOException;
@@ -58,6 +61,8 @@ public class NewProjectDialogFragment extends DialogFragment {
 		View view = View.inflate(getActivity(), R.layout.dialog_new_project, null);
 
 		final RadioGroup radioGroup = view.findViewById(R.id.radio_group);
+		final RadioGroup radioGroupUnit = view.findViewById(R.id.radio_group_unit);
+		final Spinner spnnrSizes = view.findViewById(R.id.spnnr_sizes);
 		final SwitchMaterial exampleProjectSwitch = view.findViewById(R.id.example_project_switch);
 
 		if (SettingsFragment.isCastSharedPreferenceEnabled(getActivity())) {
@@ -69,6 +74,32 @@ public class NewProjectDialogFragment extends DialogFragment {
 				return (!ReplaceExistingProjectDialogFragment.projectExistsInDirectory(newName));
 			}
 		};
+		//unit selection and frame size
+		spnnrSizes.setAdapter(FrameSizeAdapter(!landscape, true));
+		radioGroupUnit.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(RadioGroup radioGroup, int i) {
+				Boolean isCm = false;
+				switch (radioGroup.getCheckedRadioButtonId()){
+
+					case R.id.cm_radio_button:{
+						isCm = true;
+						break;
+					}
+					case R.id.inch_radio_button:{
+						isCm = false;
+						break;
+					}
+					default:break;
+
+
+
+				}
+				spnnrSizes.setAdapter(FrameSizeAdapter(!landscape, isCm));
+
+			}
+		});
+		//--//
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext())
 				.setHint(getString(R.string.project_name_label))
 				.setText(uniqueNameProvider.getUniqueName(getString(R.string.default_project_name), null))
@@ -90,7 +121,17 @@ public class NewProjectDialogFragment extends DialogFragment {
 							throw new IllegalStateException(TAG + ": No radio button id match, check layout?");
 					}
 
-					createProject(textInput, landscape, exampleProject, castProject);
+
+					if (spnnrSizes.getSelectedItemPosition()>0){
+						createProject(textInput, landscape, exampleProject, castProject,
+								FrameSizeProvider.INSTANCE.selectedWidthInCm(spnnrSizes.getSelectedItem().toString()),
+								FrameSizeProvider.INSTANCE.selectedHeightInCm(spnnrSizes.getSelectedItem().toString())
+						);
+					}else{
+						createProject(textInput, landscape, exampleProject, castProject);
+					}
+
+
 				});
 
 		return builder
@@ -123,5 +164,49 @@ public class NewProjectDialogFragment extends DialogFragment {
 		} catch (IOException e) {
 			ToastUtil.showError(getActivity(), R.string.error_new_project);
 		}
+	}
+
+	void createProject(String projectName, boolean landscape, boolean exampleProject,
+			boolean castProject, Double selectedWidth, Double selectedHeight) {
+//		ToastUtil.showError(getActivity(), R.string.error_new_project);
+		try {
+			if (exampleProject) {
+				if (castProject) {
+					ProjectManager.getInstance()
+							.createNewExampleProject(projectName, getContext(), PROJECT_CREATOR_CAST, false);
+				} else {
+					ProjectManager.getInstance()
+							.createNewExampleProject(projectName, getContext(), PROJECT_CREATOR_DEFAULT, landscape);
+				}
+			} else {
+				if (castProject) {
+					ProjectManager.getInstance()
+//							.createNewEmptyProject(projectName, getContext(), false, true);
+							.createNewEmptyProject(projectName, getContext(), false, true,
+									selectedWidth, selectedHeight);
+				} else {
+					ProjectManager.getInstance()
+//							.createNewEmptyProject(projectName, getContext(), landscape, false);
+							.createNewEmptyProject(projectName, getContext(), landscape, false,
+									selectedWidth, selectedHeight);
+				}
+			}
+			getActivity().startActivity(new Intent(getActivity(), ProjectActivity.class));
+		} catch (IOException e) {
+			ToastUtil.showError(getActivity(), R.string.error_new_project);
+		}
+	}
+
+	ArrayAdapter<String> FrameSizeAdapter(Boolean isPortrait, Boolean isCm){
+
+		ArrayAdapter<String> arrAdap_size= new ArrayAdapter<String>(getActivity(),
+				android.R.layout.simple_spinner_item,
+				FrameSizeProvider.INSTANCE.getFrameSize(isPortrait, isCm));
+		arrAdap_size.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		return arrAdap_size;
+//		bind.setAdapter(arrAdap_size);
+
+
 	}
 }

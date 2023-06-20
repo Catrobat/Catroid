@@ -450,4 +450,14 @@
         <item>@string/formula_editor_object_y_velocity</item>
     </string-array>
 
+    <string-array name="mock_array_entries">
+        <item>option 1</item>
+        <item>option 2</item>
+        <item>option 3</item>
+        <item>option 4</item>
+        <item>option 5</item>
+        <item>option 6</item>
+        <item>option 7</item>
+    </string-array>
+
 </resources>

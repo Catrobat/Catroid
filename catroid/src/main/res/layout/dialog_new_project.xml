@@ -96,5 +96,58 @@
             android:paddingBottom="@dimen/material_design_spacing_large"
             android:text="@string/new_project_dialog_example_project" />
 
+        <RadioGroup
+            android:id="@+id/radio_group_unit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkedButton="@+id/portrait_radio_button"
+            android:paddingTop="@dimen/material_design_spacing_large"
+            android:paddingBottom="@dimen/material_design_spacing_large"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/cm_radio_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.33"
+                android:text="cm"
+                android:paddingEnd="@dimen/material_design_spacing_large"
+                android:paddingStart="@dimen/material_design_spacing_large"
+                android:checked="true"/>
+
+            <RadioButton
+                android:id="@+id/inch_radio_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.33"
+                android:text="inch"
+                android:paddingEnd="@dimen/material_design_spacing_large"
+                android:paddingStart="@dimen/material_design_spacing_large"/>
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Frame Size"
+                android:padding="6dp"/>
+
+            <Spinner
+                android:id="@+id/spnnr_sizes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:entries="@array/mock_array_entries"
+                android:layout_marginStart="12dp"
+                android:padding="6dp"/>
+
+
+        </LinearLayout>
+
     </LinearLayout>
 </ScrollView>

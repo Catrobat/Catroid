@@ -24,6 +24,7 @@ package org.catrobat.catroid.utils;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.WindowManager;
 
 import org.catrobat.catroid.common.ScreenValues;
@@ -45,4 +46,40 @@ public final class ScreenValueHandler {
 			ScreenValues.setToDefaultScreenSize();
 		}
 	}
+
+	public static void updateScreenWidthAndHeight(Context context, Double widthInCm,
+			Double heightInCm) {
+
+		if (context != null) {
+
+
+			if (widthInCm!=null || widthInCm !=0.0 || heightInCm!=null || heightInCm!=0.0){
+				WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+				DisplayMetrics displayMetrics = new DisplayMetrics();
+				windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+
+				ScreenValues.SCREEN_WIDTH = cmToPixels(widthInCm, displayMetrics).intValue();
+				ScreenValues.SCREEN_HEIGHT = cmToPixels(heightInCm, displayMetrics).intValue();
+
+				Log.e(ScreenValueHandler.class.getSimpleName(), "updateScreenWidthAndHeight: W X H ->"
+						+ ScreenValues.SCREEN_WIDTH + " X "+ScreenValues.SCREEN_HEIGHT);
+			}else{
+				updateScreenWidthAndHeight(context);
+			}
+
+
+
+		} else {
+			ScreenValues.setToDefaultScreenSize();
+		}
+	}
+
+	private static Double cmToPixels(Double valueInCm, DisplayMetrics dispMetrics){
+
+		Long densityPerCm = Math.round(dispMetrics.densityDpi / 2.54);
+		Log.e(ScreenValueHandler.class.getSimpleName(), "cmToPixels: dpi => "+densityPerCm );
+		return valueInCm * densityPerCm;
+	}
+
+
 }
