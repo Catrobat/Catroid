@@ -38,7 +38,10 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
+import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
 import org.catrobat.catroid.io.StorageOperations;
 
 import org.junit.After;
@@ -47,6 +50,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import androidx.test.core.app.ApplicationProvider;
 
@@ -93,7 +97,8 @@ public class RunQueriesTest {
 
 		try {
 			defaultProject = DefaultProjectHandler
-					.createAndSaveDefaultProject(PROJECT_NAME, ApplicationProvider.getApplicationContext(), false);
+					.createAndSaveDefaultProject(PROJECT_NAME,
+							ApplicationProvider.getApplicationContext(), true);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -104,18 +109,33 @@ public class RunQueriesTest {
 	@After
 	public void tearDown() throws IOException{
 		if (projectDir.isDirectory()) {
-
 				StorageOperations.deleteDir(projectDir);
-
 		}
+
+		achievementSystem.setActive(false);
 	}
 
 
 
 
 	@Test
-	public void foreverBrickHasTwoNested()
+	public void foreverBrickQuery()
 	{
+		for (Scene scene: projectManager.getCurrentProject().getSceneList()){
+			for (Sprite sprite: scene.getSpriteList()) {
+				for (Script script: sprite.getScriptList()) {
+					for (Brick brick: script.getBrickList()) {
+						if (brick instanceof ForeverBrick)
+						{
+							for (int i = 0; i < 3; i++) {
+								((ForeverBrick) brick).addBrick(new ChangeXByNBrick(5));
+							}
+							break;
+						}
+					}
+				}
+			}
+		}
 		achievementSystem.addQuery(key, new Query() {
 			@Override
 			protected boolean query(ProjectManager projectManager) {
@@ -123,7 +143,7 @@ public class RunQueriesTest {
 					for (Sprite sprite: scene.getSpriteList()) {
 						for (Script script: sprite.getScriptList()) {
 							for (Brick brick: script.getBrickList()) {
-								if(brick instanceof ForeverBrick && ((ForeverBrick) brick).getNestedBricks().size() >=2)
+								if(brick instanceof ForeverBrick && ((ForeverBrick) brick).getNestedBricks().size() >=5)
 								{
 									return true;
 								}
@@ -136,6 +156,150 @@ public class RunQueriesTest {
 		});
 		achievementSystem.runQueries(projectManager);
 		assertTrue(achievementSystem.getAchievement(achievement_key).isUnlocked());
+	}
+
+	@Test
+	public void ifThenBrickQuery()
+	{
+		for (Scene scene: projectManager.getCurrentProject().getSceneList()){
+			for (Sprite sprite: scene.getSpriteList()) {
+				for (Script script: sprite.getScriptList()) {
+					List<Brick> brickList = script.getBrickList();
+					for (int i = 0; i < brickList.size(); i++) {
+						if(brickList.get(i) instanceof ForeverBrick)
+						{
+							IfThenLogicBeginBrick brick = new IfThenLogicBeginBrick();
+							for (int j = 0; j < 5; j++) {
+								brick.addBrick(new ChangeXByNBrick(5));
+							}
+							brickList.add(i, brick);
+							break;
+						}
+					}
+				}
+			}
+		}
+		achievementSystem.addQuery(key, new Query() {
+			@Override
+			protected boolean query(ProjectManager projectManager) {
+				for (Scene scene: projectManager.getCurrentProject().getSceneList()) {
+					for (Sprite sprite: scene.getSpriteList()) {
+						for (Script script: sprite.getScriptList()) {
+							for (Brick brick: script.getBrickList()) {
+								if(brick instanceof IfThenLogicBeginBrick &&
+										((IfThenLogicBeginBrick) brick).getNestedBricks().size() >= 5)
+								{
+									return true;
+								}
+							}
+						}
+					}
+				}
+				return false;
+			}
+		});
+		achievementSystem.runQueries(projectManager);
+		assertTrue(achievementSystem.getAchievement(achievement_key).isUnlocked());
+	}
+	@Test
+	public void projectHasBricks()
+	{
+		achievementSystem.addQuery(key, new Query() {
+			@Override
+			protected boolean query(ProjectManager projectManager) {
+				for (Scene scene: projectManager.getCurrentProject().getSceneList()) {
+					for (Sprite sprite: scene.getSpriteList()) {
+						for (Script script: sprite.getScriptList()) {
+							if(script.getBrickList().size() > 0)
+							{
+								return true;
+							}
+						}
+					}
+				}
+				return false;
+			}
+		});
+		achievementSystem.runQueries(projectManager);
+		assertTrue(achievementSystem.getAchievement(achievement_key).isUnlocked());
+	}
+
+	@Test
+	public void ifElseBrickQueryIfBranch()
+	{
+		for (Scene scene: projectManager.getCurrentProject().getSceneList()){
+			for (Sprite sprite: scene.getSpriteList()) {
+				for (Script script: sprite.getScriptList()) {
+					List<Brick> brickList = script.getBrickList();
+					for (int i = 0; i < brickList.size(); i++) {
+						if(brickList.get(i) instanceof ForeverBrick)
+						{
+							IfLogicBeginBrick brick = new IfLogicBeginBrick();
+							for (int j = 0; j < 5; j++) {
+								brick.addBrickToIfBranch(new ChangeXByNBrick(5));
+							}
+							brickList.add(i, brick);
+							break;
+						}
+					}
+				}
+			}
+		}
+		addIfElseQuery();
+
+		achievementSystem.runQueries(projectManager);
+		assertTrue(achievementSystem.getAchievement(achievement_key).isUnlocked());
+	}
+
+	@Test
+	public void ifElseBrickQueryElseBranch()
+	{
+		for (Scene scene: projectManager.getCurrentProject().getSceneList()){
+			for (Sprite sprite: scene.getSpriteList()) {
+				for (Script script: sprite.getScriptList()) {
+					List<Brick> brickList = script.getBrickList();
+					for (int i = 0; i < brickList.size(); i++) {
+						if(brickList.get(i) instanceof ForeverBrick)
+						{
+							IfLogicBeginBrick brick = new IfLogicBeginBrick();
+							for (int j = 0; j < 5; j++) {
+								brick.addBrickToElseBranch(new ChangeXByNBrick(5));
+							}
+							brickList.add(i, brick);
+							break;
+						}
+					}
+				}
+			}
+		}
+		addIfElseQuery();
+
+		achievementSystem.runQueries(projectManager);
+		assertTrue(achievementSystem.getAchievement(achievement_key).isUnlocked());
+	}
+
+	private void addIfElseQuery()
+	{
+		achievementSystem.addQuery(key, new Query() {
+			@Override
+			protected boolean query(ProjectManager projectManager) {
+				for (Scene scene: projectManager.getCurrentProject().getSceneList()) {
+					for (Sprite sprite: scene.getSpriteList()) {
+						for (Script script: sprite.getScriptList()) {
+							for (Brick brick: script.getBrickList()) {
+								if(brick instanceof IfLogicBeginBrick &&
+									(((IfLogicBeginBrick) brick).getNestedBricks().size() >= 5 ||
+									((IfLogicBeginBrick) brick).getSecondaryNestedBricks().size() >= 5))
+								{
+									return true;
+								}
+							}
+						}
+					}
+				}
+				return false;
+			}
+		});
 	}
 
 

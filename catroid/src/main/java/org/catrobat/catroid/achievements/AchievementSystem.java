@@ -119,6 +119,24 @@ public class AchievementSystem {
 	}
 	public void setUpQueryList(Context contextIn){
 		Context context = contextIn.getApplicationContext();
+		addQuery(context.getString(R.string.achievement_condition_key_run_first_project), new Query() {
+			@Override
+			protected boolean query(ProjectManager projectManager) {
+				for (Scene scene: projectManager.getCurrentProject().getSceneList()) {
+					for (Sprite sprite: scene.getSpriteList()) {
+						for (Script script: sprite.getScriptList()) {
+							if(script.getBrickList().size() > 0)
+							{
+								return true;
+							}
+						}
+					}
+				}
+				return false;
+			}
+		});
+
+
 		addQuery(context.getString(R.string.achievement_condition_key_forever_loop),new Query() {
 			@Override
 			protected boolean query(ProjectManager projectManager) {
