@@ -30,8 +30,10 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
+import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.ui.FormulaEditorPopupMenu;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
@@ -55,6 +57,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.doubleClick;
 import static androidx.test.espresso.action.ViewActions.longClick;
+import static androidx.test.espresso.action.ViewActions.pressBack;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.RootMatchers.isPlatformPopup;
@@ -67,10 +70,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 public class ClipboardTest {
 
 	private static final String PROJECT_NAME = "ClipboardTest";
-
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
+			FragmentActivityTestRule<>(SpriteActivity.class,
+			SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
 	public static Project createProject() {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), PROJECT_NAME);
@@ -82,7 +85,10 @@ public class ClipboardTest {
 		project.addUserVariable(userVariable);
 		setVariableBrick.setUserVariable(userVariable);
 
+		SetXBrick setXBrick = new SetXBrick();
+
 		script.addBrick(setVariableBrick);
+		script.addBrick(setXBrick);
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
 
@@ -109,6 +115,8 @@ public class ClipboardTest {
 
 	@Test
 	public void hidePasteWhenClipboardIsEmptyTest() {
+		// Note: Due to the shared clipboard, we need to reset it before running this test.
+		FormulaEditorPopupMenu.resetClipboard();
 		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
 		onView(withId(R.id.formula_editor_edit_field)).perform(doubleClick());
 		onView(withId(R.id.copy)).inRoot(isPlatformPopup()).perform(waitFor(isDisplayed(), 5000));
@@ -139,18 +147,30 @@ public class ClipboardTest {
 		onView(withId(R.id.paste)).inRoot(isPlatformPopup()).perform(click());
 		onFormulaEditor().checkShows("12345");
 	}
+	@Test
+	public void copyAndPasteAcrossBricksTest() {
+		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
+		onFormulaEditor().performEnterNumber(22345);
+		onView(withId(R.id.formula_editor_edit_field)).perform(doubleClick());
+		onView(withId(R.id.copy)).inRoot(isPlatformPopup()).perform(click());
+		onFormulaEditor().perform(pressBack());
+		onView(withId(R.id.brick_set_x_edit_text)).perform(click());
+		onView(withId(R.id.formula_editor_edit_field)).perform(longClick());
+		onView(withId(R.id.paste)).inRoot(isPlatformPopup()).perform(click());
+		onFormulaEditor().checkShows("22345");
+	}
 
 	@Test
 	public void cutAndPasteTest() {
 		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
-		onFormulaEditor().performEnterNumber(12345);
+		onFormulaEditor().performEnterNumber(32345);
 		onView(withId(R.id.formula_editor_edit_field)).perform(doubleClick());
 		onView(withId(R.id.cut)).inRoot(isPlatformPopup()).perform(click());
 		onFormulaEditor().checkShows("");
 		onView(withId(R.id.formula_editor_edit_field)).perform(click());
 		onView(withId(R.id.formula_editor_edit_field)).perform(longClick());
 		onView(withId(R.id.paste)).inRoot(isPlatformPopup()).perform(click());
-		onFormulaEditor().checkShows("12345");
+		onFormulaEditor().checkShows("32345");
 	}
 
 	@Test

@@ -53,7 +53,7 @@ public class FormulaEditorPopupMenu {
 	private final View copy;
 	private final View paste;
 
-	private List<InternToken> clipboard;
+	private static List<InternToken> clipboard;
 
 	@SuppressLint("InflateParams")
 	public FormulaEditorPopupMenu(Context context, FormulaEditorEditText formulaEditorEditText) {
@@ -185,5 +185,9 @@ public class FormulaEditorPopupMenu {
 
 	public void dismiss() {
 		popupWindow.dismiss();
+	}
+
+	public static void resetClipboard() {
+		clipboard.clear();
 	}
 }
