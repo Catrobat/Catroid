@@ -26,13 +26,16 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Set")
 public class SetBrightnessBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public SetBrightnessBrick() {
-		addAllowedBrickField(BrickField.BRIGHTNESS, R.id.brick_set_brightness_edit_text);
+		addAllowedBrickField(BrickField.BRIGHTNESS, R.id.brick_set_brightness_edit_text,
+				"brightness percentage");
 	}
 
 	public SetBrightnessBrick(double brightness) {

@@ -33,13 +33,17 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
+@CatrobatLanguageBrick(command = "If")
 public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -51,7 +55,7 @@ public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 	protected List<Brick> elseBranchBricks = new ArrayList<>();
 
 	public IfLogicBeginBrick() {
-		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_if_begin_edit_text);
+		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_if_begin_edit_text, "condition");
 	}
 
 	public IfLogicBeginBrick(Formula formula) {
@@ -326,5 +330,34 @@ public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 		public UUID getBrickID() {
 			return parent.getBrickID();
 		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+
+		StringBuilder catrobatLanguage = new StringBuilder();
+		catrobatLanguage.append(indention);
+		catrobatLanguage.append(getCatrobatLanguageCommand());
+		catrobatLanguage.append(" (");
+		appendCatrobatLanguageArguments(catrobatLanguage);
+		catrobatLanguage.append(") {\n");
+
+		for (Brick brick : ifBranchBricks) {
+			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
+		}
+
+		catrobatLanguage.append(indention);
+		catrobatLanguage.append("} else {\n");
+
+		for (Brick brick : elseBranchBricks) {
+			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
+		}
+
+		catrobatLanguage.append(indention);
+		catrobatLanguage.append("}\n");
+
+		return catrobatLanguage.toString();
 	}
 }

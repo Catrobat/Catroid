@@ -31,7 +31,9 @@ import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.io.catlang.CatblocksLanguageSerializable;
 import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 
 import java.util.ArrayList;
@@ -45,7 +47,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public abstract class BrickBaseType implements Brick {
+public abstract class BrickBaseType implements Brick, CatblocksLanguageSerializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -317,9 +319,15 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	// TODO: remove from brick base type!
+	// or keep for only comment bricks?
 	@NonNull
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return "";
+		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+		StringBuilder catrobatLanguage = new StringBuilder();
+		catrobatLanguage.append(indention);
+		catrobatLanguage.append(getCatrobatLanguageCommand());
+		catrobatLanguage.append("\n");
+		return catrobatLanguage.toString();
 	}
 }

@@ -29,12 +29,17 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.utils.LoopUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import androidx.annotation.NonNull;
+
+@CatrobatLanguageBrick(command = "Forever")
 public class ForeverBrick extends BrickBaseType implements CompositeBrick {
 
 	private transient EndBrick endBrick = new EndBrick(this);
@@ -208,5 +213,25 @@ public class ForeverBrick extends BrickBaseType implements CompositeBrick {
 		public UUID getBrickID() {
 			return parent.getBrickID();
 		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+
+		StringBuilder catrobatLanguage = new StringBuilder();
+		catrobatLanguage.append(indention);
+		catrobatLanguage.append(getCatrobatLanguageCommand());
+		catrobatLanguage.append(" {\n");
+
+		for (Brick brick : loopBricks) {
+			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
+		}
+
+		catrobatLanguage.append(indention);
+		catrobatLanguage.append("}\n");
+
+		return catrobatLanguage.toString();
 	}
 }

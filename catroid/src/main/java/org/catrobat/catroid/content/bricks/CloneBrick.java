@@ -32,12 +32,16 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+@CatrobatLanguageBrick(command = "Create clone of")
 public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite> {
 
 	private static final long serialVersionUID = 1L;
@@ -101,5 +105,20 @@ public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSele
 	public void resetSpinner() {
 		spinner.setSelection(0);
 		objectToClone = null;
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+
+		StringBuilder catrobatLanguage = new StringBuilder();
+		catrobatLanguage.append(indention);
+		catrobatLanguage.append(getCatrobatLanguageCommand());
+		catrobatLanguage.append(" (actor or object: (");
+		catrobatLanguage.append(objectToClone != null ? objectToClone.getName() : "");
+		catrobatLanguage.append("));\n");
+
+		return catrobatLanguage.toString();
 	}
 }

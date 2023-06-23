@@ -25,14 +25,17 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Assert equals")
 public class AssertEqualsBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public AssertEqualsBrick() {
-		addAllowedBrickField(BrickField.ASSERT_EQUALS_ACTUAL, R.id.brick_assert_actual);
-		addAllowedBrickField(BrickField.ASSERT_EQUALS_EXPECTED, R.id.brick_assert_expected);
+		addAllowedBrickField(BrickField.ASSERT_EQUALS_ACTUAL, R.id.brick_assert_actual, "actual");
+		addAllowedBrickField(BrickField.ASSERT_EQUALS_EXPECTED, R.id.brick_assert_expected,
+				"expected");
 	}
 
 	@Override

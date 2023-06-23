@@ -294,7 +294,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		catrobatLanguage.append(getCatrobatLanguageCommand());
 		catrobatLanguage.append(" (");
 		appendCatrobatLanguageArguments(catrobatLanguage);
-		catrobatLanguage.append(");");
+		catrobatLanguage.append(");\n");
 		return catrobatLanguage.toString();
 	}
 }
