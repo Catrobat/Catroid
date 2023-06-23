@@ -218,20 +218,13 @@ public class ForeverBrick extends BrickBaseType implements CompositeBrick {
 	@NonNull
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
-
-		StringBuilder catrobatLanguage = new StringBuilder();
-		catrobatLanguage.append(indention);
-		catrobatLanguage.append(getCatrobatLanguageCommand());
-		catrobatLanguage.append(" {\n");
+		StringBuilder catrobatLanguage = getCatrobatLanguageCall(indentionLevel, true);
 
 		for (Brick brick : loopBricks) {
 			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
 		}
 
-		catrobatLanguage.append(indention);
-		catrobatLanguage.append("}\n");
-
+		getCatrobatLanguageBodyClose(catrobatLanguage, indentionLevel);
 		return catrobatLanguage.toString();
 	}
 }

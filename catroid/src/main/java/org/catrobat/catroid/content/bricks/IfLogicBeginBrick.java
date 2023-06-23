@@ -335,19 +335,13 @@ public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 	@NonNull
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
-
-		StringBuilder catrobatLanguage = new StringBuilder();
-		catrobatLanguage.append(indention);
-		catrobatLanguage.append(getCatrobatLanguageCommand());
-		catrobatLanguage.append(" (");
-		appendCatrobatLanguageArguments(catrobatLanguage);
-		catrobatLanguage.append(") {\n");
+		StringBuilder catrobatLanguage = getCatrobatLanguageParameterizedCall(indentionLevel, true);
 
 		for (Brick brick : ifBranchBricks) {
 			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
 		}
 
+		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
 		catrobatLanguage.append(indention);
 		catrobatLanguage.append("} else {\n");
 
@@ -355,9 +349,7 @@ public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
 		}
 
-		catrobatLanguage.append(indention);
-		catrobatLanguage.append("}\n");
-
+		getCatrobatLanguageBodyClose(catrobatLanguage, indentionLevel);
 		return catrobatLanguage.toString();
 	}
 }

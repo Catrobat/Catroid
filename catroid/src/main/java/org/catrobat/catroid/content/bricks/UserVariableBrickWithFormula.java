@@ -35,12 +35,14 @@ import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.content.bricks.brickspinner.UserVariableBrickTextInputDialogBuilder;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -115,5 +117,30 @@ public abstract class UserVariableBrickWithFormula extends FormulaBrick implemen
 	@Override
 	public void onItemSelected(Integer spinnerId, @Nullable UserVariable item) {
 		userVariable = item;
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+
+		StringBuilder catrobatLanguage = new StringBuilder();
+		catrobatLanguage.append(indention);
+		catrobatLanguage.append(getCatrobatLanguageCommand());
+
+		catrobatLanguage.append(" (value: (");
+		if (userVariable == null) {
+			catrobatLanguage.append("0");
+		} else {
+			catrobatLanguage.append("\"");
+			catrobatLanguage.append(userVariable.getName());
+			catrobatLanguage.append("\"");
+		}
+		catrobatLanguage.append("), ");
+
+		appendCatrobatLanguageArguments(catrobatLanguage);
+		catrobatLanguage.append(")");
+
+		return catrobatLanguage.toString();
 	}
 }

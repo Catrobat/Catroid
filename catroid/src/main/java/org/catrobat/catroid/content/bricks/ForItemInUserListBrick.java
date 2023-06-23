@@ -32,12 +32,17 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.utils.LoopUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import androidx.annotation.NonNull;
+
+@CatrobatLanguageBrick(command = "For each value in list")
 public class ForItemInUserListBrick extends UserDataBrick implements CompositeBrick {
 
 	private transient EndBrick endBrick = new EndBrick(this);
@@ -215,5 +220,31 @@ public class ForItemInUserListBrick extends UserDataBrick implements CompositeBr
 		public UUID getBrickID() {
 			return parent.getBrickID();
 		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+
+		StringBuilder catrobatLanguage = new StringBuilder();
+		catrobatLanguage.append(indention);
+		catrobatLanguage.append(getCatrobatLanguageCommand());
+
+		// TODO: implement
+		catrobatLanguage.append(" (value: (");
+//		if (userVariable == null) {
+//			catrobatLanguage.append("0");
+//		} else {
+//			catrobatLanguage.append("\"");
+//			catrobatLanguage.append(userVariable.getName());
+//			catrobatLanguage.append("\"");
+//		}
+		catrobatLanguage.append("), ");
+
+		appendCatrobatLanguageArguments(catrobatLanguage);
+		catrobatLanguage.append(")");
+
+		return catrobatLanguage.toString();
 	}
 }

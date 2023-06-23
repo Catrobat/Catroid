@@ -33,9 +33,13 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
+import androidx.annotation.NonNull;
 import kotlin.Unit;
 
+@CatrobatLanguageBrick(command = "Stop")
 public class StopScriptBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
@@ -83,5 +87,34 @@ public class StopScriptBrick extends BrickBaseType {
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createStopScriptAction(spinnerSelection,
 				sequence.getScript(), sprite));
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+
+		StringBuilder catrobatLanguage = new StringBuilder();
+		catrobatLanguage.append(indention);
+		catrobatLanguage.append(getCatrobatLanguageCommand());
+		catrobatLanguage.append(" (script: (");
+		catrobatLanguage.append(getFixedCatrobatLanguageSpinnerValue(spinnerSelection));
+		catrobatLanguage.append("));\n");
+
+		return catrobatLanguage.toString();
+	}
+
+	// TODO: better soluton?
+	private String getFixedCatrobatLanguageSpinnerValue(int index) {
+		switch (index) {
+			case BrickValues.STOP_THIS_SCRIPT:
+				return "this script";
+			case BrickValues.STOP_ALL_SCRIPTS:
+				return "all scripts";
+			case BrickValues.STOP_OTHER_SCRIPTS:
+				return "other scripts of this actor or object";
+			default:
+				throw new IllegalArgumentException("Invalid spinner index");
+		}
 	}
 }

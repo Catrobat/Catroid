@@ -49,6 +49,9 @@ import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick
 import org.catrobat.catroid.content.bricks.DroneMoveRightBrick
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick
+import org.catrobat.catroid.content.bricks.FinishStageBrick
+import org.catrobat.catroid.content.bricks.ForItemInUserListBrick
+import org.catrobat.catroid.content.bricks.ForVariableFromToBrick
 import org.catrobat.catroid.content.bricks.ForeverBrick
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick
@@ -84,6 +87,8 @@ import org.catrobat.catroid.content.bricks.RepeatBrick
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick
 import org.catrobat.catroid.content.bricks.ReportBrick
 import org.catrobat.catroid.content.bricks.RunningStitchBrick
+import org.catrobat.catroid.content.bricks.SceneStartBrick
+import org.catrobat.catroid.content.bricks.SceneTransitionBrick
 import org.catrobat.catroid.content.bricks.SetBackgroundByIndexAndWaitBrick
 import org.catrobat.catroid.content.bricks.SetBackgroundByIndexBrick
 import org.catrobat.catroid.content.bricks.SetBounceBrick
@@ -110,6 +115,7 @@ import org.catrobat.catroid.content.bricks.SetYBrick
 import org.catrobat.catroid.content.bricks.SewUpBrick
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick
 import org.catrobat.catroid.content.bricks.SpeakBrick
+import org.catrobat.catroid.content.bricks.StopScriptBrick
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick
 import org.catrobat.catroid.content.bricks.TripleStitchBrick
@@ -145,6 +151,8 @@ class BricksSerializationTest(
         fun parameters(): List<Array<out Serializable>> {
             val listOf = listOf(
                 arrayOf(BroadcastBrick("test"), "Broadcast (message: ('test'));\n"),
+                arrayOf(BroadcastBrick(), "Broadcast (message: ());\n"), // TODO: this or
+                arrayOf(BroadcastBrick(), "Broadcast (message: (''));\n"), // TODO: this?
                 arrayOf(
                     BroadcastWaitBrick("test"),
                     "Broadcast and wait (message: ('test'));\n"
@@ -163,6 +171,26 @@ class BricksSerializationTest(
                 // TODO: clarify default 0
                 arrayOf(IfLogicBeginBrick(), "If (condition: (0)) {\n} else {\n}\n"),
                 arrayOf(IfThenLogicBeginBrick(), "If (condition: (0)) {\n}\n"),
+                arrayOf(WaitUntilBrick(), "Wait until (condition: (0));\n"),
+                arrayOf(RepeatBrick(), "Repeat (times: (0)) {\n}\n"),
+                arrayOf(RepeatUntilBrick(), "Repeat until (condition: (0)) {\n}\n"),
+                arrayOf(ForVariableFromToBrick(), "For (value: (0), from: (0), to: (0)) {\n}\n"),
+                // TODO: UserDataBrick
+                arrayOf(
+                    ForItemInUserListBrick(),
+                    "For each value in list (value: (0), list: (0)) {\n}\n"
+                ),
+                // TODO: shoud testscene be escaped?
+                arrayOf(SceneTransitionBrick("testscene"), "Continue (scene: (testscene));\n"),
+                arrayOf(SceneTransitionBrick(), "Continue (scene: ());\n"),
+                arrayOf(SceneStartBrick("testscene"), "Start (scene: (testscene));\n"),
+                arrayOf(SceneStartBrick(), "Start (scene: ());\n"),
+                arrayOf(FinishStageBrick(), "Finish stage;\n"),
+                arrayOf(StopScriptBrick(), "Stop (script: (this script));\n"),
+                arrayOf(StopScriptBrick(0), "Stop (script: (this script));\n"),
+                arrayOf(StopScriptBrick(1), "Stop (script: (all scripts));\n"),
+                arrayOf(StopScriptBrick(2), "Stop (script: (other scripts of this actor or " +
+                    "object));\n"),
 
 //                arrayOf(ArduinoSendPWMValueBrick(), "Set Arduino (PWM~ pin: (0), value: (0));"),
 //                arrayOf(AssertEqualsBrick(), "Assert equals (actual: (0), expected: (0));"),

@@ -318,6 +318,52 @@ public abstract class BrickBaseType implements Brick, CatblocksLanguageSerializa
 		return null;
 	}
 
+	protected StringBuilder getCatrobatLanguageCall(int indentionLevel, boolean withBody) {
+		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+
+		StringBuilder catrobatLanguage = new StringBuilder();
+		catrobatLanguage.append(indention);
+		catrobatLanguage.append(getCatrobatLanguageCommand());
+
+		if (withBody) {
+			catrobatLanguage.append(" {\n");
+		} else {
+			catrobatLanguage.append(";\n");
+		}
+
+		return catrobatLanguage;
+	}
+
+	protected void getCatrobatLanguageBodyClose(StringBuilder catLangBuilder, int indentionLevel) {
+		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+		catLangBuilder.append(indention);
+		catLangBuilder.append("}\n");
+	}
+
+	protected StringBuilder getCatrobatLanguageParameterizedCall(int indentionLevel,
+			boolean withBody) {
+		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+
+		StringBuilder catrobatLanguage = new StringBuilder();
+		catrobatLanguage.append(indention);
+		catrobatLanguage.append(getCatrobatLanguageCommand());
+
+		if (this instanceof FormulaBrick) {
+			FormulaBrick formulaBrick = (FormulaBrick) this;
+			catrobatLanguage.append(" (");
+			formulaBrick.appendCatrobatLanguageArguments(catrobatLanguage);
+			catrobatLanguage.append(")");
+		}
+
+		if (withBody) {
+			catrobatLanguage.append(" {\n");
+		} else {
+			catrobatLanguage.append(";\n");
+		}
+
+		return catrobatLanguage;
+	}
+
 	// TODO: remove from brick base type!
 	// or keep for only comment bricks?
 	@NonNull
@@ -327,7 +373,7 @@ public abstract class BrickBaseType implements Brick, CatblocksLanguageSerializa
 		StringBuilder catrobatLanguage = new StringBuilder();
 		catrobatLanguage.append(indention);
 		catrobatLanguage.append(getCatrobatLanguageCommand());
-		catrobatLanguage.append("\n");
+		catrobatLanguage.append(";\n");
 		return catrobatLanguage.toString();
 	}
 }
