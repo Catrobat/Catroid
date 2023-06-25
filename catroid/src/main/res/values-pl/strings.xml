@@ -2070,7 +2070,6 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string formatted="false" name="search">Szukaj</string>
     <string formatted="false" name="no_results_found">Nie znaleziono wyników</string>
     <string formatted="false" name="query_field_is_empty">Pole zapytania jest puste</string>
-    <string formatted="false" name="cut">Wytnij</string>
     <string formatted="false" name="paste">Wklej</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">Efekt zanikania cząstek</string>

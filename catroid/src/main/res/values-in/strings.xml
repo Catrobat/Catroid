@@ -1986,7 +1986,6 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string formatted="false" name="search">Pencarian…</string>
     <string formatted="false" name="no_results_found">Tidak ada hasil yang ditemukan</string>
     <string formatted="false" name="query_field_is_empty">Bidang kueri kosong</string>
-    <string formatted="false" name="cut">Memotong</string>
     <string formatted="false" name="paste">Tempel</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">Efek partikel pudar</string>

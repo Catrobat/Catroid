@@ -2009,7 +2009,6 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string formatted="false" name="search">Búsqueda…</string>
     <string formatted="false" name="no_results_found">No se han encontrado resultados</string>
     <string formatted="false" name="query_field_is_empty">El campo de consulta está vacío</string>
-    <string formatted="false" name="cut">Cortar</string>
     <string formatted="false" name="paste">Pegar</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">Efecto de partículas desvanecidas</string>

@@ -2131,7 +2131,6 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="search">חיפוש…</string>
     <string formatted="false" name="no_results_found">No results found</string>
     <string formatted="false" name="query_field_is_empty">Query field is empty</string>
-    <string formatted="false" name="cut">Cut</string>
     <string formatted="false" name="paste">Paste</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">Fade particle effect</string>

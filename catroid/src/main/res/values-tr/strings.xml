@@ -1978,7 +1978,6 @@ Lütfen projeyi yeniden adlandırın.</string>
     <string formatted="false" name="search">Ara…</string>
     <string formatted="false" name="no_results_found">Sonuç bulunamadı</string>
     <string formatted="false" name="query_field_is_empty">Sorgu alanı boş</string>
-    <string formatted="false" name="cut">Kes</string>
     <string formatted="false" name="paste">Yapıştır</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">Soluk parçacık efekti</string>

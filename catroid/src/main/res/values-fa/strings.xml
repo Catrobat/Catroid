@@ -1932,7 +1932,6 @@
     <string formatted="false" name="search">جستجو …</string>
     <string formatted="false" name="no_results_found">نتیجه ای پیدا نشد</string>
     <string formatted="false" name="query_field_is_empty">فیلد پرس و جو خالی است</string>
-    <string formatted="false" name="cut">قطع کن</string>
     <string formatted="false" name="paste">علاوه کن</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">اثر ذرات محو</string>

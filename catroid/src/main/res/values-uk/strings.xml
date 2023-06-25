@@ -2127,7 +2127,6 @@
     <string formatted="false" name="search">Пошук</string>
     <string formatted="false" name="no_results_found">Результатів не знайдено</string>
     <string formatted="false" name="query_field_is_empty">Поле запиту порожнє</string>
-    <string formatted="false" name="cut">Вирізати</string>
     <string formatted="false" name="paste">Вставити</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">Ефект згасання частинок</string>
