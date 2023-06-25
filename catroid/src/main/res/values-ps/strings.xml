@@ -2013,7 +2013,6 @@
     <string formatted="false" name="search">لټون</string>
     <string formatted="false" name="no_results_found">No results found</string>
     <string formatted="false" name="query_field_is_empty">Query field is empty</string>
-    <string formatted="false" name="cut">کټ</string>
     <string formatted="false" name="paste">پیسټ</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">Fade particle effect</string>

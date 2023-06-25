@@ -1951,7 +1951,6 @@
     <string formatted="false" name="search">검색…</string>
     <string formatted="false" name="no_results_found">검색 결과가 없습니다</string>
     <string formatted="false" name="query_field_is_empty">쿼리 필드가 비어 있습니다.</string>
-    <string formatted="false" name="cut">절단</string>
     <string formatted="false" name="paste">풀</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">페이드 파티클 효과</string>

@@ -1994,7 +1994,6 @@
     <string formatted="false" name="search">Suche…</string>
     <string formatted="false" name="no_results_found">Keine Ergebnisse gefunden</string>
     <string formatted="false" name="query_field_is_empty">Abfragefeld ist leer</string>
-    <string formatted="false" name="cut">Ausschneiden</string>
     <string formatted="false" name="paste">Einfügen</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">Blende Partikeleffekt</string>

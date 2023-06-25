@@ -2034,7 +2034,6 @@
     <string formatted="false" name="search">खोज…</string>
     <string formatted="false" name="no_results_found">कोई परिणाम नहीं मिला</string>
     <string formatted="false" name="query_field_is_empty">क्वेरी फ़ील्ड खाली है</string>
-    <string formatted="false" name="cut">काटें</string>
     <string formatted="false" name="paste">चिपकाएँ</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">फीका कण प्रभाव</string>

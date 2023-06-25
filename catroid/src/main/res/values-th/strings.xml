@@ -1964,7 +1964,6 @@
     <string formatted="false" name="search">ค้นหา</string>
     <string formatted="false" name="no_results_found">ไม่พบผลลัพธ์</string>
     <string formatted="false" name="query_field_is_empty">ฟิลด์แบบสอบถามว่างเปล่า</string>
-    <string formatted="false" name="cut">ตัด</string>
     <string formatted="false" name="paste">วาง</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">เอฟเฟกต์อนุภาคจาง</string>

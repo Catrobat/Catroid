@@ -2030,7 +2030,6 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string formatted="false" name="search">Procurar</string>
     <string formatted="false" name="no_results_found">Nenhum resultado encontrado</string>
     <string formatted="false" name="query_field_is_empty">O campo de inserção está vazio</string>
-    <string formatted="false" name="cut">Cortar</string>
     <string formatted="false" name="paste">Colar</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">Efeito de partícula desvanecer</string>
