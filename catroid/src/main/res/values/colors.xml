@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -52,21 +52,20 @@
     <color name="action_button">#ffab08</color>
 
     <!-- Formula Editor Colors -->
-    <color name="formula_editor_compute_button">#D3D3D3</color>
-    <color name="formula_editor_compute_button_pressed">#A9A9A9</color>
-    <color name="formula_editor_compute_text">#242424</color>
-    <color name="formula_editor_delete_button">#E9E9E9</color>
-    <color name="formula_editor_delete_button_pressed">#A9A9A9</color>
-    <color name="formula_editor_delete_icon">#242424</color>
-    <color name="formula_editor_toggle_functions_button">#D3D3D3</color>
-    <color name="formula_editor_toggle_functions_button_pressed">#A9A9A9</color>
-    <color name="formula_editor_toggle_functions_icon">#242424</color>
-    <color name="formula_editor_category_button">#D3D3D3</color>
-    <color name="formula_editor_category_button_pressed">#A9A9A9</color>
-    <color name="formula_editor_category_text">#242424</color>
-    <color name="formula_editor_symbol_button">#E9E9E9</color>
-    <color name="formula_editor_symbol_button_pressed">#A9A9A9</color>
-    <color name="formula_editor_symbol_text">#242424</color>
+    <color name="formula_editor_icon">#FFF</color>
+    <color name="formula_editor_text">#FFF</color>
+    <color name="formula_editor_compute_button">#008B96</color>
+    <color name="formula_editor_compute_button_pressed">#00A6B3</color>
+    <color name="formula_editor_delete_button">#FFAB08</color>
+    <color name="formula_editor_delete_button_pressed">#FFC953</color>
+    <color name="formula_editor_toggle_functions_button">#008B96</color>
+    <color name="formula_editor_toggle_functions_button_pressed">#00A6B3</color>
+    <color name="formula_editor_category_button">#008B96</color>
+    <color name="formula_editor_category_button_pressed">#00A6B3</color>
+    <color name="formula_editor_symbol_button">#FFAB08</color>
+    <color name="formula_editor_symbol_button_pressed">#FFC953</color>
+    <color name="formula_editor_number_button">#004156</color>
+    <color name="formula_editor_number_button_pressed">#00536B</color>
 
     <!-- Material Design Colors -->
     <color name="solid_black">#000</color>

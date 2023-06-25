@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -2025,7 +2025,6 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string name="search">Recherche en cours…</string>
     <string name="no_results_found">Aucun résultat trouvé</string>
     <string name="query_field_is_empty">Le champ de la requête est vide</string>
-    <string name="cut">Couper</string>
     <string name="paste">Coller</string>
     <!-- Particle Effects -->
     <string name="fade_particle_effect">Effet de particules</string>
