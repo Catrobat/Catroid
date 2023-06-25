@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -27,11 +27,13 @@
     <item android:state_pressed="false">
         <shape>
             <solid android:color="@color/formula_editor_delete_button" />
+            <corners android:radius="300dp"/>
         </shape>
     </item>
     <item android:state_pressed="true">
         <shape>
             <solid android:color="@color/formula_editor_delete_button_pressed" />
+            <corners android:radius="300dp"/>
         </shape>
     </item>
 

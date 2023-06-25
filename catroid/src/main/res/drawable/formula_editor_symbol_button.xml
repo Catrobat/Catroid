@@ -22,17 +22,18 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
+
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:state_pressed="false">
         <shape>
-            <solid android:color="@color/formula_editor_compute_button" />
+            <solid android:color="@color/formula_editor_symbol_button" />
             <corners android:radius="300dp"/>
         </shape>
     </item>
     <item android:state_pressed="true">
         <shape>
-            <solid android:color="@color/formula_editor_compute_button_pressed" />
+            <solid android:color="@color/formula_editor_symbol_button_pressed" />
             <corners android:radius="300dp"/>
         </shape>
     </item>

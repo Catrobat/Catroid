@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -231,7 +231,7 @@
     <string formatted="false" name="error_scratch_project_data_not_available">Oops! Alcune parti del progetto sembrano esser
         mancanti, sei pregato di riprova più tardi.</string>
     <string formatted="false" name="error_request_timeout">Oops! Il nostro server non ha risposto in tempo, sei pregato di riprovare più tardi.</string>
-    <string formatted="false" name="error_scratch_program_conversion_failed">Oops! Impossibile convertire il progetto, sei pregato di riprovare 
+    <string formatted="false" name="error_scratch_program_conversion_failed">Oops! Impossibile convertire il progetto, sei pregato di riprovare
         più tardi.</string>
     <string formatted="false" name="error_specific_scratch_program_conversion_failed_x">Oops! Impossibile convertire \"%1$s\", sei pregato di riprovare
         più tardi.</string>
@@ -2030,7 +2030,6 @@ con tolleranza %        </string>
     <string formatted="false" name="search">Cerca</string>
     <string formatted="false" name="no_results_found">Nessun risultato trovato</string>
     <string formatted="false" name="query_field_is_empty">Il campo di interrogazione è vuoto</string>
-    <string formatted="false" name="cut">Taglia</string>
     <string formatted="false" name="paste">Incolla</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">Effetto particella in dissolvenza</string>

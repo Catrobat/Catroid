@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -60,7 +60,7 @@
     <string formatted="false" name="backpack_add">Agregar a la Mochila</string>
     <string formatted="false" name="share_website_text">share.catrob.at</string>
     <!-- Security warning dialog -->
-    <string formatted="false" name="security_warning_dialog_msg">El proyecto que ha descargado escucha su voz. 
+    <string formatted="false" name="security_warning_dialog_msg">El proyecto que ha descargado escucha su voz.
         en segundo plano y también envía datos a Internet. Esto puede ser inofensivo y necesario
         para su comportamiento esperado. for its intended behavior. Sin embargo, por favor asegúrese de que que lo que está diciendo mientras el
         proyecto se está ejecutando es seguro. En caso de dudas, por favor elimine el proyecto descargado. 
@@ -2009,7 +2009,6 @@ necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permis
     <string formatted="false" name="search">Búsqueda…</string>
     <string formatted="false" name="no_results_found">No se han encontrado resultados</string>
     <string formatted="false" name="query_field_is_empty">El campo de consulta está vacío</string>
-    <string formatted="false" name="cut">Cortar</string>
     <string formatted="false" name="paste">Pegar</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">Efecto de partículas desvanecidas</string>

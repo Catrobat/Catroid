@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -1893,7 +1893,7 @@
     <string formatted="false" name="cast_screen_pause_text">정지</string>
     <!-- -->
     <string formatted="false" name="deletion_alert_title">삭제하시겠습니까?</string>
-    <string formatted="false" name="deletion_alert_text">현재 사용되고 있는 목록이나 변수를 삭제한다면 에러가 발생할 수 있습니다. 
+    <string formatted="false" name="deletion_alert_text">현재 사용되고 있는 목록이나 변수를 삭제한다면 에러가 발생할 수 있습니다.
         이 실행을 취소할 수 없습니다!</string>
     <!-- Upload progress dialog -->
     <string formatted="false" name="progress_upload_dialog_message">프로젝트가 다른 사용자가있는 앱의 공유 사이트에 업로드됩니다.
@@ -1951,7 +1951,6 @@
     <string formatted="false" name="search">검색…</string>
     <string formatted="false" name="no_results_found">검색 결과가 없습니다</string>
     <string formatted="false" name="query_field_is_empty">쿼리 필드가 비어 있습니다.</string>
-    <string formatted="false" name="cut">절단</string>
     <string formatted="false" name="paste">풀</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">페이드 파티클 효과</string>

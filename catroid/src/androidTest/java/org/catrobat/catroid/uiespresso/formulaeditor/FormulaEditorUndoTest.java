@@ -147,7 +147,6 @@ public class FormulaEditorUndoTest {
 				.perform(click());
 
 		pressBack();
-		pressBack();
 
 		onView(withId(R.id.menu_undo))
 				.check(doesNotExist());
@@ -178,10 +177,8 @@ public class FormulaEditorUndoTest {
 
 		onView(withId(R.id.brick_place_at_edit_text_x))
 				.perform(click());
-		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
-				.perform(click());
-		onFormulaEditor()
-				.performEnterFormula("0");
+		onView(withText(R.string.brick_context_dialog_formula_edit_brick)).perform(click());
+		onFormulaEditor().performEnterFormula("0");
 
 		pressBack();
 
@@ -290,26 +287,14 @@ public class FormulaEditorUndoTest {
 	@Test
 	public void testUndoFormulaRenameVariable() {
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_place_at);
-
-		onView(withId(R.id.brick_place_at_edit_text_x))
-				.perform(click());
-		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
-				.perform(click());
-
-		onFormulaEditor()
-				.performOpenDataFragment();
-
-		onDataList().onVariableAtPosition(0)
-				.performRename(NEW_VARIABLE_NAME);
-
-		onDataList()
-				.performClose();
-
-		pressBack();
+		onView(withId(R.id.brick_place_at_edit_text_x)).perform(click());
+		onView(withText(R.string.brick_context_dialog_formula_edit_brick)).perform(click());
+		onFormulaEditor().performOpenDataFragment();
+		onDataList().onVariableAtPosition(0).performRename(NEW_VARIABLE_NAME);
+		onDataList().performClose();
 		pressBack();
 
-		onView(withId(R.id.menu_undo))
-				.check(matches(isDisplayed()));
+		onView(withId(R.id.menu_undo)).check(matches(isDisplayed()));
 
 		assertNull(ProjectManager.getInstance().getCurrentProject().getUserVariable(VARIABLE_NAME));
 		assertNotNull(ProjectManager.getInstance().getCurrentProject().getUserVariable(NEW_VARIABLE_NAME));

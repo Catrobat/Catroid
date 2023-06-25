@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -244,7 +244,7 @@
         Зачекайте, поки він буде завантажений.</string>
     <string formatted="false" name="error_cannot_open_not_yet_downloaded_scratch_program">Ви ще не можете відкрити проєкт.
         Спочатку завантажте його, а потім відкрийте.</string>
-    <string formatted="false" name="error_cannot_convert_deprecated_scratch_program_x_x">Не вдалося конвертувати %1$s. Здається, що це старий проєкт 
+    <string formatted="false" name="error_cannot_convert_deprecated_scratch_program_x_x">Не вдалося конвертувати %1$s. Здається, що це старий проєкт
         Scratch від %2$s. Будь ласка, спробуйте інший.</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
         <item quantity="one">Ви не можете конвертувати більше ніж %d проєкту одночасно. Зачекайте, поки
@@ -341,7 +341,7 @@
     <string formatted="false" name="error_copy_project">Помилка при копіюванні проєкту</string>
     <!-- Dialog Errors -->
     <string formatted="false" name="name_already_exists">Ця назва вже використовується, будь ласка, виберіть інше.</string>
-    <string formatted="false" name="name_consists_of_spaces_only">Ви розміщуєте пробіли лише в текстовому полі, введіть текст 
+    <string formatted="false" name="name_consists_of_spaces_only">Ви розміщуєте пробіли лише в текстовому полі, введіть текст
         за допомогою букв, цифр або інших спеціальних символів.</string>
     <string formatted="false" name="name_empty">Будь ласка, введіть текст</string>
     <!-- Recycler View -->
@@ -1382,7 +1382,7 @@
     <string formatted="false" name="error_set_notes_and_credits">Щось пішло не так під час збереження нових приміток
         і авторів.</string>
     <string formatted="false" name="error_no_whatsapp">WhatsApp не встановлено</string>
-    <string formatted="false" name="error_unsupported_bricks_chromecast">Цей скрипт не можна додати до проєкту 
+    <string formatted="false" name="error_unsupported_bricks_chromecast">Цей скрипт не можна додати до проєкту
         Chromecast.</string>
     <!--  -->
     <!-- Bluetooth Connection Strings -->
@@ -1396,7 +1396,7 @@
     <string formatted="false" name="none_found">Не знайдено неспарених пристроїв</string>
     <string formatted="false" name="multiplayer_bluetooth_connection_information_title">З\'єднання Bluetooth
         необхідне!</string>
-    <string formatted="false" name="multiplayer_bluetooth_connection_information">Щоб грати в цю гру в 
+    <string formatted="false" name="multiplayer_bluetooth_connection_information">Щоб грати в цю гру в
         мультиплеєрі, потрібне з\'єднання Bluetooth. Обидва гравці повинні почати гру і бути на цьому
         екрані,щоб з\'єднання працювало належним чином!</string>
     <!--  -->
@@ -1463,7 +1463,7 @@
     <string formatted="false" name="lego_sensor_config_dont_show_again">Більше не показувати це повідомлення.</string>
     <string formatted="false" name="lego_sensor_port_config_dialog_title">Виберіть порт для підключення до %1$s.</string>
     <string formatted="false" name="lego_ev3_sensor_config_info_title">Налаштування датчика EV3</string>
-    <string formatted="false" name="preference_disable_ev3_info_dialog_description">Налаштування EV3 для конкретного проєкту не показується під час 
+    <string formatted="false" name="preference_disable_ev3_info_dialog_description">Налаштування EV3 для конкретного проєкту не показується під час
         відкриття проєкту.</string>
     <string formatted="false" name="preference_title_mindstorms_ev3_sensors_description">Показ датчиків EV3 з портами є проєктом
         конкретним і може бути налаштований тільки для відкритих проєктів.</string>
@@ -2011,7 +2011,7 @@
         \nВи можете просто вставити їх у формулу або додати нові.</string>
     <string formatted="false" name="formula_editor_listening_language_sensor">мова прослуховування</string>
     <string formatted="false" name="formula_editor_speech_recognition">Розпізнавання мовлення</string>
-    <string formatted="false" name="camera_error_text_detection">        Виникла проблема з визначенням тексту. Деякі компоненти все ще можуть                 
+    <string formatted="false" name="camera_error_text_detection">        Виникла проблема з визначенням тексту. Деякі компоненти все ще можуть
         завантажуватися у фоновому режимі. Переконайтеся, що ви підключені до Інтернету, і перевірте пізніше.</string>
     <string formatted="false" name="warning_formula_recognized">Введено текст, який виглядає як формула. Якщо ви хочете використовувати функції,
         датчиків, змінних та інших елементів формули, будь ласка, виберіть їх за допомогою         
@@ -2039,7 +2039,7 @@
     <string formatted="false" name="choose_camera_back">задню</string>
     <string formatted="false" name="camera_error_generic">        Під час спроби скористати камеру сталася помилка.
     </string>
-    <string formatted="false" name="camera_error_face_detection">        Виникла проблема з розпізнаванням обличчя. Деякі компоненти можуть все ще         
+    <string formatted="false" name="camera_error_face_detection">        Виникла проблема з розпізнаванням обличчя. Деякі компоненти можуть все ще
         завантажуватися в фону. Переконайтеся, що ви підключені до Інтернету, і перевірте пізніше.
     </string>
     <!-- -->
@@ -2077,7 +2077,7 @@
     <string formatted="false" name="unchanged_upload_warning">Проєкт, який ви намагаєтеся вивантажити, уже існує
         на платформі спільноти в точно такій же формі. Будь ласка, змініть свій проєкт, в ідеалі
         покращення його, перш ніж завантажувати реміксований проєкт.</string>
-    <string formatted="false" name="unchanged_upload_info">Будь ласка, подумайте про додавання деяких добрих слів для оригінального 
+    <string formatted="false" name="unchanged_upload_info">Будь ласка, подумайте про додавання деяких добрих слів для оригінального
         автора у розділі \"Примітки\" на сайті спільноти або в варіантах проєкту. Будь ласка, зверніть увагу, що
         користувач отримає сповіщення після успішного вивантаження.</string>
     <string formatted="false" name="unchanged_upload_url">Щоб дізнатися більше про ремікси, відвідайте %1s.</string>
@@ -2127,7 +2127,6 @@
     <string formatted="false" name="search">Пошук</string>
     <string formatted="false" name="no_results_found">Результатів не знайдено</string>
     <string formatted="false" name="query_field_is_empty">Поле запиту порожнє</string>
-    <string formatted="false" name="cut">Вирізати</string>
     <string formatted="false" name="paste">Вставити</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">Ефект згасання частинок</string>

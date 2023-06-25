@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -233,7 +233,7 @@
     <string formatted="false" name="error_cannot_open_not_existing_scratch_program">Dieses Scratch Projekt kann nicht geöffnet werden. Es
     scheint so als hättest du die Konvertierung/den Download abgebrochen oder das Projekt in der Zwischenzeit
     gelöscht oder umbenannt!</string>
-    <string formatted="false" name="error_cannot_open_currently_downloading_scratch_program">Du kannst das Projekt 
+    <string formatted="false" name="error_cannot_open_currently_downloading_scratch_program">Du kannst das Projekt
         im Moment nicht öffnen. Bitte warte, bis es fertig heruntergeladen ist.</string>
     <string formatted="false" name="error_cannot_open_not_yet_downloaded_scratch_program">Du kannst das Projekt  noch nicht öffnen.
         Bitte lade es zuerst herunter um es öffnen zu können.</string>
@@ -645,7 +645,7 @@
     <!-- -->
     <!-- About Dialog -->
     <string formatted="false" name="dialog_about_title">Über die App</string>
-    <string formatted="false" name="dialog_about_license_info">Die App ist eine 
+    <string formatted="false" name="dialog_about_license_info">Die App ist eine
         Programmierumgebung und Interpreter für Android Geräte für die visuelle
         Programmiersprache Catrobat.\n\n
         Der Quellcode der App unterliegt hauptsächlich der GNU AGPL v3 Lizenz. 
@@ -1854,14 +1854,14 @@
     <string formatted="false" name="formula_editor_function_get_id_of_detected_object">ID des erkannten Objekts</string>
     <string formatted="false" name="formula_editor_function_object_with_id_visible">Objekt mit sichtbarer ID</string>
     <string formatted="false" name="formula_editor_intro_title_formula_editor">Formel Editor</string>
-    <string formatted="false" name="formula_editor_intro_summary_formula_editor">Mit dem Formel Editor kannst du mathematische und 
+    <string formatted="false" name="formula_editor_intro_summary_formula_editor">Mit dem Formel Editor kannst du mathematische und
         logische Formeln erstellen, um diese dann in deinem Baustein einzutragen.\n\nDu kannst dieses kleine Tutorial 
         jederzeit mit einem Klick auf den SKIP Button
         links unten überspringen.</string>
     <string formatted="false" name="formula_editor_intro_title_input_field">Eingabefeld</string>
     <string formatted="false" name="formula_editor_intro_summary_input_field">Hier siehst du deine Formel. Diese kannst du auch nachträglich bearbeiten.</string>
     <string formatted="false" name="formula_editor_intro_title_keyboard">Tastatur</string>
-    <string formatted="false" name="formula_editor_intro_summary_keyboard">Ähnlich wie bei einem Taschenrechner kannst du 
+    <string formatted="false" name="formula_editor_intro_summary_keyboard">Ähnlich wie bei einem Taschenrechner kannst du
         hier deine Formel erstellen.</string>
     <string formatted="false" name="formula_editor_intro_title_compute">Berechnen</string>
     <string formatted="false" name="formula_editor_intro_summary_compute">Um deine Formel zu Testen und um dein Ergebnis vorzeitig anzeigen zu lassen,
@@ -1878,7 +1878,7 @@
         vergleichen kannst du zum Beispiel \"&gt;\" (größer als) oder \"=\" (ist gleich) verwenden.\nUm Werte zu verknüpfen, können
         \"UND\", \"ODER\" und \"NICHT\" verwendet werden. </string>
     <string formatted="false" name="formula_editor_intro_title_device">Sensoren</string>
-    <string formatted="false" name="formula_editor_intro_summary_device">Unter \"Gerät\" findest du sämtliche Daten, die dein 
+    <string formatted="false" name="formula_editor_intro_summary_device">Unter \"Gerät\" findest du sämtliche Daten, die dein
         Smartphone oder Tablet aufzeichnet.\nZum Beispiel die Neigung deines Geräts oder die Lautstärke in deiner Umgebung. </string>
     <string formatted="false" name="formula_editor_intro_title_data">Daten</string>
     <string formatted="false" name="formula_editor_intro_summary_data">Hier findest du Variablen und Listen, welche in deinem Projekt verwendet werden. \nDu kannst diese einfach in deine Formel einfügen. </string>
@@ -1994,7 +1994,6 @@
     <string formatted="false" name="search">Suche…</string>
     <string formatted="false" name="no_results_found">Keine Ergebnisse gefunden</string>
     <string formatted="false" name="query_field_is_empty">Abfragefeld ist leer</string>
-    <string formatted="false" name="cut">Ausschneiden</string>
     <string formatted="false" name="paste">Einfügen</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">Blende Partikeleffekt</string>

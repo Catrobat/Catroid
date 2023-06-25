@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -66,7 +66,7 @@
     <!-- Replace Api dialog -->
     <string formatted="false" name="api_replacement_dialog_neutral">تبدیلی کے بغیر اپ لوڈ کریں</string>
     <string formatted="false" name="api_replacement_dialog_accept">چابیاں تبدیل کرنے کے ساتھ اپ لوڈ کریں</string>
-    <string formatted="false" name="api_replacement_dialog_warning">اس منصوبے میں اینٹوں پر مشتمل ہے جو 
+    <string formatted="false" name="api_replacement_dialog_warning">اس منصوبے میں اینٹوں پر مشتمل ہے جو
         ویب تک رسائی حاصل کرتی ہے، اور یہ بھی API کی چابیاں پر مشتمل ہے. براہ مہربانی %1s ملاحظہ کریں 
         کیوں ان چابیاں اپ لوڈ کر رہے ہیں خطرناک ہوسکتے ہیں.</string>
     <string formatted="false" name="api_replacement">یہاں API کلید داخل کریں</string>
@@ -128,7 +128,7 @@
         مصنوعی اینٹوں اور سینسر کو فعال کریں</string>
     <string formatted="false" name="preference_title_ai_face_detection">چہرہ
         شناخت</string>
-    <string formatted="false" name="preference_description_ai_face_detection">چہرے کا پتہ لگانے اینٹوں اور سینسر کو 
+    <string formatted="false" name="preference_description_ai_face_detection">چہرے کا پتہ لگانے اینٹوں اور سینسر کو
         فعال کریں</string>
     <string formatted="false" name="preference_title_ai_pose_detection">پوز کا تشخیص</string>
     <string formatted="false" name="preference_description_ai_pose_detection">پوز کا تشخیص اینٹوں اور سینسر کو فعال کریں</string>
@@ -579,7 +579,7 @@
     <!-- NewDataDialog -->
     <string formatted="false" name="new_data_for_all_sprites">تمام مناظر میں تمام اداکاروں، اشیاء اور کلونوں کے لئے</string>
     <string formatted="false" name="new_data_for_this_sprite_only">یہ اداکار، آبجیکٹ یا صرف اس کلون میں سے ایک کے لئے</string>
-    <string formatted="false" name="new_data_for_connected_devices">منسلک ملتی پلیر کهیل آلات پر منصوبوں کے 
+    <string formatted="false" name="new_data_for_connected_devices">منسلک ملتی پلیر کهیل آلات پر منصوبوں کے
         تمام مناظر میں تمام اداکاروں، اشیاء، اور کلونوں کے لئے</string>
     <!-- Backpack -->
     <string formatted="false" name="backpack_title">آپ کا بیک پیک</string>
@@ -1086,14 +1086,14 @@
     <string formatted="false" name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string formatted="false" name="brick_web_request_result">اور جواب میں اسٹور</string>
     <string formatted="false" name="web_request_warning_title">ویب تک رسائی کی اجازت دیں؟</string>
-    <string formatted="false" name="web_request_warning_message">رسائی کی اجازت دینے سے پہلے بہت محتاط رہیں، کیونکہ 
+    <string formatted="false" name="web_request_warning_message">رسائی کی اجازت دینے سے پہلے بہت محتاط رہیں، کیونکہ
         لنک آپ کی ذاتی معلومات کو ظاہر کر سکتا ہے، جیسے کہ 
         آپ کا درست جغرافیائی محل وقوع یا کوئی بھی متن جو آپ نے بدنیتی پر مبنی دوسروں یا عوام کے لیے درج کیا ہے۔ ہمارا         &lt;a href=%1s&gt;wiki&lt;/a&gt;&lt;/a&gt;  دیکھیں مزید معلومات کے لیے یہ 
         انتہائی خطرناک کیوں ہو سکتا ہے۔
     </string>
     <string formatted="false" name="web_request_trust_domain_warning_title">ہمیشہ ویب تک رسائی کی اجازت دیں؟</string>
     <string formatted="false" name="web_request_trust_domain_warning_message">ہمیشہ رسائی کی اجازت دینے سے، آپ سے اس ڈومین سے ویب پتوں         کی تصدیق کرنے کے لیے دوبارہ نہیں کہا جائے گا۔</string>
-    <string formatted="false" name="trusted_domains_edit_hint">اگر آپ بعد میں اجازت 
+    <string formatted="false" name="trusted_domains_edit_hint">اگر آپ بعد میں اجازت
         منسوخ کرنا چاہتے ہیں، تو آپ اس ایپ کی سیٹنگز میں قابل اعتماد ڈومینز کی 
         فہرست سے اندراج کو ہٹا سکتے ہیں۔
     </string>
@@ -1245,7 +1245,7 @@
     <string formatted="false" name="error_project_upload">اس منصوبے کو اپ لوڈ کرتے وقت کچھ غلط ہوگیا.</string>
     <string formatted="false" name="error_project_download">منصوبے کو ڈاؤن لوڈ کرتے ہوئے کچھ غلط ہوگیا.</string>
     <string formatted="false" name="error_project_already_in_queue">"پروجیکٹ %s پہلے ہی قطار میں ہے۔"</string>
-    <string formatted="false" name="error_could_not_decode_project_name_from_url">"آپ کا ڈاؤن لوڈ 
+    <string formatted="false" name="error_could_not_decode_project_name_from_url">"آپ کا ڈاؤن لوڈ
         شروع نہیں ہو سکا، لگتا ہے ہمارے سرور میں کوئی مسئلہ ہے۔"</string>
     <string formatted="false" name="error_new_project">نئی منصوبہ بنانے کے دوران کچھ غلط ہو گیا.</string>
     <string formatted="false" name="error_rename_scene">منظر تبدیل کرنے کے دوران کچھ غلط ہوا.</string>
@@ -1888,7 +1888,7 @@
     <string formatted="false" name="formula_editor_speech_recognition">تقریر کی پہچان</string>
     <string formatted="false" name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.</string>
-    <string formatted="false" name="warning_formula_recognized">آپ نے ایک ایسا متن درج کیا ہے جو فارمولے کی طرح لگتا ہے۔ اگر آپ فنکشنز، 
+    <string formatted="false" name="warning_formula_recognized">آپ نے ایک ایسا متن درج کیا ہے جو فارمولے کی طرح لگتا ہے۔ اگر آپ فنکشنز،
         سینسرز، متغیرات اور دیگر فارمولہ عناصر استعمال کرنا چاہتے ہیں، تو براہ کرم فارمولا ایڈیٹر میں 
         بٹن استعمال کرنے کے بجائے انہیں منتخب کریں۔</string>
     <!--  -->
@@ -1980,7 +1980,7 @@
     <string formatted="false" name="data_value">قدر</string>
     <string formatted="false" name="category_recently_used">حال ہی میں استعمال کیا گیا۔</string>
     <string formatted="false" name="new_sprite_dialog_place_visually">بصری طور پر رکھیں</string>
-    <string formatted="false" name="place_visually_text">آپ سے نئے اداکار یا 
+    <string formatted="false" name="place_visually_text">آپ سے نئے اداکار یا
         چیز کو اسٹیج پر رکھنے کے لیے کہا جائے گا۔</string>
     <string formatted="false" name="new_empty_sprite_note">نوٹ: اداکار یا شے بغیر         نظر کے بنائی جائے گی۔</string>
     <!-- Information -->
@@ -1988,7 +1988,6 @@
     <string formatted="false" name="search">تلاش کریں…</string>
     <string formatted="false" name="no_results_found">کوئی نتیجہ نہیں</string>
     <string formatted="false" name="query_field_is_empty">سوال کا میدان خالی ہے۔</string>
-    <string formatted="false" name="cut">کٹ</string>
     <string formatted="false" name="paste">پیسٹ</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">دھندلا ذرہ اثر</string>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -118,18 +118,18 @@
     <string formatted="false" name="preference_description_ai">فعال کردن آجر های AI و سنسورها</string>
     <string formatted="false" name="preference_title_ai_speech_recognition">تشخیص
           گفتار</string>
-    <string formatted="false" name="preference_description_ai_speech_recognition">فعال کردن 
+    <string formatted="false" name="preference_description_ai_speech_recognition">فعال کردن
         آجر های تشخیص گفتار و سنسورها</string>
-    <string formatted="false" name="preference_title_ai_speech_synthetization">سنتز 
+    <string formatted="false" name="preference_title_ai_speech_synthetization">سنتز
         گفتار</string>
     <string formatted="false" name="preference_description_ai_speech_synthetization">آجر و سنسورهای اسپرینتیزاسیون         را فعال کنید</string>
     <string formatted="false" name="preference_title_ai_face_detection">شناسایی چهره</string>
     <string formatted="false" name="preference_description_ai_face_detection">فعال کردن آجر تشخیص چهره و سنسورها</string>
     <string formatted="false" name="preference_title_ai_pose_detection">تشخیص ظاهری</string>
     <string formatted="false" name="preference_description_ai_pose_detection">فعال کردن آجر تشخیص و سنسورها</string>
-    <string formatted="false" name="preference_title_ai_text_recognition">تشخیص        
+    <string formatted="false" name="preference_title_ai_text_recognition">تشخیص
  متن</string>
-    <string formatted="false" name="preference_description_ai_text_recognition">فعال کردن 
+    <string formatted="false" name="preference_description_ai_text_recognition">فعال کردن
         آجر تشخیص متن و سنسورها</string>
     <string formatted="false" name="preference_title_ai_object_recognition">تشخیص شی</string>
     <string formatted="false" name="preference_description_ai_object_recognition">حسگرهای تشخیص و ردیابی شی را فعال کنید</string>
@@ -215,24 +215,24 @@
     <string formatted="false" name="preference_description_test_bricks">اجازه ایجاد آزمایشات را می دهد</string>
     <!-- Scratch Converter activity -->
     <string formatted="false" name="beta">بتا</string>
-    <string formatted="false" name="error_scratch_program_not_accessible_any_more">وای! به نظر می رسد پروژه ناپدید شده است یا 
+    <string formatted="false" name="error_scratch_program_not_accessible_any_more">وای! به نظر می رسد پروژه ناپدید شده است یا
         ممکن است دسترسی به آن را از دست داده باشید.</string>
-    <string formatted="false" name="error_scratch_project_data_not_available">وای! به نظر می رسد برخی از قسمت های پروژه گم شده است، 
+    <string formatted="false" name="error_scratch_project_data_not_available">وای! به نظر می رسد برخی از قسمت های پروژه گم شده است،
         لطفاً بعداً دوباره امتحان کنید.</string>
     <string formatted="false" name="error_request_timeout">وای! سرور ما به موقع پاسخ نداد ، لطفاً بعداً دوباره امتحان کنید.</string>
-    <string formatted="false" name="error_scratch_program_conversion_failed">وای! پروژه تبدیل نشد ، لطفاً 
+    <string formatted="false" name="error_scratch_program_conversion_failed">وای! پروژه تبدیل نشد ، لطفاً
         بعداً دوباره امتحان کنید.</string>
     <string formatted="false" name="error_specific_scratch_program_conversion_failed_x">وای! %1$s تبدیل نشد، لطفاً بعداً دوباره          امتحان کن.</string>
     <string formatted="false" name="error_scratch_converter_outdated_app_version">نسخه شما از این برنامه قدیمی است. مبدل خراش
         ما فقط روی آخرین نسخه کار می کند. لطفاً برنامه را به روز کنید.</string>
-    <string formatted="false" name="error_cannot_open_not_existing_scratch_program">من نتوانستم این پروژه Scratch را باز کنم. به نظر می رسد که شما 
+    <string formatted="false" name="error_cannot_open_not_existing_scratch_program">من نتوانستم این پروژه Scratch را باز کنم. به نظر می رسد که شما
         تبدیل/بارگیری پروژه Scratch را لغو کرده اید ، یا در این فاصله پروژه را تغییر نام داده اید/حذف 
         کرده اید.</string>
-    <string formatted="false" name="error_cannot_open_currently_downloading_scratch_program">هنوز نمی توانید پروژه را باز کنید. 
+    <string formatted="false" name="error_cannot_open_currently_downloading_scratch_program">هنوز نمی توانید پروژه را باز کنید.
         لطفاً منتظر بمانید تا بارگیری شود.</string>
-    <string formatted="false" name="error_cannot_open_not_yet_downloaded_scratch_program">هنوز نمی توانید پروژه را باز کنید. 
+    <string formatted="false" name="error_cannot_open_not_yet_downloaded_scratch_program">هنوز نمی توانید پروژه را باز کنید.
         لطفاً ابتدا آن را بارگیری کرده و سپس باز کنید.</string>
-    <string formatted="false" name="error_cannot_convert_deprecated_scratch_program_x_x">نتوانستم %1$s را تبدیل کنم. به نظر می رسد این یک 
+    <string formatted="false" name="error_cannot_convert_deprecated_scratch_program_x_x">نتوانستم %1$s را تبدیل کنم. به نظر می رسد این یک
         پروژه قدیمی Scratch از قبل از %2$s باشد. لطفاً یکی دیگر را امتحان کنید.</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
         <item quantity="one">نمی توانید بیش از %d پروژه را به طور همزمان تبدیل کنید. لطفاً منتظر بمانید 
@@ -240,7 +240,7 @@
         <item quantity="other">نمی توانید بیش از %d پروژه را به طور همزمان تبدیل کنید. لطفاً منتظر بمانید 
              تا تبدیلهای در حال اجرا ابتدا به پایان برسند.</item>
     </plurals>
-    <string formatted="false" name="error_cannot_open_failed_scratch_program">شما نمی توانید پروژه را باز کنید زیرا به درستی 
+    <string formatted="false" name="error_cannot_open_failed_scratch_program">شما نمی توانید پروژه را باز کنید زیرا به درستی
         تبدیل نشده است. لطفاً سعی کنید دوباره آن را تبدیل کنید.</string>
     <string formatted="false" name="search_failed">چیزی پیدا نشد ، لطفاً بعداً دوباره امتحان کنید.</string>
     <string formatted="false" name="connection_lost_or_closed_by_server">اتصال سرور قطع شد</string>
@@ -385,7 +385,7 @@
     <string formatted="false" name="html_label">درج متن HTML</string>
     <string formatted="false" name="Image_format_not_supported">قالب تصویر پشتیبانی نمی شود</string>
     <string formatted="false" name="import_conflicting_variables">بازیگر یا شی اضافه نمی شود.</string>
-    <string formatted="false" name="import_conflicting_variables_reason">دلیل این است که نامهای متغیر یا لیست زیر با یکدیگر 
+    <string formatted="false" name="import_conflicting_variables_reason">دلیل این است که نامهای متغیر یا لیست زیر با یکدیگر
         در تضاد هستند زیرا برای
          همه بازیگران و اشیاء و با یک نام فقط برای یکی از بازیگران یا اشیاء استفاده می شود: </string>
     <string formatted="false" name="import_conflicting_variables_try_again">لطفاً یکی از این متغیرها یا لیست ها را تغییر نام دهید و دوباره امتحان کنید.</string>
@@ -582,7 +582,7 @@
     <!-- NewDataDialog -->
     <string formatted="false" name="new_data_for_all_sprites">برای همه بازیگران ، اشیاء و کلون ها در همه صحنه ها</string>
     <string formatted="false" name="new_data_for_this_sprite_only">فقط برای این بازیگر ، شی یا یکی از کلون های آن</string>
-    <string formatted="false" name="new_data_for_connected_devices">برای همه بازیگران، اشیاء و کلون ها در تمام صحنه های پروژه در 
+    <string formatted="false" name="new_data_for_connected_devices">برای همه بازیگران، اشیاء و کلون ها در تمام صحنه های پروژه در
         دستگاه های چند نفره متصل</string>
     <!-- Backpack -->
     <string formatted="false" name="backpack_title">کوله پشتی شما</string>
@@ -626,7 +626,7 @@
     <!--  -->
     <!-- Terms of Use Dialog -->
     <string formatted="false" name="dialog_terms_of_use_title">شرایط استفاده و خدمات</string>
-    <string formatted="false" name="dialog_terms_of_use_info">برای اینکه 
+    <string formatted="false" name="dialog_terms_of_use_info">برای اینکه
         بتوانید از برنامه ها و سایر خدمات ارائه شده توسط پروژه Catrobat استفاده کنید،
         باید با شرایط استفاده و خدمات ما موافقت کنید. هنگام استفاده از برنامه ها 
         و سایر خدمات ما ، باید این شرایط را به شدت رعایت کنید. لطفاً برای فرمول بندی دقیق آنها به پیوند زیر مراجعه کنید.\n</string>
@@ -638,7 +638,7 @@
     <!-- -->
     <!-- About Dialog -->
     <string formatted="false" name="dialog_about_title">درباره این برنامه</string>
-    <string formatted="false" name="dialog_about_license_info">این برنامه 
+    <string formatted="false" name="dialog_about_license_info">این برنامه
         محیط برنامه نویسی و مترجم زبان برنامه نویسی بصری Catrobat را ارائه می دهد.\n
         کد منبع این برنامه عمدتا تحت مجوز GNU AGPL v3 دارای مجوز است.
         برای اطلاعات بیشتر در مورد مجوز به پیوند زیر مراجعه کنید.\n</string>
@@ -721,9 +721,9 @@
     <string formatted="false" name="error_session_expired">جلسه به پایان رسید، لطفاً وارد شوید.</string>
     <string formatted="false" name="error_register_empty_username">نام کاربری خالی</string>
     <string formatted="false" name="error_register_username_as_email">آدرس ایمیل را نمی توان به عنوان نام کاربری استفاده کرد</string>
-    <string formatted="false" name="error_register_invalid_username">نام کاربری فقط باید شامل حروف (a – z) ، اعداد (0–9) ، 
+    <string formatted="false" name="error_register_invalid_username">نام کاربری فقط باید شامل حروف (a – z) ، اعداد (0–9) ،
         خط تیره (-) ، زیر خط (_) و نقطه (.) باشد.</string>
-    <string formatted="false" name="error_register_username_start_with">نام کاربری نباید با خط تیره (-) ، زیر خط (_) یا نقطه 
+    <string formatted="false" name="error_register_username_start_with">نام کاربری نباید با خط تیره (-) ، زیر خط (_) یا نقطه
         (.) شروع شود.</string>
     <string formatted="false" name="error_register_invalid_email_format">قالب ایمیل نامعتبر است</string>
     <string formatted="false" name="error_register_empty_password">قسمت رمز عبور خالی است</string>
@@ -765,7 +765,7 @@
     <string formatted="false" name="prestage_default_resource_not_available">\u2022جزء ناشناخته\n</string>
     <string formatted="false" name="no_nfc_available">NFC در دسترس نیست</string>
     <string formatted="false" name="nfc_not_activated">لطفاً NFC را فعال کرده و برای بازگشت به برنامه، بازگشت را فشار دهید.</string>
-    <string formatted="false" name="nfc_facedetection_support">استفاده همزمان از NFC و تشخیص چهره ممکن است منجر به 
+    <string formatted="false" name="nfc_facedetection_support">استفاده همزمان از NFC و تشخیص چهره ممکن است منجر به
         مشکلات عملکردی شود.</string>
     <!--  -->
     <!-- Stage menu dialog -->
@@ -948,7 +948,7 @@
     <string formatted="false" name="brick_start_listening_to_voice">شروع به گوش دادن به صدا کنید و کلمات گفتاری را ذخیره کنید</string>
     <string formatted="false" name="speech_recognition_not_available">تشخیص گفتار در دسترس نیست</string>
     <string formatted="false" name="speech_recognition_offline_mode_error_dialog_title">داده های آفلاین از دست رفته است</string>
-    <string formatted="false" name="speech_recognition_offline_mode_missing_data_error_dialog_msg">تشخیص گفتار آفلاین 
+    <string formatted="false" name="speech_recognition_offline_mode_missing_data_error_dialog_msg">تشخیص گفتار آفلاین
     برای %s وجود ندارد یا باید به روز شود. آیا می خواهید آن را بارگیری یا به روز کنید؟</string>
     <string formatted="false" name="brick_set_listening_language">زبان گوش دادن را روی</string>
     <string formatted="false" name="set_instrument_to">تنظیم ساز روی</string>
@@ -1096,10 +1096,10 @@
         &lt;a href=%1s&gt;ویکی&lt;/a&gt; برای اطلاعات بیشتر چرا این می تواند
         بسیار خطرناک باشد</string>
     <string formatted="false" name="web_request_trust_domain_warning_title">همیشه اجازه دسترسی به وب را می دهید؟</string>
-    <string formatted="false" name="web_request_trust_domain_warning_message">با همیشه اجازه دسترسی، دیگر از شما 
+    <string formatted="false" name="web_request_trust_domain_warning_message">با همیشه اجازه دسترسی، دیگر از شما
         درخواست نمی شود آدرس های وب این دامنه را تأیید کنید.
     </string>
-    <string formatted="false" name="trusted_domains_edit_hint">اگر می خواهید بعداً این مجوز را لغو کنید، می توانید ورودی را از 
+    <string formatted="false" name="trusted_domains_edit_hint">اگر می خواهید بعداً این مجوز را لغو کنید، می توانید ورودی را از
         فهرست دامنه های معتمد 
         در تنظیمات این برنامه حذف کنید.
     </string>
@@ -1251,7 +1251,7 @@
     <string formatted="false" name="error_project_upload">خطایی هنگام آپلود برنامه رخ داده است.</string>
     <string formatted="false" name="error_project_download">خطایی هنگام دانلود برنامه رخ داده است.</string>
     <string formatted="false" name="error_project_already_in_queue">"پروژه %s در حال حاضر در صف است."</string>
-    <string formatted="false" name="error_could_not_decode_project_name_from_url">"بارگیری شما شروع نمی شود ، به نظر 
+    <string formatted="false" name="error_could_not_decode_project_name_from_url">"بارگیری شما شروع نمی شود ، به نظر
         می رسد مشکلی در سرور ما وجود دارد."</string>
     <string formatted="false" name="error_new_project">خطایی هنگام ساختن برنامه ی جدید رخ داده است.</string>
     <string formatted="false" name="error_rename_scene">هنگام تغییر نام صحنه ، مشکلی پیش آمد.</string>
@@ -1262,7 +1262,7 @@
     <string formatted="false" name="error_outdated_version">این نسخه برنامه قدیمی است. اکنون به روز شود؟</string>
     <string formatted="false" name="error_upload_project_with_default_name">نمی توانید پروژه ای با نام \"%s\" بارگذاری کنید.
         لطفا نام پروژه را تغییر دهید.</string>
-    <string formatted="false" name="error_upload_default_project">شما نمی توانید یک پروژه نمونه اصلاح نشده را بارگذاری کنید. 
+    <string formatted="false" name="error_upload_default_project">شما نمی توانید یک پروژه نمونه اصلاح نشده را بارگذاری کنید.
         لطفاً چیزی را تغییر دهید و دوباره امتحان کنید.</string>
     <string formatted="false" name="error_adding_brick">هنگام اضافه کردن این آجر خطایی رخ داده است</string>
     <string formatted="false" name="error_copying_brick">هنگام کپی کردن این آجر خطایی رخ داده است</string>
@@ -1273,7 +1273,7 @@
     <string formatted="false" name="error_unknown_error">مشکلی پیش آمد.</string>
     <string formatted="false" name="error_gps_not_available">داده های موقعیت جغرافیایی در دسترس نیست.</string>
     <string formatted="false" name="error_set_description">هنگام ذخیره توضیحات جدید ، مشکلی پیش آمد.</string>
-    <string formatted="false" name="error_set_notes_and_credits">هنگام ذخیره یادداشت ها 
+    <string formatted="false" name="error_set_notes_and_credits">هنگام ذخیره یادداشت ها
         و اعتبارات جدید ، مشکلی پیش آمد.</string>
     <string formatted="false" name="error_no_whatsapp">واتس اپ نصب نشده</string>
     <string formatted="false" name="error_unsupported_bricks_chromecast">این اسکریپت را نمی توان به یک پروژه Chromecast اضافه کرد.</string>
@@ -1343,9 +1343,9 @@
     <string formatted="false" name="nxt_sensor_not_found">سنسور پیدا نشد!</string>
     <string formatted="false" name="lego_nxt_sensor_config_info_title">پیکربندی سنسور NXT</string>
     <string formatted="false" name="preference_disable_nxt_info_dialog">گفتگوی اطلاعات را غیرفعال کنید</string>
-    <string formatted="false" name="preference_disable_nxt_info_dialog_description">تنظیمات NXT خاص پروژه هنگام باز کردن یک پروژه 
+    <string formatted="false" name="preference_disable_nxt_info_dialog_description">تنظیمات NXT خاص پروژه هنگام باز کردن یک پروژه
         نشان داده نمی شود.</string>
-    <string formatted="false" name="preference_title_mindstorms_nxt_sensors_description">نگاشت سنسورهای NXT به پورت ها مخصوص پروژه است و فقط 
+    <string formatted="false" name="preference_title_mindstorms_nxt_sensors_description">نگاشت سنسورهای NXT به پورت ها مخصوص پروژه است و فقط
         برای پروژه های باز شده قابل پیکربندی است.</string>
     <string formatted="false" name="lego_nxt_sensor_config_info_text">پروژه فعلی از آجر یا حسگرهای Lego Mindstorms NXT استفاده می کند. برای
          عملکرد مناسب لطفاً سنسورها را به صورت زیر به ربات وصل کنید</string>
@@ -1356,9 +1356,9 @@
     <string formatted="false" name="lego_sensor_config_dont_show_again">این پیغام را مجددا نشان نده.</string>
     <string formatted="false" name="lego_sensor_port_config_dialog_title">پورتی را برای اتصال به %1$s انتخاب کنید.</string>
     <string formatted="false" name="lego_ev3_sensor_config_info_title">پیکربندی سنسور EV3</string>
-    <string formatted="false" name="preference_disable_ev3_info_dialog_description">تنظیمات EV3 ویژه پروژه هنگام باز کردن 
+    <string formatted="false" name="preference_disable_ev3_info_dialog_description">تنظیمات EV3 ویژه پروژه هنگام باز کردن
         یک پروژه نشان داده نمی شود.</string>
-    <string formatted="false" name="preference_title_mindstorms_ev3_sensors_description">نگاشت سنسورهای EV3 به پورت ها 
+    <string formatted="false" name="preference_title_mindstorms_ev3_sensors_description">نگاشت سنسورهای EV3 به پورت ها
         مخصوص پروژه است و فقط برای پروژه های باز شده قابل پیکربندی است.</string>
     <string formatted="false" name="lego_ev3_sensor_config_info_text">پروژه فعلی از آجر یا سنسورهای Lego Mindstorms EV3 استفاده می کند. برای         عملکرد مناسب لطفاً سنسورها را به صورت زیر به ربات وصل کنید</string>
     <string formatted="false" name="ev3_choose_sensor_1">سنسور متصل به پورت 1</string>
@@ -1601,9 +1601,9 @@
     <string formatted="false" name="formula_editor_function_join3_parameter">(\'hello\',\' world\',\'!\')</string>
     <string formatted="false" name="formula_editor_function_regex">عبارت منظم</string>
     <string formatted="false" name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
-    <string formatted="false" name="formula_editor_function_regex_assistant">دستیار 
+    <string formatted="false" name="formula_editor_function_regex_assistant">دستیار
         بیان منظم</string>
-    <string formatted="false" name="formula_editor_dialog_regular_expression_assistant_title">دستیار 
+    <string formatted="false" name="formula_editor_dialog_regular_expression_assistant_title">دستیار
         بیان منظم</string>
     <string formatted="false" name="formula_editor_function_regex_html_extractor_not_found">کلمه کلیدی یافت نشد.</string>
     <string formatted="false" name="formula_editor_function_regex_json_extractor_title">استخراج JSON</string>
@@ -1638,7 +1638,7 @@
     <string formatted="false" name="formula_editor_function_collides_with_color">رنگ را لمس می کند</string>
     <string formatted="false" name="formula_editor_function_color_touches_color">رنگ رنگ را لمس می کند</string>
     <string formatted="false" name="formula_editor_sensor_color_at_x_y">رنگ در x y</string>
-    <string formatted="false" name="formula_editor_sensor_color_equals_color">رنگ برابر با درصد 
+    <string formatted="false" name="formula_editor_sensor_color_equals_color">رنگ برابر با درصد
         تحمل رنگ است</string>
     <string formatted="false" name="formula_editor_sensor_x_acceleration">شتاب x</string>
     <string formatted="false" name="formula_editor_sensor_y_acceleration">شتاب y</string>
@@ -1878,15 +1878,15 @@
     <string formatted="false" name="formula_editor_intro_title_input_field">فیلد ورودی</string>
     <string formatted="false" name="formula_editor_intro_summary_input_field">در اینجا می توانید فرمول خود را مشاهده و ویرایش کنید.</string>
     <string formatted="false" name="formula_editor_intro_title_keyboard">صفحه کلید</string>
-    <string formatted="false" name="formula_editor_intro_summary_keyboard">اینجاست که می توانید فرمول خود 
+    <string formatted="false" name="formula_editor_intro_summary_keyboard">اینجاست که می توانید فرمول خود
         را درست مانند ماشین حساب ایجاد کنید.</string>
     <string formatted="false" name="formula_editor_intro_title_compute">محاسبه</string>
     <string formatted="false" name="formula_editor_intro_summary_compute">برای نشان دادن نتیجه فعلی فرمول خود، می توانید از \"Compute\" استفاده کنید.</string>
     <string formatted="false" name="formula_editor_intro_title_object">شی</string>
-    <string formatted="false" name="formula_editor_intro_summary_object">این مجموعه ای از مقادیر است که ویژگی های بازیگر یا شی فعلی شما را توصیف می کند. به عنوان مثال مختصات x و y یا سرعت 
+    <string formatted="false" name="formula_editor_intro_summary_object">این مجموعه ای از مقادیر است که ویژگی های بازیگر یا شی فعلی شما را توصیف می کند. به عنوان مثال مختصات x و y یا سرعت
         فعلی هستند.</string>
     <string formatted="false" name="formula_editor_intro_title_functions">توابع</string>
-    <string formatted="false" name="formula_editor_intro_summary_functions">مانند یک ماشین حساب، ویرایشگر فرمول 
+    <string formatted="false" name="formula_editor_intro_summary_functions">مانند یک ماشین حساب، ویرایشگر فرمول
         بسیاری از توابع ریاضی را ارائه می دهد.\n می توانید توابع مثلثاتی مانند \"sin\" و \"cos\"، 
         یک مولد اعداد تصادفی، و توابع متن و لیست را پیدا کنید.</string>
     <string formatted="false" name="formula_editor_intro_title_logic">منطق</string>
@@ -1894,7 +1894,7 @@
     <string formatted="false" name="formula_editor_intro_title_device">سنسورها</string>
     <string formatted="false" name="formula_editor_intro_summary_device">در «حسگرها» می‌توانید اطلاعاتی را که         دستگاهتان ضبط می‌کند بیابید.\n به عنوان مثال، شیب دستگاه یا بلندی صدای محیط اطرافتان.</string>
     <string formatted="false" name="formula_editor_intro_title_data">داده‌</string>
-    <string formatted="false" name="formula_editor_intro_summary_data">متغیرها و لیست هایی که در پروژه شما استفاده می شوند را می توانید در اینجا پیدا کنید. 
+    <string formatted="false" name="formula_editor_intro_summary_data">متغیرها و لیست هایی که در پروژه شما استفاده می شوند را می توانید در اینجا پیدا کنید.
         \nشما می توانید به سادگی آنها را در فرمول خود وارد کنید، یا موارد جدید اضافه کنید.</string>
     <string formatted="false" name="formula_editor_listening_language_sensor">زبان گوش دادن</string>
     <string formatted="false" name="formula_editor_speech_recognition">تشخیص گفتار</string>
@@ -1994,7 +1994,6 @@
     <string formatted="false" name="search">جستجو</string>
     <string formatted="false" name="no_results_found">نتیجه ای پیدا نشد</string>
     <string formatted="false" name="query_field_is_empty">فیلد پرس و جو خالی است</string>
-    <string formatted="false" name="cut">کات</string>
     <string formatted="false" name="paste">جای گذاری</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">اثر ذرات محو</string>
