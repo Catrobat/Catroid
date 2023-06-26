@@ -25,7 +25,9 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Wait until all other scripts have stopped")
 public class WaitTillIdleBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;

@@ -34,12 +34,16 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+@CatrobatLanguageBrick(command = "Go to")
 public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite> {
 
 	private static final long serialVersionUID = 1L;
@@ -114,5 +118,25 @@ public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelec
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createGoToAction(sprite, destinationSprite, spinnerSelection));
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		return getCatrobatLanguageSpinnerCall(indentionLevel, "target", spinnerSelection);
+	}
+
+	// TODO: better soluton?
+	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
+		switch (spinnerIndex) {
+			case BrickValues.GO_TO_TOUCH_POSITION:
+				return "touch position";
+			case BrickValues.GO_TO_RANDOM_POSITION:
+				return "random position";
+			case BrickValues.GO_TO_OTHER_SPRITE_POSITION:
+				return destinationSprite.getName();
+			default:
+				throw new IllegalArgumentException("Invalid spinner index");
+		}
 	}
 }

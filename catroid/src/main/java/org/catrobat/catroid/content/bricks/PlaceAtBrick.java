@@ -26,17 +26,19 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
 import static org.catrobat.catroid.content.bricks.Brick.BrickField.X_POSITION;
 import static org.catrobat.catroid.content.bricks.Brick.BrickField.Y_POSITION;
 
+@CatrobatLanguageBrick(command = "Place at")
 public class PlaceAtBrick extends VisualPlacementBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public PlaceAtBrick() {
-		addAllowedBrickField(X_POSITION, R.id.brick_place_at_edit_text_x);
-		addAllowedBrickField(Y_POSITION, R.id.brick_place_at_edit_text_y);
+		addAllowedBrickField(X_POSITION, R.id.brick_place_at_edit_text_x, "x");
+		addAllowedBrickField(Y_POSITION, R.id.brick_place_at_edit_text_y, "y");
 	}
 
 	public PlaceAtBrick(int xPositionValue, int yPositionValue) {

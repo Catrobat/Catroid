@@ -103,25 +103,21 @@ public class SetRotationStyleBrick extends BrickBaseType implements
 	@NonNull
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+		return getCatrobatLanguageSpinnerCall(indentionLevel, "rotation style", selection);
+	}
 
-		String brickCommand = getCatrobatLanguageCommand();
-		StringBuilder catrobatLanguage = new StringBuilder();
-		catrobatLanguage.append(indention);
-		catrobatLanguage.append(brickCommand);
-		catrobatLanguage.append(" (rotation style: ('");
+	@Override
+	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
 		switch (selection) {
-			case 1:
-				catrobatLanguage.append("all-around");
-				break;
-			case 2:
-				catrobatLanguage.append("don't rotate");
-				break;
+			case ROTATION_STYLE_LEFT_RIGHT_ONLY:
+				return "left-right only";
+			case Look.ROTATION_STYLE_ALL_AROUND:
+				return "all-around";
+			case Look.ROTATION_STYLE_NONE:
+				return "don't rotate";
 			default:
-				catrobatLanguage.append("left-right-only");
+				throw new IllegalStateException("Invalid spinner selection: " + selection);
 		}
-		catrobatLanguage.append("'));");
-		return catrobatLanguage.toString();
 	}
 
 	class RotationStyleOption implements Nameable {

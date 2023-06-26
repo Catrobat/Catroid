@@ -92,21 +92,12 @@ public class StopScriptBrick extends BrickBaseType {
 	@NonNull
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
-
-		StringBuilder catrobatLanguage = new StringBuilder();
-		catrobatLanguage.append(indention);
-		catrobatLanguage.append(getCatrobatLanguageCommand());
-		catrobatLanguage.append(" (script: (");
-		catrobatLanguage.append(getFixedCatrobatLanguageSpinnerValue(spinnerSelection));
-		catrobatLanguage.append("));\n");
-
-		return catrobatLanguage.toString();
+		return getCatrobatLanguageSpinnerCall(indentionLevel, "script", spinnerSelection);
 	}
 
 	// TODO: better soluton?
-	private String getFixedCatrobatLanguageSpinnerValue(int index) {
-		switch (index) {
+	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
+		switch (spinnerIndex) {
 			case BrickValues.STOP_THIS_SCRIPT:
 				return "this script";
 			case BrickValues.STOP_ALL_SCRIPTS:

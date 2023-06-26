@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.test.io.catrobatlanguage
 
+import org.catrobat.catroid.common.BrickValues
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick
 import org.catrobat.catroid.content.bricks.AssertEqualsBrick
@@ -54,7 +55,9 @@ import org.catrobat.catroid.content.bricks.ForItemInUserListBrick
 import org.catrobat.catroid.content.bricks.ForVariableFromToBrick
 import org.catrobat.catroid.content.bricks.ForeverBrick
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick
+import org.catrobat.catroid.content.bricks.GoToBrick
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick
+import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick
 import org.catrobat.catroid.content.bricks.JumpingSumoMoveBackwardBrick
 import org.catrobat.catroid.content.bricks.JumpingSumoMoveForwardBrick
@@ -77,6 +80,7 @@ import org.catrobat.catroid.content.bricks.PhiroMotorMoveBackwardBrick
 import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick
+import org.catrobat.catroid.content.bricks.PlaceAtBrick
 import org.catrobat.catroid.content.bricks.PlayDrumForBeatsBrick
 import org.catrobat.catroid.content.bricks.PlayNoteForBeatsBrick
 import org.catrobat.catroid.content.bricks.PlaySoundAtBrick
@@ -116,8 +120,11 @@ import org.catrobat.catroid.content.bricks.SewUpBrick
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick
 import org.catrobat.catroid.content.bricks.SpeakBrick
 import org.catrobat.catroid.content.bricks.StopScriptBrick
+import org.catrobat.catroid.content.bricks.TapAtBrick
+import org.catrobat.catroid.content.bricks.TapForBrick
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick
+import org.catrobat.catroid.content.bricks.TouchAndSlideBrick
 import org.catrobat.catroid.content.bricks.TripleStitchBrick
 import org.catrobat.catroid.content.bricks.TurnLeftBrick
 import org.catrobat.catroid.content.bricks.TurnLeftSpeedBrick
@@ -128,10 +135,12 @@ import org.catrobat.catroid.content.bricks.UserListBrick
 import org.catrobat.catroid.content.bricks.VibrationBrick
 import org.catrobat.catroid.content.bricks.VisualPlacementBrick
 import org.catrobat.catroid.content.bricks.WaitBrick
+import org.catrobat.catroid.content.bricks.WaitTillIdleBrick
 import org.catrobat.catroid.content.bricks.WaitUntilBrick
 import org.catrobat.catroid.content.bricks.WhenConditionBrick
 import org.catrobat.catroid.content.bricks.WriteEmbroideryToFileBrick
 import org.catrobat.catroid.content.bricks.ZigZagStitchBrick
+import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
 import org.catrobat.catroid.uiespresso.content.messagecontainer.BroadcastAndWaitBrickMessageContainerTest
 import org.junit.Assert.assertEquals
@@ -141,7 +150,7 @@ import org.junit.runners.Parameterized
 import java.io.Serializable
 
 @RunWith(Parameterized::class)
-class BricksSerializationTest(
+class ValueSerializationTest(
     private val brick: Brick,
     private val expectedOutput: String
 ) {
@@ -151,8 +160,6 @@ class BricksSerializationTest(
         fun parameters(): List<Array<out Serializable>> {
             val listOf = listOf(
                 arrayOf(BroadcastBrick("test"), "Broadcast (message: ('test'));\n"),
-                arrayOf(BroadcastBrick(), "Broadcast (message: ());\n"), // TODO: this or
-                arrayOf(BroadcastBrick(), "Broadcast (message: (''));\n"), // TODO: this?
                 arrayOf(
                     BroadcastWaitBrick("test"),
                     "Broadcast and wait (message: ('test'));\n"
@@ -161,14 +168,14 @@ class BricksSerializationTest(
                     ArduinoSendDigitalValueBrick(3, 1),
                     "Set Arduino (digital pin: (3), value: (1));\n"
                 ),
+
                 // TODO: detailed CloneBrick Test
                 arrayOf(CloneBrick(), "Create clone of (actor or object: ());\n"),
-                arrayOf(DeleteThisCloneBrick(), "Delete this clone;\n"),
+
                 // TODO: clarify with newline
                 arrayOf(NoteBrick("a comment"), "// a comment\n"),
-                arrayOf(ForeverBrick(), "Forever {\n}\n"),
 
-                // TODO: clarify default 0
+                // TODO: define a formula
                 arrayOf(IfLogicBeginBrick(), "If (condition: (0)) {\n} else {\n}\n"),
                 arrayOf(IfThenLogicBeginBrick(), "If (condition: (0)) {\n}\n"),
                 arrayOf(WaitUntilBrick(), "Wait until (condition: (0));\n"),
@@ -186,11 +193,37 @@ class BricksSerializationTest(
                 arrayOf(SceneStartBrick("testscene"), "Start (scene: (testscene));\n"),
                 arrayOf(SceneStartBrick(), "Start (scene: ());\n"),
                 arrayOf(FinishStageBrick(), "Finish stage;\n"),
-                arrayOf(StopScriptBrick(), "Stop (script: (this script));\n"),
                 arrayOf(StopScriptBrick(0), "Stop (script: (this script));\n"),
                 arrayOf(StopScriptBrick(1), "Stop (script: (all scripts));\n"),
-                arrayOf(StopScriptBrick(2), "Stop (script: (other scripts of this actor or " +
-                    "object));\n"),
+                arrayOf(
+                    StopScriptBrick(2),
+                    "Stop (script: (other scripts of this actor or object));\n"
+                ),
+                arrayOf(WaitTillIdleBrick(), "Wait until all other scripts have stopped;\n"),
+
+                arrayOf(TapAtBrick(5, 9), "Single tap at (x: (5), y: (9));\n"),
+                arrayOf(
+                    TapForBrick(2, 3, 4.5),
+                    "Touch at position for seconds (x: (2), y: (3), seconds: (4.5));\n"
+                ),
+                arrayOf(
+                    TouchAndSlideBrick(2, 3, 4, 5, 6.7),
+                    "Touch at position and slide to position in seconds (start x: (2), start y: " +
+                        "(3), to x: (4), to y: (5), seconds: (6.7));\n"
+                ),
+                arrayOf(
+                    OpenUrlBrick("https://catrob.at"),
+                    "Open in browser (url: ('https://catrob.at'));\n"
+                ),
+                arrayOf(PlaceAtBrick(2, 3), "Place at (x: (2), y: (3));\n"),
+                arrayOf(SetXBrick(2), "Set (x: (2));\n"),
+                arrayOf(SetYBrick(2), "Set (y: (2));\n"),
+                arrayOf(ChangeXByNBrick(2), "Change x by (value: (2));\n"),
+                arrayOf(ChangeYByNBrick(2), "Change y by (value: (2));\n"),
+
+//                arrayOf(GoToBrick(), "Go to (target: ());\n"),
+
+                arrayOf(IfOnEdgeBounceBrick(), "If on edge, bounce;\n")
 
 //                arrayOf(ArduinoSendPWMValueBrick(), "Set Arduino (PWM~ pin: (0), value: (0));"),
 //                arrayOf(AssertEqualsBrick(), "Assert equals (actual: (0), expected: (0));"),

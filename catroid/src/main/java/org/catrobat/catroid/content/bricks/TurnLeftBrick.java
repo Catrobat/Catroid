@@ -22,17 +22,25 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import android.util.Pair;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
+import androidx.annotation.NonNull;
+
+@CatrobatLanguageBrick(command = "Turn")
 public class TurnLeftBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public TurnLeftBrick() {
-		addAllowedBrickField(BrickField.TURN_LEFT_DEGREES, R.id.brick_turn_left_edit_text);
+		addAllowedBrickField(BrickField.TURN_LEFT_DEGREES, R.id.brick_turn_left_edit_text,
+				"degrees");
 	}
 
 	public TurnLeftBrick(double degreesValue) {
@@ -54,5 +62,21 @@ public class TurnLeftBrick extends FormulaBrick {
 		sequence.addAction(sprite.getActionFactory()
 				.createTurnLeftAction(sprite, sequence,
 						getFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES)));
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+
+		StringBuilder catrobatLanguage = new StringBuilder();
+		catrobatLanguage.append(indention);
+		catrobatLanguage.append(getCatrobatLanguageCommand());
+		catrobatLanguage.append(" (");
+
+		catrobatLanguage.append("direction: left, ");
+		appendCatrobatLanguageArguments(catrobatLanguage);
+		catrobatLanguage.append(");\n");
+		return catrobatLanguage.toString();
 	}
 }

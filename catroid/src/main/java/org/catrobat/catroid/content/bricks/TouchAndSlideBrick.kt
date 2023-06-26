@@ -29,14 +29,17 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.BrickField
 import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick
 
+@CatrobatLanguageBrick(command = "Touch at position and slide to position in seconds")
 class TouchAndSlideBrick() : VisualPlacementBrick() {
     init {
-        addAllowedBrickField(BrickField.X_POSITION, R.id.brick_touch_slide_edit_from_x)
-        addAllowedBrickField(BrickField.Y_POSITION, R.id.brick_touch_slide_edit_from_y)
-        addAllowedBrickField(BrickField.X_POSITION_CHANGE, R.id.brick_touch_slide_edit_to_x)
-        addAllowedBrickField(BrickField.Y_POSITION_CHANGE, R.id.brick_touch_slide_edit_to_y)
-        addAllowedBrickField(BrickField.DURATION_IN_SECONDS, R.id.brick_tap_for_edit_duration)
+        addAllowedBrickField(BrickField.X_POSITION, R.id.brick_touch_slide_edit_from_x, "start x")
+        addAllowedBrickField(BrickField.Y_POSITION, R.id.brick_touch_slide_edit_from_y, "start y")
+        addAllowedBrickField(BrickField.X_POSITION_CHANGE, R.id.brick_touch_slide_edit_to_x, "to x")
+        addAllowedBrickField(BrickField.Y_POSITION_CHANGE, R.id.brick_touch_slide_edit_to_y, "to y")
+        addAllowedBrickField(BrickField.DURATION_IN_SECONDS, R.id.brick_tap_for_edit_duration,
+                             "seconds")
     }
 
     constructor(

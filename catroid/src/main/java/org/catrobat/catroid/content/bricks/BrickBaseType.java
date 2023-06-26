@@ -340,6 +340,29 @@ public abstract class BrickBaseType implements Brick, CatblocksLanguageSerializa
 		catLangBuilder.append("}\n");
 	}
 
+	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
+		return "";
+	}
+
+	protected String getCatrobatLanguageSpinnerCall(int indentionLevel,
+			String parameterName, int spinnerIndex) {
+		return getCatrobatLanguageParamerCall(indentionLevel, parameterName,
+				getCatrobatLanguageSpinnerValue(spinnerIndex));
+	}
+
+	protected String getCatrobatLanguageParamerCall(int indentionLevel, String parameterName,
+			String value) {
+		StringBuilder catrobatLanguage = new StringBuilder();
+		catrobatLanguage.append(CatrobatLanguageUtils.Companion.getIndention(indentionLevel));
+		catrobatLanguage.append(getCatrobatLanguageCommand());
+		catrobatLanguage.append(" (");
+		catrobatLanguage.append(parameterName);
+		catrobatLanguage.append(": (");
+		catrobatLanguage.append(value);
+		catrobatLanguage.append("));\n");
+		return catrobatLanguage.toString();
+	}
+
 	protected StringBuilder getCatrobatLanguageParameterizedCall(int indentionLevel,
 			boolean withBody) {
 		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);

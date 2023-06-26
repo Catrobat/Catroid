@@ -26,13 +26,15 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Change y by")
 public class ChangeYByNBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public ChangeYByNBrick() {
-		addAllowedBrickField(BrickField.Y_POSITION_CHANGE, R.id.brick_change_y_edit_text);
+		addAllowedBrickField(BrickField.Y_POSITION_CHANGE, R.id.brick_change_y_edit_text, "value");
 	}
 
 	public ChangeYByNBrick(int yMovementValue) {

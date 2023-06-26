@@ -27,11 +27,14 @@ import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
@@ -39,9 +42,11 @@ import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterf
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+@CatrobatLanguageBrick(command = "Point towards")
 public class PointToBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite>,
 		NewItemInterface<Sprite> {
 
@@ -119,5 +124,26 @@ public class PointToBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createPointToAction(sprite, pointedObject));
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+
+		StringBuilder catrobatLanguage = new StringBuilder();
+		catrobatLanguage.append(indention);
+		catrobatLanguage.append(getCatrobatLanguageCommand());
+
+		catrobatLanguage.append(" (actor or object: (");
+
+		if (pointedObject != null) {
+			catrobatLanguage.append("'");
+			catrobatLanguage.append(pointedObject.getName());
+			catrobatLanguage.append("'");
+		}
+		catrobatLanguage.append("));\n");
+
+		return catrobatLanguage.toString();
 	}
 }

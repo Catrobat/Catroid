@@ -195,15 +195,7 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 	@NonNull
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
-
-		StringBuilder catrobatLanguage = new StringBuilder();
-		catrobatLanguage.append(indention);
-		catrobatLanguage.append(getCatrobatLanguageCommand());
-		catrobatLanguage.append(" (message: ('");
-		catrobatLanguage.append(getBroadcastMessage());
-		catrobatLanguage.append("'));\n");
-
-		return catrobatLanguage.toString();
+		return getCatrobatLanguageParamerCall(indentionLevel, "message",
+				"'" + getBroadcastMessage() + "'");
 	}
 }

@@ -29,7 +29,9 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.BrickField
 import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick
 
+@CatrobatLanguageBrick(command = "Touch at position for seconds")
 class TapForBrick() : VisualPlacementBrick() {
     constructor(xPositionValue: Int, yPositionValue: Int, durationInSecondsValue: Double) : this(
         Formula(xPositionValue),
@@ -80,8 +82,9 @@ class TapForBrick() : VisualPlacementBrick() {
     }
 
     init {
-        addAllowedBrickField(BrickField.X_POSITION, R.id.brick_tap_for_edit_x)
-        addAllowedBrickField(BrickField.Y_POSITION, R.id.brick_tap_for_edit_y)
-        addAllowedBrickField(BrickField.DURATION_IN_SECONDS, R.id.brick_tap_for_edit_duration)
+        addAllowedBrickField(BrickField.X_POSITION, R.id.brick_tap_for_edit_x, "x")
+        addAllowedBrickField(BrickField.Y_POSITION, R.id.brick_tap_for_edit_y, "y")
+        addAllowedBrickField(BrickField.DURATION_IN_SECONDS, R.id.brick_tap_for_edit_duration,
+                             "seconds")
     }
 }

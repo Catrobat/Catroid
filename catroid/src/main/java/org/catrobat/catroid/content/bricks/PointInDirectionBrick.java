@@ -26,13 +26,16 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Point in direction")
 public class PointInDirectionBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public PointInDirectionBrick() {
-		addAllowedBrickField(BrickField.DEGREES, R.id.brick_point_in_direction_edit_text);
+		addAllowedBrickField(BrickField.DEGREES, R.id.brick_point_in_direction_edit_text,
+				"degrees");
 	}
 
 	public PointInDirectionBrick(double direction) {
