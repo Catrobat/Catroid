@@ -32,6 +32,7 @@ import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -66,6 +67,8 @@ public class WhenBackgroundChangesToBrickTest {
 		UiTestUtils.createProjectWithCustomScript("WhenBackgroundChangesToBrickTest",
 				new WhenBackgroundChangesScript());
 		baseActivityTestRule.launchActivity();
+
+		Intents.init();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -74,12 +77,10 @@ public class WhenBackgroundChangesToBrickTest {
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_when_background);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_when_background_spinner)
-			.performSelectNameable(R.string.new_option);
-
-		Intents.init();
+				.performSelectNameable(R.string.new_option);
 
 		onView(withId(R.id.dialog_new_look_paintroid))
-			.perform(click());
+				.perform(click());
 
 		onView(withId(R.id.pocketpaint_drawing_surface_view)).perform(click());
 		pressBack();
@@ -88,7 +89,10 @@ public class WhenBackgroundChangesToBrickTest {
 				ProjectManager.getInstance().getCurrentProject().getDefaultScene().getBackgroundSprite().getLookList();
 
 		assertEquals(1, lookDataList.size());
+	}
 
+	@After
+	public void tearDown() {
 		Intents.release();
 	}
 }
