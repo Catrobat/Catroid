@@ -37,7 +37,7 @@ import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface
 
 class StopSoundBrick : BrickBaseType(),
-    BrickSpinner.OnItemSelectedListener<SoundInfo>, NewItemInterface<SoundInfo> {
+    BrickSpinner.OnItemSelectedListener<SoundInfo>, NewItemInterface<SoundInfo>, UpdateableSpinnerBrick {
 
     var sound: SoundInfo? = null
 
@@ -81,5 +81,14 @@ class StopSoundBrick : BrickBaseType(),
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
         sequence.addAction(sprite.actionFactory.createStopSoundAction(sprite, sound))
+    }
+
+    override fun updateSelectedItem(
+        context: Context?,
+        spinnerId: Int,
+        itemName: String?,
+        itemIndex: Int
+    ) {
+        spinner.setSelection(itemName)
     }
 }

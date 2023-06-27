@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.util.Log;
@@ -59,6 +60,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 public abstract class FormulaBrick extends BrickBaseType implements View.OnClickListener {
 
@@ -159,6 +161,17 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		formulaTextField.getBackground().mutate()
 				.setColorFilter(view.getContext().getResources()
 						.getColor(R.color.brick_field_highlight), PorterDuff.Mode.SRC_ATOP);
+	}
+
+	public void showCatblocksFormulaEditor(BrickField brickField,
+			FragmentManager fragmentManager, Activity activity) {
+		if (brickFieldToTextViewIdMap.containsKey(brickField)) {
+			FormulaEditorFragment.showCatblocksFragment(this, brickField, fragmentManager,
+					activity);
+		} else {
+			FormulaEditorFragment.showCatblocksFragment(this, getDefaultBrickField(),
+					fragmentManager, activity);
+		}
 	}
 
 	@Override

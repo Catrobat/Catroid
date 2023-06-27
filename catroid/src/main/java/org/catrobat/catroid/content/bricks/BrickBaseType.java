@@ -217,10 +217,8 @@ public abstract class BrickBaseType implements Brick, CatblocksLanguageSerializa
 		if (!(this instanceof CompositeBrick)) {
 			return null;
 		}
-
 		List<Brick> foundBricks = new ArrayList<>();
 		CompositeBrick compositeBrick = (CompositeBrick) this;
-
 		for (Brick brick : compositeBrick.getNestedBricks()) {
 			if (brickIds.contains(brick.getBrickID())) {
 				foundBricks.add(brick);
@@ -230,12 +228,10 @@ public abstract class BrickBaseType implements Brick, CatblocksLanguageSerializa
 					return tmpBricks;
 				}
 			}
-
 			if (brickIds.size() == foundBricks.size()) {
 				break;
 			}
 		}
-
 		if (foundBricks.size() == 0 && compositeBrick.hasSecondaryList()) {
 			for (Brick brick : compositeBrick.getSecondaryNestedBricks()) {
 				if (brickIds.contains(brick.getBrickID())) {
@@ -246,13 +242,11 @@ public abstract class BrickBaseType implements Brick, CatblocksLanguageSerializa
 						return tmpBricks;
 					}
 				}
-
 				if (brickIds.size() == foundBricks.size()) {
 					break;
 				}
 			}
 		}
-
 		if (foundBricks.size() > 0) {
 			return foundBricks;
 		}
@@ -264,42 +258,50 @@ public abstract class BrickBaseType implements Brick, CatblocksLanguageSerializa
 		if (!(this instanceof CompositeBrick)) {
 			return false;
 		}
-
 		CompositeBrick compositeBrick = (CompositeBrick) this;
-
 		if (getBrickID().equals(parentBrickId)) {
 			if (subStackIndex == 0) {
 				compositeBrick.getNestedBricks().addAll(0, bricksToAdd);
+				if (!bricksToAdd.isEmpty()) {
+					bricksToAdd.get(0).setParent(this);
+				}
 				return true;
 			} else if (subStackIndex == 1 && compositeBrick.hasSecondaryList()) {
 				compositeBrick.getSecondaryNestedBricks().addAll(0, bricksToAdd);
+				if (!bricksToAdd.isEmpty()) {
+					bricksToAdd.get(0).setParent(this);
+				}
 				return true;
 			}
 		}
-
 		int index = 0;
-
 		for (Brick brick : compositeBrick.getNestedBricks()) {
 			++index;
 			if (subStackIndex == -1
 					&& brick.getBrickID().equals(parentBrickId)) {
 				compositeBrick.getNestedBricks().addAll(index, bricksToAdd);
+				if (!bricksToAdd.isEmpty()) {
+					bricksToAdd.get(0).setParent(brick);
+				}
 			} else if (brick instanceof CompositeBrick
 					&& brick.addBrickInNestedBrick(parentBrickId, subStackIndex, bricksToAdd)) {
 				return true;
 			}
 		}
-
 		if (!compositeBrick.hasSecondaryList()) {
 			return false;
 		}
-
 		index = 0;
 		for (Brick brick : compositeBrick.getSecondaryNestedBricks()) {
 			++index;
 			if (subStackIndex == -1
 					&& brick.getBrickID().equals(parentBrickId)) {
 				compositeBrick.getSecondaryNestedBricks().addAll(index, bricksToAdd);
+
+				if (!bricksToAdd.isEmpty()) {
+					bricksToAdd.get(0).setParent(brick);
+				}
+
 				return true;
 			} else if (brick instanceof CompositeBrick
 					&& brick.addBrickInNestedBrick(parentBrickId, subStackIndex, bricksToAdd)) {

@@ -35,7 +35,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 import kotlin.Unit;
 
-public class LegoEv3MotorMoveBrick extends FormulaBrick {
+public class LegoEv3MotorMoveBrick extends FormulaBrick implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -93,5 +93,12 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createLegoEv3SingleMotorMoveAction(sprite, sequence,
 				Motor.valueOf(motor), getFormulaWithBrickField(BrickField.LEGO_EV3_SPEED)));
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (itemIndex >= 0 && itemIndex < Motor.values().length) {
+			motor = Motor.values()[itemIndex].name();
+		}
 	}
 }

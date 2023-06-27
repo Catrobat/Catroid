@@ -40,7 +40,7 @@ import androidx.annotation.NonNull;
 import kotlin.Unit;
 
 @CatrobatLanguageBrick(command = "Stop")
-public class StopScriptBrick extends BrickBaseType {
+public class StopScriptBrick extends BrickBaseType implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -87,6 +87,11 @@ public class StopScriptBrick extends BrickBaseType {
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createStopScriptAction(spinnerSelection,
 				sequence.getScript(), sprite));
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		spinnerSelection = itemIndex;
 	}
 
 	@NonNull

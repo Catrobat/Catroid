@@ -38,7 +38,7 @@ import org.catrobat.catroid.ui.fragment.SingleSeekBar;
 
 import kotlin.Unit;
 
-public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
+public class PhiroMotorMoveBackwardBrick extends FormulaBrick implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -114,5 +114,13 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick {
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createPhiroMotorMoveBackwardActionAction(sprite, sequence,
 				Motor.valueOf(motor), getFormulaWithBrickField(BrickField.PHIRO_SPEED)));
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		Motor[] motors = Motor.values();
+		if (itemIndex >= 0 && itemIndex < motors.length) {
+			motor = motors[itemIndex].name();
+		}
 	}
 }

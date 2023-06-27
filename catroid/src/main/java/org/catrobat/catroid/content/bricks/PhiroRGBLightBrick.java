@@ -41,7 +41,7 @@ import org.catrobat.catroid.ui.UiUtils;
 import androidx.appcompat.app.AppCompatActivity;
 import kotlin.Unit;
 
-public class PhiroRGBLightBrick extends FormulaBrick {
+public class PhiroRGBLightBrick extends FormulaBrick implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -131,6 +131,13 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED),
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN),
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE)));
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (itemIndex >= 0 && itemIndex < Eye.values().length) {
+			eye = Eye.values()[itemIndex].name();
+		}
 	}
 
 	private final class SetPhiroRGBLightBrickCallback implements ShowFormulaEditorStrategy.Callback {

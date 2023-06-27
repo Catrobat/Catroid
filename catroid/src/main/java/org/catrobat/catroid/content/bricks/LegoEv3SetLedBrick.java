@@ -34,7 +34,7 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import kotlin.Unit;
 
-public class LegoEv3SetLedBrick extends BrickBaseType {
+public class LegoEv3SetLedBrick extends BrickBaseType implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -85,5 +85,12 @@ public class LegoEv3SetLedBrick extends BrickBaseType {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createLegoEv3SetLedAction(LedStatus.valueOf(ledStatus)));
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (itemIndex >= 0 && itemIndex < LedStatus.values().length) {
+			ledStatus = LedStatus.values()[itemIndex].name();
+		}
 	}
 }

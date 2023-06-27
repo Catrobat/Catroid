@@ -42,7 +42,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 @CatrobatLanguageBrick(command = "Create clone of")
-public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite> {
+public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -105,6 +105,13 @@ public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSele
 	public void resetSpinner() {
 		spinner.setSelection(0);
 		objectToClone = null;
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinner != null) {
+			spinner.setSelection(itemName);
+		}
 	}
 
 	@NonNull

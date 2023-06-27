@@ -37,17 +37,27 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.annotation.VisibleForTesting
 import androidx.fragment.app.Fragment
 import androidx.webkit.WebViewAssetLoader
 import com.google.gson.Gson
 import org.catrobat.catroid.BuildConfig
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.common.Nameable
+import org.catrobat.catroid.content.UserDefinedScript
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.EmptyEventBrick
+import org.catrobat.catroid.content.bricks.FormulaBrick
+import org.catrobat.catroid.content.bricks.ParameterizedBrick
+import org.catrobat.catroid.content.bricks.ParameterizedEndBrick
 import org.catrobat.catroid.content.bricks.ScriptBrick
+import org.catrobat.catroid.content.bricks.UpdateableSpinnerBrick
 import org.catrobat.catroid.content.bricks.UserDefinedBrick
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
+import org.catrobat.catroid.content.bricks.brickspinner.EditOption
+import org.catrobat.catroid.content.bricks.brickspinner.NewOption
+import org.catrobat.catroid.content.bricks.brickspinner.SpinnerBrickUtils
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.ui.BottomBar
 import org.catrobat.catroid.ui.controller.RecentBrickListManager
@@ -63,7 +73,10 @@ class CatblocksScriptFragment(
     private val brickAtTopID: UUID?
 ) : Fragment() {
 
+    @VisibleForTesting
     private var webview: WebView? = null
+    private var lastEditedFormulaBrick: FormulaBrick? = null
+    private var allBricks: List<Brick>? = null
 
     companion object {
         val TAG: String = CatblocksScriptFragment::class.java.simpleName
@@ -107,6 +120,33 @@ class CatblocksScriptFragment(
         return view
     }
 
+    @SuppressLint("VisibleForTests")
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden && lastEditedFormulaBrick != null && webview != null) {
+            var modifiedBrickId = lastEditedFormulaBrick!!.brickID
+            if (lastEditedFormulaBrick is ParameterizedEndBrick) {
+                modifiedBrickId = ((lastEditedFormulaBrick as ParameterizedEndBrick).parent as
+                    Brick).brickID
+            } else if (lastEditedFormulaBrick is ScriptBrick) {
+                modifiedBrickId = (lastEditedFormulaBrick as ScriptBrick).script.scriptId
+            }
+
+            val updatedFormulaFields = BrickUpdateInfoHolder(modifiedBrickId, arrayListOf())
+
+            for (fieldId in lastEditedFormulaBrick!!.formulaMap.keys) {
+                val formula = lastEditedFormulaBrick!!.formulaMap[fieldId]
+                val formulaValue = formula?.getTrimmedFormulaString(context) as String
+
+                updatedFormulaFields.fields.add(BrickFieldUpdateInfoHolder(fieldId.toString(), formulaValue))
+            }
+
+            val updatedFormualFieldsJsonString = Gson().toJson(updatedFormulaFields)
+            webview!!.evaluateJavascript("javascript:CatBlocks.updateBrickFields($updatedFormualFieldsJsonString);", null)
+            allBricks = getAllBricks()
+        }
+    }
+
     @SuppressLint("SetJavaScriptEnabled")
     private fun initWebView(catblocksWebView: WebView) {
         catblocksWebView.settings.javaScriptEnabled = true
@@ -141,12 +181,10 @@ class CatblocksScriptFragment(
         override fun run() {
             SettingsFragment.setUseCatBlocks(context, false)
 
-            val scriptFragment: ScriptFragment = if (brickToFocus == null) {
-                ScriptFragment()
-            } else if (brickToFocus is ScriptBrick) {
-                ScriptFragment.newInstance((brickToFocus as ScriptBrick).script)
-            } else {
-                ScriptFragment.newInstance(brickToFocus)
+            val scriptFragment: ScriptFragment = when (brickToFocus) {
+                null -> ScriptFragment()
+                is ScriptBrick -> ScriptFragment.newInstance((brickToFocus as ScriptBrick).script)
+                else -> ScriptFragment.newInstance(brickToFocus)
             }
 
             val fragmentTransaction = parentFragmentManager.beginTransaction()
@@ -352,6 +390,96 @@ class CatblocksScriptFragment(
         }
 
         @JavascriptInterface
+        fun showFormulaEditor(clickedBrickIdStr: String, fieldName: String) {
+            val clickedBrickId = UUID.fromString(clickedBrickIdStr)
+            val foundBrick = projectManager.currentSprite.findBrickInSprite(clickedBrickId)
+
+            if (foundBrick != null) {
+                if (foundBrick is ParameterizedBrick) {
+                    if (fieldName == "CATBLOCKS_ASSERT_LISTS_SELECTED") {
+                        foundBrick.onClick(foundBrick.getView(requireContext()))
+                        return
+                    } else if (fieldName == "ASSERT_LOOP_ACTUAL") {
+                        val brickField = Brick.BrickField.valueOf(fieldName)
+                        lastEditedFormulaBrick = foundBrick.getEndBrick()
+                        activity?.runOnUiThread {
+                            foundBrick.getEndBrick().showCatblocksFormulaEditor(brickField, parentFragmentManager, activity)
+                        }
+                        return
+                    }
+                } else if (foundBrick is UserDefinedBrick) {
+                    lastEditedFormulaBrick = foundBrick
+                    activity?.runOnUiThread {
+                        foundBrick.showCatblocksFormulaEditor(fieldName, parentFragmentManager, activity)
+                    }
+                    return
+                }
+
+                val brickField = Brick.BrickField.valueOf(fieldName)
+                if (foundBrick is FormulaBrick) {
+                    val formulaBrick = foundBrick as FormulaBrick
+                    lastEditedFormulaBrick = formulaBrick
+                    activity?.runOnUiThread {
+                        formulaBrick.showCatblocksFormulaEditor(brickField, parentFragmentManager, activity)
+                    }
+                }
+            }
+        }
+
+        @JavascriptInterface
+        fun getSelectionValuesForBrick(brickType: String, strSpinnerViewId: String): String {
+            val foundItems = arrayListOf<String>()
+            val spinnerViewId = SpinnerBrickUtils.getSpinnerIdByIdName(strSpinnerViewId)
+            val brick = getBrickByTypeName(brickType)
+            if (brick != null) {
+                var spinnerBrick = brick
+                if (brick is ParameterizedBrick) {
+                    spinnerBrick = brick.getEndBrick()
+                }
+                val availableSpinnerItems = SpinnerBrickUtils.getSpinnerItems(spinnerBrick, spinnerViewId, requireContext())
+                for (spinnerItem in availableSpinnerItems) {
+                    if (spinnerItem is NewOption || spinnerItem is EditOption) {
+                        continue
+                    }
+                    if (spinnerItem is Nameable) {
+                        foundItems.add(spinnerItem.name)
+                    } else {
+                        foundItems.add(spinnerItem.toString())
+                    }
+                }
+            }
+            return Gson().toJson(foundItems)
+        }
+
+        @JavascriptInterface
+        fun updateSpinnerSelecion(strBrickId: String, strSpinnerViewId: String, selectedIndex: Int) {
+            val brickId = UUID.fromString(strBrickId)
+            val spinnerViewId = SpinnerBrickUtils.getSpinnerIdByIdName(strSpinnerViewId)
+            val foundBrick = projectManager.currentSprite.findBrickInSprite(brickId)
+            if (foundBrick !is UpdateableSpinnerBrick) {
+                return
+            }
+            val availableSpinnerItems = SpinnerBrickUtils.getSpinnerItems(foundBrick, spinnerViewId, requireContext())
+            var selectedIndexCorrected = selectedIndex
+            if (availableSpinnerItems.isEmpty()) {
+                return
+            }
+            for (availableItem in availableSpinnerItems) {
+                if (availableItem is NewOption || availableItem is EditOption) {
+                    selectedIndexCorrected++
+                }
+            }
+            if (selectedIndexCorrected >= 0 && selectedIndexCorrected < availableSpinnerItems.size) {
+                val selectedItem = availableSpinnerItems[selectedIndexCorrected]
+                if (selectedItem is Nameable) {
+                    foundBrick.updateSelectedItem(requireContext(), spinnerViewId, selectedItem.name, selectedIndexCorrected)
+                } else {
+                    foundBrick.updateSelectedItem(requireContext(), spinnerViewId, selectedItem.toString(), selectedIndexCorrected)
+                }
+            }
+        }
+
+        @JavascriptInterface
         fun getBricksForCategory(category: String): String {
             val bricksForCategory = CategoryBricksFactory().getBricks(category, projectManager
                 .currentSprite.isBackgroundSprite, requireContext())
@@ -410,19 +538,35 @@ class CatblocksScriptFragment(
         @JavascriptInterface
         fun getBrickCategoryInfos(): String {
             val brickCategoryInfos = getAvailableBrickCategories()
-
             return Gson().toJson(brickCategoryInfos)
         }
     }
 
     fun handleAddButton() {
-
         val brickCategoryInfos = getAvailableBrickCategories()
         val jsonCategoryInfos = Gson().toJson(brickCategoryInfos)
 
         webview!!.evaluateJavascript(
             "javascript:CatBlocks.showBrickCategories($jsonCategoryInfos);", null)
     }
+
+    private fun getBrickByTypeName(brickType: String): Brick? {
+        if (brickType == UserDefinedReceiverBrick::class.java.simpleName) {
+            return UserDefinedReceiverBrick(UserDefinedScript(UUID.randomUUID()))
+        }
+        if (allBricks == null) {
+            allBricks = getAllBricks()
+        }
+        for (brick in allBricks!!) {
+            if (brick.javaClass.simpleName.equals(brickType)) {
+                return brick
+            }
+        }
+        return null
+    }
+
+    private fun getAllBricks(): List<Brick> = CategoryBricksFactory().getAllBricks(
+        projectManager.currentSprite.isBackgroundSprite, requireContext())
 
     private fun getAvailableBrickCategories(): List<BrickCategoryInfoHolder> {
         val brickCategoryFactory = BrickCategoryListBuilder(requireActivity())
@@ -437,7 +581,11 @@ class CatblocksScriptFragment(
         return brickCategoryInfos
     }
 
+    private data class BrickUpdateInfoHolder(val brickId: UUID, val fields: ArrayList<BrickFieldUpdateInfoHolder>)
+
+    private data class BrickFieldUpdateInfoHolder(val fieldId: String, val value: String)
+
     private data class BrickCategoryInfoHolder(val name: String)
 
-    data class BrickInfoHolder(val brickId: String, val brickType: String)
+    private data class BrickInfoHolder(val brickId: String, val brickType: String)
 }

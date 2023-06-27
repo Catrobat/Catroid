@@ -50,7 +50,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 @CatrobatLanguageBrick(command = "Start")
-public class SceneStartBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Scene> {
+public class SceneStartBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Scene>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -149,6 +149,13 @@ public class SceneStartBrick extends BrickBaseType implements BrickSpinner.OnIte
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSceneStartAction(sceneToStart, sprite));
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinner != null) {
+			spinner.setSelection(itemName);
+		}
 	}
 
 	@NonNull

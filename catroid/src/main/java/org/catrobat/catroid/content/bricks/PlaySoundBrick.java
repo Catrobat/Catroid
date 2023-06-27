@@ -44,7 +44,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class PlaySoundBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<SoundInfo>,
-		NewItemInterface<SoundInfo> {
+		NewItemInterface<SoundInfo>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -125,5 +125,12 @@ public class PlaySoundBrick extends BrickBaseType implements BrickSpinner.OnItem
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createPlaySoundAction(sprite, sound));
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinner != null) {
+			spinner.setSelection(itemName);
+		}
 	}
 }

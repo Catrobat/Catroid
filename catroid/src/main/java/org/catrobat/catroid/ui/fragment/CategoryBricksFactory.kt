@@ -270,6 +270,32 @@ open class CategoryBricksFactory {
         }
     }
 
+    fun getAllBricks(isBackgroundSprite: Boolean, context: Context): List<Brick> {
+        val bricks = arrayListOf<Brick>()
+
+        bricks.addAll(setupEventCategoryList(context, isBackgroundSprite))
+        bricks.addAll(setupControlCategoryList(context))
+        bricks.addAll(setupMotionCategoryList(context, isBackgroundSprite))
+        bricks.addAll(setupSoundCategoryList(context))
+        bricks.addAll(setupLooksCategoryList(context, isBackgroundSprite))
+        bricks.addAll(setupPenCategoryList(isBackgroundSprite))
+        bricks.addAll(setupUserBricksCategoryList())
+        bricks.addAll(setupDataCategoryList(context, isBackgroundSprite))
+        bricks.addAll(setupDeviceCategoryList(context, isBackgroundSprite))
+        bricks.addAll(setupLegoNxtCategoryList())
+        bricks.addAll(setupLegoEv3CategoryList())
+        bricks.addAll(setupArduinoCategoryList())
+        bricks.addAll(setupDroneCategoryList())
+        bricks.addAll(setupJumpingSumoCategoryList())
+        bricks.addAll(setupPhiroProCategoryList())
+        bricks.addAll(setupChromecastCategoryList(context))
+        bricks.addAll(setupRaspiCategoryList())
+        bricks.addAll(setupEmbroideryCategoryList(context))
+        bricks.addAll(setupAssertionsCategoryList(context))
+
+        return bricks
+    }
+
     fun setupRecentBricksCategoryList(isBackgroundSprite: Boolean): List<Brick> = RecentBrickListManager.getInstance().getRecentBricks(isBackgroundSprite)
 
     protected open fun setupEventCategoryList(

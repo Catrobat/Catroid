@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks
 
+import android.content.Context
 import android.widget.TextView
 import com.thoughtworks.xstream.annotations.XStreamOmitField
 import org.catrobat.catroid.ProjectManager
@@ -35,7 +36,7 @@ import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.utils.LoopUtil.checkLoopBrickForLoopDelay
 
-class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
+class ParameterizedBrick : ListSelectorBrick(), CompositeBrick, UpdateableSpinnerBrick {
     private var loopBricks = mutableListOf<Brick>()
     private var endBrick = ParameterizedEndBrick(this)
 
@@ -51,6 +52,8 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
     override fun getNestedBricks(): List<Brick> = loopBricks
 
     override fun getSecondaryNestedBricks(): List<Brick>? = null
+
+    fun getEndBrick(): ParameterizedEndBrick = endBrick
 
     fun addBrick(brick: Brick): Boolean = loopBricks.add(brick)
 
@@ -195,5 +198,16 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
         }
 
         return result
+    }
+
+    override fun updateSelectedItem(
+        context: Context?,
+        spinnerId: Int,
+        itemName: String?,
+        itemIndex: Int
+    ) {
+        if (spinnerId == R.id.brick_param_expected_list) {
+            endBrick.updateSelectedItem(context, spinnerId, itemName, itemIndex)
+        }
     }
 }

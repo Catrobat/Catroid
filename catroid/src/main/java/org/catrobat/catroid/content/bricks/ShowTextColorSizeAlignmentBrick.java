@@ -60,13 +60,15 @@ import static org.catrobat.catroid.utils.ShowTextUtils.ALIGNMENT_STYLE_RIGHT;
 import static org.catrobat.catroid.utils.ShowTextUtils.convertColorToString;
 import static org.catrobat.catroid.utils.ShowTextUtils.isValidColorString;
 
-public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisualPlacement {
+public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisualPlacement implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public int alignmentSelection = ALIGNMENT_STYLE_CENTERED;
 
 	private final transient ShowFormulaEditorStrategy showFormulaEditorStrategy;
+
+	private transient BrickSpinner<AlignmentStyle> alignmentSpinner;
 
 	public ShowTextColorSizeAlignmentBrick() {
 		addAllowedBrickField(BrickField.X_POSITION, R.id.brick_show_variable_color_size_edit_text_x);
@@ -124,10 +126,10 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 		items.add(new AlignmentStyle(context.getString(R.string.brick_show_variable_aligned_left), ALIGNMENT_STYLE_LEFT));
 		items.add(new AlignmentStyle(context.getString(R.string.brick_show_variable_aligned_centered), ALIGNMENT_STYLE_CENTERED));
 		items.add(new AlignmentStyle(context.getString(R.string.brick_show_variable_aligned_right), ALIGNMENT_STYLE_RIGHT));
-		BrickSpinner<AlignmentStyle> spinner =
+		alignmentSpinner =
 				new BrickSpinner<>(R.id.brick_show_variable_color_size_align_spinner, view, items);
-		spinner.setSelection(alignmentSelection);
-		spinner.setOnItemSelectedListener(new BrickSpinner.OnItemSelectedListener<AlignmentStyle>() {
+		alignmentSpinner.setSelection(alignmentSelection);
+		alignmentSpinner.setOnItemSelectedListener(new BrickSpinner.OnItemSelectedListener<AlignmentStyle>() {
 
 			@Override
 			public void onStringOptionSelected(Integer spinnerId, String string) {
@@ -203,6 +205,16 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 		intent.putExtra(EXTRA_TEXT_SIZE, sanitizeTextSize());
 		intent.putExtra(EXTRA_TEXT_ALIGNMENT, alignmentSelection);
 		return intent;
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinnerId == getSpinnerId()) {
+			super.updateSelectedItem(context, spinnerId, itemName, itemIndex);
+		} else if (spinnerId == R.id.brick_show_variable_color_size_align_spinner
+				&& alignmentSpinner != null) {
+			alignmentSpinner.setSelection(itemName);
+		}
 	}
 
 	private static class AlignmentStyle implements Nameable {
