@@ -28,5 +28,14 @@ class CatrobatLanguageUtils {
         fun getIndention (level: Int): String {
             return " ".repeat(level * 2);
         }
+
+        fun formatActorOrObject (actorOrObjectName: String): String {
+            return "'$actorOrObjectName'"
+        }
+
+        fun formatVariable (variableName: String): String {
+            return "\"$variableName\""
+        }
+
     }
 }

@@ -23,207 +23,116 @@
 
 package org.catrobat.catroid.test.io.catrobatlanguage
 
-import org.catrobat.catroid.common.BrickValues
-import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick
-import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick
-import org.catrobat.catroid.content.bricks.AssertEqualsBrick
-import org.catrobat.catroid.content.bricks.BackgroundRequestBrick
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.BroadcastBrick
-import org.catrobat.catroid.content.bricks.BroadcastMessageBrick
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick
-import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick
-import org.catrobat.catroid.content.bricks.ChangeColorByNBrick
-import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick
-import org.catrobat.catroid.content.bricks.ChangeTempoByNBrick
-import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick
-import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick
-import org.catrobat.catroid.content.bricks.ChangeXByNBrick
-import org.catrobat.catroid.content.bricks.ChangeYByNBrick
-import org.catrobat.catroid.content.bricks.CloneBrick
-import org.catrobat.catroid.content.bricks.CopyLookBrick
-import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick
-import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick
-import org.catrobat.catroid.content.bricks.DroneMoveDownBrick
-import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick
-import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick
-import org.catrobat.catroid.content.bricks.DroneMoveRightBrick
-import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick
-import org.catrobat.catroid.content.bricks.DroneTurnRightBrick
-import org.catrobat.catroid.content.bricks.FinishStageBrick
-import org.catrobat.catroid.content.bricks.ForItemInUserListBrick
 import org.catrobat.catroid.content.bricks.ForVariableFromToBrick
-import org.catrobat.catroid.content.bricks.ForeverBrick
-import org.catrobat.catroid.content.bricks.GoNStepsBackBrick
-import org.catrobat.catroid.content.bricks.GoToBrick
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick
-import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick
-import org.catrobat.catroid.content.bricks.JumpingSumoMoveBackwardBrick
-import org.catrobat.catroid.content.bricks.JumpingSumoMoveForwardBrick
-import org.catrobat.catroid.content.bricks.JumpingSumoRotateLeftBrick
-import org.catrobat.catroid.content.bricks.JumpingSumoRotateRightBrick
-import org.catrobat.catroid.content.bricks.JumpingSumoSoundBrick
-import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick
-import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick
-import org.catrobat.catroid.content.bricks.LegoEv3PlayToneBrick
-import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick
-import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick
-import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick
-import org.catrobat.catroid.content.bricks.LookRequestBrick
-import org.catrobat.catroid.content.bricks.MoveNStepsBrick
 import org.catrobat.catroid.content.bricks.NoteBrick
-import org.catrobat.catroid.content.bricks.OpenUrlBrick
-import org.catrobat.catroid.content.bricks.PaintNewLookBrick
-import org.catrobat.catroid.content.bricks.PauseForBeatsBrick
-import org.catrobat.catroid.content.bricks.PhiroMotorMoveBackwardBrick
-import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick
-import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick
-import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick
-import org.catrobat.catroid.content.bricks.PlaceAtBrick
-import org.catrobat.catroid.content.bricks.PlayDrumForBeatsBrick
-import org.catrobat.catroid.content.bricks.PlayNoteForBeatsBrick
-import org.catrobat.catroid.content.bricks.PlaySoundAtBrick
-import org.catrobat.catroid.content.bricks.PointInDirectionBrick
-import org.catrobat.catroid.content.bricks.RaspiPwmBrick
-import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick
 import org.catrobat.catroid.content.bricks.RepeatBrick
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick
-import org.catrobat.catroid.content.bricks.ReportBrick
-import org.catrobat.catroid.content.bricks.RunningStitchBrick
-import org.catrobat.catroid.content.bricks.SceneStartBrick
-import org.catrobat.catroid.content.bricks.SceneTransitionBrick
-import org.catrobat.catroid.content.bricks.SetBackgroundByIndexAndWaitBrick
-import org.catrobat.catroid.content.bricks.SetBackgroundByIndexBrick
-import org.catrobat.catroid.content.bricks.SetBounceBrick
-import org.catrobat.catroid.content.bricks.SetBrightnessBrick
-import org.catrobat.catroid.content.bricks.SetCameraFocusPointBrick
-import org.catrobat.catroid.content.bricks.SetColorBrick
-import org.catrobat.catroid.content.bricks.SetFrictionBrick
-import org.catrobat.catroid.content.bricks.SetGravityBrick
-import org.catrobat.catroid.content.bricks.SetLookByIndexBrick
-import org.catrobat.catroid.content.bricks.SetMassBrick
-import org.catrobat.catroid.content.bricks.SetNfcTagBrick
-import org.catrobat.catroid.content.bricks.SetParticleColorBrick
-import org.catrobat.catroid.content.bricks.SetPenColorBrick
-import org.catrobat.catroid.content.bricks.SetPenSizeBrick
-import org.catrobat.catroid.content.bricks.SetSizeToBrick
-import org.catrobat.catroid.content.bricks.SetTempoBrick
-import org.catrobat.catroid.content.bricks.SetTextBrick
-import org.catrobat.catroid.content.bricks.SetThreadColorBrick
-import org.catrobat.catroid.content.bricks.SetTransparencyBrick
-import org.catrobat.catroid.content.bricks.SetVelocityBrick
-import org.catrobat.catroid.content.bricks.SetVolumeToBrick
-import org.catrobat.catroid.content.bricks.SetXBrick
-import org.catrobat.catroid.content.bricks.SetYBrick
-import org.catrobat.catroid.content.bricks.SewUpBrick
-import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick
-import org.catrobat.catroid.content.bricks.SpeakBrick
-import org.catrobat.catroid.content.bricks.StopScriptBrick
-import org.catrobat.catroid.content.bricks.TapAtBrick
-import org.catrobat.catroid.content.bricks.TapForBrick
-import org.catrobat.catroid.content.bricks.ThinkBubbleBrick
-import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick
-import org.catrobat.catroid.content.bricks.TouchAndSlideBrick
-import org.catrobat.catroid.content.bricks.TripleStitchBrick
-import org.catrobat.catroid.content.bricks.TurnLeftBrick
-import org.catrobat.catroid.content.bricks.TurnLeftSpeedBrick
-import org.catrobat.catroid.content.bricks.TurnRightBrick
-import org.catrobat.catroid.content.bricks.TurnRightSpeedBrick
-import org.catrobat.catroid.content.bricks.UserDataBrick
-import org.catrobat.catroid.content.bricks.UserListBrick
-import org.catrobat.catroid.content.bricks.VibrationBrick
-import org.catrobat.catroid.content.bricks.VisualPlacementBrick
-import org.catrobat.catroid.content.bricks.WaitBrick
-import org.catrobat.catroid.content.bricks.WaitTillIdleBrick
+import org.catrobat.catroid.content.bricks.UserVariableBrick
+import org.catrobat.catroid.content.bricks.UserVariableBrickWithFormula
 import org.catrobat.catroid.content.bricks.WaitUntilBrick
-import org.catrobat.catroid.content.bricks.WhenConditionBrick
-import org.catrobat.catroid.content.bricks.WriteEmbroideryToFileBrick
-import org.catrobat.catroid.content.bricks.ZigZagStitchBrick
 import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.formulaeditor.FormulaElement
+import org.catrobat.catroid.formulaeditor.Operators
+import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
-import org.catrobat.catroid.uiespresso.content.messagecontainer.BroadcastAndWaitBrickMessageContainerTest
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import java.io.Serializable
+import java.util.Random
 
 @RunWith(Parameterized::class)
 class ValueSerializationTest(
+    private val name: String,
     private val brick: Brick,
     private val expectedOutput: String
 ) {
     companion object {
+        private val testFormula1 = Formula(
+            FormulaElement(
+                FormulaElement.ElementType.OPERATOR,
+                Operators.EQUAL.name, null,
+                FormulaElement(FormulaElement.ElementType.NUMBER, "-12", null),
+                FormulaElement(FormulaElement.ElementType.NUMBER, "15", null)
+            )
+        )
+        private val testFormulaString1 = "-12 = 15"
+        private val testVariable = UserVariable("testVariable")
+
         @JvmStatic
         @Parameterized.Parameters(name = "{0}")
-        fun parameters(): List<Array<out Serializable>> {
-            val listOf = listOf(
-                arrayOf(BroadcastBrick("test"), "Broadcast (message: ('test'));\n"),
-                arrayOf(
-                    BroadcastWaitBrick("test"),
-                    "Broadcast and wait (message: ('test'));\n"
-                ),
-                arrayOf(
-                    ArduinoSendDigitalValueBrick(3, 1),
-                    "Set Arduino (digital pin: (3), value: (1));\n"
-                ),
+        fun parameters(): List<Array<out Serializable?>> {
+            return listOf(
+                arrayOf(BroadcastBrick::class.simpleName, BroadcastBrick("test"), "Broadcast (message: ('test'));\n"),
+                arrayOf(BroadcastWaitBrick::class.simpleName, BroadcastWaitBrick("test"), "Broadcast and wait (message: ('test'));\n"),
+                arrayOf(NoteBrick::class.simpleName, NoteBrick("a comment"), "// a comment\n"),
+                arrayOf(IfLogicBeginBrick::class.simpleName, IfLogicBeginBrick(testFormula1), "If (condition: ($testFormulaString1)) {\n} else {\n}\n"),
+                arrayOf(IfThenLogicBeginBrick::class.simpleName, IfThenLogicBeginBrick(testFormula1), "If (condition: ($testFormulaString1)) {\n}\n"),
+                arrayOf(WaitUntilBrick::class.simpleName, WaitUntilBrick(testFormula1), "Wait until (condition: ($testFormulaString1));\n"),
+                arrayOf(RepeatBrick::class.simpleName, RepeatBrick(testFormula1), "Repeat (times: ($testFormulaString1)) {\n}\n"),
+                arrayOf(RepeatUntilBrick::class.simpleName, RepeatUntilBrick(testFormula1), "Repeat until (condition: ($testFormulaString1)) {\n}\n"),
+                arrayOf(ForVariableFromToBrick::class.simpleName, ForVariableFromToBrick(5, 10), "For (value: (\"${testVariable.name}\"), from: (5), to: (10)) {\n}\n"),
 
-                // TODO: detailed CloneBrick Test
-                arrayOf(CloneBrick(), "Create clone of (actor or object: ());\n"),
 
-                // TODO: clarify with newline
-                arrayOf(NoteBrick("a comment"), "// a comment\n"),
 
-                // TODO: define a formula
-                arrayOf(IfLogicBeginBrick(), "If (condition: (0)) {\n} else {\n}\n"),
-                arrayOf(IfThenLogicBeginBrick(), "If (condition: (0)) {\n}\n"),
-                arrayOf(WaitUntilBrick(), "Wait until (condition: (0));\n"),
-                arrayOf(RepeatBrick(), "Repeat (times: (0)) {\n}\n"),
-                arrayOf(RepeatUntilBrick(), "Repeat until (condition: (0)) {\n}\n"),
-                arrayOf(ForVariableFromToBrick(), "For (value: (0), from: (0), to: (0)) {\n}\n"),
-                // TODO: UserDataBrick
-                arrayOf(
-                    ForItemInUserListBrick(),
-                    "For each value in list (value: (0), list: (0)) {\n}\n"
-                ),
-                // TODO: shoud testscene be escaped?
-                arrayOf(SceneTransitionBrick("testscene"), "Continue (scene: (testscene));\n"),
-                arrayOf(SceneTransitionBrick(), "Continue (scene: ());\n"),
-                arrayOf(SceneStartBrick("testscene"), "Start (scene: (testscene));\n"),
-                arrayOf(SceneStartBrick(), "Start (scene: ());\n"),
-                arrayOf(FinishStageBrick(), "Finish stage;\n"),
-                arrayOf(StopScriptBrick(0), "Stop (script: (this script));\n"),
-                arrayOf(StopScriptBrick(1), "Stop (script: (all scripts));\n"),
-                arrayOf(
-                    StopScriptBrick(2),
-                    "Stop (script: (other scripts of this actor or object));\n"
-                ),
-                arrayOf(WaitTillIdleBrick(), "Wait until all other scripts have stopped;\n"),
 
-                arrayOf(TapAtBrick(5, 9), "Single tap at (x: (5), y: (9));\n"),
-                arrayOf(
-                    TapForBrick(2, 3, 4.5),
-                    "Touch at position for seconds (x: (2), y: (3), seconds: (4.5));\n"
-                ),
-                arrayOf(
-                    TouchAndSlideBrick(2, 3, 4, 5, 6.7),
-                    "Touch at position and slide to position in seconds (start x: (2), start y: " +
-                        "(3), to x: (4), to y: (5), seconds: (6.7));\n"
-                ),
-                arrayOf(
-                    OpenUrlBrick("https://catrob.at"),
-                    "Open in browser (url: ('https://catrob.at'));\n"
-                ),
-                arrayOf(PlaceAtBrick(2, 3), "Place at (x: (2), y: (3));\n"),
-                arrayOf(SetXBrick(2), "Set (x: (2));\n"),
-                arrayOf(SetYBrick(2), "Set (y: (2));\n"),
-                arrayOf(ChangeXByNBrick(2), "Change x by (value: (2));\n"),
-                arrayOf(ChangeYByNBrick(2), "Change y by (value: (2));\n"),
 
-//                arrayOf(GoToBrick(), "Go to (target: ());\n"),
 
-                arrayOf(IfOnEdgeBounceBrick(), "If on edge, bounce;\n")
+
+//
+//                // TODO: UserDataBrick
+//                arrayOf(
+//                    ForItemInUserListBrick(),
+//                    "For each value in list (value: (0), list: (0)) {\n}\n"
+//                ),
+//                // TODO: shoud testscene be escaped?
+//                arrayOf(SceneTransitionBrick("testscene"), "Continue (scene: (testscene));\n"),
+//                arrayOf(SceneTransitionBrick(), "Continue (scene: ());\n"),
+//                arrayOf(SceneStartBrick("testscene"), "Start (scene: (testscene));\n"),
+//                arrayOf(SceneStartBrick(), "Start (scene: ());\n"),
+//                arrayOf(FinishStageBrick(), "Finish stage;\n"),
+//                arrayOf(StopScriptBrick(0), "Stop (script: (this script));\n"),
+//                arrayOf(StopScriptBrick(1), "Stop (script: (all scripts));\n"),
+//                arrayOf(
+//                    StopScriptBrick(2),
+//                    "Stop (script: (other scripts of this actor or object));\n"
+//                ),
+//                arrayOf(WaitTillIdleBrick(), "Wait until all other scripts have stopped;\n"),
+//
+//                arrayOf(TapAtBrick(5, 9), "Single tap at (x: (5), y: (9));\n"),
+//                arrayOf(
+//                    TapForBrick(2, 3, 4.5),
+//                    "Touch at position for seconds (x: (2), y: (3), seconds: (4.5));\n"
+//                ),
+//                arrayOf(
+//                    TouchAndSlideBrick(2, 3, 4, 5, 6.7),
+//                    "Touch at position and slide to position in seconds (start x: (2), start y: " +
+//                        "(3), to x: (4), to y: (5), seconds: (6.7));\n"
+//                ),
+//                arrayOf(
+//                    OpenUrlBrick("https://catrob.at"),
+//                    "Open in browser (url: ('https://catrob.at'));\n"
+//                ),
+//                arrayOf(PlaceAtBrick(2, 3), "Place at (x: (2), y: (3));\n"),
+//                arrayOf(SetXBrick(2), "Set (x: (2));\n"),
+//                arrayOf(SetYBrick(2), "Set (y: (2));\n"),
+//                arrayOf(ChangeXByNBrick(2), "Change x by (value: (2));\n"),
+//                arrayOf(ChangeYByNBrick(2), "Change y by (value: (2));\n"),
+//
+////                arrayOf(GoToBrick(), "Go to (target: ());\n"),
+//
+//                arrayOf(IfOnEdgeBounceBrick(), "If on edge, bounce;\n")
+//                arrayOf(
+//                    ArduinoSendDigitalValueBrick(3, 1),
+//                    "Set Arduino (digital pin: (3), value: (1));\n"
+//                ),
 
 //                arrayOf(ArduinoSendPWMValueBrick(), "Set Arduino (PWM~ pin: (0), value: (0));"),
 //                arrayOf(AssertEqualsBrick(), "Assert equals (actual: (0), expected: (0));"),
@@ -318,13 +227,39 @@ class ValueSerializationTest(
 //                arrayOf(WriteEmbroideryToFileBrick(), ""),
 //                arrayOf(ZigZagStitchBrick(), "")
             )
-            return listOf
         }
     }
+
+    @Before
+    fun setUp() {
+        if (brick is UserVariableBrickWithFormula) {
+            brick.userVariable = testVariable
+        }
+    }
+
 
     @Test
     fun testBasicCatrobatLanguageImplementation() {
         val actualOutput = brick.serializeToCatrobatLanguage(0)
         assertEquals(expectedOutput, actualOutput)
+    }
+
+    @Test
+    fun testDisabledBrick() {
+        val trimmedBaseValue = expectedOutput.substring(0, expectedOutput.length - 1)
+        brick.isCommentedOut = true
+        val actualOutput = brick.serializeToCatrobatLanguage(0)
+        brick.isCommentedOut = false
+        val newOutput = "/* $trimmedBaseValue */\n"
+        assertEquals(newOutput, actualOutput)
+    }
+
+    @Test
+    fun testIndention() {
+        val randomIndention = Random().nextInt(4) + 2
+        val indention = CatrobatLanguageUtils.getIndention(randomIndention)
+        val actualOutput = brick.serializeToCatrobatLanguage(randomIndention)
+        val newOutput = indention + expectedOutput.replace(Regex("\\n(?!\$)"), "\n$indention")
+        assertEquals(newOutput, actualOutput)
     }
 }

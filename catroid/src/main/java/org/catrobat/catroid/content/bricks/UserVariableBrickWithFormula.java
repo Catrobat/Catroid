@@ -139,9 +139,7 @@ public abstract class UserVariableBrickWithFormula extends FormulaBrick implemen
 		if (userVariable == null) {
 			catrobatLanguage.append("0");
 		} else {
-			catrobatLanguage.append("\"");
-			catrobatLanguage.append(userVariable.getName());
-			catrobatLanguage.append("\"");
+			catrobatLanguage.append(CatrobatLanguageUtils.Companion.formatVariable(userVariable.getName()));
 		}
 		catrobatLanguage.append("), ");
 

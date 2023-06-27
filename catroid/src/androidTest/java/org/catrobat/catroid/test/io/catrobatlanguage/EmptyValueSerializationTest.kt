@@ -191,6 +191,7 @@ import org.catrobat.catroid.content.bricks.TripleStitchBrick
 import org.catrobat.catroid.content.bricks.TurnLeftBrick
 import org.catrobat.catroid.content.bricks.TurnRightBrick
 import org.catrobat.catroid.content.bricks.VibrationBrick
+import org.catrobat.catroid.content.bricks.WaitBrick
 import org.catrobat.catroid.content.bricks.WaitTillIdleBrick
 import org.catrobat.catroid.content.bricks.WaitUntilBrick
 import org.catrobat.catroid.content.bricks.WebRequestBrick
@@ -220,27 +221,37 @@ import java.util.Random
 
 @RunWith(Parameterized::class)
 class EmptyValueSerializationTest(
+    private val name: String,
     private val brick: Brick,
     private val expectedOutput: String
 ) {
     companion object {
         @JvmStatic
         @Parameterized.Parameters(name = "{0}")
-        fun parameters(): List<Array<out Serializable>> {
-            val listOf = listOf(
-                arrayOf(BroadcastBrick(), "Broadcast (message: (''));\n"),
-                arrayOf(BroadcastWaitBrick(), "Broadcast and wait (message: (''));\n"),
-                arrayOf(CloneBrick(), "Create clone of (actor or object: ());\n"),
-                arrayOf(DeleteThisCloneBrick(), "Delete this clone;\n"),
-                // TODO: should be empty
-                arrayOf(NoteBrick(), "// 0\n"),
-                arrayOf(ForeverBrick(), "Forever {\n}\n"),
-                arrayOf(IfLogicBeginBrick(), "If (condition: (0)) {\n} else {\n}\n"),
-                arrayOf(IfThenLogicBeginBrick(), "If (condition: (0)) {\n}\n"),
-                arrayOf(WaitUntilBrick(), "Wait until (condition: (0));\n"),
-                arrayOf(RepeatBrick(), "Repeat (times: (0)) {\n}\n"),
-                arrayOf(RepeatUntilBrick(), "Repeat until (condition: (0)) {\n}\n"),
-                arrayOf(ForVariableFromToBrick(), "For (value: (0), from: (0), to: (0)) {\n}\n"),
+        fun parameters(): List<Array<Serializable?>> {
+            return listOf(
+                arrayOf(BroadcastBrick::class.simpleName, BroadcastBrick(), "Broadcast (message: (''));\n"),
+                arrayOf(BroadcastWaitBrick::class.simpleName, BroadcastWaitBrick(), "Broadcast and wait (message: (''));\n"),
+                arrayOf(DeleteThisCloneBrick::class.simpleName, DeleteThisCloneBrick(), "Delete this clone;\n"),
+                arrayOf(WaitBrick::class.simpleName, WaitBrick(), "Wait (seconds: (0));\n"),
+                arrayOf(NoteBrick::class.simpleName, NoteBrick(), "// 0\n"),
+                arrayOf(ForeverBrick::class.simpleName, ForeverBrick(), "Forever {\n}\n"),
+                arrayOf(IfLogicBeginBrick::class.simpleName, IfLogicBeginBrick(), "If (condition: (0)) {\n} else {\n}\n"),
+                arrayOf(IfThenLogicBeginBrick::class.simpleName, IfThenLogicBeginBrick(), "If (condition: (0)) {\n}\n"),
+                arrayOf(WaitUntilBrick::class.simpleName, WaitUntilBrick(), "Wait until (condition: (0));\n"),
+                arrayOf(RepeatBrick::class.simpleName, RepeatBrick(), "Repeat (times: (0)) {\n}\n"),
+                arrayOf(RepeatUntilBrick::class.simpleName, RepeatUntilBrick(), "Repeat until (condition: (0)) {\n}\n"),
+                arrayOf(ForVariableFromToBrick::class.simpleName, ForVariableFromToBrick(), "For (value: (0), from: (0), to: (0)) {\n}\n"),
+
+
+
+
+     /*
+
+
+
+
+
                 arrayOf(
                     ForItemInUserListBrick(),
                     "For each value in list (value: (0), list: (0)) {\n}\n"
@@ -463,9 +474,8 @@ class EmptyValueSerializationTest(
                 arrayOf(WhenRaspiPinChangedBrick(), "When Raspberry Pi pin changes to (pin: (), position: ()) {\n}\n"),
                 arrayOf(WhenBrick(), "When tapped {\n}\n"),
                 arrayOf(WhenStartedBrick(), "When scene starts {\n}\n"),
-                arrayOf(WhenNfcBrick(), "When NFC {\n}\n")
+                arrayOf(WhenNfcBrick(), "When NFC {\n}\n")*/
             )
-            return listOf as List<Array<out Serializable>>
         }
     }
 
@@ -475,20 +485,22 @@ class EmptyValueSerializationTest(
         assertEquals(expectedOutput, actualOutput)
     }
 
-//    @Test
-//    fun testDisabledBrick() {
-//        brick.isCommentedOut = true
-//        val actualOutput = brick.serializeToCatrobatLanguage(0)
-//        val newOutput = "/* $expectedOutput */"
-//        assertEquals(newOutput, actualOutput)
-//    }
-//
-//    @Test
-//    fun testIndention() {
-//        val randomIndention = Random().nextInt(4) + 2
-//        val indention = CatrobatLanguageUtils.getIndention(randomIndention)
-//        val actualOutput = brick.serializeToCatrobatLanguage(randomIndention)
-//        val newOutput = "$indention$expectedOutput"
-//        assertEquals(newOutput, actualOutput)
-//    }
+    @Test
+    fun testDisabledBrick() {
+        val trimmedBaseValue = expectedOutput.substring(0, expectedOutput.length - 1)
+        brick.isCommentedOut = true
+        val actualOutput = brick.serializeToCatrobatLanguage(0)
+        brick.isCommentedOut = false
+        val newOutput = "/* $trimmedBaseValue */\n"
+        assertEquals(newOutput, actualOutput)
+    }
+
+    @Test
+    fun testIndention() {
+        val randomIndention = Random().nextInt(4) + 2
+        val indention = CatrobatLanguageUtils.getIndention(randomIndention)
+        val actualOutput = brick.serializeToCatrobatLanguage(randomIndention)
+        val newOutput = indention + expectedOutput.replace(Regex("\\n(?!\$)"), "\n$indention")
+        assertEquals(newOutput, actualOutput)
+    }
 }

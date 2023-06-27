@@ -304,10 +304,21 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 		StringBuilder catrobatLanguage = new StringBuilder();
 		catrobatLanguage.append(indention);
+
+		if (commentedOut) {
+			catrobatLanguage.append("/* ");
+		}
+
 		catrobatLanguage.append(getCatrobatLanguageCommand());
 		catrobatLanguage.append(" (");
 		appendCatrobatLanguageArguments(catrobatLanguage);
-		catrobatLanguage.append(");\n");
+		catrobatLanguage.append(");");
+
+		if (commentedOut) {
+			catrobatLanguage.append(" */");
+		}
+
+		catrobatLanguage.append("\n");
 		return catrobatLanguage.toString();
 	}
 }

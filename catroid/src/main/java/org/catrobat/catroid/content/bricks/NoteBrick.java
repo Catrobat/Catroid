@@ -68,6 +68,11 @@ public class NoteBrick extends FormulaBrick implements OnClickListener {
 
 		StringBuilder catrobatLanguage = new StringBuilder();
 		catrobatLanguage.append(indention);
+
+		if (commentedOut) {
+			catrobatLanguage.append("/* ");
+		}
+
 		catrobatLanguage.append(getCatrobatLanguageCommand());
 		catrobatLanguage.append(" ");
 
@@ -78,8 +83,12 @@ public class NoteBrick extends FormulaBrick implements OnClickListener {
 		} else {
 			catrobatLanguage.append(formulaString);
 		}
-		catrobatLanguage.append("\n");
 
+		if (commentedOut) {
+			catrobatLanguage.append(" */");
+		}
+
+		catrobatLanguage.append("\n");
 		return catrobatLanguage.toString();
 	}
 }

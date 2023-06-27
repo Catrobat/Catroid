@@ -117,15 +117,18 @@ public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSele
 	@NonNull
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+		Object selectedElement = spinner.getSelection();
+		return getCatrobatLanguageSpinnerCall(indentionLevel, "actor or object",
+				spinner.getItems().indexOf(selectedElement));
+	}
 
-		StringBuilder catrobatLanguage = new StringBuilder();
-		catrobatLanguage.append(indention);
-		catrobatLanguage.append(getCatrobatLanguageCommand());
-		catrobatLanguage.append(" (actor or object: (");
-		catrobatLanguage.append(objectToClone != null ? objectToClone.getName() : "");
-		catrobatLanguage.append("));\n");
-
-		return catrobatLanguage.toString();
+	@Override
+	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
+		if (spinnerIndex == 0) {
+			return "yourself";
+		}
+		return CatrobatLanguageUtils.Companion.formatActorOrObject(
+				(spinner.getItems().get(spinnerIndex)).getName()
+		);
 	}
 }
