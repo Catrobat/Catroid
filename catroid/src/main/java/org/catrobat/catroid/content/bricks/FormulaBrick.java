@@ -41,6 +41,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
 import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
@@ -49,11 +50,9 @@ import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
-import java.util.SortedMap;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
@@ -62,7 +61,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
-public abstract class FormulaBrick extends BrickBaseType implements View.OnClickListener {
+public abstract class FormulaBrick extends BrickBaseType implements View.OnClickListener, CatrobatLanguageAttributes {
 
 	@XStreamAlias("formulaList")
 	ConcurrentFormulaHashMap formulaMap = new ConcurrentFormulaHashMap();
@@ -271,7 +270,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		return !brickFieldToTextViewIdMap.isEmpty();
 	}
 
-	protected void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
+	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
 		Set<FormulaField> formulaFieldSet = catrobatLanguageFormulaParameters.keySet();
 		FormulaField[] formulas = formulaFieldSet.toArray(new FormulaField[formulaFieldSet.size()]);
 		int numberOfFormulas = formulas.length;

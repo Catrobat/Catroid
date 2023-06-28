@@ -49,8 +49,8 @@ public class ForItemInUserListBrick extends UserDataBrick implements CompositeBr
 	private List<Brick> loopBricks = new ArrayList<>();
 
 	public ForItemInUserListBrick() {
-		addAllowedBrickData(BrickData.FOR_ITEM_IN_USERLIST_LIST, R.id.for_item_in_userlist_list_spinner);
-		addAllowedBrickData(BrickData.FOR_ITEM_IN_USERLIST_VARIABLE, R.id.for_item_in_userlist_variable_spinner);
+		addAllowedBrickData(BrickData.FOR_ITEM_IN_USERLIST_VARIABLE, R.id.for_item_in_userlist_variable_spinner, "value");
+		addAllowedBrickData(BrickData.FOR_ITEM_IN_USERLIST_LIST, R.id.for_item_in_userlist_list_spinner, "list");
 	}
 
 	@Override
@@ -225,26 +225,13 @@ public class ForItemInUserListBrick extends UserDataBrick implements CompositeBr
 	@NonNull
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+		StringBuilder catrobatLanguage = getCatrobatLanguageParameterizedCall(indentionLevel, true);
 
-		StringBuilder catrobatLanguage = new StringBuilder();
-		catrobatLanguage.append(indention);
-		catrobatLanguage.append(getCatrobatLanguageCommand());
+		for (Brick brick : loopBricks) {
+			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
+		}
 
-		// TODO: implement
-		catrobatLanguage.append(" (value: (");
-//		if (userVariable == null) {
-//			catrobatLanguage.append("0");
-//		} else {
-//			catrobatLanguage.append("\"");
-//			catrobatLanguage.append(userVariable.getName());
-//			catrobatLanguage.append("\"");
-//		}
-		catrobatLanguage.append("), ");
-
-		appendCatrobatLanguageArguments(catrobatLanguage);
-		catrobatLanguage.append(")");
-
+		getCatrobatLanguageBodyClose(catrobatLanguage, indentionLevel);
 		return catrobatLanguage.toString();
 	}
 }

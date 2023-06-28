@@ -26,12 +26,15 @@ package org.catrobat.catroid.test.io.catrobatlanguage
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.BroadcastBrick
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick
+import org.catrobat.catroid.content.bricks.ForItemInUserListBrick
 import org.catrobat.catroid.content.bricks.ForVariableFromToBrick
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick
 import org.catrobat.catroid.content.bricks.NoteBrick
 import org.catrobat.catroid.content.bricks.RepeatBrick
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick
+import org.catrobat.catroid.content.bricks.SceneStartBrick
+import org.catrobat.catroid.content.bricks.SceneTransitionBrick
 import org.catrobat.catroid.content.bricks.UserVariableBrick
 import org.catrobat.catroid.content.bricks.UserVariableBrickWithFormula
 import org.catrobat.catroid.content.bricks.WaitUntilBrick
@@ -79,23 +82,14 @@ class ValueSerializationTest(
                 arrayOf(RepeatBrick::class.simpleName, RepeatBrick(testFormula1), "Repeat (times: ($testFormulaString1)) {\n}\n"),
                 arrayOf(RepeatUntilBrick::class.simpleName, RepeatUntilBrick(testFormula1), "Repeat until (condition: ($testFormulaString1)) {\n}\n"),
                 arrayOf(ForVariableFromToBrick::class.simpleName, ForVariableFromToBrick(5, 10), "For (value: (\"${testVariable.name}\"), from: (5), to: (10)) {\n}\n"),
+                arrayOf(SceneTransitionBrick::class.simpleName, SceneTransitionBrick("testscene"), "Continue (scene: ('testscene'));\n"),
+                arrayOf(SceneStartBrick::class.simpleName, SceneStartBrick("testscene"), "Start (scene: ('testscene'));\n"),
 
 
 
 
 
 
-
-//
-//                // TODO: UserDataBrick
-//                arrayOf(
-//                    ForItemInUserListBrick(),
-//                    "For each value in list (value: (0), list: (0)) {\n}\n"
-//                ),
-//                // TODO: shoud testscene be escaped?
-//                arrayOf(SceneTransitionBrick("testscene"), "Continue (scene: (testscene));\n"),
-//                arrayOf(SceneTransitionBrick(), "Continue (scene: ());\n"),
-//                arrayOf(SceneStartBrick("testscene"), "Start (scene: (testscene));\n"),
 //                arrayOf(SceneStartBrick(), "Start (scene: ());\n"),
 //                arrayOf(FinishStageBrick(), "Finish stage;\n"),
 //                arrayOf(StopScriptBrick(0), "Stop (script: (this script));\n"),

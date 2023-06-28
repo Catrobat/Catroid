@@ -23,22 +23,6 @@
 
 package org.catrobat.catroid.io.catlang
 
-class CatrobatLanguageUtils {
-    companion object {
-        fun getIndention (level: Int): String {
-            return " ".repeat(level * 2);
-        }
-
-        fun formatActorOrObject (actorOrObjectName: String): String {
-            return "'$actorOrObjectName'"
-        }
-
-        fun formatVariable (variableName: String): String {
-            return "\"$variableName\""
-        }
-
-        fun formatList (listName: String): String {
-            return "*$listName*"
-        }
-    }
+interface CatrobatLanguageAttributes {
+    fun appendCatrobatLanguageArguments(brickBuilder: StringBuilder?)
 }

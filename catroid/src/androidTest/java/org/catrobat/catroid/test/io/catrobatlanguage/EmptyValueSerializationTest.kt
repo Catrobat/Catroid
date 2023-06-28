@@ -242,7 +242,12 @@ class EmptyValueSerializationTest(
                 arrayOf(RepeatBrick::class.simpleName, RepeatBrick(), "Repeat (times: (0)) {\n}\n"),
                 arrayOf(RepeatUntilBrick::class.simpleName, RepeatUntilBrick(), "Repeat until (condition: (0)) {\n}\n"),
                 arrayOf(ForVariableFromToBrick::class.simpleName, ForVariableFromToBrick(), "For (value: (0), from: (0), to: (0)) {\n}\n"),
-
+                arrayOf(ForItemInUserListBrick::class.simpleName, ForItemInUserListBrick(), "For each value in list (value: (0), list: (0)) {\n}\n"),
+                arrayOf(SceneTransitionBrick::class.simpleName, SceneTransitionBrick(), "Continue (scene: ());\n"),
+                arrayOf(SceneStartBrick::class.simpleName, SceneStartBrick(), "Start (scene: ());\n"),
+                arrayOf(FinishStageBrick::class.simpleName, FinishStageBrick(), "Finish stage;\n"),
+                arrayOf(StopScriptBrick::class.simpleName, StopScriptBrick(), "Stop (script: (this script));\n"),
+                arrayOf(WaitTillIdleBrick::class.simpleName, WaitTillIdleBrick(), "Wait until all other scripts have stopped;\n"),
 
 
 
@@ -252,15 +257,12 @@ class EmptyValueSerializationTest(
 
 
 
-                arrayOf(
-                    ForItemInUserListBrick(),
-                    "For each value in list (value: (0), list: (0)) {\n}\n"
-                ),
-                arrayOf(SceneTransitionBrick(), "Continue (scene: ());\n"),
-                arrayOf(SceneStartBrick(), "Start (scene: ());\n"),
-                arrayOf(FinishStageBrick(), "Finish stage;\n"),
-                arrayOf(StopScriptBrick(), "Stop (script: (this script));\n"),
-                arrayOf(WaitTillIdleBrick(), "Wait until all other scripts have stopped;\n"),
+
+
+
+
+
+
                 arrayOf(TapAtBrick(), "Single tap at (x: (0), y: (0));\n"),
                 arrayOf(
                     TapForBrick(),

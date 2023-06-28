@@ -32,7 +32,8 @@ import android.widget.Spinner;
 import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.io.catlang.CatblocksLanguageSerializable;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageSerializable;
 import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
@@ -48,7 +49,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public abstract class BrickBaseType implements Brick, CatblocksLanguageSerializable {
+public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -405,10 +406,10 @@ public abstract class BrickBaseType implements Brick, CatblocksLanguageSerializa
 
 		catrobatLanguage.append(getCatrobatLanguageCommand());
 
-		if (this instanceof FormulaBrick) {
-			FormulaBrick formulaBrick = (FormulaBrick) this;
+		if (this instanceof CatrobatLanguageAttributes) {
+			CatrobatLanguageAttributes brick = (CatrobatLanguageAttributes) this;
 			catrobatLanguage.append(" (");
-			formulaBrick.appendCatrobatLanguageArguments(catrobatLanguage);
+			brick.appendCatrobatLanguageArguments(catrobatLanguage);
 			catrobatLanguage.append(")");
 		}
 

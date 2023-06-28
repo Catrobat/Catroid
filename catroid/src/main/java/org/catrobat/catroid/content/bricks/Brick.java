@@ -29,7 +29,7 @@ import android.widget.CheckBox;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.io.catlang.CatblocksLanguageSerializable;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageSerializable;
 
 import java.io.Serializable;
 import java.lang.annotation.Retention;
@@ -40,7 +40,7 @@ import java.util.UUID;
 
 import androidx.annotation.IntDef;
 
-public interface Brick extends Serializable, Cloneable, CatblocksLanguageSerializable {
+public interface Brick extends Serializable, Cloneable, CatrobatLanguageSerializable {
 
 	interface FormulaField extends Serializable {
 	}

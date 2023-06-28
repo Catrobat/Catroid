@@ -23,6 +23,6 @@
 
 package org.catrobat.catroid.io.catlang
 
-interface CatblocksLanguageSerializable {
+interface CatrobatLanguageSerializable {
     fun serializeToCatrobatLanguage (indentionLevel: Int): String;
 }

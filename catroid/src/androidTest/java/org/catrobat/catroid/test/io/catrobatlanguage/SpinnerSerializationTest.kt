@@ -39,6 +39,10 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.CloneBrick
+import org.catrobat.catroid.content.bricks.ForItemInUserListBrick
+import org.catrobat.catroid.content.bricks.SceneStartBrick
+import org.catrobat.catroid.content.bricks.SceneTransitionBrick
+import org.catrobat.catroid.content.bricks.StopScriptBrick
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
@@ -50,7 +54,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import java.io.File
-import kotlin.random.Random
 
 class SpinnerSerializationTest {
     private lateinit var startScript: StartScript;
@@ -86,44 +89,119 @@ class SpinnerSerializationTest {
         )
     }
 
+    @Test
+    fun testForItemInUserListBrick() {
+        executeTest(
+            R.id.for_item_in_userlist_list_spinner,
+            ForItemInUserListBrick(),
+            "For each value in list (value: (\"var1\"), list: (*list1*)) {\n}\n",
+            mapOf(
+                "list2" to "For each value in list (value: (\"var1\"), list: (*list2*)) {\n}\n",
+                "list3" to "For each value in list (value: (\"var1\"), list: (*list3*)) {\n}\n"
+            ),
+            R.id.for_item_in_userlist_variable_spinner,
+            mapOf(
+                "var2" to "For each value in list (value: (\"var2\"), list: (*list3*)) {\n}\n",
+                "var3" to "For each value in list (value: (\"var3\"), list: (*list3*)) {\n}\n"
+            )
+        )
+    }
+
+    @Test
+    fun testSceneTransitionBrick() {
+        executeTest(
+            R.id.brick_scene_transition_spinner,
+            SceneTransitionBrick(),
+            "Continue (scene: ('s1'));\n",
+            mapOf(
+                "s2" to "Continue (scene: ('s2'));\n",
+                "s3" to "Continue (scene: ('s3'));\n",
+            )
+        )
+    }
+
+    @Test
+    fun testSceneStartBrick() {
+        // TODO: where does 'Scene' come from?
+        executeTest(
+            R.id.brick_scene_start_spinner,
+            SceneStartBrick(),
+            "Start (scene: ('s1'));\n",
+            mapOf(
+                "s2" to "Start (scene: ('s2'));\n",
+                "s3" to "Start (scene: ('s3'));\n",
+            )
+        )
+    }
+
+    @Test
+    fun testStopScriptBrick() {
+        executeTest(
+            R.id.brick_stop_script_spinner,
+            StopScriptBrick(),
+            "Stop (script: (this script));\n",
+            mapOf(
+                "all scripts" to "Stop (script: (all scripts));\n",
+                "other scripts of this actor or object" to "Stop (script: (other scripts of this actor or object));\n",
+            )
+        )
+    }
+
     private fun executeTest(
         @IdRes brickSpinnerId: Int,
         brick: Brick,
         defaultValue: String,
-        mapOf: Map<String, String>
+        expectedValues: Map<String, String>,
+        @IdRes secondSpinerId: Int? = null,
+        secondExpectedValues: Map<String, String>? = null
     ) {
         startScript.addBrick(brick)
         baseActivityTestRule.launchActivity()
 
         val initialValue = brick.serializeToCatrobatLanguage(0)
-        Assert.assertEquals(initialValue, defaultValue)
+        Assert.assertEquals(defaultValue, initialValue)
 
         testIndentAndComment(brick, defaultValue)
 
-        for ((key, value) in mapOf) {
+        for ((key, value) in expectedValues) {
             onView(withId(brickSpinnerId)).perform(click())
             onView(withText(key)).perform(click())
 
             val newValue = brick.serializeToCatrobatLanguage(0)
-            Assert.assertEquals(newValue, value)
+            Assert.assertEquals(value, newValue)
+        }
+
+        if (secondSpinerId != null && secondExpectedValues != null) {
+            for ((key, value) in secondExpectedValues) {
+                onView(withId(secondSpinerId)).perform(click())
+                onView(withText(key)).perform(click())
+
+                val newValue = brick.serializeToCatrobatLanguage(0)
+                Assert.assertEquals(value, newValue)
+            }
         }
     }
 
     private fun testIndentAndComment(brick: Brick, baseValue: String) {
+        testDisabledBrick(brick, baseValue)
+        testIndention(brick, baseValue)
+    }
+
+    private fun testDisabledBrick(brick: Brick, expectedOutput: String) {
+        val trimmedBaseValue = expectedOutput.substring(0, expectedOutput.length - 1)
         brick.isCommentedOut = true
-
-        val trimmedBaseValue = baseValue.substring(0, baseValue.length - 1)
-        val disabledValue = brick.serializeToCatrobatLanguage(0)
-        Assert.assertEquals("/* $trimmedBaseValue */\n", disabledValue)
-
-        val randomIndent = Random.nextInt(2, 10)
-        val disabledIndent = brick.serializeToCatrobatLanguage(randomIndent)
-        val indent = CatrobatLanguageUtils.getIndention(randomIndent)
-        Assert.assertEquals("$indent/* $trimmedBaseValue */\n", disabledIndent)
-
+        val actualOutput = brick.serializeToCatrobatLanguage(0)
         brick.isCommentedOut = false
-        val enabledValue = brick.serializeToCatrobatLanguage(randomIndent)
-        Assert.assertEquals("$indent$baseValue", enabledValue)
+        val newOutput = "/* $trimmedBaseValue */\n"
+        Assert.assertEquals(newOutput, actualOutput)
+    }
+
+    private fun testIndention(brick: Brick, expectedOutput: String) {
+        val randomIndention = java.util.Random().nextInt(4) + 2
+        val indention = CatrobatLanguageUtils.getIndention(randomIndention)
+        val actualOutput = brick.serializeToCatrobatLanguage(randomIndention)
+        val newOutput = indention + expectedOutput.replace(Regex("\\n(?!\$)"), "\n$indention")
+        Assert.assertEquals(newOutput, actualOutput)
     }
 
     private fun createProject() {
