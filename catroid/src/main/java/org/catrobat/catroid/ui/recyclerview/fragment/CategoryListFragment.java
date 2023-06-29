@@ -193,6 +193,9 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_sensor_altitude);
 	private static final List<Integer> SENSOR_USER_LANGUAGE =
 			Collections.singletonList(R.string.formula_editor_sensor_user_language);
+
+	private static final List<Integer> SENSOR_DEVICE_OS =
+			Collections.singletonList(R.string.formula_editor_sensor_device_operating_system);
 	private static final List<Integer> SENSORS_TOUCH = asList(R.string.formula_editor_function_finger_x,
 			R.string.formula_editor_function_finger_y, R.string.formula_editor_function_is_finger_touching,
 			R.string.formula_editor_function_multi_finger_x, R.string.formula_editor_function_multi_finger_y,
@@ -992,6 +995,9 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 				: Collections.emptyList());
 		deviceSensorItems.addAll(toCategoryListItems(SENSORS_GPS));
 		deviceSensorItems.addAll(toCategoryListItems(SENSOR_USER_LANGUAGE));
+		if (SettingsFragment.isTestSharedPreferenceEnabled(getActivity())) {
+			deviceSensorItems.addAll(toCategoryListItems(SENSOR_DEVICE_OS));
+		}
 
 		return addHeader(deviceSensorItems, getString(R.string.formula_editor_device_sensors));
 	}
