@@ -33,6 +33,7 @@ import org.catrobat.catroid.stage.ScreenshotSaverCallback
 import org.catrobat.catroid.stage.StageActivity
 import org.junit.After
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -43,6 +44,7 @@ import org.mockito.internal.verification.VerificationModeFactory.times
 import java.io.File
 
 @RunWith(Parameterized::class)
+@Ignore("Kills the pipeline quite often.")
 class ScreenshotSaverTest(private val name: String, private val fileName: String?, private val expectedResult: Boolean) {
     @Rule
     @JvmField

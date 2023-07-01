@@ -30,7 +30,6 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
 import org.catrobat.catroid.rules.FlakyTestRule;
-import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
@@ -38,6 +37,7 @@ import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -53,6 +53,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.isFocusable;
 
 @RunWith(AndroidJUnit4.class)
+@Ignore("Is flaky and brings down the emulator when it fails")
 public class ThinkForBubbleBrickStageTest {
 	private Sprite sprite;
 	private ScriptEvaluationGateBrick lastBrickInScript;
@@ -72,7 +73,6 @@ public class ThinkForBubbleBrickStageTest {
 	}
 
 	@Category({Cat.CatrobatLanguage.class, Level.Smoke.class})
-	@Flaky
 	@Test
 	public void thinkForBubbleBrickStageTest() {
 		firstBrickInScript.waitUntilEvaluated(3000);

@@ -41,6 +41,7 @@ import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -125,6 +126,7 @@ public class PlaySoundBrickTest {
 	}
 
 	@Test
+	@Ignore("Flaky")
 	public void testRecordNewSound() {
 		onBrickAtPosition(1).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);

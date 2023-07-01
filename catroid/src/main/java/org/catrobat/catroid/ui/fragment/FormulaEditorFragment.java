@@ -154,6 +154,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	private CategoryListRVAdapter.CategoryListItem chosenCategoryItem = null;
 	private UserData<?> chosenUserDataItem = null;
+	private FormulaEditorComputeDialog computeDialog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -685,8 +686,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 					}
 				}
 				Formula formulaToCompute = new Formula(formulaElement);
-				FormulaEditorComputeDialog computeDialog =
-						new FormulaEditorComputeDialog(getActivity(), generateScope());
+				computeDialog = new FormulaEditorComputeDialog(getActivity(), generateScope());
 				computeDialog.setFormula(formulaToCompute);
 				computeDialog.show();
 			}
@@ -1109,5 +1109,16 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	public void onDetach() {
 		addTabLayout(getActivity(), FRAGMENT_SCRIPTS);
 		super.onDetach();
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if (formulaEditorEditText != null) {
+			formulaEditorEditText.dismissPopupMenu();
+		}
+		if (computeDialog != null) {
+			computeDialog.dismiss();
+		}
 	}
 }
