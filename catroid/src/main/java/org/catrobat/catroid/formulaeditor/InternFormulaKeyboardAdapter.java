@@ -238,6 +238,8 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.ALTITUDE);
 			case R.string.formula_editor_sensor_user_language:
 				return buildSensor(Sensors.USER_LANGUAGE);
+			case R.string.formula_editor_device_model:
+				return buildSensor(Sensors.DEVICE_MODEL);
 			case R.string.formula_editor_sensor_x_inclination:
 				return buildSensor(Sensors.X_INCLINATION);
 			case R.string.formula_editor_sensor_y_inclination:
