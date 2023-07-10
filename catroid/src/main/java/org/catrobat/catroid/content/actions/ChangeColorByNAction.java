@@ -40,7 +40,7 @@ public class ChangeColorByNAction extends TemporalAction {
 
 	protected void update(float delta) {
 		try {
-			float eightBitColor = color == null ? 25 : color.interpretFloat(scope);
+			float eightBitColor = color == null ? 25 : color.getInterpreter().interpretFloat(scope);
 			scope.getSprite().look.changeColorInUserInterfaceDimensionUnit(eightBitColor);
 		} catch (InterpretationException interpretationException) {
 			Log.d(TAG, "		Formula interpretation for this specific Brick failed.", interpretationException);

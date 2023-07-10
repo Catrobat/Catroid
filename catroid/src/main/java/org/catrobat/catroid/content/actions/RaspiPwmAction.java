@@ -51,7 +51,7 @@ public class RaspiPwmAction extends TemporalAction {
 	protected void begin() {
 		try {
 			pinInterpretation = pinNumberFormula == null ? Integer.valueOf(0)
-					: pinNumberFormula.interpretInteger(scope);
+					: pinNumberFormula.getInterpreter().interpretInteger(scope);
 		} catch (InterpretationException interpretationException) {
 			pinInterpretation = 0;
 			Log.d(TAG, "Formula interpretation for this specific Brick failed. (pin)",
@@ -60,7 +60,7 @@ public class RaspiPwmAction extends TemporalAction {
 
 		try {
 			frequencyInterpretation = pwmFrequencyFormula == null ? Double.valueOf(0) : pwmFrequencyFormula
-					.interpretDouble(scope);
+					.getInterpreter().interpretDouble(scope);
 		} catch (InterpretationException interpretationException) {
 			frequencyInterpretation = 0;
 			Log.d(TAG, "Formula interpretation for this specific Brick failed. (frequency)",
@@ -69,7 +69,7 @@ public class RaspiPwmAction extends TemporalAction {
 
 		try {
 			percentageInterpretation = pwmPercentageFormula == null ? Double.valueOf(0) : pwmPercentageFormula
-					.interpretDouble(scope);
+					.getInterpreter().interpretDouble(scope);
 		} catch (InterpretationException interpretationException) {
 			percentageInterpretation = 0;
 			Log.d(TAG, "Formula interpretation for this specific Brick failed. (percentage)",

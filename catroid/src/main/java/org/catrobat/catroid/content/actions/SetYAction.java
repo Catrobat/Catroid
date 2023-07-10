@@ -38,7 +38,7 @@ public class SetYAction extends TemporalAction {
 	@Override
 	protected void update(float delta) {
 		try {
-			Float newY = yPosition == null ? Float.valueOf(0f) : yPosition.interpretFloat(scope);
+			Float newY = yPosition == null ? Float.valueOf(0f) : yPosition.getInterpreter().interpretFloat(scope);
 			scope.getSprite().look.setYInUserInterfaceDimensionUnit(newY);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);

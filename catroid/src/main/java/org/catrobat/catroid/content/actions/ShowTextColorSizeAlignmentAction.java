@@ -54,10 +54,10 @@ public class ShowTextColorSizeAlignmentAction extends TemporalAction {
 	@Override
 	protected void begin() {
 		try {
-			int xPosition = this.xPosition.interpretInteger(scope);
-			int yPosition = this.yPosition.interpretInteger(scope);
-			float relativeTextSize = this.relativeTextSize.interpretFloat(scope) / 100;
-			String color = this.color.interpretString(scope);
+			int xPosition = this.xPosition.getInterpreter().interpretInteger(scope);
+			int yPosition = this.yPosition.getInterpreter().interpretInteger(scope);
+			float relativeTextSize = this.relativeTextSize.getInterpreter().interpretFloat(scope) / 100;
+			String color = this.color.getInterpreter().interpretString(scope);
 			if (StageActivity.stageListener != null) {
 				Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
 				ShowTextActor dummyActor = new ShowTextActor(new UserVariable("dummyActor"), 0,
@@ -88,8 +88,8 @@ public class ShowTextColorSizeAlignmentAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
 		try {
-			int xPosition = this.xPosition.interpretInteger(scope);
-			int yPosition = this.yPosition.interpretInteger(scope);
+			int xPosition = this.xPosition.getInterpreter().interpretInteger(scope);
+			int yPosition = this.yPosition.getInterpreter().interpretInteger(scope);
 
 			if (actor != null) {
 				actor.setPositionX(xPosition);

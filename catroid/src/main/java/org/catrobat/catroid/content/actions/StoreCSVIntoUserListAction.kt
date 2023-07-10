@@ -70,7 +70,7 @@ class StoreCSVIntoUserListAction : TemporalAction() {
 
     fun interpretCSVData(formulaCSVData: Formula?): String? {
         return try {
-            formulaCSVData?.interpretString(scope)
+            formulaCSVData?.interpreter?.interpretString(scope)
         } catch (exception: InterpretationException) {
             Log.d(javaClass.simpleName, "Couldn't interpret formula", exception)
             null
@@ -79,7 +79,7 @@ class StoreCSVIntoUserListAction : TemporalAction() {
 
     fun interpretColumnToExtract(formulaColumnToExtract: Formula?): Int? {
         return try {
-            formulaColumnToExtract?.interpretInteger(scope)
+            formulaColumnToExtract?.interpreter?.interpretInteger(scope)
         } catch (exception: InterpretationException) {
             Log.d(javaClass.simpleName, "Couldn't interpret formula", exception)
             null

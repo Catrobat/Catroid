@@ -169,9 +169,9 @@ public class XstreamSerializerTest {
 		Formula actualSize = ((FormulaBrick) postSpriteList.get(1).getScript(0).getBrickList().get(2))
 				.getFormulaWithBrickField(Brick.BrickField.SIZE);
 
-		assertEquals(size, actualSize.interpretFloat(null));
-		assertEquals(xPosition, actualXPosition.interpretFloat(null).intValue());
-		assertEquals(yPosition, actualYPosition.interpretFloat(null).intValue());
+		assertEquals(size, actualSize.getInterpreter().interpretFloat(null));
+		assertEquals(xPosition, actualXPosition.getInterpreter().interpretFloat(null).intValue());
+		assertEquals(yPosition, actualYPosition.getInterpreter().interpretFloat(null).intValue());
 	}
 
 	@Test

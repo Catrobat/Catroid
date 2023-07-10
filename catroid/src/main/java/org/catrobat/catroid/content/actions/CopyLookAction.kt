@@ -69,7 +69,7 @@ class CopyLookAction : Action() {
         val formula = formula ?: return
         val currentLookData = sprite.look?.lookData ?: return
         val currentLookDataFile = sprite.look?.lookData?.file ?: return
-        var lookDataName = formula.interpretObject(scope).toString()
+        var lookDataName = formula.interpreter.interpretObject(scope).toString()
         val currentLookDataIndex = sprite.lookList.indexOf(sprite.look.lookData)
         val currentScene = ProjectManager.getInstance().currentlyPlayingScene
         lookDataName = UniqueNameProvider().getUniqueNameInNameables(lookDataName, sprite.lookList)

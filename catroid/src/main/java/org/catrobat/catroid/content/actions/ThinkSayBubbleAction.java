@@ -61,7 +61,7 @@ public class ThinkSayBubbleAction extends TemporalAction {
 
 	public ShowBubbleActor createBubbleActor(AndroidStringProvider stringProvider)
 			throws InterpretationException {
-		String textToDisplay = text == null ? "" : text.getUserFriendlyString(stringProvider, scope);
+		String textToDisplay = text == null ? "" : text.getInterpreter().getUserFriendlyString(stringProvider, scope);
 		if (textToDisplay.isEmpty()) {
 			return null;
 		}

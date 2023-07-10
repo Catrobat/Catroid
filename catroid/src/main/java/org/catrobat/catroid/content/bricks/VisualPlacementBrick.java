@@ -108,8 +108,8 @@ public abstract class VisualPlacementBrick extends FormulaBrick {
 			ProjectManager projectManager = ProjectManager.getInstance();
 			Scope scope = new Scope(projectManager.getCurrentProject(),
 					projectManager.getCurrentSprite(), null);
-			xValue = formulax.interpretInteger(scope);
-			yValue = formulay.interpretInteger(scope);
+			xValue = formulax.getInterpreter().interpretInteger(scope);
+			yValue = formulay.getInterpreter().interpretInteger(scope);
 		} catch (InterpretationException interpretationException) {
 			xValue = 0;
 			yValue = 0;

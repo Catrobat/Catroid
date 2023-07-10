@@ -38,7 +38,7 @@ class DeleteItemOfUserListAction : TemporalAction() {
         val listSize = userList?.value?.size.takeUnless { it == 0 } ?: return
 
         val indexToDelete = try {
-            formulaIndexToDelete?.interpretInteger(scope)?.minus(1) ?: 0
+            formulaIndexToDelete?.interpreter?.interpretInteger(scope)?.minus(1) ?: 0
         } catch (exception: InterpretationException) {
             Log.e(javaClass.simpleName, "Interpreting formula as integer failed", exception)
             -1

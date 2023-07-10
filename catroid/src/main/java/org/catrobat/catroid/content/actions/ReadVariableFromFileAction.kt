@@ -105,7 +105,7 @@ class ReadVariableFromFileAction : Action(), IntentListener {
     }
 
     private fun getFileName(): String {
-        var fileName = Utils.sanitizeFileName(formula?.interpretString(scope))
+        var fileName = Utils.sanitizeFileName(formula?.interpreter?.interpretString(scope))
         if (!fileName.contains(Regex("\\.\\w+$"))) {
             fileName += ".txt"
         }

@@ -46,8 +46,8 @@ class AssertEqualsAction : AssertAction() {
             return false
         }
 
-        actualValue = actualFormula!!.interpretObject(scope)
-        expectedValue = expectedFormula!!.interpretObject(scope)
+        actualValue = actualFormula!!.interpreter.interpretObject(scope)
+        expectedValue = expectedFormula!!.interpreter.interpretObject(scope)
         if (!equalValues(actualValue.toString(), expectedValue.toString())) {
             convertValuesToBooleanString()
             failWith(formattedAssertEqualsError(actualValue, expectedValue))

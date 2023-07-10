@@ -39,7 +39,7 @@ public class WaitAction extends TemporalAction {
 	protected void begin() {
 		try {
 			Float newDuration = duration == null ? Float.valueOf(0f)
-					: duration.interpretFloat(scope);
+					: duration.getInterpreter().interpretFloat(scope);
 			super.setDuration(newDuration);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);

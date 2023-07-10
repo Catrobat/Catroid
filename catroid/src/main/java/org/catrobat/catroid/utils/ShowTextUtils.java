@@ -29,7 +29,7 @@ import android.graphics.Paint;
 
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaInterpreter;
 
 import static org.catrobat.catroid.utils.NumberFormats.toMetricUnitRepresentation;
 import static org.catrobat.catroid.utils.NumberFormats.trimTrailingCharacters;
@@ -142,7 +142,7 @@ public final class ShowTextUtils {
 		}
 	}
 
-	public static class AndroidStringProvider implements Formula.StringProvider {
+	public static class AndroidStringProvider implements FormulaInterpreter.StringProvider {
 		private final String trueString;
 		private final String falseString;
 

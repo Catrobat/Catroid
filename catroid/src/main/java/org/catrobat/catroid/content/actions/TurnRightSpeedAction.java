@@ -41,7 +41,7 @@ public class TurnRightSpeedAction extends TemporalAction {
 	protected void update(float percent) {
 		Float newSpeed;
 		try {
-			newSpeed = speed == null ? Float.valueOf(0f) : speed.interpretFloat(scope);
+			newSpeed = speed == null ? Float.valueOf(0f) : speed.getInterpreter().interpretFloat(scope);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 			return;

@@ -41,7 +41,7 @@ public class RunningStitchAction extends TemporalAction {
 		int lengthInterpretation = 0;
 		try {
 			if (length != null) {
-				lengthInterpretation = length.interpretInteger(scope);
+				lengthInterpretation = length.getInterpreter().interpretInteger(scope);
 			}
 		} catch (InterpretationException interpretationException) {
 			lengthInterpretation = 0;

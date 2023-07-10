@@ -160,7 +160,7 @@ public class PhysicsSpriteCloneTest {
 				.getFormulaWithBrickField(Brick.BrickField.PHYSICS_BOUNCE_FACTOR);
 		Scope clonedScope = new Scope(project, clonedSprite, new SequenceAction());
 		float clonedBounceFactorValue = 0;
-		clonedBounceFactorValue = clonedSetBounceBrickFormula.interpretFloat(clonedScope);
+		clonedBounceFactorValue = clonedSetBounceBrickFormula.getInterpreter().interpretFloat(clonedScope);
 
 		assertEquals(BOUNCE_TEST_VALUE, clonedBounceFactorValue);
 	}

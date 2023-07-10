@@ -42,7 +42,7 @@ public class SetBounceFactorAction extends TemporalAction {
 		Float newBounceFactor;
 		try {
 			newBounceFactor = bounceFactor == null ? Float.valueOf(0f)
-					: bounceFactor.interpretFloat(scope);
+					: bounceFactor.getInterpreter().interpretFloat(scope);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 			return;

@@ -49,16 +49,19 @@ class TapAtAction : TemporalAction() {
     override fun begin() {
         super.begin()
         try {
-            touchCoords = Vector2(startX.interpretFloat(scope), startY.interpretFloat(scope))
+            touchCoords = Vector2(
+                startX.interpreter.interpretFloat(scope),
+                startY.interpreter.interpretFloat(scope)
+            )
             if (changeX != null && changeY != null) {
                 dragCoords = Vector2(
-                    changeX?.interpretFloat(scope) ?: 0f,
-                    changeY?.interpretFloat(scope) ?: 0f
+                    changeX?.interpreter?.interpretFloat(scope) ?: 0f,
+                    changeY?.interpreter?.interpretFloat(scope) ?: 0f
                 )
                 skipUpdate = false
             }
 
-            duration = durationFormula?.interpretFloat(scope) ?: 0f
+            duration = durationFormula?.interpreter?.interpretFloat(scope) ?: 0f
         } catch (e: InterpretationException) {
             Log.d(TAG, "Position not valid", e)
             errorDetected = true

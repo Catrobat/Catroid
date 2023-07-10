@@ -35,7 +35,7 @@ class ChangeBrightnessByNAction : TemporalAction() {
     override fun update(percent: Float) {
         val notNullScope = scope ?: return
         try {
-            val newChangeBrightness: Float = brightness?.interpretFloat(notNullScope) ?: 0f
+            val newChangeBrightness: Float = brightness?.interpreter?.interpretFloat(notNullScope) ?: 0f
             notNullScope.sprite.look.changeBrightnessInUserInterfaceDimensionUnit(newChangeBrightness)
         } catch (interpretationException: InterpretationException) {
             Log.d(javaClass.simpleName, "Formula interpretation for this specific Brick failed.", interpretationException)

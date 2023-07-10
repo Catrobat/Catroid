@@ -87,7 +87,7 @@ class AskSpeechAction : Action(), IntentListener {
 
     override fun getTargetIntent(): Intent {
         val question = try {
-            questionFormula?.interpretString(scope) ?: ""
+            questionFormula?.interpreter?.interpretString(scope) ?: ""
         } catch (e: InterpretationException) {
             Log.e(TAG, "Formula interpretation in ask brick failed")
             ""
