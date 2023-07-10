@@ -497,8 +497,9 @@ public class Look extends Image {
 	}
 
 	private PointF rotatePointAroundPoint(PointF center, PointF point, float rotation) {
-		float sin = (float) Math.sin(rotation);
-		float cos = (float) Math.cos(rotation);
+		double rotationInRadians = Math.toRadians(rotation);
+		float sin = (float) Math.sin(rotationInRadians);
+		float cos = (float) Math.cos(rotationInRadians);
 		point.x -= center.x;
 		point.y -= center.y;
 		float xNew = point.x * cos - point.y * sin;
