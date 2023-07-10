@@ -36,7 +36,7 @@ class SetParticleColorAction : TemporalAction() {
     override fun update(delta: Float) {
         try {
             color?.let { color ->
-                val rgb = ShowTextUtils.calculateColorRGBs(color.interpretString(scope))
+                val rgb = ShowTextUtils.calculateColorRGBs(color.interpreter.interpretString(scope))
                 val colors = FloatArray(MAX_SIZE)
                 for (i in 0..2) {
                     colors[i] = rgb[i] / MAX_COLOR

@@ -84,7 +84,7 @@ public class ParserTestObject {
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internParser.parseFormula(testScope);
 		Formula sensorFormula = new Formula(parseTree);
-		return sensorFormula.interpretDouble(testScope);
+		return sensorFormula.getInterpreter().interpretDouble(testScope);
 	}
 
 	@Test

@@ -48,8 +48,8 @@ class ShowTextAction : TemporalAction() {
     override fun begin() {
         try {
             variableToShow?.visible = true
-            val xPosition = xPosition.interpretInteger(scope)
-            val yPosition = yPosition.interpretInteger(scope)
+            val xPosition = xPosition.interpreter.interpretInteger(scope)
+            val yPosition = yPosition.interpreter.interpretInteger(scope)
             if (StageActivity.stageListener == null) {
                 return
             }
@@ -69,7 +69,7 @@ class ShowTextAction : TemporalAction() {
                 }
             }
             showTextActor = ShowTextActor(
-                variableToShow, xPosition, yPosition, 1.0f, null,
+                variableToShow, xPosition ?: 0, yPosition ?: 0, 1.0f, null,
                 scope?.sprite, androidStringProvider
             )
             StageActivity.stageListener.addActor(showTextActor)
@@ -80,8 +80,8 @@ class ShowTextAction : TemporalAction() {
 
     override fun update(percent: Float) {
         try {
-            val xPosition = xPosition?.interpretInteger(scope)
-            val yPosition = yPosition?.interpretInteger(scope)
+            val xPosition = xPosition.interpreter.interpretInteger(scope)
+            val yPosition = yPosition.interpreter.interpretInteger(scope)
             if (showTextActor != null) {
                 showTextActor?.setPositionX(xPosition ?: 0)
                 showTextActor?.setPositionY(yPosition ?: 0)

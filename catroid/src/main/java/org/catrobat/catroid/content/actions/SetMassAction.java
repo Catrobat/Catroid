@@ -41,7 +41,7 @@ public class SetMassAction extends TemporalAction {
 	protected void update(float percent) {
 		Float newMass;
 		try {
-			newMass = mass == null ? Float.valueOf(0f) : mass.interpretFloat(scope);
+			newMass = mass == null ? Float.valueOf(0f) : mass.getInterpreter().interpretFloat(scope);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 			return;

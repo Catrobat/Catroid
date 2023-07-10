@@ -75,7 +75,7 @@ public class PhiroRGBLightAction extends TemporalAction {
 		int rgbValue;
 
 		try {
-			rgbValue = rgbFormula.interpretInteger(scope);
+			rgbValue = rgbFormula.getInterpreter().interpretInteger(scope);
 		} catch (InterpretationException interpretationException) {
 			rgbValue = 0;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);

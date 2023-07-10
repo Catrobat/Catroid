@@ -165,17 +165,17 @@ public class CloneBrickWithFormulaTest {
 	@Test
 	public void testChangeBrickField() throws InterpretationException {
 		cloneBrickFormula.setRoot(new FormulaElement(FormulaElement.ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
-		assertNotEquals(brickFormula.interpretInteger(scope),
-				cloneBrickFormula.interpretInteger(scope));
+		assertNotEquals(brickFormula.getInterpreter().interpretInteger(scope),
+				cloneBrickFormula.getInterpreter().interpretInteger(scope));
 	}
 
 	@Test
 	public void testBrickFieldValidValue() throws InterpretationException {
-		assertEquals(BRICK_FORMULA_VALUE, brickFormula.interpretInteger(scope));
+		assertEquals(BRICK_FORMULA_VALUE, brickFormula.getInterpreter().interpretInteger(scope));
 	}
 
 	@Test
 	public void testBrickFieldEquals() throws InterpretationException {
-		assertEquals(brickFormula.interpretInteger(scope), cloneBrickFormula.interpretInteger(scope));
+		assertEquals(brickFormula.getInterpreter().interpretInteger(scope), cloneBrickFormula.getInterpreter().interpretInteger(scope));
 	}
 }

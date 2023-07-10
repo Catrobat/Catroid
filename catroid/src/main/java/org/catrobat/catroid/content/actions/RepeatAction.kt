@@ -73,7 +73,7 @@ class RepeatAction : LoopAction() {
 
     private fun interpretRepeatCount() {
         repeatCountValue = try {
-            repeatCount?.interpretInteger(scope) ?: 0
+            repeatCount?.interpreter?.interpretInteger(scope) ?: 0
         } catch (interpretationException: InterpretationException) {
             Log.d(
                 javaClass.simpleName,

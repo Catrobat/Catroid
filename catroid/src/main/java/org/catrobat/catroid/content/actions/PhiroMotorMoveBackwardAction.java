@@ -50,7 +50,7 @@ public class PhiroMotorMoveBackwardAction extends TemporalAction {
 	protected void update(float percent) {
 		int speedValue;
 		try {
-			speedValue = speed.interpretInteger(scope);
+			speedValue = speed.getInterpreter().interpretInteger(scope);
 		} catch (InterpretationException interpretationException) {
 			speedValue = 0;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);

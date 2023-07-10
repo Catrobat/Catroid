@@ -42,11 +42,11 @@ public class PlayNoteForBeatsAction extends TemporalAction {
 		try {
 			int playedMidiValue = 0;
 			if (midiValue != null) {
-				playedMidiValue = midiValue.interpretInteger(scope);
+				playedMidiValue = midiValue.getInterpreter().interpretInteger(scope);
 			}
 			float playedBeats = 0;
 			if (beats != null) {
-				playedBeats = beats.interpretFloat(scope);
+				playedBeats = beats.getInterpreter().interpretFloat(scope);
 			}
 			MidiSoundManager.getInstance().playNoteForBeats(playedMidiValue, playedBeats);
 			super.setDuration((float) MidiSoundManager.getInstance().getDurationForBeats(playedBeats) / 1000);

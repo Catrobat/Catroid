@@ -39,7 +39,7 @@ public class SetTempoAction extends TemporalAction {
 	@Override
 	protected void update(float delta) {
 		try {
-			int newTempo = tempo == null ? Integer.valueOf(0) : tempo.interpretInteger(scope);
+			int newTempo = tempo == null ? Integer.valueOf(0) : tempo.getInterpreter().interpretInteger(scope);
 			MidiSoundManager.getInstance().setTempo(newTempo);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);

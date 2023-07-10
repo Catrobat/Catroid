@@ -43,7 +43,7 @@ public class PlayDrumForBeatsAction extends TemporalAction {
 	protected void begin() {
 		try {
 			Drum drum = Drum.getDrumFromProgram(selectedDrum.getValue());
-			float playedBeats = beats == null ? Float.valueOf(0f) : beats.interpretFloat(scope);
+			float playedBeats = beats == null ? Float.valueOf(0f) : beats.getInterpreter().interpretFloat(scope);
 			MidiSoundManager.getInstance().playDrumForBeats(drum, playedBeats, scope.getSprite());
 			super.setDuration((float) MidiSoundManager.getInstance().getDurationForBeats(playedBeats) / 1000);
 		} catch (InterpretationException interpretationException) {

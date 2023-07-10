@@ -89,28 +89,28 @@ public class LookSensorValuesInterpretationTest {
 	@Test
 	public void testLookSensorValues() throws InterpretationException {
 		Formula lookXPositionFormula = getFormulaBySensor(Sensors.OBJECT_X);
-		assertEquals(LOOK_X_POSITION, lookXPositionFormula.interpretDouble(testScope), DELTA);
+		assertEquals(LOOK_X_POSITION, lookXPositionFormula.getInterpreter().interpretDouble(testScope), DELTA);
 
 		Formula lookYPositionFormula = getFormulaBySensor(Sensors.OBJECT_Y);
-		assertEquals(LOOK_Y_POSITION, lookYPositionFormula.interpretDouble(testScope), DELTA);
+		assertEquals(LOOK_Y_POSITION, lookYPositionFormula.getInterpreter().interpretDouble(testScope), DELTA);
 
 		Formula lookAlphaValueFormula = getFormulaBySensor(Sensors.OBJECT_TRANSPARENCY);
-		assertEquals(LOOK_ALPHA, lookAlphaValueFormula.interpretDouble(testScope), DELTA);
+		assertEquals(LOOK_ALPHA, lookAlphaValueFormula.getInterpreter().interpretDouble(testScope), DELTA);
 
 		Formula lookBrightnessFormula = getFormulaBySensor(Sensors.OBJECT_BRIGHTNESS);
-		assertEquals(LOOK_BRIGHTNESS, lookBrightnessFormula.interpretDouble(testScope), DELTA);
+		assertEquals(LOOK_BRIGHTNESS, lookBrightnessFormula.getInterpreter().interpretDouble(testScope), DELTA);
 
 		Formula lookScaleFormula = getFormulaBySensor(Sensors.OBJECT_SIZE);
-		assertEquals(LOOK_SCALE, lookScaleFormula.interpretDouble(testScope), DELTA);
+		assertEquals(LOOK_SCALE, lookScaleFormula.getInterpreter().interpretDouble(testScope), DELTA);
 
 		Formula motionDirectionFormula = getFormulaBySensor(Sensors.MOTION_DIRECTION);
-		assertEquals(LOOK_ROTATION, motionDirectionFormula.interpretDouble(testScope), DELTA);
+		assertEquals(LOOK_ROTATION, motionDirectionFormula.getInterpreter().interpretDouble(testScope), DELTA);
 
 		Formula lookDirectionFormula = getFormulaBySensor(Sensors.LOOK_DIRECTION);
-		assertEquals(LOOK_ROTATION, lookDirectionFormula.interpretDouble(testScope), DELTA);
+		assertEquals(LOOK_ROTATION, lookDirectionFormula.getInterpreter().interpretDouble(testScope), DELTA);
 
 		Formula lookZPositionFormula = getFormulaBySensor(Sensors.OBJECT_LAYER);
-		assertEquals(1.0, lookZPositionFormula.interpretDouble(testScope));
+		assertEquals(1.0, lookZPositionFormula.getInterpreter().interpretDouble(testScope));
 	}
 
 	@Test

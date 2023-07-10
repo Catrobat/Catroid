@@ -49,7 +49,7 @@ public class PhiroPlayToneAction extends TemporalAction {
 		int durationInterpretation;
 
 		try {
-			durationInterpretation = durationInSeconds.interpretInteger(scope);
+			durationInterpretation = durationInSeconds.getInterpreter().interpretInteger(scope);
 		} catch (InterpretationException interpretationException) {
 			durationInterpretation = 0;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);

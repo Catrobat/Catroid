@@ -52,7 +52,7 @@ public class PhiroSensorAction extends Action {
 				isInterpretedCorrectly = false;
 				return;
 			}
-			Double interpretation = ifCondition.interpretDouble(scope);
+			Double interpretation = ifCondition.getInterpreter().interpretDouble(scope);
 			ifConditionValue = interpretation.intValue() <= DISTANCE_THRESHOLD_VALUE ? true : false;
 			isInterpretedCorrectly = true;
 		} catch (InterpretationException interpretationException) {

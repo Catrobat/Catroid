@@ -99,7 +99,7 @@ class PaintNewLookAction : PocketPaintAction() {
         val sprite = scope?.sprite ?: return
         val look = sprite.look ?: return
         val formula = formula ?: return
-        var lookDataName = formula.interpretObject(scope).toString()
+        var lookDataName = formula.interpreter.interpretObject(scope).toString()
         lookDataName = UniqueNameProvider().getUniqueNameInNameables(lookDataName, sprite.lookList)
         val lookData = LookData(lookDataName, file)
         val lookDataIndex = if (look.lookListIndexBeforeLookRequest > -1) {

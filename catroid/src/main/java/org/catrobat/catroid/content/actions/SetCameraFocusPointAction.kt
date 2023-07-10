@@ -36,9 +36,9 @@ class SetCameraFocusPointAction : Action() {
 
     override fun act(delta: Float): Boolean {
         StageActivity.stageListener.cameraPositioner.horizontalFlex =
-            horizontal?.interpretFloat(scope) ?: 0.0f
+            horizontal?.interpreter?.interpretFloat(scope) ?: 0.0f
         StageActivity.stageListener.cameraPositioner.verticalFlex =
-            vertical?.interpretFloat(scope) ?: 0.0f
+            vertical?.interpreter?.interpretFloat(scope) ?: 0.0f
         StageActivity.stageListener.cameraPositioner.spriteToFocusOn = sprite
         return true
     }

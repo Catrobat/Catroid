@@ -93,9 +93,9 @@ public class ForVariableFromToAction extends LoopAction {
 		isRepeatActionInitialized = true;
 		try {
 			Double fromInterpretation = from == null ? Double.valueOf(0d)
-					: from.interpretDouble(scope);
+					: from.getInterpreter().interpretDouble(scope);
 			fromValue = fromInterpretation.intValue();
-			Double toInterpretation = to == null ? Double.valueOf(0d) : to.interpretDouble(scope);
+			Double toInterpretation = to == null ? Double.valueOf(0d) : to.getInterpreter().interpretDouble(scope);
 			toValue = toInterpretation.intValue();
 			setStepValue();
 			setControlVariable(fromValue);

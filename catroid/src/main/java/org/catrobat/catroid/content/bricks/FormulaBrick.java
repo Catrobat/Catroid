@@ -183,7 +183,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 				ProjectManager projectManager = ProjectManager.getInstance();
 				Scope scope = new Scope(projectManager.getCurrentProject(),
 						projectManager.getCurrentSprite(), null);
-				Double formulaValue = formulaMap.get(formulaField).interpretDouble(scope);
+				Double formulaValue = formulaMap.get(formulaField).getInterpreter().interpretDouble(scope);
 				textView.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 						Utils.convertDoubleToPluralInteger(formulaValue)));
 				return;

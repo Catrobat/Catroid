@@ -834,7 +834,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	private UserVariable convertUserDefinedBrickInputToUserVariable(UserDefinedBrickInput input) {
 		return new UserVariable(
 				input.getName(),
-				input.getValue().getUserFriendlyString(
+				input.getValue().getInterpreter().getUserFriendlyString(
 						new AndroidStringProvider(getContext()),
 						null
 				)

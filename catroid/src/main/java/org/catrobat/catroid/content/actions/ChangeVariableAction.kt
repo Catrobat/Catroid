@@ -39,7 +39,7 @@ class ChangeVariableAction : Action() {
 
     override fun act(delta: Float): Boolean {
         val originalValue = userVariable?.value as? Double ?: return true
-        val value = changeVariable?.interpretObject(scope) ?: 0.0
+        val value = changeVariable?.interpreter?.interpretObject(scope) ?: 0.0
         (value as? Double ?: (value as? String)?.toDoubleOrNull())?.run {
             updateUserVariable(originalValue, this)
         }

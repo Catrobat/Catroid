@@ -79,7 +79,7 @@ class WriteEmbroideryToFileAction : Action(), IntentListener {
     }
 
     private fun writeUsingLegacyExternalStorage() {
-        var fileName = Utils.sanitizeFileName(formula?.interpretString(scope))
+        var fileName = Utils.sanitizeFileName(formula?.interpreter?.interpretString(scope))
         if (!fileName.endsWith(Constants.EMBROIDERY_FILE_EXTENSION)) {
             fileName += Constants.EMBROIDERY_FILE_EXTENSION
         }
@@ -148,7 +148,7 @@ class WriteEmbroideryToFileAction : Action(), IntentListener {
     }
 
     private fun getFileName(): String {
-        var fileName = Utils.sanitizeFileName(formula?.interpretString(scope))
+        var fileName = Utils.sanitizeFileName(formula?.getInterpreter()?.interpretString(scope))
         if (!fileName.endsWith(Constants.EMBROIDERY_FILE_EXTENSION)) {
             fileName += Constants.EMBROIDERY_FILE_EXTENSION
         }

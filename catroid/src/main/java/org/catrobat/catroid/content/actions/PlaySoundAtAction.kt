@@ -42,7 +42,9 @@ class PlaySoundAtAction : TemporalAction() {
     override fun update(percent: Float) {
         var offsetMilliseconds: Int
         try {
-            offsetMilliseconds = (offset.interpretFloat(scope) * SECONDS_TO_MILLISECONDS).toInt()
+            offsetMilliseconds = (
+                offset.interpreter.interpretFloat(scope) * SECONDS_TO_MILLISECONDS
+                ).toInt()
         } catch (exception: InterpretationException) {
             Log.d(TAG, "Failed to interpret Delay", exception)
             return
@@ -72,7 +74,9 @@ class PlaySoundAtAction : TemporalAction() {
     fun runWithMockedSoundManager(manager: SoundManager): Float {
         var offsetMilliseconds: Int
         try {
-            offsetMilliseconds = (offset.interpretFloat(scope) * SECONDS_TO_MILLISECONDS).toInt()
+            offsetMilliseconds = (
+                offset.interpreter.interpretFloat(scope) * SECONDS_TO_MILLISECONDS
+                ).toInt()
         } catch (exception: InterpretationException) {
             Log.d(TAG, "Failed to interpret Delay", exception)
             return -1.0f
