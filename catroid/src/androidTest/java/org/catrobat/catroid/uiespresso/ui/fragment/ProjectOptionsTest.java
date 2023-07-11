@@ -29,6 +29,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.view.View;
 import android.widget.EditText;
 
 import org.catrobat.catroid.ProjectManager;
@@ -41,9 +42,9 @@ import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.asynctask.ProjectSaver;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
-import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.hamcrest.core.AllOf;
 import org.junit.After;
 import org.junit.Before;
@@ -68,7 +69,6 @@ import static org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION;
 import static org.catrobat.catroid.common.Constants.DOWNLOAD_DIRECTORY;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
-import static org.catrobat.catroid.uiespresso.util.UiTestUtils.onToast;
 import static org.catrobat.catroid.uiespresso.util.actions.TabActionsKt.selectTabAtPosition;
 import static org.catrobat.catroid.uiespresso.util.matchers.BundleMatchers.bundleHasExtraIntent;
 import static org.catrobat.catroid.uiespresso.util.matchers.BundleMatchers.bundleHasMatchingString;
@@ -96,10 +96,10 @@ import static androidx.test.espresso.intent.matcher.IntentMatchers.hasCategories
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtras;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasType;
+import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -111,9 +111,10 @@ public class ProjectOptionsTest {
 	private static final String EXISTING_PROJECT_NAME = "existingProjectName";
 	private static final String DESCRIPTION = "myDescription";
 	private static final String NOTES_AND_CREDITS = "myNotesAndCredits";
-	private static final Integer DURATION_WAIT_FOR_ZIP_FILE_IN_MILLISECONDS = 3000;
 	private static Project project = null;
 	private static Context context = null;
+
+	private View decorView;
 
 	@Rule
 	public FragmentActivityTestRule<ProjectActivity> baseActivityTestRule =
@@ -134,6 +135,8 @@ public class ProjectOptionsTest {
 				.perform(click());
 		onView(withText(R.string.project_options))
 				.check(matches(isDisplayed()));
+
+		decorView = baseActivityTestRule.getActivity().getWindow().getDecorView();
 	}
 
 	@After
@@ -314,8 +317,8 @@ public class ProjectOptionsTest {
 	public void saveExternal() throws IOException {
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
 
-			String pendingToastText =
-					context.getString(R.string.notification_save_project_to_external_storage_pending);
+			String pendingToastText = context.getString(R.string
+					.notification_save_project_to_external_storage_pending);
 			File externalProjectZip = new File(DOWNLOAD_DIRECTORY,
 					project.getDirectory().getName() + CATROBAT_EXTENSION);
 			if (externalProjectZip.exists()) {
@@ -327,10 +330,9 @@ public class ProjectOptionsTest {
 					.perform(ViewActions.scrollTo())
 					.perform(click());
 
-			onToast(withText(pendingToastText))
+			onView(withText(pendingToastText))
+					.inRoot(withDecorView(Matchers.not(decorView)))
 					.check(matches(isDisplayed()));
-			onView(isRoot()).perform(CustomActions
-					.wait(DURATION_WAIT_FOR_ZIP_FILE_IN_MILLISECONDS));
 
 			assertTrue(externalProjectZip.exists());
 		}
