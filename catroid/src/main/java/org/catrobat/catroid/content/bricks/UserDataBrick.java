@@ -179,19 +179,14 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 						boolean isUserList = BrickData.isUserList(brickData);
 						UserData userData;
 						if (isUserList) {
-							userData = new UserVariable(textInput, true);
-							if (addToProjectData) {
-								currentProject.addUserVariable((UserVariable) userData);
-							} else {
-								currentSprite.addUserVariable((UserVariable) userData);
-							}
+							userData = new UserVariable(textInput, new ArrayList<>(), true);
 						} else {
 							userData = new UserVariable(textInput);
-							if (addToProjectData) {
-								currentProject.addUserVariable((UserVariable) userData);
-							} else {
-								currentSprite.addUserVariable((UserVariable) userData);
-							}
+						}
+						if (addToProjectData) {
+							currentProject.addUserVariable((UserVariable) userData);
+						} else {
+							currentSprite.addUserVariable((UserVariable) userData);
 						}
 
 						for (Map.Entry<BrickData, BrickSpinner<UserData>> entry

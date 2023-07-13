@@ -877,7 +877,7 @@ class FormulaEditorComputeDialogComputationResultTest(
                     "UserList Int",
                     getFormula(Pair(USER_LIST, userListLeftName)),
                     null, null, listOf(1, 2, 3), null,
-                    "123"
+                    "[1.0, 2, 3]"
                 ),
                 arrayOf(
                     "UserList Int 2000 3000000",

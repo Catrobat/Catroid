@@ -40,11 +40,13 @@ public class UserDataHashMap extends HashMap<Brick.BrickData, UserData> implemen
 		for (Map.Entry<Brick.BrickData, UserData> entry : entrySet()) {
 			UserData userData = null;
 			if (entry.getValue() != null) {
+				UserVariable copy = (UserVariable) entry.getValue();
 				if (Brick.BrickData.isUserList(entry.getKey())) {
-					userData = new UserVariable(true);
-					userData.setValue(entry.getValue().getValue());
+					userData = new UserVariable(copy.getName(), copy.getValue(), true);
+					((UserVariable) userData).setDeviceValueKey(copy.getDeviceKey());
+					((UserVariable) userData).setInitialIndex(copy.getInitialIndex());
 				} else {
-					userData = new UserVariable((UserVariable) entry.getValue());
+					userData = copy;
 				}
 			}
 

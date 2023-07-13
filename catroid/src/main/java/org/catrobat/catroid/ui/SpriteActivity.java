@@ -843,7 +843,8 @@ public class SpriteActivity extends BaseActivity {
 							.putBoolean(INDEXING_VARIABLE_PREFERENCE_KEY, false).apply();
 
 					UserVariable userVariable = makeListCheckBox.isChecked()
-							? new UserVariable(textInput, true) : new UserVariable(textInput);
+							? new UserVariable(textInput, new ArrayList<>(), true)
+							: new UserVariable(textInput);
 
 					if (addToMultiplayerData) {
 						currentProject.addMultiplayerVariable(userVariable);
@@ -906,7 +907,7 @@ public class SpriteActivity extends BaseActivity {
 				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
 					boolean addToProjectUserData = addToProjectUserDataRadioButton.isChecked();
 
-					UserVariable userList = new UserVariable(textInput, true);
+					UserVariable userList = new UserVariable(textInput, new ArrayList<>(), true);
 					if (addToProjectUserData) {
 						currentProject.addUserVariable(userList);
 					} else {

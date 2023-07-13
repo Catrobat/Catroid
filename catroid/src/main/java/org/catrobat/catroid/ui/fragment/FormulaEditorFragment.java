@@ -825,7 +825,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				input.getValue().getUserFriendlyString(
 						new AndroidStringProvider(getContext()),
 						null
-				)
+				),
+				false
 		);
 	}
 

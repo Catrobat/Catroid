@@ -250,7 +250,7 @@ public class Sprite implements Nameable, Serializable {
 
 		List<UserVariable> userVariablesCopy = new ArrayList<>();
 		for (UserVariable userVariable : userVariables) {
-			userVariablesCopy.add(new UserVariable(userVariable.getName(), userVariable.getValue()));
+			userVariablesCopy.add(new UserVariable(userVariable));
 		}
 
 		return userVariablesCopy;

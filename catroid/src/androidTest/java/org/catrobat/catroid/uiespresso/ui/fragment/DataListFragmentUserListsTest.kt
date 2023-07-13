@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -53,7 +53,7 @@ import org.junit.runners.Parameterized
 @RunWith(Parameterized::class)
 class DataListFragmentUserListsTest(
     private val name: String,
-    private val values: List<Object>,
+    private val values: List<Any>,
     private val expectedStrings: List<String>
 ) {
     lateinit var project: Project
@@ -105,7 +105,7 @@ class DataListFragmentUserListsTest(
 
     companion object {
         private val applicationContext: Context =
-            ApplicationProvider.getApplicationContext<Context>()
+            ApplicationProvider.getApplicationContext()
 
         private val trueString = applicationContext.getString(R.string.formula_editor_true)
         private val falseString = applicationContext.getString(R.string.formula_editor_false)

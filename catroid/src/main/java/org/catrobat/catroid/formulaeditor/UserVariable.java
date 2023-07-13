@@ -44,20 +44,43 @@ public class UserVariable implements Serializable, UserData<Object> {
 	private transient boolean visible = true;
 	private transient boolean dummy = false;
 
-	public UserVariable() {
-		this.value = new ArrayList<>();
-	}
-
-	public UserVariable(boolean isList) {
-		this.value = new ArrayList<>();
-		this.isList = isList;
-	}
-
 	public UserVariable(String name) {
 		this.name = name;
 		this.deviceValueKey = UUID.randomUUID();
 		this.value = new ArrayList<>();
 		this.value.add(0d);
+	}
+
+	public UserVariable(final String name, final Object value, Boolean isList) {
+		this.name = name;
+		this.deviceValueKey = UUID.randomUUID();
+		this.value = new ArrayList<>();
+		if (isList) {
+			this.value.addAll((Collection<?>) value);
+		} else {
+			this.value.add(value);
+		}
+		this.isList = isList;
+	}
+
+	public UserVariable(UserVariable copy) {
+		this.name = copy.name;
+		this.initialIndex = copy.initialIndex;
+		this.deviceValueKey = UUID.randomUUID();
+		this.value = new ArrayList<>();
+		this.value.addAll(copy.value);
+		this.isList = copy.isList;
+	}
+
+	@TestOnly
+	public UserVariable() {
+		this.value = new ArrayList<>();
+	}
+
+	@TestOnly
+	public UserVariable(boolean isList) {
+		this.value = new ArrayList<>();
+		this.isList = isList;
 	}
 
 	@TestOnly
@@ -74,31 +97,12 @@ public class UserVariable implements Serializable, UserData<Object> {
 		}
 	}
 
+	@TestOnly
 	public UserVariable(final String name, final boolean isList) {
 		this.name = name;
 		this.deviceValueKey = UUID.randomUUID();
 		this.value = new ArrayList<>();
 		this.isList = isList;
-	}
-
-	public UserVariable(final String name, final Object value, Boolean isList) {
-		this.name = name;
-		this.deviceValueKey = UUID.randomUUID();
-		this.value = new ArrayList<>();
-		if (isList) {
-			this.value.addAll((Collection<?>) value);
-		} else {
-			this.value.add(value);
-		}
-		this.isList = isList;
-	}
-
-	public UserVariable(UserVariable variable) {
-		this.name = variable.name;
-		this.initialIndex = variable.initialIndex;
-		this.deviceValueKey = UUID.randomUUID();
-		this.value = variable.value;
-		this.isList = variable.isList;
 	}
 
 	public int getInitialIndex() {
@@ -128,11 +132,7 @@ public class UserVariable implements Serializable, UserData<Object> {
 	public void setValue(Object value) {
 		this.value.clear();
 		if (value instanceof ArrayList) {
-			try {
-				this.value.addAll((ArrayList<?>) value);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			this.value.addAll((ArrayList<?>) value);
 			this.isList = true;
 		} else {
 			this.value.add(value);

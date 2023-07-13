@@ -23,6 +23,7 @@
 package org.catrobat.catroid.io
 
 import android.util.Log
+import org.w3c.dom.DOMException
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import org.w3c.dom.Node
@@ -56,12 +57,8 @@ class OldUserListInterpreter(private val outcomeDocument: Document) {
                 }
                 try {
                     createNewUserLists(oldUserList as Element)
-                } catch (e: Exception) {
-                    Log.d(
-                        javaClass.simpleName,
-                        "UserList interpretation for this project failed.",
-                        e
-                    )
+                } catch (e: DOMException) {
+                    Log.d(javaClass.simpleName, e.message, e)
                 }
             }
         return outcomeDocument
@@ -241,28 +238,24 @@ class OldUserListInterpreter(private val outcomeDocument: Document) {
         try {
             moveProjectsLists()
             moveSpritesLists()
-        } catch (nullPointerException: NullPointerException) {
-            Log.d(
-                javaClass.simpleName,
-                "UserList interpretation for this project failed when moving local lists.",
-                nullPointerException
-            )
+        } catch (e: OldUserListInterpretationException) {
+            Log.d(javaClass.simpleName, e.message, e)
         }
     }
 
     private fun moveProjectsLists() {
         val program = outcomeDocument.firstChild
         val programUserLists = NodeOperatorExtension
-            .getNodeByName(program, "programListOfLists") ?: return
-        var userVariableList = NodeOperatorExtension
+            .getNodeByName(program, "programListOfLists")
+        val userVariableList = NodeOperatorExtension
             .getNodeByName(program, "programVariableList")
 
-        if (userVariableList == null) {
-            userVariableList = programUserLists.cloneNode(true)
-            program.appendChild(userVariableList)
-            outcomeDocument.renameNode(userVariableList, null, "programVariableList")
+        if (programUserLists == null || userVariableList == null) {
+            throw OldUserListInterpretationException(
+                "No 'programListOfLists' nor 'programVariableList' found"
+            )
         } else {
-            for (i in 0 until programUserLists.childNodes.length) {
+            repeat(programUserLists.childNodes.length) {
                 userVariableList.appendChild(programUserLists.firstChild)
             }
         }
@@ -292,7 +285,7 @@ class OldUserListInterpreter(private val outcomeDocument: Document) {
         val objectsUserVariableList = NodeOperatorExtension
             .getNodeByName(objectNode, USER_VARIABLES_STRING)
         if (objectsUserVariableList != null) {
-            for (k in 0 until objectsUserListList.childNodes.length) {
+            repeat(objectsUserListList.childNodes.length) {
                 objectsUserVariableList.appendChild(objectsUserListList.firstChild)
             }
         }
@@ -324,7 +317,7 @@ class OldUserListInterpreter(private val outcomeDocument: Document) {
                 .getNodeByName(objectToClone, USER_VARIABLES_STRING)
 
             if (objectToClonesUserVariableList != null) {
-                for (m in 0 until objectToClonesUserListList.childNodes.length) {
+                repeat(objectToClonesUserListList.childNodes.length) {
                     objectToClonesUserVariableList.appendChild(objectToClonesUserListList.firstChild)
                 }
             }

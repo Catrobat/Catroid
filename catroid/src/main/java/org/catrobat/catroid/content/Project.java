@@ -225,8 +225,8 @@ public class Project implements Serializable {
 
 		List<UserVariable> userVariablesCopy = new ArrayList<>();
 		for (UserVariable userVariable : userVariables) {
-			userVariablesCopy.add(new UserVariable(userVariable.getName(),
-					userVariable.getValue(), false));
+			userVariablesCopy.add(
+					new UserVariable(userVariable.getName(), userVariable.getValue(), false));
 		}
 
 		return userVariablesCopy;
