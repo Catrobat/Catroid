@@ -56,8 +56,8 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class MainMenuFragmentActivityRecreateRegressionTest {
     var bufferedPrivacyPolicyPreferenceSetting = 0
+    var bufferedOnBoardingWelcomeScreenShownSetting = false
     val applicationContext: Context = getApplicationContext<Context>()
-
     @get:Rule
     var baseActivityTestRule = DontGenerateDefaultProjectActivityTestRule(
         MainMenuActivity::class.java, false, false
@@ -73,6 +73,21 @@ class MainMenuFragmentActivityRecreateRegressionTest {
             .putInt(AGREED_TO_PRIVACY_POLICY_VERSION, CATROBAT_TERMS_OF_USE_ACCEPTED)
             .commit()
 
+        val sharedPreferences = PreferenceManager
+            .getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
+        bufferedPrivacyPolicyPreferenceSetting = sharedPreferences
+            .getInt(SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION, 0)
+        bufferedOnBoardingWelcomeScreenShownSetting = sharedPreferences
+            .getBoolean(SharedPreferenceKeys.ONBOARDING_WELCOME_SCREEN_SHOWN, false)
+
+        sharedPreferences
+            .edit()
+            .putInt(
+                SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION,
+                Constants.CATROBAT_TERMS_OF_USE_ACCEPTED
+            )
+            .putBoolean(SharedPreferenceKeys.ONBOARDING_WELCOME_SCREEN_SHOWN, true)
+            .commit()
         baseActivityTestRule.launchActivity(null)
     }
 
@@ -81,6 +96,10 @@ class MainMenuFragmentActivityRecreateRegressionTest {
         getDefaultSharedPreferences(applicationContext)
             .edit()
             .putInt(AGREED_TO_PRIVACY_POLICY_VERSION, bufferedPrivacyPolicyPreferenceSetting)
+            .putBoolean(
+                SharedPreferenceKeys.ONBOARDING_WELCOME_SCREEN_SHOWN,
+                bufferedOnBoardingWelcomeScreenShownSetting
+            )
             .commit()
     }
 

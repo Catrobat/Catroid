@@ -146,6 +146,7 @@ class LoadProjectAIExtensionSettingsTest(
     private var initialSettings = mutableMapOf<String, Boolean>()
     val applicationContext: Context = ApplicationProvider.getApplicationContext<Context>()
     var bufferedPrivacyPolicyPreferenceSetting = 0
+    var bufferedOnBoardingWelcomeScreenShownSetting = false
 
     private lateinit var script: Script
     private val projectName = "projectName"
@@ -632,10 +633,15 @@ class LoadProjectAIExtensionSettingsTest(
         saveInitialSettings()
 
         PreferenceManager.getDefaultSharedPreferences(applicationContext)
-            .edit().putInt(
+            .edit()
+            .putInt(
                 SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION,
                 Constants.CATROBAT_TERMS_OF_USE_ACCEPTED
-            ).commit()
+            ).putBoolean(
+                SharedPreferenceKeys.ONBOARDING_WELCOME_SCREEN_SHOWN,
+                true
+            )
+            .commit()
 
         allAIExtensionSettings.forEach { setting -> setSettingToBoolean(setting, false) }
 
@@ -675,6 +681,11 @@ class LoadProjectAIExtensionSettingsTest(
         }
         bufferedPrivacyPolicyPreferenceSetting =
             sharedPreferences.getInt(SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION, 0)
+        bufferedOnBoardingWelcomeScreenShownSetting =
+            sharedPreferences.getBoolean(
+                SharedPreferenceKeys.ONBOARDING_WELCOME_SCREEN_SHOWN,
+                false
+            )
     }
 
     private fun restoreInitialSettings() {
@@ -686,10 +697,15 @@ class LoadProjectAIExtensionSettingsTest(
                 initialSettings.getOrDefault(setting, false)
             )
         }
-        sharedPreferencesEditor.putInt(
-            SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION,
-            bufferedPrivacyPolicyPreferenceSetting
-        )
+        sharedPreferencesEditor
+            .putInt(
+                SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION,
+                bufferedPrivacyPolicyPreferenceSetting
+            )
+            .putBoolean(
+                SharedPreferenceKeys.ONBOARDING_WELCOME_SCREEN_SHOWN,
+                bufferedOnBoardingWelcomeScreenShownSetting
+            )
 
         sharedPreferencesEditor.commit()
     }

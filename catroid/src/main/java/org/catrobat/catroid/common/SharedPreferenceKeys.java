@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,7 @@ public final class SharedPreferenceKeys {
 	public static final String AGREED_TO_PRIVACY_POLICY_VERSION =
 			"AgreedToCurrentPrivacyPolicy";
 
+	public static final String ONBOARDING_WELCOME_SCREEN_SHOWN = "OnboardingWelcomeScreenShown";
 	public static final String DEVICE_LANGUAGE = "deviceLanguage";
 	public static final String LANGUAGE_TAG_KEY = "applicationLanguage";
 	public static final String[] LANGUAGE_TAGS = {DEVICE_LANGUAGE, "af", "az", "ms", "bs", "ca",
