@@ -22,32 +22,24 @@
  */
 package org.catrobat.catroid.utils.notifications;
 
-import android.app.IntentService;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import androidx.annotation.StringRes;
-import androidx.core.app.NotificationCompat;
 import kotlin.jvm.Synchronized;
 
-import static org.catrobat.catroid.common.Constants.*;
+import static org.catrobat.catroid.common.Constants.MAX_PERCENT;
 
 public final class StatusBarNotificationManager {
 	private static final String TAG = StatusBarNotificationManager.class.getSimpleName();
@@ -59,26 +51,6 @@ public final class StatusBarNotificationManager {
 	public StatusBarNotificationManager(Context context) {
 		notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		createNotificationChannel(context);
-	}
-
-	private NotificationData createAndShowUploadNotification(Context context, String programName) {
-		if (context == null || programName == null) {
-			return null;
-		}
-
-		Intent uploadIntent = new Intent(context, MainMenuActivity.class);
-		uploadIntent.setAction(Intent.ACTION_MAIN);
-		uploadIntent = uploadIntent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-		PendingIntent pendingIntent = PendingIntent.getActivity(context, notificationId, uploadIntent,
-				PendingIntent.FLAG_CANCEL_CURRENT);
-
-		NotificationData data = new NotificationData(R.drawable.ic_stat, programName,
-				context.getString(R.string.notification_upload_title_pending), context.getString(R.string.notification_upload_title_finished),
-				context.getString(R.string.notification_upload_pending), context.getString(R.string.notification_upload_finished),
-				0, MAX_PERCENT, true, false, getNextNotificationID());
-
-		showOrUpdateNotification(context, data, 0, pendingIntent);
-		return data;
 	}
 
 	public NotificationData createSaveProjectToExternalMemoryNotification(Context context,

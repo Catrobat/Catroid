@@ -24,7 +24,7 @@
 package org.catrobat.catroid.utils
 
 import android.util.Log
-import org.catrobat.catroid.common.Constants.DEVICE_VARIABLE_JSON_FILENAME
+import org.catrobat.catroid.common.Constants.DEVICE_VARIABLE_JSON_FILE_NAME
 import org.catrobat.catroid.io.ZipArchiver
 import java.io.File
 import java.io.IOException
@@ -42,7 +42,7 @@ object ProjectZipper {
         return try {
             val fileList = projectDirectory.listFiles()
             val filteredFileList =
-                fileList.filter { file -> file.name != DEVICE_VARIABLE_JSON_FILENAME }
+                fileList.filter { file -> file.name != DEVICE_VARIABLE_JSON_FILE_NAME }
             ZipArchiver().zip(archiveDirectory, filteredFileList.toTypedArray())
             Log.d(TAG, "Zipping done")
             archiveDirectory

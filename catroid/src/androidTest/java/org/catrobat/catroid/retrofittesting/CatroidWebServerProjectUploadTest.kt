@@ -97,7 +97,7 @@ class CatroidWebServerProjectUploadTest : KoinTest {
         newEmail = "$newUserName@api.at"
 
         val response =
-            webServer.register("", RegisterUser(true, newEmail, newUserName, PASSWORD)).execute()
+            webServer.register(RegisterUser(true, newEmail, newUserName, PASSWORD)).execute()
         val responseBody = response.body()
         assertNotNull(responseBody)
         assertNotNull(responseBody!!.token)
@@ -123,7 +123,7 @@ class CatroidWebServerProjectUploadTest : KoinTest {
 
         val projectZip = ProjectZipper.zipProjectToArchive(
             File(project?.directory!!.absolutePath),
-            File(Constants.CACHE_DIR, "upload${Constants.CATROBAT_EXTENSION}")
+            File(Constants.CACHE_DIRECTORY, "upload${Constants.CATROBAT_EXTENSION}")
         )
 
         assertNotNull(projectZip!!)
@@ -155,7 +155,7 @@ class CatroidWebServerProjectUploadTest : KoinTest {
 
         val projectZip = ProjectZipper.zipProjectToArchive(
             File(project?.directory!!.absolutePath),
-            File(Constants.CACHE_DIR, "upload${Constants.CATROBAT_EXTENSION}")
+            File(Constants.CACHE_DIRECTORY, "upload${Constants.CATROBAT_EXTENSION}")
         )
 
         assertNotNull(projectZip!!)
