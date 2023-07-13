@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -1270,13 +1270,6 @@
     <string name="notification_screenshot_ok">Слика за преглед је сачувана</string>
     <string name="notification_download_project_cancel">Откажи преузимање пројекта</string>
     <string name="notification_reconvert_download_program_cancel">Отказано је преузимање / поновно конвертовање пројекта</string>
-    <string name="notification_upload_title_pending">"Слање"</string>
-    <string name="notification_upload_title_finished">"Погледати на"</string>
-    <string name="notification_upload_pending">Отпремање је у току</string>
-    <string name="notification_upload_finished">Отпремање је успешно</string>
-    <string name="notification_upload_rejected">Отпремљени пројекат је одбијен</string>
-    <string name="notification_upload_retry">Понови</string>
-    <string name="notification_open_play_store">Отворите Апп продавницу</string>
     <string name="notification_download_title_pending">"Преузимање"</string>
     <string name="notification_download_pending">Преузимање у току</string>
     <string name="notification_download_finished">Преузимање успешно</string>
@@ -1299,7 +1292,6 @@
 сензор геолокације уређаја, а у циљу увоза и извоза пројеката из и у локалну меморију, апликација
 треба да му се приступи читању и писању. Дозволе увек можете да мењате кроз подешавања уређаја.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">Настала грешка приликом отпремању пројеката.</string>
     <string name="error_project_download">Настала грешка приликом преузимања пројекта.</string>
     <string name="error_project_already_in_queue">"Project %s already in queue."</string>
     <string name="error_could_not_decode_project_name_from_url">"Your download could not be
@@ -1311,7 +1303,7 @@
     <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
     <string name="error_project_compatibility">The project is not compatible with this version of the app.</string>
     <string name="error_outdated_version">This app version is outdated. Update now?</string>
-    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"My first project\".
+    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"%s\".
         Please rename the project.</string>
     <string name="error_upload_default_project">You cannot upload an unmodified example project. Please
         change something and try again.</string>

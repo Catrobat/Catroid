@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,6 +26,7 @@ package org.catrobat.catroid.ui.recyclerview.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -43,6 +44,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.MultiViewSpriteAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallback;
+import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
@@ -81,6 +83,8 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	protected static final int RENAME = 4;
 	protected static final int MERGE = 5;
 	protected static final int IMPORT_LOCAL = 6;
+
+	private static final String TAG = RecyclerViewFragment.class.getSimpleName();
 
 	protected View parentView;
 	protected RecyclerView recyclerView;
@@ -136,12 +140,17 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 			case NONE:
 				return false;
 		}
+		adapter.showSettings = false;
+		adapter.showRipples = false;
 		adapter.showCheckBoxes = true;
 		adapter.notifyDataSetChanged();
 		return true;
 	}
 
 	private void onRename(Menu menu) {
+		adapter.selectionMode = adapter.SINGLE;
+		adapter.showSettings = false;
+		adapter.showRipples = false;
 		menu.findItem(R.id.confirm).setVisible(false);
 		menu.findItem(R.id.overflow).setVisible(false);
 		menu.findItem(R.id.toggle_selection).setVisible(false);
@@ -221,6 +230,8 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		actionModeType = NONE;
 		actionMode = null;
 		adapter.showCheckBoxes = false;
+		adapter.showSettings = true;
+		adapter.showRipples = true;
 		adapter.selectionMode = adapter.MULTIPLE;
 	}
 
@@ -275,7 +286,11 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	@Override
 	public void onPause() {
 		super.onPause();
-		adapter.unregisterAdapterDataObserver(observer);
+		try {
+			adapter.unregisterAdapterDataObserver(observer);
+		} catch (IllegalStateException exception) {
+			Log.d(TAG, "Observer was not registered");
+		}
 	}
 
 	@Override
@@ -349,7 +364,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	}
 
 	private void startActionMode(@ActionModeType int type) {
-		if (adapter.getItems().isEmpty()) {
+		if (adapter.getItems().isEmpty() || (this instanceof SpriteListFragment && adapter.getItems().size() == 1)) {
 			ToastUtil.showError(getActivity(), R.string.am_empty_list);
 			resetActionModeParameters();
 		} else {
@@ -415,9 +430,17 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	}
 
 	@Override
-	public void onItemClick(T item) {
+	public void onItemClick(T item, MultiSelectionManager selectionManager) {
 		if (actionModeType == RENAME) {
 			showRenameDialog(item);
+		} else {
+			if (selectionManager == null) {
+				return;
+			}
+			List<T> items = adapter.getItems();
+			selectionManager.toggleSelection(items.indexOf(item));
+			onSelectionChanged(selectionManager.getSelectedPositions().size());
+			notifyDataSetChanged();
 		}
 	}
 

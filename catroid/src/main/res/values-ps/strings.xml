@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@
     <string name="ignore">سترګې پټول</string>
     <string name="cancel">لغوه کړئ</string>
     <string name="save">خوندي کړئ</string>
+    <string name="help">مرسته</string>
     <string name="discard">رد کړئ</string>
     <string name="next">وړاندی</string>
     <string name="ok">سمه ده</string>
@@ -347,6 +348,7 @@
     <string name="hide_details">توضیحات پټ کړئ</string>
     <string name="project_options">د پروژې اختیارونه</string>
     <string name="from_library">له کتابتون څخه اضافه کړئ</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">ترتیب</string>
     <string name="unsort_projects">بې ترتیبه کول</string>
     <string name="import_from_project">د واردولو لپاره پروژه غوره کړئ</string>
@@ -624,6 +626,7 @@
     <string name="add_sound_from_recorder">غږ ثبت کړئ</string>
     <string name="add_sound_choose_file">فایل غوره کړئ</string>
     <string name="add_sound_music">د موسیقۍ کمپوزر</string>
+    <string name="add_sound_choose_sound">غږونه</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">نوټ غوره کوونکی</string>
     <!--  -->
@@ -969,6 +972,8 @@
     <string name="beats">وهل</string>
     <string name="play_note">یادښت پلی کړئ</string>
     <string name="for_string">لپاره</string>
+    <string name="at_string">په</string>
+    <string name="seconds_string">دوهم </string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">ډنډ</string>
@@ -1237,13 +1242,6 @@
     <string name="notification_screenshot_ok">د مخکتنې انځور خوندي شو</string>
     <string name="notification_download_project_cancel">د پروژې ډاونلوډ لغوه کړئ</string>
     <string name="notification_reconvert_download_program_cancel">د پروژی ډاونلوډ کول / بیا رغول لغوه شوي</string>
-    <string name="notification_upload_title_pending">"پورته کول"</string>
-    <string name="notification_upload_title_finished">"وګوره ورته"</string>
-    <string name="notification_upload_pending">پورته کول په کار دي</string>
-    <string name="notification_upload_finished">اپلوډ بریالی شو</string>
-    <string name="notification_upload_rejected">اپلوډ شوې پروژه رد شوه</string>
-    <string name="notification_upload_retry">بیا هڅه وکړئ</string>
-    <string name="notification_open_play_store">د اپلیکیشن پلورنځی خلاص کړئ</string>
     <string name="notification_download_title_pending">"کښته کول"</string>
     <string name="notification_download_pending">ډاونلوډ په پرمختګ کې دی</string>
     <string name="notification_download_finished">ډاونلوډ بریالی شو</string>
@@ -1256,7 +1254,6 @@
 د وسیلې جیو لوکیشن سینسر، او د محلي حافظې څخه د پروژو د واردولو او صادرولو لپاره، ایپ
 لوستلو او لیکلو ته اړتیا لري. تاسو کولی شئ تل د خپل وسیله تنظیماتو له لارې اجازې بدل کړئ.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">د پروژې د پورته کولو په وخت کې یو څه غلط شو.</string>
     <string name="error_project_download">د پروژې ډاونلوډ کولو پرمهال یو څه غلط شو.</string>
     <string name="error_project_already_in_queue">"پروژه %s لا دمخه په کتار کې ده."</string>
     <string name="error_could_not_decode_project_name_from_url">"ستاسو ډاونلوډ 
@@ -1268,7 +1265,7 @@
     <string name="error_internet_connection">یوه نامعلومه تېروتنه رامنځته شوه. خپل انټرنیټ پیوستون چیک کړئ.</string>
     <string name="error_project_compatibility">پروژه د ایپ د دې نسخې سره مطابقت نلري.</string>
     <string name="error_outdated_version">د دې اپلیکیشن نسخه پخوانۍ ده. اوس تازه کړئ؟</string>
-    <string name="error_upload_project_with_default_name">تاسو نشئ کولی د \"زما لومړۍ پروژه\" نوم سره پروژه اپلوډ کړئ. 
+    <string name="error_upload_project_with_default_name">تاسو نشئ کولی د \"%s\" نوم سره پروژه اپلوډ کړئ. 
         مهرباني وکړئ د پروژې نوم بدل کړئ.</string>
     <string name="error_upload_default_project">تاسو نشئ کولی د نه بدلیدونکي مثال پروژه اپلوډ کړئ. مهرباني 
         وکړئ یو څه بدل کړئ او بیا هڅه وکړئ.</string>
@@ -1291,15 +1288,16 @@
     <string name="notification_blueth_err">بلوتوث فعال نشو کولی، مهرباني وکړئ د بندولو او بیا فعالولو هڅه وکړئ.</string>
     <string name="title_paired_devices">جوړه شوي وسایل</string>
     <string name="title_other_devices">نوي وسایل</string>
-    <string name="searching_devices">د وسایلو په لټه کې&#8230;</string>
-    <string name="button_scan">د بلوتوټ وسیلو لټون وکړئ</string>
-    <string name="button_skip">د بلوتوټ اتصال پریږدئ</string>
-    <string name="select_device">وسیله غوره کړئ:</string>
+    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="skip_bluetooth_connection">پریږده</string>
     <string name="connecting_please_wait">ستاسو وسیله سره نښلول کیږي. مهرباني وکړئ انتظار وکړئ&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">د آلې سره پیوستون ناکام شو!</string>
     <string name="none_found">هیڅ بې جوړې وسایل ونه موندل شول</string>
-    <string name="none_paired">هیڅ جوړه وسایل ونه موندل شول</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
+        required!</string>
+    <string name="multiplayer_bluetooth_connection_information">To play this game in
+        Multiplayer a Bluetooth connection is required. Both players have to start the game and
+        be on this screen for the connection to work properly!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">د Arduino ډیجیټل پن تنظیم کړئ</string>
@@ -1613,7 +1611,6 @@
     <string name="formula_editor_function_regex_assistant">د منظم بیان معاون</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">د منظم 
         بیان معاون</string>
-    <string name="formula_editor_dialog_wiki_button">نور مالومات</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">کلیمه ونه موندل شوه.</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON استخراج</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino digital pin</string>
@@ -2005,7 +2002,7 @@
         without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">No variable selected</string>
-    <string name="find">Find</string>
+    <string name="search">لټون</string>
     <string name="no_results_found">No results found</string>
     <string name="query_field_is_empty">Query field is empty</string>
     <string name="cut">کټ</string>
@@ -2020,4 +2017,5 @@
     <string name="set_particle_color_to">Set particle color to</string>
     <string name="undo_sort">Undo sort</string>
     <string name="sort">ترتیب</string>
+    <string name="checkbox">checkbox</string>
 </resources>

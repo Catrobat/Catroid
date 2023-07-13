@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,7 +32,7 @@ import org.junit.Assert
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.io.StorageOperations
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask
+import org.catrobat.catroid.io.asynctask.loadProject
 import org.catrobat.catroid.io.asynctask.unzipAndImportProjects
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.TestResult
@@ -106,23 +106,22 @@ class CatrobatTestRunner {
         val projectName = assetName.replace(Constants.CATROBAT_EXTENSION, "")
         TestUtils.deleteProjects(projectName)
         FlavoredConstants.DEFAULT_ROOT_DIRECTORY.mkdir()
-        Constants.CACHE_DIR.mkdir()
+        Constants.CACHE_DIRECTORY.mkdir()
         val inputStream = InstrumentationRegistry.getInstrumentation().context.assets
             .open("$assetPath/$assetName")
         val projectArchive = StorageOperations
-            .copyStreamToDir(inputStream, Constants.CACHE_DIR, assetName)
+            .copyStreamToDir(inputStream, Constants.CACHE_DIRECTORY, assetName)
         Assert.assertTrue(unzipAndImportProjects(arrayOf(projectArchive)))
         val projectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName)
         Assert.assertTrue(
-            ProjectLoadTask
-                .task(projectDir, ApplicationProvider.getApplicationContext())
+            loadProject(projectDir, ApplicationProvider.getApplicationContext())
         )
     }
 
     @After
     @Throws(IOException::class)
     fun tearDown() {
-        StorageOperations.deleteDir(Constants.CACHE_DIR)
+        StorageOperations.deleteDir(Constants.CACHE_DIRECTORY)
         TestUtils.deleteProjects(assetName.replace(Constants.CATROBAT_EXTENSION, ""))
     }
 

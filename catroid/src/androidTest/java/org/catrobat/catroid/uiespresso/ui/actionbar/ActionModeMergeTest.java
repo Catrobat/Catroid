@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -86,13 +86,13 @@ public class ActionModeMergeTest {
 		onView(withText(R.string.merge)).perform(click());
 
 		onRecyclerView().atPosition(0)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onRecyclerView().atPosition(1)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onRecyclerView().atPosition(2)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onRecyclerView().atPosition(0).onChildView(R.id.checkbox).check(matches(isChecked()));
 		onRecyclerView().atPosition(1).onChildView(R.id.checkbox).check(matches(isChecked()));
@@ -115,19 +115,19 @@ public class ActionModeMergeTest {
 				.perform(click());
 
 		onRecyclerView().atPosition(0)
-				.performCheckItem();
+				.performCheckItemClick();
 		onActionMode().checkTitleMatches(UiTestUtils.getResourcesString(R.string.merge) + " 1");
 
 		onRecyclerView().atPosition(1)
-				.performCheckItem();
+				.performCheckItemClick();
 		onActionMode().checkTitleMatches(UiTestUtils.getResourcesString(R.string.merge) + " 2");
 
 		onRecyclerView().atPosition(0)
-				.performCheckItem();
+				.performCheckItemClick();
 		onActionMode().checkTitleMatches(UiTestUtils.getResourcesString(R.string.merge) + " 1");
 
 		onRecyclerView().atPosition(1)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onActionMode().checkTitleMatches(UiTestUtils.getResourcesString(R.string.merge) + " 0");
 	}

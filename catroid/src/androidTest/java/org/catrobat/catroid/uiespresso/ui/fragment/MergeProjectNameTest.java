@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -90,10 +90,10 @@ public class MergeProjectNameTest {
 		onView(withText(R.string.merge)).perform(click());
 
 		onRecyclerView().atPosition(0)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onRecyclerView().atPosition(1)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onView(withId(R.id.confirm)).perform(click());
 
@@ -113,10 +113,10 @@ public class MergeProjectNameTest {
 		onView(withText(R.string.merge)).perform(click());
 
 		onRecyclerView().atPosition(0)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onRecyclerView().atPosition(1)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onView(withId(R.id.confirm)).perform(click());
 
@@ -136,10 +136,10 @@ public class MergeProjectNameTest {
 		onView(withText(R.string.merge)).perform(click());
 
 		onRecyclerView().atPosition(0)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onRecyclerView().atPosition(1)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onView(withId(R.id.confirm)).perform(click());
 

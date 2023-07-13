@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,6 +42,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.Snackbar
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
@@ -53,7 +54,7 @@ import org.catrobat.catroid.databinding.FragmentProjectOptionsBinding
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.asynctask.ProjectExportTask
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask
+import org.catrobat.catroid.io.asynctask.loadProject
 import org.catrobat.catroid.io.asynctask.ProjectSaver
 import org.catrobat.catroid.io.asynctask.renameProject
 import org.catrobat.catroid.io.asynctask.saveProjectSerial
@@ -150,7 +151,7 @@ class ProjectOptionsFragment : Fragment() {
 
     private fun setupProjectAspectRatio() {
         binding.projectOptionsAspectRatio.apply {
-            isChecked = project?.screenMode == ScreenModes.STRETCH
+            isChecked = project?.screenMode == ScreenModes.MAXIMIZE
             setOnCheckedChangeListener { _, isChecked ->
                 handleAspectRatioChecked(isChecked)
             }
@@ -183,9 +184,9 @@ class ProjectOptionsFragment : Fragment() {
 
     private fun handleAspectRatioChecked(checked: Boolean) {
         project?.screenMode = if (checked) {
-            ScreenModes.STRETCH
-        } else {
             ScreenModes.MAXIMIZE
+        } else {
+            ScreenModes.STRETCH
         }
     }
 
@@ -254,7 +255,7 @@ class ProjectOptionsFragment : Fragment() {
                 Log.e(TAG, "Creating renamed directory failed!")
                 return
             }
-            ProjectLoadTask.task(renamedDirectory, requireContext().applicationContext)
+            loadProject(renamedDirectory, requireContext().applicationContext)
             project = projectManager.currentProject
             projectManager.currentlyEditedScene = project!!.getSceneByName(sceneName)
         }
@@ -290,8 +291,17 @@ class ProjectOptionsFragment : Fragment() {
 
     private fun onSaveProjectComplete() {
         val currentProject = projectManager.currentProject
+
+        if (Utils.isDefaultProject(currentProject, activity)) {
+            binding.root.apply {
+                Snackbar.make(binding.root, R.string.error_upload_default_project, Snackbar.LENGTH_LONG).show()
+            }
+            return
+        }
+
         val intent = Intent(requireContext(), ProjectUploadActivity::class.java)
         intent.putExtra(PROJECT_DIR, currentProject.directory)
+
         startActivity(intent)
     }
 
@@ -324,9 +334,9 @@ class ProjectOptionsFragment : Fragment() {
         ) {
             override fun task() {
                 val fileName = project?.name + Constants.CATROBAT_EXTENSION
-                val projectZip = File(Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY, fileName)
-                Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY.mkdirs()
-                if (!Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY.isDirectory) {
+                val projectZip = File(Constants.DOWNLOAD_DIRECTORY, fileName)
+                Constants.DOWNLOAD_DIRECTORY.mkdirs()
+                if (!Constants.DOWNLOAD_DIRECTORY.isDirectory) {
                     return
                 }
                 if (projectZip.exists()) {

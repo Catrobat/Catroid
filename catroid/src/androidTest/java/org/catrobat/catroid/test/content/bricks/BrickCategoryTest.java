@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -133,6 +133,7 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlayDrumForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PlayNoteForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
+import org.catrobat.catroid.content.bricks.PlaySoundAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
@@ -351,6 +352,7 @@ public class BrickCategoryTest {
 						ClearBackgroundBrick.class)},
 				{"Sound", Arrays.asList(PlaySoundBrick.class,
 						PlaySoundAndWaitBrick.class,
+						PlaySoundAtBrick.class,
 						StopSoundBrick.class,
 						StopAllSoundsBrick.class,
 						SetVolumeToBrick.class,
@@ -429,6 +431,8 @@ public class BrickCategoryTest {
 						FlashBrick.class,
 						WriteVariableOnDeviceBrick.class,
 						ReadVariableFromDeviceBrick.class,
+						WriteVariableToFileBrick.class,
+						ReadVariableFromFileBrick.class,
 						WriteListOnDeviceBrick.class,
 						ReadListFromDeviceBrick.class,
 						TapAtBrick.class,

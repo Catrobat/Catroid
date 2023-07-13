@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@
     <string name="ignore">ไม่สนใจ</string>
     <string name="cancel">ยกเลิก</string>
     <string name="save">บันทึก</string>
+    <string name="help">ช่วยเหลือ</string>
     <string name="discard">ละทิ้ง</string>
     <string name="next">ถัดไป</string>
     <string name="ok">ตกลง</string>
@@ -331,6 +332,7 @@
     <string name="hide_details">แก้ไขรายละเอียด</string>
     <string name="project_options">ตัวเลือกโครงการ</string>
     <string name="from_library">เพิ่มจากคลังภาพ</string>
+    <string name="from_local">เพิ่มจากในเครื่อง</string>
     <string name="sort_projects">เรียงลำดับ</string>
     <string name="unsort_projects">ไม่เรียงลำดับ</string>
     <string name="import_from_project">เลือกโครงการที่จะนำเข้าจาก</string>
@@ -577,6 +579,7 @@
     <string name="add_sound_from_recorder">บันทึกเสียง</string>
     <string name="add_sound_choose_file">เลือกไฟล์</string>
     <string name="add_sound_music">นักแต่งเพลง</string>
+    <string name="add_sound_choose_sound">เสียง</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">ตัวเลือกหมายเหตุ</string>
     <!--  -->
@@ -918,6 +921,8 @@
     <string name="beats">เต้น</string>
     <string name="play_note">เล่นบันทึก</string>
     <string name="for_string">สำหรับ</string>
+    <string name="at_string">ที่</string>
+    <string name="seconds_string">วินาที</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">ตะเข็บ</string>
@@ -1179,13 +1184,6 @@
     <string name="notification_screenshot_ok">ภาพตัวอย่างที่บันทึกไว้</string>
     <string name="notification_download_project_cancel">ยกเลิกการดาวน์โหลดโครงการ</string>
     <string name="notification_reconvert_download_program_cancel">ยกเลิกโครงการดาวน์โหลด / กู้คืน</string>
-    <string name="notification_upload_title_pending">"กำลังอัปโหลด "</string>
-    <string name="notification_upload_title_finished">"ดูที่ "</string>
-    <string name="notification_upload_pending">อัปโหลดในระหว่างดำเนินการ</string>
-    <string name="notification_upload_finished">อัพโหลดเสร็จสิ้น</string>
-    <string name="notification_upload_rejected">โปรแกรมอัพโหลดถูกปฏิเสธ</string>
-    <string name="notification_upload_retry">ลองอีกครั้ง</string>
-    <string name="notification_open_play_store">เปิด App store</string>
     <string name="notification_download_title_pending">"กำลังดาวน์โหลด"</string>
     <string name="notification_download_pending">ดาวน์โหลดอยู่</string>
     <string name="notification_download_finished">ดาวน์โหลดเสร็จเรียบร้อย</string>
@@ -1195,7 +1193,6 @@
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">แอปนี้ต้องการสิทธิ์ที่ร้องขอเพื่อให้สามารถทำงานได้ ตัวอย่างเช่นคำสั่งของกล้องต้องการการเข้าถึงกล้องของอุปกรณ์องค์ประกอบของสูตร \"ตำแหน่ง\" ต้องการการเข้าถึงเซ็นเซอร์ตำแหน่งทางภูมิศาสตร์ของอุปกรณ์และเพื่อนำเข้าและส่งออกโครงการจากและไปยังหน่วยความจำท้องถิ่นแอปนี้จำเป็นต้องมีสิทธิ์อ่านและเขียน. คุณสามารถเปลี่ยนการอนุญาตผ่านการตั้งค่าอุปกรณ์ของคุณ</string>
     <!-- Error messages -->
-    <string name="error_project_upload">ข้อผิดพลาดเกิดขึ้นขณะอัปโหลดโปรแกรม</string>
     <string name="error_project_download">เกิดข้อผิดพลาดในขณะดาวน์โหลดโปรแกรม</string>
     <string name="error_project_already_in_queue">"โครงการ %s อยู่ในคิวแล้ว"</string>
     <string name="error_could_not_decode_project_name_from_url">"การดาวน์โหลดของคุณไม่สามารถเริ่มต้นดูเหมือนว่ามีปัญหากับเซิร์ฟเวอร์ของเรา"</string>
@@ -1206,7 +1203,7 @@
     <string name="error_internet_connection">เกิดข้อผิดพลาดที่ไม่รู้จักขึ้น กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ต</string>
     <string name="error_project_compatibility">โครงการเข้ากันไม่ได้กับแอพเวอร์ชันนี้</string>
     <string name="error_outdated_version">แอพเวอร์ชันนี้ล้าสมัยแล้ว อัปเดตตอนนี้หรือไม่</string>
-    <string name="error_upload_project_with_default_name">คุณไม่สามารถอัปโหลดโครงการที่มีชื่อ \"โครงการแรกของฉัน\"  โปรดเปลี่ยนชื่อโครงการ</string>
+    <string name="error_upload_project_with_default_name">คุณไม่สามารถอัปโหลดโครงการที่มีชื่อ \"%s\"  โปรดเปลี่ยนชื่อโครงการ</string>
     <string name="error_upload_default_project">คุณไม่สามารถอัพโหลดโครงการตัวอย่างที่ไม่ได้แก้ไข  โปรดเปลี่ยนบางสิ่งและลองอีกครั้ง</string>
     <string name="error_adding_brick">เกิดข้อผิดพลาดขณะเพิ่มก้อนนี้</string>
     <string name="error_copying_brick">เกิดข้อผิดพลาดขณะคัดลอกก้อนนี้</string>
@@ -1226,15 +1223,16 @@
     <string name="notification_blueth_err">ไม่สามารถเปิดใช้งานบลูทูธ ได้โปรดลองปิดและเปิดใหม่อีกครั้ง</string>
     <string name="title_paired_devices">อุปกรณ์ที่จับคู่ไว้</string>
     <string name="title_other_devices">อุปกรณ์ใหม่</string>
-    <string name="searching_devices">กำลังมองหาอุปกรณ&#8230;</string>
-    <string name="button_scan">ค้นหาอุปกรณ์ Bluetooth</string>
-    <string name="button_skip">ข้ามการเชื่อมต่อบลูทูธ</string>
-    <string name="select_device">เลือกอุปกรณ์:</string>
+    <string name="bluetooth_connection_title">การเชื่อมต่อบลูทูธ</string>
+    <string name="skip_bluetooth_connection">ข้าม</string>
     <string name="connecting_please_wait">กำลังเชื่อมต่อกับอุปกรณ์ \nกรุณารอ&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">เชื่อมต่อกับอุปกรณ์ล้มเหลว!</string>
     <string name="none_found">ไม่พบอุปกรณ์ที่ยังไม่ได้จับคู่</string>
-    <string name="none_paired">ไม่พบอุปกรณ์ที่จับคู่ไว้</string>
+    <string name="multiplayer_bluetooth_connection_information_title">การเชื่อมต่อบลูทูธ
+         ที่จำเป็น!</string>
+    <string name="multiplayer_bluetooth_connection_information">ในการเล่นเกมนี้ใน
+         ผู้เล่นหลายคนต้องมีการเชื่อมต่อ Bluetooth ผู้เล่นทั้งสองต้องเริ่มเกมและ
+         อยู่บนหน้าจอนี้เพื่อให้การเชื่อมต่อทำงานได้อย่างถูกต้อง!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">ตั้ง Arduino ดิจิตอลพิน</string>
@@ -1549,7 +1547,6 @@
          ผู้ช่วย</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">ปกติ
          ผู้ช่วยแสดงออก</string>
-    <string name="formula_editor_dialog_wiki_button">ข้อมูลมากกว่านี้</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">ไม่พบคีย์เวิร์ด</string>
     <string name="formula_editor_function_regex_json_extractor_title">ตัวแยก JSON</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino ขาดิจิตอล</string>
@@ -1956,7 +1953,7 @@
         โดยไม่มีวัตถุหรือรูปลักษณ์</string>
     <!-- Information -->
     <string name="no_variable_selected">ไม่ได้เลือกตัวแปร</string>
-    <string name="find">ค้นหา</string>
+    <string name="search">ค้นหา</string>
     <string name="no_results_found">ไม่พบผลลัพธ์</string>
     <string name="query_field_is_empty">ฟิลด์แบบสอบถามว่างเปล่า</string>
     <string name="cut">ตัด</string>
@@ -1971,4 +1968,5 @@
     <string name="set_particle_color_to">ตั้งค่าสีอนุภาคเป็น</string>
     <string name="undo_sort">เลิกทำการเรียงลำดับ</string>
     <string name="sort">เรียงลำดับ</string>
+    <string name="checkbox">checkbox</string>
 </resources>

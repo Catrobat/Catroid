@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,7 +44,6 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.COLLISION_F
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.FUNCTION
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.NUMBER
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.OPERATOR
-import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.SENSOR
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.STRING
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.USER_LIST
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.USER_VARIABLE
@@ -107,20 +106,6 @@ import org.catrobat.catroid.formulaeditor.Operators.PLUS
 import org.catrobat.catroid.formulaeditor.Operators.POW
 import org.catrobat.catroid.formulaeditor.Operators.SMALLER_OR_EQUAL
 import org.catrobat.catroid.formulaeditor.Operators.SMALLER_THAN
-import org.catrobat.catroid.formulaeditor.Sensors.DRONE_CAMERA_READY
-import org.catrobat.catroid.formulaeditor.Sensors.DRONE_FLYING
-import org.catrobat.catroid.formulaeditor.Sensors.DRONE_INITIALIZED
-import org.catrobat.catroid.formulaeditor.Sensors.DRONE_USB_ACTIVE
-import org.catrobat.catroid.formulaeditor.Sensors.FACE_DETECTED
-import org.catrobat.catroid.formulaeditor.Sensors.FACE_X
-import org.catrobat.catroid.formulaeditor.Sensors.FACE_Y
-import org.catrobat.catroid.formulaeditor.Sensors.NOSE_X
-import org.catrobat.catroid.formulaeditor.Sensors.NOSE_Y
-import org.catrobat.catroid.formulaeditor.Sensors.OBJECT_TRANSPARENCY
-import org.catrobat.catroid.formulaeditor.Sensors.OBJECT_X
-import org.catrobat.catroid.formulaeditor.Sensors.OBJECT_Y
-import org.catrobat.catroid.formulaeditor.Sensors.SECOND_FACE_DETECTED
-import org.catrobat.catroid.formulaeditor.Sensors.TEXT_FROM_CAMERA
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.test.utils.TestUtils
@@ -232,8 +217,6 @@ class FormulaEditorComputeDialogComputationResultTest(
             *listOfBooleanFunctionFormulas,
             *listOfUserDataFormulas,
             *listOfBooleanUserDataFormulas,
-            *listOfSensorFormulas,
-            *listOfBooleanSensorFormulas,
             *listOfCollisionFormulas
         )
 
@@ -996,98 +979,6 @@ class FormulaEditorComputeDialogComputationResultTest(
                     getFormula(Pair(USER_LIST, userListLeftName)),
                     null, null, listOf(false, true, true), null,
                     "$falseString $trueString $trueString"
-                )
-            )
-
-        private val listOfSensorFormulas =
-            arrayOf(
-                arrayOf(
-                    "Sensor FACE_X_POSITION",
-                    getFormula(Pair(SENSOR, FACE_X.name)),
-                    null, null, null, null,
-                    "0"
-                ),
-                arrayOf(
-                    "Sensor FACE_Y_POSITION",
-                    getFormula(Pair(SENSOR, FACE_Y.name)),
-                    null, null, null, null,
-                    "0"
-                ),
-                arrayOf(
-                    "Sensor NOSE_X",
-                    getFormula(Pair(SENSOR, NOSE_X.name)),
-                    null, null, null, null,
-                    "0"
-                ),
-                arrayOf(
-                    "Sensor NOSE_Y",
-                    getFormula(Pair(SENSOR, NOSE_Y.name)),
-                    null, null, null, null,
-                    "0"
-                ),
-                arrayOf(
-                    "Sensor OBJECT_X",
-                    getFormula(Pair(SENSOR, OBJECT_X.name)),
-                    null, null, null, null,
-                    "0"
-                ),
-                arrayOf(
-                    "Sensor OBJECT_Y",
-                    getFormula(Pair(SENSOR, OBJECT_Y.name)),
-                    null, null, null, null,
-                    "0"
-                ),
-                arrayOf(
-                    "Sensor OBJECT_TRANSPARENCY",
-                    getFormula(Pair(SENSOR, OBJECT_TRANSPARENCY.name)),
-                    null, null, null, null,
-                    "0"
-                ),
-                arrayOf(
-                    "Sensor TEXT_FROM_CAMERA",
-                    getFormula(Pair(SENSOR, TEXT_FROM_CAMERA.name)),
-                    null, null, null, null,
-                    "0"
-                )
-            )
-
-        private val listOfBooleanSensorFormulas =
-            arrayOf(
-                arrayOf(
-                    "Sensor FACE_DETECTED",
-                    getFormula(Pair(SENSOR, FACE_DETECTED.name)),
-                    null, null, null, null,
-                    falseString
-                ),
-                arrayOf(
-                    "Sensor SECOND_FACE_DETECTED",
-                    getFormula(Pair(SENSOR, SECOND_FACE_DETECTED.name)),
-                    null, null, null, null,
-                    falseString
-                ),
-                arrayOf(
-                    "Sensor DRONE_FLYING",
-                    getFormula(Pair(SENSOR, DRONE_FLYING.name)),
-                    null, null, null, null,
-                    falseString
-                ),
-                arrayOf(
-                    "Sensor DRONE_INITIALIZED",
-                    getFormula(Pair(SENSOR, DRONE_INITIALIZED.name)),
-                    null, null, null, null,
-                    falseString
-                ),
-                arrayOf(
-                    "Sensor DRONE_USB_ACTIVE",
-                    getFormula(Pair(SENSOR, DRONE_USB_ACTIVE.name)),
-                    null, null, null, null,
-                    falseString
-                ),
-                arrayOf(
-                    "Sensor DRONE_CAMERA_READY",
-                    getFormula(Pair(SENSOR, DRONE_CAMERA_READY.name)),
-                    null, null, null, null,
-                    falseString
                 )
             )
 

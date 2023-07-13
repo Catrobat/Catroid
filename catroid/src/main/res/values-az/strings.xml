@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@
     <string name="ignore">Ignore</string>
     <string name="cancel">İmtina et</string>
     <string name="save">Saxla</string>
+    <string name="help">Kömək</string>
     <string name="discard">Ləğv et</string>
     <string name="next">Next</string>
     <string name="ok">Oldu</string>
@@ -350,6 +351,7 @@
     <string name="hide_details">Təfərrüatları gizlət</string>
     <string name="project_options">Project options</string>
     <string name="from_library">Add from library</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">Sort</string>
     <string name="unsort_projects">Unsort</string>
     <string name="import_from_project">Select project to import from</string>
@@ -627,6 +629,7 @@
     <string name="add_sound_from_recorder">Record sound</string>
     <string name="add_sound_choose_file">Faylı seç</string>
     <string name="add_sound_music">Music composer</string>
+    <string name="add_sound_choose_sound">Sounds</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">Note Picker</string>
     <!--  -->
@@ -973,6 +976,8 @@
     <string name="beats">beats</string>
     <string name="play_note">Play note</string>
     <string name="for_string">for</string>
+    <string name="at_string">at</string>
+    <string name="seconds_string">seconds</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Stitch</string>
@@ -1242,13 +1247,6 @@
     <string name="notification_screenshot_ok">Preview image saved</string>
     <string name="notification_download_project_cancel">Cancel project download</string>
     <string name="notification_reconvert_download_program_cancel">Canceled downloading/reconverting project</string>
-    <string name="notification_upload_title_pending">"Uploading"</string>
-    <string name="notification_upload_title_finished">"Look at"</string>
-    <string name="notification_upload_pending">Upload in progress</string>
-    <string name="notification_upload_finished">Upload successful</string>
-    <string name="notification_upload_rejected">Uploaded project rejected</string>
-    <string name="notification_upload_retry">Təkrar yoxla</string>
-    <string name="notification_open_play_store">Open App store</string>
     <string name="notification_download_title_pending">"Downloading"</string>
     <string name="notification_download_pending">Download in progress</string>
     <string name="notification_download_finished">Download successful</string>
@@ -1261,7 +1259,6 @@ Camera brick needs access to the device\'s camera, the \"location\" formula elem
 device\'s geolocation sensor, and in order to import and export projects from and to the local memory, the app
 needs read and write access to it. You can always change permissions through your device\'s settings.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">Something went wrong while uploading the project.</string>
     <string name="error_project_download">Something went wrong while downloading the project.</string>
     <string name="error_project_already_in_queue">"Project %s already in queue."</string>
     <string name="error_could_not_decode_project_name_from_url">"Your download could not be
@@ -1273,7 +1270,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
     <string name="error_project_compatibility">The project is not compatible with this version of the app.</string>
     <string name="error_outdated_version">This app version is outdated. Update now?</string>
-    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"My first project\".
+    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"%s\".
         Please rename the project.</string>
     <string name="error_upload_default_project">You cannot upload an unmodified example project. Please
         change something and try again.</string>
@@ -1295,16 +1292,17 @@ needs read and write access to it. You can always change permissions through you
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Can\'t enable Bluetooth, please try turning it off and on again.</string>
     <string name="title_paired_devices">Paired devices</string>
-    <string name="title_other_devices">New devices</string>
-    <string name="searching_devices">Looking for devices&#8230;</string>
-    <string name="button_scan">Search Bluetooth devices</string>
-    <string name="button_skip">Skip Bluetooth connection</string>
-    <string name="select_device">Select device:</string>
+    <string name="title_other_devices">Available devices</string>
+    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="skip_bluetooth_connection">Ötür</string>
     <string name="connecting_please_wait">Connecting to your device.\nPlease wait&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">Connection to device failed!</string>
     <string name="none_found">No unpaired devices found</string>
-    <string name="none_paired">No paired devices found</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
+        required!</string>
+    <string name="multiplayer_bluetooth_connection_information">To play this game in
+        Multiplayer a Bluetooth connection is required. Both players have to start the game and
+        be on this screen for the connection to work properly!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Set Arduino digital pin</string>
@@ -1619,7 +1617,6 @@ needs read and write access to it. You can always change permissions through you
         assistant</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">Regular
         expression assistant</string>
-    <string name="formula_editor_dialog_wiki_button">More information</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">The keyword could not be found.</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON extractor</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino digital pin</string>
@@ -2031,7 +2028,7 @@ needs read and write access to it. You can always change permissions through you
         without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">No variable selected</string>
-    <string name="find">Find</string>
+    <string name="search">Axtar…</string>
     <string name="no_results_found">No results found</string>
     <string name="query_field_is_empty">Query field is empty</string>
     <string name="cut">Kəs</string>
@@ -2046,4 +2043,5 @@ needs read and write access to it. You can always change permissions through you
     <string name="set_particle_color_to">Set particle color to</string>
     <string name="undo_sort">Undo sort</string>
     <string name="sort">Sort</string>
+    <string name="checkbox">checkbox</string>
 </resources>

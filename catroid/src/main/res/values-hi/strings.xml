@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@
     <string name="ignore">नज़रअंदाज़ </string>
     <string name="cancel">रद्द करें</string>
     <string name="save">सहेजें</string>
+    <string name="help">मदद</string>
     <string name="discard">रद्द करें</string>
     <string name="next">अगला</string>
     <string name="ok">ठीक है।</string>
@@ -348,6 +349,7 @@
     <string name="hide_details">जानकारी छिपाएँ</string>
     <string name="project_options">परियोजना के विकल्प</string>
     <string name="from_library">पुस्तकालय से जोड़ें</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">क्रमबद्ध</string>
     <string name="unsort_projects">अवर्गीकृत</string>
     <string name="import_from_project">से आयात करने के लिए परियोजना का चयन करें</string>
@@ -625,6 +627,7 @@
     <string name="add_sound_from_recorder">रिकॉर्ड ध्वनि</string>
     <string name="add_sound_choose_file">फ़ाइल का चयन करें</string>
     <string name="add_sound_music">संगीतकार</string>
+    <string name="add_sound_choose_sound">ध्वनियाँ</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">नोट बीनने वाला</string>
     <!--  -->
@@ -970,6 +973,8 @@
     <string name="beats">बीट्स</string>
     <string name="play_note">नोट चलाएं</string>
     <string name="for_string">के लिये</string>
+    <string name="at_string">पर</string>
+    <string name="seconds_string">सेकंड</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">टांका</string>
@@ -1238,13 +1243,6 @@
     <string name="notification_screenshot_ok">पूर्वावलोकन छवि सहेजी गई</string>
     <string name="notification_download_project_cancel">प्रोजेक्ट डाउनलोड रद्द करें</string>
     <string name="notification_reconvert_download_program_cancel">डाउनलोडिंग / पुनर्गठन परियोजना को रद्द कर दिया</string>
-    <string name="notification_upload_title_pending">"अपलोडिंग"</string>
-    <string name="notification_upload_title_finished">"की ओर देखें"</string>
-    <string name="notification_upload_pending">अपलोड प्रगति में है</string>
-    <string name="notification_upload_finished">सफलतापूर्वक अपलोड हो गया</string>
-    <string name="notification_upload_rejected">अपलोड किया गया प्रोजेक्ट अस्वीकृत</string>
-    <string name="notification_upload_retry">पुनः प्रयास करें</string>
-    <string name="notification_open_play_store">ऐप स्टोर खोलें</string>
     <string name="notification_download_title_pending">"डाउनलोड"</string>
     <string name="notification_download_pending">डाउनलोड जारी है</string>
     <string name="notification_download_finished">सफल डाउनलोड करें</string>
@@ -1257,7 +1255,6 @@
 डिवाइस की जियोलोकेशन सेंसर, और स्थानीय मेमोरी और एप्लिकेशन से परियोजनाओं को आयात और निर्यात करने के लिए
 इसे पढ़ने और लिखने की आवश्यकता है। आप हमेशा अपने डिवाइस की सेटिंग के माध्यम से अनुमतियां बदल सकते हैं।</string>
     <!-- Error messages -->
-    <string name="error_project_upload">प्रोजेक्ट अपलोड करते समय कुछ गड़बड़ हो गई।</string>
     <string name="error_project_download">प्रोजेक्ट डाउनलोड करते समय कुछ गड़बड़ हो गई।</string>
     <string name="error_project_already_in_queue">"प्रोजेक्ट %s  पहले से ही कतार में है।"</string>
     <string name="error_could_not_decode_project_name_from_url">"आपका डाउनलोड नहीं हो सका
@@ -1269,8 +1266,8 @@
     <string name="error_internet_connection">एक अज्ञात ग़लती हुई। अपना इंटरनेट संपर्क जांचे।</string>
     <string name="error_project_compatibility">परियोजना एप्लिकेशन के इस संस्करण के साथ संगत नहीं है।</string>
     <string name="error_outdated_version">यह ऐप संस्करण पुराना है। अभी अद्यतन करें?</string>
-    <string name="error_upload_project_with_default_name">आप \"मेरी पहली परियोजना\" नाम के साथ एक परियोजना अपलोड नहीं कर सकते।
-        कृपया प्रोजेक्ट का नाम बदलें।</string>
+    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"%s\".
+        Please rename the project.</string>
     <string name="error_upload_default_project">आप एक unmodified उदाहरण परियोजना अपलोड नहीं कर सकते। कृपया
         कुछ बदलें और पुनः प्रयास करें।</string>
     <string name="error_adding_brick">इस ईंट को जोड़ते समय कुछ गड़बड़ हो गई।</string>
@@ -1292,15 +1289,16 @@
     <string name="notification_blueth_err">ब्लूटूथ को सक्षम नहीं कर सकता, कृपया इसे बंद करने का प्रयास करें और फिर से।</string>
     <string name="title_paired_devices">जुड़े हुए उपकरण</string>
     <string name="title_other_devices">नए उपकरण</string>
-    <string name="searching_devices">उपकरणों की तलाश&#8230;</string>
-    <string name="button_scan">ब्लूटूथ उपकरण ढूंढें</string>
-    <string name="button_skip">ब्लूटूथ कनेक्शन छोड़ें</string>
-    <string name="select_device">डिवाइस का चयन करें:</string>
+    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="skip_bluetooth_connection">छोड़</string>
     <string name="connecting_please_wait">उपकरण को संपर्क कर रहें हैं।\nप्रतीक्षा करे&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">उपकरण से संपर्क नहीं हो पा रहा हैं!</string>
     <string name="none_found">ऐसा कोई उपकरण नहीं मिला जो युग्मित ना हों</string>
-    <string name="none_paired">ऐसा कोई उपकरण नहीं मिला जो युग्मित ना हों</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
+        required!</string>
+    <string name="multiplayer_bluetooth_connection_information">To play this game in
+        Multiplayer a Bluetooth connection is required. Both players have to start the game and
+        be on this screen for the connection to work properly!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Arduino डिजिटल पिन सेट करें</string>
@@ -1615,7 +1613,6 @@
         सहायक</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">नियमित
         अभिव्यक्ति सहायक</string>
-    <string name="formula_editor_dialog_wiki_button">अधिक जानकारी</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">कीवर्ड नहीं मिला।</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON चिमटा</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">Arduino डिजिटल पिन</string>
@@ -2026,7 +2023,7 @@
         एक नज़र के बिना।</string>
     <!-- Information -->
     <string name="no_variable_selected">कोई चर नहीं चुना गया</string>
-    <string name="find">खोज</string>
+    <string name="search">खोज…</string>
     <string name="no_results_found">कोई परिणाम नहीं मिला</string>
     <string name="query_field_is_empty">क्वेरी फ़ील्ड खाली है</string>
     <string name="cut">काटें</string>
@@ -2041,4 +2038,5 @@
     <string name="set_particle_color_to">कण रंग को पर सेट करें</string>
     <string name="undo_sort">पूर्ववत क्रमबद्ध करें</string>
     <string name="sort">क्रमबद्ध</string>
+    <string name="checkbox">checkbox</string>
 </resources>

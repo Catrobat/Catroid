@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -49,7 +49,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionModeWrapper.onActionMode;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
-import static org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBar;
+import static org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBarMenu;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.not;
@@ -87,7 +87,7 @@ public class RenameProjectTest {
 
 	@Test
 	public void renameProjectTest() {
-		openActionBar();
+		openActionBarMenu();
 		onView(withText(R.string.rename)).perform(click());
 
 		onRecyclerView().atPosition(0)
@@ -111,7 +111,7 @@ public class RenameProjectTest {
 
 	@Test
 	public void cancelRenameProjectTest() {
-		openActionBar();
+		openActionBarMenu();
 		onView(withText(R.string.rename)).perform(click());
 
 		onRecyclerView().atPosition(0)
@@ -133,7 +133,7 @@ public class RenameProjectTest {
 
 	@Test
 	public void invalidInputRenameProjectTest() {
-		openActionBar();
+		openActionBarMenu();
 		onView(withText(R.string.rename)).perform(click());
 
 		onRecyclerView().atPosition(0)
@@ -173,16 +173,16 @@ public class RenameProjectTest {
 
 	@Test
 	public void renameSingleProjectTest() {
-		openActionBar();
+		openActionBarMenu();
 		onView(withText(R.string.delete)).perform(click());
 
-		onRecyclerView().atPosition(1).performCheckItem();
+		onRecyclerView().atPosition(1).performCheckItemClick();
 
 		onActionMode().performConfirm();
 
 		onView(withText(R.string.delete)).perform(click());
 
-		openActionBar();
+		openActionBarMenu();
 		onView(withText(R.string.rename)).perform(click());
 
 		onView(withText(R.string.rename_project)).inRoot(isDialog())

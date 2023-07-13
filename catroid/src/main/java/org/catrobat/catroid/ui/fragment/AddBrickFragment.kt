@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -43,6 +43,7 @@ import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter
 import org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile
+import org.catrobat.catroid.utils.SnackbarUtil
 import org.catrobat.catroid.utils.ToastUtil
 import org.koin.java.KoinJavaComponent.inject
 
@@ -75,7 +76,7 @@ class AddBrickFragment : ListFragment() {
                                             it1
             )
         } }
-        adapter = PrototypeBrickAdapter(brickList)
+        adapter = brickList?.let { PrototypeBrickAdapter(it) }
         listAdapter = adapter
     }
 
@@ -101,6 +102,7 @@ class AddBrickFragment : ListFragment() {
     override fun onResume() {
         super.onResume()
         setupSelectedBrickCategory()
+        SnackbarUtil.showHintSnackbar(activity, R.string.hint_bricks)
     }
 
     override fun onStart() {
@@ -153,6 +155,7 @@ fun addBrickToScript(brick: Brick, activity: SpriteActivity, addBrickListener: A
     try {
         val brickToAdd = brick.clone()
         addBrickListener?.addBrick(brickToAdd)
+        SnackbarUtil.showHintSnackbar(activity, R.string.hint_scripts)
         val fragmentTransaction = parentFragmentManager.beginTransaction()
         val categoryFragment = parentFragmentManager.findFragmentByTag(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
         if (categoryFragment != null) {

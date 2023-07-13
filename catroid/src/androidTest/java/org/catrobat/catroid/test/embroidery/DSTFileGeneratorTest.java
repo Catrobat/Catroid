@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -60,12 +60,12 @@ public class DSTFileGeneratorTest {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 		ProjectManager.getInstance().setCurrentProject(project);
 
-		dstFile = new File(Constants.CACHE_DIR, projectName + ".dst");
+		dstFile = new File(Constants.CACHE_DIRECTORY, projectName + ".dst");
 		if (dstFile.exists()) {
 			dstFile.delete();
 		}
-		if (!Constants.CACHE_DIR.exists()) {
-			Constants.CACHE_DIR.mkdirs();
+		if (!Constants.CACHE_DIRECTORY.exists()) {
+			Constants.CACHE_DIRECTORY.mkdirs();
 		}
 		dstFile.createNewFile();
 	}
@@ -87,7 +87,7 @@ public class DSTFileGeneratorTest {
 
 		InputStream inputStream = InstrumentationRegistry.getInstrumentation().getContext().getResources().openRawResource(org.catrobat
 				.catroid.test.R.raw.sample_dst_file);
-		File compareFile = StorageOperations.copyStreamToDir(inputStream, Constants.CACHE_DIR, "sample_dst_file.dst");
+		File compareFile = StorageOperations.copyStreamToDir(inputStream, Constants.CACHE_DIRECTORY, "sample_dst_file.dst");
 
 		assertEquals(compareFile.length(), dstFile.length());
 
@@ -125,7 +125,7 @@ public class DSTFileGeneratorTest {
 
 		InputStream inputStream = InstrumentationRegistry.getInstrumentation().getContext().getResources().openRawResource(org.catrobat
 				.catroid.test.R.raw.complex_sample_dst_file);
-		File compareFile = StorageOperations.copyStreamToDir(inputStream, Constants.CACHE_DIR,
+		File compareFile = StorageOperations.copyStreamToDir(inputStream, Constants.CACHE_DIRECTORY,
 				"complex_sample_dst_file.dst");
 
 		assertEquals(compareFile.length(), dstFile.length());

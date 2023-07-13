@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,6 +37,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,7 +51,6 @@ import android.widget.LinearLayout;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.BaseCastActivity;
@@ -149,7 +149,10 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+		super.onCreate(null);
+
+		DisplayMetrics displayMetrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
 		if (isFinishing()) {
 			return;
@@ -189,13 +192,13 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 		frameLayout = findViewById(R.id.frame_container);
 
-		int screenWidth = ScreenValues.SCREEN_WIDTH;
-		int screenHeight = ScreenValues.SCREEN_HEIGHT;
+		int screenWidth = displayMetrics.widthPixels;
+		int screenHeight = displayMetrics.heightPixels;
 		int virtualScreenWidth = currentProject.getXmlHeader().virtualScreenWidth;
 		int virtualScreenHeight = currentProject.getXmlHeader().virtualScreenHeight;
 
 		float aspectRatio = (float) virtualScreenWidth / (float) virtualScreenHeight;
-		float screenAspectRatio = ScreenValues.getAspectRatio();
+		float screenAspectRatio = (float) screenWidth / (float) screenHeight;
 
 		float scale;
 		float ratioHeight = (float) screenHeight / (float) virtualScreenHeight;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@
     <string name="ignore">Göz ardı et</string>
     <string name="cancel">İptal et</string>
     <string name="save">Kaydet</string>
+    <string name="help">Yardım</string>
     <string name="discard">Vazgeç</string>
     <string name="next">İleri</string>
     <string name="ok">Tamam</string>
@@ -333,6 +334,7 @@
     <string name="hide_details">Detayları gizle</string>
     <string name="project_options">Proje Seçenekleri</string>
     <string name="from_library">Kitaplıktan ekle</string>
+    <string name="from_local">Yerelden ekle</string>
     <string name="sort_projects">Sırala</string>
     <string name="unsort_projects">Sıralamayı Kaldır</string>
     <string name="import_from_project">İçe aktarılacak projeyi seçin</string>
@@ -609,6 +611,7 @@
     <string name="add_sound_from_recorder">Ses kaydet</string>
     <string name="add_sound_choose_file">Telefondan seç</string>
     <string name="add_sound_music">Müzik bestecisi</string>
+    <string name="add_sound_choose_sound">Sesler</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">Nota Seçimi</string>
     <!--  -->
@@ -944,6 +947,8 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="beats">vuruş</string>
     <string name="play_note">Nota çal</string>
     <string name="for_string">için</string>
+    <string name="at_string">en</string>
+    <string name="seconds_string">saniyeler</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Dikiş</string>
@@ -1205,13 +1210,6 @@ bekleyin</string>
     <string name="notification_screenshot_ok">Önizleme resmi kaydedildi</string>
     <string name="notification_download_project_cancel">Proje indirmeyi iptal et</string>
     <string name="notification_reconvert_download_program_cancel">Programı indirme/yeniden dönüştürme iptal edildi</string>
-    <string name="notification_upload_title_pending">"Catrobat topluluğuna yükleniyor "</string>
-    <string name="notification_upload_title_finished">"Bak "</string>
-    <string name="notification_upload_pending">Topluluğa Yükleme Devam Ediyor</string>
-    <string name="notification_upload_finished">Yükleme Başarılı</string>
-    <string name="notification_upload_rejected">Yüklenen proje rededildi</string>
-    <string name="notification_upload_retry">Yeniden deneyin</string>
-    <string name="notification_open_play_store">Uygulama mağazasını aç</string>
     <string name="notification_download_title_pending">"İndiriliyor…"</string>
     <string name="notification_download_pending">İndirme devam ediyor…</string>
     <string name="notification_download_finished">İndirme başarılı oldu</string>
@@ -1221,7 +1219,6 @@ bekleyin</string>
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">Bu uygulamanın düzgün çalışması için istenen izinlere ihtiyacı var. Ör. Kamera tuğlasının cihazın kamerasına erişmesi gerekiyor, \"konum\" formül öğesinin cihazın coğrafi konum sensörü ve projeleri yerel bellekten ve yerel bellekten içe ve dışa aktarmak için uygulama okuma ve yazma erişimine ihtiyacı var. İzinleri her zaman cihazınızın ayarlarından değiştirebilirsiniz.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">Programı yüklerken bir hata oluştu.</string>
     <string name="error_project_download">Programı yüklerken bir hata oluştu.</string>
     <string name="error_project_already_in_queue">"%s projesi zaten sırada."</string>
     <string name="error_could_not_decode_project_name_from_url">İndirme işleminiz başlatılamadı, sunucumuzda bir sorun var gibi görünüyor.</string>
@@ -1232,7 +1229,8 @@ bekleyin</string>
     <string name="error_internet_connection">Bilinmeyen bir hata oluştu. Internet bağlantınızı kontrol edin.</string>
     <string name="error_project_compatibility">Proje, uygulamanın bu sürümüyle uyumlu değil.</string>
     <string name="error_outdated_version">Bu app sürümü güncel değil. Şimdi Güncellensin mi ?</string>
-    <string name="error_upload_project_with_default_name">\"İlk projem\" adıyla bir proje yükleyemezsiniz. Lütfen projeyi yeniden adlandırın.</string>
+    <string name="error_upload_project_with_default_name">\"%s\" adıyla bir proje yükleyemezsiniz.
+Lütfen projeyi yeniden adlandırın.</string>
     <string name="error_upload_default_project">Değiştirilmemiş bir örnek proje yükleyemezsiniz. Lütfen bir şeyi değiştirip tekrar deneyin.</string>
     <string name="error_adding_brick">Bu tuğla eklenirken bir hata oluştu</string>
     <string name="error_copying_brick">Bu tuğla kopyalanırken bir hata oluştu.</string>
@@ -1252,15 +1250,16 @@ bekleyin</string>
     <string name="notification_blueth_err">Bluetooth etkinleştirilemiyor, lütfen kapatıp tekrar açmayı deneyin.</string>
     <string name="title_paired_devices">Eşleşmiş cihazlar</string>
     <string name="title_other_devices">Yeni aygıtlar</string>
-    <string name="searching_devices">Cihazlar aranıyor&#8230;</string>
-    <string name="button_scan">Bluetooth aygıtlarını arayın</string>
-    <string name="button_skip">Bluetooth bağlantısını atla</string>
-    <string name="select_device">Bir cihaz seçin</string>
+    <string name="bluetooth_connection_title">Bluetooth bağlantısı</string>
+    <string name="skip_bluetooth_connection">Atla</string>
     <string name="connecting_please_wait">Cihazınıza bağlanıyor.\nLütfen bekleyin&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">Aygıt bağlantısı başarısız oldu!</string>
     <string name="none_found">Eşleştirilmemiş aygıt bulunamadı</string>
-    <string name="none_paired">Eşleştirilmemiş aygıt bulunamadı</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth bağlantısı
+        gereklidir!</string>
+    <string name="multiplayer_bluetooth_connection_information">Bu oyunu oynamak için
+        Çok oyunculu bir Bluetooth bağlantısı gereklidir. Her iki oyuncu da oyuna başlamalı ve
+        bağlantının düzgün çalışması için bu ekranda olun!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Arduino dijital pinini ayarla</string>
@@ -1569,7 +1568,6 @@ bekleyin</string>
         asistan</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">Düzenli
         ifade asistanı</string>
-    <string name="formula_editor_dialog_wiki_button">Daha fazla bilgi</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">Anahtar kelime bulunamadı.</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON çıkarıcı</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino dijital pin</string>
@@ -1969,7 +1967,7 @@ bekleyin</string>
         Obje oluşturuluçaktır.</string>
     <!-- Information -->
     <string name="no_variable_selected">Değişken seçilmedi</string>
-    <string name="find">Bul</string>
+    <string name="search">Ara…</string>
     <string name="no_results_found">Sonuç bulunamadı</string>
     <string name="query_field_is_empty">Sorgu alanı boş</string>
     <string name="cut">Kes</string>
@@ -1984,4 +1982,5 @@ bekleyin</string>
     <string name="set_particle_color_to">Parçacık rengini şuna ayarla</string>
     <string name="undo_sort">Sıralamayı geri al</string>
     <string name="sort">Sırala</string>
+    <string name="checkbox">checkbox</string>
 </resources>

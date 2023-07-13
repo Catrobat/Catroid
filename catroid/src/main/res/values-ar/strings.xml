@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@
     <string name="ignore">تجاهل</string>
     <string name="cancel">إلغاء</string>
     <string name="save">حفظ</string>
+    <string name="help">المساعدة</string>
     <string name="discard">تجاهل</string>
     <string name="next">التالي</string>
     <string name="ok">موافق</string>
@@ -371,6 +372,7 @@
     <string name="hide_details">إخفاء التفاصيل</string>
     <string name="project_options">خيارات المشروع</string>
     <string name="from_library">إضافة من المكتبة</string>
+    <string name="from_local">إضافة من المحلية</string>
     <string name="sort_projects">فرز</string>
     <string name="unsort_projects">ترتيب</string>
     <string name="import_from_project">حدد المشروع المراد استيراده من</string>
@@ -772,6 +774,7 @@
     <string name="add_sound_from_recorder">تسجيل صوت</string>
     <string name="add_sound_choose_file">حدد الملف</string>
     <string name="add_sound_music">مُلحن الموسيقى</string>
+    <string name="add_sound_choose_sound">الأصوات</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">منتقي الملاحظات</string>
     <!--  -->
@@ -1126,6 +1129,8 @@
     <string name="beats">هزات</string>
     <string name="play_note">تشغيل الملاحظة</string>
     <string name="for_string">لفترة</string>
+    <string name="at_string">في </string>
+    <string name="seconds_string">ثوان</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">حياكة</string>
@@ -1415,13 +1420,6 @@
     <string name="notification_screenshot_ok">معاينة الصورة المحفوظة</string>
     <string name="notification_download_project_cancel">الغاء تحميل المشروع</string>
     <string name="notification_reconvert_download_program_cancel">إلغاء اللتحميل/إعادة التحويل البرنامج</string>
-    <string name="notification_upload_title_pending">"التحميل "</string>
-    <string name="notification_upload_title_finished">"أنظر الى"</string>
-    <string name="notification_upload_pending">جاري التحميل </string>
-    <string name="notification_upload_finished">تم التحميل بنجاح</string>
-    <string name="notification_upload_rejected">تم رفض تحميل البرنامج</string>
-    <string name="notification_upload_retry">إعادة المحاولة</string>
-    <string name="notification_open_play_store">فتح في بلي ستور</string>
     <string name="notification_download_title_pending">"التنزيل "</string>
     <string name="notification_download_pending">جاري التنزيل</string>
     <string name="notification_download_finished">تم التنزيل بنجاح</string>
@@ -1435,7 +1433,6 @@
 ومن أجل استيراد وتصدير المشاريع من والى الذاكرة الخارجية, التطبيق يحتاج إذن القراء والكتابة.
 يمكنك دائماً تغيير الاذونات الممنوحة للتطبيق من إعدادات الجهاز.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">حدث خطأ أثناء تحميل البرنامج.</string>
     <string name="error_project_download">حدث خطأ أثناء تنزيل البرنامج.</string>
     <string name="error_project_already_in_queue">"المشروع %s في قائمة الانتظار بالفعل."</string>
     <string name="error_could_not_decode_project_name_from_url">"لا يمكن أن يكون تحميلك
@@ -1447,7 +1444,7 @@
     <string name="error_internet_connection">حدث خطأ غير معروف. تحقق من اتصال الإنترنت الخاص بك.</string>
     <string name="error_project_compatibility">المشروع غير متكامل مع هذا الإصدار من البرنامج.</string>
     <string name="error_outdated_version">إصدار \"البوكت كوود\" قديم جداً. قم بالتحديث الآن؟</string>
-    <string name="error_upload_project_with_default_name">لا يمكنك رفع مشروع مُسمى \"مشروعي الأول\".
+    <string name="error_upload_project_with_default_name">لا يمكنك رفع مشروع مُسمى \"%s\".
         من فضلك قم بإعادة تسمية المشروع.</string>
     <string name="error_upload_default_project">لا يمكنك رفع المشروع الإفتراضي. فضلاً
         قم بتغيير شيئاً ما ثم حاول مجدداً.</string>
@@ -1469,15 +1466,16 @@
     <string name="notification_blueth_err">لا يمكن تفعيل البلوتوث, فضلاً قم بإطفائه وتشغيله من جديد.</string>
     <string name="title_paired_devices">الأجهزة المقترنة</string>
     <string name="title_other_devices">أجهزة جديدة</string>
-    <string name="searching_devices">جاري البحث عن الأجهزة&#8230;</string>
-    <string name="button_scan">البحث عن أجهزة Bluetooth</string>
-    <string name="button_skip">تخطي اتصال البلوتوث</string>
-    <string name="select_device">حدد الجهاز:</string>
+    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="skip_bluetooth_connection">تخطى</string>
     <string name="connecting_please_wait">الاتصال بالجهاز الخاص بك الرجاء الانتظار&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">فشل الاتصال بالجهاز!</string>
     <string name="none_found">لم يتم العثور على أجهزة غير مقترنة</string>
-    <string name="none_paired">لم يتم العثور على أجهزة مقترنة</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
+        required!</string>
+    <string name="multiplayer_bluetooth_connection_information">للعب هذه اللعبة في
+        متعدد اللاعبين مطلوب اتصال بلوتوث. يجب على كلا اللاعبين أن يبدأا اللعبة و
+        أن يكونا على هذه الشاشة لكي يعمل الاتصال بشكل صحيح!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">تعيين قيمة إبرة أردوينو الرقمية</string>
@@ -1785,7 +1783,6 @@
     <string name="formula_editor_function_regex_assistant">تعبير عادي
         مساعد</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">مساعد التعبير العادي</string>
-    <string name="formula_editor_dialog_wiki_button">مزيد من المعلومات</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">تعذر العثور على الكلمة المفتاحية.</string>
     <string name="formula_editor_function_regex_json_extractor_title">مستخرج JSON</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">دبوس اردوينو الرقمي</string>
@@ -2193,7 +2190,7 @@
         بدون نظرة.</string>
     <!-- Information -->
     <string name="no_variable_selected">لا يوجد متغير محدد</string>
-    <string name="find">تجد</string>
+    <string name="search">جاري البحث…</string>
     <string name="no_results_found">لم يتم العثور على نتائج</string>
     <string name="query_field_is_empty">حقل الاستعلام فارغ</string>
     <string name="cut">قطع</string>
@@ -2208,4 +2205,5 @@
     <string name="set_particle_color_to">تعيين لون الجسيم إلى</string>
     <string name="undo_sort">التراجع عن الترتيب</string>
     <string name="sort">فرز</string>
+    <string name="checkbox">checkbox</string>
 </resources>

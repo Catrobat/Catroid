@@ -38,8 +38,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import android.widget.RadioGroup
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
+import com.google.android.material.textfield.TextInputLayout
 import com.google.common.base.Charsets
 import com.google.common.io.Files
 import kotlinx.coroutines.Dispatchers
@@ -58,11 +61,14 @@ import org.catrobat.catroid.databinding.DialogReplaceApiKeyBinding
 import org.catrobat.catroid.databinding.DialogUploadUnchangedProjectBinding
 import org.catrobat.catroid.exceptions.ProjectException
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask.ProjectLoadListener
 import org.catrobat.catroid.retrofit.models.ProjectUploadResponseApi
 import org.catrobat.catroid.transfers.ProjectUploadTask
+import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
+import org.catrobat.catroid.transfers.GetUserProjectsTask
 import org.catrobat.catroid.transfers.TagsTask
 import org.catrobat.catroid.transfers.TokenTask
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.InputWatcher
 import org.catrobat.catroid.utils.FileMetaDataExtractor
 import org.catrobat.catroid.utils.NetworkConnectionMonitor
 import org.catrobat.catroid.utils.ProjectZipper
@@ -130,6 +136,14 @@ open class ProjectUploadActivity : BaseActivity(),
     // Used for zipping and uploading in background
     private var projectUploadJob: Job? = null
 
+    private val getUserProjectsTask: GetUserProjectsTask by inject()
+
+    private var getUserProjectsJob: Job? = null
+
+    private var projectNamesOfUser: MutableList<String> = mutableListOf()
+
+    private var extractProjectNamesFromResponseJob: Job? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUploadBinding.inflate(layoutInflater)
@@ -154,6 +168,21 @@ open class ProjectUploadActivity : BaseActivity(),
                 }
             }
 
+        getUserProjectsTask.clear()
+        getUserProjectsTask.getUserProjectsResponse()
+            .observe(this) { projectResponse ->
+                projectResponse?.let {
+                    Log.d(TAG, "We got a response!")
+                    extractProjectNamesFromResponseJob = GlobalScope.launch(Dispatchers.Main) {
+                        for (response in projectResponse) {
+                            projectNamesOfUser.add(response.name)
+                        }
+                    }
+                } ?: run {
+                    Log.d(TAG, "We got no response, something failed")
+                }
+            }
+
         loadProjectActivity()
     }
 
@@ -171,6 +200,7 @@ open class ProjectUploadActivity : BaseActivity(),
         getTags()
         project = projectManager.currentProject
         verifyUserIdentity()
+        getAllUserProjects()
     }
 
     protected fun onCreateView() {
@@ -233,6 +263,8 @@ open class ProjectUploadActivity : BaseActivity(),
             uploadProgressDialog?.dismiss()
         }
         projectUploadJob?.cancel()
+        getUserProjectsJob?.cancel()
+        extractProjectNamesFromResponseJob?.cancel()
         super.onDestroy()
     }
 
@@ -282,6 +314,8 @@ open class ProjectUploadActivity : BaseActivity(),
     }
 
     private fun onNextButtonClick() {
+        Utils.hideStandardSystemKeyboard(this)
+
         if (!notesAndCreditsScreen) {
             val name = binding.inputProjectName.editText?.text.toString().trim()
             val error = nameInputTextWatcher.validateName(name)
@@ -291,13 +325,13 @@ open class ProjectUploadActivity : BaseActivity(),
                 return
             }
 
-            if (Utils.isDefaultProject(project, this)) {
-                binding.inputProjectName.error = getString(R.string.error_upload_default_project)
-                binding.inputProjectName.editText?.removeTextChangedListener(nameInputTextWatcher)
-                binding.inputProjectName.isEnabled = false
-                binding.inputProjectDescription.isEnabled = false
-                setShowProgressBar(false)
-                return
+            if (projectNamesOfUser
+                    .contains(binding.inputProjectName.editText?.text.toString())
+            ) {
+                Log.e(TAG, "Name is not unique, show Overwrite Dialog!")
+                showOverwriteDialog()
+            } else {
+                Log.d(TAG, "Name is unique")
             }
 
             setScreen(notesAndCreditsScreen)
@@ -477,6 +511,57 @@ open class ProjectUploadActivity : BaseActivity(),
         }
     }
 
+    private fun showOverwriteDialog() {
+        val view = View.inflate(this, R.layout.dialog_overwrite_project, null)
+        val radioGroup = view.findViewById<RadioGroup>(R.id.radio_group)
+        val inputLayout = view.findViewById<TextInputLayout>(R.id.input)
+
+        val textWatcher: InputWatcher.TextWatcher = object : InputWatcher.TextWatcher() {
+            override fun isNameUnique(name: String?): Boolean {
+                return name?.let { projectNamesOfUser.contains(it) } ?: true
+            }
+        }
+
+        val builder = TextInputDialog.Builder(this)
+            .setText(binding.inputProjectName.editText?.text.toString())
+            .setTextWatcher(textWatcher)
+            .setPositiveButton(
+                getString(R.string.ok),
+                TextInputDialog.OnClickListener { dialog: DialogInterface?, textInput: String? ->
+                    when (radioGroup.checkedRadioButtonId) {
+                        R.id.rename -> if (textInput != null) {
+                            project.name = textInput
+                        }
+                        R.id.replace -> Log.d(TAG, "Project will be overwritten!")
+                        else -> throw java.lang.IllegalStateException("Cannot find Radio Button")
+                    }
+                }
+            )
+        val alertDialog: AlertDialog = builder
+            .setTitle(R.string.overwrite_title)
+            .setView(view)
+            .setNegativeButton(R.string.cancel, null)
+            .create()
+
+        radioGroup.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group:
+        RadioGroup?, checkedId: Int ->
+            when (checkedId) {
+                R.id.replace -> {
+                    inputLayout.visibility = TextView.GONE
+                    inputLayout.editText.hideKeyboard()
+                    alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = true
+                }
+                R.id.rename -> {
+                    inputLayout.visibility = TextView.VISIBLE
+                    inputLayout.editText.showKeyboard()
+                    alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = textWatcher
+                        .validateInput(inputLayout.editText!!.text.toString(), this) == null
+                }
+            }
+        })
+        alertDialog.show()
+    }
+
     private fun setScreen(screen: Boolean) {
         if (screen) setVisibility(View.VISIBLE) else setVisibility(View.GONE)
         binding.projectNotesAndCreditsExplanation.visibility =
@@ -494,7 +579,7 @@ open class ProjectUploadActivity : BaseActivity(),
 
     private fun showUploadDialog() {
         if (MainMenuActivity.surveyCampaign != null) {
-            MainMenuActivity.surveyCampaign.uploadFlag = true
+            MainMenuActivity.surveyCampaign?.uploadFlag = true
         }
 
         uploadProgressDialog = AlertDialog.Builder(this)
@@ -526,6 +611,7 @@ open class ProjectUploadActivity : BaseActivity(),
             uploadProgressDialog?.findViewById<ImageView>(R.id.dialog_upload_progress_image)
         image?.setImageResource(R.drawable.ic_upload_failed)
         image?.visibility = View.VISIBLE
+        Log.e(TAG, errorMessage)
     }
 
     private fun showSuccessDialog(projectMetaData: ProjectUploadResponseApi) {
@@ -642,23 +728,6 @@ open class ProjectUploadActivity : BaseActivity(),
         tokenTask.refreshToken(token, refreshToken)
     }
 
-    @Deprecated("Use new API call instead", ReplaceWith("checkRefreshToken(token, refreshToken)"))
-    private fun checkDeprecatedToken(token: String) {
-        tokenTask.getUpgradeTokenResponse().observe(this, Observer { upgradeResponse ->
-            upgradeResponse?.let {
-                sharedPreferences.edit()
-                    .putString(Constants.TOKEN, upgradeResponse.token)
-                    .putString(Constants.REFRESH_TOKEN, upgradeResponse.refresh_token)
-                    .apply()
-                onCreateView()
-            } ?: run {
-                verifyUserIdentityFailed()
-            }
-        })
-
-        tokenTask.upgradeToken(token)
-    }
-
     private fun verifyUserIdentityFailed() {
         ToastUtil.showError(this, R.string.error_session_expired)
         Utils.logoutUser(this)
@@ -691,6 +760,18 @@ open class ProjectUploadActivity : BaseActivity(),
         tagsTask.getTags()
     }
 
+    private fun getAllUserProjects() {
+        getUserProjectsJob = GlobalScope.launch(Dispatchers.Main) {
+            getUserProjectsTask.getProjectsFromUser(
+                sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN).orEmpty()
+            )
+        }
+    }
+
+    fun addProjectName(name: String) {
+        projectNamesOfUser.add(name)
+    }
+
     inner class NameInputTextWatcher : TextWatcher {
         fun validateName(name: String): String? {
             var name = name
@@ -702,7 +783,7 @@ open class ProjectUploadActivity : BaseActivity(),
                 return getString(R.string.name_consists_of_spaces_only)
             }
             if (name == getString(R.string.default_project_name)) {
-                return getString(R.string.error_upload_project_with_default_name)
+                return getString(R.string.error_upload_project_with_default_name, name)
             }
             return if (name != project.name &&
                 FileMetaDataExtractor.getProjectNames(FlavoredConstants.DEFAULT_ROOT_DIRECTORY)

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@
     <string name="ignore">無視</string>
     <string name="cancel">キャンセル</string>
     <string name="save">保存</string>
+    <string name="help">ヘルプ</string>
     <string name="discard">破棄</string>
     <string name="next">次へ</string>
     <string name="ok">わかりました</string>
@@ -338,6 +339,7 @@
     <string name="hide_details">詳細を隠す</string>
     <string name="project_options">プロジェクトオプション</string>
     <string name="from_library">ライブラリから追加</string>
+    <string name="from_local">ローカルから</string>
     <string name="sort_projects">並べ替え</string>
     <string name="unsort_projects">並べ替えを解除</string>
     <string name="import_from_project">インポートするプロジェクトを選択</string>
@@ -584,6 +586,7 @@
     <string name="add_sound_from_recorder">サウンドの録音</string>
     <string name="add_sound_choose_file">ファイルを選択</string>
     <string name="add_sound_music">音楽の作曲</string>
+    <string name="add_sound_choose_sound">サウンド</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">ノートピッカー</string>
     <!--  -->
@@ -927,6 +930,8 @@
     <string name="beats">ビーツ</string>
     <string name="play_note">ノートを再生</string>
     <string name="for_string">次の</string>
+    <string name="at_string">位置 </string>
+    <string name="seconds_string">秒</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">ステッチ</string>
@@ -1190,13 +1195,6 @@
     <string name="notification_screenshot_ok">プレビュー画像を保存しました</string>
     <string name="notification_download_project_cancel">プロジェクトのダウンロードをキャンセル</string>
     <string name="notification_reconvert_download_program_cancel">プログラムのダウンロード/再変換をキャンセルしました</string>
-    <string name="notification_upload_title_pending">"アップロード中 "</string>
-    <string name="notification_upload_title_finished">"見てください："</string>
-    <string name="notification_upload_pending">アップロードは進行中</string>
-    <string name="notification_upload_finished">アップロードが成功</string>
-    <string name="notification_upload_rejected">アップロードしたプログラムが拒否されました</string>
-    <string name="notification_upload_retry">リトライ</string>
-    <string name="notification_open_play_store">Play ストア を開く</string>
     <string name="notification_download_title_pending">"ダウンロード中 "</string>
     <string name="notification_download_pending">ダウンロードが進行中</string>
     <string name="notification_download_finished">ダウンロードに成功しました</string>
@@ -1209,7 +1207,6 @@
 また、プロジェクトをローカルメモリーとの間でインポートおよびエクスポートするためには、アプリはローカルメモリーに対する読み取りおよび書き込みのアクセスを必要とします。
 読み込みと書き込みのアクセスが必要です。パーミッションの変更は、デバイスの設定からいつでも行えます。</string>
     <!-- Error messages -->
-    <string name="error_project_upload">アップロード中にエラーが発生しました</string>
     <string name="error_project_download">プログラムをダウンロード中にエラーが発生しました</string>
     <string name="error_project_already_in_queue">"プロジェクト %s はすでにキューに入っています。"</string>
     <string name="error_could_not_decode_project_name_from_url">「ダウンロードを
@@ -1221,8 +1218,8 @@
     <string name="error_internet_connection">不明なエラーが発生しました。インターネット接続を確認してください</string>
     <string name="error_project_compatibility">プロジェクトは、このバージョンのアプリと互換性がありません。</string>
     <string name="error_outdated_version">このアプリのバージョンが古すぎます。今すぐ更新しますか?</string>
-    <string name="error_upload_project_with_default_name">「私の最初のプロジェクト」という名前のプロジェクトをアップロードすることはできません。
-        プロジェクトの名前を変更してください。</string>
+    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"%s\".
+        Please rename the project.</string>
     <string name="error_upload_default_project">変更されていないサンプルプロジェクトをアップロードすることはできません。
         何かを変更して再度お試し下さい。</string>
     <string name="error_adding_brick">このブロックを追加中にエラーが発生しました</string>
@@ -1244,15 +1241,13 @@
     <string name="notification_blueth_err">Bluetoothを有効にできません。再度電源を入れてみてください。</string>
     <string name="title_paired_devices">デバイスの組み合わせ</string>
     <string name="title_other_devices">新しいデバイス</string>
-    <string name="searching_devices">デバイスを検索しています&#8230;</string>
-    <string name="button_scan">Bluetoothデバイスを検索</string>
-    <string name="button_skip">Bluetooth接続をスキップ</string>
-    <string name="select_device">デバイスの選択:</string>
+    <string name="bluetooth_connection_title">Bluetooth接続</string>
+    <string name="skip_bluetooth_connection">スキップ</string>
     <string name="connecting_please_wait">お使いのデバイスに接続しています\nしばらく待つ&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">デバイスへの接続に失敗しました！</string>
     <string name="none_found">見つかりませんでした。ペアになっていないデバイスがありません</string>
-    <string name="none_paired">見つかったペアのデバイスがありません</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth接続が必要です!</string>
+    <string name="multiplayer_bluetooth_connection_information">このゲームをマルチプレイで遊ぶには、Bluetooth接続が必要です。接続するには、2人ともゲームを起動して、この画面にいる必要があります。</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Arduino のデジタル端子を設定</string>
@@ -1560,7 +1555,6 @@
     <string name="formula_editor_function_regex_assistant">正規表現
         アシスタント</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">正規表現 アシスタント</string>
-    <string name="formula_editor_dialog_wiki_button">詳細情報</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">キーワードが見つかりませんでした。</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON抽出器</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduinoデジタルピン</string>
@@ -1826,7 +1820,7 @@
     <string name="formula_editor_function_text_block_language_from_camera">カメラからのテキストブロック言語</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
     <string name="formula_editor_function_get_id_of_detected_object">検出されたオブジェクトのID</string>
-    <string name="formula_editor_function_object_with_id_visible">object with ID visible</string>
+    <string name="formula_editor_function_object_with_id_visible">ID が表示されたオブジェクト</string>
     <string name="formula_editor_intro_title_formula_editor">数式エディター</string>
     <string name="formula_editor_intro_summary_formula_editor">数式エディタでは、レンガに使える数学的、論理的な数式を作成できます。
         数式エディタでは、レンガに使える数式や論理式を作成できます。
@@ -1961,19 +1955,20 @@
         作成されます。</string>
     <!-- Information -->
     <string name="no_variable_selected">変数が選択されていません</string>
-    <string name="find">探す</string>
+    <string name="search">検索…</string>
     <string name="no_results_found">結果は見つかりませんでした。</string>
     <string name="query_field_is_empty">クエリーフィールドが空です</string>
     <string name="cut">切り取り</string>
     <string name="paste">貼付け</string>
     <!-- Particle Effects -->
-    <string name="fade_particle_effect">パーティクルのフェード効果</string>
-    <string name="particle_effects_fade_in">で</string>
-    <string name="particle_effects_fade_out">アウト</string>
-    <string name="turn_particle_effect_additivity">パーティクルエフェクトの加算率の変更</string>
+    <string name="fade_particle_effect">パーティクル効果を</string>
+    <string name="particle_effects_fade_in">フェードイン</string>
+    <string name="particle_effects_fade_out">フェードアウト</string>
+    <string name="turn_particle_effect_additivity">パーティクルアディティブを</string>
     <string name="particle_effects_additive_on">オン</string>
     <string name="particle_effects_additive_off">オフ</string>
-    <string name="set_particle_color_to">パーティクルの色を設定</string>
+    <string name="set_particle_color_to">パーティクルカラーの設定</string>
     <string name="undo_sort">並べ替えを取り消す</string>
     <string name="sort">並べ替え</string>
+    <string name="checkbox">checkbox</string>
 </resources>

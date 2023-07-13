@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@
     <string name="ignore">தவிர்த்திடு</string>
     <string name="cancel">பின்னெடு</string>
     <string name="save">சேமி</string>
+    <string name="help">உதவி</string>
     <string name="discard">புறக்கணி</string>
     <string name="next">அடுத்து</string>
     <string name="ok">ஆம்</string>
@@ -341,6 +342,7 @@
     <string name="hide_details">விவரங்களை மறை</string>
     <string name="project_options">திட்ட விருப்பங்கள்</string>
     <string name="from_library">Add from library</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">வரிசைப்படுத்து</string>
     <string name="unsort_projects">Unsort</string>
     <string name="import_from_project">Select project to import from</string>
@@ -618,6 +620,7 @@
     <string name="add_sound_from_recorder">ஒலி பதிவு</string>
     <string name="add_sound_choose_file">கோப்பு தேர்ந்தெடு</string>
     <string name="add_sound_music">இசை அமைப்பாளர்</string>
+    <string name="add_sound_choose_sound">ஒலிகள்</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">Note Picker</string>
     <!--  -->
@@ -964,6 +967,8 @@
     <string name="beats">beats</string>
     <string name="play_note">Play note</string>
     <string name="for_string">ஆக</string>
+    <string name="at_string">இல்</string>
+    <string name="seconds_string">விநாடிகள்</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">தைத்து</string>
@@ -1233,13 +1238,6 @@
     <string name="notification_screenshot_ok">மாதிரிக்காட்சி படம் சேமிக்கப்பட்டது</string>
     <string name="notification_download_project_cancel">திட்ட பதிவிறக்கத்தை ரத்துசெய்</string>
     <string name="notification_reconvert_download_program_cancel">பதிவிறக்குதல் / மாற்றியமைத்தல் திட்டம் ரத்து செய்யப்பட்டது</string>
-    <string name="notification_upload_title_pending">"பதிவேற்றுகிறது"</string>
-    <string name="notification_upload_title_finished">"அதை நோக்கு"</string>
-    <string name="notification_upload_pending">பதிவேற்றம் செயலில் உள்ளது</string>
-    <string name="notification_upload_finished">பதிவேற்றம் வெற்றிகரமாக</string>
-    <string name="notification_upload_rejected">பதிவேற்றிய திட்டம் நிராகரிக்கப்பட்டது</string>
-    <string name="notification_upload_retry">மீண்டும் முயற்சி செய்</string>
-    <string name="notification_open_play_store">ஆப் ஸ்டோரைத் திறக்கவும்</string>
     <string name="notification_download_title_pending">"பதிவிறக்குகிறது"</string>
     <string name="notification_download_pending">பதிவிறக்கம் செயலில் உள்ளது</string>
     <string name="notification_download_finished">பதிவிறக்கம் வெற்றிகரமாக</string>
@@ -1249,7 +1247,6 @@
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">இந்த பயன்பாடு சரியாக செயல்பட கோரப்பட்ட அனுமதிகள் தேவை. எ.கா., கேமரா செங்கலுக்கு சாதனத்தின் கேமராவிற்கு அணுகல் தேவை, \"இருப்பிடம்\" சூத்திர உறுப்புக்கு சாதனத்தின் புவிஇருப்பிட சென்சார் அணுகல் தேவை, மேலும் உள்ளூர் நினைவகம் மற்றும் பயன்பாட்டிலிருந்து திட்டங்களை இறக்குமதி மற்றும் ஏற்றுமதி செய்ய.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">திட்டத்தை பதிவேற்றும் போது ஏதோ தவறு ஏற்பட்டது.</string>
     <string name="error_project_download">திட்டத்தைப் பதிவிறக்கும் போது ஏதோ தவறு ஏற்பட்டது.</string>
     <string name="error_project_already_in_queue">"திட்டம் %s ஏற்கனவே வரிசையில் உள்ளது."</string>
     <string name="error_could_not_decode_project_name_from_url">உங்கள் பதிவிறக்கத்தைத் தொடங்க முடியவில்லை, எங்கள் சேவையகத்தில் சிக்கல் இருப்பதாகத் தெரிகிறது.</string>
@@ -1260,7 +1257,7 @@
     <string name="error_internet_connection">அறியப்படாத பிழை ஏற்பட்டது. உங்கள் இணைய இணைப்பைச் சரிபார்க்கவும்.</string>
     <string name="error_project_compatibility">பயன்பாட்டின் இந்த பதிப்போடு திட்டம் பொருந்தாது.</string>
     <string name="error_outdated_version">இந்த பயன்பாட்டு பதிப்பு காலாவதியானது. இப்பொழுது மேம்படுத்து?</string>
-    <string name="error_upload_project_with_default_name">\"எனது முதல் திட்டம்\" என்ற பெயரில் ஒரு திட்டத்தை நீங்கள் பதிவேற்ற முடியாது. தயவுசெய்து திட்டத்தின் மறுபெயரிடுக.</string>
+    <string name="error_upload_project_with_default_name">\"%s\" என்ற பெயரில் ஒரு திட்டத்தை நீங்கள் பதிவேற்ற முடியாது. தயவுசெய்து திட்டத்தின் மறுபெயரிடுக.</string>
     <string name="error_upload_default_project">மாற்றப்படாத எடுத்துக்காட்டு திட்டத்தை நீங்கள் பதிவேற்ற முடியாது. ஏதாவது ஒன்றை மாற்றி மீண்டும் முயற்சிக்கவும்.</string>
     <string name="error_adding_brick">இந்த செங்கலைச் சேர்க்கும்போது ஏதோ தவறு ஏற்பட்டது.</string>
     <string name="error_copying_brick">இந்த செங்கலை நகலெடுக்கும் போது ஏதோ தவறு ஏற்பட்டது.</string>
@@ -1280,15 +1277,16 @@
     <string name="notification_blueth_err">புளூடூத்தை இயக்க முடியாது, தயவுசெய்து அதை அணைக்க முயற்சிக்கவும்.</string>
     <string name="title_paired_devices">இணைக்கப்பட்ட சாதனங்கள்</string>
     <string name="title_other_devices">புதிய சாதனம்</string>
-    <string name="searching_devices">சாதனங்களைத் தேடுகிறது&#8230;</string>
-    <string name="button_scan">புளூடூத் சாதனங்களைத் தேடுங்கள்</string>
-    <string name="button_skip">Skip Bluetooth connection</string>
-    <string name="select_device">சாதனத்தை தேர்ந்தெடு:</string>
+    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="skip_bluetooth_connection">தவிர்</string>
     <string name="connecting_please_wait">உங்கள் சாதனத்துடன் இணைக்கிறது. \n காத்திருங்கள்&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">சாதனத்துக்கான இணைப்பு தோல்வியடைந்தது!</string>
     <string name="none_found">இணைக்கப்படாத சாதனங்கள் எதுவும் கிடைக்கவில்லை</string>
-    <string name="none_paired">இணைக்கப்பட்ட சாதனங்கள் எதுவும் கிடைக்கவில்லை</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
+        required!</string>
+    <string name="multiplayer_bluetooth_connection_information">To play this game in
+        Multiplayer a Bluetooth connection is required. Both players have to start the game and
+        be on this screen for the connection to work properly!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Arduino டிஜிட்டல் முள் அமைக்கவும்</string>
@@ -1597,7 +1595,6 @@
         assistant</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">Regular
         expression assistant</string>
-    <string name="formula_editor_dialog_wiki_button">மேற்கொண்ட தகவல்கள்</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">The keyword could not be found.</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON extractor</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino டிஜிட்டல் முள்</string>
@@ -1994,7 +1991,7 @@
         without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">No variable selected</string>
-    <string name="find">Find</string>
+    <string name="search">தேடு…</string>
     <string name="no_results_found">No results found</string>
     <string name="query_field_is_empty">Query field is empty</string>
     <string name="cut">வெட்டு</string>
@@ -2009,4 +2006,5 @@
     <string name="set_particle_color_to">Set particle color to</string>
     <string name="undo_sort">Undo sort</string>
     <string name="sort">வரிசைப்படுத்து</string>
+    <string name="checkbox">checkbox</string>
 </resources>

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,10 +30,13 @@ import org.catrobat.catroid.CatroidApplication;
 import java.io.File;
 
 import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
+import static org.catrobat.catroid.common.Constants.UPLOAD_URL;
 
 public final class FlavoredConstants {
 	// Web:
 	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/create@school/";
+
+	public static final String BASE_UPLOAD_URL = UPLOAD_URL + "/create@school/";
 
 	public static final String CATROBAT_HELP_URL = "https://catrob.at/help";
 
@@ -49,7 +52,7 @@ public final class FlavoredConstants {
 			Environment.getExternalStorageDirectory().getAbsolutePath(), POCKET_CODE_EXTERNAL_STORAGE_FOLDER_NAME);
 
 	// Media Library:
-	public static final String LIBRARY_BASE_URL = BASE_URL_HTTPS + "download-media/";
+	public static final String LIBRARY_BASE_URL = MAIN_URL_HTTPS + "/app/download-media/";
 	public static final String LIBRARY_LOOKS_URL = BASE_URL_HTTPS + "media-library/looks";
 	public static final String LIBRARY_OBJECT_URL = BASE_URL_HTTPS + "media-library/objects";
 	public static final String LIBRARY_BACKGROUNDS_URL_PORTRAIT = BASE_URL_HTTPS + "media-library/backgrounds-portrait";

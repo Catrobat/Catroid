@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -118,6 +118,7 @@ class ProjectActivity : BaseCastActivity() {
                 handlePlayButton()
             }
         }
+        projectManager.currentProject.checkIfSpriteNameEqualBackground(this)
     }
 
     private fun loadFragment(fragmentPosition: Int) {
@@ -148,6 +149,9 @@ class ProjectActivity : BaseCastActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_project_activity, menu)
+        menu.findItem(R.id.from_library).isVisible = false
+        menu.findItem(R.id.from_local).isVisible = false
+        menu.findItem(R.id.edit).isVisible = false
         return super.onCreateOptionsMenu(menu)
     }
 

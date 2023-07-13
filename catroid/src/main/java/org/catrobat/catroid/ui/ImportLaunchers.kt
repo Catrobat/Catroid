@@ -38,10 +38,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
-import org.catrobat.catroid.common.Constants.CAMERA_CACHE_DIR
+import org.catrobat.catroid.common.Constants.CAMERA_CACHE_DIRECTORY
 import org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION
 import org.catrobat.catroid.common.Constants.EXTRA_PICTURE_PATH_POCKET_PAINT
-import org.catrobat.catroid.common.Constants.POCKET_PAINT_CACHE_DIR
+import org.catrobat.catroid.common.Constants.POCKET_PAINT_CACHE_DIRECTORY
 import org.catrobat.catroid.common.Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME
 import org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME
 import org.catrobat.catroid.io.StorageOperations
@@ -63,14 +63,14 @@ class ImportFromPocketPaintLauncher(private val activity: Activity) : ImportLaun
         return FileProvider.getUriForFile(
             activity,
             activity.applicationContext.packageName + ".fileProvider",
-            File(POCKET_PAINT_CACHE_DIR, pocketPaintImageFileName)
+            File(POCKET_PAINT_CACHE_DIRECTORY, pocketPaintImageFileName)
         )
     }
 
     private fun createEmptyImageFile(): File {
-        POCKET_PAINT_CACHE_DIR.mkdirs()
-        if (!POCKET_PAINT_CACHE_DIR.isDirectory) {
-            throw IOException("Cannot create ${POCKET_PAINT_CACHE_DIR.absolutePath}.")
+        POCKET_PAINT_CACHE_DIRECTORY.mkdirs()
+        if (!POCKET_PAINT_CACHE_DIRECTORY.isDirectory) {
+            throw IOException("Cannot create ${POCKET_PAINT_CACHE_DIRECTORY.absolutePath}.")
         }
 
         val currentProject = ProjectManager.getInstance().currentProject
@@ -78,7 +78,7 @@ class ImportFromPocketPaintLauncher(private val activity: Activity) : ImportLaun
             currentProject.xmlHeader.virtualScreenWidth,
             currentProject.xmlHeader.virtualScreenHeight, Bitmap.Config.ARGB_8888
         )
-        return StorageOperations.compressBitmapToPng(bitmap, File(POCKET_PAINT_CACHE_DIR, pocketPaintImageFileName))
+        return StorageOperations.compressBitmapToPng(bitmap, File(POCKET_PAINT_CACHE_DIRECTORY, pocketPaintImageFileName))
     }
 
     override fun startActivityForResult(requestCode: Int) {
@@ -127,14 +127,14 @@ class ImportFromCameraLauncher(private val activity: AppCompatActivity) : Import
         return FileProvider.getUriForFile(
             activity,
             activity.applicationContext.packageName + ".fileProvider",
-            File(CAMERA_CACHE_DIR, cameraImageFileName)
+            File(CAMERA_CACHE_DIRECTORY, cameraImageFileName)
         )
     }
 
     fun createCameraCacheDir() {
-        CAMERA_CACHE_DIR.mkdirs()
-        if (!CAMERA_CACHE_DIR.isDirectory) {
-            throw IOException("Cannot create ${CAMERA_CACHE_DIR.absolutePath}.")
+        CAMERA_CACHE_DIRECTORY.mkdirs()
+        if (!CAMERA_CACHE_DIRECTORY.isDirectory) {
+            throw IOException("Cannot create ${CAMERA_CACHE_DIRECTORY.absolutePath}.")
         }
     }
 
@@ -174,7 +174,6 @@ class ImportFromLocalProjectListLauncher(
     override fun startActivityForResult(requestCode: Int) {
         val intent = Intent(activity, ProjectListActivity::class.java)
         intent.putExtra(ProjectListActivity.IMPORT_LOCAL_INTENT, title)
-        intent.setClass(activity, ProjectListActivity::class.java)
         activity.startActivityForResult(intent, requestCode)
     }
 }

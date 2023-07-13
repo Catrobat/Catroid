@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -174,6 +174,7 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlayDrumForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PlayNoteForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
+import org.catrobat.catroid.content.bricks.PlaySoundAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
@@ -474,6 +475,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", GoToBrick.class);
 		xstream.alias("brick", PlaySoundBrick.class);
 		xstream.alias("brick", PlaySoundAndWaitBrick.class);
+		xstream.alias("brick", PlaySoundAtBrick.class);
 		xstream.alias("brick", PauseForBeatsBrick.class);
 		xstream.alias("brick", PlayNoteForBeatsBrick.class);
 		xstream.alias("brick", PointInDirectionBrick.class);

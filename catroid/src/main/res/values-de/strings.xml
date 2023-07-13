@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@
     <string name="ignore">Ignorieren</string>
     <string name="cancel">Abbrechen</string>
     <string name="save">Speichern</string>
+    <string name="help">Hilfe</string>
     <string name="discard">Verwerfen</string>
     <string name="next">Weiter</string>
     <string name="ok">Ok</string>
@@ -341,6 +342,7 @@
     <string name="hide_details">Details verbergen</string>
     <string name="project_options">Projektoptionen</string>
     <string name="from_library">Aus Bibliothek hinzufügen</string>
+    <string name="from_local">Von eigenen Projekten</string>
     <string name="sort_projects">Sortieren</string>
     <string name="unsort_projects">Unsortiert</string>
     <string name="import_from_project">Projekt zum Importieren auswählen</string>
@@ -618,6 +620,7 @@
     <string name="add_sound_from_recorder">Klang aufnehmen</string>
     <string name="add_sound_choose_file">Datei auswählen</string>
     <string name="add_sound_music">Komponist</string>
+    <string name="add_sound_choose_sound">Klänge</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">Notizauswahl</string>
     <!--  -->
@@ -960,6 +963,8 @@
     <string name="beats">schläge</string>
     <string name="play_note">Musiknote abspielen</string>
     <string name="for_string">für</string>
+    <string name="at_string">bei </string>
+    <string name="seconds_string">Sekunden</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Stich</string>
@@ -970,7 +975,7 @@
     <string name="brick_stop_stitch">Beende aktuellen Stich</string>
     <string name="brick_write_embroidery">Schreibe Stickdaten in die Datei</string>
     <string name="brick_default_embroidery_file">Stickerei.dst</string>
-    <string name="brick_sew_up">vernähen</string>
+    <string name="brick_sew_up">Vernähen</string>
     <string name="brick_thread_color">Setze auf Farbe </string>
     <!--  -->
     <!-- Device bricks -->
@@ -1219,13 +1224,6 @@
     <string name="notification_screenshot_ok">Bildvorschau gespeichert</string>
     <string name="notification_download_project_cancel">Projektdownload abbrechen</string>
     <string name="notification_reconvert_download_program_cancel">Download/Rückkonvertierung des Projektes abgebrochen</string>
-    <string name="notification_upload_title_pending">"Hochladen von "</string>
-    <string name="notification_upload_title_finished">"Anschauen von "</string>
-    <string name="notification_upload_pending">Upload wird ausgeführt</string>
-    <string name="notification_upload_finished">Upload erfolgreich</string>
-    <string name="notification_upload_rejected">Upload des Projekts verweigert</string>
-    <string name="notification_upload_retry">Wiederholen</string>
-    <string name="notification_open_play_store">Öffnen im Play Store</string>
     <string name="notification_download_title_pending">"Herunterladen von "</string>
     <string name="notification_download_pending">Download wird ausgeführt</string>
     <string name="notification_download_finished">Download erfolgreich</string>
@@ -1235,7 +1233,6 @@
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">Diese App benötigt die angeforderten Berechtigungen, um ordnungsgemäß zu funktionieren. Beispielsweise benötigt der Kamera Baustein Zugriff auf die Kamera des Geräts, das Formelelement \"Standort\" benötigt Zugriff auf den Geolocation-Sensor des Geräts. Um Projekte aus und in den lokalen Speicher zu importieren und zu exportieren, benötigt die App Lese- und Schreibzugriff auf diesen. Du kannst Berechtigungen jederzeit über die Einstellungen deines Geräts ändern.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">Beim Hochladen des Projekts ist ein Fehler aufgetreten.</string>
     <string name="error_project_download">Beim Herunterladen des Projekts ist ein Fehler aufgetreten.</string>
     <string name="error_project_already_in_queue">"Projekt %s bereits in Warteschlange."</string>
     <string name="error_could_not_decode_project_name_from_url">Der Download konnte nicht gestartet werden, es scheint als gäbe es ein Problem mit unserem Server.</string>
@@ -1246,7 +1243,7 @@
     <string name="error_internet_connection">Unbekannter Fehler aufgetreten. Überprüfe deine Internetverbindung.</string>
     <string name="error_project_compatibility">Das Projekt ist nicht mit dieser Version der App kompatibel.</string>
     <string name="error_outdated_version">Die Version ist zu alt. Jetzt updaten?</string>
-    <string name="error_upload_project_with_default_name">Du kannst kein Projekt mit dem Namen \"Mein erstes Project\" hochladen. Bitte benenne es um.</string>
+    <string name="error_upload_project_with_default_name">Du kannst kein Projekt mit dem Namen \"%s\" hochladen. Bitte benenne es um.</string>
     <string name="error_upload_default_project">Du kannst kein unverändertes Beispiel Projekt hochladen. Bitte
         ändere etwas und versuche es dann nochmals.</string>
     <string name="error_adding_brick">Beim Hinzufügen des Bausteins ist ein Fehler aufgetreten</string>
@@ -1267,15 +1264,13 @@
     <string name="notification_blueth_err">Bluetooth kann nicht aktiviert werden. Bitte versuche es nochmals ein- und auszuschalten.</string>
     <string name="title_paired_devices">Verbundene Geräte</string>
     <string name="title_other_devices">Neue Geräte</string>
-    <string name="searching_devices">Suche Geräte&#8230;</string>
-    <string name="button_scan">Bluetooth Geräte suchen</string>
-    <string name="button_skip">Bluetooth-Verbindung überspringen</string>
-    <string name="select_device">Wähle Gerät:</string>
+    <string name="bluetooth_connection_title">Bluetooth-Verbindung</string>
+    <string name="skip_bluetooth_connection">Fertig</string>
     <string name="connecting_please_wait">Verbinde zum Gerät.\nBitte warten&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">Verbindung zum Gerät fehlgeschlagen!</string>
     <string name="none_found">Keine nicht verbundenen Geräte gefunden</string>
-    <string name="none_paired">Keine verbundenen Geräte gefunden</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth-Verbindung erforderlich!</string>
+    <string name="multiplayer_bluetooth_connection_information">Um dieses Multiplayer-Spiel ausführen zu können, ist eine Bluetooth-Verbindung erforderlich. Beide Spieler müssen das Spiel starten und auf diesem Screen sein, damit die Verbindung richtig funktioniert!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Setze Arduino Digital Pin</string>
@@ -1584,7 +1579,6 @@
         Assistent</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">Regulärer
         Ausdrucksassistent</string>
-    <string name="formula_editor_dialog_wiki_button">Mehr Informationen</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">Das Schlüsselwort wurde nicht gefunden.</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON-Extraktor</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">Arduino Digital Pin</string>
@@ -1989,19 +1983,20 @@
         erstellt.</string>
     <!-- Information -->
     <string name="no_variable_selected">Keine Variable ausgewählt</string>
-    <string name="find">Finden</string>
+    <string name="search">Suche…</string>
     <string name="no_results_found">Keine Ergebnisse gefunden</string>
     <string name="query_field_is_empty">Abfragefeld ist leer</string>
     <string name="cut">Ausschneiden</string>
     <string name="paste">Einfügen</string>
     <!-- Particle Effects -->
-    <string name="fade_particle_effect">Partikeleffekt ausblenden</string>
-    <string name="particle_effects_fade_in">Im</string>
+    <string name="fade_particle_effect">Blende Partikeleffekt</string>
+    <string name="particle_effects_fade_in">ein</string>
     <string name="particle_effects_fade_out">aus</string>
-    <string name="turn_particle_effect_additivity">Partikeleffekt-Additivität einschalten</string>
+    <string name="turn_particle_effect_additivity">Schalte Partikeleffekt-Additivität</string>
     <string name="particle_effects_additive_on">ein</string>
     <string name="particle_effects_additive_off">aus</string>
     <string name="set_particle_color_to">Setze Partikelfarbe auf</string>
     <string name="undo_sort">sortieren rückgängig machen </string>
     <string name="sort">Sortieren</string>
+    <string name="checkbox">checkbox</string>
 </resources>

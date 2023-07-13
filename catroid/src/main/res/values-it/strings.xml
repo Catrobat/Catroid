@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@
     <string name="ignore">Ignora</string>
     <string name="cancel">Annulla</string>
     <string name="save">Salva</string>
+    <string name="help">Guida</string>
     <string name="discard">Scarta</string>
     <string name="next">Avanti</string>
     <string name="ok">OK</string>
@@ -350,6 +351,7 @@
     <string name="hide_details">Nascondi i dettagli</string>
     <string name="project_options">Opzioni del progetto</string>
     <string name="from_library">Aggiungi dalla libreria</string>
+    <string name="from_local">Aggiungi da locale</string>
     <string name="sort_projects">Ordina</string>
     <string name="unsort_projects">Disordina</string>
     <string name="import_from_project">Seleziona il progetto da cui importare</string>
@@ -627,6 +629,7 @@
     <string name="add_sound_from_recorder">Registra suono</string>
     <string name="add_sound_choose_file">Seleziona un file</string>
     <string name="add_sound_music">Compositore musicale</string>
+    <string name="add_sound_choose_sound">Suoni</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">Selettore di Note</string>
     <!--  -->
@@ -974,6 +977,8 @@ app
     <string name="beats">battiti</string>
     <string name="play_note">Suona nota</string>
     <string name="for_string">per</string>
+    <string name="at_string">a </string>
+    <string name="seconds_string">secondi</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Stitch</string>
@@ -1243,13 +1248,6 @@ app
     <string name="notification_screenshot_ok">Anteprima immagine salvata</string>
     <string name="notification_download_project_cancel">Download del progetto annullato</string>
     <string name="notification_reconvert_download_program_cancel">Annullato il download/conversione del progetto</string>
-    <string name="notification_upload_title_pending">"Caricamento "</string>
-    <string name="notification_upload_title_finished">"Notifica da "</string>
-    <string name="notification_upload_pending">Caricamento in corso</string>
-    <string name="notification_upload_finished">Caricamento terminato con successo</string>
-    <string name="notification_upload_rejected">L\'invio del progetto è stato rifiutato</string>
-    <string name="notification_upload_retry">Riprova</string>
-    <string name="notification_open_play_store">Apri Play Store</string>
     <string name="notification_download_title_pending">"Download di "</string>
     <string name="notification_download_pending">Download in corso</string>
     <string name="notification_download_finished">Download completato</string>
@@ -1262,7 +1260,6 @@ il mattoncino della videocamera necessita di accedere alla videocamera del dispo
 la posizione del sensore di posizione, per importare o esportare progetti sulla memoria secondaria, l\'app
 deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modificare i permessi in un secondo momento dalle impostazioni del dispositivo.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">Errore durante il caricamento del progetto.</string>
     <string name="error_project_download">Errore durante il download del progetto.</string>
     <string name="error_project_already_in_queue">"Il progetto %s è già in coda."</string>
     <string name="error_could_not_decode_project_name_from_url">"Il download non può essere avviato,
@@ -1274,7 +1271,7 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="error_internet_connection">Si è verificato un errore non conosciuto. Controllare la connessione a Internet.</string>
     <string name="error_project_compatibility">Il progetto non è compatibile con questa versione dell\'app.</string>
     <string name="error_outdated_version">Versione obsoleta di questa app. Vuoi aggiornarla ora?</string>
-    <string name="error_upload_project_with_default_name">Non puoi caricare un progetto con il nome \"Il mio primo progetto\".
+    <string name="error_upload_project_with_default_name">Non puoi caricare un progetto con il nome \"%s\".
         Rinomina il progetto.</string>
     <string name="error_upload_default_project">Non è possibile caricare un progetto di esempio non modificato.
         cambia qualcosa e riprova.</string>
@@ -1297,15 +1294,16 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="notification_blueth_err">Non è possibile attivare il Bluetooth, si prega di provare a spegnerlo e riaccenderlo nuovamente.</string>
     <string name="title_paired_devices">Dispositivi accoppiati</string>
     <string name="title_other_devices">Nuovi dispositivi</string>
-    <string name="searching_devices">Ricerca di dispositivi&#8230;</string>
-    <string name="button_scan">Ricerca dispositivi Bluetooth</string>
-    <string name="button_skip">Salta connessione Bluetooth</string>
-    <string name="select_device">Seleziona dispositivo:</string>
+    <string name="bluetooth_connection_title">Connessione Bluetooth</string>
+    <string name="skip_bluetooth_connection">Ignora</string>
     <string name="connecting_please_wait">Connessione al tuo dispositivo. \nAttendere&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">Connessione al dispositivo non riuscita!</string>
     <string name="none_found">Nessun dispositivo spaiato trovato</string>
-    <string name="none_paired">Nessun dispositivo accoppiato trovato</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Necessaria connessione
+        Bluetooth!</string>
+    <string name="multiplayer_bluetooth_connection_information">Per giocare in modalità
+        Multiplayer è richiesta una connessione Bluetooth. Entrambi i giocatori devono iniziare il gioco
+        ed essere su questa schermata affinché la connessione funzioni correttamente!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Imposta Pin Digitale Arduino</string>
@@ -1614,7 +1612,6 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
         espressioni regolari</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">Assistente
         espressioni regolari</string>
-    <string name="formula_editor_dialog_wiki_button">Ulteriori informazioni</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">La parola chiave non è stata trovata.</string>
     <string name="formula_editor_function_regex_json_extractor_title">Estrattore JSON</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_pin_digitale</string>
@@ -1880,7 +1877,7 @@ con tolleranza %        </string>
     <string name="formula_editor_function_text_block_language_from_camera">lingua del blocco di testo dalla fotocamera</string>
     <string name="formula_editor_function_text_block_parameter">(0)</string>
     <string name="formula_editor_function_get_id_of_detected_object">ID dell\'oggetto rilevato</string>
-    <string name="formula_editor_function_object_with_id_visible">object with ID visible</string>
+    <string name="formula_editor_function_object_with_id_visible">oggetto con ID visibile</string>
     <string name="formula_editor_intro_title_formula_editor">Editor di formule</string>
     <string name="formula_editor_intro_summary_formula_editor">L\'editor di formule ti permette di creare formule matematiche e
     logiche che puoi usare all\'interno dei mattoncini.\n\nPuoi continuare questa piccola introduzione
@@ -2022,7 +2019,7 @@ con tolleranza %        </string>
         senza un costume.</string>
     <!-- Information -->
     <string name="no_variable_selected">Nessuna variabile selezionata</string>
-    <string name="find">Trova</string>
+    <string name="search">Cerca</string>
     <string name="no_results_found">Nessun risultato trovato</string>
     <string name="query_field_is_empty">Il campo di interrogazione è vuoto</string>
     <string name="cut">Taglia</string>
@@ -2037,4 +2034,5 @@ con tolleranza %        </string>
     <string name="set_particle_color_to">Imposta il colore delle particelle a</string>
     <string name="undo_sort">Annulla ordinamento</string>
     <string name="sort">Ordina</string>
+    <string name="checkbox">checkbox</string>
 </resources>

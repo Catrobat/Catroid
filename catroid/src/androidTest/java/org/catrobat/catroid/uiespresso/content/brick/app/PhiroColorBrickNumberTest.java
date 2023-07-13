@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -147,20 +147,11 @@ public class PhiroColorBrickNumberTest {
 		onView(withText(R.string.color_picker_cancel))
 				.perform(click());
 
-		if ((Integer) red < 0 || (Integer) green < 0 || (Integer) blue < 0) {
-			onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(R.id.brick_phiro_rgb_led_action_red_edit_text)
-					.check(matches(withText(containsString("0"))));
-			onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(R.id.brick_phiro_rgb_led_action_green_edit_text)
-					.check(matches(withText(containsString("0"))));
-			onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(R.id.brick_phiro_rgb_led_action_blue_edit_text)
-					.check(matches(withText(containsString("0"))));
-		} else {
-			onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(R.id.brick_phiro_rgb_led_action_red_edit_text)
-					.checkShowsNumber((Integer) red);
-			onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(R.id.brick_phiro_rgb_led_action_green_edit_text)
-					.checkShowsNumber((Integer) green);
-			onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(R.id.brick_phiro_rgb_led_action_blue_edit_text)
-					.checkShowsNumber((Integer) blue);
-		}
+		onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(R.id.brick_phiro_rgb_led_action_red_edit_text)
+				.checkShowsNumber((Integer) red);
+		onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(R.id.brick_phiro_rgb_led_action_green_edit_text)
+				.checkShowsNumber((Integer) green);
+		onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(R.id.brick_phiro_rgb_led_action_blue_edit_text)
+				.checkShowsNumber((Integer) blue);
 	}
 }

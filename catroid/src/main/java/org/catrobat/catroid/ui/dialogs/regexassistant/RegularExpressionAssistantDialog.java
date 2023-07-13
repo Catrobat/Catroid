@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,9 +24,9 @@
 package org.catrobat.catroid.ui.dialogs.regexassistant;
 
 import android.content.Context;
-import android.content.DialogInterface;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.web.WebpageUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,9 +50,9 @@ public class RegularExpressionAssistantDialog {
 	public void createAssistant() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-		builder.setView(R.layout.dialog_regular_expression_assistant);
 		builder.setTitle(R.string.formula_editor_dialog_regular_expression_assistant_title);
-		builder.setNegativeButton(R.string.cancel, null);
+		builder.setNegativeButton(R.string.help, (dialog, id) -> WebpageUtils.openWikiPage(context));
+		builder.setPositiveButton(R.string.cancel, null);
 
 		buildListOfFeatures(builder);
 
@@ -68,18 +68,12 @@ public class RegularExpressionAssistantDialog {
 		}
 
 		builder.setItems(namesOfFeatures.toArray(new String[0]),
-				new DialogInterface.OnClickListener() {
-					@Override
-						public void onClick(DialogInterface dialog, int indexInList) {
-							listOfFeatures.get(indexInList).openDialog(context);
-						}
-				});
+				(dialog, indexInList) -> listOfFeatures.get(indexInList).openDialog(context));
 	}
 
 	private void createListOfFeatures() {
 		listOfFeatures = new ArrayList<>();
 		listOfFeatures.add(new HtmlExtractorDialog(fragmentManager));
 		listOfFeatures.add(new JsonExtractorDialog(fragmentManager));
-		listOfFeatures.add(new WikiWebPage());
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -84,9 +84,9 @@ public class StartStageTouchTest {
 	public void switchStageTouchTest() {
 		onView(isRoot()).perform(CustomActions.wait(500));
 		onView(isFocusable()).perform(StageTestTouchUtils.touchDown(50, 50));
-		assertUserVariableEqualsWithTimeout(screenIsTouchedUserVariable, 1, 500);
+		assertUserVariableEqualsWithTimeout(screenIsTouchedUserVariable, "true", 500);
 		onView(isFocusable()).perform(StageTestTouchUtils.touchUp(50, 50));
-		assertUserVariableEqualsWithTimeout(screenIsTouchedUserVariable, 0, 500);
+		assertUserVariableEqualsWithTimeout(screenIsTouchedUserVariable, "false", 500);
 	}
 
 	private void createProject() {

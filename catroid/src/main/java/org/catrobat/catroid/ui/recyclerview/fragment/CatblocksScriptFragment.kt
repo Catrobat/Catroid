@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.recyclerview.fragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -37,7 +38,6 @@ import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.ListFragment
 import androidx.webkit.WebViewAssetLoader
 import com.google.gson.Gson
 import org.catrobat.catroid.BuildConfig
@@ -46,22 +46,22 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.EmptyEventBrick
 import org.catrobat.catroid.content.bricks.ScriptBrick
+import org.catrobat.catroid.content.bricks.UserDefinedBrick
+import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.ui.BottomBar
-import org.catrobat.catroid.ui.fragment.AddBrickFragment
-import org.catrobat.catroid.ui.fragment.BrickCategoryFragment
-import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener
-import org.catrobat.catroid.ui.fragment.UserDefinedBrickListFragment
+import org.catrobat.catroid.ui.controller.RecentBrickListManager
+import org.catrobat.catroid.ui.fragment.BrickCategoryListBuilder
+import org.catrobat.catroid.ui.fragment.CategoryBricksFactory
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
-import org.catrobat.catroid.utils.SnackbarUtil
 import org.json.JSONArray
 import org.koin.java.KoinJavaComponent.inject
 import java.util.Locale
 import java.util.UUID
 
 class CatblocksScriptFragment(
-    private val currentScriptIndex: Int
-) : Fragment(), OnCategorySelectedListener, AddBrickFragment.OnAddBrickListener {
+    private val brickAtTopID: UUID?
+) : Fragment() {
 
     private var webview: WebView? = null
 
@@ -82,12 +82,11 @@ class CatblocksScriptFragment(
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.catblocks) {
-            activity?.runOnUiThread(SwitchTo1DHelper())
-
+            webview!!.evaluateJavascript("javascript:CatBlocks.getBrickAtTopOfScreen();",
+                SwitchTo1DHelper())
             return true
         } else if (item.itemId == R.id.catblocks_reorder_scripts) {
-            val callback = ReorderCallback()
-            webview!!.evaluateJavascript("javascript:CatBlocks.reorderCurrentScripts();", callback)
+            webview!!.evaluateJavascript("javascript:CatBlocks.reorderCurrentScripts();", null)
         }
         return super.onOptionsItemSelected(item)
     }
@@ -122,9 +121,7 @@ class CatblocksScriptFragment(
             .build()
 
         catblocksWebView.addJavascriptInterface(
-            JSInterface(
-                currentScriptIndex
-            ), "Android"
+            JSInterface(), "Android"
         )
 
         catblocksWebView.webViewClient = object : WebViewClient() {
@@ -138,22 +135,13 @@ class CatblocksScriptFragment(
         catblocksWebView.loadUrl("https://appassets.androidplatform.net/assets/catblocks/index.html")
     }
 
-    class ReorderCallback : ValueCallback<String> {
-
-        override fun onReceiveValue(value: String?) { // do nothing
-        }
-    }
-
-    inner class SwitchTo1DHelper : Runnable {
-
+    inner class SwitchTo1DHelper : Runnable, ValueCallback<String> {
         var brickToFocus: Brick? = null
 
         override fun run() {
             SettingsFragment.setUseCatBlocks(context, false)
 
-            var scriptFragment: ScriptFragment
-
-            scriptFragment = if (brickToFocus == null) {
+            val scriptFragment: ScriptFragment = if (brickToFocus == null) {
                 ScriptFragment()
             } else if (brickToFocus is ScriptBrick) {
                 ScriptFragment.newInstance((brickToFocus as ScriptBrick).script)
@@ -168,9 +156,24 @@ class CatblocksScriptFragment(
             )
             fragmentTransaction.commit()
         }
+
+        override fun onReceiveValue(strBrickToFocusId: String?) {
+            if (strBrickToFocusId != null) {
+                val strBrickId = strBrickToFocusId.trim('"')
+                if (strBrickId.isNotEmpty()) {
+                    try {
+                        val brickId = UUID.fromString(strBrickId)
+                        brickToFocus = projectManager.currentSprite.findBrickInSprite(brickId)
+                    } catch (exception: IllegalArgumentException) {
+                        println(exception.message)
+                    }
+                }
+            }
+            activity?.runOnUiThread(this)
+        }
     }
 
-    inner class JSInterface(private val script: Int) {
+    inner class JSInterface {
 
         @JavascriptInterface
         fun getCurrentProject(): String {
@@ -197,7 +200,17 @@ class CatblocksScriptFragment(
         fun getSpriteNameToDisplay(): String? = projectManager.currentSprite?.name?.trim()
 
         @JavascriptInterface
-        fun getScriptIndexToDisplay(): Int = script
+        fun getBrickIDToFocus(): String? {
+            if (brickAtTopID != null) {
+                return brickAtTopID.toString()
+            } else {
+                if (projectManager?.currentSprite?.scriptList != null &&
+                    projectManager.currentSprite.scriptList.any()) {
+                        return projectManager.currentSprite.scriptList[0].scriptId.toString()
+                }
+            }
+            return null
+        }
 
         @SuppressLint
         @JavascriptInterface
@@ -337,75 +350,94 @@ class CatblocksScriptFragment(
                 return emptyBrick.script.scriptId.toString()
             }
         }
+
+        @JavascriptInterface
+        fun getBricksForCategory(category: String): String {
+            val bricksForCategory = CategoryBricksFactory().getBricks(category, projectManager
+                .currentSprite.isBackgroundSprite, requireContext())
+
+            val brickInfos = arrayListOf<BrickInfoHolder>()
+
+            for (brick in bricksForCategory) {
+                val brickType = brick.javaClass.simpleName
+                brickInfos.add(BrickInfoHolder(brickType, brickType))
+            }
+
+            return Gson().toJson(brickInfos)
+        }
+
+        @JavascriptInterface
+        fun addBrickByName(categoryName: String, brickName: String): String {
+
+            val bricksOfCategory = CategoryBricksFactory().getBricks(categoryName, projectManager
+                .currentSprite.isBackgroundSprite, requireContext())
+
+            val foundBricks = bricksOfCategory.filter { it.javaClass.simpleName.equals(brickName) }
+
+            val addedBricks = arrayListOf<BrickInfoHolder>()
+
+            if (foundBricks.size == 1) {
+                val brick = foundBricks[0].clone()
+                if (brick is ScriptBrick) {
+                    projectManager.currentSprite.scriptList.add(brick.script)
+
+                    addedBricks.add(BrickInfoHolder(brick.script.scriptId.toString(), brick
+                        .script.javaClass.simpleName))
+                } else {
+                    val emptyBrick = EmptyEventBrick()
+                    emptyBrick.script.brickList.add(brick)
+                    projectManager.currentSprite.scriptList.add(emptyBrick.script)
+
+                    addedBricks.add(BrickInfoHolder(emptyBrick.script.scriptId.toString(),
+                                                    emptyBrick.script.javaClass.simpleName))
+
+                    addedBricks.add(BrickInfoHolder(brick.brickID.toString(),
+                                                    brick.javaClass.simpleName))
+                }
+
+                try {
+                    if (brick.javaClass != UserDefinedReceiverBrick::class.java &&
+                        brick.javaClass != UserDefinedBrick::class.java) {
+                        RecentBrickListManager.getInstance().addBrick(brick.clone())
+                    }
+                } catch (e: CloneNotSupportedException) {
+                    Log.e(ScriptFragment.TAG, Log.getStackTraceString(e))
+                }
+            }
+            return Gson().toJson(addedBricks)
+        }
+
+        @JavascriptInterface
+        fun getBrickCategoryInfos(): String {
+            val brickCategoryInfos = getAvailableBrickCategories()
+
+            return Gson().toJson(brickCategoryInfos)
+        }
     }
 
     fun handleAddButton() {
-        val brickCategoryFragment = BrickCategoryFragment()
-        brickCategoryFragment.setOnCategorySelectedListener(this)
 
-        parentFragmentManager.beginTransaction()
-            .add(
-                R.id.fragment_container,
-                brickCategoryFragment,
-                BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG
-            )
-            .addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
-            .commit()
+        val brickCategoryInfos = getAvailableBrickCategories()
+        val jsonCategoryInfos = Gson().toJson(brickCategoryInfos)
 
-        SnackbarUtil.showHintSnackbar(activity, R.string.hint_category)
+        webview!!.evaluateJavascript(
+            "javascript:CatBlocks.showBrickCategories($jsonCategoryInfos);", null)
     }
 
-    override fun onCategorySelected(category: String?) {
-        var addListFragment: ListFragment
-        var tag: String? = ""
+    private fun getAvailableBrickCategories(): List<BrickCategoryInfoHolder> {
+        val brickCategoryFactory = BrickCategoryListBuilder(requireActivity())
+        val categoryNames = brickCategoryFactory.getCategoryNames()
 
-        if (category == requireContext().getString(R.string.category_user_bricks)) {
-            addListFragment = UserDefinedBrickListFragment.newInstance(this)
-            tag = UserDefinedBrickListFragment.USER_DEFINED_BRICK_LIST_FRAGMENT_TAG
-        } else {
-            addListFragment = AddBrickFragment.newInstance(category, this)
-            tag = AddBrickFragment.ADD_BRICK_FRAGMENT_TAG
+        val brickCategoryInfos = arrayListOf<BrickCategoryInfoHolder>()
+
+        for (categoryName in categoryNames) {
+            brickCategoryInfos.add(BrickCategoryInfoHolder(categoryName))
         }
 
-        parentFragmentManager.beginTransaction()
-            .add(R.id.fragment_container, addListFragment, tag)
-            .addToBackStack(null)
-            .commit()
+        return brickCategoryInfos
     }
 
-    override fun addBrick(brick: Brick?) {
-        if (brick == null) {
-            return
-        }
+    private data class BrickCategoryInfoHolder(val name: String)
 
-        val addedBricks = arrayListOf<BrickInfoHolder>()
-
-        if (brick is ScriptBrick) {
-            projectManager.currentSprite.scriptList.add(brick.script)
-            addedBricks.add(
-                BrickInfoHolder(
-                    brick.script.scriptId.toString(),
-                    brick.script.javaClass.simpleName
-                )
-            )
-        } else {
-            val emptyBrick = EmptyEventBrick()
-            emptyBrick.script.brickList.add(brick)
-            projectManager.currentSprite.scriptList.add(emptyBrick.script)
-
-            addedBricks.add(
-                BrickInfoHolder(
-                    emptyBrick.script.scriptId.toString(),
-                    emptyBrick.script.javaClass.simpleName
-                )
-            )
-
-            addedBricks.add(BrickInfoHolder(brick.brickID.toString(), brick.javaClass.simpleName))
-        }
-
-        val addedBricksString = Gson().toJson(addedBricks)
-        webview!!.evaluateJavascript("javascript:CatBlocks.addBricks($addedBricksString);", null)
-    }
-
-    private data class BrickInfoHolder(val brickId: String, val brickType: String)
+    data class BrickInfoHolder(val brickId: String, val brickType: String)
 }

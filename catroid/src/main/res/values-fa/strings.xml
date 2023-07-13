@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@
     <string name="ignore">چشم پوشی</string>
     <string name="cancel">لغو کردن</string>
     <string name="save">زخیره</string>
+    <string name="help">کمک</string>
     <string name="discard">متروک ساختن</string>
     <string name="next">بعد</string>
     <string name="ok">خوب</string>
@@ -331,6 +332,7 @@
     <string name="hide_details">جزئیات را پنهان کنید</string>
     <string name="project_options">گزینه های پروژه</string>
     <string name="from_library">از کتابخانه اضافه کنید</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">مرتب سازی</string>
     <string name="unsort_projects">غیر منظم</string>
     <string name="import_from_project">پروژه را برای وارد کردن از آن انتخاب کنید</string>
@@ -575,6 +577,7 @@
     <string name="add_sound_from_recorder">ضبط صدا</string>
     <string name="add_sound_choose_file">فایل را انتخاب کنید</string>
     <string name="add_sound_music">آهنگساز</string>
+    <string name="add_sound_choose_sound">صدا</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">انتخاب کننده یادداشت</string>
     <!--  -->
@@ -682,8 +685,8 @@
     <string name="error_session_expired">جلسه منقضی شد، لطفا وارد شوید.</string>
     <string name="error_register_empty_username">نام کاربری خالی</string>
     <string name="error_register_username_as_email">آدرس ایمیل را نمی توان به عنوان نام کاربری استفاده کرد</string>
-    <string name="error_register_invalid_username">Username should only contain letters (a–z), numbers (0–9),
-        dashes (-), underscores (_), and periods (.).</string>
+    <string name="error_register_invalid_username">نام کاربری فقط باید شامل حروف (a-z)، اعداد (0-9)،
+        خط تیره (-)، زیرخط (_) و نقطه (.).</string>
     <string name="error_register_username_start_with">نام کاربری نباید با خط تیره (-)، زیرخط (_)، یا نقطه         (.) شروع شود.</string>
     <string name="error_register_invalid_email_format">قالب ایمیل نامعتبر است</string>
     <string name="error_register_empty_password">قسمت رمز عبور خالی است</string>
@@ -916,6 +919,8 @@
     <string name="beats">می زند</string>
     <string name="play_note">نت پخش کنید</string>
     <string name="for_string">برای</string>
+    <string name="at_string">در</string>
+    <string name="seconds_string">ثانیه</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">بخیه</string>
@@ -1058,7 +1063,7 @@
     <string name="brick_store_csv_into_userlist_of">از</string>
     <string name="brick_store_csv_into_userlist_csv">مقادیر جدا شده با کاما</string>
     <string name="brick_store_csv_into_userlist_into">به لیست</string>
-    <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
+    <string name="brick_store_csv_into_userlist_data">جلف، ناز\nتوله سگ، شیطون\noctopus، باهوش</string>
     <!--  -->
     <!--Instruments-->
     <string name="piano">پیانو</string>
@@ -1175,13 +1180,6 @@
     <string name="notification_screenshot_ok">پیش نمایش تصویر ذخیره شد</string>
     <string name="notification_download_project_cancel">لغو دانلود پروژه</string>
     <string name="notification_reconvert_download_program_cancel">دانلود/تبدیل مجدد پروژه لغو شد</string>
-    <string name="notification_upload_title_pending">"در حال آپلود"</string>
-    <string name="notification_upload_title_finished">"نگاه کنید"</string>
-    <string name="notification_upload_pending">آپلود در حال انجام است</string>
-    <string name="notification_upload_finished">آپلود با موفقیت انجام شد</string>
-    <string name="notification_upload_rejected">پروژه آپلود شده رد شد</string>
-    <string name="notification_upload_retry">دوباره امتحان کنید</string>
-    <string name="notification_open_play_store">فروشگاه App را باز کنید</string>
     <string name="notification_download_title_pending">"در حال دانلود"</string>
     <string name="notification_download_pending">دانلود در حال انجام است</string>
     <string name="notification_download_finished">دانلود با موفقیت انجام شد</string>
@@ -1191,7 +1189,6 @@
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">این برنامه برای عملکرد صحیح به مجوزهای درخواستی نیاز دارد. به عنوان مثال، آجر دوربین نیاز به دسترسی به دوربین دستگاه دارد، عنصر فرمول «مکان» نیاز به دسترسی به حسگر موقعیت جغرافیایی دستگاه دارد، و برای وارد کردن و صادرات پروژه ها از و به حافظه محلی، برنامه نیاز به دسترسی خواندن و نوشتن به آن دارد. . همیشه می توانید مجوزها را از طریق تنظیمات دستگاه خود تغییر دهید.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">هنگام بارگذاری پروژه مشکلی پیش آمد.</string>
     <string name="error_project_download">هنگام دانلود پروژه مشکلی پیش آمد.</string>
     <string name="error_project_already_in_queue">"پروژه %s از قبل در صف است."</string>
     <string name="error_could_not_decode_project_name_from_url">"دانلود شما نمی تواند باشد
@@ -1203,7 +1200,7 @@
     <string name="error_internet_connection">خطای نا مشخص رخ داده است. اتصال اینترنت خود را بررسی نمایید.</string>
     <string name="error_project_compatibility">این پروژه با این نسخه از برنامه سازگار نیست.</string>
     <string name="error_outdated_version">این نسخه برنامه قدیمی است. اکنون به روز رسانی شود؟</string>
-    <string name="error_upload_project_with_default_name">شما نمی توانید پروژه ای را با نام \"اولین پروژه من\" آپلود کنید.         لطفا نام پروژه را تغییر دهید.</string>
+    <string name="error_upload_project_with_default_name">شما نمی توانید پروژه ای را با نام \"%s\" آپلود کنید.         لطفا نام پروژه را تغییر دهید.</string>
     <string name="error_upload_default_project">شما نمی توانید یک پروژه نمونه اصلاح نشده را آپلود کنید. لطفا
         چیزی را تغییر دهید و دوباره امتحان کنید.</string>
     <string name="error_adding_brick">هنگام افزودن این آجر مشکلی پیش آمد.</string>
@@ -1224,15 +1221,16 @@
     <string name="notification_blueth_err">بلوتوث فعال نمی‌شود، لطفاً آن را خاموش و دوباره روشن کنید.</string>
     <string name="title_paired_devices">دستگاه های جفت شده</string>
     <string name="title_other_devices">دستگاه های جدید</string>
-    <string name="searching_devices">در حال جستجو برای دستگاه‌ها&#8230;</string>
-    <string name="button_scan">جستجوی دستگاه های بلوتوث</string>
-    <string name="button_skip">رد شدن از اتصال بلوتوث</string>
-    <string name="select_device">وسیله را انتخاب کن:</string>
+    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="skip_bluetooth_connection">رد کن</string>
     <string name="connecting_please_wait">در حال اتصال به دستگاه شما.\لطفاً صبر کنید&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">اتصال به دستگاه انجام نشد!</string>
     <string name="none_found">دستگاه جفت نشده ای پیدا نشد</string>
-    <string name="none_paired">دستگاه جفت شده ای پیدا نشد</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
+        required!</string>
+    <string name="multiplayer_bluetooth_connection_information">To play this game in
+        Multiplayer a Bluetooth connection is required. Both players have to start the game and
+        be on this screen for the connection to work properly!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">پین دیجیتال آردوینو را تنظیم کنید</string>
@@ -1536,17 +1534,16 @@
     <string name="formula_editor_function_join3">پیوست</string>
     <string name="formula_editor_function_join3_parameter">(\'hello\',\' world\',\'!\')</string>
     <string name="formula_editor_function_regex">عبارت منظم</string>
-    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
+    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'من یک پاندا هستم.\')</string>
     <string name="formula_editor_function_regex_assistant">دستیار 
         بیان منظم</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">دستیار 
         بیان منظم</string>
-    <string name="formula_editor_dialog_wiki_button">اطلاعات بیشتر</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">کلمه کلیدی پیدا نشد</string>
     <string name="formula_editor_function_regex_json_extractor_title">استخراج کننده JSON</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino digital pin</string>
-    <string name="formula_editor_function_arduino_read_pin_value_analog">arduino analog pin</string>
-    <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry pi pin</string>
+    <string name="formula_editor_function_arduino_read_pin_value_analog">arduino انلاګ پن</string>
+    <string name="formula_editor_function_raspi_read_pin_value_digital">راسبیري پای پن</string>
     <string name="formula_editor_function_pin_default_parameter">(0)</string>
     <string name="formula_editor_function_finger_x">مرحله لمسی x</string>
     <string name="formula_editor_function_finger_y">لمس مرحله y</string>
@@ -1560,11 +1557,11 @@
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(1)</string>
     <string name="formula_editor_function_list_item">اقلام</string>
-    <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
+    <string name="formula_editor_function_list_item_parameter">(1،*نام لیست*)</string>
     <string name="formula_editor_function_contains">شامل</string>
-    <string name="formula_editor_function_contains_parameter">(*list name*,1)</string>
-    <string name="formula_editor_function_index_of_item">item\'s index</string>
-    <string name="formula_editor_function_index_of_item_parameter">(1,*list name*)</string>
+    <string name="formula_editor_function_contains_parameter">(*نام لیست*،1)</string>
+    <string name="formula_editor_function_index_of_item">شاخص مورد</string>
+    <string name="formula_editor_function_index_of_item_parameter">(1،*نام لیست*)</string>
     <string name="formula_editor_function_number_of_items">تعداد اقلام</string>
     <string name="formula_editor_function_number_of_items_parameter">(*list name*)</string>
     <string name="formula_editor_function_flatten">صاف کردن</string>
@@ -1806,7 +1803,7 @@
     <string name="formula_editor_function_text_block_language_from_camera">زبان بلوک متن از دوربین</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
     <string name="formula_editor_function_get_id_of_detected_object">شناسه شی شناسایی شده</string>
-    <string name="formula_editor_function_object_with_id_visible">object with ID visible</string>
+    <string name="formula_editor_function_object_with_id_visible">شی با شناسه قابل مشاهده</string>
     <string name="formula_editor_intro_title_formula_editor">ویرایشگر فرمول</string>
     <string name="formula_editor_intro_summary_formula_editor">با ویرایشگر فرمول می‌توانید فرمول‌های ریاضی         و منطقی ایجاد کنید که می‌توانید در آجرهای خود استفاده کنید.\n\nبا ضربه زدن روی «NEXT» یا خروج         با «SKIP» ادامه دهید.
     </string>
@@ -1871,8 +1868,8 @@
     <string name="cast_ready_to_cast">آماده پخش به</string>
     <string name="cast_enable_cast_feature">ویژگی‌های Chromecast غیرفعال است. لطفاً ویژگی‌های پخش را در تنظیمات فعال کنید.</string>
     <string name="cast_searching_for_cast_devices">جستجو برای دستگاه‌های Chromecast</string>
-    <string name="cast_trouble_finding_devices_tip">.\nDon\'t see your device? Try turning your device\'s Wifi off
-        and on.</string>
+    <string name="cast_trouble_finding_devices_tip">\nدستگاه خود را نمی بینید؟ وای فای دستگاهتان را خاموش 
+        و روشن کنید.</string>
     <string name="cast_connection_timout_msg">پایان زمان اتصال. لطفا دوباره تلاش کنید.</string>
     <string name="cast_screen_pause_text">مکث شد</string>
     <!-- -->
@@ -1924,7 +1921,7 @@
     <string name="new_empty_sprite_note">توجه: بازیگر یا شیء         بدون نگاه ساخته می شود.</string>
     <!-- Information -->
     <string name="no_variable_selected">هیچ متغیری انتخاب نشده است</string>
-    <string name="find">پیدا کردن</string>
+    <string name="search">جستجو …</string>
     <string name="no_results_found">نتیجه ای پیدا نشد</string>
     <string name="query_field_is_empty">فیلد پرس و جو خالی است</string>
     <string name="cut">قطع کن</string>
@@ -1939,4 +1936,5 @@
     <string name="set_particle_color_to">رنگ ذرات را روی</string>
     <string name="undo_sort">لغو مرتب‌سازی</string>
     <string name="sort">مرتب سازی</string>
+    <string name="checkbox">checkbox</string>
 </resources>

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@ import com.google.android.material.snackbar.Snackbar;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -53,7 +54,10 @@ public final class SnackbarUtil {
 
 	public static final String SHOWN_HINT_LIST = "shown_hint_list";
 
+	private static final HashMap<Integer, Snackbar> CURRENTLY_SHOWN_HINTS = new HashMap<>();
+
 	public static void showHintSnackbar(final Activity activity, @StringRes int resourceId) {
+		dismissAllHints();
 		final String messageId = activity.getResources().getResourceName(resourceId);
 
 		if (areHintsEnabled(activity) && !wasHintDialogAlreadyShown(activity)) {
@@ -78,6 +82,19 @@ public final class SnackbarUtil {
 				setHintShown(activity, messageId);
 			}
 		});
+
+		snackbar.addCallback(new Snackbar.Callback() {
+			@Override
+			public void onShown(Snackbar snackbar) {
+				CURRENTLY_SHOWN_HINTS.put(resourceId, snackbar);
+			}
+
+			@Override
+			public void onDismissed(Snackbar snackbar, int event) {
+				CURRENTLY_SHOWN_HINTS.remove(resourceId);
+			}
+		});
+
 		snackbar.setActionTextColor(ContextCompat.getColor(activity, R.color.solid_black));
 		View snackbarView = snackbar.getView();
 		TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
@@ -146,5 +163,11 @@ public final class SnackbarUtil {
 	protected static void handleShowHints(Activity activity, @StringRes int resourceId) {
 		setHintDialogShown(activity);
 		hintSnackbar(activity, resourceId);
+	}
+
+	public static void dismissAllHints() {
+		for (Snackbar hint : CURRENTLY_SHOWN_HINTS.values()) {
+			hint.dismiss();
+		}
 	}
 }

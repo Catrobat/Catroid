@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -59,6 +59,8 @@ import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.TestResult;
 import org.catrobat.catroid.ui.controller.RecentBrickListManager;
+import org.catrobat.catroid.ui.fragment.AddBrickFragment;
+import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
@@ -71,6 +73,7 @@ import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -87,7 +90,7 @@ import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.DEFAULT_SOUND_EXTENSION;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.JPEG_IMAGE_EXTENSION;
-import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIR;
+import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_URL_LANDSCAPE;
@@ -154,7 +157,6 @@ public class SpriteActivity extends BaseActivity {
 	private Project currentProject;
 	private Sprite currentSprite;
 	private Scene currentScene;
-	private Menu currentMenu;
 	private LookData currentLookData;
 	private String generatedVariableName;
 
@@ -207,13 +209,13 @@ public class SpriteActivity extends BaseActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_script_activity, menu);
-		currentMenu = menu;
+		optionsMenu = menu;
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	public void showUndo(boolean visible) {
-		if (currentMenu != null) {
-			currentMenu.findItem(R.id.menu_undo).setVisible(visible);
+		if (optionsMenu != null) {
+			optionsMenu.findItem(R.id.menu_undo).setVisible(visible);
 			if (visible) {
 				ProjectManager.getInstance().changedProject(currentProject.getName());
 			}
@@ -221,8 +223,8 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	public void checkForChange() {
-		if (currentMenu != null) {
-			if (currentMenu.findItem(R.id.menu_undo).isVisible()) {
+		if (optionsMenu != null) {
+			if (optionsMenu.findItem(R.id.menu_undo).isVisible()) {
 				ProjectManager.getInstance().changedProject(currentProject.getName());
 			} else {
 				ProjectManager.getInstance().resetChangedFlag(currentProject);
@@ -300,6 +302,13 @@ public class SpriteActivity extends BaseActivity {
 			((FormulaEditorFragment) currentFragment).exitFormulaEditorFragment();
 			return;
 		} else if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+
+			if (currentFragment instanceof BrickCategoryFragment) {
+				SnackbarUtil.showHintSnackbar(this, R.string.hint_scripts);
+			} else if (currentFragment instanceof AddBrickFragment) {
+				SnackbarUtil.showHintSnackbar(this, R.string.hint_category);
+			}
+
 			getSupportFragmentManager().popBackStack();
 			return;
 		}
@@ -498,8 +507,8 @@ public class SpriteActivity extends BaseActivity {
 		builder.setTitle(R.string.new_sprite_dialog_title)
 				.setNegativeButton(R.string.cancel, (dialog, which) -> {
 					try {
-						if (MEDIA_LIBRARY_CACHE_DIR.exists()) {
-							StorageOperations.deleteDir(MEDIA_LIBRARY_CACHE_DIR);
+						if (MEDIA_LIBRARY_CACHE_DIRECTORY.exists()) {
+							StorageOperations.deleteDir(MEDIA_LIBRARY_CACHE_DIRECTORY);
 						}
 					} catch (IOException e) {
 						Log.e(TAG, Log.getStackTraceString(e));

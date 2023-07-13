@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,7 +32,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.PopupMenu
 import androidx.annotation.PluralsRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -47,12 +46,16 @@ import org.catrobat.catroid.content.GroupSprite
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.merge.ImportProjectHelper
+import org.catrobat.catroid.ui.ProjectListActivity
+import org.catrobat.catroid.ui.ProjectListActivity.Companion.IMPORT_LOCAL_INTENT
 import org.catrobat.catroid.ui.SpriteActivity
+import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.WebViewActivity
 import org.catrobat.catroid.ui.controller.BackpackListManager
 import org.catrobat.catroid.ui.recyclerview.adapter.MultiViewSpriteAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperAdapterInterface
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallback
+import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
@@ -205,10 +208,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         var copiedItemCnt = 0
         for (item in selectedItems) {
             try {
-                adapter.add(
-                    adapter.items.indexOf(item) + 1,
-                    spriteController.copy(item, currentProject, currentScene)
-                )
+                adapter.add(spriteController.copy(item, currentProject, currentScene))
                 copiedItemCnt++
             } catch (e: IOException) {
                 Log.e(TAG, Log.getStackTraceString(e))
@@ -256,7 +256,12 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == IMPORT_OBJECT_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            val uri = Uri.fromFile(File(data?.getStringExtra(WebViewActivity.MEDIA_FILE_PATH)))
+            val uri = if (data?.hasExtra(IMPORT_LOCAL_INTENT) == true) {
+                Uri.fromFile(File(data.getStringExtra(IMPORT_LOCAL_INTENT)))
+            } else {
+                Uri.fromFile(File(data?.getStringExtra(WebViewActivity.MEDIA_FILE_PATH)))
+            }
+
             val currentScene = projectManager.currentlyEditedScene
             val resolvedName: String
             val resolvedFileName =
@@ -286,10 +291,19 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         }
     }
 
-    fun addFromLibrary(selectedItem: Sprite?) {
+    private fun addFromLibrary(selectedItem: Sprite?) {
         currentSprite = selectedItem
         val intent = Intent(requireContext(), WebViewActivity::class.java)
         intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, FlavoredConstants.LIBRARY_OBJECT_URL)
+        startActivityForResult(intent, IMPORT_OBJECT_REQUEST_CODE)
+    }
+
+    private fun addFromLocalProject(item: Sprite?) {
+        currentSprite = item
+        val intent = Intent(requireContext(), ProjectListActivity::class.java)
+        intent.putExtra(
+            IMPORT_LOCAL_INTENT,
+            getString(R.string.import_sprite_from_project_launcher))
         startActivityForResult(intent, IMPORT_OBJECT_REQUEST_CODE)
     }
 
@@ -302,23 +316,26 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         finishActionMode()
     }
 
-    override fun onItemClick(item: Sprite?) {
+    override fun onItemClick(item: Sprite?, selectionManager: MultiSelectionManager?) {
         if (item is GroupSprite) {
             item.isCollapsed = !item.isCollapsed
             adapter.notifyDataSetChanged()
         } else {
-            if (actionModeType == RENAME) {
-                super.onItemClick(item)
-                return
-            }
-            if (actionModeType == NONE) {
-                projectManager.currentSprite = item
-                val intent = Intent(requireContext(), SpriteActivity::class.java)
-                intent.putExtra(
-                    SpriteActivity.EXTRA_FRAGMENT_POSITION,
-                    SpriteActivity.FRAGMENT_SCRIPTS
-                )
-                startActivity(intent)
+            when (actionModeType) {
+                RENAME -> {
+                    super.onItemClick(item, null)
+                    return
+                }
+                NONE -> {
+                    projectManager.currentSprite = item
+                    val intent = Intent(requireContext(), SpriteActivity::class.java)
+                    intent.putExtra(
+                        SpriteActivity.EXTRA_FRAGMENT_POSITION,
+                        SpriteActivity.FRAGMENT_SCRIPTS
+                    )
+                    startActivity(intent)
+                }
+                else -> super.onItemClick(item, selectionManager)
             }
         }
     }
@@ -328,10 +345,21 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
     }
 
     override fun onSettingsClick(item: Sprite?, view: View) {
-        val popupMenu = PopupMenu(requireContext(), view)
         val itemList = mutableListOf<Sprite?>()
         itemList.add(item)
-        popupMenu.menuInflater.inflate(R.menu.menu_project_activity, popupMenu.menu)
+        val hiddenMenuOptionIds = mutableListOf<Int>(
+            R.id.new_group, R.id.project_options, R.id.new_scene, R.id.show_details, R.id.edit
+        )
+        if (item is GroupSprite) {
+            hiddenMenuOptionIds.add(R.id.backpack)
+            hiddenMenuOptionIds.add(R.id.copy)
+            hiddenMenuOptionIds.add(R.id.from_library)
+            hiddenMenuOptionIds.add(R.id.from_local)
+        }
+        val popupMenu = UiUtils.createSettingsPopUpMenu(
+            view, requireContext(), R.menu
+                .menu_project_activity, hiddenMenuOptionIds.toIntArray()
+        )
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.backpack -> packItems(itemList)
@@ -339,16 +367,14 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
                 R.id.delete -> deleteItems(itemList)
                 R.id.rename -> showRenameDialog(item)
                 R.id.from_library -> addFromLibrary(item)
+                R.id.from_local -> addFromLocalProject(item)
                 else -> {}
             }
             true
         }
-        popupMenu.menu.findItem(R.id.backpack).setTitle(R.string.pack)
-        popupMenu.menu.findItem(R.id.new_group).isVisible = false
-        popupMenu.menu.findItem(R.id.new_scene).isVisible = false
-        popupMenu.menu.findItem(R.id.show_details).isVisible = false
-        popupMenu.menu.findItem(R.id.project_options).isVisible = false
-        popupMenu.menu.findItem(R.id.from_library).isVisible = true
+        if (item !is GroupSprite) {
+            popupMenu.menu.findItem(R.id.backpack).setTitle(R.string.pack)
+        }
         popupMenu.show()
     }
 
@@ -357,6 +383,6 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
 
     companion object {
         val TAG: String = SpriteListFragment::class.java.simpleName
-        private const val IMPORT_OBJECT_REQUEST_CODE = 0
+        const val IMPORT_OBJECT_REQUEST_CODE = 0
     }
 }

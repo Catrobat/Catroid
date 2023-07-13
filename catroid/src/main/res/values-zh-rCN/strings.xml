@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,7 @@
     <!-- General terms -->
     <string name="stage">舞台</string>
     <string name="play">玩</string>
-    <string name="settings">设定值</string>
+    <string name="settings">设置</string>
     <string name="redo">重做</string>
     <string name="undo">撤消</string>
     <string name="new_option">新建&#8230;</string>
@@ -34,6 +34,7 @@
     <string name="ignore">忽略</string>
     <string name="cancel">取消</string>
     <string name="save">保存</string>
+    <string name="help">帮助</string>
     <string name="discard">放弃</string>
     <string name="next">下一步</string>
     <string name="ok">好的</string>
@@ -45,7 +46,7 @@
     <string name="once">一次</string>
     <string name="always">总是</string>
     <string name="deny">拒绝</string>
-    <string name="do_not_show_again">不要再出现</string>
+    <string name="do_not_show_again">不再显示</string>
     <string name="accept">接受</string>
     <string name="decline">拒绝</string>
     <string name="select_all">全部选择</string>
@@ -202,7 +203,7 @@
     <string name="preference_title_enable_arduino_bricks">Arduino积木</string>
     <string name="preference_description_arduino_bricks">允许控制Arduino控制板</string>
     <string name="preference_title_enable_embroidery_bricks">刺绣扩展</string>
-    <string name="preference_description_embroidery_bricks">创建缝纫机創建圖案</string>
+    <string name="preference_description_embroidery_bricks">创建缝纫机图案</string>
     <string name="preference_title_cast_feature_globally_enabled">启用强制转换功能</string>
     <string name="preference_description_cast_feature_globally_enabled">显示投射按钮并启用投射项目</string>
     <string name="preference_title_enable_nfc_bricks">近距离无线通信</string>
@@ -274,7 +275,7 @@
     <string name="by_x">作者 %1$s</string>
     <string name="warning_program_visibility">警告：\n这似乎是一个私有项目。您可以尝试转换它，但它可能无法运作。</string>
     <string name="instructions">说明</string>
-    <string name="notes_and_credits">备注和积分</string>
+    <string name="notes_and_credits">说明和版权信息</string>
     <string name="shared_at_x">分享时间：%1$s</string>
     <string name="modified_at_x">修改时间：%1$s</string>
     <string name="remixes">调制</string>
@@ -284,7 +285,7 @@
     <string name="mode">模式：</string>
     <string name="remix_of">调制来源：</string>
     <string name="description_hint">按下并添加说明</string>
-    <string name="notes_and_credits_hint">点击添加备注和积分</string>
+    <string name="notes_and_credits_hint">点击添加说明和版权信息</string>
     <!-- ScratchReconvertDialog Strings -->
     <string name="reconvert_text">你在 %1$s 之前转换了这个项目。</string>
     <plurals name="minutes">
@@ -333,6 +334,7 @@
     <string name="hide_details">隐藏详情</string>
     <string name="project_options">项目选择</string>
     <string name="from_library">从库添加</string>
+    <string name="from_local">从本地添加</string>
     <string name="sort_projects">排序</string>
     <string name="unsort_projects">取消排序</string>
     <string name="import_from_project">选择要导入的项目</string>
@@ -487,8 +489,8 @@
     <string name="size">大小：</string>
     <string name="description">描述：</string>
     <string name="set_description">设置描述</string>
-    <string name="notes_and_credits_title">致谢</string>
-    <string name="set_notes_and_credits">设置笔记和点数</string>
+    <string name="notes_and_credits_title">说明和版权信息:</string>
+    <string name="set_notes_and_credits">设置说明和版权信息</string>
     <string name="details_date_today">今天</string>
     <string name="import_project">导入项目</string>
     <string name="export_project">保存项目到外部存储</string>
@@ -499,7 +501,7 @@
     <string name="import_sprite_from_project_launcher">从本地项目导入对象</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">描述</string>
-    <string name="project_options_notes_and_credits">致谢</string>
+    <string name="project_options_notes_and_credits">说明和版权信息</string>
     <string name="project_options_tags">标签</string>
     <string name="project_options_aspect_ratio">保持原来的长宽比</string>
     <string name="project_options_more_details">更多详情</string>
@@ -579,6 +581,7 @@
     <string name="add_sound_from_recorder">录制声音</string>
     <string name="add_sound_choose_file">选择文件</string>
     <string name="add_sound_music">音乐作曲家</string>
+    <string name="add_sound_choose_sound">声音</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">笔记选择器</string>
     <!--  -->
@@ -611,8 +614,8 @@
     <!-- UploadProjectDialog -->
     <string name="upload_project_dialog_title">上传程序</string>
     <string name="upload_description">描述：</string>
-    <string name="upload_notes_and_credits">致谢</string>
-    <string name="upload_notes_and_credits_explanation">你是如何创建这个项目的？你是否使用了其他人的想法、脚本或艺术作品？请对他们表示感谢。</string>
+    <string name="upload_notes_and_credits">说明和版权信息:</string>
+    <string name="upload_notes_and_credits_explanation">您是如何创建这个项目的？是否使用了其他人的想法、脚本或艺术作品？您可以在此对他们表示感谢。</string>
     <string name="upload_tag_dialog_title">请选择最多三个类别</string>
     <string name="upload_tags_maximum_error">无法选择3个以上的标签。</string>
     <!-- Save Project to External Storage -->
@@ -915,14 +918,16 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="beats">拍子</string>
     <string name="play_note">播放笔记</string>
     <string name="for_string">持续</string>
+    <string name="at_string">在 </string>
+    <string name="seconds_string">秒</string>
     <!--  -->
     <!-- Embroidery bricks -->
-    <string name="brick_stitch">纹理</string>
-    <string name="brick_running_stitch">开始使用长度运行 sitch</string>
-    <string name="brick_zigzag_stitch">开始以zigzag sitch长度</string>
+    <string name="brick_stitch">缝制</string>
+    <string name="brick_running_stitch">开始进行缝制，按照长度</string>
+    <string name="brick_zigzag_stitch">开始以锯齿线迹缝制，按照长度</string>
     <string name="brick_zigzag_stitch_width">和宽度</string>
-    <string name="brick_triple_stitch">按长度开始三次曲目</string>
-    <string name="brick_stop_stitch">停止当前色调</string>
+    <string name="brick_triple_stitch">开始以三重线迹缝制，按照长度</string>
+    <string name="brick_stop_stitch">停止当前缝制操作</string>
     <string name="brick_write_embroidery">将刺绣数据写入文件</string>
     <string name="brick_default_embroidery_file">刺绣.dst</string>
     <string name="brick_sew_up">上移</string>
@@ -1179,13 +1184,6 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="notification_screenshot_ok">预览图像已保存</string>
     <string name="notification_download_project_cancel">取消项目下载</string>
     <string name="notification_reconvert_download_program_cancel">已取消下载/重新转换程序</string>
-    <string name="notification_upload_title_pending">"上传中 "</string>
-    <string name="notification_upload_title_finished">"查看 "</string>
-    <string name="notification_upload_pending">正在上传</string>
-    <string name="notification_upload_finished">上传成功</string>
-    <string name="notification_upload_rejected">上传的程序被拒绝</string>
-    <string name="notification_upload_retry">重试</string>
-    <string name="notification_open_play_store">打开Play Store</string>
     <string name="notification_download_title_pending">"下载中 "</string>
     <string name="notification_download_pending">正在下载</string>
     <string name="notification_download_finished">下载完成</string>
@@ -1198,7 +1196,6 @@ dash(-), 下划线 (_), 和 句号(.).</string>
 设备的地理位置传感器。 并且为了从本地内存导入和导出项目，应用程序
 需要读写访问它。 您总是可以通过您的设备的设置更改权限。</string>
     <!-- Error messages -->
-    <string name="error_project_upload">在上传程序的时候发生了一个错误。</string>
     <string name="error_project_download">下载程序时发生了一个错误。</string>
     <string name="error_project_already_in_queue">"项目 %s 已在队列中。"</string>
     <string name="error_could_not_decode_project_name_from_url">\"您的下载无法开始，似乎我们的服务器有问题。</string>
@@ -1209,8 +1206,8 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="error_internet_connection">Lỗi đã xảy ra. Kiểm tra kết nối Internet của bạn.</string>
     <string name="error_project_compatibility">此项目与此版本的应用程序不兼容。</string>
     <string name="error_outdated_version">您的应用版本已过时，立即更新?</string>
-    <string name="error_upload_project_with_default_name">您不能上传一个名为“我的第一个项目”的项目。
-        请重命名该项目。</string>
+    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"%s\".
+        Please rename the project.</string>
     <string name="error_upload_default_project">您不能上传一个未经修改的示例项目。请
         更改某些内容，然后重试。</string>
     <string name="error_adding_brick">Có lỗi khi thêm gạch này</string>
@@ -1222,8 +1219,8 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="error_unknown_error">发生未知错误。</string>
     <string name="error_gps_not_available">地理定位数据不可用。</string>
     <string name="error_set_description">在保存说明时发生了一个错误。</string>
-    <string name="error_set_notes_and_credits">保存新笔记
-        和积分时出了错。</string>
+    <string name="error_set_notes_and_credits">保存说明信息
+        和版权信息时出错。</string>
     <string name="error_no_whatsapp">未安装 WhatsApp</string>
     <string name="error_unsupported_bricks_chromecast">此脚本不能添加到 Chromecast
         项目。</string>
@@ -1231,16 +1228,16 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">无法启用蓝牙，请尝试关闭并重新开启。</string>
     <string name="title_paired_devices">已配对设备</string>
-    <string name="title_other_devices">新的设备</string>
-    <string name="searching_devices">搜索设备&#8230;</string>
-    <string name="button_scan">搜索蓝牙设备</string>
-    <string name="button_skip">跳过蓝牙连接</string>
-    <string name="select_device">选中的设备：</string>
+    <string name="title_other_devices">Thiết bị mới</string>
+    <string name="bluetooth_connection_title">蓝牙连接</string>
+    <string name="skip_bluetooth_connection">跳过</string>
     <string name="connecting_please_wait">连接到您的设备 \n请等待&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">连接设备失败！</string>
     <string name="none_found">未找到未配对的设备</string>
-    <string name="none_paired">未找到已配对的设备</string>
+    <string name="multiplayer_bluetooth_connection_information_title">需要蓝牙连接
+        ！</string>
+    <string name="multiplayer_bluetooth_connection_information">要在多人模式下
+        玩此游戏，必须有蓝牙连接。双方都需要启动游戏并停留在此屏上，以确保连接能正常工作！</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">设置 Arduino 数字端口</string>
@@ -1549,7 +1546,6 @@ dash(-), 下划线 (_), 和 句号(.).</string>
         助手</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">正则
         表达式助手</string>
-    <string name="formula_editor_dialog_wiki_button">详细信息</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">找不到关键字。</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON 提取器</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino数字端口</string>
@@ -1902,9 +1898,9 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="unchanged_upload_warning">你试图上传的项目已经存在于
         社区平台上存在，而且形式完全相同。请改变你的项目，最好是通过
         增强它，然后再上传你的重混项目。</string>
-    <string name="unchanged_upload_info">请考虑在社区网站或项目选项中对原作者添加一些好话
-        请考虑在社区网站上的信用部分或项目选项中加入对原作者的赞誉。请注意
-        用户会在你成功上传后收到一个通知。</string>
+    <string name="unchanged_upload_info">请考虑在社区网站或项目选项中
+        对版权信息里的开发者给予一定赞许。
+        该用户会在你成功上传后收到通知。</string>
     <string name="unchanged_upload_url">要了解更多关于翻唱的信息，请访问%1s。</string>
     <!-- -->
     <!-- Snackbar hints -->
@@ -1946,7 +1942,7 @@ dash(-), 下划线 (_), 和 句号(.).</string>
         没有设置外观。</string>
     <!-- Information -->
     <string name="no_variable_selected">未选择变量</string>
-    <string name="find">查找</string>
+    <string name="search">搜索</string>
     <string name="no_results_found">没有发现结果</string>
     <string name="query_field_is_empty">查询字段为空</string>
     <string name="cut"> 剪切</string>
@@ -1961,4 +1957,5 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="set_particle_color_to">设置粒子颜色为</string>
     <string name="undo_sort">撤销排序</string>
     <string name="sort">排序</string>
+    <string name="checkbox">复选框</string>
 </resources>

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -83,7 +83,7 @@ class ProjectCopierTest {
         onView(ViewMatchers.withText(R.string.copy))
             .perform(ViewActions.click())
         RecyclerViewInteractionWrapper.onRecyclerView().atPosition(0)
-            .performCheckItem()
+            .performCheckItemClick()
         onView(ViewMatchers.withId(R.id.confirm))
             .perform(ViewActions.click())
         onView(ViewMatchers.withText(toBeCopiedProjectName))
@@ -99,16 +99,16 @@ class ProjectCopierTest {
         onView(ViewMatchers.withText(R.string.copy))
             .perform(ViewActions.click())
         RecyclerViewInteractionWrapper.onRecyclerView().atPosition(0)
-            .performCheckItem()
+            .performCheckItemClick()
         onView(ViewMatchers.withId(R.id.confirm))
             .perform(ViewActions.click())
         openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
         onView(ViewMatchers.withText(R.string.copy))
             .perform(ViewActions.click())
         RecyclerViewInteractionWrapper.onRecyclerView().atPosition(0)
-            .performCheckItem()
+            .performCheckItemClick()
         RecyclerViewInteractionWrapper.onRecyclerView().atPosition(1)
-            .performCheckItem()
+            .performCheckItemClick()
         onView(ViewMatchers.withId(R.id.confirm))
             .perform(ViewActions.click())
         onView(ViewMatchers.withText(toBeCopiedProjectName))

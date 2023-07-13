@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@
     <string name="ignore">Ignore</string>
     <string name="cancel">Odustani</string>
     <string name="save">Sačuvaj</string>
+    <string name="help">Pomoć</string>
     <string name="discard">Odbaci</string>
     <string name="next">Iduće</string>
     <string name="ok">OK</string>
@@ -350,6 +351,7 @@
     <string name="hide_details">Sakrij detalje</string>
     <string name="project_options">Project options</string>
     <string name="from_library">Add from library</string>
+    <string name="from_local">Add from local</string>
     <string name="sort_projects">Sort</string>
     <string name="unsort_projects">Unsort</string>
     <string name="import_from_project">Select project to import from</string>
@@ -658,6 +660,7 @@
     <string name="add_sound_from_recorder">Snimite zvuk</string>
     <string name="add_sound_choose_file">Izaberite dokument</string>
     <string name="add_sound_music">Music composer</string>
+    <string name="add_sound_choose_sound">Zvuci</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">Note Picker</string>
     <!--  -->
@@ -998,6 +1001,8 @@
     <string name="beats">beats</string>
     <string name="play_note">Play note</string>
     <string name="for_string">za</string>
+    <string name="at_string">na</string>
+    <string name="seconds_string">sekunde</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Stitch</string>
@@ -1272,13 +1277,6 @@
     <string name="notification_screenshot_ok">Prikažite sačuvanu sliku</string>
     <string name="notification_download_project_cancel">Otkažite preuzimanje projekta</string>
     <string name="notification_reconvert_download_program_cancel">Otkazano preuzimanje/konvertovanje projekata</string>
-    <string name="notification_upload_title_pending">"Postavljanje"</string>
-    <string name="notification_upload_title_finished">"Look at"</string>
-    <string name="notification_upload_pending">Preuzimanje u toku</string>
-    <string name="notification_upload_finished">Preuzimanje uspješno</string>
-    <string name="notification_upload_rejected">Preuzeti projekat odbijen</string>
-    <string name="notification_upload_retry">Pokušajte ponovo</string>
-    <string name="notification_open_play_store">Otvorite App store</string>
     <string name="notification_download_title_pending">"Preuzimanje "</string>
     <string name="notification_download_pending">Preuzimanje u toku</string>
     <string name="notification_download_finished">Preuzimanje je uspjelo</string>
@@ -1291,7 +1289,6 @@ Camera brick needs access to the device\'s camera, the \"location\" formula elem
 device\'s geolocation sensor, and in order to import and export projects from and to the local memory, the app
 needs read and write access to it. You can always change permissions through your device\'s settings.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">Nešto je pošlo po zlu pri postavljanju projekta.</string>
     <string name="error_project_download">Došlo je do greške prilikom preuzimanja programa.</string>
     <string name="error_project_already_in_queue">"Project %s already in queue."</string>
     <string name="error_could_not_decode_project_name_from_url">"Your download could not be
@@ -1303,7 +1300,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_internet_connection">Došlo je do greške. Provjeri vezu sa internetom.</string>
     <string name="error_project_compatibility">The project is not compatible with this version of the app.</string>
     <string name="error_outdated_version">Ova verzija aplikacije je zastarila. Želite li je ažurirati?</string>
-    <string name="error_upload_project_with_default_name">Ne možete postaviti projekat sa nazivom \"Moj prvi projekat\". Molimo promijenite naziv.</string>
+    <string name="error_upload_project_with_default_name">Ne možete postaviti projekat sa nazivom \"%s\". Molimo promijenite naziv.</string>
     <string name="error_upload_default_project">Ne možete objaviti nepromijenjen primjer projekat. Molimo Vas da promijenite nešto i pokušate ponovo.</string>
     <string name="error_adding_brick">Došlo je do greške prilikom dodavanja ovog bloka</string>
     <string name="error_copying_brick">Došlo je do greške prilikom kopiranja ovog bloka</string>
@@ -1323,15 +1320,16 @@ needs read and write access to it. You can always change permissions through you
     <string name="notification_blueth_err">Can\'t enable Bluetooth, please try turning it off and on again.</string>
     <string name="title_paired_devices">Upareni uređaji</string>
     <string name="title_other_devices">Novi uređaji</string>
-    <string name="searching_devices">Traženje uređaja&#8230;</string>
-    <string name="button_scan">Traži Bluetooth uređaje</string>
-    <string name="button_skip">Skip Bluetooth connection</string>
-    <string name="select_device">Odabrani uređaj:</string>
+    <string name="bluetooth_connection_title">Bluetooth connection</string>
+    <string name="skip_bluetooth_connection">Preskočite</string>
     <string name="connecting_please_wait">Povezivanje sa uređajem.\nMolimo sačekaj&#8230;</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">Povezivanje sa uređajem nije uspjelo!</string>
     <string name="none_found">Nema nesparenih uređaja</string>
-    <string name="none_paired">Nema sparenih uređaja</string>
+    <string name="multiplayer_bluetooth_connection_information_title">Bluetooth connection
+        required!</string>
+    <string name="multiplayer_bluetooth_connection_information">To play this game in
+        Multiplayer a Bluetooth connection is required. Both players have to start the game and
+        be on this screen for the connection to work properly!</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Postavite Arduino digitalnu šifru</string>
@@ -1643,7 +1641,6 @@ needs read and write access to it. You can always change permissions through you
         assistant</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">Regular
         expression assistant</string>
-    <string name="formula_editor_dialog_wiki_button">Više informacija</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">The keyword could not be found.</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON extractor</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino digital pin</string>
@@ -2045,7 +2042,7 @@ needs read and write access to it. You can always change permissions through you
         without a look.</string>
     <!-- Information -->
     <string name="no_variable_selected">No variable selected</string>
-    <string name="find">Find</string>
+    <string name="search">Srčaj…</string>
     <string name="no_results_found">No results found</string>
     <string name="query_field_is_empty">Query field is empty</string>
     <string name="cut">Cut</string>
@@ -2060,4 +2057,5 @@ needs read and write access to it. You can always change permissions through you
     <string name="set_particle_color_to">Set particle color to</string>
     <string name="undo_sort">Undo sort</string>
     <string name="sort">Sort</string>
+    <string name="checkbox">checkbox</string>
 </resources>

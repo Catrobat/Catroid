@@ -18,6 +18,31 @@
 
   <body>
     <div id="catroid-catblocks-container"></div>
+
+    <div id="catroid-catblocks-hidden-container" style="display:none;"></div>
+
+    <div id="catroid-catblocks-add-brick-dialog" style="display:none;">
+      <div id="catroid-catblocks-add-brick-dialog-header">
+        <div id="catroid-catblocks-add-brick-dialog-header-content-container">
+          <div id="catroid-catblocks-add-brick-back-container">
+            <img
+                src="https://appassets.androidplatform.net/assets/catblocks/media/arrow_back_ios_black_36dp.svg" />
+          </div>
+          <div id="catroid-catblocks-add-brick-text-container">
+            <h3 id="catroid-catblocks-add-brick-dialog-header-text"></h3>
+          </div>
+        </div>
+        <div id="catroid-catblocks-add-brick-dialog-close-container">
+          <img
+              src="https://appassets.androidplatform.net/assets/catblocks/media/close_black_36dp.svg" />
+        </div>
+      </div>
+      <div id="catroid-catblocks-add-brick-dialog-content">
+        <div id="catroid-catblocks-brick-category-container" class="list-group" style="display:none;"></div>
+        <div id="catroid-catblocks-bricks-container" style="display:none;"></div>
+      </div>
+    </div>
+
     <script>
       window.onload = function () {
         CatBlocks.init({

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@ import android.util.Log
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask
+import org.catrobat.catroid.io.asynctask.ProjectLoader
 import java.io.File
 import java.io.IOException
 
@@ -64,7 +64,7 @@ class LookFileGarbageCollector {
             StorageOperations.deleteFile(file)
         } catch (e: IOException) {
             Log.e(
-                ProjectLoadTask.TAG, "Error while deleting file ${file.name} during " +
+                ProjectLoader.TAG, "Error while deleting file ${file.name} during " +
                     "cleanup of unused LookFile", e
             )
         }

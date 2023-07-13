@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -74,7 +74,7 @@ public class SoundFragmentActivityRecreateRegressionTest {
 	@Rule
 	public FlakyTestRule flakyTestRule = new FlakyTestRule();
 
-	private String soundName = "testSound";
+	private final String soundName = "testSound";
 
 	@Before
 	public void setUp() throws Exception {
@@ -87,23 +87,14 @@ public class SoundFragmentActivityRecreateRegressionTest {
 	@Test
 	public void testActivityRecreateRenameSoundDialog() {
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
-		onView(withText(R.string.rename)).perform(click());
 
-		onRecyclerView().atPosition(0)
-				.performCheckItem();
-
-		onView(withId(R.id.confirm)).perform(click());
+		onView(withText(R.string.rename))
+				.perform(click());
 
 		onView(withText(R.string.rename_sound_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				baseActivityTestRule.getActivity().recreate();
-			}
-		});
-
+		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
 		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 	}
 
@@ -113,17 +104,22 @@ public class SoundFragmentActivityRecreateRegressionTest {
 	public void testActivityRecreateNewSoundDialog() {
 		onRecyclerView().atPosition(0).onChildView(R.id.title_view)
 				.check(matches(withText(soundName)));
+
 		onView(withId(R.id.button_add))
 				.perform(click());
+
 		onView(withText(R.string.new_sound_dialog_title)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
+		onView(withText(R.string.add_sound_from_recorder)).inRoot(isDialog())
+				.check(matches(isDisplayed()));
+		onView(withText(R.string.add_sound_choose_sound)).inRoot(isDialog())
+				.check(matches(isDisplayed()));
+		onView(withText(R.string.add_sound_choose_file)).inRoot(isDialog())
+				.check(matches(isDisplayed()));
+		onView(withText(R.string.add_sound_music)).inRoot(isDialog())
+				.check(matches(isDisplayed()));
 
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				baseActivityTestRule.getActivity().recreate();
-			}
-		});
+		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
 		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 	}
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -84,9 +84,6 @@
     <color name="stage_dialog_maximize_button_background">#CC00475E</color>
     <color name="stage_dialog_share_embroidery_button_background">#CCCB709F</color>
 
-    <!-- Device List Colors -->
-    <color name="bluetooth_device_list_divider_color">#505050</color>
-
     <!-- Scratch Converter Colors -->
     <color name="beta_label_color">#FF7700</color>
 
@@ -96,6 +93,9 @@
     <color name="pocketmusic_even_bright">#E0E0E0</color>
     <color name="pocketmusic_odd_dusk">#E0E0E0</color>
     <color name="pocketmusic_even_dusk">#BDBDBD</color>
+
+    <!-- Bluetooth Colors -->
+    <color name="bluetooth_device_color">#AADBF0</color>
 
     <!-- Icon Colors -->
     <color name="landing_page_icons">@color/accent</color>
@@ -135,5 +135,6 @@
      <color name="brick_color_violet">#8f4cba</color>
      <color name="brick_color_grey">#AAAAAA</color>
      <color name="brick_color_white">#FFFFFF</color>
+     <color name="brick_color_black">#323331</color>
 
     </resources>

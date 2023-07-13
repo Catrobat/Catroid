@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.test.stage;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -80,18 +81,16 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 public class SearchParameterTest {
-	String projectName = "searchTestProject";
-
-	Script script1;
-	Script script2;
-	Script script3;
-
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
-
 	@Rule
 	public FlakyTestRule flakyTestRule = new FlakyTestRule();
+
+	String projectName = "searchTestProject";
+	Script script1;
+	Script script2;
+	Script script3;
 
 	@Before
 	public void setUp() {
@@ -120,7 +119,7 @@ public class SearchParameterTest {
 	public void testSearchBrickParams() {
 		String[] arguments = new String[] {"1", "2", "3", "4", "5"};
 		openActionBarOverflowOrOptionsMenu(baseActivityTestRule.getActivity());
-		onView(withText(R.string.find)).perform(click());
+		onView(withText(R.string.search)).perform(click());
 		for (String argument : arguments) {
 			onView(withId(R.id.search_bar)).perform(replaceText(argument));
 			onView(withId(R.id.find)).perform(click());
@@ -133,7 +132,7 @@ public class SearchParameterTest {
 		String searchParam =
 				baseActivityTestRule.getActivity().getString(R.string.brick_glide) + baseActivityTestRule.getActivity().getString(R.string.brick_glide_to_x);
 		openActionBarOverflowOrOptionsMenu(baseActivityTestRule.getActivity());
-		onView(withText(R.string.find)).perform(click());
+		onView(withText(R.string.search)).perform(click());
 		onView(withId(R.id.search_bar)).perform(replaceText(searchParam));
 		onView(withId(R.id.find)).perform(click());
 		onView(withText(searchParam)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
@@ -143,7 +142,7 @@ public class SearchParameterTest {
 	public void testSearchSpinner() {
 		final String searchTerm = "look 1";
 		openActionBarOverflowOrOptionsMenu(baseActivityTestRule.getActivity());
-		onView(withText(R.string.find)).perform(click());
+		onView(withText(R.string.search)).perform(click());
 		onView(withId(R.id.search_bar)).perform(replaceText(searchTerm));
 		onView(withId(R.id.find)).perform(click());
 		onView(withText(searchTerm)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
@@ -153,7 +152,7 @@ public class SearchParameterTest {
 	public void tobBarVisibleAfterSelectingBrickFieldTest() {
 		String searchParam = "0";
 		openActionBarOverflowOrOptionsMenu(baseActivityTestRule.getActivity());
-		onView(withText(R.string.find)).perform(click());
+		onView(withText(R.string.search)).perform(click());
 		onView(withId(R.id.search_bar)).perform(replaceText(searchParam));
 		onView(withId(R.id.find)).perform(click());
 		BrickDataInteractionWrapper.onBrickAtPosition(1).onFormulaTextField(R.id.brick_set_x_edit_text).perform(click());
@@ -163,10 +162,32 @@ public class SearchParameterTest {
 	}
 
 	@Test
+	public void testForSearchQueryWithTrailingSpaces() {
+		Activity activity = baseActivityTestRule.getActivity();
+		String searchParam = activity.getString(R.string.brick_play_sound) + " ";
+		openActionBarOverflowOrOptionsMenu(activity);
+		onView(withText(R.string.search)).perform(click());
+		onView(withId(R.id.search_bar)).perform(replaceText(searchParam));
+		onView(withId(R.id.find)).perform(click());
+		onView(withText(searchParam)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+	}
+
+	@Test
+	public void testForSearchQueryWithLeadingSpaces() {
+		Activity activity = baseActivityTestRule.getActivity();
+		String searchParam = " " + activity.getString(R.string.brick_play_sound);
+		openActionBarOverflowOrOptionsMenu(activity);
+		onView(withText(R.string.search)).perform(click());
+		onView(withId(R.id.search_bar)).perform(replaceText(searchParam));
+		onView(withId(R.id.find)).perform(click());
+		onView(withText(searchParam)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+	}
+
+	@Test
 	@Flaky
 	public void closeKeyboardAfterSearching() {
 		openActionBarOverflowOrOptionsMenu(baseActivityTestRule.getActivity());
-		onView(withText(R.string.find)).perform(click());
+		onView(withText(R.string.search)).perform(click());
 		onView(isRoot()).perform(CustomActions.wait(2000));
 		assertTrue(isKeyboardVisible());
 		onView(withId(R.id.close)).perform(click());

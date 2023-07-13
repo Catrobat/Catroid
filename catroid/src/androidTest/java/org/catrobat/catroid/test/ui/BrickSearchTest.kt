@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2022 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,6 +33,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.clearText
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.pressKey
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
@@ -84,7 +85,6 @@ class BrickSearchTest {
     }
 
     @Test
-    @Flaky
     fun testSearchBrickParams() {
         val arguments = arrayOf("When scene starts", "move", "BROADCAST")
         val bricks = arrayOf(
@@ -112,7 +112,6 @@ class BrickSearchTest {
     }
 
     @Test
-    @Flaky
     fun testSearchIfBrick() {
         ensureKeyboardIsClosed()
         Espresso.onView(withId(R.id.button_add)).perform(click())
@@ -120,30 +119,50 @@ class BrickSearchTest {
         Espresso.onView(withId(R.id.search_src_text)).perform(
             replaceText("if")
         ).perform(pressKey(KeyEvent.KEYCODE_ENTER))
-        val searchAutoComplete = Espresso.onView(
-            Matchers.allOf(
-                withId(R.id.search_src_text),
-                ViewMatchers.withText("if"), childAtPosition(
-                    Matchers.allOf(
-                        withId(R.id.search_plate),
-                        childAtPosition(withId(R.id.search_edit_frame), 1)
-                    ), 0
-                ), isDisplayed()
-            )
-        )
-        searchAutoComplete.perform(ViewActions.pressImeActionButton())
-        val linearLayout = Espresso.onData(Matchers.anything()).inAdapterView(
-            Matchers.allOf(
-                withId(android.R.id.list),
-                childAtPosition(withId(R.id.fragment_brick_search), 0)
-            )
-        ).atPosition(0)
-        linearLayout.perform(click())
+        Espresso.onData(Matchers.anything())
+            .inAdapterView(
+                Matchers.allOf(
+                    withId(android.R.id.list),
+                    childAtPosition(
+                        withId(R.id.fragment_brick_search),
+                        2
+                    )
+                )
+            ).atPosition(0).check(matches(isDisplayed())).perform(click())
         Assert.assertFalse(isKeyboardVisible())
     }
 
     @Test
-    @Flaky
+    fun testSearchHistory() {
+        Espresso.onView(withId(R.id.button_add)).perform(click())
+        Espresso.onView(withId(R.id.search)).perform(click())
+        Espresso.onView(withId(R.id.search_src_text)).perform(clearText(), ViewActions.typeText
+            ("test")).perform(pressKey(KeyEvent.KEYCODE_ENTER))
+        Espresso.onData(Matchers.anything())
+            .inAdapterView(
+                Matchers.allOf(
+                    withId(android.R.id.list),
+                    childAtPosition(
+                        withId(R.id.fragment_brick_search),
+                        2
+                    )
+                )
+            ).atPosition(0).perform(click())
+        Espresso.onView(withId(R.id.button_add)).perform(click())
+        Espresso.onView(withId(R.id.search)).perform(click())
+        Espresso.onData(Matchers.anything())
+            .inAdapterView(
+                Matchers.allOf(
+                    withId(android.R.id.list),
+                    childAtPosition(
+                        withId(R.id.fragment_brick_search),
+                        2
+                    )
+                )
+            ).atPosition(0).check(matches(isDisplayed()))
+    }
+
+    @Test
     fun testCloseKeyboardAfterSearching() {
         ensureKeyboardIsClosed()
         Espresso.onView(withId(R.id.button_add)).perform(click())
@@ -158,7 +177,6 @@ class BrickSearchTest {
     }
 
     @Test
-    @Flaky
     fun testCategorySearch() {
         ensureKeyboardIsClosed()
         Espresso.onView(withId(R.id.button_add)).perform(click())
@@ -228,8 +246,24 @@ class BrickSearchTest {
     fun hideKeyboard() {
         Espresso.onView(ViewMatchers.isRoot()).perform(ViewActions.closeSoftKeyboard())
     }
+    @Test
+    @Flaky
+    fun testProgressiveSearch() {
+        val arguments = arrayOf("W", "h", "e", "n")
+        val brick = WhenStartedBrick::class.java
+        Espresso.onView(withId(R.id.button_add)).perform(click())
+        Espresso.onView(withId(R.id.search)).perform(click())
+        for (index in arguments.indices) {
+            Espresso.onView(withId(R.id.search_src_text)).perform(ViewActions.typeText(arguments[index]))
+            Espresso.onView(ViewMatchers.isRoot()).perform(CustomActions.wait(2000))
+            Espresso.onData(Matchers.allOf(Matchers.`is`(Matchers.instanceOf(brick))))
+                .inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
+                .atPosition(0)
+                .check(matches(isDisplayed()))
+        }
+    }
 
-    fun isKeyboardVisible(): Boolean {
+    private fun isKeyboardVisible(): Boolean {
         return try {
             val manager = ApplicationProvider.getApplicationContext<Context>()
                 .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
