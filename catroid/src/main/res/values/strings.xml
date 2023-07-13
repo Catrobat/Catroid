@@ -1402,15 +1402,10 @@
 
     <!-- Notifications -->
     <string formatted="false" name="notification_screenshot_ok">Preview image saved</string>
-    <string formatted="false" name="notification_download_project_cancel">Cancel project download</string>
-    <string formatted="false" name="notification_reconvert_download_program_cancel">Canceled downloading/reconverting project</string>
-    <string formatted="false" name="notification_upload_title_pending">"Uploading"</string>
-    <string formatted="false" name="notification_upload_title_finished">"Look at"</string>
-    <string formatted="false" name="notification_upload_pending">Upload in progress</string>
-    <string formatted="false" name="notification_upload_finished">Upload successful</string>
-    <string formatted="false" name="notification_upload_rejected">Uploaded project rejected</string>
-    <string formatted="false" name="notification_upload_retry">Retry</string>
-    <string formatted="false" name="notification_open_play_store">Open App store</string>
+    <string formatted="false" name="notification_download_project_cancel">Cancel project
+        download</string>
+    <string formatted="false" name="notification_reconvert_download_program_cancel">Canceled
+        downloading/reconverting project</string>
     <string formatted="false" name="notification_download_title_pending">"Downloading"</string>
     <string formatted="false" name="notification_download_pending">Download in progress</string>
     <string formatted="false" name="notification_download_finished">Download successful</string>
@@ -1425,10 +1420,13 @@ device\'s geolocation sensor, and in order to import and export projects from an
 needs read and write access to it. You can always change permissions through your device\'s settings.</string>
 
     <!-- Error messages -->
-    <string formatted="false" name="error_project_upload">Something went wrong while uploading the project.</string>
-    <string formatted="false" name="error_project_download">Something went wrong while downloading the project.</string>
-    <string formatted="false" name="error_project_already_in_queue">"Project %s already in queue."</string>
-    <string formatted="false" name="error_could_not_decode_project_name_from_url">"Your download could not be
+    <string
+        formatted="false" name="error_project_download">Something went wrong while downloading the
+        project.</string>
+    <string formatted="false" name="error_project_already_in_queue">"Project %s already in
+        queue."</string>
+    <string formatted="false" name="error_could_not_decode_project_name_from_url">"Your download
+        could not be
         started, seems there is a problem with our server."</string>
     <string formatted="false" name="error_new_project">Something went wrong while creating a new project.</string>
     <string formatted="false" name="error_rename_scene">Something went wrong while renaming the scene.</string>

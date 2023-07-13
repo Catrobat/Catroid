@@ -1,6 +1,10 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
+<<<<<<<< HEAD:catroid/src/main/java/org/catrobat/catroid/ui/dragndrop/BrickAdapterInterface.kt
  * Copyright (C) 2010-2022 The Catrobat Team
+========
+ * Copyright (C) 2010-2023 The Catrobat Team
+>>>>>>>> c04672eb2 (IDE-89 Redesign project upload (#4752)):catroid/src/main/java/org/catrobat/catroid/content/actions/CloneAction.kt
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,6 +24,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+<<<<<<<< HEAD:catroid/src/main/java/org/catrobat/catroid/ui/dragndrop/BrickAdapterInterface.kt
 package org.catrobat.catroid.ui.dragndrop
 
 import org.catrobat.catroid.content.bricks.Brick
@@ -32,4 +37,22 @@ interface BrickAdapterInterface {
     fun getItem(position: Int): Brick?
     fun getPosition(brick: Brick?): Int
     fun removeItems(items: List<Brick>): Boolean
+========
+package org.catrobat.catroid.content.actions
+
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.stage.StageActivity
+
+class CloneAction : TemporalAction() {
+    private var sprite: Sprite? = null
+    override fun update(percent: Float) {
+        sprite ?: return
+        StageActivity.stageListener.cloneSpriteAndAddToStage(sprite)
+    }
+
+    fun setSprite(sprite: Sprite?) {
+        this.sprite = sprite
+    }
+>>>>>>>> c04672eb2 (IDE-89 Redesign project upload (#4752)):catroid/src/main/java/org/catrobat/catroid/content/actions/CloneAction.kt
 }
