@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -58,9 +58,10 @@ class RegistrationViewModel(private val webServer: WebService) : ViewModel() {
     private val usernameInUse = MutableLiveData<Boolean>(false)
     fun isUserNameInUse(): LiveData<Boolean> = usernameInUse
 
-    fun register(dryRun: Boolean, email: String, username: String, password: String, token: String) {
-        val registerCall: Call<LoginResponse> = webServer.register("Bearer $token", RegisterUser
-            (dryRun, email, username, password))
+    fun register(dryRun: Boolean, email: String, username: String, password: String) {
+        val registerCall: Call<LoginResponse> = webServer.register(
+            RegisterUser(dryRun, email, username, password)
+        )
 
         registerCall.enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {

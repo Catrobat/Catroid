@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -162,7 +162,7 @@ class CatroidWebServerAuthenticationTest : KoinTest {
     @Test
     fun testRegistrationOk() {
         val token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN)
-        val response = webServer.register("Bearer $token", RegisterUser(true, newEmail, newUserName, password)).execute()
+        val response = webServer.register(RegisterUser(true, newEmail, newUserName, password)).execute()
 
         val responseBody = response.body()
         assertNotNull(responseBody)
@@ -176,7 +176,7 @@ class CatroidWebServerAuthenticationTest : KoinTest {
     @Test
     fun testRegisterWithNewUserButExistingEmail() {
         val token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN)
-        val response = webServer.register("Bearer $token", RegisterUser(true, email, newUserName, password)).execute()
+        val response = webServer.register(RegisterUser(true, email, newUserName, password)).execute()
 
         assertEquals(response.code(), SERVER_RESPONSE_REGISTER_UNPROCESSABLE_ENTITY)
 
@@ -188,7 +188,7 @@ class CatroidWebServerAuthenticationTest : KoinTest {
     @Test
     fun testRegisterWithExistingUserButNewEmail() {
         val token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN)
-        val response = webServer.register("Bearer $token", RegisterUser(true, newEmail, username, password)).execute()
+        val response = webServer.register(RegisterUser(true, newEmail, username, password)).execute()
 
         assertEquals(response.code(), SERVER_RESPONSE_REGISTER_UNPROCESSABLE_ENTITY)
 
@@ -200,7 +200,7 @@ class CatroidWebServerAuthenticationTest : KoinTest {
     @Test
     fun testRegisterAndLogin() {
         val token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN)
-        val registrationResponse = webServer.register("Bearer $token", RegisterUser(true, newEmail, newUserName, password)).execute()
+        val registrationResponse = webServer.register(RegisterUser(true, newEmail, newUserName, password)).execute()
 
         val loginResponse = webServer.login("Bearer $token", LoginUser(newUserName, password)).execute()
 
@@ -239,6 +239,17 @@ class CatroidWebServerAuthenticationTest : KoinTest {
 
         val responseExpireToken = webServer.expireToken("Bearer $token", refreshToken).execute()
         assertEquals(responseExpireToken.code(), SERVER_RESPONSE_INVALID_UPLOAD_TOKEN)
+    }
+
+    @Test
+    fun testGetUserProjects() {
+        var token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN)
+        val loginResponse = webServer.login("Bearer $token", LoginUser(username, password))
+            .execute()
+        token = loginResponse.body()?.token
+        val response = webServer.getUserProjects("Bearer $token").execute()
+
+        assertEquals(response.code(), SERVER_RESPONSE_TOKEN_OK)
     }
 
     private fun parseRegisterErrorMessage(errorBody: String?) =

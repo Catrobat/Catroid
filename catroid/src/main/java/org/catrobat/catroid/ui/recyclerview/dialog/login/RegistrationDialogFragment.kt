@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,6 @@ import android.preference.PreferenceManager
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
-import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.CheckBox
@@ -294,9 +293,7 @@ class RegistrationDialogFragment : DialogFragment() {
         connectionMonitor.observe(this, Observer { connectionActive ->
             if (connectionActive) {
                 viewModel.setIsRegistering()
-                val token = sharedPreferences?.getString(Constants.TOKEN, Constants.NO_TOKEN).orEmpty()
-                Log.d(LoginDialogFragment.TAG, "Token stored in shared preferences $token")
-                viewModel.register(true, email, username, password, token)
+                viewModel.register(true, email, username, password)
             } else {
                 ToastUtil.showError(context, R.string.error_internet_connection)
             }
