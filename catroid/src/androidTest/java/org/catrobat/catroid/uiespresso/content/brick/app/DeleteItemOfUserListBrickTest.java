@@ -108,7 +108,7 @@ public class DeleteItemOfUserListBrickTest {
 				.performOpenDataFragment();
 		onDataList().onListAtPosition(1)
 				.checkHasName(secondUserListName)
-				.performDelete();
+				.performDeleteInDropDown();
 		onDataList()
 				.performClose();
 		pressBack();

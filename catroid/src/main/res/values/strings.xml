@@ -2193,8 +2193,20 @@ needs read and write access to it. You can always change permissions through you
     <!-- -->
 
     <string formatted="false" name="deletion_alert_title">Delete?</string>
-    <string formatted="false" name="deletion_alert_text">Deleting a variable or list that is still in use can cause
+    <string formatted="false" name="deletion_alert_warning">Warning!</string>
+    <string formatted="false" name="deletion_alert_text">Deleting a variable or list that is
+        still in use can cause
         errors. You can\'t undo this!</string>
+    <string formatted="false" name="deletion_alert_text_in_use_with_variable_name">%1$s is still
+        in use in a formula and therefore cannot be deleted.
+        Please replace the variable in all formulas in this project where it is used before deleting it,
+        or consider instead to only rename the variable.</string>
+    <string formatted="false" name="deletion_alert_text_drop_down_with_variable_name">%1$s is still in use in
+        drop-down fields of some bricks. Please consider replacing the list at all places in this
+        project where it is used before deleting it, or consider instead to only rename the list.
+        If you now chose to delete the list, it will be replaced by \"new…\" in all these
+        drop-down fields. Are you sure you want to delete the list?</string>
+    <string formatted="false" name="deletion_alert_yes">Yes, delete anyway!</string>
 
     <!-- Upload progress dialog -->
     <string formatted="false" name="progress_upload_dialog_message">Your project gets uploaded to the app\’s sharing site where others

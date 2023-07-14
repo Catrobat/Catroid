@@ -94,7 +94,7 @@ public class SetVariableBrickTest {
 		onFormulaEditor()
 				.performOpenDataFragment();
 		onDataList().onVariableAtPosition(0)
-				.performDelete();
+				.performDeleteInDropDown();
 		onDataList()
 				.performClose();
 		pressBack();
