@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+@file:Suppress("WildcardImport")
 package org.catrobat.catroid.uiespresso.formulaeditor
 
 import android.preference.PreferenceManager
