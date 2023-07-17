@@ -736,3 +736,4 @@ public class InternFormulaKeyboardAdapter {
 		return returnList;
 	}
 }
+
