@@ -57,6 +57,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import androidx.test.core.app.ApplicationProvider;
@@ -66,6 +67,7 @@ import static org.catrobat.catroid.test.utils.TestUtils.deleteProjects;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import static androidx.test.espresso.Espresso.onIdle;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.Espresso.pressBack;
@@ -182,8 +184,7 @@ public class SearchParameterTest {
 	}
 
 	@Test
-	@Flaky
-	public void closeKeyboardAfterSearching() {
+	public void closeKeyboardAfterSearching() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
 		openActionBarOverflowOrOptionsMenu(baseActivityTestRule.getActivity());
 		onView(withText(R.string.search)).perform(click());
 		onView(isRoot()).perform(CustomActions.wait(2000));
@@ -193,15 +194,11 @@ public class SearchParameterTest {
 		assertFalse(isKeyboardVisible());
 	}
 
-	public boolean isKeyboardVisible() {
-		try {
-			final InputMethodManager manager = (InputMethodManager) ApplicationProvider.getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-			final Method windowHeightMethod = InputMethodManager.class.getMethod("getInputMethodWindowVisibleHeight");
-			final int height = (int) windowHeightMethod.invoke(manager);
-			return height > 0;
-		} catch (Exception e) {
-			return false;
-		}
+	public boolean isKeyboardVisible() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+		final InputMethodManager manager = (InputMethodManager) ApplicationProvider.getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+		final Method windowHeightMethod = InputMethodManager.class.getMethod("getInputMethodWindowVisibleHeight");
+		final int height = (int) windowHeightMethod.invoke(manager);
+		return height > 0;
 	}
 
 	public void createProject(String projectName) {
@@ -253,12 +250,8 @@ public class SearchParameterTest {
 	}
 
 	@After
-	public void tearDown() {
+	public void tearDown() throws IOException {
+		deleteProjects(projectName);
 		baseActivityTestRule.finishActivity();
-		try {
-			deleteProjects(projectName);
-		} catch (IOException e) {
-			Log.d(getClass().getSimpleName(), "Cannot delete test project in tear down.");
-		}
 	}
 }

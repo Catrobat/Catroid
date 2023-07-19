@@ -37,7 +37,6 @@ import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.TestResult
 import org.catrobat.catroid.test.utils.TestUtils
 import org.junit.After
-import org.junit.Assume.assumeFalse
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -73,7 +72,7 @@ class CatrobatTestRunner {
 
     companion object {
         private const val TEST_ASSETS_ROOT = "catrobatTests"
-        private const val TIMEOUT = 15_000
+        private const val TIMEOUT = 10_000
 
         @JvmStatic
         @Parameterized.Parameters(name = "{0} - {1}")
@@ -127,15 +126,6 @@ class CatrobatTestRunner {
     @Test
     @Throws(InterruptedException::class)
     fun run() {
-
-        // TODO Fix test
-        assumeFalse(
-            assetName.contains("FastUserDefinedBrick")
-                || assetName.contains("testLoopDelay")
-                || assetName.contains("testSoundBricksSlowDownFastLoops")
-                || assetName.contains("testNumberOfLocks")
-        )
-
         baseActivityTestRule.launchActivity(null)
         waitForReady()
         val result = baseActivityTestRule.activityResult
