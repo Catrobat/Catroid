@@ -51,7 +51,6 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.bricks.BroadcastBrick
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick
 import org.catrobat.catroid.content.bricks.WhenStartedBrick
-import org.catrobat.catroid.runner.Flaky
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions
@@ -249,7 +248,6 @@ class BrickSearchTest {
         Espresso.onView(ViewMatchers.isRoot()).perform(ViewActions.closeSoftKeyboard())
     }
     @Test
-    @Flaky
     fun testProgressiveSearch() {
         val arguments = arrayOf("W", "h", "e", "n")
         val brick = WhenStartedBrick::class.java

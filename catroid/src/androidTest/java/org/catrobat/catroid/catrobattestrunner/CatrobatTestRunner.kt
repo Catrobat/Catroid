@@ -23,7 +23,6 @@
 package org.catrobat.catroid.catrobattestrunner
 
 import android.Manifest.permission
-import android.app.Instrumentation.ActivityResult
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
@@ -50,7 +49,6 @@ import java.util.ArrayList
 
 @RunWith(Parameterized::class)
 class CatrobatTestRunner {
-    var retries = 5
 
     @Rule
     @JvmField
@@ -75,7 +73,7 @@ class CatrobatTestRunner {
 
     companion object {
         private const val TEST_ASSETS_ROOT = "catrobatTests"
-        private const val TIMEOUT = 10_000
+        private const val TIMEOUT = 15_000
 
         @JvmStatic
         @Parameterized.Parameters(name = "{0} - {1}")
@@ -129,8 +127,6 @@ class CatrobatTestRunner {
     @Test
     @Throws(InterruptedException::class)
     fun run() {
-        var result: ActivityResult? = null
-        val messages = StringBuilder()
 
         // TODO Fix test
         assumeFalse(
@@ -140,32 +136,11 @@ class CatrobatTestRunner {
                 || assetName.contains("testNumberOfLocks")
         )
 
-        for (runNr in 1..retries) {
-            baseActivityTestRule.launchActivity(null)
-            waitForReady()
-            result = baseActivityTestRule.activityResult
-            if (result?.resultCode == TestResult.STAGE_ACTIVITY_TEST_SUCCESS) {
-                break
-            }
-            messages.append("Testrun Nr.: $runNr\n")
-            messages.append(result?.resultData?.getStringExtra(TestResult.TEST_RESULT_MESSAGE))
-            messages.append("\n\n")
-            if (runNr != retries) {
-                restart()
-            }
-        }
-
+        baseActivityTestRule.launchActivity(null)
+        waitForReady()
+        val result = baseActivityTestRule.activityResult
         if (result?.resultCode != TestResult.STAGE_ACTIVITY_TEST_SUCCESS) {
-            Assert.fail(messages.toString())
-        }
-    }
-
-    private fun restart() {
-        try {
-            tearDown()
-            setUp()
-        } catch (e: Exception) {
-            Assert.fail(e.message)
+            Assert.fail(result?.resultData?.getStringExtra(TestResult.TEST_RESULT_MESSAGE))
         }
     }
 

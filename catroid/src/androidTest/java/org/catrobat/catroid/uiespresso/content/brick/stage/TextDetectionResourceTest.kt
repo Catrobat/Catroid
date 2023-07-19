@@ -34,7 +34,6 @@ import org.catrobat.catroid.content.bricks.SetSizeToBrick
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.FormulaElement
 import org.catrobat.catroid.formulaeditor.Sensors
-import org.catrobat.catroid.runner.Flaky
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
 import org.catrobat.catroid.testsuites.annotations.Cat.Quarantine
@@ -87,7 +86,6 @@ class TextDetectionResourceTest {
     }
 
     @Category(AppUi::class, Functional::class, Quarantine::class)
-    @Flaky
     @Test
     fun testTextDetectionChanged() {
         createProject(FormulaElement.ElementType.SENSOR, Sensors.TEXT_BLOCKS_NUMBER.name)

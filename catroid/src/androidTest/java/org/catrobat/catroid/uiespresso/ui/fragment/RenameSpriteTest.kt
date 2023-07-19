@@ -41,8 +41,6 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.content.GroupSprite
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.rules.FlakyTestRule
-import org.catrobat.catroid.runner.Flaky
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
 import org.catrobat.catroid.testsuites.annotations.Level.Smoke
@@ -75,9 +73,6 @@ class RenameSpriteTest {
         ProjectActivity.FRAGMENT_SPRITES
     )
 
-    @get:Rule
-    var flakyTestRule = FlakyTestRule()
-
     private val firstSpriteName = "firstSprite"
     private val secondSpriteName = "secondSprite"
     private val groupSpriteName = "groupSprite"
@@ -97,7 +92,6 @@ class RenameSpriteTest {
     }
 
     @Test
-    @Flaky
     fun renameSpriteDialogTest() {
         val modifiedFirstSprite = "modifiedFirstSprite"
         val modifiedGroupSprite = "modifiedGroupSprite"
@@ -107,7 +101,6 @@ class RenameSpriteTest {
     }
 
     @Test
-    @Flaky
     fun renameSpriteSwitchCaseDialogTest() {
         val newSpriteName = "SeConDspRite"
         renameViaActionBarMenu(secondSpriteName, newSpriteName, 2)

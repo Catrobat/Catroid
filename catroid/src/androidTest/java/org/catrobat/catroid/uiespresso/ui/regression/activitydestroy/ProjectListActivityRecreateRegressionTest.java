@@ -33,8 +33,6 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.rules.FlakyTestRule;
-import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.ProjectListActivity;
@@ -72,9 +70,6 @@ public class ProjectListActivityRecreateRegressionTest {
 	public BaseActivityTestRule<ProjectListActivity> baseActivityTestRule = new
 			BaseActivityTestRule<>(ProjectListActivity.class, true, false);
 
-	@Rule
-	public FlakyTestRule flakyTestRule = new FlakyTestRule();
-
 	private String projectName = "testProject";
 
 	@Before
@@ -84,7 +79,6 @@ public class ProjectListActivityRecreateRegressionTest {
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Quarantine.class})
-	@Flaky
 	@Test
 	public void testActivityRecreateRenameProjectDialog() {
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
@@ -104,7 +98,6 @@ public class ProjectListActivityRecreateRegressionTest {
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Quarantine.class})
-	@Flaky
 	@Test
 	public void testActivityRecreateNewProjectDialog() {
 		onRecyclerView().atPosition(0).onChildView(R.id.title_view)

@@ -31,8 +31,6 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.BroadcastMessageBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
-import org.catrobat.catroid.rules.FlakyTestRule;
-import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
@@ -73,9 +71,6 @@ public class BroadcastReceiveBrickMessageContainerTest {
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
-	@Rule
-	public FlakyTestRule flakyTestRule = new FlakyTestRule();
-
 	@Before
 	public void setUp() throws Exception {
 		project = UiTestUtils.createDefaultTestProject(this.getClass().getSimpleName());
@@ -94,7 +89,6 @@ public class BroadcastReceiveBrickMessageContainerTest {
 
 	@Category({Cat.AppUi.class, Level.Functional.class})
 	@Test
-	@Flaky
 	public void testBroadcastReceiveBrickOmitSaveUnusedMessages() {
 		String uselessMessage = "useless";
 		int broadcastReceivePosition = 1;

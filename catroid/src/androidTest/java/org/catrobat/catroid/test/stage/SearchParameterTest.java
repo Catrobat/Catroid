@@ -26,7 +26,6 @@ package org.catrobat.catroid.test.stage;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 
 import org.catrobat.catroid.ProjectManager;
@@ -47,8 +46,6 @@ import org.catrobat.catroid.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.content.bricks.SetMassBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.TapAtBrick;
-import org.catrobat.catroid.rules.FlakyTestRule;
-import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
@@ -87,8 +84,6 @@ public class SearchParameterTest {
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
-	@Rule
-	public FlakyTestRule flakyTestRule = new FlakyTestRule();
 
 	String projectName = "searchTestProject";
 	Script script1;

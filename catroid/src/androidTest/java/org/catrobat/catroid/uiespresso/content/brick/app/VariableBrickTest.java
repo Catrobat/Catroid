@@ -28,8 +28,6 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.rules.FlakyTestRule;
-import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
@@ -66,9 +64,6 @@ public class VariableBrickTest {
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, EXTRA_FRAGMENT_POSITION, FRAGMENT_SCRIPTS);
 
-	@Rule
-	public FlakyTestRule flakyTestRule = new FlakyTestRule();
-
 	@Before
 	public void setUp() throws Exception {
 		setBrickPosition = 1;
@@ -80,7 +75,6 @@ public class VariableBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	@Flaky
 	public void testCreatingNewVariable() {
 		final String variableName = "TestVariable";
 		onBrickAtPosition(setBrickPosition).onVariableSpinner(R.id.set_variable_spinner)
@@ -102,7 +96,6 @@ public class VariableBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Functional.class})
 	@Test
-	@Flaky
 	public void testNewVariableCanceling() {
 		onBrickAtPosition(setBrickPosition).onVariableSpinner(R.id.set_variable_spinner)
 				.perform(click());

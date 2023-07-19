@@ -29,8 +29,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
-import org.catrobat.catroid.rules.FlakyTestRule;
-import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
@@ -63,9 +61,6 @@ public class LegoConfigDialogActivityRecreationRegressionTest {
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
-	@Rule
-	public FlakyTestRule flakyTestRule = new FlakyTestRule();
-
 	private NXTSensor.Sensor[] sensorMappingBuffer;
 	private boolean nxtSettingBuffer;
 
@@ -92,7 +87,6 @@ public class LegoConfigDialogActivityRecreationRegressionTest {
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Quarantine.class})
-	@Flaky
 	@Test
 	public void testActivityRecreateLegoConfigDialog() {
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_change_size_by_edit_text)).perform(click());

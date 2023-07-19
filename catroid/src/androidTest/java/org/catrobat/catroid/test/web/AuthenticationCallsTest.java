@@ -26,7 +26,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.transfers.DeleteTestUserTask;
@@ -97,7 +96,6 @@ public class AuthenticationCallsTest implements DeleteTestUserTask.OnDeleteTestU
 	}
 
 	@Test
-	@Flaky
 	public void testRegistrationOk() throws WebconnectionException {
 		authenticator.performCatrobatRegister(testEmail, "de", "at");
 		verify(listenerMock, never()).onError(anyInt(), anyString());
@@ -108,7 +106,6 @@ public class AuthenticationCallsTest implements DeleteTestUserTask.OnDeleteTestU
 	}
 
 	@Test
-	@Flaky
 	public void testRegisterWithExistingUser() {
 		authenticator.performCatrobatRegister(testEmail, "de", "at");
 		verify(listenerMock, never()).onError(anyInt(), anyString());
@@ -119,7 +116,6 @@ public class AuthenticationCallsTest implements DeleteTestUserTask.OnDeleteTestU
 	}
 
 	@Test
-	@Flaky
 	public void testRegisterAndLogin() {
 		authenticator.performCatrobatRegister(testEmail, "de", "at");
 		verify(listenerMock, never()).onError(anyInt(), anyString());
@@ -130,7 +126,6 @@ public class AuthenticationCallsTest implements DeleteTestUserTask.OnDeleteTestU
 	}
 
 	@Test
-	@Flaky
 	public void testLoginWithNotExistingUser() {
 		authenticator.performCatrobatLogin();
 		verify(listenerMock, times(1)).onError(eq(STATUS_CODE_USERNAME_NOT_FOUND), Mockito.matches(".+"));
@@ -138,7 +133,6 @@ public class AuthenticationCallsTest implements DeleteTestUserTask.OnDeleteTestU
 	}
 
 	@Test
-	@Flaky
 	public void testRegisterWithExistingUserAndLoginWithWrongPassword() {
 		authenticator.performCatrobatRegister(testEmail, "de", "at");
 		verify(listenerMock, never()).onError(anyInt(), anyString());
@@ -150,7 +144,6 @@ public class AuthenticationCallsTest implements DeleteTestUserTask.OnDeleteTestU
 	}
 
 	@Test
-	@Flaky
 	public void testRegisterWithNewUserButExistingEmail() {
 		authenticator.performCatrobatRegister(testEmail, "de", "at");
 		verify(listenerMock, never()).onError(anyInt(), anyString());
@@ -163,7 +156,6 @@ public class AuthenticationCallsTest implements DeleteTestUserTask.OnDeleteTestU
 	}
 
 	@Test
-	@Flaky
 	public void testRegisterWithTooShortPassword() {
 		authenticator.setPassword("short");
 		authenticator.performCatrobatRegister(testEmail, "de", "at");
@@ -172,7 +164,6 @@ public class AuthenticationCallsTest implements DeleteTestUserTask.OnDeleteTestU
 	}
 
 	@Test
-	@Flaky
 	public void testRegisterWithInvalidEmail() {
 		authenticator.performCatrobatRegister("invalidEmail", "de", "at");
 		verify(listenerMock, times(1)).onError(eq(STATUS_CODE_USER_EMAIL_INVALID), Mockito.matches(".+"));
@@ -180,7 +171,6 @@ public class AuthenticationCallsTest implements DeleteTestUserTask.OnDeleteTestU
 	}
 
 	@Test
-	@Flaky
 	public void testCheckTokenWrong() {
 		String wrongToken = "blub";
 		String username = "badUser";
@@ -196,7 +186,6 @@ public class AuthenticationCallsTest implements DeleteTestUserTask.OnDeleteTestU
 	}
 
 	@Test
-	@Flaky
 	public void testCheckTokenOk() throws WebconnectionException {
 		authenticator.performCatrobatRegister(testEmail, "de", "at");
 		verify(listenerMock, never()).onError(anyInt(), anyString());
