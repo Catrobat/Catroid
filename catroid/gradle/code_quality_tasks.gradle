@@ -34,7 +34,7 @@ dependencies {
 
     checkstyle 'com.puppycrawl.tools:checkstyle:8.26'
 
-    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.0.1"
+    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.23.0"
 }
 
 task checkstyle(type: Checkstyle) {
@@ -67,7 +67,7 @@ task pmd(type: Pmd) {
 
     reports {
         xml.required = true
-        html.required = false
+        html.enabled = false
         xml.destination file("build/reports/pmd.xml")
     }
 }
@@ -76,5 +76,4 @@ detekt {
     toolVersion = "1.1.1"
     config = files("config/detekt.yml")
     input = files("src")
-    filters = ".*/resources/.*,.*/build/.*"
 }
