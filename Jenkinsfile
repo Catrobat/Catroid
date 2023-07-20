@@ -22,7 +22,7 @@ def junitAndCoverage(String jacocoReportDir, String jacocoReportXml, String cove
 }
 
 def postEmulator(String coverageNameAndLogcatPrefix) {
-    sh './gradlew stopEmulator'
+   // sh './gradlew stopEmulator'
 
     def jacocoReportDir = 'catroid/build/reports/coverage/catroid/debug'
     if (fileExists('catroid/build/reports/coverage/catroid/debug/report.xml')){
@@ -175,7 +175,7 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    sh """./gradlew ${debugUnitTests()} -PenableCoverage jacocoTestCatroidDebugUnitTestReport --full-stacktrace"""
+                                    sh "./gradlew ${debugUnitTests()} -PenableCoverage jacocoTestCatroidDebugUnitTestReport --full-stacktrace"
                                     sh 'mkdir -p catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport/'
                                     sh 'touch catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport/jacocoTestCatroidDebugUnitTestReport.xml'
                                     junitAndCoverage 'catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport', 'jacocoTestCatroidDebugUnitTestReport.xml', 'unit'
@@ -190,7 +190,7 @@ pipeline {
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                                     sh '''no | avdmanager create avd --name android${ANDROID_VERSION} --package 'system-images;android-${ANDROID_VERSION};google_apis;x86_64'
-                                        /home/user/android/sdk/emulator/emulator -no-window -no-boot-anim -noaudio -avd android${ANDROID_VERSION}
+                                        /home/user/android/sdk/emulator/emulator -no-window -no-boot-anim -noaudio -avd android${ANDROID_VERSION} &
                                         ./gradlew -PenableCoverage -PlogcatFile=instrumented_unit_logcat.txt -Pemulator=android${ANDROID_VERSION} \
                                         startEmulator createCatroidDebugAndroidTestCoverageReport \
                                         -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.LocalHeadlessTestSuite'''
@@ -210,9 +210,10 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    sh '''./gradlew -PenableCoverage -PlogcatFile=testrunner_logcat.txt -Pemulator=android${ANDROID_VERSION} \
-                                                startEmulator createCatroidDebugAndroidTestCoverageReport \
-                                                -Pandroid.testInstrumentationRunnerArguments.package=org.catrobat.catroid.catrobattestrunner'''
+                                    sh '''
+                                    ./gradlew -PenableCoverage -PlogcatFile=testrunner_logcat.txt -Pemulator=android${ANDROID_VERSION} \
+                                        createCatroidDebugAndroidTestCoverageReport \
+                                        -Pandroid.testInstrumentationRunnerArguments.package=org.catrobat.catroid.catrobattestrunner'''
                                 }
                             }
 
@@ -229,9 +230,10 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    sh '''./gradlew -PenableCoverage -PlogcatFile=quarantined_logcat.txt -Pemulator=android${ANDROID_VERSION} \
-                                            startEmulator createCatroidDebugAndroidTestCoverageReport \
-                                            -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoQuarantineTestSuite'''
+                                    sh '''
+                                    ./gradlew -PenableCoverage -PlogcatFile=quarantined_logcat.txt  \
+                                        createCatroidDebugAndroidTestCoverageReport -Pemulator=android${ANDROID_VERSION} \
+                                        -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoQuarantineTestSuite'''
                                 }
                             }
 
@@ -250,17 +252,15 @@ pipeline {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE')
                                 {
                                     sh '''
-                                    no | avdmanager create avd --name android${ANDROID_VERSION} --package 'system-images;android-${ANDROID_VERSION};google_apis;x86_64' \
-                                    /home/user/android/sdk/emulator/emulator -no-window -no-boot-anim -noaudio -avd android${ANDROID_VERSION} \
                                     ./gradlew -PenableCoverage -Pemulator=android${ANDROID_VERSION} \
-                                    ./gradlew createCatroidDebugAndroidTestCoverageReport -Pemulator=android${ANDROID_VERSION} \
-                                       -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.OutgoingNetworkCallsTestSuite'''
+                                        createCatroidDebugAndroidTestCoverageReport -Pemulator=android${ANDROID_VERSION} \
+                                        -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.OutgoingNetworkCallsTestSuite'''
                                 }
                             }
                             post {
                                 always {
                                    junit '**/*TEST*.xml'
-                                         sh './gradlew stopEmulator clearAvdStore'
+                                         postEmulator 'networktest'
                                          archiveArtifacts 'logcat.txt'
                                        }
                             }
@@ -272,8 +272,8 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    sh '''./gradlew -PenableCoverage -PlogcatFile=rtltests_logcat.txt -Pemulator=android${ANDROID_VERSION} \
-                                            startEmulator createCatroidDebugAndroidTestCoverageReport \
+                                    sh '''./gradlew -PenableCoverage -PlogcatFile=rtltests_logcat.txt \
+                                            createCatroidDebugAndroidTestCoverageReport -Pemulator=android${ANDROID_VERSION} \
                                             -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoRtlTestSuite'''
                                 }
                             }
@@ -310,13 +310,13 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                                    sh """
+                                    sh '''
                                         echo no | avdmanager create avd --name android${ANDROID_VERSION} --package 'system-images;android-${ANDROID_VERSION};google_apis;x86_64'
-                                        /home/user/android/sdk/emulator/emulator -no-window -no-boot-anim -noaudio -avd android${ANDROID_VERSION}
-                                        ./gradlew copyAndroidNatives -PenableCoverage -PlogcatFile=pull_request_suite_logcat.txt -Pemulator=android${ANDROID_VERSION}
-                                        ./gradlew createCatroidDebugAndroidTestCoverageReport -Pemulator=android${ANDROID_VERSION} \
+                                        /home/user/android/sdk/emulator/emulator -no-window -no-boot-anim -noaudio -avd android${ANDROID_VERSION} &
+                                        ./gradlew copyAndroidNatives -PenableCoverage -PlogcatFile=pull_request_suite_logcat.txt -Pemulator=android${ANDROID_VERSION} \
+                                        createCatroidDebugAndroidTestCoverageReport -Pemulator=android${ANDROID_VERSION} \
                                         -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite
-                                    """
+                                    '''
                                 }
                             }
 
