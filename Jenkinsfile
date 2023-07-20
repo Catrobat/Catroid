@@ -22,8 +22,6 @@ def junitAndCoverage(String jacocoReportDir, String jacocoReportXml, String cove
 }
 
 def postEmulator(String coverageNameAndLogcatPrefix) {
-   // sh './gradlew stopEmulator'
-
     def jacocoReportDir = 'catroid/build/reports/coverage/catroid/debug'
     if (fileExists('catroid/build/reports/coverage/catroid/debug/report.xml')){
         junitAndCoverage jacocoReportDir, 'report.xml', coverageNameAndLogcatPrefix
@@ -128,7 +126,7 @@ pipeline {
                             image d.image
                             args d.args
                             label d.label
-                            alwaysPull false
+                            alwaysPull true
                         }
                     }
 
@@ -197,7 +195,7 @@ pipeline {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                                     startEmulator()
                                     sh '''./gradlew -PenableCoverage -PlogcatFile=instrumented_unit_logcat.txt -Pemulator=android${ANDROID_VERSION} \
-                                        startEmulator createCatroidDebugAndroidTestCoverageReport \
+                                        createCatroidDebugAndroidTestCoverageReport \
                                         -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.LocalHeadlessTestSuite'''
                                 }
                             }
@@ -305,7 +303,7 @@ pipeline {
                             image d.image
                             args d.args
                             label d.label
-                            alwaysPull false
+                            alwaysPull true
                         }
                     }
 
