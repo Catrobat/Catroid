@@ -31,6 +31,12 @@ def postEmulator(String coverageNameAndLogcatPrefix) {
     }
 }
 
+def startEmulator(){
+    sh '''
+        echo no | avdmanager create avd --name android${ANDROID_VERSION} --package 'system-images;android-${ANDROID_VERSION};google_apis;x86_64'
+        /home/user/android/sdk/emulator/emulator -no-window -no-boot-anim -noaudio -avd android${ANDROID_VERSION} &'''
+}
+
 def webTestUrlParameter() {
     return env.WEB_TEST_URL?.isEmpty() ? '' : "-PwebTestUrl='${params.WEB_TEST_URL}'"
 }
@@ -122,7 +128,7 @@ pipeline {
                             image d.image
                             args d.args
                             label d.label
-                            alwaysPull true
+                            alwaysPull false
                         }
                     }
 
@@ -189,11 +195,10 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    sh '''echo no | avdmanager create avd --name android${ANDROID_VERSION} --package 'system-images;android-${ANDROID_VERSION};google_apis;x86_64'
-                                        /home/user/android/sdk/emulator/emulator -no-window -no-boot-anim -noaudio -avd android${ANDROID_VERSION} &
-                                        ./gradlew -PenableCoverage -PlogcatFile=instrumented_unit_logcat.txt -Pemulator=android${ANDROID_VERSION} \
-                                            startEmulator createCatroidDebugAndroidTestCoverageReport \
-                                            -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.LocalHeadlessTestSuite'''
+                                    startEmulator()
+                                    sh '''./gradlew -PenableCoverage -PlogcatFile=instrumented_unit_logcat.txt -Pemulator=android${ANDROID_VERSION} \
+                                        startEmulator createCatroidDebugAndroidTestCoverageReport \
+                                        -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.LocalHeadlessTestSuite'''
                                 }
                             }
 
@@ -289,6 +294,7 @@ pipeline {
                     post {
                         always {
                             stash name: 'logParserRules', includes: 'buildScripts/log_parser_rules'
+                            adb kill-server
                         }
                     }
                 }
@@ -299,7 +305,7 @@ pipeline {
                             image d.image
                             args d.args
                             label d.label
-                            alwaysPull true
+                            alwaysPull false
                         }
                     }
 
@@ -310,13 +316,11 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                                    startEmulator()
                                     sh '''
-                                        echo no | avdmanager create avd --name android${ANDROID_VERSION} --package 'system-images;android-${ANDROID_VERSION};google_apis;x86_64'
-                                        /home/user/android/sdk/emulator/emulator -no-window -no-boot-anim -noaudio -avd android${ANDROID_VERSION} &
                                         ./gradlew copyAndroidNatives -PenableCoverage -PlogcatFile=pull_request_suite_logcat.txt -Pemulator=android${ANDROID_VERSION} \
                                         createCatroidDebugAndroidTestCoverageReport -Pemulator=android${ANDROID_VERSION} \
                                         -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite
-                                        adb kill-server
                                     '''
                                 }
                             }
@@ -324,6 +328,7 @@ pipeline {
                             post {
                                 always {
                                     postEmulator 'pull_request_suite'
+                                    adb kill-server
                                 }
                             }
                         }
