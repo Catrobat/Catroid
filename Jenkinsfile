@@ -30,8 +30,8 @@ def postEmulator(String coverageNameAndLogcatPrefix) {
 }
 
 def startEmulator(String android_version){
-    sh '''echo no | avdmanager create avd --name android${android_version} --package 'system-images;android-${android_version};google_apis;x86_64'
-        /home/user/android/sdk/emulator/emulator -no-window -no-boot-anim -noaudio -avd android${android_version} &'''
+    sh "echo no | avdmanager create avd --name android${android_version} --package 'system-images;android-${android_version};google_apis;x86_64'
+        /home/user/android/sdk/emulator/emulator -no-window -no-boot-anim -noaudio -avd android${android_version} &"
 }
 
 def webTestUrlParameter() {
