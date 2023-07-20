@@ -189,11 +189,11 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    sh '''no | avdmanager create avd --name android${ANDROID_VERSION} --package 'system-images;android-${ANDROID_VERSION};google_apis;x86_64'
+                                    sh '''echo no | avdmanager create avd --name android${ANDROID_VERSION} --package 'system-images;android-${ANDROID_VERSION};google_apis;x86_64'
                                         /home/user/android/sdk/emulator/emulator -no-window -no-boot-anim -noaudio -avd android${ANDROID_VERSION} &
                                         ./gradlew -PenableCoverage -PlogcatFile=instrumented_unit_logcat.txt -Pemulator=android${ANDROID_VERSION} \
-                                        startEmulator createCatroidDebugAndroidTestCoverageReport \
-                                        -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.LocalHeadlessTestSuite'''
+                                            startEmulator createCatroidDebugAndroidTestCoverageReport \
+                                            -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.LocalHeadlessTestSuite'''
                                 }
                             }
 
