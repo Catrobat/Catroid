@@ -45,9 +45,9 @@ project.afterEvaluate {
             description = "Generate Jacoco coverage reports for the ${variantName} build."
 
             reports {
-                csv.enabled = false
-                html.enabled = true
-                xml.enabled = true
+                csv.required = false
+                html.required = true
+                xml.required = true
             }
 
             def excludes = [
