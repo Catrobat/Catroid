@@ -316,6 +316,7 @@ pipeline {
                                         ./gradlew copyAndroidNatives -PenableCoverage -PlogcatFile=pull_request_suite_logcat.txt -Pemulator=android${ANDROID_VERSION}
                                         ./gradlew createCatroidDebugAndroidTestCoverageReport -Pemulator=android${ANDROID_VERSION} \
                                         -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite
+                                        adb kill-server
                                     """
                                 }
                             }
