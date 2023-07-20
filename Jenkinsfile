@@ -192,7 +192,7 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    startEmulator(${ANDROID_VERSION})
+                                    startEmulator("${ANDROID_VERSION}")
                                     sh '''./gradlew -PenableCoverage -PlogcatFile=instrumented_unit_logcat.txt -Pemulator=android${ANDROID_VERSION} \
                                         createCatroidDebugAndroidTestCoverageReport \
                                         -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.LocalHeadlessTestSuite'''
@@ -313,7 +313,7 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                                    startEmulator(${ANDROID_VERSION})
+                                    startEmulator("${ANDROID_VERSION}")
                                     sh '''
                                         ./gradlew copyAndroidNatives -PenableCoverage -PlogcatFile=pull_request_suite_logcat.txt -Pemulator=android${ANDROID_VERSION} \
                                         createCatroidDebugAndroidTestCoverageReport -Pemulator=android${ANDROID_VERSION} \
