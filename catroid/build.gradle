@@ -105,7 +105,9 @@ def defaultVersionName = "1.1.2"
 android {
     compileSdkVersion 33
 
+    namespace 'com.catrobat.catroid'
     buildFeatures {
+        buildConfig = true
         viewBinding true
     }
 
