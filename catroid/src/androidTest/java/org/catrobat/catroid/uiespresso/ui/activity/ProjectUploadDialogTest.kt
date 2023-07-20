@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -60,6 +60,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.mockito.Mockito.spy
 import org.mockito.Mockito.verify
 
@@ -96,26 +97,26 @@ class ProjectUploadDialogTest {
 
     @Test
     fun testUploadControllerGetsCalled() {
+
+        Looper.prepare()
+
         sharedPreferences.edit()
             .putInt(NUMBER_OF_UPLOADED_PROJECTS, 1)
             .commit()
 
         onView(withText(R.string.next))
             .perform(click())
-        getInstrumentation().waitForIdleSync()
 
-        onView(withText(R.string.next))
-            .perform(click())
-        getInstrumentation().waitForIdleSync()
-
-        onView(withText(R.string.next))
+        onView(withText(R.string.done))
             .perform(click())
 
         val projectUploadController = activityTestRule.activity.projectUploadController()
 
-        Looper.prepare()
-        verify(projectUploadController)?.startUpload(projectName, "", "", project)
+        Thread.sleep(100)
         Looper.myLooper()?.quit()
+
+        verify(projectUploadController)?.startUpload(projectName, "", "", project)
+        Mockito.verifyNoMoreInteractions();
     }
 
     @Test
