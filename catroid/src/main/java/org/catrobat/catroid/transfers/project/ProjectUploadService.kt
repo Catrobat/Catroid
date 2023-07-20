@@ -152,7 +152,7 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
         val pendingIntent = PendingIntent.getActivity(
             applicationContext,
             StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
-            uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT
+            uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_MUTABLE
         )
 
         return NotificationCompat.Builder(applicationContext, StatusBarNotificationManager.CHANNEL_ID)
@@ -174,7 +174,7 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
         val pendingIntent = PendingIntent.getActivity(
             applicationContext,
             StatusBarNotificationManager.UPLOAD_PENDING_INTENT_REQUEST_CODE,
-            uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT
+            uploadIntent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_MUTABLE
         )
 
         return NotificationCompat.Builder(applicationContext, StatusBarNotificationManager.CHANNEL_ID)

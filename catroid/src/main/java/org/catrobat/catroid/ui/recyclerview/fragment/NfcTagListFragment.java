@@ -60,7 +60,7 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 
 		nfcAdapter = NfcAdapter.getDefaultAdapter(getActivity());
 		Intent nfcIntent = new Intent(getActivity(), getActivity().getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		pendingIntent = PendingIntent.getActivity(getActivity(), 0, nfcIntent, 0);
+		pendingIntent = PendingIntent.getActivity(getActivity(), 0, nfcIntent, PendingIntent.FLAG_MUTABLE);
 		if (nfcAdapter != null && !nfcAdapter.isEnabled()) {
 			ToastUtil.showError(getActivity(), R.string.nfc_not_activated);
 			Intent intent = new Intent(Settings.ACTION_NFC_SETTINGS);
