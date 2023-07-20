@@ -30,8 +30,7 @@ def postEmulator(String coverageNameAndLogcatPrefix) {
 }
 
 def startEmulator(){
-    sh '''
-        echo no | avdmanager create avd --name android${ANDROID_VERSION} --package 'system-images;android-${ANDROID_VERSION};google_apis;x86_64'
+    sh '''echo no | avdmanager create avd --name android${ANDROID_VERSION} --package 'system-images;android-${ANDROID_VERSION};google_apis;x86_64'
         /home/user/android/sdk/emulator/emulator -no-window -no-boot-anim -noaudio -avd android${ANDROID_VERSION} &'''
 }
 
