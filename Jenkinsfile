@@ -29,9 +29,9 @@ def postEmulator(String coverageNameAndLogcatPrefix) {
     }
 }
 
-def startEmulator(){
-    sh '''echo no | avdmanager create avd --name android${ANDROID_VERSION} --package 'system-images;android-${ANDROID_VERSION};google_apis;x86_64'
-        /home/user/android/sdk/emulator/emulator -no-window -no-boot-anim -noaudio -avd android${ANDROID_VERSION} &'''
+def startEmulator(String android_version){
+    sh '''echo no | avdmanager create avd --name android${android_version} --package 'system-images;android-${android_version};google_apis;x86_64'
+        /home/user/android/sdk/emulator/emulator -no-window -no-boot-anim -noaudio -avd android${android_version} &'''
 }
 
 def webTestUrlParameter() {
@@ -192,7 +192,7 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    startEmulator()
+                                    startEmulator("${ANDROID_VERSION}")
                                     sh '''./gradlew -PenableCoverage -PlogcatFile=instrumented_unit_logcat.txt -Pemulator=android${ANDROID_VERSION} \
                                         createCatroidDebugAndroidTestCoverageReport \
                                         -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.LocalHeadlessTestSuite'''
@@ -313,7 +313,7 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                                    startEmulator()
+                                    startEmulator("${ANDROID_VERSION}")
                                     sh '''
                                         ./gradlew copyAndroidNatives -PenableCoverage -PlogcatFile=pull_request_suite_logcat.txt -Pemulator=android${ANDROID_VERSION} \
                                         createCatroidDebugAndroidTestCoverageReport -Pemulator=android${ANDROID_VERSION} \
