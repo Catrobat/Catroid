@@ -565,5 +565,6 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.huawei.agconnect'
 
 checkstyle {
-    configDir = file("$rootProject.projectDir/catroid/config/checkstyle")
+    configFile = file("${project.rootDir}/catrobat/config/checkstyle.xml")
+    toolVersion = '8.29'
 }
