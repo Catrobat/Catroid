@@ -32,7 +32,7 @@ dependencies {
     pmd 'net.sourceforge.pmd:pmd-core:6.55.0'
     pmd 'net.sourceforge.pmd:pmd-java:6.55.0'
 
-    checkstyle 'com.puppycrawl.tools:checkstyle:8.26'
+    checkstyle 'com.puppycrawl.tools:checkstyle:10.12.1'
 
     detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.23.0"
 }
