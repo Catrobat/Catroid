@@ -301,7 +301,7 @@
   <!-- /home/catroid/jenkins_slave/workspace/lab/CsongorLab/IDE_Pipeline/catroid/config/suppressions.xml -->
        <!-- /home/catroid/jenkins_slave/workspace/lab/CsongorLab/IDE_Pipeline/config/checkstyle/catroid/config/suppressions.xml -->
   <module name="SuppressionFilter">
-    <property name="file" value="${basedir}/catroid/config/suppressions.xml" />
+    <property name="file" value="${projectDir}/catroid/config/suppressions.xml" />
   </module>
 
 </module>
