@@ -97,26 +97,20 @@ class ProjectUploadDialogTest {
 
     @Test
     fun testUploadControllerGetsCalled() {
-
-        Looper.prepare()
-
         sharedPreferences.edit()
             .putInt(NUMBER_OF_UPLOADED_PROJECTS, 1)
             .commit()
 
-        onView(withText(R.string.next))
-            .perform(click())
-
-        onView(withText(R.string.done))
-            .perform(click())
-
+        onView(withText(R.string.next)).perform(click())
+        getInstrumentation().waitForIdleSync()
+        onView(withText(R.string.next)).perform(click())
+        getInstrumentation().waitForIdleSync()
+        onView(withId(android.R.id.button1)).perform(click())
         val projectUploadController = activityTestRule.activity.projectUploadController()
 
-        Thread.sleep(100)
         Looper.myLooper()?.quit()
-
-        verify(projectUploadController)?.startUpload(projectName, "", "", project)
-        Mockito.verifyNoMoreInteractions();
+        verify(projectUploadController!!).startUpload(projectName, "", "", project)
+        Mockito.verifyNoMoreInteractions(projectUploadController)
     }
 
     @Test
