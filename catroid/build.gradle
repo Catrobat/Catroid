@@ -563,3 +563,7 @@ tasks.whenTaskAdded { packageTask ->
 
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.huawei.agconnect'
+
+checkstyle {
+    configFile = rootProject.file("checkstyle.xml")
+}
