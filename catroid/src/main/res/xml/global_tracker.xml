@@ -23,5 +23,5 @@
   -->
 
 <resources>
-  <string name="ga_trackingId" translatable="false">UA-42270417-4</string>
+  <string formatted="false" name="ga_trackingId" translatable="false">UA-42270417-4</string>
 </resources>
