@@ -23,44 +23,44 @@
   -->
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- General terms -->
-    <string name="stage">پړاو</string>
-    <string name="play">چلول</string>
-    <string name="settings">ترتیبات</string>
-    <string name="redo">بیا تکرار</string>
-    <string name="undo">ناکړ</string>
-    <string name="new_option">نوې&#8230;</string>
-    <string name="edit_option">سمون&#8230;</string>
-    <string name="confirm">تایید کړه</string>
-    <string name="ignore">سترګې پټول</string>
-    <string name="cancel">لغوه کړئ</string>
-    <string name="save">خوندي کړئ</string>
-    <string name="help">مرسته</string>
-    <string name="discard">رد کړئ</string>
-    <string name="next">وړاندی</string>
-    <string name="ok">سمه ده</string>
-    <string name="done">ترسره شو</string>
-    <string name="close">تړل</string>
-    <string name="assistant">معاون</string>
-    <string name="yes">بلې</string>
-    <string name="no">نه</string>
-    <string name="once">یوځل</string>
-    <string name="always">تل</string>
-    <string name="deny">انکار</string>
-    <string name="do_not_show_again">بیا مه ښکاره کوئ</string>
-    <string name="accept">ومنئ</string>
-    <string name="decline">کمول</string>
-    <string name="select_all">ټول وټاکئ</string>
-    <string name="deselect_all">ټول غیر انتخاب کړئ</string>
-    <string name="skip">پرېښودل</string>
-    <string name="warning">خبرتیا</string>
-    <string name="error">تیروتنه</string>
-    <string name="loading">پورته کیدل&#8230;</string>
-    <string name="please_wait">هیله کوم لږ صبر وکړه</string>
-    <string name="search_hint">لټون</string>
-    <string name="backpack_add">په کڅوړه کې اضافه کړئ</string>
-    <string name="share_website_text">share.catrob.at</string>
+    <string formatted="false" name="stage">پړاو</string>
+    <string formatted="false" name="play">چلول</string>
+    <string formatted="false" name="settings">ترتیبات</string>
+    <string formatted="false" name="redo">بیا تکرار</string>
+    <string formatted="false" name="undo">ناکړ</string>
+    <string formatted="false" name="new_option">نوې&#8230;</string>
+    <string formatted="false" name="edit_option">سمون&#8230;</string>
+    <string formatted="false" name="confirm">تایید کړه</string>
+    <string formatted="false" name="ignore">سترګې پټول</string>
+    <string formatted="false" name="cancel">لغوه کړئ</string>
+    <string formatted="false" name="save">خوندي کړئ</string>
+    <string formatted="false" name="help">مرسته</string>
+    <string formatted="false" name="discard">رد کړئ</string>
+    <string formatted="false" name="next">وړاندی</string>
+    <string formatted="false" name="ok">سمه ده</string>
+    <string formatted="false" name="done">ترسره شو</string>
+    <string formatted="false" name="close">تړل</string>
+    <string formatted="false" name="assistant">معاون</string>
+    <string formatted="false" name="yes">بلې</string>
+    <string formatted="false" name="no">نه</string>
+    <string formatted="false" name="once">یوځل</string>
+    <string formatted="false" name="always">تل</string>
+    <string formatted="false" name="deny">انکار</string>
+    <string formatted="false" name="do_not_show_again">بیا مه ښکاره کوئ</string>
+    <string formatted="false" name="accept">ومنئ</string>
+    <string formatted="false" name="decline">کمول</string>
+    <string formatted="false" name="select_all">ټول وټاکئ</string>
+    <string formatted="false" name="deselect_all">ټول غیر انتخاب کړئ</string>
+    <string formatted="false" name="skip">پرېښودل</string>
+    <string formatted="false" name="warning">خبرتیا</string>
+    <string formatted="false" name="error">تیروتنه</string>
+    <string formatted="false" name="loading">پورته کیدل&#8230;</string>
+    <string formatted="false" name="please_wait">هیله کوم لږ صبر وکړه</string>
+    <string formatted="false" name="search_hint">لټون</string>
+    <string formatted="false" name="backpack_add">په کڅوړه کې اضافه کړئ</string>
+    <string formatted="false" name="share_website_text">share.catrob.at</string>
     <!-- Security warning dialog -->
-    <string name="security_warning_dialog_msg">هغه پروژه چې تاسو ډاونلوډ کړې ستاسو غږ په شالید 
+    <string formatted="false" name="security_warning_dialog_msg">هغه پروژه چې تاسو ډاونلوډ کړې ستاسو غږ په شالید 
         کې اوري او انټرنیټ ته ډیټا هم لیږي. دا کیدای شي بې ضرر وي، او د
          هغې د ټاکل شوي چلند لپاره اړین وي. په هرصورت، مهرباني وکړئ ډاډ 
         ترلاسه کړئ چې هغه څه چې تاسو یې وایئ پداسې حال کې چې پروژه روانه وي خوندي وي. د شک په صورت کې، مهرباني وکړئ ډاونلوډ شوی پروژه حذف کړئ.
@@ -68,206 +68,206 @@
         ټولنې پلیټ فارم کې د هغې په پاڼه کې د پروژې راپور هم ورکړئ
         تاسو ډاډه یاست چې دا زیانمن دی.</string>
     <!-- Replace Api dialog -->
-    <string name="api_replacement_dialog_neutral">پرته له بدلون څخه پورته کول</string>
-    <string name="api_replacement_dialog_accept">د بدل شوي کیلي سره اپلوډ کړئ</string>
-    <string name="api_replacement_dialog_warning">په پروژه کې خښتې شاملې دي چې 
+    <string formatted="false" name="api_replacement_dialog_neutral">پرته له بدلون څخه پورته کول</string>
+    <string formatted="false" name="api_replacement_dialog_accept">د بدل شوي کیلي سره اپلوډ کړئ</string>
+    <string formatted="false" name="api_replacement_dialog_warning">په پروژه کې خښتې شاملې دي چې 
         ویب ته لاسرسی لري، او داسې ښکاري چې د API کلیدونه هم لري
         مهرباني وکړئ %1s وګورئ ولې دا کیلي پورته کول خطرناک کیدی شي.</string>
-    <string name="api_replacement">د API کیلي دلته دننه کړئ</string>
+    <string formatted="false" name="api_replacement">د API کیلي دلته دننه کړئ</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_oauth_token">د ننوتلو ډاټا چک کول&#8230;</string>
-    <string name="loading_google_exchange_code">د ګوګل د ننوتلو ډاټا تبادله کول&#8230;</string>
-    <string name="loading_google_login">زموږ په سرور کې د ګوګل ننوت بشپړ شو &#8230;</string>
-    <string name="logout_successful">لاګ آوټ بریالی شو</string>
-    <string name="degrees">درجې</string>
-    <string name="background">شاليد</string>
-    <string name="landscape">منظره یا الر ښونی</string>
-    <string name="portrait">انځور</string>
-    <string name="unknown">نامعلوم</string>
-    <string name="disconnect">منحل کول</string>
+    <string formatted="false" name="loading_check_oauth_token">د ننوتلو ډاټا چک کول&#8230;</string>
+    <string formatted="false" name="loading_google_exchange_code">د ګوګل د ننوتلو ډاټا تبادله کول&#8230;</string>
+    <string formatted="false" name="loading_google_login">زموږ په سرور کې د ګوګل ننوت بشپړ شو &#8230;</string>
+    <string formatted="false" name="logout_successful">لاګ آوټ بریالی شو</string>
+    <string formatted="false" name="degrees">درجې</string>
+    <string formatted="false" name="background">شاليد</string>
+    <string formatted="false" name="landscape">منظره یا الر ښونی</string>
+    <string formatted="false" name="portrait">انځور</string>
+    <string formatted="false" name="unknown">نامعلوم</string>
+    <string formatted="false" name="disconnect">منحل کول</string>
     <!--  -->
     <!-- Main Menu -->
-    <string name="main_menu_continue">پروژې ته دوام ورکړئ</string>
-    <string name="main_menu_new">نوے</string>
-    <string name="main_menu_programs">په وسیله کې پروژې</string>
-    <string name="main_menu_help">مرسته</string>
-    <string name="main_menu_web">د کاټروبیټ ټولنه</string>
-    <string name="main_menu_upload">پروژه پورته کړئ</string>
-    <string name="main_menu_rate_app">موږ ته درجه ورکړئ!</string>
-    <string name="main_menu_terms_of_use">د کارولو او خدماتو شرایط</string>
-    <string name="main_menu_privacy_policy">د پټتیا تګلاره</string>
-    <string name="main_menu_about">د دې اپلیکیشن په اړه</string>
-    <string name="main_menu_login">د ننه کیدل</string>
-    <string name="main_menu_logout">وتون</string>
-    <string name="main_menu_scratch_converter">سکریچ کنورټر</string>
-    <string name="main_menu_play_store_not_installed">د اپلیکیشن پلورنځی ونه موندل شو</string>
+    <string formatted="false" name="main_menu_continue">پروژې ته دوام ورکړئ</string>
+    <string formatted="false" name="main_menu_new">نوے</string>
+    <string formatted="false" name="main_menu_programs">په وسیله کې پروژې</string>
+    <string formatted="false" name="main_menu_help">مرسته</string>
+    <string formatted="false" name="main_menu_web">د کاټروبیټ ټولنه</string>
+    <string formatted="false" name="main_menu_upload">پروژه پورته کړئ</string>
+    <string formatted="false" name="main_menu_rate_app">موږ ته درجه ورکړئ!</string>
+    <string formatted="false" name="main_menu_terms_of_use">د کارولو او خدماتو شرایط</string>
+    <string formatted="false" name="main_menu_privacy_policy">د پټتیا تګلاره</string>
+    <string formatted="false" name="main_menu_about">د دې اپلیکیشن په اړه</string>
+    <string formatted="false" name="main_menu_login">د ننه کیدل</string>
+    <string formatted="false" name="main_menu_logout">وتون</string>
+    <string formatted="false" name="main_menu_scratch_converter">سکریچ کنورټر</string>
+    <string formatted="false" name="main_menu_play_store_not_installed">د اپلیکیشن پلورنځی ونه موندل شو</string>
     <!--  -->
     <!-- Marketing activity -->
-    <string name="marketing_created_with">سره جوړ شوی</string>
-    <string name="marketing_app_details">د دې اپلیکیشن په اړه توضیحات</string>
-    <string name="marketing_more_on_google_play">په اپل سټور کې نور ایپسونه</string>
-    <string name="error_cannot_open_huawei_app_gallery">هو! د Huawei AppGallery په خلاصولو کې پاتې راغلی، 
+    <string formatted="false" name="marketing_created_with">سره جوړ شوی</string>
+    <string formatted="false" name="marketing_app_details">د دې اپلیکیشن په اړه توضیحات</string>
+    <string formatted="false" name="marketing_more_on_google_play">په اپل سټور کې نور ایپسونه</string>
+    <string formatted="false" name="error_cannot_open_huawei_app_gallery">هو! د Huawei AppGallery په خلاصولو کې پاتې راغلی، 
         مهرباني وکړئ وروسته بیا هڅه وکړئ.</string>
-    <string name="google_play_store_logo">Google Play</string>
-    <string name="huawei_app_gallery">د Huawei اپلیکیشن ګالري</string>
+    <string formatted="false" name="google_play_store_logo">Google Play</string>
+    <string formatted="false" name="huawei_app_gallery">د Huawei اپلیکیشن ګالري</string>
     <!-- NFC activity -->
-    <string name="nfc_activity_title">د NFC ټاګونه</string>
+    <string formatted="false" name="nfc_activity_title">د NFC ټاګونه</string>
     <!-- Settings activity -->
-    <string name="preference_title">ترتیبات</string>
-    <string name="preference_title_language">ژبه</string>
-    <string name="preference_description_language">د اپلیکیشن ژبه تنظیم کړئ</string>
-    <string name="preference_title_web_access">ویب لاسرسی</string>
-    <string name="preference_description_web_access">د باور وړ ډومینونو اضافه کولو یا لرې کولو لپاره ایډیټ کړئ</string>
-    <string name="preference_screen_web_access_title">باوري ډومینونه ایډیټ کړئ</string>
-    <string name="preference_title_ai">د مصنوعي استخباراتو (AI) توسیع</string>
-    <string name="preference_description_ai">د AI خښتې او سینسرونه فعال کړئ</string>
-    <string name="preference_title_ai_speech_recognition">د وینا 
+    <string formatted="false" name="preference_title">ترتیبات</string>
+    <string formatted="false" name="preference_title_language">ژبه</string>
+    <string formatted="false" name="preference_description_language">د اپلیکیشن ژبه تنظیم کړئ</string>
+    <string formatted="false" name="preference_title_web_access">ویب لاسرسی</string>
+    <string formatted="false" name="preference_description_web_access">د باور وړ ډومینونو اضافه کولو یا لرې کولو لپاره ایډیټ کړئ</string>
+    <string formatted="false" name="preference_screen_web_access_title">باوري ډومینونه ایډیټ کړئ</string>
+    <string formatted="false" name="preference_title_ai">د مصنوعي استخباراتو (AI) توسیع</string>
+    <string formatted="false" name="preference_description_ai">د AI خښتې او سینسرونه فعال کړئ</string>
+    <string formatted="false" name="preference_title_ai_speech_recognition">د وینا 
         پیژندنه</string>
-    <string name="preference_description_ai_speech_recognition">د وینا پیژندنې 
+    <string formatted="false" name="preference_description_ai_speech_recognition">د وینا پیژندنې 
         خښتې او سینسرونه فعال کړئ</string>
-    <string name="preference_title_ai_speech_synthetization">د وینا 
+    <string formatted="false" name="preference_title_ai_speech_synthetization">د وینا 
         ترکیب</string>
-    <string name="preference_description_ai_speech_synthetization">د وینا 
+    <string formatted="false" name="preference_description_ai_speech_synthetization">د وینا 
         ترکیب خښتې او سینسرونه فعال کړئ</string>
-    <string name="preference_title_ai_face_detection">د مخ 
+    <string formatted="false" name="preference_title_ai_face_detection">د مخ 
         کشف</string>
-    <string name="preference_description_ai_face_detection">د مخ کشف خښتې او سینسرونه فعال کړئ</string>
-    <string name="preference_title_ai_pose_detection">د حالت کشف</string>
-    <string name="preference_description_ai_pose_detection">د پوز 
+    <string formatted="false" name="preference_description_ai_face_detection">د مخ کشف خښتې او سینسرونه فعال کړئ</string>
+    <string formatted="false" name="preference_title_ai_pose_detection">د حالت کشف</string>
+    <string formatted="false" name="preference_description_ai_pose_detection">د پوز 
         کشف خښتې او سینسرونه فعال کړئ</string>
-    <string name="preference_title_ai_text_recognition">د متن 
+    <string formatted="false" name="preference_title_ai_text_recognition">د متن 
         پیژندنه</string>
-    <string name="preference_description_ai_text_recognition">د متن پیژندنې 
+    <string formatted="false" name="preference_description_ai_text_recognition">د متن پیژندنې 
         خښتې او سینسرونه فعال کړئ</string>
-    <string name="preference_title_ai_object_recognition">د څیز پیژندنه</string>
-    <string name="preference_description_ai_object_recognition">د څیز پیژندنې او تعقیب سینسرونه فعال کړئ</string>
-    <string name="preference_title_accessibility">لاسرسی</string>
-    <string name="preference_description_accessibility">د اپلیکیشن بڼه بدل کړئ</string>
-    <string name="preference_title_accessibility_profiles">د لاسرسي پروفایلونه</string>
-    <string name="preference_title_accessibility_profile">مخکینۍ تعریف شوي پروفایلونه</string>
-    <string name="preference_title_accessibility_profile_headline">پروفایلونه</string>
-    <string name="preference_title_accessibility_predefined_profile_headline">مخکینۍ تعریف شوي پروفایلونه</string>
-    <string name="preference_description_accessibility_profiles">د مخکینۍ تعریف شوي لاسرسي پروفایل غوره کړئ</string>
-    <string name="preference_title_accessibility_text_appearance">د متن بڼه</string>
-    <string name="preference_title_accessibility_handling">سمبالول</string>
-    <string name="preference_title_accessibility_category_icons_big">لوی عکسونه</string>
-    <string name="preference_description_accessibility_category_icons_big">د آئیکون اندازه زیاته کړئ.</string>
-    <string name="preference_title_accessibility_category_icons_high_contrast">د لوړ برعکس شبیہیں</string>
-    <string name="preference_title_accessibility_Brick_icons">شبیه</string>
-    <string name="preference_title_accessibility_category_icons">عکسونه ښکاره کړئ</string>
-    <string name="preference_description_accessibility_category_icons">کټګوریو او خښتو ته شبیه اضافه کړئ.</string>
-    <string name="preference_title_accessibility_high_contrast">لوړ برعکس</string>
-    <string name="preference_description_accessibility_high_contrast">د متن برعکس زیات کړئ.</string>
-    <string name="preference_description_accessibility_large_text">د متن اندازه زیاته کړئ.</string>
-    <string name="preference_title_accessibility_large_text">لوی متن</string>
-    <string name="preference_title_accessibility_element_spacing">د لوی عنصر فاصله</string>
-    <string name="preference_description_accessibility_element_spacing">په لیستونو کې د عنصر فاصله زیاته کړئ.</string>
-    <string name="preference_title_accessibility_dragndrop_delay">ځنډول</string>
-    <string name="preference_description_accessibility_dragndrop_delay">د خښتو لپاره ځنډول.</string>
-    <string name="preference_title_accessibility_beginner_bricks">د پیل کونکي حالت</string>
-    <string name="preference_description_accessibility_beginner_bricks">یوازې ساده ځانګړتیاوې وښایاست.</string>
-    <string name="preference_title_accessibility_font_style">د متن ډول غوره کړئ</string>
-    <string name="accessibility_font_regular">منظم</string>
-    <string name="accessibility_font_serif">سیرف</string>
-    <string name="accessibility_font_dyslexic">Dyslexic</string>
-    <string name="accessibility_settings_applied">بدلونونه پلي شوي</string>
-    <string name="preference_access_title_profile_default">ډیفالټ</string>
-    <string name="preference_access_summary_profile_default">ډیفالټ ترتیبات</string>
-    <string name="preference_access_title_profile_custom">زما دودیز پروفایل</string>
-    <string name="preference_access_summary_profile_custom">زما شخصي ترتیبات</string>
-    <string name="preference_access_title_profile_argus">ارګس</string>
-    <string name="preference_access_summary_profile_argus">لوړ برعکس، اضافي عکسونه</string>
-    <string name="preference_access_title_profile_odin">اوډین</string>
-    <string name="preference_access_summary_profile_odin">لوی متن، لوی 
+    <string formatted="false" name="preference_title_ai_object_recognition">د څیز پیژندنه</string>
+    <string formatted="false" name="preference_description_ai_object_recognition">د څیز پیژندنې او تعقیب سینسرونه فعال کړئ</string>
+    <string formatted="false" name="preference_title_accessibility">لاسرسی</string>
+    <string formatted="false" name="preference_description_accessibility">د اپلیکیشن بڼه بدل کړئ</string>
+    <string formatted="false" name="preference_title_accessibility_profiles">د لاسرسي پروفایلونه</string>
+    <string formatted="false" name="preference_title_accessibility_profile">مخکینۍ تعریف شوي پروفایلونه</string>
+    <string formatted="false" name="preference_title_accessibility_profile_headline">پروفایلونه</string>
+    <string formatted="false" name="preference_title_accessibility_predefined_profile_headline">مخکینۍ تعریف شوي پروفایلونه</string>
+    <string formatted="false" name="preference_description_accessibility_profiles">د مخکینۍ تعریف شوي لاسرسي پروفایل غوره کړئ</string>
+    <string formatted="false" name="preference_title_accessibility_text_appearance">د متن بڼه</string>
+    <string formatted="false" name="preference_title_accessibility_handling">سمبالول</string>
+    <string formatted="false" name="preference_title_accessibility_category_icons_big">لوی عکسونه</string>
+    <string formatted="false" name="preference_description_accessibility_category_icons_big">د آئیکون اندازه زیاته کړئ.</string>
+    <string formatted="false" name="preference_title_accessibility_category_icons_high_contrast">د لوړ برعکس شبیہیں</string>
+    <string formatted="false" name="preference_title_accessibility_Brick_icons">شبیه</string>
+    <string formatted="false" name="preference_title_accessibility_category_icons">عکسونه ښکاره کړئ</string>
+    <string formatted="false" name="preference_description_accessibility_category_icons">کټګوریو او خښتو ته شبیه اضافه کړئ.</string>
+    <string formatted="false" name="preference_title_accessibility_high_contrast">لوړ برعکس</string>
+    <string formatted="false" name="preference_description_accessibility_high_contrast">د متن برعکس زیات کړئ.</string>
+    <string formatted="false" name="preference_description_accessibility_large_text">د متن اندازه زیاته کړئ.</string>
+    <string formatted="false" name="preference_title_accessibility_large_text">لوی متن</string>
+    <string formatted="false" name="preference_title_accessibility_element_spacing">د لوی عنصر فاصله</string>
+    <string formatted="false" name="preference_description_accessibility_element_spacing">په لیستونو کې د عنصر فاصله زیاته کړئ.</string>
+    <string formatted="false" name="preference_title_accessibility_dragndrop_delay">ځنډول</string>
+    <string formatted="false" name="preference_description_accessibility_dragndrop_delay">د خښتو لپاره ځنډول.</string>
+    <string formatted="false" name="preference_title_accessibility_beginner_bricks">د پیل کونکي حالت</string>
+    <string formatted="false" name="preference_description_accessibility_beginner_bricks">یوازې ساده ځانګړتیاوې وښایاست.</string>
+    <string formatted="false" name="preference_title_accessibility_font_style">د متن ډول غوره کړئ</string>
+    <string formatted="false" name="accessibility_font_regular">منظم</string>
+    <string formatted="false" name="accessibility_font_serif">سیرف</string>
+    <string formatted="false" name="accessibility_font_dyslexic">Dyslexic</string>
+    <string formatted="false" name="accessibility_settings_applied">بدلونونه پلي شوي</string>
+    <string formatted="false" name="preference_access_title_profile_default">ډیفالټ</string>
+    <string formatted="false" name="preference_access_summary_profile_default">ډیفالټ ترتیبات</string>
+    <string formatted="false" name="preference_access_title_profile_custom">زما دودیز پروفایل</string>
+    <string formatted="false" name="preference_access_summary_profile_custom">زما شخصي ترتیبات</string>
+    <string formatted="false" name="preference_access_title_profile_argus">ارګس</string>
+    <string formatted="false" name="preference_access_summary_profile_argus">لوړ برعکس، اضافي عکسونه</string>
+    <string formatted="false" name="preference_access_title_profile_odin">اوډین</string>
+    <string formatted="false" name="preference_access_summary_profile_odin">لوی متن، لوی 
        عکسونه، لوی عنصر فاصله، لوړ برعکس</string>
-    <string name="preference_access_title_profile_fenrir">فینر</string>
-    <string name="preference_access_summary_profile_fenrir">د لوی عنصر فاصله، د ډریګ او ډراپ 
+    <string formatted="false" name="preference_access_title_profile_fenrir">فینر</string>
+    <string formatted="false" name="preference_access_summary_profile_fenrir">د لوی عنصر فاصله، د ډریګ او ډراپ 
        ځنډ</string>
-    <string name="preference_access_title_profile_tiro">تيرو</string>
-    <string name="preference_access_summary_profile_tiro">د پیل کونکي حالت</string>
+    <string formatted="false" name="preference_access_title_profile_tiro">تيرو</string>
+    <string formatted="false" name="preference_access_summary_profile_tiro">د پیل کونکي حالت</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
-    <string name="preference_title_enable_quadcopter_bricks">د توتا AR.Drone 2.0 توسیع</string>
-    <string name="preference_description_quadcopter_bricks">اپلیکیشن ته اجازه ورکړئ چې توت AR.Drone 2.0 quadcopters کنټرول کړي</string>
-    <string name="preference_title_enable_jumpingsumo_bricks">د توت کود کولو سومو توسیع</string>
-    <string name="preference_description_jumpingsumo_bricks">اپلیکیشن ته اجازه ورکړئ چې د توت کود سومو روبوټونه کنټرول کړي</string>
-    <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT توسیع</string>
-    <string name="preference_title_enable_mindstorms_ev3_bricks">Lego Mindstorms EV3 توسیع</string>
-    <string name="preference_description_mindstorms_nxt_bricks">اپلیکیشن ته اجازه ورکړئ چې د لیګو دماغ ستورمز NXT روبوټونه کنټرول کړي</string>
-    <string name="preference_description_mindstorms_ev3_bricks">اپلیکیشن ته اجازه ورکړئ چې د لیګو مینډسټرمز EV3 روبوټونه کنټرول کړي</string>
-    <string name="preference_title_mindstorms_nxt_sensors">لیګو NXT سینسرونه</string>
-    <string name="preference_title_mindstorms_ev3_sensors">Lego EV3 سینسرونه</string>
-    <string name="preference_title_drone_config_properties">د توتا AR.Drone 2.0 ترتیب</string>
-    <string name="preference_title_enable_phiro_bricks">د RobotixEdu د فیرو توسیع</string>
-    <string name="preference_description_phiro_bricks">ایپ ته اجازه ورکړئ چې د RobotixEdu د فیرو روبوټونه کنټرول کړي</string>
-    <string name="preference_title_enable_arduino_bricks">د Arduino توسیع</string>
-    <string name="preference_description_arduino_bricks">ایپ ته اجازه ورکړئ چې د Arduino بورډونه کنټرول کړي</string>
-    <string name="preference_title_enable_embroidery_bricks">د ګنډلو توسیع</string>
-    <string name="preference_description_embroidery_bricks">د ګنډلو ماشینونو لپاره نمونې رامینځته کړئ</string>
-    <string name="preference_title_cast_feature_globally_enabled">د Chromecast توسیع</string>
-    <string name="preference_description_cast_feature_globally_enabled">د کاسټ تڼۍ وښایاست او د کاسټ پروژې فعال کړئ</string>
-    <string name="preference_title_enable_nfc_bricks">د نږدې ساحې مخابراتو توسیع</string>
-    <string name="preference_description_nfc_bricks">ایپ ته اجازه ورکړئ چې په پروژو کې د NFC ټاګونه وکاروي</string>
-    <string name="preference_title_enable_crash_reports">د نامعلوم حادثې راپورونه لیږل</string>
-    <string name="preference_description_crash_reports">ایپ ته اجازه ورکړئ چې په اوتومات ډول د حادثې راپورونه واستوي</string>
+    <string formatted="false" name="preference_title_enable_quadcopter_bricks">د توتا AR.Drone 2.0 توسیع</string>
+    <string formatted="false" name="preference_description_quadcopter_bricks">اپلیکیشن ته اجازه ورکړئ چې توت AR.Drone 2.0 quadcopters کنټرول کړي</string>
+    <string formatted="false" name="preference_title_enable_jumpingsumo_bricks">د توت کود کولو سومو توسیع</string>
+    <string formatted="false" name="preference_description_jumpingsumo_bricks">اپلیکیشن ته اجازه ورکړئ چې د توت کود سومو روبوټونه کنټرول کړي</string>
+    <string formatted="false" name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT توسیع</string>
+    <string formatted="false" name="preference_title_enable_mindstorms_ev3_bricks">Lego Mindstorms EV3 توسیع</string>
+    <string formatted="false" name="preference_description_mindstorms_nxt_bricks">اپلیکیشن ته اجازه ورکړئ چې د لیګو دماغ ستورمز NXT روبوټونه کنټرول کړي</string>
+    <string formatted="false" name="preference_description_mindstorms_ev3_bricks">اپلیکیشن ته اجازه ورکړئ چې د لیګو مینډسټرمز EV3 روبوټونه کنټرول کړي</string>
+    <string formatted="false" name="preference_title_mindstorms_nxt_sensors">لیګو NXT سینسرونه</string>
+    <string formatted="false" name="preference_title_mindstorms_ev3_sensors">Lego EV3 سینسرونه</string>
+    <string formatted="false" name="preference_title_drone_config_properties">د توتا AR.Drone 2.0 ترتیب</string>
+    <string formatted="false" name="preference_title_enable_phiro_bricks">د RobotixEdu د فیرو توسیع</string>
+    <string formatted="false" name="preference_description_phiro_bricks">ایپ ته اجازه ورکړئ چې د RobotixEdu د فیرو روبوټونه کنټرول کړي</string>
+    <string formatted="false" name="preference_title_enable_arduino_bricks">د Arduino توسیع</string>
+    <string formatted="false" name="preference_description_arduino_bricks">ایپ ته اجازه ورکړئ چې د Arduino بورډونه کنټرول کړي</string>
+    <string formatted="false" name="preference_title_enable_embroidery_bricks">د ګنډلو توسیع</string>
+    <string formatted="false" name="preference_description_embroidery_bricks">د ګنډلو ماشینونو لپاره نمونې رامینځته کړئ</string>
+    <string formatted="false" name="preference_title_cast_feature_globally_enabled">د Chromecast توسیع</string>
+    <string formatted="false" name="preference_description_cast_feature_globally_enabled">د کاسټ تڼۍ وښایاست او د کاسټ پروژې فعال کړئ</string>
+    <string formatted="false" name="preference_title_enable_nfc_bricks">د نږدې ساحې مخابراتو توسیع</string>
+    <string formatted="false" name="preference_description_nfc_bricks">ایپ ته اجازه ورکړئ چې په پروژو کې د NFC ټاګونه وکاروي</string>
+    <string formatted="false" name="preference_title_enable_crash_reports">د نامعلوم حادثې راپورونه لیږل</string>
+    <string formatted="false" name="preference_description_crash_reports">ایپ ته اجازه ورکړئ چې په اوتومات ډول د حادثې راپورونه واستوي</string>
     <!-- -->
-    <string name="preference_title_enable_raspi_bricks">د راسبیري پای توسیع</string>
-    <string name="preference_description_raspi_bricks">ایپ ته اجازه ورکړئ چې د Raspberry Pi کمپیوټرونه کنټرول کړي</string>
-    <string name="preference_raspi_enable_bricks">خښتې او سینسرونه فعال کړئ</string>
-    <string name="preference_raspi_help">مرسته / پیل کول</string>
-    <string name="preference_raspi_help_summary">د اتصال تنظیماتو تنظیم کولو څرنګوالي په اړه مرسته ترلاسه کړئ</string>
-    <string name="preference_raspi_host">Raspberry Pi IP-/د کوربه پته</string>
-    <string name="preference_raspi_port">د راسبیري پای بندر</string>
+    <string formatted="false" name="preference_title_enable_raspi_bricks">د راسبیري پای توسیع</string>
+    <string formatted="false" name="preference_description_raspi_bricks">ایپ ته اجازه ورکړئ چې د Raspberry Pi کمپیوټرونه کنټرول کړي</string>
+    <string formatted="false" name="preference_raspi_enable_bricks">خښتې او سینسرونه فعال کړئ</string>
+    <string formatted="false" name="preference_raspi_help">مرسته / پیل کول</string>
+    <string formatted="false" name="preference_raspi_help_summary">د اتصال تنظیماتو تنظیم کولو څرنګوالي په اړه مرسته ترلاسه کړئ</string>
+    <string formatted="false" name="preference_raspi_host">Raspberry Pi IP-/د کوربه پته</string>
+    <string formatted="false" name="preference_raspi_port">د راسبیري پای بندر</string>
     <!--  -->
-    <string name="preference_title_multiplayer_variables_enabled">ملټي پلیر توسیع</string>
-    <string name="preference_description_multiplayer_variables_enabled">اپلیکیشن ته اجازه ورکړئ چې د 
+    <string formatted="false" name="preference_title_multiplayer_variables_enabled">ملټي پلیر توسیع</string>
+    <string formatted="false" name="preference_description_multiplayer_variables_enabled">اپلیکیشن ته اجازه ورکړئ چې د 
         بلوتوټ له لارې شریک شوي ملټي پلیر تغیرات وکاروئ</string>
-    <string name="preference_title_enable_test_bricks">د ازموینې توسیع</string>
-    <string name="preference_description_test_bricks">د ازموینې رامینځته کولو ته اجازه ورکوي</string>
+    <string formatted="false" name="preference_title_enable_test_bricks">د ازموینې توسیع</string>
+    <string formatted="false" name="preference_description_test_bricks">د ازموینې رامینځته کولو ته اجازه ورکوي</string>
     <!-- Scratch Converter activity -->
-    <string name="beta">بیټا</string>
-    <string name="error_scratch_program_not_accessible_any_more">اووه! داسې ښکاري چې پروژه ورکه شوې ده
+    <string formatted="false" name="beta">بیټا</string>
+    <string formatted="false" name="error_scratch_program_not_accessible_any_more">اووه! داسې ښکاري چې پروژه ورکه شوې ده
         یا تاسو ممکن دې ته لاسرسی له لاسه ورکړی وي.</string>
-    <string name="error_scratch_project_data_not_available">هو! د پروژې ځینې برخې داسې ښکاري
+    <string formatted="false" name="error_scratch_project_data_not_available">هو! د پروژې ځینې برخې داسې ښکاري
         ورک شوی، مهرباني وکړئ وروسته بیا هڅه وکړئ.</string>
-    <string name="error_request_timeout">هو! زموږ سرور په وخت ځواب نه دی ورکړی، مهرباني وکړئ وروسته بیا هڅه وکړئ.</string>
-    <string name="error_scratch_program_conversion_failed">هو! د پروژې په بدلولو کې پاتې راغلی، مهرباني وکړئ بیا هڅه وکړئ
+    <string formatted="false" name="error_request_timeout">هو! زموږ سرور په وخت ځواب نه دی ورکړی، مهرباني وکړئ وروسته بیا هڅه وکړئ.</string>
+    <string formatted="false" name="error_scratch_program_conversion_failed">هو! د پروژې په بدلولو کې پاتې راغلی، مهرباني وکړئ بیا هڅه وکړئ
         وروسته</string>
-    <string name="error_specific_scratch_program_conversion_failed_x">هو! د %1$s په بدلولو کې پاتې راغلل، مهرباني وکړئ 
+    <string formatted="false" name="error_specific_scratch_program_conversion_failed_x">هو! د %1$s په بدلولو کې پاتې راغلل، مهرباني وکړئ 
         وروسته بیا هڅه وکړئ.</string>
-    <string name="error_scratch_converter_outdated_app_version">ستاسو د دې اپلیکیشن نسخه پخوانۍ ده. زموږ سکریچ
+    <string formatted="false" name="error_scratch_converter_outdated_app_version">ستاسو د دې اپلیکیشن نسخه پخوانۍ ده. زموږ سکریچ
         کنورټر یوازې په وروستي نسخه کار کوي. مهرباني وکړئ اپلیکیشن تازه کړئ.</string>
-    <string name="error_cannot_open_not_existing_scratch_program">زه نشم کولی دا سکریچ پروژه خلاص کړم. داسې ښکاري چې تاسو 
+    <string formatted="false" name="error_cannot_open_not_existing_scratch_program">زه نشم کولی دا سکریچ پروژه خلاص کړم. داسې ښکاري چې تاسو 
         د سکریچ پروژې تبادله/ډاونلوډ لغوه کړی، یا تاسو په ورته وخت کې د پروژې نوم بدل کړی / حذف 
         کړی دی.</string>
-    <string name="error_cannot_open_currently_downloading_scratch_program">تاسو لاهم نشئ کولی پروژه خلاص کړئ.
+    <string formatted="false" name="error_cannot_open_currently_downloading_scratch_program">تاسو لاهم نشئ کولی پروژه خلاص کړئ.
         مهرباني وکړئ تر هغه پورې انتظار وکړئ چې ډاونلوډ شوی وي.</string>
-    <string name="error_cannot_open_not_yet_downloaded_scratch_program">تاسو لاهم نشئ کولی پروژه خلاص کړئ.
+    <string formatted="false" name="error_cannot_open_not_yet_downloaded_scratch_program">تاسو لاهم نشئ کولی پروژه خلاص کړئ.
         مهرباني وکړئ لومړی یې ډاونلوډ کړئ او بیا یې خلاص کړئ.</string>
-    <string name="error_cannot_convert_deprecated_scratch_program_x_x">زه نشم کولی %1$s بدل کړم. داسې ښکاري چې دا د %2$sڅخه مخکې یوه پخوانۍ سکریچ پروژه ده. مهرباني وکړئ یو بل هڅه وکړئ.</string>
+    <string formatted="false" name="error_cannot_convert_deprecated_scratch_program_x_x">زه نشم کولی %1$s بدل کړم. داسې ښکاري چې دا د %2$sڅخه مخکې یوه پخوانۍ سکریچ پروژه ده. مهرباني وکړئ یو بل هڅه وکړئ.</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
         <item quantity="one">You cannot convert more than %d project at the same time. Please wait for the
             running conversions to finish first.</item>
         <item quantity="other">تاسو نشئ کولی په ورته وخت کې له %d څخه ډیر پروژې بدل کړئ. مهرباني وکړئ د روانو تبادلو لپاره انتظار وکړئ چې لومړی پای ته ورسیږي.</item>
     </plurals>
-    <string name="error_cannot_open_failed_scratch_program">تاسو نشئ کولی پروژه خلاص کړئ ځکه چې دا نه وه
+    <string formatted="false" name="error_cannot_open_failed_scratch_program">تاسو نشئ کولی پروژه خلاص کړئ ځکه چې دا نه وه
         په سمه توګه بدل شوی. مهرباني وکړئ د بیا بدلولو هڅه وکړئ.</string>
-    <string name="search_failed">هیڅ ونه موندل شو، مهرباني وکړئ وروسته بیا هڅه وکړئ.</string>
-    <string name="connection_lost_or_closed_by_server">د سرور پیوستون ورک شو.</string>
-    <string name="connection_failed">موږ نشو کولی تاسو همدا اوس له سرور سره وصل کړو، مهرباني وکړئ وروسته بیا هڅه وکړئ.</string>
-    <string name="authentication_failed">داسې ښکاري چې د خدمت سره ستاسو په اړیکه کې ستونزه وي. مهرباني
+    <string formatted="false" name="search_failed">هیڅ ونه موندل شو، مهرباني وکړئ وروسته بیا هڅه وکړئ.</string>
+    <string formatted="false" name="connection_lost_or_closed_by_server">د سرور پیوستون ورک شو.</string>
+    <string formatted="false" name="connection_failed">موږ نشو کولی تاسو همدا اوس له سرور سره وصل کړو، مهرباني وکړئ وروسته بیا هڅه وکړئ.</string>
+    <string formatted="false" name="authentication_failed">داسې ښکاري چې د خدمت سره ستاسو په اړیکه کې ستونزه وي. مهرباني
         د Catrobat ټیم سره اړیکه ونیسئ.</string>
     <plurals name="scratch_conversion_scheduled_x">
         <item quantity="one">Added %d Scratch project to the queue&#8230;</item>
         <item quantity="other">په کتار کې د %d سکریچ پروژې اضافه شوې&#8230;</item>
     </plurals>
-    <string name="scratch_conversion_started">د سکریچ پروژې بدلول پیل کړل&#8230;</string>
-    <string name="convert">بدلول</string>
-    <string name="converting">بدلول&#8230;</string>
-    <string name="status_scheduled">مهالویش شوی</string>
-    <string name="status_waiting_for_worker">د وړیا کارګر په لټه کې&#8230;هیله کوم لږ صبر وکړه&#8230;</string>
-    <string name="status_started">پیل شو&#8230;</string>
-    <string name="status_conversion_finished">تبادله پای ته ورسیده</string>
+    <string formatted="false" name="scratch_conversion_started">د سکریچ پروژې بدلول پیل کړل&#8230;</string>
+    <string formatted="false" name="convert">بدلول</string>
+    <string formatted="false" name="converting">بدلول&#8230;</string>
+    <string formatted="false" name="status_scheduled">مهالویش شوی</string>
+    <string formatted="false" name="status_waiting_for_worker">د وړیا کارګر په لټه کې&#8230;هیله کوم لږ صبر وکړه&#8230;</string>
+    <string formatted="false" name="status_started">پیل شو&#8230;</string>
+    <string formatted="false" name="status_conversion_finished">تبادله پای ته ورسیده</string>
     <plurals name="status_in_progress_x_jobs">
         <item quantity="one">In progress: %d job</item>
         <item quantity="other">په پرمختګ کې: %d دندې</item>
@@ -276,29 +276,29 @@
         <item quantity="one">Completed: %d job</item>
         <item quantity="other">بشپړ شوي: %d دندې</item>
     </plurals>
-    <string name="status_conversion_failed">تبادله ناکامه شوه!</string>
-    <string name="status_downloading">کښته کول&#8230;</string>
-    <string name="status_download_finished">ډاونلوډ بشپړ شو.</string>
-    <string name="status_download_canceled">ډاونلوډ لغوه شو!</string>
-    <string name="scratch_programs_in_progress_title">د پرمختګ په حال کې</string>
-    <string name="scratch_programs_finished_title">بدلې شوې پروژې</string>
-    <string name="by_x">د %1$s لخوا</string>
-    <string name="warning_program_visibility">خبرداری:\n داسې ښکاري چې دا یوه شخصي پروژه ده. تاسو کولی شئ د دې 
+    <string formatted="false" name="status_conversion_failed">تبادله ناکامه شوه!</string>
+    <string formatted="false" name="status_downloading">کښته کول&#8230;</string>
+    <string formatted="false" name="status_download_finished">ډاونلوډ بشپړ شو.</string>
+    <string formatted="false" name="status_download_canceled">ډاونلوډ لغوه شو!</string>
+    <string formatted="false" name="scratch_programs_in_progress_title">د پرمختګ په حال کې</string>
+    <string formatted="false" name="scratch_programs_finished_title">بدلې شوې پروژې</string>
+    <string formatted="false" name="by_x">د %1$s لخوا</string>
+    <string formatted="false" name="warning_program_visibility">خبرداری:\n داسې ښکاري چې دا یوه شخصي پروژه ده. تاسو کولی شئ د دې 
         بدلولو هڅه وکړئ مګر دا ممکن کار ونکړي.</string>
-    <string name="instructions">لارښوونې</string>
-    <string name="notes_and_credits">یادښتونه او کریډیټ</string>
-    <string name="shared_at_x">شریک شوی: %1$s</string>
-    <string name="modified_at_x">تعدیل شوی: %1$s</string>
-    <string name="remixes">ریمکسونه</string>
+    <string formatted="false" name="instructions">لارښوونې</string>
+    <string formatted="false" name="notes_and_credits">یادښتونه او کریډیټ</string>
+    <string formatted="false" name="shared_at_x">شریک شوی: %1$s</string>
+    <string formatted="false" name="modified_at_x">تعدیل شوی: %1$s</string>
+    <string formatted="false" name="remixes">ریمکسونه</string>
     <!--  -->
-    <string name="author">لیکوال:</string>
-    <string name="screen_size">د مرحلې اندازه:</string>
-    <string name="mode">حالت:</string>
-    <string name="remix_of">د ریمکس:</string>
-    <string name="description_hint">د توضیحاتو اضافه کولو لپاره فشار ورکړئ</string>
-    <string name="notes_and_credits_hint">د نوټونو او کریډیټ اضافه کولو لپاره فشار ورکړئ</string>
+    <string formatted="false" name="author">لیکوال:</string>
+    <string formatted="false" name="screen_size">د مرحلې اندازه:</string>
+    <string formatted="false" name="mode">حالت:</string>
+    <string formatted="false" name="remix_of">د ریمکس:</string>
+    <string formatted="false" name="description_hint">د توضیحاتو اضافه کولو لپاره فشار ورکړئ</string>
+    <string formatted="false" name="notes_and_credits_hint">د نوټونو او کریډیټ اضافه کولو لپاره فشار ورکړئ</string>
     <!-- ScratchReconvertDialog Strings -->
-    <string name="reconvert_text">تاسو دا پروژه %1$s مخکې بدله کړه.</string>
+    <string formatted="false" name="reconvert_text">تاسو دا پروژه %1$s مخکې بدله کړه.</string>
     <plurals name="minutes">
         <item quantity="one">%d minute</item>
         <item quantity="other">%d دقیقې</item>
@@ -311,8 +311,8 @@
         <item quantity="one">%d ورځ</item>
         <item quantity="other">%d ورځې</item>
     </plurals>
-    <string name="reconvert_dialog_download">پروژه بیا ډاونلوډ کړئ</string>
-    <string name="reconvert_dialog_reconvert">دا پروژه بیا بدله کړئ</string>
+    <string formatted="false" name="reconvert_dialog_download">پروژه بیا ډاونلوډ کړئ</string>
+    <string formatted="false" name="reconvert_dialog_reconvert">دا پروژه بیا بدله کړئ</string>
     <!--  -->
     <!-- ERRORS -->
     <!-- Terms of Use and Service Error -->
