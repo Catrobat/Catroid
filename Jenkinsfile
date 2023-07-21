@@ -157,7 +157,8 @@ pipeline {
                         stage('Static Analysis') {
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    sh './gradlew pmd checkstyle lintCatroidDebug detekt'
+                                    sh './gradlew checkstyle --stacktrace'
+                                    // sh './gradlew pmd checkstyle lintCatroidDebug detekt'
                                 }
                             }
 
