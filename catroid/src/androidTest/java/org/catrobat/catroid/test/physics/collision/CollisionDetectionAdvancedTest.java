@@ -23,16 +23,22 @@
 
 package org.catrobat.catroid.test.physics.collision;
 
+import android.graphics.PointF;
+
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.XstreamSerializer;
@@ -46,6 +52,7 @@ import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -115,6 +122,7 @@ public class CollisionDetectionAdvancedTest {
 
 		assertNotNull(collisionPolygons2);
 		assertEquals(3, collisionPolygons2.length);
+
 
 		XstreamSerializer.getInstance().saveProject(project);
 	}
