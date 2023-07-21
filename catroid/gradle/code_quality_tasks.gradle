@@ -38,7 +38,7 @@ dependencies {
 }
 
 task checkstyle(type: Checkstyle) {
-    configFile = file("catroid/config/checkstyle.xml")
+    configFile = file("config/checkstyle.xml")
     source '.'
     include '**/*.java', '**/*.xml', '**/*.gradle'
     exclude '**/gen/**', '**/build/**', 'libraryProjects/**', '**/.idea/**'
