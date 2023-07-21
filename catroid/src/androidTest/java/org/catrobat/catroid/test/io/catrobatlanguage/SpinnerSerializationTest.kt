@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.test.io.catrobatlanguage
 
+import android.widget.Spinner
 import androidx.annotation.IdRes
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
@@ -39,13 +40,24 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.CloneBrick
+import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick
 import org.catrobat.catroid.content.bricks.ForItemInUserListBrick
+import org.catrobat.catroid.content.bricks.GoToBrick
+import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick
+import org.catrobat.catroid.content.bricks.PlaySoundAtBrick
+import org.catrobat.catroid.content.bricks.PlaySoundBrick
+import org.catrobat.catroid.content.bricks.PointToBrick
 import org.catrobat.catroid.content.bricks.SceneStartBrick
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick
+import org.catrobat.catroid.content.bricks.SetInstrumentBrick
+import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick
+import org.catrobat.catroid.content.bricks.SetRotationStyleBrick
 import org.catrobat.catroid.content.bricks.StopScriptBrick
+import org.catrobat.catroid.content.bricks.StopSoundBrick
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
+import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.junit.After
@@ -122,11 +134,10 @@ class SpinnerSerializationTest {
 
     @Test
     fun testSceneStartBrick() {
-        // TODO: where does 'Scene' come from?
         executeTest(
             R.id.brick_scene_start_spinner,
             SceneStartBrick(),
-            "Start (scene: ('s1'));\n",
+            "Start (scene: ('Scene'));\n",
             mapOf(
                 "s2" to "Start (scene: ('s2'));\n",
                 "s3" to "Start (scene: ('s3'));\n",
@@ -136,13 +147,149 @@ class SpinnerSerializationTest {
 
     @Test
     fun testStopScriptBrick() {
+        val brick = StopScriptBrick()
         executeTest(
             R.id.brick_stop_script_spinner,
-            StopScriptBrick(),
+            brick,
             "Stop (script: (this script));\n",
             mapOf(
                 "all scripts" to "Stop (script: (all scripts));\n",
                 "other scripts of this actor or object" to "Stop (script: (other scripts of this actor or object));\n",
+            )
+        )
+        checkSpinnerCount(brick, R.id.brick_stop_script_spinner, 3)
+    }
+
+    @Test
+    fun testGoToBrick() {
+        executeTest(
+            R.id.brick_go_to_spinner,
+            GoToBrick(),
+            "Go to (target: (touch position));\n",
+            mapOf(
+                "random position" to "Go to (target: (random position));\n",
+                "testSprite3" to "Go to (target: ('testSprite3'));\n",
+            )
+        )
+    }
+
+    @Test
+    fun testPointToBrick() {
+        executeTest(
+            R.id.brick_point_to_spinner,
+            PointToBrick(),
+            "Point towards (actor or object: ('testSprite1'));\n",
+            mapOf(
+                "testSprite2" to "Point towards (actor or object: ('testSprite2'));\n",
+                "testSprite3" to "Point towards (actor or object: ('testSprite3'));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testSetRotationStyleBrick() {
+        val brick = SetRotationStyleBrick()
+        executeTest(
+            R.id.brick_set_rotation_style_spinner,
+            brick,
+            "Set (rotation style: (left-right only));\n",
+            mapOf(
+                "all-around" to "Set (rotation style: (all-around));\n",
+                "don't rotate" to "Set (rotation style: (don't rotate));\n",
+            )
+        )
+        checkSpinnerCount(brick, R.id.brick_set_rotation_style_spinner, 3)
+    }
+
+    @Test
+    fun testSetPhysicsObjectTypeBrick() {
+        executeTest(
+            R.id.brick_set_physics_object_type_spinner,
+            SetPhysicsObjectTypeBrick(),
+            "Set (motion type: (not moving or bouncing under gravity (default)));\n",
+            mapOf(
+                "moving and bouncing under gravity" to "Set (motion type: (moving and bouncing under gravity));\n",
+                "not moving under gravity, but others bounce off you under gravity" to "Set (motion type: (not moving under gravity, but others bounce off you under gravity));\n",
+            )
+        )
+    }
+
+    @Test
+    fun testFadeParticleEffectBrick() {
+        val brick = FadeParticleEffectBrick()
+        executeTest(
+            R.id.brick_fade_particle_effect_spinner,
+            brick,
+            "Set particle (effect: (in));\n",
+            mapOf(
+                "out" to "Set particle (effect: (out));\n",
+            )
+        )
+        checkSpinnerCount(brick, R.id.brick_fade_particle_effect_spinner, 2)
+    }
+
+    @Test
+    fun testPlaySoundBrick() {
+        executeTest(
+            R.id.brick_play_sound_spinner,
+            PlaySoundBrick(),
+            "Start (sound: ('sound1'));\n",
+            mapOf(
+                "sound2" to "Start (sound: ('sound2'));\n",
+                "sound3" to "Start (sound: ('sound3'));\n",
+            )
+        )
+    }
+
+    @Test
+    fun testPlaySoundAndWaitBrick() {
+        // TODO: right spinner id?
+        executeTest(
+            R.id.brick_play_sound_spinner,
+            PlaySoundAndWaitBrick(),
+            "Start sound and skip seconds (sound: ('sound1'), seconds: (0));\n",
+            mapOf(
+                "sound2" to "Start sound and skip seconds (sound: ('sound2'), seconds: (0));\n",
+                "sound3" to "Start sound and skip seconds (sound: ('sound3'), seconds: (0));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testPlaySoundAtBrick() {
+        executeTest(
+            R.id.brick_play_sound_at_spinner,
+            PlaySoundAtBrick(),
+            "Start sound and skip seconds (sound: ('sound1'), seconds: (0));\n",
+            mapOf(
+                "sound2" to "Start sound and skip seconds (sound: ('sound2'), seconds: (0));\n",
+                "sound3" to "Start sound and skip seconds (sound: ('sound3'), seconds: (0));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testStopSoundBrick() {
+        executeTest(
+            R.id.brick_stop_sound_spinner,
+            StopSoundBrick(),
+            "Stop (sound: ('sound1'));\n",
+            mapOf(
+                "sound2" to "Stop (sound: ('sound2'));\n",
+                "sound3" to "Stop (sound: ('sound3'));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testSetInstrumentBrick() {
+        executeTest(
+            R.id.set_instrument_spinner,
+            SetInstrumentBrick(),
+            "Set (instrument: (piano));\n",
+            mapOf(
+                "guitar" to "Set (instrument: (guitar));\n",
+                "flute" to "Set (instrument: (flute));\n"
             )
         )
     }
@@ -157,7 +304,7 @@ class SpinnerSerializationTest {
     ) {
         startScript.addBrick(brick)
         baseActivityTestRule.launchActivity()
-
+//        Thread.sleep(99999)
         val initialValue = brick.serializeToCatrobatLanguage(0)
         Assert.assertEquals(defaultValue, initialValue)
 
@@ -250,14 +397,10 @@ class SpinnerSerializationTest {
         startScript = script
     }
 
-    class SpinnerValueMapping {
-        val spinnerId: Int
-        val expectedStrings: List<String>
-
-        constructor(spinnerId: Int, expectedStrings: List<String>) {
-            this.spinnerId = spinnerId
-            this.expectedStrings = expectedStrings
-        }
+    private fun checkSpinnerCount(brick: Brick, brickSpinnerId: Int, expectedCount: Int) {
+        val brickSpinner = brick.getView(baseActivityTestRule.activity).findViewById<Spinner>(brickSpinnerId)
+        val itemCount = brickSpinner.adapter.count
+        Assert.assertEquals(expectedCount, itemCount)
     }
 }
 

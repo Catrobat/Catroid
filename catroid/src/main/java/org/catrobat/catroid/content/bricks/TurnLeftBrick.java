@@ -46,7 +46,7 @@ public class TurnLeftBrick extends FormulaBrick {
 	}
 
 	public TurnLeftBrick(Formula formula) {
-		addAllowedBrickField(BrickField.TURN_LEFT_DEGREES, R.id.brick_turn_left_edit_text);
+		addAllowedBrickField(BrickField.TURN_LEFT_DEGREES, R.id.brick_turn_left_edit_text, "degrees");
 		setFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES, formula);
 	}
 
@@ -69,12 +69,23 @@ public class TurnLeftBrick extends FormulaBrick {
 
 		StringBuilder catrobatLanguage = new StringBuilder();
 		catrobatLanguage.append(indention);
+
+		if (commentedOut) {
+			catrobatLanguage.append("/* ");
+		}
+
 		catrobatLanguage.append(getCatrobatLanguageCommand());
 		catrobatLanguage.append(" (");
 
-		catrobatLanguage.append("direction: left, ");
+		catrobatLanguage.append("direction: (left), ");
 		appendCatrobatLanguageArguments(catrobatLanguage);
-		catrobatLanguage.append(");\n");
+		catrobatLanguage.append(");");
+
+		if (commentedOut) {
+			catrobatLanguage.append(" */");
+		}
+
+		catrobatLanguage.append("\n");
 		return catrobatLanguage.toString();
 	}
 }

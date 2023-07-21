@@ -32,12 +32,15 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.PickableMusicalInstrument;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+@CatrobatLanguageBrick(command = "Set")
 public class SetInstrumentBrick extends BrickBaseType
 		implements BrickSpinner.OnItemSelectedListener<PickableMusicalInstrument>, UpdateableSpinnerBrick {
 
@@ -100,5 +103,11 @@ public class SetInstrumentBrick extends BrickBaseType
 		if (spinner != null) {
 			spinner.setSelection(itemName);
 		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		return getCatrobatLanguageParamerCall(indentionLevel, "instrument", instrumentSelection.getName());
 	}
 }

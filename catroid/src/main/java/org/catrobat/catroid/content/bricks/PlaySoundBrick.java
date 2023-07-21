@@ -33,6 +33,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
@@ -40,9 +42,11 @@ import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterf
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+@CatrobatLanguageBrick(command = "Start")
 public class PlaySoundBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<SoundInfo>,
 		NewItemInterface<SoundInfo>, UpdateableSpinnerBrick {
 
@@ -132,5 +136,15 @@ public class PlaySoundBrick extends BrickBaseType implements BrickSpinner.OnItem
 		if (spinner != null) {
 			spinner.setSelection(itemName);
 		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		return getCatrobatLanguageParamerCall(
+				indentionLevel,
+				"sound",
+				CatrobatLanguageUtils.Companion.formatSoundName(sound.getName())
+		);
 	}
 }

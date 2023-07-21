@@ -140,7 +140,7 @@ public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelec
 			case BrickValues.GO_TO_RANDOM_POSITION:
 				return "random position";
 			case BrickValues.GO_TO_OTHER_SPRITE_POSITION:
-				return destinationSprite.getName();
+				return CatrobatLanguageUtils.Companion.formatActorOrObject(destinationSprite.getName());
 			default:
 				throw new IllegalArgumentException("Invalid spinner index");
 		}

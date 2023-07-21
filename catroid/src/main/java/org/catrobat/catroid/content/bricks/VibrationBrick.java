@@ -29,13 +29,15 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Vibrate for")
 public class VibrationBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public VibrationBrick() {
-		addAllowedBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS, R.id.brick_vibration_edit_text);
+		addAllowedBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS, R.id.brick_vibration_edit_text, "seconds");
 	}
 
 	public VibrationBrick(double vibrateDurationInSeconds) {

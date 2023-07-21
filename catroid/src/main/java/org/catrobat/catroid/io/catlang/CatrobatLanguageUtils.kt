@@ -29,6 +29,10 @@ class CatrobatLanguageUtils {
             return " ".repeat(level * 2);
         }
 
+        fun formatSoundName (soundName: String): String {
+            return "'$soundName'"
+        }
+
         fun formatActorOrObject (actorOrObjectName: String): String {
             return "'$actorOrObjectName'"
         }

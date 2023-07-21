@@ -117,7 +117,7 @@ public class SetRotationStyleBrick extends BrickBaseType implements
 
 	@Override
 	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
-		switch (selection) {
+		switch (spinnerIndex) {
 			case ROTATION_STYLE_LEFT_RIGHT_ONLY:
 				return "left-right only";
 			case Look.ROTATION_STYLE_ALL_AROUND:

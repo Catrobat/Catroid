@@ -32,10 +32,13 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils.Companion.formatSoundName
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface
 
+@CatrobatLanguageBrick(command = "Stop")
 class StopSoundBrick : BrickBaseType(),
     BrickSpinner.OnItemSelectedListener<SoundInfo>, NewItemInterface<SoundInfo>, UpdateableSpinnerBrick {
 
@@ -90,5 +93,13 @@ class StopSoundBrick : BrickBaseType(),
         itemIndex: Int
     ) {
         spinner.setSelection(itemName)
+    }
+
+    override fun serializeToCatrobatLanguage(indentionLevel: Int): String {
+        return getCatrobatLanguageParamerCall(
+            indentionLevel,
+            "sound",
+            formatSoundName(sound!!.name)
+        )
     }
 }

@@ -23,20 +23,45 @@
 
 package org.catrobat.catroid.test.io.catrobatlanguage
 
+import com.badlogic.gdx.math.Vector2
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.BroadcastBrick
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick
+import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick
+import org.catrobat.catroid.content.bricks.ChangeXByNBrick
+import org.catrobat.catroid.content.bricks.ChangeYByNBrick
 import org.catrobat.catroid.content.bricks.ForItemInUserListBrick
 import org.catrobat.catroid.content.bricks.ForVariableFromToBrick
+import org.catrobat.catroid.content.bricks.GlideToBrick
+import org.catrobat.catroid.content.bricks.GoNStepsBackBrick
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick
+import org.catrobat.catroid.content.bricks.MoveNStepsBrick
 import org.catrobat.catroid.content.bricks.NoteBrick
+import org.catrobat.catroid.content.bricks.OpenUrlBrick
+import org.catrobat.catroid.content.bricks.PlaceAtBrick
+import org.catrobat.catroid.content.bricks.PointInDirectionBrick
 import org.catrobat.catroid.content.bricks.RepeatBrick
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick
 import org.catrobat.catroid.content.bricks.SceneStartBrick
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick
+import org.catrobat.catroid.content.bricks.SetBounceBrick
+import org.catrobat.catroid.content.bricks.SetCameraFocusPointBrick
+import org.catrobat.catroid.content.bricks.SetFrictionBrick
+import org.catrobat.catroid.content.bricks.SetGravityBrick
+import org.catrobat.catroid.content.bricks.SetMassBrick
+import org.catrobat.catroid.content.bricks.SetVelocityBrick
+import org.catrobat.catroid.content.bricks.SetVolumeToBrick
+import org.catrobat.catroid.content.bricks.SetXBrick
+import org.catrobat.catroid.content.bricks.SetYBrick
+import org.catrobat.catroid.content.bricks.TapAtBrick
+import org.catrobat.catroid.content.bricks.TapForBrick
+import org.catrobat.catroid.content.bricks.TouchAndSlideBrick
+import org.catrobat.catroid.content.bricks.TurnLeftBrick
+import org.catrobat.catroid.content.bricks.TurnRightBrick
 import org.catrobat.catroid.content.bricks.UserVariableBrick
 import org.catrobat.catroid.content.bricks.UserVariableBrickWithFormula
+import org.catrobat.catroid.content.bricks.VibrationBrick
 import org.catrobat.catroid.content.bricks.WaitUntilBrick
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.FormulaElement
@@ -84,43 +109,45 @@ class ValueSerializationTest(
                 arrayOf(ForVariableFromToBrick::class.simpleName, ForVariableFromToBrick(5, 10), "For (value: (\"${testVariable.name}\"), from: (5), to: (10)) {\n}\n"),
                 arrayOf(SceneTransitionBrick::class.simpleName, SceneTransitionBrick("testscene"), "Continue (scene: ('testscene'));\n"),
                 arrayOf(SceneStartBrick::class.simpleName, SceneStartBrick("testscene"), "Start (scene: ('testscene'));\n"),
+                arrayOf(TapAtBrick::class.simpleName, TapAtBrick(5, 9), "Single tap at (x: (5), y: (9));\n"),
+                arrayOf(TapForBrick::class.simpleName, TapForBrick(2, 3, 4.5), "Touch at position for seconds (x: (2), y: (3), seconds: (4.5));\n"),
+                arrayOf(TouchAndSlideBrick::class.simpleName, TouchAndSlideBrick(2, 3, 4, 5, 6.7), "Touch at position and slide to position in seconds (start x: (2), start y: (3), to x: (4), to y: (5), seconds: (6.7));\n"),
+                arrayOf(OpenUrlBrick::class.simpleName, OpenUrlBrick("https://catrob.at"), "Open in browser (url: ('https://catrob.at'));\n"),
+                arrayOf(PlaceAtBrick::class.simpleName, PlaceAtBrick(2, 3), "Place at (x: (2), y: (3));\n"),
+                arrayOf(SetXBrick::class.simpleName, SetXBrick(2), "Set (x: (2));\n"),
+                arrayOf(SetYBrick::class.simpleName, SetYBrick(2), "Set (y: (2));\n"),
+                arrayOf(ChangeXByNBrick::class.simpleName, ChangeXByNBrick(2), "Change x by (value: (2));\n"),
+                arrayOf(ChangeYByNBrick::class.simpleName, ChangeYByNBrick(2), "Change y by (value: (2));\n"),
+                arrayOf(MoveNStepsBrick::class.simpleName, MoveNStepsBrick(5.5), "Move (steps: (5.5));\n"),
+                arrayOf(MoveNStepsBrick::class.simpleName, MoveNStepsBrick(3.0), "Move (steps: (3));\n"),
+                arrayOf(TurnLeftBrick::class.simpleName, TurnLeftBrick(30.9), "Turn (direction: (left), degrees: (30.9));\n"),
+                arrayOf(TurnLeftBrick::class.simpleName, TurnLeftBrick(30.0), "Turn (direction: (left), degrees: (30));\n"),
+                arrayOf(TurnRightBrick::class.simpleName, TurnRightBrick(21.7252), "Turn (direction: (right), degrees: (21.7252));\n"),
+                arrayOf(TurnRightBrick::class.simpleName, TurnRightBrick(21.0), "Turn (direction: (right), degrees: (21));\n"),
+                arrayOf(PointInDirectionBrick::class.simpleName, PointInDirectionBrick(90.0), "Point in direction (degrees: (90));\n"),
+                arrayOf(PointInDirectionBrick::class.simpleName, PointInDirectionBrick(11.11), "Point in direction (degrees: (11.11));\n"),
+                arrayOf(GlideToBrick::class.simpleName, GlideToBrick(2, 3, 4), "Glide to (x: (2), y: (3), seconds: (4));\n"),
+                arrayOf(GoNStepsBackBrick::class.simpleName, GoNStepsBackBrick(12), "Go back (number of layers: (12));\n"),
+                // TODO
+//                arrayOf(SetCameraFocusPointBrick::class.simpleName, SetCameraFocusPointBrick(), "Become focus point with flexibility in percent (horizontal: (0), vertical: (0));\n"),
+                arrayOf(VibrationBrick::class.simpleName, VibrationBrick(25.0), "Vibrate for (seconds: (25));\n"),
+                arrayOf(SetVelocityBrick::class.simpleName, SetVelocityBrick(Vector2(5f, 6f)), "Set velocity to (x steps/second: (5), y steps/second: (6));\n"),
+                arrayOf(TurnLeftBrick::class.simpleName, TurnLeftBrick(20.0), "Spin (direction: (left), degrees/second: (20));\n"),
+                arrayOf(TurnRightBrick::class.simpleName, TurnRightBrick(30.0), "Spin (direction: (right), degrees/second: (30));\n"),
+                arrayOf(SetGravityBrick::class.simpleName, SetGravityBrick(Vector2(10f, 20f)), "Set gravity for all actors and objects to (x steps/second²: (10), y steps/second²: (20));\n"),
+                arrayOf(SetMassBrick::class.simpleName, SetMassBrick(-33.0), "Set (mass in kilograms: (-33));\n"),
+                arrayOf(SetBounceBrick::class.simpleName, SetBounceBrick(28.0), "Set (bounce factor percentage: (28));\n"),
+                arrayOf(SetFrictionBrick::class.simpleName, SetFrictionBrick(78.0), "Set (friction percentage: (78));\n"),
+                arrayOf(SetVolumeToBrick::class.simpleName, SetVolumeToBrick(34.3), "Set (volume percentage: (34.3));\n"),
+                arrayOf(ChangeVolumeByNBrick::class.simpleName, ChangeVolumeByNBrick(5.3), "Change volume by (value: (5.3));\n"),
 
 
 
 
 
-
-//                arrayOf(SceneStartBrick(), "Start (scene: ());\n"),
-//                arrayOf(FinishStageBrick(), "Finish stage;\n"),
-//                arrayOf(StopScriptBrick(0), "Stop (script: (this script));\n"),
-//                arrayOf(StopScriptBrick(1), "Stop (script: (all scripts));\n"),
-//                arrayOf(
-//                    StopScriptBrick(2),
-//                    "Stop (script: (other scripts of this actor or object));\n"
-//                ),
-//                arrayOf(WaitTillIdleBrick(), "Wait until all other scripts have stopped;\n"),
 //
-//                arrayOf(TapAtBrick(5, 9), "Single tap at (x: (5), y: (9));\n"),
-//                arrayOf(
-//                    TapForBrick(2, 3, 4.5),
-//                    "Touch at position for seconds (x: (2), y: (3), seconds: (4.5));\n"
-//                ),
-//                arrayOf(
-//                    TouchAndSlideBrick(2, 3, 4, 5, 6.7),
-//                    "Touch at position and slide to position in seconds (start x: (2), start y: " +
-//                        "(3), to x: (4), to y: (5), seconds: (6.7));\n"
-//                ),
-//                arrayOf(
-//                    OpenUrlBrick("https://catrob.at"),
-//                    "Open in browser (url: ('https://catrob.at'));\n"
-//                ),
-//                arrayOf(PlaceAtBrick(2, 3), "Place at (x: (2), y: (3));\n"),
-//                arrayOf(SetXBrick(2), "Set (x: (2));\n"),
-//                arrayOf(SetYBrick(2), "Set (y: (2));\n"),
-//                arrayOf(ChangeXByNBrick(2), "Change x by (value: (2));\n"),
-//                arrayOf(ChangeYByNBrick(2), "Change y by (value: (2));\n"),
 //
-////                arrayOf(GoToBrick(), "Go to (target: ());\n"),
+////
 //
 //                arrayOf(IfOnEdgeBounceBrick(), "If on edge, bounce;\n")
 //                arrayOf(

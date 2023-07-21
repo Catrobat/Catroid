@@ -30,8 +30,12 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
-public class PlaySoundAndWaitBrick extends PlaySoundBrick {
+@CatrobatLanguageBrick(command = "Start sound and skip seconds")
+public class PlaySoundAndWaitBrick extends PlaySoundBrick implements CatrobatLanguageAttributes {
 
 	private static final long serialVersionUID = 1L;
 
@@ -61,5 +65,19 @@ public class PlaySoundAndWaitBrick extends PlaySoundBrick {
 		duration = Integer.parseInt(metadataRetriever
 				.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)) / 1000.0f;
 		return duration;
+	}
+
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		return getCatrobatLanguageParameterizedCall(indentionLevel, false).toString();
+	}
+
+	@Override
+	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
+		brickBuilder.append("sound: (");
+		brickBuilder.append(CatrobatLanguageUtils.Companion.formatSoundName(sound.getName()));
+		brickBuilder.append("), seconds: (");
+		brickBuilder.append(new Formula(getDurationOfSound()));
+		brickBuilder.append(")");
 	}
 }
