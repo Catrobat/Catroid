@@ -38,7 +38,8 @@ dependencies {
 }
 
 task checkstyle(type: Checkstyle) {
-    configFile file('config/checkstyle.xml')
+    configFile = file("/Catroid/catroid/config/checkstyle.xml")
+    toolVersion = '8.29'
     source '.'
     include '**/*.java', '**/*.xml', '**/*.gradle'
     exclude '**/gen/**', '**/build/**', 'libraryProjects/**', '**/.idea/**'
