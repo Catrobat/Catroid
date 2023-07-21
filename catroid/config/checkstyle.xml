@@ -249,7 +249,7 @@
   <module name="UniqueProperties" />
 
   <module name="RegexpHeader">
-    <property name="headerFile" value="./catroid/src/test/res/agpl_license_text.txt" />
+    <property name="headerFile" value="/home/catroid/jenkins_slave/workspace/lab/CsongorLab/IDE_Pipeline/catroid/src/test/res/agpl_license_text.txt" />
     <property name="multiLines" value="1,2" />
   </module>
 
