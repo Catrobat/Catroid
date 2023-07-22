@@ -56,6 +56,8 @@ ext {
     room_version = "2.3.0"
     coroutines_version = "1.3.2"
     work_manager_version = "2.5.0"
+
+    config_loc = projectDir.path + "/catroid/config/checkstyle"
 }
 
 apply plugin: 'com.android.application'
@@ -566,6 +568,7 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.huawei.agconnect'
 
 checkstyle {
-    configFile = file("./config/checkstyle.xml")
     toolVersion = '8.29'
+    configFile = file("${config_loc}/checkstyle.xml")
+    suppressionsFile = file("${config_loc}/suppressions.xml")
 }
