@@ -32,7 +32,8 @@ buildscript {
 }
 
 plugins {
-    id "io.gitlab.arturbosch.detekt" version "1.1.1"
+    id "io.gitlab.arturbosch.detekt" version "1.23.0"
+    id 'checkstyle'
 }
 
 repositories {
@@ -105,7 +106,9 @@ def defaultVersionName = "1.1.2"
 android {
     compileSdkVersion 33
 
+    namespace 'org.catrobat.catroid'
     buildFeatures {
+        buildConfig = true
         viewBinding true
     }
 
@@ -206,6 +209,7 @@ android {
     packagingOptions {
         exclude 'LICENSE.txt'
         exclude 'META-INF/LICENSE.md'
+        exclude 'META-INF/INDEX.LIST'
         exclude 'lib/mips/*'    // Mips devices are deprecated
         exclude 'lib/armeabi/*' // armeabiv5 & v6 are deprecated
     }
@@ -460,6 +464,8 @@ dependencies {
     implementation 'com.huawei.hms:ml-computer-language-detection:2.2.0.300'
     implementation 'com.huawei.hms:ml-computer-vision-skeleton:2.0.4.300'
 
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
+
     // libGDX
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
     implementation "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
@@ -504,7 +510,7 @@ dependencies {
     androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
     androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"
 
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
@@ -558,3 +564,8 @@ tasks.whenTaskAdded { packageTask ->
 
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.huawei.agconnect'
+
+checkstyle {
+    configFile = file("./config/checkstyle.xml")
+    toolVersion = '8.29'
+}

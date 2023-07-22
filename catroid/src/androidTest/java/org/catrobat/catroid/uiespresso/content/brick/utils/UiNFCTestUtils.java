@@ -79,7 +79,7 @@ public final class UiNFCTestUtils {
 		Class activityCls = callingActivity.getClass();
 
 		PendingIntent pendingIntent = PendingIntent.getActivity(callingActivity, 0,
-				new Intent(callingActivity, activityCls).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+				new Intent(callingActivity, activityCls).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | PendingIntent.FLAG_MUTABLE), 0);
 
 		String intentAction = NfcAdapter.ACTION_TAG_DISCOVERED;
 		byte[] tagId = uid.getBytes();

@@ -21,6 +21,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
+<!--  -->
 <manifest xmlns:tools="http://schemas.android.com/tools"
     package="org.catrobat.catroid"
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -34,9 +35,23 @@
     <application>
         <meta-data android:name="com.crashlytics.ApiKey" android:value="YOUR_API_KEY"/>
         <activity
+            android:name="org.catrobat.catroid.ui.MainMenuActivity"
+            android:exported="true"/>
+        <activity
+            android:name="org.catrobat.catroid.ui.ProjectListActivity"
+            android:exported="true"/>
+        <activity
+            android:name="org.catrobat.catroid.ui.SpriteActivity"
+            android:exported="true"/>
+        <activity
+            android:name="org.catrobat.paintroid.MainActivity"
+            android:exported="true"/>
+        <activity
             android:name=".uiespresso.ui.activity.ProjectUploadDialogTest$ProjectUploadTestActivity"
+            tools:node="merge"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing">
+            android:windowSoftInputMode="adjustNothing"
+            android:exported="true">
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.VIEW"/>
             </intent-filter>

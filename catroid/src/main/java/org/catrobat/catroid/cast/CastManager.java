@@ -442,7 +442,7 @@ public final class CastManager {
 
 			Intent intent = new Intent(activity, activity.getClass());
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			PendingIntent notificationPendingIntent = PendingIntent.getActivity(activity, 0, intent, 0);
+			PendingIntent notificationPendingIntent = PendingIntent.getActivity(activity, 0, intent, PendingIntent.FLAG_MUTABLE);
 
 			CastRemoteDisplayLocalService.NotificationSettings settings = new CastRemoteDisplayLocalService
 					.NotificationSettings.Builder()

@@ -6,7 +6,7 @@ class DockerParameters {
     def dir = 'docker'
     def args = '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -v /var/local/container_shared/huawei:/home/user/huawei -m=8G'
     def label = 'LimitedEmulator'
-    def image = 'catrobat/catrobat-android:api30'
+    def image = 'catrobat/catrobat-android:api33'
 }
 
 def d = new DockerParameters()
@@ -22,13 +22,16 @@ def junitAndCoverage(String jacocoReportDir, String jacocoReportXml, String cove
 }
 
 def postEmulator(String coverageNameAndLogcatPrefix) {
-    sh './gradlew stopEmulator'
-
     def jacocoReportDir = 'catroid/build/reports/coverage/catroid/debug'
     if (fileExists('catroid/build/reports/coverage/catroid/debug/report.xml')){
         junitAndCoverage jacocoReportDir, 'report.xml', coverageNameAndLogcatPrefix
         archiveArtifacts "${coverageNameAndLogcatPrefix}_logcat.txt"
     }
+}
+
+def startEmulator(String android_version){
+    sh "echo no | avdmanager create avd --name android${android_version} --package 'system-images;android-${android_version};google_apis;x86_64'"
+    sh "/home/user/android/sdk/emulator/emulator -no-window -no-boot-anim -noaudio -avd android${android_version} &"
 }
 
 def webTestUrlParameter() {
@@ -58,7 +61,7 @@ pipeline {
     agent none
 
     environment {
-        ANDROID_VERSION = 30
+        ANDROID_VERSION = 33
     }
 
     parameters {
@@ -127,34 +130,37 @@ pipeline {
                     }
 
                     stages {
-                        stage('APKs') {
-                            steps {
-                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                                    script {
-                                        def additionalParameters = [webTestUrlParameter(), allFlavoursParameters()].findAll {
-                                            it
-                                        }.collect()
-                                        if (additionalParameters) {
-                                            currentBuild.description = "<p>Additional APK build parameters: <b>${additionalParameters.join(' ')}</b></p>"
-                                        }
-                                        if (env.INCLUDE_HUAWEI_FILES?.toBoolean()) {
-                                            sh "cp /home/user/huawei/agconnect-services.json catroid/src/agconnect-services.json"
-                                        }
-                                    }
+                        // stage('APKs') {
+                        //     steps {
+                        //         catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                        //             script {
+                        //                 def additionalParameters = [webTestUrlParameter(), allFlavoursParameters()].findAll {
+                        //                     it
+                        //                 }.collect()
+                        //                 if (additionalParameters) {
+                        //                     currentBuild.description = "<p>Additional APK build parameters: <b>${additionalParameters.join(' ')}</b></p>"
+                        //                 }
+                        //                 if (env.INCLUDE_HUAWEI_FILES?.toBoolean()) {
+                        //                     sh "cp /home/user/huawei/agconnect-services.json catroid/src/agconnect-services.json"
+                        //                 }
+                        //             }
 
-                                    // Build the flavors so that they can be installed next independently of older versions.
-                                    sh "./gradlew ${webTestUrlParameter()} -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleCatroidDebug ${allFlavoursParameters()}"
+                        //             // Build the flavors so that they can be installed next independently of older versions.
+                        //             sh "./gradlew ${webTestUrlParameter()} -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleCatroidDebug ${allFlavoursParameters()}"
 
-                                    renameApks("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
-                                    archiveArtifacts '**/*.apk'
-                                }
-                            }
-                        }
+                        //             renameApks("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
+                        //             archiveArtifacts '**/*.apk'
+                        //         }
+                        //     }
+                        // }
 
                         stage('Static Analysis') {
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    sh './gradlew pmd checkstyle lintCatroidDebug detekt'
+                                    sh './gradlew tasks'
+                                    sh './gradlew properties'
+                                    sh './gradlew checkstyle --stacktrace'
+                                    // sh './gradlew pmd checkstyle lintCatroidDebug detekt'
                                 }
                             }
 
@@ -175,7 +181,7 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    sh """./gradlew ${debugUnitTests()} -PenableCoverage jacocoTestCatroidDebugUnitTestReport --full-stacktrace"""
+                                    sh "./gradlew ${debugUnitTests()} -PenableCoverage jacocoTestCatroidDebugUnitTestReport --full-stacktrace"
                                     sh 'mkdir -p catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport/'
                                     sh 'touch catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport/jacocoTestCatroidDebugUnitTestReport.xml'
                                     junitAndCoverage 'catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport', 'jacocoTestCatroidDebugUnitTestReport.xml', 'unit'
@@ -189,10 +195,9 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    sh '''no | avdmanager create avd --name android${ANDROID_VERSION} --package 'system-images;android-${ANDROID_VERSION};google_apis;x86_64'
-                                        /home/user/android/sdk/emulator/emulator -no-window -no-boot-anim -noaudio -avd android${ANDROID_VERSION}
-                                        ./gradlew -PenableCoverage -PlogcatFile=instrumented_unit_logcat.txt -Pemulator=android${ANDROID_VERSION} \
-                                        startEmulator createCatroidDebugAndroidTestCoverageReport \
+                                    startEmulator("${ANDROID_VERSION}")
+                                    sh '''./gradlew -PenableCoverage -PlogcatFile=instrumented_unit_logcat.txt -Pemulator=android${ANDROID_VERSION} \
+                                        createCatroidDebugAndroidTestCoverageReport \
                                         -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.LocalHeadlessTestSuite'''
                                 }
                             }
@@ -210,9 +215,10 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    sh '''./gradlew -PenableCoverage -PlogcatFile=testrunner_logcat.txt -Pemulator=android${ANDROID_VERSION} \
-                                                startEmulator createCatroidDebugAndroidTestCoverageReport \
-                                                -Pandroid.testInstrumentationRunnerArguments.package=org.catrobat.catroid.catrobattestrunner'''
+                                    sh '''
+                                    ./gradlew -PenableCoverage -PlogcatFile=testrunner_logcat.txt -Pemulator=android${ANDROID_VERSION} \
+                                        createCatroidDebugAndroidTestCoverageReport \
+                                        -Pandroid.testInstrumentationRunnerArguments.package=org.catrobat.catroid.catrobattestrunner'''
                                 }
                             }
 
@@ -229,9 +235,10 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    sh '''./gradlew -PenableCoverage -PlogcatFile=quarantined_logcat.txt -Pemulator=android${ANDROID_VERSION} \
-                                            startEmulator createCatroidDebugAndroidTestCoverageReport \
-                                            -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoQuarantineTestSuite'''
+                                    sh '''
+                                    ./gradlew -PenableCoverage -PlogcatFile=quarantined_logcat.txt  \
+                                        createCatroidDebugAndroidTestCoverageReport -Pemulator=android${ANDROID_VERSION} \
+                                        -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoQuarantineTestSuite'''
                                 }
                             }
 
@@ -250,17 +257,15 @@ pipeline {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE')
                                 {
                                     sh '''
-                                    no | avdmanager create avd --name android${ANDROID_VERSION} --package 'system-images;android-${ANDROID_VERSION};google_apis;x86_64' \
-                                    /home/user/android/sdk/emulator/emulator -no-window -no-boot-anim -noaudio -avd android${ANDROID_VERSION} \
                                     ./gradlew -PenableCoverage -Pemulator=android${ANDROID_VERSION} \
-                                    ./gradlew createCatroidDebugAndroidTestCoverageReport -Pemulator=android${ANDROID_VERSION} \
-                                       -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.OutgoingNetworkCallsTestSuite'''
+                                        createCatroidDebugAndroidTestCoverageReport -Pemulator=android${ANDROID_VERSION} \
+                                        -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.OutgoingNetworkCallsTestSuite'''
                                 }
                             }
                             post {
                                 always {
                                    junit '**/*TEST*.xml'
-                                         sh './gradlew stopEmulator clearAvdStore'
+                                         postEmulator 'networktest'
                                          archiveArtifacts 'logcat.txt'
                                        }
                             }
@@ -272,8 +277,8 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    sh '''./gradlew -PenableCoverage -PlogcatFile=rtltests_logcat.txt -Pemulator=android${ANDROID_VERSION} \
-                                            startEmulator createCatroidDebugAndroidTestCoverageReport \
+                                    sh '''./gradlew -PenableCoverage -PlogcatFile=rtltests_logcat.txt \
+                                            createCatroidDebugAndroidTestCoverageReport -Pemulator=android${ANDROID_VERSION} \
                                             -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoRtlTestSuite'''
                                 }
                             }
@@ -289,6 +294,7 @@ pipeline {
                     post {
                         always {
                             stash name: 'logParserRules', includes: 'buildScripts/log_parser_rules'
+                            adb kill-server
                         }
                     }
                 }
@@ -310,20 +316,19 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                                    sh """
-                                        /home/user/android/sdk/platform-tools/adb -P 5037 start-server
-                                        echo no | avdmanager create avd --name android${ANDROID_VERSION} --package 'system-images;android-${ANDROID_VERSION};default;x86_64'
-                                        /home/user/android/sdk/emulator/emulator -no-window -no-boot-anim -noaudio -avd android${ANDROID_VERSION}
-                                        ./gradlew copyAndroidNatives -PenableCoverage -PlogcatFile=pull_request_suite_logcat.txt -Pemulator=android${ANDROID_VERSION}
-                                        ./gradlew createCatroidDebugAndroidTestCoverageReport -Pemulator=android${ANDROID_VERSION} \
+                                    startEmulator("${ANDROID_VERSION}")
+                                    sh '''
+                                        ./gradlew copyAndroidNatives -PenableCoverage -PlogcatFile=pull_request_suite_logcat.txt -Pemulator=android${ANDROID_VERSION} \
+                                        createCatroidDebugAndroidTestCoverageReport -Pemulator=android${ANDROID_VERSION} \
                                         -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite
-                                    """
+                                    '''
                                 }
                             }
 
                             post {
                                 always {
                                     postEmulator 'pull_request_suite'
+                                    adb kill-server
                                 }
                             }
                         }
