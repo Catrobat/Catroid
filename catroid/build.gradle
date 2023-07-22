@@ -56,8 +56,6 @@ ext {
     room_version = "2.3.0"
     coroutines_version = "1.3.2"
     work_manager_version = "2.5.0"
-
-    checkstyle_path = "test"
 }
 
 apply plugin: 'com.android.application'

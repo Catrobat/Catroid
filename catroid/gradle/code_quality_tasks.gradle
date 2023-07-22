@@ -38,6 +38,7 @@ dependencies {
 }
 
 task checkstyle(type: Checkstyle) {
+    def checkstyle_path = "test"
     configFile = file("./config/checkstyle.xml")
     source '.'
     include '**/*.java', '**/*.xml', '**/*.gradle'
