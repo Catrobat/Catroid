@@ -38,7 +38,7 @@ dependencies {
 }
 
 task checkstyle(type: Checkstyle) {
-    configDirectory.set(file("./catroid/config"))
+    //configDirectory.set(file("./catroid/config"))
     configFile = file("./config/checkstyle.xml")
     source '.'
     include '**/*.java', '**/*.xml', '**/*.gradle'
