@@ -249,7 +249,7 @@
   <module name="UniqueProperties" />
 
   <module name="RegexpHeader">
-    <property name="headerFile" value="${config_loc}/catroid/src/test/res/agpl_license_text.txt" />
+    <property name="headerFile" value="./src/test/res/agpl_license_text.txt" />
     <property name="multiLines" value="1,2" />
   </module>
 
@@ -301,7 +301,7 @@
   <!-- /home/catroid/jenkins_slave/workspace/lab/CsongorLab/IDE_Pipeline/catroid/config/suppressions.xml -->
        <!-- /home/catroid/jenkins_slave/workspace/lab/CsongorLab/IDE_Pipeline/config/checkstyle/catroid/config/suppressions.xml -->
   <module name="SuppressionFilter">
-    <property name="file" value="${config_loc}/catroid/config/suppressions.xml"  />
+    <property name="file" value="./config/suppressions.xml"  />
   </module>
 
 </module>
