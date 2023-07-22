@@ -57,7 +57,7 @@ ext {
     coroutines_version = "1.3.2"
     work_manager_version = "2.5.0"
 
-    config_loc = projectDir.path
+    checkstyle_path = "test"
 }
 
 apply plugin: 'com.android.application'
