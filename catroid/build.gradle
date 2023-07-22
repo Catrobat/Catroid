@@ -570,5 +570,4 @@ apply plugin: 'com.huawei.agconnect'
 checkstyle {
     toolVersion = '8.29'
     configFile = file("${config_loc}/checkstyle.xml")
-    suppressionsFile = file("${config_loc}/suppressions.xml")
 }
