@@ -38,7 +38,7 @@ dependencies {
 }
 
 task checkstyle(type: Checkstyle) {
-    configDirectory.set(file("."))
+    configDirectory = file(".")
     configFile = file("./config/checkstyle.xml")
     source '.'
     include '**/*.java', '**/*.xml', '**/*.gradle'
