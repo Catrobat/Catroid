@@ -23,7 +23,6 @@
   -->
 <!--  -->
 <manifest xmlns:tools="http://schemas.android.com/tools"
-    package="org.catrobat.catroid"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- screengrab -->
