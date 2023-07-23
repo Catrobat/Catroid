@@ -130,29 +130,29 @@ pipeline {
                     }
 
                     stages {
-                        // stage('APKs') {
-                        //     steps {
-                        //         catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                        //             script {
-                        //                 def additionalParameters = [webTestUrlParameter(), allFlavoursParameters()].findAll {
-                        //                     it
-                        //                 }.collect()
-                        //                 if (additionalParameters) {
-                        //                     currentBuild.description = "<p>Additional APK build parameters: <b>${additionalParameters.join(' ')}</b></p>"
-                        //                 }
-                        //                 if (env.INCLUDE_HUAWEI_FILES?.toBoolean()) {
-                        //                     sh "cp /home/user/huawei/agconnect-services.json catroid/src/agconnect-services.json"
-                        //                 }
-                        //             }
+                        stage('APKs') {
+                            steps {
+                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                                    script {
+                                        def additionalParameters = [webTestUrlParameter(), allFlavoursParameters()].findAll {
+                                            it
+                                        }.collect()
+                                        if (additionalParameters) {
+                                            currentBuild.description = "<p>Additional APK build parameters: <b>${additionalParameters.join(' ')}</b></p>"
+                                        }
+                                        if (env.INCLUDE_HUAWEI_FILES?.toBoolean()) {
+                                            sh "cp /home/user/huawei/agconnect-services.json catroid/src/agconnect-services.json"
+                                        }
+                                    }
 
-                        //             // Build the flavors so that they can be installed next independently of older versions.
-                        //             sh "./gradlew ${webTestUrlParameter()} -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleCatroidDebug ${allFlavoursParameters()}"
+                                    // Build the flavors so that they can be installed next independently of older versions.
+                                    sh "./gradlew ${webTestUrlParameter()} -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleCatroidDebug ${allFlavoursParameters()}"
 
-                        //             renameApks("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
-                        //             archiveArtifacts '**/*.apk'
-                        //         }
-                        //     }
-                        // }
+                                    renameApks("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
+                                    archiveArtifacts '**/*.apk'
+                                }
+                            }
+                        }
 
                         stage('Static Analysis') {
                             steps {
