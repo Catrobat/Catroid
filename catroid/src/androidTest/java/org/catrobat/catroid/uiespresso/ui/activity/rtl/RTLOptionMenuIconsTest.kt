@@ -130,9 +130,10 @@ class RTLOptionMenuIconsTest(
         for (i in 0 until optionsMenu.size()) {
             val currentItem = optionsMenu.getItem(i)
             if (currentItem.isVisible) {
-                if (currentItem.icon != null) {
-                    Assert.assertTrue(currentItem.icon.isVisible)
-                    Assert.assertTrue(currentItem.icon.minimumWidth >= width)
+                val icon = currentItem.icon
+                if (icon != null) {
+                    Assert.assertTrue(icon.isVisible)
+                    Assert.assertTrue(icon.minimumWidth >= width)
                     onData(withId(currentItem.itemId)).onChildView(hasDescendant(instanceOf(AppCompatImageView::class.java)))
                 }
             }
