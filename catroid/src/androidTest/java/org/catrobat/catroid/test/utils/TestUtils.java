@@ -29,7 +29,9 @@ import android.preference.PreferenceManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.FlavoredConstants;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -132,5 +134,17 @@ public final class TestUtils {
 			prev = any;
 		}
 		return false;
+	}
+
+	public static void waitForBackgroundLookData(int waitTimeMillis, int checkInterval) throws InterruptedException {
+		int checksDone = 0;
+		while (checksDone * checkInterval < waitTimeMillis) {
+			Thread.sleep(checkInterval);
+			List<LookData> lookDataList = ProjectManager.getInstance().getCurrentProject().getDefaultScene().getBackgroundSprite().getLookList();
+			if (lookDataList.size() > 0) {
+				break;
+			}
+			checksDone++;
+		}
 	}
 }
