@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Catroid: An on-device visual programming system for Android devices
   ~ Copyright (C) 2010-2022 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
@@ -22,8 +21,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <group android:layout_gravity="end">
@@ -37,49 +35,56 @@
 
     <item
         android:id="@+id/menu_rate_app"
+        android:icon="@drawable/ic_star_rate"
         android:title="@string/main_menu_rate_app"
-        app:showAsAction="never"
-        android:icon="@drawable/ic_star_rate" />
+        app:showAsAction="never" />
     <item
         android:id="@+id/menu_terms_of_use"
+        android:icon="@drawable/ic_placeholder"
         android:title="@string/main_menu_terms_of_use"
-        app:showAsAction="never"
-        android:icon="@drawable/ic_placeholder" />
+        app:showAsAction="never" />
     <item
         android:id="@+id/menu_privacy_policy"
+        android:icon="@drawable/ic_policy"
         android:title="@string/main_menu_privacy_policy"
-        app:showAsAction="never"
-        android:icon="@drawable/ic_policy" />
+        app:showAsAction="never" />
     <item
         android:id="@+id/menu_about"
+        android:icon="@drawable/ic_info"
         android:title="@string/main_menu_about"
-        app:showAsAction="never"
-        android:icon="@drawable/ic_info"/>
+        app:showAsAction="never" />
     <item
         android:id="@+id/menu_scratch_converter"
+        android:icon="@drawable/ic_placeholder"
         android:title="@string/main_menu_scratch_converter"
-        app:showAsAction="never"
-        android:icon="@drawable/ic_placeholder"/>
+        app:showAsAction="never" />
     <item
         android:id="@+id/settings"
+        android:icon="@drawable/ic_settings"
         android:title="@string/settings"
-        app:showAsAction="never"
-        android:icon="@drawable/ic_settings" />
+        app:showAsAction="never" />
     <item
         android:id="@+id/menu_login"
+        android:icon="@drawable/ic_login"
         android:title="@string/main_menu_login"
-        app:showAsAction="never"
-        android:icon="@drawable/ic_login"/>
+        app:showAsAction="never" />
     <item
         android:id="@+id/menu_logout"
+        android:icon="@drawable/ic_logout"
         android:title="@string/main_menu_logout"
-        app:showAsAction="never"
-        android:icon="@drawable/ic_logout"/>
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_help"
-        android:title="@string/main_menu_help"
         android:icon="@drawable/ic_main_menu_help"
-        app:showAsAction="always"/>
+        android:title="@string/main_menu_help"
+        app:showAsAction="always" />
+
+        <item
+             android:id="@+id/menu_search"
+             android:icon="@drawable/ic_main_menu_search"
+             android:title="@string/main_menu_search"
+             app:showAsAction="always" />
+
         </group>
 </menu>

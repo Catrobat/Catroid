@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2023 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/button_background">
+
+
+<androidx.appcompat.widget.Toolbar
+    android:id="@+id/searchContainer"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:background="@color/app_background"
+    android:orientation="horizontal"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+    <ImageButton
+        android:id="@+id/backBtn"
+        android:layout_width="24dp"
+        android:layout_height="60dp"
+        android:layout_weight="1"
+        android:backgroundTint="@color/transparent"
+        android:src="@drawable/baseline_arrow_back_24" />
+
+        <EditText
+        android:id="@+id/searchText"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:hint="Search Projects"
+        android:inputType="text"
+            android:layout_marginStart="@dimen/margin_16dp"
+            />
+
+    <ImageButton
+        android:id="@+id/clearBtn"
+        android:layout_width="24dp"
+        android:layout_height="60dp"
+        android:layout_weight="1"
+        android:backgroundTint="@color/transparent"
+        app:srcCompat="@drawable/ic_close" />
+
+</androidx.appcompat.widget.Toolbar>
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/deviceChip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Device"
+        android:clickable="true"
+        app:layout_constraintTop_toBottomOf="@+id/searchContainer"
+        android:layout_marginTop="@dimen/margin_16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:checkedIcon="@drawable/baseline_check_24"
+        android:checkable="true"
+        />
+     <com.google.android.material.chip.Chip
+         android:id="@+id/communityChip"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         app:layout_constraintTop_toBottomOf="@+id/searchContainer"
+         android:layout_marginTop="@dimen/margin_16dp"
+         android:layout_marginStart="@dimen/margin_16dp"
+         app:layout_constraintStart_toEndOf="@+id/deviceChip"
+         android:clickable="true"
+         android:text="Community"
+         app:checkedIcon="@drawable/baseline_check_24"
+         android:checkable="true"
+         />
+
+    <TextView
+        android:id="@+id/emptyTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/deviceChip"
+        android:textSize="24dp"
+        android:text="Your search returned 0 results"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/localHeaderTxt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="24dp"
+        android:textFontWeight="600"
+        android:text="Projects on device"
+        app:layout_constraintTop_toBottomOf="@id/deviceChip"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/localProjectsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/localHeaderTxt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+    <TextView
+        android:id="@+id/communityHeaderTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="24dp"
+        android:textFontWeight="600"
+        android:text="Catrobat Community"
+        app:layout_constraintTop_toBottomOf="@+id/localProjectsList"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/communityProjectsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/communityHeaderTxt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

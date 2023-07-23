@@ -318,6 +318,12 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
                     Uri.parse(CATROBAT_HELP_URL)
                 )
             )
+            R.id.menu_search -> startActivity(
+                Intent(
+                    this,
+                    SearchActivity::class.java
+                )
+            )
             else -> return super.onOptionsItemSelected(item)
         }
         return true
