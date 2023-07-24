@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick
 import org.catrobat.catroid.content.bricks.CameraBrick
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick
+import org.catrobat.catroid.content.bricks.ChangeColorByNBrick
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick
 import org.catrobat.catroid.content.bricks.ChangeTempoByNBrick
 import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick
@@ -98,6 +99,7 @@ import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick
 import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick
 import org.catrobat.catroid.content.bricks.LegoEv3PlayToneBrick
 import org.catrobat.catroid.content.bricks.LegoEv3SetLedBrick
+import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick
 import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick
@@ -288,86 +290,84 @@ class EmptyValueSerializationTest(
                 arrayOf(PlayDrumForBeatsBrick::class.simpleName, PlayDrumForBeatsBrick(), "Play (drum: (), number of beats: (0));\n"),
                 arrayOf(SetTempoBrick::class.simpleName, SetTempoBrick(), "Set (tempo: (0));\n"),
                 arrayOf(ChangeTempoByNBrick::class.simpleName, ChangeTempoByNBrick(), "Change tempo by (value: (0));\n"),
+                arrayOf(PauseForBeatsBrick::class.simpleName, PauseForBeatsBrick(), "Pause for (number of beats: (0));\n"),
+                arrayOf(SetLookBrick::class.simpleName, SetLookBrick(), "Switch to (look: ());\n"),
+                arrayOf(SetLookByIndexBrick::class.simpleName, SetLookByIndexBrick(), "Switch to (look by number: (0));\n"),
+                arrayOf(NextLookBrick::class.simpleName, NextLookBrick(), "Next look;\n"),
+                arrayOf(PreviousLookBrick::class.simpleName, PreviousLookBrick(), "Previous look;\n"),
+                arrayOf(SetSizeToBrick::class.simpleName, SetSizeToBrick(), "Set (size percentage: (0));\n"),
+                arrayOf(ChangeSizeByNBrick::class.simpleName, ChangeSizeByNBrick(), "Change size by (value: (0));\n"),
+                arrayOf(HideBrick::class.simpleName, HideBrick(), "Hide;\n"),
+                arrayOf(ShowBrick::class.simpleName, ShowBrick(), "Show;\n"),
+                arrayOf(AskSpeechBrick::class.simpleName, AskSpeechBrick(), "Ask question and store written answer to variable (question: (), variable: ());\n"),
+                arrayOf(SayBubbleBrick::class.simpleName, SayBubbleBrick(), "Say (text: ());\n"),
+                arrayOf(SayForBubbleBrick::class.simpleName, SayForBubbleBrick(), "Say text for seconds (text: (), seconds: (0));\n"),
+                arrayOf(ThinkBubbleBrick::class.simpleName, ThinkBubbleBrick(), "Think (text: ());\n"),
+                arrayOf(ThinkForBubbleBrick::class.simpleName, ThinkForBubbleBrick(), "Think text for seconds (text: (), seconds: (0));\n"),
+                arrayOf(ShowTextBrick::class.simpleName, ShowTextBrick(), "Show (variable: (), x: (0), y: (0));\n"),
+                arrayOf(ShowTextColorSizeAlignmentBrick::class.simpleName, ShowTextColorSizeAlignmentBrick(), "Show (variable: (), x: (0), y: (0), size: (0), color: (0), alignment: (left));\n"),
+                arrayOf(SetTransparencyBrick::class.simpleName, SetTransparencyBrick(), "Set (transparency percentage: (0));\n"),
+                arrayOf(ChangeTransparencyByNBrick::class.simpleName, ChangeTransparencyByNBrick(), "Change transparency by (value: (0));\n"),
+                arrayOf(SetBrightnessBrick::class.simpleName, SetBrightnessBrick(), "Set (brightness percentage: (0));\n"),
+                arrayOf(ChangeBrightnessByNBrick::class.simpleName, ChangeBrightnessByNBrick(), "Change brightness by (value: (0));\n"),
+                arrayOf(SetColorBrick::class.simpleName, SetColorBrick(), "Set (color: (0));\n"),
+                arrayOf(ChangeColorByNBrick::class.simpleName, ChangeColorByNBrick(), "Change color by (value: (0));\n"),
+                arrayOf(ParticleEffectAdditivityBrick::class.simpleName, ParticleEffectAdditivityBrick(), "Turn (particle effect additivity: (0));\n"),
+                arrayOf(SetParticleColorBrick::class.simpleName, SetParticleColorBrick(), "Set (particle color: (0));\n"),
+                arrayOf(ClearGraphicEffectBrick(), "Clear graphic effects;\n"),
+                arrayOf(SetBackgroundBrick::class.simpleName, SetBackgroundBrick(), "Set background to (look: ());\n"),
+                arrayOf(SetBackgroundByIndexBrick::class.simpleName, SetBackgroundByIndexBrick(), "Set background to (look by number: (0));\n"),
+                arrayOf(SetBackgroundAndWaitBrick::class.simpleName, SetBackgroundAndWaitBrick(), "Set background and wait (look: ());\n"),
+                arrayOf(SetBackgroundByIndexAndWaitBrick::class.simpleName, SetBackgroundByIndexAndWaitBrick(), "Set background and wait (look by number: (0));\n"),
+                arrayOf(CameraBrick::class.simpleName, CameraBrick(), "Turn (camera: (off));\n"),
+                arrayOf(ChooseCameraBrick::class.simpleName, ChooseCameraBrick(), "Use (camera: (0));\n"),
+                arrayOf(FlashBrick::class.simpleName, FlashBrick(), "Turn (flashlight: (on));\n"),
+                arrayOf(LookRequestBrick::class.simpleName, LookRequestBrick(), "Get image and use as current look (source: (0));\n"),
+                arrayOf(PaintNewLookBrick::class.simpleName, PaintNewLookBrick(), "Paint new look (name: (0));\n"),
+                arrayOf(EditLookBrick::class.simpleName, EditLookBrick(), "Edit look;\n"),
+                arrayOf(CopyLookBrick::class.simpleName, CopyLookBrick(), "Copy look (name of copy: (0));\n"),
+                arrayOf(DeleteLookBrick::class.simpleName, DeleteLookBrick(), "Delete look;\n"),
+                arrayOf(PenDownBrick::class.simpleName, PenDownBrick(), "Pen down;\n"),
+                arrayOf(PenUpBrick::class.simpleName, PenUpBrick(), "Pen up;\n"),
+                arrayOf(SetPenSizeBrick::class.simpleName, SetPenSizeBrick(), "Set (pen size: (0));\n"),
+                arrayOf(SetPenColorBrick::class.simpleName, SetPenColorBrick(), "Set (pen color code: (0));\n"),
+                arrayOf(ClearBackgroundBrick::class.simpleName, ClearBackgroundBrick(), "Clear;\n"),
+                arrayOf(StampBrick::class.simpleName, StampBrick(), "Stamp;\n"),
+                arrayOf(ReportBrick::class.simpleName, ReportBrick(), "Report (value: (0));\n"),
+                arrayOf(SetVariableBrick::class.simpleName, SetVariableBrick(), "Set (variable: (0), value: (0));\n"),
+                arrayOf(ChangeVariableBrick::class.simpleName, ChangeVariableBrick(), "Change (variable: (0), value: (0));\n"),
+                arrayOf(HideTextBrick::class.simpleName, HideTextBrick(), "Hide (variable: (0));\n"),
+                arrayOf(WriteVariableOnDeviceBrick::class.simpleName, WriteVariableOnDeviceBrick(), "Write on device (variable: (0));\n"),
+                arrayOf(ReadVariableFromDeviceBrick::class.simpleName, ReadVariableFromDeviceBrick(), "Read from device (variable: (0));\n"),
+                arrayOf(WriteVariableToFileBrick::class.simpleName, WriteVariableToFileBrick(), "Write to file (variable: (0), file: (0));\n"),
+                arrayOf(ReadVariableFromFileBrick::class.simpleName, ReadVariableFromFileBrick(), "Read from file (variable: (0), file: (0), action: (keep the file));\n"),
+                arrayOf(AddItemToUserListBrick::class.simpleName, AddItemToUserListBrick(), "Add (list: (), item: (0));\n"),
+                arrayOf(DeleteItemOfUserListBrick::class.simpleName, DeleteItemOfUserListBrick(), "Delete item at (list: (), position: (0));\n"),
+                arrayOf(ClearUserListBrick::class.simpleName, ClearUserListBrick(), "Delete all items (list: ());\n"),
+                arrayOf(InsertItemIntoUserListBrick::class.simpleName, InsertItemIntoUserListBrick(), "Insert (list: (), position: (0), value: (0));\n"),
+                arrayOf(ReplaceItemInUserListBrick::class.simpleName, ReplaceItemInUserListBrick(), "Replace (list: (), position: (0), value: (0));\n"),
+                arrayOf(WriteListOnDeviceBrick::class.simpleName, WriteListOnDeviceBrick(), "Write on device (list: ());\n"),
+                arrayOf(ReadListFromDeviceBrick::class.simpleName, ReadListFromDeviceBrick(), "Read from device (list: ());\n"),
+                arrayOf(StoreCSVIntoUserListBrick::class.simpleName, StoreCSVIntoUserListBrick(), "Store column of comma-separated values to list (list: (), csv: (0), column: (0));\n"),
+                arrayOf(WebRequestBrick::class.simpleName, WebRequestBrick(), "Send web request (url: (0), answer variable: ());\n"),
+                arrayOf(ResetTimerBrick::class.simpleName, ResetTimerBrick(), "Reset timer;\n"),
+                arrayOf(LegoNxtMotorTurnAngleBrick::class.simpleName, LegoNxtMotorTurnAngleBrick(), "Turn NXT (motor: (), degrees: (0));\n"),
+                arrayOf(LegoNxtMotorStopBrick::class.simpleName, LegoNxtMotorStopBrick(), "Stop NXT (motor: ());\n"),
+                arrayOf(LegoNxtMotorMoveBrick::class.simpleName, LegoNxtMotorMoveBrick(), "Set NXT (motor: (), speed percentage: (0));\n"),
+               arrayOf(LegoNxtPlayToneBrick::class.simpleName, LegoNxtPlayToneBrick(), "Play NXT tone (seconds: (0), frequency x100Hz: (0));\n"),
+
+
+
+
+
 
                 /*
 
 
-                           arrayOf(PauseForBeatsBrick(), "Pause for (number of beats: (0));\n"),
-                           arrayOf(SetLookBrick(), "Switch to (look: ());\n"),
-                           arrayOf(SetLookByIndexBrick(), "Switch to (look by number: (0));\n"),
-                           arrayOf(NextLookBrick(), "Next look;\n"),
-                           arrayOf(PreviousLookBrick(), "Previous look;\n"),
-                           arrayOf(SetSizeToBrick(), "Set (size percentage: (0));\n"),
-                           arrayOf(ChangeSizeByNBrick(), "Change size by (value: (0));"),
-                           arrayOf(HideBrick(), "Hide;\n"),
-                           arrayOf(ShowBrick(), "Show;\n"),
-                           arrayOf(
-                               AskSpeechBrick(),
-                               "Ask question and store written answer to variable (question: (), variable: ());\n"
-                           ),
-                           arrayOf(SayBubbleBrick(), "Say (text: ());\n"),
-                           arrayOf(SayForBubbleBrick(), "Say text for seconds (text: (), seconds: (0));\n"),
-                           arrayOf(ThinkBubbleBrick(), "Think (text: ());\n"),
-                           arrayOf(
-                               ThinkForBubbleBrick(),
-                               "Think text for seconds (text: (), seconds: (0));\n"
-                           ),
-                           arrayOf(ShowTextBrick(), "Show (variable: (), x: (0), y: (0));\n"),
-                           arrayOf(
-                               ShowTextColorSizeAlignmentBrick(),
-                               "Show (variable: (0), x: (0), y: (0), size: (0), color: (0), alignment: (0));\n"
-                           ),
-                           arrayOf(SetTransparencyBrick(), "Set (transparency percentage: (0));\n"),
-                           arrayOf(ChangeTransparencyByNBrick(), "Change transparency by (value: (0));\n"),
-                           arrayOf(SetBrightnessBrick(), "Set (brightness percentage: (0));"),
-                           arrayOf(ChangeBrightnessByNBrick(), "Change brightness by (value: (0));"),
-                           arrayOf(SetColorBrick(), "Set (color: (0));\n"),
-                           arrayOf(ParticleEffectAdditivityBrick(), "Turn (particle effect additivity: (0));\n"),
-                           arrayOf(SetParticleColorBrick(), "Set (particle color: (0));\n"),
-                           arrayOf(ClearGraphicEffectBrick(), "Clear graphic effects;\n"),
-                           arrayOf(SetBackgroundBrick(), "Set background to (look: ());\n"),
-                           arrayOf(SetBackgroundByIndexBrick(), "Set background to (look by number: (0));\n"),
-                           arrayOf(SetBackgroundAndWaitBrick(), "Set background and wait (look: ());\n"),
-                           arrayOf(SetBackgroundByIndexAndWaitBrick(), "Set background and wait (look by number: (0));\n"),
-                           arrayOf(CameraBrick(), "Turn (camera: (0));\n"),
-                           arrayOf(ChooseCameraBrick(), "Use (camera: (0));\n"),
-                           arrayOf(FlashBrick(), "Turn (flashlight: (0));\n"),
-                           arrayOf(LookRequestBrick(), "Get image and use as current look (source: ());\n"),
-                           arrayOf(PaintNewLookBrick(), "Paint new look (name: ());\n"),
-                           arrayOf(EditLookBrick(), "Edit look;\n"),
-                           arrayOf(CopyLookBrick(), "Copy look (name of copy: ());\n"),
-                           arrayOf(DeleteLookBrick(), "Delete look;\n"),
-                           arrayOf(PenDownBrick(), "Pen down;\n"),
-                           arrayOf(PenUpBrick(), "Pen up;\n"),
-                           arrayOf(SetPenSizeBrick(), "Set (pen size: (0));\n"),
-                           arrayOf(SetPenColorBrick(), "Set (pen color code: (0));\n"),
-                           arrayOf(ClearBackgroundBrick(), "Clear;\n"),
-                           arrayOf(StampBrick(), "Stamp;\n"),
-                           arrayOf(ReportBrick(), "Report (value: (0));\n"),
-                           arrayOf(SetVariableBrick(), "Set (variable: (0), value: (0));\n"),
-                           arrayOf(ChangeVariableBrick(), "Change (variable: (0), value: (0));\n"),
-                           arrayOf(HideTextBrick(), "Hide (variable: (0));\n"),
-                           arrayOf(WriteVariableOnDeviceBrick(), "Write on device (variable: (0));\n"),
-                           arrayOf(ReadVariableFromDeviceBrick(), "Read from device (variable: (0));\n"),
-                           arrayOf(WriteVariableToFileBrick(), "Write to file (variable: (0), file: (0));\n"),
-                           arrayOf(ReadVariableFromFileBrick(), "Read from file (variable: (0), file: (0), action: ());\n"),
-                           arrayOf(AddItemToUserListBrick(), "Add (list: (), item: (0));\n"),
-                           arrayOf(DeleteItemOfUserListBrick(), "Delete (list: (), item: (0));\n"),
-                           arrayOf(ClearUserListBrick(), "Delete all items (list: ());\n"),
-                           arrayOf(InsertItemIntoUserListBrick(), "Insert (list: (), position: (0), value: (0));\n"),
-                           arrayOf(ReplaceItemInUserListBrick(), "Replace (list: (), position: (0), value: (0));\n"),
-                           arrayOf(WriteListOnDeviceBrick(), "Write on device (list: ());\n"),
-                           arrayOf(ReadListFromDeviceBrick(), "Read from device (list: ());\n"),
-                           arrayOf(
-                               StoreCSVIntoUserListBrick(),
-                               "Store column of comma-separated values to list (list: (), csv: (), column: ());\n"
-                           ),
-                           arrayOf(WebRequestBrick(), "Send web request (url: (), answer variable: ());\n"),
-                           arrayOf(ResetTimerBrick(), "Reset timer;\n"),
-                           arrayOf(LegoNxtMotorTurnAngleBrick(), "Turn NXT (motor: (), degrees: (0));\n"),
-                           arrayOf(LegoNxtMotorStopBrick(), "Stop NXT (motor: ());\n"),
-                           arrayOf(LegoNxtMotorMoveAction(), "Set NXT (motor: (), speed percentage: (0));\n"),
-                           arrayOf(LegoNxtPlayToneBrick(), "Play NXT tone (seconds: (0), frequency x100Hz: (0));\n"),
+
+
+
+
                            arrayOf(LegoEv3MotorTurnAngleBrick(), "Turn EV3 (motor: (), degrees: (0));\n"),
                            arrayOf(LegoEv3MotorMoveBrick(), "Set EV3 (motor: (), speed percentage: (0));\n"),
                            arrayOf(LegoEv3MotorStopBrick(), "Stop EV3 (motor: ());\n"),

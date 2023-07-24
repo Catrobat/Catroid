@@ -33,31 +33,56 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.catrobat.catroid.R
 import org.catrobat.catroid.UiTestCatroidApplication.Companion.projectManager
 import org.catrobat.catroid.common.LookData
+import org.catrobat.catroid.common.Nameable
 import org.catrobat.catroid.common.SoundInfo
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
+import org.catrobat.catroid.content.bricks.AskSpeechBrick
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.content.bricks.CameraBrick
+import org.catrobat.catroid.content.bricks.ChangeVariableBrick
+import org.catrobat.catroid.content.bricks.ClearUserListBrick
 import org.catrobat.catroid.content.bricks.CloneBrick
+import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick
 import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick
+import org.catrobat.catroid.content.bricks.FlashBrick
 import org.catrobat.catroid.content.bricks.ForItemInUserListBrick
 import org.catrobat.catroid.content.bricks.GoToBrick
+import org.catrobat.catroid.content.bricks.HideTextBrick
+import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick
+import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick
+import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick
+import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick
 import org.catrobat.catroid.content.bricks.PlaySoundAtBrick
 import org.catrobat.catroid.content.bricks.PlaySoundBrick
 import org.catrobat.catroid.content.bricks.PointToBrick
+import org.catrobat.catroid.content.bricks.ReadListFromDeviceBrick
+import org.catrobat.catroid.content.bricks.ReadVariableFromDeviceBrick
+import org.catrobat.catroid.content.bricks.ReadVariableFromFileBrick
+import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick
 import org.catrobat.catroid.content.bricks.SceneStartBrick
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick
+import org.catrobat.catroid.content.bricks.SetBackgroundAndWaitBrick
+import org.catrobat.catroid.content.bricks.SetBackgroundBrick
 import org.catrobat.catroid.content.bricks.SetInstrumentBrick
+import org.catrobat.catroid.content.bricks.SetLookBrick
 import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick
 import org.catrobat.catroid.content.bricks.SetRotationStyleBrick
+import org.catrobat.catroid.content.bricks.SetVariableBrick
+import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick
 import org.catrobat.catroid.content.bricks.StopScriptBrick
 import org.catrobat.catroid.content.bricks.StopSoundBrick
+import org.catrobat.catroid.content.bricks.WebRequestBrick
+import org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick
+import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick
+import org.catrobat.catroid.content.bricks.WriteVariableToFileBrick
+import org.catrobat.catroid.content.bricks.brickspinner.PickableMusicalInstrument
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
-import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.junit.After
@@ -287,9 +312,364 @@ class SpinnerSerializationTest {
             R.id.set_instrument_spinner,
             SetInstrumentBrick(),
             "Set (instrument: (piano));\n",
+            getAllInstruments("piano", "Set (instrument: ({{INSTRUMENT}}));\n")
+        )
+    }
+
+    @Test
+    fun testSetLookBrick() {
+        executeTest(
+            R.id.brick_set_look_spinner,
+            SetLookBrick(),
+            "Switch to (look: ('spritelook1'));\n",
             mapOf(
-                "guitar" to "Set (instrument: (guitar));\n",
-                "flute" to "Set (instrument: (flute));\n"
+                "spritelook2" to "Switch to (look: ('spritelook2'));\n",
+                "spritelook3" to "Switch to (look: ('spritelook3'));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testAskSpeechBrick() {
+        executeTest(
+            R.id.brick_ask_speech_spinner,
+            AskSpeechBrick("my question"),
+            "Ask question and store written answer to variable (question: ('my question'), variable: (\"var1\"));\n",
+            mapOf(
+                "var2" to "Ask question and store written answer to variable (question: ('my question'), variable: (\"var2\"));\n",
+                "var3" to "Ask question and store written answer to variable (question: ('my question'), variable: (\"var3\"));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testShowTextColorSizeAlignmentBrick() {
+        executeTest(
+            R.id.brick_show_variable_color_size_align_spinner,
+            ShowTextColorSizeAlignmentBrick(),
+            "Show variable (variable: (\"var1\"), x: (0), y: (0), size: (0), color: (0), alignment: (left));\n",
+            mapOf(
+                "center" to "Show variable (variable: (\"var1\"), x: (0), y: (0), size: (0), color: (0), alignment: (center));\n",
+                "right" to "Show variable (variable: (\"var1\"), x: (0), y: (0), size: (0), color: (0), alignment: (right));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testSetBackgroundBrick() {
+        executeTest(
+            R.id.brick_set_background_spinner,
+            SetBackgroundBrick(),
+            "Set background to (look: ('look1'));\n",
+            mapOf(
+                "look2" to "Set background to (look: ('look2'));\n",
+                "look3" to "Set background to (look: ('look3'));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testSetBackgroundAndWaitBrick() {
+        // TODO: spinner id?
+        executeTest(
+            R.id.brick_set_background_spinner,
+            SetBackgroundAndWaitBrick(),
+            "Set background and wait (look: ('look1'));\n",
+            mapOf(
+                "look2" to "Set background and wait (look: ('look2'));\n",
+                "look3" to "Set background and wait (look: ('look3'));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testCameraBrick() {
+        executeTest(
+            R.id.brick_video_spinner,
+            CameraBrick(),
+            "Turn (camera: (on));\n",
+            mapOf(
+                "off" to "Turn (camera: (off));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testChooseCameraBrick() {
+        executeTest(
+            R.id.brick_choose_camera_spinner,
+            CameraBrick(),
+            "Use (camera: (rear));\n",
+            mapOf(
+                "front" to "Use (camera: (front));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testFlashBrick() {
+        executeTest(
+            R.id.brick_flash_spinner,
+            FlashBrick(),
+            "Turn (flashlight: (on));\n",
+            mapOf(
+                "off" to "Turn (flashlight: (off));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testSetVariableBrick() {
+        // TODO: right spinner?
+        executeTest(
+            R.id.set_variable_spinner,
+            SetVariableBrick(),
+            "Set (variable: (\"var1\"), value: (0));\n",
+            mapOf(
+                "var2" to "Set (variable: (\"var2\"), value: (0));\n",
+                "var3" to "Set (variable: (\"var3\"), value: (0));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testChangeVariableBrick() {
+        executeTest(
+            R.id.change_variable_spinner,
+            ChangeVariableBrick(),
+            "Change (variable: (\"var1\"), value: (0));\n",
+            mapOf(
+                "var2" to "Change (variable: (\"var2\"), value: (0));\n",
+                "var3" to "Change (variable: (\"var3\"), value: (0));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testHideTextBrick() {
+        executeTest(
+            R.id.hide_variable_spinner,
+            HideTextBrick(),
+            "Hide (variable: (\"var1\"));\n",
+            mapOf(
+                "var2" to "Hide (variable: (\"var2\"));\n",
+                "var3" to "Hide (variable: (\"var3\"));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testWriteVariableOnDeviceBrick() {
+        executeTest(
+            R.id.write_variable_spinner,
+            WriteVariableOnDeviceBrick(),
+            "Write on device (variable: (\"var1\"));\n",
+            mapOf(
+                "var2" to "Write on device (variable: (\"var2\"));\n",
+                "var3" to "Write on device (variable: (\"var3\"));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testReadVariableFromDeviceBrick() {
+        executeTest(
+            R.id.read_variable_from_device_spinner,
+            ReadVariableFromDeviceBrick(),
+            "Read from device (variable: (\"var1\"));\n",
+            mapOf(
+                "var2" to "Read from device (variable: (\"var2\"));\n",
+                "var3" to "Read from device (variable: (\"var3\"));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testWriteVariableToFileBrick() {
+        executeTest(
+            R.id.brick_write_variable_to_file_spinner,
+            WriteVariableToFileBrick(),
+            "Write variable (variable: (\"var1\"), path: (\"path\"));\n",
+            mapOf(
+                "var2" to "Write variable (variable: (\"var2\"), path: (\"path\"));\n",
+                "var3" to "Write variable (variable: (\"var3\"), path: (\"path\"));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testReadVariableFromFileBrick() {
+        executeTest(
+            R.id.brick_read_variable_from_file_spinner_variable,
+            ReadVariableFromFileBrick(),
+            "Read from file (variable: (\"var1\"), file: (0), action: (keep the file));\n",
+            mapOf(
+                "var2" to "Read from file (variable: (\"var2\"), file: (0), action: (keep the file));\n",
+                "var3" to "Read from file (variable: (\"var3\"), file: (0), action: (keep the file));\n"
+            ),
+            R.id.brick_read_variable_from_file_spinner_mode,
+            mapOf(
+                "delete the file" to "Read from file (variable: (\"var3\"), file: (0), action: (delete the file));\n",
+                "keep the file" to "Read from file (variable: (\"var3\"), file: (0), action: (keep the file));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testAddItemToUserListBrick() {
+        executeTest(
+            R.id.add_item_to_userlist_spinner,
+            ForItemInUserListBrick(),
+            "Add (list: (*list1*), item: (0));\n",
+            mapOf(
+                "list2" to "Add (list: (*list2*), item: (0));\n",
+                "list3" to "Add (list: (*list3*), item: (0));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testDeleteItemOfUserListBrick() {
+        executeTest(
+            R.id.delete_item_of_userlist_spinner,
+            DeleteItemOfUserListBrick(),
+            "Delete item at (list: (*list1*), position: (0));\n",
+            mapOf(
+                "list2" to "Delete item at (list: (*list2*), position: (0));\n",
+                "list3" to "Delete item at (list: (*list3*), position: (0));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testClearUserListBrick() {
+        executeTest(
+            R.id.clear_userlist_spinner,
+            ClearUserListBrick(),
+            "Delete all items (list: (*list1*));\n",
+            mapOf(
+                "list2" to "Delete all items (list: (*list2*));\n",
+                "list3" to "Delete all items (list: (*list3*));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testInsertItemIntoUserListBrick() {
+        executeTest(
+            R.id.insert_item_into_userlist_spinner,
+            InsertItemIntoUserListBrick(),
+            "Insert (list: (*list1*), position: (0), value: (0));\n",
+            mapOf(
+                "list2" to "Insert (list: (*list2*), position: (0), value: (0));\n",
+                "list3" to "Insert (list: (*list3*), position: (0), value: (0));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testReplaceItemInUserListBrick() {
+        executeTest(
+            R.id.replace_item_in_userlist_spinner,
+            ReplaceItemInUserListBrick(),
+            "Replace (list: (*list1*), position: (0), value: (0));\n",
+            mapOf(
+                "list2" to "Replace (list: (*list2*), position: (0), value: (0));\n",
+                "list3" to "Replace (list: (*list3*), position: (0), value: (0));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testWriteListOnDeviceBrick() {
+        executeTest(
+            R.id.write_list_spinner,
+            WriteListOnDeviceBrick(),
+            "Write on device (list: (*list1*));\n",
+            mapOf(
+                "list2" to "Write on device (list: (*list2*));\n",
+                "list3" to "Write on device (list: (*list3*));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testReadListFromDeviceBrick() {
+        executeTest(
+            R.id.read_list_from_device_spinner,
+            ReadListFromDeviceBrick(),
+            "Read from device (list: (*list1*));\n",
+            mapOf(
+                "list2" to "Read from device (list: (*list2*));\n",
+                "list3" to "Read from device (list: (*list3*));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testStoreCSVIntoUserListBrick() {
+        executeTest(
+            R.id.brick_store_csv_into_userlist_spinner,
+            ReadListFromDeviceBrick(),
+            "Store column of comma-separated values to list (list: (*list1*), csv: (0), column: (0));\n",
+            mapOf(
+                "list2" to "Store CSV into (list: (*list2*), csv: (0), column: (0));\n",
+                "list3" to "Store CSV into (list: (*list3*), csv: (0), column: (0));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testWebRequestBrick() {
+        executeTest(
+            R.id.web_request_spinner,
+            WebRequestBrick(),
+            "Send web request (url: (0), answer variable: (\"var1\"));\n",
+            mapOf(
+                "var2" to "Send web request (url: (0), answer variable: (\"var2\"));\n",
+                "var3" to "Send web request (url: (0), answer variable: (\"var3\"));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testLegoNxtMotorTurnAngleBrick() {
+        executeTest(
+            R.id.lego_motor_turn_angle_spinner,
+            LegoNxtMotorTurnAngleBrick(),
+            "Turn NXT (motor: (A), degrees: (0));\n",
+            mapOf(
+                "B" to "Turn NXT (motor: (B), degrees: (0));\n",
+                "C" to "Turn NXT (motor: (C), degrees: (0));\n",
+                "B+C" to "Turn NXT (motor: (B+C), degrees: (0));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testLegoNxtMotorStopBrick() {
+        executeTest(
+            R.id.stop_motor_spinner,
+            LegoNxtMotorStopBrick(),
+            "Stop NXT (motor: (A));\n",
+            mapOf(
+                "B" to "Stop NXT (motor: (B));\n",
+                "C" to "Stop NXT (motor: (C));\n",
+                "B+C" to "Stop NXT (motor: (B+C));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testLegoNxtMotorMoveBrick() {
+        executeTest(
+            R.id.lego_motor_action_spinner,
+            LegoNxtMotorMoveBrick(),
+            "Move NXT (motor: (A), speed percentage: (0));\n",
+            mapOf(
+                "B" to "Move NXT (motor: (B), speed percentage: (0));\n",
+                "C" to "Move NXT (motor: (C), speed percentage: (0));\n",
+                "B+C" to "Move NXT (motor: (B+C), speed percentage: (0));\n"
             )
         )
     }
@@ -304,7 +684,7 @@ class SpinnerSerializationTest {
     ) {
         startScript.addBrick(brick)
         baseActivityTestRule.launchActivity()
-//        Thread.sleep(99999)
+        Thread.sleep(99999)
         val initialValue = brick.serializeToCatrobatLanguage(0)
         Assert.assertEquals(defaultValue, initialValue)
 
@@ -401,6 +781,20 @@ class SpinnerSerializationTest {
         val brickSpinner = brick.getView(baseActivityTestRule.activity).findViewById<Spinner>(brickSpinnerId)
         val itemCount = brickSpinner.adapter.count
         Assert.assertEquals(expectedCount, itemCount)
+    }
+
+    private fun getAllInstruments(defaultValue: String, expectedValue: String): Map<String, String> {
+        val items: MutableMap<String, String> = mutableMapOf()
+
+        for (instrument in PickableMusicalInstrument.values()) {
+            val instrumentName = instrument.name.toLowerCase().replace("_", " ")
+            if (instrumentName == defaultValue) {
+                continue
+            }
+            items[instrumentName] = expectedValue.replace("{{INSTRUMENT}}", instrumentName)
+        }
+
+        return items
     }
 }
 
