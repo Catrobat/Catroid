@@ -45,6 +45,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.UserDataWrapper;
+import org.catrobat.catroid.formulaeditor.sensor.SensorTimer;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager;
@@ -148,7 +149,7 @@ public final class StageLifeCycleController {
 
 			get(SpeechRecognitionHolderFactory.class).getInstance().destroy();
 
-			SensorHandler.timerPauseValue = SystemClock.uptimeMillis();
+			SensorTimer.Companion.getInstance().setTimerPauseValue(SystemClock.uptimeMillis());
 
 			SensorHandler.stopSensorListeners();
 			SoundManager.getInstance().pause();
