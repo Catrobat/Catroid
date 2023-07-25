@@ -25,6 +25,8 @@ package org.catrobat.catroid.test.io.catrobatlanguage
 
 import com.badlogic.gdx.math.Vector2
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick
+import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick
+import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick
 import org.catrobat.catroid.content.bricks.AskSpeechBrick
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.BroadcastBrick
@@ -41,6 +43,14 @@ import org.catrobat.catroid.content.bricks.ChangeYByNBrick
 import org.catrobat.catroid.content.bricks.ClearUserListBrick
 import org.catrobat.catroid.content.bricks.CopyLookBrick
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick
+import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick
+import org.catrobat.catroid.content.bricks.DroneMoveDownBrick
+import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick
+import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick
+import org.catrobat.catroid.content.bricks.DroneMoveRightBrick
+import org.catrobat.catroid.content.bricks.DroneMoveUpBrick
+import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick
+import org.catrobat.catroid.content.bricks.DroneTurnRightBrick
 import org.catrobat.catroid.content.bricks.ForVariableFromToBrick
 import org.catrobat.catroid.content.bricks.GlideToBrick
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick
@@ -48,6 +58,17 @@ import org.catrobat.catroid.content.bricks.HideTextBrick
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick
 import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick
+import org.catrobat.catroid.content.bricks.JumpingSumoAnimationsBrick
+import org.catrobat.catroid.content.bricks.JumpingSumoMoveBackwardBrick
+import org.catrobat.catroid.content.bricks.JumpingSumoMoveForwardBrick
+import org.catrobat.catroid.content.bricks.JumpingSumoRotateLeftBrick
+import org.catrobat.catroid.content.bricks.JumpingSumoRotateRightBrick
+import org.catrobat.catroid.content.bricks.JumpingSumoSoundBrick
+import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick
+import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick
+import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick
+import org.catrobat.catroid.content.bricks.LegoEv3PlayToneBrick
+import org.catrobat.catroid.content.bricks.LegoEv3SetLedBrick
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick
@@ -246,13 +267,33 @@ class ValueSerializationTest(
                 arrayOf(LegoNxtMotorStopBrick::class.simpleName, LegoNxtMotorStopBrick(LegoNxtMotorStopBrick.Motor.MOTOR_A), "Stop NXT (motor: (MOTOR_A));\n"),
                 arrayOf(LegoNxtMotorMoveBrick::class.simpleName, LegoNxtMotorMoveBrick(LegoNxtMotorMoveBrick.Motor.MOTOR_A, testInt1), "Set NXT (motor: (MOTOR_A), speed percentage: ($testInt1));\n"),
                 arrayOf(LegoNxtPlayToneBrick::class.simpleName, LegoNxtPlayToneBrick(testDouble, testDouble2), "Play NXT tone (seconds: ($testDouble2), frequency x100Hz: ($testDouble));\n"),
+                arrayOf(LegoEv3MotorTurnAngleBrick::class.simpleName, LegoEv3MotorTurnAngleBrick(LegoEv3MotorTurnAngleBrick.Motor.MOTOR_B, testInt1), "Turn EV3 (motor: (B), degrees: ($testInt1));\n"),
+                arrayOf(LegoEv3MotorMoveBrick::class.simpleName, LegoEv3MotorMoveBrick(LegoEv3MotorMoveBrick.Motor.MOTOR_B, testInt1), "Set EV3 (motor: (B), speed percentage: ($testInt1));\n"),
+                arrayOf(LegoEv3MotorStopBrick::class.simpleName, LegoEv3MotorStopBrick(LegoEv3MotorStopBrick.Motor.MOTOR_B), "Stop EV3 (motor: (B));\n"),
+                arrayOf(LegoEv3PlayToneBrick::class.simpleName, LegoEv3PlayToneBrick(testDouble, testDouble2, testInt1.toDouble()), "Play EV3 tone (seconds: ($testDouble2), frequency x100Hz: ($testDouble), volume: ($testInt1));\n"),
+                arrayOf(LegoEv3SetLedBrick::class.simpleName, LegoEv3SetLedBrick(LegoEv3SetLedBrick.LedStatus.LED_RED), "Set EV3 (status: (red));\n"),
+                arrayOf(ArduinoSendDigitalValueBrick::class.simpleName, ArduinoSendDigitalValueBrick(testInt1, testInt2), "Set Arduino (digital pin: ($testInt1), value: ($testInt2));\n"),
+                arrayOf(ArduinoSendPWMValueBrick::class.simpleName, ArduinoSendPWMValueBrick(testInt1, testInt2), "Set Arduino (PWM~ pin: ($testInt1), value: ($testInt2));\n"),
+                arrayOf(DroneMoveUpBrick::class.simpleName, DroneMoveUpBrick(testInt1 * 1000, testInt2), "Move AR.Drone 2.0 (direction: (up), seconds: ($testInt1), power percentage: ($testInt2));\n"),
+                arrayOf(DroneMoveDownBrick::class.simpleName, DroneMoveDownBrick(testInt1 * 1000, testInt2), "Move AR.Drone 2.0 (direction: (down), seconds: ($testInt1), power percentage: ($testInt2));\n"),
+                arrayOf(DroneMoveLeftBrick::class.simpleName, DroneMoveLeftBrick(testInt1 * 1000, testInt2), "Move AR.Drone 2.0 (direction: (left), seconds: ($testInt1), power percentage: ($testInt2));\n"),
+                arrayOf(DroneMoveRightBrick::class.simpleName, DroneMoveRightBrick(testInt1 * 1000, testInt2), "Move AR.Drone 2.0 (direction: (right), seconds: ($testInt1), power percentage: ($testInt2));\n"),
+                arrayOf(DroneMoveForwardBrick::class.simpleName, DroneMoveForwardBrick(testInt1 * 1000, testInt2), "Move AR.Drone 2.0 (direction: (forward), seconds: ($testInt1), power percentage: ($testInt2));\n"),
+                arrayOf(DroneMoveBackwardBrick::class.simpleName, DroneMoveBackwardBrick(testInt1 * 1000, testInt2), "Move AR.Drone 2.0 (direction: (backward), seconds: ($testInt1), power percentage: ($testInt2));\n"),
+                arrayOf(DroneTurnLeftBrick::class.simpleName, DroneTurnLeftBrick(testInt1 * 1000, testInt2), "Turn AR.Drone 2.0 (direction: (left), seconds: ($testInt1), power percentage: ($testInt2));\n"),
+                arrayOf(DroneTurnRightBrick::class.simpleName, DroneTurnRightBrick(testInt1 * 1000, testInt2), "Turn AR.Drone 2.0 (direction: (right), seconds: ($testInt1), power percentage: ($testInt2));\n"),
+                arrayOf(JumpingSumoMoveForwardBrick::class.simpleName, JumpingSumoMoveForwardBrick(testInt1 * 1000, testInt2), "Move Jumping Sumo (direction: (forward), steps: ($testInt1), power percentage: ($testInt2));\n"),
+                arrayOf(JumpingSumoMoveBackwardBrick::class.simpleName, JumpingSumoMoveBackwardBrick(testInt1 * 1000, testInt2), "Move Jumping Sumo (direction: (backward), steps: ($testInt1), power percentage: ($testInt2));\n"),
+                arrayOf(JumpingSumoAnimationsBrick::class.simpleName, JumpingSumoAnimationsBrick(JumpingSumoAnimationsBrick.Animation.TAB), "Start Jumping Sumo (animation: (tab));\n"),
+                arrayOf(JumpingSumoSoundBrick::class.simpleName, JumpingSumoSoundBrick(JumpingSumoSoundBrick.Sounds.ROBOT, testInt1), "Play Jumping Sumo (sound: (robot), volume: ($testInt1));\n"),
+                arrayOf(JumpingSumoRotateLeftBrick::class.simpleName, JumpingSumoRotateLeftBrick(testDouble), "Turn Jumping Sumo (direction: (left), degrees: ($testDouble));\n"),
+                arrayOf(JumpingSumoRotateRightBrick::class.simpleName, JumpingSumoRotateRightBrick(testDouble), "Turn Jumping Sumo (direction: (right), degrees: ($testDouble));\n")
 
 
 
 
 
-
-            )
+                )
         }
     }
 

@@ -46,12 +46,19 @@ import org.catrobat.catroid.content.bricks.ChangeVariableBrick
 import org.catrobat.catroid.content.bricks.ClearUserListBrick
 import org.catrobat.catroid.content.bricks.CloneBrick
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick
+import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick
 import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick
 import org.catrobat.catroid.content.bricks.FlashBrick
 import org.catrobat.catroid.content.bricks.ForItemInUserListBrick
 import org.catrobat.catroid.content.bricks.GoToBrick
 import org.catrobat.catroid.content.bricks.HideTextBrick
 import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick
+import org.catrobat.catroid.content.bricks.JumpingSumoAnimationsBrick
+import org.catrobat.catroid.content.bricks.JumpingSumoSoundBrick
+import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick
+import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick
+import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick
+import org.catrobat.catroid.content.bricks.LegoEv3SetLedBrick
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick
@@ -670,6 +677,135 @@ class SpinnerSerializationTest {
                 "B" to "Move NXT (motor: (B), speed percentage: (0));\n",
                 "C" to "Move NXT (motor: (C), speed percentage: (0));\n",
                 "B+C" to "Move NXT (motor: (B+C), speed percentage: (0));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testLegoEv3MotorTurnAngleBrick() {
+        executeTest(
+            R.id.lego_ev3_motor_turn_angle_spinner,
+            LegoEv3MotorTurnAngleBrick(),
+            "Turn EV3 (motor: (A), degrees: (0));\n",
+            mapOf(
+                "B" to "Turn EV3 (motor: (B), degrees: (0));\n",
+                "C" to "Turn EV3 (motor: (C), degrees: (0));\n",
+                "B+C" to "Turn EV3 (motor: (B+C), degrees: (0));\n",
+                "All" to "Turn EV3 (motor: (All), degrees: (0));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testLegoEv3MotorMoveBrick() {
+        executeTest(
+            R.id.brick_ev3_motor_move_spinner,
+            LegoEv3MotorMoveBrick(),
+            "Set EV3 (motor: (A), speed percentage: (0));\n",
+            mapOf(
+                "B" to "Set EV3 (motor: (B), speed percentage: (0));\n",
+                "C" to "Set EV3 (motor: (C), speed percentage: (0));\n",
+                "B+C" to "Set EV3 (motor: (B+C), speed percentage: (0));\n",
+                "All" to "Set EV3 (motor: (All), speed percentage: (0));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testLegoEv3MotorStopBrick() {
+        executeTest(
+            R.id.ev3_stop_motor_spinner,
+            LegoEv3MotorStopBrick(),
+            "Stop EV3 (motor: (A));\n",
+            mapOf(
+                "B" to "Stop EV3 (motor: (B));\n",
+                "C" to "Stop EV3 (motor: (C));\n",
+                "B+C" to "Stop EV3 (motor: (B+C));\n",
+                "All" to "Stop EV3 (motor: (All));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testLegoEv3SetLedBrick() {
+        executeTest(
+            R.id.brick_ev3_set_led_spinner,
+            LegoEv3SetLedBrick(),
+            "Set EV3 (status: (green));\n",
+            mapOf(
+                "red" to "Set EV3 (status: (red));\n",
+                "orange" to "Set EV3 (status: (orange));\n",
+                "green" to "Set EV3 (status: (green));\n",
+                "red flashing" to "Set EV3 (status: (red flashing));\n",
+                "orange flashing" to "Set EV3 (status: (orange flashing));\n",
+                "green flashing" to "Set EV3 (status: (green flashing));\n",
+                "red pulse" to "Set EV3 (status: (red pulse));\n",
+                "orange pulse" to "Set EV3 (status: (orange pulse));\n",
+                "green pulse" to "Set EV3 (status: (green pulse));\n",
+                "off" to "Set EV3 (status: (off));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testDronePlayLedAnimationBrick() {
+        executeTest(
+            R.id.brick_drone_play_led_animation_spinner,
+            DronePlayLedAnimationBrick(),
+            "Play AR.Drone 2.0 (flash animation: (blink green red));\n",
+            mapOf(
+                "blink green" to "Play AR.Drone 2.0 (flash animation: (blink green));\n",
+                "blink red" to "Play AR.Drone 2.0 (flash animation: (blink red));\n",
+                "blink orange" to "Play AR.Drone 2.0 (flash animation: (blink orange));\n",
+                "snake green red" to "Play AR.Drone 2.0 (flash animation: (snake green red));\n",
+                "fire" to "Play AR.Drone 2.0 (flash animation: (fire));\n",
+                "standard" to "Play AR.Drone 2.0 (flash animation: (standard));\n",
+                "red" to "Play AR.Drone 2.0 (flash animation: (red));\n",
+                "green" to "Play AR.Drone 2.0 (flash animation: (green));\n",
+                "red snake" to "Play AR.Drone 2.0 (flash animation: (red snake));\n",
+                "blank" to "Play AR.Drone 2.0 (flash animation: (blank));\n",
+                "right missile" to "Play AR.Drone 2.0 (flash animation: (right missile));\n",
+                "left missile" to "Play AR.Drone 2.0 (flash animation: (left missile));\n",
+                "double missle" to "Play AR.Drone 2.0 (flash animation: (double missle));\n",
+                "front left green others red" to "Play AR.Drone 2.0 (flash animation: (front left green others red));\n",
+                "front right green others red" to "Play AR.Drone 2.0 (flash animation: (front right green others red));\n",
+                "rear right green others red" to "Play AR.Drone 2.0 (flash animation: (rear right green others red));\n",
+                "rear left green others red" to "Play AR.Drone 2.0 (flash animation: (rear left green others red));\n",
+                "left green right red" to "Play AR.Drone 2.0 (flash animation: (left green right red));\n",
+                "left red right green" to "Play AR.Drone 2.0 (flash animation: (left red right green));\n",
+                "blink standard" to "Play AR.Drone 2.0 (flash animation: (blink standard));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testJumpingSumoAnimationsBrick() {
+        executeTest(
+            R.id.brick_jumping_sumo_animation_spinner,
+            JumpingSumoAnimationsBrick(),
+            "Play Jumping Sumo (animation: (spin));\n",
+            mapOf(
+                "tab" to "Play Jumping Sumo (animation: (tab));\n",
+                "slowshake" to "Play Jumping Sumo (animation: (slowshake));\n",
+                "metronome" to "Play Jumping Sumo (animation: (metronome));\n",
+                "ondulation" to "Play Jumping Sumo (animation: (ondulation));\n",
+                "spinjump" to "Play Jumping Sumo (animation: (spinjump));\n",
+                "spiral" to "Play Jumping Sumo (animation: (spiral));\n",
+                "slalom" to "Play Jumping Sumo (animation: (slalom));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testJumpingSumoSoundBrick() {
+        executeTest(
+            R.id.brick_jumping_sumo_sound_spinner,
+            JumpingSumoSoundBrick(),
+            "Play Jumping Sumo (sound: (default), volume: (0));\n",
+            mapOf(
+                "robot" to "Play Jumping Sumo (sound: (robot), volume: (0));\n",
+                "insect" to "Play Jumping Sumo (sound: (insect), volume: (0));\n",
+                "monster" to "Play Jumping Sumo (sound: (monster), volume: (0));\n"
             )
         )
     }

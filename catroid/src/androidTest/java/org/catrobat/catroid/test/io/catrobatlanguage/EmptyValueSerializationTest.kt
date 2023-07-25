@@ -223,9 +223,7 @@ import java.util.Random
 
 @RunWith(Parameterized::class)
 class EmptyValueSerializationTest(
-    private val name: String,
-    private val brick: Brick,
-    private val expectedOutput: String
+    private val name: String, private val brick: Brick, private val expectedOutput: String
 ) {
     companion object {
         @JvmStatic
@@ -351,57 +349,47 @@ class EmptyValueSerializationTest(
                 arrayOf(StoreCSVIntoUserListBrick::class.simpleName, StoreCSVIntoUserListBrick(), "Store column of comma-separated values to list (list: (), csv: (0), column: (0));\n"),
                 arrayOf(WebRequestBrick::class.simpleName, WebRequestBrick(), "Send web request (url: (0), answer variable: ());\n"),
                 arrayOf(ResetTimerBrick::class.simpleName, ResetTimerBrick(), "Reset timer;\n"),
-                arrayOf(LegoNxtMotorTurnAngleBrick::class.simpleName, LegoNxtMotorTurnAngleBrick(), "Turn NXT (motor: (), degrees: (0));\n"),
-                arrayOf(LegoNxtMotorStopBrick::class.simpleName, LegoNxtMotorStopBrick(), "Stop NXT (motor: ());\n"),
-                arrayOf(LegoNxtMotorMoveBrick::class.simpleName, LegoNxtMotorMoveBrick(), "Set NXT (motor: (), speed percentage: (0));\n"),
-               arrayOf(LegoNxtPlayToneBrick::class.simpleName, LegoNxtPlayToneBrick(), "Play NXT tone (seconds: (0), frequency x100Hz: (0));\n"),
-
-
+                arrayOf(LegoNxtMotorTurnAngleBrick::class.simpleName, LegoNxtMotorTurnAngleBrick(), "Turn NXT (motor: (A), degrees: (0));\n"),
+                arrayOf(LegoNxtMotorStopBrick::class.simpleName, LegoNxtMotorStopBrick(), "Stop NXT (motor: (A));\n"),
+                arrayOf(LegoNxtMotorMoveBrick::class.simpleName, LegoNxtMotorMoveBrick(), "Set NXT (motor: (A), speed percentage: (0));\n"),
+                arrayOf(LegoNxtPlayToneBrick::class.simpleName, LegoNxtPlayToneBrick(), "Play NXT tone (seconds: (0), frequency x100Hz: (0));\n"),
+                arrayOf(LegoEv3MotorTurnAngleBrick::class.simpleName, LegoEv3MotorTurnAngleBrick(), "Turn EV3 (motor: (A), degrees: (0));\n"),
+                arrayOf(LegoEv3MotorMoveBrick::class.simpleName, LegoEv3MotorMoveBrick(), "Set EV3 (motor: (A), speed percentage: (0));\n"),
+                arrayOf(LegoEv3MotorStopBrick::class.simpleName, LegoEv3MotorStopBrick(), "Stop EV3 (motor: (A));\n"),
+                arrayOf(LegoEv3PlayToneBrick::class.simpleName, LegoEv3PlayToneBrick(), "Play EV3 tone (seconds: (0), frequency x100Hz: (0), volume: (0));\n"),
+                arrayOf(LegoEv3SetLedBrick::class.simpleName, LegoEv3SetLedBrick(), "Set EV3 (status: (green));\n"),
+                arrayOf(ArduinoSendDigitalValueBrick::class.simpleName, ArduinoSendDigitalValueBrick(), "Set Arduino (digital pin: (0), value: (0));\n"),
+                arrayOf(ArduinoSendPWMValueBrick::class.simpleName, ArduinoSendPWMValueBrick(), "Set Arduino (PWM~ pin: (0), value: (0));\n"),
+                arrayOf(DroneTakeOffLandBrick::class.simpleName, DroneTakeOffLandBrick(), "Take off / land AR.Drone 2.0;\n"),
+                arrayOf(DroneEmergencyBrick::class.simpleName, DroneEmergencyBrick(), "Emergency AR.Drone 2.0;\n"),
+                arrayOf(DroneMoveUpBrick::class.simpleName, DroneMoveUpBrick(), "Move AR.Drone 2.0 (direction: (up), seconds: (0), power percentage: (0));\n"),
+                arrayOf(DroneMoveDownBrick::class.simpleName, DroneMoveDownBrick(), "Move AR.Drone 2.0 (direction: (down), seconds: (0), power percentage: (0));\n"),
+                arrayOf(DroneMoveLeftBrick::class.simpleName, DroneMoveLeftBrick(), "Move AR.Drone 2.0 (direction: (left), seconds: (0), power percentage: (0));\n"),
+                arrayOf(DroneMoveRightBrick::class.simpleName, DroneMoveRightBrick(), "Move AR.Drone 2.0 (direction: (right), seconds: (0), power percentage: (0));\n"),
+                arrayOf(DroneMoveForwardBrick::class.simpleName, DroneMoveForwardBrick(), "Move AR.Drone 2.0 (direction: (forward), seconds: (0), power percentage: (0));\n"),
+                arrayOf(DroneMoveBackwardBrick::class.simpleName, DroneMoveBackwardBrick(), "Move AR.Drone 2.0 (direction: (backward), seconds: (0), power percentage: (0));\n"),
+                arrayOf(DroneTurnLeftBrick::class.simpleName, DroneTurnLeftBrick(), "Turn AR.Drone 2.0 (direction: (left), seconds: (0), power percentage: (0));\n"),
+                arrayOf(DroneTurnRightBrick::class.simpleName, DroneTurnRightBrick(), "Turn AR.Drone 2.0 (direction: (right), seconds: (0), power percentage: (0));\n"),
+                arrayOf(DroneFlipBrick::class.simpleName, DroneFlipBrick(), "Flip AR.Drone 2.0;\n"),
+                arrayOf(DronePlayLedAnimationBrick::class.simpleName, DronePlayLedAnimationBrick(), "Play AR.Drone 2.0 (flash animation: (blink green red));\n"),
+                arrayOf(DroneSwitchCameraBrick::class.simpleName, DroneSwitchCameraBrick(), "Switch AR.Drone 2.0 camera;\n"),
+                arrayOf(JumpingSumoMoveForwardBrick::class.simpleName, JumpingSumoMoveForwardBrick(), "Move Jumping Sumo (direction: (forward), steps: (0), power percentage: (0));\n"),
+                arrayOf(JumpingSumoMoveBackwardBrick::class.simpleName, JumpingSumoMoveBackwardBrick(), "Move Jumping Sumo (direction: (backward), steps: (0), power percentage: (0));\n"),
+                arrayOf(JumpingSumoAnimationsBrick::class.simpleName, JumpingSumoAnimationsBrick(), "Start Jumping Sumo (animation: (spin));\n"),
+                arrayOf(JumpingSumoSoundBrick::class.simpleName, JumpingSumoSoundBrick(), "Play Jumping Sumo (sound: (normal), volume: (0));\n"),
+                arrayOf(JumpingSumoNoSoundBrick::class.simpleName, JumpingSumoNoSoundBrick(), "Stop Jumping Sumo sound;\n"),
+                arrayOf(JumpingSumoJumpLongBrick::class.simpleName, JumpingSumoJumpLongBrick(), "Jump Jumping Sumo (type: (long));\n"),
+                arrayOf(JumpingSumoJumpHighBrick::class.simpleName, JumpingSumoJumpHighBrick(), "Jump Jumping Sumo (type: (high));\n"),
+                arrayOf(JumpingSumoRotateLeftBrick::class.simpleName, JumpingSumoRotateLeftBrick(), "Turn Jumping Sumo (direction: (left), degrees: (0));\n"),
+                arrayOf(JumpingSumoRotateRightBrick::class.simpleName, JumpingSumoRotateRightBrick(), "Turn Jumping Sumo (direction: (right), degrees: (0));\n"),
+                arrayOf(JumpingSumoTurnBrick::class.simpleName, JumpingSumoTurnBrick(), "Flip Jumping Sumo;\n"),
+                arrayOf(JumpingSumoTakingPictureBrick::class.simpleName, JumpingSumoTakingPictureBrick(), "Take picture with Jumping Sumo;\n"),
 
 
 
 
                 /*
 
-
-
-
-
-
-                           arrayOf(LegoEv3MotorTurnAngleBrick(), "Turn EV3 (motor: (), degrees: (0));\n"),
-                           arrayOf(LegoEv3MotorMoveBrick(), "Set EV3 (motor: (), speed percentage: (0));\n"),
-                           arrayOf(LegoEv3MotorStopBrick(), "Stop EV3 (motor: ());\n"),
-                           arrayOf(LegoEv3PlayToneBrick(), "Play EV3 tone (seconds: (0), frequency x100Hz: (0), volume: (0));\n"),
-                           arrayOf(LegoEv3SetLedBrick(), "Set EV3 (status: ());\n"),
-                           arrayOf(
-                               ArduinoSendDigitalValueBrick(),
-                               "Set Arduino (digital pin: (0), value: (0));\n"
-                           ),
-                           arrayOf(ArduinoSendPWMValueBrick(), "Set Arduino (PWM~ pin: (0), value: (0));\n"),
-                           arrayOf(DroneTakeOffLandBrick(), "Take off / land AR.Drone 2.0;\n"),
-                           arrayOf(DroneEmergencyBrick(), "Emergency AR.Drone 2.0;\n"),
-                           arrayOf(DroneMoveUpBrick(), "Move AR.Drone 2.0 (direction: (up), seconds: (0), power percentage: (0));\n"),
-                           arrayOf(DroneMoveDownBrick(), "Move AR.Drone 2.0 (direction: (down), seconds: (0), power percentage: (0));\n"),
-                           arrayOf(DroneMoveLeftBrick(), "Move AR.Drone 2.0 (direction: (left), seconds: (0), power percentage: (0));\n"),
-                           arrayOf(DroneMoveRightBrick(), "Move AR.Drone 2.0 (direction: (right), seconds: (0), power percentage: (0));\n"),
-                           arrayOf(DroneMoveForwardBrick(), "Move AR.Drone 2.0 (direction: (forward), seconds: (0), power percentage: (0));\n"),
-                           arrayOf(DroneMoveBackwardBrick(), "Move AR.Drone 2.0 (direction: (backward), seconds: (0), power percentage: (0));\n"),
-                           arrayOf(DroneTurnLeftBrick(), "Turn AR.Drone 2.0 (direction: (left), seconds: (0), power percentage: (0));\n"),
-                           arrayOf(DroneTurnRightBrick(), "Turn AR.Drone 2.0 (direction: (right), seconds: (0), power percentage: (0));\n"),
-                           arrayOf(DroneFlipBrick(), "Flip AR.Drone 2.0;\n"),
-                           arrayOf(DronePlayLedAnimationBrick(), "Play AR.Drone 2.0 (flash animation: ());\n"),
-                           arrayOf(DroneSwitchCameraBrick(), "Switch AR.Drone 2.0 camera;\n"),
-                           arrayOf(JumpingSumoMoveForwardBrick(), "Move Jumping Sumo (direction: (forward), steps: (0), power percentage: (0));\n"),
-                           arrayOf(JumpingSumoMoveBackwardBrick(), "Move Jumping Sumo (direction: (backward), steps: (0), power percentage: (0));\n"),
-                           arrayOf(JumpingSumoAnimationsBrick(), "Start Jumping Sumo (animation: ());\n"),
-                           arrayOf(JumpingSumoSoundBrick(), "Play Jumping Sumo (sound: (), volume: (0));\n"),
-                           arrayOf(JumpingSumoNoSoundBrick(), "Stop Jumping Sumo sound;\n"),
-                           arrayOf(JumpingSumoJumpLongBrick(), "Jump Jumping Sumo (type: (long));\n"),
-                           arrayOf(JumpingSumoJumpHighBrick(), "Jump Jumping Sumo (type: (high));\n"),
-                           arrayOf(JumpingSumoRotateLeftBrick(), "Turn Jumping Sumo (direction: (left), degrees: (0));\n"),
-                           arrayOf(JumpingSumoRotateRightBrick(), "Turn Jumping Sumo (direction: (right), degrees: (0));\n"),
-                           arrayOf(JumpingSumoTurnBrick(), "Flip Jumping Sumo;\n"),
-                           arrayOf(JumpingSumoTakingPictureBrick(), "Take picture with Jumping Sumo;\n"),
                            arrayOf(PhiroMotorMoveForwardBrick(), "Move Phiro (motor: (), direction: (forward), speed percentage: (0));\n"),
                            arrayOf(PhiroMotorMoveBackwardBrick(), "Move Phiro (motor: (), direction: (backward), speed percentage: (0));\n"),
                            arrayOf(PhiroMotorStopBrick(), "Stop Phiro (motor: ());\n"),
