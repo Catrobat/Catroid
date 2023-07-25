@@ -105,7 +105,7 @@ public class RTLMainMenuTest {
 		assertEquals(Locale.getDefault().getDisplayLanguage(), ARABIC_LOCALE.getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		assertEquals(View.LAYOUT_DIRECTION_RTL, conf.getLayoutDirection());
-		assertEquals(arabicLanguageTag, (String) SensorHandler.getSensorValue(Sensors.USER_LANGUAGE));
+		assertEquals(arabicLanguageTag, (String) Sensors.USER_LANGUAGE.getSensor().getSensorValue());
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
@@ -119,6 +119,6 @@ public class RTLMainMenuTest {
 		assertEquals(Locale.getDefault().getDisplayLanguage(), GERMAN_LOCALE.getDisplayLanguage());
 		assertFalse(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		assertEquals(View.LAYOUT_DIRECTION_LTR, conf.getLayoutDirection());
-		assertEquals(germanLanguageTag, (String) SensorHandler.getSensorValue(Sensors.USER_LANGUAGE));
+		assertEquals(germanLanguageTag, (String) Sensors.USER_LANGUAGE.getSensor().getSensorValue());
 	}
 }

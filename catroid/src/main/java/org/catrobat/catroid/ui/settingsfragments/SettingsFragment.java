@@ -43,7 +43,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.DroneConfigPreference;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
-import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.formulaeditor.sensor.SensorUserLanguage;
 import org.catrobat.catroid.sync.ProjectsCategoriesSync;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.utils.SnackbarUtil;
@@ -548,7 +548,7 @@ public class SettingsFragment extends PreferenceFragment {
 		Locale.setDefault(mLocale);
 		updateLocale(activity, mLocale);
 		updateLocale(activity.getApplicationContext(), mLocale);
-		SensorHandler.setUserLocaleTag(mLocale.toLanguageTag());
+		SensorUserLanguage.Companion.getInstance().setUserLocaleTag(mLocale.toLanguageTag());
 	}
 
 	public static void updateLocale(Context context, Locale locale) {

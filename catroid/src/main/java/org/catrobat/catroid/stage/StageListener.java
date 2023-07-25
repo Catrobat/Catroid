@@ -67,8 +67,8 @@ import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.content.eventids.GamepadEventId;
 import org.catrobat.catroid.embroidery.DSTPatternManager;
 import org.catrobat.catroid.embroidery.EmbroideryPatternManager;
-import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.UserDataWrapper;
+import org.catrobat.catroid.formulaeditor.sensor.SensorTimer;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.physics.PhysicsDebugSettings;
 import org.catrobat.catroid.physics.PhysicsLook;
@@ -251,7 +251,7 @@ public class StageListener implements ApplicationListener {
 		}
 
 		stage = new Stage(viewPort, batch);
-		SensorHandler.timerReferenceValue = SystemClock.uptimeMillis();
+		SensorTimer.Companion.getInstance().setTimerReferenceValue(SystemClock.uptimeMillis());
 	}
 
 	private void initActors(List<Sprite> sprites) {

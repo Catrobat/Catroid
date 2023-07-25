@@ -41,7 +41,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.embroidery.DSTFileGenerator;
-import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.formulaeditor.sensor.SensorTimer;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageLifeCycleController;
 import org.catrobat.catroid.stage.StageListener;
@@ -173,7 +173,9 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 			return;
 		}
 		dismiss();
-		SensorHandler.timerReferenceValue += SystemClock.uptimeMillis() - SensorHandler.timerPauseValue;
+		double timerReferenceValue = SensorTimer.Companion.getInstance().getTimerReferenceValue();
+		double timerPauseValue = SensorTimer.Companion.getInstance().getTimerPauseValue();
+		SensorTimer.Companion.getInstance().setTimerReferenceValue(timerReferenceValue + (SystemClock.uptimeMillis() - timerPauseValue));
 		StageLifeCycleController.stageResume(stageActivity);
 	}
 
@@ -188,7 +190,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		resetEmbroideryThreadColor();
 
 		dismiss();
-		SensorHandler.timerReferenceValue = SystemClock.uptimeMillis();
+		SensorTimer.Companion.getInstance().setTimerReferenceValue(SystemClock.uptimeMillis());
 		restartProject();
 	}
 
