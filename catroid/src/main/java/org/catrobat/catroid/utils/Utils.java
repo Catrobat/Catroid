@@ -50,7 +50,7 @@ import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.ScratchProgramData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.XmlHeader;
-import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.formulaeditor.sensor.SensorSpeechRecognition;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.transfers.GoogleLoginHandler;
@@ -537,7 +537,7 @@ public final class Utils {
 
 					if (bundle != null) {
 						String defaultLanguage = bundle.getString(EXTRA_LANGUAGE_PREFERENCE);
-						SensorHandler.setListeningLanguageSensor(defaultLanguage);
+						SensorSpeechRecognition.Companion.getInstance().updateSensorValue(defaultLanguage);
 						List<String> supportedLanguages = bundle
 								.getStringArrayList(EXTRA_SUPPORTED_LANGUAGES);
 						if (supportedLanguages != null) {
@@ -554,7 +554,7 @@ public final class Utils {
 				}
 			}, null, Activity.RESULT_OK, null, null);
 		} else if (mobileServiceAvailability.isHmsAvailable(context)) {
-			SensorHandler.setListeningLanguageSensor(MLAsrConstants.LAN_EN_US);
+			SensorSpeechRecognition.Companion.getInstance().updateSensorValue(MLAsrConstants.LAN_EN_US);
 			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.clear();
 			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_EN_US);
 			SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(MLAsrConstants.LAN_DE_DE);

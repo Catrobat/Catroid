@@ -65,6 +65,7 @@ import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTING
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PHIRO_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_RASPI_BRICKS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_TEST_BRICKS;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
@@ -76,7 +77,7 @@ public class BrickAddCategoryTest {
 	private List<String> allPeripheralCategories = new ArrayList<>(Arrays.asList(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED,
 			SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, SETTINGS_SHOW_PHIRO_BRICKS,
 			SETTINGS_SHOW_ARDUINO_BRICKS, SETTINGS_SHOW_RASPI_BRICKS, SETTINGS_SHOW_NFC_BRICKS,
-			SETTINGS_SHOW_EMBROIDERY_BRICKS, SETTINGS_SHOW_JUMPING_SUMO_BRICKS));
+			SETTINGS_SHOW_EMBROIDERY_BRICKS, SETTINGS_SHOW_JUMPING_SUMO_BRICKS, SETTINGS_TEST_BRICKS));
 	private List<String> enabledByThisTestPeripheralCategories = new ArrayList<>();
 
 	@Before
