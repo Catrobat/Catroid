@@ -47,13 +47,4 @@ public class SensorManager implements SensorManagerInterface {
 	public Sensor getDefaultSensor(int type) {
 		return this.sensorManager.getDefaultSensor(type);
 	}
-
-	@Override
-	public void unregisterListener(SensorCustomEventListener listener) {
-	}
-
-	@Override
-	public boolean registerListener(SensorCustomEventListener listener, Sensors sensor) {
-		return false;
-	}
 }

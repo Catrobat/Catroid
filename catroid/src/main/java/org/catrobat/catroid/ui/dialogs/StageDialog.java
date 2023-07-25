@@ -25,7 +25,6 @@ package org.catrobat.catroid.ui.dialogs;
 import android.app.Dialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager.LayoutParams;
@@ -41,7 +40,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.embroidery.DSTFileGenerator;
-import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.formulaeditor.sensor.SensorTimer;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageLifeCycleController;
 import org.catrobat.catroid.stage.StageListener;
@@ -56,8 +55,8 @@ import static org.catrobat.catroid.common.Constants.SCREENSHOT_MANUAL_FILE_NAME;
 
 public class StageDialog extends Dialog implements View.OnClickListener {
 	private static final String TAG = StageDialog.class.getSimpleName();
-	private StageActivity stageActivity;
-	private StageListener stageListener;
+	private final StageActivity stageActivity;
+	private final StageListener stageListener;
 
 	public StageDialog(StageActivity stageActivity, StageListener stageListener, int theme) {
 		super(stageActivity, theme);
@@ -173,7 +172,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 			return;
 		}
 		dismiss();
-		SensorHandler.timerReferenceValue += SystemClock.uptimeMillis() - SensorHandler.timerPauseValue;
+		SensorTimer.Companion.getInstance().continueTimer();
 		StageLifeCycleController.stageResume(stageActivity);
 	}
 
@@ -188,7 +187,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		resetEmbroideryThreadColor();
 
 		dismiss();
-		SensorHandler.timerReferenceValue = SystemClock.uptimeMillis();
+		SensorTimer.Companion.getInstance().resetTimer();
 		restartProject();
 	}
 

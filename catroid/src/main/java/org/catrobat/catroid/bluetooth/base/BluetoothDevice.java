@@ -36,6 +36,7 @@ public interface BluetoothDevice extends StageResourceInterface {
 	Class<LegoNXT> LEGO_NXT = LegoNXT.class;
 	Class<LegoEV3> LEGO_EV3 = LegoEV3.class;
 	Class<Phiro> PHIRO = Phiro.class;
+
 	Class<Arduino> ARDUINO = Arduino.class;
 	Class<MultiplayerInterface> MULTIPLAYER = MultiplayerInterface.class;
 
