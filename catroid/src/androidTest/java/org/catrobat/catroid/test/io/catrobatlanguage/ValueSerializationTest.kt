@@ -80,10 +80,19 @@ import org.catrobat.catroid.content.bricks.OpenUrlBrick
 import org.catrobat.catroid.content.bricks.PaintNewLookBrick
 import org.catrobat.catroid.content.bricks.ParticleEffectAdditivityBrick
 import org.catrobat.catroid.content.bricks.PauseForBeatsBrick
+import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick
+import org.catrobat.catroid.content.bricks.PhiroMotorMoveBackwardBrick
+import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick
+import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick
+import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick
+import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick
 import org.catrobat.catroid.content.bricks.PlaceAtBrick
 import org.catrobat.catroid.content.bricks.PlayDrumForBeatsBrick
 import org.catrobat.catroid.content.bricks.PlayNoteForBeatsBrick
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick
+import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick
+import org.catrobat.catroid.content.bricks.RaspiPwmBrick
+import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick
 import org.catrobat.catroid.content.bricks.ReadVariableFromFileBrick
 import org.catrobat.catroid.content.bricks.RepeatBrick
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick
@@ -110,6 +119,7 @@ import org.catrobat.catroid.content.bricks.SetPenColorBrick
 import org.catrobat.catroid.content.bricks.SetPenSizeBrick
 import org.catrobat.catroid.content.bricks.SetSizeToBrick
 import org.catrobat.catroid.content.bricks.SetTempoBrick
+import org.catrobat.catroid.content.bricks.SetThreadColorBrick
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick
 import org.catrobat.catroid.content.bricks.SetVariableBrick
 import org.catrobat.catroid.content.bricks.SetVelocityBrick
@@ -134,6 +144,7 @@ import org.catrobat.catroid.content.bricks.WriteVariableToFileBrick
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.FormulaElement
 import org.catrobat.catroid.formulaeditor.Operators
+import org.catrobat.catroid.formulaeditor.Sensors
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
 import org.junit.Assert.assertEquals
@@ -250,10 +261,11 @@ class ValueSerializationTest(
                 arrayOf(PaintNewLookBrick::class.simpleName, PaintNewLookBrick(testString), "Paint new look (name: ('$testString'));\n"),
                 arrayOf(CopyLookBrick::class.simpleName, CopyLookBrick(testString), "Copy look (name of copy: ('$testString'));\n"),
                 arrayOf(SetPenSizeBrick::class.simpleName, SetPenSizeBrick(testDouble), "Set (pen size: ($testDouble));\n"),
-                arrayOf(SetPenColorBrick::class.simpleName, SetPenColorBrick(255,255,255), "Set (pen color code: ('#ffffff'));\n"),
+                arrayOf(SetPenColorBrick::class.simpleName, SetPenColorBrick(255, 0, 0), "Set (pen color code: (#$testColor));\n"),
                 arrayOf(ReportBrick::class.simpleName, ReportBrick(testString), "Report (value: ('$testString'));\n"),
                 arrayOf(ReportBrick::class.simpleName, ReportBrick(testFormulaNumber), "Report (value: ($testFormulaNumber);\n"),
                 arrayOf(SetVariableBrick::class.simpleName, SetVariableBrick(testDouble), "Set (variable: (\"${testVariable.name}\"), value: ($testDouble));\n"),
+                arrayOf(SetVariableBrick::class.simpleName, SetVariableBrick(Sensors.PHIRO_FRONT_LEFT), "Set (variable: (\"${testVariable.name}\"), value: (phiro front left sensor));\n"),
                 arrayOf(ChangeVariableBrick::class.simpleName, ChangeVariableBrick(testDouble), "Change (variable: (\"${testVariable.name}\"), value: ($testDouble));\n"),
                 arrayOf(WriteVariableToFileBrick::class.simpleName, WriteVariableToFileBrick(Formula(testString)), "Write to file (variable: (0), file: ('$testString'));\n"),
                 arrayOf(ReadVariableFromFileBrick::class.simpleName, ReadVariableFromFileBrick(Formula(testString)), "Read from file (variable: (0), file: ('$testString'), action: (keep the file));\n"),
@@ -287,11 +299,17 @@ class ValueSerializationTest(
                 arrayOf(JumpingSumoAnimationsBrick::class.simpleName, JumpingSumoAnimationsBrick(JumpingSumoAnimationsBrick.Animation.TAB), "Start Jumping Sumo (animation: (tab));\n"),
                 arrayOf(JumpingSumoSoundBrick::class.simpleName, JumpingSumoSoundBrick(JumpingSumoSoundBrick.Sounds.ROBOT, testInt1), "Play Jumping Sumo (sound: (robot), volume: ($testInt1));\n"),
                 arrayOf(JumpingSumoRotateLeftBrick::class.simpleName, JumpingSumoRotateLeftBrick(testDouble), "Turn Jumping Sumo (direction: (left), degrees: ($testDouble));\n"),
-                arrayOf(JumpingSumoRotateRightBrick::class.simpleName, JumpingSumoRotateRightBrick(testDouble), "Turn Jumping Sumo (direction: (right), degrees: ($testDouble));\n")
-
-
-
-
+                arrayOf(JumpingSumoRotateRightBrick::class.simpleName, JumpingSumoRotateRightBrick(testDouble), "Turn Jumping Sumo (direction: (right), degrees: ($testDouble));\n"),
+                arrayOf(PhiroMotorMoveForwardBrick::class.simpleName, PhiroMotorMoveForwardBrick(PhiroMotorMoveForwardBrick.Motor.MOTOR_RIGHT, testInt1), "Move Phiro (motor: (right), direction: (forward), speed percentage: ($testInt1));\n"),
+                arrayOf(PhiroMotorMoveBackwardBrick::class.simpleName, PhiroMotorMoveBackwardBrick(PhiroMotorMoveBackwardBrick.Motor.MOTOR_BOTH, testInt1), "Move Phiro (motor: (both), direction: (backward), speed percentage: ($testInt1));\n"),
+                arrayOf(PhiroMotorStopBrick::class.simpleName, PhiroMotorStopBrick(PhiroMotorStopBrick.Motor.MOTOR_RIGHT), "Stop Phiro (motor: (right));\n"),
+                arrayOf(PhiroPlayToneBrick::class.simpleName, PhiroPlayToneBrick(PhiroPlayToneBrick.Tone.TI, testInt1), "Play Phiro (tone: (ti), seconds: ($testInt1));\n"),
+                arrayOf(PhiroRGBLightBrick::class.simpleName, PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.LEFT, 255, 0, 0), "Set Phiro (light: (left), color: (#$testColor));\n"),
+                arrayOf(PhiroIfLogicBeginBrick::class.simpleName, PhiroIfLogicBeginBrick(), "If (activated phiro: (front left sensor)) {\n} else {\n}\n"),
+                arrayOf(RaspiIfLogicBeginBrick::class.simpleName, RaspiIfLogicBeginBrick(Formula(testInt1)), "If (Raspberry Pi pin: ($testInt1)) {\n} else {\n}\n"),
+                arrayOf(RaspiSendDigitalValueBrick::class.simpleName, RaspiSendDigitalValueBrick(testInt1, testInt2), "Set (Raspberry Pi pin: ($testInt1), value: ($testInt2));\n"),
+                arrayOf(RaspiPwmBrick::class.simpleName, RaspiPwmBrick(testInt1, testDouble, testDouble2), "Set (Raspberry Pi PWM~ pin: ($testInt1), percentage: ($testDouble2), Hz: ($testDouble));\n"),
+                arrayOf(SetThreadColorBrick::class.simpleName, SetThreadColorBrick(Formula(testColor)), "Set (thread color: (#$testColor));\n"),
 
                 )
         }
@@ -303,7 +321,6 @@ class ValueSerializationTest(
             brick.userVariable = testVariable
         }
     }
-
 
     @Test
     fun testBasicCatrobatLanguageImplementation() {

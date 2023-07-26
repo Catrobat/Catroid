@@ -62,6 +62,12 @@ import org.catrobat.catroid.content.bricks.LegoEv3SetLedBrick
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick
+import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick
+import org.catrobat.catroid.content.bricks.PhiroMotorMoveBackwardBrick
+import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick
+import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick
+import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick
+import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick
 import org.catrobat.catroid.content.bricks.PlaySoundAtBrick
 import org.catrobat.catroid.content.bricks.PlaySoundBrick
@@ -810,6 +816,93 @@ class SpinnerSerializationTest {
         )
     }
 
+    @Test
+    fun testPhiroMotorMoveForwardBrick() {
+        executeTest(
+            R.id.brick_phiro_motor_forward_action_spinner,
+            PhiroMotorMoveForwardBrick(),
+            "Move Phiro (motor: (left), direction: (forward), speed percentage: (0));\n",
+            mapOf(
+                "right" to "Move Phiro (motor: (right), direction: (forward), speed percentage: (0));\n",
+                "both" to "Move Phiro (motor: (both), direction: (forward), speed percentage: (0));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testPhiroMotorMoveBackwardBrick() {
+        executeTest(
+            R.id.brick_phiro_motor_forward_action_spinner,
+            PhiroMotorMoveBackwardBrick(),
+            "Move Phiro (motor: (left), direction: (backward), speed percentage: (0));\n",
+            mapOf(
+                "right" to "Move Phiro (motor: (right), direction: (backward), speed percentage: (0));\n",
+                "both" to "Move Phiro (motor: (both), direction: (backward), speed percentage: (0));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testPhiroMotorStopBrick() {
+        executeTest(
+            R.id.brick_phiro_stop_motor_spinner,
+            PhiroMotorStopBrick(),
+            "Stop Phiro (motor: (both));\n",
+            mapOf(
+                "right" to "Stop Phiro (motor: (right));\n",
+                "left" to "Stop Phiro (motor: (left));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testPhiroPlayToneBrick() {
+        executeTest(
+            R.id.brick_phiro_select_tone_spinner,
+            PhiroPlayToneBrick(),
+            "Play Phiro (tone: (do), seconds: (0));\n",
+            mapOf(
+                "re" to "Play Phiro (tone: (re), seconds: (0));\n",
+                "mi" to "Play Phiro (tone: (mi), seconds: (0));\n",
+                "fa" to "Play Phiro (tone: (fa), seconds: (0));\n",
+                "so" to "Play Phiro (tone: (so), seconds: (0));\n",
+                "la" to "Play Phiro (tone: (la), seconds: (0));\n",
+                "ti" to "Play Phiro (tone: (ti), seconds: (0));\n",
+                "do" to "Play Phiro (tone: (do), seconds: (0));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testPhiroRGBLightBrick() {
+        executeTest(
+            R.id.brick_phiro_rgb_light_spinner,
+            PhiroRGBLightBrick(),
+            "Set Phiro (light: (both), color: (0));\n",
+            mapOf(
+                "left" to "Set Phiro (light: (left), color: (0));\n",
+                "right" to "Set Phiro (light: (right), color: (0));\n",
+                "both" to "Set Phiro (light: (both), color: (0));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testPhiroIfLogicBeginBrick() {
+        executeTest(
+            R.id.brick_phiro_sensor_action_spinner,
+            PhiroIfLogicBeginBrick(),
+            "If (activated phiro: (front left sensor)) {\n} else {\n}\n",
+            mapOf(
+                "front right sensor" to "If (activated phiro: (front right sensor)) {\n} else {\n}\n",
+                "side left sensor" to "If (activated phiro: (side left sensor)) {\n} else {\n}\n",
+                "side right sensor" to "If (activated phiro: (side right sensor)) {\n} else {\n}\n",
+                "bottom left sensor" to "If (activated phiro: (bottom left sensor)) {\n} else {\n}\n",
+                "bottom right sensor" to "If (activated phiro: (bottom right sensor)) {\n} else {\n}\n"
+            )
+        )
+    }
+
     private fun executeTest(
         @IdRes brickSpinnerId: Int,
         brick: Brick,
@@ -820,7 +913,7 @@ class SpinnerSerializationTest {
     ) {
         startScript.addBrick(brick)
         baseActivityTestRule.launchActivity()
-        Thread.sleep(99999)
+//        Thread.sleep(99999)
         val initialValue = brick.serializeToCatrobatLanguage(0)
         Assert.assertEquals(defaultValue, initialValue)
 

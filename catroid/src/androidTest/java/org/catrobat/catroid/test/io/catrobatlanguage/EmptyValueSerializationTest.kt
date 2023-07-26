@@ -212,6 +212,7 @@ import org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick
 import org.catrobat.catroid.content.bricks.WriteVariableToFileBrick
 import org.catrobat.catroid.content.bricks.ZigZagStitchBrick
+import org.catrobat.catroid.formulaeditor.Sensors
 import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
 import org.catrobat.catroid.test.physics.PhysicsObjectTypesTest
 import org.junit.Assert.assertEquals
@@ -384,23 +385,20 @@ class EmptyValueSerializationTest(
                 arrayOf(JumpingSumoRotateRightBrick::class.simpleName, JumpingSumoRotateRightBrick(), "Turn Jumping Sumo (direction: (right), degrees: (0));\n"),
                 arrayOf(JumpingSumoTurnBrick::class.simpleName, JumpingSumoTurnBrick(), "Flip Jumping Sumo;\n"),
                 arrayOf(JumpingSumoTakingPictureBrick::class.simpleName, JumpingSumoTakingPictureBrick(), "Take picture with Jumping Sumo;\n"),
-
-
-
+                arrayOf(PhiroMotorMoveForwardBrick::class.simpleName, PhiroMotorMoveForwardBrick(), "Move Phiro (motor: (left), direction: (forward), speed percentage: (0));\n"),
+                arrayOf(PhiroMotorMoveBackwardBrick::class.simpleName, PhiroMotorMoveBackwardBrick(), "Move Phiro (motor: (left), direction: (backward), speed percentage: (0));\n"),
+                arrayOf(PhiroMotorStopBrick::class.simpleName, PhiroMotorStopBrick(), "Stop Phiro (motor: (both));\n"),
+                arrayOf(PhiroPlayToneBrick::class.simpleName, PhiroPlayToneBrick(), "Play Phiro (tone: (do), seconds: (0));\n"),
+                arrayOf(PhiroRGBLightBrick::class.simpleName, PhiroRGBLightBrick(), "Set Phiro (light: (both), color: (0));\n"),
+                arrayOf(PhiroIfLogicBeginBrick::class.simpleName, PhiroIfLogicBeginBrick(), "If (activated phiro: (front left sensor)) {\n} else {\n}\n"),
+                arrayOf(RaspiIfLogicBeginBrick::class.simpleName, RaspiIfLogicBeginBrick(), "If (Raspberry Pi pin: (0)) {\n} else {\n}\n"),
+                arrayOf(RaspiSendDigitalValueBrick::class.simpleName, RaspiSendDigitalValueBrick(), "Set (Raspberry Pi pin: (0), value: (0));\n"),
+                arrayOf(RaspiPwmBrick::class.simpleName, RaspiPwmBrick(), "Set (Raspberry Pi PWM~ pin: (0), percentage: (0), Hz: (0));\n"),
+                arrayOf(StitchBrick::class.simpleName, StitchBrick(), "Stitch;\n"),
+                arrayOf(SetThreadColorBrick::class.simpleName, SetThreadColorBrick(), "Set (thread color: (0));\n"),
 
                 /*
 
-                           arrayOf(PhiroMotorMoveForwardBrick(), "Move Phiro (motor: (), direction: (forward), speed percentage: (0));\n"),
-                           arrayOf(PhiroMotorMoveBackwardBrick(), "Move Phiro (motor: (), direction: (backward), speed percentage: (0));\n"),
-                           arrayOf(PhiroMotorStopBrick(), "Stop Phiro (motor: ());\n"),
-                           arrayOf(PhiroPlayToneBrick(), "Play Phiro (tone: (0), seconds: (0));\n"),
-                           arrayOf(PhiroRGBLightBrick(), "Set Phiro (light: (), color: (0));\n"),
-                           arrayOf(PhiroIfLogicBeginBrick(), "If (activated phiro: ()) {\n} else {\n}\n"),
-                           arrayOf(RaspiIfLogicBeginBrick(), "If (Raspberry Pi pin: ()) {\n} else {\n}\n"),
-                           arrayOf(RaspiSendDigitalValueBrick(), "Set (Raspberry Pi pin: (0), value: (0));\n"),
-                           arrayOf(RaspiPwmBrick(), "Set (Raspberry Pi PWM~ pin: (0), percentage: (0), Hz: (0));\n"),
-                           arrayOf(StitchBrick(), "Stitch;\n"),
-                           arrayOf(SetThreadColorBrick(), "Set (thread color: (0));\n"),
                            arrayOf(RunningStitchBrick(), "Start running stitch (length: (0));\n"),
                            arrayOf(ZigZagStitchBrick(), "Start zigzag stitch (length: (0), width: (0));\n"),
                            arrayOf(TripleStitchBrick(), "Start triple stitch (length: (0));\n"),
