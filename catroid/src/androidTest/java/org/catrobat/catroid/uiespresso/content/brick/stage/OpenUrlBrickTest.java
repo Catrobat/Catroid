@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,6 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
@@ -47,6 +46,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 
+import androidx.preference.PreferenceManager;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 
@@ -82,16 +82,16 @@ public class OpenUrlBrickTest {
 	@Before
 	public void setUp() {
 		bufferedWarningPreferenceSetting = PreferenceManager
-			.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
-			.getBoolean(DO_NOT_SHOW_WARNING, false);
+				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
+				.getBoolean(DO_NOT_SHOW_WARNING, false);
 
 		PreferenceManager.getDefaultSharedPreferences(applicationContext.getApplicationContext())
-			.edit()
-			.putBoolean(
-				DO_NOT_SHOW_WARNING,
-				true
-			)
-			.commit();
+				.edit()
+				.putBoolean(
+						DO_NOT_SHOW_WARNING,
+						true
+				)
+				.commit();
 
 		openUrlBrickPosition = 1;
 		Script script = createProjectAndGetStartScript(projectName);
@@ -117,12 +117,12 @@ public class OpenUrlBrickTest {
 	@After
 	public void tearDown() {
 		PreferenceManager.getDefaultSharedPreferences(applicationContext)
-			.edit()
-			.putBoolean(
-				DO_NOT_SHOW_WARNING,
-				bufferedWarningPreferenceSetting
-			)
-			.commit();
+				.edit()
+				.putBoolean(
+						DO_NOT_SHOW_WARNING,
+						bufferedWarningPreferenceSetting
+				)
+				.commit();
 
 		Intents.release();
 		baseActivityTestRule.finishActivity();

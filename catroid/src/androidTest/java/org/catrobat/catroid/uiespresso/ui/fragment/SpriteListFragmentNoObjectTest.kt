@@ -23,7 +23,7 @@
 package org.catrobat.catroid.uiespresso.ui.fragment
 
 import android.app.Activity.RESULT_OK
-import android.preference.PreferenceManager.getDefaultSharedPreferences
+import androidx.preference.PreferenceManager.getDefaultSharedPreferences
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView

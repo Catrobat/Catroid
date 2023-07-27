@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,12 +29,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
-import android.preference.PreferenceScreen;
 import android.util.DisplayMetrics;
 
 import org.catrobat.catroid.BuildConfig;
@@ -53,8 +47,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.CheckBoxPreference;
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
+import androidx.preference.PreferenceScreen;
 
 import static org.catrobat.catroid.CatroidApplication.defaultSystemLanguage;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
@@ -62,7 +63,7 @@ import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAGS;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAG_KEY;
 import static org.koin.java.KoinJavaComponent.inject;
 
-public class SettingsFragment extends PreferenceFragment {
+public class SettingsFragment extends PreferenceFragmentCompat implements PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
 
 	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED = "settings_mindstorms_nxt_bricks_enabled";
 	public static final String SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_nxt_show_sensor_info_box_disabled";
@@ -144,60 +145,62 @@ public class SettingsFragment extends PreferenceFragment {
 		screen = getPreferenceScreen();
 
 		if (!BuildConfig.FEATURE_EMBROIDERY_ENABLED) {
-			CheckBoxPreference embroideryPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_EMBROIDERY_BRICKS);
+			CheckBoxPreference embroideryPreference = findPreference(SETTINGS_SHOW_EMBROIDERY_BRICKS);
 			embroideryPreference.setEnabled(false);
 			screen.removePreference(embroideryPreference);
 		}
 
 		if (!BuildConfig.FEATURE_PHIRO_ENABLED) {
-			CheckBoxPreference phiroPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_PHIRO_BRICKS);
+			CheckBoxPreference phiroPreference = findPreference(SETTINGS_SHOW_PHIRO_BRICKS);
 			phiroPreference.setEnabled(false);
 			screen.removePreference(phiroPreference);
 		}
 
 		if (!BuildConfig.FEATURE_PARROT_JUMPING_SUMO_ENABLED) {
-			CheckBoxPreference jumpingSumoPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_JUMPING_SUMO_BRICKS);
+			CheckBoxPreference jumpingSumoPreference = findPreference(SETTINGS_SHOW_JUMPING_SUMO_BRICKS);
 			jumpingSumoPreference.setEnabled(false);
 			screen.removePreference(jumpingSumoPreference);
 		}
 
 		if (!BuildConfig.FEATURE_ARDUINO_ENABLED) {
-			CheckBoxPreference arduinoPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_ARDUINO_BRICKS);
+			CheckBoxPreference arduinoPreference = findPreference(SETTINGS_SHOW_ARDUINO_BRICKS);
 			arduinoPreference.setEnabled(false);
 			screen.removePreference(arduinoPreference);
 		}
 
 		if (!BuildConfig.FEATURE_RASPI_ENABLED) {
-			CheckBoxPreference raspiPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_RASPI_BRICKS);
+			CheckBoxPreference raspiPreference = findPreference(SETTINGS_SHOW_RASPI_BRICKS);
 			raspiPreference.setEnabled(false);
 			screen.removePreference(raspiPreference);
 		}
 
 		if (!BuildConfig.FEATURE_CAST_ENABLED) {
-			CheckBoxPreference globalCastPreference = (CheckBoxPreference) findPreference(SETTINGS_CAST_GLOBALLY_ENABLED);
+			CheckBoxPreference globalCastPreference = findPreference(SETTINGS_CAST_GLOBALLY_ENABLED);
 			globalCastPreference.setEnabled(false);
 			screen.removePreference(globalCastPreference);
 		}
 
 		if (!BuildConfig.FEATURE_NFC_ENABLED) {
-			CheckBoxPreference nfcPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_NFC_BRICKS);
+			CheckBoxPreference nfcPreference = findPreference(SETTINGS_SHOW_NFC_BRICKS);
 			nfcPreference.setEnabled(false);
 			screen.removePreference(nfcPreference);
 		}
 
 		if (!BuildConfig.FEATURE_MULTIPLAYER_VARIABLES_ENABLED) {
-			CheckBoxPreference multiplayerPreference =
-					(CheckBoxPreference) findPreference(SETTINGS_MULTIPLAYER_VARIABLES_ENABLED);
+			CheckBoxPreference multiplayerPreference = findPreference(SETTINGS_MULTIPLAYER_VARIABLES_ENABLED);
 			multiplayerPreference.setEnabled(false);
 			screen.removePreference(multiplayerPreference);
 		}
 
 		if (!BuildConfig.FEATURE_TESTBRICK_ENABLED) {
-			CheckBoxPreference testPreference =
-					(CheckBoxPreference) findPreference(SETTINGS_TEST_BRICKS);
+			CheckBoxPreference testPreference = findPreference(SETTINGS_TEST_BRICKS);
 			testPreference.setEnabled(BuildConfig.DEBUG);
 			screen.removePreference(testPreference);
 		}
+	}
+
+	@Override
+	public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
 	}
 
 	@Override
@@ -206,59 +209,17 @@ public class SettingsFragment extends PreferenceFragment {
 		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.preference_title);
 	}
 
-	@Override
-	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
-		String key = preference.getKey();
-		switch (key) {
-			case AI_SENSORS_SCREEN_KEY:
-				getFragmentManager().beginTransaction()
-						.replace(R.id.content_frame, new AISettingsFragment(),
-								AISettingsFragment.Companion.getTAG())
-						.addToBackStack(AISettingsFragment.Companion.getTAG())
-						.commit();
-				break;
-			case ACCESSIBILITY_SCREEN_KEY:
-				getFragmentManager().beginTransaction()
-						.replace(R.id.content_frame, new AccessibilitySettingsFragment(), AccessibilitySettingsFragment.TAG)
-						.addToBackStack(AccessibilitySettingsFragment.TAG)
-						.commit();
-				break;
-			case NXT_SCREEN_KEY:
-				getFragmentManager().beginTransaction()
-						.replace(R.id.content_frame, new NXTSensorsSettingsFragment(), NXTSensorsSettingsFragment.TAG)
-						.addToBackStack(NXTSensorsSettingsFragment.TAG)
-						.commit();
-				break;
-			case EV3_SCREEN_KEY:
-				getFragmentManager().beginTransaction()
-						.replace(R.id.content_frame, new Ev3SensorsSettingsFragment(), Ev3SensorsSettingsFragment.TAG)
-						.addToBackStack(Ev3SensorsSettingsFragment.TAG)
-						.commit();
-				break;
-			case DRONE_SCREEN_KEY:
-				getFragmentManager().beginTransaction()
-						.replace(R.id.content_frame, new ParrotARDroneSettingsFragment(),
-								ParrotARDroneSettingsFragment.TAG)
-						.addToBackStack(ParrotARDroneSettingsFragment.TAG)
-						.commit();
-				break;
-			case RASPBERRY_SCREEN_KEY:
-				getFragmentManager().beginTransaction()
-						.replace(R.id.content_frame, new RaspberryPiSettingsFragment(), RaspberryPiSettingsFragment.TAG)
-						.addToBackStack(RaspberryPiSettingsFragment.TAG)
-						.commit();
-				break;
-		}
-		return super.onPreferenceTreeClick(preferenceScreen, preference);
-	}
-
 	@SuppressWarnings("deprecation")
 	private void setHintPreferences() {
 		CheckBoxPreference hintCheckBoxPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_HINTS);
 		hintCheckBoxPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				preference.getEditor().remove(SnackbarUtil.SHOWN_HINT_LIST).commit();
+				preference
+						.getSharedPreferences()
+						.edit()
+						.remove(SnackbarUtil.SHOWN_HINT_LIST)
+						.apply();
 				return true;
 			}
 		});
@@ -579,5 +540,62 @@ public class SettingsFragment extends PreferenceFragment {
 		getSharedPreferences(context).edit()
 				.putBoolean(SETTINGS_USE_CATBLOCKS, useCatBlocks)
 				.apply();
+	}
+
+	@Override
+	public boolean onPreferenceTreeClick(Preference preference) {
+		String key = preference.getKey();
+		switch (key) {
+			case AI_SENSORS_SCREEN_KEY:
+				getParentFragmentManager()
+						.beginTransaction()
+						.replace(R.id.content_frame, new AISettingsFragment(),
+								AISettingsFragment.Companion.getTAG())
+						.addToBackStack(AISettingsFragment.Companion.getTAG())
+						.commit();
+				break;
+			case ACCESSIBILITY_SCREEN_KEY:
+				getParentFragmentManager()
+						.beginTransaction()
+						.replace(R.id.content_frame, new AccessibilitySettingsFragment(), AccessibilitySettingsFragment.TAG)
+						.addToBackStack(AccessibilitySettingsFragment.TAG)
+						.commit();
+				break;
+			case NXT_SCREEN_KEY:
+				getParentFragmentManager()
+						.beginTransaction()
+						.replace(R.id.content_frame, new NXTSensorsSettingsFragment(), NXTSensorsSettingsFragment.TAG)
+						.addToBackStack(NXTSensorsSettingsFragment.TAG)
+						.commit();
+				break;
+			case EV3_SCREEN_KEY:
+				getParentFragmentManager()
+						.beginTransaction()
+						.replace(R.id.content_frame, new Ev3SensorsSettingsFragment(), Ev3SensorsSettingsFragment.TAG)
+						.addToBackStack(Ev3SensorsSettingsFragment.TAG)
+						.commit();
+				break;
+			case DRONE_SCREEN_KEY:
+				getParentFragmentManager()
+						.beginTransaction()
+						.replace(R.id.content_frame, new ParrotARDroneSettingsFragment(),
+								ParrotARDroneSettingsFragment.TAG)
+						.addToBackStack(ParrotARDroneSettingsFragment.TAG)
+						.commit();
+				break;
+			case RASPBERRY_SCREEN_KEY:
+				getParentFragmentManager()
+						.beginTransaction()
+						.replace(R.id.content_frame, new RaspberryPiSettingsFragment(), RaspberryPiSettingsFragment.TAG)
+						.addToBackStack(RaspberryPiSettingsFragment.TAG)
+						.commit();
+				break;
+		}
+		return super.onPreferenceTreeClick(preference);
+	}
+
+	@Override
+	public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference pref) {
+		return false;
 	}
 }

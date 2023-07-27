@@ -25,7 +25,7 @@ package org.catrobat.catroid.ui.fragment
 
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater

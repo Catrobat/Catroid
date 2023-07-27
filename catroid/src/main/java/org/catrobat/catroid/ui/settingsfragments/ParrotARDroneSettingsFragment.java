@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,12 +24,6 @@
 package org.catrobat.catroid.ui.settingsfragments;
 
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceCategory;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceScreen;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
@@ -37,6 +31,12 @@ import org.catrobat.catroid.common.DroneConfigPreference;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.CheckBoxPreference;
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceScreen;
 
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.DRONE_ALTITUDE_LIMIT;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.DRONE_CONFIGS;
@@ -47,7 +47,7 @@ import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.DRONE_T
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.DRONE_VERTICAL_SPEED;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS;
 
-public class ParrotARDroneSettingsFragment extends PreferenceFragment {
+public class ParrotARDroneSettingsFragment extends PreferenceFragmentCompat {
 
 	public static final String TAG = ParrotARDroneSettingsFragment.class.getSimpleName();
 
@@ -153,5 +153,9 @@ public class ParrotARDroneSettingsFragment extends PreferenceFragment {
 				listPreference.setEntryValues(DroneConfigPreference.Preferences.getPreferenceCodes());
 			}
 		}
+	}
+
+	@Override
+	public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
 	}
 }

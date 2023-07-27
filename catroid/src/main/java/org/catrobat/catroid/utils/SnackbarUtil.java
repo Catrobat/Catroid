@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,6 @@ package org.catrobat.catroid.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.TextView;
 
@@ -41,6 +40,7 @@ import java.util.Set;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
+import androidx.preference.PreferenceManager;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DISABLE_HINTS_DIALOG_SHOWN_PREFERENCE_KEY;
 
@@ -139,14 +139,14 @@ public final class SnackbarUtil {
 
 	public static boolean showDisableHintsDialog(final Activity activity, @StringRes int resourceId) {
 		new AlertDialog.Builder(activity)
-			.setTitle(R.string.dialog_disable_hints_title)
-			.setMessage(R.string.dialog_disable_hints_text)
-			.setPositiveButton(R.string.dialog_disable_hints_button_show,
-					(dialog, id) -> handleShowHints(activity, resourceId))
-			.setNegativeButton(R.string.dialog_disable_hints_button_hide,
-					(dialog, id) -> handleHideHints(activity))
-			.setCancelable(false)
-			.show();
+				.setTitle(R.string.dialog_disable_hints_title)
+				.setMessage(R.string.dialog_disable_hints_text)
+				.setPositiveButton(R.string.dialog_disable_hints_button_show,
+						(dialog, id) -> handleShowHints(activity, resourceId))
+				.setNegativeButton(R.string.dialog_disable_hints_button_hide,
+						(dialog, id) -> handleHideHints(activity))
+				.setCancelable(false)
+				.show();
 		return true;
 	}
 

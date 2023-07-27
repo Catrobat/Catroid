@@ -30,15 +30,16 @@ import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
-import android.preference.PreferenceManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
+import androidx.preference.PreferenceManager
+
 import com.google.android.gms.analytics.HitBuilders.ScreenViewBuilder
 import org.catrobat.catroid.CatroidApplication
-import org.catrobat.catroid.R
 import org.catrobat.catroid.cast.CastManager
 import org.catrobat.catroid.ui.MainMenuActivity.Companion.surveyCampaign
 import org.catrobat.catroid.ui.runtimepermissions.PermissionHandlingActivity

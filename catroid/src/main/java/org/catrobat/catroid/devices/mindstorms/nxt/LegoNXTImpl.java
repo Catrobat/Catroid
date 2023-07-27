@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,6 @@
 package org.catrobat.catroid.devices.mindstorms.nxt;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.catrobat.catroid.bluetooth.base.BluetoothConnection;
@@ -37,6 +36,8 @@ import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.formulaeditor.Sensors;
 
 import java.util.UUID;
+
+import androidx.preference.PreferenceManager;
 
 public class LegoNXTImpl implements LegoNXT, LegoSensorService.OnSensorChangedListener {
 

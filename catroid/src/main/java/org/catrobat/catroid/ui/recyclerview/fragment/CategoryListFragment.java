@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,6 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -74,6 +73,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static org.catrobat.catroid.CatroidApplication.defaultSystemLanguage;
@@ -1023,11 +1023,11 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 				SettingsFragment.isAIPoseDetectionSharedPreferenceEnabled(getActivity().getApplicationContext());
 		if (isPoseDetectionEnabled && isHMSAvailable) {
 			return addHeader(toCategoryListItems(SENSORS_POSE_DETECTION_HUAWEI,
-					SENSORS_POSE_DETECTION_PARAMS_HUAWEI),
+							SENSORS_POSE_DETECTION_PARAMS_HUAWEI),
 					getString(R.string.formula_editor_device_pose_detection));
 		} else if (isPoseDetectionEnabled) {
 			return addHeader(toCategoryListItems(SENSORS_POSE_DETECTION,
-					SENSORS_POSE_DETECTION_PARAMS),
+							SENSORS_POSE_DETECTION_PARAMS),
 					getString(R.string.formula_editor_device_pose_detection));
 		} else {
 			return Collections.emptyList();

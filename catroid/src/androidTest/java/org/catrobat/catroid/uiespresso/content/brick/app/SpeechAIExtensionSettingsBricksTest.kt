@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.app
 
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import android.util.Log
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onData

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -313,7 +313,7 @@
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">Backpack</string>
-    <string name="copy">പകര്‍പ്പ്‌</string>
+    <string name="copy_menuname">പകര്‍പ്പ്‌</string>
     <string name="delete">ഒഴിവാക്കുക</string>
     <string name="rename">പോക്കറ്റ് കോഡ്</string>
     <string name="merge">Merge</string>
