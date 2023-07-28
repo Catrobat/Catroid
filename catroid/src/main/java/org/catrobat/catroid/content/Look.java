@@ -95,6 +95,8 @@ public class Look extends Image {
 
 	private boolean isParticleEffectPaused = false;
 
+	private boolean isFlippedByAction = false;
+
 	public Look(final Sprite sprite) {
 		this.sprite = sprite;
 		scheduler = new ThreadScheduler(this);
@@ -465,12 +467,14 @@ public class Look extends Image {
 		return realRotation;
 	}
 
-	public float getLookDirectionInUserInterfaceDimensionUnit() {
+	public float getLookDirectionInUserInterfaceDimensionUnit(boolean convertRealRotation) {
 		float direction = 0f;
 		switch (rotationMode) {
 			case ROTATION_STYLE_NONE : direction = DEGREE_UI_OFFSET;
 			break;
-			case ROTATION_STYLE_ALL_AROUND : direction = realRotation;
+			case ROTATION_STYLE_ALL_AROUND :
+				direction = convertRealRotation ?
+						convertStageAngleToCatroidAngle(getRotation()) : realRotation;
 			break;
 			case ROTATION_STYLE_LEFT_RIGHT_ONLY : direction =
 					isFlipped() ? -DEGREE_UI_OFFSET : DEGREE_UI_OFFSET;
@@ -489,6 +493,18 @@ public class Look extends Image {
 		boolean facingWrongDirection = mode == ROTATION_STYLE_LEFT_RIGHT_ONLY && (orientedLeft ^ isFlipped());
 		if (differentModeButFlipped || facingWrongDirection) {
 			getLookData().getTextureRegion().flip(true, false);
+		}
+	}
+
+	protected void flipLookDataIfNeeded(float realRotation) {
+		boolean orientedRight = realRotation > 180 || realRotation == 0;
+		boolean orientedLeft = realRotation <= 180 && realRotation != 0;
+		boolean isLookDataFlipped = isFlipped();
+		if (isFlippedByAction) {
+			isLookDataFlipped = !isLookDataFlipped;
+		}
+		if (lookData != null && ((isLookDataFlipped && orientedRight) || (!isLookDataFlipped && orientedLeft))) {
+			lookData.getTextureRegion().flip(true, false);
 		}
 	}
 
@@ -543,16 +559,14 @@ public class Look extends Image {
 	public void setMotionDirectionInUserInterfaceDimensionUnit(float degrees) {
 		rotation = (-degrees + DEGREE_UI_OFFSET) % 360;
 		realRotation = convertStageAngleToCatroidAngle(rotation);
+		setRotationBasedOnMode(rotation, realRotation, rotationMode);
+	}
 
+	protected void setRotationBasedOnMode(float rotation, float realRotation, int rotationMode) {
 		switch (rotationMode) {
 			case ROTATION_STYLE_LEFT_RIGHT_ONLY:
 				setRotation(0f);
-				boolean orientedRight = realRotation >= 0;
-				boolean orientedLeft = realRotation < 0;
-				boolean needsFlipping = (isFlipped() && orientedRight) || (!isFlipped() && orientedLeft);
-				if (needsFlipping && lookData != null) {
-					lookData.getTextureRegion().flip(true, false);
-				}
+				flipLookDataIfNeeded(realRotation);
 				break;
 			case ROTATION_STYLE_ALL_AROUND:
 				setRotation(rotation);
@@ -565,6 +579,10 @@ public class Look extends Image {
 
 	public boolean isFlipped() {
 		return (lookData != null && lookData.getTextureRegion().isFlipX());
+	}
+
+	public void updateFlippedByAction() {
+		isFlippedByAction = !isFlippedByAction;
 	}
 
 	public void changeDirectionInUserInterfaceDimensionUnit(float changeDegrees) {
@@ -652,15 +670,15 @@ public class Look extends Image {
 		setColorInUserInterfaceDimensionUnit(getColorInUserInterfaceDimensionUnit() + val);
 	}
 
-	private boolean isAngleInCatroidInterval(float catroidAngle) {
-		return (catroidAngle > -180 && catroidAngle <= 180);
+	private boolean notInAngleInCatroidInterval(float catroidAngle) {
+		return (catroidAngle <= -180 || catroidAngle > 180);
 	}
 
 	public float breakDownCatroidAngle(float catroidAngle) {
 		catroidAngle = catroidAngle % 360;
-		if (catroidAngle >= 0 && !isAngleInCatroidInterval(catroidAngle)) {
+		if (catroidAngle >= 0 && notInAngleInCatroidInterval(catroidAngle)) {
 			return catroidAngle - 360;
-		} else if (catroidAngle < 0 && !isAngleInCatroidInterval(catroidAngle)) {
+		} else if (catroidAngle < 0 && notInAngleInCatroidInterval(catroidAngle)) {
 			return catroidAngle + 360;
 		}
 		return catroidAngle;
