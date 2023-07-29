@@ -103,8 +103,6 @@ ext.copyGoogleServicesFile = { flavorName, flavorId ->
 def defaultVersionCode = 88
 def defaultVersionName = "1.1.2"
 
-android {
-    compileSdkVersion 33
 
     namespace 'org.catrobat.catroid'
     buildFeatures {
