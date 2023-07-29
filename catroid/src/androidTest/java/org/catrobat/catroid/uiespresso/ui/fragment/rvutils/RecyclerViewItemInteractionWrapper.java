@@ -30,6 +30,8 @@ import androidx.test.espresso.ViewInteraction;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 
 public class RecyclerViewItemInteractionWrapper extends ViewInteractionWrapper {
 	protected static int recyclerViewId = R.id.recycler_view;
@@ -44,9 +46,14 @@ public class RecyclerViewItemInteractionWrapper extends ViewInteractionWrapper {
 		return onView(new RecyclerViewItemMatcher(recyclerViewId).withIdInsidePosition(childViewId, position));
 	}
 
-	public RecyclerViewItemInteractionWrapper performCheckItem() {
+	public RecyclerViewItemInteractionWrapper performCheckItemClick() {
 		onChildView(R.id.checkbox)
 				.perform(click());
+		return this;
+	}
+
+	public RecyclerViewItemInteractionWrapper performCheckItemCheck() {
+		onChildView(R.id.checkbox).check(matches(isChecked()));
 		return this;
 	}
 }

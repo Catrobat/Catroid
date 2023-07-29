@@ -37,7 +37,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_note_layout"
-        style="@style/BrickContainer.Control.Small">
+        style="@style/BrickContainer.Control.NoteBrick">
 
         <include layout="@layout/icon_brick_category_control" />
 

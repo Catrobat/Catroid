@@ -220,6 +220,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 			if (!wasHintAlreadyShown(getActivity(), getActivity().getResources()
 					.getResourceName(R.string.formula_editor_intro_title_formula_editor))) {
 				new FormulaEditorIntroDialog(this, R.style.StageDialog).show();
+				SnackbarUtil.setHintShown(getActivity(),
+						getActivity().getResources().getResourceName(R.string.formula_editor_intro_title_formula_editor));
 			}
 		}
 	}
@@ -730,6 +732,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		menu.findItem(R.id.menu_redo).setVisible(true);
 
 		super.onPrepareOptionsMenu(menu);
+		updateButtonsOnKeyboard();
 	}
 
 	@Override
@@ -1074,7 +1077,10 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	public void updateButtonsOnKeyboardAndInvalidateOptionsMenu() {
 		getActivity().invalidateOptionsMenu();
+		updateButtonsOnKeyboard();
+	}
 
+	public void updateButtonsOnKeyboard() {
 		ImageButton backspaceOnKeyboard = getActivity().findViewById(R.id.formula_editor_keyboard_delete);
 		if (!formulaEditorEditText.isThereSomethingToDelete()) {
 			backspaceOnKeyboard.setAlpha(255 / 3);

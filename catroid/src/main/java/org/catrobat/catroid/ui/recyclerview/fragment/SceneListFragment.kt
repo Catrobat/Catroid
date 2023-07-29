@@ -40,6 +40,7 @@ import org.catrobat.catroid.io.asynctask.loadProject
 import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.controller.BackpackListManager
 import org.catrobat.catroid.ui.recyclerview.adapter.SceneAdapter
+import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController
 import org.catrobat.catroid.utils.ToastUtil
@@ -201,17 +202,20 @@ class SceneListFragment : RecyclerViewFragment<Scene?>(),
         finishActionMode()
     }
 
-    override fun onItemClick(item: Scene?) {
-        if (actionModeType == RENAME) {
-            super.onItemClick(item)
-            return
-        }
-        if (actionModeType == NONE) {
-            projectManager.currentlyEditedScene = item
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, SpriteListFragment(), SpriteListFragment.TAG)
-                .addToBackStack(SpriteListFragment.TAG)
-                .commit()
+    override fun onItemClick(item: Scene?, selectionManager: MultiSelectionManager?) {
+        when (actionModeType) {
+            RENAME -> {
+                super.onItemClick(item, null)
+                return
+            }
+            NONE -> {
+                projectManager.currentlyEditedScene = item
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, SpriteListFragment(), SpriteListFragment.TAG)
+                    .addToBackStack(SpriteListFragment.TAG)
+                    .commit()
+            }
+            else -> super.onItemClick(item, selectionManager)
         }
     }
 

@@ -51,12 +51,15 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -716,32 +719,71 @@ public class Sprite implements Nameable, Serializable {
 		return this.embroideryThreadColor;
 	}
 
-	public void replaceSpriteWithSprite(Sprite sprite) {
-		this.scriptList = sprite.scriptList;
-		this.lookList = sprite.lookList;
-		this.soundList = sprite.soundList;
-		this.nfcTagList = sprite.nfcTagList;
-		this.userVariables = sprite.userVariables;
-		this.userLists = sprite.userLists;
-		this.userDefinedBrickList = sprite.userDefinedBrickList;
+	public Sprite(Sprite sprite, Scene destinationScene) throws IOException {
+		try {
+			copyLooksAndSounds(sprite, destinationScene, false);
+		} catch (IOException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+			throw e;
+		}
+		this.scriptList.addAll(sprite.scriptList);
+		this.nfcTagList.addAll(sprite.nfcTagList);
+		this.userVariables.addAll(sprite.userVariables);
+		this.userLists.addAll(sprite.userLists);
+		this.userDefinedBrickList.addAll(sprite.userDefinedBrickList);
+		sprite.look.copyTo(this.look);
+		this.myOriginal = sprite;
+		this.name = sprite.getName();
 	}
 
-	public void mergeSprites(Sprite sprite) {
+	private void copyLooksAndSounds(Sprite sprite, Scene destinationScene,
+			boolean setUniqueName) throws IOException {
+		File imageDirectory = new File(
+				destinationScene.getDirectory(),
+				Constants.IMAGE_DIRECTORY_NAME
+		);
+		File soundsDirectory = new File(
+				destinationScene.getDirectory(),
+				Constants.SOUND_DIRECTORY_NAME
+		);
+
+		for (LookData data : sprite.lookList) {
+			File lookFile = StorageOperations.copyFileToDir(
+					data.getFile(),
+					imageDirectory
+			);
+			LookData newData = data.clone();
+			newData.setFile(lookFile);
+			if (setUniqueName) {
+				newData.setName(new UniqueNameProvider().getUniqueNameInNameables(newData.getName(),
+						this.lookList));
+			}
+
+			this.lookList.add(newData);
+		}
+		for (SoundInfo data : sprite.soundList) {
+			File soundFile = StorageOperations.copyFileToDir(
+					data.getFile(),
+					soundsDirectory
+			);
+			SoundInfo newData = data.clone();
+			newData.setFile(soundFile);
+			if (setUniqueName) {
+				newData.setName(new UniqueNameProvider().getUniqueNameInNameables(newData.getName(),
+						this.soundList));
+			}
+			this.soundList.add(newData);
+		}
+	}
+
+	public void mergeSprites(Sprite sprite, Scene destinationScene) throws IOException {
+		try {
+			copyLooksAndSounds(sprite, destinationScene, true);
+		} catch (IOException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+			throw e;
+		}
 		this.scriptList.addAll(sprite.scriptList);
-
-		for (LookData look: sprite.lookList) {
-			look.setName(new UniqueNameProvider().getUniqueNameInNameables(
-					look.getName(),
-					this.lookList));
-			this.lookList.add(look);
-		}
-
-		for (SoundInfo sound: sprite.soundList) {
-			sound.setName(new UniqueNameProvider().getUniqueNameInNameables(
-					sound.getName(),
-					this.soundList));
-			this.soundList.add(sound);
-		}
 		this.nfcTagList.addAll(sprite.nfcTagList);
 
 		for (UserVariable userVariable: sprite.userVariables) {

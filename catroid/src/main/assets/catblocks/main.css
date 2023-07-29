@@ -66,6 +66,94 @@ body {
   width: 100%;
 }
 
+#catroid-catblocks-add-brick-dialog {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background-color: white;
+}
+
+#catroid-catblocks-add-brick-dialog-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+}
+
+#catroid-catblocks-add-brick-dialog-content {
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow-x: auto;
+}
+
+#catroid-catblocks-bricks-container {
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.catblocks-svg-brick-container {
+  width: 100%;
+  background-color: white;
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+
+.catblocks-svg-brick-container > svg {
+  width: 100%;
+}
+
+#catroid-catblocks-add-brick-dialog-header-content-container {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  right: 50px;
+  height: 50px;
+
+  display: flex;
+  /*justify-content: center;*/
+  align-items: center;
+}
+
+#catroid-catblocks-add-brick-dialog-close-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50px;
+  height: 50px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#catroid-catblocks-add-brick-dialog-header-text {
+  margin-bottom: 0;
+}
+
+#catroid-catblocks-add-brick-text-container {
+  vertical-align: middle;
+}
+
+#catroid-catblocks-add-brick-back-container {
+  vertical-align: middle;
+}
+
+.catblocks-brick {
+  margin-bottom: 5px;
+}
+
+.catblocks-brick:first-of-type {
+  margin-top: 5px;
+}
+
 /*!
  * Bootstrap v4.6.1 (https://getbootstrap.com/)
  * Copyright 2011-2021 The Bootstrap Authors

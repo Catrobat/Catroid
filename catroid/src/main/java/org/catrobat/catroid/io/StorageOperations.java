@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,6 +26,7 @@ package org.catrobat.catroid.io;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.OpenableColumns;
 import android.util.Log;
@@ -190,7 +191,7 @@ public final class StorageOperations {
 		return transferData(inputStream, destinationFile);
 	}
 
-	public static File copyStreamToDir(InputStream inputStream, File destinationDir, String fileName) throws
+	private static File getDestinationFile(File destinationDir, String fileName) throws
 			IOException, InvalidPathException {
 		if (!destinationDir.exists()) {
 			throw new FileNotFoundException("Destination directory: " + destinationDir.getAbsolutePath() + " does not exist.");
@@ -206,17 +207,34 @@ public final class StorageOperations {
 			throw new IOException("Cannot create file: " + destinationFile.getAbsolutePath() + ".");
 		}
 
+		return destinationFile;
+	}
+
+	public static File copyStreamToDir(InputStream inputStream, File destinationDir, String fileName) throws
+			IOException, InvalidPathException {
+		File destinationFile = getDestinationFile(destinationDir, fileName);
 		return transferData(inputStream, destinationFile);
 	}
 
-	public static File copyUriToDir(ContentResolver contentResolver, Uri uri,
-			File destinationDir, String fileName) throws IOException {
+	public static File compressAndCopyStreamToDir(InputStream inputStream, File destinationDir, String fileName) throws
+			IOException, InvalidPathException {
+		File destinationFile = getDestinationFile(destinationDir, fileName);
+		FileOutputStream fileOutputStream = new FileOutputStream(destinationFile);
+		BitmapFactory.decodeStream(inputStream).compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+		inputStream.close();
+		fileOutputStream.close();
+		return destinationFile;
+	}
+
+	public static File copyUriToDir(ContentResolver contentResolver, Uri uri, File destinationDir, String fileName) throws IOException {
 		InputStream inputStream = contentResolver.openInputStream(uri);
+		if ("image/webp".equals(contentResolver.getType(uri))) {
+			return compressAndCopyStreamToDir(inputStream, destinationDir, fileName);
+		}
 		return copyStreamToDir(inputStream, destinationDir, fileName);
 	}
 
-	public static void copyFileContentToUri(ContentResolver contentResolver, Uri uri,
-			File sourceFile) throws IOException {
+	public static void copyFileContentToUri(ContentResolver contentResolver, Uri uri, File sourceFile) throws IOException {
 		byte[] b = new byte[BUFFER_8K];
 		int len;
 		try (FileInputStream inputStream = new FileInputStream(sourceFile);

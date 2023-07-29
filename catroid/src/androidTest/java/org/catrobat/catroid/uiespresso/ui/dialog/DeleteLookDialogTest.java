@@ -54,7 +54,6 @@ import static org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionModeWrapp
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.hamcrest.Matchers.allOf;
 
-import static androidx.test.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -85,11 +84,11 @@ public class DeleteLookDialogTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void deleteLookDialogTest() {
-		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
 		onRecyclerView().atPosition(1)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onView(withId(R.id.confirm)).perform(click());
 
@@ -114,12 +113,22 @@ public class DeleteLookDialogTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
+	public void selectFragmentToDeleteTest() {
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
+		onView(withText(R.string.delete)).perform(click());
+
+		onRecyclerView().atPosition(1).perform(click());
+		onRecyclerView().atPosition(1).performCheckItemCheck();
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
 	public void cancelDeleteLookDialogTest() {
-		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
 		onRecyclerView().atPosition(1)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onView(withId(R.id.confirm)).perform(click());
 

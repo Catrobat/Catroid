@@ -44,6 +44,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.MultiViewSpriteAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallback;
+import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
@@ -429,9 +430,17 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	}
 
 	@Override
-	public void onItemClick(T item) {
+	public void onItemClick(T item, MultiSelectionManager selectionManager) {
 		if (actionModeType == RENAME) {
 			showRenameDialog(item);
+		} else {
+			if (selectionManager == null) {
+				return;
+			}
+			List<T> items = adapter.getItems();
+			selectionManager.toggleSelection(items.indexOf(item));
+			onSelectionChanged(selectionManager.getSelectedPositions().size());
+			notifyDataSetChanged();
 		}
 	}
 

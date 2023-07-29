@@ -160,7 +160,7 @@ class DataListFragmentExplanationTextTest {
         onView(withText(R.string.delete))
             .perform(click())
         onDataList().onVariableAtPosition(0)
-            .performCheckItem()
+            .performCheckItemClick()
         onActionMode()
             .performConfirm()
         onView(withId(android.R.id.button1))

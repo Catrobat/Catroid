@@ -179,7 +179,7 @@ public class RenameLookTest {
 		openActionBarMenu();
 		onView(withText(R.string.delete)).perform(click());
 
-		onRecyclerView().atPosition(1).performCheckItem();
+		onRecyclerView().atPosition(1).performCheckItemClick();
 
 		onActionMode().performConfirm();
 

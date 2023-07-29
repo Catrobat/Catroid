@@ -75,13 +75,13 @@ public class ActionModeDataFragmentTitleTest {
 				.perform(click());
 
 		onDataList().onVariableAtPosition(0)
-				.performCheckItem();
+				.performCheckItemClick();
 		onDataList().onVariableAtPosition(1)
-				.performCheckItem();
+				.performCheckItemClick();
 		onDataList().onListAtPosition(2)
-				.performCheckItem();
+				.performCheckItemClick();
 		onDataList().onListAtPosition(2)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onActionMode().checkTitleMatches(UiTestUtils.getResourcesString(R.string.delete) + " 2");
 	}

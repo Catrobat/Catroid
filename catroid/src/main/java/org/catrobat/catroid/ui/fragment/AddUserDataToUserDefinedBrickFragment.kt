@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.ui.fragment
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
@@ -33,22 +32,18 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
-
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.bricks.UserDefinedBrick
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.InputWatcher
 import org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType
-
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import org.catrobat.catroid.utils.Utils
 
 class AddUserDataToUserDefinedBrickFragment : Fragment() {
 
@@ -57,7 +52,6 @@ class AddUserDataToUserDefinedBrickFragment : Fragment() {
     }
 
     private var dataTypeToAdd: UserDefinedBrickDataType? = null
-    private var activity: AppCompatActivity? = null
     private var addUserDataUserBrickEditText: TextInputEditText? = null
     private var addUserDataUserBrickTextLayout: TextInputLayout? = null
     private var scrollView: ScrollView? = null
@@ -89,7 +83,7 @@ class AddUserDataToUserDefinedBrickFragment : Fragment() {
                     as UserDefinedBrickDataType
         }
         userDefinedBrick?.let {
-            val userBrickView = userDefinedBrick?.getView(getActivity())
+            val userBrickView = userDefinedBrick?.getView(requireActivity())
             userBrickSpace.addView(userBrickView)
             userBrickTextView = userDefinedBrick?.currentUserDefinedDataTextView
         }
@@ -134,12 +128,12 @@ class AddUserDataToUserDefinedBrickFragment : Fragment() {
             }
         }
 
-        activity = getActivity() as AppCompatActivity
-        activity?.let {
-            showStandardSystemKeyboard()
-            val actionBar = activity?.supportActionBar
+        val appCompatActivity = requireActivity() as AppCompatActivity
+        appCompatActivity.let {
+            Utils.showStandardSystemKeyboard(appCompatActivity)
+            val actionBar = appCompatActivity.supportActionBar
             if (actionBar != null) {
-                activity?.supportActionBar?.setTitle(R.string.category_user_bricks)
+                appCompatActivity.supportActionBar?.setTitle(R.string.category_user_bricks)
             }
         }
 
@@ -151,12 +145,12 @@ class AddUserDataToUserDefinedBrickFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        showStandardSystemKeyboard()
+        Utils.showStandardSystemKeyboard(requireActivity())
     }
 
     override fun onDetach() {
         super.onDetach()
-        hideStandardSystemKeyboard()
+        Utils.hideStandardSystemKeyboard(requireActivity())
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -177,7 +171,7 @@ class AddUserDataToUserDefinedBrickFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.next) {
             val fragmentManager = parentFragmentManager
-            hideStandardSystemKeyboard()
+            Utils.hideStandardSystemKeyboard(requireActivity())
             fragmentManager.let {
                 val addUserDefinedBrickFragment =
                     fragmentManager.findFragmentByTag(AddUserDefinedBrickFragment.TAG)
@@ -199,21 +193,4 @@ class AddUserDataToUserDefinedBrickFragment : Fragment() {
     }
 
     fun getDataTypeToAdd(): UserDefinedBrickDataType? = dataTypeToAdd
-
-    private fun showStandardSystemKeyboard() {
-        activity?.let {
-            activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-        }
-    }
-
-    private fun hideStandardSystemKeyboard() {
-        activity?.let {
-            val inputMethodManager = activity?.getSystemService(Activity.INPUT_METHOD_SERVICE)
-                as InputMethodManager
-            val focusedView = activity?.currentFocus
-            if (focusedView != null) {
-                inputMethodManager.hideSoftInputFromWindow(focusedView.windowToken, 0)
-            }
-        }
-    }
 }

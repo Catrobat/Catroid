@@ -40,12 +40,12 @@ import org.junit.runner.RunWith;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionModeWrapper.onActionMode;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.hamcrest.Matchers.allOf;
 
-import static androidx.test.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -75,11 +75,11 @@ public class DeleteSpriteDialogTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void deleteSpriteDialogTest() {
-		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
 		onRecyclerView().atPosition(2)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onView(withId(R.id.confirm)).perform(click());
 
@@ -105,11 +105,11 @@ public class DeleteSpriteDialogTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void cancelDeleteSpriteDialogTest() {
-		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 		onView(withText(R.string.delete)).perform(click());
 
 		onRecyclerView().atPosition(2)
-				.performCheckItem();
+				.performCheckItemClick();
 
 		onView(withId(R.id.confirm)).perform(click());
 
@@ -132,6 +132,16 @@ public class DeleteSpriteDialogTest {
 				.check(matches(isDisplayed()));
 
 		onActionMode().checkTitleMatches(UiTestUtils.getResourcesString(R.string.delete) + " 1");
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void selectFragmentToDeleteTest() {
+		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
+		onView(withText(R.string.delete)).perform(click());
+
+		onRecyclerView().atPosition(1).perform(click());
+		onRecyclerView().atPosition(1).performCheckItemCheck();
 	}
 
 	private void createProject(String projectName) {

@@ -186,6 +186,7 @@ class FormulaEditorSensorListTest(
             .replace("\\)$".toRegex(), " )") + " "
     }
 
+    @Suppress("LargeClass")
     companion object {
         private fun str(paramId: Int): String = UiTestUtils.getResourcesString(paramId) ?: ""
 
@@ -712,6 +713,8 @@ class FormulaEditorSensorListTest(
                 "", str(R.string.formula_editor_device_sensors)
             ),
             listOf(str(R.string.formula_editor_function_touched), "", ""),
+            listOf(str(R.string.formula_editor_sensor_stage_width), "", ""),
+            listOf(str(R.string.formula_editor_sensor_stage_height), "", ""),
             listOf(
                 str(R.string.formula_editor_sensor_color_at_x_y),
                 str(R.string.formula_editor_sensor_color_at_x_y_parameter), ""

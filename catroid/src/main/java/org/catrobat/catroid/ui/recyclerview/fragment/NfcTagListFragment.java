@@ -26,6 +26,7 @@ package org.catrobat.catroid.ui.recyclerview.fragment;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -40,6 +41,7 @@ import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.NfcTagAdapter;
+import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -60,7 +62,12 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 
 		nfcAdapter = NfcAdapter.getDefaultAdapter(getActivity());
 		Intent nfcIntent = new Intent(getActivity(), getActivity().getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		pendingIntent = PendingIntent.getActivity(getActivity(), 0, nfcIntent, PendingIntent.FLAG_MUTABLE);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+			pendingIntent = PendingIntent.getActivity(getActivity(), 0, nfcIntent, PendingIntent.FLAG_IMMUTABLE);
+		} else {
+			pendingIntent = PendingIntent.getActivity(getActivity(), 0, nfcIntent, 0);
+		}
+
 		if (nfcAdapter != null && !nfcAdapter.isEnabled()) {
 			ToastUtil.showError(getActivity(), R.string.nfc_not_activated);
 			Intent intent = new Intent(Settings.ACTION_NFC_SETTINGS);
@@ -193,9 +200,9 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 	}
 
 	@Override
-	public void onItemClick(NfcTagData item) {
+	public void onItemClick(NfcTagData item, MultiSelectionManager selectionManager) {
 		if (actionModeType == RENAME) {
-			super.onItemClick(item);
+			super.onItemClick(item, null);
 		}
 	}
 

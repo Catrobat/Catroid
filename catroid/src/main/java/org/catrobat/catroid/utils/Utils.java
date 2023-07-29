@@ -36,6 +36,9 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import com.google.common.base.Splitter;
 import com.huawei.hms.mlsdk.asr.MLAsrConstants;
@@ -590,5 +593,20 @@ public final class Utils {
 			prev = it;
 		}
 		return false;
+	}
+
+	public static void hideStandardSystemKeyboard(Activity activity) {
+		InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+		View currentFocus = activity.getCurrentFocus();
+
+		if (currentFocus == null) {
+			currentFocus = new View(activity);
+		}
+
+		inputMethodManager.hideSoftInputFromWindow(currentFocus.getWindowToken(), 0);
+	}
+
+	public static void showStandardSystemKeyboard(Activity activity) {
+		activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 	}
 }

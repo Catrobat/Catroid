@@ -47,7 +47,7 @@
             android:exported="true"/>
         <activity
             android:name=".uiespresso.ui.activity.ProjectUploadDialogTest$ProjectUploadTestActivity"
-            tools:node="merge"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing"
             android:exported="true">
@@ -55,6 +55,12 @@
                 <action android:name="android.intent.action.VIEW"/>
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="org.catrobat.paintroid.MainActivity"
+            android:exported="true"
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".uiespresso.ui.activity.ConnectBluetoothDeviceActivityTest$ConnectBluetoothDeviceTestActivity" />

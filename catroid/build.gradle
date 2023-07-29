@@ -49,13 +49,13 @@ ext {
 
     projectVersion = "0.9"
     gdxVersion = "1.9.10"
-    mockitoVersion = "2.8.47"
+    mockitoVersion = "3.12.4"
     espressoVersion = "3.1.0"
-    playServicesVersion = "17.0.0"
+    playServicesVersion = '17.0.1'
     cameraXVersion = "1.0.0-beta07"
     room_version = "2.3.0"
     coroutines_version = "1.3.2"
-    work_manager_version = "2.5.0"
+    work_manager_version = '2.7.1'
 }
 
 apply plugin: 'com.android.application'
@@ -358,10 +358,15 @@ dependencies {
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation ('com.esotericsoftware:kryo:5.1.1')
     implementation 'id.zelory:compressor:2.1.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    // WorkManager
+    implementation "androidx.work:work-runtime-ktx:$work_manager_version"
+    implementation "androidx.work:work-runtime:$work_manager_version"
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    androidTestImplementation project(path: ':catroid')
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
     androidTestImplementation ('androidx.arch.core:core-testing:2.1.0') {
         exclude group: 'org.mockito', module: 'mockito-core'
@@ -406,9 +411,6 @@ dependencies {
     // Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$room_version")
 
-    // WorkManager
-    implementation "androidx.work:work-runtime-ktx:$work_manager_version"
-
     // Android Debug Database
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 
@@ -416,7 +418,7 @@ dependencies {
     implementation("androidx.security:security-crypto:1.0.0")
 
     // CAST
-    implementation "com.google.android.gms:play-services-cast:$playServicesVersion"
+    implementation "com.google.android.gms:play-services-cast:17.0.0"
 
     // Analytics
     implementation "com.google.android.gms:play-services-analytics:$playServicesVersion"
@@ -451,18 +453,16 @@ dependencies {
     implementation 'com.google.mlkit:pose-detection:17.0.0'
 
     // HUAWEI Mobile Services
-    implementation 'com.huawei.hms:base:4.0.3.300'
+    implementation 'com.huawei.hms:base:6.4.0.303'
 
     // Huawei ML Kit
-    implementation 'com.huawei.hms:ml-computer-voice-asr-plugin:2.2.0.300'
-    implementation 'com.huawei.hms:ml-computer-voice-asr:2.2.0.300'
-    implementation 'com.huawei.hms:ml-computer-vision-face:2.0.5.300'
-    implementation 'com.huawei.hms:ml-computer-voice-tts:2.2.0.300'
-    implementation 'com.huawei.hms:ml-computer-vision-ocr:2.0.5.301'
-    implementation 'com.huawei.hms:ml-computer-language-detection:2.2.0.300'
-    implementation 'com.huawei.hms:ml-computer-vision-skeleton:2.0.4.300'
-
-    implementation 'androidx.work:work-runtime-ktx:2.7.1'
+    implementation 'com.huawei.hms:ml-computer-voice-asr-plugin:3.7.0.301'
+    implementation 'com.huawei.hms:ml-computer-voice-asr:3.7.0.301'
+    implementation 'com.huawei.hms:ml-computer-vision-face:3.7.0.301'
+    implementation 'com.huawei.hms:ml-computer-voice-tts:3.7.0.303'
+    implementation 'com.huawei.hms:ml-computer-vision-ocr:3.7.0.302'
+    implementation 'com.huawei.hms:ml-computer-language-detection:3.7.0.301'
+    implementation 'com.huawei.hms:ml-computer-vision-skeleton:3.7.0.301'
 
     // libGDX
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
@@ -477,7 +477,7 @@ dependencies {
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-arm64-v8a"
 
-    implementation "com.google.android.gms:play-services-auth:$playServicesVersion"
+    implementation "com.google.android.gms:play-services-auth:17.0.0"
 
     androidTestImplementation('tools.fastlane:screengrab:1.2.0') {
         // https://issuetracker.google.com/issues/123060356
@@ -493,8 +493,8 @@ dependencies {
     testImplementation 'org.powermock:powermock-module-junit4:2.0.0'
     testImplementation 'org.powermock:powermock-api-mockito2:2.0.0'
 
-    testImplementation 'org.robolectric:robolectric:4.2.1'
-    testImplementation 'org.robolectric:shadows-multidex:4.2.1'
+    testImplementation 'org.robolectric:robolectric:4.7.3'
+    testImplementation 'org.robolectric:shadows-multidex:4.7.3'
 
     testImplementation 'org.reflections:reflections:0.9.11'
     testImplementation 'org.json:json:20190722'
@@ -505,7 +505,7 @@ dependencies {
     // Koin for Unit tests
     androidTestImplementation "org.koin:koin-test:$koin_version"
 
-    androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
+    androidTestImplementation "org.mockito:mockito-android:$mockitoVersion"
     androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

@@ -57,18 +57,17 @@ class ImportProjectHelper(
     private var context: Activity
 ) {
     private var currentScene: Scene? = currentScene
-    private var newSprite: Sprite = Sprite("Sprite")
     private var spriteToAdd: Sprite? = null
     private var newProject: Project? = null
 
     fun getSpriteToAddName(): String? = spriteToAdd?.name
 
-    fun addObjectDataToNewSprite(spriteToAddTo: Sprite?): Sprite {
-        copyFilesToSoundAndSpriteDir()
+    fun addObjectDataToNewSprite(spriteToAddTo: Sprite?): Sprite? {
+        var newSprite: Sprite? = null
         if (spriteToAddTo == null) {
-            newSprite.replaceSpriteWithSprite(spriteToAdd)
+            newSprite = Sprite(spriteToAdd, currentScene)
         } else {
-            spriteToAddTo.mergeSprites(spriteToAdd)
+            spriteToAddTo.mergeSprites(spriteToAdd, currentScene)
         }
         newProject?.let {
             for (userList in it.userLists) {
@@ -140,30 +139,6 @@ class ImportProjectHelper(
             return false
         }
         return true
-    }
-
-    private fun copyFilesToSoundAndSpriteDir() {
-        val imageDirectory = File(
-            currentScene?.directory,
-            Constants.IMAGE_DIRECTORY_NAME
-        )
-        val soundsDirectory = File(
-            currentScene?.directory,
-            Constants.SOUND_DIRECTORY_NAME
-        )
-
-        spriteToAdd?.lookList?.forEach { currentListObject ->
-            StorageOperations.copyFileToDir(
-                currentListObject.file,
-                imageDirectory
-            )
-        }
-        spriteToAdd?.soundList?.forEach { currentListObject ->
-            StorageOperations.copyFileToDir(
-                currentListObject.file,
-                soundsDirectory
-            )
-        }
     }
 
     fun getProject(resolvedName: String): Project? {

@@ -37,6 +37,7 @@ import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScratchConverterActivity;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.ScratchJobAdapter;
+import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -105,7 +106,7 @@ public class ScratchProgramsFragment extends Fragment implements
 	}
 
 	@Override
-	public void onItemClick(Job item) {
+	public void onItemClick(Job item, MultiSelectionManager selectionManager) {
 		if (item.getState() == Job.State.FAILED) {
 			ToastUtil.showError(getActivity(), R.string.error_cannot_open_failed_scratch_program);
 			return;

@@ -39,6 +39,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static junit.framework.Assert.assertEquals;
 
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -111,12 +112,14 @@ public class PhysicsLookPositionAndAngleTest {
 	public void testCloneValues() {
 		Sprite cloneSprite = mock(Sprite.class);
 		PhysicsObject clonePhysicsObject = mock(PhysicsObject.class);
+
 		when(physicsWorldSpy.getPhysicsObject(cloneSprite)).thenReturn(clonePhysicsObject);
 		PhysicsLook cloneLook = new PhysicsLook(cloneSprite, physicsWorldSpy);
 
 		PhysicsWorld.activeArea = new Vector2(0.0f, 0.0f);
 		when(clonePhysicsObject.getMassCenter()).thenReturn(new Vector2(0.0f, 0.0f));
 		when(clonePhysicsObject.getCircumference()).thenReturn(0.0f);
+		doNothing().when(clonePhysicsObject).setFixedRotation(false);
 
 		physicsLook.setBrightnessInUserInterfaceDimensionUnit(32);
 		physicsLook.copyTo(cloneLook);

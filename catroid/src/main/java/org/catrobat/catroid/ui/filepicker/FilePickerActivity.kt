@@ -42,6 +42,7 @@ import android.util.Log
 import android.view.ActionMode
 import android.view.View
 import androidx.appcompat.widget.Toolbar
+import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
 import java.io.File
 import java.util.ArrayList
 
@@ -109,7 +110,7 @@ class FilePickerActivity : BaseCastActivity(), OnListProjectFilesListener, Actio
     private fun initializeAdapter(files: List<File>) {
         filePickerAdapter = FilePickerAdapter(files)
         filePickerAdapter?.setOnItemClickListener(object : RVAdapter.OnItemClickListener<File?> {
-            override fun onItemClick(item: File?) {
+            override fun onItemClick(item: File?, selectionManager: MultiSelectionManager) {
                 item?.let { toggleItemSelection(it) }
             }
 

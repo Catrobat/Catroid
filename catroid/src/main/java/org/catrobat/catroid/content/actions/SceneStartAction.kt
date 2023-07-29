@@ -20,37 +20,32 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.actions
 
-import android.util.Log;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.stage.StageActivity
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+class SceneStartAction : TemporalAction() {
+    private var sceneName: String? = null
+    private lateinit var sprite: Sprite
+    override fun update(percent: Float) {
+        if (sceneName != null) {
+            sprite.releaseAllPointers()
+            StageActivity.stageListener.startScene(sceneName)
+        }
+    }
 
-import org.catrobat.catroid.content.Scope;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
+    override fun reset() {
+        super.reset()
+        sceneName = null
+    }
 
-public class SetBrightnessAction extends TemporalAction {
+    fun setScene(sceneName: String?) {
+        this.sceneName = sceneName
+    }
 
-	private Scope scope;
-	private Formula brightness;
-
-	@Override
-	protected void update(float percent) {
-		try {
-			Float newBrightness = brightness == null ? Float.valueOf(0f)
-					: brightness.interpretFloat(scope);
-			scope.getSprite().look.setBrightnessInUserInterfaceDimensionUnit(newBrightness);
-		} catch (InterpretationException interpretationException) {
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-		}
-	}
-
-	public void setScope(Scope scope) {
-		this.scope = scope;
-	}
-
-	public void setBrightness(Formula brightness) {
-		this.brightness = brightness;
-	}
+    fun setSprite(sprite: Sprite) {
+        this.sprite = sprite
+    }
 }

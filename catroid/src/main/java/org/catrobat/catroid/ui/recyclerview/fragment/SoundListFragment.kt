@@ -36,6 +36,7 @@ import org.catrobat.catroid.pocketmusic.PocketMusicActivity
 import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.controller.BackpackListManager
 import org.catrobat.catroid.ui.recyclerview.adapter.SoundAdapter
+import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity
 import org.catrobat.catroid.ui.recyclerview.controller.SoundController
 import org.catrobat.catroid.utils.SnackbarUtil
@@ -169,13 +170,14 @@ class SoundListFragment : RecyclerViewFragment<SoundInfo?>() {
 
     override fun getRenameDialogHint(): Int = R.string.sound_name_label
 
-    override fun onItemClick(item: SoundInfo?) {
+    override fun onItemClick(item: SoundInfo?, selectionManager: MultiSelectionManager) {
         if (actionModeType == RENAME) {
-            super.onItemClick(item)
+            super.onItemClick(item, null)
             return
         }
 
         if (actionModeType != NONE) {
+            super.onItemClick(item, selectionManager)
             return
         }
 

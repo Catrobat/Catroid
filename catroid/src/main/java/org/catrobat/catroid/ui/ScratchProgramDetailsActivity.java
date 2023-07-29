@@ -50,6 +50,7 @@ import org.catrobat.catroid.scratchconverter.protocol.Job;
 import org.catrobat.catroid.transfers.FetchScratchProgramDetailsTask;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.ScratchProgramAdapter;
+import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
 import org.catrobat.catroid.ui.scratchconverter.JobViewListener;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -202,7 +203,7 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 	}
 
 	@Override
-	public void onItemClick(ScratchProgramData item) {
+	public void onItemClick(ScratchProgramData item, MultiSelectionManager selectionManager) {
 		Intent intent = new Intent(this, ScratchProgramDetailsActivity.class);
 		intent.putExtra(Constants.INTENT_SCRATCH_PROGRAM_DATA, (Parcelable) item);
 		startActivityForResult(intent, Constants.INTENT_REQUEST_CODE_CONVERT);

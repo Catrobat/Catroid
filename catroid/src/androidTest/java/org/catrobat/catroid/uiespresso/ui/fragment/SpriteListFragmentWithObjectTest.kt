@@ -74,7 +74,7 @@ class SpriteListFragmentWithObjectTest {
             .perform(click())
 
         onRecyclerView().atPosition(1)
-            .performCheckItem()
+            .performCheckItemClick()
 
         onView(withId(R.id.confirm))
             .perform(click())

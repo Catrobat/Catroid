@@ -74,7 +74,7 @@ public class ActionBarFormulaEditorTitleTest {
 		onView(withText(R.string.delete))
 				.perform(click());
 		onDataList().onVariableAtPosition(0)
-				.performCheckItem();
+				.performCheckItemClick();
 		onActionMode()
 				.performGoBack();
 
