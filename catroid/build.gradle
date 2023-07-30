@@ -185,159 +185,159 @@ android {
         }
     }
 
-    // sourceSets {
-    //     androidTest {
-    //         resources.srcDirs += ['src/androidTest/res', 'src/androidTest/assets']
-    //     }
-    // }
+    sourceSets {
+        androidTest {
+            resources.srcDirs += ['src/androidTest/res', 'src/androidTest/assets']
+        }
+    }
 
-    // dexOptions.javaMaxHeapSize "4g"
-    // packagingOptions {
-    //     jniLibs {
-    //         excludes += ['lib/mips/*', 'lib/armeabi/*']
-    //     }
-    //     resources {
-    //         excludes += ['LICENSE.txt', 'META-INF/LICENSE.md', 'META-INF/INDEX.LIST', 'lib/mips/*', 'lib/armeabi/*']
-    //     }
-    // }
+    dexOptions.javaMaxHeapSize "4g"
+    packagingOptions {
+        jniLibs {
+            excludes += ['lib/mips/*', 'lib/armeabi/*']
+        }
+        resources {
+            excludes += ['LICENSE.txt', 'META-INF/LICENSE.md', 'META-INF/INDEX.LIST', 'lib/mips/*', 'lib/armeabi/*']
+        }
+    }
 
 
-    // signingConfigs {
-    //     signedRelease {
-    //         // credentials loaded in release_task.gradle
-    //         storeFile file(project.getProperty("signingKeystore"))
-    //         storePassword ""
-    //         keyAlias ""
-    //         keyPassword ""
-    //     }
+    signingConfigs {
+        signedRelease {
+            // credentials loaded in release_task.gradle
+            storeFile file(project.getProperty("signingKeystore"))
+            storePassword ""
+            keyAlias ""
+            keyPassword ""
+        }
 
-    //     debug {
-    //         storeFile file("external/debug.keystore")
-    //         storePassword "android"
-    //         keyAlias "androiddebugkey"
-    //         keyPassword "android"
-    //     }
-    // }
+        debug {
+            storeFile file("external/debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+    }
 
-    // if (rootProject.hasProperty("signingKeystore") && rootProject.hasProperty("signingKeystorePassword") &&
-    //         rootProject.hasProperty("signingKeyAlias") && rootProject.hasProperty("signingKeyPassword")) {
-    //     android.signingConfigs.signedRelease {
-    //         storePassword = rootProject.property("signingKeystorePassword")
-    //         keyAlias = rootProject.property("signingKeyAlias")
-    //         keyPassword = rootProject.property("signingKeyPassword")
-    //     }
-    // }
+    if (rootProject.hasProperty("signingKeystore") && rootProject.hasProperty("signingKeystorePassword") &&
+            rootProject.hasProperty("signingKeyAlias") && rootProject.hasProperty("signingKeyPassword")) {
+        android.signingConfigs.signedRelease {
+            storePassword = rootProject.property("signingKeystorePassword")
+            keyAlias = rootProject.property("signingKeyAlias")
+            keyPassword = rootProject.property("signingKeyPassword")
+        }
+    }
 
-    // buildTypes {
-    //     debug {
-    //         buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", useAndroidLocales()
-    //         resValue "string", "DEBUG_MODE", "true"
-    //         buildConfigField "boolean", "FEATURE_CATBLOCKS_ENABLED", "true"
-    //         buildConfigField "boolean", "FEATURE_CATBLOCKS_DEBUGABLE", "true"
-    //         testCoverageEnabled = rootProject.hasProperty('enableCoverage')
-    //         signingConfig signingConfigs.debug
-    //     }
+    buildTypes {
+        debug {
+            buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", useAndroidLocales()
+            resValue "string", "DEBUG_MODE", "true"
+            buildConfigField "boolean", "FEATURE_CATBLOCKS_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_CATBLOCKS_DEBUGABLE", "true"
+            testCoverageEnabled = rootProject.hasProperty('enableCoverage')
+            signingConfig signingConfigs.debug
+        }
 
-    //     release {
-    //         buildConfigField "boolean", "FEATURE_MERGE_ENABLED", "false"
-    //         buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
-    //         buildConfigField "boolean", "FEATURE_USER_REPORTERS_ENABLED", "false"
-    //         resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
-    //         signingConfig signingConfigs.debug
-    //     }
+        release {
+            buildConfigField "boolean", "FEATURE_MERGE_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_USER_REPORTERS_ENABLED", "false"
+            resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
+            signingConfig signingConfigs.debug
+        }
 
-    //     signedRelease {
-    //         initWith buildTypes.release
-    //         signingConfig signingConfigs.signedRelease
-    //     }
-    // }
+        signedRelease {
+            initWith buildTypes.release
+            signingConfig signingConfigs.signedRelease
+        }
+    }
 
-    // flavorDimensions "default"
-    // compileOptions {
-    //     sourceCompatibility JavaVersion.VERSION_11
-    //     targetCompatibility JavaVersion.VERSION_11
-    // }
-    // aaptOptions {
-    //     noCompress 'lite'
-    // }
-    // lint {
-    //     abortOnError false
-    //     baseline file('config/lint-baseline.xml')
-    //     htmlOutput file('build/reports/lint-report.html')
-    //     htmlReport true
-    //     ignore 'GradleDependency', 'OldTargetApi', 'ExtraTranslation', 'MissingTranslation', 'LintBaseline', 'ObsoleteLintCustomCheck'
-    //     lintConfig file('config/lint.xml')
-    //     textReport true
-    //     xmlOutput file('build/reports/lint-report.xml')
-    //     xmlReport true
-    // }
+    flavorDimensions "default"
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    aaptOptions {
+        noCompress 'lite'
+    }
+    lint {
+        abortOnError false
+        baseline file('config/lint-baseline.xml')
+        htmlOutput file('build/reports/lint-report.html')
+        htmlReport true
+        ignore 'GradleDependency', 'OldTargetApi', 'ExtraTranslation', 'MissingTranslation', 'LintBaseline', 'ObsoleteLintCustomCheck'
+        lintConfig file('config/lint.xml')
+        textReport true
+        xmlOutput file('build/reports/lint-report.xml')
+        xmlReport true
+    }
 
-    // productFlavors {
-    //     catroid {
-    //         isDefault.set(true)
-    //     }
-    //     createAtSchool {
-    //         applicationIdSuffix '.createatschool'
-    //     }
-    //     embroideryDesigner {
-    //         applicationIdSuffix '.embroiderydesigner'
-    //         resValue "string", "FEATURE_EMBROIDERY_PREFERENCES_ENABLED", "true"
-    //     }
-    //     lunaAndCat {
-    //         applicationIdSuffix '.lunaandcat'
-    //     }
-    //     phiro {
-    //         applicationIdSuffix '.phiro'
-    //         resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "true"
-    //         resValue "string", "FEATURE_AI_PREFERENCES_ENABLED", "true"
-    //     }
-    //     pocketCodeBeta {
-    //         applicationIdSuffix '.test'
-    //         manifestPlaceholders.appName = "Pocket Code BETA-" + defaultVersionCode
-    //     }
-    //     mindstorms {
-    //         applicationIdSuffix '.mindstorms'
-    //         resValue "string", "FEATURE_MINDSTORMS_PREFERENCES_ENABLED", "true"
-    //         resValue "string", "FEATURE_AI_PREFERENCES_ENABLED", "true"
-    //     }
-    //     standalone {
-    //         if (!project.hasProperty('packageName')) {
-    //             applicationIdSuffix '.standalone'
-    //         }
-    //         versionCode 1
-    //         versionName '1.0'
+    productFlavors {
+        catroid {
+            isDefault.set(true)
+        }
+        createAtSchool {
+            applicationIdSuffix '.createatschool'
+        }
+        embroideryDesigner {
+            applicationIdSuffix '.embroiderydesigner'
+            resValue "string", "FEATURE_EMBROIDERY_PREFERENCES_ENABLED", "true"
+        }
+        lunaAndCat {
+            applicationIdSuffix '.lunaandcat'
+        }
+        phiro {
+            applicationIdSuffix '.phiro'
+            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "true"
+            resValue "string", "FEATURE_AI_PREFERENCES_ENABLED", "true"
+        }
+        pocketCodeBeta {
+            applicationIdSuffix '.test'
+            manifestPlaceholders.appName = "Pocket Code BETA-" + defaultVersionCode
+        }
+        mindstorms {
+            applicationIdSuffix '.mindstorms'
+            resValue "string", "FEATURE_MINDSTORMS_PREFERENCES_ENABLED", "true"
+            resValue "string", "FEATURE_AI_PREFERENCES_ENABLED", "true"
+        }
+        standalone {
+            if (!project.hasProperty('packageName')) {
+                applicationIdSuffix '.standalone'
+            }
+            versionCode 1
+            versionName '1.0'
 
-    //         buildConfigField "String", "START_PROJECT", "\"$projectId\""
-    //         buildConfigField "String", "PROJECT_NAME", "\"$appName\""
-    //         buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
-    //     }
-    // }
+            buildConfigField "String", "START_PROJECT", "\"$projectId\""
+            buildConfigField "String", "PROJECT_NAME", "\"$appName\""
+            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
+        }
+    }
 
-    // applicationVariants.all { variant ->
-    //     variant.outputs.all { output ->
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
 
-    //         if(variant.buildType.name == "signedRelease")
-    //         {
-    //             def flavorName
-    //             switch(variant.flavorName)
-    //             {
-    //                 case "catroid":
-    //                     flavorName = "pocketCode"
-    //                     break
-    //                 case "phiro":
-    //                     flavorName = "phiroCode"
-    //                     break
-    //                 default:
-    //                     flavorName = variant.flavorName
-    //             }
-    //             def buildType = variant.buildType.name
-    //             outputFileName = "catroid-${flavorName}-${buildType}.apk"
-    //         }
-    //     }
-    // }
-    // productFlavors.all { flavor ->
-    //     copyGoogleServicesFile(flavor.name, defaultConfig.applicationId + (flavor.applicationIdSuffix ?: ""))
-    // }
+            if(variant.buildType.name == "signedRelease")
+            {
+                def flavorName
+                switch(variant.flavorName)
+                {
+                    case "catroid":
+                        flavorName = "pocketCode"
+                        break
+                    case "phiro":
+                        flavorName = "phiroCode"
+                        break
+                    default:
+                        flavorName = variant.flavorName
+                }
+                def buildType = variant.buildType.name
+                outputFileName = "catroid-${flavorName}-${buildType}.apk"
+            }
+        }
+    }
+    productFlavors.all { flavor ->
+        copyGoogleServicesFile(flavor.name, defaultConfig.applicationId + (flavor.applicationIdSuffix ?: ""))
+    }
 
 }
 
