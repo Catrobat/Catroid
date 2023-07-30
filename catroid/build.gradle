@@ -252,14 +252,14 @@ android {
         }
     }
 
-    // flavorDimensions "default"
-    // compileOptions {
-    //     sourceCompatibility JavaVersion.VERSION_11
-    //     targetCompatibility JavaVersion.VERSION_11
-    // }
-    // aaptOptions {
-    //     noCompress 'lite'
-    // }
+    flavorDimensions "default"
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    aaptOptions {
+        noCompress 'lite'
+    }
     // lint {
     //     abortOnError false
     //     baseline file('config/lint-baseline.xml')
