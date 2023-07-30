@@ -260,17 +260,17 @@ android {
     aaptOptions {
         noCompress 'lite'
     }
-    // lint {
-    //     abortOnError false
-    //     baseline file('config/lint-baseline.xml')
-    //     htmlOutput file('build/reports/lint-report.html')
-    //     htmlReport true
-    //     ignore 'GradleDependency', 'OldTargetApi', 'ExtraTranslation', 'MissingTranslation', 'LintBaseline', 'ObsoleteLintCustomCheck'
-    //     lintConfig file('config/lint.xml')
-    //     textReport true
-    //     xmlOutput file('build/reports/lint-report.xml')
-    //     xmlReport true
-    // }
+    lint {
+        abortOnError false
+        baseline file('config/lint-baseline.xml')
+        htmlOutput file('build/reports/lint-report.html')
+        htmlReport true
+        ignore 'GradleDependency', 'OldTargetApi', 'ExtraTranslation', 'MissingTranslation', 'LintBaseline', 'ObsoleteLintCustomCheck'
+        lintConfig file('config/lint.xml')
+        textReport true
+        xmlOutput file('build/reports/lint-report.xml')
+        xmlReport true
+    }
 
     // productFlavors {
     //     catroid {
