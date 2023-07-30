@@ -107,9 +107,10 @@ android {
     compileSdkVersion 33
 
     namespace 'org.catrobat.catroid'
+
     buildFeatures {
         buildConfig = true
-        viewBinding true
+        viewBinding = true
     }
 
     defaultConfig {
