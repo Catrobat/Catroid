@@ -167,7 +167,7 @@ task uploadAPKToPlayStore(type:Exec) {
 }
 
 afterEvaluate {
-    makeScreenshotsCatroid.shouldRunAfter(unpackCrowdinFiles)
+    //makeScreenshotsCatroid.shouldRunAfter(unpackCrowdinFiles)
     makeScreenshotsLunaAndCat.shouldRunAfter(unpackCrowdinFiles)
     renameScreenshotFolders.mustRunAfter(makeScreenshotsCatroid)
     renameScreenshotFolders.mustRunAfter(makeScreenshotsLunaAndCat)
