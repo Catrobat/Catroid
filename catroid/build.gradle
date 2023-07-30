@@ -260,58 +260,58 @@ android {
     aaptOptions {
         noCompress 'lite'
     }
-    lint {
-        abortOnError false
-        baseline file('config/lint-baseline.xml')
-        htmlOutput file('build/reports/lint-report.html')
-        htmlReport true
-        ignore 'GradleDependency', 'OldTargetApi', 'ExtraTranslation', 'MissingTranslation', 'LintBaseline', 'ObsoleteLintCustomCheck'
-        lintConfig file('config/lint.xml')
-        textReport true
-        xmlOutput file('build/reports/lint-report.xml')
-        xmlReport true
-    }
-
-    // productFlavors {
-    //     catroid {
-    //         isDefault.set(true)
-    //     }
-    //     createAtSchool {
-    //         applicationIdSuffix '.createatschool'
-    //     }
-    //     embroideryDesigner {
-    //         applicationIdSuffix '.embroiderydesigner'
-    //         resValue "string", "FEATURE_EMBROIDERY_PREFERENCES_ENABLED", "true"
-    //     }
-    //     lunaAndCat {
-    //         applicationIdSuffix '.lunaandcat'
-    //     }
-    //     phiro {
-    //         applicationIdSuffix '.phiro'
-    //         resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "true"
-    //         resValue "string", "FEATURE_AI_PREFERENCES_ENABLED", "true"
-    //     }
-    //     pocketCodeBeta {
-    //         applicationIdSuffix '.test'
-    //         manifestPlaceholders.appName = "Pocket Code BETA-" + defaultVersionCode
-    //     }
-    //     mindstorms {
-    //         applicationIdSuffix '.mindstorms'
-    //         resValue "string", "FEATURE_MINDSTORMS_PREFERENCES_ENABLED", "true"
-    //         resValue "string", "FEATURE_AI_PREFERENCES_ENABLED", "true"
-    //     }
-    //     standalone {
-    //         if (!project.hasProperty('packageName')) {
-    //             applicationIdSuffix '.standalone'
-    //         }
-    //         versionCode 1
-    //         versionName '1.0'
-
-    //         buildConfigField "String", "START_PROJECT", "\"$projectId\""
-    //         buildConfigField "String", "PROJECT_NAME", "\"$appName\""
-    //         buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
-    //     }
+    // lint {
+    //     abortOnError false
+    //     baseline file('config/lint-baseline.xml')
+    //     htmlOutput file('build/reports/lint-report.html')
+    //     htmlReport true
+    //     ignore 'GradleDependency', 'OldTargetApi', 'ExtraTranslation', 'MissingTranslation', 'LintBaseline', 'ObsoleteLintCustomCheck'
+    //     lintConfig file('config/lint.xml')
+    //     textReport true
+    //     xmlOutput file('build/reports/lint-report.xml')
+    //     xmlReport true
     // }
+
+    productFlavors {
+        catroid {
+            isDefault.set(true)
+        }
+        createAtSchool {
+            applicationIdSuffix '.createatschool'
+        }
+        embroideryDesigner {
+            applicationIdSuffix '.embroiderydesigner'
+            resValue "string", "FEATURE_EMBROIDERY_PREFERENCES_ENABLED", "true"
+        }
+        lunaAndCat {
+            applicationIdSuffix '.lunaandcat'
+        }
+        phiro {
+            applicationIdSuffix '.phiro'
+            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "true"
+            resValue "string", "FEATURE_AI_PREFERENCES_ENABLED", "true"
+        }
+        pocketCodeBeta {
+            applicationIdSuffix '.test'
+            manifestPlaceholders.appName = "Pocket Code BETA-" + defaultVersionCode
+        }
+        mindstorms {
+            applicationIdSuffix '.mindstorms'
+            resValue "string", "FEATURE_MINDSTORMS_PREFERENCES_ENABLED", "true"
+            resValue "string", "FEATURE_AI_PREFERENCES_ENABLED", "true"
+        }
+        standalone {
+            if (!project.hasProperty('packageName')) {
+                applicationIdSuffix '.standalone'
+            }
+            versionCode 1
+            versionName '1.0'
+
+            buildConfigField "String", "START_PROJECT", "\"$projectId\""
+            buildConfigField "String", "PROJECT_NAME", "\"$appName\""
+            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
+        }
+    }
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
