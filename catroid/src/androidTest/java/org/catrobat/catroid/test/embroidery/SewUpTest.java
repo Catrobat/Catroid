@@ -46,15 +46,12 @@ import static org.junit.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class SewUpTest {
 	private Sprite sprite;
-	private Look spriteLook;
-	private EmbroideryPatternManager embroideryPatternManager;
 
 	@Before
 	public void setUp() {
 		sprite = new Sprite("testSprite");
-		spriteLook = Mockito.mock(Look.class);
-		sprite.look = spriteLook;
-		embroideryPatternManager = new DSTPatternManager();
+		sprite.look = Mockito.mock(Look.class);
+		EmbroideryPatternManager embroideryPatternManager = new DSTPatternManager();
 		StageActivity.stageListener = new StageListener();
 		StageActivity.stageListener.embroideryPatternManager = embroideryPatternManager;
 	}
@@ -62,6 +59,11 @@ public class SewUpTest {
 	@After
 	public void tearDown() {
 		StageActivity.stageListener = null;
+	}
+
+	@Test
+	public void testSetNullSprite() {
+		sprite.getActionFactory().createSewUpAction(null).act(1f);
 	}
 
 	@Test
