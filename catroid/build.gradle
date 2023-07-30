@@ -113,68 +113,68 @@ android {
         viewBinding = true
     }
 
-    // defaultConfig {
+    defaultConfig {
 
-    //     minSdkVersion 23
-    //     targetSdkVersion 33
-    //     applicationId appId
-    //     testInstrumentationRunner 'org.catrobat.catroid.runner.UiTestApplicationRunner'
-    //     versionCode defaultVersionCode
-    //     versionName defaultVersionName
-    //     println "VersionCode is $versionCode"
-    //     println "VersionName is $versionName"
-    //     multiDexEnabled true
-    //     manifestPlaceholders += [appName: manifestAppName,
-    //                              appIcon: manifestAppIcon,
-    //                              intentFilterScheme: "https",
-    //                              intentFilterHost: "share.catrob.at",
-    //                              intentFilterPathPattern: "/.*/project/.*"]
+        minSdkVersion 23
+        targetSdkVersion 33
+        applicationId appId
+        testInstrumentationRunner 'org.catrobat.catroid.runner.UiTestApplicationRunner'
+        versionCode defaultVersionCode
+        versionName defaultVersionName
+        println "VersionCode is $versionCode"
+        println "VersionName is $versionName"
+        multiDexEnabled true
+        manifestPlaceholders += [appName: manifestAppName,
+                                 appIcon: manifestAppIcon,
+                                 intentFilterScheme: "https",
+                                 intentFilterHost: "share.catrob.at",
+                                 intentFilterPathPattern: "/.*/project/.*"]
 
-    //     buildConfigField "String", "GIT_COMMIT_INFO", "\"${getGitCommitInfo()}\""
-    //     buildConfigField "String", "WEB_TEST_URL", "\"" + project.getProperties().get('webTestUrl') + "\""
-    //     buildConfigField "boolean", "WEB_TEST_FLAG", (project.hasProperty('webTestUrl') ? 'true' :
-    //             'false')
+        buildConfigField "String", "GIT_COMMIT_INFO", "\"${getGitCommitInfo()}\""
+        buildConfigField "String", "WEB_TEST_URL", "\"" + project.getProperties().get('webTestUrl') + "\""
+        buildConfigField "boolean", "WEB_TEST_FLAG", (project.hasProperty('webTestUrl') ? 'true' :
+                'false')
 
-    //     buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
-    //     buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
+        buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
+        buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
 
-    //     buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", "false"
+        buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", "false"
 
-    //     buildConfigField "boolean", "FEATURE_LIST_AS_BASIC_DATATYPE", "false"
+        buildConfigField "boolean", "FEATURE_LIST_AS_BASIC_DATATYPE", "false"
 
-    //     buildConfigField "boolean", "FEATURE_AI_SENSORS_ENABLED", "true"
-    //     buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
-    //     buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
-    //     buildConfigField "boolean", "FEATURE_CAST_ENABLED", "true"
-    //     buildConfigField "boolean", "FEATURE_EMBROIDERY_ENABLED", "true"
-    //     buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
-    //     buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
-    //     buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "true"
-    //     buildConfigField "boolean", "FEATURE_PARROT_JUMPING_SUMO_ENABLED", "true"
-    //     buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
-    //     buildConfigField "boolean", "FEATURE_MERGE_ENABLED", "true"
-    //     buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
-    //     buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "true"
-    //     buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
-    //     buildConfigField "boolean", "FEATURE_SCRATCH_CONVERTER_ENABLED", "true"
-    //     buildConfigField "boolean", "FEATURE_USER_REPORTERS_ENABLED", "true"
-    //     buildConfigField "boolean", "FEATURE_MULTIPLAYER_VARIABLES_ENABLED", "true"
-    //     buildConfigField "boolean", "FEATURE_TESTBRICK_ENABLED", "true"
-    //     buildConfigField "boolean", "FEATURE_CATBLOCKS_ENABLED", "true"
-    //     buildConfigField "boolean", "FEATURE_CATBLOCKS_DEBUGABLE", "false"
-    //     resValue "string", "FEATURE_EMBROIDERY_PREFERENCES_ENABLED", "false"
-    //     resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
-    //     resValue "string", "FEATURE_MINDSTORMS_PREFERENCES_ENABLED", "false"
-    //     resValue "string", "FEATURE_AI_PREFERENCES_ENABLED", "false"
-    //     resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
-    //     resValue "string", "DEBUG_MODE", "false"
+        buildConfigField "boolean", "FEATURE_AI_SENSORS_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
+        buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_CAST_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_EMBROIDERY_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_PARROT_JUMPING_SUMO_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_MERGE_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_SCRATCH_CONVERTER_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_USER_REPORTERS_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_MULTIPLAYER_VARIABLES_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_TESTBRICK_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_CATBLOCKS_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_CATBLOCKS_DEBUGABLE", "false"
+        resValue "string", "FEATURE_EMBROIDERY_PREFERENCES_ENABLED", "false"
+        resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
+        resValue "string", "FEATURE_MINDSTORMS_PREFERENCES_ENABLED", "false"
+        resValue "string", "FEATURE_AI_PREFERENCES_ENABLED", "false"
+        resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
+        resValue "string", "DEBUG_MODE", "false"
 
-    //     javaCompileOptions {
-    //         annotationProcessorOptions {
-    //             arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
-    //         }
-    //     }
-    // }
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+    }
 
 
     // testOptions {
