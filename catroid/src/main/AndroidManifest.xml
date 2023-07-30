@@ -95,7 +95,6 @@
 
         <activity
             android:name=".ui.MainMenuActivity"
-            android:exported="true"
             android:screenOrientation="portrait"
             android:exported="true"
             android:windowSoftInputMode="adjustNothing">
@@ -149,8 +148,7 @@
             android:name=".ui.ProjectListActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:exported="true"
-            android:windowSoftInputMode="adjustNothing" >
+            android:windowSoftInputMode="adjustNothing">
             <intent-filter
                 android:icon="${appIcon}"
                 android:label="Import Catrobat Project">
@@ -181,7 +179,6 @@
         <activity
             android:exported="true"
             android:name=".ui.SpriteActivity"
-            android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>
@@ -244,7 +241,7 @@
         <service android:name=".transfers.project.ProjectDownloadService" />
         <service android:name=".transfers.MediaDownloadService" />
         <service android:name=".utils.notifications.StatusBarNotificationManager$NotificationActionService" />
-        <service android:name=".cast.CastService" android:exported="false"/>
+        <service android:name=".cast.CastService"/>
 
         <provider
             android:authorities="${applicationId}.fileProvider"

@@ -30,8 +30,8 @@
         android:name=".CatroidApplication">
 
         <activity
-            android:name=".ui.MainMenuActivity">
             android:exported="true"
+            android:name=".ui.MainMenuActivity">
             <intent-filter tools:node="remove">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.BROWSABLE" />
