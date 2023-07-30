@@ -177,13 +177,13 @@ android {
     }
 
 
-    // testOptions {
-    //     unitTests.returnDefaultValues = true
-    //     unitTests.includeAndroidResources = true
-    //     unitTests.all {
-    //         jvmArgs '-Xmx2g'
-    //     }
-    // }
+    testOptions {
+        unitTests.returnDefaultValues = true
+        unitTests.includeAndroidResources = true
+        unitTests.all {
+            jvmArgs '-Xmx2g'
+        }
+    }
 
     // sourceSets {
     //     androidTest {
