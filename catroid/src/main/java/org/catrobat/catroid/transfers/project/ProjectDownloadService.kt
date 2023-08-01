@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,13 +32,13 @@ import android.os.ResultReceiver
 import android.util.Log
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.common.AndroidAppConstants
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.Constants.CACHE_DIRECTORY
 import org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION
 import org.catrobat.catroid.common.Constants.EXTRA_PROJECT_NAME
 import org.catrobat.catroid.common.Constants.MAX_PERCENT
 import org.catrobat.catroid.common.Constants.TMP_DIRECTORY_NAME
-import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.ZipArchiver
 import org.catrobat.catroid.ui.MainMenuActivity
@@ -135,8 +135,10 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
         val notificationData = statusBarNotificationManager.createProjectDownloadNotification(this, projectName)
 
         try {
-            val projectNameForFileSystem = FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
-            val projectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectNameForFileSystem)
+            val projectNameForFileSystem =
+                FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
+            val projectDir =
+                File(AndroidAppConstants.getAppRootDirectory(), projectNameForFileSystem)
             ZipArchiver().unzip(destinationFile, projectDir)
 
             XstreamSerializer.renameProject(File(projectDir, Constants.CODE_XML_FILE_NAME), projectName)

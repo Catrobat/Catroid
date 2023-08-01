@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.test.io;
 
-import org.catrobat.catroid.common.FlavoredConstants;
+import org.catrobat.catroid.common.AndroidAppConstants;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
 import org.junit.After;
@@ -42,7 +42,7 @@ import static junit.framework.Assert.assertTrue;
 @RunWith(AndroidJUnit4.class)
 public class ResourceImporterTest {
 
-	private File testDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "ResourceImporterTest");
+	private final File testDir = new File(AndroidAppConstants.DEFAULT_ROOT_DIRECTORY, "ResourceImporterTest");
 
 	@Before
 	public void setUp() {

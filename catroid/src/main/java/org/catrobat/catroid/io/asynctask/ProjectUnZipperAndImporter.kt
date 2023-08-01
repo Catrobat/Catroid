@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,9 +27,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.catrobat.catroid.common.AndroidAppConstants
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.Constants.CACHE_DIRECTORY
-import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.XstreamSerializer
@@ -91,11 +91,14 @@ private fun getProjectName(projectDir: File): String? {
 
 private fun importProject(projectDir: File): Boolean {
     var projectName = getProjectName(projectDir) ?: return false
-    projectName = UniqueNameProvider().getUniqueName(projectName, FileMetaDataExtractor
-        .getProjectNames(FlavoredConstants.DEFAULT_ROOT_DIRECTORY))
+    projectName = UniqueNameProvider().getUniqueName(
+        projectName, FileMetaDataExtractor
+            .getProjectNames(AndroidAppConstants.getAppRootDirectory())
+    )
     val destinationDirectory = File(
-        FlavoredConstants.DEFAULT_ROOT_DIRECTORY,
-        FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName))
+        AndroidAppConstants.getAppRootDirectory(),
+        FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
+    )
     return try {
         copyProject(projectDir, destinationDirectory, projectName)
         true

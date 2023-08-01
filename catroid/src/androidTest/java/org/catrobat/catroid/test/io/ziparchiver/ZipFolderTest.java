@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.test.io.ziparchiver;
 
-import org.catrobat.catroid.common.FlavoredConstants;
+import org.catrobat.catroid.common.AndroidAppConstants;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.ZipArchiver;
 import org.junit.After;
@@ -48,8 +48,8 @@ public class ZipFolderTest {
 
 	@Before
 	public void setUp() {
-		outputArchive = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "testCompareZips.zip");
-		projectDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "testZipProject");
+		outputArchive = new File(AndroidAppConstants.DEFAULT_ROOT_DIRECTORY, "testCompareZips.zip");
+		projectDir = new File(AndroidAppConstants.DEFAULT_ROOT_DIRECTORY, "testZipProject");
 	}
 
 	@After

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,8 +25,6 @@ package org.catrobat.catroid.common;
 
 import android.os.Environment;
 
-import org.catrobat.catroid.CatroidApplication;
-
 import java.io.File;
 
 import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
@@ -46,8 +44,6 @@ public final class FlavoredConstants {
 
 	public static final String POCKET_CODE_EXTERNAL_STORAGE_FOLDER_NAME = "Pocket Code";
 
-	public static final File DEFAULT_ROOT_DIRECTORY = CatroidApplication.getAppContext().getFilesDir();
-
 	public static final File EXTERNAL_STORAGE_ROOT_DIRECTORY = new File(
 			Environment.getExternalStorageDirectory(), POCKET_CODE_EXTERNAL_STORAGE_FOLDER_NAME);
 
@@ -59,6 +55,8 @@ public final class FlavoredConstants {
 	public static final String LIBRARY_BACKGROUNDS_URL_LANDSCAPE = BASE_URL_HTTPS + "media-library/backgrounds-landscape";
 	public static final String LIBRARY_SOUNDS_URL = BASE_URL_HTTPS + "media-library/sounds";
 	public static final String PRIVACY_POLICY_URL = "https://catrob.at/privacypolicy";
+
+	public static final ScreenModes PROJECT_DEFAULT_SCREEN_MODE = ScreenModes.STRETCH;
 
 	private FlavoredConstants() {
 		throw new AssertionError("No.");

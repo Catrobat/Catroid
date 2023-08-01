@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,6 +30,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.AndroidAppConstants;
 import org.catrobat.catroid.common.BroadcastMessageContainer;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScreenModes;
@@ -52,7 +53,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.Z_INDEX_BACKGROUND;
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.utils.Utils.SPEECH_RECOGNITION_SUPPORTED_LANGUAGES;
 
 @XStreamAlias("program")
@@ -138,7 +138,7 @@ public class Project implements Serializable {
 
 	public File getDirectory() {
 		if (directory == null) {
-			directory = new File(DEFAULT_ROOT_DIRECTORY,
+			directory = new File(AndroidAppConstants.getAppRootDirectory(),
 					FileMetaDataExtractor.encodeSpecialCharsForFileSystem(getName()));
 		}
 		return directory;

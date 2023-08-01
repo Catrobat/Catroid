@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,9 +25,9 @@ package org.catrobat.catroid.test.io.asynctask
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import junit.framework.TestCase
+import org.catrobat.catroid.common.AndroidAppConstants.getAppRootDirectory
 import org.catrobat.catroid.common.Constants.CACHE_DIRECTORY
 import org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME
-import org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY
 import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.asynctask.unzipAndImportProjects
@@ -56,12 +56,13 @@ class ProjectUnZipperAndImporterTest {
     @Throws(IOException::class)
     fun setUp() {
         TestUtils.deleteProjects(AIR_FIGHT_0_5, AIR_FIGHT_0_5_1, FALLING_BALLS)
-        DEFAULT_ROOT_DIRECTORY.mkdir()
+        getAppRootDirectory().mkdir()
         CACHE_DIRECTORY.mkdir()
         var assetName = "Air_fight_0.5.catrobat"
         var inputStream =
             InstrumentationRegistry.getInstrumentation().context.assets.open(assetName)
-        projectAirFightFile = StorageOperations.copyStreamToDir(inputStream, CACHE_DIRECTORY, assetName)
+        projectAirFightFile =
+            StorageOperations.copyStreamToDir(inputStream, CACHE_DIRECTORY, assetName)
         assetName = "Falling_balls.catrobat"
         inputStream = InstrumentationRegistry.getInstrumentation().context.assets.open(assetName)
         projectFallingBallsFile =
@@ -80,26 +81,33 @@ class ProjectUnZipperAndImporterTest {
     fun testUnzipAndImportSingleProject() {
         TestCase.assertTrue(unzipAndImportProjects(arrayOf(projectAirFightFile)))
         MatcherAssert.assertThat(
-            FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY),
+            FileMetaDataExtractor.getProjectNames(getAppRootDirectory()),
             IsCollectionContaining.hasItem(AIR_FIGHT_0_5)
         )
-        val xmlFile = File(File(DEFAULT_ROOT_DIRECTORY, AIR_FIGHT_0_5), CODE_XML_FILE_NAME)
+        val xmlFile = File(File(getAppRootDirectory(), AIR_FIGHT_0_5), CODE_XML_FILE_NAME)
         assertEquals(AIR_FIGHT_0_5, ProjectMetaDataParser(xmlFile).projectMetaData.name)
     }
 
     @Test
     @Throws(IOException::class)
     fun testUnzipAndImportMultipleProjects() {
-        TestCase.assertTrue(unzipAndImportProjects(arrayOf(projectAirFightFile, projectFallingBallsFile)))
-        var projectNames = FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY)
+        TestCase.assertTrue(
+            unzipAndImportProjects(
+                arrayOf(
+                    projectAirFightFile,
+                    projectFallingBallsFile
+                )
+            )
+        )
+        var projectNames = FileMetaDataExtractor.getProjectNames(getAppRootDirectory())
         MatcherAssert.assertThat(projectNames, IsCollectionContaining.hasItem(AIR_FIGHT_0_5))
 
-        var xmlFile = File(File(DEFAULT_ROOT_DIRECTORY, AIR_FIGHT_0_5), CODE_XML_FILE_NAME)
+        var xmlFile = File(File(getAppRootDirectory(), AIR_FIGHT_0_5), CODE_XML_FILE_NAME)
         assertEquals(AIR_FIGHT_0_5, ProjectMetaDataParser(xmlFile).projectMetaData.name)
-        projectNames = FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY)
+        projectNames = FileMetaDataExtractor.getProjectNames(getAppRootDirectory())
         MatcherAssert.assertThat(projectNames, IsCollectionContaining.hasItem(FALLING_BALLS))
 
-        xmlFile = File(File(DEFAULT_ROOT_DIRECTORY, FALLING_BALLS), CODE_XML_FILE_NAME)
+        xmlFile = File(File(getAppRootDirectory(), FALLING_BALLS), CODE_XML_FILE_NAME)
         assertEquals(FALLING_BALLS, ProjectMetaDataParser(xmlFile).projectMetaData.name)
     }
 
@@ -107,16 +115,16 @@ class ProjectUnZipperAndImporterTest {
     @Throws(IOException::class)
     fun testUnzipAndImportSameProjectTwice() {
         TestCase.assertTrue(unzipAndImportProjects(arrayOf(projectAirFightFile)))
-        var projectNames = FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY)
+        var projectNames = FileMetaDataExtractor.getProjectNames(getAppRootDirectory())
         MatcherAssert.assertThat(projectNames, IsCollectionContaining.hasItem(AIR_FIGHT_0_5))
 
-        var xmlFile = File(File(DEFAULT_ROOT_DIRECTORY, AIR_FIGHT_0_5), CODE_XML_FILE_NAME)
+        var xmlFile = File(File(getAppRootDirectory(), AIR_FIGHT_0_5), CODE_XML_FILE_NAME)
         assertEquals(AIR_FIGHT_0_5, ProjectMetaDataParser(xmlFile).projectMetaData.name)
         TestCase.assertTrue(unzipAndImportProjects(arrayOf(projectAirFightFile)))
-        projectNames = FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY)
+        projectNames = FileMetaDataExtractor.getProjectNames(getAppRootDirectory())
         MatcherAssert.assertThat(projectNames, IsCollectionContaining.hasItem(AIR_FIGHT_0_5_1))
 
-        xmlFile = File(File(DEFAULT_ROOT_DIRECTORY, AIR_FIGHT_0_5_1), CODE_XML_FILE_NAME)
+        xmlFile = File(File(getAppRootDirectory(), AIR_FIGHT_0_5_1), CODE_XML_FILE_NAME)
         assertEquals(AIR_FIGHT_0_5_1, ProjectMetaDataParser(xmlFile).projectMetaData.name)
     }
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 package org.catrobat.catroid.test.content.messagecontainer;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.FlavoredConstants;
+import org.catrobat.catroid.common.AndroidAppConstants;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -69,8 +69,8 @@ public class MessageContainerTest {
 
 	@After
 	public void tearDown() throws Exception {
-		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName1));
-		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName2));
+		StorageOperations.deleteDir(new File(AndroidAppConstants.DEFAULT_ROOT_DIRECTORY, projectName1));
+		StorageOperations.deleteDir(new File(AndroidAppConstants.DEFAULT_ROOT_DIRECTORY, projectName2));
 	}
 
 	@Test
@@ -130,7 +130,7 @@ public class MessageContainerTest {
 		XstreamSerializer.getInstance().saveProject(project2);
 
 		ProjectManager.getInstance()
-				.loadProject(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName2),
+				.loadProject(new File(AndroidAppConstants.DEFAULT_ROOT_DIRECTORY, projectName2),
 						ApplicationProvider.getApplicationContext());
 	}
 }

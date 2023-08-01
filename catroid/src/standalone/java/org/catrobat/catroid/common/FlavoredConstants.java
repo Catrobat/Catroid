@@ -60,6 +60,8 @@ public final class FlavoredConstants {
 	public static final String LIBRARY_SOUNDS_URL = BASE_URL_HTTPS + "media-library/sounds";
 	public static final String PRIVACY_POLICY_URL = "https://catrob.at/privacypolicy";
 
+	public static final ScreenModes PROJECT_DEFAULT_SCREEN_MODE = ScreenModes.STRETCH;
+
 	private FlavoredConstants() {
 		throw new AssertionError("No.");
 	}

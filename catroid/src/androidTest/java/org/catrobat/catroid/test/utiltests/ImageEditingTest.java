@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,8 +27,8 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 
+import org.catrobat.catroid.common.AndroidAppConstants;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 import org.catrobat.catroid.utils.ImageEditing;
@@ -62,7 +62,7 @@ public class ImageEditingTest {
 
 	@Test
 	public void testGetImageDimensions() throws IOException {
-		File testImageFile = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "tmp.jpg");
+		File testImageFile = new File(AndroidAppConstants.DEFAULT_ROOT_DIRECTORY, "tmp.jpg");
 
 		Bitmap bitmap = Bitmap.createBitmap(100, 200, Bitmap.Config.RGB_565);
 
@@ -86,7 +86,7 @@ public class ImageEditingTest {
 		int bitmapWidth = 100;
 		int bitmapHeight = 200;
 
-		File testImageFile = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "tmp.jpg");
+		File testImageFile = new File(AndroidAppConstants.DEFAULT_ROOT_DIRECTORY, "tmp.jpg");
 
 		Bitmap bitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.RGB_565);
 
@@ -143,7 +143,7 @@ public class ImageEditingTest {
 		int bitmapWidth = 1000;
 		int bitmapHeight = 900;
 
-		File testImageFile = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "tmp.jpg");
+		File testImageFile = new File(AndroidAppConstants.DEFAULT_ROOT_DIRECTORY, "tmp.jpg");
 
 		Bitmap bitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.RGB_565);
 

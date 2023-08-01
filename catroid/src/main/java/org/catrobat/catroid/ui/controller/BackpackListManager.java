@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,8 +22,8 @@
  */
 package org.catrobat.catroid.ui.controller;
 
+import org.catrobat.catroid.common.AndroidAppConstants;
 import org.catrobat.catroid.common.Backpack;
-import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Scene;
@@ -45,13 +45,12 @@ import static org.catrobat.catroid.common.Constants.BACKPACK_JSON_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public final class BackpackListManager {
 
 	private static final BackpackListManager INSTANCE = new BackpackListManager();
 
-	public final File backpackDirectory = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, BACKPACK_DIRECTORY_NAME);
+	public final File backpackDirectory = new File(AndroidAppConstants.getAppRootDirectory(), BACKPACK_DIRECTORY_NAME);
 	public final File backpackFile = new File(backpackDirectory, BACKPACK_JSON_FILE_NAME);
 	public final File backpackSceneDirectory = new File(backpackDirectory, BACKBACK_SCENES_DIRECTORY_NAME);
 	public final File backpackSoundDirectory = new File(backpackDirectory, BACKPACK_SOUND_DIRECTORY_NAME);
@@ -70,7 +69,7 @@ public final class BackpackListManager {
 	}
 
 	private void createBackpackDirectories() {
-		DEFAULT_ROOT_DIRECTORY.mkdir();
+		AndroidAppConstants.getAppRootDirectory().mkdir();
 		backpackDirectory.mkdir();
 		backpackSceneDirectory.mkdir();
 		backpackImageDirectory.mkdir();

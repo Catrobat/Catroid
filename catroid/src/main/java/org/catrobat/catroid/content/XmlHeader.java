@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,6 +26,7 @@ import android.text.TextUtils;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.common.ScreenModes;
 
 import java.io.Serializable;
@@ -45,7 +46,7 @@ public class XmlHeader implements Serializable {
 	@XStreamAlias("screenHeight")
 	public int virtualScreenHeight = 0;
 
-	public ScreenModes screenMode = ScreenModes.STRETCH;
+	public ScreenModes screenMode;
 
 	private double catrobatLanguageVersion;
 	private boolean landscapeMode;
@@ -108,6 +109,7 @@ public class XmlHeader implements Serializable {
 	//----------------------------------------------------------------------------------------------
 
 	public XmlHeader() {
+		screenMode = FlavoredConstants.PROJECT_DEFAULT_SCREEN_MODE;
 	}
 
 	public int getVirtualScreenHeight() {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,9 +38,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.common.AndroidAppConstants
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants.CATEGORY_URL
-import org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY
 import org.catrobat.catroid.common.ProjectData
 import org.catrobat.catroid.databinding.FragmentMainMenuBinding
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
@@ -214,7 +214,7 @@ class MainMenuFragment : Fragment(),
             Utils.getCurrentProjectName(requireContext())
         }
         val projectDir = File(
-            DEFAULT_ROOT_DIRECTORY,
+            AndroidAppConstants.getAppRootDirectory(),
             FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject)
         )
         CoroutineScope(Dispatchers.IO).launch {
@@ -228,7 +228,7 @@ class MainMenuFragment : Fragment(),
 
     private fun loadDownloadedProject(name: String) {
         val projectDir = File(
-            DEFAULT_ROOT_DIRECTORY,
+            AndroidAppConstants.getAppRootDirectory(),
             FileMetaDataExtractor.encodeSpecialCharsForFileSystem(name)
         )
         ProjectLoader(projectDir, requireContext())
@@ -252,7 +252,7 @@ class MainMenuFragment : Fragment(),
 
     private fun loadProjectImage() {
         val projectDir = File(
-            DEFAULT_ROOT_DIRECTORY,
+            AndroidAppConstants.getAppRootDirectory(),
             FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject)
         )
         val loader = ProjectAndSceneScreenshotLoader(CURRENT_THUMBNAIL_SIZE, CURRENT_THUMBNAIL_SIZE)
@@ -274,7 +274,7 @@ class MainMenuFragment : Fragment(),
     override fun onProjectClick(projectData: ProjectData?) {
         viewModel.setIsLoading(true)
         val projectDir = File(
-            DEFAULT_ROOT_DIRECTORY,
+            AndroidAppConstants.getAppRootDirectory(),
             FileMetaDataExtractor
                 .encodeSpecialCharsForFileSystem(projectData!!.name)
         )
@@ -294,7 +294,7 @@ class MainMenuFragment : Fragment(),
             R.id.editProject -> {
                 viewModel.setIsLoading(true)
                 val projectDir = File(
-                    DEFAULT_ROOT_DIRECTORY,
+                    AndroidAppConstants.getAppRootDirectory(),
                     FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject)
                 )
                 ProjectLoader(projectDir, requireContext())
@@ -318,7 +318,7 @@ class MainMenuFragment : Fragment(),
                     .putExtra(
                         PROJECT_DIR,
                         File(
-                            DEFAULT_ROOT_DIRECTORY,
+                            AndroidAppConstants.getAppRootDirectory(),
                             FileMetaDataExtractor.encodeSpecialCharsForFileSystem(
                                 Utils.getCurrentProjectName(activity)
                             )

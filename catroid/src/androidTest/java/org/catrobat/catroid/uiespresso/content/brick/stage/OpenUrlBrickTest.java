@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -51,7 +51,7 @@ import java.io.IOException;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.common.AndroidAppConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.ui.fragment.FormulaEditorFragment.DO_NOT_SHOW_WARNING;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.hamcrest.Matchers.allOf;

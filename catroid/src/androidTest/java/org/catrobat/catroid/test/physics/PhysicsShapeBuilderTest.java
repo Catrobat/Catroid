@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.FlavoredConstants;
+import org.catrobat.catroid.common.AndroidAppConstants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
@@ -79,7 +79,7 @@ public class PhysicsShapeBuilderTest {
 	@Before
 	public void setUp() throws Exception {
 		physicsWorld = new PhysicsWorld(1920, 1600);
-		projectDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		projectDir = new File(AndroidAppConstants.DEFAULT_ROOT_DIRECTORY, TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		if (projectDir.exists()) {
 			StorageOperations.deleteDir(projectDir);

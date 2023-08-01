@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,7 +29,7 @@ import android.preference.PreferenceManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 
-import org.catrobat.catroid.common.FlavoredConstants;
+import org.catrobat.catroid.common.AndroidAppConstants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -63,7 +63,7 @@ public final class TestUtils {
 
 	public static void deleteProjects(String... projectNames) throws IOException {
 		for (String projectName : projectNames) {
-			File projectDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName);
+			File projectDir = new File(AndroidAppConstants.DEFAULT_ROOT_DIRECTORY, projectName);
 			if (projectDir.exists() && projectDir.isDirectory()) {
 				StorageOperations.deleteDir(projectDir);
 			}
