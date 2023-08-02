@@ -85,6 +85,14 @@ class AddBrickCatblocksTest {
         catblocksFragment.activity?.runOnUiThread(Runnable {
             catblocksFragment.handleAddButton()
         })
+        if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.P) {
+            val addButtonXCoordinate = uiDevice.displayWidth - 100
+            val addButtonYCoordinate = uiDevice.displayHeight - 70
+            val pressTimeInMillisecs = 500
+            val timeTakenPerStep = 5
+            uiDevice.drag(addButtonXCoordinate, addButtonYCoordinate, addButtonXCoordinate, addButtonYCoordinate,
+                          pressTimeInMillisecs/timeTakenPerStep)
+        }
         val categoryEvent = uiDevice.findObject(
             UiSelector().resourceId("categoryEVENT")
         )
