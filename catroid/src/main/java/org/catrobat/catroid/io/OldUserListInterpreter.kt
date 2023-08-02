@@ -228,12 +228,6 @@ class OldUserListInterpreter(private val outcomeDocument: Document) {
         outcomeDocument.renameNode(secondChild, null, DEFAULT)
     }
 
-/**
- * These 3 functions are necessary because with CATROID-851, there are no userListLists in
- * neither the Project nor the Sprite.
- * To still be able to interpret old programs, these functions move userVariables that are
- * lists into the userVariableLists of the program and of each Sprite.
- **/
     private fun moveUserListReferencesToVariableReferences() {
         try {
             moveProjectsLists()
@@ -262,9 +256,6 @@ class OldUserListInterpreter(private val outcomeDocument: Document) {
         program.removeChild(programUserLists)
     }
 
-    /**
-     * Is a bit different because we are only allowed to move those userLists into the
-     * userVariableList that belong to this Sprite */
     private fun moveSpritesLists() {
         val scenes = NodeOperatorExtension
             .getNodeByName(outcomeDocument.firstChild, "scenes") ?: return
