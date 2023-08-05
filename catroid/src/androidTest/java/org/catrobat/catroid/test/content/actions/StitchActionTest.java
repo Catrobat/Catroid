@@ -91,4 +91,11 @@ public class StitchActionTest {
 		Mockito.verify(StageActivity.stageListener.embroideryPatternManager, Mockito.times(1)).addStitchCommand(new DSTStitchCommand(spriteCoords1.x, spriteCoords1.y, testSprite1.look.getZIndex(), testSprite1, Color.BLACK));
 		Mockito.verify(StageActivity.stageListener.embroideryPatternManager, Mockito.times(1)).addStitchCommand(new DSTStitchCommand(spriteCoords2.x, spriteCoords2.y, testSprite2.look.getZIndex(), testSprite2, Color.BLACK));
 	}
+
+	@Test
+	public void testNullSprite() {
+		ActionFactory.createStitchAction(null).act(1f);
+		Mockito.verify(StageActivity.stageListener.embroideryPatternManager, Mockito.times(0)).addStitchCommand(new DSTStitchCommand(spriteCoords1.x, spriteCoords1.y, testSprite1.look.getZIndex(), testSprite1, Color.BLACK));
+		Mockito.verify(StageActivity.stageListener.embroideryPatternManager, Mockito.times(0)).addStitchCommand(new DSTStitchCommand(spriteCoords2.x, spriteCoords2.y, testSprite2.look.getZIndex(), testSprite2, Color.BLACK));
+	}
 }
