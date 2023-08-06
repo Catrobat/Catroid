@@ -24,12 +24,17 @@
 package org.catrobat.catroid.test.io.catrobatlanguage
 
 import com.badlogic.gdx.math.Vector2
+import org.catrobat.catroid.content.BroadcastScript
+import org.catrobat.catroid.content.RaspiInterruptScript
+import org.catrobat.catroid.content.WhenConditionScript
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick
 import org.catrobat.catroid.content.bricks.AskSpeechBrick
+import org.catrobat.catroid.content.bricks.AssertEqualsBrick
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.BroadcastBrick
+import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick
 import org.catrobat.catroid.content.bricks.ChangeColorByNBrick
@@ -40,7 +45,6 @@ import org.catrobat.catroid.content.bricks.ChangeVariableBrick
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick
-import org.catrobat.catroid.content.bricks.ClearUserListBrick
 import org.catrobat.catroid.content.bricks.CopyLookBrick
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick
@@ -54,7 +58,6 @@ import org.catrobat.catroid.content.bricks.DroneTurnRightBrick
 import org.catrobat.catroid.content.bricks.ForVariableFromToBrick
 import org.catrobat.catroid.content.bricks.GlideToBrick
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick
-import org.catrobat.catroid.content.bricks.HideTextBrick
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick
 import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick
@@ -98,12 +101,11 @@ import org.catrobat.catroid.content.bricks.RepeatBrick
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick
 import org.catrobat.catroid.content.bricks.ReportBrick
+import org.catrobat.catroid.content.bricks.RunningStitchBrick
 import org.catrobat.catroid.content.bricks.SayBubbleBrick
 import org.catrobat.catroid.content.bricks.SayForBubbleBrick
 import org.catrobat.catroid.content.bricks.SceneStartBrick
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick
-import org.catrobat.catroid.content.bricks.SetBackgroundAndWaitBrick
-import org.catrobat.catroid.content.bricks.SetBackgroundBrick
 import org.catrobat.catroid.content.bricks.SetBackgroundByIndexAndWaitBrick
 import org.catrobat.catroid.content.bricks.SetBackgroundByIndexBrick
 import org.catrobat.catroid.content.bricks.SetBounceBrick
@@ -134,13 +136,20 @@ import org.catrobat.catroid.content.bricks.TapForBrick
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick
 import org.catrobat.catroid.content.bricks.TouchAndSlideBrick
+import org.catrobat.catroid.content.bricks.TripleStitchBrick
 import org.catrobat.catroid.content.bricks.TurnLeftBrick
+import org.catrobat.catroid.content.bricks.TurnLeftSpeedBrick
 import org.catrobat.catroid.content.bricks.TurnRightBrick
+import org.catrobat.catroid.content.bricks.TurnRightSpeedBrick
 import org.catrobat.catroid.content.bricks.UserVariableBrickWithFormula
 import org.catrobat.catroid.content.bricks.VibrationBrick
 import org.catrobat.catroid.content.bricks.WaitUntilBrick
 import org.catrobat.catroid.content.bricks.WebRequestBrick
+import org.catrobat.catroid.content.bricks.WhenConditionBrick
+import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick
+import org.catrobat.catroid.content.bricks.WriteEmbroideryToFileBrick
 import org.catrobat.catroid.content.bricks.WriteVariableToFileBrick
+import org.catrobat.catroid.content.bricks.ZigZagStitchBrick
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.FormulaElement
 import org.catrobat.catroid.formulaeditor.Operators
@@ -157,17 +166,12 @@ import java.util.Random
 
 @RunWith(Parameterized::class)
 class ValueSerializationTest(
-    private val name: String,
-    private val brick: Brick,
-    private val expectedOutput: String
+    private val name: String, private val brick: Brick, private val expectedOutput: String
 ) {
     companion object {
         private val testFormula1 = Formula(
             FormulaElement(
-                FormulaElement.ElementType.OPERATOR,
-                Operators.EQUAL.name, null,
-                FormulaElement(FormulaElement.ElementType.NUMBER, "-12", null),
-                FormulaElement(FormulaElement.ElementType.NUMBER, "15", null)
+                FormulaElement.ElementType.OPERATOR, Operators.EQUAL.name, null, FormulaElement(FormulaElement.ElementType.NUMBER, "-12", null), FormulaElement(FormulaElement.ElementType.NUMBER, "15", null)
             )
         )
         private val testFormulaString1 = "-12 = 15"
@@ -224,8 +228,8 @@ class ValueSerializationTest(
                 arrayOf(SetCameraFocusPointBrick::class.simpleName, SetCameraFocusPointBrick(testFloat, testFloat2), "Become focus point with flexibility in percent (horizontal: ($testFloat), vertical: ($testFloat2));\n"),
                 arrayOf(VibrationBrick::class.simpleName, VibrationBrick(testDouble), "Vibrate for (seconds: ($testDouble));\n"),
                 arrayOf(SetVelocityBrick::class.simpleName, SetVelocityBrick(Vector2(testFloat, testFloat2)), "Set velocity to (x steps/second: ($testFloat), y steps/second: ($testFloat2));\n"),
-                arrayOf(TurnLeftBrick::class.simpleName, TurnLeftBrick(testDouble), "Spin (direction: (left), degrees/second: ($testDouble));\n"),
-                arrayOf(TurnRightBrick::class.simpleName, TurnRightBrick(testDouble), "Spin (direction: (right), degrees/second: ($testDouble));\n"),
+                arrayOf(TurnLeftSpeedBrick::class.simpleName, TurnLeftSpeedBrick(testDouble), "Spin (direction: (left), degrees/second: ($testDouble));\n"),
+                arrayOf(TurnRightSpeedBrick::class.simpleName, TurnRightSpeedBrick(testDouble), "Spin (direction: (right), degrees/second: ($testDouble));\n"),
                 arrayOf(SetGravityBrick::class.simpleName, SetGravityBrick(Vector2(testFloat, testFloat2)), "Set gravity for all actors and objects to (x steps/second²: ($testFloat), y steps/second²: ($testFloat2));\n"),
                 arrayOf(SetMassBrick::class.simpleName, SetMassBrick(testDouble), "Set (mass in kilograms: ($testDouble));\n"),
                 arrayOf(SetBounceBrick::class.simpleName, SetBounceBrick(testDouble), "Set (bounce factor percentage: ($testDouble));\n"),
@@ -233,7 +237,7 @@ class ValueSerializationTest(
                 arrayOf(SetVolumeToBrick::class.simpleName, SetVolumeToBrick(testDouble), "Set (volume percentage: ($testDouble));\n"),
                 arrayOf(ChangeVolumeByNBrick::class.simpleName, ChangeVolumeByNBrick(testDouble), "Change volume by (value: ($testDouble));\n"),
                 arrayOf(PlayNoteForBeatsBrick::class.simpleName, PlayNoteForBeatsBrick(testInt1, testInt2), "Play (note: ($testInt1), number of beats: ($testInt2));\n"),
-                arrayOf(PlayDrumForBeatsBrick::class.simpleName, PlayDrumForBeatsBrick(testInt1), "Play (drum: (), number of beats: ($testInt1));\n"),
+                arrayOf(PlayDrumForBeatsBrick::class.simpleName, PlayDrumForBeatsBrick(testInt1), "Play (drum: (snare drum), number of beats: ($testInt1));\n"),
                 arrayOf(SetTempoBrick::class.simpleName, SetTempoBrick(testInt1), "Set (tempo: ($testInt1));\n"),
                 arrayOf(ChangeTempoByNBrick::class.simpleName, ChangeTempoByNBrick(testInt1), "Change tempo by (value: ($testInt1));\n"),
                 arrayOf(PauseForBeatsBrick::class.simpleName, PauseForBeatsBrick(testFloat), "Pause for (number of beats: ($testFloat));\n"),
@@ -310,8 +314,15 @@ class ValueSerializationTest(
                 arrayOf(RaspiSendDigitalValueBrick::class.simpleName, RaspiSendDigitalValueBrick(testInt1, testInt2), "Set (Raspberry Pi pin: ($testInt1), value: ($testInt2));\n"),
                 arrayOf(RaspiPwmBrick::class.simpleName, RaspiPwmBrick(testInt1, testDouble, testDouble2), "Set (Raspberry Pi PWM~ pin: ($testInt1), percentage: ($testDouble2), Hz: ($testDouble));\n"),
                 arrayOf(SetThreadColorBrick::class.simpleName, SetThreadColorBrick(Formula(testColor)), "Set (thread color: (#$testColor));\n"),
-
-                )
+                arrayOf(RunningStitchBrick::class.simpleName, RunningStitchBrick(Formula(testInt1)), "Start running stitch (length: ($testInt1));\n"),
+                arrayOf(ZigZagStitchBrick::class.simpleName, ZigZagStitchBrick(Formula(testInt1), Formula(testInt2)), "Start zigzag stitch (length: ($testInt1), width: ($testInt2));\n"),
+                arrayOf(TripleStitchBrick::class.simpleName, TripleStitchBrick(Formula(testInt1)), "Start triple stitch (length: ($testInt1));\n"),
+                arrayOf(WriteEmbroideryToFileBrick::class.simpleName, WriteEmbroideryToFileBrick(Formula(testString)), "Write embroidery data to (file: ('$testString'));\n"),
+                arrayOf(AssertEqualsBrick::class.simpleName, AssertEqualsBrick(Formula(testInt1), Formula(testString)), "Assert equals (actual: ($testInt1), expected: ('$testString'));\n"),
+                arrayOf(BroadcastReceiverBrick::class.simpleName, BroadcastReceiverBrick(BroadcastScript(testString)), "When you receive (message: ('$testString')) {\n}\n"),
+                arrayOf(WhenConditionBrick::class.simpleName, WhenConditionBrick(WhenConditionScript(testFormula1)), "When condition becomes true (condition: ($testFormula1)) {\n}\n"),
+                arrayOf(WhenRaspiPinChangedBrick::class.simpleName, WhenRaspiPinChangedBrick(RaspiInterruptScript(testInt1.toString(), testInt2.toString())), "When Raspberry Pi pin changes to (pin: ($testInt1), position: ($testInt2)) {\n}\n")
+            )
         }
     }
 

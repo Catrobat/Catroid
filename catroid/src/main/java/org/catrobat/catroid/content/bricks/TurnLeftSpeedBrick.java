@@ -26,13 +26,18 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
+import androidx.annotation.NonNull;
+
+@CatrobatLanguageBrick(command = "Spin")
 public class TurnLeftSpeedBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public TurnLeftSpeedBrick() {
-		addAllowedBrickField(BrickField.PHYSICS_TURN_LEFT_SPEED, R.id.brick_turn_left_speed_edit_text);
+		addAllowedBrickField(BrickField.PHYSICS_TURN_LEFT_SPEED, R.id.brick_turn_left_speed_edit_text, "degrees/second");
 	}
 
 	public TurnLeftSpeedBrick(double degreesPerSecond) {
@@ -59,5 +64,32 @@ public class TurnLeftSpeedBrick extends FormulaBrick {
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createTurnLeftSpeedAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.PHYSICS_TURN_LEFT_SPEED)));
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+
+		StringBuilder catrobatLanguage = new StringBuilder();
+		catrobatLanguage.append(indention);
+
+		if (commentedOut) {
+			catrobatLanguage.append("/* ");
+		}
+
+		catrobatLanguage.append(getCatrobatLanguageCommand());
+		catrobatLanguage.append(" (");
+
+		catrobatLanguage.append("direction: (left), ");
+		appendCatrobatLanguageArguments(catrobatLanguage);
+		catrobatLanguage.append(");");
+
+		if (commentedOut) {
+			catrobatLanguage.append(" */");
+		}
+
+		catrobatLanguage.append("\n");
+		return catrobatLanguage.toString();
 	}
 }

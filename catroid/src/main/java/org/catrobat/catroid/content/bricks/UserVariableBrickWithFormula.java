@@ -127,25 +127,51 @@ public abstract class UserVariableBrickWithFormula extends FormulaBrick implemen
 	}
 
 	@NonNull
-	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
+	public String serializeToCatrobatLanguage(int indentionLevel, String name, boolean beforeParams, boolean withBody) {
 		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
 
 		StringBuilder catrobatLanguage = new StringBuilder();
 		catrobatLanguage.append(indention);
-		catrobatLanguage.append(getCatrobatLanguageCommand());
 
-		catrobatLanguage.append(" (value: (");
+		if (commentedOut) {
+			catrobatLanguage.append("/* ");
+		}
+
+		catrobatLanguage.append(getCatrobatLanguageCommand());
+		catrobatLanguage.append(" (");
+
+		if (!beforeParams) {
+			appendCatrobatLanguageArguments(catrobatLanguage);
+			if (getFormulas().size() > 0) {
+				catrobatLanguage.append(", ");
+			}
+		}
+
+		catrobatLanguage.append(name + ": (");
 		if (userVariable == null) {
 			catrobatLanguage.append("0");
 		} else {
 			catrobatLanguage.append(CatrobatLanguageUtils.Companion.formatVariable(userVariable.getName()));
 		}
-		catrobatLanguage.append("), ");
-
-		appendCatrobatLanguageArguments(catrobatLanguage);
 		catrobatLanguage.append(")");
 
+		if (beforeParams) {
+			catrobatLanguage.append(", ");
+			appendCatrobatLanguageArguments(catrobatLanguage);
+		}
+
+		catrobatLanguage.append(")");
+
+		if (withBody) {
+			catrobatLanguage.append(" {");
+		} else {
+			catrobatLanguage.append(";");
+			if (commentedOut) {
+				catrobatLanguage.append(" */");
+			}
+		}
+
+		catrobatLanguage.append("\n");
 		return catrobatLanguage.toString();
 	}
 }

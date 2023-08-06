@@ -26,15 +26,19 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
 import java.util.Arrays;
 
+import androidx.annotation.NonNull;
+
+@CatrobatLanguageBrick(command = "Ask question and store written answer to variable")
 public class AskSpeechBrick extends UserVariableBrickWithFormula {
 
 	private static final long serialVersionUID = 1L;
 
 	public AskSpeechBrick() {
-		addAllowedBrickField(BrickField.ASK_SPEECH_QUESTION, R.id.brick_ask_speech_question_edit_text);
+		addAllowedBrickField(BrickField.ASK_SPEECH_QUESTION, R.id.brick_ask_speech_question_edit_text, "question");
 	}
 
 	public AskSpeechBrick(String questionText) {
@@ -69,5 +73,11 @@ public class AskSpeechBrick extends UserVariableBrickWithFormula {
 		sequence.addAction(sprite.getActionFactory()
 				.createAskSpeechAction(sprite, sequence,
 						getFormulaWithBrickField(BrickField.ASK_SPEECH_QUESTION), userVariable));
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		return super.serializeToCatrobatLanguage(indentionLevel, "variable", false, false);
 	}
 }

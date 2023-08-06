@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks.brickspinner;
 
 import android.content.Context;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 
@@ -92,5 +93,48 @@ public enum PickableDrum implements Nameable, Serializable {
 
 	public String getString(Context context) {
 		return context.getString(nameStringId);
+	}
+
+	public String getCatrobatLanguageString() {
+		switch (this.getValue()) {
+			case 38:
+				return "snare drum";
+			case 35:
+				return "bass drum";
+			case 37:
+				return "side stick";
+			case 49:
+				return "crash cymbal";
+			case 46:
+				return "open hi-hat";
+			case 42:
+				return "closed hi-hat";
+			case 54:
+				return "tambourine";
+			case 39:
+				return "hand clap";
+			case 75:
+				return "claves";
+			case 76:
+				return "wood block";
+			case 56:
+				return "cowbell";
+			case 81:
+				return "triangle";
+			case 60:
+				return "bongo";
+			case 63:
+				return "conga";
+			case 69:
+				return "cabasa";
+			case 73:
+				return "guiro";
+			case 58:
+				return "vibraslap";
+			case 79:
+				return "open cuica";
+			default:
+				throw new NotImplementedException("Drum not implemented");
+		}
 	}
 }

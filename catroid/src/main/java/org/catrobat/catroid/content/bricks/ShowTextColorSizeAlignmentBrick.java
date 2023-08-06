@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
@@ -40,6 +41,9 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.common.Conversions;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
@@ -47,6 +51,7 @@ import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -60,6 +65,7 @@ import static org.catrobat.catroid.utils.ShowTextUtils.ALIGNMENT_STYLE_RIGHT;
 import static org.catrobat.catroid.utils.ShowTextUtils.convertColorToString;
 import static org.catrobat.catroid.utils.ShowTextUtils.isValidColorString;
 
+@CatrobatLanguageBrick(command = "Show")
 public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisualPlacement implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -71,10 +77,10 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 	private transient BrickSpinner<AlignmentStyle> alignmentSpinner;
 
 	public ShowTextColorSizeAlignmentBrick() {
-		addAllowedBrickField(BrickField.X_POSITION, R.id.brick_show_variable_color_size_edit_text_x);
-		addAllowedBrickField(BrickField.Y_POSITION, R.id.brick_show_variable_color_size_edit_text_y);
-		addAllowedBrickField(BrickField.SIZE, R.id.brick_show_variable_color_size_edit_relative_size);
-		addAllowedBrickField(BrickField.COLOR, R.id.brick_show_variable_color_size_edit_color);
+		addAllowedBrickField(BrickField.X_POSITION, R.id.brick_show_variable_color_size_edit_text_x, "x");
+		addAllowedBrickField(BrickField.Y_POSITION, R.id.brick_show_variable_color_size_edit_text_y, "y");
+		addAllowedBrickField(BrickField.SIZE, R.id.brick_show_variable_color_size_edit_relative_size, "size");
+		addAllowedBrickField(BrickField.COLOR, R.id.brick_show_variable_color_size_edit_color, "color");
 
 		showFormulaEditorStrategy = new ShowColorPickerFormulaEditorStrategy();
 	}
@@ -214,6 +220,54 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 		} else if (spinnerId == R.id.brick_show_variable_color_size_align_spinner
 				&& alignmentSpinner != null) {
 			alignmentSpinner.setSelection(itemName);
+		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+
+		StringBuilder catrobatLanguage = new StringBuilder();
+		catrobatLanguage.append(indention);
+
+		if (commentedOut) {
+			catrobatLanguage.append("/* ");
+		}
+
+		catrobatLanguage.append(getCatrobatLanguageCommand());
+		catrobatLanguage.append(" (variable: (");
+		if (userVariable == null) {
+			catrobatLanguage.append("0");
+		} else {
+			catrobatLanguage.append(CatrobatLanguageUtils.Companion.formatVariable(userVariable.getName()));
+		}
+		catrobatLanguage.append("), ");
+		appendCatrobatLanguageArguments(catrobatLanguage);
+
+		catrobatLanguage.append(", alignment: (");
+		catrobatLanguage.append(getCatrobatLanguageSpinnerValue(alignmentSelection));
+		catrobatLanguage.append("));");
+
+		if (commentedOut) {
+			catrobatLanguage.append(" */");
+		}
+
+		catrobatLanguage.append("\n");
+		return catrobatLanguage.toString();
+	}
+
+	@Override
+	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
+		switch (spinnerIndex) {
+			case ALIGNMENT_STYLE_LEFT:
+				return "left";
+			case ALIGNMENT_STYLE_CENTERED:
+				return "centered";
+			case ALIGNMENT_STYLE_RIGHT:
+				return "right";
+			default:
+				throw new NotImplementedException("Spinner index " + spinnerIndex + " not implemented.");
 		}
 	}
 

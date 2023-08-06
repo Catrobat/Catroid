@@ -26,13 +26,15 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Change volume by")
 public class ChangeVolumeByNBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public ChangeVolumeByNBrick() {
-		addAllowedBrickField(BrickField.VOLUME_CHANGE, R.id.brick_change_volume_by_edit_text);
+		addAllowedBrickField(BrickField.VOLUME_CHANGE, R.id.brick_change_volume_by_edit_text, "value");
 	}
 
 	public ChangeVolumeByNBrick(double changeVolumeValue) {

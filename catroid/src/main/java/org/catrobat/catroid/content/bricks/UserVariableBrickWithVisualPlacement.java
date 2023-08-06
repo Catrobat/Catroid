@@ -37,12 +37,14 @@ import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.content.bricks.brickspinner.UserVariableBrickTextInputDialogBuilder;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -165,5 +167,54 @@ public abstract class UserVariableBrickWithVisualPlacement extends VisualPlaceme
 		if (spinnerId == getSpinnerId() && spinner != null) {
 			spinner.setSelection(itemName);
 		}
+	}
+
+	@NonNull
+	public String serializeToCatrobatLanguage(int indentionLevel, String name, boolean beforeParams, boolean withBody) {
+		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+
+		StringBuilder catrobatLanguage = new StringBuilder();
+		catrobatLanguage.append(indention);
+
+		if (commentedOut) {
+			catrobatLanguage.append("/* ");
+		}
+
+		catrobatLanguage.append(getCatrobatLanguageCommand());
+		catrobatLanguage.append(" (");
+
+		if (!beforeParams) {
+			appendCatrobatLanguageArguments(catrobatLanguage);
+			if (getFormulas().size() > 0) {
+				catrobatLanguage.append(", ");
+			}
+		}
+
+		catrobatLanguage.append(name + ": (");
+		if (userVariable == null) {
+			catrobatLanguage.append("0");
+		} else {
+			catrobatLanguage.append(CatrobatLanguageUtils.Companion.formatVariable(userVariable.getName()));
+		}
+		catrobatLanguage.append(")");
+
+		if (beforeParams) {
+			catrobatLanguage.append(", ");
+			appendCatrobatLanguageArguments(catrobatLanguage);
+		}
+
+		catrobatLanguage.append(")");
+
+		if (withBody) {
+			catrobatLanguage.append(" {");
+		} else {
+			catrobatLanguage.append(";");
+			if (commentedOut) {
+				catrobatLanguage.append(" */");
+			}
+		}
+
+		catrobatLanguage.append("\n");
+		return catrobatLanguage.toString();
 	}
 }

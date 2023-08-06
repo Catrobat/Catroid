@@ -27,7 +27,9 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.BrickField
 import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick
 
+@CatrobatLanguageBrick(command = "Set")
 class SetParticleColorBrick() : FormulaBrick() {
     constructor(color: String) : this(Formula(color))
 
@@ -52,6 +54,6 @@ class SetParticleColorBrick() : FormulaBrick() {
     }
 
     init {
-        addAllowedBrickField(BrickField.COLOR, R.id.brick_set_color_edit_text)
+        addAllowedBrickField(BrickField.COLOR, R.id.brick_set_color_edit_text, "particle color")
     }
 }

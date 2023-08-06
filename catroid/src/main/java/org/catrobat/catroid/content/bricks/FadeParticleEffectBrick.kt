@@ -33,7 +33,7 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick
 
-@CatrobatLanguageBrick(command = "Set particle")
+@CatrobatLanguageBrick(command = "Fade particle")
 class FadeParticleEffectBrick(fadeType: Int = FADE_IN) : BrickBaseType(), UpdateableSpinnerBrick {
 
     companion object {

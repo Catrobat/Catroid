@@ -244,29 +244,14 @@ public class ForVariableFromToBrick extends UserVariableBrickWithFormula impleme
 	@NonNull
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String baseCommand = super.serializeToCatrobatLanguage(indentionLevel);
 		StringBuilder stringBuilder = new StringBuilder();
-
-		if (commentedOut) {
-			stringBuilder.append("/* ");
-		}
-
-		stringBuilder.append(baseCommand);
-		stringBuilder.append(" {\n");
+		stringBuilder.append(super.serializeToCatrobatLanguage(indentionLevel, "value", true, true));
 
 		for (Brick brick : loopBricks) {
 			stringBuilder.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
 		}
 
-		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
-		stringBuilder.append(indention);
-		stringBuilder.append("}");
-
-		if (commentedOut) {
-			stringBuilder.append(" */");
-		}
-
-		stringBuilder.append("\n");
+		getCatrobatLanguageBodyClose(stringBuilder, indentionLevel);
 		return stringBuilder.toString();
 	}
 }

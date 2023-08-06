@@ -26,13 +26,15 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Set")
 public class SetSizeToBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public SetSizeToBrick() {
-		addAllowedBrickField(BrickField.SIZE, R.id.brick_set_size_to_edit_text);
+		addAllowedBrickField(BrickField.SIZE, R.id.brick_set_size_to_edit_text, "size percentage");
 	}
 
 	public SetSizeToBrick(double size) {

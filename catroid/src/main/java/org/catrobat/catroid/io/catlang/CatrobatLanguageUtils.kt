@@ -37,6 +37,10 @@ class CatrobatLanguageUtils {
             return "'$actorOrObjectName'"
         }
 
+        fun formatLook (lookName: String): String {
+            return "'$lookName'"
+        }
+
         fun formatVariable (variableName: String): String {
             return "\"$variableName\""
         }

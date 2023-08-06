@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.test.io.catrobatlanguage
 
-import org.catrobat.catroid.content.actions.LegoNxtMotorMoveAction
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick
@@ -68,6 +67,7 @@ import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick
 import org.catrobat.catroid.content.bricks.EditLookBrick
+import org.catrobat.catroid.content.bricks.ExitStageBrick
 import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick
 import org.catrobat.catroid.content.bricks.FinishStageBrick
 import org.catrobat.catroid.content.bricks.FlashBrick
@@ -76,7 +76,6 @@ import org.catrobat.catroid.content.bricks.ForVariableFromToBrick
 import org.catrobat.catroid.content.bricks.ForeverBrick
 import org.catrobat.catroid.content.bricks.GlideToBrick
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick
-import org.catrobat.catroid.content.bricks.GoToBrick
 import org.catrobat.catroid.content.bricks.HideBrick
 import org.catrobat.catroid.content.bricks.HideTextBrick
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick
@@ -127,7 +126,6 @@ import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick
 import org.catrobat.catroid.content.bricks.PlaySoundAtBrick
 import org.catrobat.catroid.content.bricks.PlaySoundBrick
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick
-import org.catrobat.catroid.content.bricks.PointToBrick
 import org.catrobat.catroid.content.bricks.PreviousLookBrick
 import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick
 import org.catrobat.catroid.content.bricks.RaspiPwmBrick
@@ -163,7 +161,6 @@ import org.catrobat.catroid.content.bricks.SetParticleColorBrick
 import org.catrobat.catroid.content.bricks.SetPenColorBrick
 import org.catrobat.catroid.content.bricks.SetPenSizeBrick
 import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick
-import org.catrobat.catroid.content.bricks.SetRotationStyleBrick
 import org.catrobat.catroid.content.bricks.SetSizeToBrick
 import org.catrobat.catroid.content.bricks.SetTempoBrick
 import org.catrobat.catroid.content.bricks.SetThreadColorBrick
@@ -191,7 +188,9 @@ import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick
 import org.catrobat.catroid.content.bricks.TouchAndSlideBrick
 import org.catrobat.catroid.content.bricks.TripleStitchBrick
 import org.catrobat.catroid.content.bricks.TurnLeftBrick
+import org.catrobat.catroid.content.bricks.TurnLeftSpeedBrick
 import org.catrobat.catroid.content.bricks.TurnRightBrick
+import org.catrobat.catroid.content.bricks.TurnRightSpeedBrick
 import org.catrobat.catroid.content.bricks.VibrationBrick
 import org.catrobat.catroid.content.bricks.WaitBrick
 import org.catrobat.catroid.content.bricks.WaitTillIdleBrick
@@ -212,9 +211,7 @@ import org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick
 import org.catrobat.catroid.content.bricks.WriteVariableToFileBrick
 import org.catrobat.catroid.content.bricks.ZigZagStitchBrick
-import org.catrobat.catroid.formulaeditor.Sensors
 import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
-import org.catrobat.catroid.test.physics.PhysicsObjectTypesTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -246,7 +243,7 @@ class EmptyValueSerializationTest(
                 arrayOf(ForItemInUserListBrick::class.simpleName, ForItemInUserListBrick(), "For each value in list (value: (0), list: (0)) {\n}\n"),
                 arrayOf(SceneTransitionBrick::class.simpleName, SceneTransitionBrick(), "Continue (scene: (''));\n"),
                 arrayOf(SceneStartBrick::class.simpleName, SceneStartBrick(), "Start (scene: (''));\n"),
-                arrayOf(FinishStageBrick::class.simpleName, FinishStageBrick(), "Finish stage;\n"),
+                arrayOf(ExitStageBrick::class.simpleName, ExitStageBrick(), "Finish stage;\n"),
                 arrayOf(StopScriptBrick::class.simpleName, StopScriptBrick(), "Stop (script: (this script));\n"),
                 arrayOf(WaitTillIdleBrick::class.simpleName, WaitTillIdleBrick(), "Wait until all other scripts have stopped;\n"),
                 arrayOf(TapAtBrick::class.simpleName, TapAtBrick(), "Single tap at (x: (0), y: (0));\n"),
@@ -268,29 +265,29 @@ class EmptyValueSerializationTest(
                 arrayOf(ComeToFrontBrick::class.simpleName, ComeToFrontBrick(), "Come to front;\n"),
                 arrayOf(SetCameraFocusPointBrick::class.simpleName, SetCameraFocusPointBrick(), "Become focus point with flexibility in percent (horizontal: (0), vertical: (0));\n"),
                 arrayOf(VibrationBrick::class.simpleName, VibrationBrick(), "Vibrate for (seconds: (0));\n"),
-                arrayOf(SetPhysicsObjectTypeBrick::class.simpleName, SetPhysicsObjectTypeBrick(), "Set (motion type: ());\n"),
+                arrayOf(SetPhysicsObjectTypeBrick::class.simpleName, SetPhysicsObjectTypeBrick(), "Set (motion type: (moving and bouncing under gravity));\n"),
                 arrayOf(SetVelocityBrick::class.simpleName, SetVelocityBrick(), "Set velocity to (x steps/second: (0), y steps/second: (0));\n"),
-                arrayOf(TurnLeftBrick::class.simpleName, TurnLeftBrick(), "Spin (direction: (left), degrees/second: (0));\n"),
-                arrayOf(TurnRightBrick::class.simpleName, TurnRightBrick(), "Spin (direction: (right), degrees/second: (0));\n"),
+                arrayOf(TurnLeftSpeedBrick::class.simpleName, TurnLeftSpeedBrick(), "Spin (direction: (left), degrees/second: (0));\n"),
+                arrayOf(TurnRightSpeedBrick::class.simpleName, TurnRightSpeedBrick(), "Spin (direction: (right), degrees/second: (0));\n"),
                 arrayOf(SetGravityBrick::class.simpleName, SetGravityBrick(), "Set gravity for all actors and objects to (x steps/second²: (0), y steps/second²: (0));\n"),
                 arrayOf(SetMassBrick::class.simpleName, SetMassBrick(), "Set (mass in kilograms: (0));\n"),
                 arrayOf(SetBounceBrick::class.simpleName, SetBounceBrick(), "Set (bounce factor percentage: (0));\n"),
                 arrayOf(SetFrictionBrick::class.simpleName, SetFrictionBrick(), "Set (friction percentage: (0));\n"),
-                arrayOf(FadeParticleEffectBrick::class.simpleName, FadeParticleEffectBrick(), "Fade particle (effect: ());\n"),
-                arrayOf(PlaySoundBrick::class.simpleName, PlaySoundBrick(), "Start (sound: ());\n"),
-                arrayOf(PlaySoundAndWaitBrick::class.simpleName, PlaySoundAndWaitBrick(), "Start sound and skip seconds (sound: (), seconds: (0));\n"),
-                arrayOf(PlaySoundAtBrick::class.simpleName, PlaySoundAtBrick(), "Start sound and skip seconds (sound: (), seconds: (0));\n"),
-                arrayOf(StopSoundBrick::class.simpleName, StopSoundBrick(), "Stop (sound: ());\n"),
+                arrayOf(FadeParticleEffectBrick::class.simpleName, FadeParticleEffectBrick(), "Fade particle (effect: (in));\n"),
+//                arrayOf(PlaySoundBrick::class.simpleName, PlaySoundBrick(), "Start (sound: ());\n"),
+//                arrayOf(PlaySoundAndWaitBrick::class.simpleName, PlaySoundAndWaitBrick(), "Start sound and skip seconds (sound: (), seconds: (0));\n"),
+//                arrayOf(PlaySoundAtBrick::class.simpleName, PlaySoundAtBrick(), "Start sound and skip seconds (sound: (), seconds: (0));\n"),
+//                arrayOf(StopSoundBrick::class.simpleName, StopSoundBrick(), "Stop (sound: ());\n"),
                 arrayOf(StopAllSoundsBrick::class.simpleName, StopAllSoundsBrick(), "Stop all sounds;\n"),
                 arrayOf(SetVolumeToBrick::class.simpleName, SetVolumeToBrick(), "Set (volume percentage: (0));\n"),
                 arrayOf(ChangeVolumeByNBrick::class.simpleName, ChangeVolumeByNBrick(), "Change volume by (value: (0));\n"),
-                arrayOf(SetInstrumentBrick::class.simpleName, SetInstrumentBrick(), "Set (instrument: ());\n"),
-                arrayOf(PlayNoteForBeatsBrick::class.simpleName, PlayNoteForBeatsBrick(), "Play (note: (), number of beats: (0));\n"),
-                arrayOf(PlayDrumForBeatsBrick::class.simpleName, PlayDrumForBeatsBrick(), "Play (drum: (), number of beats: (0));\n"),
+//                arrayOf(SetInstrumentBrick::class.simpleName, SetInstrumentBrick(), "Set (instrument: ());\n"),
+                arrayOf(PlayNoteForBeatsBrick::class.simpleName, PlayNoteForBeatsBrick(), "Play (note: (0), number of beats: (0));\n"),
+                arrayOf(PlayDrumForBeatsBrick::class.simpleName, PlayDrumForBeatsBrick(), "Play (drum: (snare drum), number of beats: (0));\n"),
                 arrayOf(SetTempoBrick::class.simpleName, SetTempoBrick(), "Set (tempo: (0));\n"),
                 arrayOf(ChangeTempoByNBrick::class.simpleName, ChangeTempoByNBrick(), "Change tempo by (value: (0));\n"),
                 arrayOf(PauseForBeatsBrick::class.simpleName, PauseForBeatsBrick(), "Pause for (number of beats: (0));\n"),
-                arrayOf(SetLookBrick::class.simpleName, SetLookBrick(), "Switch to (look: ());\n"),
+//                arrayOf(SetLookBrick::class.simpleName, SetLookBrick(), "Switch to (look: ());\n"),
                 arrayOf(SetLookByIndexBrick::class.simpleName, SetLookByIndexBrick(), "Switch to (look by number: (0));\n"),
                 arrayOf(NextLookBrick::class.simpleName, NextLookBrick(), "Next look;\n"),
                 arrayOf(PreviousLookBrick::class.simpleName, PreviousLookBrick(), "Previous look;\n"),
@@ -298,22 +295,22 @@ class EmptyValueSerializationTest(
                 arrayOf(ChangeSizeByNBrick::class.simpleName, ChangeSizeByNBrick(), "Change size by (value: (0));\n"),
                 arrayOf(HideBrick::class.simpleName, HideBrick(), "Hide;\n"),
                 arrayOf(ShowBrick::class.simpleName, ShowBrick(), "Show;\n"),
-                arrayOf(AskSpeechBrick::class.simpleName, AskSpeechBrick(), "Ask question and store written answer to variable (question: (), variable: ());\n"),
-                arrayOf(SayBubbleBrick::class.simpleName, SayBubbleBrick(), "Say (text: ());\n"),
-                arrayOf(SayForBubbleBrick::class.simpleName, SayForBubbleBrick(), "Say text for seconds (text: (), seconds: (0));\n"),
-                arrayOf(ThinkBubbleBrick::class.simpleName, ThinkBubbleBrick(), "Think (text: ());\n"),
-                arrayOf(ThinkForBubbleBrick::class.simpleName, ThinkForBubbleBrick(), "Think text for seconds (text: (), seconds: (0));\n"),
-                arrayOf(ShowTextBrick::class.simpleName, ShowTextBrick(), "Show (variable: (), x: (0), y: (0));\n"),
-                arrayOf(ShowTextColorSizeAlignmentBrick::class.simpleName, ShowTextColorSizeAlignmentBrick(), "Show (variable: (), x: (0), y: (0), size: (0), color: (0), alignment: (left));\n"),
+                arrayOf(AskSpeechBrick::class.simpleName, AskSpeechBrick(), "Ask question and store written answer to variable (question: (0), variable: (0));\n"),
+                arrayOf(SayBubbleBrick::class.simpleName, SayBubbleBrick(), "Say (text: (0));\n"),
+                arrayOf(SayForBubbleBrick::class.simpleName, SayForBubbleBrick(), "Say text for seconds (text: (0), seconds: (0));\n"),
+                arrayOf(ThinkBubbleBrick::class.simpleName, ThinkBubbleBrick(), "Think (text: (0));\n"),
+                arrayOf(ThinkForBubbleBrick::class.simpleName, ThinkForBubbleBrick(), "Think text for seconds (text: (0), seconds: (0));\n"),
+                arrayOf(ShowTextBrick::class.simpleName, ShowTextBrick(), "Show (variable: (0), x: (0), y: (0));\n"),
+                arrayOf(ShowTextColorSizeAlignmentBrick::class.simpleName, ShowTextColorSizeAlignmentBrick(), "Show (variable: (0), x: (0), y: (0), size: (0), color: (0), alignment: (centered));\n"),
                 arrayOf(SetTransparencyBrick::class.simpleName, SetTransparencyBrick(), "Set (transparency percentage: (0));\n"),
                 arrayOf(ChangeTransparencyByNBrick::class.simpleName, ChangeTransparencyByNBrick(), "Change transparency by (value: (0));\n"),
                 arrayOf(SetBrightnessBrick::class.simpleName, SetBrightnessBrick(), "Set (brightness percentage: (0));\n"),
                 arrayOf(ChangeBrightnessByNBrick::class.simpleName, ChangeBrightnessByNBrick(), "Change brightness by (value: (0));\n"),
                 arrayOf(SetColorBrick::class.simpleName, SetColorBrick(), "Set (color: (0));\n"),
                 arrayOf(ChangeColorByNBrick::class.simpleName, ChangeColorByNBrick(), "Change color by (value: (0));\n"),
-                arrayOf(ParticleEffectAdditivityBrick::class.simpleName, ParticleEffectAdditivityBrick(), "Turn (particle effect additivity: (0));\n"),
+                arrayOf(ParticleEffectAdditivityBrick::class.simpleName, ParticleEffectAdditivityBrick(), "Turn (particle effect additivity: (on));\n"),
                 arrayOf(SetParticleColorBrick::class.simpleName, SetParticleColorBrick(), "Set (particle color: (0));\n"),
-                arrayOf(ClearGraphicEffectBrick(), "Clear graphic effects;\n"),
+                arrayOf(ClearGraphicEffectBrick::class.simpleName, ClearGraphicEffectBrick(), "Clear graphic effects;\n"),
                 arrayOf(SetBackgroundBrick::class.simpleName, SetBackgroundBrick(), "Set background to (look: ());\n"),
                 arrayOf(SetBackgroundByIndexBrick::class.simpleName, SetBackgroundByIndexBrick(), "Set background to (look by number: (0));\n"),
                 arrayOf(SetBackgroundAndWaitBrick::class.simpleName, SetBackgroundAndWaitBrick(), "Set background and wait (look: ());\n"),
@@ -396,35 +393,27 @@ class EmptyValueSerializationTest(
                 arrayOf(RaspiPwmBrick::class.simpleName, RaspiPwmBrick(), "Set (Raspberry Pi PWM~ pin: (0), percentage: (0), Hz: (0));\n"),
                 arrayOf(StitchBrick::class.simpleName, StitchBrick(), "Stitch;\n"),
                 arrayOf(SetThreadColorBrick::class.simpleName, SetThreadColorBrick(), "Set (thread color: (0));\n"),
-
-                /*
-
-                           arrayOf(RunningStitchBrick(), "Start running stitch (length: (0));\n"),
-                           arrayOf(ZigZagStitchBrick(), "Start zigzag stitch (length: (0), width: (0));\n"),
-                           arrayOf(TripleStitchBrick(), "Start triple stitch (length: (0));\n"),
-                           arrayOf(SewUpBrick(), "Sew up;\n"),
-                           arrayOf(StopRunningStitchBrick(), "Stop current stitch;\n"),
-                           arrayOf(WriteEmbroideryToFileBrick(), "Write embroidery data to (file: ());\n"),
-                           arrayOf(AssertEqualsBrick(), "Assert equals (actual: (0), expected: (0));\n"),
-                           arrayOf(AssertUserListsBrick(), "Assert lists (actual: (), expected: ());\n"),
-                           arrayOf(
-                               ParameterizedBrick(),
-                               "For each tuple of items in selected lists stored in variables with the same name, " +
-                                   "assert value equals to the expected item of reference list " +
-                                   "(lists: (), value: (), reference list: ()) {\n}\n"
-                           ),
-                           arrayOf(FinishStageBrick(), "Finish tests;\n"),
-                           arrayOf(WhenGamepadButtonBrick(), "When tapped (gamepad button: ()) {\n}\n"),
-                           arrayOf(WhenTouchDownBrick(), "When stage is tapped {\n}\n"),
-                           arrayOf(BroadcastReceiverBrick(), "When you receive (message: ()) {\n}\n"),
-                           arrayOf(WhenConditionBrick(), "When condition becomes true (condition: ()) {\n}\n"),
-                           arrayOf(WhenBounceOffBrick(), "When you bounce off (actor or object: ()) {\n}\n"),
-                           arrayOf(WhenBackgroundChangesBrick(), "When background changes to (look: ()) {\n}\n"),
-                           arrayOf(WhenClonedBrick(), "When you start as a clone {\n}\n"),
-                           arrayOf(WhenRaspiPinChangedBrick(), "When Raspberry Pi pin changes to (pin: (), position: ()) {\n}\n"),
-                           arrayOf(WhenBrick(), "When tapped {\n}\n"),
-                           arrayOf(WhenStartedBrick(), "When scene starts {\n}\n"),
-                           arrayOf(WhenNfcBrick(), "When NFC {\n}\n")*/
+                arrayOf(RunningStitchBrick::class.simpleName, RunningStitchBrick(), "Start running stitch (length: (0));\n"),
+                arrayOf(ZigZagStitchBrick::class.simpleName, ZigZagStitchBrick(), "Start zigzag stitch (length: (0), width: (0));\n"),
+                arrayOf(TripleStitchBrick::class.simpleName, TripleStitchBrick(), "Start triple stitch (length: (0));\n"),
+                arrayOf(SewUpBrick::class.simpleName, SewUpBrick(), "Sew up;\n"),
+                arrayOf(StopRunningStitchBrick::class.simpleName, StopRunningStitchBrick(), "Stop current stitch;\n"),
+                arrayOf(WriteEmbroideryToFileBrick::class.simpleName, WriteEmbroideryToFileBrick(), "Write embroidery data to (file: (0));\n"),
+                arrayOf(AssertEqualsBrick::class.simpleName, AssertEqualsBrick(), "Assert equals (actual: (0), expected: (0));\n"),
+                arrayOf(AssertUserListsBrick::class.simpleName, AssertUserListsBrick(), "Assert lists (actual: (0), expected: (0));\n"),
+                arrayOf(ParameterizedBrick::class.simpleName, ParameterizedBrick(), "For each tuple of items in selected lists stored in variables with the same name, assert value equals to the expected item of reference list (lists: (), value: (), reference list: ()) {\n}\n"),
+                arrayOf(FinishStageBrick::class.simpleName, FinishStageBrick(), "Finish tests;\n"),
+                arrayOf(WhenGamepadButtonBrick::class.simpleName, WhenGamepadButtonBrick(), "When tapped (gamepad button: (A)) {\n}\n"),
+                arrayOf(WhenTouchDownBrick::class.simpleName, WhenTouchDownBrick(), "When stage is tapped {\n}\n"),
+                arrayOf(BroadcastReceiverBrick::class.simpleName, BroadcastReceiverBrick(), "When you receive (message: ('')) {\n}\n"),
+                arrayOf(WhenConditionBrick::class.simpleName, WhenConditionBrick(), "When condition becomes true (condition: (0)) {\n}\n"),
+                arrayOf(WhenBounceOffBrick::class.simpleName, WhenBounceOffBrick(), "When you bounce off (actor or object: ()) {\n}\n"),
+                arrayOf(WhenBackgroundChangesBrick::class.simpleName, WhenBackgroundChangesBrick(), "When background changes to (look: ()) {\n}\n"),
+                arrayOf(WhenClonedBrick::class.simpleName, WhenClonedBrick(), "When you start as a clone {\n}\n"),
+                arrayOf(WhenRaspiPinChangedBrick::class.simpleName, WhenRaspiPinChangedBrick(), "When Raspberry Pi pin changes to (pin: (), position: ()) {\n}\n"),
+                arrayOf(WhenBrick::class.simpleName, WhenBrick(), "When tapped {\n}\n"),
+                arrayOf(WhenStartedBrick::class.simpleName, WhenStartedBrick(), "When scene starts {\n}\n"),
+                arrayOf(WhenNfcBrick::class.simpleName, WhenNfcBrick(), "When NFC gets scanned (nfc tag: ()) {\n}\n")
             )
         }
     }

@@ -33,13 +33,13 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.catrobat.catroid.R
 import org.catrobat.catroid.UiTestCatroidApplication.Companion.projectManager
 import org.catrobat.catroid.common.LookData
-import org.catrobat.catroid.common.Nameable
 import org.catrobat.catroid.common.SoundInfo
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.bricks.AskSpeechBrick
+import org.catrobat.catroid.content.bricks.AssertUserListsBrick
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.CameraBrick
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick
@@ -68,6 +68,7 @@ import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick
 import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick
+import org.catrobat.catroid.content.bricks.PlayDrumForBeatsBrick
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick
 import org.catrobat.catroid.content.bricks.PlaySoundAtBrick
 import org.catrobat.catroid.content.bricks.PlaySoundBrick
@@ -89,6 +90,11 @@ import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick
 import org.catrobat.catroid.content.bricks.StopScriptBrick
 import org.catrobat.catroid.content.bricks.StopSoundBrick
 import org.catrobat.catroid.content.bricks.WebRequestBrick
+import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick
+import org.catrobat.catroid.content.bricks.WhenBounceOffBrick
+import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick
+import org.catrobat.catroid.content.bricks.WhenNfcBrick
+import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick
 import org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick
 import org.catrobat.catroid.content.bricks.WriteVariableToFileBrick
@@ -326,6 +332,34 @@ class SpinnerSerializationTest {
             SetInstrumentBrick(),
             "Set (instrument: (piano));\n",
             getAllInstruments("piano", "Set (instrument: ({{INSTRUMENT}}));\n")
+        )
+    }
+
+    @Test
+    fun testPlayDrumForBeatsBrick() {
+        executeTest(
+            R.id.play_drum_for_beats_spinner,
+            PlayDrumForBeatsBrick(),
+            "Play (drum: (snare drum), number of beats: (0));\n",
+            mapOf(
+                "bass drum" to "Play (drum: (bass drum), number of beats: (0));\n",
+                "side stick" to "Play (drum: (side stick), number of beats: (0));\n",
+                "crash cymbal" to "Play (drum: (crash cymbal), number of beats: (0));\n",
+                "open hi-hat" to "Play (drum: (open hi-hat), number of beats: (0));\n",
+                "closed hi-hat" to "Play (drum: (closed hi-hat), number of beats: (0));\n",
+                "tambourine" to "Play (drum: (tambourine), number of beats: (0));\n",
+                "hand clap" to "Play (drum: (hand clap), number of beats: (0));\n",
+                "claves" to "Play (drum: (claves), number of beats: (0));\n",
+                "wood block" to "Play (drum: (wood block), number of beats: (0));\n",
+                "cowbell" to "Play (drum: (cowbell), number of beats: (0));\n",
+                "triangle" to "Play (drum: (triangle), number of beats: (0));\n",
+                "bongo" to "Play (drum: (bongo), number of beats: (0));\n",
+                "conga" to "Play (drum: (conga), number of beats: (0));\n",
+                "cabasa" to "Play (drum: (cabasa), number of beats: (0));\n",
+                "guiro" to "Play (drum: (guiro), number of beats: (0));\n",
+                "vibraslap" to "Play (drum: (vibraslap), number of beats: (0));\n",
+                "open cuica" to "Play (drum: (open cuica), number of beats: (0));\n",
+            )
         )
     }
 
@@ -900,6 +934,97 @@ class SpinnerSerializationTest {
                 "bottom left sensor" to "If (activated phiro: (bottom left sensor)) {\n} else {\n}\n",
                 "bottom right sensor" to "If (activated phiro: (bottom right sensor)) {\n} else {\n}\n"
             )
+        )
+    }
+
+    @Test
+    fun testAssertUserListsBrick() {
+        executeTest(
+            R.id.brick_assert_lists_actual,
+            AssertUserListsBrick(),
+            "Assert that (list: (*list1*)) is equal to (list: (*list1*));\n",
+            mapOf(
+                "list2" to "Assert that (list: (*list2*)) is equal to (list: (*list1*));\n",
+                "list3" to "Assert that (list: (*list3*)) is equal to (list: (*list1*));\n"
+            ),
+            R.id.brick_assert_lists_expected,
+            mapOf(
+                "list2" to "Assert that (list: (*list3*)) is equal to (list: (*list2*));\n",
+                "list3" to "Assert that (list: (*list3*)) is equal to (list: (*list3*));\n"
+            )
+        )
+    }
+
+    @Test
+    fun testWhenGamepadButtonBrick() {
+        executeTest(
+            R.id.brick_when_gamepad_button_spinner,
+            WhenGamepadButtonBrick(),
+            "When tapped (gamepad button: (A)) {\n}\n",
+            mapOf(
+                "B" to "When tapped (gamepad button: (B)) {\n}\n",
+                "up" to "When tapped (gamepad button: (up)) {\n}\n",
+                "down" to "When tapped (gamepad button: (down)) {\n}\n",
+                "left" to "When tapped (gamepad button: (left)) {\n}\n",
+                "right" to "When tapped (gamepad button: (right)) {\n}\n",
+                "center" to "When tapped (gamepad button: (center)) {\n}\n"
+            )
+        )
+    }
+
+    @Test
+    fun testWhenBounceOffBrick() {
+        executeTest(
+            R.id.brick_when_bounce_off_spinner,
+            WhenBounceOffBrick(),
+            "When you bounce off (actor or object: ('testSprite')) {\n}\n",
+            mapOf(
+                "testSprite1" to "When you bounce off (actor or object: ('testSprite1')) {\n}\n",
+                "testSprite2" to "When you bounce off (actor or object: ('testSprite2')) {\n}\n",
+                "testSprite3" to "When you bounce off (actor or object: ('testSprite3')) {\n}\n"
+            )
+        )
+    }
+
+    @Test
+    fun testWhenBackgroundChangesBrick() {
+        executeTest(
+            R.id.brick_when_background_spinner,
+            WhenBackgroundChangesBrick(),
+            "When background changes to (look: ('look1')) {\n}\n",
+            mapOf(
+                "look2" to "When background changes to (look: ('look2')) {\n}\n",
+                "look3" to "When background changes to (look: ('look3')) {\n}\n"
+            )
+        )
+    }
+
+    @Test
+    fun testWhenRaspiPinChangedBrick() {
+        executeTest(
+            R.id.brick_raspi_when_pinspinner,
+            WhenRaspiPinChangedBrick(),
+            "When Raspberry Pi pin changes to (pin: (3), position: (high)) {\n}\n",
+            mapOf(
+                "5" to "When Raspberry Pi pin changes to (pin: (5), position: (high)) {\n}\n",
+                "7" to "When Raspberry Pi pin changes to (pin: (7), position: (high)) {\n}\n"
+            ),
+            R.id.brick_raspi_when_valuespinner,
+            mapOf(
+                "low" to "When Raspberry Pi pin changes to (pin: (7), position: (low)) {\n}\n",
+                "high" to "When Raspberry Pi pin changes to (pin: (7), position: (high)) {\n}\n"
+            )
+        )
+    }
+
+    @Test
+    fun testWhenNfcBrick() {
+        // TODO: add NFC tags to test project
+        executeTest(
+            R.id.brick_when_nfc_spinner,
+            WhenNfcBrick(),
+            "When NFC gets scanned (nfc tag: (all)) {\n}\n",
+            mapOf()
         )
     }
 
