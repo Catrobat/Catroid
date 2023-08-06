@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,6 +40,9 @@ import org.mockito.Mockito;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.when;
 
 @RunWith(JUnit4.class)
 public class ProjectTest {
@@ -109,8 +112,9 @@ public class ProjectTest {
 		header.setApplicationName(OLD_APPLICATION_NAME);
 		header.setPlatform(OLD_PLATFORM);
 		header.setPlatformVersion(OLD_PLATFORM_VERSION);
-
-		project.setDeviceData(MockUtil.mockContextForProject());
+		Context context = MockUtil.mockContextForProject();
+		when(context.getString(anyInt())).thenReturn(null);
+		project.setDeviceData(context);
 
 		assertEquals(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION, header.getCatrobatLanguageVersion());
 		assertEquals(Mockito.mock(Context.class).getString(R.string.app_name), header.getApplicationName());

@@ -20,38 +20,27 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.CatroidApplication;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.utils.AndroidStringProvider;
+package org.catrobat.catroid.utils
 
-import static org.catrobat.catroid.common.Constants.SAY_BRICK;
+import android.content.Context
+import org.catrobat.catroid.R
+import org.catrobat.catroid.formulaeditor.Formula
 
-public class SayBubbleBrick extends ThinkBubbleBrick {
+class AndroidStringProvider(context: Context) : Formula.StringProvider {
+    private val trueString: String
+    private val falseString: String
 
-	private static final long serialVersionUID = 1L;
+    init {
+        trueString = context.getString(R.string.formula_editor_true)
+        falseString = context.getString(R.string.formula_editor_false)
+    }
 
-	public SayBubbleBrick() {
-		super();
-	}
-
-	public SayBubbleBrick(String text) {
-		super(text);
-	}
-
-	@Override
-	public int getViewResource() {
-		return R.layout.brick_say_bubble;
-	}
-
-	@Override
-	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createThinkSayBubbleAction(sprite, sequence,
-				new AndroidStringProvider(CatroidApplication.getAppContext()),
-				getFormulaWithBrickField(BrickField.STRING),
-				SAY_BRICK));
-	}
+    override fun getTrueOrFalse(value: Boolean): String {
+        return if (value) {
+            trueString
+        } else {
+            falseString
+        }
+    }
 }

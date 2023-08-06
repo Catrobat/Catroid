@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,7 +42,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.common.Conversions;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
+import org.catrobat.catroid.utils.AndroidStringProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,9 +51,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_TEXT_ALIGNMENT;
-import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_TEXT_COLOR;
-import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_TEXT_SIZE;
+import static org.catrobat.catroid.visualplacement.VisualPlacementViewModel.EXTRA_TEXT_ALIGNMENT;
+import static org.catrobat.catroid.visualplacement.VisualPlacementViewModel.EXTRA_TEXT_COLOR;
+import static org.catrobat.catroid.visualplacement.VisualPlacementViewModel.EXTRA_TEXT_SIZE;
 import static org.catrobat.catroid.utils.ShowTextUtils.ALIGNMENT_STYLE_CENTERED;
 import static org.catrobat.catroid.utils.ShowTextUtils.ALIGNMENT_STYLE_LEFT;
 import static org.catrobat.catroid.utils.ShowTextUtils.ALIGNMENT_STYLE_RIGHT;
@@ -168,11 +168,11 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 				new AndroidStringProvider(CatroidApplication.getAppContext())));
 	}
 
-	private String getColor() {
+	public String getColor() {
 		return getFormulaWithBrickField(BrickField.COLOR).getRoot().getValue();
 	}
 
-	private float sanitizeTextSize() {
+	public float sanitizeTextSize() {
 		Formula sizeFormula = getFormulaWithBrickField(BrickField.SIZE);
 		float size = 1.0f;
 

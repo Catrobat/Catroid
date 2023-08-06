@@ -20,38 +20,13 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.CatroidApplication;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.utils.AndroidStringProvider;
+package org.catrobat.catroid.common.defaultprojectcreators
 
-import static org.catrobat.catroid.common.Constants.SAY_BRICK;
+import android.graphics.Bitmap
 
-public class SayBubbleBrick extends ThinkBubbleBrick {
-
-	private static final long serialVersionUID = 1L;
-
-	public SayBubbleBrick() {
-		super();
-	}
-
-	public SayBubbleBrick(String text) {
-		super(text);
-	}
-
-	@Override
-	public int getViewResource() {
-		return R.layout.brick_say_bubble;
-	}
-
-	@Override
-	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createThinkSayBubbleAction(sprite, sequence,
-				new AndroidStringProvider(CatroidApplication.getAppContext()),
-				getFormulaWithBrickField(BrickField.STRING),
-				SAY_BRICK));
-	}
-}
+data class BitmapWithRotationInfo @JvmOverloads constructor(
+    val bitmap: Bitmap,
+    val rotation: Int = 0,
+    val rotationMode: Int = 0
+)
