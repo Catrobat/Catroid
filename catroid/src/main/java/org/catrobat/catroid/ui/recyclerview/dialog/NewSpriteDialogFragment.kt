@@ -51,14 +51,13 @@ import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.merge.ImportProjectHelper
-import org.catrobat.catroid.ui.SpriteActivity.EXTRA_X_TRANSFORM
-import org.catrobat.catroid.ui.SpriteActivity.EXTRA_Y_TRANSFORM
 import org.catrobat.catroid.ui.SpriteActivity.REQUEST_CODE_VISUAL_PLACEMENT
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher
 import org.catrobat.catroid.ui.recyclerview.fragment.SpriteListFragment
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.catrobat.catroid.utils.Utils
 import org.catrobat.catroid.visualplacement.VisualPlacementActivity
+import org.catrobat.catroid.visualplacement.VisualPlacementViewModel
 import java.io.File
 import java.io.IOException
 
@@ -212,8 +211,11 @@ class NewSpriteDialogFragment(
     private fun startVisualPlacementActivity() {
         ProjectManager.getInstance().currentSprite = sprite
         val intent = Intent(requireContext(), VisualPlacementActivity()::class.java)
-        intent.putExtra(EXTRA_X_TRANSFORM, BrickValues.X_POSITION)
-        intent.putExtra(EXTRA_Y_TRANSFORM, BrickValues.Y_POSITION)
+        intent.putExtra(VisualPlacementViewModel.EXTRA_X_COORDINATE, BrickValues.X_POSITION)
+        intent.putExtra(
+            VisualPlacementViewModel.EXTRA_Y_COORDINATE, BrickValues
+                .Y_POSITION
+        )
         activity?.startActivityForResult(intent, REQUEST_CODE_VISUAL_PLACEMENT)
     }
 

@@ -30,13 +30,9 @@ import org.catrobat.catroid.formulaeditor.InterpretationException
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.stage.ShowTextActor
 import org.catrobat.catroid.stage.StageActivity
-import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider
+import org.catrobat.catroid.utils.AndroidStringProvider
 
 class ShowTextAction : TemporalAction() {
-    companion object {
-        val TAG: String = ShowTextAction::class.java.simpleName
-    }
-
     private var xPosition: Formula = Formula(0)
     private var yPosition: Formula = Formula(0)
     private var variableToShow: UserVariable? = null
@@ -80,8 +76,8 @@ class ShowTextAction : TemporalAction() {
 
     override fun update(percent: Float) {
         try {
-            val xPosition = xPosition?.interpretInteger(scope)
-            val yPosition = yPosition?.interpretInteger(scope)
+            val xPosition = xPosition.interpretInteger(scope)
+            val yPosition = yPosition.interpretInteger(scope)
             if (showTextActor != null) {
                 showTextActor?.setPositionX(xPosition ?: 0)
                 showTextActor?.setPositionY(yPosition ?: 0)
@@ -106,5 +102,9 @@ class ShowTextAction : TemporalAction() {
 
     fun setAndroidStringProvider(androidStringProvider: AndroidStringProvider?) {
         this.androidStringProvider = androidStringProvider
+    }
+
+    companion object {
+        val TAG: String? = ShowTextAction::class.java.simpleName
     }
 }

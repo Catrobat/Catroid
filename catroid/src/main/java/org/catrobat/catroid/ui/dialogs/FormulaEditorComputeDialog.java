@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -43,7 +43,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.SensorLoudness;
-import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
+import org.catrobat.catroid.utils.AndroidStringProvider;
 
 import androidx.appcompat.app.AlertDialog;
 

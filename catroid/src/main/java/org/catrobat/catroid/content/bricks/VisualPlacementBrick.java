@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,6 +27,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Scope;
@@ -41,13 +43,17 @@ import org.catrobat.catroid.visualplacement.VisualPlacementActivity;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import kotlin.Lazy;
 
 import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_BRICK_HASH;
-import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_X_TRANSFORM;
-import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_Y_TRANSFORM;
 import static org.catrobat.catroid.ui.SpriteActivity.REQUEST_CODE_VISUAL_PLACEMENT;
+import static org.catrobat.catroid.visualplacement.VisualPlacementViewModel.EXTRA_X_COORDINATE;
+import static org.catrobat.catroid.visualplacement.VisualPlacementViewModel.EXTRA_Y_COORDINATE;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public abstract class VisualPlacementBrick extends FormulaBrick {
+
+	protected transient Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
@@ -79,15 +85,10 @@ public abstract class VisualPlacementBrick extends FormulaBrick {
 				context.getString(R.string.brick_context_dialog_formula_edit_brick)};
 
 		new AlertDialog.Builder(context).setItems(optionStrings, (dialog, which) -> {
-			switch (which) {
-				case 0:
-					placeVisually(getXBrickField(), getYBrickField());
-					break;
-				case 1:
-					if (currentFragment instanceof ScriptFragment) {
-						super.showFormulaEditorToEditFormula(view);
-					}
-					break;
+			if (which == 0) {
+				placeVisually(getXBrickField(), getYBrickField());
+			} else if (which == 1 && (currentFragment instanceof ScriptFragment)) {
+				super.showFormulaEditorToEditFormula(view);
 			}
 		}).show();
 	}
@@ -98,26 +99,30 @@ public abstract class VisualPlacementBrick extends FormulaBrick {
 	}
 
 	public Intent generateIntentForVisualPlacement(BrickField brickFieldX, BrickField brickFieldY) {
-		Formula formulax = getFormulaWithBrickField(brickFieldX);
-		Formula formulay = getFormulaWithBrickField(brickFieldY);
 		Intent intent = new Intent(view.getContext(), VisualPlacementActivity.class);
 		intent.putExtra(EXTRA_BRICK_HASH, hashCode());
-		int xValue;
-		int yValue;
-		try {
-			ProjectManager projectManager = ProjectManager.getInstance();
-			Scope scope = new Scope(projectManager.getCurrentProject(),
-					projectManager.getCurrentSprite(), null);
-			xValue = formulax.interpretInteger(scope);
-			yValue = formulay.interpretInteger(scope);
-		} catch (InterpretationException interpretationException) {
-			xValue = 0;
-			yValue = 0;
-		}
-		intent.putExtra(EXTRA_X_TRANSFORM, xValue);
-		intent.putExtra(EXTRA_Y_TRANSFORM, yValue);
+		Pair<Integer, Integer> coordinates = getCoordinates(brickFieldX, brickFieldY);
+		intent.putExtra(EXTRA_X_COORDINATE, coordinates.getLeft());
+		intent.putExtra(EXTRA_Y_COORDINATE, coordinates.getRight());
 
 		return intent;
+	}
+
+	public Pair<Integer, Integer> getCoordinates() {
+		return getCoordinates(getXBrickField(), getYBrickField());
+	}
+
+	public Pair<Integer, Integer> getCoordinates(BrickField brickFieldX, BrickField brickFieldY) {
+		Formula formulaX = getFormulaWithBrickField(brickFieldX);
+		Formula formulaY = getFormulaWithBrickField(brickFieldY);
+		try {
+			Scope scope = new Scope(projectManager.getValue().getCurrentProject(),
+					projectManager.getValue().getCurrentSprite(), null);
+			return new ImmutablePair<>(formulaX.interpretInteger(scope),
+					formulaY.interpretInteger(scope));
+		} catch (InterpretationException interpretationException) {
+			return new ImmutablePair<>(0, 0);
+		}
 	}
 
 	private void startVisualPlacementActivity(Intent intent) {

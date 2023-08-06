@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,9 +21,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.visualplacement;
+package org.catrobat.catroid.visualplacement.model
 
-public interface CoordinateInterface {
-	void setXCoordinate(float xCoordinate);
-	void setYCoordinate(float yCoordinate);
-}
+import android.graphics.drawable.Drawable
+import org.catrobat.catroid.utils.GameCoordinates
+
+data class DrawableSprite(
+    val drawable: Drawable,
+    var coordinates: GameCoordinates,
+    val scalingFactor: Size,
+)

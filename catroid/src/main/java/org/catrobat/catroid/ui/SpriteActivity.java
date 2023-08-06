@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -105,9 +105,9 @@ import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.isFr
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.loadFragment;
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.removeTabLayout;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
-import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.CHANGED_COORDINATES;
-import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
-import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
+import static org.catrobat.catroid.visualplacement.VisualPlacementViewModel.CHANGED_COORDINATES;
+import static org.catrobat.catroid.visualplacement.VisualPlacementViewModel.EXTRA_X_COORDINATE;
+import static org.catrobat.catroid.visualplacement.VisualPlacementViewModel.EXTRA_Y_COORDINATE;
 
 public class SpriteActivity extends BaseActivity {
 
@@ -141,13 +141,6 @@ public class SpriteActivity extends BaseActivity {
 
 	public static final String EXTRA_FRAGMENT_POSITION = "fragmentPosition";
 	public static final String EXTRA_BRICK_HASH = "BRICK_HASH";
-
-	public static final String EXTRA_X_TRANSFORM = "X";
-	public static final String EXTRA_Y_TRANSFORM = "Y";
-	public static final String EXTRA_TEXT = "TEXT";
-	public static final String EXTRA_TEXT_COLOR = "TEXT_COLOR";
-	public static final String EXTRA_TEXT_SIZE = "TEXT_SIZE";
-	public static final String EXTRA_TEXT_ALIGNMENT = "TEXT_ALIGNMENT";
 
 	private NewItemInterface<Sprite> onNewSpriteListener;
 	private NewItemInterface<LookData> onNewLookListener;
@@ -414,8 +407,8 @@ public class SpriteActivity extends BaseActivity {
 					return;
 				}
 
-				int xCoordinate = extras.getInt(X_COORDINATE_BUNDLE_ARGUMENT);
-				int yCoordinate = extras.getInt(Y_COORDINATE_BUNDLE_ARGUMENT);
+				int xCoordinate = extras.getInt(EXTRA_X_COORDINATE);
+				int yCoordinate = extras.getInt(EXTRA_Y_COORDINATE);
 				int brickHash = extras.getInt(EXTRA_BRICK_HASH);
 
 				Fragment fragment = getCurrentFragment();

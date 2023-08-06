@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,10 +33,12 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableViewHolder;
 import org.catrobat.catroid.ui.recyclerview.viewholder.VariableViewHolder;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
+import org.catrobat.catroid.utils.AndroidStringProvider;
 import org.catrobat.catroid.utils.ShowTextUtils;
-import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 public class UserDefinedBrickInputRVAdapter extends RVAdapter<UserDefinedBrickInput> {
 
@@ -44,6 +46,7 @@ public class UserDefinedBrickInputRVAdapter extends RVAdapter<UserDefinedBrickIn
 		super(items);
 	}
 
+	@NonNull
 	@Override
 	public CheckableViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
@@ -61,9 +64,7 @@ public class UserDefinedBrickInputRVAdapter extends RVAdapter<UserDefinedBrickIn
 		VariableViewHolder variableViewHolder = (VariableViewHolder) holder;
 		variableViewHolder.title.setText(item.getName());
 
-		AndroidStringProvider stringProvider = new AndroidStringProvider(
-				CatroidApplication.getAppContext()
-		);
+		AndroidStringProvider stringProvider = new AndroidStringProvider(CatroidApplication.getAppContext());
 		String result = item.getValue().getUserFriendlyString(stringProvider, null);
 		result = ShowTextUtils.convertStringToMetricRepresentation(result);
 		variableViewHolder.value.setText(result);
