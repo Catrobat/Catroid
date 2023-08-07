@@ -235,11 +235,22 @@
             android:layout_span="1"
             android:text="@string/formula_editor_decimal_mark" />
 
-        <Button
+        <ImageButton
             android:id="@+id/formula_editor_keyboard_compute"
-            style="@style/FormulaEditorComputeButton"
-            android:layout_span="2"
-            android:text="@string/formula_editor_compute" />
+            style="@style/FormulaEditorKeyboardButton"
+            android:layout_span="1"
+            android:contentDescription="@string/formula_editor_image_button_description_compute"
+            android:src="@drawable/outline_play_circle_filled_24"
+            android:layout_marginStart="@dimen/key_margin" />
+
+        <ImageButton
+            android:id="@+id/formula_editor_keyboard_done"
+            style="@style/FormulaEditorKeyboardButton"
+            android:layout_span="1"
+            android:contentDescription="@string/formula_editor_image_button_description_done"
+            android:src="@drawable/outline_done_24"
+            android:layout_marginStart="@dimen/key_margin" />
+
 
     </TableRow>
 </TableLayout>

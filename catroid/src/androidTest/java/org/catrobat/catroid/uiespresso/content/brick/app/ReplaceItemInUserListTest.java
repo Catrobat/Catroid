@@ -48,6 +48,7 @@ import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -90,6 +91,10 @@ public class ReplaceItemInUserListTest {
 		onDataList()
 				.performClose();
 		pressBack();
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
 
 		onBrickAtPosition(brickPosition).onChildView(withId(R.id.replace_item_in_userlist_spinner))
 				.perform(click());
@@ -116,6 +121,10 @@ public class ReplaceItemInUserListTest {
 				.performAdd(userListName, FormulaEditorDataListWrapper.ItemType.LIST)
 				.performClose();
 		pressBack();
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
 
 		onBrickAtPosition(brickPosition).onVariableSpinner(R.id.replace_item_in_userlist_spinner)
 				.perform(click());

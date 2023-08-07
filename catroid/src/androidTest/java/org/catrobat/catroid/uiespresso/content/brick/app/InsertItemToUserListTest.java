@@ -50,7 +50,11 @@ import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorW
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.isDialog;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class InsertItemToUserListTest {
@@ -96,6 +100,10 @@ public class InsertItemToUserListTest {
 				.performAdd(userListName, FormulaEditorDataListWrapper.ItemType.LIST)
 				.performClose();
 		pressBack();
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
 
 		onBrickAtPosition(brickPosition)
 				.onFormulaTextField(R.id.brick_insert_item_into_userlist_value_edit_text)
@@ -118,6 +126,10 @@ public class InsertItemToUserListTest {
 				.performEnterNumber(indexToInsert + 1);
 
 		pressBack();
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
 
 		onBrickAtPosition(brickPosition)
 				.onFormulaTextField(R.id.brick_insert_item_into_userlist_value_edit_text)

@@ -47,7 +47,10 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.hasSibling;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
@@ -133,6 +136,10 @@ public class ChangeVariableTest {
 				.performAdd(variableName)
 				.performClose();
 		pressBack();
+		onView(withText(R.string.yes))
+				.inRoot(isDialog())
+				.check(matches(isDisplayed()))
+				.perform(click());
 	}
 
 	public void createProject() {
