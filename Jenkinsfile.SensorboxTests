@@ -2,7 +2,7 @@
 pipeline {
     agent {
         docker {
-            image 'catrobat/catrobat-android:stable'
+            image 'catrobat/catrobat-android:api33'
             args '--net host -v /dev/bus/usb/:/dev/bus/usb -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle'
             label 'HardwareSensorBox'
             alwaysPull true
