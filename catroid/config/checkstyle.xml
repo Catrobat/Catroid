@@ -249,7 +249,7 @@
   <module name="UniqueProperties" />
 
   <module name="RegexpHeader">
-    <property name="headerFile" value="catroid/src/test/res/agpl_license_text.txt" />
+    <property name="headerFile" value="${config_loc}/src/test/res/agpl_license_text.txt" />
     <property name="multiLines" value="1,2" />
   </module>
 
@@ -298,9 +298,10 @@
     <property name="format" value="&amp;#8230;" />
     <property name="message" value="Use ellipses character … instead of &amp;#8230;." />
   </module>
-
+  <!-- /home/catroid/jenkins_slave/workspace/lab/CsongorLab/IDE_Pipeline/catroid/config/suppressions.xml -->
+       <!-- /home/catroid/jenkins_slave/workspace/lab/CsongorLab/IDE_Pipeline/config/checkstyle/catroid/config/suppressions.xml -->
   <module name="SuppressionFilter">
-    <property name="file" value="catroid/config/checkstyle_suppressions.xml" />
+    <property name="file" value="${config_loc}/config/suppressions.xml"  />
   </module>
 
 </module>

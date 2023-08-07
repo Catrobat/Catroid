@@ -45,10 +45,10 @@ private fun Float.absDiff(f: Float): Float = (this - f).absoluteValue
 fun Array<Polygon>.toBoundingRectangle() = BoundingRectangle(this.flatMap { polygon -> polygon.vertices.asIterable() })
 
 class BoundingRectangle(vertices: List<Float>) {
-    val top = vertices.getYVertices().min()?.toInt() ?: 0
-    val bottom = vertices.getYVertices().max()?.toInt() ?: 0
-    val left = vertices.getXVertices().min()?.toInt() ?: 0
-    val right = vertices.getXVertices().max()?.toInt() ?: 0
+    val top = vertices.getYVertices().minOrNull()?.toInt() ?: 0
+    val bottom = vertices.getYVertices().maxOrNull()?.toInt() ?: 0
+    val left = vertices.getXVertices().minOrNull()?.toInt() ?: 0
+    val right = vertices.getXVertices().maxOrNull()?.toInt() ?: 0
     val width = right - left
     val height = bottom - top
 
