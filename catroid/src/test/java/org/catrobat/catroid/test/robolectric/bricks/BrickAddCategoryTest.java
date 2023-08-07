@@ -26,6 +26,7 @@ package org.catrobat.catroid.test.robolectric.bricks;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.widget.ListAdapter;
 
@@ -65,6 +66,7 @@ import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTING
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PHIRO_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_RASPI_BRICKS;
+import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
@@ -107,6 +109,8 @@ public class BrickAddCategoryTest {
 				.add(R.id.fragment_container, brickCategoryFragment, BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
 				.addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
 				.commit();
+
+		shadowOf(Looper.getMainLooper()).idle();
 	}
 
 	public void createProject(Activity activity) {
