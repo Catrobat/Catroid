@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -727,10 +727,11 @@ public class StageListener implements ApplicationListener {
 	}
 
 	private void initScreenMode() {
+		screenshotWidth = ScreenValues.getScreenWidthForProject(project);
+		screenshotHeight = ScreenValues.getScreenHeightForProject(project);
+
 		switch (project.getScreenMode()) {
 			case STRETCH:
-				screenshotWidth = ScreenValues.getScreenWidthForProject(project);
-				screenshotHeight = ScreenValues.getScreenHeightForProject(project);
 				screenshotX = 0;
 				screenshotY = 0;
 				viewPort = new ScalingViewport(Scaling.stretch, virtualWidth, virtualHeight, camera);
