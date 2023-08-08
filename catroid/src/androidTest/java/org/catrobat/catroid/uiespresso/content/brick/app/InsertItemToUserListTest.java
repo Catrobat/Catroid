@@ -30,8 +30,8 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -71,7 +71,7 @@ public class InsertItemToUserListTest {
 		valueToInsert1 = 2018;
 		indexToInsert = 1;
 		userListName = "NewList";
-		BrickTestUtils.createProjectAndGetStartScript("addItemToUserListTest")
+		UiTestUtils.createProjectAndGetStartScript("addItemToUserListTest")
 				.addBrick(new InsertItemIntoUserListBrick(valueToInsert, indexToInsert));
 
 		baseActivityTestRule.launchActivity();

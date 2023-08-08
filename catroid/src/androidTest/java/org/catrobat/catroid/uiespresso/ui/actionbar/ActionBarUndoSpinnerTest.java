@@ -41,8 +41,8 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -150,7 +150,7 @@ public class ActionBarUndoSpinnerTest {
 	}
 
 	private void createProject() {
-		Script script = BrickTestUtils.createProjectAndGetStartScript(ActionBarUndoSpinnerTest.class.getSimpleName());
+		Script script = UiTestUtils.createProjectAndGetStartScript(ActionBarUndoSpinnerTest.class.getSimpleName());
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 

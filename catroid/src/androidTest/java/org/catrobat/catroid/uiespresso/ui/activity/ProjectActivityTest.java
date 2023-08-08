@@ -32,12 +32,11 @@ import android.preference.PreferenceManager;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -75,11 +74,7 @@ public class ProjectActivityTest {
 
 	@Before
 	public void setUp() {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), PROJECT_NAME);
-		Sprite firstSprite = new Sprite("firstSprite");
-		project.getDefaultScene().addSprite(firstSprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		UiTestUtils.createDefaultTestProject(PROJECT_NAME);
 		Intents.init();
 	}
 

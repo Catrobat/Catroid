@@ -26,12 +26,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.io.ResourceImporter;
@@ -39,6 +38,7 @@ import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.testsuites.annotations.Cat;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.StageMatchers;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.catrobat.catroid.utils.ScreenValueHandler;
@@ -117,11 +117,10 @@ public class StageScreenshotTest {
 		ScreenValues.SCREEN_HEIGHT = PROJECT_HEIGHT;
 		ScreenValues.SCREEN_WIDTH = PROJECT_WIDTH;
 
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		Project project = UiTestUtils.createDefaultTestProject(projectName);
 
-		// blue Sprite
-		Sprite blueSprite = new Sprite("blueSprite");
-		StartScript blueStartScript = new StartScript();
+		Sprite blueSprite = UiTestUtils.getDefaultTestSprite(project);
+		Script blueStartScript = UiTestUtils.getDefaultTestScript(project);
 		LookData blueLookData = new LookData();
 		String blueImageName = "blue_image.bmp";
 
@@ -131,9 +130,6 @@ public class StageScreenshotTest {
 
 		blueStartScript.addBrick(new PlaceAtBrick(0, 0));
 		blueStartScript.addBrick(new SetSizeToBrick(5000));
-		blueSprite.addScript(blueStartScript);
-
-		project.getDefaultScene().addSprite(blueSprite);
 
 		XstreamSerializer.getInstance().saveProject(project);
 
@@ -147,8 +143,6 @@ public class StageScreenshotTest {
 		blueLookData.setFile(blueImageFile);
 
 		XstreamSerializer.getInstance().saveProject(project);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(blueSprite);
 		ScreenValueHandler.updateScreenWidthAndHeight(InstrumentationRegistry.getContext());
 	}
 }

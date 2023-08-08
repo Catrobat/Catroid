@@ -123,7 +123,7 @@ public class SortProjectsTest {
 	}
 
 	private void createProject(String projectName) {
-		Project project = UiTestUtils.createEmptyProject(projectName);
+		Project project = UiTestUtils.createDefaultTestProject(projectName);
 		XstreamSerializer.getInstance().saveProject(project);
 	}
 

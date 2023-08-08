@@ -28,11 +28,7 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
@@ -48,7 +44,6 @@ import org.junit.runner.RunWith;
 
 import java.io.IOException;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
@@ -83,7 +78,7 @@ public class SoundFromGalleryIntentDismissTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject(projectName);
+		UiTestUtils.createDefaultTestProject(projectName);
 
 		baseActivityTestRule.launchActivity();
 		Intents.init();
@@ -122,16 +117,5 @@ public class SoundFromGalleryIntentDismissTest {
 		intended(expectedChooserIntent);
 
 		onRecyclerView().checkHasNumberOfItems(0);
-	}
-
-	private void createProject(String projectName) {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Sprite sprite = new Sprite("testSprite");
-
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
-		XstreamSerializer.getInstance().saveProject(project);
 	}
 }

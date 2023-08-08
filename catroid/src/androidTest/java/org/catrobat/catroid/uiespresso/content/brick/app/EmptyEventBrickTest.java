@@ -23,10 +23,8 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.app;
 
-import org.catrobat.catroid.content.EmptyScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.DeleteLookBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
@@ -34,6 +32,7 @@ import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.ProjectListActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -41,7 +40,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertFalse;
@@ -66,14 +64,10 @@ public class EmptyEventBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		project = new Project(ApplicationProvider.getApplicationContext(),
-				PROJECT_NAME);
-		Sprite sprite = new Sprite(SPRITE_NAME);
-		Script script = new EmptyScript();
+		project = UiTestUtils.createDefaultTestProject(PROJECT_NAME);
+		Script script = UiTestUtils.getDefaultTestScript(project);
 		script.addBrick(new ShowBrick());
 		script.addBrick(new DeleteLookBrick());
-		sprite.addScript(script);
-		project.getDefaultScene().addSprite(sprite);
 		XstreamSerializer.getInstance().saveProject(project);
 
 		baseActivityTestRule.launchActivity(null);

@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.uiespresso.util
 
-import androidx.test.core.app.ApplicationProvider
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
@@ -30,12 +29,10 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SwitchCompat
-import org.hamcrest.CoreMatchers
-import org.catrobat.catroid.content.StartScript
-import org.catrobat.catroid.ProjectManager
-import androidx.test.espresso.ViewInteraction
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
+import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers
@@ -48,11 +45,16 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
 import androidx.test.runner.lifecycle.Stage
+import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.UiTestCatroidApplication
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.StartScript
+import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.uiespresso.util.matchers.SuperToastMatchers
+import org.hamcrest.CoreMatchers
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
@@ -81,6 +83,14 @@ class UiTestUtils private constructor() {
         }
 
         @JvmStatic
+        fun getDefaultTestSprite(project: Project): Sprite =
+            project.defaultScene.getSprite(TestUtils.DEFAULT_TEST_SPRITE_NAME)
+
+        @JvmStatic
+        fun getDefaultTestScript(project: Project): Script =
+            project.defaultScene.getSprite(TestUtils.DEFAULT_TEST_SPRITE_NAME).getScript(TestUtils.DEFAULT_TEST_SCRIPT_INDEX)
+
+        @JvmStatic
         fun assertCurrentActivityIsInstanceOf(activityClass: Class<*>?) {
             val currentActivity = arrayOf<Activity?>(null)
             getInstrumentation().runOnMainSync {
@@ -96,14 +106,49 @@ class UiTestUtils private constructor() {
         }
 
         @JvmStatic
-        fun createEmptyProject(projectName: String?): Project {
+        fun createDefaultTestProject(projectName: String?): Project {
             val project = Project(ApplicationProvider.getApplicationContext(), projectName)
-            val sprite = Sprite("testSprite")
+            val sprite = Sprite(TestUtils.DEFAULT_TEST_SPRITE_NAME)
             val script: Script = StartScript()
             sprite.addScript(script)
             project.defaultScene.addSprite(sprite)
             projectManager.currentProject = project
             projectManager.currentSprite = sprite
+            return project
+        }
+
+        @JvmStatic
+        fun createProjectAndGetStartScript(projectName: String?): Script {
+            val project = Project(ApplicationProvider.getApplicationContext(), projectName)
+            val sprite = Sprite(TestUtils.DEFAULT_TEST_SPRITE_NAME)
+            val script: Script = StartScript()
+            sprite.addScript(script)
+            project.defaultScene.addSprite(sprite)
+            projectManager.currentProject = project
+            projectManager.currentSprite = sprite
+            projectManager.currentlyEditedScene = project.defaultScene
+            return script
+        }
+
+        @JvmStatic
+        fun createProjectWithCustomScript(projectName: String?, script: Script): Project {
+            val project = Project(ApplicationProvider.getApplicationContext(), projectName)
+            val sprite = Sprite(TestUtils.DEFAULT_TEST_SPRITE_NAME)
+            sprite.addScript(script)
+            project.defaultScene.addSprite(sprite)
+            projectManager.currentProject = project
+            projectManager.currentSprite = sprite
+            projectManager.currentlyEditedScene = project.defaultScene
+            return project
+        }
+
+        @JvmStatic
+        fun createProjectWithOutDefaultScript(projectName: String?): Project {
+            val project = Project(ApplicationProvider.getApplicationContext(), projectName)
+            val sprite = Sprite(TestUtils.DEFAULT_TEST_SPRITE_NAME)
+            project.defaultScene.addSprite(sprite)
+            UiTestCatroidApplication.projectManager.currentProject = project
+            UiTestCatroidApplication.projectManager.currentSprite = sprite
             return project
         }
 
