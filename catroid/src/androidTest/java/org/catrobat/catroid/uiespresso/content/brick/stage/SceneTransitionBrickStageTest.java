@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.stage;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
@@ -37,7 +36,9 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.UserVariableAssertions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.Before;
@@ -75,7 +76,7 @@ public class SceneTransitionBrickStageTest {
 	}
 
 	private void createProject() {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), getClass().getSimpleName());
+		Project project = UiTestUtils.createDefaultTestProject(TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		Scene firstScene = project.getDefaultScene();
 		Scene secondScene = new Scene("Scene 2", project);
@@ -88,8 +89,6 @@ public class SceneTransitionBrickStageTest {
 
 		Sprite firstBackground = firstScene.getBackgroundSprite();
 		Script firstStartScript = new StartScript();
-
-		ProjectManager.getInstance().setCurrentProject(project);
 
 		firstBrickInScript = ScriptEvaluationGateBrick.appendToScript(firstStartScript);
 

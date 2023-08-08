@@ -30,12 +30,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.io.ResourceImporter;
@@ -166,17 +162,10 @@ public class PointToBrickAdditionalTest {
 	}
 
 	private void createProject(String projectName) {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Sprite sprite = new Sprite("testSprite");
-		Script script = new StartScript();
+		Script script = UiTestUtils.createProjectAndGetStartScript(projectName);
 
 		script.addBrick(new PointToBrick());
 		script.addBrick(new PointToBrick());
 		script.addBrick(new CloneBrick());
-
-		sprite.addScript(script);
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
 	}
 }

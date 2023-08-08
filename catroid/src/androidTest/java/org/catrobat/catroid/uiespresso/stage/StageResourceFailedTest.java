@@ -22,12 +22,8 @@
  */
 package org.catrobat.catroid.uiespresso.stage;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -87,18 +83,12 @@ public class StageResourceFailedTest {
 	}
 
 	public void createProject(String projectName) {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Sprite sprite = new Sprite("testSprite");
-		Script script = new StartScript();
+		Script script = UiTestUtils.createProjectAndGetStartScript(projectName);
 		Formula accelerationFormula = new Formula(
 				new FormulaElement(FormulaElement.ElementType.SENSOR,
 						Sensors.X_ACCELERATION.name(),
 						null));
 		SetXBrick setXBrick = new SetXBrick(accelerationFormula);
 		script.addBrick(setXBrick);
-		sprite.addScript(script);
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
 	}
 }

@@ -23,16 +23,13 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.app;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -60,7 +57,13 @@ public class SceneBricksTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject(this.getClass().getSimpleName());
+		String sceneName = "New Scene";
+		Script script = UiTestUtils.createProjectAndGetStartScript(this.getClass().getSimpleName());
+
+		script.addBrick(new SceneStartBrick(sceneName));
+		script.addBrick(new SceneStartBrick(sceneName));
+		script.addBrick(new SceneTransitionBrick(sceneName));
+		script.addBrick(new SceneTransitionBrick(sceneName));
 		baseActivityTestRule.launchActivity();
 	}
 
@@ -102,22 +105,5 @@ public class SceneBricksTest {
 	@After
 	public void tearDown() throws Exception {
 		TestUtils.deleteProjects(this.getClass().getSimpleName());
-	}
-
-	private void createProject(String projectName) {
-		String sceneName = "New Scene";
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Sprite sprite = new Sprite("testSprite");
-		Script script = new StartScript();
-
-		script.addBrick(new SceneStartBrick(sceneName));
-		script.addBrick(new SceneStartBrick(sceneName));
-		script.addBrick(new SceneTransitionBrick(sceneName));
-		script.addBrick(new SceneTransitionBrick(sceneName));
-
-		sprite.addScript(script);
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
 	}
 }

@@ -29,11 +29,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -52,7 +50,6 @@ import org.junit.experimental.categories.Category;
 import java.io.File;
 import java.io.IOException;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.platform.app.InstrumentationRegistry;
 
@@ -94,7 +91,8 @@ public class LookUndoTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject(projectName);
+		Project project = UiTestUtils.createDefaultTestProject(projectName);
+		XstreamSerializer.getInstance().saveProject(project);
 
 		baseActivityTestRule.launchActivity();
 		Intents.init();
@@ -183,17 +181,6 @@ public class LookUndoTest {
 		onRecyclerView().checkHasNumberOfItems(0);
 
 		onView(withId(R.id.menu_undo)).check(doesNotExist()); // undo shouldn't be visible
-	}
-
-	private void createProject(String projectName) {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Sprite sprite = new Sprite(spriteName);
-
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
-		XstreamSerializer.getInstance().saveProject(project);
 	}
 
 	@After

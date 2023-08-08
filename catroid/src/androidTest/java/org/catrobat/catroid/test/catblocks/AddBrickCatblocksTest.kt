@@ -30,12 +30,12 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.catrobat.catroid.R
 import org.catrobat.catroid.UiTestCatroidApplication
-import org.catrobat.catroid.content.Project
-import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
+import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.recyclerview.fragment.CatblocksScriptFragment
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.junit.After
 import org.junit.Assert
@@ -60,7 +60,7 @@ class AddBrickCatblocksTest {
     fun setUp() {
         CatblocksScriptFragment.testingMode = true
         SettingsFragment.setUseCatBlocks(ApplicationProvider.getApplicationContext(), true)
-        createProject()
+        UiTestUtils.createProjectWithOutDefaultScript(TestUtils.DEFAULT_TEST_PROJECT_NAME)
         baseActivityTestRule.launchActivity()
     }
 
@@ -99,14 +99,5 @@ class AddBrickCatblocksTest {
         if (!(addedScript is StartScript)) {
             Assert.fail("Added script is not a StartScript: " + addedScript.javaClass.simpleName)
         }
-    }
-
-    private fun createProject() {
-        val projectName = javaClass.simpleName
-        val project = Project(ApplicationProvider.getApplicationContext(), projectName)
-        val sprite = Sprite("testSprite")
-        project.defaultScene.addSprite(sprite)
-        UiTestCatroidApplication.projectManager.currentProject = project
-        UiTestCatroidApplication.projectManager.currentSprite = sprite
     }
 }

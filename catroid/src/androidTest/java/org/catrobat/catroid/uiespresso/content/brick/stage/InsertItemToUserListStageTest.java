@@ -27,7 +27,7 @@ import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.Before;
@@ -55,7 +55,7 @@ public class InsertItemToUserListStageTest {
 		valueToInsert = 99.99f;
 		userList = new UserList("LIST");
 		Integer indexToInsert = 1;
-		BrickTestUtils.createProjectAndGetStartScript("addItemToUserListStageTest")
+		UiTestUtils.createProjectAndGetStartScript("addItemToUserListStageTest")
 				.addBrick(new InsertItemIntoUserListBrick(new Formula(valueToInsert), new Formula(indexToInsert), userList));
 		baseActivityTestRule.launchActivity(null);
 	}

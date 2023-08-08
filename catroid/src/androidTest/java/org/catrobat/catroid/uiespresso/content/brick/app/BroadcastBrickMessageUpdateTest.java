@@ -49,7 +49,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
@@ -171,8 +170,8 @@ public class BroadcastBrickMessageUpdateTest {
 	}
 
 	private void createTestProjectWithBricks(String projectName) {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Sprite firstSprite = new Sprite("spriteScene1");
+		Project project = UiTestUtils.createDefaultTestProject(projectName);
+		Sprite firstSprite = UiTestUtils.getDefaultTestSprite(project);
 		secondSprite = new Sprite("spriteScene2");
 
 		Script script = new BroadcastScript(defaultMessage);
@@ -193,14 +192,9 @@ public class BroadcastBrickMessageUpdateTest {
 
 		Scene firstScene = new Scene("Scene1", project);
 		secondScene = new Scene("Scene2", project);
-
-		firstScene.addSprite(firstSprite);
 		secondScene.addSprite(secondSprite);
 
 		project.addScene(firstScene);
 		project.addScene(secondScene);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(firstScene);
 	}
 }

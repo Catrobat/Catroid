@@ -36,8 +36,8 @@ import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
 import org.catrobat.catroid.testsuites.annotations.Cat.Quarantine
 import org.catrobat.catroid.testsuites.annotations.Level.Functional
 import org.catrobat.catroid.ui.SpriteActivity
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.junit.Assert
 import org.junit.Assert.assertFalse
@@ -60,7 +60,7 @@ class CameraResourceTest {
     @Category(AppUi::class, Functional::class, Quarantine::class)
     @Test
     fun cameraResourceNotUsedTest() {
-        val script = BrickTestUtils.createProjectAndGetStartScript("cameraResourceNotUsed")
+        val script = UiTestUtils.createProjectAndGetStartScript("cameraResourceNotUsed")
         val lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script)
 
         baseActivityTestRule.launchActivity()
@@ -73,7 +73,7 @@ class CameraResourceTest {
     @Category(AppUi::class, Functional::class, Quarantine::class)
     @Test
     fun cameraOnTest() {
-        val script = BrickTestUtils.createProjectAndGetStartScript("cameraOnTest").also {
+        val script = UiTestUtils.createProjectAndGetStartScript("cameraOnTest").also {
             it.addBrick(CameraBrick(ON))
         }
         val lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script)
@@ -89,7 +89,7 @@ class CameraResourceTest {
     @Category(AppUi::class, Functional::class, Quarantine::class)
     @Test
     fun cameraStagePausedTest() {
-        val script = BrickTestUtils.createProjectAndGetStartScript("cameraStagePausedTest").also {
+        val script = UiTestUtils.createProjectAndGetStartScript("cameraStagePausedTest").also {
             it.addBrick(CameraBrick(ON))
         }
         val lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script)
@@ -105,7 +105,7 @@ class CameraResourceTest {
     @Category(AppUi::class, Functional::class, Quarantine::class)
     @Test
     fun cameraOffTest() {
-        val script = BrickTestUtils.createProjectAndGetStartScript("cameraOffTest").also {
+        val script = UiTestUtils.createProjectAndGetStartScript("cameraOffTest").also {
             it.addBrick(CameraBrick(!ON))
         }
         val lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script)
@@ -120,7 +120,7 @@ class CameraResourceTest {
     @Category(AppUi::class, Functional::class, Quarantine::class)
     @Test
     fun cameraFacingFrontTest() {
-        val script = BrickTestUtils.createProjectAndGetStartScript("cameraFacingFrontTest").also {
+        val script = UiTestUtils.createProjectAndGetStartScript("cameraFacingFrontTest").also {
             it.addBrick(ChooseCameraBrick(FRONT))
             it.addBrick(CameraBrick(ON))
         }
@@ -137,7 +137,7 @@ class CameraResourceTest {
     @Category(AppUi::class, Functional::class, Quarantine::class)
     @Test
     fun cameraFacingBackTest() {
-        val script = BrickTestUtils.createProjectAndGetStartScript("cameraFacingBackTest").also {
+        val script = UiTestUtils.createProjectAndGetStartScript("cameraFacingBackTest").also {
             it.addBrick(ChooseCameraBrick(!FRONT))
             it.addBrick(CameraBrick(ON))
         }

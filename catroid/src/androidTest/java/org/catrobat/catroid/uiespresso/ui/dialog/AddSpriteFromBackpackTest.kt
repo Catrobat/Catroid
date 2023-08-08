@@ -36,7 +36,7 @@ import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.controller.BackpackListManager
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController
-import org.catrobat.catroid.uiespresso.formulaeditor.FormulaEditorTest
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.junit.After
 import org.junit.Assert
@@ -59,7 +59,7 @@ class AddSpriteFromBackpackTest {
     @Throws(Exception::class)
     fun setUp() {
         val projectName = "newProject"
-        currentProject = FormulaEditorTest.createProject(projectName)
+        currentProject = UiTestUtils.createDefaultTestProject(projectName)
         currentProject!!.defaultScene.addSprite(Sprite("Sprite1"))
         baseActivityTestRule.launchActivity()
     }
