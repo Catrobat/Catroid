@@ -40,8 +40,8 @@ import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
 import org.catrobat.catroid.testsuites.annotations.Cat.Quarantine
 import org.catrobat.catroid.testsuites.annotations.Level.Functional
 import org.catrobat.catroid.ui.SpriteActivity
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -109,7 +109,7 @@ class TextDetectionResourceTest {
     private fun createProject(type: FormulaElement.ElementType, value: String) {
         formula = Formula(FormulaElement(type, value, null))
 
-        val script = BrickTestUtils.createProjectAndGetStartScript("TextDetectionResourceTest")
+        val script = UiTestUtils.createProjectAndGetStartScript("TextDetectionResourceTest")
             .also {
             it.addBrick(SetSizeToBrick(formula))
         }

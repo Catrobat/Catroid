@@ -34,6 +34,7 @@ import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.hamcrest.Matcher;
 import org.junit.Before;
@@ -43,7 +44,6 @@ import org.junit.experimental.categories.Category;
 
 import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_FRAGMENT_POSITION;
 import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.hamcrest.CoreMatchers.not;
 
@@ -63,7 +63,8 @@ public class FormulaEditorMultiplayerVariablesTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Script script = createProjectAndGetStartScript(FormulaEditorMultiplayerVariablesTest.class.getSimpleName());
+		Script script =
+				UiTestUtils.createProjectAndGetStartScript(FormulaEditorMultiplayerVariablesTest.class.getSimpleName());
 		script.addBrick(new ChangeSizeByNBrick(0));
 
 		baseActivityTestRule.launchActivity();

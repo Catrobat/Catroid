@@ -28,7 +28,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastMessageBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.rules.FlakyTestRule;
@@ -37,6 +36,7 @@ import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -78,7 +78,12 @@ public class BroadcastAndWaitBrickMessageContainerTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject(this.getClass().getSimpleName());
+		project = UiTestUtils.createDefaultTestProject(this.getClass().getSimpleName());
+		sprite = UiTestUtils.getDefaultTestSprite(project);
+		Script script = UiTestUtils.getDefaultTestScript(project);
+
+		broadcastMessageBrick = new BroadcastWaitBrick(defaultMessage);
+		script.addBrick(broadcastMessageBrick);
 		baseActivityTestRule.launchActivity();
 	}
 
@@ -128,21 +133,5 @@ public class BroadcastAndWaitBrickMessageContainerTest {
 
 		onView(withText(uselessMessage))
 				.check(doesNotExist());
-	}
-
-	private void createProject(String projectName) {
-		project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		sprite = new Sprite("testSprite");
-		Script script = new StartScript();
-
-		sprite.addScript(script);
-
-		broadcastMessageBrick = new BroadcastWaitBrick(defaultMessage);
-		script.addBrick(broadcastMessageBrick);
-
-		project.getDefaultScene().addSprite(sprite);
-
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
 	}
 }

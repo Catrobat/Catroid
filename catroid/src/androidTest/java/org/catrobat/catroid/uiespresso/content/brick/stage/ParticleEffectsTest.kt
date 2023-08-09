@@ -24,7 +24,6 @@
 package org.catrobat.catroid.uiespresso.content.brick.stage
 
 import android.content.Intent
-import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
@@ -33,7 +32,6 @@ import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
-import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
@@ -45,6 +43,7 @@ import org.catrobat.catroid.content.bricks.SceneStartBrick
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick
 import org.catrobat.catroid.content.bricks.WaitBrick
 import org.catrobat.catroid.ui.SpriteActivity
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions.wait
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.hamcrest.core.StringContains
@@ -127,12 +126,12 @@ class ParticleEffectsTest {
     }
 
     private fun createProject() {
-        val project = Project(getApplicationContext(), PROJECT_NAME)
-        sprite = Sprite("testSprite")
-        script = StartScript()
+        val project = UiTestUtils.createDefaultTestProject(PROJECT_NAME)
+        script = UiTestUtils.getDefaultTestScript(project)
+        sprite = UiTestUtils.getDefaultTestSprite(project)
+
         val touchDownScript = WhenTouchDownScript()
         touchDownScript.addBrick(SceneStartBrick("scene2"))
-        sprite.addScript(script)
         sprite.addScript(touchDownScript)
 
         scene2 = Scene("scene2", project)
@@ -141,12 +140,6 @@ class ParticleEffectsTest {
         script2.addBrick(SceneTransitionBrick(project.defaultScene.name))
         sprite2.addScript(script2)
         scene2.addSprite(sprite2)
-
-        project.defaultScene.addSprite(sprite)
         project.addScene(scene2)
-
-        projectManager.currentProject = project
-        projectManager.currentSprite = sprite
-        projectManager.currentlyEditedScene = project.defaultScene
     }
 }

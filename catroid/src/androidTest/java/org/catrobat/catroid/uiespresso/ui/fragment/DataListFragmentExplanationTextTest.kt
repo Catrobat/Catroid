@@ -37,12 +37,12 @@ import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick
 import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
 import org.catrobat.catroid.testsuites.annotations.Level.Smoke
 import org.catrobat.catroid.ui.SpriteActivity
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper.onDataList
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor
 import org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionModeWrapper.onActionMode
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.hamcrest.core.IsNot.not
 import org.junit.Before
@@ -63,7 +63,7 @@ class DataListFragmentExplanationTextTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        val script = createProjectAndGetStartScript("DataListFragmentExplanationTextNoObjectTest")
+        val script = UiTestUtils.createProjectAndGetStartScript("DataListFragmentExplanationTextNoObjectTest")
         script.addBrick(ChangeSizeByNBrick(0.0))
         baseActivityTestRule.launchActivity()
         onView(withId(R.id.brick_change_size_by_edit_text))

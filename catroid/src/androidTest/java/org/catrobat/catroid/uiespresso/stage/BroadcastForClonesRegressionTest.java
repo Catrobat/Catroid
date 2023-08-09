@@ -23,13 +23,11 @@
 
 package org.catrobat.catroid.uiespresso.stage;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.CloneBrick;
@@ -38,6 +36,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -45,7 +44,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -96,23 +94,17 @@ public class BroadcastForClonesRegressionTest {
 	}
 
 	private void createProject() {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), "BroadcastForClonesRegressionTest");
-		ProjectManager.getInstance().setCurrentProject(project);
+		Project project = UiTestUtils.createDefaultTestProject("BroadcastForClonesRegressionTest");
 		userVariable = new UserVariable(VARIABLE_NAME);
 		project.addUserVariable(userVariable);
 
-		Sprite sprite = new Sprite("testSprite");
-
-		Script startScript = new StartScript();
+		Sprite sprite = UiTestUtils.getDefaultTestSprite(project);
+		Script startScript = UiTestUtils.getDefaultTestScript(project);
 		startScript.addBrick(new CloneBrick());
 		startScript.addBrick(new BroadcastBrick(BROADCAST_MESSAGE_1));
-		sprite.addScript(startScript);
 
 		Script broadcastReceiveScript = new BroadcastScript(BROADCAST_MESSAGE_1);
 		broadcastReceiveScript.addBrick(new ChangeVariableBrick(new Formula(1), userVariable));
 		sprite.addScript(broadcastReceiveScript);
-
-		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
 	}
 }

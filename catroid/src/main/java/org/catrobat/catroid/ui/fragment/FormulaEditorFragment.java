@@ -731,6 +731,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		menu.findItem(R.id.menu_redo).setVisible(true);
 
 		super.onPrepareOptionsMenu(menu);
+		updateButtonsOnKeyboard();
 	}
 
 	@Override
@@ -1087,7 +1088,10 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	public void updateButtonsOnKeyboardAndInvalidateOptionsMenu() {
 		getActivity().invalidateOptionsMenu();
+		updateButtonsOnKeyboard();
+	}
 
+	public void updateButtonsOnKeyboard() {
 		ImageButton backspaceOnKeyboard = getActivity().findViewById(R.id.formula_editor_keyboard_delete);
 		if (!formulaEditorEditText.isThereSomethingToDelete()) {
 			backspaceOnKeyboard.setAlpha(255 / 3);

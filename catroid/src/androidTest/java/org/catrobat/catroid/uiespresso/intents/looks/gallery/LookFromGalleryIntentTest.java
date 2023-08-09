@@ -30,11 +30,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
@@ -54,7 +52,6 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.io.IOException;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -96,7 +93,8 @@ public class LookFromGalleryIntentTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject(projectName);
+		Project project = UiTestUtils.createDefaultTestProject(projectName);
+		XstreamSerializer.getInstance().saveProject(project);
 
 		baseActivityTestRule.launchActivity();
 		Intents.init();
@@ -156,16 +154,5 @@ public class LookFromGalleryIntentTest {
 
 		onRecyclerView().atPosition(0).onChildView(R.id.title_view)
 				.check(matches(withText(lookFileName.replace(".png", ""))));
-	}
-
-	private void createProject(String projectName) {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Sprite sprite = new Sprite("testSprite");
-
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
-		XstreamSerializer.getInstance().saveProject(project);
 	}
 }

@@ -54,7 +54,7 @@ public final class TestUtils {
 
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
 	public static final String DEFAULT_TEST_SPRITE_NAME = "testSprite";
-
+	public static final int DEFAULT_TEST_SCRIPT_INDEX = 0;
 	public static final double DELTA = 0.00001;
 
 	private TestUtils() {

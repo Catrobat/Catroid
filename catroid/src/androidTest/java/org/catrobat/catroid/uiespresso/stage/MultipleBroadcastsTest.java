@@ -61,7 +61,7 @@ public class MultipleBroadcastsTest {
 
 	@Before
 	public void setUp() throws Exception {
-		project = UiTestUtils.createEmptyProject("test");
+		project = UiTestUtils.createDefaultTestProject("test");
 		userVariables = new ArrayList<>();
 		for (int i = 0; i < VALUES.length; i++) {
 			Sprite sprite = new Sprite("sprite" + i);
