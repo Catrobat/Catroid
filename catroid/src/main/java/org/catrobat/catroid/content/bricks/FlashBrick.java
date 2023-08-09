@@ -31,9 +31,12 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+import androidx.annotation.NonNull;
 import kotlin.Unit;
 
+@CatrobatLanguageBrick(command = "Turn")
 public class FlashBrick extends BrickBaseType implements UpdateableSpinnerBrick {
 
 	private static final int FLASH_OFF = 0;
@@ -43,6 +46,10 @@ public class FlashBrick extends BrickBaseType implements UpdateableSpinnerBrick 
 
 	public FlashBrick() {
 		spinnerSelectionID = FLASH_ON;
+	}
+
+	public FlashBrick(int spinnerSelectionID) {
+		this.spinnerSelectionID = spinnerSelectionID;
 	}
 
 	@Override
@@ -91,5 +98,23 @@ public class FlashBrick extends BrickBaseType implements UpdateableSpinnerBrick 
 		if (itemIndex == FLASH_OFF || itemIndex == FLASH_ON) {
 			spinnerSelectionID = itemIndex;
 		}
+	}
+
+	@Override
+	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
+		switch (spinnerIndex) {
+			case FLASH_OFF:
+				return "off";
+			case FLASH_ON:
+				return "on";
+			default:
+				throw new IllegalArgumentException("Invalid spinner index");
+		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		return getCatrobatLanguageSpinnerCall(indentionLevel, "flashlight", spinnerSelectionID);
 	}
 }

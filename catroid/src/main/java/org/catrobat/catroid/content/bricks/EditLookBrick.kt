@@ -31,7 +31,9 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.actions.SetNextLookAction
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick
 
+@CatrobatLanguageBrick(command = "Edit look")
 class EditLookBrick : BrickBaseType() {
 
     override fun getViewResource(): Int = R.layout.brick_edit_look

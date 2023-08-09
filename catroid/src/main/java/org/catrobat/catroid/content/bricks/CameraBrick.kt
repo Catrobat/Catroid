@@ -31,7 +31,9 @@ import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick
 
+@CatrobatLanguageBrick(command = "Turn")
 class CameraBrick(private var spinnerSelectionON: Boolean = true) : BrickBaseType(), UpdateableSpinnerBrick {
 
     override fun getView(context: Context): View {
@@ -78,5 +80,10 @@ class CameraBrick(private var spinnerSelectionON: Boolean = true) : BrickBaseTyp
         itemIndex: Int
     ) {
         spinnerSelectionON = itemIndex == 1
+    }
+
+    override fun serializeToCatrobatLanguage(indentionLevel: Int): String {
+        val state = if (spinnerSelectionON) "on" else "off"
+        return getCatrobatLanguageParamerCall(indentionLevel, "camera", state)
     }
 }

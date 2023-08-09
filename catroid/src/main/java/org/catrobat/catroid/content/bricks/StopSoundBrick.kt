@@ -96,10 +96,8 @@ class StopSoundBrick : BrickBaseType(),
     }
 
     override fun serializeToCatrobatLanguage(indentionLevel: Int): String {
-        return getCatrobatLanguageParamerCall(
-            indentionLevel,
-            "sound",
-            formatSoundName(sound!!.name)
-        )
+        var sound = ""
+        if (this.sound != null) sound = formatSoundName(this.sound!!.name)
+        return getCatrobatLanguageParamerCall(indentionLevel, "sound", sound);
     }
 }

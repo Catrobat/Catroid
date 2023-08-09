@@ -158,8 +158,12 @@ public class PlaySoundAtBrick extends FormulaBrick implements BrickSpinner.OnIte
 
 	@Override
 	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
+		String soundName = "";
+		if (sound != null) {
+			soundName = CatrobatLanguageUtils.Companion.formatSoundName(sound.getName());
+		}
 		brickBuilder.append("sound: (");
-		brickBuilder.append(CatrobatLanguageUtils.Companion.formatSoundName(sound.getName()));
+		brickBuilder.append(soundName);
 		brickBuilder.append("), ");
 
 		super.appendCatrobatLanguageArguments(brickBuilder);

@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.test.io.catrobatlanguage
 
+import android.hardware.camera2.CameraMetadata
 import com.badlogic.gdx.math.Vector2
 import org.catrobat.catroid.content.BroadcastScript
 import org.catrobat.catroid.content.RaspiInterruptScript
@@ -36,6 +37,7 @@ import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.BroadcastBrick
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick
+import org.catrobat.catroid.content.bricks.CameraBrick
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick
 import org.catrobat.catroid.content.bricks.ChangeColorByNBrick
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick
@@ -45,6 +47,7 @@ import org.catrobat.catroid.content.bricks.ChangeVariableBrick
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick
+import org.catrobat.catroid.content.bricks.ChooseCameraBrick
 import org.catrobat.catroid.content.bricks.CopyLookBrick
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick
@@ -55,6 +58,7 @@ import org.catrobat.catroid.content.bricks.DroneMoveRightBrick
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick
+import org.catrobat.catroid.content.bricks.FlashBrick
 import org.catrobat.catroid.content.bricks.ForVariableFromToBrick
 import org.catrobat.catroid.content.bricks.GlideToBrick
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick
@@ -261,6 +265,9 @@ class ValueSerializationTest(
                 arrayOf(SetParticleColorBrick::class.simpleName, SetParticleColorBrick(testColor), "Set (particle color: ($testColor));\n"),
                 arrayOf(SetBackgroundByIndexBrick::class.simpleName, SetBackgroundByIndexBrick(testInt1), "Set background to (look by number: ($testInt1));\n"),
                 arrayOf(SetBackgroundByIndexAndWaitBrick::class.simpleName, SetBackgroundByIndexAndWaitBrick(testInt1), "Set background and wait (look by number: ($testInt1));\n"),
+                arrayOf(CameraBrick::class.simpleName, CameraBrick(false), "Turn (camera: (off));\n"),
+                arrayOf(ChooseCameraBrick::class.simpleName, ChooseCameraBrick(false), "Use (camera: (rear));\n"),
+                arrayOf(FlashBrick::class.simpleName, FlashBrick(CameraMetadata.FLASH_MODE_OFF), "Turn (flashlight: (off));\n"),
                 arrayOf(LookRequestBrick::class.simpleName, LookRequestBrick(testUrl), "Get image and use as current look (source: ('$testUrl'));\n"),
                 arrayOf(PaintNewLookBrick::class.simpleName, PaintNewLookBrick(testString), "Paint new look (name: ('$testString'));\n"),
                 arrayOf(CopyLookBrick::class.simpleName, CopyLookBrick(testString), "Copy look (name of copy: ('$testString'));\n"),

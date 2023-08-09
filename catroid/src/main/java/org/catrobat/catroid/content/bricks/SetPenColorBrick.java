@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import android.graphics.Color;
 import android.view.View;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -32,10 +33,13 @@ import org.catrobat.catroid.content.strategy.ShowColorPickerFormulaEditorStrateg
 import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 import org.catrobat.catroid.ui.UiUtils;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+@CatrobatLanguageBrick(command = "Set")
 public class SetPenColorBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -138,5 +142,27 @@ public class SetPenColorBrick extends FormulaBrick {
 				return 0;
 			}
 		}
+	}
+
+	private String getColorValueFromBrickField(BrickField brickField) {
+		Formula formula = getFormulaWithBrickField(brickField);
+		try {
+			int value = formula.interpretInteger(null);
+			int minimum = Math.max(0, Math.min(255, value));
+			return Integer.toHexString(minimum);
+		} catch (InterpretationException e) {
+			return "00";
+		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		String red = getColorValueFromBrickField(BrickField.PEN_COLOR_RED);
+		String green = getColorValueFromBrickField(BrickField.PEN_COLOR_GREEN);
+		String blue = getColorValueFromBrickField(BrickField.PEN_COLOR_BLUE);
+		String hexColor = "#" + red + green + blue;
+
+		return getCatrobatLanguageParamerCall(indentionLevel, "pen color code", hexColor);
 	}
 }

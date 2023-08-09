@@ -108,6 +108,7 @@ public class SetInstrumentBrick extends BrickBaseType
 	@NonNull
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return getCatrobatLanguageParamerCall(indentionLevel, "instrument", instrumentSelection.getName());
+		String instrument = instrumentSelection != null && instrumentSelection.getName() != null ? instrumentSelection.getName() : "";
+		return getCatrobatLanguageParamerCall(indentionLevel, "instrument", instrument);
 	}
 }
