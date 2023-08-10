@@ -67,13 +67,13 @@ public class DeviceUserListAccessorCleanRoutineTest {
 
 		ArrayList<UserVariable> allLists = new ArrayList<>();
 
-		sprite1.getUserLists().add(sprite1UserList);
+		sprite1.getUserVariableList().add(sprite1UserList);
 		allLists.addAll(sprite1.getUserLists());
 
-		sprite2.getUserLists().add(sprite2UserList);
+		sprite2.getUserVariableList().add(sprite2UserList);
 		allLists.addAll(sprite2.getUserLists());
 
-		project.getUserLists().add(globalUserList);
+		project.getUserVariableList().add(globalUserList);
 		allLists.addAll(project.getUserLists());
 
 		accessor = new DeviceListAccessor(directory);
@@ -108,7 +108,7 @@ public class DeviceUserListAccessorCleanRoutineTest {
 
 	@Test
 	public void deleteGlobalListsTest() {
-		project.getUserLists().clear();
+		project.getUserVariableList().clear();
 		accessor.cleanUpDeletedUserData(project);
 		Map map = accessor.readMapFromJson();
 		assertFalse(map.containsKey(globalUserList.getDeviceKey()));
@@ -128,7 +128,7 @@ public class DeviceUserListAccessorCleanRoutineTest {
 
 	@Test
 	public void deleteSpriteListsTest() {
-		sprite2.getUserLists().clear();
+		sprite2.getUserVariableList().clear();
 		accessor.cleanUpDeletedUserData(project);
 		Map map = accessor.readMapFromJson();
 		assertTrue(map.containsKey(globalUserList.getDeviceKey()));

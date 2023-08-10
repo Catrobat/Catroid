@@ -108,13 +108,13 @@ public class ProjectLoaderTest {
 	}
 
 	private void setUpVariables() {
-		sprite1.getUserVariables().add(sprite1UserVariable);
+		sprite1.getUserVariableList().add(sprite1UserVariable);
 		ArrayList<UserVariable> allVariables = new ArrayList<>(sprite1.getUserVariables());
 
-		sprite2.getUserVariables().add(sprite2UserVariable);
+		sprite2.getUserVariableList().add(sprite2UserVariable);
 		allVariables.addAll(sprite2.getUserVariables());
 
-		project.getUserVariables().add(globalUserVariable);
+		project.getUserVariableList().add(globalUserVariable);
 		allVariables.addAll(project.getUserVariables());
 
 		project.getMultiplayerVariables().add(multiplayerUserVariable);
@@ -130,13 +130,13 @@ public class ProjectLoaderTest {
 	}
 
 	private void setUpUserLists() {
-		sprite1.getUserLists().add(sprite1UserList);
+		sprite1.getUserVariableList().add(sprite1UserList);
 		ArrayList<UserVariable> allLists = new ArrayList<>(sprite1.getUserLists());
 
-		sprite2.getUserLists().add(sprite2UserList);
+		sprite2.getUserVariableList().add(sprite2UserList);
 		allLists.addAll(sprite2.getUserLists());
 
-		project.getUserLists().add(globalUserList);
+		project.getUserVariableList().add(globalUserList);
 		allLists.addAll(project.getUserLists());
 
 		userDataAccessor = new DeviceListAccessor(directory);
@@ -179,13 +179,10 @@ public class ProjectLoaderTest {
 	@Test
 	public void projectLoadTaskTest() throws IOException {
 		// Delete User Variables
-		project.getUserVariables().clear();
-		sprite1.getUserVariables().clear();
+		project.getUserVariableList().clear();
+		sprite1.getUserVariableList().clear();
 		project.removeScene(scene2);
 		project.getMultiplayerVariables().clear();
-		//Delete User Lists
-		project.getUserLists().clear();
-		sprite1.getUserLists().clear();
 		// Check Look Count (2 used, 2 unused, 1 nomediaOffset)
 		File imageDirectoryPre = new File(scene1.getDirectory(), Constants.IMAGE_DIRECTORY_NAME);
 		assertEquals(2 + 2 + 1, Objects.requireNonNull(imageDirectoryPre.listFiles()).length);

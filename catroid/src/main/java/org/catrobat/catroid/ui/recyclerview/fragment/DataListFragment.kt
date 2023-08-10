@@ -221,18 +221,15 @@ class DataListFragment : Fragment(),
                 (parentScriptBrick as UserDefinedReceiverBrick).userDefinedBrick.userDefinedBrickInputs
         }
 
-        val globalVars = currentProject.userVariables
-        val localVars = currentSprite.userVariables
+        val globalVars = currentProject.userVariableList
+        val localVars = currentSprite.userVariableList
         val multiplayerVars = currentProject.multiplayerVariables
-        val globalLists = currentProject.userLists
-        val localLists = currentSprite.userLists
 
         indexVariable = PreferenceManager.getDefaultSharedPreferences(context)
             .getBoolean(INDEXING_VARIABLE_PREFERENCE_KEY, false)
 
         if (!indexVariable) {
-            initialIndexing(userDefinedBrickInputs, globalVars, localVars, multiplayerVars,
-                            globalLists, localLists)
+            initialIndexing(userDefinedBrickInputs, globalVars, localVars, multiplayerVars)
             indexVariable = true
             PreferenceManager.getDefaultSharedPreferences(activity)
                 .edit()
@@ -240,8 +237,7 @@ class DataListFragment : Fragment(),
                 .apply()
         }
 
-        sortVariableAndList(userDefinedBrickInputs, globalVars, localVars, multiplayerVars,
-                            globalLists, localLists)
+        sortVariableAndList(userDefinedBrickInputs, globalVars, localVars, multiplayerVars)
         adapter?.notifyDataSetChanged()
     }
 
@@ -251,8 +247,6 @@ class DataListFragment : Fragment(),
         globalVars: MutableList<UserVariable>,
         localVars: MutableList<UserVariable>,
         multiplayerVars: MutableList<UserVariable>,
-        globalLists: MutableList<UserVariable>,
-        localLists: MutableList<UserVariable>
     ) {
         sortData = PreferenceManager.getDefaultSharedPreferences(context)
             .getBoolean(SORT_VARIABLE_PREFERENCE_KEY, false)
@@ -272,8 +266,6 @@ class DataListFragment : Fragment(),
         sortUserVariable(multiplayerVars, sortData)
         sortUserVariable(globalVars, sortData)
         sortUserVariable(localVars, sortData)
-        sortUserVariable(globalLists, sortData)
-        sortUserVariable(localLists, sortData)
     }
 
     fun sortUserVariable(data: MutableList<UserVariable>, sorted: Boolean) {
@@ -294,8 +286,6 @@ class DataListFragment : Fragment(),
         globalVars: MutableList<UserVariable>,
         localVars: MutableList<UserVariable>,
         multiplayerVars: MutableList<UserVariable>,
-        globalLists: MutableList<UserVariable>,
-        localLists: MutableList<UserVariable>
     ) {
         if (userDefinedBrickInputs.isNotEmpty()) {
             for ((counter, userDefinedBrickInput) in userDefinedBrickInputs.withIndex()) {
@@ -307,21 +297,9 @@ class DataListFragment : Fragment(),
         setUserVariableIndex(globalVars)
         setUserVariableIndex(localVars)
         setUserVariableIndex(multiplayerVars)
-        setUserListIndex(globalLists)
-        setUserListIndex(localLists)
     }
 
     private fun setUserVariableIndex(data: MutableList<UserVariable>) {
-        if (data.size > 0) {
-            for ((counter, localList) in data.withIndex()) {
-                if (localList.initialIndex == -1) {
-                    localList.initialIndex = counter
-                }
-            }
-        }
-    }
-
-    private fun setUserListIndex(data: MutableList<UserVariable>) {
         if (data.size > 0) {
             for ((counter, localList) in data.withIndex()) {
                 if (localList.initialIndex == -1) {
@@ -438,7 +416,11 @@ class DataListFragment : Fragment(),
         renameUserData(item, name ?: "")
         indexAndSort()
         finishActionMode()
-        formulaEditorDataInterface?.onVariableRenamed(previousName, name)
+        if (item is UserVariable && item.isList) {
+            formulaEditorDataInterface?.onListRenamed(previousName, name)
+        } else {
+            formulaEditorDataInterface?.onVariableRenamed(previousName, name)
+        }
     }
 
     private fun showEditDialog(selectedItems: List<UserData<*>>) {

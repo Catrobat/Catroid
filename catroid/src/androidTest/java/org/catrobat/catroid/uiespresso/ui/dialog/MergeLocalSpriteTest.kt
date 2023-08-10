@@ -186,20 +186,20 @@ class MergeLocalSpriteTest {
         // Add conflicts to projects
         val local1 = UserVariable("local1")
         val conflictSprite = conflictProject.defaultScene?.spriteList?.get(1)
-        conflictSprite?.userVariables?.add(local1)
+        conflictSprite?.userVariableList?.add(local1)
         originalSprite = project.defaultScene?.spriteList?.get(1)!!
-        originalSprite.userVariables?.add(local1)
+        originalSprite.userVariableList?.add(local1)
 
         // Add same globals to projects
         val global1 = UserVariable("global1")
         val userListGlobal1 = UserVariable("userListGlobal1", true)
 
-        project.userVariables?.add(global1)
-        project.userLists?.add(userListGlobal1)
+        project.userVariableList?.add(global1)
+        project.userVariableList?.add(userListGlobal1)
         saveProjectSerial(project, ApplicationProvider.getApplicationContext())
 
-        sameGlobalsProject.userVariables?.add(global1)
-        sameGlobalsProject.userLists?.add(userListGlobal1)
+        sameGlobalsProject.userVariableList?.add(global1)
+        sameGlobalsProject.userVariableList?.add(userListGlobal1)
         saveProjectSerial(sameGlobalsProject, ApplicationProvider.getApplicationContext())
     }
 

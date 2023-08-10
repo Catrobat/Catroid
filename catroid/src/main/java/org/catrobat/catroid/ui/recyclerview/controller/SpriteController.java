@@ -73,11 +73,8 @@ public class SpriteController {
 			sprite.getNfcTagList().add(nfcTag.clone());
 		}
 
-		for (UserVariable userVariable : spriteToCopy.getUserVariables()) {
-			sprite.getUserVariables().add(new UserVariable(userVariable));
-		}
-		for (UserVariable userList : spriteToCopy.getUserLists()) {
-			sprite.getUserLists().add(new UserVariable(userList));
+		for (UserVariable userVariable : spriteToCopy.getUserVariableList()) {
+			sprite.getUserVariableList().add(new UserVariable(userVariable));
 		}
 
 		for (Brick userDefinedBrick : spriteToCopy.getUserDefinedBrickList()) {

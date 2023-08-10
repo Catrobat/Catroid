@@ -280,13 +280,6 @@ public class Project implements Serializable {
 		return userLists;
 	}
 
-	public List<UserVariable> getUserListList() {
-		if (userVariables == null) {
-			userVariables = new ArrayList<>();
-		}
-		return userVariables;
-	}
-
 	public List<UserVariable> getUserListsCopy() {
 		if (userVariables == null) {
 			userVariables = new ArrayList<>();

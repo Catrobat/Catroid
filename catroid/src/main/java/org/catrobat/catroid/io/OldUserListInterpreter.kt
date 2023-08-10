@@ -98,8 +98,8 @@ class OldUserListInterpreter(private val outcomeDocument: Document) {
     }
 
     private fun isNewUserList(userList: Node): Boolean {
-        if (listOf(NAME, DEVICE_VALUE_KEY, INITIAL_INDEX, IS_LIST).all {
-                NodeOperatorExtension.getNodeByName(userList, it) != null
+        if (listOf(NAME, DEVICE_VALUE_KEY, INITIAL_INDEX, IS_LIST).all { userListAttribute ->
+                NodeOperatorExtension.getNodeByName(userList, userListAttribute) != null
             }) {
             if (NodeOperatorExtension.getNodeByName(userList, VALUE) == null) {
                 val value = userList.firstChild.cloneNode(true)
@@ -144,7 +144,8 @@ class OldUserListInterpreter(private val outcomeDocument: Document) {
         val children = userList.childNodes
 
         for (i in 0 until children.length) {
-            val temp = children.item(i)
+            var deletedCounter = 0
+            val temp = children.item(i - deletedCounter)
             if (temp.nodeName == NAME && !nameFound) {
                 nameFound = true
                 if (temp.textContent.isEmpty()) {
@@ -154,17 +155,15 @@ class OldUserListInterpreter(private val outcomeDocument: Document) {
                 deviceValueKeyFound = true
             } else {
                 userList.removeChild(temp)
+                deletedCounter += 1
             }
         }
 
         if (!nameFound) {
-            // this case only appeared when deviceValueKey was the only item
-            // TODO: add this comment to the online documentation
             addNameToNewUserList(userList)
         }
 
         if (!deviceValueKeyFound) {
-            // this case only appeared when name was the only item
             addDeviceValueKeyToNewUserList(userList)
         }
     }

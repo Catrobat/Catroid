@@ -283,8 +283,8 @@ class ImportLocalSpriteTest {
         projectWithSameGlobals =
             Project(ApplicationProvider.getApplicationContext(), "projectWithSameGlobals")
         doggo = Sprite("doggo")
-        projectWithSameGlobals.userVariables.add(global1)
-        projectWithSameGlobals.userLists.add(userListGlobal1)
+        projectWithSameGlobals.userVariableList.add(global1)
+        projectWithSameGlobals.userVariableList.add(userListGlobal1)
         projectWithSameGlobals.broadcastMessageContainer.addBroadcastMessage(broadcast1)
         projectWithSameGlobals.defaultScene.addSprite(doggo)
         saveProjectSerial(projectWithSameGlobals, ApplicationProvider.getApplicationContext())
@@ -292,17 +292,17 @@ class ImportLocalSpriteTest {
         projectWithConflicts =
             Project(ApplicationProvider.getApplicationContext(), "projectWithConflicts")
         no_dog = Sprite("no_dog")
-        projectWithConflicts.userVariables.add(global1)
-        no_dog.userVariables.add(local1)
+        projectWithConflicts.userVariableList.add(global1)
+        no_dog.userVariableList.add(local1)
         saveProjectSerial(projectWithConflicts, ApplicationProvider.getApplicationContext())
 
         projectToImportTo =
             Project(ApplicationProvider.getApplicationContext(), "projectToImportTo")
         projectToImportTo.userVariables.add(global1)
         projectToImportTo.broadcastMessageContainer.addBroadcastMessage(broadcast1)
-        projectToImportTo.userLists.add(userListGlobal1)
+        projectToImportTo.userVariableList.add(userListGlobal1)
         dog = Sprite("dog")
-        dog.userVariables.add(local1)
+        dog.userVariableList.add(local1)
         dog.addScript(StartScript())
         dog.scriptList[0].addBrick(BroadcastWaitBrick(broadcast1))
         projectToImportTo.defaultScene.addSprite(dog)
