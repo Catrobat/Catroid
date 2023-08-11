@@ -28,7 +28,9 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.BrickField
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick
 
+@CatrobatLanguageBrick(command = "Send web request")
 class WebRequestBrick() : UserVariableBrickWithFormula() {
     constructor(value: String) : this(Formula(value))
 
@@ -37,7 +39,7 @@ class WebRequestBrick() : UserVariableBrickWithFormula() {
     }
 
     init {
-        addAllowedBrickField(BrickField.WEB_REQUEST, R.id.brick_web_request_edit_text)
+        addAllowedBrickField(BrickField.WEB_REQUEST, R.id.brick_web_request_edit_text, "url")
     }
 
     override fun getViewResource(): Int = R.layout.brick_web_request
@@ -56,4 +58,8 @@ class WebRequestBrick() : UserVariableBrickWithFormula() {
     }
 
     override fun getSpinnerId(): Int = R.id.web_request_spinner
+
+    override fun serializeToCatrobatLanguage(indentionLevel: Int): String {
+        return super.serializeToCatrobatLanguage(indentionLevel, "answer variable", false, false)
+    }
 }

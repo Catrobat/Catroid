@@ -239,7 +239,7 @@ class EmptyValueSerializationTest(
                 arrayOf(WaitUntilBrick::class.simpleName, WaitUntilBrick(), "Wait until (condition: (0));\n"),
                 arrayOf(RepeatBrick::class.simpleName, RepeatBrick(), "Repeat (times: (0)) {\n}\n"),
                 arrayOf(RepeatUntilBrick::class.simpleName, RepeatUntilBrick(), "Repeat until (condition: (0)) {\n}\n"),
-                arrayOf(ForVariableFromToBrick::class.simpleName, ForVariableFromToBrick(), "For (value: (0), from: (0), to: (0)) {\n}\n"),
+                arrayOf(ForVariableFromToBrick::class.simpleName, ForVariableFromToBrick(), "For (value: (), from: (0), to: (0)) {\n}\n"),
                 arrayOf(ForItemInUserListBrick::class.simpleName, ForItemInUserListBrick(), "For each value in list (value: (0), list: (0)) {\n}\n"),
                 arrayOf(SceneTransitionBrick::class.simpleName, SceneTransitionBrick(), "Continue (scene: (''));\n"),
                 arrayOf(SceneStartBrick::class.simpleName, SceneStartBrick(), "Start (scene: (''));\n"),
@@ -295,7 +295,7 @@ class EmptyValueSerializationTest(
                 arrayOf(ChangeSizeByNBrick::class.simpleName, ChangeSizeByNBrick(), "Change size by (value: (0));\n"),
                 arrayOf(HideBrick::class.simpleName, HideBrick(), "Hide;\n"),
                 arrayOf(ShowBrick::class.simpleName, ShowBrick(), "Show;\n"),
-                arrayOf(AskSpeechBrick::class.simpleName, AskSpeechBrick(), "Ask question and store written answer to variable (question: (0), variable: (0));\n"),
+                arrayOf(AskSpeechBrick::class.simpleName, AskSpeechBrick(), "Ask question and store written answer to variable (question: (0), variable: ());\n"),
                 arrayOf(SayBubbleBrick::class.simpleName, SayBubbleBrick(), "Say (text: (0));\n"),
                 arrayOf(SayForBubbleBrick::class.simpleName, SayForBubbleBrick(), "Say text for seconds (text: (0), seconds: (0));\n"),
                 arrayOf(ThinkBubbleBrick::class.simpleName, ThinkBubbleBrick(), "Think (text: (0));\n"),
@@ -330,13 +330,13 @@ class EmptyValueSerializationTest(
                 arrayOf(ClearBackgroundBrick::class.simpleName, ClearBackgroundBrick(), "Clear;\n"),
                 arrayOf(StampBrick::class.simpleName, StampBrick(), "Stamp;\n"),
                 arrayOf(ReportBrick::class.simpleName, ReportBrick(), "Report (value: (0));\n"),
-                arrayOf(SetVariableBrick::class.simpleName, SetVariableBrick(), "Set (variable: (0), value: (0));\n"),
-                arrayOf(ChangeVariableBrick::class.simpleName, ChangeVariableBrick(), "Change (variable: (0), value: (0));\n"),
-                arrayOf(HideTextBrick::class.simpleName, HideTextBrick(), "Hide (variable: (0));\n"),
-                arrayOf(WriteVariableOnDeviceBrick::class.simpleName, WriteVariableOnDeviceBrick(), "Write on device (variable: (0));\n"),
-                arrayOf(ReadVariableFromDeviceBrick::class.simpleName, ReadVariableFromDeviceBrick(), "Read from device (variable: (0));\n"),
-                arrayOf(WriteVariableToFileBrick::class.simpleName, WriteVariableToFileBrick(), "Write to file (variable: (0), file: (0));\n"),
-                arrayOf(ReadVariableFromFileBrick::class.simpleName, ReadVariableFromFileBrick(), "Read from file (variable: (0), file: (0), action: (keep the file));\n"),
+                arrayOf(SetVariableBrick::class.simpleName, SetVariableBrick(), "Set (variable: (), value: (0));\n"),
+                arrayOf(ChangeVariableBrick::class.simpleName, ChangeVariableBrick(), "Change (variable: (), value: (0));\n"),
+                arrayOf(HideTextBrick::class.simpleName, HideTextBrick(), "Hide (variable: ());\n"),
+                arrayOf(WriteVariableOnDeviceBrick::class.simpleName, WriteVariableOnDeviceBrick(), "Write on device (variable: ());\n"),
+                arrayOf(ReadVariableFromDeviceBrick::class.simpleName, ReadVariableFromDeviceBrick(), "Read from device (variable: ());\n"),
+                arrayOf(WriteVariableToFileBrick::class.simpleName, WriteVariableToFileBrick(), "Write to file (variable: (), file: (0));\n"),
+                arrayOf(ReadVariableFromFileBrick::class.simpleName, ReadVariableFromFileBrick(), "Read from file (variable: (), file: (0), action: (keep the file));\n"),
                 arrayOf(AddItemToUserListBrick::class.simpleName, AddItemToUserListBrick(), "Add (list: (), item: (0));\n"),
                 arrayOf(DeleteItemOfUserListBrick::class.simpleName, DeleteItemOfUserListBrick(), "Delete item at (list: (), position: (0));\n"),
                 arrayOf(ClearUserListBrick::class.simpleName, ClearUserListBrick(), "Delete all items (list: ());\n"),
@@ -413,7 +413,7 @@ class EmptyValueSerializationTest(
                 arrayOf(WhenRaspiPinChangedBrick::class.simpleName, WhenRaspiPinChangedBrick(), "When Raspberry Pi pin changes to (pin: (), position: ()) {\n}\n"),
                 arrayOf(WhenBrick::class.simpleName, WhenBrick(), "When tapped {\n}\n"),
                 arrayOf(WhenStartedBrick::class.simpleName, WhenStartedBrick(), "When scene starts {\n}\n"),
-                arrayOf(WhenNfcBrick::class.simpleName, WhenNfcBrick(), "When NFC gets scanned (nfc tag: ()) {\n}\n")
+                arrayOf(WhenNfcBrick::class.simpleName, WhenNfcBrick(), "When NFC gets scanned (nfc tag: (all)) {\n}\n")
             )
         }
     }

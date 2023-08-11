@@ -35,6 +35,9 @@ import org.catrobat.catroid.content.WhenBackgroundChangesScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
@@ -46,9 +49,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+@CatrobatLanguageBrick(command = "When background changes to")
 public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptBrick,
 		BrickSpinner.OnItemSelectedListener<LookData>,
-		NewItemInterface<LookData>, UpdateableSpinnerBrick {
+		NewItemInterface<LookData>, UpdateableSpinnerBrick, CatrobatLanguageAttributes {
 
 	private static final long serialVersionUID = 1L;
 
@@ -169,5 +173,21 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 		if (spinner != null) {
 			spinner.setSelection(itemName);
 		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		return getCatrobatLanguageParameterizedCall(indentionLevel, true).toString();
+	}
+
+	@Override
+	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
+		brickBuilder.append("look: (");
+		LookData lookData = getLook();
+		if (lookData != null) {
+			brickBuilder.append(CatrobatLanguageUtils.Companion.formatLook(lookData.getName()));
+		}
+		brickBuilder.append(")");
 	}
 }

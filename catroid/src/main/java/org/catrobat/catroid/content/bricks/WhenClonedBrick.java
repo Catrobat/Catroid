@@ -27,7 +27,9 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenClonedScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "When you start as a clone")
 public class WhenClonedBrick extends ScriptBrickBaseType {
 
 	private static final long serialVersionUID = 1L;

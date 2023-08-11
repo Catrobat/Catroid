@@ -27,13 +27,17 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+import androidx.annotation.NonNull;
+
+@CatrobatLanguageBrick(command = "Change")
 public class ChangeVariableBrick extends UserVariableBrickWithFormula {
 
 	private static final long serialVersionUID = 1L;
 
 	public ChangeVariableBrick() {
-		addAllowedBrickField(BrickField.VARIABLE_CHANGE, R.id.brick_change_variable_edit_text);
+		addAllowedBrickField(BrickField.VARIABLE_CHANGE, R.id.brick_change_variable_edit_text, "value");
 	}
 
 	public ChangeVariableBrick(double value) {
@@ -65,5 +69,11 @@ public class ChangeVariableBrick extends UserVariableBrickWithFormula {
 		sequence.addAction(sprite.getActionFactory()
 				.createChangeVariableAction(sprite, sequence,
 						getFormulaWithBrickField(BrickField.VARIABLE_CHANGE), userVariable));
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		return serializeToCatrobatLanguage(indentionLevel, "variable", true, false);
 	}
 }

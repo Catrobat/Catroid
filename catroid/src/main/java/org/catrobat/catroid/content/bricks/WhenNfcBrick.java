@@ -37,6 +37,9 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.NfcTagsActivity;
 
 import java.util.ArrayList;
@@ -45,7 +48,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<NfcTagData>, UpdateableSpinnerBrick {
+@CatrobatLanguageBrick(command = "When NFC gets scanned")
+public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<NfcTagData>, UpdateableSpinnerBrick, CatrobatLanguageAttributes {
 
 	private static final long serialVersionUID = 1L;
 
@@ -138,5 +142,16 @@ public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.On
 		if (spinner != null) {
 			spinner.setSelection(itemName);
 		}
+	}
+
+	@Override
+	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
+		brickBuilder.append("nfc tag: (");
+		if (script.getMatchAll()) {
+			brickBuilder.append("all");
+		} else {
+			brickBuilder.append(CatrobatLanguageUtils.Companion.formatNFCTag((script.getNfcTag().getName())));
+		}
+		brickBuilder.append(")");
 	}
 }

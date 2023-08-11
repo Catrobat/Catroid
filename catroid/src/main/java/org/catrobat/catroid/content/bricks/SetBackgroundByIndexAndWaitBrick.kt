@@ -40,7 +40,8 @@ class SetBackgroundByIndexAndWaitBrick : FormulaBrick {
     init {
         addAllowedBrickField(
             BrickField.BACKGROUND_WAIT_INDEX,
-            R.id.brick_set_background_by_index_wait_edit_text
+            R.id.brick_set_background_by_index_wait_edit_text,
+            "look by number"
         )
     }
 

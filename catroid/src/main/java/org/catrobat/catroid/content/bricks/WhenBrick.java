@@ -27,9 +27,11 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
 import androidx.annotation.NonNull;
 
+@CatrobatLanguageBrick(command = "When tapped")
 public class WhenBrick extends ScriptBrickBaseType {
 
 	private static final long serialVersionUID = 1L;

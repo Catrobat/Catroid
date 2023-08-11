@@ -41,6 +41,10 @@ class CatrobatLanguageUtils {
             return "'$lookName'"
         }
 
+        fun formatNFCTag (nfcTag: String): String {
+            return "'$nfcTag'"
+        }
+
         fun formatVariable (variableName: String): String {
             return "\"$variableName\""
         }

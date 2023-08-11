@@ -33,7 +33,11 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.BrickField
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils.Companion.formatVariable
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils.Companion.getIndention
 
+@CatrobatLanguageBrick(command = "Read from file")
 class ReadVariableFromFileBrick constructor() : UserVariableBrickWithFormula(), UpdateableSpinnerBrick {
     constructor(value: String) : this(Formula(value))
 
@@ -42,7 +46,7 @@ class ReadVariableFromFileBrick constructor() : UserVariableBrickWithFormula(), 
     }
 
     init {
-        addAllowedBrickField(BrickField.READ_FILENAME, R.id.brick_read_variable_from_file_edit_text)
+        addAllowedBrickField(BrickField.READ_FILENAME, R.id.brick_read_variable_from_file_edit_text, "file")
     }
 
     private var spinnerSelectionID: Int = KEEP
@@ -108,5 +112,38 @@ class ReadVariableFromFileBrick constructor() : UserVariableBrickWithFormula(), 
         } else if (spinnerId == R.id.brick_read_variable_from_file_spinner_mode) {
             spinnerSelectionID = itemIndex
         }
+    }
+
+    override fun serializeToCatrobatLanguage(indentionLevel: Int): String {
+        val indention = getIndention(indentionLevel)
+        val catrobatLanguage = StringBuilder()
+        catrobatLanguage.append(indention)
+        if (commentedOut) {
+            catrobatLanguage.append("/* ")
+        }
+        catrobatLanguage.append(catrobatLanguageCommand)
+        catrobatLanguage.append(" (")
+
+        catrobatLanguage.append("variable: (")
+        if (userVariable != null) {
+            catrobatLanguage.append(formatVariable(userVariable.name))
+        }
+        catrobatLanguage.append("), ")
+        appendCatrobatLanguageArguments(catrobatLanguage)
+
+        catrobatLanguage.append(", action: (")
+        if (spinnerSelectionID == KEEP) {
+            catrobatLanguage.append("keep the file")
+        } else {
+            catrobatLanguage.append("delete the file")
+        }
+        catrobatLanguage.append("));")
+
+        if (commentedOut) {
+            catrobatLanguage.append(" */")
+        }
+
+        catrobatLanguage.append("\n")
+        return catrobatLanguage.toString()
     }
 }

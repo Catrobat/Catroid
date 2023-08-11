@@ -34,13 +34,17 @@ import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import kotlin.Unit;
 
-public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType implements UpdateableSpinnerBrick {
+@CatrobatLanguageBrick(command = "When Raspberry Pi pin changes to")
+public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType implements UpdateableSpinnerBrick, CatrobatLanguageAttributes {
 
 	private static final long serialVersionUID = 1L;
 
@@ -147,5 +151,28 @@ public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType implements Upd
 				script.setEventValue(BrickValues.RASPI_EVENTS[itemIndex]);
 			}
 		}
+	}
+
+	@Override
+	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
+		brickBuilder.append("pin: (");
+		brickBuilder.append(script.getPin() != null ? script.getPin() : "");
+		brickBuilder.append("), position: (");
+		brickBuilder.append(script.getEventValue() != null ? script.getEventValue() : "");
+		brickBuilder.append(")");
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		StringBuilder catrobatLanguage = new StringBuilder();
+		catrobatLanguage.append(super.serializeToCatrobatLanguage(indentionLevel));
+
+//		for (Brick brick : script.getBrickList()) {
+//			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
+//		}
+
+		super.getCatrobatLanguageBodyClose(catrobatLanguage, indentionLevel);
+		return catrobatLanguage.toString();
 	}
 }

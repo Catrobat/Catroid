@@ -28,7 +28,9 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.BrickField
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick
 
+@CatrobatLanguageBrick(command = "Write to file")
 class WriteVariableToFileBrick constructor() : UserVariableBrickWithFormula() {
     constructor(value: String) : this(Formula(value))
 
@@ -37,7 +39,7 @@ class WriteVariableToFileBrick constructor() : UserVariableBrickWithFormula() {
     }
 
     init {
-        addAllowedBrickField(BrickField.WRITE_FILENAME, R.id.brick_write_variable_to_file_edit_text)
+        addAllowedBrickField(BrickField.WRITE_FILENAME, R.id.brick_write_variable_to_file_edit_text, "file")
     }
 
     override fun getViewResource(): Int = R.layout.brick_write_variable_to_file
@@ -55,5 +57,9 @@ class WriteVariableToFileBrick constructor() : UserVariableBrickWithFormula() {
     override fun addRequiredResources(requiredResourcesSet: ResourcesSet) {
         requiredResourcesSet.addAll(listOf(Brick.STORAGE_READ, Brick.STORAGE_WRITE))
         super.addRequiredResources(requiredResourcesSet)
+    }
+
+    override fun serializeToCatrobatLanguage(indentionLevel: Int): String {
+        return super.serializeToCatrobatLanguage(indentionLevel, "variable", true, false)
     }
 }

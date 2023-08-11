@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
@@ -43,6 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -144,5 +146,37 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 		if (spinner != null) {
 			spinner.setSelection(itemName);
 		}
+	}
+
+	@NonNull
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+
+		StringBuilder catrobatLanguage = new StringBuilder();
+		catrobatLanguage.append(indention);
+
+		if (commentedOut) {
+			catrobatLanguage.append("/* ");
+		}
+
+		catrobatLanguage.append(getCatrobatLanguageCommand());
+		catrobatLanguage.append(" (list: (");
+		if (userList != null) {
+			catrobatLanguage.append(CatrobatLanguageUtils.Companion.formatList(userList.getName()));
+		}
+		catrobatLanguage.append(")");
+
+		if (catrobatLanguageFormulaParameters.size() > 0) {
+			catrobatLanguage.append(", ");
+			appendCatrobatLanguageArguments(catrobatLanguage);
+		}
+		catrobatLanguage.append(");");
+
+		if (commentedOut) {
+			catrobatLanguage.append(" */");
+		}
+
+		catrobatLanguage.append("\n");
+		return catrobatLanguage.toString();
 	}
 }

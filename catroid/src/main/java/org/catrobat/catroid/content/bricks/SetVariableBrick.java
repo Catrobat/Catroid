@@ -39,7 +39,7 @@ public class SetVariableBrick extends UserVariableBrickWithFormula {
 	private static final long serialVersionUID = 1L;
 
 	public SetVariableBrick() {
-		addAllowedBrickField(BrickField.VARIABLE, R.id.brick_set_variable_edit_text, "variable");
+		addAllowedBrickField(BrickField.VARIABLE, R.id.brick_set_variable_edit_text, "value");
 	}
 
 	public SetVariableBrick(double value) {

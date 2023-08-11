@@ -149,7 +149,7 @@ public class SetPenColorBrick extends FormulaBrick {
 		try {
 			int value = formula.interpretInteger(null);
 			int minimum = Math.max(0, Math.min(255, value));
-			return Integer.toHexString(minimum);
+			return String.format("%02X", minimum);
 		} catch (InterpretationException e) {
 			return "00";
 		}
