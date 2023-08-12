@@ -34,7 +34,6 @@ import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.EditOption;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
-import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
@@ -195,7 +194,7 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 	@NonNull
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return getCatrobatLanguageParamerCall(indentionLevel, "message",
+		return getCatrobatLanguageParameterCall(indentionLevel, "message",
 				"'" + getBroadcastMessage() + "'");
 	}
 

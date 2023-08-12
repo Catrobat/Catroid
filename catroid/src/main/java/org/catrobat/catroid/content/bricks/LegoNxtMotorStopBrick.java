@@ -96,7 +96,7 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements UpdateableSp
 	}
 
 	private String getCatrobatLanguageMotor() {
-		switch (LegoNxtMotorStopBrick.Motor.valueOf(motor)) {
+		switch (Motor.valueOf(motor)) {
 			case MOTOR_A:
 				return "A";
 			case MOTOR_B:
@@ -113,6 +113,6 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements UpdateableSp
 	@NonNull
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return getCatrobatLanguageParamerCall(indentionLevel, "motor", getCatrobatLanguageMotor());
+		return getCatrobatLanguageParameterCall(indentionLevel, "motor", getCatrobatLanguageMotor());
 	}
 }

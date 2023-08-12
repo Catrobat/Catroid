@@ -162,7 +162,7 @@ public class SceneTransitionBrick extends BrickBaseType implements BrickSpinner.
 	@NonNull
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return getCatrobatLanguageParamerCall(indentionLevel, "scene",
+		return getCatrobatLanguageParameterCall(indentionLevel, "scene",
 				CatrobatLanguageUtils.Companion.formatActorOrObject(sceneForTransition));
 	}
 }

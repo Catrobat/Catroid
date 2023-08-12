@@ -32,10 +32,13 @@ import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
 import kotlin.Unit;
 
-public class PhiroPlayToneBrick extends FormulaBrick implements UpdateableSpinnerBrick {
+@CatrobatLanguageBrick(command = "Play Phiro")
+public class PhiroPlayToneBrick extends FormulaBrick implements UpdateableSpinnerBrick, CatrobatLanguageAttributes {
 
 	private static final long serialVersionUID = 1L;
 
@@ -47,7 +50,7 @@ public class PhiroPlayToneBrick extends FormulaBrick implements UpdateableSpinne
 
 	public PhiroPlayToneBrick() {
 		tone = Tone.DO.name();
-		addAllowedBrickField(BrickField.PHIRO_DURATION_IN_SECONDS, R.id.brick_phiro_play_tone_duration_edit_text);
+		addAllowedBrickField(BrickField.PHIRO_DURATION_IN_SECONDS, R.id.brick_phiro_play_tone_duration_edit_text, "seconds");
 	}
 
 	public PhiroPlayToneBrick(Tone toneEnum, int duration) {
@@ -106,5 +109,13 @@ public class PhiroPlayToneBrick extends FormulaBrick implements UpdateableSpinne
 		if (itemIndex >= 0 && itemIndex < tones.length) {
 			tone = tones[itemIndex].name();
 		}
+	}
+
+	@Override
+	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
+		brickBuilder.append("tone: (");
+		brickBuilder.append(tone.toLowerCase());
+		brickBuilder.append("), ");
+		super.appendCatrobatLanguageArguments(brickBuilder);
 	}
 }

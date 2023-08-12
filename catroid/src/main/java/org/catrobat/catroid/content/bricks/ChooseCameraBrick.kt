@@ -89,6 +89,6 @@ class ChooseCameraBrick(private var spinnerSelectionFRONT: Boolean = true) : Bri
 
     override fun serializeToCatrobatLanguage(indentionLevel: Int): String {
         val camera = if (spinnerSelectionFRONT) "front" else "back"
-        return getCatrobatLanguageParamerCall(indentionLevel, "camera", camera)
+        return getCatrobatLanguageParameterCall(indentionLevel, "camera", camera)
     }
 }

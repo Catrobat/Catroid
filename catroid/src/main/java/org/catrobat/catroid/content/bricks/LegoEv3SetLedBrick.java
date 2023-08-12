@@ -27,18 +27,23 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+import androidx.annotation.NonNull;
 import kotlin.Unit;
 
+@CatrobatLanguageBrick(command = "Set EV3")
 public class LegoEv3SetLedBrick extends BrickBaseType implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	private String ledStatus;
+	private int spinnerSelectionIndex;
 
 	public enum LedStatus {
 		LED_OFF, LED_GREEN, LED_RED, LED_ORANGE,
@@ -71,6 +76,7 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements UpdateableSpinn
 		spinner.setAdapter(spinnerAdapter);
 		spinner.setOnItemSelectedListener(new AdapterViewOnItemSelectedListenerImpl(position -> {
 			ledStatus = LedStatus.values()[position].name();
+			spinnerSelectionIndex = position;
 			return Unit.INSTANCE;
 		}));
 		spinner.setSelection(LedStatus.valueOf(ledStatus).ordinal());
@@ -91,6 +97,41 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements UpdateableSpinn
 	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
 		if (itemIndex >= 0 && itemIndex < LedStatus.values().length) {
 			ledStatus = LedStatus.values()[itemIndex].name();
+			spinnerSelectionIndex = itemIndex;
 		}
+	}
+
+	@Override
+	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
+		switch (spinnerIndex) {
+			case 0:
+				return "off";
+			case 1:
+				return "green";
+			case 2:
+				return "red";
+			case 3:
+				return "orange";
+			case 4:
+				return "green flash";
+			case 5:
+				return "red flash";
+			case 6:
+				return "orange flash";
+			case 7:
+				return "green pulse";
+			case 8:
+				return "red pulse";
+			case 9:
+				return "orange pulse";
+			default:
+				throw new NotImplementedException("Invalid spinnerIndex");
+		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		return getCatrobatLanguageSpinnerCall(indentionLevel, "status", spinnerSelectionIndex);
 	}
 }

@@ -355,7 +355,7 @@ class EmptyValueSerializationTest(
                 arrayOf(LegoEv3MotorMoveBrick::class.simpleName, LegoEv3MotorMoveBrick(), "Set EV3 (motor: (A), speed percentage: (0));\n"),
                 arrayOf(LegoEv3MotorStopBrick::class.simpleName, LegoEv3MotorStopBrick(), "Stop EV3 (motor: (A));\n"),
                 arrayOf(LegoEv3PlayToneBrick::class.simpleName, LegoEv3PlayToneBrick(), "Play EV3 tone (seconds: (0), frequency x100Hz: (0), volume: (0));\n"),
-                arrayOf(LegoEv3SetLedBrick::class.simpleName, LegoEv3SetLedBrick(), "Set EV3 (status: (green));\n"),
+                arrayOf(LegoEv3SetLedBrick::class.simpleName, LegoEv3SetLedBrick(), "Set EV3 (status: (off));\n"),
                 arrayOf(ArduinoSendDigitalValueBrick::class.simpleName, ArduinoSendDigitalValueBrick(), "Set Arduino (digital pin: (0), value: (0));\n"),
                 arrayOf(ArduinoSendPWMValueBrick::class.simpleName, ArduinoSendPWMValueBrick(), "Set Arduino (PWM~ pin: (0), value: (0));\n"),
                 arrayOf(DroneTakeOffLandBrick::class.simpleName, DroneTakeOffLandBrick(), "Take off / land AR.Drone 2.0;\n"),

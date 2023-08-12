@@ -27,7 +27,6 @@ import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -136,7 +135,7 @@ public class PointToBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 	@NonNull
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return getCatrobatLanguageParamerCall(indentionLevel, "actor or object",
+		return getCatrobatLanguageParameterCall(indentionLevel, "actor or object",
 				CatrobatLanguageUtils.Companion.formatActorOrObject(pointedObject.getName()));
 	}
 }

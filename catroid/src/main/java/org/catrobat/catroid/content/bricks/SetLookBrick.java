@@ -141,6 +141,6 @@ public class SetLookBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
 		String lookname = look == null ? "" : CatrobatLanguageUtils.Companion.formatLook(look.getName());
-		return getCatrobatLanguageParamerCall(indentionLevel, "look", lookname);
+		return getCatrobatLanguageParameterCall(indentionLevel, "look", lookname);
 	}
 }

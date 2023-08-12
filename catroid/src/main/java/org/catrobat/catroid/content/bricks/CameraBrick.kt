@@ -84,6 +84,6 @@ class CameraBrick(private var spinnerSelectionON: Boolean = true) : BrickBaseTyp
 
     override fun serializeToCatrobatLanguage(indentionLevel: Int): String {
         val state = if (spinnerSelectionON) "on" else "off"
-        return getCatrobatLanguageParamerCall(indentionLevel, "camera", state)
+        return getCatrobatLanguageParameterCall(indentionLevel, "camera", state)
     }
 }

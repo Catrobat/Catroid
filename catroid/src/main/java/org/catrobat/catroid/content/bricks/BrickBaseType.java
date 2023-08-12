@@ -364,11 +364,11 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 
 	protected String getCatrobatLanguageSpinnerCall(int indentionLevel,
 			String parameterName, int spinnerIndex) {
-		return getCatrobatLanguageParamerCall(indentionLevel, parameterName,
+		return getCatrobatLanguageParameterCall(indentionLevel, parameterName,
 				getCatrobatLanguageSpinnerValue(spinnerIndex));
 	}
 
-	protected String getCatrobatLanguageParamerCall(int indentionLevel, String parameterName,
+	protected String getCatrobatLanguageParameterCall(int indentionLevel, String parameterName,
 			String value) {
 		StringBuilder catrobatLanguage = new StringBuilder();
 		catrobatLanguage.append(CatrobatLanguageUtils.Companion.getIndention(indentionLevel));

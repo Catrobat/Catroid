@@ -107,7 +107,7 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick implements UpdateableSpi
 	}
 
 	private String getCatrobatLanguageMotor() {
-		switch (LegoNxtMotorMoveBrick.Motor.valueOf(motor)) {
+		switch (Motor.valueOf(motor)) {
 			case MOTOR_A:
 				return "A";
 			case MOTOR_B:

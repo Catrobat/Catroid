@@ -26,13 +26,18 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
+import androidx.annotation.NonNull;
+
+@CatrobatLanguageBrick(command = "Turn Jumping Sumo")
 public class JumpingSumoRotateRightBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public JumpingSumoRotateRightBrick() {
-		addAllowedBrickField(BrickField.JUMPING_SUMO_ROTATE, R.id.brick_jumping_sumo_change_right_variable_edit_text);
+		addAllowedBrickField(BrickField.JUMPING_SUMO_ROTATE, R.id.brick_jumping_sumo_change_right_variable_edit_text, "degrees");
 	}
 
 	public JumpingSumoRotateRightBrick(double degree) {
@@ -51,6 +56,31 @@ public class JumpingSumoRotateRightBrick extends FormulaBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+
+		StringBuilder catrobatLanguage = new StringBuilder();
+		catrobatLanguage.append(indention);
+
+		if (commentedOut) {
+			catrobatLanguage.append("/* ");
+		}
+
+		catrobatLanguage.append(getCatrobatLanguageCommand());
+		catrobatLanguage.append(" (direction: (right), ");
+		appendCatrobatLanguageArguments(catrobatLanguage);
+		catrobatLanguage.append(");");
+
+		if (commentedOut) {
+			catrobatLanguage.append(" */");
+		}
+
+		catrobatLanguage.append("\n");
+		return catrobatLanguage.toString();
 	}
 }
 

@@ -33,9 +33,11 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.SingleSeekBar;
 
+import androidx.annotation.NonNull;
 import kotlin.Unit;
 
 public class PhiroMotorMoveForwardBrick extends FormulaBrick implements UpdateableSpinnerBrick {
@@ -50,7 +52,7 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick implements Updateab
 
 	public PhiroMotorMoveForwardBrick() {
 		motor = Motor.MOTOR_LEFT.name();
-		addAllowedBrickField(BrickField.PHIRO_SPEED, R.id.brick_phiro_motor_forward_action_speed_edit_text);
+		addAllowedBrickField(BrickField.PHIRO_SPEED, R.id.brick_phiro_motor_forward_action_speed_edit_text, "speed percentage");
 	}
 
 	public PhiroMotorMoveForwardBrick(Motor motorEnum, int speed) {
@@ -122,5 +124,45 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick implements Updateab
 		if (itemIndex >= 0 && itemIndex < motors.length) {
 			motor = motors[itemIndex].name();
 		}
+	}
+
+	private String getCatrobatLanguageMotor() {
+		switch (Motor.valueOf(motor)) {
+			case MOTOR_LEFT:
+				return "left";
+			case MOTOR_RIGHT:
+				return "right";
+			case MOTOR_BOTH:
+				return "both";
+			default:
+				throw new IllegalStateException("Motor not implemented");
+		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+
+		StringBuilder catrobatLanguage = new StringBuilder();
+		catrobatLanguage.append(indention);
+
+		if (commentedOut) {
+			catrobatLanguage.append("/* ");
+		}
+
+		catrobatLanguage.append(getCatrobatLanguageCommand());
+		catrobatLanguage.append(" (motor: (");
+		catrobatLanguage.append(getCatrobatLanguageMotor());
+		catrobatLanguage.append("), direction: (forward), ");
+		appendCatrobatLanguageArguments(catrobatLanguage);
+		catrobatLanguage.append(");");
+
+		if (commentedOut) {
+			catrobatLanguage.append(" */");
+		}
+
+		catrobatLanguage.append("\n");
+		return catrobatLanguage.toString();
 	}
 }

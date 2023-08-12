@@ -28,21 +28,26 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
 import java.util.Arrays;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import kotlin.Unit;
 
+@CatrobatLanguageBrick(command = "Play AR.Drone 2.0")
 public class DronePlayLedAnimationBrick extends BrickBaseType implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	private String ledAnimationName = "";
+	private int spinnerSelectionIndex;
 
 	public DronePlayLedAnimationBrick() {
 	}
@@ -63,15 +68,17 @@ public class DronePlayLedAnimationBrick extends BrickBaseType implements Updatea
 		animationSpinner.setOnItemSelectedListener(new AdapterViewOnItemSelectedListenerImpl(position -> {
 			ledAnimationName = context.getResources().getStringArray(
 					R.array.brick_drone_play_led_animation_spinner)[position];
+			spinnerSelectionIndex = position;
 			return Unit.INSTANCE;
 		}));
 		if (TextUtils.isEmpty(ledAnimationName)) {
-			animationSpinner.setSelection(1);
+			spinnerSelectionIndex = 1;
 		} else {
 			List<String> spinnerArray = Arrays.asList(context.getResources().getStringArray(
 					R.array.brick_drone_play_led_animation_spinner));
-			animationSpinner.setSelection(spinnerArray.indexOf(ledAnimationName));
+			spinnerSelectionIndex = spinnerArray.indexOf(ledAnimationName);
 		}
+		animationSpinner.setSelection(spinnerSelectionIndex);
 
 		return view;
 	}
@@ -86,7 +93,64 @@ public class DronePlayLedAnimationBrick extends BrickBaseType implements Updatea
 				R.array.brick_drone_play_led_animation_spinner);
 		if (itemIndex >= 0 && itemIndex < animations.length) {
 			ledAnimationName = animations[itemIndex];
+			spinnerSelectionIndex = itemIndex;
 		}
+	}
+
+	@Override
+	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
+		switch (spinnerIndex) {
+			case 0:
+				return "blink green red";
+			case 1:
+				return "blink green";
+			case 2:
+				return "blink red";
+			case 3:
+				return "blink orange";
+			case 4:
+				return "snake green red";
+			case 5:
+				return "fire";
+			case 6:
+				return "standard";
+			case 7:
+				return "red";
+			case 8:
+				return "green";
+			case 9:
+				return "red snake";
+			case 10:
+				return "blank";
+			case 11:
+				return "right missile";
+			case 12:
+				return "left missile";
+			case 13:
+				return "double missle";
+			case 14:
+				return "front left green others red";
+			case 15:
+				return "front right green others red";
+			case 16:
+				return "rear right green others red";
+			case 17:
+				return "rear left green others red";
+			case 18:
+				return "left green right red";
+			case 19:
+				return "left red right green";
+			case 20:
+				return "blink standard";
+			default:
+				throw new NotImplementedException("Invalid spinner index");
+		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		return getCatrobatLanguageSpinnerCall(indentionLevel, "flash animation", spinnerSelectionIndex);
 	}
 }
 

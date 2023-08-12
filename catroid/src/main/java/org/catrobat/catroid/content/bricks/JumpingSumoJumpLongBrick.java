@@ -25,7 +25,11 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+import androidx.annotation.NonNull;
+
+@CatrobatLanguageBrick(command = "Jump Jumping Sumo")
 public class JumpingSumoJumpLongBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
@@ -40,5 +44,11 @@ public class JumpingSumoJumpLongBrick extends BrickBaseType {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		return getCatrobatLanguageParameterCall(indentionLevel, "type", "long");
 	}
 }

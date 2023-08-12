@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.graphics.Color;
 import android.view.View;
 
-import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -163,6 +162,6 @@ public class SetPenColorBrick extends FormulaBrick {
 		String blue = getColorValueFromBrickField(BrickField.PEN_COLOR_BLUE);
 		String hexColor = "#" + red + green + blue;
 
-		return getCatrobatLanguageParamerCall(indentionLevel, "pen color code", hexColor);
+		return getCatrobatLanguageParameterCall(indentionLevel, "pen color code", hexColor);
 	}
 }
