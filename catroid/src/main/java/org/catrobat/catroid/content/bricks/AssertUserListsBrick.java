@@ -25,14 +25,18 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+import androidx.annotation.NonNull;
+
+@CatrobatLanguageBrick(command = "Assert lists")
 public class AssertUserListsBrick extends UserDataBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public AssertUserListsBrick() {
-		addAllowedBrickData(BrickData.ASSERT_LISTS_ACTUAL, R.id.brick_assert_lists_actual);
-		addAllowedBrickData(BrickData.ASSERT_LISTS_EXPECTED, R.id.brick_assert_lists_expected);
+		addAllowedBrickData(BrickData.ASSERT_LISTS_ACTUAL, R.id.brick_assert_lists_actual, "actual");
+		addAllowedBrickData(BrickData.ASSERT_LISTS_EXPECTED, R.id.brick_assert_lists_expected, "expected");
 	}
 
 	@Override
@@ -46,5 +50,11 @@ public class AssertUserListsBrick extends UserDataBrick {
 				getUserListWithBrickData(BrickData.ASSERT_LISTS_ACTUAL),
 				getUserListWithBrickData(BrickData.ASSERT_LISTS_EXPECTED),
 				getPositionInformation()));
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		return getCatrobatLanguageParameterizedCall(indentionLevel, false).toString();
 	}
 }

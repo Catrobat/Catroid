@@ -178,7 +178,12 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 	@NonNull
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
-		return getCatrobatLanguageParameterizedCall(indentionLevel, true).toString();
+		StringBuilder catrobatLanguage = getCatrobatLanguageParameterizedCall(indentionLevel, true);
+		for (Brick brick : getScript().getBrickList()) {
+			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
+		}
+		getCatrobatLanguageBodyClose(catrobatLanguage, indentionLevel);
+		return catrobatLanguage.toString();
 	}
 
 	@Override

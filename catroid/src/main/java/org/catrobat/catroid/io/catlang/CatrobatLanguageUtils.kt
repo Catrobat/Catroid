@@ -52,5 +52,9 @@ class CatrobatLanguageUtils {
         fun formatList (listName: String): String {
             return "*$listName*"
         }
+
+        fun formatString (string: String): String {
+            return "'$string'"
+        }
     }
 }

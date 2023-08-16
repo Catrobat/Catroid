@@ -36,12 +36,16 @@ import org.catrobat.catroid.content.strategy.ShowColorPickerFormulaEditorStrateg
 import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 import org.catrobat.catroid.ui.UiUtils;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import kotlin.Unit;
 
-public class PhiroRGBLightBrick extends FormulaBrick implements UpdateableSpinnerBrick {
+@CatrobatLanguageBrick(command = "Set Phiro")
+public class PhiroRGBLightBrick extends FormulaBrick implements UpdateableSpinnerBrick, CatrobatLanguageAttributes {
 
 	private static final long serialVersionUID = 1L;
 
@@ -54,9 +58,9 @@ public class PhiroRGBLightBrick extends FormulaBrick implements UpdateableSpinne
 	}
 
 	public PhiroRGBLightBrick() {
-		addAllowedBrickField(BrickField.PHIRO_LIGHT_RED, R.id.brick_phiro_rgb_led_action_red_edit_text);
-		addAllowedBrickField(BrickField.PHIRO_LIGHT_GREEN, R.id.brick_phiro_rgb_led_action_green_edit_text);
-		addAllowedBrickField(BrickField.PHIRO_LIGHT_BLUE, R.id.brick_phiro_rgb_led_action_blue_edit_text);
+		addAllowedBrickField(BrickField.PHIRO_LIGHT_RED, R.id.brick_phiro_rgb_led_action_red_edit_text, "red");
+		addAllowedBrickField(BrickField.PHIRO_LIGHT_GREEN, R.id.brick_phiro_rgb_led_action_green_edit_text, "green");
+		addAllowedBrickField(BrickField.PHIRO_LIGHT_BLUE, R.id.brick_phiro_rgb_led_action_blue_edit_text, "blue");
 		eye = Eye.BOTH.name();
 
 		showFormulaEditorStrategy = new ShowColorPickerFormulaEditorStrategy();
@@ -179,5 +183,36 @@ public class PhiroRGBLightBrick extends FormulaBrick implements UpdateableSpinne
 				return 0;
 			}
 		}
+	}
+
+	private String getColorValueFromBrickField(BrickField brickField) {
+		Formula formula = getFormulaWithBrickField(brickField);
+		try {
+			int value = formula.interpretInteger(null);
+			int minimum = Math.max(0, Math.min(255, value));
+			return String.format("%02X", minimum);
+		} catch (InterpretationException e) {
+			return "00";
+		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		return getCatrobatLanguageParameterizedCall(indentionLevel, false).toString();
+	}
+
+	@Override
+	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
+		String red = getColorValueFromBrickField(BrickField.PHIRO_LIGHT_RED);
+		String green = getColorValueFromBrickField(BrickField.PHIRO_LIGHT_GREEN);
+		String blue = getColorValueFromBrickField(BrickField.PHIRO_LIGHT_BLUE);
+		String hexColor = "#" + red + green + blue;
+
+		brickBuilder.append("light: (");
+		brickBuilder.append(eye.toLowerCase());
+		brickBuilder.append("), color: (");
+		brickBuilder.append(hexColor);
+		brickBuilder.append(")");
 	}
 }

@@ -46,9 +46,9 @@ public class SetPenColorBrick extends FormulaBrick {
 	private final transient ShowFormulaEditorStrategy showFormulaEditorStrategy;
 
 	public SetPenColorBrick() {
-		addAllowedBrickField(BrickField.PEN_COLOR_RED, R.id.brick_set_pen_color_action_red_edit_text);
-		addAllowedBrickField(BrickField.PEN_COLOR_GREEN, R.id.brick_set_pen_color_action_green_edit_text);
-		addAllowedBrickField(BrickField.PEN_COLOR_BLUE, R.id.brick_set_pen_color_action_blue_edit_text);
+		addAllowedBrickField(BrickField.PEN_COLOR_RED, R.id.brick_set_pen_color_action_red_edit_text, "red");
+		addAllowedBrickField(BrickField.PEN_COLOR_GREEN, R.id.brick_set_pen_color_action_green_edit_text, "green");
+		addAllowedBrickField(BrickField.PEN_COLOR_BLUE, R.id.brick_set_pen_color_action_blue_edit_text, "blue");
 
 		showFormulaEditorStrategy = new ShowColorPickerFormulaEditorStrategy();
 	}

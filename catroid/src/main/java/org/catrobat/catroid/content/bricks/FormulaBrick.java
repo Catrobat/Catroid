@@ -88,12 +88,6 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		}
 	}
 
-	protected void addAllowedBrickField(FormulaField formulaField, int textViewResourceId) {
-		formulaMap.putIfAbsent(formulaField, new Formula(0));
-		brickFieldToTextViewIdMap.put(formulaField, textViewResourceId);
-		catrobatLanguageFormulaParameters.put(formulaField, null);
-	}
-
 	protected void addAllowedBrickField(FormulaField formulaField, int textViewResourceId,
 			String catrobatLanguageParameterName) {
 		formulaMap.putIfAbsent(formulaField, new Formula(0));
@@ -309,9 +303,14 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		}
 
 		catrobatLanguage.append(getCatrobatLanguageCommand());
-		catrobatLanguage.append(" (");
-		appendCatrobatLanguageArguments(catrobatLanguage);
-		catrobatLanguage.append(");");
+
+		if (catrobatLanguageFormulaParameters.keySet().size() > 0) {
+			catrobatLanguage.append(" (");
+			appendCatrobatLanguageArguments(catrobatLanguage);
+			catrobatLanguage.append(");");
+		} else {
+			catrobatLanguage.append(";");
+		}
 
 		if (commentedOut) {
 			catrobatLanguage.append(" */");

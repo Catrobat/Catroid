@@ -29,17 +29,20 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "If")
 public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String catrobatLanguageCondition = "Raspberry Pi pin";
 
 	public RaspiIfLogicBeginBrick() {
-		super();
+		super(catrobatLanguageCondition);
 	}
 
 	public RaspiIfLogicBeginBrick(Formula formula) {
-		super(formula);
+		super(formula, catrobatLanguageCondition);
 	}
 
 	@Override

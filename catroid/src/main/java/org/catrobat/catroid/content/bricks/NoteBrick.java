@@ -40,7 +40,7 @@ public class NoteBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	public NoteBrick() {
-		addAllowedBrickField(BrickField.NOTE, R.id.brick_note_edit_text);
+		addAllowedBrickField(BrickField.NOTE, R.id.brick_note_edit_text, "note");
 	}
 
 	public NoteBrick(String note) {

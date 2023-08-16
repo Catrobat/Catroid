@@ -35,15 +35,20 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import kotlin.Unit;
 
-public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBrick, UpdateableSpinnerBrick {
+@CatrobatLanguageBrick(command = "If")
+public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBrick, UpdateableSpinnerBrick, CatrobatLanguageAttributes {
 
 	private static final long serialVersionUID = 1L;
 
@@ -235,6 +240,49 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 	@Override
 	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
 		sensorSpinnerPosition = itemIndex;
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		StringBuilder catrobatLanguage = getCatrobatLanguageParameterizedCall(indentionLevel, true);
+		for (Brick brick : ifBranchBricks) {
+			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
+		}
+		catrobatLanguage.append(CatrobatLanguageUtils.Companion.getIndention(indentionLevel));
+		catrobatLanguage.append("} else {\n");
+		for (Brick brick : elseBranchBricks) {
+			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
+		}
+		getCatrobatLanguageBodyClose(catrobatLanguage, indentionLevel);
+		return catrobatLanguage.toString();
+	}
+
+	@Override
+	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
+		brickBuilder.append("activated phiro: (");
+		brickBuilder.append(getCatrobatLanguageSpinnerValue(sensorSpinnerPosition));
+		brickBuilder.append(")");
+	}
+
+	@Override
+	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
+		switch (spinnerIndex) {
+			case 0:
+				return "front left sensor";
+			case 1:
+				return "front right sensor";
+			case 2:
+				return "side left sensor";
+			case 3:
+				return "side right sensor";
+			case 4:
+				return "bottom left sensor";
+			case 5:
+				return "bottom right sensor";
+			default:
+				throw new IllegalArgumentException("Invalid spinnerIndex: " + spinnerIndex);
+		}
 	}
 
 	@VisibleForTesting

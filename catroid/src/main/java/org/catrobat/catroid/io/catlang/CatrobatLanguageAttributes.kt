@@ -24,5 +24,5 @@
 package org.catrobat.catroid.io.catlang
 
 interface CatrobatLanguageAttributes {
-    fun appendCatrobatLanguageArguments(brickBuilder: StringBuilder?)
+    fun appendCatrobatLanguageArguments(brickBuilder: StringBuilder)
 }

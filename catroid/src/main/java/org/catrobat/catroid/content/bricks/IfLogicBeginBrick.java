@@ -55,11 +55,20 @@ public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 	protected List<Brick> elseBranchBricks = new ArrayList<>();
 
 	public IfLogicBeginBrick() {
-		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_if_begin_edit_text, "condition");
+		this("condition");
 	}
 
 	public IfLogicBeginBrick(Formula formula) {
 		this();
+		setFormulaWithBrickField(BrickField.IF_CONDITION, formula);
+	}
+
+	public IfLogicBeginBrick(String catrobatLanguageName) {
+		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_if_begin_edit_text, catrobatLanguageName);
+	}
+
+	public IfLogicBeginBrick(Formula formula, String catrobatLanguageName) {
+		this(catrobatLanguageName);
 		setFormulaWithBrickField(BrickField.IF_CONDITION, formula);
 	}
 

@@ -28,9 +28,14 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenConditionScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+
+@CatrobatLanguageBrick(command = "When condition becomes true")
 public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -42,7 +47,7 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 	}
 
 	public WhenConditionBrick(WhenConditionScript script) {
-		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_when_condition_edit_text);
+		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_when_condition_edit_text, "condition");
 		script.setScriptBrick(this);
 		commentedOut = script.isCommentedOut();
 		this.script = script;
@@ -104,5 +109,36 @@ public class WhenConditionBrick extends FormulaBrick implements ScriptBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+
+		StringBuilder catrobatLanguage = new StringBuilder();
+		catrobatLanguage.append(indention);
+
+		if (commentedOut) {
+			catrobatLanguage.append("/* ");
+		}
+
+		catrobatLanguage.append(getCatrobatLanguageCommand());
+		catrobatLanguage.append(" (");
+		appendCatrobatLanguageArguments(catrobatLanguage);
+		catrobatLanguage.append(") {\n");
+
+		for (Brick brick : getScript().getBrickList()) {
+			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
+		}
+
+		catrobatLanguage.append(indention);
+		catrobatLanguage.append("}");
+		if (commentedOut) {
+			catrobatLanguage.append(" */");
+		}
+
+		catrobatLanguage.append("\n");
+		return catrobatLanguage.toString();
 	}
 }

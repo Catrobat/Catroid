@@ -29,11 +29,13 @@ import androidx.annotation.IdRes
 import org.catrobat.catroid.R
 import org.catrobat.catroid.formulaeditor.UserData
 import org.catrobat.catroid.formulaeditor.UserList
+import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
 import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment.Companion.showFragment
 import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment.ListSelectorInterface
 
 abstract class ListSelectorBrick : BrickBaseType(), View.OnClickListener,
-    ListSelectorInterface {
+    ListSelectorInterface, CatrobatLanguageAttributes {
     var userLists = mutableListOf<UserList>()
 
     @Throws(CloneNotSupportedException::class)
@@ -77,5 +79,16 @@ abstract class ListSelectorBrick : BrickBaseType(), View.OnClickListener,
         deletedElements.filterIsInstance<UserData<*>>().forEach { element ->
             userLists.removeAll { list -> list.name == element.name }
         }
+    }
+
+    override fun appendCatrobatLanguageArguments(brickBuilder: StringBuilder) {
+        brickBuilder.append("lists: (")
+        userLists.forEachIndexed { index, it ->
+            brickBuilder.append(CatrobatLanguageUtils.formatList(it.name))
+            if (index < userLists.size - 1) {
+                brickBuilder.append(", ")
+            }
+        }
+        brickBuilder.append(")")
     }
 }

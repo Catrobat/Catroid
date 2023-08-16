@@ -111,14 +111,6 @@ public abstract class UserDataBrick extends FormulaBrick
 		return userDataList;
 	}
 
-	protected void addAllowedBrickData(BrickData brickData, int textViewResourceId) {
-		if (!userDataList.containsKey(brickData)) {
-			userDataList.put(brickData, null);
-		}
-		brickDataToTextViewIdMap.put(brickData, textViewResourceId);
-		catrobatLanguageUserDataParameters.put(brickData, null);
-	}
-
 	protected void addAllowedBrickData(BrickData brickData, int textViewResourceId, String catrobatLanguageParameterName) {
 		if (!userDataList.containsKey(brickData)) {
 			userDataList.put(brickData, null);

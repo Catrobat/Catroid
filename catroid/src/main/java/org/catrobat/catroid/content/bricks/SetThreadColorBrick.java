@@ -31,10 +31,12 @@ import org.catrobat.catroid.content.strategy.ShowColorPickerFormulaEditorStrateg
 import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 import org.catrobat.catroid.ui.UiUtils;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+@CatrobatLanguageBrick(command = "Set")
 public class SetThreadColorBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -42,7 +44,7 @@ public class SetThreadColorBrick extends FormulaBrick {
 	private final transient ShowFormulaEditorStrategy showFormulaEditorStrategy;
 
 	public SetThreadColorBrick() {
-		addAllowedBrickField(BrickField.THREAD_COLOR, R.id.brick_set_thread_color_action_edit_text);
+		addAllowedBrickField(BrickField.THREAD_COLOR, R.id.brick_set_thread_color_action_edit_text, "thread color");
 
 		showFormulaEditorStrategy = new ShowColorPickerFormulaEditorStrategy();
 	}

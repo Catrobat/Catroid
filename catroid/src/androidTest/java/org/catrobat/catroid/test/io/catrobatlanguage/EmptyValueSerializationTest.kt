@@ -26,9 +26,11 @@ package org.catrobat.catroid.test.io.catrobatlanguage
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick
+import org.catrobat.catroid.content.bricks.AskBrick
 import org.catrobat.catroid.content.bricks.AskSpeechBrick
 import org.catrobat.catroid.content.bricks.AssertEqualsBrick
 import org.catrobat.catroid.content.bricks.AssertUserListsBrick
+import org.catrobat.catroid.content.bricks.BackgroundRequestBrick
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.BroadcastBrick
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick
@@ -157,12 +159,14 @@ import org.catrobat.catroid.content.bricks.SetInstrumentBrick
 import org.catrobat.catroid.content.bricks.SetLookBrick
 import org.catrobat.catroid.content.bricks.SetLookByIndexBrick
 import org.catrobat.catroid.content.bricks.SetMassBrick
+import org.catrobat.catroid.content.bricks.SetNfcTagBrick
 import org.catrobat.catroid.content.bricks.SetParticleColorBrick
 import org.catrobat.catroid.content.bricks.SetPenColorBrick
 import org.catrobat.catroid.content.bricks.SetPenSizeBrick
 import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick
 import org.catrobat.catroid.content.bricks.SetSizeToBrick
 import org.catrobat.catroid.content.bricks.SetTempoBrick
+import org.catrobat.catroid.content.bricks.SetTextBrick
 import org.catrobat.catroid.content.bricks.SetThreadColorBrick
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick
 import org.catrobat.catroid.content.bricks.SetVariableBrick
@@ -174,6 +178,8 @@ import org.catrobat.catroid.content.bricks.SewUpBrick
 import org.catrobat.catroid.content.bricks.ShowBrick
 import org.catrobat.catroid.content.bricks.ShowTextBrick
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick
+import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick
+import org.catrobat.catroid.content.bricks.SpeakBrick
 import org.catrobat.catroid.content.bricks.StampBrick
 import org.catrobat.catroid.content.bricks.StitchBrick
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick
@@ -386,7 +392,7 @@ class EmptyValueSerializationTest(
                 arrayOf(PhiroMotorMoveBackwardBrick::class.simpleName, PhiroMotorMoveBackwardBrick(), "Move Phiro (motor: (left), direction: (backward), speed percentage: (0));\n"),
                 arrayOf(PhiroMotorStopBrick::class.simpleName, PhiroMotorStopBrick(), "Stop Phiro (motor: (both));\n"),
                 arrayOf(PhiroPlayToneBrick::class.simpleName, PhiroPlayToneBrick(), "Play Phiro (tone: (do), seconds: (0));\n"),
-                arrayOf(PhiroRGBLightBrick::class.simpleName, PhiroRGBLightBrick(), "Set Phiro (light: (both), color: (0));\n"),
+                arrayOf(PhiroRGBLightBrick::class.simpleName, PhiroRGBLightBrick(), "Set Phiro (light: (both), color: (#000000));\n"),
                 arrayOf(PhiroIfLogicBeginBrick::class.simpleName, PhiroIfLogicBeginBrick(), "If (activated phiro: (front left sensor)) {\n} else {\n}\n"),
                 arrayOf(RaspiIfLogicBeginBrick::class.simpleName, RaspiIfLogicBeginBrick(), "If (Raspberry Pi pin: (0)) {\n} else {\n}\n"),
                 arrayOf(RaspiSendDigitalValueBrick::class.simpleName, RaspiSendDigitalValueBrick(), "Set (Raspberry Pi pin: (0), value: (0));\n"),
@@ -401,7 +407,7 @@ class EmptyValueSerializationTest(
                 arrayOf(WriteEmbroideryToFileBrick::class.simpleName, WriteEmbroideryToFileBrick(), "Write embroidery data to (file: (0));\n"),
                 arrayOf(AssertEqualsBrick::class.simpleName, AssertEqualsBrick(), "Assert equals (actual: (0), expected: (0));\n"),
                 arrayOf(AssertUserListsBrick::class.simpleName, AssertUserListsBrick(), "Assert lists (actual: (0), expected: (0));\n"),
-                arrayOf(ParameterizedBrick::class.simpleName, ParameterizedBrick(), "For each tuple of items in selected lists stored in variables with the same name, assert value equals to the expected item of reference list (lists: (), value: (), reference list: ()) {\n}\n"),
+                arrayOf(ParameterizedBrick::class.simpleName, ParameterizedBrick(), "For each tuple of items in selected lists stored in variables with the same name, assert value equals to the expected item of reference list (lists: (), value: (0), reference list: ()) {\n}\n"),
                 arrayOf(FinishStageBrick::class.simpleName, FinishStageBrick(), "Finish tests;\n"),
                 arrayOf(WhenGamepadButtonBrick::class.simpleName, WhenGamepadButtonBrick(), "When tapped (gamepad button: (A)) {\n}\n"),
                 arrayOf(WhenTouchDownBrick::class.simpleName, WhenTouchDownBrick(), "When stage is tapped {\n}\n"),
@@ -413,7 +419,13 @@ class EmptyValueSerializationTest(
                 arrayOf(WhenRaspiPinChangedBrick::class.simpleName, WhenRaspiPinChangedBrick(), "When Raspberry Pi pin changes to (pin: (), position: ()) {\n}\n"),
                 arrayOf(WhenBrick::class.simpleName, WhenBrick(), "When tapped {\n}\n"),
                 arrayOf(WhenStartedBrick::class.simpleName, WhenStartedBrick(), "When scene starts {\n}\n"),
-                arrayOf(WhenNfcBrick::class.simpleName, WhenNfcBrick(), "When NFC gets scanned (nfc tag: (all)) {\n}\n")
+                arrayOf(WhenNfcBrick::class.simpleName, WhenNfcBrick(), "When NFC gets scanned (nfc tag: (all)) {\n}\n"),
+                arrayOf(BackgroundRequestBrick::class.simpleName, BackgroundRequestBrick(), "Get image from source and use as background (url: (0));\n"),
+                arrayOf(AskBrick::class.simpleName, AskBrick(), "Ask (question: (0), answer variable: ());\n"),
+                arrayOf(SetNfcTagBrick::class.simpleName, SetNfcTagBrick(), "Set next NFC tag (text: (0));\n"),
+                arrayOf(SetTextBrick::class.simpleName, SetTextBrick(), "Set (text: (0), x: (0), y: (0));\n"),
+                arrayOf(SpeakAndWaitBrick::class.simpleName, SpeakAndWaitBrick(), "Speak and wait (text: (0));\n"),
+                arrayOf(SpeakBrick::class.simpleName, SpeakBrick(), "Speak (text: (0));\n")
             )
         }
     }

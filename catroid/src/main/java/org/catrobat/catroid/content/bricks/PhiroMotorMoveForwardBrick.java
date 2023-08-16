@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.SingleSeekBar;
@@ -40,6 +41,7 @@ import org.catrobat.catroid.ui.fragment.SingleSeekBar;
 import androidx.annotation.NonNull;
 import kotlin.Unit;
 
+@CatrobatLanguageBrick(command = "Move Phiro")
 public class PhiroMotorMoveForwardBrick extends FormulaBrick implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;

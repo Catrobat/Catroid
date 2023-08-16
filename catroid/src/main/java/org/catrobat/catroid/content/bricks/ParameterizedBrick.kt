@@ -34,9 +34,13 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
+import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils.Companion.formatList
 import org.catrobat.catroid.utils.LoopUtil.checkLoopBrickForLoopDelay
 
-class ParameterizedBrick : ListSelectorBrick(), CompositeBrick, UpdateableSpinnerBrick {
+@CatrobatLanguageBrick(command = "For each tuple of items in selected lists stored in variables with the same name, assert value equals to the expected item of reference list")
+class ParameterizedBrick : ListSelectorBrick(), CompositeBrick, UpdateableSpinnerBrick, CatrobatLanguageAttributes {
     private var loopBricks = mutableListOf<Brick>()
     private var endBrick = ParameterizedEndBrick(this)
 
@@ -209,5 +213,20 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick, UpdateableSpinne
         if (spinnerId == R.id.brick_param_expected_list) {
             endBrick.updateSelectedItem(context, spinnerId, itemName, itemIndex)
         }
+    }
+
+    override fun serializeToCatrobatLanguage(indentionLevel: Int): String {
+        val catrobatLanguage = getCatrobatLanguageParameterizedCall(indentionLevel, true)
+        for (brick in loopBricks) {
+            catrobatLanguage.appendLine(brick.serializeToCatrobatLanguage(indentionLevel + 1))
+        }
+        getCatrobatLanguageBodyClose(catrobatLanguage, indentionLevel)
+        return catrobatLanguage.toString()
+    }
+
+    override fun appendCatrobatLanguageArguments(brickBuilder: StringBuilder) {
+        super.appendCatrobatLanguageArguments(brickBuilder)
+        brickBuilder.append(", ")
+        endBrick.appendCatrobatLanguageArguments(brickBuilder)
     }
 }

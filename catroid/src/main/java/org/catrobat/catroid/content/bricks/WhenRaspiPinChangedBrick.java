@@ -161,18 +161,4 @@ public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType implements Upd
 		brickBuilder.append(script.getEventValue() != null ? script.getEventValue() : "");
 		brickBuilder.append(")");
 	}
-
-	@NonNull
-	@Override
-	public String serializeToCatrobatLanguage(int indentionLevel) {
-		StringBuilder catrobatLanguage = new StringBuilder();
-		catrobatLanguage.append(super.serializeToCatrobatLanguage(indentionLevel));
-
-//		for (Brick brick : script.getBrickList()) {
-//			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
-//		}
-
-		super.getCatrobatLanguageBodyClose(catrobatLanguage, indentionLevel);
-		return catrobatLanguage.toString();
-	}
 }

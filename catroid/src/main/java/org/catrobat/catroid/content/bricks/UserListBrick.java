@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
 import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
@@ -48,7 +49,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public abstract class UserListBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<UserList>, UpdateableSpinnerBrick {
+public abstract class UserListBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<UserList>, UpdateableSpinnerBrick, CatrobatLanguageAttributes {
 
 	protected UserList userList;
 
