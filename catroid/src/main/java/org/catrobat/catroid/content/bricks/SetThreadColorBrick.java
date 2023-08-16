@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import android.view.View;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -31,13 +32,15 @@ import org.catrobat.catroid.content.strategy.ShowColorPickerFormulaEditorStrateg
 import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
 import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 @CatrobatLanguageBrick(command = "Set")
-public class SetThreadColorBrick extends FormulaBrick {
+public class SetThreadColorBrick extends FormulaBrick implements CatrobatLanguageAttributes {
 
 	private static final long serialVersionUID = 1L;
 
@@ -78,6 +81,18 @@ public class SetThreadColorBrick extends FormulaBrick {
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetThreadColorAction(
 				sprite, sequence, getFormulaWithBrickField(BrickField.THREAD_COLOR)));
+	}
+
+	@Override
+	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
+		brickBuilder.append(catrobatLanguageFormulaParameters.get(BrickField.THREAD_COLOR));
+		brickBuilder.append(": (");
+		Formula color = formulaMap.get(BrickField.THREAD_COLOR);
+		if (color != null) {
+			String colorString = color.getTrimmedFormulaString(CatroidApplication.getAppContext()).trim();
+			brickBuilder.append(CatrobatLanguageUtils.Companion.formatHexColorString(colorString));
+		}
+		brickBuilder.append(")");
 	}
 
 	private final class SetThreadColorBrickCallback implements ShowFormulaEditorStrategy.Callback {

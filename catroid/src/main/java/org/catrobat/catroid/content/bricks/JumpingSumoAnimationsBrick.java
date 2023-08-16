@@ -51,10 +51,12 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType implements Updatea
 
 	public JumpingSumoAnimationsBrick() {
 		animationName = Animation.SPIN.name();
+		spinnerSelectionIndex = Animation.SPIN.ordinal();
 	}
 
 	public JumpingSumoAnimationsBrick(Animation animation) {
 		animationName = animation.name();
+		spinnerSelectionIndex = animation.ordinal();
 	}
 
 	@Override
@@ -100,7 +102,7 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType implements Updatea
 			case 0:
 				return "spin";
 			case 1:
-				return "tap";
+				return "tab";
 			case 2:
 				return "slowshake";
 			case 3:

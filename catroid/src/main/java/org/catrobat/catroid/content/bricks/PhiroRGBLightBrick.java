@@ -38,6 +38,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
 import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 
 import androidx.annotation.NonNull;
@@ -207,7 +208,7 @@ public class PhiroRGBLightBrick extends FormulaBrick implements UpdateableSpinne
 		String red = getColorValueFromBrickField(BrickField.PHIRO_LIGHT_RED);
 		String green = getColorValueFromBrickField(BrickField.PHIRO_LIGHT_GREEN);
 		String blue = getColorValueFromBrickField(BrickField.PHIRO_LIGHT_BLUE);
-		String hexColor = "#" + red + green + blue;
+		String hexColor = CatrobatLanguageUtils.Companion.formatHexColorString(red + green + blue);
 
 		brickBuilder.append("light: (");
 		brickBuilder.append(eye.toLowerCase());

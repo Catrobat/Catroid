@@ -191,9 +191,7 @@ public abstract class UserVariableBrickWithVisualPlacement extends VisualPlaceme
 		}
 
 		catrobatLanguage.append(name + ": (");
-		if (userVariable == null) {
-			catrobatLanguage.append("0");
-		} else {
+		if (userVariable != null) {
 			catrobatLanguage.append(CatrobatLanguageUtils.Companion.formatVariable(userVariable.getName()));
 		}
 		catrobatLanguage.append(")");

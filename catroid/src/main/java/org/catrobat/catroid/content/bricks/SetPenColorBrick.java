@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 
 import androidx.annotation.NonNull;
@@ -160,7 +161,7 @@ public class SetPenColorBrick extends FormulaBrick {
 		String red = getColorValueFromBrickField(BrickField.PEN_COLOR_RED);
 		String green = getColorValueFromBrickField(BrickField.PEN_COLOR_GREEN);
 		String blue = getColorValueFromBrickField(BrickField.PEN_COLOR_BLUE);
-		String hexColor = "#" + red + green + blue;
+		String hexColor = CatrobatLanguageUtils.Companion.formatHexColorString(red + green + blue);
 
 		return getCatrobatLanguageParameterCall(indentionLevel, "pen color code", hexColor);
 	}

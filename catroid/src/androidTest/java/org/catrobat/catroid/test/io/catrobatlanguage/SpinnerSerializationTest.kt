@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
+import org.catrobat.catroid.content.bricks.AskBrick
 import org.catrobat.catroid.content.bricks.AskSpeechBrick
 import org.catrobat.catroid.content.bricks.AssertUserListsBrick
 import org.catrobat.catroid.content.bricks.Brick
@@ -1025,6 +1026,19 @@ class SpinnerSerializationTest {
             WhenNfcBrick(),
             "When NFC gets scanned (nfc tag: (all)) {\n}\n",
             mapOf()
+        )
+    }
+
+    @Test
+    fun testAskBrick() {
+        executeTest(
+            R.id.brick_ask_spinner,
+            AskBrick(),
+            "Ask (text: (''), and store in: (\"var1\"));\n",
+            mapOf(
+                "var2" to "Ask (text: (''), and store in: (\"var2\"));\n",
+                "var3" to "Ask (text: (''), and store in: (\"var3\"));\n"
+            )
         )
     }
 

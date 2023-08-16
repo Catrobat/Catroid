@@ -66,7 +66,7 @@ import static org.catrobat.catroid.utils.ShowTextUtils.convertColorToString;
 import static org.catrobat.catroid.utils.ShowTextUtils.isValidColorString;
 
 @CatrobatLanguageBrick(command = "Show")
-public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisualPlacement implements UpdateableSpinnerBrick {
+public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisualPlacement implements UpdateableSpinnerBrick, CatrobatLanguageAttributes {
 
 	private static final long serialVersionUID = 1L;
 
@@ -223,38 +223,33 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 		}
 	}
 
+	private String convertFieldToString(BrickField brickField) {
+		return getFormulaWithBrickField(brickField).getTrimmedFormulaString(CatroidApplication.getAppContext()).trim();
+	}
+
+	@Override
+	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
+		brickBuilder.append("variable: (");
+		if (userVariable != null) {
+			brickBuilder.append(CatrobatLanguageUtils.Companion.formatVariable(userVariable.getName()));
+		}
+		for (BrickField brickField : new BrickField[] { BrickField.X_POSITION, BrickField.Y_POSITION, BrickField.SIZE }) {
+			brickBuilder.append("), ").append(catrobatLanguageFormulaParameters.get(brickField)).append(": (");
+			brickBuilder.append(convertFieldToString(brickField));
+		}
+
+		brickBuilder.append("), color: (");
+		String color = CatrobatLanguageUtils.Companion.formatHexColorString(convertFieldToString(BrickField.COLOR));
+		brickBuilder.append(color);
+		brickBuilder.append("), alignment: (");
+		brickBuilder.append(getCatrobatLanguageSpinnerValue(alignmentSelection));
+		brickBuilder.append(")");
+	}
+
 	@NonNull
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
-
-		StringBuilder catrobatLanguage = new StringBuilder();
-		catrobatLanguage.append(indention);
-
-		if (commentedOut) {
-			catrobatLanguage.append("/* ");
-		}
-
-		catrobatLanguage.append(getCatrobatLanguageCommand());
-		catrobatLanguage.append(" (variable: (");
-		if (userVariable == null) {
-			catrobatLanguage.append("0");
-		} else {
-			catrobatLanguage.append(CatrobatLanguageUtils.Companion.formatVariable(userVariable.getName()));
-		}
-		catrobatLanguage.append("), ");
-		appendCatrobatLanguageArguments(catrobatLanguage);
-
-		catrobatLanguage.append(", alignment: (");
-		catrobatLanguage.append(getCatrobatLanguageSpinnerValue(alignmentSelection));
-		catrobatLanguage.append("));");
-
-		if (commentedOut) {
-			catrobatLanguage.append(" */");
-		}
-
-		catrobatLanguage.append("\n");
-		return catrobatLanguage.toString();
+		return getCatrobatLanguageParameterizedCall(indentionLevel, false).toString();
 	}
 
 	@Override

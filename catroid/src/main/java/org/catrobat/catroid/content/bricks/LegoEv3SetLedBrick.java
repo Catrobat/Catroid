@@ -53,10 +53,12 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements UpdateableSpinn
 
 	public LegoEv3SetLedBrick() {
 		ledStatus = LedStatus.LED_GREEN.name();
+		spinnerSelectionIndex = LedStatus.LED_GREEN.ordinal();
 	}
 
 	public LegoEv3SetLedBrick(LedStatus ledStatusEnum) {
 		ledStatus = ledStatusEnum.name();
+		spinnerSelectionIndex = ledStatusEnum.ordinal();
 	}
 
 	@Override
