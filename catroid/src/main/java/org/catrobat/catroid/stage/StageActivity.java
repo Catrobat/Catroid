@@ -64,6 +64,7 @@ import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.ui.MarketingActivity;
+import org.catrobat.catroid.ui.dialogs.DownloadLanguageModelDialog;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialog;
 import org.catrobat.catroid.ui.runtimepermissions.BrickResourcesToRuntimePermissions;
@@ -104,7 +105,9 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	PendingIntent pendingIntent;
 	NfcAdapter nfcAdapter;
 	private static NdefMessage nfcTagMessage;
+
 	StageDialog stageDialog;
+	DownloadLanguageModelDialog downloadLanguageModelDialog;
 	BrickDialogManager brickDialogManager;
 	private boolean resizePossible;
 
@@ -225,6 +228,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	}
 
 	public boolean dialogIsShowing() {
+		//TODO add downloadLanguageModelDialog.isShowing();
 		return (stageDialog.isShowing() || brickDialogManager.dialogIsShowing());
 	}
 
@@ -265,6 +269,14 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 					success -> runOnUiThread(() -> idlingResource.decrement()));
 			stageDialog.show();
 		}
+	}
+
+	public void manageDownloadLanguageModels() {
+		StageLifeCycleController.stagePause(this);
+		idlingResource.increment();
+		stageListener.requestTakingScreenshot(SCREENSHOT_AUTOMATIC_FILE_NAME,
+				success -> runOnUiThread(() -> idlingResource.decrement()));
+		downloadLanguageModelDialog.show();
 	}
 
 	public void manageLoadAndFinish() {
@@ -522,5 +534,9 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			stageActivity.setResult(testResult.getResultCode(), resultIntent);
 			stageActivity.finish();
 		}
+	}
+
+	public DownloadLanguageModelDialog getDownloadLanguageModelDialog() {
+		return downloadLanguageModelDialog;
 	}
 }

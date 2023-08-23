@@ -21,7 +21,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources  xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <!-- General terms -->
     <string name="stage">Stage</string>
@@ -161,6 +161,9 @@
         detection</string>
     <string name="preference_description_ai_face_detection">Enable
         face detection bricks and sensors</string>
+    <string name="preference_title_text_translation">Text translation</string>
+    <string name="preference_description_text_translation">Enable
+        translation bricks and sensors</string>
     <string name="preference_title_ai_pose_detection">Pose detection</string>
     <string name="preference_description_ai_pose_detection">Enable
         pose detection bricks and sensors</string>
@@ -756,6 +759,10 @@
     <string name="upload_tag_dialog_title">Please choose up to three categories</string>
     <string name="upload_tags_maximum_error">Selecting more than 3 tags is not possible.</string>
 
+    <!-- DownloadLanguageModelDialog -->
+    <string name="download_language_model_maybe_later">MAYBE LATER</string>
+    <string name="download_language_model_now">DOWNLOAD NOW</string>
+
     <!-- Save Project to External Storage -->
     <string name="save_to_external_storage_button">Export project</string>
     <string name="notification_save_project_to_external_storage_title_pending">" "</string>
@@ -1058,6 +1065,14 @@
     <string name="brick_horizontal_and">horizontal and</string>
     <string name="brick_vertical_flex">vertical flexibility</string>
     <!--  -->
+
+    <!-- Data bricks -->
+    <string name="brick_translate_text_default_value">Text</string>
+    <string name="brick_translate_text_from_to_label">Translate</string>
+    <string name="brick_translate_text_from">from language</string>
+    <string name="brick_translate_text_to">to</string>
+    <string name="brick_translate_text_store_in_variable">and store result in</string>
+    <!-- -->
 
 
     <!-- Pen bricks -->

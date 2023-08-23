@@ -84,6 +84,8 @@ public class SettingsFragment extends PreferenceFragment {
 			"setting_ai_speech_synthetization";
 	public static final String SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS =
 			"setting_ai_face_detection";
+	public static final String SETTINGS_SHOW_AI_TEXT_TRANSLATION_SENSORS =
+			"setting_ai_text_translation";
 	public static final String SETTINGS_SHOW_AI_POSE_DETECTION_SENSORS =
 			"setting_ai_pose_detection";
 	public static final String SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS =
@@ -333,6 +335,16 @@ public class SettingsFragment extends PreferenceFragment {
 	public static void setAIFaceDetectionPreferenceEnabled(Context context, boolean value) {
 		getSharedPreferences(context).edit()
 				.putBoolean(SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS, value)
+				.apply();
+	}
+
+	public static boolean isAITextTranslationSharedPreferencesEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_AI_TEXT_TRANSLATION_SENSORS, context);
+	}
+
+	public static void setAITextTranslationPreferencesEnabled(Context context, boolean value) {
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_SHOW_AI_TEXT_TRANSLATION_SENSORS, value)
 				.apply();
 	}
 
