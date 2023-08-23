@@ -40,8 +40,9 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.fragment.app.DialogFragment;
 
-public class NotePickerDialog extends AppCompatDialogFragment implements NotePickerView.OnNoteChangedListener {
+public class NotePickerDialog extends DialogFragment implements NotePickerView.OnNoteChangedListener {
 	private static final String CURRENT_NOTE = "CurrentNote";
 	private static final String INITIAL_NOTE = "InitialNote";
 	private static final String SHOW_ACTION_BAR = "ShowActionBar";
@@ -72,6 +73,7 @@ public class NotePickerDialog extends AppCompatDialogFragment implements NotePic
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setStyle(DialogFragment.STYLE_NORMAL, R.style.NotePickerDialogTheme);
 
 		midiDriver = new MidiNotePlayer();
 	}
