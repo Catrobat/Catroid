@@ -23,6 +23,8 @@
 package org.catrobat.catroid.pocketmusic.ui;
 
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
+import android.util.TypedValue;
 import android.widget.TableRow;
 
 import org.catrobat.catroid.R;
@@ -140,6 +142,7 @@ public class TrackRowView extends TableRow {
 		LayoutParams params = new LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f);
 		params.leftMargin = params.topMargin = params.rightMargin = params.bottomMargin = getResources()
 				.getDimensionPixelSize(R.dimen.pocketmusic_trackrow_margin);
+		params.topMargin = params.bottomMargin = dimSize;
 
 		for (int i = 0; i < quarterCount; i++) {
 			noteViews.add(new NoteView(getContext(), this, i));
@@ -188,6 +191,7 @@ public class TrackRowView extends TableRow {
 	}
 
 	public static int getMidiValueForRow(int row) {
-		return row * TrackView.HIGHEST_MIDI / TrackView.ROW_COUNT + TrackView.HIGHEST_MIDI / TrackView.ROW_COUNT;
+		return row + 48;
 	}
+	
 }
