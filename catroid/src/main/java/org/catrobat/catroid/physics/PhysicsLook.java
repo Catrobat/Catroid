@@ -31,6 +31,7 @@ import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class PhysicsLook extends Look {
 
@@ -39,7 +40,6 @@ public class PhysicsLook extends Look {
 	private final PhysicsObject physicsObject;
 	private final PhysicsObjectStateHandler physicsObjectStateHandler = new PhysicsObjectStateHandler();
 
-	private boolean isFlippedByAction = false;
 
 	public PhysicsLook(Sprite sprite, PhysicsWorld physicsWorld) {
 		super(sprite);
@@ -134,20 +134,6 @@ public class PhysicsLook extends Look {
 	}
 
 	@Override
-	public float getLookDirectionInUserInterfaceDimensionUnit() {
-		float direction = 0f;
-		switch (getRotationMode()) {
-			case ROTATION_STYLE_NONE : direction = DEGREE_UI_OFFSET;
-			break;
-			case ROTATION_STYLE_ALL_AROUND : direction = convertStageAngleToCatroidAngle(getRotation());
-			break;
-			case ROTATION_STYLE_LEFT_RIGHT_ONLY : direction =
-					isFlipped() ? -DEGREE_UI_OFFSET : DEGREE_UI_OFFSET;
-		}
-		return direction;
-	}
-
-	@Override
 	public float getX() {
 		float x = physicsObject.getX() - getWidth() / 2.0f;
 		super.setX(x);
@@ -169,18 +155,7 @@ public class PhysicsLook extends Look {
 		if (realRotation < 0) {
 			realRotation += 360;
 		}
-		switch (super.getRotationMode()) {
-			case ROTATION_STYLE_LEFT_RIGHT_ONLY:
-				super.setRotation(0f);
-				flipLookDataIfNeeded(realRotation);
-				break;
-			case ROTATION_STYLE_ALL_AROUND:
-				super.setRotation(rotation);
-				break;
-			case ROTATION_STYLE_NONE:
-				super.setRotation(0f);
-				break;
-		}
+		setRotationBasedOnMode(rotation, realRotation, super.getRotationMode());
 		return super.getRotation();
 	}
 
@@ -223,22 +198,6 @@ public class PhysicsLook extends Look {
 
 	public void updatePhysicsObjectState(boolean record) {
 		physicsObjectStateHandler.update(record);
-	}
-
-	private void flipLookDataIfNeeded(float realRotation) {
-		boolean orientedRight = realRotation > 180 || realRotation == 0;
-		boolean orientedLeft = realRotation <= 180 && realRotation != 0;
-		boolean isLookDataFlipped = isFlipped();
-		if (isFlippedByAction) {
-			isLookDataFlipped = !isLookDataFlipped;
-		}
-		if (lookData != null && ((isLookDataFlipped && orientedRight) || (!isLookDataFlipped && orientedLeft))) {
-			lookData.getTextureRegion().flip(true, false);
-		}
-	}
-
-	public void updateFlippedByAction() {
-		isFlippedByAction = !isFlippedByAction;
 	}
 
 	public void setFlippedByDegree(float degree) {
@@ -362,14 +321,17 @@ public class PhysicsLook extends Look {
 			fixConditions.add(glideToCondition);
 		}
 
-		private boolean checkHangup(boolean record) {
-			boolean shouldBeHangedUp = false;
-			for (PhysicsObjectStateCondition hangupCondition : hangupConditions) {
-				if (hangupCondition.isTrue()) {
-					shouldBeHangedUp = true;
-					break;
+		private boolean checkPhysicsObjectStateConditions(List<PhysicsObjectStateCondition> conditions) {
+			for (PhysicsObjectStateCondition condition : conditions) {
+				if (condition.isTrue()) {
+					return true;
 				}
 			}
+			return false;
+		}
+
+		private boolean checkHangup(boolean record) {
+			boolean shouldBeHangedUp = checkPhysicsObjectStateConditions(hangupConditions);
 			boolean deactivateHangup = hangedUp && !shouldBeHangedUp;
 			boolean activateHangup = !hangedUp && shouldBeHangedUp;
 			if (deactivateHangup) {
@@ -382,13 +344,7 @@ public class PhysicsLook extends Look {
 		}
 
 		private boolean checkNonColliding(boolean record) {
-			boolean shouldBeNonColliding = false;
-			for (PhysicsObjectStateCondition nonCollideCondition : nonCollidingConditions) {
-				if (nonCollideCondition.isTrue()) {
-					shouldBeNonColliding = true;
-					break;
-				}
-			}
+			boolean shouldBeNonColliding = checkPhysicsObjectStateConditions(nonCollidingConditions);
 			boolean deactivateNonColliding = nonColliding && !shouldBeNonColliding;
 			boolean activateNonColliding = !nonColliding && shouldBeNonColliding;
 			if (deactivateNonColliding) {
@@ -401,13 +357,7 @@ public class PhysicsLook extends Look {
 		}
 
 		private boolean checkFixed(boolean record) {
-			boolean shouldBeFixed = false;
-			for (PhysicsObjectStateCondition fixedCondition : fixConditions) {
-				if (fixedCondition.isTrue()) {
-					shouldBeFixed = true;
-					break;
-				}
-			}
+			boolean shouldBeFixed = checkPhysicsObjectStateConditions(fixConditions);
 			boolean deactivateFix = fixed && !shouldBeFixed;
 			boolean activateFix = !fixed && shouldBeFixed;
 			if (deactivateFix) {
