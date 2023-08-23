@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -253,6 +253,10 @@
     <string name="preference_raspi_host">Raspberry Pi IP-/host-address</string>
     <string name="preference_raspi_port">Raspberry Pi port</string>
     <!--  -->
+
+    <string name="preference_title_light_theme_enabled">Light Theme</string>
+    <string name="preference_description_light_theme_enabled">Enable a theme with
+        lighter colors</string>
 
     <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
     <string name="preference_description_multiplayer_variables_enabled">Allow the app to use

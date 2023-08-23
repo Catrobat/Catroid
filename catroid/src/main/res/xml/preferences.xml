@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,13 @@
 
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:id="@+id/toggle_light_mode"
+        android:defaultValue="false"
+        android:key="settings_light_theme_enabled"
+        android:summary="@string/preference_description_light_theme_enabled"
+        android:title="@string/preference_title_light_theme_enabled" />
 
     <ListPreference
         android:defaultValue="false"

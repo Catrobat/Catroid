@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -60,9 +60,11 @@ import static org.catrobat.catroid.CatroidApplication.defaultSystemLanguage;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAGS;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAG_KEY;
+import static org.catrobat.catroid.ui.LightThemeManager.setLightTheme;
 import static org.koin.java.KoinJavaComponent.inject;
 
 public class SettingsFragment extends PreferenceFragment {
+	public static final String SETTINGS_LIGHT_THEME_ENABLED = "settings_light_theme_enabled";
 
 	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED = "settings_mindstorms_nxt_bricks_enabled";
 	public static final String SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_nxt_show_sensor_info_box_disabled";
@@ -131,6 +133,8 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static final String SETTINGS_USE_CATBLOCKS = "settings_use_catblocks";
 
+	private static final ProjectManager PROJECT_MANAGER = inject(ProjectManager.class).getValue();
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -142,6 +146,8 @@ public class SettingsFragment extends PreferenceFragment {
 		setLanguage();
 
 		screen = getPreferenceScreen();
+
+		setupLightThemePreference(screen);
 
 		if (!BuildConfig.FEATURE_EMBROIDERY_ENABLED) {
 			CheckBoxPreference embroideryPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_EMBROIDERY_BRICKS);
@@ -255,12 +261,9 @@ public class SettingsFragment extends PreferenceFragment {
 	@SuppressWarnings("deprecation")
 	private void setHintPreferences() {
 		CheckBoxPreference hintCheckBoxPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_HINTS);
-		hintCheckBoxPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				preference.getEditor().remove(SnackbarUtil.SHOWN_HINT_LIST).commit();
-				return true;
-			}
+		hintCheckBoxPreference.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
+			preference.getEditor().remove(SnackbarUtil.SHOWN_HINT_LIST).commit();
+			return true;
 		});
 	}
 
@@ -290,6 +293,16 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static boolean isCastSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_CAST_GLOBALLY_ENABLED, context);
+	}
+
+	public static boolean isLightThemeSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_LIGHT_THEME_ENABLED, context);
+	}
+
+	public static void setLightThemeSharedPreferenceEnabled(Context context, boolean value) {
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_LIGHT_THEME_ENABLED, value)
+				.apply();
 	}
 
 	public static void setPhiroSharedPreferenceEnabled(Context context, boolean value) {
@@ -503,7 +516,7 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static boolean isMultiplayerVariablesPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_MULTIPLAYER_VARIABLES_ENABLED, context)
-				|| ProjectManager.getInstance().getCurrentProject().hasMultiplayerVariables();
+				|| PROJECT_MANAGER.getCurrentProject().hasMultiplayerVariables();
 	}
 
 	private void setLanguage() {
@@ -526,8 +539,7 @@ public class SettingsFragment extends PreferenceFragment {
 		listPreference.setOnPreferenceChangeListener((preference, languageTag) -> {
 			String selectedLanguageTag = languageTag.toString();
 			setLanguageSharedPreference(getActivity().getBaseContext(), selectedLanguageTag);
-			startActivity(new Intent(getActivity().getBaseContext(), MainMenuActivity.class));
-			getActivity().finishAffinity();
+			resetActivity();
 			new Thread(() -> inject(ProjectsCategoriesSync.class).getValue().sync(true));
 			return true;
 		});
@@ -579,5 +591,18 @@ public class SettingsFragment extends PreferenceFragment {
 		getSharedPreferences(context).edit()
 				.putBoolean(SETTINGS_USE_CATBLOCKS, useCatBlocks)
 				.apply();
+	}
+
+	public void setupLightThemePreference(PreferenceScreen screen) {
+		screen.findPreference(SETTINGS_LIGHT_THEME_ENABLED).setOnPreferenceChangeListener((preference, newValue) -> {
+			setLightTheme((Boolean) newValue);
+			resetActivity();
+			return true;
+		});
+	}
+
+	private void resetActivity() {
+		startActivity(new Intent(getActivity().getBaseContext(), MainMenuActivity.class));
+		getActivity().finishAffinity();
 	}
 }
