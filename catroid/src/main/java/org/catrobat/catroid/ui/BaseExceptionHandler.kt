@@ -25,7 +25,7 @@ package org.catrobat.catroid.ui
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Process
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import android.util.Log
 import kotlin.system.exitProcess
 

@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.ui.fragment
 
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import org.catrobat.catroid.ProjectManager

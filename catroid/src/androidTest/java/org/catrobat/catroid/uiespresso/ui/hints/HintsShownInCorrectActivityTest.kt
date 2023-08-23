@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.ui.hints
 
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack

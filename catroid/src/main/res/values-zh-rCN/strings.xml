@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- General terms -->
     <string name="stage">舞台</string>
     <string name="play">玩</string>
@@ -326,7 +326,7 @@
     <string name="list_headline_sprites">对象和物体</string>
     <!-- Options Menu Options -->
     <string name="backpack">背包</string>
-    <string name="copy">复制</string>
+    <string name="copy_menuname">复制</string>
     <string name="delete">删除</string>
     <string name="rename">重命名</string>
     <string name="merge">合并</string>

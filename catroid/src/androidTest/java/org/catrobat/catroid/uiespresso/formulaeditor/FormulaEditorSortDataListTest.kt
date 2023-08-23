@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.uiespresso.formulaeditor
 
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.InstrumentationRegistry

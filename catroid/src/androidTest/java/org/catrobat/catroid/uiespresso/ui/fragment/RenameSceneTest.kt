@@ -24,7 +24,7 @@ package org.catrobat.catroid.uiespresso.ui.fragment
 
 import android.content.Context
 import android.media.MediaMetadataRetriever
-import android.preference.PreferenceManager.getDefaultSharedPreferences
+import androidx.preference.PreferenceManager.getDefaultSharedPreferences
 import android.text.format.DateUtils
 import android.widget.EditText
 import androidx.test.core.app.ApplicationProvider.getApplicationContext

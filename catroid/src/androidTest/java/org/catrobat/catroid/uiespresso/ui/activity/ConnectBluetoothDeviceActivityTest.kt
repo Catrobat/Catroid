@@ -24,7 +24,7 @@ package org.catrobat.catroid.uiespresso.ui.activity
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.preference.PreferenceManager.getDefaultSharedPreferences
+import androidx.preference.PreferenceManager.getDefaultSharedPreferences
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
