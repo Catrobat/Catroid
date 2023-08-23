@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.UserDefinedScript;
 import org.catrobat.catroid.content.WhenBackgroundChangesScript;
 import org.catrobat.catroid.content.WhenBounceOffScript;
+import org.catrobat.catroid.content.WhenCollideWithScript;
 import org.catrobat.catroid.content.WhenConditionScript;
 import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.content.WhenNfcScript;
@@ -566,6 +567,9 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		brickInfo = new BrickInfo(WhenConditionBrick.class.getSimpleName());
 		brickInfoMap.put("whenConditionBrick", brickInfo);
 
+		brickInfo = new BrickInfo(WhenConditionBrick.class.getSimpleName());
+		brickInfoMap.put("whenCollideWithBrick", brickInfo);
+
 		brickInfo = new BrickInfo(TurnLeftBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("degrees", BrickField.TURN_LEFT_DEGREES);
 		brickInfoMap.put("turnLeftBrick", brickInfo);
@@ -764,6 +768,7 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		scriptInfoMap.put("startScript", StartScript.class.getSimpleName());
 		scriptInfoMap.put("whenScript", WhenScript.class.getSimpleName());
 		scriptInfoMap.put("whenConditionScript", WhenConditionScript.class.getSimpleName());
+		scriptInfoMap.put("whenCollideWithScript", WhenCollideWithScript.class.getSimpleName());
 		scriptInfoMap.put("whenBackgroundChangesScript", WhenBackgroundChangesScript.class.getSimpleName());
 		scriptInfoMap.put("broadcastScript", BroadcastScript.class.getSimpleName());
 		scriptInfoMap.put("raspiInterruptScript", RaspiInterruptScript.class.getSimpleName());

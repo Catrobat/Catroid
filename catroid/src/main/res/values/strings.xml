@@ -1120,6 +1120,7 @@
     <string name="brick_when_started">When scene starts</string>
     <string name="brick_when">When tapped</string>
     <string name="brick_when_condition_when">When</string>
+    <string name="brick_when_you_collide_with">When you collide with</string>
     <string name="brick_when_becomes_true">becomes true</string>
     <string name="brick_wait">Wait</string>
     <string name="brick_wait_until">Wait until</string>
@@ -1140,6 +1141,8 @@
 
     <string name="brick_collision_receive">When you bounce off</string>
     <string name="collision_with_anything">any edge, actor, or object</string>
+    <string name="touches_finger">Finger</string>
+    <string name="touches_edge">Edge</string>
 
     <string name="brick_broadcast_receive">When you receive</string>
     <string name="brick_broadcast">Broadcast</string>

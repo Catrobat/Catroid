@@ -220,6 +220,7 @@ import org.catrobat.catroid.content.bricks.WaitUntilBrick
 import org.catrobat.catroid.content.bricks.WebRequestBrick
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick
 import org.catrobat.catroid.content.bricks.WhenBounceOffBrick
+import org.catrobat.catroid.content.bricks.WhenCollideWithBrick
 import org.catrobat.catroid.content.bricks.WhenBrick
 import org.catrobat.catroid.content.bricks.WhenClonedBrick
 import org.catrobat.catroid.content.bricks.WhenConditionBrick
@@ -296,6 +297,8 @@ open class CategoryBricksFactory {
         eventBrickList.add(BroadcastReceiverBrick(BroadcastScript(broadcastMessage)))
         eventBrickList.add(BroadcastBrick(broadcastMessage))
         eventBrickList.add(BroadcastWaitBrick(broadcastMessage))
+        eventBrickList.add(WhenCollideWithBrick())
+
         eventBrickList.add(WhenConditionBrick(WhenConditionScript(Formula(defaultIf))))
         if (!isBackgroundSprite) {
             eventBrickList.add(WhenBounceOffBrick(WhenBounceOffScript(null)))
@@ -396,6 +399,8 @@ open class CategoryBricksFactory {
         }
         motionBrickList.add(SetCameraFocusPointBrick())
         motionBrickList.add(VibrationBrick(BrickValues.VIBRATE_SECONDS))
+        motionBrickList.add(WhenCollideWithBrick())
+
         motionBrickList.add(SetPhysicsObjectTypeBrick(BrickValues.PHYSIC_TYPE))
         if (!isBackgroundSprite) motionBrickList.add(WhenBounceOffBrick(WhenBounceOffScript(null)))
         motionBrickList.add(SetVelocityBrick(BrickValues.PHYSIC_VELOCITY))
@@ -476,6 +481,7 @@ open class CategoryBricksFactory {
         looksBrickList.add(SetParticleColorBrick(BrickValues.PARTICLE_COLOR))
         looksBrickList.add(ClearGraphicEffectBrick())
         looksBrickList.add(SetCameraFocusPointBrick())
+        looksBrickList.add(WhenCollideWithBrick())
         looksBrickList.add(WhenBackgroundChangesBrick())
         looksBrickList.add(SetBackgroundBrick())
         looksBrickList.add(SetBackgroundByIndexBrick(BrickValues.SET_LOOK_BY_INDEX))

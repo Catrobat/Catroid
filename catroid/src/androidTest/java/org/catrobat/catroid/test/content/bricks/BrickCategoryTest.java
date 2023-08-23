@@ -215,6 +215,7 @@ import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.content.bricks.WhenBounceOffBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenClonedBrick;
+import org.catrobat.catroid.content.bricks.WhenCollideWithBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
@@ -274,6 +275,7 @@ public class BrickCategoryTest {
 						ComeToFrontBrick.class,
 						SetCameraFocusPointBrick.class,
 						VibrationBrick.class,
+						WhenCollideWithBrick.class,
 						SetPhysicsObjectTypeBrick.class,
 						WhenBounceOffBrick.class,
 						SetVelocityBrick.class,
@@ -298,6 +300,7 @@ public class BrickCategoryTest {
 						BroadcastReceiverBrick.class,
 						BroadcastBrick.class,
 						BroadcastWaitBrick.class,
+						WhenCollideWithBrick.class,
 						WhenConditionBrick.class,
 						WhenBounceOffBrick.class,
 						WhenBackgroundChangesBrick.class,
@@ -330,6 +333,7 @@ public class BrickCategoryTest {
 						SetParticleColorBrick.class,
 						ClearGraphicEffectBrick.class,
 						SetCameraFocusPointBrick.class,
+						WhenCollideWithBrick.class,
 						WhenBackgroundChangesBrick.class,
 						SetBackgroundBrick.class,
 						SetBackgroundByIndexBrick.class,
