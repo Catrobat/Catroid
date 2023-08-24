@@ -477,6 +477,7 @@ public class BricksHelpUrlTest {
 
 		brickClasses = removeAbstractClasses(brickClasses);
 		brickClasses = removeInnerClasses(brickClasses);
+		brickClasses = removeEndBrick(brickClasses);
 		for (Class<?> brickClazz : brickClasses) {
 			parameters.add(new Object[] {brickClazz.getName(), brickClazz});
 		}
@@ -544,6 +545,17 @@ public class BricksHelpUrlTest {
 		for (Class clazz : classes) {
 			boolean isInnerClass = clazz.getEnclosingClass() != null;
 			if (!isInnerClass) {
+				filtered.add(clazz);
+			}
+		}
+		return filtered;
+	}
+
+	private static Set<Class> removeEndBrick(Set<Class> classes) {
+		Set<Class> filtered = new HashSet<>();
+
+		for (Class clazz : classes) {
+			if (!clazz.getName().contains("EndBrick")) {
 				filtered.add(clazz);
 			}
 		}
