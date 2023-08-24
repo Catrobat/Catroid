@@ -28,9 +28,7 @@ import java.util.Calendar
 open class SensorDateYear : Sensor {
     override fun getSensorValue(): Double = getYear(Calendar.getInstance())
 
-    protected fun getYear(calendar: Calendar): Double {
-        return calendar[Calendar.YEAR].toDouble()
-    }
+    protected fun getYear(calendar: Calendar): Double = calendar[Calendar.YEAR].toDouble()
 
     companion object {
         @Volatile

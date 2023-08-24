@@ -25,41 +25,25 @@ package org.catrobat.catroid.formulaeditor.sensor.testutils
 
 import org.catrobat.catroid.devices.mindstorms.LegoSensor
 
-class EV3SensorTestable: LegoSensor {
+class EV3SensorTestable : LegoSensor {
 
-    var value:Float = 0f
-    var updateInterval: Int = 250
-    var lastSensorValue: Float = 0f
-    var name: String = "Testable Lego Sensor"
-    var connectionPort:Int = 45
+    var sensorValue: Float = 0f
+    var sensorUpdateInterval: Int = 0
+    var sensorLastSensorValue: Float = 0f
+    var sensorName: String = "Testable Lego Sensor"
+    var connectionPort: Int = 0
 
-    override fun getValue(): Float = value
+    override fun getValue(): Float = sensorValue
 
-    fun setValue(newVal: Float) {
-        value = newVal
-    }
-
-    override fun getUpdateInterval(): Int = updateInterval
-
-    fun setUpdateInterval(newVal: Int) {
-        updateInterval = newVal
-    }
+    override fun getUpdateInterval(): Int = sensorUpdateInterval
 
     override fun updateLastSensorValue() {
-        lastSensorValue = getValue()
+        sensorLastSensorValue = sensorValue
     }
 
-    override fun getLastSensorValue(): Float = lastSensorValue
+    override fun getLastSensorValue(): Float = sensorLastSensorValue
 
-    override fun getName(): String = name
+    override fun getName(): String = sensorName
 
-    fun setName(newName: String) {
-        name = newName
-    }
-
-    override fun getConnectedPort(): Int = connectedPort
-
-    fun setConnectionPort(newPort: Int) {
-        connectionPort = newPort
-    }
+    override fun getConnectedPort(): Int = connectionPort
 }

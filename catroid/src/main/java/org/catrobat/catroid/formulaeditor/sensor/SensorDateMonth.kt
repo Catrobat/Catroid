@@ -28,9 +28,7 @@ import java.util.Calendar
 open class SensorDateMonth : Sensor {
     override fun getSensorValue(): Double = getMonth(Calendar.getInstance())
 
-    protected fun getMonth(calendar: Calendar): Double {
-        return (calendar[Calendar.MONTH] + 1).toDouble()
-    }
+    protected fun getMonth(calendar: Calendar): Double = (calendar[Calendar.MONTH] + 1).toDouble()
 
     companion object {
         @Volatile

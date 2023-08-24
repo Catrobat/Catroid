@@ -46,14 +46,13 @@ class SensorAccelerationSensorsTest(
     @Before
     fun setup() {
         SensorHandler.linearAcceleration.accelerationX = accelerationValue.toDouble()
-        SensorHandler.linearAcceleration.accelerationY= accelerationValue.toDouble()
+        SensorHandler.linearAcceleration.accelerationY = accelerationValue.toDouble()
         SensorHandler.linearAcceleration.accelerationZ = accelerationValue.toDouble()
-        if(sensor is SensorAccelerationXTest) {
+        if (sensor is SensorAccelerationXTest) {
             sensor.setRotation(rotation)
         } else if (sensor is SensorAccelerationYTest) {
             sensor.setRotation(rotation)
         }
-
     }
 
     @Test

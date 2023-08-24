@@ -28,14 +28,14 @@ import android.content.Context
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService
 
-class BluetoothDeviceServiceTestable: BluetoothDeviceService {
+class BluetoothDeviceServiceTestable : BluetoothDeviceService {
 
-    var connectDeviceReturnValue = BluetoothDeviceService.ConnectDeviceResult.ALREADY_CONNECTED
+    var serviceConnectDeviceReturnValue = BluetoothDeviceService.ConnectDeviceResult.ALREADY_CONNECTED
 
     private val connectedDevices: Map<Class<out BluetoothDevice>, BluetoothDevice> = HashMap()
 
     fun setConnectDeviceReturnValue(newValue: BluetoothDeviceService.ConnectDeviceResult) {
-        connectDeviceReturnValue = newValue
+        serviceConnectDeviceReturnValue = newValue
     }
 
     override fun connectDevice(
@@ -43,16 +43,15 @@ class BluetoothDeviceServiceTestable: BluetoothDeviceService {
         activity: Activity?,
         requestCode: Int
     ): BluetoothDeviceService.ConnectDeviceResult {
-        return connectDeviceReturnValue
+        return serviceConnectDeviceReturnValue
     }
 
     override fun connectDevice(
         deviceToConnect: Class<out BluetoothDevice>?,
         context: Context?
     ): BluetoothDeviceService.ConnectDeviceResult {
-        return connectDeviceReturnValue
+        return serviceConnectDeviceReturnValue
     }
-
 
     override fun initialise() {
         TODO("Not yet implemented")
@@ -69,8 +68,6 @@ class BluetoothDeviceServiceTestable: BluetoothDeviceService {
     override fun destroy() {
         TODO("Not yet implemented")
     }
-
-
 
     override fun deviceConnected(device: BluetoothDevice?) {}
 

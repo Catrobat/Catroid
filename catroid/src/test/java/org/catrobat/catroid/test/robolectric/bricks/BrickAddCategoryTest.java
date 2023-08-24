@@ -66,6 +66,7 @@ import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTING
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PHIRO_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_RASPI_BRICKS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_TEST_BRICKS;
 import static org.robolectric.Shadows.shadowOf;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_TEST_BRICKS;
 

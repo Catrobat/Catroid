@@ -26,7 +26,7 @@ package org.catrobat.catroid.formulaeditor.sensor.testsensors
 import org.catrobat.catroid.formulaeditor.SensorHandler
 import org.catrobat.catroid.formulaeditor.sensor.SensorAccelerationX
 
-class SensorAccelerationXTest: SensorAccelerationX() {
+class SensorAccelerationXTest : SensorAccelerationX() {
 
     var rotate: Int = 0
 

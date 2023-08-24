@@ -26,7 +26,7 @@ package org.catrobat.catroid.formulaeditor.sensor.testsensors
 import org.catrobat.catroid.formulaeditor.sensor.SensorTimeMinute
 import java.util.Calendar
 
-class SensorTimeMinuteTest: SensorTimeMinute() {
+class SensorTimeMinuteTest : SensorTimeMinute() {
 
     private var testCalendar: Calendar = Calendar.getInstance()
 

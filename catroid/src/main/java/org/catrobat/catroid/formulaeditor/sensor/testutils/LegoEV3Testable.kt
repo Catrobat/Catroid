@@ -31,45 +31,29 @@ import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3
 import org.catrobat.catroid.formulaeditor.Sensors
 import java.util.UUID
 
-class LegoEV3Testable: LegoEV3 {
+class LegoEV3Testable : LegoEV3 {
+
+    private val testUUID: UUID = UUID.fromString("00001101-0000-1000-Test0-00805F9B34FB")
 
     var motorA: EV3MotorTestable? = null
     var motorB: EV3MotorTestable? = null
     var motorC: EV3MotorTestable? = null
     var motorD: EV3MotorTestable? = null
 
-    var sensor1: LegoSensor? = null
-    var sensor2: LegoSensor? = null
-    var sensor3: LegoSensor? = null
-    var sensor4: LegoSensor? = null
+    var legoSensor1: LegoSensor? = null
+    var legoSensor2: LegoSensor? = null
+    var legoSensor3: LegoSensor? = null
+    var legoSensor4: LegoSensor? = null
 
     var isInitialized = false
 
-
     override fun getName(): String = "Lego EV3 Testable"
-
     override fun getDeviceType(): Class<out BluetoothDevice> {
-        TODO("Not yet implemented")
-    }
-
-    override fun setConnection(connection: BluetoothConnection?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun disconnect() {
-        TODO("Not yet implemented")
-    }
-
-    override fun isAlive(): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override fun getBluetoothDeviceUUID(): UUID {
-        TODO("Not yet implemented")
+        TODO("Not yet implemented 1")
     }
 
     override fun playTone(frequency: Int, duration: Int, volumeInPercent: Int) {
-        TODO("Not yet implemented")
+        TODO("Not yet implemented 1")
     }
 
     override fun getMotorA(): EV3Motor? = motorA
@@ -79,6 +63,66 @@ class LegoEV3Testable: LegoEV3 {
     override fun getMotorC(): EV3Motor? = motorC
 
     override fun getMotorD(): EV3Motor? = motorD
+
+    override fun setConnection(connection: BluetoothConnection?) {
+        TODO("Not yet implemented 1")
+    }
+
+    override fun isAlive(): Boolean {
+        TODO("Not yet implemented1")
+    }
+
+    override fun getSensorValue(sensor: Sensors): Float {
+        when (sensor) {
+            Sensors.EV3_SENSOR_1 -> return if (legoSensor1 != null) legoSensor1!!.lastSensorValue else 0f
+            Sensors.EV3_SENSOR_2 -> return if (legoSensor2 != null) legoSensor2!!.lastSensorValue else 0f
+            Sensors.EV3_SENSOR_3 -> return if (legoSensor3 != null) legoSensor3!!.lastSensorValue else 0f
+            Sensors.EV3_SENSOR_4 -> return if (legoSensor4 != null) legoSensor4!!.lastSensorValue else 0f
+        }
+        return -1f
+    }
+
+    override fun getSensor1(): LegoSensor? = legoSensor1
+    override fun getSensor2(): LegoSensor? = legoSensor2
+    override fun getSensor3(): LegoSensor? = legoSensor3
+    override fun getSensor4(): LegoSensor? = legoSensor4
+
+    override fun initialise() {
+        synchronized(this) {
+            if (isInitialized) {
+                return
+            }
+
+            motorA = EV3MotorTestable(0)
+            motorB = EV3MotorTestable(1)
+            motorC = EV3MotorTestable(2)
+            motorD = EV3MotorTestable(3)
+
+            createSensors()
+
+            isInitialized = true
+        }
+    }
+
+    private fun createSensors() {
+        legoSensor1 = EV3SensorTestable()
+        legoSensor2 = EV3SensorTestable()
+        legoSensor3 = EV3SensorTestable()
+        legoSensor4 = EV3SensorTestable()
+    }
+
+    override fun start() {
+        initialise()
+    }
+
+    override fun pause() {
+        TODO("Not yet implemented 1")
+    }
+
+    override fun destroy() {
+        TODO("Not yet implemented")
+    }
+
     override fun stopAllMovements() {
         TODO("Not yet implemented")
     }
@@ -107,49 +151,9 @@ class LegoEV3Testable: LegoEV3 {
         TODO("Not yet implemented")
     }
 
-    override fun getSensorValue(sensor: Sensors?): Float {
+    override fun disconnect() {
         TODO("Not yet implemented")
     }
 
-    override fun getSensor1(): LegoSensor {
-        TODO("Not yet implemented")
-    }
-
-    override fun getSensor2(): LegoSensor {
-        TODO("Not yet implemented")
-    }
-
-    override fun getSensor3(): LegoSensor {
-        TODO("Not yet implemented")
-    }
-
-    override fun getSensor4(): LegoSensor {
-        TODO("Not yet implemented")
-    }
-
-    override fun initialise() {
-
-        if(isInitialized) {
-            return
-        }
-
-        motorA = EV3MotorTestable(0)
-        motorB = EV3MotorTestable(1)
-        motorC = EV3MotorTestable(2)
-        motorD = EV3MotorTestable(3)
-
-        isInitialized = true
-    }
-
-    override fun start() {
-        TODO("Not yet implemented")
-    }
-
-    override fun pause() {
-        TODO("Not yet implemented")
-    }
-
-    override fun destroy() {
-        TODO("Not yet implemented")
-    }
+    override fun getBluetoothDeviceUUID(): UUID = testUUID
 }

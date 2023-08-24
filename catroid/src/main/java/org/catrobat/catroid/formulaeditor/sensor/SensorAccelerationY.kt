@@ -32,9 +32,8 @@ open class SensorAccelerationY : Sensor {
         return getAcceleration(x, y, SensorHandler.rotateOrientation())
     }
 
-    protected fun getAcceleration(x: Double, y: Double, rotate: Int) : Double {
-        return SensorHandler.getYAccordingToRotation(x, y, rotate)
-    }
+    protected fun getAcceleration(x: Double, y: Double, rotate: Int): Double =
+        SensorHandler.getYAccordingToRotation(x, y, rotate)
 
     companion object {
         @Volatile

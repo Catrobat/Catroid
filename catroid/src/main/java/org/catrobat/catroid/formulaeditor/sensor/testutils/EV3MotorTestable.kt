@@ -25,14 +25,13 @@ package org.catrobat.catroid.formulaeditor.sensor.testutils
 
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3Motor
 
-class EV3MotorTestable: EV3Motor {
+class EV3MotorTestable : EV3Motor {
 
-    private var outputField: Byte = 0
+    private var outputFieldNew: Byte = 0
 
     constructor(port: Int) : super(port) {
-        this.outputField = port.toByte()
+        this.outputFieldNew = port.toByte()
     }
 
-    override fun getOutputField(): Byte = outputField
-
+    override fun getOutputField(): Byte = outputFieldNew
 }
