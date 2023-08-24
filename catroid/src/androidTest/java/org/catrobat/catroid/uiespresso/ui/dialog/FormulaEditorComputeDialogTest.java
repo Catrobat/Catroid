@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.uiespresso.ui.dialog;
 
+import android.view.InputDevice;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
@@ -37,6 +38,7 @@ import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -52,6 +54,7 @@ import androidx.test.espresso.action.Tap;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
+import static org.koin.java.KoinJavaComponent.inject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
@@ -64,33 +67,30 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 public class FormulaEditorComputeDialogTest {
 
+	private final Integer someIntegerValue = 911;
+	private final ProjectManager projectManager = inject(ProjectManager.class).getValue();
+
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
 			SpriteActivity.FRAGMENT_SCRIPTS);
-	private Integer someIntegerVaule = 911;
 
 	@Before
 	public void setUp() throws Exception {
 		createProject("formulaEditorComputeDialogTest");
-
 		baseActivityTestRule.launchActivity();
 	}
 
 	private void openComputeDialog() {
-		onView(withId(R.id.brick_note_edit_text))
-				.perform(click());
-		onFormulaEditor()
-				.performClickOn(FormulaEditorWrapper.Control.COMPUTE);
+		onView(withId(R.id.brick_note_edit_text)).perform(click());
+		onFormulaEditor().performClickOn(FormulaEditorWrapper.Control.COMPUTE);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void dialogCreationTest() {
 		openComputeDialog();
-
-		String computedValueText = Integer.toString(someIntegerVaule);
-
+		String computedValueText = Integer.toString(someIntegerValue);
 		onView(withId(R.id.formula_editor_compute_dialog_textview))
 				.check(matches(withText(computedValueText)));
 	}
@@ -99,35 +99,30 @@ public class FormulaEditorComputeDialogTest {
 	@Test
 	public void cancelOnTouchInsideOfDialogTest() {
 		openComputeDialog();
-
-		onView(withId(R.id.formula_editor_compute_dialog_textview))
-				.perform(click());
-
-		onView(withId(R.id.formula_editor_compute_dialog_textview))
-				.check(doesNotExist());
+		onView(withId(R.id.formula_editor_compute_dialog_textview)).perform(click());
+		onView(withId(R.id.formula_editor_compute_dialog_textview)).check(doesNotExist());
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void cancelOnBackDialogTest() {
 		openComputeDialog();
-
 		pressBack();
-
-		onView(withId(R.id.formula_editor_compute_dialog_textview))
-				.check(doesNotExist());
+		onView(withId(R.id.formula_editor_compute_dialog_textview)).check(doesNotExist());
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void cancelOnTouchOutsideOfDialogTest() {
 		openComputeDialog();
-
 		onView(withId(R.id.formula_editor_compute_dialog_textview))
 				.perform(clickWithOffset(-50, -50));
+		onView(withId(R.id.formula_editor_compute_dialog_textview)).check(doesNotExist());
+	}
 
-		onView(withId(R.id.formula_editor_compute_dialog_textview))
-				.check(doesNotExist());
+	@After
+	public void tearDown() {
+		baseActivityTestRule.deleteAllProjects();
 	}
 
 	public Project createProject(String projectName) {
@@ -135,30 +130,31 @@ public class FormulaEditorComputeDialogTest {
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
 
-		Formula noteFormula = new Formula(someIntegerVaule);
+		Formula noteFormula = new Formula(someIntegerValue);
 		script.addBrick(new NoteBrick(noteFormula));
 
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
 
 		return project;
 	}
 
 	public static ViewAction clickWithOffset(final int xOffset, final int yOffset) {
 		return new GeneralClickAction(
-			Tap.SINGLE,
-			new CoordinatesProvider() {
-				@Override
-				public float[] calculateCoordinates(View view) {
-					final int[] viewsCoordinates = new int[2];
-					view.getLocationOnScreen(viewsCoordinates);
+				Tap.SINGLE,
+				new CoordinatesProvider() {
+					@Override
+					public float[] calculateCoordinates(View view) {
+						final int[] viewsCoordinates = new int[2];
+						view.getLocationOnScreen(viewsCoordinates);
 
-					float[] clickCoordinates = {viewsCoordinates[0] + xOffset, viewsCoordinates[1] + yOffset};
-					return clickCoordinates;
-				}
-			},
-			Press.FINGER);
+						return new float[] {viewsCoordinates[0] + xOffset, viewsCoordinates[1] + yOffset};
+					}
+				},
+				Press.FINGER,
+				InputDevice.KEYBOARD_TYPE_NONE,
+				0);
 	}
 }

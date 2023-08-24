@@ -113,7 +113,6 @@ public class PocketPaintEditLookIntentTest {
 	@After
 	public void tearDown() {
 		Intents.release();
-		baseActivityTestRule.finishActivity();
 		try {
 			StorageOperations.deleteDir(new File(DEFAULT_ROOT_DIRECTORY, projectName));
 		} catch (IOException e) {

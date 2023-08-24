@@ -106,7 +106,6 @@ public class VisualPlacementBrickTest {
 	public void tearDown() {
 		Intents.release();
 		resetFormulaFields();
-		baseActivityTestRule.finishActivity();
 		try {
 			TestUtils.deleteProjects(VisualPlacementBrickTest.class.getSimpleName());
 		} catch (IOException e) {

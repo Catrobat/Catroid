@@ -317,6 +317,9 @@ public class WebViewActivity extends AppCompatActivity {
 
 	@Override
 	protected void onDestroy() {
+		if (webViewLoadingDialog != null) {
+			webViewLoadingDialog.dismiss();
+		}
 		webView.setDownloadListener(null);
 		webView.destroy();
 

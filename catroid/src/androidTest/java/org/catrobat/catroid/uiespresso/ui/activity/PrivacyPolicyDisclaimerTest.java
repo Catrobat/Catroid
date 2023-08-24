@@ -98,7 +98,6 @@ public class PrivacyPolicyDisclaimerTest {
 				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,
 						bufferedPrivacyPolicyPreferenceSetting)
 				.commit();
-		baseActivityTestRule.finishActivity();
 	}
 
 	@Test

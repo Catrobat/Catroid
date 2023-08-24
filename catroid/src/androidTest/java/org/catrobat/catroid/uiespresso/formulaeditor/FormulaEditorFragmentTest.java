@@ -29,8 +29,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.rules.FlakyTestRule;
-import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
@@ -63,9 +61,6 @@ public class FormulaEditorFragmentTest {
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
-
-	@Rule
-	public FlakyTestRule flakyTestRule = new FlakyTestRule();
 
 	@Before
 	public void setUp() throws Exception {
@@ -100,7 +95,6 @@ public class FormulaEditorFragmentTest {
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
-	@Flaky
 	@Test
 	public void testFailParse() {
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))

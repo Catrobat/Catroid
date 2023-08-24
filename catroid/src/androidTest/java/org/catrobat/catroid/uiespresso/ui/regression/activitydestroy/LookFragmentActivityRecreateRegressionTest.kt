@@ -40,8 +40,6 @@ import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.io.ResourceImporter
 import org.catrobat.catroid.io.XstreamSerializer
-import org.catrobat.catroid.rules.FlakyTestRule
-import org.catrobat.catroid.runner.Flaky
 import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
 import org.catrobat.catroid.testsuites.annotations.Cat.Quarantine
 import org.catrobat.catroid.testsuites.annotations.Level.Smoke
@@ -67,10 +65,6 @@ class LookFragmentActivityRecreateRegressionTest {
         SpriteActivity.FRAGMENT_LOOKS
     )
 
-    @Rule
-    @JvmField
-    var flakyTestRule = FlakyTestRule()
-
     private val lookName = "testLook"
 
     @Before
@@ -81,7 +75,6 @@ class LookFragmentActivityRecreateRegressionTest {
     }
 
     @Category(AppUi::class, Smoke::class, Quarantine::class)
-    @Flaky
     @Test
     fun testActivityRecreateRenameLookDialog() {
         openActionBarOverflowOrOptionsMenu(
@@ -97,7 +90,6 @@ class LookFragmentActivityRecreateRegressionTest {
     }
 
     @Category(AppUi::class, Smoke::class, Quarantine::class)
-    @Flaky
     @Test
     fun testActivityRecreateNewLookDialog() {
         RecyclerViewInteractionWrapper

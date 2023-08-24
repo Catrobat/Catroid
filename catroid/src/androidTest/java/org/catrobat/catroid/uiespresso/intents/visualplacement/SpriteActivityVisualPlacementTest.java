@@ -88,7 +88,6 @@ public class SpriteActivityVisualPlacementTest {
 	@After
 	public void tearDown() throws Exception {
 		Intents.release();
-		baseActivityTestRule.finishActivity();
 		TestUtils.deleteProjects(SpriteActivityVisualPlacementTest.class.getSimpleName());
 	}
 

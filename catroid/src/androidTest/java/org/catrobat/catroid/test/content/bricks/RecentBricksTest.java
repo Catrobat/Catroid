@@ -109,7 +109,6 @@ public class RecentBricksTest {
 
 	@After
 	public void tearDown() {
-		baseActivityTestRule.finishActivity();
 		try {
 			StorageOperations.deleteDir(new File(DEFAULT_ROOT_DIRECTORY, projectName));
 		} catch (IOException e) {

@@ -76,7 +76,6 @@ class ScriptSplitUserDefinedBrickTest {
     @After
     fun tearDown() {
         SettingsFragment.setUseCatBlocks(ApplicationProvider.getApplicationContext(), false)
-        baseActivityTestRule.finishActivity()
     }
 
     @Test

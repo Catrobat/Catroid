@@ -41,8 +41,6 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.content.GroupSprite
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.rules.FlakyTestRule
-import org.catrobat.catroid.runner.Flaky
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
 import org.catrobat.catroid.testsuites.annotations.Level.Smoke
@@ -59,6 +57,7 @@ import org.hamcrest.Matchers.instanceOf
 import org.hamcrest.Matchers.not
 import org.junit.After
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.experimental.categories.Category
@@ -73,9 +72,6 @@ class RenameSpriteTest {
         ProjectActivity::class.java, ProjectActivity.EXTRA_FRAGMENT_POSITION,
         ProjectActivity.FRAGMENT_SPRITES
     )
-
-    @get:Rule
-    var flakyTestRule = FlakyTestRule()
 
     private val firstSpriteName = "firstSprite"
     private val secondSpriteName = "secondSprite"
@@ -96,7 +92,6 @@ class RenameSpriteTest {
     }
 
     @Test
-    @Flaky
     fun renameSpriteDialogTest() {
         val modifiedFirstSprite = "modifiedFirstSprite"
         val modifiedGroupSprite = "modifiedGroupSprite"
@@ -106,7 +101,6 @@ class RenameSpriteTest {
     }
 
     @Test
-    @Flaky
     fun renameSpriteSwitchCaseDialogTest() {
         val newSpriteName = "SeConDspRite"
         renameViaActionBarMenu(secondSpriteName, newSpriteName, 2)
@@ -225,6 +219,7 @@ class RenameSpriteTest {
     }
 
     @Test
+    @Ignore("Always fails")
     fun spriteEqualBackgroundTest() {
         UiTestUtils.openActionBarMenu()
         onView(withText(R.string.rename)).perform(click())

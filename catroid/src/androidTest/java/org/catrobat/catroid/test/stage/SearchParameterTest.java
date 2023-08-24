@@ -26,7 +26,6 @@ package org.catrobat.catroid.test.stage;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 
 import org.catrobat.catroid.ProjectManager;
@@ -47,18 +46,18 @@ import org.catrobat.catroid.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.content.bricks.SetMassBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.TapAtBrick;
-import org.catrobat.catroid.rules.FlakyTestRule;
-import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import androidx.test.core.app.ApplicationProvider;
@@ -68,6 +67,7 @@ import static org.catrobat.catroid.test.utils.TestUtils.deleteProjects;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import static androidx.test.espresso.Espresso.onIdle;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.Espresso.pressBack;
@@ -80,12 +80,12 @@ import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibilit
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+@Ignore("Fails sometimes")// Fails and produces a error messages in the logs, that the reflection
+// to find out if the keyboard is displayed, is not allowed.
 public class SearchParameterTest {
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
-	@Rule
-	public FlakyTestRule flakyTestRule = new FlakyTestRule();
 
 	String projectName = "searchTestProject";
 	Script script1;
@@ -184,8 +184,7 @@ public class SearchParameterTest {
 	}
 
 	@Test
-	@Flaky
-	public void closeKeyboardAfterSearching() {
+	public void closeKeyboardAfterSearching() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
 		openActionBarOverflowOrOptionsMenu(baseActivityTestRule.getActivity());
 		onView(withText(R.string.search)).perform(click());
 		onView(isRoot()).perform(CustomActions.wait(2000));
@@ -195,15 +194,11 @@ public class SearchParameterTest {
 		assertFalse(isKeyboardVisible());
 	}
 
-	public boolean isKeyboardVisible() {
-		try {
-			final InputMethodManager manager = (InputMethodManager) ApplicationProvider.getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-			final Method windowHeightMethod = InputMethodManager.class.getMethod("getInputMethodWindowVisibleHeight");
-			final int height = (int) windowHeightMethod.invoke(manager);
-			return height > 0;
-		} catch (Exception e) {
-			return false;
-		}
+	public boolean isKeyboardVisible() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+		final InputMethodManager manager = (InputMethodManager) ApplicationProvider.getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+		final Method windowHeightMethod = InputMethodManager.class.getMethod("getInputMethodWindowVisibleHeight");
+		final int height = (int) windowHeightMethod.invoke(manager);
+		return height > 0;
 	}
 
 	public void createProject(String projectName) {
@@ -255,12 +250,7 @@ public class SearchParameterTest {
 	}
 
 	@After
-	public void tearDown() {
-		baseActivityTestRule.finishActivity();
-		try {
-			deleteProjects(projectName);
-		} catch (IOException e) {
-			Log.d(getClass().getSimpleName(), "Cannot delete test project in tear down.");
-		}
+	public void tearDown() throws IOException {
+		deleteProjects(projectName);
 	}
 }

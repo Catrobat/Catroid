@@ -305,7 +305,6 @@ class CatrobatTestRunnerTest {
     private fun testAsset(assetName: String, assetPath: String) {
         catrobatTestRunner.assetName = assetName
         catrobatTestRunner.assetPath = assetPath
-        catrobatTestRunner.retries = 1
         catrobatTestRunner.setUp()
         catrobatTestRunner.run()
         catrobatTestRunner.tearDown()

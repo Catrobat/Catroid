@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,18 +20,24 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.runner;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+package org.catrobat.catroid.testsuites;
 
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
-import static java.lang.annotation.ElementType.METHOD;
+import org.catrobat.catroid.uiespresso.content.brick.app.AddUserListToActiveFormulaUITest;
+import org.catrobat.catroid.uiespresso.content.brick.stage.ThinkForBubbleBrickStageTest;
+import org.junit.experimental.categories.Categories;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target({METHOD, ANNOTATION_TYPE})
-public @interface Flaky {
-	int value() default 3;
+/*
+To make it fail, add a failing assertion into the Testcase in ThinkForBubbleBrickStageTest.
+
+The failing test kills the Emulator. It was also declared as flaky.
+ */
+@RunWith(Categories.class)
+@Suite.SuiteClasses({
+		ThinkForBubbleBrickStageTest.class,
+		AddUserListToActiveFormulaUITest.class
+})
+public class FlakyTestThinkForBubbleStageTest {
 }
-

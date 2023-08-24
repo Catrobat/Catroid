@@ -27,8 +27,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.rules.FlakyTestRule;
-import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.ProjectActivity;
@@ -61,9 +59,6 @@ public class SpriteListFragmentActivityRecreateRegressionTest {
 			FragmentActivityTestRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION,
 			ProjectActivity.FRAGMENT_SPRITES);
 
-	@Rule
-	public FlakyTestRule flakyTestRule = new FlakyTestRule();
-
 	@Before
 	public void setUp() throws Exception {
 		createProject();
@@ -71,7 +66,6 @@ public class SpriteListFragmentActivityRecreateRegressionTest {
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Quarantine.class})
-	@Flaky
 	@Test
 	public void testActivityRecreateNewSpriteDialog() {
 		onView(withId(R.id.button_add))
@@ -85,7 +79,6 @@ public class SpriteListFragmentActivityRecreateRegressionTest {
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Quarantine.class})
-	@Flaky
 	@Test
 	public void testActivityRecreateRenameSpriteDialog() {
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
@@ -101,7 +94,6 @@ public class SpriteListFragmentActivityRecreateRegressionTest {
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Quarantine.class})
-	@Flaky
 	@Test
 	public void testActivityRecreateNewGroupDialog() {
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
@@ -117,7 +109,6 @@ public class SpriteListFragmentActivityRecreateRegressionTest {
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Quarantine.class})
-	@Flaky
 	@Test
 	public void testActivityRecreateNewSceneDialog() {
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());

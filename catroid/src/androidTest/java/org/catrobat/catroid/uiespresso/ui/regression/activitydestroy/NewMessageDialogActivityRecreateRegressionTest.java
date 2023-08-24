@@ -26,8 +26,6 @@ package org.catrobat.catroid.uiespresso.ui.regression.activitydestroy;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
-import org.catrobat.catroid.rules.FlakyTestRule;
-import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
@@ -59,9 +57,6 @@ public class NewMessageDialogActivityRecreateRegressionTest {
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
 			SpriteActivity.FRAGMENT_SCRIPTS);
 
-	@Rule
-	public FlakyTestRule flakyTestRule = new FlakyTestRule();
-
 	@Before
 	public void setUp() throws Exception {
 		Script script = UiTestUtils.createProjectAndGetStartScript("FormulaEditorEditTextTest");
@@ -70,7 +65,6 @@ public class NewMessageDialogActivityRecreateRegressionTest {
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Quarantine.class})
-	@Flaky
 	@Test
 	public void testActivityRecreateNewBroadcastMessageDialog() {
 		onBrickAtPosition(1).onSpinner(R.id.brick_broadcast_spinner)

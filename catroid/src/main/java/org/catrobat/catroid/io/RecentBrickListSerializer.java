@@ -62,6 +62,7 @@ public final class RecentBrickListSerializer {
 		FileWriter writer = null;
 		String json = recentBrickListGson.toJson(recentBricksHolder);
 		try {
+			new File(recentBricksFile.getParent()).mkdirs();
 			recentBricksFile.createNewFile();
 			writer = new FileWriter(recentBricksFile);
 			writer.write(json);

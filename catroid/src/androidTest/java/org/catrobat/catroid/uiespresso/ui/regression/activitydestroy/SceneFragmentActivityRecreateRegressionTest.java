@@ -27,8 +27,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.rules.FlakyTestRule;
-import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.ProjectActivity;
@@ -63,9 +61,6 @@ public class SceneFragmentActivityRecreateRegressionTest {
 			FragmentActivityTestRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION,
 			ProjectActivity.FRAGMENT_SCENES);
 
-	@Rule
-	public FlakyTestRule flakyTestRule = new FlakyTestRule();
-
 	private String sceneName = "secondScene";
 
 	@Before
@@ -75,7 +70,6 @@ public class SceneFragmentActivityRecreateRegressionTest {
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Quarantine.class})
-	@Flaky
 	@Test
 	public void testActivityRecreateRenameSceneDialog() {
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
@@ -98,7 +92,6 @@ public class SceneFragmentActivityRecreateRegressionTest {
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Quarantine.class})
-	@Flaky
 	@Test
 	public void testActivityRecreateNewSceneDialog() {
 		onRecyclerView().atPosition(1).onChildView(R.id.title_view)

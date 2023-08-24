@@ -115,6 +115,7 @@ android {
         targetSdkVersion 30
         applicationId appId
         testInstrumentationRunner 'org.catrobat.catroid.runner.UiTestApplicationRunner'
+        //testInstrumentationRunnerArguments clearPackageData: 'true'
         versionCode defaultVersionCode
         versionName defaultVersionName
         println "VersionCode is $versionCode"
@@ -188,6 +189,7 @@ android {
     }
 
     testOptions {
+        //execution 'ANDROIDX_TEST_ORCHESTRATOR'
         unitTests.returnDefaultValues = true
         unitTests.includeAndroidResources = true
         unitTests.all {
@@ -515,9 +517,12 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
 
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
-
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
     // Room Test helpers
     testImplementation("androidx.room:room-testing:$room_version")
+
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestUtil 'androidx.test:orchestrator:1.1.0'
 }
 
 static def getGitCommitInfo() {

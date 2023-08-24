@@ -32,8 +32,6 @@ import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.pocketmusic.ui.TactScrollRecyclerView;
 import org.catrobat.catroid.pocketmusic.ui.TrackRowView;
 import org.catrobat.catroid.pocketmusic.ui.TrackView;
-import org.catrobat.catroid.rules.FlakyTestRule;
-import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.uiespresso.util.SystemAnimations;
@@ -79,9 +77,6 @@ public class PocketMusicActivityTest {
 	@Rule
 	public BaseActivityTestRule<PocketMusicActivity> pocketMusicActivityRule =
 			new BaseActivityTestRule<>(PocketMusicActivity.class, true, false);
-
-	@Rule
-	public FlakyTestRule flakyTestRule = new FlakyTestRule();
 
 	// For testing all Animations are disabled, this causes troubles, because the PocketMusic
 	// functionality is highly coupled with the Animation-Framework. To avoid rewrites of
@@ -242,7 +237,6 @@ public class PocketMusicActivityTest {
 
 	@Test
 	@Category({Level.Functional.class, Cat.PocketMusicUiTests.class})
-	@Flaky
 	public void playButtonDoesPlay() {
 		onView(withId(R.id.pocketmusic_play_button)).check(matches(isDisplayed()));
 

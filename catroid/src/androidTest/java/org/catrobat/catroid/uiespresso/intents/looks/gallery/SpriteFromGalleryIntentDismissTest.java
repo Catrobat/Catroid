@@ -106,7 +106,6 @@ public class SpriteFromGalleryIntentDismissTest {
 	@After
 	public void tearDown() {
 		Intents.release();
-		baseActivityTestRule.finishActivity();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})

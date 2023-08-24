@@ -97,7 +97,6 @@ public class VisualPlacementConditionTest {
 
 	@After
 	public void tearDown() {
-		baseActivityTestRule.finishActivity();
 		try {
 			TestUtils.deleteProjects(VisualPlacementBrickTest.class.getSimpleName());
 		} catch (IOException e) {

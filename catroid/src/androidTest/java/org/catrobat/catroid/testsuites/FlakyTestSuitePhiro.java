@@ -1,0 +1,52 @@
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2023 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package org.catrobat.catroid.testsuites;
+
+import org.catrobat.catroid.uiespresso.content.brick.app.DeleteLookBrickTest;
+import org.catrobat.catroid.uiespresso.content.brick.app.LoadProjectAIExtensionSettingsTest;
+import org.catrobat.catroid.uiespresso.content.brick.app.PhiroColorBrickNumberTest;
+import org.junit.experimental.categories.Categories;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+
+@RunWith(Categories.class)
+@Suite.SuiteClasses({
+
+		//BroadcastBrickMessageUpdateTest.class, // Is flaky itself.. maybe the directories do
+		// not even have to be deleted
+
+		DeleteLookBrickTest.class,
+		LoadProjectAIExtensionSettingsTest.class, // is needed to fail  but not enough
+		LoadProjectAIExtensionSettingsTest.class, // is needed to fail  but not enough
+		LoadProjectAIExtensionSettingsTest.class, // is needed to fail  but not enough
+		//PhiroColorBrickFormulaTest.class,
+		PhiroColorBrickNumberTest.class
+		// Maybe it is a memory leak.
+
+		// When I was testing it, after a few runs even the first 2 testclasses were enough to
+		// make it fail..
+		// and after a restart it did work again.
+})
+public class FlakyTestSuitePhiro {
+}

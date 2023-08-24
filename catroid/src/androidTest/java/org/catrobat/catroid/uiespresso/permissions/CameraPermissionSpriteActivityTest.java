@@ -121,7 +121,6 @@ public class CameraPermissionSpriteActivityTest {
 
 	@After
 	public void tearDown() throws Exception {
-		baseActivityTestRule.finishActivity();
 		Intents.release();
 	}
 

@@ -26,8 +26,6 @@ package org.catrobat.catroid.uiespresso.content.brick.app;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
 import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.rules.FlakyTestRule;
-import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
@@ -67,9 +65,6 @@ public class DeleteItemOfUserListBrickTest {
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
-	@Rule
-	public FlakyTestRule flakyTestRule = new FlakyTestRule();
-
 	@Before
 	public void setUp() throws Exception {
 		brickPosition = 1;
@@ -81,7 +76,6 @@ public class DeleteItemOfUserListBrickTest {
 
 	@Category({Cat.AppUi.class, Level.Detailed.class})
 	@Test
-	@Flaky
 	public void testDeleteItemOfUserListBrickMultipleLists() {
 		String firstUserListName = "Test1";
 		String secondUserListName = "Test2";

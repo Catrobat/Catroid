@@ -29,8 +29,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.bricks.SayForBubbleBrick;
-import org.catrobat.catroid.rules.FlakyTestRule;
-import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
@@ -64,9 +62,6 @@ public class SayForBubbleBrickStageTest {
 	public BaseActivityTestRule<StageActivity> baseActivityTestRule = new
 			BaseActivityTestRule<>(StageActivity.class, true, false);
 
-	@Rule
-	public FlakyTestRule flakyTestRule = new FlakyTestRule();
-
 	@Before
 	public void setUp() throws Exception {
 		createProject();
@@ -74,7 +69,6 @@ public class SayForBubbleBrickStageTest {
 	}
 
 	@Category({Cat.CatrobatLanguage.class, Level.Smoke.class})
-	@Flaky
 	@Test
 	public void sayForBubbleBrickStageTest() {
 		firstBrickInScript.waitUntilEvaluated(3000);

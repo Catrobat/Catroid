@@ -31,8 +31,6 @@ import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.rules.FlakyTestRule;
-import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
@@ -72,9 +70,6 @@ public class WhenNfcBrickHardwareStageTest {
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
-	@Rule
-	public FlakyTestRule flakyTestRule = new FlakyTestRule();
-
 	@Before
 	public void setUp() throws Exception {
 		createProjectWithNfcAndSetVariable();
@@ -112,7 +107,6 @@ public class WhenNfcBrickHardwareStageTest {
 	@Category({Cat.CatrobatLanguage.class, Level.Functional.class, Cat.Gadgets.class, Cat.SettingsAndPermissions
 			.class, Cat.SensorBox.class})
 	@Test
-	@Flaky
 	public void testWhenNfcHardware() {
 		onBrickAtPosition(whenNfcBrickPosition).checkShowsText(R.string.brick_when_nfc);
 		onView(withId(R.id.button_play)).perform(click());

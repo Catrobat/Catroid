@@ -31,6 +31,8 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.Okio
+import okio.buffer
+import okio.sink
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.web.ServerAuthenticationConstants.CHECK_EMAIL_AVAILABLE_URL
 import org.catrobat.catroid.web.ServerAuthenticationConstants.CHECK_GOOGLE_TOKEN_URL
@@ -248,7 +250,7 @@ class CatrobatServerCalls(private val okHttpClient: OkHttpClient = CatrobatWebCl
         try {
             val response = httpClient.newCall(request).execute()
             if (response.isSuccessful) {
-                val bufferedSink = Okio.buffer(Okio.sink(destination))
+                val bufferedSink = destination.sink().buffer()
                 response.body()?.let { bufferedSink.writeAll(it.source()) }
                 bufferedSink.close()
                 successCallback.onSuccess()
