@@ -86,7 +86,6 @@ class DeleteLookBrickTest {
     @After
     fun tearDown() {
         Intents.release()
-        baseActivityTestRule.finishActivity()
         TestUtils.deleteProjects(projectName)
     }
 

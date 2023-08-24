@@ -186,7 +186,6 @@ public class LookDataTest {
 				.perform(click());
 		assertNotSame("#ffffff", project.getUserVariable("color").getValue());
 		Intents.release();
-		baseActivityTestRule.finishActivity();
 	}
 
 	private Formula getColorAtXYFormula() {

@@ -104,7 +104,6 @@ class DeleteImportedSpriteTest {
     @Throws(Exception::class)
     fun tearDown() {
         Intents.release()
-        baseActivityTestRule.finishActivity()
         StorageOperations.deleteDir(tmpPath)
     }
 

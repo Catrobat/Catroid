@@ -162,7 +162,6 @@ public class PointToBrickAdditionalTest {
 	@After
 	public void tearDown() throws Exception {
 		Intents.release();
-		baseActivityTestRule.finishActivity();
 		StorageOperations.deleteDir(tmpPath);
 		TestUtils.deleteProjects(this.getClass().getSimpleName());
 	}

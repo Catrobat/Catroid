@@ -191,7 +191,6 @@ public class LookUndoTest {
 	@After
 	public void tearDown() throws IOException {
 		Intents.release();
-		baseActivityTestRule.finishActivity();
 		TestUtils.deleteProjects(projectName);
 		if (imageFile != null && imageFile.exists()) {
 			imageFile.delete();

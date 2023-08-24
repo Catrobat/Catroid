@@ -142,7 +142,6 @@ class ImportObjectIntoProjectTest {
     @After
     fun tearDown() {
         Intents.release()
-        baseActivityTestRule.finishActivity()
         TestUtils.deleteProjects(defaultProjectName, importName)
     }
 

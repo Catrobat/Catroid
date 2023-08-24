@@ -189,7 +189,6 @@ public class FormulaEditorKeyboardTest {
 
 	@After
 	public void tearDown() throws IOException {
-		baseActivityTestRule.finishActivity();
 		TestUtils.deleteProjects(PROJECT_NAME);
 	}
 }

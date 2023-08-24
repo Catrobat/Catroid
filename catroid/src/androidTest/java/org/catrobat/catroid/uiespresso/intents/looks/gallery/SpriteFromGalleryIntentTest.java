@@ -139,7 +139,6 @@ public class SpriteFromGalleryIntentTest {
 		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit()
 				.remove(NEW_SPRITE_VISUAL_PLACEMENT_KEY)
 				.apply();
-		baseActivityTestRule.finishActivity();
 		StorageOperations.deleteDir(tmpPath);
 		try {
 			StorageOperations.deleteDir(new File(DEFAULT_ROOT_DIRECTORY, projectName));

@@ -127,7 +127,6 @@ public class OpenUrlBrickTest {
 			.commit();
 
 		Intents.release();
-		baseActivityTestRule.finishActivity();
 		try {
 			StorageOperations.deleteDir(new File(DEFAULT_ROOT_DIRECTORY, projectName));
 		} catch (IOException e) {

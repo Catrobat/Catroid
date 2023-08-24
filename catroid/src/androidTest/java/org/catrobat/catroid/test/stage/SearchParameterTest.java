@@ -252,6 +252,5 @@ public class SearchParameterTest {
 	@After
 	public void tearDown() throws IOException {
 		deleteProjects(projectName);
-		baseActivityTestRule.finishActivity();
 	}
 }

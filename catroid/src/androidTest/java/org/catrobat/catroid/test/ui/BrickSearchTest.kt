@@ -292,7 +292,6 @@ class BrickSearchTest {
 
     @After
     fun tearDown() {
-        baseActivityTestRule.finishActivity()
         try {
             TestUtils.deleteProjects(projectName)
         } catch (e: IOException) {

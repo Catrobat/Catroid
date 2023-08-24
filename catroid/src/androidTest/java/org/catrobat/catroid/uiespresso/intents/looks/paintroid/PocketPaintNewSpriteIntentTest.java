@@ -112,7 +112,6 @@ public class PocketPaintNewSpriteIntentTest {
 				.remove(NEW_SPRITE_VISUAL_PLACEMENT_KEY)
 				.apply();
 
-		baseActivityTestRule.finishActivity();
 		try {
 			StorageOperations.deleteDir(new File(DEFAULT_ROOT_DIRECTORY, projectName));
 		} catch (IOException e) {
