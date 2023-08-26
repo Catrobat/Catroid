@@ -110,4 +110,8 @@
     <declare-styleable name="AutoScrollableRecyclerView">
         <attr name="delay" format="integer" />
     </declare-styleable>
+
+    <declare-styleable name="RotatedToolbar">
+        <attr name="title" format="string"/>
+    </declare-styleable>
 </resources>
