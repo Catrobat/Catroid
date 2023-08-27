@@ -343,7 +343,6 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		return requiredResourceCounter == 0 && failedResources.isEmpty();
 	}
 
-	@SuppressLint("WrongConstant")
 	public void initFinishedRunStage() {
 		try {
 			ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).initialise();
@@ -361,7 +360,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		} else {
 			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			stageActivity.pendingIntent = PendingIntent.getActivity(stageActivity, 0,
-					new Intent(stageActivity, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+					new Intent(stageActivity, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), PendingIntent.FLAG_IMMUTABLE);
 		}
 
 		stageActivity.nfcAdapter = NfcAdapter.getDefaultAdapter(stageActivity);
