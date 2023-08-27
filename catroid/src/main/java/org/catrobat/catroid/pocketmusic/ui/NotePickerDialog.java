@@ -33,13 +33,14 @@ import android.widget.Button;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.pocketmusic.mididriver.MidiNotePlayer;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
+import org.catrobat.catroid.pocketmusic.note.NoteName;
+import org.catrobat.catroid.ui.RotatedToolbar;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.DialogFragment;
 
 public class NotePickerDialog extends DialogFragment implements NotePickerView.OnNoteChangedListener {
@@ -52,12 +53,11 @@ public class NotePickerDialog extends DialogFragment implements NotePickerView.O
 	private MidiNotePlayer midiDriver;
 
 	private NotePickerView notePickerView;
-	private Button buttonApply;
-	private Button buttonCancel;
+	private RotatedToolbar toolbar;
 	private int noteToApply;
 
 	public static NotePickerDialog newInstance(int initialNote) {
-		return newInstance(initialNote, false);
+		return newInstance(initialNote, true);
 	}
 
 	public static NotePickerDialog newInstance(int initialNote, boolean showActionBar) {
@@ -81,7 +81,8 @@ public class NotePickerDialog extends DialogFragment implements NotePickerView.O
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.dialog_notepicker, container, false);
+		View rootView = inflater.inflate(R.layout.dialog_notepicker, container, false);
+		return rootView;
 	}
 
 	@Override
@@ -98,15 +99,14 @@ public class NotePickerDialog extends DialogFragment implements NotePickerView.O
 		notePickerView = view.findViewById(R.id.note_picker_view);
 		notePickerView.setOnNoteChangedListener(this);
 
-		buttonApply = view.findViewById(R.id.note_picker_button_ok);
-		buttonCancel = view.findViewById(R.id.note_picker_button_cancel);
-
-		buttonApply.setOnClickListener(v -> {
+		toolbar = view.findViewById(R.id.musicdroid_piano_toolbar);
+		toolbar.setAcceptButtonOnClickListener(v -> {
 			updateNoteChange(noteToApply);
 			dismiss();
 		});
-
-		buttonCancel.setOnClickListener(v -> dismiss());
+		toolbar.setCloseButtonOnClickListener(v -> {
+			dismiss();
+		});
 
 		if (savedInstanceState != null) {
 			notePickerView.setSelectedNote(savedInstanceState.getInt(CURRENT_NOTE,
@@ -122,6 +122,7 @@ public class NotePickerDialog extends DialogFragment implements NotePickerView.O
 		}
 
 		noteToApply = notePickerView.getInitialNote();
+		updateTitle(noteToApply);
 	}
 
 	@NonNull
@@ -152,6 +153,11 @@ public class NotePickerDialog extends DialogFragment implements NotePickerView.O
 	@Override
 	public void noteChanged(int note) {
 		noteToApply = note;
+		updateTitle(noteToApply);
+	}
+
+	private void updateTitle(int note) {
+		toolbar.setTitle(NoteName.getNoteNameFromMidiValue(note).name());
 	}
 
 	private void updateNoteChange(int note) {

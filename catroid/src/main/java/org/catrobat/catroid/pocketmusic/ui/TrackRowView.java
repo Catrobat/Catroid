@@ -193,5 +193,5 @@ public class TrackRowView extends TableRow {
 	public static int getMidiValueForRow(int row) {
 		return row + 48;
 	}
-	
+
 }

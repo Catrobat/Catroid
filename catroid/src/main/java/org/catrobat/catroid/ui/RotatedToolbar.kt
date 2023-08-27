@@ -32,7 +32,9 @@ import android.widget.TextView
 import org.catrobat.catroid.R
 
 class RotatedToolbar @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
 ) : RelativeLayout(context, attrs, defStyleAttr) {
 
     private val closeButton: ImageButton
@@ -54,7 +56,7 @@ class RotatedToolbar @JvmOverloads constructor(
     }
 
     fun setTitle(title: String) {
-       titleTextView.text = title
+        titleTextView.text = title
     }
 
     fun setAcceptButtonOnClickListener(l: OnClickListener) {
