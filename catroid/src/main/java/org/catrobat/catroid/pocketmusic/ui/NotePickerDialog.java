@@ -157,7 +157,7 @@ public class NotePickerDialog extends DialogFragment implements NotePickerView.O
 	}
 
 	private void updateTitle(int note) {
-		toolbar.setTitle(NoteName.getNoteNameFromMidiValue(note).name());
+		toolbar.setTitle(NoteName.getNoteNameFromMidiValue(note).getPrettyPrintName());
 	}
 
 	private void updateNoteChange(int note) {
