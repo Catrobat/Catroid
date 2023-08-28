@@ -47,8 +47,8 @@ public class AccessibilityProfile {
 	static final String SANS_SERIF = "sans_serif";
 	static final String SERIF = "serif";
 	static final String DYSLEXIC = "dyslexic";
-	static final String LARGE_TEXT = "accessibility_large_text";
-	static final String HIGH_CONTRAST = "accessibility_high_contrast";
+	public static final String LARGE_TEXT = "accessibility_large_text";
+	public static final String HIGH_CONTRAST = "accessibility_high_contrast";
 	static final String ICONS = "accessibility_category_icons";
 	static final String LARGE_ICONS = "accessibility_category_icons_big";
 	static final String ICON_HIGH_CONTRAST = "accessibility_category_icons_high_contrast";
@@ -63,7 +63,7 @@ public class AccessibilityProfile {
 				ICON_HIGH_CONTRAST, ELEMENT_SPACING, BEGINNER_BRICKS, DRAGNDROP_DELAY));
 	}
 
-	private static final String FONT_STYLE = "accessibility_font_style";
+	public static final String FONT_STYLE = "accessibility_font_style";
 	private final Set<String> setPreferences = new HashSet<>();
 
 	private AccessibilityProfile(Collection<String> preferences) {
