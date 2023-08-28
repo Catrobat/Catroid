@@ -24,15 +24,19 @@ package org.catrobat.catroid.pocketmusic.ui;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.WindowManager;
 import android.widget.TableRow;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.NoteLength;
 import org.catrobat.catroid.pocketmusic.note.NoteName;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.GridRow;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.GridRowPosition;
+import org.catrobat.catroid.utils.ExtensionsKt;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -55,8 +59,11 @@ public class TrackRowView extends TableRow {
 	public boolean allowOnlySingleNote = false;
 	private NoteName noteName;
 
+	private int parentHeight = -1;
+
 	public TrackRowView(Context context) {
 		this(context, MusicalBeat.BEAT_4_4, false, NoteName.DEFAULT_NOTE_NAME, null);
+
 	}
 
 	public TrackRowView(Context context, MusicalBeat beat, boolean isBlackRow, NoteName noteName, TrackView trackView) {
@@ -75,6 +82,7 @@ public class TrackRowView extends TableRow {
 	public TrackRowView(Context context, MusicalBeat beat, boolean isBlackRow,
 			NotePickerView notePickerView, NoteName noteName, int quarterCount) {
 		super(context);
+		this.parentHeight = ScreenValues.SCREEN_HEIGHT;
 		this.beat = beat;
 		this.noteName = noteName;
 		this.notePickerView = notePickerView;

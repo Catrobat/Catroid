@@ -24,9 +24,11 @@
 package org.catrobat.catroid.pocketmusic.ui;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.TableLayout;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.catroid.pocketmusic.note.MusicalKey;
@@ -49,14 +51,21 @@ public class NotePickerView extends TableLayout {
 	private TrackGrid trackGrid;
 	private int tactPosition = 0;
 
+	private int baseMidiValue = NO_BASE_MIDI_VALUE;
+
+	public static final int NO_BASE_MIDI_VALUE = -1;
+
 	public NotePickerView(Context context, AttributeSet attrs) {
 		this(context, attrs, new TrackGrid(MusicalKey.VIOLIN, MusicalInstrument.ACCORDION, MusicalBeat.BEAT_4_4, new
 				ArrayList<GridRow>()));
+		this.readStyleParameters(context, attrs);
 	}
 
 	public NotePickerView(Context context, AttributeSet attrs, TrackGrid trackGrid) {
 		super(context, attrs);
-		setStretchAllColumns(true);
+		this.readStyleParameters(context, attrs);
+		setStretchAllColumns(false);
+		setScrollContainer(true);
 		setClickable(true);
 		this.trackGrid = trackGrid;
 		initializeRows();
@@ -70,8 +79,8 @@ public class NotePickerView extends TableLayout {
 		}
 		TableLayout.LayoutParams params = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, 0, 1.0f);
 		for (int i = 0; i < ROW_COUNT; i++) {
-			boolean isBlackRow = Arrays.binarySearch(TrackView.BLACK_KEY_INDICES, i) > -1;
-			NoteName noteName = NoteName.getNoteNameFromMidiValue(TrackRowView.getMidiValueForRow(i));
+			NoteName noteName = NoteName.getNoteNameFromMidiValue(getMidiValueForRow(i));
+			boolean isBlackRow = noteName.isSigned();
 			TrackRowView trackRowView = new TrackRowView(getContext(), trackGrid.getBeat(), isBlackRow,
 					this, noteName, 1);
 			trackGrid.updateGridRowPosition(noteName, 0, NoteLength.QUARTER, 0, false);
@@ -121,11 +130,29 @@ public class NotePickerView extends TableLayout {
 
 	private void updateTrackRowViews(int noteToBeSet) {
 		for (int i = 0; i < ROW_COUNT; i++) {
-			int tempNote = TrackRowView.getMidiValueForRow(i);
+			int tempNote = getMidiValueForRow(i);
 			if (tempNote == noteToBeSet) {
 				trackRowViews.get(i).getNoteViews().get(0).setNoteActive(true, true);
 				break;
 			}
+		}
+	}
+
+	private int getMidiValueForRow(int i) {
+		if(baseMidiValue != NO_BASE_MIDI_VALUE) {
+			return baseMidiValue + i;
+		}
+		return TrackRowView.getMidiValueForRow(i);
+	}
+
+	private void readStyleParameters(Context context, AttributeSet attributeSet) {
+		TypedArray styledAttributes = context.obtainStyledAttributes(attributeSet,
+				R.styleable.NotePickerView);
+		try {
+			baseMidiValue = styledAttributes.getInteger(
+					R.styleable.NotePickerView_baseMidiValue, NO_BASE_MIDI_VALUE);
+		} finally {
+			styledAttributes.recycle();
 		}
 	}
 
