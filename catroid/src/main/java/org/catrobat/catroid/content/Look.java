@@ -25,6 +25,8 @@ package org.catrobat.catroid.content;
 import android.graphics.PointF;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.AbsoluteFileHandleResolver;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -64,7 +66,6 @@ import static org.catrobat.catroid.physics.ParticleConstants.LIFE_HIGH_MAX_DEAD;
 import static org.catrobat.catroid.physics.ParticleConstants.PARTICLE_SCALE;
 
 public class Look extends Image {
-
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({ROTATION_STYLE_LEFT_RIGHT_ONLY, ROTATION_STYLE_ALL_AROUND, ROTATION_STYLE_NONE})
 	public @interface RotationStyle {}
@@ -83,7 +84,6 @@ public class Look extends Image {
 	protected float brightness = 1f;
 	protected float hue = 0f;
 	protected Pixmap pixmap;
-	private BrightnessContrastHueShader shader;
 	private int rotationMode = ROTATION_STYLE_ALL_AROUND;
 	private float rotation = 90f;
 	private float realRotation = rotation;
@@ -156,6 +156,12 @@ public class Look extends Image {
 		return returnValue;
 	}
 
+	@Override
+	public void clear() {
+		unloadShader();
+		super.clear();
+	}
+
 	public void copyTo(final Look destination) {
 		destination.setLookVisible(this.isLookVisible());
 		destination.setPositionInUserInterfaceDimensionUnit(this.getXInUserInterfaceDimensionUnit(),
@@ -193,9 +199,7 @@ public class Look extends Image {
 	}
 
 	public synchronized void createBrightnessContrastHueShader() {
-		shader = new BrightnessContrastHueShader();
-		shader.setBrightness(brightness);
-		shader.setHue(hue);
+		getAndLoadShader();
 	}
 
 	public ParticleEffect getParticleEffect() {
@@ -288,7 +292,7 @@ public class Look extends Image {
 			particleEffect.draw(batch);
 		}
 
-		batch.setShader(shader);
+		batch.setShader(getAndLoadShader());
 		super.setVisible(alpha != 0.0f);
 
 		if (isLookVisible() && this.getDrawable() != null) {
@@ -338,7 +342,7 @@ public class Look extends Image {
 		scheduler.setState(state);
 	}
 
-	public synchronized void refreshTextures(boolean refreshShader) {
+	public synchronized void refreshTextures() {
 		if (lookData == null) {
 			setBounds(getX() + getWidth() / 2f, getY() + getHeight() / 2f, 0f, 0f);
 			setDrawable(null);
@@ -355,16 +359,7 @@ public class Look extends Image {
 			TextureRegionDrawable drawable = new TextureRegionDrawable(region);
 			setDrawable(drawable);
 			flipLookDataIfNeeded(getRotationMode());
-			if (refreshShader) {
-				refreshShader();
-			}
 		}
-	}
-
-	private void refreshShader() {
-		createShaderIfNotExisting();
-		shader.setBrightness(brightness);
-		shader.setHue(hue);
 	}
 
 	public synchronized LookData getLookData() {
@@ -373,7 +368,7 @@ public class Look extends Image {
 
 	public synchronized void setLookData(LookData lookData) {
 		this.lookData = lookData;
-		refreshTextures(false);
+		refreshTextures();
 	}
 
 	public boolean haveAllThreadsFinished() {
@@ -621,8 +616,19 @@ public class Look extends Image {
 			percent = 200f;
 		}
 
-		brightness = percent / 100f;
-		refreshTextures(true);
+		float newBrightness = percent / 100f;
+		if (Float.compare(brightness, newBrightness) != 0) {
+			unloadShader();
+			brightness = newBrightness;
+			refreshTextures();
+		}
+	}
+
+	private void unloadShader() {
+		if (ProjectManager.getInstance().getAssetManager().contains(shaderName(),
+				ShaderProgram.class)) {
+			ProjectManager.getInstance().getAssetManager().unload(shaderName());
+		}
 	}
 
 	public void changeBrightnessInUserInterfaceDimensionUnit(float changePercent) {
@@ -638,14 +644,41 @@ public class Look extends Image {
 		if (val < 0) {
 			val = COLOR_SCALE + val;
 		}
-		hue = val / COLOR_SCALE;
-		refreshTextures(true);
+		float newHue = val / COLOR_SCALE;
+		if (Float.compare(newHue, hue) != 0) {
+			unloadShader();
+			hue = newHue;
+			refreshTextures();
+		}
 	}
 
-	private void createShaderIfNotExisting() {
-		if (shader == null) {
-			createBrightnessContrastHueShader();
+	private String shaderName() {
+		return ShaderProgram.class.getName().concat(String.valueOf(brightness) + hue) + BrightnessContrastHueShaderLoader.ID_POSTFIX;
+	}
+
+	private void setLoader(AssetManager am) {
+		if (am.getLoader(BrightnessContrastHueShaderProgram.class) == null) {
+			am.setLoader(BrightnessContrastHueShaderProgram.class,
+					new BrightnessContrastHueShaderLoader(new AbsoluteFileHandleResolver()));
 		}
+	}
+
+	private ShaderProgram getAndLoadShader() {
+		AssetManager am = ProjectManager.getInstance().getAssetManager();
+		setLoader(am);
+		if (!am.isLoaded(shaderName())) {
+			BrightnessContrastHueShaderLoader.ShaderParameter params = new BrightnessContrastHueShaderLoader.ShaderParameter();
+			params.brightness = brightness;
+			params.hue = hue;
+			am.load(shaderName(), BrightnessContrastHueShaderProgram.class, params);
+			am.finishLoading();
+		}
+
+		return am.get(shaderName());
+	}
+
+	public void createShaderIfNotExisting() {
+		getAndLoadShader();
 	}
 
 	public void changeColorInUserInterfaceDimensionUnit(float val) {
@@ -674,83 +707,6 @@ public class Look extends Image {
 	public float convertStageAngleToCatroidAngle(float stageAngle) {
 		float catroidAngle = -stageAngle + DEGREE_UI_OFFSET;
 		return breakDownCatroidAngle(catroidAngle);
-	}
-
-	private class BrightnessContrastHueShader extends ShaderProgram {
-
-		private static final String VERTEX_SHADER = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
-				+ "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n" + "attribute vec2 "
-				+ ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" + "uniform mat4 u_projTrans;\n" + "varying vec4 v_color;\n"
-				+ "varying vec2 v_texCoords;\n" + "\n" + "void main()\n" + "{\n" + " v_color = "
-				+ ShaderProgram.COLOR_ATTRIBUTE + ";\n" + " v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
-				+ " gl_Position = u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" + "}\n";
-		private static final String FRAGMENT_SHADER = "#ifdef GL_ES\n"
-				+ "    #define LOWP lowp\n"
-				+ "    precision mediump float;\n"
-				+ "#else\n"
-				+ "    #define LOWP\n"
-				+ "#endif\n"
-				+ "varying LOWP vec4 v_color;\n"
-				+ "varying vec2 v_texCoords;\n"
-				+ "uniform sampler2D u_texture;\n"
-				+ "uniform float brightness;\n"
-				+ "uniform float contrast;\n"
-				+ "uniform float hue;\n"
-				+ "vec3 rgb2hsv(vec3 c)\n"
-				+ "{\n"
-				+ "    vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);\n"
-				+ "    vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));\n"
-				+ "    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));\n"
-				+ "    float d = q.x - min(q.w, q.y);\n"
-				+ "    float e = 1.0e-10;\n"
-				+ "    return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);\n"
-				+ "}\n"
-				+ "vec3 hsv2rgb(vec3 c)\n"
-				+ "{\n"
-				+ "    vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);\n"
-				+ "    vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);\n"
-				+ "    return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);\n"
-				+ "}\n"
-				+ "void main()\n"
-				+ "{\n"
-				+ "    vec4 color = v_color * texture2D(u_texture, v_texCoords);\n"
-				+ "    color.rgb /= color.a;\n"
-				+ "    color.rgb = ((color.rgb - 0.5) * max(contrast, 0.0)) + 0.5;\n"
-				+ "    color.rgb += brightness;\n"
-				+ "    color.rgb *= color.a;\n"
-				+ "    vec3 hsv = rgb2hsv(color.rgb);\n"
-				+ "    hsv.x += hue;\n"
-				+ "    vec3 rgb = hsv2rgb(hsv);\n"
-				+ "    gl_FragColor = vec4(rgb.r, rgb.g, rgb.b, color.a);\n"
-				+ " }";
-
-		private static final String BRIGHTNESS_STRING_IN_SHADER = "brightness";
-		private static final String CONTRAST_STRING_IN_SHADER = "contrast";
-		private static final String HUE_STRING_IN_SHADER = "hue";
-
-		BrightnessContrastHueShader() {
-			super(VERTEX_SHADER, FRAGMENT_SHADER);
-			ShaderProgram.pedantic = false;
-			if (isCompiled()) {
-				begin();
-				setUniformf(BRIGHTNESS_STRING_IN_SHADER, 0.0f);
-				setUniformf(CONTRAST_STRING_IN_SHADER, 1.0f);
-				setUniformf(HUE_STRING_IN_SHADER, 0.0f);
-				end();
-			}
-		}
-
-		public void setBrightness(float brightness) {
-			begin();
-			setUniformf(BRIGHTNESS_STRING_IN_SHADER, brightness - 1f);
-			end();
-		}
-
-		public void setHue(float hue) {
-			begin();
-			setUniformf(HUE_STRING_IN_SHADER, hue);
-			end();
-		}
 	}
 
 	public Polygon[] getCurrentCollisionPolygon() {
@@ -794,5 +750,10 @@ public class Look extends Image {
 	@VisibleForTesting
 	public float getBrightness() {
 		return brightness;
+	}
+
+	@VisibleForTesting
+	public float getHue() {
+		return hue;
 	}
 }

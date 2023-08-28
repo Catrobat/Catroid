@@ -24,6 +24,9 @@ package org.catrobat.catroid.test;
 
 import android.content.Context;
 
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Pixmap;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.UiTestCatroidApplication;
 import org.catrobat.catroid.common.Constants;
@@ -177,5 +180,36 @@ public class ProjectManagerTest {
 		assertEquals(PROJECT_NAME_NESTING_BRICKS, project.getName());
 
 		TestUtils.deleteProjects(PROJECT_NAME_NESTING_BRICKS);
+	}
+
+	@Test
+	public void testGetAndDisposeAssetManager() throws Exception {
+		AssetManager am = projectManager.getAssetManager();
+		assertEquals(0, am.getQueuedAssets());
+
+		TestUtils.setupLibGdxFiles();
+		String amFileId = "stage/red_pixel.bmp";
+		if (!am.isLoaded(amFileId)) {
+			am.load(amFileId, Pixmap.class);
+		}
+
+		assertEquals(1, am.getQueuedAssets());
+
+		projectManager.resetProjectManager();
+
+		assertEquals(0, am.getQueuedAssets());
+
+		am = projectManager.getAssetManager();
+
+		if (!am.isLoaded(amFileId)) {
+			am.load(amFileId, Pixmap.class);
+		}
+
+		assertEquals(1, am.getQueuedAssets());
+
+		Project project = TestUtils.createProjectWithLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION, PROJECT_NAME);
+		projectManager.loadProject(project.getDirectory());
+
+		assertEquals(0, am.getQueuedAssets());
 	}
 }

@@ -50,6 +50,7 @@ import java.util.Set;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNotSame;
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(JUnit4.class)
@@ -190,5 +191,35 @@ public class SpriteTest {
 		spriteWithCloneBrick.addScript(script);
 		project.getDefaultScene().addSprite(spriteWithCloneBrick);
 		project.getDefaultScene().removeSpriteFromCloneBricks(sprite);
+	}
+
+	@Test
+	public void testConvert() {
+		Sprite spriteCloned = new Sprite("spriteWithCloneBrick");
+		spriteCloned.cloneNameExtension = "001";
+		spriteCloned.isClone = true;
+		Sprite spriteConverted = spriteCloned.convert();
+		assertEquals(spriteCloned, spriteConverted);
+
+		spriteCloned.setConvertToSprite(true);
+		spriteConverted = spriteCloned.convert();
+		assertNotSame(spriteCloned, spriteConverted);
+		assertNotSame(spriteCloned.look, spriteConverted.look);
+		assertEquals(spriteCloned.look.getLookData(), spriteConverted.look.getLookData());
+
+		assertEquals(spriteCloned.getName(), spriteConverted.getName());
+		assertEquals(spriteCloned.isClone, spriteConverted.isClone);
+
+		assertEquals(spriteCloned.penConfiguration, spriteConverted.penConfiguration);
+		assertEquals(spriteCloned.runningStitch, spriteConverted.runningStitch);
+
+		assertEquals(spriteCloned.getLookList(), spriteConverted.getLookList());
+		assertEquals(spriteCloned.getSoundList(), spriteConverted.getSoundList());
+		assertEquals(spriteCloned.getNfcTagList(), spriteConverted.getNfcTagList());
+		assertEquals(spriteCloned.getScriptList(), spriteConverted.getScriptList());
+
+		assertEquals(spriteCloned.getUserVariables(), spriteConverted.getUserVariables());
+		assertEquals(spriteCloned.getUserLists(), spriteConverted.getUserLists());
+		assertEquals(spriteCloned.getUserDefinedBrickList(), spriteConverted.getUserDefinedBrickList());
 	}
 }

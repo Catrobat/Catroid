@@ -251,6 +251,7 @@ public class StageListener implements ApplicationListener {
 		}
 
 		stage = new Stage(viewPort, batch);
+		stage.getRoot().setTransform(false);
 		SensorHandler.timerReferenceValue = SystemClock.uptimeMillis();
 	}
 
@@ -282,7 +283,7 @@ public class StageListener implements ApplicationListener {
 		} else {
 			copy.myOriginal = cloneMe;
 		}
-		copy.look.createBrightnessContrastHueShader();
+		copy.look.createShaderIfNotExisting();
 		addCloneActorToStage(stage, stage.getRoot(), cloneMe.look, copy.look);
 		sprites.add(copy);
 		if (!copy.getLookList().isEmpty()) {
@@ -323,6 +324,10 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public List<Sprite> getAllClonesOfSprite(Sprite sprite) {
+		if (sprite.isClone) {
+			return new ArrayList<>();
+		}
+
 		List<Sprite> clonesOfSprite = new ArrayList<>();
 		for (Sprite spriteOfStage : sprites) {
 			if (spriteIsCloneOfSprite(sprite, spriteOfStage)) {
@@ -336,9 +341,7 @@ public class StageListener implements ApplicationListener {
 		if (!cloneSprite.isClone) {
 			return false;
 		}
-		String cloneNameExtensionRegexPattern = "\\-c\\d+$";
-		String[] splitCloneNameStrings = cloneSprite.getName().split(cloneNameExtensionRegexPattern);
-		return splitCloneNameStrings[0].contentEquals(sprite.getName());
+		return sprite.getRawName().equals(cloneSprite.getRawName());
 	}
 
 	private void disposeClonedSprites() {
@@ -479,7 +482,7 @@ public class StageListener implements ApplicationListener {
 		}
 
 		for (Sprite sprite : sprites) {
-			sprite.look.refreshTextures(true);
+			sprite.look.refreshTextures();
 		}
 	}
 

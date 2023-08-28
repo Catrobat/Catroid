@@ -26,6 +26,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.badlogic.gdx.backends.android.AndroidFiles;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 
@@ -132,5 +133,9 @@ public final class TestUtils {
 			prev = any;
 		}
 		return false;
+	}
+
+	public static void setupLibGdxFiles() {
+		com.badlogic.gdx.Gdx.files = new AndroidFiles(InstrumentationRegistry.getInstrumentation().getContext().getAssets());
 	}
 }

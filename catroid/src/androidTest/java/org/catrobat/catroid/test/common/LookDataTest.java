@@ -35,6 +35,9 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.utils.GdxNativesLoader;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -50,6 +53,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.catrobat.catroid.utils.ImageEditing;
@@ -72,6 +76,8 @@ import androidx.test.rule.GrantPermissionRule;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotSame;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.FUNCTION;
@@ -92,6 +98,10 @@ public class LookDataTest {
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_LOOKS);
 	@Rule
 	public GrantPermissionRule writeExternalStoragePermissionRule = GrantPermissionRule.grant(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+	static {
+		GdxNativesLoader.load();
+	}
+
 	private LookData lookData;
 	private File imageFolder;
 
@@ -120,6 +130,7 @@ public class LookDataTest {
 
 	@Before
 	public void setUp() throws Exception {
+		TestUtils.setupLibGdxFiles();
 		StorageOperations.deleteDir(ApplicationProvider.getApplicationContext().getCacheDir());
 		imageFolder = new File(ApplicationProvider.getApplicationContext().getCacheDir(), IMAGE_DIRECTORY_NAME);
 		if (!imageFolder.exists()) {
@@ -217,5 +228,22 @@ public class LookDataTest {
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 		XstreamSerializer.getInstance().saveProject(project);
 		return project;
+	}
+
+	@Test
+	public void testGetPixmapAndDispose() {
+		Pixmap obtained = lookData.getPixmap();
+		assertFalse(obtained.isDisposed());
+		Pixmap obtainedOtherButSame = lookData.getPixmap();
+		assertEquals(obtained, obtainedOtherButSame);
+		lookData.dispose();
+		assertTrue(obtained.isDisposed());
+
+		Pixmap dummy = new Pixmap(1, 1, Pixmap.Format.Alpha);
+		lookData.setPixmap(dummy);
+		Pixmap obtainedDummy = lookData.getPixmap();
+		assertFalse(obtainedDummy.isDisposed());
+		lookData.dispose();
+		assertTrue(obtainedDummy.isDisposed());
 	}
 }
