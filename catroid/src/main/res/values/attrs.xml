@@ -116,7 +116,7 @@
     </declare-styleable>
 
     <declare-styleable name="NotePickerView">
-        <attr name="baseMidiValue" format="enum">
+        <attr name="notePickerViewBaseMidiValue" format="enum">
             <enum name="c1" value="24"/>
             <enum name="c2" value="36"/>
             <enum name="c3" value="48"/>
@@ -126,5 +126,20 @@
             <enum name="c7" value="96"/>
             <enum name="c8" value="108"/>
         </attr>
+        <attr name="notePickerOctaveCount" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="NotePickerPianoWhiteKeysView">
+        <attr name="whiteKeyViewBaseMidiValue" format="enum">
+            <enum name="c1" value="24"/>
+            <enum name="c2" value="36"/>
+            <enum name="c3" value="48"/>
+            <enum name="c4" value="60"/>
+            <enum name="c5" value="72"/>
+            <enum name="c6" value="84"/>
+            <enum name="c7" value="96"/>
+            <enum name="c8" value="108"/>
+        </attr>
+         <attr name="whiteKeyOctaveCount" format="integer" />
     </declare-styleable>
 </resources>

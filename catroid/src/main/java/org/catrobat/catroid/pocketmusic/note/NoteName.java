@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.pocketmusic.note;
 
+import static java.lang.Integer.parseInt;
+
 public enum NoteName {
 	EXT0(0, false), EXT1(1, false), EXT2(2, false), EXT3(3, false), EXT4(4, false), EXT5(5, false),
 	EXT6(6, false), EXT7(7, false), EXT8(8, false), EXT9(9, false), EXT10(10, false), EXT11(11, false),
@@ -64,6 +66,8 @@ public enum NoteName {
 	EXT129(129, false), EXT130(130, false);
 
 	public static final NoteName DEFAULT_NOTE_NAME = NoteName.C1;
+
+	public static final int NOTES_PER_OCTAVE = 12;
 
 	private int midi;
 	private boolean signed;
@@ -152,5 +156,35 @@ public enum NoteName {
 
 	public String getPrettyPrintName() {
 		return prettyPrintName;
+	}
+
+	public Double getWhiteButtonWidthFactor() {
+		if (isSigned()) {
+			return null;
+		}
+		switch (getBaseNoteName()) {
+			case 'C':
+			case 'E':
+			case 'F':
+			case 'B':
+				return 1.5;
+			case 'D':
+			case 'G':
+			case 'A':
+				return 2.0;
+		}
+		return null;
+	}
+
+	public char getBaseNoteName() {
+		return name().charAt(0);
+	}
+
+	public int getOctave() {
+		return parseInt(name().substring(1, 2));
+	}
+
+	public boolean isWholeNote() {
+		return !isSigned();
 	}
 }

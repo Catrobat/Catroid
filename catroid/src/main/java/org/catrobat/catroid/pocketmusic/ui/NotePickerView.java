@@ -38,20 +38,24 @@ import org.catrobat.catroid.pocketmusic.note.trackgrid.GridRow;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.TrackGrid;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
+import javax.annotation.Nullable;
+
+import static org.catrobat.catroid.pocketmusic.ui.NotePickerPianoWhiteKeysView.DEFAULT_OCTAVE_COUNT;
 
 public class NotePickerView extends TableLayout {
 	private NotePickerView.OnNoteChangedListener listener;
 	private int selectedNote;
 	private int initialNote;
 
-	public static final int ROW_COUNT = 13;
-	private List<TrackRowView> trackRowViews = new ArrayList<>(ROW_COUNT);
+	private List<TrackRowView> trackRowViews = new ArrayList<>();
 	private TrackGrid trackGrid;
 	private int tactPosition = 0;
 
 	private int baseMidiValue = NO_BASE_MIDI_VALUE;
+
+	private int rowCount;
 
 	public static final int NO_BASE_MIDI_VALUE = -1;
 
@@ -69,7 +73,6 @@ public class NotePickerView extends TableLayout {
 		setClickable(true);
 		this.trackGrid = trackGrid;
 		initializeRows();
-		setWeightSum(ROW_COUNT);
 	}
 
 	private void initializeRows() {
@@ -78,7 +81,7 @@ public class NotePickerView extends TableLayout {
 			trackRowViews.clear();
 		}
 		TableLayout.LayoutParams params = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, 0, 1.0f);
-		for (int i = 0; i < ROW_COUNT; i++) {
+		for (int i = 0; i < rowCount; i++) {
 			NoteName noteName = NoteName.getNoteNameFromMidiValue(getMidiValueForRow(i));
 			boolean isBlackRow = noteName.isSigned();
 			TrackRowView trackRowView = new TrackRowView(getContext(), trackGrid.getBeat(), isBlackRow,
@@ -91,7 +94,7 @@ public class NotePickerView extends TableLayout {
 	}
 
 	public void disableAllNotes() {
-		for (int i = 0; i < ROW_COUNT; i++) {
+		for (int i = 0; i < rowCount; i++) {
 			trackRowViews.get(i).disableOwnNotes();
 		}
 	}
@@ -128,8 +131,18 @@ public class NotePickerView extends TableLayout {
 		this.initialNote = initialNote;
 	}
 
+	public @Nullable NoteView getNoteViewForMidi(int midi) {
+		for (int i = 0; i < rowCount; i++) {
+			int tempNote = getMidiValueForRow(i);
+			if (tempNote == midi) {
+				return trackRowViews.get(i).getNoteViews().get(0);
+			}
+		}
+		return null;
+	}
+
 	private void updateTrackRowViews(int noteToBeSet) {
-		for (int i = 0; i < ROW_COUNT; i++) {
+		for (int i = 0; i < rowCount; i++) {
 			int tempNote = getMidiValueForRow(i);
 			if (tempNote == noteToBeSet) {
 				trackRowViews.get(i).getNoteViews().get(0).setNoteActive(true, true);
@@ -139,7 +152,7 @@ public class NotePickerView extends TableLayout {
 	}
 
 	private int getMidiValueForRow(int i) {
-		if(baseMidiValue != NO_BASE_MIDI_VALUE) {
+		if (baseMidiValue != NO_BASE_MIDI_VALUE) {
 			return baseMidiValue + i;
 		}
 		return TrackRowView.getMidiValueForRow(i);
@@ -150,7 +163,11 @@ public class NotePickerView extends TableLayout {
 				R.styleable.NotePickerView);
 		try {
 			baseMidiValue = styledAttributes.getInteger(
-					R.styleable.NotePickerView_baseMidiValue, NO_BASE_MIDI_VALUE);
+					R.styleable.NotePickerView_notePickerViewBaseMidiValue, NO_BASE_MIDI_VALUE);
+
+			rowCount = styledAttributes.getInteger(
+					R.styleable.NotePickerView_notePickerOctaveCount, DEFAULT_OCTAVE_COUNT) * NoteName.NOTES_PER_OCTAVE;
+			setWeightSum(rowCount);
 		} finally {
 			styledAttributes.recycle();
 		}
@@ -158,5 +175,9 @@ public class NotePickerView extends TableLayout {
 
 	public int getInitialNote() {
 		return initialNote;
+	}
+
+	public int getRowCount() {
+		return rowCount;
 	}
 }

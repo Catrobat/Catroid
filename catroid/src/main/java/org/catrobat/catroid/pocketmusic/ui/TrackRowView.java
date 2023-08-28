@@ -23,10 +23,6 @@
 package org.catrobat.catroid.pocketmusic.ui;
 
 import android.content.Context;
-import android.graphics.drawable.GradientDrawable;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
-import android.view.WindowManager;
 import android.widget.TableRow;
 
 import org.catrobat.catroid.R;
@@ -36,7 +32,6 @@ import org.catrobat.catroid.pocketmusic.note.NoteLength;
 import org.catrobat.catroid.pocketmusic.note.NoteName;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.GridRow;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.GridRowPosition;
-import org.catrobat.catroid.utils.ExtensionsKt;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -44,9 +39,13 @@ import java.util.List;
 
 import androidx.core.content.ContextCompat;
 
+import static org.catrobat.catroid.pocketmusic.ui.NotePickerPianoWhiteKeysRowView.NUMBER_OF_KEYS;
+
 public class TrackRowView extends TableRow {
 
 	public static final int INITIAL_QUARTER_COUNT = 4;
+
+	private static final int NUMBER_OF_MARGINS = NUMBER_OF_KEYS + 2;
 	public static int quarterCount;
 
 	private int tactPosition = 0;
@@ -63,7 +62,6 @@ public class TrackRowView extends TableRow {
 
 	public TrackRowView(Context context) {
 		this(context, MusicalBeat.BEAT_4_4, false, NoteName.DEFAULT_NOTE_NAME, null);
-
 	}
 
 	public TrackRowView(Context context, MusicalBeat beat, boolean isBlackRow, NoteName noteName, TrackView trackView) {
@@ -152,8 +150,17 @@ public class TrackRowView extends TableRow {
 				.getDimensionPixelSize(R.dimen.pocketmusic_trackrow_margin);
 		params.topMargin = params.bottomMargin = dimSize;
 
+		if (shouldApplyTopMarginToKey()) {
+			params.topMargin = getResources()
+					.getDimensionPixelSize(R.dimen.pocketmusic_trackrow_margin);
+		}
+
+		if (!noteName.isWholeNote()) {
+			params.leftMargin = margin;
+		}
+
 		for (int i = 0; i < quarterCount; i++) {
-			noteViews.add(new NoteView(getContext(), this, i));
+			noteViews.add(new NoteView(getContext(), this, i, NoteView.ActiveNoteViewMode.TINT_BACKGROUND));
 			addView(noteViews.get(i), params);
 		}
 	}
@@ -198,8 +205,11 @@ public class TrackRowView extends TableRow {
 		}
 	}
 
+	private boolean shouldApplyTopMarginToKey() {
+		return noteName.isWholeNote() && (noteName.getBaseNoteName() == 'C' || noteName.getBaseNoteName() == 'F');
+	}
+
 	public static int getMidiValueForRow(int row) {
 		return row + 48;
 	}
-
 }
