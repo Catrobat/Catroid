@@ -23,16 +23,15 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.app;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -43,8 +42,6 @@ import org.junit.runners.Parameterized;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.test.core.app.ApplicationProvider;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.Category.FUNCTIONS;
@@ -123,7 +120,12 @@ public class AddUserListToActiveFormulaUITest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProjectWithUserLists();
+		Project project = UiTestUtils.createDefaultTestProject("AddUserListToActiveFormulaUITest");
+		Script script = UiTestUtils.getDefaultTestScript(project);
+		Sprite sprite = UiTestUtils.getDefaultTestSprite(project);
+		projectUserList.forEach(project::addUserList);
+		spriteUserList.forEach(sprite::addUserList);
+		script.addBrick(new SetXBrick());
 		baseActivityTestRule.launchActivity();
 	}
 
@@ -149,23 +151,5 @@ public class AddUserListToActiveFormulaUITest {
 		} else {
 			return getResourcesString(formulaName) + "( *" + expectedUserListName + "* , 1 ) ";
 		}
-	}
-
-	private void createProjectWithUserLists() {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), AddUserListToActiveFormulaUITest
-				.class.getSimpleName());
-		Sprite sprite = new Sprite("testSprite");
-		Script script = new StartScript();
-
-		sprite.addScript(script);
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
-
-		projectUserList.forEach(project::addUserList);
-		spriteUserList.forEach(sprite::addUserList);
-
-		script.addBrick(new SetXBrick());
 	}
 }

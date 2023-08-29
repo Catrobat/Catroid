@@ -36,19 +36,6 @@ public final class BrickTestUtils {
 		throw new AssertionError();
 	}
 
-	public static Script createProjectAndGetStartScript(String projectName) {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Sprite sprite = new Sprite("testSprite");
-		Script script = new StartScript();
-
-		sprite.addScript(script);
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
-		return script;
-	}
-
 	public static Script createEmptyCastProjectAndGetStartScript(String projectName) {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName, false, true);
 		Sprite sprite = new Sprite("testSprite");

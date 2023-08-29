@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -36,7 +37,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper.onDataList;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionModeWrapper.onActionMode;
@@ -58,7 +58,8 @@ public class FormulaEditorDeleteVariableTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Script script = createProjectAndGetStartScript("FormulaEditorDeleteVariableTest");
+		Script script = UiTestUtils.createProjectAndGetStartScript(
+				"FormulaEditorDeleteVariableTest");
 		script.addBrick(new ChangeSizeByNBrick(0));
 
 		baseActivityTestRule.launchActivity();

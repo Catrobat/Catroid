@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,27 +21,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.content.brick.app
+package org.catrobat.catroid.test.catblocks
 
 import android.view.View
-import android.webkit.WebView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.uiautomator.By
-import androidx.test.uiautomator.UiDevice
-import androidx.test.uiautomator.UiSelector
-import androidx.test.uiautomator.Until
 import org.catrobat.catroid.R
-import org.catrobat.catroid.UiTestCatroidApplication.Companion.projectManager
-import org.catrobat.catroid.content.Project
-import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.UiTestCatroidApplication
 import org.catrobat.catroid.content.StartScript
+import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.recyclerview.fragment.CatblocksScriptFragment
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.junit.After
 import org.junit.Assert
@@ -52,9 +46,8 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class AddBrickCatblocksTest {
-
     companion object {
-        private const val TIMEOUT: Long = (5 * 1000).toLong()
+        private const val TIMEOUT: Long = 30
     }
 
     @get:Rule
@@ -65,8 +58,9 @@ class AddBrickCatblocksTest {
 
     @Before
     fun setUp() {
+        CatblocksScriptFragment.testingMode = true
         SettingsFragment.setUseCatBlocks(ApplicationProvider.getApplicationContext(), true)
-        createProject()
+        UiTestUtils.createProjectWithOutDefaultScript(TestUtils.DEFAULT_TEST_PROJECT_NAME)
         baseActivityTestRule.launchActivity()
     }
 
@@ -78,37 +72,32 @@ class AddBrickCatblocksTest {
 
     @Test
     fun addBricksFromCatblocksView() {
-        val uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-        uiDevice.wait(Until.findObject(By.clazz(WebView::class.java)), TIMEOUT)
+        val webViewUtils = WebViewUtils(baseActivityTestRule.activity, TIMEOUT)
+        webViewUtils.waitForElement(".blocklyWorkspace")
+
         val catblocksView = baseActivityTestRule.activity.findViewById<View>(R.id.catblocksWebView)
         val catblocksFragment = FragmentManager.findFragment<Fragment>(catblocksView) as CatblocksScriptFragment
-        catblocksFragment.activity?.runOnUiThread(Runnable {
+        catblocksFragment.activity?.runOnUiThread {
             catblocksFragment.handleAddButton()
-        })
-        val categoryEvent = uiDevice.findObject(
-            UiSelector().resourceId("categoryEVENT")
-        )
-        Assert.assertTrue(categoryEvent.waitForExists(TIMEOUT))
-        categoryEvent.click()
-        val brickStartScript = uiDevice.findObject(
-            UiSelector().resourceId("brickStartScript")
-        )
-        Assert.assertTrue(brickStartScript.waitForExists(TIMEOUT))
-        Assert.assertTrue(brickStartScript.exists())
-        Assert.assertTrue(brickStartScript.click())
-        Assert.assertTrue(brickStartScript.waitUntilGone(TIMEOUT))
-        Assert.assertEquals(projectManager.currentSprite.scriptList.count(), 1)
-        val addedScript = projectManager.currentSprite.scriptList.first()
-        Assert.assertNotNull(addedScript)
-        Assert.assertTrue(addedScript is StartScript)
-    }
+        }
 
-    private fun createProject() {
-        val projectName = javaClass.simpleName
-        val project = Project(ApplicationProvider.getApplicationContext(), projectName)
-        val sprite = Sprite("testSprite")
-        project.defaultScene.addSprite(sprite)
-        projectManager.currentProject = project
-        projectManager.currentSprite = sprite
+        webViewUtils.waitForElement("#categoryEVENT") {
+            webViewUtils.waitForElementVisible("#categoryEVENT")
+            webViewUtils.clickElement("#categoryEVENT")
+        }
+
+        webViewUtils.waitForElement("#brickStartScript") {
+            webViewUtils.isElementVisible("#brickStartScript")
+            webViewUtils.waitForElementVisible("#brickStartScript")
+            webViewUtils.clickElement("#brickStartScript")
+            webViewUtils.waitForElementInvisible("#brickStartScript")
+        }
+
+        Assert.assertEquals(UiTestCatroidApplication.projectManager.currentSprite.scriptList.count(), 1)
+        val addedScript = UiTestCatroidApplication.projectManager.currentSprite.scriptList.first()
+        Assert.assertNotNull(addedScript)
+        if (!(addedScript is StartScript)) {
+            Assert.fail("Added script is not a StartScript: " + addedScript.javaClass.simpleName)
+        }
     }
 }

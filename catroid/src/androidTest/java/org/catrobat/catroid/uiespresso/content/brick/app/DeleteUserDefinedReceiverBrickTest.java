@@ -25,7 +25,6 @@ package org.catrobat.catroid.uiespresso.content.brick.app;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -38,6 +37,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
 import org.catrobat.catroid.userbrick.UserDefinedBrickLabel;
@@ -50,7 +50,6 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 import java.util.Collections;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
@@ -113,7 +112,7 @@ public class DeleteUserDefinedReceiverBrickTest {
 	}
 
 	private void createProject(String projectName) throws IOException, CloneNotSupportedException {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
+		Project project = UiTestUtils.createDefaultTestProject(projectName);
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		SpriteController controller = new SpriteController();
@@ -129,12 +128,7 @@ public class DeleteUserDefinedReceiverBrickTest {
 		createUserDefinedScripts();
 		createStartScript();
 
-		Scene scene = project.getDefaultScene();
-		project.getDefaultScene().addSprite(sprite);
-
-		copiedSprite = controller.copy(sprite, project, scene);
-
-		projectManager.setCurrentProject(project);
+		copiedSprite = controller.copy(sprite, project, project.getDefaultScene());
 		projectManager.setCurrentSprite(sprite);
 	}
 

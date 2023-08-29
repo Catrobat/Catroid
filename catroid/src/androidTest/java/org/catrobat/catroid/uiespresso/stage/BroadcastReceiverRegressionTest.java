@@ -89,7 +89,7 @@ public class BroadcastReceiverRegressionTest {
 	}
 
 	private void createProject() {
-		project = UiTestUtils.createEmptyProject("test");
+		project = UiTestUtils.createDefaultTestProject("test");
 		userVariable = new UserVariable(VARIABLE_NAME);
 		project.addUserVariable(userVariable);
 		sprite1 = project.getDefaultScene().getBackgroundSprite();

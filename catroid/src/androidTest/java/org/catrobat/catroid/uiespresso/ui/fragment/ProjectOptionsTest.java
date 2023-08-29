@@ -123,9 +123,9 @@ public class ProjectOptionsTest {
 	@Before
 	public void setUp() throws Exception {
 		context = ApplicationProvider.getApplicationContext();
-		project = UiTestUtils.createEmptyProject(EXISTING_PROJECT_NAME);
+		project = UiTestUtils.createDefaultTestProject(EXISTING_PROJECT_NAME);
 		new ProjectSaver(project, context).saveProjectAsync();
-		project = UiTestUtils.createEmptyProject(PROJECT_NAME);
+		project = UiTestUtils.createDefaultTestProject(PROJECT_NAME);
 		new ProjectSaver(project, context).saveProjectAsync();
 		baseActivityTestRule.launchActivity(null);
 

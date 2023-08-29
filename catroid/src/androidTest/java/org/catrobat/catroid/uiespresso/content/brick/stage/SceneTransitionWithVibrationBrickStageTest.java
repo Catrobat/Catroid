@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.stage;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
@@ -33,14 +32,15 @@ import org.catrobat.catroid.content.bricks.SceneTransitionBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.TestCase.assertFalse;
@@ -65,7 +65,9 @@ public class SceneTransitionWithVibrationBrickStageTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject();
+		project = UiTestUtils.createDefaultTestProject(TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		createVibrationScene();
+		createCalmScene();
 		baseActivityTestRule.launchActivity(null);
 	}
 
@@ -80,13 +82,6 @@ public class SceneTransitionWithVibrationBrickStageTest {
 		calmScript.addBrick(new SceneTransitionBrick(firstSceneName));
 		lastBrickTransitionScript.waitUntilEvaluated(3000);
 		assertTrue(baseActivityTestRule.getActivity().vibrationManager.hasActiveVibration());
-	}
-
-	private void createProject() {
-		project = new Project(ApplicationProvider.getApplicationContext(), getClass().getSimpleName());
-		ProjectManager.getInstance().setCurrentProject(project);
-		createVibrationScene();
-		createCalmScene();
 	}
 
 	private void createVibrationScene() {

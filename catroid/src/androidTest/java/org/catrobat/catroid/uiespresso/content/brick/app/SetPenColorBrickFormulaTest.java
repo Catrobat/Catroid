@@ -28,6 +28,7 @@ import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -42,7 +43,6 @@ import java.util.Collection;
 import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.NUMBER;
 import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.OPERATOR;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 
 import static androidx.test.espresso.action.ViewActions.click;
@@ -93,7 +93,7 @@ public class SetPenColorBrickFormulaTest {
 			formula.add(new Formula(addFormula));
 		}
 
-		createProjectAndGetStartScript("SetPenColorBrickTest")
+		UiTestUtils.createProjectAndGetStartScript("SetPenColorBrickTest")
 				.addBrick(new SetPenColorBrick(formula.get(0), formula.get(1), formula.get(2)));
 
 		formula.clear();

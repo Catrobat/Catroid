@@ -31,14 +31,12 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.io.ResourceImporter;
-import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.After;
@@ -51,7 +49,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.GrantPermissionRule;
@@ -187,15 +184,8 @@ public class PlaySoundBrickTest {
 	}
 
 	private void createProject() throws IOException {
-		SoundManager.getInstance();
-		Project project = new Project(ApplicationProvider.getApplicationContext(), getClass().getSimpleName());
-		Sprite sprite = new Sprite("testSprite");
-		Script startScript = new StartScript();
-
-		sprite.addScript(startScript);
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		Project project = UiTestUtils.createDefaultTestProject("PlaySoundBrickTest");
+		Script startScript = UiTestUtils.getDefaultTestScript(project);
 
 		XstreamSerializer.getInstance().saveProject(project);
 

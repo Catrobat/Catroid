@@ -44,11 +44,11 @@ import org.catrobat.catroid.testsuites.annotations.Level.Smoke
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.recyclerview.adapter.DataListAdapter
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper.onDataList
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.hamcrest.Description
 import org.hamcrest.Matcher
@@ -86,7 +86,7 @@ class FormulaEditorSortDataListTest {
             .putBoolean(SORT_VARIABLE_PREFERENCE_KEY, false)
             .apply()
 
-        val script = createProjectAndGetStartScript("FormulaEditorEditVariableTest")
+        val script = UiTestUtils.createProjectAndGetStartScript("FormulaEditorEditVariableTest")
         script.addBrick(ChangeSizeByNBrick(0.0))
         baseActivityTestRule.launchActivity()
 

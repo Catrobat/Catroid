@@ -23,17 +23,14 @@
 package org.catrobat.catroid.uiespresso.stage
 
 import androidx.test.InstrumentationRegistry
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.bricks.CloneBrick
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
@@ -41,6 +38,7 @@ import org.catrobat.catroid.testsuites.annotations.Level.Smoke
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
 import org.hamcrest.Matchers.allOf
 import org.junit.After
@@ -98,17 +96,14 @@ class DeleteSpriteCloneTest {
     }
 
     private fun createProject() {
-        val projectName = javaClass.simpleName
-        project = Project(ApplicationProvider.getApplicationContext(), projectName)
-        sprite1 = Sprite("Sprite (1)")
-        val startScirpt: Script = StartScript()
-        startScirpt.addBrick(CloneBrick())
-        sprite1!!.addScript(startScirpt)
+        project = UiTestUtils.createDefaultTestProject(javaClass.simpleName)
+        sprite1 = UiTestUtils.getDefaultTestSprite(project!!)
+        val startScript: Script = UiTestUtils.getDefaultTestScript(project!!)
+
+        startScript.addBrick(CloneBrick())
         sprite2 = Sprite("Sprite (2)")
         val scene1 = project!!.defaultScene
         scene1.addSprite(sprite1)
         scene1.addSprite(sprite2)
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().startScene = scene1
     }
 }

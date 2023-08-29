@@ -27,7 +27,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -61,7 +61,11 @@ public class ChangeVariableTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject();
+		Script script = UiTestUtils
+				.createProjectAndGetStartScript("ChangeVariableTest");
+		changeVariableBrick = new ChangeVariableBrick(10);
+		script.addBrick(changeVariableBrick);
+		script.getBrickList().size();
 		baseActivityTestRule.launchActivity();
 	}
 
@@ -133,13 +137,5 @@ public class ChangeVariableTest {
 				.performAdd(variableName)
 				.performClose();
 		pressBack();
-	}
-
-	public void createProject() {
-		Script script = BrickTestUtils
-				.createProjectAndGetStartScript("ChangeVariableTest");
-		changeVariableBrick = new ChangeVariableBrick(10);
-		script.addBrick(changeVariableBrick);
-		script.getBrickList().size();
 	}
 }

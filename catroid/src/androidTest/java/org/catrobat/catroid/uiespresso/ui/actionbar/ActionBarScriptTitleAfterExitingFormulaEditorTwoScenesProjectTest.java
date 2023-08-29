@@ -28,17 +28,15 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -62,22 +60,15 @@ public class ActionBarScriptTitleAfterExitingFormulaEditorTwoScenesProjectTest {
 	}
 
 	private void createTwoScenesProject(String projectName) {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
+		Project project = UiTestUtils.createDefaultTestProject(projectName);
 		Scene sceneOne = new Scene("testScene1", project);
 		Scene sceneTwo = new Scene("testScene2", project);
 
 		project.addScene(sceneOne);
 		project.addScene(sceneTwo);
 
-		Sprite sprite = new Sprite("testSprite");
-		Script script = new StartScript();
+		Script script = UiTestUtils.getDefaultTestScript(project);
 		script.addBrick(new ChangeSizeByNBrick(0));
-
-		sprite.addScript(script);
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 	}
 
 	@Test

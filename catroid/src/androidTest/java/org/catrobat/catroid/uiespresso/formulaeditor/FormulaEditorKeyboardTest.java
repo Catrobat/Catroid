@@ -24,12 +24,10 @@ package org.catrobat.catroid.uiespresso.formulaeditor;
 
 import android.app.Activity;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -48,7 +46,6 @@ import org.junit.runner.RunWith;
 
 import java.io.IOException;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -75,7 +72,19 @@ public class FormulaEditorKeyboardTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject();
+		Project project = UiTestUtils.createDefaultTestProject(PROJECT_NAME);
+		Sprite sprite = project.getDefaultScene().getSprite(TestUtils.DEFAULT_TEST_SPRITE_NAME);
+		Script script = sprite.getScript(TestUtils.DEFAULT_TEST_SCRIPT_INDEX);
+
+		SetVariableBrick setVariableBrick = new SetVariableBrick();
+		UserVariable userVariable = new UserVariable("Global1");
+		project.addUserVariable(userVariable);
+		setVariableBrick.setUserVariable(userVariable);
+
+		script.addBrick(setVariableBrick);
+		sprite.addScript(script);
+		project.getDefaultScene().addSprite(sprite);
+
 		baseActivityTestRule.launchActivity();
 	}
 
@@ -182,25 +191,5 @@ public class FormulaEditorKeyboardTest {
 	public void tearDown() throws IOException {
 		baseActivityTestRule.finishActivity();
 		TestUtils.deleteProjects(PROJECT_NAME);
-	}
-
-	public Project createProject() {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), PROJECT_NAME);
-		Sprite sprite = new Sprite("testSprite");
-		Script script = new StartScript();
-
-		SetVariableBrick setVariableBrick = new SetVariableBrick();
-		UserVariable userVariable = new UserVariable("Global1");
-		project.addUserVariable(userVariable);
-		setVariableBrick.setUserVariable(userVariable);
-
-		script.addBrick(setVariableBrick);
-		sprite.addScript(script);
-		project.getDefaultScene().addSprite(sprite);
-
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-
-		return project;
 	}
 }
