@@ -23,11 +23,15 @@
 
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
+
+import androidx.annotation.NonNull;
 
 @CatrobatLanguageBrick(command = "Set")
 public class SetColorBrick extends FormulaBrick {
@@ -56,5 +60,12 @@ public class SetColorBrick extends FormulaBrick {
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
 				.createSetColorAction(sprite, sequence, getFormulaWithBrickField(BrickField.COLOR)));
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		String color = CatrobatLanguageUtils.Companion.formatHexColorString(getFormulaWithBrickField(BrickField.COLOR).getTrimmedFormulaString(CatroidApplication.getAppContext()).trim());
+		return getCatrobatLanguageParameterCall(indentionLevel, "color", color);
 	}
 }

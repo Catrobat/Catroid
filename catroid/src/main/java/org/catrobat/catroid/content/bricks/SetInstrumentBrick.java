@@ -105,10 +105,60 @@ public class SetInstrumentBrick extends BrickBaseType
 		}
 	}
 
+	@Override
+	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
+		switch (spinnerIndex) {
+			case 0:
+				return "piano";
+			case 2:
+				return "electric piano";
+			case 42:
+				return "cello";
+			case 73:
+				return "flute";
+			case 11:
+				return "vibraphone";
+			case 16:
+				return "organ";
+			case 24:
+				return "guitar";
+			case 26:
+				return "electric guitar";
+			case 32:
+				return "bass";
+			case 45:
+				return "pizzicato";
+			case 90:
+				return "synth pad";
+			case 52:
+				return "choir";
+			case 80:
+				return "synth lead";
+			case 75:
+				return "wooden flute";
+			case 57:
+				return "trombone";
+			case 64:
+				return "saxophone";
+			case 70:
+				return "bassoon";
+			case 71:
+				return "clarinet";
+			case 10:
+				return "music box";
+			case 114:
+				return "steel drum";
+			case 12:
+				return "marimba";
+			default:
+				throw new IllegalArgumentException("Invalid spinnerIndex: " + spinnerIndex);
+		}
+	}
+
 	@NonNull
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String instrument = instrumentSelection != null && instrumentSelection.getName() != null ? instrumentSelection.getName() : "";
-		return getCatrobatLanguageParameterCall(indentionLevel, "instrument", instrument);
+		int index = instrumentSelection != null ? instrumentSelection.getValue() : 0;
+		return getCatrobatLanguageSpinnerCall(indentionLevel, "instrument", index);
 	}
 }

@@ -60,7 +60,7 @@ class CatrobatLanguageUtils {
         fun formatHexColorString (hexColorString: String): String {
             val trimmedString = hexColorString.replace(Regex("^'"), "").replace(Regex("'$"), "").toLowerCase()
             if (trimmedString == "0") {
-                return "000000"
+                return "#000000"
             }
 
             if (Regex("^([a-f0-9]{6}|[a-f0-9]{3})$").matches(trimmedString)) {

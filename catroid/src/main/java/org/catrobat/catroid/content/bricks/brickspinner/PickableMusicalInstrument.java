@@ -30,6 +30,8 @@ import org.catrobat.catroid.common.Nameable;
 
 import java.io.Serializable;
 
+import androidx.annotation.VisibleForTesting;
+
 public enum PickableMusicalInstrument implements Nameable, Serializable {
 	PIANO(R.string.piano, 0),
 	ELECTRIC_PIANO(R.string.electric_piano, 2),
@@ -53,7 +55,8 @@ public enum PickableMusicalInstrument implements Nameable, Serializable {
 	STEEL_DRUM(R.string.steel_drum, 114),
 	MARIMBA(R.string.marimba, 12);
 
-	private int nameStringId;
+	@VisibleForTesting
+	public int nameStringId;
 	private int value;
 	private String name;
 
