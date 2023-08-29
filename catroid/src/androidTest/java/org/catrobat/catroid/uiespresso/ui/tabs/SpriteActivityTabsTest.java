@@ -32,7 +32,7 @@ import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Test;
@@ -67,7 +67,7 @@ public class SpriteActivityTabsTest {
 
 	@Before
 	public void setUp() {
-		Script script = BrickTestUtils.createProjectAndGetStartScript("SpriteActivityTabsTest");
+		Script script = UiTestUtils.createProjectAndGetStartScript("SpriteActivityTabsTest");
 		ProjectManager.getInstance().getCurrentProject().addUserVariable(new UserVariable("X"));
 		script.addBrick(new SetVariableBrick());
 		baseActivityTestRule.launchActivity();

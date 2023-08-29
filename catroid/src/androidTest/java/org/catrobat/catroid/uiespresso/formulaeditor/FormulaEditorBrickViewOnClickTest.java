@@ -28,8 +28,9 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -65,7 +66,10 @@ public class FormulaEditorBrickViewOnClickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject();
+		Script script =
+				UiTestUtils.createProjectAndGetStartScript(TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		showTextBrick = new ShowTextBrick(new Formula(100), new Formula(200));
+		script.addBrick(showTextBrick);
 		baseActivityTestRule.launchActivity();
 	}
 
@@ -101,12 +105,6 @@ public class FormulaEditorBrickViewOnClickTest {
 		onFormulaEditor()
 				.checkShows(showTextBrick.getFormulaWithBrickField(Brick.BrickField.Y_POSITION)
 						.getTrimmedFormulaString(ApplicationProvider.getApplicationContext()));
-	}
-
-	private void createProject() {
-		Script script = BrickTestUtils.createProjectAndGetStartScript(getClass().getSimpleName());
-		showTextBrick = new ShowTextBrick(new Formula(100), new Formula(200));
-		script.addBrick(showTextBrick);
 	}
 
 	private void chooseEditFormulaDialogOption() {

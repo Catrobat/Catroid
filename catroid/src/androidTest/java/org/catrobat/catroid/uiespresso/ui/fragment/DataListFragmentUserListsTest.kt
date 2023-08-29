@@ -38,9 +38,9 @@ import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.SpriteActivity
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper.onDataList
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.hamcrest.core.IsNot.not
 import org.junit.After
@@ -68,7 +68,7 @@ class DataListFragmentUserListsTest(
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        val script = BrickTestUtils.createProjectAndGetStartScript(projectName)
+        val script = UiTestUtils.createProjectAndGetStartScript(projectName)
         script.addBrick(ChangeSizeByNBrick(0.0))
         project = ProjectManager.getInstance().currentProject
         baseActivityTestRule.launchActivity()

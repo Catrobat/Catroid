@@ -29,7 +29,6 @@ import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
@@ -109,7 +108,7 @@ public class FormulaEditorFunctionListTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Script script = BrickTestUtils.createProjectAndGetStartScript("FormulaEditorFunctionListTest");
+		Script script = UiTestUtils.createProjectAndGetStartScript("FormulaEditorFunctionListTest");
 		script.addBrick(new ChangeSizeByNBrick(0));
 		baseActivityTestRule.launchActivity();
 	}

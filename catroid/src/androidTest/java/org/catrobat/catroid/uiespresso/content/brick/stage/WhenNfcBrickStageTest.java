@@ -42,6 +42,7 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -49,8 +50,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import java.util.List;
-
-import androidx.test.core.app.ApplicationProvider;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.NUM_DETECTED_TAGS;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.READ_TAG_ID;
@@ -81,7 +80,9 @@ public class WhenNfcBrickStageTest {
 	private WhenNfcScript scriptUnderTest;
 
 	private WhenNfcScript createProjectWithNfcAndSetVariable() {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), "nfcStageTestProject");
+		Project project = UiTestUtils.createProjectWithCustomScript("nfcStageTestProject", new WhenNfcScript());
+		WhenNfcScript script = (WhenNfcScript) UiTestUtils.getDefaultTestScript(project);
+		Sprite sprite = UiTestUtils.getDefaultTestSprite(project);
 
 		numDetectedTags = new UserVariable(NUM_DETECTED_TAGS);
 		readTagId = new UserVariable(READ_TAG_ID);
@@ -90,9 +91,6 @@ public class WhenNfcBrickStageTest {
 		project.addUserVariable(numDetectedTags);
 		project.addUserVariable(readTagId);
 		project.addUserVariable(readTagMessage);
-
-		Sprite sprite = new Sprite("testSprite");
-		WhenNfcScript script = new WhenNfcScript();
 
 		SetVariableBrick setVariableBrickId = new SetVariableBrick(Sensors.NFC_TAG_ID);
 		setVariableBrickId.setUserVariable(readTagId);
@@ -105,11 +103,6 @@ public class WhenNfcBrickStageTest {
 		ChangeVariableBrick changeVariableBrickNumDetectedTags = new ChangeVariableBrick(new Formula(1),
 				numDetectedTags);
 		script.addBrick(changeVariableBrickNumDetectedTags);
-
-		sprite.addScript(script);
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
 
 		tagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
 		tagDataList.add(firstTagData);

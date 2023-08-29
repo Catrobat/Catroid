@@ -29,10 +29,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.rule.GrantPermissionRule
-import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.content.Project
-import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.bricks.StartListeningBrick
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.stage.StageActivity
@@ -40,6 +37,7 @@ import org.catrobat.catroid.testsuites.annotations.Cat.CatrobatLanguage
 import org.catrobat.catroid.testsuites.annotations.Cat.SensorBox
 import org.catrobat.catroid.testsuites.annotations.Cat.SettingsAndPermissions
 import org.catrobat.catroid.testsuites.annotations.Level.Functional
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
 import org.junit.Assert.assertEquals
@@ -97,18 +95,10 @@ class StartListeningStageTest {
     }
 
     private fun createProject(projectName: String) {
-        project = Project(ApplicationProvider.getApplicationContext(), projectName)
-        val sprite = Sprite("testSprite")
-
-        val startScript = StartScript()
+        project = UiTestUtils.createDefaultTestProject(projectName)
+        val startScript = UiTestUtils.getDefaultTestScript(project)
         val userVariable = UserVariable(userVariableName)
         startScript.addBrick(StartListeningBrick(userVariable))
-        sprite.addScript(startScript)
-
-        project.defaultScene.addSprite(sprite)
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().currentSprite = sprite
-
         project.addUserVariable(userVariable)
     }
 }

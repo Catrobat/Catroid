@@ -28,7 +28,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastMessageBrick;
 import org.catrobat.catroid.rules.FlakyTestRule;
@@ -37,6 +36,7 @@ import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -63,7 +63,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 public class BroadcastSendBrickMessageContainerTest {
 
-	private String defaultMessage = "defaultMessage";
+	private final String defaultMessage = "defaultMessage";
 	private Project project;
 	private Sprite sprite;
 	private BroadcastMessageBrick broadcastMessageBrick;
@@ -131,18 +131,11 @@ public class BroadcastSendBrickMessageContainerTest {
 	}
 
 	private void createProject(String projectName) {
-		project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		sprite = new Sprite("testSprite");
-		Script script = new StartScript();
-
-		sprite.addScript(script);
+		project = UiTestUtils.createDefaultTestProject(projectName);
+		sprite = UiTestUtils.getDefaultTestSprite(project);
+		Script script = UiTestUtils.getDefaultTestScript(project);
 
 		broadcastMessageBrick = new BroadcastBrick(defaultMessage);
 		script.addBrick(broadcastMessageBrick);
-
-		project.getDefaultScene().addSprite(sprite);
-
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
 	}
 }

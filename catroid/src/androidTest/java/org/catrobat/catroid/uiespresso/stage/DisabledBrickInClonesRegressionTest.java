@@ -23,11 +23,9 @@
 
 package org.catrobat.catroid.uiespresso.stage;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenClonedScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.CloneBrick;
@@ -38,6 +36,7 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -45,7 +44,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout;
@@ -68,20 +66,13 @@ public class DisabledBrickInClonesRegressionTest {
 	}
 
 	private void createProject() {
-		Project project = new Project(ApplicationProvider.getApplicationContext(),
-				"DisabledBrickInClonesRegressionTest");
-		Sprite sprite = new Sprite("someSprite");
-
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		Project project = UiTestUtils.createDefaultTestProject("DisabledBrickInClonesRegressionTest");
+		Sprite sprite = UiTestUtils.getDefaultTestSprite(project);
 
 		userVariable = new UserVariable(VARIABLE_NAME);
 		project.addUserVariable(userVariable);
 
-		Script startScript = new StartScript();
-		sprite.addScript(startScript);
+		Script startScript = UiTestUtils.getDefaultTestScript(project);
 		Brick setVariableInitial = new SetVariableBrick(new Formula(1D), userVariable);
 		startScript.addBrick(setVariableInitial);
 		startScript.addBrick(new CloneBrick());

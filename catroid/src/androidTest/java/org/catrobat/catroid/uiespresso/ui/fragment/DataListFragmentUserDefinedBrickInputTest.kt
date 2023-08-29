@@ -42,9 +42,9 @@ import org.catrobat.catroid.formulaeditor.FormulaElement
 import org.catrobat.catroid.formulaeditor.Functions
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.SpriteActivity
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper.onDataList
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.catrobat.catroid.userbrick.UserDefinedBrickData
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput
@@ -77,7 +77,7 @@ class DataListFragmentUserDefinedBrickInputTest(
     @Before
     @kotlin.jvm.Throws(Exception::class)
     fun setUp() {
-        BrickTestUtils.createProjectAndGetStartScript(projectName)
+        UiTestUtils.createProjectAndGetStartScript(projectName)
 
         input.value = formula
         val userDefinedScript = UserDefinedScript()

@@ -24,21 +24,19 @@
 package org.catrobat.catroid.uiespresso.content.brick.stage
 
 import android.content.Intent
-import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
-import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick
 import org.catrobat.catroid.content.bricks.SetParticleColorBrick
 import org.catrobat.catroid.content.bricks.WaitBrick
 import org.catrobat.catroid.ui.SpriteActivity
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions.wait
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.junit.Assert.assertTrue
@@ -74,7 +72,11 @@ class SetParticleColorTest {
 
     @Before
     fun setUp() {
-        createProject()
+        script = UiTestUtils.createProjectAndGetStartScript(PROJECT_NAME)
+        script.addBrick(SetParticleColorBrick(blueString))
+        script.addBrick(FadeParticleEffectBrick())
+        script.addBrick(WaitBrick(1000))
+        script.addBrick(SetParticleColorBrick(greenString))
         baseActivityTestRule.launchActivity(Intent())
     }
 
@@ -85,23 +87,5 @@ class SetParticleColorTest {
         assertTrue(particleColor().contentEquals(blueArray))
         onView(isRoot()).perform(wait(1000))
         assertTrue(particleColor().contentEquals(greenArray))
-    }
-
-    private fun createProject() {
-        val project = Project(getApplicationContext(), PROJECT_NAME)
-        script = StartScript()
-        script.addBrick(SetParticleColorBrick(blueString))
-        script.addBrick(FadeParticleEffectBrick())
-        script.addBrick(WaitBrick(1000))
-        script.addBrick(SetParticleColorBrick(greenString))
-
-        sprite = Sprite("sprite")
-        sprite.addScript(script)
-
-        project.defaultScene.addSprite(sprite)
-
-        projectManager.currentProject = project
-        projectManager.currentSprite = sprite
-        projectManager.currentlyEditedScene = project.defaultScene
     }
 }

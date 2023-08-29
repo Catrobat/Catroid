@@ -29,7 +29,7 @@ import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
 import org.catrobat.catroid.userbrick.UserDefinedBrickLabel;
@@ -70,7 +70,12 @@ public class FormulaEditorUserDefinedBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject();
+		Script script = UiTestUtils.createProjectAndGetStartScript(FormulaEditorUserDefinedBrickTest.class.getSimpleName());
+		userDefinedBrick = new UserDefinedBrick(asList(input, label, secondInput));
+		userDefinedBrick.setCallingBrick(true);
+		userDefinedBrick.getFormulaMap().putIfAbsent(input.getInputFormulaField(), new Formula(100));
+		userDefinedBrick.getFormulaMap().putIfAbsent(secondInput.getInputFormulaField(), new Formula(200));
+		script.addBrick(userDefinedBrick);
 		baseActivityTestRule.launchActivity();
 	}
 
@@ -93,15 +98,6 @@ public class FormulaEditorUserDefinedBrickTest {
 		onFormulaEditor()
 				.checkShows(userDefinedBrick.getFormulaWithBrickField(secondInput.getInputFormulaField())
 						.getTrimmedFormulaString(ApplicationProvider.getApplicationContext()));
-	}
-
-	private void createProject() {
-		Script script = BrickTestUtils.createProjectAndGetStartScript(FormulaEditorUserDefinedBrickTest.class.getSimpleName());
-		userDefinedBrick = new UserDefinedBrick(asList(input, label, secondInput));
-		userDefinedBrick.setCallingBrick(true);
-		userDefinedBrick.getFormulaMap().putIfAbsent(input.getInputFormulaField(), new Formula(100));
-		userDefinedBrick.getFormulaMap().putIfAbsent(secondInput.getInputFormulaField(), new Formula(200));
-		script.addBrick(userDefinedBrick);
 	}
 
 	private void clickOnFormulaField(Brick.FormulaField formulaField) throws Throwable {

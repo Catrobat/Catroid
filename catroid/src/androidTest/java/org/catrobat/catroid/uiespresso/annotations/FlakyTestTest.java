@@ -27,7 +27,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.rules.FlakyTestRule;
 import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -61,7 +61,7 @@ public class FlakyTestTest {
 
 	@Before
 	public void setUp() throws Exception {
-		BrickTestUtils.createProjectAndGetStartScript("flakyTestTest");
+		UiTestUtils.createProjectAndGetStartScript("flakyTestTest");
 		baseActivityTestRule.launchActivity();
 	}
 
