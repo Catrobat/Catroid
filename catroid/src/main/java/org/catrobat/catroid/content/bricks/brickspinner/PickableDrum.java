@@ -31,6 +31,8 @@ import org.catrobat.catroid.common.Nameable;
 
 import java.io.Serializable;
 
+import androidx.annotation.VisibleForTesting;
+
 public enum PickableDrum implements Nameable, Serializable {
 	SNARE_DRUM(R.string.snare_drum, 38),
 	BASS_DRUM(R.string.bass_drum, 35),
@@ -53,7 +55,8 @@ public enum PickableDrum implements Nameable, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private int nameStringId;
+	@VisibleForTesting
+	public int nameStringId;
 	private int value;
 	private String name;
 

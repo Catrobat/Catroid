@@ -49,22 +49,31 @@ import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
+import org.catrobat.catroid.content.bricks.AskSpeechBrick
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.content.bricks.CameraBrick
+import org.catrobat.catroid.content.bricks.ChooseCameraBrick
 import org.catrobat.catroid.content.bricks.CloneBrick
 import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick
 import org.catrobat.catroid.content.bricks.ForItemInUserListBrick
 import org.catrobat.catroid.content.bricks.GoToBrick
+import org.catrobat.catroid.content.bricks.PlayDrumForBeatsBrick
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick
 import org.catrobat.catroid.content.bricks.PlaySoundAtBrick
 import org.catrobat.catroid.content.bricks.PlaySoundBrick
 import org.catrobat.catroid.content.bricks.PointToBrick
 import org.catrobat.catroid.content.bricks.SceneStartBrick
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick
+import org.catrobat.catroid.content.bricks.SetBackgroundAndWaitBrick
+import org.catrobat.catroid.content.bricks.SetBackgroundBrick
 import org.catrobat.catroid.content.bricks.SetInstrumentBrick
+import org.catrobat.catroid.content.bricks.SetLookBrick
 import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick
 import org.catrobat.catroid.content.bricks.SetRotationStyleBrick
+import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick
 import org.catrobat.catroid.content.bricks.StopScriptBrick
 import org.catrobat.catroid.content.bricks.StopSoundBrick
+import org.catrobat.catroid.content.bricks.brickspinner.PickableDrum
 import org.catrobat.catroid.content.bricks.brickspinner.PickableMusicalInstrument
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
@@ -210,17 +219,18 @@ class SpinnerSerializationTest {
         for (languageCode in TEST_LANGUAGES) {
             setLanguage(languageCode)
             baseActivityTestRule.launchActivity()
+            val mapOfValues = mapOf(
+                getStringForResourceId(R.string.brick_stop_all_scripts) to "Stop (script: (all scripts));\n",
+                getStringForResourceId(R.string.brick_stop_other_scripts) to "Stop (script: (other scripts of this actor or object));\n",
+                getStringForResourceId(R.string.brick_stop_this_script) to "Stop (script: (this script));\n",
+            )
             executeTest(
                 R.id.brick_stop_script_spinner,
                 brick,
                 "Stop (script: (this script));\n",
-                mapOf(
-                    getStringForResourceId(R.string.brick_stop_all_scripts) to "Stop (script: (all scripts));\n",
-                    getStringForResourceId(R.string.brick_stop_other_scripts) to "Stop (script: (other scripts of this actor or object));\n",
-                    getStringForResourceId(R.string.brick_stop_this_script) to "Stop (script: (this script));\n",
-                )
+                mapOfValues
             )
-            checkSpinnerValueCount(brick, R.id.brick_stop_script_spinner, 3)
+            checkSpinnerValueCount(brick, R.id.brick_stop_script_spinner, mapOfValues.size)
             baseActivityTestRule.finishActivity()
         }
     }
@@ -280,17 +290,18 @@ class SpinnerSerializationTest {
         for (languageCode in TEST_LANGUAGES) {
             setLanguage(languageCode)
             baseActivityTestRule.launchActivity()
+            val mapOfValues = mapOf(
+                getStringForResourceId(R.string.brick_set_rotation_style_normal) to "Set (rotation style: (all-around));\n",
+                getStringForResourceId(R.string.brick_set_rotation_style_no) to "Set (rotation style: (don't rotate));\n",
+                getStringForResourceId(R.string.brick_set_rotation_style_lr) to "Set (rotation style: (left-right only));\n",
+            )
             executeTest(
                 R.id.brick_set_rotation_style_spinner,
                 brick,
                 "Set (rotation style: (left-right only));\n",
-                mapOf(
-                    getStringForResourceId(R.string.brick_set_rotation_style_normal) to "Set (rotation style: (all-around));\n",
-                    getStringForResourceId(R.string.brick_set_rotation_style_no) to "Set (rotation style: (don't rotate));\n",
-                    getStringForResourceId(R.string.brick_set_rotation_style_lr) to "Set (rotation style: (left-right only));\n",
-                )
+                mapOfValues
             )
-            checkSpinnerValueCount(brick, R.id.brick_set_rotation_style_spinner, 3)
+            checkSpinnerValueCount(brick, R.id.brick_set_rotation_style_spinner, mapOfValues.size)
             baseActivityTestRule.finishActivity()
         }
     }
@@ -437,134 +448,193 @@ class SpinnerSerializationTest {
         for (languageCode in TEST_LANGUAGES) {
             setLanguage(languageCode)
             baseActivityTestRule.launchActivity()
+            val mapOfInstruments = getAllInstruments(getStringForResourceId(R.string.piano), "Set (instrument: ({{INSTRUMENT}}));\n")
             executeTest(
                 R.id.set_instrument_spinner,
                 brick,
                 "Set (instrument: (piano));\n",
-                getAllInstruments(getStringForResourceId(R.string.piano), "Set (instrument: ({{INSTRUMENT}}));\n")
+                mapOfInstruments
             )
-            checkSpinnerValueCount(brick, R.id.set_instrument_spinner, 21)
+            checkSpinnerValueCount(brick, R.id.set_instrument_spinner, mapOfInstruments.size)
             baseActivityTestRule.finishActivity()
         }
     }
-//
-//    @Test
-//    fun testPlayDrumForBeatsBrick() {
-//        executeTest(
-//            R.id.play_drum_for_beats_spinner,
-//            PlayDrumForBeatsBrick(),
-//            "Play (drum: (snare drum), number of beats: (0));\n",
-//            mapOf(
-//                "bass drum" to "Play (drum: (bass drum), number of beats: (0));\n",
-//                "side stick" to "Play (drum: (side stick), number of beats: (0));\n",
-//                "crash cymbal" to "Play (drum: (crash cymbal), number of beats: (0));\n",
-//                "open hi-hat" to "Play (drum: (open hi-hat), number of beats: (0));\n",
-//                "closed hi-hat" to "Play (drum: (closed hi-hat), number of beats: (0));\n",
-//                "tambourine" to "Play (drum: (tambourine), number of beats: (0));\n",
-//                "hand clap" to "Play (drum: (hand clap), number of beats: (0));\n",
-//                "claves" to "Play (drum: (claves), number of beats: (0));\n",
-//                "wood block" to "Play (drum: (wood block), number of beats: (0));\n",
-//                "cowbell" to "Play (drum: (cowbell), number of beats: (0));\n",
-//                "triangle" to "Play (drum: (triangle), number of beats: (0));\n",
-//                "bongo" to "Play (drum: (bongo), number of beats: (0));\n",
-//                "conga" to "Play (drum: (conga), number of beats: (0));\n",
-//                "cabasa" to "Play (drum: (cabasa), number of beats: (0));\n",
-//                "guiro" to "Play (drum: (guiro), number of beats: (0));\n",
-//                "vibraslap" to "Play (drum: (vibraslap), number of beats: (0));\n",
-//                "open cuica" to "Play (drum: (open cuica), number of beats: (0));\n",
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testSetLookBrick() {
-//        executeTest(
-//            R.id.brick_set_look_spinner,
-//            SetLookBrick(),
-//            "Switch to (look: ('spritelook1'));\n",
-//            mapOf(
-//                "spritelook2" to "Switch to (look: ('spritelook2'));\n",
-//                "spritelook3" to "Switch to (look: ('spritelook3'));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testAskSpeechBrick() {
-//        executeTest(
-//            R.id.brick_ask_speech_spinner,
-//            AskSpeechBrick("my question"),
-//            "Ask question and store written answer to variable (question: ('my question'), variable: (\"var1\"));\n",
-//            mapOf(
-//                "var2" to "Ask question and store written answer to variable (question: ('my question'), variable: (\"var2\"));\n",
-//                "var3" to "Ask question and store written answer to variable (question: ('my question'), variable: (\"var3\"));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testShowTextColorSizeAlignmentBrick() {
-//        executeTest(
-//            R.id.brick_show_variable_color_size_align_spinner,
-//            ShowTextColorSizeAlignmentBrick(),
-//            "Show variable (variable: (\"var1\"), x: (0), y: (0), size: (0), color: (0), alignment: (left));\n",
-//            mapOf(
-//                "center" to "Show variable (variable: (\"var1\"), x: (0), y: (0), size: (0), color: (0), alignment: (center));\n",
-//                "right" to "Show variable (variable: (\"var1\"), x: (0), y: (0), size: (0), color: (0), alignment: (right));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testSetBackgroundBrick() {
-//        executeTest(
-//            R.id.brick_set_background_spinner,
-//            SetBackgroundBrick(),
-//            "Set background to (look: ('look1'));\n",
-//            mapOf(
-//                "look2" to "Set background to (look: ('look2'));\n",
-//                "look3" to "Set background to (look: ('look3'));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testSetBackgroundAndWaitBrick() {
-//        // TODO: spinner id?
-//        executeTest(
-//            R.id.brick_set_background_spinner,
-//            SetBackgroundAndWaitBrick(),
-//            "Set background and wait (look: ('look1'));\n",
-//            mapOf(
-//                "look2" to "Set background and wait (look: ('look2'));\n",
-//                "look3" to "Set background and wait (look: ('look3'));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testCameraBrick() {
-//        executeTest(
-//            R.id.brick_video_spinner,
-//            CameraBrick(),
-//            "Turn (camera: (on));\n",
-//            mapOf(
-//                "off" to "Turn (camera: (off));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testChooseCameraBrick() {
-//        executeTest(
-//            R.id.brick_choose_camera_spinner,
-//            CameraBrick(),
-//            "Use (camera: (rear));\n",
-//            mapOf(
-//                "front" to "Use (camera: (front));\n"
-//            )
-//        )
-//    }
+
+    @Test
+    fun testPlayDrumForBeatsBrick() {
+        val brick = PlayDrumForBeatsBrick()
+        startScript.addBrick(brick)
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            baseActivityTestRule.launchActivity()
+            val mapOfDrums = getAllDrums(getStringForResourceId(R.string.snare_drum), "Play (drum: ({{DRUM}}), number of beats: (0));\n")
+            executeTest(
+                R.id.play_drum_for_beats_spinner,
+                brick,
+                "Play (drum: (snare drum), number of beats: (0));\n",
+                mapOfDrums
+            )
+            checkSpinnerValueCount(brick, R.id.play_drum_for_beats_spinner, mapOfDrums.size)
+            baseActivityTestRule.finishActivity()
+        }
+    }
+
+    @Test
+    fun testSetLookBrick() {
+        val brick = SetLookBrick()
+        startScript.addBrick(brick)
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            baseActivityTestRule.launchActivity()
+            executeTest(
+                R.id.brick_set_look_spinner,
+                brick,
+                "Switch to (look: ('spritelook1'));\n",
+                mapOf(
+                    "spritelook2" to "Switch to (look: ('spritelook2'));\n",
+                    "spritelook3" to "Switch to (look: ('spritelook3'));\n",
+                    "spritelook1" to "Switch to (look: ('spritelook1'));\n"
+                )
+            )
+            baseActivityTestRule.finishActivity()
+        }
+    }
+
+    @Test
+    fun testAskSpeechBrick() {
+        val brick = AskSpeechBrick("my question")
+        startScript.addBrick(brick)
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            baseActivityTestRule.launchActivity()
+            executeTest(
+                R.id.brick_ask_speech_spinner,
+                brick,
+                "Ask question and store written answer to variable (question: ('my question'), variable: (\"var1\"));\n",
+                mapOf(
+                    "var2" to "Ask question and store written answer to variable (question: ('my question'), variable: (\"var2\"));\n",
+                    "var3" to "Ask question and store written answer to variable (question: ('my question'), variable: (\"var3\"));\n",
+                    "var1" to "Ask question and store written answer to variable (question: ('my question'), variable: (\"var1\"));\n"
+                )
+            )
+            baseActivityTestRule.finishActivity()
+        }
+    }
+
+    @Test
+    fun testShowTextColorSizeAlignmentBrick() {
+        val brick = ShowTextColorSizeAlignmentBrick()
+        startScript.addBrick(brick)
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            baseActivityTestRule.launchActivity()
+            executeTest(
+                R.id.brick_show_variable_color_size_align_spinner,
+                brick,
+                "Show (variable: (\"var1\"), x: (0), y: (0), size: (0), color: (#000000), alignment: (centered));\n",
+                mapOf(
+                    getStringForResourceId(R.string.brick_show_variable_aligned_left) to "Show (variable: (\"var1\"), x: (0), y: (0), size: (0), color: (#000000), alignment: (left));\n",
+                    getStringForResourceId(R.string.brick_show_variable_aligned_right) to "Show (variable: (\"var1\"), x: (0), y: (0), size: (0), color: (#000000), alignment: (right));\n",
+                    getStringForResourceId(R.string.brick_show_variable_aligned_centered) to "Show (variable: (\"var1\"), x: (0), y: (0), size: (0), color: (#000000), alignment: (centered));\n"
+                ),
+                R.id.show_variable_color_size_spinner,
+                mapOf(
+                    "var2" to "Show (variable: (\"var2\"), x: (0), y: (0), size: (0), color: (#000000), alignment: (centered));\n",
+                    "var3" to "Show (variable: (\"var3\"), x: (0), y: (0), size: (0), color: (#000000), alignment: (centered));\n",
+                    "var1" to "Show (variable: (\"var1\"), x: (0), y: (0), size: (0), color: (#000000), alignment: (centered));\n"
+                )
+            )
+            baseActivityTestRule.finishActivity()
+        }
+
+    }
+
+    @Test
+    fun testSetBackgroundBrick() {
+        val brick = SetBackgroundBrick()
+        startScript.addBrick(brick)
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            baseActivityTestRule.launchActivity()
+            executeTest(
+                R.id.brick_set_background_spinner,
+                brick,
+                "Set background to (look: ('look1'));\n",
+                mapOf(
+                    "look2" to "Set background to (look: ('look2'));\n",
+                    "look3" to "Set background to (look: ('look3'));\n",
+                    "look1" to "Set background to (look: ('look1'));\n"
+                )
+            )
+            baseActivityTestRule.finishActivity()
+        }
+    }
+
+    @Test
+    fun testSetBackgroundAndWaitBrick() {
+        val brick = SetBackgroundAndWaitBrick()
+        startScript.addBrick(brick)
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            baseActivityTestRule.launchActivity()
+            executeTest(
+                R.id.brick_set_background_spinner,
+                brick,
+                "Set background and wait (look: ('look1'));\n",
+                mapOf(
+                    "look2" to "Set background and wait (look: ('look2'));\n",
+                    "look3" to "Set background and wait (look: ('look3'));\n",
+                    "look1" to "Set background and wait (look: ('look1'));\n"
+                )
+            )
+            baseActivityTestRule.finishActivity()
+        }
+    }
+
+    @Test
+    fun testCameraBrick() {
+        val brick = CameraBrick()
+        startScript.addBrick(brick)
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            baseActivityTestRule.launchActivity()
+            val mapOfValues = mapOf(
+                getStringForResourceId(R.string.video_brick_camera_off) to "Turn (camera: (off));\n",
+                getStringForResourceId(R.string.video_brick_camera_on) to "Turn (camera: (on));\n",
+            )
+            executeTest(
+                R.id.brick_video_spinner,
+                brick,
+                "Turn (camera: (on));\n",
+                mapOfValues
+            )
+            checkSpinnerValueCount(brick, R.id.brick_video_spinner, mapOfValues.size)
+            baseActivityTestRule.finishActivity()
+        }
+
+    }
+
+    @Test
+    fun testChooseCameraBrick() {
+        val brick = ChooseCameraBrick()
+        startScript.addBrick(brick)
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            baseActivityTestRule.launchActivity()
+            val mapOfValues = mapOf(
+                getStringForResourceId(R.string.choose_camera_back) to "Use (camera: (rear));\n",
+                getStringForResourceId(R.string.choose_camera_front) to "Use (camera: (front));\n",
+            )
+            executeTest(
+                R.id.brick_choose_camera_spinner,
+                brick,
+                "Use (camera: (front));\n",
+                mapOfValues
+            )
+            checkSpinnerValueCount(brick, R.id.brick_choose_camera_spinner, mapOfValues.size)
+            baseActivityTestRule.finishActivity()
+        }
+    }
 //
 //    @Test
 //    fun testFlashBrick() {
@@ -1275,12 +1345,31 @@ class SpinnerSerializationTest {
         var defaultCatLangValue = ""
         for (instrument in PickableMusicalInstrument.values()) {
             val spinnerItemName = getStringForResourceId(instrument.nameStringId)
-            val instrumentName = instrument.name.toLowerCase().replace("_", " ")
+            val instrumentName = instrument.catrobatLanguageString
             if (spinnerItemName == defaultValue) {
                 defaultCatLangValue = expectedValue.replace("{{INSTRUMENT}}", instrumentName)
                 continue
             }
             items[spinnerItemName] = expectedValue.replace("{{INSTRUMENT}}", instrumentName)
+        }
+
+        items[defaultValue] = defaultCatLangValue
+
+        return items
+    }
+
+    private fun getAllDrums(defaultValue: String, expectedValue: String): Map<String, String> {
+        val items: MutableMap<String, String> = mutableMapOf()
+
+        var defaultCatLangValue = ""
+        for (drum in PickableDrum.values()) {
+            val spinnerItemName = getStringForResourceId(drum.nameStringId)
+            val drumName = drum.catrobatLanguageString
+            if (spinnerItemName == defaultValue) {
+                defaultCatLangValue = expectedValue.replace("{{DRUM}}", drumName)
+                continue
+            }
+            items[spinnerItemName] = expectedValue.replace("{{DRUM}}", drumName)
         }
 
         items[defaultValue] = defaultCatLangValue
