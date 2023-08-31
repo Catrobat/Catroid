@@ -49,19 +49,41 @@ import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
+import org.catrobat.catroid.content.bricks.AddItemToUserListBrick
 import org.catrobat.catroid.content.bricks.AskSpeechBrick
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.CameraBrick
+import org.catrobat.catroid.content.bricks.ChangeVariableBrick
 import org.catrobat.catroid.content.bricks.ChooseCameraBrick
+import org.catrobat.catroid.content.bricks.ClearUserListBrick
 import org.catrobat.catroid.content.bricks.CloneBrick
+import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick
+import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick
 import org.catrobat.catroid.content.bricks.FadeParticleEffectBrick
+import org.catrobat.catroid.content.bricks.FlashBrick
 import org.catrobat.catroid.content.bricks.ForItemInUserListBrick
 import org.catrobat.catroid.content.bricks.GoToBrick
+import org.catrobat.catroid.content.bricks.HideTextBrick
+import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick
+import org.catrobat.catroid.content.bricks.JumpingSumoAnimationsBrick
+import org.catrobat.catroid.content.bricks.JumpingSumoSoundBrick
+import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick
+import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick
+import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick
+import org.catrobat.catroid.content.bricks.LegoEv3SetLedBrick
+import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick
+import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick
+import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick
+import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick
 import org.catrobat.catroid.content.bricks.PlayDrumForBeatsBrick
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick
 import org.catrobat.catroid.content.bricks.PlaySoundAtBrick
 import org.catrobat.catroid.content.bricks.PlaySoundBrick
 import org.catrobat.catroid.content.bricks.PointToBrick
+import org.catrobat.catroid.content.bricks.ReadListFromDeviceBrick
+import org.catrobat.catroid.content.bricks.ReadVariableFromDeviceBrick
+import org.catrobat.catroid.content.bricks.ReadVariableFromFileBrick
+import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick
 import org.catrobat.catroid.content.bricks.SceneStartBrick
 import org.catrobat.catroid.content.bricks.SceneTransitionBrick
 import org.catrobat.catroid.content.bricks.SetBackgroundAndWaitBrick
@@ -70,14 +92,21 @@ import org.catrobat.catroid.content.bricks.SetInstrumentBrick
 import org.catrobat.catroid.content.bricks.SetLookBrick
 import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick
 import org.catrobat.catroid.content.bricks.SetRotationStyleBrick
+import org.catrobat.catroid.content.bricks.SetVariableBrick
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick
 import org.catrobat.catroid.content.bricks.StopScriptBrick
 import org.catrobat.catroid.content.bricks.StopSoundBrick
+import org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick
+import org.catrobat.catroid.content.bricks.WebRequestBrick
+import org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick
+import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick
+import org.catrobat.catroid.content.bricks.WriteVariableToFileBrick
 import org.catrobat.catroid.content.bricks.brickspinner.PickableDrum
 import org.catrobat.catroid.content.bricks.brickspinner.PickableMusicalInstrument
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
+import org.catrobat.catroid.koin.start
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
@@ -105,21 +134,30 @@ class SpinnerSerializationTest {
 
     @Before
     fun setUp() {
+        val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+        device.executeShellCommand("settings put global window_animation_scale 0")
+        device.executeShellCommand("settings put global transition_animation_scale 0")
+        device.executeShellCommand("settings put global animator_duration_scale 0")
+
         createProject()
     }
 
     @After
     fun tearDown() {
+        val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+        device.executeShellCommand("settings put global window_animation_scale 1")
+        device.executeShellCommand("settings put global transition_animation_scale 1")
+        device.executeShellCommand("settings put global animator_duration_scale 1")
+
         baseActivityTestRule.finishActivity()
     }
 
     @Test
     fun testCloneBrick() {
-        val brick = CloneBrick()
-        startScript.addBrick(brick)
-
         for (languageCode in TEST_LANGUAGES) {
             setLanguage(languageCode)
+            val brick = CloneBrick()
+            startScript.addBrick(brick)
             baseActivityTestRule.launchActivity()
 
             val yourselfString = getStringForResourceId(R.string.brick_clone_this)
@@ -135,16 +173,16 @@ class SpinnerSerializationTest {
                 )
             )
             baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
         }
     }
 
     @Test
     fun testForItemInUserListBrick() {
-        val brick = ForItemInUserListBrick()
-        startScript.addBrick(brick)
-
         for (languageCode in TEST_LANGUAGES) {
             setLanguage(languageCode)
+            val brick = ForItemInUserListBrick()
+            startScript.addBrick(brick)
             baseActivityTestRule.launchActivity()
             executeTest(
                 R.id.for_item_in_userlist_list_spinner,
@@ -163,16 +201,16 @@ class SpinnerSerializationTest {
                 )
             )
             baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
         }
     }
 
     @Test
     fun testSceneTransitionBrick() {
-        val brick = SceneTransitionBrick()
-        startScript.addBrick(brick)
-
         for (languageCode in TEST_LANGUAGES) {
             setLanguage(languageCode)
+            val brick = SceneTransitionBrick()
+            startScript.addBrick(brick)
             baseActivityTestRule.launchActivity()
             executeTest(
                 R.id.brick_scene_transition_spinner,
@@ -185,16 +223,16 @@ class SpinnerSerializationTest {
                 )
             )
             baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
         }
     }
 
     @Test
     fun testSceneStartBrick() {
-        val brick = SceneStartBrick()
-        startScript.addBrick(brick)
-
         for (languageCode in TEST_LANGUAGES) {
             setLanguage(languageCode)
+            val brick = SceneStartBrick()
+            startScript.addBrick(brick)
             baseActivityTestRule.launchActivity()
             executeTest(
                 R.id.brick_scene_start_spinner,
@@ -208,16 +246,16 @@ class SpinnerSerializationTest {
                 )
             )
             baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
         }
     }
 
     @Test
     fun testStopScriptBrick() {
-        val brick = StopScriptBrick()
-        startScript.addBrick(brick)
-
         for (languageCode in TEST_LANGUAGES) {
             setLanguage(languageCode)
+            val brick = StopScriptBrick()
+            startScript.addBrick(brick)
             baseActivityTestRule.launchActivity()
             val mapOfValues = mapOf(
                 getStringForResourceId(R.string.brick_stop_all_scripts) to "Stop (script: (all scripts));\n",
@@ -232,16 +270,16 @@ class SpinnerSerializationTest {
             )
             checkSpinnerValueCount(brick, R.id.brick_stop_script_spinner, mapOfValues.size)
             baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
         }
     }
 
     @Test
     fun testGoToBrick() {
-        val brick = GoToBrick()
-        startScript.addBrick(brick)
-
         for (languageCode in TEST_LANGUAGES) {
             setLanguage(languageCode)
+            val brick = GoToBrick()
+            startScript.addBrick(brick)
             baseActivityTestRule.launchActivity()
             executeTest(
                 R.id.brick_go_to_spinner,
@@ -257,16 +295,16 @@ class SpinnerSerializationTest {
             val size = projectManager.currentProject.defaultScene.spriteList.size
             checkSpinnerValueCount(brick, R.id.brick_go_to_spinner, size)
             baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
         }
     }
 
     @Test
     fun testPointToBrick() {
-        val brick = PointToBrick()
-        startScript.addBrick(brick)
-
         for (languageCode in TEST_LANGUAGES) {
             setLanguage(languageCode)
+            val brick = PointToBrick()
+            startScript.addBrick(brick)
             baseActivityTestRule.launchActivity()
             executeTest(
                 R.id.brick_point_to_spinner,
@@ -279,16 +317,16 @@ class SpinnerSerializationTest {
                 )
             )
             baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
         }
     }
 
     @Test
     fun testSetRotationStyleBrick() {
-        val brick = SetRotationStyleBrick()
-        startScript.addBrick(brick)
-
         for (languageCode in TEST_LANGUAGES) {
             setLanguage(languageCode)
+            val brick = SetRotationStyleBrick()
+            startScript.addBrick(brick)
             baseActivityTestRule.launchActivity()
             val mapOfValues = mapOf(
                 getStringForResourceId(R.string.brick_set_rotation_style_normal) to "Set (rotation style: (all-around));\n",
@@ -303,16 +341,16 @@ class SpinnerSerializationTest {
             )
             checkSpinnerValueCount(brick, R.id.brick_set_rotation_style_spinner, mapOfValues.size)
             baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
         }
     }
 
     @Test
     fun testSetPhysicsObjectTypeBrick() {
-        val brick = SetPhysicsObjectTypeBrick()
-        startScript.addBrick(brick)
-
         for (languageCode in TEST_LANGUAGES) {
             setLanguage(languageCode)
+            val brick = SetPhysicsObjectTypeBrick()
+            startScript.addBrick(brick)
             baseActivityTestRule.launchActivity()
             val spinnerValues = getStringArrayForResourceId(R.array.physics_object_types)
             executeTest(
@@ -327,16 +365,16 @@ class SpinnerSerializationTest {
             )
             checkSpinnerValueCount(brick, R.id.brick_set_physics_object_type_spinner, 3)
             baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
         }
     }
 
     @Test
     fun testFadeParticleEffectBrick() {
-        val brick = FadeParticleEffectBrick()
-        startScript.addBrick(brick)
-
         for (languageCode in TEST_LANGUAGES) {
             setLanguage(languageCode)
+            val brick = FadeParticleEffectBrick()
+            startScript.addBrick(brick)
             baseActivityTestRule.launchActivity()
             executeTest(
                 R.id.brick_fade_particle_effect_spinner,
@@ -349,16 +387,16 @@ class SpinnerSerializationTest {
             )
             checkSpinnerValueCount(brick, R.id.brick_fade_particle_effect_spinner, 2)
             baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
         }
     }
 
     @Test
     fun testPlaySoundBrick() {
-        val brick = PlaySoundBrick()
-        startScript.addBrick(brick)
-
         for (languageCode in TEST_LANGUAGES) {
             setLanguage(languageCode)
+            val brick = PlaySoundBrick()
+            startScript.addBrick(brick)
             baseActivityTestRule.launchActivity()
             executeTest(
                 R.id.brick_play_sound_spinner,
@@ -371,16 +409,16 @@ class SpinnerSerializationTest {
                 )
             )
             baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
         }
     }
 
     @Test
     fun testPlaySoundAndWaitBrick() {
-        val brick = PlaySoundAndWaitBrick()
-        startScript.addBrick(brick)
-
         for (languageCode in TEST_LANGUAGES) {
             setLanguage(languageCode)
+            val brick = PlaySoundAndWaitBrick()
+            startScript.addBrick(brick)
             baseActivityTestRule.launchActivity()
             executeTest(
                 R.id.brick_play_sound_spinner,
@@ -393,16 +431,16 @@ class SpinnerSerializationTest {
                 )
             )
             baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
         }
     }
 
     @Test
     fun testPlaySoundAtBrick() {
-        val brick = PlaySoundAtBrick()
-        startScript.addBrick(brick)
-
         for (languageCode in TEST_LANGUAGES) {
             setLanguage(languageCode)
+            val brick = PlaySoundAtBrick()
+            startScript.addBrick(brick)
             baseActivityTestRule.launchActivity()
             executeTest(
                 R.id.brick_play_sound_at_spinner,
@@ -415,16 +453,16 @@ class SpinnerSerializationTest {
                 )
             )
             baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
         }
     }
 
     @Test
     fun testStopSoundBrick() {
-        val brick = StopSoundBrick()
-        startScript.addBrick(brick)
-
         for (languageCode in TEST_LANGUAGES) {
             setLanguage(languageCode)
+            val brick = StopSoundBrick()
+            startScript.addBrick(brick)
             baseActivityTestRule.launchActivity()
             executeTest(
                 R.id.brick_stop_sound_spinner,
@@ -437,16 +475,16 @@ class SpinnerSerializationTest {
                 )
             )
             baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
         }
     }
 
     @Test
     fun testSetInstrumentBrick() {
-        val brick = SetInstrumentBrick()
-        startScript.addBrick(brick)
-
         for (languageCode in TEST_LANGUAGES) {
             setLanguage(languageCode)
+            val brick = SetInstrumentBrick()
+            startScript.addBrick(brick)
             baseActivityTestRule.launchActivity()
             val mapOfInstruments = getAllInstruments(getStringForResourceId(R.string.piano), "Set (instrument: ({{INSTRUMENT}}));\n")
             executeTest(
@@ -457,15 +495,16 @@ class SpinnerSerializationTest {
             )
             checkSpinnerValueCount(brick, R.id.set_instrument_spinner, mapOfInstruments.size)
             baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
         }
     }
 
     @Test
     fun testPlayDrumForBeatsBrick() {
-        val brick = PlayDrumForBeatsBrick()
-        startScript.addBrick(brick)
         for (languageCode in TEST_LANGUAGES) {
             setLanguage(languageCode)
+            val brick = PlayDrumForBeatsBrick()
+            startScript.addBrick(brick)
             baseActivityTestRule.launchActivity()
             val mapOfDrums = getAllDrums(getStringForResourceId(R.string.snare_drum), "Play (drum: ({{DRUM}}), number of beats: (0));\n")
             executeTest(
@@ -476,15 +515,16 @@ class SpinnerSerializationTest {
             )
             checkSpinnerValueCount(brick, R.id.play_drum_for_beats_spinner, mapOfDrums.size)
             baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
         }
     }
 
     @Test
     fun testSetLookBrick() {
-        val brick = SetLookBrick()
-        startScript.addBrick(brick)
         for (languageCode in TEST_LANGUAGES) {
             setLanguage(languageCode)
+            val brick = SetLookBrick()
+            startScript.addBrick(brick)
             baseActivityTestRule.launchActivity()
             executeTest(
                 R.id.brick_set_look_spinner,
@@ -497,15 +537,16 @@ class SpinnerSerializationTest {
                 )
             )
             baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
         }
     }
 
     @Test
     fun testAskSpeechBrick() {
-        val brick = AskSpeechBrick("my question")
-        startScript.addBrick(brick)
         for (languageCode in TEST_LANGUAGES) {
             setLanguage(languageCode)
+            val brick = AskSpeechBrick("my question")
+            startScript.addBrick(brick)
             baseActivityTestRule.launchActivity()
             executeTest(
                 R.id.brick_ask_speech_spinner,
@@ -518,15 +559,16 @@ class SpinnerSerializationTest {
                 )
             )
             baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
         }
     }
 
     @Test
     fun testShowTextColorSizeAlignmentBrick() {
-        val brick = ShowTextColorSizeAlignmentBrick()
-        startScript.addBrick(brick)
         for (languageCode in TEST_LANGUAGES) {
             setLanguage(languageCode)
+            val brick = ShowTextColorSizeAlignmentBrick()
+            startScript.addBrick(brick)
             baseActivityTestRule.launchActivity()
             executeTest(
                 R.id.brick_show_variable_color_size_align_spinner,
@@ -545,16 +587,17 @@ class SpinnerSerializationTest {
                 )
             )
             baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
         }
 
     }
 
     @Test
     fun testSetBackgroundBrick() {
-        val brick = SetBackgroundBrick()
-        startScript.addBrick(brick)
         for (languageCode in TEST_LANGUAGES) {
             setLanguage(languageCode)
+            val brick = SetBackgroundBrick()
+            startScript.addBrick(brick)
             baseActivityTestRule.launchActivity()
             executeTest(
                 R.id.brick_set_background_spinner,
@@ -567,15 +610,16 @@ class SpinnerSerializationTest {
                 )
             )
             baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
         }
     }
 
     @Test
     fun testSetBackgroundAndWaitBrick() {
-        val brick = SetBackgroundAndWaitBrick()
-        startScript.addBrick(brick)
         for (languageCode in TEST_LANGUAGES) {
             setLanguage(languageCode)
+            val brick = SetBackgroundAndWaitBrick()
+            startScript.addBrick(brick)
             baseActivityTestRule.launchActivity()
             executeTest(
                 R.id.brick_set_background_spinner,
@@ -588,15 +632,16 @@ class SpinnerSerializationTest {
                 )
             )
             baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
         }
     }
 
     @Test
     fun testCameraBrick() {
-        val brick = CameraBrick()
-        startScript.addBrick(brick)
         for (languageCode in TEST_LANGUAGES) {
             setLanguage(languageCode)
+            val brick = CameraBrick()
+            startScript.addBrick(brick)
             baseActivityTestRule.launchActivity()
             val mapOfValues = mapOf(
                 getStringForResourceId(R.string.video_brick_camera_off) to "Turn (camera: (off));\n",
@@ -610,16 +655,17 @@ class SpinnerSerializationTest {
             )
             checkSpinnerValueCount(brick, R.id.brick_video_spinner, mapOfValues.size)
             baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
         }
 
     }
 
     @Test
     fun testChooseCameraBrick() {
-        val brick = ChooseCameraBrick()
-        startScript.addBrick(brick)
         for (languageCode in TEST_LANGUAGES) {
             setLanguage(languageCode)
+            val brick = ChooseCameraBrick()
+            startScript.addBrick(brick)
             baseActivityTestRule.launchActivity()
             val mapOfValues = mapOf(
                 getStringForResourceId(R.string.choose_camera_back) to "Use (camera: (rear));\n",
@@ -633,418 +679,717 @@ class SpinnerSerializationTest {
             )
             checkSpinnerValueCount(brick, R.id.brick_choose_camera_spinner, mapOfValues.size)
             baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
         }
     }
-//
-//    @Test
-//    fun testFlashBrick() {
-//        executeTest(
-//            R.id.brick_flash_spinner,
-//            FlashBrick(),
-//            "Turn (flashlight: (on));\n",
-//            mapOf(
-//                "off" to "Turn (flashlight: (off));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testSetVariableBrick() {
-//        // TODO: right spinner?
-//        executeTest(
-//            R.id.set_variable_spinner,
-//            SetVariableBrick(),
-//            "Set (variable: (\"var1\"), value: (0));\n",
-//            mapOf(
-//                "var2" to "Set (variable: (\"var2\"), value: (0));\n",
-//                "var3" to "Set (variable: (\"var3\"), value: (0));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testChangeVariableBrick() {
-//        executeTest(
-//            R.id.change_variable_spinner,
-//            ChangeVariableBrick(),
-//            "Change (variable: (\"var1\"), value: (0));\n",
-//            mapOf(
-//                "var2" to "Change (variable: (\"var2\"), value: (0));\n",
-//                "var3" to "Change (variable: (\"var3\"), value: (0));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testHideTextBrick() {
-//        executeTest(
-//            R.id.hide_variable_spinner,
-//            HideTextBrick(),
-//            "Hide (variable: (\"var1\"));\n",
-//            mapOf(
-//                "var2" to "Hide (variable: (\"var2\"));\n",
-//                "var3" to "Hide (variable: (\"var3\"));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testWriteVariableOnDeviceBrick() {
-//        executeTest(
-//            R.id.write_variable_spinner,
-//            WriteVariableOnDeviceBrick(),
-//            "Write on device (variable: (\"var1\"));\n",
-//            mapOf(
-//                "var2" to "Write on device (variable: (\"var2\"));\n",
-//                "var3" to "Write on device (variable: (\"var3\"));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testReadVariableFromDeviceBrick() {
-//        executeTest(
-//            R.id.read_variable_from_device_spinner,
-//            ReadVariableFromDeviceBrick(),
-//            "Read from device (variable: (\"var1\"));\n",
-//            mapOf(
-//                "var2" to "Read from device (variable: (\"var2\"));\n",
-//                "var3" to "Read from device (variable: (\"var3\"));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testWriteVariableToFileBrick() {
-//        executeTest(
-//            R.id.brick_write_variable_to_file_spinner,
-//            WriteVariableToFileBrick(),
-//            "Write to file (variable: (\"var1\"), file: (0));\n",
-//            mapOf(
-//                "var2" to "Write to file (variable: (\"var2\"), file: (0));\n",
-//                "var3" to "Write to file (variable: (\"var3\"), file: (0));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testReadVariableFromFileBrick() {
-//        executeTest(
-//            R.id.brick_read_variable_from_file_spinner_variable,
-//            ReadVariableFromFileBrick(),
-//            "Read from file (variable: (\"var1\"), file: (0), action: (keep the file));\n",
-//            mapOf(
-//                "var2" to "Read from file (variable: (\"var2\"), file: (0), action: (keep the file));\n",
-//                "var3" to "Read from file (variable: (\"var3\"), file: (0), action: (keep the file));\n"
-//            ),
-//            R.id.brick_read_variable_from_file_spinner_mode,
-//            mapOf(
-//                "delete the file" to "Read from file (variable: (\"var3\"), file: (0), action: (delete the file));\n",
-//                "keep the file" to "Read from file (variable: (\"var3\"), file: (0), action: (keep the file));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testAddItemToUserListBrick() {
-//        executeTest(
-//            R.id.add_item_to_userlist_spinner,
-//            ForItemInUserListBrick(),
-//            "Add (list: (*list1*), item: (0));\n",
-//            mapOf(
-//                "list2" to "Add (list: (*list2*), item: (0));\n",
-//                "list3" to "Add (list: (*list3*), item: (0));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testDeleteItemOfUserListBrick() {
-//        executeTest(
-//            R.id.delete_item_of_userlist_spinner,
-//            DeleteItemOfUserListBrick(),
-//            "Delete item at (list: (*list1*), position: (0));\n",
-//            mapOf(
-//                "list2" to "Delete item at (list: (*list2*), position: (0));\n",
-//                "list3" to "Delete item at (list: (*list3*), position: (0));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testClearUserListBrick() {
-//        executeTest(
-//            R.id.clear_userlist_spinner,
-//            ClearUserListBrick(),
-//            "Delete all items (list: (*list1*));\n",
-//            mapOf(
-//                "list2" to "Delete all items (list: (*list2*));\n",
-//                "list3" to "Delete all items (list: (*list3*));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testInsertItemIntoUserListBrick() {
-//        executeTest(
-//            R.id.insert_item_into_userlist_spinner,
-//            InsertItemIntoUserListBrick(),
-//            "Insert (list: (*list1*), position: (0), value: (0));\n",
-//            mapOf(
-//                "list2" to "Insert (list: (*list2*), position: (0), value: (0));\n",
-//                "list3" to "Insert (list: (*list3*), position: (0), value: (0));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testReplaceItemInUserListBrick() {
-//        executeTest(
-//            R.id.replace_item_in_userlist_spinner,
-//            ReplaceItemInUserListBrick(),
-//            "Replace (list: (*list1*), position: (0), value: (0));\n",
-//            mapOf(
-//                "list2" to "Replace (list: (*list2*), position: (0), value: (0));\n",
-//                "list3" to "Replace (list: (*list3*), position: (0), value: (0));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testWriteListOnDeviceBrick() {
-//        executeTest(
-//            R.id.write_list_spinner,
-//            WriteListOnDeviceBrick(),
-//            "Write on device (list: (*list1*));\n",
-//            mapOf(
-//                "list2" to "Write on device (list: (*list2*));\n",
-//                "list3" to "Write on device (list: (*list3*));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testReadListFromDeviceBrick() {
-//        executeTest(
-//            R.id.read_list_from_device_spinner,
-//            ReadListFromDeviceBrick(),
-//            "Read from device (list: (*list1*));\n",
-//            mapOf(
-//                "list2" to "Read from device (list: (*list2*));\n",
-//                "list3" to "Read from device (list: (*list3*));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testStoreCSVIntoUserListBrick() {
-//        executeTest(
-//            R.id.brick_store_csv_into_userlist_spinner,
-//            ReadListFromDeviceBrick(),
-//            "Store column of comma-separated values to list (list: (*list1*), csv: (0), column: (0));\n",
-//            mapOf(
-//                "list2" to "Store CSV into (list: (*list2*), csv: (0), column: (0));\n",
-//                "list3" to "Store CSV into (list: (*list3*), csv: (0), column: (0));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testWebRequestBrick() {
-//        executeTest(
-//            R.id.web_request_spinner,
-//            WebRequestBrick(),
-//            "Send web request (url: (0), answer variable: (\"var1\"));\n",
-//            mapOf(
-//                "var2" to "Send web request (url: (0), answer variable: (\"var2\"));\n",
-//                "var3" to "Send web request (url: (0), answer variable: (\"var3\"));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testLegoNxtMotorTurnAngleBrick() {
-//        executeTest(
-//            R.id.lego_motor_turn_angle_spinner,
-//            LegoNxtMotorTurnAngleBrick(),
-//            "Turn NXT (motor: (A), degrees: (0));\n",
-//            mapOf(
-//                "B" to "Turn NXT (motor: (B), degrees: (0));\n",
-//                "C" to "Turn NXT (motor: (C), degrees: (0));\n",
-//                "B+C" to "Turn NXT (motor: (B+C), degrees: (0));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testLegoNxtMotorStopBrick() {
-//        executeTest(
-//            R.id.stop_motor_spinner,
-//            LegoNxtMotorStopBrick(),
-//            "Stop NXT (motor: (A));\n",
-//            mapOf(
-//                "B" to "Stop NXT (motor: (B));\n",
-//                "C" to "Stop NXT (motor: (C));\n",
-//                "B+C" to "Stop NXT (motor: (B+C));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testLegoNxtMotorMoveBrick() {
-//        executeTest(
-//            R.id.lego_motor_action_spinner,
-//            LegoNxtMotorMoveBrick(),
-//            "Move NXT (motor: (A), speed percentage: (0));\n",
-//            mapOf(
-//                "B" to "Move NXT (motor: (B), speed percentage: (0));\n",
-//                "C" to "Move NXT (motor: (C), speed percentage: (0));\n",
-//                "B+C" to "Move NXT (motor: (B+C), speed percentage: (0));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testLegoEv3MotorTurnAngleBrick() {
-//        executeTest(
-//            R.id.lego_ev3_motor_turn_angle_spinner,
-//            LegoEv3MotorTurnAngleBrick(),
-//            "Turn EV3 (motor: (A), degrees: (0));\n",
-//            mapOf(
-//                "B" to "Turn EV3 (motor: (B), degrees: (0));\n",
-//                "C" to "Turn EV3 (motor: (C), degrees: (0));\n",
-//                "B+C" to "Turn EV3 (motor: (B+C), degrees: (0));\n",
-//                "All" to "Turn EV3 (motor: (All), degrees: (0));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testLegoEv3MotorMoveBrick() {
-//        executeTest(
-//            R.id.brick_ev3_motor_move_spinner,
-//            LegoEv3MotorMoveBrick(),
-//            "Set EV3 (motor: (A), speed percentage: (0));\n",
-//            mapOf(
-//                "B" to "Set EV3 (motor: (B), speed percentage: (0));\n",
-//                "C" to "Set EV3 (motor: (C), speed percentage: (0));\n",
-//                "B+C" to "Set EV3 (motor: (B+C), speed percentage: (0));\n",
-//                "All" to "Set EV3 (motor: (All), speed percentage: (0));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testLegoEv3MotorStopBrick() {
-//        executeTest(
-//            R.id.ev3_stop_motor_spinner,
-//            LegoEv3MotorStopBrick(),
-//            "Stop EV3 (motor: (A));\n",
-//            mapOf(
-//                "B" to "Stop EV3 (motor: (B));\n",
-//                "C" to "Stop EV3 (motor: (C));\n",
-//                "B+C" to "Stop EV3 (motor: (B+C));\n",
-//                "All" to "Stop EV3 (motor: (All));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testLegoEv3SetLedBrick() {
-//        executeTest(
-//            R.id.brick_ev3_set_led_spinner,
-//            LegoEv3SetLedBrick(),
-//            "Set EV3 (status: (green));\n",
-//            mapOf(
-//                "red" to "Set EV3 (status: (red));\n",
-//                "orange" to "Set EV3 (status: (orange));\n",
-//                "green" to "Set EV3 (status: (green));\n",
-//                "red flashing" to "Set EV3 (status: (red flashing));\n",
-//                "orange flashing" to "Set EV3 (status: (orange flashing));\n",
-//                "green flashing" to "Set EV3 (status: (green flashing));\n",
-//                "red pulse" to "Set EV3 (status: (red pulse));\n",
-//                "orange pulse" to "Set EV3 (status: (orange pulse));\n",
-//                "green pulse" to "Set EV3 (status: (green pulse));\n",
-//                "off" to "Set EV3 (status: (off));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testDronePlayLedAnimationBrick() {
-//        executeTest(
-//            R.id.brick_drone_play_led_animation_spinner,
-//            DronePlayLedAnimationBrick(),
-//            "Play AR.Drone 2.0 (flash animation: (blink green red));\n",
-//            mapOf(
-//                "blink green" to "Play AR.Drone 2.0 (flash animation: (blink green));\n",
-//                "blink red" to "Play AR.Drone 2.0 (flash animation: (blink red));\n",
-//                "blink orange" to "Play AR.Drone 2.0 (flash animation: (blink orange));\n",
-//                "snake green red" to "Play AR.Drone 2.0 (flash animation: (snake green red));\n",
-//                "fire" to "Play AR.Drone 2.0 (flash animation: (fire));\n",
-//                "standard" to "Play AR.Drone 2.0 (flash animation: (standard));\n",
-//                "red" to "Play AR.Drone 2.0 (flash animation: (red));\n",
-//                "green" to "Play AR.Drone 2.0 (flash animation: (green));\n",
-//                "red snake" to "Play AR.Drone 2.0 (flash animation: (red snake));\n",
-//                "blank" to "Play AR.Drone 2.0 (flash animation: (blank));\n",
-//                "right missile" to "Play AR.Drone 2.0 (flash animation: (right missile));\n",
-//                "left missile" to "Play AR.Drone 2.0 (flash animation: (left missile));\n",
-//                "double missle" to "Play AR.Drone 2.0 (flash animation: (double missle));\n",
-//                "front left green others red" to "Play AR.Drone 2.0 (flash animation: (front left green others red));\n",
-//                "front right green others red" to "Play AR.Drone 2.0 (flash animation: (front right green others red));\n",
-//                "rear right green others red" to "Play AR.Drone 2.0 (flash animation: (rear right green others red));\n",
-//                "rear left green others red" to "Play AR.Drone 2.0 (flash animation: (rear left green others red));\n",
-//                "left green right red" to "Play AR.Drone 2.0 (flash animation: (left green right red));\n",
-//                "left red right green" to "Play AR.Drone 2.0 (flash animation: (left red right green));\n",
-//                "blink standard" to "Play AR.Drone 2.0 (flash animation: (blink standard));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testJumpingSumoAnimationsBrick() {
-//        executeTest(
-//            R.id.brick_jumping_sumo_animation_spinner,
-//            JumpingSumoAnimationsBrick(),
-//            "Play Jumping Sumo (animation: (spin));\n",
-//            mapOf(
-//                "tab" to "Play Jumping Sumo (animation: (tab));\n",
-//                "slowshake" to "Play Jumping Sumo (animation: (slowshake));\n",
-//                "metronome" to "Play Jumping Sumo (animation: (metronome));\n",
-//                "ondulation" to "Play Jumping Sumo (animation: (ondulation));\n",
-//                "spinjump" to "Play Jumping Sumo (animation: (spinjump));\n",
-//                "spiral" to "Play Jumping Sumo (animation: (spiral));\n",
-//                "slalom" to "Play Jumping Sumo (animation: (slalom));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testJumpingSumoSoundBrick() {
-//        executeTest(
-//            R.id.brick_jumping_sumo_sound_spinner,
-//            JumpingSumoSoundBrick(),
-//            "Play Jumping Sumo (sound: (default), volume: (0));\n",
-//            mapOf(
-//                "robot" to "Play Jumping Sumo (sound: (robot), volume: (0));\n",
-//                "insect" to "Play Jumping Sumo (sound: (insect), volume: (0));\n",
-//                "monster" to "Play Jumping Sumo (sound: (monster), volume: (0));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testPhiroMotorMoveForwardBrick() {
-//        executeTest(
-//            R.id.brick_phiro_motor_forward_action_spinner,
-//            PhiroMotorMoveForwardBrick(),
-//            "Move Phiro (motor: (left), direction: (forward), speed percentage: (0));\n",
-//            mapOf(
-//                "right" to "Move Phiro (motor: (right), direction: (forward), speed percentage: (0));\n",
-//                "both" to "Move Phiro (motor: (both), direction: (forward), speed percentage: (0));\n"
-//            )
-//        )
-//    }
+
+    @Test
+    fun testFlashBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = FlashBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val mapOfValues = mapOf(
+                getStringForResourceId(R.string.brick_flash_off) to "Turn (flashlight: (off));\n",
+                getStringForResourceId(R.string.brick_flash_on) to "Turn (flashlight: (on));\n",
+            )
+            executeTest(
+                R.id.brick_flash_spinner,
+                brick,
+                "Turn (flashlight: (on));\n",
+                mapOfValues
+            )
+            checkSpinnerValueCount(brick, R.id.brick_flash_spinner, mapOfValues.size)
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testSetVariableBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = SetVariableBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val mapOfValues = mapOf(
+                "var2" to "Set (variable: (\"var2\"), value: (0));\n",
+                "var3" to "Set (variable: (\"var3\"), value: (0));\n",
+                "var1" to "Set (variable: (\"var1\"), value: (0));\n"
+            )
+            executeTest(
+                R.id.set_variable_spinner,
+                brick,
+                "Set (variable: (\"var1\"), value: (0));\n",
+                mapOfValues
+            )
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testChangeVariableBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = ChangeVariableBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val mapOfValues = mapOf(
+                "var2" to "Change (variable: (\"var2\"), value: (0));\n",
+                "var3" to "Change (variable: (\"var3\"), value: (0));\n",
+                "var1" to "Change (variable: (\"var1\"), value: (0));\n"
+            )
+            executeTest(
+                R.id.change_variable_spinner,
+                brick,
+                "Change (variable: (\"var1\"), value: (0));\n",
+                mapOfValues
+            )
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testHideTextBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = HideTextBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            executeTest(
+                R.id.hide_variable_spinner,
+                brick,
+                "Hide (variable: (\"var1\"));\n",
+                mapOf(
+                    "var2" to "Hide (variable: (\"var2\"));\n",
+                    "var3" to "Hide (variable: (\"var3\"));\n",
+                    "var1" to "Hide (variable: (\"var1\"));\n"
+                )
+            )
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testWriteVariableOnDeviceBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = WriteVariableOnDeviceBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            executeTest(
+                R.id.write_variable_spinner,
+                brick,
+                "Write on device (variable: (\"var1\"));\n",
+                mapOf(
+                    "var2" to "Write on device (variable: (\"var2\"));\n",
+                    "var3" to "Write on device (variable: (\"var3\"));\n",
+                    "var1" to "Write on device (variable: (\"var1\"));\n"
+                )
+            )
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testReadVariableFromDeviceBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = ReadVariableFromDeviceBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            executeTest(
+                R.id.read_variable_from_device_spinner,
+                brick,
+                "Read from device (variable: (\"var1\"));\n",
+                mapOf(
+                    "var2" to "Read from device (variable: (\"var2\"));\n",
+                    "var3" to "Read from device (variable: (\"var3\"));\n",
+                    "var1" to "Read from device (variable: (\"var1\"));\n"
+                )
+            )
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testWriteVariableToFileBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = WriteVariableToFileBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            executeTest(
+                R.id.brick_write_variable_to_file_spinner,
+                brick,
+                "Write to file (variable: (\"var1\"), file: (0));\n",
+                mapOf(
+                    "var2" to "Write to file (variable: (\"var2\"), file: (0));\n",
+                    "var3" to "Write to file (variable: (\"var3\"), file: (0));\n",
+                    "var1" to "Write to file (variable: (\"var1\"), file: (0));\n"
+                )
+            )
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testReadVariableFromFileBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = ReadVariableFromFileBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            executeTest(
+                R.id.brick_read_variable_from_file_spinner_variable,
+                brick,
+                "Read from file (variable: (\"var1\"), file: (0), action: (keep the file));\n",
+                mapOf(
+                    "var2" to "Read from file (variable: (\"var2\"), file: (0), action: (keep the file));\n",
+                    "var3" to "Read from file (variable: (\"var3\"), file: (0), action: (keep the file));\n",
+                    "var1" to "Read from file (variable: (\"var1\"), file: (0), action: (keep the file));\n"
+                ),
+                R.id.brick_read_variable_from_file_spinner_mode,
+                mapOf(
+                    getStringForResourceId(R.string.brick_read_variable_from_file_delete) to "Read from file (variable: (\"var1\"), file: (0), action: (delete the file));\n",
+                    getStringForResourceId(R.string.brick_read_variable_from_file_keep) to "Read from file (variable: (\"var1\"), file: (0), action: (keep the file));\n",
+                    getStringForResourceId(R.string.brick_read_variable_from_file_delete) to "Read from file (variable: (\"var1\"), file: (0), action: (delete the file));\n"
+                )
+            )
+            checkSpinnerValueCount(brick, R.id.brick_read_variable_from_file_spinner_mode, 2)
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testAddItemToUserListBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = AddItemToUserListBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val mapOfValues = mapOf(
+                "list2" to "Add (list: (*list2*), item: (0));\n",
+                "list3" to "Add (list: (*list3*), item: (0));\n",
+                "list1" to "Add (list: (*list1*), item: (0));\n"
+            )
+            executeTest(
+                R.id.add_item_to_userlist_spinner,
+                brick,
+                "Add (list: (*list1*), item: (0));\n",
+                mapOfValues
+            )
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testDeleteItemOfUserListBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = DeleteItemOfUserListBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val mapOfValues = mapOf(
+                "list2" to "Delete item at (list: (*list2*), position: (0));\n",
+                "list3" to "Delete item at (list: (*list3*), position: (0));\n",
+                "list1" to "Delete item at (list: (*list1*), position: (0));\n"
+            )
+            executeTest(
+                R.id.delete_item_of_userlist_spinner,
+                brick,
+                "Delete item at (list: (*list1*), position: (0));\n",
+                mapOfValues
+            )
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testClearUserListBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = ClearUserListBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val mapOfValues = mapOf(
+                "list2" to "Delete all items (list: (*list2*));\n",
+                "list3" to "Delete all items (list: (*list3*));\n",
+                "list1" to "Delete all items (list: (*list1*));\n"
+            )
+            executeTest(
+                R.id.clear_userlist_spinner,
+                brick,
+                "Delete all items (list: (*list1*));\n",
+                mapOfValues
+            )
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testInsertItemIntoUserListBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = InsertItemIntoUserListBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val mapOfValues = mapOf(
+                "list2" to "Insert (list: (*list2*), position: (0), value: (0));\n",
+                "list3" to "Insert (list: (*list3*), position: (0), value: (0));\n",
+                "list1" to "Insert (list: (*list1*), position: (0), value: (0));\n"
+            )
+            executeTest(
+                R.id.insert_item_into_userlist_spinner,
+                brick,
+                "Insert (list: (*list1*), position: (0), value: (0));\n",
+                mapOfValues
+            )
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testReplaceItemInUserListBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = ReplaceItemInUserListBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val mapOfValues = mapOf(
+                "list2" to "Replace (list: (*list2*), position: (0), value: (0));\n",
+                "list3" to "Replace (list: (*list3*), position: (0), value: (0));\n",
+                "list1" to "Replace (list: (*list1*), position: (0), value: (0));\n"
+            )
+            executeTest(
+                R.id.replace_item_in_userlist_spinner,
+                brick,
+                "Replace (list: (*list1*), position: (0), value: (0));\n",
+                mapOfValues
+            )
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testWriteListOnDeviceBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = WriteListOnDeviceBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            executeTest(
+                R.id.write_list_spinner,
+                brick,
+                "Write on device (list: (*list1*));\n",
+                mapOf(
+                    "list2" to "Write on device (list: (*list2*));\n",
+                    "list3" to "Write on device (list: (*list3*));\n",
+                    "list1" to "Write on device (list: (*list1*));\n"
+                )
+            )
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testReadListFromDeviceBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = ReadListFromDeviceBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            executeTest(
+                R.id.read_list_from_device_spinner,
+                brick,
+                "Read from device (list: (*list1*));\n",
+                mapOf(
+                    "list2" to "Read from device (list: (*list2*));\n",
+                    "list3" to "Read from device (list: (*list3*));\n",
+                    "list1" to "Read from device (list: (*list1*));\n"
+                )
+            )
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testStoreCSVIntoUserListBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = StoreCSVIntoUserListBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val mapOfValues = mapOf(
+                "list2" to "Store column of comma-separated values to list (list: (*list2*), csv: (0), column: (0));\n",
+                "list3" to "Store column of comma-separated values to list (list: (*list3*), csv: (0), column: (0));\n",
+                "list1" to "Store column of comma-separated values to list (list: (*list1*), csv: (0), column: (0));\n"
+            )
+            executeTest(
+                R.id.brick_store_csv_into_userlist_spinner,
+                brick,
+                "Store column of comma-separated values to list (list: (*list1*), csv: (0), column: (0));\n",
+                mapOfValues
+            )
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testWebRequestBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = WebRequestBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val mapOfValues = mapOf(
+                "var2" to "Send web request (url: (0), answer variable: (\"var2\"));\n",
+                "var3" to "Send web request (url: (0), answer variable: (\"var3\"));\n",
+                "var1" to "Send web request (url: (0), answer variable: (\"var1\"));\n"
+            )
+            executeTest(
+                R.id.web_request_spinner,
+                brick,
+                "Send web request (url: (0), answer variable: (\"var1\"));\n",
+                mapOfValues
+            )
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testLegoNxtMotorTurnAngleBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = LegoNxtMotorTurnAngleBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val keys = getStringArrayForResourceId(R.array.nxt_motor_chooser)
+            val mapOfValues = mapOf(
+                keys[1] to "Turn NXT (motor: (B), degrees: (0));\n",
+                keys[2] to "Turn NXT (motor: (C), degrees: (0));\n",
+                keys[3] to "Turn NXT (motor: (B+C), degrees: (0));\n",
+                keys[0] to "Turn NXT (motor: (A), degrees: (0));\n"
+            )
+            executeTest(
+                R.id.lego_motor_turn_angle_spinner,
+                brick,
+                "Turn NXT (motor: (A), degrees: (0));\n",
+                mapOfValues
+            )
+            checkSpinnerValueCount(brick, R.id.lego_motor_turn_angle_spinner, mapOfValues.size)
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testLegoNxtMotorStopBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = LegoNxtMotorStopBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val keys = getStringArrayForResourceId(R.array.nxt_stop_motor_chooser)
+            val mapOfValues = mapOf(
+                keys[1] to "Stop NXT (motor: (B));\n",
+                keys[2] to "Stop NXT (motor: (C));\n",
+                keys[3] to "Stop NXT (motor: (B+C));\n",
+                keys[4] to "Stop NXT (motor: (all));\n",
+                keys[0] to "Stop NXT (motor: (A));\n"
+            )
+            executeTest(
+                R.id.stop_motor_spinner,
+                brick,
+                "Stop NXT (motor: (A));\n",
+                mapOfValues
+            )
+            checkSpinnerValueCount(brick, R.id.stop_motor_spinner, mapOfValues.size)
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testLegoNxtMotorMoveBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = LegoNxtMotorMoveBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val keys = getStringArrayForResourceId(R.array.nxt_motor_chooser)
+            val mapOfValues = mapOf(
+                keys[1] to "Set NXT (motor: (B), speed percentage: (0));\n",
+                keys[2] to "Set NXT (motor: (C), speed percentage: (0));\n",
+                keys[3] to "Set NXT (motor: (B+C), speed percentage: (0));\n",
+                keys[0] to "Set NXT (motor: (A), speed percentage: (0));\n"
+            )
+            executeTest(
+                R.id.lego_motor_action_spinner,
+                brick,
+                "Set NXT (motor: (A), speed percentage: (0));\n",
+                mapOfValues
+            )
+            checkSpinnerValueCount(brick, R.id.lego_motor_action_spinner, mapOfValues.size)
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testLegoEv3MotorTurnAngleBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = LegoEv3MotorTurnAngleBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val keys = getStringArrayForResourceId(R.array.ev3_motor_chooser)
+            val mapOfValues = mapOf(
+                keys[1] to "Turn EV3 (motor: (B), degrees: (0));\n",
+                keys[2] to "Turn EV3 (motor: (C), degrees: (0));\n",
+                keys[3] to "Turn EV3 (motor: (D), degrees: (0));\n",
+                keys[4] to "Turn EV3 (motor: (B+C), degrees: (0));\n",
+                keys[0] to "Turn EV3 (motor: (A), degrees: (0));\n"
+            )
+            executeTest(
+                R.id.lego_ev3_motor_turn_angle_spinner,
+                brick,
+                "Turn EV3 (motor: (A), degrees: (0));\n",
+                mapOfValues
+            )
+            checkSpinnerValueCount(brick, R.id.lego_ev3_motor_turn_angle_spinner, mapOfValues.size)
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testLegoEv3MotorMoveBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = LegoEv3MotorMoveBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val keys = getStringArrayForResourceId(R.array.ev3_motor_chooser)
+            val mapOfValues = mapOf(
+                keys[1] to "Set EV3 (motor: (B), speed percentage: (0));\n",
+                keys[2] to "Set EV3 (motor: (C), speed percentage: (0));\n",
+                keys[3] to "Set EV3 (motor: (D), speed percentage: (0));\n",
+                keys[4] to "Set EV3 (motor: (B+C), speed percentage: (0));\n",
+                keys[0] to "Set EV3 (motor: (A), speed percentage: (0));\n"
+            )
+            executeTest(
+                R.id.brick_ev3_motor_move_spinner,
+                brick,
+                "Set EV3 (motor: (A), speed percentage: (0));\n",
+                mapOfValues
+            )
+            checkSpinnerValueCount(brick, R.id.brick_ev3_motor_move_spinner, mapOfValues.size)
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testLegoEv3MotorStopBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = LegoEv3MotorStopBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val keys = getStringArrayForResourceId(R.array.ev3_stop_motor_chooser)
+            val mapOfValues = mapOf(
+                keys[1] to "Stop EV3 (motor: (B));\n",
+                keys[2] to "Stop EV3 (motor: (C));\n",
+                keys[3] to "Stop EV3 (motor: (D));\n",
+                keys[4] to "Stop EV3 (motor: (B+C));\n",
+                keys[5] to "Stop EV3 (motor: (all));\n",
+                keys[0] to "Stop EV3 (motor: (A));\n"
+            )
+            executeTest(
+                R.id.ev3_stop_motor_spinner,
+                brick,
+                "Stop EV3 (motor: (A));\n",
+                mapOfValues
+            )
+            checkSpinnerValueCount(brick, R.id.ev3_stop_motor_spinner, mapOfValues.size)
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testLegoEv3SetLedBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = LegoEv3SetLedBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val keys = getStringArrayForResourceId(R.array.ev3_led_status_chooser)
+            val mapOfValues = mapOf(
+                keys[0] to "Set EV3 (status: (off));\n",
+                keys[2] to "Set EV3 (status: (red));\n",
+                keys[3] to "Set EV3 (status: (orange));\n",
+                keys[4] to "Set EV3 (status: (green flashing));\n",
+                keys[5] to "Set EV3 (status: (red flashing));\n",
+                keys[6] to "Set EV3 (status: (orange flashing));\n",
+                keys[7] to "Set EV3 (status: (green pulse));\n",
+                keys[8] to "Set EV3 (status: (red pulse));\n",
+                keys[9] to "Set EV3 (status: (orange pulse));\n",
+                keys[1] to "Set EV3 (status: (green));\n"
+            )
+            executeTest(
+                R.id.brick_ev3_set_led_spinner,
+                brick,
+                "Set EV3 (status: (green));\n",
+                mapOfValues
+            )
+            checkSpinnerValueCount(brick, R.id.brick_ev3_set_led_spinner, mapOfValues.size)
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testDronePlayLedAnimationBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = DronePlayLedAnimationBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val keys = getStringArrayForResourceId(R.array.brick_drone_play_led_animation_spinner)
+            val mapOfValues = mapOf(
+                keys[0] to "Play AR.Drone 2.0 (flash animation: (blink green red));\n",
+                keys[2] to "Play AR.Drone 2.0 (flash animation: (blink red));\n",
+                keys[3] to "Play AR.Drone 2.0 (flash animation: (blink orange));\n",
+                keys[4] to "Play AR.Drone 2.0 (flash animation: (snake green red));\n",
+                keys[5] to "Play AR.Drone 2.0 (flash animation: (fire));\n",
+                keys[6] to "Play AR.Drone 2.0 (flash animation: (standard));\n",
+                keys[7] to "Play AR.Drone 2.0 (flash animation: (red));\n",
+                keys[8] to "Play AR.Drone 2.0 (flash animation: (green));\n",
+                keys[9] to "Play AR.Drone 2.0 (flash animation: (red snake));\n",
+                keys[10] to "Play AR.Drone 2.0 (flash animation: (blank));\n",
+                keys[11] to "Play AR.Drone 2.0 (flash animation: (right missile));\n",
+                keys[12] to "Play AR.Drone 2.0 (flash animation: (left missile));\n",
+                keys[13] to "Play AR.Drone 2.0 (flash animation: (double missle));\n",
+                keys[14] to "Play AR.Drone 2.0 (flash animation: (front left green others red));\n",
+                keys[15] to "Play AR.Drone 2.0 (flash animation: (front right green others red));\n",
+                keys[16] to "Play AR.Drone 2.0 (flash animation: (rear right green others red));\n",
+                keys[17] to "Play AR.Drone 2.0 (flash animation: (rear left green others red));\n",
+                keys[18] to "Play AR.Drone 2.0 (flash animation: (left green right red));\n",
+                keys[19] to "Play AR.Drone 2.0 (flash animation: (left red right green));\n",
+                keys[20] to "Play AR.Drone 2.0 (flash animation: (blink standard));\n",
+                keys[1] to "Play AR.Drone 2.0 (flash animation: (blink green));\n"
+            )
+            executeTest(
+                R.id.brick_drone_play_led_animation_spinner,
+                brick,
+                "Play AR.Drone 2.0 (flash animation: (blink green));\n",
+                mapOfValues
+            )
+            checkSpinnerValueCount(brick, R.id.brick_drone_play_led_animation_spinner, mapOfValues.size)
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testJumpingSumoAnimationsBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = JumpingSumoAnimationsBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val keys = getStringArrayForResourceId(R.array.brick_jumping_sumo_select_animation_spinner)
+            val mapOfValues = mapOf(
+                keys[1] to "Start Jumping Sumo (animation: (tab));\n",
+                keys[2] to "Start Jumping Sumo (animation: (slowshake));\n",
+                keys[3] to "Start Jumping Sumo (animation: (metronome));\n",
+                keys[4] to "Start Jumping Sumo (animation: (ondulation));\n",
+                keys[5] to "Start Jumping Sumo (animation: (spinjump));\n",
+                keys[6] to "Start Jumping Sumo (animation: (spiral));\n",
+                keys[7] to "Start Jumping Sumo (animation: (slalom));\n",
+                keys[0] to "Start Jumping Sumo (animation: (spin));\n"
+            )
+            executeTest(
+                R.id.brick_jumping_sumo_animation_spinner,
+                brick,
+                "Start Jumping Sumo (animation: (spin));\n",
+                mapOfValues
+            )
+            checkSpinnerValueCount(brick, R.id.brick_jumping_sumo_animation_spinner, mapOfValues.size)
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testJumpingSumoSoundBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = JumpingSumoSoundBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val keys = getStringArrayForResourceId(R.array.brick_jumping_sumo_select_sound_spinner)
+            val mapOfValues = mapOf(
+                keys[1] to "Play Jumping Sumo (sound: (robot), volume: (0));\n",
+                keys[2] to "Play Jumping Sumo (sound: (insect), volume: (0));\n",
+                keys[3] to "Play Jumping Sumo (sound: (monster), volume: (0));\n",
+                keys[0] to "Play Jumping Sumo (sound: (normal), volume: (0));\n"
+            )
+            executeTest(
+                R.id.brick_jumping_sumo_sound_spinner,
+                brick,
+                "Play Jumping Sumo (sound: (normal), volume: (0));\n",
+                mapOfValues
+            )
+            checkSpinnerValueCount(brick, R.id.brick_jumping_sumo_sound_spinner, mapOfValues.size)
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testPhiroMotorMoveForwardBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = PhiroMotorMoveForwardBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val keys = getStringArrayForResourceId(R.array.brick_phiro_select_motor_spinner)
+            val mapOfValues = mapOf(
+                keys[1] to "Move Phiro (motor: (right), direction: (forward), speed percentage: (0));\n",
+                keys[2] to "Move Phiro (motor: (both), direction: (forward), speed percentage: (0));\n",
+                keys[0] to "Move Phiro (motor: (left), direction: (forward), speed percentage: (0));\n"
+            )
+            executeTest(
+                R.id.brick_phiro_motor_forward_action_spinner,
+                brick,
+                "Move Phiro (motor: (left), direction: (forward), speed percentage: (0));\n",
+                mapOfValues
+            )
+            checkSpinnerValueCount(brick, R.id.brick_phiro_motor_forward_action_spinner, mapOfValues.size)
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
 //
 //    @Test
 //    fun testPhiroMotorMoveBackwardBrick() {

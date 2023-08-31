@@ -105,6 +105,8 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements UpdateableSp
 				return "C";
 			case MOTOR_B_C:
 				return "B+C";
+			case ALL_MOTORS:
+				return "all";
 			default:
 				throw new IllegalStateException("Motor not implemented");
 		}

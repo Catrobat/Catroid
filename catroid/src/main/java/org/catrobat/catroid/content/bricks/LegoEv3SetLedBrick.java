@@ -115,11 +115,11 @@ public class LegoEv3SetLedBrick extends BrickBaseType implements UpdateableSpinn
 			case 3:
 				return "orange";
 			case 4:
-				return "green flash";
+				return "green flashing";
 			case 5:
-				return "red flash";
+				return "red flashing";
 			case 6:
-				return "orange flash";
+				return "orange flashing";
 			case 7:
 				return "green pulse";
 			case 8:
