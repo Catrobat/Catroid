@@ -158,7 +158,9 @@ public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType implements Upd
 		brickBuilder.append("pin: (");
 		brickBuilder.append(script.getPin() != null ? script.getPin() : "");
 		brickBuilder.append("), position: (");
-		brickBuilder.append(script.getEventValue() != null ? script.getEventValue() : "");
+		if (script.getEventValue() != null) {
+			brickBuilder.append(script.getEventValue().equals(BrickValues.RASPI_EVENTS[0]) ? "high" : "low");
+		}
 		brickBuilder.append(")");
 	}
 }

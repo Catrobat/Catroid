@@ -44,13 +44,16 @@ import androidx.test.uiautomator.UiDevice
 import org.catrobat.catroid.R
 import org.catrobat.catroid.UiTestCatroidApplication.Companion.projectManager
 import org.catrobat.catroid.common.LookData
+import org.catrobat.catroid.common.NfcTagData
 import org.catrobat.catroid.common.SoundInfo
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick
+import org.catrobat.catroid.content.bricks.AskBrick
 import org.catrobat.catroid.content.bricks.AskSpeechBrick
+import org.catrobat.catroid.content.bricks.AssertUserListsBrick
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.CameraBrick
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick
@@ -74,7 +77,13 @@ import org.catrobat.catroid.content.bricks.LegoEv3SetLedBrick
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick
+import org.catrobat.catroid.content.bricks.ParameterizedBrick
+import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick
+import org.catrobat.catroid.content.bricks.PhiroMotorMoveBackwardBrick
 import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick
+import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick
+import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick
+import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick
 import org.catrobat.catroid.content.bricks.PlayDrumForBeatsBrick
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick
 import org.catrobat.catroid.content.bricks.PlaySoundAtBrick
@@ -98,15 +107,20 @@ import org.catrobat.catroid.content.bricks.StopScriptBrick
 import org.catrobat.catroid.content.bricks.StopSoundBrick
 import org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick
 import org.catrobat.catroid.content.bricks.WebRequestBrick
+import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick
+import org.catrobat.catroid.content.bricks.WhenBounceOffBrick
+import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick
+import org.catrobat.catroid.content.bricks.WhenNfcBrick
+import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick
 import org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick
 import org.catrobat.catroid.content.bricks.WriteVariableToFileBrick
 import org.catrobat.catroid.content.bricks.brickspinner.PickableDrum
 import org.catrobat.catroid.content.bricks.brickspinner.PickableMusicalInstrument
+import org.catrobat.catroid.content.bricks.brickspinner.StringOption
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
-import org.catrobat.catroid.koin.start
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
@@ -121,7 +135,7 @@ import java.io.File
 
 class SpinnerSerializationTest {
     companion object {
-        val TEST_LANGUAGES: Array<String> = arrayOf("en-GB", "de")
+        val TEST_LANGUAGES: Array<String> = arrayOf("en-GB", "de", "hi")
     }
     private lateinit var startScript: StartScript
 
@@ -1390,184 +1404,367 @@ class SpinnerSerializationTest {
             startScript.removeBrick(brick)
         }
     }
-//
-//    @Test
-//    fun testPhiroMotorMoveBackwardBrick() {
-//        executeTest(
-//            R.id.brick_phiro_motor_forward_action_spinner,
-//            PhiroMotorMoveBackwardBrick(),
-//            "Move Phiro (motor: (left), direction: (backward), speed percentage: (0));\n",
-//            mapOf(
-//                "right" to "Move Phiro (motor: (right), direction: (backward), speed percentage: (0));\n",
-//                "both" to "Move Phiro (motor: (both), direction: (backward), speed percentage: (0));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testPhiroMotorStopBrick() {
-//        executeTest(
-//            R.id.brick_phiro_stop_motor_spinner,
-//            PhiroMotorStopBrick(),
-//            "Stop Phiro (motor: (both));\n",
-//            mapOf(
-//                "right" to "Stop Phiro (motor: (right));\n",
-//                "left" to "Stop Phiro (motor: (left));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testPhiroPlayToneBrick() {
-//        executeTest(
-//            R.id.brick_phiro_select_tone_spinner,
-//            PhiroPlayToneBrick(),
-//            "Play Phiro (tone: (do), seconds: (0));\n",
-//            mapOf(
-//                "Re" to "Play Phiro (tone: (re), seconds: (0));\n",
-//                "Mi" to "Play Phiro (tone: (mi), seconds: (0));\n",
-//                "Fa" to "Play Phiro (tone: (fa), seconds: (0));\n",
-//                "So" to "Play Phiro (tone: (so), seconds: (0));\n",
-//                "La" to "Play Phiro (tone: (la), seconds: (0));\n",
-//                "Ti" to "Play Phiro (tone: (ti), seconds: (0));\n",
-//                "Do" to "Play Phiro (tone: (do), seconds: (0));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testPhiroRGBLightBrick() {
-//        executeTest(
-//            R.id.brick_phiro_rgb_light_spinner,
-//            PhiroRGBLightBrick(),
-//            "Set Phiro (light: (both), color: (#000000));\n",
-//            mapOf(
-//                "Left" to "Set Phiro (light: (left), color: (#000000));\n",
-//                "Right" to "Set Phiro (light: (right), color: (#000000));\n",
-//                "Both" to "Set Phiro (light: (both), color: (#000000));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testPhiroIfLogicBeginBrick() {
-//        executeTest(
-//            R.id.brick_phiro_sensor_action_spinner,
-//            PhiroIfLogicBeginBrick(),
-//            "If (activated phiro: (front left sensor)) {\n} else {\n}\n",
-//            mapOf(
-//                "front right sensor" to "If (activated phiro: (front right sensor)) {\n} else {\n}\n",
-//                "side left sensor" to "If (activated phiro: (side left sensor)) {\n} else {\n}\n",
-//                "side right sensor" to "If (activated phiro: (side right sensor)) {\n} else {\n}\n",
-//                "bottom left sensor" to "If (activated phiro: (bottom left sensor)) {\n} else {\n}\n",
-//                "bottom right sensor" to "If (activated phiro: (bottom right sensor)) {\n} else {\n}\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testAssertUserListsBrick() {
-//        executeTest(
-//            R.id.brick_assert_lists_actual,
-//            AssertUserListsBrick(),
-//            "Assert that (list: (*list1*)) is equal to (list: (*list1*));\n",
-//            mapOf(
-//                "list2" to "Assert that (list: (*list2*)) is equal to (list: (*list1*));\n",
-//                "list3" to "Assert that (list: (*list3*)) is equal to (list: (*list1*));\n"
-//            ),
-//            R.id.brick_assert_lists_expected,
-//            mapOf(
-//                "list2" to "Assert that (list: (*list3*)) is equal to (list: (*list2*));\n",
-//                "list3" to "Assert that (list: (*list3*)) is equal to (list: (*list3*));\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testWhenGamepadButtonBrick() {
-//        executeTest(
-//            R.id.brick_when_gamepad_button_spinner,
-//            WhenGamepadButtonBrick(),
-//            "When tapped (gamepad button: (A)) {\n}\n",
-//            mapOf(
-//                "B" to "When tapped (gamepad button: (B)) {\n}\n",
-//                "up" to "When tapped (gamepad button: (up)) {\n}\n",
-//                "down" to "When tapped (gamepad button: (down)) {\n}\n",
-//                "left" to "When tapped (gamepad button: (left)) {\n}\n",
-//                "right" to "When tapped (gamepad button: (right)) {\n}\n",
-//                "center" to "When tapped (gamepad button: (center)) {\n}\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testWhenBounceOffBrick() {
-//        executeTest(
-//            R.id.brick_when_bounce_off_spinner,
-//            WhenBounceOffBrick(),
-//            "When you bounce off (actor or object: ('testSprite')) {\n}\n",
-//            mapOf(
-//                "testSprite1" to "When you bounce off (actor or object: ('testSprite1')) {\n}\n",
-//                "testSprite2" to "When you bounce off (actor or object: ('testSprite2')) {\n}\n",
-//                "testSprite3" to "When you bounce off (actor or object: ('testSprite3')) {\n}\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testWhenBackgroundChangesBrick() {
-//        executeTest(
-//            R.id.brick_when_background_spinner,
-//            WhenBackgroundChangesBrick(),
-//            "When background changes to (look: ('look1')) {\n}\n",
-//            mapOf(
-//                "look2" to "When background changes to (look: ('look2')) {\n}\n",
-//                "look3" to "When background changes to (look: ('look3')) {\n}\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testWhenRaspiPinChangedBrick() {
-//        executeTest(
-//            R.id.brick_raspi_when_pinspinner,
-//            WhenRaspiPinChangedBrick(),
-//            "When Raspberry Pi pin changes to (pin: (3), position: (high)) {\n}\n",
-//            mapOf(
-//                "5" to "When Raspberry Pi pin changes to (pin: (5), position: (high)) {\n}\n",
-//                "7" to "When Raspberry Pi pin changes to (pin: (7), position: (high)) {\n}\n"
-//            ),
-//            R.id.brick_raspi_when_valuespinner,
-//            mapOf(
-//                "low" to "When Raspberry Pi pin changes to (pin: (7), position: (low)) {\n}\n",
-//                "high" to "When Raspberry Pi pin changes to (pin: (7), position: (high)) {\n}\n"
-//            )
-//        )
-//    }
-//
-//    @Test
-//    fun testWhenNfcBrick() {
-//        // TODO: add NFC tags to test project
-//        executeTest(
-//            R.id.brick_when_nfc_spinner,
-//            WhenNfcBrick(),
-//            "When NFC gets scanned (nfc tag: (all)) {\n}\n",
-//            mapOf()
-//        )
-//    }
-//
-//    @Test
-//    fun testAskBrick() {
-//        executeTest(
-//            R.id.brick_ask_spinner,
-//            AskBrick(),
-//            "Ask (text: (''), and store in: (\"var1\"));\n",
-//            mapOf(
-//                "var2" to "Ask (text: (''), and store in: (\"var2\"));\n",
-//                "var3" to "Ask (text: (''), and store in: (\"var3\"));\n"
-//            )
-//        )
-//    }
+
+    @Test
+    fun testPhiroMotorMoveBackwardBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = PhiroMotorMoveBackwardBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val keys = getStringArrayForResourceId(R.array.brick_phiro_select_motor_spinner)
+            val mapOfValues = mapOf(
+                keys[1] to "Move Phiro (motor: (right), direction: (backward), speed percentage: (0));\n",
+                keys[2] to "Move Phiro (motor: (both), direction: (backward), speed percentage: (0));\n",
+                keys[0] to "Move Phiro (motor: (left), direction: (backward), speed percentage: (0));\n"
+            )
+            executeTest(
+                R.id.brick_phiro_motor_backward_action_spinner,
+                brick,
+                "Move Phiro (motor: (left), direction: (backward), speed percentage: (0));\n",
+                mapOfValues
+            )
+            checkSpinnerValueCount(brick, R.id.brick_phiro_motor_backward_action_spinner, mapOfValues.size)
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testPhiroMotorStopBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = PhiroMotorStopBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val keys = getStringArrayForResourceId(R.array.brick_phiro_stop_motor_spinner)
+            val mapOfValues = mapOf(
+                keys[0] to "Stop Phiro (motor: (left));\n",
+                keys[1] to "Stop Phiro (motor: (right));\n",
+                keys[2] to "Stop Phiro (motor: (both));\n"
+            )
+            executeTest(
+                R.id.brick_phiro_stop_motor_spinner,
+                brick,
+                "Stop Phiro (motor: (both));\n",
+                mapOfValues
+            )
+            checkSpinnerValueCount(brick, R.id.brick_phiro_stop_motor_spinner, mapOfValues.size)
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testPhiroPlayToneBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = PhiroPlayToneBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val keys = getStringArrayForResourceId(R.array.brick_phiro_select_tone_spinner)
+            val mapOfValues = mapOf(
+                keys[1] to "Play Phiro (tone: (re), seconds: (0));\n",
+                keys[2] to "Play Phiro (tone: (mi), seconds: (0));\n",
+                keys[3] to "Play Phiro (tone: (fa), seconds: (0));\n",
+                keys[4] to "Play Phiro (tone: (so), seconds: (0));\n",
+                keys[5] to "Play Phiro (tone: (la), seconds: (0));\n",
+                keys[6] to "Play Phiro (tone: (ti), seconds: (0));\n",
+                keys[0] to "Play Phiro (tone: (do), seconds: (0));\n"
+            )
+            executeTest(
+                R.id.brick_phiro_select_tone_spinner,
+                brick,
+                "Play Phiro (tone: (do), seconds: (0));\n",
+                mapOfValues
+            )
+            checkSpinnerValueCount(brick, R.id.brick_phiro_select_tone_spinner, mapOfValues.size)
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testPhiroRGBLightBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = PhiroRGBLightBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val keys = getStringArrayForResourceId(R.array.brick_phiro_select_light_spinner)
+            val mapOfValues = mapOf(
+                keys[0] to "Set Phiro (light: (left), color: (#000000));\n",
+                keys[1] to "Set Phiro (light: (right), color: (#000000));\n",
+                keys[2] to "Set Phiro (light: (both), color: (#000000));\n"
+            )
+            executeTest(
+                R.id.brick_phiro_rgb_light_spinner,
+                brick,
+                "Set Phiro (light: (both), color: (#000000));\n",
+                mapOfValues
+            )
+            checkSpinnerValueCount(brick, R.id.brick_phiro_rgb_light_spinner, mapOfValues.size)
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testPhiroIfLogicBeginBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = PhiroIfLogicBeginBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val keys = getStringArrayForResourceId(R.array.brick_phiro_select_sensor_spinner)
+            val mapOfValues = mapOf(
+                keys[1] to "If (activated phiro: (front right sensor)) {\n} else {\n}\n",
+                keys[2] to "If (activated phiro: (side left sensor)) {\n} else {\n}\n",
+                keys[3] to "If (activated phiro: (side right sensor)) {\n} else {\n}\n",
+                keys[4] to "If (activated phiro: (bottom left sensor)) {\n} else {\n}\n",
+                keys[5] to "If (activated phiro: (bottom right sensor)) {\n} else {\n}\n",
+                keys[0] to "If (activated phiro: (front left sensor)) {\n} else {\n}\n"
+            )
+            executeTest(
+                R.id.brick_phiro_sensor_action_spinner,
+                brick,
+                "If (activated phiro: (front left sensor)) {\n} else {\n}\n",
+                mapOfValues
+            )
+            checkSpinnerValueCount(brick, R.id.brick_phiro_sensor_action_spinner, mapOfValues.size)
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testAssertUserListsBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = AssertUserListsBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val mapOfValues = mapOf(
+                "list2" to "Assert lists (actual: (*list2*), expected: (*list1*));\n",
+                "list3" to "Assert lists (actual: (*list3*), expected: (*list1*));\n",
+                "list1" to "Assert lists (actual: (*list1*), expected: (*list1*));\n"
+            )
+            val mapOfSecondValues = mapOf(
+                "list2" to "Assert lists (actual: (*list1*), expected: (*list2*));\n",
+                "list3" to "Assert lists (actual: (*list1*), expected: (*list3*));\n",
+                "list1" to "Assert lists (actual: (*list1*), expected: (*list1*));\n"
+            )
+            executeTest(
+                R.id.brick_assert_lists_actual,
+                brick,
+                "Assert lists (actual: (*list1*), expected: (*list1*));\n",
+                mapOfValues,
+                R.id.brick_assert_lists_expected,
+                mapOfSecondValues
+            )
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testWhenGamepadButtonBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = WhenGamepadButtonBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val mapOfValues = mapOf(
+                getStringForResourceId(R.string.cast_gamepad_B) to "When tapped (gamepad button: (B)) {\n}\n",
+                getStringForResourceId(R.string.cast_gamepad_up) to "When tapped (gamepad button: (up)) {\n}\n",
+                getStringForResourceId(R.string.cast_gamepad_down) to "When tapped (gamepad button: (down)) {\n}\n",
+                getStringForResourceId(R.string.cast_gamepad_left) to "When tapped (gamepad button: (left)) {\n}\n",
+                getStringForResourceId(R.string.cast_gamepad_right) to "When tapped (gamepad button: (right)) {\n}\n",
+                getStringForResourceId(R.string.cast_gamepad_A) to "When tapped (gamepad button: (A)) {\n}\n"
+            )
+            executeTest(
+                R.id.brick_when_gamepad_button_spinner,
+                brick,
+                "When tapped (gamepad button: (A)) {\n}\n",
+                mapOfValues
+            )
+            checkSpinnerValueCount(brick, R.id.brick_when_gamepad_button_spinner, mapOfValues.size)
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testWhenBounceOffBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = WhenBounceOffBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+
+            val spinner = baseActivityTestRule.activity.findViewById<Spinner>(R.id.brick_when_bounce_off_spinner)
+            val option0 = spinner.adapter.getItem(0) as StringOption
+            val mapOfValues = mapOf(
+                projectManager.currentProject.defaultScene.spriteList[0].name to "When you bounce off (actor or object: ('${projectManager.currentProject.defaultScene.spriteList[0].name}')) {\n}\n",
+                "testSprite1" to "When you bounce off (actor or object: ('testSprite1')) {\n}\n",
+                "testSprite2" to "When you bounce off (actor or object: ('testSprite2')) {\n}\n",
+                "testSprite3" to "When you bounce off (actor or object: ('testSprite3')) {\n}\n",
+                option0.name to "When you bounce off (actor or object: (any edge, actor, or object)) {\n}\n"
+            )
+            executeTest(
+                R.id.brick_when_bounce_off_spinner,
+                brick,
+                "When you bounce off (actor or object: (any edge, actor, or object)) {\n}\n",
+                mapOfValues
+            )
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testWhenBackgroundChangesBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = WhenBackgroundChangesBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val mapOfValues = mapOf(
+                "look2" to "When background changes to (look: ('look2')) {\n}\n",
+                "look3" to "When background changes to (look: ('look3')) {\n}\n",
+                "look1" to "When background changes to (look: ('look1')) {\n}\n"
+            )
+            executeTest(
+                R.id.brick_when_background_spinner,
+                brick,
+                "When background changes to (look: ('look1')) {\n}\n",
+                mapOfValues
+            )
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testWhenRaspiPinChangedBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = WhenRaspiPinChangedBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val mapOfValues = mapOf(
+                "5" to "When Raspberry Pi pin changes to (pin: (5), position: (high)) {\n}\n",
+                "7" to "When Raspberry Pi pin changes to (pin: (7), position: (high)) {\n}\n",
+                "3" to "When Raspberry Pi pin changes to (pin: (3), position: (high)) {\n}\n"
+            )
+            executeTest(
+                R.id.brick_raspi_when_pinspinner,
+                brick,
+                "When Raspberry Pi pin changes to (pin: (3), position: (high)) {\n}\n",
+                mapOfValues,
+                R.id.brick_raspi_when_valuespinner,
+                mapOf(
+                    getStringForResourceId(R.string.brick_raspi_released_text) to "When Raspberry Pi pin changes to (pin: (3), position: (low)) {\n}\n",
+                    getStringForResourceId(R.string.brick_raspi_pressed_text) to "When Raspberry Pi pin changes to (pin: (3), position: (high)) {\n}\n"
+                )
+            )
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testWhenNfcBrick() {
+        val nfc1 = NfcTagData()
+        nfc1.name = "nfc1"
+        nfc1.nfcTagUid = "nfc1"
+        projectManager.currentSprite.nfcTagList.add(nfc1)
+
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = WhenNfcBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val mapOfValues = mapOf(
+                "nfc1" to "When NFC gets scanned (nfc tag: ('nfc1')) {\n}\n",
+                getStringForResourceId(R.string.brick_when_nfc_default_all) to "When NFC gets scanned (nfc tag: (all)) {\n}\n"
+            )
+            executeTest(
+                R.id.brick_when_nfc_spinner,
+                brick,
+                "When NFC gets scanned (nfc tag: (all)) {\n}\n",
+                mapOfValues
+            )
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testAskBrick() {
+        for (languageCode in TEST_LANGUAGES) {
+            setLanguage(languageCode)
+            val brick = AskBrick()
+            startScript.addBrick(brick)
+            baseActivityTestRule.launchActivity()
+            val mapOfValues = mapOf(
+                "var2" to "Ask (question: (0), answer variable: (\"var2\"));\n",
+                "var3" to "Ask (question: (0), answer variable: (\"var3\"));\n",
+                "var1" to "Ask (question: (0), answer variable: (\"var1\"));\n"
+            )
+            executeTest(
+                R.id.brick_ask_spinner,
+                brick,
+                "Ask (question: (0), answer variable: (\"var1\"));\n",
+                mapOfValues
+            )
+            baseActivityTestRule.finishActivity()
+            startScript.removeBrick(brick)
+        }
+    }
+
+    @Test
+    fun testParameterizedBrick() {
+        setLanguage(TEST_LANGUAGES[0])
+        val brick = ParameterizedBrick()
+        startScript.addBrick(brick)
+        baseActivityTestRule.launchActivity()
+
+        val mapOfValues = mapOf(
+            "list2" to "For each tuple of items in selected lists stored in variables with the same name, assert value equals to the expected item of reference list (lists: (), value: (0), reference list: (*list2*)) {\n}\n",
+            "list3" to "For each tuple of items in selected lists stored in variables with the same name, assert value equals to the expected item of reference list (lists: (), value: (0), reference list: (*list3*)) {\n}\n",
+            "list1" to "For each tuple of items in selected lists stored in variables with the same name, assert value equals to the expected item of reference list (lists: (), value: (0), reference list: (*list1*)) {\n}\n"
+        )
+        executeTest(
+            R.id.brick_param_expected_list,
+            brick,
+            "For each tuple of items in selected lists stored in variables with the same name, assert value equals to the expected item of reference list (lists: (), value: (0), reference list: (*list1*)) {\n}\n",
+            mapOfValues
+        )
+
+        var listOfLists = ""
+        for (i in 1..3) {
+            onView(withId(R.id.brick_param_list_of_list_text)).perform(click())
+            onView(withText("list$i")).perform(click())
+            onView(withId(R.id.confirm)).perform(click())
+
+            val stringWithList = brick.serializeToCatrobatLanguage(0)
+
+            if (listOfLists == "") {
+                listOfLists = "*list$i*"
+            } else {
+                listOfLists += ", *list$i*"
+            }
+
+            Assert.assertEquals(
+                "For each tuple of items in selected lists stored in variables with the same name, assert value equals to the expected item of reference list (lists: ($listOfLists), value: (0), reference list: (*list1*)) {\n}\n",
+                stringWithList
+            )
+        }
+
+        baseActivityTestRule.finishActivity()
+        startScript.removeBrick(brick)
+    }
 
     private fun executeTest(
         @IdRes brickSpinnerId: Int,
@@ -1578,7 +1775,7 @@ class SpinnerSerializationTest {
         secondExpectedValues: Map<String, String>? = null
     ) {
         val initialValue = brick.serializeToCatrobatLanguage(0)
-        Assert.assertEquals(defaultValue, initialValue)
+        Assert.assertEquals("Wrong default Value", defaultValue, initialValue)
 
         testIndentAndComment(brick, defaultValue)
 
@@ -1596,7 +1793,7 @@ class SpinnerSerializationTest {
             }
 
             val newValue = brick.serializeToCatrobatLanguage(0)
-            Assert.assertEquals(value, newValue)
+            Assert.assertEquals("Wrong serialization for Key $key", value, newValue)
         }
 
         if (secondSpinerId != null && secondExpectedValues != null) {
@@ -1605,7 +1802,7 @@ class SpinnerSerializationTest {
                 onView(withText(key)).perform(scrollTo(), click())
 
                 val newValue = brick.serializeToCatrobatLanguage(0)
-                Assert.assertEquals(value, newValue)
+                Assert.assertEquals("Wrong serialization for Key $key", value, newValue)
             }
         }
     }
@@ -1621,7 +1818,7 @@ class SpinnerSerializationTest {
         val actualOutput = brick.serializeToCatrobatLanguage(0)
         brick.isCommentedOut = false
         val newOutput = "/* $trimmedBaseValue */\n"
-        Assert.assertEquals(newOutput, actualOutput)
+        Assert.assertEquals("Wrong disabled serialization", newOutput, actualOutput)
     }
 
     private fun testIndention(brick: Brick, expectedOutput: String) {
@@ -1629,7 +1826,7 @@ class SpinnerSerializationTest {
         val indention = CatrobatLanguageUtils.getIndention(randomIndention)
         val actualOutput = brick.serializeToCatrobatLanguage(randomIndention)
         val newOutput = indention + expectedOutput.replace(Regex("\\n(?!\$)"), "\n$indention")
-        Assert.assertEquals(newOutput, actualOutput)
+        Assert.assertEquals("Wrong indention serialization", newOutput, actualOutput)
     }
 
     private fun createProject() {

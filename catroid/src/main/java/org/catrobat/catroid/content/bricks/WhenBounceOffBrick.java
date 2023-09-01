@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 @CatrobatLanguageBrick(command = "When you bounce off")
 public class WhenBounceOffBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite>, UpdateableSpinnerBrick, CatrobatLanguageAttributes {
@@ -137,8 +138,11 @@ public class WhenBounceOffBrick extends ScriptBrickBaseType implements BrickSpin
 	@Override
 	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
 		brickBuilder.append("actor or object: (");
-		String value = script.getSpriteToBounceOffName() != null ? CatrobatLanguageUtils.Companion.formatActorOrObject(script.getSpriteToBounceOffName()) : "";
-		brickBuilder.append(value);
+		if (script.getSpriteToBounceOffName() == null) {
+			brickBuilder.append("any edge, actor, or object");
+		} else {
+			brickBuilder.append(CatrobatLanguageUtils.Companion.formatActorOrObject(script.getSpriteToBounceOffName()));
+		}
 		brickBuilder.append(")");
 	}
 }
