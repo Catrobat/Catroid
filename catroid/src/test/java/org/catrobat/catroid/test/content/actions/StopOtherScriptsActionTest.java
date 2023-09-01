@@ -68,14 +68,13 @@ public class StopOtherScriptsActionTest {
 		sprite.look.setPositionInUserInterfaceDimensionUnit(0, 0);
 	}
 
-	private Project createProjectWithSprite(Sprite sprite) {
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+	private void createProjectWithSprite(Sprite sprite) {
+		Project project = new Project(MockUtil.mockContextForProject(), "testProject", false);
 		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		StageActivity.stageListener = null;
-		return project;
 	}
 
 	@Test

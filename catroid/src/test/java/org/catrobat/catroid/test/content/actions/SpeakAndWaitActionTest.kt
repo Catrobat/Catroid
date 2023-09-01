@@ -64,7 +64,7 @@ class SpeakAndWaitActionTest {
         Mockito.`when`(mobileServiceAvailability.isGmsAvailable(contextMock)).thenReturn(true)
         sprite = Sprite("testSprite")
         scope = Scope(ProjectManager.getInstance().currentProject, sprite, SequenceAction())
-        val project = Project(MockUtil.mockContextForProject(), "Project")
+        val project = Project(MockUtil.mockContextForProject(), "Project", false)
         ProjectManager.getInstance().currentProject = project
     }
 

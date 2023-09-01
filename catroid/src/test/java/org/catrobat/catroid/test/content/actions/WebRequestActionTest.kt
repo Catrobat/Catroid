@@ -96,7 +96,7 @@ class WebRequestActionTest {
         doReturn(responseBody).`when`(response).body()
         doReturn(RESPONSE_STRING).`when`(responseBody).string()
 
-        val project = Project(MockUtil.mockContextForProject(), "Project")
+        val project = Project(MockUtil.mockContextForProject(), "Project", false)
         ProjectManager.getInstance().currentProject = project
     }
 

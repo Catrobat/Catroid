@@ -68,7 +68,6 @@ import java.io.File
     CatroidApplication::class
 )
 class SpeakActionTest(
-    private val name: String,
     private val formula: Formula?,
     private val expectedValue: String
 ) {
@@ -112,7 +111,7 @@ class SpeakActionTest(
         Mockito.`when`(mobileServiceAvailability.isGmsAvailable(contextMock)).thenReturn(true)
         sprite = Sprite("testSprite")
         scope = Scope(ProjectManager.getInstance().currentProject, sprite, SequenceAction())
-        val project = Project(MockUtil.mockContextForProject(), "Project")
+        val project = Project(MockUtil.mockContextForProject(), "Project", false)
         ProjectManager.getInstance().currentProject = project
     }
 

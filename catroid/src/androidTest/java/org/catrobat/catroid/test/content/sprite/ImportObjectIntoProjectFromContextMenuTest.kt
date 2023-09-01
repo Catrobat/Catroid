@@ -83,6 +83,7 @@ class ImportObjectIntoProjectFromContextMenuTest {
             .createAndSaveDefaultProject(
                 defaultProjectName,
                 ApplicationProvider.getApplicationContext(),
+                false,
                 false
             )
 
@@ -90,6 +91,7 @@ class ImportObjectIntoProjectFromContextMenuTest {
             .createAndSaveDefaultProject(
                 importName,
                 ApplicationProvider.getApplicationContext(),
+                false,
                 false
             )
 

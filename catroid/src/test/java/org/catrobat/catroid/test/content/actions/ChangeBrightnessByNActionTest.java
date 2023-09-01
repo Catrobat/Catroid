@@ -53,7 +53,7 @@ public class ChangeBrightnessByNActionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Project project = new Project(MockUtil.mockContextForProject(), "Project");
+		Project project = new Project(MockUtil.mockContextForProject(), "Project", false);
 		sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setCurrentProject(project);

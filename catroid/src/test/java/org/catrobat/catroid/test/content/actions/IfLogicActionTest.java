@@ -63,7 +63,7 @@ public class IfLogicActionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Project project = new Project(MockUtil.mockContextForProject(), "testProject", false);
 
 		testSprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(testSprite);
@@ -144,12 +144,12 @@ public class IfLogicActionTest {
 
 	@Test
 	public void testBrickWithValidStringFormula() {
-		testFormula(new Formula(String.valueOf(TRUE)), (double) IF_TRUE_VALUE);
+		testFormula(new Formula(TRUE), (double) IF_TRUE_VALUE);
 	}
 
 	@Test
 	public void testBrickWithInValidStringFormula() {
-		testFormula(new Formula(String.valueOf(NOT_NUMERICAL_STRING)), 0.0);
+		testFormula(new Formula(NOT_NUMERICAL_STRING), 0.0);
 	}
 
 	@Test

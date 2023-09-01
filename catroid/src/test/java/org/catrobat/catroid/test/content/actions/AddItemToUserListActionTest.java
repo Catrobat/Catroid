@@ -57,7 +57,7 @@ public class AddItemToUserListActionTest {
 	public void setUp() throws Exception {
 		actionFactory = new ActionFactory();
 		testSprite = new Sprite("testSprite");
-		project = new Project(MockUtil.mockContextForProject(), "testProject");
+		project = new Project(MockUtil.mockContextForProject(), "testProject", false);
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 

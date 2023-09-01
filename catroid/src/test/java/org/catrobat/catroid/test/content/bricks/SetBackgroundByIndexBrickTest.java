@@ -59,7 +59,7 @@ public class SetBackgroundByIndexBrickTest {
 	public void setUp() throws Exception {
 		PowerMockito.mockStatic(GdxNativesLoader.class);
 
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Project project = new Project(MockUtil.mockContextForProject(), "testProject", false);
 		sprite = new Sprite("Sprite");
 		project.getDefaultScene().addSprite(sprite);
 		ProjectManager.getInstance().setCurrentProject(project);

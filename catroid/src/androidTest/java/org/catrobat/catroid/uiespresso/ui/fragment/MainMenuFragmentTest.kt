@@ -56,6 +56,7 @@ import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.MainMenuActivity
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoriesAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.FeaturedProjectsAdapter
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
 import org.catrobat.catroid.utils.NetworkConnectionMonitor
@@ -83,7 +84,6 @@ class MainMenuFragmentTest : KoinTest {
     private val featuredProjectsSync: FeaturedProjectsSync by inject()
     private val featuredProjectsAdapter: FeaturedProjectsAdapter by inject()
     private val categoriesAdapter: CategoriesAdapter by inject()
-    private val projectManager: ProjectManager by inject()
 
     @get:Rule
     var baseActivityTestRule = BaseActivityTestRule(
@@ -105,7 +105,7 @@ class MainMenuFragmentTest : KoinTest {
                 CATROBAT_TERMS_OF_USE_ACCEPTED
             ).commit()
 
-        createProject()
+        UiTestUtils.createDefaultTestProject(javaClass.simpleName)
     }
 
     @After
@@ -194,14 +194,6 @@ class MainMenuFragmentTest : KoinTest {
         pressBack()
         onView(withId(R.id.projectImageView))
             .check(matches(isDisplayed()))
-    }
-
-    private fun createProject() {
-        projectManager.createNewEmptyProject(
-            javaClass.simpleName,
-            false,
-            false
-        )
     }
 
     private fun waitFor(time: Int = 1000) {

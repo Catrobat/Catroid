@@ -33,9 +33,7 @@ import junit.framework.TestCase.assertEquals
 import org.catrobat.catroid.R
 import org.catrobat.catroid.UiTestCatroidApplication.Companion.projectManager
 import org.catrobat.catroid.content.EmptyScript
-import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Script
-import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.WhenScript
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick
@@ -46,6 +44,7 @@ import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.recyclerview.fragment.CatblocksScriptFragment
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.junit.After
 import org.junit.Before
@@ -122,25 +121,18 @@ class ScriptSplitMultipleTest {
     }
 
     private fun createProject() {
-        val project = Project(ApplicationProvider.getApplicationContext(), projectName)
-        val sprite = Sprite(TEST_SPRITE)
-        project.defaultScene.addSprite(sprite)
-
         val startScript: Script = StartScript()
         val foreverBrick = ForeverBrick()
         foreverBrick.addBrick(ChangeVolumeByNBrick(10.0))
         startScript.addBrick(foreverBrick)
         startScript.setParents()
-        sprite.addScript(startScript)
-
+        val project = UiTestUtils.createProjectWithCustomScript(projectName, startScript)
+        val sprite = UiTestUtils.getDefaultTestSprite(project)
         val whenScript: Script = WhenScript()
         val repeatBrick = RepeatUntilBrick(Formula(10.0))
         repeatBrick.addBrick(ChangeSizeByNBrick(5.0))
         whenScript.addBrick(repeatBrick)
         whenScript.setParents()
         sprite.addScript(whenScript)
-
-        projectManager.currentProject = project
-        projectManager.currentSprite = sprite
     }
 }

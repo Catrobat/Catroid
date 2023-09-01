@@ -58,7 +58,8 @@ public class PhysicsTestRule extends ExternalResource {
 		TestUtils.deleteProjects();
 		rectangle125x125FileName = PhysicsTestUtils.getInternalImageFilenameFromFilename("rectangle_125x125.png");
 
-		project = new Project(ApplicationProvider.getApplicationContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		project = new Project(ApplicationProvider.getApplicationContext(),
+				TestUtils.DEFAULT_TEST_PROJECT_NAME, false);
 
 		physicsWorld = project.getDefaultScene().getPhysicsWorld();
 		sprite = new Sprite("TestSprite");

@@ -226,6 +226,7 @@ import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableToFileBrick;
 import org.catrobat.catroid.content.bricks.ZigZagStitchBrick;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -537,15 +538,8 @@ public class BrickCategoryTest {
 	}
 
 	public void createProject(Context context) {
-		Project project = new Project(context, getClass().getSimpleName());
-		Sprite sprite = new Sprite("testSprite");
-		Script script = new StartScript();
+		Script script = UiTestUtils.createProjectAndGetStartScript(getClass().getSimpleName());
 		script.addBrick(new SetXBrick());
-		sprite.addScript(script);
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 	}
 
 	@Test

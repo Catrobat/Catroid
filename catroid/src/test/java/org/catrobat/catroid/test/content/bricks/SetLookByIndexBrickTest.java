@@ -53,7 +53,7 @@ public class SetLookByIndexBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Project project = new Project(MockUtil.mockContextForProject(), "Project");
+		Project project = new Project(MockUtil.mockContextForProject(), "Project", false);
 
 		Scene currentlyPlayingScene = new Scene("Currently playing scene", project);
 		sprite = new Sprite("Sprite");

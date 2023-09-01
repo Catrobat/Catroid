@@ -199,7 +199,8 @@ public class LookDataTest {
 	}
 
 	private Project createProject() {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), "LookDataTest");
+		Project project = new Project(ApplicationProvider.getApplicationContext(), "LookDataTest"
+				, false);
 		ProjectManager.getInstance().setCurrentProject(project);
 		Script script = new StartScript();
 		Sprite sprite = new Sprite("testSprite");

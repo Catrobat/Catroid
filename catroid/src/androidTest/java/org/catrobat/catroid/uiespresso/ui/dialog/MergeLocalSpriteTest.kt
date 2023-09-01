@@ -78,6 +78,7 @@ class MergeLocalSpriteTest {
             .createAndSaveDefaultProject(
                 defaultProjectName,
                 ApplicationProvider.getApplicationContext(),
+                false,
                 false
             )
 
@@ -85,6 +86,7 @@ class MergeLocalSpriteTest {
             .createAndSaveDefaultProject(
                 sameGlobalsName,
                 ApplicationProvider.getApplicationContext(),
+                false,
                 false
             )
 
@@ -92,6 +94,7 @@ class MergeLocalSpriteTest {
             .createAndSaveDefaultProject(
                 conflictProjectName,
                 ApplicationProvider.getApplicationContext(),
+                false,
                 false
             )
 

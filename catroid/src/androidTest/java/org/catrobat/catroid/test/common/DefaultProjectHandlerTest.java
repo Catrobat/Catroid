@@ -59,7 +59,8 @@ public class DefaultProjectHandlerTest {
 		String projectName = "defaultProject";
 
 		project = DefaultProjectHandler
-				.createAndSaveDefaultProject(projectName, ApplicationProvider.getApplicationContext(), false);
+				.createAndSaveDefaultProject(projectName,
+						ApplicationProvider.getApplicationContext(), false, false);
 	}
 
 	@After

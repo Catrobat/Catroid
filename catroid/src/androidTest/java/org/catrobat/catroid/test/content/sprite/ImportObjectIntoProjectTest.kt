@@ -93,6 +93,7 @@ class ImportObjectIntoProjectTest {
             .createAndSaveDefaultProject(
                 defaultProjectName,
                 ApplicationProvider.getApplicationContext(),
+                false,
                 false
             )
 
@@ -100,6 +101,7 @@ class ImportObjectIntoProjectTest {
             .createAndSaveDefaultProject(
                 importName,
                 ApplicationProvider.getApplicationContext(),
+                false,
                 false
             )
 

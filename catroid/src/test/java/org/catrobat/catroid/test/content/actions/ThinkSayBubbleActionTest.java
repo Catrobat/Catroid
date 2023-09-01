@@ -69,7 +69,7 @@ public class ThinkSayBubbleActionTest {
 				.thenReturn(Mockito.mock(ShowBubbleActor.class));
 		StageActivity.stageListener = Mockito.mock(StageListener.class);
 
-		Project project = new Project(contextMock, "Project");
+		Project project = new Project(contextMock, "Project", false);
 		ProjectManager.getInstance().setCurrentProject(project);
 	}
 

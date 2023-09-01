@@ -54,7 +54,7 @@ class AskActionTest {
         userVariableForAnswer = UserVariable(TEST_USERVARIABLE)
         PowerMockito.mockStatic(GdxNativesLoader::class.java)
 
-        val project = Project(MockUtil.mockContextForProject(), "Project")
+        val project = Project(MockUtil.mockContextForProject(), "Project", false)
         ProjectManager.getInstance().currentProject = project
     }
 

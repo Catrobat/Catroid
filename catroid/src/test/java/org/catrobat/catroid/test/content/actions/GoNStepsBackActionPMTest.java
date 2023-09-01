@@ -61,7 +61,7 @@ public class GoNStepsBackActionPMTest {
 
 	@Before
 	public void setUp() throws Exception {
-		project = new Project(MockUtil.mockContextForProject(), "testProject");
+		project = new Project(MockUtil.mockContextForProject(), "testProject", false);
 
 		background = new Sprite("background");
 		penActorSprite = new Sprite("penActor");

@@ -61,7 +61,7 @@ public class ComeToFrontActionTest {
 
 	@Test
 	public void testComeToFront() {
-		Project project = new Project(MockUtil.mockContextForProject(), projectName);
+		Project project = new Project(MockUtil.mockContextForProject(), projectName, false);
 		Group parentGroup = new Group();
 
 		Sprite bottomSprite = new Sprite("catroid");
@@ -133,7 +133,7 @@ public class ComeToFrontActionTest {
 
 	@Test
 	public void testBoundaries() {
-		Project project = new Project(MockUtil.mockContextForProject(), projectName);
+		Project project = new Project(MockUtil.mockContextForProject(), projectName, false);
 		Group parentGroup = new Group();
 
 		Sprite firstSprite = new Sprite("firstSprite");

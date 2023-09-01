@@ -41,7 +41,6 @@ import org.mockito.Mockito.verify
 
 @RunWith(Parameterized::class)
 class BluetoothMultiplayerActionTest(
-    private val name: String,
     private val userVariable: UserVariable,
     private val expectedValue: Int
 ) {
@@ -66,7 +65,7 @@ class BluetoothMultiplayerActionTest(
 
     @Before
     fun setUp() {
-        Project(MockUtil.mockContextForProject(), "testProject").apply {
+        Project(MockUtil.mockContextForProject(), "testProject",  false).apply {
             if (expectedValue == 0) {
                 addUserVariable(userVariable)
             } else {

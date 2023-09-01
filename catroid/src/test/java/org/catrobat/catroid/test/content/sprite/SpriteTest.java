@@ -67,7 +67,7 @@ public class SpriteTest {
 	@Before
 	public void setUp() throws Exception {
 		sprite = new Sprite("testSprite");
-		project = new Project(MockUtil.mockContextForProject(), "testProject");
+		project = new Project(MockUtil.mockContextForProject(), "testProject", false);
 		project.getDefaultScene().addSprite(sprite);
 		sprite.addUserVariable(new UserVariable(LOCAL_VARIABLE_NAME));
 		sprite.getUserVariable(LOCAL_VARIABLE_NAME).setValue(LOCAL_VARIABLE_VALUE);

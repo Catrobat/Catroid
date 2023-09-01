@@ -66,7 +66,7 @@ public class GoNStepsBackActionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		project = new Project(MockUtil.mockContextForProject(), "testProject");
+		project = new Project(MockUtil.mockContextForProject(), "testProject", false);
 
 		background = new Sprite("background");
 		penActorSprite = new Sprite("penActor");
@@ -88,7 +88,7 @@ public class GoNStepsBackActionTest {
 
 	@Test
 	public void testSteps() {
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Project project = new Project(MockUtil.mockContextForProject(), "testProject", false);
 		Group parentGroup = new Group();
 
 		for (int i = 0; i < 20; i++) {
@@ -175,7 +175,7 @@ public class GoNStepsBackActionTest {
 		assertEquals(embroideryActorLayer, embroideryActorSprite.look.getZIndex());
 		assertEquals(realSpriteMinLayer, realSprite.look.getZIndex());
 
-		penActorSprite.getActionFactory().createGoNStepsBackAction(penActorSprite, new SequenceAction(), new Formula(String.valueOf(NOT_NUMERICAL_STRING))).act(1.0f);
+		penActorSprite.getActionFactory().createGoNStepsBackAction(penActorSprite, new SequenceAction(), new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
 		assertEquals(backgroundLayer, background.look.getZIndex());
 		assertEquals(penActorLayer, penActorSprite.look.getZIndex());
 		assertEquals(embroideryActorLayer, embroideryActorSprite.look.getZIndex());

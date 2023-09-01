@@ -93,7 +93,7 @@ public class FormulaEditorDataListAdapterArraysValueTest {
 	}
 
 	private void createProject() {
-		project = new Project(MockUtil.mockContextForProject(), "Pro");
+		project = new Project(MockUtil.mockContextForProject(), "Pro", false);
 
 		Sprite firstSprite = new Sprite("firstSprite");
 

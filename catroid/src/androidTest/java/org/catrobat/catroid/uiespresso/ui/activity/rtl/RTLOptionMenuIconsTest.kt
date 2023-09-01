@@ -89,6 +89,7 @@ class RTLOptionMenuIconsTest(
         project = DefaultProjectHandler.createAndSaveDefaultProject(
             projectName,
             ApplicationProvider.getApplicationContext(),
+            false,
             false
         )
         addNfcData()

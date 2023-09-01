@@ -58,7 +58,7 @@ public class WaitActionTest {
 	@Before
 	public void setUp() throws Exception {
 		sprite = new Sprite("testSprite");
-		Project project = new Project(MockUtil.mockContextForProject(), "Project");
+		Project project = new Project(MockUtil.mockContextForProject(), "Project", false);
 		ProjectManager.getInstance().setCurrentProject(project);
 	}
 

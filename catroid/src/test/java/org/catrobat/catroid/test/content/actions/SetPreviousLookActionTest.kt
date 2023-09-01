@@ -61,7 +61,7 @@ class SetPreviousLookActionTest {
             lookList.add(lookData3)
         }
         sequence = SequenceAction()
-        Project(MockUtil.mockContextForProject(), "testProject").also { project ->
+        Project(MockUtil.mockContextForProject(), "testProject", false).also { project ->
             ProjectManager.getInstance().currentProject = project
         }
     }

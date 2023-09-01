@@ -38,6 +38,7 @@ import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.ProjectListActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -79,7 +80,10 @@ public class ProjectListActivityRecreateRegressionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject();
+		Project project = UiTestUtils.createDefaultTestProject(projectName);
+		Script script = UiTestUtils.getDefaultTestScript(project);
+		script.addBrick(new SetXBrick(new Formula(BrickValues.X_POSITION)));
+		XstreamSerializer.getInstance().saveProject(project);
 		baseActivityTestRule.launchActivity(null);
 	}
 
@@ -123,20 +127,5 @@ public class ProjectListActivityRecreateRegressionTest {
 			}
 		});
 		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
-	}
-
-	private void createProject() {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Sprite sprite = new Sprite("firstSprite");
-		Script script = new StartScript();
-		script.addBrick(new SetXBrick(new Formula(BrickValues.X_POSITION)));
-		sprite.addScript(script);
-
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
-		XstreamSerializer.getInstance().saveProject(project);
 	}
 }

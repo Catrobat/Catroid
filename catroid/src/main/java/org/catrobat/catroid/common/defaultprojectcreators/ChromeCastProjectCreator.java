@@ -78,7 +78,9 @@ public class ChromeCastProjectCreator extends ProjectCreator {
 	}
 
 	@Override
-	public Project createDefaultProject(String name, Context context, boolean landscapeMode) throws IOException {
+	public Project createDefaultProject(String name, Context context,
+			boolean addToNeverOpenedList, boolean landscapeMode
+			) throws IOException {
 		Project project = new Project(context, name, true, true);
 
 		if (project.getDirectory().exists()) {

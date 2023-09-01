@@ -34,9 +34,6 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.catrobat.catroid.R
 import org.catrobat.catroid.UiTestCatroidApplication
-import org.catrobat.catroid.content.Project
-import org.catrobat.catroid.content.Script
-import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick
@@ -44,6 +41,7 @@ import org.catrobat.catroid.content.bricks.SetXBrick
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.recyclerview.fragment.CatblocksScriptFragment
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -122,18 +120,12 @@ class CatblocksScriptFragmentTest {
     }
 
     private fun createProject() {
-        val projectName = javaClass.simpleName
-        val project = Project(ApplicationProvider.getApplicationContext(), projectName)
-        val sprite = Sprite("testSprite")
-        project.defaultScene.addSprite(sprite)
-        val startScript: Script = StartScript()
+        val startScript = StartScript()
         val ifBrick = IfLogicBeginBrick()
         ifBrick.addBrickToIfBranch(SetXBrick())
         ifBrick.addBrickToElseBranch(ChangeXByNBrick())
         startScript.addBrick(ifBrick)
         startScript.setParents()
-        sprite.addScript(startScript)
-        UiTestCatroidApplication.projectManager.currentProject = project
-        UiTestCatroidApplication.projectManager.currentSprite = sprite
+        UiTestUtils.createProjectWithCustomScript(javaClass.simpleName, startScript)
     }
 }

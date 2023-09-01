@@ -62,7 +62,7 @@ public class SetCameraFocusPointActionTest {
 
 	@Before
 	public void setUp() {
-		project = new Project(MockUtil.mockContextForProject(), projectName);
+		project = new Project(MockUtil.mockContextForProject(), projectName, false);
 		sprite = new Sprite("sprite");
 		sprite.addScript(new WhenScript());
 		project.getDefaultScene().addSprite(sprite);
@@ -78,8 +78,7 @@ public class SetCameraFocusPointActionTest {
 		int virtualHeightHalf = virtualHeight / 2;
 
 		OrthographicCamera camera = new OrthographicCamera();
-		CameraPositioner cameraPositioner = new CameraPositioner(camera, virtualHeightHalf, virtualWidthHalf);
-		StageActivity.stageListener.cameraPositioner = cameraPositioner;
+		StageActivity.stageListener.cameraPositioner = new CameraPositioner(camera, virtualHeightHalf, virtualWidthHalf);
 	}
 
 	@Test

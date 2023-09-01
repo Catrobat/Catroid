@@ -66,7 +66,7 @@ public class StopThisScriptActionTest {
 	}
 
 	private Project createProjectWithSprite(Sprite sprite) {
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Project project = new Project(MockUtil.mockContextForProject(), "testProject", false);
 		ProjectManager.getInstance().setCurrentProject(project);
 		project.getDefaultScene().addSprite(sprite);
 		return project;

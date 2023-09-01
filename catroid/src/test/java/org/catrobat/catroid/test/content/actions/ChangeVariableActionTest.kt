@@ -37,7 +37,6 @@ import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
 class ChangeVariableActionTest(
-    private val name: String,
     private val formula: Formula?,
     private val userVariable: UserVariable?,
     private val expectedValue: Double?
@@ -67,7 +66,7 @@ class ChangeVariableActionTest(
     fun setUp() {
         testSprite = Sprite("testSprite")
         testSequence = SequenceAction()
-        Project(MockUtil.mockContextForProject(), "testProject").apply {
+        Project(MockUtil.mockContextForProject(), "testProject", false).apply {
             addUserVariable(userVariable)
             ProjectManager.getInstance().currentProject = this
         }

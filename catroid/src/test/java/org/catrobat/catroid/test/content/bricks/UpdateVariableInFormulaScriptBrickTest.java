@@ -84,7 +84,7 @@ public class UpdateVariableInFormulaScriptBrickTest {
 
 	@Before
 	public void setUp() throws IllegalAccessException, InstantiationException {
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Project project = new Project(MockUtil.mockContextForProject(), "testProject", false);
 		userVariable = new UserVariable();
 		userList = new UserList();
 		Scene scene = new Scene();

@@ -62,7 +62,7 @@ class SetLookByIndexActionTest {
         }
         testSequence = SequenceAction()
 
-        Project(MockUtil.mockContextForProject(), "testProject").also { project ->
+        Project(MockUtil.mockContextForProject(), "testProject", false).also { project ->
             ProjectManager.getInstance().currentProject = project
         }
     }

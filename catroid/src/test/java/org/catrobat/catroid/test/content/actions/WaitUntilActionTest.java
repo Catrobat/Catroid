@@ -51,7 +51,7 @@ public class WaitUntilActionTest {
 	@Before
 	public void setUp() throws Exception {
 		testSprite = new Sprite("testSprite");
-		project = new Project(MockUtil.mockContextForProject(), "testProject");
+		project = new Project(MockUtil.mockContextForProject(), "testProject", false);
 		testSprite.removeAllScripts();
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(new Sprite("testSprite1"));

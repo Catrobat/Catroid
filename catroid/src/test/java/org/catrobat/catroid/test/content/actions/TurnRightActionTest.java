@@ -53,7 +53,7 @@ public class TurnRightActionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Project project = new Project(MockUtil.mockContextForProject(), projectName);
+		Project project = new Project(MockUtil.mockContextForProject(), projectName, false);
 		ProjectManager.getInstance().setCurrentProject(project);
 
 		lookData = new LookData();

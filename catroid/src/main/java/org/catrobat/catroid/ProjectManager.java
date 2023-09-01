@@ -536,34 +536,43 @@ public final class ProjectManager {
 		}
 	}
 
-	@SuppressWarnings("unused")
-	public void createNewEmptyProject(String name, boolean landscapeMode, boolean castEnabled) throws IOException {
-		createNewEmptyProject(name, applicationContext, landscapeMode, castEnabled);
+	public void createNewEmptyProject(String name, boolean addToNeverOpenedList,
+			boolean landscapeMode, boolean castEnabled) throws IOException {
+		createNewEmptyProject(name, applicationContext, addToNeverOpenedList, landscapeMode,
+				castEnabled);
 	}
 
 	/**
-	 * @deprecated use {@link #createNewEmptyProject(String, boolean, boolean)} ()} without Context instead.
+	 * @deprecated use {@link #createNewEmptyProject(String, boolean, boolean, boolean)} ()}
+	 * without Context instead.
 	 */
 	@Deprecated
-	public void createNewEmptyProject(String name, Context context, boolean landscapeMode, boolean castEnabled) throws IOException {
-		project = DefaultProjectHandler.createAndSaveEmptyProject(name, context, landscapeMode, castEnabled);
+	public void createNewEmptyProject(String name, Context context,
+			boolean addToNeverOpenedList, boolean landscapeMode, boolean castEnabled) throws IOException {
+		project = DefaultProjectHandler.createAndSaveEmptyProject(name, context,
+				addToNeverOpenedList, landscapeMode, castEnabled);
 		currentSprite = null;
 		currentlyEditedScene = project.getDefaultScene();
 		currentlyPlayingScene = currentlyEditedScene;
 	}
 
-	@SuppressWarnings("unused")
-	public void createNewExampleProject(String name, DefaultProjectHandler.ProjectCreatorType projectCreatorType, boolean landscapeMode) throws IOException {
-		createNewExampleProject(name, applicationContext, projectCreatorType, landscapeMode);
+	public void createNewExampleProject(String name,
+			DefaultProjectHandler.ProjectCreatorType projectCreatorType, boolean
+			addToNeverOpenedList, boolean landscapeMode) throws IOException {
+		createNewExampleProject(name, applicationContext, projectCreatorType,
+				addToNeverOpenedList, landscapeMode);
 	}
 
 	/**
-	 * @deprecated use {@link #createNewExampleProject(String, DefaultProjectHandler.ProjectCreatorType, boolean)} ()} without Context instead.
+	 * @deprecated use {@link #createNewExampleProject(String, DefaultProjectHandler.ProjectCreatorType, boolean, boolean)} ()} without Context instead.
 	 */
 	@Deprecated
-	public void createNewExampleProject(String name, Context context, DefaultProjectHandler.ProjectCreatorType projectCreatorType, boolean landscapeMode) throws IOException {
+	public void createNewExampleProject(String name, Context context,
+			DefaultProjectHandler.ProjectCreatorType projectCreatorType,
+			boolean addToNeverOpenedList, boolean landscapeMode) throws IOException {
 		DefaultProjectHandler.getInstance().setDefaultProjectCreator(projectCreatorType);
-		project = DefaultProjectHandler.createAndSaveDefaultProject(name, context, landscapeMode);
+		project = DefaultProjectHandler.createAndSaveDefaultProject(name, context,
+				addToNeverOpenedList, landscapeMode);
 		currentSprite = null;
 		currentlyEditedScene = project.getDefaultScene();
 		currentlyPlayingScene = currentlyEditedScene;

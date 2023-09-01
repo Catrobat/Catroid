@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.uiespresso.ui.regression.activitydestroy
 
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
 import androidx.test.espresso.action.ViewActions
@@ -36,8 +35,6 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.LookData
-import org.catrobat.catroid.content.Project
-import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.io.ResourceImporter
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.rules.FlakyTestRule
@@ -47,6 +44,7 @@ import org.catrobat.catroid.testsuites.annotations.Cat.Quarantine
 import org.catrobat.catroid.testsuites.annotations.Level.Smoke
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 
 import org.junit.Before
@@ -116,12 +114,7 @@ class LookFragmentActivityRecreateRegressionTest {
 
     @Throws(IOException::class)
     private fun createProject() {
-        val projectName = "copyLookFragmentTest"
-        val project = Project(ApplicationProvider.getApplicationContext(), projectName)
-        val sprite = Sprite("testSprite")
-        project.defaultScene.addSprite(sprite)
-        ProjectManager.getInstance().currentProject = project
-        ProjectManager.getInstance().currentSprite = sprite
+        val project = UiTestUtils.createDefaultTestProject("copyLookFragmentTest")
         XstreamSerializer.getInstance().saveProject(project)
         val imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
             InstrumentationRegistry.getInstrumentation().context.resources,

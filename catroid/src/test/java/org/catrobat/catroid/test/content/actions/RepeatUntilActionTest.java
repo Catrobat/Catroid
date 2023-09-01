@@ -66,7 +66,7 @@ public class RepeatUntilActionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Project project = new Project(MockUtil.mockContextForProject(), "testProject", false);
 
 		testSprite = new Sprite("testSprite");
 		testScript = new StartScript();
@@ -130,7 +130,7 @@ public class RepeatUntilActionTest {
 
 	@Test
 	public void testBrickWithInValidStringFormula() {
-		Formula stringFormula = new Formula(String.valueOf(NOT_NUMERICAL_STRING));
+		Formula stringFormula = new Formula(NOT_NUMERICAL_STRING);
 		testWithFormula(stringFormula, testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 

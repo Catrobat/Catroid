@@ -50,7 +50,7 @@ public class SetVariableActionTest {
 	@Before
 	public void setUp() throws Exception {
 		testSprite = new Sprite("testSprite");
-		project = new Project(MockUtil.mockContextForProject(), "testProject");
+		project = new Project(MockUtil.mockContextForProject(), "testProject", false);
 		ProjectManager.getInstance().setCurrentProject(project);
 		userVariable = new UserVariable(TEST_USERVARIABLE);
 		project.addUserVariable(userVariable);

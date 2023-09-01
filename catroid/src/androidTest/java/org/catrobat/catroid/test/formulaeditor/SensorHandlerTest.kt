@@ -28,17 +28,16 @@ import android.graphics.Rect
 import androidx.test.annotation.UiThreadTest
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.rule.GrantPermissionRule
-import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.camera.VisualDetectionHandler.facesForSensors
 import org.catrobat.catroid.camera.VisualDetectionHandler.updateFaceDetectionStatusSensorValues
 import org.catrobat.catroid.camera.VisualDetectionHandler.updateFaceSensorValues
 import org.catrobat.catroid.camera.VisualDetectionHandlerFace
-import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.formulaeditor.SensorHandler
 import org.catrobat.catroid.formulaeditor.SensorLoudness
 import org.catrobat.catroid.formulaeditor.Sensors
 import org.catrobat.catroid.soundrecorder.SoundRecorder
 import org.catrobat.catroid.test.utils.TestUtils
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -55,10 +54,7 @@ class SensorHandlerTest {
 
     @Before
     fun setUp() {
-        ProjectManager.getInstance().currentProject = Project(
-            ApplicationProvider.getApplicationContext(),
-            TestUtils.DEFAULT_TEST_PROJECT_NAME
-        )
+        UiTestUtils.createDefaultTestProject(TestUtils.DEFAULT_TEST_PROJECT_NAME)
     }
 
     @Test

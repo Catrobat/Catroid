@@ -46,7 +46,7 @@ public class InsertItemintoUserListActionTest {
 
 	private static final String TEST_USERLIST_NAME = "testUserList";
 	private static final double DOUBLE_VALUE_ITEM_TO_ADD = 3.0;
-	private static final List<Object> INITIALIZED_LIST_VALUES = new ArrayList<Object>();
+	private static final List<Object> INITIALIZED_LIST_VALUES = new ArrayList<>();
 
 	private Sprite testSprite;
 	private Project project;
@@ -58,7 +58,7 @@ public class InsertItemintoUserListActionTest {
 	public void setUp() throws Exception {
 		actionFactory = new ActionFactory();
 		testSprite = new Sprite("testSprite");
-		project = new Project(MockUtil.mockContextForProject(), "testProject");
+		project = new Project(MockUtil.mockContextForProject(), "testProject", false);
 		ProjectManager.getInstance().setCurrentProject(project);
 
 		INITIALIZED_LIST_VALUES.clear();

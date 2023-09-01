@@ -98,7 +98,8 @@ class LookRequestActionTest {
 
         val project = Project(
             MockUtil.mockContextForProject(),
-            "Project"
+            "Project",
+            false
         )
         ProjectManager.getInstance().currentProject = project
     }

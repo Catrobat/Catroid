@@ -64,7 +64,7 @@ public class WhenConditionScriptTest {
 	}
 
 	private void createProjectWithSprite(Sprite sprite) {
-		Project project = new Project(MockUtil.mockContextForProject(), "TestProject");
+		Project project = new Project(MockUtil.mockContextForProject(), "TestProject", false);
 		ProjectManager.getInstance().setCurrentProject(project);
 		project.getDefaultScene().addSprite(sprite);
 	}

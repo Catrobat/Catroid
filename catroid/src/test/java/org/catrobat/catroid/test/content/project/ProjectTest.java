@@ -51,7 +51,7 @@ public class ProjectTest {
 
 	@Test
 	public void testVersionName() {
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Project project = new Project(MockUtil.mockContextForProject(), "testProject", false);
 		XmlHeader projectXmlHeader = project.getXmlHeader();
 
 		assertEquals("testStub", projectXmlHeader.getApplicationVersion());
@@ -59,7 +59,7 @@ public class ProjectTest {
 
 	@Test
 	public void testAddRemoveSprite() {
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Project project = new Project(MockUtil.mockContextForProject(), "testProject", false);
 		Scene scene = project.getDefaultScene();
 		Sprite bottomSprite = new Sprite("bottom");
 		Sprite topSprite = new Sprite("top");
@@ -80,7 +80,7 @@ public class ProjectTest {
 
 	@Test
 	public void testAddRemoveScene() {
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Project project = new Project(MockUtil.mockContextForProject(), "testProject", false);
 		Scene sceneOne = new Scene("test1", project);
 		Scene sceneTwo = new Scene("test2", project);
 

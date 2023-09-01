@@ -115,6 +115,7 @@ class CreateProjectTest : KoinTest {
         projectManager.createNewEmptyProject(
             javaClass.simpleName,
             false,
+            false,
             false
         )
     }

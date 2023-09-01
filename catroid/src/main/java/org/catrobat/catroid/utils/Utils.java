@@ -414,7 +414,9 @@ public final class Utils {
 				uniqueProjectName = "project_" + System.currentTimeMillis();
 			}
 
-			Project defaultProject = DefaultProjectHandler.createAndSaveDefaultProject(uniqueProjectName, context, false);
+			Project defaultProject =
+					DefaultProjectHandler.createAndSaveDefaultProject(uniqueProjectName, context,
+							true, false);
 
 			String defaultProjectXml = XstreamSerializer.getInstance().getXmlAsStringFromProject(defaultProject);
 

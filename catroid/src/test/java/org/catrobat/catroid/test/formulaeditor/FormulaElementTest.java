@@ -59,7 +59,7 @@ public class FormulaElementTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Project project = new Project(MockUtil.mockContextForProject(), "Project");
+		Project project = new Project(MockUtil.mockContextForProject(), "Project", false);
 		Sprite background = project.getDefaultScene().getBackgroundSprite();
 		Sprite sprite = new Sprite("testSprite");
 

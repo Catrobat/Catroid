@@ -151,14 +151,14 @@ class DeleteImportedSpriteTest {
     }
 
     private fun createProjects(projectName: String) {
-        project = Project(ApplicationProvider.getApplicationContext(), projectName)
+        project = Project(ApplicationProvider.getApplicationContext(), projectName, false)
         projectManager.currentProject = project
         projectManager.currentlyEditedScene = project.defaultScene
         XstreamSerializer.getInstance().saveProject(project)
         localProject = DefaultProjectHandler.createAndSaveDefaultProject(
             "local",
             ApplicationProvider.getApplicationContext(),
-            false
+            false, false
         )
         localProject.defaultScene.spriteList.removeAt(2)
         localProject.defaultScene.spriteList.removeAt(1)

@@ -73,7 +73,8 @@ public class DefaultProjectComparatorTest {
 		}
 
 		defaultProject = DefaultProjectHandler
-				.createAndSaveDefaultProject(PROJECT_NAME, ApplicationProvider.getApplicationContext(), false);
+				.createAndSaveDefaultProject(PROJECT_NAME,
+						ApplicationProvider.getApplicationContext(), false, false);
 	}
 
 	@After

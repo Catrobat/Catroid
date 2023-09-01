@@ -64,7 +64,7 @@ class DeleteLookActionTest {
             lookList.add(lookData2)
             lookList.add(lookData3)
         }
-        Project(MockUtil.mockContextForProject(), "testProject").also { project ->
+        Project(MockUtil.mockContextForProject(), "testProject", false).also { project ->
             ProjectManager.getInstance().currentProject = project
         }
     }

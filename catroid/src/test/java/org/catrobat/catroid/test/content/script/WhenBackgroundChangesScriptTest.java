@@ -65,7 +65,7 @@ public class WhenBackgroundChangesScriptTest {
 	public void setUp() {
 		PowerMockito.mockStatic(GdxNativesLoader.class);
 
-		Project project = new Project(MockUtil.mockContextForProject(), "TestProject");
+		Project project = new Project(MockUtil.mockContextForProject(), "TestProject", false);
 		ProjectManager.getInstance().setCurrentProject(project);
 		sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);

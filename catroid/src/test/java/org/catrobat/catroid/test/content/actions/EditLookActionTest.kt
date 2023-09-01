@@ -57,7 +57,8 @@ class EditLookActionTest {
 
     @Before
     fun setUp() {
-        projectMock = Project(MockUtil.mockContextForProject(), "testProject").also { project ->
+        projectMock = Project(MockUtil.mockContextForProject(), "testProject", false).also {
+                project ->
             ProjectManager.getInstance().currentProject = project
         }
         testSequence = SequenceAction()

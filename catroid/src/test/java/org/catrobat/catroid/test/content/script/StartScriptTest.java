@@ -50,7 +50,7 @@ public class StartScriptTest {
 	@Before
 	public void setUp() {
 		PowerMockito.mockStatic(GdxNativesLoader.class);
-		Project project = new Project(MockUtil.mockContextForProject(), "Project");
+		Project project = new Project(MockUtil.mockContextForProject(), "Project", false);
 		ProjectManager.getInstance().setCurrentProject(project);
 	}
 

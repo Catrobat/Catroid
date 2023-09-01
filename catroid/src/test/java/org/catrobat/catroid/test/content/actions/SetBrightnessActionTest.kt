@@ -49,7 +49,7 @@ class SetBrightnessActionTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        val project = Project(MockUtil.mockContextForProject(), "Project")
+        val project = Project(MockUtil.mockContextForProject(), "Project", false)
         sprite = Sprite("testSprite")
         project.defaultScene.addSprite(sprite)
         ProjectManager.getInstance().currentProject = project

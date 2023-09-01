@@ -49,7 +49,8 @@ class ParameterizedBrickTest {
     fun setUp() {
         val project = Project(
             MockUtil.mockContextForProject(),
-            "testProject"
+            "testProject",
+            false
         )
         userVariable = UserVariable()
         userList = UserList()

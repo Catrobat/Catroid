@@ -57,7 +57,8 @@ public class DefaultChromeCastProgramLoadingTest {
 		currentProjectBuffer = ProjectManager.getInstance().getCurrentProject();
 		projectName = ApplicationProvider.getApplicationContext().getString(R.string.default_cast_project_name);
 		project = new ChromeCastProjectCreator()
-				.createDefaultProject(projectName, ApplicationProvider.getApplicationContext(), true);
+				.createDefaultProject(projectName, ApplicationProvider.getApplicationContext(),
+						true, true);
 	}
 
 	@After
