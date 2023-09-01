@@ -342,7 +342,7 @@ class ValueSerializationTest(
                 arrayOf(AssertEqualsBrick::class.simpleName, AssertEqualsBrick(Formula(testInt1), Formula(testString)), "Assert equals (actual: ($testInt1), expected: ('$testString'));\n"),
                 arrayOf(BroadcastReceiverBrick::class.simpleName, BroadcastReceiverBrick(BroadcastScript(testString)), "When you receive (message: ('$testString')) {\n}\n"),
                 arrayOf(WhenConditionBrick::class.simpleName, WhenConditionBrick(WhenConditionScript(testFormula1)), "When condition becomes true (condition: (${elementToString(testFormula1)})) {\n}\n"),
-                arrayOf(WhenRaspiPinChangedBrick::class.simpleName, WhenRaspiPinChangedBrick(RaspiInterruptScript(testInt1.toString(), testInt2.toString())), "When Raspberry Pi pin changes to (pin: ($testInt1), position: ($testInt2)) {\n}\n"),
+                arrayOf(WhenRaspiPinChangedBrick::class.simpleName, WhenRaspiPinChangedBrick(RaspiInterruptScript(testInt1.toString(), "low")), "When Raspberry Pi pin changes to (pin: ($testInt1), position: (low)) {\n}\n"),
                 arrayOf(BackgroundRequestBrick::class.simpleName, BackgroundRequestBrick(), "Get image from source and use as background (url: (0));\n"),
                 arrayOf(AskBrick::class.simpleName, AskBrick(testString), "Ask (question: ('$testString'), answer variable: (\"${testVariable.name}\"));\n"),
                 arrayOf(SetNfcTagBrick::class.simpleName, SetNfcTagBrick(testString), "Set next NFC tag (text: ('$testString'));\n"),

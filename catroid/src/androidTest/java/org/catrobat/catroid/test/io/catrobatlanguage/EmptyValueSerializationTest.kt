@@ -413,7 +413,7 @@ class EmptyValueSerializationTest(
                 arrayOf(WhenTouchDownBrick::class.simpleName, WhenTouchDownBrick(), "When stage is tapped {\n}\n"),
                 arrayOf(BroadcastReceiverBrick::class.simpleName, BroadcastReceiverBrick(), "When you receive (message: ('')) {\n}\n"),
                 arrayOf(WhenConditionBrick::class.simpleName, WhenConditionBrick(), "When condition becomes true (condition: (0)) {\n}\n"),
-                arrayOf(WhenBounceOffBrick::class.simpleName, WhenBounceOffBrick(), "When you bounce off (actor or object: ()) {\n}\n"),
+                arrayOf(WhenBounceOffBrick::class.simpleName, WhenBounceOffBrick(), "When you bounce off (actor or object: (any edge, actor, or object)) {\n}\n"),
                 arrayOf(WhenBackgroundChangesBrick::class.simpleName, WhenBackgroundChangesBrick(), "When background changes to (look: ()) {\n}\n"),
                 arrayOf(WhenClonedBrick::class.simpleName, WhenClonedBrick(), "When you start as a clone {\n}\n"),
                 arrayOf(WhenRaspiPinChangedBrick::class.simpleName, WhenRaspiPinChangedBrick(), "When Raspberry Pi pin changes to (pin: (), position: ()) {\n}\n"),
