@@ -118,7 +118,8 @@ public class RecentBricksTest {
 	}
 
 	public Project createProject() {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
+		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName,
+				false);
 		Sprite sprite = new Sprite(spriteName);
 
 		project.getDefaultScene().addSprite(sprite);

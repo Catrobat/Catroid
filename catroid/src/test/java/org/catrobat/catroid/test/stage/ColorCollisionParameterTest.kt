@@ -51,7 +51,7 @@ internal class ColorCollisionParameterTest(
         val sprite = Sprite("testSprite")
         val sequence = SequenceAction()
         val stageListener = Mockito.mock(StageListener::class.java)
-        val project = Project(MockUtil.mockContextForProject(), "testProject")
+        val project = Project(MockUtil.mockContextForProject(), "testProject", false)
         ProjectManager.getInstance().currentProject = project
         colorCollisionDetection = ColorCollisionDetection(
             Scope(project, sprite, sequence),

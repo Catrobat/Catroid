@@ -51,7 +51,7 @@ public class LayerPropertyTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Project project = new Project(MockUtil.mockContextForProject(), "Project");
+		Project project = new Project(MockUtil.mockContextForProject(), "Project", false);
 		Sprite background = project.getDefaultScene().getBackgroundSprite();
 		Sprite firstSprite = new Sprite("firstSprite");
 		Sprite secondSprite = new Sprite("secondSprite");

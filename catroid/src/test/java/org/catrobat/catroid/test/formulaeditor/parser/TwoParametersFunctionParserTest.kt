@@ -80,7 +80,8 @@ class TwoParametersFunctionParserTest(
     fun setUp() {
         val project = Project(
             MockUtil.mockContextForProject(),
-            "Project"
+            "Project",
+            false
         )
         sprite = Sprite("sprite")
         scope = Scope(project, sprite!!, SequenceAction())

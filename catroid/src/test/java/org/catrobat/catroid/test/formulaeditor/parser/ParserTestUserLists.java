@@ -69,7 +69,7 @@ public class ParserTestUserLists {
 
 	@Before
 	public void setUp() {
-		project = new Project(MockUtil.mockContextForProject(), "testProject");
+		project = new Project(MockUtil.mockContextForProject(), "testProject", false);
 		sprite = new Sprite("sprite");
 
 		StartScript startScript = new StartScript();

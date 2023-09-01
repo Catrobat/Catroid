@@ -135,7 +135,7 @@ public class BrickStringSpinnerDefaultValueTest {
 	}
 
 	public void createProject(Context context) {
-		Project project = new Project(context, getClass().getSimpleName());
+		Project project = new Project(context, getClass().getSimpleName(), false);
 		sprite = new Sprite("testSprite");
 		Script script = new StartScript();
 		script.addBrick(new SetXBrick());

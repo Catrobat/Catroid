@@ -60,7 +60,7 @@ public class ParserTestStringFunctions {
 	@Before
 	public void setUp() {
 		Sprite testSprite = new Sprite("testsprite");
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Project project = new Project(MockUtil.mockContextForProject(), "testProject", false);
 		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);

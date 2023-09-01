@@ -75,7 +75,7 @@ public class PhysicsSpriteCloneTest {
 
 	@Before
 	public void setUp() throws Exception {
-		project = new Project(MockUtil.mockContextForProject(), getClass().getSimpleName());
+		project = new Project(MockUtil.mockContextForProject(), getClass().getSimpleName(), false);
 		ProjectManager.getInstance().setCurrentProject(project);
 
 		sprite = new Sprite("TestSprite");

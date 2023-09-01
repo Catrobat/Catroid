@@ -148,7 +148,6 @@ public class BrickSpinnerTest {
 		});
 	}
 
-	@SuppressWarnings("PMD.UnusedPrivateField")
 	private String name;
 
 	private Brick brick;
@@ -205,7 +204,7 @@ public class BrickSpinnerTest {
 	}
 
 	public void createProject(Activity activity) {
-		Project project = new Project(activity, getClass().getSimpleName());
+		Project project = new Project(activity, getClass().getSimpleName(), false);
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
 		script.addBrick(brick);

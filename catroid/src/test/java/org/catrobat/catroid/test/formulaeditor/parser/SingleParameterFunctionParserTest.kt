@@ -111,7 +111,8 @@ class SingleParameterFunctionParserTest(
     fun setUp() {
         val project = Project(
             MockUtil.mockContextForProject(),
-            "Project"
+            "Project",
+            false
         )
         sprite = Sprite("testSprite")
         scope = Scope(project, sprite!!, SequenceAction())

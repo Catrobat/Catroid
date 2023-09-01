@@ -63,7 +63,7 @@ public class ParserTestObject {
 
 	@Before
 	public void setUp() {
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
+		Project project = new Project(MockUtil.mockContextForProject(), "testProject", false);
 		ProjectManager.getInstance().setCurrentProject(project);
 		Sprite testSprite = new Sprite("sprite");
 		project.getDefaultScene().addSprite(testSprite);

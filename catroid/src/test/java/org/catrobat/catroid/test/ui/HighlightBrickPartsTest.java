@@ -98,7 +98,7 @@ public class HighlightBrickPartsTest {
 
 	private void createProject() {
 		String projectName = "highlightBrickPartsTest";
-		Project project = new Project(MockUtil.mockContextForProject(), projectName);
+		Project project = new Project(MockUtil.mockContextForProject(), projectName, false);
 
 		Sprite sprite = new Sprite("sprite");
 		project.getDefaultScene().addSprite(sprite);

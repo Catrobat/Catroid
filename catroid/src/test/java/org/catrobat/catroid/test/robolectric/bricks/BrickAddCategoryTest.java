@@ -111,7 +111,7 @@ public class BrickAddCategoryTest {
 	}
 
 	public void createProject(Activity activity) {
-		Project project = new Project(activity, getClass().getSimpleName());
+		Project project = new Project(activity, getClass().getSimpleName(), false);
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
 		script.addBrick(new SetXBrick());
