@@ -138,7 +138,7 @@ public class Project implements Serializable {
 
 	public Project(Context context, String name, boolean addToNeverOpenedList,
 			boolean landscapeMode) {
-		this(context, name, addToNeverOpenedList, landscapeMode, true);
+		this(context, name, addToNeverOpenedList, landscapeMode, false);
 	}
 
 	public Project(Context context, String name, boolean addToNeverOpenedList) {
