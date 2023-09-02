@@ -114,7 +114,7 @@ class ScriptSplitUserDefinedBrickTest {
     }
 
     private fun createProject() {
-        val project = Project(ApplicationProvider.getApplicationContext(), projectName)
+        val project = Project(ApplicationProvider.getApplicationContext(), projectName, false)
         val sprite = Sprite("testSprite")
         project.defaultScene.addSprite(sprite)
 

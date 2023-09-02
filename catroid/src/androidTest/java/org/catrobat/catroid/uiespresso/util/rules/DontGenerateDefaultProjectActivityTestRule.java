@@ -54,7 +54,7 @@ public class DontGenerateDefaultProjectActivityTestRule<T extends Activity> exte
 	void setUpDummyProject() {
 		FlavoredConstants.DEFAULT_ROOT_DIRECTORY.mkdir();
 		Project project = new Project(ApplicationProvider.getApplicationContext(),
-				"DummyToPreventDefaultProjectCreation");
+				"DummyToPreventDefaultProjectCreation", false);
 		XstreamSerializer.getInstance().saveProject(project);
 	}
 }

@@ -125,7 +125,8 @@ class SpriteListFragmentNoObjectTest {
     }
 
     private fun createNoObjectsProject() {
-        val project = Project(getApplicationContext(), SpriteListFragmentNoObjectTest::class.java.simpleName)
+        val project = Project(getApplicationContext(), SpriteListFragmentNoObjectTest::class.java
+            .simpleName, false)
         projectManager.currentProject = project
         projectManager.currentlyEditedScene = project.defaultScene
     }

@@ -118,7 +118,7 @@ class FormulaEditorColorSensorsComputeTest(
     }
 
     private fun createProjectWithFormulaElements(projectName: String?): Project {
-        val project = Project(ApplicationProvider.getApplicationContext(), projectName)
+        val project = Project(ApplicationProvider.getApplicationContext(), projectName, false)
         val sprite = Sprite("testSprite")
         val script: Script = StartScript()
         if (leftChild != null) formulaElement.setLeftChild(leftChild)

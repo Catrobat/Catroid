@@ -171,7 +171,7 @@ class NewSpriteVisuallyPlaceDialogTest {
     }
 
     private fun createProject(projectName: String) {
-        val project = Project(ApplicationProvider.getApplicationContext(), projectName)
+        val project = Project(ApplicationProvider.getApplicationContext(), projectName, false)
         ProjectManager.getInstance().currentProject = project
         ProjectManager.getInstance().currentlyEditedScene = project.defaultScene
         XstreamSerializer.getInstance().saveProject(project)

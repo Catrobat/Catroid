@@ -76,7 +76,7 @@ public class DeleteLookDialogTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject("deleteLooksDialogTest");
+		createProject();
 
 		baseActivityTestRule.launchActivity();
 	}
@@ -153,8 +153,9 @@ public class DeleteLookDialogTest {
 		onActionMode().checkTitleMatches(UiTestUtils.getResourcesString(R.string.delete) + " 1");
 	}
 
-	private void createProject(String projectName) throws IOException {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
+	private void createProject() throws IOException {
+		Project project = new Project(ApplicationProvider.getApplicationContext(), "deleteLooksDialogTest",
+				false);
 		XstreamSerializer.getInstance().saveProject(project);
 
 		Sprite sprite = new Sprite("testSprite");

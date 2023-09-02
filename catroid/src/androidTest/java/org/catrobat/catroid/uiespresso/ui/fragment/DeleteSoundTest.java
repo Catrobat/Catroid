@@ -147,7 +147,8 @@ public class DeleteSoundTest {
 
 	private void createProject() throws IOException {
 		String projectName = "deleteSoundFragmentTest";
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
+		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName,
+				false);
 
 		Sprite sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);

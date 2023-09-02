@@ -57,7 +57,7 @@ public final class DefaultProjectHandler {
 
 	public static Project createAndSaveDefaultProject(Context context) throws IOException {
 		String name = context.getString(getInstance().defaultProjectCreator.getDefaultProjectNameID());
-		return createAndSaveDefaultProject(name, context, true, false);
+		return createAndSaveDefaultProject(name, context, false, false);
 	}
 
 	public static Project createAndSaveDefaultProject(String name, Context context,

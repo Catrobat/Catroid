@@ -131,7 +131,8 @@ public class FormulaEditorComputeDialogTest {
 	}
 
 	public Project createProject(String projectName) {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
+		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName,
+				false);
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
 

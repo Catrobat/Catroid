@@ -194,7 +194,8 @@ public class RenameLookTest {
 
 	private void createProject() throws IOException {
 		String projectName = "renameLookFragmentTest";
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
+		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName,
+				false);
 
 		Sprite sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);

@@ -109,7 +109,7 @@ class ScriptSplitSingleTest {
     }
 
     private fun createProject() {
-        val project = Project(ApplicationProvider.getApplicationContext(), projectName)
+        val project = Project(ApplicationProvider.getApplicationContext(), projectName, false)
         val sprite = Sprite(TEST_SPRITE)
         project.defaultScene.addSprite(sprite)
 

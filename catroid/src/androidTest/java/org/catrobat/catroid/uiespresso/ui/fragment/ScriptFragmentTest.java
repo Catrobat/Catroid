@@ -240,7 +240,8 @@ public class ScriptFragmentTest {
 
 	private void createProject() {
 		String projectName = getClass().getSimpleName();
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
+		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName,
+				false);
 
 		Sprite sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);

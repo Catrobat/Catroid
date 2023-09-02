@@ -87,7 +87,8 @@ public class FormulaEditorLocaleVariableComputeTest {
 	}
 
 	public Project createProject(String projectName) {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
+		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName,
+				false);
 
 		firstScene = project.getDefaultScene();
 		secondScene = new Scene("secondScene", project);

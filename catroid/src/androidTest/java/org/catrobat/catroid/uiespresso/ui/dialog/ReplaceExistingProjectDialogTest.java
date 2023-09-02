@@ -125,7 +125,7 @@ public class ReplaceExistingProjectDialogTest {
 		Project project = null;
 
 		for (String name : projectNames) {
-			project = new Project(context, name);
+			project = new Project(context, name, false);
 			saveProjectSerial(project, context);
 		}
 

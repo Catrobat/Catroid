@@ -66,7 +66,7 @@ public class DeleteCheckmarkTest {
 	@Before
 	public void setUp() throws Exception {
 		Project project = new Project(ApplicationProvider.getApplicationContext(),
-				"DeleteNothingTest");
+				"DeleteNothingTest", false);
 		sprite = new Sprite("testSprite");
 		StartScript script = new StartScript();
 		script.addBrick(new StampBrick());

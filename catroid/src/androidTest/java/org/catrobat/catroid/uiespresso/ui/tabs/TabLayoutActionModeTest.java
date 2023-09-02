@@ -121,7 +121,8 @@ public class TabLayoutActionModeTest {
 	}
 
 	private void createProject() throws IOException {
-		project = new Project(ApplicationProvider.getApplicationContext(), "TabLayoutActionModeTest");
+		project = new Project(ApplicationProvider.getApplicationContext(),
+				"TabLayoutActionModeTest", false);
 		Sprite sprite = new Sprite("testSprite");
 
 		project.getDefaultScene().addSprite(sprite);

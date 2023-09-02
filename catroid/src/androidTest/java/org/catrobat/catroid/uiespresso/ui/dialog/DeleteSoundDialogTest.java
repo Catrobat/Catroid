@@ -75,7 +75,7 @@ public class DeleteSoundDialogTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject("deleteSoundDialogTest");
+		createProject();
 
 		baseActivityTestRule.launchActivity();
 	}
@@ -152,8 +152,9 @@ public class DeleteSoundDialogTest {
 		onRecyclerView().atPosition(0).performCheckItemCheck();
 	}
 
-	private void createProject(String projectName) throws IOException {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
+	private void createProject() throws IOException {
+		Project project = new Project(ApplicationProvider.getApplicationContext(), "deleteSoundDialogTest",
+				false);
 
 		Sprite sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);

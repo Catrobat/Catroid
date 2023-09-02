@@ -72,7 +72,8 @@ public final class TestUtils {
 
 	public static Project createProjectWithLanguageVersion(double catrobatLanguageVersion,
 			String projectName) {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
+		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName,
+				false);
 		project.setCatrobatLanguageVersion(catrobatLanguageVersion);
 
 		Sprite firstSprite = new Sprite("cat");

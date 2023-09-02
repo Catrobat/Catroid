@@ -147,7 +147,8 @@ public class DeleteLookTest {
 
 	private void createProject() throws IOException {
 		String projectName = "deleteLookFragmentTest";
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
+		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName,
+				false);
 
 		Sprite sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);

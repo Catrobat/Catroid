@@ -241,7 +241,7 @@ class RenameSceneTest {
     }
 
     private fun createProject() {
-        project = Project(applicationContext, projectName)
+        project = Project(applicationContext, projectName, false)
         val sprite = Sprite("Test")
         val otherScene = Scene(otherSceneName, project)
         otherScene.addSprite(sprite)
