@@ -278,7 +278,7 @@ class BrickSearchTest {
     }
 
     fun createProject(projectName: String?) {
-        val project = Project(ApplicationProvider.getApplicationContext(), projectName)
+        val project = Project(ApplicationProvider.getApplicationContext(), projectName, false)
         project.sceneList.clear()
         val sceneName1 = "scene1"
         val scene1 = Scene("scene1", project)

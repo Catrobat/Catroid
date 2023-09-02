@@ -37,6 +37,7 @@ import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
 class ChangeVariableActionTest(
+    private val name: String,
     private val formula: Formula?,
     private val userVariable: UserVariable?,
     private val expectedValue: Double?

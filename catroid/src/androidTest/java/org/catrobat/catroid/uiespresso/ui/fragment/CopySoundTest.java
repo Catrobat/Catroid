@@ -104,8 +104,8 @@ public class CopySoundTest {
 	}
 
 	private void createProject() throws IOException {
-		String projectName = "copySoundFragmentTest";
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
+		Project project = new Project(ApplicationProvider.getApplicationContext(), "copySoundFragmentTest",
+				false);
 
 		Sprite sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);

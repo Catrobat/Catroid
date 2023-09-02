@@ -215,7 +215,8 @@ public class CopyBrickTest {
 	}
 
 	private void createProject() {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), CopyBrickTest.class.getSimpleName());
+		Project project = new Project(ApplicationProvider.getApplicationContext(),
+				CopyBrickTest.class.getSimpleName(), false);
 
 		Sprite sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);

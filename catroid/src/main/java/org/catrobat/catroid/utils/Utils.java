@@ -416,7 +416,7 @@ public final class Utils {
 
 			Project defaultProject =
 					DefaultProjectHandler.createAndSaveDefaultProject(uniqueProjectName, context,
-							true, false);
+							false, false);
 
 			String defaultProjectXml = XstreamSerializer.getInstance().getXmlAsStringFromProject(defaultProject);
 

@@ -206,7 +206,8 @@ public class SearchParameterTest {
 	}
 
 	public void createProject(String projectName) {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
+		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName,
+				false);
 		project.getSceneList().clear();
 
 		String sceneName1 = "scene1";

@@ -147,7 +147,7 @@ class CopySpriteTest {
     }
 
     private fun createProject(projectName: String) {
-        val project = Project(ApplicationProvider.getApplicationContext(), projectName)
+        val project = Project(ApplicationProvider.getApplicationContext(), projectName, false)
         uniqueNameProvider = UniqueNameProvider()
         val standaloneSprite = Sprite(spriteList[2])
         val groupSprite = GroupSprite(spriteList[0])

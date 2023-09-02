@@ -68,6 +68,7 @@ import java.io.File
     CatroidApplication::class
 )
 class SpeakActionTest(
+    private val name: String,
     private val formula: Formula?,
     private val expectedValue: String
 ) {

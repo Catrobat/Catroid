@@ -174,7 +174,7 @@ class FormulaEditorComputeDialogComputationResultTest(
 
         script.addBrick(NoteBrick(noteFormula))
         sprite.addScript(script)
-        project = Project(ApplicationProvider.getApplicationContext(), projectName)
+        project = Project(ApplicationProvider.getApplicationContext(), projectName, false)
         project.defaultScene.addSprite(sprite)
         project.defaultScene.addSprite(collisionSprite)
 

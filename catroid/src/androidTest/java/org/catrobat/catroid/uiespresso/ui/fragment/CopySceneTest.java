@@ -133,7 +133,7 @@ public class CopySceneTest {
 
 	private void createProject(Context context, String projectName) throws Exception {
 
-		Project project = new Project(context, projectName);
+		Project project = new Project(context, projectName, false);
 		Sprite sprite = new Sprite("firstSprite");
 		project.getDefaultScene().addSprite(sprite);
 		Scene scene2 = new Scene("Scene (1)", project);

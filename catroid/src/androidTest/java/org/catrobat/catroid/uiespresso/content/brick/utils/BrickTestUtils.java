@@ -37,7 +37,8 @@ public final class BrickTestUtils {
 	}
 
 	public static Script createEmptyCastProjectAndGetStartScript(String projectName) {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName, false, true);
+		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName,
+				false, false, true);
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
 		sprite.addScript(script);
