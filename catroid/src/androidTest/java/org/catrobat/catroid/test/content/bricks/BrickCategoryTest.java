@@ -26,11 +26,7 @@ package org.catrobat.catroid.test.content.bricks;
 import android.content.Context;
 import android.preference.PreferenceManager;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;

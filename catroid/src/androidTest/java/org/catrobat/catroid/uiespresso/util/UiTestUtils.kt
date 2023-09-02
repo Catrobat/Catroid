@@ -131,19 +131,6 @@ class UiTestUtils private constructor() {
         }
 
         @JvmStatic
-        fun createProjectAndGetStartScript(projectName: String, context: Context): Script {
-            val project = Project(context, projectName, false)
-            val sprite = Sprite(TestUtils.DEFAULT_TEST_SPRITE_NAME)
-            val script: Script = StartScript()
-            sprite.addScript(script)
-            project.defaultScene.addSprite(sprite)
-            projectManager.currentProject = project
-            projectManager.currentSprite = sprite
-            projectManager.currentlyEditedScene = project.defaultScene
-            return script
-        }
-
-        @JvmStatic
         fun createEmptyProjectForTheFirstTime(projectName: String?): Project {
             val project = Project(ApplicationProvider.getApplicationContext(), projectName, true)
             val sprite = Sprite("testSprite")

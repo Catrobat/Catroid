@@ -79,7 +79,7 @@ class ChromeCastDialogTest {
     fun setUp() {
         val project = ChromeCastProjectCreator()
             .createDefaultProject(projectName, ApplicationProvider.getApplicationContext(),
-                                  false,true)
+                false, true)
         projectManager.currentProject = project
         projectManager.currentlyEditedScene = project.defaultScene
         baseActivityTestRule.launchActivity(null)

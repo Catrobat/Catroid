@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.test.content.actions
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
@@ -65,7 +66,7 @@ class BluetoothMultiplayerActionTest(
 
     @Before
     fun setUp() {
-        Project(MockUtil.mockContextForProject(), "testProject",  false).apply {
+        Project(MockUtil.mockContextForProject(), "testProject", false).apply {
             if (expectedValue == 0) {
                 addUserVariable(userVariable)
             } else {
