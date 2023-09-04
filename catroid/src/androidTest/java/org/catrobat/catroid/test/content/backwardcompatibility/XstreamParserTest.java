@@ -148,26 +148,26 @@ public class XstreamParserTest {
 		Scope scopeGlobal = new Scope(project, scene1.getSprite("SpriteWithGlobalVarAndList"),
 				new SequenceAction());
 
-/*		assertNotNull(UserDataWrapper.getUserVariable("localVar", scopeLocal));
+		assertNotNull(UserDataWrapper.getUserVariable("localVar", scopeLocal));
 
-		assertNotNull(UserDataWrapper.getUserVariable("localList", scopeLocal));*/
-
-		assertNull(UserDataWrapper.getUserVariable("localVar", scopeGlobal));
-
-		assertNull(UserDataWrapper.getUserVariable("localList", scopeGlobal));
-
-/*		assertNotNull(UserDataWrapper.getUserVariable("globalVar", scopeLocal));
-
-		assertNotNull(UserDataWrapper.getUserVariable("globalList", scopeLocal));*/
+		assertNotNull(UserDataWrapper.getUserVariable("localList", scopeLocal));
 
 		assertNull(UserDataWrapper.getUserVariable("localVar", scopeGlobal));
 
 		assertNull(UserDataWrapper.getUserVariable("localList", scopeGlobal));
 
-/*		assertNotSame(UserDataWrapper.getUserVariable("localVar", scopeLocal),
+		assertNotNull(UserDataWrapper.getUserVariable("globalVar", scopeLocal));
+
+		assertNotNull(UserDataWrapper.getUserVariable("globalList", scopeLocal));
+
+		assertNull(UserDataWrapper.getUserVariable("localVar", scopeGlobal));
+
+		assertNull(UserDataWrapper.getUserVariable("localList", scopeGlobal));
+
+		assertNotSame(UserDataWrapper.getUserVariable("localVar", scopeLocal),
 				UserDataWrapper.getUserVariable("globalList", scopeLocal));
 
 		assertNotSame(UserDataWrapper.getUserVariable("localList", scopeLocal),
-				UserDataWrapper.getUserVariable("globalList", scopeLocal));*/
+				UserDataWrapper.getUserVariable("globalList", scopeLocal));
 	}
 }

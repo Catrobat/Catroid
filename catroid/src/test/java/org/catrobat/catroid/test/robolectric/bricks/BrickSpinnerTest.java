@@ -123,20 +123,20 @@ public class BrickSpinnerTest {
 				{SetRotationStyleBrick.class.getSimpleName(), new SetRotationStyleBrick(), R.id.brick_set_rotation_style_spinner, "left-right only", asList("left-right only", "all-around", "don't rotate")},
 				{PlaySoundBrick.class.getSimpleName(), new PlaySoundBrick(), R.id.brick_play_sound_spinner, "someSound", asList("new…", "someSound")},
 				{PlaySoundAndWaitBrick.class.getSimpleName(), new PlaySoundAndWaitBrick(), R.id.brick_play_sound_spinner, "someSound", asList("new…", "someSound")},
-				{AskSpeechBrick.class.getSimpleName(), new AskSpeechBrick(), R.id.brick_ask_speech_spinner, "someVariable", asList("new…", "someVariable")},
+				{AskSpeechBrick.class.getSimpleName(), new AskSpeechBrick(), R.id.brick_ask_speech_spinner, "someList", asList("new…", "someList", "someVariable")},
 				{SetLookBrick.class.getSimpleName(), new SetLookBrick(), R.id.brick_set_look_spinner, "someLook", asList("new…", "someLook")},
 				{SetBackgroundBrick.class.getSimpleName(), new SetBackgroundBrick(), R.id.brick_set_background_spinner, "someBackground", asList("new…", "someBackground")},
 				{SetBackgroundAndWaitBrick.class.getSimpleName(), new SetBackgroundAndWaitBrick(), R.id.brick_set_background_spinner, "someBackground", asList("new…", "someBackground")},
-				{SetVariableBrick.class.getSimpleName(), new SetVariableBrick(), R.id.set_variable_spinner, "someVariable", asList("new…", "someVariable")},
-				{ChangeVariableBrick.class.getSimpleName(), new ChangeVariableBrick(), R.id.change_variable_spinner, "someVariable", asList("new…", "someVariable")},
-				{ShowTextBrick.class.getSimpleName(), new ShowTextBrick(), R.id.show_variable_spinner, "someVariable", asList("new…", "someVariable")},
-				{ShowTextColorSizeAlignmentBrick.class.getSimpleName() + " variable", new ShowTextColorSizeAlignmentBrick(), R.id.show_variable_color_size_spinner, "someVariable", asList("new…", "someVariable")},
+				{SetVariableBrick.class.getSimpleName(), new SetVariableBrick(), R.id.set_variable_spinner, "someList", asList("new…", "someList", "someVariable")},
+				{ChangeVariableBrick.class.getSimpleName(), new ChangeVariableBrick(), R.id.change_variable_spinner, "someList", asList("new…", "someList", "someVariable")},
+				{ShowTextBrick.class.getSimpleName(), new ShowTextBrick(), R.id.show_variable_spinner, "someList", asList("new…", "someList", "someVariable")},
+				{ShowTextColorSizeAlignmentBrick.class.getSimpleName() + " variable", new ShowTextColorSizeAlignmentBrick(), R.id.show_variable_color_size_spinner, "someList", asList("new…", "someList", "someVariable")},
 				{ShowTextColorSizeAlignmentBrick.class.getSimpleName() + " alignment", new ShowTextColorSizeAlignmentBrick(), R.id.brick_show_variable_color_size_align_spinner, "centered", asList("left", "centered", "right")},
-				{HideTextBrick.class.getSimpleName(), new HideTextBrick(), R.id.hide_variable_spinner, "someVariable", asList("new…", "someVariable")},
-				{AddItemToUserListBrick.class.getSimpleName(), new AddItemToUserListBrick(), R.id.add_item_to_userlist_spinner, "someList", asList("new…", "someList")},
-				{DeleteItemOfUserListBrick.class.getSimpleName(), new DeleteItemOfUserListBrick(), R.id.delete_item_of_userlist_spinner, "someList", asList("new…", "someList")},
-				{InsertItemIntoUserListBrick.class.getSimpleName(), new InsertItemIntoUserListBrick(), R.id.insert_item_into_userlist_spinner, "someList", asList("new…", "someList")},
-				{ReplaceItemInUserListBrick.class.getSimpleName(), new ReplaceItemInUserListBrick(), R.id.replace_item_in_userlist_spinner, "someList", asList("new…", "someList")},
+				{HideTextBrick.class.getSimpleName(), new HideTextBrick(), R.id.hide_variable_spinner, "someList", asList("new…", "someList", "someVariable")},
+				{AddItemToUserListBrick.class.getSimpleName(), new AddItemToUserListBrick(), R.id.add_item_to_userlist_spinner, "someList", asList("new…", "someList", "someVariable")},
+				{DeleteItemOfUserListBrick.class.getSimpleName(), new DeleteItemOfUserListBrick(), R.id.delete_item_of_userlist_spinner, "someList", asList("new…", "someList", "someVariable")},
+				{InsertItemIntoUserListBrick.class.getSimpleName(), new InsertItemIntoUserListBrick(), R.id.insert_item_into_userlist_spinner, "someList", asList("new…", "someList", "someVariable")},
+				{ReplaceItemInUserListBrick.class.getSimpleName(), new ReplaceItemInUserListBrick(), R.id.replace_item_in_userlist_spinner, "someList", asList("new…", "someList", "someVariable")},
 				{BroadcastReceiverBrick.class.getSimpleName(), new BroadcastReceiverBrick(new BroadcastScript("initialMessage")), R.id.brick_broadcast_spinner, "initialMessage", asList("new…", "edit…", "initialMessage")},
 				{BroadcastBrick.class.getSimpleName(), new BroadcastBrick("initialMessage"), R.id.brick_broadcast_spinner, "initialMessage", asList("new…", "edit…", "initialMessage")},
 				{BroadcastWaitBrick.class.getSimpleName(), new BroadcastWaitBrick("initialMessage"), R.id.brick_broadcast_spinner, "initialMessage", asList("new…", "edit…", "initialMessage")},
@@ -239,6 +239,6 @@ public class BrickSpinnerTest {
 		backgroundLookDataList.add(backgroundLookData);
 
 		ProjectManager.getInstance().getCurrentProject().addUserVariable(new UserVariable("someVariable"));
-		ProjectManager.getInstance().getCurrentProject().addUserList(new UserVariable("someList", true));
+		ProjectManager.getInstance().getCurrentProject().addUserVariable(new UserVariable("someList", true));
 	}
 }

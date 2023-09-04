@@ -106,7 +106,7 @@ public class CompositeBrickWithSecondaryListUpdateTest {
 		compositeBrick.getSecondaryNestedBricks().add(secondaryListFormulaBrick);
 
 		project.addUserVariable(userVariable);
-		project.addUserList(userList);
+		project.addUserVariable(userList);
 		ProjectManager.getInstance().setCurrentProject(project);
 	}
 

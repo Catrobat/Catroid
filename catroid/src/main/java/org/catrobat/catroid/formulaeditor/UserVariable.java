@@ -48,7 +48,6 @@ public class UserVariable implements Serializable, UserData<Object> {
 		this.name = name;
 		this.deviceValueKey = UUID.randomUUID();
 		this.value = new ArrayList<>();
-		this.value.add(0d);
 	}
 
 	public UserVariable(final String name, final Object value, Boolean isList) {

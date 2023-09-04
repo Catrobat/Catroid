@@ -60,7 +60,7 @@ class ParameterizedBrickTest {
         userList?.name = VARIABLE_NAME
         parameterizedBrick?.userLists?.add(userList!!)
         project.addUserVariable(userVariable)
-        project.addUserList(userList)
+        project.addUserVariable(userList)
         project.addScene(scene)
         scene.addSprite(sprite)
         sprite.addScript(script)

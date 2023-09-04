@@ -64,14 +64,14 @@ public class FormulaEditorDataListAdapterArraysValueTest {
 		userList.addListItem(NumberFormats.trimTrailingCharacters("1.0"));
 		userList.addListItem(NumberFormats.trimTrailingCharacters("1.0"));
 		userList.addListItem(NumberFormats.trimTrailingCharacters("1.05"));
-		project.addUserList(userList);
+		project.addUserVariable(userList);
 		project.addUserVariable(userVariable);
 		project.addMultiplayerVariable(multiplayerVariable);
 	}
 
 	@Test
 	public void testValuesOfUserList() {
-		List<Object> userList = (List<Object>) project.getUserList(userListName).getValue();
+		List<Object> userList = (List<Object>) project.getUserVariable(userListName).getValue();
 
 		assertEquals(3, userList.size());
 		assertEquals(String.valueOf(1), userList.get(0));

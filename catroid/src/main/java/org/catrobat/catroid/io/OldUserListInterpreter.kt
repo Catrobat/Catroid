@@ -312,6 +312,13 @@ class OldUserListInterpreter(private val outcomeDocument: Document) {
                 }
             }
             objectToClone.removeChild(objectToClonesUserListList)
+        } else if (brickType.textContent == "RepeatBrick") {
+            val loopBricks = NodeOperatorExtension
+                .getNodeByName(brick, "loopBricks") ?: return
+
+            for (i in 0 until loopBricks.childNodes.length) {
+                correctCloneBrick(loopBricks.childNodes.item(i))
+            }
         }
     }
 }

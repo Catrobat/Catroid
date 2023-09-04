@@ -223,8 +223,6 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 			initializeBrickInfoMap();
 			Document originalDocument = getDocument(file);
 			if (originalDocument != null) {
-				// TODO: Delete if tests still work
-				// checkReferences(originalDocument.getDocumentElement());
 				OldUserListInterpreter userListInterpreter =
 						new OldUserListInterpreter(originalDocument);
 				originalDocument = userListInterpreter.interpret();

@@ -62,10 +62,10 @@ public class ProjectMergeTest {
 		initializedList2.add(2.0);
 
 		UserVariable userList1 = new UserVariable("TestUserList", initializedList1);
-		project1.addUserList(userList1);
+		project1.addUserVariable(userList1);
 
 		UserVariable userList2 = new UserVariable("TestUserList", initializedList2);
-		project2.addUserList(userList2);
+		project2.addUserVariable(userList2);
 
 		project1.addUserVariable(new UserVariable("testVariable", 1));
 		project2.addUserVariable(new UserVariable("testVariable", 1));
@@ -73,9 +73,9 @@ public class ProjectMergeTest {
 
 	@After
 	public void tearDown() {
-		project1.removeUserList("TestUserList");
+		project1.removeUserVariable("TestUserList");
 		project1.removeUserVariable("TestVariable");
-		project2.removeUserList("TestUserList");
+		project2.removeUserVariable("TestUserList");
 		project2.removeUserVariable("TestVariable");
 	}
 
@@ -102,7 +102,7 @@ public class ProjectMergeTest {
 
 	@Test
 	public void testProjectGlobalUserListConflicts() {
-		project2.getUserList("TestUserList").addListItem(1.0);
+		project2.getUserVariable("TestUserList").addListItem(1.0);
 		List<UserVariable> globalConflicts = ProjectManager.getInstance().getGlobalListConflicts(project1, project2);
 		assertEquals(globalConflicts.size(), 1);
 	}
