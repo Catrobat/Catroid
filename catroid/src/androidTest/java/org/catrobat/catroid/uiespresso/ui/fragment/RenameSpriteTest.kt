@@ -46,6 +46,7 @@ import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
 import org.catrobat.catroid.testsuites.annotations.Level.Smoke
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.setLanguageSharedPreference
+import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView
 import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
@@ -109,9 +110,9 @@ class RenameSpriteTest {
         UiTestUtils.openActionBarMenu()
         onView(withText(R.string.rename))
             .perform(click())
-        onRecyclerView().atPosition(0)
+        RecyclerViewInteractionWrapper.onRecyclerView().atPosition(0)
             .check(matches(not(isDisplayed())))
-        onRecyclerView().atPosition(2)
+        RecyclerViewInteractionWrapper.onRecyclerView().atPosition(2)
             .perform(click())
         onView(withText(R.string.rename_sprite_dialog))
             .inRoot(isDialog())
@@ -128,9 +129,9 @@ class RenameSpriteTest {
         UiTestUtils.openActionBarMenu()
         onView(withText(R.string.rename))
             .perform(click())
-        onRecyclerView().atPosition(0)
+        RecyclerViewInteractionWrapper.onRecyclerView().atPosition(0)
             .check(matches(not(isDisplayed())))
-        onRecyclerView().atPosition(1)
+        RecyclerViewInteractionWrapper.onRecyclerView().atPosition(1)
             .perform(click())
         onView(withText(R.string.rename_sprite_dialog))
             .inRoot(isDialog())
@@ -177,9 +178,9 @@ class RenameSpriteTest {
         UiTestUtils.openActionBarMenu()
         onView(withText(R.string.rename))
             .perform(click())
-        onRecyclerView().atPosition(0)
+        RecyclerViewInteractionWrapper.onRecyclerView().atPosition(0)
             .check(matches(not(isDisplayed())))
-        onRecyclerView().atPosition(position)
+        RecyclerViewInteractionWrapper.onRecyclerView().atPosition(position)
             .perform(click())
         onView(withText(R.string.rename_sprite_dialog))
             .inRoot(isDialog())
