@@ -350,7 +350,7 @@ public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
 		}
 
-		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
 		catrobatLanguage.append(indention);
 		catrobatLanguage.append("} else {\n");
 

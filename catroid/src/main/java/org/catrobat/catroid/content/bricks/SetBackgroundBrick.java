@@ -137,7 +137,7 @@ public class SetBackgroundBrick extends BrickBaseType implements BrickSpinner.On
 	@NonNull
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String lookname = look == null ? "" : CatrobatLanguageUtils.Companion.formatLook(look.getName());
+		String lookname = look == null ? "" : CatrobatLanguageUtils.formatLook(look.getName());
 		return getCatrobatLanguageParameterCall(indentionLevel, "look", lookname);
 	}
 }

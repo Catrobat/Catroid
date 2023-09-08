@@ -34,7 +34,6 @@ import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 @CatrobatLanguageBrick(command = "When you receive")
 public class BroadcastReceiverBrick extends BroadcastMessageBrick implements ScriptBrick, CatrobatLanguageAttributes {
@@ -118,7 +117,7 @@ public class BroadcastReceiverBrick extends BroadcastMessageBrick implements Scr
 	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
 		brickBuilder.append("message: (");
 		String name = getBroadcastMessage();
-		brickBuilder.append(CatrobatLanguageUtils.Companion.formatString(name == null ? "" : name));
+		brickBuilder.append(CatrobatLanguageUtils.formatString(name == null ? "" : name));
 		brickBuilder.append(")");
 	}
 

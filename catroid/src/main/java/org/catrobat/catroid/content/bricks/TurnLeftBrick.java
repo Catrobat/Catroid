@@ -65,7 +65,7 @@ public class TurnLeftBrick extends FormulaBrick {
 	@NonNull
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
 
 		StringBuilder catrobatLanguage = new StringBuilder();
 		catrobatLanguage.append(indention);

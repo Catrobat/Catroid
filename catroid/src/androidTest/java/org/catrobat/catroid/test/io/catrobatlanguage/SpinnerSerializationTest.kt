@@ -133,6 +133,7 @@ import org.junit.Rule
 import org.junit.Test
 import java.io.File
 
+@Suppress("LargeClass")
 class SpinnerSerializationTest {
     companion object {
         val TEST_LANGUAGES: Array<String> = arrayOf("en-GB", "de", "hi")
@@ -604,7 +605,6 @@ class SpinnerSerializationTest {
             baseActivityTestRule.finishActivity()
             startScript.removeBrick(brick)
         }
-
     }
 
     @Test
@@ -672,7 +672,6 @@ class SpinnerSerializationTest {
             baseActivityTestRule.finishActivity()
             startScript.removeBrick(brick)
         }
-
     }
 
     @Test
@@ -1767,6 +1766,7 @@ class SpinnerSerializationTest {
         startScript.removeBrick(brick)
     }
 
+    @Suppress("LongParameterList", "SwallowedException")
     private fun executeTest(
         @IdRes brickSpinnerId: Int,
         brick: Brick,
@@ -1920,16 +1920,9 @@ class SpinnerSerializationTest {
         return items
     }
 
-    private fun getStringForResourceId(@StringRes resourceId: Int): String {
-        return ApplicationProvider.getApplicationContext<Context>().getString(resourceId)
-    }
+    private fun getStringForResourceId(@StringRes resourceId: Int) = ApplicationProvider.getApplicationContext<Context>().getString(resourceId)
 
-    private fun getStringArrayForResourceId(@ArrayRes resourceId: Int): Array<String> {
-        return ApplicationProvider.getApplicationContext<Context>().resources.getStringArray(resourceId)
-    }
+    private fun getStringArrayForResourceId(@ArrayRes resourceId: Int) = ApplicationProvider.getApplicationContext<Context>().resources.getStringArray(resourceId)
 
-    private fun setLanguage(language: String) {
-        SettingsFragment.setLanguageSharedPreference(ApplicationProvider.getApplicationContext(), language)
-    }
+    private fun setLanguage(language: String) = SettingsFragment.setLanguageSharedPreference(ApplicationProvider.getApplicationContext(), language)
 }
-

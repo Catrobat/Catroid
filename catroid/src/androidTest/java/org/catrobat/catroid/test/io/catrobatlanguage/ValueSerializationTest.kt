@@ -177,15 +177,13 @@ import java.util.Random
 
 @RunWith(Parameterized::class)
 class ValueSerializationTest(
-    private val name: String, private val brick: Brick, private val expectedOutput: String
+    private val name: String,
+    private val brick: Brick,
+    private val expectedOutput: String
 ) {
     companion object {
-        fun elementToString(element: Float): String {
-            return Formula(element).getTrimmedFormulaString(CatroidApplication.getAppContext()).trim()
-        }
-        fun elementToString(element: Formula): String {
-            return element.getTrimmedFormulaString(CatroidApplication.getAppContext()).trim()
-        }
+        fun floatToString(element: Float) = Formula(element).getTrimmedFormulaString(CatroidApplication.getAppContext()).trim()
+        fun formulaToString(element: Formula) = element.getTrimmedFormulaString(CatroidApplication.getAppContext()).trim()
 
         private val testFormula1 = Formula(
             FormulaElement(
@@ -208,6 +206,7 @@ class ValueSerializationTest(
         private val testInt4 = 90
         private val testUrl = "https://catrob.at"
 
+        @Suppress("LongMethod")
         @JvmStatic
         @Parameterized.Parameters(name = "{0}")
         fun parameters(): List<Array<out Serializable?>> {
@@ -243,12 +242,12 @@ class ValueSerializationTest(
                 arrayOf(GlideToBrick::class.simpleName, GlideToBrick(testInt1, testInt2, testInt3 * 1000), "Glide to (x: ($testInt1), y: ($testInt2), seconds: ($testInt3));\n"),
                 arrayOf(GlideToBrick::class.simpleName, GlideToBrick(testInt1, testInt2, 1234), "Glide to (x: ($testInt1), y: ($testInt2), seconds: (1.234));\n"),
                 arrayOf(GoNStepsBackBrick::class.simpleName, GoNStepsBackBrick(testInt1), "Go back (number of layers: ($testInt1));\n"),
-                arrayOf(SetCameraFocusPointBrick::class.simpleName, SetCameraFocusPointBrick(testFloat, testFloat2), "Become focus point with flexibility in percent (horizontal: (${elementToString(testFloat)}), vertical: (${elementToString(testFloat2)}));\n"),
+                arrayOf(SetCameraFocusPointBrick::class.simpleName, SetCameraFocusPointBrick(testFloat, testFloat2), "Become focus point with flexibility in percent (horizontal: (${floatToString(testFloat)}), vertical: (${floatToString(testFloat2)}));\n"),
                 arrayOf(VibrationBrick::class.simpleName, VibrationBrick(testDouble), "Vibrate for (seconds: ($testDouble));\n"),
-                arrayOf(SetVelocityBrick::class.simpleName, SetVelocityBrick(Vector2(testFloat, testFloat2)), "Set velocity to (x steps/second: (${elementToString(testFloat)}), y steps/second: (${elementToString(testFloat2)}));\n"),
+                arrayOf(SetVelocityBrick::class.simpleName, SetVelocityBrick(Vector2(testFloat, testFloat2)), "Set velocity to (x steps/second: (${floatToString(testFloat)}), y steps/second: (${floatToString(testFloat2)}));\n"),
                 arrayOf(TurnLeftSpeedBrick::class.simpleName, TurnLeftSpeedBrick(testDouble), "Spin (direction: (left), degrees/second: ($testDouble));\n"),
                 arrayOf(TurnRightSpeedBrick::class.simpleName, TurnRightSpeedBrick(testDouble), "Spin (direction: (right), degrees/second: ($testDouble));\n"),
-                arrayOf(SetGravityBrick::class.simpleName, SetGravityBrick(Vector2(testFloat, testFloat2)), "Set gravity for all actors and objects to (x steps/second²: (${elementToString(testFloat)}), y steps/second²: (${elementToString(testFloat2)}));\n"),
+                arrayOf(SetGravityBrick::class.simpleName, SetGravityBrick(Vector2(testFloat, testFloat2)), "Set gravity for all actors and objects to (x steps/second²: (${floatToString(testFloat)}), y steps/second²: (${floatToString(testFloat2)}));\n"),
                 arrayOf(SetMassBrick::class.simpleName, SetMassBrick(testDouble), "Set (mass in kilograms: ($testDouble));\n"),
                 arrayOf(SetBounceBrick::class.simpleName, SetBounceBrick(testDouble), "Set (bounce factor percentage: ($testDouble));\n"),
                 arrayOf(SetFrictionBrick::class.simpleName, SetFrictionBrick(testDouble), "Set (friction percentage: ($testDouble));\n"),
@@ -258,15 +257,15 @@ class ValueSerializationTest(
                 arrayOf(PlayDrumForBeatsBrick::class.simpleName, PlayDrumForBeatsBrick(testInt1), "Play (drum: (snare drum), number of beats: ($testInt1));\n"),
                 arrayOf(SetTempoBrick::class.simpleName, SetTempoBrick(testInt1), "Set (tempo: ($testInt1));\n"),
                 arrayOf(ChangeTempoByNBrick::class.simpleName, ChangeTempoByNBrick(testInt1), "Change tempo by (value: ($testInt1));\n"),
-                arrayOf(PauseForBeatsBrick::class.simpleName, PauseForBeatsBrick(testFloat), "Pause for (number of beats: (${elementToString(testFloat)}));\n"),
+                arrayOf(PauseForBeatsBrick::class.simpleName, PauseForBeatsBrick(testFloat), "Pause for (number of beats: (${floatToString(testFloat)}));\n"),
                 arrayOf(SetLookByIndexBrick::class.simpleName, SetLookByIndexBrick(testInt1), "Switch to (look by number: ($testInt1));\n"),
                 arrayOf(SetSizeToBrick::class.simpleName, SetSizeToBrick(testDouble), "Set (size percentage: ($testDouble));\n"),
                 arrayOf(ChangeSizeByNBrick::class.simpleName, ChangeSizeByNBrick(testDouble), "Change size by (value: ($testDouble));\n"),
                 arrayOf(AskSpeechBrick::class.simpleName, AskSpeechBrick(testString), "Ask question and store written answer to variable (question: ('$testString'), variable: (\"${testVariable.name}\"));\n"),
                 arrayOf(SayBubbleBrick::class.simpleName, SayBubbleBrick(testString), "Say (text: ('$testString'));\n"),
-                arrayOf(SayForBubbleBrick::class.simpleName, SayForBubbleBrick(testString, testFloat), "Say text for seconds (text: ('$testString'), seconds: (${elementToString(testFloat)}));\n"),
+                arrayOf(SayForBubbleBrick::class.simpleName, SayForBubbleBrick(testString, testFloat), "Say text for seconds (text: ('$testString'), seconds: (${floatToString(testFloat)}));\n"),
                 arrayOf(ThinkBubbleBrick::class.simpleName, ThinkBubbleBrick(testString), "Think (text: ('$testString'));\n"),
-                arrayOf(ThinkForBubbleBrick::class.simpleName, ThinkForBubbleBrick(testString, testFloat), "Think text for seconds (text: ('$testString'), seconds: (${elementToString(testFloat)}));\n"),
+                arrayOf(ThinkForBubbleBrick::class.simpleName, ThinkForBubbleBrick(testString, testFloat), "Think text for seconds (text: ('$testString'), seconds: (${floatToString(testFloat)}));\n"),
                 arrayOf(ShowTextBrick::class.simpleName, ShowTextBrick(testInt1, testInt2), "Show (variable: (), x: ($testInt1), y: ($testInt2));\n"),
                 arrayOf(ShowTextColorSizeAlignmentBrick::class.simpleName, ShowTextColorSizeAlignmentBrick(testInt1, testInt2, testDouble, testColor), "Show (variable: (), x: ($testInt1), y: ($testInt2), size: ($testDouble), color: (#$testColor), alignment: (centered));\n"),
                 arrayOf(SetTransparencyBrick::class.simpleName, SetTransparencyBrick(testDouble), "Set (transparency percentage: ($testDouble));\n"),
@@ -288,7 +287,7 @@ class ValueSerializationTest(
                 arrayOf(SetPenSizeBrick::class.simpleName, SetPenSizeBrick(testDouble), "Set (pen size: ($testDouble));\n"),
                 arrayOf(SetPenColorBrick::class.simpleName, SetPenColorBrick(255, 0, 0), "Set (pen color code: (#$testColor));\n"),
                 arrayOf(ReportBrick::class.simpleName, ReportBrick(testString), "Report (value: ('$testString'));\n"),
-                arrayOf(ReportBrick::class.simpleName, ReportBrick(testFormulaNumber), "Report (value: (${elementToString(testFormulaNumber)}));\n"),
+                arrayOf(ReportBrick::class.simpleName, ReportBrick(testFormulaNumber), "Report (value: (${formulaToString(testFormulaNumber)}));\n"),
                 arrayOf(SetVariableBrick::class.simpleName, SetVariableBrick(testDouble), "Set (variable: (\"${testVariable.name}\"), value: ($testDouble));\n"),
                 arrayOf(SetVariableBrick::class.simpleName, SetVariableBrick(Sensors.PHIRO_FRONT_LEFT), "Set (variable: (\"${testVariable.name}\"), value: (phiro front left sensor));\n"),
                 arrayOf(ChangeVariableBrick::class.simpleName, ChangeVariableBrick(testDouble), "Change (variable: (\"${testVariable.name}\"), value: ($testDouble));\n"),
@@ -341,7 +340,7 @@ class ValueSerializationTest(
                 arrayOf(WriteEmbroideryToFileBrick::class.simpleName, WriteEmbroideryToFileBrick(Formula(testString)), "Write embroidery data to (file: ('$testString'));\n"),
                 arrayOf(AssertEqualsBrick::class.simpleName, AssertEqualsBrick(Formula(testInt1), Formula(testString)), "Assert equals (actual: ($testInt1), expected: ('$testString'));\n"),
                 arrayOf(BroadcastReceiverBrick::class.simpleName, BroadcastReceiverBrick(BroadcastScript(testString)), "When you receive (message: ('$testString')) {\n}\n"),
-                arrayOf(WhenConditionBrick::class.simpleName, WhenConditionBrick(WhenConditionScript(testFormula1)), "When condition becomes true (condition: (${elementToString(testFormula1)})) {\n}\n"),
+                arrayOf(WhenConditionBrick::class.simpleName, WhenConditionBrick(WhenConditionScript(testFormula1)), "When condition becomes true (condition: (${formulaToString(testFormula1)})) {\n}\n"),
                 arrayOf(WhenRaspiPinChangedBrick::class.simpleName, WhenRaspiPinChangedBrick(RaspiInterruptScript(testInt1.toString(), "low")), "When Raspberry Pi pin changes to (pin: ($testInt1), position: (low)) {\n}\n"),
                 arrayOf(BackgroundRequestBrick::class.simpleName, BackgroundRequestBrick(), "Get image from source and use as background (url: (0));\n"),
                 arrayOf(AskBrick::class.simpleName, AskBrick(testString), "Ask (question: ('$testString'), answer variable: (\"${testVariable.name}\"));\n"),

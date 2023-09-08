@@ -150,7 +150,7 @@ public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.On
 		if (script.getMatchAll()) {
 			brickBuilder.append("all");
 		} else {
-			brickBuilder.append(CatrobatLanguageUtils.Companion.formatNFCTag((script.getNfcTag().getName())));
+			brickBuilder.append(CatrobatLanguageUtils.formatNFCTag((script.getNfcTag().getName())));
 		}
 		brickBuilder.append(")");
 	}

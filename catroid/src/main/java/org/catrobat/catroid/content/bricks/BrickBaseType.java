@@ -33,8 +33,8 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
-import org.catrobat.catroid.io.catlang.CatrobatLanguageSerializable;
 import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageSerializable;
 import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 
@@ -323,7 +323,7 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 	}
 
 	protected StringBuilder getCatrobatLanguageCall(int indentionLevel, boolean withBody) {
-		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
 
 		StringBuilder catrobatLanguage = new StringBuilder();
 		catrobatLanguage.append(indention);
@@ -348,7 +348,7 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 	}
 
 	protected void getCatrobatLanguageBodyClose(StringBuilder catrobatLanguage, int indentionLevel) {
-		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
 		catrobatLanguage.append(indention);
 		catrobatLanguage.append("}");
 
@@ -371,7 +371,7 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 	protected String getCatrobatLanguageParameterCall(int indentionLevel, String parameterName,
 			String value) {
 		StringBuilder catrobatLanguage = new StringBuilder();
-		catrobatLanguage.append(CatrobatLanguageUtils.Companion.getIndention(indentionLevel));
+		catrobatLanguage.append(CatrobatLanguageUtils.getIndention(indentionLevel));
 
 		if (commentedOut) {
 			catrobatLanguage.append("/* ");
@@ -395,7 +395,7 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 
 	protected StringBuilder getCatrobatLanguageParameterizedCall(int indentionLevel,
 			boolean withBody) {
-		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
 
 		StringBuilder catrobatLanguage = new StringBuilder();
 		catrobatLanguage.append(indention);
@@ -431,7 +431,7 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 	@NonNull
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
 		StringBuilder catrobatLanguage = new StringBuilder();
 		catrobatLanguage.append(indention);
 

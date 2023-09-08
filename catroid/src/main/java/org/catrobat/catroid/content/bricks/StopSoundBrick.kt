@@ -33,7 +33,7 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption
 import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick
-import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils.Companion.formatSoundName
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils.formatSoundName
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface
@@ -98,6 +98,6 @@ class StopSoundBrick : BrickBaseType(),
     override fun serializeToCatrobatLanguage(indentionLevel: Int): String {
         var sound = ""
         if (this.sound != null) sound = formatSoundName(this.sound!!.name)
-        return getCatrobatLanguageParameterCall(indentionLevel, "sound", sound);
+        return getCatrobatLanguageParameterCall(indentionLevel, "sound", sound)
     }
 }

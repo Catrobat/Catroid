@@ -171,7 +171,7 @@ public abstract class UserVariableBrickWithVisualPlacement extends VisualPlaceme
 
 	@NonNull
 	public String serializeToCatrobatLanguage(int indentionLevel, String name, boolean beforeParams, boolean withBody) {
-		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
 
 		StringBuilder catrobatLanguage = new StringBuilder();
 		catrobatLanguage.append(indention);
@@ -192,7 +192,7 @@ public abstract class UserVariableBrickWithVisualPlacement extends VisualPlaceme
 
 		catrobatLanguage.append(name + ": (");
 		if (userVariable != null) {
-			catrobatLanguage.append(CatrobatLanguageUtils.Companion.formatVariable(userVariable.getName()));
+			catrobatLanguage.append(CatrobatLanguageUtils.formatVariable(userVariable.getName()));
 		}
 		catrobatLanguage.append(")");
 

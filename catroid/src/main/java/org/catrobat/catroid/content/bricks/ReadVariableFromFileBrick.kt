@@ -34,8 +34,7 @@ import org.catrobat.catroid.content.bricks.Brick.BrickField
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick
-import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils.Companion.formatVariable
-import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils.Companion.getIndention
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
 
 @CatrobatLanguageBrick(command = "Read from file")
 class ReadVariableFromFileBrick constructor() : UserVariableBrickWithFormula(), UpdateableSpinnerBrick {
@@ -115,7 +114,7 @@ class ReadVariableFromFileBrick constructor() : UserVariableBrickWithFormula(), 
     }
 
     override fun serializeToCatrobatLanguage(indentionLevel: Int): String {
-        val indention = getIndention(indentionLevel)
+        val indention = CatrobatLanguageUtils.getIndention(indentionLevel)
         val catrobatLanguage = StringBuilder()
         catrobatLanguage.append(indention)
         if (commentedOut) {
@@ -126,7 +125,7 @@ class ReadVariableFromFileBrick constructor() : UserVariableBrickWithFormula(), 
 
         catrobatLanguage.append("variable: (")
         if (userVariable != null) {
-            catrobatLanguage.append(formatVariable(userVariable.name))
+            catrobatLanguage.append(CatrobatLanguageUtils.formatVariable(userVariable.name))
         }
         catrobatLanguage.append("), ")
         appendCatrobatLanguageArguments(catrobatLanguage)

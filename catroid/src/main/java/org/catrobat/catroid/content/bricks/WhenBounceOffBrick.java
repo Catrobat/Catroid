@@ -141,7 +141,7 @@ public class WhenBounceOffBrick extends ScriptBrickBaseType implements BrickSpin
 		if (script.getSpriteToBounceOffName() == null) {
 			brickBuilder.append("any edge, actor, or object");
 		} else {
-			brickBuilder.append(CatrobatLanguageUtils.Companion.formatActorOrObject(script.getSpriteToBounceOffName()));
+			brickBuilder.append(CatrobatLanguageUtils.formatActorOrObject(script.getSpriteToBounceOffName()));
 		}
 		brickBuilder.append(")");
 	}

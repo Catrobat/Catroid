@@ -76,7 +76,7 @@ public class PlaySoundAndWaitBrick extends PlaySoundBrick implements CatrobatLan
 	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
 		String soundName = "";
 		if (sound != null) {
-			soundName = CatrobatLanguageUtils.Companion.formatSoundName(sound.getName());
+			soundName = CatrobatLanguageUtils.formatSoundName(sound.getName());
 		}
 
 		brickBuilder.append("sound: (");

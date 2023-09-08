@@ -276,9 +276,9 @@ public abstract class UserDataBrick extends FormulaBrick
 			UserData userData = userDataList.get(brickData);
 			if (userData != null) {
 				if (BrickData.isUserList(brickData)) {
-					brickBuilder.append(CatrobatLanguageUtils.Companion.formatList(userData.getName()));
+					brickBuilder.append(CatrobatLanguageUtils.formatList(userData.getName()));
 				} else {
-					brickBuilder.append(CatrobatLanguageUtils.Companion.formatVariable(userData.getName()));
+					brickBuilder.append(CatrobatLanguageUtils.formatVariable(userData.getName()));
 				}
 			} else {
 				brickBuilder.append("0");

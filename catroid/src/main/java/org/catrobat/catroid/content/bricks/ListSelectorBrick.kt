@@ -83,8 +83,8 @@ abstract class ListSelectorBrick : BrickBaseType(), View.OnClickListener,
 
     override fun appendCatrobatLanguageArguments(brickBuilder: StringBuilder) {
         brickBuilder.append("lists: (")
-        userLists.forEachIndexed { index, it ->
-            brickBuilder.append(CatrobatLanguageUtils.formatList(it.name))
+        userLists.forEachIndexed { index, currentElement ->
+            brickBuilder.append(CatrobatLanguageUtils.formatList(currentElement.name))
             if (index < userLists.size - 1) {
                 brickBuilder.append(", ")
             }

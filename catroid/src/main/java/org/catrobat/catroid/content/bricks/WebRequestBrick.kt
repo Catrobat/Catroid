@@ -59,7 +59,5 @@ class WebRequestBrick() : UserVariableBrickWithFormula() {
 
     override fun getSpinnerId(): Int = R.id.web_request_spinner
 
-    override fun serializeToCatrobatLanguage(indentionLevel: Int): String {
-        return super.serializeToCatrobatLanguage(indentionLevel, "answer variable", false, false)
-    }
+    override fun serializeToCatrobatLanguage(indentionLevel: Int): String = super.serializeToCatrobatLanguage(indentionLevel, "answer variable", false, false)
 }

@@ -162,6 +162,6 @@ public class SceneStartBrick extends BrickBaseType implements BrickSpinner.OnIte
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
 		return getCatrobatLanguageParameterCall(indentionLevel, "scene",
-				CatrobatLanguageUtils.Companion.formatActorOrObject(sceneToStart));
+				CatrobatLanguageUtils.formatActorOrObject(sceneToStart));
 	}
 }

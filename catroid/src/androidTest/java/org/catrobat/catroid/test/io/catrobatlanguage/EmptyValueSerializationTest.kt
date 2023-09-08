@@ -49,7 +49,6 @@ import org.catrobat.catroid.content.bricks.ChooseCameraBrick
 import org.catrobat.catroid.content.bricks.ClearBackgroundBrick
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick
 import org.catrobat.catroid.content.bricks.ClearUserListBrick
-import org.catrobat.catroid.content.bricks.CloneBrick
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick
 import org.catrobat.catroid.content.bricks.CopyLookBrick
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick
@@ -227,9 +226,12 @@ import java.util.Random
 
 @RunWith(Parameterized::class)
 class EmptyValueSerializationTest(
-    private val name: String, private val brick: Brick, private val expectedOutput: String
+    private val name: String,
+    private val brick: Brick,
+    private val expectedOutput: String
 ) {
     companion object {
+        @Suppress("LongMethod")
         @JvmStatic
         @Parameterized.Parameters(name = "{0}")
         fun parameters(): List<Array<Serializable?>> {

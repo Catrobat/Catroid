@@ -23,51 +23,42 @@
 
 package org.catrobat.catroid.io.catlang
 
-class CatrobatLanguageUtils {
-    companion object {
-        fun getIndention (level: Int): String {
-            return " ".repeat(level * 2);
+object CatrobatLanguageUtils {
+    @JvmStatic
+    fun getIndention(level: Int): String = " ".repeat(level * 2)
+
+    @JvmStatic
+    fun formatSoundName(soundName: String): String = "'$soundName'"
+
+    @JvmStatic
+    fun formatActorOrObject(actorOrObjectName: String): String = "'$actorOrObjectName'"
+
+    @JvmStatic
+    fun formatLook(lookName: String): String = "'$lookName'"
+
+    @JvmStatic
+    fun formatNFCTag(nfcTag: String): String = "'$nfcTag'"
+
+    @JvmStatic
+    fun formatVariable(variableName: String): String = "\"$variableName\""
+
+    @JvmStatic
+    fun formatList(listName: String): String = "*$listName*"
+
+    @JvmStatic
+    fun formatString(string: String): String = "'$string'"
+
+    @JvmStatic
+    fun formatHexColorString(hexColorString: String): String {
+        val trimmedString = hexColorString.replace(Regex("^'"), "").replace(Regex("'$"), "").toLowerCase()
+        if (trimmedString == "0") {
+            return "#000000"
         }
 
-        fun formatSoundName (soundName: String): String {
-            return "'$soundName'"
+        if (Regex("^([a-f0-9]{6}|[a-f0-9]{3})$").matches(trimmedString)) {
+            return "#$trimmedString"
         }
 
-        fun formatActorOrObject (actorOrObjectName: String): String {
-            return "'$actorOrObjectName'"
-        }
-
-        fun formatLook (lookName: String): String {
-            return "'$lookName'"
-        }
-
-        fun formatNFCTag (nfcTag: String): String {
-            return "'$nfcTag'"
-        }
-
-        fun formatVariable (variableName: String): String {
-            return "\"$variableName\""
-        }
-
-        fun formatList (listName: String): String {
-            return "*$listName*"
-        }
-
-        fun formatString (string: String): String {
-            return "'$string'"
-        }
-
-        fun formatHexColorString (hexColorString: String): String {
-            val trimmedString = hexColorString.replace(Regex("^'"), "").replace(Regex("'$"), "").toLowerCase()
-            if (trimmedString == "0") {
-                return "#000000"
-            }
-
-            if (Regex("^([a-f0-9]{6}|[a-f0-9]{3})$").matches(trimmedString)) {
-                return "#$trimmedString"
-            }
-
-            return hexColorString
-        }
+        return hexColorString
     }
 }

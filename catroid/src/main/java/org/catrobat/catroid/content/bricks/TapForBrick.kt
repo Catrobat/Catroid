@@ -84,7 +84,6 @@ class TapForBrick() : VisualPlacementBrick() {
     init {
         addAllowedBrickField(BrickField.X_POSITION, R.id.brick_tap_for_edit_x, "x")
         addAllowedBrickField(BrickField.Y_POSITION, R.id.brick_tap_for_edit_y, "y")
-        addAllowedBrickField(BrickField.DURATION_IN_SECONDS, R.id.brick_tap_for_edit_duration,
-                             "seconds")
+        addAllowedBrickField(BrickField.DURATION_IN_SECONDS, R.id.brick_tap_for_edit_duration, "seconds")
     }
 }

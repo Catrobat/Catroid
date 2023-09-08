@@ -59,7 +59,5 @@ class WriteVariableToFileBrick constructor() : UserVariableBrickWithFormula() {
         super.addRequiredResources(requiredResourcesSet)
     }
 
-    override fun serializeToCatrobatLanguage(indentionLevel: Int): String {
-        return super.serializeToCatrobatLanguage(indentionLevel, "variable", true, false)
-    }
+    override fun serializeToCatrobatLanguage(indentionLevel: Int): String = super.serializeToCatrobatLanguage(indentionLevel, "variable", true, false)
 }

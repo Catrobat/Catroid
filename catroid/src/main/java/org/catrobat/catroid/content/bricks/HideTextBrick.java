@@ -31,8 +31,6 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 
-import androidx.annotation.NonNull;
-
 @CatrobatLanguageBrick(command = "Hide")
 public class HideTextBrick extends UserVariableBrick {
 

@@ -34,8 +34,7 @@ public class ChangeBrightnessByNBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public ChangeBrightnessByNBrick() {
-		addAllowedBrickField(BrickField.BRIGHTNESS_CHANGE, R.id.brick_change_brightness_edit_text
-				, "value");
+		addAllowedBrickField(BrickField.BRIGHTNESS_CHANGE, R.id.brick_change_brightness_edit_text, "value");
 	}
 
 	public ChangeBrightnessByNBrick(double changeBrightnessValue) {

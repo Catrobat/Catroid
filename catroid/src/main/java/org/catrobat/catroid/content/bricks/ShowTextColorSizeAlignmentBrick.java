@@ -231,7 +231,7 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
 		brickBuilder.append("variable: (");
 		if (userVariable != null) {
-			brickBuilder.append(CatrobatLanguageUtils.Companion.formatVariable(userVariable.getName()));
+			brickBuilder.append(CatrobatLanguageUtils.formatVariable(userVariable.getName()));
 		}
 		for (BrickField brickField : new BrickField[] { BrickField.X_POSITION, BrickField.Y_POSITION, BrickField.SIZE }) {
 			brickBuilder.append("), ").append(catrobatLanguageFormulaParameters.get(brickField)).append(": (");
@@ -239,7 +239,7 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 		}
 
 		brickBuilder.append("), color: (");
-		String color = CatrobatLanguageUtils.Companion.formatHexColorString(convertFieldToString(BrickField.COLOR));
+		String color = CatrobatLanguageUtils.formatHexColorString(convertFieldToString(BrickField.COLOR));
 		brickBuilder.append(color);
 		brickBuilder.append("), alignment: (");
 		brickBuilder.append(getCatrobatLanguageSpinnerValue(alignmentSelection));

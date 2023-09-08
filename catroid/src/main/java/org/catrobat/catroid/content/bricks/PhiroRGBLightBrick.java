@@ -208,7 +208,7 @@ public class PhiroRGBLightBrick extends FormulaBrick implements UpdateableSpinne
 		String red = getColorValueFromBrickField(BrickField.PHIRO_LIGHT_RED);
 		String green = getColorValueFromBrickField(BrickField.PHIRO_LIGHT_GREEN);
 		String blue = getColorValueFromBrickField(BrickField.PHIRO_LIGHT_BLUE);
-		String hexColor = CatrobatLanguageUtils.Companion.formatHexColorString(red + green + blue);
+		String hexColor = CatrobatLanguageUtils.formatHexColorString(red + green + blue);
 
 		brickBuilder.append("light: (");
 		brickBuilder.append(eye.toLowerCase());

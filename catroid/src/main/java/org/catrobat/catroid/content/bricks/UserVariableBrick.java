@@ -128,7 +128,7 @@ public abstract class UserVariableBrick extends BrickBaseType implements UserVar
 
 	@NonNull
 	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String indention = CatrobatLanguageUtils.Companion.getIndention(indentionLevel);
+		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
 		String name = "variable";
 
 		StringBuilder catrobatLanguage = new StringBuilder();
@@ -143,7 +143,7 @@ public abstract class UserVariableBrick extends BrickBaseType implements UserVar
 
 		catrobatLanguage.append(name + ": (");
 		if (userVariable != null) {
-			catrobatLanguage.append(CatrobatLanguageUtils.Companion.formatVariable(userVariable.getName()));
+			catrobatLanguage.append(CatrobatLanguageUtils.formatVariable(userVariable.getName()));
 		}
 		catrobatLanguage.append("));");
 		if (commentedOut) {

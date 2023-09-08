@@ -161,7 +161,7 @@ public class SetPenColorBrick extends FormulaBrick {
 		String red = getColorValueFromBrickField(BrickField.PEN_COLOR_RED);
 		String green = getColorValueFromBrickField(BrickField.PEN_COLOR_GREEN);
 		String blue = getColorValueFromBrickField(BrickField.PEN_COLOR_BLUE);
-		String hexColor = CatrobatLanguageUtils.Companion.formatHexColorString(red + green + blue);
+		String hexColor = CatrobatLanguageUtils.formatHexColorString(red + green + blue);
 
 		return getCatrobatLanguageParameterCall(indentionLevel, "pen color code", hexColor);
 	}

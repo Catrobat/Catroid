@@ -120,7 +120,5 @@ class ParticleEffectAdditivityBrick(fadeType: Int = ON) : BrickBaseType(), Updat
         }
     }
 
-    override fun serializeToCatrobatLanguage(indentionLevel: Int): String {
-        return super.getCatrobatLanguageSpinnerCall(indentionLevel, "particle effect additivity", fadeSpinnerSelectionId)
-    }
+    override fun serializeToCatrobatLanguage(indentionLevel: Int): String = super.getCatrobatLanguageSpinnerCall(indentionLevel, "particle effect additivity", fadeSpinnerSelectionId)
 }

@@ -38,8 +38,7 @@ class TouchAndSlideBrick() : VisualPlacementBrick() {
         addAllowedBrickField(BrickField.Y_POSITION, R.id.brick_touch_slide_edit_from_y, "start y")
         addAllowedBrickField(BrickField.X_POSITION_CHANGE, R.id.brick_touch_slide_edit_to_x, "to x")
         addAllowedBrickField(BrickField.Y_POSITION_CHANGE, R.id.brick_touch_slide_edit_to_y, "to y")
-        addAllowedBrickField(BrickField.DURATION_IN_SECONDS, R.id.brick_tap_for_edit_duration,
-                             "seconds")
+        addAllowedBrickField(BrickField.DURATION_IN_SECONDS, R.id.brick_tap_for_edit_duration, "seconds")
     }
 
     constructor(

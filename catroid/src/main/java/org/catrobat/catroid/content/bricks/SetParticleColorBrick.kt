@@ -65,7 +65,7 @@ class SetParticleColorBrick() : FormulaBrick(), CatrobatLanguageAttributes {
         val paramname = catrobatLanguageFormulaParameters[BrickField.COLOR]
         brickBuilder.append(paramname).append(": (")
 
-        var color = formulaMap[BrickField.COLOR]?.getTrimmedFormulaString(CatroidApplication.getAppContext())?.trim()
+        val color = formulaMap[BrickField.COLOR]?.getTrimmedFormulaString(CatroidApplication.getAppContext())?.trim()
         if (color != null) {
             brickBuilder.append(CatrobatLanguageUtils.formatHexColorString(color))
         }

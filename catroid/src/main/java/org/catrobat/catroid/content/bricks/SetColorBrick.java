@@ -65,7 +65,7 @@ public class SetColorBrick extends FormulaBrick {
 	@NonNull
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
-		String color = CatrobatLanguageUtils.Companion.formatHexColorString(getFormulaWithBrickField(BrickField.COLOR).getTrimmedFormulaString(CatroidApplication.getAppContext()).trim());
+		String color = CatrobatLanguageUtils.formatHexColorString(getFormulaWithBrickField(BrickField.COLOR).getTrimmedFormulaString(CatroidApplication.getAppContext()).trim());
 		return getCatrobatLanguageParameterCall(indentionLevel, "color", color);
 	}
 }

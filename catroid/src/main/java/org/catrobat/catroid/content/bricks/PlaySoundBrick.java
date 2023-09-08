@@ -143,7 +143,7 @@ public class PlaySoundBrick extends BrickBaseType implements BrickSpinner.OnItem
 	public String serializeToCatrobatLanguage(int indentionLevel) {
 		String sound = "";
 		if (this.sound != null) {
-			sound = CatrobatLanguageUtils.Companion.formatSoundName(this.sound.getName());
+			sound = CatrobatLanguageUtils.formatSoundName(this.sound.getName());
 		}
 		return getCatrobatLanguageParameterCall(indentionLevel, "sound", sound);
 	}
