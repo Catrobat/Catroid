@@ -107,7 +107,7 @@ class NotePickerPianoWhiteKeysView(context: Context, attrs: AttributeSet) : Tabl
     }
 
     companion object {
-        @JvmField
-		var DEFAULT_OCTAVE_COUNT = 7
+            @JvmField
+            var DEFAULT_OCTAVE_COUNT = 7
     }
 }

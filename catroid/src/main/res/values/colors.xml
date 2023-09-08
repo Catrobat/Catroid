@@ -93,6 +93,8 @@
     <color name="pocketmusic_even_bright">#E0E0E0</color>
     <color name="pocketmusic_odd_dusk">#E0E0E0</color>
     <color name="pocketmusic_even_dusk">#BDBDBD</color>
+    <color name="note_picker_background">#9F9F9F</color>
+    <color name="note_picker_highlighted_rectangle">#03A9F4</color>
 
     <!-- Bluetooth Colors -->
     <color name="bluetooth_device_color">#AADBF0</color>
