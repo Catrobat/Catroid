@@ -28,6 +28,7 @@ import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.hardware.SensorTestArduinoServerConnection;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
@@ -39,7 +40,6 @@ import org.junit.runner.RunWith;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -56,7 +56,7 @@ public class FlashBrickStageTest {
 	@Before
 	public void setUp() throws Exception {
 		flashBrickPosition = 1;
-		createProjectAndGetStartScript("flashBrickTest").addBrick(new FlashBrick());
+		UiTestUtils.createProjectAndGetStartScript("flashBrickTest").addBrick(new FlashBrick());
 		baseActivityTestRule.launchActivity();
 	}
 

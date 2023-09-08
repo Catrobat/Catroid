@@ -40,7 +40,6 @@ public class ForVariableFromToAction extends LoopAction {
 	private boolean isRepeatActionInitialized = false;
 	private int fromValue;
 	private int toValue;
-	private int executedCount = 0;
 	private int step = 1;
 
 	@Override
@@ -55,16 +54,15 @@ public class ForVariableFromToAction extends LoopAction {
 			isCurrentLoopInitialized = true;
 		}
 
-		setControlVariable(fromValue + step * executedCount);
 		setCurrentTime(getCurrentTime() + delta);
 
 		if (action != null && action.act(delta) && !isLoopDelayNeeded()) {
-			executedCount++;
-
-			if (Math.abs(step * executedCount) > Math.abs(toValue - fromValue)) {
+			if (!(controlVariable.getValue() instanceof Double)
+					|| (step > 0 && (double) controlVariable.getValue() >= toValue)
+					|| (step < 0 && (double) controlVariable.getValue() <= toValue)) {
 				return true;
 			}
-
+			changeControlVariable(step);
 			isCurrentLoopInitialized = false;
 			action.restart();
 		}
@@ -75,7 +73,6 @@ public class ForVariableFromToAction extends LoopAction {
 	public void restart() {
 		isCurrentLoopInitialized = false;
 		isRepeatActionInitialized = false;
-		executedCount = 0;
 		super.restart();
 	}
 
@@ -101,6 +98,7 @@ public class ForVariableFromToAction extends LoopAction {
 			Double toInterpretation = to == null ? Double.valueOf(0d) : to.interpretDouble(scope);
 			toValue = toInterpretation.intValue();
 			setStepValue();
+			setControlVariable(fromValue);
 			return true;
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
@@ -114,5 +112,9 @@ public class ForVariableFromToAction extends LoopAction {
 
 	private void setControlVariable(int value) {
 		controlVariable.setValue((double) value);
+	}
+
+	private void changeControlVariable(int value) {
+		controlVariable.setValue((double) controlVariable.getValue() + (double) value);
 	}
 }

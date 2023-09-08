@@ -40,7 +40,7 @@ import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.bricks.SetXBrick
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_HINTS
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.actions.selectTabAtPosition
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
 import org.catrobat.catroid.utils.SnackbarUtil
@@ -77,7 +77,7 @@ class HintsShownInCorrectActivityTest {
             .putBoolean(SETTINGS_SHOW_HINTS, true)
             .apply()
 
-        script = createProjectAndGetStartScript(projectName)
+        script = UiTestUtils.createProjectAndGetStartScript(projectName)
         script.addBrick(SetXBrick())
 
         baseActivityTestRule.launchActivity(null)

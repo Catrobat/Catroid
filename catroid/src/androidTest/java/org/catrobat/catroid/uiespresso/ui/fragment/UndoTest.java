@@ -31,7 +31,7 @@ import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -141,7 +141,7 @@ public class UndoTest {
 	}
 
 	private void createProject() {
-		Script script = BrickTestUtils.createProjectAndGetStartScript(UndoTest.class.getSimpleName());
+		Script script = UiTestUtils.createProjectAndGetStartScript(UndoTest.class.getSimpleName());
 		IfLogicBeginBrick compositeBrick = new IfLogicBeginBrick();
 		compositeBrick.addBrickToIfBranch(new SetXBrick());
 		compositeBrick.addBrickToElseBranch(new SetXBrick());

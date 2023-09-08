@@ -29,7 +29,7 @@ import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.hardware.SensorTestArduinoServerConnection;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
@@ -55,7 +55,7 @@ public class VibrationBrickStageTest {
 	@Before
 	public void setUp() throws Exception {
 		vibrationBrickPosition = 1;
-		Script script = BrickTestUtils.createProjectAndGetStartScript("vibrationBrickTest");
+		Script script = UiTestUtils.createProjectAndGetStartScript("vibrationBrickTest");
 		script.addBrick(new VibrationBrick());
 		baseActivityTestRule.launchActivity();
 	}

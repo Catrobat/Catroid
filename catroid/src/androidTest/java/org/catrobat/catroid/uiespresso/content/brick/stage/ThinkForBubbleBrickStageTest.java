@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.stage;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -36,6 +35,7 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -43,7 +43,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertNotNull;
@@ -68,7 +67,7 @@ public class ThinkForBubbleBrickStageTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject("thinkBubbleBrickTest");
+		createProject();
 		baseActivityTestRule.launchActivity(null);
 	}
 
@@ -85,18 +84,12 @@ public class ThinkForBubbleBrickStageTest {
 		assertNull(StageActivity.stageListener.getBubbleActorForSprite(sprite));
 	}
 
-	private void createProject(String projectName) {
-		String sayString = "think something";
-		float duration = 2f;
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		sprite = new Sprite("testSprite");
-		Script script = new WhenTouchDownScript();
-		sprite.addScript(script);
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+	private void createProject() {
+		Project project = UiTestUtils.createProjectWithCustomScript("thinkBubbleBrickTest", new WhenTouchDownScript());
+		Script script = UiTestUtils.getDefaultTestScript(project);
+		sprite = UiTestUtils.getDefaultTestSprite(project);
 
-		script.addBrick(new ThinkForBubbleBrick(sayString, duration));
+		script.addBrick(new ThinkForBubbleBrick("think something", 2f));
 		lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script);
 
 		Script whenStarted = new StartScript();

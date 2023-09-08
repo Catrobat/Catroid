@@ -426,6 +426,9 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	}
 
 	public boolean isThereSomethingToDelete() {
+		if (internFormula == null) {
+			return false;
+		}
 		return internFormula.isThereSomethingToDelete();
 	}
 

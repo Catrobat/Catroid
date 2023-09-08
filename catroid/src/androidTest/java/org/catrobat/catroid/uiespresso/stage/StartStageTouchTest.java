@@ -25,7 +25,6 @@ package org.catrobat.catroid.uiespresso.stage;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Scope;
@@ -47,6 +46,7 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.uiespresso.stage.utils.StageTestTouchUtils;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.Before;
@@ -56,8 +56,6 @@ import org.junit.experimental.categories.Category;
 
 import java.util.LinkedList;
 import java.util.List;
-
-import androidx.test.core.app.ApplicationProvider;
 
 import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout;
 
@@ -90,26 +88,21 @@ public class StartStageTouchTest {
 	}
 
 	private void createProject() {
-		String projectName = getClass().getSimpleName();
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
+		Project project = UiTestUtils.createDefaultTestProject(getClass().getSimpleName());
+		Sprite sprite = UiTestUtils.getDefaultTestSprite(project);
+		Script background1StartScript = UiTestUtils.getDefaultTestScript(project);
 
 		String scene2Name = "Scene2";
 		Scene scene2 = new Scene(scene2Name, project);
+		scene2.addSprite(sprite);
 
 		screenIsTouchedUserVariable = new UserVariable("ScreenTouched");
 		project.addUserVariable(screenIsTouchedUserVariable);
 
-		Sprite sprite = new Sprite("Background");
 		Scope scope = new Scope(project, sprite, new SequenceAction());
 
-		Script background1StartScript = new StartScript();
 		background1StartScript.addBrick(new WaitUntilBrick(createFormulaWithSensor(Sensors.FINGER_TOUCHED, scope)));
-
 		background1StartScript.addBrick(new SceneStartBrick("Scene2"));
-		Scene scene1 = project.getDefaultScene();
-		scene1.getBackgroundSprite().addScript(background1StartScript);
-
-		scene2.addSprite(sprite);
 
 		Script background2StartScript = new StartScript();
 		ForeverBrick foreverBrick = new ForeverBrick();
@@ -119,10 +112,6 @@ public class StartStageTouchTest {
 		background2StartScript.addBrick(foreverBrick);
 
 		scene2.getBackgroundSprite().addScript(background2StartScript);
-		project.addScene(scene2);
-
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setStartScene(scene1);
 	}
 
 	private Formula createFormulaWithSensor(Sensors sensor, Scope scope) {

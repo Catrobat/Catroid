@@ -31,7 +31,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
@@ -43,6 +42,7 @@ import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -52,7 +52,6 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
@@ -148,8 +147,9 @@ public class WhenNfcBrickStageFromScriptTest {
 				.perform(click());
 	}
 
-	private Script createProjectWithNfcAndSetVariable() {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), "nfcTestProject");
+	private void createProjectWithNfcAndSetVariable() {
+		Project project = UiTestUtils.createProjectWithCustomScript("nfcTestProject", new WhenNfcScript());
+		Script script = UiTestUtils.getDefaultTestScript(project);
 
 		numDetectedTags = new UserVariable(NUM_DETECTED_TAGS);
 		readTagId = new UserVariable(READ_TAG_ID);
@@ -158,9 +158,6 @@ public class WhenNfcBrickStageFromScriptTest {
 		project.addUserVariable(numDetectedTags);
 		project.addUserVariable(readTagId);
 		project.addUserVariable(readTagMessage);
-
-		Sprite sprite = new Sprite("testSprite");
-		WhenNfcScript script = new WhenNfcScript();
 
 		SetVariableBrick setVariableBrickId = new SetVariableBrick(Sensors.NFC_TAG_ID);
 		setVariableBrickId.setUserVariable(readTagId);
@@ -172,11 +169,6 @@ public class WhenNfcBrickStageFromScriptTest {
 
 		ChangeVariableBrick changeVariableBrickNumDetectedTags = new ChangeVariableBrick(new Formula(1), numDetectedTags);
 		script.addBrick(changeVariableBrickNumDetectedTags);
-
-		sprite.addScript(script);
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
 
 		tagDataList = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
 		NfcTagData firstTagData = new NfcTagData();
@@ -193,6 +185,5 @@ public class WhenNfcBrickStageFromScriptTest {
 		numDetectedTags.setValue(0);
 		nfcBrickPosition = 0;
 		scriptUnderTest = script;
-		return script;
 	}
 }

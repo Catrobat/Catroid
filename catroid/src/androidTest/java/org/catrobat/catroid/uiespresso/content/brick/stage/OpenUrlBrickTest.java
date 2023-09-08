@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.OpenUrlBrick;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.hamcrest.Matcher;
@@ -53,7 +54,6 @@ import androidx.test.espresso.intent.Intents;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.ui.fragment.FormulaEditorFragment.DO_NOT_SHOW_WARNING;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
 import static org.hamcrest.Matchers.allOf;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -94,7 +94,7 @@ public class OpenUrlBrickTest {
 			.commit();
 
 		openUrlBrickPosition = 1;
-		Script script = createProjectAndGetStartScript(projectName);
+		Script script = UiTestUtils.createProjectAndGetStartScript(projectName);
 		script.addBrick(new OpenUrlBrick());
 		baseActivityTestRule.launchActivity(new Intent());
 		Intents.init();

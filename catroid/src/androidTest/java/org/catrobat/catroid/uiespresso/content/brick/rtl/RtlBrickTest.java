@@ -749,18 +749,13 @@ public class RtlBrickTest {
 
 	private void createProject(String projectName) {
 		String nameSpriteTwo = "testSpriteTwo";
-
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Sprite spriteOne = new Sprite("testSpriteOne");
-		project.getDefaultScene().addSprite(spriteOne);
+		Project project = UiTestUtils.createDefaultTestProject(projectName);
 
 		Sprite spriteTwo = new Sprite(nameSpriteTwo);
 		Script script = new StartScript();
 		spriteTwo.addScript(script);
 
 		project.getDefaultScene().addSprite(spriteTwo);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 		ProjectManager.getInstance().setCurrentSprite(spriteTwo);
 	}
 

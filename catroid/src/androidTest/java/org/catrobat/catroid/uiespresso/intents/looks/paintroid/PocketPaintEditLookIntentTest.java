@@ -33,13 +33,13 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.hamcrest.Matcher;
 import org.junit.After;
@@ -53,7 +53,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -134,13 +133,7 @@ public class PocketPaintEditLookIntentTest {
 	}
 
 	private Project createProject(String projectName) throws IOException {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-
-		Sprite sprite = new Sprite("testSprite");
-		project.getDefaultScene().addSprite(sprite);
-
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		Project project = UiTestUtils.createDefaultTestProject(projectName);
 		XstreamSerializer.getInstance().saveProject(project);
 
 		File imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(

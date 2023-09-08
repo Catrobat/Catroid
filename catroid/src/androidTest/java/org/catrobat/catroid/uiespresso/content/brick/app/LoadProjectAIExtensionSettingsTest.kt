@@ -128,7 +128,7 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
 import org.junit.After
 import org.junit.Before
@@ -639,7 +639,7 @@ class LoadProjectAIExtensionSettingsTest(
 
         allAIExtensionSettings.forEach { setting -> setSettingToBoolean(setting, false) }
 
-        script = createProjectAndGetStartScript(projectName)
+        script = UiTestUtils.createProjectAndGetStartScript(projectName)
         baseActivityTestRule.launchActivity(null)
     }
 

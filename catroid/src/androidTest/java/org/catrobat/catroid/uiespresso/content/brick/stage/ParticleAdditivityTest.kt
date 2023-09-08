@@ -25,7 +25,6 @@ package org.catrobat.catroid.uiespresso.content.brick.stage
 
 import android.content.Intent
 import android.util.Log
-import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers
@@ -33,10 +32,8 @@ import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.FlavoredConstants
-import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.bricks.CloneBrick
 import org.catrobat.catroid.content.bricks.ParticleEffectAdditivityBrick
 import org.catrobat.catroid.content.bricks.ParticleEffectAdditivityBrick.Companion.OFF
@@ -45,6 +42,7 @@ import org.catrobat.catroid.content.bricks.WaitBrick
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.ui.SpriteActivity
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions.wait
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.junit.After
@@ -79,7 +77,9 @@ class ParticleAdditivityTest {
 
     @Before
     fun setUp() {
-        createProject()
+        val project = UiTestUtils.createDefaultTestProject(PROJECT_NAME)
+        sprite = UiTestUtils.getDefaultTestSprite(project)
+        script = UiTestUtils.getDefaultTestScript(project)
         baseActivityTestRule.launchActivity(Intent())
     }
 
@@ -155,16 +155,5 @@ class ParticleAdditivityTest {
         } catch (e: IOException) {
             Log.d(javaClass.simpleName, Log.getStackTraceString(e))
         }
-    }
-
-    private fun createProject() {
-        val project = Project(getApplicationContext(), PROJECT_NAME)
-        sprite = Sprite("testSprite")
-        script = StartScript()
-        sprite.addScript(script)
-        project.defaultScene.addSprite(sprite)
-        projectManager.currentProject = project
-        projectManager.currentSprite = sprite
-        projectManager.currentlyEditedScene = project.defaultScene
     }
 }

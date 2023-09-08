@@ -23,16 +23,15 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.stage;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SayBubbleBrick;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -40,7 +39,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertNotNull;
@@ -56,7 +54,11 @@ public class SayBubbleBrickStageTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject("sayBubbleBrickTest");
+		Project project = UiTestUtils.createDefaultTestProject("sayBubbleBrickTest");
+		sprite = UiTestUtils.getDefaultTestSprite(project);
+		Script script = UiTestUtils.getDefaultTestScript(project);
+		script.addBrick(new SayBubbleBrick("say something"));
+		lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script);
 		baseActivityTestRule.launchActivity(null);
 	}
 
@@ -65,19 +67,5 @@ public class SayBubbleBrickStageTest {
 	public void sayBubbleBrickStageTest() {
 		lastBrickInScript.waitUntilEvaluated(3000);
 		assertNotNull(StageActivity.stageListener.getBubbleActorForSprite(sprite));
-	}
-
-	private void createProject(String projectName) {
-		String sayString = "say something";
-
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		sprite = new Sprite("testSprite");
-		Script script = new StartScript();
-		script.addBrick(new SayBubbleBrick(sayString));
-		sprite.addScript(script);
-		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		lastBrickInScript = ScriptEvaluationGateBrick.appendToScript(script);
 	}
 }

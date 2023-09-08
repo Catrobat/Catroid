@@ -84,7 +84,7 @@ class AddUserDataToUserDefinedBrickFragment : Fragment() {
                     as UserDefinedBrickDataType
         }
         userDefinedBrick?.let {
-            val userBrickView = userDefinedBrick?.getView(getActivity())
+            val userBrickView = userDefinedBrick?.getView(requireActivity())
             userBrickSpace.addView(userBrickView)
             userBrickTextView = userDefinedBrick?.currentUserDefinedDataTextView
         }
@@ -129,8 +129,8 @@ class AddUserDataToUserDefinedBrickFragment : Fragment() {
             }
         }
 
-        activity = getActivity() as AppCompatActivity
-        activity?.let {
+        activity = requireActivity() as AppCompatActivity
+        activity.let {
             Utils.showStandardSystemKeyboard(activity)
             val actionBar = activity?.supportActionBar
             if (actionBar != null) {
@@ -146,6 +146,7 @@ class AddUserDataToUserDefinedBrickFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        Utils.showStandardSystemKeyboard(requireActivity())
         if (activity == null) {
             Utils.showStandardSystemKeyboard(getActivity())
         } else {
@@ -155,6 +156,7 @@ class AddUserDataToUserDefinedBrickFragment : Fragment() {
 
     override fun onDetach() {
         super.onDetach()
+        Utils.hideStandardSystemKeyboard(requireActivity())
         if (activity == null) {
             Utils.hideStandardSystemKeyboard(getActivity())
         } else {
@@ -180,7 +182,7 @@ class AddUserDataToUserDefinedBrickFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.next) {
             val fragmentManager = parentFragmentManager
-            Utils.hideStandardSystemKeyboard(activity)
+            Utils.hideStandardSystemKeyboard(requireActivity())
             fragmentManager.let {
                 val addUserDefinedBrickFragment =
                     fragmentManager.findFragmentByTag(AddUserDefinedBrickFragment.TAG)

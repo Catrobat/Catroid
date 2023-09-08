@@ -41,19 +41,16 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.uiautomator.UiDevice
-import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants.UPLOAD_RESULT_RECEIVER_RESULT_CODE
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
-import org.catrobat.catroid.content.Script
-import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.io.asynctask.saveProjectSerial
 import org.catrobat.catroid.ui.NUMBER_OF_UPLOADED_PROJECTS
 import org.catrobat.catroid.ui.PROJECT_DIR
 import org.catrobat.catroid.ui.ProjectUploadActivity
 import org.catrobat.catroid.ui.controller.ProjectUploadController
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
 import org.junit.Assert.assertFalse
 import org.junit.Before
@@ -80,13 +77,8 @@ class ProjectUploadDialogTest {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
         bundle = Bundle()
 
-        project = Project(getApplicationContext(), projectName, false)
+        project = UiTestUtils.createDefaultTestProject(projectName)
         val firstScene = Scene("scene", project)
-        ProjectManager.getInstance().currentProject = project
-        val firstSprite = Sprite("firstSprite")
-        val firstScript: Script = StartScript()
-        firstSprite.addScript(firstScript)
-        firstScene.addSprite(firstSprite)
         project.addScene(firstScene)
         saveProjectSerial(project, getApplicationContext())
         val intent = Intent()

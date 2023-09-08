@@ -164,6 +164,7 @@ class SpinnerSerializationTest {
         device.executeShellCommand("settings put global animator_duration_scale 1")
 
         baseActivityTestRule.finishActivity()
+        setLanguage(TEST_LANGUAGES[0])
     }
 
     @Test
