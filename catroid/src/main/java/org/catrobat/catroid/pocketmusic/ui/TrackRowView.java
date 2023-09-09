@@ -64,7 +64,8 @@ public class TrackRowView extends TableRow {
 		this(context, MusicalBeat.BEAT_4_4, false, NoteName.DEFAULT_NOTE_NAME, null);
 	}
 
-	public TrackRowView(Context context, MusicalBeat beat, boolean isBlackRow, NoteName noteName, TrackView trackView) {
+	public TrackRowView(Context context, MusicalBeat beat, boolean isBlackRow, NoteName noteName,
+			TrackView trackView) {
 		super(context);
 		this.beat = beat;
 		this.noteName = noteName;
@@ -102,7 +103,10 @@ public class TrackRowView extends TableRow {
 	private void refreshNoteViews() {
 		final int whiteKeyColor;
 		final int blackKeyColor;
-		if (tactPosition % 2 == 0) {
+		if (tactPosition % 2 == 0 && isInNotePickerView()) {
+			whiteKeyColor = ContextCompat.getColor(getContext(), R.color.solid_white);
+			blackKeyColor = ContextCompat.getColor(getContext(), R.color.solid_black);
+		} else if (tactPosition % 2 == 0 && isInTrackView()) {
 			whiteKeyColor = ContextCompat.getColor(getContext(), R.color.pocketmusic_odd_bright);
 			blackKeyColor = ContextCompat.getColor(getContext(), R.color.pocketmusic_odd_dusk);
 		} else {
@@ -145,23 +149,10 @@ public class TrackRowView extends TableRow {
 	}
 
 	private void initializeRow() {
-		LayoutParams params = new LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f);
-		params.leftMargin = params.topMargin = params.rightMargin = params.bottomMargin = getResources()
-				.getDimensionPixelSize(R.dimen.pocketmusic_trackrow_margin);
-		params.topMargin = params.bottomMargin = dimSize;
-
-		if (shouldApplyTopMarginToKey()) {
-			params.topMargin = getResources()
-					.getDimensionPixelSize(R.dimen.pocketmusic_trackrow_margin);
-		}
-
-		if (!noteName.isWholeNote()) {
-			params.leftMargin = margin;
-		}
-
-		for (int i = 0; i < quarterCount; i++) {
-			noteViews.add(new NoteView(getContext(), this, i, NoteView.ActiveNoteViewMode.TINT_BACKGROUND));
-			addView(noteViews.get(i), params);
+		if (isInTrackView()) {
+			initRowForTrackView();
+		} else if (isInNotePickerView()) {
+			initRowForNotePickerView();
 		}
 	}
 
@@ -209,7 +200,48 @@ public class TrackRowView extends TableRow {
 		return noteName.isWholeNote() && (noteName.getBaseNoteName() == 'C' || noteName.getBaseNoteName() == 'F');
 	}
 
+	private void initRowForTrackView() {
+		LayoutParams params = new LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f);
+		params.leftMargin = params.topMargin = params.rightMargin = params.bottomMargin = getResources()
+				.getDimensionPixelSize(R.dimen.pocketmusic_trackrow_margin);
+
+		for (int i = 0; i < quarterCount; i++) {
+			noteViews.add(new NoteView(getContext(), this, i, NoteView.ActiveNoteViewMode.SHOW_NOTE));
+			addView(noteViews.get(i), params);
+		}
+	}
+
+	private void initRowForNotePickerView() {
+		int margin = getResources().getDimensionPixelSize(R.dimen.pocketmusic_trackrow_margin);
+		int totalMarginWidth = margin * NUMBER_OF_MARGINS;
+		int usableWidth = parentHeight - totalMarginWidth;
+		LayoutParams params = new LayoutParams(0, usableWidth / NUMBER_OF_KEYS, 1.0f);
+		params.bottomMargin = margin;
+
+		if (shouldApplyTopMarginToKey()) {
+			params.topMargin = getResources()
+					.getDimensionPixelSize(R.dimen.pocketmusic_trackrow_margin);
+		}
+
+		if (!noteName.isWholeNote()) {
+			params.leftMargin = margin;
+		}
+
+		for (int i = 0; i < quarterCount; i++) {
+			noteViews.add(new NoteView(getContext(), this, i, NoteView.ActiveNoteViewMode.TINT_BACKGROUND));
+			addView(noteViews.get(i), params);
+		}
+	}
+
 	public static int getMidiValueForRow(int row) {
-		return row + 48;
+		return row * TrackView.HIGHEST_MIDI / TrackView.ROW_COUNT + TrackView.HIGHEST_MIDI / TrackView.ROW_COUNT;
+	}
+
+	private boolean isInTrackView() {
+		return trackView != null;
+	}
+
+	private boolean isInNotePickerView() {
+		return notePickerView != null;
 	}
 }
