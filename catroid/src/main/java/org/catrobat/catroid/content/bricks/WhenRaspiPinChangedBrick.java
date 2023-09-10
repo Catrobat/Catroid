@@ -160,6 +160,6 @@ public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType implements Upd
 		if (script.getEventValue() != null) {
 			brickBuilder.append(script.getEventValue().equals(BrickValues.RASPI_EVENTS[0]) ? "high" : "low");
 		}
-		brickBuilder.append(")");
+		brickBuilder.append(')');
 	}
 }

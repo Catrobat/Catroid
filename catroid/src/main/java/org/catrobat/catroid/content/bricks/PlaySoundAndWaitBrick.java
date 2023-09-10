@@ -81,6 +81,6 @@ public class PlaySoundAndWaitBrick extends PlaySoundBrick implements CatrobatLan
 
 		brickBuilder.append("sound: (")
 				.append(soundName)
-				.append(")");
+				.append(')');
 	}
 }

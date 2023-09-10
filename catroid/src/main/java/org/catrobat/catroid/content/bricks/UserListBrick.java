@@ -153,15 +153,15 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 	public String serializeToCatrobatLanguage(int indentionLevel) {
 		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
 
-		StringBuilder catrobatLanguage = new StringBuilder();
+		StringBuilder catrobatLanguage = new StringBuilder(60);
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
 			catrobatLanguage.append("/* ");
 		}
 
-		catrobatLanguage.append(getCatrobatLanguageCommand());
-		catrobatLanguage.append(" (list: (");
+		catrobatLanguage.append(getCatrobatLanguageCommand())
+				.append(" (list: (");
 		if (userList != null) {
 			catrobatLanguage.append(CatrobatLanguageUtils.formatList(userList.getName()));
 		}

@@ -214,7 +214,7 @@ public class PhiroRGBLightBrick extends FormulaBrick implements UpdateableSpinne
 				.append(this.getCatrobatLanguageSpinnerValue(Eye.valueOf(eye).ordinal()))
 				.append("), color: (")
 				.append(hexColor)
-				.append(")");
+				.append(')');
 	}
 
 	@Override

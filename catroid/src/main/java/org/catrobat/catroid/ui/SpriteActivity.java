@@ -631,10 +631,10 @@ public class SpriteActivity extends BaseActivity {
 		try {
 			for (Script s : ProjectManager.getInstance().getCurrentSprite().getScriptList()) {
 				String catrobatString = s.getScriptBrick().serializeToCatrobatLanguage(0);
-				System.out.println(catrobatString);
+				Log.println(Log.INFO, "CATROBAT", catrobatString);
 			}
 		} catch (Exception ex) {
-			System.out.println(ex);
+			Log.e(TAG, "Error while serializing to catrobat language", ex);
 		}
 
 		if (getCurrentFragment() instanceof ScriptFragment) {

@@ -193,6 +193,6 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 		if (lookData != null) {
 			brickBuilder.append(CatrobatLanguageUtils.formatLook(lookData.getName()));
 		}
-		brickBuilder.append(")");
+		brickBuilder.append(')');
 	}
 }

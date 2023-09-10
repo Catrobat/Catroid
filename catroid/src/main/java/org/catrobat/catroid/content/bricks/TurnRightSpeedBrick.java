@@ -79,10 +79,9 @@ public class TurnRightSpeedBrick extends FormulaBrick {
 			catrobatLanguage.append("/* ");
 		}
 
-		catrobatLanguage.append(getCatrobatLanguageCommand());
-		catrobatLanguage.append(" (");
-
-		catrobatLanguage.append("direction: (right), ");
+		catrobatLanguage.append(getCatrobatLanguageCommand())
+				.append(" (")
+				.append("direction: (right), ");
 		appendCatrobatLanguageArguments(catrobatLanguage);
 		catrobatLanguage.append(");");
 
@@ -90,7 +89,7 @@ public class TurnRightSpeedBrick extends FormulaBrick {
 			catrobatLanguage.append(" */");
 		}
 
-		catrobatLanguage.append("\n");
+		catrobatLanguage.append('\n');
 		return catrobatLanguage.toString();
 	}
 }

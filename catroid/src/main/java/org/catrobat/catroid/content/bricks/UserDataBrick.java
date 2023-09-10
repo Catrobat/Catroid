@@ -281,11 +281,11 @@ public abstract class UserDataBrick extends FormulaBrick
 					brickBuilder.append(CatrobatLanguageUtils.formatVariable(userData.getName()));
 				}
 			} else {
-				brickBuilder.append("0");
+				brickBuilder.append('0');
 			}
 
 			if (hasIdentifier) {
-				brickBuilder.append(")");
+				brickBuilder.append(')');
 			}
 			if (i < (brickDataArray.length - 1)) {
 				brickBuilder.append(", ");

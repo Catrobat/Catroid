@@ -173,15 +173,15 @@ public abstract class UserVariableBrickWithVisualPlacement extends VisualPlaceme
 	public String serializeToCatrobatLanguage(int indentionLevel, String name, boolean beforeParams, boolean withBody) {
 		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
 
-		StringBuilder catrobatLanguage = new StringBuilder();
+		StringBuilder catrobatLanguage = new StringBuilder(60);
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
 			catrobatLanguage.append("/* ");
 		}
 
-		catrobatLanguage.append(getCatrobatLanguageCommand());
-		catrobatLanguage.append(" (");
+		catrobatLanguage.append(getCatrobatLanguageCommand())
+				.append(" (");
 
 		if (!beforeParams) {
 			appendCatrobatLanguageArguments(catrobatLanguage);
@@ -194,25 +194,25 @@ public abstract class UserVariableBrickWithVisualPlacement extends VisualPlaceme
 		if (userVariable != null) {
 			catrobatLanguage.append(CatrobatLanguageUtils.formatVariable(userVariable.getName()));
 		}
-		catrobatLanguage.append(")");
+		catrobatLanguage.append(')');
 
 		if (beforeParams) {
 			catrobatLanguage.append(", ");
 			appendCatrobatLanguageArguments(catrobatLanguage);
 		}
 
-		catrobatLanguage.append(")");
+		catrobatLanguage.append(')');
 
 		if (withBody) {
 			catrobatLanguage.append(" {");
 		} else {
-			catrobatLanguage.append(";");
+			catrobatLanguage.append(';');
 			if (commentedOut) {
 				catrobatLanguage.append(" */");
 			}
 		}
 
-		catrobatLanguage.append("\n");
+		catrobatLanguage.append('\n');
 		return catrobatLanguage.toString();
 	}
 }

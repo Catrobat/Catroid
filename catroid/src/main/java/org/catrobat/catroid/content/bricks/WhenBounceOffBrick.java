@@ -142,6 +142,6 @@ public class WhenBounceOffBrick extends ScriptBrickBaseType implements BrickSpin
 		} else {
 			brickBuilder.append(CatrobatLanguageUtils.formatActorOrObject(script.getSpriteToBounceOffName()));
 		}
-		brickBuilder.append(")");
+		brickBuilder.append(')');
 	}
 }

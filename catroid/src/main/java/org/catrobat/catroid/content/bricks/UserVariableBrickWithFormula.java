@@ -130,15 +130,15 @@ public abstract class UserVariableBrickWithFormula extends FormulaBrick implemen
 	public String serializeToCatrobatLanguage(int indentionLevel, String name, boolean beforeParams, boolean withBody) {
 		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
 
-		StringBuilder catrobatLanguage = new StringBuilder();
+		StringBuilder catrobatLanguage = new StringBuilder(60);
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
 			catrobatLanguage.append("/* ");
 		}
 
-		catrobatLanguage.append(getCatrobatLanguageCommand());
-		catrobatLanguage.append(" (");
+		catrobatLanguage.append(getCatrobatLanguageCommand())
+				.append(" (");
 
 		if (!beforeParams) {
 			appendCatrobatLanguageArguments(catrobatLanguage);
@@ -169,7 +169,7 @@ public abstract class UserVariableBrickWithFormula extends FormulaBrick implemen
 			}
 		}
 
-		catrobatLanguage.append("\n");
+		catrobatLanguage.append('\n');
 		return catrobatLanguage.toString();
 	}
 }

@@ -157,7 +157,7 @@ public class WhenGamepadButtonBrick extends ScriptBrickBaseType
 		if (spinner != null) {
 			index = spinner.getItems().indexOf(spinner.getSelection());
 		}
-		brickBuilder.append(getCatrobatLanguageSpinnerValue(index));
-		brickBuilder.append(")");
+		brickBuilder.append(getCatrobatLanguageSpinnerValue(index))
+				.append(')');
 	}
 }
