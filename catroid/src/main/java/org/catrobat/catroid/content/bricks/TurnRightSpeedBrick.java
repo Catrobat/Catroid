@@ -30,7 +30,6 @@ import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
 import androidx.annotation.NonNull;
-import kotlin.Suppress;
 
 @CatrobatLanguageBrick(command = "Spin")
 public class TurnRightSpeedBrick extends FormulaBrick {
@@ -73,7 +72,7 @@ public class TurnRightSpeedBrick extends FormulaBrick {
 	public String serializeToCatrobatLanguage(int indentionLevel) {
 		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
 
-		StringBuilder catrobatLanguage = new StringBuilder();
+		StringBuilder catrobatLanguage = new StringBuilder(60);
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
