@@ -40,7 +40,6 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.ArrayList;
 
-import androidx.annotation.NonNull;
 import kotlin.Unit;
 
 @CatrobatLanguageBrick(command = "When Raspberry Pi pin changes to")

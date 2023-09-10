@@ -42,7 +42,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
 
 @CatrobatLanguageBrick(command = "When you bounce off")
 public class WhenBounceOffBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite>, UpdateableSpinnerBrick, CatrobatLanguageAttributes {

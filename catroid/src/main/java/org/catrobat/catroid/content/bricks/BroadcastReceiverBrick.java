@@ -118,7 +118,7 @@ public class BroadcastReceiverBrick extends BroadcastMessageBrick implements Scr
 		brickBuilder.append("message: (");
 		String name = getBroadcastMessage();
 		brickBuilder.append(CatrobatLanguageUtils.formatString(name == null ? "" : name));
-		brickBuilder.append(")");
+		brickBuilder.append(')');
 	}
 
 	@NonNull

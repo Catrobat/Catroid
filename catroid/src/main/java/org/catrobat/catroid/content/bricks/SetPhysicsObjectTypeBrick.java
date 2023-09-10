@@ -29,7 +29,6 @@ import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
-import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
@@ -38,8 +37,6 @@ import org.catrobat.catroid.physics.PhysicsObject;
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import kotlin.Unit;
-
-import static org.catrobat.catroid.content.Look.ROTATION_STYLE_LEFT_RIGHT_ONLY;
 
 @CatrobatLanguageBrick(command = "Set")
 public class SetPhysicsObjectTypeBrick extends BrickBaseType implements UpdateableSpinnerBrick {

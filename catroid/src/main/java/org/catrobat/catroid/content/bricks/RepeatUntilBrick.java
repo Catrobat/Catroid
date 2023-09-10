@@ -46,8 +46,7 @@ public class RepeatUntilBrick extends FormulaBrick implements CompositeBrick {
 	private List<Brick> loopBricks = new ArrayList<>();
 
 	public RepeatUntilBrick() {
-		addAllowedBrickField(BrickField.REPEAT_UNTIL_CONDITION, R.id.brick_repeat_until_edit_text
-				, "condition");
+		addAllowedBrickField(BrickField.REPEAT_UNTIL_CONDITION, R.id.brick_repeat_until_edit_text, "condition");
 	}
 
 	public RepeatUntilBrick(Formula condition) {

@@ -128,7 +128,7 @@ public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSele
 			return "yourself";
 		}
 		return CatrobatLanguageUtils.formatActorOrObject(
-				(spinner.getItems().get(spinnerIndex)).getName()
+				spinner.getItems().get(spinnerIndex).getName()
 		);
 	}
 }

@@ -35,14 +35,14 @@ import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
 
 	private static final long serialVersionUID = 1L;
-	private static final String catrobatLanguageCondition = "Raspberry Pi pin";
+	private static final String CATROBAT_LANGUAGE_CONDITION = "Raspberry Pi pin";
 
 	public RaspiIfLogicBeginBrick() {
-		super(catrobatLanguageCondition);
+		super(CATROBAT_LANGUAGE_CONDITION);
 	}
 
 	public RaspiIfLogicBeginBrick(Formula formula) {
-		super(formula, catrobatLanguageCondition);
+		super(formula, CATROBAT_LANGUAGE_CONDITION);
 	}
 
 	@Override
