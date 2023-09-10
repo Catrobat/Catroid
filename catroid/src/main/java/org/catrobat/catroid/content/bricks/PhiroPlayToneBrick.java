@@ -112,9 +112,31 @@ public class PhiroPlayToneBrick extends FormulaBrick implements UpdateableSpinne
 	}
 
 	@Override
+	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
+		switch (spinnerIndex) {
+			case 0:
+				return "do";
+			case 1:
+				return "re";
+			case 2:
+				return "mi";
+			case 3:
+				return "fa";
+			case 4:
+				return "so";
+			case 5:
+				return "la";
+			case 6:
+				return "ti";
+			default:
+				throw new IndexOutOfBoundsException("Invalid spinnerIndex");
+		}
+	}
+
+	@Override
 	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
 		brickBuilder.append("tone: (");
-		brickBuilder.append(tone.toLowerCase());
+		brickBuilder.append(this.getCatrobatLanguageSpinnerValue(Tone.valueOf(tone).ordinal()));
 		brickBuilder.append("), ");
 		super.appendCatrobatLanguageArguments(brickBuilder);
 	}

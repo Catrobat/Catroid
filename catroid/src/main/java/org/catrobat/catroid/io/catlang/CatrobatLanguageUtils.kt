@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.io.catlang
 
+import java.util.Locale
+
 object CatrobatLanguageUtils {
     @JvmStatic
     fun getIndention(level: Int): String = " ".repeat(level * 2)
@@ -50,7 +52,7 @@ object CatrobatLanguageUtils {
 
     @JvmStatic
     fun formatHexColorString(hexColorString: String): String {
-        val trimmedString = hexColorString.replace(Regex("^'"), "").replace(Regex("'$"), "").toLowerCase()
+        val trimmedString = hexColorString.replace(Regex("^'"), "").replace(Regex("'$"), "").toLowerCase(Locale.ROOT)
         if (trimmedString == "0") {
             return "#000000"
         }
