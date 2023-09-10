@@ -158,9 +158,7 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick implements Updatea
 				.append(getCatrobatLanguageMotor())
 				.append("), direction: (backward), ");
 		appendCatrobatLanguageArguments(catrobatLanguage);
-		catrobatLanguage.append(");");
-
-		catrobatLanguage.append('\n');
+		catrobatLanguage.append(");\n");
 		return catrobatLanguage.toString();
 	}
 }

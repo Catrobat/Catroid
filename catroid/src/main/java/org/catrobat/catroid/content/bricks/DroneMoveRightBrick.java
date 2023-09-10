@@ -90,9 +90,7 @@ public class DroneMoveRightBrick extends FormulaBrick {
 		catrobatLanguage.append(getCatrobatLanguageCommand())
 				.append(" (direction: (right), ");
 		appendCatrobatLanguageArguments(catrobatLanguage);
-		catrobatLanguage.append(");");
-
-		catrobatLanguage.append('\n');
+		catrobatLanguage.append(");\n");
 		return catrobatLanguage.toString();
 	}
 }

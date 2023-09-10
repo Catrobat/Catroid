@@ -378,9 +378,7 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 				.append(parameterName)
 				.append(": (")
 				.append(value)
-				.append("));");
-
-		catrobatLanguage.append('\n');
+				.append("));\n");
 
 		return catrobatLanguage.toString();
 	}

@@ -90,9 +90,7 @@ public class DroneMoveDownBrick extends FormulaBrick {
 		catrobatLanguage.append(getCatrobatLanguageCommand())
 				.append(" (direction: (down), ");
 		appendCatrobatLanguageArguments(catrobatLanguage);
-		catrobatLanguage.append(");");
-
-		catrobatLanguage.append('\n');
+		catrobatLanguage.append(");\n");
 		return catrobatLanguage.toString();
 	}
 }

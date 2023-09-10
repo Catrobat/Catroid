@@ -158,9 +158,7 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick implements Updateab
 				.append(getCatrobatLanguageMotor())
 				.append("), direction: (forward), ");
 		appendCatrobatLanguageArguments(catrobatLanguage);
-		catrobatLanguage.append(");");
-
-		catrobatLanguage.append('\n');
+		catrobatLanguage.append(");\n");
 		return catrobatLanguage.toString();
 	}
 }

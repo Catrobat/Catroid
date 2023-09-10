@@ -138,9 +138,7 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements Updateab
 				.append(getCatrobatLanguageMotor())
 				.append("), ");
 		appendCatrobatLanguageArguments(catrobatLanguage);
-		catrobatLanguage.append(");");
-
-		catrobatLanguage.append('\n');
+		catrobatLanguage.append(");\n");
 		return catrobatLanguage.toString();
 	}
 }

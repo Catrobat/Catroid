@@ -81,9 +81,7 @@ public class JumpingSumoMoveBackwardBrick extends FormulaBrick {
 		catrobatLanguage.append(getCatrobatLanguageCommand())
 				.append(" (direction: (backward), ");
 		appendCatrobatLanguageArguments(catrobatLanguage);
-		catrobatLanguage.append(");");
-
-		catrobatLanguage.append('\n');
+		catrobatLanguage.append(");\n");
 		return catrobatLanguage.toString();
 	}
 }

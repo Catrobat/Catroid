@@ -142,9 +142,7 @@ public abstract class UserVariableBrick extends BrickBaseType implements UserVar
 		if (userVariable != null) {
 			catrobatLanguage.append(CatrobatLanguageUtils.formatVariable(userVariable.getName()));
 		}
-		catrobatLanguage.append("));");
-
-		catrobatLanguage.append('\n');
+		catrobatLanguage.append("));\n");
 		return catrobatLanguage.toString();
 	}
 }

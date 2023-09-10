@@ -140,9 +140,7 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick implements UpdateableSpi
 				.append(getCatrobatLanguageMotor())
 				.append("), ");
 		appendCatrobatLanguageArguments(catrobatLanguage);
-		catrobatLanguage.append(");");
-
-		catrobatLanguage.append('\n');
+		catrobatLanguage.append(");\n");
 		return catrobatLanguage.toString();
 	}
 }

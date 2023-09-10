@@ -73,9 +73,7 @@ public class JumpingSumoRotateLeftBrick extends FormulaBrick {
 		catrobatLanguage.append(getCatrobatLanguageCommand())
 				.append(" (direction: (left), ");
 		appendCatrobatLanguageArguments(catrobatLanguage);
-		catrobatLanguage.append(");");
-
-		catrobatLanguage.append('\n');
+		catrobatLanguage.append(");\n");
 		return catrobatLanguage.toString();
 	}
 }
