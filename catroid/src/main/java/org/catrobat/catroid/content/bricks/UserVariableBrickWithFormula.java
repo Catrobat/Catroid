@@ -147,23 +147,24 @@ public abstract class UserVariableBrickWithFormula extends FormulaBrick implemen
 			}
 		}
 
-		catrobatLanguage.append(name + ": (");
+		catrobatLanguage.append(name)
+				.append(": (");
 		if (userVariable != null) {
 			catrobatLanguage.append(CatrobatLanguageUtils.formatVariable(userVariable.getName()));
 		}
-		catrobatLanguage.append(")");
+		catrobatLanguage.append(')');
 
 		if (beforeParams) {
 			catrobatLanguage.append(", ");
 			appendCatrobatLanguageArguments(catrobatLanguage);
 		}
 
-		catrobatLanguage.append(")");
+		catrobatLanguage.append(')');
 
 		if (withBody) {
 			catrobatLanguage.append(" {");
 		} else {
-			catrobatLanguage.append(";");
+			catrobatLanguage.append(';');
 			if (commentedOut) {
 				catrobatLanguage.append(" */");
 			}

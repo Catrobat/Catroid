@@ -30,6 +30,7 @@ import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
 import androidx.annotation.NonNull;
+import kotlin.Suppress;
 
 @CatrobatLanguageBrick(command = "Spin")
 public class TurnRightSpeedBrick extends FormulaBrick {

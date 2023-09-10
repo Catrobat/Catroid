@@ -165,7 +165,7 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 		if (userList != null) {
 			catrobatLanguage.append(CatrobatLanguageUtils.formatList(userList.getName()));
 		}
-		catrobatLanguage.append(")");
+		catrobatLanguage.append(')');
 
 		if (catrobatLanguageFormulaParameters.size() > 0) {
 			catrobatLanguage.append(", ");
@@ -177,7 +177,7 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 			catrobatLanguage.append(" */");
 		}
 
-		catrobatLanguage.append("\n");
+		catrobatLanguage.append('\n');
 		return catrobatLanguage.toString();
 	}
 }
