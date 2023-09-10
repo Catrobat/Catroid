@@ -79,8 +79,7 @@ public class TurnLeftSpeedBrick extends FormulaBrick {
 		}
 
 		catrobatLanguage.append(getCatrobatLanguageCommand())
-				.append(" (")
-				.append("direction: (left), ");
+				.append(" (direction: (left), ");
 		appendCatrobatLanguageArguments(catrobatLanguage);
 		catrobatLanguage.append(");");
 

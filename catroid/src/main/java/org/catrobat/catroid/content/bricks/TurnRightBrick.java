@@ -74,8 +74,7 @@ public class TurnRightBrick extends FormulaBrick {
 		}
 
 		catrobatLanguage.append(getCatrobatLanguageCommand())
-				.append(" (")
-				.append("direction: (right), ");
+				.append(" (direction: (right), ");
 		appendCatrobatLanguageArguments(catrobatLanguage);
 		catrobatLanguage.append(");");
 
