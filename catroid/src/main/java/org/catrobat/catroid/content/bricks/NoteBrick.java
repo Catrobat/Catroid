@@ -34,7 +34,7 @@ import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
 import androidx.annotation.NonNull;
 
-@CatrobatLanguageBrick(command = "//")
+@CatrobatLanguageBrick(command = "#")
 public class NoteBrick extends FormulaBrick implements OnClickListener {
 
 	private static final long serialVersionUID = 1L;
@@ -70,7 +70,7 @@ public class NoteBrick extends FormulaBrick implements OnClickListener {
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
-			catrobatLanguage.append("/* ");
+			catrobatLanguage.append("// ");
 		}
 
 		catrobatLanguage.append(getCatrobatLanguageCommand()).append(' ');
@@ -81,10 +81,6 @@ public class NoteBrick extends FormulaBrick implements OnClickListener {
 			catrobatLanguage.append(formulaString, 1, formulaString.length() - 1);
 		} else {
 			catrobatLanguage.append(formulaString);
-		}
-
-		if (commentedOut) {
-			catrobatLanguage.append(" */");
 		}
 
 		catrobatLanguage.append('\n');

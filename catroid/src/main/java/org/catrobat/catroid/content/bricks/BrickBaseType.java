@@ -329,7 +329,7 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
-			catrobatLanguage.append("/* ");
+			catrobatLanguage.append("// ");
 		}
 
 		catrobatLanguage.append(getCatrobatLanguageCommand());
@@ -337,11 +337,7 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 		if (withBody) {
 			catrobatLanguage.append(" {\n");
 		} else {
-			catrobatLanguage.append(';');
-			if (commentedOut) {
-				catrobatLanguage.append(" */");
-			}
-			catrobatLanguage.append('\n');
+			catrobatLanguage.append(";\n");
 		}
 
 		return catrobatLanguage;
@@ -350,12 +346,12 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 	protected void getCatrobatLanguageBodyClose(StringBuilder catrobatLanguage, int indentionLevel) {
 		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
 		catrobatLanguage.append(indention);
-		catrobatLanguage.append('}');
 
 		if (commentedOut) {
-			catrobatLanguage.append(" */");
+			catrobatLanguage.append("// ");
 		}
-		catrobatLanguage.append('\n');
+
+		catrobatLanguage.append("}\n");
 	}
 
 	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
@@ -374,7 +370,7 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 		catrobatLanguage.append(CatrobatLanguageUtils.getIndention(indentionLevel));
 
 		if (commentedOut) {
-			catrobatLanguage.append("/* ");
+			catrobatLanguage.append("// ");
 		}
 
 		catrobatLanguage.append(getCatrobatLanguageCommand())
@@ -383,10 +379,6 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 				.append(": (")
 				.append(value)
 				.append("));");
-
-		if (commentedOut) {
-			catrobatLanguage.append(" */");
-		}
 
 		catrobatLanguage.append('\n');
 
@@ -401,7 +393,7 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
-			catrobatLanguage.append("/* ");
+			catrobatLanguage.append("// ");
 		}
 
 		catrobatLanguage.append(getCatrobatLanguageCommand());
@@ -417,9 +409,6 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 			catrobatLanguage.append(" {");
 		} else {
 			catrobatLanguage.append(';');
-			if (commentedOut) {
-				catrobatLanguage.append(" */");
-			}
 		}
 
 		catrobatLanguage.append('\n');
@@ -436,15 +425,11 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
-			catrobatLanguage.append("/* ");
+			catrobatLanguage.append("// ");
 		}
 
 		catrobatLanguage.append(getCatrobatLanguageCommand())
 				.append(';');
-
-		if (commentedOut) {
-			catrobatLanguage.append(" */");
-		}
 
 		catrobatLanguage.append('\n');
 		return catrobatLanguage.toString();

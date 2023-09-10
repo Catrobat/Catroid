@@ -118,7 +118,7 @@ class ReadVariableFromFileBrick constructor() : UserVariableBrickWithFormula(), 
         val catrobatLanguage = StringBuilder()
         catrobatLanguage.append(indention)
         if (commentedOut) {
-            catrobatLanguage.append("/* ")
+            catrobatLanguage.append("// ")
         }
         catrobatLanguage.append(catrobatLanguageCommand)
         catrobatLanguage.append(" (")
@@ -137,10 +137,6 @@ class ReadVariableFromFileBrick constructor() : UserVariableBrickWithFormula(), 
             catrobatLanguage.append("delete the file")
         }
         catrobatLanguage.append("));")
-
-        if (commentedOut) {
-            catrobatLanguage.append(" */")
-        }
 
         catrobatLanguage.append("\n")
         return catrobatLanguage.toString()

@@ -84,17 +84,13 @@ public class DroneMoveUpBrick extends FormulaBrick {
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
-			catrobatLanguage.append("/* ");
+			catrobatLanguage.append("// ");
 		}
 
 		catrobatLanguage.append(getCatrobatLanguageCommand())
 				.append(" (direction: (up), ");
 		appendCatrobatLanguageArguments(catrobatLanguage);
 		catrobatLanguage.append(");");
-
-		if (commentedOut) {
-			catrobatLanguage.append(" */");
-		}
 
 		catrobatLanguage.append('\n');
 		return catrobatLanguage.toString();

@@ -134,7 +134,7 @@ public abstract class UserVariableBrick extends BrickBaseType implements UserVar
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
-			catrobatLanguage.append("/* ");
+			catrobatLanguage.append("// ");
 		}
 
 		catrobatLanguage.append(getCatrobatLanguageCommand())
@@ -143,9 +143,6 @@ public abstract class UserVariableBrick extends BrickBaseType implements UserVar
 			catrobatLanguage.append(CatrobatLanguageUtils.formatVariable(userVariable.getName()));
 		}
 		catrobatLanguage.append("));");
-		if (commentedOut) {
-			catrobatLanguage.append(" */");
-		}
 
 		catrobatLanguage.append('\n');
 		return catrobatLanguage.toString();

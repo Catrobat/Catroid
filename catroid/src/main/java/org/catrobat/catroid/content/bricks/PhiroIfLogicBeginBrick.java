@@ -249,8 +249,11 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 		for (Brick brick : ifBranchBricks) {
 			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
 		}
-		catrobatLanguage.append(CatrobatLanguageUtils.getIndention(indentionLevel))
-				.append("} else {\n");
+		catrobatLanguage.append(CatrobatLanguageUtils.getIndention(indentionLevel));
+		if (commentedOut) {
+			catrobatLanguage.append("// ");
+		}
+		catrobatLanguage.append("} else {\n");
 		for (Brick brick : elseBranchBricks) {
 			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
 		}

@@ -157,7 +157,7 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
-			catrobatLanguage.append("/* ");
+			catrobatLanguage.append("// ");
 		}
 
 		catrobatLanguage.append(getCatrobatLanguageCommand())
@@ -172,10 +172,6 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 			appendCatrobatLanguageArguments(catrobatLanguage);
 		}
 		catrobatLanguage.append(");");
-
-		if (commentedOut) {
-			catrobatLanguage.append(" */");
-		}
 
 		catrobatLanguage.append('\n');
 		return catrobatLanguage.toString();

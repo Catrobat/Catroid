@@ -134,7 +134,7 @@ public abstract class UserVariableBrickWithFormula extends FormulaBrick implemen
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
-			catrobatLanguage.append("/* ");
+			catrobatLanguage.append("// ");
 		}
 
 		catrobatLanguage.append(getCatrobatLanguageCommand())
@@ -165,9 +165,6 @@ public abstract class UserVariableBrickWithFormula extends FormulaBrick implemen
 			catrobatLanguage.append(" {");
 		} else {
 			catrobatLanguage.append(';');
-			if (commentedOut) {
-				catrobatLanguage.append(" */");
-			}
 		}
 
 		catrobatLanguage.append('\n');

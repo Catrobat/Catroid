@@ -240,7 +240,7 @@ class EmptyValueSerializationTest(
                 arrayOf(BroadcastWaitBrick::class.simpleName, BroadcastWaitBrick(), "Broadcast and wait (message: (''));\n"),
                 arrayOf(DeleteThisCloneBrick::class.simpleName, DeleteThisCloneBrick(), "Delete this clone;\n"),
                 arrayOf(WaitBrick::class.simpleName, WaitBrick(), "Wait (seconds: (0));\n"),
-                arrayOf(NoteBrick::class.simpleName, NoteBrick(), "// 0\n"),
+                arrayOf(NoteBrick::class.simpleName, NoteBrick(), "# 0\n"),
                 arrayOf(ForeverBrick::class.simpleName, ForeverBrick(), "Forever {\n}\n"),
                 arrayOf(IfLogicBeginBrick::class.simpleName, IfLogicBeginBrick(), "If (condition: (0)) {\n} else {\n}\n"),
                 arrayOf(IfThenLogicBeginBrick::class.simpleName, IfThenLogicBeginBrick(), "If (condition: (0)) {\n}\n"),
@@ -440,12 +440,11 @@ class EmptyValueSerializationTest(
 
     @Test
     fun testDisabledBrick() {
-        val trimmedBaseValue = expectedOutput.substring(0, expectedOutput.length - 1)
+        val disabledValue = "// " + expectedOutput.replace(Regex("\\n(?!\$)"), "\n// ")
         brick.isCommentedOut = true
         val actualOutput = brick.serializeToCatrobatLanguage(0)
         brick.isCommentedOut = false
-        val newOutput = "/* $trimmedBaseValue */\n"
-        assertEquals(newOutput, actualOutput)
+        assertEquals(disabledValue, actualOutput)
     }
 
     @Test

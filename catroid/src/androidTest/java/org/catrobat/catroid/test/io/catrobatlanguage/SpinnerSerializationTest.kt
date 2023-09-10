@@ -1818,7 +1818,7 @@ class SpinnerSerializationTest {
         brick.isCommentedOut = true
         val actualOutput = brick.serializeToCatrobatLanguage(0)
         brick.isCommentedOut = false
-        val newOutput = "/* $trimmedBaseValue */\n"
+        val newOutput = "// $trimmedBaseValue\n"
         Assert.assertEquals("Wrong disabled serialization", newOutput, actualOutput)
     }
 

@@ -213,7 +213,7 @@ class ValueSerializationTest(
             return listOf(
                 arrayOf(BroadcastBrick::class.simpleName, BroadcastBrick(testString), "Broadcast (message: ('$testString'));\n"),
                 arrayOf(BroadcastWaitBrick::class.simpleName, BroadcastWaitBrick(testString), "Broadcast and wait (message: ('$testString'));\n"),
-                arrayOf(NoteBrick::class.simpleName, NoteBrick(testString), "// $testString\n"),
+                arrayOf(NoteBrick::class.simpleName, NoteBrick(testString), "# $testString\n"),
                 arrayOf(IfLogicBeginBrick::class.simpleName, IfLogicBeginBrick(testFormula1), "If (condition: ($testFormulaString1)) {\n} else {\n}\n"),
                 arrayOf(IfThenLogicBeginBrick::class.simpleName, IfThenLogicBeginBrick(testFormula1), "If (condition: ($testFormulaString1)) {\n}\n"),
                 arrayOf(WaitUntilBrick::class.simpleName, WaitUntilBrick(testFormula1), "Wait until (condition: ($testFormulaString1));\n"),
@@ -367,12 +367,11 @@ class ValueSerializationTest(
 
     @Test
     fun testDisabledBrick() {
-        val trimmedBaseValue = expectedOutput.substring(0, expectedOutput.length - 1)
+        val disabledValue = "// " + expectedOutput.replace(Regex("\\n(?!\$)"), "\n// ")
         brick.isCommentedOut = true
         val actualOutput = brick.serializeToCatrobatLanguage(0)
         brick.isCommentedOut = false
-        val newOutput = "/* $trimmedBaseValue */\n"
-        assertEquals(newOutput, actualOutput)
+        assertEquals(disabledValue, actualOutput)
     }
 
     @Test

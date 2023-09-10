@@ -150,7 +150,7 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick implements Updatea
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
-			catrobatLanguage.append("/* ");
+			catrobatLanguage.append("// ");
 		}
 
 		catrobatLanguage.append(getCatrobatLanguageCommand())
@@ -159,10 +159,6 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick implements Updatea
 				.append("), direction: (backward), ");
 		appendCatrobatLanguageArguments(catrobatLanguage);
 		catrobatLanguage.append(");");
-
-		if (commentedOut) {
-			catrobatLanguage.append(" */");
-		}
 
 		catrobatLanguage.append('\n');
 		return catrobatLanguage.toString();

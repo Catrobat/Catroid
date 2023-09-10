@@ -130,7 +130,7 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick implements UpdateableSpi
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
-			catrobatLanguage.append("/* ");
+			catrobatLanguage.append("// ");
 		}
 
 		catrobatLanguage.append(getCatrobatLanguageCommand())
@@ -139,10 +139,6 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick implements UpdateableSpi
 				.append("), ");
 		appendCatrobatLanguageArguments(catrobatLanguage);
 		catrobatLanguage.append(");");
-
-		if (commentedOut) {
-			catrobatLanguage.append(" */");
-		}
 
 		catrobatLanguage.append('\n');
 		return catrobatLanguage.toString();
