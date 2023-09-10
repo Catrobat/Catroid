@@ -370,7 +370,7 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 
 	protected String getCatrobatLanguageParameterCall(int indentionLevel, String parameterName,
 			String value) {
-		StringBuilder catrobatLanguage = new StringBuilder();
+		StringBuilder catrobatLanguage = new StringBuilder(100);
 		catrobatLanguage.append(CatrobatLanguageUtils.getIndention(indentionLevel));
 
 		if (commentedOut) {
@@ -397,7 +397,7 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 			boolean withBody) {
 		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
 
-		StringBuilder catrobatLanguage = new StringBuilder();
+		StringBuilder catrobatLanguage = new StringBuilder(100);
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
@@ -432,14 +432,15 @@ public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializab
 	@Override
 	public String serializeToCatrobatLanguage(int indentionLevel) {
 		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
-		StringBuilder catrobatLanguage = new StringBuilder();
+		StringBuilder catrobatLanguage = new StringBuilder(100);
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
 			catrobatLanguage.append("/* ");
 		}
 
-		catrobatLanguage.append(getCatrobatLanguageCommand()).append(';');
+		catrobatLanguage.append(getCatrobatLanguageCommand())
+				.append(';');
 
 		if (commentedOut) {
 			catrobatLanguage.append(" */");

@@ -234,16 +234,18 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 			brickBuilder.append(CatrobatLanguageUtils.formatVariable(userVariable.getName()));
 		}
 		for (BrickField brickField : new BrickField[] {BrickField.X_POSITION, BrickField.Y_POSITION, BrickField.SIZE}) {
-			brickBuilder.append("), ").append(catrobatLanguageFormulaParameters.get(brickField)).append(": (");
-			brickBuilder.append(convertFieldToString(brickField));
+			brickBuilder.append("), ")
+					.append(catrobatLanguageFormulaParameters.get(brickField))
+					.append(": (")
+					.append(convertFieldToString(brickField));
 		}
 
 		brickBuilder.append("), color: (");
 		String color = CatrobatLanguageUtils.formatHexColorString(convertFieldToString(BrickField.COLOR));
-		brickBuilder.append(color);
-		brickBuilder.append("), alignment: (");
-		brickBuilder.append(getCatrobatLanguageSpinnerValue(alignmentSelection));
-		brickBuilder.append(")");
+		brickBuilder.append(color)
+				.append("), alignment: (")
+				.append(getCatrobatLanguageSpinnerValue(alignmentSelection))
+				.append(')');
 	}
 
 	@NonNull

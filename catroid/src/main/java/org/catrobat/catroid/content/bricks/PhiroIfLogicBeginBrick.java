@@ -260,9 +260,9 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 
 	@Override
 	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
-		brickBuilder.append("activated phiro: (");
-		brickBuilder.append(getCatrobatLanguageSpinnerValue(sensorSpinnerPosition));
-		brickBuilder.append(")");
+		brickBuilder.append("activated phiro: (")
+				.append(getCatrobatLanguageSpinnerValue(sensorSpinnerPosition))
+				.append(")");
 	}
 
 	@Override

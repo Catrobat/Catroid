@@ -80,15 +80,15 @@ public class DroneMoveUpBrick extends FormulaBrick {
 	public String serializeToCatrobatLanguage(int indentionLevel) {
 		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
 
-		StringBuilder catrobatLanguage = new StringBuilder();
+		StringBuilder catrobatLanguage = new StringBuilder(50);
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
 			catrobatLanguage.append("/* ");
 		}
 
-		catrobatLanguage.append(getCatrobatLanguageCommand());
-		catrobatLanguage.append(" (direction: (up), ");
+		catrobatLanguage.append(getCatrobatLanguageCommand())
+				.append(" (direction: (up), ");
 		appendCatrobatLanguageArguments(catrobatLanguage);
 		catrobatLanguage.append(");");
 
@@ -96,7 +96,7 @@ public class DroneMoveUpBrick extends FormulaBrick {
 			catrobatLanguage.append(" */");
 		}
 
-		catrobatLanguage.append("\n");
+		catrobatLanguage.append('\n');
 		return catrobatLanguage.toString();
 	}
 }

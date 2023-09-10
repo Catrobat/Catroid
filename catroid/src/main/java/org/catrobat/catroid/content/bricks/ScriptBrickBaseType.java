@@ -66,7 +66,11 @@ public abstract class ScriptBrickBaseType extends BrickBaseType implements Scrip
 	public String serializeToCatrobatLanguage(int indentionLevel) {
 		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
 
-		StringBuilder catrobatLanguage = new StringBuilder();
+		int size = 60;
+		if (getScript().getBrickList() != null) {
+			size += getScript().getBrickList().size() * 60;
+		}
+		StringBuilder catrobatLanguage = new StringBuilder(size);
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
@@ -77,7 +81,7 @@ public abstract class ScriptBrickBaseType extends BrickBaseType implements Scrip
 		if (this instanceof CatrobatLanguageAttributes) {
 			catrobatLanguage.append(" (");
 			((CatrobatLanguageAttributes) this).appendCatrobatLanguageArguments(catrobatLanguage);
-			catrobatLanguage.append(")");
+			catrobatLanguage.append(')');
 		}
 
 		catrobatLanguage.append(" {\n");

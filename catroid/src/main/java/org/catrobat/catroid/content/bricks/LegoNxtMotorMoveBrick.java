@@ -126,17 +126,17 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick implements UpdateableSpi
 	public String serializeToCatrobatLanguage(int indentionLevel) {
 		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
 
-		StringBuilder catrobatLanguage = new StringBuilder();
+		StringBuilder catrobatLanguage = new StringBuilder(60);
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
 			catrobatLanguage.append("/* ");
 		}
 
-		catrobatLanguage.append(getCatrobatLanguageCommand());
-		catrobatLanguage.append(" (motor: (");
-		catrobatLanguage.append(getCatrobatLanguageMotor());
-		catrobatLanguage.append("), ");
+		catrobatLanguage.append(getCatrobatLanguageCommand())
+				.append(" (motor: (")
+				.append(getCatrobatLanguageMotor())
+				.append("), ");
 		appendCatrobatLanguageArguments(catrobatLanguage);
 		catrobatLanguage.append(");");
 
@@ -144,7 +144,7 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick implements UpdateableSpi
 			catrobatLanguage.append(" */");
 		}
 
-		catrobatLanguage.append("\n");
+		catrobatLanguage.append('\n');
 		return catrobatLanguage.toString();
 	}
 }

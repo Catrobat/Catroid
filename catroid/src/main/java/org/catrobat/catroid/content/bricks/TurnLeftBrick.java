@@ -37,8 +37,7 @@ public class TurnLeftBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public TurnLeftBrick() {
-		addAllowedBrickField(BrickField.TURN_LEFT_DEGREES, R.id.brick_turn_left_edit_text,
-				"degrees");
+		addAllowedBrickField(BrickField.TURN_LEFT_DEGREES, R.id.brick_turn_left_edit_text, "degrees");
 	}
 
 	public TurnLeftBrick(double degreesValue) {
@@ -67,15 +66,15 @@ public class TurnLeftBrick extends FormulaBrick {
 	public String serializeToCatrobatLanguage(int indentionLevel) {
 		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
 
-		StringBuilder catrobatLanguage = new StringBuilder();
+		StringBuilder catrobatLanguage = new StringBuilder(60);
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
 			catrobatLanguage.append("/* ");
 		}
 
-		catrobatLanguage.append(getCatrobatLanguageCommand());
-		catrobatLanguage.append(" (");
+		catrobatLanguage.append(getCatrobatLanguageCommand())
+				.append(" (");
 
 		catrobatLanguage.append("direction: (left), ");
 		appendCatrobatLanguageArguments(catrobatLanguage);
@@ -85,7 +84,7 @@ public class TurnLeftBrick extends FormulaBrick {
 			catrobatLanguage.append(" */");
 		}
 
-		catrobatLanguage.append("\n");
+		catrobatLanguage.append('\n');
 		return catrobatLanguage.toString();
 	}
 }

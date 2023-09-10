@@ -146,17 +146,17 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick implements Updatea
 	public String serializeToCatrobatLanguage(int indentionLevel) {
 		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
 
-		StringBuilder catrobatLanguage = new StringBuilder();
+		StringBuilder catrobatLanguage = new StringBuilder(60);
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
 			catrobatLanguage.append("/* ");
 		}
 
-		catrobatLanguage.append(getCatrobatLanguageCommand());
-		catrobatLanguage.append(" (motor: (");
-		catrobatLanguage.append(getCatrobatLanguageMotor());
-		catrobatLanguage.append("), direction: (backward), ");
+		catrobatLanguage.append(getCatrobatLanguageCommand())
+				.append(" (motor: (")
+				.append(getCatrobatLanguageMotor())
+				.append("), direction: (backward), ");
 		appendCatrobatLanguageArguments(catrobatLanguage);
 		catrobatLanguage.append(");");
 
@@ -164,7 +164,7 @@ public class PhiroMotorMoveBackwardBrick extends FormulaBrick implements Updatea
 			catrobatLanguage.append(" */");
 		}
 
-		catrobatLanguage.append("\n");
+		catrobatLanguage.append('\n');
 		return catrobatLanguage.toString();
 	}
 }

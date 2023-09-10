@@ -66,15 +66,14 @@ public class NoteBrick extends FormulaBrick implements OnClickListener {
 	public String serializeToCatrobatLanguage(int indentionLevel) {
 		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
 
-		StringBuilder catrobatLanguage = new StringBuilder();
+		StringBuilder catrobatLanguage = new StringBuilder(60);
 		catrobatLanguage.append(indention);
 
 		if (commentedOut) {
 			catrobatLanguage.append("/* ");
 		}
 
-		catrobatLanguage.append(getCatrobatLanguageCommand());
-		catrobatLanguage.append(" ");
+		catrobatLanguage.append(getCatrobatLanguageCommand()).append(' ');
 
 		String formulaString =
 				getFormulas().get(0).getTrimmedFormulaString(CatroidApplication.getAppContext()).trim();
@@ -88,7 +87,7 @@ public class NoteBrick extends FormulaBrick implements OnClickListener {
 			catrobatLanguage.append(" */");
 		}
 
-		catrobatLanguage.append("\n");
+		catrobatLanguage.append('\n');
 		return catrobatLanguage.toString();
 	}
 }

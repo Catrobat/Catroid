@@ -92,7 +92,7 @@ public class SetThreadColorBrick extends FormulaBrick implements CatrobatLanguag
 			String colorString = color.getTrimmedFormulaString(CatroidApplication.getAppContext()).trim();
 			brickBuilder.append(CatrobatLanguageUtils.formatHexColorString(colorString));
 		}
-		brickBuilder.append(")");
+		brickBuilder.append(')');
 	}
 
 	private final class SetThreadColorBrickCallback implements ShowFormulaEditorStrategy.Callback {

@@ -282,7 +282,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 			brickBuilder.append(formulaString.trim());
 
 			if (hasIdentifier) {
-				brickBuilder.append(")");
+				brickBuilder.append(')');
 			}
 			if (i < (numberOfFormulas - 1)) {
 				brickBuilder.append(", ");
@@ -309,14 +309,14 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 			appendCatrobatLanguageArguments(catrobatLanguage);
 			catrobatLanguage.append(");");
 		} else {
-			catrobatLanguage.append(";");
+			catrobatLanguage.append(';');
 		}
 
 		if (commentedOut) {
 			catrobatLanguage.append(" */");
 		}
 
-		catrobatLanguage.append("\n");
+		catrobatLanguage.append('\n');
 		return catrobatLanguage.toString();
 	}
 }
