@@ -23,6 +23,9 @@
 
 package org.catrobat.catroid.io.catlang
 
+import android.content.Context
+import android.os.Build
+import org.catrobat.catroid.formulaeditor.Formula
 import java.util.Locale
 
 object CatrobatLanguageUtils {
@@ -62,5 +65,30 @@ object CatrobatLanguageUtils {
         }
 
         return hexColorString
+    }
+
+    @JvmStatic
+    fun getFormulaString(formula: Formula, context: Context): String {
+        val currentLocale = updateLanguage(context, Locale.ENGLISH)
+        val formulaString = formula.getTrimmedFormulaString(context)
+        currentLocale?.let { updateLanguage(context, it) }
+        return formulaString.trim()
+    }
+
+    @JvmStatic
+    private fun updateLanguage(context: Context, locale: Locale): Locale? {
+        val resources = context.resources
+        val config = resources.configuration
+        val currentLocale: Locale = config.locale
+
+        config.setLocale(locale)
+        val dm = resources.displayMetrics
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
+            context.applicationContext.createConfigurationContext(config)
+        } else {
+            resources.updateConfiguration(config, dm)
+        }
+
+        return currentLocale
     }
 }

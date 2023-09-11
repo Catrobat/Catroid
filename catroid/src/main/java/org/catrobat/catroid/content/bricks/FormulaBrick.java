@@ -277,8 +277,9 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 				brickBuilder.append(": (");
 				hasIdentifier = true;
 			}
-			String formulaString =
-					formulaMap.get(field).getTrimmedFormulaString(CatroidApplication.getAppContext());
+			String formulaString = CatrobatLanguageUtils.getFormulaString(formulaMap.get(field), CatroidApplication.getAppContext());
+//			String formulaString =
+//					formulaMap.get(field).getTrimmedFormulaString(CatroidApplication.getAppContext());
 			brickBuilder.append(formulaString.trim());
 
 			if (hasIdentifier) {
