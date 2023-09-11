@@ -1814,12 +1814,11 @@ class SpinnerSerializationTest {
     }
 
     private fun testDisabledBrick(brick: Brick, expectedOutput: String) {
-        val trimmedBaseValue = expectedOutput.substring(0, expectedOutput.length - 1)
+        val disabledValue = "// " + expectedOutput.replace(Regex("\\n(?!\$)"), "\n// ")
         brick.isCommentedOut = true
         val actualOutput = brick.serializeToCatrobatLanguage(0)
         brick.isCommentedOut = false
-        val newOutput = "// $trimmedBaseValue\n"
-        Assert.assertEquals("Wrong disabled serialization", newOutput, actualOutput)
+        Assert.assertEquals(disabledValue, actualOutput)
     }
 
     private fun testIndention(brick: Brick, expectedOutput: String) {
