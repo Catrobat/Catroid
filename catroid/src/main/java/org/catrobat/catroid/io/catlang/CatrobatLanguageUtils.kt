@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.io.catlang
 
+import android.content.Context
+import android.content.res.Configuration
 import java.util.Locale
 
 object CatrobatLanguageUtils {
@@ -50,6 +52,8 @@ object CatrobatLanguageUtils {
     @JvmStatic
     fun formatString(string: String): String = "'$string'"
 
+    fun getEscapedString(string: String): String = "'${string.replace("'", "\\'")}'"
+
     @JvmStatic
     fun formatHexColorString(hexColorString: String): String {
         val trimmedString = hexColorString.replace(Regex("^'"), "").replace(Regex("'$"), "").toLowerCase(Locale.ROOT)
@@ -62,5 +66,13 @@ object CatrobatLanguageUtils {
         }
 
         return hexColorString
+    }
+
+    @JvmStatic
+    fun getEnglishContextForFormulas(context: Context): Context {
+        var configuration = context.resources.configuration
+        configuration = Configuration(configuration)
+        configuration.setLocale(Locale("en"))
+        return context.createConfigurationContext(configuration)
     }
 }

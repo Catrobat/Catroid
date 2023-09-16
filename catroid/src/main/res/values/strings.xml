@@ -765,6 +765,8 @@
     <string name="save_project_to_external_storage_io_exception_message">Failed to save project, not enough memory is available!</string>
     <!--  -->
 
+    <string name="serialize_to_catrobat_language">Export project as Catrobat Language</string>
+
     <!-- SoundRecorderActivity -->
     <string name="soundrecorder_name">Sound recorder</string>
     <string name="soundrecorder_error">Sound recording failed</string>

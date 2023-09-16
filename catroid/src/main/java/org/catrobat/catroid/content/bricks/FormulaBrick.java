@@ -52,6 +52,7 @@ import org.catrobat.catroid.utils.Utils;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import androidx.annotation.CallSuper;
@@ -278,7 +279,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 				hasIdentifier = true;
 			}
 			String formulaString =
-					formulaMap.get(field).getTrimmedFormulaString(CatroidApplication.getAppContext());
+					Objects.requireNonNull(formulaMap.get(field)).getTrimmedFormulaStringForCatrobatLanguage(CatroidApplication.getAppContext());
 			brickBuilder.append(formulaString.trim());
 
 			if (hasIdentifier) {
