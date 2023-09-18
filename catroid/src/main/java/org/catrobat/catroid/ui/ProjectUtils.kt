@@ -54,9 +54,6 @@ import org.catrobat.catroid.content.bricks.RepeatUntilBrick
 import org.catrobat.catroid.content.bricks.StartListeningBrick
 import org.catrobat.catroid.content.bricks.WebRequestBrick
 
-enum class SuspiciousBricks {
-    NO_SUSPICIOUS_BRICKS, CONTAINS_WEB_ACCESS_BRICK, CONTAINS_START_LISTENING_AND_WEB_ACCESS_BRICKS
-}
 /**
  * extension boolean function for List<Brick> data type.
  * check if the list contains suspicious bricks
@@ -81,7 +78,7 @@ private fun List<Brick>.containsStartListeningAndWebAccessBricks(): SuspiciousBr
  * extension function for Sprite data type.
  * get list of all bricks and its nested bricks if exists
  * */
-public fun Sprite.getListAllBricks(): List<Brick> {
+fun Sprite.getListAllBricks(): List<Brick> {
     val bricks = arrayListOf<Brick>()
     allBricks.forEach { brick ->
         bricks.add(brick)
@@ -151,7 +148,7 @@ fun showWarningForSuspiciousBricksOnce(context: Context) {
     val showForFirstTime = sharedPreferences.getString(projectUrl, null).isNullOrBlank()
 
     if (isDownloadedProject && showForFirstTime && currentProject.shouldDisplaySuspiciousBricksWarning() > SuspiciousBricks.NO_SUSPICIOUS_BRICKS) {
-        if (currentProject.shouldDisplaySuspiciousBricksWarning() ==  SuspiciousBricks
+        if (currentProject.shouldDisplaySuspiciousBricksWarning() == SuspiciousBricks
                 .CONTAINS_WEB_ACCESS_BRICK) {
             AlertDialog.Builder(context)
                 .setTitle(context.resources.getString(R.string.warning))
@@ -165,7 +162,7 @@ fun showWarningForSuspiciousBricksOnce(context: Context) {
                     dialog.dismiss()
                 }
                 .show()
-        } else if (currentProject.shouldDisplaySuspiciousBricksWarning() ==  SuspiciousBricks
+        } else if (currentProject.shouldDisplaySuspiciousBricksWarning() == SuspiciousBricks
                 .CONTAINS_START_LISTENING_AND_WEB_ACCESS_BRICKS) {
             AlertDialog.Builder(context)
                 .setTitle(context.resources.getString(R.string.warning))
@@ -188,4 +185,8 @@ fun showWarningForSuspiciousBricksOnce(context: Context) {
             .putString(projectUrl, projectUrl)
             .apply()
     }
+}
+
+enum class SuspiciousBricks {
+    NO_SUSPICIOUS_BRICKS, CONTAINS_WEB_ACCESS_BRICK, CONTAINS_START_LISTENING_AND_WEB_ACCESS_BRICKS
 }
