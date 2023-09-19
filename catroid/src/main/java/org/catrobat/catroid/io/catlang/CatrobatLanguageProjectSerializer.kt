@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.Sprite
 class CatrobatLanguageProjectSerializer(private val project: Project) {
 
     private val languageVersion = "0.1"
+    private val level3IndentionLevelEnd = "${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_3)}}"
 
     private val programString: StringBuilder = StringBuilder()
 
@@ -108,6 +109,7 @@ class CatrobatLanguageProjectSerializer(private val project: Project) {
     private fun serializeSprite(sprite: Sprite) {
         serializeLooks(sprite)
         serializeSounds(sprite)
+        serializeLocals(sprite)
         serializeScripts(sprite)
     }
 
@@ -123,7 +125,7 @@ class CatrobatLanguageProjectSerializer(private val project: Project) {
             }
             programString.appendLine()
         }
-        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_3)}}")
+        programString.appendLine("$level3IndentionLevelEnd")
     }
 
     private fun serializeSounds(sprite: Sprite) {
@@ -138,7 +140,7 @@ class CatrobatLanguageProjectSerializer(private val project: Project) {
             }
             programString.appendLine()
         }
-        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_3)}}")
+        programString.appendLine("$level3IndentionLevelEnd")
     }
 
     private fun serializeLocals(sprite: Sprite) {
@@ -159,7 +161,7 @@ class CatrobatLanguageProjectSerializer(private val project: Project) {
             }
             programString.appendLine()
         }
-        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_3)}}")
+        programString.appendLine("$level3IndentionLevelEnd")
     }
 
     private fun serializeScripts(sprite: Sprite) {
@@ -168,8 +170,8 @@ class CatrobatLanguageProjectSerializer(private val project: Project) {
         }
         programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_3)}Scripts {")
         for (script in sprite.scriptList) {
-            programString.appendLine(script.scriptBrick.serializeToCatrobatLanguage(4))
+            programString.appendLine(script.scriptBrick.serializeToCatrobatLanguage(IndentionLevel.Level_4.ordinal + 1))
         }
-        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_3)}}")
+        programString.appendLine("$level3IndentionLevelEnd")
     }
 }
