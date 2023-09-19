@@ -32,6 +32,9 @@ object CatrobatLanguageUtils {
     fun getIndention(level: Int): String = " ".repeat(level * 2)
 
     @JvmStatic
+    fun getIndention(level: IndentionLevel): String = getIndention(level.ordinal + 1)
+
+    @JvmStatic
     fun formatSoundName(soundName: String): String = "'$soundName'"
 
     @JvmStatic
