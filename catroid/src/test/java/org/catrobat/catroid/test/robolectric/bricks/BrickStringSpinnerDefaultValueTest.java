@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -81,7 +81,7 @@ public class BrickStringSpinnerDefaultValueTest {
 
 	@ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
-		return Arrays.asList(new Object[][]{
+		return Arrays.asList(new Object[][] {
 				{"StopScriptBrick - R.id.brick_stop_script_spinner", "Control", StopScriptBrick.class, R.id.brick_stop_script_spinner, "this script"},
 				{"CameraBrick - R.id.brick_video_spinner", "Looks", CameraBrick.class, R.id.brick_video_spinner, "on"},
 				{"ChooseCameraBrick - R.id.brick_choose_camera_spinner", "Looks", ChooseCameraBrick.class, R.id.brick_choose_camera_spinner, "front"},
@@ -146,7 +146,7 @@ public class BrickStringSpinnerDefaultValueTest {
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 	}
 
-	private Brick getBrickFromCategroyBricksFactory() {
+	private Brick getBrickFromCategoryBricksFactory() {
 		List<Brick> categoryBricks = categoryBricksFactory.getBricks(category, false, activity);
 
 		Brick brickInAdapter = null;
@@ -162,7 +162,7 @@ public class BrickStringSpinnerDefaultValueTest {
 
 	@Test
 	public void testDefaultSpinnerSelection() {
-		Brick brick = getBrickFromCategroyBricksFactory();
+		Brick brick = getBrickFromCategoryBricksFactory();
 		View brickView = brick.getView(activity);
 		assertNotNull(brickView);
 

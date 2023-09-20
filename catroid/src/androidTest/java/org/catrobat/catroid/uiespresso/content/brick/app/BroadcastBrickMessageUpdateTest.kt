@@ -20,131 +20,166 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.uiespresso.content.brick.app
 
 import android.util.Log
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.core.app.ApplicationProvider
 import org.catrobat.catroid.ProjectManager
-import org.catrobat.catroid.R
 import org.catrobat.catroid.content.BroadcastScript
+import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.bricks.BroadcastBrick
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick
+import org.catrobat.catroid.rules.FlakyTestRule
+import org.catrobat.catroid.runner.Flaky
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition
-import org.catrobat.catroid.uiespresso.content.messagecontainer.BroadcastMessageBrickTestUtils.createNewBroadcastMessageOnBrick
-import org.catrobat.catroid.uiespresso.content.messagecontainer.BroadcastMessageBrickTestUtils.editBroadcastMessageOnBrick
-import org.catrobat.catroid.uiespresso.util.UiTestUtils
-import org.catrobat.catroid.uiespresso.util.UiTestUtils.Companion.getResourcesString
+import org.catrobat.catroid.uiespresso.content.messagecontainer.TestUtilsBroadcastMessageBrick.Companion.checkBroadcastMessageDoesNotExist
+import org.catrobat.catroid.uiespresso.content.messagecontainer.TestUtilsBroadcastMessageBrick.Companion.createNewBroadcastMessageOnBrick
+import org.catrobat.catroid.uiespresso.content.messagecontainer.TestUtilsBroadcastMessageBrick.Companion.editBroadcastMessageOnBrick
+import org.catrobat.catroid.uiespresso.content.messagecontainer.TestUtilsBroadcastMessageBrick.Companion.selectBroadcastMessageOnBrick
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.koin.java.KoinJavaComponent.inject
+import java.io.IOException
 
-@RunWith(AndroidJUnit4::class)
 class BroadcastBrickMessageUpdateTest {
-    private val defaultMessage = "defaultMessage"
+    private val standardMessage = "standardMessage"
     private val editedMessage = "editedMessage"
-    private val message = "newAddedMessage"
+    private val addedMessage = "addedMessage"
+    private val addedMessage2 = "addedMessage2"
     private var secondScene: Scene? = null
     private var secondSprite: Sprite? = null
     private var firstBroadcastBrick: BroadcastReceiverBrick? = null
-    private val projectManager by inject(ProjectManager::class.java)
 
-    @JvmField
-    @Rule
+    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
+
+    @get:Rule
     var baseActivityTestRule = FragmentActivityTestRule(
         SpriteActivity::class.java,
-        SpriteActivity.EXTRA_FRAGMENT_POSITION,
-        SpriteActivity.FRAGMENT_SCRIPTS
+        SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS
     )
 
-    @After
-    fun tearDown() {
-        TestUtils.deleteProjects(BroadcastBrickMessageUpdateTest::class.java.simpleName)
-    }
+    @get:Rule
+    var flakyTestRule: FlakyTestRule = FlakyTestRule()
 
     @Before
+    @Throws(Exception::class)
     fun setUp() {
         createTestProjectWithBricks(BroadcastBrickMessageUpdateTest::class.java.simpleName)
         baseActivityTestRule.launchActivity()
     }
 
-    @Test
-    fun testAllBroadcastBrickSpinnersContainTheNewAddedMessage() {
-        createNewBroadcastMessageOnBrick(
-            message, firstBroadcastBrick, baseActivityTestRule.activity
-        )
-        val spinnerValues = listOf(
-            getResourcesString(R.string.new_option),
-            getResourcesString(R.string.edit_option),
-            defaultMessage,
-            message
-        )
-        checkAllBrickSpinnerValues(spinnerValues)
+    @After
+    @Throws(IOException::class)
+    fun tearDown() {
+        baseActivityTestRule.finishActivity()
+        TestUtils.deleteProjects(BroadcastBrickMessageUpdateTest::class.java.simpleName)
     }
 
     @Test
-    fun testAllBroadcastBrickSpinnersContainTheEditedMessage() {
+    @Flaky
+    fun testAllBroadcastBricksShowTheEditedMessage() {
         editBroadcastMessageOnBrick(
-            defaultMessage, editedMessage, firstBroadcastBrick, baseActivityTestRule.activity
+            standardMessage,
+            editedMessage,
+            1,
+            baseActivityTestRule.activity
         )
-        val spinnerValues = listOf(
-            getResourcesString(R.string.new_option),
-            getResourcesString(R.string.edit_option),
-            editedMessage
-        )
-        checkAllBrickSpinnerValues(spinnerValues)
+        checkShowsSameBroadcastMessage(editedMessage)
     }
 
     @Test
-    fun testAllBroadcastBrickSpinnersShowTheEditedMessage() {
-        editBroadcastMessageOnBrick(
-            defaultMessage, editedMessage, firstBroadcastBrick, baseActivityTestRule.activity
-        )
-        checkShowsCorrectSpinnerMessage(editedMessage)
-    }
-
-    @Test
+    @Flaky
     fun testEditingOccursOnlyInCurrentScene() {
         editBroadcastMessageOnBrick(
-            defaultMessage, editedMessage, firstBroadcastBrick, baseActivityTestRule.activity
+            standardMessage,
+            editedMessage,
+            1,
+            baseActivityTestRule.activity
         )
         switchScene()
-        checkShowsCorrectSpinnerMessage(defaultMessage)
+        checkShowsSameBroadcastMessage(standardMessage)
     }
 
-    private fun checkAllBrickSpinnerValues(spinnerValues: List<String>) {
-        onBrickAtPosition(1)
-            .onSpinner(R.id.brick_broadcast_spinner)
-            .checkNameableValuesAvailable(spinnerValues)
-        onBrickAtPosition(2)
-            .onSpinner(R.id.brick_broadcast_spinner)
-            .checkNameableValuesAvailable(spinnerValues)
-        onBrickAtPosition(3)
-            .onSpinner(R.id.brick_broadcast_spinner)
-            .checkNameableValuesAvailable(spinnerValues)
-        onBrickAtPosition(4)
-            .onSpinner(R.id.brick_broadcast_spinner)
-            .checkNameableValuesAvailable(spinnerValues)
-        onBrickAtPosition(5)
-            .onSpinner(R.id.brick_broadcast_spinner)
-            .checkNameableValuesAvailable(spinnerValues)
+    @Test
+    @Flaky
+    fun testMultipleDifferentMessages() {
+        checkShowsSameBroadcastMessage(standardMessage)
+        createNewBroadcastMessageOnBrick(addedMessage, 2, baseActivityTestRule.activity)
+
+        onBrickAtPosition(1).checkShowsText(standardMessage)
+        onBrickAtPosition(2).checkShowsText(addedMessage)
+        onBrickAtPosition(3).checkShowsText(standardMessage)
+        onBrickAtPosition(4).checkShowsText(standardMessage)
+        onBrickAtPosition(5).checkShowsText(standardMessage)
+
+        createNewBroadcastMessageOnBrick(addedMessage2, 5, baseActivityTestRule.activity)
+
+        onBrickAtPosition(1).checkShowsText(standardMessage)
+        onBrickAtPosition(2).checkShowsText(addedMessage)
+        onBrickAtPosition(3).checkShowsText(standardMessage)
+        onBrickAtPosition(4).checkShowsText(standardMessage)
+        onBrickAtPosition(5).checkShowsText(addedMessage2)
+
+        selectBroadcastMessageOnBrick(
+            addedMessage2, 2, baseActivityTestRule.activity
+        )
+
+        onBrickAtPosition(1).checkShowsText(standardMessage)
+        onBrickAtPosition(2).checkShowsText(addedMessage2)
+        onBrickAtPosition(3).checkShowsText(standardMessage)
+        onBrickAtPosition(4).checkShowsText(standardMessage)
+        onBrickAtPosition(5).checkShowsText(addedMessage2)
+
+        editBroadcastMessageOnBrick(
+            standardMessage,
+            editedMessage,
+            1,
+            baseActivityTestRule.activity
+        )
+
+        onBrickAtPosition(1).checkShowsText(editedMessage)
+        onBrickAtPosition(2).checkShowsText(addedMessage2)
+        onBrickAtPosition(3).checkShowsText(editedMessage)
+        onBrickAtPosition(4).checkShowsText(editedMessage)
+        onBrickAtPosition(5).checkShowsText(addedMessage2)
+
+        checkBroadcastMessageDoesNotExist(addedMessage, 1, baseActivityTestRule.activity)
     }
 
-    private fun checkShowsCorrectSpinnerMessage(message: String) {
-        onBrickAtPosition(1).onSpinner(R.id.brick_broadcast_spinner).checkShowsText(message)
-        onBrickAtPosition(2).onSpinner(R.id.brick_broadcast_spinner).checkShowsText(message)
-        onBrickAtPosition(3).onSpinner(R.id.brick_broadcast_spinner).checkShowsText(message)
-        onBrickAtPosition(4).onSpinner(R.id.brick_broadcast_spinner).checkShowsText(message)
-        onBrickAtPosition(5).onSpinner(R.id.brick_broadcast_spinner).checkShowsText(message)
+    @Test
+    @Flaky
+    fun testCreateNewMessageAndSwitchScene() {
+        createNewBroadcastMessageOnBrick(addedMessage, 1, baseActivityTestRule.activity)
+
+        onBrickAtPosition(1).checkShowsText(addedMessage)
+        onBrickAtPosition(2).checkShowsText(standardMessage)
+        onBrickAtPosition(3).checkShowsText(standardMessage)
+        onBrickAtPosition(4).checkShowsText(standardMessage)
+        onBrickAtPosition(5).checkShowsText(standardMessage)
+
+        switchScene()
+
+        checkShowsSameBroadcastMessage(standardMessage)
+
+        checkBroadcastMessageDoesNotExist(addedMessage, 1, baseActivityTestRule.activity)
+    }
+
+    private fun checkShowsSameBroadcastMessage(message: String) {
+        onBrickAtPosition(1).checkShowsText(message)
+        onBrickAtPosition(2).checkShowsText(message)
+        onBrickAtPosition(3).checkShowsText(message)
+        onBrickAtPosition(4).checkShowsText(message)
+        onBrickAtPosition(5).checkShowsText(message)
     }
 
     private fun switchScene() {
@@ -155,29 +190,33 @@ class BroadcastBrickMessageUpdateTest {
     }
 
     private fun createTestProjectWithBricks(projectName: String) {
-        val project = UiTestUtils.createDefaultTestProject(projectName)
-        val firstSprite = UiTestUtils.getDefaultTestSprite(project)
+        val project = Project(ApplicationProvider.getApplicationContext(), projectName)
+        val firstSprite = Sprite("spriteScene1")
         secondSprite = Sprite("spriteScene2")
 
-        val script: Script = BroadcastScript(defaultMessage)
+        val script: Script = BroadcastScript(standardMessage)
         firstBroadcastBrick = script.scriptBrick as BroadcastReceiverBrick
 
-        script.addBrick(BroadcastBrick(defaultMessage))
-        script.addBrick(BroadcastWaitBrick(defaultMessage))
+        script.addBrick(BroadcastBrick(standardMessage))
+        script.addBrick(BroadcastWaitBrick(standardMessage))
+
         firstSprite.addScript(script)
 
         try {
             firstSprite.addScript(script.clone())
-            secondSprite!!.addScript(script.clone())
-            secondSprite!!.addScript(script.clone())
+            secondSprite?.addScript(script.clone())
+            secondSprite?.addScript(script.clone())
         } catch (e: CloneNotSupportedException) {
-            Log.e(BroadcastBrickMessageUpdateTest::class.java.simpleName, e.message!!)
+            e.message?.let { Log.e(BroadcastBrickMessageUpdateTest::class.java.simpleName, it) }
         }
         val firstScene = Scene("Scene1", project)
         secondScene = Scene("Scene2", project)
-        secondScene!!.addSprite(secondSprite)
-
+        firstScene.addSprite(firstSprite)
+        secondScene?.addSprite(secondSprite)
         project.addScene(firstScene)
         project.addScene(secondScene)
+        projectManager.currentProject = project
+        projectManager.currentSprite = firstSprite
+        projectManager.currentlyEditedScene = firstScene
     }
 }

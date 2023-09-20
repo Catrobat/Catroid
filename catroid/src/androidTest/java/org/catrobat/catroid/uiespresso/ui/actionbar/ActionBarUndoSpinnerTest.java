@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -84,7 +84,6 @@ public class ActionBarUndoSpinnerTest {
 				{SetLookBrick.class.getName(), 2, R.id.brick_set_look_spinner},
 				{WhenNfcBrick.class.getName(), 3, R.id.brick_when_nfc_spinner},
 				{SetVariableBrick.class.getName(), 4, R.id.set_variable_spinner},
-				{BroadcastBrick.class.getName(), 5, R.id.brick_broadcast_spinner},
 		});
 	}
 
