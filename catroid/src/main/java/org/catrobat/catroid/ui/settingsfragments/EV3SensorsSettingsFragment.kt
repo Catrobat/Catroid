@@ -31,12 +31,10 @@ import androidx.preference.SwitchPreference
 import org.catrobat.catroid.BuildConfig
 import org.catrobat.catroid.R
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor
-import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.EV3_SCREEN_KEY
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.EV3_SETTINGS_CATEGORY
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED
 
-class EV3SensorsSettingsFragment: PreferenceFragmentCompat() {
+class EV3SensorsSettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

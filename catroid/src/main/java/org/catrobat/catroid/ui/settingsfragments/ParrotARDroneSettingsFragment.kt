@@ -39,7 +39,7 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.DRON
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.DRONE_VERTICAL_SPEED
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS
 
-class ParrotARDroneSettingsFragment: PreferenceFragmentCompat() {
+class ParrotARDroneSettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +53,7 @@ class ParrotARDroneSettingsFragment: PreferenceFragmentCompat() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED){
+        if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
             val droneSwitchPreference =
                 findPreference<SwitchPreference>(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS)!!
             val droneConnectionSettings =
@@ -61,7 +61,7 @@ class ParrotARDroneSettingsFragment: PreferenceFragmentCompat() {
 
             droneConnectionSettings.isEnabled = droneSwitchPreference.isChecked
 
-            droneSwitchPreference.setOnPreferenceChangeListener{_, isChecked ->
+            droneSwitchPreference.setOnPreferenceChangeListener { _, isChecked ->
                 droneConnectionSettings.isEnabled = isChecked as Boolean
                 true
             }
@@ -96,7 +96,8 @@ class ParrotARDroneSettingsFragment: PreferenceFragmentCompat() {
         }
     }
 
-    private fun addDroneConfigPreferenceChangeListener(listPreference: ListPreference,
+    private fun addDroneConfigPreferenceChangeListener(
+        listPreference: ListPreference,
         dronePreferences: Array<String>) {
         listPreference.setOnPreferenceChangeListener { _, newValue ->
             val index = listPreference.findIndexOfValue(newValue.toString())
@@ -104,15 +105,9 @@ class ParrotARDroneSettingsFragment: PreferenceFragmentCompat() {
                 val currentListPreference = findPreference<ListPreference>(dronePreference)!!
                 when (dronePreference) {
                     DRONE_ALTITUDE_LIMIT -> currentListPreference.value = "FIRST"
-                    DRONE_VERTICAL_SPEED -> {
-                        setListPreferenceValue(currentListPreference, index)
-                    }
-                    DRONE_ROTATION_SPEED -> {
-                        setListPreferenceValue(currentListPreference, index)
-                    }
-                    DRONE_TILT_ANGLE -> {
-                        setListPreferenceValue(currentListPreference, index)
-                    }
+                    DRONE_VERTICAL_SPEED -> setListPreferenceValue(currentListPreference, index)
+                    DRONE_ROTATION_SPEED -> setListPreferenceValue(currentListPreference, index)
+                    DRONE_TILT_ANGLE -> setListPreferenceValue(currentListPreference, index)
                 }
             }
             true
@@ -120,10 +115,12 @@ class ParrotARDroneSettingsFragment: PreferenceFragmentCompat() {
     }
 
     private fun setListPreferenceValue(listPreference: ListPreference, index: Int){
-        if(index < 2)
+        if(index < 2) {
             listPreference.value = "SECOND"
-        else
+        }
+        else {
             listPreference.value = "THIRD"
+        }
     }
 
     companion object {

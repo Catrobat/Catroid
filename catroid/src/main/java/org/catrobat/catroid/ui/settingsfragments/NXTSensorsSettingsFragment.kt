@@ -36,7 +36,7 @@ import org.catrobat.catroid.ui.settingsfragments.LegoSensors.NXT_SENSORS
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.NXT_SETTINGS_CATEGORY
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED
 
-class NXTSensorsSettingsFragment: PreferenceFragmentCompat() {
+class NXTSensorsSettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +57,7 @@ class NXTSensorsSettingsFragment: PreferenceFragmentCompat() {
                 findPreference<PreferenceCategory>(NXT_SETTINGS_CATEGORY)!!
 
             nxtConnectionSettings.isEnabled = nxtSwitchPreference.isChecked
-            nxtSwitchPreference.setOnPreferenceChangeListener{_, isChecked ->
+            nxtSwitchPreference.setOnPreferenceChangeListener { _, isChecked ->
                 Log.d("GAG", "clicked swtich")
                 nxtConnectionSettings.isEnabled = isChecked as Boolean
                 true

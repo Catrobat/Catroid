@@ -35,9 +35,9 @@ import org.catrobat.catroid.ui.MainMenuActivity
 import org.catrobat.catroid.ui.SettingsActivity
 import org.catrobat.catroid.utils.ToastUtil
 
-class AccessibilitySettingsFragment: PreferenceFragmentCompat(), OnSharedPreferenceChangeListener {
+class AccessibilitySettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListener {
 
-    private var preferenceChanged = false;
+    private var preferenceChanged = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +55,6 @@ class AccessibilitySettingsFragment: PreferenceFragmentCompat(), OnSharedPrefere
             .takeIf { it is AppCompatActivity }
             .let { it as AppCompatActivity }
             .apply { supportActionBar?.title = preferenceScreen.title }
-
     }
 
     override fun onPause() {
@@ -102,5 +101,4 @@ class AccessibilitySettingsFragment: PreferenceFragmentCompat(), OnSharedPrefere
         private const val ACCESSIBILITY_PROFILES_SCREEN_KEY = "setting_accessibility_profile_screen"
         const val CUSTOM_PROFILE = "accessibility_profile_is_custom"
     }
-
 }
