@@ -36,7 +36,7 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.RASP
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.RASPI_PORT
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_SHOW_RASPI_BRICKS
 
-class RaspberryPiSettingsFragment: PreferenceFragmentCompat() {
+class RaspberryPiSettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,14 +56,14 @@ class RaspberryPiSettingsFragment: PreferenceFragmentCompat() {
                 findPreference<PreferenceCategory>(RASPI_CONNECTION_SETTINGS_CATEGORY)!!
             raspiConnectionSettings.isEnabled = raspiSwitchPreference.isChecked
 
-            raspiSwitchPreference.setOnPreferenceChangeListener{ _, isChecked ->
+            raspiSwitchPreference.setOnPreferenceChangeListener { _, isChecked ->
                 raspiConnectionSettings.isEnabled = isChecked as Boolean
                 true
             }
 
             val raspiHostPreference = findPreference<EditTextPreference>(RASPI_PORT)!!
             raspiHostPreference.summary = raspiHostPreference.text
-            raspiHostPreference.setOnPreferenceChangeListener{ _, newValue ->
+            raspiHostPreference.setOnPreferenceChangeListener { _, newValue ->
                 raspiHostPreference.summary = newValue.toString()
                 true
             }

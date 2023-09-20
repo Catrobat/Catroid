@@ -53,7 +53,7 @@ import org.catrobat.catroid.utils.SnackbarUtil
 import org.koin.java.KoinJavaComponent
 import java.util.Locale
 
-class SettingsFragment: PreferenceFragmentCompat() {
+class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -267,8 +267,7 @@ class SettingsFragment: PreferenceFragmentCompat() {
 
         @JvmStatic
         fun isAISpeechSynthetizationSharedPreferenceEnabled(context: Context): Boolean =
-            getBooleanSharedPreference(context, SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS,
-                                       false)
+            getBooleanSharedPreference(context, SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS, false)
 
         @JvmStatic
         fun isAISpeechRecognitionSharedPreferenceEnabled(context: Context): Boolean =
@@ -281,6 +280,7 @@ class SettingsFragment: PreferenceFragmentCompat() {
         @JvmStatic
         fun isMindstormsNXTSharedPreferenceEnabled(context: Context): Boolean =
             getBooleanSharedPreference(context, SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false)
+
 
         @JvmStatic
         fun isMindstormsEV3SharedPreferenceEnabled(context: Context): Boolean =
@@ -317,8 +317,8 @@ class SettingsFragment: PreferenceFragmentCompat() {
         @JvmStatic
         fun isMultiplayerVariablesPreferenceEnabled(context: Context): Boolean {
             val projectManager: ProjectManager by KoinJavaComponent.inject(ProjectManager::class.java)
-            return getBooleanSharedPreference(context, SETTINGS_MULTIPLAYER_VARIABLES_ENABLED, false)
-                || projectManager.currentProject.hasMultiplayerVariables();
+            return getBooleanSharedPreference(context, SETTINGS_MULTIPLAYER_VARIABLES_ENABLED, false) ||
+                projectManager.currentProject.hasMultiplayerVariables();
         }
 
         @JvmStatic

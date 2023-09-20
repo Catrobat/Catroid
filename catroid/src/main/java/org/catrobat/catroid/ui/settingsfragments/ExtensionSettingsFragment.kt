@@ -49,9 +49,9 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETT
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_SHOW_PHIRO_BRICKS
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment.Companion.SETTINGS_SHOW_TEST_BRICKS
 
-class ExtensionSettingsFragment : PreferenceFragmentCompat(){
+class ExtensionSettingsFragment : PreferenceFragmentCompat() {
 
-    override fun onCreate(savedInstanceState: Bundle?){
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         SettingsFragment.setToChosenLanguage(requireActivity())
     }
@@ -111,7 +111,7 @@ class ExtensionSettingsFragment : PreferenceFragmentCompat(){
         ev3PreferenceScreen?.isVisible = BuildConfig.FEATURE_LEGO_EV3_ENABLED
     }
 
-    private fun addParrotArDronePreferenceClickListener(){
+    private fun addParrotArDronePreferenceClickListener() {
         val parrotArDronePreferenceScreen = findPreference<PreferenceScreen>(DRONE_SCREEN_KEY)
         parrotArDronePreferenceScreen?.setOnPreferenceClickListener { _ ->
             navigateToFragment(ParrotARDroneSettingsFragment(), PARROT_AR_DRONE_SETTINGS_FRAGMENT_TAG)
@@ -173,7 +173,7 @@ class ExtensionSettingsFragment : PreferenceFragmentCompat(){
         testingSwitchPreference?.isVisible = BuildConfig.FEATURE_TESTBRICK_ENABLED
     }
 
-    private fun navigateToFragment(preference: PreferenceFragmentCompat, tag: String){
+    private fun navigateToFragment(preference: PreferenceFragmentCompat, tag: String) {
         parentFragmentManager.beginTransaction()
             .replace(R.id.content_frame, preference, tag)
             .addToBackStack(tag)

@@ -58,17 +58,4 @@ class SettingsActivity : BaseActivity() {
             setTitle(R.string.preference_title)
         }
     }
-
-    /*
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_settings_preference, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu?.findItem(R.id.menu_item_help)?.isVisible = false
-        menu?.findItem(R.id.menu_item_delete)?.isVisible = false
-        return super.onPrepareOptionsMenu(menu)
-    }
-    */
 }
