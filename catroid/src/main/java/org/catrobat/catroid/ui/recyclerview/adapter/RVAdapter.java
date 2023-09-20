@@ -81,7 +81,8 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 
 	@Override
 	public CheckableViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
-		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_with_checkbox, parent, false);
+		View view = LayoutInflater.from(parent.getContext()).inflate(
+				R.layout.view_holder_with_checkbox, parent, false);
 		return new CheckableViewHolder(view);
 	}
 
@@ -93,7 +94,9 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableViewHol
 		holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(item, selectionManager));
 
 		if (holder.settings != null) {
-			holder.settings.setOnClickListener(v -> onItemClickListener.onSettingsClick(item, v));
+			holder.settings.setOnClickListener(v -> {
+				onItemClickListener.onSettingsClick(item, v);
+			});
 		}
 
 		holder.checkBox.setVisibility(showCheckBoxes ? View.VISIBLE : View.GONE);

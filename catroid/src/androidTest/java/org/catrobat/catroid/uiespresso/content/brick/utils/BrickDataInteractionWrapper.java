@@ -125,4 +125,8 @@ public class BrickDataInteractionWrapper extends DataInteractionWrapper {
 		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
 				.perform(click());
 	}
+
+	public void editBroadcastMessage() {
+		dataInteraction.onChildView(withId(R.id.brick_broadcast_text)).perform(click());
+	}
 }

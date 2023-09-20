@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -239,7 +239,6 @@ import org.catrobat.catroid.formulaeditor.Operators
 import org.catrobat.catroid.formulaeditor.Sensors
 import org.catrobat.catroid.ui.controller.RecentBrickListManager
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
-import java.util.ArrayList
 import java.util.Locale
 
 open class CategoryBricksFactory {
@@ -481,7 +480,8 @@ open class CategoryBricksFactory {
         looksBrickList.add(SetBackgroundByIndexBrick(BrickValues.SET_LOOK_BY_INDEX))
         looksBrickList.add(SetBackgroundAndWaitBrick())
         looksBrickList.add(SetBackgroundByIndexAndWaitBrick(BrickValues.SET_LOOK_BY_INDEX))
-        if (!ProjectManager.getInstance().currentProject.isCastProject) {
+        val currentProject = ProjectManager.getInstance().currentProject
+        if (!currentProject.isCastProject && currentProject != null) {
             looksBrickList.add(CameraBrick())
             looksBrickList.add(ChooseCameraBrick())
             looksBrickList.add(FlashBrick())

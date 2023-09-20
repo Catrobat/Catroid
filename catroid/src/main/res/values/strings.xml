@@ -893,11 +893,18 @@
     <string name="stage_dialog_embroidery">Embroidery</string>
     <!--  -->
 
-    <!-- Broadcast spinner -->
+    <!-- BroadcastListFragment -->
+    <string name="broadcast_message_headline">Messages for all actors and objects</string>
     <string name="dialog_new_broadcast_message_title">New message</string>
     <string name="dialog_broadcast_message_name">message:</string>
     <string name="dialog_edit_broadcast_message_title">Edit message</string>
     <!--  -->
+
+    <!-- Broadcast spinner
+    <string name="dialog_new_broadcast_message_title">New message</string>
+    <string name="dialog_broadcast_message_name">message:</string>
+    <string name="dialog_edit_broadcast_message_title">Edit message</string>
+    -->
 
     <!-- NFC spinner -->
     <string name="brick_when_nfc_edit_list_of_nfc_tags">Edit list of NFC tags</string>
