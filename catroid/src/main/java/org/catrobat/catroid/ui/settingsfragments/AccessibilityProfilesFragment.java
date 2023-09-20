@@ -26,6 +26,8 @@ package org.catrobat.catroid.ui.settingsfragments;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +44,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.preference.PreferenceManager;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.ACCESSIBILITY_PROFILE_PREFERENCE_KEY;
 import static org.catrobat.catroid.ui.settingsfragments.AccessibilitySettingsFragment.CUSTOM_PROFILE;
@@ -57,7 +58,6 @@ public class AccessibilityProfilesFragment extends Fragment implements View.OnCl
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
 
 		AccessibilityProfileViewHolder viewHolder = new AccessibilityProfileViewHolder(parent.findViewById(R.id.custom_profile));
 		viewHolder.view.setOnClickListener(this);
@@ -100,10 +100,10 @@ public class AccessibilityProfilesFragment extends Fragment implements View.OnCl
 		int selectedProfileViewId = PreferenceManager.getDefaultSharedPreferences(requireActivity())
 				.getInt(ACCESSIBILITY_PROFILE_PREFERENCE_KEY, R.id.default_profile);
 
-		if (selectedProfileViewId != R.id.default_profile &&
-				selectedProfileViewId != R.id.custom_profile &&
-				selectedProfileViewId != R.id.argus && selectedProfileViewId != R.id.fenrir &&
-				selectedProfileViewId != R.id.odin && selectedProfileViewId != R.id.tiro) {
+		if (selectedProfileViewId != R.id.default_profile
+				&& selectedProfileViewId != R.id.custom_profile
+				&& selectedProfileViewId != R.id.argus && selectedProfileViewId != R.id.fenrir
+				&& selectedProfileViewId != R.id.odin && selectedProfileViewId != R.id.tiro) {
 			selectedProfileViewId = R.id.default_profile;
 		}
 

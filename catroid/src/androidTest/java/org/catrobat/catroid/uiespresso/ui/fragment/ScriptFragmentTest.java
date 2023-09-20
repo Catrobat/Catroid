@@ -247,7 +247,6 @@ public class ScriptFragmentTest {
 		pressBack();
 	}
 
-
 	private void createProject() {
 		String projectName = getClass().getSimpleName();
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
