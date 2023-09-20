@@ -26,52 +26,67 @@
         android:key="setting_nxt_screen"
         android:summary="@string/preference_description_mindstorms_nxt_bricks"
         android:title="@string/preference_title_enable_mindstorms_nxt_bricks"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <CheckBoxPreference
+        <SwitchPreference
+            app:iconSpaceReserved="false"
             android:defaultValue="@string/FEATURE_MINDSTORMS_PREFERENCES_ENABLED"
             android:key="settings_mindstorms_nxt_bricks_enabled"
-            android:summary="@string/preference_description_mindstorms_nxt_bricks"
-            android:title="@string/preference_title_enable_mindstorms_nxt_bricks" />
+            android:title="@string/preference_title_enable_mindstorms_nxt_bricks"
+            android:summary="@string/preference_description_mindstorms_nxt_bricks" />
 
-        <CheckBoxPreference
+        <SwitchPreference
+            app:iconSpaceReserved="false"
             android:defaultValue="false"
             android:key="settings_mindstorms_nxt_show_sensor_info_box_disabled"
-            android:summary="@string/preference_disable_nxt_info_dialog_description"
-            android:title="@string/preference_disable_nxt_info_dialog" />
+            android:title="@string/preference_disable_nxt_info_dialog"
+            android:summary="@string/preference_disable_nxt_info_dialog_description" />
 
-        <PreferenceCategory android:key="setting_nxt_category"
+        <PreferenceCategory
+            app:iconSpaceReserved="false"
+            android:key="setting_nxt_category"
             android:title="@string/preference_title_mindstorms_nxt_sensors">
-            <Preference android:summary="@string/preference_title_mindstorms_nxt_sensors_description" />
+            <Preference
+                app:iconSpaceReserved="false"
+                android:summary="@string/preference_title_mindstorms_nxt_sensors_description" />
 
             <ListPreference
+                app:iconSpaceReserved="false"
                 android:defaultValue="NO_SENSOR"
                 android:entries="@array/nxt_sensor_chooser"
                 android:entryValues="@array/nxt_sensor_chooser"
                 android:key="setting_mindstorms_nxt_sensor_1"
                 android:summary="%s"
                 android:title="@string/nxt_choose_sensor_1" />
+
             <ListPreference
+                app:iconSpaceReserved="false"
                 android:defaultValue="NO_SENSOR"
                 android:entries="@array/nxt_sensor_chooser"
                 android:entryValues="@array/nxt_sensor_chooser"
                 android:key="setting_mindstorms_nxt_sensor_2"
                 android:summary="%s"
                 android:title="@string/nxt_choose_sensor_2" />
+
             <ListPreference
+                app:iconSpaceReserved="false"
                 android:defaultValue="NO_SENSOR"
                 android:entries="@array/nxt_sensor_chooser"
                 android:entryValues="@array/nxt_sensor_chooser"
                 android:key="setting_mindstorms_nxt_sensor_3"
                 android:summary="%s"
                 android:title="@string/nxt_choose_sensor_3" />
+
             <ListPreference
+                app:iconSpaceReserved="false"
                 android:defaultValue="NO_SENSOR"
                 android:entries="@array/nxt_sensor_chooser"
                 android:entryValues="@array/nxt_sensor_chooser"
                 android:key="setting_mindstorms_nxt_sensor_4"
                 android:summary="%s"
                 android:title="@string/nxt_choose_sensor_4" />
+
         </PreferenceCategory>
 
     </PreferenceScreen>
