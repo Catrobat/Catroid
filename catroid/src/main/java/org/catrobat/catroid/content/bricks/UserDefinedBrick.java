@@ -392,7 +392,7 @@ public class UserDefinedBrick extends FormulaBrick {
 				catrobatLanguage.append(CatrobatLanguageUtils.formatUserDefinedBrickParameter(input.getName()))
 						.append(": (")
 						.append(value)
-						.append(")");
+						.append(')');
 			}
 		}
 	}
