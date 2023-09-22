@@ -33,6 +33,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.bricks.BackgroundRequestBrick
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.LookRequestBrick
@@ -50,9 +51,10 @@ import org.junit.Rule
 import org.junit.Test
 import org.koin.java.KoinJavaComponent.inject
 
-class WarningForWebAccessBricksDownloadedProjectTest{
+class WarningForWebAccessBricksDownloadedProjectTest {
 
     private lateinit var project: Project
+    private lateinit var script: Script
     private val projectManager by inject(ProjectManager::class.java)
 
     @get:Rule
@@ -82,9 +84,11 @@ class WarningForWebAccessBricksDownloadedProjectTest{
         TestUtils.deleteProjects(project.name)
     }
 
-    private fun createDownloadedProjectWithBrick(name: String, brick: Brick) {
+    private fun createDownloadedProjectWithBrick(name: String, bricks: List<Brick>) {
         project = UiTestUtils.createDefaultTestProject(name)
-        UiTestUtils.getDefaultTestScript(project).addBrick(brick)
+        script = UiTestUtils.getDefaultTestScript(project)
+        bricks.forEach{ brick: Brick ->  script.addBrick(brick)}
+
         saveProjectSerial(project, ApplicationProvider.getApplicationContext())
         val intent = Intent()
         project.xmlHeader.remixParentsUrlString = name
@@ -93,23 +97,51 @@ class WarningForWebAccessBricksDownloadedProjectTest{
 
     @Test
     fun showWarningForWebRequestBrick() {
-        createDownloadedProjectWithBrick("showWarningForWebRequestBrick", WebRequestBrick())
+        createDownloadedProjectWithBrick("showWarningForWebRequestBrick", listOf(WebRequestBrick()))
         onView(withText(R.string.security_warning_dialog_msg_web_access))
             .check(matches(isDisplayed()))
         onView(withText(R.string.ok)).perform(click())
     }
 
     @Test
-    fun showWarningForStartListeningBrick() {
-        createDownloadedProjectWithBrick("showWarningForStartListeningBrick", StartListeningBrick())
-        onView(withText(R.string.security_warning_dialog_msg_web_access))
+    fun showWarningForStartListeningBrickAndWebAccessBrick() {
+        createDownloadedProjectWithBrick("showWarningForStartListeningBrickAndWebAccessBrick",
+                                         listOf(WebRequestBrick(), StartListeningBrick()))
+        onView(withText(R.string.security_warning_dialog_msg))
+            .check(matches(isDisplayed()))
+        onView(withText(R.string.ok)).perform(click())
+    }
+
+    @Test
+    fun showWarningForStartListeningBrickAndBackgroundRequestBrick() {
+        createDownloadedProjectWithBrick("showWarningForStartListeningBrickAndBackgroundRequestBrick",
+                                         listOf(BackgroundRequestBrick(), StartListeningBrick()))
+        onView(withText(R.string.security_warning_dialog_msg))
+            .check(matches(isDisplayed()))
+        onView(withText(R.string.ok)).perform(click())
+    }
+
+    @Test
+    fun showWarningForStartListeningBrickAndLookRequestBrick() {
+        createDownloadedProjectWithBrick("showWarningForStartListeningBrickAndLookRequestBrick",
+                                         listOf(LookRequestBrick(), StartListeningBrick()))
+        onView(withText(R.string.security_warning_dialog_msg))
+            .check(matches(isDisplayed()))
+        onView(withText(R.string.ok)).perform(click())
+    }
+
+    @Test
+    fun showWarningForStartListeningBrickAndOpenUrlBrick() {
+        createDownloadedProjectWithBrick("showWarningForStartListeningBrickAndOpenUrlBrick",
+                                         listOf(OpenUrlBrick(), StartListeningBrick()))
+        onView(withText(R.string.security_warning_dialog_msg))
             .check(matches(isDisplayed()))
         onView(withText(R.string.ok)).perform(click())
     }
 
     @Test
     fun showWarningForLookRequestBrick() {
-        createDownloadedProjectWithBrick("showWarningForLookRequestBrick", LookRequestBrick())
+        createDownloadedProjectWithBrick("showWarningForLookRequestBrick", listOf(LookRequestBrick()))
         onView(withText(R.string.security_warning_dialog_msg_web_access))
             .check(matches(isDisplayed()))
         onView(withText(R.string.ok)).perform(click())
@@ -117,7 +149,7 @@ class WarningForWebAccessBricksDownloadedProjectTest{
 
     @Test
     fun showWarningForBackgroundRequestBrick() {
-        createDownloadedProjectWithBrick("showWarningForBackgroundRequestBrick", BackgroundRequestBrick())
+        createDownloadedProjectWithBrick("showWarningForBackgroundRequestBrick", listOf(BackgroundRequestBrick()))
         onView(withText(R.string.security_warning_dialog_msg_web_access))
             .check(matches(isDisplayed()))
         onView(withText(R.string.ok)).perform(click())
@@ -125,7 +157,7 @@ class WarningForWebAccessBricksDownloadedProjectTest{
 
     @Test
     fun showWarningForOpenUrlBrick() {
-        createDownloadedProjectWithBrick("showWarningForOpenUrlBrick", OpenUrlBrick())
+        createDownloadedProjectWithBrick("showWarningForOpenUrlBrick", listOf(OpenUrlBrick()))
         onView(withText(R.string.security_warning_dialog_msg_web_access))
             .check(matches(isDisplayed()))
         onView(withText(R.string.ok)).perform(click())

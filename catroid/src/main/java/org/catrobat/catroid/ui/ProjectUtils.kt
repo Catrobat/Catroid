@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,14 +20,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-@file:JvmName("ProjectUtils")
-
-/**
- * suspicious bricks as defined in CATROID-681
- *
- * StartListeningBrick and WebRequestBrick or BackgroundRequestBrick or LookRequestBrick
- * */
 
 package org.catrobat.catroid.ui
 
@@ -53,11 +45,10 @@ import org.catrobat.catroid.content.bricks.RepeatBrick
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick
 import org.catrobat.catroid.content.bricks.StartListeningBrick
 import org.catrobat.catroid.content.bricks.WebRequestBrick
+import org.koin.java.KoinJavaComponent.inject
 
-/**
- * extension boolean function for List<Brick> data type.
- * check if the list contains suspicious bricks
- * */
+private val projectManager by inject(ProjectManager::class.java)
+
 private fun List<Brick>.containsStartListeningAndWebAccessBricks(): SuspiciousBricks {
     val backgroundRequestOrWebRequestBrickExists = any { brick ->
         brick is WebRequestBrick || brick is BackgroundRequestBrick || brick is LookRequestBrick || brick is OpenUrlBrick
@@ -74,10 +65,6 @@ private fun List<Brick>.containsStartListeningAndWebAccessBricks(): SuspiciousBr
     }
 }
 
-/**
- * extension function for Sprite data type.
- * get list of all bricks and its nested bricks if exists
- * */
 fun Sprite.getListAllBricks(): List<Brick> {
     val bricks = arrayListOf<Brick>()
     allBricks.forEach { brick ->
@@ -117,10 +104,6 @@ fun Sprite.getListAllBricks(): List<Brick> {
     return bricks
 }
 
-/**
- * extension boolean function for Project data type.
- * check if the project contains suspicious bricks
- * */
 private fun Project.shouldDisplaySuspiciousBricksWarning(): SuspiciousBricks {
     val brickList = arrayListOf<Brick>()
     sceneList.forEach { scene ->
@@ -134,17 +117,13 @@ private fun Project.shouldDisplaySuspiciousBricksWarning(): SuspiciousBricks {
 }
 
 fun showWarningForSuspiciousBricksOnce(context: Context) {
-    // used for not showing the dialog again
     val sharedPreferences = context.getSharedPreferences(
         context.getString(R.string.preference_approved_list_file_key),
         MODE_PRIVATE
     )
-    val currentProject = ProjectManager.getInstance().currentProject
+    val currentProject = projectManager.currentProject
     val projectUrl = currentProject?.xmlHeader?.remixParentsUrlString ?: return
-    // if project has an url => is a downloaded project
     val isDownloadedProject = projectUrl.isNotBlank()
-    // since the projectUrl is kinda unique, ues it as key for the shared preference, if it's null
-    // that means the dialog hasn't been displayed yet
     val showForFirstTime = sharedPreferences.getString(projectUrl, null).isNullOrBlank()
 
     if (isDownloadedProject && showForFirstTime && currentProject.shouldDisplaySuspiciousBricksWarning() > SuspiciousBricks.NO_SUSPICIOUS_BRICKS) {
@@ -178,8 +157,6 @@ fun showWarningForSuspiciousBricksOnce(context: Context) {
                 .show()
         }
     } else if (isDownloadedProject) {
-        // add it anyway to avoid showing this dialog for downloaded projects, but have
-        // suspicious bricks added by the user afterwards..
         sharedPreferences
             .edit()
             .putString(projectUrl, projectUrl)
