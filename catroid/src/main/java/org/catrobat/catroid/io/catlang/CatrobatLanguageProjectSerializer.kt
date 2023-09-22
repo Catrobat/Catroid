@@ -53,7 +53,7 @@ class CatrobatLanguageProjectSerializer(private val project: Project) {
     }
 
     private fun serializeMetadata() {
-        val metadata = project.xmlHeaderMetadata
+        val metadata = project.xmlHeader
 
         programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_1)}Metadata {")
         programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Description: ${CatrobatLanguageUtils.getEscapedString(project.description)}")
@@ -63,7 +63,7 @@ class CatrobatLanguageProjectSerializer(private val project: Project) {
     }
 
     private fun serializeStageData() {
-        val metadata = project.xmlHeaderMetadata
+        val metadata = project.xmlHeader
         programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_1)}Stage {")
         programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Landscape mode: ${CatrobatLanguageUtils.getEscapedString(metadata.islandscapeMode().toString())}")
         programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Width: ${CatrobatLanguageUtils.getEscapedString(metadata.virtualScreenWidth.toString())}")
@@ -73,7 +73,6 @@ class CatrobatLanguageProjectSerializer(private val project: Project) {
     }
 
     private fun serializeGlobals() {
-        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_1)}Globals {")
 
         val globals = arrayListOf<String>()
         for (variable in project.userVariables) {
@@ -82,7 +81,10 @@ class CatrobatLanguageProjectSerializer(private val project: Project) {
         for (list in project.userLists) {
             globals.add(CatrobatLanguageUtils.formatList(list.name))
         }
-
+        if (globals.isEmpty()) {
+            return
+        }
+        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_1)}Globals {")
         for (i in globals.indices) {
             programString.append("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}${globals[i]}")
             if (i < globals.size - 1) {
@@ -96,9 +98,11 @@ class CatrobatLanguageProjectSerializer(private val project: Project) {
     private fun serializeScenes() {
         for (scene in project.sceneList) {
             programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_1)}Scene ${CatrobatLanguageUtils.getEscapedString(scene.name)} {")
-            programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Background {")
-            serializeSprite(scene.backgroundSprite)
-            programString.appendLine(level2IndentionLevelEnd)
+            if (scene.backgroundSprite != null) {
+                programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Background {")
+                serializeSprite(scene.backgroundSprite)
+                programString.appendLine(level2IndentionLevelEnd)
+            }
 
             for (sprite in scene.spriteList) {
                 if (sprite == scene.backgroundSprite) {
@@ -151,8 +155,6 @@ class CatrobatLanguageProjectSerializer(private val project: Project) {
     }
 
     private fun serializeLocals(sprite: Sprite) {
-        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_3)}Locals {")
-
         val locals = arrayListOf<String>()
         for (variable in sprite.userVariables) {
             locals.add(CatrobatLanguageUtils.formatVariable(variable.name))
@@ -161,6 +163,11 @@ class CatrobatLanguageProjectSerializer(private val project: Project) {
             locals.add(CatrobatLanguageUtils.formatList(list.name))
         }
 
+        if (locals.isEmpty()) {
+            return
+        }
+
+        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_3)}Locals {")
         for (i in locals.indices) {
             programString.append("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_4)}${locals[i]}")
             if (i < locals.size - 1) {
