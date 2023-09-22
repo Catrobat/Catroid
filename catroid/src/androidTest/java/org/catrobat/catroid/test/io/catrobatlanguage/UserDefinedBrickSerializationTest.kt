@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.test.io.catrobatlanguage
 
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.UserDefinedScript
 import org.catrobat.catroid.content.bricks.Brick
@@ -37,8 +38,10 @@ import org.catrobat.catroid.formulaeditor.Operators
 import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
 import org.junit.Assert
 import org.junit.Test
+import org.junit.runner.RunWith
 import java.util.Random
 
+@RunWith(AndroidJUnit4::class)
 class UserDefinedBrickSerializationTest {
     @Test
     fun testFibonnaci() {
