@@ -55,6 +55,12 @@ object CatrobatLanguageUtils {
     @JvmStatic
     fun formatString(string: String): String = "'$string'"
 
+    @JvmStatic
+    fun formatUserDefinedBrickLabel(label: String) = escapeCharacters(label, "[]`")
+
+    @JvmStatic
+    fun formatUserDefinedBrickParameter(parameter: String) = "[${escapeCharacters(parameter, "[]`")}]"
+
     fun getEscapedString(string: String): String = "'${string.replace("'", "\\'")}'"
 
     @JvmStatic
@@ -77,5 +83,13 @@ object CatrobatLanguageUtils {
         configuration = Configuration(configuration)
         configuration.setLocale(Locale("en"))
         return context.createConfigurationContext(configuration)
+    }
+
+    fun escapeCharacters(string: String, charactersToEscape: String): String {
+        var escapedString = string
+        for (character in charactersToEscape) {
+            escapedString = escapedString.replace(character.toString(), "\\$character")
+        }
+        return escapedString
     }
 }

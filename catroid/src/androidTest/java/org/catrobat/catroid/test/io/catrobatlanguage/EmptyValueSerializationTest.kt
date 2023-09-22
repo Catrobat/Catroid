@@ -337,7 +337,7 @@ class EmptyValueSerializationTest(
                 arrayOf(SetPenColorBrick::class.simpleName, SetPenColorBrick(), "Set (pen color code: (#000000));\n"),
                 arrayOf(ClearBackgroundBrick::class.simpleName, ClearBackgroundBrick(), "Clear;\n"),
                 arrayOf(StampBrick::class.simpleName, StampBrick(), "Stamp;\n"),
-                arrayOf(ReportBrick::class.simpleName, ReportBrick(), "Report (value: (0));\n"),
+                arrayOf(ReportBrick::class.simpleName, ReportBrick(), "Return (value: (0));\n"),
                 arrayOf(SetVariableBrick::class.simpleName, SetVariableBrick(), "Set (variable: (), value: (0));\n"),
                 arrayOf(ChangeVariableBrick::class.simpleName, ChangeVariableBrick(), "Change (variable: (), value: (0));\n"),
                 arrayOf(HideTextBrick::class.simpleName, HideTextBrick(), "Hide (variable: ());\n"),

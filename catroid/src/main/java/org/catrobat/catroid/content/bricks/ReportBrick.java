@@ -30,7 +30,7 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
-@CatrobatLanguageBrick(command = "Report")
+@CatrobatLanguageBrick(command = "Return")
 public class ReportBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
