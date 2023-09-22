@@ -39,6 +39,7 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import org.catrobat.catroid.R
@@ -131,9 +132,11 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 import java.io.File
 
 @Suppress("LargeClass")
+@RunWith(AndroidJUnit4::class)
 class SpinnerSerializationTest {
     companion object {
         val TEST_LANGUAGES: Array<String> = arrayOf("en-GB", "de", "hi")
