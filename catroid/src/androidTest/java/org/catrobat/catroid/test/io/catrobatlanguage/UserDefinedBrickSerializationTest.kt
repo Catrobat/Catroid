@@ -44,7 +44,7 @@ import java.util.Random
 @RunWith(AndroidJUnit4::class)
 class UserDefinedBrickSerializationTest {
     @Test
-    fun testFibonnaci() {
+    fun testFibonacci() {
         val userDefinedBrick = UserDefinedBrick()
         userDefinedBrick.addLabel("fibonacci")
         userDefinedBrick.addInput("n")
