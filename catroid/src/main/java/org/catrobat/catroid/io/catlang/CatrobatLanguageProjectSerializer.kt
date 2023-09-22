@@ -53,10 +53,12 @@ class CatrobatLanguageProjectSerializer(private val project: Project) {
     }
 
     private fun serializeMetadata() {
+        val metadata = project.xmlHeaderMetadata
+
         programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_1)}Metadata {")
         programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Description: ${CatrobatLanguageUtils.getEscapedString(project.description)}")
-        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Catrobat version: ${Constants.CURRENT_CATROBAT_LANGUAGE_VERSION}")
-        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Catrobat app version: ???")
+        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Catrobat version: ${CatrobatLanguageUtils.getEscapedString("${Constants.CURRENT_CATROBAT_LANGUAGE_VERSION}")}")
+        programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Catrobat app version: ${CatrobatLanguageUtils.getEscapedString(metadata.applicationVersion)}")
         programString.appendLine(level1IndentionLevelEnd)
     }
 
@@ -99,7 +101,10 @@ class CatrobatLanguageProjectSerializer(private val project: Project) {
             programString.appendLine(level2IndentionLevelEnd)
 
             for (sprite in scene.spriteList) {
-                programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Actor ${CatrobatLanguageUtils.getEscapedString(sprite.name)} {")
+                if (sprite == scene.backgroundSprite) {
+                    continue
+                }
+                programString.appendLine("${CatrobatLanguageUtils.getIndention(IndentionLevel.Level_2)}Actor or object ${CatrobatLanguageUtils.getEscapedString(sprite.name)} {")
                 serializeSprite(sprite)
                 programString.appendLine(level2IndentionLevelEnd)
             }
