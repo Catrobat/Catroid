@@ -402,10 +402,6 @@ public class Project implements Serializable {
 		return xmlHeader.getScreenMode();
 	}
 
-	public XmlHeader getXmlHeaderMetadata() {
-		return xmlHeader;
-	}
-
 	public void setScreenMode(ScreenModes screenMode) {
 		xmlHeader.setScreenMode(screenMode);
 	}
