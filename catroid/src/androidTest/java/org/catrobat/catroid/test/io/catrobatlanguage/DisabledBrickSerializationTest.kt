@@ -86,20 +86,20 @@ class DisabledBrickSerializationTest {
         baseActivityTestRule.launchActivity()
 
         val serialzedProject = startBrick.serializeToCatrobatLanguage(0)
-        Assert.assertEquals(
-            "Wrong serialization of disabled brick",
-            "When condition becomes true (condition: ('1 < 2')) {\n" +
-                "  Forever {\n" +
-                "    Set (variable: (\"var1\"), value: (10));\n" +
-                "    If (condition: ('true')) {\n" +
-                "      Broadcast (message: ('test'));\n" +
-                "    } else {\n" +
-                "      Repeat until (condition: ('\"var1\" == 5')) {\n" +
-                "        Set (variable: (\"var1\"), value: ('\"var1\" + 1'));\n" +
-                "      }\n" +
-                "    }\n" +
-                "  }\n" +
-                "}\n",
+        Assert.assertEquals("Wrong serialization of disabled brick", """
+                |When condition becomes true (condition: ('1 < 2')) {
+                |  Forever {
+                |    Set (variable: ("var1"), value: (10));
+                |    If (condition: ('true')) {
+                |      Broadcast (message: ('test'));
+                |    } else {
+                |      Repeat until (condition: ('"var1" == 5')) {
+                |        Set (variable: ("var1"), value: ('"var1" + 1'));
+                |      }
+                |    }
+                |  }
+                |}
+                |""".trimMargin(),
             serialzedProject
         )
 
@@ -109,20 +109,20 @@ class DisabledBrickSerializationTest {
             .perform(ViewActions.click())
 
         val commentedOutProject = startBrick.serializeToCatrobatLanguage(0)
-        Assert.assertEquals(
-            "Wrong serialization of disabled brick",
-            "// When condition becomes true (condition: ('1 < 2')) {\n" +
-                "  // Forever {\n" +
-                "    // Set (variable: (\"var1\"), value: (10));\n" +
-                "    // If (condition: ('true')) {\n" +
-                "      // Broadcast (message: ('test'));\n" +
-                "    // } else {\n" +
-                "      // Repeat until (condition: ('\"var1\" == 5')) {\n" +
-                "        // Set (variable: (\"var1\"), value: ('\"var1\" + 1'));\n" +
-                "      // }\n" +
-                "    // }\n" +
-                "  // }\n" +
-                "// }\n",
+        Assert.assertEquals("Wrong serialization of disabled brick", """
+                |// When condition becomes true (condition: ('1 < 2')) {
+                |  // Forever {
+                |    // Set (variable: ("var1"), value: (10));
+                |    // If (condition: ('true')) {
+                |      // Broadcast (message: ('test'));
+                |    // } else {
+                |      // Repeat until (condition: ('"var1" == 5')) {
+                |        // Set (variable: ("var1"), value: ('"var1" + 1'));
+                |      // }
+                |    // }
+                |  // }
+                |// }
+                |""".trimMargin(),
             commentedOutProject
         )
 
@@ -132,20 +132,20 @@ class DisabledBrickSerializationTest {
             .perform(ViewActions.click())
 
         val partialCommentedOut = startBrick.serializeToCatrobatLanguage(0)
-        Assert.assertEquals(
-            "Wrong serialization of disabled brick",
-            "// When condition becomes true (condition: ('1 < 2')) {\n" +
-                "  // Forever {\n" +
-                "    // Set (variable: (\"var1\"), value: (10));\n" +
-                "    If (condition: ('true')) {\n" +
-                "      Broadcast (message: ('test'));\n" +
-                "    } else {\n" +
-                "      Repeat until (condition: ('\"var1\" == 5')) {\n" +
-                "        Set (variable: (\"var1\"), value: ('\"var1\" + 1'));\n" +
-                "      }\n" +
-                "    }\n" +
-                "  // }\n" +
-                "// }\n",
+        Assert.assertEquals("Wrong serialization of disabled brick", """
+                |// When condition becomes true (condition: ('1 < 2')) {
+                |  // Forever {
+                |    // Set (variable: ("var1"), value: (10));
+                |    If (condition: ('true')) {
+                |      Broadcast (message: ('test'));
+                |    } else {
+                |      Repeat until (condition: ('"var1" == 5')) {
+                |        Set (variable: ("var1"), value: ('"var1" + 1'));
+                |      }
+                |    }
+                |  // }
+                |// }
+                |""".trimMargin(),
             partialCommentedOut
         )
     }
