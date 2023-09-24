@@ -29,7 +29,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
 import androidx.annotation.NonNull;
 

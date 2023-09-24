@@ -121,7 +121,7 @@ import org.catrobat.catroid.content.bricks.brickspinner.PickableMusicalInstrumen
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
-import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule

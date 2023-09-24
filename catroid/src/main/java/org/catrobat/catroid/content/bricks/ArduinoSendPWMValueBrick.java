@@ -28,7 +28,7 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Operators;
-import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
 @CatrobatLanguageBrick(command = "Set Arduino")
 public class ArduinoSendPWMValueBrick extends FormulaBrick {

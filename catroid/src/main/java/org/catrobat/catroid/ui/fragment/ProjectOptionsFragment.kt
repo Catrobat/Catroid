@@ -58,7 +58,7 @@ import org.catrobat.catroid.io.asynctask.loadProject
 import org.catrobat.catroid.io.asynctask.ProjectSaver
 import org.catrobat.catroid.io.asynctask.renameProject
 import org.catrobat.catroid.io.asynctask.saveProjectSerial
-import org.catrobat.catroid.io.catlang.CatrobatLanguageProjectSerializer
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageProjectSerializer
 import org.catrobat.catroid.merge.NewProjectNameTextWatcher
 import org.catrobat.catroid.ui.BottomBar.hideBottomBar
 import org.catrobat.catroid.ui.PROJECT_DIR

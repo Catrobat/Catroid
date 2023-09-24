@@ -29,7 +29,7 @@ import android.widget.CheckBox;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.io.catlang.CatrobatLanguageSerializable;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageSerializable;
 
 import java.io.Serializable;
 import java.lang.annotation.Retention;

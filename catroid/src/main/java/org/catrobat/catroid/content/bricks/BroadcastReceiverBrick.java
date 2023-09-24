@@ -27,9 +27,9 @@ import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
-import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
-import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
 import java.util.List;
 

@@ -32,10 +32,10 @@ import android.widget.Spinner;
 import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
-import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
-import org.catrobat.catroid.io.catlang.CatrobatLanguageSerializable;
-import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageSerializable;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 
 import java.util.ArrayList;

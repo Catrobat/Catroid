@@ -23,8 +23,8 @@
 
 package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
-import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
 import java.util.List;
 

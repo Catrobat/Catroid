@@ -216,7 +216,7 @@ import org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick
 import org.catrobat.catroid.content.bricks.WriteVariableToFileBrick
 import org.catrobat.catroid.content.bricks.ZigZagStitchBrick
-import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith

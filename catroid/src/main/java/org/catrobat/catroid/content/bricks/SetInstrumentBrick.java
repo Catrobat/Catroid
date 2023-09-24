@@ -32,7 +32,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.PickableMusicalInstrument;
-import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
 import java.util.ArrayList;
 import java.util.List;

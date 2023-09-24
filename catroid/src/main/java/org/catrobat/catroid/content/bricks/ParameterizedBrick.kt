@@ -34,8 +34,8 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
-import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes
-import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
 import org.catrobat.catroid.utils.LoopUtil.checkLoopBrickForLoopDelay
 
 @CatrobatLanguageBrick(command = "For each tuple of items in selected lists stored in variables with the same name, assert value equals to the expected item of reference list")

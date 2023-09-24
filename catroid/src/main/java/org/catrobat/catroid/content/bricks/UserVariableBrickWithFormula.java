@@ -35,7 +35,7 @@ import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.content.bricks.brickspinner.UserVariableBrickTextInputDialogBuilder;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 
 import java.util.ArrayList;

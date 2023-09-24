@@ -26,7 +26,7 @@ import android.content.Context;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

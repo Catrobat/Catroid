@@ -27,7 +27,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
 import androidx.annotation.NonNull;
 

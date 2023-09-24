@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.io.catlang
+package org.catrobat.catroid.io.catlang.serializer
 
 import android.content.Context
 import android.content.res.Configuration

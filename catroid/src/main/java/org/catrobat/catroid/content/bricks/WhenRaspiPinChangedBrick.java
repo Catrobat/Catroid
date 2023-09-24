@@ -34,8 +34,8 @@ import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
-import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
-import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageAttributes;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.ArrayList;

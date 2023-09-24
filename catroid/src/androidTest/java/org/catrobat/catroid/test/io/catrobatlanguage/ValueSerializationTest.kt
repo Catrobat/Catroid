@@ -166,7 +166,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement
 import org.catrobat.catroid.formulaeditor.Operators
 import org.catrobat.catroid.formulaeditor.Sensors
 import org.catrobat.catroid.formulaeditor.UserVariable
-import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test

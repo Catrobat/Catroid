@@ -36,7 +36,7 @@ import org.catrobat.catroid.content.WhenScript
 import org.catrobat.catroid.content.bricks.NoteBrick
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
-import org.catrobat.catroid.io.catlang.CatrobatLanguageProjectSerializer
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageProjectSerializer
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith

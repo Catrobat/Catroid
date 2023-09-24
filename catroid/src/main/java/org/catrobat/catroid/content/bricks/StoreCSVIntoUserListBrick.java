@@ -27,7 +27,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 
 @CatrobatLanguageBrick(command = "Store column of comma-separated values to list")
 public class StoreCSVIntoUserListBrick extends UserListBrick {

@@ -32,7 +32,7 @@ import org.apache.commons.lang3.NotImplementedException
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
-import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
 
 @CatrobatLanguageBrick(command = "Turn")
 class ParticleEffectAdditivityBrick(fadeType: Int = ON) : BrickBaseType(), UpdateableSpinnerBrick {

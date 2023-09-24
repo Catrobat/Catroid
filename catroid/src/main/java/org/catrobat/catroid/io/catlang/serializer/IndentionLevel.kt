@@ -21,8 +21,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.io.catlang
+package org.catrobat.catroid.io.catlang.serializer
 
-interface CatrobatLanguageAttributes {
-    fun appendCatrobatLanguageArguments(brickBuilder: StringBuilder)
+enum class IndentionLevel {
+    Level_1,
+    Level_2,
+    Level_3,
+    Level_4
 }

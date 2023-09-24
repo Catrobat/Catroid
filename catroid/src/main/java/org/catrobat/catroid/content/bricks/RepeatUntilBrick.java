@@ -30,7 +30,7 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick;
 import org.catrobat.catroid.utils.LoopUtil;
 
 import java.util.ArrayList;

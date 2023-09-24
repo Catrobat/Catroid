@@ -29,7 +29,7 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.BrickField
 import org.catrobat.catroid.formulaeditor.Formula
-import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick
+import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageBrick
 
 @CatrobatLanguageBrick(command = "Touch at position and slide to position in seconds")
 class TouchAndSlideBrick() : VisualPlacementBrick() {
