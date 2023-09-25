@@ -21,6 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+@file:JvmName("ProjectUtils")
+
 package org.catrobat.catroid.ui
 
 import android.content.Context
@@ -162,8 +164,4 @@ fun showWarningForSuspiciousBricksOnce(context: Context) {
             .putString(projectUrl, projectUrl)
             .apply()
     }
-}
-
-enum class SuspiciousBricks {
-    NO_SUSPICIOUS_BRICKS, CONTAINS_WEB_ACCESS_BRICK, CONTAINS_START_LISTENING_AND_WEB_ACCESS_BRICKS
 }
