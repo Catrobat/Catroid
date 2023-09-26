@@ -445,7 +445,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
         val itemList: MutableList<ProjectData?> = ArrayList()
         itemList.add(item)
         val hiddenMenuOptionIds = intArrayOf(
-            R.id.new_group, R.id.new_scene, R.id.show_details,
+            R.id.new_scene, R.id.show_details,
             R.id.from_library, R.id.from_local, R.id.edit
         )
         val popupMenu = UiUtils.createSettingsPopUpMenu(

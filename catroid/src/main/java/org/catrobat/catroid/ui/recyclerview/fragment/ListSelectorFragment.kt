@@ -274,7 +274,6 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
         val hiddenOptionMenuIds = intArrayOf(
                 R.id.backpack,
                 R.id.copy,
-                R.id.new_group,
                 R.id.new_scene,
                 R.id.show_details,
                 R.id.project_options,

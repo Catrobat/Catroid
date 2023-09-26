@@ -29,8 +29,6 @@ import android.content.Intent
 import android.net.Uri
 import android.preference.PreferenceManager
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import androidx.annotation.PluralsRes
 import androidx.appcompat.app.AppCompatActivity
@@ -128,20 +126,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         touchHelper.attachToRecyclerView(recyclerView)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.new_group).isVisible = true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.new_group -> showNewGroupDialog()
-            else -> super.onOptionsItemSelected(item)
-        }
-        return true
-    }
-
-    private fun showNewGroupDialog() {
+    fun showNewGroupDialog() {
         val builder = TextInputDialog.Builder(requireContext())
         val uniqueNameProvider = UniqueNameProvider()
         builder.setHint(getString(R.string.sprite_group_name_label))
@@ -348,7 +333,7 @@ class SpriteListFragment : RecyclerViewFragment<Sprite?>() {
         val itemList = mutableListOf<Sprite?>()
         itemList.add(item)
         val hiddenMenuOptionIds = mutableListOf<Int>(
-            R.id.new_group, R.id.project_options, R.id.new_scene, R.id.show_details, R.id.edit
+            R.id.project_options, R.id.new_scene, R.id.show_details, R.id.edit
         )
         if (item is GroupSprite) {
             hiddenMenuOptionIds.add(R.id.backpack)

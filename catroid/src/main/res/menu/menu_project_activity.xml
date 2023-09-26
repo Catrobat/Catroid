@@ -53,11 +53,6 @@
         android:icon="@drawable/ic_edit"
         app:showAsAction="never" />
     <item
-        android:id="@+id/new_group"
-        android:title="@string/new_group"
-        app:showAsAction="never"
-        android:icon="@drawable/ic_placeholder"/>
-    <item
         android:id="@+id/new_scene"
         android:title="@string/new_scene"
         app:showAsAction="never"

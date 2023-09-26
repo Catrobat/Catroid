@@ -245,7 +245,6 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
         val itemList: MutableList<LookData?> = ArrayList()
         itemList.add(item)
         val hiddenOptionMenuIds = intArrayOf(
-            R.id.new_group,
             R.id.new_scene,
             R.id.show_details,
             R.id.project_options,

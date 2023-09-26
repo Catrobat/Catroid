@@ -198,7 +198,6 @@ class SoundListFragment : RecyclerViewFragment<SoundInfo?>() {
         itemList.add(item)
 
         val hiddenOptionMenuIds = intArrayOf(
-            R.id.new_group,
             R.id.new_scene,
             R.id.show_details,
             R.id.project_options,

@@ -40,6 +40,8 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
@@ -104,9 +106,10 @@ public class SpriteListFragmentActivityRecreateRegressionTest {
 	@Flaky
 	@Test
 	public void testActivityRecreateNewGroupDialog() {
-		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		onView(ViewMatchers.withId(R.id.button_add))
+				.perform(ViewActions.click());
 
-		onView(withText(R.string.new_group))
+		onView(withText(R.string.add_new_group))
 				.perform(click());
 
 		onView(withText(R.string.new_group)).inRoot(isDialog())
