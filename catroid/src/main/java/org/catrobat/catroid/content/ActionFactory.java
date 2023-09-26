@@ -1588,9 +1588,18 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createStartListeningAction(UserVariable userVariable) {
-		StartListeningAction action = Actions.action(StartListeningAction.class);
-		action.setUserVariable(userVariable);
-		return action;
+		// This is a fix to get the StartListeningBrick to work on Huawei Phones,
+		// can be changed once HMS is fully implemented and working
+		// As soon as this is the case, remove the if-statement and only use the else-branch
+		if (get(MobileServiceAvailability.class).isHmsAvailable(ProjectManager.getInstance().getApplicationContext())) {
+			AskSpeechAction action = Actions.action(AskSpeechAction.class);
+			action.setAnswerVariable(userVariable);
+			return action;
+		} else {
+			StartListeningAction action = Actions.action(StartListeningAction.class);
+			action.setUserVariable(userVariable);
+			return action;
+		}
 	}
 
 	public Action createSetListeningLanguageAction(String listeningLanguageTag) {
