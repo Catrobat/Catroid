@@ -1,5 +1,4 @@
 lexer grammar CatrobatLanguageLexer;
-import CatrobatFormulaLexer;
 
 options {
 	language = Java;
@@ -36,16 +35,38 @@ BRICK_NAME: LETTER+ (' ' LETTER+)* -> mode(BRICK_MODE);
 
 mode BRICK_MODE;
 BRICK_MODE_WS: [ \t\r\n]+ -> skip;
-BRICK_BRACKET_OPEN: '(' -> mode(PARAM_MODE);
-BRICK_BRACKET_CLOSE: ')' -> mode(DEFAULT_MODE);
+BRICK_MODE_BRACKET_OPEN: '(' -> mode(PARAM_MODE);
+//BRICK_BRACKET_CLOSE: ')' -> mode(DEFAULT_MODE);
 SEMICOLON: ';' -> mode(DEFAULT_MODE);
 
 mode PARAM_MODE;
 PARAM_MODE_WS: [ \t\r\n]+ -> skip;
-PARAM_BRACKET_OPEN: '(' -> pushMode(FORMULA_MODE);
-PARAM_BRACKET_CLOSE: ')' -> mode(BRICK_MODE);
-PARAM_NAME: LETTER+ (' ' LETTER+)*;
-PARAM_COLON: ':';
+PARAM_MODE_BRACKET_OPEN: '(' -> pushMode(FORMULA_MODE);
+PARAM_MODE_BRACKET_CLOSE: ')' -> mode(BRICK_MODE);
+PARAM_MODE_NAME: LETTER+ (' ' LETTER+)*;
+PARAM_MODE_COLON: ':';
+PARAM_SEPARATOR: ',';
 
+mode FORMULA_MODE;
+FORMULA_MODE_WS: [ \t\r\n]+ -> skip;
+FORMULA_MODE_BRACKET_CLOSE: ')' -> popMode;
 
+// ignore everything except for the brackets
+FORMULA_MODE_BRACKET_OPEN: '(' -> pushMode(FORMULA_MODE);
+FORMULA_MODE_ANYTHING: ~('\'' | '"' | '[' | ']' | '(' | ')')+ -> skip;
+FORMULA_MODE_APOSTROPHE: '\'' -> pushMode(ESCAPE_MODE_APOSTROPHE);
+FORMULA_MODE_QUOTE: '"' -> pushMode(ESCAPE_MODE_QUOTE);
+FORMULA_MODE_UDB_PARAM: '[' -> pushMode(ESCAPE_UDB_PARAM_MODE);
+
+mode ESCAPE_MODE_APOSTROPHE;
+ESCAPE_MODE_APOSTROPHE_ANYTHING: ~('\'')+ -> skip;
+ESCAPE_MODE_APOSTROPHE_CHAR: '\'' -> popMode;
+
+mode ESCAPE_MODE_QUOTE;
+ESCAPE_MODE_QUOTE_ANYTHING: ~('"')+ -> skip;
+ESCAPE_MODE_QUOTE_CHAR: '"' -> popMode;
+
+mode ESCAPE_UDB_PARAM_MODE;
+ESCAPE_UDB_PARAM_MODE_ANYTHING: ~(']')+ -> skip;
+ESCAPE_UDB_PARAM_MODE_CHAR: ']' -> popMode;
 
