@@ -113,13 +113,15 @@ class ImportObjectIntoProjectFromContextMenuTest {
     private fun initProjectVars() {
         spriteToBeImported = importedProject!!.defaultScene.spriteList[1]
 
-        spriteToBeImported!!.userVariableList.add(UserVariable("localVariable1"))
-        spriteToBeImported!!.userVariableList.add(UserVariable("localVariable2"))
-        spriteToBeImported!!.userVariableList.add(UserVariable("localList1", true))
-        spriteToBeImported!!.userVariableList.add(UserVariable("localList2", true))
+        spriteToBeImported!!.addUserVariable(UserVariable("localVariable1"))
+        spriteToBeImported!!.addUserVariable(UserVariable("localVariable2"))
+        spriteToBeImported!!.addUserVariable(UserVariable("localList1", true))
+        spriteToBeImported!!.addUserVariable(UserVariable("localList2", true))
 
         importedProject!!.addUserVariable(UserVariable("globalVariable1", 1))
         importedProject!!.addUserVariable(UserVariable("globalVariable2", 2))
+
+        // TODO: It seems that, when the list is stored, the 'isList' value is set to false.
         importedProject!!.addUserVariable(UserVariable("globalList1", true))
         importedProject!!.addUserVariable(UserVariable("globalList2", true))
 
@@ -139,10 +141,10 @@ class ImportObjectIntoProjectFromContextMenuTest {
     fun importProjectWithoutConflictsTest() {
         val anySpriteOfProject = project!!.defaultScene.spriteList[1]
 
-        anySpriteOfProject.userVariableList.add(UserVariable("localVariable3"))
-        anySpriteOfProject.userVariableList.add(UserVariable("localVariable4"))
-        anySpriteOfProject.userVariableList.add(UserVariable("localList3", true))
-        anySpriteOfProject.userVariableList.add(UserVariable("localList4", true))
+        anySpriteOfProject.addUserVariable(UserVariable("localVariable3"))
+        anySpriteOfProject.addUserVariable(UserVariable("localVariable4"))
+        anySpriteOfProject.addUserVariable(UserVariable("localList3", true))
+        anySpriteOfProject.addUserVariable(UserVariable("localList4", true))
 
         project!!.addUserVariable(UserVariable("globalVariable3", 1))
         project!!.addUserVariable(UserVariable("globalVariable4", 2))
@@ -189,6 +191,7 @@ class ImportObjectIntoProjectFromContextMenuTest {
             importedLocalListList + oldLocalListList
         )
 
+        // TODO: failed because assert(2, 4); only test that fails
         Assert.assertEquals(
             project!!.userLists.size,
             importedGlobalListList + oldGlobalListList
@@ -221,8 +224,8 @@ class ImportObjectIntoProjectFromContextMenuTest {
 
         anySpriteOfProject.userVariableList.add(UserVariable("localVariable3"))
         anySpriteOfProject.userVariableList.add(UserVariable("localVariable4"))
-        anySpriteOfProject.userVariableList.add(UserVariable("localList3"))
-        anySpriteOfProject.userVariableList.add(UserVariable("localList4"))
+        anySpriteOfProject.userVariableList.add(UserVariable("localList3", true))
+        anySpriteOfProject.userVariableList.add(UserVariable("localList4", true))
 
         project!!.addUserVariable(UserVariable("localVariable2", 1))
         project!!.addUserVariable(UserVariable("globalVariable4", 2))

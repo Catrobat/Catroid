@@ -29,6 +29,7 @@ import org.w3c.dom.Element
 import org.w3c.dom.Node
 
 const val MULTIPLAYER_VARIABLE_LIST_STRING = "programMultiplayerVariableList"
+const val OBJECT_REFERENCE_INDEX = 6
 
 class DataContainerInterpreter(
     private val outcomeDocument: Document
@@ -55,7 +56,8 @@ class DataContainerInterpreter(
     }
 
     private fun moveVariablesFromDataContainerIntoLocalVariableList(
-        userVariableReference: Node, objectList: Node
+        userVariableReference: Node,
+        objectList: Node
     ) {
         val objectIndex = correctDataContainerVariableReference(userVariableReference as Element)
         val spriteObject = objectList.childNodes.item(objectIndex)
@@ -75,7 +77,7 @@ class DataContainerInterpreter(
     private fun correctDataContainerVariableReference(userVariableReference: Element): Int {
         val reference = userVariableReference.getAttribute(REFERENCE)
         val referenceParts = reference.split("/").toMutableList()
-        val objectIndexString = referenceParts[6].filter { it.isDigit() }
+        val objectIndexString = referenceParts[OBJECT_REFERENCE_INDEX].filter { it.isDigit() }
         var objectIndex = 0
         if (objectIndexString != "") {
             objectIndex = objectIndexString.toInt() - 1
@@ -107,8 +109,7 @@ class DataContainerInterpreter(
             spriteObject.removeChild(userDefinedBrickListNode)
             spriteObject.appendChild(localVariableList)
             spriteObject.appendChild(userDefinedBrickListNode)
-        }
-        else {
+        } else {
             spriteObject.appendChild(localVariableList)
         }
     }

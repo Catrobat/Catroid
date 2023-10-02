@@ -30,20 +30,21 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
 
-import java.util.LinkedList;
-
 public class PhysicsLook extends Look {
 
 	public static final float SCALE_FACTOR_ACCURACY = 10000.0f;
+	private static final int FULL_CIRCLE_DEGREE = 360;
+	private static final int HALF_CIRCLE_DEGREE = 180;
 
 	private final PhysicsObject physicsObject;
-	private final PhysicsObjectStateHandler physicsObjectStateHandler = new PhysicsObjectStateHandler();
+	private final PhysicsObjectStateHandler physicsObjectStateHandler;
 
 	private boolean isFlippedByAction = false;
 
 	public PhysicsLook(Sprite sprite, PhysicsWorld physicsWorld) {
 		super(sprite);
 		physicsObject = physicsWorld.getPhysicsObject(sprite);
+		physicsObjectStateHandler = new PhysicsObjectStateHandler(this, physicsObject);
 	}
 
 	@Override
@@ -70,15 +71,15 @@ public class PhysicsLook extends Look {
 
 	@Override
 	public void setXInUserInterfaceDimensionUnit(float x) {
-		setX(x - getWidth() / 2f);
+		setX(applyCenterOffset(x, true, false));
 	}
 
 	@Override
 	public void setPosition(float x, float y) {
 		super.setPosition(x, y);
 		if (null != physicsObject) {
-			physicsObject.setX(x + getWidth() / 2.0f);
-			physicsObject.setY(y + getHeight() / 2.0f);
+			physicsObject.setX(applyCenterOffset(x, true, true));
+			physicsObject.setY(applyCenterOffset(y, false, true));
 		}
 	}
 
@@ -86,7 +87,7 @@ public class PhysicsLook extends Look {
 	public void setX(float x) {
 		super.setX(x);
 		if (null != physicsObject) {
-			physicsObject.setX(x + getWidth() / 2.0f);
+			physicsObject.setX(applyCenterOffset(x, true, true));
 		}
 	}
 
@@ -94,7 +95,7 @@ public class PhysicsLook extends Look {
 	public void setY(float y) {
 		super.setY(y);
 		if (null != physicsObject) {
-			physicsObject.setY(y + getHeight() / 2.0f);
+			physicsObject.setY(applyCenterOffset(y, false, true));
 		}
 	}
 
@@ -129,56 +130,55 @@ public class PhysicsLook extends Look {
 		return breakDownCatroidAngle(motionDirection);
 	}
 
-	private boolean isLookMoving() {
-		return physicsObject.getVelocity().y != 0.0 || physicsObject.getVelocity().x != 0.0;
-	}
-
 	@Override
 	public float getLookDirectionInUserInterfaceDimensionUnit() {
 		float direction = 0f;
 		switch (getRotationMode()) {
-			case ROTATION_STYLE_NONE : direction = DEGREE_UI_OFFSET;
-			break;
-			case ROTATION_STYLE_ALL_AROUND : direction = convertStageAngleToCatroidAngle(getRotation());
-			break;
-			case ROTATION_STYLE_LEFT_RIGHT_ONLY : direction =
-					isFlipped() ? -DEGREE_UI_OFFSET : DEGREE_UI_OFFSET;
+			case ROTATION_STYLE_NONE:
+				direction = DEGREE_UI_OFFSET;
+				break;
+			case ROTATION_STYLE_ALL_AROUND:
+				direction = convertStageAngleToCatroidAngle(getRotation());
+				break;
+			case ROTATION_STYLE_LEFT_RIGHT_ONLY:
+				direction = isFlipped() ? -DEGREE_UI_OFFSET : DEGREE_UI_OFFSET;
+				break;
 		}
 		return direction;
 	}
 
 	@Override
 	public float getX() {
-		float x = physicsObject.getX() - getWidth() / 2.0f;
+		float x = applyCenterOffset(physicsObject.getX(), true, false);
 		super.setX(x);
 		return x;
 	}
 
 	@Override
 	public float getY() {
-		float y = physicsObject.getY() - getHeight() / 2.0f;
+		float y = applyCenterOffset(physicsObject.getY(), false, false);
 		super.setY(y);
 		return y;
 	}
 
 	@Override
 	public float getRotation() {
-		super.setRotation((physicsObject.getDirection() % 360));
+		super.setRotation((physicsObject.getDirection() % FULL_CIRCLE_DEGREE));
 		float rotation = super.getRotation();
-		float realRotation = physicsObject.getDirection() % 360;
+		float realRotation = physicsObject.getDirection() % FULL_CIRCLE_DEGREE;
 		if (realRotation < 0) {
-			realRotation += 360;
+			realRotation += FULL_CIRCLE_DEGREE;
 		}
 		switch (super.getRotationMode()) {
-			case ROTATION_STYLE_LEFT_RIGHT_ONLY:
+			case ROTATION_STYLE_NONE:
 				super.setRotation(0f);
-				flipLookDataIfNeeded(realRotation);
 				break;
 			case ROTATION_STYLE_ALL_AROUND:
 				super.setRotation(rotation);
 				break;
-			case ROTATION_STYLE_NONE:
+			case ROTATION_STYLE_LEFT_RIGHT_ONLY:
 				super.setRotation(0f);
+				flipLookDataIfNeeded(realRotation);
 				break;
 		}
 		return super.getRotation();
@@ -188,7 +188,7 @@ public class PhysicsLook extends Look {
 	public void setRotation(float degrees) {
 		super.setRotation(degrees);
 		if (null != physicsObject) {
-			physicsObject.setDirection(super.getRotation() % 360);
+			physicsObject.setDirection(super.getRotation() % FULL_CIRCLE_DEGREE);
 		}
 	}
 
@@ -208,7 +208,10 @@ public class PhysicsLook extends Look {
 
 		int scaleXComp = Math.round(scaleX * SCALE_FACTOR_ACCURACY);
 		int scaleYComp = Math.round(scaleY * SCALE_FACTOR_ACCURACY);
-		if (scaleXComp == Math.round(oldScales.x * SCALE_FACTOR_ACCURACY) && scaleYComp == Math.round(oldScales.y * SCALE_FACTOR_ACCURACY)) {
+
+		int oldScaleXComp = Math.round(oldScales.x * SCALE_FACTOR_ACCURACY);
+		int oldScaleYComp = Math.round(oldScales.y * SCALE_FACTOR_ACCURACY);
+		if (scaleXComp == oldScaleXComp && scaleYComp == oldScaleYComp) {
 			return;
 		}
 
@@ -221,47 +224,20 @@ public class PhysicsLook extends Look {
 		}
 	}
 
-	public void updatePhysicsObjectState(boolean record) {
-		physicsObjectStateHandler.update(record);
-	}
-
-	private void flipLookDataIfNeeded(float realRotation) {
-		boolean orientedRight = realRotation > 180 || realRotation == 0;
-		boolean orientedLeft = realRotation <= 180 && realRotation != 0;
-		boolean isLookDataFlipped = isFlipped();
-		if (isFlippedByAction) {
-			isLookDataFlipped = !isLookDataFlipped;
-		}
-		if (lookData != null && ((isLookDataFlipped && orientedRight) || (!isLookDataFlipped && orientedLeft))) {
-			lookData.getTextureRegion().flip(true, false);
-		}
-	}
-
-	public void updateFlippedByAction() {
-		isFlippedByAction = !isFlippedByAction;
-	}
-
-	public void setFlippedByDegree(float degree) {
-		float direction = getMotionDirectionInUserInterfaceDimensionUnit();
-		float newDirection = (degree + direction) % 360;
-		setFlippedByDirection(newDirection);
-	}
-
-	public void setFlippedByDirection(float newDirection) {
-		newDirection %= 360;
-		if (newDirection < 0) {
-			newDirection += 360;
-		}
-		float direction = getMotionDirectionInUserInterfaceDimensionUnit() - Look.DEGREE_UI_OFFSET;
-		if ((direction >= 0 && direction <= 180) != (newDirection >= 0 && newDirection <= 180)) {
-			updateFlippedByAction();
-		}
-	}
-
 	@Override
 	public void setLookVisible(boolean visible) {
 		super.setLookVisible(visible);
 		physicsObjectStateHandler.update(true);
+	}
+
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
+		physicsObjectStateHandler.checkHangup(true);
+		super.draw(batch, parentAlpha);
+	}
+
+	public void updatePhysicsObjectState(boolean record) {
+		physicsObjectStateHandler.update(record);
 	}
 
 	public boolean isHangedUp() {
@@ -280,180 +256,49 @@ public class PhysicsLook extends Look {
 		physicsObjectStateHandler.deactivateGlideTo();
 	}
 
-	private interface PhysicsObjectStateCondition {
-		boolean isTrue();
+	public void updateFlippedByAction() {
+		isFlippedByAction = !isFlippedByAction;
 	}
 
-	@Override
-	public void draw(Batch batch, float parentAlpha) {
-		physicsObjectStateHandler.checkHangup(true);
-		super.draw(batch, parentAlpha);
+	public void setFlippedByDegree(float degree) {
+		float direction = getMotionDirectionInUserInterfaceDimensionUnit();
+		float newDirection = (degree + direction) % FULL_CIRCLE_DEGREE;
+		setFlippedByDirection(newDirection);
 	}
 
-	private class PhysicsObjectStateHandler {
-
-		private LinkedList<PhysicsObjectStateCondition> hangupConditions = new LinkedList<>();
-		private LinkedList<PhysicsObjectStateCondition> nonCollidingConditions = new LinkedList<>();
-		private LinkedList<PhysicsObjectStateCondition> fixConditions = new LinkedList<>();
-
-		private PhysicsObjectStateCondition positionCondition;
-		private PhysicsObjectStateCondition visibleCondition;
-		private PhysicsObjectStateCondition transparencyCondition;
-		private PhysicsObjectStateCondition glideToCondition;
-
-		private boolean glideToIsActive = false;
-		private boolean hangedUp = false;
-		private boolean fixed = false;
-		private boolean nonColliding = false;
-
-		PhysicsObjectStateHandler() {
-
-			positionCondition = new PhysicsObjectStateCondition() {
-				@Override
-				public boolean isTrue() {
-					return isOutsideActiveArea();
-				}
-
-				private boolean isOutsideActiveArea() {
-					return isXOutsideActiveArea() || isYOutsideActiveArea();
-				}
-
-				private boolean isXOutsideActiveArea() {
-					return Math.abs(PhysicsWorldConverter.convertBox2dToNormalCoordinate(physicsObject.getMassCenter().x))
-							- physicsObject.getCircumference() > PhysicsWorld.activeArea.x / 2.0f;
-				}
-
-				private boolean isYOutsideActiveArea() {
-					return Math.abs(PhysicsWorldConverter.convertBox2dToNormalCoordinate(physicsObject.getMassCenter().y))
-							- physicsObject.getCircumference() > PhysicsWorld.activeArea.y / 2.0f;
-				}
-			};
-
-			visibleCondition = new PhysicsObjectStateCondition() {
-				@Override
-				public boolean isTrue() {
-					return !isLookVisible();
-				}
-			};
-
-			transparencyCondition = new PhysicsObjectStateCondition() {
-				@Override
-				public boolean isTrue() {
-					return alpha == 0.0;
-				}
-			};
-
-			glideToCondition = new PhysicsObjectStateCondition() {
-				@Override
-				public boolean isTrue() {
-					return glideToIsActive;
-				}
-			};
-
-			hangupConditions.add(transparencyCondition);
-			hangupConditions.add(positionCondition);
-			hangupConditions.add(visibleCondition);
-			hangupConditions.add(glideToCondition);
-
-			nonCollidingConditions.add(transparencyCondition);
-			nonCollidingConditions.add(positionCondition);
-			nonCollidingConditions.add(visibleCondition);
-
-			fixConditions.add(glideToCondition);
+	public void setFlippedByDirection(float newDirection) {
+		newDirection %= FULL_CIRCLE_DEGREE;
+		if (newDirection < 0) {
+			newDirection += FULL_CIRCLE_DEGREE;
 		}
-
-		private boolean checkHangup(boolean record) {
-			boolean shouldBeHangedUp = false;
-			for (PhysicsObjectStateCondition hangupCondition : hangupConditions) {
-				if (hangupCondition.isTrue()) {
-					shouldBeHangedUp = true;
-					break;
-				}
-			}
-			boolean deactivateHangup = hangedUp && !shouldBeHangedUp;
-			boolean activateHangup = !hangedUp && shouldBeHangedUp;
-			if (deactivateHangup) {
-				physicsObject.deactivateHangup(record);
-			} else if (activateHangup) {
-				physicsObject.activateHangup();
-			}
-			hangedUp = shouldBeHangedUp;
-			return hangedUp;
+		float direction = getMotionDirectionInUserInterfaceDimensionUnit() - Look.DEGREE_UI_OFFSET;
+		if ((direction >= 0 && direction <= HALF_CIRCLE_DEGREE) != (newDirection >= 0 && newDirection <= HALF_CIRCLE_DEGREE)) {
+			updateFlippedByAction();
 		}
+	}
 
-		private boolean checkNonColliding(boolean record) {
-			boolean shouldBeNonColliding = false;
-			for (PhysicsObjectStateCondition nonCollideCondition : nonCollidingConditions) {
-				if (nonCollideCondition.isTrue()) {
-					shouldBeNonColliding = true;
-					break;
-				}
-			}
-			boolean deactivateNonColliding = nonColliding && !shouldBeNonColliding;
-			boolean activateNonColliding = !nonColliding && shouldBeNonColliding;
-			if (deactivateNonColliding) {
-				physicsObject.deactivateNonColliding(record, false);
-			} else if (activateNonColliding) {
-				physicsObject.activateNonColliding(false);
-			}
-			nonColliding = shouldBeNonColliding;
-			return nonColliding;
+	private boolean isLookMoving() {
+		return physicsObject.getVelocity().y != 0.0 || physicsObject.getVelocity().x != 0.0;
+	}
+
+	private void flipLookDataIfNeeded(float realRotation) {
+		boolean orientedRight = realRotation > HALF_CIRCLE_DEGREE || realRotation == 0;
+		boolean orientedLeft = realRotation <= HALF_CIRCLE_DEGREE && realRotation != 0;
+		boolean isLookDataFlipped = isFlipped();
+		if (isFlippedByAction) {
+			isLookDataFlipped = !isLookDataFlipped;
 		}
-
-		private boolean checkFixed(boolean record) {
-			boolean shouldBeFixed = false;
-			for (PhysicsObjectStateCondition fixedCondition : fixConditions) {
-				if (fixedCondition.isTrue()) {
-					shouldBeFixed = true;
-					break;
-				}
-			}
-			boolean deactivateFix = fixed && !shouldBeFixed;
-			boolean activateFix = !fixed && shouldBeFixed;
-			if (deactivateFix) {
-				physicsObject.deactivateFixed(record);
-			} else if (activateFix) {
-				physicsObject.activateFixed();
-			}
-			fixed = shouldBeFixed;
-			return fixed;
+		if (lookData != null && ((isLookDataFlipped && orientedRight) || (!isLookDataFlipped && orientedLeft))) {
+			lookData.getTextureRegion().flip(true, false);
 		}
+	}
 
-		public void update(boolean record) {
-			checkHangup(record);
-			checkNonColliding(record);
-			checkFixed(record);
-			updateRotation();
-		}
-
-		public void updateRotation() {
-			// Needs to be set for all styles except ALL_AROUND, since the rotation would be
-			// off otherwise
-			boolean rotationCondition = !(getRotationMode() == ROTATION_STYLE_ALL_AROUND);
-			physicsObject.setFixedRotation(rotationCondition);
-		}
-
-		public void activateGlideTo() {
-			if (!glideToIsActive) {
-				glideToIsActive = true;
-				updatePhysicsObjectState(true);
-			}
-		}
-
-		public void deactivateGlideTo() {
-			glideToIsActive = false;
-			updatePhysicsObjectState(true);
-		}
-
-		public boolean isHangedUp() {
-			return hangedUp;
-		}
-
-		public void setNonColliding(boolean nonColliding) {
-			if (this.nonColliding != nonColliding) {
-				this.nonColliding = nonColliding;
-				update(true);
-			}
+	private float applyCenterOffset(float coordinate, boolean isXCoordinate, boolean add) {
+		float screenParam = isXCoordinate ? getWidth() : getHeight();
+		if (add) {
+			return coordinate + screenParam / 2.0f;
+		} else {
+			return coordinate - screenParam / 2.0f;
 		}
 	}
 }

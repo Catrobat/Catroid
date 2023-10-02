@@ -139,12 +139,14 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_function_max_parameter, R.string.formula_editor_function_min_parameter,
 			R.string.formula_editor_function_if_then_else_parameter);
 	private static final List<Integer> STRING_FUNCTIONS = asList(R.string.formula_editor_function_length,
-			R.string.formula_editor_function_letter, R.string.formula_editor_function_join,
+			R.string.formula_editor_function_letter,
+			R.string.formula_editor_function_subtext, R.string.formula_editor_function_join,
 			R.string.formula_editor_function_join3, R.string.formula_editor_function_regex,
 			R.string.formula_editor_function_regex_assistant,
 			R.string.formula_editor_function_flatten);
 	private static final List<Integer> STRING_PARAMS = asList(R.string.formula_editor_function_length_parameter,
 			R.string.formula_editor_function_letter_parameter,
+			R.string.formula_editor_function_subtext_parameter,
 			R.string.formula_editor_function_join_parameter,
 			R.string.formula_editor_function_join3_parameter,
 			R.string.formula_editor_function_regex_parameter,

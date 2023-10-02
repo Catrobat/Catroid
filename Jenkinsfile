@@ -65,6 +65,23 @@ pipeline {
         booleanParam name: 'INCLUDE_HUAWEI_FILES', defaultValue: false, description: 'Embed any huawei files that are needed'
         string name: 'DEBUG_LABEL', defaultValue: '', description: 'For debugging when entered will be used as label to decide on which slaves the jobs will run.'
         string name: 'DOCKER_LABEL', defaultValue: '', description: 'When entered will be used as label for docker catrobat/catroid-android image to build'
+        separator(name: "Build with Paintroid",
+                separatorStyle: "border-width: 0",
+                sectionHeaderStyle: """
+				background-color: #ffff00;
+				text-align: center;
+				padding: 4px;
+				color: #000000;
+				font-size: 20px;
+				font-weight: normal;
+				font-family: 'Orienta', sans-serif;
+				letter-spacing: 1px;
+				font-style: italic;
+			""")
+        booleanParam name: 'BUILD_WITH_PAINTROID', defaultValue: true, description: 'Builds ' +
+                'catroid with paintroid develop or specified branch'
+        string name: 'PAINTROID_BRANCH', defaultValue: 'develop', description: 'The branch which ' +
+                'to build paintroid with, when BUILD_WITH_PAINTROID is enabled.'
         separator(name: "TEST_STAGES", sectionHeader: "Test Stages - CAUTION: The PR needs to be rebuild again with all test stages enabled before Code Review!!",
                 separatorStyle: "border-width: 0",
                 sectionHeaderStyle: """
@@ -144,6 +161,29 @@ pipeline {
                                     renameApks("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
                                     archiveArtifacts '**/*.apk'
                                 }
+                            }
+                        }
+
+                        stage('Build with Paintroid') {
+                            when {
+                                expression {
+                                    params.BUILD_WITH_PAINTROID
+                                }
+                            }
+
+                            steps {
+                                sh 'rm -rf Paintroid; mkdir Paintroid'
+                                dir('Paintroid') {
+                                    git branch: params.PAINTROID_BRANCH, url: 'https://github' +
+                                            '.com/Catrobat/Paintroid.git'
+                                    sh "./gradlew assembleDebug"
+
+                                    sh 'rm -f ../catroid/src/main/libs/*.aar'
+                                    sh 'mv -f colorpicker/build/outputs/aar/colorpicker-debug.aar ../catroid/src/main/libs/colorpicker-LOCAL.aar'
+                                    sh 'mv -f Paintroid/build/outputs/aar/Paintroid-debug.aar ../catroid/src/main/libs/Paintroid-LOCAL.aar'
+
+                                    archiveArtifacts '../catroid/src/main/libs/colorpicker-LOCAL.aar'
+                                    archiveArtifacts '../catroid/src/main/libs/Paintroid-LOCAL.aar'}
                             }
                         }
 

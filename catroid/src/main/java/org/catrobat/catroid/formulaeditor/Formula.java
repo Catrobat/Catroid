@@ -44,6 +44,8 @@ public class Formula implements Serializable {
 
 	private transient InternFormula internFormula = null;
 
+	private boolean sceneFirstStart = false;
+
 	public Formula(FormulaElement formulaElement) {
 		formulaTree = formulaElement;
 		internFormula = new InternFormula(formulaTree.getInternTokenList());
@@ -137,7 +139,12 @@ public class Formula implements Serializable {
 
 	public Double interpretDouble(Scope scope) throws InterpretationException {
 		try {
-			return assertNotNaN(interpretDoubleInternal(scope));
+			if (sceneFirstStart) {
+				sceneFirstStart = false;
+				return 0.0;
+			} else {
+				return assertNotNaN(interpretDoubleInternal(scope));
+			}
 		} catch (ClassCastException | NumberFormatException exception) {
 			throw new InterpretationException("Couldn't interpret Formula.", exception);
 		}
@@ -261,5 +268,9 @@ public class Formula implements Serializable {
 
 	public interface StringProvider {
 		String getTrueOrFalse(Boolean value);
+	}
+
+	public void sceneFirstStart(boolean sceneFirstStart) {
+		this.sceneFirstStart = sceneFirstStart;
 	}
 }

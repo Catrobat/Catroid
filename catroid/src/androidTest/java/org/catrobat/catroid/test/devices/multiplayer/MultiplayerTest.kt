@@ -96,6 +96,14 @@ class MultiplayerTest {
         assertEquals(project.getMultiplayerVariable(MULTIVARIABLE_NAME).value, INITIAL_VALUE)
     }
 
+    @Test
+    fun testIsAlive() {
+        assertEquals(true, multiplayer?.isAlive)
+
+        multiplayer?.disconnect()
+        assertEquals(false, multiplayer?.isAlive)
+    }
+
     companion object {
         private val PROJECT_NAME = MultiplayerTest::class.simpleName
         private const val MULTIVARIABLE_NAME = "MultiVariable"

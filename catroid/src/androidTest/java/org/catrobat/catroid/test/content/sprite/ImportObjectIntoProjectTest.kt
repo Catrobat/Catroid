@@ -123,10 +123,10 @@ class ImportObjectIntoProjectTest {
     private fun initProjectVars() {
         spriteToBeImported = importedProject.defaultScene.spriteList[1]
 
-        spriteToBeImported!!.userVariableList.add(UserVariable("localVariable1"))
-        spriteToBeImported!!.userVariableList.add(UserVariable("localVariable2"))
-        spriteToBeImported!!.userVariableList.add(UserVariable("localList1", true))
-        spriteToBeImported!!.userVariableList.add(UserVariable("localList2", true))
+        spriteToBeImported!!.addUserVariable(UserVariable("localVariable1"))
+        spriteToBeImported!!.addUserVariable(UserVariable("localVariable2"))
+        spriteToBeImported!!.addUserVariable(UserVariable("localList1", true))
+        spriteToBeImported!!.addUserVariable(UserVariable("localList2", true))
 
         importedProject.addUserVariable(UserVariable("globalVariable1", 1))
         importedProject.addUserVariable(UserVariable("globalVariable2", 2))
@@ -148,10 +148,10 @@ class ImportObjectIntoProjectTest {
     @Test
     fun importProjectWithoutConflictsTest() {
         val anySpriteOfProject = project.defaultScene.spriteList[1]
-        anySpriteOfProject.userVariableList.add(UserVariable("localVariable3"))
-        anySpriteOfProject.userVariableList.add(UserVariable("localVariable4"))
-        anySpriteOfProject.userVariableList.add(UserVariable("localList3", true))
-        anySpriteOfProject.userVariableList.add(UserVariable("localList4", true))
+        anySpriteOfProject.addUserVariable(UserVariable("localVariable3"))
+        anySpriteOfProject.addUserVariable(UserVariable("localVariable4"))
+        anySpriteOfProject.addUserVariable(UserVariable("localList3", true))
+        anySpriteOfProject.addUserVariable(UserVariable("localList4", true))
 
         project.addUserVariable(UserVariable("globalVariable3", 1))
         project.addUserVariable(UserVariable("globalVariable4", 2))
@@ -174,10 +174,10 @@ class ImportObjectIntoProjectTest {
     @Test
     fun importProjectWithoutConflictsTestEqualLocalVariable() {
         val anySpriteOfProject = project.defaultScene.spriteList[1]
-        anySpriteOfProject.userVariableList.add(UserVariable("localVariable1"))
-        anySpriteOfProject.userVariableList.add(UserVariable("localVariable2"))
-        anySpriteOfProject.userVariableList.add(UserVariable("localList1", true))
-        anySpriteOfProject.userVariableList.add(UserVariable("localList2", true))
+        anySpriteOfProject.addUserVariable(UserVariable("localVariable1"))
+        anySpriteOfProject.addUserVariable(UserVariable("localVariable2"))
+        anySpriteOfProject.addUserVariable(UserVariable("localList1", true))
+        anySpriteOfProject.addUserVariable(UserVariable("localList2", true))
 
         project.addUserVariable(UserVariable("globalVariable3", 1))
         project.addUserVariable(UserVariable("globalVariable4", 2))
@@ -199,10 +199,10 @@ class ImportObjectIntoProjectTest {
     @Test
     fun importProjectWithoutConflictsTestEqualGlobalVariable() {
         val anySpriteOfProject = project.defaultScene.spriteList[1]
-        anySpriteOfProject.userVariableList.add(UserVariable("localVariable3"))
-        anySpriteOfProject.userVariableList.add(UserVariable("localVariable4"))
-        anySpriteOfProject.userVariableList.add(UserVariable("localList3", true))
-        anySpriteOfProject.userVariableList.add(UserVariable("localList4", true))
+        anySpriteOfProject.addUserVariable(UserVariable("localVariable3"))
+        anySpriteOfProject.addUserVariable(UserVariable("localVariable4"))
+        anySpriteOfProject.addUserVariable(UserVariable("localList3", true))
+        anySpriteOfProject.addUserVariable(UserVariable("localList4", true))
 
         project.addUserVariable(UserVariable("globalVariable1", 1))
         project.addUserVariable(UserVariable("globalVariable2", 2))
@@ -224,10 +224,10 @@ class ImportObjectIntoProjectTest {
     @Test
     fun abortImportWithConflictsTestLocalVar() {
         val anySpriteOfProject = project.defaultScene.spriteList[1]
-        anySpriteOfProject.userVariableList.add(UserVariable("globalVariable1")) // Conflicting var
-        anySpriteOfProject.userVariableList.add(UserVariable("localVariable4"))
-        anySpriteOfProject.userVariableList.add(UserVariable("localList3", true))
-        anySpriteOfProject.userVariableList.add(UserVariable("globalList1", true)) // Conflicting var
+        anySpriteOfProject.addUserVariable(UserVariable("globalVariable1")) // Conflicting var
+        anySpriteOfProject.addUserVariable(UserVariable("localVariable4"))
+        anySpriteOfProject.addUserVariable(UserVariable("localList3", true))
+        anySpriteOfProject.addUserVariable(UserVariable("globalList1", true)) // Conflicting var
 
         project.addUserVariable(UserVariable("globalVariable1", 1))
         project.addUserVariable(UserVariable("globalVariable2", 2))
@@ -246,10 +246,10 @@ class ImportObjectIntoProjectTest {
     @Test
     fun abortImportWithConflictsTestGlobalVar() {
         val anySpriteOfProject = project.defaultScene.spriteList[1]
-        anySpriteOfProject.userVariableList.add(UserVariable("localVariable3"))
-        anySpriteOfProject.userVariableList.add(UserVariable("localVariable4"))
-        anySpriteOfProject.userVariableList.add(UserVariable("localList3", true))
-        anySpriteOfProject.userVariableList.add(UserVariable("localList2", true))
+        anySpriteOfProject.addUserVariable(UserVariable("localVariable3"))
+        anySpriteOfProject.addUserVariable(UserVariable("localVariable4"))
+        anySpriteOfProject.addUserVariable(UserVariable("localList3", true))
+        anySpriteOfProject.addUserVariable(UserVariable("localList2", true))
 
         project.addUserVariable(UserVariable("globalVariable1", 1))
         project.addUserVariable(UserVariable("localVariable1", 2)) // Conflicting var
@@ -268,10 +268,10 @@ class ImportObjectIntoProjectTest {
     @Test
     fun rejectProjectImportDialogTest() {
         val anySpriteOfProject = project.defaultScene.spriteList[1]
-        anySpriteOfProject.userVariableList.add(UserVariable("localVariable3"))
-        anySpriteOfProject.userVariableList.add(UserVariable("localVariable4"))
-        anySpriteOfProject.userVariableList.add(UserVariable("localList3", true))
-        anySpriteOfProject.userVariableList.add(UserVariable("localList2", true))
+        anySpriteOfProject.addUserVariable(UserVariable("localVariable3"))
+        anySpriteOfProject.addUserVariable(UserVariable("localVariable4"))
+        anySpriteOfProject.addUserVariable(UserVariable("localList3", true))
+        anySpriteOfProject.addUserVariable(UserVariable("localList2", true))
 
         project.addUserVariable(UserVariable("globalVariable1", 1))
         project.addUserVariable(UserVariable("localVariable1", 2)) // Conflicting var

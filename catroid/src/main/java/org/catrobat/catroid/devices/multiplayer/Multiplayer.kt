@@ -104,7 +104,7 @@ class Multiplayer : MultiplayerInterface {
         }
     }
 
-    override fun isAlive(): Boolean = false
+    override fun isAlive(): Boolean = !(inputStream == null || outputStream == null)
 
     override fun getBluetoothDeviceUUID(): UUID = MULTIPLAYER_UUID
 
@@ -123,7 +123,7 @@ class Multiplayer : MultiplayerInterface {
                         }
                     } catch (exception: IOException) {
                         Log.d(TAG, "Input stream was disconnected", exception)
-                        inputStream = null
+                        disconnect()
                         break
                     }
                 }
@@ -147,7 +147,7 @@ class Multiplayer : MultiplayerInterface {
             outputStream?.write(SerializationUtils.serialize(message))
         } catch (exception: IOException) {
             Log.d(TAG, "Error occurred when sending data", exception)
-            outputStream = null
+            disconnect()
         }
     }
 

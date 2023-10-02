@@ -42,12 +42,15 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.embroidery.RunningStitch;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
@@ -367,10 +370,51 @@ public class Sprite implements Nameable, Serializable {
 		for (Script script : scriptList) {
 			if (script instanceof WhenConditionScript) {
 				WhenConditionBrick conditionBrick = (WhenConditionBrick) script.getScriptBrick();
-				Formula condition = conditionBrick.getFormulaWithBrickField(Brick.BrickField.IF_CONDITION);
-				conditionScriptTriggers.add(new ConditionScriptTrigger(condition));
+				Formula formula = conditionBrick.getFormulaWithBrickField(Brick.BrickField.IF_CONDITION);
+				ConditionScriptTrigger conditionScriptTrigger = new ConditionScriptTrigger(formula);
+
+				if (waitBeforeCheckingCollision(formula)) {
+					conditionScriptTrigger.updateSceneFirstStart();
+				}
+				conditionScriptTriggers.add(conditionScriptTrigger);
 			}
 		}
+	}
+
+	public void resetConditionScriptTriggers() {
+		for (ConditionScriptTrigger conditionScriptTrigger : conditionScriptTriggers) {
+			conditionScriptTrigger.resetStartTimeIfSceneRestarted();
+		}
+	}
+
+	public void initIfConditionBrickTriggers() {
+		for (Script script : scriptList) {
+			if (!script.getBrickList().isEmpty()) {
+				Brick brick = script.getBrickList().get(0);
+
+				if (brick instanceof IfThenLogicBeginBrick) {
+					for (Formula formula : ((IfThenLogicBeginBrick) brick).getFormulas()) {
+						if (waitBeforeCheckingCollision(formula)) {
+							formula.sceneFirstStart(true);
+						}
+					}
+				} else if (brick instanceof IfLogicBeginBrick) {
+					for (Formula formula : ((IfLogicBeginBrick) brick).getFormulas()) {
+						if (waitBeforeCheckingCollision(formula)) {
+							formula.sceneFirstStart(true);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	boolean waitBeforeCheckingCollision(Formula formula) {
+		boolean wait = false;
+		if (formula.getRoot() != null) {
+			wait = formula.getRoot().getElementType() == FormulaElement.ElementType.COLLISION_FORMULA;
+		}
+		return wait;
 	}
 
 	void evaluateConditionScriptTriggers() {
