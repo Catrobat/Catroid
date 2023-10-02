@@ -57,9 +57,9 @@ public class ProjectUntilLanguageVersion0999 implements Serializable {
 		project.setXmlHeader(getXmlHeader());
 		project.getSettings().addAll(getSettings());
 
-		project.getUserVariables().addAll(getUserVariables());
+		project.getUserVariableList().addAll(getUserVariables());
 		project.getMultiplayerVariables().addAll(getMultiplayerVariables());
-		project.getUserLists().addAll(getUserLists());
+		project.getUserVariableList().addAll(getUserLists());
 
 		for (SceneUntilLanguageVersion0999 legacyScene : getSceneList()) {
 			Scene scene = new Scene(legacyScene.getName(), project);

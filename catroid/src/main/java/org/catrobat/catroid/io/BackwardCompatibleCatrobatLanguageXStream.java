@@ -180,6 +180,7 @@ import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
+import org.catrobat.catroid.io.oldUserListInterpreter.OldUserListInterpreter;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

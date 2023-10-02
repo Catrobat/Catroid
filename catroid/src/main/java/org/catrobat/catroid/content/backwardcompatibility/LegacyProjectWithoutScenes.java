@@ -66,8 +66,8 @@ public class LegacyProjectWithoutScenes implements Serializable {
 		project.setXmlHeader(getXmlHeader());
 		project.getSettings().addAll(getSettings());
 
-		project.getUserVariables().addAll(getProjectUserVariables());
-		project.getUserLists().addAll(getProjectUserLists());
+		project.getUserVariableList().addAll(getProjectUserVariables());
+		project.getUserVariableList().addAll(getProjectUserLists());
 
 		for (Sprite sprite : getSpriteList()) {
 			sprite.getUserVariables().addAll(getSpriteUserVariables(sprite));

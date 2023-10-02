@@ -78,7 +78,7 @@ class ImportProjectHelper(
         newProject?.let {
             for (userVariable in it.userVariables) {
                 if (!currentScene?.project?.userVariables!!.contains(userVariable)) {
-                    currentScene?.project?.userVariables?.add(userVariable)
+                    currentScene?.project?.userVariableList?.add(userVariable)
                 }
             }
         }

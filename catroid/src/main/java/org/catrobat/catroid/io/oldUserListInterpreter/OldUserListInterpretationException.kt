@@ -21,6 +21,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.io
+package org.catrobat.catroid.io.oldUserListInterpreter
 
 class OldUserListInterpretationException(message: String) : Exception(message)
