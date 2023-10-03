@@ -135,7 +135,7 @@ pipeline {
 				letter-spacing: 1px;
 				font-style: italic;
 			""")
-        booleanParam name: 'BUILD_WITH_PAINTROID', defaultValue: true, description: 'Builds ' +
+        booleanParam name: 'BUILD_WITH_PAINTROID', defaultValue: false, description: 'Builds ' +
                 'catroid with paintroid develop or specified branch'
         string name: 'PAINTROID_BRANCH', defaultValue: 'develop', description: 'The branch which ' +
                 'to build paintroid with, when BUILD_WITH_PAINTROID is enabled.'

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,7 +39,7 @@ public class WhenBounceOffScript extends Script {
 	}
 
 	public WhenBounceOffScript(String spriteToBounceOffName) {
-		if(spriteToBounceOffName == null) {
+		if (spriteToBounceOffName == null) {
 			this.spriteToBounceOffName = "";
 		} else {
 			this.spriteToBounceOffName = spriteToBounceOffName;
@@ -55,14 +55,14 @@ public class WhenBounceOffScript extends Script {
 	}
 
 	public String getSpriteToBounceOffName() {
-		if(spriteToBounceOffName.isEmpty()) {
+		if (spriteToBounceOffName.isEmpty()) {
 			return null;
 		}
 		return spriteToBounceOffName;
 	}
 
 	public void setSpriteToBounceOffName(String spriteToCollideWithName) {
-		if(spriteToCollideWithName == null) {
+		if (spriteToCollideWithName == null) {
 			this.spriteToBounceOffName = "";
 		} else {
 			this.spriteToBounceOffName = spriteToCollideWithName;
@@ -71,7 +71,7 @@ public class WhenBounceOffScript extends Script {
 	}
 
 	public void updateSpriteToCollideWith(Scene scene) {
-		if(!spriteToBounceOffName.isEmpty()){
+		if (!spriteToBounceOffName.isEmpty()) {
 			spriteToBounceOff = scene.getSprite(spriteToBounceOffName);
 			if (spriteToBounceOff == null) {
 				spriteToBounceOffName = "";
