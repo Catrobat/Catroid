@@ -619,7 +619,7 @@ public final class InternFormulaUtils {
 			InternFormula.stackStatusBrackets =
 					InternFormula.StackStatusBrackets.FUNCTION_PARAMETERS_BRACKET_OPEN_STACK_NOT_EMPTY;
 		}
-		return stack.empty();
+		return stack.isEmpty();
 	}
 
 	private static boolean swapBrackets(List<InternToken> internFormula, int firstBracketIndex,
