@@ -42,6 +42,7 @@ import org.mockito.Mockito.verify
 
 @RunWith(Parameterized::class)
 class BluetoothMultiplayerActionTest(
+    private val name: String,
     private val userVariable: UserVariable,
     private val expectedValue: Int
 ) {
