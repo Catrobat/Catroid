@@ -106,7 +106,7 @@ class WarningForWebAccessBricksDownloadedProjectTest {
     @Test
     fun showWarningForStartListeningBrickAndWebAccessBrick() {
         createDownloadedProjectWithBrick("showWarningForStartListeningBrickAndWebAccessBrick",
-             listOf(WebRequestBrick(), StartListeningBrick()))
+            listOf(WebRequestBrick(), StartListeningBrick()))
         onView(withText(R.string.security_warning_dialog_msg))
             .check(matches(isDisplayed()))
         onView(withText(R.string.ok)).perform(click())
@@ -115,7 +115,7 @@ class WarningForWebAccessBricksDownloadedProjectTest {
     @Test
     fun showWarningForStartListeningBrickAndBackgroundRequestBrick() {
         createDownloadedProjectWithBrick("showWarningForStartListeningBrickAndBackgroundRequestBrick",
-             listOf(BackgroundRequestBrick(), StartListeningBrick()))
+            listOf(BackgroundRequestBrick(), StartListeningBrick()))
         onView(withText(R.string.security_warning_dialog_msg))
             .check(matches(isDisplayed()))
         onView(withText(R.string.ok)).perform(click())
@@ -124,7 +124,7 @@ class WarningForWebAccessBricksDownloadedProjectTest {
     @Test
     fun showWarningForStartListeningBrickAndLookRequestBrick() {
         createDownloadedProjectWithBrick("showWarningForStartListeningBrickAndLookRequestBrick",
-             listOf(LookRequestBrick(), StartListeningBrick()))
+            listOf(LookRequestBrick(), StartListeningBrick()))
         onView(withText(R.string.security_warning_dialog_msg))
             .check(matches(isDisplayed()))
         onView(withText(R.string.ok)).perform(click())
@@ -133,7 +133,7 @@ class WarningForWebAccessBricksDownloadedProjectTest {
     @Test
     fun showWarningForStartListeningBrickAndOpenUrlBrick() {
         createDownloadedProjectWithBrick("showWarningForStartListeningBrickAndOpenUrlBrick",
-             listOf(OpenUrlBrick(), StartListeningBrick()))
+            listOf(OpenUrlBrick(), StartListeningBrick()))
         onView(withText(R.string.security_warning_dialog_msg))
             .check(matches(isDisplayed()))
         onView(withText(R.string.ok)).perform(click())
