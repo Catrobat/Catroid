@@ -26,13 +26,16 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Change color by")
 public class ChangeColorByNBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public ChangeColorByNBrick() {
-		addAllowedBrickField(BrickField.COLOR_CHANGE, R.id.brick_change_color_by_edit_text);
+		addAllowedBrickField(BrickField.COLOR_CHANGE, R.id.brick_change_color_by_edit_text,
+				"value");
 	}
 
 	public ChangeColorByNBrick(double changeColorValue) {

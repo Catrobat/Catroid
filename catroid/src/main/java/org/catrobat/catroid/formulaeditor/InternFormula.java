@@ -26,6 +26,7 @@ import android.content.Context;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -499,6 +500,11 @@ public class InternFormula {
 		externFormulaString = internToExternGenerator.getGeneratedExternFormulaString();
 		externInternRepresentationMapping = internToExternGenerator.getGeneratedExternInternRepresentationMapping();
 		return externFormulaString;
+	}
+
+	public String trimExternFormulaStringForCatrobatLanguage(Context context) {
+		Context englishContext = CatrobatLanguageUtils.getEnglishContextForFormulas(context);
+		return trimExternFormulaString(englishContext);
 	}
 
 	@VisibleForTesting

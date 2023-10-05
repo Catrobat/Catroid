@@ -26,11 +26,13 @@ package org.catrobat.catroid.content.bricks
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
+import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
 import java.util.UUID
 
-class ParameterizedEndBrick() : UserListBrick() {
+class ParameterizedEndBrick() : UserListBrick(), CatrobatLanguageAttributes {
     init {
-        addAllowedBrickField(Brick.BrickField.ASSERT_LOOP_ACTUAL, R.id.brick_param_assert_text)
+        addAllowedBrickField(Brick.BrickField.ASSERT_LOOP_ACTUAL, R.id.brick_param_assert_text, "value")
     }
 
     constructor(parent: ParameterizedBrick) : this() {
@@ -60,4 +62,13 @@ class ParameterizedEndBrick() : UserListBrick() {
     override fun getBrickID(): UUID = parent.brickID
 
     override fun getSpinnerId(): Int = R.id.brick_param_expected_list
+
+    override fun appendCatrobatLanguageArguments(brickBuilder: StringBuilder) {
+        super.appendCatrobatLanguageArguments(brickBuilder)
+        brickBuilder.append(", reference list: (")
+        if (userList != null) {
+            brickBuilder.append(CatrobatLanguageUtils.formatList(userList.name))
+        }
+        brickBuilder.append(")")
+    }
 }

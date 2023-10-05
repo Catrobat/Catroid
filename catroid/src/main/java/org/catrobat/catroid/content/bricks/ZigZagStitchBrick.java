@@ -26,14 +26,16 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Start zigzag stitch")
 public class ZigZagStitchBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public ZigZagStitchBrick() {
-		addAllowedBrickField(BrickField.ZIGZAG_EMBROIDERY_LENGTH, R.id.brick_zigzag_stitch_edit_text_length);
-		addAllowedBrickField(BrickField.ZIGZAG_EMBROIDERY_WIDTH, R.id.brick_zigzag_stitch_edit_text_width);
+		addAllowedBrickField(BrickField.ZIGZAG_EMBROIDERY_LENGTH, R.id.brick_zigzag_stitch_edit_text_length, "length");
+		addAllowedBrickField(BrickField.ZIGZAG_EMBROIDERY_WIDTH, R.id.brick_zigzag_stitch_edit_text_width, "width");
 	}
 
 	public ZigZagStitchBrick(Formula length, Formula width) {

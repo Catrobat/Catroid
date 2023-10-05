@@ -27,13 +27,15 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Delete item at")
 public class DeleteItemOfUserListBrick extends UserListBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public DeleteItemOfUserListBrick() {
-		addAllowedBrickField(BrickField.LIST_DELETE_ITEM, R.id.brick_delete_item_of_userlist_edit_text);
+		addAllowedBrickField(BrickField.LIST_DELETE_ITEM, R.id.brick_delete_item_of_userlist_edit_text, "position");
 	}
 
 	public DeleteItemOfUserListBrick(Integer item) {

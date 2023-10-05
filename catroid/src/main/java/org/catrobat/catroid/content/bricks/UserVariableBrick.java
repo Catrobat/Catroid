@@ -35,16 +35,18 @@ import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.content.bricks.brickspinner.UserVariableBrickTextInputDialogBuilder;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public abstract class UserVariableBrick extends BrickBaseType implements UserVariableBrickInterface {
+public abstract class UserVariableBrick extends BrickBaseType implements UserVariableBrickInterface, UpdateableSpinnerBrick {
 
 	protected UserVariable userVariable;
 
@@ -115,5 +117,32 @@ public abstract class UserVariableBrick extends BrickBaseType implements UserVar
 	@Override
 	public void onItemSelected(Integer spinnerId, @Nullable UserVariable item) {
 		userVariable = item;
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinnerId == getSpinnerId() && spinner != null) {
+			spinner.setSelection(itemName);
+		}
+	}
+
+	@NonNull
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
+
+		StringBuilder catrobatLanguage = new StringBuilder(60);
+		catrobatLanguage.append(indention);
+
+		if (commentedOut) {
+			catrobatLanguage.append("// ");
+		}
+
+		catrobatLanguage.append(getCatrobatLanguageCommand())
+				.append(" (variable: (");
+		if (userVariable != null) {
+			catrobatLanguage.append(CatrobatLanguageUtils.formatVariable(userVariable.getName()));
+		}
+		catrobatLanguage.append("));\n");
+		return catrobatLanguage.toString();
 	}
 }

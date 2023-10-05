@@ -25,7 +25,9 @@ package org.catrobat.catroid.content.bricks;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Switch AR.Drone 2.0 camera")
 public class DroneSwitchCameraBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;

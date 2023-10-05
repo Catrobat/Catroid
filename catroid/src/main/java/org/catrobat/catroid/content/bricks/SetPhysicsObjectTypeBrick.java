@@ -31,14 +31,19 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 import org.catrobat.catroid.physics.PhysicsObject;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import kotlin.Unit;
 
-public class SetPhysicsObjectTypeBrick extends BrickBaseType {
+@CatrobatLanguageBrick(command = "Set")
+public class SetPhysicsObjectTypeBrick extends BrickBaseType implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
+
+	private int selection;
 
 	private PhysicsObject.Type type = PhysicsObject.Type.NONE;
 
@@ -67,12 +72,17 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType {
 		spinner.setAdapter(createAdapter(context));
 		spinner.setSelection(type.ordinal());
 		spinner.setOnItemSelectedListener(new AdapterViewOnItemSelectedListenerImpl(position -> {
-			if (position < PhysicsObject.Type.values().length) {
-				type = PhysicsObject.Type.values()[position];
-			}
+			updateSelectedType(position);
 			return Unit.INSTANCE;
 		}));
 		return view;
+	}
+
+	private void updateSelectedType(int position) {
+		if (position < PhysicsObject.Type.values().length) {
+			type = PhysicsObject.Type.values()[position];
+			selection = position;
+		}
 	}
 
 	private ArrayAdapter<String> createAdapter(Context context) {
@@ -94,5 +104,30 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType {
 	@VisibleForTesting
 	public PhysicsObject.Type getType() {
 		return type;
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		updateSelectedType(itemIndex);
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		return getCatrobatLanguageSpinnerCall(indentionLevel, "motion type", selection);
+	}
+
+	@Override
+	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
+		switch (spinnerIndex) {
+			case 0:
+				return "moving and bouncing under gravity";
+			case 1:
+				return "not moving under gravity, but others bounce off you under gravity";
+			case 2:
+				return "not moving or bouncing under gravity (default)";
+			default:
+				throw new IllegalStateException("Invalid spinner selection: " + selection);
+		}
 	}
 }

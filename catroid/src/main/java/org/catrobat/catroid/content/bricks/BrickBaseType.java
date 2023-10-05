@@ -29,8 +29,13 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageSerializable;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 
 import java.util.ArrayList;
@@ -40,10 +45,11 @@ import java.util.UUID;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public abstract class BrickBaseType implements Brick {
+public abstract class BrickBaseType implements Brick, CatrobatLanguageSerializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -213,10 +219,8 @@ public abstract class BrickBaseType implements Brick {
 		if (!(this instanceof CompositeBrick)) {
 			return null;
 		}
-
 		List<Brick> foundBricks = new ArrayList<>();
 		CompositeBrick compositeBrick = (CompositeBrick) this;
-
 		for (Brick brick : compositeBrick.getNestedBricks()) {
 			if (brickIds.contains(brick.getBrickID())) {
 				foundBricks.add(brick);
@@ -226,12 +230,10 @@ public abstract class BrickBaseType implements Brick {
 					return tmpBricks;
 				}
 			}
-
 			if (brickIds.size() == foundBricks.size()) {
 				break;
 			}
 		}
-
 		if (foundBricks.size() == 0 && compositeBrick.hasSecondaryList()) {
 			for (Brick brick : compositeBrick.getSecondaryNestedBricks()) {
 				if (brickIds.contains(brick.getBrickID())) {
@@ -242,13 +244,11 @@ public abstract class BrickBaseType implements Brick {
 						return tmpBricks;
 					}
 				}
-
 				if (brickIds.size() == foundBricks.size()) {
 					break;
 				}
 			}
 		}
-
 		if (foundBricks.size() > 0) {
 			return foundBricks;
 		}
@@ -260,42 +260,50 @@ public abstract class BrickBaseType implements Brick {
 		if (!(this instanceof CompositeBrick)) {
 			return false;
 		}
-
 		CompositeBrick compositeBrick = (CompositeBrick) this;
-
 		if (getBrickID().equals(parentBrickId)) {
 			if (subStackIndex == 0) {
 				compositeBrick.getNestedBricks().addAll(0, bricksToAdd);
+				if (!bricksToAdd.isEmpty()) {
+					bricksToAdd.get(0).setParent(this);
+				}
 				return true;
 			} else if (subStackIndex == 1 && compositeBrick.hasSecondaryList()) {
 				compositeBrick.getSecondaryNestedBricks().addAll(0, bricksToAdd);
+				if (!bricksToAdd.isEmpty()) {
+					bricksToAdd.get(0).setParent(this);
+				}
 				return true;
 			}
 		}
-
 		int index = 0;
-
 		for (Brick brick : compositeBrick.getNestedBricks()) {
 			++index;
 			if (subStackIndex == -1
 					&& brick.getBrickID().equals(parentBrickId)) {
 				compositeBrick.getNestedBricks().addAll(index, bricksToAdd);
+				if (!bricksToAdd.isEmpty()) {
+					bricksToAdd.get(0).setParent(brick);
+				}
 			} else if (brick instanceof CompositeBrick
 					&& brick.addBrickInNestedBrick(parentBrickId, subStackIndex, bricksToAdd)) {
 				return true;
 			}
 		}
-
 		if (!compositeBrick.hasSecondaryList()) {
 			return false;
 		}
-
 		index = 0;
 		for (Brick brick : compositeBrick.getSecondaryNestedBricks()) {
 			++index;
 			if (subStackIndex == -1
 					&& brick.getBrickID().equals(parentBrickId)) {
 				compositeBrick.getSecondaryNestedBricks().addAll(index, bricksToAdd);
+
+				if (!bricksToAdd.isEmpty()) {
+					bricksToAdd.get(0).setParent(brick);
+				}
+
 				return true;
 			} else if (brick instanceof CompositeBrick
 					&& brick.addBrickInNestedBrick(parentBrickId, subStackIndex, bricksToAdd)) {
@@ -303,5 +311,123 @@ public abstract class BrickBaseType implements Brick {
 			}
 		}
 		return false;
+	}
+
+	protected String getCatrobatLanguageCommand() {
+		CatrobatLanguageBrick annotation =
+				this.getClass().getAnnotation(CatrobatLanguageBrick.class);
+		if (annotation != null) {
+			return annotation.command();
+		}
+		return null;
+	}
+
+	protected StringBuilder getCatrobatLanguageCall(int indentionLevel, boolean withBody) {
+		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
+
+		StringBuilder catrobatLanguage = new StringBuilder();
+		catrobatLanguage.append(indention);
+
+		if (commentedOut) {
+			catrobatLanguage.append("// ");
+		}
+
+		catrobatLanguage.append(getCatrobatLanguageCommand());
+
+		if (withBody) {
+			catrobatLanguage.append(" {\n");
+		} else {
+			catrobatLanguage.append(";\n");
+		}
+
+		return catrobatLanguage;
+	}
+
+	protected void getCatrobatLanguageBodyClose(StringBuilder catrobatLanguage, int indentionLevel) {
+		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
+		catrobatLanguage.append(indention);
+
+		if (commentedOut) {
+			catrobatLanguage.append("// ");
+		}
+
+		catrobatLanguage.append("}\n");
+	}
+
+	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
+		throw new NotImplementedException("This method needs to be overwritten in the brick classes");
+	}
+
+	protected String getCatrobatLanguageSpinnerCall(int indentionLevel,
+			String parameterName, int spinnerIndex) {
+		return getCatrobatLanguageParameterCall(indentionLevel, parameterName,
+				getCatrobatLanguageSpinnerValue(spinnerIndex));
+	}
+
+	protected String getCatrobatLanguageParameterCall(int indentionLevel, String parameterName,
+			String value) {
+		StringBuilder catrobatLanguage = new StringBuilder(100);
+		catrobatLanguage.append(CatrobatLanguageUtils.getIndention(indentionLevel));
+
+		if (commentedOut) {
+			catrobatLanguage.append("// ");
+		}
+
+		catrobatLanguage.append(getCatrobatLanguageCommand())
+				.append(" (")
+				.append(parameterName)
+				.append(": (")
+				.append(value)
+				.append("));\n");
+
+		return catrobatLanguage.toString();
+	}
+
+	protected StringBuilder getCatrobatLanguageParameterizedCall(int indentionLevel,
+			boolean withBody) {
+		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
+
+		StringBuilder catrobatLanguage = new StringBuilder(100);
+		catrobatLanguage.append(indention);
+
+		if (commentedOut) {
+			catrobatLanguage.append("// ");
+		}
+
+		catrobatLanguage.append(getCatrobatLanguageCommand());
+
+		if (this instanceof CatrobatLanguageAttributes) {
+			CatrobatLanguageAttributes brick = (CatrobatLanguageAttributes) this;
+			catrobatLanguage.append(" (");
+			brick.appendCatrobatLanguageArguments(catrobatLanguage);
+			catrobatLanguage.append(')');
+		}
+
+		if (withBody) {
+			catrobatLanguage.append(" {");
+		} else {
+			catrobatLanguage.append(';');
+		}
+
+		catrobatLanguage.append('\n');
+		return catrobatLanguage;
+	}
+
+	// TODO: remove from brick base type!
+	// or keep for only comment bricks?
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
+		StringBuilder catrobatLanguage = new StringBuilder(100);
+		catrobatLanguage.append(indention);
+
+		if (commentedOut) {
+			catrobatLanguage.append("// ");
+		}
+
+		catrobatLanguage.append(getCatrobatLanguageCommand())
+				.append(";\n");
+		return catrobatLanguage.toString();
 	}
 }

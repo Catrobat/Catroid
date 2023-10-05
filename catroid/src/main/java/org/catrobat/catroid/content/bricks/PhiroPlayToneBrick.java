@@ -32,10 +32,13 @@ import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
 import kotlin.Unit;
 
-public class PhiroPlayToneBrick extends FormulaBrick {
+@CatrobatLanguageBrick(command = "Play Phiro")
+public class PhiroPlayToneBrick extends FormulaBrick implements UpdateableSpinnerBrick, CatrobatLanguageAttributes {
 
 	private static final long serialVersionUID = 1L;
 
@@ -47,7 +50,7 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 
 	public PhiroPlayToneBrick() {
 		tone = Tone.DO.name();
-		addAllowedBrickField(BrickField.PHIRO_DURATION_IN_SECONDS, R.id.brick_phiro_play_tone_duration_edit_text);
+		addAllowedBrickField(BrickField.PHIRO_DURATION_IN_SECONDS, R.id.brick_phiro_play_tone_duration_edit_text, "seconds");
 	}
 
 	public PhiroPlayToneBrick(Tone toneEnum, int duration) {
@@ -98,5 +101,43 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 		sequence.addAction(sprite.getActionFactory()
 				.createDelayAction(sprite, sequence,
 						getFormulaWithBrickField(BrickField.PHIRO_DURATION_IN_SECONDS)));
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		Tone[] tones = Tone.values();
+		if (itemIndex >= 0 && itemIndex < tones.length) {
+			tone = tones[itemIndex].name();
+		}
+	}
+
+	@Override
+	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
+		switch (spinnerIndex) {
+			case 0:
+				return "do";
+			case 1:
+				return "re";
+			case 2:
+				return "mi";
+			case 3:
+				return "fa";
+			case 4:
+				return "so";
+			case 5:
+				return "la";
+			case 6:
+				return "ti";
+			default:
+				throw new IndexOutOfBoundsException("Invalid spinnerIndex");
+		}
+	}
+
+	@Override
+	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
+		brickBuilder.append("tone: (");
+		brickBuilder.append(this.getCatrobatLanguageSpinnerValue(Tone.valueOf(tone).ordinal()));
+		brickBuilder.append("), ");
+		super.appendCatrobatLanguageArguments(brickBuilder);
 	}
 }

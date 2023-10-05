@@ -30,17 +30,19 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 import org.catrobat.catroid.utils.ShowTextUtils;
 
 import static org.catrobat.catroid.common.Constants.THINK_BRICK;
 
+@CatrobatLanguageBrick(command = "Think text for seconds")
 public class ThinkForBubbleBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public ThinkForBubbleBrick() {
-		addAllowedBrickField(BrickField.STRING, R.id.brick_for_bubble_edit_text_text);
-		addAllowedBrickField(BrickField.DURATION_IN_SECONDS, R.id.brick_for_bubble_edit_text_duration);
+		addAllowedBrickField(BrickField.STRING, R.id.brick_for_bubble_edit_text_text, "text");
+		addAllowedBrickField(BrickField.DURATION_IN_SECONDS, R.id.brick_for_bubble_edit_text_duration, "seconds");
 	}
 
 	public ThinkForBubbleBrick(String text, float durationInSecondsValue) {

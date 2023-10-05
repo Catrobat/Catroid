@@ -29,15 +29,17 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Play EV3 tone")
 public class LegoEv3PlayToneBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public LegoEv3PlayToneBrick() {
-		addAllowedBrickField(BrickField.LEGO_EV3_FREQUENCY, R.id.brick_ev3_tone_freq_edit_text);
-		addAllowedBrickField(BrickField.LEGO_EV3_DURATION_IN_SECONDS, R.id.brick_ev3_tone_duration_edit_text);
-		addAllowedBrickField(BrickField.LEGO_EV3_VOLUME, R.id.brick_ev3_tone_volume_edit_text);
+		addAllowedBrickField(BrickField.LEGO_EV3_DURATION_IN_SECONDS, R.id.brick_ev3_tone_duration_edit_text, "seconds");
+		addAllowedBrickField(BrickField.LEGO_EV3_FREQUENCY, R.id.brick_ev3_tone_freq_edit_text, "frequency x100Hz");
+		addAllowedBrickField(BrickField.LEGO_EV3_VOLUME, R.id.brick_ev3_tone_volume_edit_text, "volume");
 	}
 
 	public LegoEv3PlayToneBrick(double frequencyValue, double durationValue, double volumeValue) {

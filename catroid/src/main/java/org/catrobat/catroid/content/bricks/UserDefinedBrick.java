@@ -23,7 +23,9 @@
 
 package org.catrobat.catroid.content.bricks;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.TextView;
@@ -32,10 +34,12 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.BrickLayout;
 import org.catrobat.catroid.ui.fragment.AddUserDataToUserDefinedBrickFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -47,12 +51,15 @@ import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
 import org.catrobat.catroid.userbrick.UserDefinedBrickLabel;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.UUID;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 import static org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType.INPUT;
 
@@ -336,5 +343,79 @@ public class UserDefinedBrick extends FormulaBrick {
 		updateUserDefinedBrickDataValues();
 		sequence.addAction(sprite.getActionFactory().createUserBrickAction(sprite, sequence,
 				getUserDefinedBrickInputs(), userDefinedBrickID));
+	}
+
+	public void showCatblocksFormulaEditor(String brickFieldName, FragmentManager fragmentManager, Activity activity) {
+		try {
+			Enumeration<Brick.FormulaField> formulaFields = formulaMap.keys();
+			while (formulaFields.hasMoreElements()) {
+				Brick.FormulaField formulaField = formulaFields.nextElement();
+				if (formulaField.toString().equals(brickFieldName)) {
+					FormulaEditorFragment.showCatblocksFragment(this, formulaField, fragmentManager, activity);
+					return;
+				}
+			}
+			FormulaEditorFragment.showCatblocksFragment(this, getDefaultBrickField(), fragmentManager, activity);
+		} catch (Exception exception) {
+			Log.e("", exception.getMessage(), exception);
+		}
+	}
+
+	private void addCatroabLanguageBrickName(StringBuilder catrobatLanguage) {
+		catrobatLanguage.append('`');
+		for (int i = 0; i < userDefinedBrickDataList.size(); i++) {
+			UserDefinedBrickData userDefinedBrickData = userDefinedBrickDataList.get(i);
+			if (userDefinedBrickData.isLabel()) {
+				catrobatLanguage.append(CatrobatLanguageUtils.formatUserDefinedBrickLabel(userDefinedBrickData.getName()));
+			} else {
+				catrobatLanguage.append(CatrobatLanguageUtils.formatUserDefinedBrickParameter(userDefinedBrickData.getName()));
+			}
+			if (i < userDefinedBrickDataList.size() - 1) {
+				catrobatLanguage.append(' ');
+			}
+		}
+		catrobatLanguage.append('`');
+	}
+
+	private void addCatrobatLanguageParameters(StringBuilder catrobatLanguage) {
+		boolean isFirstParameter = true;
+		for (UserDefinedBrickData userDefinedBrickData : userDefinedBrickDataList) {
+			if (userDefinedBrickData.isInput()) {
+				UserDefinedBrickInput input = (UserDefinedBrickInput) userDefinedBrickData;
+				if (isFirstParameter) {
+					isFirstParameter = false;
+				} else {
+					catrobatLanguage.append(", ");
+				}
+
+				String value = input.getValue().getTrimmedFormulaStringForCatrobatLanguage(CatroidApplication.getAppContext()).trim();
+				catrobatLanguage.append(CatrobatLanguageUtils.formatUserDefinedBrickParameter(input.getName()))
+						.append(": (")
+						.append(value)
+						.append(')');
+			}
+		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		if (isCallingBrick) {
+			String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
+			StringBuilder catrobatLanguage = new StringBuilder(60);
+			catrobatLanguage.append(indention);
+			if (isCommentedOut()) {
+				catrobatLanguage.append("// ");
+			}
+			addCatroabLanguageBrickName(catrobatLanguage);
+			catrobatLanguage.append(" (");
+			addCatrobatLanguageParameters(catrobatLanguage);
+			catrobatLanguage.append(");\n");
+			return catrobatLanguage.toString();
+		} else {
+			StringBuilder catrobatLanguage = new StringBuilder(20);
+			addCatroabLanguageBrickName(catrobatLanguage);
+			return catrobatLanguage.toString();
+		}
 	}
 }

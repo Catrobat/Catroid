@@ -29,16 +29,18 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 import org.catrobat.catroid.utils.ShowTextUtils;
 
 import static org.catrobat.catroid.common.Constants.THINK_BRICK;
 
+@CatrobatLanguageBrick(command = "Think")
 public class ThinkBubbleBrick extends FormulaBrick implements OnClickListener {
 
 	private static final long serialVersionUID = 1L;
 
 	public ThinkBubbleBrick() {
-		addAllowedBrickField(BrickField.STRING, R.id.brick_bubble_edit_text);
+		addAllowedBrickField(BrickField.STRING, R.id.brick_bubble_edit_text, "text");
 	}
 
 	public ThinkBubbleBrick(String text) {

@@ -31,21 +31,26 @@ import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import static org.catrobat.catroid.content.Look.ROTATION_STYLE_LEFT_RIGHT_ONLY;
 
+@CatrobatLanguageBrick(command = "Set")
 public class SetRotationStyleBrick extends BrickBaseType implements
-		BrickSpinner.OnItemSelectedListener<SetRotationStyleBrick.RotationStyleOption> {
+		BrickSpinner.OnItemSelectedListener<SetRotationStyleBrick.RotationStyleOption>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	@Look.RotationStyle
 	private int selection;
+
+	private transient BrickSpinner<RotationStyleOption> spinner;
 
 	public SetRotationStyleBrick() {
 	}
@@ -94,6 +99,33 @@ public class SetRotationStyleBrick extends BrickBaseType implements
 	@Override
 	public void onItemSelected(Integer spinnerId, @Nullable RotationStyleOption item) {
 		selection = item != null ? item.getRotationStyle() : 0;
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinner != null) {
+			spinner.setSelection(itemName);
+		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		return getCatrobatLanguageSpinnerCall(indentionLevel, "rotation style", selection);
+	}
+
+	@Override
+	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
+		switch (spinnerIndex) {
+			case ROTATION_STYLE_LEFT_RIGHT_ONLY:
+				return "left-right only";
+			case Look.ROTATION_STYLE_ALL_AROUND:
+				return "all-around";
+			case Look.ROTATION_STYLE_NONE:
+				return "don't rotate";
+			default:
+				throw new IllegalStateException("Invalid spinner selection: " + selection);
+		}
 	}
 
 	class RotationStyleOption implements Nameable {

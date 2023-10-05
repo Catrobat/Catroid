@@ -35,6 +35,8 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
@@ -42,18 +44,20 @@ import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterf
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+@CatrobatLanguageBrick(command = "Start sound and skip seconds")
 public class PlaySoundAtBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<SoundInfo>,
-		NewItemInterface<SoundInfo> {
+		NewItemInterface<SoundInfo>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 	protected SoundInfo sound;
 	private transient BrickSpinner<SoundInfo> spinner;
 
 	public PlaySoundAtBrick() {
-		addAllowedBrickField(BrickField.PLAY_SOUND_AT, R.id.brick_play_sound_at_edit_text);
+		addAllowedBrickField(BrickField.PLAY_SOUND_AT, R.id.brick_play_sound_at_edit_text, "seconds");
 	}
 
 	public PlaySoundAtBrick(double value) {
@@ -136,5 +140,31 @@ public class PlaySoundAtBrick extends FormulaBrick implements BrickSpinner.OnIte
 	public void addItem(SoundInfo item) {
 		spinner.add(item);
 		spinner.setSelection(item);
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinner != null) {
+			spinner.setSelection(itemName);
+		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		return getCatrobatLanguageParameterizedCall(indentionLevel, false).toString();
+	}
+
+	@Override
+	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
+		String soundName = "";
+		if (sound != null) {
+			soundName = CatrobatLanguageUtils.formatSoundName(sound.getName());
+		}
+		brickBuilder.append("sound: (");
+		brickBuilder.append(soundName);
+		brickBuilder.append("), ");
+
+		super.appendCatrobatLanguageArguments(brickBuilder);
 	}
 }

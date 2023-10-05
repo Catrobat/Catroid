@@ -31,10 +31,13 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+import androidx.annotation.NonNull;
 import kotlin.Unit;
 
-public class PhiroMotorStopBrick extends BrickBaseType {
+@CatrobatLanguageBrick(command = "Stop Phiro")
+public class PhiroMotorStopBrick extends BrickBaseType implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -83,5 +86,32 @@ public class PhiroMotorStopBrick extends BrickBaseType {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createPhiroMotorStopActionAction(Motor.valueOf(motor)));
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		Motor[] motors = Motor.values();
+		if (itemIndex >= 0 && itemIndex < motors.length) {
+			motor = motors[itemIndex].name();
+		}
+	}
+
+	private String getCatrobatLanguageMotor() {
+		switch (Motor.valueOf(motor)) {
+			case MOTOR_LEFT:
+				return "left";
+			case MOTOR_RIGHT:
+				return "right";
+			case MOTOR_BOTH:
+				return "both";
+			default:
+				throw new IllegalStateException("Motor not implemented");
+		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		return getCatrobatLanguageParameterCall(indentionLevel, "motor", getCatrobatLanguageMotor());
 	}
 }

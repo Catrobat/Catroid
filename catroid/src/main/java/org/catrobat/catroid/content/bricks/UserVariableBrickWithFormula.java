@@ -35,16 +35,18 @@ import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.content.bricks.brickspinner.UserVariableBrickTextInputDialogBuilder;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public abstract class UserVariableBrickWithFormula extends FormulaBrick implements UserVariableBrickInterface {
+public abstract class UserVariableBrickWithFormula extends FormulaBrick implements UserVariableBrickInterface, UpdateableSpinnerBrick {
 
 	protected UserVariable userVariable;
 
@@ -115,5 +117,57 @@ public abstract class UserVariableBrickWithFormula extends FormulaBrick implemen
 	@Override
 	public void onItemSelected(Integer spinnerId, @Nullable UserVariable item) {
 		userVariable = item;
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinnerId == getSpinnerId() && spinner != null) {
+			spinner.setSelection(itemName);
+		}
+	}
+
+	@NonNull
+	public String serializeToCatrobatLanguage(int indentionLevel, String name, boolean beforeParams, boolean withBody) {
+		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
+
+		StringBuilder catrobatLanguage = new StringBuilder(60);
+		catrobatLanguage.append(indention);
+
+		if (commentedOut) {
+			catrobatLanguage.append("// ");
+		}
+
+		catrobatLanguage.append(getCatrobatLanguageCommand())
+				.append(" (");
+
+		if (!beforeParams) {
+			appendCatrobatLanguageArguments(catrobatLanguage);
+			if (getFormulas().size() > 0) {
+				catrobatLanguage.append(", ");
+			}
+		}
+
+		catrobatLanguage.append(name)
+				.append(": (");
+		if (userVariable != null) {
+			catrobatLanguage.append(CatrobatLanguageUtils.formatVariable(userVariable.getName()));
+		}
+		catrobatLanguage.append(')');
+
+		if (beforeParams) {
+			catrobatLanguage.append(", ");
+			appendCatrobatLanguageArguments(catrobatLanguage);
+		}
+
+		catrobatLanguage.append(')');
+
+		if (withBody) {
+			catrobatLanguage.append(" {");
+		} else {
+			catrobatLanguage.append(';');
+		}
+
+		catrobatLanguage.append('\n');
+		return catrobatLanguage.toString();
 	}
 }

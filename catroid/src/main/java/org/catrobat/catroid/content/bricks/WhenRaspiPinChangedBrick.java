@@ -34,13 +34,16 @@ import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.ArrayList;
 
 import kotlin.Unit;
 
-public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType {
+@CatrobatLanguageBrick(command = "When Raspberry Pi pin changes to")
+public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType implements UpdateableSpinnerBrick, CatrobatLanguageAttributes {
 
 	private static final long serialVersionUID = 1L;
 
@@ -97,7 +100,6 @@ public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType {
 	}
 
 	private void setupValueSpinner(final Context context) {
-
 		final Spinner valueSpinner = view.findViewById(R.id.brick_raspi_when_valuespinner);
 
 		ArrayAdapter<String> valueAdapter = getValueSpinnerArrayAdapter(context);
@@ -137,5 +139,27 @@ public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (script != null) {
+			if (spinnerId == R.id.brick_raspi_when_pinspinner) {
+				script.setPin(itemName);
+			} else if (spinnerId == R.id.brick_raspi_when_valuespinner) {
+				script.setEventValue(BrickValues.RASPI_EVENTS[itemIndex]);
+			}
+		}
+	}
+
+	@Override
+	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
+		brickBuilder.append("pin: (");
+		brickBuilder.append(script.getPin() != null ? script.getPin() : "");
+		brickBuilder.append("), position: (");
+		if (script.getEventValue() != null) {
+			brickBuilder.append(script.getEventValue().equals(BrickValues.RASPI_EVENTS[0]) ? "high" : "low");
+		}
+		brickBuilder.append(')');
 	}
 }

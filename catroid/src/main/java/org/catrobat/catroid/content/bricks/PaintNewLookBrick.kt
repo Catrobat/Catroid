@@ -32,7 +32,9 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.actions.SetNextLookAction
 import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick
 
+@CatrobatLanguageBrick(command = "Paint new look")
 class PaintNewLookBrick constructor() : FormulaBrick() {
     constructor(value: String) : this(Formula(value))
 
@@ -41,7 +43,7 @@ class PaintNewLookBrick constructor() : FormulaBrick() {
     }
 
     init {
-        addAllowedBrickField(Brick.BrickField.LOOK_NEW, R.id.brick_paint_new_look_edit_text)
+        addAllowedBrickField(Brick.BrickField.LOOK_NEW, R.id.brick_paint_new_look_edit_text, "name")
     }
 
     override fun getViewResource(): Int = R.layout.brick_paint_new_look

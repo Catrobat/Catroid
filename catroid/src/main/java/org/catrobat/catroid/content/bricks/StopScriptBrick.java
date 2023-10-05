@@ -33,10 +33,13 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+import androidx.annotation.NonNull;
 import kotlin.Unit;
 
-public class StopScriptBrick extends BrickBaseType {
+@CatrobatLanguageBrick(command = "Stop")
+public class StopScriptBrick extends BrickBaseType implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -83,5 +86,30 @@ public class StopScriptBrick extends BrickBaseType {
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createStopScriptAction(spinnerSelection,
 				sequence.getScript(), sprite));
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		spinnerSelection = itemIndex;
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		return getCatrobatLanguageSpinnerCall(indentionLevel, "script", spinnerSelection);
+	}
+
+	// TODO: better soluton?
+	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
+		switch (spinnerIndex) {
+			case BrickValues.STOP_THIS_SCRIPT:
+				return "this script";
+			case BrickValues.STOP_ALL_SCRIPTS:
+				return "all scripts";
+			case BrickValues.STOP_OTHER_SCRIPTS:
+				return "other scripts of this actor or object";
+			default:
+				throw new IllegalArgumentException("Invalid spinner index");
+		}
 	}
 }

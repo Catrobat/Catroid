@@ -23,7 +23,12 @@
 
 package org.catrobat.catroid.content.bricks;
 
+import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
+
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 public abstract class ScriptBrickBaseType extends BrickBaseType implements ScriptBrick {
 
@@ -54,5 +59,36 @@ public abstract class ScriptBrickBaseType extends BrickBaseType implements Scrip
 	public void setCommentedOut(boolean commentedOut) {
 		super.setCommentedOut(commentedOut);
 		getScript().setCommentedOut(commentedOut);
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
+
+		int size = 60;
+		if (getScript().getBrickList() != null) {
+			size += getScript().getBrickList().size() * 60;
+		}
+		StringBuilder catrobatLanguage = new StringBuilder(size);
+		catrobatLanguage.append(indention);
+
+		if (commentedOut) {
+			catrobatLanguage.append("// ");
+		}
+		catrobatLanguage.append(getCatrobatLanguageCommand());
+
+		if (this instanceof CatrobatLanguageAttributes) {
+			catrobatLanguage.append(" (");
+			((CatrobatLanguageAttributes) this).appendCatrobatLanguageArguments(catrobatLanguage);
+			catrobatLanguage.append(')');
+		}
+
+		catrobatLanguage.append(" {\n");
+		for (Brick subBrick : getScript().getBrickList()) {
+			catrobatLanguage.append(subBrick.serializeToCatrobatLanguage(indentionLevel + 1));
+		}
+		getCatrobatLanguageBodyClose(catrobatLanguage, indentionLevel);
+		return catrobatLanguage.toString();
 	}
 }

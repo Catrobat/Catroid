@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks
 
+import android.content.Context
 import android.widget.TextView
 import com.thoughtworks.xstream.annotations.XStreamOmitField
 import org.catrobat.catroid.ProjectManager
@@ -33,9 +34,12 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
+import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick
 import org.catrobat.catroid.utils.LoopUtil.checkLoopBrickForLoopDelay
 
-class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
+@CatrobatLanguageBrick(command = "For each tuple of items in selected lists stored in variables with the same name, assert value equals to the expected item of reference list")
+class ParameterizedBrick : ListSelectorBrick(), CompositeBrick, UpdateableSpinnerBrick, CatrobatLanguageAttributes {
     private var loopBricks = mutableListOf<Brick>()
     private var endBrick = ParameterizedEndBrick(this)
 
@@ -51,6 +55,8 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
     override fun getNestedBricks(): List<Brick> = loopBricks
 
     override fun getSecondaryNestedBricks(): List<Brick>? = null
+
+    fun getEndBrick(): ParameterizedEndBrick = endBrick
 
     fun addBrick(brick: Brick): Boolean = loopBricks.add(brick)
 
@@ -195,5 +201,31 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
         }
 
         return result
+    }
+
+    override fun updateSelectedItem(
+        context: Context?,
+        spinnerId: Int,
+        itemName: String?,
+        itemIndex: Int
+    ) {
+        if (spinnerId == R.id.brick_param_expected_list) {
+            endBrick.updateSelectedItem(context, spinnerId, itemName, itemIndex)
+        }
+    }
+
+    override fun serializeToCatrobatLanguage(indentionLevel: Int): String {
+        val catrobatLanguage = getCatrobatLanguageParameterizedCall(indentionLevel, true)
+        for (brick in loopBricks) {
+            catrobatLanguage.appendLine(brick.serializeToCatrobatLanguage(indentionLevel + 1))
+        }
+        getCatrobatLanguageBodyClose(catrobatLanguage, indentionLevel)
+        return catrobatLanguage.toString()
+    }
+
+    override fun appendCatrobatLanguageArguments(brickBuilder: StringBuilder) {
+        super.appendCatrobatLanguageArguments(brickBuilder)
+        brickBuilder.append(", ")
+        endBrick.appendCatrobatLanguageArguments(brickBuilder)
     }
 }

@@ -389,6 +389,12 @@ public final class XstreamSerializer {
 		xstream.omitField(ParticleEffectAdditivityBrick.class, "formulaList");
 		xstream.omitField(SetParticleColorBrick.class, "formulaList");
 
+		xstream.omitField(GoToBrick.class, "brickSpinner");
+		xstream.omitField(SetRotationStyleBrick.class, "spinner");
+		xstream.omitField(WhenGamepadButtonBrick.class, "spinner");
+		xstream.omitField(DronePlayLedAnimationBrick.class, "animationSpinner");
+		xstream.omitField(PlayDrumForBeatsBrick.class, "spinner");
+
 		xstream.alias("look", LookData.class);
 		xstream.alias("sound", SoundInfo.class);
 		xstream.alias("nfcTag", NfcTagData.class);

@@ -32,15 +32,21 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.PickableDrum;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class PlayDrumForBeatsBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<PickableDrum> {
+@CatrobatLanguageBrick(command = "Play")
+public class PlayDrumForBeatsBrick extends FormulaBrick
+		implements BrickSpinner.OnItemSelectedListener<PickableDrum>, UpdateableSpinnerBrick, CatrobatLanguageAttributes {
 
 	private PickableDrum drumSelection = PickableDrum.values()[0];
+	private transient BrickSpinner<PickableDrum> spinner;
 
 	@Override
 	public int getViewResource() {
@@ -52,7 +58,7 @@ public class PlayDrumForBeatsBrick extends FormulaBrick implements BrickSpinner.
 	}
 
 	public PlayDrumForBeatsBrick() {
-		addAllowedBrickField(BrickField.PLAY_DRUM, R.id.brick_play_drum_for_beats_edit_text);
+		addAllowedBrickField(BrickField.PLAY_DRUM, R.id.brick_play_drum_for_beats_edit_text, "number of beats");
 	}
 
 	public PlayDrumForBeatsBrick(int value) {
@@ -74,7 +80,7 @@ public class PlayDrumForBeatsBrick extends FormulaBrick implements BrickSpinner.
 			items.add(drum);
 		}
 
-		BrickSpinner<PickableDrum> spinner = new BrickSpinner<>(R.id.play_drum_for_beats_spinner, view, items);
+		spinner = new BrickSpinner<>(R.id.play_drum_for_beats_spinner, view, items);
 		spinner.setSelection(PickableDrum.getIndexByValue(drumSelection.getValue()));
 		spinner.setOnItemSelectedListener(this);
 
@@ -104,5 +110,26 @@ public class PlayDrumForBeatsBrick extends FormulaBrick implements BrickSpinner.
 		if (item != null) {
 			drumSelection = item;
 		}
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinner != null) {
+			spinner.setSelection(itemName);
+		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		return getCatrobatLanguageParameterizedCall(indentionLevel, false).toString();
+	}
+
+	@Override
+	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
+		brickBuilder.append("drum: (");
+		brickBuilder.append(drumSelection.getCatrobatLanguageString());
+		brickBuilder.append("), ");
+		super.appendCatrobatLanguageArguments(brickBuilder);
 	}
 }

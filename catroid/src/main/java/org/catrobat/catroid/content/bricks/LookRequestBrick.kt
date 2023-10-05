@@ -28,7 +28,9 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.BrickField
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick
 
+@CatrobatLanguageBrick(command = "Get image and use as current look")
 class LookRequestBrick constructor() : FormulaBrick() {
     constructor(value: String) : this(Formula(value))
 
@@ -37,7 +39,7 @@ class LookRequestBrick constructor() : FormulaBrick() {
     }
 
     init {
-        addAllowedBrickField(BrickField.LOOK_REQUEST, R.id.brick_look_request_edit_text)
+        addAllowedBrickField(BrickField.LOOK_REQUEST, R.id.brick_look_request_edit_text, "source")
     }
 
     override fun getViewResource(): Int = R.layout.brick_look_request

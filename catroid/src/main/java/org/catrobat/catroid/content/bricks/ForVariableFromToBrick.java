@@ -32,12 +32,16 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 import org.catrobat.catroid.utils.LoopUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import androidx.annotation.NonNull;
+
+@CatrobatLanguageBrick(command = "For")
 public class ForVariableFromToBrick extends UserVariableBrickWithFormula implements CompositeBrick {
 
 	private transient EndBrick endBrick = new EndBrick(this);
@@ -45,8 +49,8 @@ public class ForVariableFromToBrick extends UserVariableBrickWithFormula impleme
 	private List<Brick> loopBricks = new ArrayList<>();
 
 	public ForVariableFromToBrick() {
-		addAllowedBrickField(BrickField.FOR_LOOP_FROM, R.id.brick_loop_from_edit);
-		addAllowedBrickField(BrickField.FOR_LOOP_TO, R.id.brick_loop_to_edit);
+		addAllowedBrickField(BrickField.FOR_LOOP_FROM, R.id.brick_loop_from_edit, "from");
+		addAllowedBrickField(BrickField.FOR_LOOP_TO, R.id.brick_loop_to_edit, "to");
 	}
 
 	public ForVariableFromToBrick(int from, int to) {
@@ -234,5 +238,19 @@ public class ForVariableFromToBrick extends UserVariableBrickWithFormula impleme
 		public UUID getBrickID() {
 			return parent.getBrickID();
 		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(super.serializeToCatrobatLanguage(indentionLevel, "value", true, true));
+
+		for (Brick brick : loopBricks) {
+			stringBuilder.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
+		}
+
+		getCatrobatLanguageBodyClose(stringBuilder, indentionLevel);
+		return stringBuilder.toString();
 	}
 }

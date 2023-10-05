@@ -26,13 +26,18 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
+import androidx.annotation.NonNull;
+
+@CatrobatLanguageBrick(command = "Turn")
 public class TurnRightBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public TurnRightBrick() {
-		addAllowedBrickField(BrickField.TURN_RIGHT_DEGREES, R.id.brick_turn_right_edit_text);
+		addAllowedBrickField(BrickField.TURN_RIGHT_DEGREES, R.id.brick_turn_right_edit_text, "degrees");
 	}
 
 	public TurnRightBrick(double degreesValue) {
@@ -40,7 +45,7 @@ public class TurnRightBrick extends FormulaBrick {
 	}
 
 	public TurnRightBrick(Formula formula) {
-		addAllowedBrickField(BrickField.TURN_RIGHT_DEGREES, R.id.brick_turn_right_edit_text);
+		addAllowedBrickField(BrickField.TURN_RIGHT_DEGREES, R.id.brick_turn_right_edit_text, "degrees");
 		setFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES, formula);
 	}
 
@@ -54,5 +59,24 @@ public class TurnRightBrick extends FormulaBrick {
 		sequence.addAction(sprite.getActionFactory()
 				.createTurnRightAction(sprite, sequence,
 						getFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES)));
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
+
+		StringBuilder catrobatLanguage = new StringBuilder(60);
+		catrobatLanguage.append(indention);
+
+		if (commentedOut) {
+			catrobatLanguage.append("// ");
+		}
+
+		catrobatLanguage.append(getCatrobatLanguageCommand())
+				.append(" (direction: (right), ");
+		appendCatrobatLanguageArguments(catrobatLanguage);
+		catrobatLanguage.append(");\n");
+		return catrobatLanguage.toString();
 	}
 }

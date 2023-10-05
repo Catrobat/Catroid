@@ -26,13 +26,15 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Set")
 public class SetFrictionBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public SetFrictionBrick() {
-		addAllowedBrickField(BrickField.PHYSICS_FRICTION, R.id.brick_set_friction_edit_text);
+		addAllowedBrickField(BrickField.PHYSICS_FRICTION, R.id.brick_set_friction_edit_text, "friction percentage");
 	}
 
 	public SetFrictionBrick(double friction) {

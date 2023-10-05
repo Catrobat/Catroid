@@ -28,11 +28,14 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import org.apache.commons.lang3.NotImplementedException
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick
 
-class ParticleEffectAdditivityBrick(fadeType: Int = ON) : BrickBaseType() {
+@CatrobatLanguageBrick(command = "Turn")
+class ParticleEffectAdditivityBrick(fadeType: Int = ON) : BrickBaseType(), UpdateableSpinnerBrick {
 
     companion object {
         const val ON = 0
@@ -97,4 +100,25 @@ class ParticleEffectAdditivityBrick(fadeType: Int = ON) : BrickBaseType() {
             )
         )
     }
+
+    override fun updateSelectedItem(
+        context: Context,
+        spinnerId: Int,
+        itemName: String?,
+        itemIndex: Int
+    ) {
+        if (itemIndex == ON || itemIndex == OFF) {
+            fadeSpinnerSelectionId = itemIndex
+        }
+    }
+
+    override fun getCatrobatLanguageSpinnerValue(spinnerIndex: Int): String {
+        when (spinnerIndex) {
+            ON -> return "on"
+            OFF -> return "off"
+            else -> throw NotImplementedException("Invalid spinner index ($spinnerIndex)")
+        }
+    }
+
+    override fun serializeToCatrobatLanguage(indentionLevel: Int): String = super.getCatrobatLanguageSpinnerCall(indentionLevel, "particle effect additivity", fadeSpinnerSelectionId)
 }

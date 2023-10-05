@@ -32,13 +32,17 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite> {
+@CatrobatLanguageBrick(command = "Create clone of")
+public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -101,5 +105,30 @@ public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSele
 	public void resetSpinner() {
 		spinner.setSelection(0);
 		objectToClone = null;
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinner != null) {
+			spinner.setSelection(itemName);
+		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		Object selectedElement = spinner.getSelection();
+		return getCatrobatLanguageSpinnerCall(indentionLevel, "actor or object",
+				spinner.getItems().indexOf(selectedElement));
+	}
+
+	@Override
+	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
+		if (spinnerIndex == 0) {
+			return "yourself";
+		}
+		return CatrobatLanguageUtils.formatActorOrObject(
+				spinner.getItems().get(spinnerIndex).getName()
+		);
 	}
 }

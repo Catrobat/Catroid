@@ -27,16 +27,18 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Store column of comma-separated values to list")
 public class StoreCSVIntoUserListBrick extends UserListBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public StoreCSVIntoUserListBrick() {
-		addAllowedBrickField(BrickField.STORE_CSV_INTO_USERLIST_COLUMN,
-				R.id.brick_store_csv_into_userlist_column_edit_text);
 		addAllowedBrickField(BrickField.STORE_CSV_INTO_USERLIST_CSV,
-				R.id.brick_store_csv_into_userlist_csv_edit_text);
+				R.id.brick_store_csv_into_userlist_csv_edit_text, "csv");
+		addAllowedBrickField(BrickField.STORE_CSV_INTO_USERLIST_COLUMN,
+				R.id.brick_store_csv_into_userlist_column_edit_text, "column");
 	}
 
 	public StoreCSVIntoUserListBrick(Formula userListFormulaColumnToInsert,

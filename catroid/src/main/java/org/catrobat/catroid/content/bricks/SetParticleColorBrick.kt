@@ -22,13 +22,19 @@
  */
 package org.catrobat.catroid.content.bricks
 
+import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.BrickField
 import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
+import java.lang.StringBuilder
 
-class SetParticleColorBrick() : FormulaBrick() {
+@CatrobatLanguageBrick(command = "Set")
+class SetParticleColorBrick() : FormulaBrick(), CatrobatLanguageAttributes {
     constructor(color: String) : this(Formula(color))
 
     constructor(formula: Formula) : this() {
@@ -52,6 +58,17 @@ class SetParticleColorBrick() : FormulaBrick() {
     }
 
     init {
-        addAllowedBrickField(BrickField.COLOR, R.id.brick_set_color_edit_text)
+        addAllowedBrickField(BrickField.COLOR, R.id.brick_set_color_edit_text, "particle color")
+    }
+
+    override fun appendCatrobatLanguageArguments(brickBuilder: StringBuilder) {
+        val paramname = catrobatLanguageFormulaParameters[BrickField.COLOR]
+        brickBuilder.append(paramname).append(": (")
+
+        val color = formulaMap[BrickField.COLOR]?.getTrimmedFormulaString(CatroidApplication.getAppContext())?.trim()
+        if (color != null) {
+            brickBuilder.append(CatrobatLanguageUtils.formatHexColorString(color))
+        }
+        brickBuilder.append(")")
     }
 }

@@ -42,6 +42,8 @@ import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
@@ -50,19 +52,24 @@ import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<UserData> {
+public abstract class UserDataBrick extends FormulaBrick
+		implements BrickSpinner.OnItemSelectedListener<UserData>, UpdateableSpinnerBrick, CatrobatLanguageAttributes {
 
 	public transient BiMap<BrickData, Integer> brickDataToTextViewIdMap = HashBiMap.create(2);
 
 	protected UserDataHashMap userDataList = new UserDataHashMap();
+	protected LinkedHashMap<BrickData, String> catrobatLanguageUserDataParameters = new LinkedHashMap<>();
 
 	private transient HashMap<BrickData, BrickSpinner<UserData>> spinnerMap = new HashMap<>();
+	private transient HashMap<Integer, BrickSpinner<UserData>> viewToSpinnerMap = new HashMap<>();
 
 	@Override
 	public Brick clone() throws CloneNotSupportedException {
@@ -104,11 +111,12 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 		return userDataList;
 	}
 
-	protected void addAllowedBrickData(BrickData brickData, int textViewResourceId) {
+	protected void addAllowedBrickData(BrickData brickData, int textViewResourceId, String catrobatLanguageParameterName) {
 		if (!userDataList.containsKey(brickData)) {
 			userDataList.put(brickData, null);
 		}
 		brickDataToTextViewIdMap.put(brickData, textViewResourceId);
+		catrobatLanguageUserDataParameters.put(brickData, catrobatLanguageParameterName);
 	}
 
 	public Brick.BrickData getBrickDataFromTextViewId(int textViewId) {
@@ -144,6 +152,7 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 			spinner.setOnItemSelectedListener(this);
 			spinner.setSelection(entry.getValue());
 			spinnerMap.put(entry.getKey(), spinner);
+			viewToSpinnerMap.put(spinnerid, spinner);
 		}
 
 		return view;
@@ -242,5 +251,45 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 	@Override
 	public void onItemSelected(Integer spinnerId, @Nullable UserData item) {
 		userDataList.put(getBrickDataFromTextViewId(spinnerId), item);
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (viewToSpinnerMap.containsKey(spinnerId)) {
+			viewToSpinnerMap.get(spinnerId).setSelection(itemName);
+		}
+	}
+
+	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
+		Set<BrickData> brickDataSet = catrobatLanguageUserDataParameters.keySet();
+		BrickData[] brickDataArray = brickDataSet.toArray(new BrickData[brickDataSet.size()]);
+		for (int i = 0; i < brickDataArray.length; i++) {
+			BrickData brickData = brickDataArray[i];
+			boolean hasIdentifier = false;
+			String identifier = catrobatLanguageUserDataParameters.get(brickData);
+			if (identifier != null && !identifier.isEmpty()) {
+				brickBuilder.append(identifier);
+				brickBuilder.append(": (");
+				hasIdentifier = true;
+			}
+
+			UserData userData = userDataList.get(brickData);
+			if (userData != null) {
+				if (BrickData.isUserList(brickData)) {
+					brickBuilder.append(CatrobatLanguageUtils.formatList(userData.getName()));
+				} else {
+					brickBuilder.append(CatrobatLanguageUtils.formatVariable(userData.getName()));
+				}
+			} else {
+				brickBuilder.append('0');
+			}
+
+			if (hasIdentifier) {
+				brickBuilder.append(')');
+			}
+			if (i < (brickDataArray.length - 1)) {
+				brickBuilder.append(", ");
+			}
+		}
 	}
 }

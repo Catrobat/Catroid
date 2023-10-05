@@ -37,14 +37,18 @@ import org.catrobat.catroid.content.UserDefinedScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
-public class UserDefinedReceiverBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<StringOption> {
+@CatrobatLanguageBrick(command = "Define")
+public class UserDefinedReceiverBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<StringOption>, UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -157,5 +161,50 @@ public class UserDefinedReceiverBrick extends ScriptBrickBaseType implements Bri
 
 	@Override
 	public void onItemSelected(Integer spinnerId, @Nullable StringOption item) {
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (itemName.equals(context.getString(R.string.brick_user_defined_with_screen_refreshing))) {
+			spinnerSelection = BrickValues.USER_DEFINED_BRICK_WITH_SCREEN_REFRESH;
+		}
+		if (itemName.equals(context.getString(R.string.brick_user_defined_without_screen_refreshing))) {
+			spinnerSelection = BrickValues.USER_DEFINED_BRICK_WITHOUT_SCREEN_REFRESH;
+		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		StringBuilder catrobatLanguage = new StringBuilder(100);
+		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
+		catrobatLanguage.append(indention);
+		if (isCommentedOut()) {
+			catrobatLanguage.append("// ");
+		}
+		catrobatLanguage.append(getCatrobatLanguageCommand())
+				.append(' ');
+
+		UserDefinedBrick udBrick = (UserDefinedBrick) userDefinedBrick;
+		catrobatLanguage.append(udBrick.serializeToCatrobatLanguage(indentionLevel))
+				.append(' ');
+
+		if (userDefinedScript.getScreenRefresh()) {
+			catrobatLanguage.append("with");
+		} else {
+			catrobatLanguage.append("without");
+		}
+		catrobatLanguage.append(" screen refresh as {\n");
+
+		for (Brick brick : userDefinedScript.getBrickList()) {
+			catrobatLanguage.append(brick.serializeToCatrobatLanguage(indentionLevel + 1));
+		}
+		catrobatLanguage.append(indention);
+
+		if (isCommentedOut()) {
+			catrobatLanguage.append("// ");
+		}
+		catrobatLanguage.append("}\n");
+		return catrobatLanguage.toString();
 	}
 }

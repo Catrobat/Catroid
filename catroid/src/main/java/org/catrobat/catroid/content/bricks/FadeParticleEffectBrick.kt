@@ -31,8 +31,10 @@ import android.widget.Spinner
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick
 
-class FadeParticleEffectBrick(fadeType: Int = FADE_IN) : BrickBaseType() {
+@CatrobatLanguageBrick(command = "Fade particle")
+class FadeParticleEffectBrick(fadeType: Int = FADE_IN) : BrickBaseType(), UpdateableSpinnerBrick {
 
     companion object {
         const val FADE_IN = 0
@@ -95,4 +97,25 @@ class FadeParticleEffectBrick(fadeType: Int = FADE_IN) : BrickBaseType() {
             )
         )
     }
+
+    override fun updateSelectedItem(
+        context: Context,
+        spinnerId: Int,
+        itemName: String?,
+        itemIndex: Int
+    ) {
+        if (itemIndex == FADE_IN || itemIndex == FADE_OUT) {
+            fadeSpinnerSelectionId = itemIndex
+        }
+    }
+
+    override fun getCatrobatLanguageSpinnerValue(spinnerIndex: Int): String {
+        when (spinnerIndex) {
+            FADE_IN -> return "in"
+            FADE_OUT -> return "out"
+            else -> throw IllegalStateException("Invalid spinner index $spinnerIndex")
+        }
+    }
+
+    override fun serializeToCatrobatLanguage(indentionLevel: Int) = getCatrobatLanguageSpinnerCall(indentionLevel, "effect", fadeSpinnerSelectionId)
 }

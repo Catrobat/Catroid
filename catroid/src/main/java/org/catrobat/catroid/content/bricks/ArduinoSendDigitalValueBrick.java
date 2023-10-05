@@ -26,14 +26,18 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Set Arduino")
 public class ArduinoSendDigitalValueBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public ArduinoSendDigitalValueBrick() {
-		addAllowedBrickField(BrickField.ARDUINO_DIGITAL_PIN_NUMBER, R.id.brick_arduino_set_digital_pin_edit_text);
-		addAllowedBrickField(BrickField.ARDUINO_DIGITAL_PIN_VALUE, R.id.brick_arduino_set_digital_value_edit_text);
+		addAllowedBrickField(BrickField.ARDUINO_DIGITAL_PIN_NUMBER,
+				R.id.brick_arduino_set_digital_pin_edit_text, "digital pin");
+		addAllowedBrickField(BrickField.ARDUINO_DIGITAL_PIN_VALUE,
+				R.id.brick_arduino_set_digital_value_edit_text, "value");
 	}
 
 	public ArduinoSendDigitalValueBrick(int pinNumber, int pinValue) {

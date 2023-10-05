@@ -32,12 +32,15 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils.formatSoundName
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface
 
+@CatrobatLanguageBrick(command = "Stop")
 class StopSoundBrick : BrickBaseType(),
-    BrickSpinner.OnItemSelectedListener<SoundInfo>, NewItemInterface<SoundInfo> {
+    BrickSpinner.OnItemSelectedListener<SoundInfo>, NewItemInterface<SoundInfo>, UpdateableSpinnerBrick {
 
     var sound: SoundInfo? = null
 
@@ -81,5 +84,20 @@ class StopSoundBrick : BrickBaseType(),
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
         sequence.addAction(sprite.actionFactory.createStopSoundAction(sprite, sound))
+    }
+
+    override fun updateSelectedItem(
+        context: Context?,
+        spinnerId: Int,
+        itemName: String?,
+        itemIndex: Int
+    ) {
+        spinner.setSelection(itemName)
+    }
+
+    override fun serializeToCatrobatLanguage(indentionLevel: Int): String {
+        var sound = ""
+        if (this.sound != null) sound = formatSoundName(this.sound!!.name)
+        return getCatrobatLanguageParameterCall(indentionLevel, "sound", sound)
     }
 }

@@ -32,10 +32,14 @@ import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 
+import androidx.annotation.NonNull;
 import kotlin.Unit;
 
-public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
+@CatrobatLanguageBrick(command = "Turn EV3")
+public class LegoEv3MotorTurnAngleBrick extends FormulaBrick implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -47,7 +51,7 @@ public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 
 	public LegoEv3MotorTurnAngleBrick() {
 		motor = Motor.MOTOR_A.name();
-		addAllowedBrickField(BrickField.LEGO_EV3_DEGREES, R.id.ev3_motor_turn_angle_edit_text);
+		addAllowedBrickField(BrickField.LEGO_EV3_DEGREES, R.id.ev3_motor_turn_angle_edit_text, "degrees");
 	}
 
 	public LegoEv3MotorTurnAngleBrick(Motor motorEnum, int degrees) {
@@ -93,5 +97,52 @@ public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createLegoEv3MotorTurnAngleAction(sprite, sequence,
 				Motor.valueOf(motor), getFormulaWithBrickField(BrickField.LEGO_EV3_DEGREES)));
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (itemIndex >= 0 && itemIndex < Motor.values().length) {
+			motor = Motor.values()[itemIndex].name();
+		}
+	}
+
+	private String getCatrobatLanguageMotor() {
+		switch (Motor.valueOf(motor)) {
+			case MOTOR_A:
+				return "A";
+			case MOTOR_B:
+				return "B";
+			case MOTOR_C:
+				return "C";
+			case MOTOR_D:
+				return "D";
+			case MOTOR_B_C:
+				return "B+C";
+			case MOTOR_ALL:
+				return "all";
+			default:
+				throw new IllegalStateException("Motor not implemented");
+		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		String indention = CatrobatLanguageUtils.getIndention(indentionLevel);
+
+		StringBuilder catrobatLanguage = new StringBuilder(60);
+		catrobatLanguage.append(indention);
+
+		if (commentedOut) {
+			catrobatLanguage.append("// ");
+		}
+
+		catrobatLanguage.append(getCatrobatLanguageCommand())
+				.append(" (motor: (")
+				.append(getCatrobatLanguageMotor())
+				.append("), ");
+		appendCatrobatLanguageArguments(catrobatLanguage);
+		catrobatLanguage.append(");\n");
+		return catrobatLanguage.toString();
 	}
 }

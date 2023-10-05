@@ -31,8 +31,11 @@ import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick
 
-class ChooseCameraBrick(private var spinnerSelectionFRONT: Boolean = true) : BrickBaseType() {
+@CatrobatLanguageBrick(command = "Use")
+class ChooseCameraBrick(private var spinnerSelectionFRONT: Boolean = true) : BrickBaseType(),
+    UpdateableSpinnerBrick {
 
     override fun getViewResource() = R.layout.brick_choose_camera
 
@@ -73,5 +76,19 @@ class ChooseCameraBrick(private var spinnerSelectionFRONT: Boolean = true) : Bri
         } else {
             sequence.addAction(sprite.actionFactory.createSetBackCameraAction())
         }
+    }
+
+    override fun updateSelectedItem(
+        context: Context,
+        spinnerId: Int,
+        itemName: String?,
+        itemIndex: Int
+    ) {
+        spinnerSelectionFRONT = itemIndex == 1
+    }
+
+    override fun serializeToCatrobatLanguage(indentionLevel: Int): String {
+        val camera = if (spinnerSelectionFRONT) "front" else "rear"
+        return getCatrobatLanguageParameterCall(indentionLevel, "camera", camera)
     }
 }

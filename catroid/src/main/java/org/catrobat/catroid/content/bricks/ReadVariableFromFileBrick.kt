@@ -33,8 +33,11 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.BrickField
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils
 
-class ReadVariableFromFileBrick constructor() : UserVariableBrickWithFormula() {
+@CatrobatLanguageBrick(command = "Read from file")
+class ReadVariableFromFileBrick constructor() : UserVariableBrickWithFormula(), UpdateableSpinnerBrick {
     constructor(value: String) : this(Formula(value))
 
     constructor(formula: Formula) : this() {
@@ -42,7 +45,7 @@ class ReadVariableFromFileBrick constructor() : UserVariableBrickWithFormula() {
     }
 
     init {
-        addAllowedBrickField(BrickField.READ_FILENAME, R.id.brick_read_variable_from_file_edit_text)
+        addAllowedBrickField(BrickField.READ_FILENAME, R.id.brick_read_variable_from_file_edit_text, "file")
     }
 
     private var spinnerSelectionID: Int = KEEP
@@ -95,5 +98,47 @@ class ReadVariableFromFileBrick constructor() : UserVariableBrickWithFormula() {
     override fun addRequiredResources(requiredResourcesSet: ResourcesSet) {
         requiredResourcesSet.add(STORAGE_READ)
         super.addRequiredResources(requiredResourcesSet)
+    }
+
+    override fun updateSelectedItem(
+        context: Context,
+        spinnerId: Int,
+        itemName: String?,
+        itemIndex: Int
+    ) {
+        if (spinnerId == getSpinnerId()) {
+            super.updateSelectedItem(context, spinnerId, itemName, itemIndex)
+        } else if (spinnerId == R.id.brick_read_variable_from_file_spinner_mode) {
+            spinnerSelectionID = itemIndex
+        }
+    }
+
+    override fun serializeToCatrobatLanguage(indentionLevel: Int): String {
+        val indention = CatrobatLanguageUtils.getIndention(indentionLevel)
+        val catrobatLanguage = StringBuilder()
+        catrobatLanguage.append(indention)
+        if (commentedOut) {
+            catrobatLanguage.append("// ")
+        }
+        catrobatLanguage.append(catrobatLanguageCommand)
+        catrobatLanguage.append(" (")
+
+        catrobatLanguage.append("variable: (")
+        if (userVariable != null) {
+            catrobatLanguage.append(CatrobatLanguageUtils.formatVariable(userVariable.name))
+        }
+        catrobatLanguage.append("), ")
+        appendCatrobatLanguageArguments(catrobatLanguage)
+
+        catrobatLanguage.append(", action: (")
+        if (spinnerSelectionID == KEEP) {
+            catrobatLanguage.append("keep the file")
+        } else {
+            catrobatLanguage.append("delete the file")
+        }
+        catrobatLanguage.append("));")
+
+        catrobatLanguage.append("\n")
+        return catrobatLanguage.toString()
     }
 }

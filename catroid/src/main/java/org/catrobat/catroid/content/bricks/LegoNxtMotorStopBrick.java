@@ -31,10 +31,13 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+import androidx.annotation.NonNull;
 import kotlin.Unit;
 
-public class LegoNxtMotorStopBrick extends BrickBaseType {
+@CatrobatLanguageBrick(command = "Stop NXT")
+public class LegoNxtMotorStopBrick extends BrickBaseType implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -83,5 +86,35 @@ public class LegoNxtMotorStopBrick extends BrickBaseType {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createLegoNxtMotorStopAction(Motor.valueOf(motor)));
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (itemIndex >= 0 && itemIndex < Motor.values().length) {
+			motor = Motor.values()[itemIndex].name();
+		}
+	}
+
+	private String getCatrobatLanguageMotor() {
+		switch (Motor.valueOf(motor)) {
+			case MOTOR_A:
+				return "A";
+			case MOTOR_B:
+				return "B";
+			case MOTOR_C:
+				return "C";
+			case MOTOR_B_C:
+				return "B+C";
+			case ALL_MOTORS:
+				return "all";
+			default:
+				throw new IllegalStateException("Motor not implemented");
+		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		return getCatrobatLanguageParameterCall(indentionLevel, "motor", getCatrobatLanguageMotor());
 	}
 }

@@ -34,14 +34,16 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 import org.catrobat.catroid.utils.Utils;
 
+@CatrobatLanguageBrick(command = "Move")
 public class MoveNStepsBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public MoveNStepsBrick() {
-		addAllowedBrickField(BrickField.STEPS, R.id.brick_move_n_steps_edit_text);
+		addAllowedBrickField(BrickField.STEPS, R.id.brick_move_n_steps_edit_text, "steps");
 	}
 
 	public MoveNStepsBrick(double steps) {

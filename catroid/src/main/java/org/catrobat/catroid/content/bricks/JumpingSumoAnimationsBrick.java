@@ -32,14 +32,18 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+import androidx.annotation.NonNull;
 import kotlin.Unit;
 
-public class JumpingSumoAnimationsBrick extends BrickBaseType {
+@CatrobatLanguageBrick(command = "Start Jumping Sumo")
+public class JumpingSumoAnimationsBrick extends BrickBaseType implements UpdateableSpinnerBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	private String animationName;
+	private int spinnerSelectionIndex;
 
 	public enum Animation {
 		SPIN, TAB, SLOWSHAKE, METRONOME, ONDULATION, SPINJUMP, SPIRAL, SLALOM
@@ -47,10 +51,12 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 
 	public JumpingSumoAnimationsBrick() {
 		animationName = Animation.SPIN.name();
+		spinnerSelectionIndex = Animation.SPIN.ordinal();
 	}
 
 	public JumpingSumoAnimationsBrick(Animation animation) {
 		animationName = animation.name();
+		spinnerSelectionIndex = animation.ordinal();
 	}
 
 	@Override
@@ -70,6 +76,7 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 		spinner.setAdapter(spinnerAdapter);
 		spinner.setOnItemSelectedListener(new AdapterViewOnItemSelectedListenerImpl(position -> {
 			animationName = Animation.values()[position].name();
+			spinnerSelectionIndex = position;
 			return Unit.INSTANCE;
 		}));
 		spinner.setSelection(Animation.valueOf(animationName).ordinal());
@@ -78,5 +85,44 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		Animation[] animations = Animation.values();
+		if (itemIndex >= 0 && itemIndex < animations.length) {
+			animationName = animations[itemIndex].name();
+			spinnerSelectionIndex = itemIndex;
+		}
+	}
+
+	@Override
+	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
+		switch (spinnerIndex) {
+			case 0:
+				return "spin";
+			case 1:
+				return "tab";
+			case 2:
+				return "slowshake";
+			case 3:
+				return "metronome";
+			case 4:
+				return "ondulation";
+			case 5:
+				return "spinjump";
+			case 6:
+				return "spiral";
+			case 7:
+				return "slalom";
+			default:
+				throw new IndexOutOfBoundsException("Invalid spinnerIndex");
+		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		return getCatrobatLanguageSpinnerCall(indentionLevel, "animation", spinnerSelectionIndex);
 	}
 }

@@ -28,15 +28,20 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+import androidx.annotation.NonNull;
 import kotlin.Unit;
 
-public class JumpingSumoSoundBrick extends FormulaBrick {
+@CatrobatLanguageBrick(command = "Play Jumping Sumo")
+public class JumpingSumoSoundBrick extends FormulaBrick implements UpdateableSpinnerBrick, CatrobatLanguageAttributes {
 
 	private static final long serialVersionUID = 1L;
 
@@ -48,7 +53,7 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 
 	public JumpingSumoSoundBrick() {
 		soundName = Sounds.DEFAULT.name();
-		addAllowedBrickField(BrickField.JUMPING_SUMO_VOLUME, R.id.brick_jumping_sumo_sound_edit_text);
+		addAllowedBrickField(BrickField.JUMPING_SUMO_VOLUME, R.id.brick_jumping_sumo_sound_edit_text, "volume");
 	}
 
 	public JumpingSumoSoundBrick(Sounds soundEnum, int volumeInPercent) {
@@ -86,5 +91,42 @@ public class JumpingSumoSoundBrick extends FormulaBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		Sounds[] sounds = Sounds.values();
+		if (itemIndex >= 0 && itemIndex < sounds.length) {
+			soundName = sounds[itemIndex].name();
+		}
+	}
+
+	private String getCatrobatLanguageSoundName() {
+		switch (soundName) {
+			case "DEFAULT":
+				return "normal";
+			case "ROBOT":
+				return "robot";
+			case "INSECT":
+				return "insect";
+			case "MONSTER":
+				return "monster";
+			default:
+				throw new NotImplementedException("Invalid sound name: " + soundName);
+		}
+	}
+
+	@Override
+	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
+		brickBuilder.append("sound: (");
+		brickBuilder.append(getCatrobatLanguageSoundName());
+		brickBuilder.append("), ");
+		super.appendCatrobatLanguageArguments(brickBuilder);
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		return getCatrobatLanguageParameterizedCall(indentionLevel, false).toString();
 	}
 }

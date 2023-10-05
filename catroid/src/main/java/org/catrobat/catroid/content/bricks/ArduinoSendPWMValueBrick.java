@@ -28,14 +28,18 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Operators;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Set Arduino")
 public class ArduinoSendPWMValueBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public ArduinoSendPWMValueBrick() {
-		addAllowedBrickField(BrickField.ARDUINO_ANALOG_PIN_NUMBER, R.id.brick_arduino_set_analog_pin_edit_text);
-		addAllowedBrickField(BrickField.ARDUINO_ANALOG_PIN_VALUE, R.id.brick_arduino_set_analog_value_edit_text);
+		addAllowedBrickField(BrickField.ARDUINO_ANALOG_PIN_NUMBER,
+				R.id.brick_arduino_set_analog_pin_edit_text, "PWM~ pin");
+		addAllowedBrickField(BrickField.ARDUINO_ANALOG_PIN_VALUE,
+				R.id.brick_arduino_set_analog_value_edit_text, "value");
 	}
 
 	public ArduinoSendPWMValueBrick(int pinNumber, int pinValue) {

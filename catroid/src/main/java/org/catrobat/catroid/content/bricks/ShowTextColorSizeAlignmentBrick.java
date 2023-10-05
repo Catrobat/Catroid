@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
@@ -40,6 +41,9 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.common.Conversions;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
@@ -47,6 +51,7 @@ import org.catrobat.catroid.utils.ShowTextUtils.AndroidStringProvider;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -60,7 +65,8 @@ import static org.catrobat.catroid.utils.ShowTextUtils.ALIGNMENT_STYLE_RIGHT;
 import static org.catrobat.catroid.utils.ShowTextUtils.convertColorToString;
 import static org.catrobat.catroid.utils.ShowTextUtils.isValidColorString;
 
-public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisualPlacement {
+@CatrobatLanguageBrick(command = "Show")
+public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisualPlacement implements UpdateableSpinnerBrick, CatrobatLanguageAttributes {
 
 	private static final long serialVersionUID = 1L;
 
@@ -68,11 +74,13 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 
 	private final transient ShowFormulaEditorStrategy showFormulaEditorStrategy;
 
+	private transient BrickSpinner<AlignmentStyle> alignmentSpinner;
+
 	public ShowTextColorSizeAlignmentBrick() {
-		addAllowedBrickField(BrickField.X_POSITION, R.id.brick_show_variable_color_size_edit_text_x);
-		addAllowedBrickField(BrickField.Y_POSITION, R.id.brick_show_variable_color_size_edit_text_y);
-		addAllowedBrickField(BrickField.SIZE, R.id.brick_show_variable_color_size_edit_relative_size);
-		addAllowedBrickField(BrickField.COLOR, R.id.brick_show_variable_color_size_edit_color);
+		addAllowedBrickField(BrickField.X_POSITION, R.id.brick_show_variable_color_size_edit_text_x, "x");
+		addAllowedBrickField(BrickField.Y_POSITION, R.id.brick_show_variable_color_size_edit_text_y, "y");
+		addAllowedBrickField(BrickField.SIZE, R.id.brick_show_variable_color_size_edit_relative_size, "size");
+		addAllowedBrickField(BrickField.COLOR, R.id.brick_show_variable_color_size_edit_color, "color");
 
 		showFormulaEditorStrategy = new ShowColorPickerFormulaEditorStrategy();
 	}
@@ -124,10 +132,10 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 		items.add(new AlignmentStyle(context.getString(R.string.brick_show_variable_aligned_left), ALIGNMENT_STYLE_LEFT));
 		items.add(new AlignmentStyle(context.getString(R.string.brick_show_variable_aligned_centered), ALIGNMENT_STYLE_CENTERED));
 		items.add(new AlignmentStyle(context.getString(R.string.brick_show_variable_aligned_right), ALIGNMENT_STYLE_RIGHT));
-		BrickSpinner<AlignmentStyle> spinner =
+		alignmentSpinner =
 				new BrickSpinner<>(R.id.brick_show_variable_color_size_align_spinner, view, items);
-		spinner.setSelection(alignmentSelection);
-		spinner.setOnItemSelectedListener(new BrickSpinner.OnItemSelectedListener<AlignmentStyle>() {
+		alignmentSpinner.setSelection(alignmentSelection);
+		alignmentSpinner.setOnItemSelectedListener(new BrickSpinner.OnItemSelectedListener<AlignmentStyle>() {
 
 			@Override
 			public void onStringOptionSelected(Integer spinnerId, String string) {
@@ -203,6 +211,61 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 		intent.putExtra(EXTRA_TEXT_SIZE, sanitizeTextSize());
 		intent.putExtra(EXTRA_TEXT_ALIGNMENT, alignmentSelection);
 		return intent;
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinnerId == getSpinnerId()) {
+			super.updateSelectedItem(context, spinnerId, itemName, itemIndex);
+		} else if (spinnerId == R.id.brick_show_variable_color_size_align_spinner
+				&& alignmentSpinner != null) {
+			alignmentSpinner.setSelection(itemName);
+		}
+	}
+
+	private String convertFieldToString(BrickField brickField) {
+		return getFormulaWithBrickField(brickField).getTrimmedFormulaString(CatroidApplication.getAppContext()).trim();
+	}
+
+	@Override
+	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
+		brickBuilder.append("variable: (");
+		if (userVariable != null) {
+			brickBuilder.append(CatrobatLanguageUtils.formatVariable(userVariable.getName()));
+		}
+		for (BrickField brickField : new BrickField[] {BrickField.X_POSITION, BrickField.Y_POSITION, BrickField.SIZE}) {
+			brickBuilder.append("), ")
+					.append(catrobatLanguageFormulaParameters.get(brickField))
+					.append(": (")
+					.append(convertFieldToString(brickField));
+		}
+
+		brickBuilder.append("), color: (");
+		String color = CatrobatLanguageUtils.formatHexColorString(convertFieldToString(BrickField.COLOR));
+		brickBuilder.append(color)
+				.append("), alignment: (")
+				.append(getCatrobatLanguageSpinnerValue(alignmentSelection))
+				.append(')');
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		return getCatrobatLanguageParameterizedCall(indentionLevel, false).toString();
+	}
+
+	@Override
+	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
+		switch (spinnerIndex) {
+			case ALIGNMENT_STYLE_LEFT:
+				return "left";
+			case ALIGNMENT_STYLE_CENTERED:
+				return "centered";
+			case ALIGNMENT_STYLE_RIGHT:
+				return "right";
+			default:
+				throw new NotImplementedException("Spinner index " + spinnerIndex + " not implemented.");
+		}
 	}
 
 	private static class AlignmentStyle implements Nameable {

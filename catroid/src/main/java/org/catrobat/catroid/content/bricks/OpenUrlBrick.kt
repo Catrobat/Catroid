@@ -29,7 +29,9 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.BrickField
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.formulaeditor.Formula
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick
 
+@CatrobatLanguageBrick(command = "Open in browser")
 class OpenUrlBrick constructor() : FormulaBrick() {
     constructor(value: String) : this(Formula(value))
 
@@ -38,7 +40,7 @@ class OpenUrlBrick constructor() : FormulaBrick() {
     }
 
     init {
-        addAllowedBrickField(BrickField.OPEN_URL, R.id.brick_open_url_edit_text)
+        addAllowedBrickField(BrickField.OPEN_URL, R.id.brick_open_url_edit_text, "url")
     }
 
     override fun getViewResource(): Int = R.layout.brick_open_url

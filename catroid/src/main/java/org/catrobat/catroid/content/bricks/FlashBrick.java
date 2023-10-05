@@ -31,10 +31,13 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.AdapterViewOnItemSelectedListenerImpl;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+import androidx.annotation.NonNull;
 import kotlin.Unit;
 
-public class FlashBrick extends BrickBaseType {
+@CatrobatLanguageBrick(command = "Turn")
+public class FlashBrick extends BrickBaseType implements UpdateableSpinnerBrick {
 
 	private static final int FLASH_OFF = 0;
 	private static final int FLASH_ON = 1;
@@ -43,6 +46,10 @@ public class FlashBrick extends BrickBaseType {
 
 	public FlashBrick() {
 		spinnerSelectionID = FLASH_ON;
+	}
+
+	public FlashBrick(int spinnerSelectionID) {
+		this.spinnerSelectionID = spinnerSelectionID;
 	}
 
 	@Override
@@ -84,5 +91,30 @@ public class FlashBrick extends BrickBaseType {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createFlashAction(spinnerSelectionID == FLASH_ON));
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (itemIndex == FLASH_OFF || itemIndex == FLASH_ON) {
+			spinnerSelectionID = itemIndex;
+		}
+	}
+
+	@Override
+	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
+		switch (spinnerIndex) {
+			case FLASH_OFF:
+				return "off";
+			case FLASH_ON:
+				return "on";
+			default:
+				throw new IllegalArgumentException("Invalid spinner index");
+		}
+	}
+
+	@NonNull
+	@Override
+	public String serializeToCatrobatLanguage(int indentionLevel) {
+		return getCatrobatLanguageSpinnerCall(indentionLevel, "flashlight", spinnerSelectionID);
 	}
 }

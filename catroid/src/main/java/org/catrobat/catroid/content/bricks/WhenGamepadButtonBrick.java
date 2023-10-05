@@ -33,6 +33,8 @@ import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageAttributes;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +42,14 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class WhenGamepadButtonBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<StringOption> {
+@CatrobatLanguageBrick(command = "When tapped")
+public class WhenGamepadButtonBrick extends ScriptBrickBaseType
+		implements BrickSpinner.OnItemSelectedListener<StringOption>, UpdateableSpinnerBrick, CatrobatLanguageAttributes {
 
 	private static final long serialVersionUID = 1L;
 
 	private WhenGamepadButtonScript script;
+	private transient BrickSpinner<StringOption> spinner;
 
 	public WhenGamepadButtonBrick() {
 		script = new WhenGamepadButtonScript();
@@ -81,7 +86,7 @@ public class WhenGamepadButtonBrick extends ScriptBrickBaseType implements Brick
 		items.add(new StringOption(context.getString(R.string.cast_gamepad_left)));
 		items.add(new StringOption(context.getString(R.string.cast_gamepad_right)));
 
-		BrickSpinner<StringOption> spinner = new BrickSpinner<>(R.id.brick_when_gamepad_button_spinner, view, items);
+		spinner = new BrickSpinner<>(R.id.brick_when_gamepad_button_spinner, view, items);
 		spinner.setOnItemSelectedListener(this);
 		spinner.setSelection(script.getAction());
 		return view;
@@ -116,5 +121,43 @@ public class WhenGamepadButtonBrick extends ScriptBrickBaseType implements Brick
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	}
+
+	@Override
+	public void updateSelectedItem(Context context, int spinnerId, String itemName, int itemIndex) {
+		if (spinner != null) {
+			spinner.setSelection(itemName);
+		}
+	}
+
+	@Override
+	protected String getCatrobatLanguageSpinnerValue(int spinnerIndex) {
+		switch (spinnerIndex) {
+			case 0:
+				return "A";
+			case 1:
+				return "B";
+			case 2:
+				return "up";
+			case 3:
+				return "down";
+			case 4:
+				return "left";
+			case 5:
+				return "right";
+			default:
+				throw new IndexOutOfBoundsException("Invalid spinnerIndex");
+		}
+	}
+
+	@Override
+	public void appendCatrobatLanguageArguments(StringBuilder brickBuilder) {
+		brickBuilder.append("gamepad button: (");
+		int index = 0;
+		if (spinner != null) {
+			index = spinner.getItems().indexOf(spinner.getSelection());
+		}
+		brickBuilder.append(getCatrobatLanguageSpinnerValue(index))
+				.append(')');
 	}
 }

@@ -26,13 +26,15 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.io.catlang.CatrobatLanguageBrick;
 
+@CatrobatLanguageBrick(command = "Wait until")
 public class WaitUntilBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	public WaitUntilBrick() {
-		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_wait_until_edit_text);
+		addAllowedBrickField(BrickField.IF_CONDITION, R.id.brick_wait_until_edit_text, "condition");
 	}
 
 	public WaitUntilBrick(Formula formula) {
