@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,6 +47,7 @@ import static org.junit.Assert.assertNull;
 
 import static androidx.test.espresso.Espresso.onIdle;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
@@ -68,7 +69,7 @@ public class RemoveTabsTest {
 		assertTabLayoutIsShown(FRAGMENT_SCRIPTS);
 		onView(withId(R.id.button_add)).perform(click());
 		assertTabLayoutIsNotShown();
-		Espresso.pressBack();
+		pressBack();
 		assertTabLayoutIsShown(FRAGMENT_SCRIPTS);
 	}
 
@@ -77,8 +78,7 @@ public class RemoveTabsTest {
 		assertTabLayoutIsShown(FRAGMENT_SCRIPTS);
 		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
 		assertTabLayoutIsNotShown();
-		Espresso.pressBack();
-		Espresso.pressBack();
+		pressBack();
 		assertTabLayoutIsShown(FRAGMENT_SCRIPTS);
 	}
 
