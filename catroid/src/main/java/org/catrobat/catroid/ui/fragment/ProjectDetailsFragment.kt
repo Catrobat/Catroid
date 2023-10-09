@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,28 +22,28 @@
  */
 package org.catrobat.catroid.ui.fragment
 
-import org.catrobat.catroid.ui.BottomBar.hideBottomBar
-import org.catrobat.catroid.common.ProjectData
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import android.os.Bundle
-import org.catrobat.catroid.R
-import org.catrobat.catroid.io.XstreamSerializer
-import org.catrobat.catroid.ProjectManager
-import org.catrobat.catroid.utils.ToastUtil
-import org.catrobat.catroid.exceptions.LoadingProjectException
-import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
-import org.catrobat.catroid.utils.FileMetaDataExtractor
-import org.catrobat.catroid.common.FlavoredConstants
-import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
 import android.text.format.DateFormat
 import android.text.format.DateUtils
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.R
+import org.catrobat.catroid.common.AndroidAppConstants
+import org.catrobat.catroid.common.ProjectData
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.databinding.FragmentProjectShowDetailsBinding
+import org.catrobat.catroid.exceptions.LoadingProjectException
+import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
+import org.catrobat.catroid.io.XstreamSerializer
+import org.catrobat.catroid.ui.BottomBar.hideBottomBar
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
+import org.catrobat.catroid.utils.FileMetaDataExtractor
+import org.catrobat.catroid.utils.ToastUtil
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.io.IOException
@@ -105,7 +105,7 @@ class ProjectDetailsFragment : Fragment() {
         )
         val size = FileMetaDataExtractor
             .getSizeAsString(
-                File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectData.name),
+                File(AndroidAppConstants.getAppRootDirectory(), projectData.name),
                 requireContext()
             )
         val modeText = if (header.islandscapeMode()) {

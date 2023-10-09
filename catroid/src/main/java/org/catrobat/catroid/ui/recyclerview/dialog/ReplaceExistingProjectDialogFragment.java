@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,6 +33,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.AndroidAppConstants;
 import org.catrobat.catroid.ui.ViewUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.InputWatcher;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
@@ -44,8 +45,6 @@ import java.io.File;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
-
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public class ReplaceExistingProjectDialogFragment extends DialogFragment {
 
@@ -67,7 +66,7 @@ public class ReplaceExistingProjectDialogFragment extends DialogFragment {
 
 	public static Boolean projectExistsInDirectory(String projectName) {
 		String projectDirectoryName = FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName);
-		return new File(DEFAULT_ROOT_DIRECTORY, projectDirectoryName).exists();
+		return new File(AndroidAppConstants.getAppRootDirectory(), projectDirectoryName).exists();
 	}
 
 	@NotNull

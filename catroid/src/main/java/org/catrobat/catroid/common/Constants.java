@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,6 @@ import androidx.annotation.IntDef;
 import androidx.exifinterface.media.ExifInterface;
 
 import static org.catrobat.catroid.common.FlavoredConstants.BASE_URL_HTTPS;
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public final class Constants {
 
@@ -87,8 +86,6 @@ public final class Constants {
 	public static final String SOUND_DIRECTORY_NAME = "sounds";
 	public static final String SCREENSHOT_AUTOMATIC_FILE_NAME = "automatic_screenshot" + DEFAULT_IMAGE_EXTENSION;
 	public static final String SCREENSHOT_MANUAL_FILE_NAME = "manual_screenshot" + DEFAULT_IMAGE_EXTENSION;
-	public static final File TMP_LOOK_FILE =
-			new File(DEFAULT_ROOT_DIRECTORY, "temporary_look_file" + DEFAULT_IMAGE_EXTENSION);
 
 	// Recent Bricks Directory
 	public static final String RECENT_BRICKS_DIRECTORY = "recent_bricks";
@@ -105,7 +102,7 @@ public final class Constants {
 	public static final String TRUSTED_DOMAINS_FILE_NAME = "trustedDomains.json";
 	public static final String TRUSTED_USER_DOMAINS_FILE_NAME = "trustedUserDomains.json";
 	public static final String TRUST_LIST_JSON_ARRAY_NAME = "domains";
-	public static final File TRUSTED_USER_DOMAINS_FILE = new File(DEFAULT_ROOT_DIRECTORY, TRUSTED_USER_DOMAINS_FILE_NAME);
+
 	public static final int JSON_INDENTATION = 4;
 
 	// Temporary Files and Directories:
@@ -324,41 +321,41 @@ public final class Constants {
 	//ExifTags for Exifremover
 	public static final ArrayList<String> EXIFTAGS_FOR_EXIFREMOVER =
 			new ArrayList<String>(Arrays.asList(
-			ExifInterface.TAG_ARTIST,
-			ExifInterface.TAG_DATETIME,
-			ExifInterface.TAG_DATETIME_ORIGINAL,
-			ExifInterface.TAG_DATETIME_DIGITIZED,
-			ExifInterface.TAG_EXPOSURE_TIME,
-			ExifInterface.TAG_FLASH,
-			ExifInterface.TAG_FILE_SOURCE,
-			ExifInterface.TAG_GPS_ALTITUDE,
-			ExifInterface.TAG_GPS_ALTITUDE_REF,
-			ExifInterface.TAG_GPS_AREA_INFORMATION,
-			ExifInterface.TAG_GPS_DATESTAMP,
-			ExifInterface.TAG_GPS_DEST_BEARING,
-			ExifInterface.TAG_GPS_DEST_BEARING_REF,
-			ExifInterface.TAG_GPS_DEST_DISTANCE,
-			ExifInterface.TAG_GPS_DEST_DISTANCE_REF,
-			ExifInterface.TAG_GPS_DEST_LATITUDE,
-			ExifInterface.TAG_GPS_DEST_LATITUDE_REF,
-			ExifInterface.TAG_GPS_DEST_LONGITUDE,
-			ExifInterface.TAG_GPS_DEST_LONGITUDE_REF,
-			ExifInterface.TAG_GPS_LATITUDE,
-			ExifInterface.TAG_GPS_LATITUDE_REF,
-			ExifInterface.TAG_GPS_LONGITUDE,
-			ExifInterface.TAG_GPS_LONGITUDE_REF,
-			ExifInterface.TAG_GPS_MAP_DATUM,
-			ExifInterface.TAG_GPS_SATELLITES,
-			ExifInterface.TAG_GPS_TIMESTAMP,
-			ExifInterface.TAG_GPS_PROCESSING_METHOD,
-			ExifInterface.TAG_GPS_DATESTAMP,
-			ExifInterface.TAG_MAKE,
-			ExifInterface.TAG_MODEL,
-			ExifInterface.TAG_IMAGE_DESCRIPTION,
-			ExifInterface.TAG_STRIP_OFFSETS,
-			ExifInterface.TAG_SOFTWARE,
-			ExifInterface.TAG_CAMARA_OWNER_NAME
-	));
+					ExifInterface.TAG_ARTIST,
+					ExifInterface.TAG_DATETIME,
+					ExifInterface.TAG_DATETIME_ORIGINAL,
+					ExifInterface.TAG_DATETIME_DIGITIZED,
+					ExifInterface.TAG_EXPOSURE_TIME,
+					ExifInterface.TAG_FLASH,
+					ExifInterface.TAG_FILE_SOURCE,
+					ExifInterface.TAG_GPS_ALTITUDE,
+					ExifInterface.TAG_GPS_ALTITUDE_REF,
+					ExifInterface.TAG_GPS_AREA_INFORMATION,
+					ExifInterface.TAG_GPS_DATESTAMP,
+					ExifInterface.TAG_GPS_DEST_BEARING,
+					ExifInterface.TAG_GPS_DEST_BEARING_REF,
+					ExifInterface.TAG_GPS_DEST_DISTANCE,
+					ExifInterface.TAG_GPS_DEST_DISTANCE_REF,
+					ExifInterface.TAG_GPS_DEST_LATITUDE,
+					ExifInterface.TAG_GPS_DEST_LATITUDE_REF,
+					ExifInterface.TAG_GPS_DEST_LONGITUDE,
+					ExifInterface.TAG_GPS_DEST_LONGITUDE_REF,
+					ExifInterface.TAG_GPS_LATITUDE,
+					ExifInterface.TAG_GPS_LATITUDE_REF,
+					ExifInterface.TAG_GPS_LONGITUDE,
+					ExifInterface.TAG_GPS_LONGITUDE_REF,
+					ExifInterface.TAG_GPS_MAP_DATUM,
+					ExifInterface.TAG_GPS_SATELLITES,
+					ExifInterface.TAG_GPS_TIMESTAMP,
+					ExifInterface.TAG_GPS_PROCESSING_METHOD,
+					ExifInterface.TAG_GPS_DATESTAMP,
+					ExifInterface.TAG_MAKE,
+					ExifInterface.TAG_MODEL,
+					ExifInterface.TAG_IMAGE_DESCRIPTION,
+					ExifInterface.TAG_STRIP_OFFSETS,
+					ExifInterface.TAG_SOFTWARE,
+					ExifInterface.TAG_CAMARA_OWNER_NAME
+			));
 
 	public static final String FLAVOR_POCKET_CODE = "catroid";
 	public static final String FLAVOR_EMBROIDERY_DESIGNER = "embroideryDesigner";
@@ -377,6 +374,6 @@ public final class Constants {
 	public static final String DEVICE_BRAND_HUAWEI = "huawei";
 
 	private Constants() {
-		throw new AssertionError("No.");
+		//throw new AssertionError("No.");
 	}
 }

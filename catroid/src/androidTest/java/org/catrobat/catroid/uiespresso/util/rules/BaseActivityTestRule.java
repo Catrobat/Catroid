@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,7 @@ package org.catrobat.catroid.uiespresso.util.rules;
 import android.app.Activity;
 import android.util.Log;
 
-import org.catrobat.catroid.common.FlavoredConstants;
+import org.catrobat.catroid.common.AndroidAppConstants;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,8 +54,8 @@ public class BaseActivityTestRule<T extends Activity> extends ActivityTestRule<T
 	}
 
 	public void deleteAllProjects() {
-		if (FlavoredConstants.DEFAULT_ROOT_DIRECTORY.exists() && FlavoredConstants.DEFAULT_ROOT_DIRECTORY.isDirectory()) {
-			for (File file : FlavoredConstants.DEFAULT_ROOT_DIRECTORY.listFiles()) {
+		if (AndroidAppConstants.DEFAULT_ROOT_DIRECTORY.exists() && AndroidAppConstants.DEFAULT_ROOT_DIRECTORY.isDirectory()) {
+			for (File file : AndroidAppConstants.DEFAULT_ROOT_DIRECTORY.listFiles()) {
 				if (file.isDirectory()) {
 					try {
 						deleteDir(file);

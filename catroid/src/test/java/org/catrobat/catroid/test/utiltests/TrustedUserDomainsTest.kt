@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,6 +29,7 @@ import org.catrobat.catroid.TrustedDomainManager.addToUserTrustList
 import org.catrobat.catroid.TrustedDomainManager.getUserTrustList
 import org.catrobat.catroid.TrustedDomainManager.isURLTrusted
 import org.catrobat.catroid.TrustedDomainManager.setUserTrustList
+import org.catrobat.catroid.common.AndroidAppConstants
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.utils.Utils
@@ -96,7 +97,7 @@ class TrustedUserDomainsTest {
 
     @Test
     fun testAddToUserTrustList() {
-        Constants.TRUSTED_USER_DOMAINS_FILE.createNewFile()
+        AndroidAppConstants.TRUSTED_USER_DOMAINS_FILE.createNewFile()
         given(Utils.getJsonObjectFromInputStream(any()))
             .willReturn(constructTrustList(listOf("tugraz.at")))
         addToUserTrustList("wikipedia.net")
@@ -107,7 +108,7 @@ class TrustedUserDomainsTest {
 
     @Test
     fun testGetUserTrustList() {
-        Constants.TRUSTED_USER_DOMAINS_FILE.createNewFile()
+        AndroidAppConstants.TRUSTED_USER_DOMAINS_FILE.createNewFile()
         given(Utils.getJsonObjectFromInputStream(any()))
             .willReturn(constructTrustList(listOf("tugraz.at", "wikipedia.net")))
         assertEquals("tugraz.at\nwikipedia.net", getUserTrustList())

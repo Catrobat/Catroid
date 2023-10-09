@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,9 +25,9 @@ package org.catrobat.catroid
 
 import android.util.Log
 import androidx.annotation.VisibleForTesting
+import org.catrobat.catroid.common.AndroidAppConstants.TRUSTED_USER_DOMAINS_FILE
 import org.catrobat.catroid.common.Constants.JSON_INDENTATION
 import org.catrobat.catroid.common.Constants.TRUSTED_DOMAINS_FILE_NAME
-import org.catrobat.catroid.common.Constants.TRUSTED_USER_DOMAINS_FILE
 import org.catrobat.catroid.common.Constants.TRUST_LIST_JSON_ARRAY_NAME
 import org.catrobat.catroid.utils.Utils
 import org.json.JSONArray
@@ -61,9 +61,18 @@ object TrustedDomainManager {
                 TRUSTED_USER_DOMAINS_FILE.exists() ->
                     TRUSTED_USER_DOMAINS_FILE.inputStream().use {
                         val trustList = Utils.getJsonObjectFromInputStream(it)
-                        trustList.getJSONArray(TRUST_LIST_JSON_ARRAY_NAME).put(cleanUpUserInput(domain))
-                }
-                TRUSTED_USER_DOMAINS_FILE.createNewFile() -> JSONArray(listOf(cleanUpUserInput(domain)))
+                        trustList.getJSONArray(TRUST_LIST_JSON_ARRAY_NAME)
+                            .put(cleanUpUserInput(domain))
+                    }
+
+                TRUSTED_USER_DOMAINS_FILE.createNewFile() -> JSONArray(
+                    listOf(
+                        cleanUpUserInput(
+                            domain
+                        )
+                    )
+                )
+
                 else -> return false
             }
             userTrustListPattern = getTrustListPatternFromDomains(domains)
@@ -108,6 +117,7 @@ object TrustedDomainManager {
                     TRUSTED_USER_DOMAINS_FILE.writeText(trustList.toString(JSON_INDENTATION))
                     true
                 }
+
                 else -> false
             }
         } catch (e: IOException) {

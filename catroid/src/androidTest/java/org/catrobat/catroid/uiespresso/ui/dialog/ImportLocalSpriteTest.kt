@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,7 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.platform.app.InstrumentationRegistry
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
-import org.catrobat.catroid.common.FlavoredConstants
+import org.catrobat.catroid.common.AndroidAppConstants
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
@@ -306,7 +306,7 @@ class ImportLocalSpriteTest {
         projectToImportTo.defaultScene.addSprite(dog)
         saveProjectSerial(projectToImportTo, ApplicationProvider.getApplicationContext())
         projectManager.value.loadProject(
-            File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "projectToImportTo")
+            File(AndroidAppConstants.DEFAULT_ROOT_DIRECTORY, "projectToImportTo")
         )
     }
 

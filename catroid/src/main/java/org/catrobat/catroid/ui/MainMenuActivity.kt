@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2021 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,6 +44,7 @@ import org.catrobat.catroid.BuildConfig
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.cast.CastManager
+import org.catrobat.catroid.common.AndroidAppConstants
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.common.FlavoredConstants.CATROBAT_HELP_URL
@@ -327,7 +328,7 @@ class MainMenuActivity : BaseCastActivity(), ProjectLoadListener {
         try {
             val inputStream = assets.open(BuildConfig.START_PROJECT + ".zip")
             val projectDir = File(
-                FlavoredConstants.DEFAULT_ROOT_DIRECTORY,
+                AndroidAppConstants.getAppRootDirectory(),
                 FileMetaDataExtractor.encodeSpecialCharsForFileSystem(
                     BuildConfig.PROJECT_NAME
                 )

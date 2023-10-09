@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -43,8 +43,8 @@ import com.google.common.base.Charsets
 import com.google.common.io.Files
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.common.AndroidAppConstants
 import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.databinding.ActivityUploadBinding
 import org.catrobat.catroid.databinding.DialogReplaceApiKeyBinding
@@ -71,7 +71,6 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.nio.charset.StandardCharsets
-import java.util.ArrayList
 import java.util.Objects
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -648,7 +647,7 @@ open class ProjectUploadActivity : BaseActivity(),
                 return getString(R.string.error_upload_project_with_default_name, name)
             }
             return if (name != project.name &&
-                FileMetaDataExtractor.getProjectNames(FlavoredConstants.DEFAULT_ROOT_DIRECTORY)
+                FileMetaDataExtractor.getProjectNames(AndroidAppConstants.getAppRootDirectory())
                     .contains(name)
             ) {
                 getString(R.string.name_already_exists)

@@ -1,6 +1,6 @@
-	/*
+/*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.controller;
 
+import org.catrobat.catroid.common.AndroidAppConstants;
 import org.catrobat.catroid.common.RecentBricksHolder;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
@@ -48,38 +49,34 @@ import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.RECENT_BRICKS_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.RECENT_BRICKS_FILE;
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public final class RecentBrickListManager {
 
+	private static final RecentBrickListManager INSTANCE = new RecentBrickListManager();
+	public final File recentBrickListDirectory =
+			new File(AndroidAppConstants.getAppRootDirectory(),
+					RECENT_BRICKS_DIRECTORY);
+	public final File recentBricksFile = new File(recentBrickListDirectory, RECENT_BRICKS_FILE);
+	private final RecentBrickListSerializer recentBricksSerializer =
+			new RecentBrickListSerializer(recentBricksFile);
 	private final Class[] nonBackgroundSpriteClasses = {WhenBounceOffBrick.class,
 			IfOnEdgeBounceBrick.class, GoNStepsBackBrick.class, ComeToFrontBrick.class,
 			SetLookBrick.class, SetLookByIndexBrick.class, SayBubbleBrick.class,
 			SayForBubbleBrick.class, ThinkBubbleBrick.class, ThinkForBubbleBrick.class,
 			LookRequestBrick.class, PenDownBrick.class, PenUpBrick.class, SetPenSizeBrick.class,
 			SetPenColorBrick.class, StampBrick.class};
-
-	private static final RecentBrickListManager INSTANCE = new RecentBrickListManager();
-
-	public final File recentBrickListDirectory = new File(DEFAULT_ROOT_DIRECTORY,
-			RECENT_BRICKS_DIRECTORY);
-	public final File recentBricksFile = new File(recentBrickListDirectory, RECENT_BRICKS_FILE);
-
 	private RecentBricksHolder recentBricksHolder = new RecentBricksHolder();
-
-	private final RecentBrickListSerializer recentBricksSerializer =
-			new RecentBrickListSerializer(recentBricksFile);
-
-	public static RecentBrickListManager getInstance() {
-		return INSTANCE;
-	}
 
 	private RecentBrickListManager() {
 		createRecentbrickDirectories();
 	}
 
+	public static RecentBrickListManager getInstance() {
+		return INSTANCE;
+	}
+
 	private void createRecentbrickDirectories() {
-		DEFAULT_ROOT_DIRECTORY.mkdir();
+		AndroidAppConstants.getAppRootDirectory().mkdir();
 		recentBrickListDirectory.mkdir();
 	}
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,7 @@ import android.view.View
 import androidx.annotation.PluralsRes
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.common.AndroidAppConstants
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.LookData
 import org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_LOOKS_PREFERENCE_KEY
@@ -47,7 +48,6 @@ import org.catrobat.catroid.utils.SnackbarUtil
 import org.catrobat.catroid.utils.ToastUtil
 import org.koin.android.ext.android.inject
 import java.io.IOException
-import java.util.ArrayList
 
 class LookListFragment : RecyclerViewFragment<LookData?>() {
     private val lookController = LookController()
@@ -141,8 +141,8 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
     }
 
     private fun disposeItem() {
-        if (Constants.TMP_LOOK_FILE.exists()) {
-            Constants.TMP_LOOK_FILE.delete()
+        if (AndroidAppConstants.TMP_LOOK_FILE.exists()) {
+            AndroidAppConstants.TMP_LOOK_FILE.delete()
             currentItem = null
         }
     }
@@ -198,7 +198,7 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
     fun undo(): Boolean {
         currentItem?.let {
             try {
-                StorageOperations.copyFile(Constants.TMP_LOOK_FILE, it.file)
+                StorageOperations.copyFile(AndroidAppConstants.TMP_LOOK_FILE, it.file)
             } catch (e: IOException) {
                 Log.e(TAG, Log.getStackTraceString(e))
             }
@@ -228,12 +228,13 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
         item?.invalidateThumbnailBitmap()
         item?.clearCollisionInformation()
         try {
-            StorageOperations.copyFile(currentItem?.file, Constants.TMP_LOOK_FILE)
+            StorageOperations.copyFile(currentItem?.file, AndroidAppConstants.TMP_LOOK_FILE)
         } catch (e: IOException) {
             Log.e(TAG, Log.getStackTraceString(e))
         }
         val intent = Intent("android.intent.action.MAIN")
-        intent.component = ComponentName(requireActivity(), Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME)
+        intent.component =
+            ComponentName(requireActivity(), Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME)
         val bundle = Bundle()
         bundle.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, item?.file?.absolutePath)
         intent.putExtras(bundle)
@@ -253,8 +254,10 @@ class LookListFragment : RecyclerViewFragment<LookData?>() {
             R.id.from_local,
             R.id.from_library
         )
-        val popupMenu = UiUtils.createSettingsPopUpMenu(view, requireContext(), R.menu
-            .menu_project_activity, hiddenOptionMenuIds)
+        val popupMenu = UiUtils.createSettingsPopUpMenu(
+            view, requireContext(), R.menu
+                .menu_project_activity, hiddenOptionMenuIds
+        )
 
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {

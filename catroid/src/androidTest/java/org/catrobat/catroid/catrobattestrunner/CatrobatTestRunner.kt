@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,9 +28,8 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import androidx.test.rule.GrantPermissionRule
-import org.junit.Assert
+import org.catrobat.catroid.common.AndroidAppConstants
 import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.asynctask.loadProject
 import org.catrobat.catroid.io.asynctask.unzipAndImportProjects
@@ -38,6 +37,7 @@ import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.TestResult
 import org.catrobat.catroid.test.utils.TestUtils
 import org.junit.After
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -45,7 +45,6 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import java.io.File
 import java.io.IOException
-import java.util.ArrayList
 
 @RunWith(Parameterized::class)
 class CatrobatTestRunner {
@@ -105,14 +104,14 @@ class CatrobatTestRunner {
     fun setUp() {
         val projectName = assetName.replace(Constants.CATROBAT_EXTENSION, "")
         TestUtils.deleteProjects(projectName)
-        FlavoredConstants.DEFAULT_ROOT_DIRECTORY.mkdir()
+        AndroidAppConstants.getAppRootDirectory().mkdir()
         Constants.CACHE_DIRECTORY.mkdir()
         val inputStream = InstrumentationRegistry.getInstrumentation().context.assets
             .open("$assetPath/$assetName")
         val projectArchive = StorageOperations
             .copyStreamToDir(inputStream, Constants.CACHE_DIRECTORY, assetName)
         Assert.assertTrue(unzipAndImportProjects(arrayOf(projectArchive)))
-        val projectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName)
+        val projectDir = File(AndroidAppConstants.getAppRootDirectory(), projectName)
         Assert.assertTrue(
             loadProject(projectDir, ApplicationProvider.getApplicationContext())
         )

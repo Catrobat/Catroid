@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,6 +45,7 @@ import com.huawei.hms.mlsdk.asr.MLAsrConstants;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.AndroidAppConstants;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.ScratchProgramData;
@@ -85,7 +86,6 @@ import static android.speech.RecognizerIntent.EXTRA_SUPPORTED_LANGUAGES;
 import static org.catrobat.catroid.common.Constants.EXIFTAGS_FOR_EXIFREMOVER;
 import static org.catrobat.catroid.common.Constants.MAX_FILE_NAME_LENGTH;
 import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_CODE_INVALID;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_LENGTH;
@@ -384,15 +384,15 @@ public final class Utils {
 	public static String getCurrentProjectName(Context context) {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
 
-			if (FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).size() == 0) {
+			if (FileMetaDataExtractor.getProjectNames(AndroidAppConstants.getAppRootDirectory()).size() == 0) {
 				ProjectManager.getInstance().initializeDefaultProject(context);
 			}
 
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String currentProjectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
 			if (currentProjectName == null
-					|| !FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(currentProjectName)) {
-				currentProjectName = FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).get(0);
+					|| !FileMetaDataExtractor.getProjectNames(AndroidAppConstants.getAppRootDirectory()).contains(currentProjectName)) {
+				currentProjectName = FileMetaDataExtractor.getProjectNames(AndroidAppConstants.getAppRootDirectory()).get(0);
 			}
 			return currentProjectName;
 		}
@@ -410,7 +410,7 @@ public final class Utils {
 		try {
 			String uniqueProjectName = "project_" + System.currentTimeMillis();
 
-			while (FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(uniqueProjectName)) {
+			while (FileMetaDataExtractor.getProjectNames(AndroidAppConstants.getAppRootDirectory()).contains(uniqueProjectName)) {
 				uniqueProjectName = "project_" + System.currentTimeMillis();
 			}
 

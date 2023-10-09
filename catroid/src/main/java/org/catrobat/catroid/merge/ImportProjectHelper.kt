@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,8 +32,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import org.catrobat.catroid.ProjectManager.checkForVariablesConflicts
 import org.catrobat.catroid.R
+import org.catrobat.catroid.common.AndroidAppConstants
 import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
@@ -142,7 +142,7 @@ class ImportProjectHelper(
     }
 
     fun getProject(resolvedName: String): Project? {
-        val projectDir = File(DEFAULT_ROOT_DIRECTORY, resolvedName)
+        val projectDir = File(AndroidAppConstants.getAppRootDirectory(), resolvedName)
         return if (projectDir.exists() && projectDir.isDirectory) {
             XstreamSerializer.getInstance()
                 .loadProject(projectDir, context)

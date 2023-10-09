@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,8 +40,8 @@ import androidx.annotation.PluralsRes
 import androidx.annotation.RequiresApi
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.common.AndroidAppConstants
 import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.common.ProjectData
 import org.catrobat.catroid.common.SharedPreferenceKeys
 import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser
@@ -522,7 +522,7 @@ class ProjectListFragment : RecyclerViewFragment<ProjectData?>(), ProjectLoadLis
 
         @JvmStatic
         fun getLocalProjectList(items: MutableList<ProjectData>) {
-            FlavoredConstants.DEFAULT_ROOT_DIRECTORY.listFiles()?.forEach { projectDir ->
+            AndroidAppConstants.getAppRootDirectory().listFiles()?.forEach { projectDir ->
                 val xmlFile = File(projectDir, Constants.CODE_XML_FILE_NAME)
                 if (!xmlFile.exists()) {
                     return@forEach

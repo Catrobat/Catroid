@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,6 +29,7 @@ import android.widget.ImageView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.AndroidAppConstants;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.utils.ImageEditing;
@@ -51,7 +52,6 @@ import java.util.concurrent.Executors;
 import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.SCREENSHOT_MANUAL_FILE_NAME;
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public class ProjectAndSceneScreenshotLoader {
 
@@ -232,13 +232,13 @@ public class ProjectAndSceneScreenshotLoader {
 					manualScreenshotFile = new File(sceneDir, SCREENSHOT_MANUAL_FILE_NAME);
 					automaticScreenShotFile = new File(sceneDir, SCREENSHOT_AUTOMATIC_FILE_NAME);
 				} else {
-					File sceneDir = new File(new File(DEFAULT_ROOT_DIRECTORY,
+					File sceneDir = new File(new File(AndroidAppConstants.getAppRootDirectory(),
 							projectAndSceneScreenshotData.projectName), projectAndSceneScreenshotData.sceneName);
 					manualScreenshotFile = new File(sceneDir, SCREENSHOT_MANUAL_FILE_NAME);
 					automaticScreenShotFile = new File(sceneDir, SCREENSHOT_AUTOMATIC_FILE_NAME);
 				}
 			} else {
-				File projectDir = new File(DEFAULT_ROOT_DIRECTORY, projectAndSceneScreenshotData.projectName);
+				File projectDir = new File(AndroidAppConstants.getAppRootDirectory(), projectAndSceneScreenshotData.projectName);
 				manualScreenshotFile = new File(projectDir, SCREENSHOT_MANUAL_FILE_NAME);
 				automaticScreenShotFile = new File(projectDir, SCREENSHOT_AUTOMATIC_FILE_NAME);
 				if (!automaticScreenShotFile.exists()) {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,15 +28,15 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.util.Log
 import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.common.AndroidAppConstants
 import org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME
 import org.catrobat.catroid.common.Constants.SCREENSHOT_MANUAL_FILE_NAME
-import org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY
 import org.catrobat.catroid.common.ScreenValues
 import java.io.File
 
 @SuppressWarnings("TooGenericExceptionCaught")
 fun ProjectManager.getProjectBitmap(): Bitmap {
-    val projectDir = File(DEFAULT_ROOT_DIRECTORY, currentProject.name)
+    val projectDir = File(AndroidAppConstants.getAppRootDirectory(), currentProject.name)
     val sceneDir = File(projectDir, currentlyPlayingScene.name)
     val automaticScreenshot = File(sceneDir, SCREENSHOT_AUTOMATIC_FILE_NAME)
     val manualScreenshot = File(sceneDir, SCREENSHOT_MANUAL_FILE_NAME)
