@@ -25,10 +25,8 @@ package org.catrobat.catroid.test.utiltests
 import android.content.Context
 import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.TrustedDomainManager
-import org.catrobat.catroid.TrustedDomainManager.addToUserTrustList
 import org.catrobat.catroid.TrustedDomainManager.getUserTrustList
 import org.catrobat.catroid.TrustedDomainManager.isURLTrusted
-import org.catrobat.catroid.TrustedDomainManager.setUserTrustList
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.utils.Utils
@@ -37,7 +35,6 @@ import org.json.JSONObject
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
@@ -79,33 +76,6 @@ class TrustedUserDomainsTest {
     }
 
     @Test
-    fun testSetUserTrustList() {
-        assertTrue(setUserTrustList("tugraz.at\nwikipedia.net"))
-        assertTrue(isURLTrusted("https://www.tugraz.at"))
-        assertTrue(isURLTrusted("https://www.wikipedia.net/blabla"))
-        assertFalse(isURLTrusted("https://www.darknet.com/"))
-    }
-
-    @Test
-    fun testWhitespaces() {
-        assertTrue(setUserTrustList(" t ugra z.a t   \n wik iped ia.net   "))
-        assertTrue(isURLTrusted("https://www.tugraz.at"))
-        assertTrue(isURLTrusted("https://www.wikipedia.net/blabla"))
-        assertFalse(isURLTrusted("https://www.darknet.com/"))
-    }
-
-    @Test
-    fun testAddToUserTrustList() {
-        Constants.TRUSTED_USER_DOMAINS_FILE.createNewFile()
-        given(Utils.getJsonObjectFromInputStream(any()))
-            .willReturn(constructTrustList(listOf("tugraz.at")))
-        addToUserTrustList("wikipedia.net")
-        assertTrue(isURLTrusted("https://www.tugraz.at"))
-        assertTrue(isURLTrusted("https://www.wikipedia.net/blabla"))
-        assertFalse(isURLTrusted("https://www.darknet.com/"))
-    }
-
-    @Test
     fun testGetUserTrustList() {
         Constants.TRUSTED_USER_DOMAINS_FILE.createNewFile()
         given(Utils.getJsonObjectFromInputStream(any()))
@@ -115,7 +85,7 @@ class TrustedUserDomainsTest {
 
     @After
     fun tearDown() {
-        TrustedDomainManager.resetUserTrustList()
+        TrustedDomainManager.reset()
     }
 
     private fun constructTrustList(domains: List<String>): JSONObject =
