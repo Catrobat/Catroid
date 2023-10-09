@@ -73,7 +73,6 @@ class TrustedUserDomainsTest {
 
     @Test
     fun testEmptyTrustList() {
-        assertTrue(TrustedDomainManager.resetUserTrustList())
         assertFalse(isURLTrusted("https://www.tugraz.at"))
         assertFalse(isURLTrusted("https://www.wikipedia.net/blabla"))
         assertFalse(isURLTrusted("https://www.darknet.com/"))

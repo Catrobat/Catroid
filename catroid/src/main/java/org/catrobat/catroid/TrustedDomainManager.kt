@@ -49,8 +49,13 @@ object TrustedDomainManager {
     @Synchronized
     fun isURLTrusted(url: String): Boolean {
         if (userTrustListPattern == null) {
+            println("userTrustListPattern is null")
             userTrustListPattern = initializeUserTrustListPattern()
         }
+        println("55 - " + trustListPattern.toString())
+        println("56 - " + trustListPattern?.matcher(url)?.matches())
+        println("57 - " + userTrustListPattern.toString())
+        println("58 - " + userTrustListPattern?.matcher(url)?.matches())
         return trustListPattern?.matcher(url)?.matches() ?: false ||
             userTrustListPattern?.matcher(url)?.matches() ?: false
     }
