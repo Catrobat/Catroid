@@ -360,6 +360,22 @@ public final class Constants {
 			ExifInterface.TAG_CAMARA_OWNER_NAME
 	));
 
+	public static final String FLAVOR_POCKET_CODE = "catroid";
+	public static final String FLAVOR_EMBROIDERY_DESIGNER = "embroideryDesigner";
+	public static final String FLAVOR_LEGO_NXT_EV3 = "mindstorms";
+	public static final String FLAVOR_PHIRO = "phiro";
+	public static final String FLAVOR_LUNA_AND_CAT = "lunaAndCat";
+	public static final String FLAVOR_CREATE_AT_SCHOOL = "createAtSchool";
+
+	public static final String PREFRENCE_PLAYSTORE_EMBROIDERY_URL = "https://play.google.com/store/apps/details?id=org.catrobat.catroid.embroiderydesigner";
+	public static final String PREFRENCE_APPGALLERY_EMBROIDERY_URL = "https://appgallery.huawei.com/app/C100085769";
+	public static final String PREFRENCE_PLAYSTORE_MINDSTORMS_URL = "https://play.google.com/store/apps/details?id=org.catrobat.catroid";
+	public static final String PREFRENCE_APPGALLERY_MINDSTORMS_URL = "https://appgallery.huawei.com/app/C100085769";
+	public static final String PREFRENCE_PLAYSTORE_PHIRO_URL = "https://play.google.com/store/apps/details?id=org.catrobat.catroid.phiro";
+	public static final String PREFRENCE_APPGALLERY_PHIRO_URL = "https://appgallery.huawei.com/app/C100085769";
+
+	public static final String DEVICE_BRAND_HUAWEI = "huawei";
+
 	private Constants() {
 		throw new AssertionError("No.");
 	}

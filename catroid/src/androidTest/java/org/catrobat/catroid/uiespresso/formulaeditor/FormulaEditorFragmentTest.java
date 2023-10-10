@@ -22,17 +22,16 @@
  */
 package org.catrobat.catroid.uiespresso.formulaeditor;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.rules.FlakyTestRule;
 import org.catrobat.catroid.runner.Flaky;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
@@ -45,7 +44,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
@@ -71,7 +69,19 @@ public class FormulaEditorFragmentTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject("formulaEditorFragmentTest");
+		Project project = UiTestUtils.createDefaultTestProject("formulaEditorFragmentTest");
+		Sprite sprite = project.getDefaultScene().getSprite(TestUtils.DEFAULT_TEST_SPRITE_NAME);
+		Script script = sprite.getScript(TestUtils.DEFAULT_TEST_SCRIPT_INDEX);
+
+		SetVariableBrick setVariableBrick = new SetVariableBrick(new Formula(1), new UserVariable("var"));
+		UserVariable userVariable = new UserVariable("Global1");
+		project.addUserVariable(userVariable);
+		setVariableBrick.setUserVariable(userVariable);
+
+		script.addBrick(setVariableBrick);
+		sprite.addScript(script);
+		project.getDefaultScene().addSprite(sprite);
+
 		baseActivityTestRule.launchActivity();
 	}
 
@@ -157,25 +167,5 @@ public class FormulaEditorFragmentTest {
 
 	@After
 	public void tearDown() throws Exception {
-	}
-
-	public Project createProject(String projectName) {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Sprite sprite = new Sprite("testSprite");
-		Script script = new StartScript();
-
-		SetVariableBrick setVariableBrick = new SetVariableBrick(new Formula(1), new UserVariable("var"));
-		UserVariable userVariable = new UserVariable("Global1");
-		project.addUserVariable(userVariable);
-		setVariableBrick.setUserVariable(userVariable);
-
-		script.addBrick(setVariableBrick);
-		sprite.addScript(script);
-		project.getDefaultScene().addSprite(sprite);
-
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-
-		return project;
 	}
 }

@@ -27,7 +27,6 @@ import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickCategoryListMatchers;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickPrototypeListMatchers;
@@ -79,7 +78,7 @@ public class UserDefinedBrickTest {
 
 	@Before
 	public void setUp() throws IOException {
-		BrickTestUtils.createProjectAndGetStartScript(UserDefinedBrickTest.class.getSimpleName());
+		UiTestUtils.createProjectAndGetStartScript(UserDefinedBrickTest.class.getSimpleName());
 		baseActivityTestRule.launchActivity();
 	}
 

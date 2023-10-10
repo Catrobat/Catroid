@@ -43,7 +43,6 @@ import org.catrobat.catroid.content.bricks.SpeakBrick
 import org.catrobat.catroid.content.bricks.StartListeningBrick
 import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils
 import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.matchers.BrickCategoryListMatchers
 import org.catrobat.catroid.uiespresso.util.matchers.BrickPrototypeListMatchers
@@ -136,7 +135,7 @@ class SpeechAIExtensionSettingsBricksTest(
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        val script = BrickTestUtils.createProjectAndGetStartScript("projectName")
+        val script = UiTestUtils.createProjectAndGetStartScript("projectName")
         script.addBrick(ChangeSizeByNBrick(0.0))
 
         baseActivityTestRule.launchActivity()

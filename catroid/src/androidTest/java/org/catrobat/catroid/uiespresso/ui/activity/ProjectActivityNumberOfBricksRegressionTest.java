@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.ui.activity;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.LookData;
@@ -47,7 +46,6 @@ import org.junit.runner.RunWith;
 
 import java.util.Locale;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
@@ -92,11 +90,10 @@ public class ProjectActivityNumberOfBricksRegressionTest {
 	}
 
 	private void createProject() {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), "ProjectActivityNumberOfBricksRegressionTest");
+		Project project = UiTestUtils.createDefaultTestProject("ProjectActivityNumberOfBricksRegressionTest");
+		Sprite firstSprite = UiTestUtils.getDefaultTestSprite(project);
 
-		Sprite firstSprite = new Sprite("firstSprite");
-
-		Script firstScript = new StartScript();
+		Script firstScript = UiTestUtils.getDefaultTestScript(project);
 		firstScript.addBrick(new SetXBrick(new Formula(BrickValues.X_POSITION)));
 		firstScript.addBrick(new SetXBrick(new Formula(BrickValues.X_POSITION)));
 		firstSprite.addScript(firstScript);
@@ -114,10 +111,5 @@ public class ProjectActivityNumberOfBricksRegressionTest {
 		LookData anotherLookData = new LookData();
 		anotherLookData.setName("blue");
 		firstSprite.getLookList().add(anotherLookData);
-
-		project.getDefaultScene().addSprite(firstSprite);
-
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 	}
 }

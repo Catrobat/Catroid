@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@ import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -38,12 +38,12 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import androidx.test.espresso.Espresso;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionBarWrapper.onActionBar;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
@@ -56,7 +56,7 @@ public class ActionBarScriptTitleAfterExitingFormulaEditorOneSceneProjectTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Script script = BrickTestUtils.createProjectAndGetStartScript("ActionBarScriptTitleAfterExitingFormulaEditorOneSceneProjectTest");
+		Script script = UiTestUtils.createProjectAndGetStartScript("ActionBarScriptTitleAfterExitingFormulaEditorOneSceneProjectTest");
 		script.addBrick(new ChangeSizeByNBrick(0));
 		baseActivityTestRule.launchActivity();
 	}
@@ -65,17 +65,10 @@ public class ActionBarScriptTitleAfterExitingFormulaEditorOneSceneProjectTest {
 	@Test
 	public void actionBarScriptTitleOneSceneProjectTest() {
 		String currentSpriteName = ProjectManager.getInstance().getCurrentSprite().getName();
-
-		onActionBar()
-				.checkTitleMatches(currentSpriteName);
-		onView(withId(R.id.brick_change_size_by_edit_text))
-				.perform(click());
-		onActionBar()
-				.checkTitleMatches(R.string.formula_editor_title);
-
-		Espresso.pressBack();
-		Espresso.pressBack();
-		onActionBar()
-				.checkTitleMatches(currentSpriteName);
+		onActionBar().checkTitleMatches(currentSpriteName);
+		onView(withId(R.id.brick_change_size_by_edit_text)).perform(click());
+		onActionBar().checkTitleMatches(R.string.formula_editor_title);
+		pressBack();
+		onActionBar().checkTitleMatches(currentSpriteName);
 	}
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -2035,12 +2035,11 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="new_empty_sprite_note">Note: The actor or object will be created
         without a look.</string>
     <!-- Information -->
-    <string formatted="false" name="no_variable_selected">No variable selected</string>
-    <string formatted="false" name="search">Search</string>
-    <string formatted="false" name="no_results_found">No results found</string>
-    <string formatted="false" name="query_field_is_empty">Query field is empty</string>
-    <string formatted="false" name="cut">Cut</string>
-    <string formatted="false" name="paste">Paste</string>
+    <string name="no_variable_selected">No variable selected</string>
+    <string name="search">Search</string>
+    <string name="no_results_found">No results found</string>
+    <string name="query_field_is_empty">Query field is empty</string>
+    <string name="paste">Paste</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">Fade particle effect</string>
     <string formatted="false" name="particle_effects_fade_in">in</string>

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -199,6 +199,8 @@ public class StageListener implements ApplicationListener {
 		physicsWorld = scene.resetPhysicsWorld();
 		sprites = new ArrayList<>(scene.getSpriteList());
 
+		resetConditionScriptTriggers();
+
 		embroideryPatternManager = new DSTPatternManager();
 		initActors(sprites);
 
@@ -206,6 +208,12 @@ public class StageListener implements ApplicationListener {
 		stage.addActor(passepartout);
 
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
+	}
+
+	private void resetConditionScriptTriggers() {
+		for (Sprite sprite : sprites) {
+			sprite.resetConditionScriptTriggers();
+		}
 	}
 
 	public void setPaused(boolean paused) {
@@ -538,6 +546,7 @@ public class StageListener implements ApplicationListener {
 			for (Sprite sprite : sprites) {
 				sprite.initializeEventThreads(EventId.START);
 				sprite.initConditionScriptTriggers();
+				sprite.initIfConditionBrickTriggers();
 				if (!sprite.getLookList().isEmpty()) {
 					sprite.look.setLookData(sprite.getLookList().get(0));
 				}
@@ -727,10 +736,11 @@ public class StageListener implements ApplicationListener {
 	}
 
 	private void initScreenMode() {
+		screenshotWidth = ScreenValues.getScreenWidthForProject(project);
+		screenshotHeight = ScreenValues.getScreenHeightForProject(project);
+
 		switch (project.getScreenMode()) {
 			case STRETCH:
-				screenshotWidth = ScreenValues.getScreenWidthForProject(project);
-				screenshotHeight = ScreenValues.getScreenHeightForProject(project);
 				screenshotX = 0;
 				screenshotY = 0;
 				viewPort = new ScalingViewport(Scaling.stretch, virtualWidth, virtualHeight, camera);

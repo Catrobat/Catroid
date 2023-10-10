@@ -24,7 +24,6 @@
 package org.catrobat.catroid.uiespresso.content.brick.stage
 
 import android.content.Intent
-import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
@@ -34,7 +33,6 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.WhenClonedScript
 import org.catrobat.catroid.content.bricks.CloneBrick
 import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick
@@ -46,6 +44,7 @@ import org.catrobat.catroid.content.bricks.SetGravityBrick
 import org.catrobat.catroid.content.bricks.WaitBrick
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.ui.SpriteActivity
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions.wait
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.junit.Assert.assertEquals
@@ -77,7 +76,9 @@ class FadeParticleEffectTest {
 
     @Before
     fun setUp() {
-        createProject()
+        project = UiTestUtils.createDefaultTestProject(PROJECT_NAME)
+        script = UiTestUtils.getDefaultTestScript(project)
+        sprite = UiTestUtils.getDefaultTestSprite(project)
         baseActivityTestRule.launchActivity(Intent())
     }
 
@@ -154,19 +155,5 @@ class FadeParticleEffectTest {
                 assertFalse(sprite.look.hasParticleEffect)
             }
         }
-    }
-
-    private fun createProject() {
-        project = Project(getApplicationContext(), PROJECT_NAME)
-        script = StartScript()
-
-        sprite = Sprite("sprite")
-        sprite.addScript(script)
-
-        project.defaultScene.addSprite(sprite)
-
-        projectManager.currentProject = project
-        projectManager.currentSprite = sprite
-        projectManager.currentlyEditedScene = project.defaultScene
     }
 }

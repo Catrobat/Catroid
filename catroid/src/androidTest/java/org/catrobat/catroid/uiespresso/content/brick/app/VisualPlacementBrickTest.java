@@ -25,12 +25,10 @@ package org.catrobat.catroid.uiespresso.content.brick.app;
 
 import android.util.Log;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
@@ -43,6 +41,7 @@ import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.catrobat.catroid.visualplacement.VisualPlacementActivity;
 import org.junit.After;
@@ -57,7 +56,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
@@ -133,21 +131,13 @@ public class VisualPlacementBrickTest {
 	}
 
 	public Script createProject() {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), VisualPlacementBrickTest.class.getSimpleName());
-		Sprite sprite = new Sprite("testSprite");
-		Script script = new StartScript();
-		ProjectManager projectManager = ProjectManager.getInstance();
+		Project project = UiTestUtils.createDefaultTestProject(TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Sprite sprite = UiTestUtils.getDefaultTestSprite(project);
 
 		userVariable = new UserVariable("userVariable");
-		sprite.addScript(script);
 		sprite.addUserVariable(userVariable);
-		project.getDefaultScene().addSprite(sprite);
 
-		projectManager.setCurrentProject(project);
-		projectManager.setCurrentSprite(sprite);
-		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
-		projectManager.getCurrentSprite().addUserVariable(userVariable);
-		return script;
+		return UiTestUtils.getDefaultTestScript(project);
 	}
 
 	@Test
@@ -229,7 +219,6 @@ public class VisualPlacementBrickTest {
 		onFormulaEditor()
 				.check(matches(isDisplayed()));
 		pressBack();
-		pressBack();
 		isBackInScriptFragment();
 	}
 
@@ -237,7 +226,6 @@ public class VisualPlacementBrickTest {
 	public void testNoRecursiveOpeningOfFormulaEditors() {
 		openFormulaEditorFragmentFromEditTextX();
 		openFormulaEditorFragmentFromEditTextX();
-		pressBack();
 		pressBack();
 		isBackInScriptFragment();
 	}

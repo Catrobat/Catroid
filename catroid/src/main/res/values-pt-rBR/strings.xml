@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -1915,7 +1915,7 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
         \nVocê pode simplesmente inserir estes na sua fórmula, ou adicionar novas.</string>
     <string formatted="false" name="formula_editor_listening_language_sensor">escutando idioma</string>
     <string formatted="false" name="formula_editor_speech_recognition">Reconhecimento de voz</string>
-    <string formatted="false" name="camera_error_text_detection">        Houve um problema com a detecção de texto. Alguns componentes ainda podem estar baixando em segundo plano. 
+    <string formatted="false" name="camera_error_text_detection">        Houve um problema com a detecção de texto. Alguns componentes ainda podem estar baixando em segundo plano.
         Por favor, verifique se está conectado à internet e verifique novamente mais tarde.</string>
     <string formatted="false" name="warning_formula_recognized">Você inseriu um texto que se parece com uma fórmula. Se você quiser usar funções,
         sensores, variáveis e outros elementos de fórmula, por favor, selecione-os usando o
@@ -2030,7 +2030,6 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string formatted="false" name="search">Procurar</string>
     <string formatted="false" name="no_results_found">Nenhum resultado encontrado</string>
     <string formatted="false" name="query_field_is_empty">O campo de inserção está vazio</string>
-    <string formatted="false" name="cut">Cortar</string>
     <string formatted="false" name="paste">Colar</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">Efeito de partícula desvanecer</string>

@@ -63,4 +63,15 @@ public final class ClassDiscoverer {
 		}
 		return filtered;
 	}
+
+	public static <T> Set<Class<? extends T>> removeEndBrick(Set<Class<? extends T>> classes) {
+		Set<Class<? extends T>> filtered = new HashSet<>();
+
+		for (Class<? extends T> clazz : classes) {
+			if (!clazz.getName().contains("EndBrick")) {
+				filtered.add(clazz);
+			}
+		}
+		return filtered;
+	}
 }

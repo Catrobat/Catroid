@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -237,7 +237,7 @@
        muli sa ibang pagkakataon.</string>
     <string formatted="false" name="error_scratch_converter_outdated_app_version">Ang iyong bersiyon ng app ay luma na. Ang aming Scratch
          converter ay gumagana lamang sa mas mataas na bersiyon. Mangyaring i-update ang app.</string>
-    <string formatted="false" name="error_cannot_open_not_existing_scratch_program">Hindi ko mabuksan ang Scratch project na ito. Mukhang 
+    <string formatted="false" name="error_cannot_open_not_existing_scratch_program">Hindi ko mabuksan ang Scratch project na ito. Mukhang
        kinansela mo ang pag-convert/pag-download ng Scratch project,o di kaya iniba mo ng pangalan/binura mo ang proyekto
           sa kasalukuyan.</string>
     <string formatted="false" name="error_cannot_open_currently_downloading_scratch_program">Hindi mo pa maaaring buksan ang proyekto.
@@ -2037,7 +2037,6 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="search">Maghanap</string>
     <string formatted="false" name="no_results_found">No results found</string>
     <string formatted="false" name="query_field_is_empty">Query field is empty</string>
-    <string formatted="false" name="cut">Cut</string>
     <string formatted="false" name="paste">I-paste</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">Fade particle effect</string>

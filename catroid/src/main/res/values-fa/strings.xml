@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -229,7 +229,7 @@
     <string formatted="false" name="error_scratch_program_not_accessible_any_more">اوف به نظر می رسد پروژه ناپدید شده است یا ممکن است دسترسی به آن را از دست داده باشید.</string>
     <string formatted="false" name="error_scratch_project_data_not_available">اوف برخی از بخش‌های پروژه گم شده است، لطفاً بعداً دوباره امتحان کنید.</string>
     <string formatted="false" name="error_request_timeout">اوف سرور ما به موقع پاسخ نداد، لطفاً بعداً دوباره امتحان کنید.</string>
-    <string formatted="false" name="error_scratch_program_conversion_failed">اوف تبدیل پروژه انجام نشد، لطفاً 
+    <string formatted="false" name="error_scratch_program_conversion_failed">اوف تبدیل پروژه انجام نشد، لطفاً
         بعداً دوباره امتحان کنید.</string>
     <string formatted="false" name="error_specific_scratch_program_conversion_failed_x">اوف %1$s تبدیل نشد، لطفاً         بعداً دوباره امتحان کنید.</string>
     <string formatted="false" name="error_scratch_converter_outdated_app_version">نسخه شما از این برنامه قدیمی است. مبدل خراش         فقط بر روی آخرین نسخه کار می کند.</string>
@@ -375,7 +375,7 @@
     <string formatted="false" name="html_label">متن HTML را وارد کنید</string>
     <string formatted="false" name="Image_format_not_supported">فرمت تصویر پشتیبانی نمی شود</string>
     <string formatted="false" name="import_conflicting_variables">بازیگر یا شی نمی‌توان اضافه کرد.</string>
-    <string formatted="false" name="import_conflicting_variables_reason">دلیل آن این است که نام متغیرها 
+    <string formatted="false" name="import_conflicting_variables_reason">دلیل آن این است که نام متغیرها
         یا لیست های زیر در تضاد هستند زیرا برای همه         بازیگران و اشیاء و با یک نام نیز فقط برای یکی از بازیگران یا اشیاء استفاده می شود: </string>
     <string formatted="false" name="import_conflicting_variables_try_again">لطفاً نام یکی از این متغیرها یا لیست ها را تغییر دهید و دوباره امتحان کنید.</string>
     <!-- Details -->
@@ -590,7 +590,7 @@
     <!--  -->
     <!-- Terms of Use Dialog -->
     <string formatted="false" name="dialog_terms_of_use_title">شرایط استفاده و خدمات</string>
-    <string formatted="false" name="dialog_terms_of_use_info">برای اینکه بتوانید 
+    <string formatted="false" name="dialog_terms_of_use_info">برای اینکه بتوانید
         از برنامه ها و سایر خدمات ارائه شده توسط پروژه کاتروبات استفاده کنید، 
         باید با شرایط استفاده و خدمات ما موافقت کنید. هنگام استفاده از برنامه ها 
         و سایر خدمات ما باید این شرایط را به شدت رعایت کنید. لطفا لینک زیر را برای فرمول دقیق آنها ببینید.\n</string>
@@ -602,7 +602,7 @@
     <!-- -->
     <!-- About Dialog -->
     <string formatted="false" name="dialog_about_title">درباره این برنامه</string>
-    <string formatted="false" name="dialog_about_license_info">این برنامه یک 
+    <string formatted="false" name="dialog_about_license_info">این برنامه یک
         محیط برنامه نویسی و مفسر برای زبان برنامه نویسی بصری Catrobat ارائه می دهد.\n
         کد منبع این برنامه عمدتاً تحت مجوز GNU AGPL v3 است.
         برای جزئیات بیشتر در مورد مجوز به پیوند زیر مراجعه کنید.\n</string>
@@ -1543,9 +1543,9 @@
     <string formatted="false" name="formula_editor_function_join3_parameter">(\'hello\',\' world\',\'!\')</string>
     <string formatted="false" name="formula_editor_function_regex">عبارت منظم</string>
     <string formatted="false" name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'من یک پاندا هستم.\')</string>
-    <string formatted="false" name="formula_editor_function_regex_assistant">دستیار 
+    <string formatted="false" name="formula_editor_function_regex_assistant">دستیار
         بیان منظم</string>
-    <string formatted="false" name="formula_editor_dialog_regular_expression_assistant_title">دستیار 
+    <string formatted="false" name="formula_editor_dialog_regular_expression_assistant_title">دستیار
         بیان منظم</string>
     <string formatted="false" name="formula_editor_function_regex_html_extractor_not_found">کلمه کلیدی پیدا نشد</string>
     <string formatted="false" name="formula_editor_function_regex_json_extractor_title">استخراج کننده JSON</string>
@@ -1580,7 +1580,7 @@
     <string formatted="false" name="formula_editor_function_collides_with_color">رنگ را لمس می کند</string>
     <string formatted="false" name="formula_editor_function_color_touches_color">رنگ رنگ را لمس می کند</string>
     <string formatted="false" name="formula_editor_sensor_color_at_x_y">رنگ در x y</string>
-    <string formatted="false" name="formula_editor_sensor_color_equals_color">رنگ برابر با رنگ با 
+    <string formatted="false" name="formula_editor_sensor_color_equals_color">رنگ برابر با رنگ با
         تحمل % است</string>
     <string formatted="false" name="formula_editor_sensor_x_acceleration">شتاب X</string>
     <string formatted="false" name="formula_editor_sensor_y_acceleration">شتاب Y</string>
@@ -1876,7 +1876,7 @@
     <string formatted="false" name="cast_ready_to_cast">آماده پخش به</string>
     <string formatted="false" name="cast_enable_cast_feature">ویژگی‌های Chromecast غیرفعال است. لطفاً ویژگی‌های پخش را در تنظیمات فعال کنید.</string>
     <string formatted="false" name="cast_searching_for_cast_devices">جستجو برای دستگاه‌های Chromecast</string>
-    <string formatted="false" name="cast_trouble_finding_devices_tip">\nدستگاه خود را نمی بینید؟ وای فای دستگاهتان را خاموش 
+    <string formatted="false" name="cast_trouble_finding_devices_tip">\nدستگاه خود را نمی بینید؟ وای فای دستگاهتان را خاموش
         و روشن کنید.</string>
     <string formatted="false" name="cast_connection_timout_msg">پایان زمان اتصال. لطفا دوباره تلاش کنید.</string>
     <string formatted="false" name="cast_screen_pause_text">مکث شد</string>
@@ -1932,7 +1932,6 @@
     <string formatted="false" name="search">جستجو …</string>
     <string formatted="false" name="no_results_found">نتیجه ای پیدا نشد</string>
     <string formatted="false" name="query_field_is_empty">فیلد پرس و جو خالی است</string>
-    <string formatted="false" name="cut">قطع کن</string>
     <string formatted="false" name="paste">علاوه کن</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">اثر ذرات محو</string>

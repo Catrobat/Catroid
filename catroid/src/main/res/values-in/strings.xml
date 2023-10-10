@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -1316,9 +1316,9 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string formatted="false" name="lego_nxt_sensor_config_info_title">Konfigurasi Sensor NXT</string>
     <string formatted="false" name="preference_disable_nxt_info_dialog">Nonaktifkan Info Dialog</string>
     <string formatted="false" name="preference_disable_nxt_info_dialog_description">Pengaturan NXT spesifik program tidak ditampilkan saat membuka sebuah program.</string>
-    <string formatted="false" name="preference_title_mindstorms_nxt_sensors_description">Pemetaan sensor NXT ke port adalah program yang spesifik dan 
+    <string formatted="false" name="preference_title_mindstorms_nxt_sensors_description">Pemetaan sensor NXT ke port adalah program yang spesifik dan
         hanya dapat dikonfigurasi untuk program yang dibuka!</string>
-    <string formatted="false" name="lego_nxt_sensor_config_info_text">Program saat ini menggunakan batu bata Lego Mindstorms NXT atau sensor. Untuk 
+    <string formatted="false" name="lego_nxt_sensor_config_info_text">Program saat ini menggunakan batu bata Lego Mindstorms NXT atau sensor. Untuk
         fungsi yang tepat silahkan hubungkan sensor ke robot sebagai berikut</string>
     <string formatted="false" name="lego_port_1">Port 1</string>
     <string formatted="false" name="lego_port_2">Port 2</string>
@@ -1986,7 +1986,6 @@ membutuhkan akses baca dan tulis untuk itu. Anda selalu dapat mengubah izin mela
     <string formatted="false" name="search">Pencarian…</string>
     <string formatted="false" name="no_results_found">Tidak ada hasil yang ditemukan</string>
     <string formatted="false" name="query_field_is_empty">Bidang kueri kosong</string>
-    <string formatted="false" name="cut">Memotong</string>
     <string formatted="false" name="paste">Tempel</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">Efek partikel pudar</string>

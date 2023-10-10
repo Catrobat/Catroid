@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -179,7 +179,7 @@
     <string formatted="false" name="preference_access_title_profile_argus">อาร์กัส</string>
     <string formatted="false" name="preference_access_summary_profile_argus">ความคมชัดสูง, ไอคอนเพิ่มเติม</string>
     <string formatted="false" name="preference_access_title_profile_odin">โอดิน</string>
-    <string formatted="false" name="preference_access_summary_profile_odin">ข้อความขนาดใหญ่, ไอคอนขนาดใหญ่, ระยะห่างองค์ประกอบขนาดใหญ่, 
+    <string formatted="false" name="preference_access_summary_profile_odin">ข้อความขนาดใหญ่, ไอคอนขนาดใหญ่, ระยะห่างองค์ประกอบขนาดใหญ่,
        ความคมชัดสูง</string>
     <string formatted="false" name="preference_access_title_profile_fenrir">เฟนเรีย</string>
     <string formatted="false" name="preference_access_summary_profile_fenrir">การเว้นวรรคองค์ประกอบขนาดใหญ่ drag\'n\'drop
@@ -231,14 +231,14 @@
     <string formatted="false" name="error_request_timeout">อ๊ะ! เซิร์ฟเวอร์ของเราไม่ตอบสนองโปรดลองอีกครั้งในภายหลัง</string>
     <string formatted="false" name="error_scratch_program_conversion_failed">อ๊ะ!  การแปลงโครงการล้มเหลวโปรดลองอีกครั้งในภายหลัง</string>
     <string formatted="false" name="error_specific_scratch_program_conversion_failed_x">อ๊ะ!  ไม่สามารถแปลง %1$s ได้โปรดลองอีกครั้งในภายหลัง</string>
-    <string formatted="false" name="error_scratch_converter_outdated_app_version">แอพเวอร์ชันนี้ของคุณล้าสมัยแล้ว  ตัวแปลง 
+    <string formatted="false" name="error_scratch_converter_outdated_app_version">แอพเวอร์ชันนี้ของคุณล้าสมัยแล้ว  ตัวแปลง
         Scratch ของเราใช้งานได้กับเวอร์ชันล่าสุดเท่านั้น  โปรดอัปเดตแอป</string>
     <string formatted="false" name="error_cannot_open_not_existing_scratch_program">ฉันไม่สามารถเปิดโครงการ Scratch นี้ได้ ดูเหมือนว่าคุณ
         ได้ยกเลิกการแปลง/ดาวน์โหลดโครงการ Scratch หรือคุณได้เปลี่ยนชื่อ/ลบโครงการใน
         ในขณะเดียวกัน.</string>
-    <string formatted="false" name="error_cannot_open_currently_downloading_scratch_program">คุณยังไม่สามารถเปิดโครงการ  
+    <string formatted="false" name="error_cannot_open_currently_downloading_scratch_program">คุณยังไม่สามารถเปิดโครงการ
         โปรดรอจนกว่ามันจะถูกดาวน์โหลด</string>
-    <string formatted="false" name="error_cannot_open_not_yet_downloaded_scratch_program">คุณยังไม่สามารถเปิดโครงการ  
+    <string formatted="false" name="error_cannot_open_not_yet_downloaded_scratch_program">คุณยังไม่สามารถเปิดโครงการ
         โปรดดาวน์โหลดก่อนแล้วจึงเปิด</string>
     <string formatted="false" name="error_cannot_convert_deprecated_scratch_program_x_x">ฉันไม่สามารถแปลง %1$s ได้  ดูเหมือนว่าจะเป็นโครงการเก่าก่อนหน้า %2$s  โปรดลองอันอื่น</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
@@ -687,7 +687,7 @@
     <string formatted="false" name="error_session_expired">เซสชันหมดอายุโปรดเข้าสู่ระบบ</string>
     <string formatted="false" name="error_register_empty_username">ชื่อผู้ใช้ว่างเปล่า</string>
     <string formatted="false" name="error_register_username_as_email">ไม่สามารถใช้ที่อยู่อีเมลเป็นชื่อผู้ใช้</string>
-    <string formatted="false" name="error_register_invalid_username">ชื่อผู้ใช้ควรมีตัวอักษร (a – z), ตัวเลข (0–9), 
+    <string formatted="false" name="error_register_invalid_username">ชื่อผู้ใช้ควรมีตัวอักษร (a – z), ตัวเลข (0–9),
         เครื่องหมายขีดกลาง (-), เครื่องหมายขีดล่าง (_) และจุด (.)</string>
     <string formatted="false" name="error_register_username_start_with">ชื่อผู้ใช้ไม่ควรเริ่มต้นด้วยขีดกลาง (-), ขีดล่าง (_) หรือจุด (.)</string>
     <string formatted="false" name="error_register_invalid_email_format">รูปแบบอีเมลไม่ถูกต้อง</string>
@@ -1932,7 +1932,7 @@
     <string formatted="false" name="hint_scripts">สคริปต์จะกำหนดพฤติกรรมของนักแสดงหรือวัตถุของคุณ  ในการเพิ่มบล็อกลงในสคริปต์ให้แตะสัญลักษณ์ \"+\"</string>
     <string formatted="false" name="hint_looks">ที่นี่คุณสามารถค้นหาลักษณะที่แตกต่างของนักแสดงหรือวัตถุของคุณ  หากต้องการเพิ่มรูปลักษณ์ใหม่ให้แตะสัญลักษณ์ \"+\"</string>
     <string formatted="false" name="hint_sounds">ที่นี่คุณสามารถเพิ่มเสียงใหม่ให้กับนักแสดงหรือวัตถุของคุณ  จำไว้ว่าใช้คำสั่งจากหมวดเสียง</string>
-    <string formatted="false" name="hint_objects">โปรแกรมของคุณประกอบด้วยนักแสดงและวัตถุต่าง ๆ ที่สามารถโต้ตอบซึ่งกันและกันได้  
+    <string formatted="false" name="hint_objects">โปรแกรมของคุณประกอบด้วยนักแสดงและวัตถุต่าง ๆ ที่สามารถโต้ตอบซึ่งกันและกันได้
         หากต้องการเพิ่มนักแสดงหรือวัตถุใหม่ให้แตะสัญลักษณ์ \"+\"</string>
     <!--  -->
     <!-- Dialog Disable hints -->
@@ -1964,7 +1964,6 @@
     <string formatted="false" name="search">ค้นหา</string>
     <string formatted="false" name="no_results_found">ไม่พบผลลัพธ์</string>
     <string formatted="false" name="query_field_is_empty">ฟิลด์แบบสอบถามว่างเปล่า</string>
-    <string formatted="false" name="cut">ตัด</string>
     <string formatted="false" name="paste">วาง</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">เอฟเฟกต์อนุภาคจาง</string>

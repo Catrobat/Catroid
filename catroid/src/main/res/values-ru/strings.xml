@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -233,7 +233,7 @@
     <string formatted="false" name="error_request_timeout">Ой! Наш сервер не ответил вовремя, пожалуйста, повторите попытку позже.</string>
     <string formatted="false" name="error_scratch_program_conversion_failed">Ой! Не удалось конвертировать проект, пожалуйста, повторите попытку
         позже.</string>
-    <string formatted="false" name="error_specific_scratch_program_conversion_failed_x">К сожалению, не удалось конвертировать %1$s, 
+    <string formatted="false" name="error_specific_scratch_program_conversion_failed_x">К сожалению, не удалось конвертировать %1$s,
         пожалуйста, повторите попытку позже!</string>
     <string formatted="false" name="error_scratch_converter_outdated_app_version">Ваша версия этого приложения устарела. Наш конвертер
         Scratch работает только на последней версии. Пожалуйста, обновите приложение.</string>
@@ -2128,7 +2128,6 @@
     <string formatted="false" name="search">Поиск</string>
     <string formatted="false" name="no_results_found">Ничего не найдено</string>
     <string formatted="false" name="query_field_is_empty">Поле запроса пустое</string>
-    <string formatted="false" name="cut">Вырезать</string>
     <string formatted="false" name="paste">Вставить</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">Эффект затухающих частиц</string>

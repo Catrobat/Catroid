@@ -29,18 +29,22 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceScreen;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
+import org.catrobat.catroid.ui.recyclerview.dialog.AppStoreDialogFragment;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
+import static org.catrobat.catroid.ui.recyclerview.dialog.AppStoreDialogFragment.Companion.Extension;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.EV3_SCREEN_KEY;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.EV3_SENSORS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.EV3_SETTINGS_CATEGORY;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED;
 
 public class Ev3SensorsSettingsFragment extends PreferenceFragment {
 	public static final String TAG = Ev3SensorsSettingsFragment.class.getSimpleName();
@@ -58,21 +62,34 @@ public class Ev3SensorsSettingsFragment extends PreferenceFragment {
 
 		addPreferencesFromResource(R.xml.ev3_preferences);
 
+		CheckBoxPreference ev3CheckBoxPreference =
+				(CheckBoxPreference) findPreference(SettingsFragment.SETTINGS_MINDSTORMS_EV3_BRICKS_CHECKBOX_PREFERENCE);
+		Preference simplePreferenceField = findPreference(SettingsFragment.SETTINGS_MINDSTORMS_EV3_BRICKS_PREFERENCE);
+		PreferenceScreen preferenceScreen = getPreferenceScreen();
+
 		if (!BuildConfig.FEATURE_LEGO_EV3_ENABLED) {
 			CheckBoxPreference legoEv3Preference = (CheckBoxPreference) findPreference(EV3_SCREEN_KEY);
 			legoEv3Preference.setEnabled(false);
-			getPreferenceScreen().removePreference(legoEv3Preference);
+			preferenceScreen.removePreference(legoEv3Preference);
 		} else {
-			CheckBoxPreference ev3CheckBoxPreference = (CheckBoxPreference) findPreference(SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED);
-			final PreferenceCategory ev3ConnectionSettings = (PreferenceCategory) findPreference(EV3_SETTINGS_CATEGORY);
-			ev3ConnectionSettings.setEnabled(ev3CheckBoxPreference.isChecked());
+			if (BuildConfig.FLAVOR != Constants.FLAVOR_LEGO_NXT_EV3) {
+				preferenceScreen.removePreference(ev3CheckBoxPreference);
 
-			ev3CheckBoxPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-				public boolean onPreferenceChange(Preference preference, Object isChecked) {
+				simplePreferenceField.setOnPreferenceClickListener(preference -> {
+					AppStoreDialogFragment.newInstance(Extension.LEGO_NXT_EV3).show(((FragmentActivity) getActivity()).getSupportFragmentManager(),
+							AppStoreDialogFragment.Companion.getTAG());
+					return true;
+				});
+			} else {
+				preferenceScreen.removePreference(simplePreferenceField);
+				final PreferenceCategory ev3ConnectionSettings = (PreferenceCategory) findPreference(EV3_SETTINGS_CATEGORY);
+				ev3ConnectionSettings.setEnabled(ev3CheckBoxPreference.isChecked());
+
+				ev3CheckBoxPreference.setOnPreferenceChangeListener((preference, isChecked) -> {
 					ev3ConnectionSettings.setEnabled((Boolean) isChecked);
 					return true;
-				}
-			});
+				});
+			}
 
 			final String[] sensorPreferences = EV3_SENSORS;
 			for (String sensorPreference : sensorPreferences) {

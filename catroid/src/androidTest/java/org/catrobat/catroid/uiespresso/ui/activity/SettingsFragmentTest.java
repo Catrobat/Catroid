@@ -28,8 +28,10 @@ import android.app.Instrumentation;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.preference.PreferenceManager;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.testsuites.annotations.Cat;
@@ -64,9 +66,9 @@ import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAGS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_CAST_GLOBALLY_ENABLED;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_CRASH_REPORTS;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_EV3_BRICKS_CHECKBOX_PREFERENCE;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_CHECKBOX_PREFERENCE;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MULTIPLAYER_VARIABLES_ENABLED;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_FACE_DETECTION_SENSORS;
@@ -75,11 +77,12 @@ import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTING
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_SPEECH_SYNTHETIZATION_SENSORS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_AI_TEXT_RECOGNITION_SENSORS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_ARDUINO_BRICKS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_EMBROIDERY_BRICKS_CHECKBOX_PREFERENCE;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_HINTS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_JUMPING_SUMO_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_NFC_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PHIRO_BRICKS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PHIRO_BRICKS_CHECKBOX_PREFERENCE;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_RASPI_BRICKS;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.instanceOf;
@@ -108,9 +111,12 @@ public class SettingsFragmentTest {
 			BaseActivityTestRule<>(SettingsActivity.class, true, false);
 
 	private List<String> allSettings = new ArrayList<>(Arrays.asList(SETTINGS_SHOW_ARDUINO_BRICKS,
-			SETTINGS_SHOW_PHIRO_BRICKS, SETTINGS_SHOW_NFC_BRICKS, SETTINGS_SHOW_HINTS, SETTINGS_CRASH_REPORTS,
-			SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED,
-			SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED,
+			SETTINGS_SHOW_PHIRO_BRICKS_CHECKBOX_PREFERENCE, SETTINGS_SHOW_NFC_BRICKS, SETTINGS_SHOW_HINTS,
+			SETTINGS_CRASH_REPORTS, SETTINGS_MINDSTORMS_NXT_BRICKS_CHECKBOX_PREFERENCE,
+			SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED,
+			SETTINGS_MINDSTORMS_EV3_BRICKS_CHECKBOX_PREFERENCE,
+			SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED,
+			SETTINGS_SHOW_EMBROIDERY_BRICKS_CHECKBOX_PREFERENCE,
 			SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, SETTINGS_SHOW_JUMPING_SUMO_BRICKS,
 			SETTINGS_SHOW_RASPI_BRICKS, SETTINGS_MULTIPLAYER_VARIABLES_ENABLED,
 			SETTINGS_CAST_GLOBALLY_ENABLED, SETTINGS_SHOW_AI_SPEECH_RECOGNITION_SENSORS,
@@ -168,7 +174,19 @@ public class SettingsFragmentTest {
 	@Test
 	public void basicSettingsTest() {
 		checkPreference(R.string.preference_title_enable_arduino_bricks, SETTINGS_SHOW_ARDUINO_BRICKS);
-		checkPreference(R.string.preference_title_enable_phiro_bricks, SETTINGS_SHOW_PHIRO_BRICKS);
+
+		if (BuildConfig.FLAVOR.equals(Constants.FLAVOR_PHIRO)) {
+			checkPreference(R.string.preference_title_enable_phiro_bricks, SETTINGS_SHOW_PHIRO_BRICKS_CHECKBOX_PREFERENCE);
+		} else {
+			openAppstoreDialog(R.string.preference_title_enable_phiro_bricks);
+		}
+
+		if (BuildConfig.FLAVOR.equals(Constants.FLAVOR_EMBROIDERY_DESIGNER)) {
+			checkPreference(R.string.preference_title_enable_embroidery_bricks, SETTINGS_SHOW_EMBROIDERY_BRICKS_CHECKBOX_PREFERENCE);
+		} else {
+			openAppstoreDialog(R.string.preference_title_enable_embroidery_bricks);
+		}
+
 		checkPreference(R.string.preference_title_enable_jumpingsumo_bricks, SETTINGS_SHOW_JUMPING_SUMO_BRICKS);
 		checkPreference(R.string.preference_title_enable_nfc_bricks, SETTINGS_SHOW_NFC_BRICKS);
 		checkPreference(R.string.preference_title_enable_hints, SETTINGS_SHOW_HINTS);
@@ -196,7 +214,12 @@ public class SettingsFragmentTest {
 		onData(PreferenceMatchers.withTitle(R.string.preference_title_enable_mindstorms_nxt_bricks))
 				.perform(click());
 
-		checkPreference(R.string.preference_title_enable_mindstorms_nxt_bricks, SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED);
+		if (BuildConfig.FLAVOR.equals(Constants.FLAVOR_LEGO_NXT_EV3)) {
+			checkPreference(R.string.preference_title_enable_mindstorms_nxt_bricks, SETTINGS_MINDSTORMS_NXT_BRICKS_CHECKBOX_PREFERENCE);
+		} else {
+			openAppstoreDialog(R.string.preference_title_enable_mindstorms_nxt_bricks);
+		}
+
 		checkPreference(R.string.preference_disable_nxt_info_dialog, SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED);
 	}
 
@@ -206,7 +229,12 @@ public class SettingsFragmentTest {
 		onData(PreferenceMatchers.withTitle(R.string.preference_title_enable_mindstorms_ev3_bricks))
 				.perform(click());
 
-		checkPreference(R.string.preference_title_enable_mindstorms_ev3_bricks, SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED);
+		if (BuildConfig.FLAVOR.equals(Constants.FLAVOR_LEGO_NXT_EV3)) {
+			checkPreference(R.string.preference_title_enable_mindstorms_ev3_bricks, SETTINGS_MINDSTORMS_EV3_BRICKS_CHECKBOX_PREFERENCE);
+		} else {
+			openAppstoreDialog(R.string.preference_title_enable_mindstorms_ev3_bricks);
+		}
+
 		checkPreference(R.string.preference_disable_nxt_info_dialog,
 				SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED);
 	}
@@ -295,5 +323,21 @@ public class SettingsFragmentTest {
 				.perform(click());
 
 		assertTrue(sharedPreferences.getBoolean(sharedPreferenceTag, false));
+	}
+
+	private void openAppstoreDialog(int displayedTitleResourceString) {
+		onData(PreferenceMatchers.withTitle(displayedTitleResourceString))
+				.perform(click());
+
+		if (!Build.BRAND.equals(Constants.DEVICE_BRAND_HUAWEI)) {
+			onView(withText(R.string.preference_dialog_google_play))
+					.check(matches(isDisplayed()));
+		} else {
+			onView(withText(R.string.preference_dialog_appgallery))
+					.check(matches(isDisplayed()));
+		}
+
+		onView(withText(R.string.cancel_button_text))
+				.perform(click());
 	}
 }

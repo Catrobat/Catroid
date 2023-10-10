@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -74,6 +74,7 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.FormulaEditorClipboard;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
@@ -154,6 +155,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	private CategoryListRVAdapter.CategoryListItem chosenCategoryItem = null;
 	private UserData<?> chosenUserDataItem = null;
+	private FormulaEditorClipboard formulaEditorClipboard;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -287,6 +289,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		formulaEditorBrick = fragmentView.findViewById(R.id.formula_editor_brick_space);
 		formulaEditorEditText = fragmentView.findViewById(R.id.formula_editor_edit_field);
 		formulaEditorKeyboard = fragmentView.findViewById(R.id.formula_editor_keyboardview);
+		formulaEditorClipboard =
+				new FormulaEditorClipboard(formulaEditorEditText);
 
 		updateBrickView();
 
@@ -391,6 +395,12 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 							return handleLongClick(view, event);
 						case R.id.formula_editor_keyboard_color_picker:
 							showColorPickerDialog(view);
+							return true;
+						case R.id.formula_editor_keyboard_paste:
+							formulaEditorClipboard.paste();
+							return true;
+						case R.id.formula_editor_keyboard_copy:
+							formulaEditorClipboard.copy();
 							return true;
 						default:
 							formulaEditorEditText.handleKeyEvent(view.getId(), "");
@@ -898,10 +908,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	}
 
 	public void exitFormulaEditorFragment() {
-		if (formulaEditorEditText.isPopupMenuVisible()) {
-			formulaEditorEditText.dismissPopupMenu();
-			return;
-		}
 		((SpriteActivity) getActivity()).setUndoMenuItemVisibility(false);
 		if (hasFormulaBeenChanged || formulaEditorEditText.hasChanges()) {
 			if (saveFormulaIfPossible()) {

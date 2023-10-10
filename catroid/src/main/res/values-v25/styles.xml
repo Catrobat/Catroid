@@ -1,6 +1,6 @@
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -544,16 +544,16 @@
         <item name="android:lines">1</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">0dp</item>
-        <item name="android:textSize">?attr/medium</item>
+        <item name="android:textSize">?attr/large</item>
         <item name="android:ellipsize">end</item>
         <item name="android:layout_marginTop">@dimen/key_margin</item>
         <item name="android:layout_marginStart">@dimen/key_margin</item>
-        <item name="android:layout_below">@+id/formula_editor_keyboard_decimal_mark</item>
+        <item name="android:textColor">@color/formula_editor_text</item>
+        <item name="android:layout_below">@id/formula_editor_keyboard_decimal_mark</item>
     </style>
 
      <style name="FormulaEditorComputeButton" parent="@style/FormulaEditorButton">
         <item name="android:background">@drawable/formula_editor_compute_button_selector</item>
-        <item name="android:textColor">@color/formula_editor_compute_text</item>
     </style>
 
     <style name="FormulaEditorDeleteButton" parent="@style/FormulaEditorButton">
@@ -562,16 +562,18 @@
 
     <style name="FormulaEditorCategoryButton" parent="@style/FormulaEditorButton">
         <item name="android:background">@drawable/formula_editor_category_button</item>
-        <item name="android:textColor">@color/formula_editor_category_text</item>
     </style>
 
     <style name="FormulaEditorToggleFunctionsButton" parent="@style/FormulaEditorButton">
         <item name="android:background">@drawable/formula_editor_toggle_functions_button</item>
     </style>
 
-    <style name="FormulaEditorKeyboardButton" parent="@style/FormulaEditorButton">
-        <item name="android:background">@drawable/formula_editor_keyboard_button</item>
-        <item name="android:textColor">@color/formula_editor_symbol_text</item>
+    <style name="FormulaEditorSymbolButton" parent="@style/FormulaEditorButton">
+        <item name="android:background">@drawable/formula_editor_symbol_button</item>
+    </style>
+
+    <style name="FormulaEditorNumberButton" parent="@style/FormulaEditorButton">
+        <item name="android:background">@drawable/formula_editor_number_button</item>
     </style>
 
     <style name="BrickCategory">

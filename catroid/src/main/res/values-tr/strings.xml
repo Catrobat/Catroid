@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -228,7 +228,7 @@
     <string formatted="false" name="error_request_timeout">Tüh! Sunucumuz zamanında yanıt vermedi, lütfen daha sonra tekrar deneyin.</string>
     <string formatted="false" name="error_scratch_program_conversion_failed">Hay aksi! Programı dönüştürme başarısız oldu, lütfen daha sonra tekrar deneyin!
          </string>
-    <string formatted="false" name="error_specific_scratch_program_conversion_failed_x">Eyvah! %1$s dönüştürme işlemi başarısız oldu, lütfen 
+    <string formatted="false" name="error_specific_scratch_program_conversion_failed_x">Eyvah! %1$s dönüştürme işlemi başarısız oldu, lütfen
         daha sonra tekrar deneyin!</string>
     <string formatted="false" name="error_scratch_converter_outdated_app_version">Bu uygulamanın sürümünüz güncel değil. Scratch dönüştürücümüz yalnızca en son sürümde çalışır. Lütfen uygulamayı güncelleyin.</string>
     <string formatted="false" name="error_cannot_open_not_existing_scratch_program">Bu program açılmıyor. Öyle görünüyor ki bu esnada Scratch projesinin dönüşümünü/indirilmesini iptal etmişsiniz veya programın adını değiştirmişsiniz/silmişsiniz!</string>
@@ -1850,13 +1850,13 @@ Lütfen projeyi yeniden adlandırın.</string>
     <string formatted="false" name="formula_editor_intro_title_input_field">Giriş alanı</string>
     <string formatted="false" name="formula_editor_intro_summary_input_field">Burada formülünüzü görebilir ve düzenleyebilirsiniz.</string>
     <string formatted="false" name="formula_editor_intro_title_keyboard">Klavye</string>
-    <string formatted="false" name="formula_editor_intro_summary_keyboard">Bir hesap makinesine benzer şekilde 
+    <string formatted="false" name="formula_editor_intro_summary_keyboard">Bir hesap makinesine benzer şekilde
         formülü oluşturabileceğiniz yer burasıdır.</string>
     <string formatted="false" name="formula_editor_intro_title_compute">Hesapla</string>
     <string formatted="false" name="formula_editor_intro_summary_compute">Formülünüzü test etmek ve mevcut sonucunu görüntülemek için şunları yapabilirsiniz
         \"Hesapla\" yı kullan.</string>
     <string formatted="false" name="formula_editor_intro_title_object">Nesne</string>
-    <string formatted="false" name="formula_editor_intro_summary_object">Bu, şimdiki nesnenizi tanımlayan 
+    <string formatted="false" name="formula_editor_intro_summary_object">Bu, şimdiki nesnenizi tanımlayan
         değerler topluluğudur. Bu değerlerden bazıları, örneğin x- ve y- koordinatları veya geçerli hızdır.</string>
     <string formatted="false" name="formula_editor_intro_title_functions">Fonksiyonlar</string>
     <string formatted="false" name="formula_editor_intro_summary_functions">Formül editörü, hesap makinesi gibi çok sayıda matematiksel işlev yapmanızı sağlar. \n \"sin\" ve \"cos\" gibi trigonometrik fonksiyonlar bulabilirsiniz, ve ayrıca rastgele bir sayı üreteci,metin veya liste işlevleri bulabilirsiniz.</string>
@@ -1865,7 +1865,7 @@ Lütfen projeyi yeniden adlandırın.</string>
         Değerleri karşılaştırmak için \"&gt;\" gibi mantıksal işlemleri kullanabilirsiniz (büyüktür) veya \"=\" (eşittir).\n
         Mantıksal formülleri birleştirmek için \"VE\", \"VEYA\" ve \"DEĞİL\" gibi mantıksal işlemleri kullanabilirsiniz.</string>
     <string formatted="false" name="formula_editor_intro_title_device">Sensörler</string>
-    <string formatted="false" name="formula_editor_intro_summary_device">\"Cihaz\" da 
+    <string formatted="false" name="formula_editor_intro_summary_device">\"Cihaz\" da
         akıllı telefonunuzun veya tabletinizin kayıtlarını bulabileceğiniz bilgiler bulabilirsiniz. \nÖrneğin cihazınızın eğimi veya çevrenizin yüksekliği.</string>
     <string formatted="false" name="formula_editor_intro_title_data">Veri</string>
     <string formatted="false" name="formula_editor_intro_summary_data">Programda kullandığınız değişkenler ve listeler burada bulunabilir. Bunları formülünüze basitçe ekleyebilir veya yenilerini ekleyebilirsiniz.</string>
@@ -1978,7 +1978,6 @@ Lütfen projeyi yeniden adlandırın.</string>
     <string formatted="false" name="search">Ara…</string>
     <string formatted="false" name="no_results_found">Sonuç bulunamadı</string>
     <string formatted="false" name="query_field_is_empty">Sorgu alanı boş</string>
-    <string formatted="false" name="cut">Kes</string>
     <string formatted="false" name="paste">Yapıştır</string>
     <!-- Particle Effects -->
     <string formatted="false" name="fade_particle_effect">Soluk parçacık efekti</string>

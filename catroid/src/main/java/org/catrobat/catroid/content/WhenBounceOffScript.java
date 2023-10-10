@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,7 @@ import org.catrobat.catroid.content.eventids.EventId;
 public class WhenBounceOffScript extends Script {
 
 	private static final long serialVersionUID = 1L;
-	private String spriteToBounceOffName;
+	private String spriteToBounceOffName = "";
 
 	private transient Sprite spriteToBounceOff;
 
@@ -39,7 +39,11 @@ public class WhenBounceOffScript extends Script {
 	}
 
 	public WhenBounceOffScript(String spriteToBounceOffName) {
-		this.spriteToBounceOffName = spriteToBounceOffName;
+		if (spriteToBounceOffName == null) {
+			this.spriteToBounceOffName = "";
+		} else {
+			this.spriteToBounceOffName = spriteToBounceOffName;
+		}
 	}
 
 	@Override
@@ -51,21 +55,26 @@ public class WhenBounceOffScript extends Script {
 	}
 
 	public String getSpriteToBounceOffName() {
+		if (spriteToBounceOffName.isEmpty()) {
+			return null;
+		}
 		return spriteToBounceOffName;
 	}
 
 	public void setSpriteToBounceOffName(String spriteToCollideWithName) {
-		this.spriteToBounceOffName = spriteToCollideWithName;
+		if (spriteToCollideWithName == null) {
+			this.spriteToBounceOffName = "";
+		} else {
+			this.spriteToBounceOffName = spriteToCollideWithName;
+		}
 		updateSpriteToCollideWith(ProjectManager.getInstance().getCurrentlyEditedScene());
 	}
 
 	public void updateSpriteToCollideWith(Scene scene) {
-		if (spriteToBounceOffName == null) {
-			spriteToBounceOffName = null;
-		} else {
+		if (!spriteToBounceOffName.isEmpty()) {
 			spriteToBounceOff = scene.getSprite(spriteToBounceOffName);
 			if (spriteToBounceOff == null) {
-				spriteToBounceOffName = null;
+				spriteToBounceOffName = "";
 			}
 		}
 	}

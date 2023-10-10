@@ -438,6 +438,10 @@ class ProjectActivity : BaseCastActivity() {
                 .startActivityForResult(SPRITE_FROM_LOCAL)
             alertDialog.dismiss()
         }
+        dialogNewActorBinding.dialogNewLookEmptyObject.setOnClickListener {
+            addEmptySpriteObject()
+            alertDialog.dismiss()
+        }
         alertDialog.show()
     }
 

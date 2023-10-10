@@ -33,7 +33,7 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.SpriteActivity
-import org.catrobat.catroid.uiespresso.formulaeditor.FormulaEditorTest
+import org.catrobat.catroid.uiespresso.util.UiTestUtils
 import org.catrobat.catroid.uiespresso.util.actions.selectTabAtPosition
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule
 import org.junit.After
@@ -54,7 +54,7 @@ class AddNewActorOrLookDialogTest {
     @Throws(Exception::class)
     fun setUp() {
         val projectName = "newProject"
-        currentProject = FormulaEditorTest.createProject(projectName)
+        currentProject = UiTestUtils.createDefaultTestProject(projectName)
         currentProject!!.defaultScene.addSprite(Sprite("Sprite1"))
         baseActivityTestRule.launchActivity()
     }
@@ -84,6 +84,8 @@ class AddNewActorOrLookDialogTest {
         Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_backpack))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_from_local))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        Espresso.onView(ViewMatchers.withId(R.id.dialog_new_look_empty_object))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 
