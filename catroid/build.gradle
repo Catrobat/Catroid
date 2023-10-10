@@ -257,24 +257,21 @@ android {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
-    aaptOptions {
+    androidResources {
         noCompress 'lite'
     }
-
-    lintOptions {
-        lintConfig file('config/lint.xml')
-        ignore 'GradleDependency', 'OldTargetApi', 'ExtraTranslation', 'MissingTranslation',
-                'LintBaseline', 'ObsoleteLintCustomCheck'
-
+    lint {
         abortOnError false
-
-        textReport true
-        xmlReport true
-        htmlReport true
-        xmlOutput file("build/reports/lint-report.xml")
-        htmlOutput file("build/reports/lint-report.html")
         baseline file('config/lint-baseline.xml')
+        htmlOutput file('build/reports/lint-report.html')
+        htmlReport true
+        ignore 'GradleDependency', 'OldTargetApi', 'ExtraTranslation', 'MissingTranslation', 'LintBaseline', 'ObsoleteLintCustomCheck'
+        lintConfig file('config/lint.xml')
+        textReport true
+        xmlOutput file('build/reports/lint-report.xml')
+        xmlReport true
     }
+
 
     productFlavors {
         catroid {
