@@ -76,6 +76,20 @@ public final class DefaultProjectHandler {
 		XstreamSerializer.getInstance().saveProject(project);
 		return project;
 	}
+	public static Project createAndSaveEmptyProject(String name, Context context,
+			boolean landscapeMode, boolean isCastEnabled, Double widthInCm, Double heightInCm) throws IOException {
+		Project project = new Project(context, name, landscapeMode, isCastEnabled, widthInCm,
+				heightInCm);
+
+		if (project.getDirectory().exists()) {
+			throw new IOException("Cannot create new project at "
+					+ project.getDirectory().getAbsolutePath()
+					+ ", directory already exists.");
+		}
+
+		XstreamSerializer.getInstance().saveProject(project);
+		return project;
+	}
 
 	public void setDefaultProjectCreator(ProjectCreatorType type) {
 		switch (type) {
