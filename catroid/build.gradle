@@ -104,7 +104,8 @@ def defaultVersionCode = 88
 def defaultVersionName = "1.1.2"
 
 android {
-    compileSdkVersion 33
+    compileSdk 33
+    buildToolsVersion = "33.0.2"
 
     namespace 'org.catrobat.catroid'
 
