@@ -53,7 +53,7 @@ class ShowTextActionTest {
     @Before
     fun setUp() {
         sprite = Sprite(SPRITE_NAME)
-        val project = Project(contextMock, "testProject")
+        val project = Project(contextMock, "testProject", false)
         project.defaultScene.addSprite(sprite)
         ProjectManager.getInstance().currentProject = project
         ProjectManager.getInstance().currentSprite = sprite

@@ -86,7 +86,7 @@ class ClipboardTest {
     }
 
     private fun createProject(): Project {
-        val project = Project(ApplicationProvider.getApplicationContext(), PROJECT_NAME)
+        val project = Project(ApplicationProvider.getApplicationContext(), PROJECT_NAME, false)
         val sprite = Sprite("testSprite")
         val script: Script = StartScript()
         val setVariableBrick = SetVariableBrick()
