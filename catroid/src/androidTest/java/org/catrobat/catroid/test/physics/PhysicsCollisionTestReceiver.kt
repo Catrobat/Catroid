@@ -20,19 +20,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.physics;
+package org.catrobat.catroid.test.physics
 
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.physics.box2d.Contact
+import com.badlogic.gdx.physics.box2d.Manifold
+import com.badlogic.gdx.physics.box2d.ContactImpulse
 
-public interface PhysicsCollisionTestReceiver {
-
-	void beginContactCallback(Contact contact);
-
-	void endContactCallback(Contact contact);
-
-	void preSolveCallback(Contact contact, Manifold oldManifold);
-
-	void postSolveCallback(Contact contact, ContactImpulse impulse);
+interface PhysicsCollisionTestReceiver {
+    fun beginContactCallback(contact: Contact?)
+    fun endContactCallback(contact: Contact?)
+    fun preSolveCallback(contact: Contact?, oldManifold: Manifold?)
+    fun postSolveCallback(contact: Contact?, impulse: ContactImpulse?)
 }
