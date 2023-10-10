@@ -72,7 +72,6 @@ public class BroadcastBrickMessageUpdateTest {
 
 	@After
 	public void tearDown() throws IOException {
-		baseActivityTestRule.finishActivity();
 		TestUtils.deleteProjects(BroadcastBrickMessageUpdateTest.class.getSimpleName());
 	}
 
