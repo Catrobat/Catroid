@@ -20,29 +20,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.common.bluetooth
 
-package org.catrobat.catroid.common.firmata;
+import org.catrobat.catroid.bluetooth.base.BluetoothConnection
 
-public class FirmataMessage {
-	private final int command;
-	private final int pin;
-	private final int data;
-
-	public FirmataMessage(int command, int pin, int data) {
-		this.command = command;
-		this.pin = pin;
-		this.data = data;
-	}
-
-	public int getCommand() {
-		return command;
-	}
-
-	public int getPin() {
-		return pin;
-	}
-
-	public int getData() {
-		return data;
-	}
+interface BluetoothLogger {
+    fun logSentData(b: ByteArray?)
+    fun logReceivedData(b: ByteArray?)
+    fun loggerAttached(proxy: BluetoothConnection?)
 }
