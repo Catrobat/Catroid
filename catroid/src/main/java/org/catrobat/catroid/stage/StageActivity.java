@@ -149,26 +149,16 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 
 	private boolean isApplicationSentToBackground(final Context context) {
 		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-
-		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
-			List<ActivityManager.RunningTaskInfo> tasks = activityManager.getRunningTasks(1);
-			ComponentName topActivity = tasks.get(0).topActivity;
-			if (topActivity.getPackageName().equals(context.getPackageName())) {
-				return false;
-			}
-		} else {
-			List<ActivityManager.RunningAppProcessInfo> runningProcesses = activityManager.getRunningAppProcesses();
-			for (ActivityManager.RunningAppProcessInfo processInfo : runningProcesses) {
-				if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
-					for (String activeProcess : processInfo.pkgList) {
-						if (activeProcess.equals(context.getPackageName())) {
-							return false;
-						}
+		List<ActivityManager.RunningAppProcessInfo> runningProcesses = activityManager.getRunningAppProcesses();
+		for (ActivityManager.RunningAppProcessInfo processInfo : runningProcesses) {
+			if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+				for (String activeProcess : processInfo.pkgList) {
+					if (activeProcess.equals(context.getPackageName())) {
+						return false;
 					}
 				}
 			}
 		}
-
 		return true;
 	}
 

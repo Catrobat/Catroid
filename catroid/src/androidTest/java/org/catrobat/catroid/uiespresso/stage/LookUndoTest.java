@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.stage;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
@@ -56,7 +55,6 @@ import java.io.IOException;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.rule.GrantPermissionRule;
 
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.catrobat.catroid.uiespresso.util.matchers.BundleMatchers.bundleHasExtraIntent;
@@ -93,9 +91,6 @@ public class LookUndoTest {
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_LOOKS);
-
-	@Rule
-	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE);
 
 	@Before
 	public void setUp() throws Exception {
