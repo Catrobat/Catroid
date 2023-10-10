@@ -41,15 +41,16 @@ object TrustedDomainManager {
     private const val READ_ERROR_LOG = "Cannot read trusted domains"
     private const val PARSE_ERROR_LOG = "Cannot parse trusted domains"
 
-    private val trustListPattern: Pattern? by lazy {
-        initializeTrustListPattern()
-    }
+    private var trustListPattern: Pattern? = null
     var userTrustListPattern: Pattern? = null
 
     @Synchronized
     fun isURLTrusted(url: String): Boolean {
         if (userTrustListPattern == null) {
             userTrustListPattern = initializeUserTrustListPattern()
+        }
+        if (trustListPattern == null) {
+            trustListPattern = initializeTrustListPattern()
         }
         return trustListPattern?.matcher(url)?.matches() ?: false ||
             userTrustListPattern?.matcher(url)?.matches() ?: false
@@ -61,9 +62,14 @@ object TrustedDomainManager {
                 TRUSTED_USER_DOMAINS_FILE.exists() ->
                     TRUSTED_USER_DOMAINS_FILE.inputStream().use {
                         val trustList = Utils.getJsonObjectFromInputStream(it)
-                        trustList.getJSONArray(TRUST_LIST_JSON_ARRAY_NAME).put(cleanUpUserInput(domain))
-                }
-                TRUSTED_USER_DOMAINS_FILE.createNewFile() -> JSONArray(listOf(cleanUpUserInput(domain)))
+                        trustList.getJSONArray(TRUST_LIST_JSON_ARRAY_NAME)
+                            .put(cleanUpUserInput(domain))
+                    }
+
+                TRUSTED_USER_DOMAINS_FILE.createNewFile() -> JSONArray(
+                    listOf(cleanUpUserInput(domain))
+                )
+
                 else -> return false
             }
             userTrustListPattern = getTrustListPatternFromDomains(domains)
@@ -108,6 +114,7 @@ object TrustedDomainManager {
                     TRUSTED_USER_DOMAINS_FILE.writeText(trustList.toString(JSON_INDENTATION))
                     true
                 }
+
                 else -> false
             }
         } catch (e: IOException) {
@@ -177,9 +184,14 @@ object TrustedDomainManager {
     private fun cleanUpUserInput(string: String): String =
         string.replace("[ \"{}\\[\\]]|(\\n){2,}".toRegex(), "").removeSuffix("\n")
 
-    @VisibleForTesting
-    fun resetUserTrustList(): Boolean {
+    private fun resetUserTrustList(): Boolean {
         userTrustListPattern = null
         return TRUSTED_USER_DOMAINS_FILE.delete()
+    }
+
+    @VisibleForTesting
+    fun reset() {
+        resetUserTrustList()
+        trustListPattern = null
     }
 }
