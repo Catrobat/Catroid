@@ -830,7 +830,8 @@ public class StageListener implements ApplicationListener {
 		return sprites;
 	}
 
-	private class StageBackup {
+	@VisibleForTesting
+	public static class StageBackup {
 
 		List<Sprite> sprites;
 		Array<Actor> actors;
