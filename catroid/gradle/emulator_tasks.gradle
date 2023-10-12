@@ -41,6 +41,7 @@ emulators {
             language = 'en'
             country = 'US'
         }
+        arguments = ['-no-window']
     }
 
     emulator 'android33', 'template1', {
