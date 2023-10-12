@@ -238,7 +238,7 @@ pipeline {
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                                     startEmulator("${ANDROID_VERSION}","instrumented_unit")
-                                    sh '''./gradlew -PenableCoverage -PlogcatFile=instrumented_unit_logcat.txt -Pemulator=android${ANDROID_VERSION} \
+                                    sh '''./gradlew -PenableCoverage -Pemulator=android${ANDROID_VERSION} \
                                         createCatroidDebugAndroidTestCoverageReport \
                                         -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.LocalHeadlessTestSuite'''
                                 }
@@ -257,8 +257,9 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                    startEmulator(ANDROID_VERSION,"testrunner")
                                     sh '''
-                                    ./gradlew -PenableCoverage -PlogcatFile=testrunner_logcat.txt -Pemulator=android${ANDROID_VERSION} \
+                                    ./gradlew -PenableCoverage -Pemulator=android${ANDROID_VERSION} \
                                         createCatroidDebugAndroidTestCoverageReport \
                                         -Pandroid.testInstrumentationRunnerArguments.package=org.catrobat.catroid.catrobattestrunner'''
                                 }
@@ -277,8 +278,9 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                    startEmulator(ANDROID_VERSION,"quarantined")
                                     sh '''
-                                    ./gradlew -PenableCoverage -PlogcatFile=quarantined_logcat.txt  \
+                                    ./gradlew -PenableCoverage \
                                         createCatroidDebugAndroidTestCoverageReport -Pemulator=android${ANDROID_VERSION} \
                                         -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoQuarantineTestSuite'''
                                 }
@@ -298,6 +300,7 @@ pipeline {
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE')
                                 {
+                                    startEmulator(ANDROID_VERSION,"networktest")
                                     sh '''
                                     ./gradlew -PenableCoverage -Pemulator=android${ANDROID_VERSION} \
                                         createCatroidDebugAndroidTestCoverageReport -Pemulator=android${ANDROID_VERSION} \
@@ -308,7 +311,7 @@ pipeline {
                                 always {
                                    junit '**/*TEST*.xml'
                                          postEmulator 'networktest'
-                                         archiveArtifacts 'logcat.txt'
+                                         archiveArtifacts 'networktest_logcat.txt'
                                        }
                             }
                         }
@@ -319,7 +322,8 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    sh '''./gradlew -PenableCoverage -PlogcatFile=rtltests_logcat.txt \
+                                    startEmulator(ANDROID_VERSION,"rtltests")
+                                    sh '''./gradlew -PenableCoverage \
                                             createCatroidDebugAndroidTestCoverageReport -Pemulator=android${ANDROID_VERSION} \
                                             -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoRtlTestSuite'''
                                 }
