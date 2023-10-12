@@ -26,8 +26,8 @@ def postEmulator(String coverageNameAndLogcatPrefix) {
     if (fileExists('catroid/build/reports/coverage/androidTest/catroid/debug/connected/report.' +
             'xml')){
         junitAndCoverage jacocoReportDir, 'report.xml', coverageNameAndLogcatPrefix
-        archiveArtifacts "${coverageNameAndLogcatPrefix}_logcat.txt"
     }
+    archiveArtifacts "${coverageNameAndLogcatPrefix}_logcat.txt"
 }
 
 def startEmulator(String android_version, String logCatPrefix){
@@ -37,6 +37,10 @@ def startEmulator(String android_version, String logCatPrefix){
             "-no-snapshot-save -gpu swiftshader_indirect" +
             " -avd android${android_version} &"
     sh "adb logcat  > ${logCatPrefix}_logcat.txt 2>&1 &"
+}
+def killRunningEmulators(){
+    sh '''adb devices | grep emulator | cut -f1 | while read " +
+                                            "line; do adb -s $line emu kill; done'''
 }
 
 def webTestUrlParameter() {
@@ -241,6 +245,8 @@ pipeline {
                                     sh '''./gradlew -PenableCoverage -Pemulator=android${ANDROID_VERSION} \
                                         createCatroidDebugAndroidTestCoverageReport \
                                         -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.LocalHeadlessTestSuite'''
+
+                                    killRunningEmulators()
                                 }
                             }
 
@@ -262,6 +268,8 @@ pipeline {
                                     ./gradlew -PenableCoverage -Pemulator=android${ANDROID_VERSION} \
                                         createCatroidDebugAndroidTestCoverageReport \
                                         -Pandroid.testInstrumentationRunnerArguments.package=org.catrobat.catroid.catrobattestrunner'''
+
+                                    killRunningEmulators()
                                 }
                             }
 
@@ -283,6 +291,7 @@ pipeline {
                                     ./gradlew -PenableCoverage \
                                         createCatroidDebugAndroidTestCoverageReport -Pemulator=android${ANDROID_VERSION} \
                                         -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoQuarantineTestSuite'''
+                                    killRunningEmulators()
                                 }
                             }
 
@@ -305,6 +314,7 @@ pipeline {
                                     ./gradlew -PenableCoverage -Pemulator=android${ANDROID_VERSION} \
                                         createCatroidDebugAndroidTestCoverageReport -Pemulator=android${ANDROID_VERSION} \
                                         -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.OutgoingNetworkCallsTestSuite'''
+                                    killRunningEmulators()
                                 }
                             }
                             post {
@@ -326,6 +336,7 @@ pipeline {
                                     sh '''./gradlew -PenableCoverage \
                                             createCatroidDebugAndroidTestCoverageReport -Pemulator=android${ANDROID_VERSION} \
                                             -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoRtlTestSuite'''
+                                    killRunningEmulators()
                                 }
                             }
 
@@ -368,6 +379,7 @@ pipeline {
                                         createCatroidDebugAndroidTestCoverageReport \
                                         -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite
                                     '''
+                                    killRunningEmulators()
                                 }
                             }
 
