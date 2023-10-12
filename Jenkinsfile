@@ -30,10 +30,11 @@ def postEmulator(String coverageNameAndLogcatPrefix) {
     }
 }
 
-def startEmulator(String android_version){
+def startEmulator(String android_version, String logCatPrefix){
     sh "adb start-server"
     sh "echo no | avdmanager create avd --name android${android_version} --package 'system-images;android-${android_version};google_apis;x86_64'"
-    sh "/home/user/android/sdk/emulator/emulator -no-window -no-boot-anim -noaudio -avd android${android_version} &"
+    sh "/home/user/android/sdk/emulator/emulator -no-window -no-boot-anim -noaudio -avd " +
+            "android${android_version} -logcat '*:d' > ${logCatPrefix}_logcat.txt &"
 }
 
 def webTestUrlParameter() {
@@ -234,7 +235,7 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    startEmulator("${ANDROID_VERSION}")
+                                    startEmulator("${ANDROID_VERSION}","instrumented_unit_")
                                     sh '''./gradlew -PenableCoverage -PlogcatFile=instrumented_unit_logcat.txt -Pemulator=android${ANDROID_VERSION} \
                                         createCatroidDebugAndroidTestCoverageReport \
                                         -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.LocalHeadlessTestSuite'''
@@ -355,11 +356,10 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                                    //startEmulator("${ANDROID_VERSION}")
+                                    startEmulator("${ANDROID_VERSION}","pull_request_suite_")
                                     sh '''
-                                        ./gradlew copyAndroidNatives -PenableCoverage -PlogcatFile=pull_request_suite_logcat.txt -Pemulator=android${ANDROID_VERSION} \
-                                        startEmulator createCatroidDebugAndroidTestCoverageReport 
-                                        -Pemulator=android${ANDROID_VERSION} \
+                                        ./gradlew copyAndroidNatives -PenableCoverage -Pemulator=android${ANDROID_VERSION} \
+                                        createCatroidDebugAndroidTestCoverageReport -Pemulator=android${ANDROID_VERSION} \
                                         -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite
                                     '''
                                 }
