@@ -34,6 +34,7 @@ emulators {
                                    'hw.camera.front': 'emulated', 'hw.camera.back': 'emulated', 'hw.gps': 'yes',
                                    'hw.mainKeys': 'no', 'hw.keyboard': 'yes', 'vm.heapSize': 1024]
             screenDensity = 'xhdpi'
+            arguments = ['-no-window']
         }
 
         parameters {
@@ -41,7 +42,6 @@ emulators {
             language = 'en'
             country = 'US'
         }
-        arguments = ['-no-window']
     }
 
     emulator 'android33', 'template1', {
