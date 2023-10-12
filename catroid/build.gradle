@@ -184,6 +184,18 @@ android {
         unitTests.all {
             jvmArgs '-Xmx2g'
         }
+        managedDevices {
+            devices {
+                pixel2api33(com.android.build.api.dsl.ManagedVirtualDevice) {
+                    // Use device profiles you typically see in Android Studio.
+                    device = "Pixel 2"
+                    // Use only API levels 27 and higher.
+                    apiLevel = 33
+                    // To include Google services, use "google".
+                    systemImageSource = "aosp-atd"
+                }
+            }
+        }
     }
 
     sourceSets {
