@@ -32,6 +32,7 @@ buildscript {
         google()
         jcenter()
         maven { url "https://developer.huawei.com/repo/" }
+        mavenLocal()
     }
 
     dependencies {
@@ -40,13 +41,14 @@ buildscript {
         classpath 'com.android.tools.build:gradle:7.4.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jacoco:org.jacoco.core:$jacoco_core_version"
-        classpath 'org.catrobat.gradle.androidemulators:android-emulators-gradle:1.6.2'
+        classpath 'org.catrobat.gradle.androidemulators:android-emulators-gradle:2.0.0'
         classpath 'com.huawei.agconnect:agcp:1.4.2.300'
     }
 }
 
 allprojects {
     repositories {
+        mavenLocal()
         google()
         jcenter()
         maven { url "https://developer.huawei.com/repo/" }
