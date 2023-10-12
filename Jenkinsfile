@@ -39,8 +39,7 @@ def startEmulator(String android_version, String logCatPrefix){
     sh "adb logcat  > ${logCatPrefix}_logcat.txt 2>&1 &"
 }
 def killRunningEmulators(){
-    sh '''adb devices | grep emulator | cut -f1 | while read " +
-                                            "line; do adb -s $line emu kill; done'''
+    sh '''adb devices | grep emulator | cut -f1 | while read emulatorname; do adb -s $emulatorname emu kill; done'''
 }
 
 def webTestUrlParameter() {
@@ -375,7 +374,7 @@ pipeline {
                                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                                     startEmulator("${ANDROID_VERSION}","pull_request_suite")
                                     sh '''
-                                        ./gradlew copyAndroidNatives -PenableCoverage -Pemulator=android${ANDROID_VERSION} \
+                                        ./gradlew  -PenableCoverage -Pemulator=android${ANDROID_VERSION} \
                                         createCatroidDebugAndroidTestCoverageReport \
                                         -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite
                                     '''
