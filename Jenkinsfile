@@ -36,7 +36,6 @@ def startEmulator(String android_version, String logCatPrefix){
     sh "/home/user/android/sdk/emulator/emulator -wipe-data -no-window -no-boot-anim -noaudio " +
             "-no-snapshot-save -gpu swiftshader_indirect" +
             " -avd android${android_version} &"
-    sh "./gradlew adbDisableAnimationsGlobally"
     sh "adb logcat  > ${logCatPrefix}_logcat.txt 2>&1 &"
 }
 def killRunningEmulators(){
