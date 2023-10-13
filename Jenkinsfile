@@ -228,6 +228,7 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                    sh "ln /usr/bin/python3 /usr/bin/python2"
                                     sh "./gradlew ${debugUnitTests()} -PenableCoverage " +
                                             "createCatroidDebugUnitTestCoverageReport --full-stacktrace"
                                     //sh 'mkdir -p catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport/'
@@ -375,6 +376,7 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                                    sh "ln /usr/bin/python3 /usr/bin/python2"
                                     startEmulator("${ANDROID_VERSION}","pull_request_suite")
                                     sh '''
                                         ./gradlew  -PenableCoverage -Pemulator=android${ANDROID_VERSION} \
