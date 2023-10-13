@@ -4,7 +4,9 @@ class DockerParameters {
     // 'docker build' would normally copy the whole build-dir to the container, changing the
     // docker build directory avoids that overhead
     def dir = 'docker'
-    def args = '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -v /var/local/container_shared/huawei:/home/user/huawei -m=8G'
+    def args = '--device /dev/kvm:/dev/kvm -v ' +
+            '/var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -v ' +
+            '/var/local/container_shared/huawei:/home/user/huawei -m=8G '
     def label = 'LimitedEmulator'
     def image = 'catrobat/catrobat-android:api33'
 }
@@ -228,7 +230,6 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    sh "ln /usr/bin/python3 /usr/bin/python2"
                                     sh "./gradlew ${debugUnitTests()} -PenableCoverage " +
                                             "createCatroidDebugUnitTestCoverageReport --full-stacktrace"
                                     //sh 'mkdir -p catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport/'
@@ -376,7 +377,6 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                                    sh "ln /usr/bin/python3 /usr/bin/python2"
                                     startEmulator("${ANDROID_VERSION}","pull_request_suite")
                                     sh '''
                                         ./gradlew  -PenableCoverage -Pemulator=android${ANDROID_VERSION} \
