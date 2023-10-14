@@ -150,7 +150,10 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	private boolean isApplicationSentToBackground(final Context context) {
 		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 
-		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+		// TODO Check if this can be done...
+		if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.Q) {
+			getApplicationLogger().error("TEST", "isApplicationSentToBackground");
+
 			List<ActivityManager.RunningTaskInfo> tasks = activityManager.getRunningTasks(1);
 			ComponentName topActivity = tasks.get(0).topActivity;
 			if (topActivity.getPackageName().equals(context.getPackageName())) {

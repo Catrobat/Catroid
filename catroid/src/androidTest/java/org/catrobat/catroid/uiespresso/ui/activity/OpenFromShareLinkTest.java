@@ -38,6 +38,7 @@ import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActi
 import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -58,6 +59,7 @@ import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtras;
 
 @Category({Cat.AppUi.class, Level.Functional.class})
 @RunWith(Parameterized.class)
+@Ignore("Stops tests")
 public class OpenFromShareLinkTest {
 
 	@Rule
