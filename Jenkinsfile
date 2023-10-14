@@ -46,6 +46,13 @@ def killRunningEmulators(){
     sh '''adb devices | grep emulator | cut -f1 | while read emulatorname; do adb -s $emulatorname emu kill; done'''
 }
 
+def runTestsWithEmulator(String testClass){
+    sh " ./gradlew  -PenableCoverage -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect \
+        -Pandroid.experimental.androidTest.numManagedDeviceShards=2\
+        pixel2api33CatroidDebugAndroidTest \
+        -Pandroid.testInstrumentationRunnerArguments.class=${testClass} "
+}
+
 def webTestUrlParameter() {
     return env.WEB_TEST_URL?.isEmpty() ? '' : "-PwebTestUrl='${params.WEB_TEST_URL}'"
 }
@@ -377,13 +384,16 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                                    startEmulator("${ANDROID_VERSION}","pull_request_suite")
+                                    runTestsWithEmulator("org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite")
+                                    /*startEmulator("${ANDROID_VERSION}","pull_request_suite")
                                     sh '''
-                                        ./gradlew  -PenableCoverage -Pemulator=android${ANDROID_VERSION} \
-                                        createCatroidDebugAndroidTestCoverageReport \
+                                        ./gradlew  -PenableCoverage -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect \
+                                        -Pandroid.experimental.androidTest.numManagedDeviceShards=2\
+                                        pixel2api33CatroidDebugAndroidTest \
                                         -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite
                                     '''
                                     killRunningEmulators()
+                                     */
                                 }
                             }
 
