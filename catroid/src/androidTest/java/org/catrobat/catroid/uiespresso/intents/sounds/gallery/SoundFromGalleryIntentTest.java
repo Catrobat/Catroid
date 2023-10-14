@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.intents.sounds.gallery;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
@@ -44,7 +43,6 @@ import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -56,7 +54,6 @@ import java.io.IOException;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.rule.GrantPermissionRule;
 
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
@@ -76,7 +73,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
-@Ignore("Permissions")
 public class SoundFromGalleryIntentTest {
 
 	private Matcher<Intent> expectedChooserIntent;
@@ -90,8 +86,6 @@ public class SoundFromGalleryIntentTest {
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SOUNDS);
 
-	@Rule
-	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
 
 	@Before
 	public void setUp() throws Exception {
@@ -133,7 +127,6 @@ public class SoundFromGalleryIntentTest {
 	@After
 	public void tearDown() throws IOException {
 		Intents.release();
-		baseActivityTestRule.finishActivity();
 		StorageOperations.deleteDir(tmpPath);
 		try {
 			StorageOperations.deleteDir(new File(DEFAULT_ROOT_DIRECTORY, projectName));

@@ -63,7 +63,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 apply from: 'gradle/code_quality_tasks.gradle'
-apply from: 'gradle/emulator_tasks.gradle'
+//apply from: 'gradle/emulator_tasks.gradle'
 apply from: 'gradle/release_crowdin_tasks.gradle'
 apply from: 'gradle/release_fastlane_tasks.gradle'
 apply from: 'gradle/standalone_apk_tasks.gradle'

@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.intents.looks.gallery;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
@@ -37,7 +36,6 @@ import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -45,7 +43,6 @@ import org.junit.runner.RunWith;
 
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.rule.GrantPermissionRule;
 
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.catrobat.catroid.uiespresso.util.matchers.BundleMatchers.bundleHasExtraIntent;
@@ -62,7 +59,6 @@ import static androidx.test.espresso.intent.matcher.IntentMatchers.hasType;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
-@Ignore("Permissions")
 public class LookFromGalleryIntentDismissTest {
 
 	private Matcher<Intent> expectedChooserIntent;
@@ -72,9 +68,6 @@ public class LookFromGalleryIntentDismissTest {
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_LOOKS);
-
-	@Rule
-	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
 
 	@Before
 	public void setUp() throws Exception {
@@ -102,7 +95,6 @@ public class LookFromGalleryIntentDismissTest {
 	@After
 	public void tearDown() {
 		Intents.release();
-		baseActivityTestRule.finishActivity();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})

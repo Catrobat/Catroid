@@ -76,7 +76,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
-@Ignore("permissions")
 public class LookFromGalleryIntentTest {
 
 	private Matcher<Intent> expectedChooserIntent;
@@ -89,9 +88,6 @@ public class LookFromGalleryIntentTest {
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_LOOKS);
-
-	@Rule
-	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE);
 
 	@Before
 	public void setUp() throws Exception {
@@ -134,7 +130,6 @@ public class LookFromGalleryIntentTest {
 	@After
 	public void tearDown() throws IOException {
 		Intents.release();
-		baseActivityTestRule.finishActivity();
 		StorageOperations.deleteDir(tmpPath);
 		try {
 			StorageOperations.deleteDir(new File(DEFAULT_ROOT_DIRECTORY, projectName));
