@@ -91,9 +91,6 @@ public class LookFromGalleryIntentTest {
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_LOOKS);
 
-	@Rule
-	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE);
-
 	@Before
 	public void setUp() throws Exception {
 		createProject(projectName);
@@ -134,7 +131,6 @@ public class LookFromGalleryIntentTest {
 	@After
 	public void tearDown() throws IOException {
 		Intents.release();
-		baseActivityTestRule.finishActivity();
 		StorageOperations.deleteDir(tmpPath);
 		try {
 			StorageOperations.deleteDir(new File(DEFAULT_ROOT_DIRECTORY, projectName));

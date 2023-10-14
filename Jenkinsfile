@@ -212,12 +212,15 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                    runTestsWithEmulator("org.catrobat.catroid.testsuites.LocalHeadlessTestSuite")
+                                            /*
                                     startEmulator(ANDROID_VERSION,"instrumented_unit")
                                     sh '''./gradlew -PenableCoverage -Pemulator=android${ANDROID_VERSION} \
                                         createCatroidDebugAndroidTestCoverageReport \
                                         -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.LocalHeadlessTestSuite'''
 
                                     killRunningEmulators()
+                                            */
                                 }
                             }
 
