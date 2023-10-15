@@ -253,14 +253,6 @@ pipeline {
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                                     runTestsWithEmulator("org.catrobat.catroid.testsuites.LocalHeadlessTestSuite")
-                                            /*
-                                    startEmulator(ANDROID_VERSION,"instrumented_unit")
-                                    sh '''./gradlew -PenableCoverage -Pemulator=android${ANDROID_VERSION} \
-                                        createCatroidDebugAndroidTestCoverageReport \
-                                        -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.LocalHeadlessTestSuite'''
-
-                                    killRunningEmulators()
-                                            */
                                 }
                             }
 
@@ -277,13 +269,7 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    startEmulator(ANDROID_VERSION,"testrunner")
-                                    sh '''
-                                    ./gradlew -PenableCoverage -Pemulator=android${ANDROID_VERSION} \
-                                        createCatroidDebugAndroidTestCoverageReport \
-                                        -Pandroid.testInstrumentationRunnerArguments.package=org.catrobat.catroid.catrobattestrunner'''
-
-                                    killRunningEmulators()
+                                    runTestsWithEmulator("org.catrobat.catroid.catrobattestrunner")
                                 }
                             }
 
@@ -300,12 +286,7 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    startEmulator(ANDROID_VERSION,"quarantined")
-                                    sh '''
-                                    ./gradlew -PenableCoverage \
-                                        createCatroidDebugAndroidTestCoverageReport -Pemulator=android${ANDROID_VERSION} \
-                                        -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoQuarantineTestSuite'''
-                                    killRunningEmulators()
+                                    runTestsWithEmulator("org.catrobat.catroid.testsuites.UiEspressoQuarantineTestSuite")
                                 }
                             }
 
@@ -323,12 +304,7 @@ pipeline {
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE')
                                 {
-                                    startEmulator(ANDROID_VERSION,"networktest")
-                                    sh '''
-                                    ./gradlew -PenableCoverage -Pemulator=android${ANDROID_VERSION} \
-                                        createCatroidDebugAndroidTestCoverageReport -Pemulator=android${ANDROID_VERSION} \
-                                        -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.OutgoingNetworkCallsTestSuite'''
-                                    killRunningEmulators()
+                                    runTestsWithEmulator("org.catrobat.catroid.testsuites.OutgoingNetworkCallsTestSuite")
                                 }
                             }
                             post {
@@ -346,11 +322,7 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    startEmulator(ANDROID_VERSION,"rtltests")
-                                    sh '''./gradlew -PenableCoverage \
-                                            createCatroidDebugAndroidTestCoverageReport -Pemulator=android${ANDROID_VERSION} \
-                                            -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoRtlTestSuite'''
-                                    killRunningEmulators()
+                                    runTestsWithEmulator("org.catrobat.catroid.testsuites.UiEspressoRtlTestSuite")
                                 }
                             }
 
@@ -365,7 +337,7 @@ pipeline {
                     post {
                         always {
                             stash name: 'logParserRules', includes: 'buildScripts/log_parser_rules'
-                            adb kill-server
+                            //adb kill-server
                         }
                     }
                 }
@@ -388,22 +360,13 @@ pipeline {
                             steps {
                                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                                     runTestsWithEmulator("org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite")
-                                    /*startEmulator("${ANDROID_VERSION}","pull_request_suite")
-                                    sh '''
-                                        ./gradlew  -PenableCoverage -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect \
-                                        -Pandroid.experimental.androidTest.numManagedDeviceShards=2\
-                                        pixel2api33CatroidDebugAndroidTest \
-                                        -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite
-                                    '''
-                                    killRunningEmulators()
-                                     */
                                 }
                             }
 
                             post {
                                 always {
                                     postEmulator 'pull_request_suite'
-                                    adb kill-server
+                                    //adb kill-server
                                 }
                             }
                         }
