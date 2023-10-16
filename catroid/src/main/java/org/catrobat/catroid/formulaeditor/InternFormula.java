@@ -1182,4 +1182,6 @@ public class InternFormula {
 	public void setInternTokenFormulaList(List<InternToken> list) {
 		internTokenFormulaList = list;
 	}
+
+	public List<InternToken> getInternTokenFormulaList() { return internTokenFormulaList; }
 }

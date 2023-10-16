@@ -398,4 +398,6 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		internFormula.setSelectionToFirstParamOfRegularExpressionAtInternalIndex(indexOfRegularExpression);
 		highlightSelection();
 	}
+
+	public InternFormula getInternFormula() { return internFormula; }
 }
