@@ -73,5 +73,48 @@ project.afterEvaluate {
 
             getExecutionData().from(files("${project.buildDir}/jacoco/${testTaskName}.exec"))
         }
+
+    }
+
+    def jacocoAndroidTest = tasks.create(name: "jacocoManagedEmulatorTestReport",
+            type: JacocoReport) {
+        group = "Reporting"
+        description = "Generate Jacoco coverage reports for a test build with the managed " +
+                "emulator. The test build has to be started before this task."
+
+        reports {
+            csv.required = false
+            html.required = true
+            xml.required = true
+        }
+
+        def excludes = [
+                '**/R.class',
+                '**/R$*.class',
+                '**/BuildConfig.*',
+                '**/Manifest*.*',
+                '**/*Test*.*',
+                'android/**/*.*'
+        ]
+
+        def javaClasses = fileTree(dir:
+                "${buildDir}/intermediates/cacoco_instrumented_classes/catroidDebug",
+                excludes: excludes)
+        def kotlinClasses = fileTree(
+                dir: "${buildDir}/tmp/kotlin-classes/catroidDebug",
+                excludes: excludes)
+        getClassDirectories().from(files([javaClasses, kotlinClasses]))
+
+        getSourceDirectories().from(files([
+                "$project.projectDir/src/main/java",
+                "$project.projectDir/src/catroid/java",
+                "$project.projectDir/src/main/kotlin",
+                "$project.projectDir/src/catroid/kotlin"
+        ]))
+
+        getExecutionData().from(files("${project.buildDir}/outputs/managed_device_code_coverage/flavors/catroid/managedEmulator/coverage.ec"))
+    }
+    tasks.named('managedEmulatorCatroidDebugAndroidTest') {
+        it.finalizedBy(jacocoAndroidTest)
     }
 }

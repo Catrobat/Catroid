@@ -47,20 +47,21 @@ def killRunningEmulators(){
 }
 
 def runTestsWithManagedEmulator(String testClass){
-    sh " ./gradlew  -PenableCoverage -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect \
+    sh " ./gradlew -PenableCoverage -Pandroid.testoptions.manageddevices.emulator." +
+            "gpu=swiftshader_indirect \
         -Pandroid.experimental.androidTest.numManagedDeviceShards=2\
         managedEmulatorCatroidDebugAndroidTest \
-        -Pandroid.testInstrumentationRunnerArguments.class=${testClass} "
+        -Pandroid.testInstrumentationRunnerArguments.class=${testClass} " +
+            "jacocoManagedEmulatorTestReport"
 }
 
 def postManagedEmulator(String coverageNameAndLogcatPrefix) {
-    def jacocoReportDir = 'catroid/build/reports/coverage/androidTest/catroid/debug/connected'
-    if (fileExists('catroid/build/reports/coverage/androidTest/catroid/debug/connected/report.' +
-            'xml')){
-        junitAndCoverage jacocoReportDir, 'report.xml', coverageNameAndLogcatPrefix
+    def jacocoReportDir = 'catroid/build/reports/jacoco/jacocoManagedEmulatorTestReport'
+    if (fileExists(jacocoReportDir + '/jacocoManagedEmulatorTestReport.xml')){
+        junitAndCoverage jacocoReportDir, 'jacocoManagedEmulatorTestReport.xml', coverageNameAndLogcatPrefix
     }
     zip zipFile: "${coverageNameAndLogcatPrefix}_logcat.zip",
-            dir:"build/outputs/androidTest-results/managedDevice/flavors/", archive:true
+            dir:"catroid/build/outputs/androidTest-results/managedDevice/flavors/", archive:true
     // TODO Check to not leak private information.
 }
 
