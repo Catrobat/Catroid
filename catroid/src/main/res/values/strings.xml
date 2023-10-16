@@ -2281,4 +2281,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="undo_sort">Undo sort</string>
     <string name="sort">Sort</string>
     <string name="checkbox">checkbox</string>
+
+    <string name="cm">cm</string>
+    <string name="inch">inch</string>
+    <string name="frame_size_in_cm">%d x %d cm</string>
+    <string name="frame_size_in_inches">%d x %d inches</string>
 </resources>

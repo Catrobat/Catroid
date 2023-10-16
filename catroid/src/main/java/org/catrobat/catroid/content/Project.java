@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -88,34 +88,12 @@ public class Project implements Serializable {
 	public Project() {
 	}
 
-	public Project(Context context, String name, boolean landscapeMode, boolean isCastProject) {
+	public Project(Context context, String name, boolean landscapeMode, boolean isCastProject, int height, int width) {
 		xmlHeader.setProjectName(name);
 		xmlHeader.setDescription("");
 		xmlHeader.setNotesAndCredits("");
-		xmlHeader.setlandscapeMode(landscapeMode);
 
-		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
-			ScreenValueHandler.updateScreenWidthAndHeight(context);
-		}
-		if (landscapeMode && ScreenValues.SCREEN_WIDTH < ScreenValues.SCREEN_HEIGHT) {
-			int tmp = ScreenValues.SCREEN_HEIGHT;
-			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
-			ScreenValues.SCREEN_WIDTH = tmp;
-		} else if (ScreenValues.SCREEN_WIDTH > ScreenValues.SCREEN_HEIGHT) {
-			int tmp = ScreenValues.SCREEN_HEIGHT;
-			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
-			ScreenValues.SCREEN_WIDTH = tmp;
-		}
-
-		xmlHeader.virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
-		xmlHeader.virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
-
-		if (isCastProject) {
-			xmlHeader.virtualScreenHeight = ScreenValues.CAST_SCREEN_HEIGHT;
-			xmlHeader.virtualScreenWidth = ScreenValues.CAST_SCREEN_WIDTH;
-			xmlHeader.setlandscapeMode(true);
-			xmlHeader.setIsCastProject(true);
-		}
+		setFrame(context, landscapeMode, isCastProject, height, width);
 
 		Scene scene = new Scene(context.getString(R.string.default_scene_name), this);
 		Sprite backgroundSprite = new Sprite(context.getString(R.string.background));
@@ -126,6 +104,11 @@ public class Project implements Serializable {
 		xmlHeader.scenesEnabled = true;
 
 		setDeviceData(context);
+	}
+
+	public Project(Context context, String name, boolean landscapeMode, boolean isCastProject) {
+		this(context, name, landscapeMode, isCastProject, ScreenValues.SCREEN_HEIGHT,
+				ScreenValues.SCREEN_WIDTH);
 	}
 
 	public Project(Context context, String name, boolean landscapeMode) {
@@ -549,6 +532,43 @@ public class Project implements Serializable {
 				spriteList.get(sprite).setName(newSpriteName);
 				return;
 			}
+		}
+	}
+
+	public void setFrame(Context context, boolean landscapeMode, boolean isCastProject, int height,
+			int width) {
+
+		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
+			ScreenValueHandler.updateScreenWidthAndHeight(context);
+		}
+
+		if (height != 0) {
+			ScreenValues.SCREEN_HEIGHT = height;
+		}
+
+		if (width != 0) {
+			ScreenValues.SCREEN_WIDTH = width;
+		}
+
+		if (landscapeMode && ScreenValues.SCREEN_WIDTH < ScreenValues.SCREEN_HEIGHT) {
+			int tmp = ScreenValues.SCREEN_HEIGHT;
+			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
+			ScreenValues.SCREEN_WIDTH = tmp;
+		} else if (ScreenValues.SCREEN_WIDTH > ScreenValues.SCREEN_HEIGHT) {
+			int tmp = ScreenValues.SCREEN_HEIGHT;
+			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
+			ScreenValues.SCREEN_WIDTH = tmp;
+		}
+
+		xmlHeader.setlandscapeMode(landscapeMode);
+		xmlHeader.virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
+		xmlHeader.virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
+
+		if (isCastProject) {
+			xmlHeader.virtualScreenHeight = ScreenValues.CAST_SCREEN_HEIGHT;
+			xmlHeader.virtualScreenWidth = ScreenValues.CAST_SCREEN_WIDTH;
+			xmlHeader.setlandscapeMode(true);
+			xmlHeader.setIsCastProject(true);
 		}
 	}
 }

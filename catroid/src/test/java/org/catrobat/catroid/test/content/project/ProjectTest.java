@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,6 +27,7 @@ import android.os.Build;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
@@ -39,6 +40,7 @@ import org.mockito.Mockito;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotSame;
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(JUnit4.class)
@@ -116,5 +118,103 @@ public class ProjectTest {
 		assertEquals(Mockito.mock(Context.class).getString(R.string.app_name), header.getApplicationName());
 		assertEquals(Constants.PLATFORM_NAME, header.getPlatform());
 		assertEquals(String.valueOf(Build.VERSION.SDK_INT), header.getPlatformVersion());
+	}
+
+	@Test
+	public void testSetFrameSize() {
+		boolean landscapeMode = false;
+		boolean isCastProject = false;
+		int height = 1500;
+		int width = 1000;
+
+		Project project = new Project();
+		XmlHeader header = project.getXmlHeader();
+
+		project.setFrame(MockUtil.mockContextForProject(), landscapeMode, isCastProject, height, width);
+
+		assertEquals(landscapeMode, header.islandscapeMode());
+		assertEquals(isCastProject, header.isCastProject());
+		assertEquals(height, header.getVirtualScreenHeight());
+		assertEquals(width, header.getVirtualScreenWidth());
+		assertEquals(height, ScreenValues.SCREEN_HEIGHT);
+		assertEquals(width, ScreenValues.SCREEN_WIDTH);
+	}
+
+	@Test
+	public void testSetFrameSizeWithDefaultScreenSize() {
+		boolean landscapeMode = false;
+		boolean isCastProject = false;
+
+		Project project = new Project();
+		XmlHeader header = project.getXmlHeader();
+
+		project.setFrame(MockUtil.mockContextForProject(), landscapeMode, isCastProject, 0, 0);
+
+		assertEquals(landscapeMode, header.islandscapeMode());
+		assertEquals(isCastProject, header.isCastProject());
+		assertNotSame(0, header.getVirtualScreenHeight());
+		assertNotSame(0, header.getVirtualScreenWidth());
+		assertNotSame(0, ScreenValues.SCREEN_HEIGHT);
+		assertNotSame(0, ScreenValues.SCREEN_WIDTH);
+	}
+
+	@Test
+	public void testSetFrameSizeWithLandscape() {
+		boolean landscapeMode = true;
+		boolean isCastProject = false;
+		int height = 1000;
+		int width = 1500;
+
+		Project project = new Project();
+		XmlHeader header = project.getXmlHeader();
+
+		project.setFrame(MockUtil.mockContextForProject(), landscapeMode, isCastProject, height, width);
+
+		assertEquals(landscapeMode, header.islandscapeMode());
+		assertEquals(isCastProject, header.isCastProject());
+		assertEquals(width, header.getVirtualScreenHeight());
+		assertEquals(height, header.getVirtualScreenWidth());
+		assertEquals(width, ScreenValues.SCREEN_HEIGHT);
+		assertEquals(height, ScreenValues.SCREEN_WIDTH);
+	}
+
+	@Test
+	public void testSetFrameSizeWithLandscapeAndWidthSmallerHeight() {
+		boolean landscapeMode = true;
+		boolean isCastProject = false;
+		int height = 1500;
+		int width = 1000;
+
+		Project project = new Project();
+		XmlHeader header = project.getXmlHeader();
+
+		project.setFrame(MockUtil.mockContextForProject(), landscapeMode, isCastProject, height, width);
+
+		assertEquals(landscapeMode, header.islandscapeMode());
+		assertEquals(isCastProject, header.isCastProject());
+		assertEquals(width, header.getVirtualScreenHeight());
+		assertEquals(height, header.getVirtualScreenWidth());
+		assertEquals(width, ScreenValues.SCREEN_HEIGHT);
+		assertEquals(height, ScreenValues.SCREEN_WIDTH);
+	}
+
+	@Test
+	public void testSetFrameSizeWithCast() {
+		boolean landscapeMode = false;
+		boolean isCastProject = true;
+		int height = 1500;
+		int width = 1000;
+
+		Project project = new Project();
+		XmlHeader header = project.getXmlHeader();
+
+		project.setFrame(MockUtil.mockContextForProject(), landscapeMode, isCastProject, height, width);
+
+		assertTrue(header.islandscapeMode());
+		assertTrue(header.isCastProject());
+		assertEquals(ScreenValues.CAST_SCREEN_HEIGHT, header.getVirtualScreenHeight());
+		assertEquals(ScreenValues.CAST_SCREEN_WIDTH, header.getVirtualScreenWidth());
+		assertEquals(height, ScreenValues.SCREEN_HEIGHT);
+		assertEquals(width, ScreenValues.SCREEN_WIDTH);
 	}
 }

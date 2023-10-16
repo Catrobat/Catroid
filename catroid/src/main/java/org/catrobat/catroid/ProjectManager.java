@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -242,11 +242,7 @@ public final class ProjectManager {
 							lookData.setFile(StorageOperations.duplicateFile(lookData.getFile()));
 						} catch (IOException e) {
 							iterator.remove();
-							Log.e(TAG, "Cannot copy: " + lookData.getFile().getAbsolutePath()
-									+ ", removing LookData " + lookData.getName() + " from "
-									+ project.getName() + ", "
-									+ scene.getName() + ", "
-									+ sprite.getName() + ".");
+							Log.e(TAG, "Cannot copy: " + lookData.getFile().getAbsolutePath() + ", removing LookData " + lookData.getName() + " from " + project.getName() + ", " + scene.getName() + ", " + sprite.getName() + ".");
 						}
 					}
 					fileNames.add(lookData.getFile().getName());
@@ -260,11 +256,7 @@ public final class ProjectManager {
 							soundInfo.setFile(StorageOperations.duplicateFile(soundInfo.getFile()));
 						} catch (IOException e) {
 							iterator.remove();
-							Log.e(TAG, "Cannot copy: " + soundInfo.getFile().getAbsolutePath()
-									+ ", removing SoundInfo " + soundInfo.getName() + " from "
-									+ project.getName() + ", "
-									+ scene.getName() + ", "
-									+ sprite.getName() + ".");
+							Log.e(TAG, "Cannot copy: " + soundInfo.getFile().getAbsolutePath() + ", removing SoundInfo " + soundInfo.getName() + " from " + project.getName() + ", " + scene.getName() + ", " + sprite.getName() + ".");
 						}
 					}
 					fileNames.add(soundInfo.getFile().getName());
@@ -323,8 +315,7 @@ public final class ProjectManager {
 		List<UserVariable> conflicts = new ArrayList<>();
 		for (UserVariable project1GlobalVar : project1GlobalVars) {
 			for (UserVariable project2GlobalVar : project2GlobalVars) {
-				if (project1GlobalVar.getName().equals(project2GlobalVar.getName()) && !project1GlobalVar.getValue()
-						.equals(project2GlobalVar.getValue())) {
+				if (project1GlobalVar.getName().equals(project2GlobalVar.getName()) && !project1GlobalVar.getValue().equals(project2GlobalVar.getValue())) {
 					conflicts.add(project1GlobalVar);
 				}
 			}
@@ -338,8 +329,7 @@ public final class ProjectManager {
 		List<UserList> conflicts = new ArrayList<>();
 		for (UserList project1GlobalList : project1GlobalLists) {
 			for (UserList project2GlobalList : project2GlobalLists) {
-				if (project1GlobalList.getName().equals(project2GlobalList.getName()) && !project1GlobalList.getValue()
-						.equals(project2GlobalList.getValue())) {
+				if (project1GlobalList.getName().equals(project2GlobalList.getName()) && !project1GlobalList.getValue().equals(project2GlobalList.getValue())) {
 					conflicts.add(project1GlobalList);
 				}
 			}
@@ -438,8 +428,7 @@ public final class ProjectManager {
 				for (Script script : sprite.getScriptList()) {
 					if (script instanceof WhenBounceOffScript) {
 						WhenBounceOffScript bounceOffScript = (WhenBounceOffScript) script;
-						String[] spriteNames =
-								bounceOffScript.getSpriteToBounceOffName().split(PhysicsCollisionListener.COLLISION_MESSAGE_CONNECTOR);
+						String[] spriteNames = bounceOffScript.getSpriteToBounceOffName().split(PhysicsCollisionListener.COLLISION_MESSAGE_CONNECTOR);
 						String spriteToCollideWith = spriteNames[0];
 						if (spriteNames[0].equals(sprite.getName())) {
 							spriteToCollideWith = spriteNames[1];
@@ -459,12 +448,10 @@ public final class ProjectManager {
 					for (Brick brick : script.getBrickList()) {
 						if (brick instanceof SetBackgroundByIndexBrick) {
 							FormulaBrick formulaBrick = (FormulaBrick) brick;
-							formulaBrick.replaceFormulaBrickField(Brick.BrickField.LOOK_INDEX,
-									Brick.BrickField.BACKGROUND_INDEX);
+							formulaBrick.replaceFormulaBrickField(Brick.BrickField.LOOK_INDEX, Brick.BrickField.BACKGROUND_INDEX);
 						} else if (brick instanceof SetBackgroundByIndexAndWaitBrick) {
 							FormulaBrick formulaBrick = (FormulaBrick) brick;
-							formulaBrick.replaceFormulaBrickField(Brick.BrickField.LOOK_INDEX,
-									Brick.BrickField.BACKGROUND_WAIT_INDEX);
+							formulaBrick.replaceFormulaBrickField(Brick.BrickField.LOOK_INDEX, Brick.BrickField.BACKGROUND_WAIT_INDEX);
 						}
 					}
 				}
@@ -537,33 +524,38 @@ public final class ProjectManager {
 	}
 
 	@SuppressWarnings("unused")
+	public void createNewEmptyProject(String name, boolean landscapeMode, boolean castEnabled, int height, int width) throws IOException {
+		createNewEmptyProject(name, applicationContext, landscapeMode, castEnabled, height, width);
+	}
+
 	public void createNewEmptyProject(String name, boolean landscapeMode, boolean castEnabled) throws IOException {
-		createNewEmptyProject(name, applicationContext, landscapeMode, castEnabled);
+		createNewEmptyProject(name, landscapeMode, castEnabled, 0, 0);
 	}
 
 	/**
-	 * @deprecated use {@link #createNewEmptyProject(String, boolean, boolean)} ()} without Context instead.
+	 * @deprecated use {@link #createNewEmptyProject(String, boolean, boolean, int, int)} ()}
+	 * without Context instead.
 	 */
 	@Deprecated
-	public void createNewEmptyProject(String name, Context context, boolean landscapeMode, boolean castEnabled) throws IOException {
-		project = DefaultProjectHandler.createAndSaveEmptyProject(name, context, landscapeMode, castEnabled);
+	public void createNewEmptyProject(String name, Context context, boolean landscapeMode, boolean castEnabled, int height, int width) throws IOException {
+		project = DefaultProjectHandler.createAndSaveEmptyProject(name, context, landscapeMode, castEnabled, height, width);
 		currentSprite = null;
 		currentlyEditedScene = project.getDefaultScene();
 		currentlyPlayingScene = currentlyEditedScene;
 	}
 
 	@SuppressWarnings("unused")
-	public void createNewExampleProject(String name, DefaultProjectHandler.ProjectCreatorType projectCreatorType, boolean landscapeMode) throws IOException {
-		createNewExampleProject(name, applicationContext, projectCreatorType, landscapeMode);
+	public void createNewExampleProject(String name, DefaultProjectHandler.ProjectCreatorType projectCreatorType, boolean landscapeMode, int height, int width) throws IOException {
+		createNewExampleProject(name, applicationContext, projectCreatorType, landscapeMode, height, width);
 	}
 
 	/**
-	 * @deprecated use {@link #createNewExampleProject(String, DefaultProjectHandler.ProjectCreatorType, boolean)} ()} without Context instead.
+	 * @deprecated use {@link #createNewExampleProject(String, DefaultProjectHandler.ProjectCreatorType, boolean, int, int)} ()} without Context instead.
 	 */
 	@Deprecated
-	public void createNewExampleProject(String name, Context context, DefaultProjectHandler.ProjectCreatorType projectCreatorType, boolean landscapeMode) throws IOException {
+	public void createNewExampleProject(String name, Context context, DefaultProjectHandler.ProjectCreatorType projectCreatorType, boolean landscapeMode, int height, int width) throws IOException {
 		DefaultProjectHandler.getInstance().setDefaultProjectCreator(projectCreatorType);
-		project = DefaultProjectHandler.createAndSaveDefaultProject(name, context, landscapeMode);
+		project = DefaultProjectHandler.createAndSaveDefaultProject(name, context, landscapeMode, height, width);
 		currentSprite = null;
 		currentlyEditedScene = project.getDefaultScene();
 		currentlyPlayingScene = currentlyEditedScene;

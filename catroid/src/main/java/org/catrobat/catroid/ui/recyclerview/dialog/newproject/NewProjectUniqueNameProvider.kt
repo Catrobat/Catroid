@@ -21,30 +21,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.common.defaultprojectcreators;
+package org.catrobat.catroid.ui.recyclerview.dialog.newproject
 
-import android.content.Context;
+import org.catrobat.catroid.ui.recyclerview.dialog.ReplaceExistingProjectDialogFragment
+import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider
 
-import org.catrobat.catroid.content.Project;
-
-import java.io.IOException;
-
-public abstract class ProjectCreator {
-
-	static double backgroundImageScaleFactor = 1;
-
-	int defaultProjectNameResourceId;
-
-	static int calculateValueRelativeToScaledBackground(int value) {
-		int returnValue = (int) (value * backgroundImageScaleFactor);
-		int differenceToNextFive = returnValue % 5;
-		return returnValue - differenceToNextFive;
-	}
-
-	public abstract Project createDefaultProject(String name, Context context, boolean landscapeMode,
-			int height, int width) throws IOException;
-
-	public int getDefaultProjectNameID() {
-		return defaultProjectNameResourceId;
-	}
+class NewProjectUniqueNameProvider : UniqueNameProvider() {
+    override fun isUnique(newName: String): Boolean =
+        !ReplaceExistingProjectDialogFragment.projectExistsInDirectory(newName)
 }
