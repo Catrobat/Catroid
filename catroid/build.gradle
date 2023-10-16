@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.ManagedVirtualDevice
+
 /*
  * Catroid: An on-device visual programming system for Android devices
  * Copyright (C) 2010-2023 The Catrobat Team
@@ -186,7 +188,7 @@ android {
         }
         managedDevices {
             devices {
-                pixel2api33(com.android.build.api.dsl.ManagedVirtualDevice) {
+                managedEmulator(ManagedVirtualDevice) {
                     // Use device profiles you typically see in Android Studio.
                     device = "Pixel 2"
                     // Use only API levels 27 and higher.

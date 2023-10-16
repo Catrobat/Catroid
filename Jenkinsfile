@@ -46,11 +46,22 @@ def killRunningEmulators(){
     sh '''adb devices | grep emulator | cut -f1 | while read emulatorname; do adb -s $emulatorname emu kill; done'''
 }
 
-def runTestsWithEmulator(String testClass){
+def runTestsWithManagedEmulator(String testClass){
     sh " ./gradlew  -PenableCoverage -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect \
         -Pandroid.experimental.androidTest.numManagedDeviceShards=2\
-        pixel2api33CatroidDebugAndroidTest \
+        managedEmulatorCatroidDebugAndroidTest \
         -Pandroid.testInstrumentationRunnerArguments.class=${testClass} "
+}
+
+def postManagedEmulator(String coverageNameAndLogcatPrefix) {
+    def jacocoReportDir = 'catroid/build/reports/coverage/androidTest/catroid/debug/connected'
+    if (fileExists('catroid/build/reports/coverage/androidTest/catroid/debug/connected/report.' +
+            'xml')){
+        junitAndCoverage jacocoReportDir, 'report.xml', coverageNameAndLogcatPrefix
+    }
+    zip zipFile: "${coverageNameAndLogcatPrefix}_logcat.zip",
+            dir:"build/outputs/androidTest-results/managedDevice/flavors/", archive:true
+    // TODO Check to not leak private information.
 }
 
 def webTestUrlParameter() {
@@ -238,10 +249,11 @@ pipeline {
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                                     sh "./gradlew ${debugUnitTests()} -PenableCoverage " +
-                                            "createCatroidDebugUnitTestCoverageReport --full-stacktrace"
+                                            "jacocoTestCatroidDebugUnitTestReport --full-stacktrace"
                                     //sh 'mkdir -p catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport/'
                                     //sh 'touch catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport/jacocoTestCatroidDebugUnitTestReport.xml'
-                                    junitAndCoverage 'catroid/build/reports/coverage/test/catroid/debug', 'report.' + 'xml', 'unit'
+                                    //junitAndCoverage 'catroid/build/reports/coverage/test/catroid/debug', 'report.' + 'xml', 'unit'
+                                    junitAndCoverage 'catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport', 'jacocoTestCatroidDebugUnitTestReport.xml', 'unit'
                                 }
                             }
                         }
@@ -252,13 +264,13 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    runTestsWithEmulator("org.catrobat.catroid.testsuites.LocalHeadlessTestSuite")
+                                    runTestsWithManagedEmulator("org.catrobat.catroid.testsuites.LocalHeadlessTestSuite")
                                 }
                             }
 
                             post {
                                 always {
-                                    postEmulator 'instrumented_unit'
+                                    postManagedEmulator 'instrumented_unit'
                                 }
                             }
                         }
@@ -269,7 +281,7 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    runTestsWithEmulator("org.catrobat.catroid." +
+                                    runTestsWithManagedEmulator("org.catrobat.catroid." +
                                             "catrobattestrunner.CatrobatTestRunner")
                                 }
                             }
@@ -287,13 +299,13 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    runTestsWithEmulator("org.catrobat.catroid.testsuites.UiEspressoQuarantineTestSuite")
+                                    runTestsWithManagedEmulator("org.catrobat.catroid.testsuites.UiEspressoQuarantineTestSuite")
                                 }
                             }
 
                             post {
                                 always {
-                                    postEmulator 'quarantined'
+                                    postManagedEmulator 'quarantined'
                                 }
                             }
                         }
@@ -305,14 +317,14 @@ pipeline {
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE')
                                 {
-                                    runTestsWithEmulator("org.catrobat.catroid.testsuites.OutgoingNetworkCallsTestSuite")
+                                    runTestsWithManagedEmulator("org.catrobat.catroid.testsuites.OutgoingNetworkCallsTestSuite")
                                 }
                             }
                             post {
                                 always {
                                    junit '**/*TEST*.xml'
-                                         postEmulator 'networktest'
-                                         archiveArtifacts 'networktest_logcat.txt'
+                                         postManagedEmulator 'networktest'
+                                         //archiveArtifacts 'networktest_logcat.txt'
                                        }
                             }
                         }
@@ -323,13 +335,13 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    runTestsWithEmulator("org.catrobat.catroid.testsuites.UiEspressoRtlTestSuite")
+                                    runTestsWithManagedEmulator("org.catrobat.catroid.testsuites.UiEspressoRtlTestSuite")
                                 }
                             }
 
                             post {
                                 always {
-                                    postEmulator 'rtltests'
+                                    postManagedEmulator 'rtltests'
                                 }
                             }
                         }
@@ -360,13 +372,13 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                                    runTestsWithEmulator("org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite")
+                                    runTestsWithManagedEmulator("org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite")
                                 }
                             }
 
                             post {
                                 always {
-                                    postEmulator 'pull_request_suite'
+                                    postManagedEmulator 'pull_request_suite'
                                     //adb kill-server
                                 }
                             }
