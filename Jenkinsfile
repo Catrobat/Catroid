@@ -269,7 +269,8 @@ pipeline {
                             }
                             steps {
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                    runTestsWithEmulator("org.catrobat.catroid.catrobattestrunner")
+                                    runTestsWithEmulator("org.catrobat.catroid." +
+                                            "catrobattestrunner.CatrobatTestRunner")
                                 }
                             }
 
