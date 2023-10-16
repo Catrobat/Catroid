@@ -56,13 +56,12 @@ def runTestsWithManagedEmulator(String testClass){
 }
 
 def postManagedEmulator(String coverageNameAndLogcatPrefix) {
+    zip zipFile: "${coverageNameAndLogcatPrefix}_logcat.zip", dir:"catroid/build/outputs/androidTest-results/managedDevice/flavors/", archive:true
+    // TODO Check to not leak private information.
     def jacocoReportDir = 'catroid/build/reports/jacoco/jacocoManagedEmulatorTestReport'
     if (fileExists(jacocoReportDir + '/jacocoManagedEmulatorTestReport.xml')){
         junitAndCoverage jacocoReportDir, 'jacocoManagedEmulatorTestReport.xml', coverageNameAndLogcatPrefix
     }
-    zip zipFile: "${coverageNameAndLogcatPrefix}_logcat.zip",
-            dir:"catroid/build/outputs/androidTest-results/managedDevice/flavors/", archive:true
-    // TODO Check to not leak private information.
 }
 
 def webTestUrlParameter() {
