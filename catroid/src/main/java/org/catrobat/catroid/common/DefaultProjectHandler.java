@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -57,15 +57,21 @@ public final class DefaultProjectHandler {
 
 	public static Project createAndSaveDefaultProject(Context context) throws IOException {
 		String name = context.getString(getInstance().defaultProjectCreator.getDefaultProjectNameID());
-		return createAndSaveDefaultProject(name, context, false);
+		return createAndSaveDefaultProject(name, context, false, 0, 0);
 	}
 
 	public static Project createAndSaveDefaultProject(String name, Context context, boolean landscapeMode) throws IOException {
-		return getInstance().defaultProjectCreator.createDefaultProject(name, context, landscapeMode);
+		return createAndSaveDefaultProject(name, context, landscapeMode, 0, 0);
 	}
 
-	public static Project createAndSaveEmptyProject(String name, Context context, boolean landscapeMode, boolean isCastEnabled) throws IOException {
-		Project project = new Project(context, name, landscapeMode, isCastEnabled);
+	public static Project createAndSaveDefaultProject(String name, Context context, boolean landscapeMode,
+			int height, int width) throws IOException {
+		return getInstance().defaultProjectCreator.createDefaultProject(name, context, landscapeMode,
+				height, width);
+	}
+
+	public static Project createAndSaveEmptyProject(String name, Context context, boolean landscapeMode, boolean isCastEnabled, int height, int width) throws IOException {
+		Project project = new Project(context, name, landscapeMode, isCastEnabled, height, width);
 
 		if (project.getDirectory().exists()) {
 			throw new IOException("Cannot create new project at "

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -177,5 +177,17 @@ public class ProjectManagerTest {
 		assertEquals(PROJECT_NAME_NESTING_BRICKS, project.getName());
 
 		TestUtils.deleteProjects(PROJECT_NAME_NESTING_BRICKS);
+	}
+
+	@Test
+	public void testCreateNewEmptyProject() throws IOException {
+		String projectName = "new project";
+		projectManager.createNewEmptyProject(projectName, false, false, 1500, 1000);
+		Project project = projectManager.getCurrentProject();
+
+		assertNotNull(project);
+		assertEquals(projectName, project.getName());
+
+		TestUtils.deleteProjects(projectName);
 	}
 }

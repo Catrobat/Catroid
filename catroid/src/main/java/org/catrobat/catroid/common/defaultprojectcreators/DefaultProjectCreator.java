@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -71,8 +71,9 @@ public class DefaultProjectCreator extends ProjectCreator {
 	}
 
 	@Override
-	public Project createDefaultProject(String name, Context context, boolean landscapeMode) throws IOException {
-		Project project = new Project(context, name, landscapeMode);
+	public Project createDefaultProject(String name, Context context, boolean landscapeMode,
+			int height, int width) throws IOException {
+		Project project = new Project(context, name, landscapeMode, false, height, width);
 
 		if (project.getDirectory().exists()) {
 			throw new IOException("Cannot create new project at "
