@@ -399,5 +399,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		highlightSelection();
 	}
 
-	public InternFormula getInternFormula() { return internFormula; }
+	public InternFormula getInternFormula() {
+		return internFormula;
+	}
 }

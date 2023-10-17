@@ -1183,5 +1183,7 @@ public class InternFormula {
 		internTokenFormulaList = list;
 	}
 
-	public List<InternToken> getInternTokenFormulaList() { return internTokenFormulaList; }
+	public List<InternToken> getInternTokenFormulaList() {
+		return internTokenFormulaList;
+	}
 }
