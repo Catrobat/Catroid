@@ -22,16 +22,15 @@
  */
 package org.catrobat.catroid.test.pocketmusic.note.midi;
 
-import android.Manifest;
 
 import org.catrobat.catroid.pocketmusic.note.Project;
 import org.catrobat.catroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.catroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
 import java.io.File;
@@ -39,17 +38,15 @@ import java.io.IOException;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.rule.GrantPermissionRule;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
-@Ignore("Permissions")
 public class ProjectToMidiConverterTest {
 
 	@Rule
-	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE);
+	public TemporaryFolder temporaryMidiFolder = new TemporaryFolder();
 
 	private static final String FILE_NAME = "ProjectToMidiConverterTest.midi";
 	private File file;
@@ -67,7 +64,7 @@ public class ProjectToMidiConverterTest {
 	@Test
 	public void testWriteProjectAsMidi() throws IOException, MidiException {
 		Project project = new Project("testWriteProjectAsMidi", Project.DEFAULT_BEAT, Project.DEFAULT_BEATS_PER_MINUTE);
-		ProjectToMidiConverter converter = new ProjectToMidiConverter();
+		ProjectToMidiConverter converter = new ProjectToMidiConverter(temporaryMidiFolder.getRoot());
 
 		converter.writeProjectAsMidi(project, file);
 
@@ -77,11 +74,11 @@ public class ProjectToMidiConverterTest {
 	@Test
 	public void testGetMidiFileFromProjectName() throws IOException, MidiException {
 		Project project = new Project("testGetMidiFileFromProjectName", Project.DEFAULT_BEAT, Project.DEFAULT_BEATS_PER_MINUTE);
-		ProjectToMidiConverter converter = new ProjectToMidiConverter();
+		ProjectToMidiConverter converter = new ProjectToMidiConverter(temporaryMidiFolder.getRoot());
 
 		converter.writeProjectAsMidi(project, file);
-		File newFile = ProjectToMidiConverter.getMidiFileFromProjectName(ProjectToMidiConverter
-				.removeMidiExtensionFromString(file.getName()));
+		File newFile = converter.getMidiFileFromProjectName(
+				ProjectToMidiConverter.removeMidiExtensionFromString(file.getName()));
 
 		assertEquals(file.getName(), newFile.getName());
 	}
