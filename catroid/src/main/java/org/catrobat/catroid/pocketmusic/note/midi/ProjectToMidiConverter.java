@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.pocketmusic.note.midi;
 
-import android.os.Environment;
+import android.content.Context;
 
 import com.pdrogfer.mididroid.MidiFile;
 import com.pdrogfer.mididroid.MidiTrack;
@@ -37,6 +37,7 @@ import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.NoteEvent;
 import org.catrobat.catroid.pocketmusic.note.Project;
 import org.catrobat.catroid.pocketmusic.note.Track;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,14 +48,13 @@ public class ProjectToMidiConverter {
 
 	public static final String MIDI_FILE_EXTENSION = ".midi";
 	public static final String MIDI_FILE_IDENTIFIER = "Musicdroid Midi File";
-	public static File midiFolder = new File(Environment.getExternalStorageDirectory().toString(), "musicdroid");
-
 	private static final int MAX_CHANNEL = 16;
-
+	private final File midiFolder;
 	private NoteEventToMidiEventConverter eventConverter;
 	private int nextChannel;
 
-	public ProjectToMidiConverter() {
+	public ProjectToMidiConverter(@NotNull File midiFolder) {
+		this.midiFolder = midiFolder;
 		eventConverter = new NoteEventToMidiEventConverter();
 		nextChannel = 0;
 	}
@@ -67,7 +67,7 @@ public class ProjectToMidiConverter {
 		midiFile.writeToFile(getMidiFileFromProjectName(project.getName()));
 	}
 
-	private static void checkMidiFolder() throws IOException {
+	private void checkMidiFolder() throws IOException {
 		if (!midiFolder.exists()) {
 			boolean success = midiFolder.mkdir();
 
@@ -77,7 +77,7 @@ public class ProjectToMidiConverter {
 		}
 	}
 
-	public static File getMidiFileFromProjectName(String name) throws IOException {
+	public File getMidiFileFromProjectName(String name) throws IOException {
 		checkMidiFolder();
 		return new File(midiFolder + File.separator + name + MIDI_FILE_EXTENSION);
 	}

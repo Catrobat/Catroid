@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.test.pocketmusic.note.midi;
 
-import android.Manifest;
-
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.catroid.pocketmusic.note.Project;
 import org.catrobat.catroid.pocketmusic.note.Track;
@@ -33,33 +31,30 @@ import org.catrobat.catroid.pocketmusic.note.midi.ProjectToMidiConverter;
 import org.catrobat.catroid.test.pocketmusic.note.TrackTestDataFactory;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.IOException;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.rule.GrantPermissionRule;
 
 import static junit.framework.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
-@Ignore("Permissions")
 public class MidiToProjectConverterTest {
 
 	@Rule
-	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE);
-
+	public TemporaryFolder temporaryMidiFolder = new TemporaryFolder();
 	private Project project;
 	private File file;
 
 	@Before
 	public void setUp() {
 		project = createProjectWithSemiComplexTracks();
-		file = new File(ProjectToMidiConverter.midiFolder + File.separator + project.getName() + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
+		file = new File(temporaryMidiFolder.getRoot() + File.separator + project.getName() + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
 	}
 
 	@After
@@ -69,7 +64,7 @@ public class MidiToProjectConverterTest {
 
 	@Test
 	public void testConvertToMidiToProject() throws MidiException, IOException {
-		ProjectToMidiConverter projectConverter = new ProjectToMidiConverter();
+		ProjectToMidiConverter projectConverter = new ProjectToMidiConverter(temporaryMidiFolder.getRoot());
 		MidiToProjectConverter midiConverter = new MidiToProjectConverter();
 
 		projectConverter.writeProjectAsMidi(project);
