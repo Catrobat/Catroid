@@ -29,7 +29,6 @@ import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
-import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -43,6 +42,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_URL_PORTRAIT;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.util.UiTestUtils.createProjectAndGetStartScript;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.AllOf.allOf;
 
@@ -66,8 +66,7 @@ public class SetBackgroundBrickTest {
 	@Before
 	public void setUp() throws Exception {
 		brickPosition = 1;
-		UiTestUtils.createProjectAndGetStartScript("SetBackgroundBrickTest")
-			.addBrick(new SetBackgroundBrick());
+		createProjectAndGetStartScript("SetBackgroundBrickTest").addBrick(new SetBackgroundBrick());
 		baseActivityTestRule.launchActivity();
 	}
 
@@ -78,16 +77,16 @@ public class SetBackgroundBrickTest {
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_set_background);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_set_background_spinner)
-			.performSelectNameable(R.string.new_option);
+				.performSelectNameable(R.string.new_option);
 
 		Intents.init();
 
 		onView(withId(R.id.dialog_new_look_media_library))
-			.perform(click());
+				.perform(click());
 
 		intended(allOf(hasComponent(WebViewActivity.class.getName()),
 				hasExtras(allOf(hasEntry(equalTo(WebViewActivity.INTENT_PARAMETER_URL),
-				equalTo(LIBRARY_BACKGROUNDS_URL_PORTRAIT))))));
+						equalTo(LIBRARY_BACKGROUNDS_URL_PORTRAIT))))));
 
 		Intents.release();
 	}

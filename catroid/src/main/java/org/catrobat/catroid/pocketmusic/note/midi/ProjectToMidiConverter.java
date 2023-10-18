@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.pocketmusic.note.midi;
 
-import android.content.Context;
-
 import com.pdrogfer.mididroid.MidiFile;
 import com.pdrogfer.mididroid.MidiTrack;
 import com.pdrogfer.mididroid.event.ChannelEvent;

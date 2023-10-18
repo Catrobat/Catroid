@@ -75,7 +75,6 @@ public class SpriteFromGalleryIntentDismissTest {
 	public FragmentActivityTestRule<ProjectActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
 
-
 	@Before
 	public void setUp() throws Exception {
 		createProject(projectName);

@@ -71,7 +71,6 @@ public class SoundFromGalleryIntentDismissTest {
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SOUNDS);
 
-
 	@Before
 	public void setUp() throws Exception {
 		UiTestUtils.createDefaultTestProject(projectName);

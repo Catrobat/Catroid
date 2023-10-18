@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.stage;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -289,18 +288,18 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		if (requiredResourcesSet.contains(Brick.NETWORK_CONNECTION)) {
 			if (!Utils.isNetworkAvailable(stageActivity)) {
 				new AlertDialog.Builder(new ContextThemeWrapper(stageActivity, R.style.Theme_AppCompat_Dialog))
-					.setTitle(R.string.error_no_network_title)
-					.setPositiveButton(R.string.preference_title, (dialog, whichButton) -> {
-						stageActivity.startActivity(new Intent(Settings.ACTION_SETTINGS));
-					})
-					.setNegativeButton(R.string.cancel, (dialog, whichButton) -> {
-						endStageActivity();
-					})
-					.setOnDismissListener(dialog -> {
-						endStageActivity();
-					})
-					.create()
-					.show();
+						.setTitle(R.string.error_no_network_title)
+						.setPositiveButton(R.string.preference_title, (dialog, whichButton) -> {
+							stageActivity.startActivity(new Intent(Settings.ACTION_SETTINGS));
+						})
+						.setNegativeButton(R.string.cancel, (dialog, whichButton) -> {
+							endStageActivity();
+						})
+						.setOnDismissListener(dialog -> {
+							endStageActivity();
+						})
+						.create()
+						.show();
 			} else {
 				resourceInitialized();
 			}

@@ -1,5 +1,3 @@
-import com.android.build.api.dsl.ManagedVirtualDevice
-
 /*
  * Catroid: An on-device visual programming system for Android devices
  * Copyright (C) 2010-2023 The Catrobat Team
@@ -179,7 +177,6 @@ android {
         }
     }
 
-
     testOptions {
         unitTests.returnDefaultValues = true
         unitTests.includeAndroidResources = true
@@ -204,7 +201,6 @@ android {
             excludes += ['LICENSE.txt', 'META-INF/LICENSE.md', 'META-INF/INDEX.LIST', 'lib/mips/*', 'lib/armeabi/*']
         }
     }
-
 
     signingConfigs {
         signedRelease {
@@ -276,7 +272,6 @@ android {
         xmlReport true
     }
 
-
     productFlavors {
         catroid {
             isDefault.set(true)
@@ -343,7 +338,6 @@ android {
     productFlavors.all { flavor ->
         copyGoogleServicesFile(flavor.name, defaultConfig.applicationId + (flavor.applicationIdSuffix ?: ""))
     }
-
 }
 
 configurations {

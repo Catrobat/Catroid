@@ -212,7 +212,7 @@ public final class StatusBarNotificationManager {
 						.setAction(ACTION_CANCEL_UPLOAD);
 				actionIntentCancelUpload.putExtra("bundle", bundle);
 				PendingIntent actionPendingIntentCancelUpload = PendingIntent.getService(context, NOTIFICATION_PENDING_INTENT_REQUEST_CODE,
-						actionIntentCancelUpload, PendingIntent.FLAG_ONE_SHOT| PendingIntent.FLAG_MUTABLE);
+						actionIntentCancelUpload, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_MUTABLE);
 				builder.addAction(new NotificationCompat.Action(android.R.drawable.ic_menu_close_clear_cancel,
 						context.getResources().getString(R.string.cancel), actionPendingIntentCancelUpload));
 

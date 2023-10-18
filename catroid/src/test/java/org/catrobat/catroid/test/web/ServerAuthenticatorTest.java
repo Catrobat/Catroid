@@ -25,11 +25,11 @@ package org.catrobat.catroid.test.web;
 
 import android.content.SharedPreferences;
 
+import org.apache.commons.lang3.StringUtils;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.web.CatrobatWebClientKt;
 import org.catrobat.catroid.web.ServerAuthenticator;
 import org.catrobat.catroid.web.WebconnectionException;
-import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -213,6 +213,7 @@ public class ServerAuthenticatorTest {
 		when(responseJsonObjectMock.optString(JSON_TOKEN)).thenReturn("invalid");
 		assertTrue(authenticatorSpy.isInvalidResponse(0, responseJsonObjectMock));
 	}
+
 	@Test
 	public void testValidResponse() {
 		JSONObject responseJsonObjectMock = PowerMockito.mock(JSONObject.class);

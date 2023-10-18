@@ -446,12 +446,11 @@ public final class CastManager {
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
 				notificationPendingIntent = PendingIntent.getActivity(activity, 0,
-						intent,PendingIntent.FLAG_IMMUTABLE);
+						intent, PendingIntent.FLAG_IMMUTABLE);
 			} else {
 				notificationPendingIntent = PendingIntent.getActivity(activity, 0,
 						intent, 0);
 			}
-
 
 			CastRemoteDisplayLocalService.NotificationSettings settings = new CastRemoteDisplayLocalService
 					.NotificationSettings.Builder()

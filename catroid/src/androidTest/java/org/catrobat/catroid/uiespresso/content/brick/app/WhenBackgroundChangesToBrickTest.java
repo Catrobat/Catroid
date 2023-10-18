@@ -54,7 +54,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
-@Ignore()
+@Ignore("Just Fails")
 public class WhenBackgroundChangesToBrickTest {
 	private int brickPosition;
 
@@ -76,13 +76,11 @@ public class WhenBackgroundChangesToBrickTest {
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_when_background);
 
 		onBrickAtPosition(brickPosition).onSpinner(R.id.brick_when_background_spinner)
-			.performSelectNameable(R.string.new_option);
+				.performSelectNameable(R.string.new_option);
 
 		Intents.init();
 
-		onView(withId(R.id.dialog_new_look_paintroid))
-			.perform(click());
-
+		onView(withId(R.id.dialog_new_look_paintroid)).perform(click());
 		onView(withId(R.id.pocketpaint_drawing_surface_view)).perform(click());
 		pressBack();
 

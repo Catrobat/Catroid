@@ -139,14 +139,14 @@ public final class SnackbarUtil {
 
 	public static boolean showDisableHintsDialog(final Activity activity, @StringRes int resourceId) {
 		new AlertDialog.Builder(activity)
-			.setTitle(R.string.dialog_disable_hints_title)
-			.setMessage(R.string.dialog_disable_hints_text)
-			.setPositiveButton(R.string.dialog_disable_hints_button_show,
-					(dialog, id) -> handleShowHints(activity, resourceId))
-			.setNegativeButton(R.string.dialog_disable_hints_button_hide,
-					(dialog, id) -> handleHideHints(activity))
-			.setCancelable(false)
-			.show();
+				.setTitle(R.string.dialog_disable_hints_title)
+				.setMessage(R.string.dialog_disable_hints_text)
+				.setPositiveButton(R.string.dialog_disable_hints_button_show,
+						(dialog, id) -> handleShowHints(activity, resourceId))
+				.setNegativeButton(R.string.dialog_disable_hints_button_hide,
+						(dialog, id) -> handleHideHints(activity))
+				.setCancelable(false)
+				.show();
 		return true;
 	}
 

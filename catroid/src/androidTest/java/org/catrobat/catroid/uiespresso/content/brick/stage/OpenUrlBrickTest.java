@@ -82,16 +82,16 @@ public class OpenUrlBrickTest {
 	@Before
 	public void setUp() {
 		bufferedWarningPreferenceSetting = PreferenceManager
-			.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
-			.getBoolean(DO_NOT_SHOW_WARNING, false);
+				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
+				.getBoolean(DO_NOT_SHOW_WARNING, false);
 
 		PreferenceManager.getDefaultSharedPreferences(applicationContext.getApplicationContext())
-			.edit()
-			.putBoolean(
-				DO_NOT_SHOW_WARNING,
-				true
-			)
-			.commit();
+				.edit()
+				.putBoolean(
+						DO_NOT_SHOW_WARNING,
+						true
+				)
+				.commit();
 
 		openUrlBrickPosition = 1;
 		Script script = UiTestUtils.createProjectAndGetStartScript(projectName);
@@ -117,12 +117,12 @@ public class OpenUrlBrickTest {
 	@After
 	public void tearDown() {
 		PreferenceManager.getDefaultSharedPreferences(applicationContext)
-			.edit()
-			.putBoolean(
-				DO_NOT_SHOW_WARNING,
-				bufferedWarningPreferenceSetting
-			)
-			.commit();
+				.edit()
+				.putBoolean(
+						DO_NOT_SHOW_WARNING,
+						bufferedWarningPreferenceSetting
+				)
+				.commit();
 
 		Intents.release();
 		baseActivityTestRule.finishActivity();

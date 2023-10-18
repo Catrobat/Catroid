@@ -355,10 +355,10 @@ public final class ServerCalls implements ScratchDataFetcher {
 			Response originalResponse = chain.proceed(chain.request());
 			ProgressResponseBody body = new ProgressResponseBody(originalResponse.body(),
 					progress -> {
-				Bundle bundle = new Bundle();
-				bundle.putLong(ProgressResponseBody.TAG_PROGRESS, progress);
-				receiver.send(Constants.UPDATE_DOWNLOAD_PROGRESS, bundle);
-			});
+						Bundle bundle = new Bundle();
+						bundle.putLong(ProgressResponseBody.TAG_PROGRESS, progress);
+						receiver.send(Constants.UPDATE_DOWNLOAD_PROGRESS, bundle);
+					});
 			return originalResponse.newBuilder()
 					.body(body)
 					.build();
@@ -376,6 +376,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, Log.getStackTraceString(e));
 		}
 	}
+
 	private String getRequestInterruptable(String url) throws WebconnectionException {
 		Request request = new Request.Builder()
 				.url(url)

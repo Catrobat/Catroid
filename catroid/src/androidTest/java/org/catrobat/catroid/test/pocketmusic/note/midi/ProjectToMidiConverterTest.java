@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.test.pocketmusic.note.midi;
 
-
 import org.catrobat.catroid.pocketmusic.note.Project;
 import org.catrobat.catroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.catroid.pocketmusic.note.midi.ProjectToMidiConverter;
