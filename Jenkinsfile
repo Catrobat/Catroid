@@ -35,7 +35,7 @@ def postEmulator(String coverageNameAndLogcatPrefix) {
     if (fileExists('catroid/build/reports/coverage/androidTest/catroid/debug/connected/report.xml')) {
         junitAndCoverage jacocoReportDir, 'report.xml', coverageNameAndLogcatPrefix
     }
-    archiveArtifacts "${coverageNameAndLogcatPrefix}_logcat.txt"
+    //archiveArtifacts "${coverageNameAndLogcatPrefix}_logcat.txt"
 }
 
 def junitAndCoverage(String jacocoReportDir, String jacocoReportXml, String coverageName) {
