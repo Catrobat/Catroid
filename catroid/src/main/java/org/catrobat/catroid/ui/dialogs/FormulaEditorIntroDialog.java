@@ -210,7 +210,7 @@ public class FormulaEditorIntroDialog extends Dialog implements View.OnClickList
 		introSlides.add(new IntroSlide(
 				R.string.formula_editor_intro_title_functions,
 				R.string.formula_editor_intro_summary_functions,
-				R.id.formula_editor_keyboard_function));
+				R.id.formula_editor_keyboard_mathematics));
 
 		introSlides.add(new IntroSlide(
 				R.string.formula_editor_intro_title_logic,

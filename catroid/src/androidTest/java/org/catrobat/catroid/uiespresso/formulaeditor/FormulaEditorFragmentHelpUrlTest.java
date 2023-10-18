@@ -105,8 +105,8 @@ public class FormulaEditorFragmentHelpUrlTest {
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
 				.perform(click());
 		String helpUrl = onFormulaEditor()
-				.performOpenCategory(FormulaEditorWrapper.Category.FUNCTIONS)
-				.getHelpUrl(CategoryListFragment.FUNCTION_TAG, baseActivityTestRule.getActivity());
+				.performOpenCategory(FormulaEditorWrapper.Category.MATHEMATICS)
+				.getHelpUrl(CategoryListFragment.MATHEMATICS_TAG, baseActivityTestRule.getActivity());
 		assertEquals(functionsHelpUrl, helpUrl);
 	}
 

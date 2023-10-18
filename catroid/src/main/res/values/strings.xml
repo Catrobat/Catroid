@@ -1957,12 +1957,13 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_object_distance_to">distance to touch position</string>
     <string name="formula_editor_compute">Compute</string>
     <string name="formula_editor_object">Properties</string>
-    <string name="formula_editor_functions">Functions</string>
+    <string name="formula_editor_functions">Mathematics</string>
     <string name="formula_editor_logic">Logic</string>
     <string name="formula_editor_device">Sensors</string>
     <string name="formula_editor_device_sensors">Device sensors</string>
     <string name="formula_editor_functions_maths">Maths</string>
     <string name="formula_editor_functions_strings">Text</string>
+    <string name="formula_editor_logic_reporters">Reporters</string>
     <string name="formula_editor_functions_lists">Lists</string>
     <string name="formula_editor_logic_boolean">Logical (Boolean) operators and constants</string>
     <string name="formula_editor_logic_comparison">Comparison operators</string>

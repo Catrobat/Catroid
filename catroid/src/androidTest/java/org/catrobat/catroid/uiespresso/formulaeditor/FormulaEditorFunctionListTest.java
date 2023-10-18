@@ -126,7 +126,7 @@ public class FormulaEditorFunctionListTest {
 		String selectedFunctionString = getSelectedFunctionString(editorFunction);
 
 		onFormulaEditor()
-				.performOpenCategory(FormulaEditorWrapper.Category.FUNCTIONS)
+				.performOpenCategory(FormulaEditorWrapper.Category.MATHEMATICS)
 				.performSelect(editorFunction);
 
 		onFormulaEditor()

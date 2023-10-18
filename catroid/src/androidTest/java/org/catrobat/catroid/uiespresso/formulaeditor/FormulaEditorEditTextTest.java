@@ -42,7 +42,7 @@ import org.junit.runner.RunWith;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
-import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.Category.FUNCTIONS;
+import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.Category.MATHEMATICS;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.Control.BACKSPACE;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.Control.COMPUTE;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.FORMULA_EDITOR_TEXT_FIELD_MATCHER;
@@ -108,14 +108,14 @@ public class FormulaEditorEditTextTest {
 	public void testFunctionDeletion() {
 		String random = getResourcesString(R.string.formula_editor_function_rand) + getResourcesString(R.string.formula_editor_function_rand_parameter);
 		onFormulaEditor()
-				.performOpenCategory(FUNCTIONS)
+				.performOpenCategory(MATHEMATICS)
 				.performSelect(random);
 		onFormulaEditor()
 				.performClickOn(BACKSPACE);
 		onFormulaEditor()
 				.performClickOn(BACKSPACE);
 		onFormulaEditor()
-				.performOpenCategory(FUNCTIONS)
+				.performOpenCategory(MATHEMATICS)
 				.performSelect(random);
 		onFormulaEditor()
 				.performClickOn(BACKSPACE);
@@ -192,7 +192,7 @@ public class FormulaEditorEditTextTest {
 				.performEnterFormula("1+");
 
 		onFormulaEditor()
-				.performClickOn(FUNCTIONS);
+				.performClickOn(MATHEMATICS);
 
 		onView(withText("pi"))
 				.perform(click());
