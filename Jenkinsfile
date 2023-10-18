@@ -49,6 +49,16 @@ def junitAndCoverage(String jacocoReportDir, String jacocoReportXml, String cove
 }
 def killRunningEmulators() {
     sh '''adb devices | grep emulator | cut -f1 | while read emulatorname; do adb -s $emulatorname emu kill; done'''
+    sh '''while :; do
+        output=$(eval "adb devices")
+        if [[ $output != *"emulator"* ]]; then
+            break
+        fi
+        
+        echo "Emulator is still running"
+        sleep 2  # Adjust the sleep duration as needed
+    done
+    '''
     sh "adb kill-server"
 }
 
