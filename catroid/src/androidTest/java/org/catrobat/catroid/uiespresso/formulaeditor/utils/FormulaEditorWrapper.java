@@ -165,7 +165,7 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 				.perform(click());
 	}
 
-	public void performOpenFunctions() {
+	public void performOpenMathematics() {
 		performOpenCategory(Category.MATHEMATICS);
 	}
 
@@ -239,6 +239,8 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 		public static final Matcher<View> OBJECT = withId(R.id.formula_editor_keyboard_object);
 		public static final Matcher<View> MATHEMATICS =
 				withId(R.id.formula_editor_keyboard_mathematics);
+		public static final Matcher<View> TEXT = withId(R.id.formula_editor_keyboard_text);
+		public static final Matcher<View> LISTS = withId(R.id.formula_editor_keyboard_lists);
 		public static final Matcher<View> LOGIC = withId(R.id.formula_editor_keyboard_logic);
 		public static final Matcher<View> DEVICE = withId(R.id.formula_editor_keyboard_sensors);
 	}

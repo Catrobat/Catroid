@@ -853,7 +853,6 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 
 	private void initializeAdapter() {
 		String argument = getArguments().getString(FRAGMENT_TAG_BUNDLE_ARGUMENT);
-		// TODO switch case instead of if else?
 		List<CategoryListItem> items;
 		if (OBJECT_TAG.equals(argument)) {
 			items = getObjectItems();
