@@ -47,8 +47,8 @@ def junitAndCoverage(String jacocoReportDir, String jacocoReportXml, String cove
 
     publishJacocoHtml jacocoReportDir, jacocoReportXml, coverageName
 }
-def killRunningEmulators() {
-    sh '''adb devices | grep emulator | cut -f1 | while read emulatorname; do adb -s $emulatorname emu kill; done'''
+def killRunningEmulator() {
+    sh '''adb  emu kill'''
     sh '''#!/bin/bash 
 while : 
 do
@@ -64,6 +64,7 @@ do
 done
 '''
     sh "adb kill-server"
+    sh "pkill -f 'emulator -avd android${ANDROID_VERSION}' || true"
 }
 
 def webTestUrlParameter() {
@@ -271,7 +272,7 @@ pipeline {
 
                             post {
                                 always {
-                                    killRunningEmulators()
+                                    killRunningEmulator()
                                     postEmulator 'instrumented_unit'
                                 }
                             }
@@ -290,7 +291,7 @@ pipeline {
 
                             post {
                                 always {
-                                    killRunningEmulators()
+                                    killRunningEmulator()
                                     postEmulator 'testrunner'
                                 }
                             }
@@ -309,7 +310,7 @@ pipeline {
 
                             post {
                                 always {
-                                    killRunningEmulators()
+                                    killRunningEmulator()
                                     postEmulator 'quarantined'
                                 }
                             }
@@ -327,7 +328,7 @@ pipeline {
                             }
                             post {
                                 always {
-                                    killRunningEmulators()
+                                    killRunningEmulator()
                                     postEmulator('networktest')
                                 }
                             }
@@ -346,7 +347,7 @@ pipeline {
 
                             post {
                                 always {
-                                    killRunningEmulators()
+                                    killRunningEmulator()
                                     postEmulator( 'rtltests')
                                 }
                             }
@@ -384,7 +385,7 @@ pipeline {
 
                             post {
                                 always {
-                                    killRunningEmulators()
+                                    killRunningEmulator()
                                     postEmulator 'pull_request_suite'
                                 }
                             }
