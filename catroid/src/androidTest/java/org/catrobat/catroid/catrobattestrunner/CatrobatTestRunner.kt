@@ -57,13 +57,6 @@ class CatrobatTestRunner {
         StageActivity::class.java, true, false
     )
 
-    @Rule
-    @JvmField
-    var runtimePermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        permission.READ_EXTERNAL_STORAGE,
-        permission.WRITE_EXTERNAL_STORAGE
-    )
-
     @JvmField
     @Parameterized.Parameter
     var assetPath: String = ""
