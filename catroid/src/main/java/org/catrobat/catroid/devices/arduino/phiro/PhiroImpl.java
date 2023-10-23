@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,22 +27,21 @@ import android.util.Log;
 
 import org.catrobat.catroid.bluetooth.base.BluetoothConnection;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
+import org.catrobat.catroid.firmata.Firmata.Firmata;
+import org.catrobat.catroid.firmata.Firmata.message.AnalogMessage;
+import org.catrobat.catroid.firmata.Firmata.message.Message;
+import org.catrobat.catroid.firmata.Firmata.message.ReportAnalogPinMessage;
+import org.catrobat.catroid.firmata.Firmata.message.ReportFirmwareVersionMessage;
+import org.catrobat.catroid.firmata.Firmata.message.SetPinModeMessage;
+import org.catrobat.catroid.firmata.Serial.ISerial;
+import org.catrobat.catroid.firmata.Serial.SerialException;
+import org.catrobat.catroid.firmata.Serial.StreamingSerialAdapter;
 import org.catrobat.catroid.formulaeditor.Sensors;
 
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
-
-import name.antonsmirnov.firmata.Firmata;
-import name.antonsmirnov.firmata.message.AnalogMessage;
-import name.antonsmirnov.firmata.message.Message;
-import name.antonsmirnov.firmata.message.ReportAnalogPinMessage;
-import name.antonsmirnov.firmata.message.ReportFirmwareVersionMessage;
-import name.antonsmirnov.firmata.message.SetPinModeMessage;
-import name.antonsmirnov.firmata.serial.ISerial;
-import name.antonsmirnov.firmata.serial.SerialException;
-import name.antonsmirnov.firmata.serial.StreamingSerialAdapter;
 
 public class PhiroImpl implements Phiro {
 

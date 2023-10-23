@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -562,6 +562,10 @@
             file="src\main\java\org\catrobat\catroid\visualplacement\VisualPlacementActivity.java"
             line="385"
             column="17"/>
+    </issue>
+
+    <issue id="all">
+        <ignore path="src\main\java\org\catrobat\catroid\firmata\" />
     </issue>
 
 </issues>
