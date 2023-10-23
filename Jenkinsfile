@@ -19,6 +19,9 @@ def startEmulator(String android_version) {
     sh "/home/user/android/sdk/emulator/emulator -wipe-data -no-window -no-boot-anim -noaudio " +
             "-no-snapshot-save -gpu swiftshader_indirect" +
             " -avd android${android_version} &"
+
+    sh "adb wait-for-device"
+
 }
 
 def runTestsWithEmulator(String testClass) {
@@ -62,7 +65,7 @@ do
 done
 '''
     sh "adb kill-server"
-    sh "pkill -f 'emulator -avd android${ANDROID_VERSION}' || true"
+    sh "kill -f 'emulator -avd android${ANDROID_VERSION}' || true"
 }
 
 def webTestUrlParameter() {
