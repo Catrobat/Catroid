@@ -24,14 +24,7 @@ def startEmulator(String android_version) {
 
     sh "adb wait-for-device"
     sh '''#!/bin/bash
-
-adb wait-for-device
-
-A=$(adb shell getprop sys.boot_completed | tr -d '\\r')
-while [ "$A" != "1" ]; do
-        sleep 2
-        A=$(adb shell getprop sys.boot_completed | tr -d '\\r')
-done
+adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done
 '''
 }
 
