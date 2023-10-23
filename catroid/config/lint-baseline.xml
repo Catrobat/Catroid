@@ -565,7 +565,7 @@
     </issue>
 
     <issue id="all">
-        <ignore path="src\main\java\org\catrobat\catroid\firmata\" />
+        <ignore path="src\main\java\org\catrobat\catroid\firmata\*" />
     </issue>
 
 </issues>
