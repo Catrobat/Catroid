@@ -30,7 +30,7 @@ buildscript {
     ext.jacoco_core_version = '0.8.7'
     repositories {
         google()
-        jcenter()
+        // jcenter() Became read-only on March 31st 2021
         maven { url "https://developer.huawei.com/repo/" }
         mavenLocal()
     }
