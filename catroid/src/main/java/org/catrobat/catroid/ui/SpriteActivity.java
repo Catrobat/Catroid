@@ -190,9 +190,14 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	Fragment getCurrentFragment() {
-		return ((TabLayoutContainerFragment) getSupportFragmentManager()
-				.findFragmentById(R.id.fragment_container))
-				.getSelectedTabFragment();
+		Fragment currentFragment =
+				getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+		if (currentFragment instanceof TabLayoutContainerFragment) {
+			return ((TabLayoutContainerFragment)currentFragment).getSelectedTabFragment();
+		}
+
+		return currentFragment;
 	}
 
 	private void loadFragment() {
