@@ -23,23 +23,27 @@
 package org.catrobat.catroid.uiespresso.ui.regression.activitydestroy
 
 import android.content.Context
-import android.preference.PreferenceManager
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.RootMatchers
-import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.platform.app.InstrumentationRegistry
+import android.preference.PreferenceManager.getDefaultSharedPreferences
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
+import androidx.test.espresso.action.ViewActions.replaceText
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.RootMatchers.isDialog
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import org.catrobat.catroid.R
-import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.common.SharedPreferenceKeys
+import org.catrobat.catroid.common.Constants.CATROBAT_TERMS_OF_USE_ACCEPTED
+import org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION
 import org.catrobat.catroid.testsuites.annotations.Cat.AppUi
 import org.catrobat.catroid.testsuites.annotations.Cat.Quarantine
 import org.catrobat.catroid.testsuites.annotations.Level.Smoke
 import org.catrobat.catroid.ui.MainMenuActivity
 import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityTestRule
-import org.hamcrest.Matchers
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -48,10 +52,12 @@ import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
+@Category(AppUi::class, Smoke::class, Quarantine::class)
 @RunWith(JUnit4::class)
 class MainMenuFragmentActivityRecreateRegressionTest {
     var bufferedPrivacyPolicyPreferenceSetting = 0
-    val applicationContext: Context = ApplicationProvider.getApplicationContext<Context>()
+    val applicationContext: Context = getApplicationContext<Context>()
+
     @get:Rule
     var baseActivityTestRule = DontGenerateDefaultProjectActivityTestRule(
         MainMenuActivity::class.java, false, false
@@ -59,87 +65,94 @@ class MainMenuFragmentActivityRecreateRegressionTest {
 
     @Before
     fun setUp() {
-        bufferedPrivacyPolicyPreferenceSetting = PreferenceManager
-            .getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
-            .getInt(SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION, 0)
-        PreferenceManager.getDefaultSharedPreferences(applicationContext)
-            .edit().putInt(
-                SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION,
-                Constants.CATROBAT_TERMS_OF_USE_ACCEPTED
-            ).commit()
+        bufferedPrivacyPolicyPreferenceSetting = getDefaultSharedPreferences(getApplicationContext())
+            .getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0)
+
+        getDefaultSharedPreferences(applicationContext)
+            .edit()
+            .putInt(AGREED_TO_PRIVACY_POLICY_VERSION, CATROBAT_TERMS_OF_USE_ACCEPTED)
+            .commit()
+
         baseActivityTestRule.launchActivity(null)
     }
 
     @After
     fun tearDown() {
-        PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        getDefaultSharedPreferences(applicationContext)
             .edit()
-            .putInt(
-                SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION,
-                bufferedPrivacyPolicyPreferenceSetting
-            )
+            .putInt(AGREED_TO_PRIVACY_POLICY_VERSION, bufferedPrivacyPolicyPreferenceSetting)
             .commit()
     }
 
-    @Category(AppUi::class, Smoke::class, Quarantine::class)
     @Test
     fun testActivityRecreateOrientation() {
-        Espresso.onView(ViewMatchers.withId(R.id.newProjectFloatingActionButton))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withId(R.id.input_edit_text))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withClassName(Matchers.`is`("com.google.android.material.textfield.TextInputEditText")))
-            .perform(ViewActions.replaceText("TestProject"), ViewActions.closeSoftKeyboard())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withText(R.string.ok))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        InstrumentationRegistry.getInstrumentation()
-            .runOnMainSync { baseActivityTestRule.activity.recreate() }
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        onView(withId(R.id.newProjectFloatingActionButton))
+            .perform(click())
+
+        getInstrumentation().waitForIdleSync()
+
+        onView(withId(R.id.input_edit_text))
+            .check(matches(isDisplayed()))
+
+        onView(withId(R.id.input_edit_text))
+            .perform(replaceText("TestProject"), closeSoftKeyboard())
+
+        getInstrumentation().waitForIdleSync()
+
+        onView(withId(R.id.confirm))
+            .perform(click())
+
+        getInstrumentation().waitForIdleSync()
+        getInstrumentation().runOnMainSync { baseActivityTestRule.activity.recreate() }
+        getInstrumentation().waitForIdleSync()
     }
 
-    @Category(AppUi::class, Smoke::class, Quarantine::class)
     @Test
     fun testActivityRecreateNewProgramDialog() {
-        Espresso.onView(ViewMatchers.withId(R.id.newProjectFloatingActionButton))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withId(R.id.input_edit_text)).inRoot(RootMatchers.isDialog())
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        InstrumentationRegistry.getInstrumentation()
-            .runOnMainSync { baseActivityTestRule.activity.recreate() }
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        onView(withId(R.id.newProjectFloatingActionButton))
+            .perform(click())
+
+        getInstrumentation().waitForIdleSync()
+
+        onView(withId(R.id.input_edit_text))
+            .inRoot(isDialog())
+            .check(matches(isDisplayed()))
+
+        getInstrumentation().runOnMainSync { baseActivityTestRule.activity.recreate() }
+        getInstrumentation().waitForIdleSync()
     }
 
-    @Category(AppUi::class, Smoke::class, Quarantine::class)
     @Test
     fun testActivityRecreateTermsOfUseDialog() {
-        Espresso.openActionBarOverflowOrOptionsMenu(androidx.test.InstrumentationRegistry.getInstrumentation().targetContext)
-        Espresso.onView(ViewMatchers.withText(R.string.main_menu_terms_of_use))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withId(R.id.dialog_terms_of_use_text_view_info))
-            .inRoot(RootMatchers.isDialog())
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        InstrumentationRegistry.getInstrumentation()
-            .runOnMainSync { baseActivityTestRule.activity.recreate() }
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        openActionBarOverflowOrOptionsMenu(applicationContext)
+
+        onView(withText(R.string.main_menu_terms_of_use))
+            .perform(click())
+
+        getInstrumentation().waitForIdleSync()
+
+        onView(withId(R.id.dialog_terms_of_use_text_view_info))
+            .inRoot(isDialog())
+            .check(matches(isDisplayed()))
+
+        getInstrumentation().runOnMainSync { baseActivityTestRule.activity.recreate() }
+        getInstrumentation().waitForIdleSync()
     }
 
-    @Category(AppUi::class, Smoke::class, Quarantine::class)
     @Test
     fun testActivityRecreateAboutDialog() {
-        Espresso.openActionBarOverflowOrOptionsMenu(androidx.test.InstrumentationRegistry.getInstrumentation().targetContext)
-        Espresso.onView(ViewMatchers.withText(R.string.main_menu_about))
-            .perform(ViewActions.click())
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-        Espresso.onView(ViewMatchers.withText(R.string.dialog_about_title))
-            .inRoot(RootMatchers.isDialog())
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        InstrumentationRegistry.getInstrumentation()
-            .runOnMainSync { baseActivityTestRule.activity.recreate() }
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        openActionBarOverflowOrOptionsMenu(applicationContext)
+
+        onView(withText(R.string.main_menu_about))
+            .perform(click())
+
+        getInstrumentation().waitForIdleSync()
+
+        onView(withText(R.string.dialog_about_title))
+            .inRoot(isDialog())
+            .check(matches(isDisplayed()))
+
+        getInstrumentation().runOnMainSync { baseActivityTestRule.activity.recreate() }
+        getInstrumentation().waitForIdleSync()
     }
 }
