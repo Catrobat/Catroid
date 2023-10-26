@@ -23,103 +23,234 @@
 
 package org.catrobat.catroid.uiespresso.ui.fragment
 
-import android.content.Context
-import android.preference.PreferenceManager
-import androidx.test.core.app.ApplicationProvider
+import android.content.SharedPreferences
+import android.preference.PreferenceManager.getDefaultSharedPreferences
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
-import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isChecked
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import android.widget.EditText
+import androidx.test.espresso.matcher.ViewMatchers.isEnabled
+import androidx.test.espresso.matcher.ViewMatchers.isNotChecked
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants.CATROBAT_TERMS_OF_USE_ACCEPTED
 import org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION
+import org.catrobat.catroid.runner.Flaky
 import org.catrobat.catroid.ui.MainMenuActivity
-import org.catrobat.catroid.uiespresso.util.actions.CustomActions
+import org.catrobat.catroid.ui.ProjectActivity
+import org.catrobat.catroid.ui.ProjectListActivity
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
+import org.catrobat.catroid.uiespresso.util.UiTestUtils.Companion.assertCurrentActivityIsInstanceOf
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
 import org.hamcrest.CoreMatchers.allOf
-import org.hamcrest.CoreMatchers.instanceOf
+import org.hamcrest.Matchers.not
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.test.KoinTest
-import org.koin.test.inject
 
 @RunWith(AndroidJUnit4::class)
-class CreateProjectTest : KoinTest {
-    private var privacyPreferenceSetting: Int = 0
-    private lateinit var applicationContext: Context
-    private val projectManager: ProjectManager by inject()
+class CreateProjectTest {
+    private var bufferedChromeCastSetting = false
+    private var bufferedPrivacyPolicyPreferenceSetting = 0
+    private lateinit var sharedPreferences: SharedPreferences
+    private val newProjectName = CreateProjectTest::class.simpleName
 
     @get:Rule
     var baseActivityTestRule = BaseActivityTestRule(
-        MainMenuActivity::class.java,
-        false,
-        false
+        MainMenuActivity::class.java, false, false
     )
 
     @Before
     fun setUp() {
-        applicationContext = ApplicationProvider.getApplicationContext()
-        privacyPreferenceSetting = PreferenceManager
-            .getDefaultSharedPreferences(applicationContext)
-            .getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0)
+        sharedPreferences = getDefaultSharedPreferences(getApplicationContext())
 
-        PreferenceManager.getDefaultSharedPreferences(applicationContext)
-            .edit().putInt(
-                AGREED_TO_PRIVACY_POLICY_VERSION,
-                CATROBAT_TERMS_OF_USE_ACCEPTED
-            ).commit()
+        bufferedChromeCastSetting = sharedPreferences.getBoolean(SettingsFragment.SETTINGS_CAST_GLOBALLY_ENABLED, false)
+        bufferedPrivacyPolicyPreferenceSetting = sharedPreferences.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0)
 
-        createProject()
+        sharedPreferences
+            .edit()
+            .putBoolean(SettingsFragment.SETTINGS_CAST_GLOBALLY_ENABLED, true)
+            .putInt(AGREED_TO_PRIVACY_POLICY_VERSION, CATROBAT_TERMS_OF_USE_ACCEPTED)
+            .commit()
+
         baseActivityTestRule.launchActivity(null)
     }
 
     @After
     fun tearDown() {
-        PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        sharedPreferences
             .edit()
-            .putInt(AGREED_TO_PRIVACY_POLICY_VERSION, privacyPreferenceSetting)
+            .putBoolean(SettingsFragment.SETTINGS_CAST_GLOBALLY_ENABLED, bufferedChromeCastSetting)
+            .putInt(AGREED_TO_PRIVACY_POLICY_VERSION, bufferedPrivacyPolicyPreferenceSetting)
             .commit()
     }
 
     @Test
-    fun testCheckIfProjectCreated() {
-        val newProjectName = "newProjectTest"
+    fun testNewProjectDialogFragment() {
         onView(withId(R.id.newProjectFloatingActionButton))
+            .perform(click())
+
+        onView(withText(R.string.new_project_title))
             .check(matches(isDisplayed()))
-            .perform(ViewActions.click())
-        waitFor()
-        onView(allOf(withId(R.id.input_edit_text), isDisplayed(), instanceOf(EditText::class.java)))
-            .perform(ViewActions.replaceText(newProjectName))
-        onView(withText(R.string.ok))
+
+        onView(withId(R.id.confirm))
+            .check(matches(allOf(isDisplayed(), isEnabled())))
+
+        onView(withId(R.id.input))
             .check(matches(isDisplayed()))
-            .perform(ViewActions.click())
+
+        onView(withId(R.id.portrait_radio_button))
+            .check(matches(allOf(isDisplayed(), isChecked())))
+
+        onView(withId(R.id.landscape_radio_button))
+            .check(matches(allOf(isDisplayed(), isNotChecked())))
+
+        onView(withId(R.id.cast_radio_button))
+            .check(matches(allOf(isDisplayed(), isNotChecked())))
+
+        onView(withId(R.id.example_project_switch))
+            .check(matches(allOf(isDisplayed(), isNotChecked())))
+    }
+
+    @Test
+    fun testCastOptionNotShowed() {
+        sharedPreferences
+            .edit()
+            .putBoolean(SettingsFragment.SETTINGS_CAST_GLOBALLY_ENABLED, false)
+            .commit()
+
+        onView(withId(R.id.newProjectFloatingActionButton))
+            .perform(click())
+
+        onView(withId(R.id.portrait_radio_button))
+            .check(matches(allOf(isDisplayed(), isChecked())))
+
+        onView(withId(R.id.landscape_radio_button))
+            .check(matches(allOf(isDisplayed(), isNotChecked())))
+
+        onView(withId(R.id.cast_radio_button))
+            .check(matches(not(isDisplayed())))
+    }
+
+    @Test
+    fun testCreateNewCastProject() {
+        onView(withId(R.id.newProjectFloatingActionButton))
+            .perform(click())
+
+        closeSoftKeyboard()
+
+        onView(withId(R.id.cast_radio_button))
+            .perform(click())
+
+        onView(withId(R.id.confirm))
+            .perform(click())
+
+        assertCurrentActivityIsInstanceOf(ProjectActivity::class.java)
+    }
+
+    @Test
+    fun testCreateProjectInProjectList() {
+        onView(withId(R.id.myProjectsTextView))
+            .perform(click())
+
+        onView(withId(R.id.button_add))
+            .perform(click())
+
+        onView(withId(R.id.input_edit_text))
+            .perform(replaceText(newProjectName))
+
+        closeSoftKeyboard()
+
+        onView(withId(R.id.example_project_switch))
+            .perform(click())
+
+        onView(withId(R.id.confirm))
+            .perform(click())
+
+        onView(withText(newProjectName))
+            .check(matches(isDisplayed()))
+
+        assertCurrentActivityIsInstanceOf(ProjectActivity::class.java)
+
         pressBack()
-        onView(withText(R.string.main_menu_programs))
+
+        onView(withText(newProjectName))
             .check(matches(isDisplayed()))
-            .perform(ViewActions.click())
+
+        assertCurrentActivityIsInstanceOf(ProjectListActivity::class.java)
+    }
+
+    @Test
+    @Flaky
+    fun testCreateProjectInMainMenu() {
+        onView(withId(R.id.newProjectFloatingActionButton))
+            .perform(click())
+
+        onView(withId(R.id.input_edit_text))
+            .perform(replaceText(newProjectName))
+
+        closeSoftKeyboard()
+
+        onView(withId(R.id.example_project_switch))
+            .perform(click())
+
+        onView(withId(R.id.confirm))
+            .perform(click())
+
+        onView(withText(newProjectName))
+            .check(matches(isDisplayed()))
+
+        assertCurrentActivityIsInstanceOf(ProjectActivity::class.java)
+
+        pressBack()
+
+        assertCurrentActivityIsInstanceOf(MainMenuActivity::class.java)
+
+        onView(withId(R.id.projectImageView))
+            .perform(click())
+
         onView(withText(newProjectName))
             .check(matches(isDisplayed()))
     }
 
-    private fun createProject() {
-        projectManager.createNewEmptyProject(
-            javaClass.simpleName,
-            false,
-            false
-        )
-    }
+    @Test
+    fun testCreateProjectWithExistingName() {
+        onView(withId(R.id.newProjectFloatingActionButton))
+            .perform(click())
 
-    private fun waitFor(time: Int = 1000) {
-        onView(ViewMatchers.isRoot()).perform(CustomActions.wait(time))
+        onView(withId(R.id.input_edit_text))
+            .perform(replaceText(newProjectName))
+
+        closeSoftKeyboard()
+
+        onView(withId(R.id.confirm))
+            .perform(click())
+
+        pressBack()
+
+        onView(withId(R.id.newProjectFloatingActionButton))
+            .perform(click())
+
+        onView(withId(R.id.input_edit_text))
+            .perform(replaceText(newProjectName))
+
+        onView(withText(R.string.name_already_exists))
+            .check(matches(isDisplayed()))
+
+        onView(withId(R.id.confirm))
+            .check(matches(allOf(isDisplayed(), not(isEnabled()))))
+
+        pressBack()
+
+        assertCurrentActivityIsInstanceOf(MainMenuActivity::class.java)
     }
 }

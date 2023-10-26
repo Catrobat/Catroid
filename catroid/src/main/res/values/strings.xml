@@ -687,7 +687,11 @@
     <!--  -->
 
     <!-- NewProjectDialog -->
+    <string formatted="false" name="new_project_title">Create project</string>
     <string formatted="false" name="new_project_dialog_example_project">Example project</string>
+    <string formatted="false" name="new_project_dialog_portrait">Portrait</string>
+    <string formatted="false" name="new_project_dialog_landscape">Landscape</string>
+    <string formatted="false" name="new_project_dialog_cast">Cast</string>
     <!--  -->
 
     <!-- NewMergedProjectDialog -->
