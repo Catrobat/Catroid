@@ -114,8 +114,8 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    override fun onItemClick(item: CategoryListItem) {
-        when (item.type) {
+    override fun onItemClick(item: CategoryListItem?) {
+        when (item!!.type) {
             CategoryListRVAdapter.NXT -> showLegoSensorPortConfigDialog(
                 item.nameResId,
                 Constants.NXT
@@ -196,7 +196,7 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         return PreferenceManager.getDefaultSharedPreferences(context)
     }
 
-    fun getLanguage(activity: Activity): String {
+    private fun getLanguage(activity: Activity): String {
         var language = "?language="
         val sharedPreferences: SharedPreferences =
             getSharedPreferences(activity.applicationContext)
@@ -282,7 +282,7 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
     }
 
     private fun regularExpressionAssistantActivityOnButtonClick() {
-        var indexOfCorrespondingRegularExpression: Int
+        val indexOfCorrespondingRegularExpression: Int
         val formulaEditorFragment = getFormulaEditorFragment()
         if (formulaEditorFragment != null) {
             indexOfCorrespondingRegularExpression =
