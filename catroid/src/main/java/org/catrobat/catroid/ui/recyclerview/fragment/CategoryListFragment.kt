@@ -198,12 +198,11 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         var language = "?language="
         val sharedPreferences: SharedPreferences =
             getSharedPreferences(activity.applicationContext)
-        val languageTag = sharedPreferences.getString(SharedPreferenceKeys
-                                                                   .LANGUAGE_TAG_KEY, "")
+        val languageTag = sharedPreferences.getString(SharedPreferenceKeys.LANGUAGE_TAG_KEY, "")
         val mLocale: Locale = if (languageTag == SharedPreferenceKeys.DEVICE_LANGUAGE) {
             Locale.forLanguageTag(CatroidApplication.defaultSystemLanguage)
         } else {
-            if (listOf(*SharedPreferenceKeys.LANGUAGE_TAGS).contains(languageTag)) {
+            if (SharedPreferenceKeys.LANGUAGE_TAGS.contains(languageTag)) {
                 languageTag?.let { Locale.forLanguageTag(it) }
             } else Locale.forLanguageTag(CatroidApplication.defaultSystemLanguage)
         }!!
@@ -450,7 +449,8 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         toCategoryListItems(nameResIds, null, type)
 
     private fun toCategoryListItems(
-        nameResIds: List<Int>, paramResIds: List<Int>?,
+        nameResIds: List<Int>,
+        paramResIds: List<Int>?,
         @CategoryListItemType type: Int
     ): MutableList<CategoryListItem> {
         require(!(paramResIds != null && paramResIds.size != nameResIds.size)) {
