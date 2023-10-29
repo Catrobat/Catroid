@@ -40,24 +40,16 @@ class CategoryListRVAdapter(private val items: List<CategoryListItem>) :
     @IntDef(DEFAULT, COLLISION, NXT, EV3)
     annotation class CategoryListItemType
 
-    class CategoryListItem(nameResId: Int, text: String, @CategoryListItemType type: Int) {
-        @JvmField
-        var header: String? = null
-        @JvmField
-        var nameResId: Int
-        var text: String? = null
-
-        @CategoryListItemType
-        var type: Int
-
+    data class CategoryListItem(
+        var nameResId: Int,
+        var text: String?,
+        @CategoryListItemType var type: Int,
+        @JvmField var header: String? = null
+    ) {
         init {
             if (nameResId == R.string.formula_editor_function_regex_assistant) {
                 this.text = "\t\t\t\t\t" + text
-            } else {
-                this.text = text
             }
-            this.nameResId = nameResId
-            this.type = type
         }
     }
 
@@ -84,14 +76,12 @@ class CategoryListRVAdapter(private val items: List<CategoryListItem>) :
 
     @LayoutRes
     override fun getItemViewType(position: Int): Int {
-        return if (items[position].header != null)
+        return if (items[position].header != null) {
             R.layout.view_holder_category_list_item_with_headline
-        else R.layout.view_holder_category_list_item
+        } else R.layout.view_holder_category_list_item
     }
 
-    override fun getItemCount(): Int {
-        return items.size
-    }
+    override fun getItemCount(): Int = items.size
 
     fun setOnItemClickListener(listener: OnItemClickListener?) {
         onItemClickListener = listener

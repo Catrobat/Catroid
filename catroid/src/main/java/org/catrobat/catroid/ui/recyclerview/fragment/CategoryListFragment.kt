@@ -20,7 +20,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.catrobat.catroid.ui.recyclerview.fragment
 
 import android.app.Activity
@@ -192,9 +191,8 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         return null
     }
 
-    private fun getSharedPreferences(context: Context): SharedPreferences {
-        return PreferenceManager.getDefaultSharedPreferences(context)
-    }
+    private fun getSharedPreferences(context: Context): SharedPreferences =
+        PreferenceManager.getDefaultSharedPreferences(context)
 
     private fun getLanguage(activity: Activity): String {
         var language = "?language="
@@ -205,9 +203,9 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         val mLocale: Locale = if (languageTag == SharedPreferenceKeys.DEVICE_LANGUAGE) {
             Locale.forLanguageTag(CatroidApplication.defaultSystemLanguage)
         } else {
-            if (listOf(*SharedPreferenceKeys.LANGUAGE_TAGS).contains(languageTag))
+            if (listOf(*SharedPreferenceKeys.LANGUAGE_TAGS).contains(languageTag)) {
                 languageTag?.let { Locale.forLanguageTag(it) }
-            else Locale.forLanguageTag(CatroidApplication.defaultSystemLanguage)
+            } else Locale.forLanguageTag(CatroidApplication.defaultSystemLanguage)
         }!!
         language += mLocale.language
         return language
@@ -436,23 +434,20 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         return subCategory
     }
 
-    private fun toCategoryListItems(nameResIds: List<Int>): MutableList<CategoryListItem> {
-        return toCategoryListItems(nameResIds, null, CategoryListRVAdapter.DEFAULT)
-    }
+    private fun toCategoryListItems(nameResIds: List<Int>): MutableList<CategoryListItem> =
+        toCategoryListItems(nameResIds, null, CategoryListRVAdapter.DEFAULT)
 
     private fun toCategoryListItems(
         nameResIds: List<Int>,
         paramResIds: List<Int>
-    ): List<CategoryListItem> {
-        return toCategoryListItems(nameResIds, paramResIds, CategoryListRVAdapter.DEFAULT)
-    }
+    ): List<CategoryListItem> =
+        toCategoryListItems(nameResIds, paramResIds, CategoryListRVAdapter.DEFAULT)
 
     private fun toCategoryListItems(
         nameResIds: List<Int>,
         @CategoryListItemType type: Int
-    ): List<CategoryListItem> {
-        return toCategoryListItems(nameResIds, null, type)
-    }
+    ): List<CategoryListItem> =
+        toCategoryListItems(nameResIds, null, type)
 
     private fun toCategoryListItems(
         nameResIds: List<Int>, paramResIds: List<Int>?,
@@ -573,81 +568,81 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
 
     private fun getNxtSensorItems(): List<CategoryListItem> {
         return if (SettingsFragment.isMindstormsNXTSharedPreferenceEnabled(
-                requireActivity().applicationContext))
+                requireActivity().applicationContext)) {
             addHeader(
                 toCategoryListItems(SENSORS_NXT, CategoryListRVAdapter.NXT),
                 getString(R.string.formula_editor_device_lego_nxt)
             )
-        else emptyList()
+        } else emptyList()
     }
 
     private fun getEv3SensorItems(): List<CategoryListItem> {
         return if (SettingsFragment.isMindstormsEV3SharedPreferenceEnabled(
-                requireActivity().applicationContext))
+                requireActivity().applicationContext)) {
             addHeader(
                 toCategoryListItems(SENSORS_EV3, CategoryListRVAdapter.EV3),
                 getString(R.string.formula_editor_device_lego_ev3)
             )
-        else emptyList()
+        } else emptyList()
     }
 
     private fun getPhiroSensorItems(): List<CategoryListItem> {
         return if (SettingsFragment.isPhiroSharedPreferenceEnabled(
-                requireActivity().applicationContext))
+                requireActivity().applicationContext)) {
             addHeader(
                 toCategoryListItems(SENSORS_PHIRO),
                 getString(R.string.formula_editor_device_phiro)
             )
-        else emptyList()
+        } else emptyList()
     }
 
     private fun getArduinoSensorItems(): List<CategoryListItem> {
         return if (SettingsFragment.isArduinoSharedPreferenceEnabled(
-                requireActivity().applicationContext))
+                requireActivity().applicationContext)) {
             addHeader(
                 toCategoryListItems(SENSORS_ARDUINO, SENSORS_ARDUINO_PARAMS),
                 getString(R.string.formula_editor_device_arduino)
             )
-        else emptyList()
+        } else emptyList()
     }
 
     private fun getDroneSensorItems(): List<CategoryListItem> {
         return if (SettingsFragment.isDroneSharedPreferenceEnabled(
-                requireActivity().applicationContext))
+                requireActivity().applicationContext)) {
             addHeader(
                 toCategoryListItems(SENSORS_DRONE),
                 getString(R.string.formula_editor_device_drone)
             )
-        else emptyList()
+        } else emptyList()
     }
 
     private fun getRaspberrySensorItems(): List<CategoryListItem> {
         return if (RaspberryPiSettingsFragment.isRaspiSharedPreferenceEnabled(
-                requireActivity().applicationContext))
+                requireActivity().applicationContext)) {
             addHeader(
                 toCategoryListItems(SENSORS_RASPBERRY, SENSORS_RASPBERRY_PARAMS),
                 getString(R.string.formula_editor_device_raspberry)
             )
-        else emptyList()
+        } else emptyList()
     }
 
     private fun getNfcItems(): List<CategoryListItem> {
         return if (SettingsFragment.isNfcSharedPreferenceEnabled(
-                requireActivity().applicationContext))
+                requireActivity().applicationContext)) {
             addHeader(
                 toCategoryListItems(SENSORS_NFC),
                 getString(R.string.formula_editor_device_nfc)
             )
-        else emptyList()
+        } else emptyList()
     }
 
     private fun getCastGamepadSensorItems(): List<CategoryListItem> {
-        return if (projectManager.currentProject.isCastProject)
+        return if (projectManager.currentProject.isCastProject) {
             addHeader(
                 toCategoryListItems(SENSORS_CAST_GAMEPAD),
                 getString(R.string.formula_editor_device_cast)
             )
-        else emptyList()
+        } else emptyList()
     }
 
     private fun getDeviceSensorItems(): List<CategoryListItem> {
@@ -703,22 +698,22 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
 
     private fun getSpeechRecognitionItems(): List<CategoryListItem> {
         return if (SettingsFragment.isAISpeechRecognitionSharedPreferenceEnabled(
-                requireActivity().applicationContext))
+                requireActivity().applicationContext)) {
             addHeader(
                 toCategoryListItems(SENSORS_SPEECH_RECOGNITION),
                 getString(R.string.formula_editor_speech_recognition)
             )
-        else emptyList()
+        } else emptyList()
     }
 
     private fun getFaceSensorItems(): List<CategoryListItem> {
         return if (SettingsFragment.isAIFaceDetectionSharedPreferenceEnabled(
-                requireActivity().applicationContext))
+                requireActivity().applicationContext)) {
             addHeader(
                 toCategoryListItems(SENSORS_FACE_DETECTION, SENSORS_FACE_DETECTION_PARAMS),
                 getString(R.string.formula_editor_device_face_detection)
             )
-        else emptyList()
+        } else emptyList()
     }
 
     private fun getPoseSensorItems(): List<CategoryListItem> {
@@ -753,25 +748,23 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
 
     private fun getTextSensorItems(): List<CategoryListItem> {
         return if (SettingsFragment.isAITextRecognitionSharedPreferenceEnabled(
-                requireActivity().applicationContext))
+                requireActivity().applicationContext)) {
             addHeader(
                 toCategoryListItems(SENSORS_TEXT_RECOGNITION, SENSORS_TEXT_RECOGNITION_PARAMS),
                 getString(R.string.formula_editor_device_text_recognition)
             )
-        else emptyList()
+        } else emptyList()
     }
 
-    private  fun getObjectDetectionSensorItems(): List<CategoryListItem> {
+    private fun getObjectDetectionSensorItems(): List<CategoryListItem> {
         return if (SettingsFragment.isAIObjectDetectionSharedPreferenceEnabled(
-                requireActivity().applicationContext))
+                requireActivity().applicationContext)) {
             addHeader(
                 toCategoryListItems(SENSORS_OBJECT_DETECTION),
                 getString(R.string.formula_editor_device_object_recognition)
             )
-        else emptyList()
+        } else emptyList()
     }
-
-
     companion object {
         const val OBJECT_TAG = "objectFragment"
         const val FUNCTION_TAG = "functionFragment"
