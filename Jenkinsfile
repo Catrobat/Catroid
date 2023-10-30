@@ -54,7 +54,7 @@ def junitAndCoverage(String jacocoReportDir, String jacocoReportXml, String cove
     publishJacocoHtml jacocoReportDir, jacocoReportXml, coverageName
 }
 def killRunningEmulator() {
-    sh '''adb  emu kill'''
+    sh '''adb emu kill || true'''
     sh '''#!/bin/bash 
 while : 
 do
