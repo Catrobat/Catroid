@@ -108,8 +108,8 @@ public class FormulaElement implements Serializable {
 	private FormulaElement rightChild = null;
 	public List<FormulaElement> additionalChildren;
 	private transient FormulaElement parent;
-	private transient Map<Functions, FormulaFunction> formulaFunctions;
-	private transient TextBlockFunctionProvider textBlockFunctionProvider;
+	private final transient Map<Functions, FormulaFunction> formulaFunctions;
+	private final transient TextBlockFunctionProvider textBlockFunctionProvider;
 
 	protected FormulaElement() {
 		textBlockFunctionProvider = new TextBlockFunctionProvider();
@@ -324,11 +324,11 @@ public class FormulaElement implements Serializable {
 	public boolean isNotUserListFunction(FormulaElement element) {
 		return element == null
 				|| element.type != ElementType.FUNCTION
-				|| (!element.value.equals(Functions.CONTAINS.name())
+				|| !element.value.equals(Functions.CONTAINS.name())
 				&& !element.value.equals(Functions.NUMBER_OF_ITEMS.name())
 				&& !element.value.equals(Functions.LIST_ITEM.name())
 				&& !element.value.equals(Functions.INDEX_OF_ITEM.name())
-				&& !element.value.equals(Functions.FLATTEN.name()));
+				&& !element.value.equals(Functions.FLATTEN.name());
 	}
 
 	public void insertFlattenBetweenParentAndElement(FormulaElement parent,
@@ -515,8 +515,8 @@ public class FormulaElement implements Serializable {
 		}
 		if (argumentsDouble.size() == 3 && argumentsDouble.get(0) != null && function == IF_THEN_ELSE) {
 			Double ifCondition = argumentsDouble.get(0);
-			Object thenPart = (arguments.get(1) instanceof String) ? arguments.get(1) : argumentsDouble.get(1);
-			Object elsePart = (arguments.get(2) instanceof String) ? arguments.get(2) : argumentsDouble.get(2);
+			Object thenPart = arguments.get(1) instanceof String ? arguments.get(1) : argumentsDouble.get(1);
+			Object elsePart = arguments.get(2) instanceof String ? arguments.get(2) : argumentsDouble.get(2);
 			return interpretFunctionIfThenElseObject(ifCondition, thenPart, elsePart);
 		}
 		return formulaFunction.execute(argumentsDouble.get(0), argumentsDouble.get(1), argumentsDouble.get(2));
@@ -686,7 +686,7 @@ public class FormulaElement implements Serializable {
 			} else if (isInteger((Double) userVariableValue)) {
 				return Integer.toString(((Double) userVariableValue).intValue()).length();
 			} else {
-				return Double.toString(((Double) userVariableValue)).length();
+				return Double.toString((Double) userVariableValue).length();
 			}
 		}
 	}
@@ -737,9 +737,9 @@ public class FormulaElement implements Serializable {
 
 		if (isInteger(low) && isInteger(high)
 				&& !isNumberWithDecimalPoint(leftChild) && !isNumberWithDecimalPoint(rightChild)) {
-			return Math.floor(Math.random() * ((high + 1) - low)) + low;
+			return Math.floor(Math.random() * (high + 1 - low)) + low;
 		} else {
-			return (Math.random() * (high - low)) + low;
+			return Math.random() * (high - low) + low;
 		}
 	}
 
@@ -911,10 +911,9 @@ public class FormulaElement implements Serializable {
 	}
 
 	public void replaceWithSubElement(String operator, FormulaElement rightChild) {
-		FormulaElement cloneThis = new FormulaElement(ElementType.OPERATOR, operator, this.getParent(), this,
+		new FormulaElement(ElementType.OPERATOR, operator, this.getParent(), this,
+				rightChild).parent.rightChild = new FormulaElement(ElementType.OPERATOR, operator, this.getParent(), this,
 				rightChild);
-
-		cloneThis.parent.rightChild = cloneThis;
 	}
 
 	public boolean isBoolean(Scope scope) {
@@ -952,19 +951,19 @@ public class FormulaElement implements Serializable {
 	}
 
 	private boolean isOtherBooleanFormulaElement() {
-		return (type == ElementType.FUNCTION
-				&& Functions.isBoolean(Functions.getFunctionByValue(value)))
-				|| (type == ElementType.SENSOR
-				&& Sensors.isBoolean(Sensors.getSensorByValue(value)))
-				|| (type == ElementType.OPERATOR
-				&& Operators.getOperatorByValue(value).isLogicalOperator)
+		return type == ElementType.FUNCTION
+				&& Functions.isBoolean(Functions.getFunctionByValue(value))
+				|| type == ElementType.SENSOR
+				&& Sensors.isBoolean(Sensors.getSensorByValue(value))
+				|| type == ElementType.OPERATOR
+				&& Operators.getOperatorByValue(value).isLogicalOperator
 				|| type == ElementType.COLLISION_FORMULA;
 	}
 
 	public boolean containsElement(ElementType elementType) {
 		if (type.equals(elementType)
-				|| (leftChild != null && leftChild.containsElement(elementType))
-				|| (rightChild != null && rightChild.containsElement(elementType))) {
+				|| leftChild != null && leftChild.containsElement(elementType)
+				|| rightChild != null && rightChild.containsElement(elementType)) {
 			return true;
 		}
 		for (FormulaElement child : additionalChildren) {

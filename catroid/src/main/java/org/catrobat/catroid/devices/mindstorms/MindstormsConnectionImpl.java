@@ -31,7 +31,7 @@ import java.io.OutputStream;
 
 public class MindstormsConnectionImpl implements MindstormsConnection {
 
-	private BluetoothConnection bluetoothConnection;
+	private final BluetoothConnection bluetoothConnection;
 	private OutputStream legoOutputStream = null;
 	private DataInputStream legoInputStream = null;
 
@@ -114,7 +114,7 @@ public class MindstormsConnectionImpl implements MindstormsConnection {
 
 		try {
 			legoInputStream.readFully(data, 0, 2);
-			int expectedLength = ((data[0] & 0xFF) | (data[1] & 0xFF) << 8);
+			int expectedLength = (data[0] & 0xFF) | (data[1] & 0xFF) << 8;
 			payload = new byte[expectedLength];
 
 			legoInputStream.readFully(payload, 0, expectedLength);

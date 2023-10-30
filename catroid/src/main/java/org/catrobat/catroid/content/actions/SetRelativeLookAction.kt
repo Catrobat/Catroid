@@ -37,7 +37,9 @@ abstract class SetRelativeLookAction : SetLookByIndexAction() {
                 (look.lookListIndexBeforeLookRequest + change + lookList.size) % lookList.size
             } else if (currentLookData != null && lookList?.contains(currentLookData) == true) {
                 (lookList.indexOf(currentLookData) + change + lookList.size) % lookList.size
-            } else 0
+            } else {
+                0
+            }
         formula = Formula(newIndex + 1)
         look?.lookListIndexBeforeLookRequest = -1
         return super.getEventId()

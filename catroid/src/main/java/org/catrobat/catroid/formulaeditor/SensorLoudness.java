@@ -52,7 +52,7 @@ public class SensorLoudness {
 	Runnable statusChecker = new Runnable() {
 		@Override
 		public void run() {
-			Double loudness = ((SCALE_RANGE / MAX_AMP_VALUE) * recorder.getMaxAmplitude());
+			Double loudness = (SCALE_RANGE / MAX_AMP_VALUE) * recorder.getMaxAmplitude();
 			if (!loudness.equals(lastValue) && !loudness.equals(0.0)) {
 				lastValue = loudness;
 				SensorCustomEvent event = new SensorCustomEvent(Sensors.LOUDNESS, loudness);

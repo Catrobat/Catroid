@@ -66,11 +66,11 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private static final String TAG = SensorHandler.class.getSimpleName();
 	private static SensorHandler instance;
 	private static final BluetoothDeviceService BT_SERVICE = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
-	private SensorManagerInterface sensorManager;
-	private Sensor linearAccelerationSensor;
+	private final SensorManagerInterface sensorManager;
+	private final Sensor linearAccelerationSensor;
 	private Sensor accelerometerSensor;
 	private Sensor magneticFieldSensor;
-	private Sensor rotationVectorSensor;
+	private final Sensor rotationVectorSensor;
 	private final float[] rotationMatrix = new float[16];
 	private final float[] rotationVector = new float[3];
 	private float[] accelerationXYZ = new float[3];
@@ -300,19 +300,19 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case TIMER:
 				return (SystemClock.uptimeMillis() - timerReferenceValue) / 1000d;
 			case DATE_YEAR:
-				return Double.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+				return (double) Calendar.getInstance().get(Calendar.YEAR);
 			case DATE_MONTH:
-				return Double.valueOf(Calendar.getInstance().get(Calendar.MONTH) + 1);
+				return (double) (Calendar.getInstance().get(Calendar.MONTH) + 1);
 			case DATE_DAY:
-				return Double.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+				return (double) Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 			case DATE_WEEKDAY:
 				return startWeekWithMonday();
 			case TIME_HOUR:
-				return Double.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+				return (double) Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 			case TIME_MINUTE:
-				return Double.valueOf(Calendar.getInstance().get(Calendar.MINUTE));
+				return (double) Calendar.getInstance().get(Calendar.MINUTE);
 			case TIME_SECOND:
-				return Double.valueOf(Calendar.getInstance().get(Calendar.SECOND));
+				return (double) Calendar.getInstance().get(Calendar.SECOND);
 
 			case NXT_SENSOR_1:
 			case NXT_SENSOR_2:
@@ -321,7 +321,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 				LegoNXT nxt = BT_SERVICE.getDevice(BluetoothDevice.LEGO_NXT);
 				if (nxt != null) {
-					return Double.valueOf(nxt.getSensorValue(sensor));
+					return (double) nxt.getSensorValue(sensor);
 				}
 				break;
 
@@ -331,7 +331,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case EV3_SENSOR_4:
 				LegoEV3 ev3 = BT_SERVICE.getDevice(BluetoothDevice.LEGO_EV3);
 				if (ev3 != null) {
-					return Double.valueOf(ev3.getSensorValue(sensor));
+					return (double) ev3.getSensorValue(sensor);
 				}
 				break;
 
@@ -356,15 +356,15 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				return CastManager.getInstance().isButtonPressed(sensor) ? 1.0 : 0.0;
 
 			case LAST_FINGER_INDEX:
-				return Double.valueOf(TouchUtil.getLastTouchIndex());
+				return (double) TouchUtil.getLastTouchIndex();
 			case FINGER_TOUCHED:
 				return TouchUtil.isTouching();
 			case FINGER_X:
-				return Double.valueOf(TouchUtil.getX(TouchUtil.getLastTouchIndex()));
+				return (double) TouchUtil.getX(TouchUtil.getLastTouchIndex());
 			case FINGER_Y:
-				return Double.valueOf(TouchUtil.getY(TouchUtil.getLastTouchIndex()));
+				return (double) TouchUtil.getY(TouchUtil.getLastTouchIndex());
 			case NUMBER_CURRENT_TOUCHES:
-				return Double.valueOf(TouchUtil.getNumberOfCurrentTouches());
+				return (double) TouchUtil.getNumberOfCurrentTouches();
 			case NFC_TAG_MESSAGE:
 				return String.valueOf(NfcHandler.getLastNfcTagMessage());
 			case NFC_TAG_ID:
@@ -384,7 +384,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	}
 
 	private static Double calculateCompassDirection(float[] rotationMatrixOut) {
-		Double sensorValue;
+		double sensorValue;
 		int rotate;
 		float[] orientations = new float[3];
 		if (!instance.useRotationVectorFallback) {
@@ -407,7 +407,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	}
 
 	private static Object calculateXInclination(float[] rotationMatrixOut) {
-		Double sensorValue;
+		double sensorValue;
 		float[] orientations;
 		int rotate;
 		if (instance.useRotationVectorFallback) {
@@ -428,9 +428,9 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				}
 			} else if (rawInclinationX >= 0 && rawInclinationX < 90) {
 				if (instance.signAccelerationZ > 0) {
-					correctedInclinationX = (90 - rawInclinationX);
+					correctedInclinationX = 90 - rawInclinationX;
 				} else {
-					correctedInclinationX = (90 + rawInclinationX);
+					correctedInclinationX = 90 + rawInclinationX;
 				}
 			}
 			if (rotateOrientation() != 0) {
@@ -458,7 +458,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	}
 
 	private static Object calculateYInclination(float[] rotationMatrixOut) {
-		Double sensorValue;
+		double sensorValue;
 		float[] orientations;
 		int rotate;
 		if (instance.useRotationVectorFallback) {
@@ -477,9 +477,9 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				}
 			} else if (rawInclinationY >= 0 && rawInclinationY < 90) {
 				if (instance.signAccelerationZ > 0) {
-					correctedInclinationY = (90 - rawInclinationY);
+					correctedInclinationY = 90 - rawInclinationY;
 				} else {
-					correctedInclinationY = (90 + rawInclinationY);
+					correctedInclinationY = 90 + rawInclinationY;
 				}
 			}
 			return (double) correctedInclinationY;
@@ -506,7 +506,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			if (Math.abs(xInclinationUsedToExtendRangeOfRoll) <= 90f) {
 				return sensorValue * RADIAN_TO_DEGREE_CONST * -1f;
 			} else {
-				float uncorrectedYInclination = sensorValue.floatValue() * RADIAN_TO_DEGREE_CONST * -1f;
+				float uncorrectedYInclination = (float) sensorValue * RADIAN_TO_DEGREE_CONST * -1f;
 
 				if (uncorrectedYInclination > 0f) {
 					return (double) 180f - uncorrectedYInclination;
@@ -602,13 +602,13 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private void determinePseudoLinearAcceleration(float[] input) {
 		float alpha = 0.8f;
 
-		gravity[0] = alpha * gravity[0] + ((1 - alpha) * input[0]);
-		gravity[1] = alpha * gravity[1] + ((1 - alpha) * input[1]);
-		gravity[2] = alpha * gravity[2] + ((1 - alpha) * input[2]);
+		gravity[0] = alpha * gravity[0] + (1 - alpha) * input[0];
+		gravity[1] = alpha * gravity[1] + (1 - alpha) * input[1];
+		gravity[2] = alpha * gravity[2] + (1 - alpha) * input[2];
 
-		linearAccelerationX = -1f * (input[0] - gravity[0]);
-		linearAccelerationY = -1f * (input[1] - gravity[1]);
-		linearAccelerationZ = -1f * (input[2] - gravity[2]);
+		linearAccelerationX = -1f * input[0] - gravity[0];
+		linearAccelerationY = -1f * input[1] - gravity[1];
+		linearAccelerationZ = -1f * input[2] - gravity[2];
 	}
 
 	@Override

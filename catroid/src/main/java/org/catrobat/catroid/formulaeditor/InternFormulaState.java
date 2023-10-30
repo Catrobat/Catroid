@@ -66,9 +66,9 @@ public class InternFormulaState {
 		if (objectToCompare instanceof InternFormulaState) {
 			InternFormulaState stateToCompare = (InternFormulaState) objectToCompare;
 			if (externCursorPosition != stateToCompare.externCursorPosition
-					|| (tokenSelection == null && stateToCompare.tokenSelection != null)
-					|| (tokenSelection != null && !tokenSelection.equals(stateToCompare.tokenSelection) || (internTokenFormulaList
-					.size() != stateToCompare.internTokenFormulaList.size()))) {
+					|| tokenSelection == null && stateToCompare.tokenSelection != null
+					|| tokenSelection != null && !tokenSelection.equals(stateToCompare.tokenSelection) || internTokenFormulaList
+					.size() != stateToCompare.internTokenFormulaList.size()) {
 				return false;
 			}
 

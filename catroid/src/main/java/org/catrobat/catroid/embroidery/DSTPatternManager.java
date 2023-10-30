@@ -79,7 +79,7 @@ public class DSTPatternManager implements EmbroideryPatternManager {
 		for (Map.Entry entry : layerStreamMap.entrySet()) {
 			embroideryList.addAll(((EmbroideryStream) entry.getValue()).getPointList());
 		}
-		return (embroideryList.size() > 1);
+		return embroideryList.size() > 1;
 	}
 
 	@Override

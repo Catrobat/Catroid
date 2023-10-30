@@ -67,7 +67,9 @@ public class Look extends Image {
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({ROTATION_STYLE_LEFT_RIGHT_ONLY, ROTATION_STYLE_ALL_AROUND, ROTATION_STYLE_NONE})
-	public @interface RotationStyle {}
+	public @interface RotationStyle {
+	}
+
 	public static final int ROTATION_STYLE_LEFT_RIGHT_ONLY = 0;
 	public static final int ROTATION_STYLE_ALL_AROUND = 1;
 	public static final int ROTATION_STYLE_NONE = 2;
@@ -110,7 +112,7 @@ public class Look extends Image {
 		this.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				if (doTouchDown(x, y, pointer)) {
+				if (doTouchDown(x, y)) {
 					return true;
 				}
 				setTouchable(Touchable.disabled);
@@ -171,19 +173,19 @@ public class Look extends Image {
 		destination.isAdditive = isAdditive;
 	}
 
-	public boolean doTouchDown(float x, float y, int pointer) {
+	public boolean doTouchDown(float x, float y) {
 		if (!isLookVisible()) {
 			return false;
 		}
 		if (isFlipped()) {
-			x = (getWidth() - 1) - x;
+			x = getWidth() - 1 - x;
 		}
 
 		// We use Y-down, libgdx Y-up. This is the fix for accurate y-axis detection
-		y = (getHeight() - 1) - y;
+		y = getHeight() - 1 - y;
 
 		if (x >= 0 && x < getWidth() && y >= 0 && y < getHeight()
-				&& ((pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)))) {
+				&& pixmap != null && (pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10) {
 			EventWrapper event = new EventWrapper(new EventId(EventId.TAP), false);
 			sprite.look.fire(event);
 			return true;
@@ -468,12 +470,15 @@ public class Look extends Image {
 	public float getLookDirectionInUserInterfaceDimensionUnit() {
 		float direction = 0f;
 		switch (rotationMode) {
-			case ROTATION_STYLE_NONE : direction = DEGREE_UI_OFFSET;
-			break;
-			case ROTATION_STYLE_ALL_AROUND : direction = realRotation;
-			break;
-			case ROTATION_STYLE_LEFT_RIGHT_ONLY : direction =
-					isFlipped() ? -DEGREE_UI_OFFSET : DEGREE_UI_OFFSET;
+			case ROTATION_STYLE_NONE:
+				direction = DEGREE_UI_OFFSET;
+				break;
+			case ROTATION_STYLE_ALL_AROUND:
+				direction = realRotation;
+				break;
+			case ROTATION_STYLE_LEFT_RIGHT_ONLY:
+				direction =
+						isFlipped() ? -DEGREE_UI_OFFSET : DEGREE_UI_OFFSET;
 		}
 		return direction;
 	}
@@ -486,7 +491,7 @@ public class Look extends Image {
 	private void flipLookDataIfNeeded(int mode) {
 		boolean orientedLeft = getMotionDirectionInUserInterfaceDimensionUnit() < 0;
 		boolean differentModeButFlipped = mode != ROTATION_STYLE_LEFT_RIGHT_ONLY && isFlipped();
-		boolean facingWrongDirection = mode == ROTATION_STYLE_LEFT_RIGHT_ONLY && (orientedLeft ^ isFlipped());
+		boolean facingWrongDirection = mode == ROTATION_STYLE_LEFT_RIGHT_ONLY && orientedLeft ^ isFlipped();
 		if (differentModeButFlipped || facingWrongDirection) {
 			getLookData().getTextureRegion().flip(true, false);
 		}
@@ -549,7 +554,7 @@ public class Look extends Image {
 				setRotation(0f);
 				boolean orientedRight = realRotation >= 0;
 				boolean orientedLeft = realRotation < 0;
-				boolean needsFlipping = (isFlipped() && orientedRight) || (!isFlipped() && orientedLeft);
+				boolean needsFlipping = isFlipped() && orientedRight || !isFlipped() && orientedLeft;
 				if (needsFlipping && lookData != null) {
 					lookData.getTextureRegion().flip(true, false);
 				}
@@ -564,7 +569,7 @@ public class Look extends Image {
 	}
 
 	public boolean isFlipped() {
-		return (lookData != null && lookData.getTextureRegion().isFlipX());
+		return lookData != null && lookData.getTextureRegion().isFlipX();
 	}
 
 	public void changeDirectionInUserInterfaceDimensionUnit(float changeDegrees) {
@@ -653,7 +658,7 @@ public class Look extends Image {
 	}
 
 	private boolean isAngleInCatroidInterval(float catroidAngle) {
-		return (catroidAngle > -180 && catroidAngle <= 180);
+		return catroidAngle > -180 && catroidAngle <= 180;
 	}
 
 	public float breakDownCatroidAngle(float catroidAngle) {

@@ -62,7 +62,7 @@ public class LookTest {
 		};
 		look.setSize(width, height);
 
-		assertTrue(look.doTouchDown(0, 0, 0));
+		assertTrue(look.doTouchDown(0, 0));
 	}
 
 	@Test
@@ -78,7 +78,7 @@ public class LookTest {
 		};
 		look.setSize(width, height);
 
-		assertTrue(look.doTouchDown(0, 0, 0));
-		assertFalse(look.doTouchDown(1, 0, 0));
+		assertTrue(look.doTouchDown(0, 0));
+		assertFalse(look.doTouchDown(1, 0));
 	}
 }

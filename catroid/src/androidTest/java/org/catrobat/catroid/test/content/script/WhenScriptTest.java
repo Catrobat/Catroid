@@ -103,7 +103,7 @@ public class WhenScriptTest {
 	}
 
 	private void tapSprite() {
-		sprite.look.doTouchDown(0, 0, 0);
+		sprite.look.doTouchDown(0, 0);
 	}
 
 	@Test

@@ -47,6 +47,6 @@ public class SoundFilePathWithSprite {
 	@Override
 	public int hashCode() {
 		int result = sprite.hashCode();
-		return (31 * result + soundFilePath.hashCode());
+		return 31 * result + soundFilePath.hashCode();
 	}
 }

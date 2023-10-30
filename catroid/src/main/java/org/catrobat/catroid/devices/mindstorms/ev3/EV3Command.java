@@ -34,7 +34,7 @@ import java.io.ByteArrayOutputStream;
 
 public class EV3Command implements MindstormsCommand {
 
-	private ByteArrayOutputStream commandData = new ByteArrayOutputStream();
+	private final ByteArrayOutputStream commandData = new ByteArrayOutputStream();
 
 	public EV3Command(short commandCounter, EV3CommandType commandType, EV3CommandOpCode commandByte) {
 
@@ -108,7 +108,7 @@ public class EV3Command implements MindstormsCommand {
 		} else {
 			int controlByte;
 
-			if ((data >= 0 && data <= 0x7F) || (data < 0 && data <= 0xFF)) {
+			if (data <= 0x7F) {
 
 				controlByte = EV3CommandParamFormat.PARAM_FORMAT_LONG.getByte()
 						| EV3CommandParamByteCode.PARAM_TYPE_CONSTANT.getByte()
@@ -152,9 +152,9 @@ public class EV3Command implements MindstormsCommand {
 			return "0";
 		}
 
-		for (int i = 0; i < rawBytes.length; i++) {
-			commandHexString.append(Integer.toHexString(rawBytes[i] & 0xFF));
-			commandHexString.append("_");
+		for (byte rawByte : rawBytes) {
+			commandHexString.append(Integer.toHexString(rawByte & 0xFF));
+			commandHexString.append('_');
 		}
 
 		return commandHexString.toString();

@@ -195,7 +195,7 @@ public class LegoEV3Impl implements LegoEV3, LegoSensorService.OnSensorChangedLi
 		command.append(EV3CommandParamFormat.PARAM_FORMAT_LONG, step2Tacho);
 		command.append(EV3CommandParamFormat.PARAM_FORMAT_LONG, step3Tacho);
 
-		command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, (brake ? 0x01 : 0x00));
+		command.append(EV3CommandParamFormat.PARAM_FORMAT_SHORT, brake ? 0x01 : 0x00);
 
 		try {
 			mindstormsConnection.send(command);

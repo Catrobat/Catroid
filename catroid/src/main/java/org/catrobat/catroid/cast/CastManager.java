@@ -71,9 +71,9 @@ import static org.catrobat.catroid.common.Constants.CAST_IDLE_BACKGROUND_COLOR;
 
 public final class CastManager {
 	private static final CastManager INSTANCE = new CastManager();
-	private final ArrayList<MediaRouter.RouteInfo> routeInfos = new ArrayList<MediaRouter.RouteInfo>();
+	private final ArrayList<MediaRouter.RouteInfo> routeInfos = new ArrayList<>();
 	private StageActivity gamepadActivity;
-	private EnumMap<Sensors, Boolean> isGamepadButtonPressed = new EnumMap<>(Sensors.class);
+	private final EnumMap<Sensors, Boolean> isGamepadButtonPressed = new EnumMap<>(Sensors.class);
 	private MediaRouter mediaRouter;
 	private MediaRouteSelector mediaRouteSelector;
 	private MyMediaRouterCallback callback;
@@ -88,7 +88,7 @@ public final class CastManager {
 	private boolean pausedScreenShowing = false;
 	private boolean isCastDeviceAvailable;
 
-	public static ArrayList<Class<?>> unsupportedBricks = new ArrayList<Class<?>>() {
+	public static ArrayList<Class<?>> unsupportedBricks = new ArrayList<>() {
 		{
 			add(CameraBrick.class);
 			add(ChooseCameraBrick.class);
@@ -145,7 +145,7 @@ public final class CastManager {
 	}
 
 	public boolean isButtonPressed(Sensors btnSensor) {
-		return isGamepadButtonPressed.get(btnSensor);
+		return Boolean.TRUE.equals(isGamepadButtonPressed.get(btnSensor));
 	}
 
 	public void setButtonPress(Sensors btn, boolean b) {
@@ -212,13 +212,12 @@ public final class CastManager {
 		};
 
 		ImageButton[] gamepadButtons = {
-
-				(ImageButton) gamepadActivity.findViewById(R.id.gamepadButtonA),
-				(ImageButton) gamepadActivity.findViewById(R.id.gamepadButtonB),
-				(ImageButton) gamepadActivity.findViewById(R.id.gamepadButtonUp),
-				(ImageButton) gamepadActivity.findViewById(R.id.gamepadButtonDown),
-				(ImageButton) gamepadActivity.findViewById(R.id.gamepadButtonLeft),
-				(ImageButton) gamepadActivity.findViewById(R.id.gamepadButtonRight)
+				gamepadActivity.findViewById(R.id.gamepadButtonA),
+				gamepadActivity.findViewById(R.id.gamepadButtonB),
+				gamepadActivity.findViewById(R.id.gamepadButtonUp),
+				gamepadActivity.findViewById(R.id.gamepadButtonDown),
+				gamepadActivity.findViewById(R.id.gamepadButtonLeft),
+				gamepadActivity.findViewById(R.id.gamepadButtonRight)
 		};
 
 		for (ImageButton btn : gamepadButtons) {
@@ -237,7 +236,7 @@ public final class CastManager {
 			return;
 		}
 
-		boolean isActionDown = (event.getAction() == MotionEvent.ACTION_DOWN);
+		boolean isActionDown = event.getAction() == MotionEvent.ACTION_DOWN;
 
 		Sensors buttonPressed;
 		String buttonPressedName;
@@ -290,7 +289,7 @@ public final class CastManager {
 	}
 
 	public synchronized boolean currentlyConnecting() {
-		return (!isConnected && selectedDevice != null);
+		return !isConnected && selectedDevice != null;
 	}
 
 	public synchronized void openDeviceSelectorOrDisconnectDialog(AppCompatActivity activity) {
@@ -321,7 +320,7 @@ public final class CastManager {
 	@SuppressLint("InflateParams")
 	public synchronized void setRemoteLayoutToPauseScreen(Context context) {
 		if (remoteLayout != null) {
-			if ((pausedView == null) && !pausedScreenShowing) {
+			if (pausedView == null && !pausedScreenShowing) {
 				pausedView = (RelativeLayout) LayoutInflater.from(context)
 						.inflate(R.layout.cast_pause_screen, null);
 				remoteLayout.addView(pausedView);
@@ -355,8 +354,6 @@ public final class CastManager {
 	}
 
 	private class MyMediaRouterCallback extends MediaRouter.Callback {
-
-		private long lastConnectionTry;
 
 		@Override
 		public void onRouteAdded(MediaRouter router, MediaRouter.RouteInfo info) {
@@ -398,11 +395,11 @@ public final class CastManager {
 			synchronized (this) {
 				selectedDevice = CastDevice.getFromBundle(info.getExtras());
 				startCastService(initializingActivity);
-				lastConnectionTry = System.currentTimeMillis();
+				long lastConnectionTry = System.currentTimeMillis();
 				// Show a msg if still connecting after CAST_CONNECTION_TIMEOUT milliseconds
 				// and abort connection.
-				isCastDeviceAvailable = (CastRemoteDisplayLocalService.getInstance() != null)
-						&& (System.currentTimeMillis() - lastConnectionTry >= Constants.CAST_CONNECTION_TIMEOUT);
+				isCastDeviceAvailable = CastRemoteDisplayLocalService.getInstance() != null
+						&& System.currentTimeMillis() - lastConnectionTry >= Constants.CAST_CONNECTION_TIMEOUT;
 				(new Handler()).postDelayed(new Runnable() {
 					@Override
 					public void run() {
@@ -446,12 +443,11 @@ public final class CastManager {
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
 				notificationPendingIntent = PendingIntent.getActivity(activity, 0,
-						intent,PendingIntent.FLAG_IMMUTABLE);
+						intent, PendingIntent.FLAG_IMMUTABLE);
 			} else {
 				notificationPendingIntent = PendingIntent.getActivity(activity, 0,
 						intent, 0);
 			}
-
 
 			CastRemoteDisplayLocalService.NotificationSettings settings = new CastRemoteDisplayLocalService
 					.NotificationSettings.Builder()

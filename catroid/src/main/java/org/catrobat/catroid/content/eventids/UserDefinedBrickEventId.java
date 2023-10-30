@@ -56,6 +56,6 @@ public class UserDefinedBrickEventId extends EventId {
 	}
 
 	public int hashCode() {
-		return (userDefinedBrickID != null ? userDefinedBrickID.hashCode() : 0);
+		return userDefinedBrickID != null ? userDefinedBrickID.hashCode() : 0;
 	}
 }
