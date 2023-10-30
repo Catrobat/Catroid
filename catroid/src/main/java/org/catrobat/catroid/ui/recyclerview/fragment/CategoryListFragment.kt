@@ -198,7 +198,7 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
     private fun getLanguage(activity: Activity): String {
         var language = "?language="
         val sharedPreferences: SharedPreferences =
-            getSharedPreferences(requireActivity().applicationContext)
+            getSharedPreferences(activity.applicationContext)
         val languageTag = sharedPreferences.getString(SharedPreferenceKeys.LANGUAGE_TAG_KEY, "")
         val mLocale: Locale = if (languageTag == SharedPreferenceKeys.DEVICE_LANGUAGE) {
             Locale.forLanguageTag(CatroidApplication.defaultSystemLanguage)
@@ -211,22 +211,20 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         return language
     }
 
-    private fun addResourceToActiveFormulaInFormulaEditor(categoryListItem: CategoryListItem?): FormulaEditorFragment? {
+    private fun addResourceToActiveFormulaInFormulaEditor(
+        categoryListItem: CategoryListItem?,
+        lastUserList: UserList? = null
+    ) {
         val formulaEditorFragment: FormulaEditorFragment? = parentFragmentManager
             .findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG) as FormulaEditorFragment?
         formulaEditorFragment?.addResourceToActiveFormula(categoryListItem!!.nameResId)
 
-        return formulaEditorFragment
-    }
-
-    private fun addResourceToActiveFormulaInFormulaEditor(
-        categoryListItem: CategoryListItem,
-        lastUserList: UserList
-    ) {
-        addResourceToActiveFormulaInFormulaEditor(categoryListItem)!!.addUserListToActiveFormula(
-            lastUserList.name
-        )
-        requireActivity().onBackPressed()
+        if (lastUserList != null) {
+            formulaEditorFragment!!.addUserListToActiveFormula(
+                lastUserList.name
+            )
+            requireActivity().onBackPressed()
+        }
     }
 
     private fun onUserListFunctionSelected(item: CategoryListItem) {
@@ -435,25 +433,10 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         return subCategory
     }
 
-    private fun toCategoryListItems(nameResIds: List<Int>): MutableList<CategoryListItem> =
-        toCategoryListItems(nameResIds, null, CategoryListRVAdapter.DEFAULT)
-
     private fun toCategoryListItems(
         nameResIds: List<Int>,
-        paramResIds: List<Int>
-    ): List<CategoryListItem> =
-        toCategoryListItems(nameResIds, paramResIds, CategoryListRVAdapter.DEFAULT)
-
-    private fun toCategoryListItems(
-        nameResIds: List<Int>,
-        @CategoryListItemType type: Int
-    ): List<CategoryListItem> =
-        toCategoryListItems(nameResIds, null, type)
-
-    private fun toCategoryListItems(
-        nameResIds: List<Int>,
-        paramResIds: List<Int>?,
-        @CategoryListItemType type: Int
+        paramResIds: List<Int>? = null,
+        @CategoryListItemType type: Int = CategoryListRVAdapter.DEFAULT
     ): MutableList<CategoryListItem> {
         require(!(paramResIds != null && paramResIds.size != nameResIds.size)) {
             "Sizes of paramResIds and nameResIds parameters do not fit" }
@@ -560,6 +543,7 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         result.addAll(
             toCategoryListItems(
                 OBJECT_PHYSICAL_COLLISION,
+                null,
                 CategoryListRVAdapter.COLLISION
             )
         )
@@ -572,7 +556,7 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         return if (SettingsFragment.isMindstormsNXTSharedPreferenceEnabled(
                 requireActivity().applicationContext)) {
             addHeader(
-                toCategoryListItems(SENSORS_NXT, CategoryListRVAdapter.NXT),
+                toCategoryListItems(SENSORS_NXT, null, CategoryListRVAdapter.NXT),
                 getString(R.string.formula_editor_device_lego_nxt)
             )
         } else emptyList()
@@ -582,7 +566,7 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         return if (SettingsFragment.isMindstormsEV3SharedPreferenceEnabled(
                 requireActivity().applicationContext)) {
             addHeader(
-                toCategoryListItems(SENSORS_EV3, CategoryListRVAdapter.EV3),
+                toCategoryListItems(SENSORS_EV3, null, CategoryListRVAdapter.EV3),
                 getString(R.string.formula_editor_device_lego_ev3)
             )
         } else emptyList()
