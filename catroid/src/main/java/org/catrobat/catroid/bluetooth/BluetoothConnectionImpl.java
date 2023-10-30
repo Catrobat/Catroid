@@ -43,7 +43,6 @@ public class BluetoothConnectionImpl implements BluetoothConnection {
 
 	private final String macAddress;
 	private final UUID uuid;
-	private BluetoothAdapter bluetoothAdapter;
 	private BluetoothDevice bluetoothDevice;
 	private BluetoothSocket bluetoothSocket;
 	private State state;
@@ -55,19 +54,19 @@ public class BluetoothConnectionImpl implements BluetoothConnection {
 	}
 
 	public State connect() {
-		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		if (bluetoothAdapter == null) {
-			return (state = State.ERROR_BLUETOOTH_NOT_SUPPORTED);
+			return state = State.ERROR_BLUETOOTH_NOT_SUPPORTED;
 		}
 		if (bluetoothAdapter.getState() != BluetoothAdapter.STATE_ON) {
-			return (state = State.ERROR_ADAPTER);
+			return state = State.ERROR_ADAPTER;
 		}
 
 		Log.d(TAG, "Got Adapter and Adapter was on");
 
 		bluetoothDevice = bluetoothAdapter.getRemoteDevice(macAddress);
 		if (bluetoothDevice == null) {
-			return (state = State.ERROR_DEVICE);
+			return state = State.ERROR_DEVICE;
 		}
 
 		Log.d(TAG, "Got remote device");
@@ -76,11 +75,11 @@ public class BluetoothConnectionImpl implements BluetoothConnection {
 			bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(uuid);
 		} catch (IOException ioException) {
 			if (bluetoothDevice.getBondState() == BluetoothDevice.BOND_NONE) {
-				return (state = State.ERROR_NOT_BONDED);
+				return state = State.ERROR_NOT_BONDED;
 			} else if (bluetoothDevice.getBondState() == BluetoothDevice.BOND_BONDING) {
-				return (state = State.ERROR_STILL_BONDING);
+				return state = State.ERROR_STILL_BONDING;
 			} else {
-				return (state = State.ERROR_SOCKET);
+				return state = State.ERROR_SOCKET;
 			}
 		}
 
@@ -101,7 +100,7 @@ public class BluetoothConnectionImpl implements BluetoothConnection {
 
 	public State connectSocket(BluetoothSocket socket) {
 		if (socket == null) {
-			return (state = State.NOT_CONNECTED);
+			return state = State.NOT_CONNECTED;
 		}
 
 		Log.d(TAG, "Connecting");
@@ -115,22 +114,17 @@ public class BluetoothConnectionImpl implements BluetoothConnection {
 				Log.d(TAG, "Try connecting again");
 				// try another method for connection, this should work on the HTC desire, credits to Michael Biermann
 				Method mMethod = bluetoothDevice.getClass()
-						.getMethod(REFLECTION_METHOD_NAME, new Class[] {int.class});
-				this.bluetoothSocket = (BluetoothSocket) mMethod.invoke(bluetoothDevice, Integer.valueOf(1));
+						.getMethod(REFLECTION_METHOD_NAME, int.class);
+				this.bluetoothSocket = (BluetoothSocket) mMethod.invoke(bluetoothDevice, 1);
 				this.bluetoothSocket.connect();
-				return (state = State.CONNECTED);
-			} catch (NoSuchMethodException noSuchMethodException) {
+				return state = State.CONNECTED;
+			} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException |
+					 IOException noSuchMethodException) {
 				Log.e(TAG, Log.getStackTraceString(noSuchMethodException));
-			} catch (InvocationTargetException invocationTargetException) {
-				Log.e(TAG, Log.getStackTraceString(invocationTargetException));
-			} catch (IllegalAccessException illegalAccessException) {
-				Log.e(TAG, Log.getStackTraceString(illegalAccessException));
-			} catch (IOException secondIOException) {
-				Log.e(TAG, Log.getStackTraceString(secondIOException));
 			}
-			return (state = State.ERROR_SOCKET);
+			return state = State.ERROR_SOCKET;
 		}
-		return (state = State.CONNECTED);
+		return state = State.CONNECTED;
 	}
 
 	public void disconnect() {

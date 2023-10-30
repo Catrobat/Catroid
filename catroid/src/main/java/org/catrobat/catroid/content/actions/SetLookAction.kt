@@ -35,6 +35,8 @@ open class SetLookAction : MultiSpriteEventAction() {
         return if (lookData != null && sprite?.lookList?.contains(lookData) == true) {
             sprite!!.look.lookData = lookData
             SetLookEventId(sprite, lookData)
-        } else null
+        } else {
+            null
+        }
     }
 }

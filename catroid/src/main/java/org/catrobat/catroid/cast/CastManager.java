@@ -71,9 +71,9 @@ import static org.catrobat.catroid.common.Constants.CAST_IDLE_BACKGROUND_COLOR;
 
 public final class CastManager {
 	private static final CastManager INSTANCE = new CastManager();
-	private final ArrayList<MediaRouter.RouteInfo> routeInfos = new ArrayList<MediaRouter.RouteInfo>();
+	private final ArrayList<MediaRouter.RouteInfo> routeInfos = new ArrayList<>();
 	private StageActivity gamepadActivity;
-	private EnumMap<Sensors, Boolean> isGamepadButtonPressed = new EnumMap<>(Sensors.class);
+	private final EnumMap<Sensors, Boolean> isGamepadButtonPressed = new EnumMap<>(Sensors.class);
 	private MediaRouter mediaRouter;
 	private MediaRouteSelector mediaRouteSelector;
 	private MyMediaRouterCallback callback;
@@ -88,7 +88,7 @@ public final class CastManager {
 	private boolean pausedScreenShowing = false;
 	private boolean isCastDeviceAvailable;
 
-	public static ArrayList<Class<?>> unsupportedBricks = new ArrayList<Class<?>>() {
+	public static ArrayList<Class<?>> unsupportedBricks = new ArrayList<>() {
 		{
 			add(CameraBrick.class);
 			add(ChooseCameraBrick.class);
@@ -145,7 +145,7 @@ public final class CastManager {
 	}
 
 	public boolean isButtonPressed(Sensors btnSensor) {
-		return isGamepadButtonPressed.get(btnSensor);
+		return Boolean.TRUE.equals(isGamepadButtonPressed.get(btnSensor));
 	}
 
 	public void setButtonPress(Sensors btn, boolean b) {
@@ -212,13 +212,12 @@ public final class CastManager {
 		};
 
 		ImageButton[] gamepadButtons = {
-
-				(ImageButton) gamepadActivity.findViewById(R.id.gamepadButtonA),
-				(ImageButton) gamepadActivity.findViewById(R.id.gamepadButtonB),
-				(ImageButton) gamepadActivity.findViewById(R.id.gamepadButtonUp),
-				(ImageButton) gamepadActivity.findViewById(R.id.gamepadButtonDown),
-				(ImageButton) gamepadActivity.findViewById(R.id.gamepadButtonLeft),
-				(ImageButton) gamepadActivity.findViewById(R.id.gamepadButtonRight)
+				gamepadActivity.findViewById(R.id.gamepadButtonA),
+				gamepadActivity.findViewById(R.id.gamepadButtonB),
+				gamepadActivity.findViewById(R.id.gamepadButtonUp),
+				gamepadActivity.findViewById(R.id.gamepadButtonDown),
+				gamepadActivity.findViewById(R.id.gamepadButtonLeft),
+				gamepadActivity.findViewById(R.id.gamepadButtonRight)
 		};
 
 		for (ImageButton btn : gamepadButtons) {
@@ -356,8 +355,6 @@ public final class CastManager {
 
 	private class MyMediaRouterCallback extends MediaRouter.Callback {
 
-		private long lastConnectionTry;
-
 		@Override
 		public void onRouteAdded(MediaRouter router, MediaRouter.RouteInfo info) {
 			// Add route to list of discovered routes
@@ -398,7 +395,7 @@ public final class CastManager {
 			synchronized (this) {
 				selectedDevice = CastDevice.getFromBundle(info.getExtras());
 				startCastService(initializingActivity);
-				lastConnectionTry = System.currentTimeMillis();
+				long lastConnectionTry = System.currentTimeMillis();
 				// Show a msg if still connecting after CAST_CONNECTION_TIMEOUT milliseconds
 				// and abort connection.
 				isCastDeviceAvailable = (CastRemoteDisplayLocalService.getInstance() != null)
