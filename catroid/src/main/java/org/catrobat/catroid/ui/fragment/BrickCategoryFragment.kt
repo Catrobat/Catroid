@@ -147,4 +147,3 @@ class BrickCategoryFragment : ListFragment() {
         return super.onOptionsItemSelected(item)
     }
 }
-

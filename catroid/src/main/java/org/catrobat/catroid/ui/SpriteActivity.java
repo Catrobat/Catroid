@@ -194,7 +194,7 @@ public class SpriteActivity extends BaseActivity {
 				getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
 		if (currentFragment instanceof TabLayoutContainerFragment) {
-			return ((TabLayoutContainerFragment)currentFragment).getSelectedTabFragment();
+			return ((TabLayoutContainerFragment) currentFragment).getSelectedTabFragment();
 		}
 
 		return currentFragment;
