@@ -132,7 +132,8 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
                 regularExpressionAssistantActivityOnButtonClick()
             } else {
                 val formulaEditorFragment =
-                    childFragmentManager.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG) as
+                    parentFragmentManager.findFragmentByTag(FormulaEditorFragment
+                                                    .FORMULA_EDITOR_FRAGMENT_TAG) as
                         FormulaEditorFragment?
                 formulaEditorFragment?.setChosenCategoryItem(item)
                 requireActivity().onBackPressed()
@@ -147,7 +148,7 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         return true
     }
 
-    fun onOptionsMenuClick(tag: String?) {
+    private fun onOptionsMenuClick(tag: String?) {
         val language: String = getLanguage(requireActivity())
         when (tag) {
             FUNCTION_TAG -> startActivity(
@@ -197,7 +198,7 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
     private fun getLanguage(activity: Activity): String {
         var language = "?language="
         val sharedPreferences: SharedPreferences =
-            getSharedPreferences(activity.applicationContext)
+            getSharedPreferences(requireActivity().applicationContext)
         val languageTag = sharedPreferences.getString(SharedPreferenceKeys.LANGUAGE_TAG_KEY, "")
         val mLocale: Locale = if (languageTag == SharedPreferenceKeys.DEVICE_LANGUAGE) {
             Locale.forLanguageTag(CatroidApplication.defaultSystemLanguage)
@@ -211,7 +212,7 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
     }
 
     private fun addResourceToActiveFormulaInFormulaEditor(categoryListItem: CategoryListItem?): FormulaEditorFragment? {
-        val formulaEditorFragment: FormulaEditorFragment? = childFragmentManager
+        val formulaEditorFragment: FormulaEditorFragment? = parentFragmentManager
             .findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG) as FormulaEditorFragment?
         formulaEditorFragment?.addResourceToActiveFormula(categoryListItem!!.nameResId)
 
@@ -297,13 +298,13 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
     }
 
     private fun getFormulaEditorFragment(): FormulaEditorFragment? {
-        return childFragmentManager
+        return parentFragmentManager
             .findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG)
             as FormulaEditorFragment?
     }
 
     private fun openRegularExpressionAssistant() {
-        RegularExpressionAssistantDialog(context, childFragmentManager).createAssistant()
+        RegularExpressionAssistantDialog(context, parentFragmentManager).createAssistant()
     }
 
     private fun showNewUserListDialog(
@@ -345,7 +346,8 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         LegoSensorPortConfigDialog.Builder(requireContext(), type, itemNameResId)
             .setPositiveButton(
                 getString(R.string.ok),
-                LegoSensorPortConfigDialog.OnClickListener { dialog: DialogInterface?, selectedPort: Int, selectedSensor: Enum<*>? ->
+                LegoSensorPortConfigDialog.OnClickListener { _: DialogInterface?, selectedPort:
+                Int, selectedSensor: Enum<*>? ->
                     if (type == Constants.NXT) {
                         SettingsFragment.setLegoMindstormsNXTSensorMapping(
                             activity,
@@ -359,7 +361,7 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
                             SettingsFragment.EV3_SENSORS[selectedPort]
                         )
                     }
-                    val formulaEditor = childFragmentManager
+                    val formulaEditor = parentFragmentManager
                         .findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG) as FormulaEditorFragment?
                     val sensorPortsId =
                         if (type == Constants.NXT) R.array.formula_editor_nxt_ports else R.array.formula_editor_ev3_ports
@@ -397,7 +399,7 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
                     val selectedSprite = selectableSprites[which]
                     currentSprite.createCollisionPolygons()
                     selectedSprite.createCollisionPolygons()
-                    (childFragmentManager
+                    (parentFragmentManager
                         .findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG) as
                         FormulaEditorFragment?)
                         ?.addCollideFormulaToActiveFormula(selectedSprite.name)
