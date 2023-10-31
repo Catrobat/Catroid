@@ -105,7 +105,8 @@ class CategoryListItems {
         return result
     }
 
-    fun getObjectGeneralPropertiesItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
+    private fun getObjectGeneralPropertiesItems(activity: Activity): List<CategoryListRVAdapter
+    .CategoryListItem> {
         val resIds: MutableList<Int> = ArrayList(OBJECT_GENERAL_PROPERTIES)
         val currentScene = projectManager.currentlyEditedScene
         val currentSprite = projectManager.currentSprite
@@ -125,7 +126,8 @@ class CategoryListItems {
         return addHeader(result, activity.getString(R.string.formula_editor_object_look))
     }
 
-    fun getObjectPhysicalPropertiesItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
+    private fun getObjectPhysicalPropertiesItems(activity: Activity):
+        List<CategoryListRVAdapter.CategoryListItem> {
         val result = toCategoryListItems(activity, OBJECT_PHYSICAL_1)
         result.addAll(
             toCategoryListItems(
@@ -140,7 +142,7 @@ class CategoryListItems {
         return addHeader(result, activity.getString(R.string.formula_editor_object_movement))
     }
 
-    fun getNxtSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
+    private fun getNxtSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
         return if (SettingsFragment.isMindstormsNXTSharedPreferenceEnabled(
                 activity.applicationContext)) {
             addHeader(
@@ -150,7 +152,7 @@ class CategoryListItems {
         } else emptyList()
     }
 
-    fun getEv3SensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
+    private fun getEv3SensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
         return if (SettingsFragment.isMindstormsEV3SharedPreferenceEnabled(
                 activity.applicationContext)) {
             addHeader(
@@ -160,7 +162,7 @@ class CategoryListItems {
         } else emptyList()
     }
 
-    fun getPhiroSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
+    private fun getPhiroSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
         return if (SettingsFragment.isPhiroSharedPreferenceEnabled(
                 activity.applicationContext)) {
             addHeader(
@@ -170,7 +172,7 @@ class CategoryListItems {
         } else emptyList()
     }
 
-    fun getArduinoSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
+    private fun getArduinoSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
         return if (SettingsFragment.isArduinoSharedPreferenceEnabled(
                 activity.applicationContext)) {
             addHeader(
@@ -180,7 +182,7 @@ class CategoryListItems {
         } else emptyList()
     }
 
-    fun getDroneSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
+    private fun getDroneSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
         return if (SettingsFragment.isDroneSharedPreferenceEnabled(
                 activity.applicationContext)) {
             addHeader(
@@ -190,7 +192,7 @@ class CategoryListItems {
         } else emptyList()
     }
 
-    fun getRaspberrySensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
+    private fun getRaspberrySensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
         return if (RaspberryPiSettingsFragment.isRaspiSharedPreferenceEnabled(
                 activity.applicationContext)) {
             addHeader(
@@ -200,7 +202,7 @@ class CategoryListItems {
         } else emptyList()
     }
 
-    fun getNfcItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
+    private fun getNfcItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
         return if (SettingsFragment.isNfcSharedPreferenceEnabled(
                 activity.applicationContext)) {
             addHeader(
@@ -210,7 +212,7 @@ class CategoryListItems {
         } else emptyList()
     }
 
-    fun getCastGamepadSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
+    private fun getCastGamepadSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
         return if (projectManager.currentProject.isCastProject) {
             addHeader(
                 toCategoryListItems(activity, SENSORS_CAST_GAMEPAD),
@@ -219,7 +221,7 @@ class CategoryListItems {
         } else emptyList()
     }
 
-    fun getDeviceSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
+    private fun getDeviceSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
         val deviceSensorItems: MutableList<CategoryListRVAdapter.CategoryListItem> = ArrayList(
             toCategoryListItems(activity, SENSORS_DEFAULT)
         )
@@ -258,25 +260,24 @@ class CategoryListItems {
         )
         deviceSensorItems.addAll(toCategoryListItems(activity, SENSORS_GPS))
         deviceSensorItems.addAll(toCategoryListItems(activity, SENSOR_USER_LANGUAGE))
-        return addHeader(deviceSensorItems, activity.getString(R.string
-                                                                 .formula_editor_device_sensors))
+        return addHeader(deviceSensorItems, activity.getString(R.string.formula_editor_device_sensors))
     }
 
-    fun getTouchDetectionSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
+    private fun getTouchDetectionSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
         return addHeader(
             toCategoryListItems(activity, SENSORS_TOUCH, SENSORS_TOUCH_PARAMS),
             activity.getString(R.string.formula_editor_device_touch_detection)
         )
     }
 
-    fun getDateTimeSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
+    private fun getDateTimeSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
         return addHeader(
             toCategoryListItems(activity, SENSORS_DATE_TIME),
             activity.getString(R.string.formula_editor_device_date_and_time)
         )
     }
 
-    fun getSpeechRecognitionItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
+    private fun getSpeechRecognitionItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
         return if (SettingsFragment.isAISpeechRecognitionSharedPreferenceEnabled(
                 activity.applicationContext)) {
             addHeader(
@@ -286,7 +287,7 @@ class CategoryListItems {
         } else emptyList()
     }
 
-    fun getFaceSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
+    private fun getFaceSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
         return if (SettingsFragment.isAIFaceDetectionSharedPreferenceEnabled(
                 activity.applicationContext)) {
             addHeader(
@@ -299,7 +300,7 @@ class CategoryListItems {
         } else emptyList()
     }
 
-    fun getPoseSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
+    private fun getPoseSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
         val mobileServiceAvailability = KoinJavaComponent.get(
             MobileServiceAvailability::class.java
         )
@@ -331,7 +332,7 @@ class CategoryListItems {
         }
     }
 
-    fun getTextSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
+    private fun getTextSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
         return if (SettingsFragment.isAITextRecognitionSharedPreferenceEnabled(
                 activity.applicationContext)) {
             addHeader(
@@ -344,7 +345,7 @@ class CategoryListItems {
         } else emptyList()
     }
 
-    fun getObjectDetectionSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
+    private fun getObjectDetectionSensorItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
         return if (SettingsFragment.isAIObjectDetectionSharedPreferenceEnabled(
                 activity.applicationContext)) {
             addHeader(
