@@ -37,7 +37,6 @@ import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -62,7 +61,6 @@ import static org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VE
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 @RunWith(AndroidJUnit4.class)
-@Ignore("Just Fails")
 public class ProjectManagerTest {
 
 	@Rule

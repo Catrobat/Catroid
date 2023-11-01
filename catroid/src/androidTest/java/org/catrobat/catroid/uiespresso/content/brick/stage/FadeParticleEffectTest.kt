@@ -52,10 +52,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.koin.java.KoinJavaComponent.inject
 
+@Ignore("KillsTheEmulator")
 class FadeParticleEffectTest {
 
     val projectManager: ProjectManager by inject(ProjectManager::class.java)
