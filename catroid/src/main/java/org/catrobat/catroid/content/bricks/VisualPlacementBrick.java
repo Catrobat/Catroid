@@ -143,7 +143,7 @@ public abstract class VisualPlacementBrick extends FormulaBrick {
 	}
 
 	private boolean isCorrectTextField(View view) {
-		return view.getId() == getXEditTextId() || view.getId() == getYEditTextId();
+		return (view.getId() == getXEditTextId() || view.getId() == getYEditTextId());
 	}
 
 	public abstract BrickField getXBrickField();

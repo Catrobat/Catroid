@@ -127,9 +127,9 @@ public class Scene implements Nameable, Serializable {
 	}
 
 	public synchronized PhysicsWorld resetPhysicsWorld() {
-		return physicsWorld = new PhysicsWorld(
+		return (physicsWorld = new PhysicsWorld(
 				project.getXmlHeader().virtualScreenWidth,
-				project.getXmlHeader().virtualScreenHeight);
+				project.getXmlHeader().virtualScreenHeight));
 	}
 
 	public synchronized void setPhysicsWorld(PhysicsWorld world) {

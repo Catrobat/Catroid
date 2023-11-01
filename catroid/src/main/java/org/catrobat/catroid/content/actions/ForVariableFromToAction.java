@@ -58,8 +58,8 @@ public class ForVariableFromToAction extends LoopAction {
 
 		if (action != null && action.act(delta) && !isLoopDelayNeeded()) {
 			if (!(controlVariable.getValue() instanceof Double)
-					|| step > 0 && (double) controlVariable.getValue() >= toValue
-					|| step < 0 && (double) controlVariable.getValue() <= toValue) {
+					|| (step > 0 && (double) controlVariable.getValue() >= toValue)
+					|| (step < 0 && (double) controlVariable.getValue() <= toValue)) {
 				return true;
 			}
 			changeControlVariable(step);
@@ -107,7 +107,7 @@ public class ForVariableFromToAction extends LoopAction {
 	}
 
 	private void setStepValue() {
-		step = fromValue <= toValue ? 1 : -1;
+		step = (fromValue <= toValue) ? 1 : -1;
 	}
 
 	private void setControlVariable(int value) {

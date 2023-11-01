@@ -81,9 +81,9 @@ class PlaySoundAtAction : TemporalAction() {
         if (sprite.soundList.contains(sound)) {
 
             sound?.let {
-                manager.playSoundFileWithStartTime(
-                    it.file.absolutePath, sprite, offsetMilliseconds
-                )
+                    manager.playSoundFileWithStartTime(
+                        it.file.absolutePath, sprite, offsetMilliseconds
+                    )
             }
             return manager.getDurationOfSoundFile(sound?.file?.absolutePath) - offsetMilliseconds
         }

@@ -48,7 +48,7 @@ public class IfOnEdgeBounceAction extends TemporalAction {
 				newDirection = -newDirection;
 				fireBounceEvent();
 			}
-			xPosition = -halfVirtualScreenWidth + width / 2;
+			xPosition = -halfVirtualScreenWidth + (width / 2);
 		} else if (xPosition > halfVirtualScreenWidth - width / 2) {
 			if (isLookingRight(newDirection)) {
 				newDirection = -newDirection;
@@ -62,7 +62,7 @@ public class IfOnEdgeBounceAction extends TemporalAction {
 				newDirection = 180f - newDirection;
 				fireBounceEvent();
 			}
-			yPosition = -halfVirtualScreenHeight + height / 2;
+			yPosition = -halfVirtualScreenHeight + (height / 2);
 		} else if (yPosition > halfVirtualScreenHeight - height / 2) {
 			if (isLookingUp(newDirection)) {
 				newDirection = 180f - newDirection;
@@ -80,19 +80,19 @@ public class IfOnEdgeBounceAction extends TemporalAction {
 	}
 
 	private boolean isLookingUp(float direction) {
-		return direction > -90f && direction < 90f;
+		return (direction > -90f && direction < 90f);
 	}
 
 	private boolean isLookingDown(float direction) {
-		return direction > 90f || direction < -90f;
+		return (direction > 90f || direction < -90f);
 	}
 
 	private boolean isLookingLeft(float direction) {
-		return direction > -180f && direction < 0f;
+		return (direction > -180f && direction < 0f);
 	}
 
 	private boolean isLookingRight(float direction) {
-		return direction > 0f && direction < 180f;
+		return (direction > 0f && direction < 180f);
 	}
 
 	public void setSprite(Sprite sprite) {

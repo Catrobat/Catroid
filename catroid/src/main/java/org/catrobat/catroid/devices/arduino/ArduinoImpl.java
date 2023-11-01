@@ -228,11 +228,11 @@ public class ArduinoImpl implements Arduino {
 	}
 
 	public static boolean isValidDigitalPin(int pin) {
-		return pin >= 0 && pin < NUMBER_OF_DIGITAL_PINS;
+		return (pin >= 0) && (pin < NUMBER_OF_DIGITAL_PINS);
 	}
 
 	public static boolean isValidAnalogPin(int analogPinNumber) {
-		return analogPinNumber >= 0 && analogPinNumber < NUMBER_OF_ANALOG_PINS;
+		return (analogPinNumber >= 0) && (analogPinNumber < NUMBER_OF_ANALOG_PINS);
 	}
 
 	public static int getPortFromPin(int pin) {

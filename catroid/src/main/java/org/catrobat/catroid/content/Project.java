@@ -169,7 +169,7 @@ public class Project implements Serializable {
 	}
 
 	public boolean hasScene() {
-		return sceneList.size() > 0;
+		return (sceneList.size() > 0);
 	}
 
 	public Scene getDefaultScene() {

@@ -52,23 +52,23 @@ public class InternFormulaKeyboardAdapter {
 
 	public List<InternToken> createInternTokenListByResourceId(int resource, String name) {
 
-		if (resource == FORMULA_EDITOR_USER_VARIABLE_RESOURCE_ID && !name.isEmpty()) {
+		if ((resource == FORMULA_EDITOR_USER_VARIABLE_RESOURCE_ID) && !name.isEmpty()) {
 			return buildUserVariable(name);
 		}
 
-		if (resource == FORMULA_EDITOR_USER_LIST_RESOURCE_ID && !name.isEmpty()) {
+		if ((resource == FORMULA_EDITOR_USER_LIST_RESOURCE_ID) && !name.isEmpty()) {
 			return buildUserList(name);
 		}
 
-		if (resource == FORMULA_EDITOR_USER_DEFINED_BRICK_INPUT_RESOURCE_ID && !name.isEmpty()) {
+		if ((resource == FORMULA_EDITOR_USER_DEFINED_BRICK_INPUT_RESOURCE_ID) && !name.isEmpty()) {
 			return buildUserDefinedBrickInput(name);
 		}
 
-		if (resource == FORMULA_EDITOR_COLLIDE_RESOURCE_ID && !name.isEmpty()) {
+		if ((resource == FORMULA_EDITOR_COLLIDE_RESOURCE_ID) && !name.isEmpty()) {
 			return buildCollideWithFormula(name);
 		}
 
-		if (resource == R.id.formula_editor_keyboard_string) {
+		if ((resource == R.id.formula_editor_keyboard_string)) {
 			return buildString(name);
 		}
 
@@ -600,68 +600,68 @@ public class InternFormulaKeyboardAdapter {
 	}
 
 	private List<InternToken> buildBracketOpen() {
-		List<InternToken> returnList = new LinkedList<>();
+		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(BRACKET_OPEN));
 		return returnList;
 	}
 
 	private List<InternToken> buildBracketClose() {
-		List<InternToken> returnList = new LinkedList<>();
+		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(BRACKET_CLOSE));
 		return returnList;
 	}
 
 	private List<InternToken> buildUserList(String userListName) {
-		List<InternToken> returnList = new LinkedList<>();
+		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(USER_LIST, userListName));
 		return returnList;
 	}
 
 	private List<InternToken> buildUserVariable(String userVariableName) {
-		List<InternToken> returnList = new LinkedList<>();
+		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(USER_VARIABLE, userVariableName));
 		return returnList;
 	}
 
 	private List<InternToken> buildUserDefinedBrickInput(String userDefinedBrickInput) {
-		List<InternToken> returnList = new LinkedList<>();
+		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(USER_DEFINED_BRICK_INPUT,
 				userDefinedBrickInput));
 		return returnList;
 	}
 
 	private List<InternToken> buildCollideWithFormula(String formula) {
-		List<InternToken> returnList = new LinkedList<>();
+		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(COLLISION_FORMULA, formula));
 		return returnList;
 	}
 
 	private List<InternToken> buildPeriod() {
-		List<InternToken> returnList = new LinkedList<>();
+		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(PERIOD));
 		return returnList;
 	}
 
 	private List<InternToken> buildNumber(String numberValue) {
-		List<InternToken> returnList = new LinkedList<>();
+		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(NUMBER, numberValue));
 		return returnList;
 	}
 
 	private List<InternToken> buildObject(Sensors sensors) {
-		List<InternToken> returnList = new LinkedList<>();
+		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(SENSOR, sensors.name()));
 		return returnList;
 	}
 
 	private List<InternToken> buildOperator(Operators operator) {
-		List<InternToken> returnList = new LinkedList<>();
+		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(OPERATOR, operator.name()));
 		return returnList;
 	}
 
 	private List<InternToken> buildSensor(Sensors sensor) {
-		List<InternToken> returnList = new LinkedList<>();
+		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(SENSOR, sensor.name()));
 		return returnList;
 	}
@@ -669,7 +669,7 @@ public class InternFormulaKeyboardAdapter {
 	private List<InternToken> buildTripleParameterFunction(Functions function, InternTokenType firstParameter,
 			String firstParameterNumberValue, InternTokenType secondParameter, String secondParameterNumberValue,
 			InternTokenType thirdParameter, String thirdParameterNumberValue) {
-		List<InternToken> returnList = new LinkedList<>();
+		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(FUNCTION_NAME, function.name()));
 		returnList.add(new InternToken(FUNCTION_PARAMETERS_BRACKET_OPEN));
 		returnList.add(new InternToken(firstParameter, firstParameterNumberValue));
@@ -683,7 +683,7 @@ public class InternFormulaKeyboardAdapter {
 
 	private List<InternToken> buildDoubleParameterFunction(Functions function, InternTokenType firstParameter,
 			String firstParameterNumberValue, InternTokenType secondParameter, String secondParameterNumberValue) {
-		List<InternToken> returnList = new LinkedList<>();
+		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(FUNCTION_NAME, function.name()));
 		returnList.add(new InternToken(FUNCTION_PARAMETERS_BRACKET_OPEN));
 		returnList.add(new InternToken(firstParameter, firstParameterNumberValue));
@@ -695,7 +695,7 @@ public class InternFormulaKeyboardAdapter {
 
 	private List<InternToken> buildSingleParameterFunction(Functions function, InternTokenType firstParameter,
 			String parameterNumberValue) {
-		List<InternToken> returnList = new LinkedList<>();
+		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(FUNCTION_NAME, function.name()));
 		returnList.add(new InternToken(FUNCTION_PARAMETERS_BRACKET_OPEN));
 		returnList.add(new InternToken(firstParameter, parameterNumberValue));
@@ -704,13 +704,13 @@ public class InternFormulaKeyboardAdapter {
 	}
 
 	private List<InternToken> buildFunctionWithoutParametersAndBrackets(Functions function) {
-		List<InternToken> returnList = new LinkedList<>();
+		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(FUNCTION_NAME, function.name()));
 		return returnList;
 	}
 
 	private List<InternToken> buildString(String myString) {
-		List<InternToken> returnList = new LinkedList<>();
+		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(STRING, myString));
 		return returnList;
 	}

@@ -87,9 +87,7 @@ object TrustedDomainManager {
                     val domains = trustList.getJSONArray(TRUST_LIST_JSON_ARRAY_NAME)
                     cleanUpUserInput(domains.join("\n"))
                 }
-            } else {
-                ""
-            }
+            } else ""
         } catch (e: IOException) {
             Log.e(TAG, READ_ERROR_LOG, e)
             ""

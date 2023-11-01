@@ -22,10 +22,12 @@
  */
 package org.catrobat.catroid.catrobattestrunner
 
+import android.Manifest.permission
 import android.app.Instrumentation.ActivityResult
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
+import androidx.test.rule.GrantPermissionRule
 import org.junit.Assert
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants

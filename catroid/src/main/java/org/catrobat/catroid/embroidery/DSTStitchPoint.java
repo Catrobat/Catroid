@@ -32,8 +32,8 @@ import static org.catrobat.catroid.embroidery.DSTFileConstants.toEmbroideryUnit;
 
 public class DSTStitchPoint implements StitchPoint {
 
-	private final float xCoord;
-	private final float yCoord;
+	private float xCoord;
+	private float yCoord;
 	private int relativeX;
 	private int relativeY;
 	private boolean jumpPoint = false;
@@ -99,8 +99,8 @@ public class DSTStitchPoint implements StitchPoint {
 	}
 
 	private int mapToConversionTable(int value) {
-		return value < 0 ? DSTFileConstants.CONVERSION_TABLE[value * -1 + 121]
-				: DSTFileConstants.CONVERSION_TABLE[value];
+		return (value < 0 ? DSTFileConstants.CONVERSION_TABLE[(value * (-1)) + 121]
+				: DSTFileConstants.CONVERSION_TABLE[value]);
 	}
 
 	private byte[] setDSTPointBytes() {

@@ -55,21 +55,18 @@ class ParameterizedAssertAction : AssertAction() {
         parameterizedData?.let { data ->
             if (!equalValues(actualValue, expectedValue.toString())) {
                 data.failMessages.append("\n${data.currentParameters}\n").append(
-                    formattedAssertEqualsError(actualValue, expectedValue)
-                )
+                    formattedAssertEqualsError(actualValue, expectedValue))
             } else {
                 data.successMessages.append("\n${data.currentParameters}\n").append(
-                    formattedSuccessMessage(actualValue, expectedValue)
-                )
+                    formattedSuccessMessage(actualValue, expectedValue))
             }
 
             data.currentPosition++
             data.currentParameters = ""
 
             if (data.failMessages.isNotEmpty() &&
-                data.currentPosition >= (expectedList?.value?.size ?: 0)
-            ) {
-                failWith("Failed Tests:\n${data.failMessages}\n\nSucceeded Tests:\n${data.successMessages}")
+                data.currentPosition >= expectedList?.value?.size ?: 0) {
+                    failWith("Failed Tests:\n${data.failMessages}\n\nSucceeded Tests:\n${data.successMessages}")
             }
         }
 
@@ -81,6 +78,5 @@ class ParameterizedAssertAction : AssertAction() {
         return "expected: <$expected>\nactual:   <$actual>\ndeviation: $indicator\n"
     }
 
-    private fun formattedSuccessMessage(actual: Any?, expected: Any?): String =
-        "$actual == $expected\n"
+    private fun formattedSuccessMessage(actual: Any?, expected: Any?): String = "$actual == $expected\n"
 }

@@ -34,6 +34,7 @@ import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
 class IfOnEdgeBounceActionTest(
+    private val name: String,
     private val initialPosX: Float,
     private val initialPosY: Float,
     private val expectedPosX: Float,
@@ -47,82 +48,34 @@ class IfOnEdgeBounceActionTest(
     companion object {
         @JvmStatic
         @Parameterized.Parameters(name = "{0} {5}")
-        fun parameters() = (-179..180).flatMap { initialDirection ->
-            listOf(
-                arrayOf(
-                    "TOP_BOUNCE",
-                    0f,
-                    TOP_BORDER_POSITION,
-                    0f,
-                    BOUNCE_TOP_POSITION,
-                    initialDirection,
-                    getExpectedDirection(initialDirection, (-90..89).toSet(), 180)
-                ),
-                arrayOf(
-                    "BOTTOM_BOUNCE",
-                    0f,
-                    BOTTOM_BORDER_POSITION,
-                    0f,
-                    BOUNCE_BOTTOM_POSITION,
-                    initialDirection,
-                    getExpectedDirection(initialDirection, (-179..-91).union(90..180), 180)
-                ),
-                arrayOf(
-                    "LEFT_BOUNCE",
-                    LEFT_BORDER_POSITION,
-                    0f,
-                    BOUNCE_LEFT_POSITION,
-                    0f,
-                    initialDirection,
-                    getExpectedDirection(initialDirection, (-179..-1).toSet(), 0)
-                ),
-                arrayOf(
-                    "RIGHT_BOUNCE",
-                    RIGHT_BORDER_POSITION,
-                    0f,
-                    BOUNCE_RIGHT_POSITION,
-                    0f,
-                    initialDirection,
-                    getExpectedDirection(initialDirection, (0..179).toSet(), 0)
-                ),
-                arrayOf("NO_BOUNCE", 0f, 0f, 0f, 0f, initialDirection, initialDirection.toFloat())
-            )
-        }.plus(
-            listOf(
-                arrayOf(
-                    "LEFT_TOP_BOUNCE", LEFT_BORDER_POSITION, TOP_BORDER_POSITION,
-                    BOUNCE_LEFT_POSITION, BOUNCE_TOP_POSITION, -45, 135f
-                ),
-                arrayOf(
-                    "LEFT_TOP_NO_BOUNCE", LEFT_BORDER_POSITION, TOP_BORDER_POSITION,
-                    BOUNCE_LEFT_POSITION, BOUNCE_TOP_POSITION, 135, 135f
-                ),
-                arrayOf(
-                    "RIGHT_TOP_BOUNCE", RIGHT_BORDER_POSITION, TOP_BORDER_POSITION,
-                    BOUNCE_RIGHT_POSITION, BOUNCE_TOP_POSITION, 45, -135f
-                ),
-                arrayOf(
-                    "RIGHT_TOP_NO_BOUNCE", RIGHT_BORDER_POSITION, TOP_BORDER_POSITION,
-                    BOUNCE_RIGHT_POSITION, BOUNCE_TOP_POSITION, -135, -135f
-                ),
-                arrayOf(
-                    "LEFT_BOTTOM_BOUNCE", LEFT_BORDER_POSITION, BOTTOM_BORDER_POSITION,
-                    BOUNCE_LEFT_POSITION, BOUNCE_BOTTOM_POSITION, -135, 45f
-                ),
-                arrayOf(
-                    "LEFT_BOTTOM_NO_BOUNCE", LEFT_BORDER_POSITION, BOTTOM_BORDER_POSITION,
-                    BOUNCE_LEFT_POSITION, BOUNCE_BOTTOM_POSITION, 45, 45f
-                ),
-                arrayOf(
-                    "RIGHT_BOTTOM_BOUNCE", RIGHT_BORDER_POSITION, BOTTOM_BORDER_POSITION,
-                    BOUNCE_RIGHT_POSITION, BOUNCE_BOTTOM_POSITION, 135, -45f
-                ),
-                arrayOf(
-                    "RIGHT_BOTTOM_NO_BOUNCE", RIGHT_BORDER_POSITION, BOTTOM_BORDER_POSITION,
-                    BOUNCE_RIGHT_POSITION, BOUNCE_BOTTOM_POSITION, -45, -45f
-                )
-            )
-        )
+        fun parameters() = (-179..180).flatMap { initialDirection -> listOf(
+            arrayOf("TOP_BOUNCE", 0f, TOP_BORDER_POSITION, 0f, BOUNCE_TOP_POSITION, initialDirection,
+                    getExpectedDirection(initialDirection, (-90..89).toSet(), 180)),
+            arrayOf("BOTTOM_BOUNCE", 0f, BOTTOM_BORDER_POSITION, 0f, BOUNCE_BOTTOM_POSITION, initialDirection,
+                    getExpectedDirection(initialDirection, (-179..-91).union(90..180), 180)),
+            arrayOf("LEFT_BOUNCE", LEFT_BORDER_POSITION, 0f, BOUNCE_LEFT_POSITION, 0f, initialDirection,
+                    getExpectedDirection(initialDirection, (-179..-1).toSet(), 0)),
+            arrayOf("RIGHT_BOUNCE", RIGHT_BORDER_POSITION, 0f, BOUNCE_RIGHT_POSITION, 0f, initialDirection,
+                    getExpectedDirection(initialDirection, (0..179).toSet(), 0)),
+            arrayOf("NO_BOUNCE", 0f, 0f, 0f, 0f, initialDirection, initialDirection.toFloat())
+        ) }.plus(listOf(
+            arrayOf("LEFT_TOP_BOUNCE", LEFT_BORDER_POSITION, TOP_BORDER_POSITION,
+                    BOUNCE_LEFT_POSITION, BOUNCE_TOP_POSITION, -45, 135f),
+            arrayOf("LEFT_TOP_NO_BOUNCE", LEFT_BORDER_POSITION, TOP_BORDER_POSITION,
+                    BOUNCE_LEFT_POSITION, BOUNCE_TOP_POSITION, 135, 135f),
+            arrayOf("RIGHT_TOP_BOUNCE", RIGHT_BORDER_POSITION, TOP_BORDER_POSITION,
+                    BOUNCE_RIGHT_POSITION, BOUNCE_TOP_POSITION, 45, -135f),
+            arrayOf("RIGHT_TOP_NO_BOUNCE", RIGHT_BORDER_POSITION, TOP_BORDER_POSITION,
+                    BOUNCE_RIGHT_POSITION, BOUNCE_TOP_POSITION, -135, -135f),
+            arrayOf("LEFT_BOTTOM_BOUNCE", LEFT_BORDER_POSITION, BOTTOM_BORDER_POSITION,
+                    BOUNCE_LEFT_POSITION, BOUNCE_BOTTOM_POSITION, -135, 45f),
+            arrayOf("LEFT_BOTTOM_NO_BOUNCE", LEFT_BORDER_POSITION, BOTTOM_BORDER_POSITION,
+                    BOUNCE_LEFT_POSITION, BOUNCE_BOTTOM_POSITION, 45, 45f),
+            arrayOf("RIGHT_BOTTOM_BOUNCE", RIGHT_BORDER_POSITION, BOTTOM_BORDER_POSITION,
+                    BOUNCE_RIGHT_POSITION, BOUNCE_BOTTOM_POSITION, 135, -45f),
+            arrayOf("RIGHT_BOTTOM_NO_BOUNCE", RIGHT_BORDER_POSITION, BOTTOM_BORDER_POSITION,
+                    BOUNCE_RIGHT_POSITION, BOUNCE_BOTTOM_POSITION, -45, -45f)
+        ))
 
         private const val WIDTH = 100f
         private const val HEIGHT = 100f
@@ -137,11 +90,7 @@ class IfOnEdgeBounceActionTest(
         private const val BOUNCE_RIGHT_POSITION = RIGHT_BORDER_POSITION - WIDTH / 2f
         private const val BOUNCE_LEFT_POSITION = -BOUNCE_RIGHT_POSITION
 
-        private fun getExpectedDirection(
-            initialDirection: Int,
-            bounceRange: Set<Int>,
-            axis: Int
-        ): Float {
+        private fun getExpectedDirection(initialDirection: Int, bounceRange: Set<Int>, axis: Int): Float {
             return when {
                 initialDirection !in bounceRange -> initialDirection
                 initialDirection >= 0 -> axis - initialDirection
@@ -171,9 +120,6 @@ class IfOnEdgeBounceActionTest(
         Assert.assertTrue(sprite.actionFactory.createIfOnEdgeBounceAction(sprite).act(1.0f))
         Assert.assertEquals(expectedPosX, sprite.look.xInUserInterfaceDimensionUnit)
         Assert.assertEquals(expectedPosY, sprite.look.yInUserInterfaceDimensionUnit)
-        Assert.assertEquals(
-            expectedDirection,
-            sprite.look.motionDirectionInUserInterfaceDimensionUnit
-        )
+        Assert.assertEquals(expectedDirection, sprite.look.motionDirectionInUserInterfaceDimensionUnit)
     }
 }

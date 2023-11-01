@@ -44,6 +44,6 @@ public class BroadcastEventId extends EventId {
 	}
 
 	public int hashCode() {
-		return message != null ? message.hashCode() : 0;
+		return (message != null ? message.hashCode() : 0);
 	}
 }

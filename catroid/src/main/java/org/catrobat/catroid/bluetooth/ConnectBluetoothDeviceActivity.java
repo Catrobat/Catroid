@@ -122,7 +122,7 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 		btConnectionFactory = connectionFactory;
 	}
 
-	private final OnItemClickListener deviceClickListener = new OnItemClickListener() {
+	private OnItemClickListener deviceClickListener = new OnItemClickListener() {
 
 		private String getSelectedBluetoothAddress(View view) {
 			TextView textViewAddresses = view.findViewById(R.id.bluetooth_address);
@@ -152,7 +152,7 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 
 			if (android.bluetooth.BluetoothDevice.ACTION_FOUND.equals(action)) {
 				android.bluetooth.BluetoothDevice device = intent.getParcelableExtra(android.bluetooth.BluetoothDevice.EXTRA_DEVICE);
-				if (device.getBondState() != android.bluetooth.BluetoothDevice.BOND_BONDED) {
+				if ((device.getBondState() != android.bluetooth.BluetoothDevice.BOND_BONDED)) {
 					if (device.getType() == DEVICE_TYPE_CLASSIC || device.getType() == DEVICE_TYPE_DUAL) {
 						Pair<Pair<String, String>, Integer> listElement = new Pair<>(new Pair<>(device.getName(), device.getAddress()), DEVICE_TYPE_CLASSIC);
 						if (newDevicesArrayAdapter.getPosition(listElement) < 0) {
@@ -271,7 +271,7 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 
 		handler = new Handler();
 
-		pairedDevicesArrayAdapter = new ArrayAdapter<>(this, R.layout.bluetooth_connection_screen) {
+		pairedDevicesArrayAdapter = new ArrayAdapter<Pair<String, String>>(this, R.layout.bluetooth_connection_screen) {
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
 				if (convertView == null) {
@@ -289,7 +289,7 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 			}
 		};
 
-		newDevicesArrayAdapter = new ArrayAdapter<>(this, R.layout.bluetooth_connection_screen) {
+		newDevicesArrayAdapter = new ArrayAdapter<Pair<Pair<String, String>, Integer>>(this, R.layout.bluetooth_connection_screen) {
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
 				if (convertView == null) {

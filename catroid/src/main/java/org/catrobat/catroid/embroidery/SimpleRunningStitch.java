@@ -27,8 +27,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.StageActivity;
 
 public class SimpleRunningStitch extends RunningStitchType {
-	private final Sprite sprite;
-	private final int length;
+	private Sprite sprite;
+	private int length;
 	private boolean first;
 	private float firstX = 0;
 	private float firstY = 0;
@@ -51,7 +51,7 @@ public class SimpleRunningStitch extends RunningStitchType {
 	public void update(float currentX, float currentY) {
 		float distance = getDistanceToPoint(currentX, firstX, currentY, firstY);
 		if (distance >= length) {
-			float surplusPercentage = (distance - (distance % length)) / distance;
+			float surplusPercentage = ((distance - (distance % length)) / distance);
 			currentX = firstX + (surplusPercentage * (currentX - firstX));
 			currentY = firstY + (surplusPercentage * (currentY - firstY));
 			distance -= distance % length;

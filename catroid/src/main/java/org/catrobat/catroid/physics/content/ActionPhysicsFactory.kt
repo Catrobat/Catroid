@@ -48,8 +48,7 @@ class ActionPhysicsFactory : ActionFactory() {
     private val physicsWorld: PhysicsWorld
         get() = ProjectManager.getInstance().currentlyPlayingScene.physicsWorld
 
-    private fun getPhysicsObject(sprite: Sprite): PhysicsObject =
-        physicsWorld.getPhysicsObject(sprite)
+    private fun getPhysicsObject(sprite: Sprite): PhysicsObject = physicsWorld.getPhysicsObject(sprite)
 
     override fun createIfOnEdgeBounceAction(sprite: Sprite): Action {
         val action = Actions.action(IfOnEdgeBouncePhysicsAction::class.java)
@@ -58,13 +57,7 @@ class ActionPhysicsFactory : ActionFactory() {
         return action
     }
 
-    override fun createGlideToAction(
-        sprite: Sprite,
-        sequence: SequenceAction,
-        x: Formula?,
-        y: Formula?,
-        duration: Formula?
-    ): Action {
+    override fun createGlideToAction(sprite: Sprite, sequence: SequenceAction, x: Formula?, y: Formula?, duration: Formula?): Action {
         val action = Actions.action(GlideToPhysicsAction::class.java)
         action.setPosition(x, y)
         action.setDuration(duration)
@@ -74,11 +67,7 @@ class ActionPhysicsFactory : ActionFactory() {
         return action
     }
 
-    override fun createSetBounceFactorAction(
-        sprite: Sprite,
-        sequence: SequenceAction,
-        bounceFactor: Formula?
-    ): Action {
+    override fun createSetBounceFactorAction(sprite: Sprite, sequence: SequenceAction, bounceFactor: Formula?): Action {
         val action = Actions.action(SetBounceFactorAction::class.java)
         val scope = Scope(ProjectManager.getInstance().currentProject, sprite, sequence)
         action.setScope(scope)
@@ -87,11 +76,7 @@ class ActionPhysicsFactory : ActionFactory() {
         return action
     }
 
-    override fun createSetFrictionAction(
-        sprite: Sprite,
-        sequence: SequenceAction,
-        friction: Formula?
-    ): Action {
+    override fun createSetFrictionAction(sprite: Sprite, sequence: SequenceAction, friction: Formula?): Action {
         val action = Actions.action(SetFrictionAction::class.java)
         val scope = Scope(ProjectManager.getInstance().currentProject, sprite, sequence)
         action.setScope(scope)
@@ -100,12 +85,7 @@ class ActionPhysicsFactory : ActionFactory() {
         return action
     }
 
-    override fun createSetGravityAction(
-        sprite: Sprite,
-        sequence: SequenceAction,
-        gravityX: Formula?,
-        gravityY: Formula?
-    ): Action {
+    override fun createSetGravityAction(sprite: Sprite, sequence: SequenceAction, gravityX: Formula?, gravityY: Formula?): Action {
         val action = Actions.action(SetGravityAction::class.java)
         val scope = Scope(ProjectManager.getInstance().currentProject, sprite, sequence)
         action.setScope(scope)
@@ -114,11 +94,7 @@ class ActionPhysicsFactory : ActionFactory() {
         return action
     }
 
-    override fun createSetMassAction(
-        sprite: Sprite,
-        sequence: SequenceAction,
-        mass: Formula?
-    ): Action {
+    override fun createSetMassAction(sprite: Sprite, sequence: SequenceAction, mass: Formula?): Action {
         val action = Actions.action(SetMassAction::class.java)
         val scope = Scope(ProjectManager.getInstance().currentProject, sprite, sequence)
         action.setScope(scope)
@@ -127,22 +103,14 @@ class ActionPhysicsFactory : ActionFactory() {
         return action
     }
 
-    override fun createSetPhysicsObjectTypeAction(
-        sprite: Sprite,
-        type: PhysicsObject.Type
-    ): Action {
+    override fun createSetPhysicsObjectTypeAction(sprite: Sprite, type: PhysicsObject.Type): Action {
         val action = Actions.action(SetPhysicsObjectTypeAction::class.java)
         action.setPhysicsObject(getPhysicsObject(sprite))
         action.setType(type)
         return action
     }
 
-    override fun createSetVelocityAction(
-        sprite: Sprite,
-        sequence: SequenceAction,
-        velocityX: Formula?,
-        velocityY: Formula?
-    ): Action {
+    override fun createSetVelocityAction(sprite: Sprite, sequence: SequenceAction, velocityX: Formula?, velocityY: Formula?): Action {
         val action = Actions.action(SetVelocityAction::class.java)
         val scope = Scope(ProjectManager.getInstance().currentProject, sprite, sequence)
         action.setScope(scope)
@@ -151,11 +119,7 @@ class ActionPhysicsFactory : ActionFactory() {
         return action
     }
 
-    override fun createTurnLeftSpeedAction(
-        sprite: Sprite,
-        sequence: SequenceAction,
-        speed: Formula?
-    ): Action {
+    override fun createTurnLeftSpeedAction(sprite: Sprite, sequence: SequenceAction, speed: Formula?): Action {
         val action = Actions.action(TurnLeftSpeedAction::class.java)
         val scope = Scope(ProjectManager.getInstance().currentProject, sprite, sequence)
         action.setScope(scope)
@@ -164,11 +128,7 @@ class ActionPhysicsFactory : ActionFactory() {
         return action
     }
 
-    override fun createTurnRightSpeedAction(
-        sprite: Sprite,
-        sequence: SequenceAction,
-        speed: Formula?
-    ): Action {
+    override fun createTurnRightSpeedAction(sprite: Sprite, sequence: SequenceAction, speed: Formula?): Action {
         val action = Actions.action(TurnRightSpeedAction::class.java)
         val scope = Scope(ProjectManager.getInstance().currentProject, sprite, sequence)
         action.setScope(scope)

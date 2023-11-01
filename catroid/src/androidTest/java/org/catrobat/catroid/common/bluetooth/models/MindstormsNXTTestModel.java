@@ -37,14 +37,14 @@ public class MindstormsNXTTestModel implements DeviceModel {
 	private boolean isRunning = true;
 	private static final byte SHOULD_REPLY = 0x0;
 	private static final byte NO_ERROR = 0x0;
-	private final Random random = new Random(System.currentTimeMillis());
-	private final byte[] batteryValue = {getRandomByte(256), getRandomByte(256)};
-	private final byte[] keepAliveTime = {getRandomByte(256), getRandomByte(256), getRandomByte(256), getRandomByte(256)};
+	private Random random = new Random(System.currentTimeMillis());
+	private byte[] batteryValue = {getRandomByte(256), getRandomByte(256)};
+	private byte[] keepAliveTime = {getRandomByte(256), getRandomByte(256), getRandomByte(256), getRandomByte(256)};
 
-	private final byte[] portSensorType = {0, 0, 0, 0};
-	private final byte[] portSensorMode = {0, 0, 0, 0};
+	private byte[] portSensorType = {0, 0, 0, 0};
+	private byte[] portSensorMode = {0, 0, 0, 0};
 
-	private final byte[] sensorValue = {getRandomByte(256), getRandomByte(256)};
+	private byte[] sensorValue = {getRandomByte(256), getRandomByte(256)};
 
 	private byte ultrasonicSensorBytesReady = 0;
 
@@ -336,7 +336,7 @@ public class MindstormsNXTTestModel implements DeviceModel {
 
 		while (isRunning) {
 			inStream.readFully(messageLengthBuffer, 0, 2);
-			int expectedMessageLength = (messageLengthBuffer[0] & 0xFF) | (messageLengthBuffer[1] & 0xFF) << 8;
+			int expectedMessageLength = ((messageLengthBuffer[0] & 0xFF) | (messageLengthBuffer[1] & 0xFF) << 8);
 			handleClientMessage(expectedMessageLength, inStream, outStream);
 		}
 	}
@@ -365,10 +365,12 @@ public class MindstormsNXTTestModel implements DeviceModel {
 
 	private byte[] getMessageLength(byte[] message) {
 
-		return new byte[] {
+		byte[] messageLength = {
 				(byte) (message.length & 0x00FF),
 				(byte) ((message.length & 0xFF00) >> 8)
 		};
+
+		return messageLength;
 	}
 
 	public void setSensorValue(int value) {

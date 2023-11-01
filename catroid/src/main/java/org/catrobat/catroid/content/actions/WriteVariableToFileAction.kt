@@ -70,14 +70,13 @@ class WriteVariableToFileAction : Action(), IntentListener {
 
     private fun writeUsingSystemFilePicker() {
         StageActivity.messageHandler?.obtainMessage(
-            StageActivity.REGISTER_INTENT, arrayListOf(this)
-        )?.sendToTarget()
+            StageActivity.REGISTER_INTENT, arrayListOf(this))?.sendToTarget()
     }
 
     private fun writeUsingLegacyExternalStorage() {
         val fileName = getFileName()
         createFile(fileName)?.let {
-            val content = userVariable?.value.toString()
+            val content = userVariable?.value.toString() ?: "0"
             writeToFile(it, content)
         }
     }
@@ -87,9 +86,7 @@ class WriteVariableToFileAction : Action(), IntentListener {
         val file = File(Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY, fileName)
         return if (file.exists() || file.createNewFile()) {
             file
-        } else {
-            null
-        }
+        } else null
     }
 
     @VisibleForTesting

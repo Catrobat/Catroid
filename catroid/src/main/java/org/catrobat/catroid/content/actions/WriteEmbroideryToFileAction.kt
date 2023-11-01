@@ -75,8 +75,7 @@ class WriteEmbroideryToFileAction : Action(), IntentListener {
 
     private fun writeUsingSystemFilePicker() {
         StageActivity.messageHandler?.obtainMessage(
-            StageActivity.REGISTER_INTENT, arrayListOf(this)
-        )?.sendToTarget()
+            StageActivity.REGISTER_INTENT, arrayListOf(this))?.sendToTarget()
     }
 
     private fun writeUsingLegacyExternalStorage() {
@@ -101,9 +100,7 @@ class WriteEmbroideryToFileAction : Action(), IntentListener {
         val file = File(Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY, fileName)
         return if (file.exists() || file.createNewFile()) {
             file
-        } else {
-            null
-        }
+        } else null
     }
 
     @VisibleForTesting
@@ -146,8 +143,7 @@ class WriteEmbroideryToFileAction : Action(), IntentListener {
 
     private fun writeEmbroideryDataToFile(destinationFile: File) {
         val dstFileGenerator = DSTFileGenerator(
-            stageListener.embroideryPatternManager.embroideryStream
-        )
+            stageListener.embroideryPatternManager.embroideryStream)
         dstFileGenerator.writeToDSTFile(destinationFile)
     }
 

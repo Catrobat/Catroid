@@ -108,7 +108,7 @@ public class GlideToAction extends TemporalAction {
 	protected void update(float percent) {
 		float deltaX = scope.getSprite().look.getXInUserInterfaceDimensionUnit() - currentXValue;
 		float deltaY = scope.getSprite().look.getYInUserInterfaceDimensionUnit() - currentYValue;
-		if (-0.1f > deltaX || deltaX > 0.1f || -0.1f > deltaY || deltaY > 0.1f) {
+		if ((-0.1f > deltaX || deltaX > 0.1f) || (-0.1f > deltaY || deltaY > 0.1f)) {
 			restart = true;
 			setDuration(getDuration() - getTime());
 			restart();

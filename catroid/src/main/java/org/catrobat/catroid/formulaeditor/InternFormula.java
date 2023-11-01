@@ -98,10 +98,10 @@ public class InternFormula {
 				|| externInternRepresentationMapping.getInternTokenByExternIndex(externCursorPosition) != ExternInternRepresentationMapping.MAPPING_NOT_FOUND
 				&& (getFirstLeftInternToken(externCursorPosition - 1) == cursorPositionInternToken || cursorPositionInternToken
 				.isFunctionParameterBracketOpen())
-				&& (cursorPositionInternToken.isFunctionName()
-				|| cursorPositionInternToken.isFunctionParameterBracketOpen() && cursorTokenPosition == CursorTokenPosition.LEFT
-				|| cursorPositionInternToken.isSensor() || cursorPositionInternToken.isUserVariable()
-				|| cursorPositionInternToken.isUserList() || cursorPositionInternToken.isString())) {
+				&& ((cursorPositionInternToken.isFunctionName())
+				|| (cursorPositionInternToken.isFunctionParameterBracketOpen() && cursorTokenPosition == CursorTokenPosition.LEFT)
+				|| (cursorPositionInternToken.isSensor()) || (cursorPositionInternToken.isUserVariable())
+				|| (cursorPositionInternToken.isUserList()) || (cursorPositionInternToken.isString()))) {
 			selectCursorPositionInternToken(TokenSelectionType.USER_SELECTION);
 		}
 	}
@@ -205,6 +205,9 @@ public class InternFormula {
 
 		switch (cursorTokenPosition) {
 			case LEFT:
+				this.cursorPositionInternToken = internTokenFormulaList.get(cursorPositionTokenIndex);
+				this.cursorPositionInternTokenIndex = cursorPositionTokenIndex;
+				break;
 			case MIDDLE:
 				this.cursorPositionInternToken = internTokenFormulaList.get(cursorPositionTokenIndex);
 				this.cursorPositionInternTokenIndex = cursorPositionTokenIndex;
@@ -230,14 +233,15 @@ public class InternFormula {
 	private CursorTokenPropertiesAfterModification replaceSelection(List<InternToken> tokenListToInsert) {
 
 		if (InternFormulaUtils.isPeriodToken(tokenListToInsert)) {
-			tokenListToInsert = new LinkedList<>();
+			tokenListToInsert = new LinkedList<InternToken>();
 			tokenListToInsert.add(new InternToken(InternTokenType.NUMBER, "0."));
 		}
 
 		int internTokenSelectionStart = internFormulaTokenSelection.getStartIndex();
 		int internTokenSelectionEnd = internFormulaTokenSelection.getEndIndex();
 
-		if (internTokenSelectionStart > internTokenSelectionEnd || internTokenSelectionStart < 0) {
+		if (internTokenSelectionStart > internTokenSelectionEnd || internTokenSelectionStart < 0
+				|| internTokenSelectionEnd < 0) {
 
 			internFormulaTokenSelection = null;
 			return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
@@ -267,7 +271,7 @@ public class InternFormula {
 	}
 
 	private void deleteInternTokens(int deleteIndexStart, int deleteIndexEnd) {
-		List<InternToken> tokenListToInsert = new LinkedList<>();
+		List<InternToken> tokenListToInsert = new LinkedList<InternToken>();
 		replaceInternTokens(tokenListToInsert, deleteIndexStart, deleteIndexEnd);
 	}
 
@@ -686,7 +690,7 @@ public class InternFormula {
 		if (cursorPositionInternToken == null) {
 
 			if (InternFormulaUtils.isPeriodToken(internTokensToInsert)) {
-				internTokensToInsert = new LinkedList<>();
+				internTokensToInsert = new LinkedList<InternToken>();
 				internTokensToInsert.add(new InternToken(InternTokenType.NUMBER, "0."));
 			}
 			internTokenFormulaList.addAll(0, internTokensToInsert);
@@ -918,7 +922,7 @@ public class InternFormula {
 
 	public InternFormulaState getInternFormulaState() {
 
-		List<InternToken> deepCopyOfInternTokenFormula = new LinkedList<>();
+		List<InternToken> deepCopyOfInternTokenFormula = new LinkedList<InternToken>();
 		InternFormulaTokenSelection deepCopyOfInternFormulaTokenSelection = null;
 
 		for (InternToken tokenToCopy : internTokenFormulaList) {
@@ -1089,13 +1093,15 @@ public class InternFormula {
 			return;
 		}
 
-		cursorPositionInternTokenIndex = indexOfRegularExpression + 2;
+		int indexOfFirstParam = indexOfRegularExpression + 2;
+
+		cursorPositionInternTokenIndex = indexOfFirstParam;
 		updateExternCursorPosition(CursorTokenPropertiesAfterModification.RIGHT);
 		setCursorAndSelection(externCursorPosition, true);
 	}
 
 	public int getIndexOfCorrespondingRegularExpression() {
-		int indexOfSelectedToken;
+		int indexOfSelectedToken = -1;
 		if (internFormulaTokenSelection != null) {
 			indexOfSelectedToken = internFormulaTokenSelection.getStartIndex();
 
@@ -1170,7 +1176,7 @@ public class InternFormula {
 			return true;
 		}
 		return !(cursorTokenPosition == null
-				|| cursorTokenPosition == CursorTokenPosition.LEFT && getFirstLeftInternToken(externCursorPosition - 1) == null);
+				|| (cursorTokenPosition == CursorTokenPosition.LEFT && getFirstLeftInternToken(externCursorPosition - 1) == null));
 	}
 
 	public void setInternTokenFormulaList(List<InternToken> list) {

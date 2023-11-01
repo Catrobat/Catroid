@@ -60,15 +60,18 @@ public abstract class MindstormsReply {
 	}
 
 	public int getShort(int offset) {
-		int value = (data[offset] & 0xFF) | (data[offset + 1] & 0xFF) << 8;
+		int value = ((data[offset] & 0xFF) | (data[offset + 1] & 0xFF) << 8);
 
 		return (short) value;
 	}
 
 	public int getInt(int offset) {
-		return (data[offset] & 0xFF)
+		int value = ((data[offset] & 0xFF)
 				| (data[offset + 1] & 0xFF) << 8
 				| (data[offset + 2] & 0xFF) << 16
-				| (data[offset + 3] & 0xFF) << 24;
+				| (data[offset + 3] & 0xFF) << 24
+		);
+
+		return value;
 	}
 }

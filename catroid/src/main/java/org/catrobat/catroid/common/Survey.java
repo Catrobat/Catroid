@@ -128,7 +128,7 @@ public class Survey implements GetSurveyTask.SurveyResponseListener {
 			boolean showSurvey = PreferenceManager.getDefaultSharedPreferences(context)
 					.getBoolean(SHOW_SURVEY_KEY, false);
 
-			if (!DateUtils.isToday(oldDate) || showSurvey && getUploadFlag()) {
+			if (!DateUtils.isToday(oldDate) || (showSurvey && getUploadFlag())) {
 				if (Utils.isNetworkAvailable(context)) {
 					getSurvey(context);
 				} else {
