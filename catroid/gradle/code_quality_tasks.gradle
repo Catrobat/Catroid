@@ -75,6 +75,6 @@ task pmd(type: Pmd) {
 
 detekt {
     toolVersion = "1.23.0"
-    config = files("config/detekt.yml")
+    config.setFrom("config/detekt.yml")
     input = files("src")
 }
