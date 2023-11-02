@@ -58,7 +58,6 @@ import org.catrobat.catroid.databinding.DialogReplaceApiKeyBinding
 import org.catrobat.catroid.databinding.DialogUploadUnchangedProjectBinding
 import org.catrobat.catroid.exceptions.ProjectException
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
-import org.catrobat.catroid.io.asynctask.ProjectLoadTask.ProjectLoadListener
 import org.catrobat.catroid.retrofit.models.ProjectUploadResponseApi
 import org.catrobat.catroid.transfers.ProjectUploadTask
 import org.catrobat.catroid.io.asynctask.ProjectLoader.ProjectLoadListener
@@ -66,12 +65,6 @@ import org.catrobat.catroid.io.asynctask.loadProject
 import org.catrobat.catroid.io.asynctask.renameProject
 import org.catrobat.catroid.transfers.TagsTask
 import org.catrobat.catroid.transfers.TokenTask
-import org.catrobat.catroid.transfers.GetTagsTask
-import org.catrobat.catroid.transfers.GetTagsTask.TagResponseListener
-import org.catrobat.catroid.transfers.project.ResultReceiverWrapper
-import org.catrobat.catroid.transfers.project.ResultReceiverWrapperInterface
-import org.catrobat.catroid.ui.controller.ProjectUploadController
-import org.catrobat.catroid.ui.controller.ProjectUploadController.ProjectUploadInterface
 import org.catrobat.catroid.utils.FileMetaDataExtractor
 import org.catrobat.catroid.utils.NetworkConnectionMonitor
 import org.catrobat.catroid.utils.ProjectZipper

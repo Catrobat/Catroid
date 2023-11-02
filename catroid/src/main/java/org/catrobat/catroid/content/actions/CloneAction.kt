@@ -24,7 +24,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-<<<<<<<< HEAD:catroid/src/main/java/org/catrobat/catroid/content/actions/CloneAction.kt
+
 package org.catrobat.catroid.content.actions
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
@@ -41,18 +41,4 @@ class CloneAction : TemporalAction() {
     fun setSprite(sprite: Sprite?) {
         this.sprite = sprite
     }
-========
-package org.catrobat.catroid.ui.dragndrop
-
-import org.catrobat.catroid.content.bricks.Brick
-
-interface BrickAdapterInterface {
-    fun setItemVisible(position: Int, visible: Boolean)
-    fun setAllPositionsVisible()
-    fun onItemMove(fromPosition: Int, toPosition: Int): Boolean
-    fun moveItemTo(position: Int, brickToMove: Brick?)
-    fun getItem(position: Int): Brick?
-    fun getPosition(brick: Brick?): Int
-    fun removeItems(items: List<Brick>): Boolean
->>>>>>>> c04672eb2 (IDE-89 Redesign project upload (#4752)):catroid/src/main/java/org/catrobat/catroid/ui/dragndrop/BrickAdapterInterface.kt
 }

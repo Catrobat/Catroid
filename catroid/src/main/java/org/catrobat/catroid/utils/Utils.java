@@ -36,10 +36,10 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.webkit.CookieManager;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.CookieManager;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -90,8 +90,6 @@ import static org.catrobat.catroid.common.Constants.MAX_FILE_NAME_LENGTH;
 import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.io.asynctask.ProjectSaverKt.saveProjectSerial;
-import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_CODE_INVALID;
-import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_LENGTH;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.GOOGLE_LOGIN_CATROWEB_SERVER_CLIENT_ID;
 import static org.koin.java.KoinJavaComponent.get;
 

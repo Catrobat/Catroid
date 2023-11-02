@@ -36,9 +36,8 @@ import org.catrobat.catroid.retrofit.models.FeaturedProject
 import org.catrobat.catroid.retrofit.models.LoginResponse
 import org.catrobat.catroid.retrofit.models.LoginUser
 import org.catrobat.catroid.retrofit.models.OAuthLogin
+import org.catrobat.catroid.retrofit.models.ProjectResponse
 import org.catrobat.catroid.retrofit.models.ProjectUploadResponseApi
-import org.catrobat.catroid.retrofit.models.ProjectsCategory
-import org.catrobat.catroid.retrofit.models.User
 import org.catrobat.catroid.retrofit.models.ProjectsCategoryApi
 import org.catrobat.catroid.retrofit.models.RefreshToken
 import org.catrobat.catroid.retrofit.models.RegisterUser
@@ -94,7 +93,6 @@ interface WebService {
 
     @POST("user")
     fun register(
-        @Header("Authorization") bearerToken: String,
         @Body user: RegisterUser
     ): Call<LoginResponse>
 
@@ -128,6 +126,17 @@ interface WebService {
         @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
         @Part projectFile: MultipartBody.Part
     ) : Call<ProjectUploadResponseApi>
+
+    @SuppressWarnings("LongParameterList")
+    @GET("projects/user")
+    fun getUserProjects(
+        @Header("Authorization") bearerToken: String,
+        @Query("max_version") maxVersion: String = CURRENT_CATROBAT_LANGUAGE_VERSION.toString(),
+        @Query("limit") limit: Int = 20,
+        @Query("offset") offset: Int = 0,
+        @Query("attributes") attributes: String = "id,name,description",
+        @Query("flavor") flavor: String = FLAVOR_NAME
+    ): Call<List<ProjectResponse>>
 }
 
 class CatroidWebServer private constructor() {
