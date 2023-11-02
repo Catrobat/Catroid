@@ -311,8 +311,8 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
     ) {
         val userListDialog = AddUserListDialog(builder)
         userListDialog.show(
-            requireActivity().getString(R.string.data_label),
-            requireActivity().getString(R.string.ok),
+            activity?.getString(R.string.data_label),
+            activity?.getString(R.string.ok),
             object : AddUserListDialog.Callback {
                 override fun onPositiveButton(
                     dialog: DialogInterface,

@@ -44,7 +44,7 @@ class CategoryListRVAdapter(private val items: List<CategoryListItem>) :
         var nameResId: Int,
         var text: String?,
         @CategoryListItemType var type: Int,
-        @JvmField var header: String? = null
+        var header: String? = null
     ) {
         init {
             if (nameResId == R.string.formula_editor_function_regex_assistant) {
