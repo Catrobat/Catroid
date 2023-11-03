@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.test.io.asynctask;
 
-import android.Manifest;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.net.Uri;
@@ -39,7 +38,6 @@ import org.catrobat.catroid.utils.notifications.NotificationData;
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -52,7 +50,6 @@ import java.util.zip.ZipFile;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.rule.GrantPermissionRule;
 
 import static org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION;
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
@@ -71,11 +68,6 @@ public class ProjectExportTaskTest {
 	private Project project;
 	private Context contextMock;
 	private File projectZip;
-
-	@Rule
-	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(
-			Manifest.permission.WRITE_EXTERNAL_STORAGE,
-			Manifest.permission.READ_EXTERNAL_STORAGE);
 
 	@Before
 	public void setUp() {
