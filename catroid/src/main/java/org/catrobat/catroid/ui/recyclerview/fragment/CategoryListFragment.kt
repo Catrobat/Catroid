@@ -346,8 +346,9 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
                 }
 
                 val formulaEditor = getFormulaEditorFragment()
-                val sensorPortsId = if (type == Constants.NXT) R.array.formula_editor_nxt_ports
-                    else R.array.formula_editor_ev3_ports
+                val sensorPortsId = if (type == Constants.NXT) {
+                    R.array.formula_editor_nxt_ports
+                } else R.array.formula_editor_ev3_ports
                 val sensorPorts = resources.obtainTypedArray(sensorPortsId)
 
                 try {
