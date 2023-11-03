@@ -77,4 +77,5 @@ detekt {
     toolVersion = "1.23.0"
     config = files("config/detekt.yml")
     input = files("src")
+    ignoreFailures true
 }

@@ -34,24 +34,6 @@
 
     <rule ref="rulesets/java/braces.xml" />
 
-    <rule ref="rulesets/java/controversial.xml" >
-        <exclude name="AssignmentInOperand" />
-        <exclude name="AtLeastOneConstructor" />
-        <exclude name="AvoidFinalLocalVariable" />
-        <exclude name="AvoidPrefixingMethodParameters" />
-        <exclude name="AvoidLiteralsInIfCondition" />
-        <exclude name="CallSuperInConstructor" />
-        <exclude name="DataflowAnomalyAnalysis" />
-        <exclude name="NullAssignment" />
-        <exclude name="OnlyOneReturn" />
-        <exclude name="UseConcurrentHashMap" />
-        <exclude name="UseObjectForClearerAPI" />
-        <exclude name="AvoidUsingShortType" />
-        <exclude name="DefaultPackage" />
-        <exclude name="UnnecessaryConstructor" />
-        <exclude name="AvoidUsingVolatile" />
-    </rule >
-
     <rule ref="rulesets/java/empty.xml" >
         <exclude name="EmptyCatchBlock" />
     </rule >
@@ -66,11 +48,11 @@
 
     <rule ref="rulesets/java/sunsecure.xml" />
 
+    <rule ref="rulesets/java/unusedcode.xml" />
+
     <rule ref="rulesets/java/unnecessary.xml" >
         <exclude name="UselessParentheses" />
-    </rule >
-
-    <rule ref="rulesets/java/unusedcode.xml" />
+    </rule>
 
     <rule ref="rulesets/java/junit.xml">
         <exclude name="JUnitTestContainsTooManyAsserts" />

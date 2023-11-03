@@ -1918,13 +1918,15 @@ needs read and write access to it. You can always change permissions through you
     <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_nxt_light">EV3 NXT light</string>
     <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">EV3 NXT light active</string>
     <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">EV3 NXT sound</string>
-     <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT ultrasonic</string>
+    <string formatted="false" name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT ultrasonic</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_a_pressed">gamepad A pressed</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_b_pressed">gamepad B pressed</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_up_pressed">gamepad up pressed</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_down_pressed">gamepad down pressed</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_left_pressed">gamepad left pressed</string>
     <string formatted="false" name="formula_editor_sensor_gamepad_right_pressed">gamepad right pressed</string>
+    <string formatted="false" name="formula_editor_sensor_stage_width">stage width</string>
+    <string formatted="false" name="formula_editor_sensor_stage_height">stage height</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_left">phiro front left sensor</string>
     <string formatted="false" name="formula_editor_phiro_sensor_front_right">phiro front right sensor</string>
     <string formatted="false" name="formula_editor_phiro_sensor_side_left">phiro side left sensor</string>

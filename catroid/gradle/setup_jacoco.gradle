@@ -71,7 +71,10 @@ project.afterEvaluate {
                     "$project.projectDir/src/${variantName}/kotlin"
             ]))
 
-            getExecutionData().from(files("${project.buildDir}/jacoco/${testTaskName}.exec"))
+            getExecutionData().from(files(
+                    "${project.buildDir}/code_coverage/**/*.ec",
+                    "${project.buildDir}/outputs/unit_test_code_coverage/${variant.name}UnitTest/${testTaskName}.exec",
+            ))
         }
     }
 }

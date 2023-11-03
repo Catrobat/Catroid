@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.ManagedVirtualDevice
+
 /*
  * Catroid: An on-device visual programming system for Android devices
  * Copyright (C) 2010-2023 The Catrobat Team
@@ -63,7 +65,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 apply from: 'gradle/code_quality_tasks.gradle'
-apply from: 'gradle/emulator_tasks.gradle'
 apply from: 'gradle/release_crowdin_tasks.gradle'
 apply from: 'gradle/release_fastlane_tasks.gradle'
 apply from: 'gradle/standalone_apk_tasks.gradle'
@@ -104,7 +105,8 @@ def defaultVersionCode = 88
 def defaultVersionName = "1.1.2"
 
 android {
-    compileSdkVersion 33
+    compileSdk 33
+    buildToolsVersion = "33.0.2"
 
     namespace 'org.catrobat.catroid'
 
@@ -184,6 +186,7 @@ android {
         unitTests.all {
             jvmArgs '-Xmx2g'
         }
+        animationsDisabled = true
     }
 
     sourceSets {
@@ -254,29 +257,26 @@ android {
         }
     }
 
-    flavorDimensions "default"
+    flavorDimensions = ["default"]
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
-    aaptOptions {
+    androidResources {
         noCompress 'lite'
     }
-
-    lintOptions {
-        lintConfig file('config/lint.xml')
-        ignore 'GradleDependency', 'OldTargetApi', 'ExtraTranslation', 'MissingTranslation',
-                'LintBaseline', 'ObsoleteLintCustomCheck'
-
+    lint {
         abortOnError false
-
-        textReport true
-        xmlReport true
-        htmlReport true
-        xmlOutput file("build/reports/lint-report.xml")
-        htmlOutput file("build/reports/lint-report.html")
         baseline file('config/lint-baseline.xml')
+        htmlOutput file('build/reports/lint-report.html')
+        htmlReport true
+        ignore 'GradleDependency', 'OldTargetApi', 'ExtraTranslation', 'MissingTranslation', 'LintBaseline', 'ObsoleteLintCustomCheck'
+        lintConfig file('config/lint.xml')
+        textReport true
+        xmlOutput file('build/reports/lint-report.xml')
+        xmlReport true
     }
+
 
     productFlavors {
         catroid {
@@ -375,7 +375,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
     androidTestImplementation project(path: ':catroid')
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
-    androidTestImplementation ('androidx.arch.core:core-testing:2.1.0') {
+    androidTestImplementation('androidx.arch.core:core-testing:2.2.0') {
         exclude group: 'org.mockito', module: 'mockito-core'
     }
 
@@ -492,7 +492,7 @@ dependencies {
     }
     androidTestImplementation "androidx.test.espresso:espresso-web:$espressoVersion"
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.2'
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
     testImplementation 'org.hamcrest:hamcrest-library:1.3'
 
@@ -515,7 +515,9 @@ dependencies {
     androidTestImplementation "org.mockito:mockito-android:$mockitoVersion"
     androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"
 
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.ext:junit-ktx:1.1.5'
+
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
