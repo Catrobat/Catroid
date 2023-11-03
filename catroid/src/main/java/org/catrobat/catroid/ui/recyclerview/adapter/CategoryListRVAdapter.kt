@@ -24,7 +24,6 @@
 package org.catrobat.catroid.ui.recyclerview.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.IntDef
@@ -42,7 +41,7 @@ class CategoryListRVAdapter(private val items: List<CategoryListItem>) :
 
     data class CategoryListItem(
         var nameResId: Int,
-        var text: String?,
+        var text: String,
         @CategoryListItemType var type: Int,
         var header: String? = null
     ) {
@@ -67,11 +66,11 @@ class CategoryListRVAdapter(private val items: List<CategoryListItem>) :
             headlineView.text = items[position].header
         }
         holder.title.text = item.text
-        holder.itemView.setOnClickListener(View.OnClickListener { _: View? ->
+        holder.itemView.setOnClickListener {
             onItemClickListener!!.onItemClick(
                 item
             )
-        })
+        }
     }
 
     @LayoutRes
@@ -83,12 +82,12 @@ class CategoryListRVAdapter(private val items: List<CategoryListItem>) :
 
     override fun getItemCount(): Int = items.size
 
-    fun setOnItemClickListener(listener: OnItemClickListener?) {
+    fun setOnItemClickListener(listener: OnItemClickListener) {
         onItemClickListener = listener
     }
 
     interface OnItemClickListener {
-        fun onItemClick(item: CategoryListItem?)
+        fun onItemClick(item: CategoryListItem)
     }
 
     companion object {
