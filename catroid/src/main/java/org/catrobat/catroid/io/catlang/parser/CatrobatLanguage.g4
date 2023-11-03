@@ -55,6 +55,8 @@ LIST_OR_VARIABLE_NAME: VARIABLE_REF | LIST_REF;
 
 UDB_PARAMETER: '[' (~'[' | '\\[' | ~']' | '\\]')* ']';
 BRICK_NAME: UPPERCASE LETTER* (' ' LETTER+)*;
+// TODO: ignore formula content somehow
+//FORMULA_PARMETER: '(' (~'(' | '\\(' | ~')' | '\\)')* ')';
 
 NUMBER: '-'? DIGIT+ ('.' DIGIT+)?;
 BOOLEAN: 'true' | 'false';
@@ -83,6 +85,7 @@ formula : primary_formula
         | internal_function
         | '(' formula ')'
         | formula ADDOP formula
+        | formula MULOP formula
         ;
 
 primary_formula : NUMBER
