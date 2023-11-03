@@ -69,13 +69,13 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
 
     private val projectManager: ProjectManager by inject(ProjectManager::class.java)
     private val categoryListItems: CategoryListItems = CategoryListItems()
-    private var recyclerView: RecyclerView? = null
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val parent = inflater.inflate(R.layout.fragment_list_view, container, false)
         recyclerView = parent.findViewById(R.id.recycler_view)
         setHasOptionsMenu(true)
@@ -105,36 +105,32 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         }
         val appCompatActivity = activity as AppCompatActivity? ?: return
         appCompatActivity.menuInflater.inflate(R.menu.menu_formulareditor_category, menu)
-        val supportActionBar = appCompatActivity.supportActionBar
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        appCompatActivity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    override fun onItemClick(item: CategoryListItem?) {
-        when (item!!.type) {
+    override fun onItemClick(item: CategoryListItem) {
+        when (item.type) {
             CategoryListRVAdapter.NXT -> showLegoSensorPortConfigDialog(
-                item.nameResId,
-                Constants.NXT
+                item.nameResId, Constants.NXT
             )
 
             CategoryListRVAdapter.EV3 -> showLegoSensorPortConfigDialog(
-                item.nameResId,
-                Constants.EV3
+                item.nameResId, Constants.EV3
             )
 
             CategoryListRVAdapter.COLLISION -> showSelectSpriteDialog()
+
             CategoryListRVAdapter.DEFAULT ->
-                if (categoryListItems.getListFunctions().contains(item.nameResId)) {
-                onUserListFunctionSelected(item)
-            } else if (R.string.formula_editor_function_regex_assistant == item.nameResId) {
-                regularExpressionAssistantActivityOnButtonClick()
-            } else {
-                val formulaEditorFragment =
-                    parentFragmentManager.findFragmentByTag(FormulaEditorFragment
-                                                    .FORMULA_EDITOR_FRAGMENT_TAG) as
-                        FormulaEditorFragment?
-                formulaEditorFragment?.setChosenCategoryItem(item)
-                requireActivity().onBackPressed()
-            }
+                if (categoryListItems.getListFunctions()
+                    .contains(item.nameResId)
+                ) {
+                    onUserListFunctionSelected(item)
+                } else if (R.string.formula_editor_function_regex_assistant == item.nameResId) {
+                    regularExpressionAssistantActivityOnButtonClick()
+                } else {
+                    getFormulaEditorFragment()?.setChosenCategoryItem(item)
+                    requireActivity().onBackPressed()
+                }
         }
     }
 
@@ -146,7 +142,7 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
     }
 
     private fun onOptionsMenuClick(tag: String?) {
-        val language: String = getLanguage(requireActivity())
+        val language = getLanguage(requireActivity())
         when (tag) {
             FUNCTION_TAG -> startActivity(
                 Intent(
@@ -178,8 +174,8 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         }
     }
 
-    fun getHelpUrl(tag: String?, activity: SpriteActivity): String? {
-        val language: String = getLanguage(activity)
+    fun getHelpUrl(tag: String, activity: SpriteActivity): String? {
+        val language = getLanguage(activity)
         when (tag) {
             FUNCTION_TAG -> return Constants.CATROBAT_FUNCTIONS_WIKI_URL + language
             LOGIC_TAG -> return Constants.CATROBAT_LOGIC_WIKI_URL + language
@@ -194,10 +190,9 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
 
     private fun getLanguage(activity: Activity): String {
         var language = "?language="
-        val sharedPreferences: SharedPreferences =
-            getSharedPreferences(activity.applicationContext)
+        val sharedPreferences = getSharedPreferences(activity.applicationContext)
         val languageTag = sharedPreferences.getString(SharedPreferenceKeys.LANGUAGE_TAG_KEY, "")
-        val mLocale: Locale = if (languageTag == SharedPreferenceKeys.DEVICE_LANGUAGE) {
+        val mLocale = if (languageTag == SharedPreferenceKeys.DEVICE_LANGUAGE) {
             Locale.forLanguageTag(CatroidApplication.defaultSystemLanguage)
         } else {
             if (SharedPreferenceKeys.LANGUAGE_TAGS.contains(languageTag)) {
@@ -209,29 +204,25 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
     }
 
     private fun addResourceToActiveFormulaInFormulaEditor(
-        categoryListItem: CategoryListItem?,
+        categoryListItem: CategoryListItem,
         lastUserList: UserList? = null
     ) {
-        val formulaEditorFragment: FormulaEditorFragment? = parentFragmentManager
-            .findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG) as FormulaEditorFragment?
-        formulaEditorFragment?.addResourceToActiveFormula(categoryListItem!!.nameResId)
+        val formulaEditorFragment = getFormulaEditorFragment() ?: return
+        formulaEditorFragment.addResourceToActiveFormula(categoryListItem.nameResId)
 
         if (lastUserList != null) {
-            formulaEditorFragment!!.addUserListToActiveFormula(
-                lastUserList.name
-            )
+            formulaEditorFragment.addUserListToActiveFormula(lastUserList.name)
             requireActivity().onBackPressed()
         }
     }
 
     private fun onUserListFunctionSelected(item: CategoryListItem) {
-        val activity = activity
         val builder = TextInputDialog.Builder(requireActivity())
         val projectUserList = projectManager.currentProject.userLists
         val spriteUserList = projectManager.currentSprite.userLists
         insertLastUserListToActiveFormula(
             item, projectUserList, spriteUserList,
-            activity, builder
+            requireActivity(), builder
         )
     }
 
@@ -240,7 +231,7 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         categoryListItem: CategoryListItem,
         projectUserList: List<UserList>,
         spriteUserList: List<UserList>,
-        activity: FragmentActivity?,
+        activity: FragmentActivity,
         builder: TextInputDialog.Builder
     ) {
         if (spriteUserList.isEmpty() && projectUserList.isEmpty()) {
@@ -263,8 +254,8 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         )
     }
 
-    private fun getRegularExpressionItem(): CategoryListItem? {
-        var regexItem: CategoryListItem? = null
+    private fun getRegularExpressionItem(): CategoryListItem {
+        lateinit var regexItem: CategoryListItem
         val itemList = categoryListItems.getFunctionItems(requireActivity())
         for (item in itemList) {
             if (item.nameResId == R.string.formula_editor_function_regex) {
@@ -275,21 +266,19 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
     }
 
     private fun regularExpressionAssistantActivityOnButtonClick() {
-        val indexOfCorrespondingRegularExpression: Int
-        val formulaEditorFragment = getFormulaEditorFragment()
-        if (formulaEditorFragment != null) {
-            indexOfCorrespondingRegularExpression =
-                formulaEditorFragment.indexOfCorrespondingRegularExpression
-            if (indexOfCorrespondingRegularExpression >= 0) {
-                formulaEditorFragment.setSelectionToFirstParamOfRegularExpressionAtInternalIndex(
-                    indexOfCorrespondingRegularExpression
-                )
-            } else {
-                addResourceToActiveFormulaInFormulaEditor(getRegularExpressionItem())
-            }
-            requireActivity().onBackPressed()
-            openRegularExpressionAssistant()
+        val formulaEditorFragment = getFormulaEditorFragment() ?: return
+
+        val indexOfCorrespondingRegularExpression =
+            formulaEditorFragment.indexOfCorrespondingRegularExpression
+        if (indexOfCorrespondingRegularExpression >= 0) {
+            formulaEditorFragment.setSelectionToFirstParamOfRegularExpressionAtInternalIndex(
+                indexOfCorrespondingRegularExpression
+            )
+        } else {
+            addResourceToActiveFormulaInFormulaEditor(getRegularExpressionItem())
         }
+        requireActivity().onBackPressed()
+        openRegularExpressionAssistant()
     }
 
     private fun getFormulaEditorFragment(): FormulaEditorFragment? {
@@ -306,13 +295,13 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         categoryListItem: CategoryListItem,
         projectUserList: List<UserList>,
         spriteUserList: List<UserList>,
-        activity: FragmentActivity?,
+        activity: FragmentActivity,
         builder: TextInputDialog.Builder
     ) {
         val userListDialog = AddUserListDialog(builder)
         userListDialog.show(
-            activity?.getString(R.string.data_label),
-            activity?.getString(R.string.ok),
+            activity.getString(R.string.data_label),
+            activity.getString(R.string.ok),
             object : AddUserListDialog.Callback {
                 override fun onPositiveButton(
                     dialog: DialogInterface,
@@ -332,47 +321,47 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
                 }
 
                 override fun onNegativeButton() {
-                    activity!!.onBackPressed()
+                    activity.onBackPressed()
                 }
-            })
+            }
+        )
     }
 
     private fun showLegoSensorPortConfigDialog(itemNameResId: Int, @LegoSensorType type: Int) {
-        LegoSensorPortConfigDialog.Builder(requireContext(), type, itemNameResId)
-            .setPositiveButton(
-                getString(R.string.ok),
-                LegoSensorPortConfigDialog.OnClickListener { _: DialogInterface?, selectedPort:
-                Int, selectedSensor: Enum<*>? ->
-                    if (type == Constants.NXT) {
-                        SettingsFragment.setLegoMindstormsNXTSensorMapping(
-                            activity,
-                            selectedSensor as NXTSensor.Sensor?,
-                            SettingsFragment.NXT_SENSORS[selectedPort]
-                        )
-                    } else if (type == Constants.EV3) {
-                        SettingsFragment.setLegoMindstormsEV3SensorMapping(
-                            activity,
-                            selectedSensor as EV3Sensor.Sensor?,
-                            SettingsFragment.EV3_SENSORS[selectedPort]
-                        )
+        LegoSensorPortConfigDialog.Builder(requireContext(), type, itemNameResId).setPositiveButton(
+            getString(R.string.ok),
+            LegoSensorPortConfigDialog.OnClickListener { _, selectedPort, selectedSensor ->
+                if (type == Constants.NXT) {
+                    SettingsFragment.setLegoMindstormsNXTSensorMapping(
+                        activity,
+                        selectedSensor as NXTSensor.Sensor?,
+                        SettingsFragment.NXT_SENSORS[selectedPort]
+                    )
+                } else if (type == Constants.EV3) {
+                    SettingsFragment.setLegoMindstormsEV3SensorMapping(
+                        activity,
+                        selectedSensor as EV3Sensor.Sensor?,
+                        SettingsFragment.EV3_SENSORS[selectedPort]
+                    )
+                }
+
+                val formulaEditor = getFormulaEditorFragment()
+                val sensorPortsId = if (type == Constants.NXT) R.array.formula_editor_nxt_ports
+                    else R.array.formula_editor_ev3_ports
+                val sensorPorts = resources.obtainTypedArray(sensorPortsId)
+
+                try {
+                    val resourceId = sensorPorts.getResourceId(selectedPort, 0)
+                    if (resourceId != 0) {
+                        formulaEditor?.addResourceToActiveFormula(resourceId)
+                        formulaEditor?.updateButtonsOnKeyboardAndInvalidateOptionsMenu()
                     }
-                    val formulaEditor = parentFragmentManager
-                        .findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG) as FormulaEditorFragment?
-                    val sensorPortsId =
-                        if (type == Constants.NXT) R.array.formula_editor_nxt_ports else R.array.formula_editor_ev3_ports
-                    val sensorPorts = resources.obtainTypedArray(sensorPortsId)
-                    try {
-                        val resourceId = sensorPorts.getResourceId(selectedPort, 0)
-                        if (resourceId != 0) {
-                            formulaEditor!!.addResourceToActiveFormula(resourceId)
-                            formulaEditor.updateButtonsOnKeyboardAndInvalidateOptionsMenu()
-                        }
-                    } finally {
-                        sensorPorts.recycle()
-                    }
-                    requireActivity().onBackPressed()
-                })
-            .show()
+                } finally {
+                    sensorPorts.recycle()
+                }
+                requireActivity().onBackPressed()
+            }
+        ).show()
     }
 
     private fun showSelectSpriteDialog() {
@@ -390,14 +379,13 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
             .setTitle(R.string.formula_editor_function_collision)
             .setItems(
                 selectableSpriteNames,
-                DialogInterface.OnClickListener { dialog: DialogInterface?, which: Int ->
+                DialogInterface.OnClickListener { _, which: Int ->
                     val selectedSprite = selectableSprites[which]
                     currentSprite.createCollisionPolygons()
                     selectedSprite.createCollisionPolygons()
-                    (parentFragmentManager
-                        .findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG) as
-                        FormulaEditorFragment?)
-                        ?.addCollideFormulaToActiveFormula(selectedSprite.name)
+                    getFormulaEditorFragment()?.addCollideFormulaToActiveFormula(
+                        selectedSprite.name
+                    )
                     requireActivity().onBackPressed()
                 })
             .show()
@@ -414,12 +402,14 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         } else if (SENSOR_TAG == argument) {
             categoryListItems.getSensorItems(requireActivity())
         } else {
-            throw IllegalArgumentException("Argument for CategoryListFragment null or unknown:" +
-                " $argument")
+            throw IllegalArgumentException(
+                "Argument for CategoryListFragment null or unknown:" +
+                    " $argument"
+            )
         }
         val adapter = CategoryListRVAdapter(items)
         adapter.setOnItemClickListener(this)
-        recyclerView!!.adapter = adapter
+        recyclerView.adapter = adapter
     }
 
     companion object {
