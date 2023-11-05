@@ -7,7 +7,8 @@ options {
 argument: expression;
 
 expression
-	: expression OPERATOR_ADD expression
+	: simple_expression
+	| expression OPERATOR_ADD expression
 	| expression OPERATOR_NUMERIC_DIVIDE expression
 	| expression OPERATOR_NUMERIC_MULTIPLY expression
 	| expression OPERATOR_LOGIC_AND expression
@@ -19,7 +20,6 @@ expression
 	| expression OPERATOR_LOGIC_GREATER expression
 	| expression OPERATOR_LOGIC_LOWER_EQUAL expression
 	| expression OPERATOR_LOGIC_GREATER_EQUAL expression
-	| simple_expression
 	;
 
 simple_expression
@@ -37,12 +37,10 @@ method_invoaction: FUNCTION_OR_SENSOR parameters?;
 parameters: BRACE_OPEN param_list BRACE_CLOSE;
 param_list: expression (COMMA expression)*;
 
-unary_number: (OPERATOR_ADD | OPERATOR_LOGIC_NOT) NUMBER;
+unary_number: (OPERATOR_ADD | OPERATOR_LOGIC_NOT) expression;
 
 literal
 	: NUMBER
-	| BOOLEAN_TRUE
-	| BOOLEAN_FALSE
 	| VARIABLE
 	| LIST
 	| UDB_PARAMETER

@@ -17,9 +17,6 @@ BRACE_OPEN: '(';
 BRACE_CLOSE: ')';
 COMMA: ',';
 
-BOOLEAN_TRUE: 'true';
-BOOLEAN_FALSE: 'false';
-
 VARIABLE: '"' (~["] | '\\"')* '"';
 UDB_PARAMETER: '[' (~'[' | ~']' | '\\[' | '\\]')* ']';
 LIST: '*' (~[*] | '\\*')* '*';
@@ -28,9 +25,12 @@ STRING: '\'' (~['] | '\\\'')* '\'';
 OPERATOR_ADD: '+' | '-';
 OPERATOR_NUMERIC_DIVIDE: '/' | '÷';
 OPERATOR_NUMERIC_MULTIPLY: '×';
-OPERATOR_LOGIC_AND: ' and ';
-OPERATOR_LOGIC_OR: ' or ';
-OPERATOR_LOGIC_NOT: ' not ';
+OPERATOR_LOGIC_AND: '&&';
+OPERATOR_LOGIC_OR: '||';
+OPERATOR_LOGIC_NOT: '!';
+//OPERATOR_LOGIC_AND: 'and';
+//OPERATOR_LOGIC_OR: 'or';
+//OPERATOR_LOGIC_NOT: 'not';
 OPERATOR_LOGIC_EQUAL: '=';
 OPERATOR_LOGIC_NOT_EQUAL: '!=' | '≠';
 OPERATOR_LOGIC_LOWER: '<';

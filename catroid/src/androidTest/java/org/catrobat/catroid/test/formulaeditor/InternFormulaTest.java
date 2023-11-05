@@ -212,7 +212,7 @@ public class InternFormulaTest {
 		ArrayList<InternToken> internTokens = new ArrayList<>();
 		internTokens.add(new InternToken(InternTokenType.NUMBER, "0 "));
 		InternFormula internFormula = new InternFormula(internTokens);
-		internFormula.trimExternFormulaString(getApplicationContext());
+		internFormula.trimExternFormulaString(getApplicationContext(), false);
 	}
 
 	private void assertInternFormulaSelectionIndices(int expectedStartIndex, int expectedEndIndex, InternFormula internFormula) {

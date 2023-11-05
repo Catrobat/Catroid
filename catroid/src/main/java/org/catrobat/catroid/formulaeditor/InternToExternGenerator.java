@@ -39,6 +39,7 @@ public class InternToExternGenerator {
 	private String generatedExternFormulaString;
 	private ExternInternRepresentationMapping generatedExternInternRepresentationMapping;
 	private Context context;
+	private boolean isCatrobatLanguageMode;
 
 	private static final HashMap<String, Integer> INTERN_EXTERN_LANGUAGE_CONVERTER_MAP = new HashMap<String, Integer>();
 	static {
@@ -321,8 +322,9 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.OBJECT_WITH_ID_VISIBLE.name(),
 				R.string.formula_editor_function_object_with_id_visible);
 	}
-	public InternToExternGenerator(Context context) {
+	public InternToExternGenerator(Context context, boolean isCatrobatLanguageMode) {
 		this.context = context;
+		this.isCatrobatLanguageMode = isCatrobatLanguageMode;
 		generatedExternFormulaString = "";
 		generatedExternInternRepresentationMapping = new ExternInternRepresentationMapping();
 	}
@@ -476,11 +478,30 @@ public class InternToExternGenerator {
 	}
 
 	private String getExternStringForInternTokenValue(String internTokenValue, Context context) {
+		String catrobatLanguageString = getCatrobatLanguageStringForInternTokenValue(internTokenValue);
+		if (catrobatLanguageString != null) {
+			return catrobatLanguageString;
+		}
 		Integer stringResourceID = INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.get(internTokenValue);
 		if (stringResourceID == null) {
 			return null;
 		}
 		return context.getString(stringResourceID);
+	}
+
+	private String getCatrobatLanguageStringForInternTokenValue(String internTokenValue) {
+		if (isCatrobatLanguageMode) {
+			if (internTokenValue.equals(Operators.LOGICAL_NOT.name())) {
+				return "!";
+			}
+			if (internTokenValue.equals(Operators.LOGICAL_AND.name())) {
+				return "&&";
+			}
+			if (internTokenValue.equals(Operators.LOGICAL_OR.name())) {
+				return "||";
+			}
+		}
+		return null;
 	}
 
 	public static int getMappedString(String token) {

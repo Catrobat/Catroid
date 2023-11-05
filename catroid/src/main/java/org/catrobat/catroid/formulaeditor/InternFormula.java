@@ -486,15 +486,15 @@ public class InternFormula {
 	}
 
 	public void generateExternFormulaStringAndInternExternMapping(Context context) {
-		InternToExternGenerator internToExternGenerator = new InternToExternGenerator(context);
+		InternToExternGenerator internToExternGenerator = new InternToExternGenerator(context, false);
 
 		internToExternGenerator.generateExternStringAndMapping(internTokenFormulaList);
 		externFormulaString = internToExternGenerator.getGeneratedExternFormulaString();
 		externInternRepresentationMapping = internToExternGenerator.getGeneratedExternInternRepresentationMapping();
 	}
 
-	public String trimExternFormulaString(Context context) {
-		InternToExternGenerator internToExternGenerator = new InternToExternGenerator(context);
+	public String trimExternFormulaString(Context context, boolean isCatrobatLanguageMode) {
+		InternToExternGenerator internToExternGenerator = new InternToExternGenerator(context, isCatrobatLanguageMode);
 
 		internToExternGenerator.trimExternString(internTokenFormulaList);
 		externFormulaString = internToExternGenerator.getGeneratedExternFormulaString();
@@ -504,7 +504,7 @@ public class InternFormula {
 
 	public String trimExternFormulaStringForCatrobatLanguage(Context context) {
 		Context englishContext = CatrobatLanguageUtils.getEnglishContextForFormulas(context);
-		return trimExternFormulaString(englishContext);
+		return trimExternFormulaString(englishContext, true);
 	}
 
 	@VisibleForTesting
