@@ -487,27 +487,6 @@ open class ProjectUploadActivity : BaseActivity(),
         binding.inputProjectDescription.visibility = visibility
     }
 
-    private val projectName: String
-        get() {
-            val name = binding.inputProjectName.editText?.text.toString().trim { it <= ' ' }
-            if (project.name != name) {
-                val renamedDirectory = renameProject(project.directory, name)
-                if (renamedDirectory == null) {
-                    Log.e(TAG, "Creating renamed directory failed!")
-                    return name
-                }
-                loadProject(renamedDirectory, applicationContext)
-                project = projectManager.currentProject
-            }
-            return name
-        }
-
-    private val projectDescription: String
-        get() = binding.inputProjectDescription.editText?.text.toString().trim { it <= ' ' }
-
-    private val notesAndCredits: String
-        get() = binding.inputProjectNotesAndCredits.editText?.text.toString().trim { it <= ' ' }
-
     private fun showUploadDialog() {
         if (MainMenuActivity.surveyCampaign != null) {
             MainMenuActivity.surveyCampaign?.uploadFlag = true
@@ -656,23 +635,6 @@ open class ProjectUploadActivity : BaseActivity(),
         })
 
         tokenTask.refreshToken(token, refreshToken)
-    }
-
-    @Deprecated("Use new API call instead", ReplaceWith("checkRefreshToken(token, refreshToken)"))
-    private fun checkDeprecatedToken(token: String) {
-        tokenTask.getUpgradeTokenResponse().observe(this, Observer { upgradeResponse ->
-            upgradeResponse?.let {
-                sharedPreferences.edit()
-                    .putString(Constants.TOKEN, upgradeResponse.token)
-                    .putString(Constants.REFRESH_TOKEN, upgradeResponse.refresh_token)
-                    .apply()
-                onCreateView()
-            } ?: run {
-                verifyUserIdentityFailed()
-            }
-        })
-
-        tokenTask.upgradeToken(token)
     }
 
     private fun verifyUserIdentityFailed() {

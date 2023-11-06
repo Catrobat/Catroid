@@ -42,10 +42,8 @@ import org.catrobat.catroid.sync.DefaultProjectsCategoriesSync
 import org.catrobat.catroid.sync.FeaturedProjectsSync
 import org.catrobat.catroid.sync.ProjectsCategoriesSync
 import org.catrobat.catroid.transfers.GetUserProjectsTask
-import org.catrobat.catroid.transfers.LoginViewModel
 import org.catrobat.catroid.transfers.OAuthTask
 import org.catrobat.catroid.transfers.ProjectUploadTask
-import org.catrobat.catroid.transfers.RegistrationViewModel
 import org.catrobat.catroid.transfers.TagsTask
 import org.catrobat.catroid.transfers.TokenTask
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoriesAdapter
@@ -160,7 +158,6 @@ val speechModules = module {
 val myModules = listOf(
     componentsModules, viewModelModules, repositoryModules, adapterModules, speechModules
 )
-
 
 fun start(application: Application, modules: List<Module>) {
     startKoin {

@@ -125,7 +125,7 @@ interface WebService {
         @Header("Authorization") bearerToken: String,
         @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
         @Part projectFile: MultipartBody.Part
-    ) : Call<ProjectUploadResponseApi>
+    ): Call<ProjectUploadResponseApi>
 
     @SuppressWarnings("LongParameterList")
     @GET("projects/user")
