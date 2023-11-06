@@ -75,6 +75,20 @@ class TabLayoutContainerFragment : Fragment() {
         adapter.addFragment(SoundListFragment())
     }
 
+    fun removeTabLayout() {
+        val viewGroup = tabLayout?.parent
+        if (viewGroup is ViewGroup) {
+            viewGroup?.removeView(tabLayout)
+        }
+    }
+
+    fun addTabLayout() {
+        val viewGroup = viewPager?.parent
+        if (viewGroup is ViewGroup) {
+            viewGroup?.addView(tabLayout,0)
+        }
+    }
+
     companion object {
         @JvmField
         val TAG = TabLayoutContainerFragment::class.java.simpleName

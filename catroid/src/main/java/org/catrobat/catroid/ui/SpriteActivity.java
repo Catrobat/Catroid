@@ -29,6 +29,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -82,6 +83,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
@@ -957,6 +959,27 @@ public class SpriteActivity extends BaseActivity {
 			getSupportFragmentManager().popBackStack();
 		}
 		StageActivity.handlePlayButton(projectManager, this);
+	}
+
+	@Nullable
+	@Override
+	public ActionMode startActionMode(ActionMode.Callback callback) {
+		Fragment currentFragment =
+				getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+		if (currentFragment instanceof TabLayoutContainerFragment) {
+			((TabLayoutContainerFragment) currentFragment).removeTabLayout();
+		}
+		return super.startActionMode(callback);
+	}
+
+	@Override
+	public void onActionModeFinished(ActionMode mode) {
+		Fragment currentFragment =
+				getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+		if (currentFragment instanceof TabLayoutContainerFragment) {
+			((TabLayoutContainerFragment) currentFragment).addTabLayout();
+		}
+		super.onActionModeFinished(mode);
 	}
 
 	public void setCurrentSprite(Sprite sprite) {
