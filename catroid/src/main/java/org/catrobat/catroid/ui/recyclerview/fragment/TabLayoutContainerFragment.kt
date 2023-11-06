@@ -76,16 +76,16 @@ class TabLayoutContainerFragment : Fragment() {
     }
 
     fun removeTabLayout() {
-        val viewGroup = tabLayout?.parent
+        val viewGroup = tabLayout.parent
         if (viewGroup is ViewGroup) {
-            viewGroup?.removeView(tabLayout)
+            viewGroup.removeView(tabLayout)
         }
     }
 
     fun addTabLayout() {
-        val viewGroup = viewPager?.parent
+        val viewGroup = viewPager.parent
         if (viewGroup is ViewGroup) {
-            viewGroup?.addView(tabLayout,0)
+            viewGroup.addView(tabLayout, 0)
         }
     }
 

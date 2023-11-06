@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -38,6 +39,7 @@ import org.catrobat.catroid.ui.BottomBar.showBottomBar
 import org.catrobat.catroid.ui.BottomBar.showPlayButton
 import org.catrobat.catroid.ui.ViewSwitchLock
 import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter
+import org.catrobat.catroid.ui.recyclerview.fragment.TabLayoutContainerFragment
 import org.catrobat.catroid.utils.SnackbarUtil
 import java.util.concurrent.locks.Lock
 
@@ -137,6 +139,22 @@ class BrickCategoryFragment : ListFragment() {
 
     interface OnCategorySelectedListener {
         fun onCategorySelected(category: String?)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val currentFragment = activity?.supportFragmentManager?.findFragmentById(R.id.fragment_container)
+        if (currentFragment is TabLayoutContainerFragment) {
+            currentFragment.removeTabLayout()
+        }
+    }
+
+    override fun onDetach() {
+        val currentFragment = activity?.supportFragmentManager?.findFragmentById(R.id.fragment_container)
+        if (currentFragment is TabLayoutContainerFragment) {
+            currentFragment.addTabLayout()
+        }
+        super.onDetach()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
