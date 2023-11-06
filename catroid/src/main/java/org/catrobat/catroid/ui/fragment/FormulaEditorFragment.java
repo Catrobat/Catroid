@@ -84,6 +84,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.fragment.CategoryListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.TabLayoutContainerFragment;
 import org.catrobat.catroid.ui.runtimepermissions.BrickResourcesToRuntimePermissions;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
@@ -1074,6 +1075,24 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				chosenUserDataItem = null;
 			}
 		}
+	}
+
+	@Override
+	public void onAttach(@NonNull Context context) {
+		super.onAttach(context);
+		Fragment currentFragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+		if (currentFragment instanceof TabLayoutContainerFragment) {
+			((TabLayoutContainerFragment) currentFragment).removeTabLayout();
+		}
+	}
+
+	@Override
+	public void onDetach() {
+		Fragment currentFragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+		if (currentFragment instanceof TabLayoutContainerFragment) {
+			((TabLayoutContainerFragment) currentFragment).removeTabLayout();
+		}
+		super.onDetach();
 	}
 
 	public void updateButtonsOnKeyboardAndInvalidateOptionsMenu() {
