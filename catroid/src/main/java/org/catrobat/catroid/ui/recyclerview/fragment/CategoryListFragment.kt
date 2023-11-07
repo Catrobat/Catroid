@@ -23,10 +23,8 @@
 package org.catrobat.catroid.ui.recyclerview.fragment
 
 import android.app.Activity
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -185,12 +183,9 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         return null
     }
 
-    private fun getSharedPreferences(context: Context): SharedPreferences =
-        PreferenceManager.getDefaultSharedPreferences(context)
-
     private fun getLanguage(activity: Activity): String {
         var language = "?language="
-        val sharedPreferences = getSharedPreferences(activity.applicationContext)
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity.applicationContext)
         val languageTag = sharedPreferences.getString(SharedPreferenceKeys.LANGUAGE_TAG_KEY, "")
         val mLocale = if (languageTag == SharedPreferenceKeys.DEVICE_LANGUAGE) {
             Locale.forLanguageTag(CatroidApplication.defaultSystemLanguage)
