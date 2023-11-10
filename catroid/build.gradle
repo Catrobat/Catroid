@@ -480,6 +480,8 @@ dependencies {
 
     implementation "com.google.android.gms:play-services-auth:$playServicesVersion"
 
+    implementation 'org.antlr:antlr4-runtime:4.13.1'
+
     androidTestImplementation('tools.fastlane:screengrab:1.2.0') {
         // https://issuetracker.google.com/issues/123060356
         exclude group: 'com.android.support.test.uiautomator', module: 'uiautomator-v18'

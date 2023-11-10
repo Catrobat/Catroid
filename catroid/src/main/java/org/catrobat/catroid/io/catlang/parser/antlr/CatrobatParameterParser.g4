@@ -26,7 +26,7 @@ simple_expression
 	: literal
 	| sensor_reference
 	| method_invoaction
-	| unary_number
+	| unary_expression
 	| BRACE_OPEN expression BRACE_CLOSE
 	;
 
@@ -37,7 +37,7 @@ method_invoaction: FUNCTION_OR_SENSOR parameters?;
 parameters: BRACE_OPEN param_list BRACE_CLOSE;
 param_list: expression (COMMA expression)*;
 
-unary_number: (OPERATOR_ADD | OPERATOR_LOGIC_NOT) expression;
+unary_expression: (OPERATOR_ADD | OPERATOR_LOGIC_NOT) expression;
 
 literal
 	: NUMBER
