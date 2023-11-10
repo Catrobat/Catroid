@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.io.catlang.parser
+package org.catrobat.catroid.io.catlang.parser.parameter
 
 import org.antlr.v4.runtime.BaseErrorListener
 import org.antlr.v4.runtime.CharStreams
@@ -32,10 +32,9 @@ import org.antlr.v4.runtime.tree.ErrorNode
 import org.antlr.v4.runtime.tree.ParseTree
 import org.antlr.v4.runtime.tree.RuleNode
 import org.antlr.v4.runtime.tree.TerminalNode
-import org.catrobat.catroid.io.catlang.parser.gen.CatrobatParameterLexer
-import org.catrobat.catroid.io.catlang.parser.gen.CatrobatParameterParser
-import org.catrobat.catroid.io.catlang.parser.gen.CatrobatParameterParserBaseVisitor
-import org.catrobat.catroid.io.catlang.parser.gen.CatrobatParameterParserVisitor
+import org.catrobat.catroid.io.catlang.parser.parameter.gen.CatrobatParameterLexer
+import org.catrobat.catroid.io.catlang.parser.parameter.gen.CatrobatParameterParser
+import org.catrobat.catroid.io.catlang.parser.parameter.gen.CatrobatParameterParserVisitor
 
 class ParameterAnalyzer {
 
