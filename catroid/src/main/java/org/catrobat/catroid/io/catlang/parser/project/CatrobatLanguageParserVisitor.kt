@@ -241,7 +241,20 @@ class CatrobatLanguageParserVisitor : CatrobatLanguageParserVisitor<Unit> {
     override fun visitArgument(ctx: CatrobatLanguageParser.ArgumentContext?) {
         if (ctx != null) {
             ctx.PARAM_MODE_NAME().let { println("Param name: " + it.text) }
-            ctx.formula()?.let { visitFormula(it) }
+            val start = ctx.start.startIndex
+            val stop = ctx.stop.stopIndex
+            val tokenStream = ctx.start.tokenSource.inputStream
+            val textInterval = Interval(start, stop)
+            try {
+                val parameterPlusValue = tokenStream.getText(textInterval)
+                val startIndexOfParameterValue = parameterPlusValue.indexOf('(') + 1
+                val valueWithoutParentheses = parameterPlusValue.substring(startIndexOfParameterValue, parameterPlusValue.length - 1)
+                println("Param value: " + valueWithoutParentheses)
+            } catch (e: Exception) {
+                println("Error with Interval $textInterval")
+            }
+            // skip visitFormula
+//            ctx.formula()?.let { visitFormula(it) }
         }
     }
 
@@ -249,13 +262,19 @@ class CatrobatLanguageParserVisitor : CatrobatLanguageParserVisitor<Unit> {
         if (ctx != null) {
             val start = ctx.start
             val end = ctx.stop
+
+            if (start.startIndex > end.stopIndex) {
+                // TODO: Error handling
+                return
+            }
+
             val tokenStream = ctx.start.tokenSource.inputStream
             val textInterval = Interval(start.startIndex, end.stopIndex)
             try {
                 val text = tokenStream.getText(textInterval)
                 println(text)
             } catch (e: Exception) {
-                println("Error")
+                println("Error with Interval $textInterval")
             }
         }
     }

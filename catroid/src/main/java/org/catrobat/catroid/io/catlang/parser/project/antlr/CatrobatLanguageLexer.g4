@@ -39,7 +39,7 @@ WIDTH: 'Width';
 DISPLAY_MODE: 'Display mode';
 GLOBALS: 'Globals';
 MULTIPLAYER_VARIABLES: 'Multiplayer variables';
-LOCAL_VARIABLES: 'Local variables';
+LOCAL_VARIABLES: 'Locals';
 LOOKS: 'Looks';
 SOUNDS: 'Sounds';
 ACTOR_OR_OBJECT: 'Actor or object';
