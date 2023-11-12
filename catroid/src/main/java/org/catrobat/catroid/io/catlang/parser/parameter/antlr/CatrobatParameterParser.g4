@@ -13,7 +13,6 @@ expression
 	| expression OPERATOR_NUMERIC_MULTIPLY expression
 	| expression OPERATOR_LOGIC_AND expression
 	| expression OPERATOR_LOGIC_OR expression
-	| expression OPERATOR_LOGIC_NOT expression
 	| expression OPERATOR_LOGIC_EQUAL expression
 	| expression OPERATOR_LOGIC_NOT_EQUAL expression
 	| expression OPERATOR_LOGIC_LOWER expression

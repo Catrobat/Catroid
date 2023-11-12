@@ -21,19 +21,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.test.io.catrobatlanguage.parser
+package org.catrobat.catroid.io.catlang.parser.parameter.context
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.catrobat.catroid.CatroidApplication
-import org.catrobat.catroid.io.catlang.parser.parameter.ArgumentParserHelper
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.catrobat.catroid.formulaeditor.FormulaElement
 
-@RunWith(AndroidJUnit4::class)
-class LexerTest {
-    @Test
-    fun basicLexerTest() {
-        val param = ArgumentParserHelper(CatroidApplication.getAppContext())
-        param.parseArgument("join('hello', 'world', '!')")
-    }
+class FormulaElementVisitResult(formulaElement: FormulaElement): ArgumentBaseVisitResult() {
+    val formulaElement: FormulaElement = formulaElement
 }

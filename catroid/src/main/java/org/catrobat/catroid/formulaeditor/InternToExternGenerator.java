@@ -32,6 +32,7 @@ import org.catrobat.catroid.utils.FormatNumberUtil;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class InternToExternGenerator {
 	private static final String TAG = InternToExternGenerator.class.getSimpleName();
@@ -327,6 +328,15 @@ public class InternToExternGenerator {
 		this.isCatrobatLanguageMode = isCatrobatLanguageMode;
 		generatedExternFormulaString = "";
 		generatedExternInternRepresentationMapping = new ExternInternRepresentationMapping();
+	}
+
+	public static final HashMap<String, String> getExternToInternValueMapping(Context ctx) {
+		HashMap<String, String> valueToKeyMap = new HashMap<>();
+		for (Map.Entry<String, Integer> entry : INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.entrySet()) {
+			if (!valueToKeyMap.containsKey(ctx.getString(entry.getValue())))
+				valueToKeyMap.put(ctx.getString(entry.getValue()), entry.getKey());
+		}
+		return valueToKeyMap;
 	}
 
 	public void generateExternStringAndMapping(List<InternToken> internTokenFormula) {
