@@ -1,8 +1,5 @@
 grammar CatrobatLanguage;
-
-INTERNAL_VALUE : 'minute'
-                | 'second'
-                ;
+import CatrobatLanguageFormula;
 
 WS : [ \t\r\n]+ -> skip;
 
@@ -59,7 +56,7 @@ BRICK_NAME: UPPERCASE LETTER* (' ' LETTER+)*;
 //FORMULA_PARMETER: '(' (~'(' | '\\(' | ~')' | '\\)')* ')';
 
 NUMBER: '-'? DIGIT+ ('.' DIGIT+)?;
-BOOLEAN: 'true' | 'false';
+//BOOLEAN: 'true' | 'false';
 
 scene: 'Scene' STRING '{' background actor* '}';
 background: 'Background' '{' looks? '}';
@@ -81,20 +78,25 @@ arg_list: argument (',' argument)* ;
 argument: PARAMETER_NAME ':' '(' formula? ')';
 PARAMETER_NAME: LOWERCASE+ (' ' LOWERCASE+)*;
 
-formula : primary_formula
-        | internal_function
-        | '(' formula ')'
-        | formula ADDOP formula
-        | formula MULOP formula
-        ;
+//formula
+//	: formula_element
+////	| internal_function
+//	| '(' formula ')'
+//	| formula ADDOP formula
+//	| formula MULOP formula
+//	;
 
-primary_formula : NUMBER
-                | BOOLEAN
-                | INTERNAL_VALUE
-                | VARIABLE_REF
-                | LIST_REF
-                | STRING
-                | UDB_PARAMETER
-                ;
+//formula_element
+//	: NUMBER										    #number
+//	| STRING											#string
+//	| VARIABLE_REF										#variable
+//	| LIST_REF											#list
+//	| UDB_PARAMETER										#udbParameter
+//	| BOOLEAN
+//	| INTERNAL_VALUE
+//	| FUNCTION_NAME	('(' formula (',' formula)* ')')?	#functionCall
+//	;
 
-internal_function : 'join' '(' INTERNAL_VALUE ',' STRING ',' INTERNAL_VALUE ')';
+//FUNCTION_NAME: [a-zA-Z0-9 ]+;
+
+//internal_function : 'join' '(' INTERNAL_VALUE ',' STRING ',' INTERNAL_VALUE ')';
