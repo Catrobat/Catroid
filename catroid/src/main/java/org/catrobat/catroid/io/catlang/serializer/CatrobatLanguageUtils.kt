@@ -61,7 +61,7 @@ object CatrobatLanguageUtils {
     @JvmStatic
     fun formatUserDefinedBrickParameter(parameter: String) = "[${escapeCharacters(parameter, "[]`")}]"
 
-    fun getEscapedString(string: String): String = "'${string.replace("'", "\\'")}'"
+    fun getEscapedString(string: String): String = "'${escapeCharacters(string, "'\n")}'"
 
     @JvmStatic
     fun formatHexColorString(hexColorString: String): String {

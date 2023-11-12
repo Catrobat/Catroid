@@ -9,20 +9,16 @@ fragment DIGIT : '0'..'9';
 
 formula
 	: '(' formula ')' 					 		#parenthesis
-	| formula_element (OPERATORS formula)*      #operators
+	| formula_element (OPERATOR formula)*      #operators
 	;
 
 formula_element
-	: NUMBER										#number
-	| STRING										#string
-	| VARIABLE_REF									#variable
-	| LIST_REF										#list
-	| UDB_PARAMETER									#udbParameter
-//	| BOOLEAN										#boolean
-//	| SENSOR										#sensor
-//	| CONSTANT										#constant
-	| FUNCTION_NAME	'(' formula (',' formula)* ')'	#functionCall
-//	| function_call						#functionCall
+	: NUMBER										    #number
+	| STRING											#string
+	| VARIABLE_REF										#variable
+	| LIST_REF											#list
+	| UDB_PARAMETER										#udbParameter
+	| FUNCTION_NAME	('(' formula (',' formula)* ')')?	#functionCall
 	;
 
 NUMBER
@@ -54,9 +50,11 @@ UDB_PARAMETER
 	: '[' (~'[' | '\\[' | ~']' | '\\]')* ']'
 	;
 
-FUNCTION_NAME: [a-zA-Z0-9 ]+;
+FUNCTION_NAME
+	: [a-zA-Z0-9 ]+
+	;
 
-OPERATORS
+OPERATOR
 	: '/'
 	| '='
 	| '<'
