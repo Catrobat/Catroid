@@ -93,7 +93,7 @@ public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 	@Override
 	public Brick clone() throws CloneNotSupportedException {
 		IfLogicBeginBrick clone = (IfLogicBeginBrick) super.clone();
-		clone.elseBrick = new ElseBrick(clone);
+		clone.elseBrick = new ElseBrick(clone, R.layout.brick_if_else);
 		clone.endBrick = new EndBrick(clone, R.layout.brick_if_end_if);
 		clone.ifBranchBricks = new ArrayList<>();
 		clone.elseBranchBricks = new ArrayList<>();
