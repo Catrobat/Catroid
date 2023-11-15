@@ -23,11 +23,14 @@
 
 package org.catrobat.catroid.content.bricks
 
+import androidx.annotation.VisibleForTesting
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import java.util.UUID
 
+
+@VisibleForTesting
 class ElseBrick @JvmOverloads constructor(
     elseBrickParent: BrickBaseType,
     private val viewResource: Int = R.layout.brick_if_else
@@ -39,17 +42,11 @@ class ElseBrick @JvmOverloads constructor(
 
     override fun getViewResource(): Int = viewResource
 
-    override fun isCommentedOut(): Boolean {
-        return parent.isCommentedOut
-    }
+    override fun isCommentedOut(): Boolean = parent.isCommentedOut
 
-    override fun consistsOfMultipleParts(): Boolean {
-        return true
-    }
+    override fun consistsOfMultipleParts(): Boolean = true
 
-    override fun getAllParts(): List<Brick?>? {
-        return parent.allParts
-    }
+    override fun getAllParts(): List<Brick?>? = parent.allParts
 
     override fun addToFlatList(bricks: List<Brick?>?) {
         parent.addToFlatList(bricks)
@@ -57,23 +54,16 @@ class ElseBrick @JvmOverloads constructor(
 
     override fun getDragAndDropTargetList(): List<Brick?>? {
         if (parent is PhiroIfLogicBeginBrick) {
-            return (parent as PhiroIfLogicBeginBrick).secondaryNestedBricks
-        }
-        else if(parent is IfLogicBeginBrick) {
-            return (parent as IfLogicBeginBrick).secondaryNestedBricks
-        }
-        throw java.lang.Exception("Not Implemented yet");
-        return null;
-
+            return (parent as PhiroIfLogicBeginBrick).secondaryNestedBricks }
+        else if (parent is IfLogicBeginBrick) {
+            return (parent as IfLogicBeginBrick).secondaryNestedBricks }
+        throw java.lang.Exception("Not Implemented yet")
     }
 
-    override fun getPositionInDragAndDropTargetList(): Int {
-        return -1
+    override fun getPositionInDragAndDropTargetList(): Int = -1
+
+    override fun addActionToSequence(sprite: Sprite?, sequence: ScriptSequenceAction?) {
     }
 
-    override fun addActionToSequence(sprite: Sprite?, sequence: ScriptSequenceAction?) {}
-
-    override fun getBrickID(): UUID? {
-        return parent.brickID
-    }
+    override fun getBrickID(): UUID? = parent.brickID
 }
