@@ -36,7 +36,6 @@ import org.catrobat.catroid.utils.LoopUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class ForVariableFromToBrick extends UserVariableBrickWithFormula implements CompositeBrick {
 
@@ -186,56 +185,5 @@ public class ForVariableFromToBrick extends UserVariableBrickWithFormula impleme
 						getFormulaWithBrickField(BrickField.FOR_LOOP_TO), repeatSequence, isLoopDelay);
 
 		sequence.addAction(action);
-	}
-
-	private static class EndBrick extends BrickBaseType {
-
-		EndBrick(ForVariableFromToBrick parent) {
-			this.parent = parent;
-		}
-
-		@Override
-		public boolean isCommentedOut() {
-			return parent.isCommentedOut();
-		}
-
-		@Override
-		public boolean consistsOfMultipleParts() {
-			return true;
-		}
-
-		@Override
-		public List<Brick> getAllParts() {
-			return parent.getAllParts();
-		}
-
-		@Override
-		public void addToFlatList(List<Brick> bricks) {
-			parent.addToFlatList(bricks);
-		}
-
-		@Override
-		public List<Brick> getDragAndDropTargetList() {
-			return parent.getParent().getDragAndDropTargetList();
-		}
-
-		@Override
-		public int getPositionInDragAndDropTargetList() {
-			return parent.getParent().getDragAndDropTargetList().indexOf(parent);
-		}
-
-		@Override
-		public int getViewResource() {
-			return R.layout.brick_loop_end;
-		}
-
-		@Override
-		public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		}
-
-		@Override
-		public UUID getBrickID() {
-			return parent.getBrickID();
-		}
 	}
 }

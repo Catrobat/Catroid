@@ -157,7 +157,6 @@ public class SearchParameterTest {
 		onView(withId(R.id.find)).perform(click());
 		BrickDataInteractionWrapper.onBrickAtPosition(1).onFormulaTextField(R.id.brick_set_x_edit_text).perform(click());
 		pressBack();
-		pressBack();
 		onView(withId(R.id.toolbar)).check(matches(isDisplayed()));
 	}
 

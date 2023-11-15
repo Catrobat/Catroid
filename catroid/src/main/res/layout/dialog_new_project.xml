@@ -24,77 +24,89 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="@dimen/dialog_content_area_padding_top"
-    android:paddingStart="@dimen/dialog_content_area_padding_input"
-    android:paddingEnd="@dimen/dialog_content_area_padding_input">
+    android:layout_height="match_parent" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical" >
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input"
+        <include layout="@layout/toolbar"
+            android:id="@+id/toolbar" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:errorEnabled="true"
-            app:hintEnabled="true">
+            android:orientation="vertical"
+            android:divider="@drawable/divider"
+            android:showDividers="middle|end" >
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_edit_text"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:selectAllOnFocus="true" />
+                android:paddingTop="@dimen/dialog_content_area_padding_top"
+                android:paddingStart="@dimen/dialog_content_area_padding_input"
+                android:paddingEnd="@dimen/dialog_content_area_padding_input"
+                app:errorEnabled="true"
+                app:hintEnabled="true" >
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:selectAllOnFocus="true" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <RadioGroup
-            android:id="@+id/radio_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:checkedButton="@+id/portrait_radio_button"
-            android:paddingTop="@dimen/material_design_spacing_large"
-            android:paddingBottom="@dimen/material_design_spacing_large"
-            android:orientation="horizontal">
+            <RadioGroup
+                android:id="@+id/radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/dialog_content_area_padding"
+                android:paddingBottom="@dimen/dialog_content_area_padding"
+                android:paddingStart="@dimen/dialog_content_area_padding_input"
+                android:paddingEnd="@dimen/dialog_content_area_padding_input"
+                android:checkedButton="@+id/portrait_radio_button" >
 
-            <RadioButton
-                android:id="@+id/portrait_radio_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="0.33"
-                android:drawableStart="@drawable/ic_smartphone_dialog_orientation_portrait"
-                android:paddingEnd="@dimen/material_design_spacing_large"
-                android:paddingStart="@dimen/material_design_spacing_large"/>
+                <RadioButton
+                    android:id="@+id/portrait_radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.33"
+                    android:drawableTop="@drawable/ic_smartphone_dialog_orientation_portrait"
+                    android:text="@string/new_project_dialog_portrait"
+                    android:gravity="center" />
 
-            <RadioButton
-                android:id="@+id/landscape_mode_radio_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="0.33"
-                android:drawableStart="@drawable/ic_smartphone_dialog_orientation_landscape"
-                android:paddingEnd="@dimen/material_design_spacing_large"
-                android:paddingStart="@dimen/material_design_spacing_large"/>
+                <RadioButton
+                    android:id="@+id/landscape_radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.33"
+                    android:drawableTop="@drawable/ic_smartphone_dialog_orientation_landscape"
+                    android:text="@string/new_project_dialog_landscape"
+                    android:gravity="center" />
 
-            <RadioButton
-                android:id="@+id/cast_radio_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="0.33"
-                android:drawableStart="@drawable/ic_dialog_tv"
-                android:visibility="gone"
-                android:paddingEnd="@dimen/material_design_spacing_large"
-                android:paddingStart="@dimen/material_design_spacing_large"/>
+                <RadioButton
+                    android:id="@+id/cast_radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.33"
+                    android:drawableTop="@drawable/ic_dialog_tv"
+                    android:text="@string/new_project_dialog_cast"
+                    android:gravity="center"
+                    android:visibility="gone" />
+            </RadioGroup>
 
-        </RadioGroup>
-
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/example_project_switch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/material_design_spacing_large"
-            android:paddingBottom="@dimen/material_design_spacing_large"
-            android:text="@string/new_project_dialog_example_project" />
-
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/example_project_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/material_design_spacing_x_large"
+                android:paddingBottom="@dimen/material_design_spacing_x_large"
+                android:paddingStart="@dimen/dialog_content_area_padding_input"
+                android:paddingEnd="@dimen/dialog_content_area_padding_input"
+                android:text="@string/new_project_dialog_example_project" />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

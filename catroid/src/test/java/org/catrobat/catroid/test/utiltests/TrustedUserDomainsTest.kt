@@ -24,12 +24,14 @@ package org.catrobat.catroid.test.utiltests
 
 import android.content.Context
 import org.catrobat.catroid.CatroidApplication
-import org.catrobat.catroid.TrustedDomainManager
 import org.catrobat.catroid.TrustedDomainManager.addToUserTrustList
 import org.catrobat.catroid.TrustedDomainManager.getUserTrustList
 import org.catrobat.catroid.TrustedDomainManager.isURLTrusted
+import org.catrobat.catroid.TrustedDomainManager.reset
 import org.catrobat.catroid.TrustedDomainManager.setUserTrustList
 import org.catrobat.catroid.common.Constants
+import org.catrobat.catroid.common.Constants.TRUSTED_USER_DOMAINS_FILE
+import org.catrobat.catroid.common.Constants.TRUST_LIST_JSON_ARRAY_NAME
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.utils.Utils
 import org.json.JSONArray
@@ -96,9 +98,10 @@ class TrustedUserDomainsTest {
 
     @Test
     fun testAddToUserTrustList() {
-        Constants.TRUSTED_USER_DOMAINS_FILE.createNewFile()
-        given(Utils.getJsonObjectFromInputStream(any()))
-            .willReturn(constructTrustList(listOf("tugraz.at")))
+        TRUSTED_USER_DOMAINS_FILE.createNewFile()
+        given(Utils.getJsonObjectFromInputStream(any())).willReturn(
+            constructTrustList(listOf("tugraz.at"))
+        )
         addToUserTrustList("wikipedia.net")
         assertTrue(isURLTrusted("https://www.tugraz.at"))
         assertTrue(isURLTrusted("https://www.wikipedia.net/blabla"))
@@ -107,17 +110,18 @@ class TrustedUserDomainsTest {
 
     @Test
     fun testGetUserTrustList() {
-        Constants.TRUSTED_USER_DOMAINS_FILE.createNewFile()
-        given(Utils.getJsonObjectFromInputStream(any()))
-            .willReturn(constructTrustList(listOf("tugraz.at", "wikipedia.net")))
+        TRUSTED_USER_DOMAINS_FILE.createNewFile()
+        given(Utils.getJsonObjectFromInputStream(any())).willReturn(
+            constructTrustList(listOf("tugraz.at", "wikipedia.net"))
+        )
         assertEquals("tugraz.at\nwikipedia.net", getUserTrustList())
     }
 
     @After
     fun tearDown() {
-        TrustedDomainManager.resetUserTrustList()
+        reset()
     }
 
     private fun constructTrustList(domains: List<String>): JSONObject =
-        JSONObject(mapOf(Constants.TRUST_LIST_JSON_ARRAY_NAME to JSONArray(domains)))
+        JSONObject(mapOf(TRUST_LIST_JSON_ARRAY_NAME to JSONArray(domains)))
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -2070,7 +2070,6 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="search">Szukaj</string>
     <string name="no_results_found">Nie znaleziono wyników</string>
     <string name="query_field_is_empty">Pole zapytania jest puste</string>
-    <string name="cut">Wytnij</string>
     <string name="paste">Wklej</string>
     <!-- Particle Effects -->
     <string name="fade_particle_effect">Efekt zanikania cząstek</string>
