@@ -38,6 +38,9 @@ import org.catrobat.catroid.io.catlang.parser.parameter.context.FormulaElementVi
 import org.catrobat.catroid.io.catlang.parser.parameter.context.FormulaVisitResult
 import org.catrobat.catroid.io.catlang.parser.parameter.context.ArgumentBaseVisitResult
 import org.catrobat.catroid.io.catlang.parser.parameter.context.ParameterVisitResult
+import org.catrobat.catroid.io.catlang.parser.parameter.error.ArgumentParsingException
+import org.catrobat.catroid.io.catlang.parser.parameter.error.UnkownFunctionException
+import org.catrobat.catroid.io.catlang.parser.parameter.error.UnkownSensorException
 import org.catrobat.catroid.io.catlang.parser.parameter.gen.CatrobatParameterParser
 import org.catrobat.catroid.io.catlang.parser.parameter.gen.CatrobatParameterParserVisitor
 import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils
@@ -48,7 +51,6 @@ class ArgumentVisitor(context: Context) : CatrobatParameterParserVisitor<Argumen
     private val _formulaElementStack = Stack<FormulaElement>()
 
     private var externToInternValues = InternToExternGenerator.getExternToInternValueMapping(CatrobatLanguageUtils.getEnglishContextForFormulas(context))
-//    private var externToInternValues = mapOf<String, String>()
 
     override fun visit(tree: ParseTree?): ArgumentBaseVisitResult {
         return ArgumentBaseVisitResult()
@@ -67,59 +69,60 @@ class ArgumentVisitor(context: Context) : CatrobatParameterParserVisitor<Argumen
     }
 
     override fun visitArgument(ctx: CatrobatParameterParser.ArgumentContext?): ArgumentBaseVisitResult {
-
         var result = visitExpression(ctx?.expression())
         if (result is FormulaElementVisitResult) {
-            return FormulaVisitResult(Formula(result.formulaElement))
+            val result = FormulaVisitResult(Formula(result.formulaElement))
+            return result
         }
         return ArgumentBaseVisitResult()
     }
 
     override fun visitExpression(ctx: CatrobatParameterParser.ExpressionContext?): ArgumentBaseVisitResult {
-        if (ctx != null) {
-            var operator: Operators? = null
-            if (ctx.OPERATOR_ADD() != null) {
-                if (ctx.OPERATOR_ADD().text == "+") {
-                    operator = Operators.PLUS
-                } else if (ctx.OPERATOR_ADD().text == "-") {
-                    operator = Operators.MINUS
-                }
-            } else if (ctx.OPERATOR_NUMERIC_DIVIDE() != null) {
-                operator = Operators.DIVIDE
-            } else if (ctx.OPERATOR_NUMERIC_MULTIPLY() != null) {
-                operator = Operators.MULT
-            } else if (ctx.OPERATOR_LOGIC_AND() != null) {
-                operator = Operators.LOGICAL_AND
-            } else if (ctx.OPERATOR_LOGIC_OR() != null) {
-                operator = Operators.LOGICAL_OR
-            } else if (ctx.OPERATOR_LOGIC_EQUAL() != null) {
-                operator = Operators.EQUAL
-            } else if (ctx.OPERATOR_LOGIC_NOT_EQUAL() != null) {
-                operator = Operators.NOT_EQUAL
-            } else if (ctx.OPERATOR_LOGIC_LOWER() != null) {
-                operator = Operators.SMALLER_THAN
-            } else if (ctx.OPERATOR_LOGIC_GREATER() != null) {
-                operator = Operators.GREATER_THAN
-            } else if (ctx.OPERATOR_LOGIC_LOWER_EQUAL() != null) {
-                operator = Operators.SMALLER_OR_EQUAL
-            } else if (ctx.OPERATOR_LOGIC_GREATER_EQUAL() != null) {
-                operator = Operators.GREATER_OR_EQUAL
-            }
-
-            if (operator != null) {
-                val parentElement = tryGetParentFormulaElement()
-                val formulaElement = FormulaElement(FormulaElement.ElementType.OPERATOR, operator.name, parentElement)
-                _formulaElementStack.push(formulaElement)
-                val leftResult = visitExpression(ctx.expression(0))
-                val rightResult = visitExpression(ctx.expression(1))
-                formulaElement.setLeftChild((leftResult as FormulaElementVisitResult).formulaElement)
-                formulaElement.setRightChild((rightResult as FormulaElementVisitResult).formulaElement)
-                _formulaElementStack.pop()
-                return FormulaElementVisitResult(formulaElement)
-            } else if (ctx.simple_expression() != null) {
-                return visitSimple_expression(ctx.simple_expression())
-            }
+        if (ctx == null) {
+            throw ArgumentParsingException("Cannot parse empty expression")
         }
+
+        var operator: Operators? = null
+        if (ctx.OPERATOR_NUMERIC_ADD() != null) {
+            operator = Operators.PLUS
+        } else if (ctx.OPERATOR_NUMERIC_MINUS() != null) {
+            operator = Operators.MINUS
+        } else if (ctx.OPERATOR_NUMERIC_DIVIDE() != null) {
+            operator = Operators.DIVIDE
+        } else if (ctx.OPERATOR_NUMERIC_MULTIPLY() != null) {
+            operator = Operators.MULT
+        } else if (ctx.OPERATOR_LOGIC_AND() != null) {
+            operator = Operators.LOGICAL_AND
+        } else if (ctx.OPERATOR_LOGIC_OR() != null) {
+            operator = Operators.LOGICAL_OR
+        } else if (ctx.OPERATOR_LOGIC_EQUAL() != null) {
+            operator = Operators.EQUAL
+        } else if (ctx.OPERATOR_LOGIC_NOT_EQUAL() != null) {
+            operator = Operators.NOT_EQUAL
+        } else if (ctx.OPERATOR_LOGIC_LOWER() != null) {
+            operator = Operators.SMALLER_THAN
+        } else if (ctx.OPERATOR_LOGIC_GREATER() != null) {
+            operator = Operators.GREATER_THAN
+        } else if (ctx.OPERATOR_LOGIC_LOWER_EQUAL() != null) {
+            operator = Operators.SMALLER_OR_EQUAL
+        } else if (ctx.OPERATOR_LOGIC_GREATER_EQUAL() != null) {
+            operator = Operators.GREATER_OR_EQUAL
+        }
+
+        if (operator != null) {
+            val parentElement = tryGetParentFormulaElement()
+            val formulaElement = FormulaElement(FormulaElement.ElementType.OPERATOR, operator.name, parentElement)
+            _formulaElementStack.push(formulaElement)
+            val leftResult = visitExpression(ctx.expression(0))
+            val rightResult = visitExpression(ctx.expression(1))
+            formulaElement.setLeftChild((leftResult as FormulaElementVisitResult).formulaElement)
+            formulaElement.setRightChild((rightResult as FormulaElementVisitResult).formulaElement)
+            _formulaElementStack.pop()
+            return FormulaElementVisitResult(formulaElement)
+        } else if (ctx.simple_expression() != null) {
+            return visitSimple_expression(ctx.simple_expression())
+        }
+
         return ArgumentBaseVisitResult()
     }
 
@@ -154,16 +157,18 @@ class ArgumentVisitor(context: Context) : CatrobatParameterParserVisitor<Argumen
 
     override fun visitSensor_reference(ctx: CatrobatParameterParser.Sensor_referenceContext?): ArgumentBaseVisitResult {
         if (ctx?.FUNCTION_OR_SENSOR() != null) {
-            if (externToInternValues.containsKey(ctx.FUNCTION_OR_SENSOR().text)) {
-                val sensorName = externToInternValues[ctx.FUNCTION_OR_SENSOR().text]
+            val sensorName = ctx.FUNCTION_OR_SENSOR().text
+            if (externToInternValues.containsKey(sensorName)) {
+                val sensorID = externToInternValues[sensorName]
 
                 val allSensors = enumValues<Sensors>()
                 for (sensor in allSensors) {
-                    if (sensor.name == sensorName) {
-                        return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.SENSOR, sensorName, tryGetParentFormulaElement()))
+                    if (sensor.name == sensorID) {
+                        return FormulaElementVisitResult(FormulaElement(FormulaElement.ElementType.SENSOR, sensorID, tryGetParentFormulaElement()))
                     }
                 }
             }
+            throw UnkownSensorException(sensorName!!)
         }
         return ArgumentBaseVisitResult()
     }
@@ -171,13 +176,13 @@ class ArgumentVisitor(context: Context) : CatrobatParameterParserVisitor<Argumen
     override fun visitMethod_invoaction(ctx: CatrobatParameterParser.Method_invoactionContext?): ArgumentBaseVisitResult {
         if (ctx?.FUNCTION_OR_SENSOR() != null) {
             if (externToInternValues.containsKey(ctx.FUNCTION_OR_SENSOR().text)) {
-                val sensorName = externToInternValues[ctx.FUNCTION_OR_SENSOR().text]
+                val functionName = externToInternValues[ctx.FUNCTION_OR_SENSOR().text]
 
                 var functionElement: FormulaElement? = null
                 val allFunctions = enumValues<Functions>()
                 for (sensor in allFunctions) {
-                    if (sensor.name == sensorName) {
-                        functionElement = FormulaElement(FormulaElement.ElementType.FUNCTION, sensorName, tryGetParentFormulaElement())
+                    if (sensor.name == functionName) {
+                        functionElement = FormulaElement(FormulaElement.ElementType.FUNCTION, functionName, tryGetParentFormulaElement())
                     }
                 }
                 if (functionElement != null) {
@@ -197,6 +202,8 @@ class ArgumentVisitor(context: Context) : CatrobatParameterParserVisitor<Argumen
                     }
                     _formulaElementStack.pop()
                     return FormulaElementVisitResult(functionElement)
+                } else {
+                    throw UnkownFunctionException(functionName!!)
                 }
             }
         }
@@ -235,13 +242,10 @@ class ArgumentVisitor(context: Context) : CatrobatParameterParserVisitor<Argumen
         if (ctx != null) {
             var unaryFormulaElement: FormulaElement? = null
 
-            if (ctx.OPERATOR_ADD() != null) {
-                val operatorAdd = ctx.OPERATOR_ADD().text
-                if (operatorAdd == "+") {
-                    unaryFormulaElement = FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.PLUS.name, parentElement)
-                } else if (operatorAdd == "-") {
-                    unaryFormulaElement = FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.MINUS.name, parentElement)
-                }
+            if (ctx.OPERATOR_NUMERIC_ADD() != null) {
+                unaryFormulaElement = FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.PLUS.name, parentElement)
+            } else if (ctx.OPERATOR_NUMERIC_MINUS() != null) {
+                unaryFormulaElement = FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.MINUS.name, parentElement)
             } else if (ctx.OPERATOR_LOGIC_NOT() != null) {
                 unaryFormulaElement = FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.LOGICAL_NOT.name, parentElement)
             }

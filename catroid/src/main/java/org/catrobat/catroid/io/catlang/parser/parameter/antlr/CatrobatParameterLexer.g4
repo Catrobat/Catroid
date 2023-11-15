@@ -22,7 +22,8 @@ UDB_PARAMETER: '[' (~'[' | ~']' | '\\[' | '\\]')* ']';
 LIST: '*' (~[*] | '\\*')* '*';
 STRING: '\'' (~['] | '\\\'')* '\'';
 
-OPERATOR_ADD: '+' | '-';
+OPERATOR_NUMERIC_ADD: '+';
+OPERATOR_NUMERIC_MINUS: '-';
 OPERATOR_NUMERIC_DIVIDE: '/' | '÷';
 OPERATOR_NUMERIC_MULTIPLY: '×';
 OPERATOR_LOGIC_AND: '&&';

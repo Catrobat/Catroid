@@ -35,7 +35,8 @@ class LexerTest {
     @Test
     fun basicLexerTest() {
         val param = ArgumentParserHelper(CatroidApplication.getAppContext())
-        param.parseArgument("join('hello', 'world', '!')")
+//        param.parseArgument("join('hello', 'world', '!')")
+        param.parseArgument("1-3/9×7-6×2/4+8")
     }
 
     @Test

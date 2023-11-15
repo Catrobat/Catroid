@@ -75,7 +75,6 @@ import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.io.catlang.serializer.CatrobatLanguageUtils;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
@@ -711,8 +710,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				FormulaEditorComputeDialog computeDialog =
 						new FormulaEditorComputeDialog(getActivity(), generateScope());
 				computeDialog.setFormula(formulaToCompute);
-				Context ctx = CatrobatLanguageUtils.getEnglishContextForFormulas(getActivity());
-				String content = formulaToCompute.getTrimmedFormulaStringForCatrobatLanguage(ctx);
 				computeDialog.show();
 			}
 		}.execute(getActivity());
@@ -769,10 +766,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.menu_copy:
-				Context ctx = CatrobatLanguageUtils.getEnglishContextForFormulas(getActivity());
-				String content = currentFormula.getTrimmedFormulaStringForCatrobatLanguage(ctx);
-				formulaEditorEditText.setText(content);
 			case R.id.menu_undo:
 				formulaEditorEditText.undo();
 				break;

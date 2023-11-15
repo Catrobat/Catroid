@@ -1,4 +1,4 @@
-parser grammar CatrobatParameterParser;
+parser grammar CatrobatParameterParser2;
 
 options {
 	tokenVocab = CatrobatParameterLexer;
@@ -8,10 +8,7 @@ argument: expression EOF;
 
 expression
 	: simple_expression
-	| expression OPERATOR_NUMERIC_DIVIDE expression
-	| expression OPERATOR_NUMERIC_MULTIPLY expression
-	| expression OPERATOR_NUMERIC_ADD expression
-	| expression OPERATOR_NUMERIC_MINUS expression
+	| additiveExpression
 	| expression OPERATOR_LOGIC_AND expression
 	| expression OPERATOR_LOGIC_OR expression
 	| expression OPERATOR_LOGIC_EQUAL expression
@@ -21,6 +18,20 @@ expression
 	| expression OPERATOR_LOGIC_LOWER_EQUAL expression
 	| expression OPERATOR_LOGIC_GREATER_EQUAL expression
 	;
+
+additiveExpression
+    :   multiplicativeExpression
+        ( OPERATOR_NUMERIC_ADD multiplicativeExpression
+        | OPERATOR_NUMERIC_MINUS multiplicativeExpression
+        )*
+    ;
+
+multiplicativeExpression
+    :   simple_expression
+        ( OPERATOR_NUMERIC_MULTIPLY simple_expression
+        | OPERATOR_NUMERIC_DIVIDE simple_expression
+        )*
+    ;
 
 simple_expression
 	: literal

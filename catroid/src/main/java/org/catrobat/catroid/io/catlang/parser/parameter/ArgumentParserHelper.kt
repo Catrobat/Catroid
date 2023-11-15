@@ -29,70 +29,68 @@ import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.RecognitionException
 import org.antlr.v4.runtime.Recognizer
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scope
+import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.io.catlang.parser.parameter.context.FormulaVisitResult
+import org.catrobat.catroid.io.catlang.parser.parameter.error.ArgumentParsingException
 import org.catrobat.catroid.io.catlang.parser.parameter.gen.CatrobatParameterLexer
 import org.catrobat.catroid.io.catlang.parser.parameter.gen.CatrobatParameterParser
 
 class ArgumentParserHelper(private val context: Context) {
 
     class LexerErrorListener : BaseErrorListener() {
-        public val errors: ArrayList<String> = arrayListOf()
+        val errors: ArrayList<String> = arrayListOf()
 
         override fun syntaxError(recognizer: Recognizer<*, *>?, offendingSymbol: Any?, line: Int, charPositionInLine: Int, msg: String?, e: RecognitionException?) {
             //super.syntaxError(recognizer, offendingSymbol, line, charPositionInLine, msg, e)
-            errors.add("line $line:$charPositionInLine $msg")
+            errors.add("Error at argument position $charPositionInLine: $msg")
         }
     }
 
     class ParserErrorListener : BaseErrorListener() {
-        public val errors: ArrayList<String> = arrayListOf()
+        val errors: ArrayList<String> = arrayListOf()
 
         override fun syntaxError(recognizer: Recognizer<*, *>?, offendingSymbol: Any?, line: Int, charPositionInLine: Int, msg: String?, e: RecognitionException?) {
-            //super.syntaxError(recognizer, offendingSymbol, line, charPositionInLine, msg, e)
-            errors.add("line $line:$charPositionInLine $msg")
+            errors.add("Error at argument position $charPositionInLine: $msg")
         }
     }
 
     fun parseArgument(parameter: String): Formula {
-        try {
-            val lexer = CatrobatParameterLexer(CharStreams.fromString(parameter))
-            var parser = CatrobatParameterParser(CommonTokenStream(lexer))
+        val lexerErrorListener = LexerErrorListener()
+        val parserErrorListener = ParserErrorListener()
 
-            val visitor = ArgumentVisitor(context)
-            var result = visitor.visitArgument(parser.argument())
-            if (result is FormulaVisitResult) {
-                val internFormula = result.formula.getTrimmedFormulaStringForCatrobatLanguage(context)
-                println(internFormula)
-            }
-        } catch (ex: Throwable) {
-            println(ex.message)
+        val lexer = CatrobatParameterLexer(CharStreams.fromString(parameter))
+        lexer.removeErrorListeners()
+        lexer.addErrorListener(lexerErrorListener)
+
+        var parser = CatrobatParameterParser(CommonTokenStream(lexer))
+        parser.removeErrorListeners()
+        parser.addErrorListener(parserErrorListener)
+
+        val visitor = ArgumentVisitor(context)
+
+        val argument = parser.argument()
+
+        throwArgumentParsingException(lexerErrorListener.errors)
+        throwArgumentParsingException(parserErrorListener.errors)
+
+        var result = visitor.visitArgument(argument)
+        if (result is FormulaVisitResult) {
+            val internFormula = result.formula.getTrimmedFormulaStringForCatrobatLanguage(context)
+
+            val scope = Scope(null, Sprite(), null)
+            val computed = result.formula.getUserFriendlyString(null, scope)
+
+            return result.formula
         }
-
         return Formula(1)
     }
 
-//    fun lexer(parameter: String) {
-//        try {
-//            val lexer = CatrobatParameterLexer(CharStreams.fromString(parameter))
-//            val lexerErrorListener = LexerErrorListener()
-//            lexer.removeErrorListeners()
-//            lexer.addErrorListener(lexerErrorListener)
-//
-//            val cts = CommonTokenStream(lexer)
-//
-//            val parser = CatrobatParameterParser(cts)
-//            parser.removeErrorListeners()
-//            val parserErrorListener = ParserErrorListener()
-//            parser.addErrorListener(parserErrorListener)
-//            val argCtx = parser.argument()
-//
-//            val visitor = TestVisitor()
-//            visitor.visitArgument(argCtx)
-//
-//            println(parserErrorListener.errors.count())
-//        } catch (ex: Throwable) {
-//            println(ex.message)
-//        }
-//    }
+    private fun throwArgumentParsingException(errors: List<String>) {
+        if (errors.isNotEmpty()) {
+            throw ArgumentParsingException(errors.joinToString("\n"))
+        }
+    }
 }
