@@ -39,7 +39,6 @@ import org.catrobat.catroid.content.bricks.ElseBrick
 import org.catrobat.catroid.content.bricks.EmptyEventBrick
 import org.catrobat.catroid.content.bricks.EndBrick
 import org.catrobat.catroid.content.bricks.FormulaBrick
-import org.catrobat.catroid.content.bricks.IfLogicBeginBrick
 import org.catrobat.catroid.content.bricks.ListSelectorBrick
 import org.catrobat.catroid.content.bricks.ScriptBrick
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
@@ -369,7 +368,8 @@ class BrickAdapter(private val sprite: Sprite) :
         if (source !is ScriptBrick && targetPosition == 0) {
             return false
         }
-        if (source !is ElseBrick && source.allParts.contains(items[targetPosition])) {
+        if (source !is ElseBrick && source !is EndBrick &&
+            source.allParts.contains(items[targetPosition])) {
             return false
         }
         Collections.swap(items, sourcePosition, targetPosition)
@@ -500,7 +500,7 @@ class BrickAdapter(private val sprite: Sprite) :
 
     private fun getBrickBelowPosition(position: Int): Brick {
         var position = position
-        if (position < items.size) {
+        if (position < (items.size - 1)) {
             position++
         }
         return items[position]

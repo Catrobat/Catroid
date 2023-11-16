@@ -49,6 +49,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.ElseBrick;
 import org.catrobat.catroid.content.bricks.EmptyEventBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
@@ -717,7 +718,7 @@ public class ScriptFragment extends ListFragment implements
 			if (brick instanceof FormulaBrick && ((FormulaBrick) brick).hasEditableFormulaField()) {
 				items.add(R.string.brick_context_dialog_formula_edit_brick);
 			}
-			if (brick.equals(brick.getAllParts().get(0))) {
+			if (brick.equals(brick.getAllParts().get(0)) || brick instanceof ElseBrick) {
 				items.add(R.string.brick_context_dialog_move_brick);
 			}
 
