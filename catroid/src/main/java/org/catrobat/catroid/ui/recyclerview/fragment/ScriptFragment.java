@@ -108,6 +108,7 @@ import androidx.fragment.app.ListFragment;
 
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.UNDO_CODE_XML_FILE_NAME;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class ScriptFragment extends ListFragment implements
 		ActionMode.Callback,
@@ -115,6 +116,8 @@ public class ScriptFragment extends ListFragment implements
 		BrickAdapter.SelectionListener, OnCategorySelectedListener,
 		AddBrickFragment.OnAddBrickListener,
 		ProjectLoader.ProjectLoadListener {
+
+	ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	public static final String TAG = ScriptFragment.class.getSimpleName();
 	private static final String BRICK_TAG = "brickToFocus";
@@ -290,7 +293,7 @@ public class ScriptFragment extends ListFragment implements
 		scriptFinder.setOnResultFoundListener((sceneIndex, spriteIndex, brickIndex, totalResults,
 				textView
 				) -> {
-			Project currentProject = ProjectManager.getInstance().getCurrentProject();
+			Project currentProject = projectManager.getCurrentProject();
 			Scene currentScene = currentProject.getSceneList().get(sceneIndex);
 			Sprite currentSprite = currentScene.getSpriteList().get(spriteIndex);
 
@@ -298,7 +301,7 @@ public class ScriptFragment extends ListFragment implements
 					currentScene,
 					currentSprite));
 
-			ProjectManager.getInstance().setCurrentSceneAndSprite(currentScene.getName(),
+			projectManager.setCurrentSceneAndSprite(currentScene.getName(),
 					currentSprite.getName());
 
 			adapter.updateItems(currentSprite);
@@ -312,8 +315,8 @@ public class ScriptFragment extends ListFragment implements
 			listView.cancelHighlighting();
 			finishActionMode();
 			if (activity != null && !activity.isFinishing()) {
-				activity.setCurrentSceneAndSprite(ProjectManager.getInstance().getCurrentlyEditedScene(),
-						ProjectManager.getInstance().getCurrentSprite());
+				activity.setCurrentSceneAndSprite(projectManager.getCurrentlyEditedScene(),
+						projectManager.getCurrentSprite());
 				activity.getSupportActionBar().setTitle(activity.createActionBarTitle());
 				activity.addTabs();
 			}
@@ -360,12 +363,12 @@ public class ScriptFragment extends ListFragment implements
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		Project currentProject = projectManager.getCurrentProject();
+		Scene currentScene = projectManager.getCurrentlyEditedScene();
+		Sprite currentSprite = projectManager.getCurrentSprite();
 		currentProject.getBroadcastMessageContainer().update();
 
-		adapter = new BrickAdapter(ProjectManager.getInstance().getCurrentSprite());
+		adapter = new BrickAdapter(projectManager.getCurrentSprite());
 		adapter.setSelectionListener(this);
 		adapter.setOnItemClickListener(this);
 
@@ -386,9 +389,9 @@ public class ScriptFragment extends ListFragment implements
 	public void onResume() {
 		super.onResume();
 
-		Project project = ProjectManager.getInstance().getCurrentProject();
-		Scene scene = ProjectManager.getInstance().getCurrentlyEditedScene();
-		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		Project project = projectManager.getCurrentProject();
+		Scene scene = projectManager.getCurrentlyEditedScene();
+		Sprite sprite = projectManager.getCurrentSprite();
 
 		ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 
@@ -406,7 +409,7 @@ public class ScriptFragment extends ListFragment implements
 		BottomBar.showPlayButton(getActivity());
 		BottomBar.showAddButton(getActivity());
 
-		adapter.updateItems(ProjectManager.getInstance().getCurrentSprite());
+		adapter.updateItems(projectManager.getCurrentSprite());
 
 		if (savedListViewState != null) {
 			listView.onRestoreInstanceState(savedListViewState);
@@ -419,7 +422,7 @@ public class ScriptFragment extends ListFragment implements
 	@Override
 	public void onPause() {
 		super.onPause();
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Project currentProject = projectManager.getCurrentProject();
 		new ProjectSaver(currentProject, getContext()).saveProjectAsync();
 
 		savedListViewState = listView.onSaveInstanceState();
@@ -493,7 +496,7 @@ public class ScriptFragment extends ListFragment implements
 
 	public void cancelMove() {
 		listView.cancelMove();
-		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite sprite = projectManager.getCurrentSprite();
 		adapter.updateItems(sprite);
 	}
 
@@ -614,7 +617,7 @@ public class ScriptFragment extends ListFragment implements
 		} catch (CloneNotSupportedException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
 		}
-		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite sprite = projectManager.getCurrentSprite();
 		addBrick(brick, sprite, adapter, listView);
 	}
 
@@ -797,8 +800,8 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	private void openWebViewWithHelpPage(Brick brick) {
-		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
-		Sprite backgroundSprite = ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite();
+		Sprite sprite = projectManager.getCurrentSprite();
+		Sprite backgroundSprite = projectManager.getCurrentlyEditedScene().getBackgroundSprite();
 		String category = new CategoryBricksFactory().getBrickCategory(brick, sprite == backgroundSprite, getContext());
 
 		String brickHelpUrl = brick.getHelpUrl(category);
@@ -897,7 +900,7 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	private void copy(List<Brick> selectedBricks) {
-		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite sprite = projectManager.getCurrentSprite();
 		brickController.copy(selectedBricks, sprite);
 		adapter.updateItems(sprite);
 		finishActionMode();
@@ -912,7 +915,7 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	private void delete(List<Brick> selectedItems) {
-		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite sprite = projectManager.getCurrentSprite();
 		brickController.delete(selectedItems, sprite);
 		adapter.updateItems(sprite);
 		finishActionMode();
@@ -930,7 +933,6 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	public boolean copyProjectForUndoOption() {
-		ProjectManager projectManager = ProjectManager.getInstance();
 		Sprite currentSprite = projectManager.getCurrentSprite();
 		currentSpriteName = currentSprite.getName();
 		currentSceneName = projectManager.getCurrentlyEditedScene().getName();
@@ -952,7 +954,7 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	public void loadProjectAfterUndoOption() {
-		Project project = ProjectManager.getInstance().getCurrentProject();
+		Project project = projectManager.getCurrentProject();
 		File currentCodeFile = new File(project.getDirectory(), CODE_XML_FILE_NAME);
 		File undoCodeFile = new File(project.getDirectory(), UNDO_CODE_XML_FILE_NAME);
 
@@ -968,7 +970,7 @@ public class ScriptFragment extends ListFragment implements
 
 	@Override
 	public void onLoadFinished(boolean success) {
-		ProjectManager.getInstance().setCurrentSceneAndSprite(currentSceneName, currentSpriteName);
+		projectManager.setCurrentSceneAndSprite(currentSceneName, currentSpriteName);
 		if (checkVariables()) {
 			loadVariables();
 		}
@@ -976,7 +978,6 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	private void saveVariables() {
-		ProjectManager projectManager = ProjectManager.getInstance();
 		Sprite currentSprite = projectManager.getCurrentSprite();
 		Project project = projectManager.getCurrentProject();
 
@@ -988,7 +989,6 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	public boolean checkVariables() {
-		ProjectManager projectManager = ProjectManager.getInstance();
 		Sprite currentSprite = projectManager.getCurrentSprite();
 		Project project = projectManager.getCurrentProject();
 
@@ -1000,7 +1000,6 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	private void loadVariables() {
-		ProjectManager projectManager = ProjectManager.getInstance();
 		Sprite currentSprite = projectManager.getCurrentSprite();
 		Project project = projectManager.getCurrentProject();
 

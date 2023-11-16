@@ -60,8 +60,8 @@ class ElseBrick @JvmOverloads constructor(
 
     override fun getPositionInDragAndDropTargetList(): Int = -1
 
-    override fun addActionToSequence(sprite: Sprite?, sequence: ScriptSequenceAction?){
-        //do nothing
+    override fun addActionToSequence(sprite: Sprite?, sequence: ScriptSequenceAction?) {
+        // do nothing
     }
 
     override fun getBrickID(): UUID? = parent.brickID

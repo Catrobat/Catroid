@@ -447,7 +447,7 @@ class BrickAdapter(private val sprite: Sprite) :
             parentOfBrickAboveTargetPosition !== elseBrick.parent) {
             val brickBelowTargetPosition = getBrickBelowPosition(position)
             val (parentOfBrickBelowTargetPosition, destinationBelowPosition) =
-                getParentBrickInDragAndDropList(brickBelowTargetPosition, elseBrick.parent) ?: (null to 0)
+                getParentBrickInDragAndDropList(brickBelowTargetPosition, elseBrick.parent) ?: null to 0
 
             if (parentOfBrickBelowTargetPosition is CompositeBrick &&
                 parentOfBrickBelowTargetPosition !== elseBrick.parent) {
@@ -458,7 +458,7 @@ class BrickAdapter(private val sprite: Sprite) :
         val parent = elseBrick.parent as CompositeBrick
         if (parent.nestedBricks.size >= destinationPosition) {
             while (parent.nestedBricks.size > destinationPosition) {
-                parent.secondaryNestedBricks.add(0,parent.nestedBricks.last())
+                parent.secondaryNestedBricks.add(0, parent.nestedBricks.last())
                 parent.nestedBricks.removeLast()
             }
         } else {
