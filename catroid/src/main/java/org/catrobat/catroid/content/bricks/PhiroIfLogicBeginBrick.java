@@ -90,7 +90,7 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 	@Override
 	public Brick clone() throws CloneNotSupportedException {
 		PhiroIfLogicBeginBrick clone = (PhiroIfLogicBeginBrick) super.clone();
-		clone.elseBrick = new ElseBrick(clone, R.layout.brick_if_else);
+		clone.elseBrick = new ElseBrick(clone);
 		clone.endBrick = new EndBrick(clone, R.layout.brick_if_end_if);
 		clone.ifBranchBricks = new ArrayList<>();
 		clone.elseBranchBricks = new ArrayList<>();

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -418,10 +418,8 @@ class BrickAdapter(private val sprite: Sprite) :
         }
 
         var dragAndDropTargetList = enclosureBrick.dragAndDropTargetList.toList()
-        if (enclosureBrick is CompositeBrick) {
-            if (enclosureBrick.hasSecondaryList()) {
-                dragAndDropTargetList += enclosureBrick.secondaryNestedBricks.toList()
-            }
+        if (enclosureBrick is CompositeBrick && enclosureBrick.hasSecondaryList()) {
+            dragAndDropTargetList += enclosureBrick.secondaryNestedBricks.toList()
         }
 
         if (brickInEnclosure.parent !== enclosureBrick &&
@@ -434,35 +432,39 @@ class BrickAdapter(private val sprite: Sprite) :
             dragAndDropTargetList.indexOf(brickInEnclosure) + 1
     }
 
-    private fun moveElseTo(position: Int, elseBrick: ElseBrick, brickAboveTargetPosition: Brick)
-    {
+    private fun moveElseTo(position: Int, elseBrick: ElseBrick, brickAboveTargetPosition: Brick) {
         val (parentOfBrickAboveTargetPosition, destinationPosition) =
             getParentBrickInDragAndDropList(brickAboveTargetPosition, elseBrick.parent)
-                ?: (null to 0)
-        if (elseBrick.script == brickAboveTargetPosition.script &&
-            parentOfBrickAboveTargetPosition !== null && parentOfBrickAboveTargetPosition !is EndBrick){
+                ?: null to 0
+
+        if (elseBrick.script !== brickAboveTargetPosition.script ||
+            parentOfBrickAboveTargetPosition == null ||
+            parentOfBrickAboveTargetPosition is EndBrick) {
+            return
+        }
+
+        if (parentOfBrickAboveTargetPosition is CompositeBrick &&
+            parentOfBrickAboveTargetPosition !== elseBrick.parent) {
             val brickBelowTargetPosition = getBrickBelowPosition(position)
             val (parentOfBrickBelowTargetPosition, destinationBelowPosition) =
-                getParentBrickInDragAndDropList(brickBelowTargetPosition, elseBrick.parent)
-                    ?: (null to 0)
-            if (parentOfBrickAboveTargetPosition is CompositeBrick &&
-                parentOfBrickAboveTargetPosition !== elseBrick.parent &&
-                parentOfBrickBelowTargetPosition is CompositeBrick &&
+                getParentBrickInDragAndDropList(brickBelowTargetPosition, elseBrick.parent) ?: (null to 0)
+
+            if (parentOfBrickBelowTargetPosition is CompositeBrick &&
                 parentOfBrickBelowTargetPosition !== elseBrick.parent) {
                 return
-            } else {
-                val parent = elseBrick.parent as CompositeBrick
-                if (parent.nestedBricks.size >= destinationPosition) {
-                    while (parent.nestedBricks.size > destinationPosition) {
-                        parent.secondaryNestedBricks.add(parent.nestedBricks.last())
-                        parent.nestedBricks.removeLast()
-                    }
-                } else {
-                    while (destinationPosition - parent.nestedBricks.size > 0) {
-                        parent.nestedBricks.add(parent.secondaryNestedBricks.first())
-                        parent.secondaryNestedBricks.removeFirst()
-                    }
-                }
+            }
+        }
+
+        val parent = elseBrick.parent as CompositeBrick
+        if (parent.nestedBricks.size >= destinationPosition) {
+            while (parent.nestedBricks.size > destinationPosition) {
+                parent.secondaryNestedBricks.add(0,parent.nestedBricks.last())
+                parent.nestedBricks.removeLast()
+            }
+        } else {
+            while (destinationPosition - parent.nestedBricks.size > 0) {
+                parent.nestedBricks.add(parent.secondaryNestedBricks.first())
+                parent.secondaryNestedBricks.removeFirst()
             }
         }
     }
@@ -500,7 +502,7 @@ class BrickAdapter(private val sprite: Sprite) :
 
     private fun getBrickBelowPosition(position: Int): Brick {
         var position = position
-        if (position < (items.size - 1)) {
+        if (position < items.size - 1) {
             position++
         }
         return items[position]

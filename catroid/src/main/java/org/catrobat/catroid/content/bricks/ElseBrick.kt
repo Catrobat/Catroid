@@ -29,18 +29,16 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import java.util.UUID
 
-
 @VisibleForTesting
 class ElseBrick @JvmOverloads constructor(
     elseBrickParent: BrickBaseType,
-    private val viewResource: Int = R.layout.brick_if_else
 ) : BrickBaseType() {
 
     init {
         parent = elseBrickParent
     }
 
-    override fun getViewResource(): Int = viewResource
+    override fun getViewResource(): Int = R.layout.brick_if_else
 
     override fun isCommentedOut(): Boolean = parent.isCommentedOut
 
@@ -54,15 +52,16 @@ class ElseBrick @JvmOverloads constructor(
 
     override fun getDragAndDropTargetList(): List<Brick?>? {
         if (parent is PhiroIfLogicBeginBrick) {
-            return (parent as PhiroIfLogicBeginBrick).secondaryNestedBricks }
-        else if (parent is IfLogicBeginBrick) {
+            return (parent as PhiroIfLogicBeginBrick).secondaryNestedBricks
+        } else if (parent is IfLogicBeginBrick) {
             return (parent as IfLogicBeginBrick).secondaryNestedBricks }
         throw java.lang.Exception("Not Implemented yet")
     }
 
     override fun getPositionInDragAndDropTargetList(): Int = -1
 
-    override fun addActionToSequence(sprite: Sprite?, sequence: ScriptSequenceAction?) {
+    override fun addActionToSequence(sprite: Sprite?, sequence: ScriptSequenceAction?){
+        //do nothing
     }
 
     override fun getBrickID(): UUID? = parent.brickID

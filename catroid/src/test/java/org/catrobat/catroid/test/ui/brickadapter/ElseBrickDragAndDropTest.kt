@@ -28,7 +28,6 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick
 import org.catrobat.catroid.content.bricks.SetXBrick
-import org.catrobat.catroid.content.bricks.SetYBrick
 import org.catrobat.catroid.ui.recyclerview.adapter.BrickAdapter
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -37,7 +36,6 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
-
 
 @RunWith(JUnit4::class)
 class ElseBrickDragAndDropTest {
