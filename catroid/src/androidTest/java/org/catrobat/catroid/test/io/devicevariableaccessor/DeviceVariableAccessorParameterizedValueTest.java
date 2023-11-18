@@ -29,22 +29,18 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.DeviceUserDataAccessor;
 import org.catrobat.catroid.io.DeviceVariableAccessor;
-import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
-import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
-import androidx.test.core.app.ApplicationProvider;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -76,17 +72,16 @@ public class DeviceVariableAccessorParameterizedValueTest<T> {
 	public T initialValue;
 
 	private Object throwAwayValue = new Object();
-	private File directory;
 	private UserVariable userVariable;
 	private DeviceUserDataAccessor accessor;
 
+	@Rule
+	public TemporaryFolder tmpFolder = new TemporaryFolder();
+
 	@Before
 	public void setUp() {
-		directory = new File(ApplicationProvider.getApplicationContext().getCacheDir(), "DeviceValues");
-		directory.mkdir();
-
 		userVariable = new UserVariable("globalVarX", initialValue);
-		accessor = new DeviceVariableAccessor(directory);
+		accessor = new DeviceVariableAccessor(tmpFolder.getRoot());
 	}
 
 	@Test
@@ -135,10 +130,5 @@ public class DeviceVariableAccessorParameterizedValueTest<T> {
 		clonedVar.setValue(throwAwayValue);
 		assertTrue(accessor.readUserData(clonedVar));
 		assertEquals(userVariable.getValue(), clonedVar.getValue());
-	}
-
-	@After
-	public void tearDown() throws IOException {
-		StorageOperations.deleteDir(directory);
 	}
 }

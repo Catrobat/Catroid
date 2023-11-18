@@ -23,7 +23,6 @@
 package org.catrobat.catroid.test.content.sprite
 
 import android.net.Uri
-import android.util.Log
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.intent.Intents
 import org.catrobat.catroid.ProjectManager
@@ -49,6 +48,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TemporaryFolder
 import org.koin.java.KoinJavaComponent
 import java.io.File
 
@@ -70,15 +70,12 @@ class ImportObjectIntoProjectFromContextMenuTest {
         ProjectActivity.FRAGMENT_SPRITES
     )
 
+    @get:Rule
+    val tmpFolder: TemporaryFolder = TemporaryFolder()
+
     @Throws(Exception::class)
     @Before
     fun setUp() {
-        try {
-            Constants.MEDIA_LIBRARY_CACHE_DIRECTORY.mkdirs()
-        } catch (e: Exception) {
-            Log.e(tag, Log.getStackTraceString(e))
-        }
-
         project = DefaultProjectHandler
             .createAndSaveDefaultProject(
                 defaultProjectName,
@@ -98,7 +95,7 @@ class ImportObjectIntoProjectFromContextMenuTest {
         XstreamSerializer.getInstance().saveProject(importedProject)
 
         val projectZip = File(
-            Constants.MEDIA_LIBRARY_CACHE_DIRECTORY,
+            tmpFolder.root,
             importedProject?.name + Constants.CATROBAT_EXTENSION
         )
 

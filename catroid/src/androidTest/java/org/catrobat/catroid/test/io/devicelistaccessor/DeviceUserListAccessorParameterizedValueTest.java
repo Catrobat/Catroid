@@ -29,24 +29,20 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.io.DeviceListAccessor;
 import org.catrobat.catroid.io.DeviceUserDataAccessor;
-import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
-import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
-import androidx.test.core.app.ApplicationProvider;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -77,17 +73,16 @@ public class DeviceUserListAccessorParameterizedValueTest<T> {
 	public List<Object> initialValue;
 
 	private List<Object> throwAwayValue = Arrays.asList("Throw Away Value");
-	private File directory;
 	private UserList userList;
 	private DeviceUserDataAccessor accessor;
 
+	@Rule
+	public TemporaryFolder tmpFolder = new TemporaryFolder();
+
 	@Before
 	public void setUp() {
-		directory = new File(ApplicationProvider.getApplicationContext().getCacheDir(), "DeviceLists");
-		directory.mkdir();
-
 		userList = new UserList("globalListX", initialValue);
-		accessor = new DeviceListAccessor(directory);
+		accessor = new DeviceListAccessor(tmpFolder.getRoot());
 	}
 
 	@Test
@@ -133,10 +128,5 @@ public class DeviceUserListAccessorParameterizedValueTest<T> {
 		UserList clonedList = clone.getUserList(userList.getName());
 		assertNotSame(userList, clonedList);
 		assertEquals(userList.getValue(), clonedList.getValue());
-	}
-
-	@After
-	public void tearDown() throws IOException {
-		StorageOperations.deleteDir(directory);
 	}
 }

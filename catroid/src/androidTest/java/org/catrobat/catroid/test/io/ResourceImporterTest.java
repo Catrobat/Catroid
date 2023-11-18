@@ -23,12 +23,10 @@
 
 package org.catrobat.catroid.test.io;
 
-import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.io.ResourceImporter;
-import org.catrobat.catroid.io.StorageOperations;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
 import java.io.File;
@@ -42,29 +40,21 @@ import static junit.framework.Assert.assertTrue;
 @RunWith(AndroidJUnit4.class)
 public class ResourceImporterTest {
 
-	private File testDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "ResourceImporterTest");
-
-	@Before
-	public void setUp() {
-		testDir.mkdirs();
-	}
-
-	@After
-	public void tearDown() throws IOException {
-		StorageOperations.deleteDir(testDir);
-	}
+	@Rule
+	public TemporaryFolder tmpFolder = new TemporaryFolder();
 
 	@Test
 	public void testImportImageFile() throws IOException {
 		File fileFromDrawables = ResourceImporter.createImageFileFromResourcesInDirectory(
 				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
-				org.catrobat.catroid.test.R.drawable.catroid_banzai, testDir, "drawable.png", 1);
+				org.catrobat.catroid.test.R.drawable.catroid_banzai, tmpFolder.getRoot(), "drawable.png",
+				1);
 
 		assertTrue(fileFromDrawables.getAbsolutePath() + " does not exist", fileFromDrawables.exists());
 
 		File fileFromRaw = ResourceImporter.createImageFileFromResourcesInDirectory(
 				InstrumentationRegistry.getInstrumentation().getContext().getResources(), org.catrobat.catroid.test.R.raw.alpha_test_image,
-				testDir, "raw.png", 1);
+				tmpFolder.getRoot(), "raw.png", 1);
 
 		assertTrue(fileFromRaw.getAbsolutePath() + " does not exist", fileFromRaw.exists());
 	}
@@ -73,7 +63,7 @@ public class ResourceImporterTest {
 	public void testImportSoundFile() throws IOException {
 		File fileFromRaw = ResourceImporter.createSoundFileFromResourcesInDirectory(
 				InstrumentationRegistry.getInstrumentation().getContext().getResources(), org.catrobat.catroid.test.R.raw.longtestsound,
-				testDir, "sound.m4a"
+				tmpFolder.getRoot(), "sound.m4a"
 		);
 
 		assertTrue(fileFromRaw.getAbsolutePath() + " does not exist", fileFromRaw.exists());

@@ -23,12 +23,11 @@
 
 package org.catrobat.catroid.test.io.ziparchiver;
 
-import org.catrobat.catroid.common.FlavoredConstants;
-import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.ZipArchiver;
-import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
 import java.io.File;
@@ -45,18 +44,14 @@ public class ZipSingleFileTest {
 	private File outputArchive;
 	private File unzippedDir;
 
+	@Rule
+	public TemporaryFolder tmpFolder = new TemporaryFolder();
+
 	@Before
 	public void setUp() throws IOException {
-		outputArchive = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "folderToZip.zip");
-		unzippedDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "unzippedFolder");
-		tmpFile = File.createTempFile("test", ".png", FlavoredConstants.DEFAULT_ROOT_DIRECTORY);
-	}
-
-	@After
-	public void tearDown() throws IOException {
-		tmpFile.delete();
-		outputArchive.delete();
-		StorageOperations.deleteDir(unzippedDir);
+		outputArchive = new File(tmpFolder.getRoot(), "folderToZip.zip");
+		unzippedDir = new File(tmpFolder.getRoot(), "unzippedFolder");
+		tmpFile = File.createTempFile("test", ".png", tmpFolder.getRoot());
 	}
 
 	@Test

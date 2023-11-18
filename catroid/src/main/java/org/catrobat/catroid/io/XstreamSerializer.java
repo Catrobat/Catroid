@@ -667,24 +667,24 @@ public final class XstreamSerializer {
 						(LegacyProjectWithoutScenes) xstream.getProjectFromXML(xmlFile);
 				prepareXstream(Project.class, Scene.class);
 
-				project = projectWithoutScenes.toProject(context);
+				project = projectWithoutScenes.toProject(projectDir, context);
 			} else if (projectMetaData.getLanguageVersion() < 0.9991) {
 				prepareXstream(ProjectUntilLanguageVersion0999.class, SceneUntilLanguageVersion0999.class);
 				ProjectUntilLanguageVersion0999 legacyProject =
 						(ProjectUntilLanguageVersion0999) xstream.getProjectFromXML(xmlFile);
 				prepareXstream(Project.class, Scene.class);
 
-				project = legacyProject.toProject();
+				project = legacyProject.toProject(projectDir);
 			} else {
 				prepareXstream(Project.class, Scene.class);
 				project = (Project) xstream.getProjectFromXML(xmlFile);
+				project.setDirectory(projectDir);
 
 				for (Scene scene : project.getSceneList()) {
 					scene.setProject(project);
 				}
 			}
 			project.checkForInvisibleSprites();
-			project.setDirectory(projectDir);
 			setFileReferences(project);
 			return project;
 		} catch (Exception e) {

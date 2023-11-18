@@ -26,11 +26,12 @@ package org.catrobat.catroid.test.embroidery;
 import android.content.Intent;
 import android.net.Uri;
 
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.ExportEmbroideryFileLauncher;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -49,6 +50,9 @@ public class EmbroideryFileExporterTest {
 	private StageActivity stageActivity;
 	private String filename = EmbroideryFileExporterTest.class.getName() + ".dst";
 
+	@Rule
+	public TemporaryFolder tmpFolder = new TemporaryFolder();
+
 	@Before
 	public void setUp() {
 		stageActivity = Mockito.mock(StageActivity.class);
@@ -58,7 +62,7 @@ public class EmbroideryFileExporterTest {
 
 	@Test
 	public void testShareSimpleFile() {
-		File dstFile = new File(Constants.CACHE_DIRECTORY, filename);
+		File dstFile = new File(tmpFolder.getRoot(), filename);
 		Uri uriForFile = FileProvider.getUriForFile(stageActivity, stageActivity.getPackageName() + ".fileProvider", dstFile);
 
 		new ExportEmbroideryFileLauncher(stageActivity, dstFile).startActivity();

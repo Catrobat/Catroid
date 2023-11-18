@@ -37,6 +37,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
 import java.io.File;
@@ -48,19 +49,20 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_PROJECTS_PREFERENCE_KEY;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class ProjectListActivityTest {
 
-	private static final String PROJECT_NAME = "projectName";
 	private static final String INVALID_PROJECT_XML = "invalid_project.xml";
 
 	@Rule
 	public BaseActivityTestRule<ProjectListActivity> activityTestRule =
 			new BaseActivityTestRule<>(ProjectListActivity.class, false, false);
+
+	@Rule
+	public TemporaryFolder tmpFolder = new TemporaryFolder();
 
 	@Before
 	public void setUp() throws Exception {
@@ -81,9 +83,7 @@ public class ProjectListActivityTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testInvalidMetaDataDoesNotCrash() throws IOException {
-		File projectDirectory = new File(DEFAULT_ROOT_DIRECTORY, PROJECT_NAME);
-		File codeXML = new File(projectDirectory, CODE_XML_FILE_NAME);
-		assertTrue(projectDirectory.mkdir());
+		File codeXML = new File(tmpFolder.getRoot(), CODE_XML_FILE_NAME);
 		assertTrue(codeXML.createNewFile());
 
 		activityTestRule.launchActivity(null);
@@ -92,10 +92,8 @@ public class ProjectListActivityTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testInvalidProjectXMLDoesNotCrashWhenShowDetailsEnabled() throws IOException {
-		File projectDirectory = new File(DEFAULT_ROOT_DIRECTORY, PROJECT_NAME);
-		File codeXML = new File(projectDirectory, CODE_XML_FILE_NAME);
+		File codeXML = new File(tmpFolder.getRoot(), CODE_XML_FILE_NAME);
 
-		assertTrue(projectDirectory.mkdir());
 		InputStream inputStream = getAssets().open(INVALID_PROJECT_XML);
 		StorageOperations.copyStreamToFile(inputStream, codeXML);
 

@@ -23,9 +23,10 @@
 
 package org.catrobat.catroid.test.utiltests;
 
-import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.utils.Utils;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
 import java.io.File;
@@ -36,8 +37,7 @@ import java.util.Locale;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
-
-import static org.catrobat.catroid.common.Constants.TMP_PATH;
+import static junit.framework.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class MD5ChecksumTest {
@@ -46,20 +46,15 @@ public class MD5ChecksumTest {
 	private static final String MD5_CATROID = "4F982D927F4784F69AD6D6AF38FD96AD";
 	private static final String MD5_HELLO_WORLD = "ED076287532E86365E841E92BFC50D8C";
 
+	@Rule
+	public TemporaryFolder tmpFolder = new TemporaryFolder();
+
 	@Test
 	public void testMD5CheckSumOfFile() throws IOException {
 		PrintWriter printWriter;
 
-		File tempDir = new File(TMP_PATH);
-		tempDir.mkdirs();
-
-		File md5TestFile = new File(tempDir, "catroid.txt");
-
-		if (md5TestFile.exists()) {
-			md5TestFile.delete();
-		}
-
-		md5TestFile.createNewFile();
+		File md5TestFile = new File(tmpFolder.getRoot(), "catroid.txt");
+		assertTrue(md5TestFile.createNewFile());
 		assertEquals(MD5_EMPTY.toLowerCase(Locale.US), Utils.md5Checksum(md5TestFile));
 
 		printWriter = new PrintWriter(md5TestFile);
@@ -67,8 +62,6 @@ public class MD5ChecksumTest {
 		printWriter.close();
 
 		assertEquals(MD5_CATROID.toLowerCase(Locale.US), Utils.md5Checksum(md5TestFile));
-
-		StorageOperations.deleteDir(tempDir);
 	}
 
 	@Test
