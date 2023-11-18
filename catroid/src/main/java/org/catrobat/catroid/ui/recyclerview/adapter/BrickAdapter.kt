@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@ import androidx.annotation.IntDef
 import org.catrobat.catroid.content.Script
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.content.bricks.BroadcastMessageBrick
 import org.catrobat.catroid.content.bricks.EmptyEventBrick
 import org.catrobat.catroid.content.bricks.FormulaBrick
 import org.catrobat.catroid.content.bricks.ListSelectorBrick
@@ -42,7 +43,6 @@ import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
 import org.catrobat.catroid.ui.dragndrop.BrickAdapterInterface
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.ViewStateManager
 import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager
-import java.util.ArrayList
 import java.util.Collections
 
 class BrickAdapter(private val sprite: Sprite) :
@@ -167,10 +167,10 @@ class BrickAdapter(private val sprite: Sprite) :
 
     private fun handleCheckBoxModeNone(item: Brick) {
         item.checkBox.visibility = View.GONE
-        if (item is FormulaBrick) {
-            item.setClickListeners()
-        } else if (item is ListSelectorBrick) {
-            item.setClickListeners()
+        when (item) {
+            is FormulaBrick -> item.setClickListeners()
+            is ListSelectorBrick -> item.setClickListeners()
+            is BroadcastMessageBrick -> item.setClickListener()
         }
     }
 

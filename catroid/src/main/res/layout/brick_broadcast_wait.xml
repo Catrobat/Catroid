@@ -23,6 +23,7 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:layout="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -46,11 +47,11 @@
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_broadcast_wait" />
 
-        <Spinner
-            android:id="@+id/brick_broadcast_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textDirection="locale" />
+        <TextView
+            android:id="@+id/brick_broadcast_text"
+            style="@style/BrickEditText"
+            layout:layout_inputType="string"/>
+
 
     </org.catrobat.catroid.ui.BrickLayout>
 
