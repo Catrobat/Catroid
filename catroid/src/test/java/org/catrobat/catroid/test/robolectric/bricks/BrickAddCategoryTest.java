@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.TabLayoutContainerFragment;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -101,7 +102,9 @@ public class BrickAddCategoryTest {
 
 		brickCategoryFragment = new BrickCategoryFragment();
 
-		Fragment scriptFragment = activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+		TabLayoutContainerFragment tabLayoutContainerFragment =
+				(TabLayoutContainerFragment) activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+		Fragment scriptFragment = tabLayoutContainerFragment.getSelectedTabFragment();
 		assertNotNull(scriptFragment);
 
 		scriptFragment.getFragmentManager().beginTransaction()

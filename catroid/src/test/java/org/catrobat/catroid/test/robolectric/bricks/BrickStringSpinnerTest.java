@@ -58,6 +58,7 @@ import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.TabLayoutContainerFragment;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -149,9 +150,11 @@ public class BrickStringSpinnerTest {
 		createProject(activity);
 		activityController.create().resume();
 
-		Fragment scriptFragment = activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-		assertNotNull(scriptFragment);
-		assertThat(scriptFragment, is(instanceOf(ScriptFragment.class)));
+		TabLayoutContainerFragment tabLayoutContainerFragment =
+				(TabLayoutContainerFragment) activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+		Fragment selectedFragment = tabLayoutContainerFragment.getSelectedTabFragment();
+		assertNotNull(selectedFragment);
+		assertThat(selectedFragment, is(instanceOf(ScriptFragment.class)));
 
 		View brickView = brick.getView(activity);
 		assertNotNull(brickView);
