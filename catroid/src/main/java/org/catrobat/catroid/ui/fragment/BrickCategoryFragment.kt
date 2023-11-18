@@ -37,11 +37,9 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.ui.BottomBar.hideBottomBar
 import org.catrobat.catroid.ui.BottomBar.showBottomBar
 import org.catrobat.catroid.ui.BottomBar.showPlayButton
-import org.catrobat.catroid.ui.SpriteActivity
 import org.catrobat.catroid.ui.ViewSwitchLock
 import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter
-import org.catrobat.catroid.ui.addTabLayout
-import org.catrobat.catroid.ui.removeTabLayout
+import org.catrobat.catroid.ui.recyclerview.fragment.TabLayoutContainerFragment
 import org.catrobat.catroid.utils.SnackbarUtil
 import java.util.concurrent.locks.Lock
 
@@ -139,18 +137,24 @@ class BrickCategoryFragment : ListFragment() {
         listAdapter = adapter
     }
 
+    interface OnCategorySelectedListener {
+        fun onCategorySelected(category: String?)
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        activity.removeTabLayout()
+        val currentFragment = activity?.supportFragmentManager?.findFragmentById(R.id.fragment_container)
+        if (currentFragment is TabLayoutContainerFragment) {
+            currentFragment.removeTabLayout()
+        }
     }
 
     override fun onDetach() {
-        activity.addTabLayout(SpriteActivity.FRAGMENT_SCRIPTS)
+        val currentFragment = activity?.supportFragmentManager?.findFragmentById(R.id.fragment_container)
+        if (currentFragment is TabLayoutContainerFragment) {
+            currentFragment.addTabLayout()
+        }
         super.onDetach()
-    }
-
-    interface OnCategorySelectedListener {
-        fun onCategorySelected(category: String?)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -273,6 +273,19 @@ public final class ProjectManager {
 		}
 	}
 
+	public boolean checkVariables() {
+		Project project = this.getCurrentProject();
+		return (project.hasUserDataChanged(project.getUserVariables(),
+				project.getUserVariablesCopy())
+				|| project.hasUserDataChanged(project.getMultiplayerVariables(),
+				project.getMultiplayerVariablesCopy())
+				|| project.hasUserDataChanged(project.getUserLists(), project.getUserListsCopy())
+				|| currentSprite.hasUserDataChanged(currentSprite.getUserVariables(),
+				project.getUserVariablesCopy())
+				|| currentSprite.hasUserDataChanged(currentSprite.getUserLists(),
+				project.getUserListsCopy()));
+	}
+
 	private void localizeBackgroundSprites(Project project, String localizedBackgroundName) {
 		for (Scene scene : project.getSceneList()) {
 			if (!scene.getSpriteList().isEmpty()) {
