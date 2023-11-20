@@ -63,7 +63,7 @@ class CategoryListRVAdapter(private val items: List<CategoryListItem>) :
         val item = items[position]
         if (holder.itemViewType == R.layout.view_holder_category_list_item_with_headline) {
             val headlineView = holder.itemView.findViewById<TextView>(R.id.headline)
-            headlineView.text = items[position].header
+            headlineView.text = item.header
         }
         holder.title.text = item.text
         holder.itemView.setOnClickListener {
