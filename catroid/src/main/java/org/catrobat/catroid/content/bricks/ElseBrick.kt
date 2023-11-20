@@ -28,7 +28,7 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import java.util.UUID
 
-class ElseBrick (
+class ElseBrick(
     elseBrickParent: BrickBaseType
 ) : BrickBaseType() {
 
@@ -48,9 +48,8 @@ class ElseBrick (
         parent.addToFlatList(bricks)
     }
 
-    override fun getDragAndDropTargetList(): List<Brick?>? {
-        return (parent as CompositeBrick).secondaryNestedBricks
-    }
+    override fun getDragAndDropTargetList(): List<Brick?>? =
+        (parent as CompositeBrick).secondaryNestedBricks
 
     override fun getPositionInDragAndDropTargetList(): Int = -1
 
