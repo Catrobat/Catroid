@@ -28,8 +28,8 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import java.util.UUID
 
-class ElseBrick constructor(
-    elseBrickParent: BrickBaseType,
+class ElseBrick (
+    elseBrickParent: BrickBaseType
 ) : BrickBaseType() {
 
     init {
@@ -49,17 +49,14 @@ class ElseBrick constructor(
     }
 
     override fun getDragAndDropTargetList(): List<Brick?>? {
-        if (parent is PhiroIfLogicBeginBrick) {
-            return (parent as PhiroIfLogicBeginBrick).secondaryNestedBricks
-        } else if (parent is IfLogicBeginBrick) {
-            return (parent as IfLogicBeginBrick).secondaryNestedBricks }
-        throw java.lang.Exception("Not Implemented yet")
+        return (parent as CompositeBrick).secondaryNestedBricks
     }
 
     override fun getPositionInDragAndDropTargetList(): Int = -1
 
     override fun addActionToSequence(sprite: Sprite?, sequence: ScriptSequenceAction?) {
-        // do nothing
+        // not needed for ElseBricks, in case you need it for one,
+        // please be aware that changes here will affect multiple composite bricks
     }
 
     override fun getBrickID(): UUID? = parent.brickID
