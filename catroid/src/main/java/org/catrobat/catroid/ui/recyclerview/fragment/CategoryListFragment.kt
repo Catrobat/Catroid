@@ -91,8 +91,7 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         val appCompatActivity = activity as AppCompatActivity? ?: return
         val supportActionBar = appCompatActivity.supportActionBar
         if (supportActionBar != null) {
-            val title = arguments.getString(ACTION_BAR_TITLE_BUNDLE_ARGUMENT)
-            supportActionBar.title = title
+            supportActionBar.title = arguments.getString(ACTION_BAR_TITLE_BUNDLE_ARGUMENT)
         }
     }
 
@@ -323,9 +322,10 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
     }
 
     private fun showLegoSensorPortConfigDialog(itemNameResId: Int, @LegoSensorType type: Int) {
-        LegoSensorPortConfigDialog.Builder(requireContext(), type, itemNameResId).setPositiveButton(
-            getString(R.string.ok),
-            LegoSensorPortConfigDialog.OnClickListener { _, selectedPort, selectedSensor ->
+        LegoSensorPortConfigDialog.Builder(requireContext(), type, itemNameResId)
+            .setPositiveButton(
+                getString(R.string.ok)
+            ) { _, selectedPort, selectedSensor ->
                 if (type == Constants.NXT) {
                     SettingsFragment.setLegoMindstormsNXTSensorMapping(
                         activity,
@@ -356,8 +356,7 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
                     sensorPorts.recycle()
                 }
                 requireActivity().onBackPressed()
-            }
-        ).show()
+            }.show()
     }
 
     private fun showSelectSpriteDialog() {
@@ -374,16 +373,16 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
         AlertDialog.Builder(requireContext())
             .setTitle(R.string.formula_editor_function_collision)
             .setItems(
-                selectableSpriteNames,
-                DialogInterface.OnClickListener { _, which: Int ->
-                    val selectedSprite = selectableSprites[which]
-                    currentSprite.createCollisionPolygons()
-                    selectedSprite.createCollisionPolygons()
-                    getFormulaEditorFragment()?.addCollideFormulaToActiveFormula(
-                        selectedSprite.name
-                    )
-                    requireActivity().onBackPressed()
-                })
+                selectableSpriteNames
+            ) { _, which: Int ->
+                val selectedSprite = selectableSprites[which]
+                currentSprite.createCollisionPolygons()
+                selectedSprite.createCollisionPolygons()
+                getFormulaEditorFragment()?.addCollideFormulaToActiveFormula(
+                    selectedSprite.name
+                )
+                requireActivity().onBackPressed()
+            }
             .show()
     }
 
