@@ -322,41 +322,40 @@ class CategoryListFragment : Fragment(), CategoryListRVAdapter.OnItemClickListen
     }
 
     private fun showLegoSensorPortConfigDialog(itemNameResId: Int, @LegoSensorType type: Int) {
-        LegoSensorPortConfigDialog.Builder(requireContext(), type, itemNameResId)
-            .setPositiveButton(
-                getString(R.string.ok)
-            ) { _, selectedPort, selectedSensor ->
-                if (type == Constants.NXT) {
-                    SettingsFragment.setLegoMindstormsNXTSensorMapping(
-                        activity,
-                        selectedSensor as NXTSensor.Sensor?,
-                        SettingsFragment.NXT_SENSORS[selectedPort]
-                    )
-                } else if (type == Constants.EV3) {
-                    SettingsFragment.setLegoMindstormsEV3SensorMapping(
-                        activity,
-                        selectedSensor as EV3Sensor.Sensor?,
-                        SettingsFragment.EV3_SENSORS[selectedPort]
-                    )
-                }
+        LegoSensorPortConfigDialog.Builder(requireContext(), type, itemNameResId).setPositiveButton(
+            getString(R.string.ok)
+        ) { _, selectedPort, selectedSensor ->
+            if (type == Constants.NXT) {
+                SettingsFragment.setLegoMindstormsNXTSensorMapping(
+                    activity,
+                    selectedSensor as NXTSensor.Sensor?,
+                    SettingsFragment.NXT_SENSORS[selectedPort]
+                )
+            } else if (type == Constants.EV3) {
+                SettingsFragment.setLegoMindstormsEV3SensorMapping(
+                    activity,
+                    selectedSensor as EV3Sensor.Sensor?,
+                    SettingsFragment.EV3_SENSORS[selectedPort]
+                )
+            }
 
-                val formulaEditor = getFormulaEditorFragment()
-                val sensorPortsId = if (type == Constants.NXT) {
-                    R.array.formula_editor_nxt_ports
-                } else R.array.formula_editor_ev3_ports
-                val sensorPorts = resources.obtainTypedArray(sensorPortsId)
+            val formulaEditor = getFormulaEditorFragment()
+            val sensorPortsId = if (type == Constants.NXT) {
+                R.array.formula_editor_nxt_ports
+            } else R.array.formula_editor_ev3_ports
+            val sensorPorts = resources.obtainTypedArray(sensorPortsId)
 
-                try {
-                    val resourceId = sensorPorts.getResourceId(selectedPort, 0)
-                    if (resourceId != 0) {
-                        formulaEditor?.addResourceToActiveFormula(resourceId)
-                        formulaEditor?.updateButtonsOnKeyboardAndInvalidateOptionsMenu()
-                    }
-                } finally {
-                    sensorPorts.recycle()
+            try {
+                val resourceId = sensorPorts.getResourceId(selectedPort, 0)
+                if (resourceId != 0) {
+                    formulaEditor?.addResourceToActiveFormula(resourceId)
+                    formulaEditor?.updateButtonsOnKeyboardAndInvalidateOptionsMenu()
                 }
-                requireActivity().onBackPressed()
-            }.show()
+            } finally {
+                sensorPorts.recycle()
+            }
+            requireActivity().onBackPressed()
+        }.show()
     }
 
     private fun showSelectSpriteDialog() {
