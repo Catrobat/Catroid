@@ -105,8 +105,7 @@ class CategoryListItems {
         return result
     }
 
-    private fun getObjectGeneralPropertiesItems(activity: Activity): List<CategoryListRVAdapter
-    .CategoryListItem> {
+    private fun getObjectGeneralPropertiesItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
         val resIds: MutableList<Int> = ArrayList(OBJECT_GENERAL_PROPERTIES)
         val currentScene = projectManager.currentlyEditedScene
         if (projectManager.currentSprite == currentScene.backgroundSprite) {
@@ -117,23 +116,17 @@ class CategoryListItems {
         val result = toCategoryListItems(activity, resIds)
         result.addAll(
             toCategoryListItems(
-                activity,
-                OBJECT_COLOR_COLLISION.subList(1, 2),
-                OBJECT_COLOR_PARAMS.subList(1, 2)
+                activity, OBJECT_COLOR_COLLISION.subList(1, 2), OBJECT_COLOR_PARAMS.subList(1, 2)
             )
         )
         return addHeader(result, activity.getString(R.string.formula_editor_object_look))
     }
 
-    private fun getObjectPhysicalPropertiesItems(activity: Activity):
-        List<CategoryListRVAdapter.CategoryListItem> {
+    private fun getObjectPhysicalPropertiesItems(activity: Activity): List<CategoryListRVAdapter.CategoryListItem> {
         val result = toCategoryListItems(activity, OBJECT_PHYSICAL_1)
         result.addAll(
             toCategoryListItems(
-                activity,
-                OBJECT_PHYSICAL_COLLISION,
-                null,
-                CategoryListRVAdapter.COLLISION
+                activity, OBJECT_PHYSICAL_COLLISION, null, CategoryListRVAdapter.COLLISION
             )
         )
         result.addAll(toCategoryListItems(activity, OBJECT_PHYSICAL_2))
@@ -241,41 +234,33 @@ class CategoryListItems {
         val sensorHandler = SensorHandler.getInstance(activity)
         deviceSensorItems.addAll(
             toCategoryListItems(
-                activity,
-                SENSORS_COLOR_AT_XY,
-                SENSORS_COLOR_AT_XY_PARAMS
+                activity, SENSORS_COLOR_AT_XY, SENSORS_COLOR_AT_XY_PARAMS
             )
         )
         deviceSensorItems.addAll(
             toCategoryListItems(
-                activity,
-                SENSORS_COLOR_EQUALS_COLOR,
-                SENSORS_COLOR_EQUALS_COLOR_PARAMS
+                activity, SENSORS_COLOR_EQUALS_COLOR, SENSORS_COLOR_EQUALS_COLOR_PARAMS
             )
         )
         deviceSensorItems.addAll(
             if (sensorHandler.accelerationAvailable()) toCategoryListItems(
-                activity,
-                SENSORS_ACCELERATION
+                activity, SENSORS_ACCELERATION
             ) else emptyList()
         )
         deviceSensorItems.addAll(
             if (sensorHandler.inclinationAvailable()) toCategoryListItems(
-                activity,
-                SENSORS_INCLINATION
+                activity, SENSORS_INCLINATION
             ) else emptyList()
         )
         deviceSensorItems.addAll(
             if (sensorHandler.compassAvailable()) toCategoryListItems(
-                activity,
-                SENSORS_COMPASS
+                activity, SENSORS_COMPASS
             ) else emptyList()
         )
         deviceSensorItems.addAll(toCategoryListItems(activity, SENSORS_GPS))
         deviceSensorItems.addAll(toCategoryListItems(activity, SENSOR_USER_LANGUAGE))
         return addHeader(
-            deviceSensorItems,
-            activity.getString(R.string.formula_editor_device_sensors)
+            deviceSensorItems, activity.getString(R.string.formula_editor_device_sensors)
         )
     }
 
@@ -312,11 +297,8 @@ class CategoryListItems {
         ) {
             addHeader(
                 toCategoryListItems(
-                    activity,
-                    SENSORS_FACE_DETECTION,
-                    SENSORS_FACE_DETECTION_PARAMS
-                ),
-                activity.getString(R.string.formula_editor_device_face_detection)
+                    activity, SENSORS_FACE_DETECTION, SENSORS_FACE_DETECTION_PARAMS
+                ), activity.getString(R.string.formula_editor_device_face_detection)
             )
         } else emptyList()
     }
@@ -330,20 +312,14 @@ class CategoryListItems {
         return if (isPoseDetectionEnabled && isHMSAvailable) {
             addHeader(
                 toCategoryListItems(
-                    activity,
-                    SENSORS_POSE_DETECTION_HUAWEI,
-                    SENSORS_POSE_DETECTION_PARAMS_HUAWEI
-                ),
-                activity.getString(R.string.formula_editor_device_pose_detection)
+                    activity, SENSORS_POSE_DETECTION_HUAWEI, SENSORS_POSE_DETECTION_PARAMS_HUAWEI
+                ), activity.getString(R.string.formula_editor_device_pose_detection)
             )
         } else if (isPoseDetectionEnabled) {
             addHeader(
                 toCategoryListItems(
-                    activity,
-                    SENSORS_POSE_DETECTION,
-                    SENSORS_POSE_DETECTION_PARAMS
-                ),
-                activity.getString(R.string.formula_editor_device_pose_detection)
+                    activity, SENSORS_POSE_DETECTION, SENSORS_POSE_DETECTION_PARAMS
+                ), activity.getString(R.string.formula_editor_device_pose_detection)
             )
         } else {
             emptyList()
@@ -357,11 +333,8 @@ class CategoryListItems {
         ) {
             addHeader(
                 toCategoryListItems(
-                    activity,
-                    SENSORS_TEXT_RECOGNITION,
-                    SENSORS_TEXT_RECOGNITION_PARAMS
-                ),
-                activity.getString(R.string.formula_editor_device_text_recognition)
+                    activity, SENSORS_TEXT_RECOGNITION, SENSORS_TEXT_RECOGNITION_PARAMS
+                ), activity.getString(R.string.formula_editor_device_text_recognition)
             )
         } else emptyList()
     }
@@ -381,8 +354,7 @@ class CategoryListItems {
     fun getListFunctions() = LIST_FUNCTIONS
 
     private fun addHeader(
-        subCategory: List<CategoryListRVAdapter.CategoryListItem>,
-        header: String
+        subCategory: List<CategoryListRVAdapter.CategoryListItem>, header: String
     ): List<CategoryListRVAdapter.CategoryListItem> {
         subCategory[0].header = header
         return subCategory
@@ -405,9 +377,7 @@ class CategoryListItems {
             }
             result.add(
                 CategoryListRVAdapter.CategoryListItem(
-                    nameResIds[i],
-                    activity.getString(nameResIds[i]) + param,
-                    type
+                    nameResIds[i], activity.getString(nameResIds[i]) + param, type
                 )
             )
         }
@@ -423,7 +393,8 @@ class CategoryListItems {
         )
         private val OBJECT_LOOK = listOf(
             R.string.formula_editor_object_look_number,
-            R.string.formula_editor_object_look_name, R.string.formula_editor_object_number_of_looks
+            R.string.formula_editor_object_look_name,
+            R.string.formula_editor_object_number_of_looks
         )
         private val OBJECT_BACKGROUND = listOf(
             R.string.formula_editor_object_background_number,
@@ -432,29 +403,42 @@ class CategoryListItems {
         )
         private val OBJECT_PHYSICAL_1 = listOf(
             R.string.formula_editor_object_x,
-            R.string.formula_editor_object_y, R.string.formula_editor_object_size,
-            R.string.formula_editor_object_rotation, R.string.formula_editor_object_rotation_look,
+            R.string.formula_editor_object_y,
+            R.string.formula_editor_object_size,
+            R.string.formula_editor_object_rotation,
+            R.string.formula_editor_object_rotation_look,
             R.string.formula_editor_object_layer
         )
         private val OBJECT_PHYSICAL_COLLISION = listOf(R.string.formula_editor_function_collision)
         private val OBJECT_PHYSICAL_2 = listOf(
             R.string.formula_editor_function_collides_with_edge,
             R.string.formula_editor_function_touched,
-            R.string.formula_editor_object_x_velocity, R.string.formula_editor_object_y_velocity,
+            R.string.formula_editor_object_x_velocity,
+            R.string.formula_editor_object_y_velocity,
             R.string.formula_editor_object_angular_velocity
         )
         private val MATH_FUNCTIONS = listOf(
             R.string.formula_editor_function_sin,
-            R.string.formula_editor_function_cos, R.string.formula_editor_function_tan,
-            R.string.formula_editor_function_ln, R.string.formula_editor_function_log,
-            R.string.formula_editor_function_pi, R.string.formula_editor_function_sqrt,
-            R.string.formula_editor_function_rand, R.string.formula_editor_function_abs,
-            R.string.formula_editor_function_round, R.string.formula_editor_function_mod,
-            R.string.formula_editor_function_arcsin, R.string.formula_editor_function_arccos,
-            R.string.formula_editor_function_arctan, R.string.formula_editor_function_arctan2,
-            R.string.formula_editor_function_exp, R.string.formula_editor_function_power,
-            R.string.formula_editor_function_floor, R.string.formula_editor_function_ceil,
-            R.string.formula_editor_function_max, R.string.formula_editor_function_min,
+            R.string.formula_editor_function_cos,
+            R.string.formula_editor_function_tan,
+            R.string.formula_editor_function_ln,
+            R.string.formula_editor_function_log,
+            R.string.formula_editor_function_pi,
+            R.string.formula_editor_function_sqrt,
+            R.string.formula_editor_function_rand,
+            R.string.formula_editor_function_abs,
+            R.string.formula_editor_function_round,
+            R.string.formula_editor_function_mod,
+            R.string.formula_editor_function_arcsin,
+            R.string.formula_editor_function_arccos,
+            R.string.formula_editor_function_arctan,
+            R.string.formula_editor_function_arctan2,
+            R.string.formula_editor_function_exp,
+            R.string.formula_editor_function_power,
+            R.string.formula_editor_function_floor,
+            R.string.formula_editor_function_ceil,
+            R.string.formula_editor_function_max,
+            R.string.formula_editor_function_min,
             R.string.formula_editor_function_if_then_else
         )
         private val MATH_PARAMS = listOf(
@@ -484,8 +468,10 @@ class CategoryListItems {
         private val STRING_FUNCTIONS = listOf(
             R.string.formula_editor_function_length,
             R.string.formula_editor_function_letter,
-            R.string.formula_editor_function_subtext, R.string.formula_editor_function_join,
-            R.string.formula_editor_function_join3, R.string.formula_editor_function_regex,
+            R.string.formula_editor_function_subtext,
+            R.string.formula_editor_function_join,
+            R.string.formula_editor_function_join3,
+            R.string.formula_editor_function_regex,
             R.string.formula_editor_function_regex_assistant,
             R.string.formula_editor_function_flatten
         )
@@ -501,8 +487,10 @@ class CategoryListItems {
         )
         private val LIST_FUNCTIONS = listOf(
             R.string.formula_editor_function_number_of_items,
-            R.string.formula_editor_function_list_item, R.string.formula_editor_function_contains,
-            R.string.formula_editor_function_index_of_item, R.string.formula_editor_function_flatten
+            R.string.formula_editor_function_list_item,
+            R.string.formula_editor_function_contains,
+            R.string.formula_editor_function_index_of_item,
+            R.string.formula_editor_function_flatten
         )
         private val LIST_PARAMS = listOf(
             R.string.formula_editor_function_number_of_items_parameter,
@@ -513,18 +501,23 @@ class CategoryListItems {
         )
         private val LOGIC_BOOL = listOf(
             R.string.formula_editor_logic_and,
-            R.string.formula_editor_logic_or, R.string.formula_editor_logic_not,
-            R.string.formula_editor_function_true, R.string.formula_editor_function_false
+            R.string.formula_editor_logic_or,
+            R.string.formula_editor_logic_not,
+            R.string.formula_editor_function_true,
+            R.string.formula_editor_function_false
         )
         private val LOGIC_COMPARISON = listOf(
             R.string.formula_editor_logic_equal,
-            R.string.formula_editor_logic_notequal, R.string.formula_editor_logic_lesserthan,
-            R.string.formula_editor_logic_leserequal, R.string.formula_editor_logic_greaterthan,
+            R.string.formula_editor_logic_notequal,
+            R.string.formula_editor_logic_lesserthan,
+            R.string.formula_editor_logic_leserequal,
+            R.string.formula_editor_logic_greaterthan,
             R.string.formula_editor_logic_greaterequal
         )
         private val SENSORS_DEFAULT = listOf(
             R.string.formula_editor_sensor_loudness,
-            R.string.formula_editor_function_touched, R.string.formula_editor_sensor_stage_width,
+            R.string.formula_editor_function_touched,
+            R.string.formula_editor_sensor_stage_width,
             R.string.formula_editor_sensor_stage_height
         )
         private val OBJECT_COLOR_COLLISION = listOf(
@@ -824,9 +817,12 @@ class CategoryListItems {
         )
         private val SENSORS_DATE_TIME = listOf(
             R.string.formula_editor_sensor_timer,
-            R.string.formula_editor_sensor_date_year, R.string.formula_editor_sensor_date_month,
-            R.string.formula_editor_sensor_date_day, R.string.formula_editor_sensor_date_weekday,
-            R.string.formula_editor_sensor_time_hour, R.string.formula_editor_sensor_time_minute,
+            R.string.formula_editor_sensor_date_year,
+            R.string.formula_editor_sensor_date_month,
+            R.string.formula_editor_sensor_date_day,
+            R.string.formula_editor_sensor_date_weekday,
+            R.string.formula_editor_sensor_time_hour,
+            R.string.formula_editor_sensor_time_minute,
             R.string.formula_editor_sensor_time_second
         )
         private val SENSORS_NXT = listOf(
@@ -883,8 +879,7 @@ class CategoryListItems {
         private val SENSORS_RASPBERRY_PARAMS =
             listOf(R.string.formula_editor_function_pin_default_parameter)
         private val SENSORS_NFC = listOf(
-            R.string.formula_editor_nfc_tag_id,
-            R.string.formula_editor_nfc_tag_message
+            R.string.formula_editor_nfc_tag_id, R.string.formula_editor_nfc_tag_message
         )
         private val SENSORS_CAST_GAMEPAD = listOf(
             R.string.formula_editor_sensor_gamepad_a_pressed,
