@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,6 +44,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.ReplaceExistingProjectDialogF
 import org.catrobat.catroid.ui.recyclerview.dialog.ReplaceExistingProjectDialogFragment.projectExistsInDirectory
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
+import org.koin.java.KoinJavaComponent.inject
 import java.io.Serializable
 import java.io.UnsupportedEncodingException
 import java.lang.ref.WeakReference
@@ -141,8 +142,9 @@ class ProjectDownloader(
                     callbackWeakReference.get()?.onDownloadProgress(progress.toInt(), url)
                 }
                 SUCCESS_CODE -> {
+                    val projectManager: ProjectManager by inject(ProjectManager::class.java)
                     callbackWeakReference.get()?.onDownloadFinished(projectName, url)
-                    ProjectManager.getInstance().addNewDownloadedProject(projectName)
+                    projectManager.addNewDownloadedProject(projectName)
                     queue.finished(projectName)
                 }
                 ERROR_CODE -> queue.finished(projectName)

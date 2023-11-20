@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,11 +27,15 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.ListSelectorBrick
 import org.catrobat.catroid.formulaeditor.UserData
+import org.koin.java.KoinJavaComponent.inject
 
 object UserDataUtil {
+
+    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
+
     @JvmStatic
     fun containedInListSelector(dateName: String): Boolean {
-        return ProjectManager.getInstance().currentProject.sceneList.any { scene ->
+        return projectManager.currentProject.sceneList.any { scene ->
             scene.spriteList.any { sprite ->
                 sprite.scriptList.any { script ->
                     val flatList = mutableListOf<Brick>()
@@ -53,10 +57,10 @@ object UserDataUtil {
                     data.name = name
                 }
             }
-            ProjectManager.getInstance()?.currentProject?.userLists?.forEach(rename)
-            ProjectManager.getInstance()?.currentSprite?.userLists?.forEach(rename)
-            ProjectManager.getInstance()?.currentProject?.userVariables?.forEach(rename)
-            ProjectManager.getInstance()?.currentSprite?.userVariables?.forEach(rename)
+            projectManager.currentProject.userLists?.forEach(rename)
+            projectManager.currentSprite.userLists?.forEach(rename)
+            projectManager.currentProject.userVariables?.forEach(rename)
+            projectManager.currentSprite.userVariables?.forEach(rename)
         } else {
             item.name = name
         }

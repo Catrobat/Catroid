@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -52,6 +52,7 @@ import org.catrobat.catroid.content.bricks.RepeatBrick
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick
 import org.catrobat.catroid.content.bricks.StartListeningBrick
 import org.catrobat.catroid.content.bricks.WebRequestBrick
+import org.koin.java.KoinJavaComponent.inject
 
 /**
  * extension boolean function for List<Brick> data type.
@@ -132,7 +133,8 @@ fun showWarningForSuspiciousBricksOnce(context: Context) {
         context.getString(R.string.preference_approved_list_file_key),
         MODE_PRIVATE
     )
-    val currentProject = ProjectManager.getInstance().currentProject
+    val projectManager: ProjectManager by inject(ProjectManager::class.java)
+    val currentProject = projectManager.currentProject
     val projectUrl = currentProject?.xmlHeader?.remixParentsUrlString ?: return
     // if project has an url => is a downloaded project
     val isDownloadedProject = projectUrl.isNotBlank()

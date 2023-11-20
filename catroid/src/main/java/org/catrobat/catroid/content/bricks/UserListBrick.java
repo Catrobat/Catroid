@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,11 +46,15 @@ import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public abstract class UserListBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<UserList> {
 
 	protected UserList userList;
 
 	private transient BrickSpinner<UserList> spinner;
+
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	public UserList getUserList() {
 		return userList;
@@ -74,12 +78,12 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 	public View getView(Context context) {
 		super.getView(context);
 
-		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite sprite = projectManager.getCurrentSprite();
 
 		List<Nameable> items = new ArrayList<>();
 		items.add(new NewOption(context.getString(R.string.new_option)));
 		items.addAll(sprite.getUserLists());
-		items.addAll(ProjectManager.getInstance().getCurrentProject().getUserLists());
+		items.addAll(projectManager.getCurrentProject().getUserLists());
 
 		spinner = new BrickSpinner<>(getSpinnerId(), view, items);
 		spinner.setOnItemSelectedListener(this);
@@ -96,9 +100,9 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 		}
 
 		final List<UserList> projectUserList =
-				ProjectManager.getInstance().getCurrentProject().getUserLists();
+				projectManager.getCurrentProject().getUserLists();
 		final List<UserList> spriteUserList =
-				ProjectManager.getInstance().getCurrentSprite().getUserLists();
+				projectManager.getCurrentSprite().getUserLists();
 
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(activity);
 

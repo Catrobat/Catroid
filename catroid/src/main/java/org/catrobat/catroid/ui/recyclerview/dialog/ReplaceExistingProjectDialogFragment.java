@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,6 +46,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class ReplaceExistingProjectDialogFragment extends DialogFragment {
 
@@ -104,7 +105,7 @@ public class ReplaceExistingProjectDialogFragment extends DialogFragment {
 							break;
 						case R.id.replace:
 
-							ProjectManager.getInstance().setCurrentProject(null);
+							inject(ProjectManager.class).getValue().setCurrentProject(null);
 							downloader.downloadOverwriteExistingProject(context, textInput);
 							break;
 						default:

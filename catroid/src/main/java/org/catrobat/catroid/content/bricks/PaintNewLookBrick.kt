@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.actions.SetNextLookAction
 import org.catrobat.catroid.formulaeditor.Formula
+import org.koin.java.KoinJavaComponent.inject
 
 class PaintNewLookBrick constructor() : FormulaBrick() {
     constructor(value: String) : this(Formula(value))
@@ -48,7 +49,8 @@ class PaintNewLookBrick constructor() : FormulaBrick() {
 
     override fun getView(context: Context): View {
         super.getView(context)
-        if (ProjectManager.getInstance().currentSprite.isBackgroundSprite(context)) {
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        if (projectManager.currentSprite.isBackgroundSprite(context)) {
             view.findViewById<TextView>(R.id.brick_paint_new_look_text_view)
                 .setText(R.string.brick_paint_new_background)
         }

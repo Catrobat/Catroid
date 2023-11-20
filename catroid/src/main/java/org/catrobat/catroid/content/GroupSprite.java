@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,11 +30,15 @@ import org.catrobat.catroid.common.LookData;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class GroupSprite extends Sprite {
 
 	private static final long serialVersionUID = 1L;
 
 	private transient boolean collapsed = true;
+
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	public GroupSprite() {
 		super();
@@ -45,7 +49,7 @@ public class GroupSprite extends Sprite {
 	}
 
 	public List<GroupItemSprite> getGroupItems() {
-		List<Sprite> allSprites = ProjectManager.getInstance().getCurrentlyPlayingScene().getSpriteList();
+		List<Sprite> allSprites = projectManager.getCurrentlyPlayingScene().getSpriteList();
 		List<GroupItemSprite> groupItems = new ArrayList<>();
 
 		int position = allSprites.indexOf(this);
@@ -98,7 +102,7 @@ public class GroupSprite extends Sprite {
 	@Override
 	public void createCollisionPolygons() {
 		Log.i("GroupSprite", "Creating Collision Polygons for all Sprites of group!");
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentlyPlayingScene().getSpriteList();
+		List<Sprite> spriteList = projectManager.getCurrentlyPlayingScene().getSpriteList();
 		List<Sprite> groupSprites = getSpritesFromGroupWithGroupName(getName(), spriteList);
 		for (Sprite sprite : groupSprites) {
 			for (LookData lookData : sprite.getLookList()) {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,6 +30,8 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class GatherCollisionInformationTask extends AsyncTask<Void, Void, Boolean> {
 
 	private static final String TAG = GatherCollisionInformationTask.class.getSimpleName();
@@ -53,8 +55,9 @@ public class GatherCollisionInformationTask extends AsyncTask<Void, Void, Boolea
 	}
 
 	private void getCollisionInformation() {
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
 		Log.i(TAG, "Waiting for all calculation threads to finish...");
-		for (Sprite s : ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList()) {
+		for (Sprite s : projectManager.getCurrentlyEditedScene().getSpriteList()) {
 			for (LookData lookData : s.getLookList()) {
 				if (lookData.getCollisionInformation().collisionPolygonCalculationThread == null) {
 					continue;
@@ -67,8 +70,8 @@ public class GatherCollisionInformationTask extends AsyncTask<Void, Void, Boolea
 			}
 		}
 
-		for (Sprite s : ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList()) {
-			if (s.hasCollision(ProjectManager.getInstance().getCurrentlyEditedScene())) {
+		for (Sprite s : projectManager.getCurrentlyEditedScene().getSpriteList()) {
+			if (s.hasCollision(projectManager.getCurrentlyEditedScene())) {
 				for (LookData l : s.getLookList()) {
 					l.getCollisionInformation().loadCollisionPolygon();
 				}

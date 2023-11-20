@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -299,6 +299,7 @@ import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.TMP_CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public final class XstreamSerializer {
 
@@ -816,9 +817,11 @@ public final class XstreamSerializer {
 						Matcher previousLanguageMatcher = languagePattern.matcher(previousXml);
 						currentLanguageMatcher.find();
 						previousLanguageMatcher.find();
+
+						ProjectManager projectManager = inject(ProjectManager.class).getValue();
 						if (Objects.equals(currentLanguageMatcher.group(0),
 								previousLanguageMatcher.group(0)) && (!unnecessaryChanges(currentXml, previousXml))) {
-							ProjectManager.getInstance().changedProject(project.getName());
+							projectManager.changedProject(project.getName());
 						}
 					}
 				} catch (Exception e) {

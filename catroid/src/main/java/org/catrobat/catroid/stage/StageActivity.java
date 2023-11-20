@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -87,6 +87,7 @@ import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NA
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
 import static org.catrobat.catroid.ui.MainMenuActivity.surveyCampaign;
 import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class StageActivity extends AndroidApplication implements PermissionHandlingActivity, PermissionAdaptingActivity {
 
@@ -123,6 +124,8 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	public CountingIdlingResource idlingResource = new CountingIdlingResource("StageActivity");
 	private PermissionRequestActivityExtension permissionRequestActivityExtension = new PermissionRequestActivityExtension();
 	public static WeakReference<StageActivity> activeStageActivity;
+
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -186,7 +189,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 
 	@Override
 	protected void onDestroy() {
-		if (ProjectManager.getInstance().getCurrentProject() != null) {
+		if (projectManager.getCurrentProject() != null) {
 			StageLifeCycleController.stageDestroy(this);
 		}
 		super.onDestroy();
@@ -302,8 +305,8 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 
 	void calculateScreenSizes() {
 		ScreenValueHandler.updateScreenWidthAndHeight(getContext());
-		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
-		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
+		int virtualScreenWidth = projectManager.getCurrentProject().getXmlHeader().virtualScreenWidth;
+		int virtualScreenHeight = projectManager.getCurrentProject().getXmlHeader().virtualScreenHeight;
 
 		if (virtualScreenHeight > virtualScreenWidth && isInLandscapeMode()
 				|| virtualScreenHeight < virtualScreenWidth && isInPortraitMode()) {
@@ -315,7 +318,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 
 		if ((virtualScreenWidth == ScreenValues.SCREEN_WIDTH && virtualScreenHeight == ScreenValues.SCREEN_HEIGHT)
 				|| Float.compare(screenAspectRatio, aspectRatio) == 0
-				|| ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+				|| projectManager.getCurrentProject().isCastProject()) {
 			resizePossible = false;
 			stageListener.maxViewPortWidth = ScreenValues.SCREEN_WIDTH;
 			stageListener.maxViewPortHeight = ScreenValues.SCREEN_HEIGHT;
@@ -435,7 +438,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			ToastUtil.showError(this, message);
 			ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 			ClipData testResult = ClipData.newPlainText("TestResult",
-					ProjectManager.getInstance().getCurrentProject().getName() + "\n" + message);
+					projectManager.getCurrentProject().getName() + "\n" + message);
 			clipboard.setPrimaryClip(testResult);
 		}
 
@@ -453,7 +456,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	@Override
 	public void adaptToDeniedPermissions(List<String> deniedPermissions) {
 		Brick.ResourcesSet requiredResources = new Brick.ResourcesSet();
-		Project project = ProjectManager.getInstance().getCurrentProject();
+		Project project = projectManager.getCurrentProject();
 
 		for (Scene scene: project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,6 +46,7 @@ import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_BRICK_HASH;
 import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_X_TRANSFORM;
 import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_Y_TRANSFORM;
 import static org.catrobat.catroid.ui.SpriteActivity.REQUEST_CODE_VISUAL_PLACEMENT;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public abstract class VisualPlacementBrick extends FormulaBrick {
 
@@ -105,7 +106,7 @@ public abstract class VisualPlacementBrick extends FormulaBrick {
 		int xValue;
 		int yValue;
 		try {
-			ProjectManager projectManager = ProjectManager.getInstance();
+			ProjectManager projectManager = inject(ProjectManager.class).getValue();
 			Scope scope = new Scope(projectManager.getCurrentProject(),
 					projectManager.getCurrentSprite(), null);
 			xValue = formulax.interpretInteger(scope);

@@ -45,6 +45,8 @@ import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
 import java.io.IOException;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class SpriteController {
 
 	public static final String TAG = SpriteController.class.getSimpleName();
@@ -53,6 +55,8 @@ public class SpriteController {
 	private ScriptController scriptController = new ScriptController();
 	private LookController lookController = new LookController();
 	private SoundController soundController = new SoundController();
+
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	public Sprite convert(Sprite spriteToConvert) {
 		return spriteToConvert.convert();
@@ -103,8 +107,8 @@ public class SpriteController {
 	public Sprite copyForCloneBrick(Sprite spriteToCopy) {
 		Sprite sprite = new Sprite(spriteToCopy.getName() + "-c" + StageActivity
 				.getAndIncrementNumberOfClonedSprites());
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		Project currentProject = projectManager.getCurrentProject();
+		Scene currentScene = projectManager.getCurrentlyEditedScene();
 
 		ScriptController scriptController = new ScriptController();
 
@@ -179,7 +183,7 @@ public class SpriteController {
 			}
 		}
 
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		Scene currentScene = projectManager.getCurrentlyEditedScene();
 		if (currentScene != null) {
 			currentScene.removeSpriteFromCloneBricks(spriteToDelete);
 		}

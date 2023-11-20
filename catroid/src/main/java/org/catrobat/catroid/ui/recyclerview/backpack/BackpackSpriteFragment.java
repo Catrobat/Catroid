@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -41,6 +41,7 @@ import java.util.List;
 import androidx.annotation.PluralsRes;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SPRITES_PREFERENCE_KEY;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite> {
 
@@ -60,8 +61,9 @@ public class BackpackSpriteFragment extends BackpackRecyclerViewFragment<Sprite>
 	@Override
 	protected void unpackItems(List<Sprite> selectedItems) {
 		setShowProgressBar(true);
-		Project dstProject = ProjectManager.getInstance().getCurrentProject();
-		Scene dstScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		Project dstProject = projectManager.getCurrentProject();
+		Scene dstScene = projectManager.getCurrentlyEditedScene();
 		int unpackedItemCnt = 0;
 
 		for (Sprite item : selectedItems) {
