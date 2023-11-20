@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -55,6 +55,7 @@ import static org.catrobat.catroid.utils.ShowTextUtils.getStringAsInteger;
 import static org.catrobat.catroid.utils.ShowTextUtils.isNumberAndInteger;
 import static org.catrobat.catroid.utils.ShowTextUtils.isValidColorString;
 import static org.catrobat.catroid.utils.ShowTextUtils.sanitizeTextSize;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class ShowTextActor extends Actor {
 
@@ -97,8 +98,9 @@ public class ShowTextActor extends Actor {
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		drawVariables(ProjectManager.getInstance().getCurrentProject().getUserVariables(), batch);
-		drawVariables(ProjectManager.getInstance().getCurrentProject().getMultiplayerVariables(), batch);
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		drawVariables(projectManager.getCurrentProject().getUserVariables(), batch);
+		drawVariables(projectManager.getCurrentProject().getMultiplayerVariables(), batch);
 		drawVariables(sprite.getUserVariables(), batch);
 	}
 

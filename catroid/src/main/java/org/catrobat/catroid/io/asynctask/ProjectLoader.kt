@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,6 +33,7 @@ import org.catrobat.catroid.exceptions.ProjectException
 import org.catrobat.catroid.io.DeviceListAccessor
 import org.catrobat.catroid.io.DeviceVariableAccessor
 import org.catrobat.catroid.io.LookFileGarbageCollector
+import org.koin.java.KoinJavaComponent.inject
 import java.io.File
 import java.lang.ref.WeakReference
 
@@ -53,7 +54,7 @@ class ProjectLoader(private var projectDir: File, context: Context) {
     fun loadProjectAsync(scope: CoroutineScope = CoroutineScope(Dispatchers.IO)) {
         val context = weakContextReference.get() ?: return
         scope.launch {
-            val projectSaved = loadProject(projectDir, context)
+            val projectSaved = loadProject(projectDir)
 
             withContext(Dispatchers.Main) {
                 val listener = weakListenerReference?.get() ?: return@withContext
@@ -67,10 +68,11 @@ class ProjectLoader(private var projectDir: File, context: Context) {
     }
 }
 
-fun loadProject(projectDir: File?, context: Context): Boolean {
+fun loadProject(projectDir: File?): Boolean {
     return try {
-        ProjectManager.getInstance().loadProject(projectDir, context)
-        val project = ProjectManager.getInstance().currentProject
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        projectManager.loadProject(projectDir)
+        val project = projectManager.currentProject
         DeviceVariableAccessor(projectDir).cleanUpDeletedUserData(project)
         DeviceListAccessor(projectDir).cleanUpDeletedUserData(project)
         LookFileGarbageCollector().cleanUpUnusedLookFiles(project)

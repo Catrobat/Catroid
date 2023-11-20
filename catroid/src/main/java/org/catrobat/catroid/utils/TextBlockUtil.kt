@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.camera.VisualDetectionHandler.coordinatesFromRelativePosition
 import org.catrobat.catroid.common.ScreenValues.currentScreenResolution
 import org.catrobat.catroid.stage.StageActivity
+import org.koin.java.KoinJavaComponent.inject
 import kotlin.math.roundToInt
 
 object TextBlockUtil {
@@ -92,8 +93,9 @@ object TextBlockUtil {
         val textBlockBounds = textBlockBoundingBoxes.getOrNull(index - 1) ?: return Point(0, 0)
         val isCameraFacingFront = StageActivity.getActiveCameraManager()?.isCameraFacingFront ?: return Point(0, 0)
         val aspectRatio = imageWidth.toDouble() / imageHeight
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
 
-        return if (ProjectManager.getInstance().isCurrentProjectLandscapeMode) {
+        return if (projectManager.isCurrentProjectLandscapeMode) {
             var relativeX = textBlockBounds.exactCenterX().toDouble() / imageWidth
             relativeX = if (isCameraFacingFront) 1 - relativeX else relativeX
             coordinatesFromRelativePosition(

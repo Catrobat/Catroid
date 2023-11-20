@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -90,6 +90,7 @@ import static org.catrobat.catroid.utils.ShowTextUtils.calculateAlignmentValuesF
 import static org.catrobat.catroid.utils.ShowTextUtils.calculateColorRGBs;
 import static org.catrobat.catroid.utils.ShowTextUtils.isValidColorString;
 import static org.catrobat.catroid.utils.ShowTextUtils.sanitizeTextSize;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class VisualPlacementActivity extends BaseCastActivity implements View.OnTouchListener,
 		DialogInterface.OnClickListener, CoordinateInterface {
@@ -156,7 +157,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 			return;
 		}
 
-		projectManager = ProjectManager.getInstance();
+		projectManager = inject(ProjectManager.class).getValue();
 		Project currentProject = projectManager.getCurrentProject();
 
 		setContentView(R.layout.visual_placement_layout);

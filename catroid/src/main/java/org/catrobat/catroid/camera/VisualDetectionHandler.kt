@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -55,6 +55,7 @@ import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_FOOT_INDEX_Y
 import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_SHOULDER_X
 import org.catrobat.catroid.formulaeditor.Sensors.RIGHT_SHOULDER_Y
 import org.catrobat.catroid.stage.StageActivity
+import org.koin.java.KoinJavaComponent.inject
 import kotlin.math.roundToInt
 
 data class VisualDetectionHandlerFace(val id: Int, val boundingBox: Rect)
@@ -344,8 +345,8 @@ object VisualDetectionHandler {
     ): Point {
         val frontCamera = StageActivity.getActiveCameraManager().isCameraFacingFront
         val aspectRatio = imageWidth.toDouble() / imageHeight
-
-        return if (ProjectManager.getInstance().isCurrentProjectLandscapeMode) {
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
+        return if (projectManager.isCurrentProjectLandscapeMode) {
             val relativeX = y / imageHeight
             val relativeY = x / imageWidth
             coordinatesFromRelativePosition(

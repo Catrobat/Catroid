@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,7 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.utils.FileMetaDataExtractor
+import org.koin.java.KoinJavaComponent.inject
 import java.io.File
 import java.io.IOException
 
@@ -74,7 +75,8 @@ fun renameProject(projectDirectory: File, destinationName: String): File? {
         return null
     }
 
-    ProjectManager.getInstance().moveChangedFlag(projectDirectory.name, destinationName)
+    val projectManager: ProjectManager by inject(ProjectManager::class.java)
+    projectManager.moveChangedFlag(projectDirectory.name, destinationName)
     return destinationDirectory
 }
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,6 +44,8 @@ import java.util.List;
 import java.util.Set;
 
 import androidx.annotation.NonNull;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 @XStreamAlias("scene")
 @XStreamFieldKeyOrder({
@@ -217,12 +219,13 @@ public class Scene implements Nameable, Serializable {
 	}
 
 	public void updateUserDataReferences(String oldName, String newName, UserData<?> item) {
-		if (ProjectManager.getInstance().getCurrentProject().isGlobalVariable(item)) {
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		if (projectManager.getCurrentProject().isGlobalVariable(item)) {
 			for (Sprite sprite : spriteList) {
 				sprite.updateUserDataReferences(oldName, newName, item);
 			}
 		} else {
-			ProjectManager.getInstance().getCurrentSprite().updateUserDataReferences(oldName, newName, item);
+			projectManager.getCurrentSprite().updateUserDataReferences(oldName, newName, item);
 		}
 	}
 

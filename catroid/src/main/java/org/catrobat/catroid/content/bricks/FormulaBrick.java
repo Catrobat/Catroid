@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -52,6 +52,8 @@ import androidx.annotation.CallSuper;
 import androidx.annotation.VisibleForTesting;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 public abstract class FormulaBrick extends BrickBaseType implements View.OnClickListener {
 
@@ -180,7 +182,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 		if (getFormulaWithBrickField(formulaField).isNumber()) {
 			try {
-				ProjectManager projectManager = ProjectManager.getInstance();
+				ProjectManager projectManager = inject(ProjectManager.class).getValue();
 				Scope scope = new Scope(projectManager.getCurrentProject(),
 						projectManager.getCurrentSprite(), null);
 				Double formulaValue = formulaMap.get(formulaField).interpretDouble(scope);

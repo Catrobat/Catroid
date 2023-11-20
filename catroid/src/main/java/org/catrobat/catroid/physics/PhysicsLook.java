@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,6 +29,8 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class PhysicsLook extends Look {
 
@@ -64,7 +66,7 @@ public class PhysicsLook extends Look {
 	@Override
 	public void setLookData(LookData lookData) {
 		super.setLookData(lookData);
-		PhysicsWorld physicsWorld = ProjectManager.getInstance().getCurrentlyPlayingScene().getPhysicsWorld();
+		PhysicsWorld physicsWorld = inject(ProjectManager.class).getValue().getCurrentlyPlayingScene().getPhysicsWorld();
 		physicsWorld.changeLook(physicsObject, this);
 		updatePhysicsObjectState(true);
 	}
@@ -218,7 +220,7 @@ public class PhysicsLook extends Look {
 		super.setScale(scaleX, scaleY);
 
 		if (physicsObject != null) {
-			PhysicsWorld physicsWorld = ProjectManager.getInstance().getCurrentlyPlayingScene().getPhysicsWorld();
+			PhysicsWorld physicsWorld = inject(ProjectManager.class).getValue().getCurrentlyPlayingScene().getPhysicsWorld();
 			physicsWorld.changeLook(physicsObject, this);
 			updatePhysicsObjectState(true);
 		}

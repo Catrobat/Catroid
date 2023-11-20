@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,6 +47,7 @@ import static org.catrobat.catroid.common.Constants.SCREENSHOT_MANUAL_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.Z_INDEX_BACKGROUND;
 import static org.catrobat.catroid.io.StorageOperations.copyFileToDir;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class SceneController {
 
@@ -54,6 +55,8 @@ public class SceneController {
 
 	private UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();
 	private SpriteController spriteController = new SpriteController();
+
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	public static Scene newSceneWithBackgroundSprite(String sceneName, String backgroundName, Project dstProject) {
 		Scene scene = new Scene(sceneName, dstProject);
@@ -75,7 +78,7 @@ public class SceneController {
 
 		if (renamed) {
 			sceneToRename.setName(name);
-			for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+			for (Scene scene : projectManager.getCurrentProject().getSceneList()) {
 				for (Sprite sprite : scene.getSpriteList()) {
 					for (Brick brick : sprite.getAllBricks()) {
 						if (brick instanceof SceneStartBrick
@@ -133,7 +136,7 @@ public class SceneController {
 	}
 
 	public void delete(Scene sceneToDelete) throws IOException {
-		ProjectManager.getInstance().getCurrentProject().removeScene(sceneToDelete);
+		projectManager.getCurrentProject().removeScene(sceneToDelete);
 		StorageOperations.deleteDir(sceneToDelete.getDirectory());
 	}
 

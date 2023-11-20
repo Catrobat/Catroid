@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,6 +47,7 @@ import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.StageListener
+import org.koin.java.KoinJavaComponent.inject
 
 abstract class ColorDetection(
     protected open val scope: Scope,
@@ -56,9 +57,12 @@ abstract class ColorDetection(
     protected var bufferWidth = 0
     protected var bufferHeight = 0
     protected var cameraBitmap: Bitmap? = null
-    protected val virtualHeight = ProjectManager.getInstance().currentProject.xmlHeader
+
+    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
+
+    protected val virtualHeight = projectManager.currentProject.xmlHeader
         .virtualScreenHeight
-    protected val virtualWidth = ProjectManager.getInstance().currentProject.xmlHeader
+    protected val virtualWidth = projectManager.currentProject.xmlHeader
         .virtualScreenWidth
 
     protected fun isLookInvalid(): Boolean =
@@ -108,7 +112,7 @@ abstract class ColorDetection(
     @RequiresApi(Build.VERSION_CODES.N)
     fun callPixelCopyWithSurfaceView(callback: (Bitmap?) -> Unit) {
         val surfaceView = StageActivity.getActiveCameraManager().previewView.surfaceView
-        val bitmap: Bitmap = if (ProjectManager.getInstance().isCurrentProjectLandscapeMode) {
+        val bitmap: Bitmap = if (projectManager.isCurrentProjectLandscapeMode) {
             createNewBitmap(surfaceView.height, surfaceView.width)
         } else {
             createNewBitmap(surfaceView.width, surfaceView.height)

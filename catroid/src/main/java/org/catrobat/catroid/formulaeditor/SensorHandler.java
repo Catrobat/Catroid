@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -60,6 +60,8 @@ import java.util.Map;
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public final class SensorHandler implements SensorEventListener, SensorCustomEventListener, LocationListener,
 		GpsStatus.Listener {
 	private static final float RADIAN_TO_DEGREE_CONST = 180f / (float) Math.PI;
@@ -100,6 +102,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private SensorLoudness sensorLoudness;
 
 	private final Map<Sensors, Object> sensorValueMap = new HashMap();
+
+	private static ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	public static void setUserLocaleTag(String userLocale) {
 		userLocaleTag = userLocale;
@@ -374,9 +378,9 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case USER_LANGUAGE:
 				return userLocaleTag;
 			case STAGE_WIDTH:
-				return (double) ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
+				return (double) projectManager.getCurrentProject().getXmlHeader().virtualScreenWidth;
 			case STAGE_HEIGHT:
-				return (double) ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
+				return (double) projectManager.getCurrentProject().getXmlHeader().virtualScreenHeight;
 			default:
 				return instance.sensorValueMap.containsKey(sensor) ? instance.sensorValueMap.get(sensor) : 0.0d;
 		}
@@ -540,8 +544,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	}
 
 	private static int rotateOrientation() {
-		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode() ^ isDeviceDefaultRotationLandscape()) {
-			return ProjectManager.getInstance().isCurrentProjectLandscapeMode() ? 1 : -1;
+		if (projectManager.isCurrentProjectLandscapeMode() ^ isDeviceDefaultRotationLandscape()) {
+			return projectManager.isCurrentProjectLandscapeMode() ? 1 : -1;
 		}
 		return 0;
 	}

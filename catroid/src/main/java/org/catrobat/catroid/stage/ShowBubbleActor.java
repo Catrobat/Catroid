@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -50,6 +50,8 @@ import java.util.Arrays;
 
 import androidx.annotation.VisibleForTesting;
 import androidx.core.util.Pair;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class ShowBubbleActor extends Actor {
 	ArrayList<String> bubbleValue;
@@ -155,12 +157,12 @@ public class ShowBubbleActor extends Actor {
 
 	private boolean drawRight() {
 		return imageRight.getX() + imageRight.getWidth()
-				< (ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth / 2);
+				< (inject(ProjectManager.class).getValue().getCurrentProject().getXmlHeader().virtualScreenWidth / 2);
 	}
 
 	private boolean drawLeft() {
 		return imageLeft.getX()
-				> -(ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth / 2);
+				> -(inject(ProjectManager.class).getValue().getCurrentProject().getXmlHeader().virtualScreenWidth / 2);
 	}
 
 	private Pixmap drawBubbleOnCanvas(ArrayList<String> lines, boolean right) {

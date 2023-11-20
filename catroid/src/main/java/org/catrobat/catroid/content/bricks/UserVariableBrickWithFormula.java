@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,11 +44,15 @@ import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public abstract class UserVariableBrickWithFormula extends FormulaBrick implements UserVariableBrickInterface {
 
 	protected UserVariable userVariable;
 
 	private transient BrickSpinner<UserVariable> spinner;
+
+	private ProjectManager projectManager = inject(ProjectManager.class).getValue();
 
 	@Override
 	public UserVariable getUserVariable() {
@@ -74,13 +78,13 @@ public abstract class UserVariableBrickWithFormula extends FormulaBrick implemen
 	public View getView(Context context) {
 		super.getView(context);
 
-		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		Sprite sprite = projectManager.getCurrentSprite();
 
 		List<Nameable> items = new ArrayList<>();
 		items.add(new NewOption(context.getString(R.string.new_option)));
 		items.addAll(sprite.getUserVariables());
-		items.addAll(ProjectManager.getInstance().getCurrentProject().getUserVariables());
-		items.addAll(ProjectManager.getInstance().getCurrentProject().getMultiplayerVariables());
+		items.addAll(projectManager.getCurrentProject().getUserVariables());
+		items.addAll(projectManager.getCurrentProject().getMultiplayerVariables());
 
 		spinner = new BrickSpinner<>(getSpinnerId(), view, items);
 		spinner.setOnItemSelectedListener(this);
@@ -95,8 +99,8 @@ public abstract class UserVariableBrickWithFormula extends FormulaBrick implemen
 			return;
 		}
 
-		final Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		final Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		final Project currentProject = projectManager.getCurrentProject();
+		final Sprite currentSprite = projectManager.getCurrentSprite();
 
 		UserVariableBrickTextInputDialogBuilder builder =
 				new UserVariableBrickTextInputDialogBuilder(currentProject, currentSprite, userVariable, activity, spinner);

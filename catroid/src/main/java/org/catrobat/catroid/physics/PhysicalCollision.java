@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,6 +29,8 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.eventids.BounceOffEventId;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class PhysicalCollision {
 
@@ -72,7 +74,8 @@ public class PhysicalCollision {
 	public static void fireBounceOffEvent(Sprite bouncingSprite, Sprite staticSprite) {
 		BounceOffEventId identifier = new BounceOffEventId(bouncingSprite, staticSprite);
 		EventWrapper event = new EventWrapper(identifier, false);
-		ProjectManager.getInstance().getCurrentProject().fireToAllSprites(event);
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		projectManager.getCurrentProject().fireToAllSprites(event);
 	}
 
 	public String toString() {

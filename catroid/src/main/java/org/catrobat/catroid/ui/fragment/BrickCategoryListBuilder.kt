@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,7 @@ import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter
 import org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile
 import org.catrobat.catroid.ui.settingsfragments.RaspberryPiSettingsFragment
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
+import org.koin.java.KoinJavaComponent.inject
 import java.util.ArrayList
 
 class BrickCategoryListBuilder(private val activity: FragmentActivity) {
@@ -43,6 +44,8 @@ class BrickCategoryListBuilder(private val activity: FragmentActivity) {
     fun getBrickCategoryViews(): MutableList<View> {
         val categories: MutableList<View> = ArrayList()
         val inflater = activity.layoutInflater
+
+        val projectManager: ProjectManager by inject(ProjectManager::class.java)
 
         categories.add(inflater.inflate(R.layout.brick_category_recently_used, null))
 
@@ -70,7 +73,7 @@ class BrickCategoryListBuilder(private val activity: FragmentActivity) {
         if (SettingsFragment.isPhiroSharedPreferenceEnabled(activity)) {
             categories.add(inflater.inflate(R.layout.brick_category_phiro, null))
         }
-        if (ProjectManager.getInstance().currentProject.isCastProject) {
+        if (projectManager.currentProject.isCastProject) {
             categories.add(inflater.inflate(R.layout.brick_category_chromecast, null))
         }
 

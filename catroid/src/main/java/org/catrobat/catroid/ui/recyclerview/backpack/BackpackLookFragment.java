@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -67,8 +67,9 @@ public class BackpackLookFragment extends BackpackRecyclerViewFragment<LookData>
 
 		for (LookData item : selectedItems) {
 			try {
+				ProjectManager projectManager = inject(ProjectManager.class).getValue();
 				destinationSprite.getLookList().add(lookController.unpack(item,
-						ProjectManager.getInstance().getCurrentlyEditedScene(),
+						projectManager.getCurrentlyEditedScene(),
 						destinationSprite));
 				unpackedItemCnt++;
 			} catch (IOException e) {

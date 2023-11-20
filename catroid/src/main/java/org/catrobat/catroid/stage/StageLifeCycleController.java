@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -56,6 +56,7 @@ import java.util.List;
 import static org.catrobat.catroid.stage.StageResourceHolder.getProjectsRuntimePermissionList;
 import static org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask.checkPermission;
 import static org.koin.java.KoinJavaComponent.get;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public final class StageLifeCycleController {
 	public static final String TAG = StageLifeCycleController.class.getSimpleName();
@@ -67,7 +68,8 @@ public final class StageLifeCycleController {
 	}
 
 	static void stageCreate(final StageActivity stageActivity) {
-		if (ProjectManager.getInstance().getCurrentProject() == null) {
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		if (projectManager.getCurrentProject() == null) {
 			stageActivity.finish();
 			Log.d(TAG, "no current project set, cowardly refusing to run");
 			return;
@@ -75,15 +77,15 @@ public final class StageLifeCycleController {
 
 		StageActivity.numberOfSpritesCloned = 0;
 
-		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+		if (projectManager.isCurrentProjectLandscapeMode()) {
 			stageActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		} else {
 			stageActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
 
-		UserDataWrapper.resetAllUserData(ProjectManager.getInstance().getCurrentProject());
+		UserDataWrapper.resetAllUserData(projectManager.getCurrentProject());
 
-		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+		for (Scene scene : projectManager.getCurrentProject().getSceneList()) {
 			scene.firstStart = true;
 		}
 
@@ -96,7 +98,7 @@ public final class StageLifeCycleController {
 
 		stageActivity.configuration = new AndroidApplicationConfiguration();
 		stageActivity.configuration.r = stageActivity.configuration.g = stageActivity.configuration.b = stageActivity.configuration.a = 8;
-		if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+		if (projectManager.getCurrentProject().isCastProject()) {
 			stageActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 			stageActivity.setContentView(R.layout.activity_stage_gamepad);
 			CastManager.getInstance().initializeGamepadActivity(stageActivity);
@@ -166,7 +168,9 @@ public final class StageLifeCycleController {
 			if (stageActivity.vibrationManager != null) {
 				stageActivity.vibrationManager.pause();
 			}
-			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+
+			ProjectManager projectManager = inject(ProjectManager.class).getValue();
+			if (projectManager.getCurrentProject().isCastProject()) {
 				CastManager.getInstance().setRemoteLayoutToPauseScreen(stageActivity);
 			}
 		}
@@ -177,9 +181,12 @@ public final class StageLifeCycleController {
 			return;
 		}
 
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+
 		if (checkPermission(stageActivity, getProjectsRuntimePermissionList())) {
-			Brick.ResourcesSet resourcesSet = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
-			List<Sprite> spriteList = ProjectManager.getInstance().getCurrentlyPlayingScene().getSpriteList();
+			Brick.ResourcesSet resourcesSet =
+					projectManager.getCurrentProject().getRequiredResources();
+			List<Sprite> spriteList = projectManager.getCurrentlyPlayingScene().getSpriteList();
 
 			SensorHandler.startSensorListener(stageActivity);
 
@@ -205,7 +212,7 @@ public final class StageLifeCycleController {
 			if (resourcesSet.contains(Brick.BLUETOOTH_LEGO_NXT)
 					|| resourcesSet.contains(Brick.BLUETOOTH_PHIRO)
 					|| resourcesSet.contains(Brick.BLUETOOTH_SENSORS_ARDUINO)
-					|| ProjectManager.getInstance().getCurrentProject().hasMultiplayerVariables()) {
+					|| projectManager.getCurrentProject().hasMultiplayerVariables()) {
 				try {
 					ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).start();
 				} catch (MindstormsException e) {
@@ -226,7 +233,7 @@ public final class StageLifeCycleController {
 				stageActivity.nfcAdapter.enableForegroundDispatch(stageActivity, stageActivity.pendingIntent, null, null);
 			}
 
-			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			if (projectManager.getCurrentProject().isCastProject()) {
 				CastManager.getInstance().resumeRemoteLayoutFromPauseScreen();
 			}
 
@@ -239,6 +246,7 @@ public final class StageLifeCycleController {
 	}
 
 	static void stageDestroy(StageActivity stageActivity) {
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
 		if (checkPermission(stageActivity, getProjectsRuntimePermissionList())) {
 			if (stageActivity.brickDialogManager != null) {
 				stageActivity.brickDialogManager.dismissAllDialogs();
@@ -253,13 +261,13 @@ public final class StageLifeCycleController {
 				stageActivity.cameraManager = null;
 			}
 			SensorHandler.destroy();
-			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			if (projectManager.getCurrentProject().isCastProject()) {
 				CastManager.getInstance().onStageDestroyed();
 			}
 			StageActivity.stageListener.finish();
 			stageActivity.manageLoadAndFinish();
 			StageActivity.stageListener = null;
 		}
-		ProjectManager.getInstance().setCurrentlyPlayingScene(ProjectManager.getInstance().getCurrentlyEditedScene());
+		projectManager.setCurrentlyPlayingScene(projectManager.getCurrentlyEditedScene());
 	}
 }

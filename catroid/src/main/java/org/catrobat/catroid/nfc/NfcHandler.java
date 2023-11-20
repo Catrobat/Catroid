@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,6 +42,8 @@ import org.catrobat.catroid.content.eventids.NfcEventId;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 public final class NfcHandler {
 	private static final String TAG = NfcHandler.class.getSimpleName();
@@ -112,7 +114,7 @@ public final class NfcHandler {
 		EventId anyNfcEventId = new EventId(EventId.ANY_NFC);
 		EventWrapper anyNfcEvent = new EventWrapper(anyNfcEventId, false);
 
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Project currentProject = inject(ProjectManager.class).getValue().getCurrentProject();
 		currentProject.fireToAllSprites(nfcEvent);
 		currentProject.fireToAllSprites(anyNfcEvent);
 	}

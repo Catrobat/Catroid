@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2013 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,6 +36,8 @@ import java.lang.annotation.RetentionPolicy;
 
 import androidx.annotation.IntDef;
 
+import static org.koin.java.KoinJavaComponent.inject;
+
 public class ConditionScriptTrigger {
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({TRIGGER_NOW, ALREADY_TRIGGERED})
@@ -63,7 +65,7 @@ public class ConditionScriptTrigger {
 
 	void evaluateAndTriggerActions(Sprite sprite) {
 		try {
-			Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, null);
+			Scope scope = new Scope(inject(ProjectManager.class).getValue().getCurrentProject(), sprite, null);
 			boolean conditionValue = false;
 
 			if (sceneFirstStart || sceneRestarted) {

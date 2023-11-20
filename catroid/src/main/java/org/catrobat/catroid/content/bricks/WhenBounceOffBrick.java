@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,6 +39,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class WhenBounceOffBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite> {
 
@@ -83,7 +85,8 @@ public class WhenBounceOffBrick extends ScriptBrickBaseType implements BrickSpin
 		items.add(new StringOption(ANYTHING_ESCAPE_CHAR + context.getString(R.string.collision_with_anything)
 				+ ANYTHING_ESCAPE_CHAR));
 
-		items.addAll(ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList());
+		ProjectManager projectManager = inject(ProjectManager.class).getValue();
+		items.addAll(projectManager.getCurrentlyEditedScene().getSpriteList());
 		spinner = new BrickSpinner<>(R.id.brick_when_bounce_off_spinner, view, items);
 		spinner.setOnItemSelectedListener(this);
 		spinner.setSelection(script.getSpriteToBounceOffName());

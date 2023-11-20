@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,6 +39,7 @@ import org.catrobat.catroid.formulaeditor.common.Conversions.convertArgumentToDo
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.StageListener
 import kotlin.math.roundToInt
+import org.koin.java.KoinJavaComponent.inject
 
 private const val COLOR_HEX_PREFIX = "#"
 private const val RGBA_START_INDEX = 0
@@ -54,6 +55,8 @@ class ColorAtXYDetection(
 ) : ColorDetection(scope, stageListener) {
     private var xPosition: Int = 0
     private var yPosition: Int = 0
+
+    private val projectManager: ProjectManager by inject(ProjectManager::class.java)
 
     @Suppress("TooGenericExceptionCaught")
     fun tryInterpretFunctionColorAtXY(x: Any?, y: Any?): String {
@@ -107,11 +110,11 @@ class ColorAtXYDetection(
     private fun isXCoordinateOnRightBorder() = xPosition == virtualWidth / 2
 
     private fun isYCoordinateOnTopBorderLandscape() =
-        ProjectManager.getInstance().isCurrentProjectLandscapeMode &&
+        projectManager.isCurrentProjectLandscapeMode &&
             yPosition == virtualHeight / 2
 
     private fun isYCoordinateOnBottomBorderPortrait() =
-        !ProjectManager.getInstance().isCurrentProjectLandscapeMode &&
+        !projectManager.isCurrentProjectLandscapeMode &&
             yPosition == -virtualHeight / 2
 
     private fun getHexColorStringFromStagePixmap(): String {
@@ -177,7 +180,7 @@ class ColorAtXYDetection(
             bitmap.height / 2
         )
 
-        val bitmapPixel = if (ProjectManager.getInstance().isCurrentProjectLandscapeMode) {
+        val bitmapPixel = if (projectManager.isCurrentProjectLandscapeMode) {
             bitmap.getPixel(bitmapXCoordinateLandscape, bitmapYCoordinateLandscape)
         } else {
             bitmap.getPixel(bitmapXCoordinatePortrait, bitmapYCoordinatePortrait)
