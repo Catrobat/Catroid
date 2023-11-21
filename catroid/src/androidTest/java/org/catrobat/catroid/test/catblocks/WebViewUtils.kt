@@ -126,8 +126,7 @@ class WebViewUtils(private var activity: Activity, timeoutSeconds: Long? = null)
         return found
     }
 
-
-    fun clickElement(querySelector: String, searchString: String) {
+    fun clickElementByString(querySelector: String, searchString: String) {
         waitForPageToLoad()
         val currentLatch = CountDownLatch(1)
 
