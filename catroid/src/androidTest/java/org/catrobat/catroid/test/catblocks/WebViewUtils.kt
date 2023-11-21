@@ -101,6 +101,78 @@ class WebViewUtils(private var activity: Activity, timeoutSeconds: Long? = null)
         return found
     }
 
+    fun isElementVisibleByString(querySelector: String, searchString: String): Boolean {
+        waitForPageToLoad()
+        val currentLatch = CountDownLatch(1)
+
+        val jsCode = "javascript:window.webViewUtilsFunctions.isElementVisibleByString" +
+            "('$querySelector', '$searchString');"
+
+        var found = false
+        activity.runOnUiThread {
+            webView.evaluateJavascript(jsCode) { result ->
+                found = result == "true"
+                currentLatch.countDown()
+            }
+        }
+
+        val finished = currentLatch.await(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+        if (!finished) {
+            throw ElementNotFoundException(
+                "Check for '$querySelector' did not finish within timeout"
+            )
+        }
+
+        return found
+    }
+
+
+    fun clickElement(querySelector: String, searchString: String) {
+        waitForPageToLoad()
+        val currentLatch = CountDownLatch(1)
+
+        val jsCode = "javascript:window.webViewUtilsFunctions.clickElementByString" +
+            "('$querySelector', '$searchString');"
+
+        activity.runOnUiThread {
+            webView.evaluateJavascript(jsCode) { result ->
+                if (result == "false") {
+                    throw ElementNotFoundException("Element '$querySelector' not found")
+                } else {
+                    currentLatch.countDown()
+                }
+            }
+        }
+
+        val found = currentLatch.await(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+        if (!found) {
+            throw ElementNotFoundException("Element '$querySelector' not found within the specified timeout")
+        }
+    }
+
+    fun rightClickElement(querySelector: String) {
+        waitForPageToLoad()
+        val currentLatch = CountDownLatch(1)
+
+        // long click
+        val jsCode = "javascript:window.webViewUtilsFunctions.rightClickElement('$querySelector');"
+
+        activity.runOnUiThread {
+            webView.evaluateJavascript(jsCode) { result ->
+                if (result == "false") {
+                    throw ElementNotFoundException("Element '$querySelector' not found")
+                } else {
+                    currentLatch.countDown()
+                }
+            }
+        }
+
+        val found = currentLatch.await(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+        if (!found) {
+            throw ElementNotFoundException("Element '$querySelector' not found within the specified timeout")
+        }
+    }
+
     fun waitForElement(querySelector: String, onElementFound: (() -> Unit)? = null) {
         waitForPageToLoad()
         val currentLatch = CountDownLatch(1)
