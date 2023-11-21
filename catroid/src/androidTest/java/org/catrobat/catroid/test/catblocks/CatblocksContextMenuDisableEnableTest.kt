@@ -101,7 +101,7 @@ class CatblocksContextMenuDisableEnableTest {
         )
 
         // Disable brick
-        webViewUtils.clickElement(
+        webViewUtils.clickElementByString(
             ".blocklyMenuItemContent", context.getString(
                 R.string
                     .brick_context_dialog_comment_out
@@ -122,7 +122,7 @@ class CatblocksContextMenuDisableEnableTest {
         )
 
         // Enable brick
-        webViewUtils.clickElement(
+        webViewUtils.clickElementByString(
             ".blocklyMenuItemContent", context.getString(
                 R.string
                     .brick_context_dialog_comment_in
@@ -160,7 +160,7 @@ class CatblocksContextMenuDisableEnableTest {
         )
 
         // Disable script
-        webViewUtils.clickElement(
+        webViewUtils.clickElementByString(
             ".blocklyMenuItemContent",
             context.getString(R.string.brick_context_dialog_comment_out_script)
         )
@@ -180,7 +180,7 @@ class CatblocksContextMenuDisableEnableTest {
         )
 
         // Enable script again
-        webViewUtils.clickElement(
+        webViewUtils.clickElementByString(
             ".blocklyMenuItemContent", context.getString(
                 R.string
                     .brick_context_dialog_comment_in_script
@@ -215,7 +215,7 @@ class CatblocksContextMenuDisableEnableTest {
         webViewUtils.waitForElement("#StartScript-0") {
             webViewUtils.waitForElementVisible("#StartScript-0")
             webViewUtils.rightClickElement("#StartScript-0")
-            webViewUtils.clickElement(
+            webViewUtils.clickElementByString(
                 ".blocklyMenuItemContent", context.getString(
                     R.string
                         .brick_context_dialog_comment_out_script
@@ -248,7 +248,7 @@ class CatblocksContextMenuDisableEnableTest {
         webViewUtils.waitForElement("#StartScript-0") {
             webViewUtils.waitForElementVisible("#StartScript-0")
             webViewUtils.rightClickElement("#StartScript-0")
-            webViewUtils.clickElement(
+            webViewUtils.clickElementByString(
                 ".blocklyMenuItemContent", context.getString(
                     R.string
                         .brick_context_dialog_comment_out_script
@@ -256,7 +256,7 @@ class CatblocksContextMenuDisableEnableTest {
             )
             webViewUtils.waitForElementVisible("#StartScript-0")
             webViewUtils.rightClickElement("#StartScript-0")
-            webViewUtils.clickElement(
+            webViewUtils.clickElementByString(
                 ".blocklyMenuItemContent", context.getString(
                     R.string
                         .brick_context_dialog_comment_in_script
@@ -287,7 +287,7 @@ class CatblocksContextMenuDisableEnableTest {
         webViewUtils.waitForElement("#IfLogicBeginBrick-1") {
             webViewUtils.waitForElementVisible("#IfLogicBeginBrick-1")
             webViewUtils.rightClickElement("#IfLogicBeginBrick-1")
-            webViewUtils.clickElement(
+            webViewUtils.clickElementByString(
                 ".blocklyMenuItemContent", context.getString(
                     R.string
                         .brick_context_dialog_comment_out
@@ -314,14 +314,14 @@ class CatblocksContextMenuDisableEnableTest {
         webViewUtils.waitForElement("#IfLogicBeginBrick-1") {
             webViewUtils.waitForElementVisible("#IfLogicBeginBrick-1")
             webViewUtils.rightClickElement("#IfLogicBeginBrick-1")
-            webViewUtils.clickElement(
+            webViewUtils.clickElementByString(
                 ".blocklyMenuItemContent", context.getString(
                     R.string
                         .brick_context_dialog_comment_out
                 )
             )
             webViewUtils.rightClickElement("#IfLogicBeginBrick-1")
-            webViewUtils.clickElement(
+            webViewUtils.clickElementByString(
                 ".blocklyMenuItemContent", context.getString(
                     R.string
                         .brick_context_dialog_comment_in
@@ -348,7 +348,7 @@ class CatblocksContextMenuDisableEnableTest {
         webViewUtils.waitForElement("#SetXBrick-0") {
             webViewUtils.waitForElementVisible("#SetXBrick-0")
             webViewUtils.rightClickElement("#SetXBrick-0")
-            webViewUtils.clickElement(
+            webViewUtils.clickElementByString(
                 ".blocklyMenuItemContent", context.getString(
                     R.string
                         .brick_context_dialog_comment_out
@@ -375,14 +375,14 @@ class CatblocksContextMenuDisableEnableTest {
         webViewUtils.waitForElement("#GoToBrick-0") {
             webViewUtils.waitForElementVisible("#GoToBrick-0")
             webViewUtils.rightClickElement("#GoToBrick-0")
-            webViewUtils.clickElement(
+            webViewUtils.clickElementByString(
                 ".blocklyMenuItemContent", context.getString(
                     R.string
                         .brick_context_dialog_comment_out
                 )
             )
             webViewUtils.rightClickElement("#GoToBrick-0")
-            webViewUtils.clickElement(
+            webViewUtils.clickElementByString(
                 ".blocklyMenuItemContent", context.getString(
                     R.string
                         .brick_context_dialog_comment_in
@@ -425,19 +425,15 @@ class CatblocksContextMenuDisableEnableTest {
         when (brick) {
             is IfLogicBeginBrick -> {
                 // if-branch
-                for (b in brick.nestedBricks) {
+                for (b in brick.nestedBricks)
                     assertIfInnerPartIsCommentedOutOrIn(outIn, b)
-                }
                 // else-branch
-                for (b in brick.allParts[1].dragAndDropTargetList) {
+                for (b in brick.allParts[1].dragAndDropTargetList)
                     assertIfInnerPartIsCommentedOutOrIn(outIn, b)
-                }
             }
-            is ForeverBrick -> {
-                for (b in brick.nestedBricks) {
+            is ForeverBrick ->
+                for (b in brick.nestedBricks)
                     assertIfInnerPartIsCommentedOutOrIn(outIn, b)
-                }
-            }
         }
     }
 }
