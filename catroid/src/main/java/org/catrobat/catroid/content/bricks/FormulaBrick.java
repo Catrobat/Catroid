@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.util.Log;
 import android.view.View;
@@ -50,6 +51,8 @@ import java.util.List;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.VisibleForTesting;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -112,8 +115,29 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		for (BiMap.Entry<FormulaField, Integer> entry : brickFieldToTextViewIdMap.entrySet()) {
 			TextView formulaFieldView = view.findViewById(entry.getValue());
 			formulaFieldView.setText(getFormulaWithBrickField(entry.getKey()).clone().getTrimmedFormulaString(context));
+			if (entry.getKey().toString().equals("COLOR")) {
+				int color = getColorValueFromBrickField((BrickField) entry.getKey());
+				Bitmap squareBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.RGB_565);
+				squareBitmap.setPixel(0, 0, color);
+				RoundedBitmapDrawable roundedSquareDrawable =
+						RoundedBitmapDrawableFactory.create(null,Bitmap.createScaledBitmap(squareBitmap,
+								180, 180, false));
+				roundedSquareDrawable.setCornerRadius(20);
+				formulaFieldView.setCompoundDrawablesWithIntrinsicBounds(null, null, roundedSquareDrawable,
+						null);
+			}
 		}
 		return view;
+	}
+
+	private int getColorValueFromBrickField(BrickField brickField) {
+		Formula formula = getFormulaWithBrickField(brickField);
+		try {
+			String value = formula.interpretString(null);
+			return Integer.decode(value);
+		} catch (InterpretationException e) {
+			return 0;
+		}
 	}
 
 	public void setClickListeners() {
