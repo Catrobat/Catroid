@@ -624,6 +624,10 @@ public class SpriteActivity extends BaseActivity {
 		}
 	}
 
+	public void handleAiAssistButton(View view) {
+		Log.d(TAG, "Here a Flutter module will be called in the future.");
+	}
+
 	public void handleAddButton(View view) {
 		if (getCurrentFragment() instanceof ScriptFragment) {
 			((ScriptFragment) getCurrentFragment()).handleAddButton();

@@ -172,6 +172,7 @@ class DataListFragment : Fragment(),
 
         BottomBar.showBottomBar(activity)
         BottomBar.hidePlayButton(activity)
+        BottomBar.hideAiAssistButton(activity)
     }
 
     override fun onPause() {

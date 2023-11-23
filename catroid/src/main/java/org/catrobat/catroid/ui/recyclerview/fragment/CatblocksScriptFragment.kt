@@ -101,6 +101,10 @@ class CatblocksScriptFragment(
     ): View? {
         BottomBar.showBottomBar(activity)
 
+        if (BuildConfig.FEATURE_AI_ASSIST_ENABLED) {
+            BottomBar.showAiAssistButton(activity)
+        }
+
         setHasOptionsMenu(true)
 
         val view = View.inflate(activity, R.layout.fragment_catblocks, null)
