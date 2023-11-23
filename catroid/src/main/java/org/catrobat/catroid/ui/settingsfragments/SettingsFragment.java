@@ -559,6 +559,7 @@ public class SettingsFragment extends PreferenceFragment {
 		SensorHandler.setUserLocaleTag(mLocale.toLanguageTag());
 	}
 
+	@SuppressWarnings("AppBundleLocaleChanges")
 	public static void updateLocale(Context context, Locale locale) {
 		Resources resources = context.getResources();
 		DisplayMetrics displayMetrics = resources.getDisplayMetrics();

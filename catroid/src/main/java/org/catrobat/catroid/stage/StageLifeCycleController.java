@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.stage;
 
+import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.os.SystemClock;
@@ -66,6 +67,7 @@ public final class StageLifeCycleController {
 		throw new AssertionError("no.");
 	}
 
+	@SuppressLint("SourceLockedOrientationActivity")
 	static void stageCreate(final StageActivity stageActivity) {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
 			stageActivity.finish();

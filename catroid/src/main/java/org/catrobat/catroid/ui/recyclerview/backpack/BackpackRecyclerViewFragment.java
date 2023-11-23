@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -64,7 +64,9 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NONE, UNPACK, DELETE})
-	@interface ActionModeType {}
+	@interface ActionModeType {
+	}
+
 	protected static final int NONE = 0;
 	protected static final int UNPACK = 1;
 	protected static final int DELETE = 2;
@@ -113,7 +115,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	@Override
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.confirm:
+			case (R.id.confirm):
 				handleContextualAction();
 				break;
 			default:
@@ -212,13 +214,13 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.unpack:
+			case (R.id.unpack):
 				startActionMode(UNPACK);
 				break;
-			case R.id.delete:
+			case (R.id.delete):
 				startActionMode(DELETE);
 				break;
-			case R.id.show_details:
+			case (R.id.show_details):
 				adapter.showDetails = !adapter.showDetails;
 				PreferenceManager.getDefaultSharedPreferences(getActivity())
 						.edit()
@@ -296,7 +298,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		options.add(R.string.unpack);
 		options.add(R.string.delete);
 		List<String> names = new ArrayList<>();
-		for (Integer option: options) {
+		for (Integer option : options) {
 			names.add(getString(option));
 		}
 		ListAdapter arrayAdapter = UiUtils.getAlertDialogAdapterForMenuIcons(options,
@@ -335,10 +337,10 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 
 		popupMenu.setOnMenuItemClickListener(menuItem -> {
 			switch (menuItem.getItemId()) {
-				case R.id.unpack:
+				case (R.id.unpack):
 					unpackItems(itemList);
 					break;
-				case R.id.delete:
+				case (R.id.delete):
 					showDeleteAlert(itemList);
 					break;
 				default:

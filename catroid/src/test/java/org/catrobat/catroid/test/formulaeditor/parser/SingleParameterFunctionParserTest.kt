@@ -98,9 +98,14 @@ class SingleParameterFunctionParserTest(
                 arrayOf("ABS", ABS, AssociatedFunction { par -> abs(par) }, -4.0),
                 arrayOf("ARCSIN", ARCSIN, AssociatedFunction { par -> toDegrees(asin(par)) }, 0.66),
                 arrayOf("ARCCOS", ARCCOS, AssociatedFunction { par -> toDegrees(acos(par)) }, 0.66),
-                arrayOf("ARCTAN", ARCTAN, AssociatedFunction { par -> toDegrees(atan(par)) }, 45.66),
+                arrayOf(
+                    "ARCTAN",
+                    ARCTAN,
+                    AssociatedFunction { par -> toDegrees(atan(par)) },
+                    45.66
+                ),
                 arrayOf("EXP", EXP, AssociatedFunction { par -> exp(par) }, 45.66)
-                )
+            )
         }
     }
 

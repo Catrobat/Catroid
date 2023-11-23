@@ -93,7 +93,7 @@ public class SetRotationStyleBrick extends BrickBaseType implements
 
 	@Override
 	public void onItemSelected(Integer spinnerId, @Nullable RotationStyleOption item) {
-		selection = item != null ? item.getRotationStyle() : 0;
+		selection = item != null ? item.getRotationStyle() : Look.ROTATION_STYLE_NONE;
 	}
 
 	class RotationStyleOption implements Nameable {

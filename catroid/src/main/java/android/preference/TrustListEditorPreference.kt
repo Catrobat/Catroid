@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,8 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.TrustedDomainManager
 import org.catrobat.catroid.common.Constants
 
-class TrustListEditorPreference(context: Context, attrs: AttributeSet) : EditTextPreference(context, attrs) {
+class TrustListEditorPreference(context: Context, attrs: AttributeSet) :
+    EditTextPreference(context, attrs) {
     private val neutralButtonText = context.getString(R.string.brick_context_dialog_help)
 
     init {
@@ -73,7 +74,8 @@ class TrustListEditorPreference(context: Context, attrs: AttributeSet) : EditTex
             editText.requestFocus()
             setOnShowListener {
                 getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(Constants.WEB_REQUEST_WIKI_URL))
+                    val intent =
+                        Intent(Intent.ACTION_VIEW, Uri.parse(Constants.WEB_REQUEST_WIKI_URL))
                     startActivity(context, intent, null)
                 }
             }

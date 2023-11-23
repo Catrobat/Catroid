@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2022 The Catrobat Team
+  ~ Copyright (C) 2010-2023 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,11 @@
      <issue id="UnusedAttribute">
         <ignore regexp="usesCleartextTraffic"/>
     </issue>
-
+    <issue id="UnsafeOptInUsageError">
+        <option name="opt-in" value="kotlinx.coroutines.DelicateCoroutinesApi.class">
+        </option>
+    </issue>
+    <issue id="NotifyDataSetChanged" severity="ignore" />
     <issue id="ImpliedQuantity">
         <ignore regexp=".*/values-(?!de).*/strings.xml$" />
     </issue >

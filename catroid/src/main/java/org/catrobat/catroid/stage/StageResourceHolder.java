@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,11 +23,9 @@
 
 package org.catrobat.catroid.stage;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.nfc.NfcAdapter;
@@ -80,11 +78,8 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
 	private static final int REQUEST_GPS = 1;
-
-	private Brick.ResourcesSet requiredResourcesSet;
 	private int requiredResourceCounter;
 	private Set<Integer> failedResources;
-
 	private StageActivity stageActivity;
 	private final SpeechRecognitionHolderFactory speechRecognitionHolderFactory = get(SpeechRecognitionHolderFactory.class);
 
@@ -101,7 +96,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 
 	public void initResources() {
 		failedResources = new HashSet<>();
-		requiredResourcesSet = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
+		Brick.ResourcesSet requiredResourcesSet = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
 		requiredResourceCounter = requiredResourcesSet.size();
 
 		SensorHandler sensorHandler = SensorHandler.getInstance(stageActivity);
@@ -221,12 +216,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			if (requiredResourcesSet.contains(Brick.FACE_DETECTION)) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(stageActivity);
 				builder.setMessage(stageActivity.getString(R.string.nfc_facedetection_support)).setCancelable(false)
-						.setPositiveButton(stageActivity.getString(R.string.ok), new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int id) {
-								nfcInitialize();
-							}
-						});
+						.setPositiveButton(stageActivity.getString(R.string.ok), (dialog, id) -> nfcInitialize());
 				AlertDialog alert = builder.create();
 				alert.show();
 			} else {
@@ -289,18 +279,12 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		if (requiredResourcesSet.contains(Brick.NETWORK_CONNECTION)) {
 			if (!Utils.isNetworkAvailable(stageActivity)) {
 				new AlertDialog.Builder(new ContextThemeWrapper(stageActivity, R.style.Theme_AppCompat_Dialog))
-					.setTitle(R.string.error_no_network_title)
-					.setPositiveButton(R.string.preference_title, (dialog, whichButton) -> {
-						stageActivity.startActivity(new Intent(Settings.ACTION_SETTINGS));
-					})
-					.setNegativeButton(R.string.cancel, (dialog, whichButton) -> {
-						endStageActivity();
-					})
-					.setOnDismissListener(dialog -> {
-						endStageActivity();
-					})
-					.create()
-					.show();
+						.setTitle(R.string.error_no_network_title)
+						.setPositiveButton(R.string.preference_title, (dialog, whichButton) -> stageActivity.startActivity(new Intent(Settings.ACTION_SETTINGS)))
+						.setNegativeButton(R.string.cancel, (dialog, whichButton) -> endStageActivity())
+						.setOnDismissListener(dialog -> endStageActivity())
+						.create()
+						.show();
 			} else {
 				resourceInitialized();
 			}
@@ -353,10 +337,9 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		speechRecognitionHolderFactory.getInstance().initSpeechRecognition(stageActivity, this);
 		Intent intent = new Intent(stageActivity, getClass());
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-			int flags = PendingIntent.FLAG_IMMUTABLE | Intent.FLAG_ACTIVITY_SINGLE_TOP;
-			intent.addFlags(PendingIntent.FLAG_IMMUTABLE | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			stageActivity.pendingIntent = PendingIntent.getActivity(stageActivity, 0, intent,
-					flags);
+					PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 		} else {
 			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			stageActivity.pendingIntent = PendingIntent.getActivity(stageActivity, 0,

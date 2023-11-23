@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2022 The Catrobat Team
+ * Copyright (C) 2010-2023 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -74,7 +74,8 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NONE, BACKPACK, COPY, DELETE, RENAME, MERGE, IMPORT_LOCAL})
-	@interface ActionModeType {}
+	@interface ActionModeType {
+	}
 
 	protected static final int NONE = 0;
 	protected static final int BACKPACK = 1;
@@ -176,10 +177,10 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	@Override
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.confirm:
+			case (R.id.confirm):
 				handleContextualAction();
 				break;
-			case R.id.toggle_selection:
+			case (R.id.toggle_selection):
 				adapter.toggleSelection();
 				updateSelectionToggle(actionMode.getMenu());
 				break;
@@ -320,22 +321,22 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.backpack:
+			case (R.id.backpack):
 				prepareActionMode(BACKPACK);
 				break;
-			case R.id.copy:
+			case (R.id.copy):
 				prepareActionMode(COPY);
 				break;
-			case R.id.delete:
+			case (R.id.delete):
 				prepareActionMode(DELETE);
 				break;
-			case R.id.rename:
+			case (R.id.rename):
 				prepareActionMode(RENAME);
 				break;
-			case R.id.merge:
+			case (R.id.merge):
 				prepareActionMode(MERGE);
 				break;
-			case R.id.show_details:
+			case (R.id.show_details):
 				adapter.showDetails = !adapter.showDetails;
 				PreferenceManager.getDefaultSharedPreferences(getActivity())
 						.edit()
@@ -521,9 +522,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 			builder.setHint(getString(R.string.project_name_label))
 					.setTextWatcher(new NewProjectNameTextWatcher<>())
 					.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput)
-							-> {
-						mergeProjects(selectedItems, textInput);
-					});
+							-> mergeProjects(selectedItems, textInput));
 
 			builder.setTitle(R.string.new_merge_project_dialog_title)
 					.setNegativeButton(R.string.cancel, null)

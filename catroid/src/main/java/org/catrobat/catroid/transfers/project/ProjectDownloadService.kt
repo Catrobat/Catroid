@@ -156,7 +156,7 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
             } else {
                 PendingIntent.getActivity(
                     context, notificationData.notificationID, downloadIntent,
-                    PendingIntent.FLAG_CANCEL_CURRENT
+                    PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
             }
             statusBarNotificationManager.showOrUpdateNotification(

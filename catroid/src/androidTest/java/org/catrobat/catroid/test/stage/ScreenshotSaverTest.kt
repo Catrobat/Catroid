@@ -43,7 +43,11 @@ import org.mockito.internal.verification.VerificationModeFactory.times
 import java.io.File
 
 @RunWith(Parameterized::class)
-class ScreenshotSaverTest(private val name: String, private val fileName: String?, private val expectedResult: Boolean) {
+class ScreenshotSaverTest(
+    private val name: String,
+    private val fileName: String?,
+    private val expectedResult: Boolean
+) {
     @Rule
     @JvmField
     var activityTestRule = ActivityTestRule(StageActivity::class.java, false, true)
@@ -52,11 +56,11 @@ class ScreenshotSaverTest(private val name: String, private val fileName: String
         @JvmStatic
         @Parameterized.Parameters(name = "{0}")
         fun data() = listOf(
-                arrayOf("VALID", "valid.png", true),
-                arrayOf("NULL", null, false),
-                arrayOf("WHITESPACES", "    ", false),
-                arrayOf("ILLEGAL_CHARACTERS", "|\\?*<\":>+[]/'", false)
-            )
+            arrayOf("VALID", "valid.png", true),
+            arrayOf("NULL", null, false),
+            arrayOf("WHITESPACES", "    ", false),
+            arrayOf("ILLEGAL_CHARACTERS", "|\\?*<\":>+[]/'", false)
+        )
 
         private const val NUMBER_OF_COLORS = 4
     }

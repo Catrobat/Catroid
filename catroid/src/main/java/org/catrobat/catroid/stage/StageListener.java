@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.stage;
 
+import android.annotation.SuppressLint;
 import android.content.res.Resources;
 import android.os.SystemClock;
 import android.util.DisplayMetrics;
@@ -161,11 +162,11 @@ public class StageListener implements ApplicationListener {
 	private static final int Z_LAYER_PEN_ACTOR = 1;
 	private static final int Z_LAYER_EMBROIDERY_ACTOR = 2;
 
-	private Map<String, StageBackup> stageBackupMap = new HashMap<>();
+	private final Map<String, StageBackup> stageBackupMap = new HashMap<>();
 
 	private InputListener inputListener = null;
 
-	private Map<Sprite, ShowBubbleActor> bubbleActorMap = new HashMap<>();
+	private final Map<Sprite, ShowBubbleActor> bubbleActorMap = new HashMap<>();
 	private String screenshotName;
 	private ScreenshotSaverCallback screenshotSaverCallback = null;
 	private ScreenshotSaver screenshotSaver;
@@ -344,7 +345,7 @@ public class StageListener implements ApplicationListener {
 		if (!cloneSprite.isClone) {
 			return false;
 		}
-		String cloneNameExtensionRegexPattern = "\\-c\\d+$";
+		String cloneNameExtensionRegexPattern = "-c\\d+$";
 		String[] splitCloneNameStrings = cloneSprite.getName().split(cloneNameExtensionRegexPattern);
 		return splitCloneNameStrings[0].contentEquals(sprite.getName());
 	}
@@ -502,6 +503,7 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
+	@SuppressLint("UnsafeOptInUsageWarning")
 	@Override
 	public void render() {
 		CameraManager cameraManager = StageActivity.getActiveCameraManager();

@@ -85,8 +85,10 @@ class ImportProjectHelper(
         }
         addGlobalsToProject(newProject!!.userLists, currentScene!!.project.userLists)
         addGlobalsToProject(newProject!!.userVariables, currentScene!!.project.userVariables)
-        addGlobalsToProject(newProject!!.broadcastMessageContainer.broadcastMessages,
-                            currentScene!!.project.broadcastMessageContainer.broadcastMessages)
+        addGlobalsToProject(
+            newProject!!.broadcastMessageContainer.broadcastMessages,
+            currentScene!!.project.broadcastMessageContainer.broadcastMessages
+        )
 
         currentScene?.project?.broadcastMessageContainer?.update()
         return newSprite
